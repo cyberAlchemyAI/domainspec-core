@@ -2,6 +2,14 @@
 
 This document lays out the 8-phase development plan to move from research validation (E1-E10) to fully autonomous agentic system (Phases 4-8) capable of generating software artifacts through multi-agent conversation.
 
+## Workspace Ownership (Canonical)
+
+- **Framework implementation source of truth:** `/home/vrondelli/projects/poker-team/domainspec`
+- **Research and experiment orchestration:** `/home/vrondelli/projects/domainspec-core`
+- **Validation harness and case study system:** `/home/vrondelli/projects/poker-team`
+
+Operational rule: execute experiments from this repository, implement framework adjustments in the implementation source, and validate outcomes against poker-team behavior.
+
 ---
 
 ## Executive Summary

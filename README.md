@@ -1,9 +1,23 @@
-# DomainSpec Research & Meta-Meta Framework
+# DomainSpec Research Hub (Unified 3-Project Workspace)
 
 This repository contains two intertwined research projects:
 
 1. **DomainSpec** — Domain-driven software development through structured meta-types, deterministic test derivation, and layered governance
 2. **Meta-Meta Framework** — Generalization of DomainSpec principles to any agentic system requiring autonomous coordination, self-improvement, and knowledge navigation
+
+## Canonical Operating Model
+
+This workspace runs as a unified 3-project system:
+
+1. **DomainSpec implementation (source of truth):** `/home/vrondelli/projects/poker-team/domainspec`
+2. **Research orchestration hub:** `/home/vrondelli/projects/domainspec-core`
+3. **Validation harness:** `/home/vrondelli/projects/poker-team`
+
+Ownership rules:
+
+- **Implementation changes** happen in the DomainSpec repository (`poker-team/domainspec`).
+- **Research design, data, and analysis** happen in `domainspec-core/research`.
+- **Runtime validation and case-study evidence** come from poker-team behavior and feature slices.
 
 ## Repository Structure
 
@@ -19,16 +33,16 @@ domainspec-core/
 │   ├── EXPERIMENTS-META.md       # Meta-Meta framework experiments (E11-E20)
 │   └── domainspec-paper.md       # Research paper (evolving)
 ├── implementation/
-│   ├── ARCHITECTURE.md           # Meta-model: 24 types + 26 relationships
-│   ├── TAXONOMY.md               # Meta-type vocabulary
-│   ├── RELATIONSHIPS.md          # Relationship topology + proposed extensions
-│   ├── GOVERNANCE-ATTENUATION.md # Fidelity loss model (C3)
-│   ├── GOVERNANCE-SIGNALS.md     # Signal schema for feedback loops (TBD Task 2c)
-│   ├── CONSTITUTION.md           # Framework governance rules
-│   ├── TEST-PIPELINE.md          # Deterministic test derivation (C2)
-│   └── [more framework docs]
+│   ├── domainspec/               # Git submodule to live DomainSpec implementation source-of-truth
+│   ├── ARCHITECTURE.md           # Local mirror for research reference
+│   ├── TAXONOMY.md               # Local mirror for research reference
+│   ├── RELATIONSHIPS.md          # Local mirror for research reference
+│   ├── GOVERNANCE-ATTENUATION.md # Local mirror for research reference
+│   ├── CONSTITUTION.md           # Local mirror for research reference
+│   ├── TEST-PIPELINE.md          # Local mirror for research reference
+│   └── PHASED-PLAN.md            # Execution roadmap
 └── validation/
-    └── poker-team/               # Reference implementation (symlink)
+    └── poker-team/               # Validation repository (git submodule)
 ```
 
 ## Three Research Tracks
@@ -84,12 +98,12 @@ See [PHASED-PLAN.md](implementation/PHASED-PLAN.md) for full 8-phase roadmap.
 
 ---
 
-## How to Contribute
+## How to Execute
 
-1. **Running experiments:** Delegate to the research scientist agent in `poker-team`
-2. **Analyzing data:** Use the research analyst agent (10-step pipeline)
-3. **Discovering sources:** Use the research sourcer agent (generalized)
-4. **Managing inventory:** Use the research inventorist agent (generalized)
+1. **Design and run experiments** from `domainspec-core/research`.
+2. **Implement framework adjustments** in `implementation/domainspec` (live symlink to DomainSpec source).
+3. **Validate behavior** against `validation/poker-team` feature slices and runtime signals.
+4. **Analyze data** using the research analyst workflow and append results under `research/results`.
 
 See the skill definitions in `poker-team/.github/skills/domainspec-*` for details.
 
@@ -99,16 +113,15 @@ See the skill definitions in `poker-team/.github/skills/domainspec-*` for detail
 
 - **DomainSpec Paper:** Start at `research/domainspec-paper.md` § 1 (Hypothesis)
 - **Experiment Status:** `research/EXPERIMENTS.md` + `research/EXPERIMENTS-META.md`
-- **Architecture:** `implementation/ARCHITECTURE.md`
-- **Governance Model:** `implementation/GOVERNANCE-ATTENUATION.md` + `implementation/GOVERNANCE-SIGNALS.md`
-- **Validation Reference:** `validation/poker-team` (see docs/features/ for implemented specs)
+- **Live DomainSpec source:** `implementation/domainspec`
+- **Architecture (mirror):** `implementation/ARCHITECTURE.md`
+- **Governance Model (mirror + live):** `implementation/GOVERNANCE-ATTENUATION.md` and `implementation/domainspec/GOVERNANCE-ATTENUATION.md`
+- **Validation Reference:** `validation/poker-team` (feature behavior and runtime evidence)
 
 ---
 
-## Next Steps
+## Immediate Execution Focus
 
-1. **Task 2a (this week):** Generalize sourcer & inventorist skills to support any knowledge entry type
-2. **Task 2b (this week):** Expand paper with hypothesis & governance context (§1)
-3. **Task 2c (this week):** Define governance signal schema (GOVERNANCE-SIGNALS.md)
-4. **Task 3 (next week):** Finalize phased plan with detailed phase gates
-5. **Phase 1 execution:** Begin E1-E5 protocols (parallel with current E6-E10)
+1. **Phase 1 execution:** finalize and run E1-E5 in `research/experiments`.
+2. **Instrumentation alignment:** connect E7/E8 collection to poker-team runtime signals.
+3. **Claim adjudication:** update paper sections based on fresh run evidence.

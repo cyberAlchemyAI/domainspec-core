@@ -2,14 +2,30 @@
 
 This document clarifies which experiments belong to which research project and how claims flow through experiments to paper sections.
 
+## Unified Workspace Topology
+
+- **Implementation source of truth:** `/home/vrondelli/projects/poker-team/domainspec`
+- **Research orchestration:** `/home/vrondelli/projects/domainspec-core`
+- **Validation harness:** `/home/vrondelli/projects/poker-team`
+
+Execution rule:
+
+- Update framework behavior in the implementation source.
+- Design and analyze experiments in domainspec-core.
+- Validate hypotheses against poker-team feature/runtime evidence.
+
 ---
 
 ## Project Alignment
 
-### DomainSpec Project (poker-team + domainspec-core)
+### DomainSpec Project (domainspec implementation + poker-team validation + domainspec-core research)
 **Goal:** Validate that domain structure (meta-types + relationships) → deterministic test derivation → better decisions
 
 **Paper:** domainspec-paper.md § 1-9
+
+**Code-of-truth:** poker-team/domainspec
+
+**Validation evidence source:** poker-team (feature slices, tests, runtime signals)
 
 **Experiments:** E1-E10 (10 experiments over 2-3 months)
 
@@ -26,7 +42,7 @@ This document clarifies which experiments belong to which research project and h
 | **E9** | **Cross-Feature Composition** | **§9.2** | **6 external domains** | **Composition gaps & patterns** | **✅ complete (run-2 rerun)** |
 | E10 | Developer Productivity | §9.4(d) | External devs | DomainSpec vs freeform (time, quality, decisions) | not started |
 
-### Meta-Meta Framework Project (agentic-research-framework)
+### Meta-Meta Framework Project (tracked in domainspec-core)
 **Goal:** Generalize DomainSpec governance to any multi-agent system requiring self-improvement
 
 **Paper:** meta-meta-paper.md (future) § 1-8
