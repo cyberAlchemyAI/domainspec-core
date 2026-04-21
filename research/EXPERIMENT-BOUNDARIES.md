@@ -14,6 +14,12 @@ Execution rule:
 - Design and analyze experiments in domainspec-core.
 - Validate hypotheses against poker-team feature/runtime evidence.
 
+Automation governance references:
+
+- Ownership policy: `ops/ASSET-OWNERSHIP-POLICY.md`
+- Current triage matrix: `ops/AGENT-SKILL-TRIAGE-MATRIX.md`
+- Drift enforcement check: `tools/check_github_drift.sh`
+
 ---
 
 ## Project Alignment

@@ -105,7 +105,39 @@ See [PHASED-PLAN.md](implementation/PHASED-PLAN.md) for full 8-phase roadmap.
 3. **Validate behavior** against `validation/poker-team` feature slices and runtime signals.
 4. **Analyze data** using the research analyst workflow and append results under `research/results`.
 
-See the skill definitions in `poker-team/.github/skills/domainspec-*` for details.
+See canonical reusable automation assets in `implementation/domainspec/copilot`.
+
+---
+
+## Automation Governance (Implemented)
+
+The multi-repo automation model is now governed by explicit ownership and drift checks:
+
+1. **Ownership policy:** `ops/ASSET-OWNERSHIP-POLICY.md`
+2. **Current triage matrix:** `ops/AGENT-SKILL-TRIAGE-MATRIX.md`
+3. **Drift check script:** `tools/check_github_drift.sh`
+
+### Asset classes
+
+- **Type A (canonical DomainSpec pack):** source in `implementation/domainspec/copilot`
+- **Type B (research orchestration):** intended root ownership in `domainspec-core/.github`
+- **Type C (project-local overlays):** kept local in consumer repos (for example `validation/poker-team/.github`)
+
+### Policy 1 pointer propagation
+
+Only update pointers for repositories affected by the changed asset type.
+
+- Type A changes: commit canonical source first, then update consumers that actually use the change.
+- Type B changes: commit in root orchestration assets; no forced poker-team update unless consumed.
+- Type C changes: stay local to the consumer repo.
+
+### Run drift checks
+
+```bash
+./tools/check_github_drift.sh
+```
+
+Current baseline intentionally fails until Type A/Type B mismatches are resolved.
 
 ---
 

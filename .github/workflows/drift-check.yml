@@ -1,0 +1,24 @@
+name: Drift Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - main
+  workflow_dispatch:
+
+jobs:
+  check-drift:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (with submodules)
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+      - name: Run governance drift check
+      run: |
+        chmod +x tools/check_github_drift.sh
+        tools/check_github_drift.sh

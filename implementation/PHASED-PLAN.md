@@ -10,6 +10,12 @@ This document lays out the 8-phase development plan to move from research valida
 
 Operational rule: execute experiments from this repository, implement framework adjustments in the implementation source, and validate outcomes against poker-team behavior.
 
+Automation governance is tracked centrally in:
+
+- `ops/ASSET-OWNERSHIP-POLICY.md`
+- `ops/AGENT-SKILL-TRIAGE-MATRIX.md`
+- `tools/check_github_drift.sh`
+
 ---
 
 ## Executive Summary
