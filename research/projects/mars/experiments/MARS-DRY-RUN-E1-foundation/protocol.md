@@ -22,9 +22,9 @@ Validate MARS hard-gate progression (G1-G4) for a foundation-tier experiment bef
 
 ## Protocol Inputs
 
-- Base protocol: `research/experiments/experiments/E1-derivation-determinism.md`
-- MARS checklist: `research/MARS-PROTOCOL-CHECKLIST.md`
-- Source/inventory policy: `research/INVENTORY-READINESS-GATE.md`
+- Base protocol: `research/projects/domainspec/experiments/E1-derivation-determinism/protocol.md`
+- MARS checklist: `protocols/MARS-PROTOCOL-CHECKLIST.md`
+- Source/inventory policy: `definitions/INVENTORY-READINESS-GATE.md`
 
 ## Gate Walkthrough
 
@@ -40,7 +40,7 @@ Validate MARS hard-gate progression (G1-G4) for a foundation-tier experiment bef
 1. Produce inventory coverage report for E1 source set.
 2. Confirm INVENTORY-INDEX has linked entries for all required source IDs.
 3. Execute one foundation-tier live run and complete G4 integrity audit.
-4. Update `research/MARS-EVIDENCE-STATUS.md` after analysis.
+4. Update `results/MARS-EVIDENCE-STATUS.md` after analysis.
 
 ## Dry-Run Outcome
 

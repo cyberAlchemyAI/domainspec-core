@@ -8,10 +8,10 @@ Blocking behavior: if G3 fails, execution stops and returns remediation actions.
 
 ## Inputs
 
-- Experiment protocol file in `research/experiments/experiments/`
-- Source selection file in `research/experiments/sources/`
-- Inventory index: `research/experiments/inventory/INVENTORY-INDEX.md`
-- Source catalog: `research/experiments/sources/SOURCE-CATALOG.md`
+- Experiment protocol file in `experiments/<experiment-key>/protocol.md`
+- Source selection file in `experiments/<experiment-key>/sources.md`
+- Inventory index: `inventory/INVENTORY-INDEX.md`
+- Source catalog: `sources/SOURCE-CATALOG.md`
 
 ## Gate Criteria
 

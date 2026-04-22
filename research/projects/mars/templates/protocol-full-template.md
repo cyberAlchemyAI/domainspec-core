@@ -27,7 +27,7 @@
 
 ## Data Schema
 
-- Schema file: `research/experiments/templates/schema-full-template.json`
+- Schema file: `templates/schema-full-template.json`
 - Row target: [expected rows]
 - Sampling plan: [how rows are collected]
 - Subgroup dimensions: [list]
@@ -81,12 +81,13 @@ Full tier requires:
 
 ## Artifact Paths
 
-- Protocol: `research/experiments/experiments/<id>.md`
-- Source selection: `research/experiments/sources/<id>-sources.md`
-- Raw data: `research/experiments/data/<id>-run-YYYY-MM-DD.jsonl`
-- Results: `research/experiments/results/<id>-results.md`
-- Claim evidence: `research/MARS-EVIDENCE-STATUS.md`
-- Paper updates: `research/experiments/domainspec-paper.md`
+- Experiment bundle root: `experiments/<experiment-key>/`
+- Protocol: `experiments/<experiment-key>/protocol.md`
+- Source selection: `experiments/<experiment-key>/sources.md`
+- Raw data: `experiments/<experiment-key>/data/run-YYYY-MM-DD[-suffix].jsonl`
+- Results: `experiments/<experiment-key>/results/<run-id>-results.md`
+- Claim evidence: `results/MARS-EVIDENCE-STATUS.md`
+- Paper updates: `papers/<paper-file>.md`
 
 ## Publication Notes
 

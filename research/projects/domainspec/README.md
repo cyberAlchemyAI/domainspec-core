@@ -6,7 +6,7 @@ This project is self-contained under `research/projects/domainspec` and follows 
 
 ## What This Project Is About
 
-DomainSpec answers the central framework claims [C1](claims/CLAIMS.md), [C2](claims/CLAIMS.md), [C3](claims/CLAIMS.md), and [C4](claims/CLAIMS.md) through controlled experiments [E1](experiments/E1-derivation-determinism.md), [E2](experiments/E2-derivation-vs-manual.md), [E3](experiments/E3-mutation-testing.md), [E4](experiments/E4-governance-attenuation-curve.md), [E5](experiments/E5-observer-executor-separation.md), [E6](experiments/E6-vocabulary-sufficiency.md), [E7](experiments/E7-signal-emission-rate.md), [E8](experiments/E8-meta-health-convergence.md), [E9](experiments/E9-cross-feature-composition.md), and [E10](experiments/E10-developer-productivity.md), append-only run data, and claim-level traceability into the paper.
+DomainSpec answers the central framework claims [C1](claims/CLAIMS.md), [C2](claims/CLAIMS.md), [C3](claims/CLAIMS.md), and [C4](claims/CLAIMS.md) through controlled experiments [E1](experiments/E1-derivation-determinism/protocol.md), [E2](experiments/E2-derivation-vs-manual/protocol.md), [E3](experiments/E3-mutation-testing/protocol.md), [E4](experiments/E4-governance-attenuation-curve/protocol.md), [E5](experiments/E5-observer-executor-separation/protocol.md), [E6](experiments/E6-vocabulary-sufficiency/protocol.md), [E7](experiments/E7-signal-emission-rate/protocol.md), [E8](experiments/E8-meta-health-convergence/protocol.md), [E9](experiments/E9-cross-feature-composition/protocol.md), and [E10](experiments/E10-developer-productivity/protocol.md), append-only run data, and claim-level traceability into the paper.
 
 The program focuses on:
 
@@ -20,7 +20,7 @@ The program focuses on:
 - Status: active, evidence-building
 - Version: 0.1.0
 - Owner: mars-research-scientist
-- Latest run state: [E6](experiments/E6-vocabulary-sufficiency.md) and [E9](experiments/E9-cross-feature-composition.md) completed and analyzed; remaining experiments pending
+- Latest run state: [E6](experiments/E6-vocabulary-sufficiency/protocol.md) and [E9](experiments/E9-cross-feature-composition/protocol.md) completed and analyzed; remaining experiments pending
 
 ## Completeness Dashboard
 
@@ -41,8 +41,8 @@ Scoring note:
 | Lane | Expected Outcome | Current State | Status |
 |---|---|---|---|
 | Project contract | PROJECT, claims, dependencies, registry, telemetry schema | Present | complete |
-| Governance definitions | experiment index, protocol specs, and constitution ([E1](experiments/E1-derivation-determinism.md) through [E10](experiments/E10-developer-productivity.md)) | Present | complete |
-| Execution evidence | experiment specs, live data files, analysis outputs | [E6](experiments/E6-vocabulary-sufficiency.md) and [E9](experiments/E9-cross-feature-composition.md) have data/results; most experiments still pending | in progress |
+| Governance definitions | experiment index, protocol specs, and constitution ([E1](experiments/E1-derivation-determinism/protocol.md) through [E10](experiments/E10-developer-productivity/protocol.md)) | Present | complete |
+| Execution evidence | experiment specs, live data files, analysis outputs | [E6](experiments/E6-vocabulary-sufficiency/protocol.md) and [E9](experiments/E9-cross-feature-composition/protocol.md) have data/results; most experiments still pending | in progress |
 | Source and inventory | source selection and inventory coverage for active experiments | Source catalog and inventory entries exist, but not complete for all scheduled runs | in progress |
 | Claim adjudication | claim-level status updates from experiment evidence | [C2](claims/CLAIMS.md) partially supported; [C1](claims/CLAIMS.md)/[C3](claims/CLAIMS.md)/[C4](claims/CLAIMS.md) still insufficient | in progress |
 | Publication | paper updates and retrospective outputs | Paper exists but evidence integration remains partial | in progress |
@@ -51,26 +51,26 @@ Scoring note:
 ## Experiment Progress
 
 - Total indexed experiments: 10
-- Completed with analysis: 2 ([E6](experiments/E6-vocabulary-sufficiency.md), [E9](experiments/E9-cross-feature-composition.md))
-- Not started: 8 ([E1](experiments/E1-derivation-determinism.md), [E2](experiments/E2-derivation-vs-manual.md), [E3](experiments/E3-mutation-testing.md), [E4](experiments/E4-governance-attenuation-curve.md), [E5](experiments/E5-observer-executor-separation.md), [E7](experiments/E7-signal-emission-rate.md), [E8](experiments/E8-meta-health-convergence.md), [E10](experiments/E10-developer-productivity.md))
+- Completed with analysis: 2 ([E6](experiments/E6-vocabulary-sufficiency/protocol.md), [E9](experiments/E9-cross-feature-composition/protocol.md))
+- Not started: 8 ([E1](experiments/E1-derivation-determinism/protocol.md), [E2](experiments/E2-derivation-vs-manual/protocol.md), [E3](experiments/E3-mutation-testing/protocol.md), [E4](experiments/E4-governance-attenuation-curve/protocol.md), [E5](experiments/E5-observer-executor-separation/protocol.md), [E7](experiments/E7-signal-emission-rate/protocol.md), [E8](experiments/E8-meta-health-convergence/protocol.md), [E10](experiments/E10-developer-productivity/protocol.md))
 
 High-signal completed work:
-- [E6](experiments/E6-vocabulary-sufficiency.md): vocabulary sufficiency across 18 domains with high coverage
-- [E9](experiments/E9-cross-feature-composition.md): cross-feature composition stress test with explicit ontology extension proposals
+- [E6](experiments/E6-vocabulary-sufficiency/protocol.md): vocabulary sufficiency across 18 domains with high coverage
+- [E9](experiments/E9-cross-feature-composition/protocol.md): cross-feature composition stress test with explicit ontology extension proposals
 
 ## What Is Missing Right Now
 
-1. Execute [E1](experiments/E1-derivation-determinism.md), [E2](experiments/E2-derivation-vs-manual.md), and [E3](experiments/E3-mutation-testing.md) to directly strengthen deterministic derivation evidence for [C2](claims/CLAIMS.md).
-2. Execute [E4](experiments/E4-governance-attenuation-curve.md), [E5](experiments/E5-observer-executor-separation.md), [E7](experiments/E7-signal-emission-rate.md), and [E8](experiments/E8-meta-health-convergence.md) to establish strong evidence for [C1](claims/CLAIMS.md), [C3](claims/CLAIMS.md), and [C4](claims/CLAIMS.md).
-3. Run [E10](experiments/E10-developer-productivity.md) to establish productivity evidence currently listed as missing in threats/future work.
-4. Standardize per-experiment source and inventory artifacts for every pending run, not only [E6](experiments/E6-vocabulary-sufficiency.md)/[E9](experiments/E9-cross-feature-composition.md).
+1. Execute [E1](experiments/E1-derivation-determinism/protocol.md), [E2](experiments/E2-derivation-vs-manual/protocol.md), and [E3](experiments/E3-mutation-testing/protocol.md) to directly strengthen deterministic derivation evidence for [C2](claims/CLAIMS.md).
+2. Execute [E4](experiments/E4-governance-attenuation-curve/protocol.md), [E5](experiments/E5-observer-executor-separation/protocol.md), [E7](experiments/E7-signal-emission-rate/protocol.md), and [E8](experiments/E8-meta-health-convergence/protocol.md) to establish strong evidence for [C1](claims/CLAIMS.md), [C3](claims/CLAIMS.md), and [C4](claims/CLAIMS.md).
+3. Run [E10](experiments/E10-developer-productivity/protocol.md) to establish productivity evidence currently listed as missing in threats/future work.
+4. Standardize per-experiment source and inventory artifacts for every pending run, not only [E6](experiments/E6-vocabulary-sufficiency/protocol.md)/[E9](experiments/E9-cross-feature-composition/protocol.md).
 5. Integrate completed evidence deltas into the paper narrative and claim-strength framing.
 
 ## Claim Coverage Summary
 
 Current claim snapshot (`claims/CLAIMS.md`):
 
-- [C2](claims/CLAIMS.md): partially supported (backed by [E6](experiments/E6-vocabulary-sufficiency.md) and [E9](experiments/E9-cross-feature-composition.md))
+- [C2](claims/CLAIMS.md): partially supported (backed by [E6](experiments/E6-vocabulary-sufficiency/protocol.md) and [E9](experiments/E9-cross-feature-composition/protocol.md))
 - [C1](claims/CLAIMS.md): insufficient evidence
 - [C3](claims/CLAIMS.md): insufficient evidence
 - [C4](claims/CLAIMS.md): insufficient evidence
@@ -89,7 +89,7 @@ Interpretation:
 - Artifact index: `registry/ARTIFACT-INDEX.md`
 - Traceability matrix: `registry/TRACEABILITY-MATRIX.md`
 - Paper: `papers/domainspec-paper.md`
-- Evidence outputs: `results/*.md` and `data/*.jsonl`
+- Evidence outputs: `experiments/*/results/*.md` and `experiments/*/data/*.jsonl`
 
 ## Dependency Policy
 

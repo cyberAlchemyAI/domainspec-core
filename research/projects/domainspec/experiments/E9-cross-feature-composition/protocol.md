@@ -4,8 +4,8 @@
 **Paper Claim:** §9.2 — composition gaps
 **Paper Section:** §9.2 (Cross-Feature Composition)
 **Priority:** P2 | **Effort:** Medium (run-1) → High (run-2)
-**Results:** [E9-results.md](../results/E9-results.md) (run-1 + run-2 + rerun)
-**Raw data:** [E9-run-2026-04-20.jsonl](../data/E9-run-2026-04-20.jsonl) (run-1), [E9-run2-2026-04-20.jsonl](../data/E9-run2-2026-04-20.jsonl) (run-2 original), [E9-run2-rerun-2026-04-20.jsonl](../data/E9-run2-rerun-2026-04-20.jsonl) (run-2 rerun)
+**Results:** [E9-results.md](results/E9-results.md) (run-1 + run-2 + rerun)
+**Raw data:** [E9-run-2026-04-20.jsonl](data/E9-run-2026-04-20.jsonl) (run-1), [E9-run2-2026-04-20.jsonl](data/E9-run2-2026-04-20.jsonl) (run-2 original), [E9-run2-rerun-2026-04-20.jsonl](data/E9-run2-rerun-2026-04-20.jsonl) (run-2 rerun)
 
 ---
 
@@ -25,7 +25,7 @@
 
 ## Protocol — Run-1 (Single Codebase)
 
-> _Completed. See [E9-results.md](../results/E9-results.md) for full analysis._
+> _Completed. See [E9-results.md](results/E9-results.md) for full analysis._
 
 1. **Concept inventory (spec layer):** Read every feature's SPEC.md, domain.md, operations.md, states.md, events.md, interfaces.md, and queries.md under `docs/features/`. For each feature, extract all concepts with their meta-types (Entity, Value Object, Enum, Operation, Rule, Calculation, Policy, Event, State Machine, Workflow, Query, Interface, Mapping).
 2. **Concept inventory (code layer):** Map `backend/src/domain/` directory structure. For each domain module, trace all imports that reference concepts from OTHER domain modules. Record source file, imported symbol, and target module.
@@ -161,7 +161,7 @@ Select **6 multi-bounded-context domains** that are known to have rich cross-fea
 
 ## Results Summary (Run-1)
 
-All 3 success criteria passed. 23 edges documented (within expected range). 6 patterns identified — 3 work, 3 require new operators. Composition algebra $G_{A \oplus B}$ proposed with 3 new edge types (`produces-for`, `triggers-cross`, `enforces-cross`), 1 new meta-type (`Saga`), and extended derivation rules $\Delta_{cross}$. See [E9-results.md](../results/E9-results.md) for full analysis.
+All 3 success criteria passed. 23 edges documented (within expected range). 6 patterns identified — 3 work, 3 require new operators. Composition algebra $G_{A \oplus B}$ proposed with 3 new edge types (`produces-for`, `triggers-cross`, `enforces-cross`), 1 new meta-type (`Saga`), and extended derivation rules $\Delta_{cross}$. See [E9-results.md](results/E9-results.md) for full analysis.
 
 ## Cross-Experiment Dependencies
 

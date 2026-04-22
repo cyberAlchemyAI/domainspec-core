@@ -2,7 +2,12 @@
 
 This document indexes the experiments needed to strengthen the empirical evidence in the DomainSpec research paper. Each experiment maps to a specific paper claim, defines a protocol, expected data output, and success criteria.
 
-Each experiment has its own file under [`experiments/`](experiments/) with the full protocol, data schema, and success criteria.
+Each experiment has its own bundle directory under this folder, with protocol, sources, run data, and results colocated.
+
+Migration status:
+
+- Per-experiment bundle migration completed on 2026-04-22.
+- Execution record: [`../../mars/runbooks/EXPERIMENT-BUNDLE-MIGRATION-PLAN.md`](../../mars/runbooks/EXPERIMENT-BUNDLE-MIGRATION-PLAN.md).
 
 ---
 
@@ -10,21 +15,21 @@ Each experiment has its own file under [`experiments/`](experiments/) with the f
 
 | ID  | Experiment                            | Paper Claim                               | Priority | Effort | Status       | File                                                 |
 | --- | ------------------------------------- | ----------------------------------------- | -------- | ------ | ------------ | ---------------------------------------------------- |
-| E1  | Derivation Determinism                | C2 — same spec → same tests               | P0       | Low    | not started  | [E1](experiments/E1-derivation-determinism.md)       |
-| E2  | Derivation vs Manual Coverage         | C2 — derived tests ≥ manual tests         | P0       | Medium | not started  | [E2](experiments/E2-derivation-vs-manual.md)         |
-| E3  | Mutation Testing Effectiveness        | C2 — derived tests catch real faults      | P0       | Medium | not started  | [E3](experiments/E3-mutation-testing.md)             |
-| E4  | Governance Attenuation Curve          | C3 — fidelity decreases with layer count  | P0       | High   | not started  | [E4](experiments/E4-governance-attenuation-curve.md) |
-| E5  | Observer-Executor Separation Impact   | C3 — intervention restores fidelity       | P1       | Medium | not started  | [E5](experiments/E5-observer-executor-separation.md) |
-| E6  | Vocabulary Sufficiency Across Domains | C2 — 24 types cover business domains      | P1       | High   | ✅ completed + analyzed | [E6](experiments/E6-vocabulary-sufficiency.md)       |
-| E7  | Signal Emission Rate Tracking         | C3/C4 — empirical attenuation measurement | P0       | Low    | not started  | [E7](experiments/E7-signal-emission-rate.md)         |
-| E8  | Meta-Health Convergence               | C4 — M-001 orphan rate trends toward 0    | P1       | Low    | not started  | [E8](experiments/E8-meta-health-convergence.md)      |
-| E9  | Cross-Feature Composition Stress      | §9.2 — composition gaps                   | P2       | High   | ✅ completed + analyzed (run-1 + run-2 + rerun) | [E9](experiments/E9-cross-feature-composition.md)    |
-| E10 | Developer Productivity Comparison     | §9.4(d) — DomainSpec vs freeform          | P2       | High   | not started  | [E10](experiments/E10-developer-productivity.md)     |
+| E1  | Derivation Determinism                | C2 — same spec → same tests               | P0       | Low    | not started  | [E1](E1-derivation-determinism/protocol.md)          |
+| E2  | Derivation vs Manual Coverage         | C2 — derived tests ≥ manual tests         | P0       | Medium | not started  | [E2](E2-derivation-vs-manual/protocol.md)            |
+| E3  | Mutation Testing Effectiveness        | C2 — derived tests catch real faults      | P0       | Medium | not started  | [E3](E3-mutation-testing/protocol.md)                |
+| E4  | Governance Attenuation Curve          | C3 — fidelity decreases with layer count  | P0       | High   | not started  | [E4](E4-governance-attenuation-curve/protocol.md)    |
+| E5  | Observer-Executor Separation Impact   | C3 — intervention restores fidelity       | P1       | Medium | not started  | [E5](E5-observer-executor-separation/protocol.md)    |
+| E6  | Vocabulary Sufficiency Across Domains | C2 — 24 types cover business domains      | P1       | High   | ✅ completed + analyzed | [E6](E6-vocabulary-sufficiency/protocol.md)          |
+| E7  | Signal Emission Rate Tracking         | C3/C4 — empirical attenuation measurement | P0       | Low    | not started  | [E7](E7-signal-emission-rate/protocol.md)            |
+| E8  | Meta-Health Convergence               | C4 — M-001 orphan rate trends toward 0    | P1       | Low    | not started  | [E8](E8-meta-health-convergence/protocol.md)         |
+| E9  | Cross-Feature Composition Stress      | §9.2 — composition gaps                   | P2       | High   | ✅ completed + analyzed (run-1 + run-2 + rerun) | [E9](E9-cross-feature-composition/protocol.md)       |
+| E10 | Developer Productivity Comparison     | §9.4(d) — DomainSpec vs freeform          | P2       | High   | not started  | [E10](E10-developer-productivity/protocol.md)        |
 
 ### Results & Data
 
-- Results: [`results/`](results/) — one `EX-results.md` per completed experiment
-- Raw data: [`data/`](data/) — append-only JSONL files per experiment run
+- Results: `experiments/<experiment-key>/results/` — one or more run-scoped result files per completed experiment
+- Raw data: `experiments/<experiment-key>/data/` — append-only JSONL files per experiment run
 
 ---
 
@@ -32,7 +37,7 @@ Each experiment has its own file under [`experiments/`](experiments/) with the f
 
 ### Data Integrity
 
-1. **Raw data only.** Store all experiment data as JSONL in `data/`. Never edit raw data after collection.
+1. **Raw data only.** Store all experiment data as JSONL in each experiment bundle's `data/` directory. Never edit raw data after collection.
 2. **Session isolation.** Each experiment run uses a fresh agent session with a documented system prompt. No session carries over from a previous run.
 3. **Ground truth annotation.** For experiments requiring human judgment (E2, E4, E5), annotate with a structured rubric documented alongside the data.
 4. **Reproducibility.** Record the exact model version, temperature, system prompt hash, and DomainSpec version for every run.
@@ -79,7 +84,9 @@ Phase 4 (requires external work):
 
 ### Reporting
 
-After each experiment completes, produce a summary in `results/EX-results.md` with:
+After each experiment completes, produce a summary in `experiments/<experiment-key>/results/<run-id>-results.md` with:
+
+- Starting point template: `../templates/EXPERIMENT-RESULTS-TEMPLATE.md`
 
 - Protocol deviations (what changed from this plan)
 - Raw data location

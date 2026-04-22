@@ -1,6 +1,6 @@
 # Experiment Results Template
 
-Copy this file as `EX-results.md` (e.g., `E1-results.md`) when an experiment completes.
+Copy this file into `experiments/<experiment-key>/results/<run-id>-results.md` when an experiment run completes.
 
 Analysis follows the 10-step empirical pipeline from Wohlin et al. (2012):
 Integrity → Descriptive Stats → Hypothesis Testing → Subgroups → Gap Taxonomy → Sensitivity → Triangulation → Validity Threats → Claim Adjudication → Synthesis.
@@ -33,7 +33,7 @@ Tier usage:
 
 ### Step 1: Data Integrity (required for foundation and full)
 
-- Location: `data/EX-raw.jsonl`
+- Location: `experiments/<experiment-key>/data/<run-file>.jsonl`
 - Rows: actual / expected (%)
 - Schema violations: N
 - Integrity: sha256 of raw file

@@ -52,21 +52,36 @@ Execution is blocked when any hard gate fails.
 | G3 | Inventory readiness confirmed for required entry types | S6 |
 | G4 | Data integrity pass (schema and metadata) | S8 |
 
+## Experiment Bundle Contract
+
+All experiment-scoped artifacts must live inside one bundle directory:
+
+- `experiments/<experiment-key>/protocol.md`
+- `experiments/<experiment-key>/sources.md`
+- `experiments/<experiment-key>/data/*.jsonl`
+- `experiments/<experiment-key>/results/*.md`
+
+Legacy flat experiment files are migration-only and must not receive new writes.
+
 ## Required Artifacts by Stage
 
 | Stage | Required Artifact |
 |---|---|
-| S3 | `research/experiments/*/experiments/<id>.md` |
-| S4-S5 | `research/experiments/*/sources/<id>-sources.md` |
-| S6 | `research/experiments/*/inventory/INVENTORY-INDEX.md` and source entries |
-| S7 | `research/experiments/*/data/<id>-run-YYYY-MM-DD.jsonl` |
-| S8-S10 | `research/experiments/*/results/<id>-results.md` |
-| S11 | `research/MARS-EVIDENCE-STATUS.md` |
-| S12 | Paper section update + retrospective note |
+| S3 | `experiments/<experiment-key>/protocol.md` |
+| S4-S5 | `experiments/<experiment-key>/sources.md` |
+| S6 | `inventory/INVENTORY-INDEX.md` and source-linked inventory entries |
+| S7 | `experiments/<experiment-key>/data/run-YYYY-MM-DD[-suffix].jsonl` |
+| S8-S10 | `experiments/<experiment-key>/results/<run-id>-results.md` |
+| S11 | `results/MARS-EVIDENCE-STATUS.md` |
+| S12 | `papers/*.md` section update + retrospective note |
 
 Protocol gate template:
 
-- `research/MARS-PROTOCOL-CHECKLIST.md`
+- `protocols/MARS-PROTOCOL-CHECKLIST.md`
+
+Experiment bundle policy:
+
+- `definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
 
 ## Default Handoff Chain
 

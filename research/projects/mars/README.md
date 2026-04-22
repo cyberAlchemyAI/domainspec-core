@@ -52,7 +52,7 @@ Scoring note:
 
 ## Gate Readiness
 
-From the latest dry run (`experiments/MARS-DRY-RUN-E1-foundation.md`):
+From the latest dry run (`experiments/MARS-DRY-RUN-E1-foundation/protocol.md`):
 
 | Gate | Current Decision | Meaning |
 |---|---|---|
@@ -65,7 +65,7 @@ From the latest dry run (`experiments/MARS-DRY-RUN-E1-foundation.md`):
 
 1. Populate `sources/` with source-selection and quality-gate artifacts for the next live run.
 2. Populate `inventory/` with required inventory entries and readiness report.
-3. Execute at least one live foundation run and write JSONL outputs under `data/`.
+3. Execute at least one live foundation run and write JSONL outputs under `experiments/<experiment-key>/data/`.
 4. Produce integrity and analysis outputs tied to that live run.
 5. Update claim evidence statuses from live-run analysis, not just inherited upstream evidence.
 6. Create first paper-facing synthesis artifact under `papers/`.
@@ -87,12 +87,30 @@ Interpretation:
 
 - Project manifest: `PROJECT.yaml`
 - Pipeline definition: `definitions/MARS-PIPELINE.md`
+- Experiment bundle contract: `definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
 - Protocol checklist: `protocols/MARS-PROTOCOL-CHECKLIST.md`
 - Claims: `claims/CLAIMS.md`
 - Dependencies: `deps/DEPENDENCIES.yaml`
 - Artifact index: `registry/ARTIFACT-INDEX.md`
 - Traceability matrix: `registry/TRACEABILITY-MATRIX.md`
 - Evidence status: `results/MARS-EVIDENCE-STATUS.md`
+
+## Experiment Bundle Policy
+
+Each experiment must keep protocol, source selection, run data, and results under its own bundle directory:
+
+- `experiments/<experiment-key>/protocol.md`
+- `experiments/<experiment-key>/sources.md`
+- `experiments/<experiment-key>/data/*.jsonl`
+- `experiments/<experiment-key>/results/*.md`
+
+Governance contract:
+
+- `definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
+
+Migration plan for current flat artifacts:
+
+- `runbooks/EXPERIMENT-BUNDLE-MIGRATION-PLAN.md`
 
 ## Dependency Policy
 

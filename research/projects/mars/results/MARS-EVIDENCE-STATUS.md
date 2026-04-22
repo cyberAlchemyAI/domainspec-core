@@ -22,5 +22,5 @@ This file is maintained by `mars-research-evidence-auditor`.
 
 - Use ratings: strong, moderate, weak, insufficient, contradicted.
 - Use status: supported, partially supported, insufficient evidence, contradicted.
-- Use experiment IDs from `research/experiments/EXPERIMENTS.md` (E1-E10).
+- Use experiment IDs from `research/projects/domainspec/experiments/EXPERIMENTS.md` (E1-E10).
 - Update this file after each completed experiment analysis.

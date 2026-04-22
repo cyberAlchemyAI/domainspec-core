@@ -13,10 +13,10 @@ This constitution defines non-optional documentation governance rules for the Do
 ## Link Target Policy
 
 - Claim IDs link to `claims/CLAIMS.md`.
-- Experiment IDs link to `experiments/E*.md`.
+- Experiment IDs link to `experiments/<experiment-key>/protocol.md`.
 - Gate IDs link to the governing checklist or pipeline definition.
 - Dependency IDs link to `deps/DEPENDENCIES.yaml`.
-- Evidence/result IDs link to `results/*.md` or `data/*.jsonl` references.
+- Evidence/result IDs link to `experiments/*/results/*.md` or `experiments/*/data/*.jsonl` references.
 
 ## Compliance Notes
 

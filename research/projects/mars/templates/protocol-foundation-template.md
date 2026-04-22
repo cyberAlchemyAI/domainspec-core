@@ -26,7 +26,7 @@
 
 ## Data Schema
 
-- Schema file: `research/experiments/templates/schema-foundation-template.json`
+- Schema file: `templates/schema-foundation-template.json`
 - Row target: [expected rows]
 - Sampling plan: [how rows are collected]
 
@@ -75,10 +75,11 @@ Optional in foundation:
 
 ## Artifact Paths
 
-- Protocol: `research/experiments/experiments/<id>.md`
-- Source selection: `research/experiments/sources/<id>-sources.md`
-- Raw data: `research/experiments/data/<id>-run-YYYY-MM-DD.jsonl`
-- Results: `research/experiments/results/<id>-results.md`
+- Experiment bundle root: `experiments/<experiment-key>/`
+- Protocol: `experiments/<experiment-key>/protocol.md`
+- Source selection: `experiments/<experiment-key>/sources.md`
+- Raw data: `experiments/<experiment-key>/data/run-YYYY-MM-DD[-suffix].jsonl`
+- Results: `experiments/<experiment-key>/results/<run-id>-results.md`
 
 ## Notes
 

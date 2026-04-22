@@ -79,9 +79,10 @@ The MARS rollout reuses proven planning, execution, and context patterns:
 
 ## Foundation Dry-Run Reference
 
-- Protocol artifact: `research/experiments/experiments/MARS-DRY-RUN-E1-foundation.md`
-- Gate policy: `research/INVENTORY-READINESS-GATE.md`
-- Multi-source policy: `research/MULTI-SOURCE-CONTEXT-PATTERN.md`
+- Protocol artifact: `experiments/MARS-DRY-RUN-E1-foundation/protocol.md`
+- Gate policy: `definitions/INVENTORY-READINESS-GATE.md`
+- Multi-source policy: `definitions/MULTI-SOURCE-CONTEXT-PATTERN.md`
+- Bundle migration plan: `runbooks/EXPERIMENT-BUNDLE-MIGRATION-PLAN.md`
 
 Expected dry-run outcome:
 

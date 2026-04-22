@@ -4,8 +4,8 @@
 **Paper Claim:** C2 — 24 types cover business domains
 **Paper Section:** §9.1 (Vocabulary Completeness)
 **Priority:** P1 | **Effort:** High
-**Results:** [E6-results.md](../results/E6-results.md)
-**Raw data:** [E6-run-2026-04-20.jsonl](../data/E6-run-2026-04-20.jsonl)
+**Results:** [E6-results.md](results/E6-results.md)
+**Raw data:** [E6-run-2026-04-20.jsonl](data/E6-run-2026-04-20.jsonl)
 
 ---
 
@@ -164,7 +164,7 @@ Each wave produces interim results. Stop early if coverage stabilizes (confidenc
 
 ## Results Analysis
 
-> Full 10-step analysis report: [E6-results.md](../results/E6-results.md)
+> Full 10-step analysis report: [E6-results.md](results/E6-results.md)
 
 ### Aggregate Coverage (JSONL ground truth)
 

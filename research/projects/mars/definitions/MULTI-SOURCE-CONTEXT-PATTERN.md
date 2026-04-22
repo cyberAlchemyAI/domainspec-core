@@ -6,10 +6,10 @@ Primary use: experiments that require cross-domain, cross-paper, or mixed source
 
 ## Inputs
 
-- Experiment protocol: `research/experiments/experiments/<id>.md`
-- Source selection: `research/experiments/sources/<id>-sources.md`
-- Source catalog: `research/experiments/sources/SOURCE-CATALOG.md`
-- Inventory entries: `research/experiments/inventory/<source-id>.md`
+- Experiment protocol: `experiments/<experiment-key>/protocol.md`
+- Source selection: `experiments/<experiment-key>/sources.md`
+- Source catalog: `sources/SOURCE-CATALOG.md`
+- Inventory entries: `inventory/<source-id>.md`
 
 ## Required Context Bundle
 
