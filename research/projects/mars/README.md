@@ -21,7 +21,7 @@ The project operationalizes this through:
 
 - Status: active, bootstrap stage
 - Version: 0.1.0
-- Owner: domainspec-research-scientist
+- Owner: mars-research-scientist
 - Latest run state: tabletop dry run completed, live execution not yet completed
 
 ## Completeness Dashboard

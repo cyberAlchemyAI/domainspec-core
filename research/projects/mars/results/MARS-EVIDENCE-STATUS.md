@@ -1,6 +1,6 @@
 # MARS Claim Evidence Status
 
-This file is maintained by `domainspec-research-evidence-auditor`.
+This file is maintained by `mars-research-evidence-auditor`.
 
 ## Claim Status Matrix
 

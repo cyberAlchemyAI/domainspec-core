@@ -1,8 +1,8 @@
 ---
-name: domainspec-research-analyze
+name: mars-research-analyze
 description: "Analyze raw experiment data through a 10-step empirical analysis pipeline grounded in software engineering research methodology. Transforms JSONL data into validated conclusions, threat assessments, and paper-ready artifacts."
 argument-hint: "<experiment-id | --all-completed> [--focus <descriptive|inferential|threats|claims>] [--reanalyze]"
-agent: domainspec-research-analyst
+agent: mars-research-analyst
 allowed-tools: Read, Write, Bash, Glob, Grep, Fetch, AskQuestions
 ---
 

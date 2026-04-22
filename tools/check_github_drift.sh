@@ -27,11 +27,11 @@ comm -23 "$TMP_DIR/poker_skills.txt" "$TMP_DIR/dom_skills.txt" > "$TMP_DIR/skill
 
 # Policy-based classification helpers
 is_type_b_agent() {
-  [[ "$1" =~ ^domainspec-research-.*\.agent\.md$ ]]
+  [[ "$1" =~ ^mars-research-.*\.agent\.md$ ]]
 }
 
 is_type_b_skill() {
-  [[ "$1" =~ ^domainspec-research-.*\/SKILL\.md$ ]]
+  [[ "$1" =~ ^mars-research-.*\/SKILL\.md$ ]]
 }
 
 # Explicit local overlays allowed to remain poker-team-only.

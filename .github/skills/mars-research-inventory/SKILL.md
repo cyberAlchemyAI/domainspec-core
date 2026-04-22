@@ -1,8 +1,8 @@
 ---
-name: domainspec-research-inventory
+name: mars-research-inventory
 description: "Inventorize, retrieve, and maintain structured domain model extractions from research sources. Eliminates redundant re-fetching and reconstruction across experiment runs."
 argument-hint: "<ingest|lookup|validate|backfill> [--source <source-id>] [--experiment <EX>] [--domain <domain-name>]"
-agent: domainspec-research-inventorist
+agent: mars-research-inventorist
 allowed-tools: Read, Write, Bash, Glob, Grep, Fetch, AskQuestions
 ---
 

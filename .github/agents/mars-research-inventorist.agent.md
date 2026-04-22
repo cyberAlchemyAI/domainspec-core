@@ -1,5 +1,5 @@
 ---
-name: domainspec-research-inventorist
+name: mars-research-inventorist
 description: Inventorizes, retrieves, and maintains structured domain model extractions from research sources. Eliminates redundant re-fetching and reconstruction across experiment runs.
 tools:
   [
@@ -49,7 +49,7 @@ Research workspace:
 - Experiment data (for backfill): `domainspec/docs/research/data/*.jsonl`
 - Experiment protocols: `domainspec/docs/research/experiments/EX-*.md`
 - Meta-model vocabulary: `domainspec/TAXONOMY.md`, `domainspec/RELATIONSHIPS.md`
-- Skill protocol: `.github/skills/domainspec-research-inventory/SKILL.md`
+- Skill protocol: `.github/skills/mars-research-inventory/SKILL.md`
 </context>
 
 <principles>

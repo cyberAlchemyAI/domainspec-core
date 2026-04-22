@@ -1,5 +1,5 @@
 ---
-name: domainspec-research-protocol-designer
+name: mars-research-protocol-designer
 description: Designs and validates research experiment protocols with measurable criteria, complete data schemas, and explicit dependency gates before execution.
 tools:
   [

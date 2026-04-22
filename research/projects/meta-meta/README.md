@@ -17,7 +17,7 @@ Meta-Meta answers claims CM1-CM4 through experiments E11-E20, focusing on:
 
 - Status: planning
 - Version: 0.1.0
-- Owner: domainspec-research-scientist
+- Owner: mars-research-scientist
 - Latest run state: experiment index defined, no live runs executed yet
 
 ## Completeness Dashboard

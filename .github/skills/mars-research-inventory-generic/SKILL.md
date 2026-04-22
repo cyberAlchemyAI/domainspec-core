@@ -1,8 +1,8 @@
 ---
-name: domainspec-research-inventory-generic
+name: mars-research-inventory-generic
 description: "Extract, retrieve, and maintain structured knowledge entries from research sources. Supports domain models, paper abstracts, tool evaluations, framework architectures, role specifications. Eliminates redundant re-fetching across experiment runs."
 argument-hint: "<ingest|lookup|validate|backfill> [--entry-type <type>] [--source <source-id>] [--experiment <EX>] [--query <search>]"
-agent: domainspec-research-inventorist
+agent: mars-research-inventorist
 allowed-tools: Read, Write, Bash, Glob, Grep, Fetch, AskQuestions
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: domainspec-research-sourcer
+name: mars-research-sourcer
 description: Discovers, validates, scores, and catalogs external data sources for DomainSpec research experiments. Produces SOURCE-CATALOG.md and per-experiment source selections with diversity analysis and feasibility checks.
 tools:
   [

@@ -1,8 +1,8 @@
 ---
-name: domainspec-research-sources-generic
+name: mars-research-sources-generic
 description: "Discover, validate, and catalog external data sources for any research experiment. Produces SOURCE-CATALOG.md with typed knowledge entries, diversity analysis, and feasibility checks before experiment execution."
 argument-hint: "<experiment-id | --all-pending> [--entry-type <type1,type2>] [--min-sources <n>] [--diversity-target <n>]"
-agent: domainspec-research-sourcer
+agent: mars-research-sourcer
 allowed-tools: Read, Write, Bash, Glob, Grep, Fetch, AskQuestions
 ---
 

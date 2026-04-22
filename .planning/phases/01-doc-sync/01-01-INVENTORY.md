@@ -40,7 +40,7 @@
 | domainspec-otel-verifier | implementation/domainspec/copilot/agents/domainspec-otel-verifier.agent.md | OTel coverage auditing |
 | domainspec-planner | implementation/domainspec/copilot/agents/domainspec-planner.agent.md | Planning and orchestration |
 | domainspec-registry-sync | implementation/domainspec/copilot/agents/domainspec-registry-sync.agent.md | Registry synchronization |
-| domainspec-researcher | implementation/domainspec/copilot/agents/domainspec-researcher.agent.md | Implementation-context research |
+| mars-researcher | implementation/domainspec/copilot/agents/mars-researcher.agent.md | Implementation-context research |
 | domainspec-spec-writer | implementation/domainspec/copilot/agents/domainspec-spec-writer.agent.md | Spec authoring and evolution |
 | domainspec-story-sync | implementation/domainspec/copilot/agents/domainspec-story-sync.agent.md | Story synchronization |
 | domainspec-test-designer | implementation/domainspec/copilot/agents/domainspec-test-designer.agent.md | Test derivation |

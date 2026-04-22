@@ -1,6 +1,6 @@
 # MARS Protocol Validation Checklist
 
-This checklist is used by `domainspec-research-protocol-designer` before any experiment execution.
+This checklist is used by `mars-research-protocol-designer` before any experiment execution.
 
 ## Criteria
 

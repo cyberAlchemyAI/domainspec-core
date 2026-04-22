@@ -10,10 +10,10 @@ Rules:
 
 Current lifecycle-critical agents:
 
-- `domainspec-research-scientist` — orchestration and paper integration
-- `domainspec-research-planner` — MARS-context planning and gate-ready execution decomposition
-- `domainspec-research-sourcer` — source discovery and quality gate
-- `domainspec-research-inventorist` — inventory readiness gate
-- `domainspec-research-analyst` — data analysis and validity assessment
-- `domainspec-research-protocol-designer` — protocol design and pre-execution protocol gate
-- `domainspec-research-evidence-auditor` — claim evidence coverage and next-run prioritization
+- `mars-research-scientist` — orchestration and paper integration
+- `mars-research-planner` — MARS-context planning and gate-ready execution decomposition
+- `mars-research-sourcer` — source discovery and quality gate
+- `mars-research-inventorist` — inventory readiness gate
+- `mars-research-analyst` — data analysis and validity assessment
+- `mars-research-protocol-designer` — protocol design and pre-execution protocol gate
+- `mars-research-evidence-auditor` — claim evidence coverage and next-run prioritization

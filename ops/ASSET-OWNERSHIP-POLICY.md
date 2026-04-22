@@ -32,7 +32,7 @@ Conflict resolution rule:
 
 ### Type B: Research Orchestration Pack
 
-Research-focused assets (for example `domainspec-research-*`) used to run experiments, inventory work, and synthesis.
+Research-focused assets (for example `mars-research-*`) used to run experiments, inventory work, and synthesis.
 
 Source of truth:
 - `domainspec-core/.github`

@@ -17,7 +17,7 @@ This rollout converts the research lifecycle from partially manual to fully owne
 
 ## P0 (first)
 
-### domainspec-research-protocol-designer
+### mars-research-protocol-designer
 
 Mission:
 - Design and validate experiment protocols before any execution begins.
@@ -34,7 +34,7 @@ Trigger:
 
 ## P1 (second)
 
-### domainspec-research-evidence-auditor
+### mars-research-evidence-auditor
 
 Mission:
 - Maintain claim-level evidence status across experiments and prioritize next runs.

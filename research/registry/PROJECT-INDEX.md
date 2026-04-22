@@ -4,9 +4,9 @@ Canonical index of self-contained research projects in this repository.
 
 | Project ID | Name | Canonical Path | Status | Primary Owner |
 |---|---|---|---|---|
-| domainspec | DomainSpec Evidence Program | research/projects/domainspec | active | domainspec-research-scientist |
-| meta-meta | Meta-Meta Generalization Program | research/projects/meta-meta | planning | domainspec-research-scientist |
-| mars | MARS Research Orchestration Program | research/projects/mars | active | domainspec-research-scientist |
+| domainspec | DomainSpec Evidence Program | research/projects/domainspec | active | mars-research-scientist |
+| meta-meta | Meta-Meta Generalization Program | research/projects/meta-meta | planning | mars-research-scientist |
+| mars | MARS Research Orchestration Program | research/projects/mars | active | mars-research-scientist |
 
 ## Contract Requirements
 

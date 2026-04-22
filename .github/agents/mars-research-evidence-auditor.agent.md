@@ -1,5 +1,5 @@
 ---
-name: domainspec-research-evidence-auditor
+name: mars-research-evidence-auditor
 description: Audits claim-level evidence across experiments, updates support status, and prioritizes next experiments to close evidence gaps.
 tools:
   [

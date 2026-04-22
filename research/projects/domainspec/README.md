@@ -19,7 +19,7 @@ The program focuses on:
 
 - Status: active, evidence-building
 - Version: 0.1.0
-- Owner: domainspec-research-scientist
+- Owner: mars-research-scientist
 - Latest run state: [E6](experiments/E6-vocabulary-sufficiency.md) and [E9](experiments/E9-cross-feature-composition.md) completed and analyzed; remaining experiments pending
 
 ## Completeness Dashboard

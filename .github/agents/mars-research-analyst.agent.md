@@ -1,5 +1,5 @@
 ---
-name: domainspec-research-analyst
+name: mars-research-analyst
 description: Analyzes raw experiment data through a 10-step empirical pipeline grounded in Wohlin et al. methodology. Produces validated conclusions, threat assessments, gap taxonomies, and paper-ready artifacts from JSONL data.
 tools:
   [

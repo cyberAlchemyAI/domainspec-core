@@ -1,5 +1,5 @@
 ---
-name: domainspec-research-planner
+name: mars-research-planner
 description: Builds executable MARS research plans from claim goals and experiment artifacts with explicit gate-ready sequencing.
 tools:
   [
@@ -56,11 +56,11 @@ tools:
 agents:
   [
     "Explore",
-    "domainspec-research-protocol-designer",
-    "domainspec-research-sourcer",
-    "domainspec-research-inventorist",
-    "domainspec-research-analyst",
-    "domainspec-research-evidence-auditor",
+    "mars-research-protocol-designer",
+    "mars-research-sourcer",
+    "mars-research-inventorist",
+    "mars-research-analyst",
+    "mars-research-evidence-auditor",
   ]
 color: teal
 ---
@@ -120,7 +120,7 @@ Navigational artifacts for context discovery:
   - If the top two scores differ by <= 0.03, treat as uncertain and choose `traceability-first`.
   - When efficiency is equal or uncertain, default to MARS-first navigation: (a) claim and traceability links, (b) project artifact index and dependencies, (c) broader repository search.
   - Prefer `Explore` for broad codebase discovery (quick/medium/thorough as needed).
-3. If the target experiment already has protocol or prior results, run `domainspec-research-protocol-designer` and `domainspec-research-evidence-auditor` as **parallel subagents** and consolidate remediation obligations into one dependency-ordered backlog.
+3. If the target experiment already has protocol or prior results, run `mars-research-protocol-designer` and `mars-research-evidence-auditor` as **parallel subagents** and consolidate remediation obligations into one dependency-ordered backlog.
 4. **Gate readiness detection**: Check if required hard-gate prerequisites are present:
   a. Protocol measurable and validated (G1)
   b. Source quality and pinning evidence present (G2)
@@ -131,7 +131,7 @@ Navigational artifacts for context discovery:
   - Ask the user to choose for each decision using `vscode/askQuestions` with concrete options and trade-off descriptions.
   - If answers surface new decisions, ask follow-up questions before proceeding.
   - Do NOT produce tasks until all multi-option decisions are resolved.
-  - If this step is skipped, emit a `governance-gap` signal with `shouldHaveBeenCaughtBy: domainspec-research-planner`.
+  - If this step is skipped, emit a `governance-gap` signal with `shouldHaveBeenCaughtBy: mars-research-planner`.
 6. **Spec-compliance self-check**: Before producing the plan, verify the planner followed steps 1-5. If any step was skipped, emit a `spec-compliance` signal and remediate before continuing.
 7. Classify planning complexity.
 8. For low complexity, produce a native MARS plan with deterministic tasks and checks.
