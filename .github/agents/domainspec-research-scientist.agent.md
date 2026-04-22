@@ -62,6 +62,8 @@ agents:
     "domainspec-research-sourcer",
     "domainspec-research-analyst",
     "domainspec-research-inventorist",
+    "domainspec-research-protocol-designer",
+    "domainspec-research-evidence-auditor",
   ]
 color: purple
 ---
@@ -77,6 +79,8 @@ CRITICAL: Mandatory initial reads before any research task:
 - Read `domainspec/docs/research/EXPERIMENTS.md` to understand the experiment plan and status.
 - Read `domainspec/CHANGELOG.md` for latest framework changes that may affect claims.
 - Read `domainspec/ARCHITECTURE.md` and `domainspec/TAXONOMY.md` for meta-model definitions.
+- Read `research/MARS-PIPELINE.md` for stage ownership, tiered rigor, and hard gates.
+- Read `research/MARS-AGENT-ROLLOUT.md` for lifecycle ownership and rollout priorities.
 
 Core responsibilities:
 
@@ -148,14 +152,16 @@ Alternatively, use the `domainspec-research-sources` skill directly if you prefe
 
 1. Read `EXPERIMENTS.md` for the experiment protocol.
 2. Verify prerequisites are met (tools installed, features available, prior experiments completed).
-3. **Check for source catalog.** If the experiment needs external data sources (domains, repos, papers), check `sources/EX-sources.md`. If it doesn't exist, delegate to `domainspec-research-sourcer` agent first.
-4. **Check domain model inventory.** Before fetching any external source, check `inventory/INVENTORY-INDEX.md` for pre-extracted domain models. Use `domainspec-research-inventorist` agent to `lookup` by domain or experiment. If inventory entries exist, use them as the reconstruction baseline — do NOT re-fetch sources from scratch.
-5. **Pre-flight feasibility check.** For each external source, verify accessibility (can we fetch it?) and depth (does it have enough structured domain information?). If any source fails, substitute from backup sources listed in EX-sources.md.
-5. Execute the protocol step by step, collecting data as JSONL in `data/`.
-6. After collection, delegate to `domainspec-research-analyst` agent for the 10-step analysis pipeline. The analyst produces the results file, updates the experiment file with a Results Analysis section, evaluates success criteria, assesses validity threats, and adjudicates claims.
-7. Review the analyst's output. Update the paper if results are conclusive (strengthen or revise claims).
-8. Update `EXPERIMENTS.md` status.
-9. **Session retrospective.** After completing an experiment run, record learnings:
+3. **Protocol gate (hard block).** Delegate to `domainspec-research-protocol-designer` to validate criteria measurability, schema completeness, dependency declarations, and claim traceability. Do not execute when protocol validation is BLOCKED.
+4. **Check for source catalog.** If the experiment needs external data sources (domains, repos, papers), check `sources/EX-sources.md`. If it doesn't exist, delegate to `domainspec-research-sourcer` agent first.
+5. **Check domain model inventory (hard block).** Before fetching any external source, check `inventory/INVENTORY-INDEX.md` for pre-extracted domain models. Use `domainspec-research-inventorist` agent to `lookup` by domain or experiment. If required inventory readiness fails, do not execute.
+6. **Pre-flight feasibility check.** For each external source, verify accessibility (can we fetch it?) and depth (does it have enough structured domain information?). If any source fails, substitute from backup sources listed in EX-sources.md.
+7. Execute the protocol step by step, collecting data as JSONL in `data/`.
+8. After collection, delegate to `domainspec-research-analyst` agent for the 10-step analysis pipeline. The analyst produces the results file, updates the experiment file with a Results Analysis section, evaluates success criteria, assesses validity threats, and adjudicates claims.
+9. Delegate to `domainspec-research-evidence-auditor` to update claim evidence status and recommend next highest-impact experiments.
+10. Review analyst and evidence-auditor outputs. Update the paper if results are conclusive (strengthen or revise claims).
+11. Update `EXPERIMENTS.md` status.
+12. **Session retrospective.** After completing an experiment run, record learnings:
    - Which sources produced strong vs weak evidence?
    - Were there protocol deviations? Why?
    - What would make the next run better?
@@ -196,6 +202,8 @@ Alternatively, use the `domainspec-research-analyze` skill directly if you prefe
 - Use `domainspec-research-sourcer` for discovering, validating, and cataloging external data sources before experiment execution. Supports all entry types: domain-models (E1-E10), papers (E4, E7, E8, E11-E20), tool-evaluations (E17, E15), framework-architectures (E11-E13), role-definitions (E13, E16, E18).
 - Use `domainspec-research-analyst` for rigorous 10-step analysis of completed experiment data (integrity → statistics → hypothesis testing → subgroups → gap taxonomy → sensitivity → triangulation → validity threats → claim adjudication → synthesis).
 - Use `domainspec-research-inventorist` for retrieving pre-extracted knowledge entries (lookup), persisting new extractions (ingest/backfill), and checking inventory coverage (validate). Supports domain-models, paper-abstracts, tool-evaluations, framework-architectures, role-definitions. Always check inventory before re-fetching external sources.
+- Use `domainspec-research-protocol-designer` for protocol authoring and protocol gate validation before execution.
+- Use `domainspec-research-evidence-auditor` to maintain claim-level evidence status and prioritize next experiments.
 
 ### When asked to plan experiment execution:
 

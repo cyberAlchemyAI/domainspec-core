@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MARS Full Experiment Row",
+  "type": "object",
+  "required": [
+    "experiment_id",
+    "run_id",
+    "timestamp",
+    "domainspec_version",
+    "model",
+    "model_temperature",
+    "system_prompt_hash",
+    "operator",
+    "feature_id",
+    "sample_id",
+    "metric_name",
+    "metric_value",
+    "criteria_id",
+    "criteria_target",
+    "criteria_pass",
+    "subgroup_key",
+    "subgroup_value",
+    "anomaly_category",
+    "threat_type",
+    "sensitivity_variant",
+    "triangulation_experiment_id",
+    "claim_id",
+    "evidence_direction"
+  ],
+  "properties": {
+    "experiment_id": {
+      "type": "string",
+      "pattern": "^E[0-9]+$"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "domainspec_version": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "model_temperature": {
+      "type": "number"
+    },
+    "system_prompt_hash": {
+      "type": "string"
+    },
+    "operator": {
+      "type": "string"
+    },
+    "feature_id": {
+      "type": "string"
+    },
+    "sample_id": {
+      "type": "string"
+    },
+    "source_id": {
+      "type": "string"
+    },
+    "entry_type": {
+      "type": "string",
+      "enum": [
+        "domain-model",
+        "paper-abstract",
+        "tool-evaluation",
+        "framework-architecture",
+        "role-definition"
+      ]
+    },
+    "metric_name": {
+      "type": "string"
+    },
+    "metric_value": {
+      "type": "number"
+    },
+    "criteria_id": {
+      "type": "string"
+    },
+    "criteria_target": {
+      "type": "string"
+    },
+    "criteria_pass": {
+      "type": "boolean"
+    },
+    "subgroup_key": {
+      "type": "string"
+    },
+    "subgroup_value": {
+      "type": "string"
+    },
+    "anomaly_category": {
+      "type": "string"
+    },
+    "threat_type": {
+      "type": "string",
+      "enum": [
+        "internal",
+        "external",
+        "construct",
+        "conclusion",
+        "none"
+      ]
+    },
+    "sensitivity_variant": {
+      "type": "string"
+    },
+    "triangulation_experiment_id": {
+      "type": "string"
+    },
+    "claim_id": {
+      "type": "string",
+      "pattern": "^C[1-4]$"
+    },
+    "evidence_direction": {
+      "type": "string",
+      "enum": [
+        "supports",
+        "partially_supports",
+        "insufficient",
+        "contradicts"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

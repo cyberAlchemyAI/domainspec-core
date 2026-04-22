@@ -19,19 +19,24 @@ Ownership rules:
 - **Research design, data, and analysis** happen in `domainspec-core/research`.
 - **Runtime validation and case-study evidence** come from poker-team behavior and feature slices.
 
+Path policy:
+
+- Canonical paths only.
+- No compatibility aliases or redirect files unless explicitly requested.
+
 ## Repository Structure
 
 ```
 domainspec-core/
 ├── research/
-│   ├── experiments/              # E1-E10 (DomainSpec) + E11-E20 (Meta-Meta)
-│   ├── data/                     # Raw JSONL experiment data (append-only)
-│   ├── results/                  # Structured analysis outputs
-│   ├── sources/                  # SOURCE-CATALOG + inventory
-│   ├── inventory/                # Extracted knowledge entries (generalized)
-│   ├── EXPERIMENTS.md            # DomainSpec experiments (E1-E10)
-│   ├── EXPERIMENTS-META.md       # Meta-Meta framework experiments (E11-E20)
-│   └── domainspec-paper.md       # Research paper (evolving)
+│   ├── projects/
+│   │   ├── domainspec/           # Self-contained DomainSpec project artifacts
+│   │   ├── meta-meta/            # Self-contained Meta-Meta project artifacts
+│   │   └── mars/                 # Self-contained MARS project artifacts
+│   ├── shared/
+│   │   ├── standards/            # Shared standards across projects
+│   │   └── templates/            # Shared report templates
+│   └── registry/                 # Cross-project index and dependency graph
 ├── implementation/
 │   ├── domainspec/               # Git submodule to live DomainSpec implementation source-of-truth
 │   ├── ARCHITECTURE.md           # Local mirror for research reference
@@ -89,21 +94,20 @@ See [PHASED-PLAN.md](implementation/PHASED-PLAN.md) for full 8-phase roadmap.
 
 ## Key Artifacts
 
-- **Research paper:** `research/domainspec-paper.md` (evolving, synced with experiments)
-- **Source catalog:** `research/sources/SOURCE-CATALOG.md` (validated external sources)
-- **Knowledge inventory:** `research/inventory/INVENTORY-INDEX.md` + per-entry files (generalized domain models, papers, tools, frameworks)
-- **Experiment protocols:** `research/experiments/EX-*.md` (one per experiment)
-- **Experiment results:** `research/results/EX-results.md` (10-step Wohlin analysis)
-- **Raw data:** `research/data/*.jsonl` (append-only, never edited)
+- **DomainSpec paper:** `research/projects/domainspec/papers/domainspec-paper.md`
+- **DomainSpec experiment index:** `research/projects/domainspec/experiments/EXPERIMENTS.md`
+- **Meta-Meta experiment index:** `research/projects/meta-meta/experiments/EXPERIMENTS-META.md`
+- **MARS pipeline and evidence:** `research/projects/mars/definitions/` and `research/projects/mars/results/`
+- **Cross-project registry:** `research/registry/PROJECT-INDEX.md` and `research/registry/DEPENDENCY-GRAPH.md`
 
 ---
 
 ## How to Execute
 
-1. **Design and run experiments** from `domainspec-core/research`.
+1. **Design and run experiments** from `domainspec-core/research/projects/<project-id>`.
 2. **Implement framework adjustments** in `implementation/domainspec` (live symlink to DomainSpec source).
 3. **Validate behavior** against `validation/poker-team` feature slices and runtime signals.
-4. **Analyze data** using the research analyst workflow and append results under `research/results`.
+4. **Analyze data** using the research analyst workflow and append results under the owning project's `results/` folder.
 
 See canonical reusable automation assets in `implementation/domainspec/copilot`.
 
@@ -143,8 +147,8 @@ Current baseline intentionally fails until Type A/Type B mismatches are resolved
 
 ## Quick Links
 
-- **DomainSpec Paper:** Start at `research/domainspec-paper.md` § 1 (Hypothesis)
-- **Experiment Status:** `research/EXPERIMENTS.md` + `research/EXPERIMENTS-META.md`
+- **DomainSpec Paper:** `research/projects/domainspec/papers/domainspec-paper.md`
+- **Experiment Status:** `research/projects/domainspec/experiments/EXPERIMENTS.md` and `research/projects/meta-meta/experiments/EXPERIMENTS-META.md`
 - **Live DomainSpec source:** `implementation/domainspec`
 - **Architecture (mirror):** `implementation/ARCHITECTURE.md`
 - **Governance Model (mirror + live):** `implementation/GOVERNANCE-ATTENUATION.md` and `implementation/domainspec/GOVERNANCE-ATTENUATION.md`
@@ -154,6 +158,6 @@ Current baseline intentionally fails until Type A/Type B mismatches are resolved
 
 ## Immediate Execution Focus
 
-1. **Phase 1 execution:** finalize and run E1-E5 in `research/experiments`.
+1. **Phase 1 execution:** finalize and run E1-E5 in `research/projects/domainspec/experiments`.
 2. **Instrumentation alignment:** connect E7/E8 collection to poker-team runtime signals.
 3. **Claim adjudication:** update paper sections based on fresh run evidence.

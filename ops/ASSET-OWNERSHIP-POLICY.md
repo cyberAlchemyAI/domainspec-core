@@ -35,11 +35,27 @@ Conflict resolution rule:
 Research-focused assets (for example `domainspec-research-*`) used to run experiments, inventory work, and synthesis.
 
 Source of truth:
-- `domainspec-core/.github` (to be established during migration)
+- `domainspec-core/.github`
+- `domainspec-core/research/projects/*`
+- `domainspec-core/research/shared/*`
+- `domainspec-core/research/registry/*`
 
 Rule:
 - Type B should not remain as poker-team-only drift.
 - Promote to root orchestration ownership when validated.
+
+Project containment rule:
+
+- Each research project under `research/projects/` is self-contained.
+- Cross-project reuse is allowed only through declared dependencies and published exports.
+- Internal project files are not direct dependency targets for other projects.
+
+Compatibility handling rule:
+
+- Default behavior is canonical-only paths.
+- Do not add compatibility aliases, redirect files, duplicate path mirrors, or symlink shims unless explicitly requested.
+- Breaking path changes are acceptable when migrating toward canonical ownership boundaries.
+- If compatibility handling is explicitly requested, it must be temporary, documented, and removed after the migration window.
 
 ### Type C: Project-Local Overlays
 
@@ -72,6 +88,8 @@ Use `tools/check_github_drift.sh` from `domainspec-core`:
 
 - Fails when Type A or Type B assets are found as poker-team-only drift.
 - Allows Type C poker-team overlays via explicit allowlist.
+- Runs research structure enforcement via `tools/check_research_structure.sh`.
+- Fails when compatibility aliases/symlinks are present under `research/` unless explicitly enabled by `ALLOW_RESEARCH_COMPATIBILITY=1`.
 
 ## Workspace Entry Decision
 

@@ -20,6 +20,11 @@ Automation governance references:
 - Current triage matrix: `ops/AGENT-SKILL-TRIAGE-MATRIX.md`
 - Drift enforcement check: `tools/check_github_drift.sh`
 
+Research pipeline governance references:
+
+- Canonical 12-stage pipeline: `research/MARS-PIPELINE.md`
+- Agent rollout and ownership model: `research/MARS-AGENT-ROLLOUT.md`
+
 ---
 
 ## Project Alignment

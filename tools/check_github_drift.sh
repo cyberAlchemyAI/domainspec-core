@@ -125,5 +125,10 @@ if [[ "$violations" -gt 0 ]]; then
   exit 1
 fi
 
+if [[ -x "tools/check_research_structure.sh" ]]; then
+  echo
+  tools/check_research_structure.sh
+fi
+
 echo
 echo "[result] PASS (no policy drift detected)"

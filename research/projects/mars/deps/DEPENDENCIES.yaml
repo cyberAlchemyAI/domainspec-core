@@ -1,0 +1,30 @@
+dependencies:
+  - dependency_id: dep-mars-c2-baseline
+    type: claim_dependency
+    provider_project: domainspec
+    provider_artifact: exports/claims/C2-baseline.md
+    provider_version_or_commit: 0.1.0
+    consumer_project: mars
+    consumer_purpose: initialize MARS-C2 prior evidence baseline
+    validation_gate: G1
+    fallback_plan: block protocol approval until baseline is available
+
+  - dependency_id: dep-mars-protocol-method
+    type: method_dependency
+    provider_project: domainspec
+    provider_artifact: exports/methods/protocol-analysis-minimum.md
+    provider_version_or_commit: 0.1.0
+    consumer_project: mars
+    consumer_purpose: enforce protocol quality minimum before execution
+    validation_gate: G1
+    fallback_plan: require manual protocol review and flag policy deviation
+
+  - dependency_id: dep-mars-shared-reporting
+    type: method_dependency
+    provider_project: shared
+    provider_artifact: research/shared/templates/PIPELINE-REPORT.md
+    provider_version_or_commit: workspace-current
+    consumer_project: mars
+    consumer_purpose: standardize run and retrospective reports
+    validation_gate: S11
+    fallback_plan: use local report format and track migration debt

@@ -1,0 +1,25 @@
+# Research Project Index
+
+Canonical index of self-contained research projects in this repository.
+
+| Project ID | Name | Canonical Path | Status | Primary Owner |
+|---|---|---|---|---|
+| domainspec | DomainSpec Evidence Program | research/projects/domainspec | active | domainspec-research-scientist |
+| meta-meta | Meta-Meta Generalization Program | research/projects/meta-meta | planning | domainspec-research-scientist |
+| mars | MARS Research Orchestration Program | research/projects/mars | active | domainspec-research-scientist |
+
+## Contract Requirements
+
+Each project must provide:
+
+1. PROJECT.yaml
+2. claims/CLAIMS.md
+3. deps/DEPENDENCIES.yaml
+4. registry/ARTIFACT-INDEX.md
+5. registry/TRACEABILITY-MATRIX.md
+6. telemetry/SIGNAL-SCHEMA.md
+
+## Review Cadence
+
+- Update this index at every release checkpoint.
+- Add a new row before any new project starts collecting data.

@@ -1,0 +1,20 @@
+dependencies:
+  - dependency_id: dep-meta-meta-signal-baseline
+    type: method_dependency
+    provider_project: domainspec
+    provider_artifact: exports/methods/signal-observation-baseline.md
+    provider_version_or_commit: 0.1.0
+    consumer_project: meta-meta
+    consumer_purpose: reuse baseline signal schema for E11/E17
+    validation_gate: G2
+    fallback_plan: block signal extraction experiments until baseline import is resolved
+
+  - dependency_id: dep-meta-meta-shared-templates
+    type: method_dependency
+    provider_project: shared
+    provider_artifact: research/shared/templates/TRACEABILITY-REPORT.md
+    provider_version_or_commit: workspace-current
+    consumer_project: meta-meta
+    consumer_purpose: standardized traceability output
+    validation_gate: S11
+    fallback_plan: use local format and flag migration debt
