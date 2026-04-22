@@ -2,6 +2,7 @@
 
 | Category | Path | Type |
 |---|---|---|
+| Constitution | definitions/CONSTITUTION.md | canonical |
 | Claims | claims/CLAIMS.md | canonical |
 | Experiment Index | experiments/EXPERIMENTS.md | canonical |
 | Protocols | experiments/E*.md | canonical |

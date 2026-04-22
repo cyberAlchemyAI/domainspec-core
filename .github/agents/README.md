@@ -11,6 +11,7 @@ Rules:
 Current lifecycle-critical agents:
 
 - `domainspec-research-scientist` — orchestration and paper integration
+- `domainspec-research-planner` — MARS-context planning and gate-ready execution decomposition
 - `domainspec-research-sourcer` — source discovery and quality gate
 - `domainspec-research-inventorist` — inventory readiness gate
 - `domainspec-research-analyst` — data analysis and validity assessment
