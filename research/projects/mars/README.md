@@ -17,6 +17,42 @@ The project operationalizes this through:
 - claim-level evidence tracking (`results/MARS-EVIDENCE-STATUS.md`)
 - explicit dependency contracts (`deps/DEPENDENCIES.yaml`)
 
+## Interview Capacities
+
+MARS now includes interview-first research scoping for both greenfield and brownfield contexts.
+
+Primary command:
+
+```
+@mars-research-interviewer mars-research-interview [greenfield|brownfield|auto] [topic-or-project]
+```
+
+What this adds:
+
+- Research-scope discovery before protocol design
+- Brownfield evidence inspection (claims, protocols, results, data) before questioning
+- Counterargument-first framing for hypotheses and propositions
+- Experiment candidate generation with disconfirming outcomes and gate-readiness cues
+
+Default output artifact set:
+
+- `PROJECT-OVERVIEW.md`
+- `definitions/INITIAL-DEFINITIONS.md`
+- `claims/HYPOTHESES.md`
+- `experiments/EXPERIMENT-CANDIDATES.md`
+
+Template sources:
+
+- `templates/project-overview-template.md`
+- `templates/initial-definitions-template.md`
+- `templates/hypotheses-template.md`
+- `templates/experiment-candidates-template.md`
+
+Asset paths:
+
+- Agent: `.github/agents/mars-research-interviewer.agent.md`
+- Skill: `.github/skills/mars-research-interview/SKILL.md`
+
 ## Current Snapshot (2026-04-21)
 
 - Status: active, bootstrap stage
