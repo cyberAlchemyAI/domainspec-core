@@ -8,12 +8,21 @@ allow_compatibility="${ALLOW_RESEARCH_COMPATIBILITY:-0}"
 
 projects=(domainspec meta-meta mars)
 required_files=(
+  "README.md"
   "PROJECT.yaml"
   "claims/CLAIMS.md"
   "deps/DEPENDENCIES.yaml"
   "registry/ARTIFACT-INDEX.md"
   "registry/TRACEABILITY-MATRIX.md"
   "telemetry/SIGNAL-SCHEMA.md"
+)
+
+required_readme_sections=(
+  "## What This Project Is About"
+  "## Current Snapshot"
+  "## Completeness Dashboard"
+  "## What Is Missing Right Now"
+  "## Canonical File Map"
 )
 
 legacy_compat_paths=(
@@ -75,7 +84,22 @@ for project in "${projects[@]}"; do
     ((violations+=1))
   fi
 
+  readme_file="$base/README.md"
+  if [[ -f "$readme_file" ]]; then
+    for section in "${required_readme_sections[@]}"; do
+      if ! grep -Fq "$section" "$readme_file"; then
+        echo "[violation] README missing required section '$section' in $readme_file"
+        ((violations+=1))
+      fi
+    done
+  fi
+
 done
+
+if [[ ! -f "research/shared/templates/PROJECT-README.md" ]]; then
+  echo "[violation] missing shared README pattern template: research/shared/templates/PROJECT-README.md"
+  ((violations+=1))
+fi
 
 if [[ "$allow_compatibility" != "1" ]]; then
   for path in "${legacy_compat_paths[@]}"; do

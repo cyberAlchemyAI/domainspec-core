@@ -12,12 +12,13 @@ Canonical index of self-contained research projects in this repository.
 
 Each project must provide:
 
-1. PROJECT.yaml
-2. claims/CLAIMS.md
-3. deps/DEPENDENCIES.yaml
-4. registry/ARTIFACT-INDEX.md
-5. registry/TRACEABILITY-MATRIX.md
-6. telemetry/SIGNAL-SCHEMA.md
+1. README.md conforming to `research/shared/templates/PROJECT-README.md`
+2. PROJECT.yaml
+3. claims/CLAIMS.md
+4. deps/DEPENDENCIES.yaml
+5. registry/ARTIFACT-INDEX.md
+6. registry/TRACEABILITY-MATRIX.md
+7. telemetry/SIGNAL-SCHEMA.md
 
 ## Review Cadence
 
