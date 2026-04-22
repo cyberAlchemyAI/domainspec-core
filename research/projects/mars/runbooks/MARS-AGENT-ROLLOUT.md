@@ -8,7 +8,7 @@ This rollout converts the research lifecycle from partially manual to fully owne
 |---|---|---|
 | Source discovery and validation | Sourcer | Covered |
 | Inventory extraction and lookup | Inventorist | Covered |
-| Execution orchestration | Scientist | Covered |
+| Execution orchestration | Orchestrator + Scientist | Covered |
 | Data analysis and validity assessment | Analyst | Covered |
 | Protocol design governance | Missing | Gap |
 | Claim evidence governance | Missing | Gap |
@@ -16,6 +16,23 @@ This rollout converts the research lifecycle from partially manual to fully owne
 ## New Agents to Add First
 
 ## P0 (first)
+
+### mars-research-orchestrator
+
+Mission:
+- Execute approved MARS plans using dependency-safe parallel waves across specialist agents.
+
+Owns:
+- Task graph and wave decomposition
+- Parallel subagent dispatch for independent tasks
+- Gate barrier enforcement between waves
+- Consolidated execution status and blocker routing
+
+Trigger:
+- Approved runbook execution request
+- Multi-agent execution request requiring parallelizable work
+
+## P1 (second)
 
 ### mars-research-protocol-designer
 
@@ -32,7 +49,7 @@ Trigger:
 - New experiment proposal
 - Protocol modification request
 
-## P1 (second)
+## P2 (third)
 
 ### mars-research-evidence-auditor
 
@@ -48,7 +65,7 @@ Trigger:
 - New result published
 - Milestone evidence review
 
-## P2 (future)
+## P3 (future)
 
 - Reproducibility Verifier
 - Retrospective Conductor

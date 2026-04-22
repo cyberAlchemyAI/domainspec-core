@@ -56,6 +56,7 @@ tools:
 agents:
   [
     "Explore",
+    "mars-research-orchestrator",
     "mars-research-protocol-designer",
     "mars-research-sourcer",
     "mars-research-inventorist",

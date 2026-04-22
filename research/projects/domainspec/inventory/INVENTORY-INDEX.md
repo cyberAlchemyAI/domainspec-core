@@ -1,7 +1,7 @@
 # Research Inventory Index
 
-**Last updated:** 2026-04-20
-**Entries:** 6
+**Last updated:** 2026-04-22
+**Entries:** 7
 **Total concepts:** 86
 **Total cross-context edges:** 94
 
@@ -67,6 +67,40 @@
 | 3 | collaboration-agilepm |
 | 5 | cargo-shipping, banking-finance, food-delivery |
 | 6 | ride-hailing, ecommerce-platform |
+
+---
+
+## E11 Source Linkage (Pin-Consistent)
+
+Link file: [e11-technique-specialization-sources.md](e11-technique-specialization-sources.md)
+
+Source IDs covered for E11 G3 readiness:
+
+- `SRC-SAGA-MICROSERVICESIO`
+- `SRC-SAGA-EVANS-BLUEBOOK`
+- `SRC-SAGA-CAMUNDA`
+- `SRC-OUTBOX-MICROSERVICESIO`
+- `SRC-CQRS-FOWLER`
+- `SRC-CQRS-AZURE`
+- `SRC-EVENTSOURCING-AZURE`
+- `SRC-COMPETING-CONSUMERS-AZURE`
+- `SRC-QUEUE-LEVELING-AZURE`
+- `SRC-LOAD-SHEDDING-AWS`
+- `SRC-TIMEOUT-RETRY-JITTER-AWS`
+- `SRC-BATCH-EIP`
+- `SRC-SPRING-BATCH`
+- `SRC-KAFKA-SEMANTICS`
+- `SRC-OPTIMISTIC-OFFLINE-LOCK`
+- `SRC-PESSIMISTIC-LOCKING-POSTGRES`
+- `SRC-LEASES-ETCD`
+- `SRC-RETRY-AZURE`
+- `SRC-CIRCUIT-BREAKER-AZURE`
+- `SRC-IDEMPOTENCY-STRIPE`
+- `SRC-DLQ-AZURE-SB`
+- `SRC-HEXAGONAL-ALISTAIR`
+- `SRC-STRANGLER-FOWLER`
+- `SRC-DDD-ACL-EVANS`
+- `SRC-VERNON-IDDD`
 
 ---
 

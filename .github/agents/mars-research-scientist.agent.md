@@ -59,6 +59,7 @@ agents:
     "mars-researcher",
     "domainspec-verifier",
     "domainspec-alignment-auditor",
+    "mars-research-orchestrator",
     "mars-research-sourcer",
     "mars-research-analyst",
     "mars-research-inventorist",
@@ -199,6 +200,7 @@ Alternatively, use the `mars-research-analyze` skill directly if you prefer inli
 - Use `mars-researcher` for focused technical decisions about framework mechanics.
 - Use `domainspec-verifier` for feature-level readiness checks that feed into case study data.
 - Use `domainspec-alignment-auditor` for spec-to-code alignment data that feeds into E2/E3.
+- Use `mars-research-orchestrator` to execute approved MARS runbooks with dependency-safe parallel subagent waves.
 - Use `mars-research-sourcer` for discovering, validating, and cataloging external data sources before experiment execution. Supports all entry types: domain-models (E1-E10), papers (E4, E7, E8, E11-E20), tool-evaluations (E17, E15), framework-architectures (E11-E13), role-definitions (E13, E16, E18).
 - Use `mars-research-analyst` for rigorous 10-step analysis of completed experiment data (integrity → statistics → hypothesis testing → subgroups → gap taxonomy → sensitivity → triangulation → validity threats → claim adjudication → synthesis).
 - Use `mars-research-inventorist` for retrieving pre-extracted knowledge entries (lookup), persisting new extractions (ingest/backfill), and checking inventory coverage (validate). Supports domain-models, paper-abstracts, tool-evaluations, framework-architectures, role-definitions. Always check inventory before re-fetching external sources.

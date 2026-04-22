@@ -10,7 +10,9 @@ Rules:
 
 Current lifecycle-critical agents:
 
+- `mars-research-orchestrator` — plan execution orchestration with parallel subagent waves
 - `mars-research-scientist` — orchestration and paper integration
+- `mars-research-interviewer` — greenfield and brownfield research-scope interviewing before protocol design
 - `mars-research-planner` — MARS-context planning and gate-ready execution decomposition
 - `mars-research-sourcer` — source discovery and quality gate
 - `mars-research-inventorist` — inventory readiness gate

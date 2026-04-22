@@ -53,6 +53,7 @@ domainspec-core/
 ## Three Research Tracks
 
 ### Track 1: Validate DomainSpec (E1-E10)
+
 **Claims:** C1–C4 in the research paper
 
 - **E1–E5:** Derivation determinism, test coverage, mutation testing
@@ -61,6 +62,7 @@ domainspec-core/
 **Validation gates:** All success criteria PASS per experiment; analyst 10-step review
 
 ### Track 2: Build Meta-Meta Framework (E11-E20)
+
 **Claims:** CM1–CM4 about generalizing governance to any agentic system
 
 - **E11–E15:** Governance signals, outer-loop feedback, multi-agent conversation
@@ -69,7 +71,9 @@ domainspec-core/
 **Validation gates:** Signal extraction works; agents improve based on feedback; human agreement > 80%
 
 ### Track 3: Integration & Scaling (E21+)
+
 **Apply both frameworks to:**
+
 - Non-software research domains (supply chain optimization, policy analysis)
 - Production-scale poker-team system with full agentic ADLC
 
@@ -79,16 +83,16 @@ domainspec-core/
 
 See [PHASED-PLAN.md](implementation/PHASED-PLAN.md) for full 8-phase roadmap.
 
-| Phase | Focus | Status |
-|-------|-------|--------|
-| 1 | Hypothesis validation (E1-E5) | 🔄 In progress |
-| 2 | Governance foundation (E6-E8, signals) | 🔄 In progress |
-| 3 | Composition stress testing (E9-E10) | ✅ E9 complete |
-| 4 | Agent role definitions (PO, QA, Dev, Stakeholder) | ⏳ Starting week 3 |
-| 5 | Feature discovery protocol (adversarial agents) | ⏳ Week 4 |
-| 6 | Multi-agent conversation (autonomous stories) | ⏳ Week 5-6 |
-| 7 | Autonomy & optimization (no human-in-loop) | ⏳ Week 7 |
-| 8 | Meta-governance loop (self-tuning) | ⏳ Week 8 |
+| Phase | Focus                                             | Status             |
+| ----- | ------------------------------------------------- | ------------------ |
+| 1     | Hypothesis validation (E1-E5)                     | 🔄 In progress     |
+| 2     | Governance foundation (E6-E8, signals)            | 🔄 In progress     |
+| 3     | Composition stress testing (E9-E10)               | ✅ E9 complete     |
+| 4     | Agent role definitions (PO, QA, Dev, Stakeholder) | ⏳ Starting week 3 |
+| 5     | Feature discovery protocol (adversarial agents)   | ⏳ Week 4          |
+| 6     | Multi-agent conversation (autonomous stories)     | ⏳ Week 5-6        |
+| 7     | Autonomy & optimization (no human-in-loop)        | ⏳ Week 7          |
+| 8     | Meta-governance loop (self-tuning)                | ⏳ Week 8          |
 
 ---
 

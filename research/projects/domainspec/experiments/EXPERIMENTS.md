@@ -25,6 +25,7 @@ Migration status:
 | E8  | Meta-Health Convergence               | C4 — M-001 orphan rate trends toward 0    | P1       | Low    | not started  | [E8](E8-meta-health-convergence/protocol.md)         |
 | E9  | Cross-Feature Composition Stress      | §9.2 — composition gaps                   | P2       | High   | ✅ completed + analyzed (run-1 + run-2 + rerun) | [E9](E9-cross-feature-composition/protocol.md)       |
 | E10 | Developer Productivity Comparison     | §9.4(d) — DomainSpec vs freeform          | P2       | High   | not started  | [E10](E10-developer-productivity/protocol.md)        |
+| E11 | Technique/Specialization Applicability | C2/C1 — reproducible cross-context technique decisions | P0 | High | planned | [E11](E11-technique-specialization/protocol.md) |
 
 ### Results & Data
 
@@ -80,6 +81,9 @@ Phase 4 (requires external work):
   E6  Vocabulary Sufficiency          ~12 hours  ✅ done
   E9  Cross-Feature Composition       ~4 hours   ✅ done (run-1 + run-2)
   E10 Developer Productivity          ~20 hours (needs external developers)
+
+Phase 5 (composition extension):
+  E11 Technique/Specialization Applicability ~16 hours (protocol ready, execution pending)
 ```
 
 ### Reporting
@@ -111,3 +115,4 @@ After each experiment completes, produce a summary in `experiments/<experiment-k
 | E8         | §3.4 (Meta-Circular Self-Governance) | Proves convergence claim                  |
 | E9         | §9.2 (Cross-Feature Composition)     | Advances future work into evidence        |
 | E10        | §9.4(d) (Controlled Experiments)     | Developer productivity claim              |
+| E11        | §9.2 + §5 boundary revision          | Tests specialization necessity, trade-offs, and reproducibility |
