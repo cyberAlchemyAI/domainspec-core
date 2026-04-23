@@ -26,3 +26,5 @@ This file is maintained by `mars-research-evidence-auditor`.
 - Update this file after each completed experiment analysis.
 - E11 bootstrap run artifacts were produced on 2026-04-22 for execution-pipeline validation; claim status remains unchanged pending manual dual-rater adjudication quality.
 - E11 D4-clearance preparation artifacts were produced on 2026-04-22 (manual run plan, adjudication worklist/template, inventory freshness check); claim status remains unchanged until manual evidence-grade run plus confirming rerun complete.
+- E11 manual D4 packet artifacts were started on 2026-04-23 (`run-lock`, manual run data, subset manifest, dual-rater files, third-rater resolution log section, confirming rerun, decision packet); strict policy preserved and claim statuses unchanged.
+- E7 longitudinal instrumentation started on 2026-04-23 with kickoff run artifact in the E7 bundle; this is accumulation-only evidence and does not yet change C3/C4 or MARS-C3/C4 status.
