@@ -4,8 +4,8 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-allow_branch_policy="${ALLOW_EXPERIMENT_BRANCH_POLICY:-0}"
-if [[ "$allow_branch_policy" == "1" ]]; then
+allow_skip_branch_policy_check="${ALLOW_EXPERIMENT_BRANCH_POLICY:-0}"
+if [[ "$allow_skip_branch_policy_check" == "1" ]]; then
   echo "[info] experiment branch policy check explicitly disabled (ALLOW_EXPERIMENT_BRANCH_POLICY=1)"
   exit 0
 fi
