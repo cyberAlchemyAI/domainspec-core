@@ -64,6 +64,7 @@ Same as E1-E10 (see poker-team EXPERIMENTS.md):
 - Structured results per experiment
 - Session isolation + reproducibility metadata
 - Wohlin 10-step analysis for all experiments
+- Branch isolation per experiment bundle: `experiment/<project-id>/<experiment-key>` (for example `experiment/meta-meta/E13-multi-agent-conversation-patterns`)
 
 ---
 

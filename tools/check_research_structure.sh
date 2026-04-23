@@ -133,6 +133,11 @@ if [[ "$violations" -gt 0 ]]; then
   exit 1
 fi
 
+if [[ -x "tools/check_experiment_branching.sh" ]]; then
+  echo
+  tools/check_experiment_branching.sh
+fi
+
 echo
 
 echo "[result] PASS (research project structure is valid)"

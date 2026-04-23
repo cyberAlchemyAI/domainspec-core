@@ -42,6 +42,7 @@ Migration status:
 2. **Session isolation.** Each experiment run uses a fresh agent session with a documented system prompt. No session carries over from a previous run.
 3. **Ground truth annotation.** For experiments requiring human judgment (E2, E4, E5), annotate with a structured rubric documented alongside the data.
 4. **Reproducibility.** Record the exact model version, temperature, system prompt hash, and DomainSpec version for every run.
+5. **Branch isolation.** Keep each experiment bundle on its own branch: `experiment/<project-id>/<experiment-key>` (for example `experiment/domainspec/E7-signal-emission-rate`).
 
 ### Metadata per Run
 
@@ -98,6 +99,12 @@ After each experiment completes, produce a summary in `experiments/<experiment-k
 - Visualizations (tables or ASCII charts)
 - Conclusions and impact on paper claims
 - Recommended paper revisions
+
+Branch policy check:
+
+```bash
+./tools/check_experiment_branching.sh
+```
 
 ---
 

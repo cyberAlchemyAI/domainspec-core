@@ -14,6 +14,7 @@ Scope: all new and modified experiments in this project.
 | BC4 | Raw run data must be append-only JSONL under `experiments/<experiment-key>/data/*.jsonl`. | G4 blocks when data is outside bundle or not JSONL. |
 | BC5 | Analysis outputs must be stored under `experiments/<experiment-key>/results/*.md`. | S8-S10 outputs are incomplete without results artifacts. |
 | BC6 | Legacy flat artifacts are migration-only and must not receive new writes. | Pull request review blocks new edits to legacy flat paths unless migration-only. |
+| BC7 | Each experiment bundle change must be isolated to one branch named `experiment/<project-id>/<experiment-key>` (optional suffix allowed). | `tools/check_experiment_branching.sh` blocks multi-experiment branches and branch-name mismatches. |
 
 ## Canonical Bundle Layout
 
@@ -31,6 +32,7 @@ experiments/
 Notes:
 - `<experiment-key>` should include stable ID plus slug (example: `E9-cross-feature-composition`).
 - Additional experiment-local files are allowed when they preserve traceability (for example `notes.md`, `charts/`).
+- Branch name format for experiment work: `experiment/<project-id>/<experiment-key>` (example: `experiment/domainspec/E9-cross-feature-composition`).
 
 ## No Compatibility Aliases
 
