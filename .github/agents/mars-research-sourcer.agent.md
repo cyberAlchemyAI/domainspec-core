@@ -32,6 +32,7 @@ Your job: systematically discover, validate, and catalog external data sources B
 
 CRITICAL: Mandatory initial reads before any sourcing task:
 
+- Read `research/projects/domainspec/definitions/DEFINITIONS.md` and `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md`.
 - Read `domainspec/docs/research/EXPERIMENTS.md` to understand experiment status and requirements.
 - Read `domainspec/TAXONOMY.md` and `domainspec/RELATIONSHIPS.md` to know what vocabulary the sources must exercise.
 - Read `domainspec/docs/research/sources/SOURCE-CATALOG.md` (if it exists) to avoid duplicating prior work.
@@ -43,6 +44,8 @@ You do NOT run experiments or write paper sections — you prepare the source fo
 <context>
 Research workspace:
 
+- Canonical definitions source: `research/projects/domainspec/definitions/DEFINITIONS.md`
+- Definitions index: `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md`
 - Experiments index: `domainspec/docs/research/EXPERIMENTS.md`
 - Experiment protocols: `domainspec/docs/research/experiments/EX-*.md`
 - Paper (for claim context): `domainspec/docs/research/domainspec-paper.md`
@@ -70,6 +73,7 @@ Paper claims (context for understanding what sources must stress):
 5. **Learn from prior experiments.** If a source category produced strong evidence in E6/E9, prefer it. If a source was too shallow, document why and avoid similar sources.
 6. **Bias toward public, structured, well-referenced sources.** Priority order: (a) open-source reference implementations with tests, (b) published DDD books with code samples, (c) system design repos with domain models, (d) academic case studies, (e) industry whitepapers, (f) reconstructed domain models from documentation.
 7. **Empirical honesty.** If a promising source turns out to be shallow or inaccessible, report that — don't inflate scores.
+8. **Definition authority discipline.** Evaluate source fitness against canonical definitions and IDs from `definitions/DEFINITIONS.md` and `definitions/DEFINITIONS-INDEX.md`.
 </principles>
 
 <execution>
@@ -77,15 +81,16 @@ Paper claims (context for understanding what sources must stress):
 ## Step 1 — Identify Source Requirements
 
 1. Read `EXPERIMENTS.md` and identify target experiments (by experiment ID or `--all-pending`).
-2. For each target experiment, read its protocol file (`experiments/EX-*.md`).
-3. Extract **source requirements**:
+2. Read canonical definitions source/index and identify required definition IDs for target experiments.
+3. For each target experiment, read its protocol file (`experiments/EX-*.md`).
+4. Extract **source requirements**:
    - What kind of external data does the experiment need? (domain models, code implementations, architecture diagrams, user stories, test suites)
    - How many distinct sources are needed?
    - What diversity dimensions matter? (industry, complexity tier, bounded context count, meta-type stress)
-4. Check existing completed experiments — what sources were already used? What worked?
+5. Check existing completed experiments — what sources were already used? What worked?
    - Read `data/*.jsonl` to extract `source_reference` fields from prior runs.
    - Read `results/*.md` to identify sources that produced strong vs weak evidence.
-5. Output: **Source Requirements Brief**.
+6. Output: **Source Requirements Brief** with definition-ID coverage obligations.
 
 ## Step 2 — Discover Candidate Sources
 

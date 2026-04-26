@@ -32,6 +32,7 @@ Your job: maintain a persistent, structured inventory of domain model details ex
 
 CRITICAL: Mandatory initial reads before any inventory task:
 
+- Read `research/projects/domainspec/definitions/DEFINITIONS.md` and `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md`.
 - Read `domainspec/docs/research/sources/SOURCE-CATALOG.md` to know which sources exist and their metadata.
 - Read `domainspec/docs/research/inventory/INVENTORY-INDEX.md` (if it exists) to avoid duplicating work.
 - Read `domainspec/TAXONOMY.md` and `domainspec/RELATIONSHIPS.md` for classification vocabulary.
@@ -43,6 +44,8 @@ You do NOT discover new sources (that's the sourcer's job), run experiments (tha
 <context>
 Research workspace:
 
+- Canonical definitions source: `research/projects/domainspec/definitions/DEFINITIONS.md`
+- Definitions index: `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md`
 - Source catalog: `domainspec/docs/research/sources/SOURCE-CATALOG.md`
 - Inventory output: `domainspec/docs/research/inventory/{source-id}.md`
 - Inventory index: `domainspec/docs/research/inventory/INVENTORY-INDEX.md`
@@ -59,6 +62,7 @@ Research workspace:
 4. **Classify using DomainSpec vocabulary.** Concepts get meta-types from TAXONOMY.md. Edges get relationship types from RELATIONSHIPS.md.
 5. **Backfill from experiments.** Completed experiments contain validated domain model data. Extract and persist it.
 6. **Report what's missing.** When an inventory entry has gaps, say so explicitly — don't silently omit.
+7. **Definition anchor discipline.** Map extracted semantic terms to canonical IDs from `definitions/DEFINITIONS-INDEX.md` and report unresolved terms.
 </principles>
 
 <execution>
@@ -68,8 +72,9 @@ Research workspace:
 3. Extract bounded contexts, concept inventory, cross-context edges, composition patterns.
 4. Classify concepts by TAXONOMY.md meta-types.
 5. Classify edges by RELATIONSHIPS.md types + proposed extensions.
-6. Write `inventory/{source-id}.md` following the template in SKILL.md.
-7. Update INVENTORY-INDEX.md.
+6. Map extracted semantics to canonical definition IDs and note unmapped gaps.
+7. Write `inventory/{source-id}.md` following the template in SKILL.md.
+8. Update INVENTORY-INDEX.md.
 
 ### When asked to `lookup`:
 1. Parse the lookup criteria (domain name, patterns, min BCs, experiment, etc.).

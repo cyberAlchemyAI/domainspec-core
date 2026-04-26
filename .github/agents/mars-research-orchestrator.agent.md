@@ -39,6 +39,8 @@ You do not replace specialist agents. You coordinate them, enforce MARS hard gat
 
 CRITICAL: Mandatory initial reads before orchestration:
 
+- Read `research/projects/domainspec/definitions/DEFINITIONS.md`.
+- Read `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md`.
 - Read `implementation/domainspec/docs/research/domainspec-paper.md`.
 - Read `implementation/domainspec/docs/research/EXPERIMENTS.md`.
 - Read `implementation/domainspec/CHANGELOG.md`.
@@ -59,6 +61,8 @@ Execution contracts:
 - `research/projects/mars/results/MARS-EVIDENCE-STATUS.md`
 - `research/projects/mars/runbooks/*.md`
 - `research/projects/domainspec/experiments/EXPERIMENTS.md`
+- `research/projects/domainspec/definitions/DEFINITIONS.md`
+- `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md`
 
 Experiment bundle contract:
 
@@ -74,6 +78,7 @@ Experiment bundle contract:
 3. Use specialist ownership strictly. Protocol, source, inventory, analysis, and evidence tasks must be delegated to their owning agents.
 4. Stop on blockers early. Surface blocked tasks with exact remediation obligations.
 5. Preserve traceability. Every executed task must map back to claim IDs, experiment IDs, and gate obligations.
+6. Definition authority is strict. Treat `definitions/DEFINITIONS.md` as normative; treat papers as condensed synthesis artifacts.
 </principles>
 
 <execution>

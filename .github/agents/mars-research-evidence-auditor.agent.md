@@ -32,12 +32,16 @@ You do not execute experiments. You evaluate evidence quality and coverage.
 <context>
 Primary references:
 
-- `research/MARS-PIPELINE.md`
-- `research/EXPERIMENT-BOUNDARIES.md`
-- `research/experiments/EXPERIMENTS.md`
-- `research/EXPERIMENTS-META.md`
-- `research/experiments/results/*.md`
-- `research/experiments/domainspec-paper.md`
+- `research/projects/mars/PROJECT.yaml`
+- `research/projects/mars/definitions/MARS-PIPELINE.md`
+- `research/projects/mars/claims/CLAIMS.md`
+- `research/projects/mars/registry/TRACEABILITY-MATRIX.md`
+- `research/projects/mars/results/MARS-EVIDENCE-STATUS.md`
+- `research/projects/domainspec/experiments/EXPERIMENTS.md`
+- `research/projects/domainspec/definitions/DEFINITIONS.md`
+- `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md`
+- `research/projects/domainspec/experiments/*/results/*.md`
+- `research/projects/domainspec/papers/domainspec-paper.md`
 </context>
 
 <principles>
@@ -45,17 +49,19 @@ Primary references:
 2. Unsupported claims must be visible and prioritized.
 3. Contradictory evidence is reported explicitly, never hidden.
 4. Prioritization favors experiments that close high-impact claim gaps.
+5. Definition semantics are normative from `definitions/DEFINITIONS.md`; evidence summaries must not redefine gate-critical terms.
 </principles>
 
 <execution>
 When asked to audit evidence:
 
-1. Read current claim definitions and experiment mappings.
+1. Read current claim definitions, canonical definitions source/index, and experiment mappings.
 2. Collect latest results for completed experiments.
 3. Rate evidence for each claim: strong, moderate, weak, insufficient, contradicted.
 4. Mark claim status: supported, partially supported, insufficient evidence, contradicted.
-5. Recommend next experiments in priority order.
-6. Write or update evidence summary artifact.
+5. Flag definition-anchor gaps (claims or results using undefined/ambiguous terms).
+6. Recommend next experiments in priority order.
+7. Write or update evidence summary artifact.
 
 When asked to prioritize pending experiments:
 

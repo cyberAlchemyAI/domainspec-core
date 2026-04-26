@@ -73,6 +73,8 @@ Your job: convert a MARS research goal and existing evidence artifacts into an e
 
 CRITICAL: Mandatory initial reads before planning
 
+- Read `research/projects/domainspec/definitions/DEFINITIONS.md`.
+- Read `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md`.
 - Read `implementation/domainspec/docs/research/domainspec-paper.md`.
 - Read `implementation/domainspec/docs/research/EXPERIMENTS.md`.
 - Read `implementation/domainspec/CHANGELOG.md`.
@@ -87,6 +89,7 @@ Core responsibilities:
 - Include explicit file paths and automated verification commands.
 - Keep the plan traceable to claim IDs and experiment IDs listed in MARS artifacts.
 - Include explicit validation tasks for required metadata fields and gate evidence.
+- Enforce definitions authority model: canonical definitions source first, definitions index lookup second, paper as condensed synthesis.
 - Trigger protocol validation before execution and evidence audit after analysis.
 - Delegate orchestration to GSD phase planning when complexity is medium/high.
 - Keep MARS governance semantics authoritative when GSD orchestration and MARS artifacts diverge.
@@ -102,6 +105,8 @@ Use these artifacts as contracts:
 - `research/projects/mars/definitions/MARS-PIPELINE.md`
 - `research/projects/mars/results/MARS-EVIDENCE-STATUS.md`
 - `research/projects/domainspec/experiments/EXPERIMENTS.md`
+- `research/projects/domainspec/definitions/DEFINITIONS.md`
+- `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md`
 
 Navigational artifacts for context discovery:
 
@@ -127,6 +132,7 @@ Navigational artifacts for context discovery:
   b. Source quality and pinning evidence present (G2)
   c. Inventory readiness evidence present (G3)
   d. Data integrity evidence present or planned (G4)
+  e. Canonical definitions source exists and protocol-level definition anchors are planned (G1)
 5. **Interactive methodology-decision round** (MANDATORY before task breakdown):
   - Enumerate every planning decision discovered in steps 1-4 with more than one viable option (tier selection, control strategy, source depth, sample plan, execution order, risk trade-offs).
   - Ask the user to choose for each decision using `vscode/askQuestions` with concrete options and trade-off descriptions.

@@ -48,7 +48,9 @@ Primary MARS references:
 
 Preferred output artifacts in the target research project:
 - `research/projects/<project>/PROJECT-OVERVIEW.md`
-- `research/projects/<project>/definitions/INITIAL-DEFINITIONS.md`
+- `research/projects/<project>/definitions/DEFINITIONS.md`
+- `research/projects/<project>/definitions/DEFINITIONS-INDEX.md`
+- `research/projects/<project>/definitions/INITIAL-DEFINITIONS.md` (optional working notes)
 - `research/projects/<project>/claims/HYPOTHESES.md`
 - `research/projects/<project>/experiments/EXPERIMENT-CANDIDATES.md`
 
@@ -67,6 +69,7 @@ If the target project already has a different canonical structure, preserve it.
 3. Counterarguments are mandatory. Every promising hypothesis needs a competing explanation.
 4. Separate proposition from claim. Early hypotheses are not validated evidence.
 5. Every experiment candidate must have a decision owner and a disconfirming outcome.
+6. Establish definition authority from day one: `definitions/DEFINITIONS.md` is normative, while papers are condensed synthesis artifacts.
 </principles>
 
 <execution>
@@ -88,7 +91,9 @@ If the target project already has a different canonical structure, preserve it.
 
 5. Produce artifacts.
    - Draft a project overview from `research/projects/mars/templates/project-overview-template.md`.
-   - Draft initial definitions and terminology from `research/projects/mars/templates/initial-definitions-template.md`.
+   - Draft canonical definitions in `definitions/DEFINITIONS.md` (authoritative semantics).
+   - Draft definitions index in `definitions/DEFINITIONS-INDEX.md` (ID lookup and traceability pointers).
+   - Optionally draft `definitions/INITIAL-DEFINITIONS.md` from `research/projects/mars/templates/initial-definitions-template.md` as ideation notes only.
    - Draft hypotheses with explicit counterarguments from `research/projects/mars/templates/hypotheses-template.md`.
    - Draft experiment candidates with claim linkage, signal, and invalidation conditions from `research/projects/mars/templates/experiment-candidates-template.md`.
 
@@ -113,7 +118,9 @@ Return a structured summary like:
 
 ### Artifacts
 - Project overview: <path>
-- Initial definitions: <path>
+- Canonical definitions: <path>
+- Definitions index: <path>
+- Initial definitions notes (optional): <path>
 - Hypotheses: <path>
 - Experiment candidates: <path>
 
