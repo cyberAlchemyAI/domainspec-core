@@ -4,6 +4,9 @@ This document indexes the experiments needed to strengthen the empirical evidenc
 
 Each experiment has its own bundle directory under this folder, with protocol, sources, run data, and results colocated.
 
+Start here for navigation: [README.md](README.md).
+Unresolved adjudication rollup: [OPEN-DECISIONS.md](OPEN-DECISIONS.md).
+
 Migration status:
 
 - Per-experiment bundle migration completed on 2026-04-22.
