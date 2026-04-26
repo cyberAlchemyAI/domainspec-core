@@ -2,6 +2,18 @@
 
 This rollout converts the research lifecycle from partially manual to fully owned.
 
+## Canonical Asset Ownership
+
+- Canonical MARS definitions/contracts: `implementation/mars/definitions/*`
+- Canonical MARS templates: `implementation/mars/templates/*`
+- Research projection and evidence execution: `research/projects/mars/**`
+
+Projection refresh command:
+
+```bash
+./tools/sync_mars_canonical_assets.sh
+```
+
 ## Lifecycle Coverage Snapshot
 
 | Lifecycle step | Current owner | Status |
@@ -10,8 +22,26 @@ This rollout converts the research lifecycle from partially manual to fully owne
 | Inventory extraction and lookup | Inventorist | Covered |
 | Execution orchestration | Orchestrator + Scientist | Covered |
 | Data analysis and validity assessment | Analyst | Covered |
-| Protocol design governance | Missing | Gap |
-| Claim evidence governance | Missing | Gap |
+| Protocol design governance | Protocol Designer | Covered |
+| Claim evidence governance | Evidence Auditor | Covered |
+
+## Reusable Pattern Translation (DomainSpec Pass)
+
+Full-pass source:
+
+- `runbooks/DOMAINSPEC-REUSABLE-PATTERN-TRANSLATION-2026-04-26.md`
+
+Immediate skill translations approved:
+
+| Pattern | Translation | Owner | Priority |
+|---|---|---|---|
+| Authority source governance (pins/waivers/linkage) | `.github/skills/mars-research-authority-governance/SKILL.md` | Sourcer | P0 |
+| Brownfield knowledge-stack normalization | `.github/skills/mars-research-knowledge-stack-normalization/SKILL.md` | Planner | P0 |
+
+Queued next translations:
+
+- Context bundle governance skill (P1)
+- Gate preflight skill for protocol-local executable checks (P2)
 
 ## New Agents to Add First
 
@@ -97,8 +127,8 @@ The MARS rollout reuses proven planning, execution, and context patterns:
 ## Foundation Dry-Run Reference
 
 - Protocol artifact: `experiments/MARS-DRY-RUN-E1-foundation/protocol.md`
-- Gate policy: `definitions/INVENTORY-READINESS-GATE.md`
-- Multi-source policy: `definitions/MULTI-SOURCE-CONTEXT-PATTERN.md`
+- Gate policy (canonical): `implementation/mars/definitions/INVENTORY-READINESS-GATE.md`
+- Multi-source policy (canonical): `implementation/mars/definitions/MULTI-SOURCE-CONTEXT-PATTERN.md`
 - Bundle migration plan: `runbooks/EXPERIMENT-BUNDLE-MIGRATION-PLAN.md`
 
 Expected dry-run outcome:

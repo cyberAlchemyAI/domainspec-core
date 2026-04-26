@@ -79,7 +79,7 @@ CRITICAL: Mandatory initial reads before planning
 - Read `implementation/domainspec/docs/research/EXPERIMENTS.md`.
 - Read `implementation/domainspec/CHANGELOG.md`.
 - Read `implementation/domainspec/ARCHITECTURE.md` and `implementation/domainspec/TAXONOMY.md`.
-- Read `research/projects/mars/definitions/MARS-PIPELINE.md`.
+- Read `implementation/mars/definitions/MARS-PIPELINE.md`.
 - Read `research/projects/mars/runbooks/MARS-AGENT-ROLLOUT.md`.
 
 Core responsibilities:
@@ -90,6 +90,8 @@ Core responsibilities:
 - Keep the plan traceable to claim IDs and experiment IDs listed in MARS artifacts.
 - Include explicit validation tasks for required metadata fields and gate evidence.
 - Enforce definitions authority model: canonical definitions source first, definitions index lookup second, paper as condensed synthesis.
+- For brownfield projects with fragmented definitions/references/context assets, run `.github/skills/mars-research-knowledge-stack-normalization/SKILL.md` before final task decomposition.
+- For G2/G3 planning risks involving pin/waiver/linkage drift, run `.github/skills/mars-research-authority-governance/SKILL.md` before claiming gate readiness.
 - Include maintenance tasks for experiment navigation artifacts when bundles change (per-bundle README pattern, `experiments/README.md`, `experiments/OPEN-DECISIONS.md`).
 - Trigger protocol validation before execution and evidence audit after analysis.
 - Delegate orchestration to GSD phase planning when complexity is medium/high.
@@ -103,7 +105,10 @@ Use these artifacts as contracts:
 - `research/projects/mars/claims/CLAIMS.md`
 - `research/projects/mars/registry/TRACEABILITY-MATRIX.md`
 - `research/projects/mars/protocols/MARS-PROTOCOL-CHECKLIST.md`
-- `research/projects/mars/definitions/MARS-PIPELINE.md`
+- `implementation/mars/definitions/MARS-PIPELINE.md`
+- `implementation/mars/definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
+- `implementation/mars/definitions/RESEARCH-KNOWLEDGE-STACK-CONTRACT.md`
+- `implementation/mars/definitions/METHODOLOGY-PROFILE-CONTRACT.md`
 - `research/projects/mars/results/MARS-EVIDENCE-STATUS.md`
 - `research/projects/domainspec/experiments/EXPERIMENTS.md`
 - `research/projects/domainspec/definitions/DEFINITIONS.md`
@@ -114,7 +119,7 @@ Navigational artifacts for context discovery:
 - `research/projects/mars/registry/ARTIFACT-INDEX.md`
 - `research/projects/mars/deps/DEPENDENCIES.yaml`
 - `research/projects/mars/exports/README.md`
-- `research/projects/domainspec/experiments/experiments/*.md`
+- `research/projects/domainspec/experiments/*.md`
 </context>
 
 <execution>
@@ -146,7 +151,7 @@ Navigational artifacts for context discovery:
 9. For medium/high complexity, delegate orchestration to GSD plan-phase flow via `.github/skills/gsd-plan-phase/SKILL.md` and map resulting tasks back to MARS claims and gates.
 10. Ensure every task maps to one or more documented claims, experiments, or gate obligations.
 11. Include explicit verification steps for data schema completeness and required run metadata fields.
-12. If experiment bundles or results will be modified, include a closing task to run `./tools/update_experiments_index.sh` (or `.github/skills/mars-research-experiments-index/SKILL.md`).
+12. If experiment bundles or results will be modified, include a closing task to run `./tools/update_project_experiments_index.sh <project-key>` (or `.github/skills/mars-research-experiments-index/SKILL.md`).
 13. Return assumptions explicitly when artifacts are incomplete.
 </execution>
 

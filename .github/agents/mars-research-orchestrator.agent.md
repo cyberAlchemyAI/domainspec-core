@@ -45,7 +45,7 @@ CRITICAL: Mandatory initial reads before orchestration:
 - Read `implementation/domainspec/docs/research/EXPERIMENTS.md`.
 - Read `implementation/domainspec/CHANGELOG.md`.
 - Read `implementation/domainspec/ARCHITECTURE.md` and `implementation/domainspec/TAXONOMY.md`.
-- Read `research/projects/mars/definitions/MARS-PIPELINE.md`.
+- Read `implementation/mars/definitions/MARS-PIPELINE.md`.
 - Read `research/projects/mars/runbooks/MARS-AGENT-ROLLOUT.md`.
 - Read the target execution plan/runbook requested by the user.
 </role>
@@ -57,21 +57,21 @@ Execution contracts:
 - `research/projects/mars/claims/CLAIMS.md`
 - `research/projects/mars/registry/TRACEABILITY-MATRIX.md`
 - `research/projects/mars/protocols/MARS-PROTOCOL-CHECKLIST.md`
-- `research/projects/mars/definitions/MARS-PIPELINE.md`
+- `implementation/mars/definitions/MARS-PIPELINE.md`
 - `research/projects/mars/results/MARS-EVIDENCE-STATUS.md`
 - `research/projects/mars/runbooks/*.md`
-- `research/projects/domainspec/experiments/EXPERIMENTS.md`
-- `research/projects/domainspec/experiments/README.md`
-- `research/projects/domainspec/experiments/OPEN-DECISIONS.md`
-- `research/projects/domainspec/definitions/DEFINITIONS.md`
-- `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md`
+- `research/projects/<project>/experiments/EXPERIMENTS.md`
+- `research/projects/<project>/experiments/README.md`
+- `research/projects/<project>/experiments/OPEN-DECISIONS.md`
+- `research/projects/<project>/definitions/DEFINITIONS.md`
+- `research/projects/<project>/definitions/DEFINITIONS-INDEX.md`
 
 Experiment bundle contract:
 
-- `research/projects/domainspec/experiments/<experiment-key>/protocol.md`
-- `research/projects/domainspec/experiments/<experiment-key>/sources.md`
-- `research/projects/domainspec/experiments/<experiment-key>/data/*.jsonl`
-- `research/projects/domainspec/experiments/<experiment-key>/results/*.md`
+- `research/projects/<project>/experiments/<experiment-key>/protocol.md`
+- `research/projects/<project>/experiments/<experiment-key>/sources.md`
+- `research/projects/<project>/experiments/<experiment-key>/data/*.jsonl`
+- `research/projects/<project>/experiments/<experiment-key>/results/*.md`
 </context>
 
 <principles>
@@ -115,6 +115,7 @@ When asked to execute a plan:
 - G1 must pass before any execution-stage tasks.
 - G2 and G3 must pass before data capture (S7).
 - G4 must pass before deep analysis and claim updates.
+- If G2/G3 failures are caused by authority pin/waiver/linkage drift, execute `.github/skills/mars-research-authority-governance/SKILL.md` remediation before releasing downstream tasks.
 - If a gate fails, mark downstream tasks blocked and emit remediation list.
 
 6. Consolidation after each wave
@@ -122,7 +123,7 @@ When asked to execute a plan:
 - Recompute remaining graph and launch next eligible wave.
 
 7. Completion
-- If execution modified experiment bundle artifacts, run `./tools/update_experiments_index.sh` (or `.github/skills/mars-research-experiments-index/SKILL.md`) before final summary.
+- If execution modified experiment bundle artifacts, run `./tools/update_project_experiments_index.sh <project-key>` (or `.github/skills/mars-research-experiments-index/SKILL.md`) before final summary.
 - Emit final execution summary with gate outcomes, artifacts produced, claim/evidence updates, and next command-level actions.
 
 When asked to plan execution (without running):
