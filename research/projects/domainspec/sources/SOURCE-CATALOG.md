@@ -147,7 +147,29 @@ Master catalog of validated external data sources used across experiments.
 | Geographic spread | Primarily US/EU business models | ⚠️ Limited |
 
 ### Known Gaps (for future experiments)
-1. **No Category D sources** — need academic case studies for credibility in paper §7 (Evaluation)
-2. **No Category F sources** — industry standards (HL7 FHIR, ISO 20022) would add regulatory complexity dimension
-3. **System design sources require reconstruction** — domain models are implicit, creating reproducibility risk
-4. **No version pins** — repos could change; need to record commit SHAs for reproducibility
+1. **Domain-model Category D/F remains thin** — paper/method authorities are cataloged, but domain-model case-study and industry-standard domain-model sources are still limited.
+2. **System design sources require reconstruction** — domain models are implicit, creating reproducibility risk.
+3. **Repository hard pins incomplete** — several GitHub entries still need commit-SHA level pinning for reproducibility.
+
+---
+
+## Wave 2026-04-26 Normalization Extension
+
+The authority-source normalization wave expands the catalog with paper/method authorities and E11 operational technique sources.
+
+Canonical extension file:
+
+- `sources/AUTHORITY-SOURCES-2026-04-26.md`
+
+Coverage summary:
+
+| Extension Scope | Entries | Operationalized | Waived |
+|---|---:|---:|---:|
+| Paper bibliography authorities | 32 refs (31 unique) | 26 | 6 |
+| Methodology authorities | 4 | 4 | 0 |
+| E11 operational technique sources | 25 | 24 | 1 |
+
+Notes:
+
+1. Waived entries use explicit temporary waivers and are tracked in `sources/REFERENCE-WAIVERS.md`.
+2. E11 source IDs and pins are synchronized with `experiments/E11-technique-specialization/sources.md` and `inventory/e11-technique-specialization-sources.md`.

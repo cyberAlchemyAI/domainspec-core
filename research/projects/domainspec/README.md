@@ -41,10 +41,10 @@ Scoring note:
 | Lane | Expected Outcome | Current State | Status |
 |---|---|---|---|
 | Project contract | PROJECT, claims, dependencies, registry, telemetry schema | Present | complete |
-| Governance definitions | experiment index, protocol specs, and constitution ([E1](experiments/E1-derivation-determinism/protocol.md) through [E11](experiments/E11-technique-specialization/protocol.md)) | Present | complete |
+| Governance definitions | experiment index, methodology profile, definitions index, protocol checklist, and constitution | Present | complete |
 | Execution evidence | experiment specs, live data files, analysis outputs | [E6](experiments/E6-vocabulary-sufficiency/protocol.md) and [E9](experiments/E9-cross-feature-composition/protocol.md) have data/results; most experiments still pending | in progress |
-| Source and inventory | source selection and inventory coverage for active experiments | Source catalog and inventory entries exist, but not complete for all scheduled runs | in progress |
-| Claim adjudication | claim-level status updates from experiment evidence | [C2](claims/CLAIMS.md) partially supported; [C1](claims/CLAIMS.md)/[C3](claims/CLAIMS.md)/[C4](claims/CLAIMS.md) still insufficient | in progress |
+| Source and inventory | source selection, reference ledger, and inventory coverage for active experiments | Source catalog and inventory entries exist, but not complete for all scheduled runs | in progress |
+| Claim adjudication | claim-level status updates from experiment evidence | Evidence matrix established; [C2](claims/CLAIMS.md) partially supported; [C1](claims/CLAIMS.md)/[C3](claims/CLAIMS.md)/[C4](claims/CLAIMS.md) still insufficient | in progress |
 | Publication | paper updates and retrospective outputs | Paper exists but evidence integration remains partial | in progress |
 | Exports | reusable published claim/method artifacts | Claims and methods exports published | complete |
 
@@ -66,6 +66,7 @@ High-signal completed work:
 4. Execute [E11](experiments/E11-technique-specialization/protocol.md) to test specialization necessity, trade-offs, and reproducibility after E9.
 5. Standardize per-experiment source and inventory artifacts for every pending run, not only [E6](experiments/E6-vocabulary-sufficiency/protocol.md)/[E9](experiments/E9-cross-feature-composition/protocol.md).
 6. Integrate completed evidence deltas into the paper narrative and claim-strength framing.
+7. Resolve temporary waiver pins in `sources/REFERENCE-WAIVERS.md` and, when needed, split clustered authority inventory entries into per-source deep extracts.
 
 ## Claim Coverage Summary
 
@@ -84,12 +85,18 @@ Interpretation:
 
 - Project manifest: `PROJECT.yaml`
 - Constitution: `definitions/CONSTITUTION.md`
+- Methodology profile: `definitions/METHODOLOGY-PROFILE.md`
+- Definitions index: `definitions/DEFINITIONS-INDEX.md`
+- Protocol checklist: `protocols/DOMAINSPEC-PROTOCOL-CHECKLIST.md`
 - Experiment index: `experiments/EXPERIMENTS.md`
 - Claims: `claims/CLAIMS.md`
 - Dependencies: `deps/DEPENDENCIES.yaml`
 - Artifact index: `registry/ARTIFACT-INDEX.md`
 - Traceability matrix: `registry/TRACEABILITY-MATRIX.md`
 - Paper: `papers/domainspec-paper.md`
+- Reference ledger: `sources/REFERENCE-LEDGER.md`
+- Evidence matrix: `results/DOMAINSPEC-EVIDENCE-STATUS.md`
+- Experiment context bundles: `experiments/*/context.md`
 - Evidence outputs: `experiments/*/results/*.md` and `experiments/*/data/*.jsonl`
 
 ## Dependency Policy

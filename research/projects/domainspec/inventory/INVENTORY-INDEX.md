@@ -1,7 +1,7 @@
 # Research Inventory Index
 
-**Last updated:** 2026-04-22
-**Entries:** 7
+**Last updated:** 2026-04-26
+**Entries:** 11
 **Total concepts:** 86
 **Total cross-context edges:** 94
 
@@ -17,6 +17,17 @@
 | GH-eShopOnContainers | [ecommerce-platform.md](ecommerce-platform.md) | E-commerce Platform | 6 | 15 | 16 | P1–P6 | high | E6, E9 |
 | SD-Banking | [banking-finance.md](banking-finance.md) | Banking & Finance | 5 | 14 | 16 | P1–P5 | moderate | E9 |
 | SD-FoodDelivery | [food-delivery.md](food-delivery.md) | Food Delivery Marketplace | 5 | 16 | 16 | P1–P5 | moderate | E9 |
+
+---
+
+## Authority Entries (Paper/Method/Framework)
+
+| Source Cluster | File | Entry Type | Scope | Status |
+|---|---|---|---|---|
+| Methodology authorities | [authority-methodology.md](authority-methodology.md) | paper-abstract | Wohlin/GQM/triangulation/guidelines | operationalized |
+| Governance and cybernetics authorities | [authority-governance-and-cybernetics.md](authority-governance-and-cybernetics.md) | paper-abstract | C3/C4 attenuation and intervention theory | operationalized |
+| Derivation and formal-method authorities | [authority-derivation-and-formal-methods.md](authority-derivation-and-formal-methods.md) | paper-abstract | C2 deterministic derivation comparison set | operationalized |
+| Architecture and meta-governance authorities | [authority-architecture-and-meta-governance.md](authority-architecture-and-meta-governance.md) | framework-architecture | C1/C4 architecture and governance framing | operationalized (with waivers) |
 
 ---
 
@@ -111,4 +122,4 @@ Source IDs covered for E11 G3 readiness:
 | No E6-only domains inventoried | E6 used 18 domains; only 6 shared with E9 are inventoried | Backfill from E6 JSONL (12 domains) |
 | No poker-team inventory | E9 run-1 used the live codebase; no persistent domain model extraction | Ingest from `docs/features/` and `backend/src/domain/` |
 | System design sources lack version pins | ride-hailing, banking, food-delivery have no commit SHA | Pin on next access |
-| No Category D/E/F sources | Academic papers, event models, industry whitepapers not yet inventoried | Needed for future experiments |
+| Authority clusters are grouped, not per-source files | 32 paper references are inventory-linked by cluster instead of one-file-per-source | Split into per-source entries if an experiment needs source-level deep extraction |
