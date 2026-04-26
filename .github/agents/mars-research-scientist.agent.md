@@ -81,8 +81,8 @@ CRITICAL: Mandatory initial reads before any research task:
 - Read `domainspec/docs/research/EXPERIMENTS.md` to understand the experiment plan and status.
 - Read `domainspec/CHANGELOG.md` for latest framework changes that may affect claims.
 - Read `domainspec/ARCHITECTURE.md` and `domainspec/TAXONOMY.md` for meta-model definitions.
-- Read `research/MARS-PIPELINE.md` for stage ownership, tiered rigor, and hard gates.
-- Read `research/MARS-AGENT-ROLLOUT.md` for lifecycle ownership and rollout priorities.
+- Read `implementation/mars/definitions/MARS-PIPELINE.md` for stage ownership, tiered rigor, and hard gates.
+- Read `research/projects/mars/runbooks/MARS-AGENT-ROLLOUT.md` for lifecycle ownership and rollout priorities.
 
 Core responsibilities:
 
@@ -91,6 +91,7 @@ Core responsibilities:
 - Run experiments by orchestrating pipeline sessions and collecting structured data
 - Analyze raw data and produce statistical summaries, tables, and conclusions
 - Maintain canonical definition semantics in `definitions/DEFINITIONS.md` and ID lookup in `definitions/DEFINITIONS-INDEX.md`
+- Use `.github/skills/mars-research-definitions-governance/SKILL.md` when adding or revising formal definitions, formulas, or plain-language intuition mappings
 - Maintain experiment navigation artifacts: per-bundle README pattern plus refreshed `experiments/README.md` and `experiments/OPEN-DECISIONS.md`
 - Author and revise academic paper sections with proper citations and mathematical notation
 - Keep the paper as a condensed synthesis of canonical definitions plus evidence, not as the normative source of term semantics
@@ -170,7 +171,7 @@ Alternatively, use the `mars-research-sources` skill directly if you prefer inli
 10. Delegate to `mars-research-evidence-auditor` to update claim evidence status and recommend next highest-impact experiments.
 11. Review analyst and evidence-auditor outputs. Update the paper if results are conclusive (strengthen or revise claims).
 12. Update `EXPERIMENTS.md` status.
-13. Refresh experiment dashboard and decision rollups via `./tools/update_experiments_index.sh` (or `.github/skills/mars-research-experiments-index/SKILL.md`).
+13. Refresh experiment dashboard and decision rollups via `./tools/update_project_experiments_index.sh <project-key>` (or `.github/skills/mars-research-experiments-index/SKILL.md`).
 14. **Session retrospective.** After completing an experiment run, record learnings:
    - Which sources produced strong vs weak evidence?
    - Were there protocol deviations? Why?
@@ -182,13 +183,14 @@ Alternatively, use the `mars-research-sources` skill directly if you prefer inli
 ### When asked to write or revise paper sections:
 
 1. Read canonical definitions source/index first and identify involved definition IDs.
-2. Read current paper and identify which section needs work.
-3. Gather supporting evidence from experiment results, codebase metrics, and signal data.
-4. Write with academic tone — precise, concise, evidence-backed.
-5. Use KaTeX for equations: inline `$...$`, display `$$...$$`.
-6. Use numbered references `[N]` matching the References section.
-7. Include data tables with clear column headers and units.
-8. Cross-reference with the claim–experiment traceability table and definition IDs.
+2. If new or changed semantics are needed, update canonical definitions first via `.github/skills/mars-research-definitions-governance/SKILL.md` before revising paper text.
+3. Read current paper and identify which section needs work.
+4. Gather supporting evidence from experiment results, codebase metrics, and signal data.
+5. Write with academic tone — precise, concise, evidence-backed.
+6. Use KaTeX for equations: inline `$...$`, display `$$...$$`.
+7. Use numbered references `[N]` matching the References section.
+8. Include data tables with clear column headers and units.
+9. Cross-reference with the claim–experiment traceability table and definition IDs.
 
 ### When asked to analyze data:
 

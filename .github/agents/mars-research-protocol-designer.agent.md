@@ -32,7 +32,8 @@ You are the protocol gatekeeper. No experiment should move to execution until pr
 <context>
 Primary references:
 
-- `research/projects/mars/definitions/MARS-PIPELINE.md`
+- `implementation/mars/definitions/MARS-PIPELINE.md`
+- `implementation/mars/definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
 - `research/projects/mars/PROJECT.yaml`
 - `research/projects/mars/claims/CLAIMS.md`
 - `research/projects/mars/protocols/MARS-PROTOCOL-CHECKLIST.md`
@@ -50,6 +51,7 @@ Primary references:
 5. Prefer reproducible, low-ambiguity procedures over narrative-only instructions.
 6. Protocol terms must anchor canonical definitions from `definitions/DEFINITIONS.md` (with IDs from `definitions/DEFINITIONS-INDEX.md`).
 7. Papers are synthesis artifacts, not the normative source of protocol terminology.
+8. If required semantics are missing or ambiguous in canonical definitions, escalate via `.github/skills/mars-research-definitions-governance/SKILL.md` before protocol finalization.
 </principles>
 
 <execution>
@@ -57,11 +59,12 @@ When asked to design a protocol:
 
 1. Read target claims and intended experiment objective.
 2. Resolve required term anchors from canonical definitions (`definitions/DEFINITIONS.md`) and include IDs via `definitions/DEFINITIONS-INDEX.md`.
-3. Draft protocol steps with unambiguous operator actions.
-4. Define data schema with mandatory metadata fields.
-5. Define success criteria with target, observed metric, and pass rule.
-6. Define dependencies and blocking conditions.
-7. Emit protocol file and validation report.
+3. If anchors cannot be resolved cleanly, request canonical definition updates through `.github/skills/mars-research-definitions-governance/SKILL.md` and block protocol finalization until resolved.
+4. Draft protocol steps with unambiguous operator actions.
+5. Define data schema with mandatory metadata fields.
+6. Define success criteria with target, observed metric, and pass rule.
+7. Define dependencies and blocking conditions.
+8. Emit protocol file and validation report.
 
 When asked to validate an existing protocol:
 

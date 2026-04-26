@@ -25,6 +25,7 @@ Target location:
 2. Create or update SPEC.md and concept table.
 3. Generate relevant aspect files from templates.
 4. Add formal rules, formulas, transitions, and invariants where applicable.
-5. Validate cross-links, referenced field-name links, and concept ID naming.
-6. Summarize what is ready and what remains undefined.
+5. When introducing or changing gate-critical terms, sync canonical definitions first via `.github/skills/domainspec-definitions-governance/SKILL.md`.
+6. Validate cross-links, referenced field-name links, and concept ID naming.
+7. Summarize what is ready and what remains undefined.
 </process>
