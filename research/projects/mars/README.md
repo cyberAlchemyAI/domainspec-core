@@ -81,7 +81,7 @@ Scoring note:
 | Project contract | PROJECT, claims, dependencies, registry, telemetry schema | Present | complete |
 | Governance definitions | pipeline + gate policies + protocol checklist | Present | complete |
 | Execution evidence | experiment specs, live data files, integrity/analysis outputs | Dry run exists; no live JSONL data yet | in progress |
-| Source and inventory | source selection artifacts and inventory coverage | `sources/` and `inventory/` not populated | missing |
+| Source and inventory | source selection artifacts and inventory coverage | methodology authority baseline is seeded; experiment-specific coverage pending | in progress |
 | Claim adjudication | claim evidence updates from completed analyses | Evidence file exists, mostly insufficient/partial support | in progress |
 | Publication | paper updates and retrospective outputs | `papers/` empty | missing |
 | Exports | reusable methods/claim exports for downstream consumers | Present | complete |
@@ -99,8 +99,8 @@ From the latest dry run (`experiments/MARS-DRY-RUN-E1-foundation/protocol.md`):
 
 ## What Is Missing Right Now
 
-1. Populate `sources/` with source-selection and quality-gate artifacts for the next live run.
-2. Populate `inventory/` with required inventory entries and readiness report.
+1. Expand `sources/` beyond methodology authorities with experiment-specific source selections.
+2. Expand `inventory/` beyond baseline authority entries with experiment readiness reports.
 3. Execute at least one live foundation run and write JSONL outputs under `experiments/<experiment-key>/data/`.
 4. Produce integrity and analysis outputs tied to that live run.
 5. Update claim evidence statuses from live-run analysis, not just inherited upstream evidence.
@@ -123,8 +123,16 @@ Interpretation:
 
 - Project manifest: `PROJECT.yaml`
 - Pipeline definition: `definitions/MARS-PIPELINE.md`
+- Methodology contract: `definitions/METHODOLOGY-PROFILE-CONTRACT.md`
+- Knowledge stack contract: `definitions/RESEARCH-KNOWLEDGE-STACK-CONTRACT.md`
+- Definitions index: `definitions/DEFINITIONS-INDEX.md`
 - Experiment bundle contract: `definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
 - Protocol checklist: `protocols/MARS-PROTOCOL-CHECKLIST.md`
+- Source catalog: `sources/SOURCE-CATALOG.md`
+- Reference ledger: `sources/REFERENCE-LEDGER.md`
+- Inventory index: `inventory/INVENTORY-INDEX.md`
+- Experiment methodology: `experiments/*/methodology.md`
+- Experiment context bundle: `experiments/*/context.md`
 - Claims: `claims/CLAIMS.md`
 - Dependencies: `deps/DEPENDENCIES.yaml`
 - Artifact index: `registry/ARTIFACT-INDEX.md`
@@ -135,8 +143,10 @@ Interpretation:
 
 Each experiment must keep protocol, source selection, run data, and results under its own bundle directory:
 
+- `experiments/<experiment-key>/methodology.md`
 - `experiments/<experiment-key>/protocol.md`
 - `experiments/<experiment-key>/sources.md`
+- `experiments/<experiment-key>/context.md`
 - `experiments/<experiment-key>/data/*.jsonl`
 - `experiments/<experiment-key>/results/*.md`
 

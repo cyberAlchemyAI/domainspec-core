@@ -9,19 +9,23 @@ Scope: all new and modified experiments in this project.
 | Rule ID | Rule | Enforcement |
 |---|---|---|
 | BC1 | Every experiment uses its own bundle directory under `experiments/<experiment-key>/`. | Protocol review blocks when bundle directory is missing. |
-| BC2 | Protocol file must be `experiments/<experiment-key>/protocol.md`. | G1 cannot pass without canonical protocol path. |
-| BC3 | Source selection file must be `experiments/<experiment-key>/sources.md`. | G2 cannot pass without canonical source-selection path. |
-| BC4 | Raw run data must be append-only JSONL under `experiments/<experiment-key>/data/*.jsonl`. | G4 blocks when data is outside bundle or not JSONL. |
-| BC5 | Analysis outputs must be stored under `experiments/<experiment-key>/results/*.md`. | S8-S10 outputs are incomplete without results artifacts. |
-| BC6 | Legacy flat artifacts are migration-only and must not receive new writes. | Pull request review blocks new edits to legacy flat paths unless migration-only. |
+| BC2 | Methodology profile file must be `experiments/<experiment-key>/methodology.md`. | G1 cannot pass without canonical methodology path. |
+| BC3 | Protocol file must be `experiments/<experiment-key>/protocol.md`. | G1 cannot pass without canonical protocol path. |
+| BC4 | Source selection file must be `experiments/<experiment-key>/sources.md`. | G2 cannot pass without canonical source-selection path. |
+| BC5 | Context bundle file must be `experiments/<experiment-key>/context.md`. | Execution readiness is incomplete without context synthesis artifact. |
+| BC6 | Raw run data must be append-only JSONL under `experiments/<experiment-key>/data/*.jsonl`. | G4 blocks when data is outside bundle or not JSONL. |
+| BC7 | Analysis outputs must be stored under `experiments/<experiment-key>/results/*.md`. | S8-S10 outputs are incomplete without results artifacts. |
+| BC8 | Legacy flat artifacts are migration-only and must not receive new writes. | Pull request review blocks new edits to legacy flat paths unless migration-only. |
 
 ## Canonical Bundle Layout
 
 ```
 experiments/
   <experiment-key>/
+    methodology.md
     protocol.md
     sources.md
+    context.md
     data/
       run-YYYY-MM-DD[-suffix].jsonl
     results/

@@ -7,6 +7,11 @@ This checklist is used by `mars-research-protocol-designer` before any experimen
 | Check | Pass/Fail | Notes |
 |---|---|---|
 | Objective and claim mapping defined |  |  |
+| Methodology profile exists (`experiments/<experiment-key>/methodology.md`) |  |  |
+| Methodology tier and protocol tier are consistent |  |  |
+| Protocol terms are anchored in `definitions/DEFINITIONS-INDEX.md` |  |  |
+| Authoritative citations are registered in `sources/REFERENCE-LEDGER.md` |  |  |
+| Context bundle path is declared (`experiments/<experiment-key>/context.md`) |  |  |
 | Hypothesis or success criteria are measurable |  |  |
 | Required data schema fields are defined |  |  |
 | Metadata fields are complete (`experiment_id`, `run_id`, `timestamp`, `model`, `operator`) |  |  |
