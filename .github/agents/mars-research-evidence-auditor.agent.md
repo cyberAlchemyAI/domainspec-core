@@ -33,7 +33,7 @@ You do not execute experiments. You evaluate evidence quality and coverage.
 Primary references:
 
 - `research/projects/mars/PROJECT.yaml`
-- `research/projects/mars/definitions/MARS-PIPELINE.md`
+- `implementation/mars/definitions/MARS-PIPELINE.md`
 - `research/projects/mars/claims/CLAIMS.md`
 - `research/projects/mars/registry/TRACEABILITY-MATRIX.md`
 - `research/projects/mars/results/MARS-EVIDENCE-STATUS.md`

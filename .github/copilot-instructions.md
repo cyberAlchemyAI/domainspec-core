@@ -16,6 +16,7 @@ This repository is the research orchestration root for the 3-repo DomainSpec top
 ## Ownership model
 
 - Type A canonical DomainSpec pack: `implementation/domainspec/copilot`
+- Type A canonical MARS reusable assets: `implementation/mars`
 - Type B research orchestration assets: `domainspec-core/.github`
 - Type C project-local overlays: consumer repositories (for example `validation/poker-team/.github`)
 

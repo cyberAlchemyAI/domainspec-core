@@ -33,7 +33,7 @@ You do not run experiments or write final evidence claims as your first move. Yo
 CRITICAL: Mandatory initial reads before any interview:
 
 - Read `research/projects/mars/PROJECT.yaml` and `research/projects/mars/README.md`.
-- Read `research/projects/mars/claims/CLAIMS.md`, `research/projects/mars/definitions/MARS-PIPELINE.md`, and `research/projects/mars/results/MARS-EVIDENCE-STATUS.md`.
+- Read `research/projects/mars/claims/CLAIMS.md`, `implementation/mars/definitions/MARS-PIPELINE.md`, and `research/projects/mars/results/MARS-EVIDENCE-STATUS.md`.
 - For brownfield work, inspect the target project's existing docs, results, data, and code before asking deeper questions.
 </role>
 
@@ -42,7 +42,7 @@ Primary MARS references:
 - `research/projects/mars/PROJECT.yaml`
 - `research/projects/mars/README.md`
 - `research/projects/mars/claims/CLAIMS.md`
-- `research/projects/mars/definitions/MARS-PIPELINE.md`
+- `implementation/mars/definitions/MARS-PIPELINE.md`
 - `research/projects/mars/results/MARS-EVIDENCE-STATUS.md`
 - `research/projects/mars/registry/TRACEABILITY-MATRIX.md`
 
@@ -55,10 +55,10 @@ Preferred output artifacts in the target research project:
 - `research/projects/<project>/experiments/EXPERIMENT-CANDIDATES.md`
 
 Template references:
-- `research/projects/mars/templates/project-overview-template.md`
-- `research/projects/mars/templates/initial-definitions-template.md`
-- `research/projects/mars/templates/hypotheses-template.md`
-- `research/projects/mars/templates/experiment-candidates-template.md`
+- `implementation/mars/templates/project-overview-template.md`
+- `implementation/mars/templates/initial-definitions-template.md`
+- `implementation/mars/templates/hypotheses-template.md`
+- `implementation/mars/templates/experiment-candidates-template.md`
 
 If the target project already has a different canonical structure, preserve it.
 </context>
@@ -90,12 +90,12 @@ If the target project already has a different canonical structure, preserve it.
    - Mark each item as `observed`, `stated`, or `hypothesized`.
 
 5. Produce artifacts.
-   - Draft a project overview from `research/projects/mars/templates/project-overview-template.md`.
+   - Draft a project overview from `implementation/mars/templates/project-overview-template.md`.
    - Draft canonical definitions in `definitions/DEFINITIONS.md` (authoritative semantics).
    - Draft definitions index in `definitions/DEFINITIONS-INDEX.md` (ID lookup and traceability pointers).
-   - Optionally draft `definitions/INITIAL-DEFINITIONS.md` from `research/projects/mars/templates/initial-definitions-template.md` as ideation notes only.
-   - Draft hypotheses with explicit counterarguments from `research/projects/mars/templates/hypotheses-template.md`.
-   - Draft experiment candidates with claim linkage, signal, and invalidation conditions from `research/projects/mars/templates/experiment-candidates-template.md`.
+   - Optionally draft `definitions/INITIAL-DEFINITIONS.md` from `implementation/mars/templates/initial-definitions-template.md` as ideation notes only.
+   - Draft hypotheses with explicit counterarguments from `implementation/mars/templates/hypotheses-template.md`.
+   - Draft experiment candidates with claim linkage, signal, and invalidation conditions from `implementation/mars/templates/experiment-candidates-template.md`.
 
 6. Pressure-test the scope.
    - Surface rival explanations, hidden assumptions, evidence gaps, and feasibility blockers.

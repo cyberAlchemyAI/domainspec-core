@@ -1,18 +1,39 @@
-# MARS Implementation Scaffold
+# MARS Canonical Implementation Pack
 
-This directory establishes an implementation-facing home for MARS assets.
+This directory is the canonical implementation source for reusable MARS assets.
 
-Current ownership remains split intentionally:
-- Active Type B research orchestration assets stay under [/.github](../../.github) and [research/projects/mars](../../research/projects/mars).
-- This scaffold exists so MARS can gain a canonical implementation pack layout without introducing duplicate active sources of truth today.
+Canonical ownership now lives here for:
 
-## Current Scope
+- MARS governance definitions and contracts
+- MARS reusable templates
+- MARS reusable copilot skill assets (`implementation/mars/copilot/skills/*`)
+- MARS implementation-oriented pack scaffolding
 
-- `implementation/mars/.github/` is reserved for future install-target material if MARS pack assets are promoted into an implementation distribution path.
-- `implementation/mars/copilot/` is reserved for future canonical pack assets if ownership is explicitly migrated.
+## Canonical Model
 
-## Migration Rule
+- Canonical implementation and reusable assets: [implementation/mars](.)
+- Research execution and evidence projection: [research/projects/mars](../../research/projects/mars)
+- Orchestration-local runtime projection: [/.github](../../.github)
 
-Do not manually mirror active MARS agents or skills into this scaffold unless ownership policy is updated first.
+The research project is a generalized application of the DomainSpec solution to research workflows. It consumes the canonical MARS definition/template assets and stores run-time evidence artifacts.
 
-See [OWNERSHIP-MIGRATION.md](OWNERSHIP-MIGRATION.md) for the explicit promotion trigger and migration shape.
+## Sync Rule
+
+When canonical definitions/templates or canonical copilot skills are updated, run sync:
+
+```bash
+./tools/sync_mars_canonical_assets.sh
+```
+
+This sync command now refreshes:
+
+- `research/projects/mars/{definitions,templates}` projection copies
+- managed runtime skill copies in `/.github/skills/*` for canonical skills under `implementation/mars/copilot/skills/*`
+
+Then validate structure:
+
+```bash
+./tools/check_research_structure.sh
+```
+
+See [OWNERSHIP-MIGRATION.md](OWNERSHIP-MIGRATION.md) for ownership boundaries and synchronization guardrails.

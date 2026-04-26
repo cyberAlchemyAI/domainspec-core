@@ -30,12 +30,12 @@ Primary inputs:
 Key MARS references:
 - `research/projects/mars/PROJECT.yaml`
 - `research/projects/mars/claims/CLAIMS.md`
-- `research/projects/mars/definitions/MARS-PIPELINE.md`
+- `implementation/mars/definitions/MARS-PIPELINE.md`
 - `research/projects/mars/results/MARS-EVIDENCE-STATUS.md`
-- `research/projects/mars/templates/project-overview-template.md`
-- `research/projects/mars/templates/initial-definitions-template.md`
-- `research/projects/mars/templates/hypotheses-template.md`
-- `research/projects/mars/templates/experiment-candidates-template.md`
+- `implementation/mars/templates/project-overview-template.md`
+- `implementation/mars/templates/initial-definitions-template.md`
+- `implementation/mars/templates/hypotheses-template.md`
+- `implementation/mars/templates/experiment-candidates-template.md`
 </inputs>
 
 <process>
@@ -50,12 +50,12 @@ Key MARS references:
 4. Run the interview.
    - Ask focused questions about hypotheses, competing explanations, available evidence, operator constraints, and what decision the experiment should change.
 5. Draft four core artifacts.
-   - `research/projects/<project>/PROJECT-OVERVIEW.md` from `research/projects/mars/templates/project-overview-template.md`
+   - `research/projects/<project>/PROJECT-OVERVIEW.md` from `implementation/mars/templates/project-overview-template.md`
    - `research/projects/<project>/definitions/DEFINITIONS.md` as the canonical definitions source
    - `research/projects/<project>/definitions/DEFINITIONS-INDEX.md` as the definition ID lookup and traceability map
-   - `research/projects/<project>/definitions/INITIAL-DEFINITIONS.md` from `research/projects/mars/templates/initial-definitions-template.md` as optional ideation notes
-   - `research/projects/<project>/claims/HYPOTHESES.md` from `research/projects/mars/templates/hypotheses-template.md`
-   - `research/projects/<project>/experiments/EXPERIMENT-CANDIDATES.md` from `research/projects/mars/templates/experiment-candidates-template.md`
+   - `research/projects/<project>/definitions/INITIAL-DEFINITIONS.md` from `implementation/mars/templates/initial-definitions-template.md` as optional ideation notes
+   - `research/projects/<project>/claims/HYPOTHESES.md` from `implementation/mars/templates/hypotheses-template.md`
+   - `research/projects/<project>/experiments/EXPERIMENT-CANDIDATES.md` from `implementation/mars/templates/experiment-candidates-template.md`
 6. Add counterarguments and falsifiers.
    - Each hypothesis should list at least one counterargument, one confounder, and one disconfirming outcome.
 7. Finish with a readiness verdict.

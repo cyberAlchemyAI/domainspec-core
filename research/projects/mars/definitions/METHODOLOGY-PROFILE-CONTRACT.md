@@ -31,7 +31,7 @@ Scope: all new and modified experiments in this project.
 
 ## Related Artifacts
 
-- `definitions/MARS-PIPELINE.md`
+- `implementation/mars/definitions/MARS-PIPELINE.md`
 - `protocols/MARS-PROTOCOL-CHECKLIST.md`
-- `templates/methodology-profile-template.md`
-- `definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
+- `implementation/mars/templates/methodology-profile-template.md`
+- `implementation/mars/definitions/EXPERIMENT-BUNDLE-CONTRACT.md`

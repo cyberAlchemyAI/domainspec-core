@@ -60,9 +60,9 @@ Scope: all new and modified experiments in this project.
 
 ## Related Artifacts
 
-- `definitions/MARS-PIPELINE.md`
+- `implementation/mars/definitions/MARS-PIPELINE.md`
 - `protocols/MARS-PROTOCOL-CHECKLIST.md`
-- `definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
-- `templates/definitions-index-template.md`
-- `templates/reference-ledger-template.md`
-- `templates/context-bundle-template.md`
+- `implementation/mars/definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
+- `implementation/mars/templates/definitions-index-template.md`
+- `implementation/mars/templates/reference-ledger-template.md`
+- `implementation/mars/templates/context-bundle-template.md`

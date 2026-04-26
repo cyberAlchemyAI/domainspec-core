@@ -1,37 +1,44 @@
-# MARS Ownership Migration Note
+# MARS Ownership Model
 
 ## Current State
 
-MARS remains a Type B research orchestration pack.
+MARS now uses an implementation-first canonical model.
 
-Active source-of-truth paths:
-- `/.github/agents/mars-research-*.agent.md`
-- `/.github/skills/mars-research-*/SKILL.md`
+Canonical source paths:
+
+- `/implementation/mars/definitions/*`
+- `/implementation/mars/templates/*`
+- `/implementation/mars/copilot/*` (pack-scoped reusable assets, including `copilot/skills/*`)
+- `/implementation/mars/.github/*` (pack installation targets)
+
+Research execution paths (projection and evidence):
+
 - `/research/projects/mars/**`
 
-Reserved implementation-facing scaffold paths:
-- `/implementation/mars/.github/`
-- `/implementation/mars/copilot/`
+Orchestration-local operator assets:
 
-## Why The Scaffold Exists
+- `/.github/agents/mars-research-*.agent.md`
+- `/.github/skills/mars-research-*/SKILL.md`
 
-The scaffold lets MARS grow toward an installable implementation pack without duplicating active ownership today.
+Note: root `/.github` currently hosts the active runtime copies used by this repository. Canonical reusable skill content should be authored in `implementation/mars/copilot/skills` and then mirrored to runtime copies.
 
-## Migration Trigger
+## Generalization Principle
 
-Promote MARS into an implementation-pack ownership model only when all of the following are true:
+`research/projects/mars` is the generalized research-project application of DomainSpec patterns.
 
-1. MARS assets are intended for reuse outside the root research orchestration repository.
-2. The pack has a stable public boundary for agents, skills, and templates.
-3. The install/sync mechanism is defined the same way DomainSpec Type A assets are managed.
+- `implementation/mars` defines canonical reusable contracts and templates.
+- `research/projects/mars` carries project-scoped execution state, evidence, and run-time artifacts.
 
-## Proposed Migration Shape
+## Synchronization Contract
 
-1. Canonical reusable assets move to `implementation/mars/copilot/`.
-2. Install targets move to `implementation/mars/.github/`.
-3. Root `/.github/` keeps only orchestration-local Type B assets that are not meant for distribution.
-4. Ownership policy and drift checks are updated before migration lands.
+1. Canonical edits for MARS definitions/templates must be made under `implementation/mars` first.
+2. Canonical reusable skill edits must be made under `implementation/mars/copilot/skills` first.
+3. Projection/runtime copies are refreshed via `./tools/sync_mars_canonical_assets.sh`.
+4. Structure checks run after sync via `./tools/check_research_structure.sh`.
+5. Drift in canonical vs projection/runtime paths is treated as a governance defect.
 
-## Guardrail
+## Guardrails
 
-Until that migration is explicitly approved, do not create mirrored active copies of MARS agents or skills in `implementation/mars/`.
+1. Do not introduce semantic-only changes directly in projection copies under `research/projects/mars/definitions` or `research/projects/mars/templates`.
+2. Keep experiment run data, results, and adjudications only in `research/projects/mars/experiments`.
+3. Keep root `/.github` focused on orchestration behavior, not canonical contract storage.

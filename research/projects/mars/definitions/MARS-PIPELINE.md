@@ -70,7 +70,7 @@ Legacy flat experiment files are migration-only and must not receive new writes.
 | Stage | Required Artifact |
 |---|---|
 | S1 | `experiments/<experiment-key>/methodology.md` |
-| S2 | `definitions/DEFINITIONS-INDEX.md` |
+| S2 | `implementation/mars/definitions/DEFINITIONS-INDEX.md` |
 | S3 | `experiments/<experiment-key>/protocol.md` |
 | S4-S5 | `experiments/<experiment-key>/sources.md` and `sources/REFERENCE-LEDGER.md` |
 | S6 | `experiments/<experiment-key>/context.md` plus `inventory/INVENTORY-INDEX.md` and source-linked inventory entries |
@@ -85,15 +85,15 @@ Protocol gate template:
 
 Methodology contract:
 
-- `definitions/METHODOLOGY-PROFILE-CONTRACT.md`
+- `implementation/mars/definitions/METHODOLOGY-PROFILE-CONTRACT.md`
 
 Knowledge stack contract:
 
-- `definitions/RESEARCH-KNOWLEDGE-STACK-CONTRACT.md`
+- `implementation/mars/definitions/RESEARCH-KNOWLEDGE-STACK-CONTRACT.md`
 
 Experiment bundle policy:
 
-- `definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
+- `implementation/mars/definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
 
 ## Default Handoff Chain
 

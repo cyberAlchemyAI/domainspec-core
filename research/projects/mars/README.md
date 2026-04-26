@@ -10,9 +10,15 @@ MARS exists to answer one core question:
 
 Can we run research programs with deterministic governance gates, explicit dependency contracts, and traceable evidence updates so claim quality improves over time?
 
+## Canonical Asset Model
+
+- Canonical reusable MARS definitions and templates live under `implementation/mars/definitions` and `implementation/mars/templates`.
+- `research/projects/mars` is the project projection and evidence workspace where runs, data, adjudications, and claim updates are executed.
+- When canonical definitions/templates change, refresh projection copies with `./tools/sync_mars_canonical_assets.sh`.
+
 The project operationalizes this through:
 
-- 12-stage pipeline orchestration (`definitions/MARS-PIPELINE.md`)
+- 12-stage pipeline orchestration (`implementation/mars/definitions/MARS-PIPELINE.md`)
 - hard governance gates G1-G4
 - claim-level evidence tracking (`results/MARS-EVIDENCE-STATUS.md`)
 - explicit dependency contracts (`deps/DEPENDENCIES.yaml`)
@@ -43,10 +49,10 @@ Default output artifact set:
 
 Template sources:
 
-- `templates/project-overview-template.md`
-- `templates/initial-definitions-template.md`
-- `templates/hypotheses-template.md`
-- `templates/experiment-candidates-template.md`
+- `implementation/mars/templates/project-overview-template.md`
+- `implementation/mars/templates/initial-definitions-template.md`
+- `implementation/mars/templates/hypotheses-template.md`
+- `implementation/mars/templates/experiment-candidates-template.md`
 
 Asset paths:
 
@@ -122,11 +128,16 @@ Interpretation:
 ## Canonical File Map
 
 - Project manifest: `PROJECT.yaml`
-- Pipeline definition: `definitions/MARS-PIPELINE.md`
-- Methodology contract: `definitions/METHODOLOGY-PROFILE-CONTRACT.md`
-- Knowledge stack contract: `definitions/RESEARCH-KNOWLEDGE-STACK-CONTRACT.md`
-- Definitions index: `definitions/DEFINITIONS-INDEX.md`
-- Experiment bundle contract: `definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
+- Canonical definitions root: `implementation/mars/definitions/`
+- Canonical templates root: `implementation/mars/templates/`
+- Canonical definitions source: `implementation/mars/definitions/DEFINITIONS.md`
+- Pipeline definition (canonical): `implementation/mars/definitions/MARS-PIPELINE.md`
+- Methodology contract (canonical): `implementation/mars/definitions/METHODOLOGY-PROFILE-CONTRACT.md`
+- Knowledge stack contract (canonical): `implementation/mars/definitions/RESEARCH-KNOWLEDGE-STACK-CONTRACT.md`
+- Definitions index (canonical): `implementation/mars/definitions/DEFINITIONS-INDEX.md`
+- Experiment bundle contract (canonical): `implementation/mars/definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
+- Definitions projection copy: `research/projects/mars/definitions/`
+- Templates projection copy: `research/projects/mars/templates/`
 - Protocol checklist: `protocols/MARS-PROTOCOL-CHECKLIST.md`
 - Source catalog: `sources/SOURCE-CATALOG.md`
 - Reference ledger: `sources/REFERENCE-LEDGER.md`
@@ -152,7 +163,7 @@ Each experiment must keep protocol, source selection, run data, and results unde
 
 Governance contract:
 
-- `definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
+- `implementation/mars/definitions/EXPERIMENT-BUNDLE-CONTRACT.md`
 
 Migration plan for current flat artifacts:
 
@@ -162,3 +173,9 @@ Migration plan for current flat artifacts:
 
 All upstream dependencies must be declared in `deps/DEPENDENCIES.yaml`.
 Cross-project consumption is allowed only through declared dependency contracts and published exports.
+
+Canonical/projection maintenance command:
+
+```bash
+./tools/sync_mars_canonical_assets.sh
+```
