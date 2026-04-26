@@ -9,6 +9,8 @@ allowed-tools: Read, Write, Bash, Glob, Grep, Fetch, AskQuestions
 <objective>
 Maintain a persistent, structured inventory of knowledge entries extracted from research sources — supporting ANY experiment data requirement, not just domain models.
 
+If the target project defines canonical semantics in `definitions/DEFINITIONS.md`, inventory entries should map extracted terms to IDs in `definitions/DEFINITIONS-INDEX.md`.
+
 **Knowledge entry types supported:**
 - `domain-model` — bounded contexts, concepts, relationships (for E1-E10, E15, E20)
 - `paper-abstract` — title, authors, contributions, methodology, key findings (for E4, E7, E8, E11-E20)
@@ -40,6 +42,9 @@ This skill exists because:
 
 <context>
 **Input:**
+- Optional project semantic contracts (when present):
+  - `research/projects/<project>/definitions/DEFINITIONS.md`
+  - `research/projects/<project>/definitions/DEFINITIONS-INDEX.md`
 - `sources/SOURCE-CATALOG.md` — master catalog of validated sources (for ingest/validate).
 - `data/*.jsonl` — raw experiment data (for backfill).
 - `experiments/EX-*.md` — experiment protocols (for requirement matching).
@@ -60,6 +65,7 @@ This skill exists because:
 5. **Append-only facts, updatable metadata.** Extracted concepts/facts don't change. But metadata (experiment usage, evidence quality, relevance tags) can be updated as we learn.
 6. **Backfill from completed experiments.** Experiments validate domain models and extract new knowledge. Backfill captures that validated knowledge into inventory.
 7. **Entry-type-specific templates.** Each entry type has its own data model; templates enforce consistency within a type while supporting flexible lookups.
+8. **Definition authority discipline.** When canonical definitions files exist, map extracted terms to definition IDs and explicitly flag unmapped semantics.
 </principles>
 
 <process>
@@ -336,9 +342,10 @@ Extract a knowledge entry from a source and create/update its inventory file.
    - Frameworks: Fetch paper + source code (if open source)
    - Roles: Fetch paper + reference implementations or standards
 4. **Extract structured data:** Follow the template for the identified entry type. Fill in tables, not prose.
-5. **Trace every fact:** Record source location for every extracted piece (GitHub file path, paper page, tool version, etc).
-6. **Write inventory file:** `inventory/{source-id}.md` (source ID comes from SOURCE-CATALOG)
-7. **Update INVENTORY-INDEX.md:** Add row to the master lookup table.
+5. **Resolve definition anchors (if definitions exist):** map extracted terms to IDs in `definitions/DEFINITIONS-INDEX.md`; list gaps for terms not yet canonically defined.
+6. **Trace every fact:** Record source location for every extracted piece (GitHub file path, paper page, tool version, etc).
+7. **Write inventory file:** `inventory/{source-id}.md` (source ID comes from SOURCE-CATALOG)
+8. **Update INVENTORY-INDEX.md:** Add row to the master lookup table.
 
 ### Example: Ingest domain-model
 

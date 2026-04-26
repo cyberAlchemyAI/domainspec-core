@@ -10,6 +10,7 @@ allowed-tools: Read, Write, Glob, Grep, AskQuestions
 Convert a vague research direction or a partially executed research effort into a MARS-ready scope baseline.
 
 This skill helps researchers and business operators bring context into the open, stabilize terminology, produce candidate hypotheses, surface counterarguments, and identify experiments that are worth formal protocol design.
+It also establishes the definitions authority pattern early: canonical semantics in `definitions/DEFINITIONS.md`, lookup in `definitions/DEFINITIONS-INDEX.md`, and papers as condensed synthesis artifacts.
 </objective>
 
 <when-to-use>
@@ -50,7 +51,9 @@ Key MARS references:
    - Ask focused questions about hypotheses, competing explanations, available evidence, operator constraints, and what decision the experiment should change.
 5. Draft four core artifacts.
    - `research/projects/<project>/PROJECT-OVERVIEW.md` from `research/projects/mars/templates/project-overview-template.md`
-   - `research/projects/<project>/definitions/INITIAL-DEFINITIONS.md` from `research/projects/mars/templates/initial-definitions-template.md`
+   - `research/projects/<project>/definitions/DEFINITIONS.md` as the canonical definitions source
+   - `research/projects/<project>/definitions/DEFINITIONS-INDEX.md` as the definition ID lookup and traceability map
+   - `research/projects/<project>/definitions/INITIAL-DEFINITIONS.md` from `research/projects/mars/templates/initial-definitions-template.md` as optional ideation notes
    - `research/projects/<project>/claims/HYPOTHESES.md` from `research/projects/mars/templates/hypotheses-template.md`
    - `research/projects/<project>/experiments/EXPERIMENT-CANDIDATES.md` from `research/projects/mars/templates/experiment-candidates-template.md`
 6. Add counterarguments and falsifiers.
@@ -66,6 +69,7 @@ Key MARS references:
 - Brownfield findings must be grounded in existing artifacts where possible.
 - Hypotheses must be falsifiable and decision-relevant.
 - Experiment candidates must include signal, expected effect, and invalidation condition.
+- Canonical terms and IDs should be authored in `definitions/DEFINITIONS.md` and `definitions/DEFINITIONS-INDEX.md`; avoid treating paper text as normative definitions.
 - Recommendations must say when not to run an experiment yet.
 </quality-bar>
 

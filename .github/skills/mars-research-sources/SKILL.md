@@ -25,9 +25,11 @@ This skill exists because:
 
 <context>
 **Input:**
+- `research/projects/domainspec/definitions/DEFINITIONS.md` — canonical semantics for gate-critical terms.
+- `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md` — definition ID lookup and traceability.
 - `domainspec/docs/research/EXPERIMENTS.md` — experiment index with status and protocols.
 - `domainspec/docs/research/experiments/EX-*.md` — individual experiment protocols with data requirements.
-- `domainspec/docs/research/domainspec-paper.md` — paper claims that need evidence.
+- `domainspec/docs/research/domainspec-paper.md` — condensed claim narrative that needs evidence.
 - `domainspec/TAXONOMY.md`, `domainspec/RELATIONSHIPS.md` — meta-model vocabulary (what the sources need to exercise).
 
 **Output:**
@@ -46,6 +48,7 @@ This skill exists because:
 4. **Pin versions.** Record commit SHA for repos, edition/year for books, DOI for papers, archive.org snapshot for web pages. If a source can't be pinned, flag it as fragile.
 5. **Learn from prior experiments.** If a source category worked well in E6/E9, prefer it. If a source was too shallow, document why and avoid similar sources.
 6. **Bias toward public, structured, well-referenced sources.** In order of preference: (a) open-source reference implementations with tests, (b) published DDD books with code samples, (c) system design repos with domain models, (d) academic case studies, (e) industry whitepapers, (f) reconstructed domain models from documentation.
+7. **Definition authority discipline.** Source suitability must be evaluated against canonical definitions in `definitions/DEFINITIONS.md`; paper wording is contextual, not normative.
 </principles>
 
 <process>
@@ -53,15 +56,16 @@ This skill exists because:
 ## Step 1 — Identify Source Requirements
 
 1. Read `EXPERIMENTS.md` and identify target experiments (by `--all-pending` or specific ID).
-2. For each target experiment, read its protocol file (`experiments/EX-*.md`).
-3. Extract **source requirements** — what kind of external data does the experiment need?
+2. Read canonical definitions source/index and list the definition IDs the target experiment must exercise.
+3. For each target experiment, read its protocol file (`experiments/EX-*.md`).
+4. Extract **source requirements** — what kind of external data does the experiment need?
    - Domain models? Code implementations? Architecture diagrams? User stories? Test suites?
    - How many distinct sources are needed?
    - What diversity dimensions matter? (industry, complexity tier, bounded context count, meta-type stress)
-4. Check existing completed experiments — what sources were already used? What worked?
+5. Check existing completed experiments — what sources were already used? What worked?
    - Read `data/*.jsonl` to extract `source_reference` fields from prior runs.
    - Read `results/*.md` to identify sources that produced strong vs weak evidence.
-5. Output: **Source Requirements Brief** — a structured summary of what we need, how many, and what constraints apply.
+6. Output: **Source Requirements Brief** — a structured summary of what we need, how many, what definition IDs must be stress-tested, and what constraints apply.
 
 ## Step 2 — Discover Candidate Sources
 
@@ -175,6 +179,7 @@ For each candidate source, perform these checks:
     - Selected sources (with rationale)
     - Backup sources
     - Diversity analysis
+    - Definition ID coverage notes (which canonical IDs each source can exercise)
     - Version pins
     - Known limitations
 

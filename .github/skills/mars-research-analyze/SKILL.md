@@ -31,10 +31,12 @@ Grounded in:
 
 <context>
 **Input:**
+- `research/projects/domainspec/definitions/DEFINITIONS.md` — canonical term semantics.
+- `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md` — definition IDs and lookup map.
 - `domainspec/docs/research/data/EX-*.jsonl` — raw experiment data (append-only, never modified).
 - `domainspec/docs/research/experiments/EX-*.md` — experiment protocol with success criteria, data schema, and traceability.
 - `domainspec/docs/research/EXPERIMENTS.md` — experiment index with status and cross-experiment dependencies.
-- `domainspec/docs/research/domainspec-paper.md` — paper claims (C1–C4) and section structure.
+- `domainspec/docs/research/domainspec-paper.md` — paper claims (C1–C4) and section structure (condensed narrative artifact).
 - `domainspec/TAXONOMY.md`, `domainspec/RELATIONSHIPS.md` — meta-model vocabulary (for construct validity checks).
 
 **Output:**
@@ -56,6 +58,7 @@ Grounded in:
 4. **Effect sizes over p-values.** For small-sample SE experiments, emphasize practical significance (effect size, confidence intervals) over statistical significance. Report both when possible.
 5. **Triangulation requires independence.** Cross-experiment validation only counts when the experiments use different data sources, methods, or operators. Two experiments using the same project data are corroborating, not triangulating.
 6. **Claim adjudication is conservative.** Default to "partially supported" unless evidence is overwhelming. "Strongly supported" requires: (a) all success criteria passed, (b) no contradicting subgroup, (c) threats are bounded, (d) triangulation exists.
+7. **Definition authority discipline.** Canonical semantics come from `definitions/DEFINITIONS.md`; analysis outputs must reference definition IDs via `definitions/DEFINITIONS-INDEX.md` and flag undefined terms.
 </principles>
 
 <process>
@@ -219,11 +222,12 @@ Grounded in:
 
 **Actions:**
 55. **Identify affected claims:** Which paper claims (C1–C4) does this experiment provide evidence for?
-56. **Evidence mapping:** For each claim, list:
+56. **Resolve definition anchors:** For each claim finding, map terms to canonical definition IDs from `definitions/DEFINITIONS-INDEX.md`; flag any undefined or ambiguous terms as remediation items.
+57. **Evidence mapping:** For each claim, list:
     - Supporting evidence from this experiment (specific findings, metrics).
     - Contradicting evidence (if any).
     - Evidence from other experiments (from Step 7 triangulation).
-57. **Evidence strength rating:** Apply this rubric:
+58. **Evidence strength rating:** Apply this rubric:
 
 | Rating | Criteria |
 |--------|----------|
@@ -233,10 +237,10 @@ Grounded in:
 | **Insufficient** | Experiment not yet complete or key criteria not testable |
 | **Contradicted** | Evidence actively contradicts the claim |
 
-58. **Claim status update:** For each affected claim, produce:
+59. **Claim status update:** For each affected claim, produce:
     - Current status: supported / partially supported / insufficient evidence / contradicted.
     - What would change the status? (additional experiments, more data, revised claim wording).
-59. **Recommended claim revisions:** If evidence contradicts or partially supports a claim, propose revised wording that the evidence does support.
+60. **Recommended claim revisions:** If evidence contradicts or partially supports a claim, propose revised wording that the evidence does support.
 
 **Output:** Claim Adjudication section with evidence mapping, strength ratings, status, and revision recommendations.
 
@@ -257,8 +261,9 @@ Grounded in:
     - Use KaTeX for equations: inline `$...$`, display `$$...$$`.
     - Include data tables with clear column headers and units.
     - Use numbered references `[N]` matching the paper's References section.
-63. **Update experiment status:** Mark the experiment as "completed" in EXPERIMENTS.md.
-64. **Session retrospective:** Record analysis learnings:
+63. **Definition consistency check:** Ensure any revised wording remains aligned with canonical definitions; if semantics changed, request updates to `definitions/DEFINITIONS.md` and `definitions/DEFINITIONS-INDEX.md` before paper edits.
+64. **Update experiment status:** Mark the experiment as "completed" in EXPERIMENTS.md.
+65. **Session retrospective:** Record analysis learnings:
     - Which analysis steps produced the most insight?
     - Were any steps unnecessary for this experiment type?
     - What would improve the pipeline for next time?

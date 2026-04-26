@@ -35,6 +35,8 @@ SOURCE-CATALOG (discovery) → INVENTORY (domain models) → EXPERIMENTS (data c
 
 <context>
 **Input:**
+- `research/projects/domainspec/definitions/DEFINITIONS.md` — canonical semantics reference.
+- `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md` — definition IDs for anchor mapping.
 - `domainspec/docs/research/sources/SOURCE-CATALOG.md` — master catalog of validated sources.
 - `domainspec/docs/research/data/*.jsonl` — raw experiment data (for backfill).
 - `domainspec/docs/research/experiments/EX-*.md` — experiment protocols (for requirement matching).
@@ -54,6 +56,7 @@ SOURCE-CATALOG (discovery) → INVENTORY (domain models) → EXPERIMENTS (data c
 4. **Classify using DomainSpec vocabulary.** Concepts get meta-types from TAXONOMY.md. Edges get relationship types from RELATIONSHIPS.md. This makes inventory directly usable by experiments.
 5. **Append-only concepts, updatable metadata.** Once a concept is inventoried, it stays. Metadata (evidence quality, experiment usage) can be updated.
 6. **Backfill from experiments.** Completed experiments contain validated domain model data. Backfilling from JSONL captures what we already know.
+7. **Definition anchor discipline.** Map extracted concepts and edge semantics to canonical definition IDs when available; unresolved mappings must be explicitly reported.
 </principles>
 
 <process>
@@ -92,7 +95,9 @@ Extract a domain model from a source and create/update its inventory entry.
    - **Edge coverage:** How many composition patterns are present?
    - **Confidence:** high (from code/detailed docs), moderate (from book chapters), low (reconstructed from architecture diagrams).
 
-7. **Write inventory file.** Create `inventory/{source-id}.md` using the template below.
+7. **Resolve definition anchors.** Map extracted concept and edge terms to canonical IDs in `definitions/DEFINITIONS-INDEX.md` and note any missing/ambiguous mappings.
+
+8. **Write inventory file.** Create `inventory/{source-id}.md` using the template below.
 
 ### Inventory Entry Template
 
@@ -156,6 +161,7 @@ Extract a domain model from a source and create/update its inventory entry.
 
 - Extraction confidence: {high/moderate/low}
 - Known gaps: {what couldn't be extracted}
+- Definition anchor gaps: {terms without canonical IDs}
 - Recommended for experiments: {which experiment types benefit from this source}
 ```
 

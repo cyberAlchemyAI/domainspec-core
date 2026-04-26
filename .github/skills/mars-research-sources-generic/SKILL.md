@@ -9,6 +9,8 @@ allowed-tools: Read, Write, Bash, Glob, Grep, Fetch, AskQuestions
 <objective>
 Systematically discover, validate, and score external data sources BEFORE running experiments, supporting ANY experiment data requirement — domain models, research papers, tool evaluations, framework architectures, role specifications, or domain-specific codebases.
 
+When a target project defines canonical semantics in `definitions/DEFINITIONS.md`, this skill treats that file as normative and uses `definitions/DEFINITIONS-INDEX.md` as the ID/lookup map.
+
 This skill exists because:
 1. **Source quality determines experiment quality.** An experiment run on poorly-vetted sources produces weak evidence. Garbage in, garbage out.
 2. **Diversity must be deliberate.** Without structured sourcing, selection clusters around the familiar (everyone uses the same 3 DDD books, nobody reads systems papers, etc).
@@ -28,6 +30,9 @@ This skill exists because:
 
 <context>
 **Input:**
+- Optional project semantic contracts (when present):
+   - `research/projects/<project>/definitions/DEFINITIONS.md`
+   - `research/projects/<project>/definitions/DEFINITIONS-INDEX.md`
 - `EXPERIMENTS.md` — DomainSpec experiment index (E1-E10).
 - `EXPERIMENTS-META.md` — Meta-Meta framework experiment index (E11-E20).
 - `experiments/EX-*.md` — individual experiment protocols with data requirements.
@@ -56,6 +61,7 @@ This skill exists because:
    - **tool-evaluation** (E17, E15): (a) official tool documentation, (b) academic benchmarks, (c) GitHub repos using the tool, (d) comparative studies
    - **framework-architecture** (E11-E13): (a) published papers, (b) open-source reference implementations, (c) technical blog posts, (d) design documents
    - **role-definition** (E13, E16, E18): (a) academic papers on agent systems, (b) industry standards/protocols, (c) GitHub agent frameworks, (d) published role models
+7. **Definition authority discipline.** If canonical definitions files exist in the target project, evaluate source suitability against those definitions and IDs instead of paper-only terminology.
 </principles>
 
 <process>
@@ -63,14 +69,15 @@ This skill exists because:
 ## Step 1 — Identify Source Requirements
 
 1. Read target experiment protocol (`experiments/EX-*.md`).
-2. Extract **source requirements:**
+2. If available, read `definitions/DEFINITIONS.md` and `definitions/DEFINITIONS-INDEX.md` and derive required definition IDs/terms for the target experiment.
+3. Extract **source requirements:**
    - What entry types are needed? (domain-model, paper-abstract, tool-eval, framework-arch, role-def, etc.)
    - How many distinct sources?
    - What diversity dimensions matter? (for domain-models: industry, BC count, pattern variety; for papers: venue, year, methodology; for tools: maturity, community size, etc.)
-3. Check existing completed experiments — what sources worked well?
+4. Check existing completed experiments — what sources worked well?
    - Read `results/EX-results.md` for evidence quality ratings.
    - Check if sources are already inventoried (`inventory/INVENTORY-INDEX.md`).
-4. Output: **Source Requirements Brief** — structured summary of what we need, how many, constraints.
+5. Output: **Source Requirements Brief** — structured summary of what we need, how many, constraints, plus definition-ID coverage needs when canonical definitions are present.
 
 ## Step 2 — Discover Candidate Sources
 
