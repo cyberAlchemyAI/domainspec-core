@@ -1,8 +1,17 @@
 # DomainSpec Traceability Matrix
 
-| Claim | Experiments | Data Files | Results | Paper Section |
-|---|---|---|---|---|
-| C1 | E4, E5, E7, E8, E11 (secondary) | data/E4*.jsonl, data/E5*.jsonl, data/E7*.jsonl, data/E8*.jsonl, data/E11*.jsonl | results/E4-results.md, results/E5-results.md, results/E7-results.md, results/E8-results.md, results/E11-results.md | papers/domainspec-paper.md §3, §6, §7 |
-| C2 | E1, E2, E3, E6, E9, E11 | data/E1*.jsonl, data/E2*.jsonl, data/E3*.jsonl, data/E6*.jsonl, data/E9*.jsonl, data/E11*.jsonl | results/E1-results.md, results/E2-results.md, results/E3-results.md, results/E6-results.md, results/E9-results.md, results/E11-results.md | papers/domainspec-paper.md §5, §9 |
-| C3 | E4, E5, E7 | data/E4*.jsonl, data/E5*.jsonl, data/E7*.jsonl | results/E4-results.md, results/E5-results.md, results/E7-results.md | papers/domainspec-paper.md §6 |
-| C4 | E7, E8 | data/E7*.jsonl, data/E8*.jsonl | results/E7-results.md, results/E8-results.md | papers/domainspec-paper.md §7 |
+| Claim | Experiments | Data Artifacts | Result Artifacts | Evidence Matrix | Paper Section |
+|---|---|---|---|---|---|
+| C1 | E4, E5, E7, E8, E11 (secondary) | experiments/E4-governance-attenuation-curve/data/*.jsonl; experiments/E5-observer-executor-separation/data/*.jsonl; experiments/E7-signal-emission-rate/data/*.jsonl; experiments/E8-meta-health-convergence/data/*.jsonl; experiments/E11-technique-specialization/data/*.jsonl | experiments/E4-governance-attenuation-curve/results/*.md; experiments/E5-observer-executor-separation/results/*.md; experiments/E7-signal-emission-rate/results/*.md; experiments/E8-meta-health-convergence/results/*.md; experiments/E11-technique-specialization/results/*.md | results/DOMAINSPEC-EVIDENCE-STATUS.md | papers/domainspec-paper.md §3, §6, §7 |
+| C2 | E1, E2, E3, E6, E9, E11 | experiments/E1-derivation-determinism/data/*.jsonl; experiments/E2-derivation-vs-manual/data/*.jsonl; experiments/E3-mutation-testing/data/*.jsonl; experiments/E6-vocabulary-sufficiency/data/*.jsonl; experiments/E9-cross-feature-composition/data/*.jsonl; experiments/E11-technique-specialization/data/*.jsonl | experiments/E1-derivation-determinism/results/*.md; experiments/E2-derivation-vs-manual/results/*.md; experiments/E3-mutation-testing/results/*.md; experiments/E6-vocabulary-sufficiency/results/*.md; experiments/E9-cross-feature-composition/results/*.md; experiments/E11-technique-specialization/results/*.md | results/DOMAINSPEC-EVIDENCE-STATUS.md | papers/domainspec-paper.md §5, §9 |
+| C3 | E4, E5, E7 | experiments/E4-governance-attenuation-curve/data/*.jsonl; experiments/E5-observer-executor-separation/data/*.jsonl; experiments/E7-signal-emission-rate/data/*.jsonl | experiments/E4-governance-attenuation-curve/results/*.md; experiments/E5-observer-executor-separation/results/*.md; experiments/E7-signal-emission-rate/results/*.md | results/DOMAINSPEC-EVIDENCE-STATUS.md | papers/domainspec-paper.md §6 |
+| C4 | E7, E8 | experiments/E7-signal-emission-rate/data/*.jsonl; experiments/E8-meta-health-convergence/data/*.jsonl | experiments/E7-signal-emission-rate/results/*.md; experiments/E8-meta-health-convergence/results/*.md | results/DOMAINSPEC-EVIDENCE-STATUS.md | papers/domainspec-paper.md §7 |
+
+## Knowledge-Stack Support Artifacts
+
+- Definitions: `definitions/DEFINITIONS-INDEX.md`
+- References: `sources/REFERENCE-LEDGER.md`
+- Authority source extension: `sources/AUTHORITY-SOURCES-2026-04-26.md`
+- Waivers: `sources/REFERENCE-WAIVERS.md`
+- Context bundles: `experiments/*/context.md`
+- Normalization execution report: `results/KNOWLEDGE-STACK-REORGANIZATION-EXECUTION-2026-04-26.md`
