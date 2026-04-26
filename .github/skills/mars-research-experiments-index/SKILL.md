@@ -1,7 +1,7 @@
 ---
 name: mars-research-experiments-index
 description: "Maintain experiment bundle README pattern, auto-refresh experiments dashboard, and regenerate OPEN-DECISIONS rollup from current artifacts."
-argument-hint: "[--refresh|--check] [--project domainspec]"
+argument-hint: "[--refresh|--check] [--project <project-key>]"
 agent: mars-research-scientist
 allowed-tools: Read, Write, Bash, Glob, Grep
 ---
@@ -17,18 +17,18 @@ This skill exists to prevent drift between:
 
 <context>
 Primary artifacts:
-- `research/projects/domainspec/experiments/EXPERIMENTS.md`
-- `research/projects/domainspec/experiments/README.md`
-- `research/projects/domainspec/experiments/OPEN-DECISIONS.md`
-- `research/projects/domainspec/experiments/E*-*/README.md`
-- `tools/update_experiments_index.sh`
+- `research/projects/<project-key>/experiments/EXPERIMENTS.md`
+- `research/projects/<project-key>/experiments/README.md`
+- `research/projects/<project-key>/experiments/OPEN-DECISIONS.md`
+- `research/projects/<project-key>/experiments/E*-*/README.md`
+- `tools/update_project_experiments_index.sh`
 
 Bundle contract references:
-- `research/projects/domainspec/experiments/E*-*/context.md`
-- `research/projects/domainspec/experiments/E*-*/protocol.md`
-- `research/projects/domainspec/experiments/E*-*/sources.md`
-- `research/projects/domainspec/experiments/E*-*/data/`
-- `research/projects/domainspec/experiments/E*-*/results/`
+- `research/projects/<project-key>/experiments/E*-*/context.md`
+- `research/projects/<project-key>/experiments/E*-*/protocol.md`
+- `research/projects/<project-key>/experiments/E*-*/sources.md`
+- `research/projects/<project-key>/experiments/E*-*/data/`
+- `research/projects/<project-key>/experiments/E*-*/results/`
 </context>
 
 <process>
@@ -49,7 +49,7 @@ Bundle contract references:
 
 3. Regenerate aggregates.
    - Run:
-     - `./tools/update_experiments_index.sh`
+       - `./tools/update_project_experiments_index.sh <project-key>`
    - This refreshes:
      - status chart and dashboard table in `experiments/README.md`
      - unresolved decision rollup in `experiments/OPEN-DECISIONS.md`
