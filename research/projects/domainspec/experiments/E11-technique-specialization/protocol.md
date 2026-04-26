@@ -42,6 +42,7 @@ Technique families required in run-1:
 
 - Dependency declarations (MARS): `dep-mars-c2-baseline`, `dep-mars-protocol-method`.
 - Inventory entry type declaration: each selected source ID must map to one inventory markdown entry that includes source ID and exact version pin used in E11.
+- Context bundle declaration: `context.md` must define source role matrix, terminology map, metric definitions, and conflict log before full extraction.
 - Execution is blocked until G2 and G3 are both pass.
 
 ## Objective
@@ -143,12 +144,13 @@ Exclusion criteria:
 2. Build provisional catalog (`catalog.md`) with family/specialization definitions and symptom triggers.
 3. Complete source selection in `sources.md` with immutable version pins.
 4. Complete inventory linkage for all selected source IDs and pin consistency checks.
-5. Extract edge and scenario rows using pre-registered inclusion/exclusion rules.
-6. Validate G4 on pilot subset; stop on any schema or metadata violation.
-7. Continue extraction to sampling minimums.
-8. Perform independent dual-rater labeling on adjudication subset.
-9. Resolve disagreements with third-rater final decisions and record adjudication log.
-10. Execute full analysis pipeline and publish results and claim delta.
+5. Finalize `context.md` and ensure context fields are consistent with `sources.md` and inventory linkage.
+6. Extract edge and scenario rows using pre-registered inclusion/exclusion rules.
+7. Validate G4 on pilot subset; stop on any schema or metadata violation.
+8. Continue extraction to sampling minimums.
+9. Perform independent dual-rater labeling on adjudication subset.
+10. Resolve disagreements with third-rater final decisions and record adjudication log.
+11. Execute full analysis pipeline and publish results and claim delta.
 
 ## Gate Obligations (G1-G4)
 
