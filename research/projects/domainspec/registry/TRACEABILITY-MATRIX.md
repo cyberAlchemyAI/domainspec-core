@@ -9,7 +9,8 @@
 
 ## Knowledge-Stack Support Artifacts
 
-- Definitions: `definitions/DEFINITIONS-INDEX.md`
+- Canonical definitions: `definitions/DEFINITIONS.md`
+- Definitions index: `definitions/DEFINITIONS-INDEX.md`
 - References: `sources/REFERENCE-LEDGER.md`
 - Authority source extension: `sources/AUTHORITY-SOURCES-2026-04-26.md`
 - Waivers: `sources/REFERENCE-WAIVERS.md`

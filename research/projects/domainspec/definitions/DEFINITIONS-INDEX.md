@@ -1,6 +1,9 @@
 # DomainSpec Definitions Index
 
-Purpose: normalize paper-level concepts into reusable, traceable research assets.
+Purpose: index and trace paper-level concepts into reusable research IDs.
+
+Canonical semantics source: `definitions/DEFINITIONS.md`.
+This file is the lookup/traceability map, not the normative definition text.
 
 ## Core Contributions and Named Definitions Mapped From Paper
 
@@ -14,6 +17,12 @@ Purpose: normalize paper-level concepts into reusable, traceable research assets
 | DS-D2 | Definition 2 | Typed relationship system for valid concept edges. | `implementation/domainspec/RELATIONSHIPS.md`, `papers/domainspec-paper.md` | E9 tests whether cross-context edges fit current relationship types. |
 | DS-D3 | Definition 3 | Concept graph model $G=(V,E,\tau,\lambda)$. | `experiments/*/protocol.md`, `papers/domainspec-paper.md` | E9 run-2-rerun builds cross-context graphs from 6 domains (94 edges). |
 | DS-D4 | Definition 4 | Derivation function $T=f(G,\Delta)$. | `implementation/domainspec/TEST-PIPELINE.md`, `experiments/E1-derivation-determinism/protocol.md`, `papers/domainspec-paper.md` | E1 checks run-to-run determinism for fixed feature specs. |
+| DS-D5 | Section 3.1.1 (Definition L-A/L-B) | Layer-set and dual-track projection: $\mathcal{L}$ with $\mathcal{L}_B$ and $\mathcal{L}_O$ sharing $L0$-$L2$. | `papers/domainspec-paper.md`, `implementation/domainspec/ARCHITECTURE.md`, `claims/CLAIMS.md` | C1 traceability audits can classify evidence by layer and track without ad hoc interpretation. |
+| DS-D6 | Section 3.1.1 (Definition L-C) | Layer-7 orchestration contract: $L_{7B}=(S,H)$ and $L_{7O}=(\Sigma,\Theta,\Pi)$ with stage-to-tuning coupling. | `papers/domainspec-paper.md`, `implementation/domainspec/TUNING-LOOP.md`, `telemetry/SIGNAL-SCHEMA.md` | E7 and E8 can be interpreted as L7O evidence while E1-E6 map to L7B stage evidence. |
+| DS-D7 | Section 4.2 (Definition E-A) | Edge-family taxonomy partition $\mathcal{R}=\mathcal{R}_B\uplus\mathcal{R}_U\uplus\mathcal{R}_X$ (composition extensions tracked separately). | `implementation/domainspec/RELATIONSHIPS.md`, `papers/domainspec-paper.md`, `experiments/E9-cross-feature-composition/protocol.md` | E6/E9 edge audits can report strain per family instead of mixing all relationships. |
+| DS-D8 | Section 4.2 (Definition E-B) | Edge-signature operator $\sigma$ and typed-edge validity rule for instance-level checks. | `papers/domainspec-paper.md`, `implementation/domainspec/RELATIONSHIPS.md`, `experiments/E6-vocabulary-sufficiency/protocol.md` | Relationship rows are machine-checkable by source/target signature rather than narrative mapping. |
+| DS-D9 | Section 6.1 (Definition 5) | Governance attenuation function $A(k)=1-\phi(k)$ with critical regime $k^*$. | `papers/domainspec-paper.md`, `experiments/E4-governance-attenuation-curve/protocol.md`, `experiments/E5-observer-executor-separation/protocol.md`, `experiments/E7-signal-emission-rate/protocol.md` | E4/E5/E7 share a common attenuation target variable set instead of incompatible proxies. |
+| DS-D10 | E6/E9 protocol status taxonomy | Coverage-status vocabulary: concept (`covered`, `strained`, `uncovered`) and edge (`works`, `strained`, `broken`) classes. | `experiments/E6-vocabulary-sufficiency/protocol.md`, `experiments/E9-cross-feature-composition/protocol.md`, `experiments/E9-cross-feature-composition/results/E9-run2-rerun-results.md` | Cross-experiment synthesis can aggregate stress outcomes without reinterpreting labels. |
 | DS-P1 | Property 1 | Type safety of relationship instances. | `implementation/domainspec/RELATIONSHIPS.md`, `experiments/E6-vocabulary-sufficiency/protocol.md` | E6 strained/uncovered relationship analysis highlights type-signature pressure points. |
 | DS-P2 | Property 2 | Backend/UI partition disjointness. | `implementation/domainspec/TAXONOMY.md`, `papers/domainspec-paper.md` | UI and backend classifications remain split across taxonomy groups. |
 | DS-P3 | Property 3 | Cross-layer bridging direction (UI -> backend). | `implementation/domainspec/RELATIONSHIPS.md`, `papers/domainspec-paper.md` | UI cross-layer edges (`fetches`, `mutates`, etc.) are directional in relationship signatures. |
@@ -55,9 +64,22 @@ Purpose: normalize paper-level concepts into reusable, traceable research assets
 | DS-DRIFT-001 | Paper text references 24 meta-types and 26 relationships in the initial baseline. | Composition extension evidence (E9 + follow-up changes) is tracked in project artifacts; claim updates should cite run-scoped results and framework version. |
 | DS-DRIFT-002 | Many theory references are present in paper but not normalized into source catalog/inventory artifacts. | Track in `sources/REFERENCE-LEDGER.md` and promote authoritative references into source catalog + inventory as needed by active experiments. |
 
+## Optional Definition Candidates (Promote When Reused)
+
+| Candidate ID | Candidate Definition | Why It Helps | Promotion Trigger | Candidate Anchor(s) |
+|---|---|---|---|---|
+| DS-OPT-1 | Signal taxonomy (`economy`, `quality`, `governance`, `pattern`, `operations`) and envelope contract terms. | Keeps signal semantics out of per-experiment prose and standardizes telemetry interpretation. | Promote when >= 2 new experiments add custom signal interpretations. | `telemetry/SIGNAL-SCHEMA.md`, `papers/domainspec-paper.md` §7.2 |
+| DS-OPT-2 | Verdict taxonomy (`PASS`, `FLAG`, `BLOCK`, `PARTIAL`) with mandatory remediation semantics. | Avoids ambiguous audit language across alignment and evidence reports. | Promote when verdict disagreements appear across >= 2 audits. | `papers/domainspec-paper.md` §8.4, `implementation/domainspec/docs/shared/governance-baseline.md` |
+| DS-OPT-3 | Composition-pattern taxonomy (P1-P6) from E9 rerun. | Stabilizes cross-feature composition reporting and avoids ad hoc pattern naming. | Promote when E9 follow-up or E11 uses pattern-level adjudication. | `experiments/E9-cross-feature-composition/results/E9-run2-rerun-results.md` |
+| DS-OPT-4 | Meta-health metric semantics for M-001..M-006 (including computation windows). | Makes C4 convergence judgments reproducible across runs. | Promote before E8 claim-strength upgrade attempts. | `implementation/domainspec/ADLC-ALIGNMENT.md`, `papers/domainspec-paper.md` §3.4 |
+| DS-OPT-5 | Traceability completeness ratio formal definition and denominator policy. | Prevents C1 acceptance-rule drift caused by inconsistent artifact counting. | Promote when C1 transitions from insufficient to partial/strong evidence. | `claims/CLAIMS.md`, `registry/TRACEABILITY-MATRIX.md` |
+| DS-OPT-6 | Derivation-obligation unit normalization (test obligation vs metric obligation vs evidence obligation). | Aligns counting logic across E1/E2/E7 and paper tables. | Promote when obligation counts diverge between reports. | `papers/domainspec-paper.md` §5, `results/DOMAINSPEC-EVIDENCE-STATUS.md` |
+
 ## Usage Rules
 
 1. Every protocol must reference at least one Definition ID (or formal-construct ID) relevant to its claim.
 2. Every claim update must cite both experiment evidence and the affected Definition IDs.
 3. New paper terms must be added here before being used as protocol-level requirements.
 4. New governance or telemetry terms are gate-critical only after a Definition ID is assigned in this index.
+5. Protocols discussing layers, taxonomy partitions, or edge stress must anchor DS-D5 through DS-D10 explicitly.
+6. Optional candidates become mandatory only after an explicit promotion to a DS-D*, DS-F*, DS-P*, or DS-M* ID.

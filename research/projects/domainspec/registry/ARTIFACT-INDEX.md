@@ -3,6 +3,7 @@
 | Category | Path | Type |
 |---|---|---|
 | Constitution | definitions/CONSTITUTION.md | canonical |
+| Canonical Definitions | definitions/DEFINITIONS.md | canonical |
 | Methodology Profile | definitions/METHODOLOGY-PROFILE.md | canonical |
 | Definitions Index | definitions/DEFINITIONS-INDEX.md | canonical |
 | Claims | claims/CLAIMS.md | canonical |

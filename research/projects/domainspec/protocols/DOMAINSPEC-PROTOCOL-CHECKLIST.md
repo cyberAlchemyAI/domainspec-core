@@ -19,7 +19,8 @@ This checklist is used before any experiment execution in `research/projects/dom
 | Inventory entry-type requirements are explicit |  |  |
 | Context bundle path (`experiments/<experiment-key>/context.md`) is declared |  |  |
 | Context bundle maps claim IDs, key definitions, and source-role matrix |  |  |
-| Definition anchors (from `definitions/DEFINITIONS-INDEX.md`) are listed in protocol |  |  |
+| Definition anchors (from `definitions/DEFINITIONS.md`, referenced by IDs in `definitions/DEFINITIONS-INDEX.md`) are listed in protocol |  |  |
+| Layer/taxonomy/edge-stress protocols explicitly anchor DS-D5..DS-D10 when applicable |  |  |
 | Expected row volume or sampling plan is explicit |  |  |
 | Analysis path is consistent with selected tier |  |  |
 | Claim-to-paper traceability section is present |  |  |

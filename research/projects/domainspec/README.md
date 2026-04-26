@@ -41,7 +41,7 @@ Scoring note:
 | Lane | Expected Outcome | Current State | Status |
 |---|---|---|---|
 | Project contract | PROJECT, claims, dependencies, registry, telemetry schema | Present | complete |
-| Governance definitions | experiment index, methodology profile, definitions index, protocol checklist, and constitution | Present | complete |
+| Governance definitions | canonical definitions source, experiment index, methodology profile, definitions index, protocol checklist, and constitution | Present | complete |
 | Execution evidence | experiment specs, live data files, analysis outputs | [E6](experiments/E6-vocabulary-sufficiency/protocol.md) and [E9](experiments/E9-cross-feature-composition/protocol.md) have data/results; most experiments still pending | in progress |
 | Source and inventory | source selection, reference ledger, and inventory coverage for active experiments | Source catalog and inventory entries exist, but not complete for all scheduled runs | in progress |
 | Claim adjudication | claim-level status updates from experiment evidence | Evidence matrix established; [C2](claims/CLAIMS.md) partially supported; [C1](claims/CLAIMS.md)/[C3](claims/CLAIMS.md)/[C4](claims/CLAIMS.md) still insufficient | in progress |
@@ -85,6 +85,7 @@ Interpretation:
 
 - Project manifest: `PROJECT.yaml`
 - Constitution: `definitions/CONSTITUTION.md`
+- Canonical definitions source: `definitions/DEFINITIONS.md`
 - Methodology profile: `definitions/METHODOLOGY-PROFILE.md`
 - Definitions index: `definitions/DEFINITIONS-INDEX.md`
 - Protocol checklist: `protocols/DOMAINSPEC-PROTOCOL-CHECKLIST.md`
@@ -98,6 +99,12 @@ Interpretation:
 - Evidence matrix: `results/DOMAINSPEC-EVIDENCE-STATUS.md`
 - Experiment context bundles: `experiments/*/context.md`
 - Evidence outputs: `experiments/*/results/*.md` and `experiments/*/data/*.jsonl`
+
+Paper/definitions authority model:
+
+1. `definitions/DEFINITIONS.md` is normative for definition semantics.
+2. `definitions/DEFINITIONS-INDEX.md` is lookup and traceability index.
+3. `papers/domainspec-paper.md` is a condensed narrative synthesis of canonical definitions and evidence.
 
 ## Dependency Policy
 

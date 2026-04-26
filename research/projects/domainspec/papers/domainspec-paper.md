@@ -26,6 +26,8 @@ Three fundamental problems remain unsolved:
 
 This paper presents **DomainSpec**, a layered meta-architecture that addresses all three problems through a unified structural approach. Rather than treating specification, derivation, governance, and self-improvement as orthogonal concerns, DomainSpec organizes them as emergent properties of a seven-layer hierarchy:
 
+The authoritative definition contract for these constructs is maintained in `definitions/DEFINITIONS.md`; this paper is the condensed synthesis of those definitions plus empirical evidence.
+
 - **Layers 0–1** define the domain ontology — a closed vocabulary of 24 meta-types and 26 typed relationships that capture business semantics.
 - **Layer 2** hosts the derived software — tests, code, and metrics produced by deterministic rules applied to L1 concepts.
 - **Layers 3–4** encode governance — a formal constitution (L3) grounded in epistemic axioms (L4), each rule traceable to the harm its absence causes.
@@ -133,6 +135,52 @@ DomainSpec organizes knowledge, software, and governance into a seven-layer dual
 
 **Layer 7O — Orchestration (Operational Track).** The tuning loop (signals → reflection → improvement) that closes the self-governance cycle.
 
+### 3.1.1 Hard Layer-System Definitions
+
+To keep architecture semantics centralized (instead of distributed across claims and experiments), we define the layer system explicitly.
+
+**Definition L-A** (Layer Set). Let the DomainSpec layer set be:
+
+$$
+\mathcal{L} = \{L_0, L_1, L_2, L_3, L_4, L_5, L_6, L_7\}
+$$
+
+with governance direction from higher to lower layers and derivation direction from lower to higher enforcement evidence.
+
+**Definition L-B** (Track Projection). The dual-track architecture is modeled as two projections over the same core:
+
+$$
+\mathcal{L}_B = \{L_0, L_1, L_2, L_{3B}, L_{4B}, L_5, L_{6B}, L_{7B}\}
+$$
+
+$$
+\mathcal{L}_O = \{L_0, L_1, L_2, L_{3O}, L_{4O}, L_5, L_{6O}, L_{7O}\}
+$$
+
+where $L_0$-$L_2$ are shared between tracks.
+
+**Definition L-C** (L7 Orchestration Contract). Let:
+
+- $S = \{s_1, ..., s_9\}$ be the business-stage set (Plan, Spec, Stories, Tests, Implement, Verify, UI, Observability, Signals),
+- $H \subseteq S \times S$ be the stage handoff relation,
+- $\Sigma$ be emitted signal events,
+- $\Theta$ be threshold predicates (TH1-TH10),
+- $\Pi$ be tuning proposals/actions.
+
+Then:
+
+$$
+L_{7B} = (S, H), \quad L_{7O} = (\Sigma, \Theta, \Pi)
+$$
+
+with coupling:
+
+$$
+s_9 \Rightarrow \Sigma \xrightarrow{\Theta} \Pi \xrightarrow{apply} \text{updates}(S, H)
+$$
+
+This definition makes Layer 7 a formally split orchestration system rather than a narrative-only description.
+
 ### 3.2 The Derivation Chain
 
 The architecture's structural power comes from its formal derivation chains. Each chain traces from epistemic foundation to enforcement:
@@ -230,6 +278,28 @@ $$\mathcal{R}_U = \{\text{renders}, \text{wraps}, \text{composes}, \text{consume
 $$\mathcal{R}_X = \{\text{fetches}, \text{mutates}, \text{reflects}, \text{derives}, \text{contracts}, \text{mirrors}\}$$
 
 where $\mathcal{R}_B$ contains 12 backend edges, $\mathcal{R}_U$ contains 8 intra-UI edges, and $\mathcal{R}_X$ contains 6 cross-layer edges connecting UI concepts to backend concepts.
+
+**Definition E-A** (Edge Family Partition). The relationship taxonomy is partitioned as:
+
+$$
+\mathcal{R} = \mathcal{R}_B \uplus \mathcal{R}_U \uplus \mathcal{R}_X
+$$
+
+where $\uplus$ denotes disjoint union. This makes edge-family classification explicit for audits and experiment reporting.
+
+**Definition E-B** (Edge Signature Operator). Let:
+
+$$
+\sigma: \mathcal{R} \rightarrow \mathcal{P}(\mathcal{M}) \times \mathcal{P}(\mathcal{M})
+$$
+
+map each relationship type to allowed source/target meta-type sets. A typed edge instance $e = (u, r, v)$ is valid iff:
+
+$$
+	au(u) \in \pi_1(\sigma(r)) \land \tau(v) \in \pi_2(\sigma(r))
+$$
+
+This operator is the canonical edge-validity contract used by vocabulary and composition stress experiments.
 
 Each relationship has a typed signature constraining its source and target:
 
@@ -405,6 +475,20 @@ DomainSpec's dual-track architecture operates as a seven-layer recursive reinfor
 
 We call this *governance attenuation* — the systematic loss of per-rule compliance as the total number of rules grows. This is not a bug in any particular implementation; it is a structural property of bounded-capacity enforcement channels.
 
+**Definition 5** (Governance Attenuation). Let $\phi(k)$ denote observed per-rule governance fidelity when $k$ governance constraints are active in a run. Define attenuation as:
+
+$$
+A(k) = 1 - \phi(k)
+$$
+
+with critical point $k^*$ where marginal fidelity becomes negative:
+
+$$
+\frac{\partial \phi}{\partial k} < 0 \; \text{for} \; k > k^*
+$$
+
+This definition gives E4/E5/E7 a shared measurable target for attenuation analysis.
+
 ### 6.2 Three Root Causes
 
 **Cause 1: Context Exhaustion (The Epilogue Problem).** In LLM-based agent systems, governance observations (signal emission, compliance checks) are typically the *last* step in a multi-step pipeline. By the time an agent reaches step 10 of a 10-step process, its effective attention over early-session events has degraded. This maps to the serial position effect [25]: items in the middle of a long context are recalled worst. Governance violations from step 3 are forgotten by step 10.
@@ -489,6 +573,8 @@ Beer proved exactly five systems are needed — no more, no fewer. DomainSpec's 
 ### 7.1 The Nine-Stage Pipeline
 
 DomainSpec's delivery pipeline sequences nine stages, each producing traceable artifacts:
+
+This section instantiates Definition L-C by making the L7 business-track stage set $S$ explicit.
 
 1. **Plan** — Clarify objectives, constraints, acceptance criteria
 2. **Spec** — Create or evolve feature specification (SPEC.md, domain.md, operations.md, states.md, interfaces.md, events.md)
