@@ -43,6 +43,7 @@ Grounded in:
 - `domainspec/docs/research/results/EX-results.md` — structured results file (from TEMPLATE.md).
 - Updated experiment file (`experiments/EX-*.md`) — Results Analysis section appended.
 - Updated `EXPERIMENTS.md` — status change to "completed".
+- Updated `experiments/README.md` dashboard and `experiments/OPEN-DECISIONS.md` rollup via `./tools/update_experiments_index.sh`.
 - (Optional) Paper section drafts when results are conclusive.
 
 **Cross-references:**
@@ -263,7 +264,8 @@ Grounded in:
     - Use numbered references `[N]` matching the paper's References section.
 63. **Definition consistency check:** Ensure any revised wording remains aligned with canonical definitions; if semantics changed, request updates to `definitions/DEFINITIONS.md` and `definitions/DEFINITIONS-INDEX.md` before paper edits.
 64. **Update experiment status:** Mark the experiment as "completed" in EXPERIMENTS.md.
-65. **Session retrospective:** Record analysis learnings:
+65. **Refresh experiment navigation artifacts:** Run `./tools/update_experiments_index.sh` (or `.github/skills/mars-research-experiments-index/SKILL.md`) so root dashboard and unresolved-decision rollups reflect the new outputs.
+66. **Session retrospective:** Record analysis learnings:
     - Which analysis steps produced the most insight?
     - Were any steps unnecessary for this experiment type?
     - What would improve the pipeline for next time?

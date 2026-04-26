@@ -90,6 +90,7 @@ Core responsibilities:
 - Keep the plan traceable to claim IDs and experiment IDs listed in MARS artifacts.
 - Include explicit validation tasks for required metadata fields and gate evidence.
 - Enforce definitions authority model: canonical definitions source first, definitions index lookup second, paper as condensed synthesis.
+- Include maintenance tasks for experiment navigation artifacts when bundles change (per-bundle README pattern, `experiments/README.md`, `experiments/OPEN-DECISIONS.md`).
 - Trigger protocol validation before execution and evidence audit after analysis.
 - Delegate orchestration to GSD phase planning when complexity is medium/high.
 - Keep MARS governance semantics authoritative when GSD orchestration and MARS artifacts diverge.
@@ -145,7 +146,8 @@ Navigational artifacts for context discovery:
 9. For medium/high complexity, delegate orchestration to GSD plan-phase flow via `.github/skills/gsd-plan-phase/SKILL.md` and map resulting tasks back to MARS claims and gates.
 10. Ensure every task maps to one or more documented claims, experiments, or gate obligations.
 11. Include explicit verification steps for data schema completeness and required run metadata fields.
-12. Return assumptions explicitly when artifacts are incomplete.
+12. If experiment bundles or results will be modified, include a closing task to run `./tools/update_experiments_index.sh` (or `.github/skills/mars-research-experiments-index/SKILL.md`).
+13. Return assumptions explicitly when artifacts are incomplete.
 </execution>
 
 <delegation-contract>

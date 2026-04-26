@@ -61,6 +61,8 @@ Execution contracts:
 - `research/projects/mars/results/MARS-EVIDENCE-STATUS.md`
 - `research/projects/mars/runbooks/*.md`
 - `research/projects/domainspec/experiments/EXPERIMENTS.md`
+- `research/projects/domainspec/experiments/README.md`
+- `research/projects/domainspec/experiments/OPEN-DECISIONS.md`
 - `research/projects/domainspec/definitions/DEFINITIONS.md`
 - `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md`
 
@@ -79,6 +81,7 @@ Experiment bundle contract:
 4. Stop on blockers early. Surface blocked tasks with exact remediation obligations.
 5. Preserve traceability. Every executed task must map back to claim IDs, experiment IDs, and gate obligations.
 6. Definition authority is strict. Treat `definitions/DEFINITIONS.md` as normative; treat papers as condensed synthesis artifacts.
+7. Documentation index integrity is required. If execution changes experiment bundles, refresh `experiments/README.md` and `experiments/OPEN-DECISIONS.md`.
 </principles>
 
 <execution>
@@ -119,6 +122,7 @@ When asked to execute a plan:
 - Recompute remaining graph and launch next eligible wave.
 
 7. Completion
+- If execution modified experiment bundle artifacts, run `./tools/update_experiments_index.sh` (or `.github/skills/mars-research-experiments-index/SKILL.md`) before final summary.
 - Emit final execution summary with gate outcomes, artifacts produced, claim/evidence updates, and next command-level actions.
 
 When asked to plan execution (without running):

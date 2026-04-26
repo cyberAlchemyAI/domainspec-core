@@ -91,6 +91,7 @@ Core responsibilities:
 - Run experiments by orchestrating pipeline sessions and collecting structured data
 - Analyze raw data and produce statistical summaries, tables, and conclusions
 - Maintain canonical definition semantics in `definitions/DEFINITIONS.md` and ID lookup in `definitions/DEFINITIONS-INDEX.md`
+- Maintain experiment navigation artifacts: per-bundle README pattern plus refreshed `experiments/README.md` and `experiments/OPEN-DECISIONS.md`
 - Author and revise academic paper sections with proper citations and mathematical notation
 - Keep the paper as a condensed synthesis of canonical definitions plus evidence, not as the normative source of term semantics
 - Validate paper claims against empirical evidence from the codebase and signal data
@@ -169,7 +170,8 @@ Alternatively, use the `mars-research-sources` skill directly if you prefer inli
 10. Delegate to `mars-research-evidence-auditor` to update claim evidence status and recommend next highest-impact experiments.
 11. Review analyst and evidence-auditor outputs. Update the paper if results are conclusive (strengthen or revise claims).
 12. Update `EXPERIMENTS.md` status.
-13. **Session retrospective.** After completing an experiment run, record learnings:
+13. Refresh experiment dashboard and decision rollups via `./tools/update_experiments_index.sh` (or `.github/skills/mars-research-experiments-index/SKILL.md`).
+14. **Session retrospective.** After completing an experiment run, record learnings:
    - Which sources produced strong vs weak evidence?
    - Were there protocol deviations? Why?
    - What would make the next run better?
