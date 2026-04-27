@@ -81,7 +81,7 @@ domainspec-core/
 
 ## Phased Development Plan (DomainSpec)
 
-See [PHASED-PLAN.md](implementation/PHASED-PLAN.md) for full 8-phase roadmap.
+See [PHASED-PLAN.md](implementation/domainspec/PHASED-PLAN.md) for full 8-phase roadmap.
 
 | Phase | Focus                                             | Status             |
 | ----- | ------------------------------------------------- | ------------------ |
@@ -169,8 +169,8 @@ Current baseline intentionally fails until Type A/Type B mismatches are resolved
 - **DomainSpec Paper:** `research/projects/domainspec/papers/domainspec-paper.md`
 - **Experiment Status:** `research/projects/domainspec/experiments/EXPERIMENTS.md` and `research/projects/meta-meta/experiments/EXPERIMENTS-META.md`
 - **Live DomainSpec source:** `implementation/domainspec`
-- **Architecture (mirror):** `implementation/ARCHITECTURE.md`
-- **Governance Model (mirror + live):** `implementation/GOVERNANCE-ATTENUATION.md` and `implementation/domainspec/GOVERNANCE-ATTENUATION.md`
+- **Architecture:** `implementation/domainspec/ARCHITECTURE.md`
+- **Governance Model:** `implementation/domainspec/GOVERNANCE-ATTENUATION.md`
 - **Validation Reference:** `validation/poker-team` (feature behavior and runtime evidence)
 
 ---
