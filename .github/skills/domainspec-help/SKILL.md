@@ -19,6 +19,7 @@ Read command definitions under domainspec/copilot/skills/, package docs under do
 2. List available domainspec-* commands and one-line purpose, with `domainspec-orchestrate` as the default user-facing first command. Mark direct specialist commands as advanced/internal direct paths.
 3. If a command-name is provided, show detailed usage and prerequisites.
 4. Recommend next command based on detected docs and feature readiness.
+	- If `implementation/domainspec/plan/index.md` exists and the user wants to execute one task interactively, recommend `domainspec-orchestrate "run task session for <task-id>"` and include `domainspec-task-session <task-id>` as the advanced direct equivalent.
 	- If `docs/PROJECT-OVERVIEW.md`, `docs/INITIAL-DEFINITIONS.md`, or `docs/PROJECT-DECISIONS.md` is missing, recommend `domainspec-orchestrate "start DomainSpec for this repository"` and include `domainspec-start` as the advanced direct equivalent.
 	- If baseline exists but docs scaffolding is incomplete, recommend `domainspec-orchestrate "initialize DomainSpec docs scaffold"` and include `domainspec-init` as the advanced direct equivalent.
 	- If baseline and scaffolding exist, recommend `domainspec-orchestrate "run pipeline for <feature>"` and include `domainspec-pipeline <feature>` (or the specific stage command requested) as the advanced direct equivalent.

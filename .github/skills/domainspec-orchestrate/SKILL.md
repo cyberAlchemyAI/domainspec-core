@@ -20,6 +20,7 @@ Read command definitions under `.github/skills/domainspec-*/SKILL.md`, package d
 3. If the request is DomainSpec natural language without an explicit command, map to one specialist command:
    - kickoff, discovery, or baseline gating -> `domainspec-start`
    - docs bootstrap -> `domainspec-init`
+   - interactive execution of one plan task with options and gate handling -> `domainspec-task-session <task-id>`
    - end-to-end feature delivery -> `domainspec-pipeline <feature>`
    - feature spec authoring -> `domainspec-spec-feature <feature>`
    - story sync -> `domainspec-sync-user-stories <feature>`

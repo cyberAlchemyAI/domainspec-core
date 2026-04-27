@@ -27,6 +27,7 @@ Read first:
 3. Route DomainSpec intents only to DomainSpec skills:
    - project kickoff, baseline, or scope gating -> `domainspec-start`
    - docs bootstrap -> `domainspec-init`
+   - interactive execution of one plan task with options and gate handling -> `domainspec-task-session <task-id>`
    - full feature delivery -> `domainspec-pipeline <feature>`
    - command guidance -> `domainspec-help`
    - explicit stage intent -> the matching specialist command
