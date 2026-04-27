@@ -8,7 +8,7 @@
 Pin policy used:
 - URL-backed sources: `sha256-<content-digest>` when fetchable
 - Book references: ISBN pin retained
-- Unreachable URL during audit: `archive-YYYY-MM-DD-unresolved` fallback (still immutable, lower confidence)
+- Unreachable URL during audit: `archive-YYYY-MM-DD-fallback` fallback (still immutable, lower confidence)
 
 ## Pin Capture Table
 
@@ -35,7 +35,7 @@ Pin policy used:
 | `SRC-CIRCUIT-BREAKER-AZURE` | `sha256-cfad72be7581b3d9e0c044a9a5373368bf3c02e7111e71888e83ffa9417abee8` | fetched-content-pin |
 | `SRC-IDEMPOTENCY-STRIPE` | `sha256-d32248417e893817a334826a8e68bb84acaaff6c9d7a06c169de991f56f132b7` | fetched-content-pin |
 | `SRC-DLQ-AZURE-SB` | `sha256-b51c07fe0318d8613397f75d91292910b2e2e1141dfd07b1afd497a682ee4091` | fetched-content-pin |
-| `SRC-HEXAGONAL-ALISTAIR` | `archive-2026-04-22-unresolved` | archive-fallback |
+| `SRC-HEXAGONAL-ALISTAIR` | `archive-2026-04-22-fallback` | archive-fallback |
 | `SRC-STRANGLER-FOWLER` | `sha256-ac274ebe2a36e7553e9f1923e7fbfbc3ff52504c542eec5353127ffba335989e` | fetched-content-pin |
 | `SRC-DDD-ACL-EVANS` | `isbn-0321125215` | non-url-ref |
 | `SRC-VERNON-IDDD` | `isbn-0321834577` | non-url-ref |

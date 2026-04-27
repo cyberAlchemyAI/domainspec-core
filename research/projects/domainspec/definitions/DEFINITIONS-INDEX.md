@@ -56,6 +56,7 @@ This file is the lookup/traceability map, not the normative definition text.
 | DS-M10 | Claim acceptance threshold semantics and disconfirmation rules. | `claims/CLAIMS.md` | C3 requires attenuation baseline plus intervention recovery without dropping coverage. |
 | DS-M11 | Evidence strength vocabulary and update policy semantics. | `results/DOMAINSPEC-EVIDENCE-STATUS.md` | Any downgrade must cite conflicting experiment evidence explicitly. |
 | DS-M12 | Emission-rate metric definition for governance attenuation telemetry. | `experiments/E7-signal-emission-rate/protocol.md`, `telemetry/SIGNAL-SCHEMA.md` | Emission rate is computed as `actual_signal_count / expected_signal_count`. |
+| DS-M13 | Technique/specialization decision validity and promotion-readiness predicate. | `definitions/DEFINITIONS.md`, `experiments/E11-technique-specialization/protocol.md`, `experiments/E11-technique-specialization/README.md` | E11 uses reproducibility and adjudication thresholds to decide whether ontology-change review is eligible. |
 
 ## Drift Notes (Paper vs Evolving Framework)
 
@@ -74,6 +75,7 @@ This file is the lookup/traceability map, not the normative definition text.
 | DS-OPT-4 | Meta-health metric semantics for M-001..M-006 (including computation windows). | Makes C4 convergence judgments reproducible across runs. | Promote before E8 claim-strength upgrade attempts. | `implementation/domainspec/ADLC-ALIGNMENT.md`, `papers/domainspec-paper.md` §3.4 |
 | DS-OPT-5 | Traceability completeness ratio formal definition and denominator policy. | Prevents C1 acceptance-rule drift caused by inconsistent artifact counting. | Promote when C1 transitions from insufficient to partial/strong evidence. | `claims/CLAIMS.md`, `registry/TRACEABILITY-MATRIX.md` |
 | DS-OPT-6 | Derivation-obligation unit normalization (test obligation vs metric obligation vs evidence obligation). | Aligns counting logic across E1/E2/E7 and paper tables. | Promote when obligation counts diverge between reports. | `papers/domainspec-paper.md` §5, `results/DOMAINSPEC-EVIDENCE-STATUS.md` |
+| DS-OPT-7 | Technique/Specialization as canonical meta-types with typed relationship signatures. | Elevates stable specialization decisions from experiment method into ontology primitives. | Promote after DS-M13 passes in one strict-reliability replication (no adjudication override) plus one cross-experiment reuse wave, then issue promotion D4 packet. | `experiments/E11-technique-specialization/README.md`, `experiments/E11-technique-specialization/results/E11-D4-decision-packet-2026-04-25.md` |
 
 ## Usage Rules
 

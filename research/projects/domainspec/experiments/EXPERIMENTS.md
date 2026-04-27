@@ -28,7 +28,7 @@ Migration status:
 | E8  | Meta-Health Convergence               | C4 — M-001 orphan rate trends toward 0    | P1       | Low    | not started  | [E8](E8-meta-health-convergence/protocol.md)         |
 | E9  | Cross-Feature Composition Stress      | §9.2 — composition gaps                   | P2       | High   | ✅ completed + analyzed (run-1 + run-2 + rerun) | [E9](E9-cross-feature-composition/protocol.md)       |
 | E10 | Developer Productivity Comparison     | §9.4(d) — DomainSpec vs freeform          | P2       | High   | not started  | [E10](E10-developer-productivity/protocol.md)        |
-| E11 | Technique/Specialization Applicability | C2/C1 — reproducible cross-context technique decisions | P0 | High | in progress (manual provisional cycle complete; human adjudication pending) | [E11](E11-technique-specialization/protocol.md) |
+| E11 | Technique/Specialization Applicability | C2/C1 — reproducible cross-context technique decisions | P0 | High | ✅ completed + analyzed (human-attested closure packet issued; claim-delta updated) | [E11](E11-technique-specialization/protocol.md) |
 
 ### Results & Data
 

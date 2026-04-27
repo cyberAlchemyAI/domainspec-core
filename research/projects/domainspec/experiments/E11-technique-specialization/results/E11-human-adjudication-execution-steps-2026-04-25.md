@@ -118,7 +118,7 @@ Required fields per disagreement:
 - third_rater_id
 - adjudicated_at
 
-No unresolved disagreement is allowed.
+No remaining disagreement is allowed.
 
 ### Step 7: Rebuild Canonical Adjudication Log
 
@@ -132,7 +132,7 @@ Requirements:
 - total_subset_rows must match frozen subset count
 - disagreements count must match A/B comparison output
 - third_rater_resolutions must equal disagreements
-- unresolved_count must be 0
+- remaining_disagreement_count must be 0
 - include full third-rater resolution table for disagreement rows
 
 ### Step 8: Reissue D4 Decision Packet

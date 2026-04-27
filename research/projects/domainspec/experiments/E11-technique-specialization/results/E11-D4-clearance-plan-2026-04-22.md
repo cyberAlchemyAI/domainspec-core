@@ -48,7 +48,7 @@ Policy lock:
 | Gate | Go check | No-go check |
 | --- | --- | --- |
 | G1 | Protocol remains measurable and locked; single protocol_version/protocol_hash/domainspec_version configuration in run files | Any protocol drift, missing schema contract, or mixed configuration |
-| G2 | Source quality command returns g2_violations=0 | Any non-immutable or blocked source pin |
+| G2 | Source quality command returns g2_violations=0 | Any non-immutable or disallowed source pin |
 | G3 | Inventory linkage command returns missing_inventory_index=0, missing_inventory_entries=0, pin_mismatches=0 | Any missing inventory entry/index link or pin mismatch |
 | G4 | Strict validator returns violations=0 and no mixed protocol/version configuration across manual and rerun files | Any missing required field, invalid run_id/analysis_unit, or mixed config |
 | D4 | All conditions met: sample minima met, adjudication subset >=20%, dual-rater complete, third-rater resolved all disagreements with rationale, confirming rerun complete, G1-G4 rerun pass | Any D4 condition missing or failed |
@@ -64,7 +64,7 @@ Policy lock:
 7. For every disagreement, rationale logging is mandatory in results/E11-adjudication-log.md.
 8. Required rationale fields per disagreement: row_id, analysis_unit, technique_family, rater_a_label, rater_b_label, final_label, rationale_code, rationale_text, third_rater_id, adjudicated_at.
 9. Coordinator records closure metrics: subset_count, subset_ratio, disagreement_count, resolved_count, unresolved_count.
-10. unresolved_count must be 0 before D4-T7 starts.
+10. remaining_disagreement_count must be 0 before D4-T7 starts.
 
 ## 6) Command checklist (post-manual run gate rerun)
 

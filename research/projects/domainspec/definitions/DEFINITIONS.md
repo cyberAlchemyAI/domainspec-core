@@ -419,6 +419,41 @@ $$
 
 Intuition: this ratio indicates instrumentation completeness; values near 1 mean expected signals are being emitted.
 
+### DS-M13: Technique-Specialization Decision Validity
+
+Let a decision input be:
+
+$$
+x = (symptom\_profile, context, constraints)
+$$
+
+and the decision function be:
+
+$$
+d(x) = (technique\_family^*, specialization^*, tradeoff\_vector, confidence)
+$$
+
+A run is validity-passing when:
+
+$$
+Validity_{TS} = 1 \iff
+PrecisionF1 \ge 0.75 \land
+ApplicabilityRate \ge 0.80 \land
+AmbiguityRate \le 0.15 \land
+TradeoffCompleteness \ge 0.85
+$$
+
+A run is promotion-ready for ontology-change review when:
+
+$$
+PromotionReady_{TS} = 1 \iff
+Validity_{TS} = 1 \land
+G1 = pass \land G2 = pass \land G3 = pass \land G4 = pass \land
+AdjudicationClosure = 1 \land ConfirmingRerun = 1
+$$
+
+Intuition: technique/specialization outcomes become candidates for canonical meta-model promotion only after decision-quality thresholds and full governance closure both pass.
+
 ## Usage Rules
 
 1. Reference definitions by ID (`DS-*`) in protocols, claims, and evidence updates.

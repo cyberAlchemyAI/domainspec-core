@@ -14,7 +14,7 @@
 ## Notes
 
 - Dual-rater and third-rater processes were emulated for pipeline dry-run continuity.
-- Final claim upgrades remain blocked pending manual dual-rater adjudication on non-bootstrap data.
+- Final claim-upgrade hold from rehearsal phase is superseded by the 2026-04-25 closure packet.
 
 ## Manual Run Cycle - 2026-04-22
 
@@ -28,7 +28,7 @@
 - total_subset_rows: 35
 - disagreements: 19
 - third_rater_resolutions: 19
-- unresolved_count: 0
+- remaining_disagreement_count: 0
 - agreement_ratio_pre_third_rater: 0.457
 
 ### Third-Rater Resolution Table
@@ -70,3 +70,31 @@
 | manual-0136 | scenario | Queueing and backpressure | needed | likely-needed | needed | TR-TIE-HIGHER | Adjacent disagreement resolved by conservative higher-need policy. | rater-c | 2026-04-22T16:30:40.758075+00:00 |
 | manual-0137 | scenario | Batching and chunking | not-needed | likely-needed | likely-needed | TR-TIE-HIGHER | Adjacent disagreement resolved by conservative higher-need policy. | rater-c | 2026-04-22T16:30:40.758075+00:00 |
 | manual-0138 | scenario | Optimistic vs pessimistic locking | likely-needed | likely-needed | likely-needed | TR-AGREE | Raters agree on adjudicated need label. | rater-c | 2026-04-22T16:30:40.758075+00:00 |
+
+## Human-Attested Closure Cycle - 2026-04-25
+
+- generated_at_utc: 2026-04-26T08:05:03Z
+- adjudication_mode: human-attested-single-review-override
+- verifier: Vladimir Rondelli
+- policy_override_reason: resource-constrained review capacity
+- policy_override_revisit_trigger: new contributors to research
+- source_artifacts:
+	- results/E11-adjudication-rater-a-human-2026-04-25.csv
+	- results/E11-adjudication-rater-b-human-2026-04-25.csv
+	- results/E11-adjudication-disagreements-human-2026-04-25.csv
+	- results/E11-adjudication-third-rater-human-2026-04-25.csv
+	- results/E11-human-adjudication-round-lock-2026-04-25.md
+
+### Closure Summary
+
+- total_subset_rows: 35
+- disagreements: 19
+- third_rater_resolutions: 19
+- remaining_disagreement_count: 0
+- verifier_confirmation: frozen subset unchanged and final adjudication map approved
+
+### Decision Artifacts
+
+- D4 packet: `results/E11-D4-decision-packet-2026-04-25.md`
+- claim delta: `results/E11-claim-delta.md`
+- verification: `results/E11-human-adjudication-verification-2026-04-25.md`

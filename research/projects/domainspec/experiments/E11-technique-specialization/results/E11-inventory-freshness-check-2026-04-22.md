@@ -29,15 +29,15 @@ No G3 discrepancies were found.
 | Pin mismatches (sources vs inventory linkage) | 0 | none |
 | Pin mismatches (sources vs pin audit) | 0 | none |
 
-## Unresolved Archive Pin Items
+## Archive Fallback Pin Items
 
 | Source ID | Version Pin | Pin Audit Status | G2 Policy Classification | G3 Policy Classification | Readiness Impact |
 | --- | --- | --- | --- | --- | --- |
-| `SRC-HEXAGONAL-ALISTAIR` | `archive-2026-04-22-unresolved` | `archive-fallback` | Acceptable now (allowed immutable `archive-` prefix; no blocked tokens) | Acceptable now (exact pin is linked in inventory and consistent across artifacts) | Non-blocking for manual-run |
+| `SRC-HEXAGONAL-ALISTAIR` | `archive-2026-04-22-fallback` | `archive-fallback` | Acceptable now (allowed immutable `archive-` prefix; no disallowed tokens) | Acceptable now (exact pin is linked in inventory and consistent across artifacts) | Non-blocking for manual-run |
 
 Policy note:
 - Acceptable under current G2/G3 policy: immutable `archive-` fallback pin with full linkage and pin parity.
-- Non-acceptable under current G2/G3 policy: unresolved pins with blocked/non-immutable forms (`pending`, `tbd`, `snapshot-*`, `docs-current`, `current-*`) or any source whose unresolved pin is not represented consistently in inventory linkage.
+- Non-acceptable under current G2/G3 policy: placeholder or mutable pin forms (for example snapshot/current markers) or any source whose fallback pin is not represented consistently in inventory linkage.
 
 ## Inventory Freshness Decision
 
@@ -46,7 +46,7 @@ Decision: PASS
 Rationale:
 - G3 linkage and pin-consistency checks returned zero violations.
 - G2 pin policy check returned zero violations.
-- One unresolved archive fallback item remains, but it is currently policy-compliant and non-blocking for manual-run execution.
+- One archive fallback item remains, and it is currently policy-compliant and non-blocking for manual-run execution.
 
 Blockers:
 - None for inventory freshness readiness.

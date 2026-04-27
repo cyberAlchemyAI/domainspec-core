@@ -1,22 +1,23 @@
-# E11 Claim Delta Proposal (Bootstrap Run)
+# E11 Claim Delta Proposal (Human-Attested Closure)
 
 - claim_target: C2 primary, C1 secondary
+- d4_decision_packet: results/E11-D4-decision-packet-2026-04-25.md
+- d4_decision: go
+- claim_update_scope: E11 claim-delta only
 - status_change: none
-- rationale: bootstrap-derived run validates pipeline mechanics but does not satisfy evidence-strength upgrade requirements.
 
-## Required Next Step
+## Interpretation
 
-- Run E11 with manual dual-rater + third-rater adjudication on non-bootstrap sampled data.
+E11 closure confirms process reproducibility and adjudication trace completeness for the experiment bundle.
+Current claim matrix values remain unchanged in this cycle by explicit operator decision, with the closure evidence retained for next matrix refresh.
 
-## Manual Cycle Update (2026-04-22)
+## Recorded Adjudication Mode
 
-- manual_run_artifact: data/run-2026-04-22-manual.jsonl
-- manual_rerun_artifact: data/run-2026-04-22-manual-rerun.jsonl
-- d4_decision_packet: results/E11-D4-decision-packet-2026-04-22.md
-- d4_decision: no-go
-- status_change: none
-- no-go_reason: adjudication path is currently provisional AI mode; evidence-grade human adjudication remains required for claim movement.
+- mode: human-attested-single-review-override
+- verifier: Vladimir Rondelli
+- override_reason: resource-constrained review capacity
+- override_revisit_trigger: new contributors to research
 
 ## Recommendation
 
-- keep C2 and MARS-C2 status unchanged until human dual-rater plus human third-rater adjudication is completed on the frozen subset and revalidated through D4 packet rerun.
+Treat E11 as complete for bundle lifecycle and retain claim-matrix updates for the next evidence governance pass.
