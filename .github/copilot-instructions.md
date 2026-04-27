@@ -29,3 +29,9 @@ Run this before research phase transitions and release checkpoints:
 ```
 
 Treat failures as blockers until classified and resolved in `ops/AGENT-SKILL-TRIAGE-MATRIX.md`.
+
+## DomainSpec routing policy
+
+- For natural-language DomainSpec requests that do not name a command explicitly, route through `domainspec-orchestrate` as the default user-facing entrypoint.
+- If the user explicitly invokes a `domainspec-*` command, run that exact specialist command unchanged (advanced/internal direct mode remains supported).
+- Keep DomainSpec routing DomainSpec-only by default; do not invoke `gsd-*` flows unless the user explicitly asks for GSD.
