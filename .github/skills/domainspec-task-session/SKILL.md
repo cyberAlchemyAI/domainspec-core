@@ -19,9 +19,10 @@ Read first:
 - implementation/domainspec/ADLC-ALIGNMENT.md
 
 Resolve target task from either:
+
 - task ID (for example: `CTX-01`, `INF-03`, `GOV-02`)
 - explicit file path under `implementation/domainspec/plan/`
-</context>
+  </context>
 
 <flags>
 - `--auto`: choose the recommended option for each decision and continue without interactive prompts.
@@ -72,23 +73,26 @@ Resolve target task from either:
 ## Step 4 - Synchronize Work
 
 13. Synchronize task completion state and traceability artifacts:
-   - Update the target task file done criteria checkboxes where evidence exists.
-   - Update `implementation/domainspec/plan/TRACEABILITY.md` when alignment mappings changed.
-   - Update `implementation/domainspec/plan/index.md` when prioritization/order is affected.
-   - Update `implementation/domainspec/ADLC-ALIGNMENT.md` when ADLC/H-task mapping changed.
+
+- Update the target task file done criteria checkboxes where evidence exists.
+- Update `implementation/domainspec/plan/TRACEABILITY.md` when alignment mappings changed.
+- Update `implementation/domainspec/plan/index.md` when prioritization/order is affected.
+- Update `implementation/domainspec/ADLC-ALIGNMENT.md` when ADLC/H-task mapping changed.
+
 14. If no sync change is needed, report explicitly why.
 
 ## Step 5 - Session Report
 
 15. Return a compact report with:
-   - task resolved
-   - decisions and selected options
-   - trade-offs and consequences summary
-   - gate verdict (PASS/BLOCK)
-   - files updated
-   - validations run and results
-   - remaining follow-up items
-</process>
+
+- task resolved
+- decisions and selected options
+- trade-offs and consequences summary
+- gate verdict (PASS/BLOCK)
+- files updated
+- validations run and results
+- remaining follow-up items
+  </process>
 
 <error-handling>
 - Task not found -> BLOCK with candidate matches.
