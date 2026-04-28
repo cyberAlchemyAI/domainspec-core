@@ -6,7 +6,7 @@ cd "$ROOT_DIR"
 
 allow_compatibility="${ALLOW_RESEARCH_COMPATIBILITY:-0}"
 
-projects=(domainspec meta-meta mars)
+mapfile -t projects < <(find research/projects -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort)
 required_files=(
   "README.md"
   "PROJECT.yaml"
@@ -68,6 +68,19 @@ for project in "${projects[@]}"; do
       ((violations+=1))
     fi
   done
+
+  project_manifest="$base/PROJECT.yaml"
+  if [[ -f "$project_manifest" ]]; then
+    while IFS= read -r line; do
+      rel_path="${line#*: }"
+      rel_path="${rel_path#\"}"
+      rel_path="${rel_path%\"}"
+      if [[ -n "$rel_path" && ! -f "$base/$rel_path" ]]; then
+        echo "[violation] PROJECT.yaml references missing canonical file: $base/$rel_path"
+        ((violations+=1))
+      fi
+    done < <(grep -E '^[[:space:]]+(domain_context|methodology_theory_baseline): ' "$project_manifest" || true)
+  fi
 
   deps_file="$base/deps/DEPENDENCIES.yaml"
   if [[ -f "$deps_file" ]]; then

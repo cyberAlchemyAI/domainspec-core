@@ -10,15 +10,18 @@ allowed-tools: Read, Write, Bash, Glob, Grep, Fetch, AskQuestions
 Maintain a persistent, structured inventory of **domain model details** extracted from research sources — bounded contexts, concepts, meta-types, cross-context edges, and composition patterns.
 
 This skill exists because:
+
 1. **Re-fetching wastes tokens and time.** Every experiment run re-discovers the same domain models from GitHub READMEs (which return mostly navigation content) and book references. The inventory caches extracted knowledge.
 2. **Reconstruction quality degrades across sessions.** Domain models reconstructed from memory vary between sessions. A validated inventory ensures consistency.
-3. **SOURCE-CATALOG tracks *where*, not *what*.** The catalog knows URLs and scores but not the actual bounded contexts, entities, events, and cross-context edges. The inventory fills that gap.
+3. **SOURCE-CATALOG tracks _where_, not _what_.** The catalog knows URLs and scores but not the actual bounded contexts, entities, events, and cross-context edges. The inventory fills that gap.
 4. **Cross-experiment reuse.** E6 and E9 both use the same domains (Cargo Shipping, IDDD, eShop). Without inventory, each experiment re-extracts the same domain models independently.
 
 Data flow:
+
 ```
-SOURCE-CATALOG (discovery) → INVENTORY (domain models) → EXPERIMENTS (data collection)
+SOURCE-CATALOG (discovery) → REFERENCE-LEDGER (authority) → INVENTORY-INDEX (lookup) → INVENTORY LIBRARY (extracted content) → RAW CONTENT (provenance) → EXPERIMENTS (data collection)
 ```
+
 </objective>
 
 <flags>
@@ -45,9 +48,12 @@ SOURCE-CATALOG (discovery) → INVENTORY (domain models) → EXPERIMENTS (data c
 - External sources (GitHub repos, web pages) — for ingest.
 
 **Output:**
-- `domainspec/docs/research/inventory/{source-id}.md` — one file per inventoried source.
-- `domainspec/docs/research/inventory/INVENTORY-INDEX.md` — cross-source index with lookup dimensions.
-</context>
+
+- `inventory/library/{source-id}.md` — one file per inventoried source with extracted domain-model knowledge.
+- `inventory/raw/{source-id}/...` — retrieved or user-provided raw provenance artifacts.
+- `inventory/INVENTORY-INDEX.md` — cross-source index with lookup dimensions and provenance status.
+- `inventory/INVENTORY-SCHEMA.md` — local inventory chain contract.
+  </context>
 
 <principles>
 1. **Extract once, use many times.** A domain model extraction should be thorough enough that no experiment ever needs to re-fetch the same source.
@@ -57,6 +63,8 @@ SOURCE-CATALOG (discovery) → INVENTORY (domain models) → EXPERIMENTS (data c
 5. **Append-only concepts, updatable metadata.** Once a concept is inventoried, it stays. Metadata (evidence quality, experiment usage) can be updated.
 6. **Backfill from experiments.** Completed experiments contain validated domain model data. Backfilling from JSONL captures what we already know.
 7. **Definition anchor discipline.** Map extracted concepts and edge semantics to canonical definition IDs when available; unresolved mappings must be explicitly reported.
+8. **Per-source library files are canonical.** Thematic or aggregate summaries are optional secondary views only.
+9. **Raw provenance is required for library-grade status.** If a source cannot be fetched from the web, ask for user-provided raw files and inventory against those files explicitly.
 </principles>
 
 <process>
@@ -78,14 +86,14 @@ Extract a domain model from a source and create/update its inventory entry.
 4. **Extract concept inventory per BC.** For each bounded context, list:
 
    | Concept | Meta-Type | Description | Source Location |
-   |---------|-----------|-------------|-----------------|
+   | ------- | --------- | ----------- | --------------- |
 
    Use meta-types from TAXONOMY.md: Entity, Value Object, Enum, Operation, Query, Calculation, Rule, Policy, Workflow, Interface, Event, Mapping, State Machine.
 
 5. **Extract cross-context edges.** Identify all known cross-context interactions:
 
    | Source BC | Target BC | Concept | Concept Type | Edge Type | Pattern | Direction | Source Location |
-   |----------|-----------|---------|-------------|-----------|---------|-----------|-----------------|
+   | --------- | --------- | ------- | ------------ | --------- | ------- | --------- | --------------- |
 
    Use edge types from RELATIONSHIPS.md + proposed extensions (produces-for, triggers-cross, enforces-cross).
    Use composition patterns: P1-data-handoff, P2-entity-reference, P3-event-trigger, P4-saga, P5-cross-enforcement, P6-shared-context.
@@ -97,7 +105,8 @@ Extract a domain model from a source and create/update its inventory entry.
 
 7. **Resolve definition anchors.** Map extracted concept and edge terms to canonical IDs in `definitions/DEFINITIONS-INDEX.md` and note any missing/ambiguous mappings.
 
-8. **Write inventory file.** Create `inventory/{source-id}.md` using the template below.
+8. **Write inventory library file.** Create `inventory/library/{source-id}.md` using the template below and link it from the index.
+9. **Preserve raw provenance.** Save raw retrieved or user-provided content under `inventory/raw/{source-id}/` with a provenance note.
 
 ### Inventory Entry Template
 
@@ -106,6 +115,8 @@ Extract a domain model from a source and create/update its inventory entry.
 
 **Source:** {URL or reference}
 **Category:** {A–F from SOURCE-CATALOG}
+**Acquisition Mode:** {web-retrieved | user-provided-raw}
+**Raw Content Paths:** {inventory/raw/...}
 **Extracted:** {date}
 **Confidence:** {high | moderate | low}
 **Used in experiments:** {E6, E9, ...}
@@ -114,8 +125,8 @@ Extract a domain model from a source and create/update its inventory entry.
 
 ## Bounded Contexts
 
-| # | Context | Description | Aggregate Roots | Key Events | Persistence |
-|---|---------|-------------|-----------------|------------|-------------|
+| #   | Context | Description | Aggregate Roots | Key Events | Persistence |
+| --- | ------- | ----------- | --------------- | ---------- | ----------- |
 
 ---
 
@@ -124,7 +135,7 @@ Extract a domain model from a source and create/update its inventory entry.
 ### {BC Name}
 
 | Concept | Meta-Type | Description | Source Location |
-|---------|-----------|-------------|-----------------|
+| ------- | --------- | ----------- | --------------- |
 
 (repeat per BC)
 
@@ -132,28 +143,28 @@ Extract a domain model from a source and create/update its inventory entry.
 
 ## Cross-Context Edges
 
-| # | Source BC | Target BC | Concept | Type | Edge Type | Pattern | Direction |
-|---|----------|-----------|---------|------|-----------|---------|-----------|
+| #   | Source BC | Target BC | Concept | Type | Edge Type | Pattern | Direction |
+| --- | --------- | --------- | ------- | ---- | --------- | ------- | --------- |
 
 ---
 
 ## Composition Patterns Exercised
 
-| Pattern | Present? | Edge Count | Notes |
-|---------|:--------:|----------:|-------|
-| P1 — Data Handoff | | | |
-| P2 — Entity Reference | | | |
-| P3 — Event Trigger | | | |
-| P4 — Saga | | | |
-| P5 — Cross-Enforcement | | | |
-| P6 — Shared Context | | | |
+| Pattern                | Present? | Edge Count | Notes |
+| ---------------------- | :------: | ---------: | ----- |
+| P1 — Data Handoff      |          |            |       |
+| P2 — Entity Reference  |          |            |       |
+| P3 — Event Trigger     |          |            |       |
+| P4 — Saga              |          |            |       |
+| P5 — Cross-Enforcement |          |            |       |
+| P6 — Shared Context    |          |            |       |
 
 ---
 
 ## Meta-Type Coverage
 
 | Meta-Type | Count | BCs | Notes |
-|-----------|------:|-----|-------|
+| --------- | ----: | --- | ----- |
 
 ---
 
@@ -243,29 +254,31 @@ The INVENTORY-INDEX.md provides a cross-source lookup table:
 ## Quick Lookup
 
 | Source ID | Domain | BCs | Concepts | Edges | Patterns | Confidence | Experiments |
-|-----------|--------|----:|--------:|------:|----------|:----------:|-------------|
+| --------- | ------ | --: | -------: | ----: | -------- | :--------: | ----------- |
 
 ## By Industry
 
 | Industry | Sources |
-|----------|---------|
+| -------- | ------- |
 
 ## By Composition Pattern
 
 | Pattern | Sources (count) |
-|---------|----------------|
+| ------- | --------------- |
 
 ## By Meta-Type Stress
 
 | Meta-Type | Sources exercising it |
-|-----------|---------------------|
+| --------- | --------------------- |
 ```
+
 </inventory-index-template>
 
 <integration>
 ### How Other Skills/Agents Use the Inventory
 
 **Research Scientist (experiment execution):**
+
 ```
 Before running an experiment:
 1. lookup --experiment EX → get pre-extracted domain models
@@ -274,6 +287,7 @@ Before running an experiment:
 ```
 
 **Research Sourcer (source discovery):**
+
 ```
 When evaluating a candidate source:
 1. validate → check if source is already inventoried
@@ -282,9 +296,11 @@ When evaluating a candidate source:
 ```
 
 **Research Analyst (analysis):**
+
 ```
 During triangulation (Step 7):
 1. lookup → check how many independent sources support a finding
 2. Cross-reference inventory coverage with experiment data coverage
 ```
+
 </integration>

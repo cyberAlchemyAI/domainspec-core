@@ -3,6 +3,7 @@
 Purpose: normative semantics for MARS governance terms used across planning, execution, analysis, and evidence adjudication.
 
 Interpretation rule:
+
 - Definition statements are normative.
 - `Intuition` notes are explanatory and non-normative.
 
@@ -61,3 +62,51 @@ Full tier is the publication-grade rigor mode requiring stages S1-S12 with deep-
 
 Intuition:
 This is the complete end-to-end evidence path used when stronger confidence is required.
+
+## MARS-DEF-008 Project Foundations Baseline
+
+Definition:
+The project foundations baseline is the pair of project-scoped artifacts `foundations/DOMAIN-CONTEXT.md` and `foundations/METHODOLOGY-AND-THEORY.md` that explain the research setting, methodological posture, theory baseline, and prior-art frame before protocol design begins.
+
+Intuition:
+These artifacts answer what is being studied and how it should be studied before any experiment-specific contract is written.
+
+## MARS-DEF-009 Reference Library
+
+Definition:
+A reference library is the reusable inventory layer that preserves enough extracted content from authoritative sources to support later protocol design, analysis, and adjudication without re-discovery.
+
+Intuition:
+Inventory should work like a library of reusable knowledge, not a cache of tiny snippets.
+
+## MARS-DEF-010 Research Artifact Taxonomy
+
+Definition:
+The research artifact taxonomy is the canonical typed vocabulary for modeling research and paper artifacts such as claims, hypotheses, methodology artifacts, references, experiments, run data, analysis results, evidence status, and paper sections.
+
+Intuition:
+It is the research-side equivalent of a concept taxonomy: a stable set of node types for the evidence graph.
+
+## MARS-DEF-011 Typed Research Relationships
+
+Definition:
+Typed research relationships are the canonical edge verbs used to connect research-artifact nodes, including `frames`, `anchors`, `cites`, `operationalizes`, `tests`, `measures`, `produces`, `analyzes`, `updates`, and `synthesizes`.
+
+Intuition:
+These edges make the paper and evidence graph explicit instead of leaving methodology, references, experiments, and synthesis only in prose.
+
+## MARS-DEF-012 Inventory Library Entry
+
+Definition:
+An inventory library entry is the per-source extracted-content artifact at `inventory/library/<source-id>.md` that preserves reusable knowledge, provenance notes, raw-content linkage, and experiment relevance for one source.
+
+Intuition:
+This is the actual library book, not just the library catalog card.
+
+## MARS-DEF-013 Raw Content Artifact
+
+Definition:
+A raw content artifact is the retrieved or user-provided source material stored under `inventory/raw/<source-id>/` and used as the provenance base for inventory extraction.
+
+Intuition:
+This is the closest preserved form of what the source actually said when inventory claims are extracted from it.

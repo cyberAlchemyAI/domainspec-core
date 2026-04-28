@@ -120,15 +120,18 @@ See canonical reusable automation assets in `implementation/domainspec/copilot`.
 The workspace now includes explicit interview-first discovery capacity for both product-domain and research scoping work.
 
 - **Domain interview (greenfield and brownfield):** `domainspec-interview-scope`
-    - Helps founders, product owners, and implementers discover or audit domain scope before specification and implementation.
-    - Produces reusable baseline artifacts: project overview, initial definitions, hypotheses, and experiment candidates.
+  - Helps founders, product owners, and implementers discover or audit domain scope before specification and implementation.
+  - Produces reusable baseline artifacts: project overview, initial definitions, hypotheses, and experiment candidates.
+- **MARS research startpoint:** `mars-research-start`
+  - Initializes or audits a MARS research-project baseline before protocol design or execution.
+  - Creates or normalizes the repository-valid project contract, discovery artifacts, registry entries, and validation steps for new or incomplete projects.
 - **MARS research interview (greenfield and brownfield):** `mars-research-interview`
-    - Helps researchers and business operators frame research scope, identify counterarguments, and define protocol-ready experiment candidates.
-    - Produces MARS-aligned baseline artifacts for project context, definitions, hypotheses, and experiment candidate backlogs.
+  - Handles discovery-only scoping when you want hypotheses, definitions, and experiment candidates without invoking the full startpoint flow.
 
 Interview assets:
+
 - DomainSpec Type A pack: `implementation/domainspec/copilot/agents/domainspec-interviewer.agent.md` and `implementation/domainspec/copilot/skills/domainspec-interview-scope/SKILL.md`
-- MARS Type B orchestration: `.github/agents/mars-research-interviewer.agent.md` and `.github/skills/mars-research-interview/SKILL.md`
+- MARS Type B orchestration: `.github/agents/mars-research-interviewer.agent.md`, `.github/skills/mars-research-start/SKILL.md`, and `.github/skills/mars-research-interview/SKILL.md`
 
 ---
 

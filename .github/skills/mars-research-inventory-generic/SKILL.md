@@ -12,6 +12,7 @@ Maintain a persistent, structured inventory of knowledge entries extracted from 
 If the target project defines canonical semantics in `definitions/DEFINITIONS.md`, inventory entries should map extracted terms to IDs in `definitions/DEFINITIONS-INDEX.md`.
 
 **Knowledge entry types supported:**
+
 - `domain-model` — bounded contexts, concepts, relationships (for E1-E10, E15, E20)
 - `paper-abstract` — title, authors, contributions, methodology, key findings (for E4, E7, E8, E11-E20)
 - `tool-evaluation` — features, performance, cost, integration points (for E17, E15)
@@ -19,12 +20,13 @@ If the target project defines canonical semantics in `definitions/DEFINITIONS.md
 - `role-definition` — agent contract, capabilities, communication protocol, success criteria (for E13, E16, E18)
 
 This skill exists because:
+
 1. **Re-extraction wastes tokens and time.** Both domain models and papers have been extracted once; re-extracting them in later experiments consumes tokens needlessly.
 2. **Extraction quality degrades.** Models reconstructed from memory vary between sessions. A validated inventory ensures consistency across experiments.
 3. **SOURCE-CATALOG only tracks WHERE sources are, not WHAT they contain.** The catalog records URLs and scores; the inventory stores the actual extracted knowledge.
 4. **Cross-experiment reuse.** E6, E9, E11, E15 may all need the same domain models or papers. Without inventory, each extracts independently.
 5. **Cross-entry-type consistency.** Papers about domain models, tool docs about agent roles, architecture specs about governance — all live in the same searchable inventory.
-</objective>
+   </objective>
 
 <flags>
 - `ingest` — Extract a knowledge entry from a source; create or update inventory file.
@@ -52,10 +54,12 @@ This skill exists because:
 - External sources (GitHub, arXiv, tool docs, etc.) — for ingest operations.
 
 **Output:**
-- `inventory/{source-id}.md` — one file per inventoried source (any entry type).
-- `inventory/INVENTORY-INDEX.md` — master index with lookup tables across all entry types.
-- `inventory/INVENTORY-SCHEMA.md` — data model definitions for each entry type.
-</context>
+
+- `inventory/library/{source-id}.md` — one file per inventoried source containing extracted reusable knowledge.
+- `inventory/raw/{source-id}/...` — raw retrieved or user-provided provenance artifacts backing the library entry.
+- `inventory/INVENTORY-INDEX.md` — master index with lookup tables across all entry types and raw-coverage status.
+- `inventory/INVENTORY-SCHEMA.md` — local chain contract and data model definitions.
+  </context>
 
 <principles>
 1. **Extract once, use many times.** An extraction should be thorough enough that no experiment re-fetches the same source. Structured tables, complete concept inventories, full cross-reference mappings.
@@ -66,6 +70,8 @@ This skill exists because:
 6. **Backfill from completed experiments.** Experiments validate domain models and extract new knowledge. Backfill captures that validated knowledge into inventory.
 7. **Entry-type-specific templates.** Each entry type has its own data model; templates enforce consistency within a type while supporting flexible lookups.
 8. **Definition authority discipline.** When canonical definitions files exist, map extracted terms to definition IDs and explicitly flag unmapped semantics.
+9. **Provenance chain is mandatory for library-grade status.** A library-grade entry links source catalog -> reference ledger -> inventory index -> per-source library file -> raw content artifact.
+10. **User-provided raw files are first-class.** If web retrieval is not possible, request raw files from the user and store them under `inventory/raw/<source-id>/` before calling the entry library-grade.
 </principles>
 
 <process>
@@ -74,15 +80,17 @@ This skill exists because:
 
 ### Entry Type: `domain-model`
 
-**File:** `inventory/{source-id}.md`
+**File:** `inventory/library/{source-id}.md`
 
 **Contains:**
+
 - Bounded contexts (name, description, aggregate roots, key events)
 - Concept inventory per BC (concept name, meta-type, description, source location)
 - Cross-context edges (source BC, target BC, concept, relationship type, pattern, original derivation status)
 - Composition pattern checklist (which of P1-P6 patterns are present?)
 
 **Template:**
+
 ```markdown
 # [Domain Name] — Domain Model Inventory
 
@@ -93,23 +101,27 @@ This skill exists because:
 **Used in experiments:** [E6, E9, E15, ...]
 
 ## Bounded Contexts
-| # | Context | Description | Aggregate Roots | Key Events |
-|---|---------|-------------|-----------------|------------|
+
+| #   | Context | Description | Aggregate Roots | Key Events |
+| --- | ------- | ----------- | --------------- | ---------- |
 
 ## Concept Inventory
-| Concept | Meta-Type | BC | Description | Source Location |
-|---------|-----------|-----|-------------|-----------------|
+
+| Concept | Meta-Type | BC  | Description | Source Location |
+| ------- | --------- | --- | ----------- | --------------- |
 
 ## Cross-Context Edges
-| # | Source BC | Target BC | Concept | Relationship | Pattern | Status |
-|---|-----------|-----------|---------|--------------|---------|--------|
+
+| #   | Source BC | Target BC | Concept | Relationship | Pattern | Status |
+| --- | --------- | --------- | ------- | ------------ | ------- | ------ |
 ```
 
 ### Entry Type: `paper-abstract`
 
-**File:** `inventory/{source-id}.md`
+**File:** `inventory/library/{source-id}.md`
 
 **Contains:**
+
 - Citation info (title, authors, year, venue, DOI)
 - Abstract + key contributions
 - Relevance to DomainSpec claims (C1-C4 or CM1-CM4)
@@ -117,6 +129,7 @@ This skill exists because:
 - Threat assessment (what are the limitations?)
 
 **Template:**
+
 ```markdown
 # [Paper Title] — Paper Abstract Inventory
 
@@ -128,52 +141,61 @@ This skill exists because:
 **Used in experiments:** [E4, E11, ...]
 
 ## Bibliographic Info
-| Field | Value |
-|-------|-------|
-| Authors | ... |
-| Title | ... |
-| Venue | ... |
-| Year | ... |
-| DOI / Link | ... |
+
+| Field      | Value |
+| ---------- | ----- |
+| Authors    | ...   |
+| Title      | ...   |
+| Venue      | ...   |
+| Year       | ...   |
+| DOI / Link | ...   |
 
 ## Abstract & Contributions
+
 [Full abstract]
 
 ### Key Contributions
+
 - Contribution 1
 - Contribution 2
 
 ## Relevance to DomainSpec Claims
-| Claim | Relation | Details |
-|-------|----------|---------|
+
+| Claim           | Relation | Details                                                                         |
+| --------------- | -------- | ------------------------------------------------------------------------------- |
 | C2 (Derivation) | supports | Paper on automatic test generation validates deterministic derivation principle |
 
 ## Threat Assessment
-| Threat Type | Assessment | Implication for DomainSpec |
-|-------------|-----------|---------------------------|
-| Internal validity | Authors use lab subjects, not real developers | May overestimate derivation benefits |
-| External validity | Study on Java only | Unclear if findings transfer to Python/TypeScript |
-| Construct validity | "Developer productivity" measured by lines of code | Questionable proxy for software quality |
-| Conclusion validity | Small sample (N=12) | Effect size may not be statistically significant |
+
+| Threat Type         | Assessment                                         | Implication for DomainSpec                        |
+| ------------------- | -------------------------------------------------- | ------------------------------------------------- |
+| Internal validity   | Authors use lab subjects, not real developers      | May overestimate derivation benefits              |
+| External validity   | Study on Java only                                 | Unclear if findings transfer to Python/TypeScript |
+| Construct validity  | "Developer productivity" measured by lines of code | Questionable proxy for software quality           |
+| Conclusion validity | Small sample (N=12)                                | Effect size may not be statistically significant  |
 
 ## Key Findings
+
 [Bullet points summarizing results]
 
 ## Related Work References
+
 [Other papers cited that might be useful]
 ```
 
 ### Entry Type: `tool-evaluation`
 
-**File:** `inventory/{source-id}.md`
+**File:** `inventory/library/{source-id}.md`
 
 **Contains:**
+
 - Tool metadata (name, version, GitHub, docs)
 - Feature inventory (capabilities, APIs, integrations)
 - Performance characteristics (latency, throughput, cost)
 - Integration with DomainSpec pipeline (how does this tool fit?)
 
 **Template:**
+
 ```markdown
 # [Tool Name] — Tool Evaluation Inventory
 
@@ -185,36 +207,41 @@ This skill exists because:
 **Used in experiments:** [E3, E7, E17, ...]
 
 ## Metadata
-| Field | Value |
-|-------|-------|
-| Name | ... |
-| Version | ... |
-| Repository | ... |
-| Stars | ... |
-| Last Update | ... |
-| License | ... |
+
+| Field       | Value |
+| ----------- | ----- |
+| Name        | ...   |
+| Version     | ...   |
+| Repository  | ...   |
+| Stars       | ...   |
+| Last Update | ...   |
+| License     | ...   |
 
 ## Feature Inventory
-| Feature | Supported | Notes |
-|---------|-----------|-------|
-| Coverage tracking | ✅ | Line + branch coverage |
-| Mutation testing | ✅ | 15+ mutation operators |
-| Cost tracking | ❌ | Not built-in |
+
+| Feature           | Supported | Notes                  |
+| ----------------- | --------- | ---------------------- |
+| Coverage tracking | ✅        | Line + branch coverage |
+| Mutation testing  | ✅        | 15+ mutation operators |
+| Cost tracking     | ❌        | Not built-in           |
 
 ## Performance Characteristics
-| Metric | Value | Context |
-|--------|-------|---------|
-| Latency per mutation | 50ms | On 100 KLOC project |
-| Memory footprint | 500MB | Baseline + mutations |
-| Cost per analysis | $0.05 | If using cloud API |
+
+| Metric               | Value | Context              |
+| -------------------- | ----- | -------------------- |
+| Latency per mutation | 50ms  | On 100 KLOC project  |
+| Memory footprint     | 500MB | Baseline + mutations |
+| Cost per analysis    | $0.05 | If using cloud API   |
 
 ## Integration with DomainSpec
-| Pipeline Stage | Integration | Notes |
-|---|---|---|
+
+| Pipeline Stage       | Integration                                | Notes                                    |
+| -------------------- | ------------------------------------------ | ---------------------------------------- |
 | Test Derivation (E3) | Mutates derived tests to validate coverage | Stryker plugin validates E2 test quality |
-| Observability (E7) | Exports metrics as OpenTelemetry | Cost attributed per mutation class |
+| Observability (E7)   | Exports metrics as OpenTelemetry           | Cost attributed per mutation class       |
 
 ## Constraints & Cautions
+
 - Language support: [JS/TS only, no Python]
 - Requires: [Node.js ≥18, npm ≥8]
 - Learning curve: [Moderate]
@@ -222,15 +249,17 @@ This skill exists because:
 
 ### Entry Type: `framework-architecture`
 
-**File:** `inventory/{source-id}.md`
+**File:** `inventory/library/{source-id}.md`
 
 **Contains:**
+
 - Framework metadata (name, origin, documentation)
 - Architecture layers (observer, executor, meta-loop)
 - Feedback mechanisms (what signals flow where?)
 - Governance model (how are decisions made?)
 
 **Template:**
+
 ```markdown
 # [Framework Name] — Architecture Inventory
 
@@ -243,36 +272,41 @@ This skill exists because:
 
 ## Architecture Layers
 
-| Layer | Purpose | Signals In | Signals Out | Implementation |
-|-------|---------|------------|-------------|-----------------|
-| Inner | Execute tasks, collect metrics | Goal → task | Completion, metrics | [Agent/code] |
-| Outer | Monitor, intervene, adjust | Metrics | Task adjustments | [Feedback loop] |
-| Meta | Self-tune, specialize roles | Performance trends | Role specs | [Self-improvement] |
+| Layer | Purpose                        | Signals In         | Signals Out         | Implementation     |
+| ----- | ------------------------------ | ------------------ | ------------------- | ------------------ |
+| Inner | Execute tasks, collect metrics | Goal → task        | Completion, metrics | [Agent/code]       |
+| Outer | Monitor, intervene, adjust     | Metrics            | Task adjustments    | [Feedback loop]    |
+| Meta  | Self-tune, specialize roles    | Performance trends | Role specs          | [Self-improvement] |
 
 ## Governance Model
+
 [Description of decision-making, who adjusts what, under what conditions]
 
 ## Signal Flow Diagram
+
 [ASCII art or reference to paper figure]
 
 ## Comparison with DomainSpec
-| Aspect | This Framework | DomainSpec | Relation |
-|--------|---|---|---|
-| Layer count | 5 | 7 | DomainSpec extends with test + validation layers |
-| Feedback type | Empirical | Formal + empirical | Both use signals; DomainSpec more structured |
+
+| Aspect        | This Framework | DomainSpec         | Relation                                         |
+| ------------- | -------------- | ------------------ | ------------------------------------------------ |
+| Layer count   | 5              | 7                  | DomainSpec extends with test + validation layers |
+| Feedback type | Empirical      | Formal + empirical | Both use signals; DomainSpec more structured     |
 ```
 
 ### Entry Type: `role-definition`
 
-**File:** `inventory/{source-id}.md`
+**File:** `inventory/library/{source-id}.md`
 
 **Contains:**
+
 - Role metadata (name, responsibilities, stakeholders it serves)
 - Role contract (interfaces, inputs, outputs, decision authority)
 - Communication protocol (how does this role interact with others?)
 - Success criteria (how do we measure role effectiveness?)
 
 **Template:**
+
 ```markdown
 # [Role Name] Agent — Role Definition Inventory
 
@@ -284,31 +318,34 @@ This skill exists because:
 **Used in experiments:** [E13, E16, E18, ...]
 
 ## Role Metadata
-| Field | Value |
-|-------|-------|
-| Name | ... |
-| Primary Responsibility | ... |
-| Stakeholders Served | ... |
-| Decision Authority | ... |
+
+| Field                  | Value |
+| ---------------------- | ----- |
+| Name                   | ...   |
+| Primary Responsibility | ...   |
+| Stakeholders Served    | ...   |
+| Decision Authority     | ...   |
 
 ## Role Contract
 ```
+
 interface [RoleName]Agent {
-  inputs: {
-    domain_spec: DomainSpec,
-    prior_decisions: Decision[],
-    peer_proposals: Proposal[]
-  },
-  outputs: {
-    recommendation: Proposal,
-    rationale: string,
-    confidence: 0-1
-  },
-  sla: {
-    max_latency_ms: 5000,
-    cost_budget_tokens: 10000
-  }
+inputs: {
+domain_spec: DomainSpec,
+prior_decisions: Decision[],
+peer_proposals: Proposal[]
+},
+outputs: {
+recommendation: Proposal,
+rationale: string,
+confidence: 0-1
+},
+sla: {
+max_latency_ms: 5000,
+cost_budget_tokens: 10000
 }
+}
+
 ```
 
 ## Communication Protocol
@@ -427,14 +464,17 @@ Check inventory completeness against SOURCE-CATALOG.
 **Coverage:** 12 / 20 sources inventoried (60%)
 
 **Missing (need ingest):**
+
 - PAPER-AgentNegotiation (Category D)
 - TOOL-Pinecone (Category B)
 - GH-CrewAI-examples (Category A)
 
 **Stale (need refresh):**
+
 - GH-CargoTracker (last retrieved 2026-02-15, 2 months old)
 
 **Recommendations:**
+
 1. Backfill 8 missing sources from E6/E9 JSONL data (if available)
 2. Ingest 3 critical sources before E11 execution
 3. Refresh CargoTracker before E15 (cross-domain reuse)
@@ -480,6 +520,7 @@ inventorist backfill --experiment E9
 The inventorist bridges SOURCE-CATALOG (validated sources) and EXPERIMENT execution (data needs).
 
 **Workflow:**
+
 ```
 1. Scientist reads experiment protocol (EX-*.md)
 2. Scientist calls sourcer → produces EX-sources.md (validated external sources)
@@ -496,6 +537,7 @@ The inventorist bridges SOURCE-CATALOG (validated sources) and EXPERIMENT execut
 ```
 
 This flow ensures:
+
 - ✅ No source is re-fetched across experiments
 - ✅ Pre-extracted knowledge is reused (token savings)
 - ✅ New discoveries feed inventory (cross-experiment learning)

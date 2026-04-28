@@ -25,21 +25,22 @@
 - Overall weighted completeness: <0-100>%
 
 Scoring note:
+
 - Structural = required project contract and canonical governance artifacts present.
 - Empirical = sources, inventory, data capture, integrity checks, analysis outputs, evidence updates.
 - Publication = paper-facing synthesis and retrospective artifacts.
 
 ### Artifact Lane Status
 
-| Lane | Expected Outcome | Current State | Status |
-|---|---|---|---|
-| Project contract | PROJECT, claims, dependencies, registry, telemetry schema | <state> | <complete|in progress|missing> |
-| Governance definitions | pipeline/protocol definitions required by this project | <state> | <complete|in progress|missing> |
-| Execution evidence | experiment specs, data files, analysis outputs | <state> | <complete|in progress|missing> |
-| Source and inventory | source selection + inventory coverage | <state> | <complete|in progress|missing> |
-| Claim adjudication | claim-level evidence status updates | <state> | <complete|in progress|missing> |
-| Publication | paper updates and retrospective outputs | <state> | <complete|in progress|missing> |
-| Exports | reusable published artifacts for dependents | <state> | <complete|in progress|missing> |
+| Lane                              | Expected Outcome                                                                     | Current State | Status    |
+| --------------------------------- | ------------------------------------------------------------------------------------ | ------------- | --------- | ----------- | -------- |
+| Project contract                  | PROJECT, claims, dependencies, registry, telemetry schema                            | <state>       | <complete | in progress | missing> |
+| Governance definitions            | pipeline/protocol definitions required by this project                               | <state>       | <complete | in progress | missing> |
+| Execution evidence                | experiment specs, data files, analysis outputs                                       | <state>       | <complete | in progress | missing> |
+| Foundations, source and inventory | project foundations baseline, source selection, and library-grade inventory coverage | <state>       | <complete | in progress | missing> |
+| Claim adjudication                | claim-level evidence status updates                                                  | <state>       | <complete | in progress | missing> |
+| Publication                       | paper updates and retrospective outputs                                              | <state>       | <complete | in progress | missing> |
+| Exports                           | reusable published artifacts for dependents                                          | <state>       | <complete | in progress | missing> |
 
 ## What Is Missing Right Now
 
@@ -51,6 +52,8 @@ Scoring note:
 ## Canonical File Map
 
 - Project manifest: PROJECT.yaml
+- Domain context baseline: foundations/DOMAIN-CONTEXT.md
+- Methodology and theory baseline: foundations/METHODOLOGY-AND-THEORY.md
 - Claims: claims/CLAIMS.md
 - Dependencies: deps/DEPENDENCIES.yaml
 - Artifact index: registry/ARTIFACT-INDEX.md
