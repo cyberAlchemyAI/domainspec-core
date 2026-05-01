@@ -26,30 +26,45 @@
 
 - **GOV-02**: CI gate for documentation drift runs automatically in pull requests.
 
+## v3 Requirements
+
+### Harness Minimal Profile and Durable Promotion
+
+- [ ] **HARN-01**: Harness planning and execution start with a minimal profile path that is fast, deterministic, and lower-cost to operate than durable orchestration.
+- [ ] **HARN-02**: Runtime dispatch and harness orchestration remain separated through a clean adapter boundary so Temporal can be integrated later without rewriting harness foundations.
+- [ ] **HARN-03**: Durable profile promotion is blocked unless at least one trigger is present: resumable long-running flows, human-in-loop pause/resume requirements, or strict crash-recovery guarantees.
+- [ ] **HARN-04**: Promotion and migration criteria include traceable evidence updates in roadmap, traceability, and completeness artifacts.
+
 ## Out of Scope
 
-| Feature | Reason |
-|---------|--------|
-| Domain model or taxonomy changes | Not required to resolve documentation and packaging drift |
-| Runtime behavior changes in downstream projects | This effort targets framework docs and pack integrity |
-| New product features | Scope is alignment, not feature expansion |
+| Feature                                         | Reason                                                    |
+| ----------------------------------------------- | --------------------------------------------------------- |
+| Domain model or taxonomy changes                | Not required to resolve documentation and packaging drift |
+| Runtime behavior changes in downstream projects | This effort targets framework docs and pack integrity     |
+| New product features                            | Scope is alignment, not feature expansion                 |
 
 ## Traceability
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| DOC-01 | Phase 1 | Pending |
-| DOC-02 | Phase 1 | Pending |
-| DOC-03 | Phase 1 | Pending |
-| DOC-04 | Phase 1 | Pending |
-| PKG-01 | Phase 1 | Pending |
-| GOV-01 | Phase 1 | Pending |
+| Requirement | Phase   | Status  |
+| ----------- | ------- | ------- |
+| DOC-01      | Phase 1 | Pending |
+| DOC-02      | Phase 1 | Pending |
+| DOC-03      | Phase 1 | Pending |
+| DOC-04      | Phase 1 | Pending |
+| PKG-01      | Phase 1 | Pending |
+| GOV-01      | Phase 1 | Pending |
+| HARN-01     | Phase 2 | Pending |
+| HARN-02     | Phase 2 | Pending |
+| HARN-03     | Phase 2 | Pending |
+| HARN-04     | Phase 2 | Pending |
 
 **Coverage:**
-- v1 requirements: 6 total
-- Mapped to phases: 6
+
+- v1 + v3 requirements: 10 total
+- Mapped to phases: 10
 - Unmapped: 0
 
 ---
-*Requirements defined: 2026-04-21*
-*Last updated: 2026-04-21 after initial definition*
+
+_Requirements defined: 2026-04-21_
+_Last updated: 2026-04-21 after initial definition_
