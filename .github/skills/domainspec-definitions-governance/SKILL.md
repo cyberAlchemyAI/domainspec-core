@@ -17,17 +17,20 @@ Canonical authority:
 - `research/projects/domainspec/definitions/DEFINITIONS.md`
 
 Lookup/index layer:
+
 - `research/projects/domainspec/definitions/DEFINITIONS-INDEX.md`
 
 Condensed narrative artifact:
+
 - `research/projects/domainspec/papers/domainspec-paper.md`
 
 Downstream consumers and checks:
+
 - `research/projects/domainspec/protocols/DOMAINSPEC-PROTOCOL-CHECKLIST.md`
 - `research/projects/domainspec/registry/TRACEABILITY-MATRIX.md`
 - `research/projects/domainspec/PROJECT.yaml`
 - `research/projects/domainspec/README.md`
-</context>
+  </context>
 
 <authority-model>
 1. `DEFINITIONS.md` is normative.
@@ -36,6 +39,10 @@ Downstream consumers and checks:
 </authority-model>
 
 <process>
+0. Planner gate hard rollout (feature mutations):
+   - If this command mutates `docs/features/{feature}/` or feature implementation assets, require planner preflight gate.
+   - Lazy backfill: if medium/high scope and `WORK-PACK.md` is missing, create it from `domainspec/templates/work-pack.md` before mutation.
+   - If planner gate is not PASS, return BLOCK and request planner preflight refresh.
 1. Read the canonical definitions and index first.
 2. Add or update DS-* entries with stable IDs and precise normative wording.
 3. For any mathematical construct, keep this minimum package together:
@@ -68,6 +75,7 @@ Return a concise maintenance summary:
 
 ```markdown
 ## Definitions Governance Summary
+
 - Definitions updated: <list DS-IDs>
 - Index synced: yes/no
 - Paper drift found: yes/no
@@ -76,7 +84,9 @@ Return a concise maintenance summary:
 - Validation: pass/fail
 
 ### Follow-ups
+
 1. <action>
 2. <action>
 ```
+
 </output-contract>

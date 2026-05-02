@@ -30,6 +30,10 @@ Resolve target task from either:
 </flags>
 
 <process>
+0. Planner gate hard rollout (feature mutations):
+   - If this command mutates `docs/features/{feature}/` or feature implementation assets, require planner preflight gate.
+   - Lazy backfill: if medium/high scope and `WORK-PACK.md` is missing, create it from `domainspec/templates/work-pack.md` before mutation.
+   - If planner gate is not PASS, return BLOCK and request planner preflight refresh.
 ## Step 0 - Resolve Task Session Scope
 
 1. Read framework constraints from `domainspec/CHANGELOG.md`.
