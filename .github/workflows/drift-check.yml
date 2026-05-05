@@ -14,11 +14,17 @@ jobs:
 
     steps:
       - name: Checkout (with submodules)
-      uses: actions/checkout@v4
-      with:
-        submodules: recursive
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Run governance drift check
-      run: |
-        chmod +x tools/check_github_drift.sh
-        tools/check_github_drift.sh
+        run: |
+          chmod +x tools/check_github_drift.sh
+          tools/check_github_drift.sh
+
+      - name: Run DomainSpec code-tag validation
+        working-directory: implementation/domainspec
+        run: |
+          corepack enable
+          pnpm run check:code-tags
