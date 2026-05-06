@@ -35,3 +35,10 @@ Treat failures as blockers until classified and resolved in `ops/AGENT-SKILL-TRI
 - For natural-language DomainSpec requests that do not name a command explicitly, route through `domainspec-orchestrate` as the default user-facing entrypoint.
 - If the user explicitly invokes a `domainspec-*` command, run that exact specialist command unchanged (advanced/internal direct mode remains supported).
 - Keep DomainSpec routing DomainSpec-only by default; do not invoke `gsd-*` flows unless the user explicitly asks for GSD.
+
+## Terminal execution hardening
+
+- Prefer non-interactive command paths for automation (for example disable git prompts and interactive auth).
+- For long-running operations, use bounded execution with timeout + explicit recovery behavior.
+- If a terminal execution breaks or stalls, recover deterministically: capture output, kill stale session, rerun once with safer flags, then return BLOCK with remediation if still failing.
+- Never rely on `exit` inside iterative helper loops; propagate status codes to avoid killing reusable shell sessions.
