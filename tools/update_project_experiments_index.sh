@@ -82,7 +82,7 @@ search_unresolved_first_match() {
   local grep_pattern='pending|open decision|todo|tbd|blocked|unresolved|needs|waiting|waiver'
 
   if command -v rg >/dev/null 2>&1; then
-    rg -i -n -m 1 "$rg_pattern" "$file" | head -n 1 || true
+    timeout 20s rg -i -n -m 1 "$rg_pattern" "$file" | head -n 1 || true
   else
     grep -Einm 1 "$grep_pattern" "$file" | head -n 1 || true
   fi
@@ -94,7 +94,7 @@ has_unresolved_signal() {
   local grep_pattern='pending|open decision|todo|tbd|blocked|unresolved|needs|waiting|waiver'
 
   if command -v rg >/dev/null 2>&1; then
-    rg -i -q "$rg_pattern" "$file"
+    timeout 20s rg -i -q "$rg_pattern" "$file"
   else
     grep -Eiq "$grep_pattern" "$file"
   fi
