@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Saturn - CyberAlchemy AI</title>
+    <style>
+      :root {
+        /* Editorial Off-White Light Mode */
+        --bg-color: #fdfaf3;
+        --surface-color: #f6f2e6;
+        --text-main: #1a1a1a;
+        --text-muted: #62625b;
+        --border-color: #e5e5e0;
+
+        /* Philosopher's Stone Red (Page Accents) */
+        --accent-brand: #e60023;
+        --accent-secondary: #cc0000;
+
+        /* Chart Flow Colors */
+        --chart-intent: #e60023; /* Philosopher's Red */
+        --chart-truth: #ea580c; /* Cyber Orange */
+        --chart-intent-glow: rgba(230, 0, 35, 0.4);
+        --chart-truth-glow: rgba(234, 88, 12, 0.4);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          /* Deep Black Startup Dark Mode */
+          --bg-color: #000000;
+          --surface-color: #111111;
+          --text-main: #ededed;
+          --text-muted: #888888;
+          --border-color: #333333;
+
+          /* Philosopher's Stone Red */
+          --accent-brand: #e60023;
+          --accent-secondary: #ff4d4d;
+
+          /* Chart Flow Colors */
+          --chart-intent: #ff4d4d;
+          --chart-truth: #fb923c;
+          --chart-intent-glow: rgba(255, 77, 77, 0.4);
+          --chart-truth-glow: rgba(251, 146, 60, 0.4);
+        }
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+      }
+
+      .container {
+        max-width: 800px;
+        padding: 40px 20px;
+        width: 100%;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 50px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: var(--text-main);
+        margin-bottom: 10px;
+        line-height: 1.2;
+        background: linear-gradient(
+          90deg,
+          var(--accent-brand),
+          var(--accent-secondary)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .meta {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .meta strong {
+        color: var(--text-main);
+      }
+
+      h2 {
+        font-size: 1.8rem;
+        color: var(--text-main);
+        margin-top: 40px;
+        margin-bottom: 15px;
+        border-left: 4px solid var(--accent-brand);
+        padding-left: 15px;
+      }
+
+      p {
+        margin-bottom: 1.2rem;
+        font-size: 1.05rem;
+      }
+
+      ul,
+      ol {
+        margin-bottom: 1.5rem;
+        padding-left: 20px;
+      }
+
+      li {
+        margin-bottom: 0.5rem;
+      }
+
+      strong {
+        color: var(--text-main);
+        font-weight: 600;
+      }
+
+      em {
+        color: var(--accent-secondary);
+        font-weight: 600;
+        font-style: normal;
+      }
+
+      .mermaid-wrapper {
+        background-color: var(--surface-color);
+        border-radius: 12px;
+        padding: 20px;
+        margin: 40px 0;
+        border: 1px solid var(--border-color);
+        display: flex;
+        justify-content: center;
+        overflow-x: auto;
+      }
+
+      .highlight-box {
+        background: rgba(166, 130, 255, 0.1);
+        border: 1px solid rgba(166, 130, 255, 0.3);
+        border-left: 4px solid var(--accent-brand);
+        padding: 15px 20px;
+        border-radius: 0 8px 8px 0;
+        margin: 20px 0;
+        font-style: italic;
+      }
+
+      footer {
+        margin-top: 60px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+        color: var(--text-muted);
+        text-align: center;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        "
+      >
+        <a href="main.html"
+          ><img
+            src="logo.png"
+            alt="CyberAlchemy AI Logo"
+            style="
+              width: 150px;
+              height: auto;
+              margin-bottom: 20px;
+              border: none;
+              filter: drop-shadow(0 8px 16px rgba(230, 0, 35, 0.15));
+            "
+        /></a>
+        <h1>Project Saturn: Continuous Cybernetic Alignment</h1>
+      </header>
+
+      <div style="text-align: center; margin-bottom: 40px; margin-top: -30px">
+        <a
+          href="main.html"
+          style="
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid var(--accent-brand);
+          "
+          >← Back to CyberAlchemy AI</a
+        >
+      </div>
+
+      <section>
+        <h2>The Illusion of the Blueprint</h2>
+        <p>
+          Software projects begin with a shared vision, a blueprint. We map
+          business intent, define domain structures, and write feature
+          contracts. But when code is deployed, decay begins. The system in
+          production diverges from the system on paper. Specifications rot,
+          governance becomes a suggestion, and telemetry throws dashboards at us
+          without offering control.
+        </p>
+        <p>
+          The force pulling intent and reality apart is <strong>drift</strong>.
+          Traditional engineering treats design and operation as a one-way
+          street: we build it, we ship it, and we watch it. Without a feedback
+          loop, divergence is inevitable.
+        </p>
+      </section>
+
+      <section>
+        <h2>Closing the Loop</h2>
+        <p>
+          Within our research portfolio, <strong>Project Saturn</strong> was
+          born from a simple question:
+          <em>What if a system could defend its own architecture?</em>
+        </p>
+        <p>
+          Saturn isn't just a monitoring tool; it is a cybernetic control loop
+          designed to bridge the gap between what we build and what runs. It
+          flips the model by enforcing <strong>convergence</strong>. It treats
+          domain intent (business ontologies, structures, and contracts) as a
+          reference baseline, rather than static documentation. By measuring
+          reality against this baseline, Saturn doesn't just report on drift, it
+          acts on it, turning governance into executable reality.
+        </p>
+      </section>
+
+      <section>
+        <h2>The Architecture of Convergence</h2>
+        <p>
+          Think of Saturn as the nervous system for your software. It operates
+          through a lifecycle: observing telemetry, evaluating against
+          contracts, deciding on corrective states, executing routing decisions,
+          and verifying closure.
+        </p>
+        <p>
+          To make this loop work, Saturn relies on a layered architecture. In
+          this stack, intent flows downward into execution, and truth flows
+          upward to inform governance:
+        </p>
+        <ul>
+          <li>
+            <strong>Modeling & Intent:</strong> Establishes the vocabulary,
+            structures, and contracts of the domain.
+          </li>
+          <li>
+            <strong>Verification & Perception:</strong> Derives validation from
+            intent and generates telemetry to measure drift.
+          </li>
+          <li>
+            <strong>Operation & Execution:</strong> Provides the execution
+            engine, prioritizing work based on objectives, managing
+            environments, and routing execution tasks.
+          </li>
+          <li>
+            <strong>Regulation & Interface:</strong> Enforces rules, blocks
+            unverified changes, and translates system data into an interface for
+            decision-making.
+          </li>
+        </ul>
+
+        <div
+          style="
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            padding: 40px 20px;
+            margin: 40px 0;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            position: relative;
+          "
+        >
+          <svg
+            viewBox="-50 0 900 650"
+            width="100%"
+            height="auto"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <!-- Defs for markers and animations -->
+            <defs>
+              <!-- Solid Arrowheads Down -->
+              <marker
+                id="arrow-down"
+                markerWidth="6"
+                markerHeight="6"
+                refX="5"
+                refY="3"
+                orient="auto"
+              >
+                <path d="M0,0 L6,3 L0,6 Z" fill="var(--text-muted)" />
+              </marker>
+              <!-- Upward Loop Markers -->
+              <marker
+                id="arrow-loop-left"
+                markerWidth="8"
+                markerHeight="8"
+                refX="7"
+                refY="4"
+                orient="auto"
+              >
+                <path d="M0,0 L8,4 L0,8 Z" fill="var(--chart-intent)" />
+              </marker>
+              <marker
+                id="arrow-loop-right"
+                markerWidth="8"
+                markerHeight="8"
+                refX="7"
+                refY="4"
+                orient="auto"
+              >
+                <path d="M0,0 L8,4 L0,8 Z" fill="var(--chart-truth)" />
+              </marker>
+              <style>
+                .node-rect {
+                  stroke-width: 2;
+                  rx: 8;
+                  fill-opacity: 0.85;
+                  transition:
+                    transform 0.3s ease,
+                    fill-opacity 0.3s ease;
+                }
+                .node-group:hover .node-rect {
+                  fill-opacity: 1;
+                  transform: translateY(-2px);
+                }
+
+                .reg-box {
+                  fill: #000000;
+                  stroke: var(--text-main);
+                }
+                .mod-box {
+                  fill: #000000;
+                  stroke: var(--text-main);
+                }
+                .op-box {
+                  fill: #000000;
+                  stroke: var(--text-muted);
+                }
+                .ver-box {
+                  fill: #000000;
+                  stroke: var(--text-muted);
+                }
+
+                .layer-bg {
+                  fill: none;
+                  stroke: var(--border-color);
+                  stroke-width: 1;
+                  stroke-dasharray: 4 4;
+                  rx: 12;
+                }
+                .layer-title {
+                  font-family: -apple-system, sans-serif;
+                  fill: var(--text-muted);
+                  font-size: 14px;
+                  font-weight: 700;
+                  text-anchor: middle;
+                  letter-spacing: 2.5px;
+                  text-transform: uppercase;
+                }
+
+                .text-title {
+                  font-family: -apple-system, sans-serif;
+                  fill: #ffffff;
+                  font-size: 16px;
+                  font-weight: 700;
+                  text-anchor: middle;
+                  pointer-events: none;
+                }
+                .text-sub {
+                  font-family: -apple-system, sans-serif;
+                  fill: #a3a3a3;
+                  font-size: 12px;
+                  font-weight: 500;
+                  text-anchor: middle;
+                  pointer-events: none;
+                }
+
+                .text-loop-left {
+                  font-family: -apple-system, sans-serif;
+                  fill: var(--chart-intent);
+                  font-size: 13px;
+                  font-weight: 700;
+                  text-anchor: middle;
+                  pointer-events: none;
+                  letter-spacing: 1px;
+                  text-transform: uppercase;
+                  paint-order: stroke fill;
+                  stroke: var(--surface-color);
+                  stroke-width: 8px;
+                  stroke-linecap: round;
+                  stroke-linejoin: round;
+                }
+                .text-loop-right {
+                  font-family: -apple-system, sans-serif;
+                  fill: var(--chart-truth);
+                  font-size: 13px;
+                  font-weight: 700;
+                  text-anchor: middle;
+                  pointer-events: none;
+                  letter-spacing: 1px;
+                  text-transform: uppercase;
+                  paint-order: stroke fill;
+                  stroke: var(--surface-color);
+                  stroke-width: 8px;
+                  stroke-linecap: round;
+                  stroke-linejoin: round;
+                }
+
+                /* Path lines */
+                .line-down {
+                  stroke: var(--text-muted);
+                  stroke-width: 2;
+                  fill: none;
+                  opacity: 0.6;
+                }
+                .line-loop {
+                  fill: none;
+                  stroke-width: 2.5;
+                  stroke-dasharray: 8 6;
+                  animation: dashAnim 15s linear infinite;
+                }
+                .loop-left {
+                  stroke: var(--chart-intent);
+                }
+                .loop-right {
+                  stroke: var(--chart-truth);
+                }
+
+                @keyframes dashAnim {
+                  to {
+                    stroke-dashoffset: -200;
+                  }
+                }
+              </style>
+            </defs>
+
+            <!-- Background Layer Bands -->
+            <g class="layers">
+              <rect class="layer-bg" x="70" y="30" width="660" height="110" />
+              <text class="layer-title" x="400" y="20">
+                1. REGULATION & INTERFACE
+              </text>
+
+              <rect class="layer-bg" x="70" y="180" width="660" height="110" />
+              <text class="layer-title" x="400" y="170">
+                2. MODELING & INTENT
+              </text>
+
+              <rect class="layer-bg" x="70" y="330" width="660" height="110" />
+              <text class="layer-title" x="400" y="320">
+                3. OPERATION & EXECUTION
+              </text>
+
+              <rect class="layer-bg" x="70" y="480" width="660" height="110" />
+              <text class="layer-title" x="400" y="470">
+                4. VERIFICATION & PERCEPTION
+              </text>
+            </g>
+
+            <!-- Connection Lines (Downward Flow) -->
+            <!-- Left Pillar -->
+            <path
+              class="line-down"
+              marker-end="url(#arrow-down)"
+              d="M 250 120 L 250 190"
+            />
+            <path
+              class="line-down"
+              marker-end="url(#arrow-down)"
+              d="M 250 270 L 250 340"
+            />
+            <path
+              class="line-down"
+              marker-end="url(#arrow-down)"
+              d="M 250 420 L 250 490"
+            />
+
+            <!-- Right Pillar -->
+            <path
+              class="line-down"
+              marker-end="url(#arrow-down)"
+              d="M 550 120 L 550 190"
+            />
+            <path
+              class="line-down"
+              marker-end="url(#arrow-down)"
+              d="M 550 270 L 550 340"
+            />
+            <path
+              class="line-down"
+              marker-end="url(#arrow-down)"
+              d="M 550 420 L 550 490"
+            />
+
+            <!-- Saturn Feedback Loops (Upward Flow) -->
+            <!-- Left Loop -->
+            <path
+              class="line-loop loop-left"
+              marker-end="url(#arrow-loop-left)"
+              d="M 130 535 C -10 535, -10 85, 120 85"
+            />
+            <text x="35" y="310" class="text-loop-left">
+              <tspan x="35" dy="0">Status &amp;</tspan>
+              <tspan x="35" dy="16">Readiness</tspan>
+            </text>
+
+            <!-- Right Loop -->
+            <path
+              class="line-loop loop-right"
+              marker-end="url(#arrow-loop-right)"
+              d="M 670 535 C 810 535, 810 85, 680 85"
+            />
+            <text x="765" y="300" class="text-loop-right">
+              <tspan x="765" dy="0">Evidence</tspan>
+              <tspan x="765" dy="16">of Drift</tspan>
+              <tspan x="765" dy="16">(Saturn)</tspan>
+            </text>
+
+            <!-- Layer 1 Nodes (Regulation) -->
+            <g class="node-group">
+              <rect
+                class="node-rect reg-box"
+                x="130"
+                y="50"
+                width="240"
+                height="70"
+              />
+              <text class="text-title" x="250" y="78">Human Harness</text>
+              <text class="text-sub" x="250" y="98">
+                (Priorities, Dashboards)
+              </text>
+            </g>
+            <g class="node-group">
+              <rect
+                class="node-rect reg-box"
+                x="430"
+                y="50"
+                width="240"
+                height="70"
+              />
+              <text class="text-title" x="550" y="78">Governance</text>
+              <text class="text-sub" x="550" y="98">
+                (Constants, Quality Gates)
+              </text>
+            </g>
+
+            <!-- Layer 2 Nodes (Modeling) -->
+            <g class="node-group">
+              <rect
+                class="node-rect mod-box"
+                x="130"
+                y="200"
+                width="240"
+                height="70"
+              />
+              <text class="text-title" x="250" y="228">Foundation</text>
+              <text class="text-sub" x="250" y="248">
+                (Domain Structures, Ontologies)
+              </text>
+            </g>
+            <g class="node-group">
+              <rect
+                class="node-rect mod-box"
+                x="430"
+                y="200"
+                width="240"
+                height="70"
+              />
+              <text class="text-title" x="550" y="228">Formalization</text>
+              <text class="text-sub" x="550" y="248">(Feature Contracts)</text>
+            </g>
+
+            <!-- Layer 3 Nodes (Operation) -->
+            <g class="node-group">
+              <rect
+                class="node-rect op-box"
+                x="130"
+                y="350"
+                width="240"
+                height="70"
+              />
+              <text class="text-title" x="250" y="378">Agentic Substrate</text>
+              <text class="text-sub" x="250" y="398">(Workflows, Skills)</text>
+            </g>
+            <g class="node-group">
+              <rect
+                class="node-rect op-box"
+                x="430"
+                y="350"
+                width="240"
+                height="70"
+              />
+              <text class="text-title" x="550" y="378">Infrastructure</text>
+              <text class="text-sub" x="550" y="398">(Runtime, CI Loops)</text>
+            </g>
+
+            <!-- Layer 4 Nodes (Verification) -->
+            <g class="node-group">
+              <rect
+                class="node-rect ver-box"
+                x="130"
+                y="500"
+                width="240"
+                height="70"
+              />
+              <text class="text-title" x="250" y="528">Quality</text>
+              <text class="text-sub" x="250" y="548">
+                (Deterministic Tests)
+              </text>
+            </g>
+            <g class="node-group">
+              <rect
+                class="node-rect ver-box"
+                x="430"
+                y="500"
+                width="240"
+                height="70"
+              />
+              <text class="text-title" x="550" y="528">Observability</text>
+              <text class="text-sub" x="550" y="548">(Drift Telemetry)</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="highlight-box">
+          In this framework, no layer operates in isolation. Saturn is the
+          meta-loop that traverses these layers, reading telemetry from
+          perception layers, evaluating it against intent layers, and triggering
+          responses through execution and regulation layers.
+        </div>
+      </section>
+
+      <section>
+        <h2>Software That Defends Itself</h2>
+        <p>
+          Why does this matter? For us at <em>CyberAlchemy AI</em>, Saturn
+          represents the leap from describing how an architecture
+          <em>should</em> work to ensuring it <em>performs</em>.
+        </p>
+        <p>
+          Without a loop like Saturn, we rely on heroics to keep systems
+          aligned. Telemetry is noise, and governance is paperwork. Saturn
+          transforms telemetry into sensory input for a governance engine. It
+          allows a system to self-correct based on empirical evidence,
+          reprioritize based on changing context, and block anomalies
+          deterministically.
+        </p>
+        <p>
+          Project Saturn represents a shift in how we think about the lifecycle
+          of software. By embedding a control loop directly into the system, we
+          move closer to creating software that understands its own purpose,
+          exploring the threshold where artificial and classical systems
+          sustainably govern themselves.
+        </p>
+      </section>
+
+      <footer>Prepared by CyberAlchemy AI Research • Saturn Ecosystem</footer>
+    </div>
+
+    <!-- Replaced Mermaid script -->
+  </body>
+</html>
