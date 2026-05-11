@@ -41,6 +41,9 @@ Treat failures as blockers until classified and resolved in `ops/AGENT-SKILL-TRI
 - Prefer non-interactive command paths for automation (for example disable git prompts and interactive auth).
 - For long-running operations, use bounded execution with timeout + explicit recovery behavior.
 - If a terminal execution breaks or stalls, recover deterministically: capture output, kill stale session, rerun once with safer flags, then return BLOCK with remediation if still failing.
-- For risky or unknown commands, run a preflight nudge (`./tools/terminal_guard.sh nudge -- <command...>`) and prefer guarded execution (`./tools/terminal_guard.sh run --timeout <sec> -- <command...>`).
+- Route terminal commands through guard by default:
+  - one-shot command: `./tools/guard <command...>` (auto nudge + guarded run + retry)
+  - interactive session: `./tools/guard` or `./tools/guard-shell` (all commands guarded in-session)
+  - if using raw guard directly: `./tools/terminal_guard.sh auto --timeout <sec> --retry-timeout <sec> -- <command...>`
 - Reconcile delegation telemetry after interruptions so no stale `outcome: started` rows remain unresolved (for example run `./tools/reconcile_delegation_tuning.sh`).
 - Never rely on `exit` inside iterative helper loops; propagate status codes to avoid killing reusable shell sessions.

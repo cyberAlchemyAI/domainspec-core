@@ -9,12 +9,16 @@ usage() {
   cat <<'EOF'
 Usage:
   tools/terminal_guard.sh run [--timeout SEC] [--log PATH] [--no-log] [--quiet] -- <command> [args...]
+  tools/terminal_guard.sh auto [--timeout SEC] [--retry-timeout SEC] [--max-retries N] [--log PATH] [--no-log] [--quiet] -- <command> [args...]
+  tools/terminal_guard.sh shell [--timeout SEC] [--retry-timeout SEC] [--max-retries N] [--log PATH] [--no-log] [--quiet] [--prompt STR]
   tools/terminal_guard.sh nudge -- <command> [args...]
   tools/terminal_guard.sh profile [--top N] [--transcript JSONL]
 
 Examples:
   tools/terminal_guard.sh nudge -- rg -n "stageRunId" docs/signals/delegation-tuning.jsonl
   tools/terminal_guard.sh run --timeout 20 -- rg -n "stageRunId" docs/signals/delegation-tuning.jsonl
+  tools/terminal_guard.sh auto --timeout 30 --retry-timeout 15 -- rg -n "stageRunId" docs/signals/delegation-tuning.jsonl
+  tools/terminal_guard.sh shell --timeout 120 --retry-timeout 45
   tools/terminal_guard.sh profile --top 15 --transcript /path/to/session.jsonl
 EOF
 }
@@ -51,6 +55,14 @@ preflight_nudges() {
 
   if [[ "$cmd_display" =~ (^|[[:space:];])(rg|grep|find)[[:space:]] ]] && [[ "$cmd_display" =~ [[:space:]]--no-ignore([[:space:]]|$) ]]; then
     echo "broad-no-ignore-search: narrow path scope or cap matches with -m"
+  fi
+
+  if [[ "$cmd_display" == *'`'* ]]; then
+    echo "backtick-substitution-risk: backticks can trigger shell command substitution; prefer single-quoted regex or escaped backticks"
+  fi
+
+  if [[ "$cmd_display" == *'$('* ]]; then
+    echo "subshell-substitution-risk: verify \$() is intentional; unexpected expansion can alter command behavior"
   fi
 
   if [[ "$cmd_head" =~ ^(pnpm|npm|yarn|vite|tsx|nodemon)$ ]] && [[ "$cmd_display" =~ (^|[[:space:]])(dev|watch|start)([[:space:]]|$) ]]; then
@@ -104,6 +116,41 @@ risk_label() {
   else
     printf 'low'
   fi
+}
+
+has_max_count_cap() {
+  local arg
+  for arg in "$@"; do
+    case "$arg" in
+      -m|--max-count|--max-count=*)
+        return 0
+        ;;
+    esac
+  done
+  return 1
+}
+
+sanitize_shell_line() {
+  local line="$1"
+  local escaped="$line"
+  if [[ "$escaped" == *'`'* ]]; then
+    escaped="${escaped//\`/\\\`}"
+  fi
+  printf '%s' "$escaped"
+}
+
+build_recovery_cmd() {
+  local cmd=("$@")
+  local head="${cmd[0]}"
+
+  # Cap noisy text searches on recovery so retries converge quickly.
+  if [[ "$head" == "rg" ]] && ! has_max_count_cap "${cmd[@]}"; then
+    cmd+=("--max-count=200")
+  elif [[ "$head" == "grep" ]] && ! has_max_count_cap "${cmd[@]}"; then
+    cmd+=("-m" "200")
+  fi
+
+  printf '%s\n' "${cmd[@]}"
 }
 
 run_mode() {
@@ -182,7 +229,11 @@ run_mode() {
     use_outer_timeout=0
   fi
 
-  set +e
+  local errexit_was_on=0
+  if [[ $- == *e* ]]; then
+    errexit_was_on=1
+    set +e
+  fi
   if [[ "$quiet" -eq 1 ]]; then
     if [[ "$use_outer_timeout" -eq 1 ]]; then
       timeout --preserve-status "${timeout_sec}s" "${cmd[@]}" >"$tmp_out" 2>&1
@@ -201,7 +252,9 @@ run_mode() {
       exit_code=${PIPESTATUS[0]}
     fi
   fi
-  set -e
+  if [[ "$errexit_was_on" -eq 1 ]]; then
+    set -e
+  fi
 
   end_ms="$(date +%s%3N 2>/dev/null || true)"
   if [[ -z "$end_ms" ]]; then
@@ -308,6 +361,250 @@ nudge_mode() {
 
   for nudge in "${nudges[@]}"; do
     echo "- $nudge"
+  done
+}
+
+auto_mode() {
+  local timeout_sec=120
+  local retry_timeout_sec=45
+  local max_retries=1
+  local quiet=0
+  local no_log=0
+  local log_rel="$DEFAULT_LOG_REL"
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --timeout)
+        timeout_sec="${2:-}"
+        shift 2
+        ;;
+      --retry-timeout)
+        retry_timeout_sec="${2:-}"
+        shift 2
+        ;;
+      --max-retries)
+        max_retries="${2:-}"
+        shift 2
+        ;;
+      --log)
+        log_rel="${2:-}"
+        shift 2
+        ;;
+      --no-log)
+        no_log=1
+        shift
+        ;;
+      --quiet)
+        quiet=1
+        shift
+        ;;
+      --)
+        shift
+        break
+        ;;
+      -h|--help)
+        usage
+        exit 0
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  if [[ $# -eq 0 ]]; then
+    echo "ERROR: missing command for auto mode" >&2
+    usage
+    exit 2
+  fi
+
+  if ! [[ "$timeout_sec" =~ ^[0-9]+$ ]] || [[ "$timeout_sec" -lt 1 ]]; then
+    echo "ERROR: --timeout must be a positive integer" >&2
+    exit 2
+  fi
+
+  if ! [[ "$retry_timeout_sec" =~ ^[0-9]+$ ]] || [[ "$retry_timeout_sec" -lt 1 ]]; then
+    echo "ERROR: --retry-timeout must be a positive integer" >&2
+    exit 2
+  fi
+
+  if ! [[ "$max_retries" =~ ^[0-9]+$ ]] || [[ "$max_retries" -lt 0 ]]; then
+    echo "ERROR: --max-retries must be a non-negative integer" >&2
+    exit 2
+  fi
+
+  local cmd=("$@")
+  local run_opts=()
+  if [[ "$quiet" -eq 1 ]]; then
+    run_opts+=("--quiet")
+  fi
+  if [[ "$no_log" -eq 1 ]]; then
+    run_opts+=("--no-log")
+  else
+    run_opts+=("--log" "$log_rel")
+  fi
+
+  if [[ "$quiet" -eq 0 ]]; then
+    nudge_mode -- "${cmd[@]}"
+  fi
+
+  local exit_code=0
+  set +e
+  run_mode --timeout "$timeout_sec" "${run_opts[@]}" -- "${cmd[@]}"
+  exit_code=$?
+  set -e
+
+  local attempt=0
+  while [[ "$exit_code" -ne 0 ]] && [[ "$attempt" -lt "$max_retries" ]]; do
+    attempt=$((attempt + 1))
+    mapfile -t cmd < <(build_recovery_cmd "${cmd[@]}")
+
+    if [[ "$quiet" -eq 0 ]]; then
+      echo "[terminal_guard:auto] recovery-attempt=$attempt/$max_retries timeout=${retry_timeout_sec}s command=$(command_display "${cmd[@]}")"
+    fi
+
+    set +e
+    run_mode --timeout "$retry_timeout_sec" "${run_opts[@]}" -- "${cmd[@]}"
+    exit_code=$?
+    set -e
+  done
+
+  return "$exit_code"
+}
+
+shell_mode() {
+  local timeout_sec=120
+  local retry_timeout_sec=45
+  local max_retries=1
+  local quiet=0
+  local no_log=0
+  local log_rel="$DEFAULT_LOG_REL"
+  local prompt=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --timeout)
+        timeout_sec="${2:-}"
+        shift 2
+        ;;
+      --retry-timeout)
+        retry_timeout_sec="${2:-}"
+        shift 2
+        ;;
+      --max-retries)
+        max_retries="${2:-}"
+        shift 2
+        ;;
+      --log)
+        log_rel="${2:-}"
+        shift 2
+        ;;
+      --no-log)
+        no_log=1
+        shift
+        ;;
+      --quiet)
+        quiet=1
+        shift
+        ;;
+      --prompt)
+        prompt="${2:-}"
+        shift 2
+        ;;
+      -h|--help)
+        usage
+        exit 0
+        ;;
+      *)
+        echo "ERROR: unknown option for shell mode: $1" >&2
+        exit 2
+        ;;
+    esac
+  done
+
+  if ! [[ "$timeout_sec" =~ ^[0-9]+$ ]] || [[ "$timeout_sec" -lt 1 ]]; then
+    echo "ERROR: --timeout must be a positive integer" >&2
+    exit 2
+  fi
+
+  if ! [[ "$retry_timeout_sec" =~ ^[0-9]+$ ]] || [[ "$retry_timeout_sec" -lt 1 ]]; then
+    echo "ERROR: --retry-timeout must be a positive integer" >&2
+    exit 2
+  fi
+
+  if ! [[ "$max_retries" =~ ^[0-9]+$ ]] || [[ "$max_retries" -lt 0 ]]; then
+    echo "ERROR: --max-retries must be a non-negative integer" >&2
+    exit 2
+  fi
+
+  if [[ -z "$prompt" ]]; then
+    prompt='[terminal_guard]$ '
+  fi
+
+  if [[ "$quiet" -eq 0 ]]; then
+    echo "[terminal_guard:shell] started (timeout=${timeout_sec}s retry-timeout=${retry_timeout_sec}s max-retries=${max_retries})"
+    echo "[terminal_guard:shell] type 'exit' or 'quit' to close"
+  fi
+
+  while true; do
+    local line=""
+    if ! IFS= read -r -e -p "$prompt" line; then
+      echo
+      break
+    fi
+
+    line="${line#"${line%%[![:space:]]*}"}"
+    line="${line%"${line##*[![:space:]]}"}"
+    if [[ -z "$line" ]]; then
+      continue
+    fi
+
+    case "$line" in
+      exit|quit)
+        break
+        ;;
+    esac
+
+    if [[ "$line" =~ ^cd([[:space:]]+.*)?$ ]]; then
+      local target="${line#cd}"
+      target="${target#"${target%%[![:space:]]*}"}"
+      if [[ -z "$target" ]]; then
+        target="$HOME"
+      fi
+      set +e
+      builtin cd "$target"
+      local cd_exit=$?
+      set -e
+      if [[ "$cd_exit" -ne 0 ]]; then
+        echo "[terminal_guard:shell] cd failed: $target" >&2
+      fi
+      continue
+    fi
+
+    local safe_line
+    safe_line="$(sanitize_shell_line "$line")"
+    if [[ "$safe_line" != "$line" ]] && [[ "$quiet" -eq 0 ]]; then
+      echo "[terminal_guard:shell] escaped backticks to avoid accidental command substitution"
+    fi
+
+    local auto_opts=(--timeout "$timeout_sec" --retry-timeout "$retry_timeout_sec" --max-retries "$max_retries")
+    if [[ "$quiet" -eq 1 ]]; then
+      auto_opts+=("--quiet")
+    fi
+    if [[ "$no_log" -eq 1 ]]; then
+      auto_opts+=("--no-log")
+    else
+      auto_opts+=("--log" "$log_rel")
+    fi
+
+    set +e
+    auto_mode "${auto_opts[@]}" -- bash -lc "$safe_line"
+    local cmd_exit=$?
+    set -e
+
+    if [[ "$cmd_exit" -ne 0 ]] && [[ "$quiet" -eq 0 ]]; then
+      echo "[terminal_guard:shell] command exit=$cmd_exit"
+    fi
   done
 }
 
@@ -481,6 +778,12 @@ main() {
   case "$mode" in
     run)
       run_mode "$@"
+      ;;
+    auto)
+      auto_mode "$@"
+      ;;
+    shell)
+      shell_mode "$@"
       ;;
     nudge)
       nudge_mode "$@"
