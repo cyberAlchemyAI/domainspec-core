@@ -106,4 +106,4 @@ That minimum graph is enough to represent:
 
 ## Scope Rule
 
-Use this taxonomy for research and paper artifacts. Do not overload it with software-domain entities that belong in DomainSpec's business and UI taxonomy.
+Use this taxonomy for research and paper artifacts. Do not overload it with software-domain entities that belong in application-specific software taxonomies.

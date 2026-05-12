@@ -4,6 +4,28 @@ This project tests whether multi-objective game theory can improve how agentic s
 
 It is a greenfield research program under `research/projects/mogt-agentic-conversation` with MARS-compatible gates, experiment bundles, and evidence tracking.
 
+## Public Two-Repository Connection
+
+This project is designed as Repo 2 (`mogt-agentic-conversation`) connected to Repo 1 (`mars`).
+
+- Upstream framework contracts are consumed from the MARS repository.
+- This repository owns only MOGT-specific claims, experiments, data, results, and paper artifacts.
+- Cross-repository coupling is allowed only through explicit entries in `deps/DEPENDENCIES.yaml` and published MARS exports.
+
+Recommended split from this monorepo:
+
+1. `mars` repo sourced from `implementation/mars`
+2. `mogt-agentic-conversation` repo sourced from `research/projects/mogt-agentic-conversation`
+
+## How People Can Help
+
+High-value public contribution lanes:
+
+1. Improve experiment protocols and measurable criteria in `experiments/*/protocol.md`.
+2. Expand source quality and inventory provenance coverage.
+3. Build benchmark datasets and blinded review rubrics for E1-E4.
+4. Review result interpretation and validity-threat documentation once runs are published.
+
 ## What This Project Is About
 
 The core question is whether explicit multi-objective and game-theoretic decision policies outperform implicit heuristic arbitration in agentic conversations.
@@ -97,3 +119,4 @@ Scoring note:
 
 All upstream dependencies must be declared in deps/DEPENDENCIES.yaml.
 Cross-project consumption is allowed only through declared dependency contracts and published exports.
+Implicit dependencies on non-MARS frameworks are out of scope for the public MOGT repository.

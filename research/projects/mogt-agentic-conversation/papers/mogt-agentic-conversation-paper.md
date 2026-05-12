@@ -15,7 +15,7 @@ This paper studies whether explicit multi-objective and game-theoretic decision 
 - `papers/PAPER-TEST-SPEC.md` - evidence and structure checks
 - `papers/PAPER-REVIEW.md` - current readiness verdict
 
-These artifacts are a pilot application of a DomainSpec-style design workflow to the MARS paper lifecycle. They are intentionally lightweight and should be revised after MOGT completes live evidence work.
+These artifacts are a pilot application of a contract-first design workflow to the MARS paper lifecycle. They are intentionally lightweight and should be revised after MOGT completes live evidence work.
 
 ## Paper Section Nodes
 

@@ -24,7 +24,7 @@ Note: root `/.github` currently hosts the active runtime copies used by this rep
 
 ## Generalization Principle
 
-`research/projects/mars` is the generalized research-project application of DomainSpec patterns.
+`research/projects/mars` is the generalized research-project application of MARS patterns.
 
 - `implementation/mars` defines canonical reusable contracts and templates.
 - `research/projects/mars` carries project-scoped execution state, evidence, and run-time artifacts.

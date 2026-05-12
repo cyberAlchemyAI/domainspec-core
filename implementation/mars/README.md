@@ -1,61 +1,91 @@
 # MARS Canonical Implementation Pack
 
-This directory is the canonical implementation source for reusable MARS assets.
+MARS is a reusable research-orchestration framework for gated, reproducible experiments.
+This directory is the canonical source for public MARS assets.
 
-Canonical ownership now lives here for:
+## Public Repository Scope
 
-- MARS governance definitions and contracts
-- MARS reusable templates
-- MARS reusable copilot skill assets (`implementation/mars/copilot/skills/*`)
-- MARS implementation-oriented pack scaffolding
-- experimental paper-design workflow assets that will be iterated after pilot projects complete
+Use this directory as the canonical core for a public `mars` repository.
 
-## Canonical Model
+It owns reusable, project-agnostic assets:
 
-- Canonical implementation and reusable assets: [implementation/mars](.)
-- Research execution and evidence projection: [research/projects/mars](../../research/projects/mars)
-- Orchestration-local runtime projection: [/.github](../../.github)
+- governance definitions and contracts
+- reusable templates
+- reusable Copilot skill assets (`copilot/skills/*`)
+- published method exports (`exports/methods/*`)
+- implementation scaffolding for MARS-based projects
 
-The research project is a generalized application of the DomainSpec solution to research workflows. It consumes the canonical MARS definition/template assets and stores run-time evidence artifacts.
+Do not place project-private datasets, transcripts, or product-specific domain details here.
 
-## Sync Rule
+## MARS Mental Map Model
 
-When canonical definitions/templates or canonical copilot skills are updated, run sync:
+```mermaid
+flowchart LR
+	subgraph Core["mars (framework core)"]
+		D[definitions and contracts]
+		T[templates]
+		S[skills]
+		P[pipeline policy]
+	end
+
+	subgraph Project["downstream project repo (for example: mogt-agentic-conversation)"]
+		C[claims and hypotheses]
+		X[experiment bundles]
+		R[results and evidence status]
+		W[papers and publication artifacts]
+	end
+
+	Core -->|versioned contracts and templates| Project
+	Project -->|evidence, issues, and change requests| Core
+```
+
+How to read this map:
+
+1. `mars` defines reusable contracts and lifecycle policy.
+2. Each project repo executes experiments using those contracts.
+3. Project evidence feeds improvements back into `mars`.
+
+## Two Connected Repositories Model
+
+Recommended public split from this monorepo:
+
+1. Repo 1: `mars` (source root: `implementation/mars`)
+2. Repo 2: `mogt-agentic-conversation` (source root: `research/projects/mogt-agentic-conversation`)
+
+Connection contract:
+
+- MOGT pins consumed MARS assets in `deps/DEPENDENCIES.yaml`.
+- MOGT consumes only published MARS definitions/templates/method exports.
+- Framework fixes discovered in MOGT are proposed upstream through issues and pull requests.
+
+## How People Can Help
+
+Suggested contribution lanes for public collaborators:
+
+1. Improve definitions and contracts clarity without changing semantics.
+2. Propose new reusable templates for protocol, analysis, and adjudication.
+3. Improve skill docs and execution runbooks for reproducibility.
+4. Contribute method exports that downstream projects can consume safely.
+
+## Sync Rule (While Still in Monorepo)
+
+When canonical definitions/templates or canonical Copilot skills are updated, run:
 
 ```bash
 ./tools/sync_mars_canonical_assets.sh
-```
-
-This sync command now refreshes:
-
-- `research/projects/mars/{definitions,templates}` projection copies
-- managed runtime skill copies in `/.github/skills/*` for canonical skills under `implementation/mars/copilot/skills/*`
-
-Then validate structure:
-
-```bash
 ./tools/check_research_structure.sh
 ```
 
 See [OWNERSHIP-MIGRATION.md](OWNERSHIP-MIGRATION.md) for ownership boundaries and synchronization guardrails.
 
-## Experimental Paper Design Pilot
-
-The canonical pack now also carries a pilot paper-design model for MARS research papers:
-
-- derivation rules: `implementation/mars/definitions/PAPER-DERIVATION-RULES.md`
-- reusable templates: `implementation/mars/templates/paper-*.md`
-
-These assets are intentionally non-gating for now. They exist so project pilots such as MOGT can exercise a concrete working model before the workflow is hardened into a stable MARS stage or skill.
-
 ## Inventory Library Chain
 
-The canonical pack now defines an explicit inventory-library pattern for research sources:
+The canonical pack defines an explicit inventory-library pattern for research sources:
 
 - contract: `implementation/mars/definitions/INVENTORY-LIBRARY-CONTRACT.md`
 - templates: `implementation/mars/templates/inventory-schema-template.md`, `implementation/mars/templates/inventory-library-entry-template.md`, `implementation/mars/templates/raw-content-note-template.md`
 
-The intended chain is:
+Required chain:
 
 1. source catalog
 2. reference ledger

@@ -1,6 +1,6 @@
 # MOGT Paper Spec
 
-Purpose: give the MOGT paper a DomainSpec-style design contract before evidence-backed prose writing begins.
+Purpose: give the MOGT paper a contract-first design model before evidence-backed prose writing begins.
 
 Authority model:
 
