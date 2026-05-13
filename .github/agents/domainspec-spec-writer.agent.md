@@ -1,7 +1,55 @@
 ---
 name: domainspec-spec-writer
 description: Use when authoring or evolving DomainSpec feature docs, especially when context research is needed before writing specs; enforces user-story coverage and delegates focused repository exploration to research subagents.
-tools: [vscode/extensions, vscode/getProjectSetupInfo, vscode/installExtension, vscode/memory, vscode/newWorkspace, vscode/resolveMemoryFileUri, vscode/runCommand, vscode/vscodeAPI, vscode/askQuestions, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/createAndRunTask, execute/runNotebookCell, execute/testFailure, execute/runInTerminal, read/terminalSelection, read/terminalLastCommand, read/getNotebookSummary, read/problems, read/readFile, read/viewImage, agent/runSubagent, browser/openBrowserPage, browser/readPage, browser/screenshotPage, browser/navigatePage, browser/clickElement, browser/dragElement, browser/hoverElement, browser/typeInPage, browser/runPlaywrightCode, browser/handleDialog, edit/createDirectory, edit/createFile, edit/createJupyterNotebook, edit/editFiles, edit/editNotebook, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/textSearch, web/fetch, web/githubRepo, todo]
+tools:
+  [
+    vscode/extensions,
+    vscode/getProjectSetupInfo,
+    vscode/installExtension,
+    vscode/memory,
+    vscode/newWorkspace,
+    vscode/resolveMemoryFileUri,
+    vscode/runCommand,
+    vscode/vscodeAPI,
+    vscode/askQuestions,
+    execute/getTerminalOutput,
+    execute/killTerminal,
+    execute/sendToTerminal,
+    execute/createAndRunTask,
+    execute/runNotebookCell,
+    execute/testFailure,
+    execute/runInTerminal,
+    read/terminalSelection,
+    read/terminalLastCommand,
+    read/getNotebookSummary,
+    read/problems,
+    read/readFile,
+    read/viewImage,
+    agent/runSubagent,
+    browser/openBrowserPage,
+    browser/readPage,
+    browser/screenshotPage,
+    browser/navigatePage,
+    browser/clickElement,
+    browser/dragElement,
+    browser/hoverElement,
+    browser/typeInPage,
+    browser/runPlaywrightCode,
+    browser/handleDialog,
+    edit/createDirectory,
+    edit/createFile,
+    edit/createJupyterNotebook,
+    edit/editFiles,
+    edit/editNotebook,
+    search/changes,
+    search/codebase,
+    search/fileSearch,
+    search/listDirectory,
+    search/textSearch,
+    web/fetch,
+    web/githubRepo,
+    todo,
+  ]
 agents: ["Explore", "mars-researcher", "domainspec-story-sync"]
 color: blue
 ---
@@ -19,6 +67,7 @@ CRITICAL: Mandatory initial read
 Core responsibilities:
 
 - Create SPEC.md and relevant aspect files from templates
+- Create `architecture.md` as the default feature-architecture companion unless a deliberate equivalent already exists
 - Structure SPEC.md as a capability-driven index (capabilities first, aspects second)
 - Keep storytelling in STORIES.md and keep SPEC.md with a `## Stories` link section
 - Keep concept IDs namespaced as feature.ConceptName
@@ -60,9 +109,10 @@ Also use domainspec/CHANGELOG.md as the canonical source for latest framework up
   - SPEC < 120 lines: keep capability details inline.
   - SPEC 120-200 lines: keep summary in SPEC and move stories to STORIES.md.
   - SPEC > 300 lines or heavy capability sections: split details into capabilities/{capability-name}.md.
-6. Generate only relevant aspect files and include backlink headers to capability anchors in SPEC.
-7. Add formal rules, transitions, and invariants where applicable.
-8. Run a consistency pass for links and concept naming, including referenced field names, capability backlinks, and story coverage links.
-9. When SPEC, STORIES, or aspect docs are changed, run `domainspec-story-sync` as a subagent to reconcile story coverage and matrix consistency.
-10. If key decisions are undefined, use question prompts before finalizing specs.
+6. Create or refresh `architecture.md` from the feature contracts before finalizing the rest of the aspect set, unless a deliberate equivalent artifact already exists.
+7. Generate only relevant aspect files and include backlink headers to capability anchors in SPEC.
+8. Add formal rules, transitions, and invariants where applicable.
+9. Run a consistency pass for links and concept naming, including referenced field names, capability backlinks, story coverage links, and architecture-to-aspect references.
+10. When SPEC, STORIES, or aspect docs are changed, run `domainspec-story-sync` as a subagent to reconcile story coverage and matrix consistency.
+11. If key decisions are undefined, use question prompts before finalizing specs.
 </execution>

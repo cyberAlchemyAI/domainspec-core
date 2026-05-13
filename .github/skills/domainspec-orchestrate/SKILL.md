@@ -41,6 +41,7 @@ Read command definitions under `.github/skills/domainspec-*/SKILL.md`, package d
        1. `domainspec-spec-feature <feature>`
        2. `domainspec-plan-phase-bridge <feature> --mode native`
        3. `domainspec-sync-user-stories <feature>`
+      - feature architecture authoring/evolution -> `domainspec-feature-architecture <feature>`
    - story sync -> `domainspec-sync-user-stories <feature>`
    - test derivation -> `domainspec-generate-tests <feature>`
    - post-implementation code tagging -> `domainspec-tag-code <feature>`
