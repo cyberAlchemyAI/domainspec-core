@@ -1,0 +1,32 @@
+# Traceability
+
+## Capability To Wave Map
+
+| Capability                                                                                                                       | Primary Waves  | Core Tasks                                                                                                                                                                                           |
+| -------------------------------------------------------------------------------------------------------------------------------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Quality Gate Targeting and Policy](../../capabilities/quality-gate-targeting-and-policy.md)                                     | W1, W3, W5     | [TASK-L0-POC](../tasks/TASK-L0-POC.md), [TASK-L2-GOVERNANCE](../tasks/TASK-L2-GOVERNANCE.md), [TASK-VERIFY](../tasks/TASK-VERIFY.md)                                                                 |
+| [Codebase Intelligence Mapping](../../capabilities/codebase-intelligence-mapping.md)                                             | W1, W2, W3     | [TASK-L0-POC](../tasks/TASK-L0-POC.md), [TASK-L1-HARDENING](../tasks/TASK-L1-HARDENING.md), [TASK-L2-GOVERNANCE](../tasks/TASK-L2-GOVERNANCE.md)                                                     |
+| [Test Evidence and Sonar Evaluation](../../capabilities/test-evidence-and-sonar-evaluation.md)                                   | W1, W2, W5     | [TASK-L0-POC](../tasks/TASK-L0-POC.md), [TASK-TESTS](../tasks/TASK-TESTS.md), [TASK-VERIFY](../tasks/TASK-VERIFY.md)                                                                                 |
+| [Task Orchestration, Solution Synthesis, and Learning](../../capabilities/task-orchestration-solution-synthesis-and-learning.md) | W1, W2, W3, W4 | [TASK-L0-POC](../tasks/TASK-L0-POC.md), [TASK-L1-HARDENING](../tasks/TASK-L1-HARDENING.md), [TASK-L2-GOVERNANCE](../tasks/TASK-L2-GOVERNANCE.md), [TASK-L3-SCALE-FIT](../tasks/TASK-L3-SCALE-FIT.md) |
+
+## Coverage Families
+
+| Family                   | IDs                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Core cycle model         | `sonar-loop.ExecutionCycle`, `sonar-loop.QualityGateProfile`, `sonar-loop.CheckpointControl`, `sonar-loop.ModeControlOutcome`, `sonar-loop.CycleStateMachine`                                                                                                                                                                                                                          |
+| Runtime governance       | `sonar-loop.ExecutionRuntimeMode`, `sonar-loop.RuntimeInvokingStage`, `sonar-loop.RuntimeFallbackReasonCode`, `sonar-loop.ExecutionProviderFallbackPolicy`                                                                                                                                                                                                                             |
+| Mapping and bundle reuse | `sonar-loop.CodebaseKnowledgeMap`, `sonar-loop.SkillBundleProfile`, `sonar-loop.MapCodebaseIntelligence`, `sonar-loop.ComposeAgnosticSkillBundle`, `sonar-loop.SkillBundleReusePolicy`                                                                                                                                                                                                 |
+| Test and Sonar evidence  | `sonar-loop.BuildAndImproveTestEvidence`, `sonar-loop.EvaluateWithSonarQualityGate`, `sonar-loop.BundleFindingsByContext`, `sonar-loop.TestScopePolicy`, `sonar-loop.SonarRetryPolicy`, `sonar-loop.FindingContextTagPolicy`                                                                                                                                                           |
+| Task export and learning | `sonar-loop.RemediationTask`, `sonar-loop.CreateAndExportRemediationTasks`, `sonar-loop.GenerateThreeCandidateSolutions`, `sonar-loop.SynthesizeCrossSmellAbstractions`, `sonar-loop.ApplyOperatorSelectionLearning`, `sonar-loop.ApiFirstTaskIntegrationPolicy`, `sonar-loop.ThreeCandidateSolutionRule`, `sonar-loop.NonRedundantAbstractionRule`, `sonar-loop.LearningFeedbackRule` |
+| Completion governance    | `sonar-loop.RiskAcceptanceOverride`, `sonar-loop.CompletionGateUnderExportDegradationPolicy`, `sonar-loop.RiskAcceptanceOverrideValidityPolicy`, `sonar-loop.AutonomousCheckpointAndStopPolicy`                                                                                                                                                                                        |
+| Observability            | `sonar-loop.TelemetryEnvelope`, `sonar-loop.QualityTrendMapping`, `sonar-loop.CycleTelemetryEvent`, `sonar-loop.TerminalCycleSummary`, `sonar-loop.TelemetryCompletenessRule`, `sonar-loop.RecordCycleTelemetryTrend`                                                                                                                                                                  |
+
+## Validation Trace
+
+| Validation           | Planned Evidence                                                        |
+| -------------------- | ----------------------------------------------------------------------- |
+| Markdown links       | One guarded `check_markdown_links.sh` command per touched markdown file |
+| Dependency direction | Static import-boundary check or architecture test from W0 baseline      |
+| DomainSpec alignment | `domainspec-audit-alignment sonar-loop` after mutation-capable stages   |
+| Layering alignment   | `domainspec-audit-layering sonar-loop` after mutation-capable stages    |
+| Feature verification | `domainspec-verify-feature sonar-loop` with readiness profile `pilot`   |

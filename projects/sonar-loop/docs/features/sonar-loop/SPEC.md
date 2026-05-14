@@ -16,6 +16,8 @@ includes:
   - capabilities/codebase-intelligence-mapping.md
   - capabilities/test-evidence-and-sonar-evaluation.md
   - capabilities/task-orchestration-solution-synthesis-and-learning.md
+  - implementation-layering.md
+  - glossary.md
   - domain.md
   - operations.md
   - workflows.md
@@ -246,6 +248,14 @@ Commercialization and operator journey decisions are tracked in [userjourney/REA
 - Pilot week 1: [pilot-week1.md](userjourney/pilot-week1.md)
 - Scale month 1: [scale-month1.md](userjourney/scale-month1.md)
 - Packaging, pricing, and growth: [packaging-pricing-and-growth.md](userjourney/packaging-pricing-and-growth.md)
+
+## Implementation Layering
+
+See [implementation-layering.md](implementation-layering.md) for POC-first rollout layers from minimum concept proof through governance and scale hardening.
+
+## Glossary
+
+See [glossary.md](glossary.md) for feature language and source-linked formal concept definitions.
 
 ## Change History
 

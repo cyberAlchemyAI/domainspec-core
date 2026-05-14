@@ -2,6 +2,18 @@
 
 All notable changes to the **sonar-loop** feature are documented in this file.
 
+## 2026-05-13 (implementation layering model baseline)
+
+### Added
+
+- **Implementation layering artifact** — added [implementation-layering.md](implementation-layering.md) with a POC-first layering model (Layer 0 minimum working unit) and progressive hardening layers for governance and scale.
+
+### Changed
+
+- **Spec include graph** — updated [SPEC.md](SPEC.md) frontmatter `includes` to register `implementation-layering.md` in the feature retrieval graph.
+- **Spec navigation** — added an explicit implementation layering section in [SPEC.md](SPEC.md) to make the rollout model first-class for planning and implementation sequencing.
+- **Layer boundary heuristic** — added decision-unlock framing and a value/cost heuristic to [implementation-layering.md](implementation-layering.md) so layer boundaries are based on decision value, risk reduction, and delivery cost.
+
 ## 2026-05-12 (userjourney section and cross-artifact propagation)
 
 ### Added
