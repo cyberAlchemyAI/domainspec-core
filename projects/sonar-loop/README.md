@@ -93,6 +93,35 @@ Sonar Loop treats governance as a product trust feature, not an add-on.
 
 Governance references: [rules.md](docs/features/sonar-loop/rules.md), [operations.md](docs/features/sonar-loop/operations.md), [interfaces.md](docs/features/sonar-loop/interfaces.md), [observability.md](docs/features/sonar-loop/observability.md)
 
+## Necronomicon and framework enablers
+
+Sonar Loop includes a repository-local Arcanum Necronomicon runtime package. Necronomicon is the local book for agent capability lookup: it keeps installed sigils, spells, runtime routes, and observability handoff under one `.arcanum/` root.
+
+Key entrypoints:
+
+- Runtime registry: [.arcanum/necronomicon/REGISTRY.md](.arcanum/necronomicon/REGISTRY.md)
+- Runtime routes: [.arcanum/necronomicon/ROUTES.md](.arcanum/necronomicon/ROUTES.md)
+- Observability handoff: [.arcanum/necronomicon/OBSERVABILITY.md](.arcanum/necronomicon/OBSERVABILITY.md)
+- GitHub Copilot skills: [.github/skills/](.github/skills/)
+
+The installed framework enablers are useful when evolving Sonar Loop itself:
+
+- [spellcraft](.arcanum/necronomicon/arcana/spellcraft/) composes reusable workflows from existing sigils. Use it when a repeated Sonar Loop activity needs to become a named spell.
+- [skill transcriptor](.arcanum/necronomicon/arcana/skill-transcriptor/) converts a coherent prompt, skill, command, or workflow into an Arcanum-compliant sigil package plan.
+- [skill decomposer](.arcanum/necronomicon/arcana/skill-decomposer/) splits a broad workflow into smaller reusable sigil candidates before transcription.
+- [sigil development](.arcanum/necronomicon/arcana/sigil-development/) designs, reviews, validates, observes, and revises sigils with quality bars and anti-patterns.
+- [sigil runtime installer](.arcanum/necronomicon/arcana/sigil-runtime-installer/) exposes installed sigils and spells through agent runtime surfaces.
+- [workflow reflect](.arcanum/necronomicon/arcana/workflow-reflect/) and [signal observer](.arcanum/necronomicon/arcana/signal-observer/) turn usage telemetry into maintenance signals.
+
+Ontology branching is installed for knowledge governance work:
+
+- [ontology harness](.arcanum/necronomicon/spells/ontology-harness.md) maps business ontology, system ontology, and bridge evidence when Sonar Loop intent must be linked to implementation, tests, telemetry, constraints, or drift.
+- [ontology vault](.arcanum/necronomicon/arcana/ontology-vault/) handles session distillation, premise review, confidence promotion, convention changes, branch maps, and traceability.
+- [repository harness](.arcanum/necronomicon/spells/repository-harness.md) combines inventory, architecture pattern inventory, and context building for repository-level knowledge work.
+- [inventory](.arcanum/necronomicon/arcana/inventory/), [architecture pattern inventory](.arcanum/necronomicon/arcana/architecture-pattern-inventory/), and [context builder](.arcanum/necronomicon/transmutations/context-builder/) provide the evidence substrate for branch-aware retrieval.
+
+Direct runtime skills are installed with predictable names. Examples: `arcanum-orchestrate`, `arcanum-sigil-ontology-vault`, `arcanum-sigil-spellcraft`, `arcanum-sigil-skill-transcriptor`, `arcanum-spell-ontology-harness`, and `arcanum-spell-repository-harness`.
+
 ## What you can evaluate now
 
 Current status:
