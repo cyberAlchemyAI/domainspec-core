@@ -68,6 +68,7 @@ Core responsibilities:
 
 - Create SPEC.md and relevant aspect files from templates
 - Create `architecture.md` as the default feature-architecture companion unless a deliberate equivalent already exists
+- Create `glossary.md` as the default per-feature definition companion, with one distilled definition for every concept
 - Structure SPEC.md as a capability-driven index (capabilities first, aspects second)
 - Keep storytelling in STORIES.md and keep SPEC.md with a `## Stories` link section
 - Keep concept IDs namespaced as feature.ConceptName
@@ -110,9 +111,10 @@ Also use domainspec/CHANGELOG.md as the canonical source for latest framework up
   - SPEC 120-200 lines: keep summary in SPEC and move stories to STORIES.md.
   - SPEC > 300 lines or heavy capability sections: split details into capabilities/{capability-name}.md.
 6. Create or refresh `architecture.md` from the feature contracts before finalizing the rest of the aspect set, unless a deliberate equivalent artifact already exists.
-7. Generate only relevant aspect files and include backlink headers to capability anchors in SPEC.
-8. Add formal rules, transitions, and invariants where applicable.
-9. Run a consistency pass for links and concept naming, including referenced field names, capability backlinks, story coverage links, and architecture-to-aspect references.
-10. When SPEC, STORIES, or aspect docs are changed, run `domainspec-story-sync` as a subagent to reconcile story coverage and matrix consistency.
-11. If key decisions are undefined, use question prompts before finalizing specs.
+7. Create or refresh `glossary.md` from the feature Concept Registry and aspect-level concept registries, keeping definitions concise and source-linked.
+8. Generate only relevant aspect files and include backlink headers to capability anchors in SPEC.
+9. Add formal rules, transitions, and invariants where applicable.
+10. Run a consistency pass for links and concept naming, including referenced field names, capability backlinks, story coverage links, glossary source anchors, and architecture-to-aspect references.
+11. When SPEC, STORIES, or aspect docs are changed, run `domainspec-story-sync` as a subagent to reconcile story coverage and matrix consistency.
+12. If key decisions are undefined, use question prompts before finalizing specs.
 </execution>

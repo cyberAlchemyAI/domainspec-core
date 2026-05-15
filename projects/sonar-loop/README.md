@@ -95,12 +95,14 @@ Governance references: [rules.md](docs/features/sonar-loop/rules.md), [operation
 
 ## Necronomicon and framework enablers
 
-Sonar Loop includes repository-local Arcanum runtime commands. Necronomicon is the friendly alias for the Ontology Harness: use it for ontology governance, session distillation, premise review, business/system branch mapping, and bridge validation.
+Sonar Loop includes repository-local Arcanum runtime commands. Necronomicon is the friendly alias for the Ontology Harness: use it for ontology governance, session distillation, premise review, business/system branch mapping, and bridge validation. Use the Necronomicon session command when Sonar Loop work should keep durable repository memory, route through selected local capabilities first, offer Arcanum fallback candidates, or update the installed capability set.
 
 Key entrypoints:
 
 - Runtime adapters: [.arcanum/runtimes/github-copilot/skills/](.arcanum/runtimes/github-copilot/skills/)
 - Necronomicon command: [.arcanum/runtimes/github-copilot/skills/arcanum-necronomicon/SKILL.md](.arcanum/runtimes/github-copilot/skills/arcanum-necronomicon/SKILL.md)
+- Necronomicon session command: [.arcanum/runtimes/github-copilot/skills/arcanum-necronomicon-session/SKILL.md](.arcanum/runtimes/github-copilot/skills/arcanum-necronomicon-session/SKILL.md)
+- Necronomicon harness state: [.arcanum/necronomicon/](.arcanum/necronomicon/)
 - Observability package: [.arcanum/observability/](.arcanum/observability/)
 - GitHub Copilot discovery skills: [.github/skills/](.github/skills/)
 
@@ -120,7 +122,7 @@ Ontology branching is installed for knowledge governance work:
 - [repository harness](.arcanum/runtimes/github-copilot/skills/arcanum-spell-repository-harness/SKILL.md) combines inventory, architecture pattern inventory, and context building for repository-level knowledge work.
 - [inventory](.arcanum/runtimes/github-copilot/skills/arcanum-sigil-inventory/SKILL.md), [architecture pattern inventory](.arcanum/runtimes/github-copilot/skills/arcanum-sigil-architecture-pattern-inventory/SKILL.md), and [context builder](.arcanum/runtimes/github-copilot/skills/arcanum-sigil-context-builder/SKILL.md) provide the evidence substrate for branch-aware retrieval.
 
-Direct runtime skills are installed with predictable names. Examples: `arcanum-orchestrate`, `arcanum-necronomicon`, `arcanum-sigil-ontology-vault`, `arcanum-sigil-spellcraft`, `arcanum-sigil-skill-transcriptor`, `arcanum-spell-ontology-harness`, and `arcanum-spell-repository-harness`.
+Direct runtime skills are installed with predictable names. Examples: `arcanum-orchestrate`, `arcanum-necronomicon`, `arcanum-necronomicon-session`, `arcanum-sigil-ontology-vault`, `arcanum-sigil-spellcraft`, `arcanum-sigil-skill-transcriptor`, `arcanum-spell-ontology-harness`, `arcanum-spell-necronomicon-session`, and `arcanum-spell-repository-harness`.
 
 ## What you can evaluate now
 
