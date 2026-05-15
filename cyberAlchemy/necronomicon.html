@@ -1,0 +1,1211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Necronomicon - CyberAlchemy AI</title>
+    <style>
+      :root {
+        --bg-color: #fdfaf3;
+        --surface-color: #f6f2e6;
+        --surface-strong: #efe8d4;
+        --text-main: #1a1a1a;
+        --text-muted: #62625b;
+        --border-color: #e5e5e0;
+        --accent-brand: #e60023;
+        --accent-secondary: #cc0000;
+        --accent-warm: #ea580c;
+        --code-bg: #fff7e8;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg-color: #000000;
+          --surface-color: #111111;
+          --surface-strong: #1a1a1a;
+          --text-main: #ededed;
+          --text-muted: #9a9a9a;
+          --border-color: #333333;
+          --accent-brand: #e60023;
+          --accent-secondary: #ff4d4d;
+          --accent-warm: #fb923c;
+          --code-bg: #160a0a;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+      }
+
+      .page {
+        max-width: 980px;
+        width: 100%;
+        padding: 48px 22px 70px;
+      }
+
+      header {
+        text-align: center;
+        padding-bottom: 32px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .logo-link {
+        display: inline-flex;
+        margin-bottom: 22px;
+      }
+
+      .logo {
+        width: 170px;
+        height: auto;
+        filter: drop-shadow(0 10px 20px rgba(230, 0, 35, 0.18));
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.5rem, 7vw, 4.4rem);
+        line-height: 1.05;
+        background: linear-gradient(
+          90deg,
+          var(--accent-brand),
+          var(--accent-secondary)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .subtitle {
+        color: var(--text-muted);
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        margin-top: 12px;
+        text-transform: uppercase;
+      }
+
+      .top-links,
+      .tour-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .top-links {
+        gap: 18px;
+        margin-top: 22px;
+      }
+
+      .top-links a,
+      .tour-nav a {
+        color: var(--text-main);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .top-links a {
+        border-bottom: 2px solid transparent;
+        padding-bottom: 3px;
+      }
+
+      .top-links a:hover {
+        border-bottom-color: var(--accent-brand);
+      }
+
+      .tour-nav {
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        gap: 9px;
+        padding: 14px 0;
+        margin: 0;
+        background: color-mix(
+          in oklab,
+          var(--bg-color) 88%,
+          var(--surface-color) 12%
+        );
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .tour-nav a {
+        border: 1px solid var(--border-color);
+        border-radius: 999px;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        padding: 7px 11px;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+
+      .tour-nav a:hover {
+        border-color: var(--accent-brand);
+        color: var(--text-main);
+      }
+
+      main {
+        padding-top: 18px;
+      }
+
+      .tour-section {
+        border-top: 1px solid var(--border-color);
+        padding: 42px 0;
+        scroll-margin-top: 72px;
+      }
+
+      .tour-section:first-child {
+        border-top: 0;
+      }
+
+      h2 {
+        border-left: 4px solid var(--accent-brand);
+        font-size: clamp(1.55rem, 3vw, 2.2rem);
+        line-height: 1.2;
+        margin: 0 0 18px;
+        padding-left: 14px;
+      }
+
+      h3 {
+        font-size: 1rem;
+        letter-spacing: 0.04em;
+        margin: 0 0 10px;
+        text-transform: uppercase;
+      }
+
+      p {
+        font-size: 1.08rem;
+        margin: 0 0 1.1rem;
+      }
+
+      strong {
+        color: var(--text-main);
+        font-weight: 700;
+      }
+
+      em {
+        color: var(--accent-secondary);
+        font-style: normal;
+        font-weight: 700;
+      }
+
+      code {
+        background: var(--code-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        color: var(--text-main);
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 0.92em;
+        padding: 0.12rem 0.33rem;
+      }
+
+      .intro {
+        max-width: 760px;
+        margin: 34px auto 0;
+      }
+
+      .intro p {
+        font-size: clamp(1.14rem, 2.2vw, 1.35rem);
+      }
+
+      .highlight-box {
+        background: var(--surface-color);
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-brand);
+        border-radius: 0 8px 8px 0;
+        margin: 22px 0;
+        padding: 18px 20px;
+      }
+
+      .concept-strip {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        margin-top: 28px;
+      }
+
+      .concept {
+        border-top: 3px solid var(--accent-brand);
+        background: var(--surface-color);
+        padding: 15px;
+        min-height: 124px;
+      }
+
+      .concept span {
+        color: var(--text-muted);
+        display: block;
+        font-size: 0.92rem;
+      }
+
+      .tour-grid {
+        display: grid;
+        gap: 28px;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, 0.95fr);
+        align-items: start;
+      }
+
+      .fact-panel {
+        background: var(--surface-color);
+        border: 1px solid var(--border-color);
+        padding: 20px;
+      }
+
+      .fact-panel ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .fact-panel li {
+        margin-bottom: 0.55rem;
+      }
+
+      .lifecycle {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        margin-top: 24px;
+      }
+
+      .step {
+        background: var(--surface-color);
+        border: 1px solid var(--border-color);
+        min-height: 158px;
+        padding: 16px;
+      }
+
+      .step-number {
+        align-items: center;
+        background: var(--accent-brand);
+        border-radius: 999px;
+        color: #ffffff;
+        display: inline-flex;
+        font-size: 0.82rem;
+        font-weight: 800;
+        height: 28px;
+        justify-content: center;
+        margin-bottom: 12px;
+        width: 28px;
+      }
+
+      .step strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .step p {
+        color: var(--text-muted);
+        font-size: 0.94rem;
+        margin: 0;
+      }
+
+      .substrate-map {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: 22px;
+      }
+
+      .substrate-node {
+        background: var(--surface-color);
+        border: 1px solid var(--border-color);
+        border-top: 3px solid var(--accent-warm);
+        padding: 16px;
+      }
+
+      .substrate-node p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        margin: 0;
+      }
+
+      table {
+        border-collapse: collapse;
+        font-size: 0.98rem;
+        margin-top: 18px;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid var(--border-color);
+        padding: 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: var(--surface-strong);
+        font-size: 0.86rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .command-list {
+        display: grid;
+        gap: 14px;
+        margin-top: 20px;
+      }
+
+      .example-run {
+        display: grid;
+        gap: 14px;
+        margin-top: 22px;
+      }
+
+      .example-card {
+        background: var(--surface-color);
+        border: 1px solid var(--border-color);
+        display: grid;
+        gap: 14px;
+        grid-template-columns: minmax(180px, 0.42fr) minmax(0, 1fr);
+        padding: 16px;
+      }
+
+      .example-card h3 {
+        margin-bottom: 6px;
+      }
+
+      .example-card p {
+        color: var(--text-muted);
+        font-size: 0.97rem;
+        margin: 0;
+      }
+
+      .example-card pre {
+        background: var(--code-bg);
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin: 0;
+        overflow-x: auto;
+        padding: 14px;
+        white-space: pre-wrap;
+      }
+
+      .command {
+        background: var(--surface-color);
+        border: 1px solid var(--border-color);
+        display: grid;
+        gap: 8px;
+        grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1fr);
+        padding: 15px;
+      }
+
+      .command code {
+        display: inline-block;
+        width: fit-content;
+      }
+
+      .command span {
+        color: var(--text-muted);
+      }
+
+      .rule {
+        color: var(--accent-secondary);
+        font-weight: 800;
+      }
+
+      footer {
+        border-top: 1px solid var(--border-color);
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        margin-top: 30px;
+        padding-top: 28px;
+        text-align: center;
+      }
+
+      @media (max-width: 860px) {
+        .concept-strip,
+        .lifecycle,
+        .substrate-map,
+        .tour-grid,
+        .example-card,
+        .command {
+          grid-template-columns: 1fr;
+        }
+
+        .step {
+          min-height: auto;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .page {
+          padding: 28px 14px 50px;
+        }
+
+        .logo {
+          width: 138px;
+        }
+
+        .tour-nav {
+          justify-content: flex-start;
+          overflow-x: auto;
+          padding-left: 2px;
+          padding-right: 2px;
+        }
+
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header id="top">
+        <a class="logo-link" href="main.html">
+          <img class="logo" src="logo.png" alt="CyberAlchemy AI Logo" />
+        </a>
+        <h1>Necronomicon</h1>
+        <div class="subtitle">Ontology Harness & Repository Session Craft</div>
+        <nav class="top-links" aria-label="CyberAlchemy navigation">
+          <a href="main.html">CyberAlchemy AI</a>
+          <a href="index.html">Project Saturn</a>
+          <a href="mars.html">Project MARS</a>
+          <a href="mogt.html">Project MOGT</a>
+        </nav>
+        <div class="intro">
+          <p>
+            Necronomicon is the repository harness for turning live knowledge,
+            agent sessions, and command capabilities into a governed memory
+            loop. It gives a project a way to remember, route, revise, and hand
+            off without pretending that generated session files are the source
+            of truth.
+          </p>
+        </div>
+      </header>
+
+      <nav class="tour-nav" aria-label="Necronomicon guided tour">
+        <a href="#harness">Harness</a>
+        <a href="#names">Two Names</a>
+        <a href="#substrate">Substrate</a>
+        <a href="#loop">Session Loop</a>
+        <a href="#spellcraft">Spellcraft</a>
+        <a href="#routing">Routing</a>
+        <a href="#memory">Memory</a>
+        <a href="#example">Example</a>
+        <a href="#invoke">Invoke</a>
+      </nav>
+
+      <main>
+        <section class="tour-section" id="harness">
+          <h2>Awaken The Harness</h2>
+          <div class="tour-grid">
+            <div>
+              <p>
+                A repository is not just files. It is a living negotiation
+                between intent, implementation, decisions, tests, telemetry, and
+                the people trying to keep all of that coherent.
+              </p>
+              <p>
+                Necronomicon gives that negotiation a local harness. It maps
+                ontology, carries session memory, routes requests through
+                selected capabilities, and records the reasons behind each
+                handoff.
+              </p>
+            </div>
+            <aside class="fact-panel">
+              <h3>Core Thesis</h3>
+              <p>
+                <span class="rule">State is not authority.</span> Session files
+                preserve working memory, but canonical truth remains in source
+                documents, registries, code, tests, and reviewed evidence.
+              </p>
+            </aside>
+          </div>
+          <div class="concept-strip" aria-label="Necronomicon concepts">
+            <div class="concept">
+              <h3>Ontology</h3>
+              <span
+                >Maps concepts, premises, confidence, and bridge edges.</span
+              >
+            </div>
+            <div class="concept">
+              <h3>Inventory</h3>
+              <span
+                >Ingests source knowledge once so other sigils can reuse
+                it.</span
+              >
+            </div>
+            <div class="concept">
+              <h3>Axioms</h3>
+              <span>Names load-bearing truths, premises, and constraints.</span>
+            </div>
+            <div class="concept">
+              <h3>Session</h3>
+              <span>Stores durable working memory and handoff context.</span>
+            </div>
+            <div class="concept">
+              <h3>Routing</h3>
+              <span
+                >Chooses selected local commands before fallback
+                discovery.</span
+              >
+            </div>
+            <div class="concept">
+              <h3>Spellcraft</h3>
+              <span>Composes sigils into repeatable workflows.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="tour-section" id="names">
+          <h2>The Two Names</h2>
+          <p>
+            Necronomicon has two operational faces. The first is a direct
+            ontology spell. The second is a persistent session spell that keeps
+            repository work coordinated over time.
+          </p>
+          <table aria-label="Ontology harness and session harness comparison">
+            <thead>
+              <tr>
+                <th>Surface</th>
+                <th>Canonical Contract</th>
+                <th>Use It For</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>arcanum-necronomicon</code></td>
+                <td><code>ontology-harness</code></td>
+                <td>
+                  Ontology maps, premise review, confidence promotion, session
+                  distillation, branch-aware business/system mapping, and bridge
+                  validation.
+                </td>
+              </tr>
+              <tr>
+                <td><code>arcanum-necronomicon-session</code></td>
+                <td><code>necronomicon-session</code></td>
+                <td>
+                  Durable repository sessions, selected capability routing,
+                  fallback discovery, capability updates, decisions, route
+                  ledgers, and handoffs.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="highlight-box">
+            The old mistake was treating Necronomicon as a copied runtime book.
+            The corrected model treats it as a harness: it may hold memory and
+            manifests, but not duplicated canonical sigil or spell definitions.
+          </div>
+        </section>
+
+        <section class="tour-section" id="substrate">
+          <h2>The Knowledge Substrate</h2>
+          <div class="tour-grid">
+            <div>
+              <p>
+                Necronomicon only becomes useful when it can tell the difference
+                between raw evidence, generated synthesis, governing
+                assumptions, and decisions. That is the substrate beneath the
+                session harness.
+              </p>
+              <p>
+                Inventory gives the harness reusable source-grounded context.
+                Ontology gives that context roles, edges, confidence, and branch
+                ownership. Axioms and premises name the commitments that future
+                work must either honor, test, revise, or retire.
+              </p>
+            </div>
+            <aside class="fact-panel">
+              <h3>Authority Ladder</h3>
+              <ul>
+                <li>Raw sources remain immutable evidence.</li>
+                <li>Inventory pages are generated, reusable maps.</li>
+                <li>Ontology assigns roles, edges, and confidence.</li>
+                <li>Axioms and premises carry explicit commitment weight.</li>
+                <li>
+                  Decisions change behavior only when recorded and approved.
+                </li>
+              </ul>
+            </aside>
+          </div>
+
+          <div
+            class="substrate-map"
+            aria-label="Necronomicon knowledge substrate"
+          >
+            <div class="substrate-node">
+              <h3>Inventory</h3>
+              <p>
+                The compiled knowledge layer. It indexes sources, concepts,
+                workflows, architecture, tests, observability signals,
+                contradictions, and open questions.
+              </p>
+            </div>
+            <div class="substrate-node">
+              <h3>Ontology</h3>
+              <p>
+                The role and relationship map. It separates business meaning,
+                system reality, bridge evidence, drift, and traceability gaps.
+              </p>
+            </div>
+            <div class="substrate-node">
+              <h3>Axioms</h3>
+              <p>
+                The load-bearing truths and constraints that steer work until
+                evidence revises them. They should be visible, testable, and
+                demotable.
+              </p>
+            </div>
+            <div class="substrate-node">
+              <h3>Premises</h3>
+              <p>
+                Working bets under review. A premise can be promoted, revised,
+                split, demoted, retired, or escalated to a decision gate.
+              </p>
+            </div>
+            <div class="substrate-node">
+              <h3>Confidence</h3>
+              <p>
+                Two separate signals: evidence confidence asks how well a claim
+                is supported; commitment confidence asks how deeply the project
+                should rely on it.
+              </p>
+            </div>
+            <div class="substrate-node">
+              <h3>Bridge Evidence</h3>
+              <p>
+                Links between intent and implementation: realized by, tested by,
+                observed by, constrained by, traced to, depends on, or drifts
+                from.
+              </p>
+            </div>
+          </div>
+
+          <table aria-label="Knowledge substrate responsibilities">
+            <thead>
+              <tr>
+                <th>Layer</th>
+                <th>Question It Answers</th>
+                <th>Necronomicon Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>inventory</code></td>
+                <td>
+                  What do we know, where did it come from, and can we reuse it?
+                </td>
+                <td>
+                  Feeds context lookup, routing evidence, and source-grounded
+                  summaries.
+                </td>
+              </tr>
+              <tr>
+                <td><code>ontology-vault</code></td>
+                <td>
+                  What roles, relationships, confidence states, and gaps exist?
+                </td>
+                <td>
+                  Maps sessions, premises, conventions, branch ownership, and
+                  bridge edges.
+                </td>
+              </tr>
+              <tr>
+                <td><code>axioms</code></td>
+                <td>Which truths or constraints are currently load-bearing?</td>
+                <td>
+                  Guards routing, implementation, and promotion against hidden
+                  assumptions.
+                </td>
+              </tr>
+              <tr>
+                <td><code>premises</code></td>
+                <td>
+                  Which working bets still need evidence, contradiction review,
+                  or decision?
+                </td>
+                <td>
+                  Creates premise-review and confidence-promotion work for the
+                  ontology harness.
+                </td>
+              </tr>
+              <tr>
+                <td><code>decisions</code></td>
+                <td>What did a human or governance gate actually choose?</td>
+                <td>
+                  Separates approved commitments from session memory and agent
+                  synthesis.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="tour-section" id="loop">
+          <h2>The Session Loop</h2>
+          <p>
+            A Necronomicon session turns a conversation into a controlled
+            repository loop. Each step has a narrow job, so memory stays useful
+            and capability changes remain auditable.
+          </p>
+          <div class="lifecycle" aria-label="Necronomicon session lifecycle">
+            <div class="step">
+              <div class="step-number">1</div>
+              <strong>Start</strong>
+              <p>
+                Create a session, name the objective, and choose capability
+                scope.
+              </p>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <strong>Load</strong>
+              <p>
+                Read memory, decisions, recent routes, and selected commands.
+              </p>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <strong>Route</strong>
+              <p>Prefer explicit or selected local Arcanum capabilities.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">4</div>
+              <strong>Fallback</strong>
+              <p>Offer Arcanum candidates when no selected command fits.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">5</div>
+              <strong>Update</strong>
+              <p>
+                Add, remove, refresh, or author capabilities only when approved.
+              </p>
+            </div>
+            <div class="step">
+              <div class="step-number">6</div>
+              <strong>Close</strong>
+              <p>
+                Write route summary, memory, decisions, validation, and handoff.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="tour-section" id="spellcraft">
+          <h2>The Spellcraft Surface</h2>
+          <div class="tour-grid">
+            <div>
+              <p>
+                In Arcanum, a sigil is an atomic capability. A spell is a
+                composed workflow that gives those capabilities a shared state,
+                sequence, gate model, and output contract.
+              </p>
+              <p>
+                Necronomicon Session is spellcraft in action: it uses ontology,
+                context retrieval, inventory, task execution, decisions, runtime
+                installation, and maintenance signals as a coordinated
+                repository harness.
+              </p>
+              <p>
+                The craft is not just choosing commands. It is deciding which
+                knowledge layer should speak: inventory for reusable evidence,
+                ontology for meaning and relationships, axioms for constraints,
+                premises for review, and decisions for approved commitments.
+              </p>
+            </div>
+            <aside class="fact-panel">
+              <h3>Creation Rule</h3>
+              <p>
+                If fallback discovery repeatedly finds the same missing move,
+                Necronomicon should not improvise forever. It should propose a
+                capability update, a new spell, or a reusable sigil.
+              </p>
+            </aside>
+          </div>
+          <table aria-label="Spellcraft capability matrix">
+            <thead>
+              <tr>
+                <th>Capability</th>
+                <th>Role In The Tour</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>ontology-harness</code></td>
+                <td>
+                  Maps ontology, premises, axioms, confidence, branches, and
+                  bridge evidence.
+                </td>
+              </tr>
+              <tr>
+                <td><code>inventory</code></td>
+                <td>
+                  Maintains reusable source-grounded knowledge so sessions do
+                  not rediscover the same context.
+                </td>
+              </tr>
+              <tr>
+                <td><code>ontology-vault</code></td>
+                <td>
+                  Distills sessions, reviews premises, proposes conventions, and
+                  validates confidence gates.
+                </td>
+              </tr>
+              <tr>
+                <td><code>necronomicon-session</code></td>
+                <td>
+                  Holds durable repository memory, routing, updates, and
+                  handoffs.
+                </td>
+              </tr>
+              <tr>
+                <td><code>context-builder</code></td>
+                <td>
+                  Retrieves compact evidence for routing, resume, and execution.
+                </td>
+              </tr>
+              <tr>
+                <td><code>task-session</code></td>
+                <td>
+                  Executes one bounded task with decisions, gates, and
+                  validation.
+                </td>
+              </tr>
+              <tr>
+                <td><code>decision-gate</code></td>
+                <td>Resolves consequential trade-offs before mutation.</td>
+              </tr>
+              <tr>
+                <td><code>sigil-runtime-installer</code></td>
+                <td>
+                  Refreshes runtime command surfaces after capability changes.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code>spellcraft</code> and <code>sigil-development</code>
+                </td>
+                <td>
+                  Create new reusable workflows when the harness finds a missing
+                  pattern.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="tour-section" id="routing">
+          <h2>The Routing Table</h2>
+          <p>
+            Necronomicon is useful because it does not route every request from
+            scratch. It starts from the selected capability manifest, then
+            expands outward only when the repository lacks the right local move.
+          </p>
+          <table aria-label="Necronomicon routing order">
+            <thead>
+              <tr>
+                <th>Priority</th>
+                <th>Route Source</th>
+                <th>Confidence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>
+                  Explicit runtime command, exact spell ID, exact sigil ID, or
+                  exact alias.
+                </td>
+                <td>High</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>
+                  Selected Necronomicon capabilities by trigger, mode, or
+                  description.
+                </td>
+                <td>Medium to high</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>
+                  Ontology, vault, premise, confidence, branch, or bridge
+                  triggers.
+                </td>
+                <td>Medium</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>
+                  Arcanum registry fallback candidates that are not selected
+                  yet.
+                </td>
+                <td>Low until approved</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>
+                  Focused clarification when multiple credible routes tie.
+                </td>
+                <td>Blocked until resolved</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="highlight-box">
+            Fallback discovery is an offer, not a silent install. The harness
+            asks before adding a capability to the selected manifest.
+          </div>
+        </section>
+
+        <section class="tour-section" id="memory">
+          <h2>The Memory Vault</h2>
+          <p>
+            The local Necronomicon folder is a vault for working state. It helps
+            a repository session survive interruption, handoff, and repeated
+            routing, while keeping canonical definitions somewhere else.
+          </p>
+          <p>
+            Memory should record the shape of knowledge, not replace it:
+            inventory references source evidence, ontology records roles and
+            bridge edges, axioms preserve load-bearing constraints, and session
+            notes capture what changed during the run.
+          </p>
+          <table aria-label="Necronomicon state files">
+            <thead>
+              <tr>
+                <th>Path</th>
+                <th>What It Holds</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>.arcanum/necronomicon/capabilities.json</code></td>
+                <td>
+                  Selected sigils, selected spells, runtime commands, and
+                  fallback policy.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code
+                    >.arcanum/necronomicon/sessions/&lt;id&gt;/memory.md</code
+                  >
+                </td>
+                <td>
+                  Durable summary of the active objective, facts, decisions, and
+                  next action.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code
+                    >.arcanum/necronomicon/sessions/&lt;id&gt;/routes.jsonl</code
+                  >
+                </td>
+                <td>
+                  Route attempts, candidates, selected command, confidence,
+                  result, and validation.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code
+                    >.arcanum/necronomicon/sessions/&lt;id&gt;/decisions.md</code
+                  >
+                </td>
+                <td>
+                  Resolved choices, open questions, assumptions, and blocked
+                  trade-offs.
+                </td>
+              </tr>
+              <tr>
+                <td><code>.arcanum/inventory/</code></td>
+                <td>
+                  Reusable source-grounded entries, indexes, tags,
+                  contradictions, and query syntheses.
+                </td>
+              </tr>
+              <tr>
+                <td><code>.arcanum/ontology/</code></td>
+                <td>
+                  Ontology maps, branch classifications, premise reviews, bridge
+                  validation, and confidence reports.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <code
+                    >.arcanum/necronomicon/sessions/&lt;id&gt;/handoff.md</code
+                  >
+                </td>
+                <td>
+                  Resume-ready summary for the next agent, operator, or session.
+                </td>
+              </tr>
+              <tr>
+                <td><code>.arcanum/observability/</code></td>
+                <td>
+                  Telemetry for command use, route misses, validations, and
+                  follow-up signals.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="tour-section" id="example">
+          <h2>Example Session Run</h2>
+          <p>
+            Imagine a repository where the team wants to add a governed
+            onboarding workflow. The user does not want a loose conversation;
+            they want durable memory, selected command routing, evidence lookup,
+            and an auditable handoff.
+          </p>
+          <div
+            class="example-run"
+            aria-label="Necronomicon session example run"
+          >
+            <div class="example-card">
+              <div>
+                <h3>1. Start</h3>
+                <p>Create the session and select a compact capability set.</p>
+              </div>
+              <pre><code>arcanum-necronomicon-session start
+Objective: design a governed onboarding workflow
+Capabilities: ontology-harness, inventory, context-builder,
+task-session, decision-gate</code></pre>
+            </div>
+            <div class="example-card">
+              <div>
+                <h3>2. Load Substrate</h3>
+                <p>Inventory and ontology provide source-grounded context.</p>
+              </div>
+              <pre><code>Read .arcanum/necronomicon/capabilities.json
+Lookup onboarding docs in .arcanum/inventory/
+Map actors, rules, premises, and bridge gaps with ontology-harness</code></pre>
+            </div>
+            <div class="example-card">
+              <div>
+                <h3>3. Route Work</h3>
+                <p>
+                  The request becomes a bounded task with evidence obligations.
+                </p>
+              </div>
+              <pre><code>arcanum-necronomicon-session route \
+  "turn the onboarding premise into a scoped implementation task"
+
+Selected route: task-session
+Context support: context-builder
+Gate support: decision-gate</code></pre>
+            </div>
+            <div class="example-card">
+              <div>
+                <h3>4. Handle Missing Capability</h3>
+                <p>
+                  Fallback discovery suggests a capability without silently
+                  adding it.
+                </p>
+              </div>
+              <pre><code>Route miss: no selected glossary capability
+Fallback candidates: feature-glossary, spellcraft
+Decision: add feature-glossary after this run
+Report: .arcanum/necronomicon/capability-updates/...</code></pre>
+            </div>
+            <div class="example-card">
+              <div>
+                <h3>5. Close</h3>
+                <p>
+                  The session writes resumable state instead of relying on
+                  memory alone.
+                </p>
+              </div>
+              <pre><code>arcanum-necronomicon-session close
+
+Writes:
+- sessions/&lt;id&gt;/memory.md
+- sessions/&lt;id&gt;/routes.jsonl
+- sessions/&lt;id&gt;/decisions.md
+- sessions/&lt;id&gt;/handoff.md</code></pre>
+            </div>
+          </div>
+          <div class="highlight-box">
+            The point of the session is not that every action happens inside one
+            command. The point is that every action is routed through a visible
+            harness: selected capability, evidence source, confidence, decision,
+            output, and handoff.
+          </div>
+        </section>
+
+        <section class="tour-section" id="invoke">
+          <h2>Try The Invocation</h2>
+          <p>
+            The practical surface is intentionally small. One command handles
+            direct ontology work. One command handles durable session work.
+          </p>
+          <div
+            class="command-list"
+            aria-label="Necronomicon invocation examples"
+          >
+            <div class="command">
+              <code>arcanum-necronomicon</code>
+              <span
+                >Run the Ontology Harness for mapping, premise review, session
+                distillation, or bridge validation.</span
+              >
+            </div>
+            <div class="command">
+              <code>arcanum-necronomicon-session start</code>
+              <span
+                >Create a durable repository session with memory and selected
+                capability routing.</span
+              >
+            </div>
+            <div class="command">
+              <code>arcanum-necronomicon-session route &lt;request&gt;</code>
+              <span
+                >Route a request through selected local commands before
+                considering fallback candidates.</span
+              >
+            </div>
+            <div class="command">
+              <code>arcanum-necronomicon-session update-capabilities</code>
+              <span
+                >Add, remove, refresh, or author capabilities with an auditable
+                update report.</span
+              >
+            </div>
+            <div class="command">
+              <code>arcanum-necronomicon-session close</code>
+              <span
+                >Write final memory, decisions, route history, validation, and
+                handoff.</span
+              >
+            </div>
+          </div>
+          <div class="highlight-box">
+            The balanced strategy is simple: use narrative for orientation,
+            tables for dense facts, and command examples for action. Readers can
+            skim the tour or follow it as a working model for their own
+            repository harness.
+          </div>
+        </section>
+      </main>
+
+      <footer>&copy; 2026 CyberAlchemy AI. All rights reserved.</footer>
+    </div>
+  </body>
+</html>
