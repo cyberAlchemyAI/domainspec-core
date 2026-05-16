@@ -19,9 +19,9 @@ Arcanum runtime support is installed at .arcanum/ in this repository. Runtime co
 1. Classify the request as Necronomicon session, Necronomicon/Ontology Harness, sigil usage, spell usage, install/setup, authoring, validation, observability, or help.
 2. Route Necronomicon start, create, resume, close, memory, route, fallback, or capability-update requests to arcanum-necronomicon-session when installed.
 3. Route Necronomicon ontology, vault, premise, session distillation, business/system branch, or bridge-validation requests to the Ontology Harness command.
-4. Route explicit sigil or spell requests to the matching installed arcanum-sigil-<id> or arcanum-spell-<id> command.
+4. Route explicit sigil or spell requests to the matching installed command and resolve configured sigil aliases to canonical commands.
 5. If multiple routes are plausible, ask one focused clarification.
-6. Read the selected installed command adapter and follow its embedded canonical definition snapshot.
+6. Read the selected installed command adapter and follow its runtime-local sigil or spell contract.
 7. Apply the observability handoff by summarizing request, route, files changed, validation, gaps, and follow-up; append telemetry under .arcanum/observability/ when allowed.
 8. Return the selected route, command used, validation result, observability result, and next action.
 </process>
@@ -58,11 +58,13 @@ Arcanum runtime support is installed at .arcanum/ in this repository. Runtime co
 - `arcanum-sigil-skill-transcriptor`
 - `arcanum-sigil-spellcraft`
 - `arcanum-sigil-structured-interview-kits`
+- `arcanum-sigil-interrogation`: alias (Interrogation) for `arcanum-sigil-structured-interview-kits`.
 - `arcanum-sigil-task-session`
 - `arcanum-sigil-workflow-reflect`
 - `arcanum-spell-arcanum-bootstrap`
 - `arcanum-spell-discovery-to-inventory`
 - `arcanum-spell-implementation-readiness`
+- `arcanum-spell-invoke`
 - `arcanum-spell-necronomicon-session`
 - `arcanum-spell-ontology-harness`
 - `arcanum-spell-repository-harness`

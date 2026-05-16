@@ -1,7 +1,7 @@
 ---
 name: arcanum-necronomicon-session
 description: Run the installed Necronomicon session harness through its local runtime adapter.
-argument-hint: "<start|resume|route|update-capabilities|fallback-discover|close> <request>"
+argument-hint: "<setup|start|resume|route|checkpoint|research|implementation-research|update-capabilities|fallback-discover|maintain|close> <request>"
 allowed-tools: Read, Glob, Grep, AskQuestions, Task
 ---
 
