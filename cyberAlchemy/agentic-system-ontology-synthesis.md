@@ -62,6 +62,37 @@ Where did the translation lose meaning?
 What should we learn from this?
 ```
 
+## Bridge And Residue: Make Lost Meaning Visible
+
+The first thing CyberAlchemy needs is not more automation. It needs a way to see where meaning was lost.
+
+CyberAlchemy is designed around translation: intent becomes specification, specification becomes implementation, implementation becomes behavior, behavior becomes evidence, and evidence becomes knowledge.
+
+Every translation can leave residue.
+
+Residue is the part that did not cross cleanly:
+
+- a domain rule without implementation;
+- code behavior without a matching intent;
+- a prompt contract that does not match actual output;
+- telemetry that does not answer the governance question;
+- a memory shortcut that helps once but fails elsewhere;
+- a context pack that loads too much and hides the relevant obligation.
+
+The bridge layer exists to make these losses visible.
+
+It connects:
+
+```text
+intent
+  -> system realization
+  -> tests and observability
+  -> drift and residue
+  -> correction route
+```
+
+This is where the system names what was lost in translation and decides whether the response is ontology review, inventory update, implementation work, capability maintenance, or a decision gate.
+
 ## Saturn: The Convergence Loop
 
 Saturn is the convergence loop at the heart of CyberAlchemy.
@@ -178,20 +209,12 @@ DomainSpec
 Arcanum
   reusable agent capability and lifecycle method
 
-Inventory
-  evidence ingestion and reusable source knowledge
-
-Ontology
-  governed, agent-usable meaning
-
-Knowledge Governance
-  authority ladder, confidence, promotion, demotion, and contradiction
-
 Bridge And Residue
   traceability between intent and realization, plus visible translation loss
 
-Operational Ontology
-  reusable knowledge about agent operation itself
+Ontology
+  inventory, business ontology, system ontology, bridge ontology,
+  operational ontology, and knowledge governance
 
 Memory
   continuity across sessions and user workflow
@@ -208,7 +231,37 @@ Observability and Reflection
 
 Each layer has a different job. The system becomes powerful because those jobs are not collapsed into one vague "AI agent."
 
-## Inventory: Stop Rediscovering The Same Knowledge
+## Ontology: The Knowledge System
+
+Ontology is the knowledge system of CyberAlchemy.
+
+It is not only a vocabulary and not only a document archive. It is the governed place where evidence becomes meaning, meaning becomes reusable guidance, and guidance becomes something an agent can safely use during execution.
+
+In CyberAlchemy, the ontology topic contains related parts:
+
+```text
+Inventory
+  source evidence made reusable
+
+Business Ontology
+  domain intent, actors, value, rules, policies, premises, and outcomes
+
+System Ontology
+  business intent represented through specs, code, tests, data, and runtime evidence
+
+Bridge Ontology
+  traceability and residue between business meaning and system realization
+
+Operational Ontology
+  governed meaning about agent operation, routes, skills, sigils, and lessons
+
+Knowledge Governance
+  authority, confidence, promotion, demotion, contradiction, and review
+```
+
+These parts are different, but they should not feel like separate worlds. Inventory feeds ontology. Business Ontology names what the system means to protect. System Ontology shows how that meaning is represented in specifications, code, tests, data models, APIs, telemetry, and runtime behavior. Bridge Ontology maps the translation between them and exposes residue. Operational Ontology captures what the agentic system learns about its own work. Knowledge Governance decides how any of this knowledge earns authority and how it can be challenged later.
+
+### Inventory: Stop Rediscovering The Same Knowledge
 
 Inventory is the compiled evidence layer.
 
@@ -233,11 +286,84 @@ Without inventory, every agent has to rediscover the same material from raw file
 
 Inventory is where knowledge starts to compound.
 
-## Ontology: Turn Evidence Into Meaning
+### Business Ontology: Preserve Domain Intent
+
+Business Ontology is the intent branch.
+
+It represents the business or domain independently from implementation details:
+
+- domain language,
+- actors,
+- value,
+- outcomes,
+- rules,
+- policies,
+- premises,
+- constraints,
+- expected behaviors.
+
+This is where CyberAlchemy keeps the question, "What should be true?" clean and explicit.
+
+Business Ontology should not be polluted with accidental implementation shape. A database table, API route, UI component, or telemetry event can express business meaning, but it is not the business meaning itself.
+
+That separation matters because Saturn needs a stable reference point. If the intent branch collapses into implementation, the system can no longer tell whether the code is aligned with the domain or whether the domain model has simply been rewritten to justify the code.
+
+The existing Arcanum branch-aware model describes this directly in [BUSINESS-ONTOLOGY.md](../arcanum/BUSINESS-ONTOLOGY.md).
+
+### System Ontology: Represent Intent In Specs And Code
+
+System Ontology is the realization branch.
+
+It represents how business meaning has been translated into the concrete system:
+
+- DomainSpec concepts and feature specifications,
+- typed relationships,
+- implementation obligations,
+- code modules,
+- services,
+- APIs,
+- data models,
+- tests,
+- observability signals,
+- runtime facts,
+- infrastructure topology.
+
+This is where CyberAlchemy asks, "What is actually represented in the system?"
+
+System Ontology is not merely technical inventory. It is the business ontology as realized through specs, code, behavior, and evidence. It shows which parts of the domain have a faithful system expression, which parts are missing, and which system behaviors exist without a clear business reason.
+
+### Bridge Ontology: Compare Meaning With Realization
+
+Bridge Ontology is the traceability branch.
+
+It maps the relationships between Business Ontology and System Ontology:
+
+```text
+business intent
+  -> specification
+  -> implementation
+  -> test
+  -> signal
+  -> observed behavior
+```
+
+This is where the bridge and residue lens becomes queryable knowledge. It should be possible to ask:
+
+- Which business rule does this code implement?
+- Which specification expresses this premise?
+- Which test verifies this outcome?
+- Which signal proves the behavior is happening?
+- Which runtime fact contradicts the intended domain model?
+- Which implementation artifact has no business trace?
+- Which business concept has no system realization?
+
+Bridge Ontology is how CyberAlchemy keeps translation loss visible after the initial analysis is over.
+
+### Ontology Entries: Turn Evidence Into Usable Meaning
 
 Ontology is not just a list of terms.
 
-Ontology is the governed meaning layer.
+The ontology entry model is the governed meaning contract for business, system, bridge, operational, and governance knowledge.
 
 It explains what things are, how they relate, where they apply, what evidence supports them, what confidence they have, and when they should change.
 
@@ -278,7 +404,36 @@ Ontology is a semantic superset of inventory, not a storage dump of inventory.
 
 For cross-repository material, CyberAlchemy keeps compiled source digests inside the ontology pack: [source-ledger.md](ontology/source-ledger.md). These digests let Arcanum and DomainSpec concepts evolve inside the CyberAlchemy context without losing provenance to their original files.
 
-## Knowledge Governance: The Authority Ladder
+### Operational Ontology: The System Learns How It Works
+
+Operational Ontology is the branch of ontology that captures knowledge about agent operation itself.
+
+It is where the system records what it learns about:
+
+- route choices,
+- sigil optimization,
+- spell composition,
+- prompt contracts,
+- context solution cards,
+- failure modes,
+- telemetry thresholds,
+- capability maintenance,
+- user workflow constraints.
+
+This is where the system begins to govern the governor.
+
+For example, if repeated executions show that a sigil works better when its prompt schema is defined before its runner, that should not remain buried in a work-pack or a session note. It should become an operational lesson with scope, evidence, confidence, and expiry conditions.
+
+Operational Ontology asks:
+
+- Which route works for this kind of task?
+- Which capability owns this work?
+- What should future agents avoid?
+- What signal shows this capability is drifting?
+- Which lesson is local, and which one generalizes?
+- What should expire when the context changes?
+
+### Knowledge Governance: The Authority Ladder
 
 Once inventory and ontology exist, the system needs a rule for how knowledge gains authority.
 
@@ -307,64 +462,6 @@ Am I using evidence, a candidate, a reviewed premise, or promoted knowledge?
 ```
 
 That question prevents the system from confusing continuity with truth.
-
-## Bridge And Residue: Make Lost Meaning Visible
-
-CyberAlchemy is designed around translation: intent becomes specification, specification becomes implementation, implementation becomes behavior, behavior becomes evidence, and evidence becomes knowledge.
-
-Every translation can leave residue.
-
-Residue is the part that did not cross cleanly:
-
-- a domain rule without implementation;
-- code behavior without a matching intent;
-- a prompt contract that does not match actual output;
-- telemetry that does not answer the governance question;
-- a memory shortcut that helps once but fails elsewhere;
-- a context pack that loads too much and hides the relevant obligation.
-
-The bridge layer exists to make these losses visible.
-
-It connects:
-
-```text
-intent
-  -> system realization
-  -> tests and observability
-  -> drift and residue
-  -> correction route
-```
-
-This is where the system names what was lost in translation and decides whether the response is ontology review, inventory update, implementation work, capability maintenance, or a decision gate.
-
-## Operational Ontology: The System Learns How It Works
-
-Operational Ontology is the branch of ontology that captures knowledge about agent operation itself.
-
-It is where the system records what it learns about:
-
-- route choices,
-- sigil optimization,
-- spell composition,
-- prompt contracts,
-- context solution cards,
-- failure modes,
-- telemetry thresholds,
-- capability maintenance,
-- user workflow constraints.
-
-This is where the system begins to govern the governor.
-
-For example, if repeated executions show that a sigil works better when its prompt schema is defined before its runner, that should not remain buried in a work-pack or a session note. It should become an operational lesson with scope, evidence, confidence, and expiry conditions.
-
-Operational Ontology asks:
-
-- Which route works for this kind of task?
-- Which capability owns this work?
-- What should future agents avoid?
-- What signal shows this capability is drifting?
-- Which lesson is local, and which one generalizes?
-- What should expire when the context changes?
 
 ## Memory: Continuity, Not Authority
 
@@ -462,10 +559,8 @@ The system is working when:
 - Saturn explains the convergence loop clearly.
 - DomainSpec formalizes intent precisely.
 - Arcanum routes agent work responsibly.
-- Inventory stops repeated rediscovery.
-- Ontology gives agents usable knowledge capsules.
-- Knowledge Governance prevents evidence, memory, and telemetry from skipping authority gates.
 - Bridge and residue mapping makes lost translation visible.
+- Ontology works as one knowledge system: inventory stops repeated rediscovery, business ontology preserves intent, system ontology represents that intent in specs and code, bridge ontology exposes residue, operational ontology captures agent lessons, and governance protects authority gates.
 - Memory preserves continuity without becoming authority.
 - Context Builder loads only what the task needs.
 - Execution emits evidence.
@@ -483,4 +578,4 @@ The self-contained slice layer for implementation work lives in [agentic-system/
 
 ## One-Line Summary
 
-CyberAlchemy composes Saturn's convergence loop, DomainSpec's specification method, Arcanum's capability lifecycle, inventory's evidence substrate, ontology's thick knowledge objects, memory's continuity, and observability's feedback loops into one agentic system that learns how to stay aligned with intent.
+CyberAlchemy composes Saturn's convergence loop, DomainSpec's specification method, Arcanum's capability lifecycle, ontology's branch-aware knowledge system, memory's continuity, and observability's feedback loops into one agentic system that learns how to stay aligned with intent.
