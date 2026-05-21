@@ -61,6 +61,7 @@ When those layers drift apart, CyberAlchemy should name the drift, route a corre
 | [agentic-system-inventory-ontology-pipeline.md](agentic-system-inventory-ontology-pipeline.md) | Inventory-to-ontology pipeline, source cohorts, storage model, entry types.             |
 | [agentic-system-ontology-entry-model.md](agentic-system-ontology-entry-model.md)               | Thick ontology entry contract.                                                          |
 | [agentic-system-first-working-slice.md](agentic-system-first-working-slice.md)                 | Practical first loop from source to inventory to ontology to execution.                 |
+| [assets/](assets/README.md)                                                                    | CyberAlchemy visual identity assets: reusable mark, palette, and CSS tokens.            |
 | [saturn-research-presentation.md](saturn-research-presentation.md)                             | Saturn convergence-loop explanation.                                                    |
 | [main.html](main.html)                                                                         | CyberAlchemy product/philosophy surface.                                                |
 | [necronomicon.html](necronomicon.html)                                                         | Necronomicon product/philosophy surface.                                                |

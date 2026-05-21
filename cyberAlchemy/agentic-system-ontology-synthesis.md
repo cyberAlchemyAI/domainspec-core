@@ -62,13 +62,28 @@ Where did the translation lose meaning?
 What should we learn from this?
 ```
 
-## Bridge And Residue: Make Lost Meaning Visible
+## Lost In Translation
 
-The first thing CyberAlchemy needs is not more automation. It needs a way to see where meaning was lost.
+The first thing CyberAlchemy needs is not more automation. It needs a way to see where meaning was lost, and a way to reduce that loss over time.
 
 CyberAlchemy is designed around translation: intent becomes specification, specification becomes implementation, implementation becomes behavior, behavior becomes evidence, and evidence becomes knowledge.
 
-Every translation can leave residue.
+The system is built to chase symmetry across those translations.
+
+Symmetry does not mean that every layer is identical. Intent, specification, code, telemetry, and ontology are different kinds of things. The symmetry CyberAlchemy wants is correspondence:
+
+```text
+what we mean
+  should be traceable to what we specify
+what we specify
+  should be traceable to what we build
+what we build
+  should be traceable to what happens
+what happens
+  should be traceable to what we learn
+```
+
+Every time that correspondence weakens, the system has found residue.
 
 Residue is the part that did not cross cleanly:
 
@@ -79,7 +94,7 @@ Residue is the part that did not cross cleanly:
 - a memory shortcut that helps once but fails elsewhere;
 - a context pack that loads too much and hides the relevant obligation.
 
-The bridge layer exists to make these losses visible.
+The bridge layer exists to make these losses visible. It is the symmetry-checking layer: it asks whether two representations still preserve the same meaning, or whether something important was dropped, distorted, duplicated, or invented during translation.
 
 It connects:
 
@@ -91,7 +106,9 @@ intent
   -> correction route
 ```
 
-This is where the system names what was lost in translation and decides whether the response is ontology review, inventory update, implementation work, capability maintenance, or a decision gate.
+This is where CyberAlchemy names what was lost in translation and decides whether the response is ontology review, inventory update, implementation work, capability maintenance, or a decision gate.
+
+In that sense, CyberAlchemy is a residue-reduction system. It keeps looking for broken symmetries between schema and data, business ontology and system ontology, specification and code, agent instruction and agent behavior, memory and governed knowledge. Each broken symmetry becomes evidence. Each correction should leave the next translation cleaner than the last.
 
 ## Saturn: The Convergence Loop
 
@@ -559,7 +576,7 @@ The system is working when:
 - Saturn explains the convergence loop clearly.
 - DomainSpec formalizes intent precisely.
 - Arcanum routes agent work responsibly.
-- Bridge and residue mapping makes lost translation visible.
+- Lost-in-translation mapping makes broken symmetry and residue visible.
 - Ontology works as one knowledge system: inventory stops repeated rediscovery, business ontology preserves intent, system ontology represents that intent in specs and code, bridge ontology exposes residue, operational ontology captures agent lessons, and governance protects authority gates.
 - Memory preserves continuity without becoming authority.
 - Context Builder loads only what the task needs.
@@ -578,4 +595,4 @@ The self-contained slice layer for implementation work lives in [agentic-system/
 
 ## One-Line Summary
 
-CyberAlchemy composes Saturn's convergence loop, DomainSpec's specification method, Arcanum's capability lifecycle, ontology's branch-aware knowledge system, memory's continuity, and observability's feedback loops into one agentic system that learns how to stay aligned with intent.
+CyberAlchemy composes Saturn's convergence loop, DomainSpec's specification method, Arcanum's capability lifecycle, ontology's branch-aware knowledge system, memory's continuity, and observability's feedback loops into one agentic system that chases symmetry between intent and reality by making residue visible and reducible.

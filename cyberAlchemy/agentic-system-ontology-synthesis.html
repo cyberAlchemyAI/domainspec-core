@@ -1,0 +1,1602 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The CyberAlchemy Agentic System</title>
+    <style>
+      :root {
+        --bg-color: #fdfaf3;
+        --surface-color: #f6f2e6;
+        --surface-strong: #efe8d4;
+        --text-main: #1a1a1a;
+        --text-muted: #62625b;
+        --border-color: #e5e5e0;
+        --accent-brand: #e60023;
+        --accent-secondary: #cc0000;
+        --accent-orange: #ea580c;
+        --accent-gold: #b7791f;
+        --accent-teal: #0f766e;
+        --accent-blue: #2563eb;
+        --accent-violet: #7c3aed;
+        --accent-green: #15803d;
+        --shadow-soft: 0 24px 70px rgba(0, 0, 0, 0.12);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg-color: #000000;
+          --surface-color: #111111;
+          --surface-strong: #1a1a1a;
+          --text-main: #ededed;
+          --text-muted: #9a9a9a;
+          --border-color: #333333;
+          --accent-brand: #e60023;
+          --accent-secondary: #ff4d4d;
+          --accent-orange: #fb923c;
+          --accent-gold: #fbbf24;
+          --accent-teal: #2dd4bf;
+          --accent-blue: #60a5fa;
+          --accent-violet: #a78bfa;
+          --accent-green: #4ade80;
+          --shadow-soft: 0 24px 70px rgba(0, 0, 0, 0.55);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(
+            circle at 14% 0%,
+            rgba(230, 0, 35, 0.1) 0%,
+            rgba(230, 0, 35, 0) 36%
+          ),
+          radial-gradient(
+            circle at 88% 9%,
+            rgba(234, 88, 12, 0.09) 0%,
+            rgba(234, 88, 12, 0) 32%
+          ),
+          var(--bg-color);
+        color: var(--text-main);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        line-height: 1.62;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 24px auto;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background: color-mix(
+          in oklab,
+          var(--bg-color) 88%,
+          var(--surface-color) 12%
+        );
+        box-shadow: var(--shadow-soft);
+        overflow: clip;
+      }
+
+      header {
+        position: relative;
+        padding: 54px 34px 38px;
+        border-bottom: 1px solid var(--border-color);
+        background:
+          linear-gradient(
+            180deg,
+            color-mix(in oklab, var(--surface-color) 74%, transparent) 0%,
+            transparent 100%
+          ),
+          linear-gradient(
+            90deg,
+            rgba(230, 0, 35, 0.08),
+            rgba(234, 88, 12, 0.05),
+            transparent
+          );
+      }
+
+      .brand-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 34px;
+      }
+
+      .mark {
+        width: 66px;
+        height: 66px;
+        flex: 0 0 auto;
+        filter: drop-shadow(0 12px 20px rgba(230, 0, 35, 0.22));
+      }
+
+      .kicker {
+        color: var(--text-muted);
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .brand-name {
+        margin-top: 2px;
+        font-size: 1.02rem;
+        font-weight: 750;
+      }
+
+      h1 {
+        max-width: 870px;
+        margin: 0;
+        font-size: clamp(2.35rem, 6vw, 5rem);
+        line-height: 0.98;
+        letter-spacing: 0;
+        background: linear-gradient(
+          90deg,
+          var(--accent-brand),
+          var(--accent-secondary) 42%,
+          var(--accent-orange)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .lede {
+        max-width: 820px;
+        margin: 24px 0 0;
+        color: var(--text-main);
+        font-size: clamp(1.12rem, 2.2vw, 1.45rem);
+        line-height: 1.55;
+      }
+
+      .lede strong {
+        color: var(--accent-secondary);
+      }
+
+      .meta-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        padding: 6px 10px;
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-brand);
+        border-radius: 8px;
+        background: color-mix(in oklab, var(--surface-color) 78%, transparent);
+        color: var(--text-muted);
+        font-size: 0.88rem;
+        font-weight: 700;
+      }
+
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px 18px;
+        border-bottom: 1px solid var(--border-color);
+        background: color-mix(
+          in oklab,
+          var(--surface-color) 92%,
+          var(--bg-color) 8%
+        );
+      }
+
+      nav a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 32px;
+        padding: 5px 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        color: var(--text-main);
+        font-size: 0.86rem;
+        font-weight: 750;
+        text-decoration: none;
+      }
+
+      nav a:hover {
+        border-color: var(--accent-brand);
+        color: var(--accent-secondary);
+      }
+
+      main {
+        padding: 30px;
+      }
+
+      section {
+        padding: 24px 0;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      section:last-of-type {
+        border-bottom: 0;
+      }
+
+      h2 {
+        margin: 0 0 18px;
+        padding-left: 14px;
+        border-left: 4px solid var(--accent-brand);
+        color: var(--text-main);
+        font-size: clamp(1.55rem, 3vw, 2.35rem);
+        line-height: 1.15;
+        letter-spacing: 0;
+      }
+
+      h3 {
+        margin: 28px 0 10px;
+        color: var(--text-main);
+        font-size: clamp(1.14rem, 2vw, 1.45rem);
+        line-height: 1.25;
+      }
+
+      p {
+        max-width: 850px;
+        margin: 0 0 1.12rem;
+        font-size: 1.05rem;
+      }
+
+      ul {
+        max-width: 850px;
+        margin: 0 0 1.2rem;
+        padding-left: 1.2rem;
+      }
+
+      li {
+        margin-bottom: 0.42rem;
+      }
+
+      strong {
+        color: var(--text-main);
+        font-weight: 780;
+      }
+
+      .statement {
+        max-width: 900px;
+        margin: 22px 0;
+        padding: 18px 20px;
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-brand);
+        border-radius: 0 8px 8px 0;
+        background: var(--surface-color);
+        font-size: 1.12rem;
+      }
+
+      .statement.compact {
+        font-size: 1rem;
+      }
+
+      .visual-panel {
+        max-width: 980px;
+        margin: 24px 0;
+        padding: 18px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background:
+          linear-gradient(
+            180deg,
+            color-mix(in oklab, var(--surface-color) 72%, transparent),
+            transparent
+          ),
+          var(--bg-color);
+      }
+
+      .panel-label {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        margin-bottom: 14px;
+        padding: 3px 9px;
+        border: 1px solid currentColor;
+        border-radius: 8px;
+        color: var(--accent-secondary);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .question-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .question-card {
+        min-height: 128px;
+        padding: 14px;
+        border: 1px solid var(--border-color);
+        border-top: 4px solid var(--accent-brand);
+        border-radius: 8px;
+        background: var(--surface-color);
+        font-weight: 740;
+        line-height: 1.35;
+      }
+
+      .question-card span {
+        display: block;
+        margin-bottom: 10px;
+        color: var(--text-muted);
+        font-size: 0.72rem;
+        font-weight: 850;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .question-card:nth-child(2) {
+        border-top-color: var(--accent-orange);
+      }
+
+      .question-card:nth-child(3) {
+        border-top-color: var(--accent-gold);
+      }
+
+      .question-card:nth-child(4) {
+        border-top-color: var(--accent-blue);
+      }
+
+      .question-card:nth-child(5) {
+        border-top-color: var(--accent-green);
+      }
+
+      .rail {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .rail.spec {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .rail-node {
+        position: relative;
+        min-height: 106px;
+        padding: 14px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background: var(--surface-color);
+      }
+
+      .rail-node::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -12px;
+        width: 12px;
+        border-top: 2px solid var(--accent-secondary);
+        transform: translateY(-50%);
+      }
+
+      .rail-node:last-child::after {
+        display: none;
+      }
+
+      .rail-node b {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--accent-secondary);
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .rail-node span {
+        display: block;
+        color: var(--text-main);
+        font-weight: 740;
+        line-height: 1.35;
+      }
+
+      .context-triad {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .triad-card {
+        min-height: 128px;
+        padding: 16px;
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-brand);
+        border-radius: 0 8px 8px 0;
+        background: var(--surface-color);
+      }
+
+      .triad-card b {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .triad-card span {
+        color: var(--text-muted);
+      }
+
+      .authority-ladder {
+        max-width: 980px;
+        margin: 24px 0;
+        padding: 18px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background:
+          linear-gradient(
+            90deg,
+            rgba(230, 0, 35, 0.07),
+            rgba(234, 88, 12, 0.05),
+            transparent
+          ),
+          var(--surface-color);
+      }
+
+      .authority-ladder ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .ladder-step {
+        --indent: 0px;
+        --step-color: var(--accent-brand);
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 12px;
+        width: calc(100% - var(--indent));
+        min-height: 74px;
+        margin-left: var(--indent);
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        border-left: 5px solid var(--step-color);
+        border-radius: 0 8px 8px 0;
+        background: color-mix(
+          in oklab,
+          var(--bg-color) 62%,
+          var(--surface-color) 38%
+        );
+      }
+
+      .ladder-step + .ladder-step {
+        margin-top: 10px;
+      }
+
+      .ladder-index {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border: 1px solid var(--step-color);
+        border-radius: 8px;
+        color: var(--step-color);
+        font-size: 0.78rem;
+        font-weight: 850;
+      }
+
+      .ladder-title {
+        display: block;
+        margin-bottom: 4px;
+        font-weight: 800;
+      }
+
+      .ladder-note {
+        display: block;
+        color: var(--text-muted);
+        font-size: 0.92rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 14px;
+        margin: 22px 0 8px;
+      }
+
+      .card {
+        grid-column: span 4;
+        min-height: 150px;
+        padding: 18px;
+        border: 1px solid var(--border-color);
+        border-top: 4px solid var(--accent-brand);
+        border-radius: 8px;
+        background: color-mix(in oklab, var(--surface-color) 72%, transparent);
+      }
+
+      .card h3 {
+        margin-top: 0;
+        font-size: 1.08rem;
+      }
+
+      .card p,
+      .card li {
+        font-size: 0.97rem;
+      }
+
+      .card.red {
+        border-top-color: var(--accent-brand);
+      }
+
+      .card.orange {
+        border-top-color: var(--accent-orange);
+      }
+
+      .card.gold {
+        border-top-color: var(--accent-gold);
+      }
+
+      .card.teal {
+        border-top-color: var(--accent-teal);
+      }
+
+      .card.blue {
+        border-top-color: var(--accent-blue);
+      }
+
+      .card.violet {
+        border-top-color: var(--accent-violet);
+      }
+
+      .card.green {
+        border-top-color: var(--accent-green);
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin: 20px 0;
+      }
+
+      .contrast {
+        padding: 20px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background: var(--surface-color);
+      }
+
+      .contrast h3 {
+        margin-top: 0;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 10px;
+        margin: 22px 0;
+      }
+
+      .flow-step {
+        min-height: 84px;
+        padding: 12px 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background: var(--surface-color);
+        font-size: 0.86rem;
+        font-weight: 750;
+        line-height: 1.35;
+      }
+
+      .flow-step span {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--accent-secondary);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+      }
+
+      .symmetry-map {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin: 24px 0;
+      }
+
+      .symmetry-item {
+        min-height: 132px;
+        padding: 16px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background:
+          linear-gradient(
+            180deg,
+            color-mix(in oklab, var(--surface-color) 86%, transparent),
+            transparent
+          ),
+          var(--bg-color);
+      }
+
+      .symmetry-item b {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--accent-secondary);
+        font-size: 0.82rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .stack-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin: 22px 0;
+      }
+
+      .stack-row {
+        padding: 14px 16px;
+        border: 1px solid var(--border-color);
+        border-left: 4px solid var(--accent-brand);
+        border-radius: 0 8px 8px 0;
+        background: var(--surface-color);
+      }
+
+      .stack-row b {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .stack-row span {
+        color: var(--text-muted);
+      }
+
+      .ontology-branches {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin: 22px 0;
+      }
+
+      .branch {
+        min-height: 150px;
+        padding: 16px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background: var(--surface-color);
+      }
+
+      .branch h3 {
+        margin-top: 0;
+      }
+
+      .branch .tag {
+        display: inline-flex;
+        min-height: 26px;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 3px 8px;
+        border: 1px solid currentColor;
+        border-radius: 8px;
+        font-size: 0.76rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .tag.red {
+        color: var(--accent-brand);
+      }
+
+      .tag.orange {
+        color: var(--accent-orange);
+      }
+
+      .tag.teal {
+        color: var(--accent-teal);
+      }
+
+      .tag.blue {
+        color: var(--accent-blue);
+      }
+
+      .tag.violet {
+        color: var(--accent-violet);
+      }
+
+      .tag.green {
+        color: var(--accent-green);
+      }
+
+      .quote {
+        max-width: 900px;
+        margin: 28px 0;
+        padding: 22px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background:
+          linear-gradient(
+            90deg,
+            rgba(230, 0, 35, 0.08),
+            rgba(234, 88, 12, 0.06)
+          ),
+          var(--surface-color);
+        font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+        line-height: 1.45;
+        font-weight: 780;
+      }
+
+      .source-note {
+        color: var(--text-muted);
+        font-size: 0.92rem;
+      }
+
+      footer {
+        padding: 24px 30px 32px;
+        border-top: 1px solid var(--border-color);
+        color: var(--text-muted);
+        background: var(--surface-color);
+        font-size: 0.92rem;
+      }
+
+      @media (max-width: 900px) {
+        .card,
+        .branch {
+          grid-column: span 6;
+        }
+
+        .flow {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .question-grid,
+        .rail,
+        .rail.spec,
+        .context-triad,
+        .symmetry-map,
+        .ontology-branches,
+        .stack-list,
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+
+        .rail-node::after {
+          top: auto;
+          right: auto;
+          bottom: -12px;
+          left: 24px;
+          width: 0;
+          height: 12px;
+          border-top: 0;
+          border-left: 2px solid var(--accent-secondary);
+        }
+
+        .ladder-step {
+          width: 100%;
+          margin-left: 0;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          width: 100%;
+          margin: 0;
+          border-left: 0;
+          border-right: 0;
+          border-radius: 0;
+        }
+
+        header,
+        main,
+        footer {
+          padding-left: 18px;
+          padding-right: 18px;
+        }
+
+        .brand-row {
+          align-items: flex-start;
+        }
+
+        .mark {
+          width: 52px;
+          height: 52px;
+        }
+
+        nav {
+          position: static;
+        }
+
+        .card {
+          grid-column: span 12;
+        }
+
+        .flow {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media print {
+        body {
+          background: #ffffff;
+        }
+
+        .page {
+          width: 100%;
+          margin: 0;
+          border: 0;
+          box-shadow: none;
+        }
+
+        nav {
+          position: static;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <article class="page">
+      <header>
+        <div class="brand-row">
+          <svg
+            class="mark"
+            viewBox="0 0 120 120"
+            role="img"
+            aria-label="CyberAlchemy mark"
+          >
+            <title>CyberAlchemy Mark</title>
+            <desc>
+              A circular convergence loop, alchemical triangle, feedback arc,
+              and central meaning kernel in the CyberAlchemy red-to-orange
+              gradient.
+            </desc>
+            <defs>
+              <linearGradient id="markGradient" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#e60023" />
+                <stop offset="62%" stop-color="#cc0000" />
+                <stop offset="100%" stop-color="#ea580c" />
+              </linearGradient>
+            </defs>
+            <circle
+              cx="60"
+              cy="60"
+              r="52"
+              fill="none"
+              stroke="url(#markGradient)"
+              stroke-width="8"
+            />
+            <path
+              d="M24 65c18-26 54-34 78-10"
+              fill="none"
+              stroke="url(#markGradient)"
+              stroke-linecap="round"
+              stroke-width="8"
+            />
+            <path
+              d="M33 88 60 26l27 62H33Z"
+              fill="none"
+              stroke="url(#markGradient)"
+              stroke-linejoin="round"
+              stroke-width="7"
+            />
+            <circle cx="60" cy="61" r="8" fill="url(#markGradient)" />
+          </svg>
+          <div>
+            <div class="kicker">CyberAlchemy AI</div>
+            <div class="brand-name">Agentic System Synthesis</div>
+          </div>
+        </div>
+
+        <h1>The CyberAlchemy Agentic System</h1>
+        <p class="lede">
+          A branch-aware knowledge and execution system that
+          <strong>chases symmetry between intent and reality</strong> by making
+          residue visible, traceable, and reducible.
+        </p>
+        <div class="meta-strip" aria-label="Document metadata">
+          <span class="chip">candidate article</span>
+          <span class="chip">updated 2026-05-19</span>
+          <span class="chip">standalone share file</span>
+        </div>
+      </header>
+
+      <nav aria-label="Page sections">
+        <a href="#idea">Idea</a>
+        <a href="#problem">Problem</a>
+        <a href="#translation">Lost In Translation</a>
+        <a href="#saturn">Saturn</a>
+        <a href="#domainspec">DomainSpec</a>
+        <a href="#arcanum">Arcanum</a>
+        <a href="#stack">Stack</a>
+        <a href="#ontology">Ontology</a>
+        <a href="#memory">Memory</a>
+        <a href="#execution">Execution</a>
+        <a href="#success">Success</a>
+      </nav>
+
+      <main>
+        <section id="idea">
+          <h2>The Idea</h2>
+          <p>
+            Imagine a software system that does not merely execute tasks, but
+            remembers what it was trying to become.
+          </p>
+          <p>
+            It knows the intent behind the work. It knows the specifications
+            that expressed that intent. It watches what actually happened during
+            execution. When reality drifts away from the plan, the system can
+            name the drift, collect evidence, route a correction, and improve
+            the knowledge that future agents will use.
+          </p>
+          <p>
+            That is the CyberAlchemy agentic system: a way to turn scattered
+            human intent, domain knowledge, agent work, source files, memory,
+            telemetry, and exploration into a self-improving operating stack.
+          </p>
+
+          <div class="statement">
+            intent should not disappear after execution<br />
+            evidence should not disappear after observation<br />
+            lessons should not disappear after a session
+          </div>
+        </section>
+
+        <section id="problem">
+          <h2>The Problem It Solves</h2>
+          <div class="two-col">
+            <div class="contrast">
+              <h3>What people meant to build</h3>
+              <p>
+                Goals, domain concepts, business rules, specifications,
+                architecture, decisions, plans, and promises.
+              </p>
+            </div>
+            <div class="contrast">
+              <h3>What actually happened</h3>
+              <p>
+                Code, tests, logs, metrics, failures, pull requests, agent
+                sessions, user corrections, and production behavior.
+              </p>
+            </div>
+          </div>
+          <p>
+            Over time, those worlds drift apart. Documentation stops matching
+            implementation. Telemetry produces noise instead of guidance. Agents
+            repeat the same discovery work. Lessons stay trapped in
+            conversations. A useful workflow becomes folklore instead of
+            reusable capability.
+          </p>
+          <p>CyberAlchemy is designed to close that gap.</p>
+          <div
+            class="visual-panel"
+            aria-label="CyberAlchemy diagnostic questions"
+          >
+            <div class="panel-label">Diagnostic Loop</div>
+            <div class="question-grid">
+              <div class="question-card">
+                <span>Intent</span>
+                What did we intend?
+              </div>
+              <div class="question-card">
+                <span>Reality</span>
+                What did we build?
+              </div>
+              <div class="question-card">
+                <span>Evidence</span>
+                What did we observe?
+              </div>
+              <div class="question-card">
+                <span>Residue</span>
+                Where did the translation lose meaning?
+              </div>
+              <div class="question-card">
+                <span>Learning</span>
+                What should we learn from this?
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="translation">
+          <h2>Lost In Translation</h2>
+          <p>
+            The first thing CyberAlchemy needs is not more automation. It needs
+            a way to see where meaning was lost, and a way to reduce that loss
+            over time.
+          </p>
+          <p>
+            CyberAlchemy is designed around translation: intent becomes
+            specification, specification becomes implementation, implementation
+            becomes behavior, behavior becomes evidence, and evidence becomes
+            knowledge.
+          </p>
+          <p>
+            The system is built to chase symmetry across those translations.
+            Symmetry does not mean that every layer is identical. Intent,
+            specification, code, telemetry, and ontology are different kinds of
+            things. The symmetry CyberAlchemy wants is correspondence.
+          </p>
+
+          <div class="symmetry-map">
+            <div class="symmetry-item">
+              <b>Meaning</b>
+              what we mean should be traceable to what we specify
+            </div>
+            <div class="symmetry-item">
+              <b>Specification</b>
+              what we specify should be traceable to what we build
+            </div>
+            <div class="symmetry-item">
+              <b>Reality</b>
+              what we build should be traceable to what happens
+            </div>
+            <div class="symmetry-item">
+              <b>Learning</b>
+              what happens should be traceable to what we learn
+            </div>
+          </div>
+
+          <p>
+            Every time that correspondence weakens, the system has found
+            residue. Residue is the part that did not cross cleanly: a domain
+            rule without implementation, code behavior without matching intent,
+            telemetry that does not answer the governance question, or a memory
+            shortcut that helps once but fails elsewhere.
+          </p>
+          <p>
+            The bridge layer exists to make these losses visible. It is the
+            symmetry-checking layer: it asks whether two representations still
+            preserve the same meaning, or whether something important was
+            dropped, distorted, duplicated, or invented during translation.
+          </p>
+          <div class="visual-panel" aria-label="Bridge and residue trace">
+            <div class="panel-label">Bridge Trace</div>
+            <div class="rail">
+              <div class="rail-node">
+                <b>Intent</b>
+                <span>the meaning the system is supposed to preserve</span>
+              </div>
+              <div class="rail-node">
+                <b>Realization</b>
+                <span>the implementation shape that carries the meaning</span>
+              </div>
+              <div class="rail-node">
+                <b>Evidence</b>
+                <span>tests, telemetry, behavior, and observed facts</span>
+              </div>
+              <div class="rail-node">
+                <b>Residue</b>
+                <span
+                  >what was dropped, distorted, duplicated, or invented</span
+                >
+              </div>
+              <div class="rail-node">
+                <b>Correction</b>
+                <span>the route that restores or updates alignment</span>
+              </div>
+            </div>
+          </div>
+          <p>
+            CyberAlchemy is a residue-reduction system. It keeps looking for
+            broken symmetries between schema and data, business ontology and
+            system ontology, specification and code, agent instruction and agent
+            behavior, memory and governed knowledge.
+          </p>
+        </section>
+
+        <section id="saturn">
+          <h2>Saturn: The Convergence Loop</h2>
+          <p>
+            Saturn is the convergence loop at the heart of CyberAlchemy. It
+            names the idea that a system should continuously compare intent with
+            reality, detect drift, and route correction.
+          </p>
+
+          <div class="flow" aria-label="Saturn convergence loop">
+            <div class="flow-step"><span>01</span>Define intent</div>
+            <div class="flow-step"><span>02</span>Execute work</div>
+            <div class="flow-step"><span>03</span>Observe reality</div>
+            <div class="flow-step"><span>04</span>Detect drift</div>
+            <div class="flow-step"><span>05</span>Choose correction</div>
+            <div class="flow-step"><span>06</span>Verify closure</div>
+            <div class="flow-step"><span>07</span>Update governance</div>
+          </div>
+
+          <div class="statement">
+            Saturn is how CyberAlchemy keeps what we meant to build in contact
+            with what is actually happening.
+          </div>
+          <p>
+            Saturn is not only monitoring. Monitoring tells us that something
+            happened. Saturn asks what the event means against the system's
+            intended shape, which owner should respond, and what evidence would
+            prove that alignment was restored.
+          </p>
+        </section>
+
+        <section id="domainspec">
+          <h2>DomainSpec: Structured Intent</h2>
+          <p>
+            For Saturn to work, intent cannot stay vague. A system cannot
+            compare reality against a cloud of wishes. It needs structured
+            intent: concepts, relationships, contracts, tests, signals, and
+            verification rules.
+          </p>
+          <p>
+            DomainSpec is the specification discipline that gives the
+            convergence loop something precise to protect.
+          </p>
+          <div
+            class="visual-panel"
+            aria-label="DomainSpec structured intent chain"
+          >
+            <div class="panel-label">Structured Intent Chain</div>
+            <div class="rail spec">
+              <div class="rail-node">
+                <b>Concepts</b>
+                <span>domain concepts and typed relationships</span>
+              </div>
+              <div class="rail-node">
+                <b>Specs</b>
+                <span
+                  >feature specifications and implementation obligations</span
+                >
+              </div>
+              <div class="rail-node">
+                <b>Proof</b>
+                <span>derived tests, signals, and readiness verification</span>
+              </div>
+              <div class="rail-node">
+                <b>Tuning</b>
+                <span
+                  >feedback that updates the model after reality answers</span
+                >
+              </div>
+            </div>
+          </div>
+          <p>
+            DomainSpec defines what convergence means for a real feature,
+            workflow, domain, or product. It is one of the main ways
+            CyberAlchemy prevents intent from dissolving into vague aspiration.
+          </p>
+        </section>
+
+        <section id="arcanum">
+          <h2>Arcanum: The Capability System</h2>
+          <p>
+            If DomainSpec gives us the specification method, Arcanum gives us
+            the agent capability method. Arcanum is the framework for reusable
+            agent work.
+          </p>
+          <div class="grid">
+            <div class="card red">
+              <h3>Route</h3>
+              <p>
+                Decide whether the work is deterministic, bounded synthesis,
+                autonomous governance, or a composed capability.
+              </p>
+            </div>
+            <div class="card orange">
+              <h3>Package</h3>
+              <p>
+                Turn repeated agent behavior into skills, sigils, spells,
+                stages, and reusable lifecycle surfaces.
+              </p>
+            </div>
+            <div class="card teal">
+              <h3>Maintain</h3>
+              <p>
+                Attach purpose, inputs, outputs, quality bars, anti-patterns,
+                owners, observability, and maintenance routes.
+              </p>
+            </div>
+          </div>
+          <p>
+            Saturn creates the convergence pressure. DomainSpec stabilizes
+            structured intent. Arcanum gives agents reusable capability surfaces
+            for doing the work responsibly.
+          </p>
+        </section>
+
+        <section id="stack">
+          <h2>The Whole Stack</h2>
+          <p>
+            The CyberAlchemy agentic system is powerful because the jobs are not
+            collapsed into one vague AI agent. Each layer owns a different
+            responsibility.
+          </p>
+          <div class="stack-list">
+            <div class="stack-row">
+              <b>Saturn</b><span>convergence model</span>
+            </div>
+            <div class="stack-row">
+              <b>DomainSpec</b><span>structured specification discipline</span>
+            </div>
+            <div class="stack-row">
+              <b>Arcanum</b
+              ><span>reusable agent capability and lifecycle method</span>
+            </div>
+            <div class="stack-row">
+              <b>Bridge And Residue</b
+              ><span
+                >traceability between intent and realization, plus visible
+                translation loss</span
+              >
+            </div>
+            <div class="stack-row">
+              <b>Ontology</b
+              ><span
+                >inventory, business ontology, system ontology, bridge ontology,
+                operational ontology, and governance</span
+              >
+            </div>
+            <div class="stack-row">
+              <b>Memory</b><span>continuity across sessions and workflow</span>
+            </div>
+            <div class="stack-row">
+              <b>Context Builder</b><span>task-specific context selection</span>
+            </div>
+            <div class="stack-row">
+              <b>Execution</b
+              ><span
+                >routed work through skills, sigils, spells, and stages</span
+              >
+            </div>
+            <div class="stack-row">
+              <b>Observability And Reflection</b
+              ><span>telemetry, drift, lessons, and maintenance proposals</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="ontology">
+          <h2>Ontology: The Knowledge System</h2>
+          <p>
+            Ontology is the knowledge system of CyberAlchemy. It is not only a
+            vocabulary and not only a document archive. It is the governed place
+            where evidence becomes meaning, meaning becomes reusable guidance,
+            and guidance becomes something an agent can safely use during
+            execution.
+          </p>
+
+          <div class="ontology-branches">
+            <div class="branch">
+              <span class="tag red">Inventory</span>
+              <h3>Evidence Made Reusable</h3>
+              <p>
+                Source summaries, claims, concepts, decisions, workflows,
+                contradictions, open questions, lessons, tags, and indexes.
+              </p>
+            </div>
+            <div class="branch">
+              <span class="tag orange">Business</span>
+              <h3>Preserve Intent</h3>
+              <p>
+                Domain language, actors, value, outcomes, rules, policies,
+                premises, constraints, and expected behaviors.
+              </p>
+            </div>
+            <div class="branch">
+              <span class="tag teal">System</span>
+              <h3>Represent Intent</h3>
+              <p>
+                DomainSpec concepts, specs, obligations, code, services, APIs,
+                data models, tests, signals, runtime facts, and infrastructure.
+              </p>
+            </div>
+            <div class="branch">
+              <span class="tag blue">Bridge</span>
+              <h3>Compare Meaning</h3>
+              <p>
+                Traceability between business ontology and system ontology,
+                including residue, contradictions, and orphan artifacts.
+              </p>
+            </div>
+            <div class="branch">
+              <span class="tag violet">Operational</span>
+              <h3>Learn The Work</h3>
+              <p>
+                Route choices, sigil optimization, spell composition, prompt
+                contracts, context cards, failure modes, telemetry thresholds,
+                and capability maintenance.
+              </p>
+            </div>
+            <div class="branch">
+              <span class="tag green">Governance</span>
+              <h3>Protect Authority</h3>
+              <p>
+                Confidence, promotion, demotion, contradiction, premise review,
+                source evidence, and challenge paths.
+              </p>
+            </div>
+          </div>
+
+          <h3>Inventory: Stop Rediscovering The Same Knowledge</h3>
+          <p>
+            Inventory does not replace the original sources. The source remains
+            the source. Inventory makes the source easier to reuse, so agents
+            can ask what the system already knows and get source-linked evidence
+            quickly.
+          </p>
+
+          <h3>Business Ontology: Preserve Domain Intent</h3>
+          <p>
+            Business Ontology is the intent branch. It represents the business
+            or domain independently from implementation details. This keeps the
+            question "What should be true?" clean and explicit.
+          </p>
+
+          <h3>System Ontology: Represent Intent In Specs And Code</h3>
+          <p>
+            System Ontology is the realization branch. It is not merely
+            technical inventory. It is the business ontology as realized through
+            specs, code, behavior, and evidence.
+          </p>
+
+          <h3>Bridge Ontology: Compare Meaning With Realization</h3>
+          <p>
+            Bridge Ontology maps business intent to specification,
+            implementation, tests, signals, and observed behavior. It keeps
+            translation loss visible after the initial analysis is over.
+          </p>
+
+          <h3>Ontology Entries: Turn Evidence Into Usable Meaning</h3>
+          <p>
+            A thin ontology entry says, "go look somewhere else." A thick
+            ontology entry says, "here is the usable knowledge, here is when to
+            use it, here is what supports it, and here is what can invalidate
+            it."
+          </p>
+          <div
+            class="visual-panel"
+            aria-label="Inventory ontology context relationship"
+          >
+            <div class="panel-label">Context Contract</div>
+            <div class="context-triad">
+              <div class="triad-card">
+                <b>Inventory Prepares Evidence</b>
+                <span
+                  >source-linked summaries, claims, and reusable lookup
+                  material</span
+                >
+              </div>
+              <div class="triad-card">
+                <b>Ontology Owns Meaning</b>
+                <span
+                  >definitions, edges, scope, confidence, and promotion
+                  state</span
+                >
+              </div>
+              <div class="triad-card">
+                <b>Context Builder Extracts The Task Slice</b>
+                <span
+                  >only the knowledge needed for the current obligation</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <h3>Knowledge Governance: The Authority Ladder</h3>
+          <div class="authority-ladder" aria-label="Knowledge authority ladder">
+            <div class="panel-label">Promotion Path</div>
+            <ol>
+              <li
+                class="ladder-step"
+                style="--indent: 0px; --step-color: var(--accent-brand)"
+              >
+                <span class="ladder-index">01</span>
+                <span>
+                  <span class="ladder-title">Raw Source</span>
+                  <span class="ladder-note"
+                    >The original file, log, conversation, telemetry, or
+                    repository artifact.</span
+                  >
+                </span>
+              </li>
+              <li
+                class="ladder-step"
+                style="--indent: 22px; --step-color: var(--accent-orange)"
+              >
+                <span class="ladder-index">02</span>
+                <span>
+                  <span class="ladder-title">Inventory Source Summary</span>
+                  <span class="ladder-note"
+                    >The source becomes searchable, summarized, and linked
+                    without replacing provenance.</span
+                  >
+                </span>
+              </li>
+              <li
+                class="ladder-step"
+                style="--indent: 44px; --step-color: var(--accent-gold)"
+              >
+                <span class="ladder-index">03</span>
+                <span>
+                  <span class="ladder-title">Typed Inventory Entry</span>
+                  <span class="ladder-note"
+                    >The claim, concept, workflow, contradiction, or lesson
+                    receives a useful type.</span
+                  >
+                </span>
+              </li>
+              <li
+                class="ladder-step"
+                style="--indent: 66px; --step-color: var(--accent-blue)"
+              >
+                <span class="ladder-index">04</span>
+                <span>
+                  <span class="ladder-title">Thick Ontology Candidate</span>
+                  <span class="ladder-note"
+                    >The entry gains definition, scope, exclusions, examples,
+                    edges, and agent payload.</span
+                  >
+                </span>
+              </li>
+              <li
+                class="ladder-step"
+                style="--indent: 88px; --step-color: var(--accent-violet)"
+              >
+                <span class="ladder-index">05</span>
+                <span>
+                  <span class="ladder-title">Premise Or Confidence Review</span>
+                  <span class="ladder-note"
+                    >Evidence, commitment, contradictions, and invalidation
+                    paths are checked.</span
+                  >
+                </span>
+              </li>
+              <li
+                class="ladder-step"
+                style="--indent: 110px; --step-color: var(--accent-teal)"
+              >
+                <span class="ladder-index">06</span>
+                <span>
+                  <span class="ladder-title">Promoted Ontology Entry</span>
+                  <span class="ladder-note"
+                    >The knowledge becomes durable enough for agents to retrieve
+                    and cite.</span
+                  >
+                </span>
+              </li>
+              <li
+                class="ladder-step"
+                style="--indent: 132px; --step-color: var(--accent-green)"
+              >
+                <span class="ladder-index">07</span>
+                <span>
+                  <span class="ladder-title"
+                    >Route, Capability, Specification, Or Context Update</span
+                  >
+                  <span class="ladder-note"
+                    >Promoted knowledge changes how the system routes, builds,
+                    verifies, or explains work.</span
+                  >
+                </span>
+              </li>
+            </ol>
+          </div>
+          <p>
+            Memory and telemetry can feed this ladder, but they do not skip it.
+            That question protects the system from confusing continuity with
+            truth.
+          </p>
+        </section>
+
+        <section id="memory">
+          <h2>Memory, Context, And Action</h2>
+          <div class="grid">
+            <div class="card gold">
+              <h3>Memory</h3>
+              <p>
+                Memory helps the system continue work: current objectives,
+                active routes, decisions, side notes, user workflow, and
+                ergonomics. Memory is continuity, not authority.
+              </p>
+            </div>
+            <div class="card blue">
+              <h3>Context Builder</h3>
+              <p>
+                Context Builder selects the smallest useful slice for the task.
+                The agent should not be surrounded by all knowledge. It should
+                receive the right knowledge for the current move.
+              </p>
+            </div>
+            <div class="card violet">
+              <h3>Operational Ontology</h3>
+              <p>
+                Operational lessons become durable only through evidence, scope,
+                confidence, review, and expiry conditions.
+              </p>
+            </div>
+          </div>
+          <div class="statement compact">
+            Need action guidance? Load ontology.<br />
+            Need provenance? Load inventory and source evidence.<br />
+            Need to execute? Load only the context that closes the current
+            obligation.
+          </div>
+        </section>
+
+        <section id="execution">
+          <h2>Execution, Observability, And Reflection</h2>
+          <p>
+            Execution is where all of this becomes real. An agent receives
+            intent, route, context, constraints, and evidence. Then it acts
+            through a bounded capability: a skill, sigil, spell, task session,
+            implementation route, or orchestrated stage.
+          </p>
+          <p>
+            Good execution leaves evidence behind: route choice, inputs,
+            changes, validation, terminal outcome, and remaining gaps. Without
+            that evidence, the system cannot learn.
+          </p>
+          <p>
+            Observability turns execution into signal. Reflection turns repeated
+            signal into improvement pressure. The system should notice route
+            misses, repeated clarification needs, output drift, missing
+            telemetry, repeated failure modes, context overload, useful
+            shortcuts, and capability maintenance opportunities.
+          </p>
+        </section>
+
+        <section id="success">
+          <h2>What This Makes Possible</h2>
+          <div class="grid">
+            <div class="card red">
+              <h3>Convergence</h3>
+              <p>
+                Saturn explains the loop, DomainSpec formalizes intent, and
+                Arcanum routes agent work responsibly.
+              </p>
+            </div>
+            <div class="card teal">
+              <h3>Knowledge</h3>
+              <p>
+                Ontology composes inventory, business intent, system
+                realization, bridge residue, operational lessons, and
+                governance.
+              </p>
+            </div>
+            <div class="card green">
+              <h3>Learning</h3>
+              <p>
+                Memory preserves continuity, Context Builder reduces load,
+                execution emits evidence, observability detects drift, and
+                reflection improves capabilities.
+              </p>
+            </div>
+          </div>
+
+          <div class="quote">
+            CyberAlchemy is not just producing artifacts. It is building a
+            system that learns how to preserve alignment between intent,
+            execution, and evidence.
+          </div>
+
+          <p>
+            CyberAlchemy composes Saturn's convergence loop, DomainSpec's
+            specification method, Arcanum's capability lifecycle, ontology's
+            branch-aware knowledge system, memory's continuity, and
+            observability's feedback loops into one agentic system that chases
+            symmetry between intent and reality by making residue visible and
+            reducible.
+          </p>
+        </section>
+      </main>
+
+      <footer>
+        <div>
+          Standalone HTML adaptation of
+          <strong>cyberAlchemy/agentic-system-ontology-synthesis.md</strong>.
+        </div>
+        <div class="source-note">
+          No external CSS, JavaScript, fonts, or image assets are required. The
+          embedded mark mirrors the reusable asset at
+          <strong>assets/cyberalchemy-mark.svg</strong>.
+        </div>
+      </footer>
+    </article>
+  </body>
+</html>
