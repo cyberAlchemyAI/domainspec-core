@@ -1,0 +1,1519 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Operational Ontology Runtime</title>
+    <style>
+      :root {
+        --bg: #fbfbf7;
+        --paper: #ffffff;
+        --paper-warm: #f8f4e8;
+        --ink: #0b1020;
+        --muted: #5c6475;
+        --line: #d8dde8;
+        --blue: #1238d4;
+        --blue-soft: #eaf0ff;
+        --green: #0a7a2a;
+        --green-soft: #e9f7ec;
+        --teal: #087787;
+        --teal-soft: #e8f7f8;
+        --amber: #b76005;
+        --amber-soft: #fff2df;
+        --red: #cc2a15;
+        --red-soft: #fff0ec;
+        --violet: #6333b8;
+        --violet-soft: #f2ecff;
+        --shadow: 0 18px 55px rgba(30, 42, 72, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background:
+          linear-gradient(rgba(18, 56, 212, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(18, 56, 212, 0.045) 1px, transparent 1px),
+          var(--bg);
+        background-size: 34px 34px;
+        color: var(--ink);
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        line-height: 1.52;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(1540px, calc(100% - 28px));
+        margin: 0 auto;
+        padding: 18px 0 64px;
+      }
+
+      .hero {
+        padding: 22px 18px 14px;
+        text-align: center;
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--blue);
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 1180px;
+        margin: 0 auto;
+        color: var(--ink);
+        font-size: clamp(2.25rem, 5.4vw, 4.85rem);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+
+      .subtitle {
+        max-width: 1060px;
+        margin: 12px auto 0;
+        color: var(--muted);
+        font-size: clamp(1.02rem, 2vw, 1.55rem);
+        font-style: italic;
+        font-weight: 650;
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px;
+        margin: 8px auto 22px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 8px 30px rgba(26, 34, 60, 0.08);
+        backdrop-filter: blur(10px);
+      }
+
+      .nav a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        padding: 5px 11px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        color: var(--ink);
+        font-size: 0.86rem;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .nav a:hover {
+        border-color: var(--blue);
+        color: var(--blue);
+      }
+
+      .board {
+        display: grid;
+        gap: 18px;
+      }
+
+      .system-frame,
+      .runtime-frame,
+      .side-panel,
+      .section {
+        border: 2px solid var(--blue);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: var(--shadow);
+      }
+
+      .system-frame,
+      .runtime-frame {
+        padding: 16px;
+      }
+
+      .frame-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 0 0 14px;
+        color: var(--blue);
+        font-size: clamp(1.02rem, 1.6vw, 1.28rem);
+        line-height: 1.2;
+        text-align: center;
+      }
+
+      .frame-title.green {
+        color: var(--green);
+      }
+
+      .route-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) 1.55fr;
+        gap: 12px;
+        align-items: stretch;
+      }
+
+      .route,
+      .agent-pool,
+      .runtime-card,
+      .mini-card,
+      .explain-card,
+      .gate-card {
+        border: 2px solid currentColor;
+        border-radius: 8px;
+        background: var(--paper);
+        color: var(--blue);
+      }
+
+      .route {
+        min-height: 118px;
+        padding: 14px;
+      }
+
+      .route.green {
+        color: var(--green);
+        background: var(--green-soft);
+      }
+
+      .route.violet {
+        color: var(--violet);
+        background: var(--violet-soft);
+      }
+
+      .route h3,
+      .runtime-card h3,
+      .mini-card h3,
+      .explain-card h3,
+      .gate-card h3 {
+        margin: 0 0 8px;
+        font-size: 1.02rem;
+        line-height: 1.25;
+      }
+
+      .route p,
+      .runtime-card p,
+      .mini-card p,
+      .explain-card p,
+      .gate-card p {
+        margin: 0;
+        color: var(--ink);
+        font-size: 0.95rem;
+      }
+
+      .agent-pool {
+        padding: 12px;
+        color: var(--ink);
+        border-style: dashed;
+      }
+
+      .agent-row {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(74px, 1fr));
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .agent {
+        min-height: 72px;
+        padding: 9px 6px;
+        border: 1px dashed #34405b;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 0.82rem;
+        font-weight: 750;
+      }
+
+      .agent svg,
+      .icon {
+        display: block;
+        width: 30px;
+        height: 30px;
+        margin: 0 auto 4px;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .runtime-frame {
+        border-color: var(--green);
+      }
+
+      .runtime-grid {
+        display: grid;
+        grid-template-columns: 1.05fr 1.05fr 0.92fr 1fr 1.1fr;
+        gap: 14px;
+        align-items: stretch;
+      }
+
+      .runtime-card {
+        min-height: 230px;
+        padding: 16px;
+      }
+
+      .runtime-card.blue {
+        color: var(--blue);
+        background: var(--blue-soft);
+      }
+
+      .runtime-card.green {
+        color: var(--green);
+        background: var(--green-soft);
+      }
+
+      .runtime-card.teal {
+        color: var(--teal);
+        background: var(--teal-soft);
+      }
+
+      .runtime-card.amber {
+        color: var(--amber);
+        background: var(--amber-soft);
+      }
+
+      .runtime-card.red {
+        color: var(--red);
+        background: var(--red-soft);
+      }
+
+      .runtime-card.violet {
+        color: var(--violet);
+        background: var(--violet-soft);
+      }
+
+      .file-list {
+        display: grid;
+        gap: 7px;
+        margin: 10px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .file-list li {
+        display: flex;
+        gap: 8px;
+        align-items: baseline;
+        color: var(--ink);
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+          monospace;
+        font-size: 0.87rem;
+      }
+
+      .file-list li::before {
+        content: "";
+        width: 12px;
+        height: 14px;
+        flex: 0 0 auto;
+        border: 1.6px solid currentColor;
+        border-radius: 2px;
+        transform: translateY(2px);
+      }
+
+      .flow-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--muted);
+        font-size: 1.35rem;
+        font-weight: 900;
+      }
+
+      .lower-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 1fr 1fr;
+        gap: 14px;
+        margin-top: 14px;
+      }
+
+      .memory-lanes {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin: 14px 0 10px;
+      }
+
+      .lane {
+        min-height: 92px;
+        padding: 10px 8px;
+        border: 1.8px solid currentColor;
+        border-radius: 8px;
+        background: var(--paper);
+        text-align: center;
+      }
+
+      .lane strong {
+        display: block;
+        margin-bottom: 4px;
+        color: currentColor;
+      }
+
+      .lane span {
+        display: block;
+        color: var(--ink);
+        font-size: 0.82rem;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 280px;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .side-stack {
+        display: grid;
+        gap: 18px;
+      }
+
+      .side-panel {
+        padding: 18px;
+        border-color: var(--violet);
+      }
+
+      .side-panel h2 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 12px;
+        color: var(--violet);
+        font-size: 1.12rem;
+      }
+
+      .side-panel ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .side-panel li {
+        margin: 8px 0;
+        font-size: 0.94rem;
+      }
+
+      .section {
+        margin-top: 22px;
+        padding: 22px;
+        border-color: var(--line);
+      }
+
+      .section h2 {
+        margin: 0 0 10px;
+        color: var(--ink);
+        font-size: clamp(1.55rem, 3vw, 2.25rem);
+        line-height: 1.1;
+      }
+
+      .section > p {
+        max-width: 980px;
+        margin: 0 0 14px;
+        color: var(--muted);
+        font-size: 1.02rem;
+      }
+
+      .explain-grid,
+      .gate-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 16px;
+      }
+
+      .explain-card,
+      .gate-card {
+        padding: 16px;
+      }
+
+      .explain-card.blue,
+      .gate-card.blue {
+        color: var(--blue);
+        background: var(--blue-soft);
+      }
+
+      .explain-card.green,
+      .gate-card.green {
+        color: var(--green);
+        background: var(--green-soft);
+      }
+
+      .explain-card.teal,
+      .gate-card.teal {
+        color: var(--teal);
+        background: var(--teal-soft);
+      }
+
+      .explain-card.amber,
+      .gate-card.amber {
+        color: var(--amber);
+        background: var(--amber-soft);
+      }
+
+      .explain-card.red,
+      .gate-card.red {
+        color: var(--red);
+        background: var(--red-soft);
+      }
+
+      .explain-card.violet,
+      .gate-card.violet {
+        color: var(--violet);
+        background: var(--violet-soft);
+      }
+
+      .ladder {
+        display: grid;
+        grid-template-columns: repeat(10, minmax(118px, 1fr));
+        gap: 8px;
+        overflow-x: auto;
+        padding: 4px 0 10px;
+      }
+
+      .step {
+        min-height: 96px;
+        padding: 10px;
+        border: 2px solid var(--blue);
+        border-radius: 8px;
+        background: var(--paper);
+      }
+
+      .step strong {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--blue);
+        font-size: 0.9rem;
+      }
+
+      .step span {
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .compare-table,
+      .matrix-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+      }
+
+      th,
+      td {
+        padding: 12px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+        text-align: left;
+      }
+
+      th {
+        background: #f2f5fb;
+        color: var(--blue);
+        font-size: 0.88rem;
+        text-transform: uppercase;
+      }
+
+      td {
+        color: var(--ink);
+        font-size: 0.94rem;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .callout {
+        margin: 16px 0 0;
+        padding: 16px;
+        border: 2px solid var(--green);
+        border-radius: 8px;
+        background: var(--green-soft);
+      }
+
+      .callout.red {
+        border-color: var(--red);
+        background: var(--red-soft);
+      }
+
+      .callout h3 {
+        margin: 0 0 8px;
+        color: var(--green);
+      }
+
+      .callout.red h3 {
+        color: var(--red);
+      }
+
+      .callout p {
+        margin: 0;
+      }
+
+      .code-flow {
+        overflow-x: auto;
+        margin: 16px 0 0;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-left: 6px solid var(--blue);
+        border-radius: 8px;
+        background: #fbfcff;
+        color: var(--ink);
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+          monospace;
+        font-size: 0.9rem;
+        line-height: 1.55;
+      }
+
+      .definition-list {
+        display: grid;
+        gap: 10px;
+        margin: 16px 0 0;
+      }
+
+      .definition {
+        display: grid;
+        grid-template-columns: 210px minmax(0, 1fr);
+        gap: 12px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+      }
+
+      .definition strong {
+        color: var(--blue);
+      }
+
+      .definition span {
+        color: var(--muted);
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        margin-top: 16px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+      }
+
+      .legend-item {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 0.88rem;
+        font-weight: 750;
+      }
+
+      .swatch {
+        width: 26px;
+        height: 0;
+        border-top: 3px solid var(--ink);
+      }
+
+      .swatch.dash {
+        border-top-style: dashed;
+      }
+
+      .swatch.blue {
+        border-top-color: var(--blue);
+      }
+
+      .swatch.green {
+        border-top-color: var(--green);
+      }
+
+      .footer {
+        margin-top: 22px;
+        color: var(--muted);
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 1180px) {
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .side-stack {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .runtime-grid,
+        .route-grid,
+        .lower-grid,
+        .explain-grid,
+        .gate-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .agent-pool {
+          grid-column: 1 / -1;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .page {
+          width: min(100% - 16px, 1540px);
+        }
+
+        .hero {
+          padding-left: 8px;
+          padding-right: 8px;
+        }
+
+        .system-frame,
+        .runtime-frame,
+        .section {
+          padding: 14px;
+        }
+
+        .runtime-grid,
+        .route-grid,
+        .lower-grid,
+        .explain-grid,
+        .gate-grid,
+        .side-stack,
+        .memory-lanes {
+          grid-template-columns: 1fr;
+        }
+
+        .agent-row {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .definition {
+          grid-template-columns: 1fr;
+        }
+
+        th,
+        td {
+          padding: 10px;
+          font-size: 0.86rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <p class="eyebrow">CyberAlchemy Agentic System</p>
+        <h1>Operational Ontology Runtime for Agent Execution</h1>
+        <p class="subtitle">
+          A governed meaning layer that turns source evidence, memory, workflow
+          lessons, and promotion decisions into compact execution guidance
+          inside skills, routes, and workflow definitions.
+        </p>
+      </header>
+
+      <nav class="nav" aria-label="Page sections">
+        <a href="#map">Runtime Map</a>
+        <a href="#ontology">Ontology</a>
+        <a href="#branches">Branches</a>
+        <a href="#promotion">Promotion</a>
+        <a href="#axioms">Axioms</a>
+        <a href="#operational">Operational</a>
+        <a href="#memory">Memory</a>
+        <a href="#why">Why It Works</a>
+      </nav>
+
+      <div class="content-grid" id="map">
+        <div class="board">
+          <section class="system-frame" aria-labelledby="existing-system">
+            <h2 class="frame-title" id="existing-system">
+              Existing Agent Routes And External Agent Pool
+            </h2>
+            <div class="route-grid">
+              <article class="route">
+                <svg class="icon" viewBox="0 0 32 32" aria-hidden="true">
+                  <circle cx="13" cy="13" r="8"></circle>
+                  <path d="M19 19l8 8"></path>
+                </svg>
+                <h3>Research Route</h3>
+                <p>
+                  Question, evidence lookup, answer, and uncertainty capture.
+                </p>
+              </article>
+              <article class="route green">
+                <svg class="icon" viewBox="0 0 32 32" aria-hidden="true">
+                  <path d="M8 5h16v22H8z"></path>
+                  <path d="M12 11l2 2 4-4"></path>
+                  <path d="M12 18l2 2 4-4"></path>
+                </svg>
+                <h3>Standard Route</h3>
+                <p>Research, plan, approval, implementation, validation.</p>
+              </article>
+              <article class="route violet">
+                <svg class="icon" viewBox="0 0 32 32" aria-hidden="true">
+                  <path d="M8 8h5v5H8zM19 8h5v5h-5zM19 19h5v5h-5z"></path>
+                  <path d="M13 10.5h6M13 12.5l6 8"></path>
+                </svg>
+                <h3>Full Route</h3>
+                <p>Research, specification, plan, approval, implementation.</p>
+              </article>
+              <article class="agent-pool">
+                <h3>External Agent Pool</h3>
+                <p>
+                  Agents remain the executors. Ontology provides the compact
+                  rules, context selectors, and review gates they need.
+                </p>
+                <div class="agent-row" aria-label="Agent roles">
+                  <div class="agent">Planner</div>
+                  <div class="agent">Researcher</div>
+                  <div class="agent">HR Manager</div>
+                  <div class="agent">Implementer</div>
+                  <div class="agent">Reviewer</div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="runtime-frame" aria-labelledby="runtime-title">
+            <h2 class="frame-title green" id="runtime-title">
+              Structured Cognitive Runtime / Operational Ontology Layer
+            </h2>
+            <div class="runtime-grid">
+              <article class="runtime-card teal">
+                <h3>A. Context And Retrieval</h3>
+                <p>
+                  Builds the smallest useful bundle for the active task using
+                  source links, ontology payloads, inventory evidence, and
+                  memory signals.
+                </p>
+                <ul class="file-list">
+                  <li>context_builder</li>
+                  <li>inventory_lookup</li>
+                  <li>ontology_payload</li>
+                  <li>memory_query</li>
+                </ul>
+              </article>
+
+              <article class="runtime-card blue">
+                <h3>B. Execution And Control</h3>
+                <p>
+                  Routes work through stage contracts, validates outputs,
+                  records traces, and keeps approval gates visible.
+                </p>
+                <ul class="file-list">
+                  <li>route_template</li>
+                  <li>stage_contract</li>
+                  <li>execution_trace</li>
+                  <li>patch_validator</li>
+                </ul>
+              </article>
+
+              <article class="runtime-card violet">
+                <h3>C. Ontology Branches</h3>
+                <p>
+                  Separates domain intent, implementation reality, alignment
+                  evidence, and operational lessons.
+                </p>
+                <ul class="file-list">
+                  <li>business</li>
+                  <li>system</li>
+                  <li>bridge</li>
+                  <li>operational</li>
+                </ul>
+              </article>
+
+              <article class="runtime-card amber">
+                <h3>D. Promotion Governance</h3>
+                <p>
+                  Converts candidates into reviewed premises, constitutions,
+                  axioms, or rejected/retired entries only after evidence and
+                  scope checks.
+                </p>
+                <ul class="file-list">
+                  <li>source_gate</li>
+                  <li>confidence_review</li>
+                  <li>decision_gate</li>
+                  <li>maintenance_trigger</li>
+                </ul>
+              </article>
+
+              <article class="runtime-card green">
+                <h3>E. Graph And State</h3>
+                <p>
+                  Stores governed meaning as source-controlled entries with
+                  typed edges, confidence, invalidation paths, and agent
+                  payloads.
+                </p>
+                <ul class="file-list">
+                  <li>ontology/entries</li>
+                  <li>inventory/digests</li>
+                  <li>decisions</li>
+                  <li>traces</li>
+                </ul>
+              </article>
+            </div>
+
+            <div class="lower-grid">
+              <article class="runtime-card red">
+                <h3>F. Safety And Approval</h3>
+                <p>
+                  Protected changes require explicit approval when they affect
+                  behavior, privacy, policy, architecture, or capability
+                  contracts.
+                </p>
+              </article>
+              <article class="runtime-card teal">
+                <h3>G. Vector And Semantic Lookup</h3>
+                <p>
+                  Advisory retrieval can find candidates, but source-controlled
+                  files remain authoritative.
+                </p>
+              </article>
+              <article class="runtime-card blue">
+                <h3>H. Traces And Feedback</h3>
+                <p>
+                  Runs produce evidence: route choices, validation results,
+                  misses, repeated gaps, and possible promotion candidates.
+                </p>
+              </article>
+              <article class="runtime-card violet">
+                <h3>I. Skill Definitions</h3>
+                <p>
+                  Operational entries are compiled into workflow rules so agents
+                  execute with the right guidance without rereading the theory.
+                </p>
+              </article>
+            </div>
+
+            <div class="legend" aria-label="Diagram legend">
+              <span class="legend-item"
+                ><span class="swatch"></span>Primary flow</span
+              >
+              <span class="legend-item"
+                ><span class="swatch dash"></span>Review or call</span
+              >
+              <span class="legend-item"
+                ><span class="swatch blue"></span>Execution control</span
+              >
+              <span class="legend-item"
+                ><span class="swatch green"></span>Authoritative state</span
+              >
+            </div>
+          </section>
+        </div>
+
+        <aside class="side-stack" aria-label="Principles and responsibilities">
+          <section class="side-panel">
+            <h2>
+              <svg class="icon" viewBox="0 0 32 32" aria-hidden="true">
+                <circle cx="16" cy="16" r="10"></circle>
+                <circle cx="16" cy="16" r="4"></circle>
+                <path d="M22 10l5-5M23 5h4v4"></path>
+              </svg>
+              Key Principles
+            </h2>
+            <ul>
+              <li>
+                Memory gives continuity, but ontology gives future authority.
+              </li>
+              <li>
+                Inventory prepares evidence; ontology owns usable meaning.
+              </li>
+              <li>
+                Axioms are rare; constitutions are deliberate operating rules.
+              </li>
+              <li>Promotion changes what later agents may rely on.</li>
+              <li>
+                Operational ontology optimizes execution without hiding scope.
+              </li>
+              <li>Source-controlled entries outrank derived indexes.</li>
+            </ul>
+          </section>
+
+          <section class="side-panel">
+            <h2>
+              <svg class="icon" viewBox="0 0 32 32" aria-hidden="true">
+                <path d="M4 9h9l2 3h13v15H4z"></path>
+                <path d="M4 9V6h8l2 3"></path>
+              </svg>
+              Folder Roles
+            </h2>
+            <ul>
+              <li>
+                <strong>Raw sources</strong>: immutable or user-curated
+                evidence.
+              </li>
+              <li>
+                <strong>Inventory</strong>: reusable summaries, tags,
+                contradictions, selectors.
+              </li>
+              <li>
+                <strong>Ontology</strong>: governed meaning, scope, payload,
+                confidence, edges.
+              </li>
+              <li>
+                <strong>Runtime traces</strong>: execution evidence and
+                maintenance pressure.
+              </li>
+              <li>
+                <strong>Skills/workflows</strong>: compiled operational guidance
+                for agents.
+              </li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+
+      <section class="section" id="ontology">
+        <h2>What The Ontology Is</h2>
+        <p>
+          In this system, ontology is not a vocabulary list. It is the governed
+          meaning layer that says what a concept means, where it applies, where
+          it does not apply, what evidence supports it, how confident the system
+          is, and how an agent should use it during execution.
+        </p>
+        <div class="explain-grid">
+          <article class="explain-card blue">
+            <h3>Thin Ontology</h3>
+            <p>
+              Names a concept and points elsewhere. Useful for navigation, weak
+              for execution, and risky when agents infer rules from labels.
+            </p>
+          </article>
+          <article class="explain-card green">
+            <h3>Thick Ontology</h3>
+            <p>
+              Carries definition, scope, exclusions, examples, evidence,
+              confidence, edges, maintenance triggers, and an agent payload.
+            </p>
+          </article>
+          <article class="explain-card amber">
+            <h3>Agent Payload</h3>
+            <p>
+              The compact execution part: when to use the entry, what to load,
+              which route to choose, what failure to avoid, and when to stop.
+            </p>
+          </article>
+        </div>
+        <pre class="code-flow">
+raw source
+  -> inventory source summary
+  -> typed inventory entry
+  -> thick ontology candidate
+  -> premise or confidence review
+  -> promoted ontology entry
+  -> route, capability, specification, or context update</pre
+        >
+        <div class="callout">
+          <h3>The Practical Rule</h3>
+          <p>
+            Inventory answers "what did the evidence say?" Ontology answers
+            "what does it mean, where can it guide execution, and what can
+            invalidate it?"
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="branches">
+        <h2>Differences Between Ontologies</h2>
+        <p>
+          Different ontology branches carry different kinds of authority. This
+          keeps agents from mixing intent, implementation, alignment, and
+          execution lessons into one ambiguous pile.
+        </p>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Ontology Branch</th>
+              <th>Authority</th>
+              <th>Typical Questions</th>
+              <th>Common Failure If Mixed Up</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Business Ontology</strong></td>
+              <td>
+                Intent, policy, value, domain language, expected outcomes.
+              </td>
+              <td>
+                What should the system mean? Who does it serve? What counts as
+                success?
+              </td>
+              <td>Implementation details masquerade as product truth.</td>
+            </tr>
+            <tr>
+              <td><strong>System Ontology</strong></td>
+              <td>
+                Implementation reality: code, runtime, tests, APIs,
+                infrastructure.
+              </td>
+              <td>What exists? How does it behave? How is it measured?</td>
+              <td>Aspirations are treated as shipped behavior.</td>
+            </tr>
+            <tr>
+              <td><strong>Bridge Ontology</strong></td>
+              <td>Traceability between intent and realization.</td>
+              <td>
+                Which implementation realizes which intent? What proves
+                alignment?
+              </td>
+              <td>
+                Business claims and system artifacts drift apart invisibly.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Operational Ontology</strong></td>
+              <td>
+                Reusable knowledge about routes, agents, prompts, sigils,
+                workflow execution, failures, and maintenance.
+              </td>
+              <td>
+                How should agents choose context, routes, gates, and recovery
+                paths?
+              </td>
+              <td>Every run rediscovers the same workflow lessons.</td>
+            </tr>
+            <tr>
+              <td><strong>Memory Patterns</strong></td>
+              <td>
+                Continuity and ergonomics inside privacy and scope boundaries.
+              </td>
+              <td>
+                What happened before? What preference or blocker matters now?
+              </td>
+              <td>Session observations become hidden law.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section" id="promotion">
+        <h2>Promotion System</h2>
+        <p>
+          Promotion is a change in authority. It decides what future agents may
+          rely on, how strongly, inside what scope, with what evidence, and
+          under which owner. Saving a note is cheap; promoting a rule changes
+          future behavior.
+        </p>
+        <div class="ladder" aria-label="Authority ladder">
+          <div class="step">
+            <strong>Raw</strong
+            ><span>Source, note, observation, or run fragment.</span>
+          </div>
+          <div class="step">
+            <strong>Session Evidence</strong
+            ><span>Captured route, checkpoint, side note, or decision.</span>
+          </div>
+          <div class="step">
+            <strong>Discovery</strong
+            ><span>Scoped understanding, vocabulary, constraints, gaps.</span>
+          </div>
+          <div class="step">
+            <strong>Inventory</strong
+            ><span
+              >Reusable evidence with tags, selectors, contradictions.</span
+            >
+          </div>
+          <div class="step">
+            <strong>Candidate</strong
+            ><span>Draft governed meaning object with branch and scope.</span>
+          </div>
+          <div class="step">
+            <strong>Premise</strong
+            ><span>Working bet with falsification criteria.</span>
+          </div>
+          <div class="step">
+            <strong>Reviewed</strong
+            ><span>Evidence and confidence have been inspected.</span>
+          </div>
+          <div class="step">
+            <strong>Promoted</strong><span>Stable within declared scope.</span>
+          </div>
+          <div class="step">
+            <strong>Constitution</strong
+            ><span>Codified operating rule or process convention.</span>
+          </div>
+          <div class="step">
+            <strong>Axiom</strong
+            ><span
+              >Load-bearing principle used to justify downstream rules.</span
+            >
+          </div>
+        </div>
+        <div class="gate-grid">
+          <article class="gate-card blue">
+            <h3>Source Coverage</h3>
+            <p>
+              Is the evidence identified by source path, session id, telemetry
+              id, decision, or explicit inference label?
+            </p>
+          </article>
+          <article class="gate-card teal">
+            <h3>Thick Entry</h3>
+            <p>
+              Does it include definition, scope, exclusions, payload, edges,
+              evidence, confidence, and maintenance?
+            </p>
+          </article>
+          <article class="gate-card amber">
+            <h3>Confidence Split</h3>
+            <p>
+              Does the system separate evidence confidence from commitment
+              confidence?
+            </p>
+          </article>
+          <article class="gate-card violet">
+            <h3>Decision Impact</h3>
+            <p>
+              Does the candidate affect behavior, privacy, architecture, policy,
+              route ownership, or capability contracts?
+            </p>
+          </article>
+          <article class="gate-card green">
+            <h3>Context Proof</h3>
+            <p>
+              Can Context Builder retrieve this entry compactly for a real task
+              without loading the whole corpus?
+            </p>
+          </article>
+          <article class="gate-card red">
+            <h3>Contradiction Path</h3>
+            <p>
+              What evidence would demote, retire, narrow, or invalidate the
+              entry?
+            </p>
+          </article>
+        </div>
+        <div class="callout red">
+          <h3>Non-Promotion Rule</h3>
+          <p>
+            Raw memory, unreviewed telemetry, pointer-only entries, and local
+            tricks do not become global rules. They must pass through evidence,
+            scope, owner, confidence, and maintenance gates.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="axioms">
+        <h2>Axioms, Constitutions, Premises</h2>
+        <p>
+          These roles prevent the system from treating every good idea as a law.
+          They encode different strengths of commitment.
+        </p>
+        <div class="definition-list">
+          <div class="definition">
+            <strong>Axiom</strong>
+            <span>
+              A rare load-bearing truth or epistemic foundation. It justifies
+              downstream governance and should survive contradiction review
+              before agents use it as a reason for other rules.
+            </span>
+          </div>
+          <div class="definition">
+            <strong>Constitution</strong>
+            <span>
+              A codified operating rule, process convention, or safety boundary.
+              It tells humans and agents how to act in a defined scope.
+            </span>
+          </div>
+          <div class="definition">
+            <strong>Premise</strong>
+            <span>
+              A working bet. It may guide exploration, but it keeps its
+              uncertainty visible and includes falsification criteria.
+            </span>
+          </div>
+          <div class="definition">
+            <strong>Confidence Decision</strong>
+            <span>
+              A review that separates "the evidence supports this" from "we are
+              willing to rely on this now."
+            </span>
+          </div>
+        </div>
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Evidence</th>
+              <th>Commitment</th>
+              <th>Meaning</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Low</td>
+              <td>Low</td>
+              <td>Exploratory idea.</td>
+              <td>Keep as candidate or research seed.</td>
+            </tr>
+            <tr>
+              <td>High</td>
+              <td>Low</td>
+              <td>Well-supported but not load-bearing.</td>
+              <td>Keep as reference or scoped entry.</td>
+            </tr>
+            <tr>
+              <td>Low</td>
+              <td>High</td>
+              <td>Risky bet.</td>
+              <td>Require explicit decision gate and rollback path.</td>
+            </tr>
+            <tr>
+              <td>High</td>
+              <td>High</td>
+              <td>Strong promotion candidate.</td>
+              <td>Promote within scope and add maintenance trigger.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section" id="operational">
+        <h2>How Operational Ontology Helps Agent Execution</h2>
+        <p>
+          Operational ontology is the branch that lets the system learn how its
+          own agents, routes, prompts, sigils, workflows, and execution patterns
+          actually work. It is the system governing the governor.
+        </p>
+        <div class="explain-grid">
+          <article class="explain-card green">
+            <h3>Route Patterns</h3>
+            <p>
+              "Use ontology review before invoke when the task changes governed
+              knowledge." The route choice becomes explicit instead of
+              remembered by the human operator.
+            </p>
+          </article>
+          <article class="explain-card teal">
+            <h3>Context Solutions</h3>
+            <p>
+              "For define to design, load definition, glossary, architecture,
+              gaps, and source map." The context bundle is reusable.
+            </p>
+          </article>
+          <article class="explain-card red">
+            <h3>Failure Modes</h3>
+            <p>
+              "Memory treated as authority creates accidental canon." Agents get
+              the warning where the mistake would happen.
+            </p>
+          </article>
+          <article class="explain-card amber">
+            <h3>Capability Patterns</h3>
+            <p>
+              Skills carry input contracts, output shapes, telemetry
+              expectations, validation gates, and composition rules.
+            </p>
+          </article>
+          <article class="explain-card blue">
+            <h3>Maintenance Triggers</h3>
+            <p>
+              Repeated output drift, recurring route misses, or validation gaps
+              create review pressure instead of disappearing after the run.
+            </p>
+          </article>
+          <article class="explain-card violet">
+            <h3>Workflow Optimizations</h3>
+            <p>
+              Proven shortcuts can be compiled into workflow definitions with
+              scope, expiry, pitfalls, and evidence selectors.
+            </p>
+          </article>
+        </div>
+        <pre class="code-flow">
+skill/workflow definition
+  includes:
+    route trigger
+    required context selectors
+    operational lessons
+    failure modes to avoid
+    validation gates
+    telemetry to emit
+    promotion boundary
+    maintenance trigger
+
+agent execution
+  -> reads the compiled payload
+  -> follows the route and context guidance
+  -> records trace evidence
+  -> proposes promotion only when repeated evidence appears</pre
+        >
+        <div class="callout">
+          <h3>Why This Means Less Consulting</h3>
+          <p>
+            The agent no longer has to consult the whole corpus to remember how
+            to operate. The ontology review happens upstream; the result is a
+            compact payload embedded into the skill or workflow definition. The
+            theory becomes a small executable checklist at the point of work.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="memory">
+        <h2>Memory As Execution Context</h2>
+        <p>
+          Memory gives continuity. It helps the system resume a task, recognize
+          a pending response, preserve side notes, recall route history, and
+          avoid forcing every run to rediscover the same local facts. But memory
+          is not authority.
+        </p>
+        <div class="memory-lanes">
+          <div class="lane" style="color: var(--red)">
+            <strong>Hot</strong>
+            <span
+              >Active task state, pending prompt, current route, blockers.</span
+            >
+          </div>
+          <div class="lane" style="color: var(--amber)">
+            <strong>Warm</strong>
+            <span
+              >Recent validated decisions, route history, useful side
+              notes.</span
+            >
+          </div>
+          <div class="lane" style="color: var(--blue)">
+            <strong>Cold</strong>
+            <span
+              >Archived historical memory, old traces, retired context.</span
+            >
+          </div>
+        </div>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Memory Pattern</th>
+              <th>Execution Use</th>
+              <th>Promotion Boundary</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>One task decision</td>
+              <td>Resume the current work correctly.</td>
+              <td>Stays session evidence unless it has durable value.</td>
+            </tr>
+            <tr>
+              <td>Repeated route miss</td>
+              <td>
+                Warn the agent and adjust route selection for similar tasks.
+              </td>
+              <td>Inventory entry, then operational ontology candidate.</td>
+            </tr>
+            <tr>
+              <td>User workflow preference</td>
+              <td>Improve ergonomics inside the active privacy scope.</td>
+              <td>Decision gate required before broader ontology use.</td>
+            </tr>
+            <tr>
+              <td>Side note contradiction</td>
+              <td>Preserve tension without derailing the current flow.</td>
+              <td>
+                Inventory contradiction, then ontology review if consequential.
+              </td>
+            </tr>
+            <tr>
+              <td>Repeated context bundle</td>
+              <td>Load the right evidence faster next time.</td>
+              <td>Context solution candidate with expiry and selectors.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="callout red">
+          <h3>Why Memory Needs Boundaries</h3>
+          <p>
+            Memory is optimized for continuity, not truth. If memory silently
+            becomes law, the system creates hidden rules from accidental
+            circumstances. Promotion governance keeps that from happening.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="why">
+        <h2>Why The Whole Runtime Works</h2>
+        <p>
+          The system separates storage, meaning, execution, and authority. That
+          gives agents better guidance without making them brittle.
+        </p>
+        <div class="explain-grid">
+          <article class="explain-card blue">
+            <h3>Token Efficiency</h3>
+            <p>
+              Agents load compact ontology payloads and context solution cards
+              instead of rereading every source file.
+            </p>
+          </article>
+          <article class="explain-card green">
+            <h3>Better Execution</h3>
+            <p>
+              Routes, validation gates, pitfalls, and evidence selectors live
+              directly where agents execute.
+            </p>
+          </article>
+          <article class="explain-card amber">
+            <h3>Governed Learning</h3>
+            <p>
+              Repeated lessons can improve workflows, but only through promotion
+              gates that preserve evidence, scope, and rollback.
+            </p>
+          </article>
+          <article class="explain-card violet">
+            <h3>Traceable Alignment</h3>
+            <p>
+              Bridge entries connect business intent to system behavior, tests,
+              telemetry, and implementation artifacts.
+            </p>
+          </article>
+          <article class="explain-card teal">
+            <h3>Less Human Repetition</h3>
+            <p>
+              Once a workflow lesson is reviewed, the agent receives it inside
+              the workflow definition instead of asking the user to restate it.
+            </p>
+          </article>
+          <article class="explain-card red">
+            <h3>Visible Risk</h3>
+            <p>
+              Premises, low-confidence claims, privacy-sensitive memory, and
+              protected operations remain visibly marked.
+            </p>
+          </article>
+        </div>
+        <pre class="code-flow">
+memory helps the present
+inventory prepares reusable evidence
+ontology governs future meaning
+operational ontology compiles lessons into execution payloads
+promotion governance decides when the system is allowed to rely on them</pre
+        >
+      </section>
+
+      <p class="footer">
+        Built from the CyberAlchemy agentic-system ontology, promotion
+        governance, operational ontology, and memory-context slices.
+      </p>
+    </main>
+  </body>
+</html>

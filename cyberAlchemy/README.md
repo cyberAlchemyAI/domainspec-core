@@ -22,6 +22,7 @@ The center of gravity is the CyberAlchemy agentic system: a knowledge and execut
 | Need                                 | Open                                                                         |
 | ------------------------------------ | ---------------------------------------------------------------------------- |
 | Read the whole-system article        | [agentic-system-ontology-synthesis.md](agentic-system-ontology-synthesis.md) |
+| View the operational ontology HTML   | [operational-ontology-runtime.html](operational-ontology-runtime.html)       |
 | Navigate the artifact pack           | [agentic-system-navigation.md](agentic-system-navigation.md)                 |
 | Enter the implementation work slices | [agentic-system/README.md](agentic-system/README.md)                         |
 | Inspect the ontology pack            | [ontology/README.md](ontology/README.md)                                     |
@@ -49,22 +50,23 @@ When those layers drift apart, CyberAlchemy should name the drift, route a corre
 
 ## Directory Map
 
-| Path                                                                                           | Purpose                                                                                 |
-| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| [agentic-system-ontology-synthesis.md](agentic-system-ontology-synthesis.md)                   | Main article explaining the CyberAlchemy agentic system.                                |
-| [agentic-system-navigation.md](agentic-system-navigation.md)                                   | Progressive disclosure navigation for all agentic-system artifacts.                     |
-| [agentic-system/](agentic-system/README.md)                                                    | Self-contained work slices. Each slice has work/status and compiled concept deep dives. |
-| [ontology/](ontology/README.md)                                                                | Candidate ontology pack with thick entries and compiled source digests.                 |
-| [agentic-system-definition.md](agentic-system-definition.md)                                   | Define baseline: mission, scope, capabilities, concepts, decisions, gaps.               |
-| [agentic-system-architecture.md](agentic-system-architecture.md)                               | Discovery-mode architecture and system views.                                           |
-| [agentic-system-knowledge-map.md](agentic-system-knowledge-map.md)                             | Repository research map and source references.                                          |
-| [agentic-system-inventory-ontology-pipeline.md](agentic-system-inventory-ontology-pipeline.md) | Inventory-to-ontology pipeline, source cohorts, storage model, entry types.             |
-| [agentic-system-ontology-entry-model.md](agentic-system-ontology-entry-model.md)               | Thick ontology entry contract.                                                          |
-| [agentic-system-first-working-slice.md](agentic-system-first-working-slice.md)                 | Practical first loop from source to inventory to ontology to execution.                 |
-| [assets/](assets/README.md)                                                                    | CyberAlchemy visual identity assets: reusable mark, palette, and CSS tokens.            |
-| [saturn-research-presentation.md](saturn-research-presentation.md)                             | Saturn convergence-loop explanation.                                                    |
-| [main.html](main.html)                                                                         | CyberAlchemy product/philosophy surface.                                                |
-| [necronomicon.html](necronomicon.html)                                                         | Necronomicon product/philosophy surface.                                                |
+| Path                                                                                           | Purpose                                                                                  |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| [agentic-system-ontology-synthesis.md](agentic-system-ontology-synthesis.md)                   | Main article explaining the CyberAlchemy agentic system.                                 |
+| [operational-ontology-runtime.html](operational-ontology-runtime.html)                         | Visual HTML explainer for ontology, promotion, axioms, operational guidance, and memory. |
+| [agentic-system-navigation.md](agentic-system-navigation.md)                                   | Progressive disclosure navigation for all agentic-system artifacts.                      |
+| [agentic-system/](agentic-system/README.md)                                                    | Self-contained work slices. Each slice has work/status and compiled concept deep dives.  |
+| [ontology/](ontology/README.md)                                                                | Candidate ontology pack with thick entries and compiled source digests.                  |
+| [agentic-system-definition.md](agentic-system-definition.md)                                   | Define baseline: mission, scope, capabilities, concepts, decisions, gaps.                |
+| [agentic-system-architecture.md](agentic-system-architecture.md)                               | Discovery-mode architecture and system views.                                            |
+| [agentic-system-knowledge-map.md](agentic-system-knowledge-map.md)                             | Repository research map and source references.                                           |
+| [agentic-system-inventory-ontology-pipeline.md](agentic-system-inventory-ontology-pipeline.md) | Inventory-to-ontology pipeline, source cohorts, storage model, entry types.              |
+| [agentic-system-ontology-entry-model.md](agentic-system-ontology-entry-model.md)               | Thick ontology entry contract.                                                           |
+| [agentic-system-first-working-slice.md](agentic-system-first-working-slice.md)                 | Practical first loop from source to inventory to ontology to execution.                  |
+| [assets/](assets/README.md)                                                                    | CyberAlchemy visual identity assets: reusable mark, palette, and CSS tokens.             |
+| [saturn-research-presentation.md](saturn-research-presentation.md)                             | Saturn convergence-loop explanation.                                                     |
+| [main.html](main.html)                                                                         | CyberAlchemy product/philosophy surface.                                                 |
+| [necronomicon.html](necronomicon.html)                                                         | Necronomicon product/philosophy surface.                                                 |
 
 ## Agentic-System Layers
 
