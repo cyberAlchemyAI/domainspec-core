@@ -153,6 +153,10 @@ graph TD
 | Freight calculation and freight payment | Freight And Shipment Batching                          | Freight calculation/payment is outside v1                                                                              |
 | Excel migration/import                  | No v1 feature                                          | [PROJECT-DECISIONS.md#decision-register](../../PROJECT-DECISIONS.md#decision-register) excludes Excel migration/import |
 
+## Stories
+
+User stories are maintained in [STORIES.md](STORIES.md).
+
 ## References
 
 - Project overview: [PROJECT-OVERVIEW.md](../../PROJECT-OVERVIEW.md)

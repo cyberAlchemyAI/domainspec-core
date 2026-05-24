@@ -136,7 +136,7 @@ graph TD
 
 ## Stories
 
-Stories are not generated yet. Run `domainspec-sync-user-stories bottle-listing-and-dose-allocation` after this spec is accepted.
+User stories are maintained in [STORIES.md](STORIES.md).
 
 ## Change History
 

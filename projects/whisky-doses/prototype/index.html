@@ -1,0 +1,2178 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Operacao de Doses de Whisky</title>
+    <style>
+      :root {
+        --bg: #f7f5f0;
+        --surface: #fffdf8;
+        --surface-2: #f1eee6;
+        --ink: #1f2933;
+        --muted: #65707d;
+        --line: #d7d0c3;
+        --amber: #b7791f;
+        --amber-soft: #fff4d7;
+        --green: #16794c;
+        --green-soft: #dcf7ea;
+        --red: #b42318;
+        --red-soft: #ffe4df;
+        --blue: #1c64a6;
+        --blue-soft: #e1f0ff;
+        --gray-soft: #edf0f2;
+        --shadow: 0 16px 40px rgba(39, 34, 23, 0.08);
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 253, 248, 0.96);
+        backdrop-filter: blur(12px);
+      }
+
+      .topbar-inner,
+      main {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        min-height: 68px;
+      }
+
+      .brand {
+        display: grid;
+        gap: 2px;
+        min-width: 240px;
+      }
+
+      .brand strong {
+        font-size: 16px;
+      }
+
+      .brand span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      nav {
+        display: flex;
+        flex: 1;
+        gap: 8px;
+        justify-content: flex-end;
+        overflow-x: auto;
+        padding: 10px 0;
+      }
+
+      nav a {
+        border: 1px solid transparent;
+        border-radius: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        padding: 8px 10px;
+        white-space: nowrap;
+      }
+
+      nav a:hover,
+      nav a:focus {
+        border-color: var(--line);
+        background: var(--surface-2);
+        color: var(--ink);
+        outline: none;
+      }
+
+      main {
+        padding: 28px 0 56px;
+      }
+
+      .intro {
+        display: grid;
+        gap: 18px;
+        padding: 28px 0 18px;
+      }
+
+      .kicker {
+        color: var(--amber);
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        max-width: 760px;
+        font-size: 32px;
+        line-height: 1.12;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+
+      h3 {
+        font-size: 15px;
+      }
+
+      .lead {
+        max-width: 820px;
+        color: var(--muted);
+        font-size: 16px;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .flow-card,
+      .panel,
+      .mini-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .flow-card {
+        min-height: 118px;
+        padding: 14px;
+      }
+
+      .step {
+        display: inline-grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        background: var(--amber-soft);
+        color: #7c4a05;
+        font-weight: 800;
+      }
+
+      .flow-card h3 {
+        margin-top: 12px;
+      }
+
+      .flow-card p,
+      .mini-card p,
+      .section-copy,
+      .note {
+        color: var(--muted);
+      }
+
+      .section {
+        display: grid;
+        gap: 16px;
+        margin-top: 28px;
+        scroll-margin-top: 84px;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .section-copy {
+        max-width: 780px;
+      }
+
+      .route {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface-2);
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 12px;
+        padding: 6px 9px;
+        white-space: nowrap;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1.35fr 0.65fr;
+        gap: 14px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+
+      .panel {
+        overflow: hidden;
+      }
+
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border-bottom: 1px solid var(--line);
+        background: #fbf8f1;
+        padding: 14px 16px;
+      }
+
+      .panel-body {
+        padding: 16px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .button {
+        border: 1px solid #9c6a1d;
+        border-radius: 8px;
+        background: #9c6a1d;
+        color: white;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 800;
+        font-family: inherit;
+        min-height: 32px;
+        padding: 7px 10px;
+        cursor: pointer;
+      }
+
+      .button.secondary {
+        border-color: var(--line);
+        background: var(--surface);
+        color: var(--ink);
+      }
+
+      .button.info {
+        border-color: #9bc9ef;
+        background: var(--blue-soft);
+        color: #164e82;
+      }
+
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .filter {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        padding: 7px 10px;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 620px;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid var(--line);
+        padding: 10px 8px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        color: var(--muted);
+        font-size: 11px;
+        text-transform: uppercase;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 800;
+        gap: 5px;
+        padding: 4px 8px;
+        white-space: nowrap;
+      }
+
+      .ok {
+        background: var(--green-soft);
+        color: var(--green);
+      }
+
+      .warn {
+        background: var(--amber-soft);
+        color: #8a5608;
+      }
+
+      .bad {
+        background: var(--red-soft);
+        color: var(--red);
+      }
+
+      .info {
+        background: var(--blue-soft);
+        color: var(--blue);
+      }
+
+      .muted {
+        background: var(--gray-soft);
+        color: #4b5563;
+      }
+
+      .stack {
+        display: grid;
+        gap: 10px;
+      }
+
+      .mini-card {
+        box-shadow: none;
+        padding: 12px;
+      }
+
+      .mini-card strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .slot-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(110px, 1fr));
+        gap: 7px;
+      }
+
+      .slot {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--muted);
+        display: grid;
+        font-weight: 800;
+        min-height: 38px;
+        place-items: center;
+        padding: 5px 3px;
+        position: relative;
+        text-align: center;
+      }
+
+      .slot small {
+        display: block;
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 1.1;
+        margin-top: 3px;
+      }
+
+      .slot.allocated {
+        border-color: #b7dec8;
+        background: var(--green-soft);
+        color: var(--green);
+      }
+
+      .slot.selected {
+        border-color: #d99a30;
+        background: var(--amber-soft);
+        color: #7c4a05;
+      }
+
+      .slot.blocked {
+        border-color: #efb6ad;
+        background: var(--red-soft);
+        color: var(--red);
+      }
+
+      .slot-remove {
+        border: 1px solid rgba(180, 35, 24, 0.28);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.86);
+        color: var(--red);
+        cursor: pointer;
+        font: inherit;
+        font-size: 10px;
+        font-weight: 900;
+        height: 22px;
+        line-height: 1;
+        padding: 0;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        width: 22px;
+      }
+
+      .slot-remove:hover,
+      .slot-remove:focus {
+        background: var(--red-soft);
+        outline: none;
+      }
+
+      .slot-board {
+        display: grid;
+        gap: 12px;
+      }
+
+      .slot-board .slot-grid {
+        gap: 9px;
+      }
+
+      .slot-board .slot {
+        min-height: 68px;
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .summary-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .metric {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        padding: 11px;
+      }
+
+      .metric span {
+        color: var(--muted);
+        display: block;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 18px;
+        margin-top: 3px;
+      }
+
+      .message-preview {
+        border: 1px solid #9bd1b4;
+        border-radius: 8px;
+        background: #f2fff7;
+        color: #123d2a;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 13px;
+        padding: 14px;
+        white-space: pre-wrap;
+      }
+
+      .link-box {
+        border: 1px solid #9bc9ef;
+        border-radius: 8px;
+        background: var(--blue-soft);
+        color: #164e82;
+        display: grid;
+        gap: 6px;
+        margin-top: 12px;
+        padding: 12px;
+      }
+
+      .link-box code {
+        color: #123d63;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 12px;
+        overflow-wrap: anywhere;
+      }
+
+      .callout {
+        border: 1px solid #9bc9ef;
+        border-radius: 8px;
+        background: var(--blue-soft);
+        color: #164e82;
+        padding: 12px 14px;
+      }
+
+      .callout strong {
+        display: block;
+        margin-bottom: 3px;
+      }
+
+      .allocation-panel {
+        display: grid;
+        gap: 12px;
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+
+      .field label,
+      .field-title {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .control {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        min-height: 38px;
+        padding: 9px 10px;
+        width: 100%;
+      }
+
+      input.control {
+        color: var(--ink);
+        font: inherit;
+      }
+
+      input.control:focus {
+        border-color: #d99a30;
+        box-shadow: 0 0 0 3px rgba(217, 154, 48, 0.18);
+        outline: none;
+      }
+
+      .quantity-stepper {
+        align-items: center;
+        display: inline-grid;
+        grid-template-columns: 46px 74px 46px;
+        gap: 8px;
+        width: max-content;
+      }
+
+      .stepper-button {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--ink);
+        cursor: pointer;
+        font: inherit;
+        font-size: 20px;
+        font-weight: 800;
+        height: 42px;
+        line-height: 1;
+      }
+
+      .stepper-button:hover,
+      .stepper-button:focus {
+        border-color: #d99a30;
+        background: var(--amber-soft);
+        color: #7c4a05;
+        outline: none;
+      }
+
+      .quantity-stepper input {
+        font-size: 20px;
+        font-weight: 800;
+        height: 46px;
+        padding: 6px;
+        text-align: center;
+      }
+
+      .segmented {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+
+      .segment {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+        padding: 9px;
+        text-align: center;
+      }
+
+      .segment.active {
+        border-color: #d99a30;
+        background: var(--amber-soft);
+        color: #7c4a05;
+      }
+
+      .compact-slots {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .compact-slot {
+        border: 1px solid #d99a30;
+        border-radius: 7px;
+        background: var(--amber-soft);
+        color: #7c4a05;
+        font-weight: 800;
+        min-width: 34px;
+        padding: 6px 8px;
+        text-align: center;
+      }
+
+      .allocation-total {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        align-items: center;
+        border-top: 1px solid var(--line);
+        padding-top: 10px;
+      }
+
+      .mode-grid {
+        display: grid;
+        gap: 8px;
+      }
+
+      .mode-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        padding: 10px;
+      }
+
+      .mode-card.active {
+        border-color: #d99a30;
+        background: var(--amber-soft);
+      }
+
+      .mode-card strong {
+        margin-bottom: 2px;
+      }
+
+      .form-grid {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .form-grid .wide {
+        grid-column: 1 / -1;
+      }
+
+      .next-slots {
+        border: 1px dashed #d99a30;
+        border-radius: 8px;
+        background: var(--amber-soft);
+        color: #7c4a05;
+        display: grid;
+        gap: 4px;
+        padding: 10px;
+      }
+
+      .playground-message {
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 9px 10px;
+      }
+
+      .playground-message.error {
+        background: var(--red-soft);
+        color: var(--red);
+      }
+
+      .playground-message.success {
+        background: var(--green-soft);
+        color: var(--green);
+      }
+
+      .listing-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tab-button {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--muted);
+        cursor: pointer;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 800;
+        padding: 8px 10px;
+      }
+
+      .tab-button.is-active {
+        border-color: #d99a30;
+        background: var(--amber-soft);
+        color: #7c4a05;
+      }
+
+      .tab-button:hover,
+      .tab-button:focus {
+        border-color: #d99a30;
+        outline: none;
+      }
+
+      .create-listing-panel {
+        display: none;
+      }
+
+      .create-listing-panel.is-active {
+        display: block;
+      }
+
+      .note {
+        border-top: 1px solid var(--line);
+        margin-top: 24px;
+        padding-top: 18px;
+        font-size: 12px;
+      }
+
+      .tour-backdrop {
+        background: rgba(31, 41, 51, 0.32);
+        inset: 0;
+        opacity: 0;
+        pointer-events: none;
+        position: fixed;
+        transition: opacity 160ms ease;
+        z-index: 40;
+      }
+
+      .tour-backdrop.is-active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .tour-popover {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        bottom: 22px;
+        box-shadow: 0 24px 70px rgba(31, 41, 51, 0.26);
+        display: grid;
+        gap: 12px;
+        max-width: min(440px, calc(100% - 32px));
+        opacity: 0;
+        padding: 16px;
+        pointer-events: none;
+        position: fixed;
+        right: 22px;
+        transform: translateY(12px);
+        transition:
+          opacity 160ms ease,
+          transform 160ms ease;
+        z-index: 50;
+      }
+
+      .tour-popover.is-active {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .tour-head {
+        align-items: start;
+        display: grid;
+        gap: 8px;
+        grid-template-columns: 1fr auto;
+      }
+
+      .tour-progress {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .tour-close {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--muted);
+        cursor: pointer;
+        font: inherit;
+        font-weight: 900;
+        height: 30px;
+        width: 30px;
+      }
+
+      .tour-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .tour-highlight {
+        outline: 3px solid rgba(183, 121, 31, 0.55);
+        outline-offset: 6px;
+        position: relative;
+        z-index: 45;
+      }
+
+      @media (max-width: 980px) {
+        .topbar-inner {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 6px;
+          padding: 10px 0;
+        }
+
+        nav {
+          justify-content: flex-start;
+          width: 100%;
+        }
+
+        .flow,
+        .grid-2,
+        .grid-3,
+        .summary-row {
+          grid-template-columns: 1fr;
+        }
+
+        .section-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .topbar-inner,
+        main {
+          width: min(100% - 20px, 1180px);
+        }
+
+        h1 {
+          font-size: 25px;
+        }
+
+        .slot-grid {
+          grid-template-columns: repeat(2, minmax(130px, 1fr));
+        }
+
+        .panel-header {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="#inicio" aria-label="Voltar ao inicio">
+          <strong>Operacao de Doses de Whisky</strong>
+          <span>Playground de apresentacao</span>
+        </a>
+        <nav aria-label="Navegacao do prototipo">
+          <a href="#compradores">Compradores</a>
+          <a href="#listas">Listas</a>
+          <a href="#pagamentos">Pagamentos</a>
+          <a href="#mensagens">Mensagens</a>
+          <a href="#envios">Envios</a>
+          <button class="button secondary" type="button" id="startTour">
+            Iniciar tour
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main id="inicio">
+      <section class="intro" aria-labelledby="titulo">
+        <span class="kicker">Da reserva ao envio</span>
+        <h1 id="titulo">
+          Controle operacional para grupos de compra de doses raras.
+        </h1>
+        <p class="lead">
+          Uma visão integrada para cadastrar compradores, abrir listas de
+          garrafas, alocar doses numeradas, acompanhar pagamentos, renderizar
+          mensagens para WhatsApp e preparar lotes de envio somente quando as
+          doses estiverem pagas.
+        </p>
+
+        <div class="flow" aria-label="Fluxo principal do sistema">
+          <article class="flow-card">
+            <span class="step">1</span>
+            <h3>Comprador</h3>
+            <p>Identidade, CPF, WhatsApp e prontidao para reserva ou envio.</p>
+          </article>
+          <article class="flow-card">
+            <span class="step">2</span>
+            <h3>Lista</h3>
+            <p>Garrafas, doses numeradas, limites e alocacao por comprador.</p>
+          </article>
+          <article class="flow-card">
+            <span class="step">3</span>
+            <h3>Pagamento</h3>
+            <p>Obrigacoes por comprador, conciliacao Pix e excecoes.</p>
+          </article>
+          <article class="flow-card">
+            <span class="step">4</span>
+            <h3>WhatsApp</h3>
+            <p>Textos prontos para WhatsApp com links e lembretes.</p>
+          </article>
+          <article class="flow-card">
+            <span class="step">5</span>
+            <h3>Envio</h3>
+            <p>Lotes com doses pagas, agrupadas por comprador.</p>
+          </article>
+        </div>
+      </section>
+
+      <section
+        class="section"
+        id="compradores"
+        aria-labelledby="compradores-title"
+      >
+        <div class="section-head">
+          <div>
+            <span class="kicker">Buyer Registry</span>
+            <h2 id="compradores-title">
+              Compradores prontos para reserva e envio
+            </h2>
+            <p class="section-copy">
+              O operador encontra compradores rapidamente, confirma se a
+              identidade permite reserva e sabe quando ainda falta endereco para
+              o primeiro envio.
+            </p>
+          </div>
+          <span class="route">/buyers</span>
+        </div>
+
+        <div class="grid-2">
+          <article class="panel">
+            <div class="panel-header">
+              <h3>Compradores</h3>
+              <div class="actions">
+                <span class="filter">Busca: @marina</span>
+                <span class="button">Cadastrar comprador</span>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>WhatsApp</th>
+                      <th>Status</th>
+                      <th>Reserva</th>
+                      <th>Envio</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Marina Costa</strong><br />CPF final 482</td>
+                      <td>@marina.costa</td>
+                      <td><span class="badge ok">Ativo</span></td>
+                      <td><span class="badge ok">Pronto para reserva</span></td>
+                      <td><span class="badge ok">Endereco completo</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Rafael Simoes</strong><br />CPF final 119</td>
+                      <td>@rafa.simoes</td>
+                      <td><span class="badge ok">Ativo</span></td>
+                      <td><span class="badge ok">Pronto para reserva</span></td>
+                      <td><span class="badge warn">Precisa endereco</span></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Paulo Nunes</strong><br />Dados preservados
+                      </td>
+                      <td>@paulo.nunes</td>
+                      <td><span class="badge warn">Inativo</span></td>
+                      <td><span class="badge bad">Bloqueado</span></td>
+                      <td><span class="badge muted">Fora de operacao</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </article>
+
+          <aside class="stack">
+            <div class="mini-card">
+              <strong>Detalhe do comprador</strong>
+              <p>
+                Identidade, WhatsApp e CPF ficam juntos para evitar reserva com
+                cadastro incompleto.
+              </p>
+            </div>
+            <div class="mini-card">
+              <strong>Endereco como bloqueador</strong>
+              <p>
+                O endereco nao trava a reserva, mas aparece como pendencia
+                quando o envio comeca.
+              </p>
+            </div>
+            <div class="mini-card">
+              <strong>Retencao deliberada</strong>
+              <p>
+                Comprador inativo perde elegibilidade antes de qualquer exclusao
+                ou anonimizacao.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="listas" aria-labelledby="listas-title">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Bottle Listing And Dose Allocation</span>
+            <h2 id="listas-title">Lista da garrafa com doses numeradas</h2>
+            <p class="section-copy">
+              A lista funciona como quadro de controle da garrafa: abre a
+              oferta, mostra slots livres, aloca compradores elegiveis e fecha a
+              lista quando a operacao deve parar de receber reservas.
+            </p>
+          </div>
+          <span class="route">/listings/hibiki-21</span>
+        </div>
+
+        <div
+          class="listing-tabs"
+          id="listingTabs"
+          aria-label="Listas de garrafas"
+        ></div>
+
+        <div class="grid-2">
+          <article class="panel listing-board" id="listingBoard">
+            <div class="panel-header">
+              <div>
+                <h3 id="listingTitle">Hibiki 21 anos - dose 50 ml</h3>
+                <p class="section-copy" id="listingMeta">
+                  20 doses · R$ 185,00 por dose · limite 3 por pessoa
+                </p>
+              </div>
+              <div class="actions">
+                <span class="badge ok">Aberta</span>
+                <span class="badge info" id="allocatedBadge"
+                  >14/20 alocadas</span
+                >
+                <span class="badge warn" id="filledBadge">Preenchida: nao</span>
+              </div>
+            </div>
+            <div class="panel-body stack">
+              <div class="slot-board">
+                <div class="legend" aria-label="Legenda da grade de doses">
+                  <span class="badge ok">Verde: alocado</span>
+                  <span class="badge muted">Branco: livre</span>
+                  <span class="badge info">Remocao reorganiza a fila</span>
+                </div>
+                <div
+                  class="slot-grid"
+                  id="slotGrid"
+                  aria-label="Grade de doses"
+                ></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel create-listing-panel" id="createListingPanel">
+            <div class="panel-header">
+              <div>
+                <h3>Criar nova lista</h3>
+                <p class="section-copy">
+                  Configure a garrafa; depois ela abre como uma aba propria.
+                </p>
+              </div>
+            </div>
+            <div class="panel-body">
+              <form class="allocation-panel" id="createListingForm">
+                <div class="form-grid">
+                  <div class="field wide">
+                    <label for="bottleNameInput">Garrafa</label>
+                    <input
+                      class="control"
+                      id="bottleNameInput"
+                      value="Macallan 18 Double Cask"
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="doseSizeInput">Dose ml</label>
+                    <input
+                      class="control"
+                      id="doseSizeInput"
+                      type="number"
+                      min="10"
+                      value="50"
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="totalSlotsInput">Total doses</label>
+                    <input
+                      class="control"
+                      id="totalSlotsInput"
+                      type="number"
+                      min="1"
+                      max="60"
+                      value="16"
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="priceInput">Preco por dose</label>
+                    <input
+                      class="control"
+                      id="priceInput"
+                      type="number"
+                      min="0"
+                      value="240"
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="limitInput">Limite por pessoa</label>
+                    <input
+                      class="control"
+                      id="limitInput"
+                      type="number"
+                      min="1"
+                      max="10"
+                      value="3"
+                    />
+                  </div>
+                </div>
+                <button class="button" type="submit">Criar lista vazia</button>
+              </form>
+            </div>
+          </article>
+
+          <aside class="stack">
+            <form class="mini-card allocation-panel" id="allocationForm">
+              <strong>Painel de alocacao</strong>
+              <p>
+                Use a propria grade: aloque pelo painel e remova clicando no x
+                dentro de qualquer dose ocupada.
+              </p>
+              <div class="field">
+                <label for="buyerInput">Comprador</label>
+                <input
+                  class="control"
+                  id="buyerInput"
+                  list="buyerOptions"
+                  value="Sofia Mendes · @sofia.mendes"
+                />
+                <datalist id="buyerOptions">
+                  <option value="Sofia Mendes · @sofia.mendes"></option>
+                  <option value="Rafael Simoes · @rafa.simoes"></option>
+                  <option value="Marina Costa · @marina.costa"></option>
+                  <option value="Pedro Alves · @pedro.alves"></option>
+                </datalist>
+                <span class="badge ok"
+                  >Autocomplete encontrou comprador elegivel</span
+                >
+              </div>
+              <div class="field">
+                <label for="quantityInput">Quantidade</label>
+                <div class="quantity-stepper">
+                  <button
+                    class="stepper-button"
+                    type="button"
+                    id="decreaseQuantity"
+                    aria-label="Diminuir quantidade"
+                  >
+                    -
+                  </button>
+                  <input
+                    class="control"
+                    id="quantityInput"
+                    type="number"
+                    min="1"
+                    max="3"
+                    value="2"
+                  />
+                  <button
+                    class="stepper-button"
+                    type="button"
+                    id="increaseQuantity"
+                    aria-label="Aumentar quantidade"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="next-slots">
+                <strong>Proximas doses sequenciais</strong>
+                <span id="nextSlotsPreview"
+                  >O sistema aloca automaticamente os slots 15 e 16.</span
+                >
+              </div>
+              <div class="allocation-total">
+                <span>Total da alocacao</span>
+                <strong id="allocationTotal">2 doses · R$ 370,00</strong>
+              </div>
+              <button class="button" type="submit">
+                Alocar proximas doses
+              </button>
+              <div id="playgroundMessage" aria-live="polite"></div>
+            </form>
+          </aside>
+        </div>
+      </section>
+
+      <section
+        class="section"
+        id="pagamentos"
+        aria-labelledby="pagamentos-title"
+      >
+        <div class="section-head">
+          <div>
+            <span class="kicker">Dose Payment Tracking</span>
+            <h2 id="pagamentos-title">
+              Pagamento por comprador, com excecoes visiveis
+            </h2>
+            <p class="section-copy">
+              A abertura de pagamento escolhe quais listas entram na cobranca.
+              Cada comprador recebe obrigacoes rastreaveis por dose, e a
+              conciliacao Pix aparece como status operacional, com fila propria
+              para excecoes.
+            </p>
+          </div>
+          <span class="route">/payments/by-listing</span>
+        </div>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <h3>Pagamentos abertos por lista</h3>
+              <p class="section-copy">
+                Quando uma lista abre pagamento, ela aumenta o saldo a cobrar de
+                cada comprador.
+              </p>
+            </div>
+            <div class="actions">
+              <span class="badge info">3 listas abertas</span>
+              <span class="badge ok">8 compradores pagos</span>
+              <span class="badge bad">3 pendencias</span>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="summary-row">
+              <div class="metric">
+                <span>Total aberto</span><strong>R$ 7.820</strong>
+              </div>
+              <div class="metric">
+                <span>Ja pago</span><strong>R$ 5.960</strong>
+              </div>
+              <div class="metric">
+                <span>Saldo a cobrar</span><strong>R$ 1.490</strong>
+              </div>
+              <div class="metric">
+                <span>Listas com pendencia</span><strong>2</strong>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Comprador</th>
+                    <th>Listas abertas</th>
+                    <th>Saldo total</th>
+                    <th>Pago</th>
+                    <th>Status</th>
+                    <th>Link Pix</th>
+                    <th>Proxima acao</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Marina Costa</td>
+                    <td>Hibiki 21 · 3 doses</td>
+                    <td>R$ 555,00</td>
+                    <td>R$ 555,00</td>
+                    <td><span class="badge ok">Pago</span></td>
+                    <td><span class="badge muted">Ja pago</span></td>
+                    <td>Pronto para mensagem de confirmacao</td>
+                  </tr>
+                  <tr>
+                    <td>Rafael Simoes</td>
+                    <td>Hibiki 21 · 2 doses</td>
+                    <td>R$ 370,00</td>
+                    <td>R$ 0,00</td>
+                    <td><span class="badge warn">Pendente</span></td>
+                    <td><span class="button secondary">Emitir link</span></td>
+                    <td>Lembrar pela lista Hibiki 21</td>
+                  </tr>
+                  <tr>
+                    <td>Bruno Lima</td>
+                    <td>Macallan 18 · 1 dose</td>
+                    <td>R$ 240,00</td>
+                    <td>R$ 120,00</td>
+                    <td><span class="badge warn">Parcial</span></td>
+                    <td><span class="button secondary">Reemitir link</span></td>
+                    <td>Revisar antes do lembrete da lista</td>
+                  </tr>
+                  <tr>
+                    <td>Pix sem comprador</td>
+                    <td>Pagamento nao ligado a uma lista/comprador</td>
+                    <td>R$ 0,00</td>
+                    <td>R$ 185,00</td>
+                    <td><span class="badge bad">Nao conciliado</span></td>
+                    <td><span class="badge bad">Bloqueado</span></td>
+                    <td>Resolver manualmente</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="link-box">
+              <strong>Exemplo de link emitido para Rafael Simoes</strong>
+              <span>Lista: Hibiki 21 · 2 doses · R$ 370,00</span>
+              <code>https://pagamento.exemplo/hibiki-21/rafael-simoes</code>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="section" id="mensagens" aria-labelledby="mensagens-title">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Payment Link And Reminder Messaging</span>
+            <h2 id="mensagens-title">Textos prontos para copiar no WhatsApp</h2>
+            <p class="section-copy">
+              A tela usa a verdade de pagamento para montar links e lembretes. O
+              operador revisa o texto, copia e cola no canal externo. O
+              historico guarda o que foi preparado, substituido ou suprimido.
+            </p>
+          </div>
+          <span class="route">/messages</span>
+        </div>
+
+        <div class="grid-2">
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Listas aguardando pagamento</h3>
+                <p class="section-copy">
+                  O operador parte do nome da lista, revisa compradores e
+                  renderiza um lembrete coletivo por garrafa.
+                </p>
+              </div>
+              <div class="actions">
+                <span class="badge warn">2 compradores pendentes</span>
+                <span class="badge info">Texto pronto para revisar</span>
+              </div>
+            </div>
+            <div class="panel-body stack">
+              <div class="filters">
+                <span class="filter">Hibiki 21</span>
+                <span class="filter">Macallan 18 Double Cask</span>
+                <span class="filter">Glenfarclas 25</span>
+                <span class="filter">Vencimento: 28/05</span>
+                <span class="filter">Visao: listas com pendencias</span>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Lista</th>
+                      <th>Comprador</th>
+                      <th>Qtd.</th>
+                      <th>Total</th>
+                      <th>Pagamento</th>
+                      <th>Lembrete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Hibiki 21</td>
+                      <td>Marina Costa<br /><small>@marina.costa</small></td>
+                      <td>3 doses</td>
+                      <td>R$ 555,00</td>
+                      <td><span class="badge ok">Pago</span></td>
+                      <td><span class="badge ok">Suprimido: ja pago</span></td>
+                    </tr>
+                    <tr>
+                      <td>Hibiki 21</td>
+                      <td>Rafael Simoes<br /><small>@rafa.simoes</small></td>
+                      <td>2 doses</td>
+                      <td>R$ 370,00</td>
+                      <td><span class="badge warn">Pendente</span></td>
+                      <td>
+                        <span class="badge warn">Pronto para copiar</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Hibiki 21</td>
+                      <td>Luiza Rocha<br /><small>@luiza.rocha</small></td>
+                      <td>1 dose</td>
+                      <td>R$ 185,00</td>
+                      <td><span class="badge warn">Pendente</span></td>
+                      <td><span class="badge info">Renderizado hoje</span></td>
+                    </tr>
+                    <tr>
+                      <td>Macallan 18 Double Cask</td>
+                      <td>Caio Martins<br /><small>@caio.martins</small></td>
+                      <td>2 doses</td>
+                      <td>R$ 480,00</td>
+                      <td><span class="badge warn">Pendente</span></td>
+                      <td>
+                        <span class="badge warn">Pronto para copiar</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Macallan 18 Double Cask</td>
+                      <td>Ana Prado<br /><small>@ana.prado</small></td>
+                      <td>1 dose</td>
+                      <td>R$ 240,00</td>
+                      <td><span class="badge bad">Falhou conciliacao</span></td>
+                      <td><span class="badge bad">Resolver pagamento</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="message-preview"
+                aria-label="Texto da lista pronto para WhatsApp"
+              >
+                Lista Hibiki 21 - lembrete de pagamento Pessoal, estes
+                compradores ainda precisam acao nesta lista: @rafa.simoes - 2
+                doses - R$ 370,00 Link:
+                https://pagamento.exemplo/hibiki-21/rafael-simoes @luiza.rocha -
+                1 dose - R$ 185,00 Link:
+                https://pagamento.exemplo/hibiki-21/luiza-rocha Vencimento:
+                28/05/2026 Quem ja pagou foi suprimido automaticamente deste
+                lembrete.
+              </div>
+              <div class="actions">
+                <span class="button info">Copiar texto para WhatsApp</span>
+                <span class="badge info"
+                  >Operador cola manualmente no grupo</span
+                >
+              </div>
+            </div>
+          </article>
+
+          <aside class="panel">
+            <div class="panel-header">
+              <h3>Resumo por lista</h3>
+              <span class="route">/messages/rendered</span>
+            </div>
+            <div class="panel-body stack">
+              <div class="metric">
+                <span>Hibiki 21</span>
+                <strong>2 pendentes</strong>
+              </div>
+              <div class="metric">
+                <span>Macallan 18 Double Cask</span>
+                <strong>1 pendente</strong>
+              </div>
+              <div class="metric">
+                <span>Glenfarclas 25</span>
+                <strong>0 pendentes</strong>
+              </div>
+              <div class="metric">
+                <span>Bloqueados por excecao</span>
+                <strong>1</strong>
+              </div>
+              <div class="callout">
+                <strong>Lembrete ligado ao nome da lista</strong>
+                A tela nao depende de uma rodada interna: cada mensagem nasce da
+                garrafa/lista selecionada e mostra somente compradores
+                pendentes.
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="envios" aria-labelledby="envios-title">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Freight And Shipment Batching</span>
+            <h2 id="envios-title">Lotes de envio apenas com doses pagas</h2>
+            <p class="section-copy">
+              O envio nasce dos pagamentos confirmados. As doses ficam em
+              espera, sao agrupadas por comprador dentro de um lote e bloqueiam
+              quando falta endereco ou quando o pagamento ainda nao esta
+              confirmado.
+            </p>
+          </div>
+          <span class="route">/shipments/lote-maio-01</span>
+        </div>
+
+        <div class="grid-2">
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Lote de envio Maio 01</h3>
+                <p class="section-copy">
+                  Separacao por comprador · calculo de frete fora do v1
+                </p>
+              </div>
+              <div class="actions">
+                <span class="badge info">5 doses em espera</span>
+                <span class="badge warn">1 bloqueio</span>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Comprador</th>
+                      <th>Doses pagas no pacote</th>
+                      <th>Endereco</th>
+                      <th>Pacote</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Marina Costa</td>
+                      <td>Hibiki 21: 01, 02, 03</td>
+                      <td><span class="badge ok">Completo</span></td>
+                      <td>
+                        <span class="badge ok">Pronto para despacho</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Rafael Simoes</td>
+                      <td>Hibiki 21: 04, 05</td>
+                      <td><span class="badge warn">Precisa endereco</span></td>
+                      <td><span class="badge bad">Bloqueado</span></td>
+                    </tr>
+                    <tr>
+                      <td>Bruno Lima</td>
+                      <td>Macallan 18: 08</td>
+                      <td><span class="badge ok">Completo</span></td>
+                      <td>
+                        <span class="badge warn"
+                          >Aguardando pagamento total</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </article>
+
+          <aside class="stack">
+            <div class="mini-card">
+              <strong>Candidatos ao lote</strong>
+              <p>
+                Somente obrigacoes pagas aparecem como doses em espera para
+                envio.
+              </p>
+            </div>
+            <div class="mini-card">
+              <strong>Pacote por comprador</strong>
+              <p>
+                Cada pacote agrupa doses do mesmo comprador, mesmo quando vieram
+                de listas diferentes.
+              </p>
+            </div>
+            <div class="callout">
+              <strong>Fora do v1</strong>
+              Calculo de frete, pagamento de frete e etiqueta de transportadora
+              nao fazem parte desta primeira versao.
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <p class="note">
+        Playground local para apresentacao. Os dados sao exemplos ficticios e a
+        interacao da lista roda apenas no navegador, sem backend, automacao de
+        WhatsApp, conciliacao Pix real ou persistencia.
+      </p>
+    </main>
+    <div class="tour-backdrop" id="tourBackdrop" hidden></div>
+    <section
+      class="tour-popover"
+      id="tourPopover"
+      aria-live="polite"
+      aria-label="Tour guiado"
+      hidden
+    >
+      <div class="tour-head">
+        <div>
+          <span class="tour-progress" id="tourProgress">1 de 6</span>
+          <h3 id="tourTitle">Visao geral</h3>
+        </div>
+        <button
+          class="tour-close"
+          type="button"
+          id="tourClose"
+          aria-label="Fechar tour"
+        >
+          x
+        </button>
+      </div>
+      <p id="tourText"></p>
+      <div class="tour-actions">
+        <button class="button secondary" type="button" id="tourPrev">
+          Voltar
+        </button>
+        <button class="button" type="button" id="tourNext">Proximo</button>
+      </div>
+    </section>
+    <script>
+      let listings = [
+        {
+          id: "listing-1",
+          bottleName: "Hibiki 21 anos",
+          doseSizeMl: 50,
+          totalSlots: 20,
+          pricePerDose: 185,
+          perBuyerLimit: 3,
+          allocations: [
+            { name: "Marina Costa", handle: "@marina.costa", quantity: 3 },
+            { name: "Rafael Simoes", handle: "@rafa.simoes", quantity: 2 },
+            { name: "Luiza Rocha", handle: "@luiza.rocha", quantity: 1 },
+            { name: "Caio Martins", handle: "@caio.martins", quantity: 2 },
+            { name: "Ana Prado", handle: "@ana.prado", quantity: 3 },
+            { name: "Joao Reis", handle: "@joao.reis", quantity: 1 },
+            { name: "Bruno Lima", handle: "@bruno.lima", quantity: 2 },
+          ],
+        },
+      ];
+      let activeListingId = "listing-1";
+      let listingMode = "listing";
+
+      const slotGrid = document.querySelector("#slotGrid");
+      const listingBoard = document.querySelector("#listingBoard");
+      const createListingPanel = document.querySelector("#createListingPanel");
+      const listingTabs = document.querySelector("#listingTabs");
+      const createListingForm = document.querySelector("#createListingForm");
+      const allocationForm = document.querySelector("#allocationForm");
+      const listingTitle = document.querySelector("#listingTitle");
+      const listingMeta = document.querySelector("#listingMeta");
+      const bottleNameInput = document.querySelector("#bottleNameInput");
+      const doseSizeInput = document.querySelector("#doseSizeInput");
+      const totalSlotsInput = document.querySelector("#totalSlotsInput");
+      const priceInput = document.querySelector("#priceInput");
+      const limitInput = document.querySelector("#limitInput");
+      const buyerInput = document.querySelector("#buyerInput");
+      const quantityInput = document.querySelector("#quantityInput");
+      const decreaseQuantity = document.querySelector("#decreaseQuantity");
+      const increaseQuantity = document.querySelector("#increaseQuantity");
+      const nextSlotsPreview = document.querySelector("#nextSlotsPreview");
+      const allocationTotal = document.querySelector("#allocationTotal");
+      const allocatedBadge = document.querySelector("#allocatedBadge");
+      const filledBadge = document.querySelector("#filledBadge");
+      const playgroundMessage = document.querySelector("#playgroundMessage");
+      const startTour = document.querySelector("#startTour");
+      const tourBackdrop = document.querySelector("#tourBackdrop");
+      const tourPopover = document.querySelector("#tourPopover");
+      const tourProgress = document.querySelector("#tourProgress");
+      const tourTitle = document.querySelector("#tourTitle");
+      const tourText = document.querySelector("#tourText");
+      const tourPrev = document.querySelector("#tourPrev");
+      const tourNext = document.querySelector("#tourNext");
+      const tourClose = document.querySelector("#tourClose");
+
+      const tourSteps = [
+        {
+          target: "#inicio",
+          title: "Visao geral",
+          text: "Este fluxo mostra a operacao inteira: comprador, lista da garrafa, pagamento, WhatsApp e envio. O objetivo e explicar a ideia antes de construir o produto real.",
+        },
+        {
+          target: "#compradores",
+          title: "Compradores",
+          text: "Aqui o operador confere se cada comprador tem nome, WhatsApp e CPF para reservar. Endereco aparece como pendencia somente quando chegar a etapa de envio.",
+        },
+        {
+          target: "#listas",
+          title: "Listas de garrafas",
+          text: "Cada garrafa tem sua propria lista. O operador trabalha uma lista por vez, sem misturar compradores de garrafas diferentes.",
+        },
+        {
+          target: "#listingTabs",
+          title: "Abas por lista",
+          text: "As abas separam as listas existentes e a aba + Nova lista abre a criacao. Assim criar uma garrafa nova nao atrapalha o trabalho de alocar doses na lista atual.",
+        },
+        {
+          target: "#listingBoard",
+          title: "Quadro sequencial",
+          text: "A grade e a fonte visual da lista. As doses ocupadas ficam em sequencia desde o inicio; os slots livres ficam sempre no final. Nao existem buracos no meio.",
+        },
+        {
+          target: "#allocationForm",
+          title: "Adicionar doses",
+          text: "Para alocar, o operador escolhe o comprador e a quantidade. O sistema pega as proximas doses sequenciais automaticamente e respeita o limite por pessoa.",
+        },
+        {
+          target: "#listingBoard",
+          title: "Remover uma dose",
+          text: "O x dentro de uma dose remove aquela dose. Depois da remocao, os compradores seguintes sobem na numeracao e os slots livres voltam para o final.",
+        },
+        {
+          target: "#allocationForm",
+          title: "Limite de responsabilidade",
+          text: "Esta area mostra valores estimados da alocacao, mas nao decide quem pagou. A verdade de pagamento pertence a tela de pagamentos.",
+        },
+        {
+          target: "#pagamentos",
+          title: "Pagamentos",
+          text: "Pagamento abre por lista. Quando outra lista entra em cobranca, o saldo do comprador aumenta. A tela mostra o saldo por comprador e de qual lista ele veio.",
+        },
+        {
+          target: "#pagamentos",
+          title: "Emitir link por comprador",
+          text: "Para cada comprador pendente, o operador emite ou reemite um link Pix ligado a lista e ao valor daquele comprador. Esse link depois entra no texto do WhatsApp.",
+        },
+        {
+          target: "#mensagens",
+          title: "Texto para WhatsApp",
+          text: "Os lembretes partem do nome da lista, nao de uma rodada interna. A tela gera um texto pronto para WhatsApp com compradores pendentes e suprime quem ja pagou.",
+        },
+        {
+          target: "#mensagens",
+          title: "Sem envio automatico",
+          text: "O sistema prepara texto para copiar. Ele nao envia WhatsApp nesta versao, entao o operador continua revisando e colando manualmente.",
+        },
+        {
+          target: "#envios",
+          title: "Envios",
+          text: "A etapa de envio usa somente doses pagas. O operador monta pacotes por comprador e ve bloqueios, como endereco ausente ou pagamento ainda pendente.",
+        },
+        {
+          target: "#envios",
+          title: "Frete fora do v1",
+          text: "Nesta primeira versao, envio organiza pacotes e bloqueios. Calculo de frete, pagamento de frete e etiqueta de transportadora ficam fora.",
+        },
+      ];
+      let tourIndex = 0;
+
+      function formatSlot(number) {
+        return String(number).padStart(2, "0");
+      }
+
+      function activeListing() {
+        return (
+          listings.find((item) => item.id === activeListingId) || listings[0]
+        );
+      }
+
+      function parseBuyer(value) {
+        const [rawName, rawHandle] = value
+          .split("·")
+          .map((part) => part.trim());
+        const name = rawName || "Comprador sem nome";
+        const handle =
+          rawHandle ||
+          "@" +
+            name
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .replace(/[^a-z0-9]+/g, ".")
+              .replace(/(^\.|\.$)/g, "");
+
+        return { name, handle };
+      }
+
+      function currentAllocatedCount() {
+        return activeListing().allocations.reduce(
+          (total, allocation) => total + allocation.quantity,
+          0,
+        );
+      }
+
+      function buyerCurrentQuantity(name, handle) {
+        return activeListing()
+          .allocations.filter(
+            (allocation) =>
+              allocation.name === name || allocation.handle === handle,
+          )
+          .reduce((total, allocation) => total + allocation.quantity, 0);
+      }
+
+      function showMessage(text, type) {
+        playgroundMessage.className = "playground-message " + type;
+        playgroundMessage.textContent = text;
+      }
+
+      function clearMessage() {
+        playgroundMessage.className = "";
+        playgroundMessage.textContent = "";
+      }
+
+      function clearTourHighlight() {
+        document.querySelectorAll(".tour-highlight").forEach((element) => {
+          element.classList.remove("tour-highlight");
+        });
+      }
+
+      function renderTourStep() {
+        const step = tourSteps[tourIndex];
+        const target = document.querySelector(step.target);
+
+        clearTourHighlight();
+        tourProgress.textContent = `${tourIndex + 1} de ${tourSteps.length}`;
+        tourTitle.textContent = step.title;
+        tourText.textContent = step.text;
+        tourPrev.disabled = tourIndex === 0;
+        tourNext.textContent =
+          tourIndex === tourSteps.length - 1 ? "Finalizar" : "Proximo";
+
+        if (target) {
+          target.classList.add("tour-highlight");
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      function openTour() {
+        tourIndex = 0;
+        tourBackdrop.hidden = false;
+        tourPopover.hidden = false;
+        requestAnimationFrame(() => {
+          tourBackdrop.classList.add("is-active");
+          tourPopover.classList.add("is-active");
+          renderTourStep();
+        });
+      }
+
+      function closeTour() {
+        clearTourHighlight();
+        tourBackdrop.classList.remove("is-active");
+        tourPopover.classList.remove("is-active");
+        window.setTimeout(() => {
+          tourBackdrop.hidden = true;
+          tourPopover.hidden = true;
+        }, 170);
+      }
+
+      function renderGrid() {
+        const listing = activeListing();
+        slotGrid.innerHTML = "";
+        let slotNumber = 1;
+
+        listing.allocations.forEach((allocation, allocationIndex) => {
+          for (let index = 0; index < allocation.quantity; index += 1) {
+            const slot = document.createElement("span");
+            slot.className = "slot allocated";
+            slot.innerHTML = `
+              <button class="slot-remove" type="button" data-allocation-index="${allocationIndex}" aria-label="Remover esta dose de ${allocation.name}">x</button>
+              ${formatSlot(slotNumber)}<small>${allocation.name}<br />${allocation.handle}</small>
+            `;
+            slotGrid.appendChild(slot);
+            slotNumber += 1;
+          }
+        });
+
+        while (slotNumber <= listing.totalSlots) {
+          const slot = document.createElement("span");
+          slot.className = "slot";
+          slot.innerHTML = `${formatSlot(slotNumber)}<small>Livre</small>`;
+          slotGrid.appendChild(slot);
+          slotNumber += 1;
+        }
+      }
+
+      function updatePreview() {
+        const listing = activeListing();
+        const quantity = Number(quantityInput.value) || 0;
+        const allocated = currentAllocatedCount();
+        const firstSlot = allocated + 1;
+        const lastSlot = allocated + quantity;
+
+        allocationTotal.textContent = `${quantity} dose${quantity === 1 ? "" : "s"} · R$ ${(
+          quantity * listing.pricePerDose
+        ).toLocaleString("pt-BR")},00`;
+
+        if (quantity < 1) {
+          nextSlotsPreview.textContent =
+            "Informe uma quantidade para visualizar a alocacao.";
+          return;
+        }
+
+        if (lastSlot > listing.totalSlots) {
+          nextSlotsPreview.textContent = `Nao ha ${quantity} dose${quantity > 1 ? "s" : ""} livre${quantity > 1 ? "s" : ""}. Restam ${
+            listing.totalSlots - allocated
+          }.`;
+          return;
+        }
+
+        nextSlotsPreview.textContent =
+          firstSlot === lastSlot
+            ? `O sistema aloca automaticamente o slot ${formatSlot(firstSlot)}.`
+            : `O sistema aloca automaticamente os slots ${formatSlot(firstSlot)} a ${formatSlot(lastSlot)}.`;
+      }
+
+      function renderListingTabs() {
+        listingTabs.innerHTML = "";
+
+        listings.forEach((item) => {
+          const allocated = item.allocations.reduce(
+            (total, allocation) => total + allocation.quantity,
+            0,
+          );
+          const button = document.createElement("button");
+          button.className = `tab-button${listingMode === "listing" && item.id === activeListingId ? " is-active" : ""}`;
+          button.type = "button";
+          button.dataset.listingId = item.id;
+          button.textContent = `${item.bottleName} (${allocated}/${item.totalSlots})`;
+          listingTabs.appendChild(button);
+        });
+
+        const newButton = document.createElement("button");
+        newButton.className = `tab-button${listingMode === "new" ? " is-active" : ""}`;
+        newButton.type = "button";
+        newButton.dataset.mode = "new";
+        newButton.textContent = "+ Nova lista";
+        listingTabs.appendChild(newButton);
+      }
+
+      function render() {
+        const listing = activeListing();
+        const allocated = currentAllocatedCount();
+        const creating = listingMode === "new";
+        listingTitle.textContent = `${listing.bottleName} - dose ${listing.doseSizeMl} ml`;
+        listingMeta.textContent = `${listing.totalSlots} doses · R$ ${listing.pricePerDose.toLocaleString("pt-BR")},00 por dose · limite ${listing.perBuyerLimit} por pessoa`;
+        quantityInput.max = String(listing.perBuyerLimit);
+        allocatedBadge.textContent = `${allocated}/${listing.totalSlots} alocadas`;
+        filledBadge.textContent =
+          allocated === listing.totalSlots
+            ? "Preenchida: sim"
+            : "Preenchida: nao";
+        filledBadge.className =
+          allocated === listing.totalSlots ? "badge ok" : "badge warn";
+        listingBoard.hidden = creating;
+        createListingPanel.classList.toggle("is-active", creating);
+        allocationForm.hidden = creating;
+        renderListingTabs();
+        renderGrid();
+        updatePreview();
+      }
+
+      allocationForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        clearMessage();
+
+        const listing = activeListing();
+        const buyer = parseBuyer(buyerInput.value);
+        const quantity = Number(quantityInput.value);
+        const allocated = currentAllocatedCount();
+
+        if (!buyer.name || !buyer.handle) {
+          showMessage("Escolha um comprador com nome e WhatsApp.", "error");
+          return;
+        }
+
+        if (!Number.isInteger(quantity) || quantity < 1) {
+          showMessage("Informe uma quantidade valida de doses.", "error");
+          return;
+        }
+
+        if (
+          buyerCurrentQuantity(buyer.name, buyer.handle) + quantity >
+          listing.perBuyerLimit
+        ) {
+          showMessage(
+            `Limite por pessoa: ${listing.perBuyerLimit} doses nesta lista.`,
+            "error",
+          );
+          return;
+        }
+
+        if (allocated + quantity > listing.totalSlots) {
+          showMessage(
+            `Quantidade indisponivel. Restam ${listing.totalSlots - allocated} doses livres.`,
+            "error",
+          );
+          return;
+        }
+
+        listing.allocations.push({ ...buyer, quantity });
+        render();
+        showMessage(
+          `${buyer.name} entrou na fila. A numeracao foi atualizada automaticamente.`,
+          "success",
+        );
+      });
+
+      createListingForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        clearMessage();
+
+        const nextListing = {
+          id: `listing-${Date.now()}`,
+          bottleName: bottleNameInput.value.trim() || "Garrafa sem nome",
+          doseSizeMl: Number(doseSizeInput.value),
+          totalSlots: Number(totalSlotsInput.value),
+          pricePerDose: Number(priceInput.value),
+          perBuyerLimit: Number(limitInput.value),
+          allocations: [],
+        };
+
+        if (
+          !Number.isInteger(nextListing.totalSlots) ||
+          nextListing.totalSlots < 1
+        ) {
+          showMessage("Total de doses precisa ser maior que zero.", "error");
+          return;
+        }
+
+        if (
+          !Number.isFinite(nextListing.pricePerDose) ||
+          nextListing.pricePerDose < 0
+        ) {
+          showMessage("Preco por dose precisa ser valido.", "error");
+          return;
+        }
+
+        if (
+          !Number.isInteger(nextListing.perBuyerLimit) ||
+          nextListing.perBuyerLimit < 1
+        ) {
+          showMessage("Limite por pessoa precisa ser pelo menos 1.", "error");
+          return;
+        }
+
+        if (
+          !Number.isFinite(nextListing.doseSizeMl) ||
+          nextListing.doseSizeMl <= 0
+        ) {
+          showMessage("Tamanho da dose precisa ser maior que zero.", "error");
+          return;
+        }
+
+        listings.push(nextListing);
+        activeListingId = nextListing.id;
+        listingMode = "listing";
+        quantityInput.value = "1";
+        render();
+        showMessage(
+          `${nextListing.bottleName} criada com grade vazia.`,
+          "success",
+        );
+      });
+
+      slotGrid.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-allocation-index]");
+        if (!button) return;
+
+        const listing = activeListing();
+        const index = Number(button.dataset.allocationIndex);
+        const allocation = listing.allocations[index];
+        allocation.quantity -= 1;
+
+        if (allocation.quantity === 0) {
+          listing.allocations.splice(index, 1);
+        }
+
+        render();
+        showMessage(
+          `Uma dose de ${allocation.name} foi removida. A lista foi reorganizada sem buracos.`,
+          "success",
+        );
+      });
+
+      listingTabs.addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) return;
+
+        if (button.dataset.mode === "new") {
+          listingMode = "new";
+          clearMessage();
+          render();
+          return;
+        }
+
+        activeListingId = button.dataset.listingId;
+        listingMode = "listing";
+        clearMessage();
+        render();
+      });
+
+      quantityInput.addEventListener("input", () => {
+        clearMessage();
+        updatePreview();
+      });
+
+      function changeQuantity(delta) {
+        const min = Number(quantityInput.min) || 1;
+        const max = Number(quantityInput.max) || activeListing().perBuyerLimit;
+        const current = Number(quantityInput.value) || min;
+        quantityInput.value = Math.min(max, Math.max(min, current + delta));
+        clearMessage();
+        updatePreview();
+      }
+
+      decreaseQuantity.addEventListener("click", () => changeQuantity(-1));
+      increaseQuantity.addEventListener("click", () => changeQuantity(1));
+
+      buyerInput.addEventListener("input", clearMessage);
+
+      startTour.addEventListener("click", openTour);
+      tourClose.addEventListener("click", closeTour);
+      tourBackdrop.addEventListener("click", closeTour);
+      tourPrev.addEventListener("click", () => {
+        if (tourIndex === 0) return;
+        tourIndex -= 1;
+        renderTourStep();
+      });
+      tourNext.addEventListener("click", () => {
+        if (tourIndex === tourSteps.length - 1) {
+          closeTour();
+          return;
+        }
+        tourIndex += 1;
+        renderTourStep();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (tourPopover.hidden || event.key !== "Escape") return;
+        closeTour();
+      });
+
+      render();
+    </script>
+  </body>
+</html>
