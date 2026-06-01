@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GoldenQuill Promotion Governance - Client Overview</title>
+  <style>
+    :root {
+      --ink: #182331;
+      --muted: #5d6978;
+      --panel: #ffffff;
+      --paper: #f7f8fa;
+      --line: #d9e1e8;
+      --blue: #2d5f91;
+      --teal: #177a78;
+      --gold: #b87518;
+      --rose: #9d4658;
+      --green: #4d7d3b;
+      --shadow: 0 18px 45px rgba(21, 33, 49, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 34px 20px 54px;
+    }
+    section {
+      margin-bottom: 18px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+    .hero section { margin: 0; }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--teal);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 { line-height: 1.12; letter-spacing: 0; }
+    h1 {
+      margin: 0 0 14px;
+      color: #20324a;
+      font-size: clamp(2rem, 5vw, 4rem);
+    }
+    h2 { margin: 0 0 14px; color: #20324a; font-size: 1.45rem; }
+    h3 { margin: 0 0 8px; color: #20324a; font-size: 1rem; }
+    p { margin: 0 0 12px; }
+    .lead { color: #334054; font-size: 1.08rem; }
+    .grid-2, .grid-3 {
+      display: grid;
+      gap: 14px;
+    }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card {
+      min-height: 100%;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfd;
+    }
+    .tag {
+      display: inline-flex;
+      margin-bottom: 8px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #edf5f4;
+      color: var(--teal);
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+    .flow {
+      display: grid;
+      gap: 10px;
+    }
+    .step {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-left: 6px solid var(--blue);
+      border-radius: 8px;
+      background: #fbfcfd;
+    }
+    .step:nth-child(2) { border-left-color: var(--teal); }
+    .step:nth-child(3) { border-left-color: var(--gold); }
+    .step:nth-child(4) { border-left-color: var(--rose); }
+    .step:nth-child(5) { border-left-color: var(--green); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #eef2f6;
+      color: #20324a;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+    code {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: #eef2f6;
+      color: #28384b;
+      font-size: 0.86em;
+    }
+    .rule {
+      padding: 14px 16px;
+      border: 1px solid #d6e5e3;
+      border-left: 5px solid var(--teal);
+      border-radius: 8px;
+      background: #f3faf9;
+    }
+    ul { margin: 8px 0 0; padding-left: 20px; }
+    li + li { margin-top: 6px; }
+    .footer {
+      color: var(--muted);
+      font-size: 0.86rem;
+      text-align: center;
+    }
+    @media (max-width: 880px) {
+      .hero, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="hero">
+      <section>
+        <p class="eyebrow">GoldenQuill client overview</p>
+        <h1>A governed learning loop for grant writing</h1>
+        <p class="lead">
+          GoldenQuill can learn from wins, rejections, reviewer feedback, partial
+          awards, stage movement, and relationship signals without turning a draft,
+          metric, or memory into reusable truth too early.
+        </p>
+        <p class="lead">
+          The proposal adds governance around grant learning: every reusable lesson
+          must be source-backed, privacy-aware, reviewable, and approved by an owner.
+        </p>
+      </section>
+      <section>
+        <p class="eyebrow">Operating model</p>
+        <div class="flow">
+          <div class="step"><strong>Grant run:</strong> record the sequence of work and review gates.</div>
+          <div class="step"><strong>Evidence:</strong> attach source-backed outcomes and feedback.</div>
+          <div class="step"><strong>Learning signal:</strong> identify what might be reusable.</div>
+          <div class="step"><strong>Governance:</strong> check privacy, source strength, and contradiction path.</div>
+          <div class="step"><strong>Owner decision:</strong> approve, reject, retire, contradict, or keep private.</div>
+        </div>
+      </section>
+    </div>
+
+    <section>
+      <h2>What The System Answers</h2>
+      <div class="grid-3">
+        <div class="card">
+          <span class="tag">Run Trace</span>
+          <h3>What happened?</h3>
+          <p>GoldenQuill records the ordered history of a grant run, including discovery, review, drafting, scoring, signoff, delivery, and any blocked gates.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Evidence</span>
+          <h3>What proves it?</h3>
+          <p>Grant facts must come from source-backed evidence such as portal records, agency notices, award letters, decline letters, reports, or approved records.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Reuse</span>
+          <h3>What can be reused?</h3>
+          <p>Lessons become reusable only after privacy review and owner approval. Private feedback stays private unless safely generalized and approved.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Evidence Boundaries</h2>
+      <div class="rule">
+        <p><code>application status != outcome truth</code></p>
+        <p><code>review feedback != funding validation</code></p>
+        <p><code>award notification != post-award performance</code></p>
+        <p><code>proposal claim != source fact</code></p>
+        <p><code>dashboard KPI != promotion authority</code></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Grant Outcomes GoldenQuill Can Learn From</h2>
+      <div class="grid-2">
+        <div class="card"><h3>Submitted but not reviewed</h3><p>Useful for operational completion and portal success, but not for judging proposal quality.</p></div>
+        <div class="card"><h3>Declined after review</h3><p>Useful for private learning from reviewer feedback and strategy fit, with privacy controls.</p></div>
+        <div class="card"><h3>Awarded for less than requested</h3><p>Useful for budget framing, scope fit, and funder preference learning.</p></div>
+        <div class="card"><h3>Successful closeout</h3><p>Useful for stewardship, reporting quality, relationship strength, and repeat-support learning.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>KPI Families</h2>
+      <table>
+        <thead>
+          <tr><th>Family</th><th>What It Shows</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Lifecycle depth</td><td>How far opportunities progress before stopping or succeeding.</td></tr>
+          <tr><td>Outcome evidence</td><td>Wins, declines, pending status, partial awards, award realization, and repeat-funder behavior.</td></tr>
+          <tr><td>Quality and review movement</td><td>Compliance passes, rubric coverage, objection resolution, evidence gap movement, and revision improvement.</td></tr>
+          <tr><td>Strategy fit</td><td>Whether the team pursues the right opportunities and avoids low-fit work.</td></tr>
+          <tr><td>Effort and ROI</td><td>Time, cost, requested dollars, awarded dollars, and cycle time.</td></tr>
+          <tr><td>Capacity and relationship</td><td>Stakeholder engagement, collaborations, funder touchpoints, staff capability, and grant retention.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Client Decisions To Confirm</h2>
+      <ul>
+        <li>Who can approve lessons for reuse beyond the original client context?</li>
+        <li>Which feedback must always remain private?</li>
+        <li>Which source types count as acceptable grant evidence?</li>
+        <li>Which KPI families matter most for the first client-facing view?</li>
+        <li>When should lessons be reviewed: after submission, review, final decision, reporting, or closeout?</li>
+      </ul>
+    </section>
+
+    <p class="footer">Prepared 2026-06-01 for client review.</p>
+  </main>
+</body>
+</html>
