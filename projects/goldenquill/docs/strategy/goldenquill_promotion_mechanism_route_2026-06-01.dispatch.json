@@ -1,0 +1,466 @@
+{
+  "dispatch_id": "goldenquill-promotion-mechanism-research-invoke-refine-20260601",
+  "parent_dispatch_id": "goldenquill-ontology-dag-grant-research-20260601",
+  "intent": {
+    "raw": "Research the promotion mechanism inside out, then use invoke to design the promotion mechanism, then refine the initial design.",
+    "objective": "Create a governed route that researches GoldenQuill promotion mechanics, produces an invoke-owned initial design, and prepares a refine-owned strategy proposal before any runtime-backed refinement or promotion mutation.",
+    "target_artifact": "docs/strategy/goldenquill_promotion_mechanism_refine_seed_2026-06-01.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "invoke",
+      "refine",
+      "ontology-vault",
+      "inventory",
+      "decision-gate",
+      "memory_promotion_split",
+      "boundary_evidence"
+    ],
+    "operator_sentence": "Research promotion, design the promotion mechanism with Invoke, then refine the initial design."
+  },
+  "mode": "implementation-research",
+  "route_menu": {
+    "context_hint": "The request names a route, not a safe permission to execute runtime-backed refine stages. This dispatch materializes the sequence and stops at Refine strategy confirmation.",
+    "items": [
+      {
+        "id": "proposal-only-route",
+        "label": "Proposal-only research/design/refine seed",
+        "description": "Do local research, author an initial invoke-style design, write a refine strategy seed, and ask before runtime-backed stages.",
+        "capability_ref": "refine",
+        "pattern": "sequential"
+      },
+      {
+        "id": "full-refine-runtime",
+        "label": "Full refine runtime",
+        "description": "Run the canonical ten-stage refine loop with subagents and runtime-backed stages after explicit permission.",
+        "capability_ref": "refine",
+        "pattern": "validation"
+      }
+    ],
+    "selected_item_id": "proposal-only-route"
+  },
+  "techniques": [
+    "sequence",
+    "route_menu",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "memory_promotion_split",
+    "state_namespace_boundary",
+    "protected_context_flag",
+    "x_ray",
+    "toy_game",
+    "residue_ledger"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "promotion-boundary-map",
+      "trigger": "Promotion crosses evidence, ontology, inventory, card, org memory, and runtime validation owner boundaries.",
+      "techniques": [
+        "x_ray",
+        "owner_boundary_check",
+        "memory_promotion_split",
+        "state_namespace_boundary"
+      ],
+      "applies_to_steps": [
+        "research-promotion-mechanism",
+        "invoke-design-promotion-mechanism",
+        "prepare-refine-strategy"
+      ],
+      "validation_expectation": "Research and design must distinguish evidence capture, candidate state, owner decision, and promoted authority."
+    },
+    {
+      "overlay_id": "promotion-toy-falsification",
+      "trigger": "The proposed mechanism needs low-cost invalid examples before implementation.",
+      "techniques": [
+        "toy_game",
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "applies_to_steps": [
+        "invoke-design-promotion-mechanism",
+        "prepare-refine-strategy"
+      ],
+      "validation_expectation": "The design must name positive and negative fixture expectations."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Promotion mechanism research spans multiple owner surfaces and benefits from role-bound critique before implementation.",
+    "explanation": "Subagents can independently inspect Ontology Vault promotion rules, GoldenQuill memory/card authority, fixture design, and smallest-unit critique while the parent owns synthesis.",
+    "context": [
+      "Ontology Vault has candidate PromotionRecord validation rules.",
+      "Inventory has promotion_owner but remains a non-authority handoff surface.",
+      "GoldenQuill has MemoryEvidencePacket but no first-class promotion decision object.",
+      "Refine requires explicit permission before delegated or runtime-backed stages."
+    ],
+    "roles": [
+      {
+        "role_id": "promotion-governance-reader",
+        "purpose": "Inspect Ontology Vault and Inventory promotion boundaries.",
+        "owns": "governance and owner-boundary findings",
+        "applies_to_steps": [
+          "research-promotion-mechanism",
+          "prepare-refine-strategy"
+        ]
+      },
+      {
+        "role_id": "goldenquill-memory-reader",
+        "purpose": "Inspect GoldenQuill evidence packets, memory mesh, card authority, and org-scope constraints.",
+        "owns": "GoldenQuill memory and authority findings",
+        "applies_to_steps": [
+          "research-promotion-mechanism",
+          "invoke-design-promotion-mechanism"
+        ]
+      },
+      {
+        "role_id": "validator-designer",
+        "purpose": "Design positive and negative fixtures for the promotion mechanism.",
+        "owns": "toy validation receipt",
+        "applies_to_steps": [
+          "invoke-design-promotion-mechanism",
+          "prepare-refine-strategy"
+        ]
+      },
+      {
+        "role_id": "refinement-critic",
+        "purpose": "Challenge whether PromotionCandidate is the smallest coherent unit.",
+        "owns": "refinement critique receipt",
+        "applies_to_steps": [
+          "prepare-refine-strategy"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Run the promotion-mechanism refine strategy with the recommended subagents and runtime-backed stages?",
+    "receipt_requirements": [
+      "role_id",
+      "source_paths",
+      "owner_boundary_findings",
+      "fixture_or_state_machine_risks",
+      "blocked_questions",
+      "recommended_repairs"
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "research-promotion-mechanism",
+      "name": "Research promotion mechanism inside out",
+      "capability_ref": "context-builder",
+      "pattern": "xray",
+      "parallel": false,
+      "techniques": [
+        "x_ray",
+        "concrete_path_evidence",
+        "memory_promotion_split",
+        "state_namespace_boundary",
+        "protected_context_flag"
+      ],
+      "inputs": [
+        {
+          "kind": "external_context",
+          "ref": "user intent"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/strategy/goldenquill_ontology_dag_grant_research_synthesis_2026-06-01.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/strategy/development/memory-knowledge-mesh-plan/schema/memory_evidence_packet.schema.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "arcanum/arcana/ontology-vault/development/schema-validation-plan/GOVERNED-CANDIDATE-BUNDLE.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "arcanum/arcana/ontology-vault/development/schema-validation-plan/tests/validate_branch_schema.py"
+        },
+        {
+          "kind": "artifact",
+          "ref": "arcanum/arcana/inventory/SKILL.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "domainspec-lean-formalization/vault/ontology-conventions.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_promotion_mechanism_research_2026-06-01.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "promotion-mechanism-research-frame"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if evidence capture is treated as promotion.",
+        "Block if retrieval authority is treated as signed or canonical authority.",
+        "Flag unresolved owner boundaries."
+      ]
+    },
+    {
+      "step_id": "invoke-design-promotion-mechanism",
+      "name": "Invoke design the promotion mechanism",
+      "capability_ref": "invoke",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "frame_handoff",
+        "owner_boundary_check",
+        "validation_loop",
+        "toy_game",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "promotion-mechanism-research-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_promotion_mechanism_research_2026-06-01.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_promotion_mechanism_invoke_design_2026-06-01.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "promotion-mechanism-initial-design"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "docs/strategy/goldenquill_promotion_mechanism_invoke_design_2026-06-01.md",
+      "convergence_criteria": [
+        "Design names evidence packet, promotion candidate, promotion record, and ledger boundaries.",
+        "Design includes state machine and validation rules.",
+        "Design names positive and negative toy fixtures."
+      ],
+      "stop_conditions": [
+        "Block if Invoke output claims lifecycle completion or promotion authority.",
+        "Flag if the initial slice implies production mutation."
+      ]
+    },
+    {
+      "step_id": "prepare-refine-strategy",
+      "name": "Prepare refine strategy for the initial design",
+      "capability_ref": "refine",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "frame_handoff",
+        "handle_handoff",
+        "route_menu",
+        "approval_checkpoint",
+        "observability_grouping",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_promotion_mechanism_research_2026-06-01.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "promotion-mechanism-initial-design"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_promotion_mechanism_refine_seed_2026-06-01.md"
+        },
+        {
+          "kind": "handoff",
+          "ref": "promotion-mechanism-refine-run-strategy-proposal"
+        }
+      ],
+      "join_policy": "human_gate",
+      "convergence_criteria": [
+        "Refine strategy names overlays, subagent strategy, receipts, runtime plan, and deferred work.",
+        "Refine strategy stops before runtime-backed stages until user confirms."
+      ],
+      "stop_conditions": [
+        "Ask before running subagents.",
+        "Ask before runtime-backed refine stages.",
+        "Block any production promotion mutation."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G1-no-silent-promotion",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Route artifacts do not claim promotion authority for Inventory, Ontology, definitions, cards, org memory, skills, sigils, or spells.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2-owner-boundary",
+      "kind": "policy",
+      "owner": "target lifecycle owners",
+      "condition": "Every promoted target names its owner and required decision or validation gate.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3-refine-permission",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Runtime-backed refine stages and recommended subagents require explicit confirmation.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "G4-toy-validation-before-implementation",
+      "kind": "validation",
+      "owner": "experiment-harness or task-session",
+      "condition": "Implementation route requires positive and negative fixtures before production mutation.",
+      "on_fail": "defer"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "goldenquill-ontology-dag-grant-research-20260601",
+    "trace_events": [
+      "promotion-mechanism-research-completed",
+      "promotion-mechanism-invoke-design-authored",
+      "promotion-mechanism-refine-strategy-prepared",
+      "promotion-mechanism-runtime-permission-requested"
+    ],
+    "signal_grouping": "goldenquill-promotion-mechanism"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1-evidence-vs-promotion",
+        "kind": "artifact_import",
+        "from_owner": "GoldenQuill MemoryEvidencePacket",
+        "to_owner": "promotion owner",
+        "applies_to_steps": [
+          "research-promotion-mechanism",
+          "invoke-design-promotion-mechanism"
+        ],
+        "contract": "Evidence packets are source references; they do not decide promotion.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B2-inventory-non-authority",
+        "kind": "artifact_import",
+        "from_owner": "Inventory",
+        "to_owner": "Ontology Vault or GoldenQuill promotion owner",
+        "applies_to_steps": [
+          "research-promotion-mechanism",
+          "invoke-design-promotion-mechanism"
+        ],
+        "contract": "Inventory evidence-cards may hand off candidates with non-authority notices; downstream owners decide promotion.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B3-refine-runtime-permission",
+        "kind": "human_approval",
+        "from_owner": "Refine strategy proposal",
+        "to_owner": "runtime-backed refine execution",
+        "applies_to_steps": [
+          "prepare-refine-strategy"
+        ],
+        "contract": "Refine must ask before running subagents or runtime-backed stages.",
+        "on_violation": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "promotion_state",
+        "owner": "promotion mechanism",
+        "write_policy": "append-only transition records until a lifecycle owner writes the target artifact",
+        "states": [
+          "captured",
+          "candidate",
+          "reviewed",
+          "decision_pending",
+          "promoted",
+          "rejected",
+          "retired",
+          "contradicted"
+        ],
+        "applies_to_steps": [
+          "invoke-design-promotion-mechanism",
+          "prepare-refine-strategy"
+        ]
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "PromotionCandidate, MemoryEvidencePacket, review signal, or generated ledger entry",
+        "target": "PromotionRecord or owner-specific decision record",
+        "rule": "No candidate, evidence packet, review signal, or generated ledger entry is promoted authority by itself; the target lifecycle owner must issue the promotion decision.",
+        "on_violation": "block",
+        "applies_to_steps": [
+          "research-promotion-mechanism",
+          "invoke-design-promotion-mechanism",
+          "prepare-refine-strategy"
+        ]
+      }
+    ],
+    "receipts": [
+      {
+        "receipt_id": "R1-research",
+        "producer": "context-builder",
+        "required_fields": [
+          "artifacts",
+          "audit_reference",
+          "residue"
+        ],
+        "on_missing": "block",
+        "step_id": "research-promotion-mechanism",
+        "artifact": "docs/strategy/goldenquill_promotion_mechanism_research_2026-06-01.md",
+        "status": "proposal-only"
+      },
+      {
+        "receipt_id": "R2-invoke-design",
+        "producer": "invoke",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "residue"
+        ],
+        "on_missing": "block",
+        "step_id": "invoke-design-promotion-mechanism",
+        "artifact": "docs/strategy/goldenquill_promotion_mechanism_invoke_design_2026-06-01.md",
+        "status": "initial-design"
+      },
+      {
+        "receipt_id": "R3-refine-seed",
+        "producer": "refine",
+        "required_fields": [
+          "artifacts",
+          "approval_record",
+          "residue"
+        ],
+        "on_missing": "ask",
+        "step_id": "prepare-refine-strategy",
+        "artifact": "docs/strategy/goldenquill_promotion_mechanism_refine_seed_2026-06-01.md",
+        "status": "strategy-proposal"
+      }
+    ]
+  },
+  "stop_conditions": [
+    "Stop before runtime-backed refine execution until the operator confirms.",
+    "Stop before subagent execution until the operator confirms.",
+    "Block production promotion mutation in this route.",
+    "Block any artifact that treats evidence capture, retrieval, scoring, or review as promoted authority."
+  ],
+  "promotion_guardrail": {
+    "status": "pass",
+    "note": "This route creates proposal-only research, initial design, and refine seed artifacts. It does not promote Inventory, Ontology, definitions, cards, org memory, skills, sigils, or spells."
+  },
+  "next_route": "refine"
+}

@@ -1,0 +1,622 @@
+{
+  "dispatch_id": "goldenquill-promotion-governance-domainspec-spec-20260601",
+  "parent_dispatch_id": "goldenquill-promotion-mechanism-research-invoke-refine-20260601",
+  "intent": {
+    "raw": "Create a strategy using fanout to context-builder using all content created for this proposal, so we can create DomainSpec docs.",
+    "objective": "Prepare a governed, evidence-scoped fanout route that builds focused context packs from the GoldenQuill promotion governance proposal packet and hands them to DomainSpec spec writing.",
+    "target_artifact": "implementation/domainspec/docs/features/goldenquill-promotion-governance/SPEC.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "context-builder",
+      "domainspec-spec-writer",
+      "fanout",
+      "handoff",
+      "boundary_evidence"
+    ],
+    "operator_sentence": "Use Context Builder fanout over the GoldenQuill proposal packet, then write DomainSpec feature docs."
+  },
+  "mode": "mixed",
+  "route_menu": {
+    "context_hint": "The safe default is to build context packs and a discovery artifact before DomainSpec mutation. Immediate spec writing is allowed only with an explicit discovery waiver.",
+    "items": [
+      {
+        "id": "context-fanout-then-discovery",
+        "label": "Fanout then discovery",
+        "description": "Build focused context packs, persist a discovery artifact, then invoke DomainSpec spec writing.",
+        "capability_ref": "context-builder",
+        "pattern": "fanout"
+      },
+      {
+        "id": "context-fanout-then-waived-spec",
+        "label": "Fanout then waived spec",
+        "description": "Build context packs and pass a skip-discovery waiver to the spec writer.",
+        "capability_ref": "domainspec-spec-writer",
+        "pattern": "sequential"
+      }
+    ],
+    "selected_item_id": "context-fanout-then-discovery"
+  },
+  "techniques": [
+    {
+      "id": "selector_level_context_fanout",
+      "source": "local-extension",
+      "purpose": "Split the proposal packet into focused context-builder packs before spec writing.",
+      "validation_note": "Every pack must map selected evidence to explicit spec-writing obligations."
+    },
+    {
+      "id": "discovery_precondition_gate",
+      "source": "local-extension",
+      "purpose": "Honor the DomainSpec spec writer discovery precondition before creating feature docs.",
+      "validation_note": "Proceed only with persisted discovery or explicit skip-discovery waiver."
+    },
+    {
+      "id": "vocabulary_drift_guard",
+      "source": "local-extension",
+      "purpose": "Prevent external method vocabulary from entering active GoldenQuill implementation-facing docs.",
+      "validation_note": "Search the generated docs for blocked vocabulary before completion."
+    }
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "domain-spec-handoff-packs",
+      "trigger": "The target DomainSpec feature needs concept, architecture, operation, state, event, workflow, mapping, observability, test, and glossary context from separate proposal artifacts.",
+      "techniques": [
+        {
+          "id": "selector_level_context_fanout",
+          "source": "local-extension",
+          "validation_note": "Each context-builder lane returns a compact pack with obligation coverage."
+        }
+      ],
+      "applies_to_steps": [
+        "context-builder-fanout"
+      ],
+      "validation_expectation": "The parent synthesis can trace every required DomainSpec aspect to at least one selected evidence selector."
+    },
+    {
+      "overlay_id": "domain-spec-discovery-gate",
+      "trigger": "The DomainSpec spec writer requires discovery lookup before authoring or updating feature docs.",
+      "techniques": [
+        {
+          "id": "discovery_precondition_gate",
+          "source": "local-extension",
+          "validation_note": "Spec writing is blocked unless discovery exists or waiver is explicit."
+        }
+      ],
+      "applies_to_steps": [
+        "domain-spec-discovery-decision",
+        "domain-spec-writing-handoff"
+      ],
+      "validation_expectation": "The route records whether discovery was persisted or waived before spec writing."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The context-building step is a fanout across architecture, graph, metrics, decisions, template, and vocabulary evidence.",
+    "explanation": "Role-bound context lanes reduce noise and let the parent synthesis hand the spec writer a compact evidence pack instead of a broad document dump.",
+    "context": [
+      "The proposal packet includes architecture, KPI research, decision-gate output, interrogation records, vocabulary policy, and DomainSpec framework templates.",
+      "The DomainSpec spec writer has a discovery precondition and must read the framework changelog before authoring.",
+      "Generated docs must preserve GoldenQuill-native vocabulary and the Ontology Vault governance boundary."
+    ],
+    "roles": [
+      {
+        "role_id": "proposal-architecture-context",
+        "purpose": "Extract feature boundary, first slice, package shape, and architecture views.",
+        "owns": "CB-01 proposal and architecture context",
+        "applies_to_steps": [
+          "context-builder-fanout"
+        ]
+      },
+      {
+        "role_id": "execution-dag-context",
+        "purpose": "Extract minimum run nodes, edges, pass path, blocked path, and gate traversal rules.",
+        "owns": "CB-02 execution DAG context",
+        "applies_to_steps": [
+          "context-builder-fanout"
+        ]
+      },
+      {
+        "role_id": "kpi-evidence-context",
+        "purpose": "Extract outcome events, lifecycle stages, KPI families, denominator rules, and evidence-state discipline.",
+        "owns": "CB-03 KPI and evidence-state context",
+        "applies_to_steps": [
+          "context-builder-fanout"
+        ]
+      },
+      {
+        "role_id": "decision-governance-context",
+        "purpose": "Extract resolved decisions, unsafe next steps, and owner-boundary assumptions.",
+        "owns": "CB-04 governance decision context",
+        "applies_to_steps": [
+          "context-builder-fanout"
+        ]
+      },
+      {
+        "role_id": "domainspec-template-context",
+        "purpose": "Extract DomainSpec SPEC, architecture, changelog, discovery precondition, and spec-writer obligations.",
+        "owns": "CB-05 DomainSpec template context",
+        "applies_to_steps": [
+          "context-builder-fanout"
+        ]
+      },
+      {
+        "role_id": "vocabulary-context",
+        "purpose": "Extract allowed terms, replacement rules, and acceptance criteria for vocabulary cleanup.",
+        "owns": "CB-06 vocabulary context",
+        "applies_to_steps": [
+          "context-builder-fanout"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Run the Context Builder fanout lanes and then synthesize a DomainSpec spec-writer handoff?",
+    "receipt_requirements": [
+      "role_id",
+      "source_paths",
+      "selectors",
+      "obligation_coverage",
+      "blockers",
+      "recommended_spec_sections"
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "context-builder-fanout",
+      "name": "Build focused context packs from the proposal packet",
+      "capability_ref": "context-builder",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        {
+          "id": "selector_level_context_fanout",
+          "source": "local-extension",
+          "validation_note": "Every lane returns selectors, obligations, blockers, and recommended spec sections."
+        }
+      ],
+      "roles": [
+        "proposal-architecture-context",
+        "execution-dag-context",
+        "kpi-evidence-context",
+        "decision-governance-context",
+        "domainspec-template-context",
+        "vocabulary-context"
+      ],
+      "inputs": [
+        {
+          "kind": "external_context",
+          "ref": "user request for DomainSpec spec-writing strategy"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/strategy/goldenquill_promotion_governance_proposal_2026-06-01.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/strategy/goldenquill_promotion_governance_architecture_design_2026-06-01.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/decisions/goldenquill-promotion-mechanism-open-gaps.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/decisions/goldenquill-promotion-mechanism-interrogation.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/strategy/goldenquill_promotion_mechanism_refresh_report_2026-06-01.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/strategy/goldenquill_ontology_dag_grant_research_synthesis_2026-06-01.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/strategy/goldenquill_promotion_governance_vocabulary_revision_proposal_2026-06-01.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/CHANGELOG.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/templates/SPEC.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/templates/architecture.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/.codex/agents/domainspec-spec-writer.agent.toml"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "session-evidence/context-packs/goldenquill-promotion-governance/CB-01-proposal-architecture.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "session-evidence/context-packs/goldenquill-promotion-governance/CB-02-execution-dag.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "session-evidence/context-packs/goldenquill-promotion-governance/CB-03-kpi-evidence-state.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "session-evidence/context-packs/goldenquill-promotion-governance/CB-04-governance-decisions.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "session-evidence/context-packs/goldenquill-promotion-governance/CB-05-domainspec-template.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "session-evidence/context-packs/goldenquill-promotion-governance/CB-06-vocabulary.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "goldenquill-promotion-governance-context-frame"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "stop_conditions": [
+        "Block if any lane lacks selector-level evidence for its obligation.",
+        "Block if proposal context omits the execution DAG node and edge minimums.",
+        "Block if DomainSpec template context omits the discovery precondition."
+      ]
+    },
+    {
+      "step_id": "synthesize-domainspec-handoff",
+      "name": "Synthesize DomainSpec spec-writer handoff",
+      "capability_ref": "context-builder",
+      "pattern": "synthesis",
+      "parallel": false,
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "goldenquill-promotion-governance-context-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "goldenquill-promotion-governance-domainspec-spec-writer-handoff"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/discovery/goldenquill-promotion-governance.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if obligations are not covered or explicitly deferred.",
+        "Block if the handoff fails to name target aspect docs.",
+        "Flag if discovery persistence is skipped and no waiver reason is present."
+      ]
+    },
+    {
+      "step_id": "domain-spec-discovery-decision",
+      "name": "Confirm discovery path before spec writing",
+      "capability_ref": "decision-gate",
+      "pattern": "decision",
+      "parallel": false,
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "goldenquill-promotion-governance-domainspec-spec-writer-handoff"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "discovery-persisted-or-waived"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if no discovery artifact exists and no explicit skip-discovery waiver is approved."
+      ]
+    },
+    {
+      "step_id": "domain-spec-writing-handoff",
+      "name": "Write DomainSpec feature docs from the handoff",
+      "capability_ref": "domainspec-spec-writer",
+      "pattern": "handoff",
+      "parallel": false,
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "goldenquill-promotion-governance-domainspec-spec-writer-handoff"
+        },
+        {
+          "kind": "decision",
+          "ref": "discovery-persisted-or-waived"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/SPEC.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/architecture.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/domain.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/operations.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/states.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/events.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/workflows.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/mappings.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/observability.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/glossary.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/TEST-SPEC.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if concept IDs are not namespaced as goldenquill-promotion-governance.*.",
+        "Block if architecture.md does not include the six DomainSpec views.",
+        "Block if spec docs turn KPI observations into promotion authority."
+      ]
+    },
+    {
+      "step_id": "verify-domainspec-output",
+      "name": "Verify generated DomainSpec docs",
+      "capability_ref": "domainspec-spec-writer",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        {
+          "id": "vocabulary_drift_guard",
+          "source": "local-extension",
+          "validation_note": "Search generated implementation-facing docs for blocked vocabulary and flag any drift."
+        }
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/SPEC.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/features/goldenquill-promotion-governance/architecture.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "trace_event",
+          "ref": "goldenquill-promotion-governance-domainspec-verification"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "implementation/domainspec/docs/features/goldenquill-promotion-governance/VERIFICATION.md",
+      "stop_conditions": [
+        "Block if mandatory nodes or edges are missing from docs.",
+        "Block if blocked vocabulary appears in implementation-facing docs.",
+        "Block if discovery status is absent from SPEC.md frontmatter when discovery is waived."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G1-context-coverage",
+      "kind": "quality",
+      "owner": "context-builder",
+      "condition": "Every context-builder lane maps selected evidence to explicit DomainSpec spec-writing obligations.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2-discovery-precondition",
+      "kind": "policy",
+      "owner": "domainspec-spec-writer",
+      "condition": "A discovery artifact exists for the feature, or skip_discovery is approved with a one-line waiver reason.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "G3-execution-dag-completeness",
+      "kind": "validation",
+      "owner": "domainspec-spec-writer",
+      "condition": "Generated docs include the minimum grant-run nodes and edges and explain gate traversal.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G4-promotion-authority-boundary",
+      "kind": "promotion_guardrail",
+      "owner": "Ontology Vault governance layer",
+      "condition": "Evidence packets and KPI observations can create candidates only; owner decisions hold approved allowed uses.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G5-vocabulary-policy",
+      "kind": "quality",
+      "owner": "GoldenQuill proposal owner",
+      "condition": "Implementation-facing docs use GoldenQuill-native vocabulary.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "G6-human-approval-to-mutate-docs",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Operator approves moving from proposal-only strategy to DomainSpec doc creation.",
+      "on_fail": "defer"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "goldenquill-promotion-mechanism-research-invoke-refine-20260601",
+    "trace_events": [
+      "dispatch.strategy.created",
+      "context_builder.fanout.started",
+      "context_builder.fanout.joined",
+      "domainspec.discovery_gate.result",
+      "domainspec.spec_writer.handoff.created",
+      "domainspec.spec_writer.docs.created",
+      "domainspec.spec_writer.verification.completed"
+    ],
+    "signal_grouping": "goldenquill-promotion-governance-domainspec-spec"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1-proposal-to-context-pack",
+        "kind": "artifact_import",
+        "from_owner": "GoldenQuill proposal packet",
+        "to_owner": "context-builder",
+        "applies_to_steps": [
+          "context-builder-fanout"
+        ],
+        "contract": "Import only selector-level evidence mapped to obligations; do not bulk-copy proposal documents.",
+        "on_violation": "flag"
+      },
+      {
+        "boundary_id": "B2-context-pack-to-domainspec",
+        "kind": "capability_handoff",
+        "from_owner": "context-builder",
+        "to_owner": "domainspec-spec-writer",
+        "applies_to_steps": [
+          "synthesize-domainspec-handoff",
+          "domain-spec-writing-handoff"
+        ],
+        "contract": "Handoff must include covered obligations, selected sources, constraints, write scope, done criteria, and blockers.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B3-discovery-or-waiver",
+        "kind": "human_approval",
+        "from_owner": "operator",
+        "to_owner": "domainspec-spec-writer",
+        "applies_to_steps": [
+          "domain-spec-discovery-decision"
+        ],
+        "contract": "Spec writing proceeds only after persisted discovery or explicit skip-discovery waiver.",
+        "on_violation": "ask"
+      },
+      {
+        "boundary_id": "B4-no-runtime-promotion",
+        "kind": "state_write",
+        "from_owner": "domainspec-spec-writer",
+        "to_owner": "GoldenQuill runtime and Ontology Vault",
+        "applies_to_steps": [
+          "domain-spec-writing-handoff",
+          "verify-domainspec-output"
+        ],
+        "contract": "DomainSpec docs may specify behavior but must not mutate runtime data, org memory, signed cards, or Ontology Vault canonical artifacts.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "DomainSpec feature docs own specification shape only.",
+      "execution": "Context Builder owns evidence pack generation; DomainSpec spec writer owns docs generation after approval.",
+      "validation": "Dispatch validator checks route shape; DomainSpec verification checks generated docs.",
+      "evidence": "GoldenQuill proposal packet and DomainSpec templates remain source evidence.",
+      "memory": "No memory promotion occurs in this route.",
+      "promotion": "Ontology Vault governance layer owns promotion authority; this route only specifies it."
+    },
+    "receipts": [
+      {
+        "receipt_id": "R1-context-fanout-receipt",
+        "producer": "context-builder",
+        "required_fields": [
+          "artifacts",
+          "audit_reference",
+          "residue"
+        ],
+        "stores": [
+          "session-evidence/context-packs/goldenquill-promotion-governance/"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "R2-discovery-decision-receipt",
+        "producer": "decision-gate",
+        "required_fields": [
+          "approval_record",
+          "audit_reference"
+        ],
+        "stores": [
+          "implementation/domainspec/docs/features/goldenquill-promotion-governance/discovery/goldenquill-promotion-governance.md"
+        ],
+        "on_missing": "ask"
+      },
+      {
+        "receipt_id": "R3-domainspec-verification-receipt",
+        "producer": "domainspec-spec-writer",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "residue"
+        ],
+        "stores": [
+          "implementation/domainspec/docs/features/goldenquill-promotion-governance/VERIFICATION.md"
+        ],
+        "on_missing": "flag"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "implementation/domainspec/docs/features/goldenquill-promotion-governance",
+        "owner": "domainspec-spec-writer",
+        "write_policy": "Write only after discovery exists or waiver is approved."
+      },
+      {
+        "namespace": "projects/goldenquill/docs/strategy",
+        "owner": "GoldenQuill strategy artifacts",
+        "write_policy": "Proposal-only strategy artifacts may be added or revised; do not treat them as runtime mutations."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "GoldenQuill proposal evidence",
+        "target": "DomainSpec feature docs",
+        "rule": "Proposal evidence can specify docs but cannot promote runtime memory or Ontology Vault artifacts.",
+        "on_violation": "block"
+      },
+      {
+        "source": "KPI observations",
+        "target": "Promotion authority",
+        "rule": "KPIs may create candidates after validation but cannot promote directly.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "No production org memory mutation.",
+    "No signed-card mutation.",
+    "No canonical Ontology Vault mutation.",
+    "No automatic promotion from KPI thresholds.",
+    "No workspace-safe reuse from org-scoped feedback without redaction/generalization and owner approval.",
+    "DomainSpec docs must preserve the execution DAG minimum nodes and edges."
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": "invoke.refresh-report.v0",
+  "observed_capability": "invoke",
+  "invoke_mode": "refresh",
+  "mutation_mode": "proposal-only",
+  "created_utc": "2026-06-01T00:00:00Z",
+  "target_artifacts": [
+    "projects/goldenquill/docs/strategy/goldenquill_promotion_mechanism_research_2026-06-01.md",
+    "projects/goldenquill/docs/strategy/goldenquill_promotion_mechanism_invoke_design_2026-06-01.md",
+    "projects/goldenquill/docs/strategy/goldenquill_promotion_mechanism_refine_seed_2026-06-01.md",
+    "projects/goldenquill/docs/strategy/goldenquill_ontology_dag_grant_research_synthesis_2026-06-01.md",
+    "projects/goldenquill/docs/strategy/goldenquill_ontology_dag_toy_validation_2026-06-01.md"
+  ],
+  "source_signals": [
+    {
+      "id": "S1",
+      "type": "external_research",
+      "source": "https://www.grants.gov/learn-grants/grants-101/the-grant-lifecycle",
+      "delta": "Add lifecycle-depth tracking."
+    },
+    {
+      "id": "S2",
+      "type": "external_research",
+      "source": "https://www.grants.gov/help/applicants/check-application-status",
+      "delta": "Split portal status from agency status."
+    },
+    {
+      "id": "S3",
+      "type": "external_research",
+      "source": "https://grants.nih.gov/news-events/nih-extramural-nexus-news/2026/03/fiscal-year-2025-by-the-numbers-extramural-grant-investments-in-research",
+      "delta": "Add benchmark-denominator context for success rates."
+    },
+    {
+      "id": "S4",
+      "type": "external_research",
+      "source": "https://www.nsf.gov/eng/funding-rates",
+      "delta": "Store funding-rate denominator semantics."
+    },
+    {
+      "id": "S5",
+      "type": "external_research",
+      "source": "https://help.instrumentl.com/en/articles/10543572-grant-performance-dashboard",
+      "delta": "Add dashboard KPI starter set."
+    },
+    {
+      "id": "S6",
+      "type": "external_research",
+      "source": "https://cdn.ymaws.com/grantprofessionals.org/resource/resmgr/publications/strategy_papers/strategy_papers_volume_6.2.pdf",
+      "delta": "Add relationship, stewardship, collaboration, and capacity metrics."
+    },
+    {
+      "id": "S7",
+      "type": "local_research",
+      "source": "domainspec-lean-formalization/vault/ontology-conventions.md",
+      "delta": "Separate lifecycle status, closure, and verification state."
+    }
+  ],
+  "deltas": [
+    {
+      "id": "D1",
+      "class": "additive",
+      "summary": "Add real-world outcome evidence and KPI families to promotion mechanism research."
+    },
+    {
+      "id": "D2",
+      "class": "additive",
+      "summary": "Add GrantOutcomeEvent, ApplicationLifecycleState, and GrantKpiObservation to invoke design."
+    },
+    {
+      "id": "D3",
+      "class": "additive",
+      "summary": "Add metrics-focused refinement questions and validation risks to refine seed."
+    },
+    {
+      "id": "D4",
+      "class": "additive",
+      "summary": "Add outcome-event and metric-observation nodes to ontology DAG synthesis."
+    },
+    {
+      "id": "D5",
+      "class": "additive",
+      "summary": "Add KPI and lifecycle fixtures to toy validation plan."
+    }
+  ],
+  "next_route": "refine",
+  "promotion_guardrail": "No artifact is promoted by this refresh; all changes remain proposal-only until owner approval."
+}
