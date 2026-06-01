@@ -1,0 +1,580 @@
+{
+  "dispatch_id": "goldenquill-memory-knowledge-refine-20260531",
+  "parent_dispatch_id": "goldenquill-repository-research-20260529",
+  "intent": {
+    "raw": "Run refine full research about memory and knowledge handling in the GoldenQuill repository, then invoke a design that works well with Arcanum.",
+    "objective": "Map the repository's memory and knowledge handling surfaces, refine a production layer concept, and author an Arcanum-compatible invoke design without implementing changes.",
+    "target_artifact": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/RESULT.md",
+    "arcanum_vocabulary": [
+      "refine",
+      "invoke",
+      "memory_loop",
+      "inventory",
+      "ontology",
+      "evidence-card",
+      "owner-boundary",
+      "promotion-gate",
+      "task-session"
+    ],
+    "operator_sentence": "Research the memory/knowledge layer, refine what should be built, and produce an Arcanum-compatible design."
+  },
+  "mode": "implementation-research",
+  "route_menu": {
+    "context_hint": "The chosen route is design-first because the repository already contains several memory and knowledge surfaces that need coordination before implementation.",
+    "items": [
+      {
+        "id": "mesh-over-existing-surfaces",
+        "label": "Memory/Knowledge Mesh",
+        "description": "Map existing retrieval, lessons, cards, knowledge packs, vault, substrate, and Reflection Packet surfaces into one governed layer.",
+        "capability_ref": "refine",
+        "pattern": "sequential"
+      },
+      {
+        "id": "reflection-first",
+        "label": "Reflection Packet first",
+        "description": "Start by activating cross-cycle learning before authority and promotion rules are unified.",
+        "capability_ref": "task-session",
+        "pattern": "implementation"
+      },
+      {
+        "id": "vector-first",
+        "label": "Vector retrieval first",
+        "description": "Add dense/vector retrieval before clarifying authority, scope, and promotion.",
+        "capability_ref": "task-session",
+        "pattern": "implementation"
+      }
+    ],
+    "selected_item_id": "mesh-over-existing-surfaces"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "conditional_component",
+    "x_ray",
+    "memory_loop",
+    "residue_ledger",
+    "data_quality_completeness",
+    "data_quality_deduplication"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "Local repository evidence and live CLI checks were sufficient for this synthesis.",
+    "explanation": "No delegated subagents were needed because the task is a bounded design/refine pass over already discovered repository surfaces.",
+    "context": [
+      "Existing GoldenQuill research package provided repository orientation.",
+      "Live memory CLI checks supplied current behavior.",
+      "Prior Codex memory supplied Arcanum Inventory/Ontology boundary reminders."
+    ],
+    "roles": [],
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "permission_prompt": "",
+    "receipt_requirements": []
+  },
+  "steps": [
+    {
+      "step_id": "context-builder-baseline",
+      "name": "Build memory and knowledge evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "xray",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "x_ray",
+        "frame_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "MEMORY.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "pipeline/memory/unified_query.py"
+        },
+        {
+          "kind": "artifact",
+          "ref": "pipeline/cards/README.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/01-context-baseline.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "memory-knowledge-context-frame"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if local memory or retrieval evidence cannot be read.",
+        "Block if an org context is required without a named org."
+      ]
+    },
+    {
+      "step_id": "invoke-define",
+      "name": "Define the Memory/Knowledge Mesh",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "minimum_component_catalog",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "memory-knowledge-context-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/02-invoke-define.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Flag if definition creates a new owner that duplicates Vault, Inventory, Ontology, or Logician."
+      ]
+    },
+    {
+      "step_id": "interrogation-refine-review",
+      "name": "Critique definition and research gaps",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/02-invoke-define.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/03-refine-review.md"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/03-refine-review.md",
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if review identifies a missing source required for design."
+      ]
+    },
+    {
+      "step_id": "research-decision",
+      "name": "Record local-first research decision",
+      "capability_ref": "refine",
+      "mode": "bounded-research",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "memory_loop",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/03-refine-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/04-research-decision.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block external research unless explicitly authorized."
+      ]
+    },
+    {
+      "step_id": "distill-coherent-unit",
+      "name": "Distill smallest coherent unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": [
+        "pareto_gate",
+        "recomposition_proof"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/04-research-decision.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/05-distill.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Flag if the selected unit cannot recompose with existing retrieval and governance surfaces."
+      ]
+    },
+    {
+      "step_id": "invoke-design",
+      "name": "Design Arcanum-compatible Memory/Knowledge Mesh",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "owner_boundary_check",
+        "handle_handoff",
+        "conditional_component"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/05-distill.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_memory_knowledge_research_synthesis_2026-05-31.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_memory_knowledge_invoke_design_2026-05-31.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/06-invoke-design-input.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if design omits any of the six required Invoke design views."
+      ]
+    },
+    {
+      "step_id": "interrogation-design-review",
+      "name": "Review design boundary safety",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_memory_knowledge_invoke_design_2026-05-31.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/07-design-review.md"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/07-design-review.md",
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if Inventory, Ontology, Vault, Logician, or Invoke ownership is conflated."
+      ]
+    },
+    {
+      "step_id": "distill-repair",
+      "name": "Repair design scope and boundaries",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": [
+        "data_quality_deduplication",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/07-design-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/08-distill-repair.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Flag if design requires implementing before planning."
+      ]
+    },
+    {
+      "step_id": "invoke-plan-seed",
+      "name": "Create non-executed implementation layering seed",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "conditional_component",
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/08-distill-repair.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/09-invoke-plan.md"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/09-invoke-plan.md",
+      "join_policy": "none",
+      "stop_conditions": [
+        "Do not create work-pack execution tasks unless plan mode is explicitly requested next."
+      ]
+    },
+    {
+      "step_id": "final-synthesis",
+      "name": "Final interrogation and Refine synthesis",
+      "capability_ref": "refine",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "residue_ledger",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/stages/09-invoke-plan.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_memory_knowledge_invoke_design_2026-05-31.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/RESULT.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block final pass if required stage has neither artifact nor blocked reason."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "law-3-org-isolation",
+      "kind": "policy",
+      "owner": "logician",
+      "condition": "No org PROJECT_CONTEXT.md or per-org vault register may be read without exactly one named org.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "command-resolution-recorded",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "Required command surfaces are resolved or blocked before runtime claims are made.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "owner-boundary-preserved",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "Design does not transfer authority from Vault, Logician, Inventory, Ontology, Invoke, or Task Session to the wrong owner.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "six-view-design",
+      "kind": "validation",
+      "owner": "invoke",
+      "condition": "Invoke design includes context, high-level structure, low-level components, workflow process, decision flow, and dependency interface views.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "promotion-split",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Research/design artifacts may propose memory/knowledge improvements but cannot promote canonical memory, cards, ontology, or production defaults.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "goldenquill-repository-research-20260529",
+    "trace_events": [
+      "memory-knowledge-context-baseline-created",
+      "memory-knowledge-define-created",
+      "memory-knowledge-research-decision-recorded",
+      "memory-knowledge-distill-created",
+      "memory-knowledge-invoke-design-created",
+      "memory-knowledge-plan-seed-created",
+      "memory-knowledge-final-synthesis-created",
+      "memory-knowledge-dispatch-validated"
+    ],
+    "signal_grouping": "goldenquill-memory-knowledge"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "org-context-boundary",
+        "kind": "external_context",
+        "from_owner": "workspace",
+        "to_owner": "memory-knowledge-run",
+        "applies_to_steps": [
+          "context-builder-baseline",
+          "research-decision"
+        ],
+        "contract": "No org context or per-org register is read without exactly one named org.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "arcanum-owner-boundary",
+        "kind": "capability_handoff",
+        "from_owner": "goldenquill-memory-knowledge-design",
+        "to_owner": "arcanum-inventory-ontology",
+        "applies_to_steps": [
+          "invoke-design",
+          "distill-repair"
+        ],
+        "contract": "Inventory packages evidence; Ontology governs meaning; neither becomes GoldenQuill production authority by design artifact alone.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "runtime-claim-boundary",
+        "kind": "evidence_return",
+        "from_owner": "command-resolution",
+        "to_owner": "refine-run",
+        "applies_to_steps": [
+          "context-builder-baseline",
+          "invoke-define",
+          "invoke-design",
+          "invoke-plan-seed"
+        ],
+        "contract": "Command resolution proves surface availability only, not nested model-backed execution.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "design-write-boundary",
+        "kind": "state_write",
+        "from_owner": "refine-run",
+        "to_owner": "repository",
+        "applies_to_steps": [
+          "context-builder-baseline",
+          "invoke-design",
+          "final-synthesis"
+        ],
+        "contract": "This run writes only docs/strategy design/refine artifacts and does not mutate production code or canonical memory.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine plus invoke design",
+      "execution": "local artifact materialization",
+      "validation": "dispatch-spec validator and local CLI checks",
+      "evidence": "repository paths plus live CLI outputs",
+      "promotion": "operator, Logician, Vault, or owning Arcanum capability"
+    },
+    "receipts": [
+      {
+        "receipt_id": "memory-query-list-registers",
+        "producer": "tilth_memory_query",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "residue"
+        ],
+        "stores": [
+          "docs/strategy/development/refinement-runs/2026-05-31-memory-knowledge/evidence-index.json"
+        ],
+        "on_missing": "flag"
+      },
+      {
+        "receipt_id": "invoke-design-artifact",
+        "producer": "invoke-design",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "residue"
+        ],
+        "stores": [
+          "docs/strategy/goldenquill_memory_knowledge_invoke_design_2026-05-31.md"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "docs-strategy",
+        "owner": "parent-agent",
+        "write_policy": "May write refinement and design artifacts only."
+      },
+      {
+        "namespace": "canonical-memory",
+        "owner": "operator and memory owners",
+        "write_policy": "No writes in this design run."
+      },
+      {
+        "namespace": "org-client-data",
+        "owner": "operator/client org",
+        "write_policy": "No reads or writes without exactly one named org."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "retrieval result",
+        "target": "canonical memory or knowledge",
+        "rule": "Requires authority classification and owning route approval.",
+        "on_violation": "block"
+      },
+      {
+        "source": "Arcanum Inventory evidence packet",
+        "target": "GoldenQuill production authority",
+        "rule": "Inventory handoff remains evidence unless Logician/operator/owning artifact promotes it.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Do not treat retrieved snippets as canonical without authority classification.",
+    "Do not treat Arcanum Inventory evidence as GoldenQuill production authority.",
+    "Do not activate Reflection Packet or mutate memory as part of this design run.",
+    "Do not read per-org memory without a named org."
+  ]
+}

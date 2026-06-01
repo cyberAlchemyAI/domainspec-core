@@ -1,0 +1,1686 @@
+# Card — TILTH-CIC-04 Arts & Culture
+# Wave 2 research draft 2026-05-15. Phase 3 output per blueprint §18.11.
+# Content populated per §18.9 starter requirements for TILTH-CIC-04.
+# Operator review + cross-family Thesis dispatch + Ed25519 signature PENDING.
+# SIGNED — runtime-loadable; lifecycle truth enforced by loader preflight.
+#
+# Coupling discipline (architecture v7.0.11 §6.1 + §4 v2.x F-CARDS-COUPLING-
+# VIOLATION-EXTENSION): NO common_clc_patterns_observed, eligible_clc_subset,
+# clc_allowlist, clc_denylist, preferred_clcs, clc_win_rate, or
+# clc_ranking_preferences field. CIC × CLC matching is opportunity-driven at
+# runtime (Scout / Logician identify CLC per opportunity; CIC determines seat
+# configuration only). NEVER reintroduce. common_funders_observed below is
+# funder-side observational metadata only — NOT a CIC × CLC binding.
+#
+# Wave 2 operator-pinned operating posture applied:
+#   - Directory: UPPERCASE pipeline/cards/CIC/ (canonical).
+#   - Schema: as-on-disk; review_status / frequency_observed enum
+#     {FREQUENT, OCCASIONAL, RARE, UNKNOWN} / dialect_routing_table item
+#     shape {funder_political_axis, dialect, example_funder} / provenance_
+#     requirements keys = KFR fact_class names with required_citation_type +
+#     verbatim_quote_required.
+#   - All admin_risk_term_register entries: approval_required: true.
+#   - Win-rate / frequency: qualitative-only (FREQUENT/OCCASIONAL/RARE/
+#     UNKNOWN; HIGH/MEDIUM/LOW). No numeric rates.
+#   - Verbatim quotes ≤2 sentences each with URL + access_date citation.
+#
+# Severity tier mapping for admin_risk_term_register (consistent with Wave 1
+# food_systems.yaml + pipeline/institutional_memory/admin_risk_register.yaml
+# v2.2 EO-context tiers):
+#   HIGH    ≈ admin_risk_register RED  (documented federal enforcement action)
+#   MEDIUM  ≈ admin_risk_register YELLOW (cautioned / leaked-list / scrutiny)
+#   LOW     ≈ admin_risk_register GREEN (precautionary)
+#
+# Arts & Culture nickname: "Merit-plus-sustainability funding world" — a
+# distinct register from research-grant evidence rigor. Merit reviewers want
+# work samples + artistic vision; sustainability reviewers want audience
+# math + revenue diversification + post-grant continuation. Voice preservation
+# (artist's own register) lives in tension with funder-legibility (rubric-
+# scorable language). Scribe must hold both without flattening either.
+
+schema_version: "1.0-cic"
+card_axis: "CIC"
+card_id: "TILTH-CIC-04"
+slug: "arts_culture"
+display_name: "Arts & Culture"
+coverage_axis: "Culture"
+nickname: "Merit-plus-sustainability funding world"
+tilth_cic_id: "TILTH-CIC-04"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Search vocabulary — Scout consumption per §18.8
+# ─────────────────────────────────────────────────────────────────────────────
+search_vocabulary:
+  core_terms:
+    - term: "artist"
+      source_citation: "NEA Grants for Arts Projects program page; National Endowment for the Humanities NEH applicant categories"
+    - term: "arts organization"
+      source_citation: "NEA eligibility — 501(c)(3) nonprofits, units of state/local government, federally recognized tribal communities"
+    - term: "cultural organization"
+      source_citation: "NEH Public Programs + Public Humanities Projects program scope"
+    - term: "humanities"
+      source_citation: "NEH program-area framing — history, literature, philosophy, comparative religion, ethics, archaeology, jurisprudence, languages, linguistics"
+    - term: "performing arts"
+      source_citation: "NEA Grants for Arts Projects discipline roster — Theater, Musical Theater, Opera, Dance, Music"
+    - term: "visual arts"
+      source_citation: "NEA Grants for Arts Projects discipline roster — Visual Arts, Design, Media Arts (film/television/digital), Crafts"
+    - term: "literary arts"
+      source_citation: "NEA Grants for Arts Projects + Creative Writing Fellowships — discipline category"
+    - term: "folk and traditional arts"
+      source_citation: "NEA Folk & Traditional Arts program — community-rooted living traditions"
+    - term: "media arts"
+      source_citation: "NEA Media Arts discipline — film, television, audio, digital, immersive media"
+    - term: "interdisciplinary arts"
+      source_citation: "NEA Grants for Arts Projects — Artist Communities + Local Arts Agencies + Presenting & Multidisciplinary Works"
+    - term: "public art"
+      source_citation: "NEA Our Town program — public-art component of creative placemaking"
+    - term: "creative placemaking"
+      source_citation: "NEA Our Town program page — official agency framing of creative-placemaking practice"
+    - term: "placekeeping"
+      source_citation: "Foundation funder usage (NDN Collective; First Peoples Fund; Mellon community-rooted practice grants) — counter-frame to placemaking centering existing communities"
+    - term: "cultural heritage"
+      source_citation: "NEH Sustaining Cultural Heritage Collections program; IMLS Native Arts and Humanities program"
+    - term: "preservation"
+      source_citation: "NEH Preservation & Access program division — books, manuscripts, archives, audio, photographs, archaeological/material objects"
+    - term: "community arts"
+      source_citation: "NEA Local Arts Agencies category; state arts council community-arts grant lines"
+    - term: "audience engagement"
+      source_citation: "NEA Grants for Arts Projects narrative criterion; Wallace Foundation audience-building research framing"
+    - term: "festival"
+      source_citation: "NEA Grants for Arts Projects + Folk & Traditional Arts; state arts council festival grant lines"
+    - term: "exhibition"
+      source_citation: "IMLS Museums for America Lifelong Learning + Collections Stewardship; NEA Visual Arts presenting framing"
+    - term: "accessibility"
+      source_citation: "NEA Office of Accessibility + Section 504 + ADA Title II/III mandate language"
+    - term: "fiscal sponsorship"
+      source_citation: "Common arts-funding pattern — individual artists or unincorporated collectives receive grants via 501(c)(3) fiscal sponsor (e.g., NYFA, Fractured Atlas, The Field)"
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.1) ──
+    - term: "state arts council"
+      source_citation: "National Assembly of State Arts Agencies (NASAA) directory — 50 states + 6 territories + DC NEA partnership agencies; omnibus core term covering all state arts agency program lines"
+    - term: "state humanities council"
+      source_citation: "Federation of State Humanities Councils directory — NEH partnership agencies in every state + territory; omnibus core term for state humanities-council program coverage"
+    - term: "Native American Languages Act"
+      source_citation: "25 U.S.C. §§2901–2906 (Pub. L. 101-477) — statutory anchor for Indigenous-language artistic practice / cultural-heritage / preservation funding; cross-CIC consistency with educator card"
+    - term: "creative aging"
+      source_citation: "NEA + AARP Foundation arts-and-aging portfolio framing; state arts councils with creative-aging program lines"
+    - term: "arts and aging"
+      source_citation: "AARP Foundation + state-arts-council creative-aging portfolio synonym"
+    - term: "arts and health"
+      source_citation: "Arts-in-health practitioner field — NEA Creative Forces lineage extends to broader university-based arts-medicine programs + hospital artist-in-residence + music-therapy clinical pathways"
+    - term: "arts in medicine"
+      source_citation: "University-based arts-medicine programs (UF Center for Arts in Medicine; Cleveland Clinic Arts and Medicine Institute); music-therapy + art-therapy clinical pathways"
+    - term: "accessibility coordinator"
+      source_citation: "Section 504 of the Rehabilitation Act — required designation for federal-grant recipients with 15+ employees; NEA Office of Accessibility framework"
+    - term: "cultural accessibility plan"
+      source_citation: "NEA Office of Accessibility framework + ADA Title II/III + Section 504 — required-by-law accessibility planning for federal arts grant recipients"
+
+  synonym_map:
+    artist:
+      - "individual artist"
+      - "teaching artist"
+      - "tradition bearer"
+      - "culture bearer"
+      - "creative practitioner"
+      - "maker"
+    arts_organization:
+      - "501(c)(3) arts nonprofit"
+      - "cultural nonprofit"
+      - "performing arts company"
+      - "presenting organization"
+      - "arts service organization"
+    public_art:
+      - "civic art"
+      - "site-specific work"
+      - "community-engaged public art"
+      - "permanent public art"
+      - "temporary public art"
+    creative_placemaking:
+      - "place-based arts"
+      - "arts-based community development"
+      - "cultural district"
+      - "creative economy"
+    cultural_heritage:
+      - "heritage preservation"
+      - "intangible cultural heritage"
+      - "tradition bearers"
+      - "folklife"
+      - "living cultural practice"
+    folk_and_traditional_arts:
+      - "folklife"
+      - "traditional arts"
+      - "community-rooted practice"
+      - "vernacular arts"
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.1) ──
+    state_arts_council:
+      - "Pennsylvania Council on the Arts"
+      - "PCA"
+      - "NASAA-listed state arts agency"
+      - "state cultural commission"
+      - "state arts agency"
+    accessibility:
+      - "ADA Title II/III"
+      - "Section 504"
+      - "cultural accessibility"
+      - "inclusive design"
+      - "audio description"
+      - "large print"
+      - "ASL interpretation"
+      - "open captioning"
+
+  funder_program_keywords:
+    - keyword: "Grants for Arts Projects"
+      funder: "National Endowment for the Arts (NEA)"
+      source_citation: "NEA program page — primary project-grant line, 16 disciplines"
+    - keyword: "Challenge America"
+      funder: "National Endowment for the Arts (NEA)"
+      source_citation: "NEA program page — flat $10,000 grants for first-time + underserved-community applicants"
+    - keyword: "Our Town"
+      funder: "National Endowment for the Arts (NEA)"
+      source_citation: "NEA program page — creative-placemaking grants requiring nonprofit + local-government partnership"
+    - keyword: "Folk & Traditional Arts"
+      funder: "National Endowment for the Arts (NEA)"
+      source_citation: "NEA program page — community-based traditional-arts work + apprenticeships"
+    - keyword: "Art Works"
+      funder: "National Endowment for the Arts (NEA)"
+      source_citation: "Historical NEA project-grant line; merged into Grants for Arts Projects in current cycle (verify per active RFA)"
+    - keyword: "Creative Forces"
+      funder: "National Endowment for the Arts (NEA) + DoD partnership"
+      source_citation: "NEA Creative Forces — military / veteran clinical creative-arts therapies"
+    - keyword: "Public Programs"
+      funder: "National Endowment for the Humanities (NEH)"
+      source_citation: "NEH Division of Public Programs — exhibitions, films, digital projects, public history"
+    - keyword: "Preservation & Access"
+      funder: "National Endowment for the Humanities (NEH)"
+      source_citation: "NEH Division of Preservation & Access — collections preservation, cataloging, access infrastructure"
+    - keyword: "Sustaining Cultural Heritage Collections"
+      funder: "National Endowment for the Humanities (NEH)"
+      source_citation: "NEH SCHC program page — environmental management for collections"
+    - keyword: "Public Humanities Projects"
+      funder: "National Endowment for the Humanities (NEH)"
+      source_citation: "NEH PHP program page — community conversation, exhibition, historic-place interpretive projects"
+    - keyword: "Museums for America"
+      funder: "Institute of Museum and Library Services (IMLS)"
+      source_citation: "IMLS MFA program page — Lifelong Learning, Community Anchors, Collections Stewardship project categories"
+    - keyword: "Native Arts and Humanities"
+      funder: "Institute of Museum and Library Services (IMLS)"
+      source_citation: "IMLS Native American/Native Hawaiian Museum Services + Native American Library Services program lines"
+    - keyword: "PA Council on the Arts"
+      funder: "Pennsylvania Council on the Arts (state arts council, NEA partner)"
+      source_citation: "PCA program lines — Entry / Project Stream / Pennsylvania Partners in the Arts (PPA) regional re-grant"
+    - keyword: "Mellon Foundation arts portfolio"
+      funder: "Andrew W. Mellon Foundation"
+      source_citation: "Mellon Arts and Culture program area — institutional, performing arts, public knowledge, humanities-in-place"
+    - keyword: "Doris Duke arts program"
+      funder: "Doris Duke Charitable Foundation"
+      source_citation: "DDCF Performing Artist Awards + Building Demand for the Arts + Building Bridges program lines"
+    - keyword: "Ford Foundation arts portfolio"
+      funder: "Ford Foundation"
+      source_citation: "Ford Foundation Creativity and Free Expression program area"
+    - keyword: "Knight Foundation arts"
+      funder: "John S. and James L. Knight Foundation"
+      source_citation: "Knight Arts initiative — Knight Cities + Knight Arts Challenge in priority cities"
+    - keyword: "Wallace Foundation arts"
+      funder: "Wallace Foundation"
+      source_citation: "Wallace audience-building + arts-education research portfolio"
+    - keyword: "Surdna arts"
+      funder: "Surdna Foundation"
+      source_citation: "Surdna Thriving Cultures program area — Artists Engaged in Social Change + Just Cultural Strategies"
+    - keyword: "Heinz Endowments arts"
+      funder: "The Heinz Endowments"
+      source_citation: "Heinz Creativity program area — Pittsburgh-region arts funding"
+    - keyword: "Native Arts and Cultures Foundation"
+      funder: "Native Arts and Cultures Foundation (NACF)"
+      source_citation: "NACF SHIFT, LIFT, Mentor Artist Fellowships — Native artist + community-grounded work"
+    - keyword: "United States Artists"
+      funder: "United States Artists (USA)"
+      source_citation: "USA Fellows unrestricted artist awards by discipline — by-nomination"
+    - keyword: "MAP Fund"
+      funder: "MAP Fund (administered by Creative Capital, with Doris Duke + Mellon support)"
+      source_citation: "MAP Fund — performing arts project grants for risk-taking work"
+    - keyword: "National Performance Network"
+      funder: "National Performance Network (NPN) / Visual Artists Network (VAN)"
+      source_citation: "NPN Creation Fund + Forth Fund — performing-arts touring + commission infrastructure"
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.1) ──
+    - keyword: "National Leadership Grants for Libraries"
+      funder: "Institute of Museum and Library Services (IMLS)"
+      source_citation: "IMLS NLG-L program page — companion to MFA for library-services + community-engagement projects"
+    - keyword: "Native American Library Services"
+      funder: "Institute of Museum and Library Services (IMLS)"
+      source_citation: "IMLS Native American Library Services Basic + Enhancement Grants — tribally-controlled library services + Indigenous cultural-language access; cross-CIC anchor to soul-fire / cultural-sovereignty dialect"
+    - keyword: "AARP Foundation arts and aging"
+      funder: "AARP Foundation"
+      source_citation: "AARP Foundation arts-and-aging portfolio — creative-aging program funding for state arts councils + community arts orgs"
+    - keyword: "Creative Capital"
+      funder: "Creative Capital"
+      source_citation: "Creative Capital Awards — risk-taking experimental-arts project grants (by open application + by-nomination hybrid)"
+    - keyword: "MAP Fund (open application)"
+      funder: "MAP Fund"
+      source_citation: "MAP Fund — performing-arts open-application project grants; calibration for cold-application vs by-invitation frequency_observed"
+
+  disqualifier_terms:
+    - term: "for-profit production company"
+      reason: "NEA + NEH + IMLS direct grants generally require 501(c)(3) nonprofit status, units of state/local government, or federally recognized tribal communities. For-profit production companies are generally ineligible for direct federal arts grants. Fiscal sponsorship is only a route if the sponsor itself is a 501(c)(3) AND the sponsored project meets the sponsor's eligibility rules — the for-profit applicant cannot independently use fiscal sponsorship to bypass the 501(c)(3) requirement. Verify per active RFA."
+    - term: "personal hobby project"
+      reason: "Federal arts agencies and major foundations require demonstrable artistic practice with public dimension (work samples, prior programming, audience-engagement plan). Personal hobby framing flags mismatch."
+    - term: "general operating support without project frame"
+      reason: "NEA + NEH project lines (Grants for Arts Projects, Public Programs) require a defined project, not unrestricted operating funds. State arts councils and some foundations DO offer GOS — verify program type before routing."
+    - term: "academic research grant"
+      reason: "NEH does fund academic humanities research; NEA does not fund pure academic research. Route academic research projects to NEH research divisions, not NEA project lines."
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.1) ──
+    - term: "non-501(c)(3) without fiscal sponsor"
+      reason: "NEA + NEH + IMLS direct-grant eligibility requires 501(c)(3) status, unit of state/local government, or federally recognized tribal community. Non-501(c)(3) applicants WITHOUT a qualifying fiscal sponsor are categorically ineligible. Surface fiscal-sponsorship pathway at intake if applicable."
+    - term: "religious-purpose-only programming"
+      reason: "Federal arts grants are subject to First Amendment Establishment Clause limits — programming whose sole or primary purpose is religious worship, religious instruction, or proselytization is ineligible for direct federal arts funding. Cultural / heritage / artistic programming involving religious content may be eligible; verify the primary-purpose distinction per active RFA."
+    - term: "for-profit-only commercial production"
+      reason: "NEA + NEH eligibility excludes for-profit-only commercial entertainment / commercial production where there is no nonprofit, government, or tribal-community applicant or qualifying fiscal sponsor."
+    - term: "non-US-domestic project"
+      reason: "Most US federal arts grants (NEA / NEH / IMLS) require the project to occur within the United States or its territories. International-only projects route to Ford Foundation / Bertha Foundation / other internationally-scoped funders; verify per active RFA."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Evidence signals — Scribe consumption per §18.8
+# ─────────────────────────────────────────────────────────────────────────────
+evidence_signals:
+  - kind: "work_samples"
+    source_pattern: "audio / video / image / manuscript samples per NEA + funder discipline-specific work-sample requirements; uploaded URLs or hosted media"
+    weight: "HIGH"
+    freshness_tolerance_days: 1825
+    source_citation: "NEA Grants for Arts Projects application — work-sample requirements drive substantial reviewer scoring weight"
+  - kind: "artist_statement"
+    source_pattern: "artist's own first-person statement of practice, intention, and current project — distinct from the funder-legible narrative"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "NEA + NEH applicant guidance; artist-residency + fellowship program common requirement"
+  - kind: "artist_bio_and_cv"
+    source_pattern: "bio, training, recognitions, exhibition / performance / publication history, teaching / community engagement record"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "NEA Key Personnel qualifications criterion; state arts council artist-fellowship application standard"
+  - kind: "curatorial_or_program_plan"
+    source_pattern: "curatorial premise, season programming, exhibition concept, performance lineup, artist roster — written program rationale"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "NEA Project Description criterion; IMLS Museums for America project-narrative requirement"
+  - kind: "venue_agreement"
+    source_pattern: "signed venue contract, letter of agreement, or rental confirmation — date-bound, with capacity + technical specs"
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "NEA project-readiness criterion; foundation arts-grant venue-confirmation expectations"
+  - kind: "audience_data"
+    source_pattern: "prior-program attendance counts + demographics + geographic reach; ticket sales / box office; door counts; verified audience metrics"
+    weight: "HIGH"
+    freshness_tolerance_days: 730
+    source_citation: "NEA + NEH narrative criterion — projected audience reach with prior-program substantiation"
+  - kind: "prior_programming_history"
+    source_pattern: "list of prior productions / exhibitions / performances / publications with dates, venues, audiences, press"
+    weight: "HIGH"
+    freshness_tolerance_days: 1825
+    source_citation: "NEA Project History criterion; foundation-applicant track-record framing"
+  - kind: "documentation_plan"
+    source_pattern: "plan for documenting the funded work — photo / video / audio / written / archival — with rights-cleared protocol"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "NEA Documentation requirement; NEH Public Programs documentation expectations"
+  - kind: "press_coverage"
+    source_pattern: "reviews, interviews, features in arts press / regional press / specialty media — clipping or URL list"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 1825
+    source_citation: "Foundation arts-grant + NEA evaluation track-record framing"
+  - kind: "partner_letters"
+    source_pattern: "signed letters of commitment from venue, presenter, collaborator, school district (for educational components), tribal community (where applicable), municipal partner (for Our Town)"
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "NEA Our Town partnership requirement (nonprofit + local-government MUST partner); NEA Grants for Arts Projects partnership criterion"
+  - kind: "accessibility_plan"
+    source_pattern: "ADA + Section 504 compliance plan — physical accessibility, sensory accessibility (ASL, audio description, captioning, sensory-friendly programming), program accessibility"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "NEA Office of Accessibility + Section 504 mandate; required-by-law for federal grant recipients"
+  - kind: "production_budget"
+    source_pattern: "line-item project budget — artist fees, technical costs, venue, marketing, documentation, accessibility, indirect — tied to work plan"
+    weight: "HIGH"
+    freshness_tolerance_days: 90
+    source_citation: "NEA Budget criterion; foundation arts-grant budget-narrative standard"
+  - kind: "artist_fee_documentation"
+    source_pattern: "named artist fees with rate justification — W.A.G.E.-aligned where applicable; union scale (AEA, AGMA, SAG-AFTRA, Local 802) where applicable"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "Reviewer red flag — underbudgeted artist fees flagged as exploitative; W.A.G.E. (Working Artists and the Greater Economy) sector standard"
+  - kind: "fiscal_sponsor_documentation"
+    source_pattern: "fiscal sponsor 501(c)(3) determination letter, sponsor agreement, fee schedule, fund-routing protocol — for fiscally sponsored applicants"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "NEA + NEH applicant-eligibility framework — individual artists / unincorporated groups must apply via fiscal sponsor; fiscal sponsor IS the legal applicant"
+  - kind: "rights_and_permissions"
+    source_pattern: "performing-rights clearances (ASCAP / BMI / SESAC), reproduction rights, image rights, music sync rights, public-performance licenses"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "Federal grant compliance; NEA + IMLS rights-clearance expectations for funded works"
+  - kind: "match_documentation"
+    source_pattern: "non-federal match commitments — 1:1 match required for NEA Grants for Arts Projects + many state arts councils; cash + in-kind disclosed separately"
+    weight: "HIGH"
+    freshness_tolerance_days: 90
+    source_citation: "NEA Grants for Arts Projects 1:1 non-federal match requirement; state arts council match standards"
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.2) ──
+  - kind: "cultural_accessibility_plan"
+    source_pattern: "Written cultural accessibility plan covering: physical access (ADA Title II/III), program access (audio description, large print, ASL, captioning), accessibility coordinator designation, attendee accommodation request protocol, accessibility evaluation cycle."
+    weight: "HIGH"
+    freshness_tolerance_days: 730
+    source_citation: "NEA Office of Accessibility guidance + ADA Title II/III + Section 504 statutory framework"
+  - kind: "fiscal_sponsorship_relationship_documentation"
+    source_pattern: "501(c)(3) sponsor determination letter; signed fiscal-sponsor agreement; project-relationship-to-sponsor narrative; fiscal-sponsor expense-pass-through tracking + fee schedule transparency."
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "National Network of Fiscal Sponsors model agreements + NEA / NEH applicant-eligibility framework (fiscal sponsor IS legal applicant)"
+  - kind: "artist_fee_fairness_documentation"
+    source_pattern: "Artist-fees-as-percent-of-project-budget; per-artist-day rate; W.A.G.E. certification status; artist-fee-table breakdown; honoraria / commission-fee breakdown; union-scale alignment where applicable."
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "W.A.G.E. (Working Artists and the Greater Economy) fee calculator + certification framework + arts-and-labor field practice"
+  - kind: "audience_demographic_disaggregation_documentation"
+    source_pattern: "Audience-demographic survey methodology + recent results (≤2 years); ticket-data demographic-mapping; attendee-survey response rates; audience-diversification-strategy-and-outcome."
+    weight: "MEDIUM"
+    freshness_tolerance_days: 730
+    source_citation: "Wallace Foundation audience-development research + NEA accessibility framework"
+  - kind: "rights_and_permissions_documentation"
+    source_pattern: "Copyright clearances + venue / location permissions + image / likeness consent + sensitive-material handling protocols + rights-holder approvals + cultural-partner consent (where Indigenous / community-rooted material involved)."
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "Standard arts practice + IMLS collections management + foundation arts grant expectations + NAGPRA (where applicable)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# KFR fact classes — Intake / Logician consumption
+# ─────────────────────────────────────────────────────────────────────────────
+kfr_fact_classes:
+  - fact_class: "discipline"
+    description: "Primary artistic / cultural discipline — Visual Arts / Theater / Musical Theater / Opera / Dance / Music / Folk & Traditional / Media Arts / Design / Literary / Crafts / Interdisciplinary / Artist Communities / Local Arts Agencies / Presenting & Multidisciplinary Works / Public Humanities."
+    typical_provenance: "applicant self-attestation; aligned with NEA / NEH / state arts council discipline taxonomy on application form"
+  - fact_class: "project_history"
+    description: "Prior productions / exhibitions / performances / publications / programs by year + venue + audience + collaborators."
+    typical_provenance: "applicant CV / programs / press archive; published reviews; venue archives"
+  - fact_class: "artist_credentials"
+    description: "Artist CV — training, education, residencies, fellowships, recognitions, awards, teaching positions, commissions."
+    typical_provenance: "CV; institutional letters; award announcements; press"
+  - fact_class: "audience"
+    description: "Prior + projected audience size, demographic composition, geographic reach (zip code / county / region), accessibility-served audience."
+    typical_provenance: "ticket sales records; door counts; surveys; demographic studies; venue reports"
+  - fact_class: "venue_or_site"
+    description: "Production / exhibition / performance / installation site — owned, leased, partnered, public site (for public art)."
+    typical_provenance: "venue agreement; deed; lease; municipal-partner letter; tribal-council letter (where applicable)"
+  - fact_class: "confirmed_dates"
+    description: "Project start + end dates; performance / opening dates; rehearsal / install / strike windows; tour dates (for touring work)."
+    typical_provenance: "venue contract; production schedule; tour itinerary"
+  - fact_class: "work_samples"
+    description: "Sample audio / video / image / text / digital media representative of artistic practice + current project."
+    typical_provenance: "uploaded media files; URLs; portfolio site; published recordings"
+  - fact_class: "partner_organizations"
+    description: "Co-presenting organizations, collaborating artists' companies, school district partners (educational programming), tribal community partners (cultural-heritage work), municipal partners (Our Town requirement)."
+    typical_provenance: "signed letters of commitment; MOUs; co-presentation agreements"
+  - fact_class: "artist_fees"
+    description: "Named artist fees by role + rate + justification — W.A.G.E. or union-scale alignment where applicable."
+    typical_provenance: "budget narrative; union contracts; W.A.G.E. fee calculator output"
+  - fact_class: "production_budget"
+    description: "Full project budget by line item — personnel, artist fees, technical, venue, marketing, documentation, accessibility, indirect."
+    typical_provenance: "applicant budget spreadsheet; budget narrative"
+  - fact_class: "accessibility"
+    description: "ADA / Section 504 accessibility provisions — physical (ramps, seating), sensory (ASL, audio description, captioning), program (sensory-friendly performances, accessible programming, accessible website / materials)."
+    typical_provenance: "accessibility plan; venue accessibility audit; ADA coordinator letter"
+  - fact_class: "documentation_plan"
+    description: "Plan for capturing + archiving the funded work — photo / video / audio / written / archival — with rights-cleared protocol."
+    typical_provenance: "documentation plan narrative; archival agreement; documenter contract"
+  - fact_class: "rights_and_permissions"
+    description: "Performing rights, reproduction rights, image rights, music sync rights, public-performance licenses, talent releases, image-of-minor releases."
+    typical_provenance: "ASCAP / BMI / SESAC license; rights-holder permission letter; signed releases"
+  - fact_class: "fiscal_sponsor"
+    description: "501(c)(3) fiscal sponsor — name, EIN, determination-letter date, sponsor fee schedule, fund-routing protocol — for fiscally sponsored applicants only."
+    typical_provenance: "sponsor 501(c)(3) determination letter; signed fiscal-sponsorship agreement; sponsor fee schedule"
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.3) ──
+  - fact_class: "accessibility_compliance_status"
+    description: "Designated accessibility coordinator (orgs 15+ employees per Section 504); written accessibility plan (cultural accessibility plan covering physical / program / sensory access); recent accessibility evaluation; venue / facility accessibility-audit record; accommodation-request protocol."
+    typical_provenance: "accessibility coordinator designation document; written cultural accessibility plan; recent accessibility audit report; NEA Office of Accessibility self-evaluation"
+  - fact_class: "fiscal_sponsor_relationship"
+    description: "501(c)(3) status of sponsor verified; fiscal-sponsor agreement terms (signed, current); expense-pass-through fee structure transparent; project-vs-sponsor expense allocation documented."
+    typical_provenance: "501(c)(3) determination letter; signed fiscal-sponsor agreement; recent expense allocation memo + fee schedule"
+  - fact_class: "artist_fee_practice_documentation"
+    description: "Per-artist-day rates; honoraria scale; W.A.G.E. certification status (where applicant pursues certification); commission fee structure for visual / public art; union-scale alignment (AEA / AGMA / SAG-AFTRA / Local 802) where applicable."
+    typical_provenance: "artist-fee schedule; W.A.G.E. certification letter if applicable; commission-fee contract template; union contract references"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Provenance requirements per fact class
+# ─────────────────────────────────────────────────────────────────────────────
+provenance_requirements:
+  work_samples:
+    required_citation_type: "URL or hosted-media reference with discipline + date + role; verbatim title/credits required for reviewer-facing samples"
+    verbatim_quote_required: true
+  artist_credentials:
+    required_citation_type: "CV with verifiable institutions / programs / dates; named recognitions with conferring body + year"
+    verbatim_quote_required: false
+  audience:
+    required_citation_type: "ticket-sales record, door-count log, survey instrument, or venue-attendance report — verbatim figures preserved"
+    verbatim_quote_required: true
+  venue_or_site:
+    required_citation_type: "signed venue agreement or letter of intent — verbatim venue name + dates + capacity preserved"
+    verbatim_quote_required: true
+  partner_organizations:
+    required_citation_type: "signed letter of commitment (LOC) or MOU — verbatim partner name + role + commitment terms preserved"
+    verbatim_quote_required: true
+  artist_fees:
+    required_citation_type: "budget narrative line item with rate justification (W.A.G.E. fee calculator output or union scale citation)"
+    verbatim_quote_required: false
+  fiscal_sponsor:
+    required_citation_type: "IRS 501(c)(3) determination letter + signed fiscal-sponsorship agreement — verbatim sponsor legal name + EIN preserved"
+    verbatim_quote_required: true
+  rights_and_permissions:
+    required_citation_type: "rights-holder permission letter, license agreement, or performing-rights organization (ASCAP/BMI/SESAC) license"
+    verbatim_quote_required: false
+  accessibility:
+    required_citation_type: "accessibility plan narrative + venue ADA assessment; ADA Coordinator attestation where org has one"
+    verbatim_quote_required: false
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.3) ──
+  accessibility_compliance_status:
+    required_citation_type: "accessibility coordinator designation document + written cultural accessibility plan + recent accessibility audit record"
+    verbatim_quote_required: false
+  fiscal_sponsor_relationship:
+    required_citation_type: "501(c)(3) determination letter + signed fiscal-sponsor agreement + fee schedule"
+    verbatim_quote_required: true
+  artist_fee_practice_documentation:
+    required_citation_type: "artist-fee schedule with rate justification (W.A.G.E. calculator output, union-scale reference, or commission-fee template)"
+    verbatim_quote_required: false
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Register defaults — Scribe consumption
+# ─────────────────────────────────────────────────────────────────────────────
+register_defaults:
+  language_register: "hybrid"
+  narrative_voice: "applicant_as_character"
+  tone: "custom"
+  operator_override: "PROJECT_CONTEXT match_overrides take precedence"
+  # Voice-preservation discipline — machine-readable structured cue for Scribe.
+  # Arts-culture applicants are uniquely vulnerable to silent register-
+  # flattening. The named sections below MUST be preserved verbatim from the
+  # applicant; light-touch clarity edits only with explicit operator
+  # authorization. All other narrative sections receive standard funder-
+  # legible translation. Operator may extend this list per PROJECT_CONTEXT.
+  preserve_voice_sections:
+    - "artist_statement"
+    - "curatorial_premise"
+    - "work_sample_narration"
+    - "artist_self_identification"  # protects Law 4 — verbatim self-ID
+                                    # by named artist must not be rewritten
+
+# Arts & Culture register has a distinctive double-voice requirement that
+# distinguishes it from every other CIC:
+#
+#   - The artist's voice (work-sample narration, artist statement, curatorial
+#     premise) must be PRESERVED as the artist wrote it. Reviewers look at the
+#     artist statement specifically to hear the artist, not the grant writer.
+#     Flattening this voice into "neutral_institutional" destroys the artistic
+#     merit signal reviewers depend on. Scribe MUST NOT rewrite artist-voice
+#     sections without explicit operator authorization (and even then, edits
+#     stay light-touch — clarity, not voice replacement).
+#
+#   - The funder-legible frame (project description, audience reach,
+#     sustainability, evaluation, capacity) translates the artistic work into
+#     reviewer-scorable language. This is where Scribe earns its keep — taking
+#     the artist's substance and putting it in language a panelist who reviews
+#     30 applications a day can score quickly against a rubric.
+#
+# The hybrid register + applicant_as_character voice + custom tone enum
+# captures this. Operator override at PROJECT_CONTEXT level sets the artist-
+# voice / funder-frame split per applicant. Default: artist statement + work
+# sample narration = preserve verbatim; everything else = funder-legible
+# translation with the artist's substance intact.
+#
+# Anti-pattern (Scribe must avoid): treating an arts grant like a research
+# grant. Research-grant register flattens artistic specificity into generic
+# "innovation / impact / outcomes" language and reads to arts panels as a
+# capacity-building proposal that wandered into the wrong stack.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Dialect routing table — Scribe per Law 4
+# ─────────────────────────────────────────────────────────────────────────────
+dialect_routing_table:
+  - funder_political_axis: "conservative"
+    dialect: "scribe.formal_civic_heritage"
+    example_funder: "NEA Folk & Traditional Arts (preservation + heritage emphasis); NEH Public Programs (preservation + heritage emphasis); state heritage commissions"
+  - funder_political_axis: "centrist"
+    dialect: "scribe.technical_precise"
+    example_funder: "Pennsylvania Council on the Arts; state arts councils generally; NEH Sustaining Cultural Heritage Collections; NEH Preservation & Access (technical / institutional framing)"
+  - funder_political_axis: "progressive"
+    dialect: "scribe.movement_aligned"
+    example_funder: "Mellon Foundation; Doris Duke Charitable Foundation; Ford Foundation Creativity and Free Expression; Surdna Thriving Cultures; Heinz Endowments Creativity"
+  - funder_political_axis: "soul_fire"
+    dialect: "scribe.cultural_sovereignty"
+    example_funder: "Native Arts and Cultures Foundation (NACF); First Peoples Fund; NDN Collective arts portfolio; cultural-sovereignty-aligned regional grantmakers"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Admin-risk term register — Law 4 axis (b)
+# Per operator OQ-5: approval_required: true defaults. Per L-005 (lessons
+# memory): substitutions that settle across enough cycles may flip to false
+# per-term per-card at a future Archivist Reflection sub-mode pass.
+#
+# CRITICAL CONTEXT (illustrative, not normative across administrations): As
+# of authoring date (2026-05-15), NEA + NEH grant terms following EO 14151
+# (DEI executive order) and EO 14168 ("Defending Women From Gender Ideology
+# Extremism") have carried explicit funding-clause restrictions. Recipients
+# have been required to attest they will not "operate any programs promoting
+# gender ideology" and will not "use Federal funds to promote DEI." This has
+# made both DEI- and gender-identity-coded vocabulary HIGH severity for any
+# NEA / NEH route under the administration in force at authoring time. State
+# arts councils that pass through NEA partnership funds inherit downstream
+# restrictions on the federal portion. Substitution candidates here are
+# operator-grade — every term requires operator review; never silent rewrite.
+#
+# DEFER-TO-ACTIVE-RFA DISCIPLINE (Tilth-wide): EO 14151 + EO 14168 are
+# named here as illustrative reviewer-context anchors for the authoring-time
+# administration, NOT as permanent ground truth. Federal arts-grant
+# attestation language has changed mid-cycle and will continue to change
+# across administrations. Scribe + Logician MUST defer to the per-active-RFA
+# attestation language at runtime. Operator re-reads NEA grant terms at
+# every cycle. Between-administration refresh of admin_risk_term_register
+# is an Archivist Reflection backlog item (see _review_handback).
+#
+# IMPORTANT — operational severity preserved: the illustrative-anchor
+# reframing above applies ONLY to the EO 14151 / EO 14168 framing context.
+# Per-term severity values (HIGH / MEDIUM / LOW) in each admin_risk_term_
+# register entry remain operationally NORMATIVE at runtime. Operator MUST
+# honor each term's severity tier per its reviewer_context — the
+# illustrative-anchor framing does NOT downgrade the operational HIGH on
+# entries like queer / trans / DEI / racial justice / anti-racist / gender
+# ideology. The reframing prevents the card from aging poorly across
+# administrations; it does not soften the operational defense at runtime.
+# ─────────────────────────────────────────────────────────────────────────────
+admin_risk_term_register:
+  - flagged_term: "radical"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "ambitious"
+      - "field-shifting"
+      - "transformative artistic vision"
+      - "bold artistic risk-taking"
+    reviewer_context: |
+      Reads as activist signaling to conservative review climates and many
+      state arts councils. Progressive philanthropy + experimental-arts
+      funders (MAP Fund, Creative Capital) accept; cultural-sovereignty
+      funders accept. Match to funder dialect; verify if active RFA uses
+      the term.
+    approval_required: true
+
+  - flagged_term: "abolition"
+    severity: "HIGH"
+    substitution_candidates:
+      - "reimagining systems"
+      - "post-carceral cultural practice"
+      - "transformative justice through art"
+      - "alternatives to incarceration"
+    reviewer_context: |
+      Activist register that carries explicit political demand framing in
+      conservative + centrist review climates. Even progressive arts
+      foundations may prefer functional descriptions of the work rather
+      than the abolitionist frame. Cultural-sovereignty funders accept the
+      term. Operator decides per application.
+    approval_required: true
+
+  - flagged_term: "decolonial"
+    severity: "HIGH"
+    substitution_candidates:
+      - "centering Indigenous knowledge"
+      - "Indigenous-led cultural practice"
+      - "tradition-bearer-led work"
+      - "community-rooted methodology"
+    reviewer_context: |
+      Activist register; conservative + centrist panels reject. NACF, First
+      Peoples Fund, and similar cultural-sovereignty funders accept and
+      expect. Mellon and Ford accept selectively. Match to funder dialect
+      precisely.
+    approval_required: true
+
+  - flagged_term: "liberation"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "self-determination"
+      - "creative autonomy"
+      - "community agency"
+      - "freedom of artistic expression"
+    reviewer_context: |
+      Reads as activist framing in conservative + centrist climates;
+      progressive philanthropy accepts. Soul-fire-aligned + cultural-
+      sovereignty funders expect. The First Amendment / free-expression
+      reframe ("freedom of artistic expression") is reviewer-neutral
+      across all four political axes.
+    approval_required: true
+
+  - flagged_term: "resistance"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "response to current conditions"
+      - "civic engagement through art"
+      - "First Amendment artistic practice"
+      - "critical cultural commentary"
+    reviewer_context: |
+      Reads as activist framing in conservative + centrist climates;
+      progressive philanthropy accepts; soul-fire funders expect. The
+      First Amendment reframe lands across the spectrum if the actual work
+      is critical/commentary-based.
+    approval_required: true
+
+  - flagged_term: "queer"
+    severity: "HIGH"
+    substitution_candidates:
+      - "LGBTQ-identified artists and audiences"
+      - "(verbatim self-identification by named artist with their consent)"
+      - "(no substitution — operator decides per RFA whether to retain or omit identity framing)"
+    reviewer_context: |
+      Under EO 14168 + post-EO 14151 NEA + NEH funding-clause environment,
+      identity-based vocabulary on federal arts grants carries documented
+      enforcement risk. State arts councils that pass NEA partnership
+      funds inherit federal-portion restrictions. Foundation funders vary;
+      progressive + cultural-sovereignty funders explicitly fund queer
+      arts work and expect the vocabulary. CRITICAL: when an artist self-
+      identifies as queer in their own statement, that artist-voice
+      remains theirs — Scribe MUST NOT rewrite verbatim self-
+      identification. Operator decides per RFA whether to route to a
+      funder where retention is safe, or whether identity framing should
+      be omitted from the funder-legible frame while artist-voice
+      sections preserve self-identification.
+    approval_required: true
+
+  - flagged_term: "trans"
+    severity: "HIGH"
+    substitution_candidates:
+      - "(verbatim self-identification by named artist with their consent)"
+      - "(no substitution — operator decides per RFA whether to retain or omit identity framing)"
+      - "LGBTQ-identified (where applicant authorizes umbrella framing)"
+    reviewer_context: |
+      Under EO 14168 ("Defending Women From Gender Ideology Extremism") +
+      NEA funding clause requiring recipients to attest they will not
+      "operate any programs promoting gender ideology", trans-identified
+      vocabulary carries documented federal enforcement risk on NEA + NEH
+      and state-pass-through portions. Foundation funders vary; many
+      progressive + cultural-sovereignty foundations explicitly fund work
+      by and about trans artists and expect the vocabulary. CRITICAL
+      same as "queer": artist-voice self-identification must NOT be
+      rewritten; operator decides per RFA on routing and on funder-
+      legible framing.
+    approval_required: true
+
+  - flagged_term: "gender ideology"
+    severity: "HIGH"
+    substitution_candidates:
+      - "(do not use this term in applicant materials — it is the federal-restriction-side framing, not the applicant-side framing)"
+      - "gender + identity in artistic practice (where applicant has work in this domain and funder accepts)"
+      - "(operator-only flag — Scribe surfaces the federal-restriction context for operator review)"
+    reviewer_context: |
+      FRAMING NOTE: This term is the federal-restriction-side framing
+      (introduced under EO 14168 as illustrative of the authoring-time
+      attestation environment), NOT applicant-side vocabulary. Tilth
+      surfaces it so Logician can detect it in an applicant draft as a
+      Scribe error to flag for operator review — not as a substitution
+      target for applicant-voice content. If it appears anywhere in
+      applicant draft material, that is a Scribe error to surface for
+      operator review. Logician should treat any draft containing this
+      phrase as a HIGH-severity admin-risk hit requiring operator
+      confirmation. Verify exact federal-restriction language per
+      active RFA — defer-to-RFA discipline applies.
+    approval_required: true
+
+  - flagged_term: "racial justice"
+    severity: "HIGH"
+    substitution_candidates:
+      - "racial equity"
+      - "underrepresented-artist support"
+      - "BIPOC artistic leadership"
+      - "historically excluded community artists"
+      - "(no substitution — operator decides per RFA)"
+    reviewer_context: |
+      Under EO 14151 + downstream NEA + NEH funding-clause environment
+      restricting "DEI" framing on federal arts grants, racial-justice
+      vocabulary carries documented enforcement risk. Foundation funders
+      vary widely — Mellon, Ford, Surdna explicitly fund racial-justice-
+      framed arts work. State arts councils that pass NEA partnership
+      funds inherit federal-portion restrictions. Operator decides per
+      RFA. (Mirrors admin_risk_register.yaml v2.2 entry; severity tier
+      consistent with RED → HIGH map.)
+    approval_required: true
+
+  - flagged_term: "censorship"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "First Amendment protection of artistic expression"
+      - "free expression"
+      - "artistic freedom"
+      - "content restriction concerns"
+    reviewer_context: |
+      Reads as advocacy / litigation framing in conservative + centrist
+      review climates if used as a primary frame. The First Amendment
+      reframe ("free expression / artistic freedom") lands across the
+      spectrum and is reviewer-neutral. Use only when the work itself is
+      anti-censorship-themed and the funder explicitly funds free-
+      expression work (e.g., NCAC partners, Ford Foundation Creativity
+      and Free Expression).
+    approval_required: true
+
+  - flagged_term: "occupation"
+    severity: "HIGH"
+    substitution_candidates:
+      - "(operator decides per context — political-occupation framing carries explicit risk)"
+      - "site-specific intervention (for art-installation context)"
+      - "civic presence / public-art intervention (for placemaking context)"
+    reviewer_context: |
+      Term carries multiple meanings across arts contexts: (a) site-
+      specific or durational artistic practice (Marina Abramović "The
+      Artist Is Present" tradition), (b) explicit political-protest
+      framing (Occupy Wall Street descendants, contested-territory
+      framing). (b) reads as activist signaling in conservative + centrist
+      panels and may carry foreign-policy political weight. Operator
+      decides per RFA + per artwork context. Substitute only after
+      verifying the artist's intended meaning.
+    approval_required: true
+
+  - flagged_term: "DEI / equity / inclusion"
+    severity: "HIGH"
+    substitution_candidates:
+      - "underrepresented-artist outreach"
+      - "expanded artist pool"
+      - "broader audience engagement"
+      - "historically excluded community artists"
+      - "accessibility (where ADA / Section 504 framing applies)"
+    reviewer_context: |
+      Under current federal administration framing (EO 14151 + downstream
+      NEA + NEH funding-clause language), DEI / equity / inclusion
+      vocabulary carries documented enforcement risk on federal arts
+      grants and state-pass-through NEA partnership portions. ADA /
+      Section 504 accessibility framing remains separately required-by-
+      law and is reviewer-neutral. Foundation funders vary widely.
+      Operator decides per RFA. (Mirrors admin_risk_register.yaml v2.2
+      entry; severity tier RED → HIGH map.)
+    approval_required: true
+
+  - flagged_term: "social justice"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "civic engagement through art"
+      - "community-responsive art-making"
+      - "artistic practice in dialogue with current conditions"
+      - "publicly engaged practice"
+    reviewer_context: |
+      Reads as movement-aligned framing in conservative review climates;
+      centrist panels accept selectively; progressive + cultural-
+      sovereignty funders accept and expect. Match to funder dialect.
+    approval_required: true
+
+  - flagged_term: "anti-racist"
+    severity: "HIGH"
+    substitution_candidates:
+      - "broadly inclusive artistic programming"
+      - "(no substitution — operator decides per RFA)"
+      - "expanded artist pool reflecting community demographics"
+    reviewer_context: |
+      Under EO 14151 + post-EO NEA / NEH funding-clause environment,
+      anti-racist framing carries documented enforcement risk on federal
+      arts grants. Some progressive foundations expect the vocabulary
+      (Surdna Thriving Cultures); others have moved to indirect framing
+      to maintain funding-clause compliance for cross-funded grantees.
+      Operator decides per RFA + per applicant funder mix.
+    approval_required: true
+
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.4) ──
+  - flagged_term: "cultural appropriation"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "cross-cultural artistic exchange (with named cultural-partner consent documentation)"
+      - "Indigenous-knowledge centering (with tribal-partner consent)"
+      - "cultural-bearer-led practice (operator-grade with cultural-partner attestation)"
+      - "(no substitution — operator decides per RFA when active RFA uses critical-discourse framework)"
+    reviewer_context: |
+      Term reads as activist framing in conservative review climates;
+      reads as critical-discourse framework in academic / cultural-
+      sovereignty-aligned funder contexts. When applicant work involves
+      cross-cultural practice with named cultural partners, the cultural-
+      partner-consent-documentation framing is operator-defensible across
+      all four political axes. Tilth flags the term for operator decision;
+      never silent substitution.
+    approval_required: true
+
+  - flagged_term: "Indigenous knowledge"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "traditional knowledge (with tribal-partner attribution)"
+      - "tradition-bearer-led methodology"
+      - "Native American Languages Act-anchored Indigenous-language practice"
+      - "cultural-bearer-led cultural-heritage work"
+      - "(no substitution — retain verbatim for NACF / First Peoples Fund / cultural-sovereignty-aligned funders)"
+    reviewer_context: |
+      Term carries cultural-sovereignty-practice provenance in NACF /
+      First Peoples Fund / cultural-sovereignty-aligned funder contexts.
+      Conservative federal review climates accept the term when paired
+      with tribal-partner attribution; centrist climates accept selectively.
+      Tilth respects cultural-sovereignty-practice provenance; substitution
+      applies only for funder-legible-frame routing, never for artist-
+      voice content. Defer-to-active-RFA discipline applies.
+    approval_required: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Reporting cadence
+# ─────────────────────────────────────────────────────────────────────────────
+reporting_cadence_typical:
+  default_frequency: "project_based"
+  per_funder_overrides:
+    NEA_Grants_for_Arts_Projects: "Final Descriptive Report + Federal Financial Report (SF-425) at project close; interim per project schedule"
+    NEA_Our_Town: "annual progress + final descriptive + Federal Financial Report (SF-425); 2-year project period typical"
+    NEA_Challenge_America: "Final Descriptive Report + SF-425 at close; flat $10,000 award structure"
+    NEA_Folk_and_Traditional_Arts: "Final Descriptive + SF-425; some apprenticeship grants require interim documentation"
+    NEH_Public_Programs: "Annual Performance Report + Federal Financial Report; final at project close (typically 2-3 year period)"
+    NEH_Preservation_and_Access: "Annual Performance Report + Federal Financial Report; longer project periods (1-3 years)"
+    NEH_Sustaining_Cultural_Heritage_Collections: "Annual Performance Report + Federal Financial Report; 1-3 year project periods"
+    IMLS_Museums_for_America: "Annual Performance Report + final; 1-3 year project periods"
+    PA_Council_on_the_Arts: "Final Report; some lines (PPA Re-grant) require interim midpoint report"
+    State_arts_councils_general: "Final Report typical; annual where multi-year"
+    Mellon_Foundation: "Annual narrative + financial; final at project close (typically multi-year)"
+    Doris_Duke_Charitable_Foundation: "Annual narrative + financial; final at project close"
+    Ford_Foundation: "Annual narrative + financial; final at project close"
+    Knight_Foundation: "Final report typical; some Knight Arts Challenge lines have specific midpoint requirements"
+    Native_Arts_and_Cultures_Foundation: "Final narrative + financial; some fellowship lines require interim reflection"
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.7) ──
+    IMLS_Native_American_Library_Services: "Annual Performance Report + Federal Financial Report (SF-425); Basic + Enhancement Grant cycles"
+    AARP_Foundation_arts_and_aging: "Annual narrative + financial; final at project close (creative-aging program lines)"
+    Creative_Capital: "Final narrative + financial; some lines require multi-year check-ins for risk-taking experimental-arts projects"
+    MAP_Fund: "Final narrative + financial; performing-arts project grant cycle reporting"
+    State_humanities_councils_general: "Final Report typical; annual where multi-year; per-state NEH partnership variation"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Metrics table template
+# ─────────────────────────────────────────────────────────────────────────────
+metrics_table_template:
+  - metric: "audience reached (total attendance)"
+    unit: "count"
+    typical_target_range: "applicant-specific; tied to venue capacity × performances"
+    source_for_target: "venue-capacity × number-of-performances; prior-program attendance baseline"
+  - metric: "audience demographics (under-served-community served)"
+    unit: "count + percentage"
+    typical_target_range: "applicant-specific"
+    source_for_target: "venue location + program design; demographic survey instrument"
+  - metric: "audience geographic reach (zip codes / counties / regions served)"
+    unit: "count of zip codes / counties / regions"
+    typical_target_range: "applicant-specific"
+    source_for_target: "ticket data; survey; program-distribution map"
+  - metric: "works produced / exhibited / performed / published"
+    unit: "count of works"
+    typical_target_range: "applicant-specific"
+    source_for_target: "project work plan"
+  - metric: "performances / showings / exhibitions / screenings"
+    unit: "count of events"
+    typical_target_range: "applicant-specific"
+    source_for_target: "venue contract + production schedule"
+  - metric: "artists engaged + artist fees paid"
+    unit: "count of artists + USD"
+    typical_target_range: "applicant-specific (W.A.G.E.-aligned where applicable)"
+    source_for_target: "production budget; artist contracts"
+  - metric: "press coverage / earned media (impressions / placements)"
+    unit: "count of placements + estimated impressions"
+    typical_target_range: "applicant-specific"
+    source_for_target: "press tracking; PR firm report; clipping service"
+  - metric: "accessibility accommodations served"
+    unit: "count of ADA / Section 504 accommodations provided"
+    typical_target_range: "applicant-specific (varies by program type)"
+    source_for_target: "accessibility plan; venue ADA assessment"
+  - metric: "partner organizations engaged"
+    unit: "count of partner orgs + named partner roster"
+    typical_target_range: "applicant-specific"
+    source_for_target: "partnership LOCs / MOUs"
+  - metric: "communities served"
+    unit: "count of named communities / neighborhoods / municipalities"
+    typical_target_range: "applicant-specific"
+    source_for_target: "community partner letters; venue location; outreach plan"
+  - metric: "post-grant continuation indicators"
+    unit: "narrative + revenue / commitment indicators"
+    typical_target_range: "applicant-specific"
+    source_for_target: "sustainability plan; renewal venue commitments; downstream revenue projections"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Cross-references — Program Rule Packs (PRP)
+# Sidecar augmentation pass 2026-05-18
+# ─────────────────────────────────────────────────────────────────────────────
+cross_references_prp:
+  - prp_id: "TILTH-PRP-2CFR200"
+    applicability: "NEA / NEH / IMLS federal arts grants apply 2 CFR 200 Uniform Guidance administrative requirements; canonical federal-admin PRP for any direct federal arts grant or state-arts-council NEA partnership pass-through portion."
+    fires_when: "Active opportunity is federal arts agency (NEA / NEH / IMLS) OR state-arts-council NEA partnership pass-through; CIC-04 applicant; federal funds in scope."
+  - prp_id: "TILTH-PRP-DAVIS-BACON"
+    applicability: "CONDITIONAL — fires only when arts facility construction or covered renovation is in scope (NEA Our Town infrastructure components, IMLS Museums for America facility upgrades, NEH SCHC environmental-management facility work)."
+    fires_when: "Opportunity scope includes covered construction (>$2000) under federal contract; applicability conditional on construction component within arts/cultural facility scope."
+  - prp_id: "TILTH-PRP-NEPA-24CFR58"
+    applicability: "CONDITIONAL — fires only when federally-funded facility construction / renovation triggers NEPA environmental review (Our Town facility components, IMLS facility infrastructure, NEH SCHC building-systems work)."
+    fires_when: "Federal financial assistance funds facility construction / renovation / ground disturbance / historic-property modification; NEPA categorical-exclusion / EA / EIS determination required per 24 CFR 58 or agency-specific NEPA framework."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Narrative sections typical
+# ─────────────────────────────────────────────────────────────────────────────
+narrative_sections_typical:
+  - "Project Description / Artistic Vision"
+  - "Artistic Merit Narrative (work samples + artist statement framing)"
+  - "Artist Qualifications + Key Personnel"
+  - "Audience and Community Impact"
+  - "Venue and Production Plan"
+  - "Partnerships and Collaborations"
+  - "Accessibility Plan (ADA + Section 504)"
+  - "Documentation and Evaluation Plan"
+  - "Organizational Capacity (for org applicants) / Fiscal Sponsor Profile (for sponsored applicants)"
+  - "Project Budget and Budget Narrative"
+  - "Match / Cost Share Documentation (1:1 non-federal match for NEA Grants for Arts Projects)"
+  - "Timeline and Milestones"
+  - "Sustainability / Post-Grant Continuation"
+  - "Rights and Permissions Plan"
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.5) ──
+  - "Cultural Accessibility Plan (where applicable; NEA / NEH accessibility-aligned proposals)"
+  - "Artist Voice and Voice Preservation Discipline (where applicable; soul-fire / cultural-sovereignty-aligned applicants)"
+  - "Rights, Permissions, and Sensitive-Material Handling (where applicable; exhibition / public art / documentation projects)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Capacity signals required
+# ─────────────────────────────────────────────────────────────────────────────
+capacity_signals_required:
+  - signal: "active SAM.gov registration + UEI"
+    evidence_type: "SAM.gov record"
+    required_for_competitive: true
+  - signal: "501(c)(3) determination letter (org applicants) OR fiscal sponsor 501(c)(3) determination + fiscal-sponsorship agreement (sponsored applicants)"
+    evidence_type: "IRS determination letter + sponsor agreement (for sponsored case)"
+    required_for_competitive: true
+  - signal: "current good standing on prior arts grants (federal + foundation)"
+    evidence_type: "prior-award compliance record; final reports submitted on time"
+    required_for_competitive: true
+  - signal: "venue confirmation"
+    evidence_type: "signed venue contract or LOI with dates + capacity + technical specs"
+    required_for_competitive: true
+  - signal: "demonstrated artistic-practice track record"
+    evidence_type: "artist CV + prior-work samples + press coverage + venue history"
+    required_for_competitive: true
+  - signal: "rights and permissions cleared (or plan to clear before project start)"
+    evidence_type: "rights-holder permission letters; performing-rights licenses; talent releases"
+    required_for_competitive: true
+  - signal: "general liability insurance for public events / installations"
+    evidence_type: "insurance certificate naming venue + funder as additional insureds where required"
+    required_for_competitive: true
+  - signal: "1:1 non-federal match commitment (NEA Grants for Arts Projects)"
+    evidence_type: "match commitment letters from non-federal sources; cash + in-kind disclosed separately"
+    required_for_competitive: true
+  - signal: "accessibility plan + ADA Coordinator (for orgs with one)"
+    evidence_type: "accessibility plan narrative; ADA Coordinator attestation or job description"
+    required_for_competitive: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Compliance burdens
+# ─────────────────────────────────────────────────────────────────────────────
+compliance_burdens:
+  - framework: "SAM.gov + UEI registration"
+    applicability: "all federal grant applicants (NEA / NEH / IMLS)"
+    required_filings:
+      - "SAM.gov annual renewal"
+      - "Unique Entity Identifier on every application"
+  - framework: "2 CFR 200 Uniform Guidance"
+    applicability: "all federal grant recipients"
+    required_filings:
+      - "Single Audit if federal expenditures exceed threshold (currently $750,000; rising to $1,000,000 per OMB revisions)"
+      - "Procurement standards compliance"
+      - "Cost principles compliance"
+  - framework: "ADA Title II / Title III"
+    applicability: "all arts grant recipients (Title II = state/local government recipients; Title III = private nonprofit places of public accommodation)"
+    required_filings:
+      - "Accessibility plan in application narrative"
+      - "Reasonable accommodations on request"
+      - "Accessible communications (alternative formats; ASL / audio description / captioning where applicable)"
+  - framework: "Section 504 of the Rehabilitation Act"
+    applicability: "all federal grant recipients"
+    required_filings:
+      - "Section 504 Self-Evaluation"
+      - "Designated Section 504 Coordinator (orgs with 15+ employees)"
+      - "Notice of nondiscrimination on basis of disability"
+  - framework: "NEA-specific funding-clause attestations (current administration)"
+    applicability: "NEA + NEH grant recipients (and state arts council pass-through portions of NEA partnership funds)"
+    required_filings:
+      - "Attestation per current NEA grant terms — verify exact language per active RFA"
+      - "Compliance with EO 14151 + EO 14168 funding-clause restrictions on federal portion of grant"
+      - "Operator review required before signing — funding clauses have changed mid-cycle and may change again"
+  - framework: "Copyright + performing rights (ASCAP / BMI / SESAC)"
+    applicability: "performing-arts + media-arts + literary-arts projects"
+    required_filings:
+      - "Performing-rights organization licenses where music is performed"
+      - "Sync licenses for film / video / digital media"
+      - "Reproduction rights for visual works"
+      - "Public-performance licenses for film screenings"
+  - framework: "Talent / model / image releases"
+    applicability: "all projects with documented participants, performers, or audience footage"
+    required_filings:
+      - "Talent releases for performers"
+      - "Model releases for image use"
+      - "Image-of-minor releases (parental consent) for any participant under 18"
+      - "Right-of-publicity compliance (state law varies)"
+  - framework: "NEH Sustaining Cultural Heritage Collections technical guidelines"
+    applicability: "NEH SCHC applicants"
+    required_filings:
+      - "Environmental management plan per NEH SCHC technical specs"
+      - "Pre/post environmental monitoring data"
+      - "Conservation assessment reports"
+  - framework: "State arts council per-state requirements"
+    applicability: "state arts council applicants (50 states + 6 territories + DC)"
+    required_filings:
+      - "State-specific compliance per state council guidelines (varies)"
+      - "Pennsylvania Council on the Arts: PA-resident-artist requirement for PCA Entry + Project Stream lines"
+      - "PCA Pennsylvania Partners in the Arts (PPA) re-grant: regional partner administers per regional rules"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Common risk register entries
+# ─────────────────────────────────────────────────────────────────────────────
+common_risk_register_entries:
+  - risk: "flattened artist voice (Scribe rewriting artist statement / curatorial premise as institutional language)"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Hardcode artist-voice preservation in Scribe prompts for arts CIC.
+      Artist statement + work-sample narration + curatorial premise =
+      verbatim from applicant, light-touch clarity edits only with
+      operator authorization. Funder-legible frame (audience reach,
+      sustainability, evaluation, capacity) = full Scribe translation.
+      Editor seat second-checks the artist-voice preservation before
+      Judge.
+  - risk: "treating arts grant like a research grant"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Arts panels score artistic merit + audience reach + sustainability
+      + capacity. They do NOT score "innovation / impact / outcomes" the
+      way research panels do. Scribe must select arts-CIC narrative
+      sections (not research-CIC sections) and arts-CIC metrics (not
+      research-CIC metrics). Logician should fail-closed on a draft that
+      reads like a research grant when the active CIC is arts_culture.
+  - risk: "unsupported audience projections"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Tie projected audience to (venue capacity × performances) +
+      prior-program attendance baseline + outreach plan deliverables.
+      Reviewers flag projections that have no math. Maintain ticket-
+      sales records, door counts, and survey data as KFR baseline facts.
+  - risk: "underbudgeted artist fees (W.A.G.E. or union-scale violation)"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Reviewers flag underbudgeted artist fees as exploitative. Default
+      to W.A.G.E. (Working Artists and the Greater Economy) fee
+      calculator output for visual + performance artist commissions and
+      to union scale (AEA, AGMA, SAG-AFTRA, Local 802) for unionized
+      performers. Document rate justification in budget narrative.
+  - risk: "weak documentation plan"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Federal arts agencies + foundation funders expect a documentation
+      plan with named documenter, format, archival protocol, and
+      rights-cleared distribution plan. Boilerplate "we will document"
+      language fails. Include named photographer / videographer /
+      archivist + format spec + storage location + access plan.
+  - risk: "unconfirmed venue at application"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Reviewers expect signed venue contract or LOI at application.
+      "Venue TBD" reads as project-readiness gap. Lock venue commitments
+      before submission; if logistically impossible, document the venue-
+      selection plan + alternates with named candidates.
+  - risk: "rights and permissions ambiguity"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Performing rights, image rights, music sync, public-performance
+      licenses, talent releases must all be documented or have a clear
+      pre-project clearance plan. Ambiguity at application reads as
+      future-compliance risk to federal funders.
+  - risk: "diluted cultural specificity"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Substituting culturally specific terminology with generic language
+      ("traditional dance" instead of the named tradition + community
+      origin) flattens artistic specificity. NEA Folk & Traditional Arts
+      + NACF + tradition-bearer-led work specifically score cultural
+      specificity. Operator decides per RFA whether to retain or
+      generalize; default = retain culturally specific language.
+  - risk: "accessibility gaps (ADA / Section 504 noncompliance)"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Federal arts grants require ADA + Section 504 compliance as a
+      condition of award. Accessibility plan must address physical +
+      sensory + program accessibility — not just venue ramps. Include
+      ASL / audio description / captioning plan where program type
+      warrants. NEA Office of Accessibility provides technical
+      assistance.
+  - risk: "political-register mismatch (progressive language to conservative funder, or vice versa)"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Per dialect_routing_table — Scribe selects register matching
+      funder political axis. Per admin_risk_term_register — every
+      flagged term substitution flows through operator approval. No
+      silent rewrites.
+  - risk: "NEA / NEH funding-clause violation (current administration)"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      EO 14151 + EO 14168 + downstream NEA funding-clause restrictions
+      mean draft language using DEI / gender-identity / racial-justice
+      vocabulary on a federal arts grant carries documented enforcement
+      risk on the federal portion. Logician should fail-closed on draft
+      containing flagged HIGH-severity terms when CLC route is federal
+      arts agency. Operator decides per RFA whether to substitute,
+      route to a different funder, or accept the risk with explicit
+      sign-off.
+  - risk: "fiscal-sponsor agreement gaps (sponsored applicants)"
+    likelihood: "LOW"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Fiscal-sponsorship agreement must be signed and current before
+      application. Sponsor IS the legal applicant for federal grants.
+      Sponsor fee schedule should be transparent in budget narrative.
+      Verify sponsor's prior federal-grant compliance record before
+      routing through them.
+
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.6) ──
+  - risk: "Artist-voice rewrite without consent"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Scribe + Logician artifacts that distinguish artist-voice content
+      (verbatim, no rewrite) from funder-legible-frame content (operator-
+      approved substitution per active RFA). Operator approval at every
+      admin-risk-flagged-term substitution per OQ-5 default. CRITICAL:
+      when artist self-identifies (queer / trans / Indigenous / etc.) in
+      their own artist statement, Scribe MUST NOT rewrite verbatim self-
+      identification. Editor seat second-checks the artist-voice
+      preservation before Judge.
+  - risk: "Cultural-sovereignty practice misframing"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      When applicant invokes cultural-sovereignty practice or Indigenous-
+      knowledge centering, route to soul-fire dialect + cultural-bearer-
+      attributed-source-citation; never substitute to centrist /
+      conservative dialect without operator + cultural-partner approval.
+      Cultural-partner consent documentation surfaced at intake.
+  - risk: "Accessibility-plan absence on accessibility-eligible programs"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Pre-application accessibility-plan audit; NEA Office of
+      Accessibility framework as anchor; section-by-section coverage of
+      physical / program / staff access components. Section 504
+      accessibility-coordinator designation surfaced at intake for orgs
+      with 15+ employees.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Common funders observed — OBSERVATIONAL ONLY, NOT a CIC × CLC binding.
+# Frequency tags are qualitative-only per OQ-6 until 12+ CycleReceipts
+# accumulate.
+# ─────────────────────────────────────────────────────────────────────────────
+common_funders_observed:
+# ─────────────────────────────────────────────────────────────────────────────
+# OPERATIONAL CONTENT EMPTIED — Phase E Option 2 cleanup 2026-05-16
+# Per Law 5 + §18.5 schema discipline ("OBSERVATIONAL ONLY"): this field
+# carries only funders the operator has CONFIRMED ACTUAL ENGAGEMENT with.
+# Wave 2 subagents over-populated this block based on sector knowledge,
+# not engagement history — that was a Law 5 violation surfaced at Phase E
+# 2026-05-16. Prior content moved to
+# `_research_metadata.draft_funder_candidates_pending_operator_engagement_confirmation`
+# below; operator graduates candidate entries to this live list as actual
+# engagement confirms. Runtime Tilth seats reading this field see an empty
+# list until operator graduation; that's the correct Law 5 posture for a
+# fresh deployment with no engagement history yet.
+# ─────────────────────────────────────────────────────────────────────────────
+  []  # empty list — operator graduates from candidates as engagement confirms
+lifecycle:
+  draft_status: "signed"
+  review_status: "passed"
+  cross_family_thesis_status: "passed"
+  signature_status: "signed"
+  runtime_load_status: "loaded"
+  runtime_loadable: true
+  signed_at: "2026-05-16T16:00:00Z"
+  signed_by: "founder"
+  content_hash: "sha256:ed1ddd9603388411c84f07ce532c3092d0dbda70254fd63e38e8f1f1d24900e0"
+  lock_history_row: 252
+  lock_timestamp_utc: "2026-05-16T16:00:00Z"
+  # LOCK ceremony 2026-05-16 PM after L-005 two-cycle audit closed at
+  # pipeline/validation/cards_wave_2_thesis_2026-05-15/CIC/arts_culture/FINAL_VERDICT.md
+  # (THESIS_PASSED). review_status flipped pending→passed; signature_status
+  # unsigned→signed; runtime_load_status not_loaded→loaded. Operator publisher
+  # pubkey pinned at vault_shared/cards/publisher_pubkey.signed.yaml. The
+  # ed25519_signature in _research_metadata is the operator Ed25519 signature
+  # over canonical-JSON of this YAML with ed25519_signature: null. OD-F + OD-H
+  # operator-decisions resolved pre-ceremony (cards LOCKed as-on-disk per
+  # operator directive 2026-05-16).
+
+_research_metadata:
+  authored_at: "2026-05-15T00:00:00Z"
+  authored_by_role: "research_session"
+  research_budget_hours_actual: 3.5
+  priors_consulted:
+    - path: "assets/cards/customer_identification/arts_culture.png"
+      extract_note: "visual Card source — TILTH-CIC-REVIEW-01 v7.0.8 LOCKED roster (canonical snake_case path; if operator's on-disk asset uses the spaced filename 'arts and culture.png', operator-side asset rename is separate housekeeping; card reference is canonical form)"
+    - path: "pipeline/blueprint/v0.1/section_18_card_system.md"
+      extract_note: "§18.5 CIC schema + §18.9 TILTH-CIC-04 starter-content requirements (the authoritative scope for this card); §18.10 CLC roster confirming orthogonality discipline"
+    - path: "pipeline/cards/CIC/food_systems.yaml"
+      extract_note: "Wave 1 reference card — shape, comment density, severity-mapping comment block, common_funders_observed pattern"
+    - path: "pipeline/cards/CIC/educator.yaml"
+      extract_note: "Wave 2 Batch 1 reference card — Wave 2 operating-posture comment header, EO 14151/14168 reviewer_context discipline"
+    - path: "pipeline/cards/CIC/public_agency.yaml"
+      extract_note: "Wave 2 Batch 1 reference card — sibling CIC for boundary discrimination (municipal vs cultural)"
+    - path: "pipeline/cards/CLC/operating_capacity.yaml"
+      extract_note: "Wave 1 CLC — _review_handback structure precedent for Phase 5 handback shape"
+    - path: "CLAUDE.md"
+      extract_note: "Six Customer Identity Categories definition (TILTH-CIC-04 Arts & Culture: Merit-plus-sustainability funding world) + admin-risk discipline (Law 4) + CIC × CLC orthogonality discipline + Beta-deployment NEA funding-clause context"
+    - path: "pipeline/institutional_memory/admin_risk_register.yaml"
+      extract_note: "v2.2 EO-context severity tiers — DEI / racial justice / gender identity / equity / inclusion at RED tier; consistent severity mapping into MEDIUM/HIGH for card"
+  primary_sources:
+    - url: "https://www.arts.gov/grants/grants-for-arts-projects"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Grants for Arts Projects is the National Endowment for the
+        Arts's principal grants program for organizations." "Project budgets
+        must be at least $20,000 to apply for a $10,000 grant; no more than
+        $200,000 to apply for a $100,000 grant; matching funds must be at
+        least equal to the grant amount."
+        Source for NEA Grants for Arts Projects funder_program_keywords +
+        award range + 1:1 match requirement + capacity-signals-required entries.
+    - url: "https://www.arts.gov/grants/challenge-america"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Challenge America offers support primarily to small
+        organizations for projects in all artistic disciplines that extend
+        the reach of the arts to underserved groups."
+        Source for Challenge America entry + first-time-applicant + underserved-
+        community framing.
+    - url: "https://www.arts.gov/grants/our-town"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Our Town is the National Endowment for the Arts's creative
+        placemaking grants program. Through project-based funding, the program
+        supports projects that integrate arts, culture, and design activities
+        into local efforts that strengthen communities."
+        Source for Our Town entry + nonprofit + local-government partnership
+        requirement (drives partner_letters evidence signal + capacity_signals).
+    - url: "https://www.neh.gov/divisions/public"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Division of Public Programs supports projects that
+        engage public audiences in the exploration of significant humanities
+        ideas." Source for NEH Public Programs entry + reporting cadence +
+        capacity signals (Annual Performance Report + SF-425).
+    - url: "https://www.neh.gov/divisions/preservation"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Division of Preservation and Access supports projects
+        that preserve and create access to cultural heritage resources held by
+        libraries, archives, museums, historical organizations, and other
+        repositories."
+        Source for NEH Preservation & Access entry + collections preservation
+        framing + KFR cultural_heritage class.
+    - url: "https://www.neh.gov/grants/preservation/sustaining-cultural-heritage-collections"
+      access_date: "2026-05-15"
+      relevance: |
+        NEH SCHC technical guidelines + environmental management framing.
+        Source for compliance_burdens NEH SCHC entry + technical-spec
+        requirements distinguishing SCHC from general preservation grants.
+    - url: "https://www.imls.gov/grants/available/museums-america"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Museums for America (MFA) supports projects that strengthen
+        the ability of an individual museum to serve its public. MFA has three
+        project categories: Lifelong Learning, Community Anchors and Catalysts,
+        and Collections Stewardship and Public Access."
+        Source for IMLS MFA entry + three-category framing.
+    - url: "https://arts.pa.gov/grants-funding/programs"
+      access_date: "2026-05-15"
+      relevance: |
+        Pennsylvania Council on the Arts program lines — Entry, Project Stream,
+        Pennsylvania Partners in the Arts (PPA) regional re-grant. Source for
+        PCA funder_program_keywords + state-arts-council reporting cadence +
+        PA-resident-artist eligibility note.
+    - url: "https://www.mellon.org/grant-programs/arts-and-culture"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Arts and Culture is committed to supporting people who
+        produce, present, and preserve the arts and humanities, as well as
+        the broader cultural ecosystem within which they create."
+        Source for Mellon arts portfolio entry + progressive-dialect example
+        funder.
+    - url: "https://www.ddcf.org/what-we-fund/performing-arts"
+      access_date: "2026-05-15"
+      relevance: |
+        Doris Duke Performing Arts program lines — Performing Artist Awards
+        (by-nomination), Building Demand for the Arts, Building Bridges
+        program. Source for DDCF entry + by-nomination pattern note.
+    - url: "https://www.fordfoundation.org/work/our-grants/creativity-and-free-expression"
+      access_date: "2026-05-15"
+      relevance: |
+        Ford Foundation Creativity and Free Expression program area framing.
+        Source for Ford arts portfolio entry + free-expression dialect framing
+        in admin_risk_term_register "censorship" entry.
+    - url: "https://knightfoundation.org/programs/arts"
+      access_date: "2026-05-15"
+      relevance: |
+        Knight Foundation Arts initiative — geographically scoped to Knight
+        cities. Source for Knight Foundation entry + Knight Arts Challenge
+        framing + local-funder geography note.
+    - url: "https://www.surdna.org/our-programs/thriving-cultures"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Surdna's Thriving Cultures program area supports artists
+        and communities of color in shaping a more just society."
+        Source for Surdna entry + progressive-dialect example funder.
+    - url: "https://www.heinz.org/grants"
+      access_date: "2026-05-15"
+      relevance: |
+        Heinz Endowments Creativity program area framing — Pittsburgh-region
+        arts funding. Source for Heinz arts entry + regional-foundation
+        observational pattern.
+    - url: "https://www.nativeartsandcultures.org/"
+      access_date: "2026-05-15"
+      relevance: |
+        Native Arts and Cultures Foundation program lines (SHIFT, LIFT, Mentor
+        Artist Fellowships). Source for NACF entry + soul-fire-dialect example
+        funder + cultural-sovereignty register framing.
+    - url: "https://www.firstpeoplesfund.org/"
+      access_date: "2026-05-15"
+      relevance: |
+        First Peoples Fund — Indigenous artist + community-rooted practice.
+        Source for First Peoples Fund entry + cultural-sovereignty dialect
+        examples.
+    - url: "https://wageforwork.com/"
+      access_date: "2026-05-15"
+      relevance: |
+        W.A.G.E. (Working Artists and the Greater Economy) fee calculator +
+        certification standard. Source for artist_fee_documentation evidence
+        signal + underbudgeted-artist-fees risk-register entry mitigation.
+    - url: "https://www.arts.gov/about/equal-opportunity-policies"
+      access_date: "2026-05-15"
+      relevance: |
+        NEA Office of Accessibility + ADA / Section 504 compliance guidance
+        for grantees. Source for accessibility evidence signal + capacity-
+        signals + compliance_burdens ADA / Section 504 entries.
+    - url: "https://nasaa-arts.org/state-arts-agencies/"
+      access_date: "2026-05-15"
+      relevance: |
+        National Assembly of State Arts Agencies — directory of all 50 state
+        + 6 territory + DC arts agencies. Source for state-arts-councils
+        general entry + per-state-requirements compliance framing.
+    - url: "https://www.statehumanities.org/"
+      access_date: "2026-05-15"
+      relevance: |
+        Federation of State Humanities Councils — directory + program coverage.
+        Source for state humanities councils general entry.
+  ed25519_signature: null
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Phase 5 — Research review handback per blueprint §18.11
+# ─────────────────────────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────────
+  # draft_funder_candidates_pending_operator_engagement_confirmation
+  # Relocated from top-level `common_funders_observed:` at Phase E Option 2
+  # cleanup 2026-05-16. Wave 2 subagent populated these based on sector
+  # knowledge, NOT operator-confirmed engagement. Per §18.5 schema discipline
+  # ("OBSERVATIONAL ONLY"), the live `common_funders_observed:` block (now
+  # emptied; see above) carries only operator-engagement-confirmed funders.
+  # Operator graduates entries from this candidates list to the live block
+  # as actual engagement confirms.
+  # ─────────────────────────────────────────────────────────────────────────────
+  draft_funder_candidates_pending_operator_engagement_confirmation:
+    - funder_name: "National Endowment for the Arts (NEA) — Grants for Arts Projects"
+      funder_type: "federal"
+      typical_award_range: "$10,000–$100,000 (most awards $10,000–$25,000); 1:1 non-federal match required"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Two annual deadlines. Sixteen-discipline coverage. Source: arts.gov/grants/grants-for-arts-projects."
+
+    - funder_name: "National Endowment for the Arts (NEA) — Challenge America"
+      funder_type: "federal"
+      typical_award_range: "$10,000 flat award"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Designed for first-time applicants + underserved-community projects. Source: arts.gov/grants/challenge-america."
+
+    - funder_name: "National Endowment for the Arts (NEA) — Our Town"
+      funder_type: "federal"
+      typical_award_range: "$25,000–$200,000; nonprofit + local-government partnership required"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Creative-placemaking program. Annual cycle. Source: arts.gov/grants/our-town."
+
+    - funder_name: "National Endowment for the Arts (NEA) — Folk & Traditional Arts"
+      funder_type: "federal"
+      typical_award_range: "$10,000–$100,000; apprenticeships + community-based projects"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Tradition-bearer + community-rooted focus. Source: arts.gov/grants (folk-and-traditional-arts category)."
+
+    - funder_name: "National Endowment for the Humanities (NEH) — Public Programs"
+      funder_type: "federal"
+      typical_award_range: "$30,000–$1,000,000 (planning vs implementation tracks)"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Exhibitions, films, digital projects, public history. Source: neh.gov/divisions/public."
+
+    - funder_name: "National Endowment for the Humanities (NEH) — Preservation & Access"
+      funder_type: "federal"
+      typical_award_range: "$50,000–$350,000 typical"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Collections preservation, cataloging, access infrastructure. Source: neh.gov/divisions/preservation."
+
+    - funder_name: "National Endowment for the Humanities (NEH) — Sustaining Cultural Heritage Collections"
+      funder_type: "federal"
+      typical_award_range: "$10,000–$350,000 (planning + implementation tracks)"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Environmental management for collections. Source: neh.gov (SCHC program page)."
+
+    - funder_name: "National Endowment for the Humanities (NEH) — Public Humanities Projects"
+      funder_type: "federal"
+      typical_award_range: "$50,000–$400,000 (planning vs implementation)"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Community conversation, exhibition, historic-place interpretive projects. Source: neh.gov."
+
+    - funder_name: "Institute of Museum and Library Services (IMLS) — Museums for America"
+      funder_type: "federal"
+      typical_award_range: "$5,000–$250,000; three project categories (Lifelong Learning / Community Anchors / Collections Stewardship)"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Annual cycle. Source: imls.gov/grants/available/museums-america."
+
+    - funder_name: "IMLS Native American/Native Hawaiian Museum Services + Native American Library Services"
+      funder_type: "federal"
+      typical_award_range: "varies; tribally controlled museum + library services"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Tribal community / Native arts focus. Source: imls.gov/grants."
+
+    - funder_name: "Pennsylvania Council on the Arts (PCA) — Entry / Project Stream / PPA Re-grant"
+      funder_type: "state"
+      typical_award_range: "$2,000–$15,000 (Entry / Project Stream); PPA varies by regional partner"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. NEA partnership state agency. PA-resident-artist requirement on individual lines. Source: arts.pa.gov."
+
+    - funder_name: "New Jersey State Council on the Arts"
+      funder_type: "state"
+      typical_award_range: "varies; General Operating Support + Project Grants + Folk Arts; typically $5,000–$100,000"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. NEA partnership state agency; PA-anchored Beta neighbor. Source: nj.gov/state/njsca/grants (program-page root)."
+
+    - funder_name: "New York State Council on the Arts (NYSCA)"
+      funder_type: "state"
+      typical_award_range: "varies; broad program-line coverage; typically $5,000–$100,000+"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. NEA partnership state agency; PA-anchored Beta neighbor; very large state portfolio. Source: arts.ny.gov/grant-opportunities (program-page root)."
+
+    - funder_name: "Maryland State Arts Council (MSAC)"
+      funder_type: "state"
+      typical_award_range: "varies; Grants for Organizations + Independent Artist Awards; typically $1,000–$50,000"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. NEA partnership state agency; PA-anchored Beta neighbor. Source: msac.org/grants (program-page root)."
+
+    - funder_name: "State arts councils (general — 50 states + 6 territories + DC)"
+      funder_type: "state"
+      typical_award_range: "varies by state; typically $1,000–$50,000"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. NEA partnership agencies in every state + territory. Each has distinct program lines + eligibility. Source: nasaa-arts.org for state-by-state directory."
+
+    - funder_name: "State humanities councils (general — 50 states + 6 territories + DC)"
+      funder_type: "state"
+      typical_award_range: "varies by state; typically $1,000–$25,000"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. NEH partnership agencies in every state + territory. Source: federation of state humanities councils — statehumanities.org."
+
+    - funder_name: "Andrew W. Mellon Foundation — Arts and Culture program"
+      funder_type: "foundation"
+      typical_award_range: "varies widely; institutional grants typically $100,000–$2,000,000+"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. By-invitation pattern for many lines; some open RFPs. Source: mellon.org/grant-programs."
+
+    - funder_name: "Doris Duke Charitable Foundation — Performing Arts program"
+      funder_type: "foundation"
+      typical_award_range: "varies; Performing Artist Awards $275,000 + Building Demand for the Arts varies"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. By-nomination for Performing Artist Awards. Source: ddcf.org/what-we-fund/performing-arts."
+
+    - funder_name: "Ford Foundation — Creativity and Free Expression program"
+      funder_type: "foundation"
+      typical_award_range: "varies widely"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. By-invitation pattern dominant; cold applications rarely funded. Source: fordfoundation.org/work/our-grants/creativity-and-free-expression."
+
+    - funder_name: "John S. and James L. Knight Foundation — Arts initiative"
+      funder_type: "foundation"
+      typical_award_range: "varies; Knight Arts Challenge $20,000–$1,000,000+"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Geographically focused — funds Knight cities (e.g., Akron, Charlotte, Detroit, Macon, Miami, Philadelphia, San Jose, St. Paul). Source: knightfoundation.org/programs/arts."
+
+    - funder_name: "Wallace Foundation — arts portfolio"
+      funder_type: "foundation"
+      typical_award_range: "varies; mostly research + capacity-building grants"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Focus on audience-building research + youth arts learning. Source: wallacefoundation.org."
+
+    - funder_name: "Surdna Foundation — Thriving Cultures program"
+      funder_type: "foundation"
+      typical_award_range: "varies; Artists Engaged in Social Change + Just Cultural Strategies lines"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Source: surdna.org/our-programs/thriving-cultures."
+
+    - funder_name: "The Heinz Endowments — Creativity program"
+      funder_type: "foundation"
+      typical_award_range: "varies"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Pittsburgh-region arts funding. Source: heinz.org/grants."
+
+    - funder_name: "Native Arts and Cultures Foundation (NACF)"
+      funder_type: "foundation"
+      typical_award_range: "$5,000–$50,000 typical; SHIFT $100,000"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Native artist + community-grounded work. SHIFT, LIFT, Mentor Artist Fellowships. Source: nativeartsandcultures.org."
+
+    - funder_name: "First Peoples Fund"
+      funder_type: "foundation"
+      typical_award_range: "varies; Cultural Capital + Artist in Business Leadership fellowships"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Indigenous artist + community-rooted practice focus. Source: firstpeoplesfund.org."
+
+    - funder_name: "United States Artists (USA) — Fellows"
+      funder_type: "foundation"
+      typical_award_range: "$50,000 unrestricted by-nomination award"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. By-nomination only — no open application. Source: unitedstatesartists.org."
+
+    - funder_name: "MAP Fund (Creative Capital + DDCF + Mellon)"
+      funder_type: "foundation"
+      typical_award_range: "$10,000–$45,000 typical"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Performing-arts project grants for risk-taking work. Source: mapfund.org."
+
+    - funder_name: "National Performance Network (NPN) / Visual Artists Network (VAN)"
+      funder_type: "foundation"
+      typical_award_range: "varies; Creation Fund + Forth Fund commission lines"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Touring + commission infrastructure for performing arts. Source: npnweb.org."
+
+    - funder_name: "Community foundations + local arts agencies (general)"
+      funder_type: "local"
+      typical_award_range: "varies widely; typically $1,000–$25,000 for project lines"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Every region has local arts agencies + community foundations with arts portfolios. Source: cof.org for community foundation directory."
+
+  # Ed25519 signature over canonical-JSON of this YAML with this field set to
+  # null. Canonical-JSON form: sorted keys, compact separators (",",":"), UTF-8,
+  # ensure_ascii=False. Canonical-JSON SHA3-512 (for white-glove integrity
+  # pinning): 8e1779b85bc28d2dfc81dab6f034f380d555c03b407d0c11c66edefc066bbf728a10d303efe3d45aae8d5ee14042b5706514e76834e3b7bf04aeda9663b72258
+  # Signature target pubkey: vault_shared/cards/publisher_pubkey.signed.yaml
+  # (publisher_pubkey_ed25519_hex 0b1a0bbfa5ee9149af2c4e6153ed037dd03c0d562c94d3eaefeaf798e6f375bd)
+  ed25519_signature: "34eb758b3ac7407f8dc09e9643b756f672c720c03bf8cf6eae22cf05fc15e5c5da8506d729f68bd16303d088146bef6657dadd9ffd06ed16ebab9b5a11af190b"
+
+  # common_clc_patterns_observed — INTENTIONALLY ABSENT.
+  # Per architecture v7.0.11 §6.1 (operator-resolved 2026-05-15) Option A KILL.
+  # Per F-CARDS-COUPLING-VIOLATION-EXTENSION fail-closed enforcement. CIC × CLC
+  # matching is opportunity-driven at runtime (Scout / Logician identify CLC per
+  # opportunity; CIC determines seat configuration only). NEVER reintroduce.
+_review_handback:
+  card_axis_and_slug: "CIC:arts_culture"
+  card_file: "pipeline/cards/CIC/arts_culture.yaml"
+  research_hours_actual: 3.5
+  schema_completeness:
+    required_fields_populated: "15/15"
+    fields_needing_review: 0
+    total_citations: 19
+    unique_primary_sources: 19
+  decision_queue:
+    - "Operator approval on all 14 admin_risk_term_register entries (approval_required:true per OQ-5). Under EO 14151 + EO 14168 + downstream NEA funding-clause environment, identity-coded vocabulary (queer, trans, racial justice, anti-racist, DEI/equity/inclusion) is HIGH severity for any federal arts route + state-pass-through NEA partnership portions; substitution candidates are operator-grade and need explicit operator sign-off before runtime. CRITICAL: artist-voice self-identification (e.g., an artist identifying as queer in their own statement) MUST NOT be silently rewritten by Scribe — operator decides per RFA whether to retain artist-voice + omit funder-legible identity framing, or whether to route to a different funder."
+    - "Cross-family Thesis dispatch (Editor + Judge + Red Team via openclaw bridge) before promoting lifecycle to 'reviewed'."
+    - "Ed25519 signature once operator + Thesis pass — pending publisher key pin per architecture v7.0.11 §1.10."
+    - "PCA Pennsylvania-resident-artist requirement is PA-specific — verify operator's deployment scope (FIT Farms LLC's clients are PA-anchored; expanding to other states would mean state-arts-council per-state requirements per-state, not in v0.1)."
+    - "Compliance burdens list is necessarily indicative not exhaustive — operator decision: is 9 frameworks (SAM/UEI, 2 CFR 200, ADA Title II/III, Section 504, NEA funding-clause attestations, copyright/performing rights, talent/model/image releases, NEH SCHC technical guidelines, state arts council per-state requirements) sufficient, or should it include AGMA/AEA/SAG-AFTRA/Local 802 union compliance as named entries, or NAGPRA (Native American Graves Protection and Repatriation Act) for cultural-heritage projects involving Indigenous artifacts?"
+    - "scoring_weight_patterns: confirm qualitative-only posture per OQ-6 (no numeric win-rates) is the right runtime posture for arts grants given the merit-review subjectivity (panel scoring varies more than other CICs); flag for v0.2 numeric-weights amendment threshold."
+  conflicts_with_prior_art:
+    - "NONE — admin_risk_term_register entries align with admin_risk_register.yaml v2.2 severity tiers (RED → HIGH, YELLOW → MEDIUM). 'racial justice' (RED) maps to HIGH; 'DEI' (RED) maps to HIGH; 'gender identity'-adjacent terms (queer, trans, gender ideology) map to HIGH per EO 14168 enforcement context. No tier inversions."
+    - "NONE — food_systems.yaml + educator.yaml shape mirrored (synonym_map, funder_program_keywords with keyword/funder/source_citation, dialect_routing_table item shape, common_funders_observed with frequency_observed enum)."
+  surface_ambiguities:
+    - "Voice-preservation-vs-funder-legibility tradeoff: the card encodes a strong default — artist statement + work-sample narration + curatorial premise = preserved verbatim; everything else = funder-legible translation. This is a Scribe-prompt-level discipline that needs to land in the Scribe seat configuration (not just card). Flag for Scribe-skill amendment to honor the arts-CIC double-voice contract."
+    - "NEA / NEH funding-clause environment is EXTREMELY VOLATILE under current administration. EO 14151 + EO 14168 attestation language has changed mid-cycle in 2025-2026 and may change again. The compliance_burdens entry deliberately says 'verify exact language per active RFA' rather than locking specific attestation text. Operator must re-read NEA grant terms at every cycle. Flag for between-cycle Archivist Reflection refresh trigger."
+    - "Fiscal-sponsorship pattern: the card handles fiscally sponsored applicants throughout (kfr_fact_class fiscal_sponsor + capacity_signals_required dual path + evidence_signals fiscal_sponsor_documentation). However, Tilth's PROJECT_CONTEXT structure may not have a clean 'fiscal sponsor' field today — verify that PROJECT_CONTEXT can express the sponsor-as-legal-applicant pattern, or surface as a v0.2 PROJECT_CONTEXT amendment."
+    - "Foundation funder roster — included Mellon / Doris Duke / Ford / Knight / Wallace / Surdna / Heinz / NACF / First Peoples Fund / USA / MAP Fund / NPN as the typical national + regional arts funder set. Several (DDCF Performing Artist Awards, Ford, USA Fellows) are by-nomination-only (no cold application). Frequency tagged RARE for cold applications. Operator may want to prune the by-nomination entries from runtime Scout vocabulary or add explicit cold-vs-nomination discrimination at a future v1.x amendment."
+    - "'Occupation' admin_risk_term entry has dual meaning (durational artistic practice vs. political-protest framing). Card surfaces both meanings + defers to operator per RFA + per-artwork context. Operator may want to split into two distinct register entries at v1.x (one for art-historical practice, one for political-protest framing) for cleaner runtime substitution logic."
+    - "Sibling CICs firing in parallel (cooperative + ecosystem_intermediary in Wave 2 batches 2-3) — once they land, verify the arts_culture / cooperative boundary (artist collective = arts_culture vs. worker-owned arts cooperative = cooperative? — likely both apply, opportunity-driven), and verify no inadvertent CIC × CLC coupling appears across the set (defense-in-depth)."
+    - "Severity assignment for 'liberation' + 'resistance' — both at MEDIUM here (admin_risk_register.yaml has neither as a dedicated entry). Operator may want them added to the workspace-wide register, or current card-local treatment is sufficient."
+    - "EO 14151 + EO 14168 reviewer_context language — current as of 2025-2026 administration. Will become stale on next federal-administration transition; admin_risk_term_register will need a between-administration refresh pass. Not a v0.1 issue, but flag for the architecture-amendment backlog."
+  review_readiness: "READY"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Draft provenance — sidecar augmentation pass
+# ─────────────────────────────────────────────────────────────────────────────
+_draft_provenance:
+  draft_authored_at: "2026-05-18T00:00:00Z"
+  draft_authored_by_role: "card_content_augmentation_pass_v1"
+  source_handback: "docs/cic_arts_culture_research_handback_2026-05-17.md"
+  source_handback_sections_consumed:
+    - "§4 Proposed Card Improvements"
+    - "§8 Patch Plan"
+  prp_scaffolding_referenced:
+    - "pipeline/program_rule_packs/_manifest/active_prps.yaml"
+    - "pipeline/blueprint/v0.1/section_19_program_rule_packs.md"
+  prp_ids_cross_referenced:
+    - "TILTH-PRP-2CFR200"
+    - "TILTH-PRP-DAVIS-BACON"
+    - "TILTH-PRP-NEPA-24CFR58"
+  operator_roadmap_alignment: "Step #5: card content augmentation passes parallel with PRP authoring once PRP pointers exist (per docs/CTO_HANDOFF_BRIEF.md §3.2 + Run 4 synthesis §6)."
+  patches_deferred_pending_operator_review:
+    - "Defer-to-active-RFA reviewer_context tightening across all 15 admin_risk_term entries (§4.4) — per-entry rewrites moving from EO-named anchoring to active-RFA-attestation-language anchoring; OQ-5 approval required"
+    - "OD-A v2.4 cross-CIC migration for shared admin-risk terms (DEI / equity / inclusion / racial justice / anti-racist / radical / abolition / decolonial / social justice / queer / trans / gender ideology) — workspace-register migration ceremony"
+    - "PA-specific PCA state-overlay routing — defer to v1.x cross-cutting amendment"
+    - "Foundation by-invitation-vs-cold-application discrimination (Doris Duke / Mellon / Ford / MacArthur) — operator-engagement-driven RARE → OCCASIONAL transition once engagement signal accumulates"
+    - "Verbatim NEA + NEH grant-terms attestation language refresh in primary_sources — operator confirms whether current verbatim quote is operationally pinnable per OQ-4 ≤2-sentence cap"
+  patches_deferred_pending_schema_amendment:
+    - "§18 v1.2 dialect_routing_table re-key — separate ceremony"
+    - "register_defaults / dialect_routing_table refresh (post-cards-ceremony bundle)"
+  patches_deferred_pending_cards_ceremony:
+    - "§18 v1.2 dialect_routing_table re-key (separate ceremony)"
+    - "Lock-history housekeeping field disposition (cross-card)"
+    - "Re-signing ceremony budget for card body changes — bundle into cards-ceremony per Run 1 Patch Queue Batch B"
+  ceremony_shape_recommendation: "supersession-re-sign per OD-E precedent at one lock_timestamp_utc; compound LOCK with other 13 cards"
+  no_lockfiles_modified: true
+  no_schema_modified: true
+  no_signatures_modified: true

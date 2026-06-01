@@ -1,0 +1,121 @@
+# Scout Channel Registry — v1
+# Canonical reference for Scout's six parallel primary channel families
+# All channels are parallel primary — none is fallback
+# Endpoint details, health thresholds, and retry config per channel
+
+channels:
+  A:
+    name: Federal APIs
+    primary: true
+    endpoints:
+      - id: grants_gov_search
+        url: "https://api.grants.gov/v2/opportunities/search"
+        method: POST
+        auth: api_key (BYOK)
+        rate_limit: "60/min"
+        health_check: "GET /v2/opportunities/search?keyword=test&limit=1"
+        retry: { max: 3, backoff_ms: [1000, 3000, 9000] }
+      - id: grants_gov_fetch
+        url: "https://api.grants.gov/v2/opportunities/{opportunityId}"
+        method: GET
+        auth: api_key (BYOK)
+        note: "Use for VERIFY stage — canonical federal source"
+      - id: sam_gov
+        url: "https://api.sam.gov/opportunities/v2/search"
+        method: GET
+        auth: api_key (BYOK)
+        rate_limit: "10/min (public tier)"
+      - id: usaspending
+        url: "https://api.usaspending.gov/api/v2/search/spending_by_award/"
+        method: POST
+        auth: none
+        note: "Award history — useful for prior-funding research, not live opportunities"
+
+  B:
+    name: Curated Cached Datasets
+    primary: true
+    sources:
+      - id: shared_cache
+        path: "vault_shared/cached_opportunities/"
+        access: "vault-query read-only primitive"
+        refresh: "manual or cron — operator controls"
+      - id: subscribed_feeds
+        path: "orgs/{slug}/vault/subscribed_feeds/"
+        access: "vault-query read-only — Law 3 scoped"
+      - id: prior_rosters
+        path: "vault_shared/prior_rosters/"
+        note: "Historical opportunity rosters from past grant cycles"
+      - id: foundation_spreadsheets
+        path: "vault_shared/foundation_seeds/"
+        format: "xlsx/csv — seeded by operator"
+    staleness_threshold: "72 hours — candidates from B require VERIFY against live source"
+
+  C:
+    name: Seeded State/Foundation Portals
+    primary: true
+    portals:
+      - id: pa_dept_agriculture
+        url: "https://www.agriculture.pa.gov/Pages/default.aspx"
+        scrape_strategy: "targeted page fetch — program announcements section"
+      - id: pa_dced
+        url: "https://dced.pa.gov/programs/"
+        note: "PA Dept of Community & Economic Development"
+      - id: pa_arts_council
+        url: "https://www.arts.pa.gov/Pages/default.aspx"
+      - id: community_foundations
+        note: "Operator-seeded list per org geography — stored in PROJECT_CONTEXT"
+    note: "Portals added per client geography — not a fixed list"
+
+  D:
+    name: Federal Program Pages
+    primary: true
+    pages:
+      - id: usda_nifa
+        url: "https://www.nifa.usda.gov/grants/funding-opportunities"
+      - id: sare
+        url: "https://www.sare.org/grants/"
+      - id: epa
+        url: "https://www.epa.gov/grants"
+      - id: sba
+        url: "https://www.sba.gov/funding-programs"
+      - id: doe
+        url: "https://www.energy.gov/eere/funding-opportunities"
+    scrape_strategy: "targeted page fetch — announcements/RFAs section"
+    note: "These are PROGRAM pages, not API endpoints — structured scraping or manual check"
+
+  E:
+    name: RSS/Newsletter Watchlists
+    primary: true
+    feeds:
+      - id: grants_gov_rss
+        url: "https://www.grants.gov/rss/GG_NewOppByAgency.xml"
+        format: RSS
+      - id: operator_watchlist
+        path: "vault_shared/rss_watchlist.opml"
+        note: "Operator-curated OPML — funder newsletters, program announcements"
+    refresh_interval: "daily (cron)"
+
+  F:
+    name: Client-Material-Driven Web Search
+    primary: true
+    engine:
+      id: brave_search
+      url: "https://api.search.brave.com/res/v1/web/search"
+      auth: api_key (BYOK)
+      quota: "2000 queries/month (free tier)"
+    query_construction:
+      template: "{sector} grant {geography} {entity_type} {year}"
+      source: "PROJECT_CONTEXT keywords + sector + geography"
+    preflight:
+      bt12_allowlist: true
+      jurisdiction_policy: "per-org — operator opts in"
+      note: "Fetches to disallowed jurisdictions rejected pre-flight"
+
+# Health tuple format (per DISCOVER pass)
+health_tuple:
+  format: "{A: OK|DEGRADED|FAILED, B: OK|DEGRADED|FAILED, ..., F: OK|DEGRADED|FAILED}"
+  signing: "HMAC — Logician-issued session key. Scout does NOT self-attest."
+  thresholds:
+    DEGRADED: "response_time > 10s OR partial results OR rate-limited"
+    FAILED: "no response OR HTTP 5xx OR parse error"
+    OK: "full response within 10s, parseable results"

@@ -1,0 +1,497 @@
+# =============================================================================
+# Program Rule Pack — TILTH-PRP-DAVIS-BACON
+# Davis-Bacon Act + Davis-Bacon and Related Acts (DBA / DBRA), 29 CFR Parts
+# 1, 3, and 5; Copeland Anti-Kickback Act (40 U.S.C. 3145) WH-347 weekly
+# certified payroll.
+# v0.2 first wave — DRAFT body. NOT SIGNED. NOT runtime-loadable.
+# Authored 2026-05-18 per operator's roadmap recommendation (PRP first wave).
+# =============================================================================
+#
+# Lifecycle truth at this commit:
+#   - draft_status: draft
+#   - review_status: pending
+#   - signature_status: unsigned
+#   - runtime_load_status: not_loaded
+#   - runtime_loadable: false
+#   - signed_at / signed_by / content_hash / ed25519_signature: all null
+#
+# A DRAFT PRP MUST NOT be runtime-loaded. The loader at
+# pipeline/program_rule_packs/loader.py raises NotImplementedError at the
+# top-level call at v0.1; this body is never validated against
+# pipeline/program_rule_packs/_schema/program_rule_pack.schema.json in
+# production at v0.1. On-disk-only for review + the v0.2 first wave LOCK
+# ceremony's signing slate.
+#
+# Source-freshness note: the DOL final rule "Updating the Davis-Bacon and
+# Related Acts Regulations" published August 23, 2023 (88 FR 57526) and
+# took effect on October 23, 2023. The authoring prompt's date of
+# 2024-10-23 appears to be a typo for the verified 2023-10-23 final rule
+# effective date; the verified date is used below. Operator should
+# reconcile at LOCK ceremony if a later targeted amendment applies.
+#
+# WH-347 form is published and maintained by the Department of Labor Wage
+# and Hour Division (WHD). The form expiration is OMB-renewed; per-form
+# refresh cadence is annually to triennially depending on OMB action.
+# Scribe and Logician seats consume the WH-347 form-version requirement at
+# runtime and verify the form-version-in-force at submission date.
+#
+# Audit-source anchor: docs/phased_card_system_research_audit_extracted_2026-05-17.md
+# §"Davis-Bacon Act and Labor Compliance Integration" + synthesis
+# recommendation #3 "Automate Davis-Bacon Checking".
+#
+# Affected card scope (observational; not eligibility-coupling):
+#   CLC-01 (public_purpose_works) — federal-funded construction is the
+#     primary trigger for DBA coverage.
+#   CLC-08 (shared_assets) — shared-asset construction frequently flows
+#     through federal funding pipelines that flow-down DBA.
+#   CIC-03 (public_agency) — public-agency applicants are the most common
+#     recipient of federal construction grants and pass-throughs.
+# These card-name references are observational binding hints only and do
+# NOT create cic_clc_matrix, eligible_clc_subset, or any other forbidden
+# coupling field on this PRP body.
+#
+# Coupling discipline (PRP schema §forbidden_coupling_fields + §forbidden_law3_key_patterns):
+# This PRP body contains NO forbidden coupling or Law-3 field. PRPs encode
+# published live law only — never operator-specific overrides, never
+# private member rosters, never CIC × CLC eligibility coupling.
+# =============================================================================
+
+schema_version: '1.0-prp'
+prp_id: TILTH-PRP-DAVIS-BACON
+prp_kind: cross_cutting_regulation
+display_name: 'Davis-Bacon Act + Davis-Bacon and Related Acts (DBA / DBRA, 29 CFR Parts 1, 3, 5)'
+
+funding_program_ref: null
+
+# Effective date of the DOL 2023 final rule. Federal-funded construction
+# contracts entered into on or after this date are governed by the revised
+# regulations. Verified against 88 FR 57526 (August 23, 2023 publication;
+# October 23, 2023 effective date).
+effective_date: '2023-10-23'
+
+# expiry_date null: DBA is a permanent federal statute (40 U.S.C. 3141 et
+# seq.) and the implementing regulations have no operator-known sunset.
+# Wage-determination publication is continuous (DOL publishes general wage
+# determinations on a rolling basis at SAM.gov / beta.SAM.gov). Future
+# targeted regulatory amendments are handled by re-authoring this PRP body
+# and incrementing the on-disk version.
+expiry_date: null
+
+cross_references: []
+
+live_law_rules:
+
+  # -------------------------------------------------------------------------
+  # COVERAGE THRESHOLD + TYPE-OF-WORK (40 U.S.C. 3142; 29 CFR 5.2)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R01
+    rule_type: eligibility
+    rule_summary: >
+      DBA coverage threshold: every contract in excess of $2,000 to which
+      the Federal Government or the District of Columbia is a party for
+      the construction, alteration, or repair (including painting and
+      decorating) of public buildings or public works of the United States
+      or the District of Columbia, situated in the United States or the
+      District of Columbia, requires payment of prevailing wages.
+    source_citation: '40 U.S.C. 3142(a) (Davis-Bacon Act) + 29 CFR 5.2 (definitions)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R02
+    rule_type: eligibility
+    rule_summary: >
+      DBRA flow-down: more than 70 Davis-Bacon Related Acts extend DBA
+      prevailing-wage requirements to federally assisted construction
+      (i.e., construction supported by federal financial assistance, not
+      direct federal contracts). DBRA coverage attaches when the underlying
+      federal-assistance statute incorporates DBA by reference.
+    source_citation: '29 CFR 5.1 (Purpose and scope — DBRA list)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R03
+    rule_type: eligibility
+    rule_summary: >
+      Covered worker classes: laborers and mechanics employed directly upon
+      the site of the work, including apprentices and trainees in
+      registered apprenticeship and training programs, are covered by DBA
+      prevailing-wage requirements. The 2023 final rule clarified
+      "site of the work" to include certain secondary work sites
+      (significant portions of building or work and dedicated support
+      sites) under defined conditions.
+    source_citation: '29 CFR 5.2 (definitions: laborer or mechanic; site of the work) — 2023 revision'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # WAGE DETERMINATIONS (29 CFR 1 + 5.5)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R04
+    rule_type: eligibility
+    rule_summary: >
+      Wage determination lookup: the applicable wage determination is
+      identified by (i) geographic locality (county-by-county, with
+      multi-county determinations in some regions), (ii) type of
+      construction (Building, Residential, Highway, or Heavy), and (iii)
+      classification of laborer or mechanic; the determination in effect
+      at the time of contract award (or at modification triggering a new
+      determination) controls.
+    source_citation: '29 CFR 1.6 (Use and effectiveness of wage determinations) + 29 CFR 5.5(a)(1)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R05
+    rule_type: eligibility
+    rule_summary: >
+      Wage determination publication: general wage determinations are
+      published at SAM.gov (formerly Wage Determinations Online /
+      beta.SAM.gov) and updated continuously by DOL Wage and Hour Division;
+      contracting agencies must use the determination in force on the date
+      of contract award (with limited exceptions for advertisement-date
+      lock-in under 29 CFR 1.6).
+    source_citation: '29 CFR 1.5 + 29 CFR 1.6'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R06
+    rule_type: eligibility
+    rule_summary: >
+      Conformance process: where a needed classification is not listed on
+      the applicable wage determination, the contractor must request an
+      additional classification and wage rate from DOL through the
+      contracting agency using Form SF-1444 (Request for Authorization of
+      Additional Classification and Rate). Conformance request must occur
+      before any work is performed by the unlisted classification.
+    source_citation: '29 CFR 5.5(a)(1)(iii) + Form SF-1444 — 2023 revision strengthened conformance process'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # FRINGE BENEFITS (29 CFR 5.23 - 5.32)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R07
+    rule_type: budget_allowability
+    rule_summary: >
+      Fringe-benefit obligation: contractors must pay the listed fringe
+      benefits in the wage determination as cash, as bona fide fringe
+      benefits, or as a combination of cash and benefits. A bona fide
+      fringe benefit must be (i) contributed irrevocably to a trustee or
+      third party pursuant to a fund, plan, or program, (ii) for a
+      definite purpose enumerated in 29 CFR 5.29, and (iii) not used to
+      offset the basic hourly rate listed on the wage determination.
+    source_citation: '29 CFR 5.23 - 5.32 (Fringe benefits)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R08
+    rule_type: budget_allowability
+    rule_summary: >
+      Annualization rule (clarified 2023): the value of a fringe benefit
+      contributed to a fund, plan, or program must be annualized — that is,
+      computed by spreading the actual contribution over all hours worked
+      by the laborer or mechanic (both DBA-covered and non-DBA work) for
+      the period to which the contribution applies. Exceptions for defined
+      contribution pension plans and certain HRA contributions per 29 CFR
+      5.31.
+    source_citation: '29 CFR 5.25 + 29 CFR 5.31 — 2023 revision'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # WEEKLY-PAYMENT OBLIGATION + STRATEGIES (29 CFR 5.5(a)(1))
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R09
+    rule_type: budget_allowability
+    rule_summary: >
+      Weekly payment obligation: laborers and mechanics must be paid the
+      full prevailing wage (including fringe benefits as required) at
+      least once a week (weekly), without subsequent deduction or rebate
+      except as expressly permitted by the Copeland Anti-Kickback Act and
+      its implementing regulations. Workers may not waive this entitlement.
+    source_citation: '40 U.S.C. 3142(c)(1) + 29 CFR 5.5(a)(1)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R10
+    rule_type: budget_allowability
+    rule_summary: >
+      Bi-weekly / semi-monthly payroll-system compliance pathways (DOE
+      practitioner-guidance synthesis, secondary): contractors using
+      non-weekly payroll cycles operate one of four pathways: (i) System
+      Modification to output weekly payments for covered employees, (ii)
+      supplemental third-party weekly payroll API integration, (iii)
+      weekly cash advance in alternate weeks that match or exceed the
+      prevailing wages due for the hours worked on covered projects, (iv)
+      weekly draw check in alternate weeks deducted from the master
+      bi-weekly ledger. All four pathways must result in laborers
+      receiving the full prevailing wage no later than once a week for
+      hours worked on covered projects.
+    source_citation: '29 CFR 5.5(a)(1) (statutory weekly-payment obligation) + DOE Davis-Bacon Act Weekly Pay Compliance Options practitioner guidance (secondary)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R11
+    rule_type: budget_allowability
+    rule_summary: >
+      Rate-of-pay reduction prohibition: a contractor may not reduce a
+      worker's standard (non-covered) rate of pay to offset the required
+      prevailing wage on covered hours. The full prevailing wage must be
+      paid for covered hours in addition to any non-covered hours at the
+      worker's standard rate.
+    source_citation: '29 CFR 5.5(a)(1) (read with Copeland Act, 40 U.S.C. 3145)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # WH-347 WEEKLY CERTIFIED PAYROLL + COPELAND STATEMENT OF COMPLIANCE
+  # (29 CFR 3 + 5.5(a)(3); Form WH-347)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R12
+    rule_type: form
+    rule_summary: >
+      WH-347 weekly certified payroll: contractors and subcontractors
+      performing work on DBA / DBRA-covered contracts must submit weekly,
+      consecutively numbered certified payroll records to the contracting
+      agency using DOL Form WH-347 (or an equivalent form containing all
+      required data elements). Each weekly submission must include the
+      Statement of Compliance on the reverse of WH-347 (or WH-348 as a
+      standalone Statement of Compliance form), signed by an authorized
+      principal of the contractor.
+    source_citation: '29 CFR 3.3 + 29 CFR 5.5(a)(3)(ii) + Form WH-347'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R13
+    rule_type: form
+    rule_summary: >
+      Statement of Compliance content (Copeland Act): the Statement of
+      Compliance certifies (i) that the payroll for the payroll period
+      contains the information required to be provided under §5.5(a)(3)(ii),
+      (ii) that such information is correct and complete, (iii) that each
+      laborer or mechanic has been paid not less than the applicable wage
+      rates and fringe benefits or cash equivalents for the classification
+      of work performed, and (iv) that no deductions have been made either
+      directly or indirectly from the full wages earned other than
+      permissible deductions as set forth in 29 CFR Part 3.
+    source_citation: '40 U.S.C. 3145 (Copeland Act) + 29 CFR 3.3(b) + 29 CFR 5.5(a)(3)(ii)(B)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R14
+    rule_type: form
+    rule_summary: >
+      Consecutively numbered "No Work" payrolls: a weekly payroll record
+      must be submitted even during periods of no covered work; the
+      submission is marked "No Work" and maintains the consecutive
+      payroll-number sequence to evidence continuous reporting.
+    source_citation: '29 CFR 5.5(a)(3)(ii) (read with practitioner-guidance recordkeeping convention)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R15
+    rule_type: form
+    rule_summary: >
+      Submission cadence: weekly certified payroll records must be submitted
+      within seven days after the regular payment date of the payroll
+      period to the contracting agency or pass-through entity, which then
+      transmits them to the relevant federal agency.
+    source_citation: '29 CFR 5.5(a)(3)(ii)(A)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # APPRENTICESHIP + TRAINING (29 CFR 5.5(a)(4))
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R16
+    rule_type: eligibility
+    rule_summary: >
+      Apprentices may be paid less than the journey-level prevailing wage
+      only if they are individually registered in a bona fide apprenticeship
+      program registered with the U.S. Department of Labor Office of
+      Apprenticeship (OA), or with a State Apprenticeship Agency recognized
+      by OA. The allowable ratio of apprentices to journey-workers on the
+      job site in any craft classification must not be greater than the
+      ratio permitted to the contractor as to its entire work force under
+      the registered program.
+    source_citation: '29 CFR 5.5(a)(4)(i)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R17
+    rule_type: eligibility
+    rule_summary: >
+      Trainees: may be paid less than the journey-level prevailing wage
+      only if registered with the U.S. DOL Employment and Training
+      Administration. Any worker performing covered work who is not
+      registered as an apprentice or trainee under the foregoing must be
+      paid not less than the applicable journey-level prevailing wage
+      rate for the classification of work actually performed.
+    source_citation: '29 CFR 5.5(a)(4)(ii)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # PRIME-CONTRACTOR FLOW-DOWN + SUBCONTRACTOR LIABILITY (2023 revision)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R18
+    rule_type: eligibility
+    rule_summary: >
+      Subcontractor flow-down: the prime contractor must insert the DBA
+      contract clauses at 29 CFR 5.5 in any subcontracts and must require
+      subcontractors to include them in lower-tier subcontracts. The 2023
+      final rule strengthened operation-of-law flow-down — DBA contract
+      clauses now apply by force of regulation even if a contracting
+      agency erroneously omitted them from the prime contract.
+    source_citation: '29 CFR 5.5(e) — 2023 revision (operation-of-law flow-down)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R19
+    rule_type: eligibility
+    rule_summary: >
+      Prime-contractor responsibility for sub-tier compliance: the prime
+      contractor is responsible for collecting, reviewing, and
+      transmitting sub-tier subcontractor certified payrolls to the
+      contracting agency, and for the compliance of all lower-tier
+      subcontractors with DBA wage, fringe benefit, and reporting
+      requirements. The 2023 final rule made the prime contractor jointly
+      and severally liable for back-wage violations of lower-tier
+      subcontractors.
+    source_citation: '29 CFR 5.5(a)(6) + 29 CFR 5.5(e)(2) — 2023 revision'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R20
+    rule_type: reporting
+    rule_summary: >
+      Prime contractor certification trigger (large-project threshold,
+      audit-source synthesis): for federal construction contracts
+      exceeding $10 million, the prime contractor's responsibility for
+      verifying that all laborers and mechanics (including lower-tier
+      subcontractors) are paid at or above prevailing wage rates includes
+      a heightened verification posture. Operator should confirm the
+      $10M trigger against current contracting-agency guidance at LOCK
+      ceremony; the audit-source extracted this threshold from secondary
+      practitioner material.
+    source_citation: 'docs/phased_card_system_research_audit_extracted_2026-05-17.md §"Davis-Bacon Act and Labor Compliance Integration" (audit-source secondary; verify with primary contracting-agency policy at LOCK)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # RECORDKEEPING + RETENTION + ON-SITE POSTING
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R21
+    rule_type: reporting
+    rule_summary: >
+      Recordkeeping retention: all payroll records and basic records
+      relating to DBA-covered work — including timesheets, payroll
+      ledgers, fringe-benefit contribution records, and apprenticeship /
+      training registrations — must be retained for at least three years
+      from the date of completion of the contract.
+    source_citation: '29 CFR 5.5(a)(3)(i) + 29 CFR 5.5(a)(3)(ii)(C)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R22
+    rule_type: form
+    rule_summary: >
+      On-site poster requirement: the contractor must display the WH-1321
+      "Notice to All Employees Working on Federal or Federally Financed
+      Construction Projects" poster on the job site in a prominent and
+      accessible location, alongside the applicable wage determination(s).
+      The WH-1321 poster (English + Spanish + other languages where
+      applicable) is published by DOL WHD.
+    source_citation: '29 CFR 5.5(a)(1)(i) (posting of wage determination) + WH-1321 (DOL WHD)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # ENFORCEMENT + DEBARMENT (29 CFR 5.7 + 5.12; 40 U.S.C. 3144)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R23
+    rule_type: reporting
+    rule_summary: >
+      Enforcement posture: contracting agencies must withhold from
+      contractor payments amounts equal to the underpayment of wages or
+      fringe benefits owed to laborers and mechanics; withheld amounts are
+      paid to the affected workers. Repeated violations may result in
+      contract termination.
+    source_citation: '29 CFR 5.9 (Suspension of funds) + 40 U.S.C. 3142(c) (withholding)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R24
+    rule_type: reporting
+    rule_summary: >
+      Debarment: a contractor or subcontractor (and the responsible
+      officers thereof) found to have disregarded its obligations to
+      employees and subcontractors under DBA / DBRA is subject to
+      debarment from federal contracts and federally assisted contracts
+      for a period of up to three years. The 2023 final rule strengthened
+      the debarment standard for both DBA and DBRA cases.
+    source_citation: '29 CFR 5.12 + 40 U.S.C. 3144 — 2023 revision (debarment standard alignment)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R25
+    rule_type: reporting
+    rule_summary: >
+      Anti-retaliation (2023 revision): the 2023 final rule added an
+      explicit anti-retaliation provision protecting workers who file
+      complaints, cooperate with investigations, or assert their rights
+      under DBA / DBRA. Retaliation may itself give rise to back-pay,
+      reinstatement, and other remedies.
+    source_citation: '29 CFR 5.5(b) + 29 CFR 5.10 — 2023 revision (anti-retaliation)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # PROGRAMMATIC COMPLIANCE LOCK SHELL — WH-347 form-version check
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-DAVIS-BACON-R26
+    rule_type: hard_export_gate
+    rule_summary: >
+      Programmatic compliance lock (operator-implementable at v0.2 first
+      wave, after Logician F-PRP-* primitives graduate): block any export
+      of a federally-funded construction-related drawdown request, payment
+      authorization, or invoice unless the most recent weekly certified
+      payroll record (WH-347 or equivalent) for the covered work period
+      has been received, the Statement of Compliance has been signed by an
+      authorized principal, and the WH-347 form-version-in-force at the
+      submission date matches the DOL-published version. Mirrors audit
+      synthesis recommendation #3 "Automate Davis-Bacon Checking".
+    source_citation: '29 CFR 5.5(a)(3)(ii) + Form WH-347 + docs/phased_card_system_research_audit_extracted_2026-05-17.md synthesis recommendation #3'
+    verbatim_quote: >
+      "Programmatic checks can flag missing WH-347 forms or wage rates
+      that fall below local prevailing wage determinations, reducing
+      administrative overhead and the risk of labor compliance audits."
+    rule_body: {}
+
+lifecycle:
+  draft_status: draft
+  review_status: pending
+  signature_status: unsigned
+  runtime_load_status: not_loaded
+  runtime_loadable: false
+  signed_at: null
+  signed_by: null
+  content_hash: null
+
+_research_metadata:
+  authored_at: '2026-05-18T00:00:00Z'
+  authored_by_role: research_session
+  primary_sources:
+    - citation: 'Davis-Bacon Act, 40 U.S.C. Subtitle II, Part A, Chapter 31, Subchapter IV — §§3141-3148'
+      url_or_locator: 'https://uscode.house.gov/view.xhtml?req=granuleid%3AUSC-prelim-title40-chapter31-subchapter4&edition=prelim'
+      accessed_date: '2026-05-18'
+    - citation: '29 CFR Part 5 — Labor standards provisions applicable to contracts covering federally financed and assisted construction (also labor standards provisions applicable to non-construction contracts subject to the Contract Work Hours and Safety Standards Act)'
+      url_or_locator: 'https://www.ecfr.gov/current/title-29/subtitle-A/part-5'
+      accessed_date: '2026-05-18'
+    - citation: '29 CFR Part 1 — Procedures for predetermination of wage rates'
+      url_or_locator: 'https://www.ecfr.gov/current/title-29/subtitle-A/part-1'
+      accessed_date: '2026-05-18'
+    - citation: '29 CFR Part 3 — Contractors and subcontractors on public building or public work financed in whole or in part by loans or grants from the United States (Copeland Anti-Kickback Act implementing regulations)'
+      url_or_locator: 'https://www.ecfr.gov/current/title-29/subtitle-A/part-3'
+      accessed_date: '2026-05-18'
+    - citation: 'DOL Wage and Hour Division, Final Rule "Updating the Davis-Bacon and Related Acts Regulations," 88 FR 57526 (August 23, 2023); effective October 23, 2023'
+      url_or_locator: 'https://www.federalregister.gov/documents/2023/08/23/2023-17221/updating-the-davis-bacon-and-related-acts-regulations'
+      accessed_date: '2026-05-18'
+    - citation: 'DOL Wage and Hour Division, Final Rule landing page — Updating the Davis-Bacon and Related Acts Regulations'
+      url_or_locator: 'https://www.dol.gov/agencies/whd/government-contracts/construction/rulemaking-davis-bacon'
+      accessed_date: '2026-05-18'
+    - citation: 'DOL WHD Form WH-347, "Payroll (For Contractors Optional Use)" — weekly certified payroll form'
+      url_or_locator: 'https://www.dol.gov/agencies/whd/forms/wh347'
+      accessed_date: '2026-05-18'
+    - citation: 'DOE Davis-Bacon Act Weekly Pay Compliance Options — practitioner guidance on the four weekly-pay compliance pathways (secondary)'
+      url_or_locator: 'https://www.energy.gov/infrastructure/davis-bacon-act-weekly-pay-compliance-options'
+      accessed_date: '2026-05-18'
+    - citation: 'docs/phased_card_system_research_audit_extracted_2026-05-17.md §"Davis-Bacon Act and Labor Compliance Integration" + synthesis recommendation #3 "Automate Davis-Bacon Checking" (audit-source anchor; secondary)'
+      url_or_locator: 'docs/phased_card_system_research_audit_extracted_2026-05-17.md'
+      accessed_date: '2026-05-17'
+  last_verified_date: '2026-05-18'
+  ed25519_signature: null

@@ -1,0 +1,174 @@
+# Funder Intelligence Database — workspace-shared per-funder corpus
+# Created: 2026-05-10 (per architecture amendment v7.0.5 LOCKED 2026-05-10; lock_history row 179)
+# Schema spec: pipeline/architecture/v0.1/architecture_v7_0_5_amendment.md §1
+# Curation cadence: pipeline/blueprint/v0.1/section_05_v7_0_5_companion.md §5.v7-0-5.2
+#
+# Lifecycle:
+# - Scout DISCOVER finds candidate funder doc via channels A-G
+# - Scout VERIFY fetches live doc (or pulls from cache)
+# - Doc passes through F-EXTRACTOR-FABRICATION-equivalent gate (verbatim content matches expected source)
+# - Doc lands in vault_shared/funder_intelligence/docs/<doc_hash>.<ext> with metadata in this file
+# - Operator reviews at quarterly curation pass — promotes / rejects / leaves un-promoted
+#
+# Vector index: vault_shared/funder_intelligence/index/ (FAISS or Chroma; namespace funder_intel/; bge-large-en-v1.5)
+# Doc bytes: vault_shared/funder_intelligence/docs/<doc_hash>.<ext>
+# Archive: vault_shared/funder_intelligence/archive/ (low-relevance docs; threshold default 0.1)
+# Quarantine: vault_shared/funder_intelligence/_quarantine/ (F-FUNDER-CORPUS-INTEGRITY hash mismatches)
+
+schema_version: funder_intelligence.v1
+populated_at: 2026-05-10T04:30:00Z
+populated_by: sn_llc_seed_2026-05-10
+last_quarterly_curation_review: null  # populated at first operator quarterly pass
+
+documents:
+  # ─── Initial seed — Federal agency program pages (USDA, NSF) ───
+  # NOTE: Operator-confirmed promotion + per-doc hash recording is performed at first
+  # quarterly curation pass after v7.0.5 LOCK. Initial seed populates metadata only;
+  # actual byte-content lands at vault_shared/funder_intelligence/docs/ via Sovereign
+  # Node LLC white-glove seeding service (per business plan v10.4 § Initial-seeding).
+
+  - doc_id: usda_vapg_program_page
+    funder: USDA Rural Development
+    funder_type: federal_agency
+    doc_type: program_page
+    doc_title: Value-Added Producer Grants (VAPG) program page
+    doc_year: 2026
+    discovery:
+      channel: D  # Federal program pages
+      discovered_when: null  # populated at ingestion
+      discovered_by: sn_llc_seed
+      source_url: https://www.rd.usda.gov/programs-services/value-added-producer-grants
+    content:
+      content_hash: null  # populated at ingestion
+      file_path: null
+      bytes_size: null
+      pages: null
+      ocr_processed: false
+    relevance:
+      score: 0.9
+      decay_curve: linear
+      last_relevance_event: 2026-05-10T04:30:00Z
+    classification: public
+    cadence: annual
+    expiry: null
+    promoted: false  # populated at first operator quarterly review
+    promotion_reason: null
+    sectors_relevant: [regen_food_systems, urban_ag, land_community]
+    funding_worlds_relevant: [farmer]
+    tags: [vapg, value_added, specialty_crop, planning_grant]
+
+  - doc_id: nsf_general_program_info
+    funder: National Science Foundation
+    funder_type: federal_agency
+    doc_type: program_page
+    doc_title: NSF Funding Programs general information
+    doc_year: 2026
+    discovery:
+      channel: D
+      discovered_when: null
+      discovered_by: sn_llc_seed
+      source_url: https://www.nsf.gov/funding/
+    content:
+      content_hash: null
+      file_path: null
+      bytes_size: null
+      pages: null
+      ocr_processed: false
+    relevance:
+      score: 0.6
+      decay_curve: linear
+      last_relevance_event: 2026-05-10T04:30:00Z
+    classification: public
+    cadence: annual
+    expiry: null
+    promoted: false
+    promotion_reason: null
+    sectors_relevant: [eco_art, future_education]
+    funding_worlds_relevant: [educator]
+    tags: [nsf, research, education]
+
+  # ─── Initial seed — Regional foundation 990-PFs (placeholders) ───
+  # Real 990-PFs sourced from operator-curated foundation roster + IRS 990-PF aggregator
+  # APIs (e.g., ProPublica Nonprofit Explorer). Initial seed registers slot only.
+
+  - doc_id: heinz_endowments_990_pf_2024
+    funder: Heinz Endowments
+    funder_type: private_foundation
+    doc_type: 990_pf
+    doc_title: Heinz Endowments 990-PF (FY2024)
+    doc_year: 2024
+    discovery:
+      channel: B  # Curated cached datasets (foundation 990-PF aggregators)
+      discovered_when: null
+      discovered_by: sn_llc_seed
+      source_url: null  # populated at ingestion from IRS or aggregator URL
+    content:
+      content_hash: null
+      file_path: null
+      bytes_size: null
+      pages: null
+      ocr_processed: true  # 990-PFs typically scanned
+    relevance:
+      score: 0.7
+      decay_curve: exponential
+      last_relevance_event: 2026-05-10T04:30:00Z
+    classification: public
+    cadence: annual
+    expiry: null
+    promoted: false
+    promotion_reason: null
+    sectors_relevant: [land_community, eco_art, future_education, regen_food_systems]
+    funding_worlds_relevant: [arts_culture, educator, farmer]
+    tags: [pittsburgh, regional_foundation, environment, education]
+
+  - doc_id: richard_king_mellon_990_pf_2024
+    funder: Richard King Mellon Foundation
+    funder_type: private_foundation
+    doc_type: 990_pf
+    doc_title: Richard King Mellon Foundation 990-PF (FY2024)
+    doc_year: 2024
+    discovery:
+      channel: B
+      discovered_when: null
+      discovered_by: sn_llc_seed
+      source_url: null
+    content:
+      content_hash: null
+      file_path: null
+      bytes_size: null
+      pages: null
+      ocr_processed: true
+    relevance:
+      score: 0.7
+      decay_curve: exponential
+      last_relevance_event: 2026-05-10T04:30:00Z
+    classification: public
+    cadence: annual
+    expiry: null
+    promoted: false
+    promotion_reason: null
+    sectors_relevant: [land_community, regen_food_systems, future_education]
+    funding_worlds_relevant: [educator, farmer]
+    tags: [pittsburgh, regional_foundation, conservation, education]
+
+audit_chain:
+  - action: schema_initialized
+    by: sn_llc_seed_2026-05-10
+    at: 2026-05-10T04:30:00Z
+    note: "v7.0.5 LOCKED 2026-05-10 (lock_history row 179); seed metadata only — operator confirms each doc at first quarterly curation pass"
+
+# Curation defaults per v7.0.5 §5.5 + §5 v7.0.5 companion §5.v7-0-5.2
+curation_config:
+  cadence_days: 90  # quarterly default
+  trigger: wake_up  # surface prompt at Tilth wake-up if last_quarterly_curation_review > cadence_days old
+  funder_doc_low_relevance_threshold: 0.1  # docs below this move to archive/
+  funder_doc_stale_days_defaults:
+    federal_agency: 365
+    regional_authority: 365
+    state_agency: 365
+    private_foundation: 180
+    community_foundation: 180
+    corporate_giving: 90
+    cdfi: 180
+    county: 365
+    city: 365

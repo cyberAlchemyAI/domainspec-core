@@ -1,0 +1,1194 @@
+# Card — TILTH-CLC-06 Credit & Underwriting
+# Wave 2 research draft 2026-05-15. Phase 3 output per blueprint §18.11.
+# Content populated per blueprint §18.10 starter requirements for CLC-06.
+# Operator review + cross-family thesis + Ed25519 signature COMPLETE.
+# SIGNED — runtime-loadable; lifecycle truth enforced by loader preflight.
+#
+# Coupling discipline (architecture v7.0.11 §6.1 + §4 v2.x F-CARDS-COUPLING-VIOLATION-EXTENSION):
+# This card contains NO eligible_cic_subset, cic_allowlist, cic_denylist,
+# preferred_cics, cic_win_rate, or cic_ranking_preferences fields. CLC × CIC
+# matching is opportunity-driven at runtime, never archetype-driven at design time.
+# Any CIC may pursue Credit & Underwriting capital when the opportunity's
+# underwriting logic centers repayment capacity, debt service coverage, collateral,
+# financial controls, and use-of-funds.
+#
+# CRITICAL FRAMING: This CLC is debt-side underwriting, NOT grants. Many funding
+# applications routed through a CDFI, SBA lender, or USDA RD intermediary become
+# loans, loan guarantees, or revolving-fund advances rather than grants. CDFIs
+# and intermediary lenders frequently combine grant + loan + technical-assistance
+# (TA) packages where each instrument carries its own terms. Reviewers underwrite
+# repayment capacity even when the applicant came in expecting "grant-like"
+# treatment. Tilth must surface the debt-vs-grant distinction during Intake +
+# Scout VERIFY so applicants do not draft in grant-language for debt instruments.
+#
+# Operator OQ resolutions applied (Wave 2 carry-over from Wave 1, 2026-05-15):
+#   Directory: pipeline/cards/CLC/ (uppercase canonical).
+#   Verbatim-quote cap: ≤2 sentences per quote with URL + access_date citation.
+#   admin_risk_term_register: REMOVED at Wave 2 Thesis Cycle 2 fix-in-place per
+#     Wave 1 CLC-03 + Wave 2 CLC-02 + CLC-04 + CLC-05 precedent (§18.6 CLC
+#     schema does not declare this field; CIC-only per §18.5). 13 CLC-06-scoped
+#     flagged terms migrate to workspace-wide admin_risk_register.yaml v2.3.
+#   Frequency / win-rate: qualitative-only (HIGH/MEDIUM/LOW/UNKNOWN). No numeric rates.
+#   Schema-current as-on-disk; uses lifecycle.review_status terminology.
+#
+# SBA SOP 50-10 edition qualifier (Cycle 1 F-12 fold-in): All SBA SOP 50-10
+# references throughout this card cite the current version available at
+# access_date 2026-05-15. The SBA SOP is revised periodically; per-revision
+# detail attaches at runtime via Scout VERIFY rather than via card re-LOCK.
+# Lenders are responsible for applying the SOP edition in force at the
+# application's underwriting date.
+# ===========================================================================
+# §18.6 v2 DUAL-TRACK STRUCTURAL SEPARATION — OD-E fix-forward 2026-05-17
+# ===========================================================================
+# This card was restructured under Option A (top-level track_a:/track_b:
+# containers) per OD-E fix-forward dispatch 2026-05-17 (recovers from the
+# original OD-E ceremony 2026-05-17T16:00:00Z where rows 274-278 signed
+# canonical-bytes asserts but the on-disk restructure was not committed).
+# Shared metadata stays at root; track-specific content lives in track_a
+# (debt) and track_b (grant).
+#
+# Partition heuristic: per-entry Track A / Track B / shared classification
+# via outputs/od_e_fix_forward_restructure.py marker regex (mirrors prior
+# pipeline/scripts/od_e_restructure_card.py). Entries without explicit
+# markers default to BOTH tracks (shared baseline) so neither track is
+# silently stripped.
+#
+# CLC-06-SPECIFIC: Track B is MINIMAL STUB per L-024 + operator PATH (a)
+# directive at OD-E ceremony 2026-05-17. Grant-side substance is deferred
+# to v0.2 Wave 3 separate CLC. See _partition_provenance.domain_clarification
+# at root for verbatim L-024 rationale.
+# ===========================================================================
+
+schema_version: 1.0-clc
+card_axis: CLC
+card_id: TILTH-CLC-06
+slug: credit_underwriting
+display_name: Credit & Underwriting
+funding_mechanism_summary: Loans, guarantees, and credit-readiness funding where repayment capacity, debt service coverage
+  (typical DSCR ≥1.20-1.25x), collateral, financial controls, and use-of-funds drive underwriting (CDFIs, SBA 7(a)/504/Microloan,
+  USDA RD Business & Industry / Community Facilities / Intermediary Relending, revolving loan funds, mission-aligned community
+  lenders).
+tilth_clc_id: TILTH-CLC-06
+lifecycle:
+  draft_status: signed
+  review_status: passed
+  cross_family_thesis_status: passed
+  signature_status: signed
+  runtime_load_status: loaded
+  runtime_loadable: true
+  signed_at: '2026-05-16T16:00:00Z'
+  signed_by: founder
+  content_hash: sha256:8cdf5c3076ec2c40ee81e65c2c8ae1d37d373ac2c34968ccf909222f2de72277
+  lock_history_row: 259
+  lock_timestamp_utc: '2026-05-16T16:00:00Z'
+_research_metadata:
+  authored_at: '2026-05-15T23:55:00Z'
+  authored_by_role: research_session
+  research_budget_hours_actual: 3.0
+  priors_consulted:
+  - path: assets/cards/capital_logic/Capital Logic Cards.png
+    extract_note: Visual Card source — drawing TILTH-CLC-00; defines Credit & Underwriting scope (repayment capacity / collateral
+      / cash flow / financial controls / creditworthiness).
+  - path: pipeline/blueprint/v0.1/section_18_card_system.md
+    extract_note: §18.10 starter content for TILTH-CLC-06 — binding scope for Credit & Underwriting card content; §18.11 five-phase
+      research process; §18.15 testing requirements.
+  - path: pipeline/cards/CLC/operating_capacity.yaml
+    extract_note: Wave 1 sibling CLC fixture — structural pattern + comment density + admin_risk_term_register pattern (approval_required:true)
+      mirrored here.
+  - path: pipeline/cards/CLC/market_access.yaml
+    extract_note: Wave 2 Batch 2 sibling CLC — pattern reference for federal-program-rich card with multi-funder rubric examples
+      + admin-risk register reflecting current admin federal-vs-foundation register split.
+  - path: pipeline/cards/CLC/public_purpose_works.yaml
+    extract_note: Wave 2 Batch 1 sibling CLC — pattern reference for federal-program-rich card with statutory-citation evidence
+      weights.
+  - path: pipeline/cards/CLC/catalytic_change.yaml
+    extract_note: Wave 2 Batch 1 sibling CLC — pattern reference for federal+foundation hybrid funder landscape and admin-risk
+      register depth.
+  - path: CLAUDE.md
+    extract_note: 'Eight-CLC roster confirmation; TILTH-CLC-06 scope: ''loans, guarantees, repayment, finance-readiness''
+      funding. Operator-pinned starter examples: CDFIs, SBA lending, USDA loans, revolving funds. Operator pin: card encodes
+      that the funding instrument is debt + guarantees + revolving funds.'
+  - path: pipeline/institutional_memory/admin_risk_register.yaml
+    extract_note: v2.2 register — 13 CLC-06-scoped flagged terms (predatory lending, financial inclusion, underbanked, community
+      wealth-building, wealth-building loans, alternative credit, responsible lending, mission-aligned capital, patient capital,
+      credit-invisible, minority depository institution, creditworthy, stakeholder re-noted) require migration to workspace-wide
+      register v2.3 (compound dispatch with CLC-03 + CLC-02 + CLC-04 + CLC-05 migrations) per Wave 2 Thesis Cycle 2 fix-in-place
+      2026-05-16. See _review_handback.decision_queue[1] for migration tracking.
+  - path: skills/scribe-ghostwriter/SKILL.md
+    extract_note: Scribe drafting register defaults — credit memo register is precise / financial / conservative; differs
+      from grant-narrative register; card complements skill content with credit-memo section patterns.
+  primary_sources:
+  - url: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    access_date: '2026-05-15'
+    relevance: 'SBA SOP 50 10 — canonical SBA 7(a) and 504 lender underwriting framework. Establishes required underwriting
+      elements lender must document: repayment ability, management experience, equity injection, collateral, credit score,
+      SBA eligibility screen. Used throughout card as load-bearing federal credit underwriting reference.'
+    verbatim_quote: Lenders must use prudent lending standards consistent with those used for similar non-SBA-guaranteed commercial
+      loans, and must document the credit decision in the loan file.
+  - url: https://www.rd.usda.gov/programs-services/business-programs/business-industry-loan-guarantees
+    access_date: '2026-05-15'
+    relevance: USDA RD Business & Industry (B&I) Loan Guarantee — federal credit-guarantee program for rural businesses. Up
+      to 80% guarantee for loans to $25M, term up to 30 years for real estate. Per 7 CFR 5001 consolidated regulation effective
+      2024.
+    verbatim_quote: The B&I Guaranteed Loan Program provides loan guarantees to lenders to bolster the existing private credit
+      structure to extend credit to rural communities for businesses creating or saving jobs and improving the economic and
+      environmental climate of rural America.
+  - url: https://www.rd.usda.gov/programs-services/community-facilities/community-facilities-direct-loan-grant-program
+    access_date: '2026-05-15'
+    relevance: USDA RD Community Facilities Direct Loan & Grant — federal direct loan + grant program for essential community
+      facilities in rural areas. 40-year max term for direct loans, low interest, can fund essential community facilities
+      (health care, education, public safety, public services).
+    verbatim_quote: The Community Facilities Direct Loan and Grant Program provides affordable funding to develop essential
+      community facilities in rural areas. An essential community facility is one that provides an essential service to the
+      local community.
+  - url: https://www.rd.usda.gov/programs-services/business-programs/intermediary-relending-program
+    access_date: '2026-05-15'
+    relevance: USDA RD Intermediary Relending Program (IRP) — capitalizes intermediary lenders (CDFIs, nonprofits, public
+      agencies) to make small loans in rural areas. Two-tier lending. Per 7 CFR 4274 Subpart D.
+    verbatim_quote: The Intermediary Relending Program provides 1% low-interest loans to local lenders or intermediaries that
+      re-lend to businesses to improve economic conditions and create jobs in rural communities.
+  - url: https://www.cdfifund.gov/programs-training/certification/cdfi
+    access_date: '2026-05-15'
+    relevance: Treasury CDFI Fund certification framework — CDFI Fund certifies CDFIs (banks, credit unions, loan funds, venture
+      capital funds) that meet the 60% Target Market activity test and other certification requirements. Certification gateway
+      to CDFI Fund Financial Assistance + Technical Assistance + Bond Guarantee + NMTC.
+    verbatim_quote: A Community Development Financial Institution (CDFI) is a specialized financial institution that works
+      in market niches that are underserved by traditional financial institutions. CDFIs provide a unique range of financial
+      products and services in economically distressed target markets.
+  - url: https://www.cdfifund.gov/awards
+    access_date: '2026-05-15'
+    relevance: Treasury CDFI Fund Awards Database — discovery of CDFI-Fund-certified CDFIs and their CDFI Fund award history.
+      Useful for matching applicants to mission-aligned lenders by sector + geography + product type.
+    verbatim_quote: The CDFI Fund maintains a comprehensive database of awards made through its Financial Assistance, Technical
+      Assistance, Bond Guarantee, Capital Magnet Fund, Native American CDFI Assistance, and New Markets Tax Credit programs.
+  - url: https://ofn.org/cdfi-locator/
+    access_date: '2026-05-15'
+    relevance: Opportunity Finance Network CDFI Locator — borrower-side CDFI discovery tool. Search OFN member CDFIs by geography,
+      sector, loan size, product type. OFN is the primary trade association for CDFIs and maintains the most comprehensive
+      CDFI directory.
+    verbatim_quote: OFN's CDFI Locator helps borrowers and partners find Community Development Financial Institutions in their
+      area that finance small businesses, affordable housing, community facilities, and other community-development activities.
+  - url: https://www.sba.gov/funding-programs/loans/lender-match
+    access_date: '2026-05-15'
+    relevance: SBA Lender Match — SBA borrower-side intake portal connecting prospective SBA 7(a)/504/Microloan borrowers
+      with participating SBA lenders in their geography. Free SBA-administered matchmaking service.
+    verbatim_quote: Lender Match is a free online tool that helps small business owners connect with SBA-approved lenders
+      in their area within 48 hours.
+  - url: https://home.treasury.gov/policy-issues/small-business-programs/state-small-business-credit-initiative-ssbci
+    access_date: '2026-05-15'
+    relevance: 'Treasury State Small Business Credit Initiative (SSBCI) 2.0 — $10B program (American Rescue Plan Act 2021)
+      capitalizing state credit-support programs through 2030. Funds five program types: capital access programs, loan participations,
+      loan guarantees, collateral support, venture capital.'
+    verbatim_quote: SSBCI provides $10 billion to support state, the District of Columbia, territory, and Tribal government
+      small business credit support and investment programs that catalyze private capital.
+  - url: https://www.cdfa.net/cdfa/cdfaweb.nsf/pages/financing-tools.html
+    access_date: '2026-05-15'
+    relevance: Council of Development Finance Agencies (CDFA) Online Resource Database — catalogs state and regional development-finance
+      programs including state revolving loan funds, state development authorities, regional development authorities, SSBCI-funded
+      programs.
+    verbatim_quote: CDFA's Online Resource Database is the most comprehensive collection of development finance information
+      in the United States, with thousands of resources covering all 50 states and the District of Columbia.
+  - url: https://americassbdc.org/
+    access_date: '2026-05-15'
+    relevance: America's SBDC — Small Business Development Center network. Pre-application TA + lender-matchmaking service
+      for small businesses preparing SBA + CDFI + commercial credit applications. Nationwide referral network typically free.
+    verbatim_quote: America's SBDC provides counseling and training to small businesses through nearly 1,000 SBDC center locations
+      across the United States and territories, helping start, grow, expand, and recover.
+  - url: https://www.score.org/
+    access_date: '2026-05-15'
+    relevance: SCORE Mentor Network — volunteer-mentor pre-application TA + business plan support for small businesses. Often
+      referenced by SBA + CDFI lenders for pre-app TA work.
+    verbatim_quote: SCORE provides free business mentoring and education through a network of over 10,000 volunteer business
+      experts to help entrepreneurs start, grow, and successfully run their businesses.
+  - url: https://www.investopedia.com/terms/f/five-c-credit.asp
+    access_date: '2026-05-15'
+    relevance: 5C Credit Analysis Framework — universal commercial-lending heuristic (Character / Capacity / Capital / Collateral
+      / Conditions). Reference source for the 5C scoring weight pattern in card.
+    verbatim_quote: The five Cs of credit are character, capacity, capital, collateral, and conditions. The five Cs of credit
+      are used by lenders to gauge the creditworthiness of potential borrowers.
+  - url: https://www.consumerfinance.gov/rules-policy/regulations/1002/
+    access_date: '2026-05-15'
+    relevance: 'ECOA / Regulation B — Equal Credit Opportunity Act regulatory framework. Applies to all commercial credit
+      transactions: adverse-action notices, spousal-signature rules, prohibition on discrimination by protected class.'
+    verbatim_quote: Regulation B prohibits creditor practices that discriminate on the basis of race, color, religion, national
+      origin, sex, marital status, or age. The regulation also requires creditors to notify applicants of action taken on
+      their applications.
+  - url: https://www.fdic.gov/analysis/household-survey/
+    access_date: '2026-05-15'
+    relevance: FDIC National Survey of Unbanked and Underbanked Households — defines and measures underbanked population in
+      the US. Statutory reference for 'underbanked' admin-risk-register entry.
+    verbatim_quote: The FDIC National Survey of Unbanked and Underbanked Households is the most comprehensive nationwide source
+      of information on the use of banking and financial services by U.S. households.
+  - url: https://www.consumerfinance.gov/data-research/research-reports/data-point-credit-invisibles/
+    access_date: '2026-05-15'
+    relevance: CFPB research on credit-invisible consumers. Statutory reference for 'credit-invisible' admin-risk-register
+      entry. CFPB-defined population with no credit-bureau record or insufficient history to score.
+    verbatim_quote: About 26 million consumers in the United States are credit invisible, meaning that they do not have a
+      credit history with one of the three nationwide credit reporting agencies.
+  - url: https://www.fdic.gov/regulations/resources/minority/mdi.html
+    access_date: '2026-05-15'
+    relevance: FDIC Minority Depository Institutions resource — defines MDIs and lists FDIC-recognized MDIs. Statutory reference
+      for 'minority depository institution' admin-risk-register entry.
+    verbatim_quote: A Minority Depository Institution is a federally insured depository institution for which 51 percent or
+      more of the voting stock is owned by minority individuals or a majority of the Board of Directors is minority and the
+      community served is predominantly minority.
+  ed25519_signature: f2e2b0e3c5481a40ee76d76fffea80f329afde5cd4b24f3e972ca56c53cf9c476a4e13f74daccef9f6bbaf263a7b1410171d750f84b2a0b015c4878ea88fbc0e
+_partition_provenance:
+  partition_axis: debt_vs_grant
+  track_a_substance: FULL — debt-instrument underwriting (CDFI / SBA / USDA RD lending) content migrated from §18.6 v1 single-track
+    shape.
+  track_b_substance: MINIMAL STUB per L-024 + operator PATH (a) directive at OD-E ceremony 2026-05-17. Substantive grant-side
+    capital-readiness content deferred to v0.2 Wave 3 separate CLC.
+  domain_clarification:
+    operator_directive_date: '2026-05-17'
+    operator_directive_verbatim: Grant logic and credit underwriting logic are objectively different mechanisms even though
+      both are financial-access tools. The stacked-funding use case (e.g., VAPG + low-interest farm loan + tourism grant +
+      small business loan + small business advantage grant) requires separate logic per funding type. Track B is therefore
+      not the right home for grant-side capital — a separate CLC for grant-side credit-readiness or grant-side capital matching
+      belongs in v0.2 Wave 3, not as Track B of credit_underwriting.
+    why_path_a_not_b: 'Path (b) (author substantive Track B content at LOCK ceremony) would force fabrication of grant-side
+      rubric content onto a card whose underlying mechanism is credit underwriting. The L-024 substance-gap discipline (sibling
+      to L-005) governs: do not conflate grant logic with credit underwriting logic. Path (a) (minimal-stub Track B) preserves
+      the §18.6 v2 structural amendment + defers Track B substance to its proper-domain CLC, avoiding the category-error fabrication
+      Path (b) would invite.'
+    canonical_use_case_stacked_funding: One client pursuing multiple instruments simultaneously — e.g., USDA VAPG grant +
+      low-interest farm loan + PA tourism grant + PA small business loan + PA small business advantage grant. Each instrument
+      has its own matching logic, eligibility rubric, scoring axes, and underwriting (or non-underwriting) mechanics. Stacking
+      is composed at runtime ACROSS CLCs, not folded into a single CLC's Track A / Track B pair.
+    v0_2_wave_3_direction: 'Plan a new CLC slug (provisional name: grant_side_credit_readiness or capital_readiness_grant;
+      final naming pending v0.2 Wave 3 dispatch) for grant-side capital matching — capitalization grants, loan loss reserve
+      grants, CDFI Fund Financial Assistance / Technical Assistance grant cycles, USDA RD grant-loan combo grant portions.
+      The new CLC stays orthogonal to credit_underwriting; each card matches opportunities driven by its own underwriting
+      mechanism.'
+    l_024_lesson_ref: '/lessons.md L-024 "Don''t conflate grant logic with credit underwriting logic; stacked funding stacks
+      separate mechanisms." First observed 2026-05-17 (OD-E paired-commit LOCK ceremony — operator HALT triggered when the
+      Cowork session was about to fabricate grant-rubric content onto credit_underwriting Track B). Domain principle (lesson_class:
+      domain_principle); frequency_weight LOW (clarifying, not recurrent-failure); severity MEDIUM (domain-axiom prevents
+      category-error fabrication).'
+track_a:
+  track_name: debt
+  track_description: 'Debt instruments — CDFI loans + SBA 7(a)/504/Microloan + USDA Business & Industry / Community Facilities
+    / Intermediary Relending + state revolving loan funds + mission-aligned community lenders. Underwriting is repayment-capacity
+    driven: cash flow, debt service coverage (DSCR ≥1.20-1.25x typical), collateral, credit history, owner equity, management
+    capacity, financial controls, use of funds, risk mitigation, guarantor strength, covenant compliance. Reviewer profile:
+    lenders / credit analysts / loan committees / CDFI underwriters / SBA lenders. Scribe MUST NOT draft grant-language proposals
+    on Track A opportunities — that is the structural failure mode Option A prevents. Pro forma, balance sheet, income statement,
+    debt schedule, collateral documentation, owner-equity injection evidence are load-bearing.'
+  underwriting_criteria:
+  - criterion: repayment_capacity
+    description: Demonstrated ability to service the proposed debt from operating cash flow over the loan term. Reviewers
+      test repayment capacity against historical cash flow (where business has track record), pro forma cash flow (where projection-based),
+      and worst-case stress (typically a 20-30% revenue haircut or comparable). Repayment capacity is the load-bearing underwriting
+      question — if a reviewer cannot trace the dollars that pay debt service back to a defensible source, the credit fails
+      regardless of collateral or owner equity.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - criterion: cash_flow
+    description: Historical and projected cash flow analysis — operating cash flow, free cash flow, EBITDA, cash conversion
+      cycle. Lenders reconstruct cash flow from financial statements (P&L + balance sheet + statement of cash flows) and tax
+      returns to validate applicant-supplied figures. Reviewers cross-check pro forma assumptions (revenue growth, margin
+      expansion, working-capital efficiency) against historical performance and industry benchmarks.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - criterion: debt_service_coverage_ratio
+    description: DSCR = (Net Operating Income or EBITDA) ÷ (Annual Debt Service). Industry practice for many commercial lenders
+      targets DSCR ≥1.20-1.25x at underwriting; SBA-guaranteed 7(a) loans historically use a minimum global DSCR around 1.15x
+      (business + personal), though the exact figure is lender-determined under SBA SOP 50-10 which requires demonstrated
+      repayment ability without publishing a single numeric regulatory floor; CDFI mission lenders may underwrite to lower
+      DSCR (1.10-1.15x) when paired with technical assistance + reserves per individual board-approved credit policy. USDA
+      RD Business & Industry Loan Guarantee underwriting requires demonstrated repayment capacity per program regulations.
+      These DSCR bands are author-judgment industry norms drawn from modal lender practice, not regulatory floors. DSCR <1.00x
+      means the business does not generate enough cash to service the debt — fail under any framework.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - criterion: collateral
+    description: 'Assets pledged to secure the loan — UCC-1 filings on business assets (equipment, inventory, accounts receivable,
+      general intangibles), real-estate mortgages or deeds of trust, equipment titles, life-insurance assignments, marketable
+      securities. Loan-to-value (LTV) ratios vary by collateral type: real estate typically 70-80% LTV, equipment 50-75%,
+      inventory 50% or less, accounts receivable 70-80% of eligible AR. SBA 7(a) requires the lender to take all available
+      collateral up to the loan amount; SBA does not decline solely for inadequate collateral if other credit factors are
+      strong.'
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - criterion: credit_history
+    description: Personal credit (FICO, typically required ≥640-680 for SBA 7(a); CDFI mission lenders may underwrite below
+      600 with explanation) and business credit (Dun & Bradstreet PAYDEX, Experian Business, Equifax Business Credit). Reviewers
+      pull credit reports and read the full history, not just the score — past bankruptcies, judgments, tax liens, charge-offs,
+      and slow-pays are read in context. A credit explanation letter for past issues is standard. CDFI lenders weight credit
+      history within the 5C framework but do not auto-decline on score alone.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - criterion: owner_equity
+    description: Owner equity injection — cash, marketable securities, or asset contributions from the borrower into the project.
+      SBA 7(a) typical equity injection 10% for existing businesses, 10-20% for change-of-ownership, up to 30% for startups.
+      SBA 504 typical 10-20% borrower equity. CDFI mission lenders may accept 5-10% with documented hardship. Generally, SBA
+      SOP treats sweat equity (uncompensated owner labor) as non-cash and does not count it toward the required equity injection,
+      except in limited construction-loan scenarios where borrower self-performance may be considered with lender documentation.
+      Equity injection should typically be sourced from non-borrowed funds — gifts require gift letters; HELOC-sourced funds
+      are often excluded because they represent borrowed equity, however SBA SOP permits HELOC use when the lender documents
+      that the HELOC is fully secured and the borrower's repayment capacity is not dependent on the SBA loan.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - criterion: management_capacity
+    description: Founder / owner / management team experience in the industry, in financial management, in operations at the
+      proposed scale. Reviewers read resumes and biosketches for relevant industry experience (typically 3+ years for SBA
+      7(a) startups; longer for capital-intensive industries), prior business ownership, prior P&L responsibility, prior debt
+      management. Weak management bench (single key person with no succession plan) is a structural credit weakness.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - criterion: financial_controls
+    description: Bookkeeping system in place (QuickBooks Online, Xero, or comparable), monthly close discipline, segregation
+      of duties (in larger orgs), monthly financial review, annual CPA-prepared (compiled, reviewed, or audited) financial
+      statements. CDFI mission lenders frequently bundle Technical Assistance to strengthen controls as a condition precedent
+      or covenant. Lender-grade financial controls are a primary screen — applicants with shoebox-receipts accounting are
+      routed to TA before underwriting proceeds.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://ofn.org/cdfi-locator/
+  - criterion: use_of_funds
+    description: Specific, bound use-of-funds breakdown — working capital ($X), equipment ($Y with quotes), real estate ($Z
+      with purchase agreement), refinance ($W with payoff statement), soft costs ($V), contingency ($U). SBA 7(a) and 504
+      enumerate eligible and ineligible uses (e.g., 7(a) cannot finance certain refinances, certain investments, any non-business
+      use). USDA RD B&I has eligible-use restrictions per 7 CFR 5001 / 4279. Vague 'general business purposes' use-of-funds
+      fails — reviewers underwrite the specific use, not a slush concept.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - criterion: risk_mitigation
+    description: Named operating risks with documented mitigations — business interruption insurance, key-person life insurance
+      (often required by SBA + CDFI lenders), property insurance (required for collateral), workers' comp (where applicable),
+      product liability insurance, cyber insurance (increasingly required), cash reserves (typically 3-6 months operating
+      expenses), revenue diversification (no single customer >25-30% of revenue), supplier diversification. Each named risk
+      paired with concrete mitigation evidence.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - criterion: guarantor_strength
+    description: 'Personal guaranties — SBA 7(a) requires unlimited personal guaranties from any owner of 20% or more; SBA
+      504 same; CDFI lenders typically require personal guaranties; USDA RD B&I requires personal/corporate guaranties from
+      owners of 20% or more. Guarantor strength evaluated via SBA Form 413 Personal Financial Statement: net worth, liquidity,
+      contingent liabilities, other personal debt service obligations. Spousal guaranty rules per ECOA — cannot require spouse
+      signature solely on basis of marital status. Where a spouse holds ≥20% ownership in the borrowing entity, personal guaranty
+      is required under SBA and most CDFI policies on the basis of ownership (not marital status); ECOA prohibits requiring
+      spousal signature solely on the basis of marital status, not on the basis of ownership.'
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - criterion: covenant_compliance
+    description: Loan covenants — financial (DSCR maintenance, leverage maximum, current ratio minimum, tangible-net-worth
+      minimum), reporting (quarterly financials within 45 days, annual CPA-prepared financials within 120 days, annual borrower
+      certification), non-financial (insurance maintenance, tax-current certification, no additional debt without lender consent,
+      no change of ownership without consent, no material asset sale). Covenant package depth varies by loan size + lender
+      — SBA 7(a) under $500K typically light covenants; CDFI mission loans often heavier covenants paired with TA. Anticipated
+      covenant compliance discussed pre-close so the borrower understands ongoing obligations.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - criterion: community_impact_for_mission_lenders
+    description: 'For CDFIs (Community Development Financial Institutions) and mission lenders, community impact is underwritten
+      alongside credit on a near-equal-weight basis. CDFI Fund certification requires 60% of activity in CDFI Target Markets
+      (Investment Areas, Low-Income Targeted Populations, Other Targeted Populations). Mission-impact metrics: jobs created/retained,
+      housing units developed, healthy food access, low-income individuals served, women-owned/minority-owned/veteran-owned/rural
+      enterprise development. Mission lenders score community impact as a co-equal underwriting criterion, not a marketing
+      add-on.'
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.cdfifund.gov/programs-training/certification/cdfi
+  scoring_weight_patterns:
+  - rubric_example: 5C Credit Analysis Framework (universal commercial lending heuristic)
+    weights:
+      character: HIGH
+      capacity: HIGH
+      capital: HIGH
+      collateral: MEDIUM
+      conditions: MEDIUM
+    source_citation: https://www.investopedia.com/terms/f/five-c-credit.asp
+    note: Qualitative tier per Wave 1 OQ-6 carry-over. The 5Cs are the universal lending heuristic — Character (credit history,
+      management track record), Capacity (cash flow, DSCR, repayment ability), Capital (owner equity, net worth), Collateral
+      (security for the loan), Conditions (industry / economic / loan-purpose context). Lenders weight these differently per
+      their credit policy, but all five appear in nearly every commercial credit analysis. Tier assignments are ILLUSTRATIVE
+      patterns based on author qualitative judgment about modal commercial-lender weighting; subject to Lessons Memory revision.
+  - rubric_example: SBA 7(a) Underwriting (per SBA SOP 50 10)
+    weights:
+      repayment_ability: HIGH
+      management_experience: HIGH
+      equity_injection: HIGH
+      collateral: MEDIUM
+      credit_score: MEDIUM
+      sba_eligibility_screen: HIGH
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    note: 'Qualitative tier per Wave 1 OQ-6 carry-over. SBA SOP 50 10 establishes the SBA 7(a) and 504 lender underwriting
+      framework. SBA does not publish a numeric scoring rubric; instead SBA SOP enumerates required underwriting elements
+      that the lender must document. SBA''s ''credit decision'' framework requires the lender to make and document the credit-not-otherwise-available
+      finding plus repayment-ability finding. Tier assignments illustrative. Note on sba_eligibility_screen tier: this is
+      a binary PASS/FAIL screen (failing the SBA eligibility test declines the loan regardless of credit factors) — encoded
+      as HIGH because the consequence of failure is loan decline; binary nature preserved in this note per Cycle 1 F-10 enum-canonicalization
+      fold-in.'
+  - rubric_example: USDA RD Business & Industry Loan Guarantee (per 7 CFR 5001)
+    weights:
+      repayment_ability: HIGH
+      collateral_adequacy: HIGH
+      management_qualifications: HIGH
+      equity_position: HIGH
+      rural_area_eligibility: HIGH
+      job_creation_or_retention: MEDIUM
+      community_economic_impact: MEDIUM
+    source_citation: https://www.rd.usda.gov/programs-services/business-programs/business-industry-loan-guarantees
+    note: 'Qualitative tier per Wave 1 OQ-6 carry-over. USDA RD B&I Guarantee per 7 CFR 5001 (consolidated regulation as of
+      2024). Underwriting standards established by USDA RD with lender execution; equity position requirements (typically
+      10-20% tangible balance-sheet equity for existing businesses, 20-25% for new businesses) are program-published. Tier
+      assignments illustrative. Note on rural_area_eligibility tier: this is a binary PASS/FAIL screen (failing the rural-area
+      test declines the loan regardless of credit factors) — encoded as HIGH because the consequence of failure is loan decline;
+      binary nature preserved in this note per Cycle 1 F-10 enum-canonicalization fold-in.'
+  - rubric_example: CDFI Mission Underwriting (composite — varies per CDFI)
+    weights:
+      character_credit_history: HIGH
+      cash_flow_repayment_capacity: HIGH
+      management_capacity: HIGH
+      owner_equity_or_capital: MEDIUM
+      collateral: MEDIUM
+      community_impact_mission_alignment: HIGH
+      ta_readiness_and_post_loan_support_need: MEDIUM
+    source_citation: https://ofn.org/research-resources/
+    note: Qualitative tier per Wave 1 OQ-6 carry-over. CDFI underwriting is mission-plus-credit; community-impact criteria
+      are typically near-equal-weighted to credit criteria. Each CDFI publishes its own credit policy (board-approved, proprietary).
+      Opportunity Finance Network (OFN) member CDFIs follow varying underwriting frameworks. Tier assignments reflect modal
+      CDFI-mission-lender weighting based on author qualitative judgment; specific CDFI policies will vary.
+  evidence_weights:
+    financial_statements:
+      weight: HIGH
+      rationale: Two to three years of historical financial statements (P&L, balance sheet, statement of cash flows) — typically
+        CPA-compiled (minimum), reviewed, or audited based on loan size and lender requirements. SBA 7(a) over $350K typically
+        requires reviewed or audited; under $350K compiled may suffice. CDFI mission lenders may accept QuickBooks-exported
+        statements with TA-verified accuracy for very small loans.
+      source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    tax_returns:
+      weight: HIGH
+      rationale: Three years personal tax returns (1040 with all schedules) for any owner ≥20%; three years business tax returns
+        (1120, 1120-S, 1065, or Schedule C); year-to-date interim tax-basis financials. Tax returns are the lender's primary
+        cross-check against applicant-supplied financial statements — material discrepancies between returns and financials
+        trigger underwriter probes.
+      source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    pro_forma_and_cash_flow_projections:
+      weight: HIGH
+      rationale: Three-to-five-year monthly cash flow projection for term loans; annual P&L + balance sheet projections; assumption
+        schedule showing how revenue, COGS, operating expenses, and capital expenditures were derived. Pro forma must reconcile
+        to historical performance — unexplained step-changes in revenue or margin are red flags. SBA + CDFI underwriters typically
+        run sensitivity scenarios against the pro forma — common industry stress tests include revenue reductions on the order
+        of 20% and margin compressions of several percentage points, though exact stress parameters vary by lender and are
+        not prescribed by SBA SOP 50-10.
+      source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    debt_schedule:
+      weight: HIGH
+      rationale: Comprehensive list of all existing debt — lender, original balance, current balance, interest rate, monthly
+        payment, maturity date, collateral, guarantor. Required for both business and personal (for SBA Form 413 Personal
+        Financial Statement). Hidden debt discovered via UCC search post-application is a structural credit failure and often
+        causes loan decline at credit-committee stage.
+      source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    collateral_documentation:
+      weight: HIGH
+      rationale: 'For real estate: appraisal (lender-ordered, typically 90 days fresh), purchase agreement (if acquisition),
+        title commitment, environmental Phase I (Phase II if Phase I findings warrant), property insurance binder. For equipment:
+        invoice/quote, equipment list with serial numbers, equipment appraisal (for used or specialized equipment). For accounts
+        receivable / inventory (asset-based lending): aging schedule, inventory listing, eligibility audit. UCC searches done
+        by lender to verify lien position.'
+      source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    credit_explanation_letter:
+      weight: HIGH
+      rationale: Written explanation from the borrower for any past credit issues — bankruptcies, judgments, tax liens, charge-offs,
+        late pays, foreclosures. Explanation should describe what happened, why, what is different now, what the borrower
+        has done to remediate. CDFI mission lenders read these particularly closely; well-documented past hardship with documented
+        recovery is often underwritable.
+      source_citation: https://ofn.org/research-resources/
+    purchase_orders_or_contracts_as_repayment_source:
+      weight: HIGH
+      rationale: Where loan repayment depends on specific revenue (e.g., working capital line against a large contract, equipment
+        loan tied to a customer purchase order), the underlying contract / PO becomes load-bearing collateral for the credit
+        thesis. Lender reads contract terms (term length, termination clauses, performance requirements, payment terms) as
+        part of credit analysis. Contract-anchored repayment with weak underlying contract = weak credit.
+      source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    owner_equity_injection_documentation:
+      weight: HIGH
+      rationale: Source-of-funds documentation for borrower equity — bank statements showing accumulated savings, gift letters
+        (with donor's bank statements proving source), 401(k) loan documentation (if used), HELOC documentation (typically
+        excluded from injection per SBA SOP), business sale proceeds. SBA 7(a) requires lender to verify equity injection
+        was non-borrowed and sourced before disbursement.
+      source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    management_resume_and_biosketches:
+      weight: HIGH
+      rationale: Resumes for owner(s) and key management showing relevant industry experience, prior P&L responsibility, prior
+        management of operations at the proposed scale, education, professional licenses. SBA 7(a) for business acquisitions
+        weights management transition particularly heavily — buyer must demonstrate ability to operate the acquired business.
+      source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    insurance_evidence:
+      weight: MEDIUM
+      rationale: Property insurance binder (required at close where collateral is real or personal property), key-person life
+        insurance (often required for closely held businesses; SBA may waive for small loans), business interruption insurance,
+        workers' compensation, general liability, product liability where applicable, cyber insurance increasingly required.
+        Insurance is structurally MEDIUM in underwriting (binary at close) but failure to maintain triggers covenant default.
+      source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    use_of_funds_budget:
+      weight: HIGH
+      rationale: Itemized use-of-funds with supporting documentation per line — equipment quotes for equipment line, real-estate
+        purchase agreement for real-estate line, refinance payoff statement for refinance line, working-capital justification
+        (typically 60-90 days operating expenses) for working-capital line, soft-cost detail (legal, appraisal, environmental,
+        packaging fees) for soft-cost line. Reviewers underwrite the specific uses, not a lump.
+      source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    business_plan:
+      weight: HIGH
+      rationale: For startups, business acquisitions, or major expansions, a written business plan covering market opportunity,
+        competitive position, operations plan, marketing plan, management team, financial projections. SBA 7(a) for startups
+        requires a business plan; CDFI mission lenders frequently require for any new venture or significant pivot. Established
+        businesses with track record may submit a shorter narrative + financials package in lieu of full plan.
+      source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    community_impact_documentation_for_mission_lenders:
+      weight: HIGH
+      rationale: For CDFI applications, documentation supporting community-impact narrative — geography of operations (CDFI
+        Target Market eligibility), workforce demographics (low-income jobs created/retained), customer base (low-income clients
+        served), supply chain (women-owned / minority-owned vendors), product/service (healthy food access, affordable housing,
+        etc.). The CDFI Fund mandates that a certified CDFI's loan portfolio (lender-side institutional activity) be at least
+        60% in designated Target Markets to maintain certification; borrowers seeking CDFI financing should therefore demonstrate
+        that a substantial portion of their activity aligns with the lender's Target-Market definition. Mission-impact documentation
+        is co-equal with credit documentation at CDFIs.
+      source_citation: https://www.cdfifund.gov/programs-training/certification/cdfi
+  common_application_forms:
+  - form_id: SBA Form 1919 — Borrower Information Form
+    form_version: Per current SBA SOP (revised periodically)
+    required_for: SBA 7(a), 504, and Microloan applications — borrower demographic, eligibility, character (statement of personal
+      history references), agreement to terms
+    source: https://www.sba.gov/document/sba-form-1919-borrower-information-form
+    note: Required for any SBA-guaranteed loan. Captures borrower demographics, business eligibility, and certifications.
+      Submitted by lender on borrower's behalf to SBA E-Tran.
+  - form_id: SBA Form 413 — Personal Financial Statement
+    form_version: Per current SBA SOP
+    required_for: SBA 7(a), 504, Microloan, and most CDFI / commercial-lender loans for any owner ≥20% and any guarantor
+    source: https://www.sba.gov/document/sba-form-413-personal-financial-statement-7a504-loans-and-surety-bonds
+    note: Universal personal financial statement format for SBA. CDFIs and many commercial lenders accept SBA Form 413 in
+      lieu of lender-specific PFS forms. Covers assets, liabilities, contingent liabilities, source-of-income, life-insurance
+      coverage.
+  - form_id: SBA Form 912 — Statement of Personal History
+    form_version: Per current SBA SOP
+    required_for: SBA 7(a), 504, Microloan applications where any character question on Form 1919 is answered 'yes'
+    source: https://www.sba.gov/document/sba-form-912-statement-personal-history
+    note: Required when borrower or any 20% owner has criminal history, current criminal proceedings, or related character
+      matters. Reviewed by SBA Office of Inspector General for character determination.
+  - form_id: SBA Form 1920 — SBA Express Loan Application
+    form_version: Per current SBA SOP
+    required_for: SBA Express loans (up to $500K, 50% guarantee, lender uses own forms with 1920 supplement)
+    source: https://www.sba.gov/document/sba-form-1920-lender-application-loan-guaranty-7a-loans
+  - form_id: USDA RD Form 4279-1 — Application for Loan Guarantee (B&I)
+    form_version: Per current 7 CFR 5001 — consolidated regulation as of 2024
+    required_for: USDA RD Business & Industry Loan Guarantee applications
+    source: https://www.rd.usda.gov/programs-services/business-programs/business-industry-loan-guarantees
+    note: Lender + borrower joint application. 7 CFR 5001 consolidated USDA RD business loan-guarantee regulations effective
+      2024.
+  - form_id: USDA RD Form 442-7 — Operating Budget
+    form_version: Per current USDA RD CF Direct
+    required_for: USDA RD Community Facilities Direct Loan & Grant applications
+    source: https://www.rd.usda.gov/programs-services/community-facilities/community-facilities-direct-loan-grant-program
+  - form_id: USDA RD IRP Application Package
+    form_version: Per current 7 CFR 4274 Subpart D
+    required_for: USDA RD Intermediary Relending Program applications (IRP) — intermediary lenders apply for revolving-loan-fund
+      capitalization
+    source: https://www.rd.usda.gov/programs-services/business-programs/intermediary-relending-program
+    note: 'IRP capitalizes intermediary lenders (CDFIs, nonprofits, public agencies) to make small loans in rural areas. Two-tier:
+      USDA RD lends to intermediary; intermediary on-lends to ultimate recipients.'
+  - form_id: CDFI lender-specific online portal applications
+    form_version: Per individual CDFI portal — varies
+    required_for: Most CDFI loan applications (Capital Impact Partners, RSF Social Finance, Shared Capital Cooperative, NCB
+      Capital Impact, Self-Help, Reinvestment Fund, regional CDFIs)
+    source: https://ofn.org/cdfi-locator/
+    note: OFN (Opportunity Finance Network) maintains a CDFI locator. Each CDFI publishes its own application portal — typically
+      web-based with document-upload requirements mirroring SBA Form 413 + business financials + use-of-funds + community-impact
+      narrative.
+  - form_id: State-specific revolving loan fund applications
+    form_version: Per state economic-development authority
+    required_for: State and regional revolving loan fund applications (e.g., PA Industrial Development Authority — PIDA, NY
+      Empire State Development financing, CA IBank loans, regional development authorities)
+    source: https://www.cdfa.net/cdfa/cdfaweb.nsf/pages/financing-tools.html
+    note: Council of Development Finance Agencies (CDFA) catalogs state and regional development finance programs. Each state
+      development finance authority publishes its own application materials.
+  - form_id: State Small Business Credit Initiative (SSBCI) program applications
+    form_version: Per state SSBCI program — varies
+    required_for: SSBCI-funded state credit-support programs (loan participations, loan guarantees, collateral support, capital
+      access programs, venture capital)
+    source: https://home.treasury.gov/policy-issues/small-business-programs/state-small-business-credit-initiative-ssbci
+    note: $10B SSBCI 2.0 (American Rescue Plan Act 2021) capitalized state credit-support programs through 2030. Each state
+      administers its own SSBCI-funded programs with state-specific applications.
+  - form_id: Bank / non-bank lender Uniform Commercial Loan Application
+    form_version: Bank-specific — no universal form
+    required_for: Conventional bank loans, non-bank commercial lenders
+    source: https://www.fdic.gov/regulations/safety/manual/section3-7.pdf
+    note: Conventional commercial lenders use bank-proprietary application forms. FDIC Manual of Examination Policies §3.7
+      establishes regulatory expectations for commercial loan underwriting documentation.
+  narrative_section_patterns:
+  - section_name: Borrower Profile / Business Description
+    typical_word_count: 300-600
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-06
+    note: Legal entity, ownership structure, business activity, years in operation, location, customer base, key competitive
+      positioning. Reads like a credit memo summary, not a brand story.
+  - section_name: Use of Funds (Itemized)
+    typical_word_count: 200-500
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    note: Specific, bound use-of-funds with dollar amounts per line. Tied to supporting documentation (quotes, purchase agreements,
+      payoff statements). Vague 'general business purposes' fails.
+  - section_name: Repayment Source Narrative + Math
+    typical_word_count: 300-700
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    note: Most load-bearing section in a credit memo. Identifies the specific cash-flow source(s) that will service the debt,
+      quantifies them, and shows DSCR calculation. Reviewer must be able to trace dollars from operating cash flow to debt
+      service.
+  - section_name: Business History
+    typical_word_count: 300-600
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-06
+    note: Founding, key milestones, prior debt history (if any), prior major operational changes (acquisitions, divestitures,
+      pivots), prior credit events (with explanation if material). For startups, founder track record substitutes for business
+      history.
+  - section_name: Management Capacity
+    typical_word_count: 200-500
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    note: Owner / management bench summary — relevant industry experience, prior P&L responsibility, succession plan (where
+      applicable), org chart at proposed post-loan operating scale.
+  - section_name: Financial Projections Narrative
+    typical_word_count: 400-800
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    note: Walks reviewer through key pro-forma assumptions — revenue drivers, margin assumptions, expense growth, working-capital
+      assumptions, capital-expenditure plan. Reconciles projection to historical performance. Shows sensitivity to downside
+      scenarios.
+  - section_name: Collateral Description
+    typical_word_count: 200-400
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    note: 'Asset-by-asset description of collateral pledged — type, value (with basis: appraisal, invoice, BV), lien position
+      (1st, 2nd, sharing), insurance status. Loan-to-value calculation per asset class.'
+  - section_name: Risk + Mitigation
+    typical_word_count: 300-600
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    note: Named operating, financial, market, and management risks with mitigations. Customer concentration, supplier concentration,
+      key-person risk, market cyclicality, regulatory exposure each addressed.
+  - section_name: Community Impact (Mission Lenders / CDFIs Only)
+    typical_word_count: 400-800
+    source_citation: https://www.cdfifund.gov/programs-training/certification/cdfi
+    note: 'REQUIRED for CDFI applications and many mission-lender applications. Co-equal weight with credit narrative at CDFIs.
+      Quantified impact: jobs created/retained (with wage levels), low-income individuals served, women-owned/minority-owned
+      status, geography (CDFI Target Market eligibility), product/service community benefit (healthy food access, affordable
+      housing, etc.). NOT required for SBA 7(a)/504 conventional underwriting.'
+  budget_structure_conventions:
+    direct_cost_categories:
+    - working_capital
+    - equipment_purchase
+    - real_estate_purchase_or_construction
+    - real_estate_renovation_or_leasehold_improvements
+    - inventory_purchase
+    - refinance_of_existing_debt
+    - business_acquisition_purchase_price
+    - soft_costs_legal_appraisal_environmental_packaging
+    - contingency_reserve
+    - debt_service_reserve_for_construction_loans
+    indirect_cost_treatment: NOT APPLICABLE to credit underwriting. Operating overhead is part of the cash-flow analysis (operating
+      expense in pro forma), not a budget line. Lenders do not have a 'de minimis indirect rate' concept — every dollar of
+      operating expense flows through the income statement and reduces cash available for debt service.
+    match_requirements_typical: 'REPLACED BY OWNER EQUITY INJECTION. SBA 7(a) typical equity injection 10% existing / 10-20%
+      change-of-ownership / 20-30% startup. SBA 504 typical 10-20% borrower equity (10% standard, 15% for new business or
+      special-use property, 20% for both). USDA RD B&I typical 10% existing / 20-25% startup. CDFI mission lenders: 5-15%
+      with documented hardship case. Equity must be NON-BORROWED (cash, gift with letter, retained earnings). Sweat equity
+      does NOT count.'
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    note: 'Critical Tilth-runtime check: when applicant arrives expecting ''grant funding'' but the funder routes through
+      CDFI / SBA / USDA RD lender, Tilth must surface that the budget structure is debt + equity injection, NOT grant + match.
+      Mis-framing a debt application as a grant proposal is a structural draft failure.'
+  reviewer_profile_typical:
+    reviewer_types:
+    - lender_credit_analyst
+    - lender_loan_officer
+    - loan_committee_member
+    - cdfi_underwriter_mission_plus_credit_dual_lens
+    - sba_lender_credit_specialist
+    - sba_loan_specialist_at_processing_center
+    - usda_rd_loan_specialist
+    - community_development_finance_reviewer
+    - bank_chief_credit_officer_for_above_threshold_loans
+    - intermediary_lender_loan_committee_for_irp_recipients
+    reviewer_priorities:
+    - Where does the cash come from to service this debt? (Repayment Source)
+    - Will the cash actually arrive? (Cash Flow Quality, DSCR with stress test)
+    - What happens if it doesn't? (Collateral, Guarantor, Recovery Path)
+    - Has this borrower / management team done this before? (Track Record)
+    - Are the financial controls strong enough to monitor compliance? (Books, Reporting)
+    - Does the use of funds match what we're underwriting? (Use-of-Funds Specificity)
+    - Is the equity injection real and non-borrowed? (Equity Source)
+    - 'For CDFI / mission lenders only: Does this loan advance our community impact mission? (Impact Underwriting)'
+    common_red_flags_from_reviewer_pov:
+    - Pro forma assumptions don't reconcile to historical performance — unexplained step-changes in revenue or margin
+    - Tax returns and financial statements show material discrepancies
+    - UCC search reveals undisclosed liens (hidden debt)
+    - Personal and business finances are commingled (no clear separation)
+    - Repayment source narrative is vague — cannot trace dollars to debt service
+    - Owner equity injection source is unclear or appears borrowed
+    - Single customer concentration >30% as repayment source with no contractual lock-in
+    - Maximum-leverage refinance with no working capital cushion (deal exhausts borrower's debt capacity)
+    - Weak management bench — single key person, no succession plan, no industry experience
+    - Past credit issues without explanation letter or remediation evidence
+    - Insurance gaps that violate covenant requirements pre-close
+    - Use of funds includes ineligible categories (e.g., owner distributions, certain refinances under SBA rules, non-business
+      purposes)
+    - Collateral over-reliance — credit thesis depends on liquidating collateral rather than cash flow servicing debt
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  common_portals:
+  - portal: SBA Lender Match
+    typical_use: SBA borrower-side intake portal — connects prospective SBA 7(a)/504/Microloan borrowers with participating
+      SBA lenders in their geography
+    source_citation: https://www.sba.gov/funding-programs/loans/lender-match
+  - portal: SBA E-Tran (Lender-side)
+    typical_use: SBA loan application submission and tracking — accessed by SBA participating lenders, NOT directly by borrowers.
+      Borrowers work through their lender.
+    source_citation: https://www.sba.gov/partners/lenders/etran
+  - portal: USDA RD Apply Portal
+    typical_use: USDA RD program applications — Business & Industry Guarantee, Community Facilities Direct & Guarantee, Intermediary
+      Relending Program, Rural Microentrepreneur Assistance Program (RMAP), and other RD loan programs
+    source_citation: https://www.rd.usda.gov/page/rd-apply
+  - portal: OFN (Opportunity Finance Network) CDFI Locator
+    typical_use: Borrower-side CDFI discovery — search OFN member CDFIs by geography, sector, loan size, and product type
+    source_citation: https://ofn.org/cdfi-locator/
+  - portal: CDFI Fund Awards Database
+    typical_use: Discovery of CDFI-Fund-certified CDFIs and their CDFI Fund award history (Financial Assistance, Technical
+      Assistance, Bond Guarantee, NMTC allocations) — useful for matching applicants to mission-aligned lenders
+    source_citation: https://www.cdfifund.gov/awards
+  - portal: Individual CDFI lender portals (Capital Impact, RSF Social Finance, Shared Capital, Self-Help, Reinvestment Fund,
+      regional CDFIs)
+    typical_use: Lender-specific application portals — each CDFI publishes its own intake portal with document-upload workflow
+    source_citation: https://ofn.org/cdfi-locator/
+  - portal: CDFA (Council of Development Finance Agencies) Online Resource Database
+    typical_use: State and regional revolving-loan-fund + development-finance-program discovery — catalogs state authorities,
+      regional development finance programs, SSBCI-funded programs
+    source_citation: https://www.cdfa.net/cdfa/cdfaweb.nsf/pages/financing-tools.html
+  - portal: Treasury SSBCI Program Page
+    typical_use: State Small Business Credit Initiative — discovery of state-specific SSBCI-funded credit programs (loan participations,
+      loan guarantees, collateral support, capital access programs, venture capital)
+    source_citation: https://home.treasury.gov/policy-issues/small-business-programs/state-small-business-credit-initiative-ssbci
+  - portal: SBDC (Small Business Development Center) referral network
+    typical_use: Pre-application TA + lender-matchmaking — SBDCs are the primary front-door for SBA borrower preparation;
+      nationwide referral network typically free to small businesses
+    source_citation: https://americassbdc.org/
+  - portal: SCORE Mentor Network
+    typical_use: Pre-application TA + business plan support — SCORE volunteers mentor small businesses through application
+      preparation, often referenced by SBA + CDFI lenders for pre-app TA
+    source_citation: https://www.score.org/
+  - portal: SAM.gov + UEI
+    typical_use: Required for any USDA RD loan-guarantee or federally-funded credit instrument (e.g., SSBCI-funded programs
+      may require UEI). Active SAM registration + UEI prerequisite.
+    source_citation: https://sam.gov/
+  common_red_flags:
+  - flag: weak_cash_flow_dscr_below_1_20
+    severity: HIGH
+    red_team_probe: Calculate DSCR from the historical financials and the proposed debt service. If DSCR <1.20x at the historical
+      baseline, where does the additional cash come from to service this debt? Is the cash-flow improvement assumption defensible
+      against historical patterns?
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - flag: unsupported_pro_forma
+    severity: HIGH
+    red_team_probe: Walk each major pro-forma assumption (revenue growth, margin expansion, working-capital efficiency) back
+      to historical evidence or external benchmark. Where the pro forma diverges materially from history, what is the documented
+      mechanism driving the change? Generic 'we'll grow into the loan' fails.
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - flag: no_clear_repayment_source
+    severity: HIGH
+    red_team_probe: From which line item on the projected income statement does debt service get paid? Trace the dollars.
+      If the answer is 'overall cash flow' without a specific revenue stream, the credit thesis is weak.
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - flag: poor_financial_controls
+    severity: HIGH
+    red_team_probe: What accounting system is in use? When was the last monthly close completed? Who reviews monthly financials?
+      When were the most recent CPA-prepared statements issued? Shoebox-receipts accounting requires TA-as-condition-precedent
+      before underwriting can proceed.
+    source_citation: https://ofn.org/research-resources/
+  - flag: unclear_collateral
+    severity: HIGH
+    red_team_probe: 'What specific assets are pledged? What is each asset worth (basis of valuation: appraisal, invoice, book
+      value)? What lien position does the lender have? Are there existing UCC filings or mortgages with priority?'
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - flag: missing_owner_equity_injection
+    severity: HIGH
+    red_team_probe: What is the borrower contributing? Where did the equity come from (gift, savings, sale proceeds)? Can
+      source-of-funds be documented? Is any portion borrowed (HELOC, 401(k) loan)?
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - flag: commingled_personal_business_finances
+    severity: HIGH
+    red_team_probe: Are personal and business bank accounts separate? Do tax returns show clean separation? Are personal expenses
+      run through the business (vehicle, travel, meals)? Commingling invalidates the financial-statement reliability.
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - flag: inconsistent_tax_returns_vs_financial_statements
+    severity: HIGH
+    red_team_probe: Do the revenue and net-income figures on tax returns reconcile to the financial statements? Material discrepancies
+      (>5% on revenue, >10% on net income) require explanation. Tax-basis vs. accrual-basis differences must be documented.
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - flag: weak_management_bench
+    severity: HIGH
+    red_team_probe: How many years of relevant industry experience does the principal have? Has the principal managed a business
+      at the proposed post-loan operating scale before? Is there a successor identified if the principal becomes unavailable?
+      Single-key-person businesses with no succession are structurally weak credits.
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - flag: hidden_debt_undisclosed_ucc_liens
+    severity: HIGH
+    red_team_probe: Did the borrower disclose all existing debt? Run a UCC search in the borrower's state(s) of incorporation
+      and operation. Are there filings that don't match the disclosed debt schedule? Hidden debt at credit-committee discovery
+      is often a transaction-killer.
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - flag: max_leverage_refinance_no_working_capital_cushion
+    severity: HIGH
+    red_team_probe: Does this transaction exhaust the borrower's debt capacity? Is there working-capital cushion remaining
+      for unexpected operating shortfalls? Does the refinance materially worsen the borrower's leverage ratio? Maximum-leverage
+      transactions with no cushion are fragile credits.
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - flag: covid_era_forgiveness_or_deferred_payment_liabilities_unaddressed
+    severity: HIGH
+    red_team_probe: In 2026 many small-business balance sheets still carry residual PPP forgiveness status uncertainty, EIDL
+      with deferred service entering active repayment, ERTC claims under IRS scrutiny, deferred payroll taxes, deferred rent.
+      Did the borrower receive PPP, EIDL, ERTC, or other COVID-era support? Are forgiveness statuses fully documented (denied
+      / approved / pending)? Are there deferred-payment liabilities (deferred rent, deferred payroll taxes, EIDL with deferred
+      service) on the balance sheet? Are cash-flow projections adjusted for EIDL re-amortization? Underwriter must see the
+      post-COVID balance sheet truthfully — residual COVID liabilities materially affect cash-flow and covenant compliance
+      in 2026.
+    source_citation: https://www.sba.gov/funding-programs/loans/covid-19-relief-options
+  - flag: single_buyer_concentration_as_repayment_source
+    severity: HIGH
+    red_team_probe: If a single customer represents >25-30% of revenue and that revenue anchors debt service, what happens
+      if the customer leaves or reduces orders? Is there a contract with term and termination clauses? What is the customer-replacement
+      timeline?
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - flag: ineligible_use_of_funds
+    severity: HIGH
+    red_team_probe: Per SBA 7(a) ineligibility list (or USDA RD program restrictions, or CDFI policy restrictions), is any
+      portion of the proposed use ineligible? SBA cannot finance owner distributions, certain refinances of same-institution
+      debt, speculative investments, non-business purposes.
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - flag: collateral_over_reliance_credit_thesis_depends_on_liquidation
+    severity: MEDIUM
+    red_team_probe: Does the credit thesis depend on liquidating collateral if cash flow fails, rather than on cash flow servicing
+      the debt? Lenders prefer cash-flow-driven credits with collateral as backstop, NOT collateral-driven credits where cash
+      flow is marginal.
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - flag: treating_debt_as_grant_in_application_framing
+    severity: HIGH
+    red_team_probe: Does the application narrative treat the funding as a grant (program impact, community benefit primary;
+      repayment narrative absent or weak)? CDFIs and mission lenders underwrite credit alongside mission, but credit is non-negotiable.
+      Grant-language framing for a debt application signals applicant misunderstands the instrument.
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-06
+  reporting_requirements_typical:
+    performance_reporting:
+      frequency: quarterly_typical_with_annual_comprehensive
+      content_required:
+      - Quarterly financial statements (P&L, balance sheet, statement of cash flows) within 45-60 days of quarter end
+      - Annual CPA-prepared financial statements (compiled / reviewed / audited per loan agreement) within 120 days of fiscal
+        year end
+      - Annual borrower compliance certification — confirms covenant compliance, insurance maintenance, tax-current status,
+        no material adverse change
+      - Quarterly DSCR + leverage ratio + working-capital ratio testing per loan covenants
+      - Annual personal financial statement update from guarantors (where required by loan agreement)
+      - 'For SBA 7(a)/504: lender-side reporting to SBA per SBA SOP; borrower experiences as financial-reporting requirement'
+      - 'For USDA RD B&I: borrower + lender reporting per 7 CFR 5001 / loan agreement'
+      - 'For CDFI mission loans: community-impact metrics reporting (jobs created/retained, impact data) annually'
+    financial_reporting:
+      frequency: quarterly_typical_with_annual_audited
+      content_required:
+      - Quarterly financial statements (P&L, balance sheet, cash flow) within 45-60 days
+      - Annual CPA-prepared statements (compiled / reviewed / audited per loan agreement) within 120 days
+      - Quarterly accounts receivable aging (where AR is part of borrowing base / collateral)
+      - Quarterly inventory listing (where inventory is part of borrowing base / collateral)
+      - Insurance certificates renewal proof
+      - UCC continuation filing notifications (every 5 years; lender typically files but borrower notified)
+      - Tax-current certifications (annual; some lenders quarterly)
+      - Payroll tax compliance certifications
+    final_report_required: true
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+    note: 'Post-payoff: lender issues paid-in-full satisfaction documents; UCC terminations filed. For SBA-guaranteed loans:
+      lender reports payoff to SBA. For USDA RD: lender + borrower close out per loan agreement. CDFI mission lenders: post-payoff
+      impact reporting may continue per CDFI Fund grant terms even after loan repaid.'
+  compliance_obligations:
+  - framework: Lender-specific loan agreement covenants
+    applicability: All commercial loans (SBA, USDA RD, CDFI, conventional bank, non-bank)
+    typical_filings:
+    - Financial covenant compliance — DSCR, leverage, current ratio, tangible net worth (test quarterly typical)
+    - Reporting covenant compliance — quarterly + annual financials submitted on schedule
+    - Non-financial covenant compliance — insurance maintained, taxes current, no additional debt without consent, no material
+      asset sale, no change of ownership without consent
+    - Annual borrower compliance certification
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - framework: SBA SOP 50 10 (where SBA-guaranteed)
+    applicability: SBA 7(a), 504, Microloan, Express, CapLines, International Trade — all SBA loan programs
+    typical_filings:
+    - Lender-side annual compliance per SBA SOP
+    - 'Borrower-side: timely loan payments, financial reporting per loan agreement, insurance maintenance, tax-current status'
+    - Mandatory lender liquidation procedures if loan defaults — borrower experiences as workout / restructure / liquidation
+      process
+    - OIG referrals for character matters
+    source_citation: https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+  - framework: USDA RD program regulations (where USDA RD loan or guarantee)
+    applicability: USDA RD Business & Industry, Community Facilities, Intermediary Relending, RMAP, Rural Energy for America
+      Program (REAP) where loan portion
+    typical_filings:
+    - 7 CFR 5001 (consolidated business loan-guarantee regulation effective 2024) compliance for B&I and related
+    - 7 CFR 4274 Subpart D for IRP intermediary lenders
+    - Borrower + lender reporting per loan agreement
+    - Annual environmental compliance for collateral (where applicable)
+    source_citation: https://www.rd.usda.gov/programs-services/business-programs/business-industry-loan-guarantees
+  - framework: FFIEC + bank regulatory compliance (for bank lenders)
+    applicability: Bank-originated commercial loans (SBA-guaranteed AND conventional)
+    typical_filings:
+    - Bank-side regulatory reporting (call reports) — borrower not directly responsible but loan classification affects bank's
+      regulatory standing
+    - Bank Secrecy Act + FinCEN reporting per loan transaction
+    - Currency Transaction Reports (CTRs) for cash transactions ≥$10,000
+    source_citation: https://www.ffiec.gov/
+  - framework: CDFI Fund Certification Compliance (for CDFIs)
+    applicability: CDFI lenders — affects borrower indirectly via lender's underwriting requirements
+    typical_filings:
+    - 'Lender-side: 60% of activity in CDFI Target Markets to maintain certification'
+    - 'Borrower-side: documentation supporting CDFI Target Market eligibility (geography, demographics, etc.)'
+    - Annual community-impact reporting at borrower level (jobs, demographics, impact metrics)
+    source_citation: https://www.cdfifund.gov/programs-training/certification/cdfi
+  - framework: Equal Credit Opportunity Act (ECOA / Regulation B)
+    applicability: All commercial credit transactions
+    typical_filings:
+    - Lender adverse-action notice requirements (where loan declined)
+    - Spousal-signature rules — cannot require spouse to guarantee solely on basis of marital status
+    - Adverse-action timing requirements (typically within 30 days of decision)
+    source_citation: https://www.consumerfinance.gov/rules-policy/regulations/1002/
+  - framework: Fair Lending (FHA + ECOA + state fair-lending laws)
+    applicability: All commercial credit transactions
+    typical_filings:
+    - Lender-side fair-lending compliance (HMDA where applicable, fair-lending exam preparedness)
+    - 'Borrower-side: protected from discrimination on basis of race, color, religion, national origin, sex, marital status,
+      age, public-assistance status'
+    source_citation: https://www.hud.gov/program_offices/fair_housing_equal_opp
+  - framework: USA PATRIOT Act + Bank Secrecy Act (KYC / AML)
+    applicability: All bank-originated and most non-bank commercial loans
+    typical_filings:
+    - Borrower KYC documentation at origination (identity verification, beneficial-owner identification per FinCEN beneficial-ownership
+      rules)
+    - Ongoing AML monitoring at lender level — borrower may experience as periodic re-verification requests
+    source_citation: https://www.fincen.gov/resources/statutes-regulations/usa-patriot-act
+  - framework: Environmental compliance (Phase I / Phase II ESA where collateral is real estate)
+    applicability: Commercial loans secured by real estate
+    typical_filings:
+    - Phase I Environmental Site Assessment at origination (typically required for real-estate-secured loans >$500K-$1M depending
+      on lender policy)
+    - Phase II ESA if Phase I findings warrant
+    - Ongoing compliance with environmental conditions in loan agreement
+    - USDA RD environmental review per 7 CFR 1970 for USDA-financed real estate
+    source_citation: https://www.epa.gov/brownfields/all-appropriate-inquiries
+  - framework: State usury laws + state lending laws
+    applicability: All commercial loans
+    typical_filings:
+    - Loan terms (interest rate, fees) compliant with state usury caps where applicable
+    - State commercial-lending licensure compliance for non-bank lenders
+    - Truth in Lending Act (Regulation Z) for consumer-purpose loans (rare in commercial; flagged where loan crosses commercial
+      / consumer boundary)
+    source_citation: https://www.consumerfinance.gov/rules-policy/regulations/1026/
+  - framework: UCC filing maintenance
+    applicability: Commercial loans secured by personal property
+    typical_filings:
+    - Initial UCC-1 filing at origination by lender
+    - Continuation filings every 5 years (lender files; borrower notified)
+    - Amendment filings when collateral changes
+    - Termination at payoff
+    source_citation: https://www.uniformlaws.org/committees/community-home?CommunityKey=cd6262e6-9a5c-4ec6-aaba-37a48a87f49c
+  commitment_tracking_pattern:
+    typical_commitments_extracted:
+    - commitment_type: financial_statement_submission
+      measurement_method: submission date vs. covenant due date (45/60/120-day windows) + completeness check (P&L + BS + CF)
+        + CPA-preparation level (compiled / reviewed / audited)
+    - commitment_type: dscr_covenant_test
+      measurement_method: calculated DSCR per covenant formula + comparison to covenant minimum (typical 1.20-1.25x; SBA 7(a)
+        typically 1.15x global) + variance + cure period status if breach
+    - commitment_type: leverage_ratio_covenant_test
+      measurement_method: calculated leverage ratio (debt/EBITDA or debt/tangible net worth per covenant) + comparison to
+        covenant maximum + variance + cure status if breach
+    - commitment_type: current_ratio_or_working_capital_covenant_test
+      measurement_method: current ratio (current assets / current liabilities) or working-capital dollar floor + comparison
+        to covenant + variance
+    - commitment_type: debt_service_payments
+      measurement_method: scheduled payment date + amount due + amount paid + paid date + on-time / past-due / delinquent
+        status (30/60/90-day buckets) + cumulative on-time payment rate
+    - commitment_type: revenue_targets_where_covenant
+      measurement_method: covenant revenue target by period + actual revenue + variance + explanation if material variance
+    - commitment_type: expense_controls_where_covenant
+      measurement_method: covenant expense ceiling (e.g., owner compensation cap, SG&A ceiling) + actual + variance
+    - commitment_type: collateral_status_insurance
+      measurement_method: insurance certificate on file (yes/no) + policy expiration date + coverage amount vs. covenant minimum
+        + lender-named-as-loss-payee verification
+    - commitment_type: collateral_status_valuation
+      measurement_method: most recent appraisal date + appraised value + LTV at current loan balance + revaluation due date
+        per covenant
+    - commitment_type: collateral_status_condition
+      measurement_method: annual or covenant-required collateral inspection (real estate, equipment) + condition rating +
+        maintenance status + photo documentation where required
+    - commitment_type: insurance_certificates
+      measurement_method: certificate type (property, liability, key-person, business interruption, workers' comp, cyber)
+        + expiration date + coverage amount + lender additional-insured status + renewal proof
+    - commitment_type: jobs_created_or_retained_where_covenant
+      measurement_method: covenant job target (typical SBA + CDFI + USDA RD) + actual FTEs + role + hire date + retention
+        status + connection to loan-financed activity + wage levels for CDFI mission reporting
+    - commitment_type: use_of_funds_documentation
+      measurement_method: post-disbursement evidence per use-of-funds line — equipment serial numbers + invoices for equipment
+        line; deed for real estate line; payoff statements for refinance line; AR aging for working capital draws on revolver
+    - commitment_type: annual_financial_certification
+      measurement_method: borrower compliance certification submitted (yes/no) + submission date vs. covenant due date + signed-by-authorized-officer
+        verification
+    - commitment_type: audited_financial_submission
+      measurement_method: annual CPA-prepared statements (per covenant level) submitted (yes/no) + submission date + auditor
+        name + opinion type (unqualified / qualified / adverse / disclaimer) + going-concern modification flag
+    - commitment_type: tax_current_status
+      measurement_method: borrower tax-current certification + most recent tax return filing confirmation + payroll tax deposit
+        current status + state tax current status
+    - commitment_type: community_impact_metrics_for_cdfi_mission_loans
+      measurement_method: covenant impact target + actual impact data (jobs created/retained at qualifying wage levels, low-income
+        individuals served, women-owned/minority-owned/veteran-owned status of supply chain, geography of beneficiaries, healthy
+        food access metrics, affordable housing units) + reporting frequency (typically annual)
+    - commitment_type: covenant_waiver_or_amendment_log
+      measurement_method: any waiver or amendment requested + date + lender response + terms + fees + impact on covenant baseline
+        going forward
+    proposal_commitments_yaml_extension:
+      field_name: credit_underwriting_commitments
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-06 + https://www.sba.gov/document/sop-50-10-lender-development-company-loan-programs
+track_b:
+  track_name: grant
+  track_description: 'MINIMAL STUB per L-024 + operator-directive PATH (a) accepted at OD-E ceremony 2026-05-17. Track B carries
+    no substantive grant-side underwriting content at v0.1 — that substance lives in a separate CLC (provisional name: grant_side_credit_readiness
+    or capital_readiness_grant; final naming pending v0.2 Wave 3 dispatch) for grant-side capital matching such as capitalization
+    grants, loan loss reserve grants, CDFI Fund Financial Assistance / Technical Assistance grant cycles, and USDA RD grant-loan-combo
+    grant portions. See _partition_provenance.domain_clarification at root for the verbatim L-024 rationale. Scribe MUST NOT
+    fabricate grant-rubric content onto this Track B — the L-024 substance-gap discipline (sibling to L-005) governs.'
+  underwriting_criteria:
+  - criterion: stub_only_per_l_024
+    description: MINIMAL STUB — Track B carries no substantive grant-side underwriting content at v0.1 per L-024 + operator
+      PATH (a) directive at OD-E ceremony 2026-05-17. Grant-side capital matching is a structurally distinct mechanism and
+      belongs in a separate CLC (provisional v0.2 Wave 3 target). See _partition_provenance.domain_clarification at root for
+      verbatim L-024 rationale. Scribe MUST NOT fabricate grant-rubric content onto Track B — the L-024 substance-gap discipline
+      (sibling to L-005) governs.
+    weight_in_typical_rubric: qualitative
+    source_citation: /lessons.md#L-024 + pipeline/validation/od_e_dual_track_2026-05-16/CEREMONY_SUMMARY.md
+  evidence_weights:
+    stub_only_per_l_024:
+      weight: UNKNOWN
+      rationale: MINIMAL STUB per L-024 — grant-side evidence requirements live in the separate v0.2 Wave 3 CLC slated for
+        grant-side credit-readiness / capital matching. Track B of credit_underwriting is structurally a placeholder for the
+        §18.6 v2 schema oneOf branch-2 contract; substantive grant-side evidence weights are deferred.
+  reviewer_profile_typical:
+    reviewer_types:
+    - stub_only_per_l_024 — grant-side reviewer profiles belong on the future v0.2 Wave 3 grant-side-credit-readiness CLC,
+      not this card's Track B.
+    reviewer_priorities:
+    - STUB — see _partition_provenance.domain_clarification at root.
+    common_red_flags_from_reviewer_pov:
+    - Track B substance is intentionally empty per L-024 + operator PATH (a) directive.
+  common_red_flags:
+  - flag: track_b_used_for_grant_substance_drafting
+    severity: HIGH
+    red_team_probe: Has the Scribe call been routed to Track B of credit_underwriting for an opportunity whose underlying
+      mechanism is grant-style capital? If yes, the routing is mis-classified — Track B is a minimal stub per L-024 + operator
+      PATH (a) directive; grant-side substance belongs on a different CLC (v0.2 Wave 3 target). HALT the draft, surface to
+      operator, request CIC/CLC re-routing.
+    source_citation: /lessons.md#L-024
+  reporting_requirements_typical:
+    performance_reporting:
+      frequency: stub_only_per_l_024
+      content_required:
+      - STUB — grant-side reporting requirements belong on the v0.2 Wave 3 grant-side-credit-readiness CLC.
+    financial_reporting:
+      frequency: stub_only_per_l_024
+      content_required:
+      - STUB — see _partition_provenance.domain_clarification.
+    final_report_required: true
+    note: MINIMAL STUB per L-024 + operator PATH (a) directive at OD-E ceremony 2026-05-17. Substantive grant-side reporting
+      requirements are deferred to the v0.2 Wave 3 grant-side CLC.
+  commitment_tracking_pattern:
+    typical_commitments_extracted:
+    - commitment_type: stub_only_per_l_024
+      measurement_method: MINIMAL STUB — no commitments extracted on Track B per L-024 + operator PATH (a) directive. Grant-side
+        commitment extraction belongs on the v0.2 Wave 3 grant-side CLC.
+    proposal_commitments_yaml_extension:
+      field_name: clc_credit_underwriting_track_b_commitments_stub_only
+_review_handback:
+  card_axis_and_slug: CLC:credit_underwriting
+  card_file: pipeline/cards/CLC/credit_underwriting.yaml
+  research_hours_actual: 3.0
+  schema_completeness:
+    required_fields_populated: 15/15
+    fields_needing_review: 0
+    total_citations: 47
+    unique_primary_sources: 17
+  decision_queue:
+  - 'DEBT-VS-GRANT FRAMING (load-bearing): Card encodes that this CLC funds debt + guarantees + revolving funds, NOT grants.
+    Confirm that Tilth''s Intake + Scout VERIFY surfaces this distinction to the applicant when an opportunity routes to a
+    CDFI / SBA lender / USDA RD lender. Mis-framing a debt application as a grant proposal is a structural draft failure that
+    this card cannot prevent at runtime — needs Intake / Scout-VERIFY surface.'
+  - 'admin_risk_term_register MIGRATION TRACKING (Wave 2 Thesis Cycle 2 FIX-IN-PLACE 2026-05-16): The CLC-06-scoped admin_risk_term_register
+    block was REMOVED from this card at Cycle 2 fix-in-place per Wave 1 CLC-03 + Wave 2 CLC-02 + CLC-04 + CLC-05 precedent
+    (§18.6 CLC schema does not declare this field; CIC-only per §18.5). The 13 substantive flagged terms (predatory lending
+    / financial inclusion / underbanked / community wealth-building / wealth-building loans / alternative credit / responsible
+    lending / mission-aligned capital / patient capital / credit-invisible / minority depository institution / creditworthy
+    / stakeholder re-noted) carry runtime value and require migration to workspace-wide pipeline/institutional_memory/admin_risk_register.yaml
+    v2.3 follow-on dispatch (compound migration with CLC-03 + CLC-02 + CLC-04 + CLC-05). Federal-vs-CDFI-vs-conventional dialect
+    split is the load-bearing operator decision when v2.3 lands: ''community wealth-building'' / ''patient capital'' / ''mission-aligned
+    capital'' / ''wealth-building loans'' PREFERRED in CDFI + foundation-PRI contexts; conventional bank applications need
+    substitutions toward ''community-rooted capital'' / ''long-horizon capital'' / ''asset-building credit products''. Operator
+    decision: when to fire the v2.3 compound migration dispatch.'
+  - Cross-family Thesis dispatch (Editor + Judge + Red Team via openclaw bridge per AGENTS.md) before promoting lifecycle
+    to 'reviewed'.
+  - Ed25519 signature once operator + Thesis pass — pending publisher key pin per architecture v7.0.11 §6.1 (mirrors v7.0.7
+    router-template trust mechanism).
+  - 'scoring_weight_patterns: SBA SOP 50 10 enumerates required underwriting elements but does NOT publish a numeric scoring
+    rubric; CDFI underwriting policies are board-approved and proprietary; USDA RD B&I has program-published equity-position
+    requirements but no comprehensive scoring rubric. Card cites the 5C framework (universal heuristic) + SBA SOP + USDA RD
+    per-program requirements + CDFI mission-plus-credit composite; weights are qualitative per Wave 1 OQ-6. Confirm this matches
+    operator runtime posture, or surface a v0.2 SBA-SOP-specific underwriting overlay if Judge needs more structure.'
+  - 'MISSION-LENDER VS COMMERCIAL-LENDER DUAL LENS: The card captures CDFI mission-plus-credit underwriting alongside SBA
+    / conventional commercial underwriting. Confirm Judge can recognize at runtime which underwriting framework applies based
+    on the lender type (CDFI vs SBA vs conventional bank vs USDA RD). May need a runtime lender-type tag attached to opportunities
+    at Scout.'
+  - 'SBA-VS-CDFI-VS-USDA-RD UNDERWRITING DIFFERENCES: Card captures the structural differences (SBA SOP 50 10 standardized;
+    CDFI proprietary mission-plus-credit; USDA RD per-program 7 CFR-cited; conventional bank variable). Confirm Tilth''s Scout
+    / Judge handles per-program emphasis difference at runtime, or surface as v0.2 lender-specific underwriting overlay.'
+  - 'SSBCI 2.0 program landscape: $10B Treasury allocation through 2030 but each state administers its own SSBCI-funded programs
+    with state-specific applications. Card captures the structural pattern; per-state SSBCI program detail expansion may be
+    valuable in v0.2 if Scout discovery surfaces high-value state SSBCI programs.'
+  - 'COVID-era liability footprint: PPP forgiveness, EIDL with deferred service, ERTC, deferred payroll taxes are still on
+    many small-business balance sheets in 2026. Card flags as HIGH-severity red flag (upgraded from MEDIUM at Wave 2 Thesis
+    Cycle 1 F-08 fold-in); confirm Logician pre-flight check surfaces COVID-era liability disclosure as a Phase-4 self-validation
+    gate.'
+  - 'INDIVIDUAL CDFI VARIATION: card captures CDFI mission-plus-credit framework at the composite level. Specific CDFIs (Capital
+    Impact Partners, RSF Social Finance, Shared Capital Cooperative, Self-Help, Reinvestment Fund, NCB Capital Impact, regional
+    CDFIs) each publish their own underwriting standards. v0.2 may benefit from per-CDFI-lender overlay cards where high-value
+    mission lenders for the operator''s customer base are identified.'
+  conflicts_with_prior_art:
+  - NONE — admin_risk_term_register block REMOVED at Wave 2 Thesis Cycle 2 fix-in-place per Wave 1 CLC-03 + Wave 2 CLC-02
+    + CLC-04 + CLC-05 precedent (§18.6 CLC schema does not declare this field). The 13 CLC-06-scoped flagged terms (predatory
+    lending, financial inclusion, underbanked, community wealth-building, wealth-building loans, alternative credit, responsible
+    lending, mission-aligned capital, patient capital, credit-invisible, minority depository institution, creditworthy, stakeholder
+    re-noted) require migration to workspace-wide pipeline/institutional_memory/admin_risk_register.yaml v2.3 follow-on dispatch
+    with consistent severity tiers against cooperative CIC entry ('community wealth-building') and CLC-03 ('stakeholder')
+    overlap. See decision_queue[1] for migration tracking.
+  surface_ambiguities:
+  - 'Verbatim-quote sourcing: several quotes paraphrase the substance of source materials at the URL rather than copying word-for-word.
+    Strict-verbatim verification is a Phase 4 deepening step before LOCK; for research-draft purposes the URL + access_date
+    pin the source and the paraphrase captures the operative claim.'
+  - SBA SOP 50 10 is revised periodically — card cites the current version at access_date. Future SOP revisions may shift
+    specific requirements (equity injection percentages, credit score thresholds, eligibility screens). Card captures the
+    durable framework; per-revision detail attaches at runtime via Scout.
+  - 'USDA RD 7 CFR consolidation: 7 CFR Part 5001 consolidated multiple USDA RD business loan-guarantee regulations effective
+    2024. Older 7 CFR Part 4279 / 4280 references appear in legacy materials. Card cites the consolidated regulation; legacy
+    regulatory references should be cross-walked at runtime.'
+  - DSCR target ranges (1.20-1.25x for most commercial; 1.15x for SBA 7(a) global; 1.10-1.15x for some CDFI mission lending)
+    are widely-cited industry norms but specific lender policies vary. Card captures modal ranges; per-lender variance attaches
+    at runtime.
+  - 'Sibling Wave 2 CIC + CLC firing in parallel — once educator, public_agency, arts_culture, cooperative, ecosystem_intermediary
+    CICs and the other CLCs land, verify no inadvertent CIC × CLC coupling appears across the set (defense-in-depth). Specifically:
+    Cooperative CIC + Credit & Underwriting CLC is a high-frequency pairing in operator-context (cooperative-development CDFIs,
+    USDA cooperative-development credit) but the cards must not encode that as preference.'
+  - Owner equity injection sourcing rules per SBA SOP are intricate — gift documentation, 401(k) loan treatment, HELOC exclusion,
+    business sale proceeds, retained earnings — card captures the framework but specific source-of-funds adjudication should
+    attach at runtime via SBA-lender-specific guidance.
+  - 'Foundation grants combined with CDFI loans: many CDFIs participate in blended-capital deals (foundation grant + CDFI
+    loan + TA package). Card focuses on the credit-underwriting layer; blended-capital deal structuring is a multi-CLC matter
+    best handled at runtime via CIC × CLC matrix observations (forward-compat at v7.0.11; v1.x activation).'
+  - ECOA / fair-lending compliance is lender-side primarily — borrower experiences as protection against discrimination. Card
+    captures the framework so Tilth can flag inappropriate lender behavior in Lessons Memory, not as a borrower-side compliance
+    burden.
+  - Personal-guarantor requirement is universal at SBA / CDFI / most commercial; some sole-proprietor LLCs and certain entity
+    structures complicate guaranty execution. Card captures the structural requirement; entity-specific guaranty mechanics
+    attach at runtime.
+  review_readiness: READY

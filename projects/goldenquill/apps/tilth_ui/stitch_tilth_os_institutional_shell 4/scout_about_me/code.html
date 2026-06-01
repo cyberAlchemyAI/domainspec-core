@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Scout Profile</title>
+<link rel="stylesheet" href="/assets/stitch-fonts.css">
+<link rel="stylesheet" href="/assets/stitch-tailwind.css">
+<style>
+    body { background-color: #020617; }
+    .border-slate { border-color: #334155; }
+    .bg-level-1 { background-color: #0F172A; }
+    .bg-level-2 { background-color: #1E293B; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #020617; }
+    ::-webkit-scrollbar-thumb { background: #334155; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    
+    /* Scout About Me specific glassmorphism styling */
+    .glass-card {
+        background: rgba(16, 185, 129, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    }
+    .neon-text {
+        text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    }
+    .bio-accent {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(2, 6, 23, 0) 100%);
+    }
+    .skill-tag {
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        color: #34d399;
+        text-shadow: 0 0 8px rgba(52, 211, 153, 0.5);
+    }
+    .skill-tag:hover {
+        background: rgba(16, 185, 129, 0.2);
+        border-color: rgba(16, 185, 129, 0.6);
+    }
+</style>
+</head>
+<body class="text-on-surface w-screen overflow-hidden flex flex-col font-body-md bg-background" style="height: 100vh;">
+<!-- TopAppBar -->
+<header class="bg-surface-container-low dark:bg-surface-container-low docked full-width top-0 h-14 border-b border-outline-variant flat no shadows transition-none flex justify-between items-center w-full px-container-padding gap-panel-gap shrink-0 z-20">
+    <div class="flex items-center gap-4">
+        <span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary">GOLDEN QUILL</span>
+    </div>
+    <div class="flex items-center gap-6">
+        <div class="flex items-center gap-2 border border-outline-variant px-3 py-1 bg-surface-container">
+            <span class="font-label-caps text-label-caps text-on-surface-variant">NODE:</span>
+            <span class="font-data-mono text-data-mono text-primary">FIT Farms LLC</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px] text-green-500">security</span>
+            <span class="font-label-caps text-label-caps text-green-500">SECURE</span>
+        </div>
+        <div class="flex items-center gap-2 border border-outline-variant px-2 py-0.5 bg-surface-container-highest">
+            <span class="material-symbols-outlined text-[14px] text-primary">policy</span>
+            <span class="font-label-caps text-label-caps text-primary">VERIFIED</span>
+        </div>
+        <div class="flex items-center gap-3 text-primary dark:text-primary">
+            <span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-highest p-1 rounded-none">verified_user</span>
+            <span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-highest p-1 rounded-none">vpn_key</span>
+            <span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-highest p-1 rounded-none">account_circle</span>
+        </div>
+    </div>
+</header>
+<div class="flex flex-1 overflow-hidden h-[calc(100vh-56px-32px)]">
+    <!-- SideNavBar -->
+    <nav class="hidden md:flex bg-surface-container dark:bg-surface-container docked left-0 h-full w-sidebar-width border-r border-outline-variant flat no shadows transition-none flex-col h-full shrink-0 z-10">
+        <div class="p-4 border-b border-outline-variant">
+            <div class="font-display-lg text-display-lg text-primary truncate">FIT Farms</div>
+            <div class="font-label-caps text-label-caps text-on-surface-variant mt-1">FRONTIER POSTURE</div>
+        </div>
+        <div class="flex-1 overflow-y-auto py-2">
+            <ul class="flex flex-col">
+                <li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer" onclick="window.location.href='/home'">
+                    <span class="material-symbols-outlined text-[18px]">home</span>
+                    <span class="font-label-caps text-label-caps">Home</span>
+                </li>
+                <li class="px-4 py-2 flex items-center gap-3 bg-surface-container-highest text-primary border-l-2 border-primary transition-none cursor-pointer" data-gq-route="scout profile">
+                    <span class="material-symbols-outlined text-[18px]">person</span>
+                    <span class="font-label-caps text-label-caps">Scout Profile</span>
+                </li>
+                <li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer" onclick="window.location.href='/scout'">
+                    <span class="material-symbols-outlined text-[18px]">search_insights</span>
+                    <span class="font-label-caps text-label-caps">Scout Discovery</span>
+                </li>
+                <li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer" onclick="window.location.href='/intake'">
+                    <span class="material-symbols-outlined text-[18px]">input</span>
+                    <span class="font-label-caps text-label-caps">Intake</span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Central Surface: Scout Profile -->
+    <main class="flex-1 flex flex-col min-w-0 bg-[#020617] relative z-0 overflow-y-auto">
+        <!-- Abstract mycelial background -->
+        <div class="absolute inset-0 pointer-events-none opacity-20" style="background-image: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 60%);"></div>
+        <div class="absolute inset-0 pointer-events-none opacity-30" style="background-image: url('data:image/svg+xml,%3Csvg width=\'100%25\' height=\'100%25\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.05\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'0.1\'/%3E%3C/svg%3E');"></div>
+        
+        <div class="relative z-10 p-12 flex flex-col gap-8 max-w-6xl mx-auto w-full">
+            
+            <!-- Header Section -->
+            <div class="flex items-center gap-4 mb-4">
+                <span class="material-symbols-outlined text-green-400 text-4xl neon-text">person_search</span>
+                <h1 class="font-display-lg text-4xl font-bold text-green-400 neon-text tracking-wider uppercase">Scout Profile</h1>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Left Column -->
+                <div class="lg:col-span-8 flex flex-col gap-8">
+                    <!-- Title Card -->
+                    <div class="glass-card rounded-2xl p-8 flex flex-col md:flex-row gap-8 items-center md:items-start bio-accent">
+                        <div class="w-48 h-48 rounded-xl overflow-hidden border-2 border-green-500 shadow-[0_0_20px_rgba(16,185,129,0.3)] shrink-0 bg-[#064e3b] flex items-center justify-center">
+                            <!-- Avatar Placeholder -->
+                            <span class="material-symbols-outlined text-[80px] text-green-400">psychology</span>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <h2 class="text-3xl font-bold text-white tracking-wide uppercase">Synergy // Regen-Soldier</h2>
+                            <h3 class="text-xl text-green-400 font-data-mono tracking-widest mb-4">THE BIO-ARCHITECT OF REGENERATION</h3>
+                            <p class="text-slate-300 font-body-lg leading-relaxed">
+                                Pioneering the intersection of regenerative ecology and strategic action. 
+                                Harnessing mycology and advanced autonomous systems to restore ecosystems, coordinate capital, and optimize workflows across the Golden Quill network.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Competencies -->
+                    <div class="glass-card rounded-2xl p-8">
+                        <h3 class="text-xl text-green-400 font-data-mono uppercase mb-6 flex items-center gap-2">
+                            <span class="material-symbols-outlined">hub</span> Core Competencies & Skills
+                        </h3>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="skill-tag px-6 py-3 rounded-full font-label-caps uppercase tracking-wider transition-all cursor-default">Mycology</div>
+                            <div class="skill-tag px-6 py-3 rounded-full font-label-caps uppercase tracking-wider transition-all cursor-default">Agentic Workflows</div>
+                            <div class="skill-tag px-6 py-3 rounded-full font-label-caps uppercase tracking-wider transition-all cursor-default">Capital Coordination</div>
+                            <div class="skill-tag px-6 py-3 rounded-full font-label-caps uppercase tracking-wider transition-all cursor-default">Regenerative Systems</div>
+                            <div class="skill-tag px-6 py-3 rounded-full font-label-caps uppercase tracking-wider transition-all cursor-default">Bio-Integration</div>
+                            <div class="skill-tag px-6 py-3 rounded-full font-label-caps uppercase tracking-wider transition-all cursor-default">Eco-System Restoration</div>
+                            <div class="skill-tag px-6 py-3 rounded-full font-label-caps uppercase tracking-wider transition-all cursor-default">Data Visualization</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="lg:col-span-4 flex flex-col gap-8">
+                    <!-- Impact Card -->
+                    <div class="glass-card rounded-2xl p-8 h-full">
+                        <h3 class="text-xl text-green-400 font-data-mono uppercase mb-8 flex items-center gap-2">
+                            <span class="material-symbols-outlined">eco</span> Projects & Impact
+                        </h3>
+                        
+                        <div class="flex flex-col gap-8">
+                            <div class="flex items-start gap-4">
+                                <div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30">
+                                    <span class="material-symbols-outlined text-green-400 text-2xl">device_hub</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold mb-1">Bio-Net Infrastructure</h4>
+                                    <p class="text-slate-400 text-sm">Deployment of decentralized autonomous logic for grant routing.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-4">
+                                <div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30">
+                                    <span class="material-symbols-outlined text-green-400 text-2xl">recycling</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold mb-1">Circular Compost Networks</h4>
+                                    <p class="text-slate-400 text-sm">Mapping regional bio-waste to high-value fungal substrates.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="p-3 rounded-xl bg-green-500/10 border border-green-500/30">
+                                    <span class="material-symbols-outlined text-green-400 text-2xl">groups</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold mb-1">Community Regrowth</h4>
+                                    <p class="text-slate-400 text-sm">Empowering local nodes with autonomous grant writing capabilities.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest docked bottom-0 full-width h-8 border-t border-outline-variant flat no shadows transition-none fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50">
+    <div class="font-label-caps text-label-caps text-on-surface">
+        NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED
+    </div>
+    <div class="flex items-center gap-4">
+        <span class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary transition-none cursor-pointer">Machine ID: 992-QX</span>
+        <span class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary transition-none cursor-pointer">Audit Log</span>
+        <span class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary transition-none cursor-pointer">System Health</span>
+    </div>
+</footer>
+</body></html>

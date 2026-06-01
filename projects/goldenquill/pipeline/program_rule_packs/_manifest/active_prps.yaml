@@ -1,0 +1,216 @@
+# Active Program Rule Packs (PRP) manifest — v0.1 DRAFT scaffold.
+#
+# Mirrors pipeline/cards/registry.yaml shape. Truth invariant: only signed
+# PRPs whose runtime_loadable=true and whose [effective_date, expiry_date]
+# window contains today may appear here as active.
+#
+# v0.1 DRAFT NOTE: every entry below is status=draft with content_hash=TBD.
+# The loader at pipeline/program_rule_packs/loader.py raises
+# NotImplementedError at the top-level call, so this manifest is NOT in the
+# production load path at v0.1. It is on disk only so reviewers can see the
+# intended PRP roster — the six PRPs that the Phased Card System Research
+# Audit (docs/phased_card_system_research_audit_extracted_2026-05-17.md)
+# directly named or implied as the v0.2 first-wave PRP content scope.
+#
+# v0.2 FIRST WAVE PRP AUTHORING (2026-05-18):
+# Three of the six entries below — TILTH-PRP-2CFR200, TILTH-PRP-DAVIS-BACON,
+# TILTH-PRP-NEPA-24CFR58 — now have DRAFT YAML bodies on disk under
+# pipeline/program_rule_packs/cross_cutting/<PRP_ID>/v1.yaml. status remains
+# DRAFT and content_hash remains TBD until the LOCK ceremony. The other three
+# entries (FERPA-COPPA-HIPAA, SUBCHAPTER-T, USDA-VAPG-FY26) remain stub-only.
+# See pipeline/handoffs/prp_v0_2_first_wave_authoring_2026-05-18.md for the
+# authoring summary and the L-005 cross-family Thesis dispatch recommendation
+# that is a prerequisite for advancing any of the three DRAFTs to
+# review_passed and ultimately to signed.
+#
+# v0.2 first wave graduates this manifest at the same ceremony as cards v0.2
+# loader graduation. At that ceremony the operator either signs PRP YAML
+# bodies authored against pipeline/program_rule_packs/_schema/program_rule_pack.schema.json
+# or removes the corresponding entry from this manifest.
+#
+# See: pipeline/blueprint/v0.1/section_19_program_rule_packs.md
+# See: docs/phased_card_system_research_audit_extracted_2026-05-17.md
+
+registry_kind: active_prp_registry
+schema_version: 1.0-prp-registry
+generated_at: '2026-05-17T22:00:00Z'
+truth_invariant: >
+  Only signed, runtime_loadable PRPs whose [effective_date, expiry_date]
+  window contains today may be active. Draft/review/expired PRPs must not
+  appear in active_prps. v0.1 DRAFT: all entries are status=draft with
+  content_hash=TBD; the loader top-level call raises NotImplementedError so
+  no entry is ever validated against the schema in production at v0.1.
+
+active_prps:
+
+  # ---------------------------------------------------------------------
+  # Entry 1 — TILTH-PRP-FERPA-COPPA-HIPAA (compliance_framework)
+  #
+  # Maps to Phased Card System Research Audit synthesis recommendation #1:
+  # "Decouple Student Profiles" — FERPA School Official Exception, COPPA
+  # under-13 consent, and the FERPA/HIPAA boundary for school-maintained
+  # medical records. See audit §"Privacy Protections, COPPA, and the HIPAA
+  # Interface" + §"The Golden Quill Identity Gateway and FERPA Compliance".
+  # ---------------------------------------------------------------------
+  - prp_id: TILTH-PRP-FERPA-COPPA-HIPAA
+    prp_kind: compliance_framework
+    prp_path: pipeline/program_rule_packs/compliance_framework/ferpa_coppa_hipaa.yaml
+    display_name: 'Student Data Privacy Framework (FERPA + COPPA + FERPA/HIPAA Boundary)'
+    status: draft
+    required_draft_status: signed
+    required_runtime_loadable: true
+    content_hash: TBD
+    effective_date: TBD
+    expiry_date: null  # cross_cutting/framework PRPs typically have no operator-known expiry
+    audit_synthesis_recommendation: '#1 Decouple Student Profiles'
+    note: >
+      Compliance-framework PRP. Encodes the School Official Exception, the
+      45-day inspection window, COPPA under-13 verifiable parental consent,
+      and the FERPA/HIPAA classification rule for school-maintained medical
+      records. PRP body authored at v0.2 first wave.
+
+  # ---------------------------------------------------------------------
+  # Entry 2 — TILTH-PRP-2CFR200 (cross_cutting_regulation)
+  #
+  # Maps to audit §"Uniform Guidance and 2 CFR 200 Procurement Tiers".
+  # Procurement tier thresholds, splitting prohibition, conflict-of-interest
+  # detection, Modified Total Direct Costs separation.
+  # ---------------------------------------------------------------------
+  - prp_id: TILTH-PRP-2CFR200
+    prp_kind: cross_cutting_regulation
+    prp_path: pipeline/program_rule_packs/cross_cutting/TILTH-PRP-2CFR200/v1.yaml
+    display_name: 'Uniform Administrative Requirements, Cost Principles, and Audit Requirements for Federal Awards (2 CFR Part 200)'
+    status: draft  # 2026-05-18: v1.yaml DRAFT body authored. Still DRAFT until L-005 cross-family Thesis dispatch + LOCK ceremony.
+    required_draft_status: signed
+    required_runtime_loadable: true
+    content_hash: TBD  # computed at LOCK ceremony from canonical-JSON SHA-256 of the v1.yaml body
+    effective_date: '2024-10-01'  # 2024 revision of 2 CFR 200 (89 FR 30046; effective for awards on or after 2024-10-01)
+    expiry_date: null  # permanent federal regulation; no operator-known sunset
+    audit_synthesis_recommendation: '#4 Deploy Programmatic Compliance Locks (procurement)'
+    note: >
+      Cross-cutting-regulation PRP. v0.2 first wave DRAFT body now on disk
+      at pipeline/program_rule_packs/cross_cutting/TILTH-PRP-2CFR200/v1.yaml.
+      Encodes 36 live-law rules covering procurement tiers (§200.318-327),
+      cost principles (§200.400-475 selected), indirect cost rates including
+      the 2024 de minimis rate increase to 15% (§200.414), single-audit
+      threshold raise to $1M (§200.501), sub-recipient monitoring
+      (§200.331-333), record retention (§200.334), and the 2024 cybersecurity
+      addition (§200.303(e)). DRAFT — LOCK ceremony pending cross-family
+      Thesis dispatch per L-005.
+
+  # ---------------------------------------------------------------------
+  # Entry 3 — TILTH-PRP-DAVIS-BACON (cross_cutting_regulation)
+  #
+  # Maps to audit §"Davis-Bacon Act and Labor Compliance Integration" +
+  # synthesis recommendation #3: "Automate Davis-Bacon Checking".
+  # ---------------------------------------------------------------------
+  - prp_id: TILTH-PRP-DAVIS-BACON
+    prp_kind: cross_cutting_regulation
+    prp_path: pipeline/program_rule_packs/cross_cutting/TILTH-PRP-DAVIS-BACON/v1.yaml
+    display_name: 'Davis-Bacon Act + Davis-Bacon and Related Acts (DBA / DBRA, 29 CFR Parts 1, 3, 5)'
+    status: draft  # 2026-05-18: v1.yaml DRAFT body authored. Still DRAFT until L-005 cross-family Thesis dispatch + LOCK ceremony.
+    required_draft_status: signed
+    required_runtime_loadable: true
+    content_hash: TBD  # computed at LOCK ceremony from canonical-JSON SHA-256 of the v1.yaml body
+    effective_date: '2023-10-23'  # DOL final rule "Updating the Davis-Bacon and Related Acts Regulations," 88 FR 57526 (Aug 23, 2023; effective Oct 23, 2023)
+    expiry_date: null  # permanent federal statute (40 U.S.C. 3141 et seq.); no operator-known sunset
+    audit_synthesis_recommendation: '#3 Automate Davis-Bacon Checking'
+    note: >
+      Cross-cutting-regulation PRP. v0.2 first wave DRAFT body now on disk
+      at pipeline/program_rule_packs/cross_cutting/TILTH-PRP-DAVIS-BACON/v1.yaml.
+      Encodes 26 live-law rules covering the $2,000 covered-contract
+      threshold, prevailing-wage payment, wage-determination lookup,
+      fringe-benefit annualization (2023 revision), the four weekly-pay
+      compliance pathways, WH-347 weekly certified payroll + Statement of
+      Compliance, apprenticeship registration (29 CFR 5.5(a)(4)),
+      subcontractor flow-down by operation-of-law (2023 revision), and the
+      programmatic compliance lock for blocking construction-payout exports
+      pending current-period certified payroll. DRAFT — LOCK ceremony
+      pending cross-family Thesis dispatch per L-005.
+
+  # ---------------------------------------------------------------------
+  # Entry 4 — TILTH-PRP-NEPA-24CFR58 (cross_cutting_regulation)
+  #
+  # Maps to audit §"NEPA and HUD 24 CFR Part 58 Environmental Review" +
+  # synthesis recommendation #4 (environmental gate locks).
+  # ---------------------------------------------------------------------
+  - prp_id: TILTH-PRP-NEPA-24CFR58
+    prp_kind: cross_cutting_regulation
+    prp_path: pipeline/program_rule_packs/cross_cutting/TILTH-PRP-NEPA-24CFR58/v1.yaml
+    display_name: 'NEPA Environmental Review (HUD 24 CFR Part 58 Responsible Entity pathway + 24 CFR Part 50 HUD-led pathway)'
+    status: draft  # 2026-05-18: v1.yaml DRAFT body authored. Still DRAFT until L-005 cross-family Thesis dispatch + LOCK ceremony.
+    required_draft_status: signed
+    required_runtime_loadable: true
+    content_hash: TBD  # computed at LOCK ceremony from canonical-JSON SHA-256 of the v1.yaml body
+    effective_date: '2024-04-23'  # most recent 24 CFR Part 58 amendments (89 FR 30913, April 23, 2024)
+    expiry_date: null  # permanent federal authority; no operator-known sunset
+    audit_synthesis_recommendation: '#4 Deploy Programmatic Compliance Locks (NEPA)'
+    note: >
+      Cross-cutting-regulation PRP. v0.2 first wave DRAFT body now on disk
+      at pipeline/program_rule_packs/cross_cutting/TILTH-PRP-NEPA-24CFR58/v1.yaml.
+      Encodes 25 live-law rules covering pathway selection (Part 58 RE vs.
+      Part 50 HUD-led), the five review classifications (Exempt / CENST /
+      CEST / EA / EIS), FONSI + RROF + AUGF gate, CEST 7-day comment +
+      15-day objection, EA 15-day comment + 15-day objection, the
+      choice-limiting-action prohibition under §58.22, the related federal
+      laws and authorities (NHPA §106, ESA §7, CWA, CAA, floodplain E.O.
+      11988 Eight-Step Decision-Making Process), Certifying Officer
+      personal liability, project aggregation, tiering, reevaluation, and
+      the programmatic compliance lock for blocking construction-payout
+      exports pending Certifying Officer-signed ERR + AUGF. DRAFT — LOCK
+      ceremony pending cross-family Thesis dispatch per L-005.
+
+  # ---------------------------------------------------------------------
+  # Entry 5 — TILTH-PRP-SUBCHAPTER-T (compliance_framework)
+  #
+  # Maps to audit §"Subchapter T Tax Neutrality and State Cooperative
+  # Statutes" + synthesis recommendation #5 ("Enforce Cooperative Equity
+  # Rules").
+  # ---------------------------------------------------------------------
+  - prp_id: TILTH-PRP-SUBCHAPTER-T
+    prp_kind: compliance_framework
+    prp_path: pipeline/program_rule_packs/compliance_framework/subchapter_t.yaml
+    display_name: 'Subchapter T Cooperative Tax Framework + State Cooperative Statutes'
+    status: draft
+    required_draft_status: signed
+    required_runtime_loadable: true
+    content_hash: TBD
+    effective_date: TBD
+    expiry_date: null
+    audit_synthesis_recommendation: '#5 Enforce Cooperative Equity Rules'
+    note: >
+      Compliance-framework PRP. Encodes the Subchapter T patronage allocation
+      formula, the consumer-member-as-primary-patron rule for hybrid
+      cooperatives, state cooperative statutory caps (Virginia Code Title
+      13.1 exemplar: $1,000 max par value, single-vote, 10% annual reserve,
+      two-thirds non-voting consent for preferential modifications), and the
+      three equity redemption methodologies (Revolving Fund, Percent-of-All-
+      Equities, Special Redemption). PRP body authored at v0.2 first wave.
+
+  # ---------------------------------------------------------------------
+  # Entry 6 — TILTH-PRP-USDA-VAPG-FY26 (program_specific exemplar)
+  #
+  # First program_specific PRP. NOT directly drawn from the audit synthesis
+  # recommendations (those are framework/cross-cutting in scope), but
+  # included as the program_specific exemplar so the v0.2 first wave
+  # ceremony has at least one PRP of each prp_kind to validate the schema
+  # against. Operator-named exemplar per operator authorization.
+  # ---------------------------------------------------------------------
+  - prp_id: TILTH-PRP-USDA-VAPG-FY26
+    prp_kind: program_specific
+    prp_path: pipeline/program_rule_packs/program_specific/usda_vapg_fy26.yaml
+    display_name: 'USDA Value-Added Producer Grant (VAPG) FY26'
+    status: draft
+    required_draft_status: signed
+    required_runtime_loadable: true
+    content_hash: TBD
+    effective_date: TBD  # set to FY26 NOFO publication date when PRP body authored
+    expiry_date: TBD     # set to FY26 reporting-tail end date when PRP body authored
+    audit_synthesis_recommendation: program_specific exemplar (not directly drawn from synthesis #1-#5)
+    note: >
+      Program-specific PRP exemplar. Encodes USDA VAPG FY26 NOFO eligibility,
+      page-limit, attachment, deadline, form, match, and reporting rules.
+      cross_references will declare inherits_from TILTH-PRP-2CFR200 (Uniform
+      Guidance applies to all federal financial assistance) at v0.2 first
+      wave. PRP body authored at v0.2 first wave from the published FY26
+      NOFO.

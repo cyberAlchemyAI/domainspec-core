@@ -1,0 +1,39 @@
+# Funder Intelligence Quarterly Curation Digest Template — v0.2 operator-driven cadence
+# Per Blueprint §15.5.2 + §15.6.2 (workspace cadence).
+#
+# Operator usage at v0.2 (spec-only; v1.x produces this digest automatically):
+# - Operator runs `tilth archivist quarterly --workspace` to invoke the cadence.
+# - At v0.2 (no LLM), operator manually walks vault_shared/funder_intelligence/register.yaml
+#   checking each Funder Intel doc's `last_promoted_at_utc` against `freshness_threshold_days`
+#   (default 90) and producing one digest entry per stale or pending-promotion doc.
+# - Operator also runs F-FUNDER-CORPUS-INTEGRITY check (per v7.0.5 §5.6 SHA3-512 verification)
+#   on each Funder Intel doc; mismatch → emit `integrity_check_failed` digest entry at
+#   HIGH severity (corpus has been tampered with).
+# - Operator reviews via `tilth archivist review --workspace --cadence quarterly`.
+# - Confirmed entries' proposed_action drives operator invocation of the existing substrate
+#   write CLI (e.g., `tilth funder-intel mark-stale --doc-id <id> --signed-by <key>`).
+
+schema_version: archivist_funder_intel_quarterly.v1
+queue_populated_at: <utc-timestamp>
+queue_populated_by: archivist@<run_id>
+freshness_threshold_days: 90  # operator-tunable
+
+digest_entries:
+  - digest_id: <opaque-uuid>
+    archivist_run_id: <run_id>
+    proposed_at_utc: <utc-timestamp>
+    proposed_action: mark_stale  # mark_stale | propose_promotion | propose_drop | integrity_check_failed
+    funder_id: <funder identifier from vault_shared/funder_intelligence/register.yaml>
+    source_substrate_path: vault_shared/funder_intelligence/register.yaml
+    source_entry_id: <Funder Intel doc id>
+    rationale: |
+      Example: "last_promoted_at_utc (2025-12-31) is 130 days old; past freshness_threshold_days (90)."
+      Example for integrity_check_failed: "F-FUNDER-CORPUS-INTEGRITY SHA3-512 mismatch detected
+      on document at <path>; expected <hash_a>; computed <hash_b>; corpus tampering suspected;
+      operator must investigate."
+
+# Workspace-aggregate carve-out (per F-ARCHIVIST-CROSS-ORG-LEAK §15.9.1):
+# - This digest is workspace-shared (no per-org content). Each entry references vault_shared/
+#   substrates explicitly; per-org content references in `rationale` would fire the gate.
+# - The `.aggregate_insufficient_orgs` sub-tag (RT-06 closure) does NOT apply to Funder
+#   Intel quarterly digests because Funder Intel substrate is per-funder, not per-org.

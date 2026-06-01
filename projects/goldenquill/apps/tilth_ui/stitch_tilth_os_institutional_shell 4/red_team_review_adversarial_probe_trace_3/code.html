@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Red Team Review</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-dim": "#081425",
+                        "surface-container": "#152031",
+                        "background": "#081425",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "outline-variant": "#444748",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-tertiary-fixed": "#131b2e",
+                        "inverse-primary": "#5d5f5f",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-container-highest": "#2a3548",
+                        "outline": "#8e9192",
+                        "surface-bright": "#2f3a4c",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary": "#283044",
+                        "surface-container-low": "#111c2d",
+                        "on-surface": "#d8e3fb",
+                        "on-tertiary-container": "#5c647a",
+                        "tertiary-container": "#dae2fd",
+                        "surface-container-lowest": "#040e1f",
+                        "on-secondary-container": "#a9bad3",
+                        "on-background": "#d8e3fb",
+                        "on-primary-container": "#636565",
+                        "surface-container-high": "#1f2a3c",
+                        "primary": "#ffffff",
+                        "error": "#ffb4ab",
+                        "tertiary": "#ffffff",
+                        "primary-container": "#e2e2e2",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-primary": "#2f3131",
+                        "inverse-surface": "#d8e3fb",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-primary-fixed-variant": "#454747",
+                        "primary-fixed": "#e2e2e2",
+                        "on-secondary": "#213145",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-error": "#690005",
+                        "surface-variant": "#2a3548",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "surface-tint": "#c6c6c7",
+                        "surface": "#081425",
+                        "on-primary-fixed": "#1a1c1c",
+                        "inverse-on-surface": "#263143",
+                        "secondary": "#b7c8e1",
+                        "secondary-container": "#3a4a5f",
+                        
+                        "state-fail": "#A5321F",
+                        "state-pass": "#4F6B45",
+                        "state-warn": "#D48C1C",
+                        "role-red-team": "#9C3C28"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "sidebar-width": "240px",
+                        "gutter": "1px",
+                        "unit": "4px",
+                        "panel-gap": "8px",
+                        "container-padding": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "data-mono": ["JetBrains Mono"],
+                        "headline-md": ["Source Serif 4"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background h-screen flex flex-col overflow-hidden font-body-md antialiased selection:bg-surface-variant selection:text-primary">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-primary border-b border-outline-variant flat no shadows docked full-width top-0 h-[56px] flex justify-between items-center w-full px-container-padding flex-shrink-0 z-50">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-primary tracking-tight">Golden Quill</span>
+<div class="h-4 w-px bg-outline-variant mx-2"></div>
+<!-- Context Indicators -->
+<div class="flex items-center gap-3 font-data-mono text-data-mono">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">corporate_fare</span>
+<span>FIT Farms LLC / fit-farms-pgh-001</span>
+</div>
+<div class="px-2 py-0.5 border border-outline-variant text-[10px] text-primary bg-surface-container">HYBRID</div>
+<div class="flex items-center gap-1 text-state-pass">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+<span class="text-[10px] uppercase">verified</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search Bar (on_left in design intent, placed relative to trailing actions) -->
+<div class="relative w-64 mr-4 hidden lg:block">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-[16px]">search</span>
+<input class="w-full bg-surface-container border border-outline-variant text-primary font-data-mono text-data-mono py-1 pl-8 pr-2 focus:outline-none focus:border-primary placeholder-on-surface-variant" placeholder="Query system..." type="text"/>
+</div>
+<!-- Trailing Icons -->
+<div class="flex items-center gap-3 text-on-surface-variant">
+<button class="hover:text-primary transition-colors flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">fingerprint</span></button>
+<button class="hover:text-primary transition-colors flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">security</span></button>
+<button class="hover:text-primary transition-colors flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">verified_user</span></button>
+<button class="hover:text-primary transition-colors flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">account_tree</span></button>
+</div>
+<!-- Signing Key Chip -->
+<div class="ml-2 pl-4 border-l border-outline-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-primary">key</span>
+<span class="font-data-mono text-data-mono text-primary">4a3f...b2c8</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden h-[calc(100vh-56px)]">
+<!-- SideNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container text-primary dark:text-primary font-label-caps text-label-caps docked left-0 h-full w-[240px] border-r border-outline-variant flat no shadows flex flex-col h-full py-4 flex-shrink-0 z-40 hidden md:flex">
+<!-- Header -->
+<div class="px-4 mb-6">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 bg-surface-variant border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div>
+<div class="text-primary tracking-wide">Node Alpha-7</div>
+<div class="text-on-surface-variant text-[9px] mt-0.5">Ed25519 Verified</div>
+</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 flex flex-col gap-1 px-2">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-none instant state change" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span>Discovery</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-none instant state change" href="#">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span>Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-none instant state change" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span>Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-none instant state change" href="#">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+<span>Scoring</span>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-3 px-3 py-2 bg-surface-variant text-primary border-r-2 border-primary instant state change" href="#">
+<span class="material-symbols-outlined text-[18px] text-role-red-team" data-weight="fill" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<span class="text-role-red-team">Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-none instant state change" href="#">
+<span class="material-symbols-outlined text-[18px]">task_alt</span>
+<span>Authorization</span>
+</a>
+</div>
+<!-- Footer Links -->
+<div class="mt-auto px-2 border-t border-outline-variant pt-2 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-none instant state change" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span>Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-none instant state change" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-1 flex flex-col min-w-0 bg-background overflow-hidden relative">
+<!-- Council Split Banner (Pinned) -->
+<div class="bg-[#1F1414] border-b border-state-fail px-4 py-3 flex items-start gap-3 z-30 shrink-0">
+<span class="material-symbols-outlined text-state-fail mt-0.5">warning</span>
+<div class="flex-1">
+<h3 class="font-label-caps text-label-caps text-state-fail mb-1">DIVERGENCE THRESHOLD EXCEEDED</h3>
+<p class="font-body-sm text-body-sm text-on-surface">
+                        Judge score (<span class="text-state-pass font-data-mono">82/100</span>) and Red Team assessment (<span class="text-state-fail font-data-mono">High Risk</span>) deviate beyond acceptable standard deviation. Mandatory reconciliation required prior to authorization sequence.
+                    </p>
+</div>
+<button class="bg-surface text-primary border border-outline-variant px-3 py-1 font-label-caps text-label-caps hover:bg-surface-variant">INITIATE REVIEW</button>
+</div>
+<!-- Work Surface Area -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Central Canvas: Forensic Probe Checklist -->
+<div class="flex-1 overflow-y-auto border-r border-outline-variant bg-[#0F172A] p-6">
+<div class="mb-6 flex justify-between items-end border-b border-outline-variant pb-4">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary mb-1">Forensic Probe Checklist</h1>
+<div class="font-data-mono text-data-mono text-on-surface-variant">EXECUTION ID: RT-P-8824-X</div>
+</div>
+<div class="flex items-center gap-4 font-label-caps text-label-caps">
+<div class="flex items-center gap-2"><div class="w-2 h-2 bg-state-fail"></div> 1 HIT</div>
+<div class="flex items-center gap-2"><div class="w-2 h-2 bg-state-pass"></div> 12 CLEAN</div>
+<div class="flex items-center gap-2"><div class="w-2 h-2 bg-state-warn"></div> 3 UNCERTAIN</div>
+</div>
+</div>
+<!-- Probe Table/List -->
+<div class="flex flex-col gap-2">
+<!-- CLEAN PROBE -->
+<div class="bg-surface-container border border-outline-variant p-3 flex items-start gap-4 hover:bg-surface-container-highest transition-none group">
+<div class="w-24 shrink-0 font-label-caps text-label-caps text-state-pass flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> CLEAN
+                            </div>
+<div class="flex-1">
+<div class="font-data-mono text-data-mono text-primary mb-1">PRB-001: Budget Arithmetic Validation</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant font-headline-md text-[13px]">Line item totals reconcile with requested amount within 0.01% tolerance.</div>
+</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant text-[10px] opacity-50 group-hover:opacity-100 mt-1">12ms</div>
+</div>
+<!-- HIT PROBE (Selected State) -->
+<div class="bg-surface-container border border-state-fail bg-[#1A0F11] p-3 flex items-start gap-4">
+<div class="w-24 shrink-0 font-label-caps text-label-caps text-state-fail flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">dangerous</span> HIT
+                            </div>
+<div class="flex-1">
+<div class="font-data-mono text-data-mono text-primary mb-1">PRB-014: Unsupported Impact Claim (Section 2)</div>
+<div class="font-headline-md text-[14px] text-on-surface mb-3 leading-snug">
+                                    Proposal claims Tier-1 supply chain readiness without signed vendor MOUs attached to evidence payload.
+                                </div>
+<div class="bg-[#2A1515] border border-state-fail/50 p-2 text-on-surface font-body-sm text-[12px] flex items-start gap-2">
+<span class="material-symbols-outlined text-state-fail text-[14px] mt-0.5">assignment_late</span>
+<div>
+<span class="font-label-caps text-label-caps text-state-fail block mb-1">REQUIRED ACTION</span>
+                                        Attach <span class="font-data-mono text-primary bg-surface px-1">MOU_PartnerA.pdf</span> or downgrade impact claim to Tier-2 prior to final scoring.
+                                    </div>
+</div>
+</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant text-[10px] mt-1">45ms</div>
+</div>
+<!-- UNCERTAIN PROBE -->
+<div class="bg-surface-container border border-outline-variant p-3 flex items-start gap-4 hover:bg-surface-container-highest transition-none group">
+<div class="w-24 shrink-0 font-label-caps text-label-caps text-state-warn flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">help</span> UNCERTAIN
+                            </div>
+<div class="flex-1">
+<div class="font-data-mono text-data-mono text-primary mb-1">PRB-042: Historical Performance Correlator</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant font-headline-md text-[13px]">Insufficient temporal data to establish baseline for requested operational cadence.</div>
+</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant text-[10px] opacity-50 group-hover:opacity-100 mt-1">112ms</div>
+</div>
+<!-- CLEAN PROBE -->
+<div class="bg-surface-container border border-outline-variant p-3 flex items-start gap-4 hover:bg-surface-container-highest transition-none group">
+<div class="w-24 shrink-0 font-label-caps text-label-caps text-state-pass flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> CLEAN
+                            </div>
+<div class="flex-1">
+<div class="font-data-mono text-data-mono text-primary mb-1">PRB-088: Keyword Alignment Check</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant font-headline-md text-[13px]">Vocabulary aligns with target solicitation priorities (94% match).</div>
+</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant text-[10px] opacity-50 group-hover:opacity-100 mt-1">8ms</div>
+</div>
+</div>
+</div>
+<!-- Right Inspector -->
+<div class="w-[320px] bg-surface-container flex flex-col shrink-0">
+<div class="p-4 border-b border-outline-variant bg-surface-container-high">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">plumbing</span>
+                            Adversarial Probe Details
+                        </h2>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+<!-- Inspector Data Block -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">TARGET VECTOR</div>
+<div class="font-data-mono text-data-mono text-primary bg-surface p-2 border border-outline-variant">Sec2_Operations_Plan.docx</div>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">DIALECT MISMATCH RISK</div>
+<div class="flex items-center gap-2 mb-2">
+<div class="h-2 flex-1 bg-surface border border-outline-variant flex">
+<div class="h-full bg-state-fail w-[85%]"></div>
+</div>
+<span class="font-data-mono text-data-mono text-state-fail">85%</span>
+</div>
+<p class="font-headline-md text-[13px] text-on-surface leading-relaxed">
+                                Reviewer algorithms heavily penalize assertions of supply chain dominance lacking cryptographic or documentary proof. Current phrasing triggers 'Grandiose Assertion' heuristic (Rule R-7A).
+                            </p>
+</div>
+<div class="border-t border-outline-variant pt-4">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">RESOLUTION WORKFLOW</div>
+<div class="flex flex-col gap-2">
+<button class="w-full bg-primary text-on-primary py-2 font-label-caps text-label-caps border border-primary hover:bg-surface hover:text-primary transition-none flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">upload_file</span>
+                                    ATTACH MISSING MOU
+                                </button>
+<button class="w-full bg-surface text-primary py-2 font-label-caps text-label-caps border border-outline-variant hover:bg-surface-variant transition-none flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">edit_document</span>
+                                    REVISE TEXT (DOWNGRADE)
+                                </button>
+<button class="w-full bg-surface-container-lowest text-state-fail py-2 font-label-caps text-label-caps border border-state-fail/50 hover:bg-state-fail/10 transition-none mt-2">
+                                    OVERRIDE WARNING
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Terminal/Footer Status Bar -->
+<footer class="h-[32px] bg-black border-t border-outline-variant shrink-0 flex items-center px-3 justify-between font-data-mono text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-4">
+<span class="text-primary">&gt; rt_probe_exec --mode strict</span>
+<span class="text-state-fail flex items-center gap-1"><span class="w-1.5 h-1.5 bg-state-fail block"></span> ERRORS DETECTED</span>
+</div>
+<div class="flex items-center gap-4">
+<span>SIG: 992-QX_8f4a2b9e1c3d5f7a_ED25519</span>
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-state-pass block"></span> NODE SYNCED</span>
+</div>
+</footer>
+</main>
+</div>
+</body></html>

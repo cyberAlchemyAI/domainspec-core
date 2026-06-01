@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Grant Reporting &amp; Compliance - Golden Quill</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "background": "#081425",
+                        "on-secondary": "#213145",
+                        "primary": "#ffffff",
+                        "on-primary-fixed": "#1a1c1c",
+                        "secondary-container": "#3a4a5f",
+                        "surface-tint": "#c6c6c7",
+                        "surface-bright": "#2f3a4c",
+                        "on-surface": "#d8e3fb",
+                        "on-primary-fixed-variant": "#454747",
+                        "primary-fixed": "#e2e2e2",
+                        "surface-container-high": "#1f2a3c",
+                        "surface-container": "#152031",
+                        "secondary-fixed": "#d3e4fe",
+                        "outline": "#8e9192",
+                        "inverse-on-surface": "#263143",
+                        "on-background": "#d8e3fb",
+                        "on-surface-variant": "#c4c7c8",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#2a3548",
+                        "surface": "#081425",
+                        "tertiary-container": "#dae2fd",
+                        "on-primary-container": "#636565",
+                        "on-primary": "#2f3131",
+                        "on-secondary-container": "#a9bad3",
+                        "tertiary-fixed": "#dae2fd",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "surface-container-low": "#111c2d",
+                        "inverse-primary": "#5d5f5f",
+                        "tertiary": "#ffffff",
+                        "primary-container": "#e2e2e2",
+                        "on-tertiary-container": "#5c647a",
+                        "surface-container-lowest": "#040e1f",
+                        "surface-container-highest": "#2a3548",
+                        "on-tertiary": "#283044",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "surface-dim": "#081425",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "secondary": "#b7c8e1",
+                        "on-secondary-fixed": "#0b1c30",
+                        "outline-variant": "#444748",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#d8e3fb"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    spacing: {
+                        "unit": "4px",
+                        "sidebar-width": "240px",
+                        "gutter": "1px",
+                        "panel-gap": "1px",
+                        "container-padding": "16px"
+                    },
+                    fontFamily: {
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    fontSize: {
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #020617; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+        
+        /* Custom Scrollbar for inner panels */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 0; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="text-on-surface h-screen w-screen overflow-hidden flex flex-col font-body-md select-none">
+<!-- TopAppBar -->
+<header class="bg-surface-container-low dark:bg-surface-container-low docked full-width top-0 h-14 border-b border-outline-variant flat no shadows transition-none flex justify-between items-center w-full px-container-padding gap-panel-gap shrink-0 z-50">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tight">GOLDEN QUILL</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 border border-outline-variant bg-surface px-3 py-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">verified_user</span>
+<span class="font-data-mono text-data-mono text-primary">POSTURE: SECURE</span>
+</div>
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined hover:text-primary cursor-pointer transition-none">vpn_key</span>
+<span class="material-symbols-outlined hover:text-primary cursor-pointer transition-none">account_circle</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden bg-outline-variant gap-gutter">
+<!-- SideNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container docked left-0 h-full w-sidebar-width flat no shadows transition-none flex flex-col shrink-0 z-40">
+<div class="p-container-padding border-b border-outline-variant pb-6 pt-6">
+<div class="w-10 h-10 bg-primary-container flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-on-primary-container">hub</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-1">FIT Farms</h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant">FRONTIER POSTURE</p>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<ul class="flex flex-col">
+<li class="px-container-padding py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</li>
+<li class="px-container-padding py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">search_insights</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</li>
+<li class="px-container-padding py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</li>
+<li class="px-container-padding py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</li>
+<li class="px-container-padding py-2 flex items-center gap-3 bg-surface-container-highest text-primary border-l-2 border-primary transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+<span class="font-label-caps text-label-caps">Module Mapper</span>
+</li>
+<li class="px-container-padding py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</li>
+<li class="px-container-padding py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</li>
+<li class="px-container-padding py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</li>
+<li class="px-container-padding py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</li>
+<li class="px-container-padding py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps">Final Packet Authorization</span>
+</li>
+<li class="px-container-padding py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">policy</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</li>
+</ul>
+</div>
+<div class="border-t border-outline-variant p-2">
+<div class="px-container-padding py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</div>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-1 flex flex-col bg-surface overflow-hidden min-w-0">
+<!-- Canvas Header -->
+<div class="bg-[#0F172A] border-b border-outline-variant p-6 shrink-0">
+<div class="flex justify-between items-start mb-4">
+<div>
+<div class="font-label-caps text-label-caps text-secondary mb-2 flex items-center gap-2">
+<span class="w-2 h-2 bg-[#22C55E]"></span> ACTIVE AWARD TRACKING
+                        </div>
+<h1 class="font-headline-md text-headline-md text-primary mb-1">USDA Value-Added Producer Grant (VAPG)</h1>
+<p class="font-data-mono text-data-mono text-on-surface-variant">AWD-2024-VAPG-0092 | REQ-ID: 772A-991B</p>
+</div>
+<div class="text-right">
+<div class="font-display-lg text-display-lg text-primary">$250,000.00</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant mt-1">PERIOD: 2024-10-01 TO 2025-09-30</div>
+</div>
+</div>
+<div class="flex gap-4 mt-6">
+<div class="bg-[#1E293B] border border-outline-variant p-3 flex-1">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">TOTAL READINESS</div>
+<div class="font-headline-md text-headline-md text-primary">82%</div>
+<div class="w-full bg-surface-container mt-2 h-1"><div class="bg-primary h-full w-[82%]"></div></div>
+</div>
+<div class="bg-[#1E293B] border border-outline-variant p-3 flex-1">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">EVIDENCE ARTIFACTS</div>
+<div class="font-headline-md text-headline-md text-primary">14 / 18</div>
+<div class="font-data-mono text-data-mono text-secondary mt-1 text-[10px]">4 GAPS DETECTED</div>
+</div>
+<div class="bg-[#1E293B] border border-outline-variant p-3 flex-1">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">NEXT DEADLINE</div>
+<div class="font-headline-md text-headline-md text-[#F59E0B]">14 DAYS</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant mt-1 text-[10px]">Q3 PERFORMANCE RPT</div>
+</div>
+</div>
+</div>
+<!-- Content Area (Split) -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Center Canvas (Matrix & Integrator) -->
+<div class="flex-1 flex flex-col overflow-y-auto border-r border-outline-variant">
+<!-- Milestones -->
+<div class="p-6 border-b border-outline-variant">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4">REPORTING REQUIREMENTS MATRIX</h3>
+<div class="flex flex-col gap-2">
+<!-- Milestone Item Active -->
+<div class="bg-[#1E293B] border border-primary p-4 cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#F59E0B]">pending_actions</span>
+<span class="font-data-mono text-data-mono text-primary font-bold">Q3 Performance Report</span>
+</div>
+<span class="font-data-mono text-data-mono text-primary border border-primary px-2 py-0.5">DUE: 2025-01-15</span>
+</div>
+<div class="grid grid-cols-3 gap-4 mt-4">
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">FINANCIAL ATTEST.</div>
+<div class="flex items-center gap-2 font-data-mono text-data-mono text-[#22C55E]">
+<span class="w-1.5 h-1.5 bg-[#22C55E]"></span> SATISFIED
+                                        </div>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">FIELD LOGS</div>
+<div class="flex items-center gap-2 font-data-mono text-data-mono text-[#F59E0B]">
+<span class="w-1.5 h-1.5 bg-[#F59E0B]"></span> PARTIAL
+                                        </div>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">NARRATIVE</div>
+<div class="flex items-center gap-2 font-data-mono text-data-mono text-[#EF4444]">
+<span class="w-1.5 h-1.5 bg-[#EF4444]"></span> MISSING
+                                        </div>
+</div>
+</div>
+</div>
+<!-- Milestone Item Inactive -->
+<div class="bg-surface border border-outline-variant p-4 opacity-70 hover:opacity-100 transition-none cursor-pointer">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">check_circle</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">FY26 Financial Attestation</span>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface-variant border border-outline-variant px-2 py-0.5">DUE: 2025-06-30</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Data Realm Integrator -->
+<div class="p-6">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4">DATA REALM INTEGRATOR</h3>
+<div class="grid grid-cols-2 gap-4">
+<!-- Integrator Block -->
+<div class="border border-outline-variant p-4">
+<div class="flex items-center gap-2 mb-3 border-b border-outline-variant pb-2">
+<span class="material-symbols-outlined text-secondary">database</span>
+<span class="font-data-mono text-data-mono text-primary">QUICKBOOKS_API</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center bg-[#1E293B] px-3 py-1.5">
+<span class="font-data-mono text-data-mono text-on-surface-variant text-[11px]">Invoice_Sync</span>
+<span class="font-label-caps text-label-caps text-[#22C55E] border border-[#22C55E] px-1 bg-[#22C55E]/10">SCHEMA VALID</span>
+</div>
+<div class="flex justify-between items-center bg-[#1E293B] px-3 py-1.5">
+<span class="font-data-mono text-data-mono text-on-surface-variant text-[11px]">Payroll_Extract</span>
+<span class="font-label-caps text-label-caps text-[#22C55E] border border-[#22C55E] px-1 bg-[#22C55E]/10">AUDIT READY</span>
+</div>
+</div>
+</div>
+<!-- Integrator Block -->
+<div class="border border-outline-variant p-4">
+<div class="flex items-center gap-2 mb-3 border-b border-outline-variant pb-2">
+<span class="material-symbols-outlined text-secondary">mail</span>
+<span class="font-data-mono text-data-mono text-primary">VENDOR_EMAIL_INGEST</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center bg-[#1E293B] px-3 py-1.5 border border-[#EF4444]/50">
+<span class="font-data-mono text-data-mono text-on-surface-variant text-[11px]">Receipt_Parser</span>
+<span class="font-label-caps text-label-caps text-[#EF4444] border border-[#EF4444] px-1 bg-[#EF4444]/10">TYPE MISMATCH</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Evidence Queue Table -->
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mt-8 mb-4">EVIDENCE QUEUE</h3>
+<div class="border border-outline-variant">
+<div class="grid grid-cols-12 gap-2 border-b border-outline-variant bg-[#1E293B] p-2 font-label-caps text-label-caps text-on-surface-variant">
+<div class="col-span-5">ARTIFACT ID</div>
+<div class="col-span-3">PROVENANCE</div>
+<div class="col-span-4 text-right">SIGNATURE / HASH</div>
+</div>
+<div class="flex flex-col">
+<div class="grid grid-cols-12 gap-2 border-b border-outline-variant p-2 font-data-mono text-data-mono text-sm hover:bg-[#1E293B] items-center">
+<div class="col-span-5 text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">description</span>
+                                        Invoice_Scans_Oct24.pdf
+                                    </div>
+<div class="col-span-3 text-secondary">QuickBooks</div>
+<div class="col-span-4 text-right text-on-surface-variant text-[10px]">0x8f...2a1b</div>
+</div>
+<div class="grid grid-cols-12 gap-2 border-b border-outline-variant p-2 font-data-mono text-data-mono text-sm hover:bg-[#1E293B] items-center">
+<div class="col-span-5 text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">data_object</span>
+                                        Communication_Log_SMS.json
+                                    </div>
+<div class="col-span-3 text-secondary">Twilio_API</div>
+<div class="col-span-4 text-right text-on-surface-variant text-[10px]">0x3c...9f8e</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Inspector -->
+<aside class="w-96 bg-[#0F172A] flex flex-col shrink-0">
+<div class="p-4 border-b border-outline-variant bg-[#1E293B]">
+<div class="font-label-caps text-label-caps text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">policy</span>
+                            INSPECTOR: Q3 REPORT
+                        </div>
+</div>
+<div class="p-6 flex-1 overflow-y-auto">
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Reporting Rationale</h4>
+<div class="border border-outline-variant p-4 bg-surface mb-6">
+<p class="font-body-md text-on-surface-variant leading-relaxed text-sm">
+                                "Per section 4.2.a of the VAPG agreement, the awardee must demonstrate direct correlation between expended funds and authorized value-added processing activities. Field logs must substantiate labor hours claimed."
+                            </p>
+</div>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-3">DATA TO RUBRIC MAPPING</h4>
+<div class="flex flex-col gap-3 mb-6">
+<div class="border border-outline-variant p-3 bg-surface">
+<div class="flex justify-between items-start mb-2">
+<span class="font-data-mono text-data-mono text-primary text-[12px]">Expended Funds Proof</span>
+<span class="material-symbols-outlined text-[#22C55E] text-[16px]">check</span>
+</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant text-[10px] break-all">
+                                    LINKED: Invoice_Scans_Oct24.pdf
+                                </div>
+</div>
+<div class="border border-[#EF4444] p-3 bg-surface">
+<div class="flex justify-between items-start mb-2">
+<span class="font-data-mono text-data-mono text-primary text-[12px]">Labor Hour Substantiation</span>
+<span class="material-symbols-outlined text-[#EF4444] text-[16px]">close</span>
+</div>
+<div class="font-data-mono text-data-mono text-[#EF4444] text-[10px]">
+                                    EVIDENCE GAP: Missing Field Logs for Wk42
+                                </div>
+</div>
+</div>
+</div>
+<div class="p-6 border-t border-outline-variant bg-[#1E293B]">
+<button class="w-full bg-[#93000a] text-[#ffdad6] font-data-mono text-data-mono py-3 flex items-center justify-center gap-2 hover:bg-[#690005] transition-none border border-[#ffb4ab]">
+<span class="material-symbols-outlined text-[18px]">send</span>
+                            FINALIZE FOR AUTHORIZATION
+                        </button>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest docked bottom-0 full-width h-8 border-t border-outline-variant flat no shadows transition-none fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50 shrink-0">
+<div class="font-label-caps text-label-caps text-on-surface">NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED</div>
+<div class="flex items-center gap-4">
+<span class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary cursor-pointer transition-none">Machine ID: 992-QX</span>
+<span class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary cursor-pointer transition-none">Audit Log</span>
+<span class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary cursor-pointer transition-none">System Health</span>
+</div>
+</footer>
+</body></html>

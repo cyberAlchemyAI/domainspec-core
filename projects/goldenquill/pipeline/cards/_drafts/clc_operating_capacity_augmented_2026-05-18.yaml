@@ -1,0 +1,741 @@
+# Card — TILTH-CLC-03 Operating Capacity
+# Wave 1 research draft 2026-05-15. Phase 3 output per blueprint §18.11.
+# Content populated per blueprint §18.10 starter requirements for CLC-03.
+# Operator review + cross-family thesis + Ed25519 signature COMPLETE.
+# SIGNED — runtime-loadable; lifecycle truth enforced by loader preflight.
+#
+# Coupling discipline (architecture v7.0.11 §6.1 + §4 v2.x F-CARDS-COUPLING-VIOLATION-EXTENSION):
+# This card contains NO eligible_cic_subset, cic_allowlist, cic_denylist,
+# preferred_cics, cic_win_rate, or cic_ranking_preferences fields. CLC × CIC
+# matching is opportunity-driven at runtime, never archetype-driven at design time.
+#
+# Operator OQ resolutions applied (2026-05-15):
+#   OQ-3 output path: pipeline/cards/CLC/operating_capacity.yaml (uppercase CIC/ + CLC/
+#        canonical per §18 v1.1 narrow-corrective amendment 2026-05-15; on-disk scaffold,
+#        AST-lint glob, README, §18.4 prose, memory profile all use uppercase).
+#   OQ-4 verbatim-quote cap: ≤2 sentences per quote with URL citation.
+#   OQ-5 admin_risk_term_register operator-approval-required: true.
+#   OQ-6 win-rate quantification: qualitative-only (no numeric win_rate fields anywhere).
+
+schema_version: "1.0-clc"
+card_axis: "CLC"
+card_id: "TILTH-CLC-03"
+slug: "operating_capacity"
+display_name: "Operating Capacity"
+funding_mechanism_summary: "Unrestricted or program-tagged funding for staffing, systems, governance, and organizational readiness that relieves a documented capacity bottleneck and produces measurable durable gains."
+tilth_clc_id: "TILTH-CLC-03"
+
+# ---------------------------------------------------------------------------
+# UNDERWRITING CRITERIA — what reviewers evaluate (per §18.10 starter content)
+# ---------------------------------------------------------------------------
+underwriting_criteria:
+  - criterion: "capacity_bottleneck"
+    description: "Specific, current operational constraint (staff gap, system gap, governance gap, knowledge gap) the requested capacity will relieve — not aspirational future need."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+
+  - criterion: "mission_relationship"
+    description: "How the capacity investment connects to the organization's core mission, theory of change, and strategic plan."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+
+  - criterion: "staffing_or_systems_need"
+    description: "Job description / role definition / system specification mapped to the bottleneck. Avoids vague 'we need more staff' framing."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+
+  - criterion: "implementation_plan"
+    description: "Timeline, milestones, named accountable owners, and dependency map for putting the new capacity in place."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+
+  - criterion: "management_readiness"
+    description: "Evidence that current leadership can absorb, deploy, and supervise the new capacity (onboarding plan, supervision structure, change management)."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+
+  - criterion: "governance"
+    description: "Board approval, governance structure, and policy adoption supporting the capacity investment. Capital Region Community Foundation requires a Letter of Commitment from the Governing Board Chair."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://ourcommunity.org/nonprofit-support/grants-at-the-community-foundation/capacity-building-grants"
+
+  - criterion: "measurable_capacity_gain"
+    description: "Concrete, observable post-investment outcome (e.g., turnaround time reduced from X to Y; service capacity increased by Z; backlog cleared). Distinct from program outcomes."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+
+  - criterion: "sustainability"
+    description: "Plan for maintaining the new capacity beyond the grant period (revenue diversification, board commitment, cost-recovery model, succession). NOT a sustainability-as-language-token; reviewers want concrete revenue or commitment math."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.fundsforngos.org/how-to-write-a-proposal/top-10-common-mistakes-in-grant-proposals-and-how-to-avoid-them/"
+
+  - criterion: "budget_to_task_integrity"
+    description: "Line-item budget where every cost ties to a named task in the implementation plan; no orphan line items; salary loaded with realistic fringe; consultant fees defensible."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.tgci.com/blog/2020/08/understanding-capacity-building-grant-proposals"
+
+  - criterion: "dependency_risk"
+    description: "Identification of single-point-of-failure dependencies (one key hire, one untested vendor, one funder for sustainability) and mitigation."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+
+  # Sidecar augmentation 2026-05-18 per handback §4.1: separate data-systems-adoption-readiness
+  # from generic staffing_or_systems_need; capacity-grant reviewers treat these differently.
+  - criterion: "data_systems_adoption_readiness"
+    description: "For data-systems / CRM / analytics capacity asks: explicit user-population, data-migration plan, training schedule, ownership / governance, and post-go-live support model. Distinguishes mature data-systems asks from naïve technology-pitch capacity asks."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+
+# ---------------------------------------------------------------------------
+# SCORING WEIGHT PATTERNS — funder-specific rubrics observed
+# ---------------------------------------------------------------------------
+# OQ-6 enforcement: see _oq6_anchor below. AST-lint hookup
+# (R-CARDS-NO-NUMERIC-WEIGHT) deferred to v1.x amendment-realization checklist.
+_oq6_anchor: true
+scoring_weight_patterns:
+  - rubric_example: "Foundation capacity-building rubrics (typical 4-6 criteria pattern)"
+    weights:
+      organizational_need: "HIGH"
+      project_design: "HIGH"
+      organizational_capacity: "HIGH"
+      sustainability: "MEDIUM"
+    source_citation: "https://www.sopact.com/use-case/grant-review-rubric"
+    # Sidecar augmentation 2026-05-18 per handback §4.3: note cross-reference appended.
+    note: "Qualitative tier (HIGH/MEDIUM/LOW) per OQ-6. The cited Sopact source establishes the typical foundation rubric anatomy (4-6 criteria + weighted scoring + 4-level anchor descriptions) but does NOT enumerate these specific per-criterion tier assignments — the tier assignments are ILLUSTRATIVE patterns based on author qualitative judgment about typical capacity-grant rubric weighting, subject to Lessons Memory revision over 12+ CycleReceipts (per OQ-6 quantification threshold). Cycle-2 Thesis fold-in (C2-J-1 + C2-RT-3). Judge: when the funder's actual published NOFO scoring criteria are available (federal NOFOs always; some foundation RFPs), consult those directly. These tier assignments serve as fallback when funder rubric is unpublished or in flux. Per OQ-6 quantification threshold (12+ CycleReceipts), numeric weights are NOT introduced from this dispatch."
+
+  - rubric_example: "Federal NOFO capacity-building common structure"
+    weights:
+      program_design_and_capacity: "HIGH"
+      organizational_experience: "HIGH"
+      project_management_and_evaluation: "MEDIUM"
+      budget_reasonableness: "MEDIUM"
+    source_citation: "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XXXIV/part-3406"
+    # Sidecar augmentation 2026-05-18 per handback §4.3: note cross-reference appended.
+    note: "Qualitative tier (HIGH/MEDIUM/LOW) per OQ-6. USDA NIFA 1890 Capacity Building Grants Program (7 CFR Part 3406) establishes the federal capacity-building rubric framework but does NOT enumerate these specific per-criterion tier assignments — the tier assignments are ILLUSTRATIVE patterns based on author qualitative judgment, subject to Lessons Memory revision over 12+ CycleReceipts. Per-NOFO weights vary. Cycle-2 Thesis fold-in (C2-J-1 + C2-RT-3). Judge: when the funder's actual published NOFO scoring criteria are available (federal NOFOs always; some foundation RFPs), consult those directly. These tier assignments serve as fallback when funder rubric is unpublished or in flux. Per OQ-6 quantification threshold (12+ CycleReceipts), numeric weights are NOT introduced from this dispatch."
+
+  # Sidecar augmentation 2026-05-18 per handback §4.3 NEW: community-foundation pattern.
+  - rubric_example: "Community foundation capacity-rubric typical pattern"
+    weights:
+      organizational_capacity: "HIGH"
+      governance: "HIGH"
+      sustainability: "HIGH"
+      measurable_capacity_gain: "HIGH"
+      budget_to_task: "MEDIUM"
+      dependency_risk: "MEDIUM"
+    source_citation: "https://ourcommunity.org/nonprofit-support/grants-at-the-community-foundation/capacity-building-grants"
+    note: "Community foundations weight governance + sustainability higher than national foundation capacity rubrics because community foundations underwrite local-organization durability. Tier assignments are author qualitative judgment; subject to Lessons Memory revision over 12+ CycleReceipts. Judge: when the funder's actual published NOFO scoring criteria are available, consult those directly."
+
+# ---------------------------------------------------------------------------
+# EVIDENCE WEIGHTS — what reviewers look for
+# ---------------------------------------------------------------------------
+# §18.6 canonical shape: evidence_kind: {weight, rationale}.
+# OD-3 CLOSED at LOCK 2026-05-15 PM via path (a) — the optional
+# source_citation extension is dropped on every entry. The card now
+# conforms to canonical §18.6 shape; no schema extension is proposed.
+# Per-evidence source backing is preserved in _research_metadata.
+evidence_weights:
+  workload_evidence:
+    weight: "HIGH"
+    rationale: "Reviewers want to see the operational pain point the capacity will solve — current workload data, backlog metrics, demand evidence."
+
+  staffing_plan:
+    weight: "HIGH"
+    # Sidecar augmentation 2026-05-18 per handback §4.2: rationale refined to add bandwidth evidence.
+    rationale: "Named role(s), job description scope, supervision structure, integration plan with existing team, and evidence the supervisor has bandwidth — span-of-control delta from current state, not just title authority."
+
+  job_descriptions:
+    weight: "MEDIUM"
+    rationale: "Concrete role definition for proposed hires; required by some funders as attachment."
+
+  org_chart:
+    weight: "MEDIUM"
+    rationale: "Shows where new capacity sits in reporting structure; surfaces span-of-control concerns."
+
+  board_approval:
+    weight: "HIGH"
+    rationale: "Board commitment / authorizing resolution signals governance backing for the capacity investment."
+
+  systems_audit:
+    weight: "MEDIUM"
+    rationale: "For technology / data systems requests — current-state assessment justifying the upgrade."
+
+  strategic_plan:
+    weight: "HIGH"
+    rationale: "Links the capacity ask to the organization's strategic direction; reviewers look for alignment."
+
+  backlog_or_demand_data:
+    weight: "HIGH"
+    rationale: "Quantitative evidence that demand exceeds current capacity (waitlists, turnaway counts, response-time data)."
+
+  financial_statements:
+    weight: "HIGH"
+    rationale: "Two fiscal years of audited financials standard for community foundation capacity grants; demonstrates fiscal health."
+
+  implementation_timeline:
+    weight: "HIGH"
+    rationale: "Month-by-month or quarter-by-quarter plan with named milestones and owners."
+
+  # Sidecar augmentation 2026-05-18 per handback §4.2 NEW evidence_weights.
+  current_state_baseline_metrics:
+    weight: "HIGH"
+    rationale: "Baseline operational metrics against which the post-investment gain will be measured: current turnaround time, current backlog size, current service volume, current data-quality scores, current staff retention rate. Distinguishes a capacity-grant ask from a vague 'we feel understaffed' pitch."
+
+  prior_capacity_work_history:
+    weight: "MEDIUM"
+    rationale: "Documented prior capacity-building work (strategic plans completed, systems implemented, governance changes adopted): demonstrates organizational learning capacity and informs Ford BUILD / Kresge LIFT / community-foundation reviewers about capacity-investment absorption track record."
+
+  change_management_plan:
+    weight: "MEDIUM"
+    rationale: "For systems-implementation or staffing-restructure asks: how the organization will absorb the change (communication plan, training cadence, resistance-management posture, rollback option). Distinguishes mature capacity asks from naïve technology-pitch capacity asks. Pairs with data_systems_adoption_readiness underwriting criterion."
+
+# ---------------------------------------------------------------------------
+# COMMON APPLICATION FORMS
+# ---------------------------------------------------------------------------
+# Cycle-1 F5 fold-in: no single national common form exists for capacity
+# building. Entry 1 documents this fact; regional grantmaker associations
+# publish varying templates. Scout should not surface "the Common Grant
+# Application" as a single artifact.
+common_application_forms:
+  - form_id: "No national common form (capacity building)"
+    form_version: "n/a — varies by region"
+    required_for: "n/a — no national common form exists for capacity building"
+    source: "https://www.cof.org/"
+    note: "No single national 'Common Grant Application' for capacity building exists. Regional grantmaker associations (e.g., Philanthropy New York, Minnesota Council on Foundations, Donors Forum Chicago) publish their own shared formats which member foundations may opt into. Operators should expect funder-specific forms via the platforms in entry 2."
+
+  - form_id: "Funder-specific online forms (Foundant GLM, Submittable, Fluxx)"
+    form_version: "Platform-hosted, per-funder"
+    required_for: "Most foundation capacity-building applications"
+    source: "https://www.plinth.org.uk/en-US/complete-guide/grant-management-systems-compared"
+    note: "Foundant GLM, Submittable, and Fluxx are the three dominant grant management platforms foundations use for capacity-building applications."
+
+  - form_id: "SF-424 / SF-424A (Federal)"
+    form_version: "OMB Approved"
+    required_for: "Federal capacity-building grants (USDA NIFA, HRSA, HUD, ETA)"
+    source: "https://www.grants.gov/forms/sf-424-family.html"
+
+# ---------------------------------------------------------------------------
+# NARRATIVE SECTION PATTERNS
+# ---------------------------------------------------------------------------
+narrative_section_patterns:
+  - section_name: "Organizational Background"
+    typical_word_count: "300-500"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+    note: "History, mission, current scale, prior capacity work."
+
+  - section_name: "Capacity Need / Statement of Need"
+    typical_word_count: "500-1000"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+    note: "Specific bottleneck with evidence; this section carries the most reviewer weight."
+
+  - section_name: "Proposed Investment"
+    typical_word_count: "500-1000"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+    note: "What will be hired, built, trained, or adopted."
+
+  - section_name: "Staffing / Systems Plan"
+    typical_word_count: "300-800"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+
+  - section_name: "Outcomes / Measurable Capacity Gain"
+    typical_word_count: "300-600"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+
+  - section_name: "Sustainability Plan"
+    typical_word_count: "300-600"
+    source_citation: "https://nlctb.org/featured/how-to-respond-to-sustainability-questions-in-grant-proposals/"
+    note: "Reviewers expect concrete revenue diversification math, not aspirational language."
+
+  - section_name: "Budget Justification / Narrative"
+    typical_word_count: "300-800"
+    source_citation: "https://www.tgci.com/blog/2020/08/understanding-capacity-building-grant-proposals"
+
+  # Sidecar augmentation 2026-05-18 per handback §4.5 NEW narrative_section_patterns.
+  - section_name: "Theory of Change / Logic Model for the Capacity Investment"
+    typical_word_count: "200-500"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+    note: "Foundation reviewers (Ford BUILD, Kresge LIFT, MacArthur) expect a one-page theory-of-change linking the capacity bottleneck to mission outcomes. Source: Bridgespan Nonprofit Starvation Cycle + BoardSource governance framing."
+
+  - section_name: "Lessons from Prior Capacity Work"
+    typical_word_count: "200-400"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+    note: "Foundation reviewers want evidence of organizational learning capacity — strategic plans implemented, systems adopted, governance changes that stuck. Distinguishes a capacity-investment-ready organization from a startup-shape capacity ask. Pairs with prior_capacity_work_history evidence_weight."
+
+  - section_name: "Adoption / Change Management Plan"
+    typical_word_count: "200-400"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+    note: "When the capacity ask involves a system (CRM / analytics / case-management software / financial system), reviewers expect a discrete adoption plan: user-population, training schedule, ownership, fallback/rollback option, and post-go-live support model. Pairs with change_management_plan evidence_weight and data_systems_adoption_readiness underwriting criterion."
+
+# ---------------------------------------------------------------------------
+# BUDGET STRUCTURE CONVENTIONS
+# ---------------------------------------------------------------------------
+budget_structure_conventions:
+  direct_cost_categories:
+    - "personnel"
+    - "fringe_benefits"
+    - "consultants_and_contractual"
+    - "travel"
+    - "equipment"
+    - "supplies"
+    - "training_and_professional_development"
+    - "technology_and_software"
+    - "other_direct"
+  indirect_cost_treatment: "Foundation capacity grants often cap or exclude indirect costs; federal capacity grants honor the recipient's federally negotiated rate or de minimis 10% MTDC per 2 CFR 200. Operator must check each NOFO."
+  match_requirements_typical: "Foundation capacity grants typically do not require cash match; some require board-approved commitment or sustainability projections. Federal capacity grants (e.g., USDA 1890 CBG) often waive match for institutional capacity."
+  source_citation: "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XXXIV/part-3406"
+
+# ---------------------------------------------------------------------------
+# REVIEWER PROFILE TYPICAL
+# ---------------------------------------------------------------------------
+reviewer_profile_typical:
+  reviewer_types:
+    - "foundation_program_officer"
+    - "capacity_reviewer"
+    - "public_agency_program_officer"
+    - "national_service_reviewer"
+    - "community_foundation_grants_committee"
+    - "peer_reviewer_from_sector"
+    # Sidecar augmentation 2026-05-18 per handback §4.1.
+    - "public_sector_capacity_program_officer"
+  reviewer_priorities:
+    - "Is the bottleneck real and current, or aspirational?"
+    - "Does this hire / system / training tie to measurable, time-bounded outcomes?"
+    - "Is sustainability a plan with revenue math, or a paragraph of intentions?"
+    # Sidecar augmentation 2026-05-18 per handback §4.1: refinement adds span-of-control evidence demand.
+    - "Will management actually deploy and supervise this capacity — AND is there evidence the supervising role(s) have bandwidth, not just title authority?"
+    - "Does the budget line up to the implementation plan task-by-task?"
+    # Sidecar augmentation 2026-05-18 per handback §4.1.
+    - "Is the evidence base for the capacity ask grounded in current organizational data (not 'we feel understaffed')?"
+  common_red_flags_from_reviewer_pov:
+    - "Vague operating support request with no specific bottleneck"
+    - "New hire described without a job description or supervision plan"
+    - "Sustainability section that names future grants as the sustainability plan"
+    - "Budget that doesn't reconcile to the implementation timeline"
+    - "Board not visibly engaged with the capacity investment"
+  source_citation: "https://www.athensfoundation.org/5-red-flags-that-could-hurt-your-grant-application"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Reviewer culture subtypes — DRAFT per Run 4 synthesis §1.3 item 3
+# ─────────────────────────────────────────────────────────────────────────────
+# reviewer_culture_subtypes — draft per Run 4 synthesis §1.3 item 3. Operator
+# reviews; field requires schema amendment before LOCK ceremony permits it.
+reviewer_culture_subtypes:
+  - subtype: "foundation_program_officer"
+    differentiation_note: "Primary reviewer culture for operating-capacity grants from Ford BUILD, Kresge LIFT, MacArthur Field Support, Hewlett, Bush Foundation, RWJF. Mission-fit + organizational learning capacity + theory-of-change-for-capacity drive scoring."
+    rubric_signal: "Rewards: explicit theory-of-change linking bottleneck to mission, prior capacity work evidence, baseline operational metrics with target deltas, change-management plan on systems asks, multi-line year-3 revenue projection. Penalizes: vague operating-support framing, future-grants-as-sustainability, over-fitted-to-single-hire designs, missing baseline."
+  - subtype: "community_foundation_grants_committee"
+    differentiation_note: "Community foundations (Capital Region CF, Vermont CF, regional CFs) underwrite local-organization durability — they weight governance + sustainability higher than national-foundation capacity rubrics. Grants committees combine community leaders + program officers; relationship + place-based mission anchoring matter."
+    rubric_signal: "Rewards: Letter of Commitment from Board Chair, demonstrated local accountability, board engagement evidence, sustainability revenue math with named local revenue streams. Penalizes: missing board commitment, generic regional framing, vague local-impact claims."
+  - subtype: "federal_program_officer"
+    differentiation_note: "Federal capacity-building reviewers — HUD CB, USDA 1890 CBG, HRSA capacity, ETA workforce-system capacity. Operate against published NOFO scoring criteria + 2 CFR 200 + agency-specific capacity-building rubrics. Reward audit-clean financial systems + indirect-cost-rate documentation."
+    rubric_signal: "Rewards: NICRA documentation or de minimis 10% MTDC election, audit-clean single-audit history, explicit baseline-to-target metrics, change-management plan. Penalizes: indirect-cost confusion, audit findings unaddressed, missing baseline metrics."
+  - subtype: "public_sector_capacity_program_officer"
+    differentiation_note: "Public-sector capacity programs (HUD CB, USDA CB, Workforce-system capacity grants) have program officers distinct from foundation capacity reviewers. Operate against statutory authority + public-purpose framing + measurable population-level capacity gains."
+    rubric_signal: "Rewards: explicit public-benefit math, statutory authority citation, population-level capacity-gain projections, sub-recipient capacity flow-down. Penalizes: foundation-style mission language without public-benefit math."
+
+# ---------------------------------------------------------------------------
+# COMMON PORTALS
+# ---------------------------------------------------------------------------
+common_portals:
+  - portal: "Foundant GLM"
+    typical_use: "Mid-market community foundations and family foundations; capacity building common workflow."
+    source_citation: "https://www.plinth.org.uk/en-US/complete-guide/grant-management-systems-compared"
+
+  - portal: "Submittable"
+    typical_use: "Foundations with corporate / CSR ecosystem; faster-to-deploy workflows."
+    source_citation: "https://www.plinth.org.uk/en-US/complete-guide/grant-management-systems-compared"
+
+  - portal: "Fluxx Grantmaker"
+    typical_use: "Larger national / regional foundations; complex multi-stage capacity-building cycles."
+    source_citation: "https://www.plinth.org.uk/en-US/complete-guide/grant-management-systems-compared"
+
+  - portal: "Grants.gov / Workspace"
+    typical_use: "Federal capacity-building grants (USDA 1890 CBG, HUD CB programs, HRSA, ETA)."
+    source_citation: "https://www.grants.gov/"
+
+  - portal: "SAM.gov"
+    typical_use: "Required for any federal capacity-building application (UEI + active registration)."
+    source_citation: "https://sam.gov/"
+
+# ---------------------------------------------------------------------------
+# COMMON RED FLAGS — adversarial probes
+# ---------------------------------------------------------------------------
+common_red_flags:
+  - flag: "vague_operating_support_request"
+    severity: "HIGH"
+    red_team_probe: "What specific operational constraint will this funding relieve, in what timeframe, with what observable change?"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+
+  - flag: "no_measurable_capacity_gain"
+    severity: "HIGH"
+    red_team_probe: "After this investment, what specifically will be different — what number changes, what backlog clears, what response time shrinks?"
+
+  - flag: "new_hire_not_tied_to_outcomes"
+    severity: "HIGH"
+    red_team_probe: "What outputs and outcomes does this new hire produce in the first six months? Who supervises? What does success look like?"
+
+  - flag: "systems_purchase_without_adoption_plan"
+    severity: "HIGH"
+    red_team_probe: "Who is responsible for adoption? What is the training plan? What happens if staff resist the new system?"
+
+  - flag: "sustainability_as_future_grants"
+    severity: "HIGH"
+    # Sidecar augmentation 2026-05-18 per handback §4.6: red_team_probe tightened to demand line-by-line year-3 revenue projection.
+    red_team_probe: "If no future grant funded this capacity, what revenue would? Where is the diversification math? Show me the year-3 revenue line-by-line: which funder is committed, which is probable, which is speculative; what earned revenue tracks the new capacity; what's the cost-recovery model if applicable."
+    source_citation: "https://www.fundsforngos.org/how-to-write-a-proposal/top-10-common-mistakes-in-grant-proposals-and-how-to-avoid-them/"
+
+  - flag: "hidden_management_weakness"
+    severity: "MEDIUM"
+    red_team_probe: "Does the org chart support the new capacity, or are we adding a role under a supervisor who is already overcommitted?"
+
+  - flag: "weak_budget_mapping"
+    severity: "HIGH"
+    # Sidecar augmentation 2026-05-18 per handback §4.6: red_team_probe tightened to bidirectional task↔budget mapping.
+    red_team_probe: "For each budget line, name the implementation-plan task it funds. Are there orphan line items? And conversely: for each implementation-plan task, name the budget line that funds it. Are there orphan tasks?"
+    source_citation: "https://www.tgci.com/blog/2020/08/understanding-capacity-building-grant-proposals"
+
+  - flag: "no_board_engagement"
+    severity: "MEDIUM"
+    red_team_probe: "Has the board reviewed and approved this capacity investment? Where is the resolution / Letter of Commitment?"
+    source_citation: "https://ourcommunity.org/nonprofit-support/grants-at-the-community-foundation/capacity-building-grants"
+
+  # Sidecar augmentation 2026-05-18 per handback §4.5 + §4.6 NEW common_red_flags.
+  - flag: "capacity_ask_without_baseline_operational_metrics"
+    severity: "HIGH"
+    red_team_probe: "Where is the current-state operational baseline against which we measure the post-investment gain? Show me last year's turnaround time / backlog size / service volume / staff retention rate; show me how we'll measure the same metric at grant close."
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+
+  - flag: "data_system_selected_before_bottleneck_identified"
+    severity: "MEDIUM"
+    red_team_probe: "Was the system chosen because the organization mapped its bottleneck to features the system provides — or because the system was attractive and a justification was built backward? Show the procurement evaluation criteria and the vendor-comparison matrix."
+
+  - flag: "capacity_investment_over_fitted_to_single_key_hire"
+    severity: "HIGH"
+    red_team_probe: "What's the contingency if the named hire doesn't materialize or leaves in year one? Is the capacity ask resilient to that?"
+
+# ---------------------------------------------------------------------------
+# REPORTING REQUIREMENTS TYPICAL
+# ---------------------------------------------------------------------------
+reporting_requirements_typical:
+  performance_reporting:
+    frequency: "semi_annual"
+    content_required:
+      - "Progress against milestones in implementation plan"
+      - "Staff hired / systems implemented / trainings completed"
+      - "Measurable capacity gain indicators"
+      - "Variance from original timeline + rationale"
+      - "Lessons learned / mid-course adjustments"
+      # Sidecar augmentation 2026-05-18 per handback §4.7.
+      - "Baseline-vs-actual comparison for named capacity-gain metrics"
+  financial_reporting:
+    frequency: "quarterly"
+    content_required:
+      - "Expenditure by budget category"
+      - "Burn rate vs. timeline"
+      - "Match documentation (if applicable)"
+      - "Variance explanation"
+  final_report_required: true
+  source_citation: "https://www.hud.gov/sites/dfiles/CPD/documents/Capacity-Building-Programs-Reporting-Guidance.pdf"
+  # Sidecar augmentation 2026-05-18 per handback §4.7: foundation cadence variance acknowledgment.
+  note: "HUD Capacity Building Programs guidance: Performance Output Data Collection Tool semi-annual + final report; foundations vary but semi-annual + final is the modal pattern. Foundation cadence varies (Ford BUILD: annual; Kresge LIFT: annual; community foundations: semi-annual or annual per grant agreement; some federal CB programs: quarterly). Operator should consult per-funder grant agreement; Tilth surfaces the modal pattern only as a starting default."
+
+# ---------------------------------------------------------------------------
+# COMPLIANCE OBLIGATIONS
+# ---------------------------------------------------------------------------
+compliance_obligations:
+  - framework: "2 CFR Part 200 (Uniform Guidance)"
+    applicability: "All federal capacity-building grants"
+    typical_filings:
+      - "SF-425 Federal Financial Report"
+      - "SF-PPR Performance Progress Report"
+      - "Single Audit if federal expenditures ≥ $750,000/year (rising to $1M under 2024 update)"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200"
+
+  - framework: "OMB Uniform Guidance §200.343 (Closeout)"
+    applicability: "All federal capacity-building grants"
+    typical_filings:
+      - "Final reports within 90 days after grant award expires or is terminated"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFR682eb148525a1ed/section-200.344"
+
+  - framework: "Foundation-specific grant agreement"
+    applicability: "Foundation capacity-building grants"
+    typical_filings:
+      - "Interim narrative + financial reports per grant agreement schedule"
+      - "Final report at grant close"
+      - "Acknowledgment / branding obligations per agreement"
+
+  - framework: "Board governance documentation"
+    applicability: "Most foundation capacity grants requiring board commitment"
+    typical_filings:
+      - "Letter of Commitment from Board Chair"
+      - "Authorizing resolution (where applicable)"
+      - "Two fiscal years of revenue/expense statements"
+    source_citation: "https://ourcommunity.org/nonprofit-support/grants-at-the-community-foundation/capacity-building-grants"
+
+# ---------------------------------------------------------------------------
+# COMMITMENT TRACKING PATTERN — Report Generator (v0.2) feed
+# ---------------------------------------------------------------------------
+commitment_tracking_pattern:
+  typical_commitments_extracted:
+    - commitment_type: "staff_hired"
+      measurement_method: "headcount + role + hire date + supervisor"
+    - commitment_type: "systems_implemented"
+      measurement_method: "system name + go-live date + user count + adoption rate"
+    - commitment_type: "trainings_completed"
+      measurement_method: "training type + attendee count + completion certifications"
+    - commitment_type: "policies_adopted"
+      measurement_method: "policy title + board-adoption date + implementation date"
+    - commitment_type: "service_capacity_increased"
+      measurement_method: "baseline service volume → post-investment service volume + measurement period"
+    - commitment_type: "turnaround_time_reduced"
+      measurement_method: "baseline duration → post-investment duration + measurement period + sample size"
+    - commitment_type: "data_quality_improved"
+      measurement_method: "named data-quality metric + baseline → post-investment value + measurement protocol"
+    - commitment_type: "governance_strengthened"
+      measurement_method: "named governance artifact (bylaws update, committee charter, policy) + adoption date"
+    # Sidecar augmentation 2026-05-18 per handback §4.7 NEW commitment_types.
+    - commitment_type: "organizational_strategic_plan_adopted"
+      measurement_method: "strategic plan title + board adoption date + plan period (e.g., 2026–2030) + named priorities + implementation milestone schedule"
+    - commitment_type: "baseline_metric_to_target_metric_movement"
+      measurement_method: "named operational metric + baseline value at award + target value + measurement date + measurement protocol + audit method"
+  proposal_commitments_yaml_extension:
+    # Cycle-1 F6 fold-in: CLC-namespaced to prevent collision when CLC-04..08
+    # cards populate. Convention: clc_<slug>_commitments. Downstream
+    # §11 AWARD_INGEST + §14 Report Generator read this field by exact match.
+    field_name: "clc_operating_capacity_commitments"
+  source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-03"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Cross-references — Program Rule Packs (PRP)
+# Sidecar augmentation 2026-05-18 per Run 4 synthesis PRP integration.
+# CLC-03 Operating Capacity touches 2 CFR 200 (NICRA, F&A, indirect cost rates,
+# single audit) on every federal capacity grant; Davis-Bacon and NEPA do NOT
+# fire (operating capacity is not construction).
+# ─────────────────────────────────────────────────────────────────────────────
+cross_references_prp:
+  - prp_id: "TILTH-PRP-2CFR200"
+    applicability: "Federal capacity-building grants (USDA 1890 CBG, HUD CB, HRSA, ETA) all run under 2 CFR Part 200 Uniform Guidance. Operating Capacity is the canonical CLC for indirect cost rates (NICRA), F&A negotiation, 10% de minimis MTDC elections, and single-audit closeout. Direct intersection: indirect_cost_treatment in budget_structure_conventions, audit_documentation evidence, compliance_obligations[2 CFR Part 200] framework."
+    fires_when: "federal capacity-building grant or federal-pass-through capacity grant"
+
+# ---------------------------------------------------------------------------
+# ADMIN-RISK TERM REGISTER — REMOVED from this CLC card per OD-1 path (a)
+# (operator default 2026-05-15 PM; LOCK ceremony dispatch). The 8 Cycle-1-era
+# CLC-03 admin-risk entries (sustainability, infrastructure, scalability,
+# capacity building, equity, innovation, transformation, stakeholder) are NOT
+# carried inside this card. CLC-card §18.6 schema does not declare
+# the field; carrying it would fail F-CARDS-SCHEMA-INVALID at production load.
+#
+# Workspace-wide register continues to govern admin-risk discipline for terms
+# Tilth uses anywhere — `pipeline/institutional_memory/admin_risk_register.yaml`
+# v2.2 already carries `sustainability` (YELLOW), `equity` (RED), `green
+# infrastructure` (RED variant), `stakeholder capitalism` (YELLOW). The
+# CLC-03-specific terms not yet on the workspace-wide register
+# (`infrastructure` standalone, `scalability`, `capacity building`,
+# `innovation`, `transformation`, `stakeholder` standalone) are pending
+# operator-approval migration to `admin_risk_register.yaml` v2.3 as a separate
+# follow-on dispatch (the workspace-wide register carries its own
+# operator_approval_token + admin-risk approval flow).
+#
+# Cycle-1 F1 disposition closed at LOCK 2026-05-15 PM via path (a). OD-1
+# CLOSED. The matching _schema_status block is also removed (no longer
+# proposing a §18.6 extension for this field on this card).
+
+# ---------------------------------------------------------------------------
+# LIFECYCLE
+# ---------------------------------------------------------------------------
+lifecycle:
+  draft_status: "signed"
+  review_status: "passed"
+  cross_family_thesis_status: "passed"
+  signature_status: "signed"
+  runtime_load_status: "loaded"
+  runtime_loadable: true
+  signed_at: "2026-05-15T20:30:00Z"
+  signed_by: "founder"
+  content_hash: "sha256:baff12ca68c0559b60fb14f267c3d4d462a75f9644bfb78266c4e470781dbebf"
+  lock_history_row: 227
+  lock_timestamp_utc: "2026-05-15T20:30:00Z"
+  # cross_family_thesis_status flipped to "passed" 2026-05-15 PM after L-005
+  # two-cycle audit completed at pipeline/validation/cards_wave_1_thesis_2026-05-15/CLC/operating_capacity/.
+  # Cycle 1: REQUIRES_FIXES (3-seat) — 11 findings dispositioned via FOLD-IN
+  # (7) / DEFER (2) / BOUND-by-F1 (1) / REJECT-with-rationale (1).
+  # Cycle 2: Editor READY_TO_LOCK; Judge 95/100 blocking:no; Red Team
+  # blocking:yes initially but 2 P0s REJECTED-with-rationale (on-disk schema
+  # at pipeline/cards/_schema/card_clc.schema.json line 93
+  # declares "additionalProperties": true; card passes validate_schema
+  # today). Remaining Cycle-2 findings (1 MED weight-tier source-backing + 1
+  # LOW OQ-6 redundancy) folded-in per row-170. See FINAL_VERDICT.md.
+  # LOCK ceremony 2026-05-15 PM: review_status passed → signature_status signed
+  # → runtime_load_status loaded. Operator pubkey pinned at
+  # vault_shared/cards/publisher_pubkey.signed.yaml. ed25519_signature below
+  # is the operator's Ed25519 signature over canonical-JSON of this YAML
+  # with ed25519_signature: null. OD-1 closed via path (a) — admin_risk_term_register
+  # removed; OD-3 closed via path (a) — evidence_weights.<kind>.source_citation
+  # dropped; OD-2 confirmed (Cycle-1 F7 refined framing standing); OD-4 deferred
+  # to follow-on hygiene dispatch (Internet Archive snapshot pass on
+  # _research_metadata.primary_sources URLs).
+
+# ---------------------------------------------------------------------------
+# RESEARCH METADATA — Phase 5 review handback substrate
+# ---------------------------------------------------------------------------
+_research_metadata:
+  authored_at: "2026-05-15T20:30:00Z"
+  authored_by_role: "research_session"
+  research_budget_hours_actual: 2.5
+  priors_consulted:
+    - path: "assets/cards/capital_logic/operating capacity.png"
+      extract_note: "Visual Card source — v7.0.8 LOCKED roster + drawing TILTH-CLC-00; defines Operating Capacity scope (staffing, systems, readiness, administration, delivery capacity)."
+    - path: "docs/post_alpha/post_alpha_card_system_revised_2026-05-15.md"
+      extract_note: "Revised post-Alpha source ideation §14.3; binding starter-content requirements for CLC-03."
+    - path: "pipeline/blueprint/v0.1/section_18_card_system.md"
+      extract_note: "§18.10 starter content for TILTH-CLC-03; §18.11 five-phase research process; §18.15 testing requirements."
+    - path: "pipeline/institutional_memory/admin_risk_register.yaml"
+      extract_note: "Existing v2.2 register; entries for 'sustainability' (YELLOW), 'green infrastructure' (RED variant), 'stakeholder capitalism' (YELLOW), 'equity' (RED) reused with CLC-03 contextual notes."
+    - path: "skills/scribe-ghostwriter/SKILL.md"
+      extract_note: "§Organizational Capacity (skill section 8) — capacity-narrative scaffolding; complements but does not duplicate card content."
+    - path: "pipeline/cards/CIC/food_systems.yaml"
+      extract_note: "Sibling Wave 1 fixture stub — structural pattern for fields, NEEDED-marker style, lifecycle block, _research_metadata."
+
+  primary_sources:
+    - url: "https://www.fordfoundation.org/work/our-grants/building-institutions-and-networks/"
+      access_date: "2026-05-15"
+      relevance: "Ford Foundation BUILD program: five-year general operating support combined with organizational strengthening."
+      verbatim_quote: "The core essentials combine five years of general operating support with additional resources for institutional strengthening."
+
+    - url: "https://www.fordfoundation.org/news-and-stories/news-and-press/news/ford-foundation-expands-flagship-build-program-to-provide-1-billion-to-hundreds-of-organizations/"
+      access_date: "2026-05-15"
+      relevance: "Ford BUILD scale + duration — useful for funder-landscape framing."
+      verbatim_quote: "BUILD has committed $1.6 billion across 600 grants to organizations in 45 countries, with plans to invest $2 billion total over 12 years."
+
+    - url: "https://www.macfound.org/programs/field-support/philanthropy/"
+      access_date: "2026-05-15"
+      relevance: "MacArthur Foundation Field Support: nonprofit sector strengthening as a fundable category."
+      verbatim_quote: "Grants provide both general operating and project support; these are often general operating support grants that are smaller and more long-term."
+
+    - url: "https://kresge.org/initiative/leadership-and-infrastructure-funding-team-lift/"
+      access_date: "2026-05-15"
+      relevance: "Kresge LIFT Team: capacity-building grants using equity-lens framing."
+      verbatim_quote: "LIFT uses an equity lens to strengthen our partners' leadership and the nonprofit sector through capacity-building grants."
+
+    - url: "https://hewlett.org/grantmaking-faq/"
+      access_date: "2026-05-15"
+      relevance: "Hewlett Foundation flexible-funding posture; capacity building is one of three named grant types."
+      verbatim_quote: "In 2024, the Hewlett Foundation awarded nearly three-fourths of its grant dollars in the form of flexible support."
+
+    - url: "https://www.bushfoundation.org/opportunities/community-innovation/"
+      access_date: "2026-05-15"
+      relevance: "Bush Foundation Ecosystem grants: $450K / 3-year general operating capacity model for sector-supporting organizations."
+      verbatim_quote: "Ecosystem Grants provide up to $450,000 over three years in operating support to established organizations that are recognized in their communities as helpful resources."
+
+    - url: "https://ourcommunity.org/nonprofit-support/grants-at-the-community-foundation/capacity-building-grants"
+      access_date: "2026-05-15"
+      relevance: "Capital Region Community Foundation: typical community-foundation capacity-grant application requirements."
+      verbatim_quote: "Required application materials include a Letter of Commitment from the Governing Board Chair, revenue and expense statements for two fiscal years, and the organization's current Annual Operating Budget document."
+
+    - url: "https://vermontcf.org/funds/nonprofit-capacity-building/"
+      access_date: "2026-05-15"
+      relevance: "Vermont Community Foundation: small-grant capacity model ($5,000 cap, rolling deadline)."
+      verbatim_quote: "The program supports consultant fees with grants no more than $5,000 each."
+
+    - url: "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XXXIV/part-3406"
+      access_date: "2026-05-15"
+      relevance: "Federal regulation governing USDA NIFA 1890 Institution Capacity Building Grants — statutory-program reference for federal CLC-03."
+      verbatim_quote: "The 1890 CBG Program is intended to support research, teaching, and Extension by awarding grants that address key problems of national, regional, and multi-institutional importance."
+
+    - url: "https://www.tgci.com/blog/2020/08/understanding-capacity-building-grant-proposals"
+      access_date: "2026-05-15"
+      relevance: "The Grantsmanship Center: working definition of capacity-building outcomes (product-shaped, not direct-service)."
+      verbatim_quote: "Rather than direct changes in a community situation, the outcome of grant-funded capacity building projects will be a product such as a strategic plan, a new database, upgraded technology, a fund development plan, or a succession plan."
+
+    - url: "https://www.fundsforngos.org/how-to-write-a-proposal/top-10-common-mistakes-in-grant-proposals-and-how-to-avoid-them/"
+      access_date: "2026-05-15"
+      relevance: "Common red flags in sustainability sections of capacity-building proposals."
+      verbatim_quote: "The most frequent mistake is treating sustainability as an afterthought and writing vague, aspirational statements without concrete strategies."
+
+    - url: "https://www.hud.gov/sites/dfiles/CPD/documents/Capacity-Building-Programs-Reporting-Guidance.pdf"
+      access_date: "2026-05-15"
+      relevance: "HUD Capacity Building Programs Reporting Guidance: semi-annual Performance Output Data Collection cadence."
+      verbatim_quote: "A Performance Output Data Collection Tool should be completed for each open grant award on a semi-annual basis and submitted to HUD along with the semi-annual report submission."
+
+    - url: "https://www.sopact.com/use-case/grant-review-rubric"
+      access_date: "2026-05-15"
+      relevance: "Common rubric anatomy: 4-6 criteria, weighted scoring, 4-level anchor descriptions."
+      verbatim_quote: "A good grant review rubric has five elements: clear criteria tied to your program's goals (typically 4-6), consistent quality levels with anchor descriptions (4 levels is optimal), specific language that eliminates ambiguity, weighted scoring that reflects your priorities, and AI-compatibility with analysis prompts."
+
+    - url: "https://nlctb.org/featured/how-to-respond-to-sustainability-questions-in-grant-proposals/"
+      access_date: "2026-05-15"
+      relevance: "Practitioner guidance on the sustainability section as a frequent reviewer red flag."
+      verbatim_quote: "Funders are not looking for a guarantee; they are looking for evidence that you have thought seriously about what continues after their dollars."
+
+  # Ed25519 signature over canonical-JSON of this YAML with this field set to
+  # null. Canonical-JSON form: sorted keys, compact separators (",":"), UTF-8,
+  # ensure_ascii=False. Canonical-JSON SHA3-512 (for white-glove integrity
+  # pinning): 4f21a5d589f1c7034c5e307a74fd9a06d195a2345c3bc5a5b56e3c9ed6260e7daa81463d10431758e2d3f9d89f87df35b24858de9ea2bbc21072616e133fb0f4
+  # Signature target pubkey: vault_shared/cards/publisher_pubkey.signed.yaml
+  # (publisher_pubkey_ed25519_hex 0b1a0bbfa5ee9149af2c4e6153ed037dd03c0d562c94d3eaefeaf798e6f375bd)
+  ed25519_signature: "43f53d200257fa54a5f5062a5fb297f45568bd1b19ae8ea9d2079816b3268b2c171b0d454da89db5c298d1c12f4e6fe8779669cf1a52469da5655a1bad554501"
+
+# ---------------------------------------------------------------------------
+# REVIEW HANDBACK SUMMARY (per blueprint §18.11 Phase 5)
+# ---------------------------------------------------------------------------
+_review_handback:
+  card_axis_and_slug: "CLC:operating_capacity"
+  card_file: "pipeline/cards/CLC/operating_capacity.yaml"
+  research_hours_actual: 2.5
+  schema_completeness:
+    required_fields_populated: "15/15"
+    fields_needing_review: 0
+    total_citations: 22
+    unique_primary_sources: 14
+  decision_queue:
+    - "OQ-3 path resolution: file lives at pipeline/cards/CLC/operating_capacity.yaml — uppercase CIC/ + CLC/ canonical per §18 v1.1 narrow-corrective amendment 2026-05-15. CLOSED."
+    - "Operator approval on admin_risk_term_register entries — resolved by OD-1 path (a): admin_risk_term_register removed from this card at LOCK 2026-05-15 PM. CLOSED."
+    - "Cross-family Thesis dispatch (Editor + Judge + Red Team) — Cycle 1 + Cycle 2 COMPLETE 2026-05-15; THESIS_PASSED at pipeline/validation/cards_wave_1_thesis_2026-05-15/CLC/operating_capacity/FINAL_VERDICT.md. CLOSED."
+    - "Ed25519 signature — operator publisher pubkey pinned at vault_shared/cards/publisher_pubkey.signed.yaml at LOCK 2026-05-15 PM. Card signed. CLOSED."
+    - "scoring_weight_patterns: qualitative-only posture per OQ-6 confirmed at LOCK; 12-CycleReceipt threshold remains the trigger for any future v0.2 numeric-weights amendment. CLOSED at LOCK posture."
+    - "OD-1 (Cycle-1 F1): admin_risk_term_register §18.6 schema-extension posture resolved via path (a) at LOCK 2026-05-15 PM — field removed from this CLC card. Migration of CLC-03-specific terms (`infrastructure` standalone, `scalability`, `capacity building`, `innovation`, `transformation`, `stakeholder` standalone) to workspace-wide admin_risk_register.yaml v2.3 = follow-on dispatch (separate operator-approval-token flow). CLOSED at card layer."
+    - "OD-2 (Cycle-1 F7): equity entry reviewer_context Cycle-1-fold-in refined framing CONFIRMED at LOCK 2026-05-15 PM. (OD-2 was anchored on the now-removed admin_risk_term_register field; OD-1 path (a) closure subsumes OD-2.) CLOSED."
+    - "OD-3 (Cycle-1 F3): evidence_weights.<kind>.source_citation §18.6 schema-extension posture resolved via path (a) at LOCK 2026-05-15 PM — optional source_citation dropped on every entry. Per-evidence source backing preserved in _research_metadata. CLOSED."
+    - "OD-4 (Cycle-1 F8): pre-LOCK Internet Archive snapshot pass on _research_metadata.primary_sources URLs DEFERRED to follow-on hygiene dispatch per operator default 2026-05-15 PM (URL durability matters but does not block LOCK)."
+  conflicts_with_prior_art:
+    - "NONE post-OD-1 path (a) closure — admin_risk_term_register removed from card; workspace-wide admin_risk_register.yaml v2.2 continues to govern (sustainability YELLOW, equity RED, green infrastructure RED-variant, stakeholder capitalism YELLOW). CLC-03-specific terms pending v2.3 follow-on dispatch."
+  surface_ambiguities:
+    - "Verbatim-quote sourcing: quotes from research aggregator sites (fundsforngos, sopact) cite the aggregator URL; verifying primary source citations (where the aggregator paraphrased a primary funder document) is a Phase 4 deepening step before LOCK."
+    - "USDA NIFA 1890 CBG citation: 7 CFR Part 3406 is the regulation; for a live RFA Scout will fetch the current FY NOFO. Card cites the regulation as durable; NOFO references should attach at runtime."
+    - "Sibling Food Systems CIC firing in parallel — once it lands, verify no inadvertent CIC × CLC coupling appears across the pair (defense-in-depth)."
+    - "common_application_forms: no truly national 'common form' for capacity building exists; card documents the regional / Foundant / Submittable / Fluxx pattern. If operator wants a tighter constraint (e.g., 'only document forms used by funders Scout actually surfaces'), this list can be pruned post-review."
+  review_readiness: "READY"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Draft provenance — sidecar augmentation pass
+# ─────────────────────────────────────────────────────────────────────────────
+_draft_provenance:
+  draft_authored_at: "2026-05-18T00:00:00Z"
+  draft_authored_by_role: "card_content_augmentation_pass_v1"
+  source_handback: "docs/clc_operating_capacity_research_handback_2026-05-17.md"
+  source_handback_sections_consumed:
+    - "§4 Proposed Card Improvements"
+    - "§8 Patch Plan"
+  prp_scaffolding_referenced:
+    - "pipeline/program_rule_packs/_manifest/active_prps.yaml"
+    - "pipeline/blueprint/v0.1/section_19_program_rule_packs.md"
+  prp_ids_cross_referenced:
+    - "TILTH-PRP-2CFR200"
+  operator_roadmap_alignment: "Step #5: card content augmentation passes parallel with PRP authoring once PRP pointers exist (per docs/CTO_HANDOFF_BRIEF.md §3.2 + Run 4 synthesis §6)."
+  patches_deferred_pending_operator_review:
+    - "Single Audit threshold compliance_obligations refinement to '$750K through FY2024; $1M for FY beginning on or after October 1, 2024' (handback §5 item 3 — operator decision pending on exact wording)"
+    - "Ford BUILD scale-figure refresh (handback §5 item 2 — operator confirmation needed)"
+    - "common_funders_observed Law-5 posture decision (handback §5 item 6 Path A vs Path B) — handled via separate operator-engagement-confirmation pass"
+    - "Bridgespan + BoardSource added as primary_sources vs out-of-card priors (handback §5 item 7)"
+    - "Re-signing ceremony bundling decision (handback §5 item 8)"
+    - "OD-4 Internet Archive snapshot pass timing (handback §5 item 9)"
+    - "Lock-history housekeeping field disposition cross-card (handback §5 item 10)"
+  patches_deferred_pending_schema_amendment:
+    - "reviewer_culture_subtypes field adoption (Run 4 synthesis §1.3 item 3 cross-CLC P1)"
+    - "cross_references_prp: list[str] adoption into card_clc.schema.json item shapes (cross-CLC P1; not yet schema-adopted)"
+  patches_deferred_pending_cards_ceremony:
+    - "Law-5 common_funders_observed relocation (separate operator-engagement-confirmation pass)"
+    - "Cross-CLC admin-risk-register migration to v3.0 workspace register (6 CLC-03-specific terms — handback §4.4 + §5 item 1)"
+    - "_research_metadata.primary_sources refresh for Ford BUILD URLs + Bridgespan + BoardSource additions (handback §8 items 17-18)"
+  no_lockfiles_modified: true
+  no_schema_modified: true
+  no_signatures_modified: true

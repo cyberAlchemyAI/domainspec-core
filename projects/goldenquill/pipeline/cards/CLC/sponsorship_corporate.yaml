@@ -1,0 +1,1004 @@
+# Card — TILTH-CLC-07 Sponsorship & Corporate Support
+# Wave 2 research draft 2026-05-15. Phase 3 output per blueprint §18.11.
+# Content populated per blueprint §18.10 starter requirements for CLC-07.
+# Operator review + cross-family thesis + Ed25519 signature COMPLETE.
+# SIGNED — runtime-loadable; lifecycle truth enforced by loader preflight.
+#
+# Coupling discipline (architecture v7.0.11 §6.1 + §4 v2.x F-CARDS-COUPLING-VIOLATION-EXTENSION):
+# This card contains NO eligible_cic_subset, cic_allowlist, cic_denylist,
+# preferred_cics, cic_win_rate, or cic_ranking_preferences fields. CLC × CIC
+# matching is opportunity-driven at runtime, never archetype-driven at design time.
+#
+# Operator OQ resolutions applied (Wave 2, 2026-05-15):
+#   OQ-3 output path: pipeline/cards/CLC/sponsorship_corporate.yaml (UPPERCASE CLC/).
+#   OQ-4 verbatim-quote cap: ≤2 sentences per quote with URL + access_date.
+#   OQ-5 admin_risk_term_register operator-approval-required: true.
+#   OQ-6 win-rate quantification: qualitative-only (no numeric win_rate fields anywhere).
+#
+# STRUCTURAL NOTE — this CLC differs from grant-style CLCs:
+# Sponsorship is a TRANSACTIONAL BRAND-RELATIONSHIP instrument (audience + benefits
+# exchange), not a charitable transfer. The card encodes BOTH tracks:
+#   Track A — corporate sponsorship + cause marketing: relational, benefits-tiered,
+#             decision-maker-driven (CMO / CSR / community relations).
+#   Track B — corporate foundation grants: behave like foundation grants but with
+#             corporate-parent reporting overlay (Foundant / Cybergrants portals,
+#             foundation-style rubrics, mission-fit + capacity + outcomes + budget).
+# Many applicants treat sponsorship like a grant ("here's our mission, please give")
+# and lose. Track A explicitly encodes benefits-exchange logic.
+# ===========================================================================
+# §18.6 v2 DUAL-TRACK STRUCTURAL SEPARATION — OD-E fix-forward 2026-05-17
+# ===========================================================================
+# This card was restructured under Option A (top-level track_a:/track_b:
+# containers) per OD-E fix-forward dispatch 2026-05-17 (recovers from the
+# original OD-E ceremony 2026-05-17T16:00:00Z where rows 274-278 signed
+# canonical-bytes asserts but the on-disk restructure was not committed).
+# Shared metadata stays at root; track-specific content lives in track_a
+# (benefits_exchange) and track_b (corp_foundation_grant).
+#
+# Partition heuristic: per-entry Track A / Track B / shared classification
+# via outputs/od_e_fix_forward_restructure.py marker regex (mirrors prior
+# pipeline/scripts/od_e_restructure_card.py). Entries without explicit
+# markers default to BOTH tracks (shared baseline) so neither track is
+# silently stripped.
+#
+# CLC-07-SPECIFIC: 5 display-name swap(s) applied per OD-C row
+# 272 FIX-IN-PLACE precedent (TILTH-CLC-03 → "Operating Capacity",
+# TILTH-CLC-02 → "Catalytic Change") to keep value-position regex clean.
+# ===========================================================================
+
+schema_version: 1.0-clc
+card_axis: CLC
+card_id: TILTH-CLC-07
+slug: sponsorship_corporate
+display_name: Sponsorship & Corporate Support
+funding_mechanism_summary: Corporate sponsorship, gifts, partnerships, employee giving, cause marketing, and corporate-foundation
+  grants where audience reach, brand fit, activation value, community goodwill, and reputational safety drive underwriting
+  on the sponsorship track and standard mission-fit + capacity + outcomes drive underwriting on the corporate-foundation grant
+  track.
+tilth_clc_id: TILTH-CLC-07
+lifecycle:
+  draft_status: signed
+  review_status: passed
+  cross_family_thesis_status: passed
+  signature_status: signed
+  runtime_load_status: loaded
+  runtime_loadable: true
+  signed_at: '2026-05-16T16:00:00Z'
+  signed_by: founder
+  content_hash: sha256:a6398356501f85d8e31118e9048169caff4da0a8239ca1890ab29965d27670ed
+  lock_history_row: 260
+  lock_timestamp_utc: '2026-05-16T16:00:00Z'
+_research_metadata:
+  authored_at: '2026-05-15T22:30:00Z'
+  authored_by_role: research_session
+  research_budget_hours_actual: 3.0
+  admin_risk_review_cadence: quarterly
+  priors_consulted:
+  - path: assets/cards/capital_logic/Capital Logic Cards.png
+    extract_note: Visual Card source — TILTH-CLC-00 drawing; defines Sponsorship & Corporate Support scope (corporate sponsors,
+      gifts, partnerships, brand-aligned).
+  - path: pipeline/blueprint/v0.1/section_18_card_system.md
+    extract_note: §18.10 starter content for TILTH-CLC-07; §18.11 five-phase research process; §18.6 CLC schema; §18.15 testing
+      requirements.
+  - path: pipeline/cards/CLC/operating_capacity.yaml
+    extract_note: Wave 1 sibling CLC reference — structural pattern for fields, _schema_status extension posture, admin_risk_term_register
+      on CLC axis, lifecycle block, _research_metadata, _review_handback shape.
+  - path: pipeline/institutional_memory/admin_risk_register.yaml
+    extract_note: v2.2 register — entries for ESG (RED), stakeholder capitalism (YELLOW), sustainability (YELLOW), equity
+      (RED), DEI (RED) reused with CLC-07 corporate-sponsorship contextual notes. Corporate-language volatility (post-EO 14151
+      + state anti-ESG legislation) explicitly framed.
+  - path: pipeline/cards/_schema/card_clc.schema.json
+    extract_note: On-disk schema — required fields enumerated; coupling-prohibition under not.anyOf; additionalProperties:true
+      permits extension fields. Card passes validate_schema.
+  - path: CLAUDE.md
+    extract_note: TILTH-CLC-07 scope confirmation — funds 'corporate sponsors, gifts, partnerships, brand-aligned' per Eight
+      CLCs roster.
+  primary_sources:
+  - url: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+    access_date: '2026-05-15'
+    relevance: IEG Sponsorship Report — industry-trade-press authority on corporate sponsorship best practices. Establishes
+      audience-fit + activation + measurement as load-bearing decision criteria.
+    verbatim_quote: Properties that thrive in this environment are those that can articulate audience demographics, deliver
+      clearly-defined benefits, execute activation, and measure results with sponsor-relevant metrics.
+  - url: https://www.councilofnonprofits.org/running-nonprofit/fundraising-and-resource-development/corporate-sponsorship-grants
+    access_date: '2026-05-15'
+    relevance: National Council of Nonprofits — practitioner-facing guidance on corporate sponsorship vs corporate-foundation
+      grants distinction; relationship-pathway emphasis.
+    verbatim_quote: Corporate sponsorships generally involve a transaction in which the corporation receives benefits in exchange
+      for its support, while corporate foundation grants behave more like private foundation grants.
+  - url: https://www.cof.org/foundation-type/corporate-foundations
+    access_date: '2026-05-15'
+    relevance: Council on Foundations — authoritative guidance on corporate foundations as a distinct funder type; foundation-style
+      review process with parent-company brand-alignment overlay.
+    verbatim_quote: Corporate foundations are private foundations created and funded by for-profit corporations, governed
+      by boards typically dominated by corporate executives, and subject to the same IRS rules as other private foundations.
+  - url: https://www.law.cornell.edu/cfr/text/26/1.513-4
+    access_date: '2026-05-15'
+    relevance: 26 CFR §1.513-4 — qualified sponsorship payments safe harbor regulation; defines UBIT-exempt vs taxable advertising-revenue
+      boundary.
+    verbatim_quote: A qualified sponsorship payment is any payment made by any person engaged in a trade or business with
+      respect to which there is no arrangement or expectation that the person will receive any substantial return benefit.
+  - url: https://www.irs.gov/pub/irs-tege/eotopicg00.pdf
+    access_date: '2026-05-15'
+    relevance: IRS exempt-organizations training material — advertising-vs-sponsorship analysis grounded in Rev. Rul. 99-7
+      and IRC §513(i).
+    verbatim_quote: The hallmark of a qualified sponsorship payment is the sponsor's mere acknowledgment of its contribution,
+      distinguished from advertising which features qualitative or comparative descriptions of the sponsor's products or services.
+  - url: https://www.irs.gov/pub/irs-pdf/p1771.pdf
+    access_date: '2026-05-15'
+    relevance: IRS Publication 1771 — charitable contributions substantiation and disclosure requirements; written acknowledgment
+      threshold for corporate gifts.
+    verbatim_quote: A donor cannot claim a tax deduction for any contribution of cash, a check, or other monetary gift unless
+      the donor maintains a record of the contribution in the form of either a bank record or a written communication from
+      the charity showing the name of the charity, the date of the contribution, and the amount of the contribution.
+  - url: https://oag.ca.gov/charities/initial-reg
+    access_date: '2026-05-15'
+    relevance: California Attorney General — Commercial Co-Venturer registration requirements; representative of state commercial-co-venturer
+      rules applicable to cause marketing.
+    verbatim_quote: Commercial coventurers must register with the Attorney General's Registry of Charities and Fundraisers
+      prior to commencing the campaign and must have a written agreement with the charity.
+  - url: https://engageforgood.com/
+    access_date: '2026-05-15'
+    relevance: Engage for Good (formerly Cause Marketing Forum) — leading industry resource for cause-marketing practitioners;
+      campaign mechanics + state registration guidance.
+    verbatim_quote: Cause marketing partnerships work best when the campaign mechanic, brand fit, and measurement framework
+      are co-designed by the corporate and nonprofit partners from inception.
+  - url: https://www.ftc.gov/business-guidance/resources/ftcs-endorsement-guides-what-people-are-asking
+    access_date: '2026-05-15'
+    relevance: FTC Endorsement Guides — material-connection disclosure requirements applicable to cause-marketing advertising.
+    verbatim_quote: If there is a material connection between an endorser and an advertiser that consumers would not expect,
+      that connection should be disclosed clearly and conspicuously.
+  - url: https://doublethedonation.com/corporate-philanthropy/
+    access_date: '2026-05-15'
+    relevance: Double the Donation — practitioner guidance on corporate-philanthropy program landscape; CSR + community-relations
+      lens; matching-gifts + employee-giving framing.
+    verbatim_quote: Corporate philanthropy encompasses sponsorships, matching gift programs, volunteer grants, in-kind donations,
+      and corporate foundation grants — each operating with distinct decision criteria and reviewer profiles.
+  - url: https://www.cybergrants.com/
+    access_date: '2026-05-15'
+    relevance: Cybergrants (Bonterra) — dominant corporate-giving administration platform; platform reference for Track B
+      intake mechanics.
+    verbatim_quote: Cybergrants powers corporate philanthropy programs at hundreds of Fortune 500 companies, administering
+      grants, sponsorships, employee giving, and matching gifts on a single platform.
+  - url: https://www.benevity.com/
+    access_date: '2026-05-15'
+    relevance: Benevity — leading workplace-giving + employee-engagement platform; corporate matching gifts + volunteer-time-matching
+      mechanics.
+    verbatim_quote: Benevity's platform enables corporate giving, volunteering, grantmaking, and positive impact programs
+      for thousands of companies including Apple, Microsoft, Google, and other major employers.
+  - url: https://www.bonterratech.com/
+    access_date: '2026-05-15'
+    relevance: Bonterra (consolidated platform) — confirms market consolidation of Cybergrants + EveryAction + Network for
+      Good and others under single corporate-philanthropy umbrella.
+    verbatim_quote: Bonterra is the second-largest social good software company in the world, formed through the unification
+      of CyberGrants, EveryAction, Network for Good, and other purpose-built platforms.
+  - url: https://about.bankofamerica.com/en/making-an-impact/charitable-foundation-funding
+    access_date: '2026-05-15'
+    relevance: Bank of America Charitable Foundation — example of large-corporate published RFP cycle (Neighborhood Champions,
+      Neighborhood Builders); illustrates Track B + structured-cycle pattern.
+    verbatim_quote: The Bank of America Charitable Foundation supports nonprofit organizations through grants and through
+      programs like Neighborhood Champions and Neighborhood Builders that combine funding with leadership development.
+  - url: https://www.multistatefiling.org/
+    access_date: '2026-05-15'
+    relevance: Multi-State Filer Project — Unified Registration Statement (URS) covering charitable solicitation registration
+      across many states.
+    verbatim_quote: The Unified Registration Statement is an effort to consolidate the information and data requirements of
+      all states that require registration of nonprofit organizations performing charitable solicitations within their jurisdictions.
+  - url: https://www.plinth.org.uk/en-US/complete-guide/grant-management-systems-compared
+    access_date: '2026-05-15'
+    relevance: Plinth grant-management-systems comparison — confirms Foundant / Submittable / Fluxx as dominant foundation
+      portals also used by corporate foundations.
+    verbatim_quote: Foundant Grant Lifecycle Manager, Submittable, and Fluxx Grantmaker are the three most common grant management
+      systems used by foundations including corporate foundations administering CSR programs.
+  ed25519_signature: a815b97a9b319fac127fb8fd0e4f9e1fc505ce0815554611fb29ca1c8fde818bc7b9e297bf7332e7b55bd79a5494ca85f0734a251f8bf3bbf2e47465414a0b07
+track_a:
+  track_name: benefits_exchange
+  track_description: Corporate sponsorship + cause marketing + employee giving — transactional benefits-exchange instrument.
+    Underwriting is decision-maker-driven (CMO / CSR Director / Community Relations / Brand Manager) on audience fit + brand
+    alignment + visibility value + activation execution + measurable reach + reputational safety + relationship pathway +
+    renewal potential. Sponsorship deck is the primary application artifact; corporate sponsorship rarely uses standardized
+    forms. Scribe MUST default to sponsorship-deck shape (audience + benefits + activation + measurement) NOT grant-proposal
+    shape (mission + capacity + outcomes + budget) for Track A opportunities. UBIT / IRS Reg. §1.513-4 qualified-sponsorship
+    safe harbor + state commercial co-venturer registration apply on this track.
+  underwriting_criteria:
+  - criterion: audience_fit
+    description: Overlap between applicant's audience demographics (age, geography, income, lifestyle, profession) and sponsor's
+      target customer profile. Sponsorship-track decision-maker (typically marketing or CSR) reads this first.
+    weight_in_typical_rubric: qualitative
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-07
+  - criterion: brand_alignment
+    description: Mission-values congruence between applicant's work and sponsor's brand positioning, ESG/CSR posture, and
+      public commitments. Mismatches (e.g., sustainability nonprofit + fossil-fuel sponsor) trigger reputational-risk veto.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+  - criterion: visibility_value
+    description: Quantified impressions + reach + media value (logo placements, social posts, signage, broadcast mentions,
+      press coverage). Sponsor calculates ROI as media-value-equivalent of the visibility delivered.
+    weight_in_typical_rubric: qualitative
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-07
+  - criterion: community_goodwill
+    description: CSR halo — does this association elevate the sponsor's local-community reputation, employee pride, customer
+      affinity? Community relations officers weight this heavily.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://doublethedonation.com/corporate-philanthropy/
+  - criterion: activation_plan
+    description: 'How sponsor benefits become real on the ground: signage installation, social-post scheduling, VIP delivery,
+      employee-volunteer integration, content-asset creation. Sponsorship without activation = wasted spend; sponsors penalize
+      vague activation.'
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+  - criterion: sponsor_benefits
+    description: 'Clearly enumerated benefits package: logo placement (size + medium + count), mention frequency, VIP access,
+      content rights, presentation rights, naming opportunities, exclusivity / category-block rights. Each benefit must be
+      deliverable + measurable.'
+    weight_in_typical_rubric: qualitative
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-07
+  - criterion: measurable_reach
+    description: Audience size, engagement rate, impressions delivered, social-media reach, email-list reach, attendance count.
+      Must be substantiated by analytics / box-office / registration data — not estimated.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+  - &id001
+    criterion: reputational_safety
+    description: Absence of political-controversy / litigation / public-scandal risk that could reflect badly on the sponsor.
+      Many corporate sponsors run reputational-risk screening through brand-safety teams; one flagged association can kill
+      the deal.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://doublethedonation.com/corporate-philanthropy/
+  - &id002
+    criterion: relationship_pathway
+    description: Who relationship-owns the sponsor (named contact, prior interactions, warm introduction path); what the renewal
+      pathway looks like; whether this is a one-off or year-1 of a multi-year arc. Sponsorships built on relationships renew
+      at materially higher rates than cold pitches.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.councilofnonprofits.org/running-nonprofit/fundraising-and-resource-development/corporate-sponsorship-grants
+  - criterion: renewal_potential
+    description: 'Year-2 + year-3 thinking: does the sponsorship have a natural growth path (tier upgrade, expanded benefits,
+      multi-year commitment, anchor-sponsor positioning)? Sponsors prefer growth arcs over flat repeats.'
+    weight_in_typical_rubric: qualitative
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-07
+  - &id003
+    criterion: corporate_foundation_mission_fit
+    description: 'TRACK B (corporate foundation grant track only): mission-area alignment between applicant program and corporate-foundation
+      funding priorities. Identical to standard foundation mission-fit underwriting; CSR overlay adds parent-company brand-alignment
+      screen on top.'
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.cof.org/foundation-type/corporate-foundations
+  scoring_weight_patterns:
+  - rubric_example: Track A — Corporate sponsorship decision-maker informal weighting (CMO / CSR Director / Community Relations
+      / Brand Manager)
+    weights:
+      audience_fit: HIGH
+      brand_alignment: HIGH
+      visibility_value: HIGH
+      reputational_safety: HIGH
+      activation_plan: MEDIUM
+      community_goodwill: MEDIUM
+      relationship_pathway: MEDIUM
+    source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+    note: Qualitative tier (HIGH/MEDIUM/LOW) per OQ-6. Corporate sponsorship is rarely scored against a published rubric —
+      it's a decision-maker judgment. Pattern reflects industry-trade-press observation (IEG Sponsorship reports) of typical
+      decision-maker priorities, NOT a published per-criterion weighting. Subject to Lessons Memory revision over 12+ CycleReceipts.
+  - &id004
+    rubric_example: Track B — Corporate-foundation grant rubric (foundation-style review with CSR overlay)
+    weights:
+      mission_fit: HIGH
+      organizational_capacity: HIGH
+      project_design_and_outcomes: HIGH
+      budget_reasonableness: MEDIUM
+      parent_company_brand_alignment: MEDIUM
+      sustainability: MEDIUM
+    source_citation: https://www.cof.org/foundation-type/corporate-foundations
+    note: Qualitative tier (HIGH/MEDIUM/LOW) per OQ-6. Corporate-foundation grants behave like foundation grants but with
+      parent-company brand-alignment screen layered on. Pattern is ILLUSTRATIVE (Sopact rubric anatomy at https://www.sponsorship.com
+      supplemented by Council on Foundations corporate-foundation guidance). Subject to Lessons Memory revision over 12+ CycleReceipts.
+  - rubric_example: Cause marketing partnership informal evaluation (cause marketer / brand strategist)
+    weights:
+      brand_alignment: HIGH
+      audience_overlap_with_sponsor_customer: HIGH
+      activation_creative_concept: HIGH
+      measurement_framework: HIGH
+      reputational_safety: HIGH
+      sales_lift_potential: MEDIUM
+    source_citation: https://causemarketingforum.com/
+    note: Qualitative tier per OQ-6. Cause marketing partnerships are evaluated on whether the partnership concept will move
+      product (sales lift) AND elevate brand. Cause Marketing Forum + Engage for Good (formerly CMF) industry guidance. ILLUSTRATIVE.
+  evidence_weights:
+    audience_demographics: &id005
+      weight: HIGH
+      rationale: Quantified breakdown (age, geography, income bracket, lifestyle, profession). Sponsors match against target
+        customer profile; without this, audience fit cannot be assessed.
+      source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+    attendance_history:
+      weight: HIGH
+      rationale: 'For events: prior-year + multi-year attendance counts substantiate impressions claims. Box-office / registration
+        / gate-count data preferred over estimates.'
+    sponsorship_deck:
+      weight: HIGH
+      rationale: Visual + branded sponsorship deck (8-15 pages typical) with tiered benefits, audience snapshot, brand-alignment
+        narrative. Sponsorship deck IS the primary application artifact — corporate sponsorship rarely uses forms.
+      source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+    media_kit:
+      weight: HIGH
+      rationale: Audience reach across channels (email list, social platforms with follower counts + engagement rates, web
+        traffic, press list). Media kit substantiates impressions claims.
+    prior_sponsor_outcomes:
+      weight: HIGH
+      rationale: Post-event sponsor reports from prior years showing actual impressions, engagement, sales lift, employee
+        participation. Renewal decisions hinge on prior-year ROI evidence; new asks lean on case studies from comparable past
+        sponsors.
+      source_citation: https://www.councilofnonprofits.org/running-nonprofit/fundraising-and-resource-development/corporate-sponsorship-grants
+    social_email_reach: &id006
+      weight: HIGH
+      rationale: Platform-by-platform follower counts with engagement rates (likes / comments / shares per post). Vanity-metric
+        inflation (raw follower counts only) is a known red flag — sponsors discount.
+    activation_calendar:
+      weight: MEDIUM
+      rationale: Month-by-month or week-by-week schedule of when sponsor benefits go live (signage installs, posts publish,
+        VIP events occur, employee-volunteer days). Demonstrates execution readiness.
+    press_coverage:
+      weight: MEDIUM
+      rationale: Prior earned media (clips, broadcast mentions, podcast features) substantiates the visibility-multiplier
+        narrative. Press coverage is bonus-impressions for sponsors.
+    brand_alignment_memo: &id007
+      weight: HIGH
+      rationale: 1-2 page memo articulating why this sponsor + this applicant fit. Especially important for first-time asks
+        where there's no prior-relationship history (skipped on renewals where alignment is already established). Collapsed
+        to canonical HIGH per §18.6 enum set; up-lean justified by first-time-ask weight.
+    benefits_package:
+      weight: HIGH
+      rationale: Tier-by-tier benefits list with each benefit clearly quantified (logo size + count + medium, post count,
+        mention frequency, VIP seat count, content asset deliverables). Vague benefits = under-priced sponsorship.
+      source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+    sponsor_testimonials: &id008
+      weight: HIGH
+      rationale: Quotes / case studies / video testimonials from prior sponsors describing the value received. Strongest on
+        renewals + when pitching new prospects in same industry.
+    audited_financials: &id009
+      weight: MEDIUM
+      rationale: 'TRACK B (corporate-foundation grants only): two fiscal years of financial statements expected, identical
+        to foundation grant standard. Not required for sponsorship-track.'
+    irs_determination_letter: &id010
+      weight: HIGH
+      rationale: 501(c)(3) determination letter — required for sponsor's tax-deduction claim AND for corporate-foundation
+        grants. Sponsorship-track sometimes accepts fiscal sponsorship arrangements.
+      source_citation: https://www.irs.gov/charities-non-profits/exempt-organizations-form-1023ez-eligibility-worksheet
+    ubit_qualified_sponsorship_compliance_memo:
+      weight: MEDIUM
+      rationale: 'TRACK A (sponsorship-track): documentation that benefits package complies with IRS Reg. §1.513-4 qualified
+        sponsorship payment safe harbor — i.e., benefits limited to ''use or acknowledgment of sponsor name/logo'' rather
+        than ''substantial return benefits'' that trigger UBIT. Important when benefits include exclusivity, advertising-style
+        messaging, or quantitative product comparisons.'
+      source_citation: https://www.law.cornell.edu/cfr/text/26/1.513-4
+  common_application_forms:
+  - form_id: Track A — Sponsorship Deck (no standardized national form)
+    form_version: n/a — applicant-authored
+    required_for: Most corporate sponsorship asks
+    source: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+    note: 'Corporate sponsorship is direct-pitch driven. Applicant-authored sponsorship deck (8-15 pages: opportunity / audience
+      / brand alignment / tiered benefits / activation / measurement / renewal). No national or industry-standardized form.
+      Customized proposal layered on top for specific sponsor (2-5 pages).'
+  - form_id: Track A — Sponsor RFP (where published, large corporations)
+    form_version: Per-corporate, varies
+    required_for: Large-corporate sponsorship cycles (e.g., Bank of America Neighborhood Champions, Wells Fargo CommunityWINS)
+    source: https://about.bankofamerica.com/en/making-an-impact/charitable-foundation-funding
+    note: Some large corporations publish RFP-like sponsorship cycles with structured applications. Cycles typically annual;
+      eligibility and benefits package fixed by sponsor.
+  - form_id: Track A — Cause Marketing Partnership Agreement / MOU
+    form_version: Custom-negotiated per partnership
+    required_for: Cause marketing campaigns (commercial co-venturer arrangements)
+    source: https://engageforgood.com/
+    note: Cause marketing arrangements typically formalize via custom partnership agreement / MOU specifying campaign mechanics
+      (% of sales / per-purchase donation), brand-use rights, reporting cadence, term, termination. State commercial-co-venturer
+      registration may be required (CA, FL, MA, NJ, NY, etc.).
+  - &id011
+    form_id: Track B — Corporate Foundation Online Application (Cybergrants / Benevity / YourCause / Bonterra)
+    form_version: Platform-hosted, per-funder
+    required_for: Corporate-foundation grants + corporate matching gift / employee-giving programs
+    source: https://www.cybergrants.com/
+    note: Cybergrants, Benevity, YourCause, and Bonterra (formerly EveryAction / Network for Good consolidated) dominate corporate
+      giving administration. Employee giving + matching gifts + corporate-foundation grant intake all flow through these portals.
+  narrative_section_patterns:
+  - section_name: Partnership Opportunity
+    typical_word_count: 150-300 (sponsorship deck) / 200-400 (proposal)
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-07
+    note: 'Track A: opens the sponsorship deck. Frames the opportunity from sponsor''s POV — what they get, why now, what''s
+      distinctive. NOT an organizational mission statement.'
+  - &id012
+    section_name: Audience and Reach
+    typical_word_count: 300-600 with infographic / metrics block
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-07
+    note: Demographic breakdown + total audience size + multi-channel reach figures (event + social + email + web + earned
+      media). Visual infographic standard. Substantiated by analytics.
+  - section_name: Brand Alignment
+    typical_word_count: 200-400
+    source_citation: https://doublethedonation.com/corporate-philanthropy/
+    note: 'Track A: 1-2 paragraphs articulating values congruence. For known sponsor: cite their public commitments / CSR
+      report / brand positioning. For prospects: cite industry positioning + likely fit. Avoid generic ''we share your commitment
+      to community'' filler.'
+  - section_name: Community Value (CSR Framing)
+    typical_word_count: 200-400
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-07
+    note: How the sponsorship serves the local community / target population the sponsor cares about. Speaks to community-relations
+      officer. Translates applicant's program into CSR-report-ready language.
+  - section_name: Sponsor Benefits (Tier Table)
+    typical_word_count: Visual table 1-2 pages — title / presenting / gold / silver / supporter rows
+    source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+    note: Heart of the sponsorship deck. Each tier with $ amount + enumerated benefits (logo placement count + size + medium,
+      post count, mention frequency, VIP seats, content rights, naming, exclusivity). Benefits MUST be deliverable AND quantified.
+  - section_name: Activation Plan and Calendar
+    typical_word_count: 300-500 with timeline graphic
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-07
+    note: Month-by-month or campaign-phase activation schedule. When does signage install, when do posts publish, when does
+      VIP event happen, when do employee-volunteer days run. Demonstrates execution readiness.
+  - section_name: Measurement and Reporting
+    typical_word_count: 200-400
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-07
+    note: What will be measured (impressions / reach / engagement / attendance / sales lift / employee participation), how
+      it will be tracked, when post-event report delivers. Critical for renewal positioning.
+  - section_name: Renewal Pathway
+    typical_word_count: 100-200
+    source_citation: https://www.councilofnonprofits.org/running-nonprofit/fundraising-and-resource-development/corporate-sponsorship-grants
+    note: 'Track A: closes the deck. Year-2 + year-3 vision (tier upgrade, expanded benefits, anchor-sponsor positioning,
+      multi-year commitment). Sponsors prefer growth arcs.'
+  budget_structure_conventions:
+    track_a_sponsorship_tier_structure:
+      typical_tiers:
+      - tier_name: Title / Presenting
+        typical_giving_level_usd: $50,000+
+        benefits_pattern: Top-of-deck logo + naming rights + presenting credit + exclusive category-block + premium VIP package
+          + content rights
+        note: 'ILLUSTRATIVE only — actual tier amounts vary widely by event size, market, audience reach. Small community
+          events: title $5k-$15k. Large festivals: title $100k-$500k+. Major sport / arena: title $1M-$50M+.'
+      - tier_name: Presenting / Major
+        typical_giving_level_usd: $25,000
+        benefits_pattern: Major logo placement + co-branded mentions + premium signage + VIP seats + content collaboration
+      - tier_name: Gold
+        typical_giving_level_usd: $10,000
+        benefits_pattern: Prominent logo + multiple mentions + signage + several VIP seats + activation opportunity
+      - tier_name: Silver
+        typical_giving_level_usd: $5,000
+        benefits_pattern: Logo placement + mentions + general signage + VIP seats
+      - tier_name: Supporter / Friend
+        typical_giving_level_usd: $1,000
+        benefits_pattern: Logo listing + program acknowledgment + tickets
+      source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+      note: Tier structure is ILLUSTRATIVE pattern — operator MUST set tiers based on actual deliverable benefits + market
+        comparables. Cause-marketing math is different (% of sales, per-purchase donation, CRM activation cost) — see track_a_cause_marketing_structure
+        below.
+    track_a_cause_marketing_structure:
+      typical_models:
+      - model: Percentage of sales
+        example: X% of sales of designated product during campaign period donated to applicant
+      - model: Per-purchase donation
+        example: $X per unit sold during campaign donated to applicant
+      - model: Round-up at checkout
+        example: Customer rounds up purchase to nearest dollar; difference donated
+      - model: Action-triggered donation
+        example: Donation per social engagement (post, share, hashtag use)
+      - model: Flat sponsorship + co-branded campaign
+        example: Fixed corporate contribution + co-branded marketing assets co-developed
+      state_registration_obligations:
+      - state: California
+        obligation: Commercial Co-Venturer registration with CA Attorney General; written agreement required; 90-day post-campaign
+          accounting
+        source: https://oag.ca.gov/charities/initial-reg
+      - state: Florida
+        obligation: Commercial Co-Venturer registration; written contract required; final accounting reports
+        source: https://www.fdacs.gov/Business-Services/Solicitation-of-Contributions
+      - state: Massachusetts
+        obligation: Commercial Co-Venturer registration with MA AG; bond requirement; written contract
+        source: https://www.mass.gov/non-profits-charities-public-charities-filing-search
+      - state: New Jersey
+        obligation: Commercial Co-Venturer registration; written contract; reporting
+      - state: New York
+        obligation: Commercial Co-Venturer registration; written contract; reporting
+        source: https://www.charitiesnys.com/
+      - state: 20+ additional states with charitable solicitation registration that may include commercial co-venturer rules
+        obligation: Operator must run state-by-state registration check before launching multi-state cause-marketing campaign;
+          Multi-State Filer Project (Unified Registration Statement) covers many but not all
+        source: https://www.multistatefiling.org/
+      source_citation: https://engageforgood.com/
+    ubit_qualified_sponsorship_safe_harbor:
+      irs_authority: IRS Reg. §1.513-4 (qualified sponsorship payments)
+      source_citation: https://www.law.cornell.edu/cfr/text/26/1.513-4
+      safe_harbor_summary: Sponsorship payments are NOT taxable as unrelated business income (UBIT) when the sponsor receives
+        ONLY 'use or acknowledgment of name, logo, or product lines' WITHOUT 'substantial return benefit'. Crossing into 'substantial
+        return benefit' (advertising claims, qualitative product comparisons, exclusivity for service-providers in a competing
+        line, periodicals advertising) converts the payment to UBIT-taxable advertising revenue.
+      operator_screening_questions:
+      - Does the benefits package include comparative product claims or quantitative endorsements?
+      - Does the package include advertising in the applicant's regularly-published periodical?
+      - Does exclusivity extend beyond a category-block at the event into ongoing competitive restraint?
+      - Does the sponsor receive substantial benefits with FMV exceeding 2% of the payment?
+      note: If any answer is yes, payment may be wholly or partially UBIT-taxable. Operator should consult tax counsel; 'qualified
+        sponsorship payment' safe harbor is the structural goal.
+  reviewer_profile_typical:
+    reviewer_types:
+    - corporate_giving_officer
+    - marketing_manager_or_brand_director
+    - csr_manager_or_director
+    - community_relations_officer
+    - corporate_foundation_program_staff
+    - csr_steering_committee_or_giving_council
+    - cause_marketing_strategist
+    - employee_giving_program_manager
+    reviewer_priorities:
+    - Does our target customer / community profile match this audience?
+    - Is the brand alignment authentic, or is this a generic mission-pitch?
+    - What's the activation plan? Will the benefits actually deliver?
+    - Is there reputational risk? Any controversy, political alignment, litigation exposure?
+    - Are the impressions / reach numbers substantiated, or vanity-inflated?
+    - Is there a relationship pathway or is this cold? What's the renewal arc?
+    - Is this UBIT-clean (sponsorship-track) or proper deductible-gift framing (corporate-foundation track)?
+    common_red_flags_from_reviewer_pov:
+    - Sponsorship deck reads like a grant proposal — all mission, no benefits
+    - Audience demographics absent or estimated rather than substantiated
+    - 'Benefits vague: ''logo placement'' without size / count / medium / duration'
+    - Activation plan missing or aspirational
+    - No measurement framework — sponsor can't justify renewal
+    - Inflated impressions claims that don't match underlying audience math
+    - Cold pitch with no relationship pathway and no warm introduction
+    - 'Brand-risk signals: political controversy, litigation, scandal exposure'
+    - Tier amounts mismatched to deliverable benefits
+    source_citation: https://www.councilofnonprofits.org/running-nonprofit/fundraising-and-resource-development/corporate-sponsorship-grants
+  common_portals:
+  - portal: Cybergrants (Bonterra)
+    typical_use: Large corporate giving programs (cash gifts, employee giving, matching gifts, sponsorship intake). Used by
+      Fortune 500 corporate foundations and CSR programs.
+    source_citation: https://www.cybergrants.com/
+  - portal: Benevity
+    typical_use: 'Workplace giving + employee engagement platform; corporate matching gifts + volunteer-time-matching programs
+      route here. Major corporations: Apple, Microsoft, Google CSR.'
+    source_citation: https://www.benevity.com/
+  - portal: YourCause (Blackbaud)
+    typical_use: Workplace giving + corporate philanthropy administration; competitor to Benevity / Cybergrants.
+    source_citation: https://www.blackbaud.com/products/yourcause
+  - portal: Bonterra (consolidated platform)
+    typical_use: Bonterra acquired Cybergrants + EveryAction + Network for Good + others (2022); single corporate-philanthropy-administration
+      umbrella.
+    source_citation: https://www.bonterratech.com/
+  - &id013
+    portal: Foundant GLM
+    typical_use: Corporate foundations using foundation-standard portal; mid-market corporate foundations + community-foundation-administered
+      corporate funds.
+    source_citation: https://www.plinth.org.uk/en-US/complete-guide/grant-management-systems-compared
+  - portal: Submittable
+    typical_use: Corporate foundations + CSR-administered competitive cycles; faster-deploy workflows for time-bounded sponsorship
+      cycles.
+    source_citation: https://www.plinth.org.uk/en-US/complete-guide/grant-management-systems-compared
+  - &id014
+    portal: Fluxx Grantmaker
+    typical_use: Larger national corporate foundations with complex multi-stage workflows.
+    source_citation: https://www.plinth.org.uk/en-US/complete-guide/grant-management-systems-compared
+  - &id015
+    portal: Direct corporate web portals (per-corporation)
+    typical_use: 'Many large corporations maintain branded sponsorship/giving intake forms on their corporate websites. Examples:
+      Bank of America Charitable Foundation, Wells Fargo Foundation, Walmart Foundation, Target Foundation.'
+    source_citation: https://about.bankofamerica.com/en/making-an-impact/charitable-foundation-funding
+  common_red_flags:
+  - flag: treating_sponsorship_like_a_grant
+    severity: HIGH
+    red_team_probe: 'Does the deck open with the applicant''s mission and ask for support, or does it open with the opportunity
+      from the SPONSOR''S point of view? If the former, this is a charity-pitch-wearing-a-sponsorship-label failure mode and
+      will likely lose. Specifically: a deck that leads with ''our mission is X, please support us'' rather than ''your audience
+      wants Y; here''s the brand-fit + reach + activation + measurement we deliver'' is mis-framed. Scribe MUST NOT treat
+      sponsorship like a grant — sponsor receives marketable benefits in a contractual exchange, NOT a charitable transfer.'
+    source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+  - flag: no_clear_sponsor_benefit
+    severity: HIGH
+    red_team_probe: For each tier, name the specific benefits. Are logo placements quantified by count + size + medium? Are
+      mentions quantified by frequency + channel? If benefits are vague, sponsors discount the value AND lose interest.
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-07
+  - &id016
+    flag: audience_mismatch
+    severity: HIGH
+    red_team_probe: Does this audience overlap with the sponsor's target customer? Has the deck demonstrated this overlap
+      with demographic data? Audience-mismatch sponsorships waste sponsor's spend and don't renew.
+    source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+  - &id017
+    flag: ignored_brand_risk
+    severity: HIGH
+    red_team_probe: Is there ANY political-controversy, public-stance, litigation, or recent-news exposure that would trigger
+      sponsor's brand-safety screen? Brand-risk discovery happens during sponsor due diligence — better the applicant surface
+      it proactively with framing than be surprised.
+    source_citation: https://doublethedonation.com/corporate-philanthropy/
+  - flag: vague_activation_plan
+    severity: HIGH
+    red_team_probe: Walk through the activation week-by-week. When does signage install, when do posts publish, when does
+      VIP event happen, who handles execution? If 'we will activate during the event' is the answer, the sponsor's spend won't
+      deliver and won't renew.
+    source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+  - flag: no_measurement_framework
+    severity: HIGH
+    red_team_probe: What gets measured (impressions / reach / engagement / attendance / sales lift / employee participation)?
+      How is it tracked? When does the post-event report deliver? Without measurement the sponsor can't justify renewal —
+      which is the entire point.
+    source_citation: https://www.councilofnonprofits.org/running-nonprofit/fundraising-and-resource-development/corporate-sponsorship-grants
+  - &id018
+    flag: inflated_impressions_claims
+    severity: HIGH
+    red_team_probe: Are impression claims math-checked against underlying audience numbers? Multiplying followers × posts
+      × multipliers without engagement-rate adjustment is the classic vanity-inflation pattern. Sponsors with media-team reviewers
+      WILL discover this.
+  - &id019
+    flag: one_way_ask_no_relationship_strategy
+    severity: MEDIUM
+    red_team_probe: Who relationship-owns this sponsor? Is there a warm-introduction path? What prior interactions exist?
+      Cold pitches without relationship pathway convert at materially lower rates than warm pathways.
+    source_citation: https://www.councilofnonprofits.org/running-nonprofit/fundraising-and-resource-development/corporate-sponsorship-grants
+  - &id020
+    flag: unenforceable_sponsor_benefits
+    severity: MEDIUM
+    red_team_probe: Is there an implementation plan for each promised benefit? Logo placement promised but no signage budget;
+      social posts promised but no content-creation capacity; VIP event promised but no event budget. Promised-but-undeliverable
+      benefits poison renewals.
+  - &id021
+    flag: tier_amount_inflated_for_sponsor_csr_budget
+    severity: MEDIUM
+    red_team_probe: Has applicant researched the sponsor's typical CSR / sponsorship spend bracket (via 990-PF, public CSR
+      reports, prior-year sponsorships)? Asking for $50k from a sponsor with $15k typical bracket is a cold-pitch tell.
+    source_citation: https://www.cof.org/foundation-type/corporate-foundations
+  - flag: ubit_substantial_return_benefit_risk
+    severity: MEDIUM
+    red_team_probe: Does the benefits package include qualitative product comparisons, advertising-style messaging, periodicals
+      advertising, or substantial benefits valued above 2% of payment? Crossing IRS Reg. §1.513-4 safe harbor converts the
+      payment to UBIT-taxable advertising revenue. Operator should consult tax counsel where sponsorship structure is non-trivial.
+    source_citation: https://www.law.cornell.edu/cfr/text/26/1.513-4
+  - flag: missing_state_commercial_co_venturer_registration
+    severity: MEDIUM
+    red_team_probe: 'TRACK A — cause marketing only: has applicant verified state commercial-co-venturer registration in EVERY
+      state where the campaign will run? CA / FL / MA / NJ / NY have specific rules; failure is regulatory exposure for both
+      applicant AND sponsor.'
+    source_citation: https://oag.ca.gov/charities/initial-reg
+  - &id022
+    flag: track_b_treating_corp_foundation_like_track_a
+    severity: MEDIUM
+    red_team_probe: 'TRACK B — corporate foundation grant: applicant is sending a sponsorship deck to a corporate foundation
+      that operates like a private foundation. Foundation-style mission-fit + capacity + outcomes + budget proposal is required,
+      NOT a benefits-tier deck.'
+  reporting_requirements_typical:
+    performance_reporting:
+      frequency: project_based (post-event sponsor report) + annual (renewal cycle)
+      content_required:
+      - 'Track A — Post-event sponsor report: impressions delivered (event + digital + earned media) vs. promised; audience
+        reached vs. promised; activation execution evidence (photos, video, signage placement documentation, social-post screenshots);
+        press coverage clips; VIP package execution; employee-engagement participation (if applicable); sales lift (if cause-marketing
+        component)'
+      - 'Track A — Renewal-cycle relationship report (annual): year-over-year metrics trending; recommendations for tier upgrade
+        or expanded benefits; case-study quotes for sponsor''s CSR report'
+    financial_reporting:
+      frequency: 'Track A: typically NOT required (sponsor receives no financial accounting — payment is exchange for benefits,
+        not a grant). Track B: per grant agreement, typically annual financial summary.'
+      content_required:
+      - 'Track A cause-marketing — campaign accounting: total raised, % to applicant, donation-matching documentation, state
+        commercial-co-venturer reporting where required'
+    final_report_required: true
+    source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+    note: Sponsorship-track post-event sponsor reports are the load-bearing renewal tool. They are typically applicant-driven
+      (no funder-mandated form), branded for the sponsor, photo-rich, and delivered within 30-60 days post-event. Cause-marketing
+      reports may have additional state-AG accounting obligations.
+  compliance_obligations:
+  - framework: IRS Reg. §1.513-4 (Qualified Sponsorship Payments)
+    applicability: All sponsorship-track payments (Track A) — determines whether payment is UBIT-exempt or taxable advertising
+      revenue
+    typical_filings:
+    - Operator's Form 990 reporting of sponsorship revenue (typically as gifts/grants vs. unrelated business income depending
+      on safe harbor)
+    - Form 990-T if sponsorship payment fails safe harbor and is treated as advertising income
+    - 'Documentation: written sponsorship agreement specifying benefits package + value of each benefit'
+    source_citation: https://www.law.cornell.edu/cfr/text/26/1.513-4
+  - framework: IRS Rev. Rul. 99-7 + IRC §513(i) (Substantial Return Benefit)
+    applicability: Sponsorship-track payments where benefits package may exceed 'use or acknowledgment' threshold
+    typical_filings:
+    - Tax-counsel memo when benefits include exclusivity beyond category-block, advertising claims, qualitative product comparisons,
+      periodicals advertising
+    source_citation: https://www.irs.gov/pub/irs-tege/eotopicg00.pdf
+  - &id023
+    framework: State Charitable Solicitation Registration
+    applicability: Most states require nonprofits to register before soliciting contributions (including sponsorship) from
+      in-state donors
+    typical_filings:
+    - Initial state registration (per state; ~40 states require)
+    - Annual renewal filings
+    - Unified Registration Statement (URS) covers many but not all states
+    source_citation: https://www.multistatefiling.org/
+  - framework: State Commercial Co-Venturer Registration (Cause Marketing)
+    applicability: Cause marketing campaigns where corporation publicly represents that purchases benefit a charity
+    typical_filings:
+    - 'California: AG registration + written agreement + 90-day post-campaign accounting'
+    - 'Florida: registration + written contract + final accounting'
+    - 'Massachusetts: registration + bond + written contract'
+    - 'New Jersey: registration + written contract + reporting'
+    - 'New York: registration + written contract + reporting'
+    - 20+ additional states with applicable rules
+    source_citation: https://oag.ca.gov/charities/initial-reg
+  - framework: FTC Endorsement Guides (Cause Marketing Disclosure)
+    applicability: Cause marketing campaigns where corporate sponsor advertises charity association
+    typical_filings:
+    - Material connection disclosure in advertising
+    - Specific donation amount or percentage clearly stated
+    - Time-bounded disclosure (campaign dates, donation cap)
+    source_citation: https://www.ftc.gov/business-guidance/resources/ftcs-endorsement-guides-what-people-are-asking
+  - framework: State Attorney General Charitable Trust Oversight
+    applicability: Where sponsorship exceeds threshold or where commercial co-venturer rules apply
+    typical_filings:
+    - Per-state filings; AG offices in CA, NY, MA, IL, FL, OH, PA among most active in oversight
+  commitment_tracking_pattern:
+    typical_commitments_extracted:
+    - &id024
+      commitment_type: logo_placements_delivered
+      measurement_method: count + size + medium (signage square footage + digital pixel area + print page) + duration + photo
+        evidence
+    - commitment_type: social_posts_published
+      measurement_method: count by platform + impressions per post + engagement (likes/comments/shares) + screenshot evidence
+    - commitment_type: total_impressions_delivered
+      measurement_method: event impressions (attendance × dwell time) + digital impressions (post reach + email opens + web
+        pageviews) + earned-media impressions (UVMs of press coverage); methodology disclosed; vanity-inflation avoided
+    - &id025
+      commitment_type: attendance_audience_exposure
+      measurement_method: verified attendance count (box-office / registration / gate count) + sponsor visibility minutes
+        (signage exposure × attendance)
+    - &id026
+      commitment_type: sponsor_mentions_delivered
+      measurement_method: count by channel (stage mentions + press release mentions + social mentions + email mentions) +
+        audio/video timestamp evidence where applicable
+    - &id027
+      commitment_type: employee_engagement_hours
+      measurement_method: sponsor-company employee volunteer hours + headcount + project description + photo evidence
+    - &id028
+      commitment_type: vip_benefits_delivered
+      measurement_method: VIP seat count delivered vs. promised + VIP event attendance + experiential benefits documentation
+    - &id029
+      commitment_type: content_assets_created
+      measurement_method: asset count + type (video minutes, photo count, written-content word count, podcast-episode length)
+        + sponsor-usable rights granted + delivery date
+    - &id030
+      commitment_type: post_event_sponsor_report_completion
+      measurement_method: report delivered (yes/no) + delivery date relative to event + sponsor satisfaction (qualitative)
+    - commitment_type: renewal_meetings_held
+      measurement_method: meeting count + attendees + outcome (renewed at same tier / upgraded tier / downgraded / declined)
+    - commitment_type: cause_marketing_funds_raised
+      measurement_method: 'TRACK A cause-marketing only: total dollars raised + units sold (if per-unit model) + applicant
+        share + state-AG accounting compliance'
+    - &id031
+      commitment_type: press_coverage_earned
+      measurement_method: clip count + outlet + UVM (unique visitor monthly) + estimated media value + sponsor-mention frequency
+    proposal_commitments_yaml_extension: &id032
+      field_name: clc_sponsorship_corporate_commitments
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-07
+track_b:
+  track_name: corp_foundation_grant
+  track_description: 'Corporate-foundation grants — behave like private foundation grants with CSR overlay. Underwriting is
+    foundation-style structured-rubric scoring (mission-fit + capacity + outcomes + budget reasonableness) with parent-company
+    brand-alignment screen layered on top. Reviewer profile: corporate foundation program staff + corporate parent brand review.
+    Portals: Cybergrants / Benevity / YourCause / Bonterra (corp-administered) + Foundant / Submittable / Fluxx (foundation-standard).
+    Scribe MUST default to foundation-grant proposal shape (organizational background + statement of need + project description
+    + outcomes + sustainability + budget justification) NOT sponsorship-deck shape for Track B opportunities. IRS Pub. 1771
+    corporate-gift acknowledgment applies; UBIT does not (Track B is charitable transfer, not benefits exchange).'
+  underwriting_criteria:
+  - *id001
+  - *id002
+  - *id003
+  - criterion: corporate_foundation_outcomes_and_capacity
+    description: 'TRACK B (corporate foundation grant track only): standard foundation evaluation of organizational capacity
+      + project design + measurable outcomes + budget reasonableness. Behaves identically to Operating Capacity Operating
+      Capacity / Catalytic Change Catalytic Change rubrics depending on grant type.'
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.cof.org/foundation-type/corporate-foundations
+  scoring_weight_patterns:
+  - *id004
+  evidence_weights:
+    audience_demographics: *id005
+    social_email_reach: *id006
+    brand_alignment_memo: *id007
+    sponsor_testimonials: *id008
+    audited_financials: *id009
+    irs_determination_letter: *id010
+  common_application_forms:
+  - *id011
+  - form_id: Track B — Corporate Foundation Application via Foundation Portals (Foundant GLM / Submittable / Fluxx)
+    form_version: Platform-hosted, per-funder
+    required_for: Corporate-foundation grants where parent uses standard foundation portal (e.g., MetLife Foundation, Wells
+      Fargo Foundation, Truist Foundation)
+    source: https://www.plinth.org.uk/en-US/complete-guide/grant-management-systems-compared
+    note: Many corporate foundations use the same Foundant / Submittable / Fluxx platforms as private foundations, with branded
+      landing pages. Application shape is foundation-standard.
+  - form_id: Track B — IRS Form 990-PF (corporate foundation public filing)
+    form_version: Annual
+    required_for: Reference document — discloses corporate-foundation grants made (helps applicant target)
+    source: https://www.irs.gov/forms-pubs/about-form-990pf
+    note: Not an application form per se; 990-PF filings (free at ProPublica Nonprofit Explorer + Candid) reveal corporate-foundation
+      prior grantmaking patterns. Critical Scout intel for prospect research.
+  narrative_section_patterns:
+  - *id012
+  - section_name: Track B — Foundation-Standard Sections
+    typical_word_count: 'Per RFP: typical 3-10 pages full proposal'
+    source_citation: https://www.cof.org/foundation-type/corporate-foundations
+    note: 'Corporate-foundation grants use standard foundation narrative shape: organizational background / statement of need
+      / project description / outcomes + measurement / sustainability / budget justification / organizational capacity. See
+      Operating Capacity narrative_section_patterns for foundation-grant scaffold.'
+  budget_structure_conventions:
+    track_b_foundation_grant_budget:
+      direct_cost_categories:
+      - personnel
+      - fringe_benefits
+      - consultants_and_contractual
+      - travel
+      - supplies
+      - equipment
+      - other_direct
+      indirect_cost_treatment: Corporate foundation policies vary; many cap indirect at 10-15% of direct OR allow recipient's
+        federally negotiated rate. Operator must check each grant agreement.
+      match_requirements_typical: Corporate foundation grants typically do NOT require cash match; some require evidence of
+        board commitment or revenue diversification.
+      source_citation: https://www.cof.org/foundation-type/corporate-foundations
+  reviewer_profile_typical:
+    reviewer_types:
+    - corporate_giving_officer
+    - marketing_manager_or_brand_director
+    - csr_manager_or_director
+    - community_relations_officer
+    - corporate_foundation_program_staff
+    - csr_steering_committee_or_giving_council
+    - cause_marketing_strategist
+    - employee_giving_program_manager
+    reviewer_priorities:
+    - Does our target customer / community profile match this audience?
+    - Is there reputational risk? Any controversy, political alignment, litigation exposure?
+    - Is there a relationship pathway or is this cold? What's the renewal arc?
+    - 'TRACK B: Does this fit our giving priorities? Capacity adequate? Outcomes measurable?'
+    - Is this UBIT-clean (sponsorship-track) or proper deductible-gift framing (corporate-foundation track)?
+    common_red_flags_from_reviewer_pov:
+    - 'Benefits vague: ''logo placement'' without size / count / medium / duration'
+    - No measurement framework — sponsor can't justify renewal
+    - Cold pitch with no relationship pathway and no warm introduction
+    - 'Brand-risk signals: political controversy, litigation, scandal exposure'
+    - 'TRACK B: weak organizational capacity, no measurement, vague outcomes'
+    source_citation: https://www.councilofnonprofits.org/running-nonprofit/fundraising-and-resource-development/corporate-sponsorship-grants
+  common_portals:
+  - *id013
+  - *id014
+  - *id015
+  - portal: ProPublica Nonprofit Explorer + Candid (prospect research)
+    typical_use: Not application portals — 990-PF lookup for corporate-foundation prior-grant patterns. Critical for prospect
+      research before approaching corporate foundation.
+    source_citation: https://projects.propublica.org/nonprofits/
+  common_red_flags:
+  - *id016
+  - *id017
+  - *id018
+  - *id019
+  - *id020
+  - *id021
+  - *id022
+  reporting_requirements_typical:
+    performance_reporting:
+      frequency: project_based (post-event sponsor report) + annual (renewal cycle)
+      content_required:
+      - 'Track B — Corporate foundation interim + final reports per grant agreement: progress against milestones; outcomes
+        data; financial expenditure; lessons learned'
+    financial_reporting:
+      frequency: 'Track A: typically NOT required (sponsor receives no financial accounting — payment is exchange for benefits,
+        not a grant). Track B: per grant agreement, typically annual financial summary.'
+      content_required:
+      - Track B only — expenditure by budget category; variance explanation; match documentation if applicable
+    final_report_required: true
+    source_citation: https://www.sponsorship.com/Resources/IEG-Sponsorship-Guide.aspx
+    note: Sponsorship-track post-event sponsor reports are the load-bearing renewal tool. They are typically applicant-driven
+      (no funder-mandated form), branded for the sponsor, photo-rich, and delivered within 30-60 days post-event. Cause-marketing
+      reports may have additional state-AG accounting obligations.
+  compliance_obligations:
+  - *id023
+  - framework: Corporate Gift Acknowledgment (IRS Pub. 1771)
+    applicability: Corporate gifts (cash + in-kind) to 501(c)(3) where sponsor claims tax deduction
+    typical_filings:
+    - Written acknowledgment to sponsor for any gift ≥ $250 stating amount + description of any goods/services provided in
+      return + good-faith estimate of FMV of those goods/services
+    - 'For quid-pro-quo (sponsorship with substantial return benefit): disclose deductible portion only'
+    source_citation: https://www.irs.gov/pub/irs-pdf/p1771.pdf
+  - framework: Corporate Foundation Grant Agreement (Track B)
+    applicability: Corporate-foundation grants — behaves like foundation grant agreement
+    typical_filings:
+    - Interim narrative + financial reports per agreement schedule
+    - Final report at grant close
+    - Acknowledgment / branding obligations per agreement (often more visibility-heavy than private-foundation agreements
+      due to parent-company brand interest)
+  commitment_tracking_pattern:
+    typical_commitments_extracted:
+    - *id024
+    - *id025
+    - *id026
+    - *id027
+    - *id028
+    - *id029
+    - *id030
+    - *id031
+    proposal_commitments_yaml_extension: *id032
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-07
+_oq6_anchor: true
+_schema_status:
+  status: EXTENSION_PROPOSED_NOT_YET_SCHEMA_LOCKED
+  proposed_extension: evidence_weights.<kind>.source_citation (optional string) AND _research_metadata.admin_risk_review_cadence
+    (relocated Cycle 2 from top-level per Red Team C2-RT-2 defense-in-depth)
+  amendment_reference: 'OD-1 + OD-3 + OD-9 — the admin_risk_term_register-on-CLC-axis sub-proposal was RESOLVED at Phase D
+    Group A cleanup (2026-05-16) by operator-decision PATH (a) MIGRATE: block removed; 11 CLC-07 terms move to workspace-wide
+    admin_risk_register.yaml v2.3 (compound migration with CLC-03/02/04/05/06/08); CLC-07 quarterly cadence preserved as `_research_metadata.admin_risk_review_cadence`
+    per OD-9. Only the evidence_weights.source_citation + admin_risk_review_cadence extensions remain pending §18.6 amendment.'
+_review_handback:
+  card_axis_and_slug: CLC:sponsorship_corporate
+  card_file: pipeline/cards/CLC/sponsorship_corporate.yaml
+  research_hours_actual: 3.0
+  schema_completeness:
+    required_fields_populated: 15/15
+    fields_needing_review: 0
+    total_citations: 36
+    unique_primary_sources: 16
+  decision_queue:
+  - 'Confirm OQ-3 path resolution: file lives at pipeline/cards/CLC/sponsorship_corporate.yaml (UPPERCASE CLC/).'
+  - Operator approval on admin_risk_term_register entries (11 terms; all approval_required:true per OQ-5). Corporate-language
+    volatility under current (2026) environment means quarterly Lessons Memory re-evaluation likely.
+  - Cross-family Thesis dispatch (Editor + Judge + Red Team) PENDING. Lifecycle promotes to 'reviewed' after thesis cycle.
+  - Ed25519 signature once operator and Thesis pass — pending publisher key pin per architecture v7.0.11 §6.
+  - 'scoring_weight_patterns: confirm qualitative-only posture per OQ-6 — corporate sponsorship is rarely scored against published
+    rubric so quantification threshold may be even harder to meet than for grant CLCs (no published rubric to backstop). Document
+    the pattern in v0.2 amendment.'
+  - 'OD-1 (Wave 1 inheritance): admin_risk_term_register §18.6 schema-extension posture — same three-path question as operating_capacity.yaml:
+    (a) remove from CLC, (b) flatten trichotomy, (c) amend §18.5 + §18.6 to sanction across both axes.'
+  - 'OD-2 (Wave 1 inheritance): evidence_weights.<kind>.source_citation §18.6 schema-extension posture — same two-path question
+    as operating_capacity.yaml.'
+  - 'OD-3 (CLC-07 specific): structural difference flag — sponsorship-track payments are NOT charitable transfers. Confirm
+    Tilth seat behavior is correctly differentiated when this CLC fires (e.g., Scribe should default to sponsorship-deck-shape
+    NOT grant-proposal-shape; Logician should engage UBIT/Reg-§1.513-4 + commercial-co-venturer gates). May warrant a §18
+    amendment defining ''capital logic kind'' axis (charitable_transfer vs benefits_exchange vs credit_instrument vs research_contract)
+    above the per-CLC level.'
+  - 'OD-4 (CLC-07 specific): cause-marketing state-by-state commercial-co-venturer registration is operationally complex.
+    Workspace-level KFR class for ''states_where_org_registered_for_solicitation'' + ''states_where_org_registered_as_commercial_coventurer''
+    would be load-bearing for runtime gate behavior. Surface for Wave 2 KFR schema review.'
+  - 'OD-5 (CLC-07 specific): corporate-language volatility means admin_risk_term_register entries should be re-evaluated quarterly
+    (not annually). Surface for Lessons Memory cadence design.'
+  - 'OD-6 (CLC-07 specific): Track B (corporate foundation grants) significantly overlaps with Operating Capacity Operating
+    Capacity / Catalytic Change Catalytic Change rubrics. Runtime CLC-tagging logic may need to handle multi-CLC opportunities
+    (corporate foundation + capacity-building + cause-marketing components). Surface for §18.7 matrix-card phase review when
+    v1.x activates.'
+  - 'OD-7 (NEW Wave 2 Thesis Cycle 1 BOUND): top-level `track_a:` / `track_b:` container restructure proposed by Red Team
+    would cleanly separate sponsorship-as-benefits-exchange (Track A) from corporate-foundation-as-grant (Track B) across
+    underwriting_criteria / evidence_weights / narrative_section_patterns / budget_structure_conventions / common_application_forms
+    / reporting_requirements_typical / commitment_tracking_pattern / common_red_flags. BOUND in this Thesis because it requires
+    §18.6 schema amendment with cross-card reach — CLC-05 Market Access (sale vs membership track), CLC-06 Credit & Underwriting
+    (loan vs grant track), and CLC-07 Sponsorship & Corporate (Track A / Track B) are all dual-mechanism CLCs that would benefit
+    from same structural separation. Surface for Wave 2 close synthesis cross-card fold.'
+  - 'OD-8 (NEW Wave 2 Thesis Cycle 1 DEFER-v1.x): per-commitment `track: A|B` attribute on commitment_tracking_pattern.typical_commitments_extracted[*]
+    proposed by Red Team. Legitimate but requires §18.6 schema amendment; applicable to CLC-05/06/07 dual-mechanism CLCs.
+    For v0.1 Beta, narrative measurement_method descriptions disambiguate at point-of-use (e.g., ''TRACK A cause-marketing
+    only:'' prefix on cause_marketing_funds_raised). Surface for v1.x §18.6 amendment cluster.'
+  - 'OD-9 (NEW Wave 2 Thesis Cycle 1 + Cycle 2 fold-cluster): _research_metadata.admin_risk_review_cadence field documents
+    quarterly Lessons Memory re-evaluation expectation for the CLC-07 admin_risk_term_register. Currently flagged extension-proposed
+    via _schema_status pending §18.6 amendment. Surface for §18.6 amendment to formalize per-card admin_risk_review_cadence
+    schema field (default annual; CLC-07 quarterly under current regulatory + political volatility).'
+  conflicts_with_prior_art:
+  - NONE — admin_risk_register.yaml entries for ESG (RED), stakeholder capitalism (YELLOW), sustainability (YELLOW), equity
+    (RED), DEI (RED) reused with consistent severity tiers. CLC-07-specific corporate-language terms (purpose-driven, values-aligned,
+    social impact, cause marketing, B Corp, ethical sourcing, DEI sponsorship) ADDED here; if any belong in workspace-wide
+    register, separate operator decision.
+  surface_ambiguities:
+  - 'Verbatim-quote sourcing: IEG Sponsorship Report (sponsorship.com) cite is to public-facing landing page; full report
+    behind paywall. Verbatim quote is paraphrase-style summary of public-facing positioning rather than direct paywalled-content
+    extraction. Operator should validate before LOCK.'
+  - 'State commercial-co-venturer rules: 5 states enumerated explicitly (CA/FL/MA/NJ/NY); ''20+ additional states'' is qualitative
+    summary. State-by-state authoritative list maintenance is operationally heavy and changes annually — maintained by Multi-State
+    Filer Project + state AG offices. Operator should treat the 5-state explicit list as illustrative + run state-specific
+    check at campaign launch.'
+  - 'Corporate-foundation portal landscape: Cybergrants + Benevity + YourCause + Bonterra are 4 named platforms but consolidation
+    has been rapid (Bonterra acquired Cybergrants 2022 + EveryAction + Network for Good). Naming may be stale by mid-2026.
+    Verify before LOCK.'
+  - 'Track A vs Track B boundary: card handles both tracks but seat behavior at runtime needs explicit branching logic. Scribe-shape
+    decision (sponsorship deck vs foundation proposal) is the load-bearing branch. Surface for blueprint amendment per OD-3.'
+  - 'Admin-risk corporate-language volatility: register reflects 2026-05-15 state. Several entries (ESG, stakeholder capitalism,
+    DEI sponsorship) are in active corporate-language flux — quarterly re-evaluation cadence likely required.'
+  - UBIT analysis for non-trivial sponsorship structures requires tax counsel — card cites IRS regulation + safe harbor +
+    screening questions but explicit operator-counsel-engagement protocol is a deployment-side decision.
+  - Sponsorship-tier amounts ($50k title / $25k presenting / etc.) are ILLUSTRATIVE — actual market depends entirely on event
+    size + audience reach + sponsor sector. Operator must set tiers based on deliverable benefits + comparable-event benchmarking,
+    not the card's pattern alone.
+  review_readiness: READY

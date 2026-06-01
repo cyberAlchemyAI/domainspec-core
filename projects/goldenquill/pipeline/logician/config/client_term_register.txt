@@ -1,0 +1,38 @@
+# Client-term leak register — hard fail.
+# One term per line. Case-insensitive match, whole-word boundary.
+# Any of these appearing in a product-scope prompt or a seat output is a
+# Law 3 violation: client-specific data leaking into a product-level
+# artifact.
+#
+# Lines starting with '#' are ignored. Blank lines ignored.
+#
+# This register is the source of truth for the product-vs-operator boundary.
+# If a name belongs to a specific operator's workspace, it belongs here.
+# If a concept is genuinely product-level (e.g. "grant", "RFA"), it does NOT.
+
+# Operator names
+Josh
+Daniel Crawford
+
+# Client orgs
+MycoSymbiotics
+MycoSymbiotics Cooperative
+MycoSymbiotics Inc
+Mystic Mamas
+Run a Muck Farm
+Run-a-Muck
+FIT Farms
+FIT
+MycoFest
+
+# Fiscal sponsors and intermediaries
+KDC
+Keystone Development Center
+
+# Sector-specific terms (operator's sector, not the product's scope)
+mushroom
+mushrooms
+mycology
+mycoremediation
+mycelium
+mycosymbiotic

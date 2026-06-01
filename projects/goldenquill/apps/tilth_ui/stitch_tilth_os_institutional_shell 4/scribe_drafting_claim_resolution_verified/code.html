@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scribe Drafting Workspace - Forensic Alignment</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-primary-fixed-variant": "#454747",
+                        "surface-dim": "#081425",
+                        "surface-container": "#152031",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#2a3548",
+                        "surface-container-lowest": "#040e1f",
+                        "on-tertiary-fixed": "#131b2e",
+                        "tertiary-container": "#dae2fd",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "primary-fixed": "#e2e2e2",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-primary-container": "#636565",
+                        "surface-variant": "#2a3548",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "primary-container": "#e2e2e2",
+                        "background": "#081425",
+                        "secondary": "#b7c8e1",
+                        "on-error": "#690005",
+                        "inverse-on-surface": "#263143",
+                        "outline": "#8e9192",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-secondary": "#213145",
+                        "on-background": "#d8e3fb",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "primary": "#ffffff",
+                        "on-tertiary-container": "#5c647a",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-tint": "#c6c6c7",
+                        "on-secondary-container": "#a9bad3",
+                        "surface": "#081425",
+                        "secondary-container": "#3a4a5f",
+                        "outline-variant": "#444748",
+                        "on-surface": "#d8e3fb",
+                        "surface-container-high": "#1f2a3c",
+                        "on-tertiary": "#283044",
+                        "inverse-surface": "#d8e3fb",
+                        "error-container": "#93000a",
+                        "surface-bright": "#2f3a4c",
+                        "on-primary": "#2f3131",
+                        "on-secondary-fixed": "#0b1c30",
+                        "inverse-primary": "#5d5f5f",
+                        "surface-container-low": "#111c2d",
+                        "tertiary": "#ffffff",
+                        "on-surface-variant": "#c4c7c8",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sidebar-width": "240px",
+                        "gutter": "1px",
+                        "container-padding": "16px",
+                        "unit": "4px",
+                        "panel-gap": "8px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "serif": ["Georgia", "serif"] // Added for central canvas
+                    },
+                    "fontSize": {
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Specific styling to enforce 1px borders and grid behavior */
+        body {
+            background-color: #020617; /* Base level 0 */
+            color: #d8e3fb;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .panel {
+            background-color: #0F172A; /* Level 1 */
+            border: 1px solid #334155; /* Slate border */
+            border-radius: 0;
+        }
+        
+        .nested-panel {
+            background-color: #1E293B; /* Level 2 */
+            border: 1px solid #334155;
+            border-radius: 0;
+        }
+        
+        /* Thin scrollbars for data density */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
+        .highlight-rubric {
+            background-color: rgba(34, 197, 94, 0.2); /* Positive green tint */
+            border-bottom: 1px solid #22C55E;
+        }
+        
+        .highlight-conflict {
+            background-color: rgba(239, 68, 68, 0.2); /* Error red tint */
+            border-bottom: 1px dashed #EF4444;
+        }
+        
+        /* Central Canvas specific typography */
+        .serif-canvas {
+            font-family: 'Georgia', serif;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #f1f5f9;
+        }
+    </style>
+</head>
+<body class="bg-[#020617] font-body-md antialiased text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-surface-container-low dark:bg-surface-container-low flex justify-between items-center w-full px-container-padding gap-panel-gap docked full-width top-0 h-14 border-b border-outline-variant transition-none shrink-0 z-10 relative">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tight">GOLDEN QUILL</span>
+</div>
+<div class="flex-1 flex justify-start pl-8">
+<!-- Search bar omitted based on layout needs, but "on_left" logic noted -->
+<div class="flex items-center gap-2 text-on-surface-variant font-data-mono text-data-mono">
+<span class="material-symbols-outlined text-sm">sync</span>
+<span>Syncing with Evidence Graph...</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="font-data-mono text-data-mono text-on-surface-variant hover:bg-surface-container-highest p-1 rounded-none flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</button>
+<button class="font-data-mono text-data-mono text-on-surface-variant hover:bg-surface-container-highest p-1 rounded-none flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="vpn_key">vpn_key</span>
+</button>
+<button class="font-data-mono text-data-mono text-on-surface-variant hover:bg-surface-container-highest p-1 rounded-none flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full border-r border-outline-variant bg-surface-container dark:bg-surface-container docked left-0 h-full w-sidebar-width transition-none shrink-0 z-10 relative">
+<div class="p-container-padding border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-variant border border-outline flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface text-sm">account_tree</span>
+</div>
+<div>
+<div class="font-data-mono text-data-mono text-primary truncate" title="FIT Farms">FIT Farms</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-1">FRONTIER POSTURE</div>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<a class="flex items-center gap-3 px-container-padding py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="home">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="search_insights">search_insights</span>
+<span>Scout</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="input">input</span>
+<span>Intake</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="fact_check">fact_check</span>
+<span>Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="account_tree">account_tree</span>
+<span>Module Mapper</span>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-3 px-container-padding py-2 font-label-caps text-label-caps bg-surface-container-highest text-primary border-l-2 border-primary transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="edit_note">edit_note</span>
+<span>Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="payments">payments</span>
+<span>Budget</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="gavel">gavel</span>
+<span>Judge</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="security">security</span>
+<span>Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="history_edu">history_edu</span>
+<span>Final Packet Authorization</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="policy">policy</span>
+<span>Audit</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="credit_card">credit_card</span>
+<span>Cards</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="fingerprint">fingerprint</span>
+<span>FIDs</span>
+</a>
+</div>
+<div class="mt-auto border-t border-outline-variant">
+<a class="flex items-center gap-3 px-container-padding py-3 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span>Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Workstation Area -->
+<main class="flex-1 flex overflow-hidden bg-[#020617] relative pb-8"> <!-- pb-8 to accommodate footer -->
+<!-- Central Canvas: Project Narrative -->
+<div class="flex-1 flex flex-col p-unit overflow-hidden">
+<div class="panel flex-1 flex flex-col overflow-hidden m-unit relative">
+<!-- Canvas Toolbar -->
+<div class="h-10 border-b border-[#334155] flex items-center justify-between px-container-padding bg-[#0F172A]">
+<div class="font-data-mono text-data-mono text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">subject</span>
+                            PROJECT_NARRATIVE_V4.DRF
+                        </div>
+<div class="flex gap-2">
+<button class="bg-primary text-black font-label-caps text-label-caps px-4 py-1 h-6 flex items-center gap-1 hover:bg-primary-fixed-dim rounded-none transition-none">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">cloud_upload</span>
+                                COMMIT ALIGNMENT
+                            </button>
+</div>
+</div>
+<!-- Editor Area -->
+<div class="flex-1 overflow-y-auto p-8 relative serif-canvas bg-[#111827]">
+<!-- Floating Editor Tools -->
+<div class="absolute top-4 right-4 flex gap-1 bg-[#1E293B] border border-[#334155] p-1">
+<button class="p-1 text-on-surface-variant hover:text-primary transition-none" title="Forensic View Active">
+<span class="material-symbols-outlined text-sm text-[#22C55E]">visibility</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary transition-none" title="Compare Versions">
+<span class="material-symbols-outlined text-sm">compare_arrows</span>
+</button>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary mb-6 border-b border-[#334155] pb-2">3.0 Operational Management Plan</h1>
+<p class="mb-4">
+                            The proposed initiative requires a structured approach to regional resource distribution. 
+                            <span class="highlight-rubric relative group cursor-pointer">
+                                Our management framework ensures comprehensive oversight of all local nodes, leveraging real-time telemetry to optimize supply chains and minimize latency in critical response sectors.
+                                <!-- Tooltip hook -->
+<span class="absolute -top-6 left-0 bg-[#0F172A] border border-[#22C55E] text-[#22C55E] font-data-mono text-[10px] px-1 whitespace-nowrap hidden group-hover:block z-20">Crit 2.1 Aligned</span>
+</span>
+</p>
+<p class="mb-4">
+                            To facilitate this expansion, we have established key partnerships with regional entities capable of supporting high-volume operations. Specifically, 
+                            <span class="relative group cursor-pointer border border-transparent p-1 -m-1 highlight-rubric">Partner A has committed to dedicating 25% of their operational capacity exclusively to this initiative, ensuring unhindered throughput for initial deployment phases.<span class="absolute -top-8 left-0 bg-[#0F172A] border border-[#22C55E] text-[#22C55E] font-data-mono text-[10px] p-1 whitespace-nowrap hidden group-hover:flex items-center gap-1 z-20"><span class="material-symbols-outlined text-[12px]">check_circle</span>ALIGNED WITH EVIDENCE</span></span>
+                            This commitment forms the foundation of our year-one logistical strategy.
+                        </p>
+<p class="mb-4 text-on-surface-variant">
+                            Further documentation detailing contingency protocols and secondary supply routes will be finalized pending the approval of Phase 2 funding allocations.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Right Inspector: Forensic Alignment -->
+<aside class="w-[320px] flex flex-col p-unit overflow-hidden border-l border-[#334155] bg-[#0F172A]">
+<div class="flex items-center gap-2 p-3 border-b border-[#334155]">
+<span class="material-symbols-outlined text-primary text-sm">troubleshoot</span>
+<span class="font-label-caps text-label-caps text-primary tracking-widest">FORENSIC ALIGNMENT</span>
+</div>
+<div class="flex-1 overflow-y-auto">
+<!-- Rubric Impact Module -->
+<div class="p-3 border-b border-[#334155]">
+<div class="flex justify-between items-center mb-2">
+<span class="font-data-mono text-[11px] text-[#64748B] uppercase">Rubric Impact</span>
+<span class="font-data-mono text-[11px] text-primary">Score: 9/10</span>
+</div>
+<div class="nested-panel p-3 mb-2 border-l-2 border-[#22C55E]">
+<div class="font-body-sm text-primary mb-1">Score: 9/10</div>
+<div class="font-data-mono text-[10px] text-on-surface-variant mb-2">
+                                Evaluates structural logic and resource allocation efficiency.
+                            </div>
+<div class="flex gap-2">
+<span class="bg-[#020617] border border-[#22C55E] text-[#22C55E] font-data-mono text-[9px] px-1">SATISFIED</span>
+<span class="bg-[#020617] border border-[#334155] text-on-surface-variant font-data-mono text-[9px] px-1">CONFIDENCE: HIGH</span>
+</div>
+</div>
+</div>
+<!-- Evidence Sync Module (Conflict) -->
+<div class="p-3 border-b border-[#334155] bg-green-500/5"><div class="flex justify-between items-center mb-2"><span class="font-data-mono text-[11px] text-[#22C55E] uppercase flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">verified</span>SYNC RESOLVED</span><span class="font-data-mono text-[11px] text-on-surface-variant">SYNCED</span></div><div class="nested-panel p-3 border border-[#22C55E] bg-[#1E293B]/50 flex items-center gap-3"><span class="material-symbols-outlined text-[#22C55E]">check_circle</span><div class="font-body-sm text-on-surface">Narrative aligned with MOU_PartnerA.pdf</div></div></div>
+<!-- Terminal/Log Module at bottom of inspector -->
+<div class="mt-auto">
+<div class="bg-black border-t border-[#334155] p-2 h-32 flex flex-col">
+<div class="font-label-caps text-[10px] text-[#64748B] mb-1">EVIDENCE GRAPH TERMINAL</div>
+<div class="font-data-mono text-[10px] text-secondary overflow-y-auto flex-1">
+<div>[14:22:01] Parsing narrative_v4.drf...</div>
+<div>[14:22:03] Cross-referencing entities...</div>
+<div>[14:22:05] Checking rubric nodes (2/15)</div>
+<div class="text-[#22C55E]">[14:22:06] Match: Crit 2.1 mapped to Paragraph 2</div>
+<div>[14:22:08] Ingesting recent uploads (MOU_PartnerA.pdf)</div>
+<div>[14:22:09] Extracting capacity metrics...</div>
+<div class="text-[#EF4444]">[14:22:10] CONFLICT DETECTED: value mismatch (40 vs 25)</div>
+<div class="text-primary mt-1">&gt; Awaiting operator input_</div>
+<div class="text-primary">[14:25:02] RESOLVED: Claim updated to 25% | Hash match verified.</div></div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</div>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50 bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant docked bottom-0 full-width h-8 transition-none text-on-secondary-container font-data-mono text-data-mono">
+<div class="font-label-caps text-label-caps text-on-surface">NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED</div>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-none" href="#">Machine ID: 992-QX</a>
+<a class="hover:text-primary transition-none" href="#">Audit Log</a>
+<a class="hover:text-primary transition-none" href="#">System Health</a>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GOLDEN QUILL - Scout Mission Control</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Inter:wght@400;500;600;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --paper: #F5F1E8;
+            --ink: #1A1C1E;
+            --terracotta: #B8523A;
+            --sage: #7A8C70;
+            --rust: #9C3C28;
+            --sidebar-width: 240px;
+        }
+        
+        body { font-family: 'Inter', sans-serif; background-color: var(--ink); color: var(--paper); }
+        .font-serif-reading { font-family: 'Source+Serif+4', serif; }
+        .font-data-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 18px;
+        }
+
+        .workstation-grid {
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr 340px;
+            grid-template-rows: 56px 1fr 32px;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        .bg-terracotta { background-color: var(--terracotta); }
+        .bg-sage { background-color: var(--sage); }
+        .bg-rust { background-color: var(--rust); }
+        .text-sage { color: var(--sage); }
+        .text-rust { color: var(--rust); }
+        .border-sage { border-color: var(--sage); }
+        .border-rust { border-color: var(--rust); }
+
+        .focus-ring:focus-visible {
+            outline: 2px solid var(--terracotta);
+            outline-offset: 2px;
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: var(--ink); }
+        ::-webkit-scrollbar-thumb { background: #444748; }
+
+        .command-panel-state { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "paper": "#F5F1E8",
+                "ink": "#1A1C1E",
+                "terracotta": "#B8523A",
+                "sage": "#7A8C70",
+                "rust": "#9C3C28",
+                "surface-container": "#242628",
+                "outline-variant": "#3D4043"
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="select-none">
+<div aria-label="Scout Mission Control Workstation" class="workstation-grid" role="application">
+<!-- TOP APP BAR -->
+<header class="col-span-3 h-14 bg-ink border-b border-outline-variant flex justify-between items-center px-4 gap-4 z-50" role="banner">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold tracking-tight text-paper">GOLDEN QUILL</span>
+<div class="h-6 w-px bg-outline-variant"></div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 px-2 py-0.5 bg-surface-container border border-outline-variant rounded-sm">
+<span class="text-[10px] font-bold text-sage uppercase">AppliedAs:</span>
+<span class="font-data-mono text-xs text-paper">ADMIN_STRAT</span>
+</div>
+<div class="flex items-center gap-2 px-2 py-0.5 bg-terracotta/20 border border-terracotta/40 rounded-sm">
+<span class="text-[10px] font-bold text-terracotta uppercase">Posture:</span>
+<span class="font-data-mono text-xs text-paper">HYBRID</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold opacity-40 uppercase">Identity:</span>
+<span class="font-data-mono text-xs bg-white/5 px-2 py-0.5">FIT Farms LLC</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 bg-sage/10 px-3 py-1 border border-sage/30 rounded-sm">
+<span class="material-symbols-outlined text-sage" data-icon="verified_user">verified_user</span>
+<span class="font-data-mono text-xs text-sage">AUDIT_ACTIVE</span>
+</div>
+<div class="flex items-center gap-2 text-paper/60">
+<span class="material-symbols-outlined" data-icon="vpn_key">vpn_key</span>
+<span class="font-data-mono text-xs uppercase">Node:0x82...25519</span>
+</div>
+<button aria-label="User Profile" class="material-symbols-outlined text-paper/60 hover:text-paper p-1 focus-ring" data-icon="account_circle">account_circle</button>
+</div>
+</header>
+<!-- SIDE NAV BAR -->
+<aside aria-label="Main Navigation" class="row-start-2 bg-ink border-r border-outline-variant flex flex-col h-full" role="navigation">
+<div class="p-4 border-b border-outline-variant mb-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-paper/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-paper" data-icon="agriculture">agriculture</span>
+</div>
+<div>
+<div class="text-[11px] font-bold text-paper uppercase tracking-wider">FIT Farms</div>
+<div class="font-data-mono text-[10px] text-paper/40">FRONTIER_NODE</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto">
+<ul class="space-y-px">
+<li><a class="flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-paper/60 hover:bg-white/5 focus-ring" href="#"><span class="material-symbols-outlined" data-icon="home">home</span> HOME</a></li>
+<li><a aria-current="page" class="flex items-center gap-3 px-4 py-3 text-[11px] font-bold bg-white/5 text-paper border-l-2 border-terracotta focus-ring" href="#"><span class="material-symbols-outlined" data-icon="search_insights">search_insights</span> SCOUT</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-paper/60 hover:bg-white/5 focus-ring" href="#"><span class="material-symbols-outlined" data-icon="input">input</span> INTAKE</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-paper/60 hover:bg-white/5 focus-ring" href="#"><span class="material-symbols-outlined" data-icon="fact_check">fact_check</span> ELIGIBILITY</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-paper/60 hover:bg-white/5 focus-ring" href="#"><span class="material-symbols-outlined" data-icon="account_tree">account_tree</span> MODULES</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-paper/60 hover:bg-white/5 focus-ring" href="#"><span class="material-symbols-outlined" data-icon="edit_note">edit_note</span> DRAFTING</a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-paper/60 hover:bg-white/5 focus-ring" href="#"><span class="material-symbols-outlined" data-icon="payments">payments</span> BUDGET</a></li>
+</ul>
+</nav>
+<div class="mt-auto border-t border-outline-variant">
+<a class="flex items-center gap-3 px-4 py-3 text-[11px] font-bold text-paper/60 hover:bg-white/5 focus-ring" href="#"><span class="material-symbols-outlined" data-icon="settings">settings</span> NODE SETTINGS</a>
+</div>
+</aside>
+<!-- MAIN CANVAS -->
+<main class="row-start-2 overflow-y-auto bg-[#121416] flex flex-col relative" role="main">
+<div class="p-8 space-y-8 max-w-5xl mx-auto w-full">
+<header class="space-y-2 border-l-4 border-terracotta pl-6">
+<h1 class="text-3xl font-bold text-paper tracking-tight">Scout Mission Control</h1>
+<p class="font-serif-reading italic text-paper/60 text-lg">Automated Semantic Alignment &amp; Mission Horizon Discovery</p>
+</header>
+<!-- COMMAND RESULT PANEL (Global Status) -->
+<div aria-live="polite" class="bg-surface-container border border-outline-variant p-4 flex items-center justify-between" id="commandResultPanel">
+<div class="flex items-center gap-4">
+<!-- PENDING STATE -->
+<div class="flex items-center gap-3" id="state-pending">
+<svg class="animate-spin h-5 w-5 text-terracotta" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+<path class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path>
+</svg>
+<span class="font-data-mono text-xs">AWAITING_OPERATOR_SIGNATURE...</span>
+</div>
+<!-- SUCCESS STATE (Hidden) -->
+<div class="hidden flex items-center gap-3" id="state-accepted">
+<span class="material-symbols-outlined text-sage" data-icon="check_circle">check_circle</span>
+<span class="font-data-mono text-xs text-sage">MISSION_AUTHORIZED_AND_COMMITTED</span>
+</div>
+<!-- REJECTED STATE (Hidden) -->
+<div class="hidden flex items-center gap-3" id="state-rejected">
+<span class="material-symbols-outlined text-rust" data-icon="error">error</span>
+<span class="font-data-mono text-xs text-rust">COMMAND_REJECTED: INVALID_SIG</span>
+</div>
+</div>
+<button class="text-[10px] font-bold text-paper/40 hover:text-paper uppercase focus-ring" onclick="resetStatus()">Clear Log</button>
+</div>
+<!-- MATURITY GRID -->
+<section aria-labelledby="maturity-heading" class="bg-ink border border-outline-variant">
+<div class="px-6 py-3 border-b border-outline-variant flex justify-between items-center bg-white/5">
+<h2 class="text-[11px] font-bold text-paper/60 uppercase" id="maturity-heading">Node Maturity Assessment</h2>
+<span class="font-data-mono text-[11px] text-sage">VERIFIED_STABLE</span>
+</div>
+<div class="grid grid-cols-4 divide-x divide-outline-variant h-28">
+<div class="p-4 flex flex-col justify-between">
+<span class="text-[10px] font-bold opacity-40 uppercase">Identity</span>
+<span class="font-data-mono text-xs text-paper">9942-FF</span>
+</div>
+<div class="p-4 flex flex-col justify-between">
+<span class="text-[10px] font-bold opacity-40 uppercase">Capital</span>
+<span class="font-data-mono text-xs text-sage">AUDITED_Q4</span>
+</div>
+<div class="p-4 flex flex-col justify-between">
+<span class="text-[10px] font-bold opacity-40 uppercase">Evidence</span>
+<span class="font-data-mono text-xs text-paper">82_SYNCED</span>
+</div>
+<div class="p-4 flex flex-col justify-between bg-white/[0.02]">
+<span class="text-[10px] font-bold opacity-40 uppercase">Register</span>
+<span class="font-data-mono text-xs text-sage">WHITELISTED</span>
+</div>
+</div>
+</section>
+<!-- SEARCH INTERFACE -->
+<section aria-labelledby="search-heading" class="space-y-6">
+<div class="space-y-2">
+<h2 class="text-[11px] font-bold text-paper/60 uppercase tracking-widest" id="search-heading">Mission Horizon Discovery</h2>
+<div class="relative">
+<input aria-label="Search missions" class="w-full bg-ink border border-outline-variant p-4 font-serif-reading text-xl text-paper placeholder:text-paper/20 focus:border-terracotta focus:ring-0 outline-none focus-ring" placeholder="Identify Programs, Foundations, and RFA Registers..." type="text"/>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 flex gap-4 items-center">
+<span class="font-data-mono text-[10px] text-paper/40">ENGINE_READY</span>
+<span class="material-symbols-outlined text-terracotta" data-icon="search">search</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="space-y-4">
+<h3 class="text-[11px] font-bold text-paper/40 border-b border-outline-variant pb-2 uppercase">Semantic Alignment Tags</h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1 bg-terracotta/10 border border-terracotta text-terracotta font-data-mono text-[11px] hover:bg-terracotta hover:text-paper transition-all focus-ring">regenerative agriculture</button>
+<button class="px-3 py-1 bg-terracotta/10 border border-terracotta text-terracotta font-data-mono text-[11px] hover:bg-terracotta hover:text-paper transition-all focus-ring">decentralized production</button>
+<button class="px-3 py-1 bg-white/5 border border-outline-variant text-paper/60 font-data-mono text-[11px] hover:border-terracotta transition-all focus-ring">bio-regional supply</button>
+</div>
+</div>
+<div class="space-y-4">
+<h3 class="text-[11px] font-bold text-paper/40 border-b border-outline-variant pb-2 uppercase">Operator Definitions</h3>
+<div class="flex flex-wrap gap-2">
+<div class="px-3 py-1 bg-ink border border-outline-variant flex items-center gap-2">
+<span class="font-data-mono text-[11px] text-paper/60">frontier_tech</span>
+<button aria-label="Remove tag" class="material-symbols-outlined text-[14px] hover:text-rust" data-icon="close">close</button>
+</div>
+<button class="px-3 py-1 border border-outline-variant border-dashed flex items-center gap-2 hover:bg-white/5 transition-all focus-ring">
+<span class="material-symbols-outlined text-[14px]" data-icon="add">add</span>
+<span class="text-[11px] font-bold opacity-60">ADD_TAG</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- TERMINAL -->
+<div aria-live="polite" class="bg-black p-4 border border-outline-variant h-36 overflow-y-auto rounded-sm" role="log">
+<div class="font-data-mono text-[11px] space-y-1">
+<div class="flex gap-4">
+<span class="text-sage">[14:42:01]</span>
+<span class="text-paper/40">SYSTEM:</span>
+<span class="text-paper/80">ONBOARDING_VERIFIED_SUCCESS</span>
+</div>
+<div class="flex gap-4">
+<span class="text-sage">[14:42:05]</span>
+<span class="text-paper/40">RESOLVER:</span>
+<span class="text-paper/80">Cross-referencing 4 semantic pivots for FIT Farms</span>
+</div>
+<div class="flex gap-4">
+<span class="text-terracotta">[14:43:10]</span>
+<span class="text-paper/40">AWAITING:</span>
+<span class="text-paper/80">Operator signature required to initiate deep scan.</span>
+</div>
+<div class="animate-pulse flex gap-2">
+<span class="text-terracotta">&gt;</span>
+<span class="w-2 h-4 bg-terracotta"></span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- RIGHT INSPECTOR (Signing Ceremony Skeleton) -->
+<aside aria-label="Signing Inspector" class="row-start-2 bg-ink border-l border-outline-variant flex flex-col p-4 space-y-6 overflow-y-auto" role="complementary">
+<h2 class="text-[11px] font-bold text-paper border-b border-outline-variant pb-2 uppercase tracking-widest">Signing Ceremony</h2>
+<div class="space-y-6">
+<!-- RATIONALE -->
+<div class="bg-surface-container border border-outline-variant p-4 space-y-3">
+<h3 class="text-[10px] font-bold text-paper/40 uppercase">Mission Rationale</h3>
+<p class="font-serif-reading text-sm text-paper/80 leading-relaxed">
+                    Authorization grants the Scout Engine permission to query external registers using the node's cryptographic identity. 94% alignment detected.
+                </p>
+</div>
+<!-- CEREMONY FORM -->
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="text-[10px] font-bold text-paper/40 uppercase" for="key-select">Select Signing Key</label>
+<select class="w-full bg-ink border border-outline-variant text-xs p-2 font-data-mono focus:border-terracotta focus:ring-0 focus-ring" id="key-select">
+<option>ED25519_PRIMARY_0x82...25519</option>
+<option>HARDWARE_TREZOR_0x44...991</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold text-paper/40 uppercase" for="witness-field">Witness/Memo (Optional)</label>
+<input class="w-full bg-ink border border-outline-variant text-xs p-2 font-data-mono focus:border-terracotta focus:ring-0 focus-ring" id="witness-field" placeholder="Audit trail note..." type="text"/>
+</div>
+<div class="space-y-3">
+<label class="text-[10px] font-bold text-paper/40 uppercase">Readiness Gates</label>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-[10px] font-data-mono">
+<span class="text-paper/40">Evidence Integrity</span>
+<span class="text-sage">VALID</span>
+</div>
+<div class="w-full bg-white/5 h-1">
+<div class="bg-sage h-full w-full"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-[10px] font-data-mono">
+<span class="text-paper/40">Credential Proxy</span>
+<span class="text-sage">READY</span>
+</div>
+<div class="w-full bg-white/5 h-1">
+<div class="bg-sage h-full w-[85%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-6 space-y-3">
+<div class="flex items-center gap-2 justify-center py-2 bg-rust/10 border border-rust/20 rounded-sm">
+<span class="material-symbols-outlined text-[14px] text-rust" data-icon="lock">lock</span>
+<span class="font-data-mono text-[10px] text-rust uppercase">Cryptographic Lock Engaged</span>
+</div>
+<button class="w-full bg-terracotta text-paper py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-terracotta/90 active:scale-[0.98] transition-all border-b-4 border-black/30 focus-ring" id="auth-button" onclick="executeCommit()">
+                Authorize &amp; Commit
+            </button>
+</div>
+</aside>
+<!-- FOOTER -->
+<footer class="col-span-3 bg-ink border-t border-outline-variant flex justify-between items-center px-4 py-1 z-50 text-[10px]" role="contentinfo">
+<div class="flex items-center gap-4">
+<span class="font-bold opacity-40 uppercase">Node ID:</span>
+<span class="font-data-mono text-paper/80 uppercase">0x82f1...ed25519</span>
+<div class="w-px h-4 bg-outline-variant"></div>
+<span class="font-data-mono text-sage uppercase">STATUS: LOCAL_OPTIMIZED_V3</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-data-mono text-paper/40">System Architecture: <span class="text-paper/80">QUILL_QA_V99</span></span>
+<a class="font-bold text-paper/40 hover:text-paper uppercase focus-ring" href="#">Audit Protocol</a>
+<div class="flex items-center gap-2">
+<span class="font-bold text-paper/40 uppercase">Heartbeat</span>
+<span class="w-2 h-2 bg-sage rounded-full animate-pulse shadow-[0_0_8px_rgba(122,140,112,0.6)]"></span>
+</div>
+</div>
+</footer>
+</div>
+<script>
+    function executeCommit() {
+        const btn = document.getElementById('auth-button');
+        const pending = document.getElementById('state-pending');
+        const accepted = document.getElementById('state-accepted');
+        const rejected = document.getElementById('state-rejected');
+        
+        btn.disabled = true;
+        btn.classList.add('opacity-50', 'cursor-not-allowed');
+        
+        // Simulate cycle
+        setTimeout(() => {
+            pending.classList.add('hidden');
+            accepted.classList.remove('hidden');
+            btn.innerHTML = "MISSION_ACTIVE";
+            btn.classList.replace('bg-terracotta', 'bg-sage');
+        }, 2000);
+    }
+
+    function resetStatus() {
+        const pending = document.getElementById('state-pending');
+        const accepted = document.getElementById('state-accepted');
+        const rejected = document.getElementById('state-rejected');
+        const btn = document.getElementById('auth-button');
+
+        pending.classList.remove('hidden');
+        accepted.classList.add('hidden');
+        rejected.classList.add('hidden');
+        
+        btn.disabled = false;
+        btn.classList.remove('opacity-50', 'cursor-not-allowed');
+        btn.classList.replace('bg-sage', 'bg-terracotta');
+        btn.innerHTML = "Authorize & Commit";
+    }
+</script>
+</body></html>

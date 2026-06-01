@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Module Mapper</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-surface": "#d8e3fb",
+                      "tertiary": "#ffffff",
+                      "on-surface": "#d8e3fb",
+                      "outline": "#8e9192",
+                      "surface-container": "#152031",
+                      "secondary": "#b7c8e1",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "inverse-primary": "#5d5f5f",
+                      "surface-container-low": "#111c2d",
+                      "surface": "#081425",
+                      "primary": "#ffffff",
+                      "on-tertiary": "#283044",
+                      "on-primary-container": "#636565",
+                      "surface-container-lowest": "#040e1f",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "primary-fixed-dim": "#c6c6c7",
+                      "on-error": "#690005",
+                      "on-primary-fixed-variant": "#454747",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "background": "#081425",
+                      "surface-dim": "#081425",
+                      "on-background": "#d8e3fb",
+                      "surface-variant": "#2a3548",
+                      "primary-fixed": "#e2e2e2",
+                      "on-tertiary-fixed": "#131b2e",
+                      "on-error-container": "#ffdad6",
+                      "inverse-on-surface": "#263143",
+                      "error": "#ffb4ab",
+                      "on-primary": "#2f3131",
+                      "on-surface-variant": "#c4c7c8",
+                      "on-primary-fixed": "#1a1c1c",
+                      "primary-container": "#e2e2e2",
+                      "surface-tint": "#c6c6c7",
+                      "surface-container-high": "#1f2a3c",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "surface-container-highest": "#2a3548",
+                      "surface-bright": "#2f3a4c",
+                      "tertiary-container": "#dae2fd",
+                      "on-secondary": "#213145",
+                      "outline-variant": "#444748",
+                      "on-tertiary-container": "#5c647a",
+                      "on-secondary-fixed": "#0b1c30",
+                      "secondary-fixed": "#d3e4fe",
+                      "on-secondary-container": "#a9bad3",
+                      "secondary-container": "#3a4a5f",
+                      "tertiary-fixed": "#dae2fd",
+                      "error-container": "#93000a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sidebar-width": "240px",
+                      "panel-gap": "8px",
+                      "container-padding": "16px",
+                      "unit": "4px",
+                      "gutter": "1px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "data-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "label-caps": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-sm": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "data-mono": [
+                              "13px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col font-body-md overflow-hidden antialiased">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-container-padding w-full h-[56px] border-b border-outline-variant bg-surface-container-highest z-20 shrink-0">
+<div class="flex items-center gap-6">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter uppercase">GOLDEN QUILL</span>
+<div class="h-6 w-[1px] bg-outline-variant hidden md:block"></div>
+<div class="hidden md:flex items-center gap-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">APPLIED AS:</span>
+<span class="font-data-mono text-data-mono text-primary bg-surface-container-low px-2 py-1 border border-outline-variant">FIT FARMS LLC</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-2">
+<span class="h-2 w-2 bg-warning-500 rounded-none border border-warning-700" style="background-color: #F59E0B; border-color: #D97706;"></span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">POSTURE: HYBRID</span>
+</div>
+<div class="flex items-center gap-2 px-2 py-1 border border-outline-variant bg-surface-container-low">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-data-mono text-data-mono text-primary">4a3f...b2c8</span>
+</div>
+<div class="flex gap-2">
+<button class="h-8 w-8 flex items-center justify-center border border-outline-variant hover:bg-surface-bright transition-none text-primary">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center border border-outline-variant hover:bg-surface-bright transition-none text-primary">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col w-[220px] h-full border-r border-outline-variant bg-surface-container-low shrink-0 pt-4">
+<div class="px-4 pb-4 mb-2 border-b border-outline-variant">
+<div class="font-headline-md text-headline-md text-primary uppercase mb-1">NODE IDENTITY</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase">POSTURE: SECURE</div>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="flex flex-col">
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span class="font-label-caps text-label-caps uppercase">Home</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span class="font-label-caps text-label-caps uppercase">Scout</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span class="font-label-caps text-label-caps uppercase">Intake</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps uppercase">Eligibility</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-label-caps text-label-caps uppercase">Module Mapper</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span class="font-label-caps text-label-caps uppercase">Drafting</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-caps text-label-caps uppercase">Budget</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps uppercase">Judge</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-label-caps text-label-caps uppercase">Red Team</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">signature</span>
+<span class="font-label-caps text-label-caps uppercase">Sign-Off</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps uppercase">Audit</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">style</span>
+<span class="font-label-caps text-label-caps uppercase">Cards</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>
+<span class="font-label-caps text-label-caps uppercase">FIDs</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps uppercase">Costs</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 bg-surface">
+<!-- Central Work Surface & Inspector Container -->
+<div class="flex-1 flex flex-col lg:flex-row overflow-hidden pb-[32px]">
+<!-- Central Surface: Module Mapper -->
+<div class="flex-1 flex flex-col border-r border-outline-variant overflow-y-auto">
+<!-- Header / Summary -->
+<div class="p-container-padding border-b border-outline-variant bg-surface-container-low shrink-0">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary mb-1">USDA Value-Added Producer Grant (VAPG)</h1>
+<p class="font-data-mono text-data-mono text-on-surface-variant uppercase">RFA-2024-VAPG-001 :: MODULE DEPENDENCY GRAPH</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-primary text-on-primary font-label-caps text-label-caps uppercase border border-primary hover:bg-surface-bright hover:text-primary transition-none flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+                                    Sync Requirements
+                                </button>
+</div>
+</div>
+<!-- Requirement Rollup Stats -->
+<div class="grid grid-cols-4 gap-[1px] bg-outline-variant border border-outline-variant">
+<div class="bg-surface-container p-3 flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Total Weight</span>
+<span class="font-data-mono text-data-mono text-primary text-lg">100/100 PTS</span>
+</div>
+<div class="bg-surface-container p-3 flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Required Length</span>
+<span class="font-data-mono text-data-mono text-primary text-lg">~45 PAGES MAX</span>
+</div>
+<div class="bg-surface-container p-3 flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Evidence Readiness</span>
+<span class="font-data-mono text-data-mono text-warning-500 text-lg" style="color: #F59E0B;">65% COVERAGE</span>
+</div>
+<div class="bg-surface-container p-3 flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Drafting Status</span>
+<span class="font-data-mono text-data-mono text-primary text-lg">IN PROGRESS</span>
+</div>
+</div>
+</div>
+<!-- Section Map (Data Table) -->
+<div class="flex-1 overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-highest border-b border-outline-variant">
+<th class="p-3 font-label-caps text-label-caps text-on-surface-variant uppercase font-normal w-12 text-center">SEQ</th>
+<th class="p-3 font-label-caps text-label-caps text-on-surface-variant uppercase font-normal">Section Module</th>
+<th class="p-3 font-label-caps text-label-caps text-on-surface-variant uppercase font-normal w-24">Weight</th>
+<th class="p-3 font-label-caps text-label-caps text-on-surface-variant uppercase font-normal w-32">Length Constraint</th>
+<th class="p-3 font-label-caps text-label-caps text-on-surface-variant uppercase font-normal w-40">Evidence</th>
+<th class="p-3 font-label-caps text-label-caps text-on-surface-variant uppercase font-normal w-32">Status</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm">
+<!-- Row 1 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant text-center">01</td>
+<td class="p-3 text-primary font-medium">Executive Summary</td>
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant">0/100</td>
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant">1 Page Max</td>
+<td class="p-3">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 border border-outline-variant bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps">
+<span class="h-1.5 w-1.5 bg-success-500 rounded-none" style="background-color: #22C55E;"></span>
+                                            READY
+                                        </div>
+</td>
+<td class="p-3">
+<span class="font-data-mono text-data-mono text-on-surface-variant">DRAFTED</span>
+</td>
+</tr>
+<!-- Row 2 (Active) -->
+<tr class="border-b border-primary bg-surface-container-high transition-none cursor-pointer border-l-2 border-l-primary relative">
+<td class="p-3 font-data-mono text-data-mono text-primary text-center">02</td>
+<td class="p-3 text-primary font-bold">Project Eligibility &amp; Methodology</td>
+<td class="p-3 font-data-mono text-data-mono text-primary">20/100</td>
+<td class="p-3 font-data-mono text-data-mono text-primary">10 Pages Max</td>
+<td class="p-3">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 border border-warning-700 bg-surface-container-low text-primary font-label-caps text-label-caps" style="border-color: #D97706;">
+<span class="h-1.5 w-1.5 bg-warning-500 rounded-none" style="background-color: #F59E0B;"></span>
+                                            PARTIAL (2/3)
+                                        </div>
+</td>
+<td class="p-3">
+<span class="font-data-mono text-data-mono text-primary border-b border-primary border-dashed">IN PROGRESS</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant text-center">03</td>
+<td class="p-3 text-primary font-medium">Business Plan &amp; Feasibility</td>
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant">40/100</td>
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant">15 Pages Max</td>
+<td class="p-3">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 border border-success-700 bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps" style="border-color: #15803D;">
+<span class="h-1.5 w-1.5 bg-success-500 rounded-none" style="background-color: #22C55E;"></span>
+                                            READY (4/4)
+                                        </div>
+</td>
+<td class="p-3">
+<span class="font-data-mono text-data-mono text-on-surface-variant">PENDING</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant text-center">04</td>
+<td class="p-3 text-primary font-medium">Budget Narrative &amp; Justification</td>
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant">25/100</td>
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant">10 Pages Max</td>
+<td class="p-3">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 border border-error-700 bg-surface-container-low text-error font-label-caps text-label-caps" style="border-color: #B91C1C;">
+<span class="h-1.5 w-1.5 bg-error rounded-none" style="background-color: #EF4444;"></span>
+                                            MISSING (0/2)
+                                        </div>
+</td>
+<td class="p-3">
+<span class="font-data-mono text-data-mono text-on-surface-variant">BLOCKED</span>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant text-center">05</td>
+<td class="p-3 text-primary font-medium">Work Plan &amp; Timeline</td>
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant">15/100</td>
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant">5 Pages Max</td>
+<td class="p-3">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 border border-outline-variant bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps">
+<span class="h-1.5 w-1.5 bg-success-500 rounded-none" style="background-color: #22C55E;"></span>
+                                            READY (1/1)
+                                        </div>
+</td>
+<td class="p-3">
+<span class="font-data-mono text-data-mono text-on-surface-variant">PENDING</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Inspector (Requirement Detail) -->
+<div class="w-[400px] flex flex-col bg-surface-container-low shrink-0 border-l border-outline-variant hidden xl:flex">
+<div class="p-4 border-b border-outline-variant bg-surface-container-highest flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-primary uppercase">Inspector :: Module 02</span>
+<button class="text-on-surface-variant hover:text-primary transition-none">
+<span class="material-symbols-outlined text-[18px]">close_fullscreen</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-6">
+<!-- Header -->
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-2">Project Eligibility &amp; Methodology</h2>
+<div class="flex gap-2 flex-wrap">
+<span class="px-2 py-1 border border-outline-variant bg-surface text-on-surface-variant font-data-mono text-data-mono">WT: 20 PTS</span>
+<span class="px-2 py-1 border border-outline-variant bg-surface text-on-surface-variant font-data-mono text-data-mono">MAX: 10 PGS</span>
+<span class="px-2 py-1 border border-warning-700 bg-surface text-warning-500 font-data-mono text-data-mono" style="color: #F59E0B;">STATUS: IN PROGRESS</span>
+</div>
+</div>
+<!-- Operational Metadata -->
+<div class="border border-outline-variant bg-surface p-3 space-y-3">
+<div class="flex justify-between items-center border-b border-outline-variant pb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Sensitivity</span>
+<span class="font-data-mono text-data-mono text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                                    FID-LOCKED
+                                </span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Recommended Agent</span>
+<span class="font-data-mono text-data-mono text-primary flex items-center gap-1 border border-primary px-1.5 py-0.5 bg-surface-container-highest">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+                                    LOGICIAN-04
+                                </span>
+</div>
+</div>
+<!-- RFA Constraints -->
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase border-b border-outline-variant pb-2 mb-3">RFA Constraints (Parsed)</h3>
+<div class="space-y-3 font-body-sm text-body-sm text-on-surface">
+<p class="pl-3 border-l-2 border-outline-variant">Applicant must explicitly define the methodology used to separate value-added agricultural production from standard commodity production.</p>
+<p class="pl-3 border-l-2 border-outline-variant">Must include a clear description of the independent producer status, backed by Schedule F or equivalent tax documentation.</p>
+<p class="pl-3 border-l-2 border-outline-variant">Expansion of customer base must be quantified with projected metrics over a 3-year horizon.</p>
+</div>
+</div>
+<!-- Required Evidence -->
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase border-b border-outline-variant pb-2 mb-3 flex justify-between">
+<span>Required Evidence Attachments</span>
+<span class="text-warning-500" style="color: #F59E0B;">(2/3)</span>
+</h3>
+<ul class="space-y-2">
+<li class="flex items-start gap-2 border border-outline-variant p-2 bg-surface">
+<span class="material-symbols-outlined text-[16px] text-success-500 mt-0.5" style="color: #22C55E;">check_box</span>
+<div class="flex-1 min-w-0">
+<div class="font-data-mono text-data-mono text-primary truncate">Entity_Formation_Docs.pdf</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-1">Verified: 2024-05-12T14:32Z</div>
+</div>
+</li>
+<li class="flex items-start gap-2 border border-outline-variant p-2 bg-surface">
+<span class="material-symbols-outlined text-[16px] text-success-500 mt-0.5" style="color: #22C55E;">check_box</span>
+<div class="flex-1 min-w-0">
+<div class="font-data-mono text-data-mono text-primary truncate">Methodology_Statement_v2.docx</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-1">Verified: 2024-05-14T09:15Z</div>
+</div>
+</li>
+<li class="flex items-start gap-2 border border-warning-700 p-2 bg-surface" style="border-color: #D97706;">
+<span class="material-symbols-outlined text-[16px] text-warning-500 mt-0.5" style="color: #F59E0B;">warning</span>
+<div class="flex-1 min-w-0">
+<div class="font-data-mono text-data-mono text-warning-500 truncate" style="color: #F59E0B;">2023_Tax_Schedule_F.pdf</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-1">Status: MISSING - REQUIRED FOR FID</div>
+</div>
+<button class="px-2 py-1 border border-outline-variant hover:bg-surface-bright transition-none font-label-caps text-label-caps text-primary">UPLOAD</button>
+</li>
+</ul>
+</div>
+<!-- Action -->
+<div class="pt-4 border-t border-outline-variant">
+<button class="w-full py-2 bg-primary text-on-primary font-label-caps text-label-caps uppercase border border-primary hover:bg-surface-bright hover:text-primary transition-none flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">edit_document</span>
+                                Open in Drafting
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="flex items-center justify-between px-4 w-full h-[32px] border-t border-outline-variant bg-surface-container-lowest fixed bottom-0 z-50">
+<div class="font-label-caps text-label-caps text-primary uppercase">NODE_FINALITY: GOLD-BURNISHED</div>
+<div class="flex items-center gap-6">
+<span class="font-data-mono text-data-mono text-on-surface-variant flex items-center gap-2">
+<span class="h-2 w-2 bg-success-500 rounded-none" style="background-color: #22C55E;"></span>
+                fit-farms-pgh-001 :: OPERATIONAL
+            </span>
+<div class="h-3 w-[1px] bg-outline-variant"></div>
+<div class="flex gap-4">
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none uppercase" href="#">SYSTEM_STATUS</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none uppercase" href="#">AUDIT_LOG</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none uppercase" href="#">FID_0x2A</a>
+</div>
+</div>
+</footer>
+</body></html>

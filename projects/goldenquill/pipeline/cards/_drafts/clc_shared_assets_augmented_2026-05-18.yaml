@@ -1,0 +1,984 @@
+# Card — TILTH-CLC-08 Shared Assets
+# Wave 2 research draft 2026-05-15. Phase 3 output per blueprint §18.11.
+# Content populated per blueprint §18.10 starter requirements for CLC-08.
+# Operator review + cross-family thesis + Ed25519 signature COMPLETE.
+# SIGNED — runtime-loadable; lifecycle truth enforced by loader preflight.
+#
+# Coupling discipline (architecture v7.0.11 §6.1 + §4 v2.x F-CARDS-COUPLING-VIOLATION-EXTENSION):
+# This card contains NO eligible_cic_subset, cic_allowlist, cic_denylist,
+# preferred_cics, cic_win_rate, or cic_ranking_preferences fields. CLC × CIC
+# matching is opportunity-driven at runtime, never archetype-driven at design time.
+# Shared Assets covers a broad asset-governance spectrum — cooperative-
+# operated assets among many other forms. Examples spanning the breadth: a
+# 501(c)(3) operating a food hub; a municipality operating a public-library
+# facility or community tool library; a community land trust (CLT) holding
+# title to a CSA farm; a school district running a shared community kitchen;
+# an arts collective sharing a maker space; a farm cooperative pooling cold-
+# storage capacity; a public agency operating an equipment library; an
+# ecosystem intermediary stewarding a regional food hub. The card's
+# historical vocabulary (commons, community wealth, cooperative ownership)
+# reflects funding-source language patterns and applies opportunity-driven,
+# not archetype-driven. Any CIC may pursue Shared Assets funding when the
+# opportunity's underwriting logic centers shared need, governance, equitable
+# access, utilization, and maintenance-reserve discipline.
+#
+# Operator OQ resolutions applied (Wave 2 carry-over from Wave 1, 2026-05-15):
+#   Directory: pipeline/cards/CLC/ (uppercase canonical).
+#   Verbatim-quote cap: ≤2 sentences per quote with URL + access_date citation.
+#   admin_risk_term_register: REMOVED at Cycle-2 FIX-IN-PLACE (2026-05-16). The
+#     §18.6 CLC schema declares this field on the CIC axis only (§18.5). 9
+#     CLC-08-scoped flagged terms migrate to workspace-wide
+#     `pipeline/institutional_memory/admin_risk_register.yaml` v2.3 in a
+#     compound migration with sibling CLCs (CLC-02 / CLC-03 / CLC-04 / CLC-05
+#     / CLC-06 / CLC-07). Operator approval_required:true discipline preserved
+#     at the workspace-wide register.
+#   Frequency / win-rate: qualitative-only (HIGH/MEDIUM/LOW/UNKNOWN). No numeric rates.
+#   Schema-current as-on-disk; uses lifecycle.review_status terminology.
+
+schema_version: "1.0-clc"
+card_axis: "CLC"
+card_id: "TILTH-CLC-08"
+slug: "shared_assets"
+display_name: "Shared Assets"
+funding_mechanism_summary: "Shared infrastructure, commons, cooperative infrastructure, community facilities, and collective-benefit funding where shared need across multiple users, governance authority, equitable access policy, utilization evidence, and maintenance reserves drive underwriting. Spans the full asset-governance breadth — cooperative-operated assets among many other forms: 501(c)(3)-operated food hubs and shared-use kitchens, municipal community facilities and tool libraries, school-district shared community kitchens, community land trusts (CLTs), maker spaces and arts-collective shared studios, cooperative-operated shared services, and public-agency equipment libraries — funded via USDA RD Community Facilities, USDA RCDG, USDA HFFI, USDA AMS LAMP food hubs, CDFI shared-asset financing, and foundation community-development grants."
+tilth_clc_id: "TILTH-CLC-08"
+
+# ---------------------------------------------------------------------------
+# UNDERWRITING CRITERIA — what reviewers evaluate (per §18.10 starter content)
+# ---------------------------------------------------------------------------
+underwriting_criteria:
+  - criterion: "shared_need"
+    description: "Multiple users / member organizations have a documented need for the asset — not a single-applicant need being reframed as shared. Reviewers test: would the asset still be needed if any one named user withdrew? Single-party capture (one applicant uses ≥80% of capacity) flags the request as a de-facto sole-applicant ask using shared-asset framing."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-08"
+
+  - criterion: "user_base"
+    description: "Member roster, signed commitment letters, or utilization forecast naming each user with their projected use (hours/year, units, cycles). USDA RCDG explicitly funds work that organizes producer + consumer cooperatives where multi-member benefit is documented. For new shared-use facilities, a demand study with named prospective users substitutes for an established roster."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grants"
+
+  - criterion: "governance"
+    description: "Formal decision structure for the shared asset — steering committee, member governance, board oversight, scheduling authority, dispute resolution. USDA RD Community Facilities loans require governance documentation showing the borrower has authority to operate and maintain the asset. Cooperatives need bylaws + patronage model; public agencies need authorizing resolution + operating ordinance; nonprofits need board minutes approving the asset acquisition."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.rd.usda.gov/programs-services/community-facilities/community-facilities-direct-loan-grant-program"
+
+  - criterion: "access_policy"
+    description: "Written, equitable, scheduled, transparent access rules. Reviewers expect the access policy to enumerate, at minimum: (i) booking rules (who reserves time, how far in advance, cancellation and no-show consequences); (ii) member-class structure and equity protections — member vs. non-member rates, founding-member vs. general-member windows, priority categories, AND the equity safeguards (one-member-one-vote on access disputes for cooperative-operated assets; capped-per-user-usage for foundation- and public-agency-operated assets); (iii) conflict-resolution process (who decides when two members both want the asset on the same day; appeals path); (iv) fee schedule and fee-waiver / sliding-scale tiers; (v) non-discrimination assurances for federally-funded assets (USDA RD CF requires civil-rights compliance); (vi) onboarding / training requirements before first use. Vague access rules (no enumerated components) read as a HIGH-severity red flag at underwriting."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-08"
+
+  - criterion: "utilization"
+    description: "Forecast utilization vs design capacity for new assets, baseline utilization for existing assets being expanded. Reviewers look for credible demand evidence (waitlists, pilot bookings, signed reservations) rather than projections from spreadsheet alone. Underutilization risk is the modal failure mode for shared-asset projects per CDFI underwriting practice."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.cdfifund.gov/programs-training/programs/healthy-food-financing"
+
+  - criterion: "maintenance"
+    description: "Operating model showing who maintains the asset, on what schedule, funded by what revenue. Includes routine maintenance + scheduled servicing + repairs + insurance. The reserve fund question (next criterion) is separate from operating maintenance — both must be funded."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-08"
+
+  - criterion: "asset_control"
+    description: "Prerequisite-level clarity on the legal entity holding title and the form of asset control. Reviewers cannot evaluate governance, access, utilization, maintenance, or cost-recovery downstream without first knowing who owns the asset. Applicants must surface, upfront: (a) the legal-structure category of the title-holder (501(c)(3) nonprofit / LLC / LLP / cooperative / municipality / school district / public-agency authority / community land trust / land bank / federally-recognized Tribe / faith-based 501(c)(3) / for-profit with public-benefit covenant); (b) the form of asset control — deed (fee simple), lease (with term ≥ useful life of the asset for capital purchases), recorded easement, equipment title, or shared-use-agreement-with-title-holder-consent; (c) any covenants, encumbrances, or reverter clauses. These legal-structure categories are illustrative of possible title-holders and are NOT tied to any specific CIC archetype — any eligible applicant may hold title regardless of their CIC classification; runtime CIC × CLC matching remains opportunity-driven. Federally-funded capital must vest with an eligible recipient (USDA RD CF: public bodies, nonprofits, federally-recognized Tribes). Ambiguous ownership (e.g., shared site without recorded easement; equipment purchased by one party but used by many without title transfer; expired or month-to-month lease for a capital improvement) is a frequent underwriting hold."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XLII/subchapter-B/part-3570"
+
+  - criterion: "cost_recovery"
+    description: "Operating revenue model — user fees, member dues, operating subsidy from a parent organization, in-kind services. Reviewers compare projected operating revenue to projected operating expense; gap must be explained (subsidy source, fundraising plan, etc.). For CDFI-financed shared assets, debt service must be covered (DSCR ≥ 1.20 typical)."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.reinvestment.com/policy-solutions/sustainable-food-systems/"
+
+  - criterion: "equitable_access"
+    description: "No single-party capture — protections against the largest user crowding out smaller users. Acceptable mechanisms: scheduled allocation by member class, capped per-user usage, priority windows for under-served users, sliding-scale fees, transparent booking with audit trail. Reviewers ask: 'In year three, will the smallest member still be able to book the asset?'"
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://kresge.org/our-work/community-development/"
+
+  - criterion: "replacement_reserve"
+    description: "Asset depreciation + replacement schedule funded via reserve contributions. Typical convention: 5-15% of capital cost annualized, banked in a restricted reserve fund. USDA RD CF Direct Loan amortization assumes asset useful life; reserve adequacy is a covenant condition. Foundation funders increasingly require replacement-reserve plans for capital-asset grants. Absent a reserve, the project rebuilds the same shared-asset funding gap on a 10-20 year horizon."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.communityfoodservices.com/uploads/4/0/2/9/40292553/replacement_reserve_planning_for_shared_use_kitchens.pdf"
+
+  - criterion: "community_member_benefit"
+    description: "Downstream impact attribution — what the shared asset enables for members and the broader community that would not otherwise exist. For food hubs: producer income gains + buyer access; for shared-use kitchens: licensed-product launches + jobs; for tool libraries: avoided household tool purchases + skill development; for community facilities: service-population reach + service-cost reduction."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.ams.usda.gov/services/grants/rfsp"
+
+# ---------------------------------------------------------------------------
+# SCORING WEIGHT PATTERNS — funder-specific rubrics observed
+# ---------------------------------------------------------------------------
+# OQ-6 enforcement: qualitative-only weight tiers per Wave 2 operator pin.
+# Per-rubric exact percentages vary cycle-to-cycle and are surfaced at Scout's
+# fetchOpportunity step; card encodes the durable structural pattern.
+scoring_weight_patterns:
+  - rubric_example: "USDA RD Community Facilities Direct Loan / Grant (CF) — typical scoring structure"
+    weights:
+      eligibility_and_program_purpose: "HIGH"
+      financial_feasibility_and_repayment: "HIGH"
+      community_need_and_benefit: "HIGH"
+      project_readiness: "MEDIUM"
+      operations_and_maintenance: "MEDIUM"
+    source_citation: "https://www.rd.usda.gov/programs-services/community-facilities/community-facilities-direct-loan-grant-program"
+    note: "Qualitative tier (HIGH/MEDIUM/LOW) per OQ-6. CF Direct Loan emphasizes financial feasibility + repayment as a loan instrument; CF Grant (where partial-grant available, typically for low-population highly-distressed communities) shifts weight toward community need. Per-NOFO weights vary; see annual program notice."
+
+  - rubric_example: "USDA Rural Cooperative Development Grants (RCDG) — typical scoring structure"
+    weights:
+      cooperative_development_focus: "HIGH"
+      qualifications_of_personnel: "HIGH"
+      potential_economic_impact: "HIGH"
+      potential_for_serving_smaller_cooperatives: "MEDIUM"
+      work_plan_budget: "HIGH"
+    source_citation: "https://www.rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grants"
+    note: "Qualitative tier per OQ-6. RCDG funds Cooperative Development Centers that establish + operate shared-services cooperatives (a frequent shared-asset modality). Scoring rewards documented cooperative-development methodology and economic-impact projections."
+
+  - rubric_example: "USDA AMS Local Agriculture Marketing Program (LAMP) — Regional Food System Partnerships (RFSP) sub-program — typical scoring structure"
+    weights:
+      partnership_and_coordination: "HIGH"
+      project_design_and_workplan: "HIGH"
+      community_benefit_and_equity: "MEDIUM"
+      organizational_capacity: "MEDIUM"
+      sustainability_post_grant: "MEDIUM"
+    source_citation: "https://www.ams.usda.gov/services/grants/rfsp"
+    note: "Qualitative tier per OQ-6. RFSP funds regional partnerships that include shared-infrastructure development (food hubs, aggregation facilities, shared cold storage). Scoring weights observable in the RFSP NOFO are illustrative — exact percentages vary by NOFO cycle. Per-NOFO weights confirmed at Scout fetchOpportunity."
+
+  - rubric_example: "Foundation community-development capacity grants — typical anatomy across major national community-development foundation portfolios (specific funder names removed from binding field per Law 5 + Phase F 2026-05-16 cleanup; one canonical pattern source URL preserved below)"
+    weights:
+      community_need_and_engagement: "HIGH"
+      organizational_capacity_and_governance: "HIGH"
+      equity_and_access_design: "HIGH"
+      financial_sustainability: "MEDIUM"
+      learning_and_evaluation: "LOW"
+    source_citation: "https://kresge.org/our-work/community-development/"
+    note: "Qualitative tier per OQ-6. Foundation rubrics for shared-asset / community-facility grants commonly anchor on community engagement + governance + equity-of-access. Cited Kresge source establishes the typical foundation rubric anatomy but does NOT enumerate per-criterion tier assignments — the tier assignments are ILLUSTRATIVE patterns based on author qualitative judgment about typical foundation capital-grant rubric weighting, subject to Lessons Memory revision over 12+ CycleReceipts (per OQ-6 quantification threshold)."
+
+  - rubric_example: "CDFI shared-asset financing underwriting — typical anatomy across major mission-aligned community lenders (specific CDFI names removed from binding field per Law 5 + Phase F 2026-05-16 cleanup)"
+    weights:
+      mission_alignment_and_community_impact: "HIGH"
+      repayment_capacity_dscr: "HIGH"
+      management_and_governance: "HIGH"
+      collateral_and_site_control: "HIGH"
+      construction_or_acquisition_readiness: "MEDIUM"
+    source_citation: "https://www.reinvestment.com/policy-solutions/sustainable-food-systems/"
+    note: "Qualitative tier per OQ-6. CDFI underwriting for shared-use food infrastructure (shared-use kitchens, food hubs, aggregation facilities) typically requires DSCR ≥ 1.20, 10-30% borrower equity, and mission-aligned community-benefit covenants. Cited Reinvestment Fund source establishes the structural pattern; per-deal weights vary by lender."
+
+# ---------------------------------------------------------------------------
+# EVIDENCE WEIGHTS — what reviewers look for
+# ---------------------------------------------------------------------------
+# §18.6 canonical shape: evidence_kind: {weight, rationale}.
+# Card extends with optional source_citation per entry (Wave 1 OD-3
+# convention from operating_capacity.yaml). Loader treats source_citation
+# as additional metadata under "additionalProperties": true (schema line 93).
+evidence_weights:
+  user_member_commitments:
+    weight: "HIGH"
+    rationale: "Signed commitment letters from each prospective user / member naming projected use (hours, units, cycles) and willingness to pay user fees or dues. Strongest evidence of shared need; weakest framing is 'we surveyed potential users and 87% expressed interest' without commitments."
+    source_citation: "https://www.rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grants"
+
+  governance_agreement:
+    weight: "HIGH"
+    rationale: "Formal document — bylaws, operating agreement, MOU, joint powers agreement, board resolution — establishing the decision authority for the shared asset. Names voting structure, dispute resolution, scheduling authority, fee-setting authority."
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-08"
+
+  access_policy:
+    weight: "HIGH"
+    rationale: "Written rules enumerating: booking rules + member-class structure-and-equity (differentiation tiers AND equity safeguards in one component) + conflict-resolution process + fee schedule (and fee-waiver / sliding-scale tiers) + non-discrimination assurances (federal) + onboarding / training requirements. Reviewers compare the policy as written against the equitable-access criterion — does the policy prevent single-party capture? Generic access policy that lists none of these components reads as 'vague access rules' (HIGH-severity red flag)."
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-08"
+
+  site_control:
+    weight: "HIGH"
+    rationale: "Deed, lease (with term ≥ useful life of capital improvements), easement, or equipment title. USDA RD CF Direct Loan requires evidence of site control before loan closing. Foundation capital grants typically require it before disbursement."
+    source_citation: "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XLII/subchapter-B/part-3570"
+
+  equipment_quote:
+    weight: "HIGH"
+    rationale: "For capital purchases — vendor quotes (typically three for federally-funded procurement), specifications, delivery timeline. Procurement rules under 2 CFR 200 require competitive bids above the small-purchase threshold."
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200"
+
+  utilization_forecast:
+    weight: "HIGH"
+    rationale: "Hour-by-hour or day-by-day projection of asset usage by named user / member class. For existing assets: baseline utilization history (booking logs, sign-in sheets) + projection of post-investment change."
+
+  maintenance_budget:
+    weight: "HIGH"
+    rationale: "Annual operating + maintenance budget separated from capital budget. Includes utilities, insurance, repairs, custodian / operator labor, replenishables. Frequent failure mode: capital budget perfect, maintenance budget absent."
+    source_citation: "https://www.communityfoodservices.com/uploads/4/0/2/9/40292553/replacement_reserve_planning_for_shared_use_kitchens.pdf"
+
+  scheduling_policy:
+    weight: "MEDIUM"
+    rationale: "Booking system, conflict-resolution rules, cancellation policy, no-show consequences. Often deferred until post-award; reviewers want to see at least the framework even if the system itself is post-implementation."
+
+  insurance:
+    weight: "MEDIUM"
+    rationale: "Commercial property + general liability + (where applicable) product liability for shared-use kitchens, professional liability for technical-service shared assets. Carrier letter or insurance binder; for federal financing, lender often holds the certificate."
+
+  replacement_reserve_documentation:
+    weight: "HIGH"
+    rationale: "Multi-year reserve schedule showing annual contribution rate (typically 5-15% of capital cost annualized — industry-modal, not regulatory) and projected reserve balance against the major-replacement schedule. Reviewers test whether the reserve will cover the most-expensive single replacement (e.g., HVAC, walk-in cooler, kiln, vehicle, roof) at scheduled end-of-life. Weight upgraded from MEDIUM to HIGH at Cycle-1 fold-in to match §18.10 paragraph-8 emphasis ('unfunded maintenance, ignored replacement cost' as red flag) and card's own common_red_flags.ignored_replacement_cost (HIGH). Without a documented reserve, the project rebuilds the same shared-asset funding gap on a 10-20 year horizon, which reviewers increasingly read as a sustainability defect."
+    source_citation: "https://www.communityfoodservices.com/uploads/4/0/2/9/40292553/replacement_reserve_planning_for_shared_use_kitchens.pdf"
+
+  shared_use_agreement_template:
+    weight: "HIGH"
+    rationale: "Template agreement that each user / member signs to access the asset — covers terms of use, fees, liability, conduct, equipment-care obligations, dispute resolution. For shared-use kitchens, this is typically reviewed against state retail food code + lender requirements."
+
+  demand_study:
+    weight: "MEDIUM"
+    rationale: "Independent or commissioned market analysis showing demand for the shared asset in the service area. Strongest for new-asset projects in service areas without existing comparable infrastructure. Customer-survey data is supporting; demand-study commissioned to a third party with published methodology is load-bearing."
+
+# ---------------------------------------------------------------------------
+# COMMON APPLICATION FORMS
+# ---------------------------------------------------------------------------
+common_application_forms:
+  - form_id: "SF-424 (Application for Federal Assistance)"
+    form_version: "OMB Approved"
+    required_for: "All federal Shared Assets grants (USDA RD, USDA AMS, EPA, EDA, HUD shared-asset programs)"
+    source: "https://www.grants.gov/forms/sf-424-family.html"
+
+  - form_id: "SF-424A (Budget Information — Non-Construction)"
+    form_version: "OMB Approved"
+    required_for: "Non-construction shared-asset grants (equipment, planning, capacity)"
+    source: "https://www.grants.gov/forms/sf-424-family.html"
+
+  - form_id: "SF-424C (Budget Information — Construction)"
+    form_version: "OMB Approved"
+    required_for: "USDA RD CF construction-financed shared-asset projects"
+    source: "https://www.grants.gov/forms/sf-424-family.html"
+
+  - form_id: "SF-424D (Assurances — Construction Programs)"
+    form_version: "OMB Approved"
+    required_for: "USDA RD CF construction-financed shared-asset projects"
+    source: "https://www.grants.gov/forms/sf-424-family.html"
+
+  - form_id: "USDA RD CF Direct Loan/Grant Application Package"
+    form_version: "Per FY program notice — RD Apply portal"
+    required_for: "USDA RD Community Facilities Direct Loan or Grant"
+    source: "https://www.rd.usda.gov/programs-services/community-facilities/community-facilities-direct-loan-grant-program"
+    note: "Application via RD Apply (the agency's online intake) or paper submission to the USDA RD State Office. Packet includes environmental assessment, engineering report or feasibility study, evidence of site control, governance documentation, financial statements."
+
+  - form_id: "USDA AMS LAMP application (FMPP / LFPP / RFSP / TOPP)"
+    form_version: "Per FY NOFO via Grants.gov / Workspace"
+    required_for: "USDA AMS Local Agriculture Marketing Program shared-infrastructure projects"
+    source: "https://www.ams.usda.gov/services/grants/lamp"
+    note: "Sub-programs: Farmers Market Promotion Program (FMPP), Local Food Promotion Program (LFPP), Regional Food System Partnerships (RFSP), Transition to Organic Partnership Program (TOPP). Each NOFO publishes its own application packet through Grants.gov."
+
+  - form_id: "USDA RCDG application"
+    form_version: "Per FY NOFO via Grants.gov / Workspace"
+    required_for: "USDA Rural Cooperative Development Grants (Cooperative Development Centers funding shared-services cooperatives)"
+    source: "https://www.rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grants"
+
+  - form_id: "USDA NIFA Community Food Projects (CFP) application"
+    form_version: "Per FY RFA via Grants.gov / Workspace"
+    required_for: "USDA NIFA Community Food Projects (community-controlled food systems infrastructure)"
+    source: "https://www.nifa.usda.gov/grants/funding-opportunities/community-food-projects-competitive-grant-program"
+
+  - form_id: "Foundation portals (Foundant GLM, Submittable, Fluxx)"
+    form_version: "Platform-hosted, per-funder"
+    required_for: "Foundation community-development + shared-asset capital grants"
+    source: "https://www.plinth.org.uk/en-US/complete-guide/grant-management-systems-compared"
+    note: "Surdna, Knight, Kresge, regional / community foundations typically host shared-asset capital applications on these platforms with funder-specific narrative templates."
+
+  - form_id: "CDFI lender application packet"
+    form_version: "Per-lender — Reinvestment Fund, Capital Impact Partners, regional CDFIs vary"
+    required_for: "Debt-financed shared-asset projects (shared-use kitchens, food hubs, community facilities)"
+    source: "https://www.reinvestment.com/"
+    note: "CDFI lender packets typically require pro forma financials, three-year operating projections, DSCR analysis, governance documentation, site control, equipment quotes, and borrower equity verification."
+
+  - form_id: "State community-development authority applications"
+    form_version: "Varies by state"
+    required_for: "State-level capital + shared-infrastructure grants (e.g., PA DCED Keystone Communities, NY ESD, CA Strategic Growth Council)"
+    source: "https://dced.pa.gov/programs/keystone-communities-program-kcp/"
+
+# ---------------------------------------------------------------------------
+# NARRATIVE SECTION PATTERNS
+# ---------------------------------------------------------------------------
+narrative_section_patterns:
+  - section_name: "Shared Need (with Multi-User Demonstration)"
+    typical_word_count: "500-1000"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-08"
+    note: "The single most weight-bearing section. Reviewers look for evidence that multiple users genuinely need the asset; absent multi-user demonstration the request is interpreted as a single-applicant ask in shared-asset framing."
+
+  - section_name: "Asset Description"
+    typical_word_count: "300-600"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-08"
+    note: "Specifications, capacity, dimensions, components, condition (for existing assets), upgrade scope (for renovation), site location, regulatory classification."
+
+  - section_name: "User Base + Commitments"
+    typical_word_count: "500-1000"
+    source_citation: "https://www.rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grants"
+    note: "Each named user / member with role, commitment level (hours/year, dues, fees), and supporting attachment (signed letter, MOU, board resolution)."
+
+  - section_name: "Governance + Decision Structure"
+    typical_word_count: "300-600"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-08"
+    note: "Operating entity (cooperative, nonprofit, public agency, joint powers authority); voting structure; scheduling authority; dispute resolution; fee-setting authority; bylaws or operating agreement reference."
+
+  - section_name: "Access + Equity Policy"
+    typical_word_count: "300-500"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-08"
+    note: "Written rules preventing single-party capture; non-discrimination assurances (federal); member-class equity (cooperative); sliding-scale or capped-usage protections."
+
+  - section_name: "Operations Plan"
+    typical_word_count: "500-1000"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-08"
+    note: "Day-to-day operating model — staffing, hours, booking system, key control, on-site supervision, replenishables, training for new users, opening/closing procedures."
+
+  - section_name: "Maintenance + Replacement Reserve"
+    typical_word_count: "300-600"
+    source_citation: "https://www.communityfoodservices.com/uploads/4/0/2/9/40292553/replacement_reserve_planning_for_shared_use_kitchens.pdf"
+    note: "Routine maintenance schedule + funded budget; major-replacement schedule + reserve fund contribution rate (typically 5-15% of capital cost annualized) + reserve balance projection against scheduled replacements."
+
+  - section_name: "Budget + Capital Cost"
+    typical_word_count: "500-1000"
+    source_citation: "https://www.tgci.com/blog/2020/08/understanding-capacity-building-grant-proposals"
+    note: "Capital cost (real estate, construction, equipment, soft costs) + operating cost (utilities, insurance, maintenance, staffing) + reserve contribution + match documentation. Each line tied to budget-justification narrative."
+
+  - section_name: "Sustainability + Cost Recovery"
+    typical_word_count: "300-600"
+    source_citation: "https://nlctb.org/featured/how-to-respond-to-sustainability-questions-in-grant-proposals/"
+    note: "Operating revenue model — user fees, member dues, operating subsidy, in-kind. Reviewers compare projected operating revenue to projected operating expense; gap requires explanation."
+
+  - section_name: "Community / Member Benefit"
+    typical_word_count: "300-600"
+    source_citation: "https://www.ams.usda.gov/services/grants/rfsp"
+    note: "Downstream impact attribution — what the shared asset enables for members and the broader community that would not otherwise exist. Quantified where possible."
+
+# ---------------------------------------------------------------------------
+# BUDGET STRUCTURE CONVENTIONS
+# ---------------------------------------------------------------------------
+budget_structure_conventions:
+  direct_cost_categories:
+    - "real_estate_acquisition"
+    - "construction"
+    - "equipment"
+    - "soft_costs_design_engineering_permitting"
+    - "utilities"
+    - "insurance"
+    - "maintenance_labor_and_supplies"
+    - "operations_staffing"
+    - "training_and_user_onboarding"
+    - "replacement_reserve_contributions"
+    - "other_direct"
+  indirect_cost_treatment: "Federal capital grants (USDA RD CF) generally do not honor indirect rates on construction lines; soft-cost lines may carry indirect per federally negotiated rate or 10% de minimis MTDC under 2 CFR 200. USDA AMS LAMP and similar program-grants honor the recipient's federally negotiated rate or de minimis. Foundation capital grants typically cap or exclude indirect. Operator must check each NOFO."
+  match_requirements_typical: "USDA RD CF Direct Loan: no match required (loan instrument). USDA RD CF Grant: match varies by program notice — partial-grant tier typically requires 50-75% match. USDA AMS LAMP (FMPP/LFPP/RFSP): typically 25% non-federal match required. CDFI shared-asset financing: typically 10-30% borrower equity. Foundation capital grants: match expectations vary widely; some require 1:1 match for capital, others provide 100% capital with no match expectation."
+  source_citation: "https://www.rd.usda.gov/programs-services/community-facilities/community-facilities-direct-loan-grant-program"
+
+# ---------------------------------------------------------------------------
+# REVIEWER PROFILE TYPICAL
+# ---------------------------------------------------------------------------
+reviewer_profile_typical:
+  reviewer_types:
+    - "community_development_reviewer"
+    - "cooperative_development_reviewer"
+    - "facilities_reviewer_engineering_cost_estimation"
+    - "foundation_program_officer_community_development"
+    - "public_agency_program_officer"
+    - "cdfi_underwriter"
+    - "usda_rd_state_office_specialist"
+    - "usda_ams_grants_specialist"
+  reviewer_priorities:
+    - "Is the need genuinely shared, or is this a single-applicant ask in shared-asset framing?"
+    - "Is governance formal enough to absorb member disputes and access conflicts? (Cooperative-development reviewers read for cooperative-methodology and patronage discipline; public-agency reviewers read for authorizing-resolution and authority-to-operate; foundation reviewers read for community engagement and equity-of-governance.)"
+    - "Does the access policy as written enumerate the standard components (booking + member-class + conflict-resolution + fee tiers + non-discrimination) and prevent single-party capture? (Public-agency reviewers focus on civil-rights compliance and procurement; foundation reviewers focus on equity-of-access; cooperative-development reviewers focus on member-class-equity.)"
+    - "Is utilization grounded in demand evidence (waitlists, pilot bookings, commissioned demand study), or is it spreadsheet projection?"
+    - "Is the maintenance budget funded — separately from the capital budget?"
+    - "Is there a replacement reserve, or will this asset rebuild the same funding gap in 10-20 years?"
+    - "Does the operating entity have authority to operate and maintain the asset? (Public-agency reviewers read for authorizing ordinance / resolution; foundation reviewers read for board approval and operational capacity; CDFI underwriters read for DSCR and management depth.)"
+    - "Is site control resolved — deed, lease with adequate term, easement, equipment title? Has the legal-entity title-holder been clearly named upfront?"
+    - "(Reviewer-type dialect cue) Foundation program officers in community development weight community-engagement + equity + governance most. Public-agency program officers weight authority-to-operate + civil-rights + procurement-compliance most. Cooperative-development reviewers weight cooperative-methodology + member-economic-impact most. CDFI underwriters weight DSCR + collateral + management-and-governance most. Facilities/engineering reviewers weight construction-readiness + cost-estimation + replacement-reserve-adequacy most. USDA RD CF state-office specialists weight site-control + financial-feasibility + community-need-and-benefit most."
+  common_red_flags_from_reviewer_pov:
+    - "Single dominant member uses ≥80% of projected capacity — de-facto sole-applicant ask"
+    - "Capital budget complete but operating + maintenance budget absent or thin"
+    - "No replacement reserve — asset will need re-funding at end of useful life"
+    - "Vague access rules — no booking process, no conflict-resolution mechanism"
+    - "Member commitments described but not attached as signed letters / MOUs"
+    - "Site control unresolved — verbal landlord agreement, expired lease, no easement"
+    - "Demand asserted ('there is great need') without evidence (waitlists, pilot bookings, demand study)"
+    - "Insurance plan absent or named without carrier confirmation"
+    - "Governance described informally ('our group decides together') without bylaws / MOU / authorizing resolution"
+  source_citation: "https://www.athensfoundation.org/5-red-flags-that-could-hurt-your-grant-application"
+
+# ---------------------------------------------------------------------------
+# COMMON PORTALS
+# ---------------------------------------------------------------------------
+common_portals:
+  - portal: "Grants.gov / Workspace"
+    typical_use: "All federal Shared Assets grants (USDA RD CF non-construction grant component, USDA AMS LAMP, USDA NIFA CFP, USDA RCDG, EPA, HUD CDBG, EDA)."
+    source_citation: "https://www.grants.gov/"
+
+  - portal: "USDA RD Apply"
+    typical_use: "USDA RD Community Facilities Direct Loan and Grant applications; integrated with paper-submission backstop via USDA RD State Office."
+    source_citation: "https://rdapply.usda.gov/"
+
+  - portal: "SAM.gov"
+    typical_use: "Required for any federal Shared Assets application (UEI + active registration)."
+    source_citation: "https://sam.gov/"
+
+  - portal: "Foundant GLM"
+    typical_use: "Mid-market community foundations and family foundations funding community-development capital + shared-asset projects."
+    source_citation: "https://www.plinth.org.uk/en-US/complete-guide/grant-management-systems-compared"
+
+  - portal: "Submittable"
+    typical_use: "Foundations with corporate / community-development ecosystem hosting community-facility + shared-asset capital cycles."
+    source_citation: "https://www.plinth.org.uk/en-US/complete-guide/grant-management-systems-compared"
+
+  - portal: "Fluxx Grantmaker"
+    typical_use: "Larger national / regional foundations (Surdna, Kresge, Knight) hosting multi-stage community-development capital cycles."
+    source_citation: "https://www.plinth.org.uk/en-US/complete-guide/grant-management-systems-compared"
+
+  - portal: "CDFI lender portals (Reinvestment Fund, Capital Impact Partners, regional CDFIs)"
+    typical_use: "Debt-financed shared-asset projects — shared-use kitchens, food hubs, community facilities, healthy-food retail."
+    source_citation: "https://www.reinvestment.com/"
+
+  - portal: "State community-development authority portals (PA DCED, NY ESD, CA SGC, etc.)"
+    typical_use: "State capital + shared-infrastructure grants varying by state; often complement federal financing."
+    source_citation: "https://dced.pa.gov/programs/keystone-communities-program-kcp/"
+
+# ---------------------------------------------------------------------------
+# COMMON RED FLAGS — adversarial probes
+# ---------------------------------------------------------------------------
+common_red_flags:
+  - flag: "single_party_capture_of_shared_asset"
+    severity: "HIGH"
+    red_team_probe: "If the largest projected user withdrew, would the remaining users still need this asset at this scale? If projected utilization concentrates 80%+ on one party, what makes this 'shared'?"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-08"
+
+  - flag: "unclear_governance"
+    severity: "HIGH"
+    red_team_probe: "When two members both want the asset on the same day, who decides? Where is the dispute-resolution clause? Who has fee-setting authority? Show the bylaws / MOU / authorizing resolution language."
+
+  - flag: "vague_access_rules"
+    severity: "HIGH"
+    red_team_probe: "Where is the written access policy? What is the booking process? What is the cancellation policy? What protects smaller users from being crowded out by larger users?"
+
+  - flag: "unfunded_maintenance"
+    severity: "HIGH"
+    red_team_probe: "The capital budget is complete. Where is the operating + maintenance budget? Who pays for utilities, insurance, repairs, replenishables in year two when the grant has ended?"
+    source_citation: "https://www.communityfoodservices.com/uploads/4/0/2/9/40292553/replacement_reserve_planning_for_shared_use_kitchens.pdf"
+
+  - flag: "assumed_utilization_no_demand_evidence"
+    severity: "HIGH"
+    red_team_probe: "What evidence supports the projected utilization? Waitlists? Pilot bookings? Demand study with named methodology? 'Great need exists' is not evidence."
+
+  - flag: "no_scheduling_or_conflict_process"
+    severity: "MEDIUM"
+    red_team_probe: "What system handles bookings — paper, software, named person? What happens when two users book the same time? What are the consequences for no-shows or damage?"
+
+  - flag: "unresolved_site_control"
+    severity: "HIGH"
+    red_team_probe: "Where is the deed, lease, easement, or equipment title? If lease, does the term extend at least the useful life of the capital improvements? Does the lessor have authority to consent to the federally-financed improvements?"
+    source_citation: "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XLII/subchapter-B/part-3570"
+
+  - flag: "ignored_replacement_cost"
+    severity: "HIGH"
+    red_team_probe: "What is the useful life of the most expensive asset component (HVAC, walk-in cooler, kiln, vehicle)? When does it need replacement? What replacement-reserve contribution rate funds that replacement?"
+
+  - flag: "no_insurance_plan"
+    severity: "MEDIUM"
+    red_team_probe: "What commercial property + general liability + (where applicable) product liability coverage is in place? Which carrier? Has the carrier confirmed willingness to cover a shared-use facility / equipment library / shared-use kitchen?"
+
+  - flag: "missing_user_member_commitments"
+    severity: "HIGH"
+    red_team_probe: "Where are the signed commitment letters from each named user? What level of commitment — hours, dues, fees? If commitments are only verbal at application time, what plan binds them post-award?"
+
+  - flag: "single_applicant_shaped_as_shared_asset"
+    severity: "HIGH"
+    red_team_probe: "Who currently uses similar capacity owned by the lead applicant? If the lead applicant has substantial existing capacity, why does this need to be a shared asset rather than a capacity-expansion grant for the lead applicant under a different CLC (Operating Capacity, Market Access)? What changes for non-lead members vs. status quo?"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-08"
+
+  - flag: "commons_framing_in_conservative_federal_context"
+    severity: "MEDIUM"
+    red_team_probe: "Is the proposal using 'commons' / 'community wealth' / 'collective ownership' language in a federal NOFO whose reviewer pool may read these terms as anti-property-rights? Has the dialect been code-switched (with applicant approval) to 'shared infrastructure' / 'cooperative facility' / 'community facility'?"
+
+# ---------------------------------------------------------------------------
+# REPORTING REQUIREMENTS TYPICAL
+# ---------------------------------------------------------------------------
+reporting_requirements_typical:
+  performance_reporting:
+    frequency: "semi_annual"
+    content_required:
+      - "Construction or acquisition milestones (for capital projects)"
+      - "Asset commissioning + first-use date"
+      - "User / member onboarding count"
+      - "Utilization (hours used / bookings / units processed) vs. projected utilization"
+      - "Access equity indicators (distribution of usage across members)"
+      - "Maintenance log + downtime summary"
+      - "Community / member benefit outcomes against application projections"
+      - "Variance from original timeline + rationale"
+  financial_reporting:
+    frequency: "quarterly"
+    content_required:
+      - "Capital expenditure by budget category (during construction / acquisition)"
+      - "Operating revenue + expense (post-commissioning)"
+      - "Reserve fund contributions + balance"
+      - "Match expenditure documentation"
+      - "Burn rate vs. timeline + variance explanation"
+  final_report_required: true
+  ongoing_reporting_for_term_of_loan: "USDA RD CF Direct Loans require annual financial reporting + covenant compliance for the full amortization period (typically 30-40 years for facility loans)."
+  source_citation: "https://www.rd.usda.gov/programs-services/community-facilities/community-facilities-direct-loan-grant-program"
+  note: "USDA RD CF: semi-annual + annual + final + ongoing for term of loan. USDA AMS LAMP: annual + final. USDA RCDG: annual + final. Foundation capital grants: per agreement, modal pattern is semi-annual + final for grant period plus a one-time follow-up at +12 / +24 months. CDFI loan reporting: covenant testing per loan agreement (often quarterly or annually)."
+
+# ---------------------------------------------------------------------------
+# COMPLIANCE OBLIGATIONS
+# ---------------------------------------------------------------------------
+compliance_obligations:
+  - framework: "2 CFR Part 200 (Uniform Guidance)"
+    applicability: "All federally-financed Shared Assets projects"
+    typical_filings:
+      - "SF-425 Federal Financial Report"
+      - "SF-PPR Performance Progress Report"
+      - "Single Audit if federal expenditures ≥ $750,000/year (rising to $1M under 2024 update)"
+      - "Procurement records under §200.317-326 for any sub-contracts or equipment purchases"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200"
+
+  - framework: "USDA RD Community Facilities program regulations (7 CFR Part 3570)"
+    applicability: "USDA RD CF Direct Loan or Grant projects"
+    typical_filings:
+      - "Environmental review (RD Instruction 1970)"
+      - "Civil rights compliance (Form RD 400-1, 400-4)"
+      - "Loan covenants — annual financial statements, insurance certificates, reserve documentation, debt-service coverage"
+      - "Site control documentation at closing"
+    source_citation: "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XLII/subchapter-B/part-3570"
+
+  - framework: "USDA AMS LAMP regulations (7 CFR Part 1463)"
+    applicability: "USDA AMS LAMP-financed shared-infrastructure projects"
+    typical_filings:
+      - "Match documentation"
+      - "Annual + final performance + financial reports"
+      - "Project-period extension requests where applicable"
+    source_citation: "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-IX/part-1463"
+
+  - framework: "Single Audit Act"
+    applicability: "Recipients with federal expenditures ≥ $750,000/year (rising to $1M under 2024 update)"
+    typical_filings:
+      - "Independent auditor report under 2 CFR 200 Subpart F"
+      - "Schedule of Expenditures of Federal Awards (SEFA)"
+      - "Audit submission to Federal Audit Clearinghouse"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-F"
+
+  - framework: "State cooperative or LLC governance"
+    applicability: "Cooperative- or LLC-operated shared assets"
+    typical_filings:
+      - "Annual filing with state corporations bureau"
+      - "Member meeting minutes + voting records"
+      - "Bylaws amendment filings where applicable"
+
+  - framework: "Commercial property + liability insurance"
+    applicability: "All shared-asset projects (lender / funder requirement + risk management)"
+    typical_filings:
+      - "Insurance binder / certificate at closing or grant disbursement"
+      - "Annual renewal certificates"
+      - "Loss reporting per carrier requirements"
+
+  - framework: "Americans with Disabilities Act (ADA)"
+    applicability: "Public-facing shared facilities (community facilities, food hubs with public access, shared-use kitchens with retail component)"
+    typical_filings:
+      - "ADA accessibility design certification at construction"
+      - "Self-assessment + remediation plan for existing facilities undergoing alteration"
+    source_citation: "https://www.ada.gov/"
+
+  - framework: "FSMA Produce Safety Rule + Preventive Controls Rule + state retail food code"
+    applicability: "Shared-use kitchens, food hubs, aggregation facilities handling produce or processed food"
+    typical_filings:
+      - "Food Safety Plan (FSMA Preventive Controls)"
+      - "Produce Safety records (where applicable)"
+      - "State / local retail food permit"
+      - "Shared-use kitchen user-onboarding food-safety training records"
+    source_citation: "https://www.fda.gov/food/food-safety-modernization-act-fsma"
+
+  - framework: "State cottage food laws"
+    applicability: "Shared-use kitchens producing cottage-food-eligible products under state exemptions"
+    typical_filings:
+      - "Cottage-food registration per state requirement"
+      - "Product-labeling compliance"
+    note: "Cottage food law eligibility varies widely by state; shared-use kitchen operators often need to differentiate cottage-food-eligible production from licensed-product production at the operational level."
+
+  - framework: "Municipal zoning + permitting"
+    applicability: "All physical-facility shared-asset projects"
+    typical_filings:
+      - "Use permit / conditional use permit"
+      - "Building permit + certificate of occupancy"
+      - "Health department permit (food facilities)"
+      - "Fire marshal approval"
+
+  - framework: "Davis-Bacon Act"
+    applicability: "Federally-financed construction projects on public-purpose shared assets (USDA RD CF construction)"
+    typical_filings:
+      - "Certified payroll records (WH-347)"
+      - "Wage determination compliance"
+      - "Apprenticeship + journeyman ratio documentation"
+    source_citation: "https://www.dol.gov/agencies/whd/government-contracts/construction"
+
+  - framework: "National Environmental Policy Act (NEPA)"
+    applicability: "Federally-financed construction projects requiring environmental review"
+    typical_filings:
+      - "Categorical exclusion documentation OR"
+      - "Environmental Assessment (EA) OR"
+      - "Environmental Impact Statement (EIS) per project class"
+    source_citation: "https://www.ecfr.gov/current/title-40/chapter-V/subchapter-A/part-1500"
+
+# ---------------------------------------------------------------------------
+# COMMITMENT TRACKING PATTERN — Report Generator (v0.2) feed
+# ---------------------------------------------------------------------------
+commitment_tracking_pattern:
+  typical_commitments_extracted:
+    - commitment_type: "users_served"
+      measurement_method: "count of distinct users / members + onboarding date + active-status flag"
+    - commitment_type: "utilization_hours"
+      measurement_method: "booked + actual hours of asset use per reporting period; baseline + projected + actual"
+    - commitment_type: "bookings_count_and_diversity"
+      measurement_method: "booking count + count of distinct users booking + distribution metric (Gini-like or quartile share) capturing whether usage concentrated on few members or distributed"
+    - commitment_type: "maintenance_logs_completed"
+      measurement_method: "count + dates of scheduled maintenance entries logged against the asset's maintenance schedule"
+    - commitment_type: "downtime_planned_and_unplanned"
+      measurement_method: "hours of asset unavailability per period + categorization (planned maintenance vs. unplanned failure) + mean-time-to-repair for unplanned events"
+    - commitment_type: "cost_recovery_revenue_vs_expense"
+      measurement_method: "operating revenue (user fees + member dues + subsidy) ÷ operating expense per period; ratio + per-line breakdown"
+    - commitment_type: "access_equity_distribution"
+      measurement_method: "Uniquely Shared Assets — no other CLC reports access-equity. Lorenz curve / Gini coefficient (or simpler quartile share, smallest-user-share, top-decile-concentration) of usage hours across the user base; tracks whether the smallest members continue accessing the asset over the reporting period. Report Generator surfaces this as a distinct reporting axis vs. vanity 'users served' metrics. Reporting requirements typical (line 486) include 'Access equity indicators (distribution of usage across members)' as a required performance-reporting element. Decline in smallest-user-share over time is an early-warning indicator that access-policy enforcement is failing in practice."
+    - commitment_type: "repairs_completed"
+      measurement_method: "count + cost + downtime per repair event; cumulative cost per asset component vs. budget"
+    - commitment_type: "replacement_reserve_contributions"
+      measurement_method: "dollar amount contributed to reserve per period + cumulative reserve balance + projected balance against scheduled major-replacement events"
+    - commitment_type: "community_benefit_outcomes"
+      measurement_method: "downstream impact attributable to the shared asset — e.g., licensed products launched (shared-use kitchens), producer income gains (food hubs), avoided household tool purchases (tool libraries), service-population reached (community facilities) — each with named measurement method and baseline"
+  proposal_commitments_yaml_extension:
+    # CLC-namespaced field per Wave 1 F6 fold-in convention. Downstream §11
+    # AWARD_INGEST + §14 Report Generator read this field by exact match.
+    field_name: "clc_shared_assets_commitments"
+  source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-08"
+
+# ---------------------------------------------------------------------------
+# ADMIN-RISK TERM REGISTER — REMOVED at Cycle-2 FIX-IN-PLACE 2026-05-16
+# ---------------------------------------------------------------------------
+# Per §18.6 CLC schema (canonical baseline), `admin_risk_term_register` is
+# declared on the CIC axis only (§18.5). The CLC axis does NOT declare this
+# field; carrying it here is a schema-extension defect that fails
+# F-CARDS-SCHEMA-INVALID at load time. Wave 1 + Wave 2 CLC audits established
+# a 6-of-6 precedent (CLC-03 / CLC-02 / CLC-04 / CLC-05 / CLC-06 / CLC-07)
+# where the block is removed at Cycle-2 FIX-IN-PLACE and the entries migrate
+# to the workspace-wide `pipeline/institutional_memory/admin_risk_register.yaml`
+# v2.3 in a compound migration. CLC-08 joins as the 7th (LAST Wave 2 CLC).
+#
+# Migration manifest — 9 CLC-08-scoped flagged terms removed from this
+# card for migration to workspace-wide register v2.3:
+#   1. commons — MEDIUM (federal YELLOW + progressive PREFERRED) — already
+#      in workspace register; CLC-08 variant 'food commons'.
+#   2. shared infrastructure — LOW (federal GREEN + progressive OK) — NEW
+#      operator-grade canonical substitute term.
+#   3. community wealth — MEDIUM (federal YELLOW + progressive PREFERRED) —
+#      already in workspace register as 'community wealth-building'.
+#   4. cooperative ownership — LOW (federal GREEN per USDA RCDG + 7 CFR
+#      Part 4284 statutory; progressive PREFERRED).
+#   5. collective ownership — MEDIUM (federal YELLOW + progressive
+#      PREFERRED) — stronger political signal than 'cooperative ownership';
+#      reserves for solidarity-economy / progressive-foundation contexts.
+#   6. pooled resources — LOW (federal GREEN + progressive OK) — funder-
+#      neutral operational vocabulary.
+#   7. right to access — MEDIUM (federal YELLOW + progressive PREFERRED) —
+#      rights-framing vocabulary; substitute for federal, retain for
+#      foundation.
+#   8. equity — HIGH (federal RED post-EO 14151 + progressive PREFERRED) —
+#      already in workspace register; CLC-08 carries borrower-equity
+#      (financial-capital) carve-out as GREEN-tier across all funder contexts.
+#   9. sustainability — MEDIUM (federal YELLOW post-EO 14151 + progressive
+#      OK) — already in workspace register; CLC-08 contextual gloss
+#      'long-term operational viability'.
+#
+# Approval discipline preserved (approval_required:true on every entry) at
+# the workspace-wide register per Law 4 / OQ-5. Operator approval at
+# white-glove Classification Review covers the workspace register; the
+# per-card entries here would have duplicated that gate without adding
+# new operator surface.
+#
+# Operator decision deferred: §18.6 amendment to extend admin_risk_term_register
+# to CLC axis (path a) OR keep the field CIC-only and route Scribe's CLC-side
+# dialect routing through the workspace register at runtime (path b, current
+# resolution). Wave 1 + Wave 2 6-of-6 precedent + this card = 7-of-7 chose
+# path b implicitly via Cycle-2 FIX-IN-PLACE block removal.
+
+# ---------------------------------------------------------------------------
+# LIFECYCLE
+# ---------------------------------------------------------------------------
+lifecycle:
+  draft_status: "signed"
+  review_status: "passed"
+  cross_family_thesis_status: "passed"
+  signature_status: "signed"
+  runtime_load_status: "loaded"
+  runtime_loadable: true
+  signed_at: "2026-05-16T16:00:00Z"
+  signed_by: "founder"
+  content_hash: "sha256:ba122df5b37a15961988f5f8c217a43696d540ad94f789ced0cc92c042537db2"
+  lock_history_row: 261
+  lock_timestamp_utc: "2026-05-16T16:00:00Z"
+  # LOCK ceremony 2026-05-16 PM after L-005 two-cycle audit closed at
+  # pipeline/validation/cards_wave_2_thesis_2026-05-15/CLC/shared_assets/FINAL_VERDICT.md
+  # (THESIS_PASSED). review_status flipped pending→passed; signature_status
+  # unsigned→signed; runtime_load_status not_loaded→loaded. Operator publisher
+  # pubkey pinned at vault_shared/cards/publisher_pubkey.signed.yaml. The
+  # ed25519_signature in _research_metadata is the operator Ed25519 signature
+  # over canonical-JSON of this YAML with ed25519_signature: null. OD-F + OD-H
+  # operator-decisions resolved pre-ceremony (cards LOCKed as-on-disk per
+  # operator directive 2026-05-16).
+
+# ---------------------------------------------------------------------------
+# RESEARCH METADATA — Phase 5 review handback substrate
+# ---------------------------------------------------------------------------
+_research_metadata:
+  authored_at: "2026-05-15T22:30:00Z"
+  authored_by_role: "research_session"
+  research_budget_hours_actual: 3.0
+  priors_consulted:
+    - path: "assets/cards/capital_logic/Capital Logic Cards.png"
+      extract_note: "Visual Card source — drawing TILTH-CLC-00; defines Shared Assets scope (commons, cooperative infrastructure, pooled resources, community facilities)."
+    - path: "pipeline/blueprint/v0.1/section_18_card_system.md"
+      extract_note: "§18.10 starter content for TILTH-CLC-08 (binding scope); §18.11 five-phase research process; §18.15 testing requirements."
+    - path: "pipeline/cards/CLC/operating_capacity.yaml"
+      extract_note: "Wave 1 reference card — structural pattern, lifecycle block, _research_metadata, qualitative-only weight tier convention. (admin_risk_term_register shape no longer applicable: that field is CIC-axis-only per §18.6; CLC-08 followed Wave 2 6-of-6 precedent and removed the block at Cycle-2 FIX-IN-PLACE.)"
+    - path: "pipeline/cards/CLC/market_access.yaml"
+      extract_note: "Wave 2 sibling card for header-comment style + dialect notes + CLC-namespaced commitment field convention."
+    - path: "pipeline/institutional_memory/admin_risk_register.yaml"
+      extract_note: "Existing v2.2 register; entries for 'sustainability' (YELLOW), 'commons / food commons', 'community wealth-building', 'equity' (RED) referenced during draft authoring. Cycle-2 FIX-IN-PLACE 2026-05-16 migration target: v2.3 compound migration absorbing 9 CLC-08-scoped terms (4 reuse-with-CLC-08-context + 5 NEW additions: shared infrastructure / cooperative ownership / collective ownership / pooled resources / right to access) alongside sibling CLC v2.3 migrations."
+    - path: "skills/scribe-ghostwriter/SKILL.md"
+      extract_note: "Capacity-narrative scaffolding patterns; complements but does not duplicate card content."
+    - path: "CLAUDE.md"
+      extract_note: "TILTH-CLC-08 funds 'cooperative infrastructure, commons, collective-benefit funding (Community Facilities, co-op funds, food hubs, shared-site investment)' — funding-mechanism-summary anchor."
+
+  primary_sources:
+    - url: "https://www.rd.usda.gov/programs-services/community-facilities/community-facilities-direct-loan-grant-program"
+      access_date: "2026-05-15"
+      relevance: "USDA RD Community Facilities Direct Loan and Grant Program — primary federal financing for non-profit, public-body, and Tribal community-facility shared assets. Anchors site-control, governance-authority, financial-feasibility underwriting criteria."
+      verbatim_quote: "This program provides affordable funding to develop essential community facilities in rural areas. An essential community facility is defined as a facility that provides an essential service to the local community for the orderly development of the community in a primarily rural area."
+
+    - url: "https://www.rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grants"
+      access_date: "2026-05-15"
+      relevance: "USDA Rural Cooperative Development Grants — funds Cooperative Development Centers that establish + operate shared-services cooperatives. Primary federal funding source for cooperative shared-asset development."
+      verbatim_quote: "The primary objective of the RCDG program is to improve the economic condition of rural areas by assisting individuals or entities in the startup, expansion or operational improvement of rural cooperatives and other mutually-owned businesses."
+
+    - url: "https://www.ams.usda.gov/services/grants/rfsp"
+      access_date: "2026-05-15"
+      relevance: "USDA AMS Regional Food System Partnerships (RFSP) sub-program of LAMP — funds regional partnerships including shared-infrastructure development (food hubs, aggregation facilities, shared cold storage). Modal source for food-system shared-asset projects."
+      verbatim_quote: "The Regional Food System Partnerships Program supports partnerships that connect public and private resources to plan and develop local or regional food systems. RFSP focuses on the coordination of activities and provision of resources to bring together producers, processors, and the public to support local and regional food systems."
+
+    - url: "https://www.ams.usda.gov/services/grants/lamp"
+      access_date: "2026-05-15"
+      relevance: "USDA AMS Local Agriculture Marketing Program — umbrella program covering FMPP, LFPP, RFSP, TOPP. Frames the shared-infrastructure funding pathway in food-system context."
+      verbatim_quote: "The Local Agriculture Marketing Program (LAMP) supports the development, coordination, and expansion of direct producer-to-consumer marketing; local and regional food markets and enterprises; and value-added agricultural products."
+
+    - url: "https://www.cdfifund.gov/programs-training/programs/healthy-food-financing"
+      access_date: "2026-05-15"
+      relevance: "USDA Healthy Food Financing Initiative (HFFI) — funds shared food infrastructure (healthy-food retail, food hubs, aggregation facilities) in underserved areas. Cross-references CDFI underwriting practice for shared-use food infrastructure."
+      verbatim_quote: "The HFFI Partnership Program supports projects that improve access to healthy food in underserved areas, create and preserve quality jobs, and revitalize low-income communities by providing financial and technical assistance to eligible fresh, healthy food retailers and enterprises."
+
+    - url: "https://www.nifa.usda.gov/grants/funding-opportunities/community-food-projects-competitive-grant-program"
+      access_date: "2026-05-15"
+      relevance: "USDA NIFA Community Food Projects (CFP) — funds community-controlled food systems infrastructure including shared-asset projects (community kitchens, food hubs, gleaning operations)."
+      verbatim_quote: "The Community Food Projects Competitive Grant Program is intended to bring together stakeholders from distinct parts of the food system and to foster understanding of national food security trends and how they might improve local food systems."
+
+    - url: "https://www.reinvestment.com/policy-solutions/sustainable-food-systems/"
+      access_date: "2026-05-15"
+      relevance: "Reinvestment Fund — leading CDFI for shared-use food infrastructure financing (shared-use kitchens, food hubs, aggregation facilities). Anchors CDFI underwriting practice for CLC-08."
+      verbatim_quote: "We finance grocery stores, food enterprises, and food infrastructure that strengthen local food systems and improve access to healthy food in low-income and underserved communities."
+
+    - url: "https://www.communityfoodservices.com/uploads/4/0/2/9/40292553/replacement_reserve_planning_for_shared_use_kitchens.pdf"
+      access_date: "2026-05-15"
+      relevance: "Replacement Reserve Planning for Shared-Use Kitchens — practitioner guidance on the modal CLC-08 reserve-fund convention. Anchors the 5-15% of capital cost annualized reserve-contribution standard."
+      verbatim_quote: "Replacement reserves are funds set aside to pay for the eventual replacement of major equipment and building components that wear out over time. A replacement reserve study identifies all of the major components that will need to be replaced over the next 20-30 years and projects when they will need to be replaced and how much it will cost."
+
+    - url: "https://kresge.org/our-work/community-development/"
+      access_date: "2026-05-15"
+      relevance: "Kresge Foundation Community Development Program — anchors foundation rubric anatomy for community-facility + shared-asset capital grants. Frames equity-of-access + governance + community-engagement weighting."
+      verbatim_quote: "Kresge's Community Development Program supports the creation of opportunities for low-income people in America's cities to advance their well-being. We invest in efforts that improve neighborhoods, expand access to opportunity, and strengthen community development infrastructure."
+
+    - url: "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XLII/subchapter-B/part-3570"
+      access_date: "2026-05-15"
+      relevance: "Federal regulation governing USDA RD Community Facilities programs — statutory reference for federal Shared Assets eligibility, site-control, governance, and financial-feasibility requirements."
+      verbatim_quote: "The Agency makes loans and grants under this part to provide for the development of essential community facilities in rural areas. The Agency may make loans to public bodies, nonprofit organizations and federally recognized Tribes."
+
+    - url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200"
+      access_date: "2026-05-15"
+      relevance: "Uniform Guidance — federal procurement, audit, and reporting standards applicable to all federally-financed Shared Assets projects."
+      verbatim_quote: "These standards are intended to provide consistency and uniformity for the management of Federal awards and to reduce administrative burden on non-Federal entities receiving Federal awards while reducing the risk of waste, fraud, and abuse."
+
+    - url: "https://www.fda.gov/food/food-safety-modernization-act-fsma"
+      access_date: "2026-05-15"
+      relevance: "FSMA — applicable food-safety regulatory framework for shared-use kitchens, food hubs, and aggregation facilities. Anchors compliance obligations for food-system shared-asset projects."
+      verbatim_quote: "The FDA Food Safety Modernization Act, signed into law by President Obama on January 4, 2011, enables FDA to better protect public health by strengthening the food safety system. It enables FDA to focus more on preventing food safety problems rather than relying primarily on reacting to problems after they occur."
+
+    - url: "https://www.ada.gov/"
+      access_date: "2026-05-15"
+      relevance: "Americans with Disabilities Act — applicable accessibility standard for public-facing shared facilities. Anchors compliance obligations for community-facility, shared-use kitchen, and food-hub projects with public access."
+      verbatim_quote: "The ADA prohibits discrimination on the basis of disability in employment, State and local government, public accommodations, commercial facilities, transportation, and telecommunications."
+
+    - url: "https://www.dol.gov/agencies/whd/government-contracts/construction"
+      access_date: "2026-05-15"
+      relevance: "Davis-Bacon Act — applicable wage standard for federally-financed construction on public-purpose shared assets (USDA RD CF construction)."
+      verbatim_quote: "The Davis-Bacon and Related Acts apply to contractors and subcontractors performing on federally funded or assisted contracts in excess of $2,000 for the construction, alteration, or repair (including painting and decorating) of public buildings or public works."
+
+    - url: "https://dced.pa.gov/programs/keystone-communities-program-kcp/"
+      access_date: "2026-05-15"
+      relevance: "Pennsylvania DCED Keystone Communities Program — example of state community-development authority funding for shared-asset / community-facility projects. Frames state-level funding pathway alongside federal."
+      verbatim_quote: "The Keystone Communities Program is designed to encourage the creation of partnerships between the public and private sectors that jointly support local initiatives such as the growth and stability of neighborhoods and communities; social and economic diversity; and a strong and secure quality of life."
+
+  # Ed25519 signature over canonical-JSON of this YAML with this field set to
+  # null. Canonical-JSON form: sorted keys, compact separators (",",":"), UTF-8,
+  # ensure_ascii=False. Canonical-JSON SHA3-512 (for white-glove integrity
+  # pinning): 9ed64de78933fbf766e46d5a6981018e289f4313a3a68022f8432e46af8581e2dafd5dd8a87cdc3603b1dfbb606f53db6a0bed19077a9f07a54d811f3649d42a
+  # Signature target pubkey: vault_shared/cards/publisher_pubkey.signed.yaml
+  # (publisher_pubkey_ed25519_hex 0b1a0bbfa5ee9149af2c4e6153ed037dd03c0d562c94d3eaefeaf798e6f375bd)
+  ed25519_signature: "3c8802c1414e0b84d1ab766b353942cda4a2569d19ed603b3fce8f76e0160f4077115ed15971405b300ae4ec7ec5d0a454e540c8b427b2ef13cc37a174298d0c"
+
+# ---------------------------------------------------------------------------
+# REVIEW HANDBACK SUMMARY (per blueprint §18.11 Phase 5)
+# ---------------------------------------------------------------------------
+_review_handback:
+  card_axis_and_slug: "CLC:shared_assets"
+  card_file: "pipeline/cards/CLC/shared_assets.yaml"
+  research_hours_actual: 3.0
+  schema_completeness:
+    required_fields_populated: "15/15"
+    fields_needing_review: 0
+    total_citations: 27
+    unique_primary_sources: 15
+  decision_queue:
+    - "admin_risk_term_register MIGRATION TRACKING — block REMOVED at Cycle-2 FIX-IN-PLACE 2026-05-16 per Wave 1 + Wave 2 6-of-6 precedent (CLC-03 / CLC-02 / CLC-04 / CLC-05 / CLC-06 / CLC-07; this card = 7-of-7). The 9 CLC-08-scoped flagged terms (commons / shared infrastructure / community wealth / cooperative ownership / collective ownership / pooled resources / right to access / equity / sustainability) migrate to workspace-wide `pipeline/institutional_memory/admin_risk_register.yaml` v2.3 in a compound migration with sibling CLCs. Migration manifest preserved in the placeholder comment block above. Operator decision: when to fire the v2.3 compound migration dispatch (covers all 7 CLCs)."
+    - "Cross-family Thesis dispatch (Editor + Judge + Red Team) — card enters PENDING at draft promotion. Lifecycle promotes to 'reviewed' / 'thesis_passed' on Cycle 2 close per L-005 two-cycle convention from operating_capacity.yaml precedent."
+    - "Ed25519 signature once operator and Thesis pass — pending publisher key pin per architecture v7.0.11 §6."
+    - "scoring_weight_patterns: confirm qualitative-only posture per OQ-6 (no numeric win-rates) is the right runtime posture, or surface a 12-CycleReceipt threshold for a separate v0.2 numeric-weights amendment."
+    - "OD-1 (carry-over from Wave 1, RESOLVED via path-b at this card): admin_risk_term_register §18.6 schema-extension posture — 7-of-7 CLC cards have now chosen path b (block removed; entries migrate to workspace-wide register; Scribe routes CLC-side dialect through that register at runtime). §18.6 amendment to add admin_risk_term_register to CLC axis (path a) is no longer the active resolution. The 'collective ownership' specific entry from prior Cycle-1 review queue is folded into this general migration entry."
+    - "OD-3 (carry-over from Wave 1): evidence_weights.<kind>.source_citation §18.6 schema-extension posture — card uses optional source_citation per Wave 1 convention. Schema currently permits via additionalProperties:true (line 93); explicit §18.6 amendment optional but documented in operating_capacity OD-3."
+    - "OD-4 (carry-over from Wave 1): pre-LOCK archival snapshot pass on _research_metadata.primary_sources URLs. Internet Archive snapshot + archived_url backup field per primary_source entry for press-release / blog-style URLs prone to rotation."
+    - "Boundary question: when does a Shared Assets project cross over into Public Purpose & Works (CLC-01) territory? USDA RD CF Direct Loan + Grant blurs the line — public bodies operating community facilities can frame either way. Card does not assert exclusivity; runtime opportunity-driven matching per CLAUDE.md operator directive applies."
+    - "Boundary question: when does a Shared Assets project cross over into Operating Capacity (CLC-03)? When the request is for staffing or systems for an existing shared asset (not capital + governance for a new or expanded shared asset), CLC-03 is the better fit. Card documents this boundary in common_red_flags entry 'single_applicant_shaped_as_shared_asset' but does not enforce."
+  conflicts_with_prior_art:
+    - "NONE — admin_risk_register.yaml entries for 'sustainability', 'commons / food commons', 'community wealth-building', 'equity' reused at draft authoring time with consistent severity tiers and CLC-08-specific reviewer_context notes. At Cycle-2 FIX-IN-PLACE 2026-05-16 the admin_risk_term_register block was REMOVED per §18.6 schema baseline (field is CIC-only). The 9 CLC-08-scoped terms (4 existing + 5 NEW: shared infrastructure / cooperative ownership / collective ownership / pooled resources / right to access) migrate to workspace-wide `pipeline/institutional_memory/admin_risk_register.yaml` v2.3 in a compound migration with sibling CLCs."
+  surface_ambiguities:
+    - "Replacement reserve contribution rate convention (5-15% of capital cost annualized) is from a single practitioner-guidance source (Community Food Services PDF). This is the modal pattern in shared-use kitchen and food-hub planning literature, but card cites only one source. Phase 4 deepening could surface USDA RD CF reserve-adequacy guidance + GAAP nonprofit reserve standards for triangulation pre-LOCK."
+    - "USDA RD CF Direct Loan vs Grant — partial-grant tier eligibility is highly contextual (population threshold + median-household-income threshold per state). Card cites the program-level URL; per-FY NOFO carries the year-specific thresholds. Scout fetchOpportunity should attach the live thresholds at runtime."
+    - "CDFI underwriting standards (DSCR ≥ 1.20, 10-30% borrower equity) are typical-pattern citations from Reinvestment Fund + Capital Impact Partners practice but vary by lender. Per-deal terms apply at runtime; card anchors the structural pattern."
+    - "Match requirements are program-and-NOFO-specific. Card documents the modal pattern (USDA RD CF Direct Loan no match, USDA AMS LAMP 25% non-federal, foundation varies, CDFI 10-30% borrower equity); per-NOFO match documentation surfaces at Scout fetchOpportunity."
+    - "Sibling Wave 2 cards (CLC-06 Credit & Underwriting + CLC-07 Sponsorship & Corporate Support) author in parallel — once they land, verify no inadvertent CIC × CLC coupling appears across the trio (defense-in-depth)."
+    - "common_application_forms: state community-development authority applications are documented at the PA DCED level; other states (NY ESD, CA SGC, TX OOG, FL DEO) follow analogous-but-distinct patterns. Tightening to operator-active states in white-glove customization is a v0.2 step."
+  review_readiness: "READY"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SIDECAR AUGMENTATION (2026-05-18) — Handback §4 / §8 safe-now patches
+# ─────────────────────────────────────────────────────────────────────────────
+# Single-track CLC (no OD-E partition); patches apply at root level.
+# ─────────────────────────────────────────────────────────────────────────────
+
+augmented_additions:
+  reviewer_profile_typical_reviewer_types_new:
+    - state_grants_administrator
+    - community_foundation_program_officer_regional
+    - tribal_grants_specialist
+  reviewer_priorities_new:
+    - "Is the cost-recovery model credible against the operating-expense projection? (CDFI underwriters: DSCR ≥ 1.20 baseline; foundation reviewers: subsidy plan disclosed; public-agency reviewers: enterprise-fund or general-fund support documented.)"
+  common_red_flags_from_reviewer_pov_new:
+    - "Cost-recovery model unrealistic — projected user-fee revenue assumes 100% utilization at maximum-rate tier"
+  evidence_weights_new:
+    procurement_compliance_documentation:
+      weight: MEDIUM
+      rationale: "Federal-funding-only — three competitive bids above SAT (Simplified Acquisition Threshold = $250,000 per 2024 OMB Uniform Guidance update; Micro-Purchase Threshold = $10,000); sole-source justification where applicable; 2 CFR 200.317–326 documentation."
+      source_citation: https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D
+    civil_rights_compliance_documentation:
+      weight: MEDIUM
+      rationale: "Federal-funding-only — Title VI assurances, Section 504 / ADA accessibility design, Form RD 400-1 / 400-4 for USDA RD CF, ADA self-evaluation for renovation projects."
+      source_citation: https://www.rd.usda.gov/files/RD-Forms-400-1.pdf
+  evidence_weights_refine:
+    equipment_quote_rationale:
+      refine_note: "Update 2 CFR 200 procurement thresholds — three competitive bids above the Simplified Acquisition Threshold ($250,000 per 2024 OMB Uniform Guidance update; previously lower via NDFAA; Micro-Purchase Threshold raised to $10,000). Procurement rules under 2 CFR 200.317–326."
+  provenance_requirements_new:
+    user_member_commitments:
+      required_citation_type: "Signed commitment letter or MOU naming user/member + projected use (hours, units, cycles) + commitment to user fees or dues; dated within 12 months of application"
+      verbatim_quote_required: true
+    governance_agreement:
+      required_citation_type: "Bylaws / operating agreement / MOU / joint powers agreement / board resolution / authorizing ordinance — by section reference and date adopted"
+      verbatim_quote_required: false
+    access_policy:
+      required_citation_type: "Written access policy enumerating booking + member-class + conflict-resolution + fee schedule + non-discrimination assurances + onboarding requirements — by section reference"
+      verbatim_quote_required: false
+    site_control:
+      required_citation_type: "Deed, lease (with term ≥ useful life of capital improvements), recorded easement, or equipment title — by recording number and recording date"
+      verbatim_quote_required: false
+    replacement_reserve_documentation:
+      required_citation_type: "Multi-year reserve schedule + annual contribution rate (5–15% of capital cost annualized industry-modal) + projected reserve balance against scheduled major-replacement events"
+      verbatim_quote_required: false
+  common_red_flags_new:
+    - flag: procurement_compliance_gap
+      severity: MEDIUM
+      red_team_probe: "For the equipment / construction line items above $250,000, have three competitive bids been documented? If sole-source, is the sole-source justification on file? Are procurement records preserved per 2 CFR 200.334 for three years post-final-report?"
+      source_citation: https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D
+    - flag: civil_rights_compliance_gap
+      severity: MEDIUM
+      red_team_probe: "For USDA RD CF / CDBG / federal grant — has Form RD 400-1 / 400-4 been filed? Has the access policy been screened for Title VI Limited English Proficiency (LEP) compliance? For renovation, has an ADA self-evaluation been completed?"
+    - flag: nepa_environmental_review_unresolved
+      severity: HIGH
+      red_team_probe: "What NEPA classification applies — Categorical Exclusion, Environmental Assessment, or Environmental Impact Statement? Who is the federal action lead? Is the NEPA determination memo on file before construction? Is the Section 106 historic-preservation review complete?"
+  commitment_tracking_pattern_new:
+    - commitment_type: civil_rights_compliance_reporting
+      measurement_method: "Federally-funded shared assets — Title VI assurances renewed annually; Section 504 / ADA accessibility complaints log + resolution; LEP plan updates; Form RD 400-1 / 400-4 renewal cycle per program guidance."
+    - commitment_type: procurement_audit_compliance
+      measurement_method: "Federally-funded shared assets — procurement records preserved per 2 CFR 200.334 retention period (3 years post-final-report); annual Single Audit submission if federal expenditures ≥ $1M (2024 OMB Uniform Guidance update); SF-425 + SF-PPR per program schedule."
+  commitment_tracking_pattern_refine:
+    access_equity_distribution_measurement_method:
+      refine_note: "per quarter and per year; report smallest-user-share + top-decile-concentration as headline KPIs; Lorenz curve as supplementary visualization."
+  reviewer_culture_subtypes:
+    - subtype: federal_program_officer
+      differentiation_note: USDA RD CF specialists + USDA AMS LAMP reviewers + CDBG state-administrator reviewers evaluate program eligibility + federal compliance (2 CFR 200 / Davis-Bacon / NEPA / civil rights).
+      rubric_signal: Rewards clean federal-compliance posture + cost-recovery realism + access-policy enumeration. Penalizes procurement-compliance gap, NEPA-unresolved, civil-rights-compliance gap.
+    - subtype: foundation_program_officer
+      differentiation_note: Foundation community-development program officers (Kresge, Surdna, Reinvestment Fund, Capital Impact Partners as foundation-aligned CDFIs) weight shared-asset governance + access equity + replacement-reserve adequacy.
+      rubric_signal: Rewards governance-separation evidence + access-policy six-component enumeration + multi-year reserve schedule. Penalizes single-applicant-shaped-as-shared-asset framing.
+    - subtype: credit_committee
+      differentiation_note: CDFI shared-asset underwriters apply DSCR ≥ 1.20 + 10-30% borrower equity + replacement-reserve adequacy + governance-separation tests.
+      rubric_signal: Rewards traceable cost-recovery math + reserve adequacy + clean site control. Penalizes cost-recovery model assuming 100% utilization at maximum-rate tier.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Cross-references to active Program Rule Packs (CONDITIONAL — all three)
+# ─────────────────────────────────────────────────────────────────────────────
+cross_references_prp:
+  - prp_id: TILTH-PRP-2CFR200
+    applicability: CONDITIONAL
+    fires_when: Shared asset is federally-funded (USDA RD CF Direct Loan/Grant, USDA AMS LAMP, CDBG, USDA NIFA CFP, CDFI Fund HFFI federal flow). Procurement, Single Audit, SF-425/PPR, civil-rights compliance apply.
+    scope_note: PRP applies whenever federal financial assistance funds the shared facility.
+  - prp_id: TILTH-PRP-DAVIS-BACON
+    applicability: CONDITIONAL
+    fires_when: Federally-funded shared facility construction or substantial renovation; Davis-Bacon prevailing wage applies to laborers and mechanics employed on the construction contract.
+    scope_note: Operationally fires when federal funds support physical construction; equipment-only purchases generally exempt.
+  - prp_id: TILTH-PRP-NEPA-24CFR58
+    applicability: CONDITIONAL
+    fires_when: Federally-funded shared facility involves physical project (new construction, substantial rehabilitation, site disturbance). NEPA categorical exclusion vs EA vs EIS determination required; Section 106 historic-preservation review parallel.
+    scope_note: PRP applies when federal action lead has identified the project for NEPA review; CDBG-funded projects route through 24 CFR Part 58 environmental review.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Draft provenance — sidecar augmentation pass
+# ─────────────────────────────────────────────────────────────────────────────
+_draft_provenance:
+  draft_authored_at: "2026-05-18T00:00:00Z"
+  draft_authored_by_role: card_content_augmentation_pass_v1
+  source_handback: docs/clc_shared_assets_research_handback_2026-05-17.md
+  source_handback_sections_consumed:
+    - "§4 Proposed Card Improvements"
+    - "§8 Patch Plan"
+  prp_scaffolding_referenced:
+    - pipeline/program_rule_packs/_manifest/active_prps.yaml
+    - pipeline/blueprint/v0.1/section_19_program_rule_packs.md
+  prp_ids_cross_referenced:
+    - TILTH-PRP-2CFR200
+    - TILTH-PRP-DAVIS-BACON
+    - TILTH-PRP-NEPA-24CFR58
+  operator_roadmap_alignment: "Step #5: card content augmentation passes parallel with PRP authoring once PRP pointers exist (per docs/CTO_HANDOFF_BRIEF.md §3.2 + Run 4 synthesis §6)."
+  patches_deferred_pending_operator_review:
+    - "§4.1.1 common_funders_observed 13-entry roster (Law-5 discipline — operator decides which funders qualify as observational priors)"
+    - "§4.1.3 CLT-specific governance — operator decides between sub-bullet (safe) or new criterion entry (refusal (a) risk)"
+    - "§4.4.3 / §4.4.4 workspace-register candidate terms (food hub / commissary kitchen) — operator decides whether to add to admin_risk_register.yaml v2.4 as LOW-severity federal GREEN entries"
+    - "§4.8 Memory namespace pattern adoption for cards:clc:shared_assets:funders_observed / asset_class_mapping / replacement_reserve_thresholds (v0.2 horizon)"
+  patches_deferred_pending_schema_amendment:
+    - "reviewer_culture_subtypes field adoption (Run 4 synthesis §1.3 item 3 cross-CLC P1)"
+    - "augmented_additions sidecar shape (final integration into root pending schema lock)"
+    - "_research_metadata.boundary_clarifications sub-field formalization (CLC-08 ↔ CLC-01 ↔ CLC-03 ↔ CLC-05 boundary reasoning)"
+  patches_deferred_pending_cards_ceremony:
+    - "Law-5 common_funders_observed relocation (cross-CLC discipline)"
+    - "Admin-risk register cross-CLC migration to v3.0 (verify 9 CLC-08 terms + per_clc_register.shared_assets cells at v2.4)"
+    - "Reciprocal _research_metadata.boundary_clarifications entries on sibling CLCs (operating_capacity / public_purpose_works / market_access)"
+  no_lockfiles_modified: true
+  no_schema_modified: true
+  no_signatures_modified: true

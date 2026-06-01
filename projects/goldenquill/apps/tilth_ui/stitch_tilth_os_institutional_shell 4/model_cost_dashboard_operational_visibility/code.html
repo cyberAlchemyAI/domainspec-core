@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Model Cost Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ffdad6",
+                        "surface-bright": "#2f3a4c",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary": "#283044",
+                        "on-surface": "#d8e3fb",
+                        "surface-container-low": "#111c2d",
+                        "tertiary-container": "#dae2fd",
+                        "on-tertiary-container": "#5c647a",
+                        "surface-container-lowest": "#040e1f",
+                        "on-secondary-container": "#a9bad3",
+                        "surface-dim": "#081425",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-container": "#152031",
+                        "background": "#081425",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "outline-variant": "#444748",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed": "#131b2e",
+                        "inverse-primary": "#5d5f5f",
+                        "secondary-fixed": "#d3e4fe",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-container-highest": "#2a3548",
+                        "outline": "#8e9192",
+                        "primary-fixed": "#e2e2e2",
+                        "on-secondary": "#213145",
+                        "surface-variant": "#2a3548",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-error": "#690005",
+                        "surface-tint": "#c6c6c7",
+                        "surface": "#081425",
+                        "inverse-on-surface": "#263143",
+                        "on-primary-fixed": "#1a1c1c",
+                        "secondary": "#b7c8e1",
+                        "secondary-container": "#3a4a5f",
+                        "on-background": "#d8e3fb",
+                        "surface-container-high": "#1f2a3c",
+                        "on-primary-container": "#636565",
+                        "primary": "#ffffff",
+                        "tertiary": "#ffffff",
+                        "primary-container": "#e2e2e2",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-primary": "#2f3131",
+                        "inverse-surface": "#d8e3fb",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-primary-fixed-variant": "#454747"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sidebar-width": "220px",
+                        "gutter": "1px",
+                        "unit": "4px",
+                        "panel-gap": "8px",
+                        "container-padding": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Strict flat aesthetics overrides */
+        body { background-color: #020617; } /* Hardcoded Level 0 based on rules if theme config is lacking */
+        
+        /* Grid gap trick for 1px borders */
+        .brutal-grid {
+            display: grid;
+            gap: 1px;
+            background-color: theme('colors.outline-variant');
+        }
+        .brutal-panel {
+            background-color: theme('colors.surface-container');
+        }
+        
+        /* Scrollbar styling for density */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: theme('colors.outline-variant'); }
+    </style>
+</head>
+<body class="text-on-surface bg-background overflow-hidden selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-container-padding h-[56px] border-b border-outline-variant bg-surface-container-highest dark:bg-surface-container-highest">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter">GOLDEN QUILL</span>
+<div class="h-4 w-px bg-outline-variant mx-2"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant flex items-center gap-1">
+<span class="w-2 h-2 bg-secondary block"></span>
+                POSTURE: HYBRID
+            </span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<span class="font-label-caps text-label-caps text-on-surface bg-surface-container-low px-2 py-1 border border-outline-variant">APPLIED AS: FIT FARMS LLC</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">KEY: 0x8F...2A1</span>
+</div>
+<div class="flex gap-4 text-primary dark:text-primary">
+<span class="material-symbols-outlined hover:bg-surface-bright transition-none cursor-pointer">security</span>
+<span class="material-symbols-outlined hover:bg-surface-bright transition-none cursor-pointer">verified_user</span>
+<span class="material-symbols-outlined hover:bg-surface-bright transition-none cursor-pointer">gavel</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-[56px] w-sidebar-width h-[calc(100vh-56px)] border-r border-outline-variant bg-surface-container-low dark:bg-surface-container-low flex flex-col z-40">
+<div class="p-container-padding border-b border-outline-variant">
+<h2 class="font-headline-md text-headline-md text-primary mb-1">NODE IDENTITY</h2>
+<p class="font-label-caps text-label-caps text-secondary">POSTURE: SECURE</p>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<!-- Tabs 0-12 Inactive -->
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]">map</span>
+<span class="font-label-caps text-label-caps">Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]">signature</span>
+<span class="font-label-caps text-label-caps">Sign-Off</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]">style</span>
+<span class="font-label-caps text-label-caps">Cards</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDs</span>
+</a>
+<!-- Tab 13 Active (Costs) -->
+<a class="flex items-center gap-3 px-4 py-2 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-sidebar-width pt-[56px] pb-[32px] min-h-screen flex flex-col p-container-padding gap-unit">
+<!-- Context Header -->
+<div class="flex justify-between items-end mb-2">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary">CYCLE OBSERVABILITY</h1>
+<p class="font-data-mono text-data-mono text-on-surface-variant mt-1">ID: cycle_2026-05-20T14:32Z</p>
+</div>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-4 py-2 border border-primary hover:bg-transparent hover:text-primary transition-none">
+                EXPORT LOG
+            </button>
+</div>
+<!-- Brutal Grid Layout -->
+<div class="brutal-grid grid-cols-12 flex-1 relative">
+<!-- Metrics Strip -->
+<div class="col-span-3 brutal-panel p-4 flex flex-col justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">TOTAL CYCLE COST</span>
+<span class="font-data-mono text-data-mono text-[32px] leading-none text-primary mt-4">$14.22</span>
+</div>
+<div class="col-span-3 brutal-panel p-4 flex flex-col justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">TOTAL TOKENS</span>
+<span class="font-data-mono text-data-mono text-[32px] leading-none text-on-surface mt-4">184.3k</span>
+</div>
+<div class="col-span-3 brutal-panel p-4 flex flex-col justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">CACHE HIT RATE</span>
+<span class="font-data-mono text-data-mono text-[32px] leading-none text-secondary mt-4">64.2%</span>
+</div>
+<div class="col-span-3 brutal-panel p-4 flex flex-col justify-between bg-surface-container-high">
+<span class="font-label-caps text-label-caps text-primary">EST. LOCAL SAVINGS</span>
+<span class="font-data-mono text-data-mono text-[32px] leading-none text-primary mt-4">$42.10</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant mt-1">IF 100% LOCAL EXEC</span>
+</div>
+<!-- Main Timeline & Breakdowns -->
+<div class="col-span-8 brutal-grid grid-cols-1 grid-rows-[auto_1fr] border-t border-outline-variant">
+<!-- Breakdown Row -->
+<div class="brutal-grid grid-cols-2">
+<!-- Seat Cost -->
+<div class="brutal-panel p-4">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4 border-b border-outline-variant pb-2">COST BY SEAT</h3>
+<div class="flex flex-col gap-2 font-data-mono text-data-mono text-sm">
+<div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="w-2 h-2 bg-secondary"></span> Scout</span> <span>$1.10</span></div>
+<div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="w-2 h-2 bg-error"></span> Scribe</span> <span>$4.45</span></div>
+<div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="w-2 h-2 bg-outline"></span> Judge</span> <span>$6.20</span></div>
+<div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="w-2 h-2 bg-primary-container"></span> Red Team</span> <span>$0.55</span></div>
+<div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="w-2 h-2 bg-surface-container-highest"></span> Logician</span> <span>$1.92</span></div>
+</div>
+</div>
+<!-- Provider -->
+<div class="brutal-panel p-4">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4 border-b border-outline-variant pb-2">PROVIDER ROUTING</h3>
+<div class="flex flex-col gap-2 font-data-mono text-data-mono text-sm">
+<div class="flex justify-between items-center"><span class="text-secondary">Local Node (tilth-v1)</span> <span>$0.00</span></div>
+<div class="flex justify-between items-center"><span class="text-primary">Frontier (gpt-4o)</span> <span>$11.80</span></div>
+<div class="flex justify-between items-center"><span class="text-on-surface-variant">Hybrid Relay</span> <span>$2.42</span></div>
+</div>
+</div>
+</div>
+<!-- Timeline -->
+<div class="brutal-panel flex flex-col border-t border-outline-variant">
+<div class="px-4 py-2 bg-surface-container-low border-b border-outline-variant flex justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">INVOCATION TIMELINE</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">LATEST FIRST</span>
+</div>
+<div class="flex-1 overflow-y-auto">
+<table class="w-full text-left font-data-mono text-data-mono text-sm">
+<thead class="text-on-surface-variant bg-surface-container sticky top-0 border-b border-outline-variant">
+<tr>
+<th class="p-2 font-normal">TIMESTAMP</th>
+<th class="p-2 font-normal">SEAT / ACTION</th>
+<th class="p-2 font-normal text-right">TOKENS</th>
+<th class="p-2 font-normal text-right">COST</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-outline-variant hover:bg-surface-container-high cursor-pointer">
+<td class="p-2 text-on-surface-variant">14:32:01.04</td>
+<td class="p-2">Judge Final Verdict</td>
+<td class="p-2 text-right">8.1k</td>
+<td class="p-2 text-right">$0.42</td>
+</tr>
+<!-- Highlighted Event -->
+<tr class="border-b border-outline-variant bg-surface-container-highest cursor-pointer relative">
+<td class="p-2 text-primary">14:31:58.22</td>
+<td class="p-2 text-primary">Red Team Advesarial Probe</td>
+<td class="p-2 text-right text-primary">12.4k</td>
+<td class="p-2 text-right text-primary">$0.18</td>
+<td class="absolute left-0 top-0 bottom-0 w-[2px] bg-primary"></td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-high cursor-pointer">
+<td class="p-2 text-on-surface-variant">14:31:45.90</td>
+<td class="p-2">Scribe Draft Gen</td>
+<td class="p-2 text-right">45.2k</td>
+<td class="p-2 text-right">$2.10</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-high cursor-pointer">
+<td class="p-2 text-on-surface-variant">14:31:12.11</td>
+<td class="p-2">Scout Retrieval Search</td>
+<td class="p-2 text-right">2.1k</td>
+<td class="p-2 text-right">$0.04</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Inspector -->
+<div class="col-span-4 brutal-panel bg-surface-container-low flex flex-col border-l border-outline-variant">
+<div class="px-4 py-3 border-b border-outline-variant flex items-center justify-between bg-surface-container">
+<span class="font-label-caps text-label-caps text-primary">COST DETAIL INSPECTOR</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">tune</span>
+</div>
+<div class="p-4 flex flex-col gap-6">
+<div>
+<h4 class="font-body-sm text-body-sm text-on-surface-variant mb-1">SELECTED EVENT</h4>
+<p class="font-data-mono text-data-mono text-primary">Red Team Advesarial Probe</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-1">MODEL ID</h4>
+<p class="font-data-mono text-data-mono text-on-surface bg-surface border border-outline-variant px-2 py-1 inline-block">gpt-4o-2024-05-13</p>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-1">LATENCY</h4>
+<p class="font-data-mono text-data-mono text-on-surface">1,240 ms</p>
+</div>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-2 border-b border-outline-variant pb-1">CONTEXT WINDOW</h4>
+<div class="w-full bg-surface-container-highest h-2 mt-2 flex">
+<div class="bg-primary h-full" style="width: 15%"></div>
+<div class="bg-outline h-full" style="width: 5%"></div>
+</div>
+<div class="flex justify-between mt-1 font-data-mono text-data-mono text-[10px] text-on-surface-variant">
+<span>12.4k USED</span>
+<span>128k MAX</span>
+</div>
+<ul class="font-data-mono text-data-mono text-xs mt-3 flex flex-col gap-1">
+<li class="flex justify-between"><span class="text-on-surface-variant">Prompt Tokens:</span> <span>10,120</span></li>
+<li class="flex justify-between"><span class="text-on-surface-variant">Completion Tokens:</span> <span>2,280</span></li>
+<li class="flex justify-between"><span class="text-secondary">Cached Tokens:</span> <span>8,400</span></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-2 border-b border-outline-variant pb-1">EXECUTION OVERHEAD</h4>
+<ul class="font-data-mono text-data-mono text-xs flex flex-col gap-1">
+<li class="flex justify-between"><span class="text-on-surface-variant">Verification Passes:</span> <span>2</span></li>
+<li class="flex justify-between"><span class="text-on-surface-variant">Guardrail Latency:</span> <span>45 ms</span></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 h-[32px] border-t border-outline-variant bg-surface-container-lowest dark:bg-surface-container-lowest flex items-center justify-between px-4">
+<span class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</span>
+<div class="flex gap-4">
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none static technical display" href="#">SYSTEM_STATUS</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none static technical display" href="#">AUDIT_LOG</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none static technical display" href="#">FID_0x2A</a>
+</div>
+</footer>
+</body></html>

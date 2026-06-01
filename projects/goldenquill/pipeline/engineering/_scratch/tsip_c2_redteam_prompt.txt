@@ -1,0 +1,56 @@
+ORG:goldenquill
+TRACE:cycle2-audit-tsip-2026-04-20
+
+You are Tilth's Red Team seat, live Cycle 2 adversarial audit of TSIP v0.1 after Cycle 2 fixes F-1 through F-10. Your family: OpenAI-OSS (GPT-OSS 120B / Groq).
+
+IMPORTANT INTERPRETATION CONTEXT (policy-lock reading adopted):
+Tilth treats LOCKED-sealed as POLICY-LOCK. Amendments seal policy; implementation (scripts, gates, tests) lives in the engineering queue per Da Vinci §7 and Logician v0.2. When assessing closure:
+- "Fix names a mechanism but script doesn't exist yet" = CLOSED-for-policy + engineering-queue item
+- "Fix has policy-level logic gap" = OPEN-for-policy = blocking
+
+Focus your adversarial attack on POLICY-level gaps, not implementation-proof gaps. Implementation-proof findings belong in engineering queue annotations, not LOCK blockers.
+
+DISCIPLINE: challenge closures + find NEW policy weaknesses the fixes may have introduced.
+
+Your Cycle 1 findings: 1 HIGH + 6 MED + 3 LOW = 10 total.
+
+OUTPUT — SFR three-block ≤ 900 tokens:
+- PREMISES (Cycle 1 IDs + F-N references)
+- EXECUTION TRACE: closure check (CLOSED-policy / OPEN-policy + engineering-queue-annotation / NEW findings) per Cycle 1 ID
+- CONCLUSION: policy-CLOSED count, OPEN-policy count, NEW findings HIGH/MED/LOW, blocking:true|false, Verdict
+
+=== CYCLE 1 FINDINGS ===
+RT-TSIP-01 HIGH — Bootstrap exception loophole (reusable escape hatch)
+RT-TSIP-02 MED — Reviewer-family assignment gameable (author picks cooperative reviewer)
+RT-TSIP-03 MED — Watchlist phone-home risk
+RT-TSIP-04 MED — "One-week formal extension" repeatable = de facto silent extension
+RT-TSIP-05 MED — "Zero blocking dissent" needs deterministic gate
+RT-TSIP-07 MED — Triage Q5 default-NO needs appeal mechanism
+RT-TSIP-06 LOW — Operating audit no fallback if Da Vinci never lands
+RT-TSIP-08 LOW — Spike manifest needs pre-approval
+RT-TSIP-09 LOW — v0.2 continuous-scan no contingency
+
+=== CYCLE 2 FIXES (claim to close the above) ===
+
+F-1 closes 01: bootstrap single-use, Logician gate F-BOOTSTRAP-REUSE queued.
+F-2 closes 02: reviewer assignment from router.yaml + documented deviations + operator ledger sign-off.
+F-3 closes 03: watchlist phone-home carve-out (accepted surveillance cost; sovereignty scoped to inference, not discovery).
+F-4 closes 04: hard extension ceiling of 2 extensions total (4 weeks absolute); third extension = fresh Thesis.
+F-5 closes 05: mandatory blocking:true|false field + Logician POST-gate F-VERDICT-BLOCKING-MISSING (v0.2 queue).
+F-7 closes 07: Q5-only rejections get 30-day cooling-off + batch re-review.
+F-6 closes 06: operator-alone audit clarified as acceptable steady-state.
+F-9 closes 08: manifest YAML validated against JSON schema before branch creation.
+F-10 closes 09: 12-month fallback to manual weekly review if Da Vinci never lands.
+
+=== ATTACK POLICY-LEVEL GAPS ===
+
+For each F-N, challenge:
+- Does the POLICY logic have a loophole? (e.g., F-4 "third extension is fresh Thesis" — but fresh Thesis could re-extend; what's the total-across-Thesis cap?)
+- Does the policy have self-reference problems? (e.g., F-2 "operator signs assignment" — what if operator is compromised or fatigued?)
+- Does F-3's "accepted surveillance cost" leak client-identifying info via timing or watchlist URL patterns?
+- Does F-5's reliance on operator-manual verification (v0.1) introduce inconsistency?
+- Does F-7's 30-day cooling-off have its own failure modes?
+
+NEW findings: anything the fixes introduced at policy level.
+
+Produce verdict.

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Invite Collaborator - Golden Quill</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-surface": "#d8e3fb",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#283044",
+                        "on-error": "#690005",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "outline": "#8e9192",
+                        "on-surface": "#d8e3fb",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-primary-container": "#636565",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-tertiary-fixed": "#131b2e",
+                        "surface-container-high": "#1f2a3c",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-primary": "#2f3131",
+                        "inverse-primary": "#5d5f5f",
+                        "surface-bright": "#2f3a4c",
+                        "surface-dim": "#081425",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "surface-tint": "#c6c6c7",
+                        "primary-container": "#e2e2e2",
+                        "surface-container": "#152031",
+                        "outline-variant": "#444748",
+                        "on-tertiary-container": "#5c647a",
+                        "on-background": "#d8e3fb",
+                        "primary": "#ffffff",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-container-highest": "#2a3548",
+                        "tertiary": "#ffffff",
+                        "secondary-container": "#3a4a5f",
+                        "inverse-on-surface": "#263143",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#2a3548",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-container-lowest": "#040e1f",
+                        "tertiary-fixed": "#dae2fd",
+                        "secondary": "#b7c8e1",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-secondary-container": "#a9bad3",
+                        "surface-container-low": "#111c2d",
+                        "surface": "#081425",
+                        "primary-fixed": "#e2e2e2",
+                        "on-secondary": "#213145",
+                        "background": "#081425",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "terracotta": "#E2725B" // Added for the specific request
+                    },
+                    borderRadius: {
+                        DEFAULT: "0px", // Enforced brutalism
+                        lg: "0px",
+                        xl: "0px",
+                        full: "0px"
+                    },
+                    spacing: {
+                        "container-padding": "16px",
+                        "gutter": "1px",
+                        "unit": "4px",
+                        "panel-gap": "8px",
+                        "sidebar-width": "240px"
+                    },
+                    fontFamily: {
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-sm": ["Hanken Grotesk"]
+                    },
+                    fontSize: {
+                        "body-md": ["14px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }],
+                        "display-lg": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-md": ["20px", { lineHeight: "1.4", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "data-mono": ["13px", { lineHeight: "1", letterSpacing: "-0.01em", fontWeight: "500" }],
+                        "label-caps": ["11px", { lineHeight: "1", letterSpacing: "0.05em", fontWeight: "700" }],
+                        "body-sm": ["12px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #020617; color: #d8e3fb; }
+        .brutal-border { border: 1px solid #334155; }
+        .brutal-border-active { border: 1px solid #ffffff; }
+        
+        /* Modal Overlay specific styles to dim background */
+        .modal-overlay {
+            background-color: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(2px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-hidden relative">
+<!-- Mock Background (Dimmed by overlay) -->
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none" data-alt="A highly structured, technical server room environment viewed through a muted, dark filter. Rows of massive data racks emit faint blue and white LEDs, creating a rigid grid of light against deep blacks and shadowy slate greys. The atmosphere is stark, functional, and devoid of any human presence, emphasizing uncompromising digital authority and institutional control." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAhyq0yyXYEsLmhXKplcrIGhY967eB2ZHKyHY2X5jH3fdoQ_PEsDTvEBFW5dhMMCZnHE-QMuzx75f8o2teFkcQbxsjwodrd4nJZXl8bcuTmQRu3-SDlypoH8UG3F150_K4oanH9-6ovNAK4onw9IU9l0urcabyVKoMkLRDFAkjdU_konFn75zKmtmcIMUSf7AXT3z2CvVNcDcH1ozbKC8BM0ekHesyWa76Ktgx8BtRfy7sDHLL4MedYX_Zsnk8E09_S1Nnd0sjRJiI'); background-size: cover; background-position: center;"></div>
+<!-- TopAppBar -->
+<header class="bg-surface-container-highest dark:bg-surface-container-highest h-[56px] w-full border-b border-outline-variant flex items-center justify-between px-container-padding z-10 relative">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter">GOLDEN QUILL</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex gap-2">
+<button class="h-8 w-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-bright transition-none brutal-border">
+<span class="material-symbols-outlined" style="font-size: 18px;">security</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-bright transition-none brutal-border">
+<span class="material-symbols-outlined" style="font-size: 18px;">verified_user</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-bright transition-none brutal-border">
+<span class="material-symbols-outlined" style="font-size: 18px;">gavel</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden z-10 relative">
+<!-- SideNavBar -->
+<nav class="w-[220px] h-full border-r border-outline-variant bg-surface-container-low dark:bg-surface-container-low flex flex-col hidden md:flex shrink-0">
+<div class="p-4 border-b border-outline-variant">
+<div class="font-headline-md text-headline-md text-primary">NODE IDENTITY</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant mt-1 text-xs">POSTURE: SECURE</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<!-- Navigation Items -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined" style="font-size: 18px;">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<!-- Assuming this modal is accessed from a generic settings/team area, highlighting nothing specifically or a generic active state -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined" style="font-size: 18px;">group</span>
+<span class="font-label-caps text-label-caps">Team</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined" style="font-size: 18px;">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area (Dimmed by modal) -->
+<main class="flex-1 p-6 relative">
+<!-- MODAL OVERLAY -->
+<div class="fixed inset-0 z-50 flex items-center justify-center modal-overlay p-4">
+<!-- Modal Container -->
+<div class="bg-surface-container w-full max-w-2xl brutal-border shadow-2xl flex flex-col">
+<!-- Modal Header -->
+<div class="flex items-center justify-between p-4 border-b border-outline-variant bg-surface-container-highest">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<h2 class="font-headline-md text-headline-md text-primary m-0">COLLABORATOR PROVISIONED</h2>
+</div>
+<button aria-label="Close Modal" class="text-on-surface-variant hover:text-primary transition-none">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="p-6 flex flex-col gap-6">
+<!-- Collaborator Detail Section -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 border border-outline-variant p-4 bg-surface-dim">
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Target Identification</label>
+<input class="bg-surface w-full h-10 px-3 font-data-mono text-data-mono text-primary brutal-border focus:brutal-border-active focus:outline-none placeholder:text-on-surface-variant/50" placeholder="operator@institution.gov" type="email"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Role Designation</label>
+<div class="relative">
+<select class="bg-surface w-full h-10 px-3 appearance-none font-data-mono text-data-mono text-primary brutal-border focus:brutal-border-active focus:outline-none">
+<option value="reviewer">Reviewer</option>
+<option value="operator">Operator</option>
+<option value="guest">Guest</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant" style="font-size: 18px;">arrow_drop_down</span>
+</div>
+</div>
+</div>
+<!-- Scope Selector -->
+<div class="flex flex-col gap-3 border border-outline-variant p-4 bg-surface-dim">
+<div class="flex items-center justify-between border-b border-outline-variant pb-2">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Scope Restriction</h3>
+<span class="font-data-mono text-data-mono text-xs text-primary bg-surface px-2 py-1 brutal-border">ACTIVE CYCLES ONLY</span>
+</div>
+<div class="flex flex-col gap-2 mt-2 max-h-[150px] overflow-y-auto pr-2 custom-scrollbar">
+<!-- Scope Item 1 -->
+<label class="flex items-start gap-3 p-3 border border-outline-variant hover:bg-surface-container cursor-pointer transition-none">
+<input checked="" class="mt-0.5 bg-surface border-outline-variant checked:bg-primary checked:border-primary focus:ring-0 rounded-none w-4 h-4" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-data-mono text-data-mono text-primary">USDA Rural Energy Grant</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">ID: REG-2024-Q3</span>
+</div>
+</label>
+<!-- Scope Item 2 -->
+<label class="flex items-start gap-3 p-3 border border-outline-variant hover:bg-surface-container cursor-pointer transition-none">
+<input class="mt-0.5 bg-surface border-outline-variant checked:bg-primary checked:border-primary focus:ring-0 rounded-none w-4 h-4" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-data-mono text-data-mono text-primary">Department of Defense Innovation Fund</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">ID: DOD-IF-009</span>
+</div>
+</label>
+<div class="flex items-start justify-between gap-3 p-3 border border-outline-variant bg-surface-container/50 transition-none">
+<div class="flex flex-col">
+<span class="font-data-mono text-data-mono text-primary">operator@institution.gov</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant italic">PENDING INVITATION</span>
+</div>
+<span class="font-label-caps text-[9px] text-[#000000] bg-terracotta px-1.5 py-0.5 uppercase">seat-scout</span>
+</div></div>
+</div>
+<!-- Authorization Block -->
+<div class="flex flex-col gap-3 border border-[#4ADE80] p-4 bg-[#0a0a0a]">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[#4ADE80]" style="font-size: 16px;">verified</span>
+<span class="font-label-caps text-label-caps text-[#4ADE80] uppercase">Provisioning Successful</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Cryptographic sign-off verified. The following authorization token has been generated:
+    </p>
+<div class="p-3 bg-surface border border-outline-variant">
+<span class="font-data-mono text-data-mono text-primary">SIG_0x7f3a...b2e9</span>
+</div>
+</div>
+</div>
+<!-- Modal Footer Actions -->
+<div class="flex items-center justify-between p-4 border-t border-outline-variant bg-surface-container-lowest">
+<button class="h-10 px-6 bg-transparent border border-outline-variant text-primary font-label-caps text-label-caps hover:bg-surface-dim transition-none uppercase tracking-wider">
+                            Cancel
+                        </button>
+<!-- Primary Action with custom color as requested, mimicking brutalist primary button structure but with injected color -->
+<button class="h-10 px-6 bg-[#E2725B] text-[#000000] font-label-caps text-label-caps font-bold transition-none uppercase tracking-wider hover:opacity-90 flex items-center gap-2 border border-[#E2725B]">
+<span>SEND INVITATION</span>
+<span class="material-symbols-outlined" style="font-size: 16px;">send</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest h-[32px] w-full border-t border-outline-variant fixed bottom-0 z-50 flex items-center justify-between px-4">
+<div class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</div>
+<div class="flex gap-4">
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary" href="#">SYSTEM_STATUS</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary" href="#">AUDIT_LOG</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary" href="#">FID_0x2A</a>
+</div>
+</footer>
+</body></html>

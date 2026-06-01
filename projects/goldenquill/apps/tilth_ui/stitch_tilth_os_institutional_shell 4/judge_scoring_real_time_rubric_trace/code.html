@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Judge Scoring - Golden Quill</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#ffffff",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-dim": "#081425",
+                        "surface-tint": "#c6c6c7",
+                        "tertiary-container": "#dae2fd",
+                        "on-primary-container": "#636565",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#1f2a3c",
+                        "primary-container": "#e2e2e2",
+                        "on-background": "#d8e3fb",
+                        "surface-container": "#152031",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary-fixed-variant": "#454747",
+                        "secondary": "#b7c8e1",
+                        "on-tertiary-container": "#5c647a",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-tertiary-fixed": "#131b2e",
+                        "surface-bright": "#2f3a4c",
+                        "background": "#081425",
+                        "surface-container-highest": "#2a3548",
+                        "surface-variant": "#2a3548",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "secondary-container": "#3a4a5f",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-container-low": "#111c2d",
+                        "on-surface": "#d8e3fb",
+                        "surface": "#081425",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-secondary-container": "#a9bad3",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-secondary": "#213145",
+                        "primary-fixed": "#e2e2e2",
+                        "inverse-on-surface": "#263143",
+                        "outline-variant": "#444748",
+                        "on-surface-variant": "#c4c7c8",
+                        "outline": "#8e9192",
+                        "surface-container-lowest": "#040e1f",
+                        "tertiary": "#ffffff",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#d8e3fb",
+                        "on-error": "#690005",
+                        "inverse-primary": "#5d5f5f",
+                        "on-primary-fixed": "#1a1c1c",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary": "#283044",
+                        "on-primary": "#2f3131",
+                        // Earth-tone overrides requested by prompt but adapting to system tokens
+                        "sage": "#8b9c8b",
+                        "rust": "#c55a40",
+                        "bone": "#e3dac9",
+                        "paper": "#f5f5dc",
+                        "oak": "#806b52",
+                        "charcoal": "#333333"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "container-padding": "16px",
+                        "gutter": "1px",
+                        "panel-gap": "8px",
+                        "sidebar-width": "220px" // Adjusted to match JSON
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "data-mono": ["JetBrains Mono"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Modern Brutalism / Technical Industrialism resets */
+        * { border-radius: 0 !important; }
+        body { background-color: #020617; color: #d8e3fb; font-family: 'Hanken Grotesk', sans-serif; overflow: hidden; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border: 1px solid #020617; }
+        .border-slate { border-color: #334155; }
+        .bg-level-0 { background-color: #020617; }
+        .bg-level-1 { background-color: #0F172A; }
+        .bg-level-2 { background-color: #1E293B; }
+        .text-sage { color: #8b9c8b; }
+        .text-rust { color: #c55a40; }
+        .border-rust { border-color: #c55a40; }
+        .bg-rust-dim { background-color: rgba(197, 90, 64, 0.1); }
+        .font-serif-content { font-family: 'Georgia', serif; } /* For draft excerpts and rationale */
+    </style>
+</head>
+<body class="flex flex-col h-screen antialiased bg-level-0">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-container-padding w-full h-[56px] bg-surface-container-highest dark:bg-surface-container-highest border-b border-slate shrink-0 z-20">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter">GOLDEN QUILL</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-on-surface-variant font-data-mono text-data-mono">
+<span class="material-symbols-outlined text-[14px]">sync</span>
+<span class="">SYNCED</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-data-mono text-data-mono">
+<span class="material-symbols-outlined text-[14px]">key</span>
+<span class="">0x8f2...2A1B</span>
+</div>
+<div class="flex items-center gap-2 text-primary font-data-mono text-data-mono border border-slate px-2 py-1">
+<span class="material-symbols-outlined text-[14px] text-sage">verified_user</span>
+<span class="">VERIFIED (cycle_2026-05-20T14:32Z)</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">security</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">gavel</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="w-[220px] h-full border-r border-slate bg-surface-container-low dark:bg-surface-container-low flex flex-col shrink-0 z-10">
+<div class="p-4 border-b border-slate mb-2">
+<div class="font-headline-md text-headline-md text-primary mb-1">NODE IDENTITY</div>
+<div class="font-data-mono text-data-mono text-sage">POSTURE: SECURE</div>
+</div>
+<div class="flex-1 overflow-y-auto px-2 space-y-1">
+<!-- Nav Items based on JSON -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>Home
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>Scout
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>Intake
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>Eligibility
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">map</span>Module Mapper
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>Drafting
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>Budget
+                </a>
+<!-- Active Item -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">security</span>Red Team</a><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">signature</span>Sign-Off</a><a class="flex items-center gap-3 px-3 py-2 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>Judge
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>Audit
+                </a>
+</div>
+</nav>
+<!-- Main Surface Area -->
+<main class="flex-1 flex overflow-hidden bg-level-0">
+<!-- Center Canvas: Judge Scoring -->
+<div class="flex-1 flex flex-col h-full overflow-y-auto border-r border-slate"><div class="bg-rust-dim border-b border-rust px-6 py-2 flex items-center justify-between font-label-caps text-label-caps text-rust animate-pulse"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">sync_problem</span>STALE DATA DETECTED: Narrative amendments detected 4m ago</div><button class="underline hover:text-primary transition-colors text-[10px]">RUN REAL-TIME VALIDATION</button></div>
+<div class="p-6 border-b border-slate bg-level-1">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary mb-2">Judge - Rubric Scoring Trace</h1>
+<div class="inline-flex items-center gap-2 border border-[#F59E0B] text-[#F59E0B] px-2 py-1 font-data-mono text-data-mono bg-[#1E293B]">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                                STALE - Re-score required (Project Narrative amended)
+                            </div>
+</div>
+<div class="text-right flex flex-col items-end">
+<div class="font-data-mono text-on-surface-variant text-[10px] mb-1">PREDICTED SCORE</div><div class="flex items-center gap-1.5 text-sage animate-pulse font-data-mono text-[9px] mb-1"><span class="material-symbols-outlined text-[10px] FILL-1">radio_button_checked</span>LIVE EVALUATION</div>
+<div class="text-[48px] leading-none font-bold text-primary font-data-mono">
+                                82<span class="text-on-surface-variant text-[24px]">/100</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 space-y-4">
+<!-- Rubric Sections -->
+<div class="border border-slate bg-level-1 p-4 flex items-center justify-between hover:bg-level-2 cursor-pointer group relative">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-1">WEIGHT: 40%<span class="ml-2 text-[9px] px-1 border border-rust text-rust">STALE</span></span>
+<span class="font-body-md text-body-md text-primary">1. Technical Methodology</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span class="font-data-mono text-data-mono text-on-surface">Acceptable</span>
+</div>
+<span class="font-data-mono text-data-mono text-primary w-12 text-right">34/40</span>
+<button class="opacity-0 group-hover:opacity-100 absolute right-4 px-2 py-1 bg-surface-bright border border-slate text-[9px] font-label-caps text-on-surface hover:bg-primary hover:text-on-primary transition-all">SIMULATE RE-SCORE</button></div>
+</div>
+<div class="border border-slate bg-level-1 p-4 flex items-center justify-between hover:bg-level-2 cursor-pointer group relative">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-1">WEIGHT: 25%<span class="ml-2 text-[9px] px-1 border border-rust text-rust">STALE</span></span>
+<span class="font-body-md text-body-md text-primary">2. Organizational Capacity</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span class="font-data-mono text-data-mono text-on-surface">Strongest</span>
+</div>
+<span class="font-data-mono text-data-mono text-primary w-12 text-right">22/25</span>
+<button class="opacity-0 group-hover:opacity-100 absolute right-4 px-2 py-1 bg-surface-bright border border-slate text-[9px] font-label-caps text-on-surface hover:bg-primary hover:text-on-primary transition-all">SIMULATE RE-SCORE</button></div>
+</div>
+<!-- Selected Evidence Ladder Drilldown -->
+<div class="border border-primary bg-level-2 flex flex-col">
+<div class="p-4 border-b border-slate flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-primary mb-1">WEIGHT: 20%<span class="ml-2 text-[9px] px-1 border border-rust text-rust">STALE</span></span>
+<span class="font-body-md text-body-md text-primary font-bold">3. Market Demand &amp; Impact</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-[#EF4444]"></div>
+<span class="font-data-mono text-data-mono text-rust">Weak</span>
+</div>
+<span class="font-data-mono text-data-mono text-primary w-12 text-right">12/20</span>
+</div>
+</div>
+<div class="p-4 bg-level-1">
+<div class="mb-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-2">FORENSIC CLAIM ANALYSIS</span>
+<div class="border border-rust bg-rust-dim p-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-rust text-[16px]">dangerous</span>
+<span class="font-data-mono text-data-mono text-rust">EVIDENCE TIER: UNACCEPTABLE</span>
+</div>
+<p class="font-serif-content text-primary mb-4 text-sm leading-relaxed">
+                                        Claim: "Proposal identifies 3 stable regional buyer relationships."
+                                    </p>
+<div class="grid grid-cols-1 gap-4 font-data-mono text-data-mono text-[11px]">
+<div class="border-t border-slate pt-2">
+<span class="text-on-surface-variant block mb-1">SOURCE BACKING:</span>
+<span class="text-rust">[EMPTY - NO SOURCE BACKING]</span>
+</div>
+<div class="border-t border-slate pt-2">
+<span class="text-on-surface-variant block mb-1">RATIONALE:</span>
+<span class="text-primary opacity-90 font-serif-content leading-normal block">The claim of 'stable buyer relationships' is unsupported by any committed letters of intent, emails, or purchase orders in the Local Context Vault.</span>
+</div>
+<div class="border-t border-slate pt-2 flex justify-between">
+<span class="text-on-surface-variant">DOWNGRADE RISK:</span>
+<span class="text-rust">HIGH</span>
+<span class="bg-rust text-white px-1.5 py-0.5 text-[9px] font-bold tracking-wider ml-2">CRITICAL BLOCKER</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="border border-slate bg-level-1 p-4 flex items-center justify-between hover:bg-level-2 cursor-pointer group relative">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-1">WEIGHT: 15%<span class="ml-2 text-[9px] px-1 border border-rust text-rust">STALE</span></span>
+<span class="font-body-md text-body-md text-primary">4. Budget Reasonableness</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span class="font-data-mono text-data-mono text-on-surface">Strongest</span>
+</div>
+<span class="font-data-mono text-data-mono text-primary w-12 text-right">14/15</span>
+<button class="opacity-0 group-hover:opacity-100 absolute right-4 px-2 py-1 bg-surface-bright border border-slate text-[9px] font-label-caps text-on-surface hover:bg-primary hover:text-on-primary transition-all">SIMULATE RE-SCORE</button></div>
+</div>
+</div>
+</div>
+<!-- Right Inspector -->
+<aside class="w-[320px] h-full flex flex-col bg-level-1 shrink-0">
+<div class="p-4 border-b border-slate bg-surface-container-highest">
+<h2 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+                        Judge: Reasoning Log
+                    </h2>
+</div>
+<div class="flex-1 p-4 overflow-y-auto flex flex-col gap-6">
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2 border-b border-slate pb-1">TARGET CRITERIA: R-202</div>
+<div class="bg-level-0 border border-slate p-3 font-serif-content text-sm text-primary leading-relaxed opacity-90">
+                            Rubric R-202 requires 'verified external demand'. Current draft uses conjecture [revolutionary] and lacks external validation. Recommend attaching LOIs from the Local Context Vault to move this from UNACCEPTABLE to ACCEPTABLE.
+                        </div>
+</div>
+<div class="mt-auto pt-4 border-t border-slate">
+<button class="w-full bg-[#c55a40] text-white font-data-mono text-data-mono py-3 border border-[#c55a40] hover:bg-transparent hover:text-[#c55a40] transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+                            RE-SCORE CYCLE
+                        </button>
+</div>
+</div>
+</aside>
+</main>
+</div>
+<!-- Footer -->
+<footer class="flex items-center justify-between px-4 w-full h-[32px] border-t border-slate bg-surface-container-lowest dark:bg-surface-container-lowest shrink-0 z-20">
+<div class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</div>
+<div class="flex items-center gap-4 font-data-mono text-data-mono text-on-surface-variant text-[10px]">
+<span class="">Machine: fit-farms-pgh-001</span>
+<span class="">FID: 0x88f2...1a9c</span>
+<span class="flex items-center gap-1"><div class="w-1.5 h-1.5 bg-[#22C55E]"></div> Status: OPERATIONAL</span>
+</div>
+</footer>
+</body></html>

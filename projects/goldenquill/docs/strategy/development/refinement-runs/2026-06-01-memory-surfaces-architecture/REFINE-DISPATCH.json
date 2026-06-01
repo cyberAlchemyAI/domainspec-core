@@ -1,0 +1,456 @@
+{
+  "dispatch_id": "goldenquill-memory-surfaces-architecture-refine-20260601",
+  "parent_dispatch_id": "goldenquill-memory-knowledge-refine-20260531",
+  "intent": {
+    "raw": "It seems that we have a lot of surfaces to memory inside the project. Prepare a synthesis saying how the whole architecture could better use what we mapped as context reference.",
+    "objective": "Synthesize Golden Quill memory surfaces into a better architecture for governed context references.",
+    "target_artifact": "docs/strategy/goldenquill_memory_surface_architecture_synthesis_2026-06-01.md",
+    "arcanum_vocabulary": [
+      "refine",
+      "context-builder",
+      "invoke",
+      "memory_loop",
+      "inventory",
+      "ontology",
+      "evidence-packet",
+      "owner-boundary",
+      "promotion-gate"
+    ],
+    "operator_sentence": "We have many memory surfaces; synthesize how the architecture should use them as governed context."
+  },
+  "mode": "implementation-research",
+  "route_menu": {
+    "context_hint": "The selected route treats the problem as context authority across existing surfaces rather than as a new storage problem.",
+    "items": [
+      {
+        "id": "context-authority-layer",
+        "label": "Memory Context Architecture",
+        "description": "Use mapped surfaces through registry, retrieval, authority classification, evidence packets, and promotion gates.",
+        "capability_ref": "refine",
+        "pattern": "sequence"
+      },
+      {
+        "id": "single-memory-store",
+        "label": "Monolithic Memory Store",
+        "description": "Collapse all surfaces into one store; rejected because authority and org boundaries would blur.",
+        "capability_ref": "task-session",
+        "pattern": "implementation"
+      }
+    ],
+    "selected_item_id": "context-authority-layer"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "x_ray",
+    "memory_loop",
+    "residue_ledger",
+    "data_quality_deduplication"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "Existing local artifacts were enough to synthesize the architecture.",
+    "explanation": "No delegated subagents are required because this is a local synthesis over already mapped repository surfaces.",
+    "context": [
+      "docs/MEMORY_KNOWLEDGE_LAYER_INDEX.md",
+      "docs/strategy/goldenquill_memory_knowledge_research_synthesis_2026-05-31.md",
+      "docs/strategy/goldenquill_memory_knowledge_invoke_design_2026-05-31.md"
+    ],
+    "roles": [],
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "permission_prompt": "",
+    "receipt_requirements": []
+  },
+  "steps": [
+    {
+      "step_id": "context-builder-baseline",
+      "name": "Build mapped memory surface context baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "xray",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "x_ray",
+        "frame_handoff",
+        "data_quality_deduplication"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/MEMORY_KNOWLEDGE_LAYER_INDEX.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_memory_knowledge_research_synthesis_2026-05-31.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_memory_knowledge_invoke_design_2026-05-31.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/01-context-baseline.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "memory-surfaces-context-frame"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if mapped memory layer evidence is missing.",
+        "Block if synthesis requires unnamed org context."
+      ]
+    },
+    {
+      "step_id": "invoke-define",
+      "name": "Define memory context architecture",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "memory-surfaces-context-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/02-invoke-define.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Flag if definition creates a new monolithic memory owner."
+      ]
+    },
+    {
+      "step_id": "interrogation-refine-review",
+      "name": "Critique context authority framing",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/02-invoke-define.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/03-refine-review.md"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/03-refine-review.md",
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if review finds retrieval and authority collapsed."
+      ]
+    },
+    {
+      "step_id": "research-decision",
+      "name": "Record no external research decision",
+      "capability_ref": "refine",
+      "mode": "no-research",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "memory_loop",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/03-refine-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/04-research-decision.md"
+        },
+        {
+          "kind": "decision",
+          "ref": "no-external-research"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block external research unless explicitly authorized."
+      ]
+    },
+    {
+      "step_id": "distill",
+      "name": "Distill smallest coherent architecture unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "no-external-research"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/04-research-decision.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/05-distill.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "context-authority-unit"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Flag if selected unit requires runtime mutation."
+      ]
+    },
+    {
+      "step_id": "invoke-design",
+      "name": "Design memory context architecture",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "frame_handoff",
+        "owner_boundary_check",
+        "x_ray"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "context-authority-unit"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/05-distill.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/06-invoke-design.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if design grants Arcanum Inventory direct Golden Quill authority."
+      ]
+    },
+    {
+      "step_id": "interrogation-design-review",
+      "name": "Review design boundaries",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/06-invoke-design.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/07-design-review.md"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/07-design-review.md",
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if Reflection Packet is treated as a canonical store."
+      ]
+    },
+    {
+      "step_id": "distill-repair",
+      "name": "Repair design around Reflection Packet role",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/07-design-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/08-distill-repair.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "reflection-packet-producer-not-store"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/08-distill-repair.md",
+      "join_policy": "none",
+      "stop_conditions": [
+        "Flag if repair introduces implementation work."
+      ]
+    },
+    {
+      "step_id": "invoke-plan",
+      "name": "Plan follow-on architecture improvements",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "reflection-packet-producer-not-store"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/08-distill-repair.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/09-invoke-plan.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Do not execute follow-on tasks inside this refine run."
+      ]
+    },
+    {
+      "step_id": "final-synthesis",
+      "name": "Publish final memory surface architecture synthesis",
+      "capability_ref": "refine",
+      "mode": "refine-final",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "memory_loop",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/09-invoke-plan.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/stages/10-final-synthesis.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/RESULT.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_memory_surface_architecture_synthesis_2026-06-01.md"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/goldenquill_memory_surface_architecture_synthesis_2026-06-01.md",
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if final synthesis lacks context-reference contract."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "law-3-org-isolation",
+      "kind": "policy",
+      "owner": "logician",
+      "condition": "No org PROJECT_CONTEXT.md or per-org vault register may be read because no org was named.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "authority-boundary-preserved",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "Synthesis must distinguish retrieval, authority, context use, and promotion ownership.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "context-reference-contract-defined",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "Final synthesis must include a minimum context reference contract.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "proposal-not-mutation",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "This refine route may propose architecture improvements but may not mutate runtime memory surfaces.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "goldenquill-memory-knowledge-refine-20260531",
+    "trace_events": [
+      "memory-surfaces-context-baseline-created",
+      "memory-surfaces-definition-created",
+      "memory-surfaces-no-research-decision-recorded",
+      "memory-surfaces-context-authority-unit-distilled",
+      "memory-surfaces-design-created",
+      "memory-surfaces-reflection-role-repaired",
+      "memory-surfaces-plan-created",
+      "memory-surfaces-final-synthesis-created"
+    ],
+    "signal_grouping": "goldenquill-memory-surfaces-architecture"
+  }
+}

@@ -1,0 +1,270 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Final Packet Authorization - FIT Farms</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "primary-fixed": "#e2e2e2",
+                    "tertiary-container": "#dae2fd",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "inverse-primary": "#5d5f5f",
+                    "on-primary-fixed": "#1a1c1c",
+                    "primary-container": "#e2e2e2",
+                    "on-secondary": "#213145",
+                    "surface-container-high": "#1f2a3c",
+                    "secondary-fixed": "#d3e4fe",
+                    "inverse-on-surface": "#263143",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "inverse-surface": "#d8e3fb",
+                    "primary": "#ffffff",
+                    "error-container": "#93000a",
+                    "on-tertiary": "#283044",
+                    "on-secondary-fixed": "#0b1c30",
+                    "on-surface": "#d8e3fb",
+                    "surface-container-highest": "#2a3548",
+                    "surface-container": "#152031",
+                    "on-background": "#d8e3fb",
+                    "surface-tint": "#c6c6c7",
+                    "outline-variant": "#444748",
+                    "surface-container-low": "#111c2d",
+                    "on-primary": "#2f3131",
+                    "on-tertiary-container": "#5c647a",
+                    "error": "#ffb4ab",
+                    "surface-dim": "#081425",
+                    "secondary-container": "#3a4a5f",
+                    "on-tertiary-fixed": "#131b2e",
+                    "on-error": "#690005",
+                    "outline": "#8e9192",
+                    "on-primary-container": "#636565",
+                    "surface-container-lowest": "#040e1f",
+                    "surface": "#081425",
+                    "surface-bright": "#2f3a4c",
+                    "background": "#081425",
+                    "on-secondary-container": "#a9bad3",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-fixed": "#dae2fd",
+                    "tertiary": "#ffffff",
+                    "on-surface-variant": "#c4c7c8",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "secondary": "#b7c8e1",
+                    "surface-variant": "#2a3548",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "on-primary-fixed-variant": "#454747"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding": "16px",
+                    "unit": "4px",
+                    "sidebar-width": "240px",
+                    "panel-gap": "8px",
+                    "gutter": "1px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "label-caps": ["JetBrains Mono"],
+                    "body-sm": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "data-mono": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                    "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                    "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                    "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                    "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { background-color: #020617; }
+        .grid-bg {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, #0F172A 1px, transparent 1px),
+                              linear-gradient(to bottom, #0F172A 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="text-on-background font-body-md h-screen w-full overflow-hidden flex flex-col grid-bg">
+<!-- TopAppBar -->
+<header class="bg-surface-container-low dark:bg-surface-container-low docked full-width top-0 h-14 border-b border-outline-variant flex justify-between items-center w-full px-container-padding gap-panel-gap shrink-0 z-40 relative">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tight">GOLDEN QUILL</span>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant">APPLIED AS</span>
+<span class="font-data-mono text-data-mono text-primary">FIT Farms LLC</span>
+</div>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant">POSTURE</span>
+<div class="flex items-center gap-1 text-[#22C55E]">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+<span class="font-data-mono text-data-mono">SECURE</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-highest p-1 flex items-center justify-center transition-none"><span class="material-symbols-outlined">verified_user</span></button>
+<button class="text-on-surface-variant hover:bg-surface-container-highest p-1 flex items-center justify-center transition-none"><span class="material-symbols-outlined">vpn_key</span></button>
+<button class="text-on-surface-variant hover:bg-surface-container-highest p-1 flex items-center justify-center transition-none"><span class="material-symbols-outlined">account_circle</span></button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container docked left-0 h-full w-sidebar-width flex flex-col border-r border-outline-variant shrink-0 z-30">
+<div class="p-4 border-b border-outline-variant flex items-center gap-3">
+<div class="w-10 h-10 bg-surface-container-highest border border-outline-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">dns</span>
+</div>
+<div class="flex flex-col overflow-hidden">
+<span class="font-data-mono text-data-mono text-primary truncate">FIT Farms</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant truncate mt-1">FRONTIER POSTURE</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2 flex flex-col">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[18px]">home</span><span class="font-label-caps text-label-caps">Home</span></a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[18px]">search_insights</span><span class="font-label-caps text-label-caps">Scout</span></a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[18px]">input</span><span class="font-label-caps text-label-caps">Intake</span></a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[18px]">fact_check</span><span class="font-label-caps text-label-caps">Eligibility</span></a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[18px]">account_tree</span><span class="font-label-caps text-label-caps">Module Mapper</span></a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[18px]">edit_note</span><span class="font-label-caps text-label-caps">Drafting</span></a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[18px]">payments</span><span class="font-label-caps text-label-caps">Budget</span></a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[18px]">gavel</span><span class="font-label-caps text-label-caps">Judge</span></a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[18px]">security</span><span class="font-label-caps text-label-caps">Red Team</span></a>
+<a class="flex items-center gap-3 px-4 py-2 bg-surface-container-highest text-primary border-l-2 border-primary transition-none" href="#"><span class="material-symbols-outlined text-[18px]">history_edu</span><span class="font-label-caps text-label-caps">Final Packet Authorization</span></a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[18px]">policy</span><span class="font-label-caps text-label-caps">Audit</span></a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[18px]">credit_card</span><span class="font-label-caps text-label-caps">Cards</span></a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[18px]">fingerprint</span><span class="font-label-caps text-label-caps">FIDs</span></a>
+</div>
+<div class="border-t border-outline-variant py-2 flex flex-col">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[18px]">account_balance_wallet</span><span class="font-label-caps text-label-caps">Costs</span></a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto p-4 flex flex-col gap-4 mb-8">
+<div class="flex items-center justify-between border-b border-outline-variant pb-4">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary uppercase">Final Packet Authorization</h1>
+<p class="font-data-mono text-data-mono text-on-surface-variant mt-1">CYCLE ID: cycle_2026-05-20T14:32Z</p>
+</div>
+<div class="bg-[#1E293B] border border-outline-variant px-3 py-1 flex items-center gap-2">
+<span class="w-2 h-2 bg-[#22C55E]"></span>
+<span class="font-label-caps text-label-caps text-primary">PACKET READY FOR SUBMISSION</span>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-px bg-outline-variant border border-outline-variant flex-1">
+<!-- System Status Panel -->
+<div class="col-span-12 lg:col-span-8 bg-[#0F172A] p-4 flex flex-col gap-4">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant pb-2">READINESS GATES</h2>
+<div class="grid grid-cols-2 gap-4">
+<!-- Gates List -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between bg-[#1E293B] border border-outline-variant p-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#22C55E] text-[16px]">check_circle</span>
+<span class="font-data-mono text-data-mono text-primary">Identity Verification</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">PASS</span>
+</div>
+<div class="flex items-center justify-between bg-[#1E293B] border border-outline-variant p-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#22C55E] text-[16px]">check_circle</span>
+<span class="font-data-mono text-data-mono text-primary">Eligibility Engine</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">PASS</span>
+</div>
+<div class="flex items-center justify-between bg-[#1E293B] border border-outline-variant p-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#22C55E] text-[16px]">check_circle</span>
+<span class="font-data-mono text-data-mono text-primary">Budget Cap Check</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">PASS</span>
+</div>
+<div class="flex items-center justify-between bg-[#1E293B] border border-outline-variant border-l-2 border-l-[#22C55E] p-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#22C55E] text-[16px]">verified</span>
+<span class="font-data-mono text-data-mono text-primary">License Gate (Authority)</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">VERIFIED</span>
+</div>
+</div>
+<!-- Scores & Readiness -->
+<div class="flex flex-col gap-4">
+<div class="bg-[#1E293B] border border-outline-variant p-4 flex flex-col items-center justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2">JUDGE SCORE (AMENDED)</span>
+<div class="flex items-end gap-1">
+<span class="font-display-lg text-display-lg text-primary">92</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant mb-1">/100</span>
+</div>
+<span class="font-label-caps text-label-caps text-[#22C55E] mt-1">+10 PT AMENDMENT APPLIED</span>
+</div>
+<div class="bg-[#1E293B] border border-outline-variant p-4 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">RED TEAM PROBES</span>
+<span class="font-data-mono text-data-mono text-[#22C55E]">CLEAN</span>
+</div>
+<div class="w-full bg-[#0F172A] h-1 border border-outline-variant">
+<div class="bg-[#22C55E] h-full" style="width: 100%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Authorization Panel -->
+<div class="col-span-12 lg:col-span-4 bg-[#0F172A] p-4 flex flex-col border-l border-outline-variant">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant pb-2 mb-4">ED25519 CRYPTOGRAPHIC AUTHORIZATION</h2>
+<div class="flex-1 flex flex-col justify-center gap-6">
+<div class="bg-[#000000] border border-outline-variant p-4 font-data-mono text-data-mono flex flex-col gap-2">
+<span class="text-on-surface-variant">&gt; INITIATING AUTHORIZATION PROTOCOL</span>
+<span class="text-on-surface-variant">&gt; VERIFYING READINESS CHECKLIST: <span class="text-[#22C55E]">100%</span></span>
+<span class="text-on-surface-variant">&gt; COMPILING PACKET HASH...</span>
+<div class="h-2"></div><span class="text-primary break-all">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span><div class="h-2"></div>
+<span class="text-on-surface-variant animate-pulse">&gt; AWAITING SIGNATURE_</span>
+</div>
+<div class="bg-[#1E293B] border-l-4 border-l-[#F59E0B] p-3 flex gap-3">
+<span class="material-symbols-outlined text-[#F59E0B] shrink-0">warning</span>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-primary">MANUAL SUBMISSION REMINDER</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Authorization generates the signed payload. You must manually transmit via the API terminal post-signing.</span>
+</div>
+</div>
+<button class="bg-[#B91C1C] hover:bg-[#991B1B] text-white font-data-mono text-data-mono uppercase py-4 border border-[#7F1D1D] flex items-center justify-center gap-2 transition-none w-full shadow-[inset_0_0_0_1px_rgba(255,255,255,0.2)]">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">key</span>
+                            AUTHORIZE PACKET
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest docked bottom-0 full-width h-8 border-t border-outline-variant fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50">
+<span class="font-data-mono text-data-mono text-secondary dark:text-secondary uppercase">NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED</span>
+<div class="flex items-center gap-6">
+<a class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary uppercase transition-none" href="#">Machine ID: 992-QX</a>
+<a class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary uppercase transition-none" href="#">Audit Log</a>
+<a class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary uppercase transition-none" href="#">System Health</a>
+</div>
+</footer>
+
+
+</body></html>

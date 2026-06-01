@@ -1,0 +1,454 @@
+{
+  "dispatch_id": "goldenquill-production-readiness-refine-20260531",
+  "parent_dispatch_id": "goldenquill-repository-research-20260529",
+  "intent": {
+    "raw": "Run refine full for the GoldenQuill repository research strategy so we can determine what is needed for production, design a residuality spec, propose experiments and hypotheses, then invoke a design.",
+    "objective": "Convert the repository research package into a production-readiness refinement, residuality spec, experiment ledger, and invoke design without mutating production code or client org contexts.",
+    "target_artifact": "docs/strategy/development/refinement-runs/2026-05-31-production-readiness/RESULT.md",
+    "arcanum_vocabulary": [
+      "refine",
+      "residuality-spec",
+      "invoke",
+      "dispatch-spec",
+      "decision-gate",
+      "task-session",
+      "experiment-harness",
+      "boundary_evidence",
+      "residue",
+      "production-readiness"
+    ],
+    "operator_sentence": "Refine the research package into a production readiness route, make the resilience behavior explicit, then produce an invoke design and testable hypotheses."
+  },
+  "mode": "implementation-research",
+  "route_menu": {
+    "context_hint": "The selected route avoids immediate implementation because the research package identified stale truth and maturity ambiguity as the highest-leverage production risks.",
+    "items": [
+      {
+        "id": "readiness-spine",
+        "label": "Readiness spine",
+        "description": "Build current-truth, surface, maturity, verification, and security/provisioning design artifacts before code mutation.",
+        "capability_ref": "refine",
+        "pattern": "sequence"
+      },
+      {
+        "id": "feature-first",
+        "label": "Feature-first implementation",
+        "description": "Start directly on the top improvement candidate without a residuality or invoke design pass.",
+        "capability_ref": "task-session",
+        "pattern": "implementation"
+      },
+      {
+        "id": "audit-only",
+        "label": "Audit-only",
+        "description": "Record risks without producing a design or experiment path.",
+        "capability_ref": "x-ray",
+        "pattern": "audit"
+      }
+    ],
+    "selected_item_id": "readiness-spine"
+  },
+  "techniques": [
+    "sequence",
+    "concrete_path_evidence",
+    "residue_ledger",
+    "pareto_gate",
+    "delegation_boundary",
+    "evidence_summary_handoff",
+    "frame_handoff"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "Existing multi-agent research artifacts already provide the parallel evidence for this refinement.",
+    "explanation": "This dispatch synthesizes a completed research package. New subagents are optional for later experiment execution but not required to design the production-readiness route.",
+    "context": [
+      "Prior research package already used architecture, feature, verification, governance, security, product, backlog, and net-new discovery lanes.",
+      "Current task is synthesis into refine, residuality, experiment, and invoke-design artifacts."
+    ],
+    "roles": [],
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "permission_prompt": "",
+    "receipt_requirements": []
+  },
+  "steps": [
+    {
+      "step_id": "wake-and-source-frame",
+      "name": "Refresh workspace laws and source frame",
+      "capability_ref": "context-builder",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "SOUL.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "USER.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "router.yaml"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_repository_research_synthesis_2026-05-29.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "production-readiness-source-frame"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if workspace laws cannot be read.",
+        "Block if an org context would be required without a named org."
+      ]
+    },
+    {
+      "step_id": "refine-production-seed",
+      "name": "Refine production-readiness seed",
+      "capability_ref": "refine",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "pareto_gate",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "production-readiness-source-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_repository_improvement_candidates_2026-05-29.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_repository_new_improvement_candidates_2026-05-29.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-production-readiness/REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Flag if refinement attempts source mutation.",
+        "Flag if design requires reading client org context."
+      ]
+    },
+    {
+      "step_id": "build-residuality-spec",
+      "name": "Design residuality behavior",
+      "capability_ref": "residuality-spec",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "residue_ledger",
+        {
+          "id": "production-readiness-promotion-guardrail",
+          "source": "local-extension",
+          "purpose": "Prevent readiness design artifacts from being promoted into production defaults without owner review.",
+          "validation_note": "Repository-local guardrail backed by gates and boundary_evidence promotion splits."
+        }
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-production-readiness/REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/resilience/goldenquill-production-readiness-residuality.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if a stressor has no residue, degradation behavior, or owner surface."
+      ]
+    },
+    {
+      "step_id": "propose-experiments",
+      "name": "Propose hypotheses and experiments",
+      "capability_ref": "experiment-harness",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "evidence_summary_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/resilience/goldenquill-production-readiness-residuality.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_production_readiness_experiments_2026-05-31.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Flag experiments that cannot be measured with repository evidence."
+      ]
+    },
+    {
+      "step_id": "invoke-design",
+      "name": "Produce invoke design bundle",
+      "capability_ref": "invoke",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "frame_handoff",
+        "delegation_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/refinement-runs/2026-05-31-production-readiness/REFINE-SEED-PROPOSAL.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/resilience/goldenquill-production-readiness-residuality.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_production_readiness_experiments_2026-05-31.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_production_readiness_invoke_design_2026-05-31.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if the design omits any of the six invoke design views."
+      ]
+    }
+  ],
+  "handoffs": [
+    {
+      "from_step": "invoke-design",
+      "to": "task-session",
+      "artifact": "docs/strategy/goldenquill_production_readiness_invoke_design_2026-05-31.md",
+      "conditions": [
+        "User approves implementation.",
+        "Selected first task does not require unresolved decision-gate approval."
+      ]
+    },
+    {
+      "from_step": "build-residuality-spec",
+      "to": "decision-gate",
+      "artifact": "docs/resilience/goldenquill-production-readiness-residuality.md",
+      "conditions": [
+        "Candidate edits LOCKed architecture, customer-facing language, client/org state, provider keys, or production routing defaults."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "law-3-org-isolation",
+      "kind": "policy",
+      "owner": "logician",
+      "condition": "No org PROJECT_CONTEXT.md may be read unless exactly one org is named.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "design-only-boundary",
+      "kind": "policy",
+      "owner": "parent-agent",
+      "condition": "This dispatch writes refinement/design artifacts only and does not mutate production code, LOCKed architecture, provider keys, or org data.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "six-view-invoke-design",
+      "kind": "validation",
+      "owner": "invoke",
+      "condition": "The invoke design includes context, high-level structure, low-level components, workflow process, decision flow, and dependency interface views.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "runtime-claim-boundary",
+      "kind": "quality",
+      "owner": "parent-agent",
+      "condition": "Artifacts distinguish command resolution, deterministic validation, and nested model-backed execution.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "promotion-split",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Readiness design artifacts may inform later task-session or decision-gate work, but do not promote production defaults or canonical architecture by themselves.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "goldenquill-repository-research-20260529",
+    "trace_events": [
+      "production-readiness-source-frame-created",
+      "production-readiness-refine-seed-created",
+      "production-readiness-residuality-spec-created",
+      "production-readiness-experiments-created",
+      "production-readiness-invoke-design-created",
+      "production-readiness-dispatch-validated"
+    ],
+    "signal_grouping": "goldenquill-production-readiness",
+    "run_log": "pipeline/metrics/session_log.jsonl",
+    "receipts": [
+      "dispatch validation output",
+      "artifact path list",
+      "runtime block notes"
+    ]
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "org-context-boundary",
+        "kind": "external_context",
+        "from_owner": "workspace",
+        "to_owner": "production-readiness-run",
+        "applies_to_steps": [
+          "wake-and-source-frame",
+          "refine-production-seed",
+          "invoke-design"
+        ],
+        "contract": "No client org PROJECT_CONTEXT.md may be read unless the task names exactly one org.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "design-only-write-boundary",
+        "kind": "state_write",
+        "from_owner": "production-readiness-run",
+        "to_owner": "repository-source",
+        "applies_to_steps": [
+          "refine-production-seed",
+          "build-residuality-spec",
+          "propose-experiments",
+          "invoke-design"
+        ],
+        "contract": "This dispatch may write docs/strategy and docs/resilience design artifacts only; production code and canonical LOCKed surfaces are out of scope.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "operator-before-implementation-boundary",
+        "kind": "human_approval",
+        "from_owner": "production-readiness-run",
+        "to_owner": "task-session",
+        "applies_to_steps": [
+          "invoke-design"
+        ],
+        "contract": "Implementation starts only after Josh selects the first task-session or decision-gate route.",
+        "on_violation": "ask"
+      },
+      {
+        "boundary_id": "runtime-claim-boundary",
+        "kind": "evidence_return",
+        "from_owner": "command-resolution",
+        "to_owner": "production-readiness-run",
+        "applies_to_steps": [
+          "refine-production-seed",
+          "invoke-design"
+        ],
+        "contract": "Command resolution may be cited as command-surface availability only; it is not nested model-backed lifecycle proof.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine plus invoke design",
+      "execution": "parent-agent local artifact materialization",
+      "validation": "dispatch-spec validator",
+      "evidence": "repository research package",
+      "promotion": "operator or owning capability"
+    },
+    "receipts": [
+      {
+        "receipt_id": "refine-run-artifacts",
+        "producer": "parent-agent",
+        "required_fields": [
+          "run_id",
+          "artifacts",
+          "validation_result",
+          "residue"
+        ],
+        "stores": [
+          "docs/strategy/development/refinement-runs/2026-05-31-production-readiness/"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "invoke-design-artifact",
+        "producer": "invoke-design",
+        "required_fields": [
+          "run_id",
+          "artifacts",
+          "validation_result",
+          "residue"
+        ],
+        "stores": [
+          "docs/strategy/goldenquill_production_readiness_invoke_design_2026-05-31.md"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "docs-strategy",
+        "owner": "parent-agent",
+        "write_policy": "May write readiness strategy, experiment, invoke-design, and refine-run artifacts."
+      },
+      {
+        "namespace": "docs-resilience",
+        "owner": "parent-agent",
+        "write_policy": "May write residuality spec only."
+      },
+      {
+        "namespace": "production-runtime",
+        "owner": "repository owners",
+        "write_policy": "No writes in this design run."
+      },
+      {
+        "namespace": "org-client-data",
+        "owner": "operator/client org",
+        "write_policy": "No reads or writes without exactly one named org."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "production readiness design",
+        "target": "production implementation task",
+        "rule": "Requires Josh to select the task-session route.",
+        "on_violation": "ask"
+      },
+      {
+        "source": "residuality stressor",
+        "target": "production default or LOCKed architecture change",
+        "rule": "Requires decision-gate or owning-doc approval before mutation.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Readiness design outputs are not production default changes.",
+    "Runtime command resolution is not model-backed lifecycle proof.",
+    "No org contexts are read unless exactly one org is named.",
+    "Decision-gated candidate categories cannot be promoted to ordinary task-session without approval."
+  ]
+}

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Final Packet Authorization - Export Complete</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed": "#131b2e",
+                      "outline-variant": "#444748",
+                      "primary-container": "#e2e2e2",
+                      "primary": "#ffffff",
+                      "surface": "#081425",
+                      "on-primary-fixed-variant": "#454747",
+                      "inverse-on-surface": "#263143",
+                      "on-primary-container": "#636565",
+                      "surface-container-highest": "#2a3548",
+                      "surface-container-low": "#111c2d",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "on-surface-variant": "#c4c7c8",
+                      "surface-bright": "#2f3a4c",
+                      "inverse-primary": "#5d5f5f",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary": "#213145",
+                      "error-container": "#93000a",
+                      "secondary-container": "#3a4a5f",
+                      "background": "#081425",
+                      "surface-container-lowest": "#040e1f",
+                      "primary-fixed": "#e2e2e2",
+                      "surface-container-high": "#1f2a3c",
+                      "on-tertiary": "#283044",
+                      "on-background": "#d8e3fb",
+                      "tertiary": "#ffffff",
+                      "on-tertiary-container": "#5c647a",
+                      "secondary-fixed": "#d3e4fe",
+                      "primary-fixed-dim": "#c6c6c7",
+                      "surface-tint": "#c6c6c7",
+                      "secondary": "#b7c8e1",
+                      "on-secondary-fixed": "#0b1c30",
+                      "on-primary-fixed": "#1a1c1c",
+                      "surface-variant": "#2a3548",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "inverse-surface": "#d8e3fb",
+                      "error": "#ffb4ab",
+                      "on-error": "#690005",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "on-secondary-container": "#a9bad3",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "on-primary": "#2f3131",
+                      "surface-dim": "#081425",
+                      "surface-container": "#152031",
+                      "tertiary-fixed": "#dae2fd",
+                      "outline": "#8e9192",
+                      "tertiary-container": "#dae2fd",
+                      "on-surface": "#d8e3fb",
+                      "success": "#22C55E",
+                      "warning": "#F59E0B"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "panel-gap": "8px",
+                      "container-padding": "16px",
+                      "gutter": "1px",
+                      "unit": "4px",
+                      "sidebar-width": "240px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Source Serif 4", "serif"],
+                      "body-md": ["Inter", "sans-serif"],
+                      "label-caps": ["Inter", "sans-serif"],
+                      "data-mono": ["JetBrains Mono", "monospace"],
+                      "body-sm": ["Inter", "sans-serif"],
+                      "headline-md": ["Source Serif 4", "serif"]
+              },
+              "fontSize": {
+                      "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                      "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                      "body-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                      "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; font-size: 16px; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+        
+        /* Grid Layout */
+        .workstation-grid {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            grid-template-columns: auto 1fr;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            background-color: theme('colors.background');
+        }
+        
+        .top-nav { grid-column: 1 / -1; grid-row: 1; }
+        .side-nav { grid-column: 1; grid-row: 2; border-right: 1px solid theme('colors.outline-variant'); }
+        .main-content { grid-column: 2; grid-row: 2; overflow-y: auto; padding: theme('spacing.container-padding'); }
+        .footer { grid-column: 1 / -1; grid-row: 3; }
+
+        /* Component Styles */
+        .btn-primary {
+            background-color: theme('colors.primary');
+            color: theme('colors.on-primary');
+            border: none;
+            padding: 8px 16px;
+            font-family: theme('fontFamily.label-caps');
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: theme('borderRadius.DEFAULT');
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: theme('colors.primary');
+            border: 1px solid theme('colors.outline');
+            padding: 8px 16px;
+            font-family: theme('fontFamily.label-caps');
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: theme('borderRadius.DEFAULT');
+        }
+
+        .panel {
+            background-color: theme('colors.surface-container');
+            border: 1px solid theme('colors.outline-variant');
+            padding: 16px;
+            border-radius: theme('borderRadius.lg');
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px 8px;
+            text-align: left;
+            border-bottom: 1px solid theme('colors.outline-variant');
+        }
+        
+        .data-table th {
+            font-family: theme('fontFamily.label-caps');
+            font-size: 11px;
+            color: theme('colors.secondary');
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        
+        .data-table td {
+            font-family: theme('fontFamily.data-mono');
+            font-size: 13px;
+            color: theme('colors.on-surface');
+        }
+
+        .data-table tr:hover td {
+            background-color: theme('colors.surface-variant');
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: theme('colors.success');
+            margin-right: 8px;
+            border-radius: theme('borderRadius.full');
+        }
+    </style>
+</head>
+<body class="antialiased">
+<div class="workstation-grid">
+<!-- TopNavBar -->
+<header class="top-nav bg-surface-container-lowest dark:bg-surface-container-lowest border-b border-outline-variant h-14 flex justify-between items-center w-full px-container-padding flat no shadows">
+<div class="flex items-center gap-6">
+<div class="font-label-caps text-label-caps tracking-widest text-on-surface dark:text-on-surface uppercase">Idea Foundry Node</div>
+<nav class="hidden md:flex gap-4">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant px-2 py-1 uppercase rounded" href="#">Hybrid</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant px-2 py-1 uppercase rounded" href="#">Verified</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant px-2 py-1 rounded" href="#">4a3f...b2c8</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="font-body-sm text-body-sm text-on-surface bg-surface-container px-3 py-1 border border-outline-variant rounded flex items-center gap-2">
+<span class="font-label-caps text-secondary uppercase">Applied As:</span> FIT Farms LLC <span class="text-secondary mx-1">|</span> <span class="font-label-caps text-secondary uppercase">Node:</span> fit-farms-pgh-001
+            </div>
+<div class="font-label-caps text-label-caps text-success bg-success/10 flex items-center gap-2 border border-success/30 rounded-full px-3 py-1 uppercase">
+<span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
+                Verified
+            </div>
+<div class="font-label-caps text-label-caps text-error bg-error/10 flex items-center gap-2 border border-error/30 rounded-full px-3 py-1 uppercase">
+<span class="material-symbols-outlined" style="font-size: 14px;">lock</span>
+                Audit: Locked
+            </div>
+<button class="text-primary hover:bg-surface-variant p-1 rounded">
+<span class="material-symbols-outlined">sync</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="side-nav bg-surface-container-low dark:bg-surface-container-low w-sidebar-width h-full flex flex-col py-4 border-r border-outline-variant flat no shadows hidden md:flex">
+<div class="px-4 mb-6">
+<div class="font-headline-md text-headline-md font-bold text-on-surface">Golden Quill</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-1 uppercase">Sovereign Workstation</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<!-- Tabs -->
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase rounded-r-lg mx-2" href="#">
+<span class="material-symbols-outlined">home</span> Home
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase rounded-r-lg mx-2" href="#">
+<span class="material-symbols-outlined">search</span> Scout
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase rounded-r-lg mx-2" href="#">
+<span class="material-symbols-outlined">input</span> Intake
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase rounded-r-lg mx-2" href="#">
+<span class="material-symbols-outlined">fact_check</span> Eligibility
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase rounded-r-lg mx-2" href="#">
+<span class="material-symbols-outlined">account_tree</span> Module Mapper
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase rounded-r-lg mx-2" href="#">
+<span class="material-symbols-outlined">edit_note</span> Drafting
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase rounded-r-lg mx-2" href="#">
+<span class="material-symbols-outlined">payments</span> Budget
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase rounded-r-lg mx-2" href="#">
+<span class="material-symbols-outlined">gavel</span> Judge
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase rounded-r-lg mx-2" href="#">
+<span class="material-symbols-outlined">security</span> Red Team
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 bg-surface-container-high text-primary border-l-2 border-primary font-label-caps text-label-caps uppercase rounded-r-lg mr-2" href="#">
+<span class="material-symbols-outlined fill">history_edu</span> Sign-Off
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase rounded-r-lg mx-2" href="#">
+<span class="material-symbols-outlined">menu_book</span> Audit
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase rounded-r-lg mx-2" href="#">
+<span class="material-symbols-outlined">credit_card</span> Cards
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase rounded-r-lg mx-2" href="#">
+<span class="material-symbols-outlined">fingerprint</span> FIDs
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase rounded-r-lg mx-2" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span> Costs
+            </a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="main-content">
+<div class="max-w-4xl mx-auto space-y-8">
+<!-- Success Header -->
+<div class="panel border-2 border-success bg-surface-container-low relative overflow-hidden rounded-xl">
+<div class="absolute top-0 left-0 w-2 h-full bg-success"></div>
+<div class="flex flex-col items-center justify-center py-16 text-center">
+<span class="material-symbols-outlined text-success mb-6" style="font-size: 56px;">check_circle</span>
+<h1 class="font-display-lg text-display-lg text-primary tracking-tight">SUCCESS: EXPORT GENERATED</h1>
+<p class="font-body-md text-body-md text-secondary mt-3 max-w-lg">Packet Authorization Sequence Complete. Integrity Verified according to Protocol 7-A.</p>
+<div class="mt-6 inline-flex items-center gap-2 bg-surface-container px-4 py-2 rounded-lg border border-outline-variant">
+<span class="font-label-caps text-label-caps text-secondary uppercase">Signature Validated:</span>
+<span class="font-data-mono text-data-mono text-primary bg-surface-variant px-2 py-1 rounded">Ed25519: 4a3f...b2c8</span>
+<span class="material-symbols-outlined text-success" style="font-size: 16px;">verified</span>
+</div>
+</div>
+</div>
+<!-- Artifacts Table -->
+<div class="panel rounded-xl">
+<div class="flex items-center justify-between mb-4 border-b border-outline-variant pb-3">
+<h2 class="font-headline-md text-headline-md text-primary">Generated Artifacts</h2>
+<div class="flex items-center gap-2 bg-surface-variant px-3 py-1 rounded border border-outline-variant">
+<span class="font-label-caps text-label-caps text-secondary uppercase">Forensic Hash:</span>
+<span class="font-data-mono text-data-mono text-primary">SHA-256</span>
+</div>
+</div>
+<table class="data-table">
+<thead>
+<tr>
+<th>File Name</th>
+<th>Type</th>
+<th>Checksum (SHA-256)</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" style="font-size: 18px;">description</span>
+<span class="font-body-md">Packet_Final.pdf</span>
+</div>
+</td>
+<td class="font-body-sm">Document</td>
+<td class="font-data-mono text-secondary truncate max-w-[200px]" title="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855">e3b0c442...b855</td>
+<td>
+<div class="flex items-center text-success font-label-caps uppercase bg-success/10 px-2 py-1 rounded w-max border border-success/20">
+<span class="status-indicator"></span> MATCH
+                                </div>
+</td>
+</tr>
+<tr>
+<td>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" style="font-size: 18px;">data_object</span>
+<span class="font-body-md">Metadata.json</span>
+</div>
+</td>
+<td class="font-body-sm">Data Structure</td>
+<td class="font-data-mono text-secondary truncate max-w-[200px]" title="8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92">8d969eef...6c92</td>
+<td>
+<div class="flex items-center text-success font-label-caps uppercase bg-success/10 px-2 py-1 rounded w-max border border-success/20">
+<span class="status-indicator"></span> MATCH
+                                </div>
+</td>
+</tr>
+<tr>
+<td>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" style="font-size: 18px;">table_chart</span>
+<span class="font-body-md">Audit_Trail.csv</span>
+</div>
+</td>
+<td class="font-body-sm">Log Ledger</td>
+<td class="font-data-mono text-secondary truncate max-w-[200px]" title="5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8">5e884898...42d8</td>
+<td>
+<div class="flex items-center text-success font-label-caps uppercase bg-success/10 px-2 py-1 rounded w-max border border-success/20">
+<span class="status-indicator"></span> MATCH
+                                </div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Actions -->
+<div class="flex gap-4 justify-end mt-8">
+<button class="btn-secondary">
+<span class="material-symbols-outlined">folder_open</span>
+                    Open Export Folder
+                </button>
+<button class="btn-primary">
+<span class="material-symbols-outlined">rocket_launch</span>
+                    Return to Mission Control
+                </button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="footer bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant h-10 flex justify-between items-center px-4 flat no shadows fixed bottom-0 left-0 w-full z-50">
+<div class="flex items-center gap-4">
+<div class="font-data-mono text-body-sm text-on-surface-variant font-label-caps text-label-caps uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-size: 16px;">dns</span>
+            LOCAL NODE STATUS: <span class="text-success bg-success/10 px-1 rounded">OPERATIONAL</span> | <span class="text-warning bg-warning/10 px-1 rounded border border-warning/20 flex items-center gap-1"><span class="material-symbols-outlined" style="font-size: 12px;">lock</span> SESSION_LOCKED</span>
+</div>
+<div class="h-4 w-px bg-outline-variant"></div>
+<div class="font-data-mono text-body-sm text-on-surface-variant font-label-caps text-label-caps uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-size: 16px;">key</span>
+            KEY: Ed25519 (4a3f...b2c8)
+        </div>
+</div>
+<div class="flex gap-4">
+<a class="font-data-mono text-body-sm text-on-surface-variant hover:text-primary transition-none flex items-center gap-1" href="#">
+<span class="material-symbols-outlined" style="font-size: 14px;">fingerprint</span> FINGERPRINT: 88:92:AF
+        </a>
+<a class="font-data-mono text-body-sm text-on-surface-variant hover:text-primary transition-none flex items-center gap-1" href="#">
+<span class="material-symbols-outlined" style="font-size: 14px;">enhanced_encryption</span> NETWORK: ENCRYPTED
+        </a>
+</div>
+</footer>
+</div>
+</body></html>

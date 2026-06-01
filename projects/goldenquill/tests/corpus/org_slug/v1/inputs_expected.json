@@ -1,0 +1,42 @@
+{
+  "schema_version": "v1",
+  "source": "pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md §4.3 M3 v2 examples + v1→v2 Red Team regression vectors",
+  "pass": [
+    {"input": "MycoSymbiotics Cooperative", "expected": "mycosymbiotics-cooperative"},
+    {"input": "FIT Farms, Inc.", "expected": "fit-farms-inc"},
+    {"input": "Run-a-Muck!", "expected": "run-a-muck"},
+    {"input": "mycosymbiotics_cooperative", "expected": "mycosymbiotics-cooperative"},
+    {"input": "Phantom Robotix", "expected": "phantom-robotix"},
+    {"input": "  lots   of   whitespace  ", "expected": "lots-of-whitespace"},
+    {"input": "ALREADY-LOWER-ish", "expected": "already-lower-ish"},
+    {"input": "a", "expected": "a"},
+    {"input": "42", "expected": "42"},
+    {"input": "a1b2c3", "expected": "a1b2c3"}
+  ],
+  "reject_invalid_slug": [
+    {"input": "", "reason": "empty"},
+    {"input": "   ", "reason": "empty"},
+    {"input": "!!!", "reason": "all_non_alphanum"},
+    {"input": "----", "reason": "all_non_alphanum"},
+    {"input": "café", "reason": "transliteration_lossy"},
+    {"input": "Mañana", "reason": "transliteration_lossy"},
+    {"input": "München", "reason": "transliteration_lossy"},
+    {"input": "Å", "reason": "transliteration_lossy", "note": "Round-A RT-v1-H-01: U+212B ANGSTROM SIGN NFKD-decomposes directly to ASCII A; v3 rule rejects any non-ASCII in NFC form"},
+    {"input": "ℌ", "reason": "transliteration_lossy", "note": "U+210C BLACK-LETTER CAPITAL H; NFKD → H; same collision class"},
+    {"input": "µ", "reason": "transliteration_lossy", "note": "U+00B5 MICRO SIGN; NFKD → μ (Greek mu); ASCII encode drops; distinct from m"},
+    {"input": "ʼ", "reason": "transliteration_lossy", "note": "U+02BC MODIFIER LETTER APOSTROPHE; visually identical to ASCII apostrophe but NFC form is non-ASCII"}
+  ],
+  "reject_reserved": [
+    {"input": ".git", "reserved_name": ".git"},
+    {"input": " .git ", "reserved_name": ".git"},
+    {"input": "SHARED", "reserved_name": "shared"},
+    {"input": "vault_shared", "reserved_name": "vault_shared"},
+    {"input": "index", "reserved_name": "index"},
+    {"input": "_template", "reserved_name": "_template"},
+    {"input": ".well_known", "reserved_name": ".well_known"}
+  ],
+  "reject_too_long": [
+    {"input_repeat_char": "a", "repeat_count": 65, "reason": "too_long"},
+    {"input_repeat_char": "b", "repeat_count": 128, "reason": "too_long"}
+  ]
+}

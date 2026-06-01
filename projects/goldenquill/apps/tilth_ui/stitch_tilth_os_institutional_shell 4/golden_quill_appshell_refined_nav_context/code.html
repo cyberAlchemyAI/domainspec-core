@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill AppShell</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Fira+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed-variant": "#4a4640",
+                        "tertiary-container": "#b3966f",
+                        "secondary-fixed": "#e9e1d9",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#e1c298",
+                        "surface-container": "#20201f",
+                        "primary-fixed": "#ffdf97",
+                        "on-primary": "#3e2e00",
+                        "surface-bright": "#393939",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed-variant": "#594323",
+                        "inverse-on-surface": "#313030",
+                        "surface-container-low": "#1c1b1b",
+                        "secondary": "#ccc5be",
+                        "secondary-fixed-dim": "#ccc5be",
+                        "on-surface": "#e5e2e1",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary": "#33302a",
+                        "on-tertiary-container": "#422f11",
+                        "surface-dim": "#131313",
+                        "outline-variant": "#4d4638",
+                        "on-primary-fixed-variant": "#5a4300",
+                        "inverse-primary": "#765a0a",
+                        "secondary-container": "#4a4640",
+                        "surface-tint": "#e7c26b",
+                        "surface-container-highest": "#353535",
+                        "on-surface-variant": "#d0c5b3",
+                        "on-primary-container": "#413000",
+                        "tertiary": "#e1c298",
+                        "on-secondary-container": "#bbb4ac",
+                        "tertiary-fixed": "#ffddb2",
+                        "outline": "#99907f",
+                        "surface-variant": "#353535",
+                        "on-background": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#291800",
+                        "surface": "#131313",
+                        "primary": "#e7c26b",
+                        "surface-container-high": "#2a2a2a",
+                        "on-tertiary": "#402d0f",
+                        "background": "#131313",
+                        "primary-container": "#b89745",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#e7c26b",
+                        "on-secondary-fixed": "#1e1b16",
+                        "on-primary-fixed": "#251a00",
+                        "surface-container-lowest": "#0e0e0e"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0",
+                        lg: "0",
+                        xl: "0",
+                        full: "0"
+                    },
+                    spacing: {
+                        gutter: "16px",
+                        "container-max": "1440px",
+                        unit: "4px",
+                        margin: "24px"
+                    },
+                    fontFamily: {
+                        "body-md": ["JetBrains Mono", "monospace"],
+                        "label-xs": ["JetBrains Mono", "monospace"],
+                        "title-sm": ["JetBrains Mono", "monospace"],
+                        "headline-md": ["Fira Sans", "sans-serif"],
+                        "code-sm": ["JetBrains Mono", "monospace"],
+                        "display-lg": ["Fira Sans", "sans-serif"]
+                    },
+                    fontSize: {
+                        "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "label-xs": ["11px", { lineHeight: "12px", letterSpacing: "0.05em", fontWeight: "700" }],
+                        "title-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }],
+                        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "code-sm": ["12px", { lineHeight: "16px", fontWeight: "500" }],
+                        "display-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+            border-left: 1px solid #4d4638;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #353535;
+            border: 1px solid #4d4638;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4d4638;
+        }
+        
+        .border-oak { border-color: #4d4638; }
+        .bg-charcoal { background-color: #131313; }
+        .bg-paper { background-color: #242220; }
+        .text-bone { color: #e5e2e1; }
+        
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-body-md overflow-hidden bg-background text-on-background selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar Component -->
+<nav class="flex items-center justify-between px-gutter w-full fixed top-0 z-50 bg-background border-b border-outline-variant h-[56px] text-on-surface">
+<!-- Left Section -->
+<div class="flex items-center gap-4 h-full">
+<span class="font-title-sm text-title-sm text-on-surface uppercase tracking-tighter">IDEA FOUNDRY NODE</span>
+<div class="h-full w-[1px] bg-outline-variant"></div>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Cycle ID: 8824-A</span>
+</div>
+<!-- Center Search -->
+<div class="flex-1 max-w-[400px] mx-4 relative">
+<div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline text-[16px]">search</span>
+</div>
+<input class="w-full bg-surface-container border border-outline-variant text-on-surface font-code-sm text-code-sm py-1.5 pl-8 pr-2 focus:border-on-surface focus:ring-0 focus:outline-none placeholder:text-outline placeholder:font-code-sm" placeholder="Search vault, FIDs, cycles..." type="text"/>
+</div>
+<!-- Right Section -->
+<div class="flex items-center gap-3 h-full">
+<!-- Mission Context Indicator -->
+<div class="flex items-center gap-2 border-l border-r border-outline-variant px-3 h-full bg-surface-container-low select-none">
+<span class="material-symbols-outlined text-[14px] text-tertiary">target</span>
+<span class="font-code-sm text-[11px] uppercase text-on-surface-variant whitespace-nowrap">Food Systems · Research &amp; Evidence</span>
+</div>
+<!-- Secondary Action (HYBRID) -->
+<div class="border border-outline-variant px-2 py-1 bg-surface-container flex items-center">
+<span class="font-label-xs text-label-xs uppercase text-on-surface-variant">HYBRID</span>
+</div>
+<!-- Primary Action (Verified Pill) -->
+<div class="border border-primary-container bg-surface flex items-center px-2 py-1 gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-xs text-label-xs text-primary-container uppercase">Verified</span>
+</div>
+<div class="h-full w-[1px] bg-outline-variant"></div>
+<!-- Icon Actions / Profile -->
+<div class="flex items-center gap-2 border border-outline-variant px-2 py-1 bg-surface-container cursor-pointer hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">key</span>
+<span class="font-code-sm text-code-sm text-on-surface">4a3f...b2c8</span>
+</div>
+</div>
+</nav>
+<!-- SideNavBar Component -->
+<aside class="fixed left-0 top-[56px] h-[calc(100vh-56px)] flex flex-col z-40 w-[220px] bg-surface-container-low border-r border-outline-variant">
+<!-- Header -->
+<div class="p-4 border-b border-outline-variant">
+<h1 class="font-headline-md text-headline-md text-on-surface">Golden Quill</h1>
+<p class="font-code-sm text-code-sm text-on-surface-variant mt-1">Institutional Workstation</p>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto py-2">
+<nav class="flex flex-col space-y-1 px-2"><!-- Home (Active) -->
+<a class="bg-surface-container-highest text-primary border-r-2 border-primary flex items-center gap-3 px-3 py-2 transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">home</span>
+<span class="font-code-sm text-code-sm">Home</span>
+</a>
+<!-- Eligibility -->
+<a class="text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center justify-between px-3 py-2 transition-all duration-150" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">gate</span>
+<span class="font-code-sm text-code-sm">Eligibility</span>
+</div>
+<span class="border border-outline-variant bg-surface px-1.5 py-0.5 font-label-xs text-label-xs text-on-surface">12</span>
+</a>
+<!-- Red Team -->
+<a class="text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center gap-3 px-3 py-2 transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">security</span>
+<span class="font-code-sm text-code-sm">Red Team</span>
+</a>
+<!-- Judge -->
+<a class="text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center gap-3 px-3 py-2 transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+<span class="font-code-sm text-code-sm">Judge</span>
+</a>
+<!-- Drafting -->
+<a class="text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center gap-3 px-3 py-2 transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">edit_note</span>
+<span class="font-code-sm text-code-sm">Drafting</span>
+</a>
+<!-- Audit Ledger -->
+<a class="text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center gap-3 px-3 py-2 transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">history_edu</span>
+<span class="font-code-sm text-code-sm">Audit Ledger</span>
+</a>
+<!-- Sign-Off -->
+<a class="text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center gap-3 px-3 py-2 transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">draw</span>
+<span class="font-code-sm text-code-sm">Sign-Off</span>
+</a></nav>
+</div>
+<!-- Footer Links -->
+<div class="p-2 border-t border-outline-variant flex flex-col space-y-1">
+<a class="text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center gap-3 px-3 py-2 transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+<span class="font-code-sm text-code-sm">System Logs</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container hover:text-on-surface flex items-center gap-3 px-3 py-2 transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">help_center</span>
+<span class="font-code-sm text-code-sm">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="fixed left-[220px] top-[56px] right-[380px] h-[calc(100vh-56px)] bg-background overflow-y-auto p-6">
+<!-- Empty State Canvas Layout -->
+<div class="h-full flex flex-col border border-outline-variant bg-paper bg-opacity-50 relative">
+<!-- Grid Background Pattern -->
+<div class="absolute inset-0 pointer-events-none opacity-5" style="background-image: radial-gradient(#e5e2e1 1px, transparent 1px); background-size: 16px 16px;"></div>
+<!-- Header of Canvas -->
+<div class="border-b border-outline-variant p-4 flex justify-between items-center bg-surface-container z-10">
+<div>
+<h2 class="font-title-sm text-title-sm text-on-surface">Central Canvas</h2>
+<p class="font-code-sm text-code-sm text-on-surface-variant mt-1">Awaiting operator input or data feed selection.</p>
+</div>
+<button class="border border-outline-variant bg-surface px-3 py-1.5 font-code-sm text-code-sm hover:bg-surface-variant transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">add</span>
+                    New Query
+                </button>
+</div>
+<!-- Empty State Content -->
+<div class="flex-1 flex flex-col items-center justify-center text-center z-10 p-6">
+<span class="material-symbols-outlined text-[48px] text-outline-variant mb-4 font-light">terminal</span>
+<h3 class="font-title-sm text-title-sm text-on-surface mb-2">Workspace Idle</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+                    The elastic central canvas is currently empty. Select a dataset from the left navigation rail or execute a search query to populate this surface.
+                </p>
+<!-- Terminal Output Mockup in Empty State -->
+<div class="mt-8 w-full max-w-2xl border border-outline-variant bg-surface-container-low text-left p-4">
+<div class="font-label-xs text-label-xs uppercase text-outline mb-2 pb-2 border-b border-outline-variant">System Readiness</div>
+<div class="font-code-sm text-code-sm space-y-1">
+<div class="flex"><span class="text-on-surface-variant w-24">14:02:01</span><span class="text-tertiary">NODE_INIT</span><span class="ml-4 text-on-surface">Golden Quill services started.</span></div>
+<div class="flex"><span class="text-on-surface-variant w-24">14:02:05</span><span class="text-tertiary">AUTH_REQ</span><span class="ml-4 text-on-surface">Validating operator key...</span></div>
+<div class="flex"><span class="text-on-surface-variant w-24">14:02:06</span><span class="text-primary-container">AUTH_OK</span><span class="ml-4 text-on-surface">Key 4a3f...b2c8 verified. Session active.</span></div>
+<div class="flex"><span class="text-on-surface-variant w-24">14:02:10</span><span class="text-tertiary">SYS_READY</span><span class="ml-4 text-on-surface">Awaiting instructions.</span><span class="animate-pulse ml-1">_</span></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer / Right Inspector Panel Component -->
+<aside class="fixed right-0 top-[56px] h-[calc(100vh-56px)] flex flex-col z-40 w-[380px] bg-surface-container-low border-l border-outline-variant text-on-surface">
+<!-- Inspector Header -->
+<div class="p-3 border-b border-outline-variant flex items-center justify-between bg-surface-container">
+<span class="font-label-xs text-label-xs text-on-surface uppercase tracking-widest">Evidence Inspector</span>
+<div class="flex gap-2">
+<button class="text-on-surface-variant hover:text-bone flex items-center justify-center p-1" title="Refresh">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+</button>
+<button class="text-on-surface-variant hover:text-bone flex items-center justify-center p-1" title="Export">
+<span class="material-symbols-outlined text-[16px]">download</span>
+</button>
+<button class="text-on-surface-variant hover:text-bone flex items-center justify-center p-1" title="Expand">
+<span class="material-symbols-outlined text-[16px]">open_in_full</span>
+</button>
+</div>
+</div>
+<!-- Inspector Content -->
+<div class="flex-1 overflow-y-auto p-4 space-y-6">
+<!-- Cryptographic State Panel -->
+<div class="border border-primary-container p-3 bg-surface relative">
+<div class="absolute top-0 right-0 -mt-2 -mr-2 bg-background px-1">
+<span class="material-symbols-outlined text-primary-container text-[16px]" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<h4 class="font-label-xs text-label-xs uppercase text-outline mb-2">Cryptographic State</h4>
+<div class="flex items-center gap-2 mb-2">
+<div class="w-2 h-2 bg-[#B89745]"></div>
+<span class="font-code-sm text-code-sm font-bold text-[#B89745]">High Confidence</span>
+</div>
+<div class="grid grid-cols-2 gap-y-2 text-code-sm">
+<div class="text-on-surface-variant">Hash Algos:</div>
+<div class="text-on-surface text-right">SHA-256</div>
+<div class="text-on-surface-variant">Signature:</div>
+<div class="text-on-surface text-right font-body-md truncate">0x9F2E...11A</div>
+</div>
+</div>
+<!-- Details Panel -->
+<div class="border border-outline-variant p-3">
+<h4 class="font-label-xs text-label-xs uppercase text-outline mb-3 border-b border-outline-variant pb-1">Selection Metadata</h4>
+<div class="space-y-3 font-code-sm text-code-sm">
+<div>
+<div class="text-on-surface-variant mb-1">Entity ID</div>
+<div class="border border-outline-variant bg-surface p-1 px-2 font-mono text-on-surface break-all">
+                             ENT-778-OMNI-X9
+                         </div>
+</div>
+<div>
+<div class="text-on-surface-variant mb-1">Source Node</div>
+<div class="border border-outline-variant bg-surface p-1 px-2 font-mono text-on-surface">
+                             alpha.foundry.local
+                         </div>
+</div>
+<div>
+<div class="text-on-surface-variant mb-1">Timestamp</div>
+<div class="border border-outline-variant bg-surface p-1 px-2 font-mono text-on-surface">
+                             2023-10-27T14:05:22Z
+                         </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Copyright -->
+<div class="p-2 border-t border-outline-variant text-center bg-surface">
+<span class="font-label-xs text-label-xs text-tertiary uppercase">Evidence Inspector © Foundry</span>
+</div>
+</aside>
+</body></html>

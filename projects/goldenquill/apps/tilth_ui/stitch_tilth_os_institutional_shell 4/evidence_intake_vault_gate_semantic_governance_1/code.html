@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Evidence Intake</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Source+Serif+4:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline-variant": "#444748",
+                      "on-surface": "#d8e3fb",
+                      "surface-container-high": "#1f2a3c",
+                      "on-tertiary": "#283044",
+                      "inverse-surface": "#d8e3fb",
+                      "error-container": "#93000a",
+                      "on-secondary-fixed": "#0b1c30",
+                      "inverse-primary": "#5d5f5f",
+                      "surface-bright": "#2f3a4c",
+                      "on-primary": "#2f3131",
+                      "surface-tint": "#c6c6c7",
+                      "on-secondary-container": "#a9bad3",
+                      "surface": "#081425",
+                      "secondary-container": "#3a4a5f",
+                      "on-surface-variant": "#c4c7c8",
+                      "error": "#ffb4ab",
+                      "surface-container-low": "#111c2d",
+                      "tertiary": "#ffffff",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "primary-fixed": "#e2e2e2",
+                      "on-primary-fixed": "#1a1c1c",
+                      "surface-variant": "#2a3548",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "on-primary-container": "#636565",
+                      "surface-dim": "#081425",
+                      "primary-fixed-dim": "#c6c6c7",
+                      "on-primary-fixed-variant": "#454747",
+                      "surface-container-lowest": "#040e1f",
+                      "on-tertiary-fixed": "#131b2e",
+                      "tertiary-container": "#dae2fd",
+                      "surface-container": "#152031",
+                      "on-error-container": "#ffdad6",
+                      "surface-container-highest": "#2a3548",
+                      "on-secondary": "#213145",
+                      "on-background": "#d8e3fb",
+                      "tertiary-fixed": "#dae2fd",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "secondary-fixed": "#d3e4fe",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "primary": "#ffffff",
+                      "on-tertiary-container": "#5c647a",
+                      "background": "#081425",
+                      "secondary": "#b7c8e1",
+                      "primary-container": "#e2e2e2",
+                      "outline": "#8e9192",
+                      "on-error": "#690005",
+                      "inverse-on-surface": "#263143"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "panel-gap": "8px",
+                      "gutter": "1px",
+                      "container-padding": "16px",
+                      "sidebar-width": "240px"
+              },
+              "fontFamily": {
+                      "body-sm": ["Hanken Grotesk"],
+                      "data-mono": ["JetBrains Mono"],
+                      "body-md": ["Hanken Grotesk"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "display-lg": ["Hanken Grotesk"],
+                      "label-caps": ["JetBrains Mono"],
+                      "serif": ["Source Serif 4"]
+              },
+              "fontSize": {
+                      "body-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                      "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                      "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                      "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Modern Brutalism / Technical Industrialism specific overrides */
+        body {
+            background-color: #020617; /* Theme Base Level 0 */
+            color: #d8e3fb; /* on-surface */
+        }
+        .brutal-border {
+            border: 1px solid #334155;
+        }
+        .brutal-border-active {
+            border: 1px solid #ffffff;
+        }
+        .panel-bg {
+            background-color: #0F172A; /* Theme Level 1 */
+        }
+        .nested-bg {
+            background-color: #1E293B; /* Theme Level 2 */
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            display: inline-block;
+        }
+        .status-active { background-color: #22C55E; }
+        .status-warning { background-color: #F59E0B; }
+        .status-critical { background-color: #9C3C28; } /* Updated to Rust */
+        
+        /* Custom scrollbar for data dense areas */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617; 
+            border-left: 1px solid #334155;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md h-screen w-screen overflow-hidden flex flex-col selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<header class="bg-surface-container-low dark:bg-surface-container-low docked full-width top-0 h-14 border-b border-outline-variant flat no shadows flex justify-between items-center w-full px-spacing-container-padding shrink-0 z-20">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps tracking-widest text-on-surface dark:text-on-surface">IDEA FOUNDRY NODE</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 font-data-mono text-data-mono text-primary dark:text-primary">
+<div class="px-2 py-1 bg-surface-variant border border-outline-variant text-label-caps flex items-center gap-2">
+<span class="text-on-surface-variant">APPLIED AS:</span> <span class="text-primary">ORG ADMIN</span>
+</div>
+<span class="flex items-center gap-2"><div class="status-dot status-active"></div> HYBRID</span>
+<span class="text-on-surface-variant">|</span>
+<span class="">VERIFIED</span>
+<span class="text-on-surface-variant">|</span>
+<span class="">4a3f...b2c8</span>
+</div>
+<button class="text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant p-2 flex items-center justify-center instant state change">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+</button>
+</div>
+</header>
+<!-- Main Workspace Area -->
+<div class="flex flex-1 overflow-hidden relative">
+<!-- SideNavBar -->
+<nav class="bg-surface dark:bg-surface docked left-0 h-full w-sidebar-width border-r border-outline-variant flat no shadows flex flex-col h-full py-4 shrink-0 z-10 hidden md:flex">
+<div class="px-4 mb-6">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">GOLDEN QUILL</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">SOVEREIGN WORKSTATION</p>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="flex flex-col">
+<!-- Home -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+</li>
+<!-- Scout -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+</li>
+<!-- Intake (Active) -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 bg-surface-container-high text-primary border-r-2 border-primary instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</a>
+</li>
+<!-- Eligibility -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</a>
+</li>
+<!-- Module Mapper -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+<span class="font-label-caps text-label-caps">Module Mapper</span>
+</a>
+</li>
+<!-- Drafting -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</a>
+</li>
+<!-- Budget -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</a>
+</li>
+<!-- Judge -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+</li>
+<!-- Red Team -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</a>
+</li>
+<!-- Sign-Off -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps">Sign-Off</span>
+</a>
+</li>
+<!-- Audit -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]">menu_book</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</a>
+</li>
+<!-- Cards -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]">credit_card</span>
+<span class="font-label-caps text-label-caps">Cards</span>
+</a>
+</li>
+<!-- FIDs -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDs</span>
+</a>
+</li>
+<!-- Costs -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Central Canvas & Right Inspector Container -->
+<main class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+<!-- Central Canvas -->
+<div class="flex-1 flex flex-col p-4 gap-4 overflow-y-auto">
+<!-- Header -->
+<div class="flex justify-between items-end border-b border-outline-variant pb-2 shrink-0">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Evidence Intake / Vault Gate</h2>
+<p class="font-data-mono text-data-mono text-on-surface-variant mt-1">ORG: FIT Farms LLC | STATUS: ACTIVE INTAKE</p>
+</div>
+<div class="text-right">
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">CAPACITY</span>
+<span class="font-data-mono text-data-mono">84%</span>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-4 flex-1 min-h-0">
+<!-- Left Column: Drop Zone & Queue -->
+<div class="xl:col-span-2 flex flex-col gap-4 min-h-0">
+<!-- File Drop Zone -->
+<div class="brutal-border panel-bg p-6 flex flex-col items-center justify-center text-center h-48 shrink-0 relative group cursor-pointer">
+<!-- Background Pattern/Texture Placeholder -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, #334155 0, #334155 1px, transparent 0, transparent 50%); background-size: 8px 8px;"></div>
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant mb-4 group-hover:text-primary transition-colors">upload_file</span>
+<h3 class="font-body-md text-body-md text-primary font-bold">SECURE UPLOAD PROTOCOL</h3>
+<p class="font-data-mono text-data-mono text-on-surface-variant mt-2 max-w-md">Drag &amp; drop institutional artifacts here or click to browse. Max file size: 256MB. Encrypted in transit.</p>
+</div>
+<!-- Intake Queue / Vault Cards -->
+<div class="flex-1 brutal-border panel-bg flex flex-col min-h-0">
+<div class="p-3 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<span class="font-label-caps text-label-caps text-primary">INTAKE QUEUE [3]</span>
+<button class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">filter_list</span> FILTER
+                                </button>
+</div>
+<div class="flex-1 overflow-y-auto p-3 space-y-3">
+<!-- File 1: Committed -->
+<div class="brutal-border nested-bg p-3 flex flex-col gap-2 relative">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-[#22C55E]"></div>
+<div class="flex justify-between items-start pl-2">
+<div>
+<h4 class="font-serif text-[16px] text-primary">Project_Narrative_v4_FINAL.pdf</h4>
+<div class="flex gap-4 mt-1 font-data-mono text-data-mono text-on-surface-variant text-[11px]">
+<span class="">HASH: b61d9a2...</span>
+<span class="">SIZE: 2.4MB</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="font-label-caps text-label-caps text-[#22C55E] flex items-center gap-1"><div class="status-dot status-active"></div> COMMITTED</span>
+<span class="font-data-mono text-data-mono text-[10px] border border-outline-variant px-1 text-on-surface-variant">ID: d3e4fe1</span>
+</div>
+</div>
+</div>
+<!-- File 2: Selected/Needs Classification -->
+<div class="brutal-border-active nested-bg p-3 flex flex-col gap-2 relative">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-[#F59E0B]"></div>
+<div class="flex justify-between items-start pl-2">
+<div>
+<h4 class="font-serif text-[16px] text-primary font-bold">Detailed_Budget_Justification.xlsx</h4>
+<div class="flex gap-4 mt-1 font-data-mono text-data-mono text-on-surface-variant text-[11px]">
+<span class="">HASH: f8c201e...</span>
+<span class="">SIZE: 1.1MB</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="font-label-caps text-label-caps text-[#F59E0B] flex items-center gap-1"><div class="status-dot status-warning"></div> PENDING CLASSIFICATION</span>
+<span class="font-data-mono text-data-mono text-[10px] border border-error px-1 text-error">ID: e5f6g7h</span>
+</div>
+</div>
+<div class="pl-2 mt-2 pt-2 border-t border-outline-variant flex justify-between items-center">
+<span class="font-data-mono text-data-mono text-[11px] text-on-surface-variant">ACTION REQUIRED:</span>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-3 py-1 hover:bg-surface-tint">MAP TO ONTOLOGY</button>
+</div>
+</div>
+<!-- File 3: Quarantined -->
+<div class="brutal-border nested-bg p-3 flex flex-col gap-2 relative opacity-70">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-[#9C3C28]"></div>
+<div class="flex justify-between items-start pl-2">
+<div>
+<h4 class="font-serif text-[16px] text-primary line-through decoration-[#9C3C28]">Partner_MOU_Signed_Batch.pdf</h4>
+<div class="flex gap-4 mt-1 font-data-mono text-data-mono text-on-surface-variant text-[11px]">
+<span class="">HASH: 9a34bc1...</span>
+<span class="">SIZE: 845KB</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="font-label-caps text-label-caps text-[#9C3C28] flex items-center gap-1"><div class="status-dot status-critical"></div> QUARANTINED — ontology unresolved</span>
+<span class="font-data-mono text-data-mono text-[10px] border border-outline-variant px-1 text-on-surface-variant">ID: a1b2c3d</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Inspector & Contradictions -->
+<div class="flex flex-col gap-4 min-h-0">
+<!-- Intake Detail Inspector -->
+<div class="flex-1 brutal-border panel-bg flex flex-col min-h-0">
+<div class="p-3 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-primary">DETAIL INSPECTOR</span>
+<span class="font-data-mono text-data-mono text-[10px] text-on-surface-variant">ID: e5f6g7h</span>
+</div>
+<div class="p-4 flex flex-col gap-4 overflow-y-auto">
+<div>
+<h5 class="font-label-caps text-label-caps text-on-surface-variant mb-1">TARGET FILE</h5>
+<p class="font-serif text-[18px] text-primary break-words">Detailed_Budget_Justification.xlsx</p>
+</div>
+<div class="grid grid-cols-2 gap-2 text-data-mono font-data-mono text-[12px]">
+<div class="border border-outline-variant p-2 flex flex-col">
+<span class="text-on-surface-variant mb-1">TYPE</span>
+<span class="text-primary">application/vnd.openxmlformats...</span>
+</div>
+<div class="border border-outline-variant p-2 flex flex-col">
+<span class="text-on-surface-variant mb-1">SIZE</span>
+<span class="text-primary">1,104,852 bytes</span>
+</div>
+<div class="border border-outline-variant p-2 col-span-2 flex flex-col">
+<span class="text-on-surface-variant mb-1">SHA-256 HASH</span>
+<span class="text-primary break-all">f8c201e9a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0</span>
+</div>
+</div>
+<div class="mt-2">
+<h5 class="font-label-caps text-label-caps text-on-surface-variant mb-2 border-b border-outline-variant pb-1">CLASSIFICATION RESOLUTION</h5>
+<div class="brutal-border nested-bg p-3 flex flex-col gap-3">
+<div class="flex items-center gap-2 text-error">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span class="font-label-caps text-label-caps">UNRESOLVED ONTOLOGY</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface text-sm">System could not automatically map contents to primary organizational taxonomy nodes.</p>
+<select class="bg-surface text-primary border border-outline-variant p-2 font-data-mono text-data-mono text-[12px] w-full focus:ring-0 focus:border-primary rounded-none"><option>Financial -&gt; Tax Records -&gt; Schedule F</option><option>NARRATIVE.PROJECT</option><option>FINANCIAL.AUDIT</option><option>LEGAL.CONTRACT</option></select>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant">
+<button class="w-full text-on-surface-variant border border-outline-variant p-3 font-label-caps text-label-caps flex items-center justify-center gap-2 bg-surface-variant cursor-not-allowed opacity-50" disabled=""><span class="material-symbols-outlined text-[18px]">lock</span> COMMIT TO VAULT (LOCKED)</button>
+</div>
+</div>
+</div>
+<!-- Semantic Governance Panel -->
+<div class="brutal-border bg-[#1a0a0a] border-[#9C3C28] flex flex-col h-auto shrink-0">
+<div class="p-2 border-b border-[#9C3C28] bg-[#3a0005] flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-[#ffb4ab] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">policy</span> SEMANTIC GOVERNANCE
+                                </span>
+</div>
+<div class="p-3 font-data-mono text-data-mono text-[11px] space-y-3">
+<p class="text-on-surface-variant">Ontology conflict detected. Operator resolution required to unlock vault commit.</p>
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border border-[#9C3C28] p-2 bg-[#0a0a0a] gap-2">
+<span class="text-primary text-[12px]">RESOLVE SEMANTIC CONFLICTS?</span>
+<button class="bg-[#9C3C28] text-white px-3 py-1 hover:bg-opacity-80 font-label-caps tracking-widest whitespace-nowrap">OPEN INTAKE</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest docked full-width bottom-0 h-8 border-t border-outline-variant flat no shadows fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-4 font-data-mono text-body-sm text-on-surface-variant dark:text-on-surface-variant">
+<div class="font-label-caps text-label-caps">LOCAL NODE STATUS: OPERATIONAL</div>
+<div class="flex items-center gap-6">
+<span class="text-on-surface-variant hover:text-primary">FINGERPRINT: 88:92:AF</span>
+<span class="text-on-surface-variant hover:text-primary">NETWORK: ENCRYPTED</span>
+</div>
+</footer>
+</body></html>

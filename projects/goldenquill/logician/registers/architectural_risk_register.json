@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "version": "0.1.0",
+    "created": "2026-04-16",
+    "last_updated": "2026-04-16",
+    "curator": "Josh (operator) — entries written by Logician policy review; operator re-type confirmation required for HIGH additions per S2",
+    "purpose": "Documented architectural residual risks. Paired with admin_risk_register.json (flagged terms) — this file tracks design-level risks where the mitigation is compensating controls or governance, not silent rewriting. Each entry records the threat, current mitigation, residual severity, and the watch signal that would cause escalation.",
+    "schema": {
+      "id": "ADM-A-NNN (A for architectural)",
+      "title": "short risk name",
+      "severity": "LOW | MEDIUM | HIGH | CRITICAL (residual, post-mitigation)",
+      "class": "code-fix-eligible | governance-only | hybrid",
+      "first_observed": "YYYY-MM-DD",
+      "origin": "audit round / incident / operator observation",
+      "threat": "what the adversary does",
+      "current_mitigation": "what stops it today (reference to architectural mechanism IDs)",
+      "residual_gap": "what the mitigation does not cover",
+      "watch_signal": "empirical signal that would cause re-evaluation",
+      "revisit_trigger": "condition (version, date, incident) at which this entry is re-scored",
+      "linked_mechanisms": "M## / S## / BT## references in the locked architecture"
+    }
+  },
+  "entries": [
+    {
+      "id": "ADM-A-001",
+      "title": "Cheap-domain cross-domain diversity bypass",
+      "severity": "MEDIUM",
+      "class": "governance-only",
+      "first_observed": "2026-04-16",
+      "origin": "Red Team v4 audit — residual finding accepted at architecture lock",
+      "threat": "S11b requires HIGH-confidence dossier claims to be corroborated by at least two distinct registrable domains. An attacker who controls the target entity's identity (or is motivated to plant a false biographical claim) can register two cheap, unrelated domains (e.g., a vanity ~.com and an expired ~.org) and mirror the same false content to satisfy the ≥2 distinct registrable domains threshold. The multi-subdomain bypass is already closed; the multi-cheap-registrable-domain bypass is not.",
+      "current_mitigation": "M11 tier-B operator review for entities with kind in {person_lead, person_partner, org_applicant, org_partner, product}. Operator eyes on every claim in those dossiers; cross-domain diversity is a confidence-tier floor, not an operator-review skip. S11a per-org source-domain allowlist forces any non-allowlisted domain through full operator review regardless of entity kind.",
+      "residual_gap": "Spot-check tier (person_referenced, org_referenced, publication) could accept a HIGH-confidence claim from two cheap unrelated domains without full operator review. The spot-check tier is where this would actually bite.",
+      "watch_signal": "An actual dossier poisoning incident in a spot-check-tier entity, OR a second independent audit round flagging this vector with a concrete attack scenario, OR operator observation of suspicious cheap-domain pairs in a dossier refresh diff.",
+      "revisit_trigger": "v0.2 architecture review, OR any observed incident, OR operator request.",
+      "linked_mechanisms": ["S11a", "S11b", "M11"]
+    },
+    {
+      "id": "ADM-A-002",
+      "title": "M13 bypass normalization drift",
+      "severity": "MEDIUM",
+      "class": "governance-only",
+      "first_observed": "2026-04-16",
+      "origin": "Red Team v4 audit — policy residual accepted at architecture lock",
+      "threat": "M13 is the named escape valve for review-seat family outages. Each use is signed, logged, and carries a rigor-breach flag on the resulting draft. The risk is not a single bypass — it's normalization. Repeated bypass use (e.g., six deadlines in a row where Judge was bypassed) erodes the rigor that the default hard-abort is designed to preserve, and the operator stops reading the rigor-breach flag as a warning and reads it as boilerplate.",
+      "current_mitigation": "Every M13 authorization writes a HIGH-severity admin-risk ledger entry requiring operator re-type confirmation. Rigor-breach flag appears in every affected rails report + claim-evidence map. 24-hour default / 72-hour ceiling on any single authorization; no auto-renewal — each extension is a new signed authorization. The audit trail is forensically reviewable.",
+      "residual_gap": "There is no automated pattern detection on bypass frequency. The operator logs capture the data, but nothing currently flags 'bypass N used 4 times in 30 days' as an anomaly. A diligent operator notices; a tired operator under deadline pressure might not.",
+      "watch_signal": "Operator observation of M13 usage spiking, OR a post-incident review revealing that rigor-breach flags were ignored, OR a pattern detection rule (if added in blueprint Section 4 or 5) firing.",
+      "revisit_trigger": "When blueprint Section 4 (Logician) or Section 5 (Pipeline) is designed, evaluate whether a monthly bypass-frequency report to operator is warranted. Revisit this entry at that time.",
+      "linked_mechanisms": ["M13", "S2", "S10b"]
+    }
+  ]
+}

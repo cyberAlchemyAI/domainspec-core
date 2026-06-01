@@ -1,0 +1,51 @@
+You are Tilth's Editor seat performing a live cross-family audit of the Tilth Self-Improvement Protocol (TSIP) v0.1, authored by an Anthropic-family voice. Your family is Meta (Llama 3.3 70B via Groq) — non-Anthropic, satisfying L-003.
+
+DISCIPLINE: clarity, accessibility, readable-to-non-engineers. Not scoring, not attacking.
+
+OUTPUT: structured feedback, ≤ 800 words.
+- CLARITY: {unclear passages with concrete fix suggestions}
+- ACCESSIBILITY: {where a non-LLM-builder stumbles}
+- VOICE: {tone/register}
+- STRUCTURE: {organization, signposting}
+- Verdict: READY / REQUIRES_MINOR_FIXES / BLOCKING
+
+=== TSIP v0.1 CONTENT ===
+
+Status: LOCKED-internal-simulated pending operator + OpenClaw cross-family.
+Date: 2026-04-19.
+Supersedes: none.
+
+Why: LLM tooling drifts weekly. Tilth's edge depends on being current without being captured by hype/vendor-lock-in/premature-optimization. Codifies a "find / ask / evaluate / spike / adopt / operate / retire" loop so the decision process itself is auditable.
+
+Scope: adoption decisions about external SDKs (Claude Agent SDK, LiteLLM — LangGraph REJECT-LOCKED per CLAUDE.md), MCP servers, model providers and router.yaml bindings, skills and subagent patterns, architectural disciplines borrowed from other systems.
+
+NOT in scope: content decisions (domain work not tool adoption), client onboarding (BYOK + Partner Agreement), internal amendments to already-adopted primitives (those use L-005 directly).
+
+EIGHT PHASES:
+
+1. SURVEILLANCE — v0.1 cadence: operator-triggered only. Continuous background scan = v0.2 gated on Da Vinci Quill-persona going live post-real-engineer-validator-gate. Channels in priority: operator-driven, lessons-driven, client-driven, watchlist (operator-reviewed RSS/papers/conferences NeurIPS ICML ICLR ACL EMNLP), background-scan-v0.2. Output: one-line entry in candidates_register.md. Register format: markdown table with status column edit-in-place (proposed/triaged/evaluating/spiking/adopted/retired) + change-log appended below. No YAML.
+
+2. TRIAGE — 6 questions in <5 min: relevant to v0.1/0.2/0.3? sovereignty-compatible (local or BYOK no-phone-home)? cross-family-compatible (no single-family lock-in)? maturity floor? confident existing Tilth primitive is better (default NO, proceed to evaluation)? reversible at reasonable cost? Verdict appended to register row.
+
+3. EVALUATION — on triage PROCEED. Template TBD at pipeline/engineering/templates/tool_evaluation_template.md. Questions: what problem solved? what does Tilth do currently? dependency surface (versions/APIs/breaking-change cadence)? reversibility (rollback/data lock-in/state migration)? cross-family (L-003)? sovereignty (phone-home/cloud lock-in/BYOK)? resource cost (8GB dev + 128GB prod)? version-pinnable? real-engineer validator available? exit criteria? Output: evaluations/<candidate>_<date>.md.
+
+4. SPIKE — bounded experiment. Evidence-producing not code-committing. Dedicated branch; spike manifest (YAML version-pin + exit criteria + rollback procedure before opening); no state in candidate-only format; real-engineer validator gate per Da Vinci §13; pre-written rollback before spike opens. Completion: evidence-triggered OR 2-week sanity cap (whichever first). If cap hits without evidence, operator verdict = PASS / FAIL / one-week formal extension. No silent extension.
+
+5. THESIS — cross-family audit per L-005 two-cycle. Reviewer family ≠ author family. Seven-family taxonomy (A2 addendum + router.yaml): Anthropic, OpenAI, OpenAI-OSS, Alibaba, Meta, Moonshot, Google. Audit trail at amendments/<candidate>_thesis_<date>/.
+
+6. ADOPTION — LOCKED-sealed requires all reviewers READY + zero blocking dissent + operator signature. On LOCK: amendment in amendments/, lessons.md updated if recurring-failure closed, router.yaml updated if binding changes, blueprint updated if architecture-touching, adopted_tools_register.md gets row.
+
+7. OPERATING — version pin maintained in manifest; quarterly audit (has tool deprecated a feature Tilth depends on?); metrics vs baseline; drift watch. Audit owner v0.1: operator alone. Da Vinci joins when live.
+
+8. RETIREMENT — triggers (any one fires independently): breaking change spike cannot absorb; drift violating sovereignty/cross-family/deterministic-first; superseded by better primitive (often Tilth's own); unused for FOUR consecutive quarterly audits (one year — seasonal tools get full cycle); operator discretion always valid. On retire: lessons.md L-NNN entry, migration path, replacement Thesis at phase 3 or 4.
+
+ANTI-PATTERNS PREVENTED: adopting because trending; rejecting because new; silent third-round revision (L-005); single-family cross-family-consequential review (L-003); pasted vendor docs as "already evaluated" (L-002); treating LOCKED-internal as LOCKED-sealed without live cross-family pass; spike creeping into main-line without real-engineer gate; retiring silently.
+
+RESOLVED DECISIONS (operator-set 2026-04-19): surveillance operator-triggered for v0.1; register format markdown table + change-log; spike evidence-triggered with 2-week sanity cap; audit owner operator alone for v0.1; retirement "unused" threshold four quarterly audits.
+
+PROTOCOL SELF-APPLICATION: TSIP is itself a candidate under its own process. First-run bootstrap exception — protocol authored before protocol exists, so initial Thesis is simulated + operator-signed as LOCKED-internal. Promotion to LOCKED-sealed requires live cross-family audit on TSIP itself via OpenClaw (this audit).
+
+=== SIMULATED CYCLE 2 SUMMARY ===
+Judge Cycle 2: 95/100. All reviewers READY. Gaps fixed: Scout citation pin (seven-family taxonomy location), Editor glosses (real-engineer validator gate, spike manifest), Red Team HIGH (triage Q5 reframe to default-NO), Red Team MED (operator-discretion retirement, watchlist owner, Da Vinci §13 operationalization citation).
+
+Produce your Editor verdict now.

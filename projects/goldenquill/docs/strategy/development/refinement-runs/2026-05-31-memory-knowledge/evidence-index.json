@@ -1,0 +1,154 @@
+{
+  "target": "goldenquill-memory-knowledge-handling",
+  "date": "2026-05-31",
+  "local_sources": [
+    {
+      "path": "MEMORY.md",
+      "role": "workspace memory layer index",
+      "claims_used": [
+        "Defines institutional, agent-scoped, session-scoped, daily-log, roadmap, telemetry, and memory hygiene layers.",
+        "States MEMORY.md auto-trigger and consolidation behavior."
+      ]
+    },
+    {
+      "path": "pipeline/memory/unified_query.py",
+      "role": "unified read-only memory retrieval registry",
+      "claims_used": [
+        "Defines workspace and per-org memory registers.",
+        "Uses BM25 ranking with provenance.",
+        "Enforces Law 3 by requiring a single org argument for per-org registers."
+      ]
+    },
+    {
+      "path": "pipeline/cli/tilth_memory_query.py",
+      "role": "operator-facing read CLI",
+      "claims_used": [
+        "Exposes query, list-registers, inspect.",
+        "Supports local-only posture and rejects unsupported routing postures."
+      ]
+    },
+    {
+      "path": "pipeline/memory/consolidate_index.py",
+      "role": "MEMORY.md consolidation writer",
+      "claims_used": [
+        "Consolidates MEMORY.md when above threshold.",
+        "Hash-pins consolidation to lock_history when reachable."
+      ]
+    },
+    {
+      "path": "pipeline/memory/auto_consolidate_trigger.py",
+      "role": "early-warning memory size trigger",
+      "claims_used": [
+        "Fires above line or byte threshold.",
+        "Logs trigger events to pipeline/institutional_memory/memory_consolidation_log.jsonl."
+      ]
+    },
+    {
+      "path": "golden_quill_substrate/memory.py",
+      "role": "contract/prototype memory mutation gate",
+      "claims_used": [
+        "Blocks sealed section mutation.",
+        "Blocks superseded memory record updates."
+      ]
+    },
+    {
+      "path": "golden_quill_substrate/contracts.py",
+      "role": "memory/snapshot contract model",
+      "claims_used": [
+        "Defines ImmutableSnapshot, MemoryRecord, and StateMachineContext.",
+        "Memory mutation requires STATE_MACHINE_RUNNER identity."
+      ]
+    },
+    {
+      "path": "golden_quill_substrate/logician.py",
+      "role": "pre-gate for substrate memory mutation",
+      "claims_used": [
+        "Rejects memory.create/update/supersede/retract unless actor is STATE_MACHINE_RUNNER."
+      ]
+    },
+    {
+      "path": "pipeline/cards/README.md",
+      "role": "card knowledge artifact authority",
+      "claims_used": [
+        "Cards are signed, versioned YAML knowledge artifacts.",
+        "Cards must not contain private org data.",
+        "Runtime card injection remains v0.2 first wave."
+      ]
+    },
+    {
+      "path": "pipeline/seats/scribe/knowledge_packs.py",
+      "role": "sector terminology pack loader",
+      "claims_used": [
+        "Loads sector-scoped terminology packs.",
+        "Fails closed on parse/schema/duplicate ID errors.",
+        "Wiring into Scribe hot path is separate."
+      ]
+    },
+    {
+      "path": "pipeline/vault/vault_query_skill.py",
+      "role": "vault-owned read skill",
+      "claims_used": [
+        "Reads through FDBroker with nonce and identity tuple.",
+        "Denials are deterministic."
+      ]
+    },
+    {
+      "path": "pipeline/vault/research_db_query_skill.py",
+      "role": "shared research DB read skill",
+      "claims_used": [
+        "Scopes keys under vault_shared/research_db.",
+        "Rejects path escape and orgs/ prefixes before broker call."
+      ]
+    },
+    {
+      "path": "PROJECT_STATUS.md",
+      "role": "front-door maturity snapshot",
+      "claims_used": [
+        "Marks Reflection Packet/Archivist as spec-locked or future horizon.",
+        "Snapshot is stale relative to current lock_history count observed by CLI."
+      ]
+    },
+    {
+      "path": "RUNTIME_MATURITY_MATRIX.md",
+      "role": "maturity labels",
+      "claims_used": [
+        "Labels cards asset-signed, knowledge pack/funder surfaces scaffolded, Reflection Packet spec-locked/dormant."
+      ]
+    }
+  ],
+  "live_checks": [
+    {
+      "command": "python3 -m pipeline.cli.tilth_memory_query --format json list-registers",
+      "result": "pass",
+      "notes": "Returned 15 registers; workspace docs/cards/memory/lock_history populated, per-org registers absent without org."
+    },
+    {
+      "command": "python3 -m pipeline.cli.tilth_memory_query --format json query \"memory reflection packet card knowledge pack\" --top 8",
+      "result": "pass",
+      "notes": "Returned path-provenance results from docs register; logfire missing warning emitted but query succeeded."
+    },
+    {
+      "command": "scripts/memory_size_check.sh",
+      "result": "pass",
+      "notes": "MEMORY.md under threshold: 9466 B / 71 lines."
+    }
+  ],
+  "memory_sources": [
+    {
+      "path": "/mnt/c/Users/vlad_/.codex/memories/MEMORY.md",
+      "role": "prior Arcanum Inventory/Ontology guidance",
+      "claims_used": [
+        "Verify existing machinery before proposing new Inventory work.",
+        "Keep Inventory evidence packaging separate from Ontology meaning authority.",
+        "Use refine for vague capability-shape work and task-session for execution."
+      ]
+    }
+  ],
+  "non_sources": [
+    {
+      "path": "orgs/*/PROJECT_CONTEXT.md",
+      "reason": "No org was named; Law 3 forbids general repository research from reading org-specific context."
+    }
+  ]
+}
+

@@ -1,0 +1,344 @@
+# GPP-DET Report — pipeline/engineering/spec_cards
+
+- Tool version: `v1`
+- Spec version: `v1`
+- Run at (UTC): 2026-04-21T19:31:44.748058+00:00
+- **Tier 1 overall status: FAIL**
+
+Plan sub-docs audited (57):
+- `pipeline/engineering/spec_cards/arch04_logician_ast_lint.md`
+- `pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md`
+- `pipeline/engineering/spec_cards/compound_commit.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_consolidated_blueprint_amendment.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_f_amendment_self_reference_detect.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_f_bootstrap_reuse.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_f_committee_degradation_timeout.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_f_daily_log_lock_block_missing.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_f_degradation_stanza_precedence.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_f_deprecation_exemption_reuse.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_f_deprecation_register_staleness.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_f_rollback_script_integrity.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_f_router_integrity_multi_source.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_f_sdk_precedent_reuse.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_f_verdict_blocking_missing.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_f_verdict_citation_missing.md`
+- `pipeline/engineering/spec_cards/logician_v2_2_gates.md`
+- `pipeline/engineering/spec_cards/phase2a_privacy_router.md`
+- `pipeline/engineering/spec_cards/round_b_audit.md`
+- `pipeline/engineering/spec_cards/round_b_self_audit.md`
+- `pipeline/engineering/spec_cards/round_b_topology.md`
+- `pipeline/engineering/spec_cards/round_c_keys.md`
+- `pipeline/engineering/spec_cards/round_c_self_audit.md`
+- `pipeline/engineering/spec_cards/scout_round_10_review_and_entity_research.md`
+- `pipeline/engineering/spec_cards/scout_round_1_types_constants.md`
+- `pipeline/engineering/spec_cards/scout_round_2_health_tuple.md`
+- `pipeline/engineering/spec_cards/scout_round_3_channel_b_cache.md`
+- `pipeline/engineering/spec_cards/scout_round_4_channel_a_federal_apis.md`
+- `pipeline/engineering/spec_cards/scout_round_5_channel_c_portals_and_channel_d_program_pages.md`
+- `pipeline/engineering/spec_cards/scout_round_6_channel_e_rss.md`
+- `pipeline/engineering/spec_cards/scout_round_7_channel_f_websearch.md`
+- `pipeline/engineering/spec_cards/scout_round_8_capstone_dispatcher.md`
+- `pipeline/engineering/spec_cards/scout_round_9_verify.md`
+- `pipeline/engineering/spec_cards/section_05_round_10_cron_scheduler.md`
+- `pipeline/engineering/spec_cards/section_05_round_11_run_pipeline_capstone.md`
+- `pipeline/engineering/spec_cards/section_05_round_12_B_run_eval_pipeline.md`
+- `pipeline/engineering/spec_cards/section_05_round_12_run_eval_pipeline.md`
+- `pipeline/engineering/spec_cards/section_05_round_13_capstone.md`
+- `pipeline/engineering/spec_cards/section_05_round_1_foundations.md`
+- `pipeline/engineering/spec_cards/section_05_round_2_state_checkpoint.md`
+- `pipeline/engineering/spec_cards/section_05_round_3_run_lifecycle.md`
+- `pipeline/engineering/spec_cards/section_05_round_4_seat_runner.md`
+- `pipeline/engineering/spec_cards/section_05_round_5_revision_loop.md`
+- `pipeline/engineering/spec_cards/section_05_round_6_post_gate_runner.md`
+- `pipeline/engineering/spec_cards/section_05_round_7_rate_limiter.md`
+- `pipeline/engineering/spec_cards/section_05_round_8_cascade.md`
+- `pipeline/engineering/spec_cards/section_05_round_9_tab_delivery.md`
+- `pipeline/engineering/spec_cards/section_07_scribe_round_1_types_and_kgie.md`
+- `pipeline/engineering/spec_cards/section_07_scribe_round_2_draft_composition.md`
+- `pipeline/engineering/spec_cards/section_07_scribe_round_2_drafting_primitives.md`
+- `pipeline/engineering/spec_cards/section_07_scribe_round_2_shapers.md`
+- `pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md`
+- `pipeline/engineering/spec_cards/section_08_editor_round_1_adapter.md`
+- `pipeline/engineering/spec_cards/section_1_round_j_capstone.md`
+- `pipeline/engineering/spec_cards/section_2_round_k_capstone.md`
+- `pipeline/engineering/spec_cards/section_7_council_seats_pipeline_modules.md`
+- `pipeline/engineering/spec_cards/vault_dispatcher_commit_compound_txn.md`
+
+## CITE-RESOLVE — FAIL
+- Failure code: `F-GPP-CITATION-UNRESOLVED`
+### Findings (205)
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/arch04_logician_ast_lint.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_04_logician.md", "sources": ["pipeline/engineering/spec_cards/arch04_logician_ast_lint.md"], "reason": "target does not exist on disk"}
+- {"cite": "provisioning_manifest_v0.1.md", "sources": ["pipeline/engineering/spec_cards/arch04_logician_ast_lint.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician/r6_builtins_open.py", "sources": ["pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md"], "reason": "target does not exist on disk"}
+- {"cite": "loop/r7_fd_request_no_preflight.py", "sources": ["pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/validation/architecture_v0.1_findings_from_section_03/ARCH-05.md", "sources": ["pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician/r6_importlib_anthropic.py", "sources": ["pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md"], "reason": "target does not exist on disk"}
+- {"cite": "loop/r7_fd_request_or_fallback.py", "sources": ["pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician/r6_path_alias.py", "sources": ["pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md"], "reason": "target does not exist on disk"}
+- {"cite": "scout/r6_dynamic_setattr.py", "sources": ["pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md"], "reason": "target does not exist on disk"}
+- {"cite": "loop/r7_fd_request_non_literal_sentinel.py", "sources": ["pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md"], "reason": "target does not exist on disk"}
+- {"cite": "pass/pipeline/loop/r7_fd_request_preflight_dominated.py", "sources": ["pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md"], "reason": "target does not exist on disk"}
+- {"cite": "scout/r6_getattr_eval.py", "sources": ["pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician/r6_rebound_open.py", "sources": ["pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_03_scout.md", "sources": ["pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_option_b_compound_txn_decision.md", "sources": ["pipeline/engineering/spec_cards/compound_commit.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/compound_commit.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_cedar_policy_kinds_amendment.md", "sources": ["pipeline/engineering/spec_cards/compound_commit.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/compound_commit.py", "sources": ["pipeline/engineering/spec_cards/compound_commit.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_04_logician.md", "sources": ["pipeline/engineering/spec_cards/compound_commit.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_02_vault_topology.md", "sources": ["pipeline/engineering/spec_cards/compound_commit.md"], "reason": "target does not exist on disk"}
+- {"cite": "scripts/extract_blueprint_cedar.py", "sources": ["pipeline/engineering/spec_cards/compound_commit.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_code_thesis_committee.md", "sources": ["pipeline/engineering/spec_cards/compound_commit.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_consolidated_blueprint_amendment.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/institutional_memory/lessons.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_consolidated_blueprint_amendment.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_amendment_self_reference_detect.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_amendment_self_reference_detect.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_bootstrap_reuse.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_bootstrap_reuse.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_gates.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_committee_degradation_timeout.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_committee_degradation_timeout.md"], "reason": "target does not exist on disk"}
+- {"cite": "daily_logs/YYYY-MM-DD.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_committee_degradation_timeout.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_committee_degradation_timeout.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_daily_log_lock_block_missing.md"], "reason": "target does not exist on disk"}
+- {"cite": "daily_logs/YYYY-MM-DD.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_daily_log_lock_block_missing.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_daily_log_lock_block_missing.md"], "reason": "target does not exist on disk"}
+- {"cite": "daily_logs/TEMPLATE.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_daily_log_lock_block_missing.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_degradation_stanza_precedence.md"], "reason": "target does not exist on disk"}
+- {"cite": "daily_logs/YYYY-MM-DD.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_degradation_stanza_precedence.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_committee_degradation_timeout.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_degradation_stanza_precedence.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_degradation_stanza_precedence.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_deprecation_exemption_reuse.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_deprecation_exemption_reuse.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_deprecation_register_staleness.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_deprecation_register_staleness.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_deprecation_exemption_reuse.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_deprecation_register_staleness.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/vault_shared/deprecation_register.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_deprecation_register_staleness.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/vault_shared/deprecation_feed_cache/README.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_deprecation_register_staleness.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/spec_cards/deprecation_feed_cron.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_deprecation_register_staleness.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_rollback_script_integrity.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_rollback_script_integrity.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_router_integrity_multi_source.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_router_integrity_multi_source.md"], "reason": "target does not exist on disk"}
+- {"cite": "router_integrity.pinned.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_router_integrity_multi_source.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_sdk_precedent_reuse.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_sdk_precedent_reuse.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_verdict_blocking_missing.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_verdict_blocking_missing.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_verdict_citation_missing.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_f_verdict_citation_missing.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_committee_degradation_timeout.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_verdict_citation_missing.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_router_integrity_multi_source.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_deprecation_exemption_reuse.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_sdk_precedent_reuse.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_amendment_self_reference_detect.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_bootstrap_reuse.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_verdict_blocking_missing.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_deprecation_register_staleness.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_degradation_stanza_precedence.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "daily_logs/YYYY-MM-DD.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_rollback_script_integrity.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "logician_v2_2_f_daily_log_lock_block_missing.md", "sources": ["pipeline/engineering/spec_cards/logician_v2_2_gates.md"], "reason": "target does not exist on disk"}
+- {"cite": "drift_log_2026-04-19.md", "sources": ["pipeline/engineering/spec_cards/round_b_audit.md"], "reason": "target does not exist on disk"}
+- {"cite": "round_b_audit.md", "sources": ["pipeline/engineering/spec_cards/round_b_self_audit.md"], "reason": "target does not exist on disk"}
+- {"cite": "round_b_topology.md", "sources": ["pipeline/engineering/spec_cards/round_b_self_audit.md"], "reason": "target does not exist on disk"}
+- {"cite": "drift_log_2026-04-19.md", "sources": ["pipeline/engineering/spec_cards/round_b_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "scout_round_2_health_tuple.md", "sources": ["pipeline/engineering/spec_cards/scout_round_1_types_constants.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/scout/error_codes.py", "sources": ["pipeline/engineering/spec_cards/scout_round_1_types_constants.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_impl_scout_round_2_locked.md", "sources": ["pipeline/engineering/spec_cards/scout_round_2_health_tuple.md"], "reason": "target does not exist on disk"}
+- {"cite": "scout_round_3_channel_b_cache.md", "sources": ["pipeline/engineering/spec_cards/scout_round_2_health_tuple.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_03_scout.md", "sources": ["pipeline/engineering/spec_cards/scout_round_2_health_tuple.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_impl_scout_round_3_locked.md", "sources": ["pipeline/engineering/spec_cards/scout_round_3_channel_b_cache.md"], "reason": "target does not exist on disk"}
+- {"cite": "scout_round_4_channel_a_federal_apis.md", "sources": ["pipeline/engineering/spec_cards/scout_round_3_channel_b_cache.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_impl_scout_round_4_locked.md", "sources": ["pipeline/engineering/spec_cards/scout_round_4_channel_a_federal_apis.md"], "reason": "target does not exist on disk"}
+- {"cite": "scout_round_5_channel_c_portals_and_channel_d_program_pages.md", "sources": ["pipeline/engineering/spec_cards/scout_round_4_channel_a_federal_apis.md"], "reason": "target does not exist on disk"}
+- {"cite": "portals.yaml", "sources": ["pipeline/engineering/spec_cards/scout_round_5_channel_c_portals_and_channel_d_program_pages.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_impl_scout_round_5_locked.md", "sources": ["pipeline/engineering/spec_cards/scout_round_5_channel_c_portals_and_channel_d_program_pages.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_impl_scout_round_4_locked.md", "sources": ["pipeline/engineering/spec_cards/scout_round_5_channel_c_portals_and_channel_d_program_pages.md"], "reason": "target does not exist on disk"}
+- {"cite": "scout_round_6_channel_e_rss.md", "sources": ["pipeline/engineering/spec_cards/scout_round_5_channel_c_portals_and_channel_d_program_pages.md"], "reason": "target does not exist on disk"}
+- {"cite": "adapter_roster.yaml", "sources": ["pipeline/engineering/spec_cards/scout_round_5_channel_c_portals_and_channel_d_program_pages.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_impl_scout_round_6_locked.md", "sources": ["pipeline/engineering/spec_cards/scout_round_6_channel_e_rss.md"], "reason": "target does not exist on disk"}
+- {"cite": "scout_round_7_channel_f_websearch.md", "sources": ["pipeline/engineering/spec_cards/scout_round_6_channel_e_rss.md"], "reason": "target does not exist on disk"}
+- {"cite": "rss_watchlist.yaml", "sources": ["pipeline/engineering/spec_cards/scout_round_6_channel_e_rss.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_impl_scout_round_5_locked.md", "sources": ["pipeline/engineering/spec_cards/scout_round_6_channel_e_rss.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_round_12_run_eval_pipeline.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_12_B_run_eval_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "pubkey_first_write_provenance.json", "sources": ["pipeline/engineering/spec_cards/section_05_round_12_B_run_eval_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "pubkey_first_write_provenance.json", "sources": ["pipeline/engineering/spec_cards/section_05_round_12_run_eval_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/loop/test_section_5_bt5_rate_limit.py", "sources": ["pipeline/engineering/spec_cards/section_05_round_13_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/loop/conftest_section_5.py", "sources": ["pipeline/engineering/spec_cards/section_05_round_13_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/section_05_round_13_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/loop/test_section_5_integration.py", "sources": ["pipeline/engineering/spec_cards/section_05_round_13_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "memory/project_impl_section_05_round_13_capstone_locked.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_13_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/loop/test_section_5_invariants.py", "sources": ["pipeline/engineering/spec_cards/section_05_round_13_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/loop/conftest.py", "sources": ["pipeline/engineering/spec_cards/section_05_round_13_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/loop/test_section_5_fuzz_harness.py", "sources": ["pipeline/engineering/spec_cards/section_05_round_13_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_impl_section_1_round_j_capstone_locked.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_13_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/loop/test_types_failures.py", "sources": ["pipeline/engineering/spec_cards/section_05_round_1_foundations.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/section_05_round_1_foundations.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_pipeline.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_1_foundations.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_v6_amendment.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_1_foundations.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/errors.py", "sources": ["pipeline/engineering/spec_cards/section_05_round_1_foundations.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_pipeline.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_2_state_checkpoint.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_v6_amendment.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_2_state_checkpoint.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_pipeline.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_3_run_lifecycle.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_v6_amendment.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_3_run_lifecycle.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_pipeline.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_4_seat_runner.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_v6_amendment.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_4_seat_runner.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_pipeline.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_5_revision_loop.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_v6_amendment.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_5_revision_loop.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_pipeline.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_6_post_gate_runner.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/section_05_round_7_rate_limiter.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_pipeline.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_7_rate_limiter.md"], "reason": "target does not exist on disk"}
+- {"cite": "RateLimiterState.json", "sources": ["pipeline/engineering/spec_cards/section_05_round_7_rate_limiter.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_pipeline.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_8_cascade.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_round_8_tab_delivery.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_8_cascade.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_round_8_cascade.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_9_tab_delivery.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/section_05_round_9_tab_delivery.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_pipeline.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_9_tab_delivery.md"], "reason": "target does not exist on disk"}
+- {"cite": "MEMORY/project_memories/section_05_round_9_tab_delivery_recap.md", "sources": ["pipeline/engineering/spec_cards/section_05_round_9_tab_delivery.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_1_types_and_kgie.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_07_scribe.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_1_types_and_kgie.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_section_07_scribe_amendment.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_1_types_and_kgie.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_7_council_seats_pipeline_modules.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_1_types_and_kgie.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_04_logician.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_1_types_and_kgie.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/metrics/session_log.json", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_draft_composition.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/seats/scribe/composer.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_draft_composition.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/seats/scribe/draft.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_draft_composition.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_07_scribe.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_draft_composition.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_04_logician.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_draft_composition.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_openclaw_state.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_draft_composition.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_07_scribe_round_2_drafting_primitives.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_draft_composition.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/seats/scribe/over_limit.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_draft_composition.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_draft_composition.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_07_scribe_round_2_shapers.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_draft_composition.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_section_07_scribe_amendment.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_draft_composition.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_drafting_primitives.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/seats/scribe/draft.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_shapers.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/seats/scribe/test_draft.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_shapers.md"], "reason": "target does not exist on disk"}
+- {"cite": "reap.deps.json", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_shapers.md"], "reason": "target does not exist on disk"}
+- {"cite": "vapg.deps.json", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_shapers.md"], "reason": "target does not exist on disk"}
+- {"cite": "reap.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_shapers.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/seats/scribe/test_adv_shapers.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_shapers.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/seats/scribe/dialect_identity_proxy_table.v1.json", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_shapers.md"], "reason": "target does not exist on disk"}
+- {"cite": "templates/vapg.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_shapers.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/seats/scribe/templates.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_shapers.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/seats/scribe/test_templates.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_2_shapers.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/seats/scribe/provider_anthropic.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_7_council_seats_pipeline_modules.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/seats/scribe/logician_wiring.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_07_scribe.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_04_logician.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/scribe/test_seat.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/providers/anthropic.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/seats/scribe/seat.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/seats/scribe/admin_risk_adapter.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_pipeline.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_02_vault_topology.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_06_operating_envelope.md", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/scribe/test_adv_seat_subprocess.py", "sources": ["pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/seats/editor/__init__.py", "sources": ["pipeline/engineering/spec_cards/section_08_editor_round_1_adapter.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_07_scribe.md", "sources": ["pipeline/engineering/spec_cards/section_08_editor_round_1_adapter.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.md", "sources": ["pipeline/engineering/spec_cards/section_08_editor_round_1_adapter.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_pipeline.md", "sources": ["pipeline/engineering/spec_cards/section_08_editor_round_1_adapter.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/section_08_editor_round_1_adapter.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_7_council_seats_pipeline_modules.md", "sources": ["pipeline/engineering/spec_cards/section_08_editor_round_1_adapter.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_04_logician.md", "sources": ["pipeline/engineering/spec_cards/section_08_editor_round_1_adapter.md"], "reason": "target does not exist on disk"}
+- {"cite": "memory/project_impl_section_1_round_j_capstone_locked.md", "sources": ["pipeline/engineering/spec_cards/section_1_round_j_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/section_1_round_j_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/vault/test_section_2_bt_properties.py", "sources": ["pipeline/engineering/spec_cards/section_2_round_k_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/section_2_round_k_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/vault/conftest.py", "sources": ["pipeline/engineering/spec_cards/section_2_round_k_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "memory/project_impl_section_2_round_k_capstone_locked.md", "sources": ["pipeline/engineering/spec_cards/section_2_round_k_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/vault/test_section_2_boot_sequence_property.py", "sources": ["pipeline/engineering/spec_cards/section_2_round_k_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/vault/test_section_2_integration.py", "sources": ["pipeline/engineering/spec_cards/section_2_round_k_capstone.md"], "reason": "target does not exist on disk"}
+- {"cite": "SKILL.md", "sources": ["pipeline/engineering/spec_cards/section_7_council_seats_pipeline_modules.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_04_v2_2_consolidated_amendment.md", "sources": ["pipeline/engineering/spec_cards/section_7_council_seats_pipeline_modules.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/blueprint/v0.1/section_08_editor.md", "sources": ["pipeline/engineering/spec_cards/section_7_council_seats_pipeline_modules.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/blueprint/v0.1/section_09_judge.md", "sources": ["pipeline/engineering/spec_cards/section_7_council_seats_pipeline_modules.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/section_7_council_seats_pipeline_modules.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_07_scribe_round_1_types_and_kgie.md", "sources": ["pipeline/engineering/spec_cards/section_7_council_seats_pipeline_modules.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/vault/tests/test_compound_txn.py", "sources": ["pipeline/engineering/spec_cards/vault_dispatcher_commit_compound_txn.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_option_b_compound_txn_decision.md", "sources": ["pipeline/engineering/spec_cards/vault_dispatcher_commit_compound_txn.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/lock_history.v1.json", "sources": ["pipeline/engineering/spec_cards/vault_dispatcher_commit_compound_txn.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_pipeline.md", "sources": ["pipeline/engineering/spec_cards/vault_dispatcher_commit_compound_txn.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/engineering/spec_cards/section_05_boot_gate_compound_recovery.md", "sources": ["pipeline/engineering/spec_cards/vault_dispatcher_commit_compound_txn.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/compound_commit.py", "sources": ["pipeline/engineering/spec_cards/vault_dispatcher_commit_compound_txn.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/blueprint/v0.1/section_00_5_v6_cedar_activation_amendment.md", "sources": ["pipeline/engineering/spec_cards/vault_dispatcher_commit_compound_txn.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_04_logician.md", "sources": ["pipeline/engineering/spec_cards/vault_dispatcher_commit_compound_txn.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/vault/dispatcher.py", "sources": ["pipeline/engineering/spec_cards/vault_dispatcher_commit_compound_txn.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_02_vault_topology.md", "sources": ["pipeline/engineering/spec_cards/vault_dispatcher_commit_compound_txn.md"], "reason": "target does not exist on disk"}
+- total_cites: `297`
+
+## VERSION-RESOLVE — FAIL
+- Failure code: `F-GPP-VERSION-UNRESOLVED`
+### Findings (1)
+- {"claim": "§4 v2.2", "source": "pipeline/engineering/spec_cards/logician_v2_2_consolidated_blueprint_amendment.md", "target": "pipeline/blueprint/v0.1/section_04_logician.md", "reason": "'v2.2' not found in target's first 120 lines"}
+- total_claims_tracked: `6`
+
+## XDOC-REF — PASS
+
+## ROW-COUNT-ARITHMETIC — PASS
+- claims_checked: `[]`
+
+## HASH-PIN — PASS
+- hashes: `{"pipeline/engineering/spec_cards/arch04_logician_ast_lint.md": "913af97e35334ce9b1888c724118dd2f3417b8f7586fa4a86d97d70fbf782fae30a8c52cf324f38bef5f7ce0e854e94cea8beba09f44ac8a2e3fab6b1a95ecdc", "pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md": "707d9907cfbd95c4540be8b57cbec055`
+
+## INDEX-STALE-DRYRUN — PASS
+### Advisories (30)
+- {"source": "pipeline/engineering/spec_cards/arch04_logician_ast_lint.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/arch05_ast_lint_walker_intensive.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/compound_commit.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "description", "introduced_in_index_version"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/logician_v2_2_consolidated_blueprint_amendment.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/logician_v2_2_f_amendment_self_reference_detect.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/logician_v2_2_f_bootstrap_reuse.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/logician_v2_2_f_committee_degradation_timeout.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/logician_v2_2_f_daily_log_lock_block_missing.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/logician_v2_2_f_degradation_stanza_precedence.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/logician_v2_2_f_deprecation_exemption_reuse.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/logician_v2_2_f_deprecation_register_staleness.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/logician_v2_2_f_rollback_script_integrity.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/logician_v2_2_f_router_integrity_multi_source.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/logician_v2_2_f_sdk_precedent_reuse.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/logician_v2_2_f_verdict_blocking_missing.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/logician_v2_2_f_verdict_citation_missing.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/round_b_audit.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/section_05_round_13_capstone.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/section_05_round_1_foundations.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/section_05_round_9_tab_delivery.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/section_07_scribe_round_1_types_and_kgie.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/section_07_scribe_round_2_draft_composition.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/section_07_scribe_round_2_drafting_primitives.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/section_07_scribe_round_2_shapers.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/section_07_scribe_round_3_seat_entry_and_wiring.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/section_08_editor_round_1_adapter.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/section_1_round_j_capstone.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/section_2_round_k_capstone.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/section_7_council_seats_pipeline_modules.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/engineering/spec_cards/vault_dispatcher_commit_compound_txn.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+
+## FAMILY-TAXONOMY — PASS
+- router_family_count: `7`
+- router_family_list: `["Alibaba", "Anthropic", "Google", "Meta", "Moonshot", "OpenAI", "OpenAI-OSS"]`
+
+## SCOPE-FREEZE-BACKDOOR-FLAG — PASS
+- note: `"FLAG entries require Tier 2 council disposition. Unreviewed FLAGs at dispatch time trigger F-GPP-SCOPE-FREEZE-BACKDOOR-UNREVIEWED."`
+
+## VERSION-SKEW-DISCLOSURE — PASS
+
+## BLOCKER-CARRY-CHECK — FAIL
+- Failure code: `F-GPP-BLOCKER-UNCARRIED`
+### Findings (7)
+- {"blocker": "§5 telemetry-record hook (per-seat invocation emits a record)", "tag": "ASPIRATIONAL-LOAD-BEARING", "source_audit": "pipeline/validation/blueprint_sequencing_preflight_2026-04-19/existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "Content-scan classifier (runs locally, 128GB ceiling, classifies payloads for local-only-vs-cloud-eligible)", "tag": "ASPIRATIONAL-LOAD-BEARING", "source_audit": "pipeline/validation/blueprint_sequencing_preflight_2026-04-19/existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "Content-scan classifier technology candidate", "tag": "ASPIRATIONAL-LOAD-BEARING", "source_audit": "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "`F-CANARY-*` failure-code family", "tag": "PROPOSED-NOT-EXISTS", "source_audit": "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "`F-RAILS-REPORT-EMISSION-FAIL` failure code", "tag": "PROPOSED-NOT-EXISTS", "source_audit": "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "`F-KEY-PRESENCE-PREFLIGHT-FAIL` failure code", "tag": "PROPOSED-NOT-EXISTS", "source_audit": "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "`F-RUNTIME-DRIFT-FROM-LOCKED-ROUTER` failure code", "tag": "PROPOSED-NOT-EXISTS", "source_audit": "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- predecessors_scanned: `["pipeline/validation/blueprint_sequencing_preflight_2026-04-19/existence_audit.md", "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md"]`
+- predecessor_blocker_count: `16`

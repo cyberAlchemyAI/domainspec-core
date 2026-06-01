@@ -1,0 +1,60 @@
+{
+  "schema_version": "demo-rfa-envelope.v1",
+  "meta": {
+    "funder": "USDA Rural Development",
+    "program": "Value-Added Producer Grant (VAPG)",
+    "nofo_number": "RDBCP-VAPG-2026",
+    "fiscal_year": 2026,
+    "assistance_listing": "10.352",
+    "deadline_iso": "2026-04-22T17:00:00+00:00",
+    "max_planning": 50000,
+    "max_working_capital": 200000,
+    "total_available": 25000000,
+    "min_score": 50,
+    "max_score": 100,
+    "performance_period_max_years": 3,
+    "anticipated_award_date_iso": "2026-09-30",
+    "source_url": "https://www.rd.usda.gov/programs-services/value-added-producer-grants",
+    "extracted_date_iso": "2026-04-12",
+    "rubric_path": "pipeline/rubrics/vapg_fy26.json"
+  },
+  "eligible_applicants": [
+    "Agricultural Producer (for-profit)",
+    "Agricultural Producer Group",
+    "Farmer and Rancher Cooperative",
+    "Majority-Controlled Producer-Based Business"
+  ],
+  "synopsis_excerpt": "The Value-Added Producer Grant (VAPG) program supports independent agricultural producers and producer groups in developing new products from raw commodities, expanding marketing opportunities, and increasing producer income. Awards are made in two categories: planning grants (up to $50,000) for feasibility studies and business plans, and working capital grants (up to $250,000) for operating activities directly related to processing, marketing, and distribution. Applicants must demonstrate a 1:1 match (cash or in-kind) and project performance period not exceeding three years.",
+  "rfa_sections_required": [
+    {
+      "section_id": "executive_summary",
+      "max_words": 400,
+      "rubric_anchor": "a"
+    },
+    {
+      "section_id": "project_narrative",
+      "max_words": 2500,
+      "rubric_anchor": "a.i"
+    },
+    {
+      "section_id": "marketing_plan",
+      "max_words": 1200,
+      "rubric_anchor": "a.iii"
+    },
+    {
+      "section_id": "work_plan",
+      "max_words": 1500,
+      "rubric_anchor": "b"
+    },
+    {
+      "section_id": "budget_narrative",
+      "max_words": 800,
+      "rubric_anchor": "c"
+    }
+  ],
+  "demo_metadata": {
+    "fixture_purpose": "Demo Driver MVP — test harness fixture shaped after VAPG FY26 RFA envelope. Snapshot is deterministic-bytes for the demo pipeline run; the live RFA on grants.gov is the canonical source-of-truth at submission time.",
+    "snapshot_iso": "2026-05-01",
+    "snapshot_origin": "pipeline/rubrics/vapg_fy26.json meta block + USDA RD program-page synopsis"
+  }
+}

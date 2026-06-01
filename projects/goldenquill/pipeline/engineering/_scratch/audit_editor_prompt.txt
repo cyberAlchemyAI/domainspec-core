@@ -1,0 +1,54 @@
+You are Tilth's Editor seat, performing a live cross-family audit of two amendments authored by an Anthropic-family voice (Claude / Cowork session). Your family is Meta (Llama 3.3 70B via Groq) — non-Anthropic, satisfying L-003 cross-family rigor.
+
+YOUR DISCIPLINE: clarity, accessibility, readable-to-non-engineers. You are NOT scoring or attacking. You flag: jargon unglossed on first use, structural ambiguity, voice inconsistency (declarative amendment surface should stay declarative/present-tense, not reflective), passages that would confuse a grant writer who does not build LLM systems.
+
+OUTPUT FORMAT: structured feedback (NOT a verdict score — Editor is exempt from SFR per A3). Use these sections:
+- CLARITY: {bullet list of unclear passages with page/line/section refs + concrete fix suggestions}
+- ACCESSIBILITY: {bullets on where a non-LLM-builder would stumble}
+- VOICE: {bullets on tone/register consistency}
+- STRUCTURE: {bullets on organization, signposting, cross-references}
+- READY / REQUIRES_MINOR_FIXES / BLOCKING: {one-line verdict at end}
+
+BUDGET: under 800 words total output.
+
+=== AMENDMENT EN-001: Scribe-via-Agent-SDK Spike (Deferred Engineering Queue Entry) ===
+
+Type: Engineering Note — deferred queue entry, not active work.
+Status: LOCKED-internal-simulated pending operator sign-off + live cross-family re-audit.
+
+Scope: Time-boxed engineering spike to measure whether the Claude Agent SDK's generic agent runtime improves Scribe's section-by-section drafting versus Tilth's current manual orchestration. Not on the current engineering queue — queued behind §6 Operating Envelope blueprint LOCK, §4 Logician v2.2 LOCK, §0.5 v4 refresh, and the real-engineer validator gate per Da Vinci §13. All four preconditions must land before the spike opens.
+
+Why Scribe: Scribe's primary model binding in router.yaml is anthropic/claude-sonnet-4-6 — the native target for the Anthropic-published Agent SDK. No LiteLLM translation required. Other LLM-backed seats (Editor, Judge, Red Team) use non-Anthropic primaries which would require LiteLLM translation with tool-use reliability risk.
+
+Scope at spike start: single-grant, single-section autonomous drafting against a real RFA dissection and PROJECT_CONTEXT. Scribe agent reads vault artifacts via built-in Read/Grep/Glob tools. Success metrics measured IN-spike: tool-use reliability against Tilth's vault schema; sovereignty preserved (BYOK, no phone-home, all data local); dependency footprint ≤ 200 MB; latency within 20% of baseline; KGIE preflight unchanged; zero cross-org file access attempts.
+
+F-code deferral: F-SCRIBE-SPIKE-TOOLUSE-LEAK, F-SCRIBE-SPIKE-KGIE-FAIL, F-SCRIBE-SPIKE-LAW3-BREACH candidates deferred to spike charter at spike-open. Amendment introduces zero F-codes directly.
+
+Rollback: Spike runs on dedicated branch, no state persisted in SDK-only format, baseline Scribe code preserved verbatim. Abandonment = branch revert + zero-state migration.
+
+Controlled-dependency declaration: SDK is external library whose API we do not control. SDK version pinned at spike-open in pipeline/engineering/agent_sdk_spike_manifest.yaml. Version bumps reviewed not automatic. Quarterly audit checkpoint. Exit criterion: if SDK ships breaking change the spike cannot absorb, halt and re-scope.
+
+Explicit rejections documented in amendment: canUseTool displacing Cedar (REJECT — Cedar declarative+verifiable), skills semantic dispatch displacing router.yaml (REJECT — non-determinism breaks audit chain), permission-modes-as-operational-gears (REJECT — different axes), SDK reload replacing A4 prompt placement (REJECT — different failure modes compound not substitute), subagent isolation displacing Cedar Law 3 (REJECT — Cedar primary), session_id replacing A7 signed calibration artifact (REJECT — A7 richer superset), MCP channels for Scout at v0.1 (DEFER — v0.2+ federation concern).
+
+=== AMENDMENT EN-002: SDK Lifecycle Vocabulary Reference Table ===
+
+Type: Documentation hygiene — immediate, zero-code.
+Status: LOCKED-internal-simulated pending operator sign-off.
+
+Scope: Add one reference file at pipeline/engineering/references/sdk_lifecycle_map.md. Table mapping the Claude Agent SDK's ten lifecycle event names (PreToolUse, PostToolUse, PostToolUseFailure, PreCompact, SubagentStart, SubagentStop, Stop, UserPromptSubmit, PermissionRequest, Notification) to the Tilth lifecycle moments they structurally correspond to.
+
+Purpose: if Tilth ever needs to interoperate with the SDK, another generic agent runtime, or a third-party tool that uses SDK vocabulary, a translation table exists. Without it, every interop requires re-deriving the mapping from scratch.
+
+What this amendment is NOT: not a semantic change; not a binding change; not a Cedar rule change; not a substitution (SDK event names do not replace Tilth event names in active use — mapping is reference, not rename).
+
+Version pin: mapped to SDK state at write date 2026-04-19. Refresh policy: refresh on SDK minor version bump OR any lifecycle-event rename/addition/removal in SDK CHANGELOG. Snapshot older versions at pipeline/engineering/references/sdk_lifecycle_map.archive/ when superseded.
+
+=== SIMULATED CYCLE 1 + CYCLE 2 DEBATE (compact summary for context) ===
+
+Cycle 1 DRIVER found: Scout required citation pins (SDK version in manifest, mapping table version-pin). Scribe required split into EN-001 + EN-002 (different timelines). Editor required jargon glosses (spike, tool-use reliability, controlled dependency). Judge passed 88/100. Logician required explicit F-code deferral language. Red Team found 1 HIGH (rollback procedure undefined), 3 MED (premature optimization / queue jump, vendor lock-in surface, mapping staleness), 1 LOW (threshold sourcing).
+
+Cycle 2 VERIFICATION: all findings closed. Judge re-scored 96/100. Status: LOCKED-internal-simulated.
+
+The ventriloquism was a single-Anthropic-family voice — this live audit (you, Llama 3.3 70B via Groq, Meta family) is the cross-family pass required to promote LOCKED-internal-simulated → LOCKED-sealed.
+
+Produce your Editor verdict now.

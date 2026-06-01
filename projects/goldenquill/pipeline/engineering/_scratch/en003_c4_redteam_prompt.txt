@@ -1,0 +1,53 @@
+ORG:goldenquill
+TRACE:cycle4-audit-en003-2026-04-20
+
+You are Tilth's Red Team seat, live Cycle 4 adversarial audit of EN-003 after Cycle 4 fixes F-1-Cycle4, F-4-Cycle4, F-6-Cycle4, F-7-Cycle4. Your family: OpenAI-OSS (GPT-OSS 120B / Groq).
+
+POLICY-LOCK CONTEXT: EN-003 is LOCKED-sealed 2026-04-20 under policy-lock. This is a tightening pass, NOT a re-LOCK. Cycle 4 folds the 4 non-blocking Cycle 3 RT engineering-queue findings (3 MED + 1 LOW) into text-level policy closure inside the amendment. LOCK does not reopen regardless of this verdict; a blocking Cycle 4 verdict surfaces a gap that triggers a Cycle 5 text-only fix.
+
+Your prior Cycle 3 verdict: REQUIRES_MINOR_FIXES, blocking:false. 3 MED + 1 LOW engineering-queue findings surfaced:
+- MED: F-1-Cycle3 marker-field `amendment.forced_replacement:true` not mandatory at schema level
+- MED: F-4-Cycle3 `F-AMENDMENT-SELF-REFERENCE-DETECT` reads `router.yaml` without integrity check
+- MED: F-6-Cycle3 escalation authority unspecified (who, how, channel, sign-off)
+- LOW: F-7-Cycle3 fallback-chain self-reference risk (Qwen + Llama 3.3 70B both re-assignable)
+
+Cycle 4 claims to close all four at text-level policy. Your job: adversarially audit whether the closures actually close or whether they open new evasion surfaces.
+
+OUTPUT — SFR three-block ≤ 700 tokens:
+- PREMISES (Cycle 3 RT finding IDs + Cycle 4 fix IDs)
+- EXECUTION TRACE: closure check per finding + probe for new evasion surfaces Cycle 4 fixes introduced
+- CONCLUSION: blocking:true|false, Verdict (PASS | REQUIRES_MINOR_FIXES | REQUIRES_FIXES)
+
+=== CYCLE 3 RT FINDINGS + CYCLE 4 FIX TEXT ===
+
+F-1-Cycle4 — Mandatory forced_replacement schema enforcement (closes Cycle 3 RT MED marker-field evasion):
+  Layer 1 (structural): every amendment file carries YAML frontmatter with mandatory `amendment.forced_replacement: true|false`. Missing key → DENY `F-AMDT-06-SCHEMA-MISSING`. Gate schema pre-check as step 0 before policy eval.
+  Layer 2 (semantic): amendment with `forced_replacement: false` whose diff touches a slot in `pipeline/engineering/deprecation_register.jsonl` is treated as `true` — re-enters full Cycle N evidence chain check. Closes "author forgets" evasion.
+
+F-4-Cycle4 — Router.yaml integrity cross-reference (closes Cycle 3 RT MED router.yaml integrity dependency):
+  Before reading `judge_primary_family`, gate calls `router_integrity.verify(router_yaml_path)`. SHA3-512 digest compared against pinned digest in `pipeline/engineering/router_integrity.pinned.json`. Pin rotated only on authorized router edit (same-commit pair rule).
+  Mismatch → DENY `F-AMDT-07-ROUTER-INTEGRITY-MISMATCH`. Missing pin → DENY `F-AMDT-07-ROUTER-INTEGRITY-MISSING`.
+  `F-COMMITTEE-DEGRADATION-TIMEOUT` gate #8 adopts same verify call. AST-lint R8 `ROUTER_PIN_PAIR_COMMIT` queued as future ARCH round (convention-level this round).
+
+F-6-Cycle4 — Escalation-authority definition (closes Cycle 3 RT MED escalation-authority underspecified):
+  Notification channel: at 30-day SUSPEND, gate #8 writes `event:"F-AMDT-08-SUSPEND"` to session_log.jsonl + mandatory `## F-AMDT-08-SUSPEND — Committee degradation 30-day threshold` stanza to daily_logs/YYYY-MM-DD.md. Blocking banner at next session orientation until operator response beneath stanza.
+  Required sign-off: operator must write one of three literal strings (exact byte match): (a) `TARGET_DATE: YYYY-MM-DD` ≤ 60 days from LOCK; (b) `IMMEDIATE_DISPATCH` + handoff path; (c) `FRESH_ARCHITECTURAL_THESIS`. Any other string ignored; banner stays.
+  Hard 60-day ceiling: no operator string extends beyond 60 days. Day 60 `F-AMDT-08-ESCALATE` fires regardless of prior TARGET_DATE. Missed target = separate `F-AMDT-08-TARGET-DATE-MISSED` event. Amendment proposing >60-day extension itself subject to full L-005 + cannot carry `forced_replacement:true` (closes recursive-bypass).
+  Inaction consequence: 7 calendar days post-ESCALATE without valid response → pipeline READ-ONLY mode (no LOCKs of any kind). Enforced as global PRE-gate `F-AMDT-08-READONLY`. Exit requires fresh architectural Thesis (not narrow-edit).
+
+F-7-Cycle4 — Secondary-fallback collision check (closes Cycle 3 RT LOW fallback-chain self-reference risk):
+  Tertiary fallback authorized: when Qwen primary fallback AND Llama secondary fallback both match the added-reviewer family, tertiary = Codex (OpenAI direct, `openai/gpt-4o`, router.yaml `code_reviewer_1.fallback`). Activation logs `event:"F-AMDT-07-TERTIARY-FALLBACK-ACTIVATED"`.
+  Anti-collision invariant: no two layers of self-reference fallback chain (primary/secondary/tertiary) may share family. Walked from router.yaml at gate invocation (catches drift). Collision → DENY `F-AMDT-07-FALLBACK-CHAIN-COLLISION`. Amendment cannot promote until router.yaml restores distinctness.
+  Quarterly audit: `F-AMDT-07-FALLBACK-CHAIN-AUDIT` emitted 2026-04-01, 2026-07-01, 2026-10-01, 2027-01-01, … summarizing three-layer chain + near-collision risks (e.g., same-provider different-family). Operator-read at orientation, not blocking.
+
+=== ATTACK DIRECTIONS ===
+
+For each Cycle 4 fix:
+1. F-1-Cycle4: Does the two-layer schema + semantic cross-ref actually close marker-field evasion? Probe: amendment that omits the field entirely (Layer 1) — does the Logician gate fire before the amendment file is even parsed, or after? Probe: diff that touches a deprecated slot but author sets `forced_replacement: false` + the slot is NOT in deprecation_register.jsonl because register lags deprecation announcement. What happens?
+2. F-4-Cycle4: Does `router_integrity.verify` + pinned-digest close tampering? Probe: attacker with write access to both `router.yaml` AND `router_integrity.pinned.json` in the same commit — pair rule satisfied, content evil. Probe: `router_integrity.pinned.json` missing in a fresh checkout / new operator — does the gate fail closed (good) or does it skip integrity check and proceed (bad)?
+3. F-6-Cycle4: Does the sign-off-string mechanism actually prevent silent extension? Probe: operator writes `TARGET_DATE: 2099-12-31` on day 1 — does gate accept the 75-year target? Text says ≤ 60 days from LOCK; is that enforced by gate or by operator honor? Probe: operator writes BOTH `TARGET_DATE: 2026-05-15` AND `FRESH_ARCHITECTURAL_THESIS` in same stanza — which wins? Probe: READ-ONLY mode exit requires fresh architectural Thesis, but a fresh Thesis requires a LOCK to seal — is this deadlocked?
+4. F-7-Cycle4: Tertiary Codex is `openai/gpt-4o` which is an OpenAI-direct family. What if the future amendment author-family IS OpenAI-direct? Then tertiary collides with author. Does the anti-collision invariant include author-family as a constraint, or only the three fallback layers?
+5. Cross-fix interaction: F-6-Cycle4 READ-ONLY + F-4-Cycle4 integrity-missing — if `router_integrity.pinned.json` is missing on a READ-ONLY-pending workspace, can the operator fix it? Writing the pin file is a LOCK-adjacent operation; does it trip READ-ONLY?
+6. NEW surfaces: anything Cycle 4 introduced that wasn't a surface before (e.g., the deprecation_register.jsonl is a new trust-boundary file; who writes it and under what audit trail)?
+
+Produce verdict. Be specific about which finding you're closing vs surfacing.

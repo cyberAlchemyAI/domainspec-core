@@ -1,0 +1,472 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>IDEA FOUNDRY NODE - Scout Discovery</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#dae2fd",
+                    "on-primary-fixed-variant": "#454747",
+                    "surface-tint": "#c6c6c7",
+                    "primary": "#ffffff",
+                    "outline-variant": "#444748",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "surface-container-lowest": "#040e1f",
+                    "surface": "#081425",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "secondary-container": "#3a4a5f",
+                    "outline": "#8e9192",
+                    "on-tertiary-container": "#5c647a",
+                    "surface-variant": "#2a3548",
+                    "on-background": "#d8e3fb",
+                    "surface-container-low": "#111c2d",
+                    "secondary": "#b7c8e1",
+                    "inverse-surface": "#d8e3fb",
+                    "inverse-primary": "#5d5f5f",
+                    "inverse-on-surface": "#263143",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "surface-container-highest": "#2a3548",
+                    "on-tertiary": "#283044",
+                    "on-error": "#690005",
+                    "surface-dim": "#081425",
+                    "on-primary-container": "#636565",
+                    "surface-container": "#152031",
+                    "error": "#ffb4ab",
+                    "on-surface-variant": "#c4c7c8",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary": "#213145",
+                    "on-surface": "#d8e3fb",
+                    "error-container": "#93000a",
+                    "on-secondary-fixed": "#0b1c30",
+                    "on-primary": "#2f3131",
+                    "surface-container-high": "#1f2a3c",
+                    "on-tertiary-fixed": "#131b2e",
+                    "secondary-fixed": "#d3e4fe",
+                    "tertiary-container": "#dae2fd",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "tertiary": "#ffffff",
+                    "on-secondary-container": "#a9bad3",
+                    "primary-fixed": "#e2e2e2",
+                    "primary-container": "#e2e2e2",
+                    "background": "#081425",
+                    "on-primary-fixed": "#1a1c1c",
+                    "surface-bright": "#2f3a4c"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "1px",
+                    "container-padding": "16px",
+                    "sidebar-width": "220px",
+                    "panel-gap": "8px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "data-mono": ["JetBrains Mono", "monospace"],
+                    "body-sm": ["Hanken Grotesk", "sans-serif"],
+                    "label-caps": ["JetBrains Mono", "monospace"],
+                    "display-lg": ["Hanken Grotesk", "sans-serif"],
+                    "body-md": ["Hanken Grotesk", "sans-serif"],
+                    "headline-md": ["Hanken Grotesk", "sans-serif"]
+            },
+            "fontSize": {
+                    "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                    "body-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Brutalist/Industrial overrides */
+        * { border-radius: 0px !important; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Custom scrollbar for data density */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #081425; /* surface */
+            border-left: 1px solid #444748; /* outline-variant */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a3548; /* surface-variant */
+            border: 1px solid #444748; /* outline-variant */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3a4a5f;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen w-screen flex overflow-hidden font-body-md text-body-md select-none">
+<!-- JSON Component: SideNavBar -->
+<nav class="bg-surface-container-low dark:bg-surface-container-low text-primary dark:text-primary font-label-caps text-label-caps font-data-mono text-data-mono font-headline-md text-headline-md text-on-surface docked left-0 h-full w-[220px] border-r border-outline-variant flat no shadows flex flex-col h-full z-20 flex-shrink-0">
+<!-- Header -->
+<div class="p-4 border-b border-outline-variant flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-variant border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]">dns</span>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-primary tracking-widest">IDEA FOUNDRY</div>
+<div class="font-data-mono text-[10px] text-secondary">HYBRID POSTURE</div>
+</div>
+</div>
+<button class="mt-4 w-full bg-primary text-on-primary font-label-caps text-label-caps py-2 px-4 hover:bg-surface-tint transition-none flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">add</span>
+                NEW AUDIT
+            </button>
+</div>
+<!-- Main Tabs -->
+<div class="flex-grow flex flex-col pt-2 overflow-y-auto"><!-- Inactive: Red Team -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-label-caps text-label-caps tracking-wider">Red Team</span>
+</a>
+<!-- Inactive: Judge -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps tracking-wider">Judge</span>
+</a>
+<!-- Active: Scout -->
+<a class="flex items-center gap-3 px-4 py-3 bg-surface-variant text-primary border-l-2 border-primary transition-none" href="#">
+<span class="material-symbols-outlined text-[18px] icon-fill">radar</span>
+<span class="font-label-caps text-label-caps tracking-wider">Scout</span>
+</a>
+<!-- Inactive: Forensics -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">query_stats</span>
+<span class="font-label-caps text-label-caps tracking-wider">Forensics</span>
+</a>
+<!-- Inactive: Node Health -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">dns</span>
+<span class="font-label-caps text-label-caps tracking-wider">Node Health</span>
+</a>
+<!-- Inactive: Registry -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps tracking-wider">Registry</span>
+</a>
+<!-- Inactive: Sign-Off -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps tracking-wider">Sign-Off</span>
+</a></div>
+<!-- Footer Tabs -->
+<div class="border-t border-outline-variant p-2 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span class="font-label-caps text-label-caps tracking-wider">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">contact_support</span>
+<span class="font-label-caps text-label-caps tracking-wider">Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Application Area -->
+<main class="flex-grow flex flex-col min-w-0 bg-background relative">
+<!-- JSON Component: TopNavBar -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-primary font-body-md text-body-md font-label-caps text-label-caps font-headline-md text-headline-md font-bold text-on-surface dark:text-on-surface docked full-width top-0 h-[56px] border-b border-outline-variant flat no shadows flex justify-between items-center px-4 w-full z-10 flex-shrink-0">
+<div class="flex items-center gap-8">
+<!-- Brand Anchor override -->
+<div class="font-headline-md text-headline-md font-bold tracking-tight text-primary uppercase">IDEA FOUNDRY NODE</div>
+<div class="flex items-center gap-1 h-full">
+<!-- All inactive as SideNav holds primary context -->
+<a class="px-4 py-4 text-on-surface-variant hover:bg-surface-variant transition-none h-[56px] flex items-center border-b border-transparent" href="#">
+<span class="font-label-caps text-label-caps tracking-wider">Dashboard</span>
+</a>
+<a class="px-4 py-4 text-on-surface-variant hover:bg-surface-variant transition-none h-[56px] flex items-center border-b border-transparent" href="#">
+<span class="font-label-caps text-label-caps tracking-wider">Ledger</span>
+</a>
+<a class="px-4 py-4 text-on-surface-variant hover:bg-surface-variant transition-none h-[56px] flex items-center border-b border-transparent" href="#">
+<span class="font-label-caps text-label-caps tracking-wider">Archive</span>
+</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search Bar Placeholder -->
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[16px]">search</span>
+<input class="bg-surface-container-low border border-outline-variant text-on-surface font-data-mono text-data-mono pl-9 pr-3 py-1.5 focus:border-primary focus:outline-none w-[200px]" placeholder="Search parameters..." type="text">
+</div>
+<div class="flex items-center gap-2 border-l border-outline-variant pl-4">
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-variant transition-none border border-transparent">
+<span class="material-symbols-outlined text-[20px]">security</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-variant transition-none border border-transparent">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="ml-2 border border-outline-variant text-primary font-label-caps text-label-caps px-4 py-1.5 hover:bg-surface-variant transition-none">
+                        Sign Transaction
+                    </button>
+<div class="w-8 h-8 bg-surface-variant border border-outline-variant ml-2 flex items-center justify-center overflow-hidden cursor-pointer">
+<span class="material-symbols-outlined text-secondary">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Workbench Grid -->
+<div class="flex-grow flex flex-row overflow-hidden relative">
+<!-- Left Canvas: Dashboard & List -->
+<div class="flex-grow flex flex-col overflow-y-auto p-4 gap-4 pb-12">
+<!-- Section: Horizon Scanning Dashboard -->
+<section class="border border-outline-variant bg-surface-container flex flex-col shrink-0">
+<div class="border-b border-outline-variant px-4 py-2 flex justify-between items-center bg-surface-container-high">
+<div class="font-label-caps text-label-caps text-secondary tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+                            HORIZON SCANNING
+                        </div>
+<!-- Mode Toggle -->
+<div class="flex border border-outline-variant bg-surface">
+<button class="px-3 py-1 font-data-mono text-data-mono text-on-surface-variant hover:text-primary hover:bg-surface-variant transition-none">ONE_SHOT</button>
+<div class="w-px bg-outline-variant"></div>
+<button class="px-3 py-1 font-data-mono text-data-mono bg-primary text-on-primary flex items-center gap-2 transition-none">
+<div class="w-2 h-2 bg-[#22C55E]"></div> <!-- Explicit indicator color per guidance -->
+                                DAEMON
+                            </button>
+</div>
+</div>
+<div class="p-6 flex flex-row justify-between items-end gap-8">
+<!-- Primary Value -->
+<div class="flex flex-col gap-1">
+<div class="font-label-caps text-label-caps text-on-surface-variant">TOTAL PIPELINE VALUE</div>
+<div class="font-display-lg text-display-lg text-primary tracking-tight font-bold">$4.2M</div>
+<div class="font-data-mono text-[10px] text-secondary mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">sync</span>
+                                Last sync: 2m ago
+                            </div>
+</div>
+<!-- Value Ribbon / Stats -->
+<div class="flex gap-4 border-l border-outline-variant pl-8">
+<div class="flex flex-col gap-1">
+<div class="font-label-caps text-label-caps text-on-surface-variant">TRACKED</div>
+<div class="font-data-mono text-[20px] text-primary">12</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="font-label-caps text-label-caps text-on-surface-variant">ADDED</div>
+<div class="font-data-mono text-[20px] text-[#F59E0B]">4</div> <!-- Status Warning color -->
+</div>
+<div class="flex flex-col gap-1">
+<div class="font-label-caps text-label-caps text-on-surface-variant">FOUND</div>
+<div class="font-data-mono text-[20px] text-secondary">86</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Opportunity Ranked List -->
+<section class="flex flex-col gap-2">
+<div class="font-label-caps text-label-caps text-secondary mb-2 pl-1">RANKED OPPORTUNITIES // LIVE FEED</div>
+<!-- Opportunity Card 1 (Active/Selected state) -->
+<div class="border border-primary bg-surface-variant p-4 flex flex-col gap-3 cursor-pointer relative shadow-[inset_2px_0_0_0_#ffffff]">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="bg-primary text-on-primary font-data-mono text-[10px] px-1.5 py-0.5 tracking-wider">USDA-RD</div>
+<div class="font-data-mono text-data-mono text-secondary">OPP-2023-RD-VAPG</div>
+</div>
+<div class="font-data-mono text-data-mono text-primary border border-outline-variant px-2 py-0.5 bg-surface flex items-center gap-2">
+<div class="w-1.5 h-1.5 bg-[#22C55E]"></div> 94% FIT
+                            </div>
+</div>
+<div class="font-headline-md text-headline-md text-primary font-semibold leading-tight pr-12">Value-Added Producer Grants (VAPG) - Agricultural Processing Expansion</div>
+<div class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                            Matches verified intent to scale regional processing facility. Applicant meets 'Independent Producer' definition and matches the geographic priority envelope for rural development tier 2.
+                        </div>
+<div class="flex items-center justify-between border-t border-outline-variant pt-3 mt-1">
+<div class="flex items-center gap-4 font-data-mono text-[11px] text-secondary">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">event</span> T-14 DAYS</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">assured_workload</span> TIER: VERIFIED_FIT</span>
+</div>
+<div class="font-label-caps text-[10px] text-primary tracking-widest uppercase flex items-center gap-1">
+                                INSPECTING <span class="material-symbols-outlined text-[12px] animate-pulse">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Opportunity Card 2 -->
+<div class="border border-outline-variant bg-surface-container-low p-4 flex flex-col gap-3 cursor-pointer hover:bg-surface-variant hover:border-outline transition-none">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="border border-outline-variant text-secondary font-data-mono text-[10px] px-1.5 py-0.5 tracking-wider bg-surface">SARE</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant">NC-SARE-FNC24</div>
+</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant border border-outline-variant px-2 py-0.5 bg-surface flex items-center gap-2">
+<div class="w-1.5 h-1.5 bg-secondary"></div> 82% FIT
+                            </div>
+</div>
+<div class="font-headline-md text-[16px] text-on-surface font-semibold leading-tight pr-12">Farmer Rancher Grant Program - Soil Health Initiative</div>
+<div class="font-body-md text-[13px] text-on-surface-variant leading-relaxed opacity-80">
+                            Potential match for cover crop trial proposal. Requires multi-farm collaboration evidence which is currently listed as 'unverified' in applicant registry.
+                        </div>
+<div class="flex items-center justify-between border-t border-outline-variant pt-3 mt-1 opacity-70">
+<div class="flex items-center gap-4 font-data-mono text-[11px] text-secondary">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">event</span> T-45 DAYS</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">policy</span> TIER: PROBABLE_FIT</span>
+</div>
+</div>
+</div>
+<!-- Opportunity Card 3 -->
+<div class="border border-outline-variant bg-surface-container-low p-4 flex flex-col gap-3 cursor-pointer hover:bg-surface-variant hover:border-outline transition-none">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="border border-outline-variant text-secondary font-data-mono text-[10px] px-1.5 py-0.5 tracking-wider bg-surface">DOE-EERE</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant">DE-FOA-0003091</div>
+</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant border border-outline-variant px-2 py-0.5 bg-surface flex items-center gap-2">
+<div class="w-1.5 h-1.5 bg-[#F59E0B]"></div> 65% FIT
+                            </div>
+</div>
+<div class="font-headline-md text-[16px] text-on-surface font-semibold leading-tight pr-12">Clean Energy Deployment on Mined Lands</div>
+<div class="font-body-md text-[13px] text-on-surface-variant leading-relaxed opacity-80">
+                            Marginal geographic overlap. Facility power requirements align with FOA objectives, but primary operation falls outside targeted socio-economic matrix.
+                        </div>
+<div class="flex items-center justify-between border-t border-outline-variant pt-3 mt-1 opacity-70">
+<div class="flex items-center gap-4 font-data-mono text-[11px] text-secondary">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">event</span> T-120 DAYS</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">warning</span> TIER: EDGE_CASE</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Canvas: Reasoning Inspector -->
+<aside class="w-[340px] flex-shrink-0 bg-surface border-l border-outline-variant flex flex-col shadow-[-4px_0_15px_-3px_rgba(0,0,0,0.5)] z-10 overflow-hidden">
+<!-- Inspector Header -->
+<div class="p-4 border-b border-outline-variant bg-surface-container flex justify-between items-center">
+<div class="font-label-caps text-label-caps text-primary flex items-center gap-2 tracking-widest">
+<span class="material-symbols-outlined text-[16px]">target</span>
+                        REASONING INSPECTOR
+                    </div>
+<button class="text-on-surface-variant hover:text-primary transition-none">
+<span class="material-symbols-outlined text-[18px]">close_fullscreen</span>
+</button>
+</div>
+<div class="flex-grow overflow-y-auto p-4 flex flex-col gap-6">
+<!-- Selected Entity Header -->
+<div class="flex flex-col gap-2">
+<div class="font-data-mono text-[11px] text-secondary">OPP-2023-RD-VAPG</div>
+<h2 class="font-headline-md text-[18px] text-primary leading-snug font-bold">Value-Added Producer Grants (VAPG)</h2>
+<div class="inline-flex mt-1">
+<span class="bg-[#22C55E]/20 text-[#22C55E] border border-[#22C55E]/50 px-2 py-0.5 font-data-mono text-[10px] uppercase tracking-wider">High Confidence Match</span>
+</div>
+</div>
+<!-- Inspector Block: Fit Rationale -->
+<div class="flex flex-col gap-2">
+<div class="border-b border-outline-variant pb-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-secondary">psychiatry</span>
+<span class="font-label-caps text-[10px] text-secondary tracking-widest">FIT RATIONALE</span>
+</div>
+<div class="font-body-md text-[13px] text-on-surface-variant leading-relaxed">
+                            The proposed expansion of the local abattoir strictly fulfills the 'Value-Added' requirement under USDA definitions. Financials show required 1:1 matching funds are available in reserved capital accounts. Geographic coordinates isolate the entity in a recognized Rural Development priority zone.
+                        </div>
+</div>
+<!-- Inspector Block: Source-Backing Tier -->
+<div class="flex flex-col gap-2">
+<div class="border-b border-outline-variant pb-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-secondary">account_tree</span>
+<span class="font-label-caps text-[10px] text-secondary tracking-widest">EVIDENCE LADDER</span>
+</div>
+<div class="bg-surface-container border border-outline-variant p-2 flex flex-col gap-2">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[14px] text-[#22C55E] mt-0.5">check_circle</span>
+<div>
+<div class="font-data-mono text-[11px] text-primary">ENTITY_DEF: INDEPENDENT_PRODUCER</div>
+<div class="font-body-sm text-[10px] text-secondary">Verified via 2022 Tax Schedule F</div>
+</div>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[14px] text-[#22C55E] mt-0.5">check_circle</span>
+<div>
+<div class="font-data-mono text-[11px] text-primary">FUNDING_MATCH: 1:1 RATIO</div>
+<div class="font-body-sm text-[10px] text-secondary">Verified via Ledger Balance snapshot (T-2 days)</div>
+</div>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[14px] text-[#F59E0B] mt-0.5">warning</span>
+<div>
+<div class="font-data-mono text-[11px] text-primary">PERMIT_STATUS: PENDING</div>
+<div class="font-body-sm text-[10px] text-secondary">Environmental review document not yet uploaded to Node.</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Inspector Block: Meta Details -->
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1">
+<span class="font-label-caps text-[9px] text-secondary tracking-widest">DEADLINE RISK</span>
+<div class="font-data-mono text-[12px] text-[#EF4444] border border-[#EF4444]/30 bg-[#EF4444]/10 px-2 py-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">timer</span> CRITICAL (14d)
+                            </div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-caps text-[9px] text-secondary tracking-widest">FUNDER ENVELOPE</span>
+<div class="font-data-mono text-[12px] text-primary border border-outline-variant bg-surface px-2 py-1">
+                                $50k - $250k
+                            </div>
+</div>
+</div>
+</div>
+<!-- Primary Action Area -->
+<div class="p-4 border-t border-outline-variant bg-surface-container-low mt-auto">
+<button class="w-full bg-primary text-on-primary font-label-caps text-label-caps py-3 px-4 hover:bg-surface-tint transition-none flex items-center justify-center gap-2 border border-primary focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-1 focus:ring-offset-background">
+<span class="material-symbols-outlined text-[18px]">bookmark_add</span>
+                        TRACK OPPORTUNITY
+                    </button>
+<div class="text-center mt-2 font-data-mono text-[9px] text-secondary">
+                        Action logs to Ledger automatically.
+                    </div>
+</div>
+</aside>
+</div>
+<!-- JSON Component: Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest text-secondary dark:text-secondary font-data-mono text-data-mono font-label-caps text-label-caps docked bottom-0 w-full border-t border-outline-variant flat no shadows flex justify-between items-center px-4 py-1 z-30 flex-shrink-0">
+<div class="flex items-center gap-4 text-[10px]">
+<span class="font-bold tracking-wider uppercase text-on-surface-variant">FINGERPRINT: 0x82...BF2A</span>
+</div>
+<div class="flex items-center gap-6">
+<!-- Links / Status items -->
+<a class="text-secondary hover:text-primary transition-none flex items-center gap-1.5 text-[10px]" href="#">
+<div class="w-1.5 h-1.5 bg-[#22C55E]"></div>
+                    SYNC_OK
+                </a>
+<a class="text-secondary hover:text-primary transition-none text-[10px]" href="#">
+                    NODE_v2.4
+                </a>
+<a class="text-secondary hover:text-primary transition-none text-[10px]" href="#">
+                    LATENCY_12ms
+                </a>
+</div>
+</footer>
+</main>
+
+
+</body></html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Judge Scoring</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Playfair+Display:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#444748",
+                        "on-tertiary-container": "#5c647a",
+                        "on-tertiary-fixed": "#131b2e",
+                        "background": "#081425",
+                        "primary": "#ffffff",
+                        "on-surface-variant": "#c4c7c8",
+                        "tertiary-fixed": "#dae2fd",
+                        "primary-fixed": "#e2e2e2",
+                        "secondary-container": "#3a4a5f",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-primary-fixed-variant": "#454747",
+                        "outline": "#8e9192",
+                        "on-secondary-container": "#a9bad3",
+                        "surface-container-lowest": "#040e1f",
+                        "inverse-on-surface": "#263143",
+                        "tertiary-container": "#dae2fd",
+                        "on-secondary": "#213145",
+                        "surface-container": "#152031",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-background": "#d8e3fb",
+                        "surface-variant": "#2a3548",
+                        "surface-container-highest": "#2a3548",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-container-low": "#111c2d",
+                        "on-tertiary": "#283044",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "inverse-surface": "#d8e3fb",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#1f2a3c",
+                        "surface": "#081425",
+                        "secondary": "#b7c8e1",
+                        "primary-container": "#e2e2e2",
+                        "surface-dim": "#081425",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-primary": "#2f3131",
+                        "secondary-fixed": "#d3e4fe",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed": "#0b1c30",
+                        "tertiary": "#ffffff",
+                        "on-surface": "#d8e3fb",
+                        "inverse-primary": "#5d5f5f",
+                        "on-primary-container": "#636565",
+                        "surface-tint": "#c6c6c7",
+                        "surface-bright": "#2f3a4c",
+                        "on-primary-fixed": "#1a1c1c",
+                        "gold-burnished": "#B89745"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "panel-gap": "8px",
+                        "gutter": "1px",
+                        "sidebar-width": "220px",
+                        "container-padding": "16px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "serif-read": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #020617; color: #d8e3fb; overflow-x: hidden; }
+        .panel { background-color: #0F172A; border: 1px solid #334155; }
+        .panel-nested { background-color: #1E293B; border: 1px solid #334155; }
+        .border-slate { border-color: #334155; }
+        .font-serif-read { font-family: 'Playfair Display', serif; }
+        .gold-burnished { color: #B89745; }
+        .border-gold-burnished { border-color: #B89745; }
+        .bg-gold-burnished { background-color: #B89745; }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased flex flex-col h-screen">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-container-padding w-full h-[56px] bg-surface-container-highest dark:bg-surface-container-highest border-b border-outline-variant shrink-0 z-20">
+<div class="flex items-center gap-4">
+<h1 class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter">GOLDEN QUILL</h1>
+</div>
+<div class="flex items-center gap-4 text-primary dark:text-primary">
+<span class="material-symbols-outlined" data-icon="security" style="font-variation-settings: 'FILL' 0;">security</span>
+<span class="material-symbols-outlined" data-icon="verified_user" style="font-variation-settings: 'FILL' 0;">verified_user</span>
+<span class="material-symbols-outlined" data-icon="gavel" style="font-variation-settings: 'FILL' 0;">gavel</span>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="w-[220px] h-full border-r border-outline-variant bg-surface-container-low dark:bg-surface-container-low flex flex-col pt-[16px] shrink-0 z-10 overflow-y-auto">
+<div class="px-container-padding mb-6">
+<h2 class="font-headline-md text-headline-md text-primary mb-1">NODE IDENTITY</h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant">POSTURE: SECURE</p>
+</div>
+<ul class="flex flex-col w-full">
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="home">home</span><span class="font-label-caps text-label-caps">Home</span></a></li>
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="search">search</span><span class="font-label-caps text-label-caps">Scout</span></a></li>
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="input">input</span><span class="font-label-caps text-label-caps">Intake</span></a></li>
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="assignment_turned_in">assignment_turned_in</span><span class="font-label-caps text-label-caps">Eligibility</span></a></li>
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="map">map</span><span class="font-label-caps text-label-caps">Module Mapper</span></a></li>
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="edit_note">edit_note</span><span class="font-label-caps text-label-caps">Drafting</span></a></li>
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="payments">payments</span><span class="font-label-caps text-label-caps">Budget</span></a></li>
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="gavel" style="font-variation-settings: 'FILL' 1;">gavel</span><span class="font-label-caps text-label-caps">Judge</span></a></li>
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="security">security</span><span class="font-label-caps text-label-caps">Red Team</span></a></li>
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="signature">signature</span><span class="font-label-caps text-label-caps">Sign-Off</span></a></li>
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="history_edu">history_edu</span><span class="font-label-caps text-label-caps">Audit</span></a></li>
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="style">style</span><span class="font-label-caps text-label-caps">Cards</span></a></li>
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="fingerprint">fingerprint</span><span class="font-label-caps text-label-caps">FIDs</span></a></li>
+<li class="w-full"><a class="flex items-center gap-3 px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#"><span class="material-symbols-outlined text-[20px]" data-icon="account_balance_wallet">account_balance_wallet</span><span class="font-label-caps text-label-caps">Costs</span></a></li>
+</ul>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 bg-[#020617] p-panel-gap gap-panel-gap overflow-y-auto">
+<!-- Decision Strip -->
+<div class="panel border-b-2 border-b-[#EF4444] p-4 flex items-center justify-between shrink-0">
+<div class="flex items-center gap-4">
+<span class="w-3 h-3 bg-[#EF4444] inline-block"></span>
+<span class="font-data-mono text-data-mono text-[#EF4444]">STATE: STALE</span>
+<span class="font-body-md text-body-md text-primary">Is scoring current?</span>
+<span class="font-label-caps text-label-caps bg-[#EF4444] text-black px-2 py-1">RE-SCORE REQUIRED</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant ml-2">Reason: Draft AMEND-902 applied at 14:02:11 UTC.</span>
+</div>
+<button class="bg-primary text-black font-label-caps text-label-caps px-4 py-2 hover:bg-primary-fixed transition-none">EXECUTE RE-SCORE</button>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-12 gap-panel-gap flex-1 min-h-0">
+<!-- Left Column: Decomposition -->
+<div class="col-span-8 flex flex-col gap-panel-gap min-h-0">
+<!-- Forensic Score Decomposition -->
+<div class="panel p-4 flex flex-col shrink-0">
+<div class="flex justify-between items-end border-b border-slate pb-4 mb-4">
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-1">FORENSIC SCORE DECOMPOSITION</h3>
+<div class="font-display-lg text-display-lg text-primary gold-burnished">88.4%</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant mt-1">MAX POTENTIAL: 94.2% (Delta: -5.8%)</div>
+</div>
+<div class="text-right">
+<div class="font-data-mono text-data-mono text-primary">ID_JUDGE: J-8819</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant">V: 1.0.4</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Controlled Factors -->
+<div class="panel-nested p-4">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-2 h-2 bg-[#22C55E] inline-block"></span>
+<span class="font-label-caps text-label-caps text-primary">CONTROLLED FACTORS</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center border-b border-slate pb-1">
+<span class="font-data-mono text-data-mono text-on-surface-variant">Clarity Index</span>
+<span class="font-data-mono text-data-mono text-primary">24/25</span>
+</div>
+<div class="flex justify-between items-center border-b border-slate pb-1">
+<span class="font-data-mono text-data-mono text-on-surface-variant">Precedent Align</span>
+<span class="font-data-mono text-data-mono text-primary">30/30</span>
+</div>
+<div class="flex justify-between items-center border-b border-slate pb-1">
+<span class="font-data-mono text-data-mono text-on-surface-variant">Structural Rigor</span>
+<span class="font-data-mono text-data-mono text-[#F59E0B]">18/20</span>
+</div>
+</div>
+</div>
+<!-- Uncontrolled Factors -->
+<div class="panel-nested p-4">
+<div class="flex items-center gap-2 mb-3">
+<span class="w-2 h-2 bg-[#F59E0B] inline-block"></span>
+<span class="font-label-caps text-label-caps text-primary">UNCONTROLLED FACTORS</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center border-b border-slate pb-1">
+<span class="font-data-mono text-data-mono text-on-surface-variant">Market Volatility</span>
+<span class="font-data-mono text-data-mono text-primary">12/15</span>
+</div>
+<div class="flex justify-between items-center border-b border-slate pb-1">
+<span class="font-data-mono text-data-mono text-on-surface-variant">Regulatory Drift</span>
+<span class="font-data-mono text-data-mono text-[#EF4444]">4/10</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Evidence Ladder -->
+<div class="panel flex-1 flex flex-col min-h-0">
+<div class="p-4 border-b border-slate flex justify-between items-center shrink-0">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant">EVIDENCE LADDER: CRITERION 0x4A (PRECEDENT ALIGNMENT)</h3>
+<span class="font-data-mono text-data-mono gold-burnished border border-gold-burnished px-2 py-1">TIER: STRONGEST</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-4 bg-[#0F172A]">
+<!-- Strongest -->
+<div class="panel-nested border-l-2 border-l-[#22C55E] p-4 bg-[#1E293B]">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-primary">STRONGEST TIER</span>
+<span class="font-data-mono text-data-mono text-[#22C55E]">[MATCH]</span>
+</div>
+<p class="font-serif-read text-[16px] leading-relaxed text-primary">The draft explicitly cites and adheres to the binding constraints established in v. State (2021). The logical progression from the preamble to the operational clauses demonstrates a seamless integration of prevailing doctrine without introducing speculative interpretations.</p>
+<div class="mt-3 font-data-mono text-[10px] text-on-surface-variant bg-[#020617] p-2 border border-slate">
+                                    &gt; REF: DOC_88_A, L:40-45<br/>
+                                    &gt; NLP_CONFIDENCE: 0.98
+                                </div>
+</div>
+<!-- Acceptable -->
+<div class="panel-nested p-4 border-l border-slate opacity-70">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">ACCEPTABLE TIER</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">[-]</span>
+</div>
+<p class="font-serif-read text-[14px] text-on-surface-variant">The draft generally aligns with established precedent but relies on secondary sources or parallel reasoning rather than direct citation of binding authority in key structural clauses.</p>
+</div>
+<!-- Weak -->
+<div class="panel-nested p-4 border-l border-slate opacity-50">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">WEAK TIER</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">[-]</span>
+</div>
+<p class="font-serif-read text-[14px] text-on-surface-variant">Significant divergence from established norms. The document introduces novel logical constructs that lack support from existing framework architecture.</p>
+</div>
+<!-- Unacceptable -->
+<div class="panel-nested p-4 border-l border-slate opacity-30">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">UNACCEPTABLE TIER</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">[-]</span>
+</div>
+<p class="font-serif-read text-[14px] text-on-surface-variant">Direct contradiction of binding precedent or structural requirements. The draft introduces immediate liability or logical paradoxes.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: System Trace -->
+<div class="col-span-4 panel flex flex-col min-h-0">
+<div class="p-4 border-b border-slate flex justify-between items-center shrink-0">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant">SYSTEM TRACE (RAW LOGIC)</h3>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="terminal">terminal</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 bg-[#000000] font-data-mono text-[11px] leading-[1.6] text-[#c4c7c8]">
+<div class="mb-2"><span class="text-[#3a4a5f]">14:02:11.001</span> <span class="text-primary">[INIT]</span> SCORING_MODULE_v1.0.4 LOADED</div>
+<div class="mb-2"><span class="text-[#3a4a5f]">14:02:11.045</span> <span class="text-[#a9bad3]">[FETCH]</span> TARGET: DOC_UUID_9982</div>
+<div class="mb-2"><span class="text-[#3a4a5f]">14:02:11.102</span> <span class="text-[#22C55E]">[OK]</span> VECTOR_DB_CONN ESTABLISHED</div>
+<div class="mb-2"><span class="text-[#3a4a5f]">14:02:11.115</span> <span class="text-primary">[EXEC]</span> EVALUATING CRITERION 0x4A...</div>
+<div class="mb-2 pl-4 border-l border-[#3a4a5f]">
+                            &gt; EXTRACTING CLAUSES L:40-45<br/>
+                            &gt; MATCHING PRECEDENT_DB [WEIGHT: 0.8]<br/>
+                            &gt; <span class="text-[#B89745]">CONFIDENCE SCORE: 0.982</span><br/>
+                            &gt; CLASSIFYING: STRONGEST
+                        </div>
+<div class="mb-2"><span class="text-[#3a4a5f]">14:02:11.301</span> <span class="text-primary">[EXEC]</span> EVALUATING CRITERION 0x4B...</div>
+<div class="mb-2 pl-4 border-l border-[#3a4a5f]">
+                            &gt; EXTRACTING STRUCTURAL TOKENS<br/>
+                            &gt; DETECTED DRIFT [VARIANCE: 0.12]<br/>
+                            &gt; CLASSIFYING: ACCEPTABLE
+                        </div>
+<div class="mb-2"><span class="text-[#3a4a5f]">14:02:11.450</span> <span class="text-[#F59E0B]">[WARN]</span> AMENDMENT DETECTED POST-SCORE</div>
+<div class="mb-2"><span class="text-[#3a4a5f]">14:02:11.452</span> <span class="text-[#EF4444]">[STATE]</span> SETTING FLAG: STALE</div>
+<div class="mb-2"><span class="text-[#3a4a5f]">14:02:11.453</span> <span class="text-primary">[HALT]</span> AWAITING RE-SCORE TRIGGER</div>
+<!-- Blinking cursor -->
+<div class="mt-4"><span class="inline-block w-2 h-4 bg-primary animate-pulse"></span></div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="flex items-center justify-between px-4 w-full h-[32px] bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant shrink-0 z-50">
+<div class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</div>
+<div class="flex items-center gap-4 font-data-mono text-data-mono text-on-surface-variant">
+<span class="hover:text-primary cursor-pointer">SYSTEM_STATUS</span>
+<span class="hover:text-primary cursor-pointer">AUDIT_LOG</span>
+<span class="hover:text-primary cursor-pointer">FID_0x2A</span>
+</div>
+</footer>
+</body></html>

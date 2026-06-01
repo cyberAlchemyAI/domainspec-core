@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Sign-Off / Export Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#081425",
+                        "tertiary-container": "#dae2fd",
+                        "surface-container-high": "#1f2a3c",
+                        "primary-fixed": "#e2e2e2",
+                        "on-surface": "#d8e3fb",
+                        "on-background": "#d8e3fb",
+                        "outline-variant": "#444748",
+                        "outline": "#8e9192",
+                        "tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-tertiary": "#283044",
+                        "surface-container-low": "#111c2d",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-container": "#636565",
+                        "primary": "#ffffff",
+                        "surface-variant": "#2a3548",
+                        "inverse-on-surface": "#263143",
+                        "surface": "#081425",
+                        "surface-dim": "#081425",
+                        "surface-container": "#152031",
+                        "on-tertiary-container": "#5c647a",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-primary-fixed-variant": "#454747",
+                        "surface-tint": "#c6c6c7",
+                        "error": "#ffb4ab",
+                        "primary-container": "#e2e2e2",
+                        "on-secondary-container": "#a9bad3",
+                        "surface-container-highest": "#2a3548",
+                        "surface-bright": "#2f3a4c",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-secondary": "#213145",
+                        "secondary-container": "#3a4a5f",
+                        "on-error": "#690005",
+                        "secondary": "#b7c8e1",
+                        "error-container": "#93000a",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-container-lowest": "#040e1f",
+                        "on-secondary-fixed": "#0b1c30",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-surface-variant": "#c4c7c8",
+                        "inverse-primary": "#5d5f5f",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "inverse-surface": "#d8e3fb",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-primary": "#2f3131"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "1px",
+                        "unit": "4px",
+                        "panel-gap": "8px",
+                        "sidebar-width": "240px",
+                        "container-padding": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "display-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #020617; color: #d8e3fb; margin: 0; padding: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20; font-size: 18px; }
+        .fill-icon { font-variation-settings: 'FILL' 1; }
+        
+        /* Layout Grid */
+        #app-container { display: flex; flex: 1; overflow: hidden; }
+        #main-content { flex: 1; display: flex; flex-direction: column; background-color: #020617; }
+        #content-canvas { flex: 1; overflow-y: auto; padding: 16px; display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 1px; background-color: #334155; }
+        
+        /* Panels */
+        .panel { background-color: #0F172A; padding: 24px; display: flex; flex-direction: column; gap: 24px; }
+        .inner-panel { background-color: #1E293B; border: 1px solid #334155; padding: 16px; }
+        
+        /* Borders & Utilities */
+        .border-slate { border: 1px solid #334155; }
+        .border-b-slate { border-bottom: 1px solid #334155; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0F172A; border-left: 1px solid #334155; }
+        ::-webkit-scrollbar-thumb { background: #334155; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body>
+<!-- TopNavBar -->
+<header class="bg-surface-container-low text-primary docked full-width top-0 h-14 border-b border-outline-variant flat no shadows flex justify-between items-center w-full px-container-padding flex-shrink-0 z-10">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps tracking-widest text-on-surface uppercase">IDEA FOUNDRY NODE</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps text-primary border border-outline-variant px-2 py-1 bg-surface-container-high">HYBRID</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary cursor-pointer transition-colors duration-0">VERIFIED</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant bg-surface-container px-2 py-1 border border-outline-variant">4a3f...b2c8</span>
+</div>
+<div class="h-6 w-px bg-outline-variant"></div>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-0 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="sync">sync</span>
+</button>
+</div>
+</header>
+<div id="app-container">
+<!-- SideNavBar -->
+<nav class="bg-surface text-primary docked left-0 h-full w-sidebar-width border-r border-outline-variant flat no shadows flex flex-col py-4 flex-shrink-0 z-10 hidden md:flex">
+<div class="px-4 mb-6">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface uppercase">GOLDEN QUILL</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1 uppercase">SOVEREIGN WORKSTATION</p>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="flex flex-col">
+<!-- Iterating through tab labels -->
+<li><a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase transition-colors duration-0" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="home">home</span> Home</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase transition-colors duration-0" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="search">search</span> Scout</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase transition-colors duration-0" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="input">input</span> Intake</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase transition-colors duration-0" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="fact_check">fact_check</span> Eligibility</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase transition-colors duration-0" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="account_tree">account_tree</span> Module Mapper</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase transition-colors duration-0" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="edit_note">edit_note</span> Drafting</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase transition-colors duration-0" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="payments">payments</span> Budget</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase transition-colors duration-0" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="gavel">gavel</span> Judge</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase transition-colors duration-0" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="security">security</span> Red Team</a></li>
+<!-- Active State -->
+<li><a class="flex items-center gap-3 px-4 py-2.5 bg-surface-container-high text-primary border-r-2 border-primary font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[16px] fill-icon" data-icon="history_edu">history_edu</span> Sign-Off</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase transition-colors duration-0" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="menu_book">menu_book</span> Audit</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase transition-colors duration-0" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="credit_card">credit_card</span> Cards</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase transition-colors duration-0" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="fingerprint">fingerprint</span> FIDs</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps uppercase transition-colors duration-0" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="account_balance_wallet">account_balance_wallet</span> Costs</a></li>
+</ul>
+</div>
+</nav>
+<!-- Main Content -->
+<main id="main-content">
+<!-- Header for Screen -->
+<div class="px-6 py-4 border-b border-[#334155] bg-[#0F172A] flex justify-between items-center">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">EXPORT CONSOLE</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Final Authorization &amp; Packet Generation</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">PACKET ID:</span>
+<span class="font-data-mono text-data-mono text-primary bg-[#1E293B] px-2 py-1 border border-[#334155]">GQ-2023-XYZ-99</span>
+</div>
+</div>
+<!-- Canvas -->
+<div id="content-canvas">
+<!-- Left Column: Packet Data & Readiness -->
+<div class="panel">
+<!-- Readiness Checklist -->
+<div>
+<div class="flex items-center gap-2 mb-4 border-b border-[#334155] pb-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="checklist">checklist</span>
+<h3 class="font-label-caps text-label-caps text-primary uppercase">Readiness Gates</h3>
+</div>
+<div class="inner-panel flex flex-col gap-3">
+<div class="flex justify-between items-center pb-2 border-b border-[#334155]">
+<span class="font-body-md text-body-md text-on-surface">Logician (Hard Gates)</span>
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps text-[#22C55E]">PASSED</span>
+<div class="w-3 h-3 bg-[#22C55E]"></div>
+</div>
+</div>
+<div class="flex justify-between items-center pb-2 border-b border-[#334155]">
+<span class="font-body-md text-body-md text-on-surface">Judge (Scoring Threshold)</span>
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps text-[#22C55E]">MET (82/100)</span>
+<div class="w-3 h-3 bg-[#22C55E]"></div>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface">Red Team (Probes)</span>
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps text-[#F59E0B]">WARNING</span>
+<div class="w-3 h-3 bg-[#F59E0B]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Final Packet Preview -->
+<div class="mt-4">
+<div class="flex items-center justify-between mb-4 border-b border-[#334155] pb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="folder_open">folder_open</span>
+<h3 class="font-label-caps text-label-caps text-primary uppercase">Artifact Manifest</h3>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface-variant">3 ITEMS</span>
+</div>
+<!-- Data Table -->
+<div class="w-full">
+<div class="grid grid-cols-[1fr_2fr_auto] gap-4 py-2 border-b border-[#334155] font-label-caps text-label-caps text-[#64748B]">
+<div>TYPE</div>
+<div>SHA-256 HASH</div>
+<div class="text-right">SIZE</div>
+</div>
+<div class="grid grid-cols-[1fr_2fr_auto] gap-4 py-3 border-b border-[#334155] hover:bg-[#1E293B] transition-colors duration-0 cursor-default">
+<div class="font-body-md text-body-md text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="description">description</span> Narrative</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant truncate">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</div>
+<div class="font-data-mono text-data-mono text-on-surface text-right">2.4MB</div>
+</div>
+<div class="grid grid-cols-[1fr_2fr_auto] gap-4 py-3 border-b border-[#334155] hover:bg-[#1E293B] transition-colors duration-0 cursor-default">
+<div class="font-body-md text-body-md text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="request_quote">request_quote</span> Budget</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant truncate">8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92</div>
+<div class="font-data-mono text-data-mono text-on-surface text-right">184KB</div>
+</div>
+<div class="grid grid-cols-[1fr_2fr_auto] gap-4 py-3 border-b border-[#334155] hover:bg-[#1E293B] transition-colors duration-0 cursor-default">
+<div class="font-body-md text-body-md text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="contract">contract</span> LOIs</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant truncate">4a44dc15364204a80fe80e9039455cc1608281820aa2b2a6a2a2a0eb1e56b85d</div>
+<div class="font-data-mono text-data-mono text-on-surface text-right">1.1MB</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Council, Sign, Export -->
+<div class="panel">
+<!-- Council Summary -->
+<div class="inner-panel">
+<div class="flex items-center gap-2 mb-3 border-b border-[#334155] pb-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="gavel">gavel</span>
+<h3 class="font-label-caps text-label-caps text-primary uppercase">Council Summary</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed mb-4" style="font-family: Georgia, serif;">
+                            The proposed intervention aligns with the strategic mandate. Structural viability is sound. However, the Red Team notes significant operational dependencies on under-resourced local partner nodes. 
+                        </p>
+<div class="flex justify-between items-center bg-[#020617] p-2 border border-[#334155]">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant">FINAL SCORE</span>
+<span class="font-headline-md text-headline-md text-primary">82</span>
+</div>
+<div class="flex flex-col text-right">
+<span class="font-label-caps text-label-caps text-on-surface-variant">RED TEAM FLAG</span>
+<span class="font-label-caps text-label-caps text-[#F59E0B]">HIGH RISK (EXECUTION)</span>
+</div>
+</div>
+</div>
+<!-- Posture & Disclaimer -->
+<div class="mt-2 p-3 bg-[#1E293B] border border-[#334155] flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="shield">shield</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">POSTURE ATTESTATION:</span>
+<span class="font-label-caps text-label-caps text-primary bg-[#020617] px-2 py-0.5 border border-[#334155]">HYBRID</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                            Note: Hybrid posture implies active human-in-the-loop validation alongside algorithmic drafting. Audit trail will reflect dual-authorization.
+                        </p>
+</div>
+<div class="p-3 border-l-2 border-[#F59E0B] bg-[#020617] mt-2">
+<p class="font-body-sm text-body-sm text-[#F59E0B] uppercase tracking-wider">
+<strong>Manual Submission Required:</strong> Golden Quill prepares the packet. The operator must manually submit to the funder's required portal (e.g. Grants.gov).
+                        </p>
+</div>
+<!-- Export Panel -->
+<div class="mt-4 flex-1 flex flex-col">
+<div class="flex items-center gap-2 mb-3 border-b border-[#334155] pb-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="download">download</span>
+<h3 class="font-label-caps text-label-caps text-primary uppercase">Export Options</h3>
+</div>
+<div class="flex gap-2 mb-6">
+<button class="flex-1 bg-transparent border border-[#334155] text-primary font-label-caps text-label-caps py-2 px-3 hover:bg-[#1E293B] transition-colors duration-0 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="folder_zip">folder_zip</span> ZIP
+                            </button>
+<button class="flex-1 bg-transparent border border-[#334155] text-primary font-label-caps text-label-caps py-2 px-3 hover:bg-[#1E293B] transition-colors duration-0 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="picture_as_pdf">picture_as_pdf</span> PDF PACKET
+                            </button>
+<button class="flex-1 bg-transparent border border-[#334155] text-primary font-label-caps text-label-caps py-2 px-3 hover:bg-[#1E293B] transition-colors duration-0 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="data_object">data_object</span> FIDs
+                            </button>
+</div>
+<!-- Signature Area -->
+<div class="mt-auto pt-4 border-t border-[#334155]">
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Operator Signature (Ed25519)</label>
+<input class="w-full bg-[#020617] border border-[#334155] text-primary font-data-mono text-data-mono p-3 focus:outline-none focus:border-primary placeholder-on-surface-variant rounded-none" placeholder="Enter operator key..." type="text"/>
+<button class="w-full bg-primary text-black font-label-caps text-label-caps py-3 mt-3 hover:bg-opacity-90 transition-none duration-0 uppercase flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="lock">lock</span> Sign &amp; Lock Cycle
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Terminal/Logs snippet at bottom -->
+<div class="h-32 bg-black border-t border-[#334155] p-3 overflow-y-auto flex-shrink-0 flex flex-col font-data-mono text-[11px] leading-tight text-[#64748B]">
+<div>[SYSTEM] Initializing export console view... OK</div>
+<div>[AUDIT] Validating artifact hashes... OK</div>
+<div>[GATES] Checking Logician hard gates... PASSED</div>
+<div>[GATES] Retrieving Judge score... 82 (THRESHOLD MET)</div>
+<div class="text-[#F59E0B]">[GATES] Warning: Red Team flag detected (HIGH RISK - EXECUTION). Override required.</div>
+<div class="text-primary mt-1">&gt; Awaiting operator signature...<span class="animate-pulse">_</span></div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest text-on-surface-variant font-data-mono text-body-sm docked full-width bottom-0 h-8 border-t border-outline-variant flat no shadows flex justify-between items-center px-4 fixed bottom-0 left-0 w-full z-50">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">LOCAL NODE STATUS: OPERATIONAL</span>
+<div class="flex gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-0" href="#">FINGERPRINT: 88:92:AF</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-0" href="#">NETWORK: ENCRYPTED</a>
+</div>
+</footer>
+</body></html>

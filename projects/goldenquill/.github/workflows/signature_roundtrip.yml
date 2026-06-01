@@ -1,0 +1,56 @@
+name: Signature round-trip
+
+# Round-trip-verifies every Ed25519-signed asset in the repo on every push and
+# every pull-request against main. Closes audit weakness #2 from
+# docs/project_audit_2026-05-18.md §13 row 2 — converts the ceremonial signing
+# chain from credible-by-narrative to verified-by-automation.
+#
+# Once this job has run at least once on main and is stable, add it to branch
+# protection as a required status check via the GitHub UI
+# (Settings → Branches → Branch protection rule for `main` → Require status
+# checks → search "signature-roundtrip") or via:
+#
+#   gh api -X PATCH \
+#     repos/<OWNER>/<REPO>/branches/main/protection/required_status_checks \
+#     -f 'strict=true' \
+#     -F 'contexts[]=signature-roundtrip'
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: signature-roundtrip-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  signature-roundtrip:
+    name: signature-roundtrip
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install cryptography + PyYAML
+        # The verifier mirrors the ceremony scripts exactly; the ceremony
+        # scripts use cryptography.hazmat.primitives.asymmetric.ed25519 +
+        # PyYAML for canonicalization. Pin only what the verifier needs to
+        # keep the job fast and isolated from the wider [.dev] extras.
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install cryptography PyYAML
+
+      - name: Verify signed assets
+        run: python pipeline/scripts/verify_signed_assets.py --verbose

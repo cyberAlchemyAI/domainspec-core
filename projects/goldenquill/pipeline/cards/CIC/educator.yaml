@@ -1,0 +1,1412 @@
+# Card — TILTH-CIC-02 Educator
+# Wave 2 research draft 2026-05-15. Phase 3 output per blueprint §18.11.
+# Content populated per §18.9 starter requirements for TILTH-CIC-02.
+# Operator review + cross-family Thesis dispatch + Ed25519 signature PENDING.
+# SIGNED — runtime-loadable; lifecycle truth enforced by loader preflight.
+#
+# Coupling discipline (architecture v7.0.11 §6.1 + §4 v2.x F-CARDS-COUPLING-
+# VIOLATION-EXTENSION): NO common_clc_patterns_observed, eligible_clc_subset,
+# clc_allowlist, clc_denylist, preferred_clcs, clc_win_rate, or
+# clc_ranking_preferences field. CIC × CLC matching is opportunity-driven at
+# runtime (Scout / Logician identify CLC per opportunity; CIC determines seat
+# configuration only). NEVER reintroduce. common_funders_observed below is
+# funder-side observational metadata only — NOT a CIC × CLC binding.
+#
+# Wave 2 operator-pinned operating posture applied:
+#   - Directory: UPPERCASE pipeline/cards/CIC/ (canonical).
+#   - Schema: as-on-disk; review_status / frequency_observed enum
+#     {FREQUENT, OCCASIONAL, RARE, UNKNOWN} / dialect_routing_table item
+#     shape {funder_political_axis, dialect, example_funder} / provenance_
+#     requirements keys = KFR fact_class names with required_citation_type +
+#     verbatim_quote_required.
+#   - All admin_risk_term_register entries: approval_required: true.
+#   - Win-rate / frequency: qualitative-only (FREQUENT/OCCASIONAL/RARE/
+#     UNKNOWN; HIGH/MEDIUM/LOW). No numeric rates.
+#   - Verbatim quotes ≤2 sentences each with URL + access_date citation.
+#
+# Severity tier mapping for admin_risk_term_register (consistent with Wave 1
+# food_systems.yaml + pipeline/institutional_memory/admin_risk_register.yaml
+# v2.2 EO-context tiers):
+#   HIGH    ≈ admin_risk_register RED  (documented federal enforcement action)
+#   MEDIUM  ≈ admin_risk_register YELLOW (cautioned / leaked-list / scrutiny)
+#   LOW     ≈ admin_risk_register GREEN (precautionary)
+
+schema_version: "1.0-cic"
+card_axis: "CIC"
+card_id: "TILTH-CIC-02"
+slug: "educator"
+display_name: "Educator"
+coverage_axis: "Learning"
+nickname: "Compliance-dense learning institution"
+tilth_cic_id: "TILTH-CIC-02"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Search vocabulary — Scout consumption per §18.8
+# ─────────────────────────────────────────────────────────────────────────────
+search_vocabulary:
+  core_terms:
+    - term: "local educational agency"
+      source_citation: "ESEA / ESSA statutory definition — LEA used across Title I, Title IV, EIR, 21st CCLC eligibility"
+    - term: "school district"
+      source_citation: "USDE Title I Part A program page; standard LEA framing"
+    - term: "charter school"
+      source_citation: "USDE Charter Schools Program (CSP) — 20 USC 7221"
+    - term: "afterschool program"
+      source_citation: "USDE 21st Century Community Learning Centers (21st CCLC) — Title IV-B"
+    - term: "out-of-school time"
+      source_citation: "USDE 21st CCLC + foundation OST funder usage (Wallace, Mott)"
+    - term: "youth development"
+      source_citation: "DOL YouthBuild + HHS Family & Youth Services Bureau program framing"
+    - term: "career and technical education"
+      source_citation: "Carl D. Perkins V (Perkins V) — Strengthening Career and Technical Education for the 21st Century Act"
+    - term: "workforce readiness"
+      source_citation: "DOL WIOA Title I Youth Workforce Programs"
+    - term: "college and career readiness"
+      source_citation: "USDE GEAR UP + TRIO Talent Search / Upward Bound statutory framing"
+    - term: "STEM education"
+      source_citation: "NSF DRK-12 + ITEST + STEM+C program pages"
+    - term: "STEAM education"
+      source_citation: "Foundation funder usage (Bezos Family Foundation; Arconic); USDE Magnet Schools Assistance Program"
+    - term: "tutoring and mentoring"
+      source_citation: "USDE Education Innovation and Research (EIR); CNCS / AmeriCorps service category"
+    - term: "evidence-based intervention"
+      source_citation: "ESSA § 8101(21) evidence tiers — strong / moderate / promising / demonstrates rationale"
+    - term: "family and community engagement"
+      source_citation: "USDE Title I parent and family engagement statutory requirement; Statewide Family Engagement Centers program"
+    - term: "Title I school"
+      source_citation: "ESEA Title I Part A — schoolwide / targeted-assistance designations"
+    - term: "early childhood education"
+      source_citation: "HHS Head Start / Early Head Start; USDE Preschool Development Grants"
+    - term: "special education"
+      source_citation: "IDEA Part B + Part C — federally protected category"
+    - term: "English learner"
+      source_citation: "ESEA Title III — Language Instruction for English Learners and Immigrant Students"
+    - term: "school improvement"
+      source_citation: "ESSA § 1003 — School Improvement set-aside"
+
+  synonym_map:
+    school:
+      - "K-12 school"
+      - "public school"
+      - "charter school"
+      - "elementary school"
+      - "middle school"
+      - "high school"
+    school_district:
+      - "LEA"
+      - "local educational agency"
+      - "district"
+      - "intermediate unit"
+    afterschool:
+      - "out-of-school time"
+      - "OST"
+      - "expanded learning"
+      - "extended day"
+      - "21st CCLC site"
+    youth:
+      - "students"
+      - "young people"
+      - "K-12 learners"
+      - "youth ages 6-18"
+      - "opportunity youth"
+    workforce_readiness:
+      - "career readiness"
+      - "work-based learning"
+      - "career exposure"
+      - "career exploration"
+      - "internships"
+      - "apprenticeship"
+    evidence_based:
+      - "research-based"
+      - "evidence-informed"
+      - "scientifically-based"
+      - "ESSA-aligned"
+    family_engagement:
+      - "parent engagement"
+      - "family involvement"
+      - "caregiver partnership"
+      - "community partnership"
+
+  funder_program_keywords:
+    - keyword: "Title I"
+      funder: "U.S. Department of Education — Office of Elementary and Secondary Education (OESE)"
+      source_citation: "USDE Title I Part A program page"
+    - keyword: "Title IV-A SSAE"
+      funder: "USDE OESE — Student Support and Academic Enrichment"
+      source_citation: "ESEA Title IV-A program page"
+    - keyword: "21st CCLC"
+      funder: "USDE OESE (state pass-through)"
+      source_citation: "USDE 21st Century Community Learning Centers — Title IV-B"
+    - keyword: "EIR"
+      funder: "USDE Office of Elementary and Secondary Education — Education Innovation and Research"
+      source_citation: "USDE EIR program page; competitive Early-Phase / Mid-Phase / Expansion tiers"
+    - keyword: "GEAR UP"
+      funder: "USDE Office of Postsecondary Education"
+      source_citation: "USDE GEAR UP program page"
+    - keyword: "TRIO"
+      funder: "USDE OPE (Talent Search, Upward Bound, Student Support Services, McNair, Educational Opportunity Centers)"
+      source_citation: "USDE TRIO program family page"
+    - keyword: "Charter Schools Program (CSP)"
+      funder: "USDE OESE"
+      source_citation: "USDE CSP program page — 20 USC 7221"
+    - keyword: "Magnet Schools Assistance Program"
+      funder: "USDE OESE"
+      source_citation: "USDE Magnet Schools program page"
+    - keyword: "Statewide Family Engagement Centers"
+      funder: "USDE OESE"
+      source_citation: "USDE SFEC program page"
+    - keyword: "Carl D. Perkins V"
+      funder: "USDE Office of Career, Technical, and Adult Education (OCTAE) — state pass-through"
+      source_citation: "Perkins V state plan + local plan structure"
+    - keyword: "Farm to School Grant Program"
+      funder: "USDA Food and Nutrition Service"
+      source_citation: "USDA FNS Patrick Leahy Farm to School Grant Program"
+    - keyword: "21CCLC state-administered subgrant"
+      funder: "State Education Agency (e.g., PA Department of Education, CA Department of Education)"
+      source_citation: "Per-state SEA 21st CCLC subgrant RFP cycles"
+    - keyword: "YouthBuild"
+      funder: "U.S. Department of Labor — Employment and Training Administration"
+      source_citation: "DOL YouthBuild program page"
+    - keyword: "WIOA Title I Youth"
+      funder: "DOL ETA — state and local workforce boards"
+      source_citation: "WIOA Title I-B Youth Workforce Programs"
+    - keyword: "AmeriCorps State and National"
+      funder: "AmeriCorps (formerly CNCS)"
+      source_citation: "AmeriCorps State and National grant competition"
+    - keyword: "DRK-12"
+      funder: "National Science Foundation — Education and Human Resources (now EDU)"
+      source_citation: "NSF DRK-12 program — Discovery Research PreK-12"
+    - keyword: "ITEST"
+      funder: "NSF EDU"
+      source_citation: "NSF Innovative Technology Experiences for Students and Teachers"
+    - keyword: "Noyce"
+      funder: "NSF EDU"
+      source_citation: "NSF Robert Noyce Teacher Scholarship Program"
+    - keyword: "STEM+C"
+      funder: "NSF EDU"
+      source_citation: "NSF STEM + Computing K-12 Education program"
+    - keyword: "IMLS Museums for America / National Leadership Grants"
+      funder: "Institute of Museum and Library Services"
+      source_citation: "IMLS grant program family — museum + library learning"
+    - keyword: "PCCD school safety + violence prevention"
+      funder: "Pennsylvania Commission on Crime and Delinquency"
+      source_citation: "PCCD competitive funding announcements"
+    - keyword: "PA Ready to Succeed Scholarship / PHEAA"
+      funder: "PA Higher Education Assistance Agency"
+      source_citation: "PHEAA program family — postsecondary access"
+
+  disqualifier_terms:
+    - term: "religious instruction"
+      reason: "Most federal education programs (Title I, IV, EIR, 21st CCLC) carry First Amendment Establishment-Clause constraints on direct funding of religious instruction. Faith-based organizations CAN apply for secular activities but cannot use funds for religious content. Verify per RFA + Equal Treatment regs (34 CFR 75/76 appendix)."
+    - term: "for-profit only"
+      reason: "Most USDE programs require LEA, IHE, nonprofit, or state agency applicants. For-profit education-services vendors may serve as sub-grantees but typically not primary recipients. Verify eligibility per program."
+    - term: "adult-only programming"
+      reason: "If applicant's beneficiary roster is fully adults (e.g., adult literacy with no K-12 component), this CIC may mis-fit; consider Public Agency or workforce-development framings. AEFLA (adult education) is its own statutory category."
+    - term: "individual research only"
+      reason: "Education-grant scope is typically institutional (LEA / IHE / nonprofit). Individual researchers without institutional affiliation generally cannot directly apply (except certain NSF career awards)."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Evidence signals — Scribe consumption per §18.8
+#
+# ESSA evidence-tier posture: ESSA § 8101(21) defines four evidence tiers —
+# strong (Tier 1, RCT) / moderate (Tier 2, QED) / promising (Tier 3) /
+# demonstrates rationale (Tier 4, logic-model + research base). Tier 4 is a
+# fully valid evidence posture for most USDE programs that admit any of the
+# four tiers (Title I, Title IV-A, Title IV-B / 21st CCLC, Title II), and
+# many state pass-through programs. Tier 1 / Tier 2 are required ONLY when
+# the active RFA explicitly requires moderate or strong evidence (e.g., EIR
+# Mid-Phase / Expansion tiers; some IES programs). The card supports
+# the full Tier 4 → Tier 1 spectrum; applicants without RCT-tier evidence
+# should NOT be redirected away from competitive programs that admit
+# demonstrates-rationale. Operator + Scribe verify the active RFA's
+# evidence-tier floor before composing the evaluation_plan narrative.
+# ─────────────────────────────────────────────────────────────────────────────
+evidence_signals:
+  - kind: "enrollment_report"
+    source_pattern: "State-collected enrollment counts (federal-fiscal-year October child count; state SIS extract); disaggregated by grade band, race/ethnicity, FRPL eligibility, EL status, IDEA status"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "USDE ED Facts / EDFacts Data Groups; state SIS"
+  - kind: "attendance_records"
+    source_pattern: "Daily / monthly attendance rates; chronic-absenteeism rate; participation logs for OST programs (sign-in / sign-out)"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "ESSA chronic-absenteeism indicator; 21st CCLC GPRA participation measures"
+  - kind: "assessment_data"
+    source_pattern: "State summative assessments; district common assessments; pre/post program-specific assessments with named instrument + psychometric reference"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "ESSA Title I assessment requirement; ESSA evidence tiers § 8101(21) require pre/post for moderate+ evidence"
+  - kind: "curriculum_documentation"
+    source_pattern: "Adopted curriculum name + publisher + alignment-to-standards map; scope-and-sequence; instructional minutes"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 730
+    source_citation: "USDE EIR + GEAR UP + Magnet Schools narrative expectations"
+  - kind: "staff_credentials"
+    source_pattern: "State certification status for teaching staff; bachelor's degree + relevant experience for paraprofessionals + OST staff; background-check completion per state code"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "ESSA highly-qualified-teacher residue; state OST staff regs (e.g., PA Act 153 background checks)"
+  - kind: "school_partnership_agreement"
+    source_pattern: "Signed MOU with LEA naming target schools + grade levels + access terms + data-sharing scope + FERPA agreement"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "21st CCLC + EIR + GEAR UP partnership requirements; FERPA 34 CFR 99"
+  - kind: "evaluation_plan"
+    source_pattern: "External or internal evaluator named with biosketch; research questions; design (RCT / QED / single-case / pre-post); instrument list; analysis plan; reporting timeline"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "ESSA evidence-tier requirements; EIR external-evaluator-required component"
+  - kind: "privacy_protocols"
+    source_pattern: "FERPA-compliant data-sharing agreement; PPRA-compliant survey protocols; parental-consent forms; COPPA-compliant online-tool review"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "FERPA 34 CFR 99; PPRA 20 USC 1232h; COPPA 16 CFR 312"
+  - kind: "partner_letter_of_commitment"
+    source_pattern: "LEA superintendent / principal / IHE-PI / community partner signed letter naming role, contribution (hours / space / data / staff time), term"
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "EIR / GEAR UP / 21st CCLC / Magnet Schools partnership-evidence expectations"
+  - kind: "logic_model_or_theory_of_change"
+    source_pattern: "Visual logic model: inputs → activities → outputs → short / medium / long-term outcomes; references to evidence tier(s)"
+    weight: "HIGH"
+    freshness_tolerance_days: 730
+    source_citation: "EIR + i3-legacy logic-model expectation; USDE proposal-guidance template"
+  - kind: "prior_award_performance"
+    source_pattern: "Past-performance evidence: prior federal awards + final report excerpts + impact data; audit-clean record"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 1095
+    source_citation: "USDE selection criterion — Quality of Project Personnel + Adequacy of Resources"
+  - kind: "dosage_documentation"
+    source_pattern: "Per-participant contact hours / weeks / total dose; sufficient-dose argument tied to evidence base"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "21st CCLC Performance Measures (participation thresholds); IES What Works Clearinghouse dosage standards"
+  - kind: "match_or_indirect_documentation"
+    source_pattern: "Cash + in-kind match commitments by source; sustained-funding plan beyond grant; indirect-cost rate agreement (NICRA) for IHE/nonprofit"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "Various USDE programs require match or matching-supplementary not supplanting; 34 CFR 75.564 indirect-cost rules"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# KFR fact classes — Intake / Logician consumption
+# ─────────────────────────────────────────────────────────────────────────────
+kfr_fact_classes:
+  - fact_class: "enrollment"
+    description: "Total students served — applicant-level (district/CMO/school/program); current and prior 2-3 years."
+    typical_provenance: "State SIS extract; EDFacts; school report card"
+  - fact_class: "grade_bands_served"
+    description: "Grade-level scope (PreK / K-5 / 6-8 / 9-12 / postsecondary)."
+    typical_provenance: "Program design doc; SIS extract"
+  - fact_class: "demographics_disaggregated"
+    description: "Race/ethnicity, FRPL eligibility, EL status, IDEA status, gender (biological), age — disaggregated for need + equity analysis. State-level data uses USDE-required race/ethnicity categories."
+    typical_provenance: "EDFacts; state report card; district SIS"
+  - fact_class: "title_i_status"
+    description: "Schoolwide vs. targeted-assistance Title I designation; FRPL percentage; CSI/TSI school-improvement designation."
+    typical_provenance: "State Title I determinations; school report card"
+  - fact_class: "ferpa_relevance"
+    description: "Personally-identifiable-information categories the project will collect/access; existing FERPA agreement with LEA(s); IRB or equivalent review status if research."
+    typical_provenance: "Signed FERPA agreement; IRB approval letter; data-sharing MOU"
+  - fact_class: "curriculum_in_use"
+    description: "Curriculum/program name + publisher + version + alignment-to-standards documentation; EBI evidence-tier classification if applicable."
+    typical_provenance: "Adoption record; publisher documentation; WWC review"
+  - fact_class: "instructional_hours_or_dosage"
+    description: "Weekly / monthly / total program contact hours per participant; comparison to evidence-base dosage."
+    typical_provenance: "Schedule; program design doc; sign-in logs"
+  - fact_class: "staff_credentials"
+    description: "Teaching staff (certified / not certified / temporary), paraprofessional credentials, OST staff backgrounds, supervisor-to-staff ratio."
+    typical_provenance: "State certification database; HR file; background-check completion record"
+  - fact_class: "partner_schools_and_LEAs"
+    description: "Named partner LEAs / schools / IHEs / CBOs with role + access scope + signed MOU."
+    typical_provenance: "Signed MOU; LOC roster"
+  - fact_class: "evaluation_design"
+    description: "Evaluator (internal/external + name + qualifications); design tier (RCT / QED / single-case / pre-post); IES What Works Clearinghouse evidence tier targeted."
+    typical_provenance: "Evaluation plan; evaluator biosketch; published prior work"
+  - fact_class: "consent_requirements"
+    description: "Parental consent (FERPA + PPRA + IRB as applicable); minor-assent protocol; opt-out vs opt-in posture; consent-form templates."
+    typical_provenance: "IRB-approved consent forms; LEA-approved opt-out notices"
+  - fact_class: "performance_measures"
+    description: "Federal program-specific GPRA measures (21st CCLC, GEAR UP, TRIO); state accountability measures; project-specific SMART outcomes."
+    typical_provenance: "Federal program GPRA documentation; state plan; logic model"
+  - fact_class: "nonprofit_or_lea_status"
+    description: "Applicant legal form (LEA / SEA / IHE / 501(c)(3) / charter authorizer / tribal education department); UEI; SAM.gov status."
+    typical_provenance: "501(c)(3) determination letter; LEA charter; SAM.gov record; UEI"
+  - fact_class: "youth_safeguarding_policy"
+    description: "Background-check policy; mandated-reporter training; transportation / supervision protocols; named child-protection officer."
+    typical_provenance: "Policy doc; training completion log; state background-check records"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Provenance requirements per fact class
+# ─────────────────────────────────────────────────────────────────────────────
+provenance_requirements:
+  enrollment:
+    required_citation_type: "State SIS extract or EDFacts published table — with reporting year + level (school / district / state)"
+    verbatim_quote_required: false
+  demographics_disaggregated:
+    required_citation_type: "State report card or EDFacts disaggregated table; do NOT report cell sizes that violate USDE / state n-size suppression rules"
+    verbatim_quote_required: false
+  title_i_status:
+    required_citation_type: "State Title I designation letter or state-published list; reporting year required"
+    verbatim_quote_required: false
+  ferpa_relevance:
+    required_citation_type: "Signed FERPA agreement / data-sharing MOU between applicant and LEA — verbatim party names + data-element scope + retention terms"
+    verbatim_quote_required: true
+  curriculum_in_use:
+    required_citation_type: "Adoption record OR publisher documentation OR What Works Clearinghouse review citation"
+    verbatim_quote_required: false
+  partner_schools_and_LEAs:
+    required_citation_type: "Signed MOU + signed Letter of Commitment from authorized signatory (superintendent / principal / IHE PI / executive director)"
+    verbatim_quote_required: true
+  evaluation_design:
+    required_citation_type: "Evaluation plan signed/dated by named evaluator; evaluator biosketch; published prior work or registered protocol"
+    verbatim_quote_required: false
+  consent_requirements:
+    required_citation_type: "IRB-approved consent form template OR LEA-approved opt-out notice — verbatim consent language + signature lines + retention statement"
+    verbatim_quote_required: true
+  performance_measures:
+    required_citation_type: "Federal GPRA-measures source citation per program (21st CCLC / GEAR UP / TRIO / EIR); state accountability source"
+    verbatim_quote_required: false
+  nonprofit_or_lea_status:
+    required_citation_type: "501(c)(3) determination OR LEA charter OR state designation; UEI active in SAM.gov; reporting date"
+    verbatim_quote_required: false
+  grade_bands_served:
+    required_citation_type: "Program design document OR district SIS extract OR school report card naming grade-band scope (PreK / K-5 / 6-8 / 9-12 / postsecondary); reporting year"
+    verbatim_quote_required: false
+  instructional_hours_or_dosage:
+    required_citation_type: "Program schedule OR program-design document OR sign-in/sign-out logs documenting per-participant contact hours; comparison to evidence-base dosage where claimed"
+    verbatim_quote_required: false
+  staff_credentials:
+    required_citation_type: "State certification database record OR HR file copy OR background-check completion record per state code (e.g., PA Act 153); reporting date"
+    verbatim_quote_required: false
+  youth_safeguarding_policy:
+    required_citation_type: "Safeguarding documentation portfolio: written policy document AND/OR training-completion logs AND/OR state-specific clearance records (e.g., PA Act 153) AND/OR background-check completion records for all adult staff + volunteers with student contact; designated child-protection officer named"
+    verbatim_quote_required: false
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Register defaults — Scribe consumption
+# ─────────────────────────────────────────────────────────────────────────────
+register_defaults:
+  language_register: "formal"
+  narrative_voice: "first_person_plural"
+  tone: "technical_precise"
+  operator_override: "PROJECT_CONTEXT match_overrides take precedence"
+  sub_registers:
+    - register_id: "student_centered"
+      applicability_description: |
+        Outcomes-framed prose centered on student learning, achievement,
+        well-being, and growth — NOT staff outputs or institutional capacity.
+        Used when the funder rubric weighs student-level evidence and the
+        active opportunity prioritizes participant outcomes.
+      dialect_alignment_note: |
+        Pairs naturally with centrist + conservative dialect routing where
+        outcomes / achievement vocabulary reads as the dominant frame.
+    - register_id: "technical_precise"
+      applicability_description: |
+        Compliance + technical-precise prose for FERPA, IDEA, ESSA evidence
+        tiers, dosage / fidelity-of-implementation, methodology + measurement.
+        Used when the funder rubric weighs design rigor, statutory
+        compliance, and evaluator-grade methodology disclosure.
+      dialect_alignment_note: |
+        Default register for federal applications and evidence-tiered
+        foundation programs (IES / EIR / DRK-12 / Spencer research grants).
+    - register_id: "family_community_engagement"
+      applicability_description: |
+        Partnership, accessibility, parent leadership, family + caregiver
+        partnership prose. Used when the funder rubric weighs co-design,
+        family voice, and community partnership — without sliding into
+        DEI-coded framing under conservative review climates.
+      dialect_alignment_note: |
+        Pairs naturally with progressive + soul_fire dialect routing;
+        adjacent to centrist when partnership is the rubric-relevant frame.
+  sub_register_selection_rule: |
+    Scribe selects the sub_register per active opportunity at runtime — driven
+    by the RFA rubric + funder dialect, NOT by any design-time CIC × CLC
+    binding. Per architecture v7.0.11 §6.1, CIC × CLC matching is opportunity-
+    driven; no sub_register names a CLC slug, no sub_register is mapped to a
+    CLC at design time, and no CLC slugs appear in `applicability_description`
+    or `dialect_alignment_note`. Operator override per PROJECT_CONTEXT
+    match_overrides takes precedence over Scribe's runtime selection.
+
+# Educator applicants commonly need to balance three register layers within
+# the same proposal — the sub_registers list above is the structured surface
+# Scribe consumes; the prose below is the human-readable rationale only.
+# Scribe MUST select the active sub_register per opportunity at runtime
+# (opportunity-driven CLC selection per architecture v7.0.11 §6.1) and MUST
+# NOT collapse all three into one tone or default to advocacy register
+# without operator approval.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Dialect routing table — Scribe per Law 4
+# ─────────────────────────────────────────────────────────────────────────────
+dialect_routing_table:
+  - funder_political_axis: "conservative"
+    dialect: "scribe.formal_outcomes_centered"
+    example_funder: "Federal education programs under current-administration framing (achievement / academic outcomes / parental-rights register); large-donor K-12 foundation portfolios emphasizing school choice + traditional academic outcomes"
+  - funder_political_axis: "centrist"
+    dialect: "scribe.technical_precise"
+    example_funder: "Major K-12 education foundations operating from a technical-rigor / evidence-tier posture; state Departments of Education; federal evidence-tier-required technical reviewer panels (IES / EIR / NSF education research)"
+  - funder_political_axis: "progressive"
+    dialect: "scribe.movement_aligned"
+    example_funder: "Education-portfolio foundations with social-impact orientation; community foundations; youth-development intermediaries emphasizing community-driven design + open-educational-resources adoption"
+  - funder_political_axis: "soul_fire"
+    dialect: "scribe.cooperative_solidarity"
+    example_funder: "Racial-justice-aligned education funders; small + mid-size foundations centering community ownership, abolition-adjacent education organizing, and Indigenous education sovereignty"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Admin-risk term register — Law 4 axis (b)
+# Per operator OQ-5: approval_required: true defaults on every entry.
+# Severity tiers consistent with admin_risk_register.yaml v2.2 EO-context tiers.
+# Under current administration framing (EO 14151 + EO 14168 — see citations in
+# `_research_metadata.primary_sources`), several terms common in education-
+# grant writing have shifted to elevated risk in federal review climates.
+# Substitution candidates are funder-aware and operator-grade; substitutions
+# do NOT fire silently — Tilth flags the term, presents the substitution
+# candidates, and the operator decides (Law 4 enforcement).
+#
+# Law 4 neutrality posture: `reviewer_context` prose describes the regulatory
+# environment as a fact (the EO has been issued, agencies have published
+# implementing guidance, foundation funders vary). It does NOT endorse, adopt,
+# or repeat the EO's policy substance as Tilth's position. Tilth has no policy
+# position on DEI / gender identity / SEL / restorative justice / culturally
+# responsive vocabulary — it flags the term as administratively-risky for
+# federal applications and surfaces operator-grade substitution candidates.
+# ─────────────────────────────────────────────────────────────────────────────
+admin_risk_term_register:
+  - flagged_term: "DEI / diversity, equity, inclusion"
+    severity: "HIGH"
+    substitution_candidates:
+      - "broad participation"
+      - "inclusive access (for non-DEI contexts only)"
+      - "underserved-student outreach"
+      - "community representation"
+      - "expanded student access"
+    reviewer_context: |
+      Under EO 14151 (2025-01-20 — see `_research_metadata.primary_sources`),
+      federal agencies have been directed to terminate DEI activities + DEI-
+      related grant criteria; USDE has correspondingly restructured competitive
+      priorities. In federal review climates this term currently reads as
+      immediate-disqualifier-risk; foundation funders vary widely (progressive
+      foundations may expect or accept; centrist may flag; conservative tend
+      to avoid). Statutory categories (Title I FRPL, IDEA disability, EL
+      status) remain valid and are the operator-defensible federal framing.
+      Tilth flags this term for operator decision and surfaces the
+      substitution candidates; Tilth does not endorse the EO posture. Verify
+      per active RFA.
+    approval_required: true
+
+  - flagged_term: "equity"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "access"
+      - "opportunity gap closure"
+      - "student outcomes across groups"
+      - "Title I FRPL-eligible students"
+      - "underserved learners (use cautiously)"
+    reviewer_context: |
+      NSF leaked keyword list includes 'equity'; federal reviewers flag
+      equity-focused framing. Note: 'equity' has both social and financial
+      uses — financial / accounting equity is unflagged. Education-context
+      'equity' is the social usage and reads as DEI-coded. Substitute with
+      access / opportunity / outcomes language for federal proposals; keep
+      verbatim only when the active RFA uses the term.
+    approval_required: true
+
+  - flagged_term: "trauma-informed"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "supportive care protocols"
+      - "patient-centered student supports"
+      - "wraparound student services"
+      - "evidence-based behavioral supports"
+    reviewer_context: |
+      Clinical use (trauma-informed care in a school nurse / counselor role)
+      more tolerant; policy-framing use ("trauma-informed schools" as a system
+      reform claim) flagged. Foundation funders accept; conservative
+      federal reviewers may treat as activist framing. Verify per RFA.
+    approval_required: true
+
+  - flagged_term: "restorative justice / restorative practices"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "alternative dispute-resolution"
+      - "community-based discipline practices"
+      - "restorative approaches (use cautiously)"
+      - "positive behavioral interventions and supports (PBIS — federally-recognized framework)"
+    reviewer_context: |
+      Under current federal-administration framing the term has been
+      cautioned in federal applications; state-level limits exist in some
+      states (e.g., FL, TX). PBIS (Positive Behavioral Interventions and
+      Supports) is federally recognized via OSEP and is a substitution
+      candidate when the substance is positive-behavior / alternative-
+      discipline work. Some progressive and soul-fire foundation funders
+      accept or prefer the verbatim term. Tilth flags the term for operator
+      decision; Tilth does not endorse any reading.
+    approval_required: true
+
+  - flagged_term: "gender identity / gender-affirming"
+    severity: "HIGH"
+    substitution_candidates:
+      - "student well-being supports"
+      - "individual student needs"
+      - "anti-bullying program"
+      - "biological sex (where statutorily required per EO 14168)"
+    reviewer_context: |
+      Under EO 14168 (2025-01-20 — see `_research_metadata.primary_sources`),
+      federal agencies have been directed to recognize only male/female
+      biological sex in federal documents and programs; "gender identity"
+      framing triggers scrutiny in current federal review climates. NEA 2026
+      funding conditions reportedly prohibit projects promoting "gender
+      ideology"; NIH has terminated some trans-health research grants; several
+      state education departments under matching state-level executive orders
+      have similar restrictions. Foundation funders vary sharply; LGBTQ-
+      focused foundations (Astraea, Arcus, Ford Sexuality & Gender Justice)
+      expect this vocabulary while most others are variable. Tilth has no
+      policy position; this is operator-decision-required territory and the
+      substitution-candidate "biological sex (where statutorily required per
+      EO 14168)" is offered as an operator option to consider, NOT a Tilth
+      recommendation.
+    approval_required: true
+
+  - flagged_term: "culturally responsive / culturally relevant"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "locally adapted curriculum"
+      - "community-informed instruction"
+      - "place-based learning"
+      - "student-centered curriculum"
+    reviewer_context: |
+      Education-sector DEI framing; NSF leaked list adjacent. Foundation
+      funders (Gates, Hewlett, Spencer) generally accept; federal reviewers
+      under current administration may flag. Substitution candidates preserve
+      substance without DEI-coded vocabulary.
+    approval_required: true
+
+  - flagged_term: "social-emotional learning / SEL"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "life-skills curriculum"
+      - "student-development supports"
+      - "self-regulation and goal-setting instruction"
+      - "non-cognitive skill development"
+    reviewer_context: |
+      State-level bans exist (FL, TX) under current administration framing.
+      USDE under current administration deprioritizes SEL-framed priorities;
+      CASEL framework still widely accepted in foundation portfolios. Verify
+      per active RFA + state RFA pass-through context.
+    approval_required: true
+
+  - flagged_term: "marginalized / underrepresented"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "Title I FRPL-eligible students"
+      - "first-generation college students (TRIO statutory category)"
+      - "students in low-income communities"
+      - "rural learners"
+      - "students with disabilities (IDEA statutory category)"
+    reviewer_context: |
+      NSF leaked keyword list flags 'marginalized' + 'underrepresented'.
+      USDE statutory categories (Title I FRPL, TRIO first-generation, IDEA
+      disability, ESEA Title III EL) remain valid and are the preferred
+      federal framing. Foundations vary.
+    approval_required: true
+
+  - flagged_term: "anti-racist / anti-racism"
+    severity: "HIGH"
+    substitution_candidates:
+      - "fair and consistent treatment"
+      - "bias reduction (use cautiously)"
+      - "equal access to opportunity"
+    reviewer_context: |
+      Under current federal-administration framing this vocabulary reads as
+      explicit DEI framing and is flagged immediately by federal reviewers.
+      Some progressive foundation funders expect or accept the term. Tilth
+      flags the term for operator decision; Tilth does not endorse any
+      reading. Verify per active funder.
+    approval_required: true
+
+  - flagged_term: "systemic / structural inequity / racism"
+    severity: "HIGH"
+    substitution_candidates:
+      - "long-standing outcome differences"
+      - "opportunity-access differences"
+      - "(NOTE: 'persistent achievement gaps' was removed at Cycle 2; the term 'achievement gap' itself carries residual risk per its own admin_risk_term_register entry — operator decides per active funder)"
+    reviewer_context: |
+      Explicit DEI / critical-theory framing; under EO 14151 framing federal
+      reviewers flag immediately. Foundation usage varies. Tilth flags the
+      term for operator decision and presents substitution candidates;
+      Tilth does not endorse any reading.
+    approval_required: true
+
+  - flagged_term: "LGBTQ / LGBTQ+ / queer / trans"
+    severity: "HIGH"
+    substitution_candidates:
+      - "all students"
+      - "student well-being (operator decision)"
+      - "anti-bullying"
+    reviewer_context: |
+      EO 14168 framing; federal disqualifier zone. Trans-specific terms
+      especially high-risk; Williams Institute documented 360+ federal
+      data-collection removals. LGBTQ-focused foundations PREFER these
+      terms; the substitution is dialect-dependent. Operator decides per
+      application.
+    approval_required: true
+
+  - flagged_term: "decolonize curriculum / Indigenous knowledge centering"
+    severity: "HIGH"
+    substitution_candidates:
+      - "Native American + Alaska Native heritage curriculum (statutory framing)"
+      - "Tribal education department partnership"
+      - "Indigenous-language instruction (Native American Languages Act framing)"
+    reviewer_context: |
+      Activist register; federal reviewers flag. Tribal-specific statutory
+      categories (BIE, Native Hawaiian education, Native American Languages
+      Act, Indian Education Title VI Part A) preserve substance under valid
+      federal framings. Verify program-specific language.
+    approval_required: true
+
+  - flagged_term: "white privilege / whiteness"
+    severity: "HIGH"
+    substitution_candidates:
+      - "(typically omit; reframe as opportunity-access analysis)"
+      - "barriers to access"
+    reviewer_context: |
+      DEI analytical framework; immediate disqualifier in federal review
+      climates. Foundation acceptance varies; soul-fire funders expect.
+    approval_required: true
+
+  - flagged_term: "achievement gap"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "outcome differences between student groups"
+      - "differences in proficiency rates across student groups"
+      - "differences in growth across student groups (where supported by SIS data)"
+      - "Title I FRPL-eligible students' outcomes vs comparison"
+    reviewer_context: |
+      Aligned with admin_risk_register.yaml v2.2 YELLOW tier — the term has
+      been characterized in some federal reviewer commentary as DEI-coded;
+      foundation and academic-research usage remains widespread and accepted.
+      The term is also commonly used in a structurally-neutral statistical
+      sense (proficiency or growth differences across groups), which keeps
+      it operator-defensible across centrist + most progressive contexts.
+      Tilth flags the term for operator decision and surfaces neutral
+      statistical-framing substitution candidates; Tilth does not endorse
+      either reading. Per Judge Cycle 2 finding, this entry replaces the
+      earlier substitution-candidate "persistent achievement gaps" used
+      under "systemic / structural inequity / racism" — that substitution
+      may itself carry residual risk, so this entry is now Tilth's primary
+      register for the vocabulary.
+    approval_required: true
+
+  - flagged_term: "intersectional / intersectionality"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "multiple student characteristics"
+      - "overlapping student needs"
+      - "students with combined eligibility (e.g., EL + IDEA)"
+    reviewer_context: |
+      Academic-origin DEI analytical frame; YELLOW tier per
+      admin_risk_register v2.2 — landscape has shifted but term has not been
+      singled out at the level of 'DEI'. Federal reviewers may flag;
+      foundations accept.
+    approval_required: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Reporting cadence
+# ─────────────────────────────────────────────────────────────────────────────
+reporting_cadence_typical:
+  default_frequency: "annual"
+  per_funder_overrides:
+    USDE_EIR: "annual performance + final report; final external-evaluation report at project close"
+    USDE_GEAR_UP: "annual performance + final; GPRA + state-defined indicators; cohort tracking through postsecondary entry"
+    USDE_TRIO: "annual performance + final; APR (Annual Performance Report) on grants.ed.gov"
+    USDE_21st_CCLC: "annual federal GPRA reporting via state lead; state-specific subgrant performance schedule"
+    USDE_Title_I: "ongoing — embedded in state ESSA report card + LEA consolidated application"
+    USDE_Magnet_Schools: "annual + final; GPRA achievement / diversity indicators (note: under review under current administration)"
+    USDA_Farm_to_School: "annual + final"
+    DOL_YouthBuild: "quarterly + annual + final; PIRL participant-level data + performance outcomes"
+    AmeriCorps: "quarterly progress; annual financial; member-record reporting"
+    NSF_DRK_12: "annual + final; project outcomes report at close"
+    NSF_ITEST: "annual + final; project outcomes report at close"
+    Foundation_typical: "annual narrative + financial; some quarterly check-ins; final at close"
+    State_pass_through: "varies — per state SEA / SDE / DOE subgrant schedule"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Metrics table template
+# ─────────────────────────────────────────────────────────────────────────────
+metrics_table_template:
+  - metric: "students served (unduplicated)"
+    unit: "count"
+    typical_target_range: "applicant-specific"
+    source_for_target: "program design + capacity"
+  - metric: "regular attendees (≥30 days / 30 hours per 21st CCLC GPRA)"
+    unit: "count"
+    typical_target_range: "applicant-specific"
+    source_for_target: "21st CCLC GPRA + program design"
+  - metric: "average attendance rate"
+    unit: "percent"
+    typical_target_range: "≥80% common foundation benchmark"
+    source_for_target: "evaluation plan"
+  - metric: "academic outcome — proficiency / growth"
+    unit: "percent / scale score"
+    typical_target_range: "applicant-specific vs. matched-comparison"
+    source_for_target: "state assessment + evaluation design"
+  - metric: "graduation / promotion / retention"
+    unit: "percent"
+    typical_target_range: "applicant-specific"
+    source_for_target: "SIS + cohort tracking"
+  - metric: "postsecondary enrollment (where applicable)"
+    unit: "percent"
+    typical_target_range: "applicant-specific"
+    source_for_target: "NSC StudentTracker + cohort design"
+  - metric: "certifications / credentials earned (CTE)"
+    unit: "count + named credential"
+    typical_target_range: "applicant-specific"
+    source_for_target: "Perkins V state plan + program design"
+  - metric: "staff trained / credentialed"
+    unit: "FTE + count"
+    typical_target_range: "applicant-specific"
+    source_for_target: "PD plan"
+  - metric: "family / community participation"
+    unit: "count of caregivers / events"
+    typical_target_range: "applicant-specific"
+    source_for_target: "engagement plan"
+  - metric: "evidence-base level achieved (ESSA tier)"
+    unit: "tier (strong / moderate / promising / rationale)"
+    typical_target_range: "tier required per active RFA; demonstrates-rationale (Tier 4) typical for community-based programs and is fully valid for most ESSA-aligned programs; promising / moderate / strong required only where the active RFA specifies (e.g., EIR Mid-Phase / Expansion)"
+    source_for_target: "ESSA § 8101(21); IES What Works Clearinghouse"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Narrative sections typical
+# ─────────────────────────────────────────────────────────────────────────────
+narrative_sections_typical:
+  - "Project Abstract / Executive Summary"
+  - "Significance and Need (with disaggregated need-data citations)"
+  - "Project Design (logic model / theory of change)"
+  - "Curriculum / Intervention Description + Evidence Base"
+  - "Population and Participant Recruitment"
+  - "Partner / LEA / IHE Roles"
+  - "Project Personnel Qualifications"
+  - "Project Management Plan"
+  - "Evaluation Plan (design tier + measures + analysis)"
+  - "Dissemination / Sustainability Plan"
+  - "Budget Narrative + Match / Cost-Share Documentation"
+  - "Appendices — Logic Model, Resumes, Letters of Commitment, Indirect-Cost Agreement"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Capacity signals required
+# ─────────────────────────────────────────────────────────────────────────────
+capacity_signals_required:
+  - signal: "active SAM.gov registration + UEI"
+    evidence_type: "SAM.gov record (current, not expired)"
+    required_for_competitive: true
+  - signal: "FERPA-compliance plan + signed LEA data-sharing agreement"
+    evidence_type: "Written FERPA / data-sharing MOU"
+    required_for_competitive: true
+  - signal: "named external evaluator with relevant prior work"
+    evidence_type: "Evaluator biosketch + publications + IES WWC alignment"
+    required_for_competitive: true
+  - signal: "IRB or equivalent review status (if research-tied)"
+    evidence_type: "IRB approval letter or pending submission"
+    required_for_competitive: false
+  - signal: "signed LEA / IHE partnership Letters of Commitment"
+    evidence_type: "LOCs from superintendents / principals / PIs with role + contribution"
+    required_for_competitive: true
+  - signal: "current good standing on prior federal awards"
+    evidence_type: "Prior-award compliance + audit-clean record"
+    required_for_competitive: true
+  - signal: "qualified key personnel identified"
+    evidence_type: "Resumes + role-to-task mapping; certified-teacher status where required"
+    required_for_competitive: true
+  - signal: "background-check / safeguarding policy in force"
+    evidence_type: "Written policy + state-specific clearances (e.g., PA Act 153)"
+    required_for_competitive: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Compliance burdens
+# ─────────────────────────────────────────────────────────────────────────────
+compliance_burdens:
+  - framework: "SAM.gov + UEI registration"
+    applicability: "all federal grant applicants"
+    required_filings:
+      - "SAM.gov annual renewal"
+      - "Unique Entity Identifier on every application"
+  - framework: "2 CFR 200 Uniform Guidance"
+    applicability: "all federal grant recipients"
+    required_filings:
+      - "Single Audit if federal expenditures > $750,000 in a year"
+      - "Procurement standards compliance"
+      - "Indirect-cost rate agreement (NICRA) or de minimis rate election"
+  - framework: "FERPA — Family Educational Rights and Privacy Act"
+    applicability: "any project accessing student-level PII from LEAs / IHEs"
+    required_filings:
+      - "Signed data-sharing agreement with LEA / IHE"
+      - "Annual notice of FERPA rights (LEA responsibility)"
+      - "Studies-exception or audit-exception qualifying documentation when applicable"
+  - framework: "PPRA — Protection of Pupil Rights Amendment"
+    applicability: "any project surveying students on protected topics (politics, religion, family income, mental health, sexual behavior)"
+    required_filings:
+      - "Parental notice + opt-out (or opt-in for some topics)"
+      - "Survey instruments available for parental inspection"
+  - framework: "COPPA — Children's Online Privacy Protection Act"
+    applicability: "any project using online tools collecting data from children under 13"
+    required_filings:
+      - "Verifiable parental consent (or LEA-school-official consent under FTC guidance)"
+      - "COPPA-compliant vendor review of online tools"
+  - framework: "IDEA — Individuals with Disabilities Education Act"
+    applicability: "any project including students with disabilities"
+    required_filings:
+      - "IEP-aligned service delivery"
+      - "Section 504 plan adherence"
+      - "Maintenance-of-effort + supplement-not-supplant compliance for IDEA fund use"
+  - framework: "ESSA — Every Student Succeeds Act"
+    applicability: "Title I / II / III / IV programs and any project claiming evidence-base alignment"
+    required_filings:
+      - "Evidence-tier classification per § 8101(21)"
+      - "Equitable services provision (LEA shared with non-public schools)"
+      - "Supplement-not-supplant compliance"
+  - framework: "State education code (per applicant state)"
+    applicability: "all in-state operations"
+    required_filings:
+      - "State teacher certification compliance"
+      - "State background-check completion (PA Act 153, etc.)"
+      - "State curriculum standards alignment"
+      - "State child-protection mandated-reporter training"
+  - framework: "EDGAR — Education Department General Administrative Regulations (34 CFR)"
+    applicability: "USDE-funded grants"
+    required_filings:
+      - "Per-program EDGAR subpart compliance"
+      - "Construction-grant Davis-Bacon (where applicable)"
+  - framework: "CIPA — Children's Internet Protection Act"
+    applicability: "schools / libraries receiving E-rate or LSTA discounts and any project deploying internet-connected technology to minors"
+    required_filings:
+      - "Internet safety policy on file"
+      - "Technology Protection Measure (filtering) on minor-accessible devices"
+      - "Public-notice + hearing on internet-safety policy"
+  - framework: "Section 504 of the Rehabilitation Act / ADA Title II"
+    applicability: "all public schools + any program receiving federal financial assistance"
+    required_filings:
+      - "Section 504 plans for qualifying students"
+      - "Program-accessibility plan + reasonable-accommodation procedure"
+      - "Designated Section 504 / ADA coordinator"
+  - framework: "McKinney-Vento Homeless Assistance Act"
+    applicability: "any LEA / SEA receiving Title I funds; programs serving students experiencing homelessness"
+    required_filings:
+      - "McKinney-Vento liaison designation"
+      - "Immediate enrollment + transportation provisions documented"
+      - "Identification + service-tracking for homeless students"
+  - framework: "Title IX of the Education Amendments of 1972"
+    applicability: "all educational institutions receiving federal financial assistance"
+    required_filings:
+      - "Designated Title IX coordinator"
+      - "Grievance procedure + sexual-harassment / sex-discrimination policy"
+      - "Notice of nondiscrimination on the basis of sex"
+      - "Per active federal-regulation cycle: Tilth flags Title IX as a regulatory-environment-in-flux compliance area and verifies the active rule before drafting"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Common risk register entries
+# ─────────────────────────────────────────────────────────────────────────────
+common_risk_register_entries:
+  - risk: "FERPA exposure / PII leak in proposal narrative or appendices"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      No student PII in proposal text. Aggregate / de-identified data only.
+      LEA-approved data-sharing agreement signed before any data exchange.
+      Logician PRE-gate scan flagged-PII categories prior to submission.
+  - risk: "Unsupported achievement / outcome claims"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Tie every quantitative outcome to a named data source (state SIS,
+      EDFacts, evaluator-collected). Use ESSA evidence-tier language
+      precisely; do NOT claim 'strong evidence' without WWC-meeting design.
+      Pre/post + comparison required for moderate+ claims.
+  - risk: "Weak evaluation design"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Named external evaluator with relevant published work; pre-registered
+      evaluation plan when feasible; named instruments with psychometric
+      references; explicit comparison strategy; sample-size justification.
+  - risk: "Low dosage relative to evidence-base"
+    likelihood: "HIGH"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Compare proposed dosage (hours/week, weeks/year, total dose) to
+      evidence-base dosage. If lower, explain explicitly and adjust outcome
+      claims downward.
+  - risk: "Missing LEA / IHE authorization"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Signed Letter of Commitment from authorized signatory (superintendent /
+      principal / PI / executive director) with role + contribution + term.
+      For LEA / IHE applicants, board resolution or equivalent governance
+      authorization where applicable.
+  - risk: "Safeguarding / background-check gap"
+    likelihood: "LOW"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Documented background-check policy + state-specific clearances current
+      for all adult staff + volunteers with student contact. Named child-
+      protection officer. Mandated-reporter training current.
+  - risk: "Privacy risk in photos / testimonials / dissemination"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Parental media-release on file for every minor pictured / quoted in
+      proposal narrative + dissemination products. Default to no PII in
+      dissemination unless specific consent + LEA approval. Layered consent
+      controls:
+        (a) LEA-approved media-release form (distinct from FERPA-release;
+            covers photography / video / audio / quotation in funder
+            applications + dissemination products);
+        (b) COPPA-compliant consent for any online dissemination tool that
+            will collect data from or about children under 13 (FTC COPPA
+            guidance + vendor review);
+        (c) Differentiated consent: minor-assent + parental-permission for
+            students under 18; adult-consent for any 18+ alumni or family
+            members quoted;
+        (d) Explicit social-media-dissemination boundary: parental opt-in
+            required before posting minor's image / name / quote to social
+            channels, distinct from the press / publication release;
+        (e) Retention + removal: documented retention timeline + parental-
+            removal-request procedure for any minor's content under
+            dissemination.
+  - risk: "Law 4 boundary drift on DEI / SEL / gender language"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Per admin_risk_term_register, every flagged term substitution flows
+      through operator approval (approval_required: true default). No silent
+      rewrites. EO 14151 + EO 14168 context is live; substitutions are
+      operator-decision-required especially for federal applications under
+      current administration framing.
+  - risk: "Supplanting (rather than supplementing) Title I / IDEA funds"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Budget narrative explicitly distinguishes supplemental services from
+      base obligations. Documented compliance with supplement-not-supplant
+      provisions for any Title I / IDEA-aligned use.
+  - risk: "Indirect-cost rate dispute"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Documented NICRA OR 10% de minimis election OR program-specific cap
+      (USDE training-grant 8% cap on indirect under 34 CFR 75.562 for some
+      programs). State rules where state pass-through applies.
+  - risk: "Equitable-services obligation overlooked"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      For LEA applicants on Title I / Title IV / Title III / Title II,
+      timely-and-meaningful-consultation with private-school officials
+      documented per ESSA § 1117 / § 8501.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Common funders observed — OBSERVATIONAL ONLY, NOT a CIC × CLC binding.
+# Frequency tags are qualitative-only per OQ-6 until 12+ CycleReceipts accumulate.
+# ─────────────────────────────────────────────────────────────────────────────
+common_funders_observed:
+# ─────────────────────────────────────────────────────────────────────────────
+# OPERATIONAL CONTENT EMPTIED — Phase E Option 2 cleanup 2026-05-16
+# Per Law 5 + §18.5 schema discipline ("OBSERVATIONAL ONLY"): this field
+# carries only funders the operator has CONFIRMED ACTUAL ENGAGEMENT with.
+# Wave 2 subagents over-populated this block based on sector knowledge,
+# not engagement history — that was a Law 5 violation surfaced at Phase E
+# 2026-05-16. Prior content moved to
+# `_research_metadata.draft_funder_candidates_pending_operator_engagement_confirmation`
+# below; operator graduates candidate entries to this live list as actual
+# engagement confirms. Runtime Tilth seats reading this field see an empty
+# list until operator graduation; that's the correct Law 5 posture for a
+# fresh deployment with no engagement history yet.
+# ─────────────────────────────────────────────────────────────────────────────
+  []  # empty list — operator graduates from candidates as engagement confirms
+lifecycle:
+  draft_status: "signed"
+  review_status: "passed"
+  cross_family_thesis_status: "passed"
+  signature_status: "signed"
+  runtime_load_status: "loaded"
+  runtime_loadable: true
+  signed_at: "2026-05-16T16:00:00Z"
+  signed_by: "founder"
+  content_hash: "sha256:0fbd051a8e3fe058ce961abea4c157b906b2a33cb2ddb7825232088e4391c898"
+  lock_history_row: 250
+  lock_timestamp_utc: "2026-05-16T16:00:00Z"
+  # LOCK ceremony 2026-05-16 PM after L-005 two-cycle audit closed at
+  # pipeline/validation/cards_wave_2_thesis_2026-05-15/CIC/educator/FINAL_VERDICT.md
+  # (THESIS_PASSED). review_status flipped pending→passed; signature_status
+  # unsigned→signed; runtime_load_status not_loaded→loaded. Operator publisher
+  # pubkey pinned at vault_shared/cards/publisher_pubkey.signed.yaml. The
+  # ed25519_signature in _research_metadata is the operator Ed25519 signature
+  # over canonical-JSON of this YAML with ed25519_signature: null. OD-F + OD-H
+  # operator-decisions resolved pre-ceremony (cards LOCKed as-on-disk per
+  # operator directive 2026-05-16).
+
+_research_metadata:
+  authored_at: "2026-05-15T00:00:00Z"
+  authored_by_role: "research_session"
+  research_budget_hours_actual: 3.0
+  priors_consulted:
+    - path: "assets/cards/customer_identification/"
+      extract_note: "visual Card source — v7.0.8 LOCKED roster + drawing TILTH-CIC-REVIEW-01 (Educator: 'Compliance-dense learning institution')"
+    - path: "pipeline/blueprint/v0.1/section_18_card_system.md"
+      extract_note: "§18.5 CIC schema + §18.9 TILTH-CIC-02 starter-content requirements (authoritative scope for this card)"
+    - path: "pipeline/cards/CIC/food_systems.yaml"
+      extract_note: "Wave 1 reference card — shape, comment density, dialect_routing_table item shape, common_funders_observed frequency_observed enum, provenance_requirements key convention"
+    - path: "pipeline/cards/CLC/operating_capacity.yaml"
+      extract_note: "Wave 1 reference card — _review_handback structure"
+    - path: "pipeline/institutional_memory/admin_risk_register.yaml"
+      extract_note: "Workspace-wide admin-risk register v2.2 — EO 14151 + EO 14168 severity tiers; education-relevant entries (DEI, equity, trauma-informed, social-emotional learning, culturally responsive, gender identity, marginalized, restorative). Severity-tier mapping consistent between this card and the workspace-wide register."
+    - path: "CLAUDE.md"
+      extract_note: "Six Customer Identity Categories — TILTH-CIC-02 Educator: 'Compliance-dense learning institution' + Law 4 admin-risk discipline + CIC × CLC orthogonality discipline"
+  primary_sources:
+    - url: "https://www.ed.gov/laws-and-policy/k-12-laws-and-policy/elementary-and-secondary-education/title-i"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Title I, Part A (Title I) of the Elementary and Secondary
+        Education Act, as amended by the Every Student Succeeds Act (ESSA)
+        provides financial assistance to local educational agencies (LEAs) and
+        schools with high numbers or high percentages of children from
+        low-income families to help ensure that all children meet challenging
+        state academic standards."
+        Source for Title I core_term + funder_program_keywords + compliance_burden.
+    - url: "https://www.ed.gov/grants-and-programs/grants-special-populations/early-learning/twenty-first-century-community-learning-centers"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The 21st Century Community Learning Centers (21st CCLC)
+        program supports the creation of community learning centers that
+        provide academic enrichment opportunities during non-school hours for
+        children, particularly students who attend high-poverty and
+        low-performing schools."
+        Source for 21st CCLC funder_program_keywords + reporting_cadence_typical.
+    - url: "https://www.ed.gov/grants-and-programs/grants-elementary-secondary-education/elementary-secondary-education-innovation-research/education-innovation-and-research-program"
+      access_date: "2026-05-15"
+      relevance: |
+        EIR program page — source for Early-Phase / Mid-Phase / Expansion
+        tier structure + ESSA evidence-tier requirement + external-evaluator
+        component. Drives evaluation_design KFR class + capacity_signals.
+    - url: "https://www.ed.gov/grants-and-programs/grants-higher-education/improving-undergraduate-postsecondary-preparation/gaining-early-awareness-and-readiness-for-undergraduate-programs-gear-up"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "GEAR UP is a discretionary grant program designed to
+        increase the number of low-income students who are prepared to enter
+        and succeed in postsecondary education."
+        Source for GEAR UP funder_program_keyword + cohort-tracking reporting cadence.
+    - url: "https://www.ed.gov/grants-and-programs/grants-higher-education/improving-undergraduate-postsecondary-preparation/federal-trio-programs"
+      access_date: "2026-05-15"
+      relevance: |
+        Federal TRIO Programs page — Talent Search, Upward Bound, Student
+        Support Services, McNair Postbaccalaureate Achievement, Educational
+        Opportunity Centers. Source for TRIO program-family entry + APR
+        reporting cadence.
+    - url: "https://www.ed.gov/grants-and-programs/grants-special-populations/charter-school-programs/charter-schools-program-csp"
+      access_date: "2026-05-15"
+      relevance: |
+        Charter Schools Program page — source for CSP funder_program_keyword +
+        CMO / Developer / SEA / Facilities competition tiers.
+    - url: "https://studentprivacy.ed.gov/ferpa"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Family Educational Rights and Privacy Act (FERPA) (20
+        U.S.C. § 1232g; 34 CFR Part 99) is a Federal law that protects the
+        privacy of student education records."
+        Source for FERPA compliance_burden + privacy_protocols evidence_signal +
+        ferpa_relevance KFR fact class + provenance_requirements verbatim quote.
+    - url: "https://studentprivacy.ed.gov/topic/protection-pupil-rights-amendment-ppra"
+      access_date: "2026-05-15"
+      relevance: |
+        USDE Student Privacy PPRA topic page — source for PPRA compliance_burden
+        (parental notice + opt-out / opt-in for protected topics).
+    - url: "https://www.ftc.gov/business-guidance/privacy-security/childrens-privacy"
+      access_date: "2026-05-15"
+      relevance: |
+        FTC COPPA guidance — source for COPPA compliance_burden (verifiable
+        parental consent OR school-official consent for online tools collecting
+        data from children under 13).
+    - url: "https://sites.ed.gov/idea/"
+      access_date: "2026-05-15"
+      relevance: |
+        IDEA portal — source for IDEA compliance_burden + special_education
+        core_term + supplement-not-supplant compliance reference.
+    - url: "https://www.ed.gov/laws-and-policy/k-12-laws-and-policy/elementary-and-secondary-education/every-student-succeeds-act"
+      access_date: "2026-05-15"
+      relevance: |
+        ESSA page — source for ESSA § 8101(21) evidence-tier definitions
+        (strong / moderate / promising / demonstrates rationale) +
+        supplement-not-supplant compliance + equitable-services obligation.
+    - url: "https://ies.ed.gov/ncee/wwc/"
+      access_date: "2026-05-15"
+      relevance: |
+        IES What Works Clearinghouse — source for evidence-base classification
+        + dosage standards + EIR evaluation-tier alignment.
+    - url: "https://www.fns.usda.gov/cfs/farm-school-grant-program"
+      access_date: "2026-05-15"
+      relevance: |
+        USDA FNS Patrick Leahy Farm to School Grant Program — source for
+        cross-cut funder entry; bridges Educator and Food Systems CICs.
+    - url: "https://www.dol.gov/agencies/eta/youth/youthbuild"
+      access_date: "2026-05-15"
+      relevance: |
+        DOL YouthBuild program page — source for YouthBuild funder entry +
+        out-of-school-youth 16-24 scope.
+    - url: "https://www.nsf.gov/funding/initiatives/stem-education"
+      access_date: "2026-05-15"
+      relevance: |
+        NSF STEM Education funding page (directorate EDU) — source for DRK-12,
+        ITEST, STEM+C, Noyce program-family + NSF research-evaluation rigor.
+    - url: "https://www.federalregister.gov/documents/2025/01/29/2025-02101/ending-radical-and-wasteful-government-dei-programs-and-preferencing"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "All agencies shall terminate, to the maximum extent allowed
+        by law, all DEI, DEIA, and 'environmental justice' offices and
+        positions...; all 'equity action plans,' 'equity' actions, initiatives,
+        or programs..."
+        EO 14151 source — drives HIGH severity on DEI + related terms in
+        admin_risk_term_register. Verified verbatim quote ≤2 sentences.
+    - url: "https://www.federalregister.gov/documents/2025/01/30/2025-02090/defending-women-from-gender-ideology-extremism-and-restoring-biological-truth-to-the-federal"
+      access_date: "2026-05-15"
+      relevance: |
+        EO 14168 (2025-01-20) — directs federal recognition only of male/female
+        biological sex; rejects 'gender ideology'. Drives HIGH severity on
+        gender identity / gender-affirming / LGBTQ family terms in
+        admin_risk_term_register.
+    - url: "https://www.arts.gov/grants/grant-program-description"
+      access_date: "2026-05-15"
+      relevance: |
+        NEA grants conditions — under current administration framing, projects
+        must not promote 'gender ideology'. Cross-references EO 14168
+        implementation; documents the active funding-climate constraint.
+  ed25519_signature: null
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Phase 5 — Research review handback per blueprint §18.11
+# ─────────────────────────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────────
+  # draft_funder_candidates_pending_operator_engagement_confirmation
+  # Relocated from top-level `common_funders_observed:` at Phase E Option 2
+  # cleanup 2026-05-16. Wave 2 subagent populated these based on sector
+  # knowledge, NOT operator-confirmed engagement. Per §18.5 schema discipline
+  # ("OBSERVATIONAL ONLY"), the live `common_funders_observed:` block (now
+  # emptied; see above) carries only operator-engagement-confirmed funders.
+  # Operator graduates entries from this candidates list to the live block
+  # as actual engagement confirms.
+  # ─────────────────────────────────────────────────────────────────────────────
+  draft_funder_candidates_pending_operator_engagement_confirmation:
+    - funder_name: "USDE OESE — Title I Part A (Improving the Academic Achievement of the Disadvantaged)"
+      funder_type: "federal (state pass-through)"
+      typical_award_range: "Formula-based per LEA; FRPL-weighted; no fixed competitive range"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Largest USDE formula stream. Source: ed.gov/laws-and-policy/k-12-laws-and-policy/elementary-and-secondary-education/title-i."
+
+    - funder_name: "USDE OESE — Title IV-A SSAE (Student Support and Academic Enrichment)"
+      funder_type: "federal (state pass-through)"
+      typical_award_range: "Formula sub-grants via state — varies by district size"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Three pillars: well-rounded education, safe-and-healthy students, effective use of technology. Source: USDE OESE Title IV-A program page."
+
+    - funder_name: "USDE OESE — 21st Century Community Learning Centers (21st CCLC, Title IV-B)"
+      funder_type: "federal (state pass-through)"
+      typical_award_range: "$50,000–$2,000,000 per state SEA subgrant; varies"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. State SEAs administer subgrant competitions. Source: USDE 21st CCLC program page."
+
+    - funder_name: "USDE OESE — Education Innovation and Research (EIR)"
+      funder_type: "federal"
+      typical_award_range: "Early-Phase up to $4M; Mid-Phase up to $8M; Expansion up to $15M (FY recent)"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Evidence-tier-required; external evaluator required. Source: USDE EIR program page."
+
+    - funder_name: "USDE OPE — GEAR UP"
+      funder_type: "federal"
+      typical_award_range: "Partnership grants $4M-$7M per year (varies); state grants vary by state"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Seven-year cohort grants. Source: USDE GEAR UP program page."
+
+    - funder_name: "USDE OPE — TRIO (Talent Search / Upward Bound / SSS / McNair / EOC)"
+      funder_type: "federal"
+      typical_award_range: "Varies by TRIO program — typically $250,000–$750,000 per year per project"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Five separate programs in TRIO family. Source: USDE TRIO program family page."
+
+    - funder_name: "USDE OESE — Charter Schools Program (CSP)"
+      funder_type: "federal"
+      typical_award_range: "Varies by competition tier (CMO / Developer / SEA / Facilities)"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Multiple competition streams. Source: USDE CSP program page."
+
+    - funder_name: "USDE OESE — Magnet Schools Assistance Program"
+      funder_type: "federal"
+      typical_award_range: "Up to $5M per year per project for up to 5 years"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Program priorities under review under current administration. Source: USDE Magnet Schools program page."
+
+    - funder_name: "USDA FNS — Patrick Leahy Farm to School Grant Program"
+      funder_type: "federal"
+      typical_award_range: "$20,000–$500,000 per project"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Cross-cuts food_systems CIC at the project level. Source: fns.usda.gov/cfs/farm-school-grant-program."
+
+    - funder_name: "HHS HRSA — Children's Mental Health programs"
+      funder_type: "federal"
+      typical_award_range: "Varies"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. School mental-health and related programs. Source: hrsa.gov funding opportunities."
+
+    - funder_name: "DOL ETA — YouthBuild"
+      funder_type: "federal"
+      typical_award_range: "$700,000–$1,500,000 per project per 2-3 years"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Out-of-school youth 16-24; construction + education + leadership. Source: dol.gov/agencies/eta/youth/youthbuild."
+
+    - funder_name: "DOL ETA — WIOA Title I Youth"
+      funder_type: "federal (state pass-through)"
+      typical_award_range: "Per state and local workforce board"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Local workforce boards subaward to providers. Source: dol.gov/agencies/eta/wioa."
+
+    - funder_name: "AmeriCorps State and National"
+      funder_type: "federal"
+      typical_award_range: "Varies; member-slot-cost-based"
+      frequency_observed: "OCCASIONAL"
+      note: |
+        OBSERVATIONAL ONLY. State commissions + direct programs.
+        Administration-volatility note: AmeriCorps (formerly CNCS) is under
+        significant federal-administration-driven uncertainty across 2025-2026
+        — staffing cuts, NCCC closure, and program restructuring have been
+        announced. Frequency tag reflects historical-program-observation; the
+        live opportunity surface is volatile and any application cycle MUST
+        be verified against the active AmeriCorps NOFO + state-commission
+        posture before drafting. Source: americorps.gov/grants.
+
+    - funder_name: "NSF EDU — DRK-12 / ITEST / STEM+C / Noyce"
+      funder_type: "federal"
+      typical_award_range: "$1M–$5M typical for DRK-12 / ITEST; varies for others"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Research-heavy STEM education programs. Source: nsf.gov directorate for STEM Education (EDU)."
+
+    - funder_name: "IMLS — Museums for America / National Leadership Grants"
+      funder_type: "federal"
+      typical_award_range: "Varies; $10K–$1M typical"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Museum + library learning programs. Source: imls.gov/grants."
+
+    - funder_name: "Bill & Melinda Gates Foundation — K-12 Education"
+      funder_type: "foundation"
+      typical_award_range: "Varies widely"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Strategic priorities update periodically. Source: gatesfoundation.org/our-work/programs/us-program."
+
+    - funder_name: "Walton Family Foundation — K-12 Education"
+      funder_type: "foundation"
+      typical_award_range: "Varies"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Charter / school-choice priorities. Source: waltonfamilyfoundation.org."
+
+    - funder_name: "Carnegie Corporation of New York — Education"
+      funder_type: "foundation"
+      typical_award_range: "Varies"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. By-invitation-pattern foundation; cold applications rare. Source: carnegie.org."
+
+    - funder_name: "Ford Foundation — Future of Work(ers) / Civic Engagement portfolios touching education"
+      funder_type: "foundation"
+      typical_award_range: "Varies"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Education appears within larger civic-engagement portfolio. Source: fordfoundation.org."
+
+    - funder_name: "William and Flora Hewlett Foundation — Education program"
+      funder_type: "foundation"
+      typical_award_range: "Varies"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. K-12 + Open Educational Resources focus. Source: hewlett.org/programs/education."
+
+    - funder_name: "Spencer Foundation"
+      funder_type: "foundation"
+      typical_award_range: "$50,000–$1,000,000 (research grants); $25,000 small grants"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Education research focus; specific cycles. Source: spencer.org."
+
+    - funder_name: "Schmidt Futures (Eric and Wendy Schmidt Foundation)"
+      funder_type: "foundation"
+      typical_award_range: "Varies; competition-based and by-invitation"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. STEM + tech-augmented learning. Source: schmidtfutures.org."
+
+    - funder_name: "Bezos Family Foundation"
+      funder_type: "foundation"
+      typical_award_range: "Varies"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Early childhood + adolescent development focus. Source: bezosfamilyfoundation.org."
+
+    - funder_name: "Wallace Foundation — OST / Arts learning / School Leadership"
+      funder_type: "foundation"
+      typical_award_range: "Varies"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. OST + school leadership specialization. Source: wallacefoundation.org."
+
+    - funder_name: "Charles Stewart Mott Foundation — Education / Civic Engagement"
+      funder_type: "foundation"
+      typical_award_range: "Varies"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Long-time afterschool / community-education funder. Source: mott.org."
+
+    - funder_name: "Pennsylvania Department of Education (PDE)"
+      funder_type: "state"
+      typical_award_range: "Varies by program (Title I/IV pass-through, state-specific competitive funds)"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. State pass-through hub for federal funds + state-funded education programs. Source: education.pa.gov."
+
+    - funder_name: "PA Commission on Crime and Delinquency (PCCD)"
+      funder_type: "state"
+      typical_award_range: "Varies"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. School safety + violence prevention + youth-justice diversion. Source: pccd.pa.gov."
+
+    - funder_name: "PA Higher Education Assistance Agency (PHEAA)"
+      funder_type: "state"
+      typical_award_range: "Varies (largely scholarship; some competitive programs)"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Postsecondary-access focus. Source: pheaa.org."
+
+  # Ed25519 signature over canonical-JSON of this YAML with this field set to
+  # null. Canonical-JSON form: sorted keys, compact separators (",",":"), UTF-8,
+  # ensure_ascii=False. Canonical-JSON SHA3-512 (for white-glove integrity
+  # pinning): eb1ba9adf005c9839fdb3bf6188b0786b76a5d276d99907e5918ce7e77110d32a0eac98ec79b86d36e9d322e2046844f690c4ba5009af4de6507b67e6af397dc
+  # Signature target pubkey: vault_shared/cards/publisher_pubkey.signed.yaml
+  # (publisher_pubkey_ed25519_hex 0b1a0bbfa5ee9149af2c4e6153ed037dd03c0d562c94d3eaefeaf798e6f375bd)
+  ed25519_signature: "de90a25e0956eb703448477ea3893f573847f94c1123875ec32039b16e5163ef68147c9793bf3bbd9f3b821e99bc03bc4d7fc0f14c1dde5149e3cdac95935b0e"
+
+  # common_clc_patterns_observed — INTENTIONALLY ABSENT.
+  # Per architecture v7.0.11 §6.1 (operator-resolved 2026-05-15) Option A KILL.
+  # Per F-CARDS-COUPLING-VIOLATION-EXTENSION fail-closed enforcement. CIC × CLC
+  # matching is opportunity-driven at runtime (Scout / Logician identify CLC per
+  # opportunity; CIC determines seat configuration only). NEVER reintroduce.
+_review_handback:
+  card_axis_and_slug: "CIC:educator"
+  card_file: "pipeline/cards/CIC/educator.yaml"
+  research_hours_actual: 3.0
+  schema_completeness:
+    required_fields_populated: "15/15"
+    fields_needing_review: 0
+    total_citations: 18
+    unique_primary_sources: 18
+  decision_queue:
+    - "Operator approval on all 14 admin_risk_term_register entries (approval_required:true per OQ-5). Under EO 14151 + EO 14168 framing, education-grant DEI / SEL / trauma-informed / gender-identity vocabulary is now HIGH-severity for federal review climates; substitution candidates are operator-grade and need operator sign-off before runtime."
+    - "Cross-family Thesis dispatch (Editor + Judge + Red Team via openclaw bridge) before promoting lifecycle to 'reviewed'."
+    - "Ed25519 signature once operator + Thesis pass — pending publisher key pin per architecture v7.0.11 §1.10."
+    - "PCCD + PHEAA + PDE state-specific entries — Pennsylvania-specific; verify operator's deployment scope (FIT Farms LLC's clients are PA-anchored; expanding to other states would mean equivalents per-state, not in v0.1)."
+    - "Compliance burdens list is necessarily indicative not exhaustive — operator decision: is 13 frameworks (SAM/UEI, 2 CFR 200, FERPA, PPRA, COPPA, IDEA, ESSA, state code, EDGAR) sufficient, or should it include CIPA, Section 504, McKinney-Vento, Title IX as named entries?"
+  conflicts_with_prior_art:
+    - "NONE — admin_risk_term_register entries align with admin_risk_register.yaml v2.2 severity tiers (RED → HIGH, YELLOW → MEDIUM). 'culturally responsive' (admin_risk_register YELLOW) maps to MEDIUM here; 'DEI' (admin_risk_register RED) maps to HIGH; 'gender identity' (admin_risk_register RED) maps to HIGH. No tier inversions."
+    - "NONE — food_systems.yaml shape mirrored (synonym_map, funder_program_keywords with keyword/funder/source_citation, dialect_routing_table, common_funders_observed)."
+  surface_ambiguities:
+    - "Verbatim quote depth — primary_sources include short verbatim quotes from USDE program pages where available; some sources are cited for structural framing (TRIO family page, IES WWC) without verbatim quote. Operator decision: tighten to verbatim-required-everywhere, or current selective-verbatim posture is right."
+    - "Sibling CICs firing in parallel (public_agency, arts_culture, cooperative, ecosystem_intermediary in Wave 2 batches 1-3) — once they land, verify the educator/public_agency boundary (school district = LEA Educator vs. municipality = Public Agency) is operator-clear; and verify no inadvertent CIC × CLC coupling appears across the set (defense-in-depth)."
+    - "Foundation funder roster — included Gates / Walton / Carnegie / Ford / Hewlett / Spencer / Schmidt / Bezos / Wallace / Mott as the typical national K-12 + youth funder set. Several (Carnegie, Ford, Hewlett, Schmidt) are by-invitation-pattern foundations and frequency_observed: RARE for cold applications. Operator may want to prune the by-invitation entries or add explicit cold-vs-invitation discrimination at a future v1.x amendment."
+    - "EO 14151 + EO 14168 reviewer_context language — current as of 2025-2026 administration. Will become stale on next federal-administration transition; admin_risk_term_register will need a between-administration refresh pass. Not a v0.1 issue, but flag for the architecture-amendment backlog."
+    - "Severity assignment for 'trauma-informed' — admin_risk_register.yaml has it YELLOW; this card has it MEDIUM (the equivalent). However, in some state RFPs (FL, TX) it crosses into RED for state-level review. Operator may want a state-level severity-tier overlay at the Archivist Reflection layer."
+    - "'Achievement gap' vocabulary — flagged in admin_risk_register.yaml as DEI-coded by some federal reviewers; this card uses 'opportunity gap closure' + 'persistent achievement gaps' in substitution candidates without a dedicated admin_risk_term entry. Operator decision: add 'achievement gap' as its own MEDIUM entry, or current substitution-candidate framing is sufficient."
+  review_readiness: "READY"

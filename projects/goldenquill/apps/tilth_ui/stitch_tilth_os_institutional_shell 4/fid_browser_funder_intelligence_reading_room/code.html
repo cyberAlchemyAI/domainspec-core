@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GOLDEN QUILL - FID Browser</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#d8e3fb",
+                        "surface": "#081425",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "outline-variant": "#444748",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-tertiary": "#283044",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-container-highest": "#2a3548",
+                        "surface-bright": "#2f3a4c",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-tertiary-container": "#5c647a",
+                        "surface-tint": "#c6c6c7",
+                        "on-error": "#690005",
+                        "secondary-container": "#3a4a5f",
+                        "error-container": "#93000a",
+                        "on-primary": "#2f3131",
+                        "inverse-surface": "#d8e3fb",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "outline": "#8e9192",
+                        "surface-dim": "#081425",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#040e1f",
+                        "tertiary-fixed": "#dae2fd",
+                        "surface-container-high": "#1f2a3c",
+                        "on-primary-container": "#636565",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-secondary": "#213145",
+                        "tertiary": "#ffffff",
+                        "on-secondary-container": "#a9bad3",
+                        "on-primary-fixed": "#1a1c1c",
+                        "inverse-primary": "#5d5f5f",
+                        "surface-variant": "#2a3548",
+                        "surface-container": "#152031",
+                        "surface-container-low": "#111c2d",
+                        "primary-fixed": "#e2e2e2",
+                        "primary-container": "#e2e2e2",
+                        "tertiary-container": "#dae2fd",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#d8e3fb",
+                        "secondary": "#b7c8e1",
+                        "primary": "#ffffff",
+                        "inverse-on-surface": "#263143",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-surface-variant": "#c4c7c8",
+                        "background": "#081425"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "panel-gap": "8px",
+                        "unit": "4px",
+                        "gutter": "1px",
+                        "container-padding": "16px",
+                        "sidebar-width": "240px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "reading-serif": ["Source Serif 4"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #020617; }
+        .border-tiled { border-color: #334155; }
+        .text-reading-serif { font-family: 'Source Serif 4', serif; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-surface-container-low border-b border-outline-variant docked full-width top-0 h-14 flex justify-between items-center w-full px-container-padding gap-panel-gap shrink-0 z-50">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary tracking-tight">GOLDEN QUILL</span>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant">APPLIED AS</span>
+<span class="font-data-mono text-data-mono text-primary">FIT Farms LLC</span>
+</div>
+<div class="flex flex-col ml-4 border-l border-outline-variant pl-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant">POSTURE</span>
+<span class="font-data-mono text-data-mono text-[#22C55E]">SECURE</span>
+</div>
+</div>
+<div class="flex items-center gap-4 border border-outline-variant bg-surface px-3 py-1.5 h-8">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">search</span>
+<input class="bg-transparent border-none focus:ring-0 font-data-mono text-data-mono text-primary placeholder-on-surface-variant w-64 p-0" placeholder="Search FIDs..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 border border-outline-variant bg-surface-container px-2 py-1">
+<span class="w-2 h-2 bg-[#22C55E]"></span>
+<span class="font-data-mono text-data-mono text-primary">AUDIT: ACTIVE</span>
+</div>
+<button class="hover:bg-surface-container-highest p-1 transition-none">
+<span class="material-symbols-outlined text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</button>
+<button class="hover:bg-surface-container-highest p-1 transition-none">
+<span class="material-symbols-outlined text-primary">vpn_key</span>
+</button>
+<button class="hover:bg-surface-container-highest p-1 transition-none">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface-container border-r border-outline-variant docked left-0 h-full w-sidebar-width flex flex-col shrink-0 z-40">
+<div class="p-4 border-b border-outline-variant">
+<div class="font-display-lg text-display-lg text-primary truncate">FIT Farms</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-1">FRONTIER POSTURE</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<div class="flex flex-col">
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-none px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-none px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[18px]">search_insights</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-none px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-none px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</a>
+<a class="bg-surface-container-highest text-primary border-l-2 border-primary transition-none px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDs</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-none px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-none px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-none px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+</div>
+</div>
+<div class="border-t border-outline-variant p-2">
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-none px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-1 flex bg-[#020617] overflow-hidden">
+<!-- Funder List (Left Panel) -->
+<div class="w-80 border-r border-tiled bg-[#0F172A] flex flex-col shrink-0">
+<div class="p-3 border-b border-tiled bg-[#1E293B] flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">FUNDER DIRECTORY</span>
+<span class="font-data-mono text-data-mono text-primary">24 ENTT</span>
+</div>
+<div class="flex-1 overflow-y-auto">
+<!-- Funder Item: Active -->
+<div class="p-3 border-b border-tiled bg-[#1E293B] border-l-2 border-l-primary cursor-pointer">
+<div class="font-data-mono text-data-mono text-[#F59E0B] mb-1">FID-089-A2</div>
+<div class="text-reading-serif text-[18px] font-semibold text-primary leading-tight mb-2">Omni-Channel Agritech Consortium</div>
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-[#22C55E]">CORPUS VERIFIED</span>
+<span class="font-data-mono text-[10px] text-on-surface-variant">SYNC: 0.1s</span>
+</div>
+</div>
+<!-- Funder Item: Inactive -->
+<div class="p-3 border-b border-tiled hover:bg-[#1E293B] cursor-pointer">
+<div class="font-data-mono text-data-mono text-on-surface-variant mb-1">FID-112-X9</div>
+<div class="text-reading-serif text-[18px] font-normal text-secondary leading-tight mb-2">Apex Bio-Yield Foundation</div>
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant">CORPUS PENDING</span>
+</div>
+</div>
+<div class="p-3 border-b border-tiled hover:bg-[#1E293B] cursor-pointer">
+<div class="font-data-mono text-data-mono text-on-surface-variant mb-1">FID-044-B1</div>
+<div class="text-reading-serif text-[18px] font-normal text-secondary leading-tight mb-2">Global Foodways Initiative</div>
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-[#22C55E]">CORPUS VERIFIED</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Central Reading Well -->
+<div class="flex-1 flex flex-col bg-[#020617] relative">
+<!-- Document Header -->
+<div class="p-4 border-b border-tiled bg-[#0F172A] flex justify-between items-start">
+<div>
+<h1 class="font-display-lg text-[24px] font-bold text-primary tracking-tight mb-1">Omni-Channel Agritech Consortium</h1>
+<div class="flex gap-4">
+<span class="font-data-mono text-data-mono text-secondary">DOC: CHARTER-REV-4</span>
+<span class="font-data-mono text-data-mono text-secondary">HASH: 0x9a4f...3c12</span>
+</div>
+</div>
+<button class="bg-primary text-surface px-4 py-2 font-label-caps text-label-caps border border-primary hover:bg-transparent hover:text-primary transition-none flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">download</span>
+                        EXPORT PDF
+                    </button>
+</div>
+<!-- Reading Canvas -->
+<div class="flex-1 overflow-y-auto p-8 lg:p-12 xl:px-24">
+<div class="max-w-3xl mx-auto space-y-8">
+<div class="border-l-2 border-[#F59E0B] pl-4 mb-8">
+<p class="font-data-mono text-data-mono text-[#F59E0B]">OPERATIONAL CHARTER ACTIVE. STRICT COMPLIANCE REQUIRED FOR DISBURSEMENT.</p>
+</div>
+<div class="text-reading-serif text-[16px] leading-[1.8] text-primary space-y-6">
+<h2 class="text-[20px] font-semibold border-b border-tiled pb-2 mb-4">Section 1: Mandate &amp; Yield Requirements</h2>
+<p>The Consortium strictly mandates that all operational entities utilizing FID-089 funding streams maintain a minimum verifiable crop yield Delta of +14% against the regional baseline. Failure to maintain this Delta over two consecutive fiscal quarters will trigger an immediate suspension of capital deployment.</p>
+<p>Furthermore, all biological inputs must be cross-referenced against the restricted materials annex (RMA-Rev-2). The use of synthetic nitrogen fixers exceeding the allowable ppm threshold constitutes a material breach of this charter.</p>
+<h2 class="text-[20px] font-semibold border-b border-tiled pb-2 mb-4 mt-8">Section 2: Evidence Corpus Integration</h2>
+<p>To satisfy the ongoing compliance requirements, entities must upload raw telemetry data from field sensors directly to the Consortium's secure node (Endpoint: <code>ocac.node.ledger</code>) at intervals no greater than 72 hours. This telemetry forms the "Evidence Corpus."</p>
+<p>The Corpus must include: soil moisture mapping, NDVI satellite integrations, and localized micro-climate metrics. A cryptographic hash of each upload must be logged in the local operator's registry prior to transmission.</p>
+<div class="bg-[#0F172A] p-4 border border-tiled font-data-mono text-[12px] text-secondary mt-4">
+                                // EXAMPLE TELEMETRY PAYLOAD
+                                {
+                                  "fid": "FID-089-A2",
+                                  "node_id": "FIT-F-992",
+                                  "timestamp": "1715424000",
+                                  "metrics": { "ndvi_avg": 0.72, "moisture_idx": 44.2 }
+                                }
+                            </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Inspector Panel (Right) -->
+<div class="w-80 border-l border-tiled bg-[#0F172A] flex flex-col shrink-0">
+<div class="p-3 border-b border-tiled bg-[#1E293B]">
+<span class="font-label-caps text-label-caps text-on-surface-variant">INSPECTOR: FID-089-A2</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-6">
+<!-- Requirement Block -->
+<div>
+<h3 class="font-label-caps text-label-caps text-primary mb-3 border-b border-tiled pb-1">EVIDENCE REQUIREMENTS</h3>
+<div class="space-y-2">
+<div class="flex items-start gap-2 bg-[#1E293B] p-2 border border-tiled">
+<span class="material-symbols-outlined text-[16px] text-[#22C55E]">check_box</span>
+<div>
+<div class="font-data-mono text-[11px] text-primary">Yield Delta Validation</div>
+<div class="font-body-sm text-[10px] text-on-surface-variant">Quarterly submission met.</div>
+</div>
+</div>
+<div class="flex items-start gap-2 bg-[#1E293B] p-2 border border-tiled">
+<span class="material-symbols-outlined text-[16px] text-[#22C55E]">check_box</span>
+<div>
+<div class="font-data-mono text-[11px] text-primary">RMA-Rev-2 Compliance</div>
+<div class="font-body-sm text-[10px] text-on-surface-variant">No restricted materials detected.</div>
+</div>
+</div>
+<div class="flex items-start gap-2 bg-[#1E293B] p-2 border border-[#F59E0B]">
+<span class="material-symbols-outlined text-[16px] text-[#F59E0B]">warning</span>
+<div>
+<div class="font-data-mono text-[11px] text-[#F59E0B]">72h Telemetry Sync</div>
+<div class="font-body-sm text-[10px] text-on-surface-variant">Next sync required in 04:12:00.</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Risk Trace -->
+<div>
+<h3 class="font-label-caps text-label-caps text-primary mb-3 border-b border-tiled pb-1">RISK TRACE</h3>
+<div class="relative pl-4 border-l border-tiled space-y-4">
+<div class="relative">
+<div class="absolute -left-[21px] top-1 w-2 h-2 bg-[#22C55E] border border-surface"></div>
+<div class="font-data-mono text-[10px] text-on-surface-variant mb-1">2023-10-12 14:00z</div>
+<div class="font-body-sm text-[12px] text-primary">Corpus Validation Successful</div>
+</div>
+<div class="relative">
+<div class="absolute -left-[21px] top-1 w-2 h-2 bg-[#0F172A] border border-outline-variant"></div>
+<div class="font-data-mono text-[10px] text-on-surface-variant mb-1">2023-10-10 09:30z</div>
+<div class="font-body-sm text-[12px] text-primary">Charter Rev-4 Acknowledged</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant docked bottom-0 full-width h-8 fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50">
+<span class="font-label-caps text-label-caps text-on-surface">NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED</span>
+<div class="flex gap-4">
+<a class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary transition-none" href="#">Machine ID: 992-QX</a>
+<a class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary transition-none" href="#">Audit Log</a>
+<a class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary transition-none" href="#">System Health</a>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,129 @@
+# Logician Gate Registry — v1
+# Canonical reference for all eight validation gates + architecture-level gates
+# Each gate: trigger, inputs, validation logic, outputs, failure codes
+
+gates:
+
+  gate_1_kgie_preflight:
+    trigger: "PRE-Scribe — before any drafting begins"
+    inputs:
+      - "orgs/<client>/PROJECT_CONTEXT.md"
+      - "pipeline/rfa/<grant_id>/rfa_dissection.json"
+    validates:
+      K: "Keywords/sectors present in PROJECT_CONTEXT that match RFA"
+      G: "Geography/address verifiable and within RFA eligibility zone"
+      I: "Identity/entity type matches RFA eligible applicants"
+      E: "Experience/years/prior grants sufficient per RFA minimum"
+    pass: "All four elements verifiable"
+    red_block: "Any element missing or [NEEDED] → F-KGIE-INCOMPLETE"
+    yellow_warn: "Element present but weak (thin evidence, vague language)"
+    output: "pipeline/validation/{grant_id}/gate_1_kgie.json"
+
+  gate_2_rfa_traceability:
+    trigger: "POST-Scribe — after draft section produced"
+    inputs:
+      - "pipeline/drafts/{grant_id}/{version}/<section>.md"
+      - "pipeline/rfa/<grant_id>/rfa_dissection.json"
+      - "orgs/<client>/PROJECT_CONTEXT.md"
+    validates: "Every claim in draft traces to RFA or PROJECT_CONTEXT via claim tags"
+    pass: "All claims tagged [RFA §X] or [PC §Y]"
+    red_block: "Untagged claims found → F-RFA-TRACEABILITY-FAIL"
+    special: "[INFERRED] and [UNSOURCED] tags allowed but fire P5 surface"
+    output: "pipeline/validation/{grant_id}/gate_2_traceability.json"
+
+  gate_3_boundary_drift:
+    trigger: "POST-Scribe — after draft section produced"
+    inputs:
+      - "pipeline/drafts/{grant_id}/{version}/<section>.md"
+      - "pipeline/rfa/<grant_id>/rfa_dissection.json (section scope map)"
+    validates: "Draft scope stays within RFA-defined boundaries"
+    method: "Compare draft section topics against rfa_dissection.json section scope"
+    pass: "All content within scope"
+    red_block: "Content outside RFA scope → F-BOUNDARY-DRIFT (Law 2)"
+    output: "pipeline/validation/{grant_id}/gate_3_drift.json"
+
+  gate_4_admin_risk_scan:
+    trigger: "POST-Scribe, POST-Editor — after any text produced or modified"
+    inputs:
+      - "Text content (draft section or editor suggestions)"
+      - "pipeline/engineering/agents/references/admin_risk_register.yaml"
+    validates: "No flagged terms without applicant approval"
+    severity_tiers:
+      RED: "Documented pull — agency retracted grants for this term"
+      YELLOW: "Agency memo — caution advised"
+      GREEN: "Precautionary — no documented action, linguistic risk"
+    pass: "No flagged terms OR all flagged terms applicant-approved"
+    block: "Flagged terms without approval → F-ADMIN-RISK-UNAPPROVED (at severity level)"
+    law_4: "Logician flags but NEVER rewrites. Applicant approves EVERY substitution."
+    output: "pipeline/validation/{grant_id}/gate_4_admin_risk.json"
+
+  gate_5_overlooked_expenses:
+    trigger: "POST-Scribe — budget sections only"
+    inputs:
+      - "pipeline/drafts/{grant_id}/{version}/budget*.md"
+      - "pipeline/engineering/agents/references/overlooked_expenses_checklist.yaml"
+    validates: "Each checklist item addressed or explicitly N/A'd"
+    pass: "All items addressed"
+    yellow_warn: "Items missing without N/A → F-OVERLOOKED-EXPENSE-MISSING"
+    output: "pipeline/validation/{grant_id}/gate_5_expenses.json"
+
+  gate_6_org_isolation:
+    trigger: "PRE-all, POST-all — every pipeline operation"
+    inputs:
+      - "All file paths in current operation"
+      - "All content in current operation"
+      - "orgs/ORG_INDEX.md (list of all org slugs)"
+    validates: "No cross-org data in any file path, reference, or content"
+    method: "Check paths for second org slug; scan content for org-specific identifiers"
+    pass: "Single org throughout"
+    red_block: "Cross-org reference → F-ORG-ISOLATION-BREACH (Law 3)"
+    output: "pipeline/validation/{grant_id}/gate_6_isolation.json"
+    note: "This gate runs on EVERY operation. No exceptions. Including Logician's own operations."
+
+  gate_7_revision_loop:
+    trigger: "POST-Judge — when score triggers revision"
+    inputs:
+      - "pipeline/validation/{grant_id}/revision_state.json"
+      - "pipeline/scores/{grant_id}/{version}_score.json"
+    validates: "Scribe-Judge revision cycle count < 3"
+    pass: "Cycle < 3 → allow revision"
+    red_block: "Cycle >= 3 → F-REVISION-LOOP-EXCEEDED → operator escalation"
+    counter_rules:
+      increment: "When Judge scores below threshold AND Scribe receives revision directive"
+      warn_at: 2
+      block_at: 3
+      reset: "Operator intervention OR new section"
+    output: "pipeline/validation/{grant_id}/gate_7_revision.json"
+
+  gate_8_score_validation:
+    trigger: "POST-Judge — after score report produced"
+    inputs:
+      - "pipeline/scores/{grant_id}/{version}_score.json"
+    validates: "All 12 dimensions scored, evidence strings present, SFR format used"
+    pass: "Complete and well-formed"
+    red_block: "Dimensions missing or format violations → F-SCORE-VALIDATION-INCOMPLETE"
+    checks:
+      - "12 dimension scores present (no nulls)"
+      - "Each dimension has evidence_strings array (non-empty)"
+      - "Each dimension has SFR block (premises, trace, conclusion)"
+      - "Total score computed correctly (sum of dimensions)"
+      - "F-VERDICT-CERT-MALFORMED fires on SFR structural violations"
+    output: "pipeline/validation/{grant_id}/gate_8_score.json"
+
+# PRE-gate precedence order (from architecture)
+precedence_order:
+  1: "N.4.1 Section 2 blueprint lock-marker"
+  2: "N.4.2 trust-root mirror verified"
+  3: "F-INDEX-STALE (§0.5 Blueprint Interface Index freshness)"
+  4: "F-N1-COUNT-STALE (Section N.1 row count)"
+  5: "F-ROUTER-STALE-API, F-CODE-COMMITTEE-INCOMPLETE, F-CODE-RETRY-OVERRUN"
+  6: "F-SECTION-R-INCOMPLETE, F-TDSL-LEAK-V01"
+  7: "F-CONTEXT-PLACEMENT (per-seat prompt template structure)"
+  8: "F-PIPELINE-TRACK-FROZEN, F-VAULT-ARTIFACT-ONLY (dormant)"
+
+# Execution rules
+rules:
+  fail_closed: "If check cannot determine compliance, it FAILS. Ambiguity ≠ pass."
+  save_both: "Results persist on success AND failure (Rule 1)."
+  self_validate: "Every gate validates its own output before reporting PASS (Rule 2)."
+  clean_output: "Structured JSON only. No commentary, explanation, or natural language (Rule 4)."

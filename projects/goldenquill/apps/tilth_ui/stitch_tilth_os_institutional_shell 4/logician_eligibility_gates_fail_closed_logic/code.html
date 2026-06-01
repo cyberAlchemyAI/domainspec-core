@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Logician Eligibility Gates - Golden Quill</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Hanken Grotesk & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "outline-variant": "#444748",
+                        "tertiary": "#ffffff",
+                        "on-primary-fixed": "#1a1c1c",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#081425",
+                        "outline": "#8e9192",
+                        "on-secondary": "#213145",
+                        "on-surface": "#d8e3fb",
+                        "tertiary-container": "#dae2fd",
+                        "surface-container-lowest": "#040e1f",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-container-highest": "#2a3548",
+                        "on-primary": "#2f3131",
+                        "primary-fixed": "#e2e2e2",
+                        "on-tertiary-container": "#5c647a",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "surface-container-low": "#111c2d",
+                        "primary-container": "#e2e2e2",
+                        "surface-tint": "#c6c6c7",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "inverse-on-surface": "#263143",
+                        "error-container": "#93000a",
+                        "background": "#081425",
+                        "primary": "#ffffff",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-container-high": "#1f2a3c",
+                        "inverse-surface": "#d8e3fb",
+                        "secondary-container": "#3a4a5f",
+                        "on-surface-variant": "#c4c7c8",
+                        "secondary-fixed": "#d3e4fe",
+                        "inverse-primary": "#5d5f5f",
+                        "on-tertiary": "#283044",
+                        "on-secondary-container": "#a9bad3",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-background": "#d8e3fb",
+                        "surface-container": "#152031",
+                        "on-tertiary-fixed": "#131b2e",
+                        "surface-variant": "#2a3548",
+                        "surface-bright": "#2f3a4c",
+                        "secondary": "#b7c8e1",
+                        "on-primary-container": "#636565",
+                        "surface-dim": "#081425"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "gutter": "1px",
+                        "unit": "4px",
+                        "panel-gap": "8px",
+                        "container-padding": "16px",
+                        "sidebar-width": "240px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"]
+                    },
+                    fontSize: {
+                        "headline-md": ["20px", { lineHeight: "1.4", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "display-lg": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "data-mono": ["13px", { lineHeight: "1", letterSpacing: "-0.01em", fontWeight: "500" }],
+                        "body-sm": ["12px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }],
+                        "body-md": ["14px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }],
+                        "label-caps": ["11px", { lineHeight: "1", letterSpacing: "0.05em", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+        }
+        /* Overriding scrollbar for industrial look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617; 
+            border-left: 1px solid #334155;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #444748; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8e9192; 
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen w-screen overflow-hidden flex flex-col font-body-md text-body-md selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="bg-surface-container-highest dark:bg-surface-container-highest h-[56px] w-full border-b border-outline-variant flex items-center justify-between px-container-padding fixed top-0 left-0 z-30">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter uppercase">GOLDEN QUILL</span>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-2 text-on-surface-variant font-data-mono text-data-mono">
+<span class="material-symbols-outlined text-[16px]">account_tree</span>
+<span>Posture: HYBRID</span>
+<span class="mx-2 text-outline-variant">|</span>
+<span>Audit: VERIFIED</span>
+<span class="mx-2 text-outline-variant">|</span>
+<span>Key: 4a3f...b2c8</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-primary dark:text-primary">
+<span class="material-symbols-outlined hover:bg-surface-bright cursor-pointer p-1 rounded-none transition-none" data-icon="security">security</span>
+<span class="material-symbols-outlined hover:bg-surface-bright cursor-pointer p-1 rounded-none transition-none" data-icon="verified_user">verified_user</span>
+<span class="material-symbols-outlined hover:bg-surface-bright cursor-pointer p-1 rounded-none transition-none" data-icon="gavel">gavel</span>
+</div>
+</header>
+<div class="flex flex-1 pt-[56px] pb-[32px]">
+<!-- SideNavBar -->
+<nav class="w-[220px] h-full border-r border-outline-variant bg-surface-container-low dark:bg-surface-container-low flex flex-col shrink-0 overflow-y-auto">
+<div class="p-4 border-b border-outline-variant bg-surface-container">
+<div class="font-headline-md text-headline-md text-primary tracking-tight">NODE IDENTITY</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant mt-1 text-[10px]">POSTURE: SECURE</div>
+</div>
+<ul class="flex flex-col py-2">
+<!-- Using inline generation based on JSON provided -->
+<li class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span class="font-label-caps text-label-caps">HOME</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span class="font-label-caps text-label-caps">SCOUT</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span class="font-label-caps text-label-caps">INTAKE</span>
+</li>
+<!-- ACTIVE ITEM -->
+<li class="flex items-center gap-3 px-4 py-3 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed cursor-pointer">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps">ELIGIBILITY</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">map</span>
+<span class="font-label-caps text-label-caps">MODULE MAPPER</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span class="font-label-caps text-label-caps">DRAFTING</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-caps text-label-caps">BUDGET</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps">JUDGE</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-label-caps text-label-caps">RED TEAM</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">signature</span>
+<span class="font-label-caps text-label-caps">SIGN-OFF</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps">AUDIT</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">style</span>
+<span class="font-label-caps text-label-caps">CARDS</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDS</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">COSTS</span>
+</li>
+</ul>
+</nav>
+<!-- Main Canvas -->
+<main class="flex-1 flex bg-[#020617] p-panel-gap gap-panel-gap overflow-hidden">
+<!-- Left Column: Gate Cascade -->
+<div class="flex-1 flex flex-col gap-panel-gap overflow-y-auto pr-2">
+<!-- Header -->
+<div class="flex items-end justify-between border-b border-outline-variant pb-2 mb-2 shrink-0">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary">Logician Eligibility Gates</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Structural Assessment: Draft Clearance</p>
+</div>
+<div class="font-data-mono text-data-mono text-outline-variant">
+                        SEQ_ID: 0x8F92A
+                    </div>
+</div>
+<!-- Fail-Closed Banner -->
+<div class="bg-error-container border border-error p-3 shrink-0 flex items-start gap-3 rounded-none">
+<span class="material-symbols-outlined text-on-error-container mt-0.5" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<div class="font-label-caps text-label-caps text-on-error-container tracking-widest mb-1">SYSTEM HALT</div>
+<div class="font-body-md text-body-md text-on-error-container font-semibold">
+                            DO NOT DRAFT — hard eligibility gate failed. Resolve E-104 before Scribe can open.
+                        </div>
+</div>
+</div>
+<!-- Gate List -->
+<div class="flex flex-col gap-gutter bg-outline-variant border border-outline-variant rounded-none">
+<!-- Gate E-101: PASS -->
+<div class="bg-surface-container p-4 flex flex-col gap-3 group hover:bg-[#1E293B] cursor-default">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span class="font-data-mono text-data-mono text-primary">E-101</span>
+<span class="font-headline-md text-headline-md text-on-surface">Entity Type</span>
+</div>
+<div class="font-label-caps text-label-caps text-[#22C55E] border border-[#22C55E]/30 px-2 py-0.5 rounded-none bg-[#22C55E]/10">PASS</div>
+</div>
+<div class="pl-5 text-on-surface-variant font-body-sm text-body-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">subdirectory_arrow_right</span>
+                            Verified as Agricultural Producer via State Registry.
+                        </div>
+</div>
+<!-- Gate E-104: FAIL-CLOSED (ACTIVE SELECTION) -->
+<div class="bg-[#1E293B] p-4 flex flex-col gap-3 border-[1px] border-primary relative">
+<!-- Active indicator line -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex justify-between items-start pl-2">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-[#EF4444]"></div>
+<span class="font-data-mono text-data-mono text-primary">E-104</span>
+<span class="font-headline-md text-headline-md text-on-surface">UEI/SAM Registration</span>
+</div>
+<div class="font-label-caps text-label-caps text-error border border-error px-2 py-0.5 rounded-none bg-error/10">FAIL-CLOSED</div>
+</div>
+<div class="pl-7 flex flex-col gap-2">
+<div class="text-error font-body-sm text-body-sm font-semibold">
+                                Hash mismatch / Stale source detected.
+                            </div>
+<div class="grid grid-cols-2 gap-2 mt-1">
+<div class="bg-[#020617] border border-outline-variant p-2 flex flex-col gap-1 rounded-none">
+<span class="font-label-caps text-label-caps text-on-surface-variant">LOCAL CACHE HASH</span>
+<span class="font-data-mono text-data-mono text-secondary-fixed-dim truncate" title="a3f89b2...e4c1">a3f89b2...e4c1</span>
+</div>
+<div class="bg-[#020617] border border-error/50 p-2 flex flex-col gap-1 rounded-none">
+<span class="font-label-caps text-label-caps text-error">SAM.GOV REGISTRY HASH</span>
+<span class="font-data-mono text-data-mono text-primary truncate" title="b7d21f9...a0e9">b7d21f9...a0e9</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Gate E-118: UNTESTED -->
+<div class="bg-surface-container p-4 flex flex-col gap-3 group hover:bg-[#1E293B] cursor-default opacity-60">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-outline"></div>
+<span class="font-data-mono text-data-mono text-primary">E-118</span>
+<span class="font-headline-md text-headline-md text-on-surface">Match Requirement</span>
+</div>
+<div class="font-label-caps text-label-caps text-outline border border-outline px-2 py-0.5 rounded-none bg-outline/10">UNTESTED</div>
+</div>
+<div class="pl-5 text-on-surface-variant font-body-sm text-body-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">block</span>
+                            Execution blocked by E-104 failure.
+                        </div>
+</div>
+<!-- Gate E-130: STALE -->
+<div class="bg-surface-container p-4 flex flex-col gap-3 group hover:bg-[#1E293B] cursor-default">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-[#F59E0B]"></div>
+<span class="font-data-mono text-data-mono text-primary">E-130</span>
+<span class="font-headline-md text-headline-md text-on-surface">NOFO Source</span>
+</div>
+<div class="font-label-caps text-label-caps text-[#F59E0B] border border-[#F59E0B]/50 px-2 py-0.5 rounded-none bg-[#F59E0B]/10">STALE</div>
+</div>
+<div class="pl-5 text-on-surface-variant font-body-sm text-body-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">update</span>
+                            Funder changed the charter 42 mins ago. Re-sync required.
+                        </div>
+</div>
+</div>
+</div>
+<!-- Right Column: Inspector Panel -->
+<aside class="w-[420px] bg-surface-container border border-outline-variant flex flex-col shrink-0 rounded-none relative">
+<!-- Panel Header -->
+<div class="h-10 border-b border-outline-variant flex items-center px-4 bg-surface-container-high shrink-0">
+<span class="font-label-caps text-label-caps text-primary tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">policy</span>
+                        GATE EVIDENCE: E-104
+                    </span>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+<!-- Meta block -->
+<div class="flex flex-col gap-1">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">TARGET ENTITY</div>
+<div class="font-data-mono text-data-mono text-primary bg-[#020617] p-2 border border-outline-variant rounded-none">
+                            UEI: MK92LKV8Z1N4
+                        </div>
+</div>
+<!-- Excerpt Box (Serif/Document feel using body-md standard) -->
+<div class="flex flex-col gap-1">
+<div class="font-label-caps text-label-caps text-on-surface-variant flex justify-between">
+<span>NOFO EXCERPT REF: § 4.2.1</span>
+<span class="text-error">MANDATORY</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-4 rounded-none relative">
+<!-- Quotation mark decorative -->
+<div class="absolute top-2 left-2 text-outline-variant opacity-20 font-serif text-4xl leading-none">"</div>
+<p class="font-body-md text-body-md text-on-surface relative z-10 leading-relaxed pl-4">
+                                Applicants must maintain an active registration in the System for Award Management (SAM) at all times during which they have an active Federal award or an application under consideration. Any discrepancy between localized intake records and the live SAM.gov registry constitutes an automatic disqualification for the current funding cycle.
+                            </p>
+</div>
+</div>
+<!-- Hash Metadata Technical Output -->
+<div class="flex flex-col gap-1">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">DIAGNOSTIC TRACE</div>
+<div class="bg-black text-[#a9bad3] p-3 font-data-mono text-[11px] leading-tight border border-[#334155] rounded-none h-[120px] overflow-y-auto">
+<div class="text-on-surface-variant mb-2"># Initializing SAM API protocol v3.4...</div>
+<div class="mb-1">&gt; Requesting entity payload for UEI MK92LKV8Z1N4</div>
+<div class="mb-1 text-primary">&gt; Payload received. Computing SHA-256...</div>
+<div class="mb-1">&gt; Remote Hash: <span class="text-error">b7d21f9c3e2a0e9...</span></div>
+<div class="mb-1">&gt; Local Hash:  <span class="text-secondary-fixed-dim">a3f89b2d71c4e4c1...</span></div>
+<div class="mt-2 text-error font-bold">FATAL: Assert(Remote == Local) failed.</div>
+<div>&gt; Registration expiry date mismatch. Update required.</div>
+</div>
+</div>
+</div>
+<!-- Sticky Action Footer -->
+<div class="p-4 border-t border-outline-variant bg-surface-container-high flex flex-col gap-3 shrink-0">
+<button class="w-full bg-error text-on-error font-headline-md text-headline-md h-10 flex items-center justify-center gap-2 rounded-none uppercase tracking-wide hover:bg-error/90 active:bg-error/80">
+<span class="material-symbols-outlined text-[18px]">build</span>
+                        Resolve Gate E-104
+                    </button>
+<button class="w-full bg-transparent border border-outline-variant text-primary font-data-mono text-data-mono h-10 flex items-center justify-center hover:bg-surface-container transition-none rounded-none">
+                        &gt; SIGNED RISK OVERRIDE
+                    </button>
+</div>
+</aside>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest h-[32px] w-full border-t border-outline-variant fixed bottom-0 z-50 flex items-center justify-between px-4">
+<div class="font-data-mono text-data-mono text-on-surface-variant uppercase flex items-center gap-4">
+<span>Node: fit-farms-pgh-001</span>
+<span class="w-1 h-1 bg-outline-variant rounded-none"></span>
+<span>NODE_FINALITY: GOLD-BURNISHED</span>
+</div>
+<div class="flex items-center gap-6 font-label-caps text-label-caps text-on-surface-variant">
+<a class="hover:text-primary transition-none" href="#">SYSTEM_STATUS</a>
+<a class="hover:text-primary transition-none" href="#">AUDIT_LOG</a>
+<a class="hover:text-primary transition-none" href="#">FID_0x2A</a>
+</div>
+</footer>
+</body></html>

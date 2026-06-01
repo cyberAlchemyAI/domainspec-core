@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "tests/demo/expected/pipeline_output_schema.json",
+  "title": "PipelineRunResult — Demo Driver Output Schema",
+  "description": "Structural schema for the PipelineRunResult dataclass returned by pipeline.loop.run_pipeline.run_pipeline. Demo Driver MVP asserts every successful run conforms; M1 happy-path / M2 degraded / M3 law-enforcement / M4 perf classes all produce shapes that satisfy a subset of this schema. Three terminal shapes are encoded as the 'oneOf' branches.",
+  "type": "object",
+  "required": [
+    "run_id",
+    "final_phase",
+    "iterations_consumed",
+    "three_tab_envelope_hash",
+    "elapsed_ms",
+    "bypass_pending",
+    "pre_gate_failed",
+    "pre_gate_failure_code",
+    "post_gate_rejected_trigger"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Caller-minted idempotency key threaded through Round 3 fixed-factory closure."
+    },
+    "final_phase": {
+      "type": "string",
+      "enum": [
+        "pre_gate_pending",
+        "post_gate_pending",
+        "tabs_delivered"
+      ],
+      "description": "Terminal phase — one of three observable shapes per run_pipeline.py docstring."
+    },
+    "iterations_consumed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3,
+      "description": "Inner-loop iteration count. 0 only on PRE-gate soft-fail."
+    },
+    "three_tab_envelope_hash": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 hex digest of the three-tab envelope (Round 9 deliver_tab output). null only on bypass_pending or pre_gate_failed."
+    },
+    "elapsed_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Wall-clock elapsed milliseconds (clock.now_ms() delta). Non-negative invariant."
+    },
+    "bypass_pending": {
+      "type": "boolean",
+      "description": "True iff POST-gate FAIL was caught and a bypass-pending sidecar marker was written."
+    },
+    "pre_gate_failed": {
+      "type": "boolean",
+      "description": "True iff PRE-gate returned passed=False (soft-fail, not exception)."
+    },
+    "pre_gate_failure_code": {
+      "type": ["string", "null"],
+      "description": "F-PRE-* failure code threaded from PreGateResult. null on success / bypass."
+    },
+    "post_gate_rejected_trigger": {
+      "type": ["string", "null"],
+      "description": "PostGateRejected.trigger label threaded from POST-gate FAIL verdict. null on success / pre-gate fail."
+    }
+  },
+  "oneOf": [
+    {
+      "title": "Success — tabs_delivered",
+      "properties": {
+        "final_phase": {"const": "tabs_delivered"},
+        "bypass_pending": {"const": false},
+        "pre_gate_failed": {"const": false},
+        "pre_gate_failure_code": {"const": null},
+        "post_gate_rejected_trigger": {"const": null},
+        "three_tab_envelope_hash": {"type": "string"}
+      },
+      "required": ["three_tab_envelope_hash"]
+    },
+    {
+      "title": "PRE-gate soft-fail — pre_gate_pending",
+      "properties": {
+        "final_phase": {"const": "pre_gate_pending"},
+        "bypass_pending": {"const": false},
+        "pre_gate_failed": {"const": true},
+        "iterations_consumed": {"const": 0},
+        "three_tab_envelope_hash": {"const": null},
+        "post_gate_rejected_trigger": {"const": null}
+      }
+    },
+    {
+      "title": "POST-gate bypass-pending",
+      "properties": {
+        "final_phase": {"const": "post_gate_pending"},
+        "bypass_pending": {"const": true},
+        "pre_gate_failed": {"const": false},
+        "pre_gate_failure_code": {"const": null},
+        "three_tab_envelope_hash": {"const": null}
+      }
+    }
+  ]
+}

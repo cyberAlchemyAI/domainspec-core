@@ -1,0 +1,629 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://golden-quill.local/schemas/card_clc.schema.json",
+  "title": "Card — CLC (Capital Logic Card)",
+  "description": "Schema for Capital Logic Card cards. Companion axis to the Customer Identity Card (CIC) — the two-axis lattice (canonical naming policy 2026-05-17: \"Customer Identity Card\" canonical; \"Customer Information Card\" is legacy/working-language only inside verbatim operator-quoted directives). Post-v7.0.12 lifecycle status: all 8 CLCs are signed and runtime-loadable on disk; bodies validated against this schema. CLC cards MUST NOT include CIC eligibility subsets or preferred CIC pairings per architecture v7.0.11 §6.1 + §4 v2.x F-CARDS-COUPLING-VIOLATION-EXTENSION (the coupling-violation discipline survives unchanged from v7.0.11). Lifecycle truth: draft cards are never runtime-loadable; runtime_loadable=true requires draft_status='signed'. The canonical lifecycle.draft_status enum is the 4-value set {draft, review_passed, signed, deprecated} (schema + models + loader unanimous — supersedes the stale 6-value claim in architecture v7.0.11 §1.4 per Run 1 P0-2). §18.6 v2 OPTION A — top-level track_a:/track_b: container schema-shape extension landed under existing §0.5 v25 row 542 owner. Two mutually-exclusive shapes via top-level oneOf: single-track legacy (six core track-specific fields at root) OR multi-track Option A (track_a + track_b containers at root, all 14 track-specific fields forbidden at root). Per-track containers carry the same observational-only common_funders_observed + provenance_requirements item-level coupling defense-in-depth as the root. CLC-05 market_access, CLC-06 credit_underwriting, and CLC-07 sponsorship_corporate are the multi-track v0.1 instances (OD-E fix-forward to restructure the on-disk YAMLs into Option A shape is in-flight as of 2026-05-17); the remaining five CLCs validate under the single-track legacy shape. common_funders_observed is observational-only and limited to funders the operator has CONFIRMED ACTUAL ENGAGEMENT with (Law-5 split per Phase E cleanup 2026-05-16); draft candidates live in _research_metadata.draft_funder_candidates_pending_operator_engagement_confirmation and graduate only via operator action.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "card_axis",
+    "card_id",
+    "slug",
+    "display_name",
+    "funding_mechanism_summary",
+    "tilth_clc_id",
+    "lifecycle",
+    "_research_metadata"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0-clc"
+    },
+    "card_axis": {
+      "type": "string",
+      "const": "CLC"
+    },
+    "card_id": {
+      "type": "string",
+      "pattern": "^TILTH-CLC-\\d{2}$"
+    },
+    "slug": {
+      "type": "string",
+      "enum": [
+        "public_purpose_works",
+        "catalytic_change",
+        "operating_capacity",
+        "research_evidence",
+        "market_access",
+        "credit_underwriting",
+        "sponsorship_corporate",
+        "shared_assets"
+      ]
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "funding_mechanism_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tilth_clc_id": {
+      "type": "string",
+      "pattern": "^TILTH-CLC-\\d{2}$"
+    },
+    "underwriting_criteria": {
+      "type": "array"
+    },
+    "scoring_weight_patterns": {
+      "type": "array"
+    },
+    "evidence_weights": {
+      "type": "object"
+    },
+    "common_application_forms": {
+      "type": "array"
+    },
+    "narrative_section_patterns": {
+      "type": "array"
+    },
+    "budget_structure_conventions": {
+      "type": "object"
+    },
+    "reviewer_profile_typical": {
+      "type": "object"
+    },
+    "common_portals": {
+      "type": "array"
+    },
+    "common_red_flags": {
+      "type": "array"
+    },
+    "reporting_requirements_typical": {
+      "type": "object"
+    },
+    "compliance_obligations": {
+      "type": "array"
+    },
+    "commitment_tracking_pattern": {
+      "type": "object"
+    },
+    "common_funders_observed": {
+      "type": "array",
+      "description": "Observational-only funder roster. NOT a CLC × CIC binding. Per §18 v1.1 narrow-corrective amendment (operator-approved 2026-05-15): item shape mirrors CIC schema for cross-axis consistency. frequency_observed stays qualitative (no counts) per OQ-6. Per §18 v1.1 Cycle 2 RT-02 fold-in: item-level not.anyOf defense-in-depth against forbidden CIC-coupling fields nested inside an item.",
+      "items": {
+        "type": "object",
+        "required": [
+          "funder_name",
+          "funder_type"
+        ],
+        "properties": {
+          "funder_name": {
+            "type": "string"
+          },
+          "funder_type": {
+            "type": "string",
+            "enum": [
+              "federal",
+              "state",
+              "foundation",
+              "corporate",
+              "local",
+              "federal (state pass-through)",
+              "federal (regional)"
+            ]
+          },
+          "typical_award_range": {
+            "type": "string"
+          },
+          "frequency_observed": {
+            "type": "string",
+            "enum": [
+              "FREQUENT",
+              "OCCASIONAL",
+              "RARE",
+              "UNKNOWN"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true,
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "eligible_cic_subset"
+              ]
+            },
+            {
+              "required": [
+                "cic_allowlist"
+              ]
+            },
+            {
+              "required": [
+                "cic_denylist"
+              ]
+            },
+            {
+              "required": [
+                "preferred_cics"
+              ]
+            },
+            {
+              "required": [
+                "cic_win_rate"
+              ]
+            },
+            {
+              "required": [
+                "cic_ranking_preferences"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "provenance_requirements": {
+      "type": "object",
+      "description": "Per-fact-class provenance requirements. Per §18 v1.1 narrow-corrective amendment (operator-approved 2026-05-15): item shape mirrors CIC schema for cross-axis consistency. Per §18 v1.1 Cycle 2 RT-02 fold-in: item-level not.anyOf defense-in-depth against forbidden CIC-coupling fields nested inside an item.",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "required_citation_type",
+          "verbatim_quote_required"
+        ],
+        "properties": {
+          "required_citation_type": {
+            "type": "string"
+          },
+          "verbatim_quote_required": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": true,
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "eligible_cic_subset"
+              ]
+            },
+            {
+              "required": [
+                "cic_allowlist"
+              ]
+            },
+            {
+              "required": [
+                "cic_denylist"
+              ]
+            },
+            {
+              "required": [
+                "preferred_cics"
+              ]
+            },
+            {
+              "required": [
+                "cic_win_rate"
+              ]
+            },
+            {
+              "required": [
+                "cic_ranking_preferences"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "track_a": {
+      "description": "§18.6 v2 OPTION A multi-track container. When present, the CLC card opts into the multi-track shape: track_a + track_b MUST both be present; all 14 track-specific fields (underwriting_criteria / scoring_weight_patterns / evidence_weights / common_application_forms / narrative_section_patterns / budget_structure_conventions / reviewer_profile_typical / common_portals / common_red_flags / reporting_requirements_typical / compliance_obligations / commitment_tracking_pattern / common_funders_observed / provenance_requirements) MUST be absent from the root. Each track_container carries 8 required fields (track_name + track_description + 6 core track-specific fields) and 14 optional track-specific properties. Item-level not.anyOf defense-in-depth replicates root-level CIC-coupling discipline inside each track container per §18 v1.1 RT-02 fold-in precedent.",
+      "$ref": "#/$defs/track_container"
+    },
+    "track_b": {
+      "description": "§18.6 v2 OPTION A multi-track container. See track_a description; same shape; both MUST be present together.",
+      "$ref": "#/$defs/track_container"
+    },
+    "lifecycle": {
+      "type": "object",
+      "required": [
+        "draft_status",
+        "review_status",
+        "cross_family_thesis_status",
+        "signature_status",
+        "runtime_load_status",
+        "runtime_loadable"
+      ],
+      "properties": {
+        "draft_status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "review_passed",
+            "signed",
+            "deprecated"
+          ],
+          "description": "Canonical lifecycle state. Runtime loader refuses draft cards; runtime_loadable=true requires signed."
+        },
+        "review_status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "passed",
+            "changes_requested"
+          ]
+        },
+        "cross_family_thesis_status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "passed",
+            "failed"
+          ]
+        },
+        "signature_status": {
+          "type": "string",
+          "enum": [
+            "unsigned",
+            "signed",
+            "revoked"
+          ]
+        },
+        "runtime_load_status": {
+          "type": "string",
+          "enum": [
+            "not_loaded",
+            "loaded",
+            "disabled"
+          ],
+          "description": "Legacy load-state label retained for audit continuity; must align with runtime_loadable."
+        },
+        "runtime_loadable": {
+          "type": "boolean",
+          "description": "Runtime truth flag. If true, draft_status must be signed and signed_at/signed_by/content_hash must be present."
+        },
+        "signed_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "signed_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "content_hash": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "lock_history_row": {
+          "type": "integer"
+        },
+        "lock_timestamp_utc": {
+          "type": "string"
+        },
+        "supersession_lock_history_row": {
+          "type": "integer"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "runtime_loadable": {
+                "const": true
+              }
+            },
+            "required": [
+              "runtime_loadable"
+            ]
+          },
+          "then": {
+            "required": [
+              "signed_at",
+              "signed_by",
+              "content_hash"
+            ],
+            "properties": {
+              "draft_status": {
+                "const": "signed"
+              },
+              "signature_status": {
+                "const": "signed"
+              },
+              "runtime_load_status": {
+                "const": "loaded"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "draft_status": {
+                "not": {
+                  "const": "signed"
+                }
+              }
+            },
+            "required": [
+              "draft_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "runtime_loadable": {
+                "const": false
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": true
+    },
+    "_research_metadata": {
+      "type": "object",
+      "required": [
+        "authored_at",
+        "authored_by_role"
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "title": "Single-track shape (legacy, §18.6 v1)",
+      "description": "Pre-existing CLC card shape: six core track-specific fields live at root. Forbids track_a / track_b.",
+      "required": [
+        "underwriting_criteria",
+        "evidence_weights",
+        "reviewer_profile_typical",
+        "common_red_flags",
+        "reporting_requirements_typical",
+        "commitment_tracking_pattern"
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "track_a"
+            ]
+          },
+          {
+            "required": [
+              "track_b"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "title": "Multi-track shape (§18.6 v2 Option A — dual-track structural separation)",
+      "description": "Multi-mechanism CLC card shape: track_a + track_b containers at root; all 14 track-specific fields forbidden at root. CLC-05 market_access (sbir_phase_ii / sbir_phase_iii), CLC-06 credit_underwriting (debt / grant), and CLC-07 sponsorship_corporate (benefits_exchange / corp_foundation_grant) are the v0.1 instances.",
+      "required": [
+        "track_a",
+        "track_b"
+      ],
+      "not": {
+        "anyOf": [
+          {"required": ["underwriting_criteria"]},
+          {"required": ["scoring_weight_patterns"]},
+          {"required": ["evidence_weights"]},
+          {"required": ["common_application_forms"]},
+          {"required": ["narrative_section_patterns"]},
+          {"required": ["budget_structure_conventions"]},
+          {"required": ["reviewer_profile_typical"]},
+          {"required": ["common_portals"]},
+          {"required": ["common_red_flags"]},
+          {"required": ["reporting_requirements_typical"]},
+          {"required": ["compliance_obligations"]},
+          {"required": ["commitment_tracking_pattern"]},
+          {"required": ["common_funders_observed"]},
+          {"required": ["provenance_requirements"]}
+        ]
+      }
+    }
+  ],
+  "not": {
+    "anyOf": [
+      {
+        "required": [
+          "eligible_cic_subset"
+        ]
+      },
+      {
+        "required": [
+          "cic_allowlist"
+        ]
+      },
+      {
+        "required": [
+          "cic_denylist"
+        ]
+      },
+      {
+        "required": [
+          "preferred_cics"
+        ]
+      },
+      {
+        "required": [
+          "cic_win_rate"
+        ]
+      },
+      {
+        "required": [
+          "cic_ranking_preferences"
+        ]
+      }
+    ]
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "track_container": {
+      "type": "object",
+      "description": "§18.6 v2 OPTION A track container. Mirrors the single-track CLC card's track-specific surface; track_name + track_description identify the track; 6 core track-specific fields are required; 14 optional track-specific properties available. Item-level not.anyOf defense-in-depth replicates root-level CIC-coupling discipline inside each track container.",
+      "required": [
+        "track_name",
+        "track_description",
+        "underwriting_criteria",
+        "evidence_weights",
+        "reviewer_profile_typical",
+        "common_red_flags",
+        "reporting_requirements_typical",
+        "commitment_tracking_pattern"
+      ],
+      "properties": {
+        "track_name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Short canonical name for the track (snake_case)."
+        },
+        "track_description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "One-paragraph prose description of the track's funding-mechanism semantics + why it is structurally distinct from the sibling track."
+        },
+        "underwriting_criteria": {
+          "type": "array"
+        },
+        "scoring_weight_patterns": {
+          "type": "array"
+        },
+        "evidence_weights": {
+          "type": "object"
+        },
+        "common_application_forms": {
+          "type": "array"
+        },
+        "narrative_section_patterns": {
+          "type": "array"
+        },
+        "budget_structure_conventions": {
+          "type": "object"
+        },
+        "reviewer_profile_typical": {
+          "type": "object"
+        },
+        "common_portals": {
+          "type": "array"
+        },
+        "common_red_flags": {
+          "type": "array"
+        },
+        "reporting_requirements_typical": {
+          "type": "object"
+        },
+        "compliance_obligations": {
+          "type": "array"
+        },
+        "commitment_tracking_pattern": {
+          "type": "object"
+        },
+        "common_funders_observed": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "funder_name",
+              "funder_type"
+            ],
+            "properties": {
+              "funder_name": {
+                "type": "string"
+              },
+              "funder_type": {
+                "type": "string",
+                "enum": [
+                  "federal",
+                  "state",
+                  "foundation",
+                  "corporate",
+                  "local",
+                  "federal (state pass-through)",
+                  "federal (regional)"
+                ]
+              },
+              "typical_award_range": {
+                "type": "string"
+              },
+              "frequency_observed": {
+                "type": "string",
+                "enum": [
+                  "FREQUENT",
+                  "OCCASIONAL",
+                  "RARE",
+                  "UNKNOWN"
+                ]
+              },
+              "note": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": true,
+            "not": {
+              "anyOf": [
+                {"required": ["eligible_cic_subset"]},
+                {"required": ["cic_allowlist"]},
+                {"required": ["cic_denylist"]},
+                {"required": ["preferred_cics"]},
+                {"required": ["cic_win_rate"]},
+                {"required": ["cic_ranking_preferences"]}
+              ]
+            }
+          }
+        },
+        "provenance_requirements": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "required_citation_type",
+              "verbatim_quote_required"
+            ],
+            "properties": {
+              "required_citation_type": {
+                "type": "string"
+              },
+              "verbatim_quote_required": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": true,
+            "not": {
+              "anyOf": [
+                {"required": ["eligible_cic_subset"]},
+                {"required": ["cic_allowlist"]},
+                {"required": ["cic_denylist"]},
+                {"required": ["preferred_cics"]},
+                {"required": ["cic_win_rate"]},
+                {"required": ["cic_ranking_preferences"]}
+              ]
+            }
+          }
+        }
+      },
+      "additionalProperties": true,
+      "not": {
+        "anyOf": [
+          {"required": ["eligible_cic_subset"]},
+          {"required": ["cic_allowlist"]},
+          {"required": ["cic_denylist"]},
+          {"required": ["preferred_cics"]},
+          {"required": ["cic_win_rate"]},
+          {"required": ["cic_ranking_preferences"]}
+        ]
+      }
+    }
+  }
+}

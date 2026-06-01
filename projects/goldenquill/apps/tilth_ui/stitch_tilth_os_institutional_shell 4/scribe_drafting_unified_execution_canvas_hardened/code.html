@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Sovereign Workstation - Scribe Drafting</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Source+Serif+4:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-container": "#636565",
+                      "primary-fixed": "#e2e2e2",
+                      "inverse-primary": "#5d5f5f",
+                      "surface-container-highest": "#2a3548",
+                      "on-tertiary-fixed": "#131b2e",
+                      "inverse-on-surface": "#263143",
+                      "surface-dim": "#081425",
+                      "error": "#ffb4ab",
+                      "secondary-container": "#3a4a5f",
+                      "on-primary": "#2f3131",
+                      "tertiary-fixed": "#dae2fd",
+                      "primary-container": "#e2e2e2",
+                      "on-error-container": "#ffdad6",
+                      "background": "#081425",
+                      "surface-container-high": "#1f2a3c",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "error-container": "#93000a",
+                      "surface-variant": "#2a3548",
+                      "outline-variant": "#444748",
+                      "on-secondary-fixed": "#0b1c30",
+                      "surface-container": "#152031",
+                      "on-background": "#d8e3fb",
+                      "on-primary-fixed-variant": "#454747",
+                      "on-surface": "#d8e3fb",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "tertiary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "on-tertiary-container": "#5c647a",
+                      "on-primary-fixed": "#1a1c1c",
+                      "surface-bright": "#2f3a4c",
+                      "surface": "#081425",
+                      "primary": "#ffffff",
+                      "on-surface-variant": "#c4c7c8",
+                      "on-tertiary": "#283044",
+                      "on-secondary": "#213145",
+                      "secondary-fixed": "#d3e4fe",
+                      "surface-tint": "#c6c6c7",
+                      "surface-container-low": "#111c2d",
+                      "primary-fixed-dim": "#c6c6c7",
+                      "on-secondary-container": "#a9bad3",
+                      "on-error": "#690005",
+                      "outline": "#8e9192",
+                      "inverse-surface": "#d8e3fb",
+                      "secondary": "#b7c8e1",
+                      "tertiary-container": "#dae2fd",
+                      "surface-container-lowest": "#040e1f"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-padding": "16px",
+                      "panel-gap": "8px",
+                      "gutter": "1px",
+                      "sidebar-width": "240px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "body-sm": ["Hanken Grotesk"],
+                      "label-caps": ["JetBrains Mono"],
+                      "body-md": ["Hanken Grotesk"],
+                      "data-mono": ["JetBrains Mono"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "display-lg": ["Hanken Grotesk"],
+                      "serif": ["Source Serif 4", "serif"]
+              },
+              "fontSize": {
+                      "body-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                      "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                      "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                      "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 18px;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Brutalist Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+            border-left: 1px solid #334155;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border: 1px solid #020617;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        
+        body {
+            background-color: #020617; /* Theme Base */
+            color: #d8e3fb;
+            overflow: hidden; /* Prevent body scroll, manage within panels */
+        }
+        
+        .panel {
+            background-color: #0F172A; /* Level 1 */
+        }
+        
+        .nested-panel {
+            background-color: #1E293B; /* Level 2 */
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen antialiased selection:bg-primary selection:text-black">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface-container-low border-b border-outline-variant flex justify-between items-center w-full px-container-padding h-14 shrink-0">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps tracking-widest text-on-surface">IDEA FOUNDRY NODE</span>
+<div class="h-4 w-px bg-outline-variant"></div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant hover:bg-surface-variant font-label-caps text-label-caps transition-none px-2 py-1" href="#">HYBRID</a>
+<a class="text-on-surface-variant hover:bg-surface-variant font-label-caps text-label-caps transition-none px-2 py-1" href="#">VERIFIED</a>
+<a class="text-on-surface-variant hover:bg-surface-variant font-label-caps text-label-caps transition-none px-2 py-1" href="#">4a3f...b2c8</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-data-mono text-data-mono text-on-surface-variant bg-surface-container px-2 py-1 border border-outline-variant">OPERATOR_01 LEASE ACTIVE</span>
+<button class="text-primary hover:bg-surface-variant p-1 rounded-none flex items-center justify-center border border-transparent hover:border-outline-variant transition-none" title="Sync">
+<span class="material-symbols-outlined" data-icon="sync">sync</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="hidden md:flex flex-col h-full py-4 bg-surface border-r border-outline-variant w-sidebar-width shrink-0 overflow-y-auto">
+<div class="px-4 mb-6">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">GOLDEN QUILL</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">SOVEREIGN WORKSTATION</p>
+</div>
+<nav class="flex flex-col flex-1 space-y-0.5">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span> Home
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span> Scout
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="input">input</span> Intake
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span> Eligibility
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span> Module Mapper
+                </a>
+<!-- Active Nav Item -->
+<a class="flex items-center gap-3 px-4 py-2 bg-surface-container-high text-primary border-r-2 border-primary font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span> Drafting
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span> Budget
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span> Judge
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="security">security</span> Red Team
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span> Sign-Off
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span> Audit
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="credit_card">credit_card</span> Cards
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="fingerprint">fingerprint</span> FIDs
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-caps text-label-caps transition-none" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span> Costs
+                </a>
+</nav>
+</aside>
+<!-- Main Workspace -->
+<main class="flex-1 flex flex-col min-w-0 bg-[#020617] p-panel-gap gap-panel-gap">
+<!-- Route Decision Strip -->
+<div class="panel border border-outline-variant flex items-center justify-between p-3 shrink-0">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="route">route</span>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface">SECTION: EXECUTIVE SUMMARY [DRAFT]</div>
+<div class="font-data-mono text-body-sm text-on-surface-variant mt-1">Commit Section to Vault?</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="font-data-mono text-body-sm text-on-surface-variant flex items-center gap-2">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+                        Saved just now · Hash: 0x82f9...c4b
+                    </div>
+<button class="bg-primary text-black font-label-caps text-label-caps px-4 py-2 border-none rounded-none hover:bg-primary-fixed transition-none focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#0F172A]">
+                        SIGN &amp; COMMIT
+                    </button>
+</div>
+</div>
+<!-- Editor Layout -->
+<div class="flex-1 flex gap-panel-gap min-h-0">
+<!-- Central Canvas (Editor) -->
+<div class="panel border border-outline-variant flex-1 flex flex-col min-w-0 relative">
+<div class="border-b border-outline-variant p-2 flex justify-between items-center bg-surface-container-low shrink-0">
+<div class="font-label-caps text-label-caps text-on-surface-variant flex gap-4">
+<span>FORMAT: PLAIN TEXT</span>
+<span>WIDTH: 72 CHR</span>
+</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant">
+                            WORDS: 142
+                        </div>
+</div>
+<div class="flex-1 overflow-y-auto p-8 flex justify-center">
+<div class="w-full max-w-[65ch] font-serif text-[16px] leading-[1.8] text-on-surface outline-none" contenteditable="true" spellcheck="false">
+<h2 class="font-bold text-xl mb-6 font-sans tracking-tight">1.0 STRATEGIC OVERVIEW</h2>
+<p class="mb-4">
+                                The proposed intervention dictates a phased deployment of sovereign assets within the designated operational theater. Primary objectives prioritize systemic stability over immediate tactical gains. Current modeling suggests a high probability of localized friction during Phase II, necessitating robust contingency frameworks.
+                            </p>
+<p class="mb-4">
+                                Asset allocation remains heavily weighted towards digital infrastructure fortification, specifically targeting node redundancy. <span class="font-data-mono text-[12px] bg-secondary-container text-primary px-1 border border-outline-variant inline-block mx-1" contenteditable="false">[CONJECTURE — source pending]</span> The adversary's capability to disrupt primary communications channels is assessed as critical, though unverified by direct observation in the current cycle.
+                            </p>
+<p class="mb-4">
+                                Mitigation protocols demand continuous cryptographic rotation and strict adherence to Airgap Directive 4A. Personnel are advised that standard encryption thresholds are currently deemed insufficient for Level 1 communique.
+                            </p>
+</div>
+</div>
+</div>
+<!-- Right Inspector -->
+<aside class="w-80 panel border border-outline-variant flex flex-col shrink-0">
+<div class="border-b border-outline-variant p-3 bg-surface-container-low shrink-0">
+<h3 class="font-label-caps text-label-caps text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="policy">policy</span>
+                            FORENSIC ALIGNMENT
+                        </h3>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-6">
+<!-- Signal 1 -->
+<div class="nested-panel border border-outline-variant p-3 space-y-3">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-on-surface">SOURCE HASH</span>
+<span class="font-data-mono text-[10px] bg-[#22C55E] text-black px-1.5 py-0.5 font-bold">STRONGEST</span>
+</div>
+<div class="font-data-mono text-body-sm text-primary break-all">
+                                MOU_v2_FINAL.pdf
+                                <br/>
+<span class="text-on-surface-variant text-[11px]">sha256: 8f4e2d...9a1c</span>
+</div>
+<button class="w-full border border-outline-variant bg-transparent text-on-surface hover:bg-surface-variant font-label-caps text-label-caps py-1.5 transition-none flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[14px]" data-icon="open_in_new">open_in_new</span> VERIFY
+                            </button>
+</div>
+<!-- Signal 2 -->
+<div class="nested-panel border border-outline-variant p-3 space-y-3">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-on-surface">CONTINGENCY FRAMEWORK</span>
+<span class="font-data-mono text-[10px] bg-[#F59E0B] text-black px-1.5 py-0.5 font-bold">ACCEPTABLE</span>
+</div>
+<div class="font-data-mono text-body-sm text-primary break-all">
+                                Protocol_Alpha.md
+                                <br/>
+<span class="text-on-surface-variant text-[11px]">sha256: 3b1a8f...2d4e</span>
+</div>
+<div class="border-t border-outline-variant pt-2 mt-2 font-body-sm text-on-surface-variant">
+                                Note: Deprecated framing detected. Alignment score: 82%.
+                            </div>
+</div>
+<!-- Missing Source Flag -->
+<div class="nested-panel border border-[#EF4444] p-3 space-y-2 bg-[#EF4444]/10">
+<div class="flex items-center gap-2 text-[#EF4444]">
+<span class="material-symbols-outlined text-[16px]" data-icon="warning">warning</span>
+<span class="font-label-caps text-label-caps">UNVERIFIED ASSERTION</span>
+</div>
+<p class="font-body-sm text-on-surface">
+                                "adversary's capability to disrupt primary communications... assessed as critical"
+                            </p>
+<div class="font-data-mono text-[11px] text-[#EF4444]">
+                                ACTION REQ: Link evidentiary source.
+                            </div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-4 h-8">
+<div class="font-data-mono text-body-sm text-on-surface-variant">
+            LOCAL NODE STATUS: <span class="text-[#22C55E]">OPERATIONAL</span>
+</div>
+<div class="flex gap-6 font-data-mono text-body-sm text-on-surface-variant">
+<span class="hover:text-primary transition-none cursor-default">FINGERPRINT: 88:92:AF</span>
+<span class="hover:text-primary transition-none cursor-default">NETWORK: ENCRYPTED</span>
+<span class="text-tertiary">SIG: ed25519_8f9...2a1</span>
+</div>
+</footer>
+</body></html>

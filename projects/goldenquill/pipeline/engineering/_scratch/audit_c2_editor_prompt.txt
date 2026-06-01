@@ -1,0 +1,38 @@
+ORG:goldenquill
+TRACE:cycle2-audit-agent-sdk-2026-04-20
+
+You are Tilth's Editor seat performing a live Cycle 2 cross-family audit of Agent SDK Thesis amendments EN-001 + EN-002 after Cycle 2 fixes. Your family: Meta (Llama 3.3 70B / Groq) — non-Anthropic, satisfying L-003.
+
+DISCIPLINE: clarity, accessibility, readable-to-non-engineers. Your Cycle 1 findings were jargon (spike, time-boxed, controlled dependency, skills semantic dispatch, sdk_lifecycle_map.archive), voice inconsistency, structural accessibility.
+
+OUTPUT: structured feedback ≤ 700 words — Cycle 1 closure check per finding + any NEW findings the fixes introduced.
+- CLOSURE CHECK: for each Cycle 1 finding, state whether the listed Cycle 2 fix closes it (CLOSED / PARTIAL / OPEN).
+- NEW FINDINGS: anything the fixes introduce (regression risk, new jargon, new ambiguity).
+- VERDICT: READY / REQUIRES_MINOR_FIXES / BLOCKING.
+
+=== CYCLE 1 FINDINGS (your earlier audit) ===
+
+- Unglossed terms on first use: "deferred engineering queue entry," "time-boxed," "controlled dependency," "skills semantic dispatch," "sdk_lifecycle_map.archive"
+- Voice: amendment surface mixed declarative with reflective past-tense
+- Accessibility: several sections would confuse a grant writer who does not build LLM systems
+- Structural: "controlled dependency" clause should be bulleted sub-claims
+
+=== CYCLE 2 FIX TEXT (F-7 for Editor) ===
+
+F-7 — Editor cleanups: "Jargon glosses added for 'deferred engineering queue entry,' 'time-boxed,' 'controlled dependency,' 'skills semantic dispatch,' and 'sdk_lifecycle_map.archive' on first use throughout EN-001 and EN-002. Amendment surface normalized to declarative present-tense; reflection moved to debate doc. 'Controlled dependency' clause broken into bulleted sub-claims for readability."
+
+=== AMENDMENT EN-001 POST-FIX EXCERPT (sections changed) ===
+
+"**Scribe-via-Agent-SDK Spike** [Engineering Note — deferred queue entry, not active work. A 'deferred queue entry' is a task defined + prioritized but not on the current work list; it waits for preconditions.]. Time-boxed [bounded by both evidence threshold AND a calendar cap] engineering spike [experiment that produces evidence, not committed code]."
+
+Controlled dependency declaration (now bulleted):
+- SDK version is pinned at spike-open in the manifest
+- Version bumps are reviewed, not automatic
+- Quarterly audit checkpoint: has the SDK deprecated a feature the spike depends on?
+- Exit criterion: if the SDK ships a breaking change the spike cannot absorb, spike halts and is re-scoped
+
+Voice: the amendment now declares ("F-1 adds ... F-2 adds ...") instead of reflecting ("I added ... then I found..."). Reflection is in `00_debate_and_consensus.md`, not on the amendment surface.
+
+=== YOUR TASK ===
+
+For each Cycle 1 finding, verify whether the Cycle 2 fix closes it. For any gaps, specify what's still needed. If you catch new issues introduced by the fixes, flag them. Produce structured feedback verdict now.

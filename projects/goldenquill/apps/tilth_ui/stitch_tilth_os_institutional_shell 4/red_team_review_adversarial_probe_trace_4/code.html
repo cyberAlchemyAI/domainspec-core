@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Red Team Review</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#ffffff",
+                        "primary-container": "#e2e2e2",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#111c2d",
+                        "surface-container": "#152031",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-background": "#d8e3fb",
+                        "inverse-surface": "#d8e3fb",
+                        "on-secondary": "#213145",
+                        "outline-variant": "#444748",
+                        "surface-dim": "#081425",
+                        "on-secondary-fixed": "#0b1c30",
+                        "tertiary-container": "#dae2fd",
+                        "background": "#081425",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "secondary": "#b7c8e1",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "error": "#ffb4ab",
+                        "on-surface": "#d8e3fb",
+                        "outline": "#8e9192",
+                        "on-primary-fixed-variant": "#454747",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-surface-variant": "#c4c7c8",
+                        "surface-container-highest": "#2a3548",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-error-container": "#ffdad6",
+                        "surface-bright": "#2f3a4c",
+                        "primary": "#ffffff",
+                        "on-primary": "#2f3131",
+                        "on-primary-fixed": "#1a1c1c",
+                        "inverse-on-surface": "#263143",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-tertiary": "#283044",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface": "#081425",
+                        "surface-container-high": "#1f2a3c",
+                        "inverse-primary": "#5d5f5f",
+                        "surface-variant": "#2a3548",
+                        "surface-container-lowest": "#040e1f",
+                        "on-primary-container": "#636565",
+                        "surface-tint": "#c6c6c7",
+                        "primary-fixed": "#e2e2e2",
+                        "secondary-container": "#3a4a5f",
+                        "on-tertiary-container": "#5c647a",
+                        "on-secondary-container": "#a9bad3",
+                        "on-tertiary-fixed-variant": "#3f465c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "sidebar-width": "220px",
+                        "panel-gap": "8px",
+                        "gutter": "1px",
+                        "container-padding": "16px"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Base reset for brutalist aesthetic */
+        * { box-sizing: border-box; border-radius: 0 !important; }
+        body { background-color: theme('colors.background'); color: theme('colors.on-surface'); margin: 0; padding: 0; }
+        
+        /* Custom scrollbar for data tables/panels */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: theme('colors.surface-container-low'); border-left: 1px solid theme('colors.outline-variant'); }
+        ::-webkit-scrollbar-thumb { background: theme('colors.outline-variant'); }
+        ::-webkit-scrollbar-thumb:hover { background: theme('colors.outline'); }
+    </style>
+</head>
+<body class="antialiased min-h-screen overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-40 bg-surface-container-highest dark:bg-surface-container-highest h-[56px] border-b border-outline-variant flex items-center justify-between px-container-padding">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter uppercase">GOLDEN QUILL</span>
+</div>
+<div class="flex items-center gap-4 text-primary dark:text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">security</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">verified_user</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">gavel</span>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-sidebar-width z-30 pt-[56px] bg-surface-container-low dark:bg-surface-container-low border-r border-outline-variant flex flex-col">
+<div class="p-4 border-b border-outline-variant bg-surface-container-highest">
+<div class="font-headline-md text-headline-md text-primary uppercase">NODE IDENTITY</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-1">POSTURE: SECURE</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<ul class="flex flex-col">
+<!-- Inactive Tabs -->
+<li><a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none uppercase" href="#"><span class="material-symbols-outlined text-[18px]">home</span> Home</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none uppercase" href="#"><span class="material-symbols-outlined text-[18px]">search</span> Scout</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none uppercase" href="#"><span class="material-symbols-outlined text-[18px]">input</span> Intake</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none uppercase" href="#"><span class="material-symbols-outlined text-[18px]">assignment_turned_in</span> Eligibility</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none uppercase" href="#"><span class="material-symbols-outlined text-[18px]">map</span> Module Mapper</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none uppercase" href="#"><span class="material-symbols-outlined text-[18px]">edit_note</span> Drafting</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none uppercase" href="#"><span class="material-symbols-outlined text-[18px]">payments</span> Budget</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none uppercase" href="#"><span class="material-symbols-outlined text-[18px]">gavel</span> Judge</a></li>
+<!-- Active Tab -->
+<li>
+<a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps uppercase bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">security</span> Red Team
+                    </a>
+</li>
+<!-- Inactive Tabs -->
+<li><a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none uppercase" href="#"><span class="material-symbols-outlined text-[18px]">signature</span> Sign-Off</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none uppercase" href="#"><span class="material-symbols-outlined text-[18px]">history_edu</span> Audit</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none uppercase" href="#"><span class="material-symbols-outlined text-[18px]">style</span> Cards</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none uppercase" href="#"><span class="material-symbols-outlined text-[18px]">fingerprint</span> FIDs</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-high transition-none uppercase" href="#"><span class="material-symbols-outlined text-[18px]">account_balance_wallet</span> Costs</a></li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="fixed top-[56px] left-[220px] right-0 bottom-[32px] overflow-y-auto bg-background p-4 flex flex-col gap-4">
+<!-- Council Split Banner -->
+<div class="border border-[#F59E0B] bg-[#1E293B] flex items-stretch">
+<div class="bg-[#F59E0B] flex items-center justify-center px-4">
+<span class="material-symbols-outlined text-[#0F172A]" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="p-3 flex-1 flex items-center justify-between">
+<div>
+<h2 class="font-label-caps text-label-caps text-[#F59E0B] tracking-widest uppercase">Council Split Detected</h2>
+<p class="font-data-mono text-data-mono text-on-surface mt-1">JUDGE SCORE: 82/100 | RED TEAM STATUS: CRITICAL VULNERABILITIES FOUND</p>
+</div>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-4 py-2 hover:bg-surface-container-high hover:text-primary border border-primary transition-none uppercase">
+                    Halt Progression
+                </button>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-4 flex-1 min-h-0">
+<!-- Left Panel: Forensic Attack Surface -->
+<div class="col-span-5 flex flex-col border border-outline-variant bg-surface-container-low min-h-0">
+<div class="p-3 border-b border-outline-variant bg-surface-container flex justify-between items-center">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Forensic Attack Surface</h3>
+<span class="font-data-mono text-data-mono text-error">2 HITS</span>
+</div>
+<div class="flex-1 overflow-y-auto p-3 flex flex-col gap-[1px] bg-outline-variant">
+<!-- Probe Item 1 -->
+<div class="bg-surface-container p-3 flex items-start gap-3 cursor-pointer border border-[#9C3C28] relative">
+<div class="w-2 h-2 bg-[#9C3C28] mt-1.5 flex-shrink-0"></div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<span class="font-data-mono text-data-mono text-on-surface-variant">PRB-104</span>
+<span class="font-label-caps text-label-caps text-[#9C3C28] uppercase">HIT</span>
+</div>
+<h4 class="font-body-md text-body-md text-primary mb-1">Market Traction Claims</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Institutional buyer interest verified?</p>
+</div>
+</div>
+<!-- Probe Item 2 -->
+<div class="bg-surface-container p-3 flex items-start gap-3 cursor-pointer hover:bg-surface-container-high transition-none">
+<div class="w-2 h-2 bg-[#9C3C28] mt-1.5 flex-shrink-0"></div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<span class="font-data-mono text-data-mono text-on-surface-variant">PRB-209</span>
+<span class="font-label-caps text-label-caps text-[#9C3C28] uppercase">HIT</span>
+</div>
+<h4 class="font-body-md text-body-md text-primary mb-1">Narrative Compliance</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Administrative risk language detected.</p>
+</div>
+</div>
+<!-- Probe Item 3 -->
+<div class="bg-surface-container p-3 flex items-start gap-3 cursor-pointer hover:bg-surface-container-high transition-none">
+<div class="w-2 h-2 bg-[#22C55E] mt-1.5 flex-shrink-0"></div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<span class="font-data-mono text-data-mono text-on-surface-variant">PRB-042</span>
+<span class="font-label-caps text-label-caps text-[#22C55E] uppercase">CLEAN</span>
+</div>
+<h4 class="font-body-md text-body-md text-primary mb-1">Financial Runway</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Burn rate vs capital reserves.</p>
+</div>
+</div>
+<!-- Probe Item 4 -->
+<div class="bg-surface-container p-3 flex items-start gap-3 cursor-pointer hover:bg-surface-container-high transition-none">
+<div class="w-2 h-2 bg-[#F59E0B] mt-1.5 flex-shrink-0"></div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<span class="font-data-mono text-data-mono text-on-surface-variant">PRB-118</span>
+<span class="font-label-caps text-label-caps text-[#F59E0B] uppercase">UNCERTAIN</span>
+</div>
+<h4 class="font-body-md text-body-md text-primary mb-1">Team Pedigree Mapping</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Past performance correlation threshold.</p>
+</div>
+</div>
+<!-- Probe Item 5 -->
+<div class="bg-surface-container p-3 flex items-start gap-3 cursor-pointer hover:bg-surface-container-high transition-none">
+<div class="w-2 h-2 bg-[#22C55E] mt-1.5 flex-shrink-0"></div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<span class="font-data-mono text-data-mono text-on-surface-variant">PRB-088</span>
+<span class="font-label-caps text-label-caps text-[#22C55E] uppercase">CLEAN</span>
+</div>
+<h4 class="font-body-md text-body-md text-primary mb-1">IP Chain of Custody</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Open source dependency audit.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Panel: Vulnerability Details -->
+<div class="col-span-7 flex flex-col gap-4 min-h-0">
+<!-- Hit Detail 1 -->
+<div class="flex-1 border border-[#9C3C28] bg-surface-container flex flex-col">
+<div class="p-3 border-b border-[#9C3C28] bg-[#1E293B] flex items-center gap-3">
+<span class="material-symbols-outlined text-[#9C3C28]">target</span>
+<h3 class="font-headline-md text-headline-md text-primary uppercase">Fake-Fit Partnership Signal</h3>
+<span class="ml-auto font-data-mono text-data-mono bg-[#9C3C28] text-primary px-2 py-1">SEV: HIGH</span>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<div class="mb-4">
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Attack Vector</h4>
+<p class="font-body-md text-body-md text-on-surface">The proposal asserts strong "institutional buyer interest" and projects revenue based on these relationships. However, forensic analysis reveals a lack of formalized Letters of Intent (LOIs) or binding commitments. This is a critical surface for adversarial review; competitors or auditors will immediately flag this as fabricated traction.</p>
+</div>
+<div class="mb-4 bg-background border border-outline-variant p-3">
+<h4 class="font-label-caps text-label-caps text-[#9C3C28] mb-2 uppercase">Extracted Quote (Draft)</h4>
+<p class="font-data-mono text-data-mono text-on-surface italic">"...with confirmed interest from Tier-1 institutional buyers, we anticipate rapid adoption upon mainnet launch."</p>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Required Response</h4>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[18px] mt-0.5">subdirectory_arrow_right</span>
+<div class="flex-1">
+<p class="font-body-md text-body-md text-primary">Either secure cryptographic/legal LOIs prior to submission, or downgrade the claim explicitly to "early exploratory conversations." Do not project revenue based on unverified signals.</p>
+<div class="mt-3 flex gap-2">
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-4 py-2 hover:bg-surface-bright transition-none uppercase">Enforce Edit</button>
+<button class="border border-outline-variant text-primary font-label-caps text-label-caps px-4 py-2 hover:bg-surface-container-high transition-none uppercase">Request Evidence</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Hit Detail 2 (Condensed) -->
+<div class="border border-[#9C3C28] bg-surface-container flex flex-col">
+<div class="p-3 border-b border-[#9C3C28] bg-[#1E293B] flex items-center gap-3">
+<span class="material-symbols-outlined text-[#9C3C28]">gavel</span>
+<h3 class="font-headline-md text-headline-md text-primary uppercase">Admin-Risk Language</h3>
+<span class="ml-auto font-data-mono text-data-mono border border-[#9C3C28] text-[#9C3C28] px-2 py-1">SEV: MED</span>
+</div>
+<div class="p-4 flex gap-4">
+<div class="flex-1">
+<p class="font-body-md text-body-md text-on-surface mb-2">Usage of the term <span class="font-data-mono text-data-mono bg-error text-on-error px-1">"revolutionary"</span> detected 3 times. This language triggers administrative/regulatory scrutiny and suggests marketing fluff over technical merit.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant uppercase"><span class="font-label-caps text-label-caps text-primary">Directive:</span> Replace with quantifiable performance metrics.</p>
+</div>
+<div class="flex flex-col justify-center">
+<button class="border border-outline-variant text-primary font-label-caps text-label-caps px-4 py-2 hover:bg-surface-container-high transition-none uppercase whitespace-nowrap">Auto-Scrub</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest dark:bg-surface-container-lowest h-[32px] border-t border-outline-variant flex items-center justify-between px-4">
+<div class="font-label-caps text-label-caps text-primary uppercase">NODE_FINALITY: GOLD-BURNISHED</div>
+<div class="flex items-center gap-6">
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary uppercase" href="#">SYSTEM_STATUS</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary uppercase" href="#">AUDIT_LOG</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary uppercase" href="#">FID_0x2A</a>
+</div>
+</footer>
+</body></html>

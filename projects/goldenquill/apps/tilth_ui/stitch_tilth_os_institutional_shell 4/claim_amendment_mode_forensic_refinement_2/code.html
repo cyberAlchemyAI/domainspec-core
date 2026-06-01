@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Claim Amendment Mode</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#dae2fd",
+                        "secondary": "#b7c8e1",
+                        "primary-fixed": "#e2e2e2",
+                        "on-tertiary": "#283044",
+                        "surface-dim": "#081425",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-primary-fixed": "#1a1c1c",
+                        "primary": "#ffffff",
+                        "surface-container-low": "#111c2d",
+                        "inverse-on-surface": "#263143",
+                        "outline": "#8e9192",
+                        "on-secondary-container": "#a9bad3",
+                        "on-primary": "#2f3131",
+                        "background": "#081425",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-primary-fixed-variant": "#454747",
+                        "secondary-container": "#3a4a5f",
+                        "on-surface": "#d8e3fb",
+                        "on-tertiary-container": "#5c647a",
+                        "surface-tint": "#c6c6c7",
+                        "surface-container": "#152031",
+                        "surface": "#081425",
+                        "on-primary-container": "#636565",
+                        "surface-container-lowest": "#040e1f",
+                        "surface-variant": "#2a3548",
+                        "surface-container-high": "#1f2a3c",
+                        "outline-variant": "#444748",
+                        "surface-container-highest": "#2a3548",
+                        "inverse-surface": "#d8e3fb",
+                        "on-secondary-fixed": "#0b1c30",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-secondary": "#213145",
+                        "surface-bright": "#2f3a4c",
+                        "on-background": "#d8e3fb",
+                        "tertiary": "#ffffff",
+                        "on-error": "#690005",
+                        "primary-container": "#e2e2e2",
+                        "tertiary-fixed": "#dae2fd",
+                        "secondary-fixed": "#d3e4fe",
+                        "error": "#ffb4ab",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#5d5f5f",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed": "#131b2e",
+                        "warning": "#F59E0B" // Added for specific alert state
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px", // Forced to 0px per style guidance
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "gutter": "1px",
+                        "sidebar-width": "220px",
+                        "unit": "4px",
+                        "container-padding": "16px",
+                        "panel-gap": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                        "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased overflow-hidden selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between px-gutter w-full fixed top-0 z-50 bg-background font-body-md text-body-md docked full-width top-0 h-[56px] border-b border-outline-variant">
+<div class="flex items-center h-full">
+<div class="px-4 border-r border-outline-variant h-full flex items-center bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface">menu</span>
+</div>
+<div class="px-4 flex flex-col justify-center">
+<span class="font-title-sm text-title-sm text-on-surface uppercase tracking-tighter">IDEA FOUNDRY NODE</span>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="w-2 h-2 bg-warning border border-outline"></span>
+<span class="font-data-mono text-data-mono text-warning">DRAFTING UNDER ADVERSARIAL REVIEW</span>
+</div>
+</div>
+</div>
+<div class="flex items-center h-full">
+<div class="h-full border-l border-outline-variant flex items-center px-4 hover:bg-surface-container-low transition-colors text-on-surface-variant cursor-pointer">
+<span>Cycle ID: 8824-A</span>
+</div>
+<div class="h-full border-l border-outline-variant flex items-center px-4 gap-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Signing Key 4a3f...b2c8</span>
+<span class="material-symbols-outlined text-primary text-sm">key</span>
+<span class="bg-primary text-on-primary font-label-caps text-label-caps px-2 py-1 ml-2">Verified</span>
+</div>
+</div>
+</header>
+<div class="flex h-screen pt-[56px]">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-[56px] h-[calc(100vh-56px)] flex flex-col z-40 bg-surface-container-low dark:bg-surface-container-low text-primary dark:text-primary font-code-sm text-code-sm docked left-0 h-full w-[220px] border-r border-outline-variant">
+<div class="p-4 border-b border-outline-variant mb-4">
+<div class="w-10 h-10 border border-outline bg-surface-container flex items-center justify-center mb-3 text-on-surface-variant">
+<span class="material-symbols-outlined" title="Operator Node">account_tree</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Golden Quill</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Institutional Workstation</p>
+</div>
+<div class="flex-1 flex flex-col gap-0.5 px-2">
+<div class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined">home</span>
+<span>Home</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined">gate</span>
+<span>Eligibility (12)</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 bg-surface-container-highest text-primary border-r-2 border-primary transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined">edit_note</span>
+<span>Drafting</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined">history_edu</span>
+<span>Audit Ledger</span>
+</div>
+</div>
+<div class="mt-auto border-t border-outline-variant p-2 flex flex-col gap-0.5">
+<div class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined">terminal</span>
+<span>System Logs</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined">help_center</span>
+<span>Support</span>
+</div>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-1 ml-[220px] mr-[380px] h-[calc(100vh-56px)] overflow-y-auto bg-background p-6">
+<div class="max-w-3xl mx-auto">
+<div class="border-b border-outline-variant pb-4 mb-8 flex justify-between items-end">
+<div>
+<div class="font-data-mono text-data-mono text-on-surface-variant mb-2">DOC-REF: INITIATIVE_ALPHA_v4.2</div>
+<h1 class="font-display-lg text-display-lg text-on-surface">Project Narrative</h1>
+</div>
+<div class="flex gap-2">
+<span class="font-label-caps text-label-caps px-2 py-1 border border-outline-variant text-on-surface-variant">AUTOSAVE: ON</span>
+<span class="font-label-caps text-label-caps px-2 py-1 border border-error text-error flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-error block"></span>
+                            1 CRITICAL HIT
+                        </span>
+</div>
+</div>
+<div class="space-y-6 font-body-md text-body-md leading-relaxed text-on-surface-variant opacity-50 select-none">
+<p>The core objective of Initiative Alpha is to establish a robust infrastructure framework capable of withstanding high-variance climatic events while maintaining continuous operational throughput. Preliminary environmental assessments indicate a necessity for specialized foundation engineering, primarily focusing on geotechnical stability in sector 7G.</p>
+<p>Furthermore, our approach integrates advanced modular design principles. By leveraging pre-fabricated structural components, the deployment timeline is aggressively compressed, allowing for earlier phase integration and reduced exposure to localized market volatility in material procurement.</p>
+</div>
+<div class="my-6 border border-error bg-surface-container-lowest p-5 relative">
+<div class="absolute -top-3 left-4 bg-background px-2 font-label-caps text-label-caps text-error border border-error flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                        REVISION REQUIRED: PRB-014
+                    </div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed mt-2">
+                        Crucially, the project's viability relies on <span class="bg-error/20 border-b border-error text-primary px-1">Tier-1 supply chain readiness across all primary logistical nodes.</span> Our strategic partnerships guarantee uninterrupted access to specialized alloys and proprietary sensory equipment necessary for the Phase III rollout, positioning the initiative significantly ahead of concurrent municipal developments.
+                    </p>
+<textarea class="w-full mt-4 bg-surface border border-outline focus:border-primary text-on-surface font-body-md text-body-md p-3 h-24 resize-none" placeholder="Revise claim here..."></textarea>
+</div>
+<div class="space-y-6 font-body-md text-body-md leading-relaxed text-on-surface-variant opacity-50 select-none">
+<p>Subsequent operational phases will shift focus towards integration of the automated telemetry systems. These systems are designed to operate autonomously, providing high-fidelity data streams directly to the central coordination node.</p>
+</div>
+</div>
+</main>
+<!-- Right Inspector Panel -->
+<aside class="fixed right-0 top-[56px] h-[calc(100vh-56px)] flex flex-col z-40 bg-surface-container-low dark:bg-surface-container-low text-tertiary dark:text-tertiary font-label-xs text-label-xs docked right-0 h-full w-[380px] border-l border-outline-variant">
+<div class="p-4 border-b border-error bg-[#1A0A0A]">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-caps text-label-caps text-error">RED TEAM ADVERSARIAL HIT</span>
+<span class="font-data-mono text-data-mono text-error">SEV: HIGH</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-1">PRB-014: Unsupported Impact Claim</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">The assertion regarding "Tier-1 supply chain readiness" lacks documented substantiation. Red Team analysis flags this as a high-risk compliance failure.</p>
+</div>
+<div class="p-4 border-b border-outline-variant">
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-3">IMPACT ON JUDGE SCORE</h4>
+<div class="flex items-center gap-4 bg-surface p-3 border border-outline-variant">
+<div class="text-error font-display-lg text-display-lg">-8</div>
+<div>
+<div class="font-data-mono text-data-mono text-primary">POINTS DEDUCTED</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">Penalizing Addressable Remainder</div>
+</div>
+</div>
+</div>
+<div class="p-4 flex-1">
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-3">REQUIRED ACTION</h4>
+<ul class="font-body-sm text-body-sm text-on-surface space-y-3">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px] mt-0.5">check_box_outline_blank</span>
+<span>Attach formal Memorandum of Understanding (MOU_PartnerA.pdf) confirming supply lines.</span>
+</li>
+<li class="flex items-center gap-2">
+<div class="flex-1 h-px bg-outline-variant"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">OR</span>
+<div class="flex-1 h-px bg-outline-variant"></div>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px] mt-0.5">check_box_outline_blank</span>
+<span>Downgrade claim in narrative to reflect speculative or "in-progress" status.</span>
+</li>
+</ul>
+</div>
+<div class="p-4 border-t border-outline-variant bg-surface-container flex flex-col gap-3">
+<button class="w-full bg-transparent border border-outline text-primary font-label-caps text-label-caps py-3 hover:bg-surface-variant transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">attachment</span>
+                    ATTACH MOU
+                </button>
+<button class="w-full bg-[#B23A3A] hover:bg-[#8A2B2B] text-primary font-label-caps text-label-caps py-3 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+                    APPLY RESOLUTION
+                </button>
+</div>
+<div class="border-t border-outline-variant bg-background p-2 flex justify-between items-center text-on-surface-variant font-label-caps text-label-caps">
+<span>Evidence Inspector</span>
+<div class="flex gap-4">
+<span class="hover:text-primary cursor-pointer transition-colors">Refresh</span>
+<span class="hover:text-primary cursor-pointer transition-colors">Export</span>
+<span class="hover:text-primary cursor-pointer transition-colors">Expand</span>
+</div>
+</div>
+</aside>
+</div>
+</body></html>

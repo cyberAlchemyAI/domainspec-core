@@ -1,0 +1,767 @@
+{
+  "dispatch_id": "goldenquill-repository-research-20260529",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Create a research strategy to understand the GoldenQuill repository architecture, features, improvement candidates, and use many subagents to do this. Update it so it can also find new improvements, not only dedupe existing backlog.",
+    "objective": "Plan a governed multi-agent repository research run that maps architecture, feature/runtime maturity, tests, governance boundaries, product surfaces, existing improvement candidates, and genuinely new improvement candidates without modifying source or crossing org/client boundaries.",
+    "target_artifact": "docs/strategy/goldenquill_repository_research_strategy_2026-05-29.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "context-builder",
+      "robot-talks",
+      "x-ray",
+      "distill",
+      "decision-gate",
+      "task-session",
+      "experiment-harness",
+      "observability",
+      "boundary_evidence",
+      "promotion_guardrail",
+      "residue"
+    ],
+    "operator_sentence": "Use dispatch-spec to define a multi-subagent research strategy that recovers existing work and deliberately searches for new improvements before deciding which implementation work should start."
+  },
+  "mode": "implementation-research",
+  "route_menu": {
+    "context_hint": "The selected route favors repository-wide parallel research before implementation, because the user asked for architecture/features/improvement understanding rather than a patch.",
+    "items": [
+      {
+        "id": "wide-repository-fanout",
+        "label": "Wide repository fanout",
+        "description": "Parallel subagents inspect architecture, features, tests, governance, product docs, data boundaries, backlog evidence, and net-new improvement opportunities, then the parent synthesizes.",
+        "capability_ref": "robot-talks",
+        "pattern": "fanout"
+      },
+      {
+        "id": "maturity-first-audit",
+        "label": "Maturity-first audit",
+        "description": "Start from PROJECT_STATUS and RUNTIME_MATURITY_MATRIX, then sample code/tests only for claims that need verification.",
+        "capability_ref": "context-builder",
+        "pattern": "sequential"
+      },
+      {
+        "id": "improvement-candidate-tournament",
+        "label": "Improvement tournament",
+        "description": "Use agents to propose existing and new improvements, rank them by risk/value/coupling, and send only the chosen candidate to task-session.",
+        "capability_ref": "decision-gate",
+        "pattern": "tournament"
+      }
+    ],
+    "selected_item_id": "wide-repository-fanout"
+  },
+  "techniques": [
+    "sequence",
+    "x_ray",
+    "delegation_boundary",
+    "role_projection_boundary",
+    "execution_receipt_handoff",
+    "evidence_summary_handoff",
+    "concrete_path_evidence",
+    "state_namespace_boundary",
+    "memory_promotion_split",
+    "observability_grouping",
+    "pareto_gate",
+    "residue_ledger",
+    "tournament"
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Repository-wide architecture, feature, maturity, backlog, and improvement discovery requires independent lanes that can inspect different evidence zones without collapsing into one narrator's assumptions.",
+    "explanation": "Subagents fit because the research target spans source architecture, tests, governance, product surfaces, security boundaries, existing backlog, and net-new improvement discovery. Separate lanes reduce duplicate work and make contradictions visible before synthesis.",
+    "context": [
+      "Initial pass found missing daily_logs.",
+      "Initial pass found stale dated status docs.",
+      "Initial pass found multiple UI/prototype surfaces.",
+      "Initial pass found possible golden_quill_substrate packaging ambiguity.",
+      "Initial pass found possible top-level logician versus pipeline/logician duplication.",
+      "Initial pass found existing backlog/audit artifacts that must be deduped before proposing new work."
+    ],
+    "roles": [
+      {
+        "role_id": "A1",
+        "purpose": "Map implementation architecture and authority boundaries.",
+        "owns": "source architecture evidence",
+        "affected_steps": [
+          "parallel-repository-research"
+        ]
+      },
+      {
+        "role_id": "A2",
+        "purpose": "Map visible feature and workflow surfaces from skills, CLIs, apps, and tests.",
+        "owns": "feature/workflow evidence",
+        "affected_steps": [
+          "parallel-repository-research"
+        ]
+      },
+      {
+        "role_id": "A3",
+        "purpose": "Map tests, CI, lint, and verification gaps.",
+        "owns": "quality evidence",
+        "affected_steps": [
+          "parallel-repository-research"
+        ]
+      },
+      {
+        "role_id": "A4",
+        "purpose": "Classify governance, current-truth, LOCKed, historical, and stale surfaces.",
+        "owns": "governance evidence",
+        "affected_steps": [
+          "parallel-repository-research"
+        ]
+      },
+      {
+        "role_id": "A5",
+        "purpose": "Map data, security, org-isolation, provider-boundary, and signed-register constraints.",
+        "owns": "security and sovereignty evidence",
+        "affected_steps": [
+          "parallel-repository-research"
+        ]
+      },
+      {
+        "role_id": "A6",
+        "purpose": "Classify product, UI, website, whitepaper, and journey surfaces.",
+        "owns": "product and UI evidence",
+        "affected_steps": [
+          "parallel-repository-research"
+        ]
+      },
+      {
+        "role_id": "A7",
+        "purpose": "Recover existing backlog, roadmap, audit, and patch-queue improvement candidates.",
+        "owns": "existing improvement evidence",
+        "affected_steps": [
+          "parallel-repository-research"
+        ]
+      },
+      {
+        "role_id": "A8",
+        "purpose": "Propose net-new improvements from observed gaps, duplication, stale truth, missing validation, developer friction, and product/architecture tension.",
+        "owns": "new improvement proposals",
+        "affected_steps": [
+          "parallel-repository-research",
+          "generate-net-new-improvements"
+        ]
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Run the repository research subagents now, including an A8 lane that proposes net-new improvements after deduping existing backlog/audit/roadmap items?",
+    "receipt_requirements": [
+      "role_id",
+      "session_id",
+      "paths_read",
+      "material_claims_with_paths",
+      "existing_candidates_found",
+      "new_candidates_proposed",
+      "duplicates_or_prior_art",
+      "validation_result",
+      "residue"
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "wake-and-frame",
+      "name": "Run wake-up and build source orientation frame",
+      "capability_ref": "context-builder",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "AGENTS.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "SOUL.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "USER.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "router.yaml"
+        },
+        {
+          "kind": "artifact",
+          "ref": "MEMORY.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "repository-wake-orientation-frame"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "repository-wake-completed"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if wake-up canonical files cannot be read.",
+        "Block if a client org is named but more than one PROJECT_CONTEXT.md would be needed.",
+        "Flag if daily_logs has no recent entries."
+      ]
+    },
+    {
+      "step_id": "map-current-truth-surfaces",
+      "name": "Map current-truth and maturity surfaces",
+      "capability_ref": "x-ray",
+      "pattern": "xray",
+      "parallel": false,
+      "techniques": [
+        "x_ray",
+        "frame_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "repository-wake-orientation-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "README.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "PROJECT_STATUS.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "RUNTIME_MATURITY_MATRIX.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/COLLABORATOR_HANDOFF.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/TECHNICAL_BACKLOG.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handle",
+          "ref": "repository-current-truth-map"
+        },
+        {
+          "kind": "frame",
+          "ref": "repository-research-reading-order"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Flag any claim whose current-truth source is dated or explicitly described as stale-fast.",
+        "Block if a LOCKed file would need modification during research."
+      ]
+    },
+    {
+      "step_id": "parallel-repository-research",
+      "name": "Run specialized repository research subagents",
+      "capability_ref": "robot-talks",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "delegation_boundary",
+        "role_projection_boundary",
+        "execution_receipt_handoff",
+        "evidence_summary_handoff",
+        "concrete_path_evidence",
+        "observability_grouping"
+      ],
+      "roles": [
+        "A1 implementation-architecture: pipeline, golden_quill_substrate, logician, nervous_system, orchestrator, sovereignty boundaries",
+        "A2 feature-workflow-surface: skills, CLIs, apps, council seats, scout channels, uploader/intake/report paths",
+        "A3 test-and-quality-map: tests by subsystem, CI surface, lint rules, missing verification matrix",
+        "A4 governance-and-current-truth: blueprint, architecture, lock history, maturity matrix, do-not-touch surfaces",
+        "A5 data-security-and-org-isolation: org boundary, vaults, classification, keys, provider boundary, signed assets",
+        "A6 product-docs-and-user-journeys: README, collaborator handoff, website/app surfaces, whitepapers, onboarding docs",
+        "A7 improvement-candidate-scout: backlog, roadmap, TODO/risk/audit artifacts, duplicated or already-started work",
+        "A8 net-new-improvement-scout: repo gaps, duplicate implementations, stale truth, missing validation, developer friction, product/architecture tension, and improvement ideas not already present in backlog"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "repository-wake-orientation-frame"
+        },
+        {
+          "kind": "handle",
+          "ref": "repository-current-truth-map"
+        },
+        {
+          "kind": "frame",
+          "ref": "repository-research-reading-order"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "repository-subagent-findings-ledger"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "repository-subagent-fanout-completed"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Each subagent cites concrete file paths for every material claim.",
+        "Each subagent distinguishes runtime-live, gate-live, asset-signed, spec-locked, schema-scaffold, dormant, and historical surfaces when maturity is relevant.",
+        "Each subagent names at least one evidence-backed improvement candidate or explicitly says none found in its lane.",
+        "The A8 lane must mark each proposed improvement as net-new, duplicate-of-existing, or uncertain-prior-art.",
+        "No subagent reads multiple client org PROJECT_CONTEXT files.",
+        "No subagent edits files during the research pass."
+      ],
+      "evidence_artifact": "docs/strategy/goldenquill_repository_research_findings_ledger_2026-05-29.md",
+      "stop_conditions": [
+        "Block synthesis if any critical claim lacks a concrete path or handle.",
+        "Block if a subagent imports confidential org data outside a named one-org task.",
+        "Flag if agents disagree about a subsystem maturity state."
+      ]
+    },
+    {
+      "step_id": "generate-net-new-improvements",
+      "name": "Generate and challenge net-new improvement candidates",
+      "capability_ref": "robot-talks",
+      "pattern": "tournament",
+      "parallel": true,
+      "techniques": [
+        "tournament",
+        "pareto_gate",
+        "concrete_path_evidence",
+        "residue_ledger",
+        "evidence_summary_handoff"
+      ],
+      "roles": [
+        "N1 architecture-gap-proposer",
+        "N2 runtime-verification-proposer",
+        "N3 developer-experience-proposer",
+        "N4 product-journey-proposer",
+        "N5 governance-simplification-proposer",
+        "N6 duplicate-work-challenger"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "repository-subagent-findings-ledger"
+        },
+        {
+          "kind": "handle",
+          "ref": "repository-current-truth-map"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "repository-net-new-improvement-ledger"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "repository-net-new-improvement-tournament-completed"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Every proposed new improvement cites concrete path evidence and explains why existing backlog, roadmap, issue drafts, audit docs, and patch queues do not already cover it.",
+        "The duplicate-work challenger marks each candidate as net-new, duplicate, partial-overlap, or needs-human-call.",
+        "Candidates are grouped by architecture, runtime verification, developer experience, product journey, governance simplification, and stale-truth cleanup.",
+        "No candidate enters ranking unless it has a validation path and owner surface."
+      ],
+      "evidence_artifact": "docs/strategy/goldenquill_repository_new_improvement_candidates_2026-05-29.md",
+      "stop_conditions": [
+        "Block if a proposed net-new candidate lacks path evidence.",
+        "Flag candidates whose prior-art status is uncertain.",
+        "Defer candidates that require LOCKed-governance changes until a decision-gate route is chosen."
+      ]
+    },
+    {
+      "step_id": "synthesize-repository-model",
+      "name": "Synthesize architecture, feature, and improvement model",
+      "capability_ref": "distill",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "evidence_summary_handoff",
+        "residue_ledger",
+        "recomposition_proof"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "repository-subagent-findings-ledger"
+        },
+        {
+          "kind": "ledger",
+          "ref": "repository-net-new-improvement-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_repository_research_synthesis_2026-05-29.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "repository-research-residue-ledger"
+        },
+        {
+          "kind": "frame",
+          "ref": "repository-improvement-candidate-frame"
+        }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "Produce one subsystem map, one feature map, one governance-boundary map, and one improvement-candidate map.",
+        "Split improvement candidates into existing/recovered, net-new, partial-overlap, and uncertain-prior-art.",
+        "Keep stale or conflicting claims in residue instead of smoothing them into conclusions.",
+        "Tie each improvement candidate to evidence, likely owner surface, blast radius, and validation path."
+      ],
+      "stop_conditions": [
+        "Flag any recommendation that depends on a stale dated snapshot without live verification.",
+        "Block any recommendation that edits LOCKed, signed, org, data, or root wake-up surfaces without operator approval."
+      ]
+    },
+    {
+      "step_id": "rank-improvement-candidates",
+      "name": "Rank candidate improvements and select next route",
+      "capability_ref": "decision-gate",
+      "pattern": "decision",
+      "parallel": false,
+      "techniques": [
+        "pareto_gate",
+        "approval_semantics_map",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "repository-improvement-candidate-frame"
+        },
+        {
+          "kind": "ledger",
+          "ref": "repository-research-residue-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "first-repository-improvement-route-choice"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_repository_improvement_candidates_2026-05-29.md"
+        }
+      ],
+      "join_policy": "human_gate",
+      "convergence_criteria": [
+        "Classify each candidate as safe-first-task, Gate 1, Gate 2, needs Josh decision, or needs architecture/LOCK process.",
+        "Mark each candidate as existing/recovered, net-new, partial-overlap, or uncertain-prior-art.",
+        "Rank by operator value, risk reduction, implementation cost, verification clarity, and sovereignty impact.",
+        "Record rejected or deferred candidates with reasons."
+      ],
+      "stop_conditions": [
+        "Ask Josh before beginning implementation.",
+        "Block any candidate that requires changing LOCKed governance without a LOCK route.",
+        "Block any candidate that uses a second org as evidence or boilerplate."
+      ]
+    },
+    {
+      "step_id": "validate-research-package",
+      "name": "Validate research outputs before handoff",
+      "capability_ref": "experiment-harness",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "artifact_contract_bridge",
+        "format_conformity_check",
+        "data_quality_integrity"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "first-repository-improvement-route-choice"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_repository_research_synthesis_2026-05-29.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_repository_improvement_candidates_2026-05-29.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_repository_research_validation_2026-05-29.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "repository-research-package-validated"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "docs/strategy/goldenquill_repository_research_validation_2026-05-29.md",
+      "stop_conditions": [
+        "Block if synthesis contains uncited material claims.",
+        "Block if improvement candidates lack verification commands or evidence paths.",
+        "Flag if current test status cannot be reproduced locally."
+      ]
+    },
+    {
+      "step_id": "prepare-next-work-handoff",
+      "name": "Prepare bounded next-work handoff",
+      "capability_ref": "task-session",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "frame_handoff",
+        "handle_handoff",
+        "memory_promotion_split"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "first-repository-improvement-route-choice"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/goldenquill_repository_research_validation_2026-05-29.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "repository-research-next-task-session-handoff"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "repository-research-handoff-prepared"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Defer if Josh has not chosen the first implementation candidate.",
+        "Block if the handoff attempts to promote research notes into canonical memory or architecture without owner review."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "law-3-org-isolation",
+      "kind": "policy",
+      "owner": "logician",
+      "condition": "Research must not read multiple client PROJECT_CONTEXT.md files or reuse one org's facts for another.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "path-evidence-required",
+      "kind": "quality",
+      "owner": "parent-synthesis",
+      "condition": "Every material architecture, feature, maturity, or improvement claim cites a concrete path or artifact handle.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "new-improvement-prior-art-check",
+      "kind": "quality",
+      "owner": "parent-synthesis",
+      "condition": "Any candidate marked net-new must be checked against docs/TECHNICAL_BACKLOG.md, docs/github_issues_drafts_2026-05-17.md, pipeline/roadmap/, docs/project_audit_2026-05-18.md, and card-system patch queues.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "maturity-vocabulary",
+      "kind": "quality",
+      "owner": "parent-synthesis",
+      "condition": "Runtime claims use the seven-state maturity vocabulary from RUNTIME_MATURITY_MATRIX.md.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "do-not-touch-guardrail",
+      "kind": "policy",
+      "owner": "operator",
+      "condition": "The research run does not edit LOCKed amendments, signed cards, lock_history, org/data folders, or root wake-up files.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "operator-before-implementation",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Josh chooses a first implementation route after seeing ranked candidates.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "promotion-split",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Research evidence may inform a future task-session or memory update, but does not promote Inventory, Ontology, glossary, sigil, spell, architecture, or LOCKed knowledge by itself.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "validation-artifacts-exist",
+      "kind": "validation",
+      "owner": "experiment-harness",
+      "condition": "The findings ledger, synthesis, improvement candidate table, and validation report exist before handoff.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "repository-wake-completed",
+      "repository-current-truth-map-created",
+      "repository-subagent-fanout-completed",
+      "repository-net-new-improvement-tournament-completed",
+      "repository-research-synthesis-completed",
+      "repository-improvement-choice-recorded",
+      "repository-research-package-validated",
+      "repository-research-handoff-prepared"
+    ],
+    "signal_grouping": "goldenquill-repository-research"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "subagent-delegation-boundary",
+        "kind": "capability_handoff",
+        "from_owner": "dispatch-spec-parent",
+        "to_owner": "robot-talks-subagents",
+        "applies_to_steps": [
+          "parallel-repository-research",
+          "generate-net-new-improvements"
+        ],
+        "contract": "Subagents perform read-only repository research in separate lanes and return path-cited summaries; parent synthesis owns conclusions.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "org-context-boundary",
+        "kind": "external_context",
+        "from_owner": "workspace",
+        "to_owner": "research-run",
+        "applies_to_steps": [
+          "wake-and-frame",
+          "parallel-repository-research",
+          "generate-net-new-improvements",
+          "synthesize-repository-model"
+        ],
+        "contract": "No client org PROJECT_CONTEXT.md may be read unless the research task names exactly one org; no cross-org comparison is permitted.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "source-write-boundary",
+        "kind": "state_write",
+        "from_owner": "research-run",
+        "to_owner": "repository-source",
+        "applies_to_steps": [
+          "parallel-repository-research",
+          "generate-net-new-improvements",
+          "synthesize-repository-model",
+          "rank-improvement-candidates",
+          "validate-research-package",
+          "prepare-next-work-handoff"
+        ],
+        "contract": "Research steps are read-only except for writing strategy, findings, synthesis, candidate, validation, and handoff artifacts under docs/strategy/.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "operator-implementation-boundary",
+        "kind": "human_approval",
+        "from_owner": "research-run",
+        "to_owner": "task-session",
+        "applies_to_steps": [
+          "rank-improvement-candidates",
+          "prepare-next-work-handoff"
+        ],
+        "contract": "Implementation starts only after Josh selects the first improvement route.",
+        "on_violation": "ask"
+      }
+    ],
+    "authority": {
+      "lifecycle": "dispatch-spec",
+      "execution": "parent-agent plus delegated subagents",
+      "validation": "experiment-harness",
+      "evidence": "parent-agent",
+      "memory": "workspace memory owners",
+      "promotion": "owning capability or operator"
+    },
+    "receipts": [
+      {
+        "receipt_id": "subagent-research-receipts",
+        "producer": "robot-talks-subagents",
+        "required_fields": [
+          "session_id",
+          "artifacts",
+          "validation_result",
+          "residue"
+        ],
+        "stores": [
+          "docs/strategy/goldenquill_repository_research_findings_ledger_2026-05-29.md"
+        ],
+        "on_missing": "flag"
+      },
+      {
+        "receipt_id": "validation-receipt",
+        "producer": "experiment-harness",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "audit_reference",
+          "residue"
+        ],
+        "stores": [
+          "docs/strategy/goldenquill_repository_research_validation_2026-05-29.md"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "repo-source",
+        "owner": "git/worktree",
+        "write_policy": "Read-only for research; no source edits during the strategy run."
+      },
+      {
+        "namespace": "docs-strategy",
+        "owner": "parent-agent",
+        "write_policy": "May write strategy and research handoff artifacts only under docs/strategy/."
+      },
+      {
+        "namespace": "org-client-data",
+        "owner": "operator/client org",
+        "write_policy": "No reads or writes unless a future task names exactly one org and loads only that org's PROJECT_CONTEXT.md."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "repository research evidence",
+        "target": "canonical architecture or maturity truth",
+        "rule": "Requires operator or owning-doc review before changing PROJECT_STATUS, RUNTIME_MATURITY_MATRIX, blueprint, architecture, memory, or LOCKed surfaces.",
+        "on_violation": "block"
+      },
+      {
+        "source": "subagent findings",
+        "target": "implementation task",
+        "rule": "Findings must be synthesized, ranked, and selected through the operator-before-implementation gate before task-session starts.",
+        "on_violation": "ask"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Research outputs are evidence and strategy, not canonical promotion.",
+    "Do not modify LOCKed amendments, signed assets, lock_history, org/client data, or root wake-up files during the research run.",
+    "Do not treat a subagent claim as current truth until path evidence is verified by parent synthesis.",
+    "Do not start implementation until Josh selects a first route."
+  ]
+}

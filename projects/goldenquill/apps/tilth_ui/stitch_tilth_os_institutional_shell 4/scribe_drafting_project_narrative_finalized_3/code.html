@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scribe Drafting Workspace - VAPG 2024</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Merriweather:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-variant": "#2a3548",
+                      "on-error": "#690005",
+                      "primary-fixed-dim": "#c6c6c7",
+                      "surface-bright": "#2f3a4c",
+                      "on-background": "#d8e3fb",
+                      "surface-container-low": "#111c2d",
+                      "error": "#ffb4ab",
+                      "background": "#081425",
+                      "secondary": "#b7c8e1",
+                      "on-primary-container": "#636565",
+                      "surface-container-highest": "#2a3548",
+                      "on-primary": "#2f3131",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "tertiary-fixed": "#dae2fd",
+                      "tertiary-container": "#dae2fd",
+                      "surface-dim": "#081425",
+                      "tertiary": "#ffffff",
+                      "inverse-on-surface": "#263143",
+                      "surface-container": "#152031",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "on-secondary-fixed": "#0b1c30",
+                      "primary": "#ffffff",
+                      "surface-container-lowest": "#040e1f",
+                      "on-secondary-container": "#a9bad3",
+                      "error-container": "#93000a",
+                      "surface-container-high": "#1f2a3c",
+                      "on-primary-fixed": "#1a1c1c",
+                      "outline": "#8e9192",
+                      "on-tertiary-container": "#5c647a",
+                      "on-secondary": "#213145",
+                      "on-surface-variant": "#c4c7c8",
+                      "inverse-surface": "#d8e3fb",
+                      "on-surface": "#d8e3fb",
+                      "surface-tint": "#c6c6c7",
+                      "primary-container": "#e2e2e2",
+                      "on-tertiary": "#283044",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "outline-variant": "#444748",
+                      "primary-fixed": "#e2e2e2",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "inverse-primary": "#5d5f5f",
+                      "secondary-fixed": "#d3e4fe",
+                      "on-tertiary-fixed": "#131b2e",
+                      "surface": "#081425",
+                      "on-primary-fixed-variant": "#454747",
+                      "secondary-container": "#3a4a5f",
+                      "terracotta": "#c05a41" // Added for the requested button color
+              },
+              "borderRadius": {
+                      "DEFAULT": "0px", // Enforcing modern brutalism radius
+                      "lg": "0px",
+                      "xl": "0px",
+                      "full": "0px"
+              },
+              "spacing": {
+                      "sidebar-width": "240px",
+                      "inspector-width": "320px",
+                      "unit": "4px",
+                      "gutter": "1px",
+                      "panel-gap": "8px",
+                      "container-padding": "16px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Hanken Grotesk"],
+                      "body-sm": ["Hanken Grotesk"],
+                      "label-caps": ["JetBrains Mono"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "data-mono": ["JetBrains Mono"],
+                      "body-md": ["Hanken Grotesk"],
+                      "draft-serif": ["Merriweather", "serif"] // Added for drafting canvas
+              },
+              "fontSize": {
+                      "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                      "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                      "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { background-color: #020617; }
+        .brutal-border { border: 1px solid #334155; }
+        .brutal-border-b { border-bottom: 1px solid #334155; }
+        .brutal-border-r { border-right: 1px solid #334155; }
+        .brutal-border-l { border-left: 1px solid #334155; }
+        
+        /* Conjectural Tag Styling */
+        .tag-conjecture {
+            display: inline-block;
+            background-color: #F59E0B20; /* Amber tinted background */
+            color: #F59E0B;
+            border: 1px solid #F59E0B;
+            padding: 0 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.4;
+            vertical-align: middle;
+            margin: 0 2px;
+        }
+
+        .draft-content {
+            font-family: 'Merriweather', serif;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #d8e3fb;
+        }
+        
+        .draft-content p { margin-bottom: 1.5rem; }
+    </style>
+</head>
+<body class="text-on-surface h-screen flex flex-col overflow-hidden font-body-md">
+<!-- TopAppBar -->
+<header class="bg-surface-container-low text-primary font-data-mono flex justify-between items-center w-full px-container-padding gap-panel-gap docked full-width top-0 h-14 border-b border-outline-variant flat no shadows transition-none z-50">
+<div class="flex items-center gap-4"><span class="font-display-lg text-display-lg font-bold text-primary tracking-tight">GOLDEN QUILL</span><div class="h-6 w-px bg-outline-variant mx-2"></div><div class="flex flex-col"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[16px]">corporate_fare</span><span class="text-primary font-bold text-[12px] uppercase tracking-wider">Applied As: FIT Farms LLC</span></div><div class="flex items-center gap-3 text-[10px] text-on-surface-variant font-data-mono"><span>Node: fit-farms-pgh-001</span><span class="text-[#22C55E] flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">verified</span> internal use verified</span></div></div></div>
+<!-- Center Header Context -->
+<div class="absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center"><div class="flex items-center gap-2 px-3 py-1 bg-surface-container-high border border-outline-variant"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="font-label-caps text-secondary text-[11px]">Lease: Operator</span></div><div class="font-data-mono text-on-surface-variant text-[9px] mt-1">Saved 12s ago</div></div>
+<div class="flex items-center gap-3">
+<button class="bg-terracotta text-white px-4 py-1.5 font-label-caps border border-terracotta hover:bg-opacity-90 transition-none flex items-center gap-2 shadow-[4px_4px_0px_0px_rgba(192,90,65,0.3)]">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                Commit to Draft
+            </button>
+<div class="flex items-center gap-2 border-l border-outline-variant pl-4">
+<button class="text-on-surface-variant hover:bg-surface-container-highest p-1"><span class="material-symbols-outlined">verified_user</span></button>
+<button class="text-on-surface-variant hover:bg-surface-container-highest p-1"><span class="material-symbols-outlined">vpn_key</span></button>
+<button class="text-on-surface-variant hover:bg-surface-container-highest p-1"><span class="material-symbols-outlined">account_circle</span></button>
+</div>
+</div>
+</header>
+<!-- Main Layout Container -->
+<div class="flex flex-1 overflow-hidden pt-0 relative z-0">
+<!-- SideNavBar -->
+<nav class="bg-surface-container text-primary font-label-caps docked left-0 h-full w-sidebar-width border-r border-outline-variant flat no shadows transition-none flex flex-col flex-shrink-0 z-10">
+<!-- Header -->
+<div class="p-container-padding brutal-border-b bg-surface-container-high">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 bg-surface-bright brutal-border flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-[18px]">domain</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-primary text-[14px]">FIT Farms</div>
+<div class="text-[9px] text-on-surface-variant">FRONTIER POSTURE</div>
+</div>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex-1 overflow-y-auto py-2">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">search_insights</span>
+<span>Scout</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span>Intake</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span>Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+<span>Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 bg-surface-container-highest text-primary border-l-2 border-primary transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span>Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span>Budget</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span>Judge</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span>Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span>Final Packet Authorization</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">policy</span>
+<span>Audit</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">credit_card</span>
+<span>Cards</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>
+<span>FIDs</span>
+</a>
+</div>
+<!-- Footer Tab -->
+<div class="mt-auto brutal-border-t">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span>Costs</span>
+</a>
+</div>
+</nav>
+<!-- Drafting Canvas -->
+<main class="flex-1 bg-[#0F172A] flex flex-col relative overflow-hidden h-full z-0">
+<!-- Canvas Toolbar -->
+<div class="h-10 bg-surface-container brutal-border-b flex items-center px-4 justify-between flex-shrink-0">
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-on-surface-variant">MODULE:</span>
+<span class="font-data-mono text-primary bg-surface-variant px-2 py-0.5 brutal-border">Project Narrative</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">format_bold</span></button>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">format_italic</span></button>
+<div class="w-px h-4 bg-outline-variant mx-1"></div>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high"><span class="material-symbols-outlined text-[18px]">format_list_bulleted</span></button>
+</div>
+</div>
+<!-- Document Area -->
+<div class="flex-1 overflow-y-auto p-8 flex justify-center bg-[#020617]">
+<div class="w-full max-w-3xl bg-[#0F172A] brutal-border p-12 min-h-full shadow-none relative">
+<h1 class="font-headline-md text-headline-md text-primary mb-8 pb-4 brutal-border-b">Executive Summary &amp; Project Objectives</h1>
+<div class="draft-content"><p>FIT Farms LLC proposes the implementation of a comprehensive value-added processing facility designed to transform raw agricultural commodities into shelf-stable, high-margin retail products. The primary objective of this initiative is to expand market reach beyond the regional wholesale dependency, targeting a 35% increase in farm-gate revenue within the first twenty-four months of operation.</p><p>The proposed facility will be constructed on existing farm property, utilizing a 42 acres parcel currently zoned for agricultural processing. Environmental impact assessments indicate minimal disruption, supported by a preliminary review from the Pennsylvania Department of Agriculture.</p><p>Operational capacity is projected to handle up to 5,000 lbs of raw input daily during peak harvest season. To support this volume, the project requires the acquisition of specialized processing equipment, specifically Solar-powered flash freezers and automated vacuum sealers, which aligns with the permissible use of USDA VAPG funds for processing capacity enhancement.</p><p>Market analysis demonstrates a strong, unmet consumer demand in the target demographics for locally processed, traceable agricultural goods. Retail partnerships have been tentatively secured with Harvest Table Cooperative and regional school districts, contingent upon the successful scaling of production capabilities as outlined in this grant proposal.</p></div>
+<!-- Watermark -->
+<div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-5">
+<span class="font-display-lg text-[120px] font-bold transform -rotate-45 text-white">DRAFT</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Authorized Entity Inspector -->
+<aside class="w-inspector-width bg-surface-container h-full brutal-border-l flex flex-col flex-shrink-0 z-10">
+<div class="h-10 bg-surface-container-high brutal-border-b flex items-center px-4">
+<span class="font-label-caps text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">account_balance</span>
+                    Authorized Entity Inspector
+                </span>
+</div>
+<div class="p-4 flex-1 overflow-y-auto space-y-6"><div class="bg-surface-container-low border border-outline-variant p-4 space-y-4"><div class="flex items-center justify-between border-b border-outline-variant pb-2"><span class="font-label-caps text-on-surface-variant">PRIMARY BENEFICIARY</span><span class="material-symbols-outlined text-secondary text-[18px]">person_search</span></div><div class="space-y-1"><div class="font-headline-md text-primary text-[18px]">FIT Farms LLC</div><div class="font-data-mono text-secondary text-[11px]">UEI: Y9M2X3...8N4</div></div><div class="grid grid-cols-1 gap-3 pt-2"><div class="flex justify-between items-center bg-surface-container px-3 py-2 border border-outline-variant"><span class="font-label-caps text-on-surface-variant text-[10px]">STATUS</span><div class="flex items-center gap-2"><span class="w-2 h-2 bg-[#22C55E]"></span><span class="font-data-mono text-[#22C55E] text-[11px] font-bold">ACTIVE</span></div></div><div class="flex justify-between items-center bg-surface-container px-3 py-2 border border-outline-variant"><span class="font-label-caps text-on-surface-variant text-[10px]">TYPE</span><span class="font-data-mono text-primary text-[11px]">Producer</span></div></div></div><button class="w-full bg-secondary/10 hover:bg-secondary/20 text-secondary border border-secondary/30 font-label-caps py-3 transition-none flex justify-center items-center gap-3"><span class="material-symbols-outlined text-[18px]">sync</span><span>Sync Entity Data</span></button></div>
+</aside>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest text-secondary font-data-mono docked bottom-0 full-width h-8 border-t border-outline-variant flat no shadows transition-none fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50 text-[10px]">
+<div class="font-label-caps text-on-surface">NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED</div>
+<div class="flex items-center gap-4">
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">Machine ID: 992-QX</a>
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">Audit Log</a>
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">System Health</a>
+</div>
+</footer>
+</body></html>

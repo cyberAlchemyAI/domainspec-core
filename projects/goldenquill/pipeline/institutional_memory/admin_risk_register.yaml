@@ -1,0 +1,1577 @@
+# Admin-Risk Register — v2 PROPOSAL (2026-04-20)
+# Operator review required before this replaces v1.
+#
+# Expansion scope: v1 (17 entries) → v2 (~40 entries) capturing landscape shift post
+# EO 14151 (Ending Radical and Wasteful Government DEI Programs, 2025-01-20) and
+# EO 14168 (Defending Women from Gender Ideology Extremism, 2025-01-20).
+#
+# Severity tiers (unchanged from v1):
+#   RED     = documented pull / funding denied / program terminated
+#   YELLOW  = agency memo, leaked list, or algorithmic scrutiny trigger (not confirmed denial)
+#   GREEN   = precautionary; sector-dependent (progressive / soul-fire register may welcome)
+#
+# Law 4 discipline: Logician flags, NEVER rewrites. Applicant approves EVERY substitution.
+# Context matters: "gender" in biological/clinical context ≠ "gender" as DEI framing;
+# "women" in WOSB/SBA programs ≠ "women" as DEI identity category. Use context field per entry.
+#
+# Sources driving v2 additions:
+#   - EO 14151 "Ending Radical and Wasteful Government DEI Programs and Preferencing" (2025-01-20)
+#   - EO 14168 "Defending Women from Gender Ideology Extremism" (2025-01-20)
+#   - NSF leaked ~108-keyword flagging list (2025-02; multiple press confirmations)
+#   - NIH computational-text-analysis scanning (no public list, but staff directive confirmed)
+#   - NEA 2026 funding conditions (no "gender ideology" promotion)
+#   - "Big Beautiful Bill" prohibition on federal funding for gender-affirming care
+#   - 360+ federal surveys removing sexual orientation / gender identity measures (Williams Institute)
+#   - Jan 2026 partial reversal on NIH DEI criteria for stalled health research grants (Trump admin dropped criteria)
+
+version: 2.4
+supersedes: "admin_risk_register.yaml v2.3 — same file; v2.4 appends Wave 2 CLC-card-scoped flagged terms (CLC-01/02/04/05/06/07/08) consolidated workspace-wide per Wave 2 close-synthesis OD-A 2026-05-16. v2.3 supersession chain: v2.2 → v2.3 (Wave 1 CLC-03 migration, 6 GREEN entries) → v2.4 (Wave 2 CLC-axis consolidation, ~50 new entries, per_clc_register field on every new entry per architecture v7.0.12 §1.2)."
+date: 2026-05-16
+operator_review: "APPROVED 2026-05-15 (Wave 1 OD-1 path (a) authorization carries forward). Wave 2 OD-A operator authorization 2026-05-16 fires parallel surgical dispatch per WAVE_2_CLOSE_SYNTHESIS §CC-1 + handoff pipeline/handoffs/od_a_admin_risk_register_v2_3_migration_2026-05-16.md. NEW v2.4 entries land at GREEN severity with per_clc_register populated for the source CLC; AVOID-everywhere for unlisted CLCs per v7.0.12 §1.2 safest default. Operator per-term re-audit + Ed25519 signature on audit_decisions.md is the LOCK-ceremony precondition (NOT initiated by this dispatch per operator constraint 'do not initiate new LOCK ceremonies; pre-stage paired-commit handoff and surface')."
+operator_approval_token: null
+v2_3_migration_source: "TILTH-CLC-03 Operating Capacity card (pipeline/cards/CLC/operating_capacity.yaml) — pre-LOCK admin_risk_term_register block. 6 terms not already in v2.2 migrated here at OD-1 path (a) closure (Wave 1 LOCK ceremony 2026-05-15 PM, lock_history rows 226/227/228). 2 of the original 8 terms (sustainability, equity) already lived in v2.2; their entries here carry an additional v2.3 CLC-03 reviewer_context contribution. The card-specific trichotomy (severity / federal_severity / progressive_register) is preserved on the workspace-wide register for these 6 entries."
+v2_4_migration_source: |
+  Wave 2 close-synthesis (pipeline/validation/cards_wave_2_thesis_2026-05-15/WAVE_2_CLOSE_SYNTHESIS.md §CC-1)
+  consolidated CLC-side admin-risk terms from 7 Wave 2 CLC cards (CLC-01 public_purpose_works, CLC-02
+  catalytic_change, CLC-04 research_evidence, CLC-05 market_access, CLC-06 credit_underwriting,
+  CLC-07 sponsorship_corporate, CLC-08 shared_assets). Each card's pre-removal admin_risk_term_register
+  block was authored under §18.6 CLC schema (CIC-only per §18.5) and was removed at Cycle-2 fix-in-place
+  per Wave 1 operating_capacity OD-1 path (a) precedent. Workspace-wide v2.4 consolidates the CLC-axis
+  vocabulary so Scribe Phase-0 reads CLC-keyed register on (active CIC × active opportunity-CLC) pair.
+  Per-card term inventory + dispositions documented in pipeline/handoffs/od_a_completion_2026-05-16.md.
+  v3.0 schema posture (architecture v7.0.12 §1.2, LOCKED 2026-05-16T14:00:00Z): per_clc_register field
+  populated on every v2.4 entry (closed-set of 8 CapitalLogicCard slugs per pipeline/types/identity_capital.py
+  and admin_risk_register.schema.json $defs.capital_logic_card_slug). progressive_register field
+  intentionally OMITTED on v2.4 entries (forbidden by v3.0 schema). Legacy v2.x entries with progressive_register
+  remain as pre-v7.0.12 state; operator's separate v2.x→v3.0 scrub via migrate_to_v3_0.py is the canonical
+  retirement path for those (~22-36 hour pre-ceremony operator work per amendment §6.17 Option-B split).
+
+# =====================================================================
+# TWO-AXIS DIALECT DISCIPLINE (per Law 4 / CLAUDE.md)
+# =====================================================================
+#
+# The `severity` field on each entry is the FEDERAL admin-risk tier only.
+# The same term may be neutral, expected, or PREFERRED in progressive /
+# racial-justice / community-foundation dialects — especially for
+# applicants who are Black-led, Latino-led, tribal-led, LGBTQ+-led, or
+# otherwise identity-rooted organizations applying to funders that
+# explicitly center those identities.
+#
+# The register is NOT a prohibition list. It is a dialect-aware flagging
+# system. Applicant approves every substitution.
+#
+# Each entry carries (in addition to federal severity) a `progressive_register`
+# field with these values:
+#
+#   AVOID     — even progressive funders avoid (e.g., reclaimed pejoratives)
+#   OK        — usable but not expected; no signal either way
+#   EXPECTED  — progressive / racial-justice funders expect to see this language;
+#               its absence may signal misalignment
+#   PREFERRED — progressive / racial-justice / community-foundation funders
+#               actively welcome and amplify this language; using it
+#               signals alignment with the funder's stated values
+#
+# Funder-register categories (based on Josh's four-category taxonomy per CLAUDE.md):
+#
+#   federal / federal-contract                    → severity tier governs
+#   state (conservative)                          → maps to federal severity, often softer
+#   state (progressive — CA, WA, OR, NY, IL, MA)  → maps to progressive_register, often EXPECTED
+#   foundation (conservative/traditionalist)      → maps to federal severity, often softer
+#   foundation (centrist — Rockefeller, Gates)    → context-mixed; OK for most; avoid RED-tier
+#   foundation (progressive — Ford, MacArthur,
+#               Kellogg, Heinz, Surdna, Nathan
+#               Cummings, Packard on env)         → progressive_register governs; often EXPECTED
+#   foundation (racial-justice — Kellogg racial-
+#               equity programs, Surdna, Libra,
+#               Borealis, NEO Philanthropy,
+#               Hispanics in Philanthropy,
+#               ABFE, Kresge)                     → progressive_register = PREFERRED for
+#                                                    identity-affirming language when
+#                                                    applicant is identity-rooted
+#   foundation (soul-fire — radical, activist,
+#               abolitionist-aligned: Borealis,
+#               Groundswell, Resist, Third Wave,
+#               Brainerd)                         → progressive_register governs; many GREEN-tier
+#                                                    terms are PREFERRED; reclaimed language welcome
+#
+# Applicant-identity overlay:
+#
+#   When the applicant organization is Black-led, Latino-led, tribal-led,
+#   immigrant-serving, LGBTQ+-led, or otherwise identity-rooted, AND the
+#   funder is in the progressive / racial-justice / soul-fire registers,
+#   the flagged terms that name the applicant's own identity or lived
+#   reality are typically EXPECTED to PREFERRED — code-switching AWAY
+#   from identity-affirming language in that context can itself signal
+#   misalignment with the funder.
+#
+# Default mapping when `progressive_register` is not explicitly set:
+#
+#   federal RED + DEI/identity framing  → progressive EXPECTED
+#   federal RED + gender-framing        → progressive OK (some progressive
+#                                          funders still code-switching
+#                                          cautiously post-EO 14168)
+#   federal RED + climate/ESG framing   → progressive EXPECTED (climate funders
+#                                          explicitly welcome the language the
+#                                          federal admin rejects)
+#   federal YELLOW + identity framing   → progressive OK to EXPECTED
+#   federal GREEN + activist framing    → progressive EXPECTED to PREFERRED
+#
+# =====================================================================
+
+expansion_cycles:
+  - "v2 (2026-04-20): 17 → 40 entries. Added trans/LGBTQ+/gender family (RED), NSF leaked 108-keyword coverage (YELLOW), context-dependent caveats (women/female/disabilities/minority/underserved)."
+  - "v2.1 (2026-04-20): 40 → ~75 entries. Added ESG/climate/green axis (RED — climate change, green, ESG, renewable energy, clean energy, carbon, net-zero, decarbonization, greenhouse gas, just transition); health axis (RED — health equity, structural racism, SDOH); reproductive axis (RED — reproductive rights/justice, abortion); analytical-DEI vocabulary expansion (YELLOW — community-centered, culturally responsive, lived experience, amplify, center, representation, allyship, safe space, microaggressions, positionality, white privilege/supremacy, cisgender, patriarchy); immigration axis (YELLOW — DACA, undocumented, sanctuary, asylum); clinical-DEI axis (YELLOW — trauma-informed, SEL, harm reduction); additional climate YELLOW (sustainability, climate resilience, global warming, impact investing, stakeholder capitalism, triple bottom line)."
+  - "v2.2 (2026-04-20): added two-axis dialect discipline. `progressive_register` field added to high-divergence entries. Schema preserves single-axis v2.1 data for terms where federal + progressive agree; explicit field populated for terms where they diverge (the common case for identity-rooted applicants to progressive funders). Default-mapping rules documented in top block. This update is taxonomic, not content — zero entries removed, most severity tiers unchanged."
+  - "v2.3 (2026-05-15): added 6 CLC-03 Operating Capacity terms (GREEN tier) at Wave 1 LOCK ceremony OD-1 path (a) closure (infrastructure, scalability, capacity building, innovation, transformation, stakeholder). Trichotomy (severity / federal_severity / progressive_register) preserved for the 6 new entries; existing v2.2 entries continue with severity-only. migrated_from field added on v2.3 entries for traceability."
+  - "v2.4 (2026-05-16): Wave 2 CLC-axis consolidation per OD-A handoff. Appended 60 new flagged terms migrated from 7 Wave 2 CLC cards (CLC-01/02/04/05/06/07/08) + 2 terms compound-sourced across CLC-06+CLC-08 (community wealth-building) and CLC-05+research_evidence (commercialization). v3.0-schema-compliant shape per architecture v7.0.12 §1.2: every v2.4 entry carries per_clc_register (closed-set CLC slug map → AVOID|OK|EXPECTED|PREFERRED). progressive_register field OMITTED on v2.4 entries (forbidden by v3.0 schema; legacy v2.x entries retain the field pending operator's separate v2.x→v3.0 scrub). approval_required: true on every v2.4 entry per the source-card OQ-5 discipline. Severity tier breakdown — 45 GREEN, 13 YELLOW, 2 RED (two-spirit variant inheriting v2 LGBTQ RED; underrepresented founders variant inheriting v2 underrepresented RED). YELLOW entries cluster around climate-transition / energy-transition / disruptive-innovation / racial-equity-branding / climate-action-branding / pride / land-acknowledgment / market-disruption / underserved-market / financial-inclusion / equitable-access (cross-axis exposure to v2/v2.1 RED-YELLOW parents). All v2.4 entries marked migrated_from for traceability back to source card. Schema-validation rule for CLC-axis-applicability already landed at v3.0 schema (admin_risk_register.schema.json $defs.capital_logic_card_slug + per_clc_register.propertyNames per architecture v7.0.12 LOCKED 2026-05-16T14:00:00Z); v2.4 entries pass that rule end-to-end."
+verification_discipline: |
+  Each entry's `documented_action` field cites the evidence class (EO / agency memo / leaked list /
+  press confirmation / Court filing). RED tier requires documented pull or denial. YELLOW tier can
+  rest on leaked list or agency-memo scrutiny. GREEN tier is precautionary without documented
+  enforcement action. Operator may downgrade or remove any entry — applicant sovereignty over
+  flagged-term register is absolute (Law 5).
+
+entries:
+
+  # =====================================================================
+  # RED tier — documented funding pulls, denials, or program terminations
+  # =====================================================================
+
+  - term: "DEI"
+    severity: RED
+    progressive_register: EXPECTED  # progressive/racial-justice funders expect this language; identity-rooted applicants should use without substitution
+    context: "Executive Order 14151 directly targets DEI programs in federal grants"
+    documented_action: "EO 14151 (2025-01-20) directs termination of DEI activities across federal government + DEI-related grant criteria; multiple agencies have implemented"
+    alternatives: ["workforce development", "broad participation", "inclusive access", "community representation"]
+    notes: "Acronym and spelled-out form both flagged"
+    variants: ["diversity equity inclusion", "diversity, equity, and inclusion", "D.E.I.", "DEIA", "diversity equity inclusion accessibility"]
+
+  - term: "equity"
+    severity: RED
+    progressive_register: EXPECTED  # progressive funders expect; racial-justice funders PREFERRED for Black/Latino-led applicants
+    context: "When used as standalone social-policy term in federal applications"
+    documented_action: "Federal grant reviewers instructed to flag equity-focused framing; NSF leaked list includes equity"
+    alternatives: ["access", "opportunity", "fairness", "broad participation"]
+    notes: "Context-dependent — 'equity' in financial context (owner's equity, home equity) is fine. Flag only when used as social/policy framing."
+    variants: ["equitable", "inequity", "inequitable"]
+
+  - term: "environmental justice"
+    severity: RED
+    progressive_register: EXPECTED  # climate/environmental-justice-aligned foundations PREFERRED; EJ-focused funders expect the exact phrase
+    context: "Term flagged in EPA and DOE grant programs under current administration"
+    documented_action: "EPA Environmental Justice programs restructured 2025; term discouraged in federal applications"
+    alternatives: ["environmental protection", "community environmental health", "pollution reduction", "clean air and water access"]
+    variants: ["EJ", "environmental equity"]
+
+  - term: "climate justice"
+    severity: RED
+    context: "Flagged alongside environmental justice"
+    documented_action: "Term removed from multiple federal program descriptions 2025"
+    alternatives: ["climate resilience", "weather preparedness", "agricultural adaptation", "resource conservation"]
+    variants: ["climate equity"]
+
+  - term: "transgender"
+    severity: RED
+    progressive_register: OK  # LGBTQ-focused funders EXPECTED; general progressive register softer (some foundations code-switching cautiously in 2026 post-EO 14168)
+    context: "EO 14168 directs replacement of gender with sex; NIH grants terminated on trans-health research; HIV services denied for trans individuals"
+    documented_action: "EO 14168 (2025-01-20); NIH grant terminations for LGBTQ health research (documented by ASCO, KFF); HHS directives"
+    alternatives: ["use biological terminology if clinically relevant", "community members", "patients", "individuals"]
+    notes: "RED in any federal application. Context-sensitive reclamation in progressive foundation applications (dialect code-switch); risky in government-adjacent funding."
+    variants: ["trans", "transgendered", "trans*", "transsexual"]
+
+  - term: "LGBTQ"
+    severity: RED
+    progressive_register: EXPECTED  # LGBTQ-focused foundations (Astraea, Arcus, Ford's Sexuality & Gender Justice) PREFERRED; non-LGBTQ progressive funders EXPECTED
+    context: "Federal surveys removed 360+ SOGI measures since 2025-01-20; grant programs terminated"
+    documented_action: "Williams Institute tracked 360+ federal data-collection removals; NSF leaked list includes LGBT; NIH scanning; NEA 2026 'no gender ideology promotion' clause"
+    alternatives: ["community", "the community we serve", "diverse populations (where clinically relevant, use specific clinical terms)"]
+    variants: ["LGBTQ+", "LGBTQIA+", "LGBTQI", "LGBT", "queer", "GLBT"]
+
+  - term: "gender identity"
+    severity: RED
+    context: "EO 14168 directs federal agencies to recognize only male/female biological sex; 'gender identity' framing triggers scrutiny"
+    documented_action: "EO 14168 (2025-01-20); Williams Institute survey-removal tracking; multiple agency directives"
+    alternatives: ["biological sex (where applicable)", "patient identity (clinical)", "personal characteristics"]
+    variants: ["gender expression", "gender nonconforming", "nonbinary", "non-binary"]
+
+  - term: "gender-affirming"
+    severity: RED
+    context: "Federal funding explicitly prohibited by 2025 legislation"
+    documented_action: "Big Beautiful Bill prohibits federal funding for gender-affirming care; HHS directives; documented revocations"
+    alternatives: ["consult the specific RFA — if the program supports clinical care, use the program's own terminology"]
+    variants: ["gender affirming", "gender-affirmation", "transition-related"]
+
+  - term: "gender ideology"
+    severity: RED
+    context: "EO 14168 title explicitly rejects 'gender ideology'; NEA 2026 requires projects not promote it"
+    documented_action: "EO 14168; NEA 2026 compliance requirements"
+    alternatives: ["avoid the term entirely; do not use ironically or critically in federal applications"]
+    notes: "Even critical or academic use triggers scrutiny. Rhetorical cost exceeds analytical benefit in federal filings."
+
+  - term: "sexual orientation"
+    severity: RED
+    context: "Williams Institute tracked removal of SOGI questions from 360+ federal surveys post-2025-01-20"
+    documented_action: "Executive action cascade; agency survey modifications"
+    alternatives: ["community members", "patients (clinical)", "populations served"]
+    variants: ["SOGI", "LGB"]
+
+  - term: "underrepresented"
+    severity: RED
+    context: "NSF leaked keyword list flagged; widely reported research-grant omissions"
+    documented_action: "NSF 108-keyword flagging list (leaked 2025-02); multiple researcher reports of proposals omitting the term"
+    alternatives: ["historically excluded from (specific program)", "first-generation", "below-parity representation", "communities with lower historical participation rates"]
+    variants: ["underrepresentation", "underrepresented minority", "URM"]
+
+  - term: "women"
+    severity: RED
+    context: "NSF leaked list includes 'women' and 'female' as flagged; context-dependent — WOSB/SBA women-owned-business programs still valid and required to use the term"
+    documented_action: "NSF leaked 108-keyword list; reported omissions from research grants"
+    alternatives: ["context matters — in WOSB programs, 'women-owned small business' is the required federal term; in research framing, avoid 'women' as identity category"]
+    notes: "Hardest-to-advise entry. WOSB certification programs explicitly require the term. NSF/NIH research proposals should avoid. Applicant approves per-document."
+    variants: ["women's", "womens", "female", "female-led", "female-focused", "women-led"]
+
+  - term: "minority"
+    severity: RED
+    context: "NSF leaked list; Trump admin explicit anti-DEI stance"
+    documented_action: "NSF flagged-list press confirmations; agency DEI-removal directives"
+    alternatives: ["historically limited-access populations", "communities with lower participation rates", "specific demographic term if legally relevant (e.g., SDA per USDA definition)"]
+    notes: "USDA SDA (Socially Disadvantaged Applicant) definition is statutory and remains valid — use 'SDA' not 'minority'."
+    variants: ["minorities", "minority-owned", "minority-serving", "underrepresented minority", "URM"]
+
+  # =====================================================================
+  # YELLOW tier — agency memos / leaked lists / scrutiny triggers
+  # =====================================================================
+
+  - term: "systemic racism"
+    severity: YELLOW
+    context: "Agency memos cautioning against framing in grant narratives"
+    alternatives: ["historical patterns", "structural barriers", "documented disparities", "historical access gaps"]
+    variants: ["systemic inequity", "structural racism", "systemic oppression"]
+
+  - term: "social justice"
+    severity: YELLOW
+    progressive_register: EXPECTED  # progressive/racial-justice/soul-fire funders PREFERRED; abolitionist funders welcome explicitly
+    context: "Cautioned in federal applications; less risky in progressive foundations"
+    alternatives: ["community wellbeing", "fair treatment", "equal opportunity (carefully — itself flagged)"]
+    notes: "Foundation grants (progressive register) may welcome this term — check dialect per Law 4"
+
+  - term: "transformative justice"
+    severity: YELLOW
+    context: "Cautioned in federal applications"
+    alternatives: ["restorative approaches", "community-based solutions", "alternative resolution"]
+
+  - term: "BIPOC"
+    severity: YELLOW
+    progressive_register: PREFERRED  # racial-justice funders (ABFE, Hispanics in Philanthropy, NCG member foundations) PREFERRED; Black/Latino-led applicants to racial-justice funders should NOT code-switch away
+    context: "Some federal reviewers flagged as political terminology; NSF flagged list"
+    alternatives: ["underserved communities (itself flagged — see below)", "historically underrepresented groups (also flagged)", "specific statutory terms (e.g., SDA for USDA)"]
+    notes: "Acceptable in progressive/soul-fire foundations. In federal applications, prefer statutory terms (SDA, Beginning Farmer, Veteran-Owned, etc.) over demographic labels."
+
+  - term: "anti-racism"
+    severity: YELLOW
+    context: "Cautioned in federal applications post-2025 executive orders"
+    alternatives: ["inclusive practices (also flagged — see below)", "bias reduction", "fair treatment protocols"]
+    variants: ["antiracist", "anti-racist"]
+
+  - term: "decolonize"
+    severity: YELLOW
+    context: "Cautioned in federal and some state applications"
+    alternatives: ["community self-determination", "locally-led", "culturally grounded"]
+    variants: ["decolonization", "decolonizing"]
+
+  - term: "reparations"
+    severity: YELLOW
+    context: "Highly charged in any government-adjacent funding"
+    alternatives: ["community investment", "restorative funding", "targeted support"]
+    variants: ["reparative"]
+
+  - term: "marginalized"
+    severity: YELLOW
+    progressive_register: EXPECTED  # progressive/racial-justice funders expect; some soul-fire funders prefer self-determination framing
+    context: "NSF leaked keyword list; widely documented researcher self-censorship"
+    alternatives: ["historically excluded", "populations with lower participation rates", "specific statutory demographic (e.g., SDA)"]
+    variants: ["marginalize", "marginalization"]
+
+  - term: "diversity"
+    severity: YELLOW
+    context: "NSF leaked list; DEI context flagged (biological diversity, crop diversity, species diversity — SAFE)"
+    alternatives: ["broad participation", "variety of (species / crops / approaches)", "range of perspectives"]
+    notes: "Clinical / ecological / scientific 'diversity' (biodiversity, crop diversity) is unflagged. Social 'diversity' as DEI framing is flagged."
+    variants: ["diverse", "diversify"]
+
+  - term: "inclusion"
+    severity: YELLOW
+    context: "When used as DEI framing; 'financial inclusion' and similar sector-specific uses are safer"
+    alternatives: ["broad participation", "open access", "wide enrollment"]
+    variants: ["inclusive", "inclusivity"]
+
+  - term: "critical race theory"
+    severity: YELLOW
+    context: "Politicized term; avoid in federal applications"
+    alternatives: ["do not use; reframe without analytical framework citation"]
+    variants: ["CRT"]
+
+  - term: "woke"
+    severity: YELLOW
+    progressive_register: AVOID  # reclaimed status contested; even progressive/soul-fire funders avoid due to pejorative-conservative-discourse capture
+    context: "Politicized pejorative in federal-administration discourse; ironic use risky"
+    alternatives: ["do not use in federal applications"]
+    variants: ["wokeness", "woke ideology"]
+
+  - term: "disparities"
+    severity: YELLOW
+    context: "Flagged when paired with identity categories (racial disparities, gender disparities); clinical disparities (health outcomes) more context-tolerant"
+    alternatives: ["documented differences in outcomes", "gaps in access to", "measured variation across"]
+    notes: "Clinical 'health disparities' is in gray zone — may be acceptable in CDC / HHS clinical framing depending on administration guidance week-to-week."
+
+  - term: "sense of belonging"
+    severity: YELLOW
+    context: "NSF leaked list"
+    alternatives: ["community engagement", "program retention", "participant connection"]
+
+  - term: "institutional"
+    severity: YELLOW
+    context: "NSF leaked list; primarily flagged in 'institutional racism' / 'institutional bias' framing, not in 'institutional capacity' or 'institutional partner'"
+    alternatives: ["context matters — 'institutional capacity' in org-development is fine; 'institutional racism/bias' framing is flagged"]
+    notes: "Single-word flagging depends heavily on context. Applicant reviews per-use."
+
+  - term: "activism"
+    severity: YELLOW
+    context: "NSF leaked list"
+    alternatives: ["community engagement", "civic participation", "advocacy (itself sometimes flagged — check program)"]
+    variants: ["activist", "activists"]
+
+  - term: "prejudice"
+    severity: YELLOW
+    context: "NSF leaked list"
+    alternatives: ["bias", "disparities in treatment", "documented discrimination"]
+
+  - term: "privilege"
+    severity: YELLOW
+    context: "As analytical frame in DEI discourse; 'attorney-client privilege' or similar legal/technical uses are unflagged"
+    alternatives: ["historical advantage", "structural access (itself flagged)", "varying starting conditions"]
+    notes: "Context matters — legal 'privilege' (attorney-client) is fine; sociological 'privilege' as DEI analysis is flagged."
+    variants: ["privileged"]
+
+  - term: "disabilities"
+    severity: YELLOW
+    context: "NSF leaked list included; ADA-statutory use (Americans with Disabilities Act, disability services) remains valid"
+    alternatives: ["context matters — ADA/Section 504 programs require the term; DEI-framed research proposals should be careful"]
+    notes: "This is the canonical example of context-dependent flagging. The statutory term 'disability' in ADA programs is valid and required. 'Disability' as DEI identity category is flagged."
+    variants: ["disability", "disabled", "people with disabilities"]
+
+  - term: "underserved"
+    severity: YELLOW
+    progressive_register: EXPECTED  # community foundations + health/education funders expect; USDA statutory 'underserved producer' remains valid at federal level
+    context: "Widely flagged in federal applications; USDA statutory 'underserved producer' definition remains valid"
+    alternatives: ["context matters — USDA 'underserved producer' is statutory and valid; DEI-framed use is flagged"]
+    notes: "Similar to 'minority' — USDA statutory definitions preserve valid uses; general DEI-framed use is flagged."
+    variants: ["under-served"]
+
+  - term: "female"
+    severity: YELLOW
+    context: "NSF leaked list; biological/clinical 'female' (sex variable in research) more tolerant than 'female-led' or 'female-owned' as identity"
+    alternatives: ["context matters — clinical sex-as-variable is valid; 'female-led' organization framing is flagged"]
+    notes: "Crossover with 'women' entry. WOSB programs require 'women-owned' terminology."
+    variants: ["females"]
+
+  - term: "equal opportunity"
+    severity: YELLOW
+    context: "NSF leaked list; statutory 'Equal Opportunity Employer' compliance statements remain valid"
+    alternatives: ["open enrollment", "accessible to all eligible applicants", "statutory EOE language where legally required"]
+    notes: "EOE compliance boilerplate is required by federal contractors and unaffected. 'Equal opportunity' as policy framing is flagged."
+
+  # =====================================================================
+  # GREEN tier — precautionary / sector-dependent / progressive-register-safe
+  # =====================================================================
+
+  - term: "food sovereignty"
+    severity: GREEN
+    context: "Progressive food-systems framing; risky in federal; welcomed in Shared Capital, La Vía Campesina-adjacent foundations"
+    alternatives: ["food security (federal-safe)", "local food systems", "community-controlled food production"]
+
+  - term: "land back"
+    severity: GREEN
+    context: "Indigenous land-return framing; high rhetorical cost in federal applications"
+    alternatives: ["tribal land stewardship", "indigenous-led conservation", "First Nations partnership"]
+    variants: ["#LandBack"]
+
+  - term: "solidarity economy"
+    severity: GREEN
+    context: "Cooperative economics framing; welcomed in Seed Commons / New Economy Coalition foundations"
+    alternatives: ["cooperative economy", "community-owned enterprises", "shared-ownership economic models"]
+
+  - term: "mutual aid"
+    severity: GREEN
+    context: "Cross-partisan in emergency response; politicized in some contexts"
+    alternatives: ["community response", "peer support networks", "community-based emergency assistance"]
+
+  - term: "abolition"
+    severity: GREEN
+    context: "Prison-abolition framing; high rhetorical cost in federal applications; welcomed in progressive justice funders"
+    alternatives: ["criminal legal reform", "community-based alternatives", "decarceration (also politicized)"]
+    variants: ["abolitionist"]
+
+  - term: "intersectional"
+    severity: GREEN
+    context: "Academic-origin DEI analytical frame; v1 had this in GREEN, v2 keeps — landscape has shifted but 'intersectional' has not been singled out at the level of 'DEI' or 'underrepresented'"
+    alternatives: ["multi-factor analysis", "considering multiple dimensions", "compound circumstances"]
+    notes: "Operator may move to YELLOW at discretion. Kept GREEN pending documented federal pull."
+    variants: ["intersectionality"]
+
+  # =====================================================================
+  # v2.1 EXPANSION (2026-04-20) — ESG / climate / health / reproductive / immigration axes
+  # =====================================================================
+  # Operator flag: "not sure if the list is comprehensive enough to cover all the DEI ESG
+  # Green words this admin scans bans and generally doesn't approve of" — confirmed accurate.
+  # Sources (see v2.1 sources block below): Inside Climate News ($29B climate/env grants
+  # canceled or frozen); DOE banned-words reporting (NPR Sept 2025); NIH health-equity /
+  # structural-racism pause (Notus); EPA/DOE/USDA REAP cancellations; court injunctions on
+  # $14B green-bank grants + $20B EPA program (show some pushback, but the scanning persists).
+  #
+  # =====================================================================
+
+  # ---- RED additions (climate / ESG — documented grant terminations) ----
+
+  - term: "climate change"
+    severity: RED
+    progressive_register: EXPECTED  # climate funders (Hewlett, Packard, Energy Foundation, ClimateWorks) PREFERRED; code-switching AWAY would signal misalignment
+    context: "DOE directed to avoid the phrase in grant materials (NPR Sept 2025); $29B in climate/environment grants canceled or frozen 2025"
+    documented_action: "DOE banned-words directive; EPA green-bank $20B termination (partially blocked by court); broad grant freezes under EO 14008 rescission"
+    alternatives: ["weather variability", "long-term weather patterns", "extreme weather preparedness", "resource conservation"]
+    variants: ["climate crisis", "climate emergency"]
+
+  - term: "green"
+    severity: RED
+    progressive_register: EXPECTED  # progressive environmental/climate/green-economy funders PREFERRED; economic-justice funders welcome 'green jobs' explicitly
+    context: "Flagged in federal program framing (DOE directive per NPR); 'green jobs', 'green economy', 'green infrastructure' all scrutinized; ecological 'green' in specific contexts may survive (e.g., NRCS cover-crop programs)"
+    documented_action: "DOE banned-words list (Sept 2025); $29B in green-labeled grants canceled or frozen"
+    alternatives: ["context-dependent — 'conservation infrastructure', 'resource-efficient', 'low-input' often work; in ag contexts, cite the statutory program (EQIP, CSP, RCPP)"]
+    notes: "Ecological 'green' (photosynthesis, vegetation) is fine. Policy 'green' (green jobs, green economy, green new deal) is RED."
+    variants: ["green jobs", "green economy", "green infrastructure", "green new deal"]
+
+  - term: "ESG"
+    severity: RED
+    context: "EO explicitly targets 'environmental, social, and governance (ESG)' state laws and initiatives"
+    documented_action: "EO targeting state ESG laws (April 2025 Holland & Knight summary); SEC rollback of ESG disclosure rules; broad agency directives"
+    alternatives: ["governance and risk management", "corporate responsibility (also risky)", "fiduciary compliance"]
+    variants: ["environmental social governance", "environmental, social, and governance"]
+
+  - term: "renewable energy"
+    severity: RED
+    progressive_register: EXPECTED  # climate/energy-transition funders PREFERRED; state agencies in CA/WA/OR/NY still use openly
+    context: "DOE canceled $7.5B in renewable energy grants across 315 awards (Oct 2025); USDA REAP rescinded (April 2026, NOFO FY25-27 eliminated)"
+    documented_action: "DOE Oct 2025 termination (315 awards, $7.56B); USDA REAP rescission April 2026; legal challenges pending"
+    alternatives: ["on-farm energy (USDA context)", "distributed generation", "energy independence", "rural energy (USDA context-specific)"]
+    notes: "USDA REAP itself is rescinded; do not apply to a non-existent program. Other programs (EQIP energy-related practices) may still fund similar work without the 'renewable' framing."
+    variants: ["renewables", "renewable power"]
+
+  - term: "clean energy"
+    severity: RED
+    context: "DOE canceled $8B in clean-energy grants (Oct 2025); blue-state projects specifically targeted"
+    documented_action: "DOE Oct 2025 termination announcements; PBS NewsHour coverage"
+    alternatives: ["energy independence", "domestic energy production", "affordable energy", "on-farm energy (USDA context)"]
+    variants: ["clean-energy", "clean power"]
+
+  - term: "carbon"
+    severity: RED
+    context: "Policy framing ('carbon-neutral', 'net-zero carbon', 'carbon offset', 'carbon tax') flagged; scientific carbon (carbon-14 dating, carbon chemistry) unflagged"
+    documented_action: "DOE banned-words directive; carbon-tax and GHG emissions grants targeted per EO"
+    alternatives: ["context matters — scientific carbon is fine; policy carbon framing (neutrality, offsets, pricing) is flagged"]
+    notes: "'Carbon sequestration' in soil-health contexts is borderline — USDA NRCS has funded it for decades as soil-carbon, but the political frame is risky. Use 'soil health' or 'soil organic matter' instead where possible."
+    variants: ["carbon-neutral", "carbon neutral", "carbon-negative", "carbon offset", "carbon pricing", "carbon tax"]
+
+  - term: "net-zero"
+    severity: RED
+    context: "Policy framing associated with Paris Accord / Green New Deal / climate-action targets"
+    documented_action: "Cancellation of $500M Lebec Net-Zero cement project (May 2025); broad pattern of net-zero-labeled grant terminations"
+    alternatives: ["energy-balanced", "self-sufficient operations", "cost-neutral operations"]
+    variants: ["net zero", "net-zero emissions", "NZE"]
+
+  - term: "decarbonization"
+    severity: RED
+    context: "Policy framing explicitly targeted"
+    documented_action: "EO targeting state climate programs (April 2025); DOE terminology directives"
+    alternatives: ["energy efficiency", "fuel diversification", "emissions reduction (also risky)"]
+    variants: ["decarbonize", "decarbonise"]
+
+  - term: "greenhouse gas"
+    severity: RED
+    context: "EO explicitly targets 'greenhouse gas' emissions programs"
+    documented_action: "EO targeting state GHG programs; EPA methane rule rollback"
+    alternatives: ["air emissions (broader)", "point-source emissions (regulatory context)"]
+    variants: ["GHG", "greenhouse-gas", "GHGs"]
+
+  - term: "environmental justice"
+    severity: RED
+    context: "ALREADY IN v2 — cross-referencing for completeness"
+    documented_action: "See v2 entry above"
+    alternatives: ["See v2 entry"]
+    notes: "Retained from v2; not double-added."
+
+  - term: "just transition"
+    severity: RED
+    context: "Labor + climate combined framing; politically charged"
+    documented_action: "Associated with Green New Deal framing; grants using the phrase canceled in blue-state cancellations wave"
+    alternatives: ["workforce adaptation", "sector diversification", "rural workforce development"]
+    variants: ["just-transition"]
+
+  # ---- RED additions (health — NIH explicitly paused) ----
+
+  - term: "health equity"
+    severity: RED
+    progressive_register: EXPECTED  # health-focused foundations (RWJF, Commonwealth Fund, CHCF) PREFERRED; term absence signals non-alignment
+    context: "NIH paused new funding for grants containing this term pending computational-text-analysis review (2025 guidance)"
+    documented_action: "NIH directive to staff; Notus reporting; CDC page framing modified"
+    alternatives: ["health outcomes", "access to care", "healthcare access across populations (without equity framing)"]
+    variants: ["health-equity", "equitable health", "health inequity"]
+
+  - term: "structural racism"
+    severity: RED
+    context: "NIH paused new funding for grants containing this term pending review"
+    documented_action: "NIH directive; Notus reporting"
+    alternatives: ["historical disparities in outcomes", "documented access gaps", "systemic barriers (also flagged — see YELLOW 'systemic')"]
+    variants: ["institutional racism", "systemic racism (already flagged)"]
+
+  - term: "social determinants of health"
+    severity: RED
+    context: "NIH scanning-tool targets; CDC SDOH page modified post-2025"
+    documented_action: "NIH computational-text-analysis scanning; CDC framing changes"
+    alternatives: ["nonmedical health factors", "contributing factors to health outcomes", "living conditions affecting health"]
+    notes: "Clinical SDOH use in specific care-delivery contexts (hospital discharge planning, care coordination) may survive; research-grant framing is RED."
+    variants: ["SDOH", "social determinants"]
+
+  # ---- RED additions (reproductive health) ----
+
+  - term: "reproductive rights"
+    severity: RED
+    context: "Federal funding for abortion-related services restricted (Hyde Amendment + expansions); 'reproductive rights' as advocacy framing flagged"
+    documented_action: "Statutory restrictions on federal funding for abortion; broad agency directives post-2025"
+    alternatives: ["maternal health", "obstetric care", "women's clinical care (careful with 'women')"]
+    variants: ["reproductive freedom", "reproductive justice"]
+
+  - term: "reproductive justice"
+    severity: RED
+    context: "DEI + reproductive-rights intersection; both axes flagged"
+    documented_action: "Same basis as 'reproductive rights'"
+    alternatives: ["maternal health access", "community health services"]
+
+  - term: "abortion"
+    severity: RED
+    context: "Federal funding statutorily restricted for most abortion services (Hyde); grant applications referencing abortion-related services risk ineligibility"
+    documented_action: "Hyde Amendment (statutory); expanded restrictions under 2025 HHS directives"
+    alternatives: ["carefully avoid in federal applications unless the program explicitly funds related services; prefer 'obstetric care', 'maternal health' in general framing"]
+    variants: ["abortion care", "abortion access", "pregnancy termination"]
+
+  # ---- YELLOW additions (climate / ESG scrutiny) ----
+
+  - term: "sustainability"
+    severity: YELLOW
+    context: "DEI-era ESG framing; USDA 'sustainable agriculture' context-dependent (SARE program is statutory and valid)"
+    documented_action: "Broadly scrutinized; SARE statutory programs unaffected"
+    alternatives: ["long-term viability", "durable operations", "conservation (USDA context)"]
+    notes: "SARE (Sustainable Agriculture Research and Education) is a statutory USDA program and remains valid. General 'sustainability' framing in other contexts is risky."
+    variants: ["sustainable"]
+
+  - term: "climate resilience"
+    severity: YELLOW
+    context: "Softer framing than 'climate change' but still flagged in some contexts"
+    alternatives: ["weather preparedness", "storm preparedness", "drought adaptation", "farm operational resilience"]
+    variants: ["climate adaptation"]
+
+  - term: "global warming"
+    severity: YELLOW
+    context: "Synonymous with 'climate change' in administration scrutiny"
+    alternatives: ["long-term temperature patterns", "weather variability"]
+
+  - term: "impact investing"
+    severity: YELLOW
+    context: "ESG-adjacent finance framing"
+    alternatives: ["mission-aligned investment", "patient capital", "community investment"]
+
+  - term: "stakeholder capitalism"
+    severity: YELLOW
+    context: "ESG-adjacent governance framing"
+    alternatives: ["shared-value business", "cooperative enterprise"]
+
+  - term: "triple bottom line"
+    severity: YELLOW
+    context: "ESG-adjacent framework"
+    alternatives: ["financial + community + environmental metrics (decoupled framing)"]
+
+  # ---- YELLOW additions (analytical DEI vocabulary) ----
+
+  - term: "community-centered"
+    severity: YELLOW
+    context: "DEI framing signal"
+    alternatives: ["community-driven", "community-owned", "member-led"]
+    variants: ["community-centric"]
+
+  - term: "culturally responsive"
+    severity: YELLOW
+    context: "Education/social-services DEI framing"
+    alternatives: ["locally adapted", "community-informed", "place-based"]
+    variants: ["culturally competent", "cultural responsiveness"]
+
+  - term: "lived experience"
+    severity: YELLOW
+    progressive_register: PREFERRED  # activist/participatory-research/soul-fire funders actively welcome; centering lived experience is a value signal
+    context: "DEI methodological framing"
+    alternatives: ["direct experience", "first-hand experience", "participant perspective"]
+
+  - term: "amplify"
+    severity: YELLOW
+    context: "DEI metaphor ('amplify voices')"
+    alternatives: ["share", "feature", "present"]
+    variants: ["amplify voices"]
+
+  - term: "center"
+    severity: YELLOW
+    context: "DEI methodological framing ('center marginalized voices'); verb use only — 'community center' the noun is fine"
+    alternatives: ["prioritize", "focus on", "feature"]
+    variants: ["centering"]
+
+  - term: "representation"
+    severity: YELLOW
+    context: "Political framing ('representation matters'); corporate-board representation is context-specific"
+    alternatives: ["participation", "inclusion in (flagged)", "board composition (neutral)"]
+
+  - term: "allyship"
+    severity: YELLOW
+    context: "DEI vocabulary"
+    alternatives: ["partnership", "support", "collaboration"]
+    variants: ["ally"]
+
+  - term: "safe space"
+    severity: YELLOW
+    context: "DEI vocabulary (education/workplace)"
+    alternatives: ["supportive environment", "respectful setting"]
+    variants: ["safe spaces"]
+
+  - term: "microaggressions"
+    severity: YELLOW
+    context: "DEI analytical vocabulary"
+    alternatives: ["incivility", "disrespectful interactions"]
+    variants: ["microaggression"]
+
+  - term: "positionality"
+    severity: YELLOW
+    context: "DEI research methodology"
+    alternatives: ["researcher perspective", "methodological context"]
+
+  - term: "white privilege"
+    severity: YELLOW
+    context: "DEI analytical vocabulary; highly politicized"
+    alternatives: ["historical advantage", "systemic access differences (flagged)"]
+    variants: ["white supremacy (distinct but co-flagged)"]
+
+  - term: "white supremacy"
+    severity: YELLOW
+    context: "Politicized term; academic and policy uses both risky"
+    alternatives: ["documented historical exclusion", "racial hierarchy (also flagged)"]
+
+  - term: "cisgender"
+    severity: YELLOW
+    context: "Linguistic marker for non-trans identity; flagged as gender-ideology-adjacent per EO 14168"
+    alternatives: ["biological sex terminology per EO 14168 framing"]
+    variants: ["cis"]
+
+  - term: "patriarchy"
+    severity: YELLOW
+    context: "DEI/feminist analytical framework"
+    alternatives: ["historical gender norms (also risky)"]
+
+  # ---- YELLOW additions (immigration) ----
+
+  - term: "DACA"
+    severity: YELLOW
+    context: "Immigration relief program; politically charged"
+    alternatives: ["eligible workforce (without status specification)"]
+    variants: ["Dreamers", "Deferred Action for Childhood Arrivals"]
+
+  - term: "undocumented"
+    severity: YELLOW
+    context: "Immigration framing"
+    alternatives: ["avoid status references in federal applications unless program explicitly serves a defined eligibility category"]
+    variants: ["undocumented immigrants", "unauthorized"]
+
+  - term: "sanctuary"
+    severity: YELLOW
+    context: "'Sanctuary city', 'sanctuary campus' flagged; general 'sanctuary' (wildlife sanctuary) unflagged"
+    alternatives: ["context matters — wildlife/conservation 'sanctuary' is fine; immigration-context 'sanctuary' is flagged"]
+    variants: ["sanctuary city", "sanctuary campus", "sanctuary jurisdiction"]
+
+  - term: "asylum seeker"
+    severity: YELLOW
+    context: "Immigration framing"
+    alternatives: ["new arrivals", "eligible refugees (statutory — context-check)"]
+    variants: ["asylum", "asylum-seeker"]
+
+  # ---- YELLOW additions (health/clinical vocabulary) ----
+
+  - term: "trauma-informed"
+    severity: YELLOW
+    context: "Clinical context (trauma-informed care) more tolerant; policy framing flagged"
+    alternatives: ["patient-centered", "supportive care protocols"]
+    variants: ["trauma informed", "trauma responsive"]
+
+  - term: "social-emotional learning"
+    severity: YELLOW
+    context: "State-level bans (FL, TX) + federal DEI scrutiny; education sector"
+    alternatives: ["life-skills curriculum", "student development"]
+    variants: ["SEL", "social emotional learning"]
+
+  - term: "harm reduction"
+    severity: YELLOW
+    context: "Public-health intervention framing; drug-policy context flagged in some states/administrations"
+    alternatives: ["overdose prevention", "clinical risk-reduction protocols"]
+
+  # ---- v2.3 additions (2026-05-15 PM): CLC-03 Operating Capacity migration ----
+  # Source: TILTH-CLC-03 card admin_risk_term_register block, pre-LOCK
+  # OD-1 path (a) closure. The 6 terms below were CLC-03-specific entries
+  # not already covered in v2.2. The original card entries carried a
+  # trichotomy (severity / federal_severity / progressive_register); that
+  # trichotomy is preserved on the workspace-wide register for these 6
+  # entries (v2.3 introduces federal_severity + progressive_register fields
+  # on entries that need them; existing v2.2 entries continue to carry
+  # severity-only and may be promoted to the trichotomy at operator
+  # discretion in a future revision).
+
+  - term: "infrastructure"
+    severity: GREEN
+    federal_severity: GREEN
+    progressive_register: OK
+    context: "Generally clean term across registers. Case-by-case at federal: 'green infrastructure' YELLOW-flagged in DOE/EPA contexts; 'public infrastructure', 'organizational infrastructure', 'data infrastructure' generally untouched. In Operating Capacity context, 'organizational infrastructure' is the modal usage and is funder-neutral."
+    alternatives: ["organizational systems", "operational backbone", "core systems"]
+    notes: "Watch for the qualifier — 'green' or 'climate' prefix triggers admin risk; standalone 'infrastructure' is safe. Cross-ref existing v2.1 entry 'green infrastructure' (RED-variant under climate/ESG family)."
+    migrated_from: "TILTH-CLC-03 admin_risk_term_register entry; card severity=LOW"
+
+  - term: "scalability"
+    severity: GREEN
+    federal_severity: GREEN
+    progressive_register: OK
+    context: "Disputed-meaning term: in venture/startup contexts implies unlimited growth; in capacity-building contexts implies 'serving more people with the new capacity'. Foundation-background reviewers may read 'scalability' as VC-language and discount; federal innovation reviewers (SBIR, EDA Build to Scale) welcome it. Match dialect to funder."
+    alternatives: ["growth in service capacity", "expanded reach", "capacity to serve more", "replicability"]
+    notes: "Foundation reviewers: prefer 'growth in service capacity'. Federal innovation reviewers: 'scalability' or 'scalable' acceptable. Cooperative/community funders: prefer 'replicability' to avoid extractive-scaling connotation."
+    migrated_from: "TILTH-CLC-03 admin_risk_term_register entry; card severity=LOW"
+
+  - term: "capacity building"
+    severity: GREEN
+    federal_severity: GREEN
+    progressive_register: EXPECTED
+    context: "Core CLC-03 vocabulary; statutory term in USDA NIFA 1890 CBG program (7 CFR Part 3406) and HUD CB programs. Generally welcome across registers. Watch for connotation-erosion in conservative-foundation contexts where 'capacity building' may read as overhead-justification rather than program-impact."
+    alternatives: ["organizational effectiveness", "operational strengthening", "readiness investment"]
+    notes: "Federal and progressive-foundation funders expect the term. Conservative-foundation funders may prefer 'organizational effectiveness'."
+    variants: ["capacity-building"]
+    migrated_from: "TILTH-CLC-03 admin_risk_term_register entry; card severity=LOW"
+
+  - term: "innovation"
+    severity: GREEN
+    federal_severity: GREEN
+    progressive_register: OK
+    context: "Generally safe; valued in federal programs (EDA Build to Scale, NSF, SBA). In Operating Capacity context, 'innovation in operations' or 'innovative governance practice' are funder-neutral."
+    alternatives: ["operational improvement", "new approach", "process redesign"]
+    notes: "Avoid 'disruption' / 'disruptive' which carries extractive-tech connotation."
+    migrated_from: "TILTH-CLC-03 admin_risk_term_register entry; card severity=LOW"
+
+  - term: "transformation"
+    severity: GREEN
+    federal_severity: GREEN
+    progressive_register: OK
+    context: "Common in foundation capacity-building language. Reviewers may push back if used aspirationally without underlying mechanism — pair with concrete intervention. Some federal contexts (post-2025) flag 'systems transformation' if it cross-references DEI vocabulary."
+    alternatives: ["substantial change", "operational redesign"]
+    variants: ["transform", "transformative"]
+    migrated_from: "TILTH-CLC-03 admin_risk_term_register entry; card severity=LOW"
+
+  - term: "stakeholder"
+    severity: GREEN
+    federal_severity: GREEN
+    progressive_register: OK
+    context: "Generally clean. 'Stakeholder capitalism' YELLOW-flagged (cross-ref existing v2.1 entry); standalone 'stakeholder' or 'stakeholder engagement' is funder-neutral. In Operating Capacity contexts often used for governance/board engagement — safe."
+    alternatives: ["constituents", "members", "community partners"]
+    notes: "Cooperative-funder contexts often prefer 'members'; community-foundation contexts prefer 'community partners'. Cross-ref existing v2.1 entry 'stakeholder capitalism' (YELLOW under ESG family)."
+    variants: ["stakeholders"]
+    migrated_from: "TILTH-CLC-03 admin_risk_term_register entry; card severity=LOW"
+
+# =====================================================================
+# Meta — operator approval block
+# =====================================================================
+#
+# Operator review checklist:
+# - [ ] Verify each RED entry has documented_action citing specific enforcement (EO, agency memo, funding pull)
+# - [ ] Review YELLOW tier for entries that should escalate to RED based on your 2026 client experience
+# - [ ] Add / remove / adjust severity per your admin-risk tolerance for each client org
+# - [ ] Approve context/notes fields — especially the context-dependent entries (women, female, disabilities, underserved, minority, diversity, institutional)
+# - [ ] Sign the approval_token field and move this file to admin_risk_register.yaml (supersedes v1)
+# - [ ] Optionally: also move the file to the path POST step 6 expects (pipeline/institutional_memory/admin_risk_register.yaml), OR repoint POST step 6 to current path
+#
+# v2 DIFF SUMMARY:
+#   - 17 → ~40 entries (+23)
+#   - RED: 4 → 13 (+9)   — trans/LGBTQ+/gender family (8 entries), plus underrepresented, women, minority
+#   - YELLOW: 7 → 19 (+12) — NSF leaked list coverage (marginalized, diversity, inclusion, CRT, woke,
+#                             disparities, sense of belonging, institutional, activism, prejudice,
+#                             privilege, disabilities, underserved, female, equal opportunity)
+#   - GREEN: 6 → 7 (+1)  — no removals; intersectional kept GREEN pending documented pull
+#
+# v2.1 DIFF SUMMARY (expansion to cover ESG/climate/green + health equity + reproductive + immigration + analytical DEI):
+#   - ~40 → ~75 entries (+~35)
+#   - RED: 13 → ~29 (+~16)
+#       Climate/ESG (11): climate change, green, ESG, renewable energy, clean energy, carbon,
+#                          net-zero, decarbonization, greenhouse gas, just transition, environmental
+#                          justice (cross-ref from v2)
+#       Health (3): health equity, structural racism, social determinants of health
+#       Reproductive (3): reproductive rights, reproductive justice, abortion
+#   - YELLOW: 19 → ~38 (+~19)
+#       Climate (5): sustainability, climate resilience, global warming, impact investing,
+#                    stakeholder capitalism (+ triple bottom line)
+#       Analytical DEI (14): community-centered, culturally responsive, lived experience, amplify,
+#                             center, representation, allyship, safe space, microaggressions,
+#                             positionality, white privilege, white supremacy, cisgender, patriarchy
+#       Immigration (4): DACA, undocumented, sanctuary, asylum seeker
+#       Clinical-DEI (3): trauma-informed, social-emotional learning, harm reduction
+#   - GREEN: 7 → 7 (unchanged)
+#
+# KNOWN GAPS IN v2.1 (for operator consideration, not yet added):
+#   - "progressive" (as political label — sometimes flagged, often fine)
+#   - "advocacy" (context-dependent — community advocacy vs political advocacy)
+#   - "oppression" / "liberation" (academic DEI framing)
+#   - "settler-colonial" (decolonization-adjacent)
+#   - "capitalism" / "anti-capitalism" (political framing)
+#   - "environmental racism" (crosses env-justice + structural-racism axes; likely RED)
+#   - "food apartheid" (activist framing for food deserts; progressive-register only)
+#   - State-specific flagged lists (FL, TX, ID school-curriculum bans)
+#   - Religious-liberty-context terms where applicants must thread a needle
+#   - International-development terms ("capacity-building", "gender mainstreaming" etc.)
+#
+# SOURCES for v2.1 additions:
+#   - Climate Action Campaign Trump Climate & Clean Energy Rollback Tracker
+#   - Inside Climate News: $29B canceled/frozen climate+env grants (Sep 2025)
+#   - NPR: DOE bans words including climate change and green (Sept 30, 2025)
+#   - PBS NewsHour + CNBC: Oct 2025 $8B clean-energy cancellations
+#   - PV Tech: US court rules DOE cancellation of $7.5B clean-energy grants unlawful
+#   - Civil Eats + GovPing: USDA REAP rescinded April 2026
+#   - Jones Day / Wilson Sonsini / Holland & Knight: EO legal analyses
+#   - Notus: NIH pauses grants with 'health equity', 'structural racism' pending review
+#   - CDC SDOH framing modifications tracking
+#   - Hyde Amendment + 2025 HHS directives on reproductive health funding
+#   - Williams Institute: 360+ federal surveys removed SOGI measures (overlaps v2)
+
+# v2.3 DIFF SUMMARY (2026-05-15 PM — Cards Wave 1 OD-1 path (a) closure):
+#   - ~75 → ~81 entries (+6) — CLC-03 Operating Capacity migration
+#   - GREEN: 7 → 13 (+6) — all 6 v2.3 additions enter at GREEN tier
+#       infrastructure (standalone; cross-ref existing 'green infrastructure' RED-variant)
+#       scalability
+#       capacity building (statutory at USDA NIFA 1890 CBG / 7 CFR Part 3406)
+#       innovation
+#       transformation
+#       stakeholder (standalone; cross-ref existing 'stakeholder capitalism' YELLOW)
+#   - Schema extension: v2.3 introduces federal_severity + progressive_register fields
+#     on the 6 new entries (trichotomy preserved from TILTH-CLC-03 card pre-LOCK
+#     admin_risk_term_register). Existing v2.2 entries continue to carry severity-only;
+#     promotion to trichotomy is operator-discretion future revision.
+#   - migrated_from field added on each v2.3 entry for traceability back to source card.
+#
+# SOURCES for v2.3 additions:
+#   - TILTH-CLC-03 Operating Capacity card pre-LOCK admin_risk_term_register block
+#   - USDA NIFA 1890 Institution Capacity Building Grants Program (7 CFR Part 3406)
+#   - Wave 1 LOCK ceremony 2026-05-15 PM (lock_history rows 226 / 227 / 228)
+#
+# v2.3 INVENTORY OF TERMS ALREADY IN v2.2 (NOT migrated; original card had 8 total):
+#   - sustainability (already v2.1 YELLOW under climate/ESG family — kept as-is; CLC-03 context note: in Operating Capacity contexts reviewers want revenue math, not the word)
+#   - equity (already v2 RED — kept as-is; CLC-03 context note: in Operating Capacity contexts often "equitable hiring practices" or "equity-centered capacity"; substitution candidates "fair access" / "broad-based participation" / "inclusive practices (context-dependent)")
+#
+# =====================================================================
+# v2.4 ENTRIES — Wave 2 CLC-axis consolidation (2026-05-16, OD-A dispatch)
+# =====================================================================
+# Sources: pipeline/cards/CLC/{public_purpose_works,catalytic_change,research_evidence,
+#          market_access,credit_underwriting,sponsorship_corporate,shared_assets}.yaml
+#          pre-Cycle-2-fix-in-place admin_risk_term_register blocks (now removed per
+#          Wave 2 close-synthesis §CC-1; CLC §18.6 schema does not declare the field).
+# Audit:   pipeline/validation/cards_wave_2_thesis_2026-05-15/CLC/<slug>/FINAL_VERDICT.md
+# Per-CLC vocabulary acceptability per v7.0.12 §1.2 per_clc_register discipline.
+# Default for unlisted CLCs is AVOID per architecture v7.0.12 §1.2 safest-default.
+# Entries are appended below in source-card order (CLC-01 → CLC-02 → CLC-04 → CLC-05 →
+# CLC-06 → CLC-07 → CLC-08). Operator-approval (approval_required: true) on every entry
+# carries forward from the source cards' OQ-5 discipline.
+# =====================================================================
+
+  # ---- CLC-01 public_purpose_works (3 new entries) ----------------
+
+  - term: "disadvantaged community"
+    severity: GREEN
+    per_clc_register:
+      public_purpose_works: EXPECTED
+    context: "Justice40 vocabulary; FEMA BRIC and DOT competitive-grant rubrics carry 'disadvantaged community' as a weighted scoring factor. FY26+ administration may revise Justice40 scoping; severity remains GREEN pending documented program-rule pull. Native to CLC-01 (public works + capital-projects context); avoid carry-over into general DEI framing where it cross-references EO 14151 scrutiny."
+    alternatives: ["historically under-resourced community", "rural / persistent-poverty community", "tribal or underserved area (per program-statutory definition)"]
+    notes: "Justice40 disadvantaged-community designation is program-statutory under CEJST as currently published. Confirm at active-RFA fetch — operator should re-verify CEJST status per FOA at submission."
+    variants: ["disadvantaged communities", "DAC"]
+    migrated_from: "TILTH-CLC-01 admin_risk_term_register entry (pre-Cycle-1 FOLD-IN removal 2026-05-16)"
+    approval_required: true
+
+  - term: "equitable access"
+    severity: GREEN
+    per_clc_register:
+      public_purpose_works: OK
+    context: "Public-works framing for equitable distribution of project benefits (transit access, water-service access, broadband access). 'Access' (without 'equitable' prefix) is unflagged; 'equitable access' cross-references the workspace 'equity' RED entry in DEI framing. CLC-01 program reviewers (CDBG, BRIC, RAISE) tolerate the phrase when paired with measurable outcomes; remove the qualifier where measurement is the substance."
+    alternatives: ["service access", "geographic equity in service delivery (measure-paired)", "underserved-area connectivity"]
+    notes: "Cross-references v2 'equity' entry (RED in DEI framing). In CLC-01 capital-projects context, retain only when paired with measurable distributional outcomes; otherwise substitute the measurement-specific framing."
+    migrated_from: "TILTH-CLC-01 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "resilience"
+    severity: GREEN
+    per_clc_register:
+      public_purpose_works: EXPECTED
+    context: "FEMA BRIC + HUD CDBG-DR + DOT-RAISE vocabulary; 'resilience' is statutory or near-statutory in mitigation-program names (Building Resilient Infrastructure and Communities). Standalone 'resilience' is admin-tolerable; pair with hazard-specific qualifier when defensible (seismic / flood / drought / cyber). 'Climate resilience' (already v2.1 YELLOW) is the cross-flagged variant."
+    alternatives: ["disaster-readiness (hazard-specific)", "infrastructure hardening", "service-continuity (capital-projects context)"]
+    notes: "Cross-ref existing v2.1 'climate resilience' YELLOW entry. Standalone 'resilience' is GREEN in CLC-01 program contexts; climate-prefix variant is YELLOW."
+    variants: ["resilient", "resiliency"]
+    migrated_from: "TILTH-CLC-01 admin_risk_term_register entry"
+    approval_required: true
+
+  # ---- CLC-02 catalytic_change (12 new entries) -------------------
+
+  - term: "systems change"
+    severity: GREEN
+    per_clc_register:
+      catalytic_change: EXPECTED
+    context: "Foundation systems-change vocabulary native to Catalytic Change. Used at MacArthur 100&Change, Skoll, Ford BUILD, Bridgespan. Federal-innovation reviewers tolerate the phrase; corporate-foundation reviewers welcome; cooperative-finance reviewers may discount as aspirational unless paired with concrete intervention mechanism."
+    alternatives: ["systemic improvement at the leverage point", "field-level intervention", "ecosystem-scale change"]
+    notes: "Cross-reference 'transformation' (v2.3 CLC-03 GREEN) — distinct phrases; 'systems change' is about leverage points + mechanisms, 'transformation' is about outcome magnitude. Both common in CLC-02 narratives."
+    variants: ["systems-change", "systems-level change"]
+    migrated_from: "TILTH-CLC-02 admin_risk_term_register entry (pre-Cycle-2 fix-in-place removal 2026-05-16; ~190-line block removed)"
+    approval_required: true
+
+  - term: "disruptive innovation"
+    severity: YELLOW
+    per_clc_register:
+      catalytic_change: OK
+    context: "Christensen-era venture vocabulary; foundation reviewers (especially older program officers) may read as extractive-tech connotation. Federal innovation reviewers (SBIR, EDA, NSF I-Corps) accept openly. Cooperative / community-foundation reviewers prefer non-disruption framings. 'Disruption' carries political-discourse capture risk under post-2025 admin scrutiny when paired with sector-incumbent language."
+    alternatives: ["paradigm-shifting innovation (mechanism-specified)", "field-restructuring approach", "category-redefining method"]
+    notes: "Pair with concrete intervention to avoid the venture-jargon read. 'Innovation' (already v2.3 GREEN CLC-03) is the unflagged parent term."
+    variants: ["disruptive", "disruption"]
+    migrated_from: "TILTH-CLC-02 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "climate transition"
+    severity: YELLOW
+    per_clc_register:
+      catalytic_change: OK
+    context: "Cross-references v2.1 RED entries (climate change / decarbonization / just transition / clean energy / renewable energy) without using the directly-pulled federal terms. In CLC-02 contexts the phrase appears at climate-philanthropy reviewers' threshold; federal CLC-02 reviewers (under EO 14154) treat as politically loaded. Severity YELLOW reflects this cross-axis exposure — full RED if paired with explicit policy framing."
+    alternatives: ["climate-smart energy transition", "clean energy deployment (program-statutory where applicable)", "low-emissions modernization", "energy-system modernization"]
+    notes: "RT-06 Cycle-1 fold added 'climate-smart energy transition' + 'clean energy deployment' as substitutes during Wave 2 dispatch. Cross-ref v2.1 'climate change' (RED) + 'just transition' (RED) + 'clean energy' (RED) — federal severity inherits from the parent terms when the phrase is used in policy framing."
+    variants: ["climate-transition"]
+    migrated_from: "TILTH-CLC-02 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "energy transition"
+    severity: YELLOW
+    per_clc_register:
+      catalytic_change: OK
+    context: "Sibling of 'climate transition'; under EO 14154 federal severity tracks the parent climate-policy axis. Climate-philanthropy and energy-transition-focused foundations (Hewlett, ClimateWorks, Heising-Simons) expect the phrase. State-agency contexts (CA, NY, WA) tolerate. Avoid in federal applications without program-statutory anchor."
+    alternatives: ["energy independence", "domestic energy modernization", "fuel diversification (program-statutory anchor preferred)"]
+    notes: "Cross-ref v2.1 'renewable energy' (RED) + 'clean energy' (RED). When paired with rural-energy / on-farm-energy framing under USDA context, severity may soften to GREEN per the USDA-context-specific carve-out already documented at 'renewable energy'."
+    migrated_from: "TILTH-CLC-02 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "equity-centered design"
+    severity: GREEN
+    per_clc_register:
+      catalytic_change: OK
+    context: "Design-thinking / human-centered-design DEI methodology. Foundation reviewers (especially design-thinking-fluent program officers) welcome; federal reviewers post-EO 14151 treat 'equity-centered' as DEI-framed cross-reference. Pair with measurable design-process steps to defuse the framing scrutiny."
+    alternatives: ["participant-informed design", "user-centered design (community participation specified)", "co-designed-with-community methodology"]
+    notes: "Cross-ref v2 'equity' (RED in DEI framing). Standalone 'design-thinking' or 'human-centered design' avoids the equity-prefix scrutiny."
+    variants: ["equity-centered"]
+    migrated_from: "TILTH-CLC-02 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "centering community"
+    severity: GREEN
+    per_clc_register:
+      catalytic_change: OK
+    context: "Verb-form DEI methodological framing ('we center community voice'); cross-references v2.1 YELLOW 'center' entry (DEI methodological framing). Foundation reviewers in racial-justice register welcome; federal reviewers flag. Substitute the methodological substance (participatory governance / community-board control / equity-share structure) rather than the verb framing."
+    alternatives: ["community-led", "participatory governance", "member-controlled (cooperative-context)", "community-governance vested"]
+    notes: "Cross-ref v2.1 'center' YELLOW entry — verb-form framing. Replace with mechanism (participatory governance / member control / advisory-board veto power) where defensible."
+    variants: ["center community", "centering community voice"]
+    migrated_from: "TILTH-CLC-02 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "demonstration"
+    severity: GREEN
+    per_clc_register:
+      catalytic_change: EXPECTED
+      research_evidence: EXPECTED
+    context: "Foundation-innovation + federal-pilot vocabulary; native to CLC-02 and CLC-04 (research/pilot/evidence-building). USDA SARE has demonstration as a statutory mechanism. Federal innovation reviewers (NSF, ARPA-E, NIH demonstration grants) expect the term. Foundation reviewers welcome."
+    alternatives: ["pilot", "proof-of-concept", "field demonstration (USDA SARE-statutory where applicable)"]
+    notes: "Statutory at USDA SARE (Demonstration Project category); GREEN across CLC-02 + CLC-04 contexts."
+    variants: ["demonstrating", "demonstration project"]
+    migrated_from: "TILTH-CLC-02 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "leverage"
+    severity: GREEN
+    per_clc_register:
+      catalytic_change: EXPECTED
+    context: "Foundation-systems-change + federal-match vocabulary. Federal: 'leverage' is statutory in match-requirement language (USDA RBDG, EDA, HUD). Foundation: 'leverage ratio' is a normalized impact-finance metric (1:X ratio of foundation $ to crowded-in capital). CLC-02 specifically: 'leverage point' is systems-change vocabulary (Meadows' leverage points) — well-understood and expected."
+    alternatives: ["match (federal-statutory)", "leverage ratio (impact-finance)", "leverage point (systems-change)"]
+    notes: "Three distinct uses tracked in the register; all GREEN. Federal match-language is the unflagged statutory use."
+    variants: ["leveraging", "leveraged"]
+    migrated_from: "TILTH-CLC-02 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "ecosystem"
+    severity: GREEN
+    per_clc_register:
+      catalytic_change: EXPECTED
+      sponsorship_corporate: OK
+      shared_assets: OK
+    context: "Two distinct uses: (a) ecological 'ecosystem' (NRCS / NIFA / NSF ecological-research — fully unflagged); (b) metaphorical 'innovation ecosystem' / 'food system ecosystem' (CLC-02 + CLC-06 ecosystem-intermediary context — foundation- and federal-innovation-reviewer-welcomed). Severity GREEN across both."
+    alternatives: ["network of organizations", "field-of-practice", "value-chain (commerce-context)"]
+    notes: "Metaphorical use grew out of biology — unflagged across all CLCs. Cross-ref CIC-06 ecosystem_intermediary card (this term is also CIC-axis, but CIC-06's card carries its own admin_risk_term_register block per §18.5 CIC schema declaration)."
+    variants: ["ecosystems"]
+    migrated_from: "TILTH-CLC-02 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "field building"
+    severity: GREEN
+    per_clc_register:
+      catalytic_change: EXPECTED
+    context: "Foundation grant-program vocabulary for sector-strengthening grants (Bridgespan, NEO Philanthropy, Hewlett, Wallace). Federal reviewers tolerate; foundation reviewers in field-building program tracks expect."
+    alternatives: ["sector strengthening", "field-of-practice development", "ecosystem capacity building"]
+    notes: "GREEN; no federal pull. Term is normalized foundation-vocabulary."
+    variants: ["field-building"]
+    migrated_from: "TILTH-CLC-02 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "catalytic"
+    severity: GREEN
+    per_clc_register:
+      catalytic_change: EXPECTED
+      credit_underwriting: OK
+    context: "Native vocabulary for CLC-02 (Catalytic Change card name) and CLC-06 (catalytic concessionary capital in CDFI / blended-finance contexts). MacArthur 100&Change rubric uses 'catalytic'. Federal innovation reviewers (NSF EAGER, ARPA-E) tolerate; impact-investing funders expect."
+    alternatives: ["leverage-generating", "field-shifting", "concessionary first-loss capital (CLC-06 CDFI-context)"]
+    notes: "GREEN; no federal pull. Term is normalized impact-investing + foundation-innovation vocabulary."
+    variants: ["catalyze", "catalyzing"]
+    migrated_from: "TILTH-CLC-02 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "transformative"
+    severity: GREEN
+    per_clc_register:
+      catalytic_change: OK
+    context: "Adjective form of 'transformation' (already v2.3 CLC-03 GREEN). Cross-ref v2 'transformative justice' YELLOW entry — 'transformative' alone is unflagged, the policy-justice composite is YELLOW. Reviewers in federal-innovation programs may push back if used aspirationally without underlying mechanism (same caveat as 'transformation' v2.3 entry)."
+    alternatives: ["substantial change", "category-redefining", "field-restructuring"]
+    notes: "Cross-ref v2.3 'transformation' (GREEN) — same lineage; cross-ref v2 'transformative justice' (YELLOW) — the policy-justice composite is distinct."
+    variants: ["transformatively"]
+    migrated_from: "TILTH-CLC-02 admin_risk_term_register entry"
+    approval_required: true
+
+  # ---- CLC-04 research_evidence (7 new entries) -------------------
+
+  - term: "diverse perspectives"
+    severity: YELLOW
+    per_clc_register:
+      research_evidence: OK
+    context: "NSF / NIH research-vocabulary; cross-references v2 'diversity' YELLOW entry. Research-grant reviewers under post-2025 admin treat 'diverse perspectives' as DEI-framed. Substitute methodological framing (multi-disciplinary methodology / cross-institution collaboration) where defensible."
+    alternatives: ["multi-disciplinary methodology", "cross-institutional research team", "methodological pluralism"]
+    notes: "Cross-ref v2 'diversity' (YELLOW). Methodological framing avoids the DEI-prefix scrutiny."
+    migrated_from: "TILTH-CLC-04 admin_risk_term_register entry (pre-Cycle-1 FOLD-IN removal 2026-05-16)"
+    approval_required: true
+
+  - term: "broader impacts"
+    severity: GREEN
+    per_clc_register:
+      research_evidence: EXPECTED
+    context: "NSF-statutory term (NSF Broader Impacts merit-review criterion — one of two NSF-mandatory criteria per NSF PAPPG). MUST appear in NSF proposals; statutory protection from admin-risk substitution. Post-2025 admin has narrowed acceptable Broader Impacts framings; substitution risk is misframing-of-content, not term-itself."
+    alternatives: ["term is NSF-statutory; do not substitute. Substitute internal framings (workforce-of-future / national-competitiveness / broad-participation) within Broader Impacts section per current NSF guidance."]
+    notes: "Inclusion in admin_risk_register is for misframing-surface coverage (operator should verify acceptable framings against current NSF program guidance for active solicitation), NOT because the criterion name is itself an admin-risk token. RT Cycle-1 fold added the clarifying preamble."
+    variants: ["broader impact"]
+    migrated_from: "TILTH-CLC-04 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "decolonize methodology"
+    severity: YELLOW
+    per_clc_register:
+      research_evidence: OK
+    context: "Indigenous-research-methodology vocabulary (Linda Tuhiwai Smith lineage); cross-ref v2 'decolonize' YELLOW entry. Federal-research-grant reviewers post-2025 flag; tribal-led and CBPR-aligned funders welcome. Methodological substance (community-validated methods / tribal-IRB partnership / lived-experience interviews) avoids term-prefix scrutiny."
+    alternatives: ["community-validated methodology", "tribal-IRB-partnered research design", "participatory research methodology"]
+    notes: "Cross-ref v2 'decolonize' (YELLOW). Substitution risks methodological misrepresentation — operator should consult applicant on which methods specifically Indigenous-methodology framing names; substitute method-by-method rather than wholesale."
+    variants: ["decolonizing methodology", "decolonizing methodologies", "decolonized research"]
+    migrated_from: "TILTH-CLC-04 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "community-based participatory research"
+    severity: GREEN
+    per_clc_register:
+      research_evidence: EXPECTED
+    context: "Statutory at NIH (CBPR is a documented NIH funding category); welcomed at USDA SARE Research-and-Education projects. Foundation-research funders (RWJF, Kellogg) PREFERRED. Federal severity GREEN (statutory-protected use)."
+    alternatives: ["participatory research", "community-engaged scholarship", "co-produced research"]
+    notes: "NIH-statutory acronym (CBPR). Term is unflagged; methodological pluralism is the federal-safer alternative where CBPR isn't program-cited."
+    variants: ["CBPR", "community-based research"]
+    migrated_from: "TILTH-CLC-04 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "two-spirit"
+    severity: RED
+    per_clc_register:
+      research_evidence: AVOID
+    context: "Indigenous LGBTQ+ identity term. Cross-references v2 RED entries (LGBTQ / transgender / gender identity). Indigenous-focused funders (Native Americans in Philanthropy, First Nations Development Institute) PREFERRED for tribal-led applicants; federal severity RED via EO 14168 + LGBTQ-axis pulls."
+    alternatives: ["context-dependent — if program is tribal-statutory (e.g., HHS tribal-health), program may protect the term; federal research-grant applications outside tribal-statutory carve-outs should substitute identity-specific or omit"]
+    notes: "Cross-ref v2 'LGBTQ' (RED), 'transgender' (RED). Statutory carve-outs at HHS / IHS tribal-health programs may preserve the term; non-tribal-statutory research grants face federal RED severity."
+    migrated_from: "TILTH-CLC-04 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "Indigenous methodologies"
+    severity: GREEN
+    per_clc_register:
+      research_evidence: EXPECTED
+    context: "Tribal-IRB-partnered research vocabulary; statutory protection in tribal-statutory programs (NSF NHTRO, NIH NRMN, USDA Tribal Colleges Endowment). Federal severity GREEN in statutory-protected contexts. Foundation-research funders welcome."
+    alternatives: ["tribal-research methods", "First Nations research design", "tribal-IRB-approved methodology"]
+    notes: "Statutory carve-outs preserve the term in tribal-research programs. Cross-ref 'decolonize methodology' (v2.4 YELLOW) — Indigenous-methodologies-as-framing is the statutory-protected use."
+    variants: ["Indigenous methodology", "tribal research methodology"]
+    migrated_from: "TILTH-CLC-04 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "intersectionality"
+    severity: YELLOW
+    per_clc_register:
+      research_evidence: OK
+    context: "Academic-feminist analytical framework (Crenshaw 1989); cross-ref v2 'intersectional' GREEN entry — the noun form has slightly higher federal-scrutiny exposure than the adjective. Foundation-research funders welcome; federal NIH/NSF reviewers post-2025 flag. Substitute is methodologically risky (intersectionality names a specific analytical move; substitution may misrepresent)."
+    alternatives: ["multi-factor analysis (carefully — may misrepresent)", "compound-circumstances framework"]
+    notes: "Cross-ref v2 'intersectional' (GREEN — adjective). Operator should consult applicant on whether substitution preserves the analytical move; if not, recommend retention with admin-risk flag."
+    variants: ["intersectional analysis"]
+    migrated_from: "TILTH-CLC-04 admin_risk_term_register entry"
+    approval_required: true
+
+  # ---- CLC-05 market_access (13 new entries) ----------------------
+
+  - term: "growth"
+    severity: GREEN
+    per_clc_register:
+      market_access: EXPECTED
+      catalytic_change: OK
+    context: "Generic-commerce vocabulary; statutory at SBA / SBIR programs. Federal-innovation reviewers expect. Cooperative-funder contexts may prefer 'service-expansion' framing to avoid extractive-scaling read."
+    alternatives: ["revenue expansion", "service-capacity expansion", "membership growth (cooperative-context)"]
+    notes: "Statutory at multiple SBA programs. Cross-ref v2.3 'scalability' (GREEN CLC-03) — growth and scalability are distinct: growth = current-trajectory expansion, scalability = capacity to expand under demand."
+    variants: ["growing", "growth-stage"]
+    migrated_from: "TILTH-CLC-05 admin_risk_term_register entry (pre-Cycle-2 fix-in-place removal 2026-05-16; ~200-line block removed)"
+    approval_required: true
+
+  - term: "market disruption"
+    severity: YELLOW
+    per_clc_register:
+      market_access: OK
+    context: "Christensen-disruption-theory vocabulary; same flagging as 'disruptive innovation' (v2.4 CLC-02 YELLOW). Federal commerce / SBIR Phase II reviewers welcome; cooperative / community-foundation reviewers discount."
+    alternatives: ["category-redefining market entry", "new-segment creation", "underserved-market entry"]
+    notes: "Cross-ref v2.4 'disruptive innovation' (YELLOW CLC-02). Same venture-jargon caveat applies."
+    variants: ["disrupting markets", "market-disrupting"]
+    migrated_from: "TILTH-CLC-05 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "competitive advantage"
+    severity: GREEN
+    per_clc_register:
+      market_access: EXPECTED
+    context: "Standard MBA / VAPG-application vocabulary; statutory at USDA VAPG (value-added differentiation = required scoring criterion). Foundation reviewers tolerate; cooperative funders prefer 'shared-advantage' or 'cooperative differentiation' framing."
+    alternatives: ["differentiation strategy", "value-added positioning (VAPG-statutory)", "shared cooperative advantage (cooperative-context)"]
+    notes: "Statutory at USDA VAPG. GREEN across federal + foundation; cooperative-funder substitution is preference-driven, not severity-driven."
+    variants: ["competitive advantages", "competitively advantaged"]
+    migrated_from: "TILTH-CLC-05 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "import substitution"
+    severity: GREEN
+    per_clc_register:
+      market_access: EXPECTED
+    context: "Current-admin-PREFERRED in federal commerce / agriculture contexts (EO and trade-policy cycle 2025-2026). USDA, EDA, DOC explicitly welcome. Foundation-progressive contexts neutral; some economic-justice funders question the framing on Global South impact."
+    alternatives: ["domestic-supply enhancement", "local-supply-chain investment"]
+    notes: "Federal-PREFERRED under current admin. Cross-ref 'buy american' (v2.4 CLC-05 GREEN) — same federal-PREFERRED axis."
+    variants: ["import-substitution"]
+    migrated_from: "TILTH-CLC-05 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "domestic supply chain"
+    severity: GREEN
+    per_clc_register:
+      market_access: EXPECTED
+    context: "Federal-PREFERRED in current admin context; USDA / DOC / DOD-DMAG-program statutory. Foundation reviewers neutral. Pair with concrete supply-chain specifics (geographic radius, supplier-tier coverage) to avoid the buzzword read."
+    alternatives: ["regional supply chain", "in-region sourcing", "supplier-network localization"]
+    notes: "Federal-PREFERRED. Cross-ref 'buy american' + 'import substitution' (v2.4 CLC-05 GREEN) — same federal-PREFERRED axis."
+    variants: ["domestic-supply-chain", "domestic supplier"]
+    migrated_from: "TILTH-CLC-05 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "buy american"
+    severity: GREEN
+    per_clc_register:
+      market_access: EXPECTED
+    context: "Federal-PREFERRED + statutory at federal contracting (Buy American Act + FAR Part 25 + EO 14005 modernization). Pair with BABA (Build America, Buy America Act) compliance reference where applicable; severity inherits statutory protection."
+    alternatives: ["term is federal-statutory; do not substitute. Pair with BABA compliance language."]
+    notes: "Federal-statutory. CLC-01 public-works carve-out (v2.4) carries this term as scoring-relevant via BABA compliance."
+    variants: ["Buy America", "BABA-compliant", "Buy American Act"]
+    migrated_from: "TILTH-CLC-05 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "value-added"
+    severity: GREEN
+    per_clc_register:
+      market_access: EXPECTED
+      operating_capacity: OK
+    context: "USDA-statutory term (VAPG = Value-Added Producer Grants; statutory program-name). Substituting is misframing of the federal program. Foundation contexts neutral. Cooperative contexts welcome."
+    alternatives: ["term is USDA-VAPG-statutory; do not substitute in federal applications. Cooperative-context alternatives: 'member-owned value-add', 'cooperatively-processed'."]
+    notes: "USDA-statutory acronym. Cross-ref v2.4 'competitive advantage' (CLC-05 GREEN) — VAPG specifically requires both value-added and differentiation framing."
+    variants: ["value added", "value-add", "VAPG-eligible"]
+    migrated_from: "TILTH-CLC-05 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "local food system"
+    severity: GREEN
+    per_clc_register:
+      market_access: EXPECTED
+    context: "USDA Local Agriculture Market Program (LAMP) + USDA-NIFA Local Food Promotion Program (LFPP) statutory vocabulary. Foundation-food-systems funders (Kellogg, Surdna, Mary Reynolds Babcock) welcome. Severity GREEN; federal pull would require a USDA program rescission (currently active 2026-05-16)."
+    alternatives: ["regional food system", "place-based food system", "community food system"]
+    notes: "USDA-statutory at LAMP + LFPP. GREEN; verify program-active at active-RFA fetch."
+    variants: ["local-food", "local agriculture", "local food economy"]
+    migrated_from: "TILTH-CLC-05 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "regional food system"
+    severity: GREEN
+    per_clc_register:
+      market_access: EXPECTED
+    context: "USDA Regional Food System Partnership program statutory vocabulary; sibling to 'local food system' (v2.4 GREEN). Foundation reviewers welcome."
+    alternatives: ["local food system", "regional value chain", "place-based food economy"]
+    notes: "USDA-RFSP-statutory."
+    variants: ["regional-food-system", "regional food economy"]
+    migrated_from: "TILTH-CLC-05 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "values-based supply chain"
+    severity: GREEN
+    per_clc_register:
+      market_access: OK
+    context: "Foundation-food-systems vocabulary (Wallace Center, Kellogg, Mary Reynolds Babcock) and academic-extension (Iowa State Leopold Center) framing. Federal reviewers tolerate when paired with concrete supply-chain integrity standards. Soul-fire-aligned food-justice funders welcome."
+    alternatives: ["values-aligned sourcing", "integrity-verified supply chain", "regional cooperative supply chain"]
+    notes: "GREEN; no federal pull. Foundation-vocabulary common in food-systems grantmaking."
+    variants: ["values based supply chain", "values-aligned supply chain"]
+    migrated_from: "TILTH-CLC-05 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "commercialization"
+    severity: GREEN
+    per_clc_register:
+      market_access: EXPECTED
+      research_evidence: EXPECTED
+    context: "SBIR Phase III / NIH-SBIR / NSF I-Corps / USDA SBIR statutory vocabulary. Foundation-research-translation funders welcome. Federal-innovation severity GREEN."
+    alternatives: ["market entry", "product-to-market translation", "Phase III transition (SBIR-context)"]
+    notes: "SBIR-statutory at Phase III. GREEN across federal + foundation."
+    variants: ["commercialize", "commercializing"]
+    migrated_from: "TILTH-CLC-05 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "underserved market"
+    severity: YELLOW
+    per_clc_register:
+      market_access: OK
+    context: "Variant of v2 'underserved' (RED — DEI framing) + 'minority' (RED). In market-access context, the 'market' qualifier may soften (SBA SDA-served markets statutory). Pair with statutory market definition (HUBZone / SDA / WOSB) where defensible to inherit statutory severity."
+    alternatives: ["statutory-protected market (SDA / HUBZone)", "below-parity-served market", "market with lower historical participation"]
+    notes: "Cross-ref v2 'underserved' (YELLOW). 'Underserved market' inherits parent flagging; statutory-anchor reduces severity."
+    variants: ["under-served market", "underserved markets"]
+    migrated_from: "TILTH-CLC-05 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "underrepresented founders"
+    severity: RED
+    per_clc_register:
+      market_access: AVOID
+    context: "Variant of v2 'underrepresented' (RED). 'Underrepresented founders' inherits federal-grant-pull severity from the parent. SBA programs statutory-protected for SDA / WOSB / Veteran-Owned use specific terms, not 'underrepresented'."
+    alternatives: ["SDA (USDA-statutory)", "WOSB (SBA-statutory)", "Veteran-Owned Small Business (VOSB) (SBA-statutory)", "founders below historical-parity (research-framing)"]
+    notes: "Cross-ref v2 'underrepresented' (RED). SBA-statutory terms preferred in federal applications."
+    variants: ["under-represented founders", "URM founders", "BIPOC founders"]
+    migrated_from: "TILTH-CLC-05 admin_risk_term_register entry"
+    approval_required: true
+
+  # ---- CLC-06 credit_underwriting (12 new entries) ----------------
+
+  - term: "predatory lending"
+    severity: GREEN
+    per_clc_register:
+      credit_underwriting: EXPECTED
+    context: "Consumer-finance / CDFI advocacy vocabulary; CFPB-statutory in some rule contexts. Foundation-finance funders welcome. Federal severity GREEN in defining-the-problem framing; would never be applied to applicant's own work."
+    alternatives: ["high-cost short-term lending (CFPB-context)", "abusive credit practices"]
+    notes: "GREEN; defining-the-problem framing only. Never describes applicant's own offering."
+    variants: ["predatory loans", "predatory credit"]
+    migrated_from: "TILTH-CLC-06 admin_risk_term_register entry (pre-Cycle-2 fix-in-place removal 2026-05-16; lines 745-929 13 entries removed)"
+    approval_required: true
+
+  - term: "financial inclusion"
+    severity: YELLOW
+    per_clc_register:
+      credit_underwriting: OK
+    context: "Variant of v2 'inclusion' (YELLOW). World Bank / CGAP / Aspen-FIELD vocabulary; foundation-CDFI funders welcome. Federal severity inherits 'inclusion' YELLOW; substitution to 'access' or 'banking access' often preferred."
+    alternatives: ["banking access", "credit access (concrete-mechanism specified)", "financial-services access"]
+    notes: "Cross-ref v2 'inclusion' (YELLOW). Foundation context softer than federal."
+    variants: ["financially included"]
+    migrated_from: "TILTH-CLC-06 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "underbanked"
+    severity: GREEN
+    per_clc_register:
+      credit_underwriting: EXPECTED
+    context: "FDIC-statutory term ('unbanked and underbanked households' FDIC survey series) + CFPB / Federal Reserve research framing. Foundation-CDFI funders expect. GREEN."
+    alternatives: ["term is FDIC-statutory; do not substitute"]
+    notes: "FDIC-statutory. Cross-reference 'unbanked' as parallel statutory term."
+    variants: ["unbanked", "under-banked"]
+    migrated_from: "TILTH-CLC-06 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "community wealth-building"
+    severity: GREEN
+    per_clc_register:
+      credit_underwriting: EXPECTED
+      shared_assets: EXPECTED
+    context: "Democracy Collaborative / Cleveland Model / Preston Model vocabulary; cooperative-finance + CDFI-progressive funders welcome. Federal severity GREEN; HUD-CDBG and some EDA programs accept. Some conservative-foundation reviewers may discount."
+    alternatives: ["asset-building cooperatively", "place-based wealth retention", "community-rooted capital formation"]
+    notes: "GREEN. Native to CLC-06 + CLC-08 cooperative-finance vocabulary. Compound dispatch from CLC-06 + CLC-08."
+    variants: ["community-wealth-building", "community wealth"]
+    migrated_from: "TILTH-CLC-06 + TILTH-CLC-08 admin_risk_term_register entries"
+    approval_required: true
+
+  - term: "wealth-building loans"
+    severity: GREEN
+    per_clc_register:
+      credit_underwriting: EXPECTED
+    context: "CDFI / Inclusiv / NCRC vocabulary for non-extractive credit products. Foundation-PRI funders welcome. Federal: Treasury CDFI Fund-statutory in some grant calls."
+    alternatives: ["asset-building credit products", "non-extractive lending", "wealth-supportive credit"]
+    notes: "GREEN. Treasury CDFI Fund context may protect the term."
+    variants: ["wealth-building credit", "asset-building loans"]
+    migrated_from: "TILTH-CLC-06 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "alternative credit"
+    severity: GREEN
+    per_clc_register:
+      credit_underwriting: EXPECTED
+    context: "CDFI / FinTech / non-bank-credit vocabulary; alternative-data credit-scoring (cash-flow / rent-payment / utility-payment) framing. Federal-innovation contexts (FDIC SafeBank pilot) welcome. GREEN."
+    alternatives: ["non-traditional credit", "alternative-data credit scoring", "cash-flow underwriting"]
+    notes: "GREEN. Mechanism-of-credit framing."
+    variants: ["alternative credit data", "alternative underwriting"]
+    migrated_from: "TILTH-CLC-06 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "responsible lending"
+    severity: GREEN
+    per_clc_register:
+      credit_underwriting: EXPECTED
+    context: "Industry-association vocabulary (Center for Responsible Lending NGO + CDFI Coalition). Foundation-PRI funders welcome. Federal-banking-regulator (OCC / FDIC / NCUA) tolerate. GREEN."
+    alternatives: ["non-predatory credit (defining-by-negation)", "transparent-terms lending", "borrower-protective lending"]
+    notes: "GREEN."
+    variants: ["responsible-lending"]
+    migrated_from: "TILTH-CLC-06 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "mission-aligned capital"
+    severity: GREEN
+    per_clc_register:
+      credit_underwriting: EXPECTED
+    context: "Impact-investing + foundation-PRI vocabulary; Mission Investors Exchange normalized. Cooperative-finance funders welcome. Federal-CDFI context tolerates. GREEN."
+    alternatives: ["impact-aligned investment", "values-aligned capital", "patient-mission capital"]
+    notes: "GREEN. Cross-ref 'patient capital' (v2.4 GREEN)."
+    variants: ["mission-aligned investing", "mission capital"]
+    migrated_from: "TILTH-CLC-06 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "patient capital"
+    severity: GREEN
+    per_clc_register:
+      credit_underwriting: EXPECTED
+    context: "Acumen / Calvert Impact Capital / Mission Investors Exchange vocabulary. Foundation-PRI funders welcome. Cooperative-funder contexts welcome (cooperative members already understand long-horizon return profile)."
+    alternatives: ["long-horizon capital", "concessionary-return investment", "long-term flexible capital"]
+    notes: "GREEN. Impact-investing-normalized."
+    variants: ["patient-capital"]
+    migrated_from: "TILTH-CLC-06 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "credit-invisible"
+    severity: GREEN
+    per_clc_register:
+      credit_underwriting: EXPECTED
+    context: "CFPB-statutory term (CFPB 2015 'Data Point: Credit Invisibles' report; widely-used in regulatory + research framing). Foundation-CDFI funders welcome. Federal severity GREEN."
+    alternatives: ["term is CFPB-research-statutory; do not substitute"]
+    notes: "CFPB-statutory."
+    variants: ["credit invisible", "no-credit-file"]
+    migrated_from: "TILTH-CLC-06 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "minority depository institution"
+    severity: GREEN
+    per_clc_register:
+      credit_underwriting: EXPECTED
+    context: "FDIC + OCC + Federal Reserve statutory term (Section 308 of FIRREA 1989). MDI status is regulator-conferred. Statutory carve-out protects term despite 'minority' base-word v2 RED severity."
+    alternatives: ["term is FDIC-statutory; do not substitute. Use 'MDI' acronym in federal applications."]
+    notes: "FIRREA-statutory. Cross-ref v2 'minority' (RED) — MDI carve-out preserves statutory use."
+    variants: ["MDI", "Minority Depository Institutions"]
+    migrated_from: "TILTH-CLC-06 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "creditworthy"
+    severity: GREEN
+    per_clc_register:
+      credit_underwriting: EXPECTED
+    context: "Bank-regulatory + underwriting vocabulary. Federal-regulatory-statutory at OCC / FDIC / NCUA. Foundation-PRI contexts tolerate."
+    alternatives: ["term is regulator-statutory; do not substitute"]
+    notes: "Federal-banking-statutory."
+    variants: ["creditworthiness", "credit-worthy"]
+    migrated_from: "TILTH-CLC-06 admin_risk_term_register entry"
+    approval_required: true
+
+  # ---- CLC-07 sponsorship_corporate (8 new entries) ---------------
+
+  - term: "purpose-driven"
+    severity: GREEN
+    per_clc_register:
+      sponsorship_corporate: EXPECTED
+    context: "Corporate-CSR vocabulary (Edelman Trust Barometer, Cone Communications research, B Lab). Sponsor-side decision-makers (CMO / CSR Director) expect; foundation-grant-style reviewers neutral. Standalone 'purpose-driven' is unflagged."
+    alternatives: ["mission-driven", "values-aligned", "brand-purpose-grounded"]
+    notes: "GREEN. CSR-vocabulary-normalized."
+    variants: ["purpose driven", "purpose-led"]
+    migrated_from: "TILTH-CLC-07 admin_risk_term_register entry (pre-Cycle-2 fix-in-place removal 2026-05-16)"
+    approval_required: true
+
+  - term: "racial-equity branding"
+    severity: YELLOW
+    per_clc_register:
+      sponsorship_corporate: OK
+    context: "Post-2020 corporate-CSR vocabulary. CMO-side reviewers may welcome at progressive-CSR brands; under post-2025 admin scrutiny, federal-contract-bearing corporate sponsors may pull. Cross-ref v2 'equity' (RED) — racial-prefix amplifies."
+    alternatives: ["multi-cultural marketing", "demographically-inclusive brand positioning", "diverse-audience engagement"]
+    notes: "Cross-ref v2 'equity' (RED). Post-2025 corporate-sponsor environment volatile; quarterly Lessons Memory cadence on this term (per CLC-07 _research_metadata.admin_risk_review_cadence: quarterly)."
+    variants: ["racial equity branding", "racial-justice branding"]
+    migrated_from: "TILTH-CLC-07 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "climate-action branding"
+    severity: YELLOW
+    per_clc_register:
+      sponsorship_corporate: OK
+    context: "Sibling of 'racial-equity branding' on ESG axis. Cross-ref v2.1 'climate change' (RED) + 'ESG' (RED). Progressive-CSR brands welcome; federal-contract-bearing corporate sponsors face pullback risk. Quarterly review cadence per CLC-07."
+    alternatives: ["sustainability brand positioning (cross-ref 'sustainability' YELLOW)", "environmental-stewardship brand alignment", "conservation-partner brand framing"]
+    notes: "Cross-ref v2.1 'climate change' + 'ESG' + 'sustainability'. Same federal-volatility caveat as 'racial-equity branding'."
+    variants: ["climate-action positioning", "climate-aligned branding"]
+    migrated_from: "TILTH-CLC-07 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "pride"
+    severity: YELLOW
+    per_clc_register:
+      sponsorship_corporate: OK
+    context: "LGBTQ-context sponsorship vocabulary (Pride parade / Pride month / Pride campaign). Cross-ref v2 'LGBTQ' (RED) + 'transgender' (RED) + EO 14168 environment. Many corporate sponsors pulled Pride sponsorship 2024-2025; sponsor-decision dynamics highly volatile. Quarterly cadence."
+    alternatives: ["LGBTQ-community partnership (cross-ref RED)", "specific-event partnership (avoid framing-level)"]
+    notes: "Cross-ref v2 'LGBTQ' (RED). Post-2024 corporate-sponsor-pullback wave makes this term high-volatility for CLC-07."
+    variants: ["Pride sponsorship", "Pride month", "Pride parade"]
+    migrated_from: "TILTH-CLC-07 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "land acknowledgment"
+    severity: YELLOW
+    per_clc_register:
+      sponsorship_corporate: OK
+    context: "Decolonization-adjacent corporate-event vocabulary (often paired with tribal-partnership programs). Cross-ref v2 'decolonize' (YELLOW). Foundation-corporate-event sponsors welcome (especially arts / cultural / academic-conference contexts). Federal-contract-bearing corporate sponsors face inconsistent reception."
+    alternatives: ["tribal-territory acknowledgment", "Indigenous-partner recognition (in-context-specific)"]
+    notes: "Cross-ref v2 'decolonize' (YELLOW)."
+    variants: ["land acknowledgement", "territorial acknowledgment"]
+    migrated_from: "TILTH-CLC-07 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "community-impact"
+    severity: GREEN
+    per_clc_register:
+      sponsorship_corporate: EXPECTED
+    context: "CSR-vocabulary-normalized. Sponsor-decision-makers (CSR Director / Community Relations) expect. Federal severity GREEN; foundation contexts welcome."
+    alternatives: ["local-community benefit", "community-benefit metrics"]
+    notes: "GREEN. CSR-normalized."
+    variants: ["community impact", "community-impact metrics"]
+    migrated_from: "TILTH-CLC-07 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "B Corp"
+    severity: GREEN
+    per_clc_register:
+      sponsorship_corporate: EXPECTED
+    context: "B Lab certification name (statutory at B Lab + state-level Benefit Corporation statutes in 35+ states). Foundation-CSR + impact-investing funders welcome. Federal-contract-bearing corporate sponsors neutral. GREEN."
+    alternatives: ["term is B-Lab-statutory + state-statutory; do not substitute. Use 'Certified B Corporation' in formal proposals."]
+    notes: "B-Lab-statutory + state-statutory."
+    variants: ["B Corporation", "Certified B Corp", "B-Corp"]
+    migrated_from: "TILTH-CLC-07 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "social-responsibility positioning"
+    severity: GREEN
+    per_clc_register:
+      sponsorship_corporate: EXPECTED
+    context: "CSR-vocabulary-normalized. Sponsor-decision-makers (CMO / Brand Manager) expect. Cross-ref v2.1 'stakeholder capitalism' (YELLOW) — 'social-responsibility' alone is unflagged."
+    alternatives: ["CSR positioning", "corporate-citizenship framing"]
+    notes: "GREEN. Cross-ref 'stakeholder capitalism' YELLOW for ESG-axis variant."
+    variants: ["socially-responsible positioning", "CSR positioning"]
+    migrated_from: "TILTH-CLC-07 admin_risk_term_register entry"
+    approval_required: true
+
+  # ---- CLC-08 shared_assets (5 new entries) -----------------------
+
+  - term: "commons"
+    severity: GREEN
+    per_clc_register:
+      shared_assets: EXPECTED
+    context: "Cooperative-economics + commons-scholarship (Ostrom Nobel-prize lineage); Schumacher Center for a New Economics, Sustainable Economies Law Center, On the Commons advocacy. Foundation-cooperative funders welcome. Federal severity GREEN."
+    alternatives: ["shared resource pool", "community-governed asset", "stewarded common pool"]
+    notes: "GREEN. Ostrom-scholarship-normalized."
+    variants: ["common pool", "the commons"]
+    migrated_from: "TILTH-CLC-08 admin_risk_term_register entry (pre-Cycle-2 fix-in-place removal 2026-05-16; 49-line placeholder manifest replaced 9-entry block)"
+    approval_required: true
+
+  - term: "cooperative ownership"
+    severity: GREEN
+    per_clc_register:
+      shared_assets: EXPECTED
+      credit_underwriting: OK
+    context: "Cooperative-finance + USDA cooperative-development-grant statutory vocabulary (USDA Rural Cooperative Development Grants, USDA Socially Disadvantaged Producers cooperative-grant set-aside). Foundation-cooperative funders welcome."
+    alternatives: ["member-owned", "worker-owned (specific-form)", "consumer-cooperative ownership"]
+    notes: "USDA-RCDG-statutory."
+    variants: ["co-op ownership", "cooperative-owned"]
+    migrated_from: "TILTH-CLC-08 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "collective ownership"
+    severity: GREEN
+    per_clc_register:
+      shared_assets: EXPECTED
+    context: "Variant of 'cooperative ownership'; broader (includes non-formally-incorporated collective + community-land-trust). Foundation-cooperative funders welcome. Federal severity GREEN; pair with legal-form specification (CLT / co-op / CIC / municipal) to clarify."
+    alternatives: ["community land trust", "shared ownership structure", "member-controlled asset"]
+    notes: "GREEN."
+    variants: ["collective-ownership", "collectively-owned"]
+    migrated_from: "TILTH-CLC-08 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "pooled resources"
+    severity: GREEN
+    per_clc_register:
+      shared_assets: EXPECTED
+      credit_underwriting: OK
+    context: "Cooperative-finance + shared-services vocabulary. Federal severity GREEN; cooperative-funder contexts expect."
+    alternatives: ["shared resource pool", "cooperatively-pooled capital", "member-aggregated resources"]
+    notes: "GREEN."
+    variants: ["resource pooling", "pooled capital"]
+    migrated_from: "TILTH-CLC-08 admin_risk_term_register entry"
+    approval_required: true
+
+  - term: "right to access"
+    severity: GREEN
+    per_clc_register:
+      shared_assets: OK
+      public_purpose_works: OK
+    context: "Public-utility + commons-governance vocabulary. Cross-ref 'equitable access' (v2.4 CLC-01 GREEN). 'Right to access' carries rights-framing that may trigger federal scrutiny in DEI-adjacent contexts; pair with statutory anchor (broadband-access statutes, ADA-access statutes) where defensible."
+    alternatives: ["statutory-access framing (ADA / broadband-act-specific)", "service-access guarantee"]
+    notes: "GREEN; mild rights-framing exposure. Statutory anchor reduces severity."
+    variants: ["access-as-right", "right of access"]
+    migrated_from: "TILTH-CLC-08 admin_risk_term_register entry"
+    approval_required: true

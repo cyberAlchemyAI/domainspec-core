@@ -1,0 +1,439 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Scout Discovery | Sovereign Workstation</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+            font-size: 1.2rem;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 300;
+        }
+        
+        /* Enforce custom scrollbar for brutalist feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617; /* match lowest level */
+            border-left: 1px solid #334155;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569; 
+            border-radius: 0px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748B; 
+        }
+    </style>
+<!-- Tailwind Config Injection -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#111c2d",
+                        "primary-fixed": "#e2e2e2",
+                        "primary-container": "#e2e2e2",
+                        "tertiary-container": "#dae2fd",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#d8e3fb",
+                        "secondary": "#b7c8e1",
+                        "primary": "#ffffff",
+                        "inverse-on-surface": "#263143",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-surface-variant": "#c4c7c8",
+                        "background": "#081425",
+                        "surface-dim": "#081425",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#040e1f",
+                        "tertiary-fixed": "#dae2fd",
+                        "surface-container-high": "#1f2a3c",
+                        "on-primary-container": "#636565",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-secondary": "#213145",
+                        "tertiary": "#ffffff",
+                        "on-secondary-container": "#a9bad3",
+                        "on-primary-fixed": "#1a1c1c",
+                        "inverse-primary": "#5d5f5f",
+                        "surface-variant": "#2a3548",
+                        "surface-container": "#152031",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-tertiary-container": "#5c647a",
+                        "surface-tint": "#c6c6c7",
+                        "on-error": "#690005",
+                        "secondary-container": "#3a4a5f",
+                        "error-container": "#93000a",
+                        "on-primary": "#2f3131",
+                        "inverse-surface": "#d8e3fb",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "outline": "#8e9192",
+                        "on-surface": "#d8e3fb",
+                        "surface": "#081425",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "outline-variant": "#444748",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-tertiary": "#283044",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-container-highest": "#2a3548",
+                        "surface-bright": "#2f3a4c",
+                        "primary-fixed-dim": "#c6c6c7"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    spacing: {
+                        "unit": "4px",
+                        "gutter": "1px",
+                        "sidebar-width": "240px",
+                        "container-padding": "16px",
+                        "panel-gap": "8px"
+                    },
+                    fontFamily: {
+                        "body-sm": ["Hanken Grotesk", "sans-serif"],
+                        "headline-md": ["Hanken Grotesk", "sans-serif"],
+                        "body-md": ["Hanken Grotesk", "sans-serif"],
+                        "label-caps": ["JetBrains Mono", "monospace"],
+                        "display-lg": ["Hanken Grotesk", "sans-serif"],
+                        "data-mono": ["JetBrains Mono", "monospace"]
+                    },
+                    fontSize: {
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface antialiased flex flex-col h-screen overflow-hidden font-body-md text-body-md selection:bg-surface-variant selection:text-primary">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface-container-low dark:bg-surface-container-low text-primary dark:text-primary flex justify-between items-center w-full px-container-padding docked full-width top-0 h-14 border-b border-outline-variant flat no shadows shrink-0 z-20">
+<div class="flex items-center gap-6">
+<div class="font-label-caps text-label-caps tracking-widest text-on-surface dark:text-on-surface">IDEA FOUNDRY NODE</div>
+</div>
+<div class="flex items-center gap-4">
+<!-- Navigation Links (Disabled visual styling as requested by Brutalism rules for non-interactive top links in this context, prioritizing data) -->
+<div class="flex items-center gap-4 border-l border-outline-variant pl-4 h-full">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">HYBRID</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">VERIFIED</span>
+<span class="font-data-mono text-data-mono text-secondary uppercase">4a3f...b2c8</span>
+</div>
+<button class="flex items-center justify-center w-8 h-8 hover:bg-surface-variant dark:hover:bg-surface-variant text-on-surface-variant border border-transparent hover:border-outline-variant transition-none">
+<span class="material-symbols-outlined" data-icon="sync">sync</span>
+</button>
+</div>
+</header>
+<!-- Main Workstation Canvas -->
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<nav class="bg-surface dark:bg-surface flex flex-col h-full py-4 docked left-0 w-sidebar-width border-r border-outline-variant flat no shadows shrink-0 z-10 overflow-y-auto">
+<div class="px-4 mb-6">
+<div class="font-headline-md text-headline-md font-bold text-on-surface">GOLDEN QUILL</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-1">SOVEREIGN WORKSTATION</div>
+</div>
+<div class="flex flex-col gap-1 w-full">
+<!-- Tab: Home -->
+<a class="flex items-center gap-3 px-4 py-2 w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[16px]">home</span>
+<span class="font-label-caps text-label-caps uppercase">Home</span>
+</a>
+<!-- Tab: Scout (ACTIVE) -->
+<a class="flex items-center gap-3 px-4 py-2 w-full bg-surface-container-high text-primary border-r-2 border-primary instant transition" href="#">
+<span class="material-symbols-outlined text-[16px] icon-fill">search</span>
+<span class="font-label-caps text-label-caps uppercase">Scout</span>
+</a>
+<!-- Tab: Intake -->
+<a class="flex items-center gap-3 px-4 py-2 w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[16px]">input</span>
+<span class="font-label-caps text-label-caps uppercase">Intake</span>
+</a>
+<!-- Tab: Eligibility -->
+<a class="flex items-center gap-3 px-4 py-2 w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[16px]">fact_check</span>
+<span class="font-label-caps text-label-caps uppercase">Eligibility</span>
+</a>
+<!-- Tab: Module Mapper -->
+<a class="flex items-center gap-3 px-4 py-2 w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[16px]">account_tree</span>
+<span class="font-label-caps text-label-caps uppercase">Module Mapper</span>
+</a>
+<!-- Tab: Drafting -->
+<a class="flex items-center gap-3 px-4 py-2 w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+<span class="font-label-caps text-label-caps uppercase">Drafting</span>
+</a>
+<!-- Tab: Budget -->
+<a class="flex items-center gap-3 px-4 py-2 w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[16px]">payments</span>
+<span class="font-label-caps text-label-caps uppercase">Budget</span>
+</a>
+<!-- Tab: Judge -->
+<a class="flex items-center gap-3 px-4 py-2 w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[16px]">security</span>
+<span class="font-label-caps text-label-caps uppercase">Red Team</span>
+</a><a class="flex items-center gap-3 px-4 py-2 w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[16px]">gavel</span>
+<span class="font-label-caps text-label-caps uppercase">Judge</span>
+</a>
+<!-- Tab: Red Team -->
+
+<!-- Tab: Sign-Off -->
+
+<!-- Tab: Audit -->
+<a class="flex items-center gap-3 px-4 py-2 w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+<span class="font-label-caps text-label-caps uppercase">Audit</span>
+</a>
+<!-- Tab: Cards -->
+<a class="flex items-center gap-3 px-4 py-2 w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[16px]">credit_card</span>
+<span class="font-label-caps text-label-caps uppercase">Cards</span>
+</a>
+<!-- Tab: FIDs -->
+<a class="flex items-center gap-3 px-4 py-2 w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[16px]">fingerprint</span>
+<span class="font-label-caps text-label-caps uppercase">FIDs</span>
+</a>
+<!-- Tab: Costs -->
+<a class="flex items-center gap-3 px-4 py-2 w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[16px]">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps uppercase">Costs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 w-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container instant transition" href="#">
+<span class="material-symbols-outlined text-[16px]">history_edu</span>
+<span class="font-label-caps text-label-caps uppercase">Sign-Off</span>
+</a></div>
+</nav>
+<!-- Main Surface Area -->
+<main class="flex-1 flex flex-col bg-surface-container-lowest overflow-hidden border-r border-outline-variant">
+<!-- Value Strip (Dashboard Horizon) -->
+<section class="border-b border-outline-variant bg-surface shrink-0">
+<div class="grid grid-cols-5 divide-x divide-outline-variant">
+<div class="p-4 flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant">TOTAL TRACKED VALUE</span>
+<span class="font-data-mono text-display-lg text-primary">$4.2M</span>
+</div>
+<div class="p-4 flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-secondary">VERIFIED-FIT VALUE</span>
+<span class="font-data-mono text-display-lg text-primary">$1.8M</span>
+</div>
+<div class="p-4 flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant">NEWLY ADDED (24H)</span>
+<span class="font-data-mono text-display-lg text-primary">+$450k</span>
+</div>
+<div class="p-4 flex flex-col gap-1 bg-[#1e0a0a]"> <!-- Subtle underlay for error state, mapped closest to brutalist constraints -->
+<span class="font-label-caps text-label-caps text-error">BLOCKED VALUE</span>
+<span class="font-data-mono text-display-lg text-error">$1.2M</span>
+</div>
+<div class="p-4 flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant">PIPELINE COUNTS</span>
+<div class="flex gap-4 mt-auto">
+<div class="flex flex-col">
+<span class="font-data-mono text-body-md text-primary">14</span>
+<span class="font-label-caps text-[9px] text-on-surface-variant">FOUND</span>
+</div>
+<div class="flex flex-col">
+<span class="font-data-mono text-body-md text-primary">8</span>
+<span class="font-label-caps text-[9px] text-on-surface-variant">ADDED</span>
+</div>
+<div class="flex flex-col">
+<span class="font-data-mono text-body-md text-primary">42</span>
+<span class="font-label-caps text-[9px] text-on-surface-variant">TRCKG</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Actions Header -->
+<header class="flex justify-between items-center p-4 border-b border-outline-variant bg-surface shrink-0">
+<div class="flex items-center gap-4">
+<h1 class="font-label-caps text-label-caps text-primary tracking-widest">DISCOVERY QUEUE</h1>
+<span class="font-data-mono text-body-sm text-secondary bg-surface-variant px-2 py-0.5 border border-outline-variant">SORT: CONFIDENCE_DESC</span>
+</div>
+<div class="flex items-center gap-4">
+<!-- ScoutModeToggle -->
+<div class="flex items-center border border-outline-variant bg-surface-container">
+<button class="px-3 py-1 font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-variant transition-none border-r border-outline-variant">ONE_SHOT</button>
+<button class="px-3 py-1 font-label-caps text-label-caps bg-primary text-[#020617] transition-none flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">settings_b_roll</span>
+                            DAEMON
+                        </button>
+</div>
+<button class="bg-primary text-[#000000] font-label-caps text-label-caps px-4 py-2 hover:bg-primary-fixed-dim transition-none border border-transparent">
+                        RUN SCOUT
+                    </button>
+</div>
+</header>
+<!-- Ranked List Area -->
+<div class="flex-1 overflow-y-auto bg-surface-container-lowest p-4 flex flex-col gap-2">
+<!-- Card 1 (Active) -->
+<div class="bg-surface-container border border-primary p-4 flex flex-col gap-3 cursor-default relative group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start pl-2">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Sustainable Ag Pilot</h3>
+<div class="flex items-center gap-3 mt-1 font-data-mono text-body-sm text-on-surface-variant">
+<span class="text-secondary">USDA-RD</span>
+<span class="text-outline-variant">|</span>
+<span class="">DEADLINE: <span class="text-error font-bold">14d</span></span>
+<span class="text-outline-variant">|</span>
+<span class="">FIT: <span class="text-primary">94%</span></span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="font-label-caps text-label-caps text-[#020617] bg-secondary px-2 py-0.5">CONF: HIGH</span>
+<span class="font-data-mono text-[10px] text-on-surface-variant uppercase border border-outline-variant px-1 mt-1">SRC: VERIFIED_FIT</span>
+</div>
+</div>
+<div class="pl-2 border-t border-outline-variant pt-2">
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-3xl leading-relaxed">
+<span class="text-primary font-data-mono mr-2">RAT:</span>Strong alignment with core soil regeneration competencies. Program specifically dictates preference for decentralized sensing nodes, matching our Q3 capability payload. Primary risk is constrained timeline for required multi-tenant data sharing agreement.
+                        </p>
+</div>
+</div>
+<!-- Card 2 (Inactive) -->
+<div class="bg-surface border border-outline-variant p-4 flex flex-col gap-3 hover:bg-surface-container hover:border-secondary transition-none cursor-pointer">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Regenerative Soil Initiative</h3>
+<div class="flex items-center gap-3 mt-1 font-data-mono text-body-sm text-on-surface-variant">
+<span class="">SARE</span>
+<span class="text-outline-variant">|</span>
+<span class="">DEADLINE: 32d</span>
+<span class="text-outline-variant">|</span>
+<span class="">FIT: 82%</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="font-label-caps text-label-caps text-on-surface border border-outline-variant px-2 py-0.5">CONF: 78%</span>
+<span class="font-data-mono text-[10px] text-on-surface-variant uppercase border border-outline-variant px-1 mt-1">SRC: VERIFIED_FIT</span>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-2">
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-3xl leading-relaxed">
+<span class="text-primary font-data-mono mr-2">RAT:</span>Viable secondary target. Substantial focus on community outreach rather than pure hardware deployment. Requires partnership with established agricultural extension to meet minimum scoring threshold.
+                        </p>
+</div>
+</div>
+<!-- Card 3 (Inactive/Lower Priority to show density) -->
+<div class="bg-surface border border-outline-variant p-4 flex flex-col gap-3 hover:bg-surface-container hover:border-secondary transition-none cursor-pointer opacity-70">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Precision Irrigation Grant</h3>
+<div class="flex items-center gap-3 mt-1 font-data-mono text-body-sm text-on-surface-variant">
+<span class="">NSF-SBIR</span>
+<span class="text-outline-variant">|</span>
+<span class="">DEADLINE: 90d</span>
+<span class="text-outline-variant">|</span>
+<span class="">FIT: 61%</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant border border-outline-variant px-2 py-0.5">CONF: 45%</span>
+<span class="font-data-mono text-[10px] text-on-surface-variant uppercase border border-outline-variant px-1 mt-1">SRC: AUTOMATED_CRAWL</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Right Inspector (OpportunityReasoningInspector) -->
+<aside class="w-[420px] bg-surface-container shrink-0 flex flex-col overflow-hidden border-l border-outline-variant">
+<header class="p-4 border-b border-outline-variant bg-surface flex items-center justify-between">
+<h2 class="font-label-caps text-label-caps text-primary">INSPECTOR: REASONING LOG</h2>
+<button class="text-on-surface-variant hover:text-primary transition-none">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</header>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+<!-- Target Meta -->
+<div class="flex flex-col gap-2">
+<div class="font-data-mono text-[10px] text-secondary uppercase">Selected Target</div>
+<div class="font-headline-md text-headline-md text-primary">Sustainable Ag Pilot</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-[14px] text-error">lock</span>
+<span class="font-data-mono text-body-sm text-on-surface-variant">Funder Envelope: $250k - $500k</span>
+</div>
+</div>
+<div class="border-t border-outline-variant"></div>
+<!-- Rationale Output Terminal -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant">FIT RATIONALE (DAEMON_OUTPUT)</h3>
+<span class="font-data-mono text-[10px] text-primary">EXEC_TIME: 124ms</span>
+</div>
+<div class="bg-[#000000] border border-outline-variant p-3 font-data-mono text-body-sm text-secondary leading-relaxed">
+                        &gt; analyzing entity payload against [USDA-RD-2024] constraints...<br>
+                        &gt; matching keyword clusters: [sensor_network, decentralized_compute, soil_carbon]<br>
+                        &gt; fit_score generation: 0.942 (HIGH_CONFIDENCE)<br>
+                        &gt; warning: temporal constraints tight. 14 days to submission.<br>
+                        &gt; recommendation: initialize drafting module via 'VERIFIED' pathway immediately.
+                    </div>
+</div>
+<!-- Evidence Gaps -->
+<div class="flex flex-col gap-2">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant">EVIDENCE GAPS / BLOCKERS</h3>
+<ul class="flex flex-col gap-2">
+<li class="flex items-start gap-2 border border-outline-variant p-2 bg-surface">
+<span class="material-symbols-outlined text-[16px] text-error mt-0.5">warning</span>
+<div class="flex flex-col">
+<span class="font-data-mono text-body-sm text-primary">Missing Partner MOU</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Requires signature from local university extension. Current status: pending.</span>
+</div>
+</li>
+<li class="flex items-start gap-2 border border-outline-variant p-2 bg-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5">info</span>
+<div class="flex flex-col">
+<span class="font-data-mono text-body-sm text-primary">Budget Validation</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Hardware cost tier exceeds standard bounds. Requires justification narrative.</span>
+</div>
+</li>
+</ul>
+</div>
+<!-- Source Backing Metadata -->
+<div class="flex flex-col gap-2 mt-auto pt-4 border-t border-outline-variant">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant">SOURCE METADATA</h3>
+<div class="grid grid-cols-2 gap-y-2 gap-x-4 font-data-mono text-[11px]">
+<span class="text-on-surface-variant">ORIGIN:</span>
+<span class="text-primary text-right">MANUAL_INGEST</span>
+<span class="text-on-surface-variant">INGEST_DATE:</span>
+<span class="text-primary text-right">2023-10-24T14:32Z</span>
+<span class="text-on-surface-variant">VERIFICATION:</span>
+<span class="text-secondary text-right">LEVEL_3 (HUMAN)</span>
+<span class="text-on-surface-variant">TRACE_ID:</span>
+<span class="text-primary text-right">0x88f2...1a9c</span>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-outline-variant bg-surface flex gap-2">
+<button class="flex-1 border border-outline-variant bg-surface text-on-surface font-label-caps text-label-caps py-2 hover:bg-surface-variant transition-none">DISMISS</button>
+<button class="flex-1 bg-primary text-[#000000] font-label-caps text-label-caps py-2 hover:bg-primary-fixed-dim transition-none border border-transparent">INITIATE DRAFT</button>
+</div>
+</aside>
+</div>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest text-on-surface-variant dark:text-on-surface-variant font-data-mono text-body-sm h-8 border-t border-outline-variant flat no shadows fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-4">
+<div class="">LOCAL NODE STATUS: OPERATIONAL</div>
+<div class="flex items-center gap-6">
+<span class="hover:text-primary transition-none cursor-default">FINGERPRINT: 88:92:AF</span>
+<span class="hover:text-primary transition-none cursor-default">NETWORK: ENCRYPTED</span>
+</div>
+</footer>
+
+
+</body></html>

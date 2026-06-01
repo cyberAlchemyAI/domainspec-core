@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Card Matrix</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#3a4a5f",
+                    "on-primary-container": "#636565",
+                    "on-surface": "#d8e3fb",
+                    "on-tertiary-container": "#5c647a",
+                    "tertiary-fixed": "#dae2fd",
+                    "surface-container-lowest": "#040e1f",
+                    "surface-container": "#152031",
+                    "on-secondary-container": "#a9bad3",
+                    "on-primary-fixed-variant": "#454747",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "outline": "#8e9192",
+                    "surface-container-high": "#1f2a3c",
+                    "tertiary-container": "#dae2fd",
+                    "surface-variant": "#2a3548",
+                    "surface-container-low": "#111c2d",
+                    "primary-container": "#e2e2e2",
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "on-secondary": "#213145",
+                    "surface-tint": "#c6c6c7",
+                    "tertiary": "#ffffff",
+                    "secondary-fixed": "#d3e4fe",
+                    "secondary": "#b7c8e1",
+                    "on-background": "#d8e3fb",
+                    "error": "#ffb4ab",
+                    "on-surface-variant": "#c4c7c8",
+                    "inverse-surface": "#d8e3fb",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "surface-bright": "#2f3a4c",
+                    "inverse-primary": "#5d5f5f",
+                    "primary": "#ffffff",
+                    "outline-variant": "#444748",
+                    "primary-fixed": "#e2e2e2",
+                    "on-tertiary-fixed": "#131b2e",
+                    "on-tertiary": "#283044",
+                    "on-error": "#690005",
+                    "inverse-on-surface": "#263143",
+                    "on-primary-fixed": "#1a1c1c",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-fixed": "#0b1c30",
+                    "surface-dim": "#081425",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "surface-container-highest": "#2a3548",
+                    "on-primary": "#2f3131",
+                    "surface": "#081425",
+                    "background": "#081425"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sidebar-width": "240px",
+                    "container-padding": "16px",
+                    "unit": "4px",
+                    "panel-gap": "8px",
+                    "gutter": "1px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "body-sm": ["Hanken Grotesk"],
+                    "label-caps": ["JetBrains Mono"],
+                    "data-mono": ["JetBrains Mono"],
+                    "body-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Modern Brutalism structural resets */
+        * { border-radius: 0 !important; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #040e1f; }
+        ::-webkit-scrollbar-thumb { background: #2a3548; border: 1px solid #444748; }
+        
+        /* Matrix specific grid */
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 140px repeat(8, minmax(80px, 1fr));
+            grid-template-rows: 40px repeat(6, 1fr);
+            gap: 1px;
+            background-color: #444748; /* Acts as 1px border */
+        }
+        .matrix-cell {
+            background-color: #081425;
+            position: relative;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .matrix-header {
+            background-color: #111c2d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            text-align: center;
+        }
+        .matrix-row-header {
+            background-color: #111c2d;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface h-screen w-screen overflow-hidden flex flex-col font-body-md select-none">
+<!-- TopAppBar -->
+<header class="bg-surface-container-low dark:bg-surface-container-low text-primary dark:text-primary font-data-mono text-data-mono flex justify-between items-center w-full px-container-padding gap-panel-gap docked full-width top-0 h-14 border-b border-outline-variant shrink-0 z-20 relative">
+<div class="flex items-center gap-6">
+<div class="font-display-lg text-display-lg font-bold text-primary dark:text-primary uppercase tracking-tighter">GOLDEN QUILL</div>
+<div class="h-6 w-px bg-outline-variant"></div>
+<div class="flex items-center gap-2 text-on-surface-variant bg-surface-container px-3 py-1 border border-outline-variant w-64">
+<span class="material-symbols-outlined text-[16px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-data-mono font-data-mono w-full p-0 placeholder-outline" placeholder="QUERY TOPOLOGY..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1 border border-outline-variant px-2 py-1 bg-surface-container-high text-primary">
+<div class="w-2 h-2 bg-green-500 mr-1"></div>
+<span class="font-label-caps text-label-caps">SECURE POSTURE</span>
+</div>
+<div class="h-4 w-px bg-outline-variant"></div>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary hover:bg-surface-container-highest p-1 cursor-pointer transition-none">verified_user</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary hover:bg-surface-container-highest p-1 cursor-pointer transition-none">vpn_key</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary hover:bg-surface-container-highest p-1 cursor-pointer transition-none">account_circle</span>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative z-10 pb-8">
+<!-- SideNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container text-primary dark:text-primary font-label-caps text-label-caps flex flex-col h-full border-r border-outline-variant w-sidebar-width shrink-0 z-10">
+<div class="p-4 border-b border-outline-variant bg-surface-container-low flex flex-col gap-1">
+<div class="font-headline-md text-headline-md text-primary tracking-tight">FIT Farms</div>
+<div class="text-on-surface-variant font-data-mono text-[10px]">FRONTIER POSTURE</div>
+<div class="mt-2 text-secondary font-data-mono text-[10px] uppercase border border-outline-variant inline-block px-1 w-max">AppliedAsIndicator</div>
+</div>
+<ul class="flex flex-col flex-1 overflow-y-auto py-2">
+<li class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">home</span><span>Home</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">search_insights</span><span>Scout</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">input</span><span>Intake</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">fact_check</span><span>Eligibility</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">account_tree</span><span>Module Mapper</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">edit_note</span><span>Drafting</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">payments</span><span>Budget</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">gavel</span><span>Judge</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">security</span><span>Red Team</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">history_edu</span><span>Final Packet Authorization</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">policy</span><span>Audit</span>
+</li>
+<!-- Active Nav -->
+<li class="flex items-center gap-3 px-4 py-2 bg-surface-container-highest text-primary border-l-2 border-primary cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">credit_card</span><span>Cards</span>
+</li>
+<li class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span><span>FIDs</span>
+</li>
+</ul>
+<div class="mt-auto border-t border-outline-variant py-2">
+<div class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high cursor-pointer transition-none">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span><span>Costs</span>
+</div>
+</div>
+</nav>
+<!-- Main Workspace (Canvas) -->
+<main class="flex-1 flex flex-row overflow-hidden bg-background">
+<!-- Left: Card Matrix Container -->
+<div class="flex-1 flex flex-col border-r border-outline-variant overflow-hidden">
+<!-- Matrix Toolbar -->
+<div class="h-12 border-b border-outline-variant bg-surface-container-low flex items-center justify-between px-4 shrink-0">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps text-secondary">TOPOLOGY: 6 CIC x 8 CLC</span>
+<div class="h-4 w-px bg-outline-variant"></div>
+<span class="font-data-mono text-data-mono text-on-surface-variant">IDENTITY LOGIC CONFIGURATION</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-3 py-1 hover:bg-primary-container">COMMIT STATE</button>
+</div>
+</div>
+<!-- The Grid -->
+<div class="flex-1 overflow-auto p-4 bg-surface-container-lowest">
+<div class="matrix-grid w-full h-full min-w-[800px]">
+<!-- Corner -->
+<div class="matrix-header font-label-caps text-label-caps text-outline border-b border-r border-outline-variant bg-surface-container-lowest">
+                            CIC \ CLC
+                        </div>
+<!-- Col Headers (8) -->
+<div class="matrix-header font-label-caps text-label-caps text-on-surface-variant">RESEARCH</div>
+<div class="matrix-header font-label-caps text-label-caps text-on-surface-variant">FEASIBILITY</div>
+<div class="matrix-header font-label-caps text-label-caps text-on-surface-variant">CAPEX</div>
+<div class="matrix-header font-label-caps text-label-caps text-on-surface-variant">OPEX</div>
+<div class="matrix-header font-label-caps text-label-caps text-on-surface-variant">COMPLIANCE</div>
+<div class="matrix-header font-label-caps text-label-caps text-on-surface-variant">MARKET</div>
+<div class="matrix-header font-label-caps text-label-caps text-on-surface-variant">DISTRIB</div>
+<div class="matrix-header font-label-caps text-label-caps text-on-surface-variant">AUDIT</div>
+<!-- Row 1: Food Systems (Contains Active Node) -->
+<div class="matrix-row-header font-label-caps text-label-caps text-on-surface border-b border-outline-variant">
+                            01 FOOD SYSTEMS
+                        </div>
+<!-- Active Node -->
+<div class="matrix-cell border border-primary bg-surface-container-highest cursor-pointer relative z-10 shadow-[0_0_0_1px_#ffffff]">
+<div class="flex justify-between items-start mb-1">
+<span class="text-data-mono font-data-mono text-primary text-[10px]">IDX-1A</span>
+<div class="w-1.5 h-1.5 bg-green-500"></div>
+</div>
+<div class="mt-auto w-full h-1 bg-surface-variant flex">
+<div class="h-full w-full bg-primary"></div>
+</div>
+</div>
+<!-- High Density Cell -->
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container">
+<div class="flex justify-between items-start mb-1">
+<span class="text-data-mono font-data-mono text-on-surface-variant text-[10px]">IDX-1B</span>
+</div>
+<div class="mt-auto w-full h-1 bg-surface-variant flex">
+<div class="h-full w-[80%] bg-secondary"></div>
+</div>
+</div>
+<!-- Medium Density Cell -->
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container-low">
+<div class="flex justify-between items-start mb-1">
+<span class="text-data-mono font-data-mono text-on-surface-variant text-[10px]">IDX-1C</span>
+</div>
+<div class="mt-auto w-full h-1 bg-surface-variant flex">
+<div class="h-full w-[40%] bg-secondary-fixed-dim"></div>
+</div>
+</div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container-low"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[30%] bg-secondary-fixed-dim"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[90%] bg-secondary"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-dim"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[10%] bg-outline"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-dim"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[5%] bg-outline"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container-low"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[50%] bg-secondary-fixed-dim"></div></div></div>
+<!-- Row 2: Energy -->
+<div class="matrix-row-header font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">
+                            02 ENERGY GEN
+                        </div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container-low"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[60%] bg-secondary-fixed-dim"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-dim"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[15%] bg-outline"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[85%] bg-secondary"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container-high"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[95%] bg-primary-fixed-dim"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container-low"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[45%] bg-secondary-fixed-dim"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-dim"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[20%] bg-outline"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[75%] bg-secondary"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-dim"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[5%] bg-outline"></div></div></div>
+<!-- Row 3: Bio-Processing -->
+<div class="matrix-row-header font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">
+                            03 BIO-PROCESS
+                        </div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[70%] bg-secondary"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container-low"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[35%] bg-secondary-fixed-dim"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-dim"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[10%] bg-outline"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-dim"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[0%] bg-outline"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container-high"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[100%] bg-primary-fixed-dim"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container-low"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[50%] bg-secondary-fixed-dim"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-dim"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[25%] bg-outline"></div></div></div>
+<div class="matrix-cell cursor-pointer hover:bg-surface-container-high bg-surface-container"><div class="mt-auto w-full h-1 bg-surface-variant flex"><div class="h-full w-[80%] bg-secondary"></div></div></div>
+<!-- Row 4-6 Skipped for brevity but structure implies full matrix -->
+<div class="matrix-row-header font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">04 WATER MGMT</div>
+<div class="matrix-cell bg-surface-dim"></div><div class="matrix-cell bg-surface-container"></div><div class="matrix-cell bg-surface-container-low"></div><div class="matrix-cell bg-surface-dim"></div><div class="matrix-cell bg-surface-container-high"></div><div class="matrix-cell bg-surface-container"></div><div class="matrix-cell bg-surface-dim"></div><div class="matrix-cell bg-surface-container"></div>
+<div class="matrix-row-header font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">05 LOGISTICS</div>
+<div class="matrix-cell bg-surface-container"></div><div class="matrix-cell bg-surface-dim"></div><div class="matrix-cell bg-surface-container-high"></div><div class="matrix-cell bg-surface-container"></div><div class="matrix-cell bg-surface-dim"></div><div class="matrix-cell bg-surface-container-low"></div><div class="matrix-cell bg-surface-container-high"></div><div class="matrix-cell bg-surface-dim"></div>
+<div class="matrix-row-header font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant">06 DATA INFRA</div>
+<div class="matrix-cell bg-surface-container-high"></div><div class="matrix-cell bg-surface-container-high"></div><div class="matrix-cell bg-surface-container"></div><div class="matrix-cell bg-surface-dim"></div><div class="matrix-cell bg-surface-container-low"></div><div class="matrix-cell bg-surface-dim"></div><div class="matrix-cell bg-surface-container"></div><div class="matrix-cell bg-surface-container-high"></div>
+</div>
+</div>
+</div>
+<!-- Right: Inspector Panel -->
+<div class="w-[320px] bg-surface-container flex flex-col shrink-0 border-l border-outline-variant">
+<div class="h-12 border-b border-outline-variant bg-surface-container-low flex items-center px-4 shrink-0">
+<span class="font-label-caps text-label-caps text-primary">NODE INSPECTOR</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+<!-- Active Node Identity -->
+<div>
+<div class="font-data-mono text-[10px] text-secondary mb-1">ACTIVE NODE</div>
+<div class="font-headline-md text-headline-md text-primary">Food Systems × Research</div>
+<div class="text-data-mono font-data-mono text-on-surface-variant mt-2 border border-outline-variant p-2 bg-surface-dim">
+                            LOC: [01, 01]<br/>
+                            EVID: 98.4% (HIGH DEN)
+                        </div>
+</div>
+<!-- Charter Excerpts -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant pb-1 mb-2">CHARTER EXCERPTS</div>
+<div class="font-body-sm text-body-sm text-on-surface leading-relaxed text-justify">
+                            "The applicant must demonstrate empirical methodologies applied to nutritional yield optimization within controlled terrestrial enclosures. Research logic must precede CapEx allocation."
+                        </div>
+</div>
+<!-- Evaluation Rules -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant pb-1 mb-2">ACTIVE EVAL RULES</div>
+<ul class="flex flex-col gap-2">
+<li class="flex items-start gap-2">
+<div class="w-2 h-2 mt-1 bg-green-500 shrink-0"></div>
+<span class="font-data-mono text-[11px] text-on-surface">VAL_01: Peer-reviewed literature citation density &gt; 4.0</span>
+</li>
+<li class="flex items-start gap-2">
+<div class="w-2 h-2 mt-1 bg-green-500 shrink-0"></div>
+<span class="font-data-mono text-[11px] text-on-surface">VAL_02: Patent pendency verified in domain 'AgriTech'</span>
+</li>
+<li class="flex items-start gap-2">
+<div class="w-2 h-2 mt-1 bg-amber-500 shrink-0"></div>
+<span class="font-data-mono text-[11px] text-on-surface">VAL_03: Principal Investigator tenure &lt; 5yrs (FLAG)</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Terminal/Log snippet at bottom of inspector -->
+<div class="h-32 bg-black border-t border-outline-variant p-2 font-data-mono text-[10px] text-secondary overflow-y-auto">
+<div class="text-on-surface-variant">&gt; QUERYING NODE [01,01]...</div>
+<div class="text-green-500">&gt; IDENTITY MATCH: CONFIRMED</div>
+<div>&gt; FETCHING LOGIC STRINGS...</div>
+<div>&gt; 3 RULES APPLIED</div>
+<div class="text-primary">&gt; AWAITING OP INPUT_</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest text-secondary dark:text-secondary font-data-mono text-data-mono docked bottom-0 full-width h-8 fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50 border-t border-outline-variant">
+<div class="font-label-caps text-label-caps text-on-surface">NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED</div>
+<div class="flex gap-4">
+<span class="hover:text-primary cursor-pointer transition-none">Machine ID: 992-QX</span>
+<span class="text-outline-variant">|</span>
+<span class="hover:text-primary cursor-pointer transition-none">Audit Log</span>
+<span class="text-outline-variant">|</span>
+<span class="hover:text-primary cursor-pointer transition-none">System Health</span>
+</div>
+</footer>
+</body></html>

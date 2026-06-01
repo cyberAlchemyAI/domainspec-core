@@ -1,0 +1,252 @@
+# Golden Quill / Tilth — Seat-to-Model Router
+#
+# This file is the SOLE source of truth for which model powers which seat.
+# Identity docs, plans, and memory files MUST reference seats by role, not by model.
+# When a model binding changes, EDIT ONLY THIS FILE.
+#
+# === v7.0.10 LOCKED 2026-05-11 row 215 (three-posture customer-facing routing) ===
+# This workspace router.yaml plays a DUAL role:
+#   1. Josh's dev-node deployment config (still authoritative for dev runs).
+#   2. The PER-DEPLOYMENT TEMPLATE per §6 of architecture v7.0.7 (canonical at v7.0.10).
+# For each customer Golden Quill, a per-deployment router.yaml is DERIVED at
+# white-glove onboarding from (a) this workspace template + (b) the operator's
+# classification register at vault_shared/classification/register.yaml plus
+# orgs/<slug>/vault/classification/register.yaml (now carries `selected_posture`
+# field per v7.0.10 §1.4) + (c) the current Golden Quill router-template release.
+#
+# Per v7.0.7 §6.1 (canonical at v7.0.10): the router-template publisher signs
+# every release with Ed25519 (A12 crypto-agility envelope). The Golden Quill
+# verifies the signature against the white-glove-pinned publisher public key
+# BEFORE applying any update — failure → fail-closed
+# (F-CLASS-ROUTER-TEMPLATE-SIGNATURE-INVALID), deployment stays on previous
+# pinned version, admin-risk ledger entry HIGH severity. Public-key rotation:
+# new key co-signed by the previous (Trust-On-First-Use, audited).
+#
+# Beta routing pattern: per-agent-call decision under one of THREE deployment
+# postures per architecture v7.0.10 §1 (canonical customer-facing vocabulary;
+# Sanitized / opaque-slot-token posture from v7.0.7's implicit four-posture
+# framing is DEPRECATED at v7.0.10 §2):
+#
+#   posture := frontier_eligible | split_context_hybrid | local_only_sovereign
+#
+#   if posture == local_only_sovereign:           → LOCAL (every seat)
+#   elif posture == frontier_eligible:
+#     confidential | operator_flagged             → LOCAL (operator override via per-grant SP0 + HIGH-severity ledger)
+#     all input public + shareable                → CLOUD FRONTIER
+#     class indeterminate                         → fail-closed LOCAL (F-CLASS-ROUTING-INDETERMINATE)
+#   elif posture == split_context_hybrid:
+#     confidential | operator_flagged             → LOCAL (substance composition)
+#     public+shareable + seat ∈ {scribe_scaffold,
+#         scout, intake_classification_review}    → CLOUD FRONTIER (scaffold/structure work only via
+#                                                    F-CLASS-SPLIT-CONTEXT-ALLOWLIST closed-set
+#                                                    + F-CLASS-SPLIT-CONTEXT-LEAK pre-cloud applicant-fact scan)
+#     otherwise                                   → fail-closed LOCAL
+#
+# Heavy-Judge swap (200B-class) is pre-loaded local model only (no network
+# fetch); F-CLASS-HEAVY-JUDGE-CLOUD-DOWNLOAD PRE-gate fail-closes any swap that
+# would trigger remote fetch. Alternative-update-channel ban + boot-time
+# Golden Image manifest verification.
+#
+# F-CLASS-* family at v7.0.10 LOCK: 16 primitives total (10 legitimate-runtime
+# from v7.0.7 §5.1 + 2 defense-in-depth — F-CLASS-SLOT-ID-NON-OPAQUE +
+# F-CLASS-CLOUD-RECEIVED-OPAQUE-SLOT-FILLED with broadened regex
+# `\[SLOT_[^\]]*\]` — + 4 new at v7.0.10: POSTURE-MID-CYCLE-CHANGE +
+# SPLIT-CONTEXT-ALLOWLIST + SPLIT-CONTEXT-LEAK + HEAVY-JUDGE-CLOUD-DOWNLOAD).
+# Sub-tag extensions on F-CLASS-REGISTER-* for posture-signature audit:
+# `.posture_unsigned` + `.posture_invalid` + `.posture_hash_mismatch`.
+#
+# Last updated: 2026-05-11 (v7.0.10 LOCKED row 215 — three-posture customer-
+# facing routing vocabulary + Sanitized / opaque-slot-token mechanism
+# deprecation + four new F-CLASS-* gates + sub-tag extensions; underlying
+# seat-to-model bindings unchanged from 2026-04-15 bedrock-fix pass — bedrock-fix
+# pass context: seat symmetry with pipeline/orchestrator/routing.yaml;
+# judge/scribe-fallback model strings corrected to Groq canonical `qwen/qwen3-32b`;
+# red_team added so every LLM-backed seat appears in both files).
+
+version: 1
+
+tilth:
+  scout:
+    role: |
+      Two-stage discovery. STAGE 1 DISCOVER — reads the union of six parallel channel families: (A) Federal APIs (Grants.gov search2/fetchOpportunity, SAM.gov, USASpending), (B) Curated cached datasets (subscription feeds, prior opportunity rosters, manually-seeded foundation spreadsheets under vault_shared/cached_opportunities/ and orgs/{slug}/vault/subscribed_feeds/), (C) Seeded state/foundation portals, (D) Federal program pages, (E) RSS/newsletter watchlists, (F) Client-material-driven web search (Brave Search API BYOK default, 2000 q/month free tier) keyed off uploaded project context. Channels A-F are parallel primary — none is a fallback. Scout reads all, deduplicates, returns the union as UNVERIFIED candidates.
+      STAGE 2 VERIFY — mandatory live-synopsis fetch before any candidate is elevated to CRITICAL-fit. Assigns one of four tags per candidate: VERIFIED_FIT (live synopsis confirms eligibility + scale match), VERIFIED_NOT_FIT (live synopsis disqualifies), UNVERIFIED (no live endpoint available — typical for foundation newsletters; stays at candidate tier, never CRITICAL), VERIFICATION_FAILED (fetch attempted and errored; retry queue). Precedent: EPA NEETP-26 cache-vs-live miss 2026-04-14 — cached data flagged CRITICAL-fit; live synopsis revealed 501(c)(3)-only eligibility + $4.74M single-award scale. Rule is at the verify stage, not the discover stage — cache is a legitimate discovery source, live synopsis is the elevation gate.
+      STAGE 3 REVIEW — human gate. Scout never auto-files; operator sees verified candidates with tag + evidence trail.
+    # Scout runs LOCAL on mistral:7b via Ollama (family mistral) — sovereign + zero API cost for
+    # the high-volume Monday-cron discovery loop. Confirmed 2026-04-14: ollama 0.20.6 + mistral:7b
+    # serving on M1 8GB. Cloud fallback only when ollama daemon is down.
+    # Scout runs LOCAL on mistral:7b via Ollama (family mistral) — sovereign + zero API cost for
+    # the high-volume Monday-cron discovery loop. Confirmed 2026-04-14: ollama 0.20.6 + mistral:7b
+    # serving on M1 8GB. Cloud fallback only when ollama daemon is down.
+    primary: ollama/mistral:7b
+    fallback: groq/llama-3.1-8b-instant
+    # 2026-04-19: swapped escalation from anthropic/claude-haiku-4-5 to google/gemini-2.5-flash. Gemini Flash is cheaper and faster for verify-stage classification; Haiku 4.5 remains available via generic anthropic plugin if ever needed directly.
+    escalation: google/gemini-2.5-flash
+
+  scribe:
+    role: Section-by-section drafting with KGIE preflight, SMART outcomes, overlooked-expenses checklist, funder-dialect code-switching.
+    primary: anthropic/claude-sonnet-4-6
+    fallback: groq/qwen/qwen3-32b
+    escalation: anthropic/claude-opus-4-6
+
+  editor:
+    role: Clarity and jargon review. Flags issues with 2-3 concrete replacement options per flag. Sorts goals/outputs/outcomes/objectives. Makes grants accessible to people who know their work but don't write grants professionally.
+    primary: groq/llama-3.3-70b-versatile
+    fallback: openai/gpt-4o-mini
+
+  judge:
+    role: Scoring. Reads funder's own rubric first, then cross-checks related rubrics from the library. Cross-family rigor — never scores Scribe's own model family.
+    # 2026-04-19: Google plugin enabled; swapped from groq/qwen/qwen3-32b to Gemini 2.5 Pro. Rationale: (1) clean cross-family — Google ≠ Anthropic (Scribe) / Meta (Editor) / OpenAI-OSS (Red Team). (2) Stronger rubric reasoning + citation discipline vs Qwen, whose over-helpful confabulation required the hardened prompt template at pipeline/engineering/templates/judge_prompt_template.md. (3) Groq alternatives were exhausted first — Kimi K2 globally deprecated by Groq 2026-03-23 (replaced with gpt-oss-120b per Groq deprecation notice); DeepSeek R1 Distill not on Dev tier; Llama 3.3 duplicated Editor's Meta family; Compound timed out. Josh funded Google API specifically to close this gap. Hardened Judge prompt template still applies — Gemini is instruction-following but the citation-bound SFR discipline is architectural (A3).
+    primary: google/gemini-2.5-pro
+    fallback: groq/qwen/qwen3-32b
+
+  red_team:
+    role: Adversarial challenge. Fires every draft; cross-family against Scribe and Judge. Disagreement of 10 or more points (≥ threshold, inclusive per §10.6) = council split, human decides (Law 4 tie-breaker).
+    # 2026-04-19: added openai/gpt-5.1 escalation (direct OpenAI, plugin enabled same day). GPT-OSS 120B on Groq stays as default for cost-efficient routine adversarial runs; GPT-5.1 reserved for high-stakes LOCK-sealed-tier audits where stronger reasoning is warranted. Cross-family: GPT-OSS 120B is OpenAI-OSS family, GPT-5.1 is OpenAI direct family — both distinct from Scribe (Anthropic) / Judge (Google) / Editor (Meta).
+    primary: groq/openai/gpt-oss-120b
+    fallback: anthropic/claude-haiku-4-5
+    escalation: openai/gpt-5.1
+
+  code_review:
+    role: |
+      (LEGACY single-model row — retained for v0.1 non-Committee code-review paths like Sentinel audit surface.)
+      Code QA/QC. OpenAI-family specialist reviewer for Anthropic-authored code — cross-family rigor says Anthropic can't review Anthropic. Runs after deterministic tests pass, before any code-touching change is declared done.
+    primary: openai/gpt-4o
+    fallback: anthropic/claude-haiku-4-5
+
+  # Code Thesis Committee (A2 Block 2, LOCKED 2026-04-18; signed off as part of v7 A1-A12 addendum 2026-04-19).
+  # Author + 5 reviewers, all_pass merge, 1 retry cap, findings batch-posted to dashboard.
+  # See pipeline/engineering/engineering_process_v0.1.md §3 for operating discipline.
+  #
+  # Per-reviewer slot promoted to primary/fallback 2026-04-19 Round-A retry — see daily log
+  # + drift_log D-08. Rationale: provider catalog drift is an infrastructure-class failure
+  # that cannot block a committee round. Fallbacks preserve cross-family rigor (each reviewer
+  # slot's fallback is in a distinct family from the other four slots' primaries).
+  code_author: anthropic/claude_code
+  code_reviewer_1:
+    primary: openai/codex                             # correctness + idiom
+    fallback: openai/gpt-4o                           # same family; legitimate substitute when codex id drifts
+    dispatch_provider: openai
+  code_reviewer_2:
+    primary: alibaba/qwen3-32b                        # general-purpose cross-check; NOT a coder model
+    fallback: alibaba/qwen3-32b                       # 2026-04-22: no same-family fallback on Groq Dev tier (qwen2.5-72b absent from catalog) — self-fallback = transport-retry only; enforce prompt-payload ceiling per engineering_process_v0.1.md §3.1
+    dispatch_provider: groq
+  code_reviewer_3:
+    primary: meta/llama-3.3-70b                       # algorithm + blueprint adherence
+    fallback: meta/llama-3.3-70b                      # 2026-04-22: no prior-gen fallback on Groq Dev tier (llama-3.1-70b absent from catalog; only 3.1-8b-instant remains) — self-fallback = transport-retry only
+    dispatch_provider: groq
+  code_reviewer_4:
+    primary: openai_oss/gpt-oss-120b                  # adversarial / security surface
+    fallback: openai_oss/gpt-oss-20b                  # same family; smaller
+    dispatch_provider: groq
+  code_reviewer_5:
+    primary: moonshot/kimi-k2-instruct-0905           # cross-module coherence + long-context
+    fallback: google/gemini-2.5-pro                   # cross-family; 2M context; fills the role when Groq Kimi catalog drifts OR operator has no MOONSHOT_API_KEY
+    dispatch_provider: moonshot_preferred_groq_allowed
+  code_merge_rule: all_pass
+  code_retry_cap: 1
+  code_findings_path: pipeline/validation/code_reviews/<round-id>/
+  code_dashboard_post: batch
+
+  # Reviewer substitution discipline:
+  # - Fallback fires ONLY when primary is infrastructure-unreachable (404 model-not-found,
+  #   403 access-denied, provider rate-limit saturated after 1 retry).
+  # - Any substitution is logged to the round's findings_path dir + drift_log.
+  # - Cross-family rigor check: no two of the 5 reviewer slots may resolve to the same
+  #   provider family after fallback. If a fallback would violate this, halt + escalate.
+  # - A2 Block 2 LOCK intent (canonical roster) stays referenced by primary fields;
+  #   fallbacks are operational reality, not spec drift.
+
+  reasoner_review:
+    role: Reasoning + prompt review. Reviews the author's decision journal and seat prompts (not artifacts) for skipped steps, ignored alternatives, and facts-not-in-evidence. Google family — keeps Anthropic/Groq/OpenAI/Google all represented.
+    primary: google/gemini-2.5-pro
+    fallback: anthropic/claude-opus-4-6
+
+  logician:
+    role: Deterministic policy enforcement. Cedar rules + Python validation. Fail-closed. Enforces Five Laws as PRE/POST gates. No model — zero token cost.
+    primary: none
+    implementation: python + cedar-policy
+
+sentinel:
+  role: QA/QC audit agent. See HeartbeatQAfiles/AGENTS.md for full routing.
+  primary: anthropic/claude-sonnet-4-6
+  verify: google/gemini-2.5-pro
+  red_team: openai/gpt-4o
+
+# Cross-family rigor enforcement:
+# - Judge MUST NOT share provider family with Scribe (guards against model-specific blind spots).
+# - Current assignment: Scribe=Anthropic, Judge=Groq — compliant.
+# - If Scribe moves to Groq, Judge must move to Anthropic or Google.
+
+# Provider notes:
+# - Groq Dev tier ($20/mo) covers Scout + Editor + Judge (Llama 3.3 70B + Qwen 3 32B).
+# - Anthropic direct covers Scribe (Claude Sonnet 4.6) — BYOK.
+# - Google + OpenAI retained as fallback/escalation, BYOK.
+# - No Golden Quill-managed metered billing. Operator owns all keys.
+
+# === Track registry (§6.7-hosted; consumed by §5 v8 amendment per R.PF1) ===
+#
+# Each track row binds a track name to:
+#   §6.7 host schema:
+#     - kind                     : always "track"
+#     - pipeline_shape           : descriptor of the pipeline shape
+#     - prompt_template_root     : per-seat template directory
+#     - failure_code_prefix      : F-PIPE-<TRACK>-* namespace
+#     - cross_family_rigor       : "required" | "not_required"
+#     - shippable_in             : earliest Tilth version that may dispatch this row
+#   R.PF1 §5 follow-on bindings:
+#     - scribe_prompt_template   : (a) Scribe prompt
+#     - judge_rubric_ref         : (b) Judge rubric
+#     - red_team_probe_template  : (c) Red Team probe
+#     - output_vault_subtree     : (d) vault subtree for output artefacts
+#     - output_schema            : (e) output-artefact schema name
+#
+# Adding a new track at v0.2 means: append a row + add the prompt templates
+# at the declared paths. No §5 module addition. No §4.N mechanism addition.
+# F-PIPELINE-TRACK-FROZEN PRE-gate (architecture §R.PF1, §6.7) audits §5
+# LOCKED text at §5 next-spin LOCK time to enforce this.
+#
+# v0.2 forward-compat rows (report / content / tdsl_query) are PRESENT in
+# this registry but their shippable_in: v0.2 marker means dispatch_track
+# refuses to start them at v0.1 runtime (F-PIPE-TRACK-NOT-SHIPPABLE).
+tracks:
+  submission:
+    kind: track
+    pipeline_shape: rfa_to_council_to_signed_bundle
+    prompt_template_root: pipeline/prompts/submission/
+    failure_code_prefix: F-PIPE-SUBMIT-
+    cross_family_rigor: required
+    shippable_in: v0.1
+    scribe_prompt_template: pipeline/prompts/submission/scribe.md
+    judge_rubric_ref: pipeline/rubrics/vapg_fy26.json
+    red_team_probe_template: pipeline/prompts/submission/red_team_probe.md
+    output_vault_subtree: orgs/{org_slug}/vault/submissions/{run_id}/
+    output_schema: SubmissionBundle
+
+  eval:
+    kind: track
+    pipeline_shape: operator_harness_to_per_seat_calibration
+    prompt_template_root: pipeline/prompts/eval/
+    failure_code_prefix: F-PIPE-EVAL-
+    cross_family_rigor: not_required
+    shippable_in: v0.1
+    scribe_prompt_template: pipeline/prompts/eval/scribe.md
+    judge_rubric_ref: pipeline/rubrics/vapg_fy26.json
+    red_team_probe_template: pipeline/prompts/eval/red_team_probe.md
+    output_vault_subtree: orgs/{org_slug}/golden_set/calibration_reports/
+    output_schema: CalibrationReport
+
+  report:
+    # v0.2 R.3 forward-compat row. Present in registry so the schema is
+    # exercised; refused at dispatch time per shippable_in: v0.2 (the
+    # forward-compatibility safety mandated by §6.7).
+    kind: track
+    pipeline_shape: prior_commitments_to_council_to_signed_report
+    prompt_template_root: pipeline/prompts/report/
+    failure_code_prefix: F-PIPE-REPORT-
+    cross_family_rigor: required
+    shippable_in: v0.2
+    scribe_prompt_template: pipeline/prompts/report/scribe.md
+    judge_rubric_ref: pipeline/rubrics/proposal_commitments.json
+    red_team_probe_template: pipeline/prompts/report/red_team_probe.md
+    output_vault_subtree: orgs/{org_slug}/vault/reports/{run_id}/
+    output_schema: GrantReport

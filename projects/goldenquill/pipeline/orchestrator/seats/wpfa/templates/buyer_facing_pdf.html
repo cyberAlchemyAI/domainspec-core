@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{# WPFA buyer-facing PDF template. §17.7.2 structure. Jinja2 + weasyprint. #}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Golden Quill — Regenerative Savings Receipt — {{ receipt.cycle_id }}</title>
+<style>
+  @page { size: Letter; margin: 1in; }
+  body { font-family: "Inter", "Helvetica", sans-serif; color: #1a1a1a; }
+  .header { border-bottom: 2px solid #B8860B; padding-bottom: 0.5em; margin-bottom: 1em; }
+  .mark { font-size: 1.4em; font-weight: 600; color: #B8860B; }
+  .tagline { color: #555; font-style: italic; }
+  .headline { font-size: 1.2em; font-weight: 500; margin: 1em 0; }
+  .breakdown table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+  .breakdown th, .breakdown td { border: 1px solid #ccc; padding: 0.4em 0.6em; text-align: left; }
+  .breakdown th { background: #f5f1e8; }
+  .footer { font-size: 0.8em; color: #666; border-top: 1px solid #ccc; padding-top: 0.5em; margin-top: 2em; }
+  .auditability { font-size: 0.9em; background: #f5f1e8; padding: 0.5em; margin: 1em 0; border-left: 3px solid #B8860B; }
+  .attestation { font-weight: 600; color: #2a6b3a; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="mark">Golden Quill</div>
+    <div class="tagline">Regenerative grant intelligence</div>
+    <div>Client: {{ client_name | e }} &middot; Cycle: {{ receipt.cycle_id | e }} &middot; Quarter: {{ receipt.baseline_quarter | e }}</div>
+    {% if receipt.signed_by_operator_ed25519 %}
+    <div class="attestation">Attested by {{ operator_display_name | e }} on {{ receipt.emitted_at[:10] | e }}</div>
+    {% endif %}
+  </div>
+
+  <div class="headline">
+    In {{ receipt.baseline_quarter | e }}, {{ client_name | e }} saved
+    ${{ delta_dollars_display | e }}<sup>1</sup> /
+    {{ delta_kwh_display | e }} kWh<sup>2</sup>
+    by routing {{ percent_local_display | e }}% of grant-cycle inference to member-owned hardware.
+  </div>
+
+  <div class="breakdown">
+    <h3>Per-cycle breakdown</h3>
+    <table>
+      <thead>
+        <tr><th>Cycle</th><th>Grant</th><th>Actual $</th><th>Counterfactual $</th><th>Delta $</th><th>Trace ID</th></tr>
+      </thead>
+      <tbody>
+        {% for row in per_cycle_rows %}
+        <tr>
+          <td>{{ row.cycle_id | e }}</td>
+          <td>{{ row.grant_identifier | e }}</td>
+          <td>{{ row.actual_dollars | e }}</td>
+          <td>{{ row.counterfactual_dollars | e }}</td>
+          <td>{{ row.delta_dollars | e }}</td>
+          <td>{{ row.trace_id_ref | e }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="breakdown">
+    <h3>Per-model breakdown</h3>
+    <table>
+      <thead>
+        <tr><th>Model</th><th>Local?</th><th>Hardware SKU</th><th>Tokens</th><th>$ (minor)</th><th>Wh (µ)</th></tr>
+      </thead>
+      <tbody>
+        {% for m in receipt.actual_per_model %}
+        <tr>
+          <td>{{ m.model_id | e }}</td>
+          <td>{{ "yes" if m.is_local else "no" }}</td>
+          <td>{{ (m.hardware_sku or "—") | e }}</td>
+          <td>{{ (m.input_tokens + m.output_tokens) | e }}</td>
+          <td>{{ m.dollars_minor_units | e }}</td>
+          <td>{{ m.watt_hours_micro | e }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="auditability">
+    Every dollar and watt-hour in this report links to a published coefficient + cycle_id + Logfire trace_id.
+    Methodology is open; calculation code is proprietary.
+    Methodology document: {{ methodology_url | e }}
+  </div>
+
+  <div class="footer">
+    <p>
+      <sup>1,2</sup> coefficient_registry_version: {{ receipt.coefficients_registry_version[:16] | e }}… &middot;
+      SN-LLC signing key: {{ signing_key_id_display | e }} &middot;
+      receipt: orgs/{{ receipt.org_slug | e }}/vault/operational/cycle_receipts/{{ receipt.cycle_id | e }}.json
+    </p>
+    <p><em>Strong organizations are not short on substance — they lack funding infrastructure.</em></p>
+  </div>
+</body>
+</html>

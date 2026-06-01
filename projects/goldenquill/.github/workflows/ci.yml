@@ -1,0 +1,115 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-gate:
+    name: Quality gate (lint + pytest + AST-lint)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install system libraries (weasyprint backing libs)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libpango-1.0-0 \
+            libpangoft2-1.0-0 \
+            libcairo2 \
+            libgdk-pixbuf-2.0-0
+
+      - name: Create pinned virtualenv
+        # scripts/run_tests.sh and scripts/run_lint.sh both require .venv/bin/python3
+        # to exist at repo root; this matches local development discipline.
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install --upgrade pip wheel
+          .venv/bin/pip install -e '.[dev]'
+
+      - name: Install spaCy English model
+        # Logician F-LOGICIAN-FABRICATED-ORG NER gate needs en_core_web_sm.
+        # Without it, those smoke tests auto-skip; CI should exercise them.
+        run: .venv/bin/python -m spacy download en_core_web_sm
+
+      - name: AST lint (pipeline/)
+        run: scripts/run_lint.sh pipeline
+
+      - name: Pytest (serial)
+        run: scripts/run_tests.sh --tb=short
+
+      - name: Upload pytest cache on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-cache-py${{ matrix.python-version }}
+          path: .pytest_cache
+          retention-days: 7
+          if-no-files-found: ignore
+
+  wheel-install-smoke:
+    name: Wheel install + CLI import smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install system libraries (weasyprint backing libs)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libpango-1.0-0 \
+            libpangoft2-1.0-0 \
+            libcairo2 \
+            libgdk-pixbuf-2.0-0
+
+      - name: Build wheel
+        run: |
+          python -m pip install --upgrade pip wheel
+          pip wheel . -w dist/ --no-deps
+
+      - name: Install wheel and import shipped CLIs
+        run: |
+          python -m venv /tmp/install_smoke
+          /tmp/install_smoke/bin/pip install --upgrade pip
+          /tmp/install_smoke/bin/pip install dist/tilth-*.whl
+          cd /tmp
+          /tmp/install_smoke/bin/python -c "from pipeline.cli import tilth_intake, tilth_memory, tilth_memory_query, tilth_review_classify, tilth_wpfa, tilth_migrate_beneficiary_records"

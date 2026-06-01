@@ -1,0 +1,178 @@
+# Golden Quill / Tilth — Seat Routing
+# ------------------------------------
+# Architecture principle: cross-family debate.
+# No two active seats share a training family.
+# Hardware tier changes = edit provider+model, nothing else.
+#
+# Families in rotation:
+#   anthropic  (Claude)
+#   meta       (Llama)
+#   alibaba    (Qwen)
+#   moonshot   (Kimi K2)
+#   mistral    (Mistral, Mixtral)
+#   openai_oss (GPT-OSS — Apache-2, non-Meta, useful for diversity)
+#   deepseek   (reserved for future when Groq adds it)
+#
+# Hardware tiers:
+#   tier_8gb    M1 dev box (today) — cloud-heavy
+#   tier_16gb   next box           — one local 7B + cloud
+#   tier_32gb   Golden Quill base  — two local models + cloud burst
+#   tier_128gb  Golden Quill Pro   — local 70B + multiple smaller
+
+version: "0.1"
+active_tier: tier_8gb
+
+seats:
+
+  scribe:
+    role: primary_writer
+    tier_8gb:    {provider: anthropic, model: claude-sonnet-4-6, family: anthropic, via_openclaw: true}
+    tier_16gb:   {provider: anthropic, model: claude-sonnet-4-6, family: anthropic, via_openclaw: true}
+    tier_32gb:   {provider: anthropic, model: claude-sonnet-4-6, family: anthropic, via_openclaw: true}
+    tier_128gb:  {provider: anthropic, model: claude-sonnet-4-6, family: anthropic, via_openclaw: true}
+    temperature: 0.4
+    max_tokens: 8000
+
+  editor:
+    role: clarity_pass
+    tier_8gb:    {provider: groq, model: llama-3.3-70b-versatile, family: meta}
+    tier_16gb:   {provider: groq, model: llama-3.3-70b-versatile, family: meta}
+    tier_32gb:   {provider: ollama, model: llama3.1:13b, family: meta}
+    tier_128gb:  {provider: ollama, model: llama3.3:70b, family: meta}
+    temperature: 0.3
+    max_tokens: 6000
+
+  judge:
+    role: rubric_scoring
+    tier_8gb:    {provider: groq, model: "qwen/qwen3-32b", family: alibaba}
+    tier_16gb:   {provider: groq, model: "qwen/qwen3-32b", family: alibaba}
+    tier_32gb:   {provider: ollama, model: "qwen2.5:14b", family: alibaba}
+    tier_128gb:  {provider: ollama, model: "qwen2.5:72b", family: alibaba}
+    # 2026-04-20 (F-02): Kimi K2 fallback removed — Groq Dev tier 404s on moonshotai/*
+    # paths since 2026-03-23 (per L-009). Replaced with openai/gpt-oss-20b: works on
+    # Groq Dev tier, cross-family from alibaba primary. Cross-family-after-fallback check
+    # (line 97 commentary) applies: if red_team's openai/gpt-oss-120b is also active when
+    # this fires, halt + escalate per the stated rule.
+    fallback:    {provider: groq, model: "openai/gpt-oss-20b", family: openai_oss}
+    temperature: 0.1
+    max_tokens: 4000
+
+  red_team:
+    role: adversarial_review
+    tier_8gb:    {provider: groq, model: "openai/gpt-oss-120b", family: openai_oss}
+    tier_16gb:   {provider: groq, model: "openai/gpt-oss-120b", family: openai_oss}
+    tier_32gb:   {provider: ollama, model: "mixtral:8x7b", family: mistral}
+    tier_128gb:  {provider: ollama, model: "mixtral:8x22b", family: mistral}
+    temperature: 0.2
+    max_tokens: 6000
+    # Note: bumped 2500 -> 3500 on 2026-04-14 after Groq Dev tier upgrade lifted TPM cap.
+    # Note: bumped 3500 -> 6000 on 2026-04-16 during Blueprint Section 1 audit — v1 Red Team
+    # response truncated mid-finding at 3500. Blueprint sections carry more attack surface
+    # than architecture rounds; 6000 matches Editor seat cap which has been adequate.
+
+  scout:
+    role: opportunity_discovery
+    # Scout runs locally to keep the high-volume Monday-cron discovery loop free + sovereign.
+    # Ollama serves mistral:7b on demand; M1 unified memory handles the 4.4GB burst on the 8GB
+    # alpha. Confirmed live 2026-04-14 (ollama 0.20.6 + mistral:7b/qwen2.5:7b on disk).
+    # Cloud fallback kicks in only when ollama daemon is down.
+    tier_8gb:    {provider: ollama, model: "mistral:7b", family: mistral}
+    tier_16gb:   {provider: ollama, model: "mistral:7b", family: mistral}
+    tier_32gb:   {provider: ollama, model: "mixtral:8x7b", family: mistral}
+    tier_128gb:  {provider: ollama, model: "mixtral:8x22b", family: mistral}
+    fallback:    {provider: groq, model: "llama-3.1-8b-instant", family: meta_small}
+    temperature: 0.2
+    max_tokens: 3500
+
+  logician:
+    role: policy_enforcement
+    implementation: python_deterministic
+    path: pipeline/orchestrator/logician.py
+    # No LLM. Never use one. Law 5 enforcement is code.
+
+  code_review:
+    role: code_qa_qc
+    # Dedicated code-review seat (2026-04-15). Cross-family rigor:
+    # Anthropic-authored code cannot be reviewed by Anthropic — this seat
+    # brings OpenAI's code-specialized family into the council.
+    # Runs AFTER deterministic tests pass and BEFORE any code-touching
+    # change is declared done.
+    tier_8gb:    {provider: openai, model: "gpt-4o", family: openai}
+    tier_16gb:   {provider: openai, model: "gpt-4o", family: openai}
+    tier_32gb:   {provider: openai, model: "gpt-4o", family: openai}
+    tier_128gb:  {provider: openai, model: "gpt-4o", family: openai}
+    fallback:    {provider: anthropic, model: claude-haiku-4-5, family: anthropic}
+    temperature: 0.1
+    max_tokens: 6000
+
+  reasoner_review:
+    role: reasoning_and_prompt_review
+    # Dedicated reasoning-review seat (2026-04-15). Reviews DECISIONS and
+    # PROMPTS, not artifacts. Google family (new to council) keeps
+    # cross-family diversity: Anthropic/Groq/OpenAI/Google all represented.
+    # Gemini 2.5 Pro has strong extended-reasoning and argumentative-
+    # critique capability — good fit for "did the author skip steps,
+    # ignore alternatives, or assume facts not in evidence?" review.
+    tier_8gb:    {provider: google, model: "gemini-2.5-pro", family: google}
+    tier_16gb:   {provider: google, model: "gemini-2.5-pro", family: google}
+    tier_32gb:   {provider: google, model: "gemini-2.5-pro", family: google}
+    tier_128gb:  {provider: google, model: "gemini-2.5-pro", family: google}
+    fallback:    {provider: anthropic, model: claude-opus-4-6, family: anthropic}
+    temperature: 0.2
+    max_tokens: 6000
+
+providers:
+
+  anthropic:
+    endpoint: https://api.anthropic.com/v1/messages
+    api_key_env: ANTHROPIC_API_KEY
+    auth_header_name: x-api-key
+    auth_header_style: bare
+    wire_style: anthropic_messages
+
+  groq:
+    endpoint: https://api.groq.com/openai/v1/chat/completions
+    api_key_env: GROQ_API_KEY
+    auth_header_name: Authorization
+    auth_header_style: bearer
+    wire_style: openai_chat
+
+  ollama:
+    endpoint: http://localhost:11434/v1/chat/completions
+    api_key_env: null
+    wire_style: openai_chat
+    health_check: http://localhost:11434/api/tags
+
+  openai:
+    endpoint: https://api.openai.com/v1/chat/completions
+    api_key_env: OPENAI_API_KEY
+    auth_header_name: Authorization
+    auth_header_style: bearer
+    wire_style: openai_chat
+
+  google:
+    # Gemini's OpenAI-compat endpoint — lets us reuse the openai_chat wire
+    # style instead of writing a separate dispatcher for Google's native
+    # generateContent API. Same bearer-auth pattern as OpenAI.
+    endpoint: https://generativelanguage.googleapis.com/v1beta/openai/chat/completions
+    api_key_env: GOOGLE_API_KEY
+    auth_header_name: Authorization
+    auth_header_style: bearer
+    wire_style: openai_chat
+
+debate_policy:
+  # When does Red Team fire?
+  trigger: every_draft
+  # Alternative: on_bubble (fires only when judge score is 65-80)
+
+  # What does Red Team produce?
+  output_mode: score_plus_memo
+  # Alternative: score_only | memo_only
+
+  # How is disagreement surfaced?
+  disagreement_threshold_points: 10
+  # If |judge_score - red_team_score| >= 10, surface to human as "council split"
+
+  # Who breaks ties?
+  tie_breaker: human_required
+  # Law 4 says: applicant decides. Never let an LLM auto-resolve council disagreement.

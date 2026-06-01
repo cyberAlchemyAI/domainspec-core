@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>GOLDEN QUILL - AUTHORIZATION LEDGER</title><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&amp;family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-variant": "#2a3548", "on-secondary-container": "#a9bad3", "surface-container-highest": "#2a3548", "inverse-primary": "#5d5f5f", "secondary-container": "#3a4a5f", "secondary-fixed-dim": "#b7c8e1", "surface-container-low": "#111c2d", "secondary": "#b7c8e1", "on-surface": "#d8e3fb", "background": "#081425", "primary-container": "#e2e2e2", "tertiary": "#ffffff", "on-secondary": "#213145", "surface-container": "#152031", "tertiary-container": "#dae2fd", "primary-fixed": "#e2e2e2", "error-container": "#93000a", "tertiary-fixed-dim": "#bec6e0", "on-primary-fixed": "#1a1c1c", "on-tertiary-fixed-variant": "#3f465c", "on-secondary-fixed": "#0b1c30", "inverse-surface": "#d8e3fb", "on-error-container": "#ffdad6", "surface": "#081425", "primary": "#ffffff", "on-tertiary": "#283044", "tertiary-fixed": "#dae2fd", "on-tertiary-fixed": "#131b2e", "on-background": "#d8e3fb", "surface-dim": "#081425", "outline": "#8e9192", "on-tertiary-container": "#5c647a", "primary-fixed-dim": "#c6c6c7", "outline-variant": "#444748", "surface-bright": "#2f3a4c", "inverse-on-surface": "#263143", "surface-container-lowest": "#040e1f", "on-error": "#690005", "error": "#ffb4ab", "on-surface-variant": "#c4c7c8", "on-secondary-fixed-variant": "#38485d", "on-primary-container": "#636565", "surface-container-high": "#1f2a3c", "secondary-fixed": "#d3e4fe", "surface-tint": "#c6c6c7", "on-primary-fixed-variant": "#454747", "on-primary": "#2f3131" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "container-padding": "16px", "unit": "4px", "gutter": "1px", "panel-gap": "8px", "sidebar-width": "240px" }, "fontFamily": { "display-lg": ["Source Serif 4"], "data-mono": ["JetBrains Mono"], "body-sm": ["Inter"], "headline-md": ["Source Serif 4"], "label-caps": ["Inter"], "body-md": ["Inter"] } } } }</script><style>body { background-color: #020617; color: #d8e3fb; } .bg-level-1 { background-color: #0F172A; } .bg-level-2 { background-color: #1E293B; } .border-slate { border-color: #334155; } .terminal-bg { background-color: #000000; } .gold-burnished { color: #B89745; border-color: #B89745; background-color: rgba(184, 151, 69, 0.1); } .label-tracking { text-transform: uppercase; letter-spacing: 0.1em; }</style></head>
+<body class="h-screen w-screen overflow-hidden flex flex-col font-body-md antialiased">
+<!-- TopAppBar -->
+<nav class="flex justify-between items-center w-full px-container-padding gap-panel-gap bg-surface-container-low dark:bg-surface-container-low docked full-width top-0 h-14 border-b border-outline-variant transition-none shrink-0 relative z-20">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary italic">GOLDEN QUILL</span>
+</div>
+<div class="flex-1 flex justify-center max-w-md px-4">
+<!-- Search implicitly on_left based on constraints if we had one, but JSON structure logic says on_left -->
+</div>
+<div class="flex items-center gap-4">
+<button class="text-primary dark:text-primary hover:bg-surface-container-highest p-1 rounded-none transition-none flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</button>
+<button class="text-primary dark:text-primary hover:bg-surface-container-highest p-1 rounded-none transition-none flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="vpn_key">vpn_key</span>
+</button>
+<button class="text-primary dark:text-primary hover:bg-surface-container-highest p-1 rounded-none transition-none flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</nav>
+<!-- Main Layout -->
+<div class="flex flex-1 overflow-hidden h-full relative z-10">
+<!-- SideNavBar -->
+<aside class="flex flex-col h-full border-r border-outline-variant bg-surface-container dark:bg-surface-container docked left-0 w-sidebar-width transition-none shrink-0">
+<div class="p-4 border-b border-outline-variant flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-variant flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="dns">dns</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-primary truncate" title="FIT Farms">FIT Farms</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant truncate" title="FRONTIER POSTURE">FRONTIER POSTURE</div>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2 flex flex-col gap-1 px-2">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps label-tracking">Home</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="search_insights">search_insights</span>
+<span class="font-label-caps text-label-caps label-tracking">Scout</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="input">input</span>
+<span class="font-label-caps text-label-caps label-tracking">Intake</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="fact_check">fact_check</span>
+<span class="font-label-caps text-label-caps label-tracking">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="account_tree">account_tree</span>
+<span class="font-label-caps text-label-caps label-tracking">Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="edit_note">edit_note</span>
+<span class="font-label-caps text-label-caps label-tracking">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="payments">payments</span>
+<span class="font-label-caps text-label-caps label-tracking">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="gavel">gavel</span>
+<span class="font-label-caps text-label-caps label-tracking">Judge</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="security">security</span>
+<span class="font-label-caps text-label-caps label-tracking">Red Team</span>
+</a>
+<!-- Active Item: Audit maps closest to Authorization Ledger -->
+<a class="flex items-center gap-3 px-3 py-2 bg-surface-container-highest text-primary border-l-2 border-primary transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="history_edu">history_edu</span>
+<span class="font-label-caps text-label-caps label-tracking">Final Packet Authorization</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="policy">policy</span>
+<span class="font-label-caps text-label-caps label-tracking">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="credit_card">credit_card</span>
+<span class="font-label-caps text-label-caps label-tracking">Cards</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="fingerprint">fingerprint</span>
+<span class="font-label-caps text-label-caps label-tracking">FIDs</span>
+</a>
+</div>
+<div class="mt-auto border-t border-outline-variant p-2 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps label-tracking">Costs</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 flex overflow-hidden bg-[#020617] p-2 gap-2 relative z-0">
+<!-- Left Panel: Ledger Table -->
+<section class="flex-1 flex flex-col bg-level-1 border border-slate min-w-0">
+<!-- Panel Header -->
+<header class="p-3 border-b border-slate flex justify-between items-center bg-surface-container-low shrink-0">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="receipt_long">receipt_long</span>
+<h1 class="font-headline-md text-headline-md text-primary tracking-tight">AUTHORIZATION LEDGER</h1>
+<span class="font-data-mono text-data-mono text-secondary px-2 py-1 bg-surface-variant border border-outline-variant ml-2">GRANT: F-2024-991A</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1 border border-slate text-primary font-label-caps text-label-caps hover:bg-surface-container-highest transition-none flex items-center gap-1 label-tracking">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span> EXPORT
+                        </button>
+</div>
+</header>
+<!-- Data Table Container -->
+<div class="flex-1 overflow-auto">
+<table class="w-full text-left border-collapse whitespace-nowrap">
+<thead class="sticky top-0 bg-surface-container-low z-10 border-b border-slate font-label-caps text-label-caps text-on-surface-variant">
+<tr>
+<th class="py-2 px-4 font-normal tracking-wider w-12">SEQ</th>
+<th class="py-2 px-4 font-normal tracking-wider">AUTHORITY</th>
+<th class="py-2 px-4 font-normal tracking-wider">TIMESTAMP (UTC)</th>
+<th class="py-2 px-4 font-normal tracking-wider">FINGERPRINT (ED25519)</th>
+<th class="py-2 px-4 font-normal tracking-wider text-right">ARTIFACT HASH</th>
+</tr>
+</thead>
+<tbody class="font-data-mono text-data-mono text-on-surface divide-y divide-slate">
+<!-- Row 1 -->
+<tr class="hover:bg-level-2 transition-none group cursor-pointer">
+<td class="py-3 px-4 text-on-surface-variant group-hover:text-primary">01</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span>Logician</span>
+</div>
+</td>
+<td class="py-3 px-4 text-secondary">2024-10-24T08:12:44Z</td>
+<td class="py-3 px-4">0x7a2b...91f4</td>
+<td class="py-3 px-4 text-right text-on-surface-variant truncate max-w-[120px]">e3b0c44298fc1c14</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-level-2 transition-none group cursor-pointer">
+<td class="py-3 px-4 text-on-surface-variant group-hover:text-primary">02</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span>Scribe</span>
+</div>
+</td>
+<td class="py-3 px-4 text-secondary">2024-10-24T09:45:11Z</td>
+<td class="py-3 px-4">0x3c9d...e2a1</td>
+<td class="py-3 px-4 text-right text-on-surface-variant truncate max-w-[120px]">9f86d081884c7d65</td>
+</tr>
+<!-- Row 3 (Judge with Warning) -->
+<tr class="bg-surface-container-highest transition-none group cursor-pointer relative"><td class="py-3 px-4 text-primary"><div class="absolute left-0 top-0 bottom-0 w-1 bg-[#B89745]"></div>03</td><td class="py-3 px-4"><div class="flex items-center gap-2"><div class="w-2 h-2 bg-[#B89745]"></div><span class="text-primary font-bold">EXECUTIVE OVERRIDE</span><span class="ml-2 font-label-caps text-[9px] px-1.5 py-0.5 border gold-burnished flex items-center gap-1 label-tracking"><span class="material-symbols-outlined text-[10px]" data-icon="gavel">gavel</span>SOVEREIGN</span></div></td><td class="py-3 px-4 text-primary">2024-10-24T11:02:59Z</td><td class="py-3 px-4 text-primary font-data-mono">0x88f1...b42c</td><td class="py-3 px-4 text-right text-primary truncate max-w-[120px] font-data-mono">5d41402abc4b2a76</td></tr>
+<!-- Row 4 -->
+<tr class="hover:bg-level-2 transition-none group cursor-pointer">
+<td class="py-3 px-4 text-on-surface-variant group-hover:text-primary">04</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span>Red Team</span>
+</div>
+</td>
+<td class="py-3 px-4 text-secondary">2024-10-24T14:30:22Z</td>
+<td class="py-3 px-4">0x11a5...c99d</td>
+<td class="py-3 px-4 text-right text-on-surface-variant truncate max-w-[120px]">7d793037a0760186</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-level-2 transition-none group cursor-pointer">
+<td class="py-3 px-4 text-on-surface-variant group-hover:text-primary">05</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 border border-outline-variant bg-transparent"></div>
+<span class="text-on-surface-variant italic">Operator Auth (Pending)</span>
+</div>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">--</td>
+<td class="py-3 px-4 text-on-surface-variant">--</td>
+<td class="py-3 px-4 text-right text-on-surface-variant">--</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Right Panel: Inspector -->
+<section class="w-[380px] flex flex-col gap-2 shrink-0">
+<!-- Inspector Header / Meta -->
+<div class="bg-level-1 border border-slate flex flex-col shrink-0">
+<header class="p-3 border-b border-slate bg-surface-container-low flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="policy">policy</span>
+<h2 class="font-label-caps text-label-caps text-primary tracking-wider">EVENT INSPECTOR</h2>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface-variant">SEQ:03</span>
+</header>
+<div class="p-4 flex flex-col gap-4 font-data-mono text-data-mono"><div><div class="text-on-surface-variant font-label-caps text-[10px] mb-1 label-tracking">FORENSIC ACTION</div><div class="text-primary text-sm font-bold">Manual Authorization Bypass</div></div><div class="grid grid-cols-2 gap-4"><div><div class="text-on-surface-variant font-label-caps text-[10px] mb-1 label-tracking">AUTH_ACTOR</div><div class="text-secondary font-data-mono truncate">SYS_OP_992</div></div><div><div class="text-on-surface-variant font-label-caps text-[10px] mb-1 label-tracking">NODE_ID</div><div class="text-secondary font-data-mono truncate">FIT_FARMS_MAIN</div></div><div class="col-span-2"><div class="text-on-surface-variant font-label-caps text-[10px] mb-1 label-tracking">VERIFICATION_PROTOCOL</div><div class="flex items-center gap-2"><span class="text-secondary font-data-mono">OAUTH_V3_STRICT</span><span class="material-symbols-outlined text-[#22C55E] text-sm" data-icon="check_circle">check_circle</span></div></div></div><div class="mt-2 p-3 border border-slate bg-surface-container-lowest gold-burnished"><div class="flex items-start gap-2"><span class="material-symbols-outlined text-sm mt-0.5" data-icon="security">security</span><div><div class="font-label-caps text-[10px] font-bold mb-1 label-tracking">SOVEREIGN OVERRIDE ACTIVE</div><div class="text-[11px] leading-tight font-body-sm">Bypassed algorithmic consensus. Logic gating suspended. Authenticated via physical key 0x82F1.</div></div></div></div></div>
+</div>
+<!-- Raw Payload Terminal -->
+<div class="bg-level-1 border border-slate flex-1 flex flex-col overflow-hidden">
+<header class="px-3 py-2 border-b border-slate bg-surface-container-low flex justify-between items-center shrink-0">
+<span class="font-label-caps text-label-caps text-on-surface-variant label-tracking">RAW PAYLOAD</span>
+<button class="text-on-surface-variant hover:text-primary transition-none">
+<span class="material-symbols-outlined text-sm" data-icon="content_copy">content_copy</span>
+</button>
+</header>
+<div class="flex-1 terminal-bg p-3 overflow-auto font-data-mono text-data-mono text-[11px] leading-relaxed">
+<span class="text-on-surface-variant">{</span><br/>
+                          <span class="text-secondary">"event_id"</span><span class="text-on-surface-variant">: </span><span class="text-[#22C55E]">"evt_88f1b42c_a99"</span><span class="text-on-surface-variant">,</span><br/>
+                          <span class="text-secondary">"timestamp"</span><span class="text-on-surface-variant">: </span><span class="text-[#22C55E]">"2024-10-24T11:02:59.045Z"</span><span class="text-on-surface-variant">,</span><br/>
+                          <span class="text-secondary">"context"</span><span class="text-on-surface-variant">: {</span><br/>
+                            <span class="text-secondary">"grant_ref"</span><span class="text-on-surface-variant">: </span><span class="text-[#22C55E]">"F-2024-991A"</span><span class="text-on-surface-variant">,</span><br/>
+                            <span class="text-secondary">"phase"</span><span class="text-on-surface-variant">: </span><span class="text-[#22C55E]">"JUDGEMENT"</span><br/>
+                          <span class="text-on-surface-variant">},</span><br/>
+                          <span class="text-secondary">"auth_matrix"</span><span class="text-on-surface-variant">: {</span><br/>
+                            <span class="text-secondary">"primary_sig"</span><span class="text-on-surface-variant">: </span><span class="text-[#22C55E]">"valid"</span><span class="text-on-surface-variant">,</span><br/>
+                            <span class="text-secondary">"quorum_met"</span><span class="text-on-surface-variant">: </span><span class="text-[#F59E0B]">false</span><span class="text-on-surface-variant">,</span><br/>
+                            <span class="text-secondary">"override_flag"</span><span class="text-on-surface-variant">: </span><span class="text-[#F59E0B]">true</span><br/>
+                          <span class="text-on-surface-variant">},</span><br/>
+                          <span class="text-secondary">"telemetry"</span><span class="text-on-surface-variant">: {</span><br/>
+                            <span class="text-secondary">"latency_ms"</span><span class="text-on-surface-variant">: </span><span class="text-[#3b82f6]">42</span><span class="text-on-surface-variant">,</span><br/>
+                            <span class="text-secondary">"route"</span><span class="text-on-surface-variant">: </span><span class="text-[#22C55E]">"edge_04-&gt;core_01"</span><br/>
+                          <span class="text-on-surface-variant">}</span><br/>
+<span class="text-on-surface-variant">}</span>
+<div class="mt-4 flex items-center gap-2 opacity-50">
+<div class="w-2 h-4 bg-primary animate-pulse"></div>
+<span>AWAITING NEXT INSTRUCTION</span>
+</div>
+</div>
+</div>
+<!-- Action Block -->
+<div class="shrink-0 pt-2">
+<button class="w-full bg-primary text-[#020617] font-label-caps text-label-caps py-3 px-4 border-none hover:bg-surface-tint transition-none flex items-center justify-center gap-2 label-tracking" style="background-color: #ffffff; color: #020617;">
+<span class="material-symbols-outlined text-sm" data-icon="verified">verified</span>
+                        ACKNOWLEDGE LOG ENTRY
+                    </button>
+</div>
+</section>
+</main>
+</div>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50 bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant transition-none h-8 font-data-mono text-data-mono text-secondary dark:text-secondary">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps text-on-surface label-tracking">NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED</span>
+</div>
+<div class="flex items-center gap-6">
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">Machine ID: 992-QX</a>
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">Audit Log</a>
+<a class="text-on-secondary-container hover:text-primary transition-none flex items-center gap-1" href="#">
+<div class="w-1.5 h-1.5 bg-[#22C55E]"></div>
+                System Health
+            </a>
+</div>
+</footer>
+</body></html>

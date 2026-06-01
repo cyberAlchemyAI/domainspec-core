@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Seat &amp; Collaborator Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#1f2a3c",
+                        "on-tertiary": "#283044",
+                        "background": "#081425",
+                        "on-tertiary-fixed": "#131b2e",
+                        "surface-variant": "#2a3548",
+                        "surface-dim": "#081425",
+                        "on-primary-container": "#636565",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "tertiary-container": "#dae2fd",
+                        "on-primary-fixed-variant": "#454747",
+                        "tertiary-fixed": "#dae2fd",
+                        "error": "#ffb4ab",
+                        "tertiary": "#ffffff",
+                        "outline-variant": "#444748",
+                        "on-secondary": "#213145",
+                        "on-primary-fixed": "#1a1c1c",
+                        "primary-container": "#e2e2e2",
+                        "inverse-primary": "#5d5f5f",
+                        "on-secondary-container": "#a9bad3",
+                        "on-surface-variant": "#c4c7c8",
+                        "secondary": "#b7c8e1",
+                        "primary": "#ffffff",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#d8e3fb",
+                        "on-error": "#690005",
+                        "surface-bright": "#2f3a4c",
+                        "secondary-fixed": "#d3e4fe",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-surface": "#d8e3fb",
+                        "surface-container-low": "#111c2d",
+                        "error-container": "#93000a",
+                        "surface-container": "#152031",
+                        "on-tertiary-container": "#5c647a",
+                        "surface": "#081425",
+                        "on-background": "#d8e3fb",
+                        "surface-container-highest": "#2a3548",
+                        "primary-fixed": "#e2e2e2",
+                        "on-primary": "#2f3131",
+                        "surface-tint": "#c6c6c7",
+                        "secondary-container": "#3a4a5f",
+                        "outline": "#8e9192",
+                        "inverse-on-surface": "#263143",
+                        "surface-container-lowest": "#040e1f",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-secondary-fixed": "#0b1c30"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "panel-gap": "8px",
+                        "gutter": "1px",
+                        "container-padding": "16px",
+                        "sidebar-width": "240px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "data-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #020617; color: #d8e3fb; font-family: 'Hanken Grotesk', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden text-body-md bg-background">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-container-padding h-14 bg-background dark:bg-background border-b border-outline-variant flat no shadows duration-0 full-width top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold tracking-tight text-primary">GOLDEN QUILL</span>
+</div>
+<div class="flex-1 flex justify-end items-center gap-4">
+<!-- Search placeholder if needed -->
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="hover:bg-surface-variant p-2 rounded-none duration-0 flex items-center justify-center">
+<span class="material-symbols-outlined">security</span>
+</button>
+<button class="hover:bg-surface-variant p-2 rounded-none duration-0 flex items-center justify-center">
+<span class="material-symbols-outlined">monitoring</span>
+</button>
+<button class="hover:bg-surface-variant p-2 rounded-none duration-0 flex items-center justify-center">
+<span class="material-symbols-outlined">account_balance</span>
+</button>
+<img alt="Administrator profile" class="w-8 h-8 object-cover border border-outline-variant grayscale" data-alt="A close-up portrait of a professional administrator, rendered in a striking black and white cinematic style. The lighting is dramatic, casting distinct shadows that emphasize the sharp, structural nature of the image. This stark, monochromatic approach perfectly complements the industrial, high-stakes aesthetic of the surrounding UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXOVsNg7XIaN4ePO0sSJPSLnBx9viG3rmKHF2pRXnELRRbuZLRm6fevd1pCmFQnE-BVVA9lM6mx_ckDj0fpBX74FPwU55obSG27tDMd7RqbvIwpiXSKbcGFCWum7s7CsyhAMxdt1WlSU8gIRMT5X1VWJ0NvdmpXZWOvqhvGABD-TTevITJy1uQDAP3HQw1LlxqHdfuAq81_5wRqUOy-YJRqB6BMi4gdr38Zh589cKqUpZujYvVsx7AMcJXyzsIMmdkZL1WwcoE7dU"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Left SideNavBar -->
+<nav class="flex flex-col h-full border-r border-outline-variant bg-surface-container-low dark:bg-surface-container-low text-primary docked left-0 h-full w-sidebar-width flat no shadows duration-0">
+<div class="p-4 border-b border-outline-variant">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-surface-variant border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined fill text-on-surface">account_balance</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-primary">OPERATOR_01</div>
+<div class="font-label-caps text-label-caps uppercase text-on-surface-variant">High Integrity Mode</div>
+</div>
+</div>
+</div>
+<div class="p-4 border-b border-outline-variant">
+<button class="w-full bg-primary text-background border border-outline-variant font-label-caps text-label-caps uppercase py-2 hover:bg-surface-variant hover:text-primary transition-none">NEW_GRANT</button>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high duration-0" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span class="font-label-caps text-label-caps uppercase">Ledger</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-on-secondary-fixed-variant text-primary border-l-2 border-primary duration-0" href="#">
+<span class="material-symbols-outlined">pie_chart</span>
+<span class="font-label-caps text-label-caps uppercase">Allocations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high duration-0" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-caps text-label-caps uppercase">Compliance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high duration-0" href="#">
+<span class="material-symbols-outlined">folder_managed</span>
+<span class="font-label-caps text-label-caps uppercase">Registry</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high duration-0" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-caps text-label-caps uppercase">Terminal</span>
+</a>
+</div>
+<div class="border-t border-outline-variant py-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high duration-0" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps uppercase">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high duration-0" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-caps text-label-caps uppercase">Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 bg-[#020617] relative">
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- Header -->
+<div class="border-b border-outline-variant pb-4 mb-6">
+<h1 class="font-display-lg text-display-lg text-primary mb-2">Seat &amp; Collaborator Management</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">USDA Rural Energy Grant • Active Cycle</p>
+</div>
+<!-- Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Left Column: Seats & Overviews -->
+<div class="lg:col-span-1 space-y-6">
+<!-- Node Seats Overview Panel -->
+<section class="bg-surface-container-low border border-outline-variant flex flex-col">
+<header class="p-4 border-b border-outline-variant flex justify-between items-center bg-[#0F172A]">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Node Seats</h2>
+<span class="font-data-mono text-data-mono text-primary">3/5 ACTIVE</span>
+</header>
+<div class="p-4 space-y-4 bg-[#0F172A] flex-1">
+<div class="w-full bg-[#020617] h-2 border border-outline-variant">
+<div class="bg-primary h-full w-3/5"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                                    Institutional licenses tied to this workstation. Adding or revoking seats triggers a signed audit event.
+                                </p>
+<button class="w-full border border-outline-variant bg-[#020617] text-primary hover:border-primary px-4 py-2 font-label-caps text-label-caps uppercase transition-none flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">add</span>
+                                    Provision Seat
+                                </button>
+</div>
+</section>
+<!-- Active Seats List -->
+<section class="bg-surface-container-low border border-outline-variant flex flex-col flex-1">
+<header class="p-4 border-b border-outline-variant bg-[#0F172A]">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Allocated Seats</h2>
+</header>
+<div class="flex-1 overflow-y-auto bg-[#0F172A]">
+<!-- Seat Item 1 -->
+<div class="p-4 border-b border-outline-variant flex justify-between items-center bg-[#1E293B] cursor-pointer hover:bg-surface-variant transition-none">
+<div>
+<div class="font-data-mono text-data-mono text-primary">ST-001</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Josh Inklovich</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 bg-[#020617] border border-outline-variant font-label-caps text-label-caps text-primary uppercase text-[10px]">Operator</span>
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+</div>
+</div>
+<!-- Seat Item 2 -->
+<div class="p-4 border-b border-outline-variant flex justify-between items-center hover:bg-surface-variant transition-none cursor-pointer">
+<div>
+<div class="font-data-mono text-data-mono text-primary">ST-002</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Sarah Chen</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 bg-[#020617] border border-outline-variant font-label-caps text-label-caps text-on-surface-variant uppercase text-[10px]">Reviewer</span>
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+</div>
+</div>
+<!-- Seat Item 3 -->
+<div class="p-4 border-b border-outline-variant flex justify-between items-center hover:bg-surface-variant transition-none cursor-pointer">
+<div>
+<div class="font-data-mono text-data-mono text-primary">ST-003</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Mike Talo</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 bg-[#020617] border border-outline-variant font-label-caps text-label-caps text-on-surface-variant uppercase text-[10px]">Delegate</span>
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Middle Column: Grant Collaborators & Invitations -->
+<div class="lg:col-span-2 space-y-6 flex flex-col">
+<!-- Active Collaborators -->
+<section class="bg-surface-container-low border border-outline-variant flex-1 flex flex-col">
+<header class="p-4 border-b border-outline-variant flex justify-between items-center bg-[#0F172A]">
+<div>
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Grant Collaborators</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">USDA Rural Energy Grant Access List</p>
+</div>
+<button class="bg-primary text-background px-4 py-2 font-label-caps text-label-caps uppercase hover:bg-surface-variant hover:text-primary border border-outline-variant transition-none">
+                                    Invite Collaborator
+                                </button>
+</header>
+<!-- Table-like structure -->
+<div class="bg-[#0F172A] flex-1 overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-[#020617]">
+<th class="p-3 font-label-caps text-label-caps text-[#64748B] font-normal uppercase">Entity</th>
+<th class="p-3 font-label-caps text-label-caps text-[#64748B] font-normal uppercase">Role</th>
+<th class="p-3 font-label-caps text-label-caps text-[#64748B] font-normal uppercase">Auth Node</th>
+<th class="p-3 font-label-caps text-label-caps text-[#64748B] font-normal uppercase text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm">
+<tr class="border-b border-outline-variant hover:bg-[#1E293B] bg-[#1E293B] cursor-pointer">
+<td class="p-3 text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">person</span>
+                                                Josh Inklovich
+                                            </td>
+<td class="p-3">
+<span class="px-2 py-1 bg-[#020617] border border-outline-variant font-label-caps text-label-caps text-primary uppercase text-[10px]">Operator</span>
+</td>
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant">NODE-A1</td>
+<td class="p-3 text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-[#1E293B] cursor-pointer">
+<td class="p-3 text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">person</span>
+                                                External Auditor LLC
+                                            </td>
+<td class="p-3">
+<span class="px-2 py-1 bg-[#020617] border border-outline-variant font-label-caps text-label-caps text-on-surface-variant uppercase text-[10px]">Guest</span>
+</td>
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant">EXT-88</td>
+<td class="p-3 text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-[#1E293B] cursor-pointer">
+<td class="p-3 text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">person</span>
+                                                Sarah Chen
+                                            </td>
+<td class="p-3">
+<span class="px-2 py-1 bg-[#020617] border border-outline-variant font-label-caps text-label-caps text-on-surface-variant uppercase text-[10px]">Reviewer</span>
+</td>
+<td class="p-3 font-data-mono text-data-mono text-on-surface-variant">NODE-A1</td>
+<td class="p-3 text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Pending Invitations -->
+<section class="bg-surface-container-low border border-outline-variant">
+<header class="p-4 border-b border-outline-variant bg-[#0F172A] flex justify-between items-center">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Pending Invitations</h2>
+<span class="flex items-center gap-1 text-[#F59E0B] font-data-mono text-[11px]">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                                    2 AWAITING
+                                </span>
+</header>
+<div class="bg-[#0F172A]">
+<!-- Invite 1 -->
+<div class="p-4 border-b border-outline-variant flex justify-between items-center hover:bg-[#1E293B]">
+<div>
+<div class="font-body-sm text-body-sm text-primary mb-1">d.smith@agri.gov</div>
+<div class="flex items-center gap-3 font-data-mono text-data-mono text-on-surface-variant text-[11px]">
+<span class="px-1.5 py-0.5 bg-[#020617] border border-outline-variant">Delegate</span>
+<span>Expires: 24h 12m</span>
+</div>
+</div>
+<button class="border border-outline-variant px-3 py-1 font-label-caps text-label-caps uppercase text-[#EF4444] hover:border-[#EF4444] hover:bg-[#020617] transition-none bg-[#020617]">
+                                        Revoke
+                                    </button>
+</div>
+<!-- Invite 2 -->
+<div class="p-4 border-b border-outline-variant flex justify-between items-center hover:bg-[#1E293B]">
+<div>
+<div class="font-body-sm text-body-sm text-primary mb-1">compliance_bot_22</div>
+<div class="flex items-center gap-3 font-data-mono text-data-mono text-on-surface-variant text-[11px]">
+<span class="px-1.5 py-0.5 bg-[#020617] border border-outline-variant">Reviewer</span>
+<span>Expires: 02h 45m</span>
+</div>
+</div>
+<button class="border border-outline-variant px-3 py-1 font-label-caps text-label-caps uppercase text-[#EF4444] hover:border-[#EF4444] hover:bg-[#020617] transition-none bg-[#020617]">
+                                        Revoke
+                                    </button>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Footer Terminal/Audit Log snippet -->
+<div class="border border-outline-variant bg-[#000000] p-3 font-data-mono text-data-mono text-[11px] text-on-surface-variant mt-6">
+<div class="text-[#64748B]">SYSTEM LOG &gt; AUDIT TRAIL</div>
+<div class="mt-2 text-[#22C55E]">&gt; [14:22:01] SEAT ST-001 AUTHENTICATED. OPERATOR_01 SESSION ACTIVE.</div>
+<div class="mt-1 text-on-surface-variant">&gt; [14:22:05] WAITING FOR SIGNED ACTIONS...</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="text-primary">&gt;_</span>
+<span class="w-2 h-4 bg-primary animate-pulse"></span>
+</div>
+</div>
+</div>
+</main>
+<!-- Right SideNavBar (Inspector) -->
+<aside class="flex flex-col h-full border-l border-outline-variant bg-surface-container-low dark:bg-surface-container-low text-primary docked right-0 h-full w-sidebar-width flat no shadows duration-0">
+<div class="p-4 border-b border-outline-variant bg-[#0F172A]">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-surface-variant border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined fill text-[#F59E0B]">verified_user</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-primary">INSPECTOR</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase text-[10px]">Auth Entity Detail</div>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-6 bg-[#020617]">
+<!-- Selected Entity Info -->
+<div>
+<div class="font-label-caps text-label-caps text-[#64748B] mb-2 uppercase">Selected Seat</div>
+<div class="p-3 border border-outline-variant bg-[#0F172A]">
+<div class="font-data-mono text-data-mono text-primary mb-1">ST-001</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Josh Inklovich</div>
+<div class="mt-3 flex items-center gap-2">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span class="font-label-caps text-label-caps text-primary uppercase text-[10px]">ACTIVE</span>
+</div>
+</div>
+</div>
+<!-- Permissions -->
+<div>
+<div class="font-label-caps text-label-caps text-[#64748B] mb-2 uppercase">Permissions (Grant Scope)</div>
+<ul class="space-y-2 font-data-mono text-data-mono text-[11px]">
+<li class="flex items-center justify-between border-b border-outline-variant pb-1">
+<span class="text-on-surface-variant">Read Access</span>
+<span class="material-symbols-outlined text-[14px] text-[#22C55E]">check</span>
+</li>
+<li class="flex items-center justify-between border-b border-outline-variant pb-1">
+<span class="text-on-surface-variant">Write Allocation</span>
+<span class="material-symbols-outlined text-[14px] text-[#22C55E]">check</span>
+</li>
+<li class="flex items-center justify-between border-b border-outline-variant pb-1">
+<span class="text-on-surface-variant">Invite Collaborator</span>
+<span class="material-symbols-outlined text-[14px] text-[#22C55E]">check</span>
+</li>
+<li class="flex items-center justify-between pb-1">
+<span class="text-on-surface-variant">Revoke Seat</span>
+<span class="material-symbols-outlined text-[14px] text-[#EF4444]">close</span>
+</li>
+</ul>
+</div>
+<!-- Signing Authority -->
+<div>
+<div class="font-label-caps text-label-caps text-[#64748B] mb-2 uppercase">Signing Authority</div>
+<div class="p-3 border border-outline-variant bg-[#0F172A] space-y-3">
+<div>
+<div class="font-data-mono text-data-mono text-[10px] text-on-surface-variant mb-1">KEY HASH</div>
+<div class="font-data-mono text-data-mono text-primary text-[10px] break-all bg-[#020617] p-1 border border-outline-variant">
+                                0x7F2A...9B1C
+                            </div>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-[#F59E0B]">warning</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-[10px] leading-tight">Actions signed by this seat are legally binding and permanent.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Inspector Tabs (from JSON) -->
+<div class="flex border-t border-outline-variant bg-[#0F172A]">
+<a class="flex-1 py-3 flex justify-center text-on-surface-variant hover:bg-surface-container-high duration-0 border-r border-outline-variant" href="#" title="Forensics">
+<span class="material-symbols-outlined text-[18px]">troubleshoot</span>
+</a>
+<a class="flex-1 py-3 flex justify-center text-on-surface-variant hover:bg-surface-container-high duration-0 border-r border-outline-variant" href="#" title="Metadata">
+<span class="material-symbols-outlined text-[18px]">database</span>
+</a>
+<a class="flex-1 py-3 flex justify-center text-on-surface-variant hover:bg-surface-container-high duration-0 border-r border-outline-variant" href="#" title="History">
+<span class="material-symbols-outlined text-[18px]">history</span>
+</a>
+<a class="flex-1 py-3 flex justify-center bg-surface-container-highest text-primary duration-0" href="#" title="Audit">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</a>
+</div>
+</aside>
+</div>
+</body></html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Final Packet Authorization</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed": "#dae2fd",
+                      "error-container": "#93000a",
+                      "secondary-container": "#3a4a5f",
+                      "outline-variant": "#444748",
+                      "on-tertiary-container": "#5c647a",
+                      "on-secondary-fixed": "#0b1c30",
+                      "secondary-fixed": "#d3e4fe",
+                      "on-secondary-container": "#a9bad3",
+                      "on-secondary": "#213145",
+                      "tertiary-container": "#dae2fd",
+                      "surface-container-highest": "#2a3548",
+                      "surface-bright": "#2f3a4c",
+                      "surface-container-high": "#1f2a3c",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "on-primary-fixed": "#1a1c1c",
+                      "surface-tint": "#c6c6c7",
+                      "primary-container": "#e2e2e2",
+                      "on-primary": "#2f3131",
+                      "on-surface-variant": "#c4c7c8",
+                      "primary-fixed": "#e2e2e2",
+                      "on-tertiary-fixed": "#131b2e",
+                      "error": "#ffb4ab",
+                      "on-error-container": "#ffdad6",
+                      "inverse-on-surface": "#263143",
+                      "background": "#081425",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "surface-variant": "#2a3548",
+                      "surface-dim": "#081425",
+                      "on-background": "#d8e3fb",
+                      "on-primary-fixed-variant": "#454747",
+                      "primary-fixed-dim": "#c6c6c7",
+                      "on-error": "#690005",
+                      "on-primary-container": "#636565",
+                      "surface-container-lowest": "#040e1f",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "surface-container": "#152031",
+                      "secondary": "#b7c8e1",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "inverse-primary": "#5d5f5f",
+                      "primary": "#ffffff",
+                      "on-tertiary": "#283044",
+                      "surface-container-low": "#111c2d",
+                      "surface": "#081425",
+                      "outline": "#8e9192",
+                      "tertiary": "#ffffff",
+                      "inverse-surface": "#d8e3fb",
+                      "on-surface": "#d8e3fb"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "1px",
+                      "sidebar-width": "240px",
+                      "panel-gap": "8px",
+                      "unit": "4px",
+                      "container-padding": "16px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-sm": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-caps": [
+                              "JetBrains Mono"
+                      ],
+                      "data-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "serif": [
+                              "Source Serif 4", "serif"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "data-mono": [
+                              "13px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .serif-content { font-family: 'Source Serif 4', serif; }
+      </style>
+</head>
+<body class="bg-background text-on-background h-screen overflow-hidden flex selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar -->
+<aside class="bg-surface-container-low border-r border-outline-variant flex flex-col h-full py-panel-gap w-sidebar-width shrink-0 hidden md:flex z-20 relative">
+<div class="px-container-padding pb-4 mb-4 border-b border-outline-variant">
+<h1 class="text-label-caps font-label-caps text-on-surface">FIT FARMS LLC</h1>
+<p class="text-data-mono font-data-mono text-on-surface-variant mt-1 text-xs">SOVEREIGN_GRANT_V1</p>
+</div>
+<nav class="flex-1 overflow-y-auto px-2 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span class="text-label-caps font-label-caps">Home</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px]">explore</span>
+<span class="text-label-caps font-label-caps">Scout</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span class="text-label-caps font-label-caps">Intake</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span class="text-label-caps font-label-caps">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+<span class="text-label-caps font-label-caps">Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span class="text-label-caps font-label-caps">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="text-label-caps font-label-caps">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="text-label-caps font-label-caps">Judge</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="text-label-caps font-label-caps">Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT bg-primary text-on-primary font-bold scale-100 group" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">assignment_turned_in</span>
+<span class="text-label-caps font-label-caps">Final Packet Authorization</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="text-label-caps font-label-caps">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px]">style</span>
+<span class="text-label-caps font-label-caps">Cards</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+<span class="text-label-caps font-label-caps">FIDs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px]">leaderboard</span>
+<span class="text-label-caps font-label-caps">Costs</span>
+</a>
+</nav>
+</aside>
+<div class="flex-1 flex flex-col min-w-0 relative">
+<!-- TopAppBar -->
+<header class="bg-surface border-b border-outline-variant flex justify-between items-center w-full px-container-padding h-12 shrink-0 z-10">
+<div class="flex items-center gap-4">
+<div class="text-headline-md font-headline-md font-bold tracking-tighter text-primary">GOLDEN QUILL</div>
+</div>
+<div class="hidden lg:flex items-center gap-6 px-4 py-1.5 bg-surface-container-low border border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">person</span>
+<span class="text-label-caps font-label-caps text-on-surface-variant">Applied As: <span class="text-primary font-bold">FIT Farms LLC</span></span>
+</div>
+<div class="w-px h-4 bg-outline-variant"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">dns</span>
+<span class="text-label-caps font-label-caps text-on-surface-variant">Licensed Node: <span class="text-primary">FIT Farms LLC</span></span>
+</div>
+<div class="w-px h-4 bg-outline-variant"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-[#22C55E]">verified</span>
+<span class="text-label-caps font-label-caps text-[#22C55E]">License: internal use verified</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-data-mono font-data-mono text-on-surface-variant">LOCAL_NODE_01</span>
+<div class="flex items-center gap-2">
+<button class="p-1.5 text-primary hover:bg-surface-container-highest transition-none rounded-DEFAULT"><span class="material-symbols-outlined text-[20px]">security</span></button>
+<button class="p-1.5 text-primary hover:bg-surface-container-highest transition-none rounded-DEFAULT"><span class="material-symbols-outlined text-[20px]">fingerprint</span></button>
+<button class="p-1.5 text-primary hover:bg-surface-container-highest transition-none rounded-DEFAULT"><span class="material-symbols-outlined text-[20px]">verified_user</span></button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-hidden flex flex-col bg-[#020617] p-panel-gap gap-panel-gap">
+<div class="flex-1 flex flex-col lg:flex-row gap-panel-gap overflow-hidden">
+<!-- Center Document Preview -->
+<div class="flex-1 bg-[#0F172A] border border-outline-variant flex flex-col overflow-hidden relative">
+<div class="h-10 bg-surface border-b border-outline-variant flex items-center px-4 shrink-0">
+<span class="text-label-caps font-label-caps text-on-surface-variant">PACKET_PREVIEW.PDF</span>
+<div class="ml-auto flex gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">zoom_in</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">print</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-8 relative flex justify-center bg-[#020617]">
+<div class="w-full max-w-[800px] bg-[#E8E6DF] text-[#1A1C1C] p-12 shadow-md relative min-h-[1056px]">
+<!-- Document Header -->
+<div class="border-b-2 border-[#1A1C1C] pb-6 mb-8 text-center">
+<h1 class="serif-content text-3xl font-bold tracking-tight mb-2">SOVEREIGN GRANT APPLICATION</h1>
+</div>
+<!-- Document Body -->
+<div class="serif-content space-y-6">
+<h2 class="text-xl font-bold border-b border-[#c6c6c7] pb-2">I. Applicant Declaration</h2>
+<p class="leading-relaxed">FIT Farms LLC formally submits this sovereign grant packet for consideration. The undersigned asserts that all enclosed artifacts, financial models, and strategic logic frameworks have been independently verified through cryptographic attestation and adhere strictly to the foundational covenants of the grant protocol.</p>
+<p class="leading-relaxed">
+                                    This packet consolidates the outputs of the primary intake schema, the rigorous eligibility matrix, and the formalized budget allocation draft. It stands as a complete and final articulation of intent and capability.
+                                </p>
+<h2 class="text-xl font-bold border-b border-[#c6c6c7] pb-2 mt-8">II. Included Artifacts</h2>
+<ul class="list-disc pl-6 space-y-2">
+<li>Executive Summary &amp; Mission Alignment</li>
+<li>Detailed Operational Budget (FY24-FY25)</li>
+<li>Risk Assessment &amp; Mitigation Strategy</li>
+<li>Compliance &amp; Regulatory Affirmations</li>
+</ul>
+</div>
+<!-- Marginal Hashes -->
+<div class="absolute left-[-24px] top-32 -rotate-90 origin-left text-[#636565] opacity-50">
+<span class="text-[10px] font-data-mono">hash: 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08</span>
+</div>
+<div class="absolute right-[-24px] bottom-32 rotate-90 origin-right text-[#636565] opacity-50">
+<span class="text-[10px] font-data-mono">ed25519: e1b590...d43a</span>
+</div>
+<!-- Document Footer / Signatures -->
+<div class="absolute bottom-12 left-12 right-12 border-t-2 border-[#1A1C1C] pt-6 flex justify-between">
+<div>
+<p class="font-data-mono text-xs text-[#454747] mb-8">System Verification</p>
+<div class="border-b border-[#1A1C1C] w-48 mb-2"></div>
+<p class="serif-content text-sm">Golden Quill Node</p>
+</div>
+<div>
+<p class="font-data-mono text-xs text-[#454747] mb-8">Operator Authorization</p>
+<div class="border-b border-[#1A1C1C] w-64 mb-2 border-dashed"></div>
+<p class="serif-content text-sm">Josh Inklovich, Authorized Agent</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Inspector & Auth -->
+<div class="w-full lg:w-96 flex flex-col gap-panel-gap shrink-0">
+<!-- Readiness Checklist -->
+<div class="bg-[#0F172A] border border-outline-variant p-4">
+<h2 class="text-label-caps font-label-caps text-on-surface-variant border-b border-outline-variant pb-2 mb-4 flex justify-between items-center">
+<span>READINESS CHECKLIST</span>
+<span class="material-symbols-outlined text-[16px]">fact_check</span>
+</h2>
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-on-surface">Logician Matrix</span>
+<span class="text-data-mono font-data-mono text-[#22C55E] bg-[#22C55E]/10 px-2 py-0.5 border border-[#22C55E]/30 text-[10px]">CLEAN</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-on-surface">Judge Scoring</span>
+<span class="text-data-mono font-data-mono text-[#22C55E] bg-[#22C55E]/10 px-2 py-0.5 border border-[#22C55E]/30 text-[10px]">82/100</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-on-surface">Red Team Review</span>
+<span class="text-data-mono font-data-mono text-[#22C55E] bg-[#22C55E]/10 px-2 py-0.5 border border-[#22C55E]/30 text-[10px]">CLEAN</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-body-sm font-body-sm text-on-surface">Budget Logic</span>
+<span class="text-data-mono font-data-mono text-[#22C55E] bg-[#22C55E]/10 px-2 py-0.5 border border-[#22C55E]/30 text-[10px]">VALID</span>
+</div>
+</div>
+<div class="mt-6 border-t border-outline-variant pt-4">
+<div class="flex items-center gap-2 text-[#22C55E]">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="text-label-caps font-label-caps tracking-widest">LICENSE GATE — APPLICANT AUTHORITY VERIFIED</span>
+</div>
+</div>
+</div>
+<!-- Authorized Entity Inspector -->
+<div class="bg-[#0F172A] border border-outline-variant p-4">
+<h2 class="text-label-caps font-label-caps text-on-surface-variant border-b border-outline-variant pb-2 mb-4 flex justify-between items-center">
+<span>AUTHORIZED ENTITY INSPECTOR</span>
+<span class="material-symbols-outlined text-[16px]">account_box</span>
+</h2>
+<div class="space-y-4">
+<div>
+<p class="text-data-mono font-data-mono text-[10px] text-on-surface-variant mb-1">NODE REGISTRATION</p>
+<p class="text-body-md font-body-md text-primary">FIT Farms LLC</p>
+</div>
+<div>
+<p class="text-data-mono font-data-mono text-[10px] text-on-surface-variant mb-1">OPERATOR IDENTITY</p>
+<p class="text-body-md font-body-md text-primary">Josh Inklovich</p>
+</div>
+<div>
+<p class="text-data-mono font-data-mono text-[10px] text-on-surface-variant mb-1">SIGNING AUTHORITY</p>
+<div class="flex items-center gap-2 mt-1">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<p class="text-data-mono font-data-mono text-xs text-on-surface">Full Execution Rights</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Authorization Panel -->
+<div class="bg-[#0F172A] border border-[#d97757] flex-1 flex flex-col p-4 relative overflow-hidden group transition-all duration-300" id="auth-panel">
+<!-- Success Banner (Hidden by default) -->
+<div class="absolute inset-0 bg-[#0F172A] z-10 hidden flex-col items-center justify-center border border-[#22C55E]" id="success-banner">
+<span class="material-symbols-outlined text-[48px] text-[#22C55E] mb-4">check_circle</span>
+<h3 class="text-headline-md font-headline-md text-primary mb-2">Cycle Ready for Export</h3>
+<p class="text-data-mono font-data-mono text-on-surface-variant text-center px-6 text-xs">Packet compilation finalized and cryptographically signed.</p>
+<p class="text-body-sm font-body-sm text-on-surface mt-6 text-center italic px-4">Golden Quill prepares the packet. The operator submits through the funder's required portal.</p>
+<button class="mt-6 border border-outline-variant text-on-surface px-4 py-2 text-label-caps font-label-caps hover:bg-[#1E293B]" onclick="resetAuth()">RESET DEMO</button>
+</div>
+<h2 class="text-label-caps font-label-caps text-[#d97757] border-b border-[#d97757]/30 pb-2 mb-4 flex justify-between items-center">
+<span>ED25519 AUTHORIZATION</span>
+<span class="material-symbols-outlined text-[16px]">key</span>
+</h2>
+<div class="flex-1 flex flex-col justify-center">
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">Apply cryptographic signature to finalize compilation. This action binds the current operator identity to the packet hash.</p>
+<div class="bg-[#020617] border border-outline-variant p-3 mb-6 font-data-mono text-xs">
+<div class="flex justify-between text-[#636565] mb-1">
+<span>Target Hash:</span>
+<span>9f86...0a08</span>
+</div>
+<div class="flex justify-between text-primary">
+<span>Keypair:</span>
+<span>ed25519-sk</span>
+</div>
+</div>
+<button class="w-full bg-[#d97757] text-[#020617] font-label-caps text-label-caps py-4 px-6 hover:bg-[#e88b6c] transition-none flex justify-center items-center gap-2" onclick="authorizePacket()">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                                AUTHORIZE PACKET
+                            </button>
+<p class="text-data-mono font-data-mono text-[10px] text-on-surface-variant mt-4 text-center">
+                                Manual submission required via external portal post-authorization.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Terminal / Log -->
+<div class="h-32 bg-[#000000] border border-outline-variant shrink-0 flex flex-col">
+<div class="h-6 bg-[#0F172A] border-b border-outline-variant flex items-center px-2">
+<span class="text-[10px] font-label-caps text-on-surface-variant">NODE_TERMINAL // STDOUT</span>
+</div>
+<div class="p-2 font-data-mono text-xs overflow-y-auto space-y-1" id="terminal-output">
+<div class="text-[#64748B]">[SYSTEM] Initializing Final Packet Protocol...</div>
+<div class="text-[#64748B]">[LOGIC] All gates reporting CLEAN status.</div>
+<div class="text-[#64748B]">[LICENSE] Validating internal license token... OK.</div>
+<div class="text-secondary">[PREVIEW] Rendering document preview. Hash generated: 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08</div>
+<div class="flex gap-2">
+<span class="text-[#F59E0B]">&gt;</span>
+<span class="text-primary animate-pulse">Awaiting operator authorization...</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+        function authorizePacket() {
+            const authPanel = document.getElementById('auth-panel');
+            const successBanner = document.getElementById('success-banner');
+            const terminal = document.getElementById('terminal-output');
+            
+            // Remove pulse from last line
+            terminal.lastElementChild.classList.remove('animate-pulse');
+            
+            // Add terminal lines
+            terminal.innerHTML += `
+                <div class="text-[#22C55E]">[AUTH] Ed25519 signature applied by Josh Inklovich.</div>
+                <div class="text-[#22C55E]">[PACKET] Compilation locked. Cycle Ready for Export.</div>
+                <div class="flex gap-2">
+                    <span class="text-primary">&gt;</span>
+                    <span class="text-[#64748B]">Manual submission required next.</span>
+                </div>
+            `;
+            
+            // Scroll terminal to bottom
+            terminal.scrollTop = terminal.scrollHeight;
+            
+            // Show banner
+            successBanner.classList.remove('hidden');
+            successBanner.classList.add('flex');
+            authPanel.classList.replace('border-[#d97757]', 'border-[#22C55E]');
+        }
+
+        function resetAuth() {
+            const authPanel = document.getElementById('auth-panel');
+            const successBanner = document.getElementById('success-banner');
+            const terminal = document.getElementById('terminal-output');
+            
+            successBanner.classList.add('hidden');
+            successBanner.classList.remove('flex');
+            authPanel.classList.replace('border-[#22C55E]', 'border-[#d97757]');
+            
+            terminal.innerHTML = `
+                <div class="text-[#64748B]">[SYSTEM] State reset. Awaiting authorization.</div>
+                <div class="flex gap-2">
+                    <span class="text-[#F59E0B]">&gt;</span>
+                    <span class="text-primary animate-pulse">Awaiting operator authorization...</span>
+                </div>
+            `;
+        }
+    </script>
+</body></html>

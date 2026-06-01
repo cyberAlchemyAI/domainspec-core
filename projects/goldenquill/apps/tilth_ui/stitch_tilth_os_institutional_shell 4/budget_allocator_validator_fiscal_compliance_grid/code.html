@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Budget Allocator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed-variant": "#38485d",
+                        "surface-dim": "#081425",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "primary-fixed": "#e2e2e2",
+                        "secondary": "#b7c8e1",
+                        "tertiary": "#ffffff",
+                        "on-primary-fixed": "#1a1c1c",
+                        "primary-container": "#e2e2e2",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-secondary-container": "#a9bad3",
+                        "surface-container-high": "#1f2a3c",
+                        "on-tertiary-container": "#5c647a",
+                        "surface-tint": "#c6c6c7",
+                        "background": "#081425",
+                        "tertiary-fixed": "#dae2fd",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "inverse-primary": "#5d5f5f",
+                        "surface-container-lowest": "#040e1f",
+                        "surface-container": "#152031",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-primary": "#2f3131",
+                        "surface-bright": "#2f3a4c",
+                        "surface-container-low": "#111c2d",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-error": "#690005",
+                        "on-secondary": "#213145",
+                        "tertiary-container": "#dae2fd",
+                        "on-background": "#d8e3fb",
+                        "on-error-container": "#ffdad6",
+                        "outline": "#8e9192",
+                        "error-container": "#93000a",
+                        "surface": "#081425",
+                        "surface-variant": "#2a3548",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-tertiary": "#283044",
+                        "on-primary-fixed-variant": "#454747",
+                        "inverse-on-surface": "#263143",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "primary": "#ffffff",
+                        "on-surface": "#d8e3fb",
+                        "error": "#ffb4ab",
+                        "surface-container-highest": "#2a3548",
+                        "outline-variant": "#444748",
+                        "secondary-container": "#3a4a5f",
+                        "on-primary-container": "#636565",
+                        "inverse-surface": "#d8e3fb",
+                        "terracotta": "#B8523A"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        unit: "4px",
+                        "sidebar-width": "240px",
+                        "panel-gap": "8px",
+                        "gutter": "1px",
+                        "container-padding": "16px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-sm": ["Hanken Grotesk"]
+                    },
+                    fontSize: {
+                        "headline-md": ["20px", { lineHeight: "1.4", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "display-lg": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "label-caps": ["11px", { lineHeight: "1", letterSpacing: "0.05em", fontWeight: "700" }],
+                        "body-md": ["14px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }],
+                        "data-mono": ["13px", { lineHeight: "1", letterSpacing: "-0.01em", fontWeight: "500" }],
+                        "body-sm": ["12px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #020617; color: #d8e3fb; overflow: hidden; }
+        .border-slate-800 { border-color: #1E293B; }
+        .bg-slate-900 { background-color: #0F172A; }
+        .bg-slate-800 { background-color: #1E293B; }
+        
+        /* Thin scrollbar for webkit */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #0F172A; }
+        ::-webkit-scrollbar-thumb { background: #334155; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col font-body-md text-body-md selection:bg-terracotta selection:text-white">
+<!-- TopAppBar JSON -->
+<header class="bg-surface dark:bg-surface border-b border-outline-variant flex justify-between items-center w-full px-container-padding h-12 flex-shrink-0 z-50">
+<div class="flex items-center gap-4">
+<span class="text-headline-md font-headline-md font-bold tracking-tighter text-primary dark:text-primary">GOLDEN QUILL</span>
+<div class="h-4 w-px bg-outline-variant"></div>
+<div class="flex items-center gap-2 text-data-mono font-data-mono text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">business</span>
+<span>FIT Farms LLC</span>
+<span class="px-1.5 py-0.5 bg-surface-container-high border border-outline-variant text-[10px]">HYBRID</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 border border-[#22C55E] bg-[#22C55E]/10 px-2 py-1 text-[#22C55E] text-label-caps font-label-caps">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+<span>VERIFIED</span>
+</div>
+<div class="flex items-center gap-2 text-data-mono font-data-mono text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">key</span>
+<span>8a4f...2b19</span>
+</div>
+<div class="flex gap-2 text-primary dark:text-primary">
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-highest transition-none p-1">security</span>
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-highest transition-none p-1">fingerprint</span>
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-highest transition-none p-1">verified_user</span>
+</div>
+<div class="text-data-mono font-data-mono text-on-surface-variant ml-2 border-l border-outline-variant pl-4">
+                LOCAL_NODE_01
+            </div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar JSON -->
+<nav class="bg-surface-container-low dark:bg-surface-container-low border-r border-outline-variant flex flex-col h-full py-panel-gap w-60 flex-shrink-0 z-40 overflow-y-auto">
+<div class="px-4 mb-6">
+<div class="text-label-caps font-label-caps text-on-surface mb-1">FIT FARMS LLC</div>
+<div class="text-data-mono font-data-mono text-on-surface-variant text-[10px]">SOVEREIGN_GRANT_V1</div>
+</div>
+<div class="flex flex-col gap-1 px-2">
+<!-- Nav Items (Budget is active) -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">explore</span>
+<span>Scout</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span>Intake</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span>Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+<span>Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span>Drafting</span>
+</a>
+<!-- ACTIVE TAB -->
+<a class="flex items-center gap-3 px-3 py-2 bg-primary text-on-primary font-bold scale-100 text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span>Budget</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span>Judge</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span>Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+<span>Final Packet Authorization</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span>Audit</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">style</span>
+<span>Cards</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+<span>FIDs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-none text-label-caps font-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">leaderboard</span>
+<span>Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-1 flex flex-col bg-[#020617] overflow-hidden p-[1px] gap-[1px]">
+<!-- Header Row within Canvas -->
+<div class="bg-[#0F172A] p-4 flex justify-between items-center shrink-0">
+<div>
+<h1 class="text-headline-md font-headline-md text-primary">Budget Allocator &amp; Validator</h1>
+<p class="text-on-surface-variant text-body-sm font-body-sm mt-1">Verify funding math and allowable-use constraints.</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-slate-800 text-primary text-data-mono font-data-mono hover:bg-slate-800 transition-none">EXPORT .CSV</button>
+<button class="px-4 py-2 bg-terracotta text-white text-data-mono font-data-mono hover:brightness-110 transition-none flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">sync_saved_locally</span>
+                        VALIDATE &amp; COMMIT
+                    </button>
+</div>
+</div>
+<div class="flex flex-1 overflow-hidden gap-[1px]">
+<!-- Left: Spreadsheet Grid -->
+<div class="flex-[3] bg-[#0F172A] flex flex-col overflow-hidden relative">
+<!-- Table Header -->
+<div class="grid grid-cols-12 border-b border-slate-800 bg-[#1E293B] text-label-caps font-label-caps text-[#64748B] shrink-0">
+<div class="col-span-3 p-3 border-r border-slate-800">CATEGORY</div>
+<div class="col-span-2 p-3 border-r border-slate-800 text-right">REQUESTED ($)</div>
+<div class="col-span-2 p-3 border-r border-slate-800 text-right">CASH MATCH ($)</div>
+<div class="col-span-2 p-3 border-r border-slate-800 text-right">IN-KIND ($)</div>
+<div class="col-span-2 p-3 border-r border-slate-800 text-right text-primary">TOTAL ($)</div>
+<div class="col-span-1 p-3 text-center">STATUS</div>
+</div>
+<!-- Table Body -->
+<div class="flex-1 overflow-y-auto">
+<!-- Row 1: Personnel -->
+<div class="grid grid-cols-12 border-b border-slate-800 hover:bg-[#1E293B] group">
+<div class="col-span-3 p-3 border-r border-slate-800 text-body-sm font-body-sm text-primary flex items-center gap-2">
+<div class="w-2 h-2 bg-slate-600"></div>
+                                Personnel
+                            </div>
+<div class="col-span-2 p-0 border-r border-slate-800">
+<input class="w-full h-full bg-transparent border-none text-right text-data-mono font-data-mono text-secondary focus:ring-0 focus:outline-none focus:bg-[#020617] px-3" type="text" value="125,000.00"/>
+</div>
+<div class="col-span-2 p-0 border-r border-slate-800">
+<input class="w-full h-full bg-transparent border-none text-right text-data-mono font-data-mono text-secondary focus:ring-0 focus:outline-none focus:bg-[#020617] px-3" type="text" value="25,000.00"/>
+</div>
+<div class="col-span-2 p-0 border-r border-slate-800">
+<input class="w-full h-full bg-transparent border-none text-right text-data-mono font-data-mono text-on-surface-variant focus:ring-0 focus:outline-none focus:bg-[#020617] px-3" type="text" value="0.00"/>
+</div>
+<div class="col-span-2 p-3 border-r border-slate-800 text-right text-data-mono font-data-mono text-primary bg-[#081425]">
+                                150,000.00
+                            </div>
+<div class="col-span-1 p-3 flex justify-center items-center">
+<div class="w-2 h-2 bg-[#22C55E]" title="Valid"></div>
+</div>
+</div>
+<!-- Row 2: Equipment -->
+<div class="grid grid-cols-12 border-b border-slate-800 hover:bg-[#1E293B] group border-l-2 border-l-[#F59E0B]">
+<div class="col-span-3 p-3 border-r border-slate-800 text-body-sm font-body-sm text-primary flex items-center gap-2">
+<div class="w-2 h-2 bg-slate-600"></div>
+                                Equipment (HVAC)
+                                <span class="material-symbols-outlined text-[14px] text-[#F59E0B] ml-auto">warning</span>
+</div>
+<div class="col-span-2 p-0 border-r border-slate-800">
+<input class="w-full h-full bg-transparent border-none text-right text-data-mono font-data-mono text-secondary focus:ring-0 focus:outline-none focus:bg-[#020617] px-3" type="text" value="85,000.00"/>
+</div>
+<div class="col-span-2 p-0 border-r border-slate-800">
+<input class="w-full h-full bg-transparent border-none text-right text-data-mono font-data-mono text-on-surface-variant focus:ring-0 focus:outline-none focus:bg-[#020617] px-3" type="text" value="0.00"/>
+</div>
+<div class="col-span-2 p-0 border-r border-slate-800 bg-[#F59E0B]/10">
+<input class="w-full h-full bg-transparent border-none text-right text-data-mono font-data-mono text-[#F59E0B] focus:ring-0 focus:outline-none focus:bg-[#020617] px-3" type="text" value="10,000.00"/>
+</div>
+<div class="col-span-2 p-3 border-r border-slate-800 text-right text-data-mono font-data-mono text-primary bg-[#081425]">
+                                95,000.00
+                            </div>
+<div class="col-span-1 p-3 flex justify-center items-center">
+<div class="w-2 h-2 bg-[#F59E0B]" title="Match Warning"></div>
+</div>
+</div>
+<!-- Row 3: Supplies -->
+<div class="grid grid-cols-12 border-b border-slate-800 hover:bg-[#1E293B] group">
+<div class="col-span-3 p-3 border-r border-slate-800 text-body-sm font-body-sm text-primary flex items-center gap-2">
+<div class="w-2 h-2 bg-slate-600"></div>
+                                Supplies
+                            </div>
+<div class="col-span-2 p-0 border-r border-slate-800">
+<input class="w-full h-full bg-transparent border-none text-right text-data-mono font-data-mono text-secondary focus:ring-0 focus:outline-none focus:bg-[#020617] px-3" type="text" value="12,500.00"/>
+</div>
+<div class="col-span-2 p-0 border-r border-slate-800">
+<input class="w-full h-full bg-transparent border-none text-right text-data-mono font-data-mono text-on-surface-variant focus:ring-0 focus:outline-none focus:bg-[#020617] px-3" type="text" value="0.00"/>
+</div>
+<div class="col-span-2 p-0 border-r border-slate-800">
+<input class="w-full h-full bg-transparent border-none text-right text-data-mono font-data-mono text-secondary focus:ring-0 focus:outline-none focus:bg-[#020617] px-3" type="text" value="2,500.00"/>
+</div>
+<div class="col-span-2 p-3 border-r border-slate-800 text-right text-data-mono font-data-mono text-primary bg-[#081425]">
+                                15,000.00
+                            </div>
+<div class="col-span-1 p-3 flex justify-center items-center">
+<div class="w-2 h-2 bg-[#22C55E]" title="Valid"></div>
+</div>
+</div>
+<!-- Row 4: Contractual -->
+<div class="grid grid-cols-12 border-b border-slate-800 hover:bg-[#1E293B] group border-l-2 border-l-[#EF4444]">
+<div class="col-span-3 p-3 border-r border-slate-800 text-body-sm font-body-sm text-primary flex items-center gap-2">
+<div class="w-2 h-2 bg-slate-600"></div>
+                                Contractual
+                                <span class="material-symbols-outlined text-[14px] text-[#EF4444] ml-auto">error</span>
+</div>
+<div class="col-span-2 p-0 border-r border-slate-800 bg-[#EF4444]/10">
+<input class="w-full h-full bg-transparent border-none text-right text-data-mono font-data-mono text-[#EF4444] focus:ring-0 focus:outline-none focus:bg-[#020617] px-3" type="text" value="55,000.00"/>
+</div>
+<div class="col-span-2 p-0 border-r border-slate-800">
+<input class="w-full h-full bg-transparent border-none text-right text-data-mono font-data-mono text-secondary focus:ring-0 focus:outline-none focus:bg-[#020617] px-3" type="text" value="5,000.00"/>
+</div>
+<div class="col-span-2 p-0 border-r border-slate-800">
+<input class="w-full h-full bg-transparent border-none text-right text-data-mono font-data-mono text-on-surface-variant focus:ring-0 focus:outline-none focus:bg-[#020617] px-3" type="text" value="0.00"/>
+</div>
+<div class="col-span-2 p-3 border-r border-slate-800 text-right text-data-mono font-data-mono text-primary bg-[#081425]">
+                                60,000.00
+                            </div>
+<div class="col-span-1 p-3 flex justify-center items-center">
+<div class="w-2 h-2 bg-[#EF4444]" title="Unallowable Cost"></div>
+</div>
+</div>
+<!-- Row 5: Indirect -->
+<div class="grid grid-cols-12 border-b border-slate-800 hover:bg-[#1E293B] group">
+<div class="col-span-3 p-3 border-r border-slate-800 text-body-sm font-body-sm text-primary flex items-center gap-2">
+<div class="w-2 h-2 bg-slate-600"></div>
+                                Indirect (10% de minimis)
+                            </div>
+<div class="col-span-2 p-3 border-r border-slate-800 text-right text-data-mono font-data-mono text-on-surface-variant bg-[#081425]">
+                                27,750.00
+                            </div>
+<div class="col-span-2 p-3 border-r border-slate-800 text-right text-data-mono font-data-mono text-on-surface-variant bg-[#081425]">
+                                0.00
+                            </div>
+<div class="col-span-2 p-3 border-r border-slate-800 text-right text-data-mono font-data-mono text-on-surface-variant bg-[#081425]">
+                                0.00
+                            </div>
+<div class="col-span-2 p-3 border-r border-slate-800 text-right text-data-mono font-data-mono text-primary bg-[#081425]">
+                                27,750.00
+                            </div>
+<div class="col-span-1 p-3 flex justify-center items-center">
+<div class="w-2 h-2 bg-[#22C55E]" title="Auto-Calculated"></div>
+</div>
+</div>
+<!-- Total Row -->
+<div class="grid grid-cols-12 border-b-2 border-slate-800 bg-[#081425] sticky bottom-0 mt-auto">
+<div class="col-span-3 p-4 border-r border-slate-800 text-data-mono font-data-mono text-primary uppercase">
+                                GRAND TOTAL
+                            </div>
+<div class="col-span-2 p-4 border-r border-slate-800 text-right text-data-mono font-data-mono text-primary">
+                                305,250.00
+                            </div>
+<div class="col-span-2 p-4 border-r border-slate-800 text-right text-data-mono font-data-mono text-primary">
+                                30,000.00
+                            </div>
+<div class="col-span-2 p-4 border-r border-slate-800 text-right text-data-mono font-data-mono text-primary">
+                                12,500.00
+                            </div>
+<div class="col-span-2 p-4 border-r border-slate-800 text-right text-data-mono font-data-mono font-bold text-terracotta">
+                                347,750.00
+                            </div>
+<div class="col-span-1 p-4"></div>
+</div>
+</div>
+</div>
+<!-- Right: Inspector Panel -->
+<div class="w-80 bg-[#0F172A] flex flex-col shrink-0 overflow-y-auto border-l border-slate-800 p-4 gap-6">
+<div>
+<h2 class="text-label-caps font-label-caps text-[#64748B] mb-3">BUDGET VALIDATOR</h2>
+<div class="p-3 border border-slate-800 bg-[#020617] flex items-start gap-3">
+<span class="material-symbols-outlined text-[#EF4444] text-[18px] mt-0.5">error_outline</span>
+<div>
+<div class="text-data-mono font-data-mono text-[#EF4444] mb-1">VALIDATION FAILED</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant font-serif">2 constraints require operator attention before commit sequence.</div>
+</div>
+</div>
+</div>
+<!-- Funder Caps -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end mb-1">
+<h3 class="text-label-caps font-label-caps text-primary">FUNDER CAP LIMIT</h3>
+<span class="text-data-mono font-data-mono text-secondary">350,000.00</span>
+</div>
+<div class="h-2 w-full bg-[#020617] border border-slate-800 overflow-hidden flex">
+<div class="h-full bg-secondary" style="width: 87%;"></div>
+<div class="h-full bg-[#22C55E]" style="width: 12%;"></div>
+</div>
+<div class="flex justify-between text-data-mono font-data-mono text-[10px] text-on-surface-variant mt-1">
+<span>CURRENT: 347,750.00</span>
+<span>REMAINING: 2,250.00</span>
+</div>
+</div>
+<!-- Indirect Rate Math -->
+<div class="border border-slate-800 p-3">
+<h3 class="text-label-caps font-label-caps text-[#64748B] mb-2">INDIRECT RATE CALC</h3>
+<div class="flex justify-between items-center py-1">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Base (MTDC)</span>
+<span class="text-data-mono font-data-mono text-secondary">277,500.00</span>
+</div>
+<div class="flex justify-between items-center py-1">
+<span class="text-body-sm font-body-sm text-on-surface-variant">Rate</span>
+<span class="text-data-mono font-data-mono text-secondary">10.00%</span>
+</div>
+<div class="h-px bg-slate-800 my-2"></div>
+<div class="flex justify-between items-center">
+<span class="text-body-sm font-body-sm text-primary">Calculated Indirect</span>
+<span class="text-data-mono font-data-mono text-primary">27,750.00</span>
+</div>
+</div>
+<!-- Warnings List -->
+<div class="flex flex-col gap-3">
+<h3 class="text-label-caps font-label-caps text-[#64748B]">CONSTRAINT FLAGS</h3>
+<!-- Flag 1 -->
+<div class="p-3 border border-[#F59E0B]/30 bg-[#F59E0B]/5">
+<div class="flex items-center gap-2 mb-2">
+<div class="w-2 h-2 bg-[#F59E0B]"></div>
+<span class="text-data-mono font-data-mono text-[#F59E0B] text-[11px]">MATCH_RATIO_LOW</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant font-serif">Equipment match contribution (11.7%) is below the requested 20% institutional threshold for heavy machinery.</p>
+</div>
+<!-- Flag 2 -->
+<div class="p-3 border border-[#EF4444]/30 bg-[#EF4444]/5">
+<div class="flex items-center gap-2 mb-2">
+<div class="w-2 h-2 bg-[#EF4444]"></div>
+<span class="text-data-mono font-data-mono text-[#EF4444] text-[11px]">UNALLOWABLE_COST</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant font-serif">Contractual line item exceeds standard consultant cap ($55k &gt; $50k) without explicit waiver attachment.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Terminal/Footer Footer -->
+<footer class="h-8 bg-[#000000] border-t border-slate-800 flex justify-between items-center px-4 shrink-0 text-data-mono font-data-mono text-[11px]">
+<div class="flex items-center gap-4">
+<span class="text-secondary">&gt; sys.budget_engine loaded</span>
+<span class="text-on-surface-variant">Machine ID: 992-QX</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-on-surface-variant">Local Node Status:</span>
+<span class="text-[#22C55E]">OPERATIONAL</span>
+<div class="w-2 h-2 bg-[#22C55E] ml-1 animate-pulse"></div>
+</div>
+</footer>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tilth OS AppShell</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-primary": "#5d5f5f",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "surface-container-high": "#1f2a3c",
+                      "on-secondary-fixed": "#0b1c30",
+                      "tertiary": "#ffffff",
+                      "surface-container-highest": "#2a3548",
+                      "surface-bright": "#2f3a4c",
+                      "on-surface": "#d8e3fb",
+                      "surface-variant": "#2a3548",
+                      "on-primary-container": "#636565",
+                      "on-primary": "#2f3131",
+                      "background": "#081425",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "outline-variant": "#444748",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "error": "#ffb4ab",
+                      "inverse-surface": "#d8e3fb",
+                      "on-tertiary-fixed": "#131b2e",
+                      "surface": "#081425",
+                      "primary-container": "#e2e2e2",
+                      "surface-container-lowest": "#040e1f",
+                      "inverse-on-surface": "#263143",
+                      "surface-tint": "#c6c6c7",
+                      "on-surface-variant": "#c4c7c8",
+                      "primary-fixed": "#e2e2e2",
+                      "on-error": "#690005",
+                      "on-secondary-container": "#a9bad3",
+                      "on-background": "#d8e3fb",
+                      "primary-fixed-dim": "#c6c6c7",
+                      "on-tertiary": "#283044",
+                      "on-tertiary-container": "#5c647a",
+                      "on-secondary": "#213145",
+                      "on-error-container": "#ffdad6",
+                      "surface-dim": "#081425",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "outline": "#8e9192",
+                      "surface-container-low": "#111c2d",
+                      "on-primary-fixed-variant": "#454747",
+                      "tertiary-container": "#dae2fd",
+                      "secondary-container": "#3a4a5f",
+                      "secondary-fixed": "#d3e4fe",
+                      "tertiary-fixed": "#dae2fd",
+                      "error-container": "#93000a",
+                      "primary": "#ffffff",
+                      "on-primary-fixed": "#1a1c1c",
+                      "secondary": "#b7c8e1",
+                      "surface-container": "#152031"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "gutter": "1px",
+                      "container-padding": "16px",
+                      "panel-gap": "8px",
+                      "sidebar-width": "220px",
+                      "inspector-width": "300px"
+              },
+              "fontFamily": {
+                      "body-sm": ["Hanken Grotesk"],
+                      "body-md": ["Hanken Grotesk"],
+                      "label-caps": ["JetBrains Mono"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "data-mono": ["JetBrains Mono"],
+                      "display-lg": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "body-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                      "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                      "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { margin: 0; padding: 0; overflow: hidden; background-color: #020617; } /* Level 0 Base */
+        .terminal-bg { background-color: #000000; }
+        .panel-bg { background-color: #0F172A; } /* Level 1 */
+        .nested-bg { background-color: #1E293B; } /* Level 2 */
+        
+        /* Thin 1px borders everywhere */
+        .brutal-border { border: 1px solid #334155; }
+        .brutal-border-t { border-top: 1px solid #334155; }
+        .brutal-border-b { border-bottom: 1px solid #334155; }
+        .brutal-border-l { border-left: 1px solid #334155; }
+        .brutal-border-r { border-right: 1px solid #334155; }
+        
+        /* Overrides for specific json styling logic */
+        .nav-border { border: none; }
+        
+        /* Scrollbar styling for a technical feel */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; border-left: 1px solid #334155; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 0; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="text-on-surface h-screen flex flex-col font-body-md bg-[#020617]">
+<!-- TopAppBar -->
+<header class="h-[56px] w-full flex items-center justify-between px-container-padding bg-surface dark:bg-surface border-b border-outline-variant z-50 shrink-0">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary tracking-tighter">FIT Farms</span>
+</div>
+<div class="flex items-center gap-unit">
+<!-- Badges -->
+<div class="flex items-center gap-2 mr-4">
+<div class="flex items-center gap-1 brutal-border px-2 py-1 bg-[#064e3b] text-[#34d399]">
+<div class="w-2 h-2 bg-[#10b981] shadow-[0_0_4px_#10b981]"></div>
+<span class="font-label-caps text-label-caps uppercase">Audit Status: ACTIVE</span>
+</div>
+<div class="flex items-center gap-1 brutal-border px-2 py-1 bg-[#1e3a8a] text-[#60a5fa]">
+<span class="material-symbols-outlined text-[14px]">security</span>
+<span class="font-label-caps text-label-caps uppercase">Posture: SECURE</span>
+</div>
+</div>
+<!-- Actions/Fingerprint -->
+<div class="flex items-center gap-2 border-l border-outline-variant pl-4">
+<span class="font-data-mono text-data-mono text-secondary">0x7F...4A2</span>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-highest hover:text-primary transition-none rounded-none focus:outline-none focus:ring-1 focus:ring-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">verified_user</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<!-- SideNavBar (Left) -->
+<nav class="w-sidebar-width h-full shrink-0 flex flex-col bg-surface-container-low dark:bg-surface-container-low border-r border-outline-variant z-40">
+<div class="p-4 border-b border-outline-variant flex flex-col gap-1">
+<span class="font-headline-md text-headline-md text-primary font-bold tracking-tight">FIT Farms</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Institutional Node</span>
+</div>
+<div class="flex flex-col flex-1 py-2 overflow-y-auto">
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container border-r-2 border-primary transition-none" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-label-caps text-label-caps uppercase">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-none border-r-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">fact_check</span>
+<span class="font-label-caps text-label-caps uppercase">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-none border-r-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">edit_document</span>
+<span class="font-label-caps text-label-caps uppercase">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-none border-r-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">history_edu</span>
+<span class="font-label-caps text-label-caps uppercase">Audit Ledger</span>
+</a>
+</div>
+</nav>
+<!-- Main Surface Workspace -->
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-[#020617]">
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+<!-- System Status Header -->
+<div class="flex items-center justify-between brutal-border-b pb-2">
+<h1 class="font-headline-md text-headline-md text-primary">System Status Dashboard</h1>
+<div class="flex gap-2">
+<button class="px-3 py-1 bg-primary text-black font-label-caps text-label-caps uppercase hover:opacity-90 transition-none focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-1 focus:ring-offset-[#020617]">Refresh Data</button>
+<button class="px-3 py-1 bg-transparent brutal-border text-primary font-label-caps text-label-caps uppercase hover:bg-surface-container-high transition-none focus:outline-none focus:ring-1 focus:ring-primary">Export Logs</button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-4 flex-1 min-h-0">
+<!-- Primary Data Grid (Spans 8 cols) -->
+<div class="col-span-8 panel-bg brutal-border flex flex-col h-full overflow-hidden">
+<div class="px-3 py-2 brutal-border-b flex items-center justify-between bg-surface-container-low">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Active Nodes Topology</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">monitoring</span>
+</div>
+<div class="flex-1 overflow-auto">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-surface-container-lowest z-10 brutal-border-b">
+<tr>
+<th class="px-3 py-2 font-label-caps text-label-caps text-[#64748B] uppercase font-normal">Node ID</th>
+<th class="px-3 py-2 font-label-caps text-label-caps text-[#64748B] uppercase font-normal">Region</th>
+<th class="px-3 py-2 font-label-caps text-label-caps text-[#64748B] uppercase font-normal">Latency</th>
+<th class="px-3 py-2 font-label-caps text-label-caps text-[#64748B] uppercase font-normal">Status</th>
+</tr>
+</thead>
+<tbody class="font-data-mono text-data-mono text-secondary divide-y divide-[#334155]">
+<tr class="hover:bg-[#1E293B] transition-none group cursor-default">
+<td class="px-3 py-2 text-primary group-hover:underline">ND-77X-A</td>
+<td class="px-3 py-2">us-east-1</td>
+<td class="px-3 py-2 text-[#34d399]">12ms</td>
+<td class="px-3 py-2"><div class="w-2 h-2 bg-[#22C55E]"></div></td>
+</tr>
+<tr class="hover:bg-[#1E293B] transition-none group cursor-default">
+<td class="px-3 py-2 text-primary group-hover:underline">ND-77X-B</td>
+<td class="px-3 py-2">eu-central-1</td>
+<td class="px-3 py-2 text-[#34d399]">45ms</td>
+<td class="px-3 py-2"><div class="w-2 h-2 bg-[#22C55E]"></div></td>
+</tr>
+<tr class="hover:bg-[#1E293B] transition-none group cursor-default">
+<td class="px-3 py-2 text-primary group-hover:underline">ND-92Y-C</td>
+<td class="px-3 py-2">ap-southeast-1</td>
+<td class="px-3 py-2 text-[#F59E0B]">180ms</td>
+<td class="px-3 py-2"><div class="w-2 h-2 bg-[#F59E0B]"></div></td>
+</tr>
+<tr class="hover:bg-[#1E293B] transition-none group cursor-default">
+<td class="px-3 py-2 text-primary group-hover:underline">ND-11Z-D</td>
+<td class="px-3 py-2">us-west-2</td>
+<td class="px-3 py-2 text-[#EF4444]">TIMEOUT</td>
+<td class="px-3 py-2"><div class="w-2 h-2 bg-[#EF4444]"></div></td>
+</tr>
+<tr class="hover:bg-[#1E293B] transition-none group cursor-default">
+<td class="px-3 py-2 text-primary group-hover:underline">ND-44K-E</td>
+<td class="px-3 py-2">sa-east-1</td>
+<td class="px-3 py-2 text-[#34d399]">88ms</td>
+<td class="px-3 py-2"><div class="w-2 h-2 bg-[#22C55E]"></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Side Stats & Controls (Spans 4 cols) -->
+<div class="col-span-4 flex flex-col gap-4 h-full">
+<!-- Key Metrics -->
+<div class="panel-bg brutal-border p-4 flex flex-col gap-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Network Throughput</span>
+<div class="font-display-lg text-display-lg text-primary tracking-tighter">1.42 <span class="font-data-mono text-data-mono text-secondary">TB/s</span></div>
+<div class="w-full h-1 bg-[#020617] mt-2">
+<div class="h-full bg-primary w-[78%]"></div>
+</div>
+</div>
+<!-- System Alerts -->
+<div class="panel-bg brutal-border flex-1 flex flex-col overflow-hidden">
+<div class="px-3 py-2 brutal-border-b flex items-center justify-between bg-surface-container-low">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Critical Alerts</span>
+<span class="material-symbols-outlined text-[16px] text-[#EF4444]">warning</span>
+</div>
+<div class="flex-1 overflow-y-auto p-2 flex flex-col gap-2 font-body-sm text-body-sm">
+<div class="nested-bg brutal-border p-2 border-l-2 border-l-[#EF4444]">
+<div class="font-bold text-primary">Connection Timeout: ND-11Z-D</div>
+<div class="text-on-surface-variant mt-1">Failed to respond to heartbeat ping after 3 retries.</div>
+</div>
+<div class="nested-bg brutal-border p-2 border-l-2 border-l-[#F59E0B]">
+<div class="font-bold text-primary">Latency Spike: ap-southeast-1</div>
+<div class="text-on-surface-variant mt-1">Average latency exceeded 150ms threshold.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Terminal Log -->
+<div class="h-[200px] terminal-bg brutal-border flex flex-col shrink-0 mt-auto">
+<div class="px-3 py-1 brutal-border-b flex items-center justify-between bg-[#111111]">
+<span class="font-label-caps text-label-caps text-[#64748B] uppercase">System Execution Log</span>
+<span class="material-symbols-outlined text-[14px] text-[#64748B]">terminal</span>
+</div>
+<div class="flex-1 overflow-y-auto p-3 font-data-mono text-data-mono text-secondary space-y-1">
+<div><span class="text-[#64748B]">[14:32:01]</span> <span class="text-[#34d399]">INFO</span>: Initializing secure handshake with ND-77X-A...</div>
+<div><span class="text-[#64748B]">[14:32:02]</span> <span class="text-[#34d399]">INFO</span>: Handshake complete. Fingerprint verified.</div>
+<div><span class="text-[#64748B]">[14:32:05]</span> <span class="text-[#F59E0B]">WARN</span>: Latency spike detected on route to ND-92Y-C. Rerouting traffic.</div>
+<div><span class="text-[#64748B]">[14:32:10]</span> <span class="text-primary font-bold">ERR_SYS</span>: Connection refused by ND-11Z-D. Initiating fallback protocol.</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-primary">&gt;</span>
+<input class="bg-transparent border-none outline-none text-primary font-data-mono text-data-mono w-full focus:ring-0 p-0" placeholder="Awaiting command input..." type="text"/>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Right SideNavBar (Evidence Inspector) -->
+<aside class="w-inspector-width h-full shrink-0 flex flex-col bg-surface-container-lowest dark:bg-surface-container-lowest border-l border-outline-variant z-40">
+<div class="p-4 border-b border-outline-variant flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-primary uppercase">Inspector</span>
+<span class="font-body-sm text-body-sm text-secondary">Terminal Output</span>
+</div>
+<!-- Navigation items per JSON -->
+<div class="flex flex-col py-2 border-b border-outline-variant">
+<button class="flex items-center gap-3 px-4 py-2 bg-surface-container-high text-primary transition-none w-full text-left">
+<span class="material-symbols-outlined text-[18px]">info</span>
+<span class="font-data-mono text-data-mono">Evidence Inspector</span>
+</button>
+<div class="flex items-center justify-center gap-1.5 px-2 py-1 mb-2 border border-[#B89745] text-[#B89745] font-data-mono text-[10px] uppercase font-bold tracking-widest bg-transparent">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+HIGH CONFIDENCE
+</div><button class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-low transition-none w-full text-left">
+<span class="material-symbols-outlined text-[18px]">database</span>
+<span class="font-data-mono text-data-mono">Chain Metadata</span>
+</button>
+</div>
+<!-- Inspector Content Area -->
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4 font-data-mono text-data-mono">
+<!-- Metadata Block -->
+<div class="flex flex-col gap-2">
+<span class="text-[#64748B] uppercase text-[10px] tracking-wider font-bold">Block Details</span>
+<div class="grid grid-cols-[80px_1fr] gap-x-2 gap-y-1 text-[12px]">
+<span class="text-secondary">Hash:</span>
+<span class="text-primary truncate" title="0x8f2a...9b1c">0x8f2a...9b1c</span>
+<span class="text-secondary">Height:</span>
+<span class="text-primary">14,293,001</span>
+<span class="text-secondary">Timestamp:</span>
+<span class="text-primary">1698245100</span>
+<span class="text-secondary">Validator:</span>
+<span class="text-primary">Node-7</span>
+</div>
+</div>
+<div class="w-full h-px bg-[#334155]"></div>
+<!-- Raw JSON View -->
+<div class="flex flex-col gap-2 flex-1">
+<span class="text-[#64748B] uppercase text-[10px] tracking-wider font-bold">Evidence Payload</span>
+<div class="terminal-bg p-2 brutal-border h-full overflow-auto text-[11px] leading-tight whitespace-pre text-[#a9bad3]">
+{
+  "type": "audit_record",
+  "status": "VERIFIED",
+  "signatures": 2,
+  "payload": {
+    "target": "ND-77X-A",
+    "compliance": true,
+    "metrics": [
+      12.4,
+      99.9,
+      0.01
+    ]
+  }
+}
+                    </div>
+</div>
+<div class="flex items-center justify-center gap-1.5 px-2 py-1 mb-2 border border-[#B89745] text-[#B89745] font-data-mono text-[10px] uppercase font-bold tracking-widest bg-transparent">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+HIGH CONFIDENCE
+</div><button class="w-full py-2 brutal-border text-primary uppercase text-[11px] font-bold tracking-wider hover:bg-[#1E293B] transition-none focus:outline-none focus:ring-1 focus:ring-primary">Verify Integrity</button>
+</div>
+</aside>
+</div>
+</body></html>

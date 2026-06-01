@@ -1,0 +1,121 @@
+# Signature-verification allowlist — assets whose embedded/row signatures are
+# documented STALE-BY-DESIGN per the v0.2-first-wave loader-realization
+# reconciliation. The signature_roundtrip CI job consults this list before
+# hard-failing on a verification mismatch; any failure not on this list is
+# treated as a regression and fails the build.
+#
+# Authority for each entry comes from:
+#   - vault_shared/funder_intelligence/publisher_pubkey.signed.yaml §v0.2 NOTE
+#     ("cards-publisher signed-asset uses an unreproducible canonicalization
+#     whose hash does not verify under any of 8 candidate forms tested
+#     2026-05-16. v0.2 loader-realization session reconciles ... OR re-runs
+#     the original cards ceremony script to recompute.")
+#   - pipeline/scripts/cards_embedded_re_sign_ceremony_2026-05-18.py header
+#     comment ("v0.1 loader DOES enforce lifecycle.content_hash ... means the
+#     stale-by-design [embedded signatures] do not block the loader; the v0.2
+#     first-wave loader-realization session reconciles them.")
+#   - OD-C row 272 precedent + OD-E supersession discipline embedded in
+#     lock_history rows 276-278 (`embedded_signature_status: STALE
+#     (intentional per OD-C row 272 precedent — supersession row is
+#     authoritative new sig; loader-time re-validation deferred to v0.2
+#     first-wave per architecture v7.0.11 §5)`).
+#   - docs/project_audit_2026-05-18.md §10.1 reading note ("the loader does
+#     not verify against the pinned publisher pubkey ... F-CARDS-SIGNATURE-
+#     INVALID predicate body ... raises NotImplementedError").
+#
+# When the v0.2 first-wave loader-realization LOCK lands and these assets are
+# re-signed under the reconciled canonicalization, REMOVE the corresponding
+# entries from this file. Any leftover stale entry without an active deferral
+# rationale is itself a CI-visible bug.
+
+lock_history_rows:
+  # Wave-1 card_cartridge LOCK rows — ed25519_signature here is a copy of the
+  # embedded card signature, NOT a row-canonical signature; rows are
+  # supersession-replaced by the post-OD-E + post-rotation card_cartridge_
+  # supersession rows 282-287 + the row-289..291 cards LOCKs (all of which
+  # DO verify under the current cards-publisher pubkey).
+  - row: 226
+    cartridge: TILTH-CIC-01 food_systems
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  - row: 227
+    cartridge: TILTH-CLC-03 operating_capacity
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  - row: 250
+    cartridge: TILTH-CIC-02 educator
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  - row: 251
+    cartridge: TILTH-CIC-03 public_agency
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  - row: 252
+    cartridge: TILTH-CIC-04 arts_culture
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  - row: 253
+    cartridge: TILTH-CIC-05 cooperative
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  - row: 254
+    cartridge: TILTH-CIC-06 ecosystem_intermediary
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  - row: 255
+    cartridge: TILTH-CLC-01 public_purpose_works
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  - row: 256
+    cartridge: TILTH-CLC-02 catalytic_change
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  - row: 257
+    cartridge: TILTH-CLC-04 research_evidence
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  - row: 258
+    cartridge: TILTH-CLC-05 market_access
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  - row: 259
+    cartridge: TILTH-CLC-06 credit_underwriting
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  - row: 260
+    cartridge: TILTH-CLC-07 sponsorship_corporate
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  - row: 261
+    cartridge: TILTH-CLC-08 shared_assets
+    reason: "Wave-1 card_cartridge LOCK; embedded-sig-copy convention; superseded by row-282..287 cohort"
+  # Early §4 v2.x.6 OD-5 router-dedup amendment LOCK rows — pre-OD-E ceremony
+  # canonicalization that does not roundtrip under the v0.1 reproducible
+  # recipe. Authoritative blueprint state lives in the section_04 v2.x.6
+  # amendment file at HEAD; v0.2 reconciliation re-anchors these signatures.
+  - row: 234
+    cartridge: pipeline.blueprint.v0_1.section_04_v2_x_6_router_dedup_amendment
+    reason: "Pre-OD-E blueprint LOCK row; canonicalization deferred to v0.2 reconciliation"
+  - row: 235
+    cartridge: pipeline.blueprint.v0_1.section_00_5_section_04_v2_x_6_amendment
+    reason: "Pre-OD-E blueprint-interface-index LOCK row; canonicalization deferred to v0.2 reconciliation"
+
+card_embedded_signatures:
+  # 11 Wave-1 card YAMLs whose embedded _research_metadata.ed25519_signature
+  # was last (re-)signed at Wave-1 LOCK under the now-retired cards-publisher
+  # pubkey 0b1a0bbf... The card content_hash itself DOES verify (the loader's
+  # enforce_lifecycle_truth preflight enforces this on every load), but the
+  # embedded ed25519_signature does not roundtrip under the v0.1 recipe.
+  # Authoritative provenance lives in lock_history card_cartridge_supersession
+  # rows 282-287 + cards LOCK rows 289-291 under the current pubkey. v0.2
+  # first-wave loader-realization re-signs all embedded signatures under the
+  # reconciled canonicalization.
+  - path: pipeline/cards/CIC/arts_culture.yaml
+    reason: "Wave-1 embedded sig; superseded by lock_history rows 282-287 + 289-291 chain"
+  - path: pipeline/cards/CIC/cooperative.yaml
+    reason: "Wave-1 embedded sig; superseded by lock_history rows 282-287 + 289-291 chain"
+  - path: pipeline/cards/CIC/ecosystem_intermediary.yaml
+    reason: "Wave-1 embedded sig; superseded by lock_history rows 282-287 + 289-291 chain"
+  - path: pipeline/cards/CIC/educator.yaml
+    reason: "Wave-1 embedded sig; superseded by lock_history rows 282-287 + 289-291 chain"
+  - path: pipeline/cards/CIC/food_systems.yaml
+    reason: "Wave-1 embedded sig; superseded by lock_history rows 282-287 + 289-291 chain"
+  - path: pipeline/cards/CIC/public_agency.yaml
+    reason: "Wave-1 embedded sig; superseded by lock_history rows 282-287 + 289-291 chain"
+  - path: pipeline/cards/CLC/catalytic_change.yaml
+    reason: "Wave-1 embedded sig; superseded by lock_history rows 282-287 + 289-291 chain"
+  - path: pipeline/cards/CLC/operating_capacity.yaml
+    reason: "Wave-1 embedded sig; superseded by lock_history rows 282-287 + 289-291 chain"
+  - path: pipeline/cards/CLC/public_purpose_works.yaml
+    reason: "Wave-1 embedded sig; superseded by lock_history rows 282-287 + 289-291 chain"
+  - path: pipeline/cards/CLC/research_evidence.yaml
+    reason: "Wave-1 embedded sig; superseded by lock_history rows 282-287 + 289-291 chain"
+  - path: pipeline/cards/CLC/shared_assets.yaml
+    reason: "Wave-1 embedded sig; superseded by lock_history rows 282-287 + 289-291 chain"

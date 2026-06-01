@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://golden-quill.local/schemas/card_matrix.schema.json",
+  "title": "Card — CIC × CLC Matrix (FORWARD-COMPAT ONLY at v7.0.11 LOCK)",
+  "description": "Schema for CIC × CLC matrix cards. v7.0.11 LOCK ships schema only; no populated matrix content before v1.x matrix-phase explicit amendment. status MUST be 'FORWARD_COMPAT_ONLY' and binding_eligibility MUST be false at v7.0.11 LOCK.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "status",
+    "card_axis",
+    "cic_slug",
+    "clc_slug",
+    "intersection_id",
+    "binding_eligibility",
+    "allowed_runtime_readers",
+    "forbidden_runtime_readers_during_eligibility"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0-cic-clc-matrix"
+    },
+    "status": {
+      "type": "string",
+      "const": "FORWARD_COMPAT_ONLY",
+      "description": "MUST be FORWARD_COMPAT_ONLY at v7.0.11 LOCK. v1.x matrix-phase amendment can flip to ACTIVE."
+    },
+    "card_axis": {
+      "type": "string",
+      "const": "MATRIX"
+    },
+    "cic_slug": {
+      "type": "string",
+      "enum": [
+        "food_systems", "educator", "public_agency",
+        "arts_culture", "cooperative", "ecosystem_intermediary"
+      ]
+    },
+    "clc_slug": {
+      "type": "string",
+      "enum": [
+        "public_purpose_works", "catalytic_change", "operating_capacity",
+        "research_evidence", "market_access", "credit_underwriting",
+        "sponsorship_corporate", "shared_assets"
+      ]
+    },
+    "intersection_id": {
+      "type": "string",
+      "pattern": "^[a-z_]+__[a-z_]+$"
+    },
+    "binding_eligibility": {
+      "type": "boolean",
+      "const": false,
+      "description": "MUST be false. F-CARDS-COUPLING-VIOLATION-EXTENSION fails closed if true."
+    },
+    "allowed_runtime_readers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["Archivist"]
+      },
+      "description": "Only Archivist may read matrix fields at runtime, and only retrospectively. v1.x activation only."
+    },
+    "forbidden_runtime_readers_during_eligibility": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["Scout", "Scribe", "Judge", "Logician_as_evaluator"]
+      }
+    },
+    "historical_match_pattern": {"type": "object"},
+    "boundary_strategies": {"type": "array"},
+    "framing_pivots": {"type": "array"},
+    "evidence_substitution_rules": {"type": "array"},
+    "red_team_prompts": {"type": "array"},
+    "review_status": {
+      "type": "string",
+      "enum": ["pending", "passed", "changes_requested"]
+    }
+  },
+  "additionalProperties": true
+}

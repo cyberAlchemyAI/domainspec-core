@@ -1,0 +1,32 @@
+- rule_id: funder_usda_filename
+  target_field: filename
+  priority: 10
+  regex_patterns: ["usda", "vapg"]
+  output_value: USDA
+  confidence: CONFIRMED_BY_FILENAME
+  review_required: false
+  rationale: Explicit USDA acronym
+- rule_id: funder_usda_path
+  target_field: original_path
+  priority: 5
+  regex_patterns: ["usda"]
+  output_value: USDA
+  confidence: LIKELY_BY_PATH
+  review_required: true
+  rationale: Path hints at USDA
+- rule_id: funder_sare_filename
+  target_field: filename
+  priority: 10
+  regex_patterns: ["sare"]
+  output_value: SARE
+  confidence: CONFIRMED_BY_FILENAME
+  review_required: false
+  rationale: SARE grant
+- rule_id: funder_aig_filename
+  target_field: filename
+  priority: 10
+  regex_patterns: ["aig"]
+  output_value: Ag_Innovation_Grant
+  confidence: CONFIRMED_BY_FILENAME
+  review_required: false
+  rationale: Ag Innovation Grant

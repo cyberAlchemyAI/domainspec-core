@@ -1,0 +1,1718 @@
+# Card — TILTH-CIC-06 Ecosystem Intermediary / Regenerative Systems Supplier
+# Wave 2 research draft. Cards Wave 2 dispatch 2026-05-15 (Cowork session).
+# Operator decisions from Wave 1 carried forward: directory UPPERCASE (CIC/),
+# verbatim quotes ≤2 sentences (OQ-4), approval_required: true defaults (OQ-5),
+# qualitative-only frequency tags until 12+ CycleReceipts (OQ-6).
+#
+# Wave 1 handback resolutions applied:
+#  - schema is current as-on-disk; do NOT modify; field names + enums exactly.
+#  - lifecycle uses review_status; card passes.
+#  - dialect_routing_table item shape {funder_political_axis, dialect,
+#    example_funder} with enum {conservative, centrist, progressive, soul_fire}.
+#  - common_funders_observed.frequency_observed enum per entry.
+#  - provenance_requirements keys = KFR fact_class names with
+#    required_citation_type + verbatim_quote_required.
+#
+# NEVER include common_clc_patterns_observed or any CLC eligibility / preference /
+# win-rate / ranking field (F-CARDS-COUPLING-VIOLATION-EXTENSION fail-closes
+# loader). common_funders_observed below is funder-side observational metadata
+# only — NOT a CIC × CLC binding. Runtime matching is opportunity-driven
+# (Scout / Logician identify CLC per opportunity; CIC determines seat
+# configuration only).
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# Important framing decisions (Wave 2 — TILTH-CIC-06 specific)
+# ─────────────────────────────────────────────────────────────────────────────
+#
+#  - SELF-APPLICABILITY: This is the CIC that fits Tilth / Golden Quill itself.
+#    Tilth is an ecosystem intermediary supplying agentic grant-intelligence as
+#    deployed infrastructure. The card MUST be authored well enough that
+#    Tilth could use it for its own grant applications (research / SBIR /
+#    EDA Build to Scale / NSF Convergence Accelerator / foundation field-
+#    building / capacity-building portfolios). Per §18.13 + Law 3, the
+#    card lives in the workspace-shared cards:cic:* namespace and does
+#    NOT carry Tilth-specific applicant data; that data belongs in
+#    `orgs/fit_farms_llc/PROJECT_CONTEXT.md` (the grant-writing client role
+#    label per CLAUDE.md). The card is generic to any ecosystem-
+#    intermediary applicant. See decision_queue OD-1 for self-applicability
+#    operator-review note.
+#
+#  - DISPLAY NAME (slash form): Architecture v7.0.11 §7.2 (resolved 2026-05-15
+#    PM) keeps the slash form "Ecosystem Intermediary / Regenerative Systems
+#    Supplier" as `display_name`. The schema gains an optional
+#    `display_name_short` field — set here to "Ecosystem Intermediary" for
+#    downstream consumers that cannot safely render slashes (audit-log
+#    canonical-bytes formatting, future Match-DB grid display, terminal-
+#    pipeline-CLI table rendering). Loader resolves `display_name_short` to
+#    `display_name` when absent. CIC-06 is the only CIC that needs both today.
+#
+#  - VENDOR-VS-INTERMEDIARY REGISTER TIGHTROPE: The most acute admin-risk
+#    surface for this CIC is the perception that the applicant is a private
+#    vendor receiving grant subsidy for commercial gain (vs a credible
+#    intermediary delivering downstream public benefit). Register defaults
+#    pivot on credible / implementation-oriented / careful-not-to-sound-like-
+#    vendor-hype framing. Multiple admin_risk_term_register entries
+#    ("disruption", "platform dominance", "scale", "automation replacing
+#    workers") substitute toward operator/applicant agency and downstream
+#    benefit framing — never toward AI capability bragging (even though Tilth
+#    IS an AI-powered intermediary). When Tilth applies for its own grants,
+#    Scribe must foreground operator agency (the Golden Quill owner, the
+#    member-owner) over Tilth's own technical sophistication.
+#
+#  - TECHNOLOGY READINESS LEVEL (TRL): For tech-supplier intermediaries
+#    (including Tilth itself), federal funders increasingly expect TRL-style
+#    self-assessment per DOE / DoD / NASA / NIH conventions. SBIR Phase I
+#    targets TRL 1-3 (concept / proof-of-concept); Phase II targets TRL 3-6
+#    (prototype / pilot); Phase III targets TRL 6-9 (commercialization).
+#    The technology_readiness_level KFR fact-class captures this with
+#    evidence backing per TRL definition (NASA TRL Handbook + DOE TRL
+#    Calculator). For non-tech intermediaries (TA / training / fiscal
+#    sponsorship / convening), TRL is N/A — the fact-class self-attests.
+#
+#  - DOWNSTREAM-ATTRIBUTION METHODOLOGY: The intermediary's value is
+#    measured at end-user organizations (revenue uplift, capacity gain, time
+#    saved at customer farms / schools / agencies / co-ops served). Direct
+#    attribution is methodologically hard — the intermediary's contribution
+#    must be isolated from confounds (concurrent funding, market conditions,
+#    end-user effort, peer-effects). The downstream_outcomes KFR fact-class
+#    requires a documented attribution methodology (pre/post comparison,
+#    matched-comparison, dosage tracking, end-user self-attestation, third-
+#    party evaluator attribution), NOT a raw outcome number. Reviewer-side
+#    skepticism on weak attribution is a top-3 red flag (per
+#    common_risk_register_entries).
+#
+#  - INTERMEDIARY ARCHETYPE BOUNDARIES (vs other CICs):
+#      * vs CIC-02 Educator: An intermediary that runs training / curriculum
+#        as a primary service falls in BOTH cards. If the applicant is an
+#        accredited educational institution the LEAD axis is CIC-02; if the
+#        applicant is a TA provider whose training is one delivery mode the
+#        LEAD axis is CIC-06.
+#      * vs CIC-05 Cooperative: An intermediary may be cooperatively-governed
+#        (shared-services co-op, federation). LEAD axis is CIC-05 if the
+#        cooperative-governance form is the funding-relevant identity (e.g.,
+#        applying for USDA RCDG as a member-owned co-op); LEAD axis is CIC-06
+#        if the funding-relevant identity is the intermediary-service-
+#        delivery role (e.g., applying for SBIR as a tech vendor).
+#      * vs CIC-03 Public Agency: An intermediary funded by a public agency
+#        as fiscal sponsor / pass-through is NOT a public agency itself —
+#        LEAD axis stays CIC-06. Public agencies that operate intermediary
+#        programs (e.g., a state-DOA-run TA program) lead with CIC-03.
+#      * vs CIC-04 Arts & Culture: An arts-services intermediary (regranting
+#        arts council, teaching-artist network) leads with CIC-04 if the
+#        artistic-merit funding logic dominates; CIC-06 if the backbone /
+#        capacity-builder role dominates.
+#      * vs CIC-01 Food Systems: A food-systems intermediary (food hub
+#        operator, regional aggregator, regional food business center) leads
+#        with CIC-01 if direct producer-side activity is the funding focus;
+#        CIC-06 if the backbone / regional-coordination role is the funding
+#        focus (e.g., applying as a USDA AMS Regional Food Business Center
+#        backbone organization).
+#    These boundaries are advisory; the active CIC at runtime is operator-
+#    selected per opportunity, not auto-routed by Tilth.
+#
+# Lifecycle: draft. NO Ed25519 signature. Operator review pending before Wave 2
+# LOCK ceremony as separate dispatch. Per OD-1, this CIC requires an additional
+# operator-review pass for self-application use cases (Tilth applying for its
+# own grants under the card it authored).
+#
+# DOCUMENTATION-VS-SCHEMA POSTURE (Wave 2 Cycle 2 clarification, RT-C2-02 fold):
+# The comment-block framing above describes the AUTHORING CONTEXT (Tilth itself
+# is an instance of this CIC) — that context is operator-internal and stays in
+# documentation comments only. The card SCHEMA FIELDS (search_vocabulary,
+# evidence_signals, kfr_fact_classes, register_defaults, dialect_routing_table,
+# admin_risk_term_register, common_risk_register_entries, common_funders_observed,
+# narrative_sections_typical, capacity_signals_required, compliance_burdens,
+# metrics_table_template) have been purged of Tilth-specific marketing language
+# during Cycle 1 F-01 + F-03 folds. The card serves ALL ecosystem
+# intermediary applicants generically. Tilth-specific application work (when
+# Tilth applies for its own grants) flows through orgs/fit_farms_llc/PROJECT_CONTEXT.md
+# per Law 3 Org Isolation — not through this workspace-shared card.
+
+schema_version: "1.0-cic"
+card_axis: "CIC"
+card_id: "TILTH-CIC-06"
+slug: "ecosystem_intermediary"
+display_name: "Ecosystem Intermediary / Regenerative Systems Supplier"
+display_name_short: "Ecosystem Intermediary"
+coverage_axis: "Intermediary Infrastructure"
+nickname: "Portfolio-scale ecosystem connector"
+tilth_cic_id: "TILTH-CIC-06"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Search vocabulary — Scout consumption per §18.8
+# ─────────────────────────────────────────────────────────────────────────────
+search_vocabulary:
+  core_terms:
+    - term: "intermediary"
+      source_citation: "USDA AMS Regional Food Business Centers framing — 'regional intermediary' as program-level identity term; SBA Microloan Intermediary statutory role"
+    - term: "ecosystem builder"
+      source_citation: "Kauffman Foundation + EDA Build to Scale program framing — 'ecosystem building' as inclusive-entrepreneurship intermediary identity"
+    - term: "backbone organization"
+      source_citation: "Stanford Social Innovation Review collective-impact framework (Kania + Kramer 2011) — 'backbone organization' as field-defining term; widely cited in foundation field-building RFAs (Mott, Kresge, RWJF)"
+    - term: "technical assistance provider"
+      source_citation: "USDA NIFA + USDA RD program-wide eligible-applicant framing; SBA Federal and State Technology (FAST) Partnership Program statutory role"
+    - term: "capacity builder"
+      source_citation: "Foundation field-building common usage; appears in Mott + Kresge + RWJF capacity-building portfolio RFAs as intermediary-applicant identity"
+    - term: "implementation partner"
+      source_citation: "EDA Build to Scale + NIST MEP common framing for intermediaries delivering federal-program adoption support"
+    - term: "training provider"
+      source_citation: "DOL Apprenticeship Building America Program (ABAP) + WIOA national programs eligible-applicant framing; appears in IES Comprehensive Centers RFA"
+    - term: "systems integrator"
+      source_citation: "Federal IT acquisition vocabulary (NASA / DoD / GSA); applies to tech-supplier intermediaries deploying multi-component systems for end-user organizations"
+    - term: "navigator"
+      source_citation: "USDA AMS Regional Food Business Centers — 'navigator' role for connecting producers to programs; HRSA + ACA Marketplace Navigator program lineage"
+    - term: "extension provider"
+      source_citation: "USDA NIFA Extension partnerships (1862 / 1890 / 1994 land-grant + Cooperative Extension System); statutory eligible-applicant under Smith-Lever Act + Extension RFAs"
+    - term: "adoption support"
+      source_citation: "EDA Build to Scale + NSF Convergence Accelerator framing — 'adoption support' as intermediary deliverable distinct from technology development"
+    - term: "deployment partner"
+      source_citation: "DOE / NREL technology-deployment intermediary framing; NIST MEP-style deployment-support intermediary role"
+    - term: "fiscal sponsor"
+      source_citation: "National Network of Fiscal Sponsors (NNFS) sector identity; appears in foundation RFAs as eligible-applicant relationship for emerging projects"
+    - term: "regenerative systems supplier"
+      source_citation: "Composite-concept lineage — NOT a fixed industry-taxonomy term. NIST Manufacturing USA + DOE / NREL technology-deployment intermediary lineage names the supplier-of-deployed-infrastructure role; foundation regenerative-economy literature (Capital Institute / RSF Social Finance) frames the regenerative-vs-extractive distinction. The compound phrase appears in operator-internal taxonomy (drawing TILTH-CIC-REVIEW-01, 2026-05-08) as the v0.1 working label for the technology-supplier-with-regenerative-posture intermediary archetype."
+      _note: "Term is operator-coined-composite, not externally-defined. Treat search-vocabulary matches as soft signals (Scout matches partial-phrase variants like 'regenerative infrastructure supplier' / 'sovereignty-preserving deployment supplier' / 'customer-owned infrastructure vendor')."
+    - term: "field-building intermediary"
+      source_citation: "Foundation field-building portfolios (Mott, Mellon, Kresge, Schmidt Futures) — 'field-building' as foundation-recognized intermediary deliverable category"
+    - term: "regranting intermediary"
+      source_citation: "Foundation regranting common usage (Communities of Color United, Borealis, NEO Philanthropy fiscal-sponsorship + regranting; Tides) — pass-through-grant intermediary identity"
+    - term: "convener"
+      source_citation: "Foundation collective-impact RFA common usage; appears in RWJF + Kresge backbone-organization framing as intermediary deliverable"
+    - term: "matchmaker"
+      source_citation: "EDA Build to Scale + USDA AMS Regional Food Business Centers — 'matchmaking' between buyers + sellers / funders + applicants as intermediary deliverable"
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.1) ──
+    - term: "technology readiness level (TRL)"
+      source_citation: "NIST TRL Calculator + DOE / NREL Technology Readiness Assessment Guide — TRL 1 (basic principles) through TRL 9 (operational deployment); federal-funder common framework for technology-supplier intermediary applicants; aligned to SBIR Phase I (TRL 1-3) / Phase II (TRL 3-6) / Phase III (TRL 6-9)"
+    - term: "TRL assessment"
+      source_citation: "DOE Technology Readiness Assessment Guide + NIST TRL Calculator — per-component TRL evaluation methodology for technology-supplier intermediary applicants"
+    - term: "B Corp"
+      source_citation: "B Lab certification — third-party-certifying body for benefit-corporation legal-entity classification; recognized social-enterprise certification across foundation + impact-investor funder contexts"
+    - term: "benefit corporation"
+      source_citation: "State-statutory legal-entity form (varies by state — DE, NY, CA, NJ, others); for-profit-with-explicit-public-benefit-mission entity classification distinct from B Corp certification"
+    - term: "social enterprise"
+      source_citation: "Practitioner-field umbrella term covering benefit corporations, B Corps, L3Cs, cooperatives, and nonprofits with earned-revenue models; appears in foundation + impact-investor funder taxonomies"
+    - term: "comprehensive economic development strategy (CEDS)"
+      source_citation: "EDA Public Works PWEAA + Economic Adjustment Assistance + Build to Scale — CEDS is the EDA-required regional planning document; CEDS-listed status is preferential for many EDA programs; non-CEDS-listed projects require feasibility study per 13 CFR Part 305"
+
+  synonym_map:
+    intermediary:
+      - "ecosystem builder"
+      - "backbone organization"
+      - "regional intermediary"
+      - "support organization"
+      - "infrastructure organization"
+    technical_assistance_provider:
+      - "TA provider"
+      - "TA partner"
+      - "capacity builder"
+      - "implementation partner"
+      - "extension provider"
+      - "navigator"
+    training_provider:
+      - "training partner"
+      - "workforce trainer"
+      - "apprenticeship sponsor"
+      - "curriculum provider"
+    deployment_partner:
+      - "implementation partner"
+      - "adoption support partner"
+      - "systems integrator"
+      - "rollout partner"
+    fiscal_sponsor:
+      - "fiscal agent"
+      - "pass-through fiscal sponsor"
+      - "intermediary fiscal sponsor"
+    regenerative_systems_supplier:
+      - "sovereignty-preserving infrastructure supplier"
+      - "regenerative infrastructure vendor"
+      - "deployed-infrastructure supplier"
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.1) ──
+    trl_terminology:
+      - "TRL"
+      - "technology readiness level"
+      - "proof-of-concept"
+      - "prototype"
+      - "pilot"
+      - "demonstration"
+      - "commercialization"
+      - "readiness assessment"
+      - "technology maturity"
+
+  funder_program_keywords:
+    - keyword: "RBDG"
+      funder: "USDA Rural Development — Rural Business Development Grant"
+      source_citation: "USDA RD program page — Rural Business Development Grants (rd.usda.gov); 7 CFR 4280 Subpart E"
+    - keyword: "RCDG"
+      funder: "USDA Rural Development — Rural Cooperative Development Grants"
+      source_citation: "USDA RD RCDG program page; 7 CFR 4284 Subpart F — nonprofit-only intermediary eligible-applicant"
+    - keyword: "Regional Food Business Centers"
+      funder: "USDA AMS — Regional Food Business Centers Program"
+      source_citation: "USDA AMS Regional Food Business Centers program page (ams.usda.gov/services/local-regional/rfbc); 12 regional centers + 1 tribal center funded FY23"
+    - keyword: "Farmer Stress Assistance Network"
+      funder: "USDA NIFA — Farm and Ranch Stress Assistance Network (FRSAN)"
+      source_citation: "USDA NIFA FRSAN program page — intermediary-delivered farmer mental-health support network"
+    - keyword: "Build to Scale"
+      funder: "EDA — Build to Scale Program (Venture / Capital / Industry Challenges)"
+      source_citation: "EDA Build to Scale program page (eda.gov/funding/programs/build-to-scale); FY24 NOFO"
+    - keyword: "Tech Hubs"
+      funder: "EDA — Regional Technology and Innovation Hubs Program"
+      source_citation: "EDA Tech Hubs program page; CHIPS and Science Act §10621 statutory authority"
+    - keyword: "Recompete"
+      funder: "EDA — Distressed Area Recompete Pilot Program"
+      source_citation: "EDA Recompete program page; CHIPS and Science Act §10621A statutory authority"
+    - keyword: "Coal Communities Commitment"
+      funder: "EDA — Coal Communities Commitment"
+      source_citation: "EDA Coal Communities Commitment program page — set-aside across multiple EDA programs for coal-impacted communities"
+    - keyword: "Public Works"
+      funder: "EDA — Public Works and Economic Adjustment Assistance Programs"
+      source_citation: "EDA Public Works program page; 13 CFR Part 305 statutory authority"
+    - keyword: "SBIR Phase I"
+      funder: "Small Business Administration / agency SBIR programs (USDA, NSF, NIH, DOE, DoD, NASA, etc.)"
+      source_citation: "SBA SBIR/STTR program page (sbir.gov); 15 USC §638 statutory authority — feasibility study / proof-of-concept stage"
+    - keyword: "SBIR Phase II"
+      funder: "Small Business Administration / agency SBIR programs"
+      source_citation: "SBA SBIR/STTR program page — prototype / R&D continuation stage"
+    - keyword: "SBIR Phase III"
+      funder: "Small Business Administration / agency SBIR programs"
+      source_citation: "SBA SBIR/STTR program page — commercialization stage; not a separate solicitation but federal-customer-procurement pathway"
+    - keyword: "STTR"
+      funder: "Small Business Administration / agency STTR programs"
+      source_citation: "SBA SBIR/STTR program page — small business + research institution partnership requirement"
+    - keyword: "FAST"
+      funder: "SBA — Federal and State Technology Partnership Program"
+      source_citation: "SBA FAST program page (sbir.gov/about/about-fast); state-level SBIR-support intermediary funding"
+    - keyword: "Convergence Accelerator"
+      funder: "NSF — Convergence Accelerator Program"
+      source_citation: "NSF Convergence Accelerator program page (nsf.gov/od/oia/convergence-accelerator)"
+    - keyword: "I-Corps"
+      funder: "NSF — Innovation Corps Program"
+      source_citation: "NSF I-Corps program page (nsf.gov/funding/initiatives/i-corps); customer-discovery training intermediary funding"
+    - keyword: "MEP"
+      funder: "NIST — Manufacturing Extension Partnership"
+      source_citation: "NIST MEP program page (nist.gov/mep); 15 USC §278k statutory authority — state-level manufacturing-TA intermediary network"
+    - keyword: "Apprenticeship Building America"
+      funder: "DOL — Apprenticeship Building America Program (ABAP)"
+      source_citation: "DOL Office of Apprenticeship ABAP program page; intermediary sponsor role for Registered Apprenticeship"
+    - keyword: "H-1B Workforce"
+      funder: "DOL — H-1B One Workforce / Building Pathways to Infrastructure Jobs"
+      source_citation: "DOL Employment and Training Administration H-1B grant program pages — intermediary workforce-system funding"
+    - keyword: "Comprehensive Centers"
+      funder: "IES — Comprehensive Centers Program"
+      source_citation: "U.S. Dept of Education IES Comprehensive Centers program page (ies.ed.gov); regional + content centers as intermediary TA providers to state education agencies"
+    - keyword: "Microloan Intermediary"
+      funder: "SBA — Microloan Program"
+      source_citation: "SBA Microloan Program page (sba.gov/funding-programs/loans/microloans); intermediary lender role with TA delivery requirement"
+    - keyword: "Outreach and Assistance for Socially Disadvantaged Farmers and Ranchers and Veteran Farmers and Ranchers"
+      funder: "USDA NIFA — 2501 Program"
+      source_citation: "USDA NIFA 2501 program page; intermediary-delivered outreach to SDA + veteran producers"
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.1) ──
+    - keyword: "Beginning Farmer and Rancher Development Program (BFRDP)"
+      funder: "USDA NIFA — Beginning Farmer and Rancher Development Program"
+      source_citation: "USDA NIFA BFRDP program page — intermediary-delivered beginning-farmer training + capacity-building"
+    - keyword: "HRSA Comprehensive Centers (cross-reference to IES)"
+      funder: "HRSA / U.S. Dept of Education IES"
+      source_citation: "HRSA Comprehensive Centers + IES Comprehensive Centers Program — health + education comprehensive-centers intermediary TA delivery cross-reference"
+    - keyword: "IMLS Native American Library Services (intermediary cross-reference)"
+      funder: "Institute of Museum and Library Services (IMLS)"
+      source_citation: "IMLS Native American Library Services Basic + Enhancement Grants — Indigenous-led intermediary context where library / community-anchor scope extends; cross-reference to soul-fire dialect"
+
+  disqualifier_terms:
+    - term: "individual consultant fee-for-service only"
+      reason: "Most ecosystem intermediary funding programs require organizational applicant (501(c)(3), cooperative, LLC with intermediary mission, public agency, accredited institution). Sole-proprietor consulting fee-for-service work usually disqualifies (consultant role may be subcontract within an intermediary's award — verify per RFA)."
+    - term: "private commercial product launch (no public-benefit framing)"
+      reason: "Ecosystem-intermediary funders expect downstream public benefit (producer adoption, jobs at end-user organizations, regional ecosystem strengthening). Pure commercial product launches without public-benefit framing usually disqualify (SBIR is the exception — but SBIR still requires research-novelty + commercialization-with-broader-impact framing)."
+    - term: "for-profit applicant for nonprofit-only programs"
+      reason: "USDA RCDG, foundation field-building portfolios, and many DOL workforce intermediary programs restrict to nonprofits. For-profit intermediaries (including LLC-form social enterprises and Tilth itself) must verify per-program eligibility before applying."
+    - term: "research grant only with no deployment / TA scope"
+      reason: "Ecosystem-intermediary funders distinguish research (CIC-04 / CLC-04 territory) from deployment / adoption support / TA (CIC-06). Pure research scope without an intermediary-delivery component usually mismatches CIC-06 funder expectations."
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.1) ──
+    - term: "intermediary providing direct end-user services only (no TA / capacity-building component)"
+      reason: "CIC-06 funders expect upstream-and-downstream end-user-benefit framing: an intermediary applicant must show how its delivery creates network-effects + downstream-attribution beyond direct service. Direct-service-only applicants without intermediary-network-effect framing trigger reviewer skepticism (see common_risk_register_entries[Intermediary-direct-services confusion])."
+    - term: "single-grant TA without sustained network-effect framing"
+      reason: "Intermediary funders expect ongoing-network framing (multi-cycle retention, partner-network growth, downstream attribution methodology). Single-grant TA applicants without sustained-network framing flag mismatch with backbone-organization / collective-impact funder expectations."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Evidence signals — Scribe consumption per §18.8
+# ─────────────────────────────────────────────────────────────────────────────
+evidence_signals:
+  - kind: "customer_letters_or_letters_of_intent"
+    source_pattern: "signed letter / LOI / MOU from named end-user customer (farm, school, agency, co-op) committing to receive intermediary services with scope + timeline"
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "EDA Build to Scale + USDA AMS Regional Food Business Centers + SBIR Phase II + NSF Convergence Accelerator — all expect named customer commitment as primary demand evidence"
+  - kind: "partner_commitments"
+    source_pattern: "signed partnership agreements / MOUs with delivery partners, TA partners, evaluation partners, technology partners — with named roles + responsibilities"
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "USDA NIFA Extension partnership requirements; foundation field-building partnership expectations; NSF Convergence Accelerator multi-disciplinary-partnership requirement"
+  - kind: "prior_deployment_case_studies"
+    source_pattern: "narrative case study of prior intermediary delivery to a named customer (or anonymized with permission) — including baseline + intervention + outcome + attribution methodology"
+    weight: "HIGH"
+    freshness_tolerance_days: 730
+    source_citation: "EDA Build to Scale + SBIR Phase II + foundation capacity-building portfolios — track record evidence"
+  - kind: "technical_specifications"
+    source_pattern: "documented technical specs for any technology / software / hardware deliverable; system architecture; API documentation; data-flow diagrams; security posture"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "SBIR Phase I/II technical-merit scoring; SOC-2 / FedRAMP requirements for federal-customer-data-handling intermediaries; NIST 800-171 for CUI handling"
+  - kind: "implementation_plan"
+    source_pattern: "detailed implementation plan with milestones, customer onboarding sequence, support model, escalation paths, success metrics"
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "EDA Build to Scale program design + NSF Convergence Accelerator Phase 1 deliverables; USDA AMS Regional Food Business Center cooperative-agreement workplan expectations"
+  - kind: "training_curriculum"
+    source_pattern: "documented training curriculum with learning objectives, contact hours, assessment methodology, instructor qualifications"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "DOL Apprenticeship Building America Program curriculum requirements; IES Comprehensive Centers training-deliverable expectations; USDA Extension curriculum standards"
+  - kind: "support_model_documentation"
+    source_pattern: "documented post-deployment support model: ticketing system, response-time SLAs, escalation paths, knowledge base, on-call rotation, documentation portal"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "EDA Build to Scale + foundation systems-supplier expectations; SOC-2 operational-controls scoping"
+  - kind: "pricing_model_documentation"
+    source_pattern: "written pricing structure: sliding scale / member-capped / one-deployment-per-client / per-appliance / tiered / subscription / fee-for-service / hybrid — with rationale linking pricing to mission"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "Foundation capacity-building grantmaker expectations re: financial sustainability post-grant; SBIR Phase II commercialization plan; CDFI lender financial-sustainability scoring"
+  - kind: "staff_credentials_and_qualifications"
+    source_pattern: "resumes / CVs / biosketches for Key Personnel; deployment-domain experience documented; technical credentials where applicable; prior-customer references"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "USDA RD VAPG-style Qualifications-of-Key-Personnel scoring (intermediary programs mirror this); SBIR PI requirements; foundation capacity-building team-evidence expectations"
+  - kind: "evaluation_plan_and_attribution_methodology"
+    source_pattern: "evaluation plan with logic model, baseline-comparison or matched-comparison or pre/post or third-party-evaluator design, attribution methodology, data-collection schedule"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "EDA Build to Scale evaluation-rigor scoring; NSF Convergence Accelerator evaluation requirements; foundation field-building evaluation expectations; IES Comprehensive Centers evaluation-deliverable requirements"
+  - kind: "fiscal_sponsor_documentation"
+    source_pattern: "fiscal sponsorship agreement (Model A or Model C per NNFS taxonomy); fiscal-sponsor 501(c)(3) determination letter; fee structure; reporting cadence"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "National Network of Fiscal Sponsors (NNFS) Best Practices; foundation grantmaker fiscal-sponsorship documentation expectations"
+  - kind: "extension_or_TA_partner_agreements"
+    source_pattern: "signed agreement with land-grant Extension office, MEP center, SBDC, or other TA delivery partner — with division of labor + reporting responsibilities"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "USDA NIFA Extension partnership documentation requirements; NIST MEP affiliated-center agreements"
+  - kind: "downstream_impact_attribution_documentation"
+    source_pattern: "documented methodology for measuring downstream impact at end-user organizations — pre/post comparison, dosage tracking, end-user self-attestation forms, third-party evaluator reports"
+    weight: "HIGH"
+    freshness_tolerance_days: 730
+    source_citation: "Foundation field-building evaluation rigor; EDA Build to Scale jobs-and-investment-attribution methodology; NIST MEP NIPS economic-impact-survey methodology"
+  - kind: "technology_readiness_evidence"
+    source_pattern: "TRL self-assessment with evidence per TRL definition (NASA TRL Handbook / DOE TRL Calculator); for tech-supplier intermediaries only"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 180
+    source_citation: "SBIR/STTR Phase scoring; DOE / DoD / NASA TRL conventions; federal tech-acquisition vocabulary"
+  - kind: "data_governance_posture_documentation"
+    source_pattern: "documented data-handling policies for end-user / customer data; classification register; retention schedule; deletion procedures; cross-org isolation guarantees; SOC-2 / FedRAMP / HIPAA / FERPA / CCPA compliance posture as applicable"
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "SOC-2 Trust Services Criteria; NIST 800-171 for CUI handling; HIPAA Privacy + Security Rules; FERPA 34 CFR Part 99; CCPA Cal. Civ. Code §1798.100 et seq."
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.2) ──
+  - kind: "trl_assessment_documentation"
+    source_pattern: "Documented TRL assessment per NIST / DOE TRL framework: per-component TRL status; readiness-gate identification; deployment-readiness narrative; commercialization-readiness for Phase III SBIR. Third-party validation preferred."
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "NIST TRL Calculator + DOE/NREL TRL Guide; SBIR Phase II commercialization-readiness scoring (HIGH for SBIR Phase II / III applicants)"
+  - kind: "ceds_alignment_documentation"
+    source_pattern: "Project alignment with regional CEDS: CEDS-listed status; CEDS reference to project; for non-CEDS-listed projects, feasibility documentation per EDA Public Works PWEAA application; regional planning council coordination."
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "EDA Public Works PWEAA + 13 CFR Part 305 — CEDS-listed status preferential for many EDA programs"
+  - kind: "customer_discovery_methodology"
+    source_pattern: "Customer interview logs (≥20-25 interviews per I-Corps cohort); customer-segment hypothesis-pivot documentation; lessons-learned report; commercialization-pivot record."
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "NSF I-Corps program + Lean LaunchPad methodology (HIGH for I-Corps Phase II applicants)"
+  - kind: "intermediary_network_effect_documentation"
+    source_pattern: "Documented downstream-network effects: end-users-reached-via-intermediary count; multi-cycle retention rate; partner-network growth rate; intermediary-deliverable-attribution methodology."
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "Collective-impact framework (Kania + Kramer 2011, SSIR) + USDA AMS Regional Food Business Centers tracking framework"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# KFR fact classes — Intake / Logician consumption
+# ─────────────────────────────────────────────────────────────────────────────
+kfr_fact_classes:
+  - fact_class: "service_type"
+    description: "Primary intermediary service modality: TA / training / fiscal sponsorship / shared services / convening / matchmaking / advocacy / research-extension / regranting / deployment / systems-integration / multi-modal-hybrid."
+    typical_provenance: "organizational mission statement; service catalog; theory-of-change document"
+  - fact_class: "customer_segment"
+    description: "End-user customer segment(s) served — by CIC: CIC-01 Food Systems / CIC-02 Educator / CIC-03 Public Agency / CIC-04 Arts & Culture / CIC-05 Cooperative / CIC-06 other intermediaries (intermediary-of-intermediaries). Multiple segments common."
+    typical_provenance: "customer roster (with permission for named cases); aggregate customer-segment counts; service-catalog targeting language"
+  - fact_class: "end_user_benefit_articulation"
+    description: "Articulated downstream benefit at end-user organization — e.g., 'producer revenue uplift', 'co-op member capacity gain', 'school-district program-implementation time saved', 'agency cycle-time reduction'."
+    typical_provenance: "theory-of-change document; logic model; customer testimonials; outcome-attribution methodology document"
+  - fact_class: "technical_capability"
+    description: "Documented technical capability for tech-supplier intermediaries (or N/A for non-tech). Architecture overview, technology stack, security posture summary, deployment topology."
+    typical_provenance: "technical specification document; system architecture diagram; SOC-2 / FedRAMP / NIST 800-171 audit reports"
+  - fact_class: "technology_readiness_level"
+    description: "TRL self-assessment per NASA TRL Handbook / DOE TRL Calculator. Range 1-9 or N/A. SBIR Phase I targets TRL 1-3; Phase II targets TRL 3-6; Phase III targets TRL 6-9. N/A for non-tech intermediaries."
+    typical_provenance: "self-assessment with evidence per TRL definition; prior-deployment evidence; pilot-customer-feedback documentation"
+  - fact_class: "prior_deployments"
+    description: "Roster of prior deployments / engagements with named customers (or anonymized aggregates with permission); count + duration + outcome category per deployment."
+    typical_provenance: "customer roster with attestation permissions; signed customer attestation letters; case-study portfolio"
+  - fact_class: "partner_network"
+    description: "Active partnership roster: TA partners, technology partners, delivery partners, evaluation partners, fiscal sponsor (if applicable), funder relationships."
+    typical_provenance: "signed MOU / partnership agreements; partner-roster maintenance log; partnership-portfolio narrative"
+  - fact_class: "customer_commitments_in_pipeline"
+    description: "Pipeline of pending / committed customer engagements — names (where permitted) + scope + signed-or-pending status."
+    typical_provenance: "signed LOIs / MOUs; written commitment letters; CRM-pipeline export"
+  - fact_class: "support_model"
+    description: "Post-deployment support model: ticketing / response-time SLAs / escalation paths / knowledge base / on-call rotation / customer success management."
+    typical_provenance: "support-model documentation; SLA contract language; ticketing-system metrics"
+  - fact_class: "pricing_model"
+    description: "Pricing structure: sliding scale / member-capped / one-deployment-per-client / per-appliance / tiered / subscription / fee-for-service / hybrid / nonprofit-revenue-line. Includes rationale linking pricing to mission."
+    typical_provenance: "written pricing schedule; pricing-rationale memo; financial sustainability narrative"
+  - fact_class: "adoption_barriers_identified"
+    description: "Documented barriers to end-user adoption: technical complexity, change-management cost, end-user data sensitivity, compliance burden, peer-effects friction, etc."
+    typical_provenance: "user-research findings; pilot-customer feedback; documented adoption-friction-mitigation plan"
+  - fact_class: "downstream_outcomes_with_attribution"
+    description: "Measured downstream outcomes at end-user organizations WITH documented attribution methodology — NOT raw outcome numbers. Methodology required: pre/post comparison, matched-comparison, dosage tracking, end-user self-attestation, third-party evaluator attribution."
+    typical_provenance: "evaluation report with attribution methodology section; third-party-evaluator letter; end-user-attestation forms; pre/post baseline data"
+  - fact_class: "backbone_organization_role"
+    description: "For collective-impact / backbone organizations only: documented role per Kania + Kramer 2011 framework — guiding vision + strategy / supporting aligned activities / establishing shared measurement / building public will / advancing policy / mobilizing resources."
+    typical_provenance: "backbone-org-role narrative; collective-impact-initiative governance document; cross-organization shared-measurement system documentation"
+  - fact_class: "network_density"
+    description: "Quantitative measure of intermediary network: number of customers served per cycle, number of partners, geographic coverage, customer-retention rate, cycle-throughput."
+    typical_provenance: "annual report; customer-roster aggregate metrics; CRM export; network-analysis output"
+  - fact_class: "data_governance_posture"
+    description: "Documented data-handling posture for customer / end-user data: classification register, retention schedule, deletion procedures, cross-org isolation guarantees, applicable compliance frameworks (SOC-2 / FedRAMP / HIPAA / FERPA / CCPA)."
+    typical_provenance: "data-governance policy document; classification register; SOC-2 / FedRAMP / NIST 800-171 audit report; legal-review memo"
+  - fact_class: "intellectual_property_posture"
+    description: "IP posture relevant to intermediary deliverables — proprietary / open-source / Bayh-Dole-elected / customer-owned / licensed / hybrid. Critical for SBIR Phase II/III + federal-customer scenarios."
+    typical_provenance: "IP policy document; license agreements; SBIR Data Rights election documentation; Bayh-Dole reporting forms"
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.3) ──
+  - fact_class: "trl_status"
+    description: "Per-component TRL status; deployment-readiness assessment; commercialization-readiness assessment for SBIR Phase III applicants. Aligned to SBIR Phase I (TRL 1-3) / Phase II (TRL 3-6) / Phase III (TRL 6-9)."
+    typical_provenance: "TRL assessment document + per-component analysis + third-party validation where available"
+  - fact_class: "intermediary_network_size_and_growth"
+    description: "Active partner-network size; multi-cycle retention; end-users-reached-via-intermediary count; downstream-outcomes attribution methodology."
+    typical_provenance: "partner-network registry + recent-cycle metrics + attribution methodology document"
+  - fact_class: "legal_entity_classification"
+    description: "Legal entity form + any state benefit-corporation classification + any third-party certification (B Corp, etc.) + rationale for entity selection (501(c)(3) / cooperative / benefit corporation / B Corp / L3C / for-profit-with-public-benefit-framing / hybrid)."
+    typical_provenance: "articles of incorporation + state filings + third-party-certification record (B Corp certification letter where applicable)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Provenance requirements per fact class
+# ─────────────────────────────────────────────────────────────────────────────
+provenance_requirements:
+  prior_deployments:
+    required_citation_type: "customer attestation letter or case-study portfolio with named customer (with attestation permission) and dated engagement"
+    verbatim_quote_required: true
+  customer_commitments_in_pipeline:
+    required_citation_type: "signed LOI / MOU / commitment letter with named customer + scope + timeline"
+    verbatim_quote_required: true
+  technology_readiness_level:
+    required_citation_type: "TRL self-assessment with evidence per TRL definition (NASA TRL Handbook / DOE TRL Calculator) — must show evidence-per-TRL-definition, not just claimed level"
+    verbatim_quote_required: false
+  technical_capability:
+    required_citation_type: "technical specification document, system architecture diagram, or SOC-2 / FedRAMP / NIST 800-171 audit report"
+    verbatim_quote_required: false
+  downstream_outcomes_with_attribution:
+    required_citation_type: "evaluation report or third-party-evaluator letter with documented attribution methodology section — NOT raw outcome numbers without methodology"
+    verbatim_quote_required: true
+  staff_credentials:
+    required_citation_type: "resumes / CVs / biosketches; deployment-domain references where claimed"
+    verbatim_quote_required: false
+  partner_network:
+    required_citation_type: "signed MOU / partnership agreement — verbatim partner name + role + commitment terms"
+    verbatim_quote_required: true
+  data_governance_posture:
+    required_citation_type: "data-governance policy document; SOC-2 / FedRAMP / NIST 800-171 audit report; or legal-review memo for sector-specific frameworks (HIPAA / FERPA / CCPA)"
+    verbatim_quote_required: false
+  intellectual_property_posture:
+    required_citation_type: "IP policy document; license agreements; SBIR Data Rights election form; Bayh-Dole reporting form"
+    verbatim_quote_required: false
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.3) ──
+  trl_status:
+    required_citation_type: "TRL assessment document with per-component analysis + evidence per NIST / DOE TRL definition; third-party validation preferred for Phase II / III SBIR contexts"
+    verbatim_quote_required: false
+  intermediary_network_size_and_growth:
+    required_citation_type: "partner-network registry + recent-cycle metrics + attribution methodology document"
+    verbatim_quote_required: false
+  legal_entity_classification:
+    required_citation_type: "articles of incorporation + state filings + third-party-certification record (B Corp certification letter where applicable)"
+    verbatim_quote_required: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Register defaults — Scribe consumption
+# ─────────────────────────────────────────────────────────────────────────────
+register_defaults:
+  language_register: "formal"
+  narrative_voice: "first_person_plural"
+  tone: "technical_precise"
+  operator_override: "PROJECT_CONTEXT match_overrides take precedence. Per the vendor-vs-intermediary tightrope (see top-of-file framing), Scribe MUST default to credible / implementation-oriented / careful-not-to-sound-like-vendor-hype framing — even when the applicant has technically sophisticated capability. Foreground operator/applicant agency and downstream public benefit; background AI / technology capability bragging."
+  # Sub-register triad parallels the food_systems CIC pattern. Scribe selects
+  # ONE sub-register per proposal section based on active CLC + funder dialect
+  # at runtime. CLC selection is opportunity-driven per architecture v7.0.8 +
+  # v7.0.11 — sub-registers do NOT name CLC slugs.
+  sub_registers:
+    - id: "implementation_credibility"
+      description: "Track-record + deployment-history + customer-letter-driven framing emphasizing prior delivery"
+      typical_program_anchors:
+        - "EDA Build to Scale (track record + jobs-and-investment-attribution)"
+        - "USDA AMS Regional Food Business Centers (regional intermediary track record)"
+        - "Foundation field-building portfolios (track record + partner network)"
+    - id: "technical_research_innovation"
+      description: "Research-novelty + technical-merit + commercialization-pathway framing for SBIR / NSF / DOE intermediary funding"
+      typical_program_anchors:
+        - "SBIR/STTR Phase I/II (research novelty + commercialization plan)"
+        - "NSF Convergence Accelerator (multi-disciplinary innovation)"
+        - "NSF I-Corps (customer-discovery rigor)"
+    - id: "downstream_public_benefit"
+      description: "End-user-organization benefit + jobs-at-customer-organizations + adoption-pathway framing for foundation + capacity-building funders"
+      typical_program_anchors:
+        - "Foundation capacity-building portfolios (Mott, Kresge, RWJF)"
+        - "USDA RBDG / RCDG (rural-business + cooperative-development outcomes)"
+        - "DOL Apprenticeship Building America (jobs at end-user organizations)"
+  sub_register_selection_rule: |
+    Scribe selects the sub-register matching the active CLC (identified at
+    runtime per opportunity) plus the funder dialect from
+    `dialect_routing_table`. Do NOT collapse implementation_credibility /
+    technical_research_innovation / downstream_public_benefit into a single
+    tone. The sub_register × CLC association is opportunity-driven at
+    runtime, never archetype-bound at design time, per CIC × CLC
+    orthogonality (architecture v7.0.8 + v7.0.11).
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Dialect routing table — Scribe per Law 4
+# ─────────────────────────────────────────────────────────────────────────────
+dialect_routing_table:
+  - funder_political_axis: "conservative"
+    dialect: "scribe.formal_commercial"
+    example_funder: "USDA Rural Development (current administration framing — 'deployment' + 'implementation' + 'domestic supply chain' + 'jobs in rural America' framing); EDA programs under current administration; SBA SBIR; DOL workforce / apprenticeship programs"
+  - funder_political_axis: "centrist"
+    dialect: "scribe.technical_precise"
+    example_funder: "CDFI capacity-builders + foundation capacity-building portfolios + NSF I-Corps + NIST MEP. Specific third-party org names removed from binding field per Law 5 + Phase F 2026-05-16 cleanup."
+  - funder_political_axis: "progressive"
+    dialect: "scribe.movement_aligned"
+    example_funder: "Major national foundation field-building + community-investment + systems-change portfolios + national innovation-competition programs. Specific third-party org names removed from binding field per Law 5 + Phase F 2026-05-16 cleanup."
+  - funder_political_axis: "soul_fire"
+    dialect: "scribe.cooperative_solidarity"
+    example_funder: |
+      Indigenous-led intermediary funders (for Indigenous-led intermediary
+      applicants); cooperative-led intermediary funders (for cooperative-led
+      intermediary applicants); regenerative-economy-aligned community-investment
+      funders. Generic descriptors of funder political axis only — concrete
+      named-org references live under _research_metadata.priors_consulted per
+      Wave 1 Cycle 2 C2-02 fix-in-place precedent (food_systems card).
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Admin-risk term register — Law 4 axis (b)
+# Per operator OQ-5: approval_required: true defaults. Per L-005 (lessons memory):
+# substitutions that settle across enough cycles may flip to false per-term
+# per-card at a future Archivist Reflection sub-mode pass.
+#
+# CIC-06-specific framing note: This is Tilth's own CIC. Several entries
+# specifically address the AI-replacement vocabulary trap — even though Tilth
+# IS an AI-powered intermediary, substitutions foreground operator/applicant
+# AGENCY rather than AI capability. See "automation replacing workers" + "AI
+# replacing staff" + "disruption" entries.
+# ─────────────────────────────────────────────────────────────────────────────
+admin_risk_term_register:
+  - flagged_term: "disruption"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "operational improvement"
+      - "implementation upgrade"
+      - "deployed-infrastructure modernization"
+      - "workforce-augmenting tooling"
+    reviewer_context: |
+      "Disruption" reads as Silicon-Valley vendor-pitch vocabulary across most
+      federal + foundation review climates. Conservative federal panels read it
+      as private-sector boasting incompatible with public-benefit framing.
+      Foundation panels read it as un-rigorous re: end-user adoption costs.
+      Substitute toward implementation-oriented framing that foregrounds
+      operator/applicant continuity.
+    approval_required: true
+
+  - flagged_term: "platform dominance"
+    severity: "HIGH"
+    substitution_candidates:
+      - "interoperable infrastructure"
+      - "open-standard integration"
+      - "customer-owned tooling"
+      - "sovereignty-preserving deployment"
+    reviewer_context: |
+      "Platform dominance" / "category leader" / "winner-take-all" framing reads as
+      anti-competitive across federal review climates and as monopoly-risk across
+      foundation portfolios. Substitute toward interoperability + customer-ownership
+      framing. (Tilth's own positioning is sovereignty-preserving / one-Golden-Quill-
+      per-client / operator-owned-keys — substitution candidates reflect that posture.)
+    approval_required: true
+
+  - flagged_term: "surveillance"
+    severity: "HIGH"
+    substitution_candidates:
+      - "operator-controlled telemetry"
+      - "consent-based monitoring"
+      - "opt-in observability"
+      - "customer-owned audit logging"
+    reviewer_context: |
+      "Surveillance" carries explicit civil-liberties critique — appears in EFF /
+      ACLU / academic-AI-ethics framing. For tech-supplier intermediary applicants,
+      reviewers may flag the term even when the intermediary is positioned AGAINST
+      surveillance; substitute toward consent-based / operator-controlled framing.
+      For applicants whose work explicitly opposes surveillance (privacy-rights
+      orgs), keep the term verbatim — context-sensitive operator decision.
+    approval_required: true
+
+  - flagged_term: "automation replacing workers"
+    severity: "HIGH"
+    substitution_candidates:
+      - "workforce augmentation"
+      - "staff-supporting tooling"
+      - "operator-amplifying infrastructure"
+      - "labor-augmentation deployment"
+    reviewer_context: |
+      "Automation replacing workers" / "AI replacing X" framing reads as job-loss-
+      threat across DOL workforce panels, foundation capacity-building portfolios,
+      and most federal panels. Even when factually accurate (automation does
+      substitute for some labor), proposal framing must foreground worker continuity
+      and capability uplift. Tilth-specific note: Tilth augments grant-writing
+      labor; framing must NEVER suggest Tilth replaces grant writers — Tilth
+      requires operator agency at every cycle.
+    approval_required: true
+
+  - flagged_term: "monopoly"
+    severity: "HIGH"
+    substitution_candidates:
+      - "category specialization"
+      - "deep-domain capability"
+      - "concentrated expertise"
+      - "specialist intermediary role"
+    reviewer_context: |
+      "Monopoly" reads as anti-competitive across federal review climates. Even
+      "natural monopoly" framing (water utility, fiber backbone) carries political
+      weight under current federal administration. Substitute toward specialization
+      + role-specificity framing. For applicants in genuinely-shared-asset territory
+      (CIC-05 cooperative + CLC-08 shared assets), the underlying logic is commons-
+      ownership rather than monopoly — frame accordingly.
+    approval_required: true
+
+  - flagged_term: "proprietary lock-in"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "interoperable architecture"
+      - "open-standard integration"
+      - "customer-portable deployment"
+      - "exit-pathway-preserving infrastructure"
+    reviewer_context: |
+      "Lock-in" critique appears in foundation tech-procurement guidance and federal
+      open-standards guidance (OMB M-22-09 + adjacent). For tech-supplier intermediary
+      applicants, reviewers expect explicit anti-lock-in posture: open formats, data
+      portability, exit pathways. Substitute toward interoperability + portability
+      framing. Tilth-specific note: Tilth's sovereignty posture (operator-owned
+      keys, local-only-sovereign deployment posture) IS the anti-lock-in answer.
+    approval_required: true
+
+  - flagged_term: "extractive scaling"
+    severity: "HIGH"
+    substitution_candidates:
+      - "regenerative growth"
+      - "member-benefiting expansion"
+      - "downstream-benefit-aligned deployment"
+      - "operator-sovereign growth pathway"
+    reviewer_context: |
+      "Extractive" framing carries explicit anti-capitalist political weight in
+      cooperative + Indigenous + soul-fire-aligned funder contexts. In conservative
+      federal review climates, the term itself may flag as activist signaling.
+      Substitute toward regenerative / member-benefiting framing for non-soul-fire
+      funder dialects; keep verbatim when applying to cooperative-funded or
+      Indigenous-funded intermediaries.
+    approval_required: true
+
+  - flagged_term: "AI replacing staff"
+    severity: "HIGH"
+    substitution_candidates:
+      - "AI-augmented workforce"
+      - "operator-amplifying AI tooling"
+      - "human-in-the-loop AI deployment"
+      - "staff-supporting AI-assisted infrastructure"
+    reviewer_context: |
+      "AI replacing X" framing is a rapidly-evolving political risk surface across
+      federal + foundation review climates (2026). DOL workforce panels reject it;
+      foundation capacity-building portfolios reject it; even AI-friendly federal
+      programs (NSF Convergence Accelerator, DARPA) prefer human-in-the-loop framing.
+      Tilth-specific note: Tilth IS AI-powered, but Tilth's six-seat council REQUIRES
+      operator decisions at every gate — framing must reflect that human-in-the-loop
+      posture, not AI autonomy.
+    approval_required: true
+
+  - flagged_term: "scale / scaling"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "expansion"
+      - "deployment growth"
+      - "fleet-wide rollout"
+      - "regional coverage extension"
+    reviewer_context: |
+      "Scale" is high-frequency vendor-pitch vocabulary that draws skepticism from
+      foundation capacity-building reviewers (who have seen many failed scaling
+      claims) and from public-benefit reviewers (who associate it with VC-style
+      growth-at-all-costs). The word is not blocked — it appears in EDA Build to
+      Scale program name itself — but framing should specify what scales, how, with
+      what capacity-management plan. Generic "we will scale this nationally" framing
+      fails. Substitute toward specific expansion language with named milestones.
+    approval_required: true
+
+  - flagged_term: "DEI / equity / inclusion"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "underserved-community access"
+      - "socially-disadvantaged-customer support (USDA statutory category)"
+      - "minority-business / women-owned-business / veteran-owned-business support (SBA statutory categories)"
+      - "regional + sectoral access expansion"
+    reviewer_context: |
+      Under current federal administration framing, DEI language has been
+      deprioritized in some federal program announcements. Statutory priority
+      categories (socially-disadvantaged, minority-business, women-owned-business,
+      veteran-owned-business, rural / distressed-community-served) remain live and
+      are the preferred framing for federal intermediary programs. Foundation
+      funders vary widely. Verify per active RFA. (Cross-CIC consistency: same
+      MEDIUM severity + similar substitution candidates as food_systems +
+      public_agency + cooperative cards.)
+    approval_required: true
+
+  - flagged_term: "sovereignty / sovereign"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "customer-owned infrastructure"
+      - "operator-controlled deployment"
+      - "self-hosted system"
+      - "local-only governance posture"
+    reviewer_context: |
+      Tilth-specific term — appears throughout Tilth's own positioning ("Sovereignty
+      Promise", "Local-Only / Sovereign" routing posture). For most federal +
+      foundation funders, the literal word "sovereignty" reads as either Indigenous-
+      sovereignty framing (which has specific statutory + funding-program meaning) or
+      as anti-government / anti-regulatory framing (negative for federal panels).
+      Substitute toward functional descriptors (customer-owned / operator-controlled
+      / self-hosted / local-only) for non-Indigenous-funded contexts. Keep verbatim
+      when applying to Indigenous-led / Native-CDFI funders or to Tilth's own
+      cooperative-commons-positioning materials. Operator decides per application.
+    approval_required: true
+
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.4) ──
+  - flagged_term: "digital divide"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "broadband access expansion"
+      - "digital infrastructure deployment"
+      - "underserved community digital access"
+      - "NTIA BEAD-aligned digital-services delivery"
+      - "Digital Equity Act-anchored program design"
+    reviewer_context: |
+      Term has both technical and movement-aligned registers. NTIA BEAD
+      program uses digital-equity vocabulary in official program materials;
+      centrist + progressive funders accept; conservative federal review
+      climates may flag. Substitute toward statutory anchors (BEAD / Digital
+      Equity Act / E-rate program) for conservative routing; retain verbatim
+      for progressive / soul-fire-aligned digital-justice funders.
+    approval_required: true
+
+  - flagged_term: "digital equity"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "broadband access expansion"
+      - "digital infrastructure deployment"
+      - "underserved community digital access"
+      - "NTIA BEAD program-aligned framing"
+      - "Digital Equity Act statutory anchor"
+    reviewer_context: |
+      Synonym pair to `digital divide`. NTIA Digital Equity Act statutory
+      anchor preserves the term in some federal contexts; conservative
+      review climates may flag the "equity" component. Substitute toward
+      statutory anchor framing for conservative routing.
+    approval_required: true
+
+  - flagged_term: "Indigenous data sovereignty"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "tribal data governance"
+      - "Native CDFI / Tribal Nation-led data infrastructure"
+      - "Indigenous-knowledge centering with tribal-partner data-governance"
+      - "(retain verbatim for Indigenous-led intermediary funder contexts)"
+    reviewer_context: |
+      For Indigenous-led intermediary applicants, Indigenous data
+      sovereignty is core operational framework. Tribal Nation-specific
+      data-governance protocols required. Conservative + most centrist
+      federal review climates accept when paired with tribal-partner data-
+      governance protocol documentation. Soul-fire / Native CDFI funders
+      expect the verbatim term. Tilth respects cultural-sovereignty-practice
+      provenance; substitution applies only for funder-legible-frame
+      routing, never for applicant-voice content.
+    approval_required: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Reporting cadence
+# ─────────────────────────────────────────────────────────────────────────────
+reporting_cadence_typical:
+  default_frequency: "annual_plus_final"
+  per_funder_overrides:
+    USDA_RBDG: "annual performance + annual financial; final at project close"
+    USDA_RCDG: "annual performance + final report"
+    USDA_AMS_Regional_Food_Business_Centers: "semi-annual + annual + final; cooperative-agreement workplan tracking"
+    USDA_NIFA_FRSAN: "annual + final; NIFA REEport"
+    USDA_NIFA_2501: "annual + final; NIFA REEport"
+    EDA_Build_to_Scale: "quarterly performance + annual + final; jobs-and-investment-attribution reporting"
+    EDA_Tech_Hubs: "quarterly + annual + final; consortium-level reporting"
+    EDA_Recompete: "quarterly + annual + final"
+    EDA_Public_Works: "quarterly construction-progress + annual + final"
+    SBA_SBIR_Phase_I: "interim + final technical report; commercialization plan"
+    SBA_SBIR_Phase_II: "annual + final technical report; commercialization status report; Bayh-Dole reporting"
+    SBA_FAST: "annual + final"
+    NSF_Convergence_Accelerator: "Phase 1 final report (12 months); Phase 2 annual + final (24 months); convergence-team milestone reporting"
+    NSF_I_Corps: "cohort-end report + customer-discovery deliverable"
+    NIST_MEP: "annual + NIPS quarterly economic-impact-survey to client manufacturers"
+    DOL_ABAP: "quarterly + annual + final; apprenticeship-completion + outcome reporting; RAPIDS data entry"
+    DOL_H_1B_Workforce: "quarterly + annual + final; WIOA participant-outcome reporting"
+    IES_Comprehensive_Centers: "annual + final; SEA-customer reporting"
+    SBA_Microloan_Intermediary: "quarterly Microloan Activity Report + annual"
+    Foundation_capacity_building: "annual + final per agreement; some funders semi-annual; site-visit + portfolio-review common"
+    Foundation_field_building: "annual + final per agreement; learning-product deliverables common"
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.7) ──
+    EDA_Tech_Hubs: "annual + semi-annual + final; consortium-coordination reporting; Tech Hubs Phase 1 / Phase 2 milestone cadence"
+    EDA_Recompete: "annual + final; distressed-area-outcome reporting; participant-employment tracking"
+    EDA_Coal_Communities_Commitment: "annual + final per underlying program; coal-impacted-region outcome reporting"
+    NSF_I_Corps_intermediary: "cohort-completion report + customer-discovery deliverable + commercialization-pivot record"
+    DOL_ABAP_intermediary_sponsor: "quarterly RAPIDS data entry + annual + final apprenticeship-outcome reporting; intermediary-sponsor scope coverage"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Metrics table template
+# ─────────────────────────────────────────────────────────────────────────────
+metrics_table_template:
+  - metric: "customers served"
+    unit: "count + segment breakdown (CIC-01..CIC-06)"
+    typical_target_range: "applicant-specific; document baseline + target"
+    source_for_target: "customer roster + segment-tagged service-delivery log"
+  - metric: "deployments completed"
+    unit: "count"
+    typical_target_range: "applicant-specific"
+    source_for_target: "deployment log; for tech-supplier intermediaries: install / activation logs"
+  - metric: "adoption rate"
+    unit: "percent of customer base actively using deliverable"
+    typical_target_range: "applicant-specific; baseline-vs-target"
+    source_for_target: "usage telemetry (with operator-controlled-consent posture); customer attestation; periodic audit"
+  - metric: "downstream revenue uplift at customer organizations"
+    unit: "USD (with attribution methodology)"
+    typical_target_range: "applicant-specific; document confidence interval"
+    source_for_target: "third-party evaluator report or pre/post comparison with documented attribution methodology"
+  - metric: "downstream capacity gain at customer organizations"
+    unit: "FTE-hours saved or new-capability-deployed (with attribution methodology)"
+    typical_target_range: "applicant-specific"
+    source_for_target: "evaluation report or end-user attestation with documented attribution"
+  - metric: "training participants"
+    unit: "count + completion rate"
+    typical_target_range: "applicant-specific"
+    source_for_target: "training enrollment + completion records; LMS report; for DOL apprenticeship: RAPIDS entries"
+  - metric: "partners engaged"
+    unit: "count of signed MOU partners"
+    typical_target_range: "applicant-specific"
+    source_for_target: "partnership roster"
+  - metric: "network density"
+    unit: "customers + partners per FTE intermediary staff (or equivalent throughput metric)"
+    typical_target_range: "applicant-specific"
+    source_for_target: "operations reporting; CRM export"
+  - metric: "technology-readiness progression"
+    unit: "TRL level (1-9) baseline + target (for tech-supplier intermediaries only)"
+    typical_target_range: "Phase I: TRL 1-3; Phase II: TRL 3-6; Phase III: TRL 6-9"
+    source_for_target: "TRL self-assessment per NASA TRL Handbook / DOE TRL Calculator"
+  - metric: "jobs created or retained at intermediary"
+    unit: "FTE"
+    typical_target_range: "applicant-specific"
+    source_for_target: "intermediary-org HR records + payroll data"
+  - metric: "jobs created or retained at end-user organizations"
+    unit: "FTE (with attribution methodology)"
+    typical_target_range: "applicant-specific"
+    source_for_target: "EDA Build to Scale jobs-attribution methodology; NIST MEP NIPS; or third-party evaluator"
+  - metric: "commercialization milestones (SBIR Phase II/III)"
+    unit: "milestone narrative + revenue-from-deliverable + federal-customer-procurement status"
+    typical_target_range: "applicant-specific"
+    source_for_target: "Bayh-Dole reporting + commercialization status report"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Cross-references — Program Rule Packs (PRP)
+# Sidecar augmentation pass 2026-05-18
+# ─────────────────────────────────────────────────────────────────────────────
+cross_references_prp:
+  - prp_id: "TILTH-PRP-2CFR200"
+    applicability: "Pass-through subrecipient admin is canonical for ecosystem-intermediary CIC — intermediary applicants are often prime recipients passing federal funds to subrecipients, subject to 2 CFR 200 Subpart D (Post Federal Award Requirements) including subrecipient monitoring (§200.332) and risk assessment (§200.331)."
+    fires_when: "Active opportunity is federal intermediary program (USDA RBDG / RCDG / RFBC / NIFA / EDA / NSF / NIST MEP / DOL ABAP / IES / SBA Microloan); CIC-06 applicant; federal funds flow to or through applicant."
+  - prp_id: "TILTH-PRP-DAVIS-BACON"
+    applicability: "CONDITIONAL — fires when covered construction subrecipient activity is in scope (intermediary-led construction subawards, EDA Public Works construction, infrastructure-deployment construction components)."
+    fires_when: "Opportunity scope includes covered construction (>$2000) under federal contract; applicability conditional on construction component within intermediary or downstream subrecipient scope."
+  - prp_id: "TILTH-PRP-NEPA-24CFR58"
+    applicability: "CONDITIONAL — fires when federally-funded intermediary projects trigger NEPA environmental review (infrastructure deployment, EDA construction, USDA RD facility components, NTIA BEAD broadband infrastructure)."
+    fires_when: "Federal financial assistance funds construction / ground disturbance / infrastructure deployment / historic-property modification through intermediary applicant or downstream subrecipient; NEPA categorical-exclusion / EA / EIS determination required per 24 CFR 58 or agency-specific NEPA framework."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Narrative sections typical
+# ─────────────────────────────────────────────────────────────────────────────
+narrative_sections_typical:
+  - "Executive Summary / Project Description"
+  - "Ecosystem Context and Need (regional + sectoral diagnosis)"
+  - "Intervention Model and Intermediary Role"
+  - "Customer / End-User Profile (segment + geography + need)"
+  - "Technical / Service Approach (with TRL self-assessment for tech-supplier)"
+  - "Partner Network and Roles"
+  - "Training / Support / Deployment Plan"
+  - "Evaluation Plan and Attribution Methodology"
+  - "Sustainability beyond grant period"
+  - "Adoption Pathway"
+  - "Follow-on Capital and Scale Plan"
+  - "Key Personnel and Qualifications"
+  - "Budget and Budget Justification"
+  - "Match / Cost Share Documentation (where applicable)"
+  - "Timeline / Milestones"
+  - "Risk Mitigation"
+  - "Data Governance and IP Posture (for tech-supplier intermediaries)"
+  - "Public Benefit / Downstream Impact Narrative"
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.5) ──
+  - "Technology Readiness Level (TRL) Status and Deployment-Readiness Narrative (for tech-supplier intermediary applicants; SBIR Phase II / III)"
+  - "Intermediary-Network Effects and Attribution Methodology (for backbone-organization intermediary applicants; collective-impact framework)"
+  - "Customer Discovery and Pivot Documentation (for NSF I-Corps-aligned applicants; ≥20-25 interviews per cohort)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Capacity signals required
+# ─────────────────────────────────────────────────────────────────────────────
+capacity_signals_required:
+  - signal: "active SAM.gov registration + UEI"
+    evidence_type: "SAM.gov record"
+    required_for_competitive: true
+  - signal: "current good standing on prior federal awards"
+    evidence_type: "prior-award compliance record (no FAPIIS adverse actions)"
+    required_for_competitive: true
+  - signal: "prior-deployment portfolio with named customers (where permitted)"
+    evidence_type: "case-study portfolio + signed customer attestation letters"
+    required_for_competitive: true
+  - signal: "documented technical capability (for tech-supplier intermediaries)"
+    evidence_type: "technical specification + system architecture + security posture documentation"
+    required_for_competitive: true
+  - signal: "qualified Key Personnel in deployment / service domain"
+    evidence_type: "resumes / CVs / biosketches with role-to-task mapping; deployment-domain references"
+    required_for_competitive: true
+  - signal: "partner commitments documented"
+    evidence_type: "signed MOU / partnership agreements with named roles"
+    required_for_competitive: true
+  - signal: "pricing / business model articulated"
+    evidence_type: "written pricing schedule + financial sustainability narrative"
+    required_for_competitive: true
+  - signal: "data governance posture (especially for tech-supplier intermediaries)"
+    evidence_type: "data-governance policy + classification register + applicable compliance audit (SOC-2 / FedRAMP / NIST 800-171 / HIPAA / FERPA / CCPA per sector)"
+    required_for_competitive: true
+  - signal: "evaluation methodology with attribution"
+    evidence_type: "evaluation plan + logic model + attribution methodology section"
+    required_for_competitive: true
+  - signal: "single-audit readiness (for federal applicants > $750k expended)"
+    evidence_type: "most recent Single Audit report (or fiscal-sponsor's where applicable)"
+    required_for_competitive: false
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Compliance burdens
+# ─────────────────────────────────────────────────────────────────────────────
+compliance_burdens:
+  - framework: "SAM.gov + UEI registration"
+    applicability: "all federal grant applicants"
+    required_filings:
+      - "SAM.gov annual renewal"
+      - "Unique Entity Identifier on every application"
+  - framework: "2 CFR 200 Uniform Guidance"
+    applicability: "all federal grant recipients"
+    required_filings:
+      - "Single Audit if federal expenditures > $750,000 in a year"
+      - "Procurement standards compliance"
+      - "Subrecipient monitoring (where intermediary subgrants funds)"
+  - framework: "FFATA / FSRS subaward reporting"
+    applicability: "intermediaries that subaward federal funds > $30,000"
+    required_filings:
+      - "FSRS subaward report per subaward over threshold"
+  - framework: "SBIR/STTR Data Rights and Bayh-Dole"
+    applicability: "SBIR/STTR Phase I/II/III recipients"
+    required_filings:
+      - "Bayh-Dole iEdison invention disclosure within 60 days"
+      - "Election to retain title within 2 years"
+      - "Government-purpose-license preservation"
+      - "SBIR Data Rights designation on technical data deliverables (4-year + Phase III protection)"
+      - "Commercialization status report (Phase II awardees)"
+  - framework: "SOC-2 Trust Services Criteria"
+    applicability: "tech-supplier intermediaries handling customer data"
+    required_filings:
+      - "Annual SOC-2 Type II audit (if customer-required)"
+      - "Continuous monitoring evidence"
+  - framework: "FedRAMP"
+    applicability: "tech-supplier intermediaries serving federal customers with cloud services"
+    required_filings:
+      - "FedRAMP authorization (Moderate or High per sensitivity)"
+      - "Continuous monitoring per FedRAMP cadence"
+  - framework: "NIST 800-171"
+    applicability: "intermediaries handling Controlled Unclassified Information (CUI) for federal customers"
+    required_filings:
+      - "NIST 800-171 self-assessment (or 800-171A if formal assessment)"
+      - "System Security Plan (SSP) + Plan of Action and Milestones (POA&M)"
+      - "DFARS 252.204-7012 cybersecurity reporting (DoD-touching)"
+  - framework: "HIPAA Privacy + Security Rules"
+    applicability: "intermediaries handling Protected Health Information (PHI) for healthcare end-users"
+    required_filings:
+      - "Business Associate Agreement (BAA) with each covered entity"
+      - "HIPAA Security Risk Analysis"
+      - "Breach notification procedure"
+  - framework: "FERPA (34 CFR Part 99)"
+    applicability: "intermediaries handling student education records for educational end-users"
+    required_filings:
+      - "FERPA-compliant data-handling agreement with each LEA / IHE"
+      - "Annual notification + parental consent procedures (where intermediary acts as school official)"
+  - framework: "CCPA / state privacy laws"
+    applicability: "intermediaries handling California-resident personal information (and other state-specific frameworks: CPRA, VCDPA, CPA, CTDPA, UCPA)"
+    required_filings:
+      - "Privacy notice meeting state-specific requirements"
+      - "Data Subject Access Request (DSAR) handling procedure"
+      - "Service Provider / Processor contract terms"
+  - framework: "DOL Registered Apprenticeship (29 CFR Part 29 + 30)"
+    applicability: "intermediaries operating as apprenticeship sponsors or intermediary sponsors"
+    required_filings:
+      - "Standards of Apprenticeship registration with DOL OA or State Apprenticeship Agency"
+      - "RAPIDS data entry per apprentice"
+      - "EEO compliance per 29 CFR Part 30"
+  - framework: "State-specific intermediary licensing"
+    applicability: "varies by state + intermediary type — e.g., licensed financial advisors, registered investment advisors, state-licensed CDFIs, state-licensed apprenticeship sponsors, state-licensed pesticide-extension agents, etc."
+    required_filings:
+      - "State licensure documentation per applicable framework"
+  - framework: "Intellectual Property assignment + license framework"
+    applicability: "varies by program — SBIR/STTR has specific data-rights provisions; foundation grants vary; federal cooperative agreements often require government-purpose license"
+    required_filings:
+      - "IP-assignment terms in each award (varies)"
+      - "License-grant documentation where applicable"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Common risk register entries
+# ─────────────────────────────────────────────────────────────────────────────
+common_risk_register_entries:
+  - risk: "private-vendor subsidy perception"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Foreground downstream public benefit + end-user agency. Document customer-
+      owned-infrastructure / operator-controlled-deployment / sovereignty-preserving
+      posture. Show specific named customer benefit with attribution methodology.
+      Avoid vendor-pitch vocabulary (see admin_risk_term_register: disruption,
+      platform dominance, scale, monopoly). Substitute toward implementation-
+      oriented + workforce-augmentation framing.
+
+      Reviewer-axis-specific framing. For conservative + centrist federal review
+      contexts, emphasize statutory eligible-applicant fit + documented technical
+      capability + jobs-and-investment-attribution methodology. For progressive +
+      soul_fire reviewer contexts, foreground community-ownership / member-
+      ownership posture, cite anti-extractive guarantees, document end-user
+      agency over deployed infrastructure (customer-owned keys / exit pathways /
+      open formats / data portability), and surface anti-lock-in commitments as
+      structural — not marketing.
+  - risk: "unclear or weakly-attributed end-user benefit"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Document attribution methodology explicitly: pre/post comparison, matched-
+      comparison, dosage tracking, end-user self-attestation, third-party-evaluator
+      attribution. Cite named customers (with permission). Use baseline-vs-target
+      framing not raw outcome numbers. Surface methodology in evaluation_plan
+      narrative section.
+  - risk: "overstated technology readiness"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Use TRL self-assessment per NASA TRL Handbook / DOE TRL Calculator with
+      evidence per TRL definition. Match SBIR phase to TRL: Phase I = 1-3, Phase
+      II = 3-6, Phase III = 6-9. Avoid "production-ready" or "validated" claims
+      without evidence. For Tilth's own self-application: be explicit about
+      `local_only_validated: false` posture per architecture v7.0.10 §1.
+  - risk: "weak demand evidence"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Stack signed customer LOI / MOU + named partner commitments + prior-deployment
+      case studies + customer-pipeline depth (count + dollar value). Avoid market-
+      size substitution (TAM / SAM / SOM without specific buyer commitments).
+  - risk: "adoption friction underestimated"
+    likelihood: "HIGH"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Document adoption_barriers_identified KFR fact-class. Include adoption-
+      friction-mitigation plan in implementation narrative. Budget for change-
+      management / training / customer-success staff. Surface dosage requirements
+      explicitly.
+  - risk: "support burden underestimated"
+    likelihood: "HIGH"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Document support_model KFR fact-class with response-time SLAs, escalation
+      paths, knowledge-base scope, on-call rotation. Budget for ongoing support
+      staffing (not just deployment staffing). Reviewer skepticism on support
+      sustainability is common.
+  - risk: "proprietary lock-in"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Document interoperability + data-portability + exit-pathway-preserving
+      posture. Use open standards where possible. For Tilth-specific case: the
+      sovereignty posture (operator-owned keys, local-only-sovereign deployment,
+      one-Golden-Quill-per-client) IS the anti-lock-in answer — surface it
+      explicitly. Avoid "platform" / "ecosystem capture" framing.
+  - risk: "data governance ambiguity"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Document data_governance_posture KFR fact-class with applicable framework
+      (SOC-2 / FedRAMP / NIST 800-171 / HIPAA / FERPA / CCPA). Surface
+      classification register + retention schedule + cross-org isolation
+      guarantees. For Tilth-specific case: cite Law 3 (Org Isolation) +
+      F-CARDS-CROSS-ORG-NAMESPACE-LEAK fail-closed enforcement.
+  - risk: "weak maintenance / sustainability plan"
+    likelihood: "HIGH"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Document financial sustainability beyond grant period: revenue model,
+      pricing structure, customer retention, partner-funding commitments,
+      reserve-building plan. Foundation capacity-building reviewers especially
+      sensitive to post-grant sustainability claims that lack mechanism.
+  - risk: "insufficient training curriculum"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      For training-provider intermediaries: document curriculum with learning
+      objectives, contact hours, assessment methodology, instructor
+      qualifications. For DOL Registered Apprenticeship: align with applicable
+      occupation framework + competency standards. Cite curriculum-evaluation
+      methodology.
+  - risk: "Law 4 boundary drift on vendor / scale / disruption vocabulary"
+    likelihood: "HIGH"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Per admin_risk_term_register, every flagged term substitution flows through
+      operator approval (approval_required: true default). No silent rewrites.
+      CIC-06-specific: vendor-vs-intermediary tightrope is the most acute admin-
+      risk surface for this CIC. Scribe should flag every "scale" / "disrupt" /
+      "platform" / "automation" / "AI replaces" instance for operator review.
+  - risk: "AI-replacement framing trap (Tilth-specific)"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      For Tilth's own self-application: never frame Tilth as replacing grant
+      writers, replacing council seats, or autonomous-of-operator. Per
+      architecture: Tilth's six-seat council REQUIRES operator decisions at every
+      gate; per Five Operating Laws Law 1: RFA is the source of truth, not
+      Tilth's own knowledge. Surface human-in-the-loop posture explicitly.
+
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.6) ──
+  - risk: "Intermediary-direct-services confusion"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Intermediary applicants surface evidence of upstream-and-downstream
+      end-user benefit; direct-service-only framing without intermediary-
+      network-effect documentation triggers reviewer skepticism on CIC-06
+      backbone-organization / collective-impact funder routing. Surface
+      intermediary_network_size_and_growth KFR at intake; Scribe foregrounds
+      network-effect framing over direct-delivery framing.
+  - risk: "TRL overstatement risk"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      TRL self-assessment validated by third-party reviewer or program-
+      defined TRL Calculator; per-component TRL evaluated separately;
+      mismatches flagged. SBIR Phase II / III reviewers specifically score
+      TRL evidence rigor; overstated TRL without supporting evidence is a
+      top-3 red flag for tech-supplier intermediary applicants.
+  - risk: "CEDS misalignment risk"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Project CEDS-listed status verified at intake; for non-CEDS-listed
+      projects, feasibility study at appropriate-quality threshold per EDA
+      Public Works PWEAA framework; regional planning council coordination
+      documented. EDA-route applicants must surface CEDS alignment before
+      Scribe drafts begin.
+  - risk: "AI-replaces-staff vocabulary trap"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Per admin_risk_term_register[AI replacing staff], substitution to
+      workforce-augmenting / human-in-the-loop / operator-amplifying framing
+      required. Tilth-specific: Tilth's six-seat council REQUIRES operator
+      decisions at every gate; framing must reflect that human-in-the-loop
+      posture, not AI autonomy. Distinct-from but compounds with the
+      Tilth-specific AI-replacement framing trap above.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Common funders observed — OBSERVATIONAL ONLY, NOT a CIC × CLC binding.
+# Frequency tags are qualitative-only per OQ-6 until 12+ CycleReceipts accumulate.
+# ─────────────────────────────────────────────────────────────────────────────
+common_funders_observed:
+# ─────────────────────────────────────────────────────────────────────────────
+# OPERATIONAL CONTENT EMPTIED — Phase E Option 2 cleanup 2026-05-16
+# Per Law 5 + §18.5 schema discipline ("OBSERVATIONAL ONLY"): this field
+# carries only funders the operator has CONFIRMED ACTUAL ENGAGEMENT with.
+# Wave 2 subagents over-populated this block based on sector knowledge,
+# not engagement history — that was a Law 5 violation surfaced at Phase E
+# 2026-05-16. Prior content moved to
+# `_research_metadata.draft_funder_candidates_pending_operator_engagement_confirmation`
+# below; operator graduates candidate entries to this live list as actual
+# engagement confirms. Runtime Tilth seats reading this field see an empty
+# list until operator graduation; that's the correct Law 5 posture for a
+# fresh deployment with no engagement history yet.
+# ─────────────────────────────────────────────────────────────────────────────
+  []  # empty list — operator graduates from candidates as engagement confirms
+lifecycle:
+  draft_status: "signed"
+  review_status: "passed"
+  cross_family_thesis_status: "passed"
+  signature_status: "signed"
+  runtime_load_status: "loaded"
+  runtime_loadable: true
+  signed_at: "2026-05-16T16:00:00Z"
+  signed_by: "founder"
+  content_hash: "sha256:65cbcda6bd5bd22c4ada2f74dd3d6ce727177fb0d11d7b43fd84103f972e598e"
+  lock_history_row: 254
+  lock_timestamp_utc: "2026-05-16T16:00:00Z"
+  # LOCK ceremony 2026-05-16 PM after L-005 two-cycle audit closed at
+  # pipeline/validation/cards_wave_2_thesis_2026-05-15/CIC/ecosystem_intermediary/FINAL_VERDICT.md
+  # (THESIS_PASSED). review_status flipped pending→passed; signature_status
+  # unsigned→signed; runtime_load_status not_loaded→loaded. Operator publisher
+  # pubkey pinned at vault_shared/cards/publisher_pubkey.signed.yaml. The
+  # ed25519_signature in _research_metadata is the operator Ed25519 signature
+  # over canonical-JSON of this YAML with ed25519_signature: null. OD-F + OD-H
+  # operator-decisions resolved pre-ceremony (cards LOCKed as-on-disk per
+  # operator directive 2026-05-16).
+
+_research_metadata:
+  authored_at: "2026-05-15T00:00:00Z"
+  authored_by_role: "research_session"
+  research_budget_hours_actual: 3.5
+  priors_consulted:
+    - path: "assets/cards/customer_identification/ecosystem_intermediary.png"
+      extract_note: "visual Card source — drawing TILTH-CIC-REVIEW-01 (2026-05-08) — operator-canonical CIC roster"
+    - path: "pipeline/blueprint/v0.1/section_18_card_system.md"
+      extract_note: "§18.5 CIC schema + §18.9 TILTH-CIC-06 starter-content scope (the authoritative scope for this card) + §18.11 research process + §18.15 testing requirements"
+    - path: "pipeline/cards/CIC/food_systems.yaml"
+      extract_note: "Wave 1 reference — structure + comment density + admin_risk_term_register cross-card consistency for shared terms (DEI, regenerative)"
+    - path: "pipeline/cards/CIC/cooperative.yaml"
+      extract_note: "Wave 2 reference — admin_risk_term_register cross-card consistency for 'anti-capitalist' (HIGH) + 'commons' + 'mutual aid'; ESOP-vs-true-cooperative boundary informs intermediary-vs-cooperative LEAD-axis discussion"
+    - path: "pipeline/cards/CIC/educator.yaml"
+      extract_note: "Wave 2 reference — training-provider boundary informs CIC-02-vs-CIC-06 LEAD-axis discussion"
+    - path: "pipeline/cards/CIC/public_agency.yaml"
+      extract_note: "Wave 2 reference — public-agency-as-intermediary boundary informs CIC-03-vs-CIC-06 LEAD-axis discussion"
+    - path: "pipeline/cards/CIC/arts_culture.yaml"
+      extract_note: "Wave 2 reference — arts-services-intermediary boundary informs CIC-04-vs-CIC-06 LEAD-axis discussion"
+    - path: "pipeline/cards/CLC/operating_capacity.yaml"
+      extract_note: "Wave 1 CLC reference — capacity-building review register dovetails with intermediary applicant identity"
+    - path: "CLAUDE.md"
+      extract_note: "TILTH-CIC-06 framing (Ecosystem Intermediary / Regenerative Systems Supplier coverage axis Intermediary Infrastructure); Tilth-as-intermediary self-positioning; Sovereignty Promise; Five Operating Laws (esp Law 1 RFA-source-of-truth + Law 3 Org Isolation + Law 4 admin-risk discipline)"
+    - path: "pipeline/architecture/v0.1/architecture_v7_0_10_amendment.md"
+      extract_note: "Three-posture routing (Frontier-Eligible / Split-Context Hybrid / Local-Only-Sovereign) + local_only_validated:false posture default — informs Tilth self-application TRL discussion"
+    - path: "https://ndncollective.org/"
+      extract_note: "soul_fire dialect prior-art reference — Indigenous-led intermediary funder posture; observational only, NOT a Tilth runtime exemplar. Relocated from dialect_routing_table per Wave 2 Cycle 1 F-02 fold (Wave 1 C2-02 precedent)."
+    - path: "https://www.nativecdfi.net/"
+      extract_note: "soul_fire dialect prior-art reference — Native CDFI Network intermediary lineage; observational only. Relocated from dialect_routing_table per Wave 2 Cycle 1 F-02 fold."
+    - path: "https://cooperationjackson.org/"
+      extract_note: "soul_fire dialect prior-art reference — cooperative-led intermediary posture; observational only. Relocated from dialect_routing_table per Wave 2 Cycle 1 F-02 fold."
+    - path: "https://theindustrialcommons.org/"
+      extract_note: "soul_fire dialect prior-art reference — cooperative-led intermediary posture; observational only. Relocated from dialect_routing_table per Wave 2 Cycle 1 F-02 fold."
+  primary_sources:
+    - url: "https://www.rd.usda.gov/programs-services/business-programs/rural-business-development-grants"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "RBDG is a competitive grant designed to support targeted technical
+        assistance, training and other activities leading to the development or
+        expansion of small and emerging private businesses in rural areas."
+        Source for RBDG eligible-applicant intermediary scope + technical-assistance
+        deliverable framing.
+    - url: "https://www.rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grant-program"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Applications will only be accepted from nonprofit institutions."
+        "The primary objective of the RCDG program is to improve the economic
+        condition of Rural Areas by helping individuals and businesses start, expand,
+        or improve Rural cooperatives and Mutually Owned Businesses through
+        Cooperative Development."
+        Source for RCDG nonprofit-only eligibility + cooperative-development
+        intermediary scope.
+    - url: "https://www.ams.usda.gov/services/local-regional/rfbc"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The USDA Regional Food Business Centers will provide coordination,
+        technical assistance, and capacity building to small and mid-sized food and
+        farm businesses with the goal of creating a more resilient, diverse, and
+        competitive food system."
+        Source for Regional Food Business Centers intermediary backbone framing +
+        navigator role.
+    - url: "https://www.eda.gov/funding/programs/build-to-scale"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Build to Scale Program supports an inclusive economy through
+        the development of regional innovation initiatives that accelerate
+        high-quality job creation, the formation and scale of new businesses, and
+        equitable economic growth in industries of the future."
+        Source for EDA Build to Scale intermediary funding + jobs-and-investment-
+        attribution methodology.
+    - url: "https://www.eda.gov/funding/programs/regional-tech-and-innovation-hubs"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Regional Technology and Innovation Hubs (Tech Hubs) Program
+        is an economic development initiative designed to drive regional
+        technology- and innovation-centric growth."
+        Source for Tech Hubs consortium-applicant + intermediary-backbone framing;
+        CHIPS and Science Act §10621.
+    - url: "https://www.sbir.gov/about"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Small Business Innovation Research (SBIR) and Small Business
+        Technology Transfer (STTR) programs are highly competitive programs that
+        encourage domestic small businesses to engage in Federal Research/Research
+        and Development (R/R&D) with the potential for commercialization."
+        Source for SBIR/STTR Phase I/II/III + STTR vocabulary + 11-agency scope +
+        Bayh-Dole framework + SBIR Data Rights provisions.
+    - url: "https://www.sbir.gov/about/about-fast"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Federal and State Technology (FAST) Partnership Program
+        provides one-year funding to organizations to execute state/territory-wide
+        programs that increase the number of SBIR/STTR proposals leading to an
+        increase in the number of SBIR/STTR awards."
+        Source for FAST state-level SBIR-support intermediary scope.
+    - url: "https://new.nsf.gov/funding/initiatives/convergence-accelerator"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Convergence Accelerator builds upon basic research and
+        discovery to accelerate solutions toward societal impact." "Phase 1 teams
+        receive funding to further develop their convergence research ideas."
+        Source for NSF Convergence Accelerator multi-disciplinary intermediary
+        applicant + Phase 1 / Phase 2 deliverable structure.
+    - url: "https://new.nsf.gov/funding/initiatives/i-corps"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "I-Corps prepares scientists and engineers to extend their focus
+        beyond the laboratory and broadens the impact of select, NSF-funded, basic
+        research projects."
+        Source for I-Corps customer-discovery intermediary-training scope +
+        National Innovation Network regional-hub structure.
+    - url: "https://www.nist.gov/mep"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "MEP is a public-private partnership with Centers in all 50 states
+        and Puerto Rico dedicated to serving small and medium-sized manufacturers."
+        Source for NIST MEP state-level intermediary network + 15 USC §278k
+        statutory authority + NIPS economic-impact-survey methodology.
+    - url: "https://www.dol.gov/agencies/eta/apprenticeship/grants/abap"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Apprenticeship Building America Program (ABAP) provides
+        funding to expand and modernize Registered Apprenticeship as a workforce
+        solution that prepares workers for good jobs."
+        Source for DOL ABAP intermediary-sponsor framing + Registered Apprenticeship
+        29 CFR Part 29 + 30 statutory framework.
+    - url: "https://ies.ed.gov/ncee/comprehensive-centers"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Comprehensive Centers program provides capacity building
+        services to State Education Agencies (SEAs), Regional Education Agencies
+        (REAs), Local Education Agencies (LEAs), and schools that improve
+        educational outcomes for all students."
+        Source for IES Comprehensive Centers intermediary TA-to-SEA scope +
+        regional + content centers structure.
+    - url: "https://www.sba.gov/funding-programs/loans/microloans"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Microloan program provides loans up to $50,000 to help small
+        businesses and certain not-for-profit childcare centers start up and expand."
+        "These intermediaries administer the Microloan program for eligible
+        borrowers."
+        Source for SBA Microloan Intermediary Lender role + TA-delivery requirement.
+    - url: "https://www.ssir.org/articles/entry/collective_impact"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Backbone Support Organizations: A separate organization with staff
+        and a specific set of skills to serve as the backbone for the entire
+        initiative and coordinate participating organizations and agencies."
+        Stanford Social Innovation Review (Kania + Kramer 2011) — source for
+        backbone-organization framing widely cited in foundation field-building RFAs.
+    - url: "https://www.fiscalsponsors.org/"
+      access_date: "2026-05-15"
+      relevance: |
+        National Network of Fiscal Sponsors (NNFS) — Best Practices documentation
+        for Model A (comprehensive / direct project) and Model C (pre-approved
+        grant relationship) fiscal sponsorship. Source for fiscal_sponsor evidence-
+        signal kind + fiscal-sponsor compliance-burdens framing.
+    - url: "https://www.nasa.gov/wp-content/uploads/2017/12/458490main_trl_definitions.pdf"
+      access_date: "2026-05-15"
+      relevance: |
+        NASA Technology Readiness Level definitions (TRL 1-9). Source for
+        technology_readiness_level KFR fact-class definition + provenance
+        requirement (evidence-per-TRL-definition, not just claimed level).
+
+  ed25519_signature: null
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Phase 5 review handback (per §18.11 + Wave 2 handback structure)
+# ─────────────────────────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────────
+  # draft_funder_candidates_pending_operator_engagement_confirmation
+  # Relocated from top-level `common_funders_observed:` at Phase E Option 2
+  # cleanup 2026-05-16. Wave 2 subagent populated these based on sector
+  # knowledge, NOT operator-confirmed engagement. Per §18.5 schema discipline
+  # ("OBSERVATIONAL ONLY"), the live `common_funders_observed:` block (now
+  # emptied; see above) carries only operator-engagement-confirmed funders.
+  # Operator graduates entries from this candidates list to the live block
+  # as actual engagement confirms.
+  # ─────────────────────────────────────────────────────────────────────────────
+  draft_funder_candidates_pending_operator_engagement_confirmation:
+    - funder_name: "USDA Rural Development — Rural Business Development Grant (RBDG)"
+      funder_type: "federal"
+      typical_award_range: "$10,000–$500,000 (varies by enterprise vs opportunity grant; technical assistance category eligible)"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Eligible TA / training / technical assistance / business-incubator intermediaries. Source: rd.usda.gov/programs-services/business-programs/rural-business-development-grants; 7 CFR 4280 Subpart E."
+
+    - funder_name: "USDA Rural Development — Rural Cooperative Development Grant (RCDG)"
+      funder_type: "federal"
+      typical_award_range: "up to $200,000 (FY varies)"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Nonprofit-only intermediary. Funds operation of cooperative-development centers. Source: rd.usda.gov RCDG page; 7 CFR 4284 Subpart F."
+
+    - funder_name: "USDA AMS — Regional Food Business Centers Program"
+      funder_type: "federal (regional)"
+      typical_award_range: "varies; FY23 funded 12 regional centers + 1 tribal center at $20-25M each over 5 years"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Backbone-organization role for regional food economies. Source: ams.usda.gov/services/local-regional/rfbc."
+
+    - funder_name: "USDA NIFA — Farm and Ranch Stress Assistance Network (FRSAN)"
+      funder_type: "federal (regional)"
+      typical_award_range: "varies; regional centers + state-level subawards"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Intermediary-delivered farmer mental-health support network. Source: nifa.usda.gov FRSAN program page."
+
+    - funder_name: "USDA NIFA — Outreach and Assistance for Socially Disadvantaged Farmers and Ranchers and Veteran Farmers and Ranchers (2501)"
+      funder_type: "federal"
+      typical_award_range: "varies; community-based + nonprofit + 1890/1994 land-grant intermediary applicants"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Intermediary-delivered outreach to SDA + veteran producers. Source: nifa.usda.gov 2501 program page."
+
+    - funder_name: "EDA — Build to Scale Program (Venture / Capital / Industry Challenges)"
+      funder_type: "federal"
+      typical_award_range: "$300,000–$2,000,000 typical per award (varies by Challenge)"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Innovation-ecosystem intermediary funding. Source: eda.gov/funding/programs/build-to-scale."
+
+    - funder_name: "EDA — Tech Hubs Program"
+      funder_type: "federal"
+      typical_award_range: "$15M–$70M+ per Strategy Development or Implementation award (FY24 cohort)"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Consortium-applicant required (intermediary as backbone). Limited annual designation cohort. Source: eda.gov Tech Hubs page; CHIPS and Science Act §10621."
+
+    - funder_name: "EDA — Recompete Pilot Program"
+      funder_type: "federal"
+      typical_award_range: "$2M–$50M per award (Strategy Development + Implementation phases)"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Distressed-area applicants; coalition / intermediary backbone common. Source: eda.gov Recompete page."
+
+    - funder_name: "SBA — SBIR/STTR Phase I"
+      funder_type: "federal"
+      typical_award_range: "$50,000–$314,363 (FY26 standard cap; varies by agency)"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Small-business-with-research-novelty applicants; tech-supplier intermediaries common. 11 federal SBIR agencies. Source: sbir.gov."
+
+    - funder_name: "SBA — SBIR/STTR Phase II"
+      funder_type: "federal"
+      typical_award_range: "$750,000–$2,095,748 (FY26 standard cap; varies by agency)"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Phase I awardees who pass commercialization-feasibility gate. Source: sbir.gov."
+
+    - funder_name: "SBA — Federal and State Technology (FAST) Partnership Program"
+      funder_type: "federal (state pass-through)"
+      typical_award_range: "$125,000 per state award typical"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. State-level intermediary funding to support SBIR/STTR-targeting small businesses. One award per state per year. Source: sbir.gov/about/about-fast."
+
+    - funder_name: "NSF — Convergence Accelerator"
+      funder_type: "federal"
+      typical_award_range: "Phase 1 ~$750K (12 months); Phase 2 ~$5M (24 months)"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Multi-disciplinary convergence-team applicants; intermediary backbone common. Annual track-themed solicitations. Source: nsf.gov/od/oia/convergence-accelerator."
+
+    - funder_name: "NSF — Innovation Corps (I-Corps)"
+      funder_type: "federal"
+      typical_award_range: "$50,000 team award for customer-discovery cohort"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Researcher + entrepreneurial-lead + industry-mentor team. National Innovation Network of regional hubs. Source: nsf.gov/funding/initiatives/i-corps."
+
+    - funder_name: "NIST — Manufacturing Extension Partnership (MEP)"
+      funder_type: "federal (state pass-through)"
+      typical_award_range: "varies; affiliated MEP centers receive multi-year cooperative-agreement funding"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. State-level MEP centers as TA intermediaries to small + medium manufacturers. Source: nist.gov/mep; 15 USC §278k."
+
+    - funder_name: "DOL — Apprenticeship Building America Program (ABAP)"
+      funder_type: "federal"
+      typical_award_range: "varies by category; $1M–$8M typical per award"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Intermediary sponsors + state apprenticeship agencies + industry intermediary applicants. Source: dol.gov Apprenticeship Building America."
+
+    - funder_name: "DOL — H-1B One Workforce / Building Pathways to Infrastructure Jobs"
+      funder_type: "federal"
+      typical_award_range: "$1M–$10M per award"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. H-1B-fee-funded intermediary workforce-system grants. Cyclical solicitation. Source: dol.gov ETA H-1B program pages."
+
+    - funder_name: "IES — Comprehensive Centers Program"
+      funder_type: "federal (regional)"
+      typical_award_range: "varies; 5-year cooperative agreements ~$5M+ per center"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Limited-cohort 5-year cycles; regional + content centers as TA intermediaries to State Education Agencies. Source: ies.ed.gov."
+
+    - funder_name: "SBA — Microloan Program (Intermediary Lender)"
+      funder_type: "federal"
+      typical_award_range: "varies; intermediary lender capitalization + TA grants"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. CDFI + community-based intermediary lender applicants. TA delivery requirement. Source: sba.gov/funding-programs/loans/microloans."
+
+    - funder_name: "Charles Stewart Mott Foundation — Capacity Building / Field Building portfolios"
+      funder_type: "foundation"
+      typical_award_range: "varies; field-building grants common $100K–$1M+"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Intermediary field-building applicant focus. Source: mott.org/grants."
+
+    - funder_name: "Andrew W. Mellon Foundation — Higher Learning + Public Knowledge programs (community-investment intermediaries)"
+      funder_type: "foundation"
+      typical_award_range: "varies"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Mostly higher-ed + cultural-org applicants; community-investment intermediary work in scope but rare. Source: mellon.org."
+
+    - funder_name: "Kresge Foundation — Field-Building / Capacity-Building portfolios"
+      funder_type: "foundation"
+      typical_award_range: "varies; capacity-building common $50K–$500K"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Field-building intermediary applicant focus across Health / Environment / Education / Arts / Human Services portfolios. Source: kresge.org/our-work."
+
+    - funder_name: "Robert Wood Johnson Foundation — Systems Change portfolio"
+      funder_type: "foundation"
+      typical_award_range: "varies; backbone-organization grants common"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Health-systems-change intermediary backbone-organization applicants. Source: rwjf.org/en/grants."
+
+    - funder_name: "MacArthur Foundation — 100&Change competition"
+      funder_type: "foundation"
+      typical_award_range: "$100M lead award + Bold Solutions cohort"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Triennial competition. Backbone / intermediary applicants common in semifinalist cohorts. Source: 100andchange.org."
+
+    - funder_name: "Capital Impact Partners (CDFI)"
+      funder_type: "foundation"
+      typical_award_range: "varies; intermediary-lender + intermediary-grantee scope"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. National CDFI; co-op-development + community-facility intermediary lending. Source: capitalimpact.org."
+
+    - funder_name: "Local Initiatives Support Corporation (LISC)"
+      funder_type: "foundation"
+      typical_award_range: "varies; intermediary-lender + intermediary-grantee scope"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. National CDFI; CDFI-of-CDFIs intermediary scope. Source: lisc.org."
+
+    - funder_name: "RAFI-USA (Rural Advancement Foundation International)"
+      funder_type: "foundation"
+      typical_award_range: "varies; intermediary regranting + TA delivery"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Regional food-systems intermediary; partners with USDA AMS Regional Food Business Centers. Source: rafiusa.org."
+
+    - funder_name: "Wallace Center at Winrock International"
+      funder_type: "foundation"
+      typical_award_range: "varies; intermediary regranting + field-building TA"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. National food-systems intermediary; Wallace Center backbone for National Good Food Network. Source: wallacecenter.org."
+
+  # Ed25519 signature over canonical-JSON of this YAML with this field set to
+  # null. Canonical-JSON form: sorted keys, compact separators (",",":"), UTF-8,
+  # ensure_ascii=False. Canonical-JSON SHA3-512 (for white-glove integrity
+  # pinning): 64704c7e566e625e3dd7c15b3375e37e0f99a164f4be10901d66f985b22c42500ffe1890b506cbab359be773b9b5fb75e86e97d063795396a999531ebc815aed
+  # Signature target pubkey: vault_shared/cards/publisher_pubkey.signed.yaml
+  # (publisher_pubkey_ed25519_hex 0b1a0bbfa5ee9149af2c4e6153ed037dd03c0d562c94d3eaefeaf798e6f375bd)
+  ed25519_signature: "9d0afcb26ee4bcd964efb3b13297e2b3e708c1107747fb21b4cb499bf7234fb2c0137607545ed85ab895c340ca84887ffed60fd45703a577fe6433e7a8068b0c"
+
+  # common_clc_patterns_observed — INTENTIONALLY ABSENT.
+  # Per architecture v7.0.11 §6.1 (operator-resolved 2026-05-15) Option A KILL.
+  # Per F-CARDS-COUPLING-VIOLATION-EXTENSION fail-closed enforcement. CIC × CLC
+  # matching is opportunity-driven at runtime (Scout / Logician identify CLC per
+  # opportunity; CIC determines seat configuration only). NEVER reintroduce.
+_review_handback:
+  card_axis_and_slug: "CIC:ecosystem_intermediary"
+  card_file: "pipeline/cards/CIC/ecosystem_intermediary.yaml"
+  research_hours_actual: 3.5
+  schema_completeness:
+    required_fields_populated: "15/15"
+    fields_needing_review: 0
+    total_citations: 16
+    unique_primary_sources: 16
+  decision_queue:
+    - "OD-1 SELF-APPLICABILITY REVIEW (CIC-06 special case): This is the CIC that fits Tilth / Golden Quill itself. The card MUST receive an extra operator-review pass for self-application use cases — Tilth applying for its own grants under the card it authored. Conflict-of-authorship surface: Tilth's Scribe seat consumes this card to draft Tilth's own SBIR / EDA Build to Scale / NSF Convergence Accelerator / foundation field-building applications. Operator should verify that vendor-vs-intermediary register substitutions, AI-replacement-trap framing, and downstream-attribution methodology requirements are calibrated for Tilth's own self-application — and that no Tilth-specific applicant data leaked into the workspace-shared card (per §18.13 Law 3 cross-org isolation; Tilth applicant data belongs in orgs/fit_farms_llc/PROJECT_CONTEXT.md, NOT here)."
+    - "OD-2 DISPLAY NAME RESOLUTION: Card sets BOTH display_name (slash form 'Ecosystem Intermediary / Regenerative Systems Supplier') AND display_name_short ('Ecosystem Intermediary') per architecture v7.0.11 §7.2. Loader resolution behavior + Match-DB grid-display behavior + audit-log canonical-bytes formatting will be tested at v0.2 first wave. Confirm this is the only CIC needing both fields (other 5 CICs may set display_name_short = display_name or omit)."
+    - "OD-3 VENDOR-VS-INTERMEDIARY REGISTER TIGHTROPE: register_defaults.operator_override carries explicit guidance to default to credible / implementation-oriented framing even when applicant has technically sophisticated capability. Confirm operator wants this baked at register_defaults level vs surfaced as a runtime Scribe instruction. Current draft bakes at register_defaults; can move to a separate _scribe_runtime_guidance: field if operator prefers."
+    - "OD-4 TECHNOLOGY READINESS LEVEL DEPTH: technology_readiness_level KFR fact-class + technology_readiness_evidence evidence-signal use NASA TRL Handbook + DOE TRL Calculator as authoritative references. Confirm operator wants this depth (vs simpler 'pilot / production / generally available' three-tier scheme). Current depth supports SBIR Phase I/II/III scoring requirements but adds operator-side documentation burden. SBIR-targeting intermediaries need this; non-tech intermediaries (TA / training / fiscal sponsorship) get N/A."
+    - "OD-5 DOWNSTREAM-ATTRIBUTION METHODOLOGY DEFAULT: provenance_requirements.downstream_outcomes_with_attribution requires methodology section (pre/post / matched-comparison / dosage tracking / end-user self-attestation / third-party-evaluator) as a precondition for any outcome claim. Confirm operator wants this as a hard precondition (Logician PRE-gate at v0.2) vs a soft Scribe nudge. Current draft is hard-precondition framing (verbatim_quote_required: true)."
+    - "OD-6 AI-REPLACEMENT-TRAP FRAMING (Tilth-specific): admin_risk_term_register includes 'AI replacing staff' (HIGH) + 'automation replacing workers' (HIGH) + 'sovereignty / sovereign' (MEDIUM) — designed for Tilth's own self-application case. Confirm severity tiers + substitution candidates calibrated correctly for Tilth's six-seat-council human-in-the-loop posture (per Five Operating Laws Law 1 + Architecture v7.0.10 §1)."
+    - "OD-7 CDFI / FOUNDATION INTERMEDIARY ROSTER COMPLETENESS: common_funders_observed lists ~28 funders. Notable absences: NDN Collective + Native CDFI Network (cited in dialect_routing_table soul_fire example), Cooperation Jackson + The Industrial Commons (also soul_fire example), Schmidt Futures (mentioned in dispatch packet), Skoll Foundation (mentioned in dispatch packet). Decision: include or omit? Current draft omits these four to avoid named-third-party-implication (per Wave 1 Cycle 2 fix-in-place C2-02 precedent for soul_fire-aligned named orgs). Operator decides."
+    - "Operator approval on admin_risk_term_register entries (11 terms; all approval_required:true per OQ-5). CIC-06 has the densest vendor-vocabulary admin-risk register of any CIC — Scribe will hit term-substitution decisions on most intermediary-applicant proposals."
+    - "Cross-family Thesis dispatch (Editor + Judge + Red Team) before promoting lifecycle to 'reviewed'."
+    - "Ed25519 signature once operator and Thesis pass — pending publisher key pin per architecture v7.0.11 §6 + §18.1 Publisher Key definition."
+    - "Sibling cards firing in parallel (Wave 2 batch 3 CLCs — credit_underwriting, sponsorship_corporate, shared_assets) — once they land, verify no inadvertent CIC × CLC coupling appears across the set (defense-in-depth for F-CARDS-COUPLING-VIOLATION-EXTENSION)."
+  conflicts_with_prior_art:
+    - "NONE — cross-card admin_risk_term_register consistency: 'DEI / equity / inclusion' (MEDIUM) matches food_systems + public_agency + cooperative cards. New CIC-06-specific terms ('disruption' MEDIUM, 'platform dominance' HIGH, 'surveillance' HIGH, 'automation replacing workers' HIGH, 'monopoly' HIGH, 'proprietary lock-in' MEDIUM, 'extractive scaling' HIGH, 'AI replacing staff' HIGH, 'scale/scaling' MEDIUM, 'sovereignty/sovereign' MEDIUM) — no prior card precedent for these terms; operator review at first cycle."
+    - "Cross-card sub_register pattern: ecosystem_intermediary uses three sub-registers (implementation_credibility / technical_research_innovation / downstream_public_benefit) parallel to food_systems' (business_commercial / ecological_conservation / community_benefit). Same architectural pattern; CIC-06-specific labels."
+    - "Cross-card funder-roster consistency: USDA RBDG, USDA RCDG, USDA AMS Regional Food Business Centers appear in both food_systems and ecosystem_intermediary common_funders_observed (food-systems intermediaries vs producer-applicants — different funder frequency profiles per CIC). Same funders, different applicant lens. NOT a coupling violation; observational only."
+  surface_ambiguities:
+    - "TRL self-assessment vs third-party assessment: Card requires evidence-per-TRL-definition for the technology_readiness_level KFR fact-class but does not mandate third-party (vs self-attested). NASA TRL Handbook permits both. Some federal customers (DoD / DOE) prefer formal TRL assessment. Operator may want a `trl_assessment_type` sub-fact (self / third-party / customer-validated)."
+    - "Fiscal sponsor as PRIMARY identity vs auxiliary structure: Some intermediaries' funding-relevant identity IS fiscal sponsorship (e.g., Tides, NEO Philanthropy as primary fiscal sponsors). Card treats fiscal-sponsor as one of multiple service_type values. Operator may want a separate sub-axis or LEAD-axis-pinning rule for fiscal-sponsor-primary applicants."
+    - "Backbone organization vs intermediary-of-intermediaries: Backbone organizations (per Kania + Kramer 2011) coordinate multiple aligned organizations toward shared outcomes. Intermediaries-of-intermediaries (e.g., LISC as a CDFI-of-CDFIs, NCB Capital) coordinate other intermediaries. Both fall under CIC-06; card does not differentiate. Operator may want sub-axis."
+    - "Tech-supplier intermediary vs services-only intermediary: Card accommodates both (e.g., NASA TRL N/A applies for services-only). The distinction matters for SBIR eligibility (small-business + research-novelty required; services-only typically ineligible for SBIR but eligible for foundation TA grants + USDA RCDG + EDA Build to Scale). Operator may want runtime branching guidance for Scribe."
+    - "Tilth's own SBIR eligibility: As a sole-operator FIT Farms LLC project, Tilth meets SBIR small-business eligibility — but commercialization-pathway scoring may be challenging given the sovereignty / one-Golden-Quill-per-client / cooperative-commons positioning. Operator pre-application discussion needed before Tilth applies for its own SBIR. Surfaced here as ambiguity, not for card resolution."
+    - "Cooperative-led intermediary funder roster: Cooperation Jackson + The Industrial Commons + cooperative-commons-aligned funders are absent from common_funders_observed (per Wave 1 Cycle 2 fix-in-place C2-02 precedent). For cooperative-led intermediary applicants (which Tilth would be at Stage 5), this absence may constrain Scout vocabulary coverage. Operator decides include / omit / move-to-priors."
+    - "Federal contracting boundary: Some intermediary work is performed under federal contracts (FAR / DFARS) rather than grants / cooperative agreements. Card focuses on grant + cooperative-agreement framing; federal contracts (which intermediaries may also pursue) require different framing (proposal, not application; performance work statement, not project narrative; price-evaluated proposals, not match-required). Out of scope for v0.1; flag for v1.x."
+  review_readiness: "READY"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Draft provenance — sidecar augmentation pass
+# ─────────────────────────────────────────────────────────────────────────────
+_draft_provenance:
+  draft_authored_at: "2026-05-18T00:00:00Z"
+  draft_authored_by_role: "card_content_augmentation_pass_v1"
+  source_handback: "docs/cic_ecosystem_intermediary_research_handback_2026-05-17.md"
+  source_handback_sections_consumed:
+    - "§4 Proposed Card Improvements"
+    - "§8 Patch Plan"
+  prp_scaffolding_referenced:
+    - "pipeline/program_rule_packs/_manifest/active_prps.yaml"
+    - "pipeline/blueprint/v0.1/section_19_program_rule_packs.md"
+  prp_ids_cross_referenced:
+    - "TILTH-PRP-2CFR200"
+    - "TILTH-PRP-DAVIS-BACON"
+    - "TILTH-PRP-NEPA-24CFR58"
+  operator_roadmap_alignment: "Step #5: card content augmentation passes parallel with PRP authoring once PRP pointers exist (per docs/CTO_HANDOFF_BRIEF.md §3.2 + Run 4 synthesis §6)."
+  patches_deferred_pending_operator_review:
+    - "TRL framing depth — base card vs tech-subtype overlay (handback §5 item 1) — operator decides whether §4.1 + §4.2 + §4.3 TRL-related additions stay in base card (current sidecar posture) OR are deferred to v0.2 Wave 3 tech-subtype overlay"
+    - "Defer-to-active-RFA reviewer_context tightening across all 12 admin_risk_term entries (§4.4) — mirroring arts_culture pattern; OQ-5 approval required"
+    - "`scale / scaling` reviewer_context refinement with program-named-usage discipline (§4.4) — OQ-5 approval required"
+    - "OD-A v2.4 cross-CIC migration for shared admin-risk terms (DEI / equity / inclusion / Indigenous-knowledge centering) — workspace-register migration ceremony"
+    - "Header comment OD-1 note relocation — operator decides whether to keep the Tilth-self-application note in header comments OR move to operator's CLAUDE.md / org-template documentation"
+    - "B Corp / benefit corporation / social enterprise scope expansion — operator confirms scope (added per §4.1; operator confirms applicability for v0.1 Beta deployment)"
+    - "CEDS alignment evidence_signal addition — operator confirms EDA-route scope (added per §4.2)"
+    - "Customer discovery methodology (NSF I-Corps-style) evidence_signal — operator confirms scope (added per §4.2)"
+    - "Intermediary network effect documentation evidence_signal — operator confirms scope (added per §4.2)"
+  patches_deferred_pending_schema_amendment:
+    - "§18 v1.2 dialect_routing_table re-key — separate ceremony"
+    - "register_defaults / dialect_routing_table refresh (post-cards-ceremony bundle)"
+  patches_deferred_pending_cards_ceremony:
+    - "§18 v1.2 dialect_routing_table re-key (separate ceremony)"
+    - "Lock-history housekeeping field disposition (cross-card)"
+    - "Re-signing ceremony budget for card body changes — bundle into cards-ceremony per Run 1 Patch Queue Batch B as `ecosystem_intermediary` supersession-re-sign"
+  ceremony_shape_recommendation: "supersession-re-sign per OD-E precedent at one lock_timestamp_utc; compound LOCK with other 13 cards"
+  no_lockfiles_modified: true
+  no_schema_modified: true
+  no_signatures_modified: true

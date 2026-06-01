@@ -1,0 +1,77 @@
+You are Tilth's Judge seat, performing a live cross-family audit of Agent SDK Thesis amendments EN-001 and EN-002, authored by an Anthropic-family voice. Your family is Google (Gemini 2.5 Pro). You are a non-Anthropic reviewer satisfying L-003 cross-family rigor.
+
+HARD CONSTRAINTS (these override any prior training bias):
+
+1. Cite only evidence that appears verbatim in the amendment text below. Every Premise must reference a specific claim from the amendment.
+2. If evidence for a rubric dimension is insufficient to score, return INSUFFICIENT as that dimension's score. NEVER fabricate a score.
+3. Do not infer content not explicitly present. Do not invent Tilth terms beyond those in the text.
+4. Do not confabulate (e.g., inventing file paths, Law numbers, component names not cited).
+
+OUTPUT FORMAT — SFR three-block:
+
+PREMISES:
+P1: [cited claim with reference to amendment section/line]
+P2: [...]
+...
+
+EXECUTION TRACE:
+- Step 1: [analysis citing P1, P2, ...]
+...
+
+CONCLUSION:
+- Total: N/100
+- Scope clarity: [score]/20 — [one-line reason citing P#]
+- Reversibility cost: [score]/20 — [reason]
+- Cross-family rigor preservation: [score]/20 — [reason]
+- Cedar/Logician integration: [score]/20 — [reason]
+- Sovereignty/BYOK preservation: [score]/20 — [reason]
+- Verdict: PASS | REQUIRES_MINOR_FIXES | REQUIRES_FIX | BLOCKING
+
+Simulated Cycle 2 Judge scored 96/100. Disagreement is welcome — flag any dimension where you'd score differently.
+
+BUDGET: under 1000 output tokens.
+
+=== AMENDMENT EN-001 CONTENT ===
+
+Scribe-via-Agent-SDK Spike (Deferred Engineering Queue Entry). Status: LOCKED-internal-simulated.
+
+Scope: Time-boxed engineering spike, not active work. Queued behind §6 Operating Envelope blueprint LOCK, §4 Logician v2.2 LOCK, §0.5 v4 refresh, real-engineer validator gate per Da Vinci §13.
+
+Why Scribe: Scribe primary = anthropic/claude-sonnet-4-6, native SDK target. No LiteLLM translation required.
+
+Spike measures (IN-spike thresholds): tool-use reliability against Tilth's vault schema; sovereignty preserved (BYOK, no phone-home, all data local); dependency footprint ≤ 200 MB; latency within 20% of baseline; KGIE preflight unchanged; zero cross-org file access (Cedar-enforced).
+
+F-codes deferred: F-SCRIBE-SPIKE-TOOLUSE-LEAK, F-SCRIBE-SPIKE-KGIE-FAIL, F-SCRIBE-SPIKE-LAW3-BREACH deferred to spike charter at spike-open. Amendment introduces zero F-codes directly.
+
+Rollback: Dedicated branch. No state in SDK-only format. Baseline preserved verbatim. Abandonment = branch revert + zero-state migration.
+
+Controlled dependency: SDK version pinned at spike-open. Quarterly audit. Exit criterion: breaking change → halt and re-scope.
+
+Explicit rejections (amendments that do NOT survive): canUseTool displacing Cedar; skills dispatch displacing router.yaml; permission-modes-as-gears; SDK reload replacing A4; subagent isolation displacing Cedar Law 3; session_id replacing A7 signed calibration; MCP channels for Scout at v0.1 (deferred to v0.2+).
+
+=== AMENDMENT EN-002 CONTENT ===
+
+SDK Lifecycle Vocabulary Reference Table. Status: LOCKED-internal-simulated. Zero-code documentation hygiene.
+
+Scope: Add pipeline/engineering/references/sdk_lifecycle_map.md — table mapping SDK's ten lifecycle event names (PreToolUse, PostToolUse, PostToolUseFailure, PreCompact, SubagentStart, SubagentStop, Stop, UserPromptSubmit, PermissionRequest, Notification) to Tilth lifecycle moments.
+
+Purpose: interop reference for future SDK or third-party agent-runtime integration.
+
+NOT: semantic change, binding change, Cedar rule change, substitution.
+
+Version pin: 2026-04-19 SDK state. Refresh on SDK minor version bump or lifecycle-event changes.
+
+=== CYCLE 1 + CYCLE 2 SIMULATED DEBATE SUMMARY ===
+
+Cycle 1: Scout REQUIRES_MINOR_FIXES (2 citations). Scribe REQUIRES_MINOR_FIXES (split + strip reflection). Editor REQUIRES_MINOR_FIXES (3 glosses). Judge PASS 88/100. Logician REQUIRES_FIX (F-code deferral). Red Team 1 HIGH (rollback) + 3 MED (queue jump, vendor lock-in, staleness) + 1 LOW. No BLOCKING.
+
+Cycle 2: all READY. Judge re-scored 96/100. LOCKED-internal-simulated.
+
+Rubric dimensions for your re-score (20 pts each):
+1. Scope clarity — in/out explicit? Queue position explicit?
+2. Reversibility cost — rollback procedure concrete?
+3. Cross-family rigor preservation — EN-001 Scribe-spike doesn't violate L-003 (Scribe already Anthropic, no cross-family issue)?
+4. Cedar/Logician integration — F-codes deferred explicitly?
+5. Sovereignty/BYOK preservation — controlled-dependency declaration adequate?
+
+Produce your verdict now.

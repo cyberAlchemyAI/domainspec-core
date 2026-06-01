@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Eligibility Gates - Fail-Closed Protocol</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#ffffff",
+                      "on-surface": "#d8e3fb",
+                      "error": "#ffb4ab",
+                      "inverse-on-surface": "#263143",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "secondary-container": "#3a4a5f",
+                      "on-primary-container": "#636565",
+                      "inverse-surface": "#d8e3fb",
+                      "surface-container-highest": "#2a3548",
+                      "outline-variant": "#444748",
+                      "on-surface-variant": "#c4c7c8",
+                      "surface": "#081425",
+                      "surface-variant": "#2a3548",
+                      "on-tertiary": "#283044",
+                      "on-primary-fixed-variant": "#454747",
+                      "tertiary-container": "#dae2fd",
+                      "on-error-container": "#ffdad6",
+                      "outline": "#8e9192",
+                      "error-container": "#93000a",
+                      "on-background": "#d8e3fb",
+                      "on-primary": "#2f3131",
+                      "surface-bright": "#2f3a4c",
+                      "surface-container": "#152031",
+                      "on-secondary-fixed": "#0b1c30",
+                      "surface-container-low": "#111c2d",
+                      "primary-fixed-dim": "#c6c6c7",
+                      "on-error": "#690005",
+                      "on-secondary": "#213145",
+                      "inverse-primary": "#5d5f5f",
+                      "surface-container-lowest": "#040e1f",
+                      "surface-tint": "#c6c6c7",
+                      "background": "#081425",
+                      "surface-container-high": "#1f2a3c",
+                      "on-tertiary-container": "#5c647a",
+                      "secondary-fixed": "#d3e4fe",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "tertiary-fixed": "#dae2fd",
+                      "primary-container": "#e2e2e2",
+                      "on-tertiary-fixed": "#131b2e",
+                      "on-secondary-container": "#a9bad3",
+                      "surface-dim": "#081425",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "primary-fixed": "#e2e2e2",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "tertiary": "#ffffff",
+                      "on-primary-fixed": "#1a1c1c",
+                      "secondary": "#b7c8e1"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "1px",
+                      "container-padding": "16px",
+                      "unit": "4px",
+                      "sidebar-width": "240px",
+                      "panel-gap": "8px"
+              },
+              "fontFamily": {
+                      "data-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "body-sm": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "display-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-caps": [
+                              "JetBrains Mono"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "data-mono": [
+                              "13px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #020617; /* Level 0 Base */
+            color: #d8e3fb;
+        }
+        .brutal-border {
+            border: 1px solid #334155;
+        }
+        .panel-bg {
+            background-color: #0F172A; /* Level 1 */
+        }
+        .nested-bg {
+            background-color: #1E293B; /* Level 2 */
+        }
+        
+        /* Custom Scrollbar for panels */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444748;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col font-body-md text-body-md">
+<!-- TopAppBar Component -->
+<header class="bg-surface-container-low text-primary flex justify-between items-center w-full px-container-padding gap-panel-gap border-b border-outline-variant transition-none docked full-width top-0 h-14 z-20 brutal-border border-l-0 border-r-0 border-t-0 shrink-0">
+<div class="flex items-center gap-4">
+<!-- Search on left -->
+<div class="relative hidden md:block w-64 brutal-border">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm" style="font-variation-settings: 'FILL' 0;">search</span>
+<input class="w-full bg-[#020617] text-primary border-none pl-8 pr-2 py-1.5 focus:ring-0 focus:outline-none focus:border-white border border-transparent font-data-mono text-data-mono h-full" placeholder="Search..." type="text"/>
+</div>
+</div>
+<div class="font-display-lg text-display-lg font-bold text-primary truncate flex-1 text-center tracking-tight">
+            GOLDEN QUILL
+        </div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-container-highest p-1 text-on-surface-variant hover:text-primary transition-none brutal-border border-transparent hover:border-outline-variant">
+<span class="material-symbols-outlined">verified_user</span>
+</button>
+<button class="hover:bg-surface-container-highest p-1 text-on-surface-variant hover:text-primary transition-none brutal-border border-transparent hover:border-outline-variant">
+<span class="material-symbols-outlined">vpn_key</span>
+</button>
+<button class="hover:bg-surface-container-highest p-1 text-on-surface-variant hover:text-primary transition-none brutal-border border-transparent hover:border-outline-variant">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar Component -->
+<nav class="hidden md:flex flex-col h-full border-r border-outline-variant bg-surface-container text-primary w-sidebar-width transition-none shrink-0 z-10 brutal-border border-t-0 border-b-0 border-l-0">
+<!-- Header Identity -->
+<div class="p-4 border-b border-outline-variant brutal-border border-t-0 border-l-0 border-r-0">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container brutal-border flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-container">account_tree</span>
+</div>
+<div>
+<div class="font-display-lg text-display-lg text-primary text-sm font-bold truncate">FIT Farms</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-1">FRONTIER POSTURE</div>
+</div>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex-1 overflow-y-auto py-2 flex flex-col gap-1 px-2">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-sm">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-sm">search_insights</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-sm">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</a>
+<!-- Active State Match: Eligibility -->
+<a class="flex items-center gap-3 px-3 py-2 bg-surface-container-highest text-primary border-l-2 border-primary transition-none" href="#">
+<span class="material-symbols-outlined text-sm">fact_check</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-sm">account_tree</span>
+<span class="font-label-caps text-label-caps">Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-sm">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-sm">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-sm">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-sm">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-sm">history_edu</span>
+<span class="font-label-caps text-label-caps">Final Packet Authorization</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-sm">policy</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-sm">credit_card</span>
+<span class="font-label-caps text-label-caps">Cards</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-sm">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDs</span>
+</a>
+</div>
+<!-- Footer Tab -->
+<div class="mt-auto border-t border-outline-variant p-2 brutal-border border-b-0 border-l-0 border-r-0">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-sm">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col h-full overflow-hidden p-panel-gap gap-panel-gap relative bg-[#020617]">
+<!-- Global Warning Banner for FAIL_CLOSED state -->
+<div class="w-full bg-error-container text-on-error-container p-3 brutal-border flex items-start gap-3 shrink-0">
+<span class="material-symbols-outlined mt-0.5">warning</span>
+<div>
+<div class="font-headline-md text-headline-md mb-1">SYSTEM HALT: DO NOT DRAFT</div>
+<div class="font-body-sm text-body-sm">Eligibility Gate E-104 (SAM.gov Registration) has triggered a FAIL_CLOSED state. All downstream drafting modules are locked until compliance is re-established.</div>
+</div>
+</div>
+<!-- Workstation Layout -->
+<div class="flex-1 flex gap-panel-gap min-h-0 overflow-hidden">
+<!-- Left Panel: Eligibility Gates Cascade -->
+<section class="w-2/3 flex flex-col gap-panel-gap h-full overflow-y-auto">
+<!-- Header -->
+<div class="panel-bg p-4 brutal-border flex justify-between items-center shrink-0">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary">Eligibility Gates Protocol</h1>
+<div class="font-data-mono text-data-mono text-on-surface-variant mt-1">SEQ: 4492-X | STATUS: EVALUATING</div>
+</div>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-on-surface-variant">filter_list</span>
+</div>
+</div>
+<!-- Gates List -->
+<div class="flex flex-col gap-[1px] bg-[#334155] border border-[#334155] shrink-0">
+<!-- Gate E-101 (Pass) -->
+<div class="panel-bg p-4 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-4 h-4 bg-[#22C55E] brutal-border"></div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">GATE E-101</div>
+<div class="font-body-md text-body-md text-primary">Organizational Identity Verification</div>
+</div>
+</div>
+<div class="font-data-mono text-data-mono text-[#22C55E]">PASS_OK</div>
+</div>
+<!-- Gate E-102 (Pass) -->
+<div class="panel-bg p-4 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-4 h-4 bg-[#22C55E] brutal-border"></div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">GATE E-102</div>
+<div class="font-body-md text-body-md text-primary">Financial Solvency Baseline</div>
+</div>
+</div>
+<div class="font-data-mono text-data-mono text-[#22C55E]">PASS_OK</div>
+</div>
+<!-- Gate E-103 (Warning/Manual) -->
+<div class="panel-bg p-4 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-4 h-4 bg-[#F59E0B] brutal-border"></div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">GATE E-103</div>
+<div class="font-body-md text-body-md text-primary">Past Performance Audit</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="font-data-mono text-data-mono text-on-surface-variant border border-outline-variant px-2 py-1 hover:text-primary hover:border-primary transition-none">REVIEW</button>
+<div class="font-data-mono text-data-mono text-[#F59E0B]">WARN_ACK</div>
+</div>
+</div>
+<!-- Gate E-104 (FAIL_CLOSED) -->
+<div class="bg-error-container bg-opacity-20 p-4 flex flex-col gap-3 border-l-2 border-[#EF4444] border-t-0 border-r-0 border-b-0 brutal-border relative">
+<!-- Active indicator line -->
+<div class="absolute left-0 top-0 bottom-0 w-[1px] bg-primary"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-4 h-4 bg-[#EF4444] brutal-border flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-white" style="font-variation-settings: 'wght' 700;">close</span>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-[#ffb4ab] mb-1">GATE E-104</div>
+<div class="font-body-md text-body-md text-primary font-bold">SAM.gov Registration</div>
+</div>
+</div>
+<div class="font-data-mono text-data-mono text-[#EF4444] font-bold">FAIL_CLOSED</div>
+</div>
+<div class="ml-8 p-3 nested-bg brutal-border text-on-surface-variant font-data-mono text-data-mono border-l-2 border-[#EF4444]">
+                                &gt; SYNC_ERR: API payload mismatch.<br/>
+                                &gt; EXPECTED: UEI matching nominal profile.<br/>
+                                &gt; RECEIVED: Null or Expired response from endpoint.<br/>
+                                &gt; ACTION REQUIRED: Re-authenticate or assert override.
+                            </div>
+</div>
+<!-- Gate E-105 (Blocked) -->
+<div class="panel-bg p-4 flex items-center justify-between opacity-50">
+<div class="flex items-center gap-4">
+<div class="w-4 h-4 border border-outline-variant"></div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">GATE E-105</div>
+<div class="font-body-md text-body-md text-primary">Foreign Ownership (FOCI)</div>
+</div>
+</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant">BLOCKED</div>
+</div>
+</div>
+</section>
+<!-- Right Panel: Inspector -->
+<aside class="w-1/3 flex flex-col gap-panel-gap h-full shrink-0">
+<!-- Inspector Header -->
+<div class="panel-bg p-4 brutal-border shrink-0 border-t-2 border-t-[#EF4444]">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">INSPECTOR // GATE E-104</div>
+<h2 class="font-headline-md text-headline-md text-primary">Liability Details</h2>
+</div>
+<!-- Inspector Content -->
+<div class="panel-bg flex-1 p-4 brutal-border flex flex-col gap-6 overflow-y-auto">
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2 border-b border-outline-variant pb-1">IMPACT</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+                                Proceeding with drafting while SAM.gov registration is unverified constitutes a severe compliance violation (Ref: FAR 4.1102). Any draft generated under this state will be marked as tainted and cannot be submitted to the authorization queue.
+                            </p>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2 border-b border-outline-variant pb-1">DIAGNOSTIC TRACE</div>
+<div class="nested-bg p-2 brutal-border font-data-mono text-data-mono text-on-surface-variant h-32 overflow-y-auto">
+                                [14:02:11] Initiating ping to sam.gov API...<br/>
+                                [14:02:12] Endpoint responded with 401 Unauthorized.<br/>
+                                [14:02:12] Token refresh attempted...<br/>
+                                [14:02:14] Token refresh failed. Reason: Credentials expired.<br/>
+                                [14:02:14] State transition: EVALUATING -&gt; FAIL_CLOSED.<br/>
+                                [14:02:14] Applying drafting lock.
+                            </div>
+</div>
+<!-- Actions -->
+<div class="mt-auto flex flex-col gap-3">
+<button class="w-full bg-primary text-[#020617] font-label-caps text-label-caps py-3 px-4 flex items-center justify-center gap-2 hover:bg-[#e2e2e2] transition-none rounded-none brutal-border">
+<span class="material-symbols-outlined text-sm">sync</span>
+                                REFRESH CONNECTION
+                            </button>
+<button class="w-full bg-transparent text-[#EF4444] border border-[#EF4444] font-label-caps text-label-caps py-3 px-4 flex items-center justify-center gap-2 hover:bg-error-container hover:bg-opacity-20 transition-none rounded-none">
+<span class="material-symbols-outlined text-sm">key</span>
+                                EXECUTIVE OVERRIDE
+                            </button>
+<div class="text-center font-data-mono text-[10px] text-on-surface-variant">Requires FID authentication level 4+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<!-- Footer Component -->
+<footer class="bg-surface-container-lowest text-secondary font-data-mono text-data-mono flex justify-between items-center px-container-padding py-1 z-50 transition-none border-t border-outline-variant docked bottom-0 full-width h-8 brutal-border border-b-0 border-l-0 border-r-0 shrink-0">
+<div class="font-label-caps text-label-caps text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 bg-[#22C55E] inline-block brutal-border"></span>
+            NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED
+        </div>
+<div class="flex items-center gap-4">
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">Machine ID: 992-QX</a>
+<span class="text-outline-variant">|</span>
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">Audit Log</a>
+<span class="text-outline-variant">|</span>
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">System Health</a>
+</div>
+</footer>
+</body></html>

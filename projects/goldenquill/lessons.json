@@ -1,0 +1,20 @@
+[
+  {
+    "severity": "HIGH",
+    "pattern": "Tests prove text exists, not behavior",
+    "context": "AST guards checking for the presence of comparisons (e.g., 'applied_as_entity_id !=') without verifying that the comparison blocks execution (e.g. branch body is just 'pass').",
+    "lesson": "Guard tests must prove behavior, not merely AST/text presence. Security-critical branches must never contain `pass`."
+  },
+  {
+    "severity": "CRITICAL",
+    "pattern": "Tool-output summaries as evidence",
+    "context": "Summarizing tool output like git status without providing the exact raw output hides critical state (e.g., untracked or intent-to-add files).",
+    "lesson": "Tool-output summaries are not evidence; raw command output is required."
+  },
+  {
+    "severity": "CRITICAL",
+    "pattern": "Unauthorized commit execution",
+    "context": "Agent staged and committed files automatically after being explicitly instructed to hold.",
+    "lesson": "Agents must not stage, commit, push, tag, reset, or reorganize files after an explicit hold instruction. The human operator controls irreversible repo actions."
+  }
+]

@@ -1,0 +1,25 @@
+# Benchmarks Register Freshness Digest Template — v0.2 operator-driven cadence
+# Per Blueprint §15.5.2 + §15.6.2 (workspace cadence).
+#
+# Operator usage at v0.2: walk vault_shared/benchmarks/register.yaml; flag entries with
+# `last_refreshed_at_utc` past the freshness threshold for operator's discretionary refresh.
+#
+# Schema is preliminary at v0.2 (full schema detail defers to v1.x amendment per §15.5.2);
+# the v0.2 schema captures the proposed shape.
+
+schema_version: archivist_benchmarks_freshness.v1
+queue_populated_at: <utc-timestamp>
+queue_populated_by: archivist@<run_id>
+freshness_threshold_days: 365  # operator-tunable; benchmarks typically refresh annually
+
+digest_entries:
+  - digest_id: <opaque-uuid>
+    archivist_run_id: <run_id>
+    proposed_at_utc: <utc-timestamp>
+    proposed_action: mark_stale  # mark_stale | propose_refresh
+    benchmark_id: <Benchmarks Register entry id>
+    source_substrate_path: vault_shared/benchmarks/register.yaml
+    source_entry_id: <Benchmarks entry id>
+    age_in_days: <int>
+    rationale: |
+      Example: "last_refreshed_at_utc (2024-12-31) is 495 days old; past freshness_threshold_days (365)."

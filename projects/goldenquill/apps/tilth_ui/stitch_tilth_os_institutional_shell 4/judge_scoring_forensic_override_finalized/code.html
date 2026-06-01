@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FIT Farms - Judge Scoring Override</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#454747",
+                    "surface-container-lowest": "#040e1f",
+                    "on-tertiary-fixed": "#131b2e",
+                    "surface-variant": "#2a3548",
+                    "on-secondary-fixed": "#0b1c30",
+                    "surface-bright": "#2f3a4c",
+                    "inverse-on-surface": "#263143",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "on-secondary-container": "#a9bad3",
+                    "error": "#ffb4ab",
+                    "surface-dim": "#081425",
+                    "secondary": "#b7c8e1",
+                    "inverse-surface": "#d8e3fb",
+                    "primary": "#ffffff",
+                    "surface-container-highest": "#2a3548",
+                    "error-container": "#93000a",
+                    "primary-container": "#e2e2e2",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "on-error": "#690005",
+                    "primary-fixed": "#e2e2e2",
+                    "surface-container-low": "#111c2d",
+                    "tertiary-container": "#dae2fd",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "on-surface": "#d8e3fb",
+                    "surface": "#081425",
+                    "surface-container-high": "#1f2a3c",
+                    "on-primary-container": "#636565",
+                    "outline": "#8e9192",
+                    "inverse-primary": "#5d5f5f",
+                    "tertiary-fixed": "#dae2fd",
+                    "on-tertiary-container": "#5c647a",
+                    "surface-tint": "#c6c6c7",
+                    "outline-variant": "#444748",
+                    "on-surface-variant": "#c4c7c8",
+                    "secondary-fixed": "#d3e4fe",
+                    "on-background": "#d8e3fb",
+                    "tertiary": "#ffffff",
+                    "on-primary-fixed": "#1a1c1c",
+                    "on-tertiary": "#283044",
+                    "on-primary": "#2f3131",
+                    "secondary-container": "#3a4a5f",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "surface-container": "#152031",
+                    "on-secondary": "#213145",
+                    "background": "#081425",
+                    "gold-override": "#B89745"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "panel-gap": "8px",
+                    "unit": "4px",
+                    "sidebar-width": "240px",
+                    "gutter": "1px",
+                    "container-padding": "16px"
+            },
+            "fontFamily": {
+                    "label-caps": [
+                            "JetBrains Mono"
+                    ],
+                    "headline-md": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-sm": [
+                            "Hanken Grotesk"
+                    ],
+                    "display-lg": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-md": [
+                            "Hanken Grotesk"
+                    ],
+                    "data-mono": [
+                            "JetBrains Mono"
+                    ]
+            },
+            "fontSize": {
+                    "label-caps": [
+                            "11px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "20px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "display-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "data-mono": [
+                            "13px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "500"
+                            }
+                    ]
+            }
+        },
+        },
+      }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        /* Reset border radius for Brutalism */
+        * { border-radius: 0 !important; }
+        /* 1px stroke paradigm */
+        .panel-border { border: 1px solid theme('colors.outline-variant'); }
+        .active-border { border: 1px solid theme('colors.primary'); }
+        /* Tonal stepping backgrounds */
+        .bg-level-0 { background-color: #020617; }
+        .bg-level-1 { background-color: #0F172A; }
+        .bg-level-2 { background-color: #1E293B; }
+        
+        /* Terminal */
+        .terminal-bg { background-color: #000000; }
+        
+        /* Hide scrollbars for cleaner look */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: theme('colors.surface-container-lowest'); }
+        ::-webkit-scrollbar-thumb { background: theme('colors.outline-variant'); }
+        
+        .gold-glow { text-shadow: 0 0 10px rgba(184, 151, 69, 0.5); }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden bg-level-0 font-body-md text-body-md">
+<!-- TopAppBar -->
+<header class="bg-surface-container-low flex justify-between items-center w-full px-container-padding gap-panel-gap docked full-width top-0 h-14 border-b border-outline-variant transition-none z-50">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary">GOLDEN QUILL</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center border border-outline-variant bg-level-0 px-3 py-1 h-8">
+<span class="material-symbols-outlined text-on-surface-variant text-sm mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none outline-none font-data-mono text-data-mono text-primary w-48 focus:ring-0 p-0 placeholder:text-on-surface-variant" placeholder="QUERY..." type="text"/>
+</div>
+<button class="text-primary hover:bg-surface-container-highest p-1 flex items-center justify-center h-8 w-8 transition-none" title="verified_user">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</button>
+<button class="text-primary hover:bg-surface-container-highest p-1 flex items-center justify-center h-8 w-8 transition-none" title="vpn_key">
+<span class="material-symbols-outlined" data-icon="vpn_key">vpn_key</span>
+</button>
+<button class="text-primary hover:bg-surface-container-highest p-1 flex items-center justify-center h-8 w-8 transition-none" title="account_circle">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<!-- SideNavBar -->
+<nav class="bg-surface-container docked left-0 h-full w-sidebar-width border-r border-outline-variant flex flex-col transition-none z-40 hidden md:flex shrink-0">
+<div class="p-4 border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-container-highest border border-outline-variant flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-primary text-xl">fingerprint</span>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-primary">FIT Farms</div>
+<div class="font-data-mono text-[9px] text-on-surface-variant tracking-wider">FRONTIER POSTURE</div>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2 flex flex-col gap-1">
+<a class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="search_insights">search_insights</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+<a class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="input">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</a>
+<a class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="fact_check">fact_check</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</a>
+<a class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="account_tree">account_tree</span>
+<span class="font-label-caps text-label-caps">Module Mapper</span>
+</a>
+<a class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit_note">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</a>
+<a class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="payments">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</a>
+<a class="px-4 py-2 flex items-center gap-3 bg-surface-container-highest text-primary border-l-2 border-primary transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="gavel" data-weight="fill" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+<a class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="security">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</a>
+<a class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="history_edu">history_edu</span>
+<span class="font-label-caps text-label-caps">Final Packet Authorization</span>
+</a>
+<a class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="policy">policy</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</a>
+<a class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="credit_card">credit_card</span>
+<span class="font-label-caps text-label-caps">Cards</span>
+</a>
+<a class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="fingerprint">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDs</span>
+</a>
+</div>
+<div class="border-t border-outline-variant p-2">
+<a class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col p-container-padding gap-4 overflow-y-auto mb-8 bg-level-0">
+<!-- Context Header -->
+<div class="flex justify-between items-end border-b border-outline-variant pb-4 shrink-0">
+<div>
+<div class="font-data-mono text-on-surface-variant mb-1 flex items-center gap-2">
+<span class="w-2 h-2 bg-[#B89745] block"></span>
+                        OVERRIDE EVENT: ADJ-992-QX
+                    </div>
+<h1 class="font-display-lg text-display-lg text-primary uppercase">Scoring Resolution</h1>
+</div>
+<div class="text-right">
+<div class="font-data-mono text-on-surface-variant mb-1">TARGET PACKET</div>
+<div class="font-data-mono text-primary bg-level-2 px-2 py-1 border border-outline-variant inline-block">PKT-44-ALPHA-TANGO</div>
+</div>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
+<!-- Left Column: Status & Override Badge -->
+<div class="flex flex-col gap-4">
+<!-- Master Status Panel -->
+<div class="bg-level-1 border border-[#B89745] p-6 flex flex-col justify-center items-center h-48 relative overflow-hidden">
+<!-- Background Pattern/Texture effect -->
+<div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, #B89745 0, #B89745 1px, transparent 0, transparent 50%); background-size: 10px 10px;"></div>
+<div class="relative z-10 text-center">
+<span class="material-symbols-outlined text-4xl text-[#B89745] mb-2" data-icon="gavel" data-weight="fill" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<div class="font-label-caps text-label-caps text-on-surface-variant tracking-widest mb-1">TERMINAL STATE</div>
+<div class="font-display-lg text-[28px] font-bold text-[#B89745] gold-glow tracking-tight uppercase">POLICY: OVERRIDDEN</div>
+</div>
+</div>
+<!-- Final Score Panel -->
+<div class="bg-level-1 border border-outline-variant p-4 flex flex-col flex-1">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-4 border-b border-outline-variant pb-2">FINAL VERDICT SCORE</div>
+<div class="flex items-end justify-center gap-2 mt-4">
+<span class="font-display-lg text-[64px] font-bold text-primary leading-none">88</span>
+<span class="font-data-mono text-on-surface-variant text-lg pb-2">/ 100</span>
+</div>
+<div class="mt-auto text-center font-data-mono text-[10px] text-on-surface-variant">
+<span class="text-[#22C55E]">PASS THRESHOLD: 75</span>
+</div>
+</div>
+</div>
+<!-- Middle Column: Criteria Breakdown -->
+<div class="lg:col-span-2 bg-level-1 border border-outline-variant flex flex-col h-full overflow-hidden">
+<div class="p-3 border-b border-outline-variant bg-level-2 flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-primary">SCORING DECOMPOSITION</span>
+<button class="border border-outline-variant px-2 py-1 text-on-surface-variant hover:text-primary transition-none font-data-mono text-[10px]">EXPORT.CSV</button>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
+<!-- Criteria Row 1 -->
+<div class="border border-outline-variant p-3 bg-level-0 flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<span class="font-data-mono text-primary">Technical Accuracy</span>
+<span class="font-data-mono text-primary bg-level-2 px-2 py-0.5 border border-outline-variant">32/35</span>
+</div>
+<div class="w-full bg-level-2 h-1 relative">
+<div class="absolute left-0 top-0 h-full bg-secondary" style="width: 91%"></div>
+</div>
+</div>
+<!-- Criteria Row 2 -->
+<div class="border border-outline-variant p-3 bg-level-0 flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<span class="font-data-mono text-primary">Logical Coherence</span>
+<span class="font-data-mono text-primary bg-level-2 px-2 py-0.5 border border-outline-variant">28/30</span>
+</div>
+<div class="w-full bg-level-2 h-1 relative">
+<div class="absolute left-0 top-0 h-full bg-secondary" style="width: 93%"></div>
+</div>
+</div>
+<!-- Criteria Row 3 (The Overridden One) -->
+<div class="border border-[#B89745] p-3 bg-level-2 flex flex-col gap-3 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-[#B89745]"></div>
+<div class="flex justify-between items-start pl-2">
+<div>
+<span class="font-data-mono text-primary block mb-1">Authentic Voice</span>
+<div class="font-data-mono text-[10px] text-error line-through decoration-error decoration-2">AUTO-REJECT: 12/20 (SUB-THRESHOLD)</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-data-mono text-[#B89745] bg-[#B89745]/10 px-2 py-0.5 border border-[#B89745]">20/20 (OVR)</span>
+</div>
+</div>
+<!-- Forensic Override Badge -->
+<div class="mt-2 pl-2 flex items-center justify-between border-t border-[#B89745]/30 pt-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#B89745] text-[16px]" data-icon="policy">policy</span>
+<span class="font-label-caps text-label-caps text-[#B89745]">SIGNATURE VERIFIED</span>
+</div>
+<div class="font-data-mono text-[10px] text-on-surface-variant">AUTH: COMMANDER LEVEL</div>
+</div>
+</div>
+<!-- Criteria Row 4 -->
+<div class="border border-outline-variant p-3 bg-level-0 flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<span class="font-data-mono text-primary">Formatting &amp; Syntax</span>
+<span class="font-data-mono text-primary bg-level-2 px-2 py-0.5 border border-outline-variant">8/15</span>
+</div>
+<div class="w-full bg-level-2 h-1 relative">
+<div class="absolute left-0 top-0 h-full bg-error" style="width: 53%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Terminal Log Footer -->
+<div class="terminal-bg border border-outline-variant h-32 shrink-0 flex flex-col mt-auto font-data-mono text-data-mono">
+<div class="bg-level-2 border-b border-outline-variant px-3 py-1 flex items-center justify-between">
+<span class="text-on-surface-variant text-[10px]">JUDGE_SYS_LOG // TAIL</span>
+<span class="w-2 h-2 bg-[#22C55E] animate-pulse"></span>
+</div>
+<div class="p-3 overflow-y-auto flex-1 flex flex-col gap-1 text-[11px]">
+<div class="text-on-surface-variant">[14:02:44] EVAL_INIT: PKT-44-ALPHA-TANGO</div>
+<div class="text-on-surface-variant">[14:02:45] MODULE_RUN: Tech_Acc (32) | Log_Coh (28) | Form_Syn (8)</div>
+<div class="text-error">[14:02:46] MODULE_RUN: Auth_Voice (12) -&gt; WARNING: BELOW MINIMUM THRESHOLD (15)</div>
+<div class="text-error">[14:02:46] FLAG: RT-89B AUTOMATED REJECTION TRIGGERED.</div>
+<div class="text-primary">[14:05:12] INTERCEPT: MANUAL FORENSIC OVERRIDE INITIATED BY OP-IDENT-99.</div>
+<div class="text-primary">[14:05:14] AUTHENTICATING... SUCCESS.</div>
+<div class="text-[#B89745] font-bold">&gt;&gt;&gt; OVERRIDE THRESHOLD APPLIED. BYPASSING RT-89B AUTOMATED REJECTION.</div>
+<div class="text-[#B89745] font-bold">&gt;&gt;&gt; RECALCULATING FINAL SCORE: 88/100. STATE: LOCKED.</div>
+<div class="flex items-center gap-2 text-primary mt-1">
+<span>root@fit-farms-judge:~#</span>
+<span class="w-1.5 h-3 bg-primary animate-pulse inline-block"></span>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50 docked bottom-0 full-width h-8 border-t border-outline-variant transition-none">
+<div class="font-label-caps text-label-caps text-on-surface">NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED</div>
+<div class="flex items-center gap-4">
+<a class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary transition-none" href="#">Machine ID: 992-QX</a>
+<span class="text-outline-variant text-[10px]">|</span>
+<a class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary transition-none" href="#">Audit Log</a>
+<span class="text-outline-variant text-[10px]">|</span>
+<a class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary transition-none" href="#">System Health</a>
+</div>
+</footer>
+</body></html>

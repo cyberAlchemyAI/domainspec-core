@@ -1,0 +1,141 @@
+# Scribe Dialect Codebook — v1
+# Four funder registers for dialect code-switching (Law 4)
+# Each RFA gets a dialect tag in rfa_dissection.json — Scribe matches
+# NEVER mix registers within a single proposal unless RFA signals mixed audience
+
+registers:
+
+  conservative:
+    description: "Outcome-focused, ROI language, market-driven, efficiency metrics"
+    signal_words:
+      prefer:
+        - "return on investment"
+        - "market-driven"
+        - "self-sustaining"
+        - "cost-effective"
+        - "workforce readiness"
+        - "economic impact"
+        - "job creation"
+        - "productivity gains"
+        - "private-sector partnership"
+        - "scalable model"
+        - "measurable outcomes"
+        - "fiscal responsibility"
+        - "value-added"
+        - "enterprise development"
+      avoid:
+        - "equity" (use "access" or "opportunity")
+        - "justice" (use "fairness" or "due process")
+        - "systemic" (use "structural" or "institutional")
+        - "marginalized" (use "underserved" or "under-resourced")
+        - "transformative" (use "innovative" or "high-impact")
+    typical_funders:
+      - "USDA Rural Business Development"
+      - "SBA programs"
+      - "State economic development agencies"
+      - "Private foundations with business focus"
+    tone: "Professional, data-driven, ROI-centered. Results speak."
+
+  centrist:
+    description: "Balanced, evidence-based, community benefit + economic impact"
+    signal_words:
+      prefer:
+        - "evidence-based"
+        - "community benefit"
+        - "stakeholder engagement"
+        - "sustainable development"
+        - "capacity building"
+        - "collaborative approach"
+        - "best practices"
+        - "data-driven"
+        - "inclusive growth"
+        - "public-private partnership"
+        - "technical assistance"
+        - "programmatic impact"
+      avoid:
+        - "radical" (use "innovative")
+        - "disruptive" (use "transformative" or "catalytic")
+    typical_funders:
+      - "USDA NIFA"
+      - "SARE"
+      - "EPA"
+      - "Most federal programs"
+      - "Community foundations"
+      - "VAPG"
+    tone: "Balanced professional. Data + community voice. Most federal grants land here."
+
+  progressive:
+    description: "Equity-centered, justice language, community voice, participatory"
+    signal_words:
+      prefer:
+        - "equity"
+        - "social justice"
+        - "community-led"
+        - "participatory design"
+        - "historically underserved"
+        - "food sovereignty"
+        - "environmental justice"
+        - "culturally responsive"
+        - "community wealth building"
+        - "cooperative economics"
+        - "democratized access"
+        - "intersectional"
+        - "restorative"
+        - "land justice"
+      avoid:
+        - "charity" (use "mutual aid" or "solidarity")
+        - "beneficiaries" (use "participants" or "community members")
+        - "target population" (use "priority community")
+    typical_funders:
+      - "USDA Beginning Farmer and Rancher"
+      - "EPA Environmental Justice grants"
+      - "Progressive foundations (Kresge, Surdna, Nathan Cummings)"
+      - "Arts and culture funders"
+      - "CDFIs"
+    tone: "Community voice centered. Lived experience matters. Power analysis explicit."
+
+  soul_fire:
+    description: "Movement language, transformation, liberation, cultural sovereignty"
+    signal_words:
+      prefer:
+        - "liberation"
+        - "self-determination"
+        - "cultural sovereignty"
+        - "ancestral knowledge"
+        - "land back"
+        - "healing justice"
+        - "abolitionist"
+        - "radical hospitality"
+        - "decolonize"
+        - "BIPOC-led"
+        - "reparative"
+        - "movement building"
+        - "mutual aid"
+        - "solidarity economy"
+      avoid:
+        - "stakeholder" (use "community")
+        - "capacity building" (use "power building")
+        - "intervention" (use "practice" or "approach")
+        - "best practices" (use "community-validated approaches")
+    typical_funders:
+      - "Soul Fire Farm-adjacent foundations"
+      - "Movement philanthropy (Kataly, Decolonizing Wealth)"
+      - "Tribal programs"
+      - "Arts/culture liberation funds"
+    tone: "Movement-grounded. Ancestral wisdom + future vision. Unapologetically direct."
+
+# Dialect detection signals in RFAs
+detection_heuristics:
+  - "Count signal words from each register in the RFA text"
+  - "Check funder's prior awards language (if available in cached datasets)"
+  - "Check program officer bios and organizational mission statements"
+  - "When ambiguous, default to centrist — safest register for federal"
+  - "Flag mixed-signal RFAs for operator review before Scribe begins"
+
+# Law 4 integration
+admin_risk_note: |
+  Some dialect terms overlap with the admin-risk register.
+  Logician's admin-risk scan (Gate 4) takes precedence.
+  If a dialect-preferred term is also admin-risk flagged,
+  Logician flags it and the applicant decides — Scribe does
+  not override Logician's flag based on dialect preference.

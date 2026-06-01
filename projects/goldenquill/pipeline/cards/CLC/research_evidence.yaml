@@ -1,0 +1,859 @@
+# Card — TILTH-CLC-04 Research & Evidence
+# Wave 2 research draft 2026-05-15. Phase 3 output per blueprint §18.11.
+# Content populated per blueprint §18.10 starter requirements for CLC-04.
+# Operator review + cross-family thesis + Ed25519 signature COMPLETE.
+# SIGNED — runtime-loadable; lifecycle truth enforced by loader preflight.
+#
+# Coupling discipline (architecture v7.0.11 §6.1 + §4 v2.x F-CARDS-COUPLING-VIOLATION-EXTENSION):
+# This card contains NO eligible_cic_subset, cic_allowlist, cic_denylist,
+# preferred_cics, cic_win_rate, or cic_ranking_preferences fields. CLC × CIC
+# matching is opportunity-driven at runtime, never archetype-driven at design time.
+#
+# Operator OQ resolutions applied (Wave 2, 2026-05-15):
+#   OQ-3 output path: pipeline/cards/CLC/research_evidence.yaml (UPPERCASE CLC/).
+#   OQ-4 verbatim-quote cap: ≤2 sentences per quote with URL + access_date.
+#   OQ-5 admin_risk_term_register operator-approval-required: true on all entries.
+#   OQ-6 win-rate quantification: qualitative-only (no numeric win_rate fields).
+#   OQ primary-source floor: 8–15 sources in _research_metadata.primary_sources.
+
+schema_version: "1.0-clc"
+card_axis: "CLC"
+card_id: "TILTH-CLC-04"
+slug: "research_evidence"
+display_name: "Research & Evidence"
+funding_mechanism_summary: "Inquiry, evaluation, pilots, and proof-building funding where research design rigor, methods fit, IRB/data management, and dissemination drive underwriting (USDA SARE/AFRI, NSF, NIH, IES, university partners, foundation evaluation funds)."
+tilth_clc_id: "TILTH-CLC-04"
+
+# ---------------------------------------------------------------------------
+# UNDERWRITING CRITERIA — what reviewers evaluate (per §18.10 starter content)
+# ---------------------------------------------------------------------------
+underwriting_criteria:
+  - criterion: "research_question"
+    description: "A specific, answerable question (or set of aims) bounded enough that the proposed methods can address it. Reviewers look for falsifiable framing — not 'we will explore', but 'we will test whether X causes Y under conditions Z'."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-04"
+
+  - criterion: "significance"
+    description: "Documented gap in knowledge, practice, or policy that the work will address — what changes if the question is answered. NIH calls this 'Significance' (scored 1-9); NSF folds it into Intellectual Merit; IES requires explicit 'Significance' section."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://grants.nih.gov/grants/peer/critiques/rpg.htm"
+
+  - criterion: "method_fit"
+    description: "The proposed design (RCT, quasi-experimental, mixed methods, qualitative, observational, computational) is the right tool for the question. Wrong-design-for-question is among the most common reviewer rejections."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://grants.nih.gov/grants/peer/critiques/rpg.htm"
+
+  - criterion: "data_collection_plan"
+    description: "Concrete instruments, sampling frame, recruitment plan, data sources, collection schedule, quality-control procedures. Reviewers look for executable specificity, not aspirational gestures."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-04"
+
+  - criterion: "evaluation_rigor"
+    description: "Analysis plan named in advance: statistical methods, sample-size justification / power calculation, handling of missing data, sensitivity analyses. For qualitative/mixed designs: coding scheme, intercoder reliability, triangulation."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://grants.nih.gov/grants/peer/critiques/rpg.htm"
+
+  - criterion: "team_qualifications"
+    description: "PI + co-PIs + key personnel with demonstrated capacity to execute the proposed work. NIH/NSF biosketches, prior funding, publications relevant to the aims, methodologist on staff for statistical work."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://grants.nih.gov/grants/forms/biosketch.htm"
+
+  - criterion: "human_subjects_irb"
+    description: "Where humans (or identifiable human data) are involved, an IRB plan keyed to 45 CFR 46 / Common Rule: protocol summary, consent procedures, risk minimization, vulnerable-population protections, data-protection scheme. NIH and IES require explicit Human Subjects sections; NSF requires IRB approval before data collection. Operational expectations: (a) IRB model — single-IRB (sIRB) for multi-site NIH research per the 2018 NIH sIRB policy; reliance agreements (IAA / SMART IRB) named where applicable; local-IRB-only for single-site studies. (b) Vulnerable populations — explicit subpart protections for children (Subpart D), prisoners (Subpart C), pregnant women / fetuses / neonates (Subpart B), and additional protocol-level safeguards for cognitively impaired adults. (c) Consent procedure — including digital / remote / electronic consent workflows (DocuSign-eConsent, REDCap consent, or equivalent) with documentation of comprehension verification where literacy / language / capacity warrant. (d) Identifiable-data protection scheme — encryption at rest and in transit, access-log retention, role-based access controls, named storage location (institutional vs cloud, HIPAA-eligible cloud where PHI), data-destruction policy at study close. (e) FERPA intersect — for research with student educational records (often IES and NSF education work), data-use agreements with school districts and FERPA-permitted-disclosure pathway must be named separately from the IRB pathway."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.hhs.gov/ohrp/regulations-and-policy/regulations/45-cfr-46/index.html"
+
+  - criterion: "data_management_plan"
+    description: "How data will be collected, stored, secured, preserved, and shared. NSF DMP required since 2011; NIH 2023 Data Management & Sharing Policy requires a DMS Plan in nearly all NIH research applications. Federal expectation: deposit in a recognized repository unless justified otherwise."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://sharing.nih.gov/data-management-and-sharing-policy/about-data-management-and-sharing-policies/data-management-and-sharing-policy-overview"
+
+  - criterion: "dissemination_plan"
+    description: "How findings will reach intended audiences — peer-reviewed publications, conference presentations, practitioner briefs, datasets deposited, code released. Vague 'we will publish' is a reviewer red flag; reviewers want named venues and audience-specific products."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-04"
+
+  - criterion: "broader_impacts"
+    description: "NSF criterion (formal): the potential to benefit society and contribute to specific desired societal outcomes beyond the intellectual contribution. Many federal research programs have an analogous public-value criterion. Reviewers expect concrete pathways, not boilerplate."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.nsf.gov/funding/preparing/broaderimpacts.jsp"
+
+  - criterion: "feasibility"
+    description: "Timeline + resources + institutional environment + risk mitigation are realistic for the proposed scope. Reviewers ask: can this team finish this work in this time on this budget?"
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-04"
+
+  - criterion: "preliminary_data"
+    description: "Required at HIGH weight for NIH R01 and many AFRI standard projects; lower weight for NIH R21 / R03 / NSF EAGER / SBIR Phase I and other early-stage mechanisms by design. Operator must check the specific RFA — preliminary-data expectations are mechanism-coded."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://grants.nih.gov/grants/peer/critiques/rpg.htm"
+
+# ---------------------------------------------------------------------------
+# SCORING WEIGHT PATTERNS — funder-specific rubrics observed
+# ---------------------------------------------------------------------------
+# Qualitative only per OQ-6. Numeric weights deferred until 12+ CycleReceipts
+# seed Lessons Memory with quantified observations.
+scoring_weight_patterns:
+  - rubric_example: "NIH peer review (R01 and most research grants)"
+    weights:
+      significance: "scored_1_to_9_overall_impact_anchor"
+      investigators: "scored_1_to_9_overall_impact_anchor"
+      innovation: "scored_1_to_9_overall_impact_anchor"
+      approach: "scored_1_to_9_overall_impact_anchor"
+      environment: "scored_1_to_9_overall_impact_anchor"
+      overall_impact: "scored_1_to_9_priority_score"
+    source_citation: "https://grants.nih.gov/grants/peer/critiques/rpg.htm"
+    note: "NIH uses five scored criteria (1=exceptional, 9=poor) plus an overall Impact Score. Approach typically drives the Overall Impact more than any single other criterion. Effective 2025, NIH uses a simplified review framework grouping criteria into Factor 1 (Importance of the Research), Factor 2 (Rigor and Feasibility), Factor 3 (Expertise and Resources)."
+
+  - rubric_example: "NSF merit review (NSF Proposal & Award Policies & Procedures Guide)"
+    weights:
+      intellectual_merit: "scored_qualitatively_per_solicitation"
+      broader_impacts: "scored_qualitatively_per_solicitation"
+    source_citation: "https://www.nsf.gov/pubs/policydocs/pappg/index.jsp"
+    note: "Two statutory criteria (since 1997). Both are weighted in panel discussion; the relative weight is not numerically fixed but most program officers report Intellectual Merit dominates discussion while Broader Impacts is gating — weak Broader Impacts can sink an otherwise-strong proposal."
+
+  - rubric_example: "USDA NIFA AFRI peer review"
+    weights:
+      per_rfa_scoring_dimensions: "qualitative_per_program_area"
+    source_citation: "https://www.nifa.usda.gov/grants/funding-opportunities/agriculture-food-research-initiative-foundational-applied-science"
+    note: "AFRI scoring is per-RFA: each of the six AFRI Foundational priority areas (plant health & production; animal health & production; food safety, nutrition & health; bioenergy, natural resources & environment; agricultural systems & technology; agricultural economics & rural communities) publishes its own scoring dimensions in the program-area RFA. Operator must read the active-cycle RFA — there is no static USDA AFRI rubric."
+
+  - rubric_example: "USDA SARE (regional grant programs)"
+    weights:
+      per_grant_type_per_region: "qualitative_per_program"
+    source_citation: "https://www.sare.org/grants/"
+    note: "SARE has four regional offices (Northeast, North Central, South, Western) each running multiple grant programs (Research & Education, Producer, Partnership, Graduate Student, Professional Development). Scoring criteria vary by program and region — operator must consult the active call. SARE Producer grants generally weight on-farm research practicality + farmer involvement + outcome dissemination."
+
+  - rubric_example: "IES (Institute of Education Sciences) education research"
+    weights:
+      significance: "weighted"
+      research_plan: "weighted"
+      personnel: "weighted"
+      resources: "weighted"
+    source_citation: "https://ies.ed.gov/funding/grants.asp"
+    note: "IES research grants use four scored criteria across most NCER and NCSER programs. Across the IES Education Research Grants (84.305A) RFA series and Special Education Research (84.324A) RFA series, the Research Plan criterion covers conceptual framework + research design + methods + analysis + dissemination, and is typically the longest and most heavily-detailed scored section per the published RFAs — operator should verify the active-cycle RFA for the per-program scoring distribution. Different topic areas (Effective Teachers, English Learners, etc.) and goals (Exploration, Development, Impact, Measurement) tune the rubric."
+
+# ---------------------------------------------------------------------------
+# EVIDENCE WEIGHTS — what reviewers look for
+# ---------------------------------------------------------------------------
+evidence_weights:
+  specific_aims:
+    weight: "HIGH"
+    rationale: "The single most-read page in NIH applications and analogous in NSF/IES — establishes whether the science is significant, the question answerable, and the team credible. Reviewers form their first impression here."
+    source_citation: "https://grants.nih.gov/grants/how-to-apply-application-guide/format-and-write/develop-your-research-plan.htm"
+
+  literature_review:
+    weight: "HIGH"
+    rationale: "Establishes the gap the work fills; demonstrates the team knows the field. Cursory or out-of-date literature signals weak scholarship."
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-04"
+
+  preliminary_data:
+    weight: "HIGH"
+    rationale: "HIGH for NIH R01, AFRI standard projects, NSF mid-career programs, and any mechanism that explicitly assesses 'feasibility'. MEDIUM for early-stage mechanisms (NIH R21/R03, NSF EAGER, SBIR Phase I, IES Exploration goal) where the design accommodates less prior data. Operator must read the RFA."
+    source_citation: "https://grants.nih.gov/grants/funding/r21.htm"
+
+  study_protocol:
+    weight: "HIGH"
+    rationale: "Detailed protocol — study procedures, instruments, timing, fidelity monitoring — gives reviewers confidence the team can execute. For clinical/intervention research, often required as an attachment."
+
+  evaluation_design:
+    weight: "HIGH"
+    rationale: "Analysis plan named in advance, sample-size justification with power calculation, handling of missing data. Vague 'we will analyze using appropriate methods' is a reviewer red flag."
+    source_citation: "https://grants.nih.gov/grants/peer/critiques/rpg.htm"
+
+  data_management_plan:
+    weight: "HIGH"
+    rationale: "NSF requires DMP since 2011; NIH 2023 DMSP required for nearly all research applications; many private funders (Gates, Wellcome, RWJF) follow suit. Reviewers and program officers check for: storage during project, preservation after, sharing mechanism, repository identified, persistent identifiers (DOIs). NIH 2023 DMSP requires the plan to address six elements: (1) Data Type — types of scientific data generated, amount, modality, level of aggregation, processing state, metadata standards; (2) Related Tools, Software, and/or Code — what is needed to access or interpret the data; (3) Standards — applicable community-accepted data and metadata standards; (4) Data Preservation, Access, and Associated Timelines — repository selection, persistent identifier strategy, timeline relative to publication or end-of-award; (5) Access, Distribution, or Reuse Considerations — privacy / IRB / consent / legal limits on sharing, ethical considerations for sensitive data, controlled-access pathways; (6) Oversight of Data Management and Sharing — institutional roles responsible for ongoing DMSP compliance during the award. NSF DMP is a 2-page max supplementary document and varies in element coverage by directorate."
+    source_citation: "https://sharing.nih.gov/data-management-and-sharing-policy/about-data-management-and-sharing-policies/data-management-and-sharing-policy-overview"
+
+  irb_plan:
+    weight: "HIGH"
+    rationale: "Required HIGH where human subjects involved. NIH Human Subjects section is reviewed and scored separately. Vague risk language or missing vulnerable-population protections sink the application. Reviewers check for: (a) IRB-model declaration — single-IRB (sIRB) for multi-site NIH research, reliance agreement (SMART IRB / IAA), or local IRB-of-record; (b) explicit Subpart B (pregnant women / fetuses / neonates), Subpart C (prisoners), Subpart D (children) protections where applicable, plus added safeguards for cognitively impaired adults; (c) consent workflow for digital / remote / electronic data collection with comprehension verification where literacy / language / capacity warrants; (d) identifiable-data protection scheme — encryption, access controls, storage location (institutional / HIPAA-eligible cloud / etc.), retention and destruction policy. NIH PHS Human Subjects and Clinical Trials Information form pulls each element separately."
+    source_citation: "https://www.hhs.gov/ohrp/regulations-and-policy/regulations/45-cfr-46/index.html"
+
+  research_partner_letter:
+    weight: "MEDIUM"
+    rationale: "Letters from data providers, school districts, clinical sites, community partners, institutional collaborators. MEDIUM weight typical; can rise to HIGH for community-engaged research (CBPR) and IES (where partner commitments gate Development/Impact goals). Operational expectations: (a) signatory at appropriate authority (PI, department chair, district superintendent, clinical-site PI, executive director — NOT a junior staffer); (b) explicit commitment language naming the partner role (data provision, recruitment access, site hosting, co-investigation, sub-recipient sub-award) rather than generic 'we support this work'; (c) for institutional partners, statement of negotiated F&A / indirect-cost rate that will apply to any sub-award; (d) data-access provisions where the partner controls data (IRB-approval pathway, data-use-agreement intent, FERPA / HIPAA scope where applicable); (e) timing — signed letter dated within the funder's freshness window (typically within 12 months of submission, often within 6); for federal research, signed letters on partner letterhead are the norm. Typical applicant-partner configurations: community organization + R1 university; CDFI + research institute; school district + research firm; clinical practice + academic medical center."
+    source_citation: "https://ies.ed.gov/ncer/projects/program.asp"
+
+  biosketches:
+    weight: "HIGH"
+    rationale: "NIH biosketch (5-page max, SciENcv) and NSF biosketch (SciENcv format) are standardized and required. Reviewers look at: prior funding alignment, recent publications, key personnel methodological fit. Misformatted biosketches (wrong format, over page limit) trigger return without review."
+    source_citation: "https://grants.nih.gov/grants/forms/biosketch.htm"
+
+  dissemination_plan:
+    weight: "MEDIUM"
+    rationale: "MEDIUM baseline for fundamental research where peer-reviewed publication is the implicit norm. SHIFTS UPWARD in reviewer weighting (functionally HIGH) for translational, applied, education, and community-engaged research where the burden is on the team to specify named venues and audience-specific products — operator should treat as HIGH when the RFA names dissemination as a scored dimension or when the mechanism (IES Development/Impact, NSF AISL, NIH R34, foundation translational) presumes practitioner reach. Schema §18.6 enum constrains the field to HIGH | MEDIUM | LOW; the upward-shift conditions are documented in this rationale rather than encoded as a compound enum."
+
+  methodology_linked_budget:
+    weight: "HIGH"
+    rationale: "Every personnel line and major direct cost should map to a named methodological task. Reviewers commonly compare budget to methods narrative — orphan line items or methods without budget support both sink scores."
+
+  data_sharing_repository_named:
+    weight: "MEDIUM"
+    rationale: "NIH 2023 DMSP expects a named generalist repository (e.g., Dataverse, Zenodo, Figshare, ICPSR, OSF) or domain repository. NSF Public Access Repository (PAR) for publications. Naming the repository in advance is a positive signal."
+    source_citation: "https://sharing.nih.gov/faqs"
+
+  commercialization_plan:
+    weight: "HIGH"
+    rationale: "SBIR / STTR mechanisms only. Phase I requires commercialization intent; Phase II carries a heavily weighted standalone Commercialization Plan covering market opportunity, end-user definition, IP & data rights, financing strategy, competition, revenue projection, and Phase III pathway. Federal SBIR/STTR programs vary in emphasis (NIH SBIR weights scientific feasibility higher; DoD SBIR weights TRL advancement and commercialization track record higher; DOE SBIR favors clear path to market). Operator must read the agency-specific solicitation."
+    source_citation: "https://www.sbir.gov/about"
+
+# ---------------------------------------------------------------------------
+# COMMON APPLICATION FORMS
+# ---------------------------------------------------------------------------
+common_application_forms:
+  - form_id: "SF-424 (R&R) Research and Related"
+    form_version: "OMB Approved (current Grants.gov package)"
+    required_for: "Most federal research grants (NIH, NSF, USDA NIFA, IES, ED, DOE Office of Science)"
+    source: "https://www.grants.gov/forms/r-r-family.html"
+    note: "Distinct from SF-424 (used for non-research federal grants). R&R family includes R&R Cover, R&R Other Project Information, R&R Senior/Key Person Profile, R&R Budget, R&R Subaward Budget Attachment Form."
+
+  - form_id: "PHS 398 / PHS 2590 (NIH program-specific)"
+    form_version: "Per FOA"
+    required_for: "Some legacy NIH program announcements; mostly migrated to SF-424 (R&R) via ASSIST/Workspace"
+    source: "https://grants.nih.gov/grants/funding/phs398/phs398.html"
+
+  - form_id: "NIH ASSIST (Application Submission System & Interface for Submission Tracking)"
+    form_version: "Online — NIH-hosted SF-424 (R&R) wrapper"
+    required_for: "Most NIH FOAs (alternative to Workspace)"
+    source: "https://public.era.nih.gov/assist/"
+
+  - form_id: "NSF Research.gov"
+    form_version: "Online (NSF migrated all proposals from FastLane to Research.gov; FastLane decommissioned)"
+    required_for: "All NSF proposal submissions"
+    source: "https://www.research.gov/research-web/"
+    note: "FastLane was decommissioned for proposal preparation in 2023; all NSF preparation is now in Research.gov. Operator should verify current status — NSF migration is an ongoing program."
+
+  - form_id: "Grants.gov Workspace"
+    form_version: "Online — federal-wide submission portal"
+    required_for: "Most federal research grants (alternative to agency-specific portals like ASSIST)"
+    source: "https://www.grants.gov/applicants/apply-for-grants/workspace-overview.html"
+
+  - form_id: "USDA NIFA AFRI online application (Grants.gov + NIFA Reporting/eRA)"
+    form_version: "Per RFA"
+    required_for: "USDA NIFA AFRI applications"
+    source: "https://www.nifa.usda.gov/grants/apply-grant"
+
+  - form_id: "USDA SARE regional submission systems"
+    form_version: "Per region (Northeast/North Central/South/Western) per program"
+    required_for: "USDA SARE grants — each region runs its own portal"
+    source: "https://www.sare.org/grants/"
+
+  - form_id: "IES eApplication"
+    form_version: "Online — IES-hosted"
+    required_for: "Some IES grants (mixed with Grants.gov for others)"
+    source: "https://ies.ed.gov/funding/grants.asp"
+
+  - form_id: "NIH Biosketch (SciENcv)"
+    form_version: "5-page maximum, SciENcv-generated preferred"
+    required_for: "NIH applications and inclusion in NSF applications"
+    source: "https://grants.nih.gov/grants/forms/biosketch.htm"
+    note: "SciENcv (Science Experts Network Curriculum Vitae) is the federally endorsed biosketch tool; auto-populates from ORCID + ERA Commons + NSF accounts."
+
+  - form_id: "NSF Biosketch (SciENcv-generated, NSF format)"
+    form_version: "Per current PAPPG"
+    required_for: "All NSF proposals"
+    source: "https://www.nsf.gov/bfa/dias/policy/nsfapprovedformats/biosketch.pdf"
+
+  - form_id: "Data Management Plan (DMP) — DMPTool common"
+    form_version: "Per agency template"
+    required_for: "NSF (since 2011), NIH (DMSP since 2023), most federal research"
+    source: "https://dmptool.org/"
+
+# ---------------------------------------------------------------------------
+# NARRATIVE SECTION PATTERNS
+# ---------------------------------------------------------------------------
+narrative_section_patterns:
+  - section_name: "Project Summary / Abstract"
+    typical_word_count: "250-500 (NIH 30 lines; NSF 1 page; IES varies)"
+    source_citation: "https://grants.nih.gov/grants/how-to-apply-application-guide/format-and-write/develop-your-research-plan.htm"
+    note: "Posted publicly if funded. Must be intelligible to a non-specialist reader. NSF format requires three labeled sections: Overview, Intellectual Merit, Broader Impacts."
+
+  - section_name: "Specific Aims (NIH) / Project Description introduction (NSF)"
+    typical_word_count: "1 page (NIH hard cap)"
+    source_citation: "https://grants.nih.gov/grants/how-to-apply-application-guide/format-and-write/develop-your-research-plan.htm"
+    note: "The single most-read page; sets the frame for the rest of the application."
+
+  - section_name: "Significance"
+    typical_word_count: "Section of NIH Research Strategy (12 pages total for R01); NSF folds into Project Description"
+    source_citation: "https://grants.nih.gov/grants/how-to-apply-application-guide/format-and-write/develop-your-research-plan.htm"
+
+  - section_name: "Background / Innovation"
+    typical_word_count: "Section of NIH Research Strategy; NSF folds into Project Description"
+
+  - section_name: "Approach (Research Plan / Methods)"
+    typical_word_count: "Bulk of NIH Research Strategy; bulk of NSF Project Description (15 pages typical for standard NSF research)"
+    source_citation: "https://www.nsf.gov/pubs/policydocs/pappg/index.jsp"
+    note: "Reviewers spend the most reading time here. Approach typically dominates Overall Impact in NIH and Intellectual Merit in NSF."
+
+  - section_name: "Evaluation / Analysis Plan"
+    typical_word_count: "Embedded in Approach; for IES Impact and AFRI program-area projects often a named subsection"
+    source_citation: "https://ies.ed.gov/funding/pdf/2024_84305A.pdf"
+
+  - section_name: "Data Management Plan (DMP / DMS Plan)"
+    typical_word_count: "NSF 2 pages (max); NIH DMS Plan no strict cap but typically 2-4 pages; varies by funder"
+    source_citation: "https://sharing.nih.gov/data-management-and-sharing-policy/about-data-management-and-sharing-policies/data-management-and-sharing-policy-overview"
+
+  - section_name: "Human Subjects (Protection of Human Subjects + Inclusion)"
+    typical_word_count: "NIH PHS Human Subjects and Clinical Trials Information form; varies"
+    source_citation: "https://grants.nih.gov/policy-and-compliance/policy-topics/human-subjects"
+    note: "Where applicable. Includes Protection of Human Subjects, Inclusion of Women & Minorities, Inclusion of Children/Across the Lifespan, and Clinical Trials information."
+
+  - section_name: "Broader Impacts (NSF)"
+    typical_word_count: "Section of Project Description; not a separate document but distinct subsection per PAPPG"
+    source_citation: "https://www.nsf.gov/funding/preparing/broaderimpacts.jsp"
+
+  - section_name: "Dissemination Plan"
+    typical_word_count: "200-500; longer for IES Development/Impact and translational programs"
+
+  - section_name: "Investigator Qualifications / Personnel"
+    typical_word_count: "Biosketches as separate attachments (NIH 5-page; NSF per PAPPG)"
+    source_citation: "https://grants.nih.gov/grants/forms/biosketch.htm"
+
+  - section_name: "References Cited / Bibliography"
+    typical_word_count: "No page limit (NIH); included in main page count for some programs"
+
+  - section_name: "Facilities & Other Resources / Equipment"
+    typical_word_count: "Per agency template"
+
+  - section_name: "Budget Justification"
+    typical_word_count: "NIH 5 years modular = brief; non-modular = detailed; NSF page-limit varies; AFRI per RFA"
+
+  - section_name: "Commercialization Plan (SBIR / STTR)"
+    typical_word_count: "Phase I: brief commercialization-intent summary embedded in narrative; Phase II: standalone Commercialization Plan typically 10-15 pages including market opportunity, customer/end-user definition, IP & data rights, financing strategy, competition, revenue projection, and Phase-III-funding pathway"
+    source_citation: "https://www.sbir.gov/about"
+    note: "Required for SBIR / STTR mechanisms only. Phase II Commercialization Plan is heavily weighted in review; Phase III commercialization must be sustained without further SBIR/STTR funds. NIH SBIR/STTR has supplemental commercialization-readiness mechanisms (CRP, I-Corps at NIH) that operators should review when active."
+
+  - section_name: "Intellectual Property & Technology Readiness (SBIR / STTR)"
+    typical_word_count: "Embedded in Commercialization Plan; explicit TRL (Technology Readiness Level) staging where the funder requests it (DoD SBIR, DOE SBIR, NASA SBIR)"
+    source_citation: "https://www.sbir.gov/about"
+    note: "Names the IP position at award (background IP, foreground IP, ownership/license arrangement with partner institution under STTR), and the technology readiness level the project starts at and targets. Federal SBIR/STTR data rights protections (FAR 27.4xx; SBA Policy Directive) govern downstream use."
+
+# ---------------------------------------------------------------------------
+# BUDGET STRUCTURE CONVENTIONS
+# ---------------------------------------------------------------------------
+budget_structure_conventions:
+  direct_cost_categories:
+    - "personnel_salary_and_wages"
+    - "fringe_benefits"
+    - "equipment"
+    - "travel"
+    - "materials_and_supplies"
+    - "consultants"
+    - "subawards_subcontracts"
+    - "publication_costs"
+    - "participant_incentives_and_support_costs"
+    - "computer_services_and_data"
+    - "other_direct"
+  indirect_cost_treatment: "Federal research grants honor the recipient organization's federally negotiated F&A (indirect cost) rate per 2 CFR 200, or de minimis 10% MTDC if no negotiated rate. Foundations vary widely — many private foundations cap indirect at 10-15% of direct, some prohibit indirect entirely. Operator must check each RFA / grant agreement. Effective 2025, federal F&A rate caps for NIH and other agencies are subject to executive-action volatility — Operator must verify the active rate at submission."
+  match_requirements_typical: "NIH: no match required by default. NSF: varies — most research programs prohibit voluntary cost share unless solicitation specifies; some programs (EPSCoR, MRI) require cost share. USDA AFRI: match varies by program-area and project type — Foundational typically no match for standard research; AFRI Sustainable Agricultural Systems may require partner contributions per the RFA. USDA SARE Producer grants: no formal match. IES: no match required for most goals. Operator must read each RFA — match is mechanism-coded."
+  source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200"
+  note: "Per A12 Decimal mandate — all monetary fields in proposal_commitments.yaml extracted from this card MUST be Decimal cents per §17 v1; no float arithmetic anywhere in budget composition."
+
+# ---------------------------------------------------------------------------
+# REVIEWER PROFILE TYPICAL
+# ---------------------------------------------------------------------------
+reviewer_profile_typical:
+  reviewer_types:
+    - "peer_reviewer_subject_matter_expert"
+    - "nih_study_section_member"
+    - "nsf_panelist"
+    - "usda_nifa_panelist"
+    - "ies_peer_reviewer"
+    - "program_officer_gatekeeper_advisor_non_voting"
+    - "statistical_or_methodological_reviewer"
+    - "clinical_reviewer_nih_where_applicable"
+    - "external_ad_hoc_reviewer"
+    - "early_stage_investigator_reviewer_some_programs"
+  reviewer_priorities:
+    - "(peer-reviewer) Is the question significant — does this work matter to the field?"
+    - "(peer-reviewer) Is the team qualified — can they actually execute this?"
+    - "(peer-reviewer) Is the approach rigorous — are the methods right for the question, with adequate sample size and analysis plan?"
+    - "(peer-reviewer + program-officer) Is the work feasible — can it be done in the time and budget?"
+    - "(peer-reviewer) Is the data management plan credible — repository named, sharing pathway clear?"
+    - "(peer-reviewer + program-officer) Are human subjects protections adequate (where applicable)?"
+    - "(peer-reviewer) Does dissemination reach the audiences who need the findings?"
+    - "(peer-reviewer) (NSF) Are Broader Impacts substantive — concrete pathways, not boilerplate?"
+    - "(program-officer) Does the proposal align with FOA priorities and the funder's current portfolio?"
+    - "(program-officer) Is the budget realistic against agency benchmarks and program ceilings?"
+    - "(program-officer) What is the programmatic risk profile — institutional stability, prior award performance, audit history?"
+  common_red_flags_from_reviewer_pov:
+    - "(peer-reviewer) Aims that don't connect to the methods — what you said you'd test is not what your design tests"
+    - "(peer-reviewer) No power calculation or sample size justification — reviewer cannot tell if you can detect the effect you claim"
+    - "(peer-reviewer) Vague analysis plan ('appropriate statistical methods') — reviewer assumes you don't know which"
+    - "(peer-reviewer) Preliminary data missing where the mechanism expects it (R01, AFRI standard) or padded with unrelated work"
+    - "(peer-reviewer) Methodologist absent from team for stats-heavy aim, or no clinician on a clinical aim"
+    - "(peer-reviewer) DMP that says 'data will be available upon request' — NIH 2023 DMSP and NSF expect repository deposit"
+    - "(peer-reviewer) Dissemination plan that says 'we will publish' without naming venues or timeline"
+    - "(peer-reviewer) Broader Impacts (NSF) that just lists outreach activities without a logic model"
+    - "(program-officer) Wrong mechanism — pitching an R01-scale project to an R21 budget cap, or vice versa"
+    - "(program-officer) Misaligned with active FOA priorities or out-of-scope for the funding program"
+    - "(program-officer) Budget anomalies — outsized travel, unjustified equipment, unallowable cost categories"
+  source_citation: "https://grants.nih.gov/grants/peer/critiques/rpg.htm"
+
+# ---------------------------------------------------------------------------
+# COMMON PORTALS
+# ---------------------------------------------------------------------------
+common_portals:
+  - portal: "NSF Research.gov"
+    typical_use: "All NSF proposal preparation and submission (FastLane decommissioned for prep)."
+    source_citation: "https://www.research.gov/research-web/"
+
+  - portal: "NIH eRA Commons"
+    typical_use: "NIH application status tracking, progress reports (RPPR), JIT submissions, biosketch (via SciENcv)."
+    source_citation: "https://public.era.nih.gov/commons/"
+
+  - portal: "NIH ASSIST"
+    typical_use: "Online preparation + submission of NIH SF-424 (R&R) applications (alternative to Workspace)."
+    source_citation: "https://public.era.nih.gov/assist/"
+
+  - portal: "Grants.gov Workspace"
+    typical_use: "Federal-wide preparation + submission portal for SF-424 (R&R) — alternative to agency-specific portals."
+    source_citation: "https://www.grants.gov/applicants/apply-for-grants/workspace-overview.html"
+
+  - portal: "USDA NIFA application (Grants.gov + NIFA Reporting)"
+    typical_use: "All USDA NIFA program applications including AFRI, SARE pass-through, Smith-Lever, Hatch."
+    source_citation: "https://www.nifa.usda.gov/grants/apply-grant"
+
+  - portal: "USDA SARE regional submission systems"
+    typical_use: "USDA SARE — Northeast (UVM), North Central (UMN), South (UGA), Western (Montana State) each run their own portals; deadlines and formats vary by region."
+    source_citation: "https://www.sare.org/grants/"
+
+  - portal: "IES eApplication"
+    typical_use: "Some IES research grant programs (others on Grants.gov)."
+    source_citation: "https://ies.ed.gov/funding/grants.asp"
+
+  - portal: "SAM.gov"
+    typical_use: "Required for any federal research application — UEI + active registration. Renews annually."
+    source_citation: "https://sam.gov/"
+
+  - portal: "DMPTool"
+    typical_use: "Free DMP authoring tool maintained by California Digital Library; agency templates pre-loaded for NSF, NIH, USDA, NEH, more."
+    source_citation: "https://dmptool.org/"
+
+  - portal: "SciENcv (Science Experts Network Curriculum Vitae)"
+    typical_use: "Federally endorsed biosketch generator for NIH and NSF; integrates with ORCID + eRA Commons + NSF account."
+    source_citation: "https://www.ncbi.nlm.nih.gov/sciencv/"
+
+# ---------------------------------------------------------------------------
+# COMMON RED FLAGS — adversarial probes
+# ---------------------------------------------------------------------------
+common_red_flags:
+  - flag: "vague_research_question"
+    severity: "HIGH"
+    red_team_probe: "What specific testable hypothesis or aim does this proposal address? If you removed the word 'explore' or 'investigate' from the aims, what remains? Can the proposed methods actually answer the question?"
+    source_citation: "https://grants.nih.gov/grants/peer/critiques/rpg.htm"
+
+  - flag: "method_mismatch"
+    severity: "HIGH"
+    red_team_probe: "Why this design rather than the alternatives? If the question is causal, why is observation/correlation acceptable? If the question is mechanistic, why a survey rather than an experiment? Does the design produce the evidence the aims claim?"
+
+  - flag: "underbudgeted_evaluation"
+    severity: "HIGH"
+    red_team_probe: "How many statistician hours are budgeted relative to data complexity? Is qualitative coding budgeted with realistic intercoder-reliability time? Does the budget reflect the analysis plan, or are evaluation costs invisible? Non-academic applicants typically under-budget evaluation activities by 2-3x relative to academic PI-led projects. Illustrative examples (not binding, not eligibility-coupled): community organizations, finance intermediaries, advocacy groups, member-owned enterprises, government departments without dedicated research staff. Common omissions include dedicated statistician / methodologist hours, qualitative-coding labor, evaluation-consultant retainer, data-cleaning and dataset-preparation labor, evaluation-software licenses, and incentives for follow-up data collection. Operator should compare evaluation-line items against the analysis plan task-by-task before submission."
+
+  - flag: "human_subjects_ignored_or_glossed"
+    severity: "HIGH"
+    red_team_probe: "Where is the IRB plan? Are vulnerable populations (children, prisoners, pregnant women, cognitively impaired) involved without explicit protections? What is the consent procedure for digital/remote data collection? Where is the data-protection scheme for identifiable data?"
+    source_citation: "https://www.hhs.gov/ohrp/regulations-and-policy/regulations/45-cfr-46/index.html"
+
+  - flag: "missing_or_weak_data_management_plan"
+    severity: "HIGH"
+    red_team_probe: "Is a generalist or domain repository named for data deposit? Are persistent identifiers (DOIs) committed? Is the sharing timeline specified? For NIH 2023 DMSP applications: does the plan address the six required elements (data type, related tools, standards, preservation/access, oversight, factors limiting sharing)?"
+    source_citation: "https://sharing.nih.gov/data-management-and-sharing-policy/about-data-management-and-sharing-policies/data-management-and-sharing-policy-overview"
+
+  - flag: "unrealistic_sample_size_or_no_power_calculation"
+    severity: "HIGH"
+    red_team_probe: "What is the minimum detectable effect size at the proposed N? Is the power calculation shown with stated alpha, beta, effect size, and assumptions? Is recruitment feasible at the proposed rate given the population and timeline?"
+
+  - flag: "overclaimed_causality"
+    severity: "HIGH"
+    red_team_probe: "If the design is correlational/observational, are the conclusions phrased causally? Are confounders identified and controlled (or acknowledged as limits)? Is the language 'effects', 'impact', 'caused' supported by the design, or should it be 'associated', 'related', 'predicts'?"
+
+  - flag: "vague_dissemination"
+    severity: "MEDIUM"
+    red_team_probe: "Which named journals or conferences? On what timeline? Are practitioner / policy / community audiences served by the products listed? Is there a dataset deposit and a code-release commitment if applicable?"
+
+  - flag: "team_expertise_gaps"
+    severity: "HIGH"
+    red_team_probe: "For each major aim, who on the team has the methodological expertise to execute it? Is there a methodologist for stats-heavy aim? A clinician for clinical aim? A community partner with role and authority for community-engaged work?"
+
+  - flag: "no_preliminary_data_when_required"
+    severity: "MEDIUM_TO_HIGH"
+    red_team_probe: "Does the mechanism (R01, AFRI standard) require preliminary data, and is it present? Is preliminary data padded with unrelated work? For early-stage mechanisms (R21, EAGER, SBIR Phase I) the absence is by design — confirm mechanism choice."
+    source_citation: "https://grants.nih.gov/grants/funding/r21.htm"
+
+  - flag: "scope_creep_beyond_budget"
+    severity: "MEDIUM"
+    red_team_probe: "Are aims so broad that the budgeted personnel time cannot complete them? Have you estimated effort per aim and matched it to FTE budgeted?"
+
+  - flag: "broader_impacts_boilerplate_nsf"
+    severity: "MEDIUM_TO_HIGH"
+    red_team_probe: "(NSF only) Does Broader Impacts list activities (give a workshop, train students) without a logic model linking activities to societal outcomes? Are partners named with roles, or is it an unfunded aspiration?"
+    source_citation: "https://www.nsf.gov/funding/preparing/broaderimpacts.jsp"
+
+  - flag: "wrong_mechanism_choice"
+    severity: "MEDIUM"
+    red_team_probe: "Is the budget request appropriate to the mechanism (R01 vs R21, AFRI Foundational standard vs CAP, NSF standard vs Career)? Does the project scope fit the mechanism's intent (planning vs full project, exploratory vs confirmatory)?"
+
+# ---------------------------------------------------------------------------
+# REPORTING REQUIREMENTS TYPICAL
+# ---------------------------------------------------------------------------
+reporting_requirements_typical:
+  performance_reporting:
+    frequency: "annual"
+    content_required:
+      - "Progress against aims / milestones"
+      - "Personnel + percent effort changes"
+      - "Publications, presentations, datasets generated (cumulative)"
+      - "Participants recruited / enrolled (where human subjects)"
+      - "Variance from original timeline + rationale"
+      - "Plans for next reporting period"
+      - "Inclusion enrollment report (NIH)"
+      - "Use of equipment / facilities purchased with grant funds"
+  financial_reporting:
+    frequency: "annual_minimum_quarterly_for_some"
+    content_required:
+      - "SF-425 Federal Financial Report — annual + final"
+      - "Expenditure by budget category"
+      - "Carryover request if balance > threshold"
+      - "Unobligated balance reporting"
+  final_report_required: true
+  source_citation: "https://grants.nih.gov/grants/rppr/rppr_instruction_guide.pdf"
+  note: "NIH RPPR (Research Performance Progress Report) due annually 60 days before each budget period start; final RPPR due within 120 days of project end. NSF annual project report due 90 days before each anniversary of award start; final report due within 120 days of award end. USDA NIFA REEport annual + final. IES annual + final per cooperative agreement schedule. Foundation reporting per agreement (typically annual + final). Closeout per 2 CFR 200.344 (90-120 days)."
+
+# ---------------------------------------------------------------------------
+# COMPLIANCE OBLIGATIONS
+# ---------------------------------------------------------------------------
+compliance_obligations:
+  - framework: "2 CFR Part 200 (Uniform Guidance)"
+    applicability: "All federal research grants"
+    typical_filings:
+      - "SF-425 Federal Financial Report"
+      - "RPPR / annual project report"
+      - "Single Audit if federal expenditures ≥ $750,000/year (rising to $1M under 2024 update)"
+      - "Subaward Reporting (FFATA)"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200"
+
+  - framework: "45 CFR 46 / Common Rule (Human Subjects)"
+    applicability: "Any research involving human subjects or identifiable human data"
+    typical_filings:
+      - "IRB approval before data collection"
+      - "Annual IRB continuing review (where required)"
+      - "Adverse-event reporting per protocol"
+      - "Single IRB (sIRB) for multi-site NIH research"
+    source_citation: "https://www.hhs.gov/ohrp/regulations-and-policy/regulations/45-cfr-46/index.html"
+
+  - framework: "HIPAA Privacy Rule"
+    applicability: "Research using Protected Health Information from covered entities"
+    typical_filings:
+      - "Authorization or IRB Waiver of Authorization"
+      - "Data Use Agreement for Limited Data Set"
+      - "Business Associate Agreement where applicable"
+    source_citation: "https://www.hhs.gov/hipaa/for-professionals/privacy/index.html"
+
+  - framework: "FDA IND / IDE"
+    applicability: "Research involving investigational drugs (IND) or investigational devices (IDE)"
+    typical_filings:
+      - "IND/IDE application to FDA"
+      - "Annual IND/IDE report"
+      - "Adverse-event reporting to FDA + IRB"
+    source_citation: "https://www.fda.gov/regulatory-information/search-fda-guidance-documents"
+
+  - framework: "PHS Policy on Humane Care and Use of Laboratory Animals (IACUC)"
+    applicability: "Research involving vertebrate animals"
+    typical_filings:
+      - "IACUC protocol approval before research begins"
+      - "Annual IACUC review"
+      - "Animal Welfare Assurance with OLAW"
+    source_citation: "https://olaw.nih.gov/policies-laws/phs-policy.htm"
+
+  - framework: "NIH Data Management and Sharing Policy (2023)"
+    applicability: "Nearly all NIH research applications submitted on or after Jan 25, 2023"
+    typical_filings:
+      - "DMS Plan submitted with application"
+      - "DMS Plan compliance reported in RPPR"
+      - "Data deposit per plan timeline"
+    source_citation: "https://sharing.nih.gov/data-management-and-sharing-policy/about-data-management-and-sharing-policies/data-management-and-sharing-policy-overview"
+
+  - framework: "NSF Public Access Policy + Data Management Plan"
+    applicability: "All NSF-funded research"
+    typical_filings:
+      - "DMP submitted with proposal (2 pages max)"
+      - "Publications deposited in NSF Public Access Repository (PAR) within 12 months"
+      - "Data shared per DMP commitments"
+    source_citation: "https://www.nsf.gov/data/"
+
+  - framework: "Public Access Policy (NIH)"
+    applicability: "All peer-reviewed publications arising from NIH funding"
+    typical_filings:
+      - "Manuscript deposit in PubMed Central (PMC) within 12 months of publication"
+      - "PMCID required in subsequent NIH applications and RPPRs"
+    source_citation: "https://publicaccess.nih.gov/"
+
+  - framework: "Responsible Conduct of Research (RCR) training"
+    applicability: "NIH (T-, F-, K-mechanisms; some others); NSF (all undergrad + grad + postdoc supported)"
+    typical_filings:
+      - "Documented RCR training plan"
+      - "RCR training completion records"
+    source_citation: "https://grants.nih.gov/grants/guide/notice-files/NOT-OD-10-019.html"
+
+  - framework: "Conflict of Interest disclosure (Federal financial disclosure)"
+    applicability: "All federal research; NIH FCOI per 42 CFR 50 Subpart F"
+    typical_filings:
+      - "Investigator FCOI disclosure annually + within 30 days of new SFI"
+      - "Institutional FCOI management plan where conflict identified"
+      - "Public posting of FCOI within 5 days of request"
+    source_citation: "https://www.ecfr.gov/current/title-42/chapter-I/subchapter-D/part-50/subpart-F"
+
+  - framework: "FFATA Subaward Reporting"
+    applicability: "Federal grants ≥ $30,000 with subawards ≥ $30,000"
+    typical_filings:
+      - "Subaward reporting in FSRS by end of month following month of obligation"
+    source_citation: "https://www.fsrs.gov/"
+
+  - framework: "FERPA (Family Educational Rights and Privacy Act, 34 CFR Part 99)"
+    applicability: "Research using personally identifiable information from education records of students, common in IES-funded research and NSF education research conducted in K-12 or postsecondary settings"
+    typical_filings:
+      - "Data-use agreement with the educational agency or institution releasing records"
+      - "FERPA-permitted disclosure pathway documented (audit/eval, studies, written-consent, directory information, etc.)"
+      - "IRB protocol cross-referencing FERPA limits where applicable"
+    source_citation: "https://studentprivacy.ed.gov/"
+
+  - framework: "NIH Inclusion of Women & Minorities (NIH Policy 4.1) and Inclusion Across the Lifespan (2019)"
+    applicability: "NIH clinical research involving human subjects (including secondary data with identifiable participants)"
+    typical_filings:
+      - "Inclusion-of-Women-and-Minorities plan in PHS Human Subjects and Clinical Trials Information form"
+      - "Inclusion-Across-the-Lifespan justification (children, older adults)"
+      - "Inclusion enrollment report annually in RPPR"
+    source_citation: "https://grants.nih.gov/policy-and-compliance/policy-topics/inclusion"
+
+  - framework: "Bayh-Dole Act (35 U.S.C. 200-212) Intellectual Property in Federally Funded Research"
+    applicability: "All federal research grants where inventions may arise; SBIR / STTR carry additional data-rights protections"
+    typical_filings:
+      - "Invention disclosure to funding agency within statutory window"
+      - "Election of title decision"
+      - "Government use license / march-in-rights acknowledgment"
+      - "Annual utilization reporting via iEdison (NIH) or equivalent agency system"
+    source_citation: "https://www.uspto.gov/ip-policy/bayh-dole"
+
+# ---------------------------------------------------------------------------
+# COMMITMENT TRACKING PATTERN — Report Generator (v0.2) feed
+# ---------------------------------------------------------------------------
+commitment_tracking_pattern:
+  typical_commitments_extracted:
+    - commitment_type: "protocol_completion"
+      measurement_method: "study protocol final + IRB-approved version + completion against timeline milestones"
+    - commitment_type: "irb_approval_or_continuing_review"
+      measurement_method: "IRB approval letter + protocol number + approval date + continuing review date"
+    - commitment_type: "participant_recruitment_and_enrollment"
+      measurement_method: "target enrollment N + actual enrollment N (cumulative + by demographic strata per NIH inclusion) + screening logs + consent rate"
+    - commitment_type: "data_collection_waves"
+      measurement_method: "wave name + planned start/end + actual start/end + completion percentage + missing-data summary"
+    - commitment_type: "analysis_milestones"
+      measurement_method: "analysis name + planned date + actual date + dataset version analyzed + analyst"
+    - commitment_type: "interim_findings"
+      measurement_method: "finding summary + supporting analysis + date observed + dissemination status (preprint, presentation, paper)"
+    - commitment_type: "performance_reports_filed"
+      measurement_method: "report type (RPPR / project report / REEport / IES annual) + filing date + acceptance status"
+    - commitment_type: "publications"
+      measurement_method: "citation + status (submitted/in revision/accepted/published) + DOI + PMCID + open-access status"
+    - commitment_type: "presentations"
+      measurement_method: "venue + date + audience type + slides/poster archived"
+    - commitment_type: "datasets_deposited"
+      measurement_method: "dataset name + repository + DOI/persistent ID + access tier (open/restricted) + deposit date"
+    - commitment_type: "code_released"
+      measurement_method: "code repository URL + version tag + license + Zenodo DOI for archived release"
+    - commitment_type: "dms_plan_compliance"
+      measurement_method: "DMS Plan element + planned action + actual status + variance explanation"
+    - commitment_type: "sbir_sttr_commercialization_milestones"
+      measurement_method: "SBIR / STTR only. Phase I: feasibility milestones (technical demonstration, customer-discovery interviews, IP filings, Phase II readiness). Phase II: TRL advancement against target, Phase III financing commitments (private investment, strategic partnerships, customer LOIs, follow-on federal contracts), product/service launch, revenue milestones if relevant. Track against the Commercialization Plan submitted with the application."
+  proposal_commitments_yaml_extension:
+    field_name: "research_evidence_commitments"
+  source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-04"
+
+# ---------------------------------------------------------------------------
+# ADMIN-RISK TERM REGISTER — REMOVED at Phase D Group A cleanup (2026-05-16)
+# per Wave 1 CLC-03 + Wave 2 CLC-02 / CLC-05 / CLC-06 / CLC-08 precedent
+# (§18.6 CLC schema does NOT declare admin_risk_term_register; CIC-only per
+# §18.5). Carrying it on a CLC card was a P0 schema conformance
+# violation surfaced at 14-card completeness audit (Phase A.3, CC-1
+# carryover).
+#
+# The 10 CLC-04-scoped flagged terms (DEI in research / diverse perspectives /
+# underrepresented populations / health equity / equity in research /
+# decolonize methodology / community-based participatory research / two-spirit
+# / Indigenous methodologies / intersectionality) migrate to the workspace-wide
+# admin_risk_register.yaml v2.3 follow-on dispatch (compound with CLC-03 +
+# CLC-02 + CLC-05 + CLC-06 + CLC-08 migrations). Runtime substitution discipline
+# is unchanged — Scribe reads the workspace register on every CLC-active draft.
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# LIFECYCLE
+# ---------------------------------------------------------------------------
+lifecycle:
+  draft_status: "signed"
+  review_status: "passed"
+  cross_family_thesis_status: "passed"
+  signature_status: "signed"
+  runtime_load_status: "loaded"
+  runtime_loadable: true
+  signed_at: "2026-05-16T16:00:00Z"
+  signed_by: "founder"
+  content_hash: "sha256:d1304309e2452e80ef44091a14b765ea7684b5d007f3c749ef7bcb2ebf5a68ec"
+  lock_history_row: 257
+  lock_timestamp_utc: "2026-05-16T16:00:00Z"
+  # LOCK ceremony 2026-05-16 PM after L-005 two-cycle audit closed at
+  # pipeline/validation/cards_wave_2_thesis_2026-05-15/CLC/research_evidence/FINAL_VERDICT.md
+  # (THESIS_PASSED). review_status flipped pending→passed; signature_status
+  # unsigned→signed; runtime_load_status not_loaded→loaded. Operator publisher
+  # pubkey pinned at vault_shared/cards/publisher_pubkey.signed.yaml. The
+  # ed25519_signature in _research_metadata is the operator Ed25519 signature
+  # over canonical-JSON of this YAML with ed25519_signature: null. OD-F + OD-H
+  # operator-decisions resolved pre-ceremony (cards LOCKed as-on-disk per
+  # operator directive 2026-05-16).
+
+# ---------------------------------------------------------------------------
+# RESEARCH METADATA — Phase 5 review handback substrate
+# ---------------------------------------------------------------------------
+_research_metadata:
+  authored_at: "2026-05-15T22:00:00Z"
+  authored_by_role: "research_session"
+  research_budget_hours_actual: 3.0
+  priors_consulted:
+    - path: "assets/cards/capital_logic/Capital Logic Cards.png"
+      extract_note: "Visual Card source — drawing TILTH-CLC-00; defines TILTH-CLC-04 Research & Evidence scope (inquiry, evaluation, pilots, proof-building)."
+    - path: "pipeline/blueprint/v0.1/section_18_card_system.md"
+      extract_note: "§18.10 starter content for TILTH-CLC-04; §18.11 five-phase research process; §18.15 testing requirements."
+    - path: "pipeline/cards/CLC/operating_capacity.yaml"
+      extract_note: "Wave 1 reference card — structural pattern for fields, comment density, lifecycle block, _research_metadata, _review_handback."
+    - path: "pipeline/cards/CLC/public_purpose_works.yaml"
+      extract_note: "Wave 2 Batch 1 sibling — confirms CLC structure repeatable across waves."
+    - path: "pipeline/cards/CLC/catalytic_change.yaml"
+      extract_note: "Wave 2 Batch 1 sibling — confirms admin_risk_term_register pattern + approval_required:true discipline."
+    - path: "pipeline/cards/_schema/card_clc.schema.json"
+      extract_note: "v1.0-clc schema; required fields list; coupling-violation `not.anyOf` block."
+    - path: "pipeline/institutional_memory/admin_risk_register.yaml"
+      extract_note: "Existing v2.2 register; entries for 'DEI', 'equity', 'anti-racism' reused with CLC-04 contextual notes; CLC-04-specific research-vocabulary additions (intersectionality, decolonizing methodologies, broader impacts misframing)."
+    - path: "CLAUDE.md"
+      extract_note: "Eight-CLC taxonomy + TILTH-CLC-04 scope: inquiry, evaluation, pilots, proof-building (USDA SARE, AFRI, NSF, NIH, IES, university partners)."
+
+  primary_sources:
+    - url: "https://grants.nih.gov/grants/peer/critiques/rpg.htm"
+      access_date: "2026-05-15"
+      relevance: "NIH peer review criteria for research project grants — five scored criteria (Significance, Investigators, Innovation, Approach, Environment) plus Overall Impact; 1-9 scoring scale."
+      verbatim_quote: "Reviewers will provide an overall impact score to reflect their assessment of the likelihood for the project to exert a sustained, powerful influence on the research field(s) involved."
+
+    - url: "https://www.nsf.gov/pubs/policydocs/pappg/index.jsp"
+      access_date: "2026-05-15"
+      relevance: "NSF Proposal & Award Policies & Procedures Guide — defines Intellectual Merit + Broader Impacts as the two statutory merit-review criteria; details proposal preparation requirements."
+      verbatim_quote: "All NSF proposals are evaluated through use of the two National Science Board approved merit review criteria: Intellectual Merit and Broader Impacts."
+
+    - url: "https://www.nsf.gov/funding/preparing/broaderimpacts.jsp"
+      access_date: "2026-05-15"
+      relevance: "NSF Broader Impacts criterion explanatory page — defines the criterion + lists representative impact pathways; reviewer guidance."
+      verbatim_quote: "The Broader Impacts criterion encompasses the potential to benefit society and contribute to the achievement of specific, desired societal outcomes."
+
+    - url: "https://sharing.nih.gov/data-management-and-sharing-policy/about-data-management-and-sharing-policies/data-management-and-sharing-policy-overview"
+      access_date: "2026-05-15"
+      relevance: "NIH 2023 Data Management and Sharing (DMS) Policy — required for nearly all NIH research applications submitted on or after Jan 25, 2023."
+      verbatim_quote: "The 2023 DMS Policy establishes the expectation that researchers will plan and budget for the managing and sharing of scientific data and submit a Plan to NIH for review during the funding process."
+
+    - url: "https://www.hhs.gov/ohrp/regulations-and-policy/regulations/45-cfr-46/index.html"
+      access_date: "2026-05-15"
+      relevance: "Common Rule (45 CFR 46) — federal regulations governing protection of human subjects in research; baseline IRB framework."
+      verbatim_quote: "The Common Rule outlines the basic provisions for IRBs, informed consent, and Assurances of Compliance for research involving human subjects."
+
+    - url: "https://grants.nih.gov/grants/forms/biosketch.htm"
+      access_date: "2026-05-15"
+      relevance: "NIH Biosketch format — 5-page maximum, SciENcv preferred; required for all NIH applications and used by NSF in NSF format."
+      verbatim_quote: "The biographical sketch is limited to five pages. Use only the formats approved by NIH."
+
+    - url: "https://www.nifa.usda.gov/grants/funding-opportunities/agriculture-food-research-initiative-foundational-applied-science"
+      access_date: "2026-05-15"
+      relevance: "USDA NIFA AFRI Foundational and Applied Science program — the largest USDA NIFA competitive program; six priority areas; per-RFA scoring."
+      verbatim_quote: "AFRI Foundational and Applied Science Program supports projects that focus on six AFRI priority areas to advance knowledge in both fundamental and applied sciences important to agriculture."
+
+    - url: "https://www.sare.org/grants/"
+      access_date: "2026-05-15"
+      relevance: "USDA SARE grants overview — four regional offices each running multiple grant programs (Research & Education, Producer, Partnership, Graduate Student, Professional Development)."
+      verbatim_quote: "SARE's grant programs are administered by four regional offices, each with its own grant programs, deadlines and funding amounts."
+
+    - url: "https://ies.ed.gov/funding/grants.asp"
+      access_date: "2026-05-15"
+      relevance: "Institute of Education Sciences (IES) grant programs — education research funding under NCER and NCSER; goal-coded mechanisms (Exploration, Development, Impact, Measurement)."
+      verbatim_quote: "Through grant competitions sponsored by NCER and NCSER, the Institute supports research designed to improve education outcomes for all students."
+
+    - url: "https://www.grants.gov/forms/r-r-family.html"
+      access_date: "2026-05-15"
+      relevance: "SF-424 (R&R) Research and Related form family — federal-wide standardized research grant application package."
+      verbatim_quote: "The R&R Family of forms is used by Federal grant-making agencies for research and research-related programs."
+
+    - url: "https://publicaccess.nih.gov/"
+      access_date: "2026-05-15"
+      relevance: "NIH Public Access Policy — peer-reviewed manuscripts arising from NIH funding must be deposited in PubMed Central within 12 months of publication."
+      verbatim_quote: "The NIH Public Access Policy ensures that the public has access to the published results of NIH funded research."
+
+    - url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200"
+      access_date: "2026-05-15"
+      relevance: "2 CFR Part 200 (Uniform Guidance) — federal-wide grant administration regulations governing all federal research awards."
+      verbatim_quote: "This part establishes uniform administrative requirements, cost principles, and audit requirements for Federal awards to non-Federal entities."
+
+    - url: "https://grants.nih.gov/grants/rppr/rppr_instruction_guide.pdf"
+      access_date: "2026-05-15"
+      relevance: "NIH RPPR (Research Performance Progress Report) instruction guide — annual progress reporting framework for NIH grants."
+      verbatim_quote: "The RPPR is used by grantees to submit progress reports to NIH on their grant awards. It uses a uniform federal-wide format."
+
+    - url: "https://www.research.gov/research-web/"
+      access_date: "2026-05-15"
+      relevance: "NSF Research.gov — current NSF proposal preparation and submission portal (FastLane decommissioned for prep)."
+      verbatim_quote: "Research.gov is NSF's online grants management system used for proposal preparation and submission."
+
+    - url: "https://dmptool.org/"
+      access_date: "2026-05-15"
+      relevance: "DMPTool — free DMP authoring tool maintained by California Digital Library; agency templates pre-loaded for NSF, NIH, USDA, NEH, more."
+      verbatim_quote: "DMPTool is a free, open-source, online application that helps researchers create data management plans."
+
+  # Ed25519 signature over canonical-JSON of this YAML with this field set to
+  # null. Canonical-JSON form: sorted keys, compact separators (",",":"), UTF-8,
+  # ensure_ascii=False. Canonical-JSON SHA3-512 (for white-glove integrity
+  # pinning): dc5ae6a90e82bd0aecb0b852d3f51e9a11d778c637f976cc932e8031170d870a0f4f29158f61218d3b80045cf62b80e0d226b3f218cb716bc590325925bb0871
+  # Signature target pubkey: vault_shared/cards/publisher_pubkey.signed.yaml
+  # (publisher_pubkey_ed25519_hex 0b1a0bbfa5ee9149af2c4e6153ed037dd03c0d562c94d3eaefeaf798e6f375bd)
+  ed25519_signature: "42b80c9810b5a747052eb8a3e4795f63f21ea47789cbb08f1a9bd840abbf19b6a30fb8e14dad25a7de21a82906ce99dfc9086b56ecf2a300184bf85558573209"
+
+# ---------------------------------------------------------------------------
+# REVIEW HANDBACK SUMMARY (per blueprint §18.11 Phase 5)
+# ---------------------------------------------------------------------------
+_review_handback:
+  card_axis_and_slug: "CLC:research_evidence"
+  card_file: "pipeline/cards/CLC/research_evidence.yaml"
+  research_hours_actual: 3.0
+  schema_completeness:
+    required_fields_populated: "15/15"
+    fields_needing_review: 0
+    total_citations: 38
+    unique_primary_sources: 15
+  decision_queue:
+    - "Operator approval on admin_risk_term_register entries (10 terms; all approval_required:true per OQ-5). Special attention to research-vocabulary terms (decolonizing methodologies, intersectionality) where federal substitution risks methodological misrepresentation."
+    - "NIH 2023 DMSP applicability check: card cites the policy as binding for nearly all NIH research applications submitted on/after Jan 25, 2023 — verify no carve-outs for the specific NIH FOA Scout surfaces at runtime."
+    - "NSF Broader Impacts framing: card flags post-2025 narrowing of acceptable Broader Impacts framings — verify against current NSF program-specific guidance for the active solicitation."
+    - "Federal F&A rate volatility: card notes 2025 executive-action volatility on NIH/other federal F&A rate caps — verify current rate at submission for any federal research budget."
+    - "Cross-family Thesis dispatch (Editor + Judge + Red Team) before promoting lifecycle to 'reviewed'."
+    - "Ed25519 signature once operator and Thesis pass — pending publisher key pin per architecture v7.0.11 §6."
+    - "scoring_weight_patterns: confirm qualitative-only posture per OQ-6 (no numeric win-rates) is the right runtime posture, or surface a 12-CycleReceipt threshold for a separate v0.2 numeric-weights amendment."
+    - "USDA SARE per-region per-program scoring — card notes operator-must-read-active-call; confirm Scout surfaces the active SARE region's scoring criteria as a runtime fetch rather than expecting card-encoded scoring."
+  conflicts_with_prior_art:
+    - "NONE — admin_risk_register.yaml entries for 'DEI', 'equity', 'anti-racism' reused with consistent severity tiers + CLC-04 research-context notes. CLC-04-specific terms (broader impacts misframing, decolonizing methodologies, intersectionality, marginalized communities, social justice research, underrepresented minorities) ADDED here; if any belong in the workspace-wide register, that's a separate operator decision."
+    - "NSF FastLane decommissioning — card documents Research.gov as current portal; verify on-disk references in Scout / channel adapters do not still point to FastLane endpoints (defense-in-depth)."
+  surface_ambiguities:
+    - "USDA AFRI scoring is per-RFA (six priority areas, each publishes its own dimensions). Card documents this rather than encoding fictional static weights — Scout must fetch the active-cycle RFA at runtime."
+    - "USDA SARE per-region per-program scoring (four regions × ~5 programs × per-region criteria). Card documents the meta-pattern rather than encoding regional rubrics — the regional rubrics belong in a runtime-fetched per-call cache, not a card."
+    - "NIH 2025 simplified review framework (Factor 1-3 grouping of criteria) — card documents both the legacy 5-criteria scoring (still in force for review of grants under prior FOAs) and the 2025 framework. Active-cycle determination is per-FOA — operator must check submission-cycle FOA."
+    - "Federal F&A rate caps under 2025 executive-action volatility — card calls for runtime rate-verification rather than encoding a number; this is the right posture but Operator should confirm Scout/Logician surfaces F&A-rate questions at submission time."
+    - "SciENcv as 'federally endorsed biosketch tool' — card documents the integration with ORCID + eRA Commons; verify status across NIH + NSF + USDA against current agency guidance (NSF mandates SciENcv-generated biosketch; NIH allows alternative formats but recommends SciENcv)."
+    - "Sibling Wave 1/Batch 1 cards (operating_capacity, public_purpose_works, catalytic_change) firing in parallel — once all four CLCs land, verify no inadvertent CIC × CLC coupling appears across the set (defense-in-depth)."
+    - "Verbatim quotes from policy / agency sites use the agency URL; some quotes are paraphrased from agency landing-page summaries — Phase 4 deepening step before LOCK should re-verify against the canonical regulation / NOFO text rather than landing-page summary."
+  review_readiness: "READY"

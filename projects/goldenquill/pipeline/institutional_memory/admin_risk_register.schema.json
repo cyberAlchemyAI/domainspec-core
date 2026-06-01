@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://golden-quill.local/schemas/admin_risk_register-v3.0.json",
+  "title": "admin_risk_register v3.0 (post-v7.0.12)",
+  "description": "Schema for pipeline/institutional_memory/admin_risk_register.yaml after architecture v7.0.12 (LOCKED 2026-05-16T14:00:00Z) retires the four-axis political enum. Forbids progressive_register, requires per_clc_register keyed by the 8 CapitalLogicCard slugs. See pipeline/architecture/v0.1/architecture_v7_0_12_apolitical_dialect_amendment.md §1.2.",
+  "type": "object",
+  "required": ["version", "entries"],
+  "properties": {
+    "version": {
+      "type": ["string", "number"],
+      "description": "Register version. v7.0.12 mandates v3.0 or higher (v2.x carried the retired progressive_register field)."
+    },
+    "supersedes": {"type": "string"},
+    "date": {"type": "string"},
+    "operator_review": {"type": "string"},
+    "operator_approval_token": {"type": ["string", "null"]},
+    "v2_3_migration_source": {"type": "string"},
+    "expansion_cycles": {
+      "type": ["array", "object"],
+      "description": "Taxonomic-history block describing how the register grew. Per architecture v7.0.12 §1.1 excluded-paths list, this block may legitimately reference the retired four-axis vocabulary factually as audit history."
+    },
+    "verification_discipline": {"type": ["string", "array", "object"]},
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/entry"}
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "capital_logic_card_slug": {
+      "type": "string",
+      "enum": [
+        "public_purpose_works",
+        "catalytic_change",
+        "operating_capacity",
+        "research_evidence",
+        "market_access",
+        "credit_underwriting",
+        "sponsorship_corporate",
+        "shared_assets"
+      ],
+      "description": "Canonical CapitalLogicCard slug from pipeline/types/identity_capital.py (closed set of 8 per v7.0.8)."
+    },
+    "register_value": {
+      "type": "string",
+      "enum": ["AVOID", "OK", "EXPECTED", "PREFERRED"],
+      "description": "Per-CLC dialect-register acceptability. Defaults to AVOID for any CLC not listed in per_clc_register; the empty map {} means AVOID-everywhere."
+    },
+    "entry": {
+      "type": "object",
+      "required": ["term", "severity"],
+      "properties": {
+        "term": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Flagged term as it appears in candidate proposal text."
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["RED", "YELLOW", "GREEN"],
+          "description": "Federal admin-risk tier per Law 4 register discipline. RED = documented denial/termination. YELLOW = memo/leaked-list/scrutiny signal. GREEN = precautionary; sector-dependent."
+        },
+        "per_clc_register": {
+          "type": "object",
+          "description": "Per-CLC dialect-register map. Architecture v7.0.12 §1.2: any CLC not listed defaults to AVOID; empty map = AVOID-everywhere (the safest unmigrated default). Operator promotes individual entries to OK/EXPECTED/PREFERRED based on actual reviewer-vocabulary analysis.",
+          "propertyNames": {"$ref": "#/$defs/capital_logic_card_slug"},
+          "additionalProperties": {"$ref": "#/$defs/register_value"}
+        },
+        "context": {"type": "string"},
+        "documented_action": {"type": "string"},
+        "alternatives": {"type": ["string", "array"]},
+        "notes": {"type": "string"},
+        "variants": {"type": "array"},
+        "_pre_v7_0_12_progressive_register_PRESERVED_FOR_AUDIT_CONTEXT": {
+          "type": "string",
+          "description": "Audit-context-only preservation of the retired v2.x progressive_register value. NEVER read by routing code. Provided as operator reference during the v7.0.12 per-term audit so the operator can see what the prior axis was without it influencing the new per_clc_register decision (per FI-7 REVISED + feedback_no_heuristic_mapping_on_enum_retirement.md). MAY be deleted after the operator completes the per-term audit."
+        }
+      },
+      "additionalProperties": true,
+      "not": {
+        "anyOf": [
+          {"required": ["progressive_register"]},
+          {"required": ["funder_political_axis"]}
+        ]
+      }
+    }
+  }
+}

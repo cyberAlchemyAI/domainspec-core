@@ -1,0 +1,78 @@
+# Benchmarks Register — workspace-shared external peer benchmarks
+# ----------------------------------------------------------------
+# Authority: pipeline/architecture/v0.1/architecture_v7_0_4_amendment.md (LOCKED 2026-05-09) §7
+#
+# Purpose: external peer benchmarks (state averages, USDA published medians, regional industry rates,
+# accreditation thresholds, etc.) shared across all orgs. Distinct from per-org KFR — KFR is per-org
+# fact validity; Benchmarks Register is workspace-shared external reference data.
+#
+# Schema: benchmarks.v1
+# Validation: Pydantic schema validates on every read; fail-closed on schema violation.
+# Format: YAML for operator legibility.
+#
+# Per-entry discipline (v7.0.4 §7 + §7.1):
+#   - benchmark_id is a stable identifier referenced from KFR facts via comparison_anchor.benchmark_id
+#   - source_doc MUST be an external public source — NEVER under orgs/<slug>/... per F-BENCHMARK-CONTAINS-PER-ORG-REF
+#   - value MUST NOT tolerance-match any value in any per-org KFR (workspace-shared canonical-value hash check
+#     per v7.0.4 §7.2 — defense-in-depth against accidental SN-LLC seeding of per-org content as benchmark)
+#   - audit_chain entries: SN-LLC seeding signature OR operator addition signature
+#   - Pydantic schema validation runs on every read (parity with KFR)
+#
+# Composition with v7.0.7 + v7.0.8:
+#   - v7.0.7: benchmark entries are workspace-shared Public+Shareable by default (no Confidential per-org content)
+#   - v7.0.8: benchmark entries do NOT carry CIC × CLC coupling (orthogonality preserved)
+
+schema_version: benchmarks.v1
+populated_at: <utc-timestamp at first population>
+populated_by: <sn_llc_seeding_key_id or operator_key_id>
+
+benchmarks:
+  # Initial seed — common benchmarks SN-LLC ships at white-glove onboarding.
+  # All entries: source_doc external public; values tolerance-checked against per-org KFR at write + read.
+
+  - benchmark_id: usda_small_farm_net_revenue_median_2024
+    what: "USDA published median net revenue, small farms <$50K gross receipts, 2024"
+    value: 12500
+    unit: USD
+    source_doc: "https://www.nass.usda.gov/Publications/Reports/2024_Small_Farms_Report.pdf"
+    source_page: 24
+    source_quote: "Median net revenue for small farms with gross receipts under $50,000 in 2024 was $12,500."
+    as_of: 2024-12-31
+    cadence: annual
+    expiry: 2025-12-31
+    audit_chain:
+      - {kind: sn_llc_seeding_at_white_glove, signed_at: <utc>, key_id: <sn_llc_key_id>, signature: <ed25519_sig>}
+
+  - benchmark_id: pa_avg_teacher_retention_2025
+    what: "PA state average teacher retention rate, 2025"
+    value: 0.84
+    unit: percentage
+    source_doc: "https://www.education.pa.gov/AnnualReport_2025.pdf"
+    source_page: 47
+    source_quote: "Statewide teacher retention rate in 2025 was 84 percent across all PA school districts."
+    as_of: 2025-09-30
+    cadence: annual
+    expiry: 2026-09-30
+    audit_chain:
+      - {kind: sn_llc_seeding_at_white_glove, signed_at: <utc>, key_id: <sn_llc_key_id>, signature: <ed25519_sig>}
+
+  - benchmark_id: usda_specialty_crop_avg_yield_per_acre_2024
+    what: "USDA published average yield per acre for specialty crops, mid-Atlantic region, 2024"
+    value: 8200
+    unit: lbs_per_acre
+    source_doc: "https://www.nass.usda.gov/Publications/Specialty_Crops_2024.pdf"
+    source_page: 88
+    source_quote: "Mid-Atlantic specialty crop producers reported an average yield of 8,200 pounds per acre in 2024."
+    as_of: 2024-12-31
+    cadence: annual
+    expiry: 2025-12-31
+    audit_chain:
+      - {kind: sn_llc_seeding_at_white_glove, signed_at: <utc>, key_id: <sn_llc_key_id>, signature: <ed25519_sig>}
+
+# Operators may add benchmarks via:
+#   tilth benchmarks add --benchmark-id <id> --source <external-url-or-file> ...
+# All additions are audit-trailed; F-BENCHMARK-CONTAINS-PER-ORG-REF fires at write if source path
+# matches orgs/<slug>/... or value tolerance-matches any per-org KFR value.
+
+audit_chain:
+  - {kind: register_initial_population, signed_at: <utc>, key_id: <sn_llc_key_id>, signature: <ed25519_sig>}

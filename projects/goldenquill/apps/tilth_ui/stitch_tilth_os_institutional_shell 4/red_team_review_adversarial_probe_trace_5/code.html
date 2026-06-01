@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Red Team Review</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed": "#e2e2e2",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "secondary-container": "#3a4a5f",
+                        "surface-bright": "#2f3a4c",
+                        "on-secondary": "#213145",
+                        "error": "#ffb4ab",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "surface-container-highest": "#2a3548",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-surface": "#d8e3fb",
+                        "tertiary": "#ffffff",
+                        "surface-container-high": "#1f2a3c",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-variant": "#2a3548",
+                        "on-tertiary": "#283044",
+                        "surface": "#081425",
+                        "on-primary-fixed-variant": "#454747",
+                        "surface-container": "#152031",
+                        "outline": "#8e9192",
+                        "on-primary": "#2f3131",
+                        "surface-container-low": "#111c2d",
+                        "surface-dim": "#081425",
+                        "primary-container": "#e2e2e2",
+                        "on-primary-container": "#636565",
+                        "error-container": "#93000a",
+                        "primary": "#ffffff",
+                        "tertiary-container": "#dae2fd",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-secondary-container": "#a9bad3",
+                        "inverse-primary": "#5d5f5f",
+                        "secondary": "#b7c8e1",
+                        "on-error": "#690005",
+                        "tertiary-fixed": "#dae2fd",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-background": "#d8e3fb",
+                        "background": "#081425",
+                        "surface-tint": "#c6c6c7",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-container-lowest": "#040e1f",
+                        "outline-variant": "#444748",
+                        "inverse-on-surface": "#263143",
+                        "on-tertiary-container": "#5c647a",
+                        "on-secondary-fixed": "#0b1c30",
+                        "inverse-surface": "#d8e3fb",
+                        "rust": "#9C3C28",
+                        "state-fail": "#A5321F"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "sidebar-width": "220px",
+                        "container-padding": "16px",
+                        "panel-gap": "8px",
+                        "unit": "4px",
+                        "gutter": "1px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Hanken Grotesk", "sans-serif"],
+                        "label-caps": ["JetBrains Mono", "monospace"],
+                        "headline-md": ["Hanken Grotesk", "sans-serif"],
+                        "body-md": ["Hanken Grotesk", "sans-serif"],
+                        "data-mono": ["JetBrains Mono", "monospace"],
+                        "body-sm": ["Hanken Grotesk", "sans-serif"]
+                    },
+                    fontSize: {
+                        "display-lg": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "label-caps": ["11px", { lineHeight: "1", letterSpacing: "0.05em", fontWeight: "700" }],
+                        "headline-md": ["20px", { lineHeight: "1.4", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "body-md": ["14px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }],
+                        "data-mono": ["13px", { lineHeight: "1", letterSpacing: "-0.01em", fontWeight: "500" }],
+                        "body-sm": ["12px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #020617; color: #d8e3fb; font-family: 'Hanken Grotesk', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="antialiased overflow-hidden text-body-md">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-container-padding w-full h-[56px] border-b border-outline-variant bg-surface-container-highest">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary tracking-tighter">GOLDEN QUILL</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">tune</span>
+                POSTURE: HYBRID
+            </span>
+<span class="font-label-caps text-label-caps text-on-surface-variant bg-surface-container px-2 py-1 border border-outline-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">history</span>
+                AUDIT PILL
+            </span>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-bright p-1 transition-none">security</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-bright p-1 transition-none">verified_user</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-bright p-1 transition-none">gavel</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-[56px] w-sidebar-width h-[calc(100vh-56px-32px)] border-r border-outline-variant bg-surface-container-low flex flex-col pt-4 overflow-y-auto">
+<div class="px-4 mb-6">
+<h2 class="font-headline-md text-headline-md text-primary">NODE IDENTITY</h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">POSTURE: SECURE</p>
+</div>
+<ul class="flex-1 flex flex-col w-full">
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>Home
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>Scout
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>Intake
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>Eligibility
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">map</span>Module Mapper
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>Drafting
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>Budget
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>Judge
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px] filled-icon">security</span>Red Team
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">signature</span>Sign-Off
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>Audit
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">style</span>Cards
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>FIDs
+                </a>
+</li>
+<li class="w-full">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>Costs
+                </a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-[220px] mt-[56px] h-[calc(100vh-56px-32px)] overflow-hidden bg-[#020617] flex">
+<!-- Left: Canvas -->
+<div class="flex-1 flex flex-col p-4 gap-4 overflow-y-auto custom-scrollbar">
+<!-- Council Split Banner -->
+<div class="w-full border border-outline-variant bg-[#1E293B] flex items-stretch">
+<div class="w-1 bg-[#F59E0B]"></div>
+<div class="p-3 flex items-center justify-between flex-1">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#F59E0B]">warning</span>
+<div>
+<h3 class="font-label-caps text-label-caps text-primary">COUNCIL SPLIT DETECTED</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Red Team 'HIT' on impact logic diverges from Judge's 'Acceptable' rating. Resolution required.</p>
+</div>
+</div>
+<button class="bg-surface text-primary border border-outline-variant px-3 py-1 font-label-caps text-label-caps hover:bg-surface-container-high">VIEW AUDIT</button>
+</div>
+</div>
+<!-- Main Context Header -->
+<div class="flex items-end justify-between border-b border-outline-variant pb-2">
+<div>
+<span class="font-data-mono text-data-mono text-[#9C3C28] mb-1 block">RTM-NARRATIVE-092</span>
+<h1 class="font-headline-md text-headline-md text-primary">Adversarial Testing: Project Narrative</h1>
+</div>
+<div class="flex items-center gap-2 font-label-caps text-label-caps text-on-surface-variant">
+                    TARGET: <span class="text-primary bg-surface-container px-2 py-1 border border-outline-variant">PROPOSAL_v2.4.docx</span>
+</div>
+</div>
+<!-- Probes List -->
+<div class="flex flex-col gap-[1px] bg-outline-variant">
+<!-- Probe 1: Fake-fit (HIT) -->
+<div class="bg-[#0F172A] border border-[#A5321F] flex flex-col">
+<div class="flex items-center p-3 cursor-pointer bg-[#1E293B]">
+<div class="w-[80px] font-label-caps text-label-caps text-[#A5321F] flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] filled-icon">crisis_alert</span> HIT
+                        </div>
+<div class="flex-1 font-body-md text-primary pl-4 border-l border-outline-variant">
+                            Fake-fit partnership signal
+                        </div>
+<span class="material-symbols-outlined text-on-surface-variant">expand_less</span>
+</div>
+<div class="p-4 border-t border-[#A5321F] bg-[#020617] flex flex-col gap-4">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">ATTACK VECTOR</span>
+<p class="font-body-md text-primary bg-[#0F172A] p-3 border border-outline-variant">Proposal claims institutional buyer interest without a signed MOU or letter of intent.</p>
+</div>
+<div class="bg-[#1E293B] border border-outline-variant p-3 flex gap-3">
+<span class="material-symbols-outlined text-[#F59E0B]">gavel</span>
+<div>
+<span class="font-label-caps text-label-caps text-[#F59E0B] block mb-1">REQUIRED OPERATOR ACTION</span>
+<p class="font-body-sm text-primary">Attach MOU from Partner A or remove the claim from Narrative Section 3.2.</p>
+</div>
+</div>
+<div class="flex justify-end gap-2 mt-2">
+<button class="bg-[#0F172A] text-primary border border-outline-variant px-4 py-1.5 font-label-caps text-label-caps hover:bg-[#1E293B]">OVERRIDE</button>
+<button class="bg-primary text-on-primary px-4 py-1.5 font-label-caps text-label-caps hover:bg-primary-fixed">ENFORCE</button>
+</div>
+</div>
+</div>
+<!-- Probe 2: Clean -->
+<div class="bg-[#0F172A] flex items-center p-3">
+<div class="w-[80px] font-label-caps text-label-caps text-[#22C55E] flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] filled-icon">check_circle</span> CLN
+                    </div>
+<div class="flex-1 font-body-md text-on-surface-variant pl-4 border-l border-outline-variant">
+                        Unsupported impact claims
+                    </div>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+<!-- Probe 3: Clean -->
+<div class="bg-[#0F172A] flex items-center p-3">
+<div class="w-[80px] font-label-caps text-label-caps text-[#22C55E] flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] filled-icon">check_circle</span> CLN
+                    </div>
+<div class="flex-1 font-body-md text-on-surface-variant pl-4 border-l border-outline-variant">
+                        Budget-Narrative mismatch
+                    </div>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+<!-- Probe 4: Uncertain -->
+<div class="bg-[#0F172A] flex items-center p-3">
+<div class="w-[80px] font-label-caps text-label-caps text-[#F59E0B] flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">help</span> UNC
+                    </div>
+<div class="flex-1 font-body-md text-on-surface-variant pl-4 border-l border-outline-variant">
+                        Admin-risk language
+                    </div>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Right: Inspector -->
+<aside class="w-[300px] border-l border-outline-variant bg-[#0F172A] flex flex-col flex-shrink-0">
+<div class="p-3 border-b border-outline-variant flex items-center justify-between bg-[#1E293B]">
+<span class="font-label-caps text-label-caps text-primary">PROBE RATIONALE</span>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">info</span>
+</div>
+<div class="p-4 flex flex-col gap-6 overflow-y-auto">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-2">SOURCE EXCERPT</span>
+<div class="bg-[#020617] border border-outline-variant p-3 font-data-mono text-data-mono text-on-surface-variant leading-relaxed">
+<span class="text-primary bg-surface-bright px-1">"We have strong interest from institutional buyers in the region..."</span> [Line 42]
+                    </div>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-[#9C3C28] block mb-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">psychology</span> RED TEAM LOGIC
+                    </span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                        Hostile reviewers target generic 'interest' claims as indicators of vaporware or lack of concrete market validation. The absence of specific names or signed agreements allows competitors to cast doubt on viability scoring.
+                    </p>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-2">PRECEDENT HASHES</span>
+<ul class="flex flex-col gap-1 font-data-mono text-[11px]">
+<li class="flex justify-between border-b border-outline-variant pb-1">
+<span class="text-secondary">0x8F2A...9B1C</span>
+<span class="text-[#EF4444]">REJECTED</span>
+</li>
+<li class="flex justify-between border-b border-outline-variant pb-1">
+<span class="text-secondary">0x3E7D...4A2F</span>
+<span class="text-[#EF4444]">REJECTED</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Terminal Log at bottom of inspector -->
+<div class="mt-auto h-[120px] bg-black border-t border-outline-variant p-2 flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-1">NODE TERMINAL</span>
+<div class="font-data-mono text-[11px] text-[#A5321F] leading-tight overflow-y-auto flex-1">
+                     &gt; running probe_set: narrative_integrity<br/>
+                     &gt; scanning target: PROPOSAL_v2.4.docx<br/>
+                     &gt; WARN: missing artifact [MOU/LOI]<br/>
+                     &gt; HIT generated on vector [Fake-fit]<br/>
+                     &gt; _
+                 </div>
+</div>
+</aside>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-4 w-full h-[32px] border-t border-outline-variant bg-surface-container-lowest">
+<span class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</span>
+<div class="flex gap-4">
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none" href="#">SYSTEM_STATUS</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none" href="#">AUDIT_LOG</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none" href="#">FID_0x2A</a>
+</div>
+</footer>
+</body></html>

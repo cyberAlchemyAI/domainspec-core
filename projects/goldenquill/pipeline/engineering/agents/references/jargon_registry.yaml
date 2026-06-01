@@ -1,0 +1,125 @@
+# Editor Jargon Registry — v1
+# Reference for Editor's jargon detection pass
+# Terms flagged here are common grant-writing jargon that reviewers may not understand
+# Editor provides 2-3 replacement options per flagged term
+# IMPORTANT: Some jargon IS rubric vocabulary — tagged [RUBRIC-TERM] means keep it
+
+categories:
+
+  grant_process_jargon:
+    description: "Terms insiders use that non-grant-writers may not know"
+    terms:
+      - term: "logic model"
+        plain: ["project plan showing how activities lead to results", "theory of change diagram", "results chain"]
+        rubric_term: true  # Many funders require this exact term
+        note: "Keep if RFA mentions 'logic model' — it's scoring vocabulary"
+      - term: "theory of change"
+        plain: ["explanation of how your work creates impact", "causal pathway", "if-then chain"]
+        rubric_term: true
+      - term: "capacity building"
+        plain: ["strengthening skills and resources", "developing organizational ability", "building team capabilities"]
+        rubric_term: false
+      - term: "leveraging"
+        plain: ["using", "building on", "combining with"]
+        rubric_term: false
+      - term: "deliverables"
+        plain: ["products", "completed items", "what we'll produce"]
+        rubric_term: true  # Budget sections often require this term
+      - term: "dissemination"
+        plain: ["sharing results", "distributing findings", "getting the word out"]
+        rubric_term: false
+      - term: "programmatic"
+        plain: ["project-related", "operational"]
+        rubric_term: false
+      - term: "scalable"
+        plain: ["can grow to serve more people", "expandable", "replicable at larger scale"]
+        rubric_term: false
+      - term: "sustainability plan"
+        plain: ["plan for continuing after grant ends", "long-term funding strategy"]
+        rubric_term: true  # Most funders require this section
+      - term: "matching funds"
+        plain: ["money your organization contributes alongside the grant", "cost-share"]
+        rubric_term: true
+      - term: "in-kind contributions"
+        plain: ["non-cash support (donated labor, space, equipment)", "donated resources"]
+        rubric_term: true
+
+  academic_jargon:
+    description: "Research/academic terms that creep into applied grant writing"
+    terms:
+      - term: "methodology"
+        plain: ["approach", "how we'll do it", "methods"]
+        rubric_term: false
+      - term: "empirical evidence"
+        plain: ["real-world data", "documented results", "measured outcomes"]
+        rubric_term: false
+      - term: "paradigm"
+        plain: ["approach", "framework", "model"]
+        rubric_term: false
+      - term: "stakeholders"
+        plain: ["partners", "community members", "people involved", "participants"]
+        rubric_term: false
+      - term: "operationalize"
+        plain: ["put into practice", "implement", "make real"]
+        rubric_term: false
+      - term: "longitudinal"
+        plain: ["over time", "multi-year", "tracked across seasons"]
+        rubric_term: false
+      - term: "efficacy"
+        plain: ["effectiveness", "how well it works"]
+        rubric_term: false
+
+  agriculture_jargon:
+    description: "Ag-specific terms — some are rubric terms for USDA"
+    terms:
+      - term: "value-added"
+        plain: ["processed or enhanced product worth more than raw", "adding value through processing"]
+        rubric_term: true  # VAPG literally stands for Value-Added Producer Grant
+      - term: "food hub"
+        plain: ["centralized facility for aggregating and distributing local food"]
+        rubric_term: true
+      - term: "regenerative agriculture"
+        plain: ["farming that rebuilds soil health and ecosystems"]
+        rubric_term: true  # Increasingly a rubric term for USDA/SARE
+      - term: "controlled environment agriculture"
+        plain: ["indoor farming (greenhouses, vertical farms, grow rooms)"]
+        rubric_term: true
+      - term: "GAP certification"
+        plain: ["Good Agricultural Practices food safety certification"]
+        rubric_term: true
+      - term: "agroecology"
+        plain: ["farming using ecological principles", "ecology-based farming"]
+        rubric_term: false
+
+  bureaucratic_jargon:
+    description: "Government/nonprofit process terms"
+    terms:
+      - term: "NOFO"
+        plain: ["Notice of Funding Opportunity (the grant announcement)"]
+        rubric_term: true  # Federal term — keep when referencing the document
+      - term: "CFDA number"
+        plain: ["federal program tracking number", "Assistance Listing number"]
+        rubric_term: true
+      - term: "UEI"
+        plain: ["Unique Entity Identifier (your organization's federal ID number)"]
+        rubric_term: true
+      - term: "indirect cost rate"
+        plain: ["overhead rate — the percentage for administrative costs"]
+        rubric_term: true
+      - term: "period of performance"
+        plain: ["grant timeline", "project duration"]
+        rubric_term: true
+
+# Readability targets (Editor uses these as benchmarks)
+readability_targets:
+  flesch_kincaid_grade: { min: 8, max: 12, ideal: 10 }
+  avg_sentence_length: { min: 12, max: 22, ideal: 17 }
+  passive_voice_pct: { max: 15 }
+  paragraph_length: { max_sentences: 5 }
+  acronym_density: "first use spelled out; max 3 undefined acronyms per page = flag"
+
+# Strength-to-issue ratio
+quality_balance:
+  minimum_ratio: "1 strength per 3 issues flagged"
+  strength_format: "connect to rubric criterion + point value"
+  note: "Editor that only flags problems demoralizes. Balance matters."

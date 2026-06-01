@@ -1,0 +1,772 @@
+# Admin-Risk Register — v2 PROPOSAL (2026-04-20)
+# Operator review required before this replaces v1.
+#
+# Expansion scope: v1 (17 entries) → v2 (~40 entries) capturing landscape shift post
+# EO 14151 (Ending Radical and Wasteful Government DEI Programs, 2025-01-20) and
+# EO 14168 (Defending Women from Gender Ideology Extremism, 2025-01-20).
+#
+# Severity tiers (unchanged from v1):
+#   RED     = documented pull / funding denied / program terminated
+#   YELLOW  = agency memo, leaked list, or algorithmic scrutiny trigger (not confirmed denial)
+#   GREEN   = precautionary; sector-dependent (progressive / soul-fire register may welcome)
+#
+# Law 4 discipline: Logician flags, NEVER rewrites. Applicant approves EVERY substitution.
+# Context matters: "gender" in biological/clinical context ≠ "gender" as DEI framing;
+# "women" in WOSB/SBA programs ≠ "women" as DEI identity category. Use context field per entry.
+#
+# Sources driving v2 additions:
+#   - EO 14151 "Ending Radical and Wasteful Government DEI Programs and Preferencing" (2025-01-20)
+#   - EO 14168 "Defending Women from Gender Ideology Extremism" (2025-01-20)
+#   - NSF leaked ~108-keyword flagging list (2025-02; multiple press confirmations)
+#   - NIH computational-text-analysis scanning (no public list, but staff directive confirmed)
+#   - NEA 2026 funding conditions (no "gender ideology" promotion)
+#   - "Big Beautiful Bill" prohibition on federal funding for gender-affirming care
+#   - 360+ federal surveys removing sexual orientation / gender identity measures (Williams Institute)
+#   - Jan 2026 partial reversal on NIH DEI criteria for stalled health research grants (Trump admin dropped criteria)
+
+version: 2.2
+supersedes: admin_risk_register.yaml (v1, 17 entries)
+date: 2026-04-20
+operator_review: PENDING
+operator_approval_token: null
+
+# =====================================================================
+# TWO-AXIS DIALECT DISCIPLINE (per Law 4 / CLAUDE.md)
+# =====================================================================
+#
+# The `severity` field on each entry is the FEDERAL admin-risk tier only.
+# The same term may be neutral, expected, or PREFERRED in progressive /
+# racial-justice / community-foundation dialects — especially for
+# applicants who are Black-led, Latino-led, tribal-led, LGBTQ+-led, or
+# otherwise identity-rooted organizations applying to funders that
+# explicitly center those identities.
+#
+# The register is NOT a prohibition list. It is a dialect-aware flagging
+# system. Applicant approves every substitution.
+#
+# Each entry carries (in addition to federal severity) a `progressive_register`
+# field with these values:
+#
+#   AVOID     — even progressive funders avoid (e.g., reclaimed pejoratives)
+#   OK        — usable but not expected; no signal either way
+#   EXPECTED  — progressive / racial-justice funders expect to see this language;
+#               its absence may signal misalignment
+#   PREFERRED — progressive / racial-justice / community-foundation funders
+#               actively welcome and amplify this language; using it
+#               signals alignment with the funder's stated values
+#
+# Funder-register categories (based on Josh's four-category taxonomy per CLAUDE.md):
+#
+#   federal / federal-contract                    → severity tier governs
+#   state (conservative)                          → maps to federal severity, often softer
+#   state (progressive — CA, WA, OR, NY, IL, MA)  → maps to progressive_register, often EXPECTED
+#   foundation (conservative/traditionalist)      → maps to federal severity, often softer
+#   foundation (centrist — Rockefeller, Gates)    → context-mixed; OK for most; avoid RED-tier
+#   foundation (progressive — Ford, MacArthur,
+#               Kellogg, Heinz, Surdna, Nathan
+#               Cummings, Packard on env)         → progressive_register governs; often EXPECTED
+#   foundation (racial-justice — Kellogg racial-
+#               equity programs, Surdna, Libra,
+#               Borealis, NEO Philanthropy,
+#               Hispanics in Philanthropy,
+#               ABFE, Kresge)                     → progressive_register = PREFERRED for
+#                                                    identity-affirming language when
+#                                                    applicant is identity-rooted
+#   foundation (soul-fire — radical, activist,
+#               abolitionist-aligned: Borealis,
+#               Groundswell, Resist, Third Wave,
+#               Brainerd)                         → progressive_register governs; many GREEN-tier
+#                                                    terms are PREFERRED; reclaimed language welcome
+#
+# Applicant-identity overlay:
+#
+#   When the applicant organization is Black-led, Latino-led, tribal-led,
+#   immigrant-serving, LGBTQ+-led, or otherwise identity-rooted, AND the
+#   funder is in the progressive / racial-justice / soul-fire registers,
+#   the flagged terms that name the applicant's own identity or lived
+#   reality are typically EXPECTED to PREFERRED — code-switching AWAY
+#   from identity-affirming language in that context can itself signal
+#   misalignment with the funder.
+#
+# Default mapping when `progressive_register` is not explicitly set:
+#
+#   federal RED + DEI/identity framing  → progressive EXPECTED
+#   federal RED + gender-framing        → progressive OK (some progressive
+#                                          funders still code-switching
+#                                          cautiously post-EO 14168)
+#   federal RED + climate/ESG framing   → progressive EXPECTED (climate funders
+#                                          explicitly welcome the language the
+#                                          federal admin rejects)
+#   federal YELLOW + identity framing   → progressive OK to EXPECTED
+#   federal GREEN + activist framing    → progressive EXPECTED to PREFERRED
+#
+# =====================================================================
+
+expansion_cycles:
+  - v2 (2026-04-20): 17 → 40 entries. Added trans/LGBTQ+/gender family (RED), NSF leaked 108-keyword coverage (YELLOW), context-dependent caveats (women/female/disabilities/minority/underserved).
+  - v2.1 (2026-04-20): 40 → ~75 entries. Added ESG/climate/green axis (RED: climate change, green, ESG, renewable energy, clean energy, carbon, net-zero, decarbonization, greenhouse gas, just transition); health axis (RED: health equity, structural racism, SDOH); reproductive axis (RED: reproductive rights/justice, abortion); analytical-DEI vocabulary expansion (YELLOW: community-centered, culturally responsive, lived experience, amplify, center, representation, allyship, safe space, microaggressions, positionality, white privilege/supremacy, cisgender, patriarchy); immigration axis (YELLOW: DACA, undocumented, sanctuary, asylum); clinical-DEI axis (YELLOW: trauma-informed, SEL, harm reduction); additional climate YELLOW (sustainability, climate resilience, global warming, impact investing, stakeholder capitalism, triple bottom line).
+  - v2.2 (2026-04-20): added two-axis dialect discipline. `progressive_register` field added to high-divergence entries. Schema preserves single-axis v2.1 data for terms where federal + progressive agree; explicit field populated for terms where they diverge (the common case for identity-rooted applicants to progressive funders). Default-mapping rules documented in top block. This update is taxonomic, not content — zero entries removed, most severity tiers unchanged.
+verification_discipline: |
+  Each entry's `documented_action` field cites the evidence class (EO / agency memo / leaked list /
+  press confirmation / Court filing). RED tier requires documented pull or denial. YELLOW tier can
+  rest on leaked list or agency-memo scrutiny. GREEN tier is precautionary without documented
+  enforcement action. Operator may downgrade or remove any entry — applicant sovereignty over
+  flagged-term register is absolute (Law 5).
+
+entries:
+
+  # =====================================================================
+  # RED tier — documented funding pulls, denials, or program terminations
+  # =====================================================================
+
+  - term: "DEI"
+    severity: RED
+    progressive_register: EXPECTED  # progressive/racial-justice funders expect this language; identity-rooted applicants should use without substitution
+    context: "Executive Order 14151 directly targets DEI programs in federal grants"
+    documented_action: "EO 14151 (2025-01-20) directs termination of DEI activities across federal government + DEI-related grant criteria; multiple agencies have implemented"
+    alternatives: ["workforce development", "broad participation", "inclusive access", "community representation"]
+    notes: "Acronym and spelled-out form both flagged"
+    variants: ["diversity equity inclusion", "diversity, equity, and inclusion", "D.E.I.", "DEIA", "diversity equity inclusion accessibility"]
+
+  - term: "equity"
+    severity: RED
+    progressive_register: EXPECTED  # progressive funders expect; racial-justice funders PREFERRED for Black/Latino-led applicants
+    context: "When used as standalone social-policy term in federal applications"
+    documented_action: "Federal grant reviewers instructed to flag equity-focused framing; NSF leaked list includes equity"
+    alternatives: ["access", "opportunity", "fairness", "broad participation"]
+    notes: "Context-dependent — 'equity' in financial context (owner's equity, home equity) is fine. Flag only when used as social/policy framing."
+    variants: ["equitable", "inequity", "inequitable"]
+
+  - term: "environmental justice"
+    severity: RED
+    progressive_register: EXPECTED  # climate/environmental-justice-aligned foundations PREFERRED; EJ-focused funders expect the exact phrase
+    context: "Term flagged in EPA and DOE grant programs under current administration"
+    documented_action: "EPA Environmental Justice programs restructured 2025; term discouraged in federal applications"
+    alternatives: ["environmental protection", "community environmental health", "pollution reduction", "clean air and water access"]
+    variants: ["EJ", "environmental equity"]
+
+  - term: "climate justice"
+    severity: RED
+    context: "Flagged alongside environmental justice"
+    documented_action: "Term removed from multiple federal program descriptions 2025"
+    alternatives: ["climate resilience", "weather preparedness", "agricultural adaptation", "resource conservation"]
+    variants: ["climate equity"]
+
+  - term: "transgender"
+    severity: RED
+    progressive_register: OK  # LGBTQ-focused funders EXPECTED; general progressive register softer (some foundations code-switching cautiously in 2026 post-EO 14168)
+    context: "EO 14168 directs replacement of gender with sex; NIH grants terminated on trans-health research; HIV services denied for trans individuals"
+    documented_action: "EO 14168 (2025-01-20); NIH grant terminations for LGBTQ health research (documented by ASCO, KFF); HHS directives"
+    alternatives: ["use biological terminology if clinically relevant", "community members", "patients", "individuals"]
+    notes: "RED in any federal application. Context-sensitive reclamation in progressive foundation applications (dialect code-switch); risky in government-adjacent funding."
+    variants: ["trans", "transgendered", "trans*", "transsexual"]
+
+  - term: "LGBTQ"
+    severity: RED
+    progressive_register: EXPECTED  # LGBTQ-focused foundations (Astraea, Arcus, Ford's Sexuality & Gender Justice) PREFERRED; non-LGBTQ progressive funders EXPECTED
+    context: "Federal surveys removed 360+ SOGI measures since 2025-01-20; grant programs terminated"
+    documented_action: "Williams Institute tracked 360+ federal data-collection removals; NSF leaked list includes LGBT; NIH scanning; NEA 2026 'no gender ideology promotion' clause"
+    alternatives: ["community", "the community we serve", "diverse populations (where clinically relevant, use specific clinical terms)"]
+    variants: ["LGBTQ+", "LGBTQIA+", "LGBTQI", "LGBT", "queer", "GLBT"]
+
+  - term: "gender identity"
+    severity: RED
+    context: "EO 14168 directs federal agencies to recognize only male/female biological sex; 'gender identity' framing triggers scrutiny"
+    documented_action: "EO 14168 (2025-01-20); Williams Institute survey-removal tracking; multiple agency directives"
+    alternatives: ["biological sex (where applicable)", "patient identity (clinical)", "personal characteristics"]
+    variants: ["gender expression", "gender nonconforming", "nonbinary", "non-binary"]
+
+  - term: "gender-affirming"
+    severity: RED
+    context: "Federal funding explicitly prohibited by 2025 legislation"
+    documented_action: "Big Beautiful Bill prohibits federal funding for gender-affirming care; HHS directives; documented revocations"
+    alternatives: ["consult the specific RFA — if the program supports clinical care, use the program's own terminology"]
+    variants: ["gender affirming", "gender-affirmation", "transition-related"]
+
+  - term: "gender ideology"
+    severity: RED
+    context: "EO 14168 title explicitly rejects 'gender ideology'; NEA 2026 requires projects not promote it"
+    documented_action: "EO 14168; NEA 2026 compliance requirements"
+    alternatives: ["avoid the term entirely; do not use ironically or critically in federal applications"]
+    notes: "Even critical or academic use triggers scrutiny. Rhetorical cost exceeds analytical benefit in federal filings."
+
+  - term: "sexual orientation"
+    severity: RED
+    context: "Williams Institute tracked removal of SOGI questions from 360+ federal surveys post-2025-01-20"
+    documented_action: "Executive action cascade; agency survey modifications"
+    alternatives: ["community members", "patients (clinical)", "populations served"]
+    variants: ["SOGI", "LGB"]
+
+  - term: "underrepresented"
+    severity: RED
+    context: "NSF leaked keyword list flagged; widely reported research-grant omissions"
+    documented_action: "NSF 108-keyword flagging list (leaked 2025-02); multiple researcher reports of proposals omitting the term"
+    alternatives: ["historically excluded from (specific program)", "first-generation", "below-parity representation", "communities with lower historical participation rates"]
+    variants: ["underrepresentation", "underrepresented minority", "URM"]
+
+  - term: "women"
+    severity: RED
+    context: "NSF leaked list includes 'women' and 'female' as flagged; context-dependent — WOSB/SBA women-owned-business programs still valid and required to use the term"
+    documented_action: "NSF leaked 108-keyword list; reported omissions from research grants"
+    alternatives: ["context matters — in WOSB programs, 'women-owned small business' is the required federal term; in research framing, avoid 'women' as identity category"]
+    notes: "Hardest-to-advise entry. WOSB certification programs explicitly require the term. NSF/NIH research proposals should avoid. Applicant approves per-document."
+    variants: ["women's", "womens", "female", "female-led", "female-focused", "women-led"]
+
+  - term: "minority"
+    severity: RED
+    context: "NSF leaked list; Trump admin explicit anti-DEI stance"
+    documented_action: "NSF flagged-list press confirmations; agency DEI-removal directives"
+    alternatives: ["historically limited-access populations", "communities with lower participation rates", "specific demographic term if legally relevant (e.g., SDA per USDA definition)"]
+    notes: "USDA SDA (Socially Disadvantaged Applicant) definition is statutory and remains valid — use 'SDA' not 'minority'."
+    variants: ["minorities", "minority-owned", "minority-serving", "underrepresented minority", "URM"]
+
+  # =====================================================================
+  # YELLOW tier — agency memos / leaked lists / scrutiny triggers
+  # =====================================================================
+
+  - term: "systemic racism"
+    severity: YELLOW
+    context: "Agency memos cautioning against framing in grant narratives"
+    alternatives: ["historical patterns", "structural barriers", "documented disparities", "historical access gaps"]
+    variants: ["systemic inequity", "structural racism", "systemic oppression"]
+
+  - term: "social justice"
+    severity: YELLOW
+    progressive_register: EXPECTED  # progressive/racial-justice/soul-fire funders PREFERRED; abolitionist funders welcome explicitly
+    context: "Cautioned in federal applications; less risky in progressive foundations"
+    alternatives: ["community wellbeing", "fair treatment", "equal opportunity (carefully — itself flagged)"]
+    notes: "Foundation grants (progressive register) may welcome this term — check dialect per Law 4"
+
+  - term: "transformative justice"
+    severity: YELLOW
+    context: "Cautioned in federal applications"
+    alternatives: ["restorative approaches", "community-based solutions", "alternative resolution"]
+
+  - term: "BIPOC"
+    severity: YELLOW
+    progressive_register: PREFERRED  # racial-justice funders (ABFE, Hispanics in Philanthropy, NCG member foundations) PREFERRED; Black/Latino-led applicants to racial-justice funders should NOT code-switch away
+    context: "Some federal reviewers flagged as political terminology; NSF flagged list"
+    alternatives: ["underserved communities (itself flagged — see below)", "historically underrepresented groups (also flagged)", "specific statutory terms (e.g., SDA for USDA)"]
+    notes: "Acceptable in progressive/soul-fire foundations. In federal applications, prefer statutory terms (SDA, Beginning Farmer, Veteran-Owned, etc.) over demographic labels."
+
+  - term: "anti-racism"
+    severity: YELLOW
+    context: "Cautioned in federal applications post-2025 executive orders"
+    alternatives: ["inclusive practices (also flagged — see below)", "bias reduction", "fair treatment protocols"]
+    variants: ["antiracist", "anti-racist"]
+
+  - term: "decolonize"
+    severity: YELLOW
+    context: "Cautioned in federal and some state applications"
+    alternatives: ["community self-determination", "locally-led", "culturally grounded"]
+    variants: ["decolonization", "decolonizing"]
+
+  - term: "reparations"
+    severity: YELLOW
+    context: "Highly charged in any government-adjacent funding"
+    alternatives: ["community investment", "restorative funding", "targeted support"]
+    variants: ["reparative"]
+
+  - term: "marginalized"
+    severity: YELLOW
+    progressive_register: EXPECTED  # progressive/racial-justice funders expect; some soul-fire funders prefer self-determination framing
+    context: "NSF leaked keyword list; widely documented researcher self-censorship"
+    alternatives: ["historically excluded", "populations with lower participation rates", "specific statutory demographic (e.g., SDA)"]
+    variants: ["marginalize", "marginalization"]
+
+  - term: "diversity"
+    severity: YELLOW
+    context: "NSF leaked list; DEI context flagged (biological diversity, crop diversity, species diversity — SAFE)"
+    alternatives: ["broad participation", "variety of (species / crops / approaches)", "range of perspectives"]
+    notes: "Clinical / ecological / scientific 'diversity' (biodiversity, crop diversity) is unflagged. Social 'diversity' as DEI framing is flagged."
+    variants: ["diverse", "diversify"]
+
+  - term: "inclusion"
+    severity: YELLOW
+    context: "When used as DEI framing; 'financial inclusion' and similar sector-specific uses are safer"
+    alternatives: ["broad participation", "open access", "wide enrollment"]
+    variants: ["inclusive", "inclusivity"]
+
+  - term: "critical race theory"
+    severity: YELLOW
+    context: "Politicized term; avoid in federal applications"
+    alternatives: ["do not use; reframe without analytical framework citation"]
+    variants: ["CRT"]
+
+  - term: "woke"
+    severity: YELLOW
+    progressive_register: AVOID  # reclaimed status contested; even progressive/soul-fire funders avoid due to pejorative-conservative-discourse capture
+    context: "Politicized pejorative in federal-administration discourse; ironic use risky"
+    alternatives: ["do not use in federal applications"]
+    variants: ["wokeness", "woke ideology"]
+
+  - term: "disparities"
+    severity: YELLOW
+    context: "Flagged when paired with identity categories (racial disparities, gender disparities); clinical disparities (health outcomes) more context-tolerant"
+    alternatives: ["documented differences in outcomes", "gaps in access to", "measured variation across"]
+    notes: "Clinical 'health disparities' is in gray zone — may be acceptable in CDC / HHS clinical framing depending on administration guidance week-to-week."
+
+  - term: "sense of belonging"
+    severity: YELLOW
+    context: "NSF leaked list"
+    alternatives: ["community engagement", "program retention", "participant connection"]
+
+  - term: "institutional"
+    severity: YELLOW
+    context: "NSF leaked list; primarily flagged in 'institutional racism' / 'institutional bias' framing, not in 'institutional capacity' or 'institutional partner'"
+    alternatives: ["context matters — 'institutional capacity' in org-development is fine; 'institutional racism/bias' framing is flagged"]
+    notes: "Single-word flagging depends heavily on context. Applicant reviews per-use."
+
+  - term: "activism"
+    severity: YELLOW
+    context: "NSF leaked list"
+    alternatives: ["community engagement", "civic participation", "advocacy (itself sometimes flagged — check program)"]
+    variants: ["activist", "activists"]
+
+  - term: "prejudice"
+    severity: YELLOW
+    context: "NSF leaked list"
+    alternatives: ["bias", "disparities in treatment", "documented discrimination"]
+
+  - term: "privilege"
+    severity: YELLOW
+    context: "As analytical frame in DEI discourse; 'attorney-client privilege' or similar legal/technical uses are unflagged"
+    alternatives: ["historical advantage", "structural access (itself flagged)", "varying starting conditions"]
+    notes: "Context matters — legal 'privilege' (attorney-client) is fine; sociological 'privilege' as DEI analysis is flagged."
+    variants: ["privileged"]
+
+  - term: "disabilities"
+    severity: YELLOW
+    context: "NSF leaked list included; ADA-statutory use (Americans with Disabilities Act, disability services) remains valid"
+    alternatives: ["context matters — ADA/Section 504 programs require the term; DEI-framed research proposals should be careful"]
+    notes: "This is the canonical example of context-dependent flagging. The statutory term 'disability' in ADA programs is valid and required. 'Disability' as DEI identity category is flagged."
+    variants: ["disability", "disabled", "people with disabilities"]
+
+  - term: "underserved"
+    severity: YELLOW
+    progressive_register: EXPECTED  # community foundations + health/education funders expect; USDA statutory 'underserved producer' remains valid at federal level
+    context: "Widely flagged in federal applications; USDA statutory 'underserved producer' definition remains valid"
+    alternatives: ["context matters — USDA 'underserved producer' is statutory and valid; DEI-framed use is flagged"]
+    notes: "Similar to 'minority' — USDA statutory definitions preserve valid uses; general DEI-framed use is flagged."
+    variants: ["under-served"]
+
+  - term: "female"
+    severity: YELLOW
+    context: "NSF leaked list; biological/clinical 'female' (sex variable in research) more tolerant than 'female-led' or 'female-owned' as identity"
+    alternatives: ["context matters — clinical sex-as-variable is valid; 'female-led' organization framing is flagged"]
+    notes: "Crossover with 'women' entry. WOSB programs require 'women-owned' terminology."
+    variants: ["females"]
+
+  - term: "equal opportunity"
+    severity: YELLOW
+    context: "NSF leaked list; statutory 'Equal Opportunity Employer' compliance statements remain valid"
+    alternatives: ["open enrollment", "accessible to all eligible applicants", "statutory EOE language where legally required"]
+    notes: "EOE compliance boilerplate is required by federal contractors and unaffected. 'Equal opportunity' as policy framing is flagged."
+
+  # =====================================================================
+  # GREEN tier — precautionary / sector-dependent / progressive-register-safe
+  # =====================================================================
+
+  - term: "food sovereignty"
+    severity: GREEN
+    context: "Progressive food-systems framing; risky in federal; welcomed in Shared Capital, La Vía Campesina-adjacent foundations"
+    alternatives: ["food security (federal-safe)", "local food systems", "community-controlled food production"]
+
+  - term: "land back"
+    severity: GREEN
+    context: "Indigenous land-return framing; high rhetorical cost in federal applications"
+    alternatives: ["tribal land stewardship", "indigenous-led conservation", "First Nations partnership"]
+    variants: ["#LandBack"]
+
+  - term: "solidarity economy"
+    severity: GREEN
+    context: "Cooperative economics framing; welcomed in Seed Commons / New Economy Coalition foundations"
+    alternatives: ["cooperative economy", "community-owned enterprises", "shared-ownership economic models"]
+
+  - term: "mutual aid"
+    severity: GREEN
+    context: "Cross-partisan in emergency response; politicized in some contexts"
+    alternatives: ["community response", "peer support networks", "community-based emergency assistance"]
+
+  - term: "abolition"
+    severity: GREEN
+    context: "Prison-abolition framing; high rhetorical cost in federal applications; welcomed in progressive justice funders"
+    alternatives: ["criminal legal reform", "community-based alternatives", "decarceration (also politicized)"]
+    variants: ["abolitionist"]
+
+  - term: "intersectional"
+    severity: GREEN
+    context: "Academic-origin DEI analytical frame; v1 had this in GREEN, v2 keeps — landscape has shifted but 'intersectional' has not been singled out at the level of 'DEI' or 'underrepresented'"
+    alternatives: ["multi-factor analysis", "considering multiple dimensions", "compound circumstances"]
+    notes: "Operator may move to YELLOW at discretion. Kept GREEN pending documented federal pull."
+    variants: ["intersectionality"]
+
+  # =====================================================================
+  # v2.1 EXPANSION (2026-04-20) — ESG / climate / health / reproductive / immigration axes
+  # =====================================================================
+  # Operator flag: "not sure if the list is comprehensive enough to cover all the DEI ESG
+  # Green words this admin scans bans and generally doesn't approve of" — confirmed accurate.
+  # Sources (see v2.1 sources block below): Inside Climate News ($29B climate/env grants
+  # canceled or frozen); DOE banned-words reporting (NPR Sept 2025); NIH health-equity /
+  # structural-racism pause (Notus); EPA/DOE/USDA REAP cancellations; court injunctions on
+  # $14B green-bank grants + $20B EPA program (show some pushback, but the scanning persists).
+  #
+  # =====================================================================
+
+  # ---- RED additions (climate / ESG — documented grant terminations) ----
+
+  - term: "climate change"
+    severity: RED
+    progressive_register: EXPECTED  # climate funders (Hewlett, Packard, Energy Foundation, ClimateWorks) PREFERRED; code-switching AWAY would signal misalignment
+    context: "DOE directed to avoid the phrase in grant materials (NPR Sept 2025); $29B in climate/environment grants canceled or frozen 2025"
+    documented_action: "DOE banned-words directive; EPA green-bank $20B termination (partially blocked by court); broad grant freezes under EO 14008 rescission"
+    alternatives: ["weather variability", "long-term weather patterns", "extreme weather preparedness", "resource conservation"]
+    variants: ["climate crisis", "climate emergency"]
+
+  - term: "green"
+    severity: RED
+    progressive_register: EXPECTED  # progressive environmental/climate/green-economy funders PREFERRED; economic-justice funders welcome 'green jobs' explicitly
+    context: "Flagged in federal program framing (DOE directive per NPR); 'green jobs', 'green economy', 'green infrastructure' all scrutinized; ecological 'green' in specific contexts may survive (e.g., NRCS cover-crop programs)"
+    documented_action: "DOE banned-words list (Sept 2025); $29B in green-labeled grants canceled or frozen"
+    alternatives: ["context-dependent — 'conservation infrastructure', 'resource-efficient', 'low-input' often work; in ag contexts, cite the statutory program (EQIP, CSP, RCPP)"]
+    notes: "Ecological 'green' (photosynthesis, vegetation) is fine. Policy 'green' (green jobs, green economy, green new deal) is RED."
+    variants: ["green jobs", "green economy", "green infrastructure", "green new deal"]
+
+  - term: "ESG"
+    severity: RED
+    context: "EO explicitly targets 'environmental, social, and governance (ESG)' state laws and initiatives"
+    documented_action: "EO targeting state ESG laws (April 2025 Holland & Knight summary); SEC rollback of ESG disclosure rules; broad agency directives"
+    alternatives: ["governance and risk management", "corporate responsibility (also risky)", "fiduciary compliance"]
+    variants: ["environmental social governance", "environmental, social, and governance"]
+
+  - term: "renewable energy"
+    severity: RED
+    progressive_register: EXPECTED  # climate/energy-transition funders PREFERRED; state agencies in CA/WA/OR/NY still use openly
+    context: "DOE canceled $7.5B in renewable energy grants across 315 awards (Oct 2025); USDA REAP rescinded (April 2026, NOFO FY25-27 eliminated)"
+    documented_action: "DOE Oct 2025 termination (315 awards, $7.56B); USDA REAP rescission April 2026; legal challenges pending"
+    alternatives: ["on-farm energy (USDA context)", "distributed generation", "energy independence", "rural energy (USDA context-specific)"]
+    notes: "USDA REAP itself is rescinded; do not apply to a non-existent program. Other programs (EQIP energy-related practices) may still fund similar work without the 'renewable' framing."
+    variants: ["renewables", "renewable power"]
+
+  - term: "clean energy"
+    severity: RED
+    context: "DOE canceled $8B in clean-energy grants (Oct 2025); blue-state projects specifically targeted"
+    documented_action: "DOE Oct 2025 termination announcements; PBS NewsHour coverage"
+    alternatives: ["energy independence", "domestic energy production", "affordable energy", "on-farm energy (USDA context)"]
+    variants: ["clean-energy", "clean power"]
+
+  - term: "carbon"
+    severity: RED
+    context: "Policy framing ('carbon-neutral', 'net-zero carbon', 'carbon offset', 'carbon tax') flagged; scientific carbon (carbon-14 dating, carbon chemistry) unflagged"
+    documented_action: "DOE banned-words directive; carbon-tax and GHG emissions grants targeted per EO"
+    alternatives: ["context matters — scientific carbon is fine; policy carbon framing (neutrality, offsets, pricing) is flagged"]
+    notes: "'Carbon sequestration' in soil-health contexts is borderline — USDA NRCS has funded it for decades as soil-carbon, but the political frame is risky. Use 'soil health' or 'soil organic matter' instead where possible."
+    variants: ["carbon-neutral", "carbon neutral", "carbon-negative", "carbon offset", "carbon pricing", "carbon tax"]
+
+  - term: "net-zero"
+    severity: RED
+    context: "Policy framing associated with Paris Accord / Green New Deal / climate-action targets"
+    documented_action: "Cancellation of $500M Lebec Net-Zero cement project (May 2025); broad pattern of net-zero-labeled grant terminations"
+    alternatives: ["energy-balanced", "self-sufficient operations", "cost-neutral operations"]
+    variants: ["net zero", "net-zero emissions", "NZE"]
+
+  - term: "decarbonization"
+    severity: RED
+    context: "Policy framing explicitly targeted"
+    documented_action: "EO targeting state climate programs (April 2025); DOE terminology directives"
+    alternatives: ["energy efficiency", "fuel diversification", "emissions reduction (also risky)"]
+    variants: ["decarbonize", "decarbonise"]
+
+  - term: "greenhouse gas"
+    severity: RED
+    context: "EO explicitly targets 'greenhouse gas' emissions programs"
+    documented_action: "EO targeting state GHG programs; EPA methane rule rollback"
+    alternatives: ["air emissions (broader)", "point-source emissions (regulatory context)"]
+    variants: ["GHG", "greenhouse-gas", "GHGs"]
+
+  - term: "environmental justice"
+    severity: RED
+    context: "ALREADY IN v2 — cross-referencing for completeness"
+    documented_action: "See v2 entry above"
+    alternatives: ["See v2 entry"]
+    notes: "Retained from v2; not double-added."
+
+  - term: "just transition"
+    severity: RED
+    context: "Labor + climate combined framing; politically charged"
+    documented_action: "Associated with Green New Deal framing; grants using the phrase canceled in blue-state cancellations wave"
+    alternatives: ["workforce adaptation", "sector diversification", "rural workforce development"]
+    variants: ["just-transition"]
+
+  # ---- RED additions (health — NIH explicitly paused) ----
+
+  - term: "health equity"
+    severity: RED
+    progressive_register: EXPECTED  # health-focused foundations (RWJF, Commonwealth Fund, CHCF) PREFERRED; term absence signals non-alignment
+    context: "NIH paused new funding for grants containing this term pending computational-text-analysis review (2025 guidance)"
+    documented_action: "NIH directive to staff; Notus reporting; CDC page framing modified"
+    alternatives: ["health outcomes", "access to care", "healthcare access across populations (without equity framing)"]
+    variants: ["health-equity", "equitable health", "health inequity"]
+
+  - term: "structural racism"
+    severity: RED
+    context: "NIH paused new funding for grants containing this term pending review"
+    documented_action: "NIH directive; Notus reporting"
+    alternatives: ["historical disparities in outcomes", "documented access gaps", "systemic barriers (also flagged — see YELLOW 'systemic')"]
+    variants: ["institutional racism", "systemic racism (already flagged)"]
+
+  - term: "social determinants of health"
+    severity: RED
+    context: "NIH scanning-tool targets; CDC SDOH page modified post-2025"
+    documented_action: "NIH computational-text-analysis scanning; CDC framing changes"
+    alternatives: ["nonmedical health factors", "contributing factors to health outcomes", "living conditions affecting health"]
+    notes: "Clinical SDOH use in specific care-delivery contexts (hospital discharge planning, care coordination) may survive; research-grant framing is RED."
+    variants: ["SDOH", "social determinants"]
+
+  # ---- RED additions (reproductive health) ----
+
+  - term: "reproductive rights"
+    severity: RED
+    context: "Federal funding for abortion-related services restricted (Hyde Amendment + expansions); 'reproductive rights' as advocacy framing flagged"
+    documented_action: "Statutory restrictions on federal funding for abortion; broad agency directives post-2025"
+    alternatives: ["maternal health", "obstetric care", "women's clinical care (careful with 'women')"]
+    variants: ["reproductive freedom", "reproductive justice"]
+
+  - term: "reproductive justice"
+    severity: RED
+    context: "DEI + reproductive-rights intersection; both axes flagged"
+    documented_action: "Same basis as 'reproductive rights'"
+    alternatives: ["maternal health access", "community health services"]
+
+  - term: "abortion"
+    severity: RED
+    context: "Federal funding statutorily restricted for most abortion services (Hyde); grant applications referencing abortion-related services risk ineligibility"
+    documented_action: "Hyde Amendment (statutory); expanded restrictions under 2025 HHS directives"
+    alternatives: ["carefully avoid in federal applications unless the program explicitly funds related services; prefer 'obstetric care', 'maternal health' in general framing"]
+    variants: ["abortion care", "abortion access", "pregnancy termination"]
+
+  # ---- YELLOW additions (climate / ESG scrutiny) ----
+
+  - term: "sustainability"
+    severity: YELLOW
+    context: "DEI-era ESG framing; USDA 'sustainable agriculture' context-dependent (SARE program is statutory and valid)"
+    documented_action: "Broadly scrutinized; SARE statutory programs unaffected"
+    alternatives: ["long-term viability", "durable operations", "conservation (USDA context)"]
+    notes: "SARE (Sustainable Agriculture Research and Education) is a statutory USDA program and remains valid. General 'sustainability' framing in other contexts is risky."
+    variants: ["sustainable"]
+
+  - term: "climate resilience"
+    severity: YELLOW
+    context: "Softer framing than 'climate change' but still flagged in some contexts"
+    alternatives: ["weather preparedness", "storm preparedness", "drought adaptation", "farm operational resilience"]
+    variants: ["climate adaptation"]
+
+  - term: "global warming"
+    severity: YELLOW
+    context: "Synonymous with 'climate change' in administration scrutiny"
+    alternatives: ["long-term temperature patterns", "weather variability"]
+
+  - term: "impact investing"
+    severity: YELLOW
+    context: "ESG-adjacent finance framing"
+    alternatives: ["mission-aligned investment", "patient capital", "community investment"]
+
+  - term: "stakeholder capitalism"
+    severity: YELLOW
+    context: "ESG-adjacent governance framing"
+    alternatives: ["shared-value business", "cooperative enterprise"]
+
+  - term: "triple bottom line"
+    severity: YELLOW
+    context: "ESG-adjacent framework"
+    alternatives: ["financial + community + environmental metrics (decoupled framing)"]
+
+  # ---- YELLOW additions (analytical DEI vocabulary) ----
+
+  - term: "community-centered"
+    severity: YELLOW
+    context: "DEI framing signal"
+    alternatives: ["community-driven", "community-owned", "member-led"]
+    variants: ["community-centric"]
+
+  - term: "culturally responsive"
+    severity: YELLOW
+    context: "Education/social-services DEI framing"
+    alternatives: ["locally adapted", "community-informed", "place-based"]
+    variants: ["culturally competent", "cultural responsiveness"]
+
+  - term: "lived experience"
+    severity: YELLOW
+    progressive_register: PREFERRED  # activist/participatory-research/soul-fire funders actively welcome; centering lived experience is a value signal
+    context: "DEI methodological framing"
+    alternatives: ["direct experience", "first-hand experience", "participant perspective"]
+
+  - term: "amplify"
+    severity: YELLOW
+    context: "DEI metaphor ('amplify voices')"
+    alternatives: ["share", "feature", "present"]
+    variants: ["amplify voices"]
+
+  - term: "center"
+    severity: YELLOW
+    context: "DEI methodological framing ('center marginalized voices'); verb use only — 'community center' the noun is fine"
+    alternatives: ["prioritize", "focus on", "feature"]
+    variants: ["centering"]
+
+  - term: "representation"
+    severity: YELLOW
+    context: "Political framing ('representation matters'); corporate-board representation is context-specific"
+    alternatives: ["participation", "inclusion in (flagged)", "board composition (neutral)"]
+
+  - term: "allyship"
+    severity: YELLOW
+    context: "DEI vocabulary"
+    alternatives: ["partnership", "support", "collaboration"]
+    variants: ["ally"]
+
+  - term: "safe space"
+    severity: YELLOW
+    context: "DEI vocabulary (education/workplace)"
+    alternatives: ["supportive environment", "respectful setting"]
+    variants: ["safe spaces"]
+
+  - term: "microaggressions"
+    severity: YELLOW
+    context: "DEI analytical vocabulary"
+    alternatives: ["incivility", "disrespectful interactions"]
+    variants: ["microaggression"]
+
+  - term: "positionality"
+    severity: YELLOW
+    context: "DEI research methodology"
+    alternatives: ["researcher perspective", "methodological context"]
+
+  - term: "white privilege"
+    severity: YELLOW
+    context: "DEI analytical vocabulary; highly politicized"
+    alternatives: ["historical advantage", "systemic access differences (flagged)"]
+    variants: ["white supremacy (distinct but co-flagged)"]
+
+  - term: "white supremacy"
+    severity: YELLOW
+    context: "Politicized term; academic and policy uses both risky"
+    alternatives: ["documented historical exclusion", "racial hierarchy (also flagged)"]
+
+  - term: "cisgender"
+    severity: YELLOW
+    context: "Linguistic marker for non-trans identity; flagged as gender-ideology-adjacent per EO 14168"
+    alternatives: ["biological sex terminology per EO 14168 framing"]
+    variants: ["cis"]
+
+  - term: "patriarchy"
+    severity: YELLOW
+    context: "DEI/feminist analytical framework"
+    alternatives: ["historical gender norms (also risky)"]
+
+  # ---- YELLOW additions (immigration) ----
+
+  - term: "DACA"
+    severity: YELLOW
+    context: "Immigration relief program; politically charged"
+    alternatives: ["eligible workforce (without status specification)"]
+    variants: ["Dreamers", "Deferred Action for Childhood Arrivals"]
+
+  - term: "undocumented"
+    severity: YELLOW
+    context: "Immigration framing"
+    alternatives: ["avoid status references in federal applications unless program explicitly serves a defined eligibility category"]
+    variants: ["undocumented immigrants", "unauthorized"]
+
+  - term: "sanctuary"
+    severity: YELLOW
+    context: "'Sanctuary city', 'sanctuary campus' flagged; general 'sanctuary' (wildlife sanctuary) unflagged"
+    alternatives: ["context matters — wildlife/conservation 'sanctuary' is fine; immigration-context 'sanctuary' is flagged"]
+    variants: ["sanctuary city", "sanctuary campus", "sanctuary jurisdiction"]
+
+  - term: "asylum seeker"
+    severity: YELLOW
+    context: "Immigration framing"
+    alternatives: ["new arrivals", "eligible refugees (statutory — context-check)"]
+    variants: ["asylum", "asylum-seeker"]
+
+  # ---- YELLOW additions (health/clinical vocabulary) ----
+
+  - term: "trauma-informed"
+    severity: YELLOW
+    context: "Clinical context (trauma-informed care) more tolerant; policy framing flagged"
+    alternatives: ["patient-centered", "supportive care protocols"]
+    variants: ["trauma informed", "trauma responsive"]
+
+  - term: "social-emotional learning"
+    severity: YELLOW
+    context: "State-level bans (FL, TX) + federal DEI scrutiny; education sector"
+    alternatives: ["life-skills curriculum", "student development"]
+    variants: ["SEL", "social emotional learning"]
+
+  - term: "harm reduction"
+    severity: YELLOW
+    context: "Public-health intervention framing; drug-policy context flagged in some states/administrations"
+    alternatives: ["overdose prevention", "clinical risk-reduction protocols"]
+
+# =====================================================================
+# Meta — operator approval block
+# =====================================================================
+#
+# Operator review checklist:
+# - [ ] Verify each RED entry has documented_action citing specific enforcement (EO, agency memo, funding pull)
+# - [ ] Review YELLOW tier for entries that should escalate to RED based on your 2026 client experience
+# - [ ] Add / remove / adjust severity per your admin-risk tolerance for each client org
+# - [ ] Approve context/notes fields — especially the context-dependent entries (women, female, disabilities, underserved, minority, diversity, institutional)
+# - [ ] Sign the approval_token field and move this file to admin_risk_register.yaml (supersedes v1)
+# - [ ] Optionally: also move the file to the path POST step 6 expects (pipeline/institutional_memory/admin_risk_register.yaml), OR repoint POST step 6 to current path
+#
+# v2 DIFF SUMMARY:
+#   - 17 → ~40 entries (+23)
+#   - RED: 4 → 13 (+9)   — trans/LGBTQ+/gender family (8 entries), plus underrepresented, women, minority
+#   - YELLOW: 7 → 19 (+12) — NSF leaked list coverage (marginalized, diversity, inclusion, CRT, woke,
+#                             disparities, sense of belonging, institutional, activism, prejudice,
+#                             privilege, disabilities, underserved, female, equal opportunity)
+#   - GREEN: 6 → 7 (+1)  — no removals; intersectional kept GREEN pending documented pull
+#
+# v2.1 DIFF SUMMARY (expansion to cover ESG/climate/green + health equity + reproductive + immigration + analytical DEI):
+#   - ~40 → ~75 entries (+~35)
+#   - RED: 13 → ~29 (+~16)
+#       Climate/ESG (11): climate change, green, ESG, renewable energy, clean energy, carbon,
+#                          net-zero, decarbonization, greenhouse gas, just transition, environmental
+#                          justice (cross-ref from v2)
+#       Health (3): health equity, structural racism, social determinants of health
+#       Reproductive (3): reproductive rights, reproductive justice, abortion
+#   - YELLOW: 19 → ~38 (+~19)
+#       Climate (5): sustainability, climate resilience, global warming, impact investing,
+#                    stakeholder capitalism (+ triple bottom line)
+#       Analytical DEI (14): community-centered, culturally responsive, lived experience, amplify,
+#                             center, representation, allyship, safe space, microaggressions,
+#                             positionality, white privilege, white supremacy, cisgender, patriarchy
+#       Immigration (4): DACA, undocumented, sanctuary, asylum seeker
+#       Clinical-DEI (3): trauma-informed, social-emotional learning, harm reduction
+#   - GREEN: 7 → 7 (unchanged)
+#
+# KNOWN GAPS IN v2.1 (for operator consideration, not yet added):
+#   - "progressive" (as political label — sometimes flagged, often fine)
+#   - "advocacy" (context-dependent — community advocacy vs political advocacy)
+#   - "oppression" / "liberation" (academic DEI framing)
+#   - "settler-colonial" (decolonization-adjacent)
+#   - "capitalism" / "anti-capitalism" (political framing)
+#   - "environmental racism" (crosses env-justice + structural-racism axes; likely RED)
+#   - "food apartheid" (activist framing for food deserts; progressive-register only)
+#   - State-specific flagged lists (FL, TX, ID school-curriculum bans)
+#   - Religious-liberty-context terms where applicants must thread a needle
+#   - International-development terms ("capacity-building", "gender mainstreaming" etc.)
+#
+# SOURCES for v2.1 additions:
+#   - Climate Action Campaign Trump Climate & Clean Energy Rollback Tracker
+#   - Inside Climate News: $29B canceled/frozen climate+env grants (Sep 2025)
+#   - NPR: DOE bans words including climate change and green (Sept 30, 2025)
+#   - PBS NewsHour + CNBC: Oct 2025 $8B clean-energy cancellations
+#   - PV Tech: US court rules DOE cancellation of $7.5B clean-energy grants unlawful
+#   - Civil Eats + GovPing: USDA REAP rescinded April 2026
+#   - Jones Day / Wilson Sonsini / Holland & Knight: EO legal analyses
+#   - Notus: NIH pauses grants with 'health equity', 'structural racism' pending review
+#   - CDC SDOH framing modifications tracking
+#   - Hyde Amendment + 2025 HHS directives on reproductive health funding
+#   - Williams Institute: 360+ federal surveys removed SOGI measures (overlaps v2)

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Audit Trail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#e2e2e2",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-tertiary": "#283044",
+                        "on-primary": "#2f3131",
+                        "inverse-surface": "#d8e3fb",
+                        "outline-variant": "#444748",
+                        "on-tertiary-fixed": "#131b2e",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "tertiary-container": "#dae2fd",
+                        "background": "#081425",
+                        "surface-container-high": "#1f2a3c",
+                        "primary": "#ffffff",
+                        "inverse-primary": "#5d5f5f",
+                        "surface": "#081425",
+                        "on-surface": "#d8e3fb",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "outline": "#8e9192",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-secondary-container": "#a9bad3",
+                        "surface-container-lowest": "#040e1f",
+                        "on-error": "#690005",
+                        "on-background": "#d8e3fb",
+                        "surface-dim": "#081425",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-container-low": "#111c2d",
+                        "error": "#ffb4ab",
+                        "primary-fixed": "#e2e2e2",
+                        "on-secondary": "#213145",
+                        "surface-container-highest": "#2a3548",
+                        "secondary": "#b7c8e1",
+                        "surface-variant": "#2a3548",
+                        "on-primary-container": "#636565",
+                        "surface-tint": "#c6c6c7",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "surface-bright": "#2f3a4c",
+                        "secondary-container": "#3a4a5f",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed": "#1a1c1c",
+                        "tertiary": "#ffffff",
+                        "error-container": "#93000a",
+                        "on-tertiary-container": "#5c647a",
+                        "surface-container": "#152031",
+                        "inverse-on-surface": "#263143"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "panel-gap": "8px",
+                        "sidebar-width": "220px",
+                        "gutter": "1px",
+                        "unit": "4px",
+                        "container-padding": "16px"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["JetBrains Mono"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { margin: 0; padding: 0; }
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 20px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        /* Scrollbar styling for industrial look */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #081425; }
+        ::-webkit-scrollbar-thumb { background: #444748; }
+        ::-webkit-scrollbar-thumb:hover { background: #8e9192; }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen overflow-hidden flex flex-col font-body-md select-none">
+<!-- TopAppBar -->
+<header class="bg-surface-container-highest dark:bg-surface-container-highest border-b border-outline-variant flex items-center justify-between px-container-padding w-full h-[56px] z-50 shrink-0">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter uppercase">GOLDEN QUILL</span>
+<div class="flex items-center gap-2 border-l border-outline-variant pl-4 ml-2">
+<span class="font-label-caps text-label-caps bg-surface-container-low text-secondary border border-outline-variant px-2 py-1 flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">sync_alt</span> HYBRID
+                </span>
+<span class="font-label-caps text-label-caps bg-surface-container-low text-primary border border-outline-variant px-2 py-1 flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">check_circle</span> VERIFIED
+                </span>
+<span class="font-data-mono text-data-mono text-on-surface-variant flex items-center gap-1 ml-2">
+<span class="material-symbols-outlined" style="font-size: 16px;">key</span> Ed25519
+                </span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative w-64 border border-outline-variant bg-surface-container-lowest">
+<span class="material-symbols-outlined absolute left-2 top-1.5 text-outline">search</span>
+<input class="w-full bg-transparent border-none text-on-surface font-data-mono text-data-mono pl-8 py-1.5 focus:ring-1 focus:ring-primary focus:outline-none" placeholder="Search ledger..." type="text"/>
+</div>
+<div class="flex items-center gap-3 text-primary dark:text-primary">
+<button class="hover:bg-surface-bright p-1 transition-none flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+</button>
+<button class="hover:bg-surface-bright p-1 transition-none flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</button>
+<button class="hover:bg-surface-bright p-1 transition-none flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low dark:bg-surface-container-low w-[220px] h-full border-r border-outline-variant flex flex-col shrink-0 z-40 relative">
+<div class="px-4 py-6 border-b border-outline-variant">
+<h2 class="font-headline-md text-headline-md text-primary tracking-tight">NODE IDENTITY</h2>
+<div class="font-label-caps text-label-caps text-secondary mt-1 flex items-center gap-1">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+                    POSTURE: SECURE
+                </div>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<ul class="flex flex-col">
+<!-- Iterating tabs, highlighting Audit -->
+<!-- Inactive -->
+<li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined">home</span> <span class="font-label-caps text-label-caps">Home</span>
+</li>
+<li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined">search</span> <span class="font-label-caps text-label-caps">Scout</span>
+</li>
+<li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined">input</span> <span class="font-label-caps text-label-caps">Intake</span>
+</li>
+<li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined">assignment_turned_in</span> <span class="font-label-caps text-label-caps">Eligibility</span>
+</li>
+<li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined">map</span> <span class="font-label-caps text-label-caps">Module Mapper</span>
+</li>
+<li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined">edit_note</span> <span class="font-label-caps text-label-caps">Drafting</span>
+</li>
+<li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined">payments</span> <span class="font-label-caps text-label-caps">Budget</span>
+</li>
+<li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined">gavel</span> <span class="font-label-caps text-label-caps">Judge</span>
+</li>
+<li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined">security</span> <span class="font-label-caps text-label-caps">Red Team</span>
+</li>
+<li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined">signature</span> <span class="font-label-caps text-label-caps">Sign-Off</span>
+</li>
+<!-- Active -->
+<li class="px-4 py-2 flex items-center gap-3 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed cursor-default">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history_edu</span> <span class="font-label-caps text-label-caps">Audit</span>
+</li>
+<!-- Inactive -->
+<li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined">style</span> <span class="font-label-caps text-label-caps">Cards</span>
+</li>
+<li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined">fingerprint</span> <span class="font-label-caps text-label-caps">FIDs</span>
+</li>
+<li class="px-4 py-2 flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high transition-none cursor-pointer">
+<span class="material-symbols-outlined">account_balance_wallet</span> <span class="font-label-caps text-label-caps">Costs</span>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Central Workspace: Ledger Timeline -->
+<main class="flex-1 overflow-y-auto bg-background p-6">
+<div class="max-w-4xl mx-auto">
+<div class="flex items-end justify-between border-b border-outline-variant pb-4 mb-6">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary mb-1">AMENDMENT LEDGER</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cryptographically secured operational history.</p>
+</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant flex gap-4">
+<span>ENTRIES: 1,402</span>
+<span>LATEST: 12 SECS AGO</span>
+</div>
+</div>
+<!-- Timeline Container -->
+<div class="relative pl-6 border-l border-outline-variant ml-4 space-y-6">
+<!-- Event 1: Fail-closed -->
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-[11px] h-[11px] bg-background border border-[#EF4444] z-10 flex items-center justify-center">
+<div class="w-[5px] h-[5px] bg-[#EF4444]"></div>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-4 hover:border-outline transition-none group cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<div class="font-label-caps text-label-caps text-[#EF4444] flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 16px;">error</span> FAIL-CLOSED DETECTED
+                                </div>
+<span class="font-data-mono text-data-mono text-on-surface-variant text-[11px]">2023-10-27T08:14:22Z</span>
+</div>
+<div class="font-headline-md text-headline-md text-primary mb-2 text-base">Logician Gate: E-104 Mismatch Detected</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant text-[12px] bg-surface-container-highest border border-outline-variant p-2">
+                                ERR_CODE: X-GATE-BLOCK<br/>
+                                REASON: Constraint violations in pre-flight node check. Process abruptly halted to prevent state contamination.
+                            </div>
+</div>
+</div>
+<!-- Event 2: Evidence Resolution (Active state simulation) -->
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-[11px] h-[11px] bg-background border border-primary z-10 flex items-center justify-center">
+<div class="w-[5px] h-[5px] bg-primary"></div>
+</div>
+<!-- Active panel gets white border -->
+<div class="bg-surface-container border border-primary p-4 shadow-none">
+<div class="flex justify-between items-start mb-2">
+<div class="font-label-caps text-label-caps text-secondary flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 16px;">fact_check</span> EVIDENCE RESOLUTION
+                                </div>
+<span class="font-data-mono text-data-mono text-on-surface-variant text-[11px]">2023-10-27T09:01:14Z</span>
+</div>
+<div class="font-headline-md text-headline-md text-primary mb-2 text-base">Evidence Resolution: CX-992</div>
+<div class="font-body-sm text-body-sm text-on-surface mb-3 border-l-2 border-outline-variant pl-3">
+                                Analyst initiated manual override to correct project start date discrepancies following client addendum.
+                            </div>
+<!-- Diff Block -->
+<div class="grid grid-cols-2 gap-px bg-outline-variant border border-outline-variant mb-3 font-data-mono text-data-mono text-[12px]">
+<div class="bg-surface-container-low p-2">
+<div class="text-[#EF4444] line-through mb-1">- start_date: "2023-11-01"</div>
+<div class="text-on-surface-variant">  phase: "initiation"</div>
+</div>
+<div class="bg-surface-container-low p-2">
+<div class="text-[#22C55E] mb-1">+ start_date: "2023-11-15"</div>
+<div class="text-on-surface-variant">  phase: "initiation"</div>
+</div>
+</div>
+<div class="flex items-center gap-2 font-data-mono text-data-mono text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-size: 14px;">signature</span>
+                                Signed by: Josh Inklovich
+                            </div>
+</div>
+</div>
+<!-- Event 3: Scribe Update -->
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-[11px] h-[11px] bg-background border border-outline-variant z-10"></div>
+<div class="bg-surface-container-low border border-outline-variant p-4 hover:border-outline transition-none cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<div class="font-label-caps text-label-caps text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 16px;">edit_document</span> SCRIBE UPDATE
+                                </div>
+<span class="font-data-mono text-data-mono text-on-surface-variant text-[11px]">2023-10-27T10:45:00Z</span>
+</div>
+<div class="font-headline-md text-headline-md text-primary mb-2 text-base">Scribe: Section Narrative Saved</div>
+<div class="flex items-center gap-2 font-data-mono text-data-mono text-[12px] text-on-surface-variant bg-surface-container-highest p-2 border border-outline-variant">
+                                HASH: <span class="text-secondary">a7f8b9c0...3e4d5f6g</span>
+</div>
+</div>
+</div>
+<!-- Event 4: Posture Shift -->
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-[11px] h-[11px] bg-background border border-[#F59E0B] z-10 flex items-center justify-center">
+<div class="w-[5px] h-[5px] bg-[#F59E0B]"></div>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-4 hover:border-outline transition-none cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<div class="font-label-caps text-label-caps text-[#F59E0B] flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 16px;">admin_panel_settings</span> SYSTEM CONFIG
+                                </div>
+<span class="font-data-mono text-data-mono text-on-surface-variant text-[11px]">2023-10-27T11:30:12Z</span>
+</div>
+<div class="font-headline-md text-headline-md text-primary mb-2 text-base">Posture Shift: LOCAL to HYBRID</div>
+<div class="font-body-sm text-body-sm text-on-surface mb-2">
+                                Global node consensus reached to elevate operational posture. Multi-regional synchronization initialized.
+                            </div>
+<div class="flex items-center gap-2 font-data-mono text-data-mono text-[11px] text-primary bg-surface-container-highest p-2 border border-outline-variant w-fit mt-2">
+<span class="material-symbols-outlined" style="font-size: 14px;">verified</span> CONFIRMATION SIGNED
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Right Inspector (Audit Entry Detail) -->
+<aside class="w-[320px] bg-surface-container-highest border-l border-outline-variant flex flex-col shrink-0">
+<div class="p-4 border-b border-outline-variant bg-surface-container-low">
+<h3 class="font-label-caps text-label-caps text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">data_object</span> AUDIT ENTRY DETAIL
+                </h3>
+</div>
+<div class="p-4 flex-1 overflow-y-auto space-y-6">
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">SELECTED EVENT</div>
+<div class="font-body-md text-body-md text-primary font-bold">Evidence Resolution: CX-992</div>
+</div>
+<div class="border-t border-outline-variant pt-4">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">CRYPTOGRAPHIC SIGNATURE</div>
+<div class="font-data-mono text-data-mono text-[11px] text-secondary break-all bg-background border border-outline-variant p-2">
+                        SIG_ED25519:
+                        5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d
+                        9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b
+                        3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f
+                        7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d
+                    </div>
+</div>
+<div class="border-t border-outline-variant pt-4">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">TIMESTAMP (ISO 8601)</div>
+<div class="font-data-mono text-data-mono text-primary bg-background border border-outline-variant p-2">
+                        2023-10-27T09:01:14.332Z
+                    </div>
+</div>
+<div class="border-t border-outline-variant pt-4">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">ACTOR IDENTITY</div>
+<div class="font-data-mono text-data-mono bg-background border border-outline-variant p-2 flex flex-col gap-1">
+<span class="text-primary">Josh Inklovich</span>
+<span class="text-on-surface-variant text-[11px]">ID: USR-992-ALPHA</span>
+<span class="text-on-surface-variant text-[11px]">ROLE: SENIOR_OPERATOR</span>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-4">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">NODE STATUS AT SIGNING</div>
+<ul class="font-data-mono text-data-mono text-[11px] text-on-surface-variant space-y-1">
+<li class="flex justify-between"><span>UPTIME:</span> <span>942h 12m</span></li>
+<li class="flex justify-between"><span>SYNC:</span> <span class="text-[#22C55E]">VERIFIED</span></li>
+<li class="flex justify-between"><span>MEM_POOL:</span> <span>CLEAR</span></li>
+</ul>
+</div>
+</div>
+<div class="p-4 border-t border-outline-variant bg-surface-container-low">
+<button class="w-full bg-primary text-on-primary font-label-caps text-label-caps py-2 border border-primary hover:bg-transparent hover:text-primary transition-none flex justify-center items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 16px;">download</span> EXPORT RECEIPT
+                </button>
+</div>
+</aside>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest h-[32px] w-full border-t border-outline-variant fixed bottom-0 z-50 flex items-center justify-between px-4">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</span>
+<div class="h-3 w-px bg-outline-variant"></div>
+<span class="font-data-mono text-data-mono text-on-surface-variant flex items-center gap-1">
+                STATUS: <span class="text-[#22C55E]">OPERATIONAL</span>
+</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant flex items-center gap-1">
+                NETWORK: <span class="text-secondary">ENCRYPTED</span>
+</span>
+</div>
+<div class="flex items-center gap-4 font-data-mono text-data-mono text-on-surface-variant">
+<a class="hover:text-primary transition-none" href="#">SYSTEM_STATUS</a>
+<a class="hover:text-primary transition-none" href="#">AUDIT_LOG</a>
+<a class="hover:text-primary transition-none" href="#">FID_0x2A</a>
+</div>
+</footer>
+</body></html>

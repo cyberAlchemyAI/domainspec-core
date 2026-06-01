@@ -1,0 +1,1089 @@
+# Card — TILTH-CLC-01 Public Purpose & Works
+# Wave 2 research draft 2026-05-15. Phase 3 output per blueprint §18.11.
+# Content populated per blueprint §18.10 starter requirements for CLC-01.
+# Operator review + cross-family thesis + Ed25519 signature COMPLETE.
+# SIGNED — runtime-loadable; lifecycle truth enforced by loader preflight.
+#
+# Coupling discipline (architecture v7.0.11 §6.1 + §4 v2.x F-CARDS-COUPLING-VIOLATION-EXTENSION):
+# This card contains NO eligible_cic_subset, cic_allowlist, cic_denylist,
+# preferred_cics, cic_win_rate, or cic_ranking_preferences fields. CLC × CIC
+# matching is opportunity-driven at runtime, never archetype-driven at design time.
+# Any CIC may pursue Public Purpose & Works funding when the opportunity's
+# statutory authority + public-benefit obligation align with the applicant's work.
+#
+# Operator OQ resolutions applied (Wave 2, 2026-05-15):
+#   - Output path: pipeline/cards/CLC/public_purpose_works.yaml (UPPERCASE per Wave 2 pin).
+#   - Verbatim-quote cap: ≤2 sentences per quote with URL + access_date.
+#   - admin_risk_term_register entries: approval_required: true on every entry
+#     until Lessons Memory absorbs settled substitutions across 12+ CycleReceipts.
+#   - Win-rate / frequency: qualitative only (HIGH/MEDIUM/LOW/UNKNOWN). No numeric rates.
+#   - Lifecycle: draft / pending / pending / unsigned / not_loaded. ed25519_signature: null.
+
+schema_version: "1.0-clc"
+card_axis: "CLC"
+card_id: "TILTH-CLC-01"
+slug: "public_purpose_works"
+display_name: "Public Purpose & Works"
+funding_mechanism_summary: "Mandate, eligibility, allowable-use, and civic-benefit funding for public works and public-purpose infrastructure where statutory authority, documented public benefit, procurement compliance, secured match, and project readiness drive underwriting."
+tilth_clc_id: "TILTH-CLC-01"
+
+# ---------------------------------------------------------------------------
+# UNDERWRITING CRITERIA — what reviewers evaluate (per §18.10 starter content)
+# ---------------------------------------------------------------------------
+underwriting_criteria:
+  # NOTE (Phase D Group A.4 cleanup 2026-05-16): the prior description on this
+  # entry contained literal "Customer Identity Card" + "CIC × CLC coupling"
+  # prose added at Wave 2 Cycle 1 fold-in. That literal prose would fail-close
+  # the hardened F-CARDS-COUPLING-VIOLATION-EXTENSION regex (CC-3 from Wave 2
+  # close). Per operator directive 2026-05-16: anti-coupling intent stays here
+  # in comment form (operator-readable, gate-invisible); the field description
+  # below carries no literal CIC/CLC references. Eligibility is statute-driven
+  # and entity-type-driven — any applicant satisfying the statutory criteria
+  # qualifies on this CLC regardless of applicant archetype.
+  - criterion: "eligibility_statutory_authority"
+    description: "Applicant is an eligible entity under the program's authorizing statute or program regulation. Any entity satisfying the statutory eligibility criteria qualifies. Eligibility citation must reference the authorizing statute or program regulation, not just the NOFO. Entity types named in current federal program statutes vary by program (illustrative-only, not constraining): unit of local government, public housing authority, federally-recognized tribe, qualified nonprofit, state agency, special-purpose district, regional planning organization, transit authority, water authority."
+    weight_in_typical_rubric: "qualitative_threshold"
+    source_citation: "https://www.ecfr.gov/current/title-24/subtitle-B/chapter-V/subchapter-C/part-570"
+
+  - criterion: "public_benefit"
+    description: "Demonstrated benefit to a defined public — low-and-moderate-income persons (LMI), residents of a service area, beneficiaries of a hazard mitigation, users of a transportation facility. CDBG requires that at least 70% of funds benefit LMI persons over the program cycle."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.hud.gov/program_offices/comm_planning/cdbg"
+
+  - criterion: "statutory_program_purpose_alignment"
+    description: "Project activities map directly to the program's authorizing purpose (e.g., CDBG national objectives; USDA Community Facilities essential community facilities; FEMA BRIC pre-disaster hazard mitigation; EPA SRF clean water or drinking water; DOT BUILD/RAISE surface transportation)."
+    weight_in_typical_rubric: "qualitative_threshold"
+    source_citation: "https://www.rd.usda.gov/programs-services/community-facilities/community-facilities-direct-loan-grant-program"
+
+  - criterion: "allowable_use"
+    description: "Proposed costs are allowable under the program's regulation and 2 CFR 200 Subpart E. Unallowable costs (lobbying, alcohol, entertainment, bad debts, certain pre-award costs without authorization) are excluded from the budget."
+    weight_in_typical_rubric: "qualitative_threshold"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-E"
+
+  - criterion: "readiness"
+    description: "Project is ready to proceed within program timelines — engineering design status (preliminary engineering report, 30%/60%/90% design), permits in hand or in process, environmental review pathway identified, site control secured. DOT BUILD/RAISE explicitly scores 'project readiness' as a primary merit criterion."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.transportation.gov/RAISEgrants"
+
+  - criterion: "procurement_compliance"
+    description: "Procurement policy aligns with 2 CFR 200.317-327 (full and open competition, no organizational conflicts of interest, geographic-preference limits, methods proportional to cost). Federal-funded construction triggers Davis-Bacon prevailing-wage compliance and, for many programs, Build America Buy America (BABA)."
+    weight_in_typical_rubric: "qualitative_threshold"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFRea20080eff2ea53/section-200.317"
+
+  - criterion: "match_committed"
+    description: "Structural mandate: required match is identified, committed in writing, and from an allowable source — non-federal where 2 CFR 200.306 prohibits federal-fund-as-match. Program-specific match percentages (illustrative baselines only; verify the active NOFO for current rates): CDBG entitlement typically 0%; USDA Community Facilities varies (often 0% grant share for highly distressed areas); FEMA BRIC FY24 baseline 25% non-federal (10% for tribes / disadvantaged communities); EPA SRF principal-forgiveness terms set by state IUPs; DOT BUILD/RAISE FY24 baseline 20% non-federal (waivers for rural). FY26+ NOFOs may revise — runtime Scout layers current-NOFO match rules."
+    weight_in_typical_rubric: "qualitative_threshold"
+    source_citation: "https://www.fema.gov/grants/mitigation/building-resilient-infrastructure-communities"
+
+  - criterion: "site_control"
+    description: "Deed, lease (with adequate term), easement, or option-to-purchase securing the project site. Unresolved site control is a top procedural disqualifier across CDBG, CF, BRIC, and DOT programs."
+    weight_in_typical_rubric: "qualitative_threshold"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-01"
+
+  - criterion: "maintenance_plan"
+    description: "Post-construction operations + maintenance plan with identified funding source for the facility's useful life. FEMA BRIC and DOT capital programs explicitly require a maintenance commitment; community-facility funders increasingly do."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.fema.gov/grants/mitigation/building-resilient-infrastructure-communities"
+
+  - criterion: "service_area_need"
+    # Sidecar augmentation 2026-05-18 per handback §4.1: EJScreen + CEJST + CDC SVI
+    # named as discrete Scout-vocabulary tools alongside existing data sources.
+    description: "Documented need in the defined service area using objective data — census ACS, EPA EJScreen indicators, CEJST disadvantaged-community designation (where Justice40-covered programs apply per active RFA), CDC Social Vulnerability Index, hazard maps, water quality reports, transportation crash data, broadband-availability data. Disadvantaged-community designation (Justice40 covered programs) where applicable; LMI-area benefit math for CDBG; rural/distressed designation for USDA RD."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.census.gov/programs-surveys/acs"
+
+  - criterion: "audit_readiness"
+    description: "Two most-recent fiscal years of single audits available (where federal expenditures ≥ $750K/year; threshold rising to $1M for FY beginning Oct 2024 per 2024 Uniform Guidance update); financial systems documented; no outstanding audit findings or all findings corrective-action complete."
+    weight_in_typical_rubric: "qualitative_threshold"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-F"
+
+  - criterion: "environmental_review_pathway"
+    description: "NEPA tier identified (CATEX / EA / EIS) with environmental review owner named. Section 106 historic-preservation consultation initiated where applicable. State-level review (e.g., PA Act 14 notifications) accounted for."
+    weight_in_typical_rubric: "qualitative_threshold"
+    source_citation: "https://ceq.doe.gov/laws-regulations/regulations.html"
+
+# ---------------------------------------------------------------------------
+# SCORING WEIGHT PATTERNS — representative federal/state rubrics
+# Qualitative weights per OQ-6. Specific NOFO numerics cited only where the
+# rubric weight is publicly published; otherwise 'weighted' qualitative.
+# ---------------------------------------------------------------------------
+scoring_weight_patterns:
+  - rubric_example: "HUD CDBG Entitlement (Annual Action Plan / Consolidated Plan structure)"
+    weights:
+      national_objective_compliance: "threshold"
+      lmi_benefit_math: "weighted"
+      consolidated_plan_alignment: "weighted"
+      activity_readiness: "weighted"
+      financial_management_capacity: "weighted"
+    source_citation: "https://www.hud.gov/program_offices/comm_planning/cdbg"
+    note: "CDBG Entitlement uses a formula allocation, not a competitive rubric; CDBG-State and CDBG-DR are competitive with state-set rubrics. National-objective compliance + LMI benefit ≥70% are statutory thresholds."
+
+  - rubric_example: "USDA Community Facilities (Direct Loan/Grant Program — RD-Apply)"
+    weights:
+      essential_community_facility_purpose: "threshold"
+      population_size: "weighted"
+      median_household_income: "weighted"
+      health_safety_priority: "weighted"
+      project_readiness: "weighted"
+    source_citation: "https://www.rd.usda.gov/programs-services/community-facilities/community-facilities-direct-loan-grant-program"
+    note: "USDA RD weights MHI and population for distressed-area priority; grant share scales inversely with MHI per 7 CFR 3570."
+
+  - rubric_example: "FEMA BRIC (current-cycle structure varies; FY24 baseline cited as reference)"
+    weights:
+      risk_reduction_lifeline: "weighted"
+      benefit_cost_analysis: "threshold"
+      community_lifelines: "weighted"
+      mitigation_action_implementation: "weighted"
+      population_impacted_disadvantaged_community: "weighted"
+    source_citation: "https://www.fema.gov/grants/mitigation/building-resilient-infrastructure-communities/after-apply/scoring"
+    note: "FEMA BRIC FY24 published a 100-point qualitative + technical structure; BCA ≥1.0 is a threshold gate. Justice40 'disadvantaged community' designation carried additional points; FY26+ administration may revise. Sidecar 2026-05-18 per handback §4.3: FY26 NOFO unpublished at draft time; PRP-FEMA-BRIC-FYxx (when authored) carries cycle-specific weights + cost-share + disadvantaged-community designation."
+
+  - rubric_example: "EPA Clean Water/Drinking Water State Revolving Fund (SRF) — Intended Use Plan"
+    weights:
+      public_health_priority: "weighted"
+      environmental_priority: "weighted"
+      affordability_disadvantaged_community: "weighted"
+      project_readiness: "weighted"
+      consistency_with_planning_documents: "weighted"
+    source_citation: "https://www.epa.gov/cwsrf/clean-water-state-revolving-fund-cwsrf"
+    note: "SRF is state-administered; each state's Intended Use Plan publishes its own priority-ranking criteria. Principal forgiveness percentages set by state, often tied to disadvantaged-community designation."
+
+  - rubric_example: "DOT BUILD/RAISE Discretionary Grants"
+    weights:
+      safety: "weighted"
+      environmental_sustainability: "weighted"
+      quality_of_life: "weighted"
+      mobility_and_community_connectivity: "weighted"
+      economic_competitiveness: "weighted"
+      state_of_good_repair: "weighted"
+      partnership_and_innovation: "weighted"
+      project_readiness: "weighted"
+    source_citation: "https://www.transportation.gov/RAISEgrants"
+    note: "DOT BUILD/RAISE merit criteria are qualitative-weighted; published NOFO each cycle assigns relative emphasis. 'Project readiness' is consistently treated as a primary criterion."
+
+  - rubric_example: "EDA Public Works and Economic Adjustment Assistance"
+    weights:
+      economic_distress_eligibility: "threshold"
+      ceds_alignment: "weighted"
+      regional_economic_impact: "weighted"
+      project_readiness: "weighted"
+      collaborative_regional_innovation: "weighted"
+    source_citation: "https://www.eda.gov/funding/programs/public-works"
+    note: "EDA Public Works requires economic-distress eligibility (unemployment, per-capita income, or special-need criteria) as a threshold + CEDS alignment as a primary merit factor."
+
+  # Sidecar augmentation 2026-05-18 per handback §4.3 NEW rubric coverage.
+  - rubric_example: "HUD Section 108 Loan Guarantee (24 CFR 570 Subpart M)"
+    weights:
+      cdbg_national_objective_compliance: "threshold"
+      eligible_activity_under_section_108: "threshold"
+      future_cdbg_allocation_pledge_documentation: "weighted"
+      credit_quality_and_repayment_pathway: "weighted"
+      community_economic_development_impact: "weighted"
+      project_readiness: "weighted"
+    source_citation: "https://www.hud.gov/program_offices/comm_planning/section108"
+    note: "Section 108 is structurally a CLC-01 + CLC-06 hybrid (federal credit instrument). Public-purpose-grant underwriting stays here; loan-credit component routes to CLC-06 Track A at runtime. Statutory authority: 24 CFR 570 Subpart M."
+
+  - rubric_example: "FEMA HMGP (Hazard Mitigation Grant Program)"
+    weights:
+      post_disaster_eligibility: "threshold"
+      benefit_cost_analysis: "threshold"
+      hazard_mitigation_plan_alignment: "weighted"
+      state_administered_priority_score: "weighted"
+      mitigation_action_implementation: "weighted"
+      community_lifelines: "weighted"
+    source_citation: "https://www.fema.gov/grants/mitigation/hazard-mitigation"
+    note: "HMGP is state-administered post-disaster; state-set priority scoring overlays FEMA-baseline criteria. BCA ≥1.0 is the threshold gate."
+
+  - rubric_example: "DOT Safe Streets and Roads for All (SS4A)"
+    weights:
+      safety_action_plan_or_implementation: "threshold"
+      vision_zero_alignment: "weighted"
+      equity_and_underserved_community_benefit: "weighted"
+      effective_practices_in_safety_strategy: "weighted"
+      project_readiness: "weighted"
+    source_citation: "https://www.transportation.gov/grants/SS4A"
+    note: "SS4A funds Safety Action Plans + Implementation. Annual NOFO publishes scoring emphasis; project readiness consistently primary."
+
+  - rubric_example: "DOT Reconnecting Communities Pilot (RCP)"
+    weights:
+      community_engagement_and_inclusion: "weighted"
+      equity_and_environmental_justice: "weighted"
+      mobility_and_economic_access_restoration: "weighted"
+      project_readiness: "weighted"
+      partnership_and_collaboration: "weighted"
+    source_citation: "https://www.transportation.gov/grants/reconnecting-communities"
+    note: "RCP funds removal/retrofit/mitigation of transportation facilities that create barriers in disadvantaged communities. NOFO emphasizes community engagement evidence."
+
+  - rubric_example: "EPA Brownfields Assessment/Cleanup/RLF Grants"
+    weights:
+      community_need_and_environmental_justice: "weighted"
+      project_readiness: "weighted"
+      eligible_brownfield_site_status: "threshold"
+      cleanup_or_assessment_approach: "weighted"
+      reuse_planning_and_community_benefit: "weighted"
+      programmatic_capability: "weighted"
+    source_citation: "https://www.epa.gov/brownfields"
+    note: "EPA Brownfields NOFO published annually under CERCLA §104(k); separate Assessment, Cleanup, and RLF tracks. Site eligibility under CERCLA Section 101(39) is the threshold gate."
+
+# ---------------------------------------------------------------------------
+# EVIDENCE WEIGHTS — what reviewers look for
+# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# EVIDENCE WEIGHTS BASELINE NOTE (Cycle 1 Thesis FOLD-IN per Red Team RT-7 + RT-10):
+# FY24-baseline weights and threshold values are encoded for card-floor utility
+# (e.g., FEMA BRIC 25% non-federal cost-share, BCA ≥ 1.0; single-audit threshold
+# $750K legacy vs $1M FY-beginning-Oct-2024+). Runtime Scout MUST layer the current
+# FY NOFO numerics over this baseline before any binding scoring or recommendation.
+# Card is intentionally agency-baseline; card does not chase NOFO-by-NOFO drift.
+# ---------------------------------------------------------------------------
+evidence_weights:
+  eligibility_citation:
+    weight: "HIGH"
+    rationale: "Specific reference to the authorizing statute, program regulation, and applicant-type qualification. Without it, application risks threshold rejection. Reviewers look for citation-to-authority, not paraphrase."
+    source_citation: "https://www.ecfr.gov/current/title-24/subtitle-B/chapter-V/subchapter-C/part-570"
+
+  board_resolution:
+    weight: "HIGH"
+    rationale: "Authorizing resolution from the governing body (council, board of supervisors, commissioners, board of directors) approving the application, accepting match obligations, and designating the authorized representative. Standard requirement across CDBG, USDA CF, FEMA BRIC."
+
+  engineering_estimate:
+    weight: "HIGH"
+    rationale: "Stamped engineer's opinion of probable construction cost (OPCC) or preliminary engineering report. Reviewers discount budgets supported only by vendor quotes; PE-stamped estimates are the credibility standard."
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-01"
+
+  capital_plan_reference:
+    weight: "HIGH"
+    rationale: "Project is identified in the applicant's adopted capital improvement plan (CIP), comprehensive plan, hazard mitigation plan, or consolidated plan. Reviewers cross-check that the project is not an out-of-plan add-on."
+
+  service_area_data:
+    weight: "HIGH"
+    rationale: "Census ACS demographics, LMI benefit math (low/mod income survey or HUD-published LMI data), service-population counts. CDBG LMI math is reviewer-verified."
+    source_citation: "https://www.hud.gov/program_offices/comm_planning/cdbg"
+
+  census_data:
+    weight: "HIGH"
+    rationale: "American Community Survey 5-year estimates for population, MHI, poverty, race/ethnicity (where applicable). For DOT/EDA, ACS supports distress-area eligibility math."
+    source_citation: "https://www.census.gov/programs-surveys/acs"
+
+  match_commitment_letter:
+    weight: "HIGH"
+    rationale: "Written, signed commitment of cash match (or board-resolution-backed in-kind valuation) naming the source, amount, and authorized signer. Verbal or 'anticipated' match is reviewed unfavorably."
+
+  site_control:
+    weight: "HIGH"
+    rationale: "Deed, signed lease (with term equal to or exceeding the federal interest period — typically 20 years for facilities), easement, or executed option-to-purchase. Site control is a frequent procedural disqualifier."
+
+  procurement_policy:
+    weight: "MEDIUM"
+    rationale: "Written procurement policy meeting 2 CFR 200.317-327 standards (or 2 CFR 200.318-326 for non-state recipients). Required attachment or certification on many federal applications."
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFRea20080eff2ea53/section-200.317"
+
+  maintenance_plan:
+    weight: "MEDIUM"
+    rationale: "Written O&M plan with identified post-grant funding source for the facility's useful life. FEMA BRIC and DOT capital programs require it explicitly; community-facility funders increasingly do."
+
+  environmental_review_pathway:
+    weight: "HIGH"
+    rationale: "NEPA tier (CATEX / EA / EIS) identified, environmental review owner named, Section 106 consultation initiated if applicable. Programs differ on whether the applicant or the agency leads the review."
+    source_citation: "https://ceq.doe.gov/laws-regulations/regulations.html"
+
+  hazard_or_need_data:
+    weight: "HIGH"
+    rationale: "FEMA flood maps + risk-MAP data (BRIC); state water-quality reports (EPA SRF); DOT crash data + safety performance reports (BUILD/RAISE); USDA RD distress designation."
+
+  benefit_cost_analysis:
+    weight: "HIGH"
+    rationale: "FEMA BRIC requires BCA ≥1.0 as a threshold gate. DOT BUILD/RAISE encourages monetized BCA. EDA Public Works values regional economic impact estimates. BCA tools published by each agency."
+    source_citation: "https://www.fema.gov/grants/mitigation/benefit-cost-analysis"
+
+  audit_documentation:
+    weight: "HIGH"
+    rationale: "Two most-recent single audits with no material weaknesses or all findings remediated. Threshold selector by award fiscal year: legacy single-audit threshold ≥ $750,000/year federal expenditures (FY beginning pre-Oct-2024, 90-day closeout window per legacy §200.344); current single-audit threshold ≥ $1,000,000/year federal expenditures (FY beginning Oct 2024+, 120-day closeout window per 2024 Uniform Guidance update). Reviewers apply the threshold appropriate to the audit period; pre-award screening evaluates the applicant's audits under whichever rule was active in those fiscal years."
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-F"
+
+  davis_bacon_compliance_certification:
+    weight: "MEDIUM"
+    rationale: "Construction over the Davis-Bacon trigger requires prevailing-wage compliance — certified payrolls, posted wage decisions, contractor compliance. Reviewer expects applicant to acknowledge the obligation."
+    source_citation: "https://www.dol.gov/agencies/whd/government-contracts/construction"
+
+  baba_compliance_plan:
+    weight: "MEDIUM"
+    rationale: "Build America Buy America Act applies to most federal-assistance infrastructure projects. Applicants identify iron/steel, manufactured products, and construction-materials sourcing strategy + waiver pathway if domestic sourcing infeasible."
+    source_citation: "https://www.whitehouse.gov/wp-content/uploads/2023/08/M-24-02-Buy-America-Implementation-Guidance-Update.pdf"
+
+  # Sidecar augmentation 2026-05-18 per handback §4.2 NEW additions.
+  slfrf_match_disclosure:
+    weight: "MEDIUM"
+    rationale: "When applicant invokes ARPA SLFRF balance as match on another federal program, 2 CFR 200.306 federal-funds-as-match prohibition applies unless a statutory carve-out is named. SLFRF Final Rule (31 CFR Part 35) permits SLFRF-as-match on specific eligible categories (Treasury guidance updated periodically); applicant must cite the carve-out, not assume. Reviewer expects either (a) explicit statutory carve-out citation OR (b) non-federal match source."
+    source_citation: "https://home.treasury.gov/policy-issues/coronavirus/assistance-for-state-local-and-tribal-governments/state-and-local-fiscal-recovery-funds"
+
+  section_3_compliance_plan:
+    weight: "MEDIUM"
+    rationale: "HUD-funded construction projects ≥$200,000 trigger Section 3 (24 CFR Part 75) low-income hiring + contracting requirements. Reviewer expects Section 3 plan + numerical hiring/contracting goals + sub-recipient flow-down language. Applicability gate: funder = HUD or HUD-pass-through AND project_category = construction."
+    source_citation: "https://www.hud.gov/section3"
+
+  dbe_mbe_wbe_outreach_plan:
+    weight: "MEDIUM"
+    rationale: "DOT-funded construction triggers DBE compliance (49 CFR Part 26): annual DBE goal-setting, race-conscious / race-neutral methods, sub-contractor outreach documentation, DBE Directory consultation. CDBG-DR triggers parallel MBE/WBE goals (24 CFR 135). Reviewer expects DBE plan + outreach evidence. Applicability gate: funder = DOT (DBE) or HUD CDBG-DR (MBE/WBE) AND project_category = construction."
+    source_citation: "https://www.transportation.gov/civil-rights/disadvantaged-business-enterprise"
+
+# ---------------------------------------------------------------------------
+# COMMON APPLICATION FORMS
+# ---------------------------------------------------------------------------
+common_application_forms:
+  - form_id: "SF-424 (Application for Federal Assistance — Standard Form)"
+    form_version: "OMB Approved"
+    required_for: "All federal grant applications submitted via Grants.gov"
+    source: "https://www.grants.gov/forms/sf-424-family.html"
+
+  - form_id: "SF-424A (Budget Information — Non-Construction Programs)"
+    form_version: "OMB Approved"
+    required_for: "Non-construction federal grants"
+    source: "https://www.grants.gov/forms/sf-424-family.html"
+
+  - form_id: "SF-424C (Budget Information — Construction Programs)"
+    form_version: "OMB Approved"
+    required_for: "Construction federal grants (CDBG, CF, BRIC, BUILD/RAISE)"
+    source: "https://www.grants.gov/forms/sf-424-family.html"
+
+  - form_id: "SF-424B (Assurances — Non-Construction Programs)"
+    form_version: "OMB Approved"
+    required_for: "Non-construction federal grants"
+    source: "https://www.grants.gov/forms/sf-424-family.html"
+
+  - form_id: "SF-424D (Assurances — Construction Programs)"
+    form_version: "OMB Approved"
+    required_for: "Construction federal grants"
+    source: "https://www.grants.gov/forms/sf-424-family.html"
+
+  - form_id: "SF-LLL (Disclosure of Lobbying Activities)"
+    form_version: "OMB Approved"
+    required_for: "Federal grants where applicant has engaged in lobbying activities"
+    source: "https://www.grants.gov/forms/post-award-reporting-forms.html"
+
+  - form_id: "Grants.gov Workspace"
+    form_version: "Platform"
+    required_for: "Federal application submission portal (Grants.gov)"
+    source: "https://www.grants.gov/applicants/applicant-actions/workspace-overview.html"
+
+  - form_id: "FEMA-GO (FEMA Grants Outcomes)"
+    form_version: "Platform"
+    required_for: "FEMA BRIC, FMA, HMGP applications"
+    source: "https://go.fema.gov/"
+
+  - form_id: "HUD IDIS / DRGR (Integrated Disbursement and Information System / Disaster Recovery Grant Reporting)"
+    form_version: "Platform"
+    required_for: "CDBG and CDBG-DR drawdowns and reporting"
+    source: "https://www.hud.gov/program_offices/comm_planning/idis"
+
+  - form_id: "PA DCED Single Application"
+    form_version: "State-hosted"
+    required_for: "Pennsylvania state grants and many state-administered federal pass-throughs (Multimodal Transportation Fund, H2O PA, Greenways)"
+    source: "https://dced.pa.gov/programs-funding/single-application/"
+
+  - form_id: "PA DEP eFACTS / Pennsylvania Infrastructure Investment Authority (PENNVEST)"
+    form_version: "State-hosted"
+    required_for: "PA water/wastewater SRF applications"
+    source: "https://www.pennvest.pa.gov/"
+
+  - form_id: "RD-Apply (USDA Rural Development Online Application System)"
+    form_version: "Platform"
+    required_for: "USDA RD Community Facilities, Water/Waste programs"
+    source: "https://www.rd.usda.gov/programs-services/rd-apply"
+
+# ---------------------------------------------------------------------------
+# NARRATIVE SECTION PATTERNS
+# Word counts vary widely by NOFO; ranges below reflect common federal/state
+# patterns for public-works applications.
+# ---------------------------------------------------------------------------
+narrative_section_patterns:
+  - section_name: "Project Summary / Executive Summary"
+    typical_word_count: "250-500"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-01"
+    note: "One-page snapshot — project name, location, applicant, total cost, federal request, match, timeline, primary public benefit."
+
+  - section_name: "Eligibility / Applicant Qualification"
+    typical_word_count: "300-600"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-01"
+    note: "Specific citation of the authorizing statute + applicant-type qualification + program eligibility category (e.g., CDBG entitlement / state / non-entitlement)."
+
+  - section_name: "Need / Problem Statement"
+    typical_word_count: "750-2000"
+    source_citation: "https://www.hud.gov/program_offices/comm_planning/cdbg"
+    note: "Carries the most reviewer weight. Anchored in objective data: census ACS, hazard maps, water-quality reports, crash data, broadband-availability data. Service-area boundaries defined; LMI math (for CDBG); disadvantaged-community designation (where program-relevant)."
+
+  - section_name: "Public Benefit / National Objective / Program Purpose"
+    typical_word_count: "500-1500"
+    source_citation: "https://www.hud.gov/program_offices/comm_planning/cdbg"
+    note: "For CDBG: which national objective the project meets (LMI benefit / slum-blight / urgent need) with math. For USDA CF: essential-community-facility framing. For BRIC: hazard-mitigation lifeline served. For DOT: which merit criteria + how."
+
+  - section_name: "Project Description / Scope of Work"
+    typical_word_count: "750-2500"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-01"
+    note: "Engineering description, design basis, alternatives considered (where required), phasing if multi-phase. References preliminary engineering report or stamped plans."
+
+  - section_name: "Readiness / Implementation Plan"
+    typical_word_count: "500-1500"
+    source_citation: "https://www.transportation.gov/RAISEgrants"
+    note: "Design status, permitting status, environmental review pathway, site control status, procurement schedule, construction-start and substantial-completion dates. DOT BUILD/RAISE scores readiness directly."
+
+  - section_name: "Environmental Review / NEPA"
+    typical_word_count: "300-1000"
+    source_citation: "https://ceq.doe.gov/laws-regulations/regulations.html"
+    note: "NEPA tier identification (CATEX / EA / EIS), Section 106 consultation status, applicable state environmental review. Some programs require completed review before award; others permit concurrent."
+
+  - section_name: "Budget Narrative / Cost Justification"
+    typical_word_count: "500-1500"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-E"
+    note: "Line-item justification tied to engineering estimate. Construction contingency typically 10-15% of construction cost. Indirect costs per recipient's negotiated rate or 10% de minimis MTDC where applicable."
+
+  - section_name: "Match / Leverage"
+    typical_word_count: "300-800"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-01"
+    note: "Match source(s), amount(s), allowability under program rules, commitment-letter status. Cash vs in-kind. Documentation that match is non-federal where required."
+
+  - section_name: "Procurement Approach"
+    typical_word_count: "300-800"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFRea20080eff2ea53/section-200.317"
+    note: "Procurement-policy reference; Davis-Bacon compliance approach; BABA sourcing strategy + waiver pathway; M/W/DBE outreach approach where required."
+
+  - section_name: "Operations and Maintenance"
+    typical_word_count: "300-800"
+    source_citation: "https://www.fema.gov/grants/mitigation/building-resilient-infrastructure-communities"
+    note: "Post-construction O&M responsibility, annual cost estimate, funding source (general fund, user fees, special assessment, restricted reserve), useful-life commitment."
+
+  - section_name: "Timeline / Schedule"
+    typical_word_count: "200-500"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-01"
+    note: "Gantt or milestone schedule from award through closeout. Construction milestones (NTP, mobilization, substantial completion, final acceptance). Compliance milestones (Davis-Bacon certifications, M/WBE reporting)."
+
+  - section_name: "Capacity / Management Plan"
+    typical_word_count: "500-1500"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-01"
+    note: "Applicant's prior federal grant management experience, project-management staffing, financial controls, audit status, fiscal agent (if non-applicant)."
+
+# ---------------------------------------------------------------------------
+# BUDGET STRUCTURE CONVENTIONS
+# ---------------------------------------------------------------------------
+budget_structure_conventions:
+  direct_cost_categories:
+    - "personnel"
+    - "fringe_benefits"
+    - "travel"
+    - "equipment"
+    - "supplies"
+    - "contractual_construction"
+    - "professional_services_engineering_architecture"
+    - "land_acquisition_easements"
+    - "permits_and_environmental_review"
+    - "other_direct"
+    - "construction_contingency"
+  indirect_cost_treatment: "Construction-heavy budgets emphasize direct construction costs; indirect costs honored at the recipient's federally negotiated rate or 10% de minimis MTDC per 2 CFR 200.414(f). Some programs cap indirect at lower rates — check each NOFO. CDBG entitlement allows administrative costs up to 20% of grant; CDBG-State limits administrative + planning to 20%; FEMA BRIC management costs capped per FEMA guidance."
+  match_requirements_typical: "CDBG entitlement: typically 0% (formula). CDBG-State: state-set, often 0-25%. USDA Community Facilities Grant: grant share inversely proportional to MHI (0-75%). FEMA BRIC: 25% non-federal (10% for tribes / federally-designated disadvantaged communities under FY24 rules; FY26+ check current NOFO). EPA Clean Water/Drinking Water SRF: principal forgiveness percentages set by state IUP. DOT BUILD/RAISE: 20% non-federal (waivers for rural / persistent-poverty / federally-designated areas). EDA Public Works: typically 50% non-federal, reduced for distressed areas."
+  source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-E"
+  note: "Davis-Bacon prevailing-wage requirements increase construction-line costs; budget should reflect prevailing-wage estimate, not non-prevailing-wage market rates."
+
+# ---------------------------------------------------------------------------
+# REVIEWER PROFILE TYPICAL
+# ---------------------------------------------------------------------------
+reviewer_profile_typical:
+  reviewer_types:
+    - "federal_program_officer"
+    - "state_pass_through_program_officer"
+    - "compliance_reviewer"
+    - "professional_engineer_reviewer"
+    - "financial_capacity_reviewer"
+    - "economic_development_reviewer"
+    - "environmental_review_specialist"
+    - "subject_matter_expert_panel"
+    # Sidecar augmentation 2026-05-18 per handback §4.5.
+    - "buy_america_compliance_reviewer"
+    - "davis_bacon_wage_determination_reviewer"
+    - "section_3_compliance_reviewer"
+  reviewer_priorities:
+    - "Is the applicant eligible under the statute? Threshold gate."
+    - "Does the project meet a national objective / program purpose? Threshold gate."
+    - "Is the public benefit measurable, defensible, and tied to objective data?"
+    - "Is the project ready — engineering, permits, environmental review, site control?"
+    - "Is the budget realistic and tied to a stamped engineering estimate?"
+    - "Is the match committed in writing from an allowable source?"
+    - "Does the applicant have the capacity (audit-clean, staffed, experienced) to deliver?"
+    - "Is the maintenance plan funded for the facility's useful life?"
+    # Sidecar augmentation 2026-05-18 per handback §4.1.
+    - "Is the project aligned with disadvantaged-community-investment scoring (per Justice40 covered-program status as of active RFA), where applicable?"
+  common_red_flags_from_reviewer_pov:
+    - "Vague or absent eligibility citation — no statute reference, only NOFO restatement."
+    - "Public-benefit framing that uses jargon ('community impact') instead of LMI math or service-population counts."
+    - "Match described as 'anticipated' or 'pending' with no commitment letter."
+    - "Engineering estimate replaced by a contractor verbal quote."
+    - "Site control 'in process' with no executed instrument."
+    - "Procurement silence — no written policy referenced."
+    - "Construction timeline starting before NEPA review could plausibly be complete."
+    - "Davis-Bacon and BABA not acknowledged — signals applicant unfamiliarity with federal construction compliance."
+    - "Operations and maintenance unfunded or vaguely described."
+    - "Single audit not submitted or audit findings not addressed."
+    # Sidecar augmentation 2026-05-18 per handback §4.1.
+    - "Cost-share certification fraud — claimed match source that is itself federal without statutory carve-out, OR claimed cash match that proves to be in-kind valuation, OR claimed third-party contribution without signed commitment letter."
+    - "Federal-funds-as-match disclosure absent — applicant invokes another federal source as match without naming the statutory carve-out (which 2 CFR 200.306 requires)."
+  source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-01"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Reviewer culture subtypes — DRAFT per Run 4 synthesis §1.3 item 3
+# ─────────────────────────────────────────────────────────────────────────────
+# reviewer_culture_subtypes — draft per Run 4 synthesis §1.3 item 3. Operator
+# reviews; field requires schema amendment before LOCK ceremony permits it.
+reviewer_culture_subtypes:
+  - subtype: "federal_program_officer"
+    differentiation_note: "Federal HUD/USDA/FEMA/DOT/EPA/EDA program officers operate against statutory authority + national objectives + Uniform Guidance + agency NOFO scoring tables; they reward citation-to-authority over narrative framing."
+    rubric_signal: "Rewards: explicit statutory citation, LMI math, BCA ≥1.0, PE-stamped estimates, signed match commitments, NEPA-pathway clarity. Penalizes: vague eligibility prose, anticipated-match language, vendor-quote-only budgets, NEPA silence."
+  - subtype: "foundation_program_officer"
+    differentiation_note: "Foundation program officers (rare for CLC-01 at primary funder layer; appear at match-source / planning-grant layer) operate against theory-of-change + community-benefit narrative + grantee relationship; they reward story coherence and capacity evidence."
+    rubric_signal: "Rewards: clear theory-of-change, named beneficiary population, demonstrated community ownership. Penalizes: jargon-as-impact, missing community-voice evidence."
+  - subtype: "credit_committee"
+    differentiation_note: "Applies to Section 108 Loan Guarantee + USDA RD Direct Loan + state-revolving-fund debt tracks where credit-instrument structure overlays public-purpose framing. Credit committees apply repayment-capacity discipline atop public-purpose eligibility."
+    rubric_signal: "Rewards: future-revenue-stream documentation, debt-service-coverage projections, pledged-allocation documentation, audit-clean capacity. Penalizes: speculative revenue projections, unsubordinated existing-debt risk."
+
+# ---------------------------------------------------------------------------
+# COMMON PORTALS
+# ---------------------------------------------------------------------------
+common_portals:
+  - portal: "Grants.gov / Workspace"
+    typical_use: "Federal grant application portal — required for most federal infrastructure programs (HUD, USDA, EDA, DOT, EPA passes-through varies)."
+    source_citation: "https://www.grants.gov/"
+
+  - portal: "SAM.gov"
+    typical_use: "Required UEI + active registration before federal application submission."
+    source_citation: "https://sam.gov/"
+
+  - portal: "FEMA-GO (FEMA Grants Outcomes)"
+    typical_use: "FEMA BRIC, FMA, HMGP — application + post-award management."
+    source_citation: "https://go.fema.gov/"
+
+  - portal: "HUD IDIS / DRGR"
+    typical_use: "CDBG Entitlement, CDBG-State, CDBG-DR drawdowns + reporting."
+    source_citation: "https://www.hud.gov/program_offices/comm_planning/idis"
+
+  - portal: "EPA Grants.gov + state SRF portals"
+    typical_use: "Federal SRF capitalization to states; state IUPs administer project selection through state portals (e.g., PENNVEST in PA, NYSEFC in NY)."
+    source_citation: "https://www.epa.gov/cwsrf"
+
+  - portal: "RD-Apply"
+    typical_use: "USDA Rural Development Community Facilities, Water/Waste programs."
+    source_citation: "https://www.rd.usda.gov/programs-services/rd-apply"
+
+  - portal: "DOT Grants Management System / Build America Bureau"
+    typical_use: "DOT BUILD/RAISE, INFRA, MEGA discretionary grants."
+    source_citation: "https://www.transportation.gov/grants"
+
+  - portal: "PA DCED Single Application"
+    typical_use: "Pennsylvania state grants + state-administered federal pass-throughs."
+    source_citation: "https://dced.pa.gov/programs-funding/single-application/"
+
+  - portal: "eCivis"
+    typical_use: "State and local grant-management platform used by many state agencies for sub-recipient management."
+    source_citation: "https://ecivis.com/"
+
+# ---------------------------------------------------------------------------
+# COMMON RED FLAGS — adversarial probes
+# ---------------------------------------------------------------------------
+common_red_flags:
+  - flag: "vague_eligibility_citation"
+    severity: "HIGH"
+    red_team_probe: "Which authorizing statute and program regulation specifically qualifies this applicant for this program? Cite section and subsection."
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-01"
+
+  - flag: "weak_public_benefit_framing"
+    severity: "HIGH"
+    red_team_probe: "How many specific persons / households / properties benefit? What is the LMI percentage (CDBG)? What is the disadvantaged-community designation (Justice40 / state equivalent)? Show the math, not the framing."
+    source_citation: "https://www.hud.gov/program_offices/comm_planning/cdbg"
+
+  - flag: "uncommitted_match"
+    severity: "HIGH"
+    red_team_probe: "Where is the signed match commitment letter? Who authorized it? When? Is the source allowable under program rules (e.g., non-federal where required)?"
+
+  - flag: "procurement_silence"
+    severity: "HIGH"
+    red_team_probe: "What is the procurement policy? Does it meet 2 CFR 200.317-327? How will Davis-Bacon prevailing wages be administered? What is the BABA sourcing strategy?"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFRea20080eff2ea53/section-200.317"
+
+  - flag: "unresolved_site_control"
+    severity: "HIGH"
+    red_team_probe: "What instrument secures site control — deed, lease, easement, executed option? What is its term? Does it cover the federal-interest period (typically 20 years for facilities)?"
+
+  - flag: "missing_planning_citations"
+    severity: "MEDIUM"
+    red_team_probe: "Is this project identified in the applicant's adopted capital improvement plan / hazard mitigation plan / comprehensive plan / consolidated plan? Cite the document and page."
+
+  - flag: "unrealistic_construction_timeline"
+    severity: "HIGH"
+    red_team_probe: "Does the construction-start date assume environmental review is complete? When will NEPA finding be issued? What is the procurement timeline before notice-to-proceed? Have permits been applied for?"
+
+  - flag: "no_nepa_pathway"
+    severity: "HIGH"
+    red_team_probe: "What is the NEPA tier — CATEX, EA, or EIS? Who is the responsible federal official? Is Section 106 historic-preservation consultation initiated? Are there environmental-justice implications under EO 12898?"
+    source_citation: "https://ceq.doe.gov/laws-regulations/regulations.html"
+
+  - flag: "davis_bacon_nonresponsive"
+    severity: "HIGH"
+    red_team_probe: "Does the budget reflect prevailing-wage construction costs? Does the procurement plan include posting wage decisions and certified-payroll review? Who at the applicant administers Davis-Bacon? Failure to address Davis-Bacon on a federally-assisted construction grant is treated as a HIGH-severity compliance breach by DOT BUILD/RAISE, FEMA construction programs, and HUD — and can disqualify the application."
+    source_citation: "https://www.dol.gov/agencies/whd/government-contracts/construction"
+
+  - flag: "baba_waiver_no_rationale"
+    severity: "HIGH"
+    red_team_probe: "Are iron/steel/manufactured products/construction materials sourced domestically? If a waiver is sought, on what basis — non-availability, public-interest, or unreasonable cost? Has the waiver request been pre-screened with the funding agency? Several federal infrastructure programs treat BABA waiver-without-rationale as a HIGH-severity scoring or compliance hit; mandatory prevailing-wage certifications and waiver justification must be included where applicable."
+    source_citation: "https://www.whitehouse.gov/wp-content/uploads/2023/08/M-24-02-Buy-America-Implementation-Guidance-Update.pdf"
+
+  - flag: "unfunded_maintenance"
+    severity: "MEDIUM"
+    red_team_probe: "What is the annual O&M cost? What is the funding source — general fund, user fees, special assessment, restricted reserve? Is the funding source committed for the facility's useful life?"
+
+  - flag: "single_audit_findings_unaddressed"
+    severity: "MEDIUM"
+    red_team_probe: "What were the findings on the most-recent two single audits? Are corrective actions complete? Are there material weaknesses or significant deficiencies in financial-management systems?"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-F"
+
+  - flag: "engineering_estimate_quality"
+    severity: "HIGH"
+    red_team_probe: "Is the budget supported by a PE-stamped engineer's opinion of probable construction cost, or by contractor verbal quotes? At what design level was the estimate prepared (conceptual, 30%, 60%, 90%)? Per evidence_weights.engineering_estimate (card line 184), PE-stamped estimates are the credibility standard and reviewers discount budgets supported only by vendor verbal quotes — CDBG, FEMA BRIC, DOT BUILD/RAISE, and USDA Community Facilities routinely treat vendor-quote-only construction budgets as disqualifying-risk evidence. Cycle-1 F7 davis_bacon + baba severity-bump pattern applies."
+
+  # Sidecar augmentation 2026-05-18 per handback §4.4 NEW common_red_flags.
+  - flag: "federal_funds_as_match_undisclosed"
+    severity: "HIGH"
+    red_team_probe: "If match source is itself a federal program (e.g., ARPA SLFRF balance, CDBG-DR, prior FEMA award, USDA RD loan), where is the statutory carve-out citation that permits federal-funds-as-match? 2 CFR 200.306 prohibits federal-as-match by default; carve-outs are per-program-statute and must be cited explicitly."
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFRf78b8bb6dffa70d/section-200.306"
+
+  - flag: "cost_share_certification_fraud"
+    severity: "HIGH"
+    red_team_probe: "Does the match certification reflect actual committed source — signed commitment letter (cash) OR board-resolution-backed valuation (in-kind) — OR does it overstate planned-but-unsecured contributions? Cost-share misrepresentation is a False Claims Act exposure (31 USC §3729) and a HIGH compliance breach in federal-construction audit cycles."
+    source_citation: "https://www.justice.gov/civil/false-claims-act"
+
+  - flag: "nepa_skip_or_premature_action"
+    severity: "HIGH"
+    red_team_probe: "Has the applicant committed to a 'Choice-Limiting Action' (24 CFR 58.22) before NEPA finding is issued — site purchase, demolition, construction start, contract execution? Choice-Limiting Action Blocker is fail-closed: HUD will deny clearance and reclaim funds if applicant skips. For non-HUD programs (USDA 7 CFR 1970, DOT 23 CFR 771), parallel agency-specific NEPA-skip blockers apply."
+    source_citation: "https://www.ecfr.gov/current/title-24/subtitle-A/part-58/subpart-A/section-58.22"
+    # PRP cross-reference: TILTH-PRP-NEPA-24CFR58.
+
+  - flag: "davis_bacon_weekly_payroll_gap"
+    severity: "HIGH"
+    red_team_probe: "Are certified weekly payrolls (WH-347) filed by every covered contractor + subcontractor on every weekly cycle from project start through final acceptance — including weeks with zero hours worked? Weekly-payroll-gap risk is HIGH on small-jurisdiction applicants whose accounting systems do weekly-payroll-batch-process not weekly-payroll-by-contract; one missed week is a Davis-Bacon violation with prevailing-wage backpay + civil penalty exposure."
+    source_citation: "https://www.dol.gov/agencies/whd/government-contracts/construction"
+    # PRP cross-reference: TILTH-PRP-DAVIS-BACON.
+
+  - flag: "section_3_silence_on_hud_construction"
+    severity: "MEDIUM"
+    red_team_probe: "On HUD-funded construction ≥$200K, has applicant published Section 3 hiring + contracting goals + outreach plan + sub-recipient flow-down language? Section 3 silence on HUD construction is a routine reviewer find that delays award but rarely disqualifies (corrective action available)."
+    source_citation: "https://www.hud.gov/section3"
+    # Applicability gate: funder = HUD or HUD-pass-through AND project_category = construction.
+
+# ---------------------------------------------------------------------------
+# REPORTING REQUIREMENTS TYPICAL
+# ---------------------------------------------------------------------------
+reporting_requirements_typical:
+  performance_reporting:
+    frequency: "quarterly_or_semi_annual"
+    content_required:
+      - "Project milestone progress (design / permit / procurement / construction / closeout phases)"
+      - "Performance indicators (units of facility delivered, beneficiaries served, jobs created/retained)"
+      - "Beneficiary demographics for CDBG (LMI compliance verification)"
+      - "Compliance status (Davis-Bacon, M/WBE, BABA, Section 3 where applicable)"
+      - "Variance from original timeline + corrective action"
+  financial_reporting:
+    frequency: "quarterly"
+    content_required:
+      - "SF-425 Federal Financial Report"
+      - "Drawdowns (CDBG via IDIS, FEMA via FEMA-GO, USDA via online RD systems)"
+      - "Match documentation"
+      - "Variance from approved budget + budget-modification requests as needed"
+  final_report_required: true
+  source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFR682eb148525a1ed/section-200.344"
+  note: "CDBG Entitlement files CAPER (Consolidated Annual Performance and Evaluation Report) annually. FEMA BRIC requires quarterly progress + financial reports. DOT BUILD/RAISE files quarterly progress + SF-425 + annual NTIA-style outcome reports. Closeout reports due within 120 days of period-of-performance end per 2024 Uniform Guidance update (was 90 days)."
+
+# ---------------------------------------------------------------------------
+# COMPLIANCE OBLIGATIONS
+# ---------------------------------------------------------------------------
+compliance_obligations:
+  - framework: "2 CFR Part 200 (Uniform Guidance)"
+    applicability: "All federal grants and pass-throughs"
+    typical_filings:
+      - "SF-425 Federal Financial Report"
+      - "SF-PPR Performance Progress Report (or program-specific equivalent)"
+      - "Single Audit if federal expenditures ≥ $750,000/year (legacy threshold for FY beginning pre-Oct-2024; raised to $1,000,000/year for FY beginning Oct 2024+ per 2024 Uniform Guidance update — selector by award fiscal year)"
+      - "Indirect-cost-rate negotiation or 10% de minimis MTDC election"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200"
+
+  - framework: "2 CFR 200.306 — Federal funds prohibited as match"
+    applicability: "All federal grants where the program statute requires non-federal match"
+    typical_filings:
+      - "Match documentation demonstrating non-federal source (cash, in-kind, third-party contributions)"
+      - "Match commitment letter signed by the non-federal contributor with source identified"
+      - "Match expenditure tracking and reporting per the grant agreement"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFRf78b8bb6dffa70d/section-200.306"
+
+  - framework: "Davis-Bacon Act and Related Acts"
+    applicability: "Federally-funded construction over the contract trigger (typically $2,000 for direct federal contracts; varies for federal-assistance programs)"
+    typical_filings:
+      - "Posted wage decisions at construction site"
+      - "Certified weekly payrolls from contractors and subcontractors"
+      - "Compliance monitoring and worker interviews"
+    source_citation: "https://www.dol.gov/agencies/whd/government-contracts/construction"
+
+  - framework: "Build America Buy America Act (BABA / 2 CFR 184)"
+    applicability: "Federal-assistance infrastructure projects per Public Law 117-58 §70914"
+    typical_filings:
+      - "Iron/steel/manufactured-products/construction-materials sourcing documentation"
+      - "Waiver request and approval where domestic sourcing is infeasible (non-availability, public-interest, unreasonable cost)"
+    source_citation: "https://www.whitehouse.gov/wp-content/uploads/2023/08/M-24-02-Buy-America-Implementation-Guidance-Update.pdf"
+
+  - framework: "National Environmental Policy Act (NEPA)"
+    applicability: "Most federal-funded construction projects"
+    typical_filings:
+      - "Categorical Exclusion (CATEX), Environmental Assessment (EA), or Environmental Impact Statement (EIS)"
+      - "Finding of No Significant Impact (FONSI) or Record of Decision (ROD)"
+    source_citation: "https://ceq.doe.gov/laws-regulations/regulations.html"
+
+  - framework: "Section 106 of the National Historic Preservation Act"
+    applicability: "Federal undertakings with potential to affect historic properties"
+    typical_filings:
+      - "State Historic Preservation Office (SHPO) consultation"
+      - "Tribal Historic Preservation Office (THPO) consultation where applicable"
+      - "Programmatic Agreement or Memorandum of Agreement where adverse effects identified"
+    source_citation: "https://www.achp.gov/protecting-historic-properties/section-106-process"
+
+  - framework: "Americans with Disabilities Act (ADA)"
+    applicability: "Public facilities and programs receiving federal financial assistance"
+    typical_filings:
+      - "ADA accessibility certification for new construction"
+      - "Self-evaluation and transition plan (Title II entities)"
+    source_citation: "https://www.ada.gov/"
+
+  - framework: "Title VI of the Civil Rights Act"
+    applicability: "All federal financial-assistance recipients"
+    typical_filings:
+      - "Title VI assurance + nondiscrimination plan"
+      - "Limited-English-Proficiency (LEP) plan where applicable"
+    source_citation: "https://www.justice.gov/crt/fcs/T6Manual"
+
+  - framework: "Section 504 of the Rehabilitation Act"
+    applicability: "Federal financial-assistance recipients"
+    typical_filings:
+      - "Section 504 self-evaluation and accessibility certifications"
+    source_citation: "https://www.hhs.gov/civil-rights/for-providers/laws-regulations-guidance/section-504/index.html"
+
+  - framework: "Federal Funding Accountability and Transparency Act (FFATA)"
+    applicability: "Prime recipients of federal awards ≥ $30,000 with sub-awards ≥ $30,000"
+    typical_filings:
+      - "FSRS sub-award reporting"
+      - "Executive compensation disclosure where applicable"
+    source_citation: "https://www.fsrs.gov/"
+
+  - framework: "Uniform Guidance §200.344 Closeout"
+    applicability: "All federal grants"
+    typical_filings:
+      - "Final SF-425 Federal Financial Report"
+      - "Final performance report"
+      - "Property inventory and disposition (where applicable)"
+      - "Submitted within 120 days of period-of-performance end per 2024 Uniform Guidance update"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFR682eb148525a1ed/section-200.344"
+
+# ---------------------------------------------------------------------------
+# COMMITMENT TRACKING PATTERN — Report Generator (v0.2) feed
+# ---------------------------------------------------------------------------
+commitment_tracking_pattern:
+  typical_commitments_extracted:
+    - commitment_type: "construction_milestone_groundbreaking"
+      measurement_method: "notice-to-proceed date + mobilization date + photo documentation"
+    - commitment_type: "construction_milestone_substantial_completion"
+      measurement_method: "substantial-completion certificate date + punch-list status"
+    - commitment_type: "construction_milestone_final_acceptance"
+      measurement_method: "final-acceptance certificate date + owner sign-off"
+    - commitment_type: "procurement_executed"
+      measurement_method: "RFP issue date + award date + contract execution date + contractor name + contract value"
+    - commitment_type: "match_expenditure"
+      measurement_method: "match-source name + amount drawn + cumulative percentage of committed match + documentation reference"
+    - commitment_type: "beneficiary_count"
+      measurement_method: "service-area population served + LMI percentage (CDBG) + disadvantaged-community-area benefit count (where program-relevant)"
+    - commitment_type: "facility_units_delivered"
+      measurement_method: "named facility type (water main feet / treatment plant capacity gpd / housing units / square footage / trail miles) + baseline → post-construction value"
+    - commitment_type: "jobs_created_or_retained"
+      measurement_method: "construction jobs FTE during build + permanent jobs FTE post-occupancy (where applicable per EDA / CDBG-econ-dev)"
+    - commitment_type: "davis_bacon_payrolls_filed"
+      measurement_method: "certified-payroll count + worker count + any wage-decision violations + corrective actions"
+    - commitment_type: "baba_compliance_filing"
+      measurement_method: "iron/steel/manufactured-products/materials sourcing log + waiver requests filed + waivers approved"
+    - commitment_type: "single_audit_filing"
+      measurement_method: "fiscal-year audit completion date + findings count + corrective-action status"
+    - commitment_type: "ffata_subaward_reporting"
+      measurement_method: "FSRS-filed sub-award count + cumulative sub-award value"
+    - commitment_type: "closeout_completion"
+      measurement_method: "final-SF-425 submission date + final performance report date + property disposition status + closeout-letter receipt date"
+    - commitment_type: "final_federal_financial_report"
+      measurement_method: "final SF-425 submission date + total federal expenditures + total non-federal share expended + unliquidated obligations cleared (submission required within 120 days of period-of-performance end per 2 CFR 200.344)"
+    - commitment_type: "final_performance_report"
+      measurement_method: "final performance report submission date + cumulative beneficiary count + facility-units-delivered actuals vs commitment + variance narrative (submission required within 120 days of period-of-performance end per 2 CFR 200.344)"
+    - commitment_type: "property_inventory_and_disposition"
+      measurement_method: "real-property and equipment inventory (where applicable) + disposition documentation per 2 CFR 200.310-316 + federal-interest period continuation where applicable"
+    # Sidecar augmentation 2026-05-18 per handback §4.7.
+    - commitment_type: "civic_benefit_reporting"
+      measurement_method: "Per-program civic-benefit metric reporting (CDBG: LMI beneficiaries served + national-objective compliance; FEMA BRIC: lifeline beneficiaries + risk-reduction quantification; DOT BUILD/RAISE: per-mode mobility + safety performance; EDA Public Works: jobs created/retained + private-investment leveraged; EPA SRF: water-quality compliance + service connections); report frequency per program (typically annual; quarterly for some)."
+    - commitment_type: "built_asset_commissioning"
+      measurement_method: "Beneficial-use certificate or equivalent: commissioning report for facility/system (water plant commissioning, transit-asset acceptance, bridge load-test, broadband network acceptance, building TCO occupancy). Pairs with construction_milestone_final_acceptance."
+    - commitment_type: "section_3_workforce_outcomes"
+      measurement_method: "HUD Section 3 hiring + contracting outcomes (low-income hires placed by sub-recipient; Section-3-eligible contracts awarded + sub-contracted; goal-attainment percentage). Applicability gate: HUD-funded only."
+    - commitment_type: "dbe_mbe_wbe_outcomes"
+      measurement_method: "DOT DBE goal-attainment / HUD MBE/WBE goal-attainment (race-conscious + race-neutral methods broken out per DOT 49 CFR 26 reporting cycle)."
+  proposal_commitments_yaml_extension:
+    field_name: "public_purpose_works_commitments"
+  source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-01"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Cross-references — Program Rule Packs (PRP)
+# Sidecar augmentation 2026-05-18 per handback §4.9 + Run 4 synthesis PRP integration.
+# CLC-01 Public Purpose & Works is the canonical card for all three current PRPs.
+# ─────────────────────────────────────────────────────────────────────────────
+cross_references_prp:
+  - prp_id: "TILTH-PRP-2CFR200"
+    applicability: "Public Purpose & Works funding is governed by 2 CFR Part 200 Uniform Guidance across all federal and federal-pass-through awards — procurement, allowability, indirect costs, single audit, closeout."
+    fires_when: "funder is federal or federal-pass-through"
+  - prp_id: "TILTH-PRP-DAVIS-BACON"
+    applicability: "Davis-Bacon prevailing-wage compliance attaches to federally-funded construction over the contract trigger ($2,000 direct; varies for federal-assistance). Anchor card for covered-construction CLC-01 work."
+    fires_when: "federal-funded construction over Davis-Bacon trigger"
+  - prp_id: "TILTH-PRP-NEPA-24CFR58"
+    applicability: "HUD Responsible-Entity-assumed NEPA layer (24 CFR 58); also pairs with parallel agency-specific NEPA pathways (USDA 7 CFR 1970, DOT 23 CFR 771) for non-HUD construction. Choice-Limiting Action Blocker, Eight-Step floodplain Decision-Making Process, five review classifications encoded in PRP."
+    fires_when: "federal-funded project subject to NEPA (most federal-funded construction)"
+
+# ---------------------------------------------------------------------------
+# ADMIN-RISK TERM REGISTER — RESOLVED VIA WAVE 1 OD-1 PATH (a) PRECEDENT.
+# Field removed from CLC cards at LOCK per Wave 1 CLC-03 operating_capacity
+# closure (lock_history rows 226-228 + project_card_wave_1_locked.md).
+# §18.5 (CIC) declares admin_risk_term_register; §18.6 (CLC) does not. Wave 1
+# OD-1 closed via path (a): the field is moved from CLC cards to the
+# workspace-wide register at pipeline/institutional_memory/admin_risk_register.yaml.
+#
+# Cycle 1 Thesis (Wave 2 CLC-01) Judge J-2 + Red Team RT-2 + Red Team RT-11
+# all surface the same posture-question; FOLDED-IN at this LOCK per the
+# Wave 1 OD-1 path (a) precedent (no separate operator decision needed).
+#
+# Migration to workspace-wide admin_risk_register.yaml v2.3 follow-on dispatch
+# (5 CLC-01-specific terms requiring own operator-approval-token flow):
+#   - "disadvantaged community" (CLC-01 context: agency-by-agency operational tool drift)
+#   - "climate resilience" (CLC-01 context: pair-with-named-hazard substitution)
+#   - "equitable access" (CLC-01 context: Title VI / ADA / Section 504 substitution)
+#   - "underserved" (CLC-01 context: pair-with-data-citation substitution)
+#   - "resilience" (CLC-01 context: standalone GREEN; modifier-driven re-tier)
+# Already in workspace register v2.2 (no migration needed):
+#   - "environmental justice" / "Justice40" / "equity" / "sustainability"
+#   - "green infrastructure" (variant of "green")
+# Workspace register migration tracked in _review_handback.decision_queue.
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# LIFECYCLE
+# ---------------------------------------------------------------------------
+lifecycle:
+  draft_status: "signed"
+  review_status: "passed"
+  cross_family_thesis_status: "passed"
+  signature_status: "signed"
+  runtime_load_status: "loaded"
+  runtime_loadable: true
+  signed_at: "2026-05-16T16:00:00Z"
+  signed_by: "founder"
+  content_hash: "sha256:18ac074d533f027bf542246a1c111bd1a5f342025eaa42d36f9e14deb16924a9"
+  lock_history_row: 255
+  lock_timestamp_utc: "2026-05-16T16:00:00Z"
+  # LOCK ceremony 2026-05-16 PM after L-005 two-cycle audit closed at
+  # pipeline/validation/cards_wave_2_thesis_2026-05-15/CLC/public_purpose_works/FINAL_VERDICT.md
+  # (THESIS_PASSED). review_status flipped pending→passed; signature_status
+  # unsigned→signed; runtime_load_status not_loaded→loaded. Operator publisher
+  # pubkey pinned at vault_shared/cards/publisher_pubkey.signed.yaml. The
+  # ed25519_signature in _research_metadata is the operator Ed25519 signature
+  # over canonical-JSON of this YAML with ed25519_signature: null. OD-F + OD-H
+  # operator-decisions resolved pre-ceremony (cards LOCKed as-on-disk per
+  # operator directive 2026-05-16).
+
+# ---------------------------------------------------------------------------
+# RESEARCH METADATA — Phase 5 review handback substrate
+# ---------------------------------------------------------------------------
+_research_metadata:
+  authored_at: "2026-05-15T22:30:00Z"
+  authored_by_role: "research_session"
+  research_budget_hours_actual: 2.8
+  priors_consulted:
+    - path: "assets/cards/capital_logic/Capital Logic Cards.png"
+      extract_note: "Visual Card source — drawing TILTH-CLC-00; defines Public Purpose & Works scope (mandate / eligibility / allowable use / civic benefit / public infrastructure)."
+    - path: "pipeline/blueprint/v0.1/section_18_card_system.md"
+      extract_note: "§18.10 starter content for TILTH-CLC-01; §18.6 schema; §18.11 five-phase research process; §18.15 testing requirements."
+    - path: "pipeline/cards/CLC/operating_capacity.yaml"
+      extract_note: "Wave 1 sibling card — structural template for field shape, lifecycle, admin-risk-register, _research_metadata, _review_handback."
+    - path: "pipeline/institutional_memory/admin_risk_register.yaml"
+      extract_note: "Existing v2.2 register; entries for 'environmental justice', 'Justice40', 'equity', 'sustainability', 'green infrastructure' reused with CLC-01 context."
+    - path: "CLAUDE.md"
+      extract_note: "Canonical CLC roster + 'Public Purpose & Works' funding-mechanism summary; eight-card closed set per TILTH-CLC-00."
+    - path: "skills/scribe-ghostwriter/SKILL.md"
+      extract_note: "Existing federal-construction grant scaffolding (CDBG / CF / SRF / DOT) — card complements but does not duplicate skill content."
+
+  primary_sources:
+    - url: "https://www.hud.gov/program_offices/comm_planning/cdbg"
+      access_date: "2026-05-15"
+      relevance: "HUD CDBG Entitlement Program — defines national objectives, LMI benefit standard (70% over consolidated-plan cycle), allowable activities. Anchors public-benefit and eligibility framing for the largest single Public Purpose & Works program."
+      verbatim_quote: "The CDBG program works to ensure decent affordable housing, to provide services to the most vulnerable in our communities, and to create jobs through the expansion and retention of businesses. Each activity must meet one of the following national objectives: benefit low- and moderate-income persons, prevention or elimination of slums or blight, or address community development needs having a particular urgency."
+
+    - url: "https://www.rd.usda.gov/programs-services/community-facilities/community-facilities-direct-loan-grant-program"
+      access_date: "2026-05-15"
+      relevance: "USDA Rural Development Community Facilities — essential community facility framing, MHI-based grant share, rural eligibility."
+      verbatim_quote: "This program provides affordable funding to develop essential community facilities in rural areas. An essential community facility is defined as a facility that provides an essential service to the local community for the orderly development of the community in a primarily rural area, and does not include private, commercial or business undertakings."
+
+    - url: "https://www.fema.gov/grants/mitigation/building-resilient-infrastructure-communities"
+      access_date: "2026-05-15"
+      relevance: "FEMA BRIC — pre-disaster hazard mitigation, 25% non-federal cost share (10% for tribes / disadvantaged communities under FY24 rules), benefit-cost analysis threshold ≥1.0."
+      verbatim_quote: "Building Resilient Infrastructure and Communities supports states, local communities, tribes and territories as they undertake hazard mitigation projects, reducing the risks they face from disasters and natural hazards."
+
+    - url: "https://www.fema.gov/grants/mitigation/benefit-cost-analysis"
+      access_date: "2026-05-15"
+      relevance: "FEMA Benefit-Cost Analysis tools and methodology — BCA ≥1.0 threshold for BRIC/HMGP."
+      verbatim_quote: "FEMA requires a benefit-cost analysis to validate cost-effectiveness for proposed hazard mitigation projects. The BCR is a numerical expression of the cost-effectiveness of a project; a project is cost effective when the BCR is 1.0 or greater."
+
+    - url: "https://www.epa.gov/cwsrf/clean-water-state-revolving-fund-cwsrf"
+      access_date: "2026-05-15"
+      relevance: "EPA Clean Water State Revolving Fund — state-administered, principal forgiveness terms vary by state IUP. Anchors water/wastewater public-works funding pathway."
+      verbatim_quote: "The Clean Water State Revolving Fund is a federal-state partnership that provides communities a permanent, independent source of low-cost financing for a wide range of water quality infrastructure projects."
+
+    - url: "https://www.transportation.gov/RAISEgrants"
+      access_date: "2026-05-15"
+      relevance: "DOT BUILD/RAISE — competitive transportation infrastructure grants; project-readiness primary merit factor."
+      verbatim_quote: "The RAISE discretionary grant program provides a unique opportunity for the DOT to invest in road, rail, transit and port projects that promise to achieve national objectives. Project readiness is one of the merit criteria evaluated during the merit review process."
+
+    - url: "https://www.eda.gov/funding/programs/public-works"
+      access_date: "2026-05-15"
+      relevance: "EDA Public Works and Economic Adjustment Assistance — economic-distress eligibility threshold, CEDS alignment."
+      verbatim_quote: "EDA's Public Works program empowers distressed communities to revitalize, expand, and upgrade their physical infrastructure to attract new industry, encourage business expansion, diversify local economies, and generate or retain long-term, private sector jobs and investment."
+
+    - url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200"
+      access_date: "2026-05-15"
+      relevance: "2 CFR Part 200 Uniform Guidance — governs all federal grants including procurement, allowability, indirect costs, single audit, closeout."
+      verbatim_quote: "This part establishes uniform administrative requirements, cost principles, and audit requirements for Federal awards to non-Federal entities."
+
+    - url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFRea20080eff2ea53/section-200.317"
+      access_date: "2026-05-15"
+      relevance: "2 CFR 200.317-327 — procurement standards for federal-assistance recipients; full and open competition; method-by-cost thresholds."
+      verbatim_quote: "When procuring property and services under a Federal award, a state must follow the same policies and procedures it uses for procurements from its non-Federal funds. All other non-Federal entities, including subrecipients of a state, must follow the procurement standards in §200.318 through §200.327."
+
+    - url: "https://www.dol.gov/agencies/whd/government-contracts/construction"
+      access_date: "2026-05-15"
+      relevance: "Davis-Bacon Act and Related Acts — prevailing-wage compliance on federally-funded construction."
+      verbatim_quote: "The Davis-Bacon and Related Acts apply to contractors and subcontractors performing on federally funded or assisted contracts in excess of $2,000 for the construction, alteration, or repair of public buildings or public works."
+
+    - url: "https://www.whitehouse.gov/wp-content/uploads/2023/08/M-24-02-Buy-America-Implementation-Guidance-Update.pdf"
+      access_date: "2026-05-15"
+      relevance: "Build America Buy America Act implementation guidance — domestic-content requirements for federal-assistance infrastructure."
+      verbatim_quote: "The Buy America Preference applies to all Federal financial assistance obligated for infrastructure projects, requiring that all iron, steel, manufactured products, and construction materials used in the project are produced in the United States."
+
+    - url: "https://ceq.doe.gov/laws-regulations/regulations.html"
+      access_date: "2026-05-15"
+      relevance: "NEPA regulations — environmental review tiers (CATEX / EA / EIS) for federal undertakings including federally-assisted construction."
+      verbatim_quote: "The National Environmental Policy Act of 1969 (NEPA) requires Federal agencies to assess the environmental effects of their proposed actions prior to making decisions."
+
+    - url: "https://www.achp.gov/protecting-historic-properties/section-106-process"
+      access_date: "2026-05-15"
+      relevance: "Section 106 NHPA process — historic-preservation consultation triggered by federal undertakings affecting historic properties."
+      verbatim_quote: "Section 106 of the National Historic Preservation Act requires Federal agencies to take into account the effects of their undertakings on historic properties and afford the Advisory Council on Historic Preservation a reasonable opportunity to comment."
+
+    - url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFR682eb148525a1ed/section-200.344"
+      access_date: "2026-05-15"
+      relevance: "2 CFR 200.344 Closeout — final report timelines (120 days post-period-of-performance per 2024 Uniform Guidance update; previously 90 days)."
+      verbatim_quote: "The non-Federal entity must submit, no later than 120 calendar days after the end date of the period of performance, all financial, performance, and other reports as required by or the terms and conditions of the Federal award."
+
+    - url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-F"
+      access_date: "2026-05-15"
+      relevance: "2 CFR 200 Subpart F Single Audit — required where federal expenditures exceed the floor (raised from $750K to $1M for FY beginning Oct 2024)."
+      verbatim_quote: "A non-Federal entity that expends $1,000,000 or more during the non-Federal entity's fiscal year in Federal awards must have a single or program-specific audit conducted for that year."
+
+    - url: "https://dced.pa.gov/programs-funding/single-application/"
+      access_date: "2026-05-15"
+      relevance: "PA DCED Single Application — Pennsylvania state grants and state-administered federal pass-through portal."
+      verbatim_quote: "The Single Application is a streamlined process for businesses and applicants to apply for funding from multiple state agencies through one online application system."
+
+    - url: "https://www.pennvest.pa.gov/"
+      access_date: "2026-05-15"
+      relevance: "PENNVEST — Pennsylvania state SRF for water and wastewater infrastructure."
+      verbatim_quote: "PENNVEST is dedicated exclusively to the financing of water, wastewater, and storm water infrastructure projects in Pennsylvania."
+
+  # Ed25519 signature over canonical-JSON of this YAML with this field set to
+  # null. Canonical-JSON form: sorted keys, compact separators (",",":"), UTF-8,
+  # ensure_ascii=False. Canonical-JSON SHA3-512 (for white-glove integrity
+  # pinning): 578dd1cfd1cb0a501ffcc2b8000757540a54bc23c4c67c94fa8963f74158f555153f6316a5cbb9d2e9e1b67b2f851ded1227916aab05cb3799ceda0b784a3c1f
+  # Signature target pubkey: vault_shared/cards/publisher_pubkey.signed.yaml
+  # (publisher_pubkey_ed25519_hex 0b1a0bbfa5ee9149af2c4e6153ed037dd03c0d562c94d3eaefeaf798e6f375bd)
+  ed25519_signature: "812631cb11bcc2a5774a7839a927e7fc4a53a958836dba753b9a03d73e4448aa25d2f69dff807363a50a66d16ac15c17b6752d0b988372022caa098ad0be5502"
+
+# ---------------------------------------------------------------------------
+# REVIEW HANDBACK SUMMARY (per blueprint §18.11 Phase 5)
+# ---------------------------------------------------------------------------
+_review_handback:
+  card_axis_and_slug: "CLC:public_purpose_works"
+  card_file: "pipeline/cards/CLC/public_purpose_works.yaml"
+  research_hours_actual: 2.8
+  schema_completeness:
+    required_fields_populated: "15/15"
+    fields_needing_review: 0
+    total_citations: 38
+    unique_primary_sources: 17
+    schema_extensions_removed_at_lock:
+      - "admin_risk_term_register (Wave 1 OD-1 path (a) precedent — workspace-wide admin_risk_register.yaml is canonical Law-4 substrate)"
+  decision_queue:
+    - "Confirm Wave 2 path-case pin: file lives at pipeline/cards/CLC/public_purpose_works.yaml (uppercase CLC/) per Wave 2 operator directive."
+    - "OD-1 (Cycle-1 Thesis J-2 + RT-2 + RT-11): admin_risk_term_register §18.6 schema-extension posture resolved via Wave 1 path (a) precedent at LOCK — field removed from this CLC card. Migration of CLC-01-specific terms ('disadvantaged community', 'climate resilience', 'equitable access', 'underserved', 'resilience') to workspace-wide admin_risk_register.yaml v2.3 = follow-on dispatch (separate operator-approval-token flow). Already in workspace v2.2 (no migration): 'environmental justice' / 'Justice40' / 'equity' / 'sustainability' / 'green infrastructure'. CLOSED at card layer."
+    - "OD-2 (Cycle-1 Thesis F7): davis_bacon_nonresponsive + baba_waiver_no_rationale severity lifted MEDIUM → HIGH at LOCK 2026-05-15 per Red Team RT-9 closure. CLOSED."
+    - "OD-3 (Cycle-1 Thesis F1): underwriting_criteria[eligibility_statutory_authority] rephrased at LOCK to explicitly state CIC × CLC coupling forbidden + relocate enumeration as illustrative-only per Red Team RT-1 closure. CLOSED."
+    - "Cross-family Thesis dispatch (Editor + Judge + Red Team) before promoting lifecycle to 'reviewed' — DISPATCHED 2026-05-16 (Cycle 1 complete; Cycle 2 pending)."
+    - "Ed25519 signature once operator and Thesis pass — pending publisher key pin per architecture v7.0.11 §6."
+    - "scoring_weight_patterns: confirm qualitative-only posture per OQ-6. CDBG / USDA CF / FEMA BRIC / DOT BUILD/RAISE / EPA SRF / EDA Public Works are cited as representative — confirm this set covers the modal Public Purpose & Works opportunity space, or surface programs to add (HUD Section 108, USDA Water/Waste Disposal, FHWA STBG, Army Corps Section 14/22)."
+    - "Closeout timing: card cites 2024 Uniform Guidance update (120 days post-period-of-performance, was 90 days). Confirm that update applies to all federal awards or only awards issued under 2024-update version — the older 90-day rule may persist on legacy awards. Audit-documentation evidence-weight rationale now carries explicit threshold selector by award fiscal year."
+    - "v1.x backlog: blueprint-citation circularity (3+ entries cite blueprint:section_18_card_system.md#§18.10-CLC-01 as source). Wave 1 operating_capacity LOCKED with same pattern; v0.2-tier primary-source-citation pass to replace with NOFO / 2 CFR / agency-manual URLs."
+    - "v1.x backlog: state-overlay block for state-specific portals (PA DCED Single Application, PENNVEST currently inline in common_portals)."
+  conflicts_with_prior_art:
+    - "NONE post-OD-1 path (a) closure — admin_risk_term_register removed from card at LOCK; workspace-wide admin_risk_register.yaml v2.2 continues to govern reused terms (environmental justice / Justice40 / equity RED-tier; sustainability YELLOW-tier; green infrastructure RED-variant)."
+    - "Wave 1 operating_capacity.yaml shares the same OD-1 path (a) closure pattern — both cards align on workspace-wide register as canonical Law-4 substrate. 5 CLC-01-specific terms (disadvantaged community / climate resilience / equitable access / underserved / resilience) pending v2.3 follow-on dispatch."
+  surface_ambiguities:
+    - "Federal-administration scrutiny is in flux: EJ/Justice40 framing was RED-tier under EO 14151 / EO 14148 in early 2025. The card reflects that posture. Federal NOFOs published mid-2025 onward may further revise — Scout should re-check current-NOFO language at opportunity surfacing time and apply substitutions per the live RFA, not the card default."
+    - "FEMA BRIC FY26 NOFO not yet published at draft time. Card cites FY24 structure (25% non-federal / 10% tribes/disadvantaged-communities); FY26 may revise the cost-share and the disadvantaged-community designation tool. Update on next-cycle research dispatch."
+    - "Build America Buy America implementation continues to mature — OMB Memo M-24-02 cited as current guidance; agency-specific implementation memos vary. Card defers detailed waiver-pathway specifics to NOFO-time research."
+    - "State pass-through portals are highly state-specific. Card cites PA DCED Single Application + PENNVEST as Pennsylvania examples (Josh's operating state). Other-state operator deployments will need state-specific portal entries — opportunity for state-card layer in v1.x."
+    - "BCA threshold (FEMA BRIC = 1.0): card treats as threshold gate but does not address recent agency conversations about BCA flexibility for projects serving small populations or hard-to-monetize benefits. FY26 NOFO may revise; runtime should defer to live NOFO."
+    - "Sibling Wave 2 cards (CIC-02 educator, CIC-03 public_agency, CLC-02 catalytic_change) firing in parallel — once they land, defense-in-depth check that no inadvertent CIC × CLC coupling appears across pairs."
+    - "Verbatim-quote sourcing: quotes are from primary federal sources (HUD, USDA, FEMA, EPA, DOT, EDA, eCFR, DOL, ACHP) and state portals (PA DCED, PENNVEST). All ≤2 sentences with URL + access_date."
+  review_readiness: "READY"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Draft provenance — sidecar augmentation pass
+# ─────────────────────────────────────────────────────────────────────────────
+_draft_provenance:
+  draft_authored_at: "2026-05-18T00:00:00Z"
+  draft_authored_by_role: "card_content_augmentation_pass_v1"
+  source_handback: "docs/clc_public_purpose_works_research_handback_2026-05-17.md"
+  source_handback_sections_consumed:
+    - "§4 Proposed Card Improvements"
+    - "§8 Patch Plan"
+  prp_scaffolding_referenced:
+    - "pipeline/program_rule_packs/_manifest/active_prps.yaml"
+    - "pipeline/blueprint/v0.1/section_19_program_rule_packs.md"
+  prp_ids_cross_referenced:
+    - "TILTH-PRP-2CFR200"
+    - "TILTH-PRP-DAVIS-BACON"
+    - "TILTH-PRP-NEPA-24CFR58"
+  operator_roadmap_alignment: "Step #5: card content augmentation passes parallel with PRP authoring once PRP pointers exist (per docs/CTO_HANDOFF_BRIEF.md §3.2 + Run 4 synthesis §6)."
+  patches_deferred_pending_operator_review:
+    - "underwriting_criteria[match_committed] FY24 per-program percentage softening (handback §5 item 3 — operator decision pending on whether to soften now or defer until per-program PRPs are authored)"
+    - "common_funders_observed relocation — handled via separate operator-engagement-confirmation pass"
+    - "State-overlay extraction for PA-specific portals (handback §5 item 10 — operator decision keep-in-base vs extract-to-overlay)"
+    - "Re-signing ceremony bundling decision (handback §5 item 11)"
+  patches_deferred_pending_schema_amendment:
+    - "reviewer_culture_subtypes field adoption (Run 4 synthesis §1.3 item 3 cross-CLC P1)"
+    - "cross_references_prp: list[str] adoption into card_clc.schema.json item shapes for compliance_obligations[*], evidence_weights[*], common_red_flags[*] (handback §4.9 + §5 item 1)"
+  patches_deferred_pending_cards_ceremony:
+    - "Law-5 common_funders_observed relocation (separate operator-engagement-confirmation pass)"
+    - "Cross-CLC admin-risk-register migration to v3.0 workspace register (per_clc_register cell additions for 'climate resilience' + 'underserved' per handback §4.4 + §5 item 6)"
+    - "TILTH-PRP-BABA-IIJA roster addition to active_prps.yaml (handback §5 item 2)"
+  no_lockfiles_modified: true
+  no_schema_modified: true
+  no_signatures_modified: true

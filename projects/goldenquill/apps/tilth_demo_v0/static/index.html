@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tilth — Funding Workbench</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============================================================
+       SIDEBAR
+       ============================================================ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="brand-logo">⟁</span>
+      <span class="brand-name">
+        <strong>Golden Quill</strong>
+        <span class="brand-sub">Powered by Tilth</span>
+      </span>
+    </div>
+
+    <div class="workspace-switcher">
+      <span class="workspace-icon">F</span>
+      <span class="workspace-name">
+        FIT Farms
+        <span class="workspace-sub">Workspace</span>
+      </span>
+    </div>
+
+    <nav class="primary-nav" id="primaryNav">
+      <a class="nav-item active" data-route="home" href="#/home"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></a>
+      <a class="nav-item" data-route="pipeline" href="#/pipeline"><span class="nav-icon">≣</span><span class="nav-label">Pipeline</span></a>
+      <a class="nav-item" data-route="opportunities" href="#/opportunities"><span class="nav-icon">◎</span><span class="nav-label">Opportunities</span><span class="nav-count">6</span></a>
+      <a class="nav-item" data-route="vault" href="#/vault"><span class="nav-icon">⛁</span><span class="nav-label">Client Vault</span></a>
+      <a class="nav-item" data-route="drafts" href="#/drafts"><span class="nav-icon">✎</span><span class="nav-label">Draft Workbench</span></a>
+      <a class="nav-item" data-route="evidence" href="#/evidence"><span class="nav-icon">⚏</span><span class="nav-label">Evidence Ledger</span></a>
+      <a class="nav-item" data-route="blockers" href="#/blockers"><span class="nav-icon">⚑</span><span class="nav-label">Blockers &amp; Next Actions</span><span class="nav-count">11</span></a>
+      <a class="nav-item disabled" data-route="reports" href="#"><span class="nav-icon">⊟</span><span class="nav-label">Reports</span></a>
+      <a class="nav-item disabled" data-route="calendar" href="#"><span class="nav-icon">📅</span><span class="nav-label">Calendar</span></a>
+      <a class="nav-item disabled" data-route="notes" href="#"><span class="nav-icon">≡</span><span class="nav-label">Notes</span></a>
+      <a class="nav-item disabled" data-route="templates" href="#"><span class="nav-icon">▦</span><span class="nav-label">Templates</span></a>
+      <a class="nav-item disabled" data-route="resources" href="#"><span class="nav-icon">▤</span><span class="nav-label">Resources</span></a>
+    </nav>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="sidebar-promo">
+      <h4>Need funding intelligence?</h4>
+      <p>Explore curated opportunities and funder insights.</p>
+      <button class="promo-btn">Explore Now ↗</button>
+    </div>
+
+    <button class="sidebar-collapse" id="sidebarCollapse">‹ Collapse</button>
+  </aside>
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <div class="content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="search">
+        <input type="text" placeholder="Search organizations, grants, notes, documents...">
+        <span class="kbd">⌘ K</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" title="Notifications">🔔</button>
+        <button class="icon-btn" title="Help">?</button>
+        <div class="user">
+          <div class="user-avatar">JI</div>
+          <div class="user-info">
+            <div class="user-name">Josh Inklovich</div>
+            <div class="user-role">Operator</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============================================================
+         SCREEN: HOME — dashboard with 6 org cards
+         ============================================================ -->
+    <section class="screen" data-screen="home">
+      <div class="breadcrumbs"><strong>Home</strong></div>
+      <div class="page-header">
+        <div class="page-title">
+          <div class="page-icon">⌂</div>
+          <div class="page-name">
+            <h1>One system. Multiple funding grammars.</h1>
+            <div class="sub">Six workspaces, one Golden Quill. Open one to see Tilth at work.</div>
+          </div>
+        </div>
+        <div class="page-actions">
+          <button class="btn">Filter</button>
+          <button class="btn-primary btn">+ New workspace</button>
+        </div>
+      </div>
+
+      <div class="cards-grid cols-3" id="orgCards">
+        <!-- org cards injected by app.js from /api/orgs -->
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN: PIPELINE — Funders Master spreadsheet view
+         ============================================================ -->
+    <section class="screen hidden" data-screen="pipeline">
+      <div class="breadcrumbs"><span>FIT Farms</span> <span class="sep">/</span> <strong>Pipeline</strong></div>
+      <div class="page-header">
+        <div class="page-title">
+          <div class="page-icon">≣</div>
+          <div class="page-name">
+            <h1>Funders Master <span class="pill pill-confidential">Confidential</span></h1>
+            <div class="sub">15 active opportunities &middot; 9 open/rolling &middot; 4 anticipated &middot; last Scout pass: 2 hours ago</div>
+          </div>
+        </div>
+        <div class="page-actions">
+          <button class="btn">Filter</button>
+          <button class="btn">Export</button>
+          <button class="btn-primary btn" id="runScoutBtn">▶ Run Scout</button>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Funder</th>
+              <th>Program</th>
+              <th>Status</th>
+              <th>Next Deadline</th>
+              <th>Ask Range</th>
+              <th>Eligibility</th>
+              <th class="num">Fit</th>
+              <th>Verified</th>
+            </tr>
+          </thead>
+          <tbody id="pipelineRows">
+            <tr><td>1</td><td>USDA · FNS</td><td>Farm to School Implementation</td><td><span class="pill pill-ok">Open</span></td><td>2026-09-19</td><td>$50K–$100K</td><td><span class="pill pill-ok">Eligible</span></td><td class="num"><strong>92</strong></td><td class="muted">2026-05-09 live</td></tr>
+            <tr><td>2</td><td>NSF</td><td>DRK-12 · Discovery Research</td><td><span class="pill pill-ok">Open</span></td><td>2026-10-08</td><td>$300K–$1.5M</td><td><span class="pill pill-warn">Likely</span></td><td class="num"><strong>71</strong></td><td class="muted">2026-05-08 live</td></tr>
+            <tr><td>3</td><td>Heinz Endowments</td><td>Learning · place-based programs</td><td><span class="pill pill-warn">Rolling</span></td><td>rolling LOI</td><td>$25K–$150K</td><td><span class="pill pill-ok">Eligible</span></td><td class="num"><strong>88</strong></td><td class="muted">2026-05-04 live</td></tr>
+            <tr><td>4</td><td>PA DCNR</td><td>Keystone Recreation, Park &amp; Cons.</td><td><span class="pill pill-ok">Open</span></td><td>2026-04-01</td><td>$50K–$500K</td><td><span class="pill pill-ok">Eligible</span></td><td class="num"><strong>85</strong></td><td class="muted">2026-05-09 live</td></tr>
+              <tr><td>5</td><td>Hillman Family Foundations</td><td>[program redacted]</td><td><span class="pill pill-warn">Rolling</span></td><td>invitation only</td><td>—</td><td><span class="pill pill-warn">Pending</span></td><td class="num"><strong>68</strong></td><td class="muted">2026-05-02 cached</td></tr>
+            <tr><td>6</td><td>NEA Foundation</td><td>Learning &amp; Leadership Grants</td><td><span class="pill pill-ok">Open</span></td><td>2026-06-15</td><td>$2K–$5K</td><td><span class="pill pill-ok">Eligible</span></td><td class="num"><strong>79</strong></td><td class="muted">2026-05-07 live</td></tr>
+            <tr><td>7</td><td>Pittsburgh Foundation</td><td>[FOI fund redacted]</td><td><span class="pill pill-warn">Rolling</span></td><td>2026-07-15 cycle</td><td>—</td><td><span class="pill pill-ok">Eligible</span></td><td class="num"><strong>82</strong></td><td class="muted">2026-05-06 live</td></tr>
+            <tr><td>8</td><td>SARE NE</td><td>Farmer Grant · Producer Grant</td><td><span class="pill">Anticipated</span></td><td>est. 2026-11</td><td>$15K–$30K</td><td><span class="pill pill-ok">Eligible</span></td><td class="num"><strong>63</strong></td><td class="muted">2026-04-29 cached</td></tr>
+            <tr><td>9</td><td>USDA Rural Dev.</td><td>REAP · Renewable Energy / Eff.</td><td><span class="pill pill-ok">Open</span></td><td>2026-06-30</td><td>$15K–$1M</td><td><span class="pill pill-warn">Pending</span></td><td class="num"><strong>59</strong></td><td class="muted">2026-05-09 live</td></tr>
+            <tr><td>10</td><td>Buhl Foundation</td><td>North Side / regional priorities</td><td><span class="pill pill-warn">Rolling</span></td><td>rolling LOI</td><td>—</td><td><span class="pill">Review</span></td><td class="num"><strong>54</strong></td><td class="muted">2026-05-01 cached</td></tr>
+            <tr><td>11</td><td>USDA NIFA</td><td>AFRI · Education &amp; Workforce</td><td><span class="pill pill-bad">Closed</span></td><td>FY27 recal</td><td>—</td><td><span class="muted">awaiting</span></td><td class="num muted">—</td><td class="muted">2026-04-05 live</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN: OPPORTUNITIES — list view, click to Read-Pass
+         ============================================================ -->
+    <section class="screen hidden" data-screen="opportunities">
+      <div class="breadcrumbs"><span>FIT Farms</span> <span class="sep">/</span> <strong>Opportunities</strong></div>
+      <div class="page-header">
+        <div class="page-title">
+          <div class="page-icon">◎</div>
+          <div class="page-name">
+            <h1>Active Opportunities <span class="pill pill-confidential">Confidential</span></h1>
+            <div class="sub">6 in flight &middot; 3 with deadlines inside 30 days</div>
+          </div>
+        </div>
+        <div class="page-actions">
+          <button class="btn">Filter</button>
+          <button class="btn-primary btn">+ Track new</button>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Opportunity</th>
+              <th>Funder</th>
+              <th>Status</th>
+              <th>LOI Due</th>
+              <th>Full Proposal Due</th>
+              <th class="num">Requested</th>
+              <th>Match</th>
+              <th>Read-Pass</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="cursor:pointer" onclick="location.hash='#/read-pass'"><td><a class="card-link">USDA Farm to School Implementation</a></td><td>USDA · FNS</td><td><span class="pill pill-info">LOI Submitted</span></td><td>2026-05-30</td><td>2026-07-31</td><td class="num">$92,500</td><td>Yes</td><td><strong>82</strong> / 100</td></tr>
+            <tr><td>NSF DRK-12 Discovery Research</td><td>NSF</td><td><span class="pill pill-warn">In Progress</span></td><td>2026-06-17</td><td>2026-10-08</td><td class="num">$485,000</td><td>No</td><td><strong>71</strong> / 100</td></tr>
+            <tr><td>Heinz Endowments — Learning</td><td>Heinz Endowments</td><td><span class="pill pill-info">Invited</span></td><td>2026-07-01</td><td>—</td><td class="num">$75,000</td><td>Yes</td><td>—</td></tr>
+            <tr><td>SCRI Mushroom + Mycelium</td><td>USDA AMS</td><td><span class="pill">Not Started</span></td><td>2026-07-15</td><td>—</td><td class="num">$250,000</td><td>No</td><td>—</td></tr>
+            <tr><td>PA Ag Innovation Grant</td><td>PA Dept of Agriculture</td><td><span class="pill pill-warn">In Progress</span></td><td>2026-08-01</td><td>—</td><td class="num">$150,000</td><td>Yes</td><td>—</td></tr>
+            <tr><td>Pittsburgh Foundation FOI</td><td>Pittsburgh Foundation</td><td><span class="pill">Not Started</span></td><td>2026-08-15</td><td>—</td><td class="num">$45,000</td><td>No</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN: CLIENT VAULT (Context Profile) — matches marketing screen
+         ============================================================ -->
+    <section class="screen hidden" data-screen="vault">
+      <div class="breadcrumbs"><span>Client Vault</span> <span class="sep">/</span> <strong>Context Profile</strong></div>
+      <div class="page-header">
+        <div class="page-title">
+          <div class="page-icon">⛁</div>
+          <div class="page-name">
+            <h1>Organization Profile <span class="pill pill-confidential">Confidential</span></h1>
+            <div class="sub">FIT Farms LLC &middot; Pittsburgh, PA &middot; EIN: [on file]</div>
+          </div>
+        </div>
+        <div class="page-actions">
+          <button class="btn">Share Profile</button>
+          <button class="btn">Export ▾</button>
+          <button class="btn btn-primary">✎ Edit Profile</button>
+        </div>
+      </div>
+
+      <!-- Eligibility status pill -->
+      <div class="card" style="margin-bottom: 16px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); font-weight: 600;">Eligibility Status</div>
+          <div style="margin-top: 6px;"><span class="pill pill-ok"><span class="pill-dot"></span>Eligible</span></div>
+        </div>
+        <div style="text-align: right; font-size: 12px; color: var(--text-muted);">Last verified &middot; 2026-05-09</div>
+      </div>
+
+      <!-- Top three cards -->
+      <div class="cards-grid cols-3">
+        <div class="card">
+          <div class="card-header"><div class="card-title">📝 Mission Summary</div></div>
+          <p style="font-size: 13px; color: var(--text-soft); line-height: 1.55;">FIT Farms stewards mushroom and herb production, hydroponic and makerspace classrooms, regenerative grant intelligence (Golden Quill), and horticultural-therapy programming across the Pittsburgh region. Operates across food systems, education, and research funding worlds simultaneously.</p>
+          <button class="btn btn-ghost" style="margin-top: 12px;">View Full Narrative ↗</button>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">👥 Leadership <span class="badge">3</span></div>
+            <span class="card-link">View All</span>
+          </div>
+          <div class="person-row">
+            <div class="person-avatar">JI</div>
+            <div class="person-info"><div class="name">Josh Inklovich</div><div class="role">Founder / Chief Servant Leader</div></div>
+          </div>
+          <div class="person-row">
+            <div class="person-avatar">WP</div>
+            <div class="person-info"><div class="name">William Padilla-Brown</div><div class="role">Co-founder, MycoSymbiotics (partner)</div></div>
+          </div>
+          <div class="person-row">
+            <div class="person-avatar">BB</div>
+            <div class="person-info"><div class="name">Brian Bucci</div><div class="role">Phantom Robotix · technical partner</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🏆 Prior Grants <span class="badge">7</span></div>
+            <span class="card-link">View All</span>
+          </div>
+          <div class="kv-list">
+            <div class="kv"><span class="kv-key">Total Awards (Last 5 Years)</span><span class="kv-val gold">$94,200</span></div>
+            <div class="kv"><span class="kv-key">Total Funders</span><span class="kv-val">4</span></div>
+            <div class="kv"><span class="kv-key">Successful Awards</span><span class="kv-val">3</span></div>
+            <div class="kv"><span class="kv-key">Success Rate</span><span class="kv-val gold">75%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom cards: opportunities + document inventory -->
+      <div class="cards-grid cols-2-uneven" style="margin-top: 16px;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">📄 Document Inventory <span class="badge">18</span></div>
+            <span class="card-link">View All</span>
+          </div>
+          <div class="kv-list">
+            <div class="kv"><span class="kv-key">🗂 Strategic Plan</span><span class="kv-val muted">2025-08-22</span></div>
+            <div class="kv"><span class="kv-key">🗂 Board Roster</span><span class="kv-val muted">2026-01-14</span></div>
+            <div class="kv"><span class="kv-key">🗂 501(c)(3) Determination Letter</span><span class="kv-val muted">N/A — for-profit</span></div>
+            <div class="kv"><span class="kv-key">🗂 Annual Budget (FY26)</span><span class="kv-val muted">2026-02-04</span></div>
+            <div class="kv"><span class="kv-key">🗂 FY25 Financial Statements</span><span class="kv-val muted">2026-03-18</span></div>
+            <div class="kv"><span class="kv-key">+ 13 more documents</span><span class="kv-val muted">↗</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">◎ Active Opportunities <span class="badge">6</span></div>
+            <a class="card-link" href="#/opportunities">View All ↗</a>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Opportunity</th>
+                <th>Funder</th>
+                <th>Status</th>
+                <th>Deadline</th>
+                <th class="num">Requested</th>
+                <th>Match</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Farm to School Impl.</td><td>USDA · FNS</td><td><span class="pill pill-info">LOI Submitted</span></td><td>2026-05-30</td><td class="num">$92,500</td><td>Yes</td></tr>
+              <tr><td>NSF DRK-12</td><td>NSF</td><td><span class="pill pill-warn">In Progress</span></td><td>2026-06-17</td><td class="num">$485,000</td><td>No</td></tr>
+              <tr><td>Heinz Endowments</td><td>Heinz</td><td><span class="pill pill-info">Invited</span></td><td>2026-07-01</td><td class="num">$75,000</td><td>Yes</td></tr>
+              <tr><td>SCRI Mushroom + Mycelium</td><td>USDA AMS</td><td><span class="pill">Not Started</span></td><td>2026-07-15</td><td class="num">$250,000</td><td>No</td></tr>
+              <tr><td>PA Ag Innovation</td><td>PA Ag</td><td><span class="pill pill-warn">In Progress</span></td><td>2026-08-01</td><td class="num">$150,000</td><td>Yes</td></tr>
+              <tr><td>Pittsburgh Foundation FOI</td><td>Pittsburgh Foundation</td><td><span class="pill">Not Started</span></td><td>2026-08-15</td><td class="num">$45,000</td><td>No</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Notes + Tags -->
+      <div class="cards-grid cols-2" style="margin-top: 16px;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">💬 Notes from Tilth Team <span class="badge">2</span></div>
+            <span class="card-link">View All Notes</span>
+          </div>
+          <div class="comment">
+            <div class="person-avatar">JI</div>
+            <div class="comment-body">
+              <div class="comment-meta"><span class="name">Josh I.</span><span>2026-05-06 9:41 AM</span><span class="pill">Internal</span></div>
+              <div class="comment-text">For-profit constraint narrows the foundation pool. USDA, SARE, NSF tracks are the clean path. Document inventory adequate for FY26 cycles — focus next on locked-in 990 equivalents.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🏷 Tags <span class="badge">6</span></div>
+            <span class="card-link">Edit</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;">
+            <span class="pill">For-Profit</span>
+            <span class="pill pill-info">Multi-Sector</span>
+            <span class="pill pill-warn">Under $250K Budget</span>
+            <span class="pill">Pittsburgh Region</span>
+            <span class="pill pill-ok">CMU Pathways Fellow</span>
+            <span class="pill pill-confidential">Priority: High</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN: OPPORTUNITY READ-PASS — matches marketing screen
+         ============================================================ -->
+    <section class="screen hidden" data-screen="read-pass">
+      <div class="breadcrumbs"><span>Client Vault</span> <span class="sep">/</span> <span>Opportunity Review</span> <span class="sep">/</span> <strong>Grant Read-Pass</strong></div>
+      <div class="page-header">
+        <div class="page-title">
+          <div class="page-icon">◎</div>
+          <div class="page-name">
+            <h1>USDA Farm to School Implementation <span class="pill pill-confidential">Confidential</span></h1>
+            <div class="sub">USDA · FNS &middot; LOI Due: 2026-05-30 &middot; Full Proposal Due: 2026-07-31</div>
+          </div>
+        </div>
+        <div class="page-actions">
+          <button class="btn">Share Review</button>
+          <button class="btn">Export ▾</button>
+          <button class="btn btn-primary">✎ Edit Review</button>
+        </div>
+      </div>
+
+      <!-- Read-Pass Score header card -->
+      <div class="card" style="margin-bottom: 16px;">
+        <div class="row-between">
+          <div>
+            <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); font-weight: 600;">Overall Read-Pass Assessment</div>
+            <div style="margin-top: 8px; display:flex; align-items:center; gap:12px;">
+              <span class="pill pill-ok"><span class="pill-dot"></span>Strong Potential</span>
+              <span class="text-muted" style="font-size: 12px;">Last updated 2026-05-06</span>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); font-weight: 600;">Read-Pass Score</div>
+            <div style="font-size: 36px; font-weight: 800; color: var(--text); line-height: 1; margin-top: 4px;">82 <span style="font-size: 18px; color: var(--text-muted); font-weight: 500;">/ 100</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-up: sections / priorities / rubric -->
+      <div class="cards-grid cols-3">
+        <div class="card">
+          <div class="card-header"><div class="card-title">📋 Proposal Sections <span class="badge">10</span></div></div>
+          <table class="data-table sections-table">
+            <thead><tr><th>#</th><th>Section</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Executive Summary</td><td><span class="pill pill-ok">Strong</span></td></tr>
+              <tr><td>2</td><td>Statement of Need</td><td><span class="pill pill-ok">Strong</span></td></tr>
+              <tr><td>3</td><td>Project Design</td><td><span class="pill pill-warn">Moderate</span></td></tr>
+              <tr><td>4</td><td>Organizational Capacity</td><td><span class="pill pill-ok">Strong</span></td></tr>
+              <tr><td>5</td><td>Equity &amp; Inclusion Plan</td><td><span class="pill pill-warn">Moderate</span></td></tr>
+              <tr><td>6</td><td>Evaluation Plan</td><td><span class="pill pill-warn">Moderate</span></td></tr>
+              <tr><td>7</td><td>Sustainability Plan</td><td><span class="pill pill-bad">Weak</span></td></tr>
+              <tr><td>8</td><td>Budget &amp; Justification</td><td><span class="pill pill-ok">Strong</span></td></tr>
+              <tr><td>9</td><td>Budget Narrative</td><td><span class="pill pill-warn">Moderate</span></td></tr>
+              <tr><td>10</td><td>Appendices</td><td><span class="pill pill-info">In Progress</span></td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top: 12px; font-size: 12px; color: var(--text-muted); display:flex; align-items:center; gap:10px;">
+            Overall Progress
+            <span class="progress" style="flex:1;"><span style="width: 70%;"></span></span>
+            <strong style="color: var(--text);">70%</strong>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">📍 Funder Priorities</div></div>
+          <div class="kv-list">
+            <div class="kv"><span class="kv-key">✓ Advance equitable access and outcomes for underserved communities.</span><span></span></div>
+            <div class="kv"><span class="kv-key">✓ Support scalable, evidence-informed solutions with measurable impact.</span><span></span></div>
+            <div class="kv"><span class="kv-key">✓ Strengthen organizational capacity and efficiency.</span><span></span></div>
+            <div class="kv"><span class="kv-key">✓ Foster cross-sector collaboration and sustainability.</span><span></span></div>
+          </div>
+          <div style="margin-top: 14px; padding: 10px 12px; background: var(--surface-3); border-radius: 6px; font-size: 12px; color: var(--text-muted); display:flex; align-items:center; gap:8px;">
+            🔒 Detailed priorities are summarized to protect confidentiality.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">⚖ Evaluation Rubric</div></div>
+          <table class="rubric">
+            <thead><tr><th>Criterion</th><th>0–1</th><th>2</th><th>3</th><th>4</th><th class="num">Score</th></tr></thead>
+            <tbody>
+              <tr><td>Alignment</td><td>○</td><td>○</td><td class="filled">●</td><td>○</td><td class="num score">3/4</td></tr>
+              <tr><td>Impact</td><td>○</td><td>○</td><td class="filled">●</td><td>○</td><td class="num score">3/4</td></tr>
+              <tr><td>Feasibility</td><td>○</td><td>○</td><td class="filled">●</td><td>○</td><td class="num score">3/4</td></tr>
+              <tr><td>Capacity</td><td>○</td><td>○</td><td>○</td><td class="filled">●</td><td class="num score">4/4</td></tr>
+              <tr><td>Sustainability</td><td>○</td><td>○</td><td class="filled">●</td><td>○</td><td class="num score">3/4</td></tr>
+            </tbody>
+            <tfoot><tr><td colspan="5">Total</td><td class="num total-score">16 / 20</td></tr></tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- Source Ledger -->
+      <div class="card source-ledger" style="margin-top: 16px; padding: 0;">
+        <div class="card-header" style="padding: 16px 20px 0 20px;">
+          <div class="card-title">⚏ Source Ledger <span class="badge">7</span></div>
+          <span class="text-muted" style="font-size: 12px;">All sensitive source names are partially redacted.</span>
+        </div>
+        <table class="data-table" style="margin-top: 12px;">
+          <thead><tr><th>Section</th><th>Source Document</th><th>Status</th><th>Confidence</th><th>Reviewer Notes</th><th>Mapped By</th><th>Last Updated</th></tr></thead>
+          <tbody>
+            <tr><td>Executive Summary</td><td class="file-row"><span class="file-icon">📄</span>Executive Summary Draft v1.2.docx</td><td><span class="pill mapped">Mapped</span></td><td><span class="pill confidence high">High</span></td><td class="muted">Reuse from prior cycle, light edit for FY26 language</td><td>JI</td><td>2026-05-06</td></tr>
+            <tr><td>Statement of Need</td><td class="file-row"><span class="file-icon">📄</span>Needs Assessment Report (2024).pdf</td><td><span class="pill mapped">Mapped</span></td><td><span class="pill confidence high">High</span></td><td class="muted">Federal HUNGER data supports primary claims</td><td>JI</td><td>2026-05-06</td></tr>
+            <tr><td>Project Design</td><td class="file-row"><span class="file-icon">📄</span>Program Model Overview.pptx</td><td><span class="pill partial">Partial</span></td><td><span class="pill confidence medium">Medium</span></td><td class="muted">Visuals need to be redrafted at higher fidelity</td><td>JP</td><td>2026-05-05</td></tr>
+            <tr><td>Organizational Capacity</td><td class="file-row"><span class="file-icon">📄</span>Org Chart.pdf</td><td><span class="pill mapped">Mapped</span></td><td><span class="pill confidence high">High</span></td><td class="muted">Up to date as of Q1</td><td>JI</td><td>2026-05-02</td></tr>
+            <tr><td>Equity &amp; Inclusion Plan</td><td class="file-row"><span class="file-icon">📄</span>Equity Framework.docx</td><td><span class="pill partial">Partial</span></td><td><span class="pill confidence medium">Medium</span></td><td class="muted">Needs measurable indicators added</td><td>JP</td><td>2026-05-05</td></tr>
+            <tr><td>Evaluation Plan</td><td class="file-row"><span class="file-icon">📄</span>Evaluation Plan v1.docx</td><td><span class="pill partial">Partial</span></td><td><span class="pill confidence low">Low</span></td><td class="muted">Logic model present; outcome metrics still gap</td><td>JI</td><td>2026-05-04</td></tr>
+            <tr><td>Budget &amp; Justification</td><td class="file-row"><span class="file-icon">📊</span>Budget Overview.xlsx</td><td><span class="pill mapped">Mapped</span></td><td><span class="pill confidence high">High</span></td><td class="muted">Triple-checked against funder cap</td><td>JI</td><td>2026-05-06</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN: DRAFT WORKBENCH — matches marketing screen
+         ============================================================ -->
+    <section class="screen hidden" data-screen="drafts">
+      <div class="breadcrumbs"><span>Drafts</span> <span class="sep">/</span> <strong>Draft Workbench</strong></div>
+      <div class="page-header">
+        <div class="page-title">
+          <div class="page-icon">✎</div>
+          <div class="page-name">
+            <h1>Draft Workbench <span class="pill pill-confidential">Confidential</span></h1>
+            <div class="sub">
+              <strong>Draft:</strong> USDA Farm to School Implementation (FY26)
+              <span class="pill pill-info" style="margin-left: 8px;">Human Review</span>
+              <span class="pill pill-warn" style="margin-left: 4px;">Awaiting Confirmation</span>
+            </div>
+          </div>
+        </div>
+        <div class="page-actions">
+          <button class="btn">Share Draft</button>
+          <button class="btn">Export ▾</button>
+          <button class="btn btn-primary">→ Ready for Judge</button>
+        </div>
+      </div>
+
+      <div class="workbench-grid">
+
+        <!-- Section nav -->
+        <aside class="section-nav">
+          <div class="head">Sections</div>
+          <a class="active"><span class="ico">📄</span>Executive Summary</a>
+          <a><span class="ico">🎯</span>Outcome Goals</a>
+          <a><span class="ico">⚙</span>Model Features</a>
+          <a><span class="ico">👥</span>Team Info</a>
+          <a><span class="ico">💲</span>Budget Summary</a>
+          <a><span class="ico">♻</span>Sustainability Plan</a>
+          <a><span class="ico">🌐</span>Community Impact</a>
+          <a><span class="ico">📊</span>Evaluation Plan</a>
+          <a><span class="ico">📎</span>Attachments</a>
+          <a><span class="ico">✓</span>Checklist<span class="count">7</span></a>
+        </aside>
+
+        <!-- Editor -->
+        <div class="card editor-card">
+          <div class="editor-toolbar">
+            <select class="tool"><option>Paragraph</option><option>Heading 1</option><option>Heading 2</option></select>
+            <button class="tool"><strong>B</strong></button>
+            <button class="tool"><em>I</em></button>
+            <button class="tool"><u>U</u></button>
+            <button class="tool">≡</button>
+            <button class="tool">≡</button>
+            <button class="tool">≡</button>
+            <button class="tool">≡</button>
+            <button class="tool">🔗</button>
+            <button class="tool" style="margin-left:auto;">⋯</button>
+          </div>
+          <div class="editor-body">
+            <p><strong>Executive Summary</strong></p>
+            <p>FIT Farms seeks support to scale community-anchored farm-to-school programming that connects neurodivergent and underserved students in the Pittsburgh region to working agricultural settings and food-system literacy.</p>
+            <p class="redacted-stub"></p>
+            <p>Through hands-on cultivation, evidence-informed instruction, and cross-sector partnerships with Goodwill of SWPA, Passport Academy Charter School, and Voices Against Violence, the proposed project addresses systemic barriers and creates sustained learning pathways across three school sites.</p>
+            <p class="redacted-stub" style="width: 80%;"></p>
+            <p>Funding will enable us to expand proven programs, strengthen organizational capacity, and deepen impact across <span style="background: #d6cfb9; color: transparent;">[redacted: 3 partner sites in Pittsburgh's North Side and Hill District]</span> through curriculum reinforcement, supply infrastructure, and instructor capacity-building.</p>
+            <p>We respectfully request your partnership in this work.</p>
+          </div>
+          <div class="editor-footer">
+            <span>P · 117 words · 786 characters</span>
+            <span class="saved">✓ Saved</span>
+          </div>
+        </div>
+
+        <!-- Right rail: overview + review + history -->
+        <aside class="col gap-md">
+          <div class="card">
+            <div class="card-header"><div class="card-title">Draft Overview</div></div>
+            <div class="kv-list">
+              <div class="kv"><span class="kv-key">Word Count</span><span class="kv-val">1,247 words</span></div>
+              <div class="kv"><span class="kv-key">Character Count</span><span class="kv-val">7,892</span></div>
+              <div class="kv"><span class="kv-key">Last Edited</span><span class="kv-val muted">2026-05-06 9:41 AM</span></div>
+              <div class="kv"><span class="kv-key">Draft Created</span><span class="kv-val muted">2026-04-28 1:12 PM</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">Review Status ⓘ</div><span class="pill pill-info">Human Review</span></div>
+            <p style="font-size: 12px; color: var(--text-muted); margin: 6px 0 12px 0;">Under review by your team.</p>
+            <div class="card-header" style="margin: 6px 0 8px 0; padding: 8px 0 0 0; border-top: 1px solid var(--rule);">
+              <div class="card-title" style="font-size: 12.5px;">Human Approval ⓘ</div>
+              <span class="pill pill-warn">Awaiting</span>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin: 0 0 12px 0;">Final confirmation pending.</p>
+            <div class="readiness-row">
+              <span class="label">Evidence Coverage ⓘ</span>
+              <span class="v gold">72%</span>
+            </div>
+            <span class="progress warn"><span style="width: 72%;"></span></span>
+            <p style="font-size: 11px; color: var(--text-muted); margin: 6px 0 0 0;">14 of 19 required items</p>
+            <button class="btn" style="margin-top: 10px; width: 100%;">View Evidence Map ↗</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Checklist <span class="badge">7</span></div>
+              <span class="card-link">View All</span>
+            </div>
+            <div class="kv-list">
+              <div class="kv"><span class="kv-key">✓ Drafted</span><span class="kv-val">3</span></div>
+              <div class="kv"><span class="kv-key">○ Needs Review</span><span class="kv-val">2</span></div>
+              <div class="kv"><span class="kv-key">⌛ Waiting on Upload</span><span class="kv-val">1</span></div>
+              <div class="kv"><span class="kv-key">✓ Approved</span><span class="kv-val">1</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">History</div><span class="card-link">View All</span></div>
+            <div class="kv-list">
+              <div class="kv"><span class="kv-key" style="font-size:12px;">2026-05-06 9:41 AM<br><span style="color:var(--text-muted);">JI edited Executive Summary</span></span><span></span></div>
+              <div class="kv"><span class="kv-key" style="font-size:12px;">2026-05-05 4:22 PM<br><span style="color:var(--text-muted);">Editor seat added comment</span></span><span></span></div>
+              <div class="kv"><span class="kv-key" style="font-size:12px;">2026-05-05 11:03 AM<br><span style="color:var(--text-muted);">Judge requested confirmation on Team Info</span></span><span></span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Comments -->
+      <div class="card" style="margin-top: 16px;">
+        <div class="card-header"><div class="card-title">💬 Comments <span class="badge">2</span></div></div>
+        <div class="comment-input">
+          <input type="text" placeholder="Add a comment or @mention a teammate...">
+          <button class="btn">Send</button>
+        </div>
+        <div class="comments-list" style="margin-top: 14px;">
+          <div class="comment">
+            <div class="person-avatar">ED</div>
+            <div class="comment-body">
+              <div class="comment-meta"><span class="name">Editor</span><span>2026-05-05 10:02 AM</span><span class="pill pill-info">Human Review</span></div>
+              <div class="comment-text">Strong start. Consider adding a specific metric from your evaluation data — the Year-2 enrollment retention number would land harder than "sustained pathways."</div>
+              <div class="comment-reply">Reply</div>
+            </div>
+          </div>
+          <div class="comment">
+            <div class="person-avatar">JG</div>
+            <div class="comment-body">
+              <div class="comment-meta"><span class="name">Judge</span><span>2026-05-05 9:15 AM</span><span class="pill pill-warn">Awaiting Confirmation</span></div>
+              <div class="comment-text">Please confirm the projected number of students served in Year 1 — current draft cites "underserved students" without the denominator.</div>
+              <div class="comment-reply">Reply</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN: EVIDENCE LEDGER (new)
+         ============================================================ -->
+    <section class="screen hidden" data-screen="evidence">
+      <div class="breadcrumbs"><span>FIT Farms</span> <span class="sep">/</span> <strong>Evidence Ledger</strong></div>
+      <div class="page-header">
+        <div class="page-title">
+          <div class="page-icon">⚏</div>
+          <div class="page-name">
+            <h1>Evidence &amp; Source Ledger <span class="pill pill-confidential">Confidential</span></h1>
+            <div class="sub">18 documents &middot; 6 photos &middot; 3 voice notes &middot; 4 partner letters</div>
+          </div>
+        </div>
+        <div class="page-actions">
+          <button class="btn">Filter</button>
+          <button class="btn">Tag</button>
+          <button class="btn btn-primary">+ Upload</button>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <table class="data-table">
+          <thead><tr><th>Document</th><th>Type</th><th>Sensitivity</th><th>Tags</th><th class="num">Size</th><th>Last Updated</th><th>Mapped To</th></tr></thead>
+          <tbody>
+            <tr><td class="file-row"><span class="file-icon">📄</span>FY26 Annual Budget.xlsx</td><td>Financial</td><td><span class="pill pill-confidential">Confidential</span></td><td><span class="pill">Budget</span></td><td class="num">142 KB</td><td>2026-02-04</td><td>3 drafts</td></tr>
+            <tr><td class="file-row"><span class="file-icon">📄</span>FY25 Financial Statements.pdf</td><td>Financial</td><td><span class="pill pill-confidential">Confidential</span></td><td><span class="pill">Audit</span></td><td class="num">980 KB</td><td>2026-03-18</td><td>4 drafts</td></tr>
+            <tr><td class="file-row"><span class="file-icon">📄</span>Strategic Plan 2025–2028.docx</td><td>Narrative</td><td><span class="pill pill-info">Shareable</span></td><td><span class="pill">Boilerplate</span></td><td class="num">68 KB</td><td>2025-08-22</td><td>6 drafts</td></tr>
+            <tr><td class="file-row"><span class="file-icon">📄</span>Board Roster &amp; Bios.docx</td><td>Narrative</td><td><span class="pill pill-info">Shareable</span></td><td><span class="pill">Leadership</span></td><td class="num">42 KB</td><td>2026-01-14</td><td>4 drafts</td></tr>
+            <tr><td class="file-row"><span class="file-icon">📷</span>Greenhouse — September 2025.jpg</td><td>Photo</td><td><span class="pill pill-ok">Public</span></td><td><span class="pill">Site</span></td><td class="num">3.2 MB</td><td>2025-09-22</td><td>2 drafts</td></tr>
+            <tr><td class="file-row"><span class="file-icon">📄</span>Partner Letter — BGC.pdf</td><td>Letter of Support</td><td><span class="pill pill-info">Shareable</span></td><td><span class="pill">LOS</span></td><td class="num">220 KB</td><td>2026-04-12</td><td>1 draft</td></tr>
+            <tr><td class="file-row"><span class="file-icon">📄</span>Partner Letter — Allegheny Land Trust.pdf</td><td>Letter of Support</td><td><span class="pill pill-info">Shareable</span></td><td><span class="pill">LOS</span></td><td class="num">198 KB</td><td>2026-04-15</td><td>1 draft</td></tr>
+            <tr><td class="file-row"><span class="file-icon">📄</span>Evaluation Plan v1.docx</td><td>Narrative</td><td><span class="pill pill-confidential">Confidential</span></td><td><span class="pill">Evaluation</span></td><td class="num">88 KB</td><td>2026-05-04</td><td>2 drafts</td></tr>
+            <tr><td class="file-row"><span class="file-icon">🎤</span>Site visit notes — voice memo.m4a</td><td>Voice</td><td><span class="pill pill-confidential">Confidential</span></td><td><span class="pill">Field</span></td><td class="num">14.2 MB</td><td>2026-04-29</td><td>—</td></tr>
+            <tr><td class="file-row"><span class="file-icon">📄</span>Org Chart.pdf</td><td>Narrative</td><td><span class="pill pill-info">Shareable</span></td><td><span class="pill">Capacity</span></td><td class="num">186 KB</td><td>2026-05-02</td><td>5 drafts</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SCREEN: BLOCKERS & NEXT ACTIONS — matches marketing screen
+         ============================================================ -->
+    <section class="screen hidden" data-screen="blockers">
+      <div class="breadcrumbs"><span>FIT Farms</span> <span class="sep">/</span> <strong>Blockers &amp; Next Actions</strong></div>
+      <div class="page-header">
+        <div class="page-title">
+          <div class="page-icon">⚑</div>
+          <div class="page-name">
+            <h1>Blockers &amp; Next Actions</h1>
+            <div class="sub">Operational coordination and human follow-up to keep work on track.</div>
+          </div>
+        </div>
+        <div class="page-actions">
+          <button class="btn">Share View</button>
+          <button class="btn">Export ▾</button>
+          <button class="btn btn-primary">+ New Next Action</button>
+        </div>
+      </div>
+
+      <div class="cards-grid cols-2-uneven">
+
+        <!-- Priority dashboard -->
+        <div>
+          <div style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; margin-bottom: 12px;">Priority Dashboard</div>
+          <div class="priority-grid">
+            <div class="priority-card critical">
+              <div class="head"><span class="ico">⚠</span>Critical</div>
+              <div class="count">3</div>
+              <div class="descr">Require immediate attention</div>
+              <div class="items">
+                <div>Missing Determination Letter</div>
+                <div>Authorization Evidence Needed</div>
+                <div>Demographics Template Incomplete</div>
+              </div>
+              <div class="view-all">View All (3) →</div>
+            </div>
+            <div class="priority-card shortfuse">
+              <div class="head"><span class="ico">⏱</span>Short-Fuse</div>
+              <div class="count">4</div>
+              <div class="descr">Due in the next 5 business days</div>
+              <div class="items">
+                <div>Enrollment Confirmation Needed</div>
+                <div>Budget Narrative Missing</div>
+                <div>Board Roster Not Finalized</div>
+                <div>Insurance Certificate Expiring</div>
+              </div>
+              <div class="view-all">View All (4) →</div>
+            </div>
+            <div class="priority-card waiting">
+              <div class="head"><span class="ico">⏳</span>Waiting on Client</div>
+              <div class="count">2</div>
+              <div class="descr">Client action required</div>
+              <div class="items">
+                <div>Signed Authorization Pending</div>
+                <div>Data Validation Responses Pending</div>
+              </div>
+              <div class="view-all">View All (2) →</div>
+            </div>
+            <div class="priority-card optional">
+              <div class="head"><span class="ico">✿</span>Optional</div>
+              <div class="count">2</div>
+              <div class="descr">Nice to have / future improvements</div>
+              <div class="items">
+                <div>Impact Metrics Details</div>
+                <div>Photos / Story Assets</div>
+              </div>
+              <div class="view-all">View All (2) →</div>
+            </div>
+          </div>
+
+          <!-- Sub-counters -->
+          <div class="priority-grid" style="margin-top: 12px; grid-template-columns: repeat(4, 1fr);">
+            <div class="card" style="padding: 14px;">
+              <div class="row" style="gap:8px;"><span style="font-size:16px;">🗂</span><strong>Missing Files</strong></div>
+              <div style="font-size: 22px; font-weight: 800; margin: 4px 0;">5</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Files not yet submitted</div>
+              <div class="card-link" style="margin-top: 4px;">View All →</div>
+            </div>
+            <div class="card" style="padding: 14px;">
+              <div class="row" style="gap:8px;"><span style="font-size:16px;">✉</span><strong>Missing Confirmations</strong></div>
+              <div style="font-size: 22px; font-weight: 800; margin: 4px 0;">3</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Client or partner actions</div>
+              <div class="card-link" style="margin-top: 4px;">View All →</div>
+            </div>
+            <div class="card" style="padding: 14px;">
+              <div class="row" style="gap:8px;"><span style="font-size:16px;">❓</span><strong>Unresolved Fields</strong></div>
+              <div style="font-size: 22px; font-weight: 800; margin: 4px 0;">7</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Require data or clarity</div>
+              <div class="card-link" style="margin-top: 4px;">View All →</div>
+            </div>
+            <div class="card" style="padding: 14px;">
+              <div class="row" style="gap:8px;"><span style="font-size:16px;">▶</span><strong>Next Actions</strong></div>
+              <div style="font-size: 22px; font-weight: 800; margin: 4px 0;">6</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Human follow-ups</div>
+              <div class="card-link" style="margin-top: 4px;">View All →</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right rail -->
+        <aside class="col gap-md">
+          <div class="card readiness-card">
+            <div class="card-header"><div class="card-title">Readiness Overview</div></div>
+            <div class="row" style="align-items:flex-start; gap: 16px;">
+              <div class="donut">
+                <span class="lbl">Ready</span>
+                <span class="pct">56%</span>
+              </div>
+              <div class="col gap-sm" style="flex:1;">
+                <div class="readiness-row"><span class="label"><span class="pill pill-ok pill-dot"></span>Ready</span><span class="v">14 (56%)</span></div>
+                <div class="readiness-row"><span class="label"><span class="pill pill-warn pill-dot"></span>At Risk</span><span class="v">5 (20%)</span></div>
+                <div class="readiness-row"><span class="label"><span class="pill pill-bad pill-dot"></span>Not Ready</span><span class="v">6 (24%)</span></div>
+              </div>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin: 4px 0 0 0;">Improve readiness by addressing critical and short-fuse items.</p>
+            <button class="btn" style="margin-top: 6px;">View Readiness Report ↗</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">✓ What is Ready</div><span class="card-link">+ 11 more</span></div>
+            <div style="font-size: 22px; font-weight: 800;">14</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Items complete and up to date</div>
+            <div class="kv-list" style="margin-top: 8px;">
+              <div class="kv"><span class="kv-key">✓ Strategic Plan</span><span></span></div>
+              <div class="kv"><span class="kv-key">✓ Board Roster (FY25)</span><span></span></div>
+              <div class="kv"><span class="kv-key">✓ FY24 Financial Statements</span><span></span></div>
+            </div>
+          </div>
+
+          <div class="card" style="background: linear-gradient(180deg, var(--surface) 0%, #fdf8ea 100%);">
+            <div class="card-header"><div class="card-title">⚠ Human Authority Required</div></div>
+            <p style="font-size: 13px; color: var(--text-soft); margin: 0 0 12px 0;">The following items require human review, judgment, or signature before we can move forward.</p>
+            <button class="btn btn-primary">Review Items ▾</button>
+          </div>
+        </aside>
+      </div>
+
+      <!-- All Blockers table -->
+      <div class="card" style="margin-top: 16px; padding: 0; overflow: hidden;">
+        <div class="card-header" style="padding: 16px 20px 8px 20px;">
+          <div class="card-title">All Blockers &amp; Next Actions</div>
+          <div class="row" style="gap: 8px;">
+            <button class="btn">All Statuses ▾</button>
+            <button class="btn">All Owners ▾</button>
+            <button class="btn">All Priorities ▾</button>
+            <button class="btn">Filters</button>
+          </div>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Item</th><th>Owner</th><th>Status</th><th>Due Date</th><th>Dependency</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>🚩 Missing Determination Letter</td><td><span class="person-avatar" style="width:24px;height:24px;font-size:10px;">JI</span> Josh I.</td><td><span class="pill pill-bad">Critical</span></td><td><span style="color: var(--st-bad-text);">2026-05-15 (Overdue)</span></td><td>Cannot submit without determination letter</td><td class="muted">Required by funder policy</td></tr>
+            <tr><td>🚩 Authorization Evidence Needed</td><td><span class="person-avatar" style="width:24px;height:24px;font-size:10px;">ML</span> Maria L.</td><td><span class="pill pill-bad">Critical</span></td><td><span style="color: var(--st-bad-text);">2026-05-16 (Overdue)</span></td><td>Precedes submission</td><td class="muted">Policy requires dated authorization</td></tr>
+            <tr><td>🚩 Demographics Template Incomplete</td><td><span class="person-avatar" style="width:24px;height:24px;font-size:10px;">SP</span> Sam P.</td><td><span class="pill pill-bad">Critical</span></td><td>2026-05-20 (1 day)</td><td>Affects impact reporting</td><td class="muted">3 of 8 sections complete</td></tr>
+            <tr><td>⏱ Enrollment Confirmation Needed</td><td><span class="person-avatar" style="width:24px;height:24px;font-size:10px;">AW</span> Alex W.</td><td><span class="pill pill-warn">Short-Fuse</span></td><td>2026-05-22 (3 days)</td><td>Verifies program eligibility</td><td class="muted">Awaiting written confirmation</td></tr>
+            <tr><td>⏱ Missing Resume (Program Lead)</td><td><span class="person-avatar" style="width:24px;height:24px;font-size:10px;">JI</span> Josh I.</td><td><span class="pill pill-warn">Short-Fuse</span></td><td>2026-05-23 (4 days)</td><td>Supports staffing narrative</td><td class="muted">Resume for program lead is missing</td></tr>
+            <tr><td>⏱ Budget Narrative Missing</td><td><span class="person-avatar" style="width:24px;height:24px;font-size:10px;">ML</span> Maria L.</td><td><span class="pill pill-warn">Short-Fuse</span></td><td>2026-05-27 (8 days)</td><td>Required for review</td><td class="muted">Align with budget template</td></tr>
+            <tr><td>⏳ Signed Authorization Pending</td><td><span class="person-avatar" style="width:24px;height:24px;font-size:10px;">AW</span> Alex W.</td><td><span class="pill pill-info">Waiting on Client</span></td><td>2026-05-29 (10 days)</td><td>Required before submission</td><td class="muted">Client signature needed</td></tr>
+            <tr><td>⏳ Data Validation Responses Pending</td><td><span class="person-avatar" style="width:24px;height:24px;font-size:10px;">SP</span> Sam P.</td><td><span class="pill pill-info">Waiting on Client</span></td><td>2026-06-02 (14 days)</td><td>Clarifies budget variances</td><td class="muted">Client to confirm entries</td></tr>
+          </tbody>
+        </table>
+        <div style="padding: 12px 20px; font-size: 12px; color: var(--text-muted); display:flex; justify-content:space-between;">
+          <span>Showing 1 to 8 of 11 items</span>
+          <span>‹ 1 2 ›</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<button class="fab-chat" title="Open chat">💬</button>
+
+<!-- ============================================================
+     SCOUT ACTIVITY DRAWER — slides in when Run Scout fires
+     ============================================================ -->
+<aside class="drawer" id="scoutDrawer" aria-hidden="true">
+  <header class="drawer-head">
+    <div>
+      <div class="drawer-eyebrow">Live agent run</div>
+      <div class="drawer-title" id="scoutTitle">Scout · FIT Farms</div>
+    </div>
+    <button class="drawer-close" id="scoutDrawerClose" aria-label="Close">✕</button>
+  </header>
+
+  <section class="drawer-section">
+    <div class="drawer-status" id="scoutStatus">
+      <span class="status-dot pending"></span>
+      <span class="status-label" id="scoutStatusLabel">Preparing dispatch...</span>
+    </div>
+    <div class="drawer-meta" id="scoutMeta">
+      <span class="meta-row"><strong>Agent:</strong> <span>tilth</span></span>
+      <span class="meta-row"><strong>Session:</strong> <code id="scoutSession">—</code></span>
+    </div>
+    <details class="drawer-cmd" id="scoutCmdWrap">
+      <summary>Command</summary>
+      <pre id="scoutCmd">awaiting dispatch...</pre>
+    </details>
+  </section>
+
+  <section class="drawer-section drawer-log-section">
+    <header class="drawer-section-head">
+      <span>Stream</span>
+      <span class="muted" id="scoutLogCount">0 events</span>
+    </header>
+    <div class="drawer-log" id="scoutLog"></div>
+  </section>
+
+  <section class="drawer-section drawer-result" id="scoutResultSection" hidden>
+    <header class="drawer-section-head">
+      <span>Agent reply</span>
+    </header>
+    <div class="drawer-result-body" id="scoutResultBody"></div>
+    <div class="drawer-result-meta" id="scoutResultMeta"></div>
+  </section>
+
+  <footer class="drawer-foot">
+    <button class="btn" id="scoutDismissBtn">Dismiss</button>
+    <button class="btn btn-primary" id="scoutRefreshBtn" disabled>Refresh Pipeline ↻</button>
+  </footer>
+</aside>
+<div class="drawer-scrim" id="drawerScrim"></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

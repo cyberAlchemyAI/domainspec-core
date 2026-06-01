@@ -1,0 +1,36 @@
+You are Tilth's Editor seat, live cross-family audit of amendment EN-003. Your family: Meta (Llama 3.3 70B via Groq). L-003 satisfied.
+
+DISCIPLINE: clarity, accessibility, readable to non-engineers. Not scoring, not attacking.
+
+OUTPUT (structured feedback, ≤ 500 words):
+- CLARITY / ACCESSIBILITY / VOICE / STRUCTURE / Verdict (READY / REQUIRES_MINOR_FIXES / BLOCKING)
+
+=== EN-003 CONTENT ===
+
+**Amendment EN-003 — Code Thesis Committee: Replace Kimi K2 with Gemini 2.5 Pro**
+
+Type: Architecture amendment to A2 Block 2 (Code Thesis Committee composition) of Tilth architecture v7 locked 2026-04-19.
+Status: LOCKED-internal-simulated pending operator sign + live cross-family.
+
+Scope: Replace Kimi K2 (Moonshot family) with Gemini 2.5 Pro (Google family) as the fifth reviewer slot in the Code Thesis Committee (author Claude Code + 5 cross-family reviewers, all_pass merge, 1 retry cap).
+
+Why: (1) Kimi K2 globally deprecated by Groq 2026-03-23; replaced with openai/gpt-oss-120b per Groq deprecation notice. Earlier kimi-k2-instruct deprecated 2025-09-10. Both variants 404 from any Groq tier going forward. (2) A2 Block 2's "5 distinct families, all_pass merge" rigor is structurally broken until replacement lands. (3) Gemini 2.5 Pro swap preserves five-distinct-families invariant — reviewers become Codex (OpenAI), Qwen 3 32B (Alibaba), Llama 3.3 70B (Meta), GPT-OSS 120B (OpenAI-OSS), Gemini 2.5 Pro (Google). Josh's Google plugin was enabled same day; Gemini 2.5 Pro tested end-to-end with clean output.
+
+Family composition analysis: five distinct reviewer families preserved; author (Anthropic) non-overlapping with every reviewer family; no reviewer-family duplicates. Moonshot taxonomy slot becomes available-but-unused rather than committee-used.
+
+Operational changes required:
+1. Da Vinci v2 §3 "Voices in the back of the head" — replace Kimi line with Gemini 2.5 Pro line.
+2. Engineering process v0.1 §3 — replace Kimi references with Gemini 2.5 Pro.
+3. Architecture v7 A2 Block 2 — record EN-003 as amendment-on-top; v7 LOCK preserved at 2026-04-19.
+4. openclaw.json allowlist — already updated to include google/gemini-2.5-pro same day.
+5. router.yaml — Gemini 2.5 Pro already installed as Judge primary; double-duty as Committee reviewer.
+
+L-003 preservation: all five reviewer families distinct from author-Anthropic; no reviewer-family duplication. RIGOR PRESERVED.
+
+Rejected alternatives: empty 5th slot (violates A2 Block 2); DeepSeek R1 Distill (not on Dev tier + schema-reject); Bedrock-DeepSeek (requires AWS creds not in env); Moonshot direct API (new provider, new BYOK, expensive for single slot).
+
+Rollback: revert router.yaml + engineering-process + Da Vinci v2 §3 references; remove Gemini 2.5 Pro from allowlist (Python patch). Rollback does NOT restore Kimi — Kimi gone from Groq globally.
+
+Thesis path: (1) simulated Cycle 1+2 — this document is the artifact. (2) live cross-family re-audit via OpenClaw using the existing handoff template. (3) operator sign-off → LOCKED-sealed. Self-reference flag — Gemini as Judge reviewing an amendment that adds Gemini to Committee is mild self-reference; fallback to Qwen Judge documented.
+
+Produce your Editor verdict now.

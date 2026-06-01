@@ -1,0 +1,176 @@
+# Coefficient Registry — Q3-2026 inaugural draft (UNSIGNED — placeholder shape only).
+#
+# This file is a Cowork-pre-staged DRAFT showing the operator and SN-LLC the
+# exact shape SN-LLC will publish at the inaugural Q3-2026 cut. Every numeric
+# coefficient is a placeholder (zero or representative-but-not-measured value).
+# Every URL is a placeholder. The signature is empty. The signing key id is
+# explicitly `draft_pre_signing`.
+#
+# CRITICAL: This file is NOT a valid Coefficient Registry. The Cycle Accountant
+# loader (pipeline/vault/sub_kinds/coefficient_registry.py) will fail-closed on
+# this file at every gate:
+#   - F-WPFA-COEFFICIENT-REGISTRY-UNSIGNED at the empty signature
+#   - schema_version field is non-standard (`0.0.0-draft`)
+#   - sn_llc_signing_key_id is `draft_pre_signing` (rejected by white-glove pin)
+#
+# The runtime loader path is `vault_shared/wpfa/coefficient_registry/active.yaml`
+# (the scaffold). This draft sits beside it under the same directory; the loader
+# does not read this filename. It exists solely to ground governance review
+# in a concrete artifact rather than abstract schema description.
+#
+# Lineage:
+#   - docs/wpfa_methodology_v1_draft_2026-05-18.md (methodology skeleton)
+#   - docs/wpfa_sn_llc_signing_ceremony_runbook_2026-05-18.md (signing ceremony)
+#   - pipeline/blueprint/v0.1/section_02_v7_4_coefficient_registry_amendment.md (schema authority)
+#
+# Replacement procedure: when SN-LLC publishes the inaugural signed registry,
+# the operator runs `tilth wpfa registry update --path <path-to-signed-registry.yaml>`
+# which performs schema validation + signature verification + history snapshot
+# before writing to `active.yaml`. This draft file MAY be deleted at that
+# point, or retained as audit context.
+
+schema_version: "0.0.0-draft"
+quarter: "Q3-2026"
+published_at: "2026-07-01T00:00:00Z"
+sn_llc_signature_ed25519: ""  # 128-hex when signed; empty here forces fail-closed
+sn_llc_signing_key_id: "draft_pre_signing"  # SN-LLC sets canonical at publication, e.g., "sn-llc-2026-q3"
+
+# Baseline model selection — DPC-1 default for inaugural Q3-2026. SN-LLC ratifies.
+baseline_model_id: "claude-sonnet-4-6"
+
+# Methodology URL — SN-LLC sets canonical at publication. The repo's
+# pre-staged copy of the methodology lives at
+# docs/wpfa_methodology_v1_draft_2026-05-18.md; SN-LLC publishes the
+# canonical version externally.
+methodology_url: "https://sovereignnode.example/methodology/wpfa-v1"
+
+# Rollback pointer — null at inaugural cut; populated only when this registry
+# version replaces a prior version, where it holds the prior version's
+# SHA3-512 hash.
+rollback_pointer: null
+
+# Per-model coefficients. Inaugural roster anchored to baseline +
+# Stage-1 local hardware + commonly-routed frontier models per v7.0.10
+# Frontier-Eligible posture defaults. SN-LLC adds, removes, or
+# re-coefficients as governance ratifies before publication.
+#
+# Every `dollars_per_million_*` is in smallest currency unit (cents at USD)
+# per A12 mandate. Every `watt_hours_per_million_*` is in micro-watt-hours
+# (10^-6 Wh) per A12 extension. Every `<TBD>` is a placeholder pending
+# SN-LLC measurement and ratification.
+entries:
+
+  # ---------------------------------------------------------------------
+  # Cloud frontier models (BYOK; dollar = vendor pricing snapshot;
+  # watt-hour = SN-LLC-published derivation from sustainability reports)
+  # ---------------------------------------------------------------------
+
+  - model_id: "claude-sonnet-4-6"
+    is_local: false
+    hardware_sku: null
+    dollars_per_million_input_tokens_minor_units: 0  # <TBD: e.g., 300 = $3/M input tokens at quarter start>
+    dollars_per_million_output_tokens_minor_units: 0  # <TBD: e.g., 1500 = $15/M output tokens at quarter start>
+    watt_hours_per_million_input_tokens_micro: 0  # <TBD: SN-LLC-derived from Anthropic sustainability report>
+    watt_hours_per_million_output_tokens_micro: 0  # <TBD>
+    idle_watts_baseline_micro: null
+    peak_watts_under_load_micro: null
+    citation_url: "https://docs.claude.com/en/docs/about-claude/models"
+    measurement_date: "2026-07-01"
+    measurement_methodology_url: "https://sovereignnode.example/methodology/wpfa-v1#anthropic-derivation"
+
+  - model_id: "claude-opus-4-6"
+    is_local: false
+    hardware_sku: null
+    dollars_per_million_input_tokens_minor_units: 0  # <TBD>
+    dollars_per_million_output_tokens_minor_units: 0  # <TBD>
+    watt_hours_per_million_input_tokens_micro: 0  # <TBD>
+    watt_hours_per_million_output_tokens_micro: 0  # <TBD>
+    idle_watts_baseline_micro: null
+    peak_watts_under_load_micro: null
+    citation_url: "https://docs.claude.com/en/docs/about-claude/models"
+    measurement_date: "2026-07-01"
+    measurement_methodology_url: "https://sovereignnode.example/methodology/wpfa-v1#anthropic-derivation"
+
+  - model_id: "gemini-2.5-pro"
+    is_local: false
+    hardware_sku: null
+    dollars_per_million_input_tokens_minor_units: 0  # <TBD>
+    dollars_per_million_output_tokens_minor_units: 0  # <TBD>
+    watt_hours_per_million_input_tokens_micro: 0  # <TBD>
+    watt_hours_per_million_output_tokens_micro: 0  # <TBD>
+    idle_watts_baseline_micro: null
+    peak_watts_under_load_micro: null
+    citation_url: "https://cloud.google.com/vertex-ai/generative-ai/pricing"
+    measurement_date: "2026-07-01"
+    measurement_methodology_url: "https://sovereignnode.example/methodology/wpfa-v1#google-derivation"
+
+  - model_id: "llama-3.3-70b-versatile"
+    is_local: false
+    hardware_sku: null
+    dollars_per_million_input_tokens_minor_units: 0  # <TBD>
+    dollars_per_million_output_tokens_minor_units: 0  # <TBD>
+    watt_hours_per_million_input_tokens_micro: 0  # <TBD>
+    watt_hours_per_million_output_tokens_micro: 0  # <TBD>
+    idle_watts_baseline_micro: null
+    peak_watts_under_load_micro: null
+    citation_url: "https://groq.com/pricing/"
+    measurement_date: "2026-07-01"
+    measurement_methodology_url: "https://sovereignnode.example/methodology/wpfa-v1#groq-derivation"
+
+  - model_id: "openai/gpt-oss-120b"
+    is_local: false
+    hardware_sku: null
+    dollars_per_million_input_tokens_minor_units: 0  # <TBD>
+    dollars_per_million_output_tokens_minor_units: 0  # <TBD>
+    watt_hours_per_million_input_tokens_micro: 0  # <TBD>
+    watt_hours_per_million_output_tokens_micro: 0  # <TBD>
+    idle_watts_baseline_micro: null
+    peak_watts_under_load_micro: null
+    citation_url: "https://groq.com/pricing/"
+    measurement_date: "2026-07-01"
+    measurement_methodology_url: "https://sovereignnode.example/methodology/wpfa-v1#groq-derivation"
+
+  # ---------------------------------------------------------------------
+  # Local Stage-1 hardware models (BYO hardware; dollar = 0; watt-hour =
+  # SN-LLC-published heuristic from vendor TDP + utilization factor;
+  # forward to v1.x on-hardware measurement when that lands)
+  # ---------------------------------------------------------------------
+
+  - model_id: "deepseek-v3-on-apple-m3-ultra"
+    is_local: true
+    hardware_sku: "apple_m3_ultra"
+    dollars_per_million_input_tokens_minor_units: 0   # marginal $ cost = 0 per §4.1
+    dollars_per_million_output_tokens_minor_units: 0  # marginal $ cost = 0 per §4.1
+    watt_hours_per_million_input_tokens_micro: 0  # <TBD: SN-LLC heuristic from TDP * utilization>
+    watt_hours_per_million_output_tokens_micro: 0  # <TBD>
+    idle_watts_baseline_micro: 0  # <TBD: Apple Mac Studio M3 Ultra idle power, e.g., ~30W = 30_000_000 µW>
+    peak_watts_under_load_micro: 0  # <TBD: peak inference draw, e.g., ~180W = 180_000_000 µW>
+    citation_url: "https://www.apple.com/shop/buy-mac/mac-studio"
+    measurement_date: "2026-07-01"
+    measurement_methodology_url: "https://sovereignnode.example/methodology/wpfa-v1#apple-m3-ultra-derivation"
+
+  - model_id: "qwen-3-235b-on-amd-gx-10"
+    is_local: true
+    hardware_sku: "amd_gx_10"
+    dollars_per_million_input_tokens_minor_units: 0
+    dollars_per_million_output_tokens_minor_units: 0
+    watt_hours_per_million_input_tokens_micro: 0  # <TBD>
+    watt_hours_per_million_output_tokens_micro: 0  # <TBD>
+    idle_watts_baseline_micro: 0  # <TBD>
+    peak_watts_under_load_micro: 0  # <TBD>
+    citation_url: "https://www.amd.com/en/products/processors/desktops/gx-series.html"
+    measurement_date: "2026-07-01"
+    measurement_methodology_url: "https://sovereignnode.example/methodology/wpfa-v1#amd-gx-10-derivation"
+
+  - model_id: "mistral-large-2-on-nvidia-spark"
+    is_local: true
+    hardware_sku: "nvidia_spark"
+    dollars_per_million_input_tokens_minor_units: 0
+    dollars_per_million_output_tokens_minor_units: 0
+    watt_hours_per_million_input_tokens_micro: 0  # <TBD>
+    watt_hours_per_million_output_tokens_micro: 0  # <TBD>
+    idle_watts_baseline_micro: 0  # <TBD>
+    peak_watts_under_load_micro: 0  # <TBD>
+    citation_url: "https://www.nvidia.com/en-us/data-center/dgx-spark/"
+    measurement_date: "2026-07-01"
+    measurement_methodology_url: "https://sovereignnode.example/methodology/wpfa-v1#nvidia-spark-derivation"

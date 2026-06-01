@@ -1,0 +1,44 @@
+{
+  "scripts": {
+    "build:stitch-assets": "node scripts/build-stitch-assets.mjs",
+    "verify:stitch-assets": "node scripts/verify-stitch-assets.mjs",
+    "verify:static": "node scripts/verify-static.mjs --all",
+    "verify:read-model": "node scripts/verify-read-model.mjs",
+    "stress:fail-closed": "node scripts/stress-fail-closed.mjs",
+    "e2e:ui": "node scripts/e2e-ui.mjs",
+    "e2e:openclaw": "node scripts/e2e-openclaw-smoke.mjs",
+    "doctrine:lint": "node scripts/doctrine-lint.mjs",
+    "verify:visual-dominance": "node scripts/verify-visual-dominance.mjs",
+    "interaction:audit": "node scripts/interaction-audit.mjs",
+    "audit:all": "npm run verify:static && npm run stress:fail-closed && npm run doctrine:lint && npm run verify:visual-dominance && npm run interaction:audit",
+    "qa:manual-visual": "echo '\\n--- MANUAL VISUAL QA REQUIRED ---\\nNOTE: The automated offline CI skipping missing Stitch assets does NOT equal visual approval. You must generate the assets, run the server, and manually verify the UI matches the strict design doctrines.\\n'",
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@tailwindcss/container-queries": "0.1.1",
+    "@tailwindcss/forms": "0.5.10",
+    "cheerio": "^1.2.0",
+    "playwright": "^1.60.0",
+    "tailwindcss": "3.4.17",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.12.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^10.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.59.2",
+    "vite": "^8.0.12"
+  },
+  "type": "module",
+  "dependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  }
+}

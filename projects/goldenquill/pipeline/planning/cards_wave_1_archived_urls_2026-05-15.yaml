@@ -1,0 +1,216 @@
+# Internet Archive snapshot mapping — Cards Wave 1 primary_sources URLs
+# Produced at LOCK ceremony follow-on dispatch 2026-05-15 PM per Wave 1
+# OD-4 closure (Internet Archive snapshot pass on _research_metadata.primary_sources URLs).
+#
+# Source: pipeline/cards/CIC/food_systems.yaml (TILTH-CIC-01, LOCKED row 226)
+#         pipeline/cards/CLC/operating_capacity.yaml (TILTH-CLC-03, LOCKED row 227)
+#
+# Method: IA Wayback availability API (http://archive.org/wayback/available?url=<url>)
+# Date: 2026-05-15
+#
+# Schema landing: archived_url field per primary_sources entry. NOT a schema-
+# extension on the LOCKED Wave 1 cards (would invalidate Ed25519 signatures).
+# This mapping persists as a staging artifact until a v1.x schema amendment
+# permits the archived_url field on primary_sources entries, at which point
+# both cards re-sign with archived_url populated from this file.
+#
+# Save Page Now requires IA authentication; the 5 URLs without existing snapshots
+# below carry a `spn_needed: true` flag. Operator (or a future session with IA
+# credentials) triggers SPN manually by visiting https://web.archive.org/save/<url>
+# in a browser.
+
+mapping_version: "1.0.0"
+produced_at_utc: "2026-05-15T20:45:00Z"
+source_cards:
+  - "pipeline/cards/CIC/food_systems.yaml"
+  - "pipeline/cards/CLC/operating_capacity.yaml"
+amend_target_schema_field: "_research_metadata.primary_sources[*].archived_url"
+amend_target_v1_x_horizon: "v1.x card re-sign cycle with archived_url field landed on primary_sources schema."
+
+# ----- CIC TILTH-CIC-01 Food Systems -----
+CIC_food_systems:
+  - original_url: "https://www.rd.usda.gov/programs-services/business-programs/value-added-producer-grants"
+    archived_url: null
+    archive_timestamp_raw: null
+    archive_timestamp_iso: null
+    spn_needed: true
+    spn_instruction: "Operator visits https://web.archive.org/save/https://www.rd.usda.gov/programs-services/business-programs/value-added-producer-grants in browser to trigger Save Page Now (unauthenticated SPN returns 520 UNKNOWN from server; authenticated SPN via IA account works)."
+
+  - original_url: "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XLII/part-4284/subpart-J"
+    archived_url: "http://web.archive.org/web/20250205010236/https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XLII/part-4284/subpart-J"
+    archive_timestamp_raw: "20250205010236"
+    archive_timestamp_iso: "2025-02-05T01:02:36Z"
+    spn_needed: false
+
+  - original_url: "https://www.sare.org/"
+    archived_url: null
+    archive_timestamp_raw: null
+    archive_timestamp_iso: null
+    spn_needed: true
+    spn_instruction: "Operator visits https://web.archive.org/save/https://www.sare.org/ in browser to trigger Save Page Now (unauthenticated SPN returns 520 UNKNOWN from server; authenticated SPN via IA account works)."
+
+  - original_url: "https://www.nifa.usda.gov/grants/programs/agriculture-food-research-initiative"
+    archived_url: "http://web.archive.org/web/20260418063850/https://www.nifa.usda.gov/grants/programs/agriculture-food-research-initiative"
+    archive_timestamp_raw: "20260418063850"
+    archive_timestamp_iso: "2026-04-18T06:38:50Z"
+    spn_needed: false
+
+  - original_url: "https://www.ams.usda.gov/services/grants/scbgp"
+    archived_url: "http://web.archive.org/web/20260421173354/https://www.ams.usda.gov/services/grants/scbgp"
+    archive_timestamp_raw: "20260421173354"
+    archive_timestamp_iso: "2026-04-21T17:33:54Z"
+    spn_needed: false
+
+  - original_url: "https://www.ams.usda.gov/services/grants/lamp"
+    archived_url: "http://web.archive.org/web/20260325182457/https://www.ams.usda.gov/services/grants/lamp"
+    archive_timestamp_raw: "20260325182457"
+    archive_timestamp_iso: "2026-03-25T18:24:57Z"
+    spn_needed: false
+
+  - original_url: "https://www.nrcs.usda.gov/programs-initiatives/regenerative-pilot-program"
+    archived_url: "http://web.archive.org/web/20260514173005/https://www.nrcs.usda.gov/programs-initiatives/regenerative-pilot-program"
+    archive_timestamp_raw: "20260514173005"
+    archive_timestamp_iso: "2026-05-14T17:30:05Z"
+    spn_needed: false
+
+  - original_url: "https://www.nrcs.usda.gov/programs-initiatives/conservation-stewardship-program"
+    archived_url: null
+    archive_timestamp_raw: null
+    archive_timestamp_iso: null
+    spn_needed: true
+    spn_instruction: "Operator visits https://web.archive.org/save/https://www.nrcs.usda.gov/programs-initiatives/conservation-stewardship-program in browser to trigger Save Page Now (unauthenticated SPN returns 520 UNKNOWN from server; authenticated SPN via IA account works)."
+
+  - original_url: "https://www.pa.gov/services/pda/apply-for-the-agricultural-innovation-grant"
+    archived_url: "http://web.archive.org/web/20260408191714/https://www.pa.gov/services/pda/apply-for-the-agricultural-innovation-grant"
+    archive_timestamp_raw: "20260408191714"
+    archive_timestamp_iso: "2026-04-08T19:17:14Z"
+    spn_needed: false
+
+  - original_url: "https://www.nifa.usda.gov/grants/programs/beginning-farmer-rancher-development-program-bfrdp"
+    archived_url: "http://web.archive.org/web/20251228053000/https://www.nifa.usda.gov/grants/programs/beginning-farmer-rancher-development-program-bfrdp"
+    archive_timestamp_raw: "20251228053000"
+    archive_timestamp_iso: "2025-12-28T05:30:00Z"
+    spn_needed: false
+
+  - original_url: "https://www.rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grant-program"
+    archived_url: "http://web.archive.org/web/20260113035515/https://www.rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grant-program"
+    archive_timestamp_raw: "20260113035515"
+    archive_timestamp_iso: "2026-01-13T03:55:15Z"
+    spn_needed: false
+
+  - original_url: "https://www.epa.gov/education/grants"
+    archived_url: "http://web.archive.org/web/20260514202232/https://www.epa.gov/education/grants"
+    archive_timestamp_raw: "20260514202232"
+    archive_timestamp_iso: "2026-05-14T20:22:32Z"
+    spn_needed: false
+
+  - original_url: "https://www.heinz.org/grants"
+    archived_url: "http://web.archive.org/web/20260317082410/https://www.heinz.org/grants/"
+    archive_timestamp_raw: "20260317082410"
+    archive_timestamp_iso: "2026-03-17T08:24:10Z"
+    spn_needed: false
+
+  - original_url: "https://www.iatp.org/new-regenerative-agriculture-initiative-greenwashing"
+    archived_url: "http://web.archive.org/web/20260310133901/https://www.iatp.org/new-regenerative-agriculture-initiative-greenwashing"
+    archive_timestamp_raw: "20260310133901"
+    archive_timestamp_iso: "2026-03-10T13:39:01Z"
+    spn_needed: false
+
+  - original_url: "https://nffc.net/what-we-do/food-sovereignty/"
+    archived_url: "http://web.archive.org/web/20260323141306/https://nffc.net/what-we-do/food-sovereignty/"
+    archive_timestamp_raw: "20260323141306"
+    archive_timestamp_iso: "2026-03-23T14:13:06Z"
+    spn_needed: false
+
+# ----- CLC TILTH-CLC-03 Operating Capacity -----
+CLC_operating_capacity:
+  - original_url: "https://www.fordfoundation.org/work/our-grants/building-institutions-and-networks/"
+    archived_url: "http://web.archive.org/web/20260514182317/https://www.fordfoundation.org/work/our-grants/building-institutions-and-networks/"
+    archive_timestamp_raw: "20260514182317"
+    archive_timestamp_iso: "2026-05-14T18:23:17Z"
+    spn_needed: false
+
+  - original_url: "https://www.fordfoundation.org/news-and-stories/news-and-press/news/ford-foundation-expands-flagship-build-program-to-provide-1-billion-to-hundreds-of-organizations/"
+    archived_url: "http://web.archive.org/web/20260224173725/https://www.fordfoundation.org/news-and-stories/news-and-press/news/ford-foundation-expands-flagship-build-program-to-provide-1-billion-to-hundreds-of-organizations/"
+    archive_timestamp_raw: "20260224173725"
+    archive_timestamp_iso: "2026-02-24T17:37:25Z"
+    spn_needed: false
+
+  - original_url: "https://www.macfound.org/programs/field-support/philanthropy/"
+    archived_url: "http://web.archive.org/web/20260426043149/https://www.macfound.org/programs/field-support/philanthropy/"
+    archive_timestamp_raw: "20260426043149"
+    archive_timestamp_iso: "2026-04-26T04:31:49Z"
+    spn_needed: false
+
+  - original_url: "https://kresge.org/initiative/leadership-and-infrastructure-funding-team-lift/"
+    archived_url: "http://web.archive.org/web/20260224220241/https://kresge.org/initiative/leadership-and-infrastructure-funding-team-lift/"
+    archive_timestamp_raw: "20260224220241"
+    archive_timestamp_iso: "2026-02-24T22:02:41Z"
+    spn_needed: false
+
+  - original_url: "https://hewlett.org/grantmaking-faq/"
+    archived_url: "http://web.archive.org/web/20260212102015/https://hewlett.org/grantmaking-faq/"
+    archive_timestamp_raw: "20260212102015"
+    archive_timestamp_iso: "2026-02-12T10:20:15Z"
+    spn_needed: false
+
+  - original_url: "https://www.bushfoundation.org/opportunities/community-innovation/"
+    archived_url: "http://web.archive.org/web/20251009052224/https://www.bushfoundation.org/opportunities/community-innovation/"
+    archive_timestamp_raw: "20251009052224"
+    archive_timestamp_iso: "2025-10-09T05:22:24Z"
+    spn_needed: false
+
+  - original_url: "https://ourcommunity.org/nonprofit-support/grants-at-the-community-foundation/capacity-building-grants"
+    archived_url: "http://web.archive.org/web/20260305234650/https://ourcommunity.org/nonprofit-support/grants-at-the-community-foundation/capacity-building-grants"
+    archive_timestamp_raw: "20260305234650"
+    archive_timestamp_iso: "2026-03-05T23:46:50Z"
+    spn_needed: false
+
+  - original_url: "https://vermontcf.org/funds/nonprofit-capacity-building/"
+    archived_url: "http://web.archive.org/web/20260307182412/https://vermontcf.org/funds/nonprofit-capacity-building/"
+    archive_timestamp_raw: "20260307182412"
+    archive_timestamp_iso: "2026-03-07T18:24:12Z"
+    spn_needed: false
+
+  - original_url: "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XXXIV/part-3406"
+    archived_url: "http://web.archive.org/web/20250628161954/https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XXXIV/part-3406"
+    archive_timestamp_raw: "20250628161954"
+    archive_timestamp_iso: "2025-06-28T16:19:54Z"
+    spn_needed: false
+
+  - original_url: "https://www.tgci.com/blog/2020/08/understanding-capacity-building-grant-proposals"
+    archived_url: "http://web.archive.org/web/20251111235614/https://tgci.com/blog/2020/08/understanding-capacity-building-grant-proposals"
+    archive_timestamp_raw: "20251111235614"
+    archive_timestamp_iso: "2025-11-11T23:56:14Z"
+    spn_needed: false
+
+  - original_url: "https://www.fundsforngos.org/how-to-write-a-proposal/top-10-common-mistakes-in-grant-proposals-and-how-to-avoid-them/"
+    archived_url: null
+    archive_timestamp_raw: null
+    archive_timestamp_iso: null
+    spn_needed: true
+    spn_instruction: "Operator visits https://web.archive.org/save/https://www.fundsforngos.org/how-to-write-a-proposal/top-10-common-mistakes-in-grant-proposals-and-how-to-avoid-them/ in browser to trigger Save Page Now (unauthenticated SPN returns 520 UNKNOWN from server; authenticated SPN via IA account works)."
+
+  - original_url: "https://www.hud.gov/sites/dfiles/CPD/documents/Capacity-Building-Programs-Reporting-Guidance.pdf"
+    archived_url: "http://web.archive.org/web/20260120122415/https://www.hud.gov/sites/dfiles/CPD/documents/Capacity-Building-Programs-Reporting-Guidance.pdf"
+    archive_timestamp_raw: "20260120122415"
+    archive_timestamp_iso: "2026-01-20T12:24:15Z"
+    spn_needed: false
+
+  - original_url: "https://www.sopact.com/use-case/grant-review-rubric"
+    archived_url: "http://web.archive.org/web/20260308182226/https://www.sopact.com/use-case/grant-review-rubric"
+    archive_timestamp_raw: "20260308182226"
+    archive_timestamp_iso: "2026-03-08T18:22:26Z"
+    spn_needed: false
+
+  - original_url: "https://nlctb.org/featured/how-to-respond-to-sustainability-questions-in-grant-proposals/"
+    archived_url: null
+    archive_timestamp_raw: null
+    archive_timestamp_iso: null
+    spn_needed: true
+    spn_instruction: "Operator visits https://web.archive.org/save/https://nlctb.org/featured/how-to-respond-to-sustainability-questions-in-grant-proposals/ in browser to trigger Save Page Now (unauthenticated SPN returns 520 UNKNOWN from server; authenticated SPN via IA account works)."
+
+# Summary
+summary:
+  CIC_food_systems: "12/15 URLs have existing snapshots; 3 need SPN"
+  CLC_operating_capacity: "12/14 URLs have existing snapshots; 2 need SPN"

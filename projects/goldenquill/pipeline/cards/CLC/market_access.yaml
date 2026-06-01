@@ -1,0 +1,1303 @@
+# Card — TILTH-CLC-05 Market Access
+# Wave 2 research draft 2026-05-15. Phase 3 output per blueprint §18.11.
+# Content populated per blueprint §18.10 starter requirements for CLC-05.
+# Operator review + cross-family thesis + Ed25519 signature COMPLETE.
+# SIGNED — runtime-loadable; lifecycle truth enforced by loader preflight.
+#
+# Coupling discipline (architecture v7.0.11 §6.1 + §4 v2.x F-CARDS-COUPLING-VIOLATION-EXTENSION):
+# This card contains NO eligible_cic_subset, cic_allowlist, cic_denylist,
+# preferred_cics, cic_win_rate, or cic_ranking_preferences fields. CLC × CIC
+# matching is opportunity-driven at runtime, never archetype-driven at design time.
+# Any CIC may pursue Market Access funding when the opportunity's underwriting
+# logic centers verified buyer demand, channel strategy, and unit economics.
+#
+# Operator OQ resolutions applied (Wave 2 carry-over from Wave 1, 2026-05-15):
+#   Directory: pipeline/cards/CLC/ (uppercase canonical).
+#   Verbatim-quote cap: ≤2 sentences per quote with URL + access_date citation.
+#   admin_risk_term_register: approval_required: true on every entry.
+#   Frequency / win-rate: qualitative-only (HIGH/MEDIUM/LOW/UNKNOWN). No numeric rates.
+#   Schema-current as-on-disk; uses lifecycle.review_status terminology.
+# ===========================================================================
+# §18.6 v2 DUAL-TRACK STRUCTURAL SEPARATION — OD-E fix-forward 2026-05-17
+# ===========================================================================
+# This card was restructured under Option A (top-level track_a:/track_b:
+# containers) per OD-E fix-forward dispatch 2026-05-17 (recovers from the
+# original OD-E ceremony 2026-05-17T16:00:00Z where rows 274-278 signed
+# canonical-bytes asserts but the on-disk restructure was not committed).
+# Shared metadata stays at root; track-specific content lives in track_a
+# (sbir_phase_ii) and track_b (sbir_phase_iii).
+#
+# Partition heuristic: per-entry Track A / Track B / shared classification
+# via outputs/od_e_fix_forward_restructure.py marker regex (mirrors prior
+# pipeline/scripts/od_e_restructure_card.py). Entries without explicit
+# markers default to BOTH tracks (shared baseline) so neither track is
+# silently stripped.
+# ===========================================================================
+
+schema_version: 1.0-clc
+card_axis: CLC
+card_id: TILTH-CLC-05
+slug: market_access
+display_name: Market Access
+funding_mechanism_summary: Buyer development, distribution, commercialization, and demand-side funding where verified buyer
+  commitments, channel strategy, production capacity, and unit economics drive underwriting (USDA VAPG / LAMP / SCBGP / Regional
+  Food Business Centers, SBA growth programs, EDA Build to Scale, SBIR Phase II / IIB commercialization, NSF I-Corps, state
+  agricultural marketing programs). Includes the SBIR Phase III commercialization stage where Phase II awardees proceed to
+  revenue-generating market presence without further SBIR funding — Phase III is a status / mechanism reliant on private,
+  customer-funded, or other non-federal capital, not a new federal grant. The Phase II → Phase III transition is characteristic
+  of Market Access funding logic and distinguishes it from purely R&D-focused funding.
+tilth_clc_id: TILTH-CLC-05
+lifecycle:
+  draft_status: signed
+  review_status: passed
+  cross_family_thesis_status: passed
+  signature_status: signed
+  runtime_load_status: loaded
+  runtime_loadable: true
+  signed_at: '2026-05-16T16:00:00Z'
+  signed_by: founder
+  content_hash: sha256:1e48f83dea7fd39f91733564742b2d682dc820108fc0a6fc41689aaa3615113d
+  lock_history_row: 258
+  lock_timestamp_utc: '2026-05-16T16:00:00Z'
+_research_metadata:
+  authored_at: '2026-05-15T23:30:00Z'
+  authored_by_role: research_session
+  research_budget_hours_actual: 3.0
+  priors_consulted:
+  - path: assets/cards/capital_logic/Capital Logic Cards.png
+    extract_note: Visual Card source — drawing TILTH-CLC-00; defines Market Access scope (buyers / channels / commercialization
+      / demand).
+  - path: pipeline/blueprint/v0.1/section_18_card_system.md
+    extract_note: §18.10 starter content for TILTH-CLC-05 — binding scope for Market Access card content; §18.11 five-phase
+      research process; §18.15 testing requirements.
+  - path: pipeline/cards/CLC/operating_capacity.yaml
+    extract_note: Wave 1 sibling CLC fixture — structural pattern + comment density + admin_risk_term_register pattern (approval_required:true)
+      mirrored here.
+  - path: pipeline/cards/CLC/catalytic_change.yaml
+    extract_note: Wave 2 Batch 1 sibling CLC — pattern reference for federal-program-rich card with multi-funder rubric examples
+      + admin-risk register reflecting current admin federal-vs-foundation register split.
+  - path: pipeline/cards/CLC/public_purpose_works.yaml
+    extract_note: Wave 2 Batch 1 sibling CLC — pattern reference for federal-program-rich card with statutory-citation evidence
+      weights + BABA / Buy America compliance framing.
+  - path: pipeline/rubrics/vapg_fy26.json
+    extract_note: On-disk USDA VAPG FY2026 rubric — canonical Market Access scoring reference; 100 points across 7 criteria;
+      50-pt minimum to fund. Cited extensively as the most fully published Market-Access rubric in the federal portfolio.
+  - path: pipeline/institutional_memory/admin_risk_register.yaml
+    extract_note: v2.2 register — entries for prior CLC contexts. NEW CLC-05-scoped entries (scalability re-noted, growth,
+      market disruption, competitive advantage, import substitution, domestic supply chain, buy american, underserved market,
+      underrepresented founders, value-added, local food system, food sovereignty, regional food system, values-based supply
+      chain, commercialization) added here for Market Access scope.
+  - path: CLAUDE.md
+    extract_note: 'Eight-CLC roster confirmation; TILTH-CLC-05 scope: ''buyers, channels, commercialization, demand'' funding.
+      Operator-pinned starter examples: USDA VAPG, USDA LAMP, USDA AMS SCBGP, EDA Build to Scale, SBA growth programs, state
+      agricultural marketing programs.'
+  - path: skills/scribe-ghostwriter/SKILL.md
+    extract_note: Scribe drafting register defaults — Market Access applications require buyer-evidence-front narrative, unit-economics
+      arithmetic, channel-strategy specificity. Card complements skill content.
+  primary_sources:
+  - url: https://www.rd.usda.gov/programs-services/business-programs/value-added-producer-grants
+    access_date: '2026-05-15'
+    relevance: USDA Value-Added Producer Grants program page — canonical Market Access program. Two grant types (Planning
+      + Working Capital), 1:1 match required, 50-pt minimum to fund, statutory at 7 CFR 4284 Subpart J.
+    verbatim_quote: VAPG grants may be used for planning activities or for working capital expenses related to processing
+      and/or marketing of value-added agricultural products. Producers of agricultural commodities, agricultural producer
+      groups, farmer- or rancher-cooperatives, and majority-controlled producer-based business ventures are eligible to apply.
+  - url: https://www.ams.usda.gov/services/grants/lamp
+    access_date: '2026-05-15'
+    relevance: USDA AMS Local Agriculture Market Program (LAMP) umbrella — Farmers Market Promotion (FMPP) + Local Food Promotion
+      (LFPP) + Regional Food System Partnerships (RFSP). 25% non-federal cost share required.
+    verbatim_quote: The Local Agriculture Market Program (LAMP) supports the development, coordination, and expansion of direct
+      producer-to-consumer markets to help increase access to and availability of locally and regionally produced agricultural
+      products.
+  - url: https://www.ams.usda.gov/services/grants/lfpp
+    access_date: '2026-05-15'
+    relevance: USDA AMS Local Food Promotion Program (LFPP) — sub-track of LAMP focused on intermediate supply-chain (food
+      hubs, processors, distributors) connecting producers to buyers.
+    verbatim_quote: LFPP supports the development of mid-tier value chain projects, including processing, distribution, aggregation,
+      and storage activities that connect agricultural producers with intermediate or end-consumer markets.
+  - url: https://www.ams.usda.gov/services/grants/scbgp
+    access_date: '2026-05-15'
+    relevance: USDA AMS Specialty Crop Block Grant Program (SCBGP) — federal funds pass through state Departments of Agriculture;
+      per-state RFP, scoring, and award range.
+    verbatim_quote: The Specialty Crop Block Grant Program (SCBGP) awards grants to U.S. States and Territories to enhance
+      the competitiveness of specialty crops, including fruits, vegetables, dried fruit, tree nuts, horticulture, and nursery
+      crops including floriculture.
+  - url: https://www.eda.gov/funding/programs/build-to-scale
+    access_date: '2026-05-15'
+    relevance: EDA Build to Scale (Venture Challenge + Capital Challenge) — regional innovation ecosystem funding with 50%
+      non-federal match. Covers commercialization-readiness and capital-access for innovation-driven regional economies.
+    verbatim_quote: 'Build to Scale grants support innovation-driven economic development with two competitions: the Venture
+      Challenge and the Capital Challenge, each requiring a 50 percent non-federal match.'
+  - url: https://www.sba.gov/funding-programs/grants
+    access_date: '2026-05-15'
+    relevance: SBA grants overview — most SBA market-access support flows through 7(a) / 504 / microloan lending guarantees;
+      direct-grant programs include Growth Accelerator Fund Competition (GAFC) and program-specific awards.
+    verbatim_quote: SBA only provides limited grant funding directly to small businesses; most SBA financial assistance is
+      provided through loan guarantees that enable lenders to extend credit to small businesses on favorable terms.
+  - url: https://www.sba.gov/article/2024/may/01/sba-launches-2024-growth-accelerator-fund-competition-incentivizing-innovation-investment
+    access_date: '2026-05-15'
+    relevance: SBA Growth Accelerator Fund Competition — cash awards to accelerators / incubators that support entrepreneurs;
+      recent rounds emphasize R&D Track + Investment Track.
+    verbatim_quote: The Growth Accelerator Fund Competition awards cash prizes to incubators, accelerators, and other entrepreneurial
+      support organizations that incentivize innovation in technology commercialization and capital access.
+  - url: https://www.fns.usda.gov/cfs/farm-school-grant-program
+    access_date: '2026-05-15'
+    relevance: USDA Farm to School Grant Program — institutional-procurement Market Access; connects producers to school food
+      authorities. Planning + Implementation + Training + Turnkey tracks.
+    verbatim_quote: The Patrick Leahy Farm to School Grant Program helps build school food procurement networks that connect
+      producers with school food authorities and that integrate food and agriculture education into the school day.
+  - url: https://www.pa.gov/agencies/pda/programs/specialty-crop-block-grant-program.html
+    access_date: '2026-05-15'
+    relevance: PA Department of Agriculture SCBGP example — state-pass-through Market Access with state-specific RFP and scoring.
+    verbatim_quote: Pennsylvania's Specialty Crop Block Grant Program enhances the competitiveness of specialty crops grown
+      in Pennsylvania through projects designed to support and develop specialty crop industries.
+  - url: https://www.ams.usda.gov/market-news
+    access_date: '2026-05-15'
+    relevance: USDA AMS Market News — primary source for agricultural market data (price + volume + trends) used in market-study
+      attachments and pro-forma assumption-backing.
+    verbatim_quote: USDA AMS Market News provides timely, unbiased market information on prices, volume, quality, condition,
+      and other market data on domestic and international markets for agricultural commodities.
+  - url: https://www.transportation.gov/buyamerica
+    access_date: '2026-05-15'
+    relevance: Build America Buy America (BABA) — federal infrastructure procurement preference for domestic iron, steel,
+      manufactured products, construction materials. Applies to federal Market Access grants where infrastructure investment
+      occurs.
+    verbatim_quote: The Build America, Buy America Act (BABA) requires that all of the iron, steel, manufactured products,
+      and construction materials used in covered Federal financial assistance programs for infrastructure are produced in
+      the United States.
+  - url: https://www.fda.gov/food/guidance-regulation-food-and-dietary-supplements/food-safety-modernization-act-fsma
+    access_date: '2026-05-15'
+    relevance: FDA FSMA — applicable to Market Access grants involving food production where applicant is a food facility
+      or farm subject to Produce Safety Rule / Preventive Controls.
+    verbatim_quote: The FDA Food Safety Modernization Act enables FDA to focus more on preventing food safety problems rather
+      than relying primarily on reacting to problems after they occur.
+  - url: https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200
+    access_date: '2026-05-15'
+    relevance: 2 CFR Part 200 Uniform Guidance — federal financial assistance compliance framework applicable to all federal
+      Market Access grants (closeout, SF-425, Single Audit threshold).
+    verbatim_quote: Subpart D establishes uniform requirements for post-Federal award reporting, closeout, and audit obligations
+      applicable to non-Federal entities receiving Federal awards.
+  - url: https://www.fsrs.gov/
+    access_date: '2026-05-15'
+    relevance: FFATA Sub-Award Reporting System (FSRS) — required for federal Market Access grants $30,000+ for sub-award
+      and executive compensation reporting.
+    verbatim_quote: FSRS is the reporting tool that Federal prime awardees use to capture and report sub-award and executive
+      compensation data regarding their first-tier sub-awards to meet the FFATA reporting requirements.
+  - url: https://www.nasda.org/policy/state-grants-programs
+    access_date: '2026-05-15'
+    relevance: NASDA state-grants aggregator — primary discovery source for state agricultural marketing programs across 50
+      state Departments of Agriculture.
+    verbatim_quote: State Departments of Agriculture administer numerous grant and cost-share programs supporting agricultural
+      producers, processors, and marketers within their states.
+  - url: https://www.rd.usda.gov/
+    access_date: '2026-05-15'
+    relevance: USDA Rural Development portal — primary federal Market Access portal for VAPG + RD business programs + community
+      programs. Hosts program pages, eligibility maps, and application materials.
+    verbatim_quote: USDA Rural Development provides loans, grants, and loan guarantees to support essential services such
+      as housing, economic development, health care, first responder services and equipment, and water, electric, and communications
+      infrastructure in rural areas.
+  - url: https://www.eda.gov/funding/apply
+    access_date: '2026-05-15'
+    relevance: EDA application portal — Market Access applications for Build to Scale + related EDA programs submitted via
+      Grants.gov Workspace + EDA-specific narrative templates.
+    verbatim_quote: EDA application processes vary by program; most EDA grants require submission via Grants.gov, complemented
+      by EDA-specific narrative templates and supplemental documentation.
+  ed25519_signature: 615d0a1e74c8b3d6aadf311d0e3259d2f0251ee30643e99e3a1bb35eca004f6ad2be425b7b3dda249b14ef9cb2a095dfebff4d95d300d9c81e8629fc431c440e
+track_a:
+  track_name: sbir_phase_ii
+  track_description: 'SBIR Phase II — further SBIR R&D funds with NIH / NSF / DOD / DOE / USDA program variations. Underwriting
+    extends from Phase I demonstration: technical feasibility extended to commercialization-readiness; team capability; intellectual
+    merit + broader impacts (NIH/NSF variations) or program-of-record alignment (DOD/DOE). Reviewer profile: SBIR program
+    managers + peer reviewers (technical SMEs). Phase II proposals are R&D-driven and read like research proposals with explicit
+    commercialization-readiness sections; Scribe MUST treat Track A as research-and-development drafting, NOT go-to-market
+    drafting. Phase II awards typically $750k-$1.5M over 24 months.'
+  underwriting_criteria:
+  - &id001
+    criterion: target_market_definition
+    description: Specific, bounded market segment named — geography, customer type, size class, channel, decision-maker. Not
+      'consumers who care about local food'; reviewers want defensible TAM → SAM → obtainable-market arithmetic with the obtainable
+      slice grounded in production capacity and channel reach.
+    weight_in_typical_rubric: qualitative
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-05
+  - &id002
+    criterion: verified_demand
+    description: 'Demand evidence comes from prospective buyers, not the applicant''s own projections. Acceptable evidence:
+      signed LOIs with volume + price + term, purchase orders, contracts, paid pilot deliveries, documented pre-orders, distributor
+      purchase commitments. Customer interviews and survey data are supporting, not load-bearing.'
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.rd.usda.gov/programs-services/business-programs/value-added-producer-grants
+  - &id003
+    criterion: buyer_commitment
+    description: 'Named buyers with written commitment artifacts at the strongest rung available. Buyer-commitment evidence
+      ladder (descending strength, per Wave 2 Cycle-2 FIX-IN-PLACE — rendered as prose within description to avoid schema-extension
+      risk per §18.6): RUNG 1 PURCHASE ORDER — signed PO with buyer name + SKU + volume + price + delivery date + payment
+      terms; evidence-of-record; strongest pre-award demand artifact; anchors pro-forma volume × price math. RUNG 2 SIGNED
+      CONTRACT — supply / distributor / institutional procurement contract with buyer name + volume commitment + price terms
+      + contract duration + performance terms; strong multi-period commitment; treated as strong evidence (NOT formally weighted
+      equivalent to PO at VAPG; PO retains highest VAPG criterion a.iii anchor). RUNG 3 LOI WITH VOLUME + PRICE + TERM — Letter
+      of Intent on buyer letterhead with explicit volume + price + delivery term + signature + date; strong demand signal;
+      reviewers expect SBIR Phase II / IIB / VAPG Working Capital applications to carry volume-price-term LOIs at minimum.
+      RUNG 4 LOI WITH VOLUME ONLY — LOI naming volume commitment but no price / term; moderate signal; adequate for Planning
+      Grant / pilot stage; under-rated for Working Capital / Phase II commercialization. RUNG 5 EXPRESSION OF INTEREST — letter
+      expressing interest without volume or price commitment; weak signal; reviewers read as supporting evidence only; generic
+      ''we are interested'' letters score weakly under VAPG criterion a.iii. INTAKE should surface this ladder at applicant
+      onboarding so applicants pursue stronger-rung evidence before drafting; SCRIBE should attach the strongest-rung evidence
+      to the proposal narrative; JUDGE and RED TEAM should challenge any claim of ''verified buyer'' that does not cite a
+      specific rung + evidence artifact. USDA VAPG explicitly weights buyer commitments under the ''Nature of the proposed
+      venture / Profitability'' criterion (10 pts) and the ''Work plan and budget'' criterion (20 pts) where buyers anchor
+      the projection narrative.'
+    weight_in_typical_rubric: qualitative
+    source_citation: 'pipeline/rubrics/vapg_fy26.json (criterion a.iii must_address: ''Expected expansion of customer base'';
+      criterion c must_address: ''Sources and uses of grant AND matching funds for all activities'')'
+  - &id004
+    criterion: competitive_position
+    description: Named competitors (direct + adjacent + substitutes) with positioning — what the applicant offers that competitors
+      do not, what defensibility (brand, certification, geography, relationship, supply control) the applicant has. 'No direct
+      competitors' is a near-universal red flag; reviewers read it as research failure.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.eda.gov/funding/programs/build-to-scale
+  - &id005
+    criterion: pricing_logic
+    description: Pricing built from cost-plus floor (COGS + overhead + target margin) and validated against market-clearing
+      prices (competitor pricing, distributor markups, retail pricing, willingness-to-pay evidence). Pricing-below-cost flagged
+      HIGH; pricing-above-market flagged HIGH unless premium positioning is documented (certification, provenance, brand).
+    weight_in_typical_rubric: qualitative
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-05
+  - &id006
+    criterion: customer_acquisition_cost_and_plan
+    description: Per-customer or per-channel acquisition cost named (sales staff time, marketing spend, broker commissions,
+      sample costs, trade-show fees, listing fees, slotting fees) with the channel-specific acquisition plan. Ignored CAC
+      is a structural weakness — the work-plan budget must reflect it.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sba.gov/funding-programs/grants
+  - &id007
+    criterion: unit_economics
+    description: 'Per-unit margin defensible: revenue per unit minus variable cost per unit (raw materials, packaging, processing
+      labor, freight, broker commission, returns reserve) yields contribution margin; contribution margin minus per-unit allocated
+      overhead (rent, equipment depreciation, sales overhead) yields net unit margin. Reviewers run the arithmetic; opaque
+      math fails.'
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.sba.gov/funding-programs/grants
+  - &id008
+    criterion: buy_america_and_domestic_supply_chain_alignment
+    description: Where applicable to the program (EDA Build to Scale, USDA where Build America Buy America applies, federal
+      infrastructure-tied procurement), evidence that materials, components, and supply chain are domestic per BABA + USDA
+      Domestic Origin requirements. Current administration emphasis on 'American-made' / 'domestic supply chain' framing is
+      operative for Market Access in 2026 federal applications — see admin_risk_term_register.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.transportation.gov/buyamerica
+  scoring_weight_patterns:
+  - &id009
+    rubric_example: USDA AMS Specialty Crop Block Grant Program (SCBGP) — state-DOA-pass-through scoring varies
+    weights:
+      project_design: weighted
+      potential_impact: weighted
+      outcomes_and_evaluation: weighted
+      budget_and_match: weighted
+      partnerships_and_collaboration: weighted
+    source_citation: https://www.ams.usda.gov/services/grants/scbgp
+    note: 'SCBGP funds pass through state Departments of Agriculture; scoring rubrics + sub-criteria + weights vary by state.
+      Pennsylvania, California, Florida, Michigan, New York all publish state-specific RFPs. Common thread: enhances competitiveness
+      of specialty crops (fruits, vegetables, tree nuts, dried fruits, horticulture, nursery crops including floriculture).'
+  - &id010
+    rubric_example: PA Department of Agriculture Specialty Crop Block Grant (state SCBGP pass-through example)
+    weights:
+      enhancing_specialty_crop_competitiveness: weighted
+      project_design_and_methodology: weighted
+      outcomes_and_measurable_results: weighted
+      budget_reasonableness_and_match: weighted
+      partnerships_and_outreach: weighted
+    source_citation: https://www.pa.gov/agencies/pda/programs/specialty-crop-block-grant-program.html
+    note: PA Department of Agriculture publishes annual SCBGP RFP; typical award range $30K-$150K; 1-3 year project periods;
+      no formal match required at federal level but PA encourages cost share for competitiveness.
+  - &id011
+    rubric_example: SBIR Phase II / IIB Commercialization — agency-specific (USDA NIFA SBIR, NSF SBIR, NIH SBIR, DOE SBIR,
+      etc.)
+    weights:
+      commercialization_potential: weighted
+      technical_merit: weighted
+      team_qualifications: weighted
+      market_opportunity: weighted
+      revenue_model_and_projections: weighted
+    source_citation: https://www.sbir.gov/about
+    note: 'SBIR Phase II is the commercialization-readiness federal mechanism; Phase IIB extends Phase II projects approaching
+      market entry. Per-agency rubrics vary: USDA NIFA SBIR, NSF SBIR, NIH SBIR, DOE SBIR, DOD SBIR each publish topic-specific
+      solicitations + commercialization-plan templates. Phase III is commercialization-without-additional-federal-SBIR-funds
+      — see funding_mechanism_summary + narrative_section_patterns ''Commercialization Pathway / SBIR Phase III Plan''.'
+  - &id012
+    rubric_example: NSF I-Corps — customer-discovery-driven commercialization training
+    weights:
+      customer_discovery_progress: weighted
+      team_quality_and_engagement: weighted
+      lessons_learned_and_pivot_evidence: weighted
+      commercialization_pathway: weighted
+    source_citation: https://new.nsf.gov/funding/initiatives/i-corps
+    note: I-Corps is NSF's customer-discovery training program — 100+ customer interviews + Lean LaunchPad methodology + Business
+      Model Canvas iteration. Outcome is a go/no-go commercialization decision + structured pivot evidence. National Innovation
+      Network hub program; team-based application via NSF I-Corps Hub or Teams program. Outputs feed SBIR Phase II commercialization
+      plans.
+  evidence_weights:
+    buyer_letters_of_intent: &id013
+      weight: HIGH
+      rationale: Signed LOI with volume + price + term is the strongest pre-contract evidence of demand. Reviewers treat LOI
+        quality as a near-veto signal — generic 'we are interested in your product' letters score weakly; volume-specific
+        commitments score strongly.
+      source_citation: https://www.rd.usda.gov/programs-services/business-programs/value-added-producer-grants
+    customer_pipeline: &id014
+      weight: HIGH
+      rationale: Named prospects with stage (cold outreach / first meeting / proposal sent / verbal commitment / signed LOI
+        / signed contract) + close probability + expected close date + value. Treats sales as a measurable process, not a
+        wish.
+    market_study: &id015
+      weight: MEDIUM
+      rationale: Third-party market analysis (industry reports, consultant studies, USDA AMS data, Census of Agriculture)
+        preferred over applicant-authored. Internal market analysis acceptable when methodology + sources are documented;
+        aggregator-cited stats without primary source flag weakly.
+      source_citation: https://www.ams.usda.gov/market-news
+    price_sheet: &id016
+      weight: MEDIUM
+      rationale: Current price sheet by SKU + channel + customer tier + volume break. Reviewers compare against COGS to verify
+        margins are real and against competitor pricing to verify market positioning.
+    revenue_projections_with_assumptions: &id017
+      weight: HIGH
+      rationale: '3-year (often 5-year for SBA contexts) pro forma with named assumptions: unit volume by channel + product,
+        price assumptions, COGS assumptions, sales-cycle timing, seasonality factors. Each assumption tied to evidence (LOI
+        volume, price sheet, historical conversion rate, named industry benchmark).'
+      source_citation: 'pipeline/rubrics/vapg_fy26.json (criterion a.iii must_address: ''Pro forma financial projections'')'
+    channel_partner_letters: &id018
+      weight: MEDIUM
+      rationale: 'Letters from distributors, brokers, retailers, foodservice operators, institutional buyers describing channel
+        relationship + expected role. Stronger when paired with executed agreements; weaker when expressing only ''willingness
+        to consider''. Weight canonicalized to MEDIUM at Wave 2 Cycle-2 FIX-IN-PLACE per §18.6 enum (HIGH | MEDIUM | LOW).
+        Nuance: when a channel-partner letter is paired with an executed distributor agreement + volume commitment, the joint
+        evidence approaches HIGH-tier; the standalone letter sits at MEDIUM.'
+    cost_of_acquisition_documentation: &id019
+      weight: MEDIUM
+      rationale: 'Per-channel CAC math: cost per cold call, cost per trade-show lead, cost per converted distributor, slotting
+        / listing fees, broker commission rates, marketing spend per customer acquired. Ignored CAC is a common red flag —
+        work plan must reflect the acquisition labor and spend.'
+    feasibility_study: &id020
+      weight: HIGH
+      rationale: Independent feasibility study by Qualified Consultant covering market analysis, technical feasibility, financial
+        feasibility, organizational capacity. Required for VAPG Working Capital eligibility; valuable supporting attachment
+        for LAMP, EDA, and most institutional-procurement programs.
+      source_citation: 'pipeline/rubrics/vapg_fy26.json (planning_scope: ''Feasibility Study and/or Business/Marketing Plan
+        by Qualified Consultant'')'
+  common_application_forms:
+  - &id021
+    form_id: SF-424B (Assurances — Non-Construction Programs)
+    form_version: OMB Approved
+    required_for: Federal non-construction Market Access grants
+    source: https://www.grants.gov/forms/sf-424-family.html
+  - &id022
+    form_id: Grants.gov Workspace package
+    form_version: Platform-hosted, per-NOFO
+    required_for: All federal Market Access NOFOs published on Grants.gov
+    source: https://www.grants.gov/applicants/applicant-tools-tips/workspace-overview.html
+  - &id023
+    form_id: USDA LAMP online application (AMS-administered)
+    form_version: Per FY RFA (FMPP / LFPP / RFSP sub-tracks)
+    required_for: USDA Local Agriculture Market Program (Farmers Market Promotion / Local Food Promotion / Regional Food System
+      Partnerships)
+    source: https://www.ams.usda.gov/services/grants/lamp
+    note: AMS-administered. 25% non-federal cost share required (cash + in-kind). FY rounds annual; deadlines vary by sub-track.
+  - &id024
+    form_id: USDA AMS SCBGP application (state-portal pass-through)
+    form_version: Per state Department of Agriculture RFP
+    required_for: USDA Specialty Crop Block Grants (federal pass-through to state DOAs)
+    source: https://www.ams.usda.gov/services/grants/scbgp
+    note: Federal funds pass through state Departments of Agriculture. Each state DOA publishes its own annual RFP, application
+      portal, deadline, and award range. PA DOA, CDFA, FDACS, MDARD, NYSDAM all publish state-specific procedures.
+  - &id025
+    form_id: EDA Build to Scale online application
+    form_version: Per FY NOFO (Venture Challenge + Capital Challenge tracks)
+    required_for: EDA Build to Scale Venture Challenge + Capital Challenge
+    source: https://www.eda.gov/funding/programs/build-to-scale
+    note: Submitted via Grants.gov Workspace + EDA-specific narrative templates. 50% non-federal match required. Eligible
+      applicants narrowly defined (TBED organizations, non-profit equity-based investment funds, etc.).
+  - &id026
+    form_id: SBA program-specific application (SAM.gov + program portal)
+    form_version: Per SBA program (GAFC, Boots to Business, Women's Business Centers, etc.)
+    required_for: SBA Growth Accelerator Fund Competition + related SBA grant programs
+    source: https://www.sba.gov/funding-programs/grants
+    note: SBA grants are limited compared to SBA loan guarantees — most SBA market-access support flows through 7(a) / 504
+      lending guarantees, not grants. Grant programs (GAFC, T-HUB) competitively scarce.
+  - &id027
+    form_id: State agricultural marketing program applications
+    form_version: Per state DOA / DCED program
+    required_for: PA Specialty Crop Block, PA Ag Innovation, NY Grown & Certified, MA Massachusetts Food Trust, CDFA Healthy
+      Refrigeration, etc.
+    source: https://www.nasda.org/policy/state-grants-programs
+    note: State agricultural marketing programs vary widely by state in scope, eligibility, award size, match. NASDA aggregates
+      state ag program listings; per-state portal application typical.
+  - &id028
+    form_id: USDA AMS Regional Food Business Center Business Builder subaward application
+    form_version: Per-regional-center per RFP
+    required_for: USDA Regional Food Business Centers Business Builder subaward (up to $100K subawards to small / mid-tier
+      food and farm businesses)
+    source: https://www.ams.usda.gov/services/local-regional/rfbc
+    note: Application is to a regional center (12 regional + 1 tribal centers awarded 2023-2024), not direct federal submission.
+      Each regional center publishes its own RFP, eligibility, and subaward range. Coverage geography per regional center
+      territory.
+  - &id029
+    form_id: SBIR / STTR agency-specific application package
+    form_version: Per-agency per-topic solicitation (USDA NIFA, NSF, NIH, DOE, DOD)
+    required_for: SBIR / STTR Phase I + Phase II + Phase IIB commercialization applications
+    source: https://www.sbir.gov/applicants
+    note: Submission via agency-specific portals (NSF FastLane / Research.gov; USDA NIFA via Grants.gov; NIH eRA Commons;
+      DOE EERE Exchange). Phase II commercialization-plan template per agency. Phase III is commercialization-without-additional-SBIR-funds
+      and is not an application — it is a status / mechanism.
+  narrative_section_patterns:
+  - &id030
+    section_name: Sales Strategy
+    typical_word_count: 500-1200
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-05
+    note: How sales are made — direct sales staff, broker network, distributor recruitment, inbound marketing, trade-show
+      presence, e-commerce funnel. Tied to customer-acquisition-cost math + work-plan tasks.
+  - &id031
+    section_name: Competitive Landscape
+    typical_word_count: 300-800
+    source_citation: https://www.eda.gov/funding/programs/build-to-scale
+    note: Named direct + adjacent + substitute competitors; competitive positioning + defensibility. 'No direct competitors'
+      is a near-universal red flag — reviewers read it as research failure.
+  - &id032
+    section_name: Pricing Strategy
+    typical_word_count: 300-700
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-05
+    note: Cost-plus floor + market-validated ceiling; per-SKU pricing; volume discounts; channel-specific pricing (wholesale
+      vs. direct vs. institutional); promotional pricing rationale. Pair with attached price sheet.
+  - &id033
+    section_name: Financial Projections (typically 3-year, sometimes 5-year)
+    typical_word_count: 500-1500
+    source_citation: pipeline/rubrics/vapg_fy26.json (criterion a.iii must_address)
+    note: Pro-forma income statement, cash-flow projection, balance sheet (where applicable), break-even analysis, customer-base
+      expansion, revenue projections. Each line tied to assumptions + evidence (LOI volume, price sheet, sales history, named
+      benchmarks).
+  - &id034
+    section_name: Commercialization Pathway / SBIR Phase III Plan (where SBIR Phase II / IIB context)
+    typical_word_count: 600-1200
+    source_citation: https://www.sbir.gov/about
+    note: SBIR Phase II commercialization-plan template + Phase III pathway. Phase III is the commercialization stage where
+      the awardee proceeds without further SBIR funding, relying on private equity, debt, customer-funded growth, strategic-partner
+      investment, or other non-federal capital. Section names revenue model, named buyer commitments + commitment artifacts,
+      channel strategy, pricing logic, projected unit economics, follow-on capital plan. Reviewers test whether Phase III
+      post-Phase-II commercialization is credible without additional federal SBIR subsidy.
+  budget_structure_conventions:
+    source_citation: pipeline/rubrics/vapg_fy26.json (matching_requirements)
+  reviewer_profile_typical:
+    reviewer_types:
+    - usda_ams_lamp_review_panel (LAMP merit reviewers — agricultural economists, market specialists, food-systems practitioners)
+    - 'state_doa_scbgp_reviewers (per-state composition: extension specialists, ag-economy specialists, industry representatives)'
+    - eda_regional_office_program_officer (Build to Scale first-tier eligibility + merit)
+    - sba_program_reviewers (entrepreneur-development + impact-evaluation focus)
+    - agriculture_market_specialist (USDA AMS Market News reviewers, state ag economists)
+    - commercialization_reviewer (NSF I-Corps, SBIR Phase II commercialization, EDA Build to Scale)
+    - lender_or_financial_review (where loan guarantee or revenue-projection scrutiny dominant)
+    - buyer_or_industry_practitioner (where peer review by industry insiders — common in foundation buyer-development programs)
+    reviewer_priorities:
+    - Are buyers verified, with signed commitment artifacts at the strongest available rung?
+    - Does production capacity match projected demand, with contingencies for spikes / disruptions?
+    - Is customer acquisition cost named, with the work plan reflecting the acquisition labor and spend?
+    - Does the pro forma reconcile to LOI / contract evidence, sales history, and named industry benchmarks?
+    - Is the work plan exhaustive — every task with timing, accountable person, expense, evidence?
+    - Does the applicant understand the channel they're entering — distributor terms, slotting fees, payment cycles?
+    - Is the competitive landscape honestly mapped, or is the applicant claiming false novelty?
+    note: 'The 10 priorities above are the union across reviewer registers; per-register weighting differs materially (rendered
+      as note prose to avoid schema-extension risk per §18.6 Wave 2 Cycle-2 FIX-IN-PLACE). Federal program-officer register
+      (USDA RD VAPG specialists, USDA AMS LAMP panels, state DOA SCBGP, EDA regional offices, SBA program reviewers) reads
+      buyer-commitment-rung + match-composition + work-plan exhaustiveness early; unit-economics is evaluated rigorously but
+      buyer-commitment evidence often carries decisive weight (especially under VAPG criterion a.iii + criterion c). Business-reviewer
+      / lender / commercialization-reviewer register (commercialization peer reviewers at EDA Build to Scale / SBIR Phase
+      II / NSF I-Corps; agriculture-market specialists; buyer-or-industry practitioners; lender-style review at SBA-context)
+      reads unit-economics + cash-flow + creditworthiness early; buyer-commitment-rung + production-capacity-vs-demand follow;
+      match composition typically last. Scribe should dialect-switch by funder type — do not flatten federal-program-officer
+      priorities onto business-reviewer dialect or vice versa. Note: both registers care about unit economics + buyer-commitment-rung
+      at high priority; the difference is sequencing + relative weighting, not exclusion.'
+    common_red_flags_from_reviewer_pov:
+    - Market-size substitution — TAM presented as obtainable demand
+    - Pro-forma assumptions opaque — revenue projections without underlying volume × price × conversion math
+    - Production capacity insufficient to meet projected demand at peak
+    - CAC ignored or buried — no sales-staff time, marketing spend, broker commission in budget
+    - Pricing below cost (sustainability impossible) or above market (no premium-positioning evidence)
+    - Match commitment uncertain or in-kind only when cash scores higher
+    - Work plan + budget mismatch — orphan tasks or orphan budget lines
+    - Key Personnel without commercial / sales experience for a Working Capital application
+    - '''No direct competitors'' claim'
+    source_citation: pipeline/rubrics/vapg_fy26.json + https://www.ams.usda.gov/services/grants/lamp + https://www.eda.gov/funding/programs/build-to-scale
+  common_portals:
+  - &id035
+    portal: USDA AMS Grants application portal
+    typical_use: USDA AMS-administered programs including LAMP (FMPP / LFPP / RFSP), Specialty Crop Multi-State Program, Acer
+      Access, Sheep Production and Marketing.
+    source_citation: https://www.ams.usda.gov/services/grants
+  - &id036
+    portal: State Department of Agriculture portals (PA, CA CDFA, FL FDACS, MI MDARD, NY NYSDAM, etc.)
+    typical_use: USDA AMS SCBGP federal-pass-through applications submitted through state DOA portals; state ag-marketing
+      programs.
+    source_citation: https://www.nasda.org/policy/state-grants-programs
+  - &id037
+    portal: SBA Lender Match + SBA program portals
+    typical_use: SBA Growth Accelerator Fund Competition + program-specific SBA grant intake. Most SBA market-access support
+      flows through lending channels (7(a), 504, microloan) rather than direct grants.
+    source_citation: https://www.sba.gov/funding-programs/grants
+  - &id038
+    portal: USDA Regional Food Business Center portals (per-regional-center)
+    typical_use: USDA AMS Regional Food Business Center Business Builder subaward applications — each of the 12 regional centers
+      + 1 tribal center publishes its own portal + RFP.
+    source_citation: https://www.ams.usda.gov/services/local-regional/rfbc
+  - portal: SBIR.gov + per-agency SBIR portals
+    typical_use: SBIR / STTR Phase I, Phase II, Phase IIB applications across USDA NIFA, NSF, NIH, DOE, DOD, EPA. Per-agency
+      portals (Research.gov, Grants.gov, eRA Commons, EERE Exchange).
+    source_citation: https://www.sbir.gov/
+  - &id039
+    portal: NSF Research.gov / FastLane
+    typical_use: NSF I-Corps Teams + Hub applications; NSF SBIR applications; NSF Convergence Accelerator commercialization-track
+      applications.
+    source_citation: https://www.research.gov/
+  - &id040
+    portal: Foundant GLM / Submittable / Fluxx
+    typical_use: Foundation Market Access programs (W.K. Kellogg food-systems portfolio, Walton Family Foundation regional
+      food-systems, regional foundation collaboratives) typically platform-hosted.
+    source_citation: https://www.fluxx.io/ + https://www.foundant.com/ + https://www.submittable.com/
+  common_red_flags:
+  - &id041
+    flag: market_size_substitution_tam_for_obtainable
+    severity: HIGH
+    red_team_probe: Walk the chain TAM → SAM → obtainable. What fraction of SAM is realistically reachable in the grant period
+      given production capacity, channel reach, and customer-acquisition rate?
+  - &id042
+    flag: unsupported_revenue_projections
+    severity: HIGH
+    red_team_probe: For each year of the pro forma, name the volume × price × conversion-rate assumptions. Which assumption
+      is most fragile, and what evidence backs it (LOI, sales history, industry benchmark)?
+    source_citation: pipeline/rubrics/vapg_fy26.json (criterion a.iii)
+  - &id043
+    flag: ignored_customer_acquisition_cost
+    severity: HIGH
+    red_team_probe: Per channel, what is the cost per customer acquired (sales staff time, marketing spend, broker commission,
+      slotting fee, sample cost)? Does the work-plan budget reflect this acquisition labor and spend?
+  - &id044
+    flag: pricing_below_cost
+    severity: HIGH
+    red_team_probe: Does revenue per unit cover variable cost per unit + allocated overhead per unit, with defensible margin?
+      Pricing below cost makes the business model unsustainable — reviewers reject.
+  - &id045
+    flag: pricing_above_market_no_premium_positioning
+    severity: MEDIUM
+    red_team_probe: If pricing exceeds competitor benchmarks, what justifies the premium — certification, provenance, brand,
+      relationship? If 'higher quality' without evidence, pricing assumption fails.
+  - &id046
+    flag: no_competitive_analysis_or_no_direct_competitors
+    severity: HIGH
+    red_team_probe: Name three direct competitors + three adjacent + three substitutes. 'No direct competitors' tells the
+      reviewer the applicant has not done market research; even truly novel products have substitutes.
+    source_citation: https://www.eda.gov/funding/programs/build-to-scale
+  - &id047
+    flag: projected_sales_exceed_production_capacity
+    severity: HIGH
+    red_team_probe: Year-by-year, do projected sales unit volumes exceed production capacity? If yes, the projection is fiction;
+      if no, demonstrate the math.
+  reporting_requirements_typical:
+    performance_reporting:
+      frequency: 'semi_annual_federal_typical (USDA VAPG: semi-annual + annual + final + 3-year performance period); annual
+        + final foundation typical'
+      content_required:
+      - Progress against work-plan milestones (buyers contacted, sales meetings held, contracts signed, units sold, revenue,
+        etc.)
+      - Channel development progress (distributors signed, retail accounts opened, institutional accounts won)
+      - Production capacity status (scale-up completion, certifications obtained, inspection findings)
+      - Marketing / outreach metrics (trade shows attended, leads captured, conversion rates)
+      - Variance from work plan + rationale + corrective actions
+      - Lessons learned + market-condition adjustments
+    financial_reporting:
+      frequency: quarterly_federal_typical; quarterly_or_semi_annual_foundation
+      content_required:
+      - SF-425 Federal Financial Report (quarterly federal)
+      - Expenditure by budget category
+      - Burn rate vs. timeline
+      - Match documentation (cash + in-kind, with basis-of-valuation)
+      - Drawdown requests + supporting documentation
+      - Variance explanation
+    final_report_required: true
+    source_citation: 'pipeline/rubrics/vapg_fy26.json (performance_period_max_years: 3) + https://www.ams.usda.gov/services/grants/lamp
+      + https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200'
+    note: 'USDA VAPG: 3-year performance period max; semi-annual + annual + final reports; SF-425 quarterly. USDA LAMP: annual
+      + final per AMS template. USDA AMS SCBGP: per state DOA reporting schedule (varies by state). EDA Build to Scale: quarterly
+      + annual + final per 2 CFR 200. SBA Growth Accelerator: final report. Federal SF-425 + SF-PPR baseline across federal
+      portfolio.'
+  compliance_obligations:
+  - &id048
+    framework: 2 CFR Part 200 (Uniform Guidance)
+    applicability: All federal Market Access grants
+    typical_filings:
+    - SF-425 Federal Financial Report (quarterly)
+    - SF-PPR Performance Progress Report (semi-annual / annual per program)
+    - Single Audit if federal expenditures ≥ $750,000/year (threshold rising to $1M under 2024 update)
+    - Closeout per §200.344 within 120 days of grant end
+    source_citation: https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200
+  - &id049
+    framework: USDA AMS LAMP regulation (7 CFR Part 249 / annual RFA)
+    applicability: USDA Local Agriculture Market Program (FMPP / LFPP / RFSP)
+    typical_filings:
+    - Annual + final performance reports per AMS template
+    - Cost-share documentation (25% non-federal)
+    - SF-425 quarterly
+    source_citation: https://www.ams.usda.gov/services/grants/lamp
+  - &id050
+    framework: USDA AMS SCBGP regulation (7 CFR Part 1291)
+    applicability: USDA Specialty Crop Block Grants (federal pass-through)
+    typical_filings:
+    - Per-state-DOA reporting schedule (varies)
+    - Annual + final performance reports
+    - USDA AMS aggregate state-grantee reporting
+    source_citation: https://www.ams.usda.gov/services/grants/scbgp
+  - &id051
+    framework: FSMA (Food Safety Modernization Act) — where food product
+    applicability: Market Access grants involving food production where applicant is a food facility or farm producing fresh
+      produce subject to Produce Safety Rule
+    typical_filings:
+    - FDA food facility registration (where applicable)
+    - Produce Safety Rule compliance + inspection (FDA + state delegated)
+    - Preventive Controls for Human Food (where applicable)
+    - FSMA Foreign Supplier Verification (where importing)
+    source_citation: https://www.fda.gov/food/guidance-regulation-food-and-dietary-supplements/food-safety-modernization-act-fsma
+  - &id052
+    framework: FFATA (Federal Funding Accountability and Transparency Act)
+    applicability: All federal Market Access grants $30,000+
+    typical_filings:
+    - Sub-award + executive compensation reporting per FFATA Sub-Award Reporting System (FSRS)
+    source_citation: https://www.fsrs.gov/
+  - &id053
+    framework: Build America Buy America (BABA)
+    applicability: Federal infrastructure-tied procurement; some EDA Build to Scale + USDA programs where infrastructure investment
+      occurs
+    typical_filings:
+    - BABA compliance certification + waiver requests where applicable
+    - Domestic content documentation for iron, steel, manufactured products, construction materials
+    source_citation: https://www.transportation.gov/buyamerica
+    note: Current administration emphasizes BABA + domestic supply chain — federal Market Access applicants in infrastructure-adjacent
+      programs should expect BABA compliance language to be reviewed.
+  - &id054
+    framework: State agricultural marketing rules
+    applicability: USDA AMS SCBGP (state-pass-through), state ag-marketing programs
+    typical_filings:
+    - Per-state-DOA reporting + audit per state RFP
+    - State labeling / origin / certification rules where product carries 'Pennsylvania Preferred', 'Jersey Fresh', 'New York
+      Grown & Certified' or similar state mark
+  - &id055
+    framework: Foundation grant agreement (Market Access portfolios)
+    applicability: Foundation Market Access grants (W.K. Kellogg food-systems, Walton regional food-systems, regional collaboratives)
+    typical_filings:
+    - Interim narrative + financial reports per agreement schedule
+    - Final report at grant close
+    - Acknowledgment / branding per agreement
+    - 990-PF transparency — funder publishes award on 990-PF
+  commitment_tracking_pattern:
+    typical_commitments_extracted:
+    - &id056
+      commitment_type: new_markets_entered
+      measurement_method: market name (geographic / channel / customer-segment) + entry date + first-sale date + revenue first
+        90 days
+    - &id057
+      commitment_type: distributors_signed
+      measurement_method: distributor name + agreement date + territory + minimum-volume guarantee + margin split
+    - &id058
+      commitment_type: customer_acquisition_cost_actual
+      measurement_method: 'channel + period + total acquisition spend ÷ customers acquired + variance from budgeted CAC. Sub-components
+        tracked: sales_staff_time (FTE-hours × loaded rate) + marketing_spend (digital ad + print + trade publication) + broker_commission
+        (% of revenue or fixed fee) + slotting_fees / listing_fees (retail / e-commerce channel entry costs) + trade-show
+        / sample / promotional product cost.'
+    - &id059
+      commitment_type: margin_per_unit_actual
+      measurement_method: SKU + channel + period + revenue per unit − variable cost per unit − allocated overhead per unit
+    - &id060
+      commitment_type: gross_margin_total
+      measurement_method: Period + total revenue − total variable cost (COGS including raw materials, packaging, processing
+        labor, freight, broker commission, returns reserve). Gross margin reported aggregate AND by channel × SKU breakdown.
+        VAPG + SBIR Phase II commercialization plans typically request gross margin at both aggregate and channel-level granularity.
+    - &id061
+      commitment_type: net_margin_total
+      measurement_method: Period + gross margin − allocated overhead (rent, equipment depreciation, sales overhead, indirect
+        labor). Net margin reported aggregate AND by channel × SKU breakdown. Reviewers compare net margin trend across reporting
+        periods to validate the pro-forma was credible at award.
+    - &id062
+      commitment_type: jobs_created
+      measurement_method: FTE count + role + hire date + retention status + connection to grant-funded work
+    - &id063
+      commitment_type: production_capacity_milestone
+      measurement_method: capacity expansion description + completion date + new throughput rate + capital invested + match
+        documentation
+    - &id064
+      commitment_type: certification_obtained
+      measurement_method: certification type (GAP / HACCP / SQF / BRC / Organic) + audit date + audit body + scope + cost
+    proposal_commitments_yaml_extension: &id065
+      field_name: market_access_commitments
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-05 + pipeline/rubrics/vapg_fy26.json
+track_b:
+  track_name: sbir_phase_iii
+  track_description: 'SBIR Phase III — commercialization without further SBIR funds. Funding source is private capital + procurement
+    vehicles (sole-source contracts available to SBIR Phase II awardees under the SBIR Phase III authority — no further SBIR
+    competition). Underwriting is commercial: buyer commitments, channel strategy, revenue model, competitive position, delivery
+    capacity, unit economics. Reviewer profile: commercial procurement officers / private investors / strategic partners.
+    Scribe MUST treat Track B as go-to-market drafting (buyer + channel + revenue) NOT R&D drafting. The broader §18.6 v1
+    market_access content (VAPG / SBA / market development / Build to Scale / institutional procurement) is Track-B-shape
+    — it inherits to this track. Phase III is non-competitive sole-source under SBA / agency-specific rules.'
+  underwriting_criteria:
+  - *id001
+  - *id002
+  - *id003
+  - criterion: channel_strategy
+    description: Explicit channel mix — direct-to-consumer, wholesale, institutional (schools, hospitals, government), e-commerce,
+      retail (independent + chain), foodservice, export. Each channel named with addressable buyer count, margin profile,
+      fulfillment requirements, and named accounts where commitments exist. 'Multi-channel' without per-channel detail reads
+      as a hedge.
+    weight_in_typical_rubric: qualitative
+    source_citation: https://www.ams.usda.gov/services/grants/lfpp
+  - criterion: revenue_model
+    description: How revenue is generated, recognized, and grown — pricing model (per-unit, subscription, contract, royalty),
+      payment terms (net-30/60/90, prepay, escrow), refund/return exposure, seasonal cash-flow profile. Reviewers compare
+      proposed revenue model against historical revenue (where available) and named buyer terms.
+    weight_in_typical_rubric: qualitative
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-05
+  - *id004
+  - criterion: delivery_capacity
+    description: Production / fulfillment capacity matched to projected demand — current capacity, planned scale-up (with
+      timing + capital), bottlenecks identified, contingencies for demand spikes or supply disruptions. USDA VAPG criterion
+      a.ii ('Operational efficiency') explicitly requires labor, expertise, facility, equipment, logistics, and risk identification.
+    weight_in_typical_rubric: qualitative
+    source_citation: pipeline/rubrics/vapg_fy26.json (criterion a.ii must_address)
+  - *id005
+  - *id006
+  - *id007
+  - criterion: risk_mitigation
+    description: Named risks with mitigations — buyer concentration (one buyer >30% of revenue), demand seasonality, distribution
+      disruption, raw-material supply variability, competitor entry, regulatory shift, FDA/USDA inspection findings, food-safety
+      recall exposure, climate/weather exposure for ag products. Each risk paired with a named mitigation (diversification
+      timeline, secondary supplier, insurance, certification, reserve fund).
+    weight_in_typical_rubric: qualitative
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-05
+  - *id008
+  scoring_weight_patterns:
+  - rubric_example: USDA Value-Added Producer Grant (VAPG) — FY2026 100-pt rubric (canonical Market Access reference)
+    weights:
+      nature_of_proposed_venture: 30 pts (technological feasibility 10 + operational efficiency 10 + profitability/economic
+        sustainability 10)
+      qualifications_of_key_personnel: 20 pts
+      work_plan_and_budget: 20 pts
+      matching_funds_commitment: 5 pts (cash match scores higher than in-kind)
+      prior_vapg_assistance: 5 pts (no prior award scores highest)
+      priority_points: 10 pts (applicant category + creating marketing opportunities)
+      administrator_priority_categories: 10 pts (capped, discretionary)
+    source_citation: pipeline/rubrics/vapg_fy26.json
+    note: VAPG is the most fully published Market-Access scoring rubric in the federal portfolio; 50-pt minimum to fund. Buyer
+      commitment evidence + market expansion strategy + customer-base expansion + pro-forma financials all map to the 30-pt
+      'Nature of proposed venture' criterion. The full rubric is on disk at pipeline/rubrics/vapg_fy26.json — Judge consults
+      it directly at runtime.
+  - rubric_example: USDA Local Agriculture Market Program (LAMP) umbrella — Farmers Market Promotion (FMPP) / Local Food Promotion
+      (LFPP) / Regional Food System Partnerships (RFSP)
+    weights:
+      project_purpose_and_market_opportunity: weighted
+      project_design_and_management: weighted
+      partnerships_and_buyer_engagement: weighted
+      outcomes_evaluation_and_sustainability: weighted
+      budget_and_match: weighted
+    source_citation: https://www.ams.usda.gov/services/grants/lamp
+    note: LAMP is the AMS-administered umbrella program for FMPP / LFPP / RFSP. Each sub-program has slightly different scoring
+      emphasis; LFPP weights direct-buyer engagement most heavily, FMPP weights market access for producers, RFSP weights
+      coalition / partnership infrastructure. 25% cost share required across LAMP.
+  - *id009
+  - rubric_example: EDA Build to Scale (Venture Challenge / Capital Challenge)
+    weights:
+      strategy_and_innovation: weighted
+      capacity_and_partnerships: weighted
+      impact_and_outcomes: weighted
+      sustainability_and_match: weighted
+    source_citation: https://www.eda.gov/funding/programs/build-to-scale
+    note: Build to Scale requires 50% non-federal match. For Market Access applicants, the Venture Challenge (capacity-building
+      for tech-based-economic-development organizations) and Capital Challenge (operational support to equity-based investment
+      funds) both treat regional commercialization ecosystem strength as the primary lever. Sustainability of the regional
+      innovation ecosystem heavily weighted.
+  - rubric_example: SBA Growth Accelerator Fund Competition (GAFC)
+    weights:
+      innovation: weighted
+      impact: weighted
+      sustainability: weighted
+    source_citation: https://www.sba.gov/article/2024/may/01/sba-launches-2024-growth-accelerator-fund-competition-incentivizing-innovation-investment
+    note: SBA GAFC awards cash prizes to accelerators / incubators that support entrepreneurs. Recent rounds emphasize underrepresented
+      founder reach (R&D Track) + technology commercialization (Investment Track). No match required; cash awards in $50K-$200K
+      range typically.
+  - *id010
+  - rubric_example: USDA Farm to School Grant Program (FNS-administered)
+    weights:
+      project_design_and_planning: weighted
+      community_engagement_and_partnerships: weighted
+      project_outcomes_and_measurement: weighted
+      organizational_capacity: weighted
+      budget_appropriateness: weighted
+    source_citation: https://www.fns.usda.gov/cfs/farm-school-grant-program
+    note: Farm to School is institutional-procurement Market Access — connects producers to school food authorities. Planning
+      + Implementation + Training + Turnkey tracks; scoring emphasizes the producer-to-buyer relationship infrastructure.
+  - rubric_example: USDA Regional Food Business Centers (RFBC) — coordination + technical-assistance hub network
+    weights:
+      coordination_and_outreach: weighted
+      business_builder_subaward_design: weighted
+      regional_food_system_strengthening: weighted
+      partnership_breadth: weighted
+      sustainability_and_match: weighted
+    source_citation: https://www.ams.usda.gov/services/local-regional/rfbc
+    note: Regional Food Business Centers are USDA AMS hub-and-spoke network providing coordination + technical assistance
+      + Business Builder subawards (up to $100K) to small / mid-tier food and farm businesses scaling buyer relationships.
+      Twelve regional centers + one tribal center awarded 2023-2024. Direct Market Access funding flows through Business Builder
+      subaward applications to a regional center, not direct federal Grants.gov submission.
+  - *id011
+  - *id012
+  evidence_weights:
+    buyer_letters_of_intent: *id013
+    purchase_orders_or_contracts:
+      weight: HIGH
+      rationale: Strongest demand evidence — already-signed PO or contract. USDA VAPG, USDA LAMP, EDA Build to Scale, and
+        most foundation buyer-development programs treat these as evidence-of-record.
+      source_citation: pipeline/rubrics/vapg_fy26.json
+    sales_history:
+      weight: HIGH
+      rationale: Last 1-3 years of revenue by channel + customer + product line. For VAPG and similar programs, historical
+        sales anchor the pro-forma projection; absence of history forces the projection to lean entirely on LOI strength.
+      source_citation: 'pipeline/rubrics/vapg_fy26.json (criterion a.iii must_address: ''Historical financial summary (if
+        applicable)'')'
+    customer_pipeline: *id014
+    distributor_agreements:
+      weight: MEDIUM
+      rationale: 'Signed agreements with distributors, brokers, fulfillment partners. Critical for scaling beyond direct-to-consumer;
+        reviewers check for exclusivity terms, margin splits, payment terms, and minimum-volume guarantees. Weight canonicalized
+        to MEDIUM at Wave 2 Cycle-2 FIX-IN-PLACE per §18.6 enum (HIGH | MEDIUM | LOW). Nuance: at VAPG / LAMP / EDA Build
+        to Scale specifically, signed distributor agreements WITH minimum-volume guarantees often score closer to HIGH-tier
+        evidence; absent guarantees they score solidly MEDIUM. Scribe should attach guarantees + margin splits + payment terms
+        when present so the in-context weighting elevates appropriately.'
+    market_study: *id015
+    price_sheet: *id016
+    production_capacity_proof:
+      weight: HIGH
+      rationale: Documentation that production capacity meets projected demand — facility specs, equipment list with throughput
+        rates, labor plan, third-party processor agreements, FDA / USDA inspection status, food-safety certifications (GAP,
+        HACCP, SQF, BRC). VAPG criterion a.ii treats this as load-bearing.
+      source_citation: pipeline/rubrics/vapg_fy26.json (criterion a.ii)
+    revenue_projections_with_assumptions: *id017
+    customer_interviews:
+      weight: MEDIUM
+      rationale: Direct quotes + paraphrased findings from prospective customer interviews supporting demand claims. Higher
+        weight when interview methodology is documented (sample size, recruitment, question protocol). Treated as supporting
+        evidence — does not substitute for buyer commitment artifacts.
+    channel_partner_letters: *id018
+    cost_of_acquisition_documentation: *id019
+    business_or_marketing_plan:
+      weight: HIGH
+      rationale: Written business plan or marketing plan as supporting attachment. USDA VAPG Working Capital track requires
+        either Feasibility Study or Business / Marketing Plan completed by Qualified Consultant prior to Working Capital application;
+        Planning Grant track funds the creation of these artifacts.
+      source_citation: https://www.rd.usda.gov/programs-services/business-programs/value-added-producer-grants
+    feasibility_study: *id020
+  common_application_forms:
+  - form_id: SF-424 (Application for Federal Assistance)
+    form_version: OMB Approved (annual revision)
+    required_for: All federal Market Access grants routed through Grants.gov (USDA VAPG, USDA LAMP, USDA AMS SCBGP federal
+      pass-through, EDA Build to Scale, SBA grant programs, USDA Farm to School)
+    source: https://www.grants.gov/forms/sf-424-family.html
+  - form_id: SF-424A (Budget Information — Non-Construction Programs)
+    form_version: OMB Approved
+    required_for: Federal non-construction Market Access grants — VAPG, LAMP, SCBGP, Farm to School
+    source: https://www.grants.gov/forms/sf-424-family.html
+  - *id021
+  - *id022
+  - form_id: USDA VAPG online application
+    form_version: Per FY NOFO; submitted via Grants.gov Workspace
+    required_for: USDA Value-Added Producer Grants
+    source: https://www.rd.usda.gov/programs-services/business-programs/value-added-producer-grants
+    note: 'FY2026 deadline 2026-04-22 per pipeline/rubrics/vapg_fy26.json. Two grant types: Planning ($50K cap) and Working
+      Capital ($200K cap). 1:1 cash + in-kind match required; cash match scores higher than in-kind (criterion d, 5 pts).'
+  - *id023
+  - *id024
+  - *id025
+  - *id026
+  - *id027
+  - *id028
+  - *id029
+  - form_id: NSF I-Corps Teams / Hub application
+    form_version: Per NSF FastLane / Research.gov per cohort
+    required_for: NSF I-Corps Teams + NSF I-Corps Hub programs (customer-discovery-driven commercialization training)
+    source: https://new.nsf.gov/funding/opportunities/innovation-corps-teams
+    note: Application requires Entrepreneurial Lead + Industry Mentor + Principal Investigator team structure; National Innovation
+      Network hub program for cohort-based training.
+  - form_id: Foundation buyer-development / commercialization templates (Foundant / Submittable / Fluxx / custom)
+    form_version: Per-foundation, platform-hosted
+    required_for: Foundation programs supporting buyer-development / market-access / commercialization (W.K. Kellogg Foundation
+      food-systems portfolio, Walton Family Foundation regional food-systems work, regional foundation collaboratives)
+    source: https://www.fluxx.io/
+    note: Most foundation Market-Access funders use Fluxx, Foundant GLM, or Submittable as the platform. Per-foundation forms
+      vary; LOI-first applications common.
+  narrative_section_patterns:
+  - section_name: Executive Summary / Project Abstract
+    typical_word_count: 300-500
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-05
+    note: Problem, applicant, market opportunity, ask, expected outcomes. VAPG and LAMP both require an abstract / project
+      summary near the front of the application.
+  - section_name: Market Opportunity
+    typical_word_count: 500-1200
+    source_citation: https://www.ams.usda.gov/services/grants/lamp
+    note: Defined target market with TAM → SAM → obtainable arithmetic; market size sources cited; trends + growth drivers;
+      opportunity-window justification (why now). VAPG criterion a.iii reviewers read this section for market expansion strategy.
+  - section_name: Customer Profile / Buyer Identification
+    typical_word_count: 400-1000
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-05
+    note: Named buyer segments + profiles; named prospect / customer accounts where commitments exist; buyer decision-makers
+      + decision criteria. Strong customer profiles tie directly to attached LOI / PO / contract evidence.
+  - *id030
+  - section_name: Distribution and Channels
+    typical_word_count: 400-1000
+    source_citation: https://www.ams.usda.gov/services/grants/lamp
+    note: Channel mix detail — direct, wholesale, institutional, e-commerce, retail, foodservice, export. Per-channel addressable
+      buyer count, margin profile, fulfillment requirements. Distributor / broker agreements attached as evidence.
+  - *id031
+  - *id032
+  - section_name: Production Capacity
+    typical_word_count: 400-1000
+    source_citation: pipeline/rubrics/vapg_fy26.json (criterion a.ii)
+    note: Current capacity, planned scale-up with timing + capital, bottleneck identification, contingencies. VAPG criterion
+      a.ii ('Operational efficiency') treats this as a 10-pt section — labor, expertise, facility, equipment, logistics, risks
+      all required.
+  - *id033
+  - section_name: Risk and Mitigation
+    typical_word_count: 300-700
+    source_citation: 'pipeline/rubrics/vapg_fy26.json (criterion a.ii must_address: ''Anticipated challenges or risks'')'
+    note: Buyer concentration, demand seasonality, distribution disruption, raw-material variability, competitor entry, regulatory
+      shift, food-safety exposure, climate exposure. Each risk + named mitigation.
+  - section_name: Work Plan and Timeline
+    typical_word_count: 600-1500
+    source_citation: pipeline/rubrics/vapg_fy26.json (criterion c)
+    note: Detailed task / activity breakdown with timing, accountable Key Personnel, expense breakdown, sources/uses of grant
+      + matching funds. VAPG criterion c (20 pts) requires this be exhaustive — orphan tasks or orphan budget lines lose points.
+  - section_name: Key Personnel / Qualifications
+    typical_word_count: 400-1000
+    source_citation: pipeline/rubrics/vapg_fy26.json (criterion b)
+    note: Named Key Personnel for each major activity with relevant experience. VAPG criterion b (20 pts) — unfilled positions
+      must specify required qualifications. Resumes / CVs as attachments.
+  - section_name: Budget Justification / Narrative
+    typical_word_count: 500-1500
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-05
+    note: Per-line budget rationale tied to work-plan tasks; sources/uses; basis of valuation for cash + in-kind match (where
+      applicable). VAPG cash match scores higher than in-kind under criterion d (5 pts).
+  - *id034
+  budget_structure_conventions:
+    direct_cost_categories:
+    - personnel (sales / marketing / business-development staff)
+    - fringe_benefits
+    - consultants_and_contractual (brokers, distributors, marketing agencies, qualified consultants for VAPG feasibility /
+      business plan work)
+    - marketing_and_advertising (digital ad spend, trade publications, sample / promotional product, brochure design)
+    - trade_shows_and_industry_events (booth fees, travel, sample product, lead-capture tools)
+    - travel (sales calls, buyer meetings, trade shows)
+    - equipment (production scale-up; for VAPG Working Capital track equipment is allowable; for many LAMP contexts equipment
+      is restricted)
+    - supplies (sample product, packaging prototypes, market-research data subscriptions)
+    - training_and_certification (food-safety certifications, GAP / HACCP / SQF audits, organic certification — where required
+      for buyer eligibility)
+    - indirect_costs (per program rules)
+    indirect_cost_treatment: 'Federal Market Access programs honor recipient''s federally negotiated rate or de minimis 10%
+      MTDC per 2 CFR 200.414. USDA VAPG: indirect allowable per recipient''s negotiated rate or de minimis. USDA LAMP: indirect
+      capped per FY RFA (often 25% of total project costs or equivalent). USDA AMS SCBGP: per state-DOA RFP (state determines
+      indirect treatment). EDA Build to Scale: federally-negotiated rate. Foundation Market Access programs typically cap
+      10-15%; some (W.K. Kellogg food-systems portfolio) honor higher. Operator must check each NOFO + state RFP.'
+    match_requirements_typical: 'USDA VAPG: 1:1 match required (cash + in-kind); cash scores higher than in-kind under criterion
+      d (5 pts); federal funds prohibited as match per pipeline/rubrics/vapg_fy26.json. USDA LAMP: 25% non-federal cost share.
+      USDA AMS SCBGP: state-DOA-pass-through varies; typically no federal match required but state may encourage. EDA Build
+      to Scale: 50% non-federal match (cash + in-kind acceptable). SBA Growth Accelerator: cash awards no match. State ag-marketing
+      programs: typically 10-50% match.'
+    source_citation: pipeline/rubrics/vapg_fy26.json (matching_requirements)
+  reviewer_profile_typical:
+    reviewer_types:
+    - usda_rd_state_office_program_specialist (VAPG criterion d + e + f scoring; first-tier review)
+    - usda_rd_business_programs_review_panel (VAPG criterion a + b + c scoring; merit panel)
+    - usda_ams_lamp_review_panel (LAMP merit reviewers — agricultural economists, market specialists, food-systems practitioners)
+    - 'state_doa_scbgp_reviewers (per-state composition: extension specialists, ag-economy specialists, industry representatives)'
+    - eda_regional_office_program_officer (Build to Scale first-tier eligibility + merit)
+    - eda_economic_development_review_panel (regional ecosystem + commercialization focus)
+    - sba_program_reviewers (entrepreneur-development + impact-evaluation focus)
+    - agriculture_market_specialist (USDA AMS Market News reviewers, state ag economists)
+    - commercialization_reviewer (NSF I-Corps, SBIR Phase II commercialization, EDA Build to Scale)
+    - lender_or_financial_review (where loan guarantee or revenue-projection scrutiny dominant)
+    - buyer_or_industry_practitioner (where peer review by industry insiders — common in foundation buyer-development programs)
+    reviewer_priorities:
+    - Are buyers verified, with signed commitment artifacts at the strongest available rung?
+    - Does the channel strategy survive scrutiny — per-channel buyer count, margin, fulfillment, named accounts?
+    - Do unit economics work — does the per-unit margin cover variable + allocated overhead with defensible assumptions?
+    - Does production capacity match projected demand, with contingencies for spikes / disruptions?
+    - Is customer acquisition cost named, with the work plan reflecting the acquisition labor and spend?
+    - Does the pro forma reconcile to LOI / contract evidence, sales history, and named industry benchmarks?
+    - Is the work plan exhaustive — every task with timing, accountable person, expense, evidence?
+    - 'Does cash match meet program rules (VAPG: cash > in-kind; EDA: 50% non-federal; LAMP: 25%)?'
+    - Does the applicant understand the channel they're entering — distributor terms, slotting fees, payment cycles?
+    - Is the competitive landscape honestly mapped, or is the applicant claiming false novelty?
+    note: 'The 10 priorities above are the union across reviewer registers; per-register weighting differs materially (rendered
+      as note prose to avoid schema-extension risk per §18.6 Wave 2 Cycle-2 FIX-IN-PLACE). Federal program-officer register
+      (USDA RD VAPG specialists, USDA AMS LAMP panels, state DOA SCBGP, EDA regional offices, SBA program reviewers) reads
+      buyer-commitment-rung + match-composition + work-plan exhaustiveness early; unit-economics is evaluated rigorously but
+      buyer-commitment evidence often carries decisive weight (especially under VAPG criterion a.iii + criterion c). Business-reviewer
+      / lender / commercialization-reviewer register (commercialization peer reviewers at EDA Build to Scale / SBIR Phase
+      II / NSF I-Corps; agriculture-market specialists; buyer-or-industry practitioners; lender-style review at SBA-context)
+      reads unit-economics + cash-flow + creditworthiness early; buyer-commitment-rung + production-capacity-vs-demand follow;
+      match composition typically last. Scribe should dialect-switch by funder type — do not flatten federal-program-officer
+      priorities onto business-reviewer dialect or vice versa. Note: both registers care about unit economics + buyer-commitment-rung
+      at high priority; the difference is sequencing + relative weighting, not exclusion.'
+    common_red_flags_from_reviewer_pov:
+    - Buyer 'interest' letters with no volume / price / term
+    - Market-size substitution — TAM presented as obtainable demand
+    - Pro-forma assumptions opaque — revenue projections without underlying volume × price × conversion math
+    - Production capacity insufficient to meet projected demand at peak
+    - CAC ignored or buried — no sales-staff time, marketing spend, broker commission in budget
+    - Pricing below cost (sustainability impossible) or above market (no premium-positioning evidence)
+    - Single-buyer concentration with no diversification timeline
+    - Distribution unsolved — 'we will find distributors' is not a channel strategy
+    - Match commitment uncertain or in-kind only when cash scores higher
+    - Work plan + budget mismatch — orphan tasks or orphan budget lines
+    - Key Personnel without commercial / sales experience for a Working Capital application
+    - '''No direct competitors'' claim'
+    source_citation: pipeline/rubrics/vapg_fy26.json + https://www.ams.usda.gov/services/grants/lamp + https://www.eda.gov/funding/programs/build-to-scale
+  common_portals:
+  - portal: Grants.gov / Workspace
+    typical_use: Federal Market Access NOFOs — USDA VAPG, USDA LAMP (FMPP / LFPP / RFSP), USDA Farm to School, EDA Build to
+      Scale, SBA grants. Workspace required for collaborative proposal assembly.
+    source_citation: https://www.grants.gov/
+  - portal: SAM.gov
+    typical_use: Required for any federal Market Access application — UEI + active SAM.gov registration must be current at
+      submission and award. VAPG explicitly requires SAM registration through review and award period.
+    source_citation: https://sam.gov/
+  - portal: USDA Rural Development eForms / portal
+    typical_use: USDA RD program-specific submissions including VAPG follow-on documentation and reporting.
+    source_citation: https://www.rd.usda.gov/
+  - *id035
+  - *id036
+  - portal: EDA online application (via Grants.gov Workspace + EDA-specific portals)
+    typical_use: EDA Build to Scale Venture Challenge + Capital Challenge; EDA Public Works (where commercialization-tied).
+    source_citation: https://www.eda.gov/funding/apply
+  - *id037
+  - *id038
+  - *id039
+  - *id040
+  common_red_flags:
+  - flag: no_buyer_commitment_only_interest
+    severity: HIGH
+    red_team_probe: For each named buyer, what is the strongest commitment artifact — signed PO, signed contract, signed LOI
+      with volume/price/term, or only 'interest'? Quantify the difference for the funder; an 'interest' letter is not demand
+      evidence.
+    source_citation: https://www.rd.usda.gov/programs-services/business-programs/value-added-producer-grants
+  - *id041
+  - *id042
+  - flag: unsolved_distribution
+    severity: HIGH
+    red_team_probe: How does product reach the buyer — direct shipping, broker-distributor network, retail-DC pull, foodservice
+      broker, e-commerce fulfillment? Name the partners or build the in-house capability in the work plan with budget.
+  - *id043
+  - flag: production_capacity_insufficient_for_projected_demand
+    severity: HIGH
+    red_team_probe: At projected peak demand (year 2 or 3 of the pro forma), does production capacity meet it — current facility,
+      scale-up capital + timing, third-party processing, inspection / certification status? VAPG criterion a.ii reviewers
+      run this arithmetic.
+    source_citation: pipeline/rubrics/vapg_fy26.json (criterion a.ii)
+  - *id044
+  - *id045
+  - *id046
+  - *id047
+  - flag: single_buyer_concentration_no_diversification
+    severity: HIGH
+    red_team_probe: If one buyer represents >30% of projected revenue, what is the concentration timeline (declining over
+      years) and what is the diversification plan (named additional buyers, channel expansion)?
+  - flag: unfilled_key_personnel_no_qualifications
+    severity: MEDIUM
+    red_team_probe: For unfilled Key Personnel positions, are required qualifications specifically described per VAPG criterion
+      b? Vague 'will hire experienced sales person' loses points.
+    source_citation: pipeline/rubrics/vapg_fy26.json (criterion b)
+  - flag: in_kind_only_match_when_cash_scores_higher
+    severity: MEDIUM
+    red_team_probe: Under VAPG criterion d, cash match scores up to 5 pts; in-kind only scores 0. Is the cash portion maximized
+      within the applicant's capacity? In-kind cannot substitute for cash after award.
+    source_citation: pipeline/rubrics/vapg_fy26.json (criterion d)
+  - flag: work_plan_budget_mismatch
+    severity: HIGH
+    red_team_probe: For each work-plan task, is there a corresponding budget line? For each budget line, is there a corresponding
+      task? VAPG criterion c (20 pts) requires both directions — orphan tasks + orphan budget lines lose points.
+    source_citation: pipeline/rubrics/vapg_fy26.json (criterion c)
+  - flag: qualified_consultant_missing_for_vapg_planning_or_working_capital_pre_req
+    severity: HIGH
+    red_team_probe: For VAPG Working Capital track, is the Feasibility Study or Business/Marketing Plan completed by Qualified
+      Consultant on file? For Planning Grant, is the Qualified Consultant identified for the deliverable? Required, not optional.
+    source_citation: pipeline/rubrics/vapg_fy26.json (planning_scope + working_capital_ready)
+  - flag: third_party_consultant_costs_exceed_15_percent_disqualifying_administrator_priority
+    severity: MEDIUM
+    red_team_probe: Under VAPG criterion g (Administrator priority categories), third-party professional services > 15% of
+      grant amount disqualifies from administrator priority points (10 pts available). Calculate the consultant cost ratio.
+    source_citation: pipeline/rubrics/vapg_fy26.json (criterion g disqualifier)
+  reporting_requirements_typical:
+    performance_reporting:
+      frequency: 'semi_annual_federal_typical (USDA VAPG: semi-annual + annual + final + 3-year performance period); annual
+        + final foundation typical'
+      content_required:
+      - Progress against work-plan milestones (buyers contacted, sales meetings held, contracts signed, units sold, revenue,
+        etc.)
+      - Buyer commitment status updates (LOIs converted to POs, POs converted to contracts, repeat purchase data)
+      - Channel development progress (distributors signed, retail accounts opened, institutional accounts won)
+      - Production capacity status (scale-up completion, certifications obtained, inspection findings)
+      - Marketing / outreach metrics (trade shows attended, leads captured, conversion rates)
+      - Match documentation (cash + in-kind expenditures matching grant burn rate or ahead per VAPG criterion c requirement)
+      - Variance from work plan + rationale + corrective actions
+      - Lessons learned + market-condition adjustments
+    financial_reporting:
+      frequency: quarterly_federal_typical; quarterly_or_semi_annual_foundation
+      content_required:
+      - SF-425 Federal Financial Report (quarterly federal)
+      - Expenditure by budget category
+      - Burn rate vs. timeline
+      - Match documentation (cash + in-kind, with basis-of-valuation)
+      - Drawdown requests + supporting documentation
+      - Variance explanation
+    final_report_required: true
+    source_citation: 'pipeline/rubrics/vapg_fy26.json (performance_period_max_years: 3) + https://www.ams.usda.gov/services/grants/lamp
+      + https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200'
+    note: 'USDA VAPG: 3-year performance period max; semi-annual + annual + final reports; SF-425 quarterly. USDA LAMP: annual
+      + final per AMS template. USDA AMS SCBGP: per state DOA reporting schedule (varies by state). EDA Build to Scale: quarterly
+      + annual + final per 2 CFR 200. SBA Growth Accelerator: final report. Federal SF-425 + SF-PPR baseline across federal
+      portfolio.'
+  compliance_obligations:
+  - *id048
+  - framework: USDA Rural Development VAPG regulation (7 CFR Part 4284 Subpart J)
+    applicability: USDA Value-Added Producer Grants
+    typical_filings:
+    - Application content per 7 CFR 4284.931-933
+    - Project start within 90 days of award
+    - Funds exhausted + final reports submitted before any subsequent VAPG application
+    - Quarterly + annual + final performance reports
+    - Match documentation per 7 CFR 4284 + 2 CFR 200.306
+    source_citation: pipeline/rubrics/vapg_fy26.json (key_regulations)
+  - *id049
+  - *id050
+  - *id051
+  - *id052
+  - *id053
+  - framework: TTB regulations (where alcohol)
+    applicability: VAPG and similar where value-added product is alcoholic
+    typical_filings:
+    - TTB compliance per 27 CFR Chapter 1
+    - Federal alcohol producer permit before product sale
+    source_citation: pipeline/rubrics/vapg_fy26.json (alcohol_projects)
+  - framework: Hemp licensing (where hemp)
+    applicability: VAPG and similar where value-added product is hemp
+    typical_filings:
+    - Valid active state or USDA hemp license before award
+    source_citation: pipeline/rubrics/vapg_fy26.json (hemp_projects)
+  - *id054
+  - *id055
+  commitment_tracking_pattern:
+    typical_commitments_extracted:
+    - commitment_type: buyers_contacted
+      measurement_method: buyer name + contact date + channel + outreach mode + initial response
+    - commitment_type: buyers_converted
+      measurement_method: buyer name + commitment artifact (LOI / PO / contract) + execution date + value + term
+    - commitment_type: sales_meetings_held
+      measurement_method: meeting count + buyer accounts + meeting type (intro / pitch / negotiation / close) + outcome
+    - commitment_type: contracts_signed
+      measurement_method: buyer name + contract execution date + value + duration + payment terms
+    - commitment_type: units_sold
+      measurement_method: SKU + channel + buyer + unit count + period + revenue (ties to financial reporting)
+    - commitment_type: revenue
+      measurement_method: by channel + by buyer + by SKU + period + cumulative-against-projection
+    - *id056
+    - *id057
+    - commitment_type: repeat_purchases
+      measurement_method: buyer name + first purchase date + repeat purchase dates + cumulative revenue + repeat rate
+    - *id058
+    - *id059
+    - *id060
+    - *id061
+    - *id062
+    - *id063
+    - *id064
+    proposal_commitments_yaml_extension: *id065
+    source_citation: blueprint:section_18_card_system.md#§18.10-CLC-05 + pipeline/rubrics/vapg_fy26.json
+_review_handback:
+  card_axis_and_slug: CLC:market_access
+  card_file: pipeline/cards/CLC/market_access.yaml
+  research_hours_actual: 3.0
+  schema_completeness:
+    required_fields_populated: 15/15
+    fields_needing_review: 0
+    total_citations: 47
+    unique_primary_sources: 17
+  decision_queue:
+  - admin_risk_register.yaml v2.3 follow-on dispatch — 15 CLC-05-scoped terms (scalability, growth, market disruption, competitive
+    advantage, import substitution, domestic supply chain, buy american, underserved market, underrepresented founders, value-added,
+    local food system, food sovereignty, regional food system, values-based supply chain, commercialization) need migration
+    to the workspace-wide register at pipeline/institutional_memory/admin_risk_register.yaml with operator_approval_token
+    + admin-risk approval flow. Same path as Wave 1 operating_capacity (OD-1 path (a)) + Wave 2 catalytic_change Cycle-2 fix-in-place.
+    The 15-entry admin_risk_term_register block was REMOVED from this card at Wave 2 Cycle-2 FIX-IN-PLACE (2026-05-16) per
+    row-170 + §18.6 CLC-schema enforcement. Federal-vs-foundation dialect split (Buy America / domestic supply chain / import
+    substitution PREFERRED in current-admin federal contexts; regional food system / values-based supply chain / food sovereignty
+    PREFERRED in foundation regional-food-systems contexts) remains the load-bearing decision and gets carried into the workspace-wide
+    register migration.
+  - Cross-family Thesis dispatch (Editor + Judge + Red Team via openclaw bridge per AGENTS.md) before promoting lifecycle
+    to 'reviewed'.
+  - Ed25519 signature once operator + Thesis pass — pending publisher key pin per architecture v7.0.11 §6.1 (mirrors v7.0.7
+    router-template trust mechanism).
+  - 'scoring_weight_patterns: VAPG rubric is fully published at pipeline/rubrics/vapg_fy26.json with numeric weights (100
+    pts / 7 criteria); card cites the rubric structurally (qualitative weights per Wave 1 OQ-6 carry-over) but Judge can read
+    the numeric rubric directly at runtime. Confirm this split is the right runtime posture, or surface VAPG-specific numeric
+    weights in a v0.2 amendment as the first quantified Market-Access rubric.'
+  - 'USDA VAPG-vs-LAMP-vs-SCBGP buyer-evidence depth split: VAPG weights buyer commitment most heavily (criterion a.iii +
+    criterion c); LAMP weights direct-buyer engagement (LFPP) or partnership infrastructure (RFSP); SCBGP weights enhancing-specialty-crop-competitiveness
+    (state-DOA-defined). Confirm Tilth''s Scout / Judge handles the per-program emphasis difference at runtime, or surface
+    as a v0.2 funder-specific underwriting overlay.'
+  - 'Buy America / domestic supply chain framing under current admin: card captures 2026-05-15 snapshot. Confirm Tilth defaults
+    to substitute-and-flag or retain-and-flag at federal-routed cycles; v0.2 Lessons Memory may need a per-funder override
+    mechanism. Specifically critical for Market Access where infrastructure-tied federal programs (some EDA, some USDA RD)
+    trigger BABA compliance language review.'
+  - 'State agricultural marketing programs: 50-state landscape captured at high level with NASDA aggregator + PA SCBGP example.
+    Surface a v0.2 state-program detail expansion if Scout discovery reveals high-value state programs not currently surfaced
+    (e.g., NY Grown & Certified, MA Massachusetts Food Trust, CDFA Healthy Refrigeration).'
+  - 'VAPG Qualified Consultant requirement: Working Capital track requires Feasibility Study or Business / Marketing Plan
+    completed by Qualified Consultant prior to application; Planning Grant track funds the artifact creation. Confirm Tilth
+    surface flags this prerequisite at Scout / Intake before drafting.'
+  conflicts_with_prior_art:
+  - 'NONE — admin_risk_register.yaml entries (where overlap with prior CLC contexts) reused with consistent severity tiers.
+    NEW CLC-05-scoped entries added here; if any belong in the workspace-wide register, that''s a separate operator decision.
+    Specifically: ''scalability'' is in CLC-03 register (CLC-03 noted as re-used here in market context); other Market-Access-specific
+    terms (growth, market disruption, competitive advantage, import substitution, domestic supply chain, buy american, underserved
+    market, underrepresented founders, value-added, local food system, food sovereignty, regional food system, values-based
+    supply chain, commercialization) are new at CLC-05.'
+  surface_ambiguities:
+  - 'Verbatim-quote sourcing: several quotes paraphrase the substance of funder materials at the URL rather than copying verbatim.
+    Strict-verbatim verification is a Phase 4 deepening step before LOCK; for research-draft purposes the URL + access_date
+    pin the source and the paraphrase captures the operative claim.'
+  - VAPG FY2026 deadline 2026-04-22 has already passed at card authoring date 2026-05-15 — VAPG is annual; FY2027 NOFO will
+    publish on USDA RD calendar. Card cites the regulation (7 CFR 4284 Subpart J) as durable; per-FY NOFO references should
+    attach at runtime via Scout.
+  - USDA AMS SCBGP per-state variance is substantial — card captures PA DOA as one example. CDFA, FDACS, MDARD, NYSDAM, and
+    45 other state DOAs each have distinct RFPs, scoring, deadlines, award ranges. v0.2 may benefit from per-state SCBGP overlay
+    cards OR a runtime state-RFP fetcher in Scout.
+  - EDA Build to Scale eligible-applicant scope is narrow (TBED organizations + non-profit equity-based investment funds)
+    — card captures the 50% match + ecosystem-strength weighting but Scout / Judge must verify applicant eligibility (CIC
+    × applicant-type intersection) at runtime. This is opportunity-driven, not coupling — the applicant entity-type check
+    is part of the Scout VERIFY stage.
+  - SBA Growth Accelerator Fund Competition is competitively scarce + episodic — typical award range $50K-$200K; recent rounds
+    emphasize underrepresented-founder reach (R&D Track) + technology commercialization (Investment Track). Card captures
+    the structural pattern; per-round eligibility + scoring should attach at runtime.
+  - 'Foundation Market Access portfolios are heterogeneous: W.K. Kellogg Foundation food-systems, Walton Family Foundation
+    regional food-systems, regional foundation collaboratives, Wallace Center, NewVenture Fund (where applicable). Card captures
+    the structural pattern; per-foundation rubric + LOI templates are attached at runtime via Scout.'
+  - 'Sibling Wave 2 CIC + CLC firing in parallel — once educator, public_agency, arts_culture, cooperative, ecosystem_intermediary
+    CICs and the other 6 CLCs land, verify no inadvertent CIC × CLC coupling appears across the set (defense-in-depth). Specifically:
+    Food Systems CIC + Market Access CLC is a high-frequency pairing in operator-context but the cards must not encode that
+    as preference.'
+  - 'Buyer commitment evidence-rung hierarchy (PO > contract > LOI with volume/price/term > LOI with volume only > expression
+    of interest): card captures the rung framing in evidence_weights. Confirm Tilth surface presents the rung hierarchy to
+    applicants during Intake so they can pursue stronger-rung evidence before drafting.'
+  - 'Match-funds prohibition: VAPG explicitly prohibits federal funds as match (pipeline/rubrics/vapg_fy26.json matching_requirements.federal_match_prohibited:true).
+    Some CIC operators may have other federal grants in flight that complicate match composition; Logician should pre-flight
+    check match composition for federal-funds-as-match leak.'
+  review_readiness: READY

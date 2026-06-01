@@ -1,0 +1,132 @@
+# Admin-Risk Register — v1
+# Logician Gate 4 reference — flagged terms with severity tiers
+# Law 4: Logician flags but NEVER rewrites. Applicant approves EVERY substitution.
+# Severity: RED = documented pull, YELLOW = agency memo, GREEN = precautionary
+
+entries:
+
+  # RED — Documented cases of funding pulled, rescinded, or flagged
+  - term: "DEI"
+    severity: RED
+    context: "Executive orders in 2025-2026 targeting DEI programs in federal grants"
+    documented_action: "Multiple federal agencies directed to remove DEI-related criteria from grant reviews"
+    alternatives: ["workforce development", "broad participation", "inclusive access", "community representation"]
+    notes: "Acronym and spelled-out form both flagged"
+    variants: ["diversity equity inclusion", "diversity, equity, and inclusion", "D.E.I."]
+
+  - term: "equity"
+    severity: RED
+    context: "When used as standalone policy term in federal applications"
+    documented_action: "Federal grant reviewers instructed to flag equity-focused framing"
+    alternatives: ["access", "opportunity", "fairness", "broad participation"]
+    notes: "Context-dependent — 'equity' in financial context (owner's equity) is fine. Flag only when used as social/policy framing."
+    variants: ["equitable", "inequity", "inequitable"]
+
+  - term: "environmental justice"
+    severity: RED
+    context: "Term flagged in EPA and DOE grant programs under current administration"
+    documented_action: "EPA EJ programs restructured; term discouraged in applications"
+    alternatives: ["environmental protection", "community environmental health", "pollution reduction", "clean air and water access"]
+    variants: ["EJ"]
+
+  - term: "climate justice"
+    severity: RED
+    context: "Flagged alongside environmental justice"
+    documented_action: "Term removed from multiple federal program descriptions"
+    alternatives: ["climate resilience", "weather preparedness", "agricultural adaptation", "resource conservation"]
+    variants: ["climate equity"]
+
+  # YELLOW — Agency memos or guidance cautioning against use
+  - term: "systemic racism"
+    severity: YELLOW
+    context: "Agency memos cautioning against framing in grant narratives"
+    alternatives: ["historical patterns", "structural barriers", "documented disparities"]
+    variants: ["systemic inequity", "structural racism"]
+
+  - term: "social justice"
+    severity: YELLOW
+    context: "Cautioned in federal applications; less risky in progressive foundations"
+    alternatives: ["community wellbeing", "fair treatment", "equal opportunity"]
+    notes: "Foundation grants (progressive register) may welcome this term — check dialect"
+
+  - term: "transformative justice"
+    severity: YELLOW
+    context: "Cautioned in federal applications"
+    alternatives: ["restorative approaches", "community-based solutions", "alternative resolution"]
+
+  - term: "BIPOC"
+    severity: YELLOW
+    context: "Some federal reviewers flagged as political terminology"
+    alternatives: ["underserved communities", "historically underrepresented groups", "diverse communities"]
+    notes: "Acceptable in progressive/soul-fire foundations. Context-check against dialect."
+
+  - term: "anti-racism"
+    severity: YELLOW
+    context: "Cautioned in federal applications post-2025 executive orders"
+    alternatives: ["inclusive practices", "bias reduction", "fair treatment protocols"]
+    variants: ["antiracist", "anti-racist"]
+
+  - term: "decolonize"
+    severity: YELLOW
+    context: "Cautioned in federal and some state applications"
+    alternatives: ["community self-determination", "locally-led", "culturally grounded"]
+    variants: ["decolonization", "decolonizing"]
+
+  - term: "reparations"
+    severity: YELLOW
+    context: "Highly charged in any government-adjacent funding"
+    alternatives: ["community investment", "restorative funding", "targeted support"]
+    variants: ["reparative"]
+
+  # GREEN — Precautionary, no documented action
+  - term: "food sovereignty"
+    severity: GREEN
+    context: "Politically coded for some reviewers; standard in USDA/SARE progressive programs"
+    alternatives: ["food self-sufficiency", "community food systems", "local food control"]
+    notes: "Rubric term for some SARE grants — check before substituting"
+
+  - term: "land back"
+    severity: GREEN
+    context: "Movement language — may alienate conservative/centrist reviewers"
+    alternatives: ["land access", "land stewardship", "community land trusts"]
+    notes: "Appropriate for tribal programs and soul-fire foundations"
+
+  - term: "solidarity economy"
+    severity: GREEN
+    context: "Academic/movement term unfamiliar to many reviewers"
+    alternatives: ["cooperative economics", "community-based enterprise", "shared ownership models"]
+
+  - term: "mutual aid"
+    severity: GREEN
+    context: "Politically coded for some; standard for community organizing funders"
+    alternatives: ["community support networks", "neighbor-to-neighbor assistance", "peer support"]
+
+  - term: "abolition"
+    severity: GREEN
+    context: "Movement language — high risk of misinterpretation outside movement funders"
+    alternatives: ["systemic reform", "alternative approaches", "community-based alternatives"]
+    variants: ["abolitionist"]
+
+  - term: "intersectional"
+    severity: GREEN
+    context: "Academic term — some reviewers view as politically coded"
+    alternatives: ["multi-factor", "cross-cutting", "overlapping challenges"]
+    variants: ["intersectionality"]
+
+# Scanning rules
+scanning:
+  method: "Exact string match + stemmed variants (case-insensitive)"
+  scope: "All text output — Scribe drafts, Editor suggestions, final proposals, budget narratives"
+  dialect_override: "If dialect is progressive or soul-fire AND funder is a known progressive foundation, YELLOW terms may be appropriate — but still flag for applicant confirmation"
+  approval_tracking: "Per grant, per term. Approvals do NOT carry across grants."
+
+# Law 4 enforcement
+law_4:
+  rule: "Logician flags but NEVER rewrites"
+  process: |
+    1. Logician detects flagged term
+    2. Logician reports: term, severity, context, alternatives
+    3. Applicant reviews and decides: substitute, keep with justification, or escalate
+    4. Logician records decision in gate_4_admin_risk.json
+    5. Approved terms are not re-flagged for this grant
+    6. Rejections are not overridden — applicant's word is final

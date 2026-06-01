@@ -1,0 +1,70 @@
+# Program Rule Pack (PRP) publisher-pubkey signed asset — v0.1 DRAFT STUB.
+#
+# Mirrors vault_shared/cards/publisher_pubkey.signed.yaml shape byte-for-byte
+# so that the PRP loader (pipeline/program_rule_packs/loader.py) can resolve
+# PRP signature verification (F-PRP-SIGNATURE-INVALID) against this asset
+# using the same code path the cards loader uses.
+#
+# v0.1 DRAFT STUB: this file shows the shape the PRP publisher pubkey will
+# take. The actual pubkey value is NOT generated at v0.1 — the operator
+# generates the prp-publisher Ed25519 keypair separately when ready to issue
+# the first signed PRP at v0.2 first wave.
+#
+# Trust-domain note: PRPs and cards live in DIFFERENT trust domains. The
+# cards publisher pubkey at vault_shared/cards/publisher_pubkey.signed.yaml
+# signs cards. The PRP publisher pubkey at this path signs PRPs. The
+# operator MAY delegate PRP authorship to a regulatory-research role without
+# delegating card authorship; the two keys are deliberately separable so
+# that delegation surface area can be reasoned about independently.
+#
+# The PRP loader at pipeline/program_rule_packs/loader.py resolves PRP
+# signature verification against this pubkey. v0.1 DRAFT: the loader's
+# top-level call raises NotImplementedError, so the pubkey value is not
+# read in any production code path at v0.1.
+
+schema_version: "1.0.0"
+
+# v0.1 DRAFT STUB: published_at_utc populates when the operator generates
+# the first prp-publisher keypair and seals this file at the v0.2 first wave
+# ceremony.
+published_at_utc: "<PENDING_OPERATOR_KEY_GENERATION>"
+
+publisher_role_id: "program_rule_packs.operator_publisher"
+
+# 32-byte Ed25519 raw pubkey, hex-encoded. Generated at v0.2 first wave
+# ceremony. Private key in operator key custody — NEVER committed to git.
+# Operator may rotate at white-glove or per audited admin-risk ledger
+# HIGH-severity entry, mirroring the card publisher pubkey rotation policy.
+publisher_pubkey_ed25519_hex: "<PENDING_OPERATOR_KEY_GENERATION>"
+
+# Trust-On-First-Use rotation chain. None at initial install. On rotation,
+# the new pubkey YAML carries prior_pubkey_signature_ed25519_hex = the
+# previous prp-publisher pubkey's Ed25519 signature over the new canonical
+# bytes (excluding this field + publisher_signature_ed25519_hex +
+# canonical_bytes_sha3_512_hex). Mirrors the card publisher pubkey rotation
+# chain byte-for-byte.
+prior_pubkey_signature_ed25519_hex: null
+
+# Publisher (operator) self-signs the canonical-YAML bytes minus the
+# publisher_signature_ed25519_hex field itself. Verification target:
+# publisher_pubkey_ed25519_hex above (Trust-On-First-Use self-assertion at
+# initial install). Filled at v0.2 first wave ceremony.
+publisher_signature_ed25519_hex: "<PENDING_OPERATOR_KEY_GENERATION>"
+
+# SHA3-512 over the canonical-YAML bytes (signature field excluded). The
+# white-glove signed manifest records this hash for integrity verification
+# at loader startup. Mismatch fails-closed at F-PRP-SIGNATURE-INVALID
+# (sub-tag: F-PRP-PUBLISHER-PUBKEY-HASH-MISMATCH) at v0.2 first wave
+# loader-realization.
+canonical_bytes_sha3_512_hex: "<PENDING_OPERATOR_KEY_GENERATION>"
+
+# Rotation policy notes (advisory, mirrors card publisher pubkey policy):
+#   - PRP publisher pubkey rotation requires HIGH-severity admin-risk ledger
+#     entry, mirroring card publisher pubkey rotation.
+#   - New pubkey MUST be co-signed by the prior pubkey for the rotation YAML
+#     to verify (Trust-On-First-Use chain).
+#   - Rotation cadence: operator-driven; no automatic rotation at v0.1 DRAFT
+#     or v0.2 first wave.
+#   - PRP publisher pubkey rotation is INDEPENDENT of card publisher pubkey
+#     rotation (separate trust domains, separate rotation events, separate
+#     admin-risk ledger entries).

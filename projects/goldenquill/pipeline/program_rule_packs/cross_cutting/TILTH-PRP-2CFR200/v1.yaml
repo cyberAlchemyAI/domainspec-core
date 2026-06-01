@@ -1,0 +1,592 @@
+# =============================================================================
+# Program Rule Pack — TILTH-PRP-2CFR200 (Uniform Guidance, 2 CFR Part 200)
+# v0.2 first wave — DRAFT body. NOT SIGNED. NOT runtime-loadable.
+# Authored 2026-05-18 per operator's roadmap recommendation (PRP first wave).
+# =============================================================================
+#
+# Lifecycle truth at this commit:
+#   - draft_status: draft
+#   - review_status: pending
+#   - signature_status: unsigned
+#   - runtime_load_status: not_loaded
+#   - runtime_loadable: false
+#   - signed_at: null
+#   - signed_by: null
+#   - content_hash: null
+#   - ed25519_signature: null
+#
+# A DRAFT PRP MUST NOT be runtime-loaded. The loader at
+# pipeline/program_rule_packs/loader.py raises NotImplementedError at the
+# top-level call at v0.1, so this body is never validated against
+# pipeline/program_rule_packs/_schema/program_rule_pack.schema.json in
+# production at v0.1. This body is on disk so reviewers can see the intended
+# rule set and so the v0.2 first wave LOCK ceremony has content to sign.
+#
+# Cross-family Thesis dispatch (L-005) is the prerequisite for promoting this
+# DRAFT to review_passed. See pipeline/handoffs/prp_v0_2_first_wave_authoring_2026-05-18.md
+# for cross-family Editor / Judge / Red Team provider recommendations.
+#
+# Coupling discipline (PRP schema §forbidden_coupling_fields + §forbidden_law3_key_patterns):
+# This PRP body contains NO eligible_cic_subset, cic_allowlist, cic_denylist,
+# preferred_cics, eligible_clc_subset, clc_allowlist, preferred_clcs,
+# cic_clc_matrix, clc_to_cic_eligibility, private_member_roster,
+# private_org_financials, tactical_interpretation, or any other forbidden
+# coupling / Law-3 field. PRPs encode published live law only — never
+# operator-specific overrides, never private member rosters, never
+# CIC × CLC eligibility coupling.
+#
+# Source-freshness note: the 2024 revision to 2 CFR 200 published as a final
+# rule on April 22, 2024 (89 FR 30046) and took effect for federal awards
+# issued on or after October 1, 2024. Subpart F (single audit) is effective
+# for fiscal years beginning on or after October 1, 2024. Operator-provided
+# effective_date in the authoring prompt (2025-08-13) appears to reference
+# a different action; verified primary-source date 2024-10-01 is used below.
+# Operator should reconcile at LOCK ceremony if a later revision applies.
+#
+# Audit-source anchor: docs/phased_card_system_research_audit_extracted_2026-05-17.md
+# §"Uniform Guidance and 2 CFR 200 Procurement Tiers" + synthesis
+# recommendation #4 "Deploy Programmatic Compliance Locks" (procurement
+# tier-blocking sub-recommendation).
+# =============================================================================
+
+schema_version: '1.0-prp'
+prp_id: TILTH-PRP-2CFR200
+prp_kind: cross_cutting_regulation
+display_name: 'Uniform Administrative Requirements, Cost Principles, and Audit Requirements for Federal Awards (2 CFR Part 200)'
+
+# Per schema §allOf cross-kind invariant: cross_cutting_regulation PRPs MUST
+# have funding_program_ref absent or null. 2 CFR 200 applies across all
+# federal financial assistance — it is not tied to a single program.
+funding_program_ref: null
+
+# Effective date of the 2024 revision to 2 CFR Part 200. Federal awards
+# issued on or after this date are subject to the revised guidance. Awards
+# issued before this date remain governed by the prior (2020) revision.
+# Verified against OMB final rule 89 FR 30046 (April 22, 2024 publication;
+# October 1, 2024 effective date for new awards).
+effective_date: '2024-10-01'
+
+# expiry_date null for cross_cutting_regulation: 2 CFR 200 is a permanent
+# federal regulation with no operator-known sunset. Future revisions are
+# handled by re-authoring this PRP body and incrementing the on-disk version
+# (v2.yaml, v3.yaml, ...). The active manifest entry then points at the
+# new version's path and the prior version is retained for audit-trail.
+expiry_date: null
+
+cross_references: []
+
+live_law_rules:
+
+  # -------------------------------------------------------------------------
+  # PROCUREMENT TIERS (§200.318 - §200.327)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-2CFR200-R01
+    rule_type: eligibility
+    rule_summary: >
+      Non-federal entities must use their own documented procurement
+      procedures, which must conform to applicable Federal law and the
+      standards at 2 CFR 200.318-200.327.
+    source_citation: '2 CFR 200.318(a) — General procurement standards'
+    verbatim_quote: >
+      "The non-Federal entity must use its own documented procurement
+      procedures which reflect applicable State, local, and tribal laws and
+      regulations, provided that the procurements conform to applicable
+      Federal law and the standards identified in this part."
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R02
+    rule_type: budget_allowability
+    rule_summary: >
+      Micro-purchase threshold (MPT): procurements at or below $10,000 may
+      be awarded without soliciting competitive quotations if the price is
+      considered reasonable based on research, experience, purchase history,
+      or other information; equitable distribution among qualified suppliers
+      is required to the extent practicable.
+    source_citation: '2 CFR 200.320(a)(1)(iv) + 2 CFR 200.1 (definition: micro-purchase threshold)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R03
+    rule_type: budget_allowability
+    rule_summary: >
+      Self-certified micro-purchase threshold above the federal default: a
+      non-Federal entity may self-certify a higher MPT up to $50,000 on an
+      annual basis under conditions in 2 CFR 200.320(a)(1)(iv)(B), including
+      a documented internal risk assessment; thresholds above $50,000
+      require cognizant-agency approval and supporting documentation.
+    source_citation: '2 CFR 200.320(a)(1)(iv)(B) and (C)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R04
+    rule_type: budget_allowability
+    rule_summary: >
+      Splitting prohibition: micro-purchase procedures may not be used to
+      circumvent the simplified acquisition threshold or other procurement
+      requirements; aggregate value (not artificial transaction count)
+      controls the applicable procurement tier.
+    source_citation: '2 CFR 200.320(a)(1) (read together with 200.318(c) and 200.317-318)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R05
+    rule_type: budget_allowability
+    rule_summary: >
+      Small purchase procedures: procurements above the MPT and at or below
+      the Simplified Acquisition Threshold (SAT, currently $250,000) may
+      use small-purchase procedures; price or rate quotations must be
+      obtained from an adequate number of qualified sources as determined
+      appropriate by the non-Federal entity.
+    source_citation: '2 CFR 200.320(a)(2) + 2 CFR 200.1 (definition: simplified acquisition threshold)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R06
+    rule_type: budget_allowability
+    rule_summary: >
+      Sealed bids (formal advertising): for construction procurements above
+      the SAT, sealed bids are the preferred method when (i) a complete,
+      adequate, and realistic specification or purchase description is
+      available, (ii) two or more responsible bidders are willing and able to
+      compete effectively for the business, (iii) the procurement lends
+      itself to a firm fixed price contract, and (iv) the selection of the
+      successful bidder can be made principally on the basis of price.
+    source_citation: '2 CFR 200.320(b)(1)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R07
+    rule_type: budget_allowability
+    rule_summary: >
+      Competitive proposals: for procurements above the SAT where conditions
+      for sealed bidding are not met, competitive proposals are used; a
+      written method for conducting technical evaluations of proposals
+      received and selecting recipients is required, and contracts must be
+      awarded to the responsible offeror whose proposal is most advantageous
+      to the program, with price and other factors considered.
+    source_citation: '2 CFR 200.320(b)(2)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R08
+    rule_type: budget_allowability
+    rule_summary: >
+      Noncompetitive (sole source) procurement is permitted only when one
+      or more of four named circumstances apply: (i) the acquisition of
+      property or services, the aggregate dollar amount of which does not
+      exceed the micro-purchase threshold; (ii) item available only from a
+      single source; (iii) public exigency or emergency; (iv) after
+      solicitation of a number of sources, competition is determined
+      inadequate; or (v) the Federal awarding agency or pass-through entity
+      expressly authorizes noncompetitive procurement in response to a
+      written request.
+    source_citation: '2 CFR 200.320(c)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # CONFLICT-OF-INTEREST + DRAFTING-CONTRACTOR DISQUALIFICATION (§200.318)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-2CFR200-R09
+    rule_type: eligibility
+    rule_summary: >
+      The non-Federal entity must maintain written standards of conduct
+      covering conflicts of interest and governing the actions of its
+      employees engaged in the selection, award, and administration of
+      contracts; no employee, officer, or agent may participate in the
+      selection, award, or administration of a contract supported by a
+      Federal award if the employee, officer, or agent has a real or
+      apparent conflict of interest.
+    source_citation: '2 CFR 200.318(c)(1)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R10
+    rule_type: eligibility
+    rule_summary: >
+      Drafting-contractor disqualification: contractors that develop or draft
+      specifications, requirements, statements of work, or invitations for
+      bids or requests for proposals must be excluded from competing for
+      such procurements (organizational conflict of interest).
+    source_citation: '2 CFR 200.319(b) (competition); echoed in third-party contracting guidance (see FTA C 4220.1G)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R11
+    rule_type: eligibility
+    rule_summary: >
+      Conflict-of-interest disclosure obligation: non-Federal entities must
+      disclose in writing any potential conflict of interest to the
+      Federal awarding agency or pass-through entity in accordance with
+      applicable Federal awarding agency policy.
+    source_citation: '2 CFR 200.112'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # DEBARMENT + SUSPENSION (§180; flowed-down via §200.214)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-2CFR200-R12
+    rule_type: eligibility
+    rule_summary: >
+      Non-Federal entities and contractors are subject to the
+      non-procurement debarment and suspension regulations at 2 CFR Part
+      180, as adopted by Federal awarding agencies, and may not enter into
+      covered transactions with debarred or suspended parties; SAM.gov
+      exclusion checks are required at contract award and at the time of
+      subaward.
+    source_citation: '2 CFR 200.214 + 2 CFR Part 180'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # PRIOR-APPROVAL TRIGGERS (§200.407 — selected)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-2CFR200-R13
+    rule_type: budget_allowability
+    rule_summary: >
+      Prior written approval from the Federal awarding agency is required
+      for specified cost items and budget actions enumerated at 2 CFR
+      200.407, including (but not limited to) certain compensation, pre-award
+      costs, equipment purchases, participant support costs, and changes
+      affecting scope or objective; the full list at 200.407 controls.
+    source_citation: '2 CFR 200.407 (Prior written approval (prior approval))'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R14
+    rule_type: budget_allowability
+    rule_summary: >
+      Budget-revision and program-plan revision prior-approval requirements
+      flow from 2 CFR 200.308; movement of funds across direct-cost
+      categories above defined thresholds, changes in scope, and changes in
+      key personnel require Federal awarding-agency prior approval.
+    source_citation: '2 CFR 200.308 (Revision of budget and program plans)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # ALLOWABLE-COSTS TESTS (§200.403-405)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-2CFR200-R15
+    rule_type: budget_allowability
+    rule_summary: >
+      A cost is allowable under a Federal award only if it (a) is necessary
+      and reasonable for the performance of the award, (b) conforms to any
+      limitations or exclusions set forth in the cost principles or in the
+      Federal award, (c) is consistent with policies and procedures that
+      apply uniformly to both federally financed and other activities, (d)
+      is accorded consistent treatment, (e) is determined in accordance with
+      generally accepted accounting principles (GAAP), (f) is not included
+      as a cost or used to meet cost sharing or matching requirements of
+      any other federally financed program, and (g) is adequately
+      documented.
+    source_citation: '2 CFR 200.403 (Factors affecting allowability of costs)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R16
+    rule_type: budget_allowability
+    rule_summary: >
+      Reasonable cost test: a cost is reasonable if, in its nature and
+      amount, it does not exceed that which would be incurred by a prudent
+      person under the circumstances prevailing at the time the decision was
+      made to incur the cost. Reasonableness is judged with reference to
+      whether the cost is generally recognized as ordinary and necessary,
+      sound business practices, market prices, prudent-person review, and
+      compliance with non-Federal entity policies.
+    source_citation: '2 CFR 200.404 (Reasonable costs)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R17
+    rule_type: budget_allowability
+    rule_summary: >
+      Allocable cost test: a cost is allocable to a particular Federal
+      award if the goods or services involved are chargeable or assignable
+      to that Federal award in accordance with relative benefits received;
+      any cost allocable to a particular Federal award may not be charged to
+      other Federal awards to overcome fund deficiencies, to avoid
+      restrictions, or for other reasons.
+    source_citation: '2 CFR 200.405 (Allocable costs)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # SELECTED UNALLOWABLE / RESTRICTED COSTS (§200.420-475 — exemplar set)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-2CFR200-R18
+    rule_type: budget_allowability
+    rule_summary: >
+      Alcoholic-beverage costs are unallowable.
+    source_citation: '2 CFR 200.423 (Alcoholic beverages)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R19
+    rule_type: budget_allowability
+    rule_summary: >
+      Entertainment costs (amusement, diversion, social activities, and
+      related costs) are unallowable except where specific costs that
+      otherwise might be considered entertainment have a programmatic
+      purpose and are authorized in the approved budget or with prior
+      written approval of the Federal awarding agency.
+    source_citation: '2 CFR 200.438 (Entertainment costs)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R20
+    rule_type: budget_allowability
+    rule_summary: >
+      Lobbying costs to influence the introduction, passage, defeat, or
+      modification of any federal or state legislation, regulation, or
+      policy are unallowable, with narrow exceptions for technical and
+      factual presentations directly related to the performance of a grant,
+      contract, or agreement at the request of a Member of Congress or
+      State legislator.
+    source_citation: '2 CFR 200.450 (Lobbying)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R21
+    rule_type: budget_allowability
+    rule_summary: >
+      Goods or services for personal use of the non-Federal entity's
+      employees are unallowable regardless of whether reported as taxable
+      income to the employees; housing and personal living expenses for
+      officers are unallowable as fringe benefits or indirect costs
+      regardless of whether reported as taxable income.
+    source_citation: '2 CFR 200.445 (Goods or services for personal use)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R22
+    rule_type: budget_allowability
+    rule_summary: >
+      Fines, penalties, damages, and other settlements resulting from
+      violations of (or failure of the non-Federal entity to comply with)
+      Federal, State, tribal, local, or foreign laws and regulations are
+      unallowable except when incurred as a result of compliance with
+      specific provisions of the Federal award, or with prior written
+      approval of the Federal awarding agency.
+    source_citation: '2 CFR 200.441 (Fines, penalties, damages and other settlements)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # INDIRECT COST RATES + DE MINIMIS RATE (§200.414)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-2CFR200-R23
+    rule_type: budget_allowability
+    rule_summary: >
+      De minimis indirect cost rate: any non-Federal entity that does not
+      have a current negotiated (including provisional) rate, except for
+      those non-Federal entities described in Appendix VII to Part 200
+      paragraph (D)(1)(b), may elect to charge a de minimis rate of 15
+      percent of modified total direct costs (MTDC) which may be used
+      indefinitely. The 2024 revision raised the de minimis rate from 10
+      percent to 15 percent.
+    source_citation: '2 CFR 200.414(f) (Indirect (F&A) costs) — 2024 revision'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R24
+    rule_type: budget_allowability
+    rule_summary: >
+      Modified Total Direct Cost (MTDC) base for indirect cost calculations
+      excludes equipment, capital expenditures, charges for patient care,
+      rental costs, tuition remission, scholarships and fellowships,
+      participant support costs, and the portion of each subaward in excess
+      of $50,000 (2024 revision raised this from $25,000).
+    source_citation: '2 CFR 200.1 (definition: modified total direct cost) + 2 CFR 200.414(f) — 2024 revision'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R25
+    rule_type: budget_allowability
+    rule_summary: >
+      Negotiated indirect cost rates: any non-Federal entity that has a
+      federally negotiated indirect cost rate must use that negotiated rate
+      for all Federal awards unless otherwise required by Federal statute or
+      regulation, or where the Federal awarding agency approves an
+      alternative rate based on a documented justification.
+    source_citation: '2 CFR 200.414(c) (Indirect (F&A) costs)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # EQUIPMENT + SUPPLY DISPOSITION (§200.313 - §200.314)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-2CFR200-R26
+    rule_type: budget_allowability
+    rule_summary: >
+      Equipment-disposition threshold: at the end of the Federal award,
+      items of equipment with a current per-unit fair market value of
+      $10,000 or less (raised from $5,000 in the 2024 revision) may be
+      retained, sold, or otherwise disposed of by the non-Federal entity
+      with no further obligation to the Federal awarding agency.
+    source_citation: '2 CFR 200.313(e) — 2024 revision'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R27
+    rule_type: budget_allowability
+    rule_summary: >
+      Supply-disposition threshold: when there is a residual inventory of
+      unused supplies exceeding $10,000 in total aggregate value upon
+      termination or completion of the project or program and the supplies
+      are not needed for any other Federal award, the non-Federal entity
+      must retain the supplies for use on other activities or sell them, but
+      must, in either case, compensate the Federal Government for its
+      share. The 2024 revision raised this threshold from $5,000.
+    source_citation: '2 CFR 200.314(a) — 2024 revision'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # SINGLE AUDIT (Subpart F — §200.501 - §200.521)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-2CFR200-R28
+    rule_type: reporting
+    rule_summary: >
+      Single-audit threshold: a non-Federal entity that expends $1,000,000
+      or more during the non-Federal entity's fiscal year in Federal awards
+      must have a single or program-specific audit conducted for that year
+      in accordance with the provisions of Subpart F. The 2024 revision
+      raised this threshold from $750,000 (effective for fiscal years
+      beginning on or after October 1, 2024).
+    source_citation: '2 CFR 200.501(a) — 2024 revision'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R29
+    rule_type: reporting
+    rule_summary: >
+      Audit submission and reporting: the Federal Audit Clearinghouse (FAC)
+      submission is due the earlier of 30 calendar days after receipt of
+      the auditor's report(s), or nine months after the end of the audit
+      period; the data collection form (SF-SAC) and the reporting package
+      must be submitted electronically to the FAC.
+    source_citation: '2 CFR 200.512(a) (Report submission)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R30
+    rule_type: reporting
+    rule_summary: >
+      Audit-finding management: when the auditor identifies findings, the
+      non-Federal entity must prepare a corrective action plan and a
+      summary schedule of prior audit findings as a separate document from
+      the auditor's findings; corrective action must be initiated within
+      six months after receipt of the audit report.
+    source_citation: '2 CFR 200.511 (Audit findings follow-up) + 200.512(b)(3)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # SUB-RECIPIENT MONITORING (§200.331 - §200.333)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-2CFR200-R31
+    rule_type: reporting
+    rule_summary: >
+      Pass-through entity sub-award identification: pass-through entities
+      must clearly identify to the sub-recipient the Federal award
+      information at the time of the subaward, including the data elements
+      enumerated at 2 CFR 200.332(a)(1) (sub-recipient name, sub-recipient
+      UEI, Federal Award Identification Number (FAIN), Federal award date,
+      sub-award period of performance, amount of Federal funds obligated,
+      total amount of Federal award, Federal award project description,
+      name of Federal awarding agency, CFDA / Assistance Listing number and
+      title, and identification of whether the award is R&D).
+    source_citation: '2 CFR 200.332(a)(1) (Requirements for pass-through entities)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R32
+    rule_type: reporting
+    rule_summary: >
+      Sub-recipient risk assessment: pass-through entities must evaluate
+      each sub-recipient's risk of noncompliance with Federal statutes,
+      regulations, and the terms and conditions of the subaward for purposes
+      of determining the appropriate sub-recipient monitoring, considering
+      factors such as the sub-recipient's prior experience with the same or
+      similar subawards, results of previous audits, whether the
+      sub-recipient has new personnel or new or substantially changed
+      systems, and the extent and results of Federal awarding-agency
+      monitoring (e.g., if the sub-recipient also receives Federal awards
+      directly from a Federal awarding agency).
+    source_citation: '2 CFR 200.332(b) (Risk assessment of sub-recipients)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-2CFR200-R33
+    rule_type: reporting
+    rule_summary: >
+      Sub-recipient monitoring activities: pass-through entities must
+      monitor the activities of the sub-recipient as necessary to ensure
+      that the subaward is used for authorized purposes, in compliance with
+      Federal statutes, regulations, and the terms and conditions of the
+      subaward; and that subaward performance goals are achieved. Required
+      monitoring activities include reviewing financial and performance
+      reports, following up on deficiencies, issuing management decisions
+      for audit findings, and verifying that sub-recipients are audited as
+      required by Subpart F if applicable.
+    source_citation: '2 CFR 200.332(d) and (e) (Monitoring activities)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # PROGRAMMATIC COMPLIANCE LOCK SHELL — sub-award classification
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-2CFR200-R34
+    rule_type: reporting
+    rule_summary: >
+      Sub-recipient vs. contractor classification: pass-through entities
+      must make case-by-case determinations whether each agreement it makes
+      for the disbursement of Federal program funds casts the party
+      receiving the funds in the role of a sub-recipient or a contractor;
+      misclassification has cascading audit and flow-down consequences.
+    source_citation: '2 CFR 200.331 (Sub-recipient and contractor determinations)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # CYBERSECURITY DUE-CARE (2024 revision — §200.303)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-2CFR200-R35
+    rule_type: reporting
+    rule_summary: >
+      Internal-controls cybersecurity addition (2024 revision): the
+      recipient and sub-recipient must take reasonable cybersecurity and
+      other measures to safeguard information including protected
+      personally identifiable information (PII) and other types of
+      information.
+    source_citation: '2 CFR 200.303(e) — 2024 revision (Internal controls)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # RECORD RETENTION (§200.334)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-2CFR200-R36
+    rule_type: reporting
+    rule_summary: >
+      Record retention: financial records, supporting documents, statistical
+      records, and all other non-Federal entity records pertinent to a
+      Federal award must be retained for a period of three years from the
+      date of submission of the final expenditure report, with exceptions
+      enumerated at 2 CFR 200.334 (e.g., active litigation, claims, audit,
+      or other action pending; real-property and equipment records).
+    source_citation: '2 CFR 200.334 (Retention requirements for records)'
+    rule_body: {}
+
+lifecycle:
+  draft_status: draft
+  review_status: pending
+  signature_status: unsigned
+  runtime_load_status: not_loaded
+  runtime_loadable: false
+  signed_at: null
+  signed_by: null
+  content_hash: null
+
+_research_metadata:
+  authored_at: '2026-05-18T00:00:00Z'
+  authored_by_role: research_session
+  primary_sources:
+    - citation: '2 CFR Part 200 — Uniform Administrative Requirements, Cost Principles, and Audit Requirements for Federal Awards (current eCFR)'
+      url_or_locator: 'https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200'
+      accessed_date: '2026-05-18'
+    - citation: '2 CFR 200.320 — Procurement methods (eCFR canonical)'
+      url_or_locator: 'https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFR45ddd4419ad436d/section-200.320'
+      accessed_date: '2026-05-18'
+    - citation: 'OMB Final Rule, Guidance for Federal Financial Assistance, 89 FR 30046 (April 22, 2024) — 2024 revision to 2 CFR 200, effective for awards issued on or after October 1, 2024'
+      url_or_locator: 'https://www.federalregister.gov/documents/2024/04/22/2024-07496/guidance-for-federal-financial-assistance'
+      accessed_date: '2026-05-18'
+    - citation: 'EPA, What''s New in the 2024 Revision to 2 CFR Part 200 (secondary practitioner summary, useful for cross-checking effective-date interpretation)'
+      url_or_locator: 'https://www.epa.gov/grants/whats-new-2024-revision-2-cfr-part-200'
+      accessed_date: '2026-05-18'
+    - citation: 'docs/phased_card_system_research_audit_extracted_2026-05-17.md §"Uniform Guidance and 2 CFR 200 Procurement Tiers" + synthesis recommendation #4 (audit-source anchor; secondary)'
+      url_or_locator: 'docs/phased_card_system_research_audit_extracted_2026-05-17.md'
+      accessed_date: '2026-05-17'
+  last_verified_date: '2026-05-18'
+  ed25519_signature: null

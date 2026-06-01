@@ -1,0 +1,326 @@
+# GPP-DET Report — pipeline/blueprint/v0.1
+
+- Tool version: `v1`
+- Spec version: `v1`
+- Run at (UTC): 2026-04-19T21:54:34.969617+00:00
+- **Tier 1 overall status: FAIL**
+
+Plan sub-docs audited (21):
+- `pipeline/blueprint/v0.1/section_00_5_interface_index.md`
+- `pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md`
+- `pipeline/blueprint/v0.1/section_00_5_interface_index_locked_v2_2026-04-18.md`
+- `pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md`
+- `pipeline/blueprint/v0.1/section_00_5_v5_amendment.md`
+- `pipeline/blueprint/v0.1/section_02_vault_topology.md`
+- `pipeline/blueprint/v0.1/section_02_vault_topology_v4_2026-04-16.md`
+- `pipeline/blueprint/v0.1/section_02_vault_topology_v7_2026-04-18.md`
+- `pipeline/blueprint/v0.1/section_03_scout.md`
+- `pipeline/blueprint/v0.1/section_04_legibility_companion.md`
+- `pipeline/blueprint/v0.1/section_04_logician.md`
+- `pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md`
+- `pipeline/blueprint/v0.1/section_04_v2_1_1_amendment.md`
+- `pipeline/blueprint/v0.1/section_05_pipeline.md`
+- `pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md`
+- `pipeline/blueprint/v0.1/section_05_v6_amendment.md`
+- `pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md`
+- `pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md`
+- `pipeline/blueprint/v0.1/section_2_vault_topology.md`
+- `pipeline/blueprint/v0.1/section_4_logician.md`
+- `pipeline/blueprint/v0.1/section_5_pipeline.md`
+
+## CITE-RESOLVE — FAIL
+- Failure code: `F-GPP-CITATION-UNRESOLVED`
+### Findings (220)
+- {"cite": "section_00_5_interface_index.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/tests/test_section_00_5_interface_index.py", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.v4.json", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index_locked_v2_2026-04-18.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_judge_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index_v3_2026-04-18.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_judge_v2_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_judge_v3_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_synthesis.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_sovereignty_envelope.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/tools/build_interface_index_json.py", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.v1_preserved_2026-04-18.json", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_red_team_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "vault_shared/machine_calibration.json", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_sovereignty_envelope_v5_2026-04-17.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_v6-1_driver.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.v1.json", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_editor_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/tests/test_section_00_5_interface_index.py", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.v4.json", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index_locked_v2_2026-04-18.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_judge_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index_v3_2026-04-18.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_judge_v2_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_judge_v3_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_synthesis.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_sovereignty_envelope.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/tools/build_interface_index_json.py", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.v1_preserved_2026-04-18.json", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_red_team_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "vault_shared/machine_calibration.json", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_sovereignty_envelope_v5_2026-04-17.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_v6-1_driver.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.v1.json", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_editor_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/tools/build_interface_index_json.py", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/tests/test_section_00_5_interface_index.py", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.v1.json", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "prompt_v1.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_locked_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.v3.json", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/tests/test_section_00_5_interface_index.py", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index_locked_v2_2026-04-18.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_judge_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_judge_v2_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_judge_v3_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_synthesis.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_sovereignty_envelope.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/tools/build_interface_index_json.py", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.v1_preserved_2026-04-18.json", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_red_team_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_sovereignty_envelope_v5_2026-04-17.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_v6-1_driver.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.v1.json", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "L005_round1_editor_system_prompt.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "gpp_spec_v1.md", "sources": ["pipeline/blueprint/v0.1/section_00_5_v5_amendment.md"], "reason": "target does not exist on disk"}
+- {"cite": "vault_shared/section_02.lock.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "seed_manifest.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/vault/tests/test_vault_write_v5.py", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth_architecture_locked_v4_2026-04-16.md", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "orgs/test/vault/claim_evidence/rfa_001/v3/claim_017.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "orgs/test/vault/state/checkpoint.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "orgs/acme/vault/claim_evidence/foo.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "orgs/test/vault/admin_risk/ledger.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/vault/compound_txn.py", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "vault_shared/seed_manifest.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_02.lock.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/vault/tests/test_compound_txn.py", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "vault_shared/seed_manifest.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v4_2026-04-16.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_02.lock.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v4_2026-04-16.md"], "reason": "target does not exist on disk"}
+- {"cite": "vault_shared/section_02.lock.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v4_2026-04-16.md"], "reason": "target does not exist on disk"}
+- {"cite": "seed_manifest.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v4_2026-04-16.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth_architecture_locked_v4_2026-04-16.md", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v4_2026-04-16.md"], "reason": "target does not exist on disk"}
+- {"cite": "vault_shared/seed_manifest.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v7_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_02.lock.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v7_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "orgs/test/vault/claim_evidence/rfa_001/v3/claim_017.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v7_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "vault_shared/section_02.lock.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v7_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "orgs/test/vault/state/checkpoint.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v7_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "orgs/acme/vault/claim_evidence/foo.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v7_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "orgs/test/vault/admin_risk/ledger.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v7_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "seed_manifest.json", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v7_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/vault/tests/test_vault_write_v5.py", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v7_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth_architecture_locked_v4_2026-04-16.md", "sources": ["pipeline/blueprint/v0.1/section_02_vault_topology_v7_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/scout/__init__.py", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/scout/channel_b_cache.py", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/scout/channel_d_program_pages.py", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "source_domains.yaml", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/scout/verify_stage.py", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/scout/entity_research.py", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/scout/channel_c_portals.py", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/scout/health_tuple.py", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/scout/channel_e_rss.py", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/scout/channel_f_websearch.py", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_03_v5.md", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/scout/review_stage.py", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "vault_shared/section_03.lock.json", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/scout/channel_a_federal_apis.py", "sources": ["pipeline/blueprint/v0.1/section_03_scout.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_bus_factor_interface_index.md", "sources": ["pipeline/blueprint/v0.1/section_04_legibility_companion.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_04_logician.md", "sources": ["pipeline/blueprint/v0.1/section_04_legibility_companion.md"], "reason": "target does not exist on disk"}
+- {"cite": "PROJECT_CONTEXT.md", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "orgs/fit_farms/vault/admin_risk/ledger.json", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "lessons.json", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/claim_evidence.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/gates/gate_runner.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/admin_risk.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/cedar_eval.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/compound_commit.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "abbreviation_list.yaml", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_00_5_interface_index.v3.json", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "bt10_window.yaml", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "admin_risk/head.json", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/conversation_log.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/source_tag_verify.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/abort_payload_guard.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/dossier_verify.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/rails_report.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/institutional_memory/pending_lessons.json", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/__init__.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/gates/pre_gate.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/institutional_memory/admin_risk_register.yaml", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/blueprint/v0.1/section_00_5_interface_index.v4.json", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/cross_org_guard.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/validation/architecture_v0.1_findings_from_section_04/ARCH-04.md", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/gates/post_gate.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician.md"], "reason": "target does not exist on disk"}
+- {"cite": "PROJECT_CONTEXT.md", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "lessons.json", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/claim_evidence.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/gates/gate_runner.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/admin_risk.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/cedar_eval.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "abbreviation_list.yaml", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "bt10_window.yaml", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "admin_risk/head.json", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/conversation_log.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/source_tag_verify.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/dossier_verify.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/rails_report.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/institutional_memory/pending_lessons.json", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/__init__.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/gates/pre_gate.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/institutional_memory/admin_risk_register.yaml", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/validation/architecture_v0.1_findings_from_section_04/ARCH-04.md", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/logician/gates/post_gate.py", "sources": ["pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "gpp_spec_v1.md", "sources": ["pipeline/blueprint/v0.1/section_04_v2_1_1_amendment.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/calibration/report.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "pubkey_first_write_provenance.json", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/state_checkpoint.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/calibration/signing.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/signoff_plumbing.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/tests/test_banned_patterns.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/modes/submission_mode.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "canonical_bytes_exclusion.json", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/config.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/cron_scheduler.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/revision_loop.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/__init__.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/run_lifecycle.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/calibration/golden_set.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "vault/org_a/golden_set/manifest.json", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/provider_cascade.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/three_tab_delivery.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/graceful_degradation.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/errors.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/calibration/__init__.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/modes/__init__.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/modes/eval_mode.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/seat_runner.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/rate_limiter.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_05_pipeline_v3_2026-04-18.md", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/types.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/state_checkpoint.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/signoff_plumbing.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/tests/test_banned_patterns.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/config.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/cron_scheduler.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/revision_loop.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/__init__.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/run_lifecycle.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/provider_cascade.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/three_tab_delivery.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/graceful_degradation.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/errors.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/seat_runner.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/rate_limiter.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth/pipeline/types.py", "sources": ["pipeline/blueprint/v0.1/section_05_pipeline_v3_2026-04-18.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth_architecture_locked.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth_architecture_locked_v4_2026-04-16.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "tilth_architecture_locked_v5_r8_2026-04-17.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_v2.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_v3.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_v5.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "admin_risk_register.json", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "test_vectors/m7_envelope_v1.json", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "architectural_risk_register.json", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "tests/pipeline/sovereignty/test_m7_wire.py", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "watermarks/ledger_watermarks.json", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "feedback_topology_is_identity.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "sovereignty/ledger_watermarks.json", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_future_gui.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_v4.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_v6-1_driver.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "ledger_watermarks.json", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md"], "reason": "target does not exist on disk"}
+- {"cite": "watermarks/ledger_watermarks.json", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md"], "reason": "target does not exist on disk"}
+- {"cite": "sovereignty/ledger_watermarks.json", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md"], "reason": "target does not exist on disk"}
+- {"cite": "feedback_topology_is_identity.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md"], "reason": "target does not exist on disk"}
+- {"cite": "project_future_gui.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md"], "reason": "target does not exist on disk"}
+- {"cite": "feedback_window_change_discipline.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_v2.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_v3.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_v5.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md"], "reason": "target does not exist on disk"}
+- {"cite": "admin_risk_register.json", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md"], "reason": "target does not exist on disk"}
+- {"cite": "ledger_watermarks.json", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md"], "reason": "target does not exist on disk"}
+- {"cite": "architectural_risk_register.json", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md"], "reason": "target does not exist on disk"}
+- {"cite": "section_1_v4.md", "sources": ["pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/src/vault/vault_init.py", "sources": ["pipeline/blueprint/v0.1/section_2_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "vault_shared/sources/sources.yaml", "sources": ["pipeline/blueprint/v0.1/section_2_vault_topology.md"], "reason": "target does not exist on disk"}
+- {"cite": "lessons.json", "sources": ["pipeline/blueprint/v0.1/section_5_pipeline.md"], "reason": "target does not exist on disk"}
+- {"cite": "pipeline/src/orchestrator/rate_limiter.py", "sources": ["pipeline/blueprint/v0.1/section_5_pipeline.md"], "reason": "target does not exist on disk"}
+- total_cites: `160`
+
+## VERSION-RESOLVE — PASS
+- total_claims_tracked: `10`
+
+## XDOC-REF — FAIL
+- Failure code: `F-GPP-CROSSDOC-BROKEN`
+### Findings (5)
+- {"ref": "01_editor_audit.md", "source": "pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md", "reason": "cross-doc reference not present in plan directory"}
+- {"ref": "01_editor_audit.md", "source": "pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md", "reason": "cross-doc reference not present in plan directory"}
+- {"ref": "04_red_team_challenge.md", "source": "pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md", "reason": "cross-doc reference not present in plan directory"}
+- {"ref": "01_editor_audit.md", "source": "pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md", "reason": "cross-doc reference not present in plan directory"}
+- {"ref": "04_red_team_challenge.md", "source": "pipeline/blueprint/v0.1/section_1_sovereignty_envelope_v5_2026-04-17.md", "reason": "cross-doc reference not present in plan directory"}
+
+## ROW-COUNT-ARITHMETIC — FAIL
+- Failure code: `F-GPP-ROW-COUNT-MISMATCH`
+### Findings (1)
+- {"source": "pipeline/blueprint/v0.1/section_00_5_interface_index_locked_v2_2026-04-18.md", "claim": "Row count: 1", "actual": 14, "delta": 13, "reason": "table row count does not match declared number"}
+- claims_checked: `[{"source": "pipeline/blueprint/v0.1/section_00_5_interface_index_locked_v2_2026-04-18.md", "claim": "Row count: 1", "claimed": 1, "actual": 14}, {"source": "pipeline/blueprint/v0.1/section_05_v6_amendment.md", "claim": "Row count: 2", "claimed": 2, "actual": 2}]`
+
+## HASH-PIN — PASS
+- hashes: `{"pipeline/blueprint/v0.1/section_00_5_interface_index.md": "e2eb52c57b2d54da787cfce8af74d9b453cb1892d19b3cb69cdea035b45a2e5673a9845eb5530f641b7ff2caab100f0fa6d6f081d0003693801db63c2a730042", "pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md": "e2eb52c57b2d54da787cfce8af74d9b453cb1892d`
+
+## INDEX-STALE-DRYRUN — PASS
+### Advisories (4)
+- {"source": "pipeline/blueprint/v0.1/section_02_vault_topology.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/blueprint/v0.1/section_04_logician.md", "missing_fields": ["primitive_id", "defined_at", "parent_lock_version", "parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/blueprint/v0.1/section_05_v6_amendment.md", "missing_fields": ["primitive_id", "defined_at", "primitive_kind", "introduced_in_index_version", "stability_tier"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+- {"source": "pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md", "missing_fields": ["parent_lock_commit_hash", "primitive_kind", "description", "introduced_in_index_version"], "note": "doc references §0.5 but does not enumerate the 8 required field names; expected per §0.5 v4 schema for any proposed row."}
+
+## FAMILY-TAXONOMY — FAIL
+- Failure code: `F-GPP-FAMILY-TAXONOMY-MISMATCH`
+### Findings (5)
+- {"source": "pipeline/blueprint/v0.1/section_04_logician.md", "claimed_families": 6, "router_actual_families": 7, "router_family_list": ["Alibaba", "Anthropic", "Google", "Meta", "Moonshot", "OpenAI", "OpenAI-OSS"], "reason": "'6 families' claim mismatches router.yaml-derived family count"}
+- {"source": "pipeline/blueprint/v0.1/section_04_logician.md", "claimed_families": 6, "router_actual_families": 7, "router_family_list": ["Alibaba", "Anthropic", "Google", "Meta", "Moonshot", "OpenAI", "OpenAI-OSS"], "reason": "'6 families' claim mismatches router.yaml-derived family count"}
+- {"source": "pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md", "claimed_families": 6, "router_actual_families": 7, "router_family_list": ["Alibaba", "Anthropic", "Google", "Meta", "Moonshot", "OpenAI", "OpenAI-OSS"], "reason": "'6 families' claim mismatches router.yaml-derived family count"}
+- {"source": "pipeline/blueprint/v0.1/section_04_logician_v2_2026-04-18.md", "claimed_families": 6, "router_actual_families": 7, "router_family_list": ["Alibaba", "Anthropic", "Google", "Meta", "Moonshot", "OpenAI", "OpenAI-OSS"], "reason": "'6 families' claim mismatches router.yaml-derived family count"}
+- {"source": "pipeline/blueprint/v0.1/section_04_v2_1_1_amendment.md", "claimed_families": 5, "router_actual_families": 7, "router_family_list": ["Alibaba", "Anthropic", "Google", "Meta", "Moonshot", "OpenAI", "OpenAI-OSS"], "reason": "'five distinct families' claim mismatches router.yaml-derived family count"}
+- router_family_count: `7`
+- router_family_list: `["Alibaba", "Anthropic", "Google", "Meta", "Moonshot", "OpenAI", "OpenAI-OSS"]`
+
+## SCOPE-FREEZE-BACKDOOR-FLAG — FLAG
+### Flags (2)
+- {"source": "pipeline/blueprint/v0.1/section_00_5_v5_amendment.md", "phrase": "TO_BE_PINNED", "context": "ion anchor), parent_lock_version, parent_lock_commit_hash (`TO_BE_PINNED_AT_COMMIT`), primitive_kind, description, introduced_in_ind", "severity": "FLAG"}
+- {"source": "pipeline/blueprint/v0.1/section_04_v2_1_1_amendment.md", "phrase": "TO_BE_PINNED", "context": "row has all required fields populated or explicitly marked `TO_BE_PINNED_AT_COMMIT` | `F-GPP-INDEX-STALE-ON-PROPOSED-ROWS` | | 7 | F", "severity": "FLAG"}
+- note: `"FLAG entries require Tier 2 council disposition. Unreviewed FLAGs at dispatch time trigger F-GPP-SCOPE-FREEZE-BACKDOOR-UNREVIEWED."`
+
+## VERSION-SKEW-DISCLOSURE — FAIL
+- Failure code: `F-GPP-VERSION-SKEW-UNDISCLOSED`
+### Findings (7)
+- {"source": "pipeline/blueprint/v0.1/section_00_5_interface_index.md", "reason": "doc mentions both v6-r2 and v7 but lacks explicit version-skew disclosure heading"}
+- {"source": "pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md", "reason": "doc mentions both v6-r2 and v7 but lacks explicit version-skew disclosure heading"}
+- {"source": "pipeline/blueprint/v0.1/section_00_5_interface_index_locked_v2_2026-04-18.md", "reason": "doc mentions both v6-r2 and v7 but lacks explicit version-skew disclosure heading"}
+- {"source": "pipeline/blueprint/v0.1/section_00_5_interface_index_v3_2026-04-18.md", "reason": "doc mentions both v6-r2 and v7 but lacks explicit version-skew disclosure heading"}
+- {"source": "pipeline/blueprint/v0.1/section_05_pipeline.md", "reason": "doc mentions both v6-r2 and v7 but lacks explicit version-skew disclosure heading"}
+- {"source": "pipeline/blueprint/v0.1/section_05_v6_amendment.md", "reason": "doc mentions both v6-r2 and v7 but lacks explicit version-skew disclosure heading"}
+- {"source": "pipeline/blueprint/v0.1/section_1_sovereignty_envelope.md", "reason": "doc mentions both v6-r2 and v7 but lacks explicit version-skew disclosure heading"}
+
+## BLOCKER-CARRY-CHECK — FAIL
+- Failure code: `F-GPP-BLOCKER-UNCARRIED`
+### Findings (10)
+- {"blocker": "Content-scan classifier (runs locally, 128GB ceiling, classifies payloads for local-only-vs-cloud-eligible)", "tag": "ASPIRATIONAL-LOAD-BEARING", "source_audit": "pipeline/validation/blueprint_sequencing_preflight_2026-04-19/existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "`F-ROUTER-FAMILY-COLLISION` failure code", "tag": "PROPOSED-NOT-EXISTS", "source_audit": "pipeline/validation/blueprint_sequencing_preflight_2026-04-19/existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "Content-scan classifier technology candidate", "tag": "ASPIRATIONAL-LOAD-BEARING", "source_audit": "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "`F-PRIVACY-*` failure-code family", "tag": "PROPOSED-NOT-EXISTS", "source_audit": "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "`F-CANARY-*` failure-code family", "tag": "PROPOSED-NOT-EXISTS", "source_audit": "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "`F-ROUTER-FAMILY-COLLISION` failure code", "tag": "PROPOSED-NOT-EXISTS", "source_audit": "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "`F-ROUTER-FAMILY-COLLISION` failure code (shared with Item 3)", "tag": "PROPOSED-NOT-EXISTS", "source_audit": "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "`F-RAILS-REPORT-EMISSION-FAIL` failure code", "tag": "PROPOSED-NOT-EXISTS", "source_audit": "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "`F-KEY-PRESENCE-PREFLIGHT-FAIL` failure code", "tag": "PROPOSED-NOT-EXISTS", "source_audit": "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- {"blocker": "`F-RUNTIME-DRIFT-FROM-LOCKED-ROUTER` failure code", "tag": "PROPOSED-NOT-EXISTS", "source_audit": "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md", "reason": "predecessor blocker not mentioned in current plan"}
+- predecessors_scanned: `["pipeline/validation/blueprint_sequencing_preflight_2026-04-19/existence_audit.md", "pipeline/validation/integration_scope_close_2026-04-19/05_preflight_existence_audit.md"]`
+- predecessor_blocker_count: `16`

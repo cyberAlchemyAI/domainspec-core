@@ -1,0 +1,52 @@
+# Reflection Packet producer-pubkey signed asset
+# §16 v1.1 §16.v1.1.3 / §4 v2.x.y.1 §4.v2.x.y.1.1.13
+#
+# White-glove onboarding pins this asset path AND the registry-publisher
+# pubkey (SN-LLC at v0.2; operator may rotate at white-glove or per audited
+# admin-risk ledger HIGH-severity entry). Mirrors v7.0.7 §6.1 router-template
+# publisher pubkey pinning byte-for-byte.
+#
+# The producer pubkey resolves Reflection Packet signature verification at
+# F-PACKET-SIGNATURE-INVALID (NOT from packet.emitted_by_seat per Cycle 1
+# RT-10 fold-in — circular-trust closed at v0.2 first wave LOCK).
+#
+# Trust-On-First-Use rotation: new producer pubkey co-signed by previous
+# pubkey via prior_pubkey_signature_ed25519_hex field.
+#
+# Producer-startup verifies this asset against the white-glove-pinned hash
+# before initializing the reflection_agent.
+
+schema_version: "1.0.0"
+published_at_utc: "2026-05-15T00:00:00Z"
+producer_seat_id: "archivist.reflection_submode"
+
+# 32-byte Ed25519 raw pubkey, hex-encoded. v0.2 first wave ships with a
+# placeholder of all zeros — operator generates the real keypair at white-
+# glove onboarding via `tilth reflection-packet pubkey init` and replaces
+# this asset. Production-validated flag in the deployment manifest gates
+# emission with placeholder pubkey.
+producer_pubkey_ed25519_hex: "0000000000000000000000000000000000000000000000000000000000000000"
+
+# Trust-On-First-Use rotation chain. None at initial install. On rotation,
+# the new pubkey YAML carries prior_pubkey_signature_ed25519_hex = the
+# previous pubkey's Ed25519 signature over the new canonical bytes.
+prior_pubkey_signature_ed25519_hex: null
+
+# Publisher (SN-LLC at v0.2) signs the canonical-YAML bytes minus the
+# publisher_signature_ed25519_hex field itself, mirroring v7.0.7 §6.1
+# byte-for-byte. White-glove pins SN-LLC's pubkey; producer-startup
+# verifies this signature before trusting the asset.
+publisher_signature_ed25519_hex: "0000000000000000000000000000000000000000000000000000000000000000"
+
+# SHA3-512 over the canonical-YAML bytes (signature field excluded). The
+# white-glove signed manifest records this hash for integrity verification
+# at producer-startup. Mismatch fails-closed.
+canonical_bytes_sha3_512_hex: "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+
+# Rotation policy notes (advisory):
+#   - Producer pubkey rotation requires HIGH-severity admin-risk ledger entry.
+#   - New pubkey MUST be co-signed by the prior pubkey for the rotation YAML
+#     to verify (Trust-On-First-Use chain).
+#   - Rotation cadence: operator-driven; no automatic rotation at v0.2.
+#   - v1.x scheduled-cadence Archivist may surface rotation-overdue warnings
+#     based on operator-configured policy.

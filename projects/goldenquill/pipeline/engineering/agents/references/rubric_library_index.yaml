@@ -1,0 +1,86 @@
+# Judge Rubric Library Index — v1
+# Index of available rubrics for primary scoring and cross-check synthesis
+# Judge scores against PRIMARY rubric first, then cross-checks related rubrics
+# Rubric files live at pipeline/rubrics/<funder>_rubric.json
+
+rubrics:
+
+  vapg_fy26:
+    file: "pipeline/rubrics/vapg_fy26.json"
+    funder: "USDA Rural Business-Cooperative Service"
+    program: "Value-Added Producer Grant"
+    total_points: 100
+    dimensions: 7
+    status: "extracted and stored"
+    related_rubrics: ["sare_research", "scbgp"]
+    dialect: "centrist"
+    notes: "FY26 rubric extracted — 100 pts across 7 criteria"
+
+  # Template entries for rubrics to be extracted
+  sare_research:
+    file: "pipeline/rubrics/sare_research_rubric.json"
+    funder: "SARE (Sustainable Agriculture Research & Education)"
+    program: "Research & Education Grant"
+    total_points: null  # Not yet extracted
+    dimensions: null
+    status: "pending extraction"
+    related_rubrics: ["vapg_fy26", "sare_farmer_rancher"]
+    dialect: "centrist"
+
+  sare_farmer_rancher:
+    file: "pipeline/rubrics/sare_farmer_rancher_rubric.json"
+    funder: "SARE"
+    program: "Farmer/Rancher Grant"
+    total_points: null
+    dimensions: null
+    status: "pending extraction"
+    related_rubrics: ["sare_research", "vapg_fy26"]
+    dialect: "centrist"
+
+  scbgp:
+    file: "pipeline/rubrics/scbgp_rubric.json"
+    funder: "USDA AMS"
+    program: "Specialty Crop Block Grant Program"
+    total_points: null
+    dimensions: null
+    status: "pending extraction"
+    related_rubrics: ["vapg_fy26"]
+    dialect: "centrist"
+
+# The 12-Dimension Universal Framework (90+ Rubric)
+# Used when funder-specific rubric is unavailable or as cross-check overlay
+universal_framework:
+  name: "90+ Rubric"
+  total_points: 120
+  threshold: 110  # 91.7% = "90+ on any funder rubric"
+  dimensions:
+    1: { name: "Project Narrative Clarity & Coherence", points: 10 }
+    2: { name: "Need Statement / Problem Definition", points: 10 }
+    3: { name: "Goals, Objectives, Outcomes Alignment", points: 10 }
+    4: { name: "Methods / Approach / Work Plan", points: 10 }
+    5: { name: "Timeline & Milestones", points: 10 }
+    6: { name: "Budget Justification & Reasonableness", points: 10 }
+    7: { name: "Organizational Capacity & Track Record", points: 10 }
+    8: { name: "Partnerships & Collaboration", points: 10 }
+    9: { name: "Evaluation Plan & Metrics", points: 10 }
+    10: { name: "Sustainability / Post-Grant Plan", points: 10 }
+    11: { name: "Innovation / Unique Value Proposition", points: 10 }
+    12: { name: "Alignment with Funder Priorities", points: 10 }
+
+# Cross-rubric synthesis rules
+synthesis_rules:
+  - "Always score against PRIMARY rubric first"
+  - "Select 2-3 related rubrics from 'related_rubrics' field"
+  - "Note where related rubrics weight dimensions differently"
+  - "Note dimensions related rubrics emphasize but primary doesn't"
+  - "Cross-rubric notes are informational — primary score is canonical"
+  - "If funder-specific rubric unavailable, use universal framework as primary"
+  - "When funder weights dimensions differently, score proportionally but report all 12"
+
+# SFR format requirement (per A3)
+sfr_requirement: |
+  Every dimension score uses Semi-Formal Reasoning format:
+    PREMISES: [rubric criterion + draft evidence + PC corroboration]
+    TRACE: [reasoning chain from premises to score]
+    CONCLUSION: [score + deduction reason + prescriptive fix + point recovery estimate]
+  Logician enforces via F-VERDICT-CERT-MALFORMED POST-gate.

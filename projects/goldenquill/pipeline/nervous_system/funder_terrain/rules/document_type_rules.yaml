@@ -1,0 +1,32 @@
+- rule_id: dtype_guidelines_filename
+  target_field: filename
+  priority: 10
+  regex_patterns: ["guidelines", "nofo"]
+  output_value: Guidelines/NOFO
+  confidence: CONFIRMED_BY_FILENAME
+  review_required: false
+  rationale: Matches typical grant application guidelines
+- rule_id: dtype_application_filename
+  target_field: filename
+  priority: 10
+  regex_patterns: ["application form"]
+  output_value: Application Form
+  confidence: CONFIRMED_BY_FILENAME
+  review_required: false
+  rationale: Explicitly states application form
+- rule_id: dtype_business_plan_filename
+  target_field: filename
+  priority: 10
+  regex_patterns: ["business plan"]
+  output_value: Business Plan
+  confidence: CONFIRMED_BY_FILENAME
+  review_required: false
+  rationale: Explicitly states business plan
+- rule_id: dtype_report_filename
+  target_field: filename
+  priority: 10
+  regex_patterns: ["report"]
+  output_value: Report
+  confidence: CONFIRMED_BY_FILENAME
+  review_required: false
+  rationale: Explicitly states report

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Audit Trail / Amendment Ledger</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed": "#d3e4fe",
+                      "on-tertiary-fixed": "#131b2e",
+                      "primary-fixed": "#e2e2e2",
+                      "tertiary": "#ffffff",
+                      "on-secondary-container": "#a9bad3",
+                      "tertiary-container": "#dae2fd",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "on-primary-fixed": "#1a1c1c",
+                      "primary-container": "#e2e2e2",
+                      "background": "#081425",
+                      "surface-bright": "#2f3a4c",
+                      "surface-dim": "#081425",
+                      "on-primary-container": "#636565",
+                      "surface-container-highest": "#2a3548",
+                      "on-tertiary": "#283044",
+                      "on-error": "#690005",
+                      "on-surface-variant": "#c4c7c8",
+                      "error": "#ffb4ab",
+                      "surface-container": "#152031",
+                      "on-surface": "#d8e3fb",
+                      "error-container": "#93000a",
+                      "on-secondary": "#213145",
+                      "on-error-container": "#ffdad6",
+                      "surface-container-high": "#1f2a3c",
+                      "on-secondary-fixed": "#0b1c30",
+                      "on-primary": "#2f3131",
+                      "on-background": "#d8e3fb",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "surface-container-low": "#111c2d",
+                      "secondary": "#b7c8e1",
+                      "inverse-surface": "#d8e3fb",
+                      "inverse-primary": "#5d5f5f",
+                      "inverse-on-surface": "#263143",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "primary": "#ffffff",
+                      "outline-variant": "#444748",
+                      "surface-tint": "#c6c6c7",
+                      "tertiary-fixed": "#dae2fd",
+                      "on-primary-fixed-variant": "#454747",
+                      "primary-fixed-dim": "#c6c6c7",
+                      "secondary-container": "#3a4a5f",
+                      "outline": "#8e9192",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "surface": "#081425",
+                      "surface-container-lowest": "#040e1f",
+                      "surface-variant": "#2a3548",
+                      "on-tertiary-container": "#5c647a",
+                      "gold-burnished": "#B89745"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0px",
+                      "lg": "0px",
+                      "xl": "0px",
+                      "full": "0px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "sidebar-width": "220px",
+                      "panel-gap": "8px",
+                      "container-padding": "16px",
+                      "gutter": "1px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-caps": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "data-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "body-sm": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "data-mono": [
+                              "13px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Grid background pattern */
+        .grid-bg {
+            background-size: 20px 20px;
+            background-image: linear-gradient(to right, rgba(68, 71, 72, 0.1) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(68, 71, 72, 0.1) 1px, transparent 1px);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #081425; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a3548; 
+            border: 1px solid #081425;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444748; 
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen w-screen overflow-hidden flex flex-col font-body-md grid-bg selection:bg-surface-bright selection:text-primary">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-container-padding w-full h-[56px] border-b border-outline-variant bg-surface-container-highest shrink-0 z-50">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary tracking-tighter">GOLDEN QUILL</span>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-data-mono font-data-mono text-sm w-64 placeholder:text-on-surface-variant/50" placeholder="Search Audit Trails..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-label-caps text-on-surface-variant">POSTURE</span>
+<span class="font-data-mono text-data-mono text-primary">HYBRID</span>
+</div>
+<div class="h-8 w-px bg-outline-variant"></div>
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-label-caps text-on-surface-variant">AUDIT</span>
+<span class="font-data-mono text-data-mono text-[#B89745] flex items-center gap-1"><span class="material-symbols-outlined icon-fill text-[14px]">verified</span>VERIFIED</span>
+</div>
+<div class="h-8 w-px bg-outline-variant"></div>
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-label-caps text-on-surface-variant">SIGNING KEY</span>
+<span class="font-data-mono text-data-mono text-primary">4a3f...b2c8</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-primary">
+<button class="hover:text-surface-tint transition-none"><span class="material-symbols-outlined">security</span></button>
+<button class="hover:text-surface-tint transition-none"><span class="material-symbols-outlined">verified_user</span></button>
+<button class="hover:text-surface-tint transition-none"><span class="material-symbols-outlined">gavel</span></button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="w-[220px] h-full border-r border-outline-variant bg-surface-container-low shrink-0 flex flex-col z-40">
+<div class="p-4 border-b border-outline-variant mb-2">
+<div class="font-headline-md text-headline-md text-primary mb-1">NODE IDENTITY</div>
+<div class="font-label-caps text-label-caps text-[#B89745]">POSTURE: SECURE</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2 flex flex-col gap-1 px-2">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[18px]">map</span>
+<span class="font-label-caps text-label-caps">Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[18px]">signature</span>
+<span class="font-label-caps text-label-caps">Sign-Off</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[18px]">style</span>
+<span class="font-label-caps text-label-caps">Cards</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Central Canvas: Audit Ledger -->
+<div class="flex-1 flex flex-col min-w-0 border-r border-outline-variant bg-surface">
+<!-- Filters Header -->
+<div class="p-4 border-b border-outline-variant bg-surface-container-low shrink-0 flex items-center justify-between">
+<div class="flex gap-4 items-center">
+<span class="font-headline-md text-headline-md text-primary">Amendment Ledger</span>
+<div class="h-4 w-px bg-outline-variant"></div>
+<div class="flex gap-2">
+<select class="bg-surface-dim border border-outline-variant text-on-surface text-data-mono font-data-mono py-1 px-2 focus:ring-1 focus:ring-primary focus:border-primary outline-none">
+<option>CYCLE: ALL</option>
+<option>CYCLE: Q4-23</option>
+</select>
+<select class="bg-surface-dim border border-outline-variant text-on-surface text-data-mono font-data-mono py-1 px-2 focus:ring-1 focus:ring-primary focus:border-primary outline-none">
+<option>SEAT: ALL</option>
+<option>SEAT: JUDGE</option>
+</select>
+<select class="bg-surface-dim border border-outline-variant text-on-surface text-data-mono font-data-mono py-1 px-2 focus:ring-1 focus:ring-primary focus:border-primary outline-none">
+<option>STATE: VERIFIED</option>
+<option>STATE: PENDING</option>
+</select>
+</div>
+</div>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-4 py-2 hover:bg-primary-fixed-dim transition-none uppercase tracking-wider">
+                        Export Ledger
+                    </button>
+</div>
+<!-- Timeline / Ledger View -->
+<div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6 relative">
+<!-- Vertical Timeline Line -->
+<div class="absolute left-8 top-8 bottom-8 w-px bg-outline-variant z-0"></div>
+<!-- Row 1: Genesis Lock -->
+<div class="relative z-10 flex gap-6 group">
+<div class="w-4 h-4 rounded-none bg-surface border-2 border-outline-variant mt-2 shrink-0 group-hover:border-primary transition-colors"></div>
+<div class="flex-1 border border-outline-variant bg-surface-container-low p-0 hover:border-primary transition-colors cursor-pointer">
+<div class="flex items-center justify-between p-3 border-b border-outline-variant bg-surface-container-highest">
+<div class="flex items-center gap-3">
+<span class="font-data-mono text-data-mono text-on-surface-variant">2023-10-24 14:02:11 UTC</span>
+<span class="font-data-mono text-data-mono bg-surface-bright text-primary px-1 border border-outline-variant">CYC-992A</span>
+<span class="font-label-caps text-label-caps text-[#B89745] border border-[#B89745] px-1 bg-[#B89745]/10">LOCKED</span>
+</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">tag</span>
+                                    0x9f8b...22c1
+                                </div>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">ACTOR SEAT</div>
+<div class="font-body-md text-on-surface">System Scribe (Automated)</div>
+</div>
+<div class="text-right">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">ATTESTATION</div>
+<div class="font-data-mono text-data-mono text-primary flex items-center gap-1 bg-surface-dim border border-outline-variant px-2 py-1">
+<span class="material-symbols-outlined text-[14px] text-[#B89745]">gavel</span>
+                                            Beneficiary: FIT Farms LLC (&gt;50%)
+                                        </div>
+</div>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">ARTIFACT CONTEXT</div>
+<div class="font-body-sm text-on-surface-variant">Initial eligibility parameters instantiated and cryptographically sealed.</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Row 2: Amendment Diff -->
+<div class="relative z-10 flex gap-6 group">
+<div class="w-4 h-4 rounded-none bg-[#B89745] mt-2 shrink-0 border border-[#B89745] shadow-[0_0_8px_rgba(184,151,69,0.5)]"></div>
+<div class="flex-1 border border-primary bg-surface-container-high p-0 relative shadow-[0_0_15px_rgba(255,255,255,0.05)] cursor-pointer">
+<div class="absolute -left-px top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex items-center justify-between p-3 border-b border-outline-variant bg-surface-container-highest">
+<div class="flex items-center gap-3">
+<span class="font-data-mono text-data-mono text-primary">2023-10-25 09:15:44 UTC</span>
+<span class="font-data-mono text-data-mono bg-surface-bright text-primary px-1 border border-outline-variant">CYC-992A</span>
+<span class="font-label-caps text-label-caps text-surface bg-primary px-1">AMENDED</span>
+</div>
+<div class="font-data-mono text-data-mono text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">tag</span>
+                                    0x3a1f...99d4
+                                </div>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">ACTOR SEAT</div>
+<div class="font-body-md text-primary">Senior Judge (Manual Override)</div>
+</div>
+<div class="text-right">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">ATTESTATION</div>
+<div class="font-data-mono text-data-mono text-primary flex items-center gap-1 bg-surface-dim border border-outline-variant px-2 py-1">
+<span class="material-symbols-outlined text-[14px] text-[#B89745]">gavel</span>
+                                            Beneficiary: FIT Farms LLC (&gt;50%)
+                                        </div>
+</div>
+</div>
+<!-- Diff View -->
+<div class="border border-outline-variant bg-surface-dim flex flex-col font-data-mono text-data-mono">
+<div class="flex border-b border-outline-variant bg-surface-container-low px-3 py-1">
+<span class="text-on-surface-variant w-24">FIELD</span>
+<span class="text-on-surface-variant">DELTA</span>
+</div>
+<div class="flex px-3 py-2 border-b border-outline-variant border-dashed border-opacity-50">
+<span class="text-on-surface w-24">ALLOCATION</span>
+<div class="flex-1 flex gap-4">
+<span class="text-error line-through decoration-error/50">- 1.45M USD</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">arrow_right_alt</span>
+<span class="text-[#22C55E] bg-[#22C55E]/10 px-1">+ 1.65M USD</span>
+</div>
+</div>
+<div class="flex px-3 py-2">
+<span class="text-on-surface w-24">RATIONALE</span>
+<div class="flex-1 text-on-surface-variant">
+                                            Adjusted for revised Q3 capital expenditure findings per audit FID_0x2A.
+                                        </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Row 3: Signature Event -->
+<div class="relative z-10 flex gap-6 group opacity-75 hover:opacity-100 transition-opacity">
+<div class="w-4 h-4 rounded-none bg-surface border-2 border-outline-variant mt-2 shrink-0 group-hover:border-primary transition-colors"></div>
+<div class="flex-1 border border-outline-variant bg-surface-container-low p-0 hover:border-primary transition-colors cursor-pointer">
+<div class="flex items-center justify-between p-3 border-b border-outline-variant bg-surface-container-highest">
+<div class="flex items-center gap-3">
+<span class="font-data-mono text-data-mono text-on-surface-variant">2023-10-26 11:00:02 UTC</span>
+<span class="font-data-mono text-data-mono bg-surface-bright text-primary px-1 border border-outline-variant">CYC-992A</span>
+<span class="font-label-caps text-label-caps text-secondary border border-secondary px-1">SIGNED</span>
+</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">tag</span>
+                                    0x7c4e...11a0
+                                </div>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">ACTOR SEAT</div>
+<div class="font-body-md text-on-surface">Red Team Lead</div>
+</div>
+<div class="text-right">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">ATTESTATION</div>
+<div class="font-data-mono text-data-mono text-primary flex items-center gap-1 bg-surface-dim border border-outline-variant px-2 py-1">
+<span class="material-symbols-outlined text-[14px] text-[#B89745]">gavel</span>
+                                            Beneficiary: FIT Farms LLC (&gt;50%)
+                                        </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Inspector Panel -->
+<div class="w-[320px] bg-surface-container-high border-l border-outline-variant shrink-0 flex flex-col z-30">
+<div class="p-4 border-b border-outline-variant bg-surface-container-highest flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">data_object</span>
+<span class="font-label-caps text-label-caps text-primary">AUDIT ROW DETAIL</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+<!-- Selected Entity Header -->
+<div>
+<div class="font-data-mono text-data-mono text-[#B89745] mb-2 flex items-center gap-2">
+<span class="w-2 h-2 bg-[#B89745]"></span>
+                            SELECTED EVENT
+                        </div>
+<div class="font-headline-md text-headline-md text-primary break-all">0x3a1f9b2...99d4</div>
+</div>
+<!-- Verification Block -->
+<div class="border border-outline-variant bg-surface p-3 flex flex-col gap-2">
+<div class="font-label-caps text-label-caps text-on-surface-variant flex justify-between">
+<span>VERIFICATION STATE</span>
+<span class="text-[#22C55E]">VALID</span>
+</div>
+<div class="h-px bg-outline-variant w-full my-1"></div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">Ed25519 SIGNATURE</div>
+<div class="font-data-mono text-data-mono text-primary bg-surface-dim p-2 border border-outline-variant text-[10px] break-all leading-relaxed">
+                            sig_8f92a3c4b5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2
+                        </div>
+</div>
+<!-- Source Context -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">SOURCE CONTEXT</div>
+<div class="bg-surface border border-outline-variant p-3 font-data-mono text-data-mono text-on-surface text-[11px] flex flex-col gap-1">
+<div class="flex justify-between"><span class="text-on-surface-variant">MODEL:</span> <span>GQ-AUDIT-v4.2</span></div>
+<div class="flex justify-between"><span class="text-on-surface-variant">IP:</span> <span>192.168.1.104</span></div>
+<div class="flex justify-between"><span class="text-on-surface-variant">LATENCY:</span> <span>42ms</span></div>
+</div>
+</div>
+<!-- Beneficiary Trail -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">account_tree</span>
+                            BENEFICIARY VERIFICATION TRAIL
+                        </div>
+<div class="border-l-2 border-outline-variant ml-2 pl-3 py-1 flex flex-col gap-3 font-data-mono text-data-mono text-[11px]">
+<div class="relative">
+<div class="absolute -left-[19px] top-1 w-2 h-2 bg-primary"></div>
+<div class="text-primary">Kyc Check: PASS</div>
+<div class="text-on-surface-variant">FID_0x11</div>
+</div>
+<div class="relative">
+<div class="absolute -left-[19px] top-1 w-2 h-2 bg-primary"></div>
+<div class="text-primary">Ownership: &gt;50% CONFIRMED</div>
+<div class="text-on-surface-variant">FID_0x1A</div>
+</div>
+<div class="relative">
+<div class="absolute -left-[19px] top-1 w-2 h-2 bg-[#B89745] shadow-[0_0_4px_#B89745]"></div>
+<div class="text-[#B89745]">Attestation: LOCKED</div>
+<div class="text-on-surface-variant">Current Event</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="flex items-center justify-between px-4 w-full h-[32px] border-t border-outline-variant bg-surface-container-lowest fixed bottom-0 z-50 shrink-0">
+<span class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</span>
+<div class="flex items-center gap-6">
+<span class="font-data-mono text-data-mono text-on-surface-variant">Machine: fit-farms-pgh-001</span>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none" href="#">SYSTEM_STATUS</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none" href="#">AUDIT_LOG</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none" href="#">FID_0x2A</a>
+</div>
+</footer>
+</body></html>

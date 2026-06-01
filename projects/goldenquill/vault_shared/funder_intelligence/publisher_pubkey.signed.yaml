@@ -1,0 +1,73 @@
+# FID publisher-pubkey signed asset
+# Funder Intelligence Database — Path 2 TOFU self-sign (planning doc §1.5 / §2.1 / §11.5).
+#
+# Mirrors the v7.0.7 §6.1 router-template publisher pubkey pinning byte-for-
+# byte (also mirrored by §17 v1 Coefficient Registry + §16 v1.1 Reflection
+# Packet producer-pubkey + §18 v1 cards publisher-pubkey).
+#
+# Operator IS the publisher for FID — the operator-controlled Ed25519 signing
+# key for FID artifacts (funders/*.yaml, programs/*.yaml,
+# compliance_cascades/*.yaml, reviewer_heuristics/*.yaml). Dedicated key per
+# planning doc §11.5 (separation-of-concerns from cards-publisher key).
+#
+# At ceremony first-install (Trust-On-First-Use), the operator pubkey
+# self-signs this asset; subsequent rotations require co-signing by the
+# prior pubkey via prior_pubkey_signature_ed25519_hex.
+#
+# The FID artifact loader (lands at v0.2 first wave realization) resolves
+# FID artifact signature verification (F-FID-SIGNATURE-INVALID) against this
+# pubkey.
+#
+# Trust pinning: white-glove onboarding pins this asset path AND records the
+# canonical_bytes_sha3_512_hex below for integrity verification at startup.
+#
+# ─── Canonicalization algorithm (Path 2; documented for v0.2 reconciliation) ───
+# canonical_bytes = canonical-JSON of this YAML parsed-as-dict, with the two
+# self-referential keys REMOVED before serialization:
+#   - publisher_signature_ed25519_hex
+#   - canonical_bytes_sha3_512_hex
+# json.dumps with sort_keys=True, separators=(',', ':'), ensure_ascii=False,
+# UTF-8-encoded.
+# SHA3-512 over canonical_bytes → canonical_bytes_sha3_512_hex.
+# Ed25519 signature over canonical_bytes (NOT the hash) → publisher_signature_ed25519_hex.
+# Verification target pubkey: publisher_pubkey_ed25519_hex below (TOFU self-assertion).
+# v0.2 NOTE: cards-publisher signed-asset uses an unreproducible canonicalization
+# whose hash does not verify under any of 8 candidate forms tested 2026-05-16.
+# v0.2 loader-realization session reconciles the cards-publisher hash to this
+# Path-2 algorithm OR re-runs the original cards ceremony script to recompute.
+
+schema_version: "1.0.0"
+published_at_utc: "2026-05-16T19:30:00Z"
+publisher_role_id: "funder_intelligence.operator_publisher"
+
+# 32-byte Ed25519 raw pubkey, hex-encoded. Generated 2026-05-16 PM (FID
+# Phase 1 kickoff). Private key seed in operator key custody — NEVER
+# committed to git. Operator may rotate at white-glove or per audited
+# admin-risk ledger HIGH-severity entry.
+publisher_pubkey_ed25519_hex: "634441fdba230ba20253d592e24b88c579ed5b269c1c6923f46882b281c37b8f"
+
+# Trust-On-First-Use rotation chain. None at initial install. On rotation,
+# the new pubkey YAML carries prior_pubkey_signature_ed25519_hex = the
+# previous pubkey's Ed25519 signature over the new canonical bytes (excluding
+# this field + publisher_signature_ed25519_hex + canonical_bytes_sha3_512_hex).
+prior_pubkey_signature_ed25519_hex: null
+
+# Publisher (operator) self-signs the canonical-JSON bytes (algorithm above).
+# Verification target: publisher_pubkey_ed25519_hex above (Trust-On-First-Use
+# self-assertion at initial install). Populated at TOFU ceremony.
+publisher_signature_ed25519_hex: "c3653a24241cb9e64ad2865232137c91d7cf08c590c23829321b9965d89808b240d6b2a1ae0f1e11c585f1594b748f2e74468f230755775966a5662abcbe1704"
+
+# SHA3-512 over the canonical-JSON bytes (both self-referential fields
+# excluded — see algorithm above). The white-glove signed manifest records
+# this hash for integrity verification at loader startup. Mismatch fails-
+# closed at F-FID-SIGNATURE-INVALID.pubkey_hash_mismatch (forward-binding
+# sub-tag at v0.2 first wave loader-realization).
+canonical_bytes_sha3_512_hex: "e24c2430cc652aa3e4a4515e35d951077ea704b16c9896974e8b48491aac933fa4989c091e8c2ca82de8afe15f976033685d9c8c13a5356fb29e37690c65d853"
+
+# Rotation policy notes (advisory):
+#   - Publisher pubkey rotation requires HIGH-severity admin-risk ledger entry.
+#   - New pubkey MUST be co-signed by the prior pubkey for the rotation YAML
+#     to verify (Trust-On-First-Use chain).
+#   - Rotation cadence: operator-driven; no automatic rotation at v0.1 Beta.
+#   - v1.x scheduled-cadence Archivist may surface rotation-overdue warnings
+#     based on operator-configured policy.

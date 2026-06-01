@@ -1,0 +1,119 @@
+# Overlooked Expenses Checklist — v1
+# Scribe Gate 5 reference — non-bypassable budget validation
+# Each item must be addressed or explicitly N/A'd in budget sections
+# Logician validates via Gate 5 (F-OVERLOOKED-EXPENSE-MISSING)
+
+categories:
+
+  personnel:
+    items:
+      - id: OE-P01
+        item: "Fringe benefits (health insurance, retirement, FICA, workers comp)"
+        common_miss: "Listed salary without fringe rate"
+        typical_rate: "25-40% of salary for full benefits"
+      - id: OE-P02
+        item: "Personnel time for grant administration and reporting"
+        common_miss: "No line item for writing quarterly/annual reports"
+      - id: OE-P03
+        item: "Overtime or seasonal labor spikes"
+        common_miss: "Flat annual salary when work is seasonal"
+      - id: OE-P04
+        item: "Consultant/contractor costs (if using external expertise)"
+        common_miss: "Plan mentions consultants but budget doesn't line-item them"
+
+  indirect_costs:
+    items:
+      - id: OE-I01
+        item: "Indirect cost rate (negotiated or de minimis 10%)"
+        common_miss: "No indirect costs claimed when eligible"
+        note: "If org has no negotiated rate, most federal grants allow 10% de minimis (2 CFR 200.414)"
+      - id: OE-I02
+        item: "Audit costs (Single Audit if spending >$750K federal)"
+        common_miss: "Budget exceeds $750K but no audit line item"
+        note: "Required by 2 CFR 200 Subpart F"
+
+  travel:
+    items:
+      - id: OE-T01
+        item: "Travel for project activities (mileage, per diem, lodging)"
+        common_miss: "Field work planned but no travel budget"
+      - id: OE-T02
+        item: "Conference/training attendance"
+        common_miss: "RFA requires conference attendance but no line item"
+      - id: OE-T03
+        item: "Travel for partners/collaborators"
+        common_miss: "Partners listed but their travel not budgeted"
+
+  equipment_and_supplies:
+    items:
+      - id: OE-E01
+        item: "Equipment maintenance and repair"
+        common_miss: "Equipment purchased but no maintenance budget"
+      - id: OE-E02
+        item: "Software licenses and subscriptions"
+        common_miss: "Data management planned but no software costs"
+      - id: OE-E03
+        item: "Replacement supplies consumed during project"
+        common_miss: "Growing media, packaging, lab supplies not itemized"
+
+  accessibility_and_inclusion:
+    items:
+      - id: OE-A01
+        item: "Translation/interpretation services"
+        common_miss: "Serves multilingual community but no translation budget"
+      - id: OE-A02
+        item: "Accessibility accommodations (ADA compliance, materials in alternate formats)"
+        common_miss: "Public events planned but no accessibility budget"
+      - id: OE-A03
+        item: "Childcare for participants at events/trainings"
+        common_miss: "Community workshops but no childcare support"
+      - id: OE-A04
+        item: "Stipends or incentives for participant time"
+        common_miss: "Farmer participants expected to attend trainings with no compensation"
+
+  data_and_evaluation:
+    items:
+      - id: OE-D01
+        item: "Data collection tools (surveys, sensors, testing)"
+        common_miss: "Evaluation plan mentions data but no collection costs"
+      - id: OE-D02
+        item: "External evaluator costs"
+        common_miss: "RFA requires third-party evaluation but not budgeted"
+      - id: OE-D03
+        item: "Data management and storage"
+        common_miss: "Multi-year project with no data management line"
+
+  dissemination:
+    items:
+      - id: OE-D04
+        item: "Publication and printing costs"
+        common_miss: "Outreach materials mentioned but not budgeted"
+      - id: OE-D05
+        item: "Website or digital platform costs"
+        common_miss: "Online dissemination planned but no hosting/development costs"
+
+  matching_and_cost_share:
+    items:
+      - id: OE-M01
+        item: "Documentation of matching funds or in-kind contributions"
+        common_miss: "Match claimed but no supporting documentation plan"
+        note: "Some grants require match documentation as a budget line (staff time to track/report match)"
+      - id: OE-M02
+        item: "Valuation method for in-kind contributions"
+        common_miss: "In-kind listed at arbitrary values without methodology"
+
+  risk_and_contingency:
+    items:
+      - id: OE-R01
+        item: "Insurance (liability, crop insurance if agricultural)"
+        common_miss: "Field activities with public but no liability insurance"
+      - id: OE-R02
+        item: "Permits and licensing fees"
+        common_miss: "Construction or processing planned but no permit costs"
+
+# Validation rules
+validation:
+  required: "Every item must be either budgeted OR explicitly N/A'd with justification"
+  n_a_format: "N/A: [reason — e.g., 'no federal funds exceed $750K' for OE-I02]"
+  severity: "YELLOW WARN — not a hard block, but strong signal of budget weakness"
+  note: "A budget missing >3 items without N/A justification triggers automatic Judge deduction on Dimension 6 (Budget Justification)"

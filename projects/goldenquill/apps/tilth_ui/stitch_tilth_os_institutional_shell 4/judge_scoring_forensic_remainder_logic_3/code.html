@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Judge Scoring - Golden Quill</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Design System Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "on-surface-variant": "#c4c7c8",
+                    "on-primary-container": "#636565",
+                    "secondary-fixed": "#d3e4fe",
+                    "on-primary-fixed": "#1a1c1c",
+                    "inverse-surface": "#d8e3fb",
+                    "surface-container": "#152031",
+                    "inverse-primary": "#5d5f5f",
+                    "error": "#ffb4ab",
+                    "tertiary": "#ffffff",
+                    "surface-tint": "#c6c6c7",
+                    "surface-dim": "#081425",
+                    "surface-container-lowest": "#040e1f",
+                    "on-secondary": "#213145",
+                    "primary-container": "#e2e2e2",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "on-secondary-container": "#a9bad3",
+                    "on-background": "#d8e3fb",
+                    "on-primary-fixed-variant": "#454747",
+                    "surface-bright": "#2f3a4c",
+                    "on-surface": "#d8e3fb",
+                    "on-error-container": "#ffdad6",
+                    "on-tertiary-container": "#5c647a",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "surface-container-high": "#1f2a3c",
+                    "inverse-on-surface": "#263143",
+                    "outline-variant": "#444748",
+                    "primary": "#ffffff",
+                    "tertiary-fixed": "#dae2fd",
+                    "on-primary": "#2f3131",
+                    "surface-container-highest": "#2a3548",
+                    "primary-fixed": "#e2e2e2",
+                    "secondary": "#b7c8e1",
+                    "on-error": "#690005",
+                    "surface-container-low": "#111c2d",
+                    "secondary-container": "#3a4a5f",
+                    "surface": "#081425",
+                    "error-container": "#93000a",
+                    "surface-variant": "#2a3548",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "on-tertiary-fixed": "#131b2e",
+                    "on-tertiary": "#283044",
+                    "outline": "#8e9192",
+                    "on-secondary-fixed": "#0b1c30",
+                    "background": "#081425",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "tertiary-container": "#dae2fd"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "1px",
+                    "container-padding": "16px",
+                    "unit": "4px",
+                    "sidebar-width": "240px",
+                    "panel-gap": "8px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "data-mono": ["JetBrains Mono"],
+                    "body-md": ["Hanken Grotesk"],
+                    "body-sm": ["Hanken Grotesk"],
+                    "label-caps": ["JetBrains Mono"],
+                    "display-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "body-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Base styles enforcing the Brutalist/Technical aesthetic */
+        body { margin: 0; overflow: hidden; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #081425; }
+        ::-webkit-scrollbar-thumb { background: #444748; }
+        ::-webkit-scrollbar-thumb:hover { background: #636565; }
+    </style>
+</head>
+<body class="bg-background text-on-surface flex flex-col h-screen font-body-md antialiased selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-container-padding w-full h-[56px] border-b border-outline-variant bg-surface-container-highest dark:bg-surface-container-highest z-50 shrink-0">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter">GOLDEN QUILL</span>
+<div class="flex items-center gap-2 border-l border-outline-variant pl-4 ml-2">
+<span class="px-2 py-1 bg-surface-container-high border border-outline-variant font-label-caps text-label-caps text-on-surface-variant uppercase">AppliedAs: USDA-NIFA-AFRI</span>
+<span class="px-2 py-1 bg-primary border border-primary font-label-caps text-label-caps text-on-primary flex items-center gap-1 uppercase"><span class="material-symbols-outlined text-[14px]">shield</span> SECURE POSTURE</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-1 hover:bg-surface-bright text-primary dark:text-primary transition-none flex items-center justify-center border border-transparent hover:border-outline-variant rounded-none">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">security</span>
+</button>
+<button class="p-1 hover:bg-surface-bright text-primary dark:text-primary transition-none flex items-center justify-center border border-transparent hover:border-outline-variant rounded-none">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</button>
+<button class="p-1 hover:bg-surface-bright text-primary dark:text-primary transition-none flex items-center justify-center border border-transparent hover:border-outline-variant rounded-none">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">gavel</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="w-[220px] h-full border-r border-outline-variant bg-surface-container-low dark:bg-surface-container-low flex flex-col shrink-0">
+<div class="p-4 border-b border-outline-variant">
+<div class="font-headline-md text-headline-md text-primary mb-1">NODE IDENTITY</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant flex items-center gap-2">
+<span class="w-2 h-2 bg-primary"></span> POSTURE: SECURE
+                </div>
+</div>
+<div class="flex-1 overflow-y-auto py-2 flex flex-col gap-1">
+<!-- Navigation Items -->
+<script>
+                    const navLabels = ["Home", "Scout", "Intake", "Eligibility", "Module Mapper", "Drafting", "Budget", "Judge", "Red Team", "Sign-Off", "Audit", "Cards", "FIDs", "Costs"];
+                    const navIcons = ["home", "search", "input", "assignment_turned_in", "map", "edit_note", "payments", "gavel", "security", "signature", "history_edu", "style", "fingerprint", "account_balance_wallet"];
+                    const activeTab = "Judge";
+
+                    document.write(navLabels.map((label, index) => {
+                        const icon = navIcons[index];
+                        const isActive = label === activeTab;
+                        const baseClasses = "flex items-center gap-3 px-4 py-2 w-full text-left transition-none instant toggle group";
+                        const stateClasses = isActive 
+                            ? "bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed" 
+                            : "text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent";
+                        
+                        return `
+                            <button class="${baseClasses} ${stateClasses}">
+                                <span class="material-symbols-outlined text-[18px] ${isActive ? 'text-on-primary' : 'text-on-surface-variant group-hover:text-primary'}" style="font-variation-settings: 'FILL' ${isActive ? '1' : '0'};">${icon}</span>
+                                <span class="font-label-caps text-label-caps uppercase tracking-wider">${label}</span>
+                            </button>
+                        `;
+                    }).join(''));
+                </script>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex overflow-hidden bg-background">
+<!-- Center Canvas: Forensic & Criteria -->
+<div class="flex-1 flex flex-col border-r border-outline-variant overflow-y-auto">
+<!-- Forensic Remainder Logic Header -->
+<div class="p-6 border-b border-outline-variant bg-surface flex flex-col gap-6">
+<div class="flex justify-between items-end">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary mb-2">FORENSIC REMAINDER LOGIC</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">USDA-NIFA-AFRI Rubric Alignment Analysis</p>
+</div>
+<div class="text-right">
+<div class="font-data-mono text-data-mono text-on-surface-variant mb-1">PREDICTED SCORE</div>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg font-bold text-primary">82</span>
+<span class="font-headline-md text-headline-md text-on-surface-variant">/ 100</span>
+</div>
+</div>
+</div>
+<!-- Score Breakdown Bar -->
+<div class="w-full bg-surface-container-highest border border-outline-variant h-8 flex overflow-hidden group">
+<div class="bg-primary flex items-center px-2 font-data-mono text-data-mono text-on-primary" style="width: 82%;">
+<span class="opacity-0 group-hover:opacity-100 transition-opacity">82 PTS EARNED</span>
+</div>
+<div class="bg-error flex items-center px-2 font-data-mono text-data-mono text-on-error relative border-l border-outline-variant" style="width: 12%;">
+<span class="opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap absolute left-2">-12 IMMUTABLE</span>
+</div>
+<div class="bg-surface-tint flex items-center px-2 font-data-mono text-data-mono text-surface-container-lowest relative border-l border-outline-variant" style="width: 6%;">
+<span class="opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap absolute left-2">-6 ADDRESSABLE</span>
+</div>
+</div>
+<!-- Metrics Grid -->
+<div class="grid grid-cols-3 gap-unit">
+<div class="border border-outline-variant bg-surface-container p-4">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">SCORE CEILING</div>
+<div class="font-headline-md text-headline-md text-primary">88% <span class="text-on-surface-variant font-body-sm text-body-sm">Max Potential</span></div>
+</div>
+<div class="border border-outline-variant bg-surface-container p-4">
+<div class="font-label-caps text-label-caps text-error mb-2 flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">lock</span> IMMUTABLE CONSTRAINTS</div>
+<div class="font-headline-md text-headline-md text-error">-12 PTS</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">Geographic Affluence Index</div>
+</div>
+<div class="border border-outline-variant bg-surface-container p-4 bg-surface-bright">
+<div class="font-label-caps text-label-caps text-primary mb-2 flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">build</span> ADDRESSABLE REMAINDER</div>
+<div class="font-headline-md text-headline-md text-primary">-6 PTS</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">Market Demand Evidence (Improvement Required)</div>
+</div>
+</div>
+</div>
+<!-- Rubric Criteria List -->
+<div class="flex-1 flex flex-col p-6 bg-surface-dim">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant mb-4 border-b border-outline-variant pb-2">RUBRIC CRITERIA EVALUATION</h2>
+<div class="flex flex-col gap-2">
+<!-- Table Header -->
+<div class="grid grid-cols-12 gap-4 px-4 py-2 border-b border-outline-variant font-label-caps text-label-caps text-on-surface-variant uppercase">
+<div class="col-span-4">Criterion Element</div>
+<div class="col-span-2 text-right">Weight</div>
+<div class="col-span-2 text-right">Score</div>
+<div class="col-span-4 pl-4">Evidence Ladder</div>
+</div>
+<!-- Criterion Row 1 -->
+<div class="grid grid-cols-12 gap-4 px-4 py-3 border border-outline-variant bg-surface hover:bg-surface-container-high transition-none items-center group cursor-pointer">
+<div class="col-span-4 font-body-md text-body-md text-primary font-semibold">Technical Merit</div>
+<div class="col-span-2 text-right font-data-mono text-data-mono text-on-surface-variant">30</div>
+<div class="col-span-2 text-right font-data-mono text-data-mono text-primary">30</div>
+<div class="col-span-4 pl-4 flex items-center">
+<span class="px-2 py-1 bg-surface-bright border border-primary text-primary font-label-caps text-label-caps flex items-center gap-1">
+<span class="w-2 h-2 bg-primary"></span> STRONGEST
+                                </span>
+</div>
+</div>
+<!-- Criterion Row 2 (Selected/Active) -->
+<div class="grid grid-cols-12 gap-4 px-4 py-3 border border-primary bg-surface-container-high items-center cursor-pointer relative">
+<!-- Active Indicator Line -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="col-span-4 font-body-md text-body-md text-primary font-semibold flex items-center gap-2">
+                                Market Impact
+                                <span class="material-symbols-outlined text-[14px] text-surface-tint">warning</span>
+</div>
+<div class="col-span-2 text-right font-data-mono text-data-mono text-on-surface-variant">25</div>
+<div class="col-span-2 text-right font-data-mono text-data-mono text-surface-tint flex items-center justify-end gap-2">
+<span class="text-error font-bold">-6</span> 19
+                            </div>
+<div class="col-span-4 pl-4 flex items-center">
+<span class="px-2 py-1 bg-surface border border-outline-variant text-surface-tint font-label-caps text-label-caps flex items-center gap-1">
+<span class="w-2 h-2 bg-surface-tint"></span> WEAK
+                                </span>
+</div>
+</div>
+<!-- Criterion Row 3 -->
+<div class="grid grid-cols-12 gap-4 px-4 py-3 border border-outline-variant bg-surface hover:bg-surface-container-high transition-none items-center group cursor-pointer">
+<div class="col-span-4 font-body-md text-body-md text-primary font-semibold">Management Plan</div>
+<div class="col-span-2 text-right font-data-mono text-data-mono text-on-surface-variant">20</div>
+<div class="col-span-2 text-right font-data-mono text-data-mono text-primary">20</div>
+<div class="col-span-4 pl-4 flex items-center">
+<span class="px-2 py-1 bg-surface border border-outline-variant text-on-surface font-label-caps text-label-caps flex items-center gap-1">
+<span class="w-2 h-2 bg-on-surface-variant"></span> ACCEPTABLE
+                                </span>
+</div>
+</div>
+<!-- Criterion Row 4 -->
+<div class="grid grid-cols-12 gap-4 px-4 py-3 border border-outline-variant bg-surface hover:bg-surface-container-high transition-none items-center group cursor-pointer opacity-75">
+<div class="col-span-4 font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
+                                Geographic Affluence
+                                <span class="material-symbols-outlined text-[14px]">lock</span>
+</div>
+<div class="col-span-2 text-right font-data-mono text-data-mono text-on-surface-variant">25</div>
+<div class="col-span-2 text-right font-data-mono text-data-mono text-error flex items-center justify-end gap-2">
+<span class="text-error font-bold">-12</span> 13
+                            </div>
+<div class="col-span-4 pl-4 flex items-center">
+<span class="px-2 py-1 bg-surface border border-error text-error font-label-caps text-label-caps flex items-center gap-1">
+<span class="w-2 h-2 bg-error"></span> UNACCEPTABLE
+                                </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Inspector panel -->
+<aside class="w-[380px] bg-surface-container-low flex flex-col border-l border-outline-variant shrink-0">
+<div class="p-4 border-b border-outline-variant bg-surface-container-highest flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">plagiarism</span>
+                        SCORE RATIONALE
+                    </span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">ID: MX-492</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+<!-- Context Header -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">SELECTED CRITERION</div>
+<h3 class="font-headline-md text-headline-md text-primary">Market Impact</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 border-l-2 border-outline-variant pl-3">Evaluation of the proposed solution's economic viability and demonstrated stakeholder demand within target demographics.</p>
+</div>
+<!-- Inspector Data Points -->
+<div class="flex flex-col gap-4">
+<!-- Claim Block -->
+<div class="border border-outline-variant bg-surface p-3">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">PRIMARY CLAIM DETECTED</div>
+<div class="font-body-sm text-body-sm text-primary font-medium">"High anticipated demand within rural agricultural sectors based on informal community feedback."</div>
+</div>
+<!-- Evidence Evaluation -->
+<div class="border border-outline-variant bg-surface p-3">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">EVIDENCE TIER LOGGING</div>
+<div class="flex items-center gap-3 mb-2">
+<span class="w-3 h-3 bg-surface-tint border border-outline-variant"></span>
+<span class="font-data-mono text-data-mono text-surface-tint">TIER 3: WEAK</span>
+</div>
+<ul class="font-data-mono text-data-mono text-on-surface-variant space-y-1 list-disc pl-4 opacity-80">
+<li>Self-reported surveys only.</li>
+<li>N=42 sample size insufficient.</li>
+<li>No formal Letters of Intent (LOI) attached.</li>
+</ul>
+</div>
+<!-- Penalty Rationale Terminal -->
+<div class="bg-black border border-outline-variant p-3 font-data-mono text-data-mono">
+<div class="text-surface-tint mb-2">&gt;&gt; PENALTY_EXECUTION_LOG</div>
+<div class="text-error mb-1">[-6.00 PTS] ADDRESSABLE DEDUCTION</div>
+<div class="text-on-surface-variant leading-tight">
+                                REASON: Missing 3rd party econometric validation. Rubric section 4.2b mandates formal market sizing data for full points. Current evidence relies solely on qualitative anecdote.
+                            </div>
+<div class="mt-4 pt-2 border-t border-outline-variant border-dashed text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">edit</span>
+                                STATUS: OPERATOR ACTION REQUIRED
+                            </div>
+</div>
+</div>
+</div>
+<!-- Action Area -->
+<div class="p-4 border-t border-outline-variant bg-surface-container">
+<button class="w-full bg-primary text-on-primary font-label-caps text-label-caps py-3 uppercase tracking-wider hover:bg-surface-tint transition-none border border-primary text-center">
+                        OPEN DRAFTING TERMINAL
+                    </button>
+</div>
+</aside>
+</main>
+</div>
+<!-- Footer -->
+<footer class="flex items-center justify-between px-4 w-full h-[32px] border-t border-outline-variant bg-surface-container-lowest dark:bg-surface-container-lowest fixed bottom-0 z-50">
+<span class="font-label-caps text-label-caps text-primary uppercase">NODE_FINALITY: GOLD-BURNISHED</span>
+<div class="flex items-center gap-6">
+<script>
+                const footerLinks = ["SYSTEM_STATUS", "AUDIT_LOG", "FID_0x2A"];
+                document.write(footerLinks.map(link => 
+                    `<a href="#" class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none uppercase">${link}</a>`
+                ).join(''));
+            </script>
+</div>
+</footer>
+</body></html>

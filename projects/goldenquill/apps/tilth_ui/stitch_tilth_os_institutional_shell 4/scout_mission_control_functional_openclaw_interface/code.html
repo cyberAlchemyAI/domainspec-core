@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mission Control - OpenClaw Discovery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 18px;
+        }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #081425; }
+        ::-webkit-scrollbar-thumb { background: #2a3548; }
+        ::-webkit-scrollbar-thumb:hover { background: #444748; }
+        
+        body {
+            background-color: #040e1f;
+            color: #d8e3fb;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .institutional-serif { font-family: 'Source Serif 4', serif; }
+        .heartbeat { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        
+        .scanline {
+            width: 100%;
+            height: 1px;
+            background: rgba(184, 151, 69, 0.2);
+            position: absolute;
+            animation: moveScanline 3s linear infinite;
+        }
+        @keyframes moveScanline { 0% { top: 0; } 100% { top: 100%; } }
+
+        [x-cloak] { display: none !important; }
+    </style>
+<script defer="" src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#152031",
+                        "inverse-on-surface": "#263143",
+                        "on-tertiary-container": "#5c647a",
+                        "tertiary": "#ffffff",
+                        "error-container": "#93000a",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "surface-bright": "#2f3a4c",
+                        "secondary-container": "#3a4a5f",
+                        "surface-tint": "#c6c6c7",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-primary-container": "#636565",
+                        "surface-variant": "#2a3548",
+                        "surface-container-highest": "#2a3548",
+                        "secondary": "#b7c8e1",
+                        "on-secondary": "#213145",
+                        "primary-fixed": "#e2e2e2",
+                        "surface-container-low": "#111c2d",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#081425",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-background": "#d8e3fb",
+                        "surface-container-lowest": "#040e1f",
+                        "on-error": "#690005",
+                        "outline": "#8e9192",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-secondary-container": "#a9bad3",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-surface": "#d8e3fb",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface": "#081425",
+                        "primary": "#ffffff",
+                        "inverse-primary": "#5d5f5f",
+                        "surface-container-high": "#1f2a3c",
+                        "tertiary-container": "#dae2fd",
+                        "background": "#081425",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-tertiary-fixed": "#131b2e",
+                        "outline-variant": "#444748",
+                        "inverse-surface": "#d8e3fb",
+                        "on-primary": "#2f3131",
+                        "on-tertiary": "#283044",
+                        "on-primary-fixed-variant": "#454747",
+                        "primary-container": "#e2e2e2",
+                        "gold-burnished": "#B89745"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body-md text-body-md bg-surface-container-lowest" x-data="missionControl()">
+<!-- TOP BAR -->
+<header class="flex items-center justify-between px-4 w-full fixed top-0 z-50 bg-background h-[56px] border-b border-outline-variant">
+<div class="flex items-center gap-6">
+<div class="font-title-sm text-on-surface uppercase tracking-tighter font-bold flex items-center gap-2">
+<span class="w-2 h-2 bg-primary animate-pulse"></span>
+            OPENCLAW MISSION CONTROL
+        </div>
+<div class="h-4 w-px bg-outline-variant"></div>
+<div class="flex items-center gap-3 text-on-surface-variant font-data-mono text-[11px]">
+<span class="text-primary">ORG: FIT Farms LLC</span>
+<span class="opacity-40">/</span>
+<span>NODE: fit-farms-pgh-001</span>
+<span class="opacity-40">/</span>
+<span class="text-secondary">CONTEXT: Food Systems · Research &amp; Evidence</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-highest px-2 py-1 flex items-center gap-2 border border-outline-variant">
+<span class="material-symbols-outlined text-[14px] text-green-500" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-data-mono text-[10px] uppercase tracking-wider">POSTURE: SECURE · 12/12</span>
+<span class="material-symbols-outlined text-[12px]">lock</span>
+</div>
+<div class="flex items-center gap-2 font-data-mono text-[11px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">key</span>
+<span class="text-primary/70">Ed25519: 4a3f…b2c8</span>
+</div>
+<div class="bg-primary text-black px-3 py-1 font-label-caps text-[10px]">HYBRID</div>
+</div>
+</header>
+<!-- LEFT NAV -->
+<aside class="fixed left-0 top-[56px] h-[calc(100vh-56px)] w-[220px] flex flex-col z-40 bg-surface-container-low border-r border-outline-variant">
+<div class="p-4 border-b border-outline-variant">
+<div class="font-headline-md text-headline-md text-on-surface">Golden Quill</div>
+<div class="font-data-mono text-[10px] uppercase text-on-surface-variant tracking-widest mt-1">Tilth OS Institutional</div>
+</div>
+<nav class="flex-1 overflow-y-auto pt-2">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors font-data-mono text-[12px]" href="#">
+<span class="material-symbols-outlined">home</span> Home
+        </a>
+<a class="flex items-center gap-3 px-4 py-2 bg-surface-container-highest text-primary border-r-2 border-primary font-data-mono text-[12px]" href="#">
+<span class="material-symbols-outlined">explore</span> Discovery <span class="text-[10px] opacity-50 ml-auto">LIVE</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors font-data-mono text-[12px]" href="#">
+<span class="material-symbols-outlined">description</span> Evidence Intake
+        </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors font-data-mono text-[12px]" href="#">
+<span class="material-symbols-outlined">gate</span> Eligibility Gates
+        </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors font-data-mono text-[12px]" href="#">
+<span class="material-symbols-outlined">hub</span> Module Mapper
+        </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container transition-colors font-data-mono text-[12px]" href="#">
+<span class="material-symbols-outlined">edit_note</span> Drafting <span class="bg-primary/10 text-primary px-1 text-[9px]">04</span>
+</a>
+</nav>
+<div class="p-4 border-t border-outline-variant bg-black/20">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-2 h-2 bg-green-500 heartbeat"></div>
+<span class="font-data-mono text-[10px] text-green-500">DAEMON ACTIVE</span>
+</div>
+<div class="font-data-mono text-[9px] text-on-surface-variant/60 mb-2">NODE_SYNC: OK</div>
+<div class="font-data-mono text-[9px] text-on-surface-variant/60">BUFFER: 4.2 KB</div>
+</div>
+</aside>
+<!-- MAIN CONTENT CANVAS -->
+<main class="fixed left-[220px] right-[380px] top-[56px] bottom-0 flex flex-col overflow-hidden bg-surface">
+<!-- Live Totals -->
+<div class="grid grid-cols-4 border-b border-outline-variant">
+<div class="p-4 border-r border-outline-variant flex flex-col justify-between h-28 relative overflow-hidden group">
+<div class="scanline opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-[10px] text-on-surface-variant">TOTAL AVAILABLE VALUE</span>
+<span class="w-1.5 h-1.5 bg-green-500/40 rounded-full heartbeat"></span>
+</div>
+<span class="font-data-mono text-3xl text-primary" x-text="formatCurrency(totals.value)">$12.4M</span>
+<div class="flex items-center gap-2 text-green-400 font-data-mono text-[10px]">
+<span class="material-symbols-outlined text-[12px]">arrow_upward</span> +2.1% DELTA
+            </div>
+</div>
+<div class="p-4 border-r border-outline-variant flex flex-col justify-between h-28">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-[10px] text-on-surface-variant">TRACKED SIGNALS</span>
+<span class="text-[9px] font-data-mono text-on-surface-variant opacity-40">AUTO-SYNC</span>
+</div>
+<span class="font-data-mono text-3xl text-primary" x-text="totals.signals">86</span>
+<div class="flex items-center gap-2 text-on-surface-variant font-data-mono text-[10px]">
+                12 INGESTED (24H)
+            </div>
+</div>
+<div class="p-4 border-r border-outline-variant flex flex-col justify-between h-28 bg-surface-container-low">
+<span class="font-label-caps text-[10px] text-on-surface-variant">ADDED TO DRAFTING</span>
+<span class="font-data-mono text-3xl text-primary">04</span>
+<div class="flex items-center gap-2 text-primary font-data-mono text-[10px]">
+                IN ACTIVE WORKFLOW
+            </div>
+</div>
+<div class="p-4 flex flex-col justify-between h-28">
+<span class="font-label-caps text-[10px] text-on-surface-variant">BLOCKED / INELIGIBLE</span>
+<span class="font-data-mono text-3xl text-error">14</span>
+<div class="flex items-center gap-2 text-error/60 font-data-mono text-[10px]">
+                CRITERIA MISMATCH
+            </div>
+</div>
+</div>
+<!-- Control Strip -->
+<div class="flex items-center px-4 py-2 border-b border-outline-variant bg-surface-container-lowest">
+<span class="material-symbols-outlined text-on-surface-variant mr-3">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-primary font-data-mono text-[13px] w-full placeholder:text-on-surface-variant/30" placeholder="ONE-SHOT DISCOVERY: SEARCH PROGRAMS, FOUNDATIONS, OR RATIONALE..." type="text"/>
+<div class="flex items-center gap-3 ml-auto">
+<button @click="refreshSignals()" class="flex items-center gap-2 bg-surface-container border border-outline-variant px-3 py-1 hover:bg-surface-container-high transition-colors">
+<span :class="refreshing ? 'animate-spin' : ''" class="material-symbols-outlined text-[14px]">sync</span>
+<span class="font-label-caps text-[10px]">RESCAN</span>
+</button>
+<div class="flex items-center gap-2 bg-surface-container border border-outline-variant px-3 py-1">
+<span class="material-symbols-outlined text-[14px]">filter_list</span>
+<span class="font-label-caps text-[10px]">FILTERS</span>
+</div>
+</div>
+</div>
+<!-- Opportunity Grid -->
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<template :key="opp.id" x-for="opp in opportunities">
+<div :class="selectedOpp.id === opp.id ? 'border-primary bg-surface-container-high' : 'border-outline-variant bg-surface-container-low hover:border-on-surface-variant'" @click="selectedOpp = opp" class="border transition-all cursor-pointer group relative">
+<div class="absolute top-0 right-0 px-2 py-1 bg-gold-burnished text-black font-data-mono text-[9px] font-bold" x-show="opp.confidence &gt;= 90">HIGH_CONF</div>
+<div class="absolute top-0 left-0 px-2 py-1 bg-primary text-black font-data-mono text-[9px] font-bold uppercase" x-show="selectedOpp.id === opp.id">Active Focus</div>
+<div class="p-4 border-b border-outline-variant flex justify-between items-start">
+<div>
+<div class="font-label-caps text-[10px] text-on-secondary-container" x-text="opp.funder">USDA - AMS</div>
+<h3 class="font-headline-md mt-1 institutional-serif" x-text="opp.title">Value-Added Producer Grant</h3>
+</div>
+<div class="text-right">
+<div class="font-data-mono text-lg text-primary" x-text="formatCurrency(opp.amount)">$250,000</div>
+<div :class="opp.urgent ? 'text-error' : 'text-on-surface-variant'" class="font-label-caps text-[9px]" x-text="opp.deadline">DUE: MAY 14, 2024</div>
+</div>
+</div>
+<div class="p-4 flex flex-col md:flex-row gap-6">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-3">
+<div :style="`background: ${opp.confidence &gt;= 80 ? '#22c55e' : (opp.confidence &gt;= 50 ? '#eab308' : '#ef4444')}; width: ${opp.confidence}%`" class="h-1 flex-1 transition-all duration-1000"></div>
+<div class="h-1 flex-[0.3] bg-surface-container-highest"></div>
+<span class="font-data-mono text-[11px] ml-2" x-text="`CONFIDENCE: ${opp.confidence}%`"></span>
+</div>
+<p class="institutional-serif italic text-on-surface/90 text-[14px] leading-relaxed line-clamp-2" x-text="opp.summary"></p>
+</div>
+<div class="w-48 space-y-2 text-[10px] font-data-mono uppercase">
+<div class="p-2 border border-outline-variant bg-surface-container-lowest">
+<span class="text-on-surface-variant block mb-0.5">SOURCE</span>
+<span :class="opp.confidence &gt;= 80 ? 'text-green-400' : 'text-yellow-400'" x-text="opp.backing">STRONG</span>
+</div>
+<div class="p-2 border border-outline-variant bg-surface-container-lowest">
+<span class="text-on-surface-variant block mb-0.5">PROGRAM</span>
+<span class="text-primary" x-text="opp.code">VAPG-FY24</span>
+</div>
+</div>
+</div>
+</div>
+</template>
+</div>
+<!-- System Live Stream Terminal -->
+<div class="h-24 bg-black border-t border-outline-variant p-2 font-data-mono text-[11px] overflow-hidden flex flex-col-reverse">
+<template :key="log.id" x-for="log in logs">
+<div class="flex gap-4 py-0.5">
+<span class="text-on-surface-variant/40" x-text="log.time">12:44:02</span>
+<span :class="log.type === 'error' ? 'text-error' : (log.type === 'warn' ? 'text-yellow-400' : 'text-green-500')" x-text="log.tag">[DAEMON_SCAN]</span>
+<span class="text-on-surface" x-text="log.msg">SCANning NODE fit-farms-pgh-001...</span>
+</div>
+</template>
+</div>
+</main>
+<!-- RIGHT INSPECTOR -->
+<aside class="fixed right-0 top-[56px] h-[calc(100vh-56px)] w-[380px] flex flex-col z-40 bg-surface-container-low border-l border-outline-variant">
+<div class="p-4 border-b border-outline-variant flex items-center justify-between bg-surface-container">
+<span class="font-label-caps text-[10px] text-on-surface-variant tracking-widest">OPPORTUNITY INSPECTOR</span>
+<div class="flex gap-2">
+<button class="material-symbols-outlined text-[16px] text-on-surface-variant hover:text-white">refresh</button>
+<button class="material-symbols-outlined text-[16px] text-on-surface-variant hover:text-white">close</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto">
+<div class="p-6">
+<div class="p-4 border border-outline-variant bg-surface-container-lowest mb-6">
+<h2 class="font-headline-md institutional-serif text-primary" x-text="selectedOpp.title">USDA VAPG FY2024</h2>
+<div class="flex justify-between mt-2">
+<p class="font-data-mono text-[10px] text-on-surface-variant uppercase" x-text="`ID: ${selectedOpp.code}`"></p>
+<span class="font-data-mono text-[10px] text-gold-burnished" x-text="`${selectedOpp.confidence}% MATCH`"></span>
+</div>
+</div>
+<div class="space-y-6">
+<section>
+<h4 class="font-label-caps text-[10px] text-primary mb-3 border-b border-outline-variant pb-1">FIT RATIONALE</h4>
+<div class="institutional-serif text-[15px] leading-relaxed space-y-3">
+<p x-text="selectedOpp.rationale"></p>
+<p class="italic p-3 bg-surface-container border-l-2 border-primary text-[14px]" x-text="selectedOpp.quote"></p>
+</div>
+</section>
+<section>
+<h4 class="font-label-caps text-[10px] text-primary mb-3 border-b border-outline-variant pb-1">SOURCE BACKING TIER</h4>
+<div class="flex items-center gap-4">
+<div class="p-2 border border-green-500/20 bg-green-500/5 flex items-center gap-3 w-full">
+<span class="material-symbols-outlined text-green-500" style="font-variation-settings: 'FILL' 1;">shield</span>
+<div>
+<div class="font-data-mono text-[11px] text-green-400 uppercase" x-text="selectedOpp.backing + ' / VERIFIED'"></div>
+<div class="font-data-mono text-[9px] opacity-60">98% DOCUMENT INTEGRITY</div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h4 class="font-label-caps text-[10px] text-primary mb-3 border-b border-outline-variant pb-1">RISK MATRIX</h4>
+<div class="space-y-4">
+<div class="flex justify-between font-data-mono text-[10px]">
+<span>TIMELINE RISK</span>
+<span class="text-error">HIGH PROXIMITY</span>
+</div>
+<div class="w-full bg-surface-container h-1.5">
+<div class="bg-error h-full" style="width: 85%"></div>
+</div>
+<div class="flex justify-between font-data-mono text-[10px]">
+<span>EVIDENCE READINESS</span>
+<span class="text-green-400">READY (TILTH_SYNC)</span>
+</div>
+<div class="w-full bg-surface-container h-1.5">
+<div class="bg-green-400 h-full" style="width: 100%"></div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="p-4 border-t border-outline-variant bg-surface-container grid grid-cols-3 gap-1">
+<button class="bg-surface-container-highest border border-outline-variant py-2 flex flex-col items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+<span class="font-label-caps text-[8px] mt-1">WATCH</span>
+</button>
+<button class="bg-surface-container-highest border border-outline-variant py-2 flex flex-col items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+<span class="font-label-caps text-[8px] mt-1">LOGS</span>
+</button>
+<button class="bg-primary text-black py-2 flex flex-col items-center justify-center hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+<span class="font-label-caps text-[8px] mt-1 uppercase">Stage Data</span>
+</button>
+</div>
+<div class="p-2 border-t border-outline-variant bg-black flex justify-between items-center px-4">
+<span class="font-label-xs text-[10px] font-data-mono text-on-surface-variant/40">OpenClaw_Node_v0.9.1</span>
+<span class="font-label-xs text-[10px] font-data-mono text-green-500/60 flex items-center gap-1">
+<span class="w-1 h-1 bg-green-500 rounded-full heartbeat"></span> SYS_OK
+        </span>
+</div>
+</aside>
+<script>
+    function missionControl() {
+        return {
+            refreshing: false,
+            totals: {
+                value: 12400000,
+                signals: 86
+            },
+            logs: [
+                { id: 1, time: '14:22:01', tag: '[DAEMON_SCAN]', msg: 'Scanning local node registries...', type: 'info' },
+                { id: 2, time: '14:22:02', tag: '[SIGNAL_DETECTED]', msg: 'Ingesting USDA_VAPG_24_METADATA.json', type: 'warn' },
+                { id: 3, time: '14:22:05', tag: '[OPENCLAW_SYNC]', msg: 'Cloud-Sync handshake successful.', type: 'info' },
+                { id: 4, time: '14:22:08', tag: '[NODE_STABLE]', msg: 'Buffer 4.2 KB cleared.', type: 'info' }
+            ],
+            opportunities: [
+                {
+                    id: 1,
+                    funder: 'USDA - AGRICULTURAL MARKETING SERVICE',
+                    title: 'Value-Added Producer Grant (VAPG)',
+                    amount: 250000,
+                    deadline: 'DUE: MAY 14, 2024',
+                    urgent: true,
+                    confidence: 94,
+                    backing: 'STRONG',
+                    code: 'VAPG-FY24',
+                    summary: 'High alignment with FIT Farms\' processing infrastructure expansion. Evidence of job creation is pre-documented.',
+                    rationale: 'The proposed "Appalachian Grain Infrastructure" module aligns perfectly with the USDA’s current emphasis on regional resilience.',
+                    quote: '"The applicant demonstrates a clear \'value-added\' delta of 45% based on projected mill processing throughput."'
+                },
+                {
+                    id: 2,
+                    funder: 'SARE - NORTH CENTRAL',
+                    title: 'Farmer Rancher Grant Program',
+                    amount: 15000,
+                    deadline: 'DUE: DEC 02, 2024',
+                    urgent: false,
+                    confidence: 52,
+                    backing: 'ACCEPTABLE',
+                    code: 'FNR-SARE',
+                    summary: 'Acceptable fit for the soil carbon sequestration study. Lower confidence due to intense regional competition.',
+                    rationale: 'Project matches SARE regional priorities for regenerative practice adoption but lacks large-scale commercial scaling potential.',
+                    quote: '"Experimental methodology is sound, but scalability scores were moderate in preliminary automated scoring."'
+                },
+                {
+                    id: 3,
+                    funder: 'THE HEINZ ENDOWMENTS',
+                    title: 'Sustainable Regional Food Systems',
+                    amount: 1200000,
+                    deadline: 'ROLLING ADMISSION',
+                    urgent: false,
+                    confidence: 92,
+                    backing: 'STRONG',
+                    code: 'HE-SUS-09',
+                    summary: 'Primary candidate for multi-year support. Maps 1:1 with upcoming mobile market initiative.',
+                    rationale: 'Institutional history with Heinz provides a significant multiplier. The Mobile Market expansion is their stated Q3 priority.',
+                    quote: '"The organization\'s focus on Allegheny County food deserts maps 1:1 with FIT Farms\' upcoming initiative."'
+                }
+            ],
+            selectedOpp: null,
+
+            init() {
+                this.selectedOpp = this.opportunities[0];
+                // Simulate real-time updates
+                setInterval(() => {
+                    this.totals.value += Math.random() * 100;
+                    if(Math.random() > 0.8) {
+                        this.addLog('[DAEMON_IDLE]', 'Monitoring background threads...', 'info');
+                    }
+                }, 5000);
+            },
+
+            formatCurrency(val) {
+                if (val >= 1000000) return '$' + (val / 1000000).toFixed(1) + 'M';
+                return '$' + val.toLocaleString();
+            },
+
+            addLog(tag, msg, type = 'info') {
+                const now = new Date();
+                const time = now.getHours().toString().padStart(2, '0') + ':' + 
+                             now.getMinutes().toString().padStart(2, '0') + ':' + 
+                             now.getSeconds().toString().padStart(2, '0');
+                this.logs.unshift({ id: Date.now(), time, tag, msg, type });
+                if (this.logs.length > 20) this.logs.pop();
+            },
+
+            refreshSignals() {
+                this.refreshing = true;
+                this.addLog('[DAEMON_SCAN]', 'Re-scanning node fit-farms-pgh-001...', 'info');
+                setTimeout(() => {
+                    this.refreshing = false;
+                    this.addLog('[SYNC_COMPLETE]', 'No new signals detected in current epoch.', 'info');
+                }, 2000);
+            }
+        }
+    }
+</script>
+</body></html>

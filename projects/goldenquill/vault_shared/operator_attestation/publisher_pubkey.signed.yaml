@@ -1,0 +1,61 @@
+# Operator-attestation publisher-pubkey signed asset
+# Per `vault_shared/key_rotation_policy.md` §8.2 + §8.5
+#
+# Mirrors the v7.0.7 §6.1 router-template publisher pubkey pinning byte-for-
+# byte (also mirrored by §17 v1 Coefficient Registry + §16 v1.1 Reflection
+# Packet producer-pubkey + §18 v1 cards publisher-pubkey + FID
+# publisher-pubkey).
+#
+# Operator IS the publisher for operator-attestation — the operator-controlled
+# Ed25519 signing key for buyer-facing CycleReceipt PDFs (§17 v1 row 332
+# `cycle_receipt_operator_attestation` Cedar rule) and Reflection Packet
+# operator-attestation (§4 v2.x.y.1 row 67 `F-PACKET-OPERATOR-SIGNATURE-INVALID`
+# predicate input).
+#
+# At ceremony first-install (Trust-On-First-Use), the operator pubkey
+# self-signs this asset; subsequent rotations require co-signing by the
+# prior pubkey via prior_pubkey_chain entries (per key_rotation_policy.md §4).
+#
+# The WPFA buyer-PDF emitter resolves `F-WPFA-OPERATOR-SIGNATURE-MISSING`
+# verification against this pubkey. The Reflection Packet F-PACKET-OPERATOR-
+# SIGNATURE-INVALID predicate (v0.2 first wave) verifies against this pubkey.
+#
+# Trust pinning: white-glove onboarding pins this asset path AND records the
+# canonical_bytes_sha3_512_hex below for integrity verification at startup.
+#
+# ─── Canonicalization algorithm ───
+# canonical_bytes = canonical-JSON of this YAML parsed-as-dict, with the two
+# self-referential keys REMOVED before serialization:
+#   - publisher_signature_ed25519_hex
+#   - canonical_bytes_sha3_512_hex
+# json.dumps with sort_keys=True, separators=(',', ':'), ensure_ascii=False,
+# UTF-8-encoded.
+# SHA3-512 over canonical_bytes → canonical_bytes_sha3_512_hex.
+# Verification target pubkey: publisher_pubkey_ed25519_hex below (TOFU self-assertion).
+
+schema_version: "1.0.0"
+published_at_utc: "2026-05-17T21:56:20Z"
+publisher_role_id: "operator.attestation_publisher"
+
+# 32-byte Ed25519 raw pubkey, hex-encoded. Generated at policy ceremony
+# 2026-05-17. Private key in operator key custody — NEVER committed to git.
+# Operator MUST rotate per key_rotation_policy.md §3 cadence (annual review +
+# on-compromise) and §4 runbook.
+publisher_pubkey_ed25519_hex: "094a4dc41fa778397f581a8f5977dfc99a2cd9cdee8890bdabd296a78bbbd8cf"
+
+# Trust-On-First-Use rotation chain. None at initial install. On rotation,
+# the new pubkey gets a chain entry containing the prior pubkey + the prior
+# pubkey's signature over the new pubkey (co-sign attestation per §4).
+prior_pubkey_chain: []
+
+# SHA3-512 over canonical_bytes (this YAML parsed-as-dict, with
+# publisher_signature_ed25519_hex + canonical_bytes_sha3_512_hex REMOVED,
+# then json.dumps(sort_keys=True, separators=(',', ':'), ensure_ascii=False),
+# UTF-8-encoded).
+# Verification target: publisher_pubkey_ed25519_hex above (Trust-On-First-Use
+# self-attestation; subsequent rotations chain in prior_pubkey_chain).
+canonical_bytes_sha3_512_hex: "09bd191bcfb37f70183710a67ff1d240c73474c63e841dbc59d22f7b6e83f6920df113c5be89e5ff3511e28606c2435528ef8aeb088d28e1abc0c05672f3ba08"
+
+# Ed25519 signature over canonical_bytes (same canonicalization recipe as
+# above) by publisher_pubkey_ed25519_hex (TOFU self-sign at first install).
+publisher_signature_ed25519_hex: "98aec8f4f84a95090a5a39193e821ce61e19651852413338d9ac4667edcf68b6766bb021bced50a5b4c22128b6c3e8a135ef17617709f75a0081baa8492ec007"

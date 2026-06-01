@@ -1,0 +1,595 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://golden-quill.local/schemas/card_cic.schema.json",
+  "title": "Card — CIC (Customer Identity Card)",
+  "description": "Schema for Customer Identity Card cards. Canonical naming (2026-05-17 policy): \"Customer Identity Card\" is canonical; \"Customer Information Card\" is a legacy/working-language label retained only inside verbatim operator-quoted directives. Post-v7.0.12 lifecycle status: all 14 cards are signed and runtime-loadable on disk; bodies validated against this schema. CIC cards MUST NOT include common_clc_patterns_observed or any equivalent field per architecture v7.0.11 §6.1 + §4 v2.x F-CARDS-COUPLING-VIOLATION-EXTENSION (the coupling-violation discipline survives unchanged from v7.0.11). Lifecycle truth: draft cards are never runtime-loadable; runtime_loadable=true requires draft_status='signed'. The canonical lifecycle.draft_status enum is the 4-value set {draft, review_passed, signed, deprecated} (schema + models + loader unanimous — supersedes the stale 6-value claim in architecture v7.0.11 §1.4 per Run 1 P0-2). common_funders_observed is observational-only and limited to funders the operator has CONFIRMED ACTUAL ENGAGEMENT with (Law-5 split per Phase E cleanup 2026-05-16); draft candidates live in _research_metadata.draft_funder_candidates_pending_operator_engagement_confirmation and graduate only via operator action.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "card_axis",
+    "card_id",
+    "slug",
+    "display_name",
+    "coverage_axis",
+    "tilth_cic_id",
+    "search_vocabulary",
+    "evidence_signals",
+    "kfr_fact_classes",
+    "register_defaults",
+    "admin_risk_term_register",
+    "reporting_cadence_typical",
+    "lifecycle",
+    "_research_metadata"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0-cic"
+    },
+    "card_axis": {
+      "type": "string",
+      "const": "CIC"
+    },
+    "card_id": {
+      "type": "string",
+      "pattern": "^TILTH-CIC-\\d{2}$"
+    },
+    "slug": {
+      "type": "string",
+      "enum": [
+        "food_systems",
+        "educator",
+        "public_agency",
+        "arts_culture",
+        "cooperative",
+        "ecosystem_intermediary"
+      ]
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "display_name_short": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional slug-free display name for downstream consumers that cannot safely render slashes (audit-log canonical-bytes formatting, Match-DB grid display, terminal table rendering). Loader resolves to display_name when absent. Per architecture v7.0.11 §7.2."
+    },
+    "coverage_axis": {
+      "type": "string",
+      "enum": [
+        "Production",
+        "Learning",
+        "Public Sector",
+        "Culture",
+        "Member Ownership",
+        "Intermediary Infrastructure"
+      ]
+    },
+    "nickname": {
+      "type": "string"
+    },
+    "tilth_cic_id": {
+      "type": "string",
+      "pattern": "^TILTH-CIC-\\d{2}$"
+    },
+    "search_vocabulary": {
+      "type": "object",
+      "required": [
+        "core_terms"
+      ],
+      "properties": {
+        "core_terms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "term"
+            ],
+            "properties": {
+              "term": {
+                "type": "string"
+              },
+              "source_citation": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "synonym_map": {
+          "type": "object"
+        },
+        "funder_program_keywords": {
+          "type": "array"
+        },
+        "disqualifier_terms": {
+          "type": "array"
+        }
+      }
+    },
+    "evidence_signals": {
+      "type": "array"
+    },
+    "kfr_fact_classes": {
+      "type": "array"
+    },
+    "provenance_requirements": {
+      "type": "object",
+      "description": "Per-fact-class provenance requirements. Per Wave 1 handback (operator-approved 2026-05-15): keys are KFR fact_class names; values are objects with required_citation_type + verbatim_quote_required. Per §18 v1.1 Cycle 2 RT-02 fold-in: item-level not.anyOf defense-in-depth against forbidden CLC-coupling fields nested inside an item.",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "required_citation_type",
+          "verbatim_quote_required"
+        ],
+        "properties": {
+          "required_citation_type": {
+            "type": "string"
+          },
+          "verbatim_quote_required": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": true,
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "common_clc_patterns_observed"
+              ]
+            },
+            {
+              "required": [
+                "eligible_clc_subset"
+              ]
+            },
+            {
+              "required": [
+                "clc_allowlist"
+              ]
+            },
+            {
+              "required": [
+                "clc_denylist"
+              ]
+            },
+            {
+              "required": [
+                "preferred_clcs"
+              ]
+            },
+            {
+              "required": [
+                "clc_win_rate"
+              ]
+            },
+            {
+              "required": [
+                "clc_ranking_preferences"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "register_defaults": {
+      "type": "object",
+      "properties": {
+        "language_register": {
+          "type": "string",
+          "enum": [
+            "formal",
+            "conversational",
+            "movement",
+            "hybrid"
+          ]
+        },
+        "narrative_voice": {
+          "type": "string",
+          "enum": [
+            "first_person_plural",
+            "third_person",
+            "applicant_as_character"
+          ]
+        },
+        "tone": {
+          "type": "string",
+          "enum": [
+            "technical_precise",
+            "movement_aligned",
+            "neutral_institutional",
+            "custom"
+          ]
+        },
+        "operator_override": {
+          "type": "string"
+        }
+      }
+    },
+    "dialect_routing_table": {
+      "type": "array",
+      "description": "Funder-political-axis to Scribe-dialect mapping. Per Wave 1 handback (operator-approved 2026-05-15): item shape standardized for cross-card consistency. Per §18 v1.1 Cycle 2 RT-02 fold-in: item-level not.anyOf defense-in-depth against forbidden CLC-coupling fields nested inside an item.",
+      "items": {
+        "type": "object",
+        "required": [
+          "funder_political_axis",
+          "dialect"
+        ],
+        "properties": {
+          "funder_political_axis": {
+            "type": "string",
+            "enum": [
+              "conservative",
+              "centrist",
+              "progressive",
+              "soul_fire"
+            ]
+          },
+          "dialect": {
+            "type": "string"
+          },
+          "example_funder": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true,
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "common_clc_patterns_observed"
+              ]
+            },
+            {
+              "required": [
+                "eligible_clc_subset"
+              ]
+            },
+            {
+              "required": [
+                "clc_allowlist"
+              ]
+            },
+            {
+              "required": [
+                "clc_denylist"
+              ]
+            },
+            {
+              "required": [
+                "preferred_clcs"
+              ]
+            },
+            {
+              "required": [
+                "clc_win_rate"
+              ]
+            },
+            {
+              "required": [
+                "clc_ranking_preferences"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "admin_risk_term_register": {
+      "type": "array"
+    },
+    "reporting_cadence_typical": {
+      "type": "object"
+    },
+    "metrics_table_template": {
+      "type": "array"
+    },
+    "narrative_sections_typical": {
+      "type": "array"
+    },
+    "capacity_signals_required": {
+      "type": "array"
+    },
+    "compliance_burdens": {
+      "type": "array"
+    },
+    "common_risk_register_entries": {
+      "type": "array"
+    },
+    "common_funders_observed": {
+      "type": "array",
+      "description": "Observational-only funder roster. NOT a CIC × CLC binding. Per Wave 1 handback (operator-approved 2026-05-15): item shape carries optional frequency_observed enum so Scribe/Logician can read frequency without parsing the free-form note. Per OQ-6, frequency stays qualitative until 12+ CycleReceipts accumulate.",
+      "items": {
+        "type": "object",
+        "required": [
+          "funder_name",
+          "funder_type"
+        ],
+        "properties": {
+          "funder_name": {
+            "type": "string"
+          },
+          "funder_type": {
+            "type": "string",
+            "enum": [
+              "federal",
+              "state",
+              "foundation",
+              "corporate",
+              "local",
+              "federal (state pass-through)",
+              "federal (regional)"
+            ]
+          },
+          "typical_award_range": {
+            "type": "string"
+          },
+          "frequency_observed": {
+            "type": "string",
+            "enum": [
+              "FREQUENT",
+              "OCCASIONAL",
+              "RARE",
+              "UNKNOWN"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true,
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "common_clc_patterns_observed"
+              ]
+            },
+            {
+              "required": [
+                "eligible_clc_subset"
+              ]
+            },
+            {
+              "required": [
+                "clc_allowlist"
+              ]
+            },
+            {
+              "required": [
+                "clc_denylist"
+              ]
+            },
+            {
+              "required": [
+                "preferred_clcs"
+              ]
+            },
+            {
+              "required": [
+                "clc_win_rate"
+              ]
+            },
+            {
+              "required": [
+                "clc_ranking_preferences"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "required": [
+        "draft_status",
+        "review_status",
+        "cross_family_thesis_status",
+        "signature_status",
+        "runtime_load_status",
+        "runtime_loadable"
+      ],
+      "properties": {
+        "draft_status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "review_passed",
+            "signed",
+            "deprecated"
+          ],
+          "description": "Canonical lifecycle state. Runtime loader refuses draft cards; runtime_loadable=true requires signed."
+        },
+        "review_status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "passed",
+            "changes_requested"
+          ]
+        },
+        "cross_family_thesis_status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "passed",
+            "failed"
+          ]
+        },
+        "signature_status": {
+          "type": "string",
+          "enum": [
+            "unsigned",
+            "signed",
+            "revoked"
+          ]
+        },
+        "runtime_load_status": {
+          "type": "string",
+          "enum": [
+            "not_loaded",
+            "loaded",
+            "disabled"
+          ],
+          "description": "Legacy load-state label retained for audit continuity; must align with runtime_loadable."
+        },
+        "runtime_loadable": {
+          "type": "boolean",
+          "description": "Runtime truth flag. If true, draft_status must be signed and signed_at/signed_by/content_hash must be present."
+        },
+        "signed_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "signed_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "content_hash": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "lock_history_row": {
+          "type": "integer"
+        },
+        "lock_timestamp_utc": {
+          "type": "string"
+        },
+        "supersession_lock_history_row": {
+          "type": "integer"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "runtime_loadable": {
+                "const": true
+              }
+            },
+            "required": [
+              "runtime_loadable"
+            ]
+          },
+          "then": {
+            "required": [
+              "signed_at",
+              "signed_by",
+              "content_hash"
+            ],
+            "properties": {
+              "draft_status": {
+                "const": "signed"
+              },
+              "signature_status": {
+                "const": "signed"
+              },
+              "runtime_load_status": {
+                "const": "loaded"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "draft_status": {
+                "not": {
+                  "const": "signed"
+                }
+              }
+            },
+            "required": [
+              "draft_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "runtime_loadable": {
+                "const": false
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": true
+    },
+    "_research_metadata": {
+      "type": "object",
+      "required": [
+        "authored_at",
+        "authored_by_role"
+      ],
+      "properties": {
+        "authored_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "authored_by_role": {
+          "type": "string"
+        },
+        "research_budget_hours_actual": {
+          "type": "number"
+        },
+        "priors_consulted": {
+          "type": "array"
+        },
+        "primary_sources": {
+          "type": "array"
+        },
+        "ed25519_signature": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  },
+  "not": {
+    "anyOf": [
+      {
+        "required": [
+          "common_clc_patterns_observed"
+        ]
+      },
+      {
+        "required": [
+          "eligible_clc_subset"
+        ]
+      },
+      {
+        "required": [
+          "clc_allowlist"
+        ]
+      },
+      {
+        "required": [
+          "clc_denylist"
+        ]
+      },
+      {
+        "required": [
+          "preferred_clcs"
+        ]
+      },
+      {
+        "required": [
+          "clc_win_rate"
+        ]
+      },
+      {
+        "required": [
+          "clc_ranking_preferences"
+        ]
+      }
+    ]
+  },
+  "additionalProperties": true
+}

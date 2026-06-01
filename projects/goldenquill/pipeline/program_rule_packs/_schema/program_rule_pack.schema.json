@@ -1,0 +1,453 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://golden-quill.local/schemas/program_rule_pack.schema.json",
+  "title": "Program Rule Pack (PRP)",
+  "description": "Schema for Program Rule Packs (PRPs). v0.1 DRAFT scaffold + 14 Red-Team-driven hardenings 2026-05-17 (see pipeline/audits/prp_v0_1_red_team_audit_2026-05-17.md); bodies graduate fully validated at v0.2 first wave at the same ceremony as cards v0.2 loader graduation. PRPs encode LIVE LAW (program rules, federal regulations, compliance frameworks) bounded in time by effective_date/expiry_date. PRPs are categorically distinct from CICs (durable customer-identity grammar) and CLCs (durable capital-logic grammar): cards describe funder-population patterns that hold across years; PRPs describe rules that publish on a date and expire on a date. PRPs MUST NOT carry CIC × CLC eligibility-subset coupling per audit prompt v1.1, MUST NOT include forbidden CIC↔CLC coupling fields, and MUST NOT embed private organizational data per Law 3. Lifecycle truth: draft PRPs are never runtime-loadable; runtime_loadable=true requires draft_status signed. v0.1 NOTE: this schema is on disk for review only — the loader at pipeline/program_rule_packs/loader.py raises NotImplementedError at the top-level call, so no PRP body is ever validated against this schema in production at v0.1.",
+  "$defs": {
+    "iso_date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO 8601 date YYYY-MM-DD. Pattern enforced explicitly (not just format:date) because jsonschema format-mode is advisory by default — explicit pattern means rejection holds regardless of validator format-mode config."
+    },
+    "forbidden_law3_key_patterns": {
+      "description": "Defense-in-depth Law-3 marker regex. Round 1 RT1-F1 introduced the closed-key blocklist; Round 2 R2-F3 hardened against Unicode/separator bypasses by (a) broadening the separator class to include hyphen, dot, slash, space, zero-width chars, and Unicode general-punctuation; (b) accepting absent-anchor matches (key contains the marker anywhere); (c) covering compound-form keys like 'budget_info' / 'financials' / 'cost_breakdown' that read as private-data markers without containing the original blocklist tokens. Best-effort schema-layer defense; the loader walk at v0.2 first wave runs an NFKC-normalized pass that this regex cannot achieve under JSON-Schema 2020-12 ECMA-262 semantics alone.",
+      "patternProperties": {
+        "(?i)(^|[^A-Za-z0-9])(private|secret|confidential|tactical|underwriting_override|client_specific|org_specific|member_roster|member_specific|internal_org|internal_budget|internal_financial|budget_info|budget_breakdown|cost_breakdown|cost_info|financial_summary|financials|risk_assessment|risk_profile|client_data|customer_data)([^A-Za-z0-9]|$)": false
+      }
+    },
+    "forbidden_coupling_fields_not_anyof": {
+      "description": "The closed-set forbidden coupling field-name list applied at every nesting level. Schema-level defense; loader walk at v0.2 catches novel field names schema can't enumerate.",
+      "not": {
+        "anyOf": [
+          {"required": ["common_clc_patterns_observed"]},
+          {"required": ["eligible_clc_subset"]},
+          {"required": ["clc_allowlist"]},
+          {"required": ["clc_denylist"]},
+          {"required": ["preferred_clcs"]},
+          {"required": ["clc_win_rate"]},
+          {"required": ["clc_ranking_preferences"]},
+          {"required": ["eligible_cic_subset"]},
+          {"required": ["preferred_cics"]},
+          {"required": ["common_cic_patterns_observed"]},
+          {"required": ["clc_assignment"]},
+          {"required": ["cic_assignment"]},
+          {"required": ["cic_clc_matrix"]},
+          {"required": ["clc_cic_matrix"]},
+          {"required": ["clc_to_cic_eligibility"]},
+          {"required": ["cic_to_clc_eligibility"]},
+          {"required": ["cic_clc_coupling_matrix"]},
+          {"required": ["clc_to_cic_matrix"]},
+          {"required": ["cic_to_clc_matrix"]},
+          {"required": ["private_member_roster"]},
+          {"required": ["private_org_underwriting_override"]},
+          {"required": ["private_org_financials"]},
+          {"required": ["private_org_member_list"]},
+          {"required": ["tactical_interpretation"]}
+        ]
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "schema_version",
+    "prp_id",
+    "prp_kind",
+    "display_name",
+    "effective_date",
+    "live_law_rules",
+    "lifecycle",
+    "_research_metadata"
+  ],
+  "//root_additionalProperties": "R2-F1 fix: root closed to additionalProperties:false. The 11 allowed top-level fields are enumerated in properties (8 always-allowed + 3 optional: expiry_date, cross_references, funding_program_ref-when-program_specific). Any other top-level field is rejected structurally — closes the budget_info / financials / cost_breakdown class of Law-3 escapes the patternProperties regex cannot enumerate.",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0-prp",
+      "description": "Pinned to 1.0-prp at v0.1 DRAFT. Mismatch fails-closed at F-PRP-SCHEMA-VERSION-MISMATCH."
+    },
+    "prp_id": {
+      "type": "string",
+      "pattern": "^TILTH-PRP-[A-Z0-9][A-Z0-9-]*[A-Z0-9]$",
+      "description": "Canonical PRP identifier. Conventions: TILTH-PRP-<PROGRAM>-<FYxx> for program_specific (e.g., TILTH-PRP-USDA-VAPG-FY26); TILTH-PRP-<REG-CITATION> for cross_cutting_regulation (e.g., TILTH-PRP-2CFR200, TILTH-PRP-DAVIS-BACON); TILTH-PRP-<FRAMEWORK> for compliance_framework (e.g., TILTH-PRP-FERPA-COPPA-HIPAA). All uppercase + hyphens, no underscores. Pattern rejects double-hyphens and trailing hyphens; min 2 chars after TILTH-PRP-."
+    },
+    "prp_kind": {
+      "type": "string",
+      "enum": [
+        "program_specific",
+        "cross_cutting_regulation",
+        "compliance_framework"
+      ],
+      "description": "Discriminator for the three PRP kinds. program_specific: rules for a single named funding program (e.g., USDA VAPG FY26 NOFO). cross_cutting_regulation: a federal regulation that applies across many programs (e.g., 2 CFR 200, Davis-Bacon, BABA, NEPA 24 CFR 58). compliance_framework: a domain-wide privacy or fiscal framework that PRPs of either other kind may flow down to (e.g., FERPA/COPPA/HIPAA student-data framework, Subchapter T cooperative tax framework)."
+    },
+    "funding_program_ref": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Nullable. ONLY populated when prp_kind='program_specific'. Reference to the named funding program this PRP encodes rules for. For cross_cutting_regulation and compliance_framework PRPs this MUST be null. Cross-kind invariant enforced by the top-level allOf if/then below.",
+      "properties": {
+        "program_name": {"type": "string", "minLength": 1},
+        "agency": {"type": "string", "minLength": 1},
+        "cfda_or_assistance_listing": {"type": "string"},
+        "fiscal_year": {"type": "string", "pattern": "^FY\\d{2,4}$"},
+        "nofo_or_rfa_citation": {"type": "string"}
+      },
+      "required": ["program_name", "agency"],
+      "additionalProperties": false
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "effective_date": {
+      "$ref": "#/$defs/iso_date",
+      "description": "Date on which the live law this PRP encodes became effective. ISO 8601 YYYY-MM-DD enforced by explicit pattern. Live-law truth: a PRP loaded BEFORE its effective_date fails-closed at F-PRP-EXPIRED (sub-tag: not-yet-effective)."
+    },
+    "expiry_date": {
+      "oneOf": [
+        {"$ref": "#/$defs/iso_date"},
+        {"type": "null"}
+      ],
+      "description": "Date on which the live law this PRP encodes stops being effective, OR null if the rule has no operator-known expiry (e.g., a permanent federal regulation). ISO 8601 YYYY-MM-DD. Live-law truth: a PRP loaded AFTER its expiry_date fails-closed at F-PRP-EXPIRED. For program_specific PRPs, expiry_date typically equals the NOFO close date + reporting tail; for cross_cutting_regulation PRPs, expiry_date is typically null until the regulation is superseded. Inter-property invariant (effective_date <= expiry_date) is loader-realized at v0.2 first wave as F-PRP-EXPIRED sub-tag PRP-INVERTED-WINDOW because JSON Schema can't easily compare two date fields."
+    },
+    "live_law_rules": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Typed array of live-law rule objects. v0.1 DRAFT enumerates the rule_type taxonomy; rule body schemas per type graduate at v0.2 first wave when the Logician F-PRP-* gate bodies are realized. Each rule has a rule_type discriminator plus rule_type-specific body. Per-property uniqueness on rule_id is loader-realized at v0.2 first wave because JSON Schema can't enforce per-property uniqueness across array items.",
+      "items": {
+        "type": "object",
+        "required": [
+          "rule_id",
+          "rule_type",
+          "rule_summary",
+          "source_citation"
+        ],
+        "properties": {
+          "rule_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Stable identifier for this rule within the PRP. Conventions: <PRP_ID>-R<NN> (e.g., TILTH-PRP-USDA-VAPG-FY26-R01)."
+          },
+          "rule_type": {
+            "type": "string",
+            "enum": [
+              "eligibility",
+              "budget_allowability",
+              "page_limit",
+              "attachment",
+              "deadline",
+              "form",
+              "match",
+              "reporting",
+              "hard_export_gate"
+            ],
+            "description": "eligibility: who/what may apply. budget_allowability: line-item allowed/forbidden cost categories. page_limit: narrative-section page caps. attachment: required uploads. deadline: submission/reporting/reimbursement deadlines. form: specific federal/state forms required. match: cash + in-kind match requirements. reporting: post-award reporting cadence + required content. hard_export_gate: programmatic compliance locks that must clear before any export is allowed."
+          },
+          "rule_summary": {
+            "type": "string",
+            "minLength": 1,
+            "description": "One-sentence operator-facing summary of the rule. Required — live law without an operator-facing description isn't usable rule content."
+          },
+          "source_citation": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Verbatim citation to the live-law source (CFR section, NOFO page, statute, etc.). Required — live law without a citation isn't law, it's noise."
+          },
+          "verbatim_quote": {
+            "type": "string",
+            "description": "Optional verbatim quote from the source. Recommended for hard_export_gate rule_type."
+          },
+          "rule_body": {
+            "type": "object",
+            "description": "rule_type-specific body. Round 3 R3-Judge-D2 fix: closed to additionalProperties:false at v0.1 with empty properties — rule_body must be empty {} or omitted at v0.1 DRAFT, since the per-rule_type sub-schemas land at v0.2 first wave. This eliminates the camelCase regex-bypass surface (orgBudget / mySecretNotes etc.) because the only remaining additionalProperties:true container is now closed too. Keeps the forbidden_coupling + forbidden_law3 guards as defense-in-depth for the v0.2 first wave when per-rule_type properties are added back.",
+            "additionalProperties": false,
+            "properties": {},
+            "$ref": "#/$defs/forbidden_coupling_fields_not_anyof",
+            "allOf": [
+              {"$ref": "#/$defs/forbidden_law3_key_patterns"}
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "$ref": "#/$defs/forbidden_coupling_fields_not_anyof",
+        "allOf": [
+          {"$ref": "#/$defs/forbidden_law3_key_patterns"}
+        ]
+      }
+    },
+    "cross_references": {
+      "type": "array",
+      "description": "Other PRPs this PRP flows down to or inherits from. cross_references are observational binding hints for Intake §11 and Scribe §7; they DO NOT couple to CICs or CLCs. Self-reference and missing-target invariants are loader-realized at v0.2 first wave under F-PRP-NOT-IN-ACTIVE-MANIFEST + a new sub-tag PRP-SELF-REFERENCE.",
+      "items": {
+        "type": "object",
+        "required": ["referenced_prp_id", "relationship"],
+        "properties": {
+          "referenced_prp_id": {
+            "type": "string",
+            "pattern": "^TILTH-PRP-[A-Z0-9][A-Z0-9-]*[A-Z0-9]$"
+          },
+          "relationship": {
+            "type": "string",
+            "enum": ["inherits_from", "flows_down_to", "supersedes", "superseded_by"]
+          },
+          "note": {"type": "string"}
+        },
+        "additionalProperties": false,
+        "$ref": "#/$defs/forbidden_coupling_fields_not_anyof",
+        "allOf": [
+          {"$ref": "#/$defs/forbidden_law3_key_patterns"}
+        ]
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "required": [
+        "draft_status",
+        "review_status",
+        "signature_status",
+        "runtime_load_status",
+        "runtime_loadable"
+      ],
+      "description": "Lifecycle discipline mirrors pipeline/cards/_schema/card_cic.schema.json where applicable. PRPs do NOT carry cross_family_thesis_status (that field is card-only and would create category-confusion with the live-law category) — the explicit not.anyOf below rejects that field name and the coupling-field set.",
+      "properties": {
+        "draft_status": {
+          "type": "string",
+          "enum": ["draft", "review_passed", "signed", "deprecated"],
+          "description": "Canonical lifecycle state. Runtime loader refuses draft PRPs; runtime_loadable=true requires signed."
+        },
+        "review_status": {
+          "type": "string",
+          "enum": ["pending", "passed", "changes_requested"]
+        },
+        "signature_status": {
+          "type": "string",
+          "enum": ["unsigned", "signed", "revoked"]
+        },
+        "runtime_load_status": {
+          "type": "string",
+          "enum": ["not_loaded", "loaded", "disabled"]
+        },
+        "runtime_loadable": {
+          "type": "boolean",
+          "description": "Runtime truth flag. If true, draft_status must be signed and signed_at/signed_by/content_hash must be present, AND today must fall within [effective_date, expiry_date]."
+        },
+        "signed_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "signed_by": {
+          "type": ["string", "null"]
+        },
+        "content_hash": {
+          "type": ["string", "null"],
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "lock_history_row": {"type": "integer"},
+        "lock_timestamp_utc": {"type": "string"}
+      },
+      "allOf": [
+        {
+          "description": "runtime_loadable=true → require signed_at/signed_by/content_hash AS NON-NULL STRINGS (RT1-F2 fix: previously the type was [string,null] and the conditional only checked key presence; an adversary could pass runtime_loadable=true with all three null).",
+          "if": {
+            "properties": {"runtime_loadable": {"const": true}},
+            "required": ["runtime_loadable"]
+          },
+          "then": {
+            "required": ["signed_at", "signed_by", "content_hash"],
+            "properties": {
+              "draft_status": {"const": "signed"},
+              "signature_status": {"const": "signed"},
+              "runtime_load_status": {"const": "loaded"},
+              "signed_at": {"type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$", "minLength": 20},
+              "signed_by": {"type": "string", "minLength": 1, "pattern": "\\S"},
+              "content_hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"draft_status": {"not": {"const": "signed"}}},
+            "required": ["draft_status"]
+          },
+          "then": {
+            "properties": {"runtime_loadable": {"const": false}}
+          }
+        }
+      ],
+      "additionalProperties": false,
+      "not": {
+        "anyOf": [
+          {"required": ["cross_family_thesis_status"]},
+          {"required": ["common_clc_patterns_observed"]},
+          {"required": ["eligible_clc_subset"]},
+          {"required": ["clc_allowlist"]},
+          {"required": ["clc_denylist"]},
+          {"required": ["preferred_clcs"]},
+          {"required": ["clc_win_rate"]},
+          {"required": ["clc_ranking_preferences"]},
+          {"required": ["eligible_cic_subset"]},
+          {"required": ["preferred_cics"]},
+          {"required": ["common_cic_patterns_observed"]},
+          {"required": ["clc_assignment"]},
+          {"required": ["cic_assignment"]},
+          {"required": ["cic_clc_matrix"]},
+          {"required": ["clc_cic_matrix"]},
+          {"required": ["clc_to_cic_eligibility"]},
+          {"required": ["cic_to_clc_eligibility"]},
+          {"required": ["cic_clc_coupling_matrix"]},
+          {"required": ["clc_to_cic_matrix"]},
+          {"required": ["cic_to_clc_matrix"]},
+          {"required": ["private_member_roster"]},
+          {"required": ["private_org_underwriting_override"]},
+          {"required": ["private_org_financials"]},
+          {"required": ["private_org_member_list"]},
+          {"required": ["tactical_interpretation"]}
+        ]
+      }
+    },
+    "_research_metadata": {
+      "type": "object",
+      "required": [
+        "authored_at",
+        "authored_by_role",
+        "primary_sources",
+        "last_verified_date"
+      ],
+      "description": "Provenance for the PRP body. primary_sources required (not optional, unlike cards) because PRPs are live-law: a PRP with no citations cannot be trusted. last_verified_date is the date the operator last confirmed each cited source still says what the PRP claims it says. forbidden-coupling-fields not.anyOf applies here too so nested escapes via _research_metadata are rejected.",
+      "properties": {
+        "authored_at": {"type": "string", "format": "date-time"},
+        "authored_by_role": {"type": "string", "minLength": 1},
+        "primary_sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["citation", "url_or_locator", "accessed_date"],
+            "additionalProperties": false,
+            "$ref": "#/$defs/forbidden_coupling_fields_not_anyof",
+            "allOf": [
+              {"$ref": "#/$defs/forbidden_law3_key_patterns"}
+            ],
+            "properties": {
+              "citation": {"type": "string", "minLength": 1},
+              "url_or_locator": {
+                "type": "string",
+                "minLength": 1,
+                "description": "URL, statutory citation, NOFO page reference, or other locator that resolves to the source. Empty string rejected because empty locator is no locator."
+              },
+              "verbatim_quote": {"type": "string"},
+              "accessed_date": {
+                "$ref": "#/$defs/iso_date",
+                "description": "Required for live-law sources. A PRP authored without an access date is stale-by-default — the operator cannot answer 'when did we last confirm this rule was current?'."
+              }
+            }
+          }
+        },
+        "last_verified_date": {
+          "$ref": "#/$defs/iso_date",
+          "description": "Date the operator last confirmed all primary_sources still resolve and still say what the PRP body asserts. Drift between last_verified_date and today informs Archivist surfaced re-verification prompts at v0.2+."
+        },
+        "ed25519_signature": {
+          "type": ["string", "null"]
+        }
+      },
+      "additionalProperties": false,
+      "$ref": "#/$defs/forbidden_coupling_fields_not_anyof"
+    }
+  },
+  "allOf": [
+    {
+      "description": "RT1-F1 defense-in-depth: root-level Law-3 key-pattern rejection. Catches the internal_budget_breakdown / private_X / tactical_for_X class of Law-3 escapes the closed-set forbidden_coupling enumeration cannot enumerate. Loader walk at v0.2 first wave catches arbitrary novel names this regex doesn't match.",
+      "$ref": "#/$defs/forbidden_law3_key_patterns"
+    },
+    {
+      "description": "A1 + A24 cross-kind invariant: program_specific PRPs MUST have a non-null funding_program_ref; cross_cutting_regulation and compliance_framework PRPs MUST have funding_program_ref absent or null.",
+      "if": {
+        "properties": {"prp_kind": {"const": "program_specific"}},
+        "required": ["prp_kind"]
+      },
+      "then": {
+        "required": ["funding_program_ref"],
+        "properties": {
+          "funding_program_ref": {"type": "object"}
+        }
+      }
+    },
+    {
+      "description": "A1 + A24 negative: non-program_specific PRPs forbid funding_program_ref object.",
+      "if": {
+        "properties": {"prp_kind": {"enum": ["cross_cutting_regulation", "compliance_framework"]}},
+        "required": ["prp_kind"]
+      },
+      "then": {
+        "properties": {
+          "funding_program_ref": {"type": "null"}
+        }
+      }
+    },
+    {
+      "description": "R3-F2 fix (Red Team + Judge cross-confirmed): program_specific PRPs MUST carry a non-null expiry_date. Program-specific PRPs encode NOFO rules with finite NOFO windows; allowing a null or omitted expiry_date would let the rule remain in force after the funding opportunity has closed, violating Operating Law 2 (No Boundary Drift). cross_cutting_regulation and compliance_framework PRPs are exempt because permanent federal regulations and durable frameworks legitimately have no operator-known expiry.",
+      "if": {
+        "properties": {"prp_kind": {"const": "program_specific"}},
+        "required": ["prp_kind"]
+      },
+      "then": {
+        "required": ["expiry_date"],
+        "properties": {
+          "expiry_date": {"$ref": "#/$defs/iso_date"}
+        }
+      }
+    },
+    {
+      "description": "A5 signed-runtime-loadable PRP MUST carry a non-null ed25519_signature in _research_metadata. Without it, F-PRP-SIGNATURE-INVALID has nothing to verify and the signing-chain trust boundary collapses.",
+      "if": {
+        "properties": {
+          "lifecycle": {
+            "properties": {"runtime_loadable": {"const": true}},
+            "required": ["runtime_loadable"]
+          }
+        },
+        "required": ["lifecycle"]
+      },
+      "then": {
+        "properties": {
+          "_research_metadata": {
+            "required": ["ed25519_signature"],
+            "properties": {
+              "ed25519_signature": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "not": {
+    "anyOf": [
+      {"required": ["common_clc_patterns_observed"]},
+      {"required": ["eligible_clc_subset"]},
+      {"required": ["clc_allowlist"]},
+      {"required": ["clc_denylist"]},
+      {"required": ["preferred_clcs"]},
+      {"required": ["clc_win_rate"]},
+      {"required": ["clc_ranking_preferences"]},
+      {"required": ["eligible_cic_subset"]},
+      {"required": ["preferred_cics"]},
+      {"required": ["common_cic_patterns_observed"]},
+      {"required": ["clc_assignment"]},
+      {"required": ["cic_assignment"]},
+      {"required": ["cic_clc_matrix"]},
+      {"required": ["clc_cic_matrix"]},
+      {"required": ["clc_to_cic_eligibility"]},
+      {"required": ["cic_to_clc_eligibility"]},
+      {"required": ["cic_clc_coupling_matrix"]},
+      {"required": ["clc_to_cic_matrix"]},
+      {"required": ["cic_to_clc_matrix"]},
+      {"required": ["private_member_roster"]},
+      {"required": ["private_org_underwriting_override"]},
+      {"required": ["private_org_financials"]},
+      {"required": ["private_org_member_list"]},
+      {"required": ["tactical_interpretation"]}
+    ]
+  },
+  "additionalProperties": false
+}

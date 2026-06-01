@@ -1,0 +1,600 @@
+{
+  "meta": {
+    "schema_version": "0.2.0",
+    "purpose": "Static Pydantic-aligned demo data for rendering Golden Quill UI states without a backend.",
+    "generated_for": "Golden Quill / Tilth UI prototype",
+    "primary_scenarios": [
+      "Logician fail-closed gate blocks Scribe",
+      "Untested gates show UNTESTED_DUE_TO_BLOCK",
+      "Signed risk override marks drafting surface",
+      "Draft section lease prevents overwrite",
+      "Judge panel becomes stale after evidence change",
+      "Audit ledger shows before/after amendment impact"
+    ]
+  },
+  "node": {
+    "node_id": "gq_node_fitfarms_001",
+    "node_name": "Golden Quill \u2014 FIT Farms Founder Node",
+    "organization_slug": "fit-farms",
+    "machine_fingerprint": "ed25519-node-4a3f...b2c8",
+    "local_status": "ONLINE_LOCAL",
+    "network_mode": "HYBRID_ALLOWED"
+  },
+  "operator": {
+    "user_id": "usr_josh_001",
+    "display_name": "J. Inklovich",
+    "role": "OPERATOR",
+    "signing_key_fingerprint": "op-ed25519-91ab...77f0"
+  },
+  "participants": [
+    {
+      "user_id": "usr_josh_001",
+      "display_name": "J. Inklovich",
+      "role": "OPERATOR",
+      "permissions": [
+        "VIEW",
+        "EDIT",
+        "SIGN",
+        "EXPORT",
+        "OVERRIDE"
+      ]
+    },
+    {
+      "user_id": "usr_delegate_001",
+      "display_name": "Delegate Editor",
+      "role": "DELEGATE_EDITOR",
+      "permissions": [
+        "VIEW",
+        "EDIT_ASSIGNED_SECTIONS"
+      ]
+    },
+    {
+      "user_id": "usr_reviewer_001",
+      "display_name": "External Reviewer",
+      "role": "REVIEWER_OBSERVER",
+      "permissions": [
+        "VIEW",
+        "COMMENT"
+      ]
+    }
+  ],
+  "cycle": {
+    "cycle_id": "cyc_09F82A",
+    "status": "GATE_FAILED_CLOSED",
+    "created_at": "2026-05-20T14:32:00Z",
+    "updated_at": "2026-05-20T15:12:22Z",
+    "active_surface": "ELIGIBILITY_GATE",
+    "scribe_access": "LOCKED"
+  },
+  "posture": {
+    "mode": "HYBRID_PUBLIC_FRONTIER_LOCAL_VAULT",
+    "changed_mid_cycle": false,
+    "last_confirmed_by": "usr_josh_001",
+    "last_confirmed_at": "2026-05-20T14:35:10Z",
+    "data_boundary_note": "Mixed packet: only RFA/rubric/scaffold leaves; applicant facts and draft substance stay local."
+  },
+  "opportunity": {
+    "opportunity_id": "opp_sare_2026_farmer_research",
+    "title": "USDA SARE Farmer-Led Research 2026",
+    "funder": "USDA SARE",
+    "program_code": "SARE-FR-2026",
+    "deadline": "2026-11-15T23:59:00Z",
+    "ingested_nofo_hash": "sha256-a8f3b2d49e7c1",
+    "source_backing_tier": "VERIFIED_FIT",
+    "fit_score": 0.86,
+    "confidence": 0.78,
+    "rationale": "Strong match for farmer-led applied research with field evidence and regenerative practice documentation. Eligibility blocked pending SAM.gov renewal verification.",
+    "evidence_gaps": [
+      "Active SAM.gov registration",
+      "Match documentation",
+      "Updated project partner letter"
+    ]
+  },
+  "scout_totals": {
+    "total_tracked_value": 486000,
+    "verified_fit_value": 126000,
+    "newly_added_value": 62000,
+    "blocked_value": 30000,
+    "opportunities_found": 42,
+    "opportunities_added": 9,
+    "opportunities_tracking": 18,
+    "verified_fit_count": 5,
+    "next_deadline_days": 21,
+    "display_note": "Scout is tracking $486K in possible funding, with $126K verified-fit and $62K newly added this cycle."
+  },
+  "scout_pipeline": [
+    {
+      "opportunity_id": "opp_sare_2026_farmer_research",
+      "title": "USDA SARE Farmer-Led Research 2026",
+      "stage": "VERIFYING",
+      "estimated_value": 30000,
+      "source_backing_tier": "VERIFIED_FIT",
+      "next_action": "Clear E-102 SAM.gov evidence gate."
+    },
+    {
+      "opportunity_id": "opp_state_food_systems_2026",
+      "title": "State Food Systems Infrastructure Mini-Grant",
+      "stage": "TRACKING",
+      "estimated_value": 50000,
+      "source_backing_tier": "UNVERIFIED",
+      "next_action": "Refresh live program page and deadline."
+    },
+    {
+      "opportunity_id": "opp_foundation_regen_2026",
+      "title": "Regional Regenerative Agriculture Foundation Cycle",
+      "stage": "ADDED_THIS_WEEK",
+      "estimated_value": 32000,
+      "source_backing_tier": "FOUNDATION_NEWSLETTER",
+      "next_action": "Request full guidelines before fit elevation."
+    }
+  ],
+  "blocker_outreach_tasks": [
+    {
+      "task_id": "email_blk_001",
+      "blocker_id": "E-102",
+      "title": "Active SAM.gov renewal evidence needed",
+      "owner_name": "Grant Admin Contact",
+      "owner_role": "EXTERNAL_TASK_OWNER",
+      "owner_email": "grant-admin@example.invalid",
+      "severity": "BLOCKING",
+      "route": "/eligibility/cyc_09F82A",
+      "due_label": "Needed before Scribe can open",
+      "email_subject": "Golden Quill blocker E-102: SAM.gov renewal evidence needed",
+      "email_body": "Hi,\n\nGolden Quill is blocked on E-102 for the SARE-FR-2026 cycle.\n\nWhat is needed:\n- Current active SAM.gov registration evidence\n- Upload or send the renewal confirmation/documentation\n\nWhy it matters:\nLogician has marked E-102 as FAIL_CLOSED, so Scribe remains locked until this evidence is resolved or Josh signs a risk override.\n\nCycle: cyc_09F82A\nRoute: /eligibility/cyc_09F82A\n\nThanks."
+    },
+    {
+      "task_id": "email_blk_002",
+      "blocker_id": "RT-002",
+      "title": "Current partner field-site letter needed",
+      "owner_name": "Partner Contact",
+      "owner_role": "EXTERNAL_TASK_OWNER",
+      "owner_email": "partner@example.invalid",
+      "severity": "HIGH",
+      "route": "/red-team/cyc_09F82A",
+      "due_label": "Needed before Red Team hit can clear",
+      "email_subject": "Golden Quill blocker RT-002: partner field-site letter needed",
+      "email_body": "Hi,\n\nGolden Quill flagged RT-002 on the SARE-FR-2026 cycle.\n\nWhat is needed:\n- Current partner field-site letter\n- Confirmation that the partner will host the field trial\n\nWhy it matters:\nRed Team found that the draft mentions a partner field site without current linked evidence. This remains a HIGH finding until the letter is supplied or the claim is removed.\n\nCycle: cyc_09F82A\nRoute: /red-team/cyc_09F82A\n\nThanks."
+    }
+  ],
+  "applicant_context": {
+    "cic": "Food Systems",
+    "clc": "Research & Evidence Capital",
+    "funder_envelope": "USDA / SARE / farmer-led applied research",
+    "sensitivity_default": "SENSITIVE_INTERNAL"
+  },
+  "audit_state": {
+    "last_event": "GATE_EVALUATION_HALTED",
+    "signature_status": "UNSIGNED_CHANGES_PENDING",
+    "last_verified_event_id": "evt_0007",
+    "lock_history_count": 7,
+    "unsigned_change_count": 3
+  },
+  "logician_gates": [
+    {
+      "gate_id": "E-101",
+      "gate_class": "HARD",
+      "description": "Applicant entity is eligible for farmer-led SARE application pathway.",
+      "verdict": "PASS",
+      "evidence_ref": "ev_entity_bylaws_001",
+      "source_excerpt": "Applicant documentation identifies agricultural producer-led entity with eligible project role.",
+      "remediation": null,
+      "blocks_scribe": false
+    },
+    {
+      "gate_id": "E-102",
+      "gate_class": "HARD",
+      "description": "Active SAM.gov registration verified before federal submission package proceeds.",
+      "verdict": "FAIL_CLOSED",
+      "evidence_ref": null,
+      "source_excerpt": null,
+      "operator_warning": "SAM.gov expiration detected. Renewal pending.",
+      "remediation": "Upload or refresh active SAM.gov registration evidence.",
+      "blocks_scribe": true
+    },
+    {
+      "gate_id": "E-103",
+      "gate_class": "HARD",
+      "description": "Required match funding available and documented.",
+      "verdict": "UNTESTED_DUE_TO_BLOCK",
+      "evidence_ref": null,
+      "source_excerpt": null,
+      "remediation": "Not evaluated because E-102 halted the cascade.",
+      "blocks_scribe": true
+    },
+    {
+      "gate_id": "E-104",
+      "gate_class": "SOFT",
+      "description": "Partner letter is recent enough for current cycle.",
+      "verdict": "UNTESTED_DUE_TO_BLOCK",
+      "evidence_ref": null,
+      "source_excerpt": null,
+      "remediation": "Not evaluated because E-102 halted the cascade.",
+      "blocks_scribe": false
+    }
+  ],
+  "override": {
+    "state": "NOT_REQUESTED",
+    "allowed": true,
+    "copy": "A signed risk override can unlock drafting under assumed eligibility risk, but it will not convert E-102 to PASS.",
+    "required_fields": [
+      "rationale",
+      "risk_acknowledgment",
+      "ed25519_signature"
+    ]
+  },
+  "draft_sections": [
+    {
+      "section_id": "sec_project_narrative",
+      "title": "Project Narrative",
+      "content": "Draft unavailable until Logician clears hard eligibility gates or operator signs an override.",
+      "lease_state": {
+        "status": "LOCKED_BY_GATE",
+        "current_lease_owner": null,
+        "is_leased_by_me": false,
+        "locked_by_gate_id": "E-102"
+      },
+      "eligibility_risk_mark": false,
+      "signature_status": "NOT_REQUIRED",
+      "autosave_status": "SAVED",
+      "conjecture_count": 0,
+      "evidence_links": []
+    },
+    {
+      "section_id": "sec_methods_risk_demo",
+      "title": "Methods \u2014 Risk Override Demo State",
+      "content": "This section demonstrates how Scribe should appear if the operator signs a risk override. The section remains visibly risk-marked and audit-linked.",
+      "lease_state": {
+        "status": "LEASED_BY_ME",
+        "current_lease_owner": "J. Inklovich",
+        "is_leased_by_me": true,
+        "locked_by_gate_id": null
+      },
+      "eligibility_risk_mark": true,
+      "signature_status": "UNSIGNED_CHANGES_PENDING",
+      "autosave_status": "SAVED",
+      "conjecture_count": 1,
+      "evidence_links": [
+        "ev_field_trial_notes_001"
+      ]
+    }
+  ],
+  "module_map": [
+    {
+      "section_id": "sec_project_narrative",
+      "title": "Project Narrative",
+      "word_limit": 2500,
+      "rubric_weight": 0.35,
+      "required_evidence": [
+        "field trial design",
+        "producer role",
+        "outcome metrics"
+      ],
+      "sensitivity": "ORG_CONTEXT",
+      "recommended_posture": "HYBRID_PUBLIC_FRONTIER_LOCAL_VAULT"
+    },
+    {
+      "section_id": "sec_budget_justification",
+      "title": "Budget Justification",
+      "word_limit": 1000,
+      "rubric_weight": 0.2,
+      "required_evidence": [
+        "quotes",
+        "match source",
+        "allowable cost mapping"
+      ],
+      "sensitivity": "SENSITIVE_INTERNAL",
+      "recommended_posture": "LOCAL_ONLY"
+    }
+  ],
+  "budget": {
+    "currency": "USD",
+    "max_request": 30000,
+    "requested_total": 31250,
+    "match_required": false,
+    "validation_state": "FAIL",
+    "violations": [
+      {
+        "rule_id": "B-201",
+        "severity": "BLOCKING",
+        "message": "Requested total exceeds maximum request by $1,250."
+      }
+    ],
+    "line_items": [
+      {
+        "line_id": "bud_001",
+        "category": "Equipment",
+        "description": "Environmental monitoring sensors",
+        "requested_amount": 12250,
+        "match_amount": 0,
+        "source_evidence": "quote_sensor_vendor.pdf"
+      },
+      {
+        "line_id": "bud_002",
+        "category": "Personnel",
+        "description": "Farmer-researcher labor",
+        "requested_amount": 19000,
+        "match_amount": 0,
+        "source_evidence": "labor_calc.xlsx"
+      }
+    ]
+  },
+  "judge": {
+    "score_state": "STALE",
+    "stale_reason": "Budget changed after last Judge scoring pass.",
+    "predicted_score": 82,
+    "max_score": 100,
+    "reviewers": [
+      {
+        "reviewer_id": "JDG-RUBRIC",
+        "label": "Rubric Judge",
+        "score": 82,
+        "max_score": 100,
+        "status": "STALE",
+        "rationale": "Strong project fit, but the score is no longer current after budget changes."
+      },
+      {
+        "reviewer_id": "JDG-EVIDENCE",
+        "label": "Evidence Judge",
+        "score": 76,
+        "max_score": 100,
+        "status": "WEAK",
+        "rationale": "Partner and SAM.gov evidence gaps reduce confidence until fresh documents are uploaded."
+      },
+      {
+        "reviewer_id": "JDG-BUDGET",
+        "label": "Budget Judge",
+        "score": 41,
+        "max_score": 100,
+        "status": "BLOCKED",
+        "rationale": "Requested total exceeds the cap, so budget realism cannot clear."
+      }
+    ],
+    "criteria": [
+      {
+        "criterion_id": "J-01",
+        "label": "Farmer-led research fit",
+        "score": 18,
+        "max_score": 20,
+        "weight": 0.2,
+        "evidence_tier": "STRONG",
+        "rationale": "Applicant demonstrates producer-led question and practical field application."
+      },
+      {
+        "criterion_id": "J-02",
+        "label": "Budget realism",
+        "score": 9,
+        "max_score": 20,
+        "weight": 0.2,
+        "evidence_tier": "UNACCEPTABLE",
+        "rationale": "Budget currently exceeds maximum request and must be corrected before sign-off."
+      }
+    ]
+  },
+  "red_team": {
+    "status": "HITS_PRESENT",
+    "probes": [
+      {
+        "probe_id": "RT-001",
+        "label": "Fake-fit signal",
+        "verdict": "CLEAN",
+        "severity": "LOW",
+        "attack_vector": "No unsupported claim of funder alignment detected."
+      },
+      {
+        "probe_id": "RT-002",
+        "label": "Missing evidence",
+        "verdict": "HIT",
+        "severity": "HIGH",
+        "attack_vector": "Project mentions partner field site but no current partner letter is linked.",
+        "required_response": "Upload current letter or remove partner claim."
+      },
+      {
+        "probe_id": "RT-003",
+        "label": "Budget-to-method disconnect",
+        "verdict": "HIT",
+        "severity": "BLOCKING",
+        "attack_vector": "Budget exceeds request cap and labor line lacks task mapping.",
+        "required_response": "Reduce request and bind labor line to methods tasks."
+      }
+    ]
+  },
+  "evidence_items": [
+    {
+      "evidence_id": "ev_entity_bylaws_001",
+      "title": "Entity bylaws",
+      "filename": "doc_entity_bylaws.pdf",
+      "classification": "SENSITIVE_INTERNAL",
+      "commit_state": "COMMITTED",
+      "hash": "sha256-91ad...4cc0",
+      "linked_claims": [
+        "claim_entity_eligible"
+      ]
+    },
+    {
+      "evidence_id": "ev_field_trial_notes_001",
+      "title": "Field trial design notes",
+      "filename": "field_trial_notes.md",
+      "classification": "ORG_CONTEXT",
+      "commit_state": "ONTOLOGY_CONFLICT",
+      "conflicts": [
+        {
+          "conflict_id": "conf_001",
+          "description": "County named in notes conflicts with applicant profile service geography.",
+          "requires_operator_resolution": true
+        }
+      ],
+      "hash": "sha256-0dd1...92ae",
+      "linked_claims": []
+    }
+  ],
+  "annotations": [
+    {
+      "annotation_id": "ann_001",
+      "field_id": "budget.requested_total",
+      "requested_by": "LOGICIAN",
+      "severity": "BLOCKING",
+      "reason": "Requested total exceeds maximum request.",
+      "prior_value": "31250",
+      "current_value": "31250",
+      "status": "OPEN"
+    },
+    {
+      "annotation_id": "ann_002",
+      "field_id": "draft.partner_claim",
+      "requested_by": "RED_TEAM",
+      "severity": "HIGH",
+      "reason": "Partner field site claim lacks current evidence.",
+      "prior_value": "Partner will host field trial.",
+      "current_value": "Partner will host field trial.",
+      "status": "OPEN"
+    }
+  ],
+  "audit_events": [
+    {
+      "event_id": "evt_0006",
+      "event_type": "GATE_PASS",
+      "actor": "LOGICIAN",
+      "timestamp": "2026-05-20T14:41:00Z",
+      "artifact_hash": "sha256-gate-e101-pass",
+      "signature_status": "VERIFIED",
+      "posture": "HYBRID_PUBLIC_FRONTIER_LOCAL_VAULT",
+      "rationale": "E-101 passed from entity bylaws evidence."
+    },
+    {
+      "event_id": "evt_0007",
+      "event_type": "GATE_EVALUATION_HALTED",
+      "actor": "LOGICIAN",
+      "timestamp": "2026-05-20T14:42:18Z",
+      "artifact_hash": "sha256-gate-e102-fail",
+      "signature_status": "VERIFIED",
+      "posture": "HYBRID_PUBLIC_FRONTIER_LOCAL_VAULT",
+      "rationale": "E-102 failed closed; cascade halted to preserve compute and avoid false clearance."
+    },
+    {
+      "event_id": "evt_0008",
+      "event_type": "BUDGET_VALIDATION_FAIL",
+      "actor": "LOGICIAN",
+      "timestamp": "2026-05-20T15:05:03Z",
+      "artifact_hash": "sha256-budget-fail-b201",
+      "signature_status": "UNSIGNED_CHANGES_PENDING",
+      "posture": "HYBRID_PUBLIC_FRONTIER_LOCAL_VAULT",
+      "rationale": "Requested total exceeds max request."
+    },
+    {
+      "event_id": "evt_0009",
+      "event_type": "EVIDENCE_QUARANTINED",
+      "actor": "ARCHIVIST",
+      "timestamp": "2026-05-20T15:08:33Z",
+      "artifact_hash": "sha256-0dd1...92ae",
+      "signature_status": "UNSIGNED_CHANGES_PENDING",
+      "posture": "HYBRID_PUBLIC_FRONTIER_LOCAL_VAULT",
+      "rationale": "Evidence held from operational memory due to unresolved ontology conflict."
+    },
+    {
+      "event_id": "evt_0010",
+      "event_type": "SYNC_BACKUP_PENDING",
+      "actor": "NODE",
+      "timestamp": "2026-05-20T15:09:10Z",
+      "artifact_hash": "sha256-sync-epoch-2026-05-20-15",
+      "signature_status": "VERIFIED",
+      "posture": "HYBRID_PUBLIC_FRONTIER_LOCAL_VAULT",
+      "rationale": "Local ledger verified through evt_0008; three subsequent events pending backup sync."
+    }
+  ],
+  "amendments": [
+    {
+      "amendment_id": "amd_demo_001",
+      "state": "PENDING",
+      "field_path": "budget.requested_total",
+      "old_value": "31250",
+      "new_value": "30000",
+      "actor": "usr_josh_001",
+      "rationale_required": true,
+      "signature_required": true,
+      "downstream_effects": [
+        "Judge panel stale until recomputed",
+        "Budget gate B-201 eligible for recheck",
+        "Sign-off blocked until amendment signed"
+      ]
+    }
+  ],
+  "ui_test_routes": [
+    {
+      "route": "/eligibility/cyc_09F82A",
+      "expected_state": "FailClosedBanner visible; Open Scribe disabled; E-103 and E-104 show UNTESTED_DUE_TO_BLOCK."
+    },
+    {
+      "route": "/drafting/cyc_09F82A",
+      "expected_state": "Project Narrative locked by E-102. Override demo section shows rust eligibility risk mark."
+    },
+    {
+      "route": "/audit/cyc_09F82A",
+      "expected_state": "Audit timeline shows gate halt, budget failure, unsigned changes pending."
+    },
+    {
+      "route": "/budget/cyc_09F82A",
+      "expected_state": "Budget validator blocks sign-off because requested total exceeds maximum."
+    },
+    {
+      "route": "/judge/cyc_09F82A",
+      "expected_state": "Judge panel visible with multiple reviewer lenses but stale due to budget change."
+    },
+    {
+      "route": "/quarantine",
+      "expected_state": "QuarantineBin shows ontology-conflicted and unclassifiable artifacts unavailable to council use."
+    },
+    {
+      "route": "/sync",
+      "expected_state": "Sync inspector shows BACKUP_PENDING and three unsynced events."
+    },
+    {
+      "route": "/portal-staging/cyc_09F82A",
+      "expected_state": "Portal staging is blocked and shows manual submission preparation only; no autonomous submit."
+    }
+  ],
+  "node_sync": {
+    "sync_state": "BACKUP_PENDING",
+    "current_epoch": "2026-05-20.15",
+    "last_verified_event_id": "evt_0008",
+    "last_synced_at": "2026-05-20T14:58:00Z",
+    "backup_target": "local-backup-drive-01",
+    "unsynced_event_count": 3,
+    "conflict_count": 0,
+    "display_copy": "BACKUP PENDING \u2014 verified locally through evt_0008."
+  },
+  "quarantine_items": [
+    {
+      "quarantine_id": "qtn_001",
+      "evidence_id": "ev_field_trial_notes_001",
+      "reason": "Ontology conflict: county named in notes conflicts with applicant profile service geography.",
+      "state": "QUARANTINED_CONFLICT",
+      "hash": "sha256-0dd1...92ae",
+      "created_at": "2026-05-20T14:55:00Z",
+      "auto_moved_at": "2026-05-20T15:55:00Z",
+      "operator_action_required": true,
+      "linked_cycle_id": "cyc_09F82A"
+    },
+    {
+      "quarantine_id": "qtn_002",
+      "evidence_id": "ev_scanned_letter_unknown_001",
+      "reason": "Unclassifiable scanned PDF. OCR confidence too low and signer identity unresolved.",
+      "state": "QUARANTINED_UNCLASSIFIABLE",
+      "hash": "sha256-81bd...c441",
+      "created_at": "2026-05-20T15:02:00Z",
+      "auto_moved_at": "2026-05-20T16:02:00Z",
+      "operator_action_required": true,
+      "linked_cycle_id": "cyc_09F82A"
+    }
+  ],
+  "portal_staging": {
+    "portal_staging_id": "pstg_001",
+    "cycle_id": "cyc_09F82A",
+    "portal_name": "USDA SARE Portal",
+    "field_map_status": "BLOCKED_BY_GATE",
+    "upload_packet_status": "NOT_READY",
+    "filename_normalization_status": "PENDING",
+    "manual_submission_ack_required": true,
+    "export_hash": null,
+    "blocked_reason": "E-102 FAIL_CLOSED and budget B-201 unresolved. Portal staging is blocked until required artifacts are current."
+  }
+}

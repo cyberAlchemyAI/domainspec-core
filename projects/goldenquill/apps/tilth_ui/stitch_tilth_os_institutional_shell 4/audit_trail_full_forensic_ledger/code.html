@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GOLDEN QUILL // FULL AUDIT LEDGER</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #081425;
+            color: #d8e3fb;
+            font-family: 'Hanken Grotesk', sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+        .font-data-mono { font-family: 'JetBrains Mono', monospace; }
+        .font-label-caps { font-family: 'JetBrains Mono', monospace; text-transform: uppercase; }
+        .font-serif-header { font-family: 'Source Serif 4', serif; }
+        
+        /* Custom Scrollbar for the technical aesthetic */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #040e1f; }
+        ::-webkit-scrollbar-thumb { background: #444748; }
+        ::-webkit-scrollbar-thumb:hover { background: #ffffff; }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.03);
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            animation: scan 8s linear infinite;
+        }
+        @keyframes scan {
+            from { top: 0; }
+            to { top: 100%; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-background": "#d8e3fb",
+                        "inverse-surface": "#d8e3fb",
+                        "outline-variant": "#444748",
+                        "on-secondary": "#213145",
+                        "surface-container": "#152031",
+                        "tertiary": "#ffffff",
+                        "primary-container": "#e2e2e2",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#111c2d",
+                        "surface-variant": "#2a3548",
+                        "surface-container-lowest": "#040e1f",
+                        "on-primary-container": "#636565",
+                        "surface-tint": "#c6c6c7",
+                        "primary-fixed": "#e2e2e2",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "secondary-container": "#3a4a5f",
+                        "on-tertiary-container": "#5c647a",
+                        "on-secondary-container": "#a9bad3",
+                        "primary": "#ffffff",
+                        "on-primary": "#2f3131",
+                        "surface-bright": "#2f3a4c",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-tertiary": "#283044",
+                        "on-primary-fixed": "#1a1c1c",
+                        "inverse-on-surface": "#263143",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-container-high": "#1f2a3c",
+                        "inverse-primary": "#5d5f5f",
+                        "surface": "#081425",
+                        "outline": "#8e9192",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-surface": "#d8e3fb",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-surface-variant": "#c4c7c8",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#2a3548",
+                        "tertiary-container": "#dae2fd",
+                        "background": "#081425",
+                        "surface-dim": "#081425",
+                        "on-secondary-fixed": "#0b1c30",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "secondary": "#b7c8e1",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "error": "#ffb4ab",
+                        "gold-burnished": "#B89745"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["12px", {"lineHeight": "1.5"}],
+                        "body-md": ["14px", {"lineHeight": "1.5"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "data-mono": ["13px", {"lineHeight": "1", "fontWeight": "500"}],
+                        "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "display-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "container-padding": "16px"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="flex h-screen overflow-hidden">
+<div class="scanline"></div>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[220px] bg-surface-container-low border-r border-outline-variant flex flex-col pt-[56px] z-40">
+<div class="px-4 py-6 border-b border-outline-variant mb-4">
+<h2 class="font-headline-md text-headline-md text-primary tracking-tighter">NODE IDENTITY</h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1 opacity-60">POSTURE: SECURE</p>
+</div>
+<nav class="flex-1 overflow-y-auto overflow-x-hidden space-y-1">
+<!-- Navigation Items Mapping -->
+<div class="px-2">
+<a class="flex items-center px-4 h-10 text-on-surface-variant hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex items-center px-4 h-10 text-on-surface-variant hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">search</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+<!-- Active Item: Audit Trail (Mapping to Audit from JSON) -->
+<a class="flex items-center px-4 h-10 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed transition-none" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">history_edu</span>
+<span class="font-label-caps text-label-caps">Audit Trail</span>
+</a>
+<a class="flex items-center px-4 h-10 text-on-surface-variant hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+<a class="flex items-center px-4 h-10 text-on-surface-variant hover:bg-surface-container-high transition-none group" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</a>
+<!-- ... other items would follow the same pattern ... -->
+</div>
+</nav>
+<div class="p-4 border-t border-outline-variant">
+<div class="bg-surface-container-high p-3 border border-outline-variant flex items-center gap-3">
+<div class="w-2 h-2 bg-green-500 shadow-[0_0_8px_#22C55E]"></div>
+<span class="font-data-mono text-[10px] text-on-surface">SYS_INTEGRITY: 100%</span>
+</div>
+</div>
+</aside>
+<!-- Main Container -->
+<main class="flex-1 ml-[220px] flex flex-col h-full bg-surface">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-container-padding w-full h-[56px] bg-surface-container-highest border-b border-outline-variant relative z-50">
+<div class="flex items-center gap-6">
+<span class="font-display-lg text-display-lg font-bold text-primary tracking-tighter">GOLDEN QUILL</span>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-3">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Applied As:</span>
+<span class="font-body-md text-body-md text-primary font-bold">FIT Farms LLC</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center px-3 py-1 bg-surface-container-low border border-outline-variant gap-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">POSTURE:</span>
+<span class="font-data-mono text-data-mono text-primary">HYBRID</span>
+</div>
+<div class="flex items-center px-3 py-1 bg-surface-bright border border-outline-variant gap-2 rounded-full">
+<span class="material-symbols-outlined text-[14px] text-green-400" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-caps text-label-caps text-primary">Verified</span>
+</div>
+<div class="flex items-center px-3 py-1 bg-surface-container-lowest border border-outline-variant gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">key</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">0xFD...2A91</span>
+</div>
+<div class="flex gap-2">
+<button class="material-symbols-outlined text-primary p-2 hover:bg-surface-bright">security</button>
+<button class="material-symbols-outlined text-primary p-2 hover:bg-surface-bright">verified_user</button>
+<button class="material-symbols-outlined text-primary p-2 hover:bg-surface-bright">gavel</button>
+</div>
+</div>
+</header>
+<!-- Workstation Layout -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Central Canvas: The Ledger -->
+<section class="flex-1 flex flex-col border-r border-outline-variant overflow-hidden">
+<div class="p-6 bg-surface-container-lowest border-b border-outline-variant">
+<h1 class="font-serif-header text-[28px] text-primary italic font-bold">AUTHORIZATION_LEDGER // GRANT: F-2024-991A</h1>
+<p class="font-data-mono text-[12px] text-on-surface-variant mt-1 opacity-50">BLOCK_HEIGHT: 18,992,101 // TIMESTAMP_LOCAL: 2024-10-24 09:00:15</p>
+</div>
+<div class="flex-1 overflow-auto bg-surface">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-surface-container-high border-b border-outline-variant z-10">
+<tr>
+<th class="px-6 py-3 font-label-caps text-label-caps text-outline">SEQ</th>
+<th class="px-6 py-3 font-label-caps text-label-caps text-outline">ACTOR_ENTITY</th>
+<th class="px-6 py-3 font-label-caps text-label-caps text-outline">VERDICT</th>
+<th class="px-6 py-3 font-label-caps text-label-caps text-outline">TIMESTAMP_ISO</th>
+<th class="px-6 py-3 font-label-caps text-label-caps text-outline">CRYPTOGRAPHIC_HASH</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- SEQ 01 -->
+<tr class="hover:bg-surface-container-high transition-none cursor-pointer">
+<td class="px-6 py-4 font-data-mono text-primary">01</td>
+<td class="px-6 py-4 font-body-md text-primary font-bold">Logician</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-green-500/10 text-green-400 border border-green-500/30 font-label-caps text-[10px]">PASS</span>
+</td>
+<td class="px-6 py-4 font-data-mono text-on-surface-variant">2024-10-24T08:12:44Z</td>
+<td class="px-6 py-4 font-data-mono text-outline text-[11px]">7f8a7e89...2b1c3d4e</td>
+</tr>
+<!-- SEQ 02 -->
+<tr class="hover:bg-surface-container-high transition-none cursor-pointer">
+<td class="px-6 py-4 font-data-mono text-primary">02</td>
+<td class="px-6 py-4 font-body-md text-primary font-bold">Scribe</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-green-500/10 text-green-400 border border-green-500/30 font-label-caps text-[10px]">PASS</span>
+</td>
+<td class="px-6 py-4 font-data-mono text-on-surface-variant">2024-10-24T08:15:02Z</td>
+<td class="px-6 py-4 font-data-mono text-outline text-[11px]">e34d88f1...9a0f7c22</td>
+</tr>
+<!-- SEQ 03 -->
+<tr class="hover:bg-surface-container-high transition-none cursor-pointer">
+<td class="px-6 py-4 font-data-mono text-primary">03</td>
+<td class="px-6 py-4 font-body-md text-primary font-bold">Judge</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-gold-burnished/10 text-gold-burnished border border-gold-burnished font-label-caps text-[10px]">SYNTH_OVERRIDE</span>
+</td>
+<td class="px-6 py-4 font-data-mono text-on-surface-variant">2024-10-24T08:22:19Z</td>
+<td class="px-6 py-4 font-data-mono text-outline text-[11px]">a1b2c3d4...c3d4e5f6</td>
+</tr>
+<!-- SEQ 04 -->
+<tr class="hover:bg-surface-container-high transition-none cursor-pointer">
+<td class="px-6 py-4 font-data-mono text-primary">04</td>
+<td class="px-6 py-4 font-body-md text-primary font-bold">Red Team</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-green-500/10 text-green-400 border border-green-500/30 font-label-caps text-[10px]">PASS</span>
+</td>
+<td class="px-6 py-4 font-data-mono text-on-surface-variant">2024-10-24T08:45:11Z</td>
+<td class="px-6 py-4 font-data-mono text-outline text-[11px]">88x1v99a...vv29q0p1</td>
+</tr>
+<!-- SEQ 05 SELECTED -->
+<tr class="bg-surface-container-high border-l-2 border-primary cursor-pointer">
+<td class="px-6 py-4 font-data-mono text-primary">05</td>
+<td class="px-6 py-4 font-body-md text-primary font-bold">Operator Auth</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-primary text-on-primary font-label-caps text-[10px]">FINAL</span>
+</td>
+<td class="px-6 py-4 font-data-mono text-on-surface-variant">2023-10-27T09:00:05Z</td>
+<td class="px-6 py-4 font-data-mono text-outline text-[11px]">99k2l3m4...pp01n2b3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Right Inspector: Event Inspector -->
+<aside class="w-[400px] bg-surface-container-low flex flex-col overflow-hidden">
+<div class="p-4 border-b border-outline-variant bg-surface-container flex items-center justify-between">
+<h3 class="font-label-caps text-label-caps text-primary">EVENT INSPECTOR</h3>
+<span class="font-data-mono text-[10px] text-outline">SEQ_05</span>
+</div>
+<div class="flex-1 p-6 overflow-auto font-data-mono text-body-sm space-y-6">
+<!-- Metadata Block -->
+<div class="space-y-2">
+<label class="text-[10px] text-outline uppercase tracking-widest">Actor Identity</label>
+<div class="p-3 bg-surface-container-lowest border border-outline-variant">
+<div class="flex justify-between mb-1">
+<span class="text-on-surface-variant">TYPE:</span>
+<span class="text-primary font-bold">HUMAN_OPERATOR</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant">LEVEL:</span>
+<span class="text-primary">ADMIN_CLEARANCE_IV</span>
+</div>
+</div>
+</div>
+<!-- Hash Block -->
+<div class="space-y-2">
+<label class="text-[10px] text-outline uppercase tracking-widest">Artifact Integrity</label>
+<div class="p-3 bg-surface-container-lowest border border-outline-variant break-all text-[11px]">
+<span class="text-on-surface-variant mb-1 block">SHA-256 HASH:</span>
+<span class="text-secondary">b7a8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6g7h8</span>
+</div>
+</div>
+<!-- Raw JSON Payload -->
+<div class="space-y-2">
+<label class="text-[10px] text-outline uppercase tracking-widest">Raw Payload (JSON)</label>
+<div class="p-3 bg-black border border-outline-variant text-green-500 text-[12px] leading-relaxed overflow-x-hidden">
+<pre class="whitespace-pre-wrap">{
+  "action": "GRANT_FINAL_APPROVAL",
+  "grant_id": "F-2024-991A",
+  "operator_id": "OP-992",
+  "evidence_bundle": [
+    "LOG_PASS_01",
+    "SCRIBE_PASS_02",
+    "JUDGE_OVERRIDE_03"
+  ],
+  "mfa_verified": true,
+  "hardware_key_serial": "Y-8812-QX"
+}</pre>
+</div>
+</div>
+<!-- Ed25519 Signature -->
+<div class="space-y-2">
+<label class="text-[10px] text-outline uppercase tracking-widest">Cryptographic Signature</label>
+<div class="p-3 bg-surface-container-lowest border border-outline-variant break-all text-[11px]">
+<span class="text-on-surface-variant mb-1 block">ED25519_SIG:</span>
+<span class="text-on-surface italic">sig_82nK39vX...m91Lp02XqW39vN1lKm029xLk1m39v...</span>
+<div class="mt-2 pt-2 border-t border-outline-variant/30 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-green-400">check_circle</span>
+<span class="text-green-400 text-[10px]">SIGNATURE_VALIDATED_OFFCHAIN</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-outline-variant">
+<button class="w-full h-10 bg-primary text-on-primary font-label-caps text-label-caps flex items-center justify-center gap-2 hover:bg-white transition-none">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        Export Full Audit Bundle
+                    </button>
+</div>
+</aside>
+</div>
+<!-- Footer -->
+<footer class="h-[32px] w-full bg-surface-container-lowest border-t border-outline-variant flex items-center justify-between px-4 fixed bottom-0 z-50">
+<div class="flex items-center gap-6">
+<span class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</span>
+<div class="flex items-center gap-4 text-on-surface-variant font-data-mono text-[10px]">
+<span class="flex items-center gap-1">
+<span class="text-outline">MACHINE_ID:</span> 992-QX
+                    </span>
+<span class="flex items-center gap-1">
+<span class="text-outline">NODE_ID:</span> fit-farms-pgh-001
+                    </span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-none" href="#">SYSTEM_STATUS</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-none" href="#">AUDIT_LOG</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-none" href="#">FID_0x2A</a>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-green-500 rounded-sm"></span>
+<span class="font-label-caps text-label-caps text-primary">LOCAL_OPTIMIZED</span>
+</div>
+</div>
+</footer>
+</main>
+<script>
+        // Simple micro-interaction for table rows
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('click', () => {
+                document.querySelectorAll('tr').forEach(r => {
+                    r.classList.remove('bg-surface-container-high', 'border-l-2', 'border-primary');
+                });
+                row.classList.add('bg-surface-container-high', 'border-l-2', 'border-primary');
+                
+                // Simulated Inspector refresh animation
+                const inspector = document.querySelector('aside:last-child');
+                inspector.style.opacity = '0.7';
+                setTimeout(() => {
+                    inspector.style.opacity = '1';
+                }, 100);
+            });
+        });
+    </script>
+</body></html>

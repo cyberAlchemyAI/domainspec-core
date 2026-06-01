@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "1.0",
+  "description": "Urban / soilless / controlled-environment ag (CEA) terminology and funder language. Drawn from USDA Office of Urban Agriculture, NIFA SCRI, FDA Produce Safety Rule, and EPA brownfield-remediation guidance. Starter pack — extend as Tilth handles real urban-ag deployments.",
+  "domains": [
+    {
+      "id": "cea-systems",
+      "name": "Controlled-environment systems",
+      "description": "Hydroponic / aquaponic / aeroponic / vertical farming distinctions and canonical terminology."
+    },
+    {
+      "id": "urban-ag-programs",
+      "name": "USDA + adjacent urban-ag programs",
+      "description": "Funding programs that explicitly target urban / indoor / soilless production."
+    },
+    {
+      "id": "urban-context",
+      "name": "Urban context framing",
+      "description": "Justice40, food-desert, brownfield, and equity framings reviewers expect."
+    }
+  ],
+  "facts": [
+    {
+      "id": "cea-system-types",
+      "domainId": "cea-systems",
+      "statement": "Controlled Environment Agriculture (CEA) covers four canonical system types: hydroponics (soilless, water-borne nutrients — NFT, DWC, ebb-and-flow, drip), aquaponics (fish-waste-fed plant systems, RAS-coupled), aeroponics (root-mist nutrient delivery), and soil-based indoor (containerized media in greenhouse). Vertical farming is a *form factor*, not a system type — any of the above can be vertically stacked.",
+      "tags": ["CEA", "hydroponics", "aquaponics", "aeroponics", "vertical-farming", "terminology"],
+      "confidence": "high",
+      "scope": "general"
+    },
+    {
+      "id": "lighting-ppfd-vs-par",
+      "domainId": "cea-systems",
+      "statement": "Indoor / supplemental-lighting claims should use PPFD (photosynthetic photon flux density, μmol/m²/s) as the primary metric, not PAR (photosynthetically active radiation, broader band). DLI (daily light integral, mol/m²/day) integrates PPFD over photoperiod. Reviewers flag claims using lumens or lux for plant growth — those are human-vision units.",
+      "tags": ["lighting", "PPFD", "PAR", "DLI", "LED", "metrics"],
+      "confidence": "high",
+      "scope": "general"
+    },
+    {
+      "id": "water-use-claims",
+      "domainId": "cea-systems",
+      "statement": "Hydroponic systems typically use 70-95% less water than equivalent field production, but this is *blue-water* savings — total water-use including condensate handling and evaporative-cooling makeup is lower (~60-90%) but not zero. Recirculating systems lose water primarily to transpiration. Cite Barbosa et al. (2015) for peer-reviewed lettuce comparison; avoid uncited >95% claims.",
+      "tags": ["water-efficiency", "hydroponics", "metrics", "evidence-discipline"],
+      "confidence": "high",
+      "scope": "general"
+    },
+    {
+      "id": "year-round-production",
+      "domainId": "cea-systems",
+      "statement": "CEA enables year-round production cycles independent of climate — typical leafy greens cycle is 28-35 days seed-to-harvest with continuous overlapping cohorts. Year-round framing is reviewer-favored when paired with food-security or food-desert outcomes; avoid framing as 'climate-controlled' (sounds energy-intensive) — prefer 'precision environmental management.'",
+      "tags": ["year-round", "production-cycle", "leafy-greens", "framing"],
+      "confidence": "high",
+      "scope": "general"
+    },
+    {
+      "id": "usda-urban-ag-office",
+      "domainId": "urban-ag-programs",
+      "statement": "USDA Office of Urban Agriculture and Innovative Production (OUAIP, est. 2020) administers two competitive grants: Urban Agriculture and Innovative Production (UAIP) competitive grants — Planning Projects (up to $75K) and Implementation Projects (up to $300K). Eligible applicants include nonprofits, schools, local governments, tribal governments. Federally recognized Tribes and tribal organizations receive priority.",
+      "tags": ["OUAIP", "UAIP", "USDA", "competitive-grant", "urban-agriculture"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "scri-cea-research",
+      "domainId": "urban-ag-programs",
+      "statement": "USDA NIFA Specialty Crop Research Initiative (SCRI) is the primary federal research grant for CEA-relevant work — multi-state, multi-disciplinary projects with industry match (50% non-federal). Recent SCRI awards have funded hydroponic disease management, vertical-farm energy optimization, and CEA cultivar breeding. Match can include in-kind from research partners.",
+      "tags": ["SCRI", "NIFA", "research", "CEA", "specialty-crop"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "scbgp-mushrooms-eligible",
+      "domainId": "urban-ag-programs",
+      "statement": "USDA Specialty Crop Block Grant Program (SCBGP) explicitly includes mushrooms as an eligible specialty crop. Mushroom production (button, oyster, shiitake, lion's mane) qualifies for SCBGP-funded marketing, food-safety, and pest-management projects. Indoor / urban mushroom operations are SCBGP-eligible regardless of soilless growing medium.",
+      "tags": ["SCBGP", "mushrooms", "eligibility", "specialty-crop", "urban-mushrooms"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "produce-safety-rule",
+      "domainId": "urban-ag-programs",
+      "statement": "FDA Produce Safety Rule (under FSMA) applies to most CEA growers producing fresh fruits and vegetables for human consumption, with exemptions for operations under $25K average annual produce sales (small-farm rule) and for produce 'rarely consumed raw.' Hydroponic and aquaponic operations are subject to water testing requirements (21 CFR 112 Subpart E) — frame compliance plan in any urban-ag grant proposal involving direct-to-consumer sales.",
+      "tags": ["FSMA", "Produce-Safety-Rule", "FDA", "21-CFR-112", "compliance"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "justice40-food-access",
+      "domainId": "urban-context",
+      "statement": "Justice40 Initiative (Executive Order 14008) directs 40% of federal climate / clean-energy / sustainable-housing benefits flow to disadvantaged communities. Urban-ag projects sited in DAC-designated census tracts (verifiable via CEJST tool) carry priority points in OUAIP, UAIP, CFP, and many EPA grants. Always cite the specific census tract + CEJST pathway in the project narrative.",
+      "tags": ["Justice40", "DAC", "CEJST", "EO-14008", "equity"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "food-desert-vs-food-apartheid",
+      "domainId": "urban-context",
+      "statement": "USDA still uses 'food desert' terminology (low-income, low-access census tracts >1mi from supermarket urban / >10mi rural). Community-rooted reviewers (NEA, NEH, some equity-focused USDA program officers) increasingly prefer 'food apartheid' — frames the issue as systemic disinvestment, not natural geography. Match the dialect to the funder: USDA reviewers expect 'food desert,' progressive-philanthropy reviewers expect 'food apartheid.' Both are precise; neither is universally correct.",
+      "tags": ["food-desert", "food-apartheid", "framing", "dialect", "USDA"],
+      "confidence": "high",
+      "scope": "general"
+    },
+    {
+      "id": "brownfield-soil-lead",
+      "domainId": "urban-context",
+      "statement": "Urban field-scale ag projects on previously-built parcels must address EPA brownfield + soil-lead screening. Pre-production soil testing (EPA Method 3050B for total Pb) is reviewer-expected; results above 400 ppm (residential / play-area threshold) require remediation plan or raised-bed-with-imported-soil framing. Cite EPA RSL tables. Soilless / hydroponic operations on contaminated parcels sidestep the issue but reviewers want explicit acknowledgment.",
+      "tags": ["brownfield", "EPA", "soil-lead", "remediation", "raised-bed"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "new-entrant-farmer",
+      "domainId": "urban-context",
+      "statement": "USDA defines 'beginning farmer or rancher' (BFR) as having operated a farm/ranch ≤10 years. Urban-ag programs particularly value BFR participation given the pipeline-creation framing. BFRDP (Beginning Farmer and Rancher Development Program) is the dedicated training grant; OUAIP UAIP and CFP both score BFR-serving projects higher. SDA + BFR overlap (socially-disadvantaged + beginning) compounds priority.",
+      "tags": ["BFR", "BFRDP", "beginning-farmer", "SDA", "pipeline"],
+      "confidence": "high",
+      "scope": "federal"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel-cea-fsma",
+      "fromFactId": "cea-system-types",
+      "toFactId": "produce-safety-rule",
+      "relationType": "regulated-by",
+      "description": "Hydroponic and aquaponic systems specifically fall under FSMA Produce Safety Rule water-testing requirements."
+    },
+    {
+      "id": "rel-cea-water",
+      "fromFactId": "cea-system-types",
+      "toFactId": "water-use-claims",
+      "relationType": "supports",
+      "description": "Hydroponic system definition supports the 70-95% blue-water savings claim."
+    },
+    {
+      "id": "rel-justice40-ouaip",
+      "fromFactId": "justice40-food-access",
+      "toFactId": "usda-urban-ag-office",
+      "relationType": "modifies",
+      "description": "Justice40 designation adds priority points to OUAIP UAIP applications."
+    },
+    {
+      "id": "rel-bfr-justice40",
+      "fromFactId": "new-entrant-farmer",
+      "toFactId": "justice40-food-access",
+      "relationType": "compounds",
+      "description": "BFR + SDA + Justice40-DAC-tract triple-overlap is the strongest priority-points stack for urban-ag grants."
+    }
+  ]
+}

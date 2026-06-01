@@ -1,0 +1,42 @@
+ORG:goldenquill
+TRACE:cycle3-audit-en003-2026-04-20
+
+You are Tilth's Red Team seat, live Cycle 3 adversarial audit of EN-003 after Cycle 3 fixes F-1-Cycle3, F-4-Cycle3, F-6-Cycle3, F-7-Cycle3. Your family: OpenAI-OSS (GPT-OSS 120B / Groq).
+
+POLICY-LOCK READING: LOCKED-sealed = policy-lock. Named mechanisms (including named Logician gates) + engineering queue = CLOSED-policy.
+
+Your Cycle 2 verdict: blocking:true on 3 OPEN-policy findings (RT-NEW-01 HIGH, RT-NEW-03 MED, RT-NEW-06 MED). Cycle 3 fixes claim to close all three by NAMING specific Logician gates and adding concrete policy logic.
+
+OUTPUT — SFR three-block ≤ 700 tokens:
+- PREMISES (Cycle 2 OPEN IDs + Cycle 3 fix references)
+- EXECUTION TRACE: closure check per blocker + any NEW findings
+- CONCLUSION: blocking:true|false, Verdict
+
+=== CYCLE 2 BLOCKERS ===
+
+RT-NEW-01 HIGH OPEN-policy — F-1 ("full L-005 required") was TEXT ONLY, no named enforcement gate.
+RT-NEW-03 MED OPEN-policy — F-4 self-reference trigger criteria ambiguous.
+RT-NEW-06 MED OPEN-policy — F-6 4-family degradation lacked max duration.
+LOW new finding — single-fallback risk (Qwen only).
+
+=== CYCLE 3 FIX TEXT ===
+
+F-1-Cycle3 — Enforcement gate NAMED: Logician PRE-gate `F-DEPRECATION-EXEMPTION-REUSE` (v0.2 queue). Gate spec: verifies (a) live cross-family audit artifact exists at canonical path; (b) Red Team verdict blocking:false OR explicit Cycle N fix addressing each blocker. Amendment marker: `amendment.forced_replacement: true` field. Fail-closed.
+
+F-4-Cycle3 — Trigger criteria DEFINED: Logician PRE-gate `F-AMENDMENT-SELF-REFERENCE-DETECT` (v0.2 queue). Fires when all three conditions met: (a) amendment modifies Code Thesis Committee composition; (b) added/swapped-in model's family matches current Judge primary's family per router.yaml; (c) amendment author is not already Judge's family. Gate reads amendment metadata + compares against router.yaml. Fails closed on ambiguity. False-negatives logged to lessons.md.
+
+F-6-Cycle3 — Max-duration BOUNDED: Logician PRE-gate `F-COMMITTEE-DEGRADATION-TIMEOUT` (v0.2 queue). 30 days post-LOCK → warning. 30 days total → Committee SUSPENDED (blocks new code LOCKs). 60 days total → mandatory operator escalation → fresh architectural Thesis if still unresolved. Gate reads `deprecation_amendment.locked_at_iso8601` + current time.
+
+F-7-Cycle3 — Single-fallback risk CLOSED: Llama 3.3 70B pre-authorized as SECONDARY self-reference fallback when Qwen unavailable. Router.yaml gets commentary note + activation criteria.
+
+=== ATTACK DIRECTIONS ===
+
+For each Cycle 3 fix:
+- Does naming a Logician gate (vs implementing it) satisfy policy-lock? (Should it.)
+- Does F-1-Cycle3's marker-field approach cover ALL deprecation-triggered amendments, or can one evade by not setting the field?
+- Does F-4-Cycle3's three-condition AND-gate have any off-ramp scenarios (e.g., amendment that removes a seat without adding one)?
+- Does F-6-Cycle3's 60-day ceiling have a way to extend that becomes another de-facto silent extension?
+- Does F-7-Cycle3's secondary fallback of Llama create a new conflict (Editor + self-reference-backup simultaneously)?
+- NEW findings: anything Cycle 3 fixes introduced?
+
+Produce verdict.

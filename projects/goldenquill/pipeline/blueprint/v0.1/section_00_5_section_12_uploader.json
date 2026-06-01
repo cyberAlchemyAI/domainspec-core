@@ -1,0 +1,235 @@
+{
+  "amendment_filed": "2026-05-09",
+  "amendment_locked": "2026-05-10",
+  "amendment_status": "LOCKED 2026-05-10",
+  "authored_at_iso": "2026-05-09T00:00:00Z",
+  "authored_by": "Josh (operator) + Opus 4.7 co-author (Cowork pre-fix pass)",
+  "compound_lock_with": "section_12_uploader.md v1, section_04_v2_7_amendment.md (Code session)",
+  "delta_against_runtime_live": {
+    "failure_code_rows_added": 10,
+    "marker_rows_added": 1,
+    "new_rows_count": 21,
+    "post_gate_check_rows_added": 3,
+    "pre_gate_check_rows_added": 3,
+    "previous_runtime_live_row_count": 211,
+    "runtime_live_total_at_compound_lock": 232,
+    "schema_or_contract_rows_added": 4
+  },
+  "index_version": "v9",
+  "paired_with": "pipeline/blueprint/v0.1/section_12_uploader.md (§12 v1 LOCK)",
+  "parent_amendment_file": "pipeline/blueprint/v0.1/section_00_5_section_12_uploader_amendment.md",
+  "parent_master": "pipeline/blueprint/v0.1/section_00_5_interface_index_locked.md",
+  "row_count": 21,
+  "rows": [
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md",
+      "description": "§12 Uploader section anchor. v0.1 always-local support agent. Prepare-and-stage discipline only (operator clicks final submit). Marker per `marker` precedent in v1 closed vocabulary (§0.5.3.1).",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "blueprint.section_anchor.s12_uploader.v1",
+      "primitive_kind": "marker",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.3",
+      "description": "PRE-gate, structural. Three-layer defense: AST-lint allow-list (R-UPLOADER-NO-SUBMIT) + network-namespace process isolation + RuntimeError invariant in __post_init__ + vault-write-time re-check. No M13 bypass; no python -O bypass; no dataclasses.replace bypass. Architecturally prohibited per v7.0.6.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.failure_code.F-UPLOADER-AUTOSUBMIT-ATTEMPTED.v1",
+      "primitive_kind": "failure-code",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.5",
+      "description": "POST-gate. Text-extraction diff between input SectionDraft.body_text and output document text exceeds §12.8 tolerance model (whitespace normalization + page-break un-pagination + table structural-hash). Hard-block. Indicates a format-conversion bug.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.failure_code.F-UPLOADER-CONTENT-MUTATION.v1",
+      "primitive_kind": "failure-code",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.6",
+      "description": "PRE-gate. Portal-field disambiguation LLM call routed to cloud rather than local. Hard-block. HIGH-5 fix backs the §12.11 routing-posture defense — Uploader operates on post-fill drafts (Confidential values embedded), so all field-map LLM calls must hit the always-local Mistral 7B-class model.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.failure_code.F-UPLOADER-FIELD-MAP-CLOUD-ROUTED.v1",
+      "primitive_kind": "failure-code",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.2",
+      "description": "POST-gate. Sub-tags .format / .page_limit / .file_size. Hard-block. Format-mismatched files are not staged.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.failure_code.F-UPLOADER-FORMAT-MISMATCH.v1",
+      "primitive_kind": "failure-code",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.5",
+      "description": "PRE-gate. claim_evidence_map is not the union of section_drafts[*].claim_evidence_map. Hard-block.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.failure_code.F-UPLOADER-INPUT-INCONSISTENT.v1",
+      "primitive_kind": "failure-code",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.5",
+      "description": "PRE-gate. Sub-tags .multi_org_path (input bundle references >1 org slug) / .symlink_escape (Path.resolve resolves outside declared org_slug subtree). Hard-block.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.failure_code.F-UPLOADER-ORG-CROSS-REF.v1",
+      "primitive_kind": "failure-code",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.1",
+      "description": "POST-gate. Trigger: any RFA-required narrative section missing from submission_manifest.yaml. Hard-block. (At v1 the required_attachments walk is informational/WARN per §12.7 item 2; becomes hard-block at v1.1 when attachments land.)",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.failure_code.F-UPLOADER-PACKAGE-INCOMPLETE.v1",
+      "primitive_kind": "failure-code",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.5",
+      "description": "PRE-gate. RfaExtractedRecord absent or rfa_content_sha3_512 does not match session manifest pin. Hard-block.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.failure_code.F-UPLOADER-RFA-MISSING.v1",
+      "primitive_kind": "failure-code",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.5",
+      "description": "PRE-gate. Audit-trail subclass of F-UPLOADER-SIGNATURE-MISSING.hash_mismatch — both codes resolve via the same predicate at the check level; preserved as a distinct row for audit-trail clarity per §10 explode-pattern precedent.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.failure_code.F-UPLOADER-SIGNATURE-MISMATCH.v1",
+      "primitive_kind": "failure-code",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.4",
+      "description": "PRE-gate. Sub-tags .absent (no signature) / .hash_mismatch (bundle modified after signature). Predicate reads submission_bundle_bytes via §2 submission-bundle-read Vault read intent. Hard-block.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.failure_code.F-UPLOADER-SIGNATURE-MISSING.v1",
+      "primitive_kind": "failure-code",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.4",
+      "description": "UploaderInput frozen kw_only Pydantic model: run_id, grant_id, org_slug, submission_bundle_ref (Path.resolve-normalized), section_drafts tuple, claim_evidence_map tuple, RfaExtractedRecord, OperatorSignature, target_portal Literal (4-value at v1: grants_gov | sam_gov | common_grant_app | copy_paste), optional PortalConfig, prepared_at_utc. Reads submission bundle bytes via §2 submission-bundle-read Vault read intent. attachments field NOT present at v1 per §12.6 deferral.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.input.v1",
+      "primitive_kind": "schema",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.5",
+      "description": "UploaderOutput covering submission_manifest.yaml, portal-format documents, portal_fields.yaml, readiness_checklist.yaml. Includes submitted: bool field hardcoded False per §12.9.3 runtime invariant; python -O-resistant (RuntimeError, not assert). State persisted separately at orgs/<slug>/vault/grants/<grant_id>/uploader_state/<run_id>.yaml (NOT inside submission_package/).",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.output.v1",
+      "primitive_kind": "schema",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.10",
+      "description": "PortalAdapterProtocol Protocol-DI: seven methods (portal_id, required_format, page_limit, file_size_limit, filename_convention, map_fields, assemble_package). Four v1 implementations satisfy the protocol: grants_gov, sam_gov, common_grant_app, copy_paste. Foundant / Submittable / Fluxx adapters deferred to v0.1.x per §12 §OQ-12.6.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.portal_adapter_protocol.v1",
+      "primitive_kind": "interface-contract",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.5",
+      "description": "Deterministic text-extraction diff between input SectionDraft.body_text and output document text under §12.8 tolerance model (whitespace normalization, page-break un-pagination, table structural-hash, embedded-image bytes-hash, math via MathML); backs F-UPLOADER-CONTENT-MUTATION.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.post_gate.content_mutation.v1",
+      "primitive_kind": "post-gate-check",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.2",
+      "description": "Iterates manifest entries × portal-adapter required_format / page_limit / file_size_limit; backs F-UPLOADER-FORMAT-MISMATCH (all three sub-tags).",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.post_gate.format_compliance.v1",
+      "primitive_kind": "post-gate-check",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.1",
+      "description": "Walks RfaExtractedRecord.section_structure against submission_manifest.yaml; backs F-UPLOADER-PACKAGE-INCOMPLETE.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.post_gate.package_completeness.v1",
+      "primitive_kind": "post-gate-check",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.3",
+      "description": "Three-layer defense check callable: Layer 1 AST-lint allow-list (R-UPLOADER-NO-SUBMIT registered at pipeline/linting/ast_lint.py), Layer 2 namespace-egress capability check (uploader_no_network_egress.cedar), Layer 3 RuntimeError invariant in UploaderOutput.__post_init__ + vault-write-time re-check. Backs F-UPLOADER-AUTOSUBMIT-ATTEMPTED.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.pre_gate.autosubmit_structural.v1",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.9.6",
+      "description": "Per-call-site routing check on every portal-field disambiguation call; backs F-UPLOADER-FIELD-MAP-CLOUD-ROUTED. Asserts FieldMapCallContext.routed_to == 'local'. Input shape: FieldMapCallContext frozen kw_only dataclass with portal_field_id, portal_field_label, caller_module, routed_to Literal[local|cloud], model_id, classification_at_call Literal[public|shareable|confidential]. Schema defined inline at §12.9.6 and absorbed into this gate-check row per the consolidation pattern (no separate schema row for FieldMapCallContext). Wiring: every adapter map_fields() LLM call site invokes the predicate via a Pydantic AI before_model_request hook so contributors cannot land a new disambiguation site that bypasses the gate.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.pre_gate.field_map_routing.v1",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.4",
+      "description": "Single bundle-validation check callable consolidating F-UPLOADER-RFA-MISSING, F-UPLOADER-SIGNATURE-MISSING (both sub-tags), F-UPLOADER-SIGNATURE-MISMATCH (subclass), F-UPLOADER-INPUT-INCONSISTENT, F-UPLOADER-ORG-CROSS-REF (both sub-tags). Per §4 v2.2 consolidated-check pattern.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.pre_gate.input_invariants.v1",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "pipeline/blueprint/v0.1/section_12_uploader.md#§12.7",
+      "description": "ReadinessChecklist overall_status Literal[ready,not_ready], items tuple of ChecklistItem (10 deterministic checks at v1: section_completeness, manual_attach_to_do, format_compliance, page_count_compliance, file_size_compliance, filename_convention_compliance, manifest_integrity, operator_signature_present, portal_field_completeness, content_integrity), fail/warn/pass counts, checked_at_utc.",
+      "introduced_in_index_version": "v9",
+      "parent_lock_commit_hash": "TO_BE_PINNED_AT_COMMIT",
+      "parent_lock_version": "§12 v1",
+      "primitive_id": "uploader.readiness_checklist.v1",
+      "primitive_kind": "schema",
+      "stability_tier": "STABLE"
+    }
+  ]
+}

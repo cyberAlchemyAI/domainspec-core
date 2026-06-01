@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Claim Amendment Mode - Golden Quill</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;family=Source+Serif+4:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#ffffff",
+                    "primary-container": "#e2e2e2",
+                    "on-error": "#690005",
+                    "error-container": "#93000a",
+                    "surface-container-low": "#111c2d",
+                    "surface-container": "#152031",
+                    "on-tertiary-fixed": "#131b2e",
+                    "on-background": "#d8e3fb",
+                    "inverse-surface": "#d8e3fb",
+                    "on-secondary": "#213145",
+                    "outline-variant": "#444748",
+                    "surface-dim": "#081425",
+                    "on-secondary-fixed": "#0b1c30",
+                    "tertiary-container": "#dae2fd",
+                    "background": "#081425",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "secondary": "#b7c8e1",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "error": "#ffb4ab",
+                    "on-surface": "#d8e3fb",
+                    "outline": "#8e9192",
+                    "on-primary-fixed-variant": "#454747",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "on-surface-variant": "#c4c7c8",
+                    "surface-container-highest": "#2a3548",
+                    "tertiary-fixed": "#dae2fd",
+                    "on-error-container": "#ffdad6",
+                    "surface-bright": "#2f3a4c",
+                    "primary": "#ffffff",
+                    "on-primary": "#2f3131",
+                    "on-primary-fixed": "#1a1c1c",
+                    "inverse-on-surface": "#263143",
+                    "secondary-fixed": "#d3e4fe",
+                    "on-tertiary": "#283044",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "surface": "#081425",
+                    "surface-container-high": "#1f2a3c",
+                    "inverse-primary": "#5d5f5f",
+                    "surface-variant": "#2a3548",
+                    "surface-container-lowest": "#040e1f",
+                    "on-primary-container": "#636565",
+                    "surface-tint": "#c6c6c7",
+                    "primary-fixed": "#e2e2e2",
+                    "secondary-container": "#3a4a5f",
+                    "on-tertiary-container": "#5c647a",
+                    "on-secondary-container": "#a9bad3",
+                    "on-tertiary-fixed-variant": "#3f465c"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "sidebar-width": "240px",
+                    "panel-gap": "8px",
+                    "gutter": "1px",
+                    "container-padding": "16px"
+            },
+            "fontFamily": {
+                    "data-mono": [
+                            "JetBrains Mono"
+                    ],
+                    "label-caps": [
+                            "JetBrains Mono"
+                    ],
+                    "display-lg": [
+                            "Hanken Grotesk"
+                    ],
+                    "headline-md": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-md": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-sm": [
+                            "Hanken Grotesk"
+                    ],
+                    "serif-body": [
+                            "Source Serif 4"
+                    ]
+            },
+            "fontSize": {
+                    "data-mono": [
+                            "13px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "label-caps": [
+                            "11px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "display-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "20px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        /* Modern Brutalism Base Styles */
+        body {
+            background-color: #020617; /* Base level 0 */
+            color: #d8e3fb;
+        }
+        
+        .panel {
+            background-color: #0F172A; /* Panel Level 1 */
+            border: 1px solid #334155;
+        }
+        
+        .nested-panel {
+            background-color: #1E293B; /* Nested Level 2 */
+            border: 1px solid #334155;
+        }
+        
+        .brutal-input {
+            background-color: #020617;
+            border: 1px solid #334155;
+            color: #d8e3fb;
+            border-radius: 0;
+        }
+        
+        .brutal-input:focus {
+            outline: none;
+            border-color: #ffffff;
+        }
+        
+        .brutal-btn-primary {
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 0;
+            transition: none;
+            text-transform: uppercase;
+        }
+        
+        .brutal-btn-secondary {
+            background-color: transparent;
+            color: #ffffff;
+            border: 1px solid #334155;
+            border-radius: 0;
+            transition: none;
+            text-transform: uppercase;
+        }
+        
+        .brutal-btn-secondary:hover {
+            border-color: #ffffff;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            display: inline-block;
+        }
+        
+        .status-warning {
+            background-color: #F59E0B;
+        }
+        
+        .status-critical {
+            background-color: #EF4444;
+        }
+        
+        .status-positive {
+            background-color: #22C55E;
+        }
+
+        .document-text {
+            font-family: 'Source Serif 4', serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #d8e3fb;
+        }
+
+        .read-only-overlay {
+            position: relative;
+        }
+        
+        .read-only-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.4);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .highlight-editable {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-left: 2px solid #F59E0B;
+            padding-left: 12px;
+            margin-left: -14px;
+        }
+        
+        .highlight-issue {
+            background-color: rgba(239, 68, 68, 0.2);
+            border-bottom: 1px dashed #EF4444;
+            color: #ffb4ab;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col font-body-md text-body-md antialiased">
+<!-- TopAppBar: Focused / Amendment Mode (Suppressed global nav as requested) -->
+<header class="bg-surface-container-highest dark:bg-surface-container-highest h-[56px] w-full border-b border-outline-variant flex items-center justify-between px-container-padding shrink-0 z-50">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter">GOLDEN QUILL</span>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-2">
+<span class="status-indicator status-warning"></span>
+<span class="font-label-caps text-label-caps text-error">AMENDMENT MODE — DRAFTING RESTRICTED</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-[18px]">timer</span>
+<span class="font-data-mono text-data-mono text-outline">TIME REMAINING: 47:12:00</span>
+</div>
+<button class="brutal-btn-primary font-label-caps text-label-caps px-4 py-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                RESOLVE &amp; RESUBMIT
+            </button>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Panel: Document Navigation (Read Only) -->
+<aside class="panel w-[240px] flex-shrink-0 flex flex-col border-r-0 border-y-0 h-full">
+<div class="p-3 border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
+<span class="font-label-caps text-label-caps text-on-surface-variant">DOCUMENT MAP</span>
+<span class="material-symbols-outlined text-outline text-[16px]">map</span>
+</div>
+<div class="flex-1 overflow-y-auto p-2">
+<ul class="space-y-1">
+<li class="px-2 py-1.5 flex items-center gap-2 text-outline">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span class="font-data-mono text-data-mono text-xs">1.0 EXECUTIVE SUMMARY</span>
+</li>
+<li class="px-2 py-1.5 flex items-center gap-2 text-outline">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span class="font-data-mono text-data-mono text-xs">2.0 MARKET ANALYSIS</span>
+</li>
+<li class="px-2 py-1.5 flex items-center gap-2 text-on-surface bg-surface-container-high border-l border-primary">
+<span class="material-symbols-outlined text-[14px] text-error">error</span>
+<span class="font-data-mono text-data-mono text-xs">3.0 PROJECT NARRATIVE</span>
+</li>
+<ul class="pl-6 space-y-1 mt-1">
+<li class="px-2 py-1 flex items-center gap-2 text-outline">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span class="font-data-mono text-data-mono text-xs">3.1 Background</span>
+</li>
+<li class="px-2 py-1 flex items-center gap-2 text-warning font-bold">
+<span class="material-symbols-outlined text-[14px] text-warning">edit</span>
+<span class="font-data-mono text-data-mono text-xs">3.2 Technical Approach</span>
+</li>
+</ul>
+<li class="px-2 py-1.5 flex items-center gap-2 text-outline mt-1">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span class="font-data-mono text-data-mono text-xs">4.0 FINANCIAL PROJECTIONS</span>
+</li>
+</ul>
+</div>
+</aside>
+<!-- Center Canvas: Document Editor -->
+<div class="flex-1 bg-[#020617] overflow-y-auto relative p-8 flex justify-center">
+<!-- Document Container -->
+<div class="w-full max-w-[800px] bg-[#0F172A] border border-outline-variant p-10 shadow-2xl relative">
+<!-- Section 3.1 (Read Only) -->
+<div class="read-only-overlay mb-8 opacity-60">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4 flex items-center gap-2">
+                        3.1 Background
+                        <span class="material-symbols-outlined text-[16px] text-outline">lock</span>
+</h3>
+<p class="document-text mb-4">
+                        The current infrastructure limitations within the designated urban operational zone have led to significant latency in data transmission protocols. Initial assessments conducted in Q2 indicate a 40% degradation in signal fidelity during peak environmental stress periods. 
+                    </p>
+<p class="document-text">
+                        Our proposed intervention seeks to stabilize these metrics through the deployment of modular node clusters, leveraging existing civic conduits to minimize surface disruption.
+                    </p>
+</div>
+<!-- Section 3.2 (Editable Highlight) -->
+<div class="mb-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+                            3.2 Technical Approach
+                            <span class="material-symbols-outlined text-[16px] text-warning">edit_note</span>
+</h3>
+<span class="font-label-caps text-label-caps bg-[#F59E0B] text-black px-2 py-1">ACTION REQUIRED</span>
+</div>
+<div class="highlight-editable py-2">
+<p class="document-text mb-4">
+                            The core methodology involves a phased rollout of redundant transceiver units across Sector 4. This approach is highly resilient and represents a <span class="highlight-issue" contenteditable="true" spellcheck="false" title="Review: Unsubstantiated claim. See Judge Note R-202">revolutionary</span> shift in municipal data handling.
+                        </p>
+<p class="document-text mb-4">
+                            By bypassing legacy copper networks entirely, the system achieves sub-millisecond response times across the entire grid. Implementation will require coordination with local utilities to secure mounting rights on secondary infrastructure.
+                        </p>
+<!-- Missing Documentation Attachment Area -->
+<div class="nested-panel p-4 mt-6 border-dashed border-[#F59E0B] border">
+<div class="flex items-start justify-between">
+<div>
+<h4 class="font-label-caps text-label-caps text-warning mb-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">attachment</span>
+                                        REQUIRED DOCUMENTATION MISSING
+                                    </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Attach Signed LOIs from Utility Partners to substantiate implementation feasibility.</p>
+</div>
+</div>
+<div class="mt-4 flex gap-2">
+<button class="brutal-btn-secondary font-label-caps text-label-caps px-3 py-1.5 flex items-center gap-2 text-xs">
+<span class="material-symbols-outlined text-[14px]">upload</span>
+                                    UPLOAD LOI (.PDF)
+                                </button>
+<button class="brutal-btn-secondary font-label-caps text-label-caps px-3 py-1.5 flex items-center gap-2 text-xs border-outline text-outline">
+<span class="material-symbols-outlined text-[14px]">link</span>
+                                    LINK FROM VAULT
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 3.3 (Read Only) -->
+<div class="read-only-overlay opacity-60">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4 flex items-center gap-2">
+                        3.3 Risk Mitigation
+                        <span class="material-symbols-outlined text-[16px] text-outline">lock</span>
+</h3>
+<p class="document-text">
+                        Primary risk factors involve regulatory approval delays and supply chain bottlenecks for the specialized transceiver housings. Mitigation strategies include dual-sourcing critical components and initiating preliminary environmental impact reviews prior to full funding disbursement.
+                    </p>
+</div>
+</div>
+</div>
+<!-- Right Inspector: Judge Evaluation -->
+<aside class="panel w-[320px] flex-shrink-0 flex flex-col border-l-0 border-y-0 h-full">
+<div class="p-3 border-b border-outline-variant bg-[#1E293B] flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">gavel</span>
+                    JUDGE EVALUATION
+                </span>
+<span class="font-data-mono text-data-mono text-error">R-202</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+<!-- Score Impact -->
+<div class="nested-panel p-3 border-l-2 border-l-[#22C55E]">
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">POTENTIAL SCORE IMPACT</span>
+<div class="flex items-end gap-2">
+<span class="font-display-lg text-display-lg text-[#22C55E]">+10.0</span>
+<span class="font-data-mono text-data-mono text-outline mb-1">PTS</span>
+</div>
+<div class="w-full bg-[#020617] h-1 mt-2">
+<div class="bg-[#22C55E] h-1 w-3/4"></div>
+</div>
+</div>
+<!-- Reason for Amendment -->
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface mb-2 border-b border-outline-variant pb-1">REASON FOR AMENDMENT</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-3">
+                        Section 3.2 employs hyperbolic language ("revolutionary") which violates Drafting Protocol 4A (Objective Technical Description). Remove unsubstantiated claims.
+                    </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                        Furthermore, reliance on third-party utility infrastructure is stated without providing evidentiary support. Signed Letters of Intent (LOIs) must be attached to validate project feasibility.
+                    </p>
+</div>
+<!-- Input for Correction Note -->
+<div class="mt-auto">
+<label class="font-label-caps text-label-caps text-on-surface mb-2 block">AMENDMENT JUSTIFICATION LOG</label>
+<textarea class="brutal-input w-full h-24 p-2 font-data-mono text-data-mono text-sm resize-none" placeholder="Enter justification for changes made..."></textarea>
+</div>
+</div>
+</aside>
+</main>
+<!-- Footer: System Status -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest h-[32px] w-full border-t border-outline-variant fixed bottom-0 z-50 flex items-center justify-between px-4">
+<span class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</span>
+<div class="flex items-center gap-4">
+<span class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary cursor-pointer">SYSTEM_STATUS</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary cursor-pointer">AUDIT_LOG</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary cursor-pointer">FID_0x2A</span>
+</div>
+</footer>
+</body></html>

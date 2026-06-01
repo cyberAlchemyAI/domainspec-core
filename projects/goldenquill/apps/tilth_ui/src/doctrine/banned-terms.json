@@ -1,0 +1,132 @@
+{
+  "register_version": "1",
+  "register_id": "F-DOCTRINE-REGISTER-v1",
+  "updated_iso": "2026-05-24",
+  "canonical_source": "apps/tilth_ui/STITCH_AUDIT_PROTOCOL.md",
+  "consumed_by": [
+    "apps/tilth_ui/scripts/doctrine-lint.mjs",
+    "apps/tilth_ui/scripts/verify-stitch-assets.mjs",
+    "apps/tilth_ui/scripts/e2e-ui.mjs",
+    "pipeline/logician/gates/f_doctrine_* (planned, WS-L slice)"
+  ],
+  "notes": "Single source of truth for UI doctrine enforcement. Node-side lint consumes the JSON directly; future Python Logician F-DOCTRINE-* family will read the same JSON so registers cannot drift between enforcement layers. Sub-codes follow F-CLASS-* / F-WPFA-* convention.",
+  "registers": {
+    "forbidden_substrings": {
+      "fail_code": "F-DOCTRINE-FORBIDDEN-COPY",
+      "severity": "CRITICAL",
+      "match": "case_insensitive_substring",
+      "scope": ["html", "extracted_js"],
+      "description": "Substrings that must not appear in any operator-facing HTML or in extracted hydration JS. SaaS-drift markers, chat-UI markers, friendly/predictive copy, autonomous-submission language.",
+      "entries": [
+        { "term": "chat-input", "source": "STITCH_AUDIT_PROTOCOL.md §2", "reason": "chat UI element forbidden — Golden Quill is not a chatbot" },
+        { "term": "message-bubble", "source": "STITCH_AUDIT_PROTOCOL.md §2", "reason": "chat UI element forbidden" },
+        { "term": "typing indicator", "source": "STITCH_AUDIT_PROTOCOL.md §2", "reason": "chat UI element forbidden" },
+        { "term": "chat bubble", "source": "STITCH_AUDIT_PROTOCOL.md §2", "reason": "chat UI element forbidden" },
+        { "term": "floating assistant", "source": "STITCH_AUDIT_PROTOCOL.md §2", "reason": "chat UI element forbidden" },
+        { "term": "AI avatar", "source": "STITCH_AUDIT_PROTOCOL.md §2", "reason": "anthropomorphic AI imagery forbidden" },
+        { "term": "decorative neural", "source": "STITCH_AUDIT_PROTOCOL.md §2", "reason": "decorative AI imagery forbidden" },
+        { "term": "glassmorphism", "source": "STITCH_AUDIT_PROTOCOL.md §2", "reason": "SaaS-drift visual style forbidden" },
+        { "term": "confetti", "source": "STITCH_AUDIT_PROTOCOL.md §2", "reason": "celebratory UX forbidden — Golden Quill is operational infrastructure, not gamified SaaS" },
+        { "term": "motivational progress", "source": "STITCH_AUDIT_PROTOCOL.md §2", "reason": "gamification forbidden" },
+        { "term": "Submit to Grants.gov", "source": "STITCH_AUDIT_PROTOCOL.md §7", "reason": "implies autonomous submission — operator submits through funder portal, Tilth only prepares the packet" },
+        { "term": "Submit to portal", "source": "STITCH_AUDIT_PROTOCOL.md §7", "reason": "implies autonomous submission" },
+        { "term": "Submit application", "source": "STITCH_AUDIT_PROTOCOL.md §8 (bad copy)", "reason": "implies autonomous submission" },
+        { "term": "Submit grant", "source": "STITCH_AUDIT_PROTOCOL.md §7", "reason": "implies autonomous submission" },
+        { "term": "Auto-submit", "source": "STITCH_AUDIT_PROTOCOL.md §7", "reason": "implies autonomous submission" },
+        { "term": "Continue anyway", "source": "STITCH_AUDIT_PROTOCOL.md §8 (bad copy)", "reason": "softens fail-closed gate into dismissible warning" },
+        { "term": "Ask AI", "source": "STITCH_AUDIT_PROTOCOL.md §8 (bad copy)", "reason": "introduces chat affordance; Tilth is not asked, it computes" },
+        { "term": "Upload anything", "source": "STITCH_AUDIT_PROTOCOL.md §8 (bad copy)", "reason": "vault is not Dropbox — evidence must be classified and committed" },
+        { "term": "There may be an issue", "source": "STITCH_AUDIT_PROTOCOL.md §8 (bad copy)", "reason": "vague — Logician computes definite states (FAIL_CLOSED, STALE, etc.)" },
+        { "term": "AI recommends caution", "source": "STITCH_AUDIT_PROTOCOL.md §8 (bad copy)", "reason": "vague + anthropomorphic — Logician computes, not recommends" },
+        { "term": "The system believes", "source": "STITCH_AUDIT_PROTOCOL.md §8 (bad copy)", "reason": "Logician is deterministic; it computes, it does not believe" },
+        { "term": "The model predicts", "source": "STITCH_AUDIT_PROTOCOL.md §8 (bad copy)", "reason": "Logician is deterministic; predictions belong to scoring layer, not gates" },
+        { "term": "Oops, something went wrong", "source": "STITCH_AUDIT_PROTOCOL.md §8 (bad copy)", "reason": "casual error register — infrastructure copy names the specific failure state" },
+        { "term": "Let's write your grant", "source": "STITCH_AUDIT_PROTOCOL.md §8 (bad copy)", "reason": "friendly onboarding register — Tilth assists; the operator authors" },
+        { "term": "Almost ready!", "source": "STITCH_AUDIT_PROTOCOL.md §8 (bad copy)", "reason": "casual register; states are named (READY_FOR_AUTHORIZATION, UNTESTED_DUE_TO_BLOCK, etc.)" },
+        { "term": "Looks good", "source": "STITCH_AUDIT_PROTOCOL.md §8 (bad copy)", "reason": "casual register; pass states are named (VERIFIED, AUTHORIZED)" }
+      ]
+    },
+    "doctrine_drift_substitutions": {
+      "fail_code": "F-DOCTRINE-DRIFT-SUBSTITUTION",
+      "severity": "CRITICAL",
+      "match": "case_insensitive_substring",
+      "scope": ["html", "extracted_js"],
+      "description": "Operator-prohibited substitutions that earlier drift attempts introduced (e.g., generate-stitch-assets / patch_templates incident, reverted 2026-05-23). These banned strings exist to catch attempts to silently downgrade fail-closed copy into friendlier SaaS register.",
+      "entries": [
+        { "term": "Acknowledge & Proceed", "source": "operator audit incident 2026-05-23", "reason": "softens fail-closed dismissal into acknowledgment" },
+        { "term": "Dismiss warning", "source": "operator audit incident 2026-05-23", "reason": "softens FAIL_CLOSED / WARNING into dismissible UI" },
+        { "term": "Skip for now", "source": "operator audit incident 2026-05-23", "reason": "softens hard gate into deferrable step" },
+        { "term": "I understand the risks", "source": "operator audit incident 2026-05-23", "reason": "consent-style softening of signed override workflow" }
+      ]
+    },
+    "forbidden_substance_patterns": {
+      "fail_code": "F-DOCTRINE-INVERTED-SEVERITY",
+      "severity": "CRITICAL",
+      "match": "regex",
+      "scope": ["html"],
+      "description": "Style/structure combinations that invert the operational severity hierarchy (§4). FAIL_CLOSED rendered as pass, governance chrome hidden, autonomous-submission affordances.",
+      "entries": [
+        { "pattern": "OVERRIDE_SIGNED.*?(bg-green|text-green)", "flags": "is", "reason": "OVERRIDE_SIGNED styled as pass/green — overrides are risk-marked, never green (§4)" },
+        { "pattern": "UNTESTED_DUE_TO_BLOCK.*?(bg-yellow|text-yellow)", "flags": "is", "reason": "UNTESTED_DUE_TO_BLOCK rendered as pending/yellow — must be error (§4)" },
+        { "pattern": "class=\"[^\"]*\\b(opacity-0|invisible|hidden(?!\\s+md:flex))\\b[^\"]*\">\\s*(?:<[^>]+>\\s*)*(AuditStatusPill|PostureBadge|EpochSyncIndicator|SigningKeyChip)", "flags": "i", "reason": "Governance chrome explicitly hidden (§2, §B macro nav)" },
+        { "pattern": "FAIL_CLOSED.*?(bg-green|text-green|bg-blue|text-blue)", "flags": "is", "reason": "FAIL_CLOSED styled as pass — must visually dominate as failure (§4)" },
+        { "pattern": "<input[^>]*\\bplaceholder=\"[^\"]*(ask\\s+(ai|tilth)|chat\\s+with|message\\s+(ai|tilth))", "flags": "i", "reason": "Chat-style input field — introduces chat UI (§2, §7)" },
+        { "pattern": "<button[^>]*>\\s*(submit|send)\\s+(application|grant|to grants\\.gov|to portal)", "flags": "i", "reason": "Autonomous-submission button — operator submits through funder portal (§7)" }
+      ]
+    },
+    "required_global_chrome": {
+      "fail_code": "F-DOCTRINE-CHROME-MISSING",
+      "severity": "HIGH",
+      "match": "substring_present",
+      "scope": ["html"],
+      "description": "Governance state surface that must appear in every operator-facing screen's shell. Audit / posture / sync / signature visibility is non-negotiable per §B macro nav.",
+      "entries": [
+        { "marker": "AuditStatusPill", "source": "STITCH_AUDIT_PROTOCOL.md §B", "reason": "audit state must be visible in global frame" },
+        { "marker": "PostureBadge", "source": "STITCH_AUDIT_PROTOCOL.md §B", "reason": "deployment posture must be visible (Frontier-Eligible / Split-Context Hybrid / Local-Only-Sovereign)" },
+        { "marker": "EpochSyncIndicator", "source": "STITCH_AUDIT_PROTOCOL.md §B", "reason": "sync state must be visible" },
+        { "marker": "SigningKeyChip", "source": "STITCH_AUDIT_PROTOCOL.md §B", "reason": "signing-key identity must be visible (operator Ed25519)" }
+      ]
+    },
+    "required_blocker_copy": {
+      "fail_code": "F-DOCTRINE-MISSING-BLOCKER-COPY",
+      "severity": "CRITICAL",
+      "match": "per_route_substring_present",
+      "scope": ["html"],
+      "description": "Per-route required copy. Each entry: if directory path matches `route_match_any` AND matches `state_match_any` AND does NOT match `state_exclude_any`, then HTML body must contain (a) every string in `required_strings` when present, AND (b) at least one string from each list in `required_strings_any_of` when present. Mirrors the per-state guard previously hard-coded in verify-stitch-assets.mjs but lets a blocker concept have multiple doctrine-equivalent phrasings.",
+      "entries": [
+        {
+          "id": "final_packet_authorization_blocker",
+          "route_match_any": ["final_packet_authorization"],
+          "state_match_any": ["block", "warning", "lock", "delay", "stale", "risk"],
+          "state_exclude_any": ["export_complete", "verified", "authorized", "ready_for_export"],
+          "required_strings": [
+            "ISSUE MUST BE ADDRESSED",
+            "Authorization Locked",
+            "Golden Quill prepares the packet. The operator submits through the funder's required portal."
+          ],
+          "source": "STITCH_AUDIT_PROTOCOL.md §7 + §8 (good copy)"
+        },
+        {
+          "id": "eligibility_gate_blocker",
+          "route_match_any": ["eligibility_gates_fail_closed", "logician_eligibility_fail_closed", "logician_eligibility_gates_fail_closed"],
+          "state_match_any": ["block", "fail_closed", "lock"],
+          "state_exclude_any": ["verified", "passed", "authorized", "override_signed_unlocked", "gate_e_104_verified_unlocked"],
+          "required_strings_any_of": [
+            ["FAIL_CLOSED", "GATE FAILED", "DO NOT DRAFT", "BLOCKED"]
+          ],
+          "source": "STITCH_AUDIT_PROTOCOL.md §7 (Scribe lockout must be unmistakable) + §8 good copy"
+        },
+        {
+          "id": "quarantine_state",
+          "route_match_any": ["quarantine"],
+          "state_match_any": ["quarantine", "unresolved"],
+          "state_exclude_any": [],
+          "required_strings_any_of": [
+            ["QUARANTINED", "QUARANTINE"]
+          ],
+          "source": "STITCH_AUDIT_PROTOCOL.md §7 (quarantine must not look like trash)"
+        }
+      ]
+    }
+  }
+}

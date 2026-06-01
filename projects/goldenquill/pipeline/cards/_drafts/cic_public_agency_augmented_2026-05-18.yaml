@@ -1,0 +1,1588 @@
+# Card — TILTH-CIC-03 Public Agency
+# Wave 2 research draft. Cards Wave 2 dispatch 2026-05-15 (Cowork session).
+# Operator decisions from Wave 1 carried forward: directory UPPERCASE (CIC/),
+# verbatim quotes ≤2 sentences (OQ-4), approval_required: true defaults (OQ-5),
+# qualitative-only frequency tags until 12+ CycleReceipts (OQ-6).
+#
+# Wave 1 handback resolutions applied:
+#  - schema is current as-on-disk; do NOT modify; field names + enums exactly.
+#  - lifecycle uses review_status; card passes.
+#  - dialect_routing_table item shape {funder_political_axis, dialect,
+#    example_funder} with enum {conservative, centrist, progressive, soul_fire}.
+#  - common_funders_observed.frequency_observed enum per entry.
+#  - provenance_requirements keys = KFR fact_class names with
+#    required_citation_type + verbatim_quote_required.
+#
+# NEVER include common_clc_patterns_observed or any CLC eligibility / preference /
+# win-rate / ranking field (F-CARDS-COUPLING-VIOLATION-EXTENSION fail-closes
+# loader). common_funders_observed below is funder-side observational metadata
+# only — NOT a CIC × CLC binding. Runtime matching is opportunity-driven
+# (Scout / Logician identify CLC per opportunity; CIC determines seat configuration
+# only).
+#
+# Important framing decision (Wave 2): "Public Agency" is the customer-identity
+# axis (TILTH-CIC-03 — Public-accountability funding environment). This is the
+# entity who APPLIES — municipalities, boroughs, townships, counties, authorities,
+# special districts, public works departments. Tribal Nations / federally-
+# recognized Indian Tribes have their own statutory category and are flagged as
+# distinct from this CIC: certain federal programs explicitly list Tribal Nations
+# as a peer eligible category alongside States/local governments; Tribal-specific
+# funding is research-backlog territory per CLAUDE.md "additional pathways" note.
+# Public-Sector school districts overlap with CIC-02 Educator — when the
+# applicant is a school district AS a public entity (capital improvement, public
+# safety, broadband), CIC-03 fits; when grant scope is education delivery,
+# defer to CIC-02. PROJECT_CONTEXT match_overrides take precedence.
+#
+# Lifecycle: draft. NO Ed25519 signature. Operator review pending before Wave 2
+# LOCK ceremony as separate dispatch.
+
+schema_version: "1.0-cic"
+card_axis: "CIC"
+card_id: "TILTH-CIC-03"
+slug: "public_agency"
+display_name: "Public Agency"
+coverage_axis: "Public Sector"
+nickname: "Public-accountability funding environment"
+tilth_cic_id: "TILTH-CIC-03"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Search vocabulary — Scout consumption per §18.8
+# ─────────────────────────────────────────────────────────────────────────────
+search_vocabulary:
+  core_terms:
+    - term: "municipality"
+      source_citation: "HUD CDBG entitlement / 24 CFR 570 — eligible-applicant statutory categories include 'units of general local government'"
+    - term: "unit of general local government"
+      source_citation: "24 CFR 570.3 — CDBG eligibility statutory definition; appears across HUD / EDA / EPA / DOT eligible-applicant rosters"
+    - term: "borough"
+      source_citation: "Pennsylvania local-government entity type (Title 8 Pa.C.S.) — appears in PA DCED LSA + CFA program eligibility rosters"
+    - term: "township"
+      source_citation: "PA Title 53 (First / Second Class Townships) — appears in PA DCED, USDA RD CF, and FEMA BRIC eligible-applicant rosters"
+    - term: "county"
+      source_citation: "HUD CDBG entitlement + state CDBG / 24 CFR 570 — unit of general local government"
+    - term: "authority"
+      source_citation: "PA Municipality Authorities Act of 1945 (53 Pa.C.S. Ch. 56) — water/sewer/parking/redevelopment authorities; common applicant for EPA SRF + USDA RD Water/Environmental"
+    - term: "special district"
+      source_citation: "EDA Public Works + EPA SRF eligible-applicant rosters — special-purpose districts and authorities"
+    - term: "public works department"
+      source_citation: "DOT BUILD/RAISE + EPA SRF + USDA RD — public works framing for infrastructure projects"
+    - term: "capital improvement"
+      source_citation: "Capital Improvement Plan (CIP) discipline universal across municipal grants; HUD CDBG Section 108 + EDA Public Works program scope"
+    - term: "public infrastructure"
+      source_citation: "EDA Public Works + DOT BUILD/RAISE program statutory scope; USDA RD CF eligibility"
+    - term: "water and wastewater"
+      source_citation: "EPA CWSRF + DWSRF program scope; USDA RD Water and Environmental Programs (WEP) program scope"
+    - term: "stormwater"
+      source_citation: "EPA Section 319 / Clean Water Act + state SRF programs; FEMA BRIC mitigation-project category"
+    - term: "drinking water"
+      source_citation: "EPA Safe Drinking Water Act + DWSRF / 40 CFR 35 Subpart L — primacy-state intended-use plans"
+    - term: "brownfields"
+      source_citation: "EPA Brownfields Program (CERCLA §104(k)) — assessment / cleanup / RLF eligibility"
+    - term: "hazard mitigation"
+      source_citation: "FEMA BRIC + HMGP + FMA — Stafford Act §203/§404/§5133 statutory scope"
+    - term: "community development"
+      source_citation: "HUD CDBG / 24 CFR 570 — primary statutory program for community development at municipal scale"
+    - term: "public facility"
+      source_citation: "USDA RD Community Facilities / 7 CFR 3570 — public-facility statutory category"
+    - term: "community facility"
+      source_citation: "USDA RD CF / 7 CFR 3570 — essential community facility eligible-project category"
+    - term: "broadband"
+      source_citation: "DOC/NTIA BEAD + USDA RUS ReConnect — public-sector applicant categories"
+    - term: "public safety"
+      source_citation: "DOJ COPS + DHS / FEMA Fire Safety + DOT SS4A statutory scope"
+    - term: "parks and recreation"
+      source_citation: "Land and Water Conservation Fund (LWCF) + PA DCNR C2P2 — public-recreation eligibility"
+    - term: "transportation infrastructure"
+      source_citation: "DOT BUILD/RAISE + RCP + SS4A + FHWA — public-agency eligibility statutory scope"
+    - term: "main street revitalization"
+      source_citation: "HUD CDBG + EDA Public Works + PA DCED Keystone Communities — downtown / commercial corridor scope"
+    - term: "redevelopment authority"
+      source_citation: "PA Urban Redevelopment Law (35 P.S. §1701 et seq.) + similar state statutes — common applicant for brownfields + main street"
+    - term: "CDBG-eligible activity"
+      source_citation: "24 CFR 570.201–570.207 — eligible activities + national objectives + LMI benefit"
+    - term: "low- and moderate-income benefit"
+      source_citation: "24 CFR 570.208 — LMI national-objective requirement for CDBG eligibility"
+    - term: "Single Audit"
+      source_citation: "2 CFR 200 Subpart F — Single Audit Act required for federal expenditures above threshold"
+    - term: "procurement standards"
+      source_citation: "2 CFR 200.317–200.327 — Uniform Guidance procurement standards for state and local governments"
+    - term: "EJScreen"
+      source_citation: "EPA EJScreen environmental-justice screening + mapping tool — disadvantaged-community service-area documentation"
+    - term: "CEJST"
+      source_citation: "Climate and Economic Justice Screening Tool (CEJST) — disadvantaged-community indices for federal investment targeting"
+    - term: "CDC SVI"
+      source_citation: "CDC/ATSDR Social Vulnerability Index — service-area-vulnerability documentation across HUD / FEMA / EPA programs"
+    - term: "American Rescue Plan Act (ARPA) State and Local Fiscal Recovery Funds (SLFRF)"
+      source_citation: "Treasury SLFRF program + 31 CFR Part 35 Final Rule — municipal ARPA expenditure-reporting + remaining-balance compliance"
+    - term: "regional council of governments (COG)"
+      source_citation: "Federal regional-applicant eligibility — DOT BUILD / RAISE / SS4A / RCP regional applicants; EDA Public Works regional eligibility; HUD CDBG entitlement consortia"
+    - term: "metropolitan planning organization (MPO)"
+      source_citation: "23 USC §134 — MPO statutory framework; DOT FHWA / FTA regional-planning organization category"
+    - term: "community development corporation (CDC) as sub-recipient"
+      source_citation: "HUD CDBG sub-recipient framework (24 CFR 570.500); HUD CHDO definition (24 CFR 92.2) — common nonprofit implementing partner for public-agency primary applicant"
+
+  synonym_map:
+    municipality:
+      - "city"
+      - "town"
+      - "borough"
+      - "township"
+      - "village"
+      - "local government"
+      - "general-purpose local government"
+    authority:
+      - "municipal authority"
+      - "water authority"
+      - "sewer authority"
+      - "redevelopment authority"
+      - "parking authority"
+      - "housing authority"
+      - "industrial development authority"
+    capital_improvement:
+      - "CIP"
+      - "capital plan"
+      - "capital project"
+      - "capital expenditure"
+      - "long-range capital planning"
+    water_infrastructure:
+      - "water system"
+      - "wastewater treatment"
+      - "sewer system"
+      - "stormwater management"
+      - "drinking water treatment"
+      - "distribution main"
+      - "collection system"
+    hazard_mitigation:
+      - "flood mitigation"
+      - "BRIC"
+      - "HMGP"
+      - "Flood Mitigation Assistance"
+      - "FMA"
+      - "pre-disaster mitigation"
+      - "resilience"
+    public_facility:
+      - "community facility"
+      - "civic facility"
+      - "essential community facility"
+      - "municipal building"
+      - "public works facility"
+    brownfields:
+      - "Phase I ESA"
+      - "Phase II ESA"
+      - "site assessment"
+      - "remediation"
+      - "Act 2 (PA)"
+      - "voluntary cleanup"
+    regional_coordination:
+      - "regional council of governments"
+      - "COG"
+      - "metropolitan planning organization"
+      - "MPO"
+      - "area agency on aging"
+      - "regional planning commission"
+      - "planning region"
+
+  funder_program_keywords:
+    - keyword: "CDBG"
+      funder: "HUD — Community Development Block Grant (entitlement + state CDBG / 'CDBG-DR' / Section 108)"
+      source_citation: "HUD CPD CDBG program page + 24 CFR 570"
+    - keyword: "CDBG-DR"
+      funder: "HUD — Community Development Block Grant Disaster Recovery"
+      source_citation: "HUD CPD CDBG-DR page; authorized per appropriations act after Presidentially declared disasters"
+    - keyword: "Section 108 Loan Guarantee"
+      funder: "HUD CPD — Section 108 of the Housing and Community Development Act"
+      source_citation: "HUD Section 108 program page; 24 CFR 570 Subpart M"
+    - keyword: "Community Facilities Direct Loan and Grant"
+      funder: "USDA Rural Development — Community Facilities Program"
+      source_citation: "USDA RD CF program page + 7 CFR 3570 Subpart B"
+    - keyword: "RUS Water and Waste Disposal Loan and Grant"
+      funder: "USDA Rural Development — Rural Utilities Service"
+      source_citation: "USDA RD WEP program page + 7 CFR 1780"
+    - keyword: "ReConnect"
+      funder: "USDA Rural Utilities Service — Broadband ReConnect"
+      source_citation: "USDA RUS ReConnect program page"
+    - keyword: "BEAD"
+      funder: "DOC/NTIA — Broadband Equity, Access, and Deployment"
+      source_citation: "NTIA BEAD program page; Infrastructure Investment and Jobs Act §60102"
+    - keyword: "Brownfields Assessment / Cleanup / RLF / MARC"
+      funder: "EPA Brownfields Program"
+      source_citation: "EPA Brownfields Multipurpose / Assessment / Cleanup / Revolving Loan Fund grants page; CERCLA §104(k)"
+    - keyword: "CWSRF"
+      funder: "EPA Clean Water State Revolving Fund (state-administered)"
+      source_citation: "EPA CWSRF program page + 40 CFR 35 Subpart K"
+    - keyword: "DWSRF"
+      funder: "EPA Drinking Water State Revolving Fund (state-administered)"
+      source_citation: "EPA DWSRF program page + 40 CFR 35 Subpart L"
+    - keyword: "WIFIA"
+      funder: "EPA — Water Infrastructure Finance and Innovation Act"
+      source_citation: "EPA WIFIA program page"
+    - keyword: "BRIC"
+      funder: "FEMA — Building Resilient Infrastructure and Communities"
+      source_citation: "FEMA BRIC program page; Stafford Act §203"
+    - keyword: "HMGP"
+      funder: "FEMA — Hazard Mitigation Grant Program"
+      source_citation: "FEMA HMGP program page; Stafford Act §404"
+    - keyword: "FMA"
+      funder: "FEMA — Flood Mitigation Assistance"
+      source_citation: "FEMA FMA program page; National Flood Insurance Act §1366"
+    - keyword: "Public Assistance"
+      funder: "FEMA — Public Assistance grant program (post-disaster)"
+      source_citation: "FEMA PA program page; Stafford Act §§403, 406, 407, 408, 502"
+    - keyword: "Fire Safety / AFG / SAFER"
+      funder: "FEMA — Assistance to Firefighters Grants + Staffing for Adequate Fire & Emergency Response"
+      source_citation: "FEMA Grant Programs Directorate page"
+    - keyword: "BUILD"
+      funder: "DOT — Better Utilizing Investments to Leverage Development (formerly TIGER/RAISE)"
+      source_citation: "DOT BUILD/RAISE program page"
+    - keyword: "RAISE"
+      funder: "DOT — Rebuilding American Infrastructure with Sustainability and Equity"
+      source_citation: "DOT RAISE program page"
+    - keyword: "SS4A"
+      funder: "DOT FHWA — Safe Streets and Roads for All"
+      source_citation: "DOT SS4A program page; IIJA §24112"
+    - keyword: "RCP"
+      funder: "DOT FHWA — Reconnecting Communities Pilot"
+      source_citation: "DOT RCP program page"
+    - keyword: "ATIIP"
+      funder: "DOT FHWA — Active Transportation Infrastructure Investment Program"
+      source_citation: "DOT ATIIP program page"
+    - keyword: "EDA Public Works"
+      funder: "U.S. Economic Development Administration"
+      source_citation: "EDA Public Works and Economic Adjustment Assistance program page; 13 CFR 301"
+    - keyword: "EDA Economic Adjustment Assistance (EAA)"
+      funder: "U.S. Economic Development Administration"
+      source_citation: "EDA EAA program page; 13 CFR 301-307"
+    - keyword: "LWCF"
+      funder: "DOI / NPS — Land and Water Conservation Fund"
+      source_citation: "NPS LWCF state-and-local-assistance program page"
+    - keyword: "PA DCED Multimodal Transportation Fund"
+      funder: "Pennsylvania DCED + PennDOT — Multimodal Transportation Fund"
+      source_citation: "PA DCED MTF program page"
+    - keyword: "PA DCED Local Share Account (LSA)"
+      funder: "Pennsylvania DCED — Commonwealth Financing Authority LSA"
+      source_citation: "PA DCED CFA LSA program page"
+    - keyword: "PA DCED Keystone Communities"
+      funder: "Pennsylvania DCED — Keystone Communities Program"
+      source_citation: "PA DCED Keystone Communities program page"
+    - keyword: "PA H2O / PennVEST"
+      funder: "Pennsylvania PennVEST — H2O PA / state SRF administrator"
+      source_citation: "PennVEST program page; PA Infrastructure Investment Authority"
+    - keyword: "PA DCNR Community Conservation Partnerships (C2P2)"
+      funder: "Pennsylvania DCNR"
+      source_citation: "PA DCNR Bureau of Recreation and Conservation grants page"
+    - keyword: "Bloomberg Mayors Challenge / Climate Challenge"
+      funder: "Bloomberg Philanthropies"
+      source_citation: "Bloomberg Philanthropies Government Innovation programs page"
+    - keyword: "EDA Recompete"
+      funder: "U.S. Economic Development Administration — Distressed Area Recompete Pilot Program"
+      source_citation: "EDA Recompete program page — Inflation Reduction Act §50205"
+    - keyword: "EDA Tech Hubs"
+      funder: "U.S. Economic Development Administration — Regional Technology and Innovation Hub Program"
+      source_citation: "EDA Tech Hubs program page — CHIPS and Science Act §10621"
+    - keyword: "FEMA Swift Current"
+      funder: "FEMA — Swift Current initiative (BRIC subprogram for NFIP-loss properties)"
+      source_citation: "FEMA Swift Current program page — Stafford Act §203 subprogram"
+    - keyword: "USDA NRCS CIG"
+      funder: "USDA NRCS — Conservation Innovation Grants (state-administered + national)"
+      source_citation: "USDA NRCS CIG program page — Farm Bill conservation-innovation framework"
+
+  disqualifier_terms:
+    - term: "non-governmental applicant only"
+      reason: "Several CDBG, USDA CF, FEMA BRIC, EDA Public Works, DOT BUILD/RAISE programs are unit-of-general-local-government / public-agency eligible; if applicant is purely nonprofit / private entity with no public-agency partner, that program is mismatched (sub-recipient pathways may apply — verify per RFA)."
+    - term: "Tribal-only set-aside"
+      reason: "Certain federal programs carve out Tribal Nation set-asides where municipal applicants are ineligible; verify per active RFA. Tribal-specific funding has its own statutory category per CLAUDE.md additional-pathways research backlog."
+    - term: "rural-only"
+      reason: "USDA RD CF + WEP + ReConnect require rural geography (typically population ≤20,000 or ≤50,000 depending on program); urban / suburban municipalities are ineligible. Verify population threshold per RFA."
+    - term: "urban-only"
+      reason: "HUD entitlement CDBG goes to entitlement jurisdictions; non-entitlement municipalities apply through state CDBG (state-administered). Verify entitlement status per HUD allocation tables."
+    - term: "for-profit applicant only"
+      reason: "Some programs (e.g., specific EDA tracks) include for-profit entities; most public-agency programs in this CIC require unit-of-government applicants. Verify eligibility roster per active RFA."
+    - term: "private commercial product launch (no public-benefit framing)"
+      reason: "Public-agency-CIC funding pathways require public-benefit / public-purpose framing anchored to statutory national objective (CDBG LMI / EDA distressed-area / FEMA hazard-mitigation / EPA water-quality / DOT public-transportation). Pure private-commercial-launch scope without public-benefit framing mis-fits this CIC."
+    - term: "Tribal-only set-aside (where municipal applicant)"
+      reason: "Refines existing Tribal-only set-aside disqualifier: when applicant is a municipal entity (not a Tribal Nation / BIE-funded / Tribal-housing-authority / Tribal-college), Tribal-set-aside programs are statutorily ineligible. Verify per RFA + applicant entity type."
+    - term: "pre-existing federal-funds-as-match-without-statutory-carve-out"
+      reason: "Default-prohibited under 2 CFR 200.306 cost-sharing rules: federal funds may NOT serve as match for another federal award absent a Congressional statutory carve-out (e.g., specific CDBG-DR appropriations-act provisions). Applicants citing federal-source match must surface the per-program statutory authorization."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Evidence signals — Scribe consumption per §18.8
+# ─────────────────────────────────────────────────────────────────────────────
+evidence_signals:
+  - kind: "governing_body_resolution"
+    source_pattern: "signed board, council, commissioners, or authority resolution authorizing the application and designating authorized representative"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "Universal federal + state public-agency application requirement; 2 CFR 200.415 sub-recipient certifications; HUD CDBG application checklist; USDA RD CF Form RD 442-1; FEMA BRIC application templates"
+  - kind: "capital_improvement_plan"
+    source_pattern: "adopted multi-year CIP showing project on funded or planned schedule; reference to project line item + estimated cost + funding sources"
+    weight: "HIGH"
+    freshness_tolerance_days: 730
+    source_citation: "EPA SRF Intended Use Plan integration; HUD CDBG Consolidated Plan integration; EDA Comprehensive Economic Development Strategy (CEDS) project listing"
+  - kind: "engineering_estimate"
+    source_pattern: "preliminary or final engineering estimate by licensed professional engineer (P.E. stamp), itemized to construction component level; recent (≤24 months) for SRF / BRIC / CF eligibility"
+    weight: "HIGH"
+    freshness_tolerance_days: 730
+    source_citation: "EPA SRF Project Priority List requirements; USDA RD CF preliminary engineering report (PER); FEMA BRIC benefit-cost analysis (BCA) cost input"
+  - kind: "feasibility_study"
+    source_pattern: "third-party feasibility / planning study supporting project scope and demand; HUD CDBG Section 108 / EDA Public Works expectation"
+    weight: "HIGH"
+    freshness_tolerance_days: 1095
+    source_citation: "EDA Public Works PWEAA application — feasibility for non-CEDS-listed projects; HUD Section 108 underwriting requirement"
+  - kind: "site_control_documentation"
+    source_pattern: "deed, easement, lease, or option-to-purchase demonstrating applicant control of project site for required period (typically 20 years for construction; 5+ years for non-construction)"
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "USDA RD CF + EDA Public Works + HUD CDBG site-control standards; LWCF 6(f)(3) conversion-of-use perpetuity for parks"
+  - kind: "procurement_policy"
+    source_pattern: "adopted procurement policy meeting 2 CFR 200.317–200.327 standards; bid threshold; competition documentation"
+    weight: "HIGH"
+    freshness_tolerance_days: 1825
+    source_citation: "2 CFR 200 Uniform Guidance procurement standards; HUD CDBG procurement; FEMA Public Assistance procurement"
+  - kind: "match_commitment"
+    source_pattern: "signed match-commitment letter or budget action identifying cash and/or in-kind match source(s); cash-vs-in-kind breakdown; non-federal vs federal source disclosed; federal-funds-as-match prohibition status declared (default-prohibited under 2 CFR 200.306 cost-sharing rules; per-program statutory carve-outs e.g. CDBG-DR specifically cited where applicable)"
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "2 CFR 200.306 cost-sharing rules (default federal-as-match prohibition); FEMA BRIC 25% non-federal cost share standard (10% small / impoverished communities); EDA Public Works 50% match (lower in distressed); USDA RD CF match by population tier; CDBG-DR appropriations-act-specific federal-as-match carve-outs (cite per-active-RFA)"
+  - kind: "census_and_disadvantaged_community_data"
+    source_pattern: "Census ACS tables for service-area demographics; CDC SVI / EPA EJScreen / CEJST / USDA distressed-community indices as applicable to active RFA"
+    weight: "HIGH"
+    freshness_tolerance_days: 730
+    source_citation: "HUD CDBG LMI national-objective documentation 24 CFR 570.208; USDA RD CF rural-poverty priority points; CEJST Justice40-era programs (verify per active administration framing)"
+  - kind: "service_area_map"
+    source_pattern: "GIS or PDF map identifying service-area boundaries; for water/sewer projects: distribution-system map; for brownfields: parcel map + adjacent-parcels context"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 730
+    source_citation: "EPA SRF + USDA RD WEP + EPA Brownfields application templates"
+  - kind: "environmental_review_status"
+    source_pattern: "NEPA Categorical Exclusion / Environmental Assessment / Environmental Impact Statement determination; Section 106 NHPA / Section 7 ESA / state SEPA equivalents as applicable"
+    weight: "HIGH"
+    freshness_tolerance_days: 1095
+    source_citation: "HUD CDBG 24 CFR Part 58 (responsible-entity NEPA); USDA RD 7 CFR 1970; DOT 23 CFR 771; 36 CFR 800 Section 106"
+  - kind: "public_meeting_minutes"
+    source_pattern: "minutes of public hearing or council meeting where project was discussed and / or authorized; public comment record"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "HUD CDBG citizen-participation requirement 24 CFR 91.105; FEMA mitigation-plan public-meeting record"
+  - kind: "audit_findings_clean_or_remediated"
+    source_pattern: "most recent Single Audit (or annual financial audit if below Single Audit threshold) with material findings disclosed; corrective action plans for any open findings"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "2 CFR 200 Subpart F Single Audit; HUD CDBG grantee monitoring; SAM.gov FAPIIS record"
+  - kind: "maintenance_and_operations_plan"
+    source_pattern: "written O&M plan for proposed asset; identified maintenance budget line; replacement-reserve framework where applicable"
+    weight: "HIGH"
+    freshness_tolerance_days: 730
+    source_citation: "USDA RD CF managerial/financial/technical (MFT) capacity (HIGH scoring weight); EPA asset-management program expectation (MEDIUM-HIGH); LWCF perpetuity stewardship (HIGH for parks). Weight raised from MEDIUM to HIGH per Run 2 handback §4.2 — reflects most stringent applicable context across this CIC's program set."
+  - kind: "davis_bacon_workforce_documentation"
+    source_pattern: "certified payroll records (WH-347), Davis-Bacon wage determinations referenced by project, contractor responsibility plan"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 90
+    source_citation: "40 USC §3141 (Davis-Bacon Act); HUD CDBG Section 110; FEMA Public Assistance; USDA RD construction projects"
+  - kind: "build_america_buy_america_documentation"
+    source_pattern: "BABA compliance certifications for iron, steel, manufactured products, construction materials; waiver requests where applicable"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "Build America Buy America Act §70901-70927 (IIJA); 2 CFR Part 184; OMB M-22-11"
+  - kind: "slfrf_compliance_status"
+    source_pattern: |
+      ARPA SLFRF expenditure-reporting submission record; remaining-balance
+      attestation; SEFA inclusion if Single Audit threshold crossed; project-
+      categorization compliance (revenue replacement / public health /
+      negative economic impacts / premium pay / water-sewer-broadband /
+      capital expenditure).
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "Treasury Final Rule 31 CFR Part 35 + SLFRF Compliance and Reporting Guidance v4.1 (post-2024 cycle)"
+  - kind: "regional_coordination_partnership"
+    source_pattern: |
+      Regional planning organization (COG / MPO / regional planning commission)
+      MOU + role designation + sub-recipient relationship documentation if
+      regional entity is implementing partner; member-jurisdiction
+      resolutions where applicant is a regional entity.
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "DOT BUILD / RAISE / SS4A / RCP regional-applicant eligibility; EDA Public Works regional-eligibility; HUD CDBG entitlement consortia (24 CFR 570 Subpart D)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# KFR fact classes — Intake / Logician consumption
+# ─────────────────────────────────────────────────────────────────────────────
+kfr_fact_classes:
+  - fact_class: "public_entity_type"
+    description: "Statutory category of applicant: municipality / city / borough / township / county / authority / special district / school district acting as public entity / regional council of governments / state agency. Determines program eligibility roster."
+    typical_provenance: "state code (e.g., PA Title 8 boroughs / Title 53 cities/townships); Articles of Incorporation for authorities; Municipal Authorities Act 1945; HUD entitlement roster"
+  - fact_class: "uei_sam_registration"
+    description: "Active SAM.gov registration with Unique Entity Identifier; expiration date; CAGE code if applicable."
+    typical_provenance: "SAM.gov record + screenshot; annual renewal confirmation"
+  - fact_class: "authorized_representative"
+    description: "Name + title + signature authority of person authorized to sign applications and bind the entity; references board/council resolution."
+    typical_provenance: "governing-body resolution; signature card on file with funder; SAM.gov electronic business POC"
+  - fact_class: "board_or_council_authorization"
+    description: "Specific resolution or motion authorizing the application, project scope, match commitment, and designating authorized representative."
+    typical_provenance: "signed and dated resolution with motion number; meeting minutes excerpt"
+  - fact_class: "population_and_service_area"
+    description: "Current population (decennial Census + ACS estimate); service area boundary for water / sewer / utility / transit projects; LMI percentage for CDBG."
+    typical_provenance: "U.S. Census Bureau ACS 5-year estimates; state demographic estimates; HUD LMISD; service-area certification by P.E. or planner"
+  - fact_class: "capital_plan_reference"
+    description: "Citation of project in adopted Capital Improvement Plan: line item, year, estimated cost, identified funding sources."
+    typical_provenance: "adopted CIP document + page reference; council adoption resolution; CIP summary table"
+  - fact_class: "procurement_threshold_and_policy"
+    description: "Bid threshold (often statutory: PA $22,500 written-bid / $11,800 telephonic as of 2024 inflation-indexed); adopted procurement policy reference."
+    typical_provenance: "state code citation (e.g., 53 P.S. §46402 PA Borough Code, equivalent); adopted procurement policy with revision date"
+  - fact_class: "engineering_estimate_and_designer_of_record"
+    description: "Preliminary or final engineering estimate by licensed P.E.; date stamped; designer-of-record firm + lead engineer."
+    typical_provenance: "P.E.-stamped preliminary engineering report (PER); USDA RD CF PER template; SRF Step 1 planning document"
+  - fact_class: "match_source_and_commitment_type"
+    description: "Match identified by source: own funds / bond / state grant / other federal / private / in-kind. Cash vs in-kind breakdown. Federal-funds-as-match prohibition is the DEFAULT under 2 CFR 200.306 — federal funds may NOT be used as match for another federal award except where Congress has statutorily authorized the carve-out (e.g., specific CDBG-DR appropriations-act provisions). The card requires per-program statutory carve-out citation where federal-source match is proposed."
+    typical_provenance: "council appropriation; bond ordinance; state grant award letter; in-kind valuation memo; per-program statutory citation when federal-source match is invoked"
+  - fact_class: "environmental_review_status"
+    description: "NEPA tier (CatEx / EA / EIS); status (not started / in process / complete); responsible federal agency or HUD responsible-entity status; Section 106 / Section 7 status."
+    typical_provenance: "HUD ERR (Environmental Review Record); USDA RD environmental assessment; SHPO Section 106 concurrence letter"
+  - fact_class: "audit_status_and_single_audit_history"
+    description: "Most recent audit type (Single Audit / financial-only); audit firm; opinion (unmodified / modified / adverse / disclaimer); material findings; corrective action status; federal-expenditure threshold determination ($1,000,000 threshold for fiscal years beginning on or after October 1, 2024 per 2024-04-22 OMB final rule (89 FR 30046); prior threshold $750,000 for fiscal years before that date)."
+    typical_provenance: "Federal Audit Clearinghouse submission; audit firm letter; Schedule of Federal Awards (SEFA)"
+  - fact_class: "site_control_documentation"
+    description: "Deed / easement / lease / option demonstrating applicant control of project site for required period; encumbrances disclosed."
+    typical_provenance: "recorded deed; lease agreement; easement instrument; title-search certificate"
+  - fact_class: "compliance_history_and_open_findings"
+    description: "Open or recent findings under prior federal awards (FAPIIS, IPERA, Single Audit findings); debarment status; SAM.gov exclusion check."
+    typical_provenance: "FAPIIS Performance and Integrity Information record; SAM.gov exclusions check; prior-award closeout letters"
+  - fact_class: "fiscal_year_and_budget_cycle"
+    description: "Adopted fiscal year (calendar / state-fiscal / federal-fiscal); operating budget cycle; capital budget cycle; current and prior-year general-fund balance."
+    typical_provenance: "adopted budget ordinance; CAFR / ACFR; state DCED budget filings"
+  - fact_class: "regional_coordination_status"
+    description: "Membership in regional council of governments / MPO / regional planning commission; specific implementation partnerships; project-area coordination scope across multi-jurisdictional applicant cluster."
+    typical_provenance: "regional org MOU; council resolution authorizing regional participation; project-area map"
+  - fact_class: "slfrf_compliance_status_and_remaining_balance"
+    description: "ARPA SLFRF allocation + obligation status; project-categorization status; remaining-balance status; SEFA inclusion if applicable."
+    typical_provenance: "Treasury reporting submission record; council resolution per SLFRF project; SEFA"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Provenance requirements per fact class
+# ─────────────────────────────────────────────────────────────────────────────
+provenance_requirements:
+  public_entity_type:
+    required_citation_type: "state code citation + entity formation document (charter / articles / authorities act)"
+    verbatim_quote_required: false
+  uei_sam_registration:
+    required_citation_type: "SAM.gov record dated within 30 days of application + UEI string verbatim"
+    verbatim_quote_required: false
+  authorized_representative:
+    required_citation_type: "governing-body resolution citing name + title + signature authority; citation template: resolution number + adoption date + verbatim authorizing clause (≤2 sentences) excerpted from the official adopted resolution"
+    verbatim_quote_required: true
+  board_or_council_authorization:
+    required_citation_type: "signed resolution with motion number + adoption date + verbatim 'resolved' clauses (≤2 sentences each) excerpted from the official adopted resolution; meeting minutes excerpt with page reference where the motion was passed"
+    verbatim_quote_required: true
+  population_and_service_area:
+    required_citation_type: "for demographic component (population count + LMI percentage): U.S. Census Bureau ACS table reference (table ID + vintage year) OR HUD LMISD reference; AND separately for technical-service-area component (utility / infrastructure projects): P.E.-signed service-area certification with distribution-system or service-boundary map. Both components are required when the application invokes both demographic and technical service-area data; only one is required when the project scope invokes only one."
+    verbatim_quote_required: false
+  capital_plan_reference:
+    required_citation_type: "adopted CIP document with page number citation + adoption resolution number"
+    verbatim_quote_required: false
+  procurement_threshold_and_policy:
+    required_citation_type: "state code citation for statutory threshold + adopted procurement policy with revision date"
+    verbatim_quote_required: false
+  engineering_estimate_and_designer_of_record:
+    required_citation_type: "P.E.-stamped report referenced by date and project number; engineer name + P.E. license number"
+    verbatim_quote_required: false
+  match_source_and_commitment_type:
+    required_citation_type: "council appropriation ordinance citation (ordinance number + adoption date) OR signed match-commitment letter (with executing officer name + title + date) OR award letter from non-federal match source — verbatim commitment-amount language (≤2 sentences) excerpted from the source document; federal-funds-as-match prohibition disclosure (default-prohibited; per-program statutory carve-out cited where applicable)"
+    verbatim_quote_required: true
+  environmental_review_status:
+    required_citation_type: "NEPA determination memo OR HUD ERR finding OR SHPO concurrence letter — by date and reviewing-agency citation"
+    verbatim_quote_required: false
+  audit_status_and_single_audit_history:
+    required_citation_type: "Federal Audit Clearinghouse submission reference + auditor opinion paragraph; SEFA line items for relevant programs"
+    verbatim_quote_required: false
+  site_control_documentation:
+    required_citation_type: "recorded deed / lease / easement with recording reference (book + page / instrument number)"
+    verbatim_quote_required: false
+  compliance_history_and_open_findings:
+    required_citation_type: "FAPIIS record + SAM.gov exclusions screenshot + prior-award closeout letter (if applicable)"
+    verbatim_quote_required: false
+  fiscal_year_and_budget_cycle:
+    required_citation_type: "adopted budget ordinance citation + ACFR / CAFR reference"
+    verbatim_quote_required: false
+  regional_coordination_status:
+    required_citation_type: "Regional council of governments / MPO MOU with applicant; member-jurisdiction resolution(s) authorizing regional participation; project-area map identifying member-jurisdiction boundaries"
+    verbatim_quote_required: true
+  slfrf_compliance_status_and_remaining_balance:
+    required_citation_type: "Treasury reporting submission record (SLFRF Compliance and Reporting submission); council resolution per SLFRF project categorization; SEFA inclusion if Single Audit threshold crossed; remaining-balance attestation with reporting date"
+    verbatim_quote_required: false
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Register defaults — Scribe consumption
+# ─────────────────────────────────────────────────────────────────────────────
+register_defaults:
+  language_register: "formal"
+  narrative_voice: "third_person"
+  tone: "neutral_institutional"
+  operator_override: "PROJECT_CONTEXT match_overrides take precedence"
+
+# Public-agency applicants commonly require a tightly disciplined register:
+#   - statutory / compliance register (cite the eligible-activity section, the
+#     national objective, the CFR or USC reference; do NOT improvise eligibility
+#     framing)
+#   - public-benefit register (LMI service, distressed-community indicators,
+#     beneficiary counts, public-meeting record)
+#   - engineering / technical register (preliminary engineering report numbers,
+#     design-life, capacity, regulatory-driver language e.g. SDWA / CWA)
+#   - fiscal-stewardship register (debt service, ACFR references, match
+#     commitment, audit posture)
+# Scribe should select the register layer matching the funder reviewer profile;
+# program officers want statutory + public-benefit; engineers want technical;
+# financial reviewers want fiscal-stewardship; political bodies (council
+# adoption hearings) want plain public-benefit + cost narrative. Do NOT collapse
+# all four into a single "civic" tone — they are read by different reviewers
+# with different acceptance criteria.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Dialect routing table — Scribe per Law 4
+# ─────────────────────────────────────────────────────────────────────────────
+dialect_routing_table:
+  - funder_political_axis: "conservative"
+    dialect: "scribe.statutory_compliance"
+    example_funder: "USDA Rural Development Community Facilities + WEP (current administration framing); DOT under current administration; FEMA Public Assistance"
+  - funder_political_axis: "centrist"
+    dialect: "scribe.technical_precise"
+    example_funder: "EPA CWSRF / DWSRF (state-administered); EDA Public Works; HUD CDBG state allocations; PA DCED CFA programs"
+  - funder_political_axis: "progressive"
+    dialect: "scribe.equitable_public_benefit"
+    example_funder: "National philanthropic government-innovation programs + community foundations supporting municipal planning + some EPA programs under prior administration framing. Specific third-party org names removed from binding field per Law 5 + Phase F 2026-05-16 cleanup."
+  - funder_political_axis: "soul_fire"
+    dialect: "scribe.community_self_determination"
+    example_funder: "Less common for public-agency applicants — rarely funds units of government directly. Where applicable: participatory-budgeting-aligned foundations; Tribal Nation co-management funders (verify Tribal-specific statutory category)."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Admin-risk term register — Law 4 axis (b)
+# Per operator OQ-5: approval_required: true defaults.
+#
+# Important Wave-2 framing: under current federal administration, several terms
+# that were standard language in 2021-2024 NOFOs (environmental justice,
+# Justice40, racial justice, equity) carry RED severity in federal review
+# climates as of 2026-05. Tilth does NOT recommend silently rewriting — operator
+# approves each substitution per the Five Operating Laws.
+# ─────────────────────────────────────────────────────────────────────────────
+admin_risk_term_register:
+  - flagged_term: "environmental justice"
+    severity: "HIGH"
+    substitution_candidates:
+      - "equitable access to environmental infrastructure"
+      - "service to underserved and distressed communities"
+      - "disadvantaged-community-serving project"
+      - "CDC SVI / EPA EJScreen / CEJST-tier service area (cite tool by name)"
+    reviewer_context: |
+      Term was standard federal language under prior administrations and
+      appeared throughout EPA, DOT, HUD, and FEMA NOFOs. Federal-program
+      adoption is in flux; verify per active RFA language before assuming
+      "environmental justice" framing is operational. When the RFA itself
+      uses "EJ" framing, keep the term verbatim with cite. Otherwise
+      substitute to underlying functional descriptors (LMI service, CEJST-
+      tier, distressed-community indicators). State agencies and foundation +
+      progressive philanthropy panels often still use the term; keep dialect-
+      aware substitution candidates. For soul_fire-oriented funders (rare
+      for public-agency CIC but possible — Tribal Nation co-management
+      funders, participatory-budgeting-aligned foundations), retain the term
+      verbatim if the RFA itself uses it; otherwise substitute per the listed
+      candidates.
+    approval_required: true
+
+  - flagged_term: "racial justice"
+    severity: "HIGH"
+    substitution_candidates:
+      - "equitable service delivery"
+      - "underserved community access"
+      - "demographic-parity service outcomes"
+      - "fair-housing-affirmative siting"
+    reviewer_context: |
+      Reads as activist framing in conservative federal review climates. Use
+      functional descriptors anchored to statutory categories where available
+      (e.g., HUD Affirmatively Furthering Fair Housing 24 CFR §5.150-180 is the
+      statutory anchor; cite the rule). Foundation panels still accept the term.
+      For soul_fire-oriented funders (rare for public-agency CIC but possible),
+      retain the term verbatim if the RFA itself uses it; otherwise substitute
+      per the listed candidates.
+    approval_required: true
+
+  - flagged_term: "Justice40"
+    severity: "HIGH"
+    substitution_candidates:
+      - "investment in disadvantaged communities (cite specific tool: CEJST / EJScreen / SVI)"
+      - "40% benefit-flow targeting to identified service area"
+      - "(rescinded EO 14008 — cite only if active RFA still references)"
+    reviewer_context: |
+      Justice40 as a named policy framework is undergoing transition; some
+      related federal investments may continue under different program names.
+      Verify per active RFA before assuming Justice40 framework is operational.
+      Some state and foundation programs still adopt Justice40-style targeting
+      under different names; cite the underlying targeting tool by name
+      (CEJST / EJScreen / SVI). For soul_fire-oriented funders, retain
+      verbatim if the RFA itself uses it; otherwise substitute to the
+      underlying targeting tool by name.
+    approval_required: true
+
+  - flagged_term: "equity"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "fair access"
+      - "equitable service delivery"
+      - "underserved-community benefit"
+      - "demographic-parity outcomes"
+    reviewer_context: |
+      Standard federal NOFO language 2021-2024; deprioritized in many current
+      federal program announcements but still appears in state, foundation, and
+      some federal NOFOs (especially EPA EJ-tagged programs where they survive).
+      Match to active RFA + funder dialect. When funder is silent, default to
+      functional descriptors anchored to LMI / distressed-community language.
+      For soul_fire-oriented funders, retain the term verbatim if the RFA
+      itself uses it; otherwise substitute per the listed candidates.
+    approval_required: true
+
+  - flagged_term: "gentrification"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "involuntary displacement of existing residents"
+      - "housing-cost-burden risk to existing households"
+      - "anti-displacement strategy"
+      - "preserve affordability for existing residents"
+    reviewer_context: |
+      Reads as politically loaded in conservative panels and to some HUD CDBG
+      reviewers. Substitute to functional anti-displacement framing. HUD has
+      statutory anti-displacement requirements (Uniform Relocation Act + Section
+      104(d) of HCD Act); cite those when describing displacement risk.
+    approval_required: true
+
+  - flagged_term: "anti-displacement"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "residential retention strategy"
+      - "Uniform Relocation Act compliance"
+      - "Section 104(d) one-for-one replacement housing plan"
+      - "affordable-housing preservation"
+    reviewer_context: |
+      Less politically loaded than "gentrification" but still movement-flavored.
+      For HUD CDBG, the statutory references (URA + 104(d)) are the safest
+      framing in conservative federal review climates.
+    approval_required: true
+
+  - flagged_term: "sanctuary"
+    severity: "HIGH"
+    substitution_candidates:
+      - "(no substitution — flag for operator review per active funder)"
+      - "non-cooperative jurisdiction (descriptive only; verify per RFA)"
+    reviewer_context: |
+      Sanctuary-city / sanctuary-jurisdiction status is a politically charged
+      classification that can disqualify applicants under specific administration
+      framings or specific federal grant conditions (e.g., DOJ Byrne JAG
+      conditions). Tilth does NOT recommend a default substitution; operator
+      must review per active funder + jurisdiction posture. Note: under current
+      administration, some federal grants include certification language
+      regarding immigration cooperation — verify per RFA.
+    approval_required: true
+
+  - flagged_term: "activist"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "community-engaged"
+      - "resident-led"
+      - "participatory"
+      - "stakeholder-driven"
+    reviewer_context: |
+      Reads as politically loaded in conservative panels. Substitute to
+      functional civic-participation descriptors. For public-agency applicants,
+      "public engagement" + "citizen participation" are the safest CDBG-aligned
+      framings.
+    approval_required: true
+
+  - flagged_term: "abolition"
+    severity: "HIGH"
+    substitution_candidates:
+      - "(no functional substitution — flag operator review)"
+      - "reform of [specific system being discussed]"
+      - "alternative public-safety models"
+    reviewer_context: |
+      Reads as movement framing across federal + state + most foundation panels.
+      For public-agency applicants, this term should rarely appear in proposals;
+      substitute to functional reform language for the specific system in scope.
+    approval_required: true
+
+  - flagged_term: "anti-police"
+    severity: "HIGH"
+    substitution_candidates:
+      - "alternative response model"
+      - "non-police mental-health crisis response"
+      - "co-responder model"
+      - "community-based public-safety intervention"
+    reviewer_context: |
+      Politically loaded. For DOJ COPS or FEMA AFG/SAFER, substitute to
+      functional alternative-response language. For DOJ alternative-response
+      grants (e.g., BJA programs), cite the specific BJA program-language
+      framing.
+    approval_required: true
+
+  - flagged_term: "anti-development"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "context-sensitive design"
+      - "phased growth management"
+      - "conservation-priority land-use planning"
+      - "smart-growth planning"
+    reviewer_context: |
+      For EDA Public Works + USDA RD + state DCED, this term may signal political
+      opposition that disqualifies a project for economic-development scoring.
+      Substitute to functional planning-discipline language. For
+      conservation-focused funders (DCNR / LWCF / TPL), conservation-priority
+      framing reads positively.
+    approval_required: true
+
+  - flagged_term: "climate justice"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "equitable climate adaptation"
+      - "frontline-community resilience"
+      - "vulnerable-population hazard mitigation"
+      - "BRIC distressed-community priority"
+    reviewer_context: |
+      Justice40-era framing; deprioritized in current federal climate of FEMA
+      BRIC + EPA. For BRIC, the program's own "distressed and impoverished
+      communities" priority language is the safest substitution. State
+      hazard-mitigation programs vary. For soul_fire-oriented funders, retain
+      verbatim if the RFA itself uses it; otherwise substitute to the program's
+      own priority language (e.g., BRIC distressed-community priority).
+    approval_required: true
+
+  - flagged_term: "DEI / diversity / inclusion"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "broad community engagement"
+      - "stakeholder representation"
+      - "(specific statutory category: LMI / disabled / veteran / elderly per program)"
+      - "underserved-population outreach"
+    reviewer_context: |
+      Under current administration framing, DEI language has been deprioritized
+      across federal programs. Statutory categories (LMI, ADA, Title VI,
+      Section 504, USDA SDA, VOSB) remain live and are the preferred framing.
+      Foundation funders vary. Verify per active RFA.
+    approval_required: true
+
+  - flagged_term: "community benefit agreement (CBA)"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "public-private partnership benefit terms"
+      - "community investment plan"
+      - "project labor agreement (PLA) compliance documentation where applicable"
+      - "anchor-institution commitment letter"
+    reviewer_context: |
+      Term reads as movement-aligned framing in conservative review climates
+      and as standard public-private-partnership practice in centrist +
+      progressive climates. Federal programs vary widely on acceptance. For
+      HUD CDBG, statutory authority is the framework — cite 24 CFR 570
+      directly. For DOT BUILD / RAISE, CBAs are routinely cited but no
+      statutory anchor. Operator decides per RFA + applicant funder mix.
+    approval_required: true
+
+  - flagged_term: "displacement"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "population-stability indicator"
+      - "Uniform Relocation Act-anchored displacement-risk analysis"
+      - "Section 104(d) one-for-one replacement housing analysis"
+    reviewer_context: |
+      Less politically loaded than "gentrification" but in the same vocabulary
+      family. Statutory anchor (URA + Section 104(d) of HCD Act) preferred in
+      conservative review climates. Foundation panels often accept verbatim;
+      verify per active funder dialect.
+    approval_required: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Reporting cadence
+# ─────────────────────────────────────────────────────────────────────────────
+reporting_cadence_typical:
+  default_frequency: "semi_annual_plus_annual_plus_final"
+  per_funder_overrides:
+    HUD_CDBG: "annual CAPER (Consolidated Annual Performance and Evaluation Report) + IDIS drawdowns; activity-level reporting per CDBG-DR / Section 108 schedules"
+    HUD_Section_108: "semi-annual loan-servicing reports + annual CAPER; debt-service tracking"
+    USDA_RD_CF: "construction milestone-based reporting (RD Form 442-2 financial); Form RD 1942-46 grant agreement reporting; final + closeout"
+    USDA_RD_WEP: "milestone-based construction reporting; SF-PPR + SF-425; rate-design + MFT capacity reporting at closeout"
+    EPA_CWSRF: "quarterly federal-cash-transactions report (SF-272) + annual report to EPA from state; project-level reporting to state administrator"
+    EPA_DWSRF: "quarterly federal-cash-transactions + annual capacity-development + Intended Use Plan tracking"
+    EPA_Brownfields: "semi-annual performance reports + annual financial (SF-425) + final; ACRES reporting for assessed/cleaned-up properties"
+    EPA_WIFIA: "quarterly construction draw + semi-annual financial + annual"
+    FEMA_BRIC: "quarterly performance + quarterly federal-financial (SF-425) + final"
+    FEMA_HMGP: "quarterly performance + quarterly SF-425 + final; cost-benefit verification at closeout"
+    FEMA_FMA: "quarterly performance + quarterly SF-425 + final"
+    FEMA_Public_Assistance: "project-worksheet quarterly status + final"
+    DOT_BUILD_RAISE: "quarterly performance + quarterly SF-425 + annual"
+    DOT_SS4A: "quarterly performance + annual"
+    DOT_RCP: "semi-annual performance + annual + final"
+    EDA_Public_Works: "semi-annual ED-916 + final report; project performance metric reporting"
+    EDA_EAA: "semi-annual + final"
+    DOC_NTIA_BEAD: "quarterly performance + quarterly SF-425 + annual + final"
+    PA_DCED_CFA_LSA: "milestone-based + final"
+    PA_DCED_Keystone_Communities: "annual + final"
+    PA_DCNR_C2P2: "construction-milestone + final inspection + LWCF perpetuity stewardship if federal funds used"
+    PennVEST: "construction-draw-based + final; rate-design verification"
+    EDA_Recompete: "semi-annual ED-916 + final; project performance metric reporting per Recompete Strategy + Implementation Plan structure"
+    EDA_Tech_Hubs: "semi-annual + final; Tech Hub Consortium performance reporting"
+    FEMA_Swift_Current: "quarterly performance + quarterly SF-425 + final (BRIC subprogram cadence)"
+    USDA_NRCS_CIG: "annual progress + final; conservation-innovation outcomes reporting"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Metrics table template
+# ─────────────────────────────────────────────────────────────────────────────
+metrics_table_function:
+  note: "field below is metrics_table_template per schema; this comment block kept for searchability"
+
+metrics_table_template:
+  - metric: "people served (project beneficiary count)"
+    unit: "count"
+    typical_target_range: "applicant-specific to service area"
+    source_for_target: "Census ACS + LMISD + service-area certification"
+  - metric: "low- and moderate-income persons benefited"
+    unit: "count + percent"
+    typical_target_range: "CDBG-LMI: ≥51% LMI for area-benefit national objective"
+    source_for_target: "HUD LMISD + project service-area documentation"
+  - metric: "linear feet of pipe / road / sidewalk installed or replaced"
+    unit: "linear feet"
+    typical_target_range: "applicant-specific (project scope)"
+    source_for_target: "engineering plans and specifications"
+  - metric: "housing units assisted / preserved / produced"
+    unit: "count"
+    typical_target_range: "applicant-specific"
+    source_for_target: "HUD CDBG / HOME / NSP-style activity scope"
+  - metric: "acres of land cleaned, restored, or protected"
+    unit: "acres"
+    typical_target_range: "applicant-specific"
+    source_for_target: "EPA Brownfields / LWCF / DCNR project boundaries"
+  - metric: "intersections improved / signalized / safety-redesigned"
+    unit: "count"
+    typical_target_range: "applicant-specific"
+    source_for_target: "DOT SS4A Comprehensive Safety Action Plan"
+  - metric: "match leveraged"
+    unit: "USD"
+    typical_target_range: "applicant-specific to program match minimums"
+    source_for_target: "match commitment documentation"
+  - metric: "jobs created or retained (construction + permanent)"
+    unit: "FTE"
+    typical_target_range: "applicant-specific"
+    source_for_target: "HUD CDBG economic-development national objective; EDA RLF jobs reporting; construction-period FTE estimate from engineer"
+  - metric: "capital deployed (federal + non-federal)"
+    unit: "USD"
+    typical_target_range: "applicant-specific to project budget"
+    source_for_target: "project budget + match documentation"
+  - metric: "structures or properties protected from flood / hazard (BRIC)"
+    unit: "count"
+    typical_target_range: "applicant-specific"
+    source_for_target: "FEMA BRIC benefit-cost analysis"
+  - metric: "tons of pollutant load reduced (Section 319 / SRF stormwater)"
+    unit: "tons / year"
+    typical_target_range: "applicant-specific"
+    source_for_target: "engineering load-reduction model"
+  - metric: "broadband locations passed / served"
+    unit: "count"
+    typical_target_range: "applicant-specific (BEAD funding model)"
+    source_for_target: "FCC Broadband Data Collection + BEAD challenge-process record"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Cross-references — Program Rule Packs (PRP)
+# ─────────────────────────────────────────────────────────────────────────────
+# Cards capture customer-archetype pattern recognition. Program-law content
+# (cost principles, prevailing-wage thresholds, environmental review triggers)
+# lives in PRPs per §19. Cross-references below surface PRPs that frequently
+# apply to opportunities routed through this CIC; Logician consumes at runtime
+# per opportunity-driven matching (architecture v7.0.11 §6.1).
+cross_references_prp:
+  - prp_id: "TILTH-PRP-2CFR200"
+    applicability: "Federal grant administration (HUD CDBG / EDA / EPA SRF / FEMA / DOT / USDA RD) — public-agency applicants are federal recipients subject to Uniform Guidance cost principles, procurement standards (200.317-200.327), Single Audit threshold (200 Subpart F), and 2 CFR 200.331-200.333 sub-recipient monitoring framework."
+    fires_when: "Any federal HUD / EDA / EPA / FEMA / DOT / USDA RD award flows to applicant or sub-recipient; intensifies when federal expenditures exceed the Single Audit threshold; sub-recipient monitoring discipline fires on every pass-through structure (CDC / nonprofit / regional COG / housing authority implementing partner)."
+  - prp_id: "TILTH-PRP-DAVIS-BACON"
+    applicability: "Federally funded construction by public-agency applicants — Davis-Bacon Act 40 USC §3141 applies to federally funded construction contracts above the threshold; HUD CDBG (Section 110), FEMA Public Assistance, USDA RD, DOT, and EPA SRF (where covered) all trigger prevailing-wage compliance."
+    fires_when: "Federally funded construction contract above the Davis-Bacon threshold; contractor responsibility plan and certified payroll (WH-347) compliance fires on every covered award; PRP carries wage-determination + apprenticeship-utilization detail Logician consumes at runtime."
+  - prp_id: "TILTH-PRP-NEPA-24CFR58"
+    applicability: "HUD-assumed-responsibility environmental review per 24 CFR Part 58 — canonical for CDBG entitlement / state-CDBG / HOME / Section 108 / CDBG-DR applicants; HUD responsible-entity NEPA framework where unit of general local government performs the NEPA review under HUD authority."
+    fires_when: "HUD CDBG / HOME / Section 108 / CDBG-DR applicant initiates project requiring environmental review; Tier I or Tier II review per project scope; Section 106 NHPA + Section 7 ESA + floodplain / wetland review integrated; Environmental Review Record (ERR) consultation triggers PRP at runtime; non-HUD federal awards default to the federal-agency-led NEPA pathway (DOT 23 CFR 771, USDA 7 CFR 1970, etc.) — Logician selects the correct pathway per opportunity."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Narrative sections typical
+# ─────────────────────────────────────────────────────────────────────────────
+narrative_sections_typical:
+  - "Project Description / Executive Summary"
+  - "Eligibility Narrative (statutory category + national-objective or program-purpose citation)"
+  - "Applicant Background and Governance"
+  - "Need / Service-Area Documentation (with Census / LMISD / SVI / EJScreen / CEJST data as applicable to active RFA)"
+  - "Public Benefit / National Objective"
+  - "Readiness to Proceed (site control + engineering + environmental)"
+  - "Project Approach / Scope of Work"
+  - "Budget and Budget Justification"
+  - "Match / Cost Share Documentation"
+  - "Procurement and Build America Buy America Compliance"
+  - "Build America Buy America (BABA) Compliance and Domestic-Content Certification"
+  - "Environmental Review (NEPA / Section 106 / Section 7 / state SEPA)"
+  - "Operations and Maintenance Plan"
+  - "Timeline / Milestones"
+  - "Performance Measures / Evaluation"
+  - "Audit and Financial Management Capacity"
+  - "Sustainability beyond grant period (replacement reserve + rate / fee structure for utilities)"
+  - "Partnerships and Sub-recipients (if applicable — public-agency applicants frequently co-apply with nonprofits, CDFIs, housing authorities, regional councils of government (COG) / metropolitan planning organization (MPO) participation, community development corporation (CDC) sub-recipient relationships, or other implementing-partner subrecipients; surface regional-coordination posture and 2 CFR 200.331-200.333 sub-recipient monitoring framework explicitly)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Capacity signals required
+# ─────────────────────────────────────────────────────────────────────────────
+capacity_signals_required:
+  - signal: "active SAM.gov registration + UEI"
+    evidence_type: "SAM.gov record"
+    required_for_competitive: true
+  - signal: "no SAM.gov exclusions / FAPIIS adverse records"
+    evidence_type: "SAM.gov exclusions check + FAPIIS record"
+    required_for_competitive: true
+  - signal: "authorized representative + board/council resolution on file"
+    evidence_type: "signed resolution"
+    required_for_competitive: true
+  - signal: "preliminary engineering estimate or feasibility study (project-type dependent)"
+    evidence_type: "P.E.-stamped PER or third-party feasibility report"
+    required_for_competitive: true
+  - signal: "adopted procurement policy meeting 2 CFR 200 standards"
+    evidence_type: "procurement policy document with revision date"
+    required_for_competitive: true
+  - signal: "environmental review path identified"
+    evidence_type: "NEPA determination memo or HUD ERR documentation"
+    required_for_competitive: true
+  - signal: "audit findings clean or remediated"
+    evidence_type: "Federal Audit Clearinghouse submission + corrective action plan"
+    required_for_competitive: true
+  - signal: "match source(s) identified and committed"
+    evidence_type: "budget action / appropriation / commitment letter / bond ordinance"
+    required_for_competitive: true
+  - signal: "site control documentation"
+    evidence_type: "deed / lease / easement / option"
+    required_for_competitive: true
+  - signal: "operations and maintenance commitment"
+    evidence_type: "O&M plan + budget line item identification"
+    required_for_competitive: true
+  - signal: "partnership or subrecipient agreement (when co-applying with nonprofit / CDFI / housing authority / implementing partner)"
+    evidence_type: "executed memorandum of understanding or subrecipient agreement identifying parties + roles + cost allocation + 2 CFR 200 subrecipient-monitoring responsibilities"
+    required_for_competitive: false
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Compliance burdens
+# ─────────────────────────────────────────────────────────────────────────────
+compliance_burdens:
+  - framework: "SAM.gov + UEI registration"
+    applicability: "all federal grant applicants"
+    required_filings:
+      - "SAM.gov annual renewal"
+      - "Unique Entity Identifier on every application"
+  - framework: "2 CFR 200 Uniform Guidance"
+    applicability: "all federal grant recipients (states + local governments + tribes + non-profits)"
+    required_filings:
+      - "Single Audit if federal expenditures exceed $1,000,000 in a fiscal year for FYs beginning on or after October 1, 2024 per 2024-04-22 OMB final rule (89 FR 30046); prior threshold $750,000 applied to earlier fiscal years"
+      - "Procurement standards compliance (2 CFR 200.317–200.327)"
+      - "Property management standards (2 CFR 200.310–200.316)"
+      - "Cost principles (2 CFR 200 Subpart E)"
+      - "Reporting requirements (SF-PPR + SF-425 federal financial report)"
+  - framework: "Davis-Bacon Act (40 USC §3141)"
+    applicability: "federally funded construction projects above $2,000 threshold (HUD CDBG, FEMA PA, USDA RD construction, DOT, EPA SRF construction, etc.)"
+    required_filings:
+      - "Pre-construction wage determination request to DOL"
+      - "Certified payroll records WH-347 weekly"
+      - "Apprenticeship/training documentation if applicable"
+  - framework: "Build America Buy America (BABA — IIJA §70901-70927)"
+    applicability: "federal financial assistance for infrastructure projects post-May 14, 2022"
+    required_filings:
+      - "BABA compliance certification for iron + steel + manufactured products + construction materials"
+      - "Public-interest / non-availability / unreasonable-cost waiver applications where applicable"
+  - framework: "NEPA + Section 106 NHPA + Section 7 ESA"
+    applicability: "all federal financial assistance with environmental footprint"
+    required_filings:
+      - "NEPA determination (CatEx / EA / EIS) per granting-agency regulations"
+      - "HUD CDBG: 24 CFR Part 58 Responsible Entity Environmental Review Record"
+      - "Section 106 SHPO consultation for ground-disturbing federal undertakings"
+      - "Section 7 USFWS / NMFS consultation if listed species or critical habitat"
+  - framework: "Title VI of the Civil Rights Act of 1964"
+    applicability: "all federal financial-assistance recipients"
+    required_filings:
+      - "Title VI assurance signed at application"
+      - "Limited English Proficiency (LEP) plan where applicable"
+      - "Title VI complaint procedure"
+  - framework: "Section 504 of the Rehabilitation Act + Americans with Disabilities Act"
+    applicability: "all federal financial-assistance recipients + public-facing facilities"
+    required_filings:
+      - "Section 504 self-evaluation / transition plan"
+      - "ADA Title II program-access plan"
+      - "Accessibility design compliance (ADAAG / ABA)"
+  - framework: "Uniform Relocation Assistance and Real Property Acquisition Policies Act (URA)"
+    applicability: "federal-funded acquisition + displacement"
+    required_filings:
+      - "URA notices to displaced persons"
+      - "Relocation assistance and payments"
+      - "HUD CDBG: 104(d) one-for-one replacement housing plan where triggered"
+  - framework: "HUD CDBG Citizen Participation"
+    applicability: "HUD CDBG entitlement + state CDBG recipients"
+    required_filings:
+      - "Citizen Participation Plan (24 CFR 91.105)"
+      - "Public hearings + comment periods"
+      - "Plain-language summaries"
+  - framework: "FEMA Hazard Mitigation Planning"
+    applicability: "FEMA BRIC + HMGP applicants"
+    required_filings:
+      - "FEMA-approved Hazard Mitigation Plan (44 CFR Part 201)"
+      - "Plan updated every 5 years"
+  - framework: "Federal Funding Accountability and Transparency Act (FFATA)"
+    applicability: "federal-grant recipients above subaward thresholds"
+    required_filings:
+      - "FFATA Subaward Reporting System (FSRS) reporting on subawards ≥$30,000"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Common risk register entries
+# ─────────────────────────────────────────────────────────────────────────────
+common_risk_register_entries:
+  - risk: "missing or stale board / council authorization"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: "schedule authorization on council agenda before application deadline; obtain resolution with explicit project scope, match commitment, authorized representative designation"
+  - risk: "procurement noncompliance under 2 CFR 200.317-200.327"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: "adopt procurement policy meeting Uniform Guidance standards; document competition; maintain procurement file with bid abstracts + selection memos"
+  - risk: "match commitment uncommitted or in-kind-only when cash required"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: "verify program match rules (federal-as-match prohibition; cash vs in-kind breakdown); secure written match commitments before application; obtain bond / appropriation actions where required"
+  - risk: "unresolved site control"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: "secure deed / lease / option prior to application; for projects requiring 20-year control (USDA RD CF + LWCF perpetuity), confirm encumbrances and convert leases to long-term"
+  - risk: "preliminary engineering estimate underdeveloped"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: "engage qualified P.E. early; complete PER / Step 1 planning to estimate-class appropriate for funder (typically Class 3 for application, Class 1-2 for closeout); document basis of estimate"
+  - risk: "environmental review delay"
+    likelihood: "HIGH"
+    impact: "MEDIUM"
+    mitigation_pattern: "start environmental review at application stage; HUD CDBG entitlement entities should initiate ERR early; obtain SHPO Section 106 concurrence + USFWS Section 7 letter; budget 90-180 days for EA, longer for EIS"
+  - risk: "public controversy or community opposition"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: "early and transparent public engagement; CDBG citizen-participation plan execution; public hearings before application submission; document mitigation of objections raised"
+  - risk: "operations and maintenance ambiguity"
+    likelihood: "HIGH"
+    impact: "MEDIUM"
+    mitigation_pattern: "written O&M plan with identified maintenance budget line; rate / fee structure for utilities sized to cover lifecycle costs; replacement-reserve framework; for USDA RD CF, MFT capacity narrative"
+  - risk: "audit exposure / open Single Audit findings"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: "remediate prior-award findings before applying; obtain corrective-action-plan closure letters; disclose open findings transparently with remediation status; address material findings before next audit"
+  - risk: "Davis-Bacon nonresponsiveness in contractor pool"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: "include Davis-Bacon compliance in bid documents; pre-bid contractor briefing; certified payroll review process; budget for compliance-monitoring labor"
+  - risk: "Build America Buy America carve-out failure"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: "BABA compliance certification from contractor; product-by-product domestic-content verification; waiver application early if non-domestic materials required; document non-availability or unreasonable-cost basis"
+  - risk: "Section 106 NHPA finding of adverse effect"
+    likelihood: "LOW"
+    impact: "HIGH"
+    mitigation_pattern: "early SHPO consultation; archaeological survey if ground-disturbing; design avoidance / minimization / mitigation measures; Memorandum of Agreement if adverse effect cannot be avoided"
+  - risk: "Title VI / LEP service-area inequity claim"
+    likelihood: "LOW"
+    impact: "HIGH"
+    mitigation_pattern: "document service-area demographics; LEP plan for jurisdictions with significant non-English-proficient population; equity analysis of project benefits + burdens"
+  - risk: "Law 4 boundary drift on movement terminology"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Per admin_risk_term_register, every flagged term substitution flows through
+      operator approval (approval_required: true default). No silent rewrites.
+      Public-agency card has heavier substitution discipline than other CICs
+      due to compliance-aware reviewer profile across federal + state + most
+      foundation panels.
+  - risk: "overstated beneficiary counts or LMI percentages"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: "anchor beneficiary counts to Census ACS + LMISD + service-area certification; avoid double-counting; for CDBG area-benefit, document ≥51% LMI through HUD LMISD or income survey per 24 CFR 570.208(a)(1)"
+  - risk: "federal-funds-as-match prohibition violation"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: "verify per program statute whether federal funds may be used as match; most federal programs prohibit federal-as-match except where Congress authorizes (e.g., specific CDBG-DR provisions); document non-federal source of match"
+  - risk: "applicant or activity ineligibility under active RFA (statutory category mismatch or out-of-scope activity)"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: "pre-submission eligibility cross-check: applicant's statutory entity type against RFA eligible-applicant roster (e.g., units of general local government, special districts, authorities); project scope against RFA eligible-activity roster (e.g., 24 CFR 570.201-570.207 for CDBG); rural-vs-urban / population threshold verification where applicable; Tribal-set-aside check; documentation of the eligibility determination retained for audit"
+  - risk: "Sub-recipient monitoring discipline gap (2 CFR 200.331-200.333)"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Documented sub-recipient monitoring protocol; risk-assessment + Single
+      Audit-status verification at sub-award + during-period-of-performance;
+      pass-through-entity responsibilities per 2 CFR 200.332 mapped to
+      applicant's compliance team.
+  - risk: "Regional-coordination authority ambiguity"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      When applicant is regional council of governments (COG) or MPO,
+      source-of-authority must be documented (state-enabling statute;
+      member-jurisdiction resolutions); when applicant is a member
+      jurisdiction acting under regional plan, regional org's role + scope of
+      authority documented.
+  - risk: "SLFRF remaining-balance + categorization-shift risk"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Project-categorization compliance per Treasury Final Rule (31 CFR Part 35);
+      remaining-balance attestation current; remaining-allocation deployment per
+      obligation deadlines; SEFA inclusion verified.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Common funders observed — OBSERVATIONAL ONLY, NOT a CIC × CLC binding.
+# Frequency tags are qualitative-only per OQ-6 until 12+ CycleReceipts accumulate.
+# ─────────────────────────────────────────────────────────────────────────────
+common_funders_observed:
+# ─────────────────────────────────────────────────────────────────────────────
+# OPERATIONAL CONTENT EMPTIED — Phase E Option 2 cleanup 2026-05-16
+# Per Law 5 + §18.5 schema discipline ("OBSERVATIONAL ONLY"): this field
+# carries only funders the operator has CONFIRMED ACTUAL ENGAGEMENT with.
+# Wave 2 subagents over-populated this block based on sector knowledge,
+# not engagement history — that was a Law 5 violation surfaced at Phase E
+# 2026-05-16. Prior content moved to
+# `_research_metadata.draft_funder_candidates_pending_operator_engagement_confirmation`
+# below; operator graduates candidate entries to this live list as actual
+# engagement confirms. Runtime Tilth seats reading this field see an empty
+# list until operator graduation; that's the correct Law 5 posture for a
+# fresh deployment with no engagement history yet.
+# ─────────────────────────────────────────────────────────────────────────────
+  []  # empty list — operator graduates from candidates as engagement confirms
+lifecycle:
+  draft_status: "signed"
+  review_status: "passed"
+  cross_family_thesis_status: "passed"
+  signature_status: "signed"
+  runtime_load_status: "loaded"
+  runtime_loadable: true
+  signed_at: "2026-05-16T16:00:00Z"
+  signed_by: "founder"
+  content_hash: "sha256:ed1ce4502447dac02bac72ce27dfcd8dc6e418274d3bdba195f762c1ae41a14b"
+  lock_history_row: 251
+  lock_timestamp_utc: "2026-05-16T16:00:00Z"
+  # LOCK ceremony 2026-05-16 PM after L-005 two-cycle audit closed at
+  # pipeline/validation/cards_wave_2_thesis_2026-05-15/CIC/public_agency/FINAL_VERDICT.md
+  # (THESIS_PASSED). review_status flipped pending→passed; signature_status
+  # unsigned→signed; runtime_load_status not_loaded→loaded. Operator publisher
+  # pubkey pinned at vault_shared/cards/publisher_pubkey.signed.yaml. The
+  # ed25519_signature in _research_metadata is the operator Ed25519 signature
+  # over canonical-JSON of this YAML with ed25519_signature: null. OD-F + OD-H
+  # operator-decisions resolved pre-ceremony (cards LOCKed as-on-disk per
+  # operator directive 2026-05-16).
+
+_research_metadata:
+  authored_at: "2026-05-15T00:00:00Z"
+  authored_by_role: "research_session"
+  research_budget_hours_actual: 3.0
+  priors_consulted:
+    - path: "assets/cards/customer_identification/public agency.png"
+      extract_note: "visual Card source — v7.0.8 LOCKED roster + drawing TILTH-CIC-REVIEW-01 (2026-05-08); Public-accountability funding environment framing"
+    - path: "pipeline/cards/CIC/food_systems.yaml"
+      extract_note: "Wave 1 reference card — shape, structure, comment density, schema item-shape conventions for dialect_routing_table + common_funders_observed; handback-resolved field shapes applied here"
+    - path: "pipeline/blueprint/v0.1/section_18_card_system.md"
+      extract_note: "§18.5 CIC schema + §18.9 TILTH-CIC-03 starter-content requirements (the authoritative scope for this card); §18.11 research process; §18.15 testing"
+    - path: "pipeline/cards/_schema/card_cic.schema.json"
+      extract_note: "Current on-disk JSON Schema — field names + enums binding; do not modify"
+    - path: "CLAUDE.md"
+      extract_note: "Six Customer Identity Categories — TILTH-CIC-03 'Public-accountability funding environment'; Law 4 admin-risk discipline; CIC × CLC orthogonality discipline (no coupling fields); additional-pathways note on Tribal Nations as distinct research-backlog category"
+  primary_sources:
+    - url: "https://www.hud.gov/program_offices/comm_planning/cdbg"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Community Development Block Grant (CDBG) program provides
+        annual grants on a formula basis to states, cities, and counties to develop
+        viable urban communities by providing decent housing and a suitable living
+        environment, and by expanding economic opportunities, principally for
+        low- and moderate-income persons."
+        Anchor source for CDBG eligible-applicant statutory definition driving
+        Scout vocabulary core_terms + Logician eligibility gates + LMI national
+        objective documentation.
+    - url: "https://www.ecfr.gov/current/title-24/subtitle-B/chapter-V/subchapter-C/part-570"
+      access_date: "2026-05-15"
+      relevance: |
+        Statutory regulation for HUD CDBG (24 CFR Part 570) — eligible applicants
+        (24 CFR 570.3), eligible activities (570.201–570.207), national objectives
+        (570.208), citizen participation (24 CFR 91.105). Drives compliance_burdens
+        + provenance_requirements + admin_risk handling around LMI documentation.
+    - url: "https://www.rd.usda.gov/programs-services/community-facilities"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "This program provides affordable funding to develop essential
+        community facilities in rural areas. An essential community facility is
+        defined as a facility that provides an essential service to the local
+        community for the orderly development of the community in a primarily
+        rural area, and does not include private, commercial or business
+        undertakings."
+        Source for USDA RD Community Facilities funder_program_keywords + rural-
+        eligibility disqualifier_terms.
+    - url: "https://www.rd.usda.gov/programs-services/water-environmental-programs"
+      access_date: "2026-05-15"
+      relevance: "USDA Rural Utilities Service Water and Environmental Programs — eligible-applicant categories (most state and local governmental entities + nonprofits + tribes in eligible rural areas) + 7 CFR 1780. Drives funder_program_keywords + capacity_signals_required."
+    - url: "https://www.epa.gov/cwsrf"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Clean Water State Revolving Fund (CWSRF) program is a
+        federal-state partnership that provides communities a permanent,
+        independent source of low-cost financing for a wide range of water quality
+        infrastructure projects."
+        Source for EPA SRF state-pass-through dynamic + funder_program_keywords +
+        compliance_burdens around SRF Intended Use Plans.
+    - url: "https://www.epa.gov/dwsrf"
+      access_date: "2026-05-15"
+      relevance: "EPA Drinking Water State Revolving Fund — state-administered low-interest loans; 40 CFR 35 Subpart L; disadvantaged-community set-asides; small-system technical assistance. Drives drinking-water-infrastructure search terms + provenance requirements."
+    - url: "https://www.epa.gov/brownfields"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "EPA's Brownfields Program provides grants and technical
+        assistance to communities, states, tribes and others to assess, safely
+        clean up and sustainably reuse contaminated properties." "Brownfield
+        sites have the potential to be a source of new jobs, new tax revenue,
+        affordable housing, parks, public services and open space."
+        Source for brownfields funder_program_keywords + redevelopment-authority
+        applicant pathway + CERCLA §104(k).
+    - url: "https://www.fema.gov/grants/mitigation/building-resilient-infrastructure-communities"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "BRIC supports states, local communities, tribes and territories
+        as they undertake hazard mitigation projects, reducing the risks they face
+        from disasters and natural hazards."
+        Source for FEMA BRIC funder_program_keywords + hazard_mitigation search
+        terms + Stafford Act §203 statutory anchor.
+    - url: "https://www.fema.gov/assistance/public"
+      access_date: "2026-05-15"
+      relevance: "FEMA Public Assistance program scope (post-disaster reimbursement for state/tribal/territorial/local governments + certain private nonprofits) — Stafford Act §§403, 406, 407, 408. Drives funder_program_keywords + reporting cadence."
+    - url: "https://www.transportation.gov/RAISEgrants"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The U.S. Department of Transportation's RAISE program provides
+        a unique opportunity for the DOT to invest in road, rail, transit, and
+        port projects that promise to achieve national objectives." "Eligible
+        applicants for RAISE grants are: State, local, tribal, and U.S.
+        territories' governments, including U.S. territories, transit agencies,
+        port authorities, metropolitan planning organizations (MPOs), and other
+        political subdivisions of State or local governments."
+        Source for DOT BUILD/RAISE eligible-applicant roster + funder_program_keywords.
+    - url: "https://www.transportation.gov/grants/SS4A"
+      access_date: "2026-05-15"
+      relevance: "DOT Safe Streets and Roads for All (SS4A) — IIJA §24112 authorized; Comprehensive Safety Action Plan requirement; Planning + Implementation grants. Drives funder_program_keywords + intersection-improved metrics + public_safety search terms."
+    - url: "https://www.eda.gov/funding/programs/public-works"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "EDA's Public Works program empowers distressed communities to
+        revitalize, expand, and upgrade their physical infrastructure." "Eligible
+        applicants are States, Indian Tribes, cities or other political
+        subdivisions of a State, including special-purpose units of a State or
+        local government engaged in economic or infrastructure development
+        activities."
+        Source for EDA Public Works funder_program_keywords + special-district
+        statutory category in search_vocabulary.
+    - url: "https://broadbandusa.ntia.doc.gov/funding-programs/bead"
+      access_date: "2026-05-15"
+      relevance: "NTIA BEAD — Broadband Equity, Access, and Deployment; IIJA §60102; $42.45B one-time allocation; state-administered with sub-grants. Drives broadband search terms + funder_program_keywords + state-pass-through dynamic."
+    - url: "https://www.govinfo.gov/content/pkg/CFR-2024-title2-vol1/pdf/CFR-2024-title2-vol1-part200.pdf"
+      access_date: "2026-05-15"
+      relevance: |
+        2 CFR Part 200 (Uniform Guidance) — procurement standards (200.317-200.327),
+        cost principles (Subpart E), Single Audit (Subpart F), reporting requirements,
+        Davis-Bacon application via specific program statutes. Single Audit
+        threshold rises from $750,000 to $1,000,000 per OMB final rule for fiscal
+        years beginning on or after October 1, 2024. Anchor source for
+        compliance_burdens framework citations.
+    - url: "https://www.ecfr.gov/current/title-24/subtitle-A/part-58"
+      access_date: "2026-05-15"
+      relevance: "HUD CDBG Responsible Entity Environmental Review (24 CFR Part 58) — HUD's NEPA delegation to grantees; ERR record requirements. Drives environmental_review_status evidence signal + compliance_burdens."
+    - url: "https://www.dol.gov/agencies/whd/government-contracts/construction"
+      access_date: "2026-05-15"
+      relevance: "Davis-Bacon Act (40 USC §3141) prevailing-wage requirements for federally funded construction above $2,000 threshold; certified payroll WH-347. Drives davis_bacon_workforce_documentation evidence signal + compliance_burdens."
+    - url: "https://www.transportation.gov/mission/office-secretary/office-policy/transportation-policy/build-america-buy-america"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Build America, Buy America Act (BABA), enacted as part of
+        the Infrastructure Investment and Jobs Act (IIJA), establishes a domestic
+        content procurement preference for all federal financial assistance
+        obligated for infrastructure after May 14, 2022."
+        Source for BABA compliance_burdens framework citation + evidence signal.
+    - url: "https://www.dced.pa.gov/programs/local-share-account-statewide-lsa-statewide/"
+      access_date: "2026-05-15"
+      relevance: "PA DCED Commonwealth Financing Authority — Local Share Account (gaming-revenue-funded municipal grants); PA-specific exemplar in common_funders_observed + dialect_routing_table state-funder examples."
+    - url: "https://www.pennvest.pa.gov"
+      access_date: "2026-05-15"
+      relevance: "PennVEST — Pennsylvania Infrastructure Investment Authority; administers CWSRF + DWSRF + H2O PA for the Commonwealth; example state-administrator of EPA SRFs. Drives state pass-through dynamic + reporting cadence overrides."
+    - url: "https://www.dcnr.pa.gov/Recreation/Grants/Pages/default.aspx"
+      access_date: "2026-05-15"
+      relevance: "PA DCNR Bureau of Recreation and Conservation — Community Conservation Partnerships (C2P2) program; LWCF state-administrator. Drives parks-and-recreation search terms + common_funders_observed state entries."
+    - url: "https://www.whitehouse.gov/wp-content/uploads/2024/04/2024-Compliance-Supplement_Final_4-15-24.pdf"
+      access_date: "2026-05-15"
+      relevance: "OMB 2024 Compliance Supplement — Single Audit reference for federal-grant compliance auditing; verifies the federal-expenditure threshold + reporting requirements for compliance_burdens framing."
+  ed25519_signature: null
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Phase 5 Review Handback (per §18.11 + Wave 1 precedent)
+# ─────────────────────────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────────────────────────
+  # draft_funder_candidates_pending_operator_engagement_confirmation
+  # Relocated from top-level `common_funders_observed:` at Phase E Option 2
+  # cleanup 2026-05-16. Wave 2 subagent populated these based on sector
+  # knowledge, NOT operator-confirmed engagement. Per §18.5 schema discipline
+  # ("OBSERVATIONAL ONLY"), the live `common_funders_observed:` block (now
+  # emptied; see above) carries only operator-engagement-confirmed funders.
+  # Operator graduates entries from this candidates list to the live block
+  # as actual engagement confirms.
+  # ─────────────────────────────────────────────────────────────────────────────
+  draft_funder_candidates_pending_operator_engagement_confirmation:
+    - funder_name: "HUD — Community Development Block Grant (Entitlement)"
+      funder_type: "federal"
+      typical_award_range: "formula-based; entitlement jurisdictions receive direct annual allocation by population + need formula"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Entitlement cities + urban counties receive annual CDBG by formula. Source: hud.gov/program_offices/comm_planning/cdbg."
+
+    - funder_name: "HUD — State CDBG (non-entitlement)"
+      funder_type: "federal (state pass-through)"
+      typical_award_range: "varies by state administration + project; PA DCED state-CDBG awards typically $50,000–$1,000,000+"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. States administer state CDBG for non-entitlement municipalities. PA DCED state-CDBG. Source: hud.gov/program_offices/comm_planning/communitydevelopment/programs/stateadmin."
+
+    - funder_name: "HUD — Section 108 Loan Guarantee"
+      funder_type: "federal"
+      typical_award_range: "up to 5x annual CDBG allocation as loan guarantee for entitlement jurisdictions"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Loan-guarantee program tied to CDBG; used for larger capital projects. Source: hud.gov/program_offices/comm_planning/section108."
+
+    - funder_name: "USDA Rural Development — Community Facilities Direct Loan and Grant"
+      funder_type: "federal"
+      typical_award_range: "varies; rural population ≤20,000; grants up to 75% project cost for high-poverty rural communities, lower for others"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Public bodies + nonprofits + tribes in rural areas. Source: rd.usda.gov/programs-services/community-facilities."
+
+    - funder_name: "USDA RUS Water and Environmental Programs (WEP)"
+      funder_type: "federal"
+      typical_award_range: "varies; loan + grant combinations; rural ≤10,000 population"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Rural water + waste disposal infrastructure. Source: rd.usda.gov/programs-services/water-environmental-programs."
+
+    - funder_name: "EPA Clean Water State Revolving Fund (CWSRF)"
+      funder_type: "federal (state pass-through)"
+      typical_award_range: "low-interest loans + principal forgiveness; varies by state allocation + project; PA PennVEST administers"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. State-administered through Intended Use Plans. Source: epa.gov/cwsrf."
+
+    - funder_name: "EPA Drinking Water State Revolving Fund (DWSRF)"
+      funder_type: "federal (state pass-through)"
+      typical_award_range: "low-interest loans + principal forgiveness; varies by state allocation; PA PennVEST administers"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. State-administered; small-system + disadvantaged set-asides. Source: epa.gov/dwsrf."
+
+    - funder_name: "EPA Brownfields Program"
+      funder_type: "federal"
+      typical_award_range: "Assessment $500,000 single-site or community-wide; Cleanup up to $500,000 per site; Multipurpose $1,000,000; RLF varies; MARC $5,000,000 large"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Annual cycle; FY26 NOFO typical fall release. Source: epa.gov/brownfields."
+
+    - funder_name: "EPA Water Infrastructure Finance and Innovation Act (WIFIA)"
+      funder_type: "federal"
+      typical_award_range: "minimum $20M project; loans for large water/wastewater capital"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Large-project credit-facility program. Source: epa.gov/wifia."
+
+    - funder_name: "FEMA Building Resilient Infrastructure and Communities (BRIC)"
+      funder_type: "federal"
+      typical_award_range: "varies; FY24 was approximately $1B+; FY26 program status under current administration is shifting — verify per current FEMA posture"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Pre-disaster hazard mitigation. Source: fema.gov/grants/mitigation/building-resilient-infrastructure-communities. NOTE: program scope + budget changes likely under current administration — verify per current NOFO."
+
+    - funder_name: "FEMA Hazard Mitigation Grant Program (HMGP)"
+      funder_type: "federal"
+      typical_award_range: "varies; post-declaration formula based on disaster cost"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Activated after Presidentially declared disasters in affected states. Source: fema.gov/grants/mitigation/hazard-mitigation."
+
+    - funder_name: "FEMA Flood Mitigation Assistance (FMA)"
+      funder_type: "federal"
+      typical_award_range: "varies; National Flood Insurance Program-linked"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Source: fema.gov/grants/mitigation/floods."
+
+    - funder_name: "FEMA Public Assistance"
+      funder_type: "federal"
+      typical_award_range: "post-disaster reimbursement; varies by disaster declaration"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Activated after Presidentially declared disasters. Source: fema.gov/assistance/public."
+
+    - funder_name: "FEMA Assistance to Firefighters Grants (AFG / SAFER / Fire Prevention and Safety)"
+      funder_type: "federal"
+      typical_award_range: "AFG varies; SAFER funds 3-year staffing; FP&S varies"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Annual cycle. Source: fema.gov/grants/preparedness."
+
+    - funder_name: "DOT BUILD / RAISE"
+      funder_type: "federal"
+      typical_award_range: "$5M–$25M per project (urban / rural splits)"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Annual cycle; rural + urban set-asides. Source: transportation.gov/RAISEgrants."
+
+    - funder_name: "DOT Safe Streets and Roads for All (SS4A)"
+      funder_type: "federal"
+      typical_award_range: "Planning $200,000–$1,000,000; Implementation $2,500,000–$25,000,000"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Annual cycle through 2026; IIJA-authorized. Source: transportation.gov/grants/SS4A."
+
+    - funder_name: "DOT Reconnecting Communities Pilot (RCP)"
+      funder_type: "federal"
+      typical_award_range: "Planning $100,000–$2M; Capital $5M–$100M"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. IIJA-authorized; status under current administration shifting — verify per current NOFO. Source: transportation.gov/grants/reconnecting-communities."
+
+    - funder_name: "DOT Active Transportation Infrastructure Investment Program (ATIIP)"
+      funder_type: "federal"
+      typical_award_range: "varies; IIJA-authorized"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. New program; pedestrian + bike network funding. Source: highways.dot.gov/ATIIP."
+
+    - funder_name: "EDA Public Works and Economic Adjustment Assistance"
+      funder_type: "federal"
+      typical_award_range: "varies; typical $500,000–$3,000,000+; CEDS-aligned projects preferred"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Rolling application. Source: eda.gov/funding/programs/public-works."
+
+    - funder_name: "EDA Economic Adjustment Assistance"
+      funder_type: "federal"
+      typical_award_range: "varies; disaster-recovery + economic-adjustment focus"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Source: eda.gov/funding/programs/economic-adjustment-assistance."
+
+    - funder_name: "DOC/NTIA Broadband Equity, Access, and Deployment (BEAD)"
+      funder_type: "federal (state pass-through)"
+      typical_award_range: "state allocations $100M–$3.7B; sub-grants to ISPs + public-entity partners through state broadband offices"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. One-time IIJA allocation; state-administered. Source: broadbandusa.ntia.doc.gov/funding-programs/bead."
+
+    - funder_name: "DOI / NPS Land and Water Conservation Fund — State and Local Assistance"
+      funder_type: "federal (state pass-through)"
+      typical_award_range: "varies by state allocation + local match (50% match required typical)"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. State-administered; LWCF perpetuity stewardship on funded parcels. Source: nps.gov/subjects/lwcf/stateside.htm."
+
+    - funder_name: "DOJ COPS Office"
+      funder_type: "federal"
+      typical_award_range: "varies; Hiring program funds officer salaries 3-year; CAMP / CHP varies"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Source: cops.usdoj.gov."
+
+    - funder_name: "Pennsylvania DCED Commonwealth Financing Authority — Local Share Account (LSA)"
+      funder_type: "state"
+      typical_award_range: "varies by county allocation; gaming-revenue-funded"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. PA-specific; counties receiving casino revenue. Source: dced.pa.gov/programs/local-share-account-statewide-lsa-statewide."
+
+    - funder_name: "Pennsylvania DCED Keystone Communities"
+      funder_type: "state"
+      typical_award_range: "$25,000–$500,000+; planning + façade + accessible-housing + public-improvement components"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Main Street / Elm Street designated communities. Source: dced.pa.gov/programs/keystone-communities-program-kcp."
+
+    - funder_name: "Pennsylvania DCED Multimodal Transportation Fund"
+      funder_type: "state"
+      typical_award_range: "$100,000–$3,000,000"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Co-administered with PennDOT. Source: dced.pa.gov/programs/multimodal-transportation-fund-mtf-dced."
+
+    - funder_name: "PennVEST"
+      funder_type: "state"
+      typical_award_range: "varies; CWSRF + DWSRF + H2O PA administered through PennVEST"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. PA Infrastructure Investment Authority. Source: pennvest.pa.gov."
+
+    - funder_name: "Pennsylvania DCNR Community Conservation Partnerships (C2P2)"
+      funder_type: "state"
+      typical_award_range: "varies; rehabilitation + land acquisition + planning + trails"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Annual cycle through Bureau of Recreation and Conservation. Source: dcnr.pa.gov/Recreation/Grants."
+
+    - funder_name: "Bloomberg Philanthropies — Mayors Challenge / Climate Challenge / American Cities Initiative"
+      funder_type: "foundation"
+      typical_award_range: "varies; Mayors Challenge prizes $1M-$5M; Climate Challenge cohort support"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Competitive cohort-based programs; cycles announced periodically. Source: bloomberg.org/government-innovation."
+
+    - funder_name: "Local community foundation — municipal planning / capacity"
+      funder_type: "foundation"
+      typical_award_range: "varies by foundation; typically $5,000–$100,000 for planning + technical assistance"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Local community foundations occasionally support municipal planning, downtown revitalization, parks + recreation. Verify per local foundation 990-PF + program guidelines."
+
+  # Ed25519 signature over canonical-JSON of this YAML with this field set to
+  # null. Canonical-JSON form: sorted keys, compact separators (",",":"), UTF-8,
+  # ensure_ascii=False. Canonical-JSON SHA3-512 (for white-glove integrity
+  # pinning): 57bb9e077fa553bc013115cd2cabf457ac6f1e78307fd10af171dea644aa06fef68927aaf91a4a65f5a52d08e5f5ee5912245f9550c19581be30f96de1d0ef81
+  # Signature target pubkey: vault_shared/cards/publisher_pubkey.signed.yaml
+  # (publisher_pubkey_ed25519_hex 0b1a0bbfa5ee9149af2c4e6153ed037dd03c0d562c94d3eaefeaf798e6f375bd)
+  ed25519_signature: "ff7ddc6a3b8aee054b7f4b48fbe7ea05baf54ae8eeba9e1c9786cfccad0c58c000d6aa0cccc0b9b506b20bc8f03fec32ffd515337ad26ee53c7004aa18771b0d"
+
+  # common_clc_patterns_observed — INTENTIONALLY ABSENT.
+  # Per architecture v7.0.11 §6.1 (operator-resolved 2026-05-15) Option A KILL.
+  # Per F-CARDS-COUPLING-VIOLATION-EXTENSION fail-closed enforcement. CIC × CLC
+  # matching is opportunity-driven at runtime (Scout / Logician identify CLC per
+  # opportunity; CIC determines seat configuration only). NEVER reintroduce.
+_review_handback:
+  card: "CIC:public_agency"
+  card_file: "pipeline/cards/CIC/public_agency.yaml"
+  research_hours_actual: 3.0
+  schema_completeness:
+    required_fields_populated: "15/15 schema-required + all §18.9 starter-content field-groups"
+    fields_needing_review: 4
+    total_citations: 87
+    unique_primary_sources: 21
+  decision_queue:
+    - "Environmental justice / Justice40 severity HIGH under current administration framing. Operator review: confirm severity tier for use across federal vs state vs foundation review climates. Tilth does NOT silently rewrite; substitution candidates anchor to underlying tools (CEJST / EJScreen / SVI / LMISD) so Scribe can shift register per RFA. Defer per-RFA substitution decisions to operator at apply-time."
+    - "Sanctuary-status flagged term carries 'no default substitution — operator review' note. Confirm acceptable. Note: for jurisdictions with sanctuary-city status pursuing federal grants, this term may not appear in the proposal language at all but may surface during eligibility certifications."
+    - "Tribal Nations + federally-recognized Indian Tribes are NOT included in this CIC. They appear as a peer eligible category in many federal program eligibility rosters (CDBG-Indian, USDA RD CF, FEMA BRIC, DOT, etc.). Per CLAUDE.md, Tribal Nations are a research-backlog 'additional pathway' awaiting retain/fold/retire decision. Card intentionally does NOT absorb Tribal-specific framing — flagged for ambiguity."
+    - "School districts overlap with CIC-02 Educator. Card treats school districts as Public Agency only when grant scope is public-entity-capital (facilities, public safety, broadband); CIC-02 handles education-delivery scope. Operator confirm boundary."
+  conflicts_with_prior_art:
+    - "NONE — card mirrors Wave 1 shape (food_systems.yaml) and consumes §18.9 binding starter content verbatim."
+  review_readiness: "READY"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Draft provenance — sidecar augmentation pass
+# ─────────────────────────────────────────────────────────────────────────────
+# This is a SIDECAR DRAFT at pipeline/cards/_drafts/. The LOCKed card at
+# pipeline/cards/CIC/public_agency.yaml is unchanged. Operator reviews this
+# draft and dispatches a re-sign ceremony when ready.
+_draft_provenance:
+  draft_authored_at: "2026-05-18T00:00:00Z"
+  draft_authored_by_role: "card_content_augmentation_pass_v1"
+  source_handback: "docs/cic_public_agency_research_handback_2026-05-17.md"
+  source_handback_sections_consumed:
+    - "§4 Proposed Card Improvements (§4.1 - §4.8)"
+    - "§8 Patch Plan"
+  prp_scaffolding_referenced:
+    - "pipeline/program_rule_packs/_manifest/active_prps.yaml"
+    - "pipeline/blueprint/v0.1/section_19_program_rule_packs.md"
+  prp_ids_cross_referenced:
+    - "TILTH-PRP-2CFR200"
+    - "TILTH-PRP-DAVIS-BACON"
+    - "TILTH-PRP-NEPA-24CFR58"
+  operator_roadmap_alignment: "Step #5 of operator roadmap: card content augmentation passes parallel with PRP authoring once PRP pointers exist (per docs/CTO_HANDOFF_BRIEF.md §3.2 + Run 4 synthesis §6)."
+  patches_deferred_pending_operator_review:
+    - "Justice40 + environmental justice reviewer_context administration-neutralizing rewrites (§4.4) — operator approval required per OQ-5; applied as administration-neutral verify-per-RFA framing."
+    - "community benefit agreement (CBA) admin_risk_term addition (§4.4) — operator approval per OQ-5."
+    - "displacement admin_risk_term addition (§4.4) — operator approval per OQ-5."
+    - "PA-specific state-overlay routing (§5 item 4) — PennVEST / DCED CFA / DCED Keystone Communities / DCNR C2P2 / PA DCED Multimodal Transportation Fund base-vs-overlay decision; defer to v1.x cross-cutting amendment."
+    - "Tribal Nation core_term scope expansion (§5 item 5) — operator confirms Tribal-specific applicant pathway in v0.1 Beta scope."
+    - "regional council of governments (COG) / MPO core_terms + regional_coordination_status KFR scope confirmation (§5 item 6)."
+    - "ARPA SLFRF tracking entries (§5 item 7) — program is closing out; operator confirms timing (bundle now or defer)."
+    - "sanctuary admin_risk_term DOJ Byrne JAG framing refresh (§5 item 8) — operator verify on next administration transition."
+  patches_deferred_pending_schema_amendment:
+    - "_research_metadata.draft_funder_candidates_pending_operator_engagement_confirmation schema-known-field amendment (Run 1 Patch B20)."
+  patches_deferred_pending_cards_ceremony:
+    - "§18 v1.2 dialect_routing_table re-key (separate ceremony per operator content-judgment)."
+    - "register_defaults / dialect_routing_table refresh (§4.5 item 16) — bundle with cards-ceremony post-§18 v1.2."
+    - "Lock-history housekeeping field disposition (cross-card cards-ceremony decision)."
+    - "OD-A v2.4 → v3.0 cross-CIC admin-risk-register migration for shared public-agency terms (DEI / equity / inclusion / climate justice / racial justice / activist / anti-displacement) — separate operator-approval dispatch."
+  ceremony_shape_recommendation: "supersession-re-sign per OD-E precedent at one lock_timestamp_utc; compound LOCK with other 13 cards OR per-card depending on operator preference (see handoff doc)"
+  no_lockfiles_modified: true
+  no_schema_modified: true
+  no_signatures_modified: true

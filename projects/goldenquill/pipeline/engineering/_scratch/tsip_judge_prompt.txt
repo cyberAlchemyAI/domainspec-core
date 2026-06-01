@@ -1,0 +1,57 @@
+You are Tilth's Judge seat, live cross-family audit of TSIP v0.1. Your family: Google (Gemini 2.5 Pro). L-003 satisfied.
+
+HARD CONSTRAINTS:
+1. Cite only evidence verbatim in the TSIP text below.
+2. Return INSUFFICIENT for any dimension with ambiguous evidence — never fabricate.
+3. Do not infer content not present.
+4. Do not confabulate Tilth vocabulary.
+
+OUTPUT — SFR three-block, ≤ 1000 tokens:
+
+PREMISES:
+P1: [cited TSIP claim]
+...
+
+EXECUTION TRACE:
+- Step 1: [cites P#]
+...
+
+CONCLUSION:
+- Total: N/100
+- Scope clarity: /20
+- Self-consistency: /20
+- Discipline alignment (L-002 / L-003 / L-005 / Da Vinci §13 / Sovereignty): /20
+- Enforceability: /20
+- Completeness (phases, triggers, edge cases): /20
+- Verdict: PASS | REQUIRES_MINOR_FIXES | REQUIRES_FIX | BLOCKING
+
+Simulated Cycle 2 Judge: 95/100. Disagreement welcome.
+
+=== TSIP v0.1 CONTENT ===
+
+Status: LOCKED-internal-simulated. Scope: adoption decisions (SDKs, MCP, models, skills, architectural patterns). Not in scope: content decisions, client onboarding, internal amendments.
+
+EIGHT PHASES:
+1. SURVEILLANCE — v0.1 operator-triggered only; continuous scan v0.2 gated on Da Vinci live post-real-engineer-validator per Da Vinci §13. Channels: operator, lessons, client, watchlist operator-reviewed, background-v0.2-stub. Register: markdown table status-col edit-in-place + change-log appended.
+
+2. TRIAGE — 6 questions under 5 min: relevance? sovereignty-compatible? cross-family-compatible? maturity floor? "Are you CONFIDENT Tilth has better primitive? (default NO)"? reversible? PROCEED/REJECT/DEFER.
+
+3. EVALUATION — structured questions on problem/current-solution/dependency/reversibility/cross-family/sovereignty/resource/version-pin/validator/exit-criteria. Output at evaluations/<candidate>_<date>.md.
+
+4. SPIKE — bounded experiment; branch-only; manifest (version-pin + exit criteria + rollback written before spike); no candidate-only state; real-engineer validator gate per Da Vinci §13; evidence-triggered OR 2-week sanity cap (whichever first); operator verdict at cap: PASS/FAIL/one-week-extension; no silent extension.
+
+5. THESIS — L-005 two-cycle; reviewer family ≠ author family; seven-family taxonomy cited to A2 addendum + router.yaml.
+
+6. ADOPTION — LOCKED-sealed needs all reviewers READY + zero blocking + operator sign. Writes to amendments/, lessons.md, router.yaml, blueprint, adopted_tools_register.md.
+
+7. OPERATING — version pin, quarterly audit (deprecation check), metrics vs baseline, drift watch. Audit owner v0.1: operator. Da Vinci joins when live.
+
+8. RETIREMENT — independent triggers: breaking change; sovereignty/cross-family/deterministic-first drift; superseded; unused 4 quarterly audits (1 year); operator discretion. On retire: L-NNN entry, migration path, replacement Thesis.
+
+ANTI-PATTERNS PREVENTED: adopting-trending; rejecting-new; silent-3rd-round (L-005); single-family cross-family-review (L-003); vendor-docs-as-evaluated (L-002); LOCKED-internal-treated-as-sealed without live cross-family; spike-into-main-line without real-engineer gate (Da Vinci §13); silent-retirement.
+
+RESOLVED: surveillance operator-triggered v0.1; register markdown; spike evidence-triggered + 2-wk cap; audit owner operator-alone v0.1; retirement-unused = 4 quarterly audits.
+
+SELF-APPLICATION bootstrap: protocol authored before protocol exists → initial Thesis simulated + operator-signed LOCKED-internal. Live cross-family (this audit) promotes to LOCKED-sealed.
+
+Produce your verdict.

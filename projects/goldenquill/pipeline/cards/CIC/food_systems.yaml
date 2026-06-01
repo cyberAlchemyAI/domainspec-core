@@ -1,0 +1,892 @@
+# Card — TILTH-CIC-01 Food Systems
+# Wave 1 research draft. Cards Wave 1 dispatch 2026-05-15 (Cowork session).
+# Operator decisions on the 6 OQs baked in: sectors retire when 6 CICs land (OQ-1);
+# Shape B self-hostable Brain (OQ-2); pipeline/cards/<axis>/<slug>.yaml convention
+# with UPPERCASE axis (OQ-3 — operator confirmed 2026-05-15 PM: uppercase CIC/ + CLC/
+# canonical, matching on-disk scaffold); verbatim quotes ≤2 sentences each (OQ-4);
+# approval_required: true defaults (OQ-5); qualitative-only frequency tags until 12+
+# CycleReceipts (OQ-6).
+#
+# Wave 1 handback decision-queue resolutions applied (operator 2026-05-15 PM):
+#  - directory case: uppercase canonical (no change to this card).
+#  - lifecycle field name: review_status canonical (already used here).
+#  - dialect_routing_table schema item shape: standardized; card passes.
+#  - common_funders_observed.frequency_observed enum: added per entry.
+#  - provenance_requirements additionalProperties: standardized; card passes.
+#  - regenerative agriculture severity: kept MEDIUM. Reviewer context neutralized
+#    to describe funder-language landscape only — Tilth does NOT adjudicate
+#    greenwashing per operator directive.
+#  - EPA NEETP: kept (RARE) per operator OK.
+#  - Soul Fire / NEFOC LT named exemplars: kept; flagged for follow-up decision.
+#
+# NEVER include common_clc_patterns_observed or any CLC eligibility / preference /
+# win-rate / ranking field (F-CARDS-COUPLING-VIOLATION-EXTENSION fail-closes loader).
+# common_funders_observed below is funder-side observational metadata only — NOT a
+# CIC × CLC binding (Tilth's runtime matches opportunity-driven CLC at scout/judge
+# time, never archetype-driven).
+#
+# Lifecycle: draft. NO Ed25519 signature. Operator review pending before Wave 1 LOCK
+# ceremony as separate dispatch.
+
+schema_version: "1.0-cic"
+card_axis: "CIC"
+card_id: "TILTH-CIC-01"
+slug: "food_systems"
+display_name: "Food Systems"
+coverage_axis: "Production"
+nickname: "Seasonal multi-activity funding world"
+tilth_cic_id: "TILTH-CIC-01"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Search vocabulary — Scout consumption per §18.8
+# ─────────────────────────────────────────────────────────────────────────────
+search_vocabulary:
+  core_terms:
+    - term: "agricultural producer"
+      source_citation: "USDA VAPG 7 CFR 4284 Subpart J — eligible-applicant statutory definition"
+    - term: "farmer or rancher cooperative"
+      source_citation: "USDA VAPG eligible-applicant roster — Rural Business-Cooperative Service"
+    - term: "specialty crop"
+      source_citation: "USDA SCBGP / AMS — program scope definition"
+    - term: "value-added agriculture"
+      source_citation: "USDA VAPG program page — Rural Development"
+    - term: "local and regional food"
+      source_citation: "USDA LAMP / AMS umbrella program name"
+    - term: "food hub"
+      source_citation: "USDA LFPP — local food intermediary framing"
+    - term: "direct-to-consumer marketing"
+      source_citation: "USDA FMPP — producer-to-consumer market framing"
+    - term: "institutional procurement"
+      source_citation: "USDA RFSP — regional food system partnership framing (institutional food buyers)"
+    - term: "conservation practice"
+      source_citation: "NRCS EQIP + CSP program pages"
+    - term: "soil health"
+      source_citation: "NRCS Regenerative Pilot Program — whole-farm resource concern framing"
+    - term: "agricultural commodity"
+      source_citation: "USDA Rural Development definitions — VAPG, Ag Innovation Grant statutes"
+    - term: "beginning farmer or rancher"
+      source_citation: "USDA BFRDP statutory category; VAPG priority points"
+    - term: "socially-disadvantaged farmer or rancher"
+      source_citation: "USDA Rural Development priority-category statutory roster"
+    - term: "veteran farmer or rancher"
+      source_citation: "USDA Rural Development priority-category statutory roster"
+    - term: "mid-tier value chain"
+      source_citation: "USDA VAPG reserved-funds category (10% set-aside)"
+    - term: "food safety"
+      source_citation: "USDA VAPG reserved-funds category (10% set-aside); FSMA framework"
+    - term: "rural cooperative"
+      source_citation: "USDA RCDG — Rural Business-Cooperative Service program"
+
+  synonym_map:
+    agricultural_producer:
+      - "farmer"
+      - "rancher"
+      - "grower"
+      - "producer"
+    specialty_crop:
+      - "fruits"
+      - "vegetables"
+      - "tree nuts"
+      - "dried fruits"
+      - "horticulture"
+      - "nursery crops"
+      - "mushrooms"
+    value_added_agriculture:
+      - "processing"
+      - "aggregation"
+      - "packaging"
+      - "branding"
+      - "preserving"
+    local_food:
+      - "regional food"
+      - "community food"
+      - "farm-to-table"
+      - "short supply chain"
+    food_hub:
+      - "regional food hub"
+      - "aggregator"
+      - "intermediary"
+      - "food business enterprise"
+
+  funder_program_keywords:
+    - keyword: "VAPG"
+      funder: "USDA Rural Development / Rural Business-Cooperative Service"
+      source_citation: "USDA RD program page — Value-Added Producer Grants"
+    - keyword: "SCBGP"
+      funder: "USDA Agricultural Marketing Service (passes through state DOAs)"
+      source_citation: "USDA AMS — Specialty Crop Block Grant Program"
+    - keyword: "LAMP"
+      funder: "USDA Agricultural Marketing Service"
+      source_citation: "USDA AMS — Local Agriculture Market Program umbrella"
+    - keyword: "FMPP"
+      funder: "USDA AMS — Farmers Market Promotion Program (LAMP component)"
+      source_citation: "USDA AMS LAMP component listing"
+    - keyword: "LFPP"
+      funder: "USDA AMS — Local Food Promotion Program (LAMP component)"
+      source_citation: "USDA AMS LAMP component listing"
+    - keyword: "RFSP"
+      funder: "USDA AMS — Regional Food System Partnerships (LAMP component)"
+      source_citation: "USDA AMS LAMP component listing"
+    - keyword: "EQIP"
+      funder: "USDA NRCS"
+      source_citation: "NRCS programs page — Environmental Quality Incentives Program"
+    - keyword: "CSP"
+      funder: "USDA NRCS"
+      source_citation: "NRCS programs page — Conservation Stewardship Program"
+    - keyword: "Regenerative Pilot Program"
+      funder: "USDA NRCS"
+      source_citation: "NRCS Regenerative Pilot Program FY26 FAQ"
+    - keyword: "SARE"
+      funder: "USDA NIFA — Sustainable Agriculture Research and Education"
+      source_citation: "SARE.org — regional host structure"
+    - keyword: "AFRI"
+      funder: "USDA NIFA — Agriculture and Food Research Initiative"
+      source_citation: "NIFA AFRI program page — six priority areas + three program structure"
+    - keyword: "BFRDP"
+      funder: "USDA NIFA — Beginning Farmer and Rancher Development Program"
+      source_citation: "NIFA BFRDP eligibility + funding-priorities page"
+    - keyword: "RCDG"
+      funder: "USDA Rural Development — Rural Cooperative Development Grants"
+      source_citation: "USDA RD RCDG program page + 7 CFR 4284 Subpart F"
+    - keyword: "Agriculture Innovation Grant"
+      funder: "Pennsylvania Department of Agriculture"
+      source_citation: "PA.gov PDA — 2026 Agricultural Innovation Grant program page"
+    - keyword: "REAP"
+      funder: "USDA Rural Development — Rural Energy for America Program"
+      source_citation: "USDA RD program page — Rural Energy for America Program (rd.usda.gov/programs-services/energy-programs/rural-energy-america-program-renewable-energy-systems-energy-efficiency)"
+
+  disqualifier_terms:
+    - term: "personal use"
+      reason: "VAPG + Rural Development programs require Agricultural Commodity production at scale and commercial sales; personal-use or hobby farming flags mismatch."
+    - term: "research grant only"
+      reason: "If applicant scope is pure scientific research with no producer-side activity, AFRI / SARE may fit, but VAPG / Specialty Crop / LAMP / Ag Innovation Grant scope is producer / processor / commercial; flag mismatch unless co-applicant producer is in scope."
+    - term: "indirect non-agricultural use"
+      reason: "Programs in this CIC require Agricultural Commodity nexus; non-ag end products typically disqualify (verify per RFA)."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Evidence signals — Scribe consumption per §18.8
+# ─────────────────────────────────────────────────────────────────────────────
+evidence_signals:
+  - kind: "sales_ledger"
+    source_pattern: "annual sales totals + buyer breakdown; pulled from accounting system or Schedule F"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "USDA VAPG criterion a.iii — historical financial summary + pro forma projections"
+  - kind: "buyer_letters_or_letters_of_intent"
+    source_pattern: "signed LOI or purchase commitment from named buyer with volume + price + term"
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "USDA VAPG criterion a.i (potential markets); USDA LFPP / RFSP institutional procurement framing"
+  - kind: "production_records"
+    source_pattern: "acreage / livestock counts / yield records / crop plans"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "USDA VAPG criterion a.i — sufficient agricultural commodity supply"
+  - kind: "soil_test_or_conservation_plan"
+    source_pattern: "soil lab report; NRCS conservation plan; or NRCS contract"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 730
+    source_citation: "NRCS EQIP + CSP + Regenerative Pilot — resource-concern baselines"
+  - kind: "food_safety_certification"
+    source_pattern: "GAP, GHP, FSMA Produce Safety Rule, USDA Organic, third-party audit"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "USDA VAPG food-safety reserved-funds category; institutional buyer compliance"
+  - kind: "equipment_quotes"
+    source_pattern: "vendor quotes with itemized cost + delivery timeline for proposed capital purchase"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 180
+    source_citation: "PA Ag Innovation Grant + USDA VAPG working-capital documentation expectations"
+  - kind: "business_plan_or_feasibility_study"
+    source_pattern: "written business plan or feasibility study by Qualified Consultant (VAPG planning grants)"
+    weight: "HIGH"
+    freshness_tolerance_days: 730
+    source_citation: "USDA VAPG planning-grant scope — Feasibility Study and/or Business/Marketing Plan by Qualified Consultant"
+  - kind: "match_documentation"
+    source_pattern: "cash and/or in-kind match commitments with source identification; cash-vs-in-kind ratio disclosed"
+    weight: "HIGH"
+    freshness_tolerance_days: 90
+    source_citation: "USDA VAPG criterion d — cash match scores higher; PA Ag Innovation Grant 50% match requirement"
+  - kind: "qualified_personnel_documentation"
+    source_pattern: "resumes / biosketches for Key Personnel; job descriptions for unfilled roles"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "USDA VAPG criterion b — Qualifications of Key Personnel scoring (20 pts)"
+  - kind: "cooperative_governance_documentation"
+    source_pattern: "bylaws + member roster + patronage model + board minutes (for cooperatives)"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "USDA RCDG eligibility + VAPG priority-points framing for cooperatives"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# KFR fact classes — Intake / Logician consumption
+# ─────────────────────────────────────────────────────────────────────────────
+kfr_fact_classes:
+  - fact_class: "land_tenure"
+    description: "Owned / leased / shared-use of operating land; site control for fixed-site projects."
+    typical_provenance: "deed; lease; landowner letter"
+  - fact_class: "acreage_under_management"
+    description: "Operating acreage by crop/product category."
+    typical_provenance: "FSA 156EZ; crop plan; lease schedule"
+  - fact_class: "crop_or_product_category"
+    description: "What is grown / raised / processed (commodity + specialty distinction)."
+    typical_provenance: "crop plan; sales ledger; Schedule F"
+  - fact_class: "annual_revenue"
+    description: "Gross sales by year for last 1-3 years."
+    typical_provenance: "Schedule F; P&L; tax returns"
+  - fact_class: "certifications_held"
+    description: "USDA Organic / GAP / GHP / FSMA / state-specific food-safety / Animal Welfare / Certified Naturally Grown."
+    typical_provenance: "certifying body letter or audit report"
+  - fact_class: "buyer_relationships"
+    description: "Named buyers + categories (direct, wholesale, institutional, processor, distributor)."
+    typical_provenance: "invoices; signed agreements; LOIs"
+  - fact_class: "equipment_inventory"
+    description: "Owned + shared-use processing / harvest / cold-chain equipment."
+    typical_provenance: "asset list; insurance schedule; co-op shared-asset agreement"
+  - fact_class: "production_volume"
+    description: "Annual production by SKU or commodity (lbs, bushels, head, etc.)."
+    typical_provenance: "production records; harvest logs; weight tickets"
+  - fact_class: "conservation_practices_in_place"
+    description: "NRCS-recognized practice codes; soil-test history; cover crop / no-till / rotational grazing / pollinator habitat etc."
+    typical_provenance: "NRCS conservation plan; CSP contract; soil reports"
+  - fact_class: "operator_priority_category"
+    description: "Beginning farmer (within 10 years); socially-disadvantaged; veteran; small/medium family farm; cooperative."
+    typical_provenance: "FSA records; self-attestation per VAPG / BFRDP form"
+  - fact_class: "match_capacity"
+    description: "Cash on hand + committed third-party cash + verifiable in-kind."
+    typical_provenance: "bank statements; commitment letters; in-kind valuation memo"
+  - fact_class: "cooperative_membership_and_governance"
+    description: "Member count + classes + voting structure + patronage model (cooperatives only)."
+    typical_provenance: "bylaws; member roster; board minutes"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Provenance requirements per fact class
+# ─────────────────────────────────────────────────────────────────────────────
+provenance_requirements:
+  annual_revenue:
+    required_citation_type: "Schedule F or audited P&L or signed self-attestation with backing tax doc"
+    verbatim_quote_required: false
+  certifications_held:
+    required_citation_type: "certifying body letter or audit report with cert ID + expiration"
+    verbatim_quote_required: false
+  buyer_relationships:
+    required_citation_type: "signed letter, LOI, or invoice — verbatim buyer name + commitment terms"
+    verbatim_quote_required: true
+  conservation_practices_in_place:
+    required_citation_type: "NRCS practice code + plan ID; or third-party verifier letter"
+    verbatim_quote_required: false
+  operator_priority_category:
+    required_citation_type: "FSA filing or signed self-attestation per program-specific form"
+    verbatim_quote_required: false
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Register defaults — Scribe consumption
+# ─────────────────────────────────────────────────────────────────────────────
+register_defaults:
+  language_register: "hybrid"
+  narrative_voice: "first_person_plural"
+  tone: "technical_precise"
+  operator_override: "PROJECT_CONTEXT match_overrides take precedence"
+  # Structured sub-register triad per Cycle 1 audit fold-in (F-01).
+  # Scribe selects ONE sub-register per proposal section based on active CLC +
+  # funder dialect at runtime. Sub-registers do NOT compose into a single tone.
+  # Cycle 2 fix-in-place (C2-01): removed `typical_clc_contexts` per Judge P0 +
+  # Red Team MED — listing CLC slugs constitutes design-time CIC × CLC
+  # coupling regardless of advisory framing. CLC selection is opportunity-
+  # driven at runtime; the `sub_register_selection_rule` prose below is the
+  # authoritative guidance for Scribe.
+  sub_registers:
+    - id: "business_commercial"
+      description: "Profitability, market, enterprise, and commercialization framing"
+      typical_program_anchors:
+        - "USDA VAPG criterion a.iii (profitability)"
+        - "PA Ag Innovation Grant (production / processing / commercialization)"
+    - id: "ecological_conservation"
+      description: "Soil health, water, biodiversity, conservation-practice framing"
+      typical_program_anchors:
+        - "NRCS EQIP / CSP / Regenerative Pilot Program"
+        - "USDA SARE soil/water/energy/wildlife priorities"
+    - id: "community_benefit"
+      description: "Local-food access, partnership, rural-cooperative-development framing"
+      typical_program_anchors:
+        - "USDA LAMP (local-food framing)"
+        - "USDA BFRDP (partnership framing)"
+        - "USDA RCDG (rural-cooperative-development framing)"
+  sub_register_selection_rule: |
+    Scribe selects the sub-register matching the active CLC (identified at
+    runtime per opportunity) plus the funder dialect from
+    `dialect_routing_table`. Do NOT collapse business / ecological /
+    community-benefit into a single tone. The sub_register × CLC association
+    is opportunity-driven at runtime, never archetype-bound at design time,
+    per CIC × CLC orthogonality (architecture v7.0.8 + v7.0.11).
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Dialect routing table — Scribe per Law 4
+# ─────────────────────────────────────────────────────────────────────────────
+dialect_routing_table:
+  - funder_political_axis: "conservative"
+    dialect: "scribe.formal_commercial"
+    example_funder: "USDA Rural Development (current administration framing — 'Farmer First Regenerative Pilot Program' name)"
+  - funder_political_axis: "centrist"
+    dialect: "scribe.technical_precise"
+    example_funder: "USDA AMS SCBGP / LAMP; state departments of agriculture"
+  - funder_political_axis: "progressive"
+    dialect: "scribe.movement_aligned"
+    example_funder: "Regional foundation food-systems portfolios + community foundations with food-systems priorities. Specific third-party org names removed from binding field per Law 5 + Phase F 2026-05-16 cleanup."
+  - funder_political_axis: "soul_fire"
+    dialect: "scribe.cooperative_solidarity"
+    example_funder: "food sovereignty-aligned grantmakers"
+    # Per Cycle 1 audit fold-in (F-02): generic descriptor in `example_funder`
+    # avoids dialect-recruitment implication for named third-party orgs.
+    # Cycle 2 fix-in-place (C2-02): removed `_observed_examples` undeclared
+    # field per Judge MED — §18.5 schema for dialect_routing_table items
+    # does not include underscore-prefixed example fields. Public-org
+    # references moved to `_research_metadata.priors_consulted` where
+    # underscore-prefixed metadata IS schema-canonical.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Admin-risk term register — Law 4 axis (b)
+# Per operator OQ-5: approval_required: true defaults. Per L-005 (lessons memory):
+# substitutions that settle across enough cycles may flip to false per-term
+# per-card at a future Archivist Reflection sub-mode pass.
+# ─────────────────────────────────────────────────────────────────────────────
+admin_risk_term_register:
+  - flagged_term: "food sovereignty"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "food security and producer agency"
+      - "producer self-determination in the food system"
+      - "community-controlled food infrastructure"
+    reviewer_context: |
+      Term carries movement-aligned political weight (La Via Campesina origin; National
+      Family Farm Coalition usage). Conservative federal review climates and most state
+      DOA / USDA Rural Development panels read it as activist signaling. Centrist
+      foundation and progressive philanthropy panels accept it; Soul Fire / food
+      sovereignty-aligned grantmakers expect it.
+    approval_required: true
+
+  - flagged_term: "regenerative agriculture"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "soil-health-based agriculture with named practices"
+      - "USDA-recognized conservation practices (NRCS practice codes)"
+      - "whole-farm conservation framework"
+    reviewer_context: |
+      Term carries no single agreed definition across funders. USDA NRCS uses it
+      officially (Regenerative Pilot Program, FY26). State agencies and many
+      foundations use it broadly. When applying to centrist / technical reviewers
+      who want measurable practices, substituting to NRCS-named practice codes
+      (cover crop, no-till, rotational grazing, etc.) reads as more precise. Keep
+      "regenerative" verbatim when the active RFA uses the term, or when the
+      funder's own materials use it as a primary frame. Operator decides per
+      application; Tilth does not adjudicate the definitional dispute.
+    approval_required: true
+
+  - flagged_term: "climate-smart agriculture"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "soil-carbon management practices"
+      - "named conservation practices with measured outcomes"
+      - "greenhouse-gas-aware production"
+    reviewer_context: |
+      Term peaked under prior administration; current USDA framing pivoted to
+      "regenerative" + "Farmer First" language. Foundation and FAO context still
+      accepts climate-smart; conservative federal review climates may treat it as
+      politically loaded. Verify against active RFA language before keeping or
+      substituting.
+    approval_required: true
+
+  - flagged_term: "land back"
+    severity: "HIGH"
+    substitution_candidates:
+      - "Indigenous land tenure and stewardship"
+      - "Tribal Nation land management partnership"
+      - "Indigenous co-management agreement"
+    reviewer_context: |
+      Phrase carries explicit political demand framing in conservative review climates.
+      Substitute to functional descriptions of the land-relationship structure unless
+      applying to a funder whose RFA uses the phrase. (Tribal-specific funding programs
+      use distinct statutory categories — verify program-specific language.)
+    approval_required: true
+
+  - flagged_term: "climate justice"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "equitable climate adaptation"
+      - "frontline-community climate resilience"
+      - "environmental equity"
+    reviewer_context: |
+      Reads as activist framing to conservative panels; reads as core framing to
+      progressive philanthropy + EPA-EE-aligned funders. Match to funder dialect.
+    approval_required: true
+
+  - flagged_term: "decolonize"
+    severity: "HIGH"
+    substitution_candidates:
+      - "centering Indigenous knowledge"
+      - "elevating producer-of-color leadership"
+      - "structural inclusion of underrepresented producers"
+    reviewer_context: |
+      Activist register; conservative panels reject. Even progressive philanthropy
+      may prefer functional language unless applying to soul-fire-aligned funder.
+    approval_required: true
+
+  - flagged_term: "anti-capitalist"
+    severity: "HIGH"
+    substitution_candidates:
+      - "cooperative economics"
+      - "shared-ownership enterprise"
+      - "member-owned business model"
+    reviewer_context: |
+      Reads as ideological framing across most funder types. Substitute to functional
+      enterprise / governance descriptors. (Cooperative CIC has its own substitution
+      register — defer there for cooperative-applicant cases.)
+    approval_required: true
+
+  - flagged_term: "DEI / equity / inclusion"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "underserved producer outreach"
+      - "socially-disadvantaged farmer or rancher (USDA statutory category)"
+      - "beginning, veteran, and SDA producer support"
+    reviewer_context: |
+      Under current federal administration framing, DEI language has been deprioritized
+      in some USDA program announcements. USDA *statutory* priority categories
+      (beginning, socially-disadvantaged, veteran, small/medium family farm) remain
+      live and are the preferred framing for USDA Rural Development / NIFA programs.
+      Foundation funders vary. Verify per active RFA.
+    approval_required: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Reporting cadence
+# ─────────────────────────────────────────────────────────────────────────────
+reporting_cadence_typical:
+  default_frequency: "project_based"
+  per_funder_overrides:
+    USDA_VAPG: "semi-annual performance + annual financial; final at project close (max 3-year performance period)"
+    USDA_LAMP: "annual performance + final report; quarterly financial common"
+    USDA_NRCS_CSP: "annual practice-completion reporting; 5-year contract"
+    USDA_NRCS_EQIP: "per-practice completion reporting + final inspection"
+    USDA_SARE: "annual + final report with farmer-research outputs"
+    USDA_AFRI: "annual progress reports + final; NIFA Reporting System (REEport)"
+    USDA_SCBGP: "state-DOA pass-through reporting schedule (state-specific)"
+    PA_Ag_Innovation_Grant: "milestone-based + final"
+    USDA_BFRDP: "annual + final; NIFA REEport"
+    USDA_RCDG: "annual + final"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Metrics table template
+# ─────────────────────────────────────────────────────────────────────────────
+metrics_table_template:
+  - metric: "annual sales revenue"
+    unit: "USD"
+    typical_target_range: "applicant-specific"
+    source_for_target: "applicant pro forma"
+  - metric: "number of buyers (institutional / wholesale / direct)"
+    unit: "count"
+    typical_target_range: "applicant-specific"
+    source_for_target: "applicant marketing plan"
+  - metric: "units produced"
+    unit: "lbs / bushels / head / units"
+    typical_target_range: "applicant-specific"
+    source_for_target: "production plan"
+  - metric: "acres under conservation practice"
+    unit: "acres"
+    typical_target_range: "applicant-specific"
+    source_for_target: "NRCS conservation plan"
+  - metric: "producers reached or trained"
+    unit: "count"
+    typical_target_range: "applicant-specific"
+    source_for_target: "BFRDP / SARE work plan"
+  - metric: "jobs created or retained"
+    unit: "FTE"
+    typical_target_range: "applicant-specific"
+    source_for_target: "RCDG / VAPG / state ag work plan"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Narrative sections typical
+# ─────────────────────────────────────────────────────────────────────────────
+narrative_sections_typical:
+  - "Project Description / Executive Summary"
+  - "Eligibility Narrative (statutory category + producer category)"
+  - "Applicant Background and Operation"
+  - "Need / Market Opportunity"
+  - "Goals and Outcomes (SMART)"
+  - "Work Plan and Tasks"
+  - "Key Personnel and Qualifications"
+  - "Budget and Budget Justification"
+  - "Match / Cost Share Documentation"
+  - "Timeline / Milestones"
+  - "Evaluation / Performance Measures"
+  - "Sustainability beyond grant period"
+  - "Conservation / Environmental Stewardship narrative (where program applicable)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Capacity signals required
+# ─────────────────────────────────────────────────────────────────────────────
+capacity_signals_required:
+  - signal: "active SAM.gov registration + UEI"
+    evidence_type: "SAM.gov record"
+    required_for_competitive: true
+  - signal: "current good standing on prior federal awards"
+    evidence_type: "prior-award compliance record"
+    required_for_competitive: true
+  - signal: "demonstrated production capacity"
+    evidence_type: "production records + facility / equipment documentation"
+    required_for_competitive: true
+  - signal: "demonstrated buyer pipeline (for market-facing programs)"
+    evidence_type: "LOIs / signed agreements / sales history"
+    required_for_competitive: true
+  - signal: "qualified key personnel identified"
+    evidence_type: "resumes + role-to-task mapping"
+    required_for_competitive: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Compliance burdens
+# ─────────────────────────────────────────────────────────────────────────────
+compliance_burdens:
+  - framework: "SAM.gov + UEI registration"
+    applicability: "all federal grant applicants"
+    required_filings:
+      - "SAM.gov annual renewal"
+      - "Unique Entity Identifier on every application"
+  - framework: "2 CFR 200 Uniform Guidance"
+    applicability: "all federal grant recipients"
+    required_filings:
+      - "Single Audit if federal expenditures > $750,000 in a year"
+      - "Procurement standards compliance"
+  - framework: "7 CFR 4284 (USDA Rural Business-Cooperative Service)"
+    applicability: "VAPG, RCDG, related RD programs"
+    required_filings:
+      - "Program-specific NOFO requirements per 7 CFR Subpart"
+  - framework: "FSMA Produce Safety Rule"
+    applicability: "produce growers above small-farm exemption threshold"
+    required_filings:
+      - "Produce Safety Alliance training documentation"
+      - "Inspection readiness records"
+  - framework: "TTB / 27 CFR Chapter 1"
+    applicability: "VAPG alcohol projects only"
+    required_filings:
+      - "TTB permit / federal basic permit"
+  - framework: "state hemp licensure"
+    applicability: "VAPG hemp projects only"
+    required_filings:
+      - "Valid active hemp license prior to award"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Common risk register entries
+# ─────────────────────────────────────────────────────────────────────────────
+common_risk_register_entries:
+  - risk: "weather variance / crop failure"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: "crop insurance; diversified rotation; contingency timeline buffers in work plan"
+  - risk: "yield volatility year-over-year"
+    likelihood: "HIGH"
+    impact: "MEDIUM"
+    mitigation_pattern: "three-year pro forma with explicit yield assumptions + sensitivity"
+  - risk: "food safety incident"
+    likelihood: "LOW"
+    impact: "HIGH"
+    mitigation_pattern: "named cert maintenance; written SOPs; insurance"
+  - risk: "buyer concentration"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: "diversify buyer pipeline; multi-channel marketing plan; explicit pipeline depth metric"
+  - risk: "undercapitalization / working capital gap"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: "operating-line-of-credit relationship; cash-on-hand documentation; phased deployment"
+  - risk: "seasonality / cash flow mismatch"
+    likelihood: "HIGH"
+    impact: "MEDIUM"
+    mitigation_pattern: "monthly cash-flow schedule; storage / preservation capability; off-season revenue lines"
+  - risk: "equipment delivery delays"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: "secured vendor quotes with delivery commits; backup vendor identification; timeline buffer"
+  - risk: "overclaiming regenerative / sustainable / organic impact"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Cite NRCS practice codes (named, measurable) instead of unqualified
+      regenerative / sustainable claims. Maintain third-party cert or verifier
+      documentation. Use Logician admin-risk register on every flagged term.
+  - risk: "Law 4 boundary drift on movement terminology"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Per admin_risk_term_register, every flagged term substitution flows through
+      operator approval (approval_required: true default). No silent rewrites.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Common funders observed — OBSERVATIONAL ONLY, NOT a CIC × CLC binding.
+# Frequency tags are qualitative-only per OQ-6 until 12+ CycleReceipts accumulate.
+# ─────────────────────────────────────────────────────────────────────────────
+common_funders_observed:
+# ─────────────────────────────────────────────────────────────────────────────
+# OPERATIONAL CONTENT EMPTIED — Phase E Option 2 cleanup 2026-05-16
+# Per Law 5 + §18.5 schema discipline ("OBSERVATIONAL ONLY"): this field
+# carries only funders the operator has CONFIRMED ACTUAL ENGAGEMENT with.
+# Wave 2 subagents over-populated this block based on sector knowledge,
+# not engagement history — that was a Law 5 violation surfaced at Phase E
+# 2026-05-16. Prior content moved to
+# `_research_metadata.draft_funder_candidates_pending_operator_engagement_confirmation`
+# below; operator graduates candidate entries to this live list as actual
+# engagement confirms. Runtime Tilth seats reading this field see an empty
+# list until operator graduation; that's the correct Law 5 posture for a
+# fresh deployment with no engagement history yet.
+# ─────────────────────────────────────────────────────────────────────────────
+  []  # empty list — operator graduates from candidates as engagement confirms
+lifecycle:
+  draft_status: "signed"
+  review_status: "passed"
+  cross_family_thesis_status: "passed"
+  signature_status: "signed"
+  runtime_load_status: "loaded"
+  runtime_loadable: true
+  signed_at: "2026-05-15T20:30:00Z"
+  signed_by: "founder"
+  content_hash: "sha256:7aafd0b0db8b814a2ddc6e292f222dd0d7524b55884eada4d72ff041b91ecc1a"
+  lock_history_row: 226
+  lock_timestamp_utc: "2026-05-15T20:30:00Z"
+  # LOCK ceremony 2026-05-15 PM after L-005 two-cycle audit closed at
+  # pipeline/validation/cards_wave_1_thesis_2026-05-15/CIC/food_systems/FINAL_VERDICT.md
+  # (THESIS_PASSED). review_status flipped pending→passed; signature_status
+  # unsigned→signed; runtime_load_status not_loaded→loaded. Operator publisher
+  # pubkey pinned at vault_shared/cards/publisher_pubkey.signed.yaml. The
+  # ed25519_signature in _research_metadata is the operator Ed25519 signature
+  # over canonical-JSON of this YAML with ed25519_signature: null. Operator
+  # 2026-05-15 PM defaults applied: Soul Fire / NEFOC LT relocation to
+  # _research_metadata.priors_consulted kept (Cycle 2 fix-in-place C2-02
+  # preserved; no further anonymization at LOCK).
+
+_research_metadata:
+  authored_at: "2026-05-15T00:00:00Z"
+  authored_by_role: "research_session"
+  research_budget_hours_actual: 3.0
+  priors_consulted:
+    - path: "assets/cards/customer_identification/food systems.png"
+      extract_note: "visual Card source — v7.0.8 LOCKED roster + drawing TILTH-CIC-REVIEW-01"
+    - path: "docs/post_alpha/post_alpha_card_system_revised_2026-05-15.md"
+      extract_note: "revised post-Alpha source ideation; §18.9 starter content requirements for TILTH-CIC-01"
+    - path: "pipeline/blueprint/v0.1/section_18_card_system.md"
+      extract_note: "§18.5 CIC schema + §18.9 TILTH-CIC-01 starter-content requirements (the authoritative scope for this card)"
+    - path: "pipeline/rubrics/vapg_fy26.json"
+      extract_note: "Full VAPG FY26 rubric — 100 pt rubric, seven criteria, key regulations (7 CFR 4284 Subpart J), critical requirements"
+    - path: "vault_shared/funder_intelligence/register.yaml"
+      extract_note: "Funder Intelligence Database seed (v7.0.5) — VAPG + NSF + Heinz + RKM 990-PF placeholders tagged sectors_relevant: regen_food_systems / urban_ag / land_community"
+    - path: "CLAUDE.md"
+      extract_note: "Six Customer Identity Categories definition (TILTH-CIC-01 Food Systems: Seasonal multi-activity funding world) + admin-risk discipline (Law 4) + CIC × CLC orthogonality discipline"
+    - path: "https://www.soulfirefarm.org/"
+      extract_note: "Soul Fire Farm public homepage — org publishes food-sovereignty + reparations framing publicly. Observational prior-art reference for soul_fire dialect descriptor only; NOT a Tilth runtime exemplar (per Cycle 2 fix-in-place C2-02)."
+    - path: "https://nefoclandtrust.org/"
+      extract_note: "Northeast Farmers of Color Land Trust public homepage — org publishes member-governed land-tenure framing publicly. Observational prior-art reference for soul_fire dialect descriptor only; NOT a Tilth runtime exemplar (per Cycle 2 fix-in-place C2-02)."
+  primary_sources:
+    - url: "https://www.rd.usda.gov/programs-services/business-programs/value-added-producer-grants"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Applicants must meet the definition of one of the following types:
+        Agricultural Producer, Agricultural Producer Group, Farmer or Rancher
+        Cooperative, or Majority-Controlled Producer-Based Business Venture."
+        Source for VAPG eligible-applicant statutory categories driving Scout
+        vocabulary + Logician eligibility gates.
+    - url: "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XLII/part-4284/subpart-J"
+      access_date: "2026-05-15"
+      relevance: "Statutory regulation for VAPG (7 CFR 4284 Subpart J) — eligibility, project content, review procedures. Drives compliance_burdens entries."
+    - url: "https://www.sare.org/"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "SARE is USDA's only farmer-driven federal research program,
+        awarding competitive research and education grants to advance sustainable
+        agricultural practices across the U.S."
+        Source for SARE priorities + register-defaults framing (farmer-led
+        research register).
+    - url: "https://www.nifa.usda.gov/grants/programs/agriculture-food-research-initiative"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The six priority areas are: Plant Health and Production and Plant
+        Products; Animal Health and Production and Animal Products; Food Safety,
+        Nutrition, and Health; Bioenergy, Natural Resources, and Environment;
+        Agriculture Systems and Technology; and Agriculture Economics and Rural
+        Communities."
+        Source for AFRI funder_program_keywords + research-register dialect.
+    - url: "https://www.ams.usda.gov/services/grants/scbgp"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The purpose of the Specialty Crop Block Grant Program (SCBGP) is
+        to enhance the competitiveness of specialty crops." "Only state departments
+        of agriculture may apply for funding to AMS."
+        Source for state-pass-through dynamic in Scout / Logician routing.
+    - url: "https://www.ams.usda.gov/services/grants/lamp"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "USDA's LAMP is made up of the Farmers Market Promotion Program
+        (FMPP) and Local Food Promotion Program (LFPP) and the Regional Food System
+        Partnerships (RFSP) grant program, all administered by USDA's Agricultural
+        Marketing Service (AMS)."
+        Source for FMPP / LFPP / RFSP funder_program_keywords + cost-share rules.
+    - url: "https://www.nrcs.usda.gov/programs-initiatives/regenerative-pilot-program"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "USDA is dedicating $400 million through the Environmental Quality
+        Incentives Program (EQIP) and $300 million through the Conservation
+        Stewardship Program (CSP) to fund this first year of regenerative
+        agriculture projects."
+        Source for NRCS regenerative-pilot scope + admin_risk_term_register entry
+        on "regenerative agriculture".
+    - url: "https://www.nrcs.usda.gov/programs-initiatives/conservation-stewardship-program"
+      access_date: "2026-05-15"
+      relevance: "CSP scope (five-year contracts, ongoing improvements). Drives conservation_practices_in_place KFR fact class + reporting cadence."
+    - url: "https://www.pa.gov/services/pda/apply-for-the-agricultural-innovation-grant"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "For individual on-site projects, the grant amount should be no
+        less than $5,000 and no more than $200,000." "A grantee must use non-State
+        sourced matching funds equal to at least 50% of the grant amount."
+        Source for PA Ag Innovation Grant award range + match requirement.
+    - url: "https://www.nifa.usda.gov/grants/programs/beginning-farmer-rancher-development-program-bfrdp"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Applications may only be submitted by a collaborative state,
+        tribal, local or regionally based network or partnership of qualified public
+        and/or private entities."
+        Source for BFRDP partnership requirement (solo producers ineligible).
+    - url: "https://www.rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grant-program"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Applications will only be accepted from nonprofit institutions."
+        "The primary objective of the RCDG program is to improve the economic
+        condition of Rural Areas by helping individuals and businesses start, expand,
+        or improve Rural cooperatives and Mutually Owned Businesses through
+        Cooperative Development."
+        Source for RCDG nonprofit-only eligibility + cooperative-development scope.
+    - url: "https://www.epa.gov/education/grants"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "EPA expects to award up to 16 grants nationwide, ranging from
+        $200,000 to $250,000 each through the Environmental Education Grant Program."
+        Source for EPA EE / NEETP edge-cases that food systems education projects
+        occasionally tap.
+    - url: "https://www.heinz.org/grants"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Its Food Systems strategy seeks to increase access to nutritious
+        food by removing barriers and advancing technology and innovation that
+        improves the efficiency and effectiveness of food recovery and distribution
+        systems."
+        Source for Heinz Endowments Food Systems portfolio framing — Pittsburgh
+        regional foundation.
+    - url: "https://www.iatp.org/new-regenerative-agriculture-initiative-greenwashing"
+      access_date: "2026-05-15"
+      relevance: |
+        Public-NGO-side perspective in the active funder-language landscape around
+        "regenerative agriculture". Used as one input documenting that the term
+        carries varying definitions across funders — basis for offering
+        NRCS-named-practice substitution candidates. Tilth does not adjudicate the
+        definitional dispute.
+    - url: "https://nffc.net/what-we-do/food-sovereignty/"
+      access_date: "2026-05-15"
+      relevance: "National Family Farm Coalition food-sovereignty framing. Source for admin_risk_term_register entry on 'food sovereignty' + soul-fire dialect example."
+  # Ed25519 signature over canonical-JSON of this YAML with this field set to
+  # null. Canonical-JSON form: sorted keys, compact separators (",":"), UTF-8,
+  # ensure_ascii=False. Canonical-JSON SHA3-512 (for white-glove integrity
+  # pinning): 3122c0f4db7ddabdd44312d24dd142233928015753a2c28c0187c7a46dfa1c6c86122d78eb0a12e633161ba1f748e290ac1e27c9e42ceba81fa2f61d3443228c
+  # Signature target pubkey: vault_shared/cards/publisher_pubkey.signed.yaml
+  # (publisher_pubkey_ed25519_hex 0b1a0bbfa5ee9149af2c4e6153ed037dd03c0d562c94d3eaefeaf798e6f375bd)
+  ed25519_signature: "1169374ac700d1db3513ca1b0e065a4e85a98c274238296dc70140dc52273c6daefe1d68a361fab34c030b8cabc1c14be68922e38caa78075d1f968756589e09"
+  # ─────────────────────────────────────────────────────────────────────────────
+  # draft_funder_candidates_pending_operator_engagement_confirmation
+  # Relocated from top-level `common_funders_observed:` at Phase E Option 2
+  # cleanup 2026-05-16. Wave 2 subagent populated these based on sector
+  # knowledge, NOT operator-confirmed engagement. Per §18.5 schema discipline
+  # ("OBSERVATIONAL ONLY"), the live `common_funders_observed:` block (now
+  # emptied; see above) carries only operator-engagement-confirmed funders.
+  # Operator graduates entries from this candidates list to the live block
+  # as actual engagement confirms.
+  # ─────────────────────────────────────────────────────────────────────────────
+  draft_funder_candidates_pending_operator_engagement_confirmation:
+    - funder_name: "USDA Rural Development — Value-Added Producer Grants (VAPG)"
+      funder_type: "federal"
+      typical_award_range: "$50,000 planning / $200,000 working capital"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Annual cycle; 2026 deadline 4/22. Source: rd.usda.gov/programs-services/business-programs/value-added-producer-grants."
+
+    - funder_name: "USDA NRCS — EQIP / CSP / Regenerative Pilot Program"
+      funder_type: "federal"
+      typical_award_range: "varies by practice; CSP 5-year contracts; FY26 Regenerative Pilot funds $700M total"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Sources: nrcs.usda.gov programs page + Regenerative Pilot Program FAQ."
+
+    - funder_name: "USDA AMS — Specialty Crop Block Grant Program (SCBGP)"
+      funder_type: "federal"
+      typical_award_range: "varies by state allocation + state-DOA sub-award"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Funder_type is `federal` per §18.5 schema enum; pass-through mechanism is mechanism-not-type: only state departments of agriculture apply to AMS; states re-issue sub-RFAs to producers / industry. State DOAs apply to AMS by 6/8/2026. Source: ams.usda.gov/services/grants/scbgp."
+
+    - funder_name: "USDA AMS — Local Agriculture Market Program (LAMP: FMPP / LFPP / RFSP)"
+      funder_type: "federal"
+      typical_award_range: "varies; FY26 $32.4M total available"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. 2026 deadline 6/5. 25% cost share. Source: ams.usda.gov/services/grants/lamp."
+
+    - funder_name: "USDA NIFA — SARE"
+      funder_type: "federal (regional)"
+      typical_award_range: "varies by region + grant type (Producer / Partnership / Research)"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Four regional offices (Northeast, North Central, South, West). Sources: sare.org + regional sites."
+
+    - funder_name: "USDA NIFA — AFRI"
+      funder_type: "federal"
+      typical_award_range: "varies; six priority areas + three program structures (FAS / SAS / EWD)"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Research-heavy. Source: nifa.usda.gov/grants/programs/agriculture-food-research-initiative."
+
+    - funder_name: "USDA NIFA — BFRDP"
+      funder_type: "federal"
+      typical_award_range: "varies"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Requires collaborative network / partnership applicant; not solo-producer eligible. Source: nifa.usda.gov BFRDP."
+
+    - funder_name: "USDA Rural Development — Rural Cooperative Development Grants (RCDG)"
+      funder_type: "federal"
+      typical_award_range: "varies; nonprofit center model"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Nonprofit institution only; serves rural cooperatives + mutually owned businesses. Source: rd.usda.gov RCDG page + 7 CFR 4284 Subpart F."
+
+    - funder_name: "Pennsylvania Department of Agriculture — Agriculture Innovation Grant"
+      funder_type: "state"
+      typical_award_range: "$5,000–$200,000 individual / $100,000–$2,000,000 regional impact"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. 2026 cycle closed 4/18; $10M available. 50% non-state match. Source: pa.gov PDA AIG page."
+
+    - funder_name: "EPA Environmental Education / NEETP"
+      funder_type: "federal"
+      typical_award_range: "$200,000–$250,000 (EE 2026)"
+      frequency_observed: "RARE"
+      note: |
+        OBSERVATIONAL ONLY. RARE — kept-with-rationale per Cycle 1 audit fold-in (F-03):
+        Food-systems-education projects (school garden curricula tied to local procurement,
+        farm-to-school producer-education hybrid programs, on-farm K-12 watershed lessons)
+        occasionally tap EPA EE / NEETP when the food-systems work has a measurable
+        environmental-education output. Carrying the entry preserves Scout vocabulary
+        coverage for the eligible-edge-case applicant whose work otherwise falls outside
+        USDA. Source: epa.gov/education.
+
+    - funder_name: "Heinz Endowments — Food Systems portfolio"
+      funder_type: "foundation"
+      typical_award_range: "varies"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Pittsburgh-region food access + urban ag focus. Source: heinz.org/grants."
+
+    - funder_name: "Richard King Mellon Foundation — Conservation / Economic Development / Economic Mobility programs"
+      funder_type: "foundation"
+      typical_award_range: "varies"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Conservation program is the most plausible fit for direct food-systems work. Source: rkmf.org/funding-programs."
+
+  # common_clc_patterns_observed — INTENTIONALLY ABSENT.
+  # Per architecture v7.0.11 §6.1 (operator-resolved 2026-05-15) Option A KILL.
+  # Per F-CARDS-COUPLING-VIOLATION-EXTENSION fail-closed enforcement. CIC × CLC
+  # matching is opportunity-driven at runtime (Scout / Logician identify CLC per
+  # opportunity; CIC determines seat configuration only). NEVER reintroduce.

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Evidence Intake - Forensic Resolution</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts for Design System -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#ffffff",
+                      "on-surface": "#d8e3fb",
+                      "error": "#ffb4ab",
+                      "inverse-on-surface": "#263143",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "secondary-container": "#3a4a5f",
+                      "on-primary-container": "#636565",
+                      "inverse-surface": "#d8e3fb",
+                      "surface-container-highest": "#2a3548",
+                      "outline-variant": "#444748",
+                      "on-surface-variant": "#c4c7c8",
+                      "surface": "#081425",
+                      "surface-variant": "#2a3548",
+                      "on-tertiary": "#283044",
+                      "on-primary-fixed-variant": "#454747",
+                      "tertiary-container": "#dae2fd",
+                      "on-error-container": "#ffdad6",
+                      "outline": "#8e9192",
+                      "error-container": "#93000a",
+                      "on-background": "#d8e3fb",
+                      "on-primary": "#2f3131",
+                      "surface-bright": "#2f3a4c",
+                      "surface-container": "#152031",
+                      "on-secondary-fixed": "#0b1c30",
+                      "surface-container-low": "#111c2d",
+                      "primary-fixed-dim": "#c6c6c7",
+                      "on-error": "#690005",
+                      "on-secondary": "#213145",
+                      "inverse-primary": "#5d5f5f",
+                      "surface-container-lowest": "#040e1f",
+                      "surface-tint": "#c6c6c7",
+                      "background": "#081425",
+                      "surface-container-high": "#1f2a3c",
+                      "on-tertiary-container": "#5c647a",
+                      "secondary-fixed": "#d3e4fe",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "tertiary-fixed": "#dae2fd",
+                      "primary-container": "#e2e2e2",
+                      "on-tertiary-fixed": "#131b2e",
+                      "on-secondary-container": "#a9bad3",
+                      "surface-dim": "#081425",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "primary-fixed": "#e2e2e2",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "tertiary": "#ffffff",
+                      "on-primary-fixed": "#1a1c1c",
+                      "secondary": "#b7c8e1"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "1px",
+                      "container-padding": "16px",
+                      "unit": "4px",
+                      "sidebar-width": "240px",
+                      "panel-gap": "8px"
+              },
+              "fontFamily": {
+                      "data-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "body-sm": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "display-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-caps": [
+                              "JetBrains Mono"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "data-mono": [
+                              "13px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+        /* Modern Brutalism Overrides */
+        * { border-radius: 0 !important; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #081425; }
+        ::-webkit-scrollbar-thumb { background: #2a3548; border: 1px solid #444748; }
+        ::-webkit-scrollbar-thumb:hover { background: #444748; }
+        
+        /* Status Colors mapping based on Style Guidance */
+        .status-positive { background-color: #22C55E; }
+        .status-warning { background-color: #F59E0B; }
+        .status-critical { background-color: #EF4444; }
+        
+        /* Material Icon Base */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md h-screen w-screen overflow-hidden flex selection:bg-surface-variant selection:text-primary">
+<!-- SideNavBar (Shared Component) -->
+<nav class="shrink-0 bg-surface-container dark:bg-surface-container text-primary dark:text-primary docked left-0 h-full w-sidebar-width border-r border-outline-variant flat no shadows flex flex-col h-full border-r border-outline-variant z-10 transition-none">
+<!-- Header -->
+<div class="p-container-padding border-b border-outline-variant flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-container-high border border-outline-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<h1 class="font-display-lg text-display-lg text-primary text-[16px] tracking-tight leading-none uppercase">FIT Farms</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">FRONTIER POSTURE</p>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<div class="flex-1 overflow-y-auto py-2">
+<a class="flex items-center gap-3 px-container-padding py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span class="font-label-caps text-label-caps mt-0.5">Home</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">search_insights</span>
+<span class="font-label-caps text-label-caps mt-0.5">Scout</span>
+</a>
+<!-- ACTIVE TAB: Intake -->
+<a class="flex items-center gap-3 px-container-padding py-2 bg-surface-container-highest text-primary border-l-2 border-primary transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">input</span>
+<span class="font-label-caps text-label-caps mt-0.5">Intake</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span class="font-label-caps text-label-caps mt-0.5">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+<span class="font-label-caps text-label-caps mt-0.5">Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span class="font-label-caps text-label-caps mt-0.5">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-caps text-label-caps mt-0.5">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps mt-0.5">Judge</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-label-caps text-label-caps mt-0.5">Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps mt-0.5">Final Packet Authorization</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">policy</span>
+<span class="font-label-caps text-label-caps mt-0.5">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">credit_card</span>
+<span class="font-label-caps text-label-caps mt-0.5">Cards</span>
+</a>
+<a class="flex items-center gap-3 px-container-padding py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>
+<span class="font-label-caps text-label-caps mt-0.5">FIDs</span>
+</a>
+</div>
+<!-- Footer Tabs -->
+<div class="border-t border-outline-variant py-2">
+<a class="flex items-center gap-3 px-container-padding py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps mt-0.5">Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Column -->
+<div class="flex-1 flex flex-col min-w-0 bg-background relative pb-8">
+<!-- TopAppBar (Shared Component) -->
+<header class="shrink-0 bg-surface-container-low dark:bg-surface-container-low text-primary dark:text-primary font-data-mono text-data-mono docked full-width top-0 h-14 border-b border-outline-variant flat no shadows transition-none flex justify-between items-center w-full px-container-padding gap-panel-gap z-10 relative">
+<!-- Left: Brand / Search -->
+<div class="flex items-center gap-4 h-full">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter text-[20px] uppercase">GOLDEN QUILL</span>
+<div class="h-8 border-l border-outline-variant mx-2"></div>
+<div class="flex items-center bg-surface-container border border-outline-variant h-8 px-2 w-64 focus-within:border-primary">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px] mr-2">search</span>
+<input class="bg-transparent border-none outline-none text-data-mono w-full text-on-surface placeholder-on-surface-variant p-0 h-full flex-1" placeholder="QUERY INDEX..." type="text"/>
+</div>
+</div>
+<!-- Right: Actions -->
+<div class="flex items-center h-full gap-2">
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-none border border-transparent hover:border-outline-variant">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-none border border-transparent hover:border-outline-variant">
+<span class="material-symbols-outlined text-[18px]">vpn_key</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-none border border-transparent hover:border-outline-variant">
+<span class="material-symbols-outlined text-[18px]">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Workstation Canvas -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Primary Evidence Viewer Panel -->
+<section class="flex-1 flex flex-col min-w-0 bg-background border-r border-outline-variant relative">
+<!-- Viewer Header -->
+<div class="h-12 border-b border-outline-variant bg-surface-container-low flex items-center justify-between px-4 shrink-0">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[18px]">description</span>
+<h2 class="font-data-mono text-data-mono text-primary">ART-8992-BETA.log</h2>
+<span class="font-label-caps text-label-caps text-on-surface-variant bg-surface-container-high px-2 py-1 ml-2 border border-outline-variant">RAW EVIDENCE</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-6 px-2 bg-surface-container border border-outline-variant text-on-surface-variant hover:text-primary flex items-center gap-1 font-label-caps text-[10px]">
+<span class="material-symbols-outlined text-[14px]">history</span>
+                            TIMELINE
+                        </button>
+</div>
+</div>
+<!-- Viewer Content Area (Brutalist Grid) -->
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+<!-- Meta Context Block -->
+<div class="border border-outline-variant bg-surface-container p-4 grid grid-cols-4 gap-4">
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">INGESTION ID</div>
+<div class="font-data-mono text-data-mono text-primary">0x8F2A...9C11</div>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">SOURCE NODE</div>
+<div class="font-data-mono text-data-mono text-primary">TERMINAL-4A-SEC</div>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">TIMESTAMP (UTC)</div>
+<div class="font-data-mono text-data-mono text-primary">2023-10-27T09:14:22Z</div>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">INTEGRITY CHECK</div>
+<div class="font-data-mono text-data-mono text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                PASSED
+                            </div>
+</div>
+</div>
+<!-- The Contradiction & Resolution Diff View -->
+<div class="flex flex-col border border-outline-variant">
+<div class="bg-surface-container-high border-b border-outline-variant p-2 flex items-center gap-2">
+<span class="w-2 h-2 status-positive"></span>
+<span class="font-label-caps text-label-caps text-primary tracking-widest uppercase">Forensic Resolution Applied</span>
+</div>
+<div class="grid grid-cols-2 divide-x divide-outline-variant">
+<!-- Left: Original Conflicting State -->
+<div class="bg-surface-container-low p-0 flex flex-col h-full">
+<div class="px-3 py-2 border-b border-outline-variant bg-surface-container font-label-caps text-label-caps text-error opacity-80 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                                    ORIGINAL ASSERTION (CONTRADICTED)
+                                </div>
+<div class="p-4 font-data-mono text-data-mono text-on-surface-variant whitespace-pre-wrap break-words leading-relaxed">
+[09:14:21.002] SYNC_REQ: Initiating protocol theta.
+[09:14:21.045] AUTH_CHK: User 'ops_lead_7' token verified.
+<span class="bg-error/20 text-error px-1 block mt-2 border-l-2 border-error">[09:14:21.112] CRIT_EVENT: Manual override executed on sector 4 blast doors. Action authorized locally.</span>
+[09:14:21.188] SYNC_RES: Protocol theta complete.
+                                </div>
+</div>
+<!-- Right: Verified Resolved State -->
+<div class="bg-surface p-0 flex flex-col h-full">
+<div class="px-3 py-2 border-b border-outline-variant bg-surface-container font-label-caps text-label-caps text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-[#22C55E]">verified</span>
+                                    VERIFIED FORENSIC STATE
+                                </div>
+<div class="p-4 font-data-mono text-data-mono text-primary whitespace-pre-wrap break-words leading-relaxed">
+[09:14:21.002] SYNC_REQ: Initiating protocol theta.
+[09:14:21.045] AUTH_CHK: User 'ops_lead_7' token verified.
+<span class="bg-surface-container-high text-primary px-1 block mt-2 border-l-2 border-[#22C55E]">[09:14:21.112] CRIT_EVENT: Automatic failsafe triggered by thermal sensor cascade in sector 4. Local override log determined to be a telemetry artifact.</span>
+[09:14:21.188] SYNC_RES: Protocol theta complete.
+                                </div>
+</div>
+</div>
+<!-- Analysis Block below diff -->
+<div class="bg-surface-container-lowest border-t border-outline-variant p-4">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">SYSTEM CORRELATION ANALYSIS</div>
+<div class="font-body-sm text-body-sm text-on-surface max-w-3xl">
+                                Cross-referencing environmental sensor logs (ENV-SEC4-THERM) indicates a thermal spike exceeding threshold parameters at [09:14:21.108]. Failsafe protocol dictates immediate blast door closure. The local override artifact in ART-8992-BETA.log is a known race condition in legacy parsing engines.
+                            </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Inspector (Resolution Details) -->
+<aside class="w-80 shrink-0 bg-surface-container flex flex-col border-l border-outline-variant relative z-10 overflow-y-auto">
+<!-- Inspector Header -->
+<div class="h-12 border-b border-outline-variant bg-surface-container-low flex items-center px-4 shrink-0 justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant tracking-widest">INSPECTOR</span>
+<button class="text-on-surface-variant hover:text-primary transition-none">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Inspector Content -->
+<div class="p-4 flex flex-col gap-6">
+<!-- Resolution Status -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2 flex items-center justify-between">
+                            STATE
+                            <span class="font-data-mono text-[10px] text-outline">LCK-01</span>
+</div>
+<div class="border border-[#22C55E] bg-[#22C55E]/10 p-3 flex items-start gap-3">
+<div class="w-3 h-3 status-positive mt-1 shrink-0"></div>
+<div>
+<div class="font-headline-md text-headline-md text-primary leading-none mb-1">RESOLUTION VERIFIED</div>
+<div class="font-body-sm text-body-sm text-[#22C55E]">Contradiction successfully resolved and appended to immutable ledger.</div>
+</div>
+</div>
+</div>
+<!-- Vault Status -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">VAULT STATUS</div>
+<div class="border border-outline-variant bg-surface p-3 flex items-center justify-between">
+<span class="font-data-mono text-data-mono text-primary">CLEAR FOR DRAFTING</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">lock_open</span>
+</div>
+</div>
+<!-- Cryptographic Proof -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">Ed25519 SIGNATURE</div>
+<div class="bg-surface border border-outline-variant p-2 font-data-mono text-[11px] text-on-surface-variant break-all leading-tight">
+                            sig1qyqqqqqqqqqzqyqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqszqsz
+                        </div>
+<div class="mt-2 flex justify-end">
+<button class="text-[10px] font-label-caps text-secondary hover:text-primary flex items-center gap-1 uppercase">
+<span class="material-symbols-outlined text-[12px]">content_copy</span> Copy Hex
+                            </button>
+</div>
+</div>
+<!-- Operator Justification -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">OPERATOR JUSTIFICATION</div>
+<div class="border border-outline-variant bg-surface-container-high p-3 relative">
+<div class="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
+<p class="font-body-sm text-body-sm text-on-surface italic pl-2">
+                                "Reviewed thermal telemetry vs local access logs. The thermal cascade (ENV-SEC4) precedes the access override flag by 4ms. This aligns with known issue #492 regarding telemetry artifacting during automated failsafes. Authorizing correction."
+                            </p>
+<div class="mt-3 pt-3 border-t border-outline-variant flex justify-between items-center pl-2">
+<span class="font-data-mono text-[10px] text-on-surface-variant">OP: J. HARKER (ID: 9942)</span>
+<span class="font-data-mono text-[10px] text-on-surface-variant">UTC 09:22:15</span>
+</div>
+</div>
+</div>
+<!-- Primary Action -->
+<div class="mt-4">
+<button class="w-full bg-primary text-surface font-label-caps text-label-caps py-3 hover:bg-surface-tint border-none transition-none flex justify-center items-center gap-2">
+                            PROCEED TO DRAFTING
+                            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</aside>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest text-secondary dark:text-secondary font-data-mono text-data-mono docked bottom-0 full-width h-8 border-t border-outline-variant flat no shadows transition-none fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50">
+<div class="font-label-caps text-label-caps text-on-surface uppercase">NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED</div>
+<div class="flex gap-6 items-center">
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">Machine ID: 992-QX</a>
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">Audit Log</a>
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">System Health</a>
+</div>
+</footer>
+</div>
+</body></html>

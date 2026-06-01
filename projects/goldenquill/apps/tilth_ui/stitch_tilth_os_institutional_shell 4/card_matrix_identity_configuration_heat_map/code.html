@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Card Selection Matrix</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#d8e3fb",
+                        "surface": "#081425",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "outline-variant": "#444748",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-tertiary": "#283044",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-container-highest": "#2a3548",
+                        "surface-bright": "#2f3a4c",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-tertiary-container": "#5c647a",
+                        "surface-tint": "#c6c6c7",
+                        "on-error": "#690005",
+                        "secondary-container": "#3a4a5f",
+                        "error-container": "#93000a",
+                        "on-primary": "#2f3131",
+                        "inverse-surface": "#d8e3fb",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "outline": "#8e9192",
+                        "surface-dim": "#081425",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#040e1f",
+                        "tertiary-fixed": "#dae2fd",
+                        "surface-container-high": "#1f2a3c",
+                        "on-primary-container": "#636565",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-secondary": "#213145",
+                        "tertiary": "#ffffff",
+                        "on-secondary-container": "#a9bad3",
+                        "on-primary-fixed": "#1a1c1c",
+                        "inverse-primary": "#5d5f5f",
+                        "surface-variant": "#2a3548",
+                        "surface-container": "#152031",
+                        "surface-container-low": "#111c2d",
+                        "primary-fixed": "#e2e2e2",
+                        "primary-container": "#e2e2e2",
+                        "tertiary-container": "#dae2fd",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#d8e3fb",
+                        "secondary": "#b7c8e1",
+                        "primary": "#ffffff",
+                        "inverse-on-surface": "#263143",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-surface-variant": "#c4c7c8",
+                        "background": "#081425"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "panel-gap": "8px",
+                        "unit": "4px",
+                        "gutter": "1px",
+                        "container-padding": "16px",
+                        "sidebar-width": "240px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar for data dense areas */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 0; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen overflow-hidden flex flex-col font-body-md">
+<!-- TopAppBar -->
+<header class="bg-surface-container-low dark:bg-surface-container-low docked full-width top-0 h-14 border-b border-outline-variant flat no shadows transition-none flex justify-between items-center w-full px-container-padding gap-panel-gap shrink-0 z-50">
+<div class="flex items-center gap-4">
+<h1 class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tight">GOLDEN QUILL</h1>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3">
+<span class="font-data-mono text-data-mono text-secondary">FIT Farms LLC</span>
+<span class="px-2 py-0.5 bg-green-900/30 text-green-400 font-label-caps text-label-caps border border-green-800 rounded-none">SECURE</span>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant font-label-caps text-label-caps border border-outline-variant rounded-none flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">policy</span> AUDIT: OK
+                </span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex gap-4 text-primary dark:text-primary">
+<span class="material-symbols-outlined hover:text-primary cursor-pointer transition-colors" data-icon="verified_user">verified_user</span>
+<span class="material-symbols-outlined hover:text-primary cursor-pointer transition-colors" data-icon="vpn_key">vpn_key</span>
+<span class="material-symbols-outlined hover:text-primary cursor-pointer transition-colors" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container docked left-0 h-full w-sidebar-width border-r border-outline-variant flat no shadows transition-none flex flex-col h-full shrink-0 z-40 hidden md:flex">
+<div class="p-4 border-b border-outline-variant">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 bg-surface-container-highest border border-outline-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[18px]">account_tree</span>
+</div>
+<div>
+<div class="font-data-mono text-data-mono text-primary truncate">FIT Farms</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant truncate mt-0.5">FRONTIER POSTURE</div>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<a class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-none text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-none" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-none text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-none" data-icon="search_insights">search_insights</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">Scout</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-none text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-none" data-icon="input">input</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">Intake</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-none text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-none" data-icon="fact_check">fact_check</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-none text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-none" data-icon="account_tree">account_tree</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-none text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-none" data-icon="edit_note">edit_note</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-none text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-none" data-icon="payments">payments</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-none text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-none" data-icon="gavel">gavel</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">Judge</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-none text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-none" data-icon="security">security</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-none text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-none" data-icon="history_edu">history_edu</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">Final Packet Authorization</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-none text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-none" data-icon="policy">policy</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">Audit</span>
+</a>
+<!-- ACTIVE NAV ITEM -->
+<a class="flex items-center gap-3 px-4 py-2 transition-none bg-surface-container-highest text-primary border-l-2 border-primary group" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="credit_card">credit_card</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">Cards</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-none text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-none" data-icon="fingerprint">fingerprint</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">FIDs</span>
+</a>
+</div>
+<div class="mt-auto border-t border-outline-variant py-2">
+<a class="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-none text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined text-[18px] group-hover:text-primary transition-none" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps tracking-widest mt-0.5">Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-1 flex flex-col relative overflow-hidden bg-background">
+<!-- Context Header -->
+<div class="px-6 py-4 border-b border-outline-variant bg-surface shrink-0 flex justify-between items-end">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-1">Card Selection Matrix</h2>
+<p class="font-body-sm text-body-sm text-secondary">CIC x CLC Topology Mapping &amp; Identity Resolution</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-1.5 border border-outline-variant text-primary font-data-mono text-data-mono hover:bg-surface-container transition-none rounded-none">EXPORT MATRIX</button>
+<button class="px-4 py-1.5 bg-primary text-surface font-data-mono text-data-mono hover:bg-primary-fixed transition-none rounded-none">COMMIT SELECTION</button>
+</div>
+</div>
+<!-- Workspace Layout -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left: Matrix View -->
+<div class="flex-1 flex flex-col p-6 overflow-y-auto">
+<div class="mb-4 flex items-center justify-between">
+<div class="font-label-caps text-label-caps text-on-surface-variant">CAPITAL LENS (CLC) vs IDENTITY CATEGORY (CIC)</div>
+<div class="flex gap-4 font-data-mono text-[10px] text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 bg-surface-container-low border border-outline-variant inline-block"></span> Empty</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 bg-surface-container-high border border-outline-variant inline-block"></span> Partial</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 bg-surface-container-highest border border-outline-variant inline-block"></span> Dense</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 border border-[#f97316] inline-block"></span> Active Node</span>
+</div>
+</div>
+<!-- The Matrix -->
+<div class="grid grid-cols-[120px_repeat(6,_minmax(100px,_1fr))] gap-px bg-outline-variant border border-outline-variant">
+<!-- Header Row (CLC) -->
+<div class="bg-surface p-2 flex items-end justify-end"><span class="font-label-caps text-[10px] text-on-surface-variant">CLC \ CIC</span></div>
+<div class="bg-surface-container-low p-2 border-b border-outline-variant flex flex-col justify-end items-center text-center">
+<span class="font-data-mono text-[10px] text-secondary mb-1">C-01</span>
+<span class="font-label-caps text-[11px] text-primary">RESEARCH</span>
+</div>
+<div class="bg-surface-container-low p-2 border-b border-outline-variant flex flex-col justify-end items-center text-center">
+<span class="font-data-mono text-[10px] text-secondary mb-1">C-02</span>
+<span class="font-label-caps text-[11px] text-primary">COMMERCIAL</span>
+</div>
+<div class="bg-surface-container-low p-2 border-b border-outline-variant flex flex-col justify-end items-center text-center">
+<span class="font-data-mono text-[10px] text-secondary mb-1">C-03</span>
+<span class="font-label-caps text-[11px] text-primary">DEFENSE</span>
+</div>
+<div class="bg-surface-container-low p-2 border-b border-outline-variant flex flex-col justify-end items-center text-center">
+<span class="font-data-mono text-[10px] text-secondary mb-1">C-04</span>
+<span class="font-label-caps text-[11px] text-primary">NON-PROFIT</span>
+</div>
+<div class="bg-surface-container-low p-2 border-b border-outline-variant flex flex-col justify-end items-center text-center">
+<span class="font-data-mono text-[10px] text-secondary mb-1">C-05</span>
+<span class="font-label-caps text-[11px] text-primary">MUNICIPAL</span>
+</div>
+<div class="bg-surface-container-low p-2 border-b border-outline-variant flex flex-col justify-end items-center text-center">
+<span class="font-data-mono text-[10px] text-secondary mb-1">C-06</span>
+<span class="font-label-caps text-[11px] text-primary">EDUCATION</span>
+</div>
+<!-- Row 1 -->
+<div class="bg-surface-container-low p-2 border-r border-outline-variant flex items-center justify-end text-right">
+<span class="font-label-caps text-[11px] text-primary">ENERGY</span>
+</div>
+<div class="bg-surface-container h-16 relative hover:bg-surface-container-high transition-none cursor-pointer">
+<div class="absolute bottom-1 right-1 flex gap-0.5">
+<div class="w-1 h-1 bg-secondary opacity-20"></div>
+</div>
+</div>
+<div class="bg-surface-container-high h-16 relative hover:bg-surface-container-highest transition-none cursor-pointer">
+<div class="absolute bottom-1 right-1 flex gap-0.5">
+<div class="w-1 h-1 bg-secondary opacity-60"></div>
+<div class="w-1 h-1 bg-secondary opacity-60"></div>
+</div>
+</div>
+<div class="bg-surface-container-highest h-16 relative hover:bg-surface-bright transition-none cursor-pointer">
+<div class="absolute bottom-1 right-1 flex gap-0.5">
+<div class="w-1 h-1 bg-secondary"></div>
+<div class="w-1 h-1 bg-secondary"></div>
+<div class="w-1 h-1 bg-secondary"></div>
+</div>
+</div>
+<div class="bg-surface-container-low h-16 relative hover:bg-surface-container-high transition-none cursor-pointer"></div>
+<div class="bg-surface-container h-16 relative hover:bg-surface-container-high transition-none cursor-pointer">
+<div class="absolute bottom-1 right-1 flex gap-0.5">
+<div class="w-1 h-1 bg-secondary opacity-40"></div>
+</div>
+</div>
+<div class="bg-surface-container-low h-16 relative hover:bg-surface-container-high transition-none cursor-pointer"></div>
+<!-- Row 2 (Active) -->
+<div class="bg-surface-container-low p-2 border-r border-outline-variant flex items-center justify-end text-right">
+<span class="font-label-caps text-[11px] text-primary">FOOD SYS</span>
+</div>
+<!-- ACTIVE NODE -->
+<div class="bg-[#1f1b18] h-16 relative hover:bg-[#2a2420] transition-none cursor-pointer outline outline-1 outline-offset-[-1px] outline-[#f97316] z-10 shadow-[inset_0_0_10px_rgba(249,115,22,0.1)]">
+<div class="absolute top-1 left-1">
+<span class="material-symbols-outlined text-[#f97316] text-[14px]">target</span>
+</div>
+<div class="absolute bottom-1 right-1 flex gap-0.5">
+<div class="w-1 h-1 bg-[#f97316]"></div>
+<div class="w-1 h-1 bg-[#f97316]"></div>
+<div class="w-1 h-1 bg-[#f97316]"></div>
+<div class="w-1 h-1 bg-[#f97316]"></div>
+</div>
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-data-mono text-[10px] text-[#f97316]">
+                                R-FDS
+                            </div>
+</div>
+<div class="bg-surface-container h-16 relative hover:bg-surface-container-high transition-none cursor-pointer">
+<div class="absolute bottom-1 right-1 flex gap-0.5">
+<div class="w-1 h-1 bg-secondary opacity-40"></div>
+</div>
+</div>
+<div class="bg-surface-container-low h-16 relative hover:bg-surface-container-high transition-none cursor-pointer"></div>
+<div class="bg-surface-container-highest h-16 relative hover:bg-surface-bright transition-none cursor-pointer">
+<div class="absolute bottom-1 right-1 flex gap-0.5">
+<div class="w-1 h-1 bg-secondary"></div>
+<div class="w-1 h-1 bg-secondary"></div>
+<div class="w-1 h-1 bg-secondary opacity-50"></div>
+</div>
+</div>
+<div class="bg-surface-container h-16 relative hover:bg-surface-container-high transition-none cursor-pointer">
+<div class="absolute bottom-1 right-1 flex gap-0.5">
+<div class="w-1 h-1 bg-secondary opacity-40"></div>
+</div>
+</div>
+<div class="bg-surface-container-low h-16 relative hover:bg-surface-container-high transition-none cursor-pointer"></div>
+<!-- Row 3 -->
+<div class="bg-surface-container-low p-2 border-r border-outline-variant flex items-center justify-end text-right">
+<span class="font-label-caps text-[11px] text-primary">HEALTH</span>
+</div>
+<div class="bg-surface-container-highest h-16 relative hover:bg-surface-bright transition-none cursor-pointer">
+<div class="absolute bottom-1 right-1 flex gap-0.5">
+<div class="w-1 h-1 bg-secondary"></div>
+<div class="w-1 h-1 bg-secondary"></div>
+</div>
+</div>
+<div class="bg-surface-container-high h-16 relative hover:bg-surface-container-highest transition-none cursor-pointer">
+<div class="absolute bottom-1 right-1 flex gap-0.5">
+<div class="w-1 h-1 bg-secondary opacity-60"></div>
+</div>
+</div>
+<div class="bg-surface-container-low h-16 relative hover:bg-surface-container-high transition-none cursor-pointer"></div>
+<div class="bg-surface-container h-16 relative hover:bg-surface-container-high transition-none cursor-pointer"></div>
+<div class="bg-surface-container-low h-16 relative hover:bg-surface-container-high transition-none cursor-pointer"></div>
+<div class="bg-surface-container-highest h-16 relative hover:bg-surface-bright transition-none cursor-pointer">
+<div class="absolute bottom-1 right-1 flex gap-0.5">
+<div class="w-1 h-1 bg-secondary"></div>
+<div class="w-1 h-1 bg-secondary"></div>
+<div class="w-1 h-1 bg-secondary"></div>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="bg-surface-container-low p-2 border-r border-outline-variant flex items-center justify-end text-right">
+<span class="font-label-caps text-[11px] text-primary">TRANSPORT</span>
+</div>
+<div class="bg-surface-container h-16 relative hover:bg-surface-container-high transition-none cursor-pointer"></div>
+<div class="bg-surface-container-high h-16 relative hover:bg-surface-container-highest transition-none cursor-pointer">
+<div class="absolute bottom-1 right-1 flex gap-0.5">
+<div class="w-1 h-1 bg-secondary opacity-60"></div>
+</div>
+</div>
+<div class="bg-surface-container-low h-16 relative hover:bg-surface-container-high transition-none cursor-pointer"></div>
+<div class="bg-surface-container h-16 relative hover:bg-surface-container-high transition-none cursor-pointer"></div>
+<div class="bg-surface-container h-16 relative hover:bg-surface-container-high transition-none cursor-pointer">
+<div class="absolute bottom-1 right-1 flex gap-0.5">
+<div class="w-1 h-1 bg-secondary opacity-40"></div>
+</div>
+</div>
+<div class="bg-surface-container-low h-16 relative hover:bg-surface-container-high transition-none cursor-pointer"></div>
+</div>
+<div class="mt-8 bg-surface-container-low border border-outline-variant p-4">
+<div class="font-data-mono text-[10px] text-on-surface-variant mb-2">SYSTEM.LOG // MATRIX_EVAL</div>
+<div class="font-data-mono text-data-mono text-secondary">
+                             &gt; INITIALIZING TOPOLOGY MAP... OK<br/>
+                             &gt; SCANNING AVAILABLE NODES... 24 FOUND<br/>
+                             &gt; CALCULATING GRAVITY DENSITY... COMPLETE<br/>
+                             &gt; <span class="text-[#f97316]">ACTIVE NODE LOCK: [C-01 x R-02] FOOD_SYS_RESEARCH</span>
+</div>
+</div>
+</div>
+<!-- Right: Inspector Panel -->
+<aside class="w-80 border-l border-outline-variant bg-surface-container flex flex-col shrink-0">
+<div class="p-4 border-b border-outline-variant bg-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">info</span>
+<h3 class="font-label-caps text-label-caps text-primary tracking-widest">IDENTITY LOGIC TRACE</h3>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<!-- Active Node Summary -->
+<div class="border border-[#f97316] bg-[#1f1b18] p-3 mb-6 relative">
+<div class="absolute -top-2 left-2 bg-[#1f1b18] px-1 font-data-mono text-[9px] text-[#f97316]">ACTIVE INTERSECTION</div>
+<div class="flex justify-between items-end mb-2 mt-1">
+<div class="font-data-mono text-xl text-primary">R-FDS</div>
+<div class="font-data-mono text-[10px] text-secondary">NODE_ID: 0x992</div>
+</div>
+<div class="font-body-sm text-body-sm text-secondary">
+                                Research Foundation x Food Systems Integration. Highly scrutinized path.
+                            </div>
+</div>
+<!-- Vocabulary -->
+<div class="mb-6">
+<div class="font-label-caps text-[10px] text-on-surface-variant mb-2 border-b border-outline-variant pb-1">EXPECTED VOCABULARY</div>
+<ul class="font-body-sm text-body-sm text-on-surface space-y-1.5 list-disc pl-4 marker:text-outline-variant">
+<li>"Methodology"</li>
+<li>"Peer Review"</li>
+<li>"Yield Variance"</li>
+<li>"Soil Remediation Metrics"</li>
+</ul>
+</div>
+<!-- Reporting Rhythm -->
+<div class="mb-6">
+<div class="font-label-caps text-[10px] text-on-surface-variant mb-2 border-b border-outline-variant pb-1">REPORTING RHYTHM</div>
+<div class="flex items-center gap-3 font-data-mono text-data-mono text-primary">
+<span class="material-symbols-outlined text-[16px] text-secondary">update</span>
+                                QUARTERLY + MILESTONE
+                            </div>
+</div>
+<!-- Evidence Expectations -->
+<div>
+<div class="font-label-caps text-[10px] text-on-surface-variant mb-2 border-b border-outline-variant pb-1">EVIDENCE READINESS</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm">
+<span class="font-body-sm text-secondary">Grant Docs</span>
+<span class="font-data-mono text-[10px] text-green-400">VERIFIED</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="font-body-sm text-secondary">Lab Certs</span>
+<span class="font-data-mono text-[10px] text-[#f97316]">PENDING</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="font-body-sm text-secondary">IP Chain</span>
+<span class="font-data-mono text-[10px] text-outline-variant">N/A</span>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant border-dashed">
+<div class="flex items-center gap-2 mb-1">
+<div class="w-1.5 h-1.5 bg-[#f97316]"></div>
+<span class="font-label-caps text-[10px] text-primary">OPERATOR DIRECTIVE</span>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant italic font-serif">
+                                    "Ensure all secondary data points align with a 'Research' posture. Avoid commercial intent terminology."
+                                </p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest docked bottom-0 full-width h-8 border-t border-outline-variant flat no shadows transition-none fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50">
+<div class="font-label-caps text-label-caps text-on-surface">NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED</div>
+<div class="flex items-center gap-6">
+<a class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary transition-none" href="#">Machine ID: 992-QX</a>
+<a class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary transition-none" href="#">Audit Log</a>
+<a class="font-data-mono text-data-mono text-on-secondary-container hover:text-primary transition-none flex items-center gap-1" href="#">
+<span class="w-2 h-2 bg-green-500 rounded-none inline-block"></span> System Health
+            </a>
+</div>
+</footer>
+</body></html>

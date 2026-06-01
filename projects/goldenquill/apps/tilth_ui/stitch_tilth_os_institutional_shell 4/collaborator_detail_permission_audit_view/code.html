@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Collaborator Detail &amp; Audit - GOLDEN QUILL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        /* Base styles to enforce brutally flat design */
+        * {
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+        /* Custom scrollbar for technical feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #040e1f; /* surface-container-lowest */
+            border-left: 1px solid #444748; /* outline-variant */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a3548; /* surface-container-highest */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444748; /* outline-variant */
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#d8e3fb",
+                    "error-container": "#93000a",
+                    "on-tertiary": "#283044",
+                    "on-error": "#690005",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "outline": "#8e9192",
+                    "on-surface": "#d8e3fb",
+                    "on-primary-fixed-variant": "#454747",
+                    "on-primary-container": "#636565",
+                    "error": "#ffb4ab",
+                    "tertiary-container": "#dae2fd",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "on-tertiary-fixed": "#131b2e",
+                    "surface-container-high": "#1f2a3c",
+                    "on-primary-fixed": "#1a1c1c",
+                    "on-primary": "#2f3131",
+                    "inverse-primary": "#5d5f5f",
+                    "surface-bright": "#2f3a4c",
+                    "surface-dim": "#081425",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "surface-tint": "#c6c6c7",
+                    "primary-container": "#e2e2e2",
+                    "surface-container": "#152031",
+                    "outline-variant": "#444748",
+                    "on-tertiary-container": "#5c647a",
+                    "on-background": "#d8e3fb",
+                    "primary": "#ffffff",
+                    "secondary-fixed": "#d3e4fe",
+                    "surface-container-highest": "#2a3548",
+                    "tertiary": "#ffffff",
+                    "secondary-container": "#3a4a5f",
+                    "inverse-on-surface": "#263143",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "on-error-container": "#ffdad6",
+                    "surface-variant": "#2a3548",
+                    "on-secondary-fixed": "#0b1c30",
+                    "surface-container-lowest": "#040e1f",
+                    "tertiary-fixed": "#dae2fd",
+                    "secondary": "#b7c8e1",
+                    "on-surface-variant": "#c4c7c8",
+                    "on-secondary-container": "#a9bad3",
+                    "surface-container-low": "#111c2d",
+                    "surface": "#081425",
+                    "primary-fixed": "#e2e2e2",
+                    "on-secondary": "#213145",
+                    "background": "#081425",
+                    "tertiary-fixed-dim": "#bec6e0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "0px"
+            },
+            "spacing": {
+                    "container-padding": "16px",
+                    "gutter": "1px",
+                    "unit": "4px",
+                    "panel-gap": "8px",
+                    "sidebar-width": "240px"
+            },
+            "fontFamily": {
+                    "body-md": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "data-mono": ["JetBrains Mono"],
+                    "label-caps": ["JetBrains Mono"],
+                    "body-sm": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                    "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                    "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                    "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                    "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md min-h-screen flex flex-col overflow-hidden selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="bg-surface-container-highest text-primary font-headline-md text-headline-md h-[56px] w-full border-b border-outline-variant flex items-center justify-between px-container-padding z-50 relative shrink-0">
+<div class="flex items-center gap-4">
+<div class="font-display-lg text-display-lg font-bold text-primary tracking-tighter uppercase">GOLDEN QUILL</div>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<!-- Sub-context injected into header area for spatial efficiency -->
+<div class="flex items-center gap-2 font-data-mono text-data-mono text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span class="hover:text-primary cursor-pointer">AUDIT LOG</span>
+<span class="text-outline">/</span>
+<span class="text-primary">ENTITY: SARAH CHEN</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 font-data-mono text-data-mono text-secondary px-3 py-1 bg-surface-container border border-outline-variant">
+<span class="material-symbols-outlined text-[14px]">visibility</span>
+                APPLIED AS: SYS_ADMIN_ROOT
+            </div>
+<div class="flex gap-2">
+<button class="h-8 w-8 flex items-center justify-center border border-outline-variant text-on-surface-variant hover:bg-surface-bright hover:text-primary">
+<span class="material-symbols-outlined">security</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center border border-outline-variant text-on-surface-variant hover:bg-surface-bright hover:text-primary">
+<span class="material-symbols-outlined">verified_user</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center border border-outline-variant text-on-surface-variant hover:bg-surface-bright hover:text-primary">
+<span class="material-symbols-outlined">gavel</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low text-on-surface font-label-caps text-label-caps w-[220px] h-full border-r border-outline-variant flex flex-col shrink-0 z-40 hidden md:flex">
+<div class="p-4 border-b border-outline-variant mb-2">
+<div class="font-headline-md text-headline-md text-primary mb-1">NODE IDENTITY</div>
+<div class="font-data-mono text-data-mono text-secondary">POSTURE: SECURE</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span>Scout</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span>Intake</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+<span>Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">map</span>
+<span>Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span>Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span>Budget</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span>Judge</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span>Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">signature</span>
+<span>Sign-Off</span>
+</a>
+<!-- ACTIVE STATE -->
+<a class="flex items-center gap-3 px-4 py-2 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="uppercase">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">style</span>
+<span>Cards</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>
+<span>FIDs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span>Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-1 flex overflow-hidden bg-background">
+<!-- Central Canvas -->
+<div class="flex-1 flex flex-col overflow-y-auto p-4 gap-4">
+<!-- Entity Header in Canvas -->
+<div class="flex justify-between items-end border-b border-outline-variant pb-4">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary uppercase">Sarah Chen</h1>
+<div class="font-data-mono text-data-mono text-secondary mt-1 flex items-center gap-2">
+<span class="w-2 h-2 bg-[#22C55E]"></span> STATUS: ACTIVE_OPERATOR
+                        </div>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-outline-variant text-primary hover:bg-surface-bright font-label-caps text-label-caps uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">download</span> Export Log
+                        </button>
+</div>
+</div>
+<!-- Canvas Grid Layout -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-4 flex-1">
+<!-- Left Column: Permissions & Leases -->
+<div class="flex flex-col gap-4">
+<!-- Permission Levels Panel -->
+<section class="bg-surface-container border border-outline-variant flex flex-col">
+<header class="p-3 border-b border-outline-variant bg-surface-container-highest flex justify-between items-center">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Clearance &amp; Permissions</h2>
+<span class="material-symbols-outlined text-outline text-[16px]">key</span>
+</header>
+<div class="p-4 flex flex-col gap-3 font-data-mono text-data-mono">
+<div class="flex justify-between items-center border-b border-outline-variant pb-2">
+<span class="text-on-surface-variant">BASE_CLEARANCE</span>
+<span class="text-primary bg-surface-bright px-2 py-1 border border-outline-variant">L3_RESTRICTED</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant pb-2">
+<span class="text-on-surface-variant">DRAFTING_SCOPE</span>
+<span class="text-primary bg-surface-bright px-2 py-1 border border-outline-variant">GRANT_FAMILY_A</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant pb-2">
+<span class="text-on-surface-variant">BUDGET_APPROVAL</span>
+<span class="text-error bg-error-container/20 px-2 py-1 border border-error/50">REVOKED</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">SIGN_OFF_AUTHORITY</span>
+<span class="text-primary bg-surface-bright px-2 py-1 border border-outline-variant">NONE</span>
+</div>
+</div>
+</section>
+<!-- Active Drafting Leases -->
+<section class="bg-surface-container border border-outline-variant flex flex-col flex-1">
+<header class="p-3 border-b border-outline-variant bg-surface-container-highest flex justify-between items-center">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Active Drafting Leases</h2>
+<span class="material-symbols-outlined text-outline text-[16px]">edit_document</span>
+</header>
+<div class="flex-1 overflow-auto">
+<table class="w-full text-left font-data-mono text-data-mono">
+<thead class="bg-surface-container-low text-on-surface-variant border-b border-outline-variant sticky top-0">
+<tr>
+<th class="p-3 font-normal">LEASE_ID</th>
+<th class="p-3 font-normal">TARGET_MODULE</th>
+<th class="p-3 font-normal text-right">TTL</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant text-on-surface">
+<tr class="hover:bg-surface-bright transition-none cursor-pointer">
+<td class="p-3 text-secondary">LSE-992-A</td>
+<td class="p-3">GNT_CORE_NARRATIVE</td>
+<td class="p-3 text-right">04h 12m</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-none cursor-pointer">
+<td class="p-3 text-secondary">LSE-104-B</td>
+<td class="p-3">GNT_BUDGET_JUSTIFICATION</td>
+<td class="p-3 text-right text-[#F59E0B]">00h 45m</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Right Column: Activity History -->
+<section class="bg-surface-container border border-outline-variant flex flex-col h-full">
+<header class="p-3 border-b border-outline-variant bg-surface-container-highest flex justify-between items-center">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Per-Grant Activity Ledger</h2>
+<div class="flex gap-2">
+<input class="bg-background border border-outline-variant px-2 py-1 font-data-mono text-data-mono text-primary w-32 focus:border-primary focus:outline-none" placeholder="FILTER_HASH..." type="text"/>
+</div>
+</header>
+<div class="flex-1 overflow-auto p-0">
+<table class="w-full text-left font-data-mono text-data-mono">
+<thead class="bg-surface-container-low text-on-surface-variant border-b border-outline-variant sticky top-0">
+<tr>
+<th class="p-3 font-normal w-24">TIMESTAMP</th>
+<th class="p-3 font-normal">ACTION_TYPE</th>
+<th class="p-3 font-normal">TARGET_NODE</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant text-on-surface">
+<tr class="hover:bg-surface-bright transition-none">
+<td class="p-3 text-outline">14:02:11</td>
+<td class="p-3"><span class="text-[#22C55E]">COMMIT</span>_CHANGES</td>
+<td class="p-3">NODE_88A_PROPOSAL</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-none">
+<td class="p-3 text-outline">13:45:00</td>
+<td class="p-3">ACQUIRE_LEASE</td>
+<td class="p-3">NODE_88A_PROPOSAL</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-none">
+<td class="p-3 text-outline">11:20:05</td>
+<td class="p-3"><span class="text-[#EF4444]">REJECT</span>_SUGGESTION</td>
+<td class="p-3">NODE_12C_BUDGET</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-none">
+<td class="p-3 text-outline">09:15:33</td>
+<td class="p-3">VIEW_RESTRICTED</td>
+<td class="p-3">NODE_00X_LEGAL</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-none">
+<td class="p-3 text-outline">08:50:12</td>
+<td class="p-3">AUTH_SESSION_START</td>
+<td class="p-3">SYSTEM_ROOT</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</div>
+<!-- Right Inspector: Authorized Entity Detail -->
+<aside class="w-[320px] bg-surface-container-low border-l border-outline-variant flex flex-col shrink-0 z-30">
+<header class="p-4 border-b border-outline-variant bg-surface-container-highest">
+<h2 class="font-headline-md text-headline-md text-primary uppercase">Authorized Entity</h2>
+<p class="font-data-mono text-data-mono text-secondary mt-1">DETAIL INSPECTOR</p>
+</header>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+<!-- Identity Block -->
+<div>
+<div class="w-16 h-16 bg-surface-bright border border-outline-variant mb-4 flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant">person</span>
+</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">Primary Alias</div>
+<div class="font-body-md text-body-md text-primary">Sarah Chen</div>
+<div class="font-data-mono text-data-mono text-secondary mt-1">ID: COL-2994-X</div>
+</div>
+<div class="h-px bg-outline-variant w-full"></div>
+<!-- Cryptographic Identity -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Verified Node ID</div>
+<div class="bg-background border border-outline-variant p-2 font-data-mono text-data-mono text-primary flex justify-between items-center group cursor-pointer hover:border-primary">
+<span class="truncate">NID_8f72a9...33b1</span>
+<span class="material-symbols-outlined text-[14px] text-outline group-hover:text-primary">content_copy</span>
+</div>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Ed25519 Fingerprint</div>
+<div class="bg-background border border-outline-variant p-2 font-data-mono text-data-mono text-primary text-[11px] break-all group cursor-pointer hover:border-primary">
+                            SHA256: 4a9f 2b8c 7d1e 5f3a 9c8b 2d1e 4f3a 7c8b 9d1e 2f3a 4c8b 7d1e 5f3a 9c8b
+                        </div>
+</div>
+<div class="h-px bg-outline-variant w-full"></div>
+<!-- Meta Info -->
+<div class="font-data-mono text-data-mono text-on-surface-variant flex flex-col gap-2">
+<div class="flex justify-between">
+<span>LAST_SYNC:</span>
+<span class="text-primary">2023-10-27 14:02:11</span>
+</div>
+<div class="flex justify-between">
+<span>ORIGIN_IP:</span>
+<span class="text-primary">192.168.1.104</span>
+</div>
+</div>
+</div>
+<!-- Destructive Action Container docked to bottom of inspector -->
+<div class="p-4 border-t border-outline-variant bg-surface-container">
+<button class="w-full bg-error-container text-error border border-error py-3 font-label-caps text-label-caps uppercase hover:bg-error hover:text-[#000000] transition-none flex justify-center items-center gap-2 group">
+<span class="material-symbols-outlined text-[16px] group-hover:animate-pulse">block</span>
+                        Revoke Access
+                    </button>
+<p class="font-data-mono text-data-mono text-outline text-[10px] mt-2 text-center text-balance">
+                        WARNING: TERMINATES ALL ACTIVE LEASES AND SESSIONS IMMEDIATELY.
+                    </p>
+</div>
+</aside>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest text-on-surface-variant font-data-mono text-data-mono h-[32px] w-full border-t border-outline-variant flex items-center justify-between px-4 z-50 shrink-0">
+<div class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</div>
+<div class="flex items-center gap-4">
+<a class="hover:text-primary uppercase" href="#">SYSTEM_STATUS</a>
+<a class="hover:text-primary uppercase" href="#">AUDIT_LOG</a>
+<a class="hover:text-primary uppercase" href="#">FID_0x2A</a>
+</div>
+</footer>
+</body></html>

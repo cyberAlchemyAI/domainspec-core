@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - FID Browser</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "on-tertiary": "#283044",
+                    "surface-container": "#152031",
+                    "surface-bright": "#2f3a4c",
+                    "surface-container-lowest": "#040e1f",
+                    "on-primary-fixed": "#1a1c1c",
+                    "inverse-on-surface": "#263143",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed": "#dae2fd",
+                    "on-primary": "#2f3131",
+                    "outline": "#8e9192",
+                    "surface-container-low": "#111c2d",
+                    "surface": "#081425",
+                    "on-secondary": "#213145",
+                    "inverse-surface": "#d8e3fb",
+                    "on-error": "#690005",
+                    "on-primary-fixed-variant": "#454747",
+                    "on-background": "#d8e3fb",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "inverse-primary": "#5d5f5f",
+                    "surface-container-high": "#1f2a3c",
+                    "on-tertiary-container": "#5c647a",
+                    "on-tertiary-fixed": "#131b2e",
+                    "surface-variant": "#2a3548",
+                    "on-primary-container": "#636565",
+                    "tertiary-container": "#dae2fd",
+                    "surface-tint": "#c6c6c7",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-fixed": "#0b1c30",
+                    "secondary": "#b7c8e1",
+                    "primary": "#ffffff",
+                    "surface-dim": "#081425",
+                    "outline-variant": "#444748",
+                    "on-surface": "#d8e3fb",
+                    "on-secondary-container": "#a9bad3",
+                    "secondary-fixed": "#d3e4fe",
+                    "tertiary": "#ffffff",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "background": "#081425",
+                    "primary-container": "#e2e2e2",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "secondary-container": "#3a4a5f",
+                    "on-surface-variant": "#c4c7c8",
+                    "primary-fixed": "#e2e2e2",
+                    "surface-container-highest": "#2a3548"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "sidebar-width": "220px",
+                    "panel-gap": "8px",
+                    "gutter": "1px",
+                    "container-padding": "16px"
+            },
+            "fontFamily": {
+                    "data-mono": [
+                            "JetBrains Mono"
+                    ],
+                    "label-caps": [
+                            "JetBrains Mono"
+                    ],
+                    "display-lg": [
+                            "Hanken Grotesk"
+                    ],
+                    "headline-md": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-md": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-sm": [
+                            "Hanken Grotesk"
+                    ]
+            },
+            "fontSize": {
+                    "data-mono": [
+                            "13px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "label-caps": [
+                            "11px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "display-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "20px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            margin: 0;
+            overflow: hidden; /* Prevent body scroll, manage in panels */
+        }
+        
+        /* Custom scrollbar for high-density tables */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: theme('colors.surface-container'); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.outline-variant'); 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline'); 
+        }
+
+        /* Brutalist component utilities */
+        .panel-border { border: 1px solid theme('colors.outline-variant'); }
+        .active-border { border: 1px solid theme('colors.primary'); }
+        .btn-primary { 
+            background-color: theme('colors.primary'); 
+            color: theme('colors.on-primary'); 
+            border-radius: 0; 
+            transition: none; 
+        }
+        .btn-secondary { 
+            background-color: transparent; 
+            color: theme('colors.primary'); 
+            border: 1px solid theme('colors.outline-variant'); 
+            border-radius: 0; 
+        }
+        .status-badge-verified { background-color: #22C55E; } /* Forced active color as per spec */
+    </style>
+</head>
+<body class="font-body-md bg-background text-on-background h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 w-full h-[56px] bg-surface-container-lowest dark:bg-surface-container-lowest border-b border-outline-variant flex items-center justify-between px-container-padding z-50">
+<div class="flex items-center gap-6">
+<div class="font-headline-md text-headline-md font-bold tracking-tight text-primary">GOLDEN QUILL</div>
+<div class="hidden md:flex items-center gap-4">
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:bg-surface-container-high duration-0 px-2 py-1" href="#">AppliedAsIndicator</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:bg-surface-container-high duration-0 px-2 py-1" href="#">PostureBadge</a>
+<a class="font-data-mono text-data-mono text-primary border-b-2 border-primary duration-0 px-2 py-1" href="#">AuditPill</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:bg-surface-container-high duration-0 px-2 py-1" href="#">SigningKeyChip</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 border border-outline-variant bg-surface px-2 py-1">
+<span class="material-symbols-outlined text-[16px] text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-data-mono font-data-mono text-primary w-48 placeholder-outline-variant" placeholder="Search FIDs..." type="text"/>
+</div>
+<button class="btn-primary font-label-caps text-label-caps px-4 py-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">account_circle</span>
+                OPERATOR_SESSION
+            </button>
+</div>
+</nav>
+<div class="flex flex-1 pt-[56px] pb-[32px] overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-[56px] w-sidebar-width h-[calc(100vh-56px-32px)] bg-surface-container dark:bg-surface-container border-r border-outline-variant flex flex-col py-panel-gap z-40">
+<div class="px-4 mb-6">
+<div class="font-headline-md text-headline-md text-primary">OPERATOR_NODE</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-1">SOVEREIGNTY_PHASE</div>
+</div>
+<nav class="flex-1 overflow-y-auto flex flex-col">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest duration-0" href="#">
+<span class="material-symbols-outlined text-[18px]">radar</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-surface-variant text-primary border-r-2 border-primary duration-0" href="#">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span class="font-label-caps text-label-caps">Evidence Intake</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest duration-0" href="#">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest duration-0" href="#">
+<span class="material-symbols-outlined text-[18px]">map</span>
+<span class="font-label-caps text-label-caps">Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest duration-0" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest duration-0" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest duration-0" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest duration-0" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest duration-0" href="#">
+<span class="material-symbols-outlined text-[18px]">key</span>
+<span class="font-label-caps text-label-caps">Authorization</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest duration-0" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-sidebar-width flex-1 flex bg-background p-unit gap-unit h-full overflow-hidden">
+<!-- Left Panel: FID Browser List -->
+<section class="flex-1 flex flex-col bg-surface-container-low panel-border overflow-hidden">
+<!-- Header -->
+<header class="p-4 border-b border-outline-variant bg-surface-container flex justify-between items-end">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary mb-2">Funder Intelligence Records</h1>
+<p class="font-data-mono text-data-mono text-on-surface-variant">QUERY: 'Which charters govern?' // RETURNING 42 MATCHES</p>
+</div>
+<button class="btn-primary font-label-caps text-label-caps px-4 py-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+                        SYNC CHARTER VAULT
+                    </button>
+</header>
+<!-- Data Table -->
+<div class="flex-1 overflow-auto">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-surface-container-high border-b border-outline-variant z-10">
+<tr>
+<th class="font-label-caps text-label-caps text-outline px-4 py-3 w-8"></th>
+<th class="font-label-caps text-label-caps text-outline px-4 py-3">FUNDER NAME</th>
+<th class="font-label-caps text-label-caps text-outline px-4 py-3">PROGRAM CODE</th>
+<th class="font-label-caps text-label-caps text-outline px-4 py-3">VERIFICATION</th>
+<th class="font-label-caps text-label-caps text-outline px-4 py-3">FRESHNESS</th>
+<th class="font-label-caps text-label-caps text-outline px-4 py-3 text-right">LAST CYCLE</th>
+</tr>
+</thead>
+<tbody class="font-data-mono text-data-mono">
+<!-- Row 1 Active -->
+<tr class="border-b border-outline-variant bg-surface-bright cursor-pointer hover:bg-surface-variant active-border">
+<td class="px-4 py-3 text-primary"><span class="material-symbols-outlined text-[16px]">arrow_right</span></td>
+<td class="px-4 py-3 text-primary font-headline-md text-headline-md">Gates Foundation</td>
+<td class="px-4 py-3 text-secondary">GF-GLOBAL-24A</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 status-badge-verified"></div>
+<span class="text-primary">VERIFIED</span>
+</div>
+</td>
+<td class="px-4 py-3 text-on-surface-variant">T-14 DAYS</td>
+<td class="px-4 py-3 text-right text-on-surface-variant">2023-Q4</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-outline-variant hover:bg-surface-variant cursor-pointer">
+<td class="px-4 py-3"></td>
+<td class="px-4 py-3 text-on-surface">Ford Foundation</td>
+<td class="px-4 py-3 text-secondary">FF-EQ-24B</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 status-badge-verified"></div>
+<span class="text-primary">VERIFIED</span>
+</div>
+</td>
+<td class="px-4 py-3 text-on-surface-variant">T-21 DAYS</td>
+<td class="px-4 py-3 text-right text-on-surface-variant">2023-Q3</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-outline-variant hover:bg-surface-variant cursor-pointer">
+<td class="px-4 py-3"></td>
+<td class="px-4 py-3 text-on-surface">Rockefeller</td>
+<td class="px-4 py-3 text-secondary">RF-CLIM-24A</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-yellow-500"></div>
+<span class="text-yellow-500">PENDING_REV</span>
+</div>
+</td>
+<td class="px-4 py-3 text-on-surface-variant">T-45 DAYS</td>
+<td class="px-4 py-3 text-right text-on-surface-variant">2023-Q1</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b border-outline-variant hover:bg-surface-variant cursor-pointer">
+<td class="px-4 py-3"></td>
+<td class="px-4 py-3 text-on-surface">Omidyar Network</td>
+<td class="px-4 py-3 text-secondary">ON-TECH-24C</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 status-badge-verified"></div>
+<span class="text-primary">VERIFIED</span>
+</div>
+</td>
+<td class="px-4 py-3 text-on-surface-variant">T-02 DAYS</td>
+<td class="px-4 py-3 text-right text-on-surface-variant">2024-Q1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Right Panel: Inspector -->
+<section class="w-[400px] flex flex-col bg-surface-container-low panel-border overflow-hidden">
+<header class="p-4 border-b border-outline-variant bg-surface-container">
+<h2 class="font-headline-md text-headline-md text-primary">FID Metadata</h2>
+<p class="font-data-mono text-data-mono text-secondary mt-1">ID: 0x9f8b...3a2c</p>
+</header>
+<div class="flex-1 overflow-y-auto p-4 space-y-6">
+<!-- Gate Taxonomy Status -->
+<div>
+<h3 class="font-label-caps text-label-caps text-outline mb-2">GATE TAXONOMY STATUS</h3>
+<div class="border border-outline-variant bg-surface p-3 space-y-2">
+<div class="flex justify-between items-center font-data-mono text-data-mono">
+<span class="text-on-surface">Legal Structuring</span>
+<span class="text-green-500">CLEARED</span>
+</div>
+<div class="flex justify-between items-center font-data-mono text-data-mono border-t border-outline-variant pt-2">
+<span class="text-on-surface">Thematic Alignment</span>
+<span class="text-green-500">CLEARED</span>
+</div>
+<div class="flex justify-between items-center font-data-mono text-data-mono border-t border-outline-variant pt-2">
+<span class="text-on-surface">Financial Viability</span>
+<span class="text-yellow-500">FLAGGED</span>
+</div>
+</div>
+</div>
+<!-- Para-level Evidence -->
+<div>
+<h3 class="font-label-caps text-label-caps text-outline mb-2">EVIDENCE COVERAGE (CHARTER EXCERPTS)</h3>
+<div class="space-y-4">
+<!-- Excerpt 1 -->
+<div class="border-l-2 border-primary pl-3">
+<p class="font-body-sm text-body-sm text-on-surface mb-2 leading-relaxed">
+                                    "Funds allocated under the GF-GLOBAL directive must adhere strictly to the established overhead limits defined in Section 4.2. No variance is permitted without direct authorization from the governing board."
+                                </p>
+<div class="flex items-center gap-4 font-data-mono text-data-mono text-secondary-fixed-dim">
+<span>§ 4.2.1</span>
+<span>CONFIDENCE: 98%</span>
+</div>
+</div>
+<!-- Excerpt 2 -->
+<div class="border-l-2 border-outline-variant pl-3 opacity-70">
+<p class="font-body-sm text-body-sm text-on-surface mb-2 leading-relaxed">
+                                    "Reporting requirements dictate quarterly submissions detailing both financial disbursements and programmatic milestones as outlined in the master agreement."
+                                </p>
+<div class="flex items-center gap-4 font-data-mono text-data-mono text-secondary-fixed-dim">
+<span>§ 7.1.4</span>
+<span>CONFIDENCE: 85%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Footer (Shared Component) -->
+<footer class="fixed bottom-0 w-full h-[32px] bg-surface-container-low dark:bg-surface-container-low border-t border-outline-variant flex items-center justify-between px-container-padding z-50">
+<div class="font-data-mono text-data-mono text-on-surface-variant dark:text-on-surface-variant font-label-caps text-label-caps">
+            MACHINE_ID: GQ-8829-X // NODE_STATUS: NOMINAL
+        </div>
+<div class="flex items-center gap-4">
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary duration-0" href="#">VERIFY_INTEGRITY</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary duration-0" href="#">SYSTEM_LOGS</a>
+</div>
+</footer>
+</body></html>

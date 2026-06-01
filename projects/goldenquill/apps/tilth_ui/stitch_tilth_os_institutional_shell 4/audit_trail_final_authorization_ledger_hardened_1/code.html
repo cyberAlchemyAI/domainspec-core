@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Authorization Ledger - Golden Quill Sovereign Workstation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#131b2e",
+                        "outline-variant": "#444748",
+                        "primary-container": "#e2e2e2",
+                        "primary": "#ffffff",
+                        "surface": "#081425",
+                        "on-primary-fixed-variant": "#454747",
+                        "inverse-on-surface": "#263143",
+                        "on-primary-container": "#636565",
+                        "surface-container-highest": "#2a3548",
+                        "surface-container-low": "#111c2d",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-surface-variant": "#c4c7c8",
+                        "surface-bright": "#2f3a4c",
+                        "inverse-primary": "#5d5f5f",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#213145",
+                        "error-container": "#93000a",
+                        "secondary-container": "#3a4a5f",
+                        "background": "#081425",
+                        "surface-container-lowest": "#040e1f",
+                        "primary-fixed": "#e2e2e2",
+                        "surface-container-high": "#1f2a3c",
+                        "on-tertiary": "#283044",
+                        "on-background": "#d8e3fb",
+                        "tertiary": "#ffffff",
+                        "on-tertiary-container": "#5c647a",
+                        "secondary-fixed": "#d3e4fe",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "surface-tint": "#c6c6c7",
+                        "secondary": "#b7c8e1",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-primary-fixed": "#1a1c1c",
+                        "surface-variant": "#2a3548",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "inverse-surface": "#d8e3fb",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-secondary-container": "#a9bad3",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary": "#2f3131",
+                        "surface-dim": "#081425",
+                        "surface-container": "#152031",
+                        "tertiary-fixed": "#dae2fd",
+                        "outline": "#8e9192",
+                        "tertiary-container": "#dae2fd",
+                        "on-surface": "#d8e3fb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "panel-gap": "8px",
+                        "container-padding": "16px",
+                        "gutter": "1px",
+                        "unit": "4px",
+                        "sidebar-width": "240px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .symbol-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Strict structural grid utilities */
+        .workstation-grid {
+            display: grid;
+            grid-template-columns: var(--tw-spacing-sidebar-width) 1fr;
+            grid-template-rows: 56px 1fr 32px;
+            height: 100vh;
+            background-color: #020617; /* Level 0 Base */
+        }
+        
+        .panel-border {
+            border: 1px solid #334155;
+        }
+        
+        .panel-border-t { border-top: 1px solid #334155; }
+        .panel-border-r { border-right: 1px solid #334155; }
+        .panel-border-b { border-bottom: 1px solid #334155; }
+        .panel-border-l { border-left: 1px solid #334155; }
+        
+        /* Custom scrollbar for terminals/tables */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+            border-left: 1px solid #334155;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border: 1px solid #334155;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-[#020617] text-on-surface antialiased overflow-hidden selection:bg-surface-variant selection:text-primary">
+<div class="workstation-grid">
+<!-- TopNavBar (JSON Injected) -->
+<nav class="col-span-2 flex justify-between items-center w-full px-container-padding bg-surface-container-low dark:bg-surface-container-low h-14 panel-border-b" style="z-index: 10;">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps tracking-widest text-on-surface dark:text-on-surface">IDEA FOUNDRY NODE</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4 items-center">
+<span class="text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant dark:hover:bg-surface-variant px-2 py-1 cursor-pointer">HYBRID</span>
+<span class="text-primary font-bold font-label-caps text-label-caps bg-surface-container-high px-2 py-1 border border-primary cursor-pointer">VERIFIED</span>
+<span class="text-on-surface-variant font-data-mono text-data-mono hover:bg-surface-variant dark:hover:bg-surface-variant px-2 py-1 cursor-pointer">4a3f...b2c8</span>
+</div>
+<div class="flex items-center gap-2 panel-border-l pl-4 h-8">
+<button class="text-on-surface-variant hover:text-primary transition-none">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (JSON Injected) -->
+<aside class="col-start-1 row-start-2 bg-surface dark:bg-surface h-full w-sidebar-width panel-border-r flex flex-col py-4 overflow-y-auto">
+<div class="px-4 mb-6">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">GOLDEN QUILL</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">SOVEREIGN WORKSTATION</p>
+</div>
+<nav class="flex flex-col flex-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">search</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">fact_check</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">account_tree</span>
+<span class="font-label-caps text-label-caps">Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">history_edu</span>
+<span class="font-label-caps text-label-caps">Sign-Off</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 bg-surface-container-high text-primary border-r-2 border-primary transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">credit_card</span>
+<span class="font-label-caps text-label-caps">Cards</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[16px]">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</a>
+</nav>
+</aside>
+<!-- Main Canvas -->
+<main class="col-start-2 row-start-2 bg-[#020617] relative flex flex-col overflow-hidden">
+<!-- Header Bar -->
+<header class="h-12 flex items-center justify-between px-4 bg-[#0F172A] panel-border-b shrink-0">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">menu_book</span>
+<h2 class="font-data-mono text-data-mono text-primary">AUTHORIZATION_LEDGER // CYCLE_ID: 8892-AF</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-block w-2 h-2 bg-[#22C55E]"></span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">LEDGER LOCKED</span>
+<button class="ml-4 bg-primary text-[#000000] font-label-caps text-label-caps px-3 py-1 hover:bg-primary-container transition-none border-none rounded-none flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">download</span> EXPORT
+                </button>
+</div>
+</header>
+<!-- Content Area: Split View -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left: Sequence Table -->
+<div class="flex-1 flex flex-col bg-[#0F172A] overflow-hidden">
+<div class="px-4 py-2 bg-[#1E293B] panel-border-b shrink-0 flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-[#64748B]">AUTHORITY SEQUENCE</span>
+<span class="font-data-mono text-[10px] text-on-surface-variant">TOTAL SIGNATURES: 5</span>
+</div>
+<div class="flex-1 overflow-auto p-4">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr>
+<th class="font-label-caps text-label-caps text-[#64748B] font-normal pb-2 border-b border-[#334155] w-8">SEQ</th>
+<th class="font-label-caps text-label-caps text-[#64748B] font-normal pb-2 border-b border-[#334155] pl-2">AUTHORITY NODE</th>
+<th class="font-label-caps text-label-caps text-[#64748B] font-normal pb-2 border-b border-[#334155]">TIMESTAMP (UTC)</th>
+<th class="font-label-caps text-label-caps text-[#64748B] font-normal pb-2 border-b border-[#334155]">ED25519 FINGERPRINT</th>
+<th class="font-label-caps text-label-caps text-[#64748B] font-normal pb-2 border-b border-[#334155] text-right pr-2">STATUS</th>
+</tr>
+</thead>
+<tbody class="font-data-mono text-data-mono">
+<!-- Row 1 -->
+<tr class="hover:bg-[#1E293B] group border-b border-[#334155]">
+<td class="py-3 text-[#64748B]">01</td>
+<td class="py-3 pl-2 flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">edit_document</span> Logician
+                                </td>
+<td class="py-3 text-on-surface-variant">2023-10-27T08:12:44Z</td>
+<td class="py-3 text-[#64748B]">7f8a...2b1c</td>
+<td class="py-3 pr-2 text-right">
+<span class="inline-block w-2 h-2 bg-[#22C55E] mr-2"></span>PASS
+                                </td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-[#1E293B] group border-b border-[#334155]">
+<td class="py-3 text-[#64748B]">02</td>
+<td class="py-3 pl-2 flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">history_edu</span> Scribe
+                                </td>
+<td class="py-3 text-on-surface-variant">2023-10-27T08:15:02Z</td>
+<td class="py-3 text-[#64748B]">e34d...9a0f</td>
+<td class="py-3 pr-2 text-right">
+<span class="inline-block w-2 h-2 bg-[#22C55E] mr-2"></span>PASS
+                                </td>
+</tr>
+<!-- Row 3 - Judge (Highlighted with SYNTH_OVERRIDE) -->
+<tr class="bg-[#1E293B] group border-b border-[#334155] border-l-2 border-l-[#B89745]">
+<td class="py-3 text-[#B89745] pl-1">03</td>
+<td class="py-3 pl-2 flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[14px] text-[#B89745]">gavel</span> Judge
+                                </td>
+<td class="py-3 text-primary">2023-10-27T08:22:19Z</td>
+<td class="py-3 text-[#B89745]">a1b2...c3d4</td>
+<td class="py-3 pr-2 text-right flex items-center justify-end gap-2">
+<span class="bg-[#B89745] text-[#000000] px-1 py-0.5 text-[10px] font-bold">SYNTH_OVERRIDE</span>
+<span class="inline-block w-2 h-2 bg-[#F59E0B]"></span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-[#1E293B] group border-b border-[#334155]">
+<td class="py-3 text-[#64748B]">04</td>
+<td class="py-3 pl-2 flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">security</span> Red Team
+                                </td>
+<td class="py-3 text-on-surface-variant">2023-10-27T08:45:11Z</td>
+<td class="py-3 text-[#64748B]">88x1...vv29</td>
+<td class="py-3 pr-2 text-right">
+<span class="inline-block w-2 h-2 bg-[#22C55E] mr-2"></span>PASS
+                                </td>
+</tr>
+<!-- Row 5 - Active Selected -->
+<tr class="bg-[#020617] group border border-primary relative cursor-pointer">
+<td class="py-3 text-primary pl-2">05</td>
+<td class="py-3 pl-2 flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-[14px] symbol-fill">person</span> Operator Auth
+                                </td>
+<td class="py-3 text-primary">2023-10-27T09:00:05Z</td>
+<td class="py-3 text-primary">99k2...pp01</td>
+<td class="py-3 pr-2 text-right">
+<span class="inline-block w-2 h-2 bg-[#22C55E] mr-2"></span>FINAL
+                                </td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right: Event Inspector -->
+<div class="w-1/3 bg-[#020617] panel-border-l flex flex-col shrink-0">
+<div class="px-4 py-2 bg-[#0F172A] panel-border-b shrink-0 flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-primary">EVENT INSPECTOR</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant cursor-pointer hover:text-primary">close_fullscreen</span>
+</div>
+<div class="p-4 flex flex-col gap-4 overflow-auto">
+<!-- Metadata Block -->
+<div class="border border-[#334155] bg-[#0F172A] p-3">
+<div class="flex justify-between items-center border-b border-[#334155] pb-2 mb-2">
+<span class="font-label-caps text-[10px] text-[#64748B]">TARGET EVENT</span>
+<span class="font-data-mono text-primary text-[11px] bg-[#1E293B] px-1">SEQ_05</span>
+</div>
+<div class="grid grid-cols-2 gap-y-2">
+<div class="text-[#64748B] font-label-caps text-[10px]">TYPE</div>
+<div class="text-on-surface-variant font-data-mono text-[11px] text-right">AUTHORIZE_PACKET</div>
+<div class="text-[#64748B] font-label-caps text-[10px]">SIGNER ID</div>
+<div class="text-on-surface-variant font-data-mono text-[11px] text-right">OP_8829_GHOST</div>
+<div class="text-[#64748B] font-label-caps text-[10px]">ARTIFACT HASH</div>
+<div class="text-primary font-data-mono text-[11px] text-right truncate pl-2" title="sha256:88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589">sha256:88d4...1589</div>
+</div>
+</div>
+<!-- JSON Payload Terminal -->
+<div class="flex-1 flex flex-col border border-[#334155] bg-[#000000] min-h-[300px]">
+<div class="px-2 py-1 border-b border-[#334155] bg-[#0F172A] flex items-center gap-2">
+<span class="material-symbols-outlined text-[12px] text-[#64748B]">code</span>
+<span class="font-label-caps text-[10px] text-[#64748B]">RAW_PAYLOAD.JSON</span>
+</div>
+<div class="p-3 overflow-auto font-data-mono text-[12px] leading-relaxed text-[#B7C8E1] whitespace-pre">
+{
+  "event_id": "evt_99k2_pp01",
+  "timestamp": "2023-10-27T09:00:05.122Z",
+  "actor": {
+    "type": "HUMAN_OPERATOR",
+    "identifier": "OP_8829_GHOST",
+    "credential_ref": "urn:uuid:f47ac10b-58cc-4372-a567-0e02b2c3d479"
+  },
+  "action": "AUTHORIZE_PACKET",
+  "target": {
+    "cycle_id": "8892-AF",
+    "artifact_hash": "sha256:88d4...1589"
+  },
+  "context": {
+    "synth_override_acknowledged": true,
+    "red_team_clearance": "VERIFIED",
+    "policy_version": "v4.2.1"
+  },
+  "signature": {
+    "alg": "EdDSA",
+    "crv": "Ed25519",
+    "val": "sig_..."
+  }
+}</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (JSON Injected) -->
+<footer class="col-span-2 fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-4 bg-surface-container-lowest dark:bg-surface-container-lowest h-8 border-t border-outline-variant">
+<div class="font-data-mono text-body-sm text-on-surface-variant dark:text-on-surface-variant">LOCAL NODE STATUS: OPERATIONAL</div>
+<div class="flex gap-6 font-data-mono text-body-sm">
+<span class="text-on-surface-variant hover:text-primary cursor-default">FINGERPRINT: 88:92:AF</span>
+<span class="text-on-surface-variant hover:text-primary cursor-default">NETWORK: ENCRYPTED</span>
+</div>
+</footer>
+</div>
+</body></html>

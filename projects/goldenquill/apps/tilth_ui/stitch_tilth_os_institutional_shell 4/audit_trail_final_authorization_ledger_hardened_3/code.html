@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FIT Farms - Final Audit Trail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#a9bad3",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "tertiary-fixed": "#dae2fd",
+                    "surface": "#081425",
+                    "inverse-on-surface": "#263143",
+                    "secondary-fixed": "#d3e4fe",
+                    "on-background": "#d8e3fb",
+                    "surface-container-low": "#111c2d",
+                    "error": "#ffb4ab",
+                    "surface-tint": "#c6c6c7",
+                    "background": "#081425",
+                    "on-primary-fixed-variant": "#454747",
+                    "outline-variant": "#444748",
+                    "inverse-surface": "#d8e3fb",
+                    "error-container": "#93000a",
+                    "secondary-container": "#3a4a5f",
+                    "secondary": "#b7c8e1",
+                    "on-surface-variant": "#c4c7c8",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "surface-container": "#152031",
+                    "tertiary": "#ffffff",
+                    "surface-container-lowest": "#040e1f",
+                    "on-primary-container": "#636565",
+                    "surface-container-high": "#1f2a3c",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "surface-variant": "#2a3548",
+                    "on-primary": "#2f3131",
+                    "on-tertiary": "#283044",
+                    "inverse-primary": "#5d5f5f",
+                    "on-tertiary-fixed": "#131b2e",
+                    "surface-bright": "#2f3a4c",
+                    "primary-fixed": "#e2e2e2",
+                    "outline": "#8e9192",
+                    "on-secondary-fixed": "#0b1c30",
+                    "on-error": "#690005",
+                    "on-tertiary-container": "#5c647a",
+                    "surface-container-highest": "#2a3548",
+                    "on-primary-fixed": "#1a1c1c",
+                    "primary-container": "#e2e2e2",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "primary": "#ffffff",
+                    "on-secondary": "#213145",
+                    "surface-dim": "#081425",
+                    "tertiary-container": "#dae2fd",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "on-surface": "#d8e3fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding": "16px",
+                    "panel-gap": "8px",
+                    "unit": "4px",
+                    "sidebar-width": "240px",
+                    "gutter": "1px"
+            },
+            "fontFamily": {
+                    "headline-md": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-md": [
+                            "Hanken Grotesk"
+                    ],
+                    "label-caps": [
+                            "JetBrains Mono"
+                    ],
+                    "data-mono": [
+                            "JetBrains Mono"
+                    ],
+                    "display-lg": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-sm": [
+                            "Hanken Grotesk"
+                    ]
+            },
+            "fontSize": {
+                    "headline-md": [
+                            "20px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-caps": [
+                            "11px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "data-mono": [
+                            "13px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "display-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #020617; /* Base Environment Level 0 */
+            color: #d8e3fb;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        
+        /* Brutalist Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+            border-left: 1px solid #334155;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 0;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .border-slate { border-color: #334155; }
+        .panel-bg { background-color: #0F172A; } /* Panel Level 1 */
+        .nested-bg { background-color: #1E293B; } /* Nested Level 2 */
+        
+        .status-positive { color: #22C55E; }
+        .status-warning { color: #F59E0B; }
+        .status-critical { color: #EF4444; }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            display: inline-block;
+        }
+        .status-dot.positive { background-color: #22C55E; }
+        .status-dot.warning { background-color: #F59E0B; }
+        .status-dot.critical { background-color: #EF4444; }
+
+        table { border-collapse: collapse; width: 100%; }
+        th { 
+            border-bottom: 1px solid #334155; 
+            text-align: left; 
+            padding: 8px 12px;
+            color: #64748B;
+        }
+        td { 
+            border-bottom: 1px solid #334155; 
+            padding: 12px;
+        }
+        tr:hover td { background-color: #1E293B; }
+    </style>
+</head>
+<body class="flex flex-col h-screen font-body-md bg-background text-on-background">
+<!-- TopAppBar -->
+<header class="bg-surface-container-low dark:bg-surface-container-low border-b border-outline-variant flex justify-between items-center w-full px-container-padding gap-panel-gap fixed top-0 h-14 z-20">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary">GOLDEN QUILL</span>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search bar placeholder -->
+<div class="flex items-center border border-slate bg-[#020617] px-2 py-1">
+<span class="material-symbols-outlined text-outline text-[18px]">search</span>
+<input class="bg-transparent border-none text-data-mono font-data-mono text-on-surface focus:ring-0 placeholder:text-outline-variant ml-2 w-48 text-sm p-0" placeholder="QUERY_ID..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-1 hover:bg-surface-container-highest text-primary border border-transparent">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+</button>
+<button class="p-1 hover:bg-surface-container-highest text-primary border border-transparent">
+<span class="material-symbols-outlined text-[20px]">vpn_key</span>
+</button>
+<button class="p-1 hover:bg-surface-container-highest text-primary border border-transparent">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 pt-14 pb-8 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container flex flex-col h-full border-r border-outline-variant w-[240px] flex-shrink-0 z-10 hidden md:flex">
+<div class="p-4 border-b border-slate">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-secondary-container flex items-center justify-center border border-slate">
+<span class="material-symbols-outlined text-secondary">domain</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-primary">FIT Farms</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-1">FRONTIER POSTURE</div>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<ul class="flex flex-col gap-1 px-2">
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">home</span>Home</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">search_insights</span>Scout</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">input</span>Intake</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">fact_check</span>Eligibility</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">account_tree</span>Module Mapper</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">edit_note</span>Drafting</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">payments</span>Budget</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">gavel</span>Judge</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">security</span>Red Team</a></li>
+<!-- Active State -->
+<li><a class="flex items-center gap-3 px-3 py-2 bg-surface-container-highest text-primary border-l-2 border-primary font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">history_edu</span>Final Packet Authorization</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">policy</span>Audit</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">credit_card</span>Cards</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">fingerprint</span>FIDs</a></li>
+</ul>
+</div>
+<div class="border-t border-slate p-2 mt-auto">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>Costs</a>
+</div>
+</nav>
+<!-- Main Canvas Area -->
+<main class="flex-1 flex flex-col md:flex-row overflow-hidden bg-[#020617] p-2 gap-2">
+<!-- Central Ledger Panel -->
+<div class="flex-1 flex flex-col panel-bg border border-slate overflow-hidden">
+<div class="p-4 border-b border-slate flex justify-between items-center bg-[#0F172A]">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary uppercase">Authorization Ledger</h1>
+<div class="font-data-mono text-data-mono text-on-surface-variant mt-1 flex items-center gap-2">
+<span>GRANT_ID: F-2024-991A</span>
+<span class="text-slate-500">|</span>
+<span>CYCLE: FINAL_COMPLETION</span>
+</div>
+</div>
+<div class="flex items-center gap-3 border border-slate px-3 py-1 bg-[#1E293B]">
+<span class="status-dot positive"></span>
+<span class="font-label-caps text-label-caps text-primary tracking-widest">VERIFIED</span>
+<span class="material-symbols-outlined status-positive text-[18px]">verified</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-4">
+<div class="border border-slate bg-[#0F172A]">
+<table>
+<thead>
+<tr>
+<th class="font-label-caps text-label-caps w-12 text-center">SEQ</th>
+<th class="font-label-caps text-label-caps">AUTHORITY</th>
+<th class="font-label-caps text-label-caps">TIMESTAMP (UTC)</th>
+<th class="font-label-caps text-label-caps">FINGERPRINT (Ed25519)</th>
+<th class="font-label-caps text-label-caps">ARTIFACT HASH</th>
+<th class="font-label-caps text-label-caps w-10"></th>
+</tr>
+</thead>
+<tbody class="font-data-mono text-data-mono">
+<tr>
+<td class="text-center text-on-surface-variant">01</td>
+<td class="text-primary flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">psychology</span>Logician</td>
+<td class="text-on-surface">2024-10-24T08:12:44Z</td>
+<td class="text-on-surface-variant truncate max-w-[150px]">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</td>
+<td class="text-secondary">#a71f9e2b</td>
+<td class="text-center"><span class="material-symbols-outlined text-[16px] status-positive">check</span></td>
+</tr>
+<tr>
+<td class="text-center text-on-surface-variant">02</td>
+<td class="text-primary flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">draw</span>Scribe</td>
+<td class="text-on-surface">2024-10-24T09:45:11Z</td>
+<td class="text-on-surface-variant truncate max-w-[150px]">8a230c1498fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</td>
+<td class="text-secondary">#b82c1f3a</td>
+<td class="text-center"><span class="material-symbols-outlined text-[16px] status-positive">check</span></td>
+</tr>
+<tr>
+<td class="text-center text-on-surface-variant">03</td>
+<td class="text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-warning">gavel</span>
+                                        Judge <span class="bg-[#F59E0B]/20 text-[#F59E0B] px-1 py-0.5 text-[10px] ml-2 border border-[#F59E0B]/30">SYNTH_OVERRIDE</span>
+</td>
+<td class="text-on-surface">2024-10-24T11:22:05Z</td>
+<td class="text-on-surface-variant truncate max-w-[150px]">f9d21c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</td>
+<td class="text-secondary">#c93d2e4b</td>
+<td class="text-center"><span class="material-symbols-outlined text-[16px] status-warning">warning</span></td>
+</tr>
+<tr>
+<td class="text-center text-on-surface-variant">04</td>
+<td class="text-primary flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">security</span>Red Team</td>
+<td class="text-on-surface">2024-10-24T14:05:33Z</td>
+<td class="text-on-surface-variant truncate max-w-[150px]">d4e5f644298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</td>
+<td class="text-secondary">#d04e3f5c</td>
+<td class="text-center"><span class="material-symbols-outlined text-[16px] status-positive">check</span></td>
+</tr>
+<tr class="bg-[#1E293B] border-l-2 border-primary">
+<td class="text-center text-primary">05</td>
+<td class="text-primary font-bold flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-primary">key</span>Operator Auth</td>
+<td class="text-primary">2024-10-24T15:30:00Z</td>
+<td class="text-primary truncate max-w-[150px]">1a2b3c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</td>
+<td class="text-primary font-bold">#e15f4g6d</td>
+<td class="text-center"><span class="material-symbols-outlined text-[16px] text-primary">arrow_forward_ios</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Inspector Panel -->
+<div class="w-full md:w-[320px] panel-bg border border-slate flex flex-col flex-shrink-0">
+<div class="p-3 border-b border-slate bg-[#0F172A] flex justify-between items-center">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase">Event Inspector</h2>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">info</span>
+</div>
+<div class="p-4 overflow-y-auto flex-1 flex flex-col gap-4">
+<div class="border border-slate p-3 bg-[#1E293B]">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">EVENT_TYPE</div>
+<div class="font-headline-md text-headline-md text-primary">Authorize Packet</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center border-b border-slate pb-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant">ACTOR</span>
+<span class="font-data-mono text-data-mono text-on-surface">SYS_OP_992</span>
+</div>
+<div class="flex justify-between items-center border-b border-slate pb-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant">NODE</span>
+<span class="font-data-mono text-data-mono text-on-surface">FIT_FARMS_MAIN</span>
+</div>
+<div class="flex justify-between items-center border-b border-slate pb-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant">PROTOCOL</span>
+<span class="font-data-mono text-data-mono text-on-surface">OAUTH_V3_STRICT</span>
+</div>
+<div class="flex justify-between items-center border-b border-slate pb-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant">LATENCY</span>
+<span class="font-data-mono text-data-mono text-on-surface">14ms</span>
+</div>
+</div>
+<div class="mt-2">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">RAW_PAYLOAD</div>
+<div class="bg-[#020617] p-2 border border-slate font-data-mono text-[10px] text-secondary-fixed-dim whitespace-pre-wrap break-all h-32 overflow-y-auto">
+{
+  "event": "terminal_auth",
+  "grant_id": "F-2024-991A",
+  "actor": "SYS_OP_992",
+  "timestamp": "1730103600",
+  "signature": "1a2b3c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "prior_hash": "#d04e3f5c",
+  "flags": ["FINAL", "LOCKED"]
+}
+                        </div>
+</div>
+<div class="mt-auto pt-4">
+<button class="w-full bg-primary text-on-primary font-label-caps text-label-caps py-2 border-none rounded-none hover:bg-surface-tint transition-none flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">download</span>
+                            EXPORT DOSSIER
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50 h-8 font-data-mono text-data-mono text-secondary dark:text-secondary">
+<div>NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED</div>
+<div class="flex items-center gap-4">
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">Machine ID: 992-QX</a>
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">Audit Log</a>
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">System Health</a>
+</div>
+</footer>
+</body></html>

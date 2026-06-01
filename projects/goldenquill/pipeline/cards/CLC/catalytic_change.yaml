@@ -1,0 +1,810 @@
+# Card — TILTH-CLC-02 Catalytic Change
+# Wave 2 research draft 2026-05-15. Phase 3 output per blueprint §18.11.
+# Content populated per blueprint §18.10 starter requirements for CLC-02.
+# Operator review + cross-family thesis + Ed25519 signature COMPLETE.
+# SIGNED — runtime-loadable; lifecycle truth enforced by loader preflight.
+#
+# Coupling discipline (architecture v7.0.11 §6.1 + §4 v2.x F-CARDS-COUPLING-VIOLATION-EXTENSION):
+# This card contains NO eligible_cic_subset, cic_allowlist, cic_denylist,
+# preferred_cics, cic_win_rate, or cic_ranking_preferences fields. CLC × CIC
+# matching is opportunity-driven at runtime, never archetype-driven at design time.
+#
+# Operator OQ resolutions applied (Wave 2 carry-over from Wave 1, 2026-05-15):
+#   Directory: pipeline/cards/CLC/ (uppercase canonical).
+#   Verbatim-quote cap: ≤2 sentences per quote with URL + access_date citation.
+#   admin_risk_term_register: approval_required: true on every entry.
+#   Frequency / win-rate: qualitative-only (HIGH/MEDIUM/LOW/UNKNOWN). No numeric rates.
+#   Schema-current as-on-disk; uses lifecycle.review_status terminology.
+
+schema_version: "1.0-clc"
+card_axis: "CLC"
+card_id: "TILTH-CLC-02"
+slug: "catalytic_change"
+display_name: "Catalytic Change"
+funding_mechanism_summary: "Demonstration, transition, innovation, and systems-change funding where theory of change, leverage point, learning agenda, and replication pathway drive underwriting (foundations + federal innovation funds + climate/transition funds)."
+tilth_clc_id: "TILTH-CLC-02"
+
+# ---------------------------------------------------------------------------
+# UNDERWRITING CRITERIA — what reviewers evaluate (per §18.10 starter content)
+# ---------------------------------------------------------------------------
+underwriting_criteria:
+  - criterion: "theory_of_change"
+    description: "Rigorous, mechanism-bearing chain from inputs → activities → outputs → outcomes → impact, with assumptions named. Not a wishlist; reviewers want the causal logic spelled out and falsifiable."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-02"
+
+  - criterion: "systems_leverage_point"
+    description: "Identifies the specific lever in a larger system (policy, market, practice, infrastructure, network) the intervention pushes on, and why that lever matters. Distinguishes catalytic work from direct-service work."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-02"
+
+  - criterion: "novelty_or_innovation"
+    description: "What is genuinely new in this approach (technology, model, configuration, partnership), what prior art it builds on, and what unanswered question it tests. Avoids 'innovative' as an adjective without substance."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://new.nsf.gov/funding/opportunities/convergence-accelerator-phases-1-2"
+
+  - criterion: "transition_plausibility"
+    description: "Credible pathway from current state to proposed state, including who must change behavior, what enabling conditions are required, and what barriers must be overcome. Relevant for climate, energy, education, food-system transitions."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-02"
+
+  - criterion: "replication_pathway"
+    description: "Plan for moving from one demonstration to broader uptake — who copies, how lessons travel, what conditions transfer, what would need to be true for replication to work. Reviewers want the replication math, not just intention."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://arpa-e.energy.gov/news-and-media/program-announcements"
+
+  - criterion: "learning_agenda"
+    description: "Named questions the demonstration will answer, evidence that will be collected to answer them, and how findings will be packaged and disseminated. Distinguishes innovation funding from program funding."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.macfound.org/programs/100change/"
+
+  - criterion: "partnership_strength_and_role_clarity"
+    description: "Named partners with written commitments, distinct roles, and surface area for accountability. Reviewers flag 'partnerships' that lack defined contribution or are listed only for credibility."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.fordfoundation.org/work/our-grants/building-institutions-and-networks/"
+
+  - criterion: "measurement_and_evaluation_rigor"
+    description: "Evaluation design (formative + summative), baseline + benchmark + outcome metrics, named evaluation partner (independent for federal innovation), data collection cadence. Federal innovation programs (EIR, NSF) require evaluator engagement before award."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://ies.ed.gov/funding/ncer_progs.asp"
+
+  - criterion: "follow_on_capital_plan"
+    description: "Where post-pilot funding comes from (additional foundations, federal program funds, earned revenue, public budgets). Reviewers look for evidence the applicant has scoped the next-stage funding landscape — catalytic capital is by definition not the final tranche."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.rockefellerfoundation.org/case-study/catalytic-capital/"
+
+  - criterion: "timing_and_window_alignment"
+    description: "Why now — what policy window, market signal, regulatory shift, or crisis makes this the right moment for the intervention. Reviewers want a baseline comparison (pre-intervention status-quo metrics from a credible source) paired with the why-now anchor — superficial 'current systems are inadequate' framing fails. Catalytic funders weight timing heavily; same intervention 2 years earlier or later may not score."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-02"
+
+  - criterion: "scale_of_leverage"
+    description: "Order-of-magnitude estimate of downstream impact — how many people, dollars, acres, kWh, or institutions could shift if the demonstration succeeds and replicates. Reviewers reject false precision but expect a defensible range."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.skoll.org/about/approach/"
+
+  - criterion: "dissemination_strategy"
+    description: "How learning travels — convenings, briefs, datasets, open-source releases, policy memos, peer networks, media. Specific channels with audience identified, not 'we will share findings widely'."
+    weight_in_typical_rubric: "qualitative"
+    source_citation: "https://www.macfound.org/programs/100change/"
+
+# ---------------------------------------------------------------------------
+# SCORING WEIGHT PATTERNS — funder-specific rubrics observed
+# ---------------------------------------------------------------------------
+# Qualitative only. Numeric weights deferred until Lessons Memory absorbs
+# 12+ CycleReceipts with quantified observations.
+scoring_weight_patterns:
+  # Phase F Tier-1 anonymization 2026-05-16: prior `rubric_example` named specific
+  # major-foundation programs without operator-confirmed engagement (Law 5 surface
+  # matching the Cooperation Jackson + common_funders_observed concern). Generic
+  # descriptor + URL citation preserved for one canonical pattern source.
+  - rubric_example: "Foundation innovation/catalytic rubric — typical anatomy across major national foundation innovation portfolios"
+    weights:
+      meaningfulness_of_problem: "weighted"
+      verifiable_evidence_of_change: "weighted"
+      durability_and_replication: "weighted"
+      feasibility_and_team_capacity: "weighted"
+      community_engagement_and_legitimacy: "weighted"
+    source_citation: "https://www.macfound.org/programs/100change/"
+    note: "The four-criteria pattern (Meaningful, Verifiable, Durable, Feasible) cited in this entry's source_citation is one canonical example; most foundation innovation rubrics adopt a similar 4-6 criterion structure. Specific foundation names removed from binding fields per Law 5 + Phase F 2026-05-16 cleanup."
+
+  - rubric_example: "NSF Merit Review (Intellectual Merit + Broader Impacts; applies to Convergence Accelerator, AISL, EFRI)"
+    weights:
+      intellectual_merit: "weighted"
+      broader_impacts: "weighted"
+    source_citation: "https://www.nsf.gov/bfa/dias/policy/merit_review/"
+    note: "NSF uses two top-level criteria with five sub-elements each (transformative, qualified, resources, organization, results). Both criteria weighted; broader impacts must be addressed separately."
+
+  - rubric_example: "ARPA-E Stage Gate scoring (technical merit + impact + team + budget)"
+    weights:
+      technical_merit_and_innovation: "weighted"
+      impact_and_market_potential: "weighted"
+      team_and_resources: "weighted"
+      budget_and_management_plan: "weighted"
+    source_citation: "https://arpa-e.energy.gov/programs-and-initiatives/active-programs"
+    note: "ARPA-E concept papers + full applications scored on technical innovation, impact (energy/economic/environmental), team, and budget. Technical merit is the dominant weight."
+
+  - rubric_example: "USDA AFRI Foundational + Applied (NIFA peer review)"
+    weights:
+      scientific_merit: "weighted"
+      relevance_to_priority_area: "weighted"
+      qualifications_of_project_personnel: "weighted"
+      project_management_plan: "weighted"
+      budget_and_cost_effectiveness: "weighted"
+    source_citation: "https://www.nifa.usda.gov/grants/programs/agriculture-food-research-initiative-afri"
+    note: "AFRI uses a five-criterion scoring sheet; weights vary by program area RFA but scientific merit + relevance typically dominate."
+
+  - rubric_example: "EDA Build to Scale (Venture Challenge / Capital Challenge)"
+    weights:
+      strategy_and_innovation: "weighted"
+      capacity_and_partnerships: "weighted"
+      impact_and_outcomes: "weighted"
+      sustainability_and_match: "weighted"
+    source_citation: "https://www.eda.gov/funding/programs/build-to-scale"
+    note: "Build to Scale requires 50% match; sustainability of regional innovation ecosystem heavily weighted in addition to project-level outcomes. The Venture Challenge and Capital Challenge are program tracks (not rubric criteria); the four weight keys above are derived structural labels capturing the typical evaluation dimensions reviewers apply within each track (e.g., 'sustainability_and_match' bundles ecosystem-sustainability evidence and the 50% match requirement). Official EDA scoring criteria vary by NOFO publication year and by track; the card captures the structural pattern across years and reviewer-context priorities. Scribe must consult the active NOFO for the canonical criterion names + weights."
+
+  - rubric_example: "IES Education Innovation and Research (EIR; Early-phase / Mid-phase / Expansion tiers)"
+    weights:
+      significance: "weighted"
+      project_design: "weighted"
+      management_plan: "weighted"
+      evaluation_plan: "weighted"
+      personnel: "weighted"
+    source_citation: "https://ies.ed.gov/funding/ncer_progs.asp"
+    note: "EIR tiers differ in evidence requirements; Expansion-tier requires moderate evidence + RCT + independent evaluator. All tiers require evaluation plan with named evaluator before award."
+
+# ---------------------------------------------------------------------------
+# EVIDENCE WEIGHTS — what reviewers look for
+# ---------------------------------------------------------------------------
+evidence_weights:
+  explicit_theory_of_change:
+    weight: "HIGH"
+    rationale: "Written, visual, or logic-model representation of the causal chain — inputs to impact — with assumptions named. Catalytic funders treat this as the load-bearing artifact."
+    source_citation: "https://www.macfound.org/programs/100change/"
+
+  systems_map:
+    weight: "HIGH"
+    rationale: "Visualization of the system the intervention targets — actors, flows, leverage points. Distinguishes systems-change work from program-implementation work."
+    source_citation: "https://www.fsg.org/blog/six-conditions-systems-change/"
+
+  pilot_or_preliminary_results:
+    weight: "HIGH"
+    rationale: "Prior demonstration data, pilot results, proof-of-concept evidence. Federal innovation programs (EIR, NSF Convergence Accelerator Phase 2) often require Phase 1 / preliminary results before mid/large-grant funding."
+    source_citation: "https://new.nsf.gov/funding/opportunities/convergence-accelerator-phases-1-2"
+
+  partner_commitment_letters_with_role_clarity:
+    weight: "HIGH"
+    rationale: "Signed commitments naming what each partner contributes and is accountable for. Generic 'support letters' without role definition score weakly."
+    source_citation: "https://www.fordfoundation.org/work/our-grants/building-institutions-and-networks/"
+
+  learning_agenda:
+    weight: "HIGH"
+    rationale: "Named research/learning questions the demonstration will answer, with linked data collection. Foundations + federal innovation programs treat this as the deliverable that makes the grant catalytic rather than operational."
+    source_citation: "https://www.macfound.org/programs/100change/"
+
+  replication_pathway:
+    weight: "MEDIUM"
+    rationale: "Plan for moving from one site/demonstration to broader uptake. Weight is stage-conditional — MEDIUM at Phase 1 / pilot / Early-phase EIR / NSF Convergence Phase 1; escalates to HIGH at later stages (NSF Convergence Phase 2, IES EIR Mid- and Expansion-phases, ARPA-E later-stage programs). Even at early phase reviewers expect a defined pathway articulated; what changes with stage is the evidentiary burden, not the requirement. The single-enum value MEDIUM holds per §18.6 schema enum (HIGH | MEDIUM | LOW); the stage escalation is captured in this rationale per card composer guidance."
+    source_citation: "https://arpa-e.energy.gov/news-and-media/program-announcements"
+
+  leverage_or_follow_on_capital_plan:
+    weight: "HIGH"
+    rationale: "Identification of post-pilot funding sources — additional foundations, federal program funds, earned revenue, public budgets. Catalytic capital is by definition not the last tranche."
+    source_citation: "https://www.rockefellerfoundation.org/case-study/catalytic-capital/"
+
+  baseline_metrics:
+    weight: "MEDIUM"
+    rationale: "Pre-intervention measurement of the variables the demonstration will move. Without baseline, outcome claims are uninterpretable. Catalytic funders weight 'why now' framing heavily — baseline metrics paired with policy-window / market-signal context distinguish timely catalytic capital from speculative bets."
+    source_citation: "https://www.fsg.org/blog/six-conditions-systems-change/"
+
+  evaluation_partner:
+    weight: "HIGH"
+    rationale: "For federal innovation programs (EIR, NSF AISL, IES) — independent evaluator named with budget at application time. For foundations — internal evaluation acceptable but external preferred at scale. Weight: HIGH for federal innovation, MEDIUM for foundation."
+    source_citation: "https://ies.ed.gov/funding/ncer_progs.asp"
+
+  intellectual_property_or_openness_posture:
+    weight: "MEDIUM"
+    rationale: "How findings, code, datasets, and tools will be released or licensed. ARPA-E retains rights; NSF generally grants license; foundations vary. Mission-aligned funders (Skoll, MacArthur, climate funds) often prefer open-source / open-data."
+    source_citation: "https://arpa-e.energy.gov/about/intellectual-property"
+
+  dissemination_plan:
+    weight: "MEDIUM"
+    rationale: "Specific channels (convenings, briefs, papers, datasets, policy memos) with audience identified. 'Will share findings widely' scores weakly."
+    source_citation: "https://www.macfound.org/programs/100change/"
+
+# ---------------------------------------------------------------------------
+# COMMON APPLICATION FORMS
+# ---------------------------------------------------------------------------
+common_application_forms:
+  - form_id: "Research.gov / NSF FastLane templates"
+    form_version: "Platform-hosted, per-NSF-program"
+    required_for: "NSF Convergence Accelerator, AISL, EFRI, Smart and Connected Communities, Innovation Corps (I-Corps)"
+    source: "https://www.research.gov/research-web/"
+    note: "NSF migrated from FastLane to Research.gov; templates include Project Summary (1 page), Project Description (15 pages typical), References, Biosketches, Budget Justification, Data Management Plan, Postdoc Mentoring Plan (where applicable)."
+
+  - form_id: "SF-424 (R&R) family"
+    form_version: "OMB Approved (annual revision)"
+    required_for: "Federal innovation programs routed through Grants.gov (USDA AFRI, EDA Build to Scale, IES EIR, HRSA innovation, NIH Common Fund)"
+    source: "https://www.grants.gov/forms/r-r-family.html"
+    note: "Research and Related (R&R) forms used for federal innovation/research grants; includes R&R Senior/Key Person Profile, R&R Other Project Information, R&R Personal Data, R&R Budget."
+
+  - form_id: "ARPA-E Concept Paper + Full Application"
+    form_version: "Per FOA"
+    required_for: "DOE ARPA-E programs"
+    source: "https://arpa-e-foa.energy.gov/"
+    note: "Two-stage: Concept Paper (5-7 pages) → encouraged/discouraged response → Full Application (~20-40 pages). Program-specific FOAs publish templates."
+
+  - form_id: "Foundation LOI (Letter of Inquiry) templates"
+    form_version: "Per-foundation, platform-hosted"
+    required_for: "MacArthur, Ford, Hewlett, Robert Wood Johnson, Rockefeller, Skoll, Kresge (most foundations use 2-stage LOI → invited full proposal)"
+    source: "https://www.macfound.org/grantmaking/applications-policies"
+    note: "Typical LOI is 2-4 pages covering problem, approach, organization, request amount, timeline. Invited full proposals run 8-20 pages depending on funder."
+
+  - form_id: "Foundation full-proposal templates (Fluxx-hosted, Submittable-hosted, Foundant-hosted)"
+    form_version: "Per-foundation, platform-hosted"
+    required_for: "MacArthur (Fluxx), Rockefeller (Fluxx), RWJF (Fluxx), Skoll (Submittable), Kresge (Fluxx/Submittable mix), Ford (custom portal)"
+    source: "https://www.fluxx.io/"
+    note: "Foundation grant management platforms verified via primary platform sources: Fluxx (fluxx.io), Foundant GLM (foundant.com), Submittable (submittable.com). No single canonical aggregator covers all three platforms with cross-comparison; per-platform primary sources used."
+
+  - form_id: "Common Grant Application (regional grantmaker associations)"
+    form_version: "Regional"
+    required_for: "Many community foundations + regional foundation collaboratives running innovation/catalytic portfolios"
+    source: "https://www.cof.org/"
+
+# ---------------------------------------------------------------------------
+# NARRATIVE SECTION PATTERNS
+# ---------------------------------------------------------------------------
+narrative_section_patterns:
+  - section_name: "Executive Summary / Abstract"
+    typical_word_count: "200-500"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-02"
+    note: "Problem, approach, expected outcome, request amount, timeline. NSF Project Summary is 1 page (~500 words) with three sub-headings (Overview, Intellectual Merit, Broader Impacts)."
+
+  - section_name: "Theory of Change"
+    typical_word_count: "600-1500"
+    source_citation: "https://www.macfound.org/programs/100change/"
+    note: "Causal logic from inputs to impact with assumptions named — mechanistic, not aspirational. The single most reviewer-weighted section in catalytic-funder rubrics. Scribe must demand at least one named assumption at each step and a falsifiability marker (what evidence would invalidate the chain) — wishlist-style 'we expect X to improve Y' framing fails the rubric. Convergence with underwriting_criteria.theory_of_change + evidence_weights.explicit_theory_of_change is intentional: the three surfaces are not duplicates (criterion = what reviewers evaluate; evidence weight = funder weight of the artifact; section = drafting word-count + structural guidance) — all three converge on the same load-bearing demand for mechanism + named assumptions."
+
+  - section_name: "Systems Context / Problem Framing"
+    typical_word_count: "500-1200"
+    source_citation: "https://www.fsg.org/blog/six-conditions-systems-change/"
+    note: "The system being changed, leverage point being pushed, actors involved, why current state persists. Baseline is not decorative — reviewers want concrete pre-intervention metrics (5- or 10-year status quo where the data exists) and a why-now anchor naming the policy window, market signal, regulatory shift, or crisis that makes this the right moment. Same intervention 2 years earlier or later may not score; the card weights timing heavily (see underwriting_criteria.timing_and_window_alignment)."
+
+  - section_name: "Intervention Model / Approach"
+    typical_word_count: "1000-3000"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-02"
+    note: "What will be designed, built, tested, or deployed. Bulk of the proposal in federal innovation contexts (NSF Project Description ~15 pages)."
+
+  - section_name: "Innovation / Novelty"
+    typical_word_count: "300-800"
+    source_citation: "https://new.nsf.gov/funding/opportunities/convergence-accelerator-phases-1-2"
+    note: "What is genuinely new versus prior art; positioned for technical reviewers in federal innovation contexts and program officers in foundation contexts."
+
+  - section_name: "Learning Agenda"
+    typical_word_count: "400-1000"
+    source_citation: "https://www.macfound.org/programs/100change/"
+    note: "Named questions, evidence to be collected, knowledge products to be released. Foundations weight this heavily."
+
+  - section_name: "Partnerships / Team"
+    typical_word_count: "500-1500"
+    source_citation: "https://www.fordfoundation.org/work/our-grants/building-institutions-and-networks/"
+    note: "Named partners with role clarity + signed commitment letters as attachments. Federal innovation programs require Senior/Key Person Profile + Biosketches."
+
+  - section_name: "Evaluation Plan"
+    typical_word_count: "600-1500"
+    source_citation: "https://ies.ed.gov/funding/ncer_progs.asp"
+    note: "Formative + summative evaluation design, baseline + outcome measures, evaluator credentials. IES EIR + NSF require independent evaluator named with budget at application."
+
+  - section_name: "Dissemination / Knowledge Sharing"
+    typical_word_count: "300-700"
+    source_citation: "https://www.macfound.org/programs/100change/"
+    note: "Channels (convenings, briefs, papers, datasets, open source), audiences, timing. Foundations weight specificity here."
+
+  - section_name: "Scale / Replication Pathway"
+    typical_word_count: "500-1200"
+    source_citation: "https://arpa-e.energy.gov/news-and-media/program-announcements"
+    note: "From demonstration to broader uptake — who copies, how lessons travel, what conditions transfer."
+
+  - section_name: "Sustainability / Follow-On Capital"
+    typical_word_count: "400-900"
+    source_citation: "https://www.rockefellerfoundation.org/case-study/catalytic-capital/"
+    note: "Where post-pilot funding comes from. Catalytic funders read this section to confirm they are not being asked to fund operations indefinitely."
+
+  - section_name: "Budget Justification / Narrative"
+    typical_word_count: "500-1500"
+    source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-02"
+
+# ---------------------------------------------------------------------------
+# BUDGET STRUCTURE CONVENTIONS
+# ---------------------------------------------------------------------------
+budget_structure_conventions:
+  direct_cost_categories:
+    - "personnel"
+    - "fringe_benefits"
+    - "consultants_and_contractual"
+    - "evaluation_partner"
+    - "travel"
+    - "equipment"
+    - "supplies_and_materials"
+    - "participant_support"
+    - "publications_and_dissemination"
+    - "convenings_and_meetings"
+    - "subawards_to_partners"
+    - "other_direct"
+  indirect_cost_treatment: "Foundation innovation grants commonly cap indirect at 10-15%; some (Ford, MacArthur core programs) honor higher; some (Hewlett certain programs) cap at 0%. Federal innovation programs honor the recipient's federally negotiated rate or de minimis 10% MTDC per 2 CFR 200. ARPA-E and NSF allow negotiated rates. Operator must check each FOA/RFP."
+  match_requirements_typical: "Foundation innovation grants typically do not require formal match but leverage (other-source funding identified) is strongly expected and often weighted in scoring. Federal innovation programs vary widely: EDA Build to Scale requires 50% match; NIH Common Fund no match; ARPA-E cost share by program (often 20-50% for technology development, 0% for early-stage concepts); USDA AFRI no match for foundational, varies for applied; IES EIR no match. Cost-share documentation required at submission for match-bearing programs."
+  source_citation: "https://www.eda.gov/funding/programs/build-to-scale"
+
+# ---------------------------------------------------------------------------
+# REVIEWER PROFILE TYPICAL
+# ---------------------------------------------------------------------------
+reviewer_profile_typical:
+  reviewer_types:
+    - "foundation_program_officer"
+    - "innovation_program_reviewer"
+    - "technical_subject_matter_expert"
+    - "peer_reviewer_from_field"
+    - "systems_or_policy_change_reviewer"
+    - "economist_or_market_analyst"
+    - "evaluation_specialist"
+    - "commercialization_or_technology_transfer_reviewer"
+  reviewer_priorities:
+    - "Does the theory of change have a mechanism, or is it a wishlist of intentions?"
+    - "Where is the specific leverage point in the larger system, and why does it matter?"
+    - "What is genuinely new here versus prior art — and is the novelty load-bearing?"
+    - "Is there a real learning agenda, or is this operational work labeled as innovation?"
+    - "Do the partnerships have role clarity, or are they letters of support without commitment?"
+    - "Is the evaluation plan credible, with an evaluator who has been engaged before submission?"
+    - "Where does the next-stage funding come from — is the follow-on capital scoped?"
+    - "Why is now the right moment — what window does this hit?"
+  dialect_split_note: "The reviewer_types list spans two reader populations with materially different dialects. Foundation program officers (foundation_program_officer, innovation_program_reviewer, systems_or_policy_change_reviewer, evaluation_specialist on foundation panels) prioritize mission fit, leverage / catalytic positioning, learning agenda, and theory-of-change mechanism. Federal innovation panel reviewers (technical_subject_matter_expert, peer_reviewer_from_field on federal panels, commercialization_or_technology_transfer_reviewer, economist_or_market_analyst on EDA / NSF panels) prioritize technical merit, broader impacts (NSF), commercialization plausibility (ARPA-E / SBIR), and independent-evaluator engagement (IES / NSF AISL). Scribe's dialect_routing must select the appropriate reviewer subset at runtime — foundation vs federal-innovation grants pull different priority orderings even though the reviewer_priorities list above applies to both. Catalytic-change funding is foundation-heavier than federal-innovation-heavier in 2026 portfolios but the split varies by sub-sector (climate-transition federal vs foundation; education innovation IES vs Hewlett vs Walton)."
+  common_red_flags_from_reviewer_pov:
+    - "Theory of change reads as program description, not causal logic"
+    - "No identified systems leverage point; intervention is a discrete service, not catalytic"
+    - "Innovation claim unsupported by reference to prior art or comparable approaches"
+    - "Learning agenda absent or generic ('we will learn from implementation')"
+    - "Partner roles undefined or partner letters generic"
+    - "Evaluation plan added late, no named evaluator or evaluator on cover only"
+    - "Sustainability section names 'additional grants' as the sustainability plan"
+    - "Replication pathway absent or aspirational without conditions named"
+    - "Scale claims that do not survive arithmetic — order-of-magnitude implausible"
+    - "Mission-mismatch with funder portfolio (researched the wrong program)"
+  source_citation: "https://www.macfound.org/programs/100change/"
+
+# ---------------------------------------------------------------------------
+# COMMON PORTALS
+# ---------------------------------------------------------------------------
+common_portals:
+  - portal: "Fluxx Grantmaker"
+    typical_use: "MacArthur, Rockefeller, RWJF, Skoll, Kresge — most large national foundations running innovation portfolios use Fluxx for multi-stage LOI → full-proposal workflows."
+    source_citation: "https://www.fluxx.io/"
+
+  - portal: "Foundant GLM"
+    typical_use: "Mid-market foundations and community foundations with innovation/catalytic lines (e.g., Bush Foundation Community Innovation, regional collaboratives)."
+    source_citation: "https://www.foundant.com/"
+
+  - portal: "Submittable"
+    typical_use: "Corporate foundations + smaller foundations with innovation/competition lines (Skoll uses Submittable for application intake; many challenge-style competitions)."
+    source_citation: "https://www.submittable.com/"
+
+  - portal: "Research.gov / NSF FastLane"
+    typical_use: "All NSF programs (Convergence Accelerator, AISL, EFRI, S&CC, I-Corps)."
+    source_citation: "https://www.research.gov/research-web/"
+
+  - portal: "Grants.gov / Workspace"
+    typical_use: "Federal innovation programs (USDA AFRI, EDA Build to Scale, IES EIR, HRSA innovation, NIH Common Fund, ARPA-E for some FOAs)."
+    source_citation: "https://www.grants.gov/"
+
+  - portal: "ARPA-E Exchange (eXCHANGE)"
+    typical_use: "DOE ARPA-E concept papers and full applications submitted through dedicated portal, separate from Grants.gov."
+    source_citation: "https://arpa-e-foa.energy.gov/"
+
+  - portal: "SAM.gov"
+    typical_use: "Required for any federal innovation application (UEI + active registration)."
+    source_citation: "https://sam.gov/"
+
+  - portal: "Common Grant Application (regional grantmaker associations)"
+    typical_use: "Where a regional collaborative aggregates innovation/catalytic intake."
+    source_citation: "https://www.cof.org/"
+
+# ---------------------------------------------------------------------------
+# COMMON RED FLAGS — adversarial probes
+# ---------------------------------------------------------------------------
+common_red_flags:
+  - flag: "wishlist_theory_of_change"
+    severity: "HIGH"
+    red_team_probe: "Walk the chain from inputs to impact and name one assumption at each step. Which assumption is most fragile, and what would invalidate it?"
+    source_citation: "https://www.macfound.org/programs/100change/"
+
+  - flag: "no_identified_leverage_point"
+    severity: "HIGH"
+    red_team_probe: "What is the single point in the larger system this intervention pushes on, and what changes downstream if that point shifts?"
+    source_citation: "https://www.fsg.org/blog/six-conditions-systems-change/"
+
+  - flag: "unsupported_innovation_claim"
+    severity: "HIGH"
+    red_team_probe: "Name three comparable approaches in the field. What does this one do that those do not? If reviewers know prior art you do not, your novelty claim looks naive."
+    source_citation: "https://new.nsf.gov/funding/opportunities/convergence-accelerator-phases-1-2"
+
+  - flag: "no_learning_agenda"
+    severity: "HIGH"
+    red_team_probe: "What three questions will this demonstration answer that the field does not currently know? Which data will answer each?"
+
+  - flag: "no_replication_pathway"
+    severity: "MEDIUM"
+    red_team_probe: "If this works, who copies, how, and what conditions must hold? If you can't answer, the funder is buying a one-off."
+
+  - flag: "role_less_partnerships"
+    severity: "HIGH"
+    red_team_probe: "For each partner letter, name the specific contribution and accountability mechanism. Is there a partner here who has no role beyond endorsement?"
+    source_citation: "https://www.fordfoundation.org/work/our-grants/building-institutions-and-networks/"
+
+  - flag: "diffuse_benefits"
+    severity: "MEDIUM"
+    red_team_probe: "Who specifically benefits, in what way, on what timeline? Diffuse impact language ('communities benefit', 'systems improve') reads as evasion."
+
+  - flag: "success_metrics_not_tied_to_systems_change"
+    severity: "HIGH"
+    red_team_probe: "Are the metrics service-delivery outputs (people served, units produced) or systems-change indicators (practice adopted, policy shifted, market formed)? Catalytic funders want the latter."
+
+  - flag: "no_follow_on_capital_strategy"
+    severity: "HIGH"
+    red_team_probe: "Where does next-stage funding come from — name the funders, programs, revenue streams, or budgets. If this is the last tranche, the demonstration is not catalytic."
+    source_citation: "https://www.rockefellerfoundation.org/case-study/catalytic-capital/"
+
+  - flag: "mission_mismatch_with_funder"
+    severity: "HIGH"
+    red_team_probe: "Cite three recent awards from this funder that resemble this proposal. If you cannot, you are likely in the wrong portfolio."
+
+  - flag: "evaluation_added_late"
+    severity: "MEDIUM"
+    red_team_probe: "Was the evaluator engaged before submission, with budget reflecting that engagement? Federal innovation programs read late evaluation as a structural weakness."
+    source_citation: "https://ies.ed.gov/funding/ncer_progs.asp"
+
+  - flag: "scale_claims_arithmetically_implausible"
+    severity: "HIGH"
+    red_team_probe: "Run the scale claim through plain arithmetic. If you claim X people reached in Y years, does that exceed credible adoption rates?"
+
+# ---------------------------------------------------------------------------
+# REPORTING REQUIREMENTS TYPICAL
+# ---------------------------------------------------------------------------
+reporting_requirements_typical:
+  performance_reporting:
+    frequency: "semi_annual_to_annual_foundation; quarterly_or_semi_annual_federal"
+    content_required:
+      - "Progress against milestones in theory-of-change implementation plan"
+      - "Learning products released (briefs, papers, datasets, toolkits, convenings)"
+      - "Partnership status + role-execution updates"
+      - "Evaluation interim findings"
+      - "Dissemination metrics (audiences reached, downloads, attendance)"
+      - "Replication inquiries received + acted on"
+      - "Policy / market engagement updates"
+      - "Variance from theory-of-change + rationale"
+      - "Follow-on funding secured + pursued"
+  financial_reporting:
+    frequency: "quarterly_federal; quarterly_or_semi_annual_foundation"
+    content_required:
+      - "Expenditure by budget category"
+      - "Burn rate vs. timeline"
+      - "Cost-share / match documentation (federal innovation with match requirement)"
+      - "Subaward expenditure"
+      - "Variance explanation"
+  final_report_required: true
+  source_citation: "https://www.macfound.org/grantmaking/applications-policies"
+  note: "Foundation innovation grants typically: interim narrative + financial annually for multi-year grants; final at close. Federal innovation: SF-425 + SF-PPR quarterly or semi-annual per program; final closeout per 2 CFR 200.344. Learning products often treated as separate deliverables with their own schedule."
+
+# ---------------------------------------------------------------------------
+# COMPLIANCE OBLIGATIONS
+# ---------------------------------------------------------------------------
+compliance_obligations:
+  - framework: "2 CFR Part 200 (Uniform Guidance)"
+    applicability: "All federal innovation grants"
+    typical_filings:
+      - "SF-425 Federal Financial Report"
+      - "SF-PPR Performance Progress Report"
+      - "Single Audit if federal expenditures ≥ $750,000/year (threshold rising to $1M under 2024 update)"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200"
+
+  - framework: "OMB Uniform Guidance §200.344 (Closeout)"
+    applicability: "All federal innovation grants"
+    typical_filings:
+      - "Final reports within 120 days after grant period ends"
+      - "Final SF-425 + final performance report + final cost-share documentation"
+    source_citation: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/subject-group-ECFR682eb148525a1ed/section-200.344"
+
+  - framework: "Intellectual Property + Bayh-Dole (federal grants)"
+    applicability: "Federal innovation grants generating inventions, software, or data; ARPA-E special terms"
+    typical_filings:
+      - "iEdison invention disclosure within 2 months of inventor disclosure"
+      - "Government license per Bayh-Dole 35 U.S.C. §202"
+      - "ARPA-E technology transfer reports per program-specific terms"
+    source_citation: "https://arpa-e.energy.gov/about/intellectual-property"
+    note: "ARPA-E retains additional march-in / U.S. competitiveness rights beyond standard Bayh-Dole. Operator must check FOA for IP terms; default federal posture grants government a paid-up license."
+
+  - framework: "Conflict of Interest disclosure"
+    applicability: "All federal innovation grants; foundation grants vary"
+    typical_filings:
+      - "Financial conflict of interest (FCOI) disclosures per 42 CFR 50 Subpart F (PHS-funded research)"
+      - "Institutional COI policy enforcement"
+      - "Annual updates during grant period"
+    source_citation: "https://grants.nih.gov/grants/policy/coi/"
+
+  - framework: "Human Subjects / IRB"
+    applicability: "Innovation programs involving human research participants (NSF AISL, IES EIR, NIH Common Fund, HRSA innovation)"
+    typical_filings:
+      - "IRB approval before participant recruitment"
+      - "Annual continuing review"
+      - "Adverse event reporting"
+      - "Final IRB closeout"
+    source_citation: "https://www.hhs.gov/ohrp/regulations-and-policy/regulations/45-cfr-46/index.html"
+
+  - framework: "Data Management + Sharing"
+    applicability: "NSF (Data Management Plan required), NIH (Data Management and Sharing Policy 2023), USDA AFRI (Data Management Plan)"
+    typical_filings:
+      - "Data Management Plan submitted with application"
+      - "Public-access deposit per agency policy"
+      - "Data documentation + metadata per discipline standards"
+    source_citation: "https://www.nsf.gov/bfa/dias/policy/dmp.jsp"
+
+  - framework: "Foundation grant agreement (innovation portfolios)"
+    applicability: "Foundation innovation grants"
+    typical_filings:
+      - "Interim narrative + financial reports per grant agreement schedule"
+      - "Final report at grant close"
+      - "Learning products per agreement (briefs, datasets, convenings)"
+      - "Acknowledgment / branding obligations per agreement"
+      - "990-PF transparency — funders publish award on their 990-PF"
+    source_citation: "https://www.fordfoundation.org/work/our-grants/grants-database/"
+
+  - framework: "Participant diversity reporting (where required)"
+    applicability: "Some federal innovation programs (NSF AISL, NIH Common Fund, IES EIR)"
+    typical_filings:
+      - "Demographic data on research participants (where IRB protocol permits)"
+      - "Workforce diversity reporting (where program requires; post-EO 14151 some programs have revised requirements)"
+
+# ---------------------------------------------------------------------------
+# COMMITMENT TRACKING PATTERN — Report Generator (v0.2) feed
+# ---------------------------------------------------------------------------
+commitment_tracking_pattern:
+  typical_commitments_extracted:
+    - commitment_type: "pilot_milestone_completed"
+      measurement_method: "milestone name + completion date + evidence artifact + variance from plan"
+    - commitment_type: "learning_product_released"
+      measurement_method: "product type (brief / paper / dataset / toolkit) + release date + URL + audience reached"
+    - commitment_type: "convening_held"
+      measurement_method: "convening name + date + attendee count + sector representation + outputs"
+    - commitment_type: "model_refinement_completed"
+      measurement_method: "refinement description + evidence motivating change + adoption status"
+    - commitment_type: "dissemination_metric"
+      measurement_method: "channel + reach metric (downloads, attendees, citations, media impressions) + measurement period"
+    - commitment_type: "policy_or_market_engagement"
+      measurement_method: "engagement type (testimony, comment, briefing, market signal) + target audience + outcome observed"
+    - commitment_type: "replication_inquiry"
+      measurement_method: "inquiring organization + sector + inquiry source + conversion status (toolkit shared / TA provided / replication launched)"
+    - commitment_type: "follow_on_funding_secured"
+      measurement_method: "funder name + amount + purpose + relationship to demonstration"
+    - commitment_type: "partnership_milestone"
+      measurement_method: "partner name + role-execution evidence + commitment status"
+    - commitment_type: "evaluation_finding"
+      measurement_method: "named research question + finding + evidence source + dissemination plan"
+  proposal_commitments_yaml_extension:
+    field_name: "catalytic_change_commitments"
+  paragraph_2_coverage_note: "The 10 typical commitment types above cover the four §18.10 paragraph-2 evidence-weight categories explicitly: 'learning products' (learning_product_released, evaluation_finding); 'model refinements' (model_refinement_completed); 'dissemination' (dissemination_metric, convening_held); 'policy/market engagement' (policy_or_market_engagement, replication_inquiry, follow_on_funding_secured). pilot_milestone_completed + partnership_milestone are cross-category process commitments. No §18.10 category is under-represented. Report Generator (v0.2) maps these onto the four-category rollup at report time."
+  source_citation: "blueprint:section_18_card_system.md#§18.10-CLC-02"
+
+# ---------------------------------------------------------------------------
+# ADMIN-RISK TERM REGISTER — REMOVED at Cycle-2 fix-in-place 2026-05-16
+#
+# The CLC-card §18.6 schema does NOT declare admin_risk_term_register;
+# carrying the field (with severity / federal_severity / progressive_register /
+# reviewer_context sub-fields) would fail F-CARDS-SCHEMA-INVALID at production
+# load. This follows the Wave 1 operating_capacity OD-1 path (a) closure
+# precedent — CLC cards do NOT carry admin_risk_term_register; the
+# workspace-wide register at pipeline/institutional_memory/admin_risk_register.yaml
+# v2.2 already governs admin-risk discipline for terms Tilth uses anywhere,
+# carrying 'climate' (RED), 'equity' (RED), 'green infrastructure' (RED variant),
+# 'stakeholder capitalism' (YELLOW), 'sustainability' (YELLOW).
+#
+# The 14 Cycle-1-era CLC-02 admin-risk entries (systems change, transformative,
+# disruptive innovation, climate transition, energy transition, equity-centered
+# design, centering community, innovation, demonstration, scalability, leverage,
+# ecosystem, field building, catalytic) are NOT carried inside this card.
+# CLC-02-specific terms not yet on the workspace-wide register migrate to
+# admin_risk_register.yaml v2.3 as a separate follow-on dispatch (the
+# workspace-wide register carries its own operator_approval_token + admin-risk
+# approval flow). Same path as Wave 1 operating_capacity migration.
+#
+# Cycle-2 RT P0 + Judge MED dispositions closed at fix-in-place 2026-05-16.
+# Foundation-vs-federal-innovation dialect-switching logic captured at workspace
+# register layer + Scribe seat skill, not at card layer.
+# ---------------------------------------------------------------------------
+# admin_risk_term_register: REMOVED (see comment block above).
+# ---------------------------------------------------------------------------
+# LIFECYCLE
+# ---------------------------------------------------------------------------
+lifecycle:
+  draft_status: "signed"
+  review_status: "passed"
+  cross_family_thesis_status: "passed"
+  signature_status: "signed"
+  runtime_load_status: "loaded"
+  runtime_loadable: true
+  signed_at: "2026-05-16T16:00:00Z"
+  signed_by: "founder"
+  content_hash: "sha256:15fb2c2c3f9517d5b693fb9b2438bb1f2a5457ce269f5a78162558130c60f02f"
+  lock_history_row: 256
+  lock_timestamp_utc: "2026-05-16T16:00:00Z"
+  # LOCK ceremony 2026-05-16 PM after L-005 two-cycle audit closed at
+  # pipeline/validation/cards_wave_2_thesis_2026-05-15/CLC/catalytic_change/FINAL_VERDICT.md
+  # (THESIS_PASSED). review_status flipped pending→passed; signature_status
+  # unsigned→signed; runtime_load_status not_loaded→loaded. Operator publisher
+  # pubkey pinned at vault_shared/cards/publisher_pubkey.signed.yaml. The
+  # ed25519_signature in _research_metadata is the operator Ed25519 signature
+  # over canonical-JSON of this YAML with ed25519_signature: null. OD-F + OD-H
+  # operator-decisions resolved pre-ceremony (cards LOCKed as-on-disk per
+  # operator directive 2026-05-16).
+  # cross_family_thesis_status flipped to "passed" 2026-05-16 after L-005
+  # two-cycle audit completed at pipeline/validation/cards_wave_2_thesis_2026-05-15/CLC/catalytic_change/.
+  # Cycle 1: REQUIRES_FIXES (3-seat) — 20 raw findings → 12 unique, dispositioned
+  # via FOLD-IN (11) / REJECT-with-rationale (2) / CONFIRMED-PASS (2) / SUBSUMED (5).
+  # Cycle 2: Editor READY_TO_LOCK (5 clarity-polish only); Judge 89/100 blocking:yes
+  # (3 schema-violation findings); Red Team blocking:yes (1 P0 schema + 2 MED + 2
+  # LOW coupling-defense). 3 NEW schema-violation findings FIXED-IN-PLACE per
+  # row-170: (a) replication_pathway.weight "MEDIUM_EARLY_HIGH_LATER" → "MEDIUM"
+  # single enum; (b) primary_sources[*].quote_type removed from all 16 entries;
+  # (c) admin_risk_term_register block removed entirely per Wave 1 operating_capacity
+  # OD-1 path (a) precedent — CLC §18.6 schema does not declare the field;
+  # 14 CLC-02 terms migrate to workspace-wide admin_risk_register.yaml v2.3
+  # follow-on dispatch. NO LOCK ceremony fires from this audit; signature_status
+  # remains "unsigned" pending operator Ed25519 + publisher key pin per architecture
+  # v7.0.11 §6.1. See FINAL_VERDICT.md for full audit trail.
+
+# ---------------------------------------------------------------------------
+# RESEARCH METADATA — Phase 5 review handback substrate
+# ---------------------------------------------------------------------------
+_research_metadata:
+  authored_at: "2026-05-15T22:00:00Z"
+  authored_by_role: "research_session"
+  research_budget_hours_actual: 3.0
+  priors_consulted:
+    - path: "assets/cards/capital_logic/Capital Logic Cards.png"
+      extract_note: "Visual Card source — drawing TILTH-CLC-00; defines Catalytic Change scope (demonstration / transition / innovation / systems change / leverage)."
+    - path: "pipeline/blueprint/v0.1/section_18_card_system.md"
+      extract_note: "§18.10 starter content for TILTH-CLC-02; §18.11 five-phase research process; §18.15 testing requirements."
+    - path: "pipeline/cards/CLC/operating_capacity.yaml"
+      extract_note: "Wave 1 sibling CLC fixture — structural pattern + comment density + admin_risk_term_register pattern (approval_required:true) mirrored here."
+    - path: "pipeline/institutional_memory/admin_risk_register.yaml"
+      extract_note: "v2.2 register — entries for 'climate' (RED), 'equity' (RED), DEI-adjacent vocabulary reused with CLC-02 contextual notes; new entries (systems change, transformative, disruptive innovation, climate transition, energy transition, equity-centered design, centering community, innovation, demonstration, scalability, leverage, ecosystem, field building, catalytic) added here for CLC-02 scope."
+    - path: "CLAUDE.md"
+      extract_note: "Eight-CLC roster confirmation; TILTH-CLC-02 scope: 'transition, innovation, demonstration, systems-change' funding (foundations + federal innovation funds + climate/transition funds)."
+    - path: "skills/scribe-ghostwriter/SKILL.md"
+      extract_note: "Scribe drafting register defaults — Catalytic Change applications require explicit theory-of-change scaffolding + learning-agenda framing; card complements skill content."
+
+  primary_sources:
+    # The verbatim_quote entries below are research-draft paraphrases of source
+    # substance pinned by URL + access_date. Strict-verbatim verification is a
+    # Phase 4 deepening step before LOCK; the _review_handback surface_ambiguities
+    # entry at the bottom explicitly documents this paraphrase posture per OQ-4.
+    # The card under Phase 4 deepening before LOCK can convert paraphrased
+    # entries to verbatim quotes (≤2 sentences) where the operative claim is short
+    # enough. (The Cycle-2 Thesis fix removed a non-schema `quote_type` sub-field
+    # that would have triggered F-CARDS-SCHEMA-INVALID at the loader; the
+    # paraphrase posture is now documented at the block level and in
+    # _review_handback.surface_ambiguities only, per §18.6 schema enum discipline.)
+    - url: "https://www.macfound.org/programs/100change/"
+      access_date: "2026-05-15"
+      relevance: "MacArthur 100&Change: $100M single-recipient competition with public four-criterion rubric (Meaningful, Verifiable, Durable, Feasible) — canonical reference for foundation innovation-rubric structure."
+      verbatim_quote: "The selection criteria are: Meaningful — addresses a critical problem; Verifiable — backed by evidence; Durable — has lasting impact; Feasible — likely to succeed."
+
+    - url: "https://www.fordfoundation.org/work/our-grants/building-institutions-and-networks/"
+      access_date: "2026-05-15"
+      relevance: "Ford Foundation BUILD program: five-year general operating + organizational strengthening for catalytic / field-building portfolios; partnership + role-clarity expectations."
+      verbatim_quote: "BUILD combines flexible, multi-year general operating support with funds for institutional strengthening, allowing organizations to address core operational challenges while continuing critical programmatic work."
+
+    - url: "https://new.nsf.gov/funding/opportunities/convergence-accelerator-phases-1-2"
+      access_date: "2026-05-15"
+      relevance: "NSF Convergence Accelerator: two-phase innovation program with Phase 1 (planning + community formation) → Phase 2 (full execution) — canonical federal-innovation stage-gate model."
+      verbatim_quote: "The NSF Convergence Accelerator builds upon basic research and discovery to accelerate solutions toward societal impact through a structured Phase 1 to Phase 2 progression with deliverable expectations."
+
+    - url: "https://www.nsf.gov/bfa/dias/policy/merit_review/"
+      access_date: "2026-05-15"
+      relevance: "NSF Merit Review: Intellectual Merit + Broader Impacts two-criterion structure with five sub-elements each — applies across NSF innovation portfolios."
+      verbatim_quote: "All NSF proposals are evaluated through use of the two National Science Board approved merit review criteria: Intellectual Merit and Broader Impacts."
+
+    - url: "https://arpa-e.energy.gov/news-and-media/program-announcements"
+      access_date: "2026-05-15"
+      relevance: "DOE ARPA-E program announcements: concept-paper-then-full-application stage-gate model; technical-innovation-dominant scoring; IP terms include march-in / U.S. competitiveness rights beyond Bayh-Dole."
+      verbatim_quote: "ARPA-E programs focus on high-impact energy technologies with the potential to radically improve U.S. economic security, national security, and environmental well-being."
+
+    - url: "https://arpa-e.energy.gov/about/intellectual-property"
+      access_date: "2026-05-15"
+      relevance: "ARPA-E IP terms — extends standard Bayh-Dole with march-in / U.S. competitiveness clauses; applicants must understand IP retention vs. licensing."
+      verbatim_quote: "ARPA-E retains specific march-in rights and U.S. competitiveness requirements that extend beyond standard Bayh-Dole provisions for federally funded research."
+
+    - url: "https://ies.ed.gov/funding/ncer_progs.asp"
+      access_date: "2026-05-15"
+      relevance: "IES Education Innovation and Research (EIR) tiers — Early-phase / Mid-phase / Expansion with escalating evidence requirements; independent evaluator required at all tiers."
+      verbatim_quote: "EIR grants are awarded at three tiers — Early-phase, Mid-phase, and Expansion — each requiring different levels of prior evidence and incorporating an independent evaluator with budget allocated at the time of application."
+
+    - url: "https://www.nifa.usda.gov/grants/programs/agriculture-food-research-initiative-afri"
+      access_date: "2026-05-15"
+      relevance: "USDA AFRI Foundational + Applied: largest federal competitive ag research program; peer-review scoring on scientific merit + relevance + qualifications + management + budget."
+      verbatim_quote: "AFRI is the nation's leading competitive grants program for agricultural sciences, awarding funding for research, education, and extension projects."
+
+    - url: "https://www.eda.gov/funding/programs/build-to-scale"
+      access_date: "2026-05-15"
+      relevance: "EDA Build to Scale (Venture Challenge / Capital Challenge): regional innovation ecosystem funding with 50% match requirement; sustainability of ecosystem weighted heavily."
+      verbatim_quote: "Build to Scale grants support innovation-driven economic development with two competitions: the Venture Challenge and the Capital Challenge, each requiring a 50 percent non-federal match."
+
+    - url: "https://www.rockefellerfoundation.org/case-study/catalytic-capital/"
+      access_date: "2026-05-15"
+      relevance: "Rockefeller Foundation Catalytic Capital framing — defines catalytic capital as designed to unlock additional capital; named the canonical 'catalytic' usage in philanthropy."
+      verbatim_quote: "Catalytic capital is investment capital that is patient, risk-tolerant, concessionary, and flexible in ways that differ from conventional investment to unlock additional capital that otherwise would not be deployed."
+
+    - url: "https://www.skoll.org/about/approach/"
+      access_date: "2026-05-15"
+      relevance: "Skoll Foundation approach — invests in social entrepreneurs with proven model + scaling pathway; scale-of-leverage central to underwriting."
+      verbatim_quote: "Skoll invests in transformational leaders and innovators whose work and approach demonstrate evidence of impact at scale and meaningful pathways to broader change."
+
+    - url: "https://kresge.org/initiative/leadership-and-infrastructure-funding-team-lift/"
+      access_date: "2026-05-15"
+      relevance: "Kresge LIFT Team: capacity-building + field-building cross-section; uses equity-lens framing in catalytic portfolios."
+      verbatim_quote: "LIFT uses an equity lens to strengthen our partners' leadership and the nonprofit sector through capacity-building grants that catalyze institutional change."
+
+    - url: "https://www.fsg.org/blog/six-conditions-systems-change/"
+      access_date: "2026-05-15"
+      relevance: "FSG Six Conditions of Systems Change framework — foundation-sector canonical reference for systems-change theory; structural / relational / transformative levels."
+      verbatim_quote: "The six conditions of systems change include policies, practices, resource flows, relationships and connections, power dynamics, and mental models — operating across structural, relational, and transformative levels."
+
+    - url: "https://hewlett.org/grantmaking-faq/"
+      access_date: "2026-05-15"
+      relevance: "Hewlett Foundation flexible-funding posture; innovation portfolios across climate, education, performing arts; transparent grantmaking practice."
+      verbatim_quote: "Hewlett Foundation grantmaking emphasizes flexible support and long-term partnerships; in recent years approximately three-quarters of grant dollars have been awarded as flexible support."
+
+    - url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200"
+      access_date: "2026-05-15"
+      relevance: "2 CFR Part 200 Uniform Guidance — federal financial assistance compliance framework applicable to all federal innovation grants (closeout, SF-425, Single Audit threshold)."
+      verbatim_quote: "Subpart D establishes uniform requirements for post-Federal award reporting, closeout, and audit obligations applicable to non-Federal entities receiving Federal awards."
+
+    - url: "https://grants.nih.gov/grants/policy/coi/"
+      access_date: "2026-05-15"
+      relevance: "NIH Financial Conflict of Interest policy (42 CFR 50 Subpart F) — applicable to PHS-funded research including NIH Common Fund innovation programs."
+      verbatim_quote: "Institutions receiving PHS funding must maintain written policies on financial conflicts of interest in research and require investigator disclosure of significant financial interests."
+
+  # Ed25519 signature over canonical-JSON of this YAML with this field set to
+  # null. Canonical-JSON form: sorted keys, compact separators (",",":"), UTF-8,
+  # ensure_ascii=False. Canonical-JSON SHA3-512 (for white-glove integrity
+  # pinning): fd225e386c3363b0d5af9b505a1b2301a14da15774c6ed8ffd496dc14f7704f1682f7afe1e6d441fd2cdced83a6a4e6a90914f9a5e7facde078972440176376f
+  # Signature target pubkey: vault_shared/cards/publisher_pubkey.signed.yaml
+  # (publisher_pubkey_ed25519_hex 0b1a0bbfa5ee9149af2c4e6153ed037dd03c0d562c94d3eaefeaf798e6f375bd)
+  ed25519_signature: "ae039ca336e77679ca4aef2f41db9ab2339a8d50b3cc8eb19959616075954fd3c6c1477a992d747ebbc277ee264474d81a30e351521890ed3967e7aa66b35205"
+
+# ---------------------------------------------------------------------------
+# REVIEW HANDBACK SUMMARY (per blueprint §18.11 Phase 5)
+# ---------------------------------------------------------------------------
+_review_handback:
+  card_axis_and_slug: "CLC:catalytic_change"
+  card_file: "pipeline/cards/CLC/catalytic_change.yaml"
+  research_hours_actual: 3.0
+  schema_completeness:
+    required_fields_populated: "15/15"
+    fields_needing_review: 0
+    total_citations: 38
+    unique_primary_sources: 16
+  decision_queue:
+    - "admin_risk_term_register: REMOVED from card at Cycle-2 fix-in-place 2026-05-16 per Wave 1 operating_capacity OD-1 path (a) precedent (CLC §18.6 schema does not declare the field). 14 CLC-02-scoped terms migrate to workspace-wide pipeline/institutional_memory/admin_risk_register.yaml v2.3 follow-on dispatch with operator_approval_token + admin-risk approval flow."
+    - "Cross-family Thesis dispatch (Editor + Judge + Red Team via openclaw bridge per AGENTS.md) before promoting lifecycle to 'reviewed'."
+    - "Ed25519 signature once operator + Thesis pass — pending publisher key pin per architecture v7.0.11 §6.1 (mirrors v7.0.7 router-template trust mechanism)."
+    - "scoring_weight_patterns: qualitative-only posture per Wave 1 OQ-6 carry-over. Surface 12-CycleReceipt threshold as the trigger for a v0.2 numeric-weights amendment — Catalytic Change has high heterogeneity across foundation-vs-federal contexts so the threshold may need to be higher than CLC-03's 12."
+    - "Climate-transition / energy-transition term handling: current admin posture (EO 14154) flips federal severity to RED. Confirm whether Tilth should default to substitute-and-flag or retain-and-flag at federal-routed cycles; v0.2 Lessons Memory may need a per-funder override mechanism."
+    - "IP / openness posture: card cites ARPA-E retention + NSF license + foundation variance as MEDIUM evidence weight. Confirm whether mission-aligned-funders (Skoll, climate funds) should bump the open-source/open-data signal to HIGH in their dialect overlays."
+  conflicts_with_prior_art:
+    - "NONE — admin_risk_register.yaml entries for 'climate' (RED), 'equity' (RED), 'DEI-adjacent vocabulary' reused with CLC-02 contextual notes. NEW CLC-02-scoped entries (systems change, transformative, disruptive innovation, climate transition, energy transition, equity-centered design, centering community, innovation, demonstration, scalability, leverage, ecosystem, field building, catalytic) added here; if any belong in the workspace-wide register, that's a separate operator decision (some overlap with CLC-03 operating_capacity entries — 'sustainability', 'innovation', 'scalability', 'transformation' — confirm severity tiers are consistent across CLCs)."
+  surface_ambiguities:
+    - "Verbatim-quote sourcing: several quotes paraphrase the substance of funder materials at the URL rather than copying verbatim. Strict-verbatim verification is a Phase 4 deepening step before LOCK; for research-draft purposes the URL + access_date pin the source and the paraphrase captures the operative claim."
+    - "ARPA-E IP terms: card cites the public-facing IP statement; specific FOA-level terms vary. Scout should attach FOA-specific IP terms at runtime."
+    - "Foundation rubrics: only MacArthur 100&Change publishes a fully transparent four-criterion rubric. Ford BUILD, Hewlett innovation portfolios, Skoll do not publish per-criterion weights — card captures the structural pattern (4-6 criteria, weighted, anchored) without claiming specific weights."
+    - "Federal innovation dialect under current admin: post-EO 14151 + EO 14154 the landscape is genuinely volatile. Card captures the 2026-05-15 snapshot; admin_risk_term_register entries flagged with sources where available. v0.2 amendment may need a quarterly federal-dialect refresh cadence."
+    - "Sibling Wave 2 CIC + CLC firing in parallel — once educator, public_agency, arts_culture, cooperative, ecosystem_intermediary CICs and the other 6 CLCs land, verify no inadvertent CIC × CLC coupling appears across the set (defense-in-depth)."
+    - "Scale-of-leverage criterion: foundations weight order-of-magnitude estimates; federal innovation reviewers want defensible arithmetic. Card captures both; surface presentation should distinguish dialect at runtime."
+  review_readiness: "READY"

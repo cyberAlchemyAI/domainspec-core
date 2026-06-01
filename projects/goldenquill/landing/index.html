@@ -1,0 +1,931 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Golden Quill — Datacenter-class AI for small &amp; medium organizations</title>
+<meta name="description" content="The first cost-effective path for small and medium organizations to own datacenter-class AI. NVIDIA Grace Blackwell on your desk, running Tilth — the funding operating system. Your files, your grants, your office.">
+<meta property="og:title" content="Golden Quill — Datacenter-class AI for small &amp; medium organizations">
+<meta property="og:description" content="The first cost-effective path for SMBs to own datacenter-class AI.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f5ecd6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5ecd6;
+  --paper-warm:#efe4c6;
+  --paper-deep:#e6d8b3;
+  --ink:#2a1f12;
+  --ink-soft:#5a4528;
+  --ink-mute:#7a6440;
+  --sage:#7a8a5a;
+  --forest:#3a4d2c;
+  --forest-deep:#22301a;
+  --gold:#b8923c;
+  --gold-soft:#d4b266;
+  --rust:#9a4f1c;
+  --line:rgba(42,31,18,.18);
+  --line-soft:rgba(42,31,18,.10);
+
+  --display:'Cinzel',Georgia,serif;
+  --serif:'Playfair Display',Georgia,serif;
+  --body:'Source Serif 4','Source Serif Pro',Georgia,serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:18px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+a{color:var(--forest);text-decoration:none;border-bottom:1px solid rgba(58,77,44,.32)}
+a:hover{border-bottom-color:var(--forest)}
+img{display:block;max-width:100%;height:auto}
+
+/* shared rhythm */
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.eyebrow{
+  font-family:var(--display);
+  font-size:11px;letter-spacing:.42em;text-transform:uppercase;
+  color:var(--gold);margin:0 0 16px;
+  display:inline-flex;align-items:center;gap:14px;
+}
+.eyebrow::before, .eyebrow::after{
+  content:"";width:36px;height:1px;background:var(--gold);opacity:.5;
+}
+h1,h2,h3{font-family:var(--serif);font-weight:600;color:var(--ink);margin:0;line-height:1.18}
+.section-title{
+  font-size:clamp(28px,3.4vw,42px);
+  letter-spacing:-.005em;
+  margin-bottom:18px;
+}
+.section-sub{
+  font-family:var(--body);font-style:italic;color:var(--ink-soft);
+  font-size:clamp(17px,1.7vw,20px);max-width:680px;margin:0 0 28px;
+}
+.rule{display:block;width:64px;height:1px;background:var(--gold);margin:18px 0 28px}
+.rule--center{margin-left:auto;margin-right:auto}
+
+/* ============ TOP BAR ============ */
+.top{
+  border-bottom:1px solid var(--line-soft);
+  background:var(--paper);
+  padding:18px 0;
+}
+.top__inner{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  max-width:1180px;margin:0 auto;padding:0 28px;
+}
+.top__brand{display:flex;align-items:center;gap:12px;text-decoration:none;border:0}
+.top__seal{
+  width:28px;height:28px;color:var(--gold);
+}
+.top__wordmark{
+  font-family:var(--display);
+  font-weight:600;font-size:14px;letter-spacing:.28em;
+  color:var(--ink);text-transform:uppercase;
+  white-space:nowrap;
+}
+.top__origin{
+  font-family:var(--display);
+  font-size:10px;letter-spacing:.34em;color:var(--ink-mute);text-transform:uppercase;
+}
+.top__cta{
+  font-family:var(--display);
+  font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ink);border:1px solid var(--line);
+  padding:10px 16px;border-radius:2px;
+  background:transparent;
+}
+.top__cta:hover{border-color:var(--gold);color:var(--forest)}
+@media(max-width:680px){
+  .top__origin{display:none}
+}
+
+/* ============ HERO ============ */
+.hero{
+  padding:84px 0 24px;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(184,146,60,.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 100% 100%, rgba(122,138,90,.10) 0%, transparent 60%),
+    var(--paper);
+  border-bottom:1px solid var(--line-soft);
+}
+.hero__grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:64px;align-items:start;
+}
+.hero__lede h1{
+  font-size:clamp(38px,5.4vw,68px);
+  letter-spacing:-.012em;line-height:1.04;
+  margin-bottom:20px;
+}
+.hero__lede h1 em{
+  font-style:italic;color:var(--forest);font-weight:600;
+}
+.hero__sub{
+  font-family:var(--body);font-size:clamp(17px,1.7vw,20px);
+  color:var(--ink-soft);line-height:1.6;margin:0 0 22px;max-width:560px;
+}
+.hero__spec{
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;
+  font-family:var(--display);font-size:11px;letter-spacing:.24em;
+  color:var(--ink-mute);text-transform:uppercase;
+  padding:14px 0;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  margin:28px 0 0;
+}
+.hero__spec strong{
+  color:var(--ink);font-weight:600;
+}
+.hero__spec .dot{color:var(--gold)}
+
+/* hero form */
+.hero__form-wrap{
+  background:#fff8e3;
+  border:1px solid var(--paper-deep);
+  border-radius:6px;
+  padding:32px clamp(20px,3vw,36px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.6) inset,
+    0 30px 60px -36px rgba(42,31,18,.35);
+  position:relative;
+}
+.hero__form-wrap::before{
+  content:"";
+  position:absolute;left:0;right:0;top:0;height:3px;
+  background:linear-gradient(90deg, var(--gold) 0%, var(--gold-soft) 50%, var(--gold) 100%);
+  border-top-left-radius:6px;border-top-right-radius:6px;
+}
+.form-eyebrow{
+  font-family:var(--display);
+  font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--gold);margin:0 0 6px;
+}
+.form-title{
+  font-family:var(--serif);font-size:24px;font-weight:600;
+  color:var(--ink);margin:0 0 6px;
+}
+.form-sub{
+  font-family:var(--body);font-style:italic;color:var(--ink-soft);
+  font-size:15px;margin:0 0 20px;
+}
+
+@media(max-width:880px){
+  .hero{padding:56px 0 12px}
+  .hero__grid{grid-template-columns:1fr;gap:40px}
+}
+
+/* ============ COST COMPARISON ============ */
+.cost{
+  padding:84px 0;
+  background:var(--paper-warm);
+  border-bottom:1px solid var(--line-soft);
+}
+.cost__lede{
+  text-align:center;max-width:780px;margin:0 auto 48px;
+}
+.cost__lede h2{margin-bottom:14px}
+.cost__grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+}
+.cost__card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:32px 26px 30px;
+  position:relative;
+}
+.cost__card--ours{
+  background:linear-gradient(180deg, #fff7e0 0%, #f5ecd6 100%);
+  border:1px solid var(--gold);
+  box-shadow:0 30px 60px -36px rgba(184,146,60,.55);
+}
+.cost__card--ours::before{
+  content:"OURS";
+  position:absolute;top:-12px;right:24px;
+  font-family:var(--display);font-size:10px;letter-spacing:.34em;
+  background:var(--forest);color:var(--paper);
+  padding:5px 14px;border-radius:2px;
+}
+.cost__label{
+  font-family:var(--display);
+  font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--ink-mute);margin:0 0 14px;
+}
+.cost__price{
+  font-family:var(--serif);
+  font-size:34px;font-weight:600;
+  color:var(--ink);line-height:1.05;margin:0 0 4px;
+}
+.cost__priceunit{
+  font-family:var(--body);font-style:italic;font-size:15px;
+  color:var(--ink-mute);margin:0 0 18px;
+}
+.cost__rule{
+  width:36px;height:1px;background:var(--gold);
+  margin:16px 0;opacity:.6;
+}
+.cost__features{margin:0;padding:0;list-style:none;font-size:15.5px;color:var(--ink-soft)}
+.cost__features li{
+  padding:5px 0;display:flex;gap:10px;align-items:flex-start;
+}
+.cost__features li::before{
+  content:"·";color:var(--gold);font-weight:700;flex:0 0 auto;
+}
+.cost__close{
+  text-align:center;font-family:var(--body);
+  font-size:clamp(17px,1.8vw,21px);font-style:italic;
+  color:var(--forest);margin:48px auto 0;max-width:740px;
+  line-height:1.45;
+}
+.cost__close strong{font-style:normal;font-family:var(--serif);font-weight:600;color:var(--ink)}
+
+@media(max-width:880px){
+  .cost{padding:56px 0}
+  .cost__grid{grid-template-columns:1fr;gap:18px}
+  .cost__card--ours::before{right:18px}
+}
+
+/* ============ SCENARIOS ============ */
+.scenarios{
+  padding:84px 0;
+  background:var(--paper);
+}
+.scenarios__lede{text-align:center;max-width:740px;margin:0 auto 56px}
+.scenarios__list{
+  display:grid;gap:36px;
+}
+.scenario{
+  display:grid;grid-template-columns:auto 1fr;gap:24px;
+  border-top:1px solid var(--line-soft);padding-top:36px;
+}
+.scenario:first-child{border-top:0;padding-top:0}
+.scenario__num{
+  font-family:var(--display);font-size:14px;letter-spacing:.18em;
+  color:var(--gold);font-weight:600;
+  width:48px;line-height:1.4;
+}
+.scenario__name{
+  font-family:var(--display);
+  font-size:11px;letter-spacing:.34em;
+  color:var(--ink-mute);text-transform:uppercase;
+  margin:0 0 6px;
+}
+.scenario__title{
+  font-family:var(--serif);font-size:26px;font-weight:600;
+  color:var(--ink);margin:0 0 12px;line-height:1.25;
+}
+.scenario__body{
+  font-family:var(--body);font-size:18px;color:var(--ink-soft);
+  margin:0;max-width:760px;
+}
+@media(max-width:680px){
+  .scenarios{padding:56px 0}
+  .scenario{grid-template-columns:1fr;gap:6px}
+  .scenario__num{font-size:13px}
+}
+
+/* ============ OUTCOMES ============ */
+.outcomes{
+  padding:84px 0;
+  background:var(--forest-deep);
+  color:var(--paper);
+  border-top:1px solid var(--forest);
+  border-bottom:1px solid var(--forest);
+}
+.outcomes h2{color:var(--paper)}
+.outcomes .eyebrow{color:var(--gold-soft)}
+.outcomes .eyebrow::before, .outcomes .eyebrow::after{background:var(--gold-soft)}
+.outcomes__lede{text-align:center;max-width:740px;margin:0 auto 56px}
+.outcomes__lede .section-sub{color:rgba(245,236,214,.78)}
+.outcomes__grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:32px 48px;
+}
+.outcome{
+  border-left:1px solid rgba(184,146,60,.42);
+  padding:6px 0 6px 22px;
+}
+.outcome h3{
+  color:var(--paper);font-family:var(--serif);font-size:22px;font-weight:600;
+  margin:0 0 10px;
+}
+.outcome p{
+  margin:0;color:rgba(245,236,214,.82);font-size:17px;
+}
+@media(max-width:680px){
+  .outcomes{padding:56px 0}
+  .outcomes__grid{grid-template-columns:1fr;gap:28px}
+}
+
+/* ============ PROOF ============ */
+.proof{
+  padding:84px 0;
+  background:var(--paper);
+  text-align:center;
+}
+.proof__big{
+  font-family:var(--serif);
+  font-size:clamp(64px,11vw,128px);
+  font-weight:700;line-height:1;
+  color:var(--forest);
+  letter-spacing:-.02em;
+}
+.proof__big sup{
+  font-size:.45em;color:var(--gold);font-weight:600;vertical-align:top;margin-left:6px;
+}
+.proof__line{
+  font-family:var(--display);
+  font-size:12px;letter-spacing:.32em;color:var(--ink-mute);
+  text-transform:uppercase;margin:14px 0 0;
+}
+.proof__sub{
+  margin:24px auto 0;max-width:660px;
+  font-family:var(--body);font-style:italic;font-size:19px;
+  color:var(--ink-soft);
+}
+.proof__list{
+  margin:48px auto 0;max-width:880px;
+  display:grid;grid-template-columns:repeat(2,1fr);gap:14px 36px;
+  text-align:left;
+  border-top:1px solid var(--line-soft);padding-top:28px;
+}
+.proof__item{
+  font-family:var(--body);font-size:16px;color:var(--ink-soft);
+  display:flex;gap:14px;align-items:baseline;
+}
+.proof__amt{
+  font-family:var(--serif);font-weight:600;color:var(--ink);
+  min-width:78px;text-align:right;
+}
+@media(max-width:680px){
+  .proof{padding:56px 0}
+  .proof__list{grid-template-columns:1fr;gap:10px}
+  .proof__item{font-size:15px}
+  .proof__amt{min-width:72px}
+}
+
+/* ============ FOUNDER NOTE ============ */
+.note{
+  padding:96px 0;
+  background:var(--paper-warm);
+  border-top:1px solid var(--line-soft);
+  border-bottom:1px solid var(--line-soft);
+}
+.note__inner{max-width:680px;margin:0 auto;padding:0 28px}
+.note__eyebrow{margin-bottom:14px}
+.note__body{
+  font-family:var(--body);font-size:19px;line-height:1.65;color:var(--ink);
+}
+.note__body p{margin:0 0 1em}
+.note__sig{
+  margin-top:28px;
+  font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink);
+}
+.note__sig em{display:block;font-style:normal;font-family:var(--display);
+  font-size:11px;letter-spacing:.28em;color:var(--ink-mute);
+  text-transform:uppercase;margin-top:6px;}
+
+/* ============ INTEREST FORM (full) ============ */
+.interest{
+  padding:96px 0 80px;
+  background:var(--paper);
+}
+.interest__inner{max-width:760px;margin:0 auto}
+.interest__lede{text-align:center;margin-bottom:36px}
+.interest__lede h2{margin-bottom:8px}
+
+/* ============ FORM (shared between hero + bottom) ============ */
+.form-row{margin-bottom:18px}
+.form-row--split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.form-row--split{grid-template-columns:1fr}}
+.form-label{
+  display:block;
+  font-family:var(--display);
+  font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:6px;
+}
+.form-label .req{color:var(--rust);font-weight:700}
+.form-label .opt{
+  color:var(--ink-mute);font-style:italic;text-transform:none;
+  letter-spacing:.04em;font-family:var(--body);font-size:13px;
+}
+.form-input,
+.form-select,
+.form-textarea{
+  width:100%;
+  font-family:var(--body);font-size:16.5px;color:var(--ink);
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:3px;
+  padding:11px 13px;
+  transition:border-color .2s, box-shadow .2s;
+}
+.form-textarea{min-height:96px;resize:vertical}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  outline:none;
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(184,146,60,.18);
+}
+
+.checks{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:6px 18px;margin-top:6px;
+}
+@media(max-width:560px){.checks{grid-template-columns:1fr}}
+.checks label{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--body);font-size:15.5px;color:var(--ink);
+  letter-spacing:0;text-transform:none;font-weight:400;cursor:pointer;
+  margin:0;
+}
+.checks input[type=checkbox]{
+  width:17px;height:17px;accent-color:var(--gold);cursor:pointer;flex:0 0 auto;
+}
+
+.form-actions{margin-top:24px}
+.btn-submit{
+  font-family:var(--display);
+  font-size:13px;letter-spacing:.24em;text-transform:uppercase;
+  background:var(--ink);color:var(--paper);
+  border:1px solid var(--ink);
+  padding:14px 28px;border-radius:3px;cursor:pointer;
+  transition:all .2s;width:100%;
+}
+.btn-submit:hover{
+  background:var(--forest);border-color:var(--forest);
+}
+.btn-submit:disabled{opacity:.5;cursor:wait}
+
+.form-fallback{
+  margin-top:14px;font-size:13.5px;color:var(--ink-mute);
+  font-style:italic;text-align:center;
+}
+.form-fallback a{color:var(--gold);border-bottom-color:rgba(184,146,60,.34)}
+
+.form-status{
+  margin-top:14px;text-align:center;
+  font-family:var(--body);font-style:italic;font-size:15px;min-height:22px;
+}
+.form-status.ok{color:var(--forest)}
+.form-status.err{color:var(--rust)}
+
+.form-success{text-align:center;padding:24px 0}
+.form-success h3{
+  font-family:var(--serif);font-size:24px;color:var(--ink);margin:0 0 10px;
+}
+.form-success p{
+  font-family:var(--body);font-style:italic;font-size:17px;color:var(--ink-soft);margin:0;
+}
+
+/* ============ FOOTER ============ */
+footer{
+  padding:48px 0 56px;text-align:center;
+  background:var(--paper-deep);
+  border-top:1px solid var(--line-soft);
+}
+.foot__seal{
+  width:30px;height:30px;color:var(--gold);margin:0 auto 14px;
+}
+.foot__line1{
+  font-family:var(--display);font-size:11px;letter-spacing:.32em;
+  color:var(--ink);text-transform:uppercase;margin:0 0 8px;
+}
+.foot__line2{
+  font-family:var(--body);font-style:italic;font-size:14px;color:var(--ink-mute);margin:0 0 14px;
+}
+.foot__line3 a{color:var(--ink-soft);font-size:13.5px;border-bottom-color:rgba(42,31,18,.18)}
+
+/* utility — visually-hidden but in the DOM */
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<nav class="top">
+  <div class="top__inner">
+    <a href="#top" class="top__brand" aria-label="Golden Quill">
+      <svg class="top__seal" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M7 25 C 12 15, 18 9, 26 6 C 24 14, 19 21, 11 26 Z"/>
+        <line x1="7" y1="25" x2="4" y2="28"/>
+      </svg>
+      <span class="top__wordmark">Golden Quill</span>
+    </a>
+    <span class="top__origin">Sovereign Node LLC · Pittsburgh, PA</span>
+    <a href="#interest" class="top__cta">Express interest</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero__grid">
+
+      <div class="hero__lede">
+        <p class="eyebrow">Golden Quill · powered by Tilth</p>
+        <h1>Datacenter-class AI compute, <em>finally affordable for the rest of us.</em></h1>
+        <p class="hero__sub">
+          NVIDIA Grace Blackwell — the chip behind the world's largest AI systems — in a desktop your organization can own. Running <strong>Tilth</strong>, the funding operating system. Your grants, your files, your office.
+        </p>
+        <div class="hero__spec" aria-label="Technical specifications">
+          <span><strong>NVIDIA Grace Blackwell</strong></span>
+          <span class="dot">·</span>
+          <span><strong>1 PFLOP</strong> AI compute</span>
+          <span class="dot">·</span>
+          <span><strong>128 GB</strong> unified memory</span>
+          <span class="dot">·</span>
+          <span><strong>Tilth OS</strong></span>
+        </div>
+      </div>
+
+      <aside class="hero__form-wrap" id="hero-form-wrap">
+        <p class="form-eyebrow">Express interest</p>
+        <h2 class="form-title">Tell us about your work.</h2>
+        <p class="form-sub">A few minutes. We'll be in touch from Pittsburgh.</p>
+
+        <form id="interest-form-hero" class="interest-form" method="POST" action="/api/submit" novalidate>
+          <div class="form-row form-row--split">
+            <div>
+              <label for="hf-name" class="form-label">Name <span class="req">*</span></label>
+              <input class="form-input" type="text" id="hf-name" name="name" required autocomplete="name">
+            </div>
+            <div>
+              <label for="hf-email" class="form-label">Email <span class="req">*</span></label>
+              <input class="form-input" type="email" id="hf-email" name="email" required autocomplete="email">
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="hf-org" class="form-label">Organization <span class="req">*</span></label>
+            <input class="form-input" type="text" id="hf-org" name="organization" required autocomplete="organization">
+          </div>
+          <div class="form-row">
+            <label for="hf-notes" class="form-label">What kind of grant work? <span class="opt">— optional</span></label>
+            <textarea class="form-textarea" id="hf-notes" name="notes" placeholder="The grants you're chasing. The work you'd want a sovereign AI to do for your team…"></textarea>
+          </div>
+          <!-- honeypot -->
+          <div class="sr-only" aria-hidden="true">
+            <label>Leave this empty <input type="text" name="company_url" tabindex="-1" autocomplete="off"></label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">Send interest</button>
+            <p class="form-fallback">Or write directly: <a href="mailto:tilth@yourgoldenquill.com?subject=Golden%20Quill%20interest">tilth@yourgoldenquill.com</a></p>
+          </div>
+          <div class="form-status" role="status" aria-live="polite"></div>
+        </form>
+      </aside>
+
+    </div>
+  </div>
+</header>
+
+<!-- ============ COST COMPARISON ============ -->
+<section class="cost">
+  <div class="wrap">
+    <div class="cost__lede">
+      <p class="eyebrow">The Cost Class</p>
+      <h2 class="section-title">Same chip architecture as the world's biggest AI datacenters. Desktop scale. A fraction of the cost.</h2>
+      <p class="section-sub">Until now, this class of compute meant a six-figure datacenter purchase or a recurring six-figure cloud bill. Grace Blackwell brings it onto a desk you can own.</p>
+    </div>
+
+    <div class="cost__grid">
+
+      <article class="cost__card">
+        <p class="cost__label">Datacenter GPU server</p>
+        <p class="cost__price">$200K–$500K+</p>
+        <p class="cost__priceunit">capex, one-time</p>
+        <span class="cost__rule"></span>
+        <ul class="cost__features">
+          <li>NVIDIA DGX H100 / B200 class</li>
+          <li>Requires datacenter, cooling, IT staff</li>
+          <li>Out of reach for almost every SMB</li>
+        </ul>
+      </article>
+
+      <article class="cost__card">
+        <p class="cost__label">Cloud rental</p>
+        <p class="cost__price">$100K+ / year</p>
+        <p class="cost__priceunit">recurring, forever</p>
+        <span class="cost__rule"></span>
+        <ul class="cost__features">
+          <li>AWS p5 / Azure ND, equivalent compute</li>
+          <li>Your files leave your office</li>
+          <li>The bill never stops</li>
+        </ul>
+      </article>
+
+      <article class="cost__card cost__card--ours">
+        <p class="cost__label">Golden Quill</p>
+        <p class="cost__price">A fraction</p>
+        <p class="cost__priceunit">of any other capable hardware</p>
+        <span class="cost__rule"></span>
+        <ul class="cost__features">
+          <li>NVIDIA Grace Blackwell, 1 PFLOP, 128 GB</li>
+          <li>On a desk in your office</li>
+          <li>Your files stay. Tilth runs locally.</li>
+        </ul>
+      </article>
+
+    </div>
+
+    <p class="cost__close">
+      <strong>The first cost-effective path for SMBs to own datacenter-class AI.</strong><br>
+      Same Grace Blackwell silicon. Desktop scale. Yours.
+    </p>
+  </div>
+</section>
+
+<!-- ============ SCENARIOS ============ -->
+<section class="scenarios">
+  <div class="wrap">
+    <div class="scenarios__lede">
+      <p class="eyebrow">Made for your work</p>
+      <h2 class="section-title">Six worlds. One operating system. The language changes for each.</h2>
+      <p class="section-sub">Find the one that fits. Tilth speaks the rest.</p>
+    </div>
+
+    <div class="scenarios__list">
+
+      <article class="scenario">
+        <div class="scenario__num">01</div>
+        <div>
+          <p class="scenario__name">Educator</p>
+          <h3 class="scenario__title">You run a charter school. The PACSP RFA just dropped.</h3>
+          <p class="scenario__body">Tilth reads the RFA, drafts your sections from your own enrollment data, board materials, and prior submissions, scores the result against the PA Coalition's rubric, and tracks every required attachment. It writes in your school's voice — because your school's documents are what trained the working memory. Last year's reviewer feedback informs next year's draft.</p>
+        </div>
+      </article>
+
+      <article class="scenario">
+        <div class="scenario__num">02</div>
+        <div>
+          <p class="scenario__name">Farm &amp; Food Systems</p>
+          <h3 class="scenario__title">You run a small farm. VAPG opens in March. The feasibility study is overdue.</h3>
+          <p class="scenario__body">Tilth pulls your business plan, your prior production records, and the latest USDA guidance. It identifies what's missing, drafts the work plan and budget narrative section by section, flags the SAM.gov registration steps, and runs the result against the FY26 scoring rubric before you submit. You stay the author. Tilth does the labor.</p>
+        </div>
+      </article>
+
+      <article class="scenario">
+        <div class="scenario__num">03</div>
+        <div>
+          <p class="scenario__name">Municipal Steward</p>
+          <h3 class="scenario__title">You're a borough manager. EPA brownfield funding closes in six weeks.</h3>
+          <p class="scenario__body">Tilth maps your project against the program's eligibility rules, drafts the application from your existing site assessments, council resolutions, and budget documents, and produces the procurement-friendly cost narrative your finance director needs to sign. Compliance lives next to the draft, not in a separate spreadsheet.</p>
+        </div>
+      </article>
+
+      <article class="scenario">
+        <div class="scenario__num">04</div>
+        <div>
+          <p class="scenario__name">Arts &amp; Culture</p>
+          <h3 class="scenario__title">You run an arts nonprofit. The NEA Grants for Arts Projects window opens.</h3>
+          <p class="scenario__body">Tilth holds your program history, your artist roster, your audience data, and your prior LOIs. It drafts the artistic-merit narrative in your organization's voice, scores the work plan against NEA's review criteria, and keeps the public-funding language straight while you focus on the program. The institutional memory carries from one application to the next.</p>
+        </div>
+      </article>
+
+      <article class="scenario">
+        <div class="scenario__num">05</div>
+        <div>
+          <p class="scenario__name">Cooperative Lead</p>
+          <h3 class="scenario__title">You run a producer co-op. USDA's Rural Cooperative Development Grant is open.</h3>
+          <p class="scenario__body">Tilth pulls your member-owner list, your governance documents, your shared infrastructure. It drafts the membership-benefit narrative, pulls the right boilerplate for your bylaws and audit, and tracks every required certification. Co-op grant work has a particular grammar. Tilth speaks it.</p>
+        </div>
+      </article>
+
+      <article class="scenario">
+        <div class="scenario__num">06</div>
+        <div>
+          <p class="scenario__name">Regenerative Systems Supplier</p>
+          <h3 class="scenario__title">You build the equipment, software, or services your customers need to access.</h3>
+          <p class="scenario__body">Tilth treats funding readiness as a product feature. It supports your customers' grant work — the Section 9003, the REAP applications, the state-level cost-share — and turns your installed-base relationships into a recurring funding-support channel. Your equipment sells faster when customer financing is solved.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ OUTCOMES ============ -->
+<section class="outcomes">
+  <div class="wrap">
+    <div class="outcomes__lede">
+      <p class="eyebrow">What you actually get</p>
+      <h2 class="section-title">Plain-English outcomes. No architecture words.</h2>
+    </div>
+    <div class="outcomes__grid">
+      <div class="outcome">
+        <h3>Your files never leave your office.</h3>
+        <p>Tilth reads them locally on the Golden Quill. There is no cloud syncing. There is no vendor with a copy of your strategy.</p>
+      </div>
+      <div class="outcome">
+        <h3>Every grant you write becomes memory.</h3>
+        <p>Tilth holds your prior applications, reviewer feedback, board materials, and operating data — and the next grant cycle starts with all of it loaded.</p>
+      </div>
+      <div class="outcome">
+        <h3>You stay the author. Tilth does the labor.</h3>
+        <p>Drafts come back in your voice because your documents are what shaped them. Final approval is yours. Tilth never submits without you.</p>
+      </div>
+      <div class="outcome">
+        <h3>One machine. Your whole organization.</h3>
+        <p>Multiple seats per Golden Quill. Staff work alongside Tilth from their own laptops. Your IT footprint is a single quiet box on a desk.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROOF ============ -->
+<section class="proof">
+  <div class="wrap">
+    <p class="eyebrow">Proof of method</p>
+    <p class="proof__big">$339K<sup>+</sup></p>
+    <p class="proof__line">Secured in 2026 to date</p>
+    <p class="proof__sub">Tilth-prepared work is already converting into competitive awards, fellowships, grants, residencies, and in-kind support.</p>
+
+    <div class="proof__list">
+      <div class="proof__item"><span class="proof__amt">$100K</span><span>Carnegie Mellon University Pathways Fellowship + $3,700/mo stipend</span></div>
+      <div class="proof__item"><span class="proof__amt">$125K</span><span>Robotics Factory Scale + Phantom (residency, grant, match, in-kind)</span></div>
+      <div class="proof__item"><span class="proof__amt">$60K</span><span>SARE Farmer-Led Research — 2 awards, 85% rejection rate</span></div>
+      <div class="proof__item"><span class="proof__amt">$50K</span><span>Braiding Seeds Fellowship — 97% rejection rate</span></div>
+      <div class="proof__item"><span class="proof__amt">$4K</span><span>NJ Career Accelerator Internship Grant, Summer 2026</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTEREST FORM (full) ============ -->
+<section class="interest" id="interest">
+  <div class="interest__inner wrap">
+    <div class="interest__lede">
+      <p class="eyebrow">Express interest</p>
+      <h2 class="section-title">Tell us a little more.</h2>
+      <p class="section-sub" style="margin-left:auto;margin-right:auto;text-align:center">A few qualifying details — all optional after the first three — so we know what makes sense for your work.</p>
+    </div>
+
+    <form id="interest-form-full" class="interest-form" method="POST" action="/api/submit" novalidate>
+      <div class="form-row form-row--split">
+        <div>
+          <label for="ff-name" class="form-label">Name <span class="req">*</span></label>
+          <input class="form-input" type="text" id="ff-name" name="name" required autocomplete="name">
+        </div>
+        <div>
+          <label for="ff-email" class="form-label">Email <span class="req">*</span></label>
+          <input class="form-input" type="email" id="ff-email" name="email" required autocomplete="email">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="ff-org" class="form-label">Organization <span class="req">*</span></label>
+        <input class="form-input" type="text" id="ff-org" name="organization" required autocomplete="organization">
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Which best describes your work? <span class="opt">— optional, select any</span></label>
+        <div class="checks">
+          <label><input type="checkbox" name="market" value="Educator"> Educator</label>
+          <label><input type="checkbox" name="market" value="Farm &amp; Food Systems"> Farm &amp; Food Systems</label>
+          <label><input type="checkbox" name="market" value="Municipal Steward"> Municipal Steward</label>
+          <label><input type="checkbox" name="market" value="Arts &amp; Culture"> Arts &amp; Culture</label>
+          <label><input type="checkbox" name="market" value="Cooperative Lead"> Cooperative Lead</label>
+          <label><input type="checkbox" name="market" value="Regenerative Systems Supplier"> Regenerative Systems Supplier</label>
+          <label><input type="checkbox" name="market" value="Inventor / Scientist / Researcher"> Inventor / Scientist / Researcher</label>
+          <label><input type="checkbox" name="market" value="Workforce Developer"> Workforce Developer</label>
+          <label><input type="checkbox" name="market" value="Conservationist"> Conservationist</label>
+          <label><input type="checkbox" name="market" value="Tribal / First Nations"> Tribal / First Nations</label>
+        </div>
+      </div>
+
+      <div class="form-row form-row--split">
+        <div>
+          <label for="ff-role" class="form-label">Your role <span class="opt">— optional</span></label>
+          <input class="form-input" type="text" id="ff-role" name="role" placeholder="Director, founder, grant writer…">
+        </div>
+        <div>
+          <label for="ff-scale" class="form-label">Annual grant volume <span class="opt">— optional</span></label>
+          <select class="form-select" id="ff-scale" name="scale">
+            <option value="">—</option>
+            <option>Under $50K</option>
+            <option>$50K–$250K</option>
+            <option>$250K–$1M</option>
+            <option>$1M–$5M</option>
+            <option>$5M+</option>
+            <option>None yet</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="ff-timeline" class="form-label">Timeline <span class="opt">— optional</span></label>
+        <select class="form-select" id="ff-timeline" name="timeline">
+          <option value="">—</option>
+          <option>Ready now</option>
+          <option>Next 3 months</option>
+          <option>Next 6 months</option>
+          <option>6–12 months</option>
+          <option>Just exploring</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="ff-notes" class="form-label">Anything you want us to know <span class="opt">— optional</span></label>
+        <textarea class="form-textarea" id="ff-notes" name="notes" placeholder="Current grant work, the funder relationships you're building, what you'd want a sovereign AI node to do for your team…"></textarea>
+      </div>
+
+      <!-- honeypot -->
+      <div class="sr-only" aria-hidden="true">
+        <label>Leave this empty <input type="text" name="company_url" tabindex="-1" autocomplete="off"></label>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-submit">Send interest</button>
+        <p class="form-fallback">Or write directly: <a href="mailto:tilth@yourgoldenquill.com?subject=Golden%20Quill%20interest">tilth@yourgoldenquill.com</a></p>
+      </div>
+
+      <div class="form-status" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <svg class="foot__seal" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M7 25 C 12 15, 18 9, 26 6 C 24 14, 19 21, 11 26 Z"/>
+    <line x1="7" y1="25" x2="4" y2="28"/>
+  </svg>
+  <p class="foot__line1">Sovereign Node LLC &nbsp;·&nbsp; Pittsburgh, Pennsylvania</p>
+  <p class="foot__line2">Tilth lives inside every Golden Quill.</p>
+  <p class="foot__line3"><a href="mailto:tilth@yourgoldenquill.com">tilth@yourgoldenquill.com</a></p>
+</footer>
+
+<script>
+(function(){
+  const forms = document.querySelectorAll('.interest-form');
+  forms.forEach(form => bindForm(form));
+
+  function bindForm(form){
+    const status = form.querySelector('.form-status');
+    const btn = form.querySelector('.btn-submit');
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      status.className = 'form-status';
+      status.textContent = '';
+
+      const required = ['name','email','organization'];
+      for (const k of required){
+        const el = form.elements[k];
+        if (!el.value || !el.value.trim()){
+          el.focus();
+          status.className = 'form-status err';
+          status.textContent = 'Please fill in name, email, and organization.';
+          return;
+        }
+      }
+      if (form.elements['company_url'] && form.elements['company_url'].value){
+        renderSuccess(form); return;
+      }
+      btn.disabled = true; btn.textContent = 'Sending…';
+      try{
+        const fd = new FormData(form);
+        const res = await fetch(form.action, { method:'POST', body:fd, headers:{ 'Accept':'application/json' } });
+        if (res.ok){ renderSuccess(form); }
+        else throw new Error('Server error');
+      } catch(err){
+        btn.disabled = false; btn.textContent = 'Send interest';
+        status.className = 'form-status err';
+        status.innerHTML = 'We could not reach the server. <a href="mailto:tilth@yourgoldenquill.com?subject=Golden%20Quill%20interest&body=' +
+          encodeURIComponent(buildEmailBody(form)) + '">Send by email instead →</a>';
+      }
+    });
+  }
+
+  function buildEmailBody(form){
+    const fd = new FormData(form);
+    const lines = [];
+    lines.push('Name: ' + (fd.get('name')||''));
+    lines.push('Email: ' + (fd.get('email')||''));
+    lines.push('Organization: ' + (fd.get('organization')||''));
+    const markets = fd.getAll('market'); if (markets.length) lines.push('Markets: ' + markets.join(', '));
+    if (fd.get('role')) lines.push('Role: ' + fd.get('role'));
+    if (fd.get('scale')) lines.push('Annual grant volume: ' + fd.get('scale'));
+    if (fd.get('timeline')) lines.push('Timeline: ' + fd.get('timeline'));
+    if (fd.get('notes')) lines.push('\nNotes:\n' + fd.get('notes'));
+    return lines.join('\n');
+  }
+
+  function renderSuccess(form){
+    const wrap = form.parentElement;
+    wrap.innerHTML =
+      '<div class="form-success">' +
+      '<h3>Received. Thank you.</h3>' +
+      '<p>We&rsquo;ll be in touch from Pittsburgh.</p>' +
+      '</div>';
+  }
+})();
+</script>
+
+</body>
+</html>

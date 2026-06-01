@@ -1,0 +1,836 @@
+{
+  "authored_at_iso": "2026-04-18T16:54:12Z",
+  "authored_by": "Josh (operator) + Opus co-author",
+  "index_content_hash": "1a8c07355bc6ddf8fb234a5f21ae0cfe56f4cec403f034fdc61b50ef2b23bfd9235a88b35e505f7ce04211da5332417aadb1e9369efafda89469c48ceab2377c",
+  "index_version": "v3",
+  "row_count": 81,
+  "rows": [
+    {
+      "defined_at": "tilth_architecture_locked#§M1",
+      "description": "Trust-root binding: operator pubkey + SHA-3-512 content hashing across all signed artefacts.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m01_trust_root",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "tilth_architecture_locked#§M2",
+      "description": "Cedar policy evaluation model: allow/deny on (principal, action, resource, context).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m02_cedar_policy",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "tilth_architecture_locked#§M3",
+      "description": "Session envelope: session_id, operator_org_slug, intent, budget, timestamps.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m03_session_envelope",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "tilth_architecture_locked#§M4",
+      "description": "Law 3 org isolation: one PROJECT_CONTEXT per session, no cross-org data.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m04_org_isolation",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "tilth_architecture_locked#§M5",
+      "description": "Law 1 RFA-is-source-of-truth: every claim traces to the RFA.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m05_rfa_truth",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "tilth_architecture_locked#§M6",
+      "description": "Law 4 apolitical + admin-risk term scan: two-axis, operator approves each substitution.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m06_apolitical_scan",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "tilth_architecture_locked#§M7",
+      "description": "Law 5 applicant brings substance: no fabrication of credentials, data, partnerships.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m07_applicant_substance",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "tilth_architecture_locked#§M8",
+      "description": "L-003 cross-family review: reviewer model family != author model family at review/scoring gates.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m08_cross_family_rigor",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "tilth_architecture_locked#§M9",
+      "description": "Autonomy Rule 1: save state on both success and failure.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m09_save_state_always",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "tilth_architecture_locked#§M10",
+      "description": "Autonomy Rule 2: test-before-marking-complete (Bug #20 magic step).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m10_test_own_work",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "tilth_architecture_locked#§M11",
+      "description": "Autonomy Rule 3: explicit input path, output path, scope, done-definition per hop.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m11_be_explicit",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "tilth_architecture_locked#§M12",
+      "description": "Autonomy Rule 4: strip markdown fences, fluff, self-commentary; validate format.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m12_clean_output",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "tilth_architecture_locked#§M14",
+      "description": "Complete mediation: every gate checks every run, no cache that defeats the check.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m14_complete_mediation",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "tilth_architecture_locked#§M15",
+      "description": "Signed-commit ledger: Ed25519 signature on every commit, per-operator pubkey trust-root.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "6f15c994de25c3689b89e8f7293179347db449f23e2995576293a89b4d2d0da9e575e882db6b6b84097281291b6fd3787c69d50610cdc330159e4d2801ea4bf9",
+      "parent_lock_version": "v6-r2",
+      "primitive_id": "arch.m.m15_signed_commit_ledger",
+      "primitive_kind": "architecture-mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "binds_to": "IDX:v1:vault.allowlist.static_table_5_entries",
+      "consumed_by": [
+        "IDX:v1:logician.mechanism.gate_runner"
+      ],
+      "defined_at": "section_02_v7#§4.10.4",
+      "description": "Aggregate of Logician's 20 consumed intents at Section-4-lock-version granularity; anchored at Section 2's authoritative 5-entry static allowlist.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "logician.allowlist.v2_table",
+      "primitive_kind": "allowlist-row",
+      "stability_tier": "STABLE"
+    },
+    {
+      "binds_to": "IDX:v1:vault.allowlist.admin_risk_append",
+      "defined_at": "section_04_v2#§4.7.3",
+      "description": "Admin-risk ledger writer: append-cas via Section 2 v7 §4.10.4 row 2.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.mechanism.admin_risk_ledger_writer",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_04_v2#§5.4",
+      "description": "gate_runner.run_pre_gate / run_post_gate: the callable surface Section 5 consumes.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.mechanism.gate_runner",
+      "primitive_kind": "interface-contract",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_04_v2#§4.5",
+      "description": "operator_signoff primitive: explicit acknowledgement required at defined gates.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.mechanism.operator_signoff",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.2",
+      "description": "POST-gate ordered check list: word count, SMART outcomes, admin-risk terms (batched), claim-evidence.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.post_gate.check_list",
+      "primitive_kind": "post-gate-check",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 1",
+      "description": "Section 2 lock marker N.4.1 verified.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_01_section2_lock_marker_n41",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 2",
+      "description": "Section 2 lock marker N.4.2 verified (trust-root mirror alpha).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_02_section2_lock_marker_n42",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 3",
+      "description": "Cedar policy bundle integrity verified.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_03_cedar_policy_bundle",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 4",
+      "description": "router.yaml provider binding matches session requirements.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_04_router_binding",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 5",
+      "description": "session_id allocated and not reused.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_05_session_id_allocation",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 6",
+      "description": "Trust-root mirror gamma fresh.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_06_trust_root_mirror_gamma",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 7",
+      "description": "RFA dual-hash verification (v2 slot #7; shifts to #8 in v2.1).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_07_rfa_dual_hash",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "PENDING_PARENT_BACKFILL"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 8",
+      "description": "Admin-risk ledger appendability (v2 slot #8).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_08_admin_risk_ledger_appendable",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "PENDING_PARENT_BACKFILL"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 9",
+      "description": "Session ledger appendability (v2 slot #9).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_09_session_ledger_appendable",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "PENDING_PARENT_BACKFILL"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 10",
+      "description": "Scribe phase routing precondition (v2 slot #10).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_10_scribe_phase_routing",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "PENDING_PARENT_BACKFILL"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 11",
+      "description": "operator_signoff present when required (v2 slot #11).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_11_operator_signoff_present",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "PENDING_PARENT_BACKFILL"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 12",
+      "description": "Consent envelope valid (v2 slot #12).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_12_consent_envelope_valid",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "PENDING_PARENT_BACKFILL"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 13",
+      "description": "Budget envelope valid (v2 slot #13).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_13_budget_envelope_valid",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "PENDING_PARENT_BACKFILL"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 14",
+      "description": "Cross-family rigor (reviewer family != author family) (v2 slot #14).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_14_cross_family_binding",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "PENDING_PARENT_BACKFILL"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 15",
+      "description": "Law 3 org-isolation guard (v2 slot #15).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_15_org_isolation_guard",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "PENDING_PARENT_BACKFILL"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 16",
+      "description": "Law 4 admin-risk term scan precondition (v2 slot #16).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_16_admin_risk_term_scan",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "PENDING_PARENT_BACKFILL"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 17",
+      "description": "Law 1 RFA-is-source-of-truth binding (v2 slot #17).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_17_rfa_scope_bind",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "PENDING_PARENT_BACKFILL"
+    },
+    {
+      "defined_at": "section_04_v2#§4.2.1 row 18",
+      "description": "Law 5 applicant-brings-substance precondition (v2 slot #18).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "34eee1ecc6c32a5e140c8a8cdc2b609d24d143ed36dcc8de7e775afdf64c36369accdfd03f1c18e738acb069cecf6eab2b9f7ca611b86dd925eb88c7b602c0eb",
+      "parent_lock_version": "v2",
+      "primitive_id": "logician.pre_gate.check_18_applicant_substance",
+      "primitive_kind": "pre-gate-check",
+      "stability_tier": "PENDING_PARENT_BACKFILL"
+    },
+    {
+      "defined_at": "section_05_v5#§5.2",
+      "description": "Editor seat contract: input, output, rubric, cross-family rigor.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "7f5be32bd21a41cd1ac8548101366d887616cae9f4258db114cab50d4a93033b10b04a6e3eb5ec077bab974cfa548abd1ce6ed97959797726ebac32e40099469",
+      "parent_lock_version": "v5",
+      "primitive_id": "pipeline.contract.editor",
+      "primitive_kind": "interface-contract",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_05_v5#§5.3",
+      "description": "Judge seat contract: input, output, rubric library, cross-family rigor.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "7f5be32bd21a41cd1ac8548101366d887616cae9f4258db114cab50d4a93033b10b04a6e3eb5ec077bab974cfa548abd1ce6ed97959797726ebac32e40099469",
+      "parent_lock_version": "v5",
+      "primitive_id": "pipeline.contract.judge",
+      "primitive_kind": "interface-contract",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_05_v5#§5.4",
+      "description": "Red Team seat contract: attack buckets A/B/C + OUT-OF-MODEL.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "7f5be32bd21a41cd1ac8548101366d887616cae9f4258db114cab50d4a93033b10b04a6e3eb5ec077bab974cfa548abd1ce6ed97959797726ebac32e40099469",
+      "parent_lock_version": "v5",
+      "primitive_id": "pipeline.contract.red_team",
+      "primitive_kind": "interface-contract",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_05_v5#§1",
+      "description": "Secondary entry point: operator calibration harness -> signed CalibrationReport.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "7f5be32bd21a41cd1ac8548101366d887616cae9f4258db114cab50d4a93033b10b04a6e3eb5ec077bab974cfa548abd1ce6ed97959797726ebac32e40099469",
+      "parent_lock_version": "v5",
+      "primitive_id": "pipeline.entry.eval_mode",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_05_v5#§1",
+      "description": "Primary pipeline entry point: RFA -> council -> signed SubmissionBundle.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "7f5be32bd21a41cd1ac8548101366d887616cae9f4258db114cab50d4a93033b10b04a6e3eb5ec077bab974cfa548abd1ce6ed97959797726ebac32e40099469",
+      "parent_lock_version": "v5",
+      "primitive_id": "pipeline.entry.submission_mode",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_05_v5#§6",
+      "description": "F-PIPE-01 through F-PIPE-22 pipeline-level failure code family.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "7f5be32bd21a41cd1ac8548101366d887616cae9f4258db114cab50d4a93033b10b04a6e3eb5ec077bab974cfa548abd1ce6ed97959797726ebac32e40099469",
+      "parent_lock_version": "v5",
+      "primitive_id": "pipeline.failure_family.f_pipe_star",
+      "primitive_kind": "failure-code",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_05_v5#§5.4",
+      "description": "Micro-recovery routing table: per-failure-type backward routing without full rewind.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "7f5be32bd21a41cd1ac8548101366d887616cae9f4258db114cab50d4a93033b10b04a6e3eb5ec077bab974cfa548abd1ce6ed97959797726ebac32e40099469",
+      "parent_lock_version": "v5",
+      "primitive_id": "pipeline.mechanism.micro_recovery_routing",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_05_v5#§4",
+      "description": "Scribe three-phase routing: outline (P1) -> per-section drafting (P2) -> assembly (P3).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "7f5be32bd21a41cd1ac8548101366d887616cae9f4258db114cab50d4a93033b10b04a6e3eb5ec077bab974cfa548abd1ce6ed97959797726ebac32e40099469",
+      "parent_lock_version": "v5",
+      "primitive_id": "pipeline.mechanism.scribe_phase_routing",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_03_v5#§7.16",
+      "description": "MAX_ALIAS_WALKER_STEPS = 1000 termination guard for AST alias walk.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "0a82d955f95b0fca7fd1fd6b13871ca1ef634a19c7cc17aef20bbf6391fb126f90cbe4148bf83dae14d9137103518647a55e856c6b8f3cd568a63cd675401042",
+      "parent_lock_version": "v5",
+      "primitive_id": "scout.constant.alias_walker_max",
+      "primitive_kind": "constant",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_03_v5#§7.16",
+      "description": "AST-PREFLIGHT: literal-only Final[bool] initializers; cross-module bounded resolution.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "0a82d955f95b0fca7fd1fd6b13871ca1ef634a19c7cc17aef20bbf6391fb126f90cbe4148bf83dae14d9137103518647a55e856c6b8f3cd568a63cd675401042",
+      "parent_lock_version": "v5",
+      "primitive_id": "scout.invariant.ast_preflight",
+      "primitive_kind": "invariant",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_03_v5#§4.5",
+      "description": "_drain_parser_buffer hasattr-dispatch with FD-release guarantee.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "0a82d955f95b0fca7fd1fd6b13871ca1ef634a19c7cc17aef20bbf6391fb126f90cbe4148bf83dae14d9137103518647a55e856c6b8f3cd568a63cd675401042",
+      "parent_lock_version": "v5",
+      "primitive_id": "scout.mechanism.drain_parser_buffer",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_03_v5#§2.4",
+      "description": "Vault empty -> fall back to vault_shared/templates/{program_type}.md; tagged [TEMPLATE_SCAFFOLD].",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "0a82d955f95b0fca7fd1fd6b13871ca1ef634a19c7cc17aef20bbf6391fb126f90cbe4148bf83dae14d9137103518647a55e856c6b8f3cd568a63cd675401042",
+      "parent_lock_version": "v5",
+      "primitive_id": "scout.mechanism.golden_template_fallback",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_03_v5#§2",
+      "description": "Six parallel-primary discovery channels A-F (federal APIs, cached datasets, portals, program pages, RSS, client-driven search).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "0a82d955f95b0fca7fd1fd6b13871ca1ef634a19c7cc17aef20bbf6391fb126f90cbe4148bf83dae14d9137103518647a55e856c6b8f3cd568a63cd675401042",
+      "parent_lock_version": "v5",
+      "primitive_id": "scout.mechanism.six_channel_families",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_03_v5#§2.1",
+      "description": "Cached datasets are parallel-primary sources, not fallback; equal footing with live APIs.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "0a82d955f95b0fca7fd1fd6b13871ca1ef634a19c7cc17aef20bbf6391fb126f90cbe4148bf83dae14d9137103518647a55e856c6b8f3cd568a63cd675401042",
+      "parent_lock_version": "v5",
+      "primitive_id": "scout.semantic.cache_parallel_primary",
+      "primitive_kind": "invariant",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_03_v5#§3",
+      "description": "DISCOVER -> VERIFY -> REVIEW three-stage state machine with human-gate at REVIEW.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "0a82d955f95b0fca7fd1fd6b13871ca1ef634a19c7cc17aef20bbf6391fb126f90cbe4148bf83dae14d9137103518647a55e856c6b8f3cd568a63cd675401042",
+      "parent_lock_version": "v5",
+      "primitive_id": "scout.state_machine.discover_verify_review",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_01_v6#§3.7,§3.8,§4.5,§4.8",
+      "description": "Append a typed event to admin_risk.jsonl or degradation.jsonl; trailer recompute + watermark update under single held fcntl lock.",
+      "introduced_in_index_version": "v3",
+      "parent_lock_commit_hash": "b0d50a71f53dde3b9988750ba843875125b21c1234115bb4d38268e00818e61009a5948f611ac7c3ebb28daf6726b04759bbe649b3f52600882d62721c89d422",
+      "parent_lock_version": "v6",
+      "primitive_id": "sovereignty.audit.append",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_01_v6#§3.3,§4.6",
+      "description": "HMAC-SHA3-512 sign over caller-supplied payload using the session HMAC key; key never leaves §1's process scope.",
+      "introduced_in_index_version": "v3",
+      "parent_lock_commit_hash": "b0d50a71f53dde3b9988750ba843875125b21c1234115bb4d38268e00818e61009a5948f611ac7c3ebb28daf6726b04759bbe649b3f52600882d62721c89d422",
+      "parent_lock_version": "v6",
+      "primitive_id": "sovereignty.crypto.session_hmac_sign",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_01_v6#§3.2,§9",
+      "description": "Boot the SovereigntyEnvelope handle (wrapper-manifest verify, keystore resolve, router integrity, ledger boot checks, init-marker verify, orphan-key sweep, interrupted-session detect).",
+      "introduced_in_index_version": "v3",
+      "parent_lock_commit_hash": "b0d50a71f53dde3b9988750ba843875125b21c1234115bb4d38268e00818e61009a5948f611ac7c3ebb28daf6726b04759bbe649b3f52600882d62721c89d422",
+      "parent_lock_version": "v6",
+      "primitive_id": "sovereignty.envelope.boot",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "binds_to": [
+        "IDX:v3:vault.primitive.vault_stat"
+      ],
+      "defined_at": "section_01_v6#§3.11d,§4.7",
+      "description": "Predicate: is `path` provably inside `orgs/<org_slug>/` for the frozen mount-identity tuple? v6 takes a Vault adapter for vault_stat delegation (BT14 mount-identity). Breaking signature change from v5.",
+      "introduced_in_index_version": "v3",
+      "parent_lock_commit_hash": "b0d50a71f53dde3b9988750ba843875125b21c1234115bb4d38268e00818e61009a5948f611ac7c3ebb28daf6726b04759bbe649b3f52600882d62721c89d422",
+      "parent_lock_version": "v6",
+      "primitive_id": "sovereignty.isolation.within_org_root",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_01_v6#§6,§9",
+      "description": "Fail-closed discipline policy family — every failure code in §1 hard-aborts the affected operation rather than returning a soft error. No §1 primitive returns a sentinel.",
+      "introduced_in_index_version": "v3",
+      "parent_lock_commit_hash": "b0d50a71f53dde3b9988750ba843875125b21c1234115bb4d38268e00818e61009a5948f611ac7c3ebb28daf6726b04759bbe649b3f52600882d62721c89d422",
+      "parent_lock_version": "v6",
+      "primitive_id": "sovereignty.policy.fail_closed_discipline",
+      "primitive_kind": "invariant",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_01_v6#§9 step 1.5,§6.9,§8 WRAPPER_*",
+      "description": "M14.4.2 process-creation wrapper manifest contract — Ed25519-signed pre-exec body declaring rlimits, env_allowlist, umask, cwd, wrapper_version. Verified at §9 step 1.5; six sub-codes for divergence types.",
+      "introduced_in_index_version": "v3",
+      "parent_lock_commit_hash": "b0d50a71f53dde3b9988750ba843875125b21c1234115bb4d38268e00818e61009a5948f611ac7c3ebb28daf6726b04759bbe649b3f52600882d62721c89d422",
+      "parent_lock_version": "v6",
+      "primitive_id": "sovereignty.policy.m14_4_2_wrapper_manifest_contract",
+      "primitive_kind": "schema",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_01_v6#§3.10.1,§4.4",
+      "description": "Orthogonality contract between §4 Logician boot-time git-sig gate (arch S5/M15) and §1 runtime-load HMAC-SHA3-512 gate. Different time windows, different keys, different attack surfaces; neither is redundant.",
+      "introduced_in_index_version": "v3",
+      "parent_lock_commit_hash": "b0d50a71f53dde3b9988750ba843875125b21c1234115bb4d38268e00818e61009a5948f611ac7c3ebb28daf6726b04759bbe649b3f52600882d62721c89d422",
+      "parent_lock_version": "v6",
+      "primitive_id": "sovereignty.policy.router_signing_orthogonality",
+      "primitive_kind": "invariant",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_01_v6#§0,§10",
+      "description": "Trust-boundary policy family — A1..A4 preflight assumptions cited by every downstream rejection of out-of-model attacks. Anchors §10 F9b.",
+      "introduced_in_index_version": "v3",
+      "parent_lock_commit_hash": "b0d50a71f53dde3b9988750ba843875125b21c1234115bb4d38268e00818e61009a5948f611ac7c3ebb28daf6726b04759bbe649b3f52600882d62721c89d422",
+      "parent_lock_version": "v6",
+      "primitive_id": "sovereignty.policy.trust_boundary",
+      "primitive_kind": "invariant",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_01_v6#§3.10,§3.10.1,§4.4",
+      "description": "Runtime-load HMAC-SHA3-512 verification of router.yaml against keystore key router.signing.hmac.v1; orthogonal to §4 boot-time git-sig gate (arch S5/M15).",
+      "introduced_in_index_version": "v3",
+      "parent_lock_commit_hash": "b0d50a71f53dde3b9988750ba843875125b21c1234115bb4d38268e00818e61009a5948f611ac7c3ebb28daf6726b04759bbe649b3f52600882d62721c89d422",
+      "parent_lock_version": "v6",
+      "primitive_id": "sovereignty.router.verify_integrity",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_01_v6#§3.9,§3.9.1,§4.6",
+      "description": "Emit a payload+manifest tuple to §2 v7 vault.vault_commit under runs/<run_id>/interrupted/; §1 produces bytes, §2 persists.",
+      "introduced_in_index_version": "v3",
+      "parent_lock_commit_hash": "b0d50a71f53dde3b9988750ba843875125b21c1234115bb4d38268e00818e61009a5948f611ac7c3ebb28daf6726b04759bbe649b3f52600882d62721c89d422",
+      "parent_lock_version": "v6",
+      "primitive_id": "sovereignty.session.checkpoint",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_01_v6#§3.3,§4.2",
+      "description": "Bind a new Session to an RFAEnvelope + ProjectContextEnvelope; mint a session HMAC key in the keystore.",
+      "introduced_in_index_version": "v3",
+      "parent_lock_commit_hash": "b0d50a71f53dde3b9988750ba843875125b21c1234115bb4d38268e00818e61009a5948f611ac7c3ebb28daf6726b04759bbe649b3f52600882d62721c89d422",
+      "parent_lock_version": "v6",
+      "primitive_id": "sovereignty.session.start",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "consumed_by": [
+        "IDX:v1:logician.mechanism.admin_risk_ledger_writer"
+      ],
+      "defined_at": "section_02_v7#§4.10.4 row 2",
+      "description": "append-cas allowlist row for admin-risk ledger writes.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.allowlist.admin_risk_append",
+      "primitive_kind": "allowlist-row",
+      "stability_tier": "STABLE"
+    },
+    {
+      "consumed_by": [
+        "IDX:v1:logician.allowlist.v2_table"
+      ],
+      "defined_at": "section_02_v7#§4.10.4",
+      "description": "5-entry static path-allowlist hard-coded in vault_write.py (intent,path-prefix-suffix pairs).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.allowlist.static_table_5_entries",
+      "primitive_kind": "allowlist-row",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§4.13",
+      "description": "Budget envelope: per-call token + latency + retries limits.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.envelope.budget",
+      "primitive_kind": "schema",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§4.11.1",
+      "description": "Hash algorithm binding: SHA-3-512 for all vault content hashing.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.hash.sha3_512",
+      "primitive_kind": "constant",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§4.8",
+      "description": "Per-session append-only ledger capturing all vault_read/vault_write calls.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.ledger.session_ledger",
+      "primitive_kind": "schema",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§4.9",
+      "description": "M15 signed-commit ledger: every vault_write commit signed, Ed25519.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.ledger.signed_commit_ledger",
+      "primitive_kind": "schema",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§4.12",
+      "description": "Daily Merkle root computation over session ledger for tamper-evidence.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.merkle.daily_root",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§4.12.2",
+      "description": "Daily ledger rotation and archival under Merkle root.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.merkle.daily_rotation",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§4.10",
+      "description": "Three commit modes: overwrite, write-if-absent, append-cas.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.primitive.commit_semantics",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§4.4",
+      "description": "fsync on commit + fsync on parent dir; crash-safety contract.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.primitive.fsync_discipline",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§4.7",
+      "description": "Tombstone primitive for soft-delete semantics under CAS.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.primitive.tombstone",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§4.2",
+      "description": "Vault read primitive: vault_read(path, intent, session_id, slug) -> bytes.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.primitive.vault_read",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§4.3",
+      "description": "Vault write primitive with three commit-mode envelope.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.primitive.vault_write",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§3.5",
+      "description": "Closed intent vocabulary: 20 intents as of v7.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.schema.intent_vocabulary",
+      "primitive_kind": "schema",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§3.4",
+      "description": "Path-prefix schema for vault-relative paths.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.schema.path_prefix",
+      "primitive_kind": "schema",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§3.2",
+      "description": "session_id format: {run_type}-{operator_slug}-{yyyymmddThhmmssZ}-{8hex}.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.schema.session_id_format",
+      "primitive_kind": "schema",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§3.3",
+      "description": "Slug format: [a-z][a-z0-9_]* with length bounds.",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.schema.slug_format",
+      "primitive_kind": "schema",
+      "stability_tier": "STABLE"
+    },
+    {
+      "defined_at": "section_02_v7#§4.11",
+      "description": "Canonical-JSON serializer (sorted keys, UTF-8, LF, no trailing whitespace).",
+      "introduced_in_index_version": "v1",
+      "parent_lock_commit_hash": "06064fd3888a71475ee8066ea2bd8097184f8f6bf124625fb6684bf190724cf975f8303efe9031d7af022d50d4f684bbe71e4819f655e85f13b1dcb74ce609b4",
+      "parent_lock_version": "v7",
+      "primitive_id": "vault.serde.canonical_json",
+      "primitive_kind": "mechanism",
+      "stability_tier": "STABLE"
+    }
+  ],
+  "schema_version": 1,
+  "signature": null,
+  "status": "DRAFT"
+}

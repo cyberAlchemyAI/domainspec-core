@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Claim Amendment Mode - Golden Quill</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#dae2fd",
+                        "on-tertiary-fixed": "#131b2e",
+                        "secondary-container": "#3a4a5f",
+                        "tertiary-container": "#dae2fd",
+                        "inverse-surface": "#d8e3fb",
+                        "secondary-fixed": "#d3e4fe",
+                        "primary-container": "#e2e2e2",
+                        "on-surface-variant": "#c4c7c8",
+                        "error-container": "#93000a",
+                        "secondary": "#b7c8e1",
+                        "inverse-on-surface": "#263143",
+                        "on-tertiary-container": "#5c647a",
+                        "tertiary": "#ffffff",
+                        "background": "#081425",
+                        "surface-container-lowest": "#040e1f",
+                        "on-error": "#690005",
+                        "surface": "#081425",
+                        "primary-fixed": "#e2e2e2",
+                        "on-primary-container": "#636565",
+                        "inverse-primary": "#5d5f5f",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#454747",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-tint": "#c6c6c7",
+                        "surface-dim": "#081425",
+                        "surface-bright": "#2f3a4c",
+                        "outline": "#8e9192",
+                        "surface-container-high": "#1f2a3c",
+                        "on-error-container": "#ffdad6",
+                        "on-primary": "#2f3131",
+                        "on-tertiary": "#283044",
+                        "primary": "#ffffff",
+                        "surface-variant": "#2a3548",
+                        "surface-container-highest": "#2a3548",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "outline-variant": "#444748",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-secondary": "#213145",
+                        "surface-container": "#152031",
+                        "surface-container-low": "#111c2d",
+                        "on-surface": "#d8e3fb",
+                        "on-background": "#d8e3fb",
+                        "on-secondary-fixed": "#0b1c30",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-secondary-container": "#a9bad3",
+                        "rust": "#9C3C28",
+                        "rust-wash": "rgba(156, 60, 40, 0.1)",
+                        "terracotta": "#B8523A",
+                        "terminal-bg": "#000000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sidebar-width": "240px",
+                        "container-padding": "16px",
+                        "panel-gap": "8px",
+                        "gutter": "1px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-sm": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #020617; color: #d8e3fb; overflow: hidden; }
+        .panel-border { border: 1px solid #334155; }
+        .amendment-border { border: 1px solid #9C3C28; }
+        .bg-level-0 { background-color: #020617; }
+        .bg-level-1 { background-color: #0F172A; }
+        .bg-level-2 { background-color: #1E293B; }
+        
+        /* Custom Scrollbar for Terminals & Panels */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 0; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col font-body-md text-body-md">
+<!-- TopAppBar JSON Translation -->
+<header class="bg-surface-container-low border-b border-outline-variant flex justify-between items-center w-full px-container-padding gap-panel-gap full-width top-0 h-14 z-50 shrink-0">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary">GOLDEN QUILL</span>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps text-secondary">NODE: FIT Farms LLC</span>
+<span class="px-2 py-0.5 bg-level-2 panel-border font-data-mono text-data-mono text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-error block"></span> AMENDMENT MODE
+                </span>
+</div>
+</div>
+<div class="flex items-center gap-panel-gap">
+<div class="flex items-center gap-2 panel-border bg-level-1 px-3 py-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant">CYCLE</span>
+<span class="font-data-mono text-data-mono text-primary">cycle_2026-05-20T14:32Z</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-8 w-8 flex items-center justify-center panel-border bg-level-1 hover:bg-surface-container-highest transition-none text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">verified_user</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center panel-border bg-level-1 hover:bg-surface-container-highest transition-none text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">vpn_key</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center panel-border bg-level-1 hover:bg-surface-container-highest transition-none text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar JSON Translation -->
+<nav class="bg-surface-container border-r border-outline-variant flex flex-col h-full w-sidebar-width shrink-0 z-40">
+<div class="p-4 border-b border-outline-variant bg-level-1">
+<div class="font-headline-md text-headline-md text-primary mb-1">FIT Farms</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant">FRONTIER POSTURE</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<!-- Nav Items mapping -->
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span> Home
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span> Judge
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 bg-rust-wash text-primary border-l-2 border-rust transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span> Drafting [AMEND]
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span> Final Packet Authorization
+                </a>
+</div>
+</nav>
+<!-- Central Canvas -->
+<main class="flex-1 flex flex-col bg-level-0 overflow-hidden relative">
+<div class="flex-1 flex overflow-hidden p-panel-gap gap-panel-gap">
+<!-- Left Column: Draft Content -->
+<div class="flex-1 flex flex-col gap-panel-gap overflow-y-auto pr-2">
+<!-- Locked Section -->
+<div class="bg-level-1 panel-border p-4 opacity-50 select-none">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-1">SECTION 1</h3>
+<div class="font-headline-md text-headline-md text-on-surface">Executive Summary</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">lock</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">The proposed initiative establishes a frontier posture for rapid deployment of resilient nodes...</p>
+</div>
+<!-- Active Amendment Target -->
+<div class="bg-rust-wash amendment-border p-container-padding flex flex-col gap-4 relative">
+<!-- Flag Header -->
+<div class="flex justify-between items-center border-b border-rust pb-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error">warning</span>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Work Plan / Budget Justification</h2>
+<div class="font-data-mono text-data-mono text-error mt-1">FORENSIC SCORE: 12/20 (WEAK)</div>
+</div>
+</div>
+</div>
+<!-- Original Text / Diffs -->
+<div class="flex flex-col gap-2">
+<div class="font-label-caps text-label-caps text-on-surface-variant">ORIGINAL DRAFT (JUDGE ANNOTATED)</div>
+<div class="bg-level-1 panel-border p-3 font-body-sm text-body-sm text-on-surface font-mono leading-relaxed">
+                                Phase 2 allocates $4.2M for node deployment. <span class="bg-error/20 border-b border-error text-error cursor-help" title="Judge Comment: Lack of specific partner vendor justification. Requires MOU reference.">Vendor selection will proceed rapidly to ensure Q3 operational readiness.</span> Maintenance costs are projected at baseline levels.
+                            </div>
+</div>
+<!-- Proposed Amendment -->
+<div class="flex flex-col gap-2 flex-1">
+<div class="font-label-caps text-label-caps text-primary flex justify-between">
+<span>PROPOSED AMENDMENT</span>
+<span class="text-on-surface-variant font-data-mono">ACT_ID: REQ_091</span>
+</div>
+<textarea class="flex-1 w-full bg-level-0 border border-rust text-on-surface p-3 font-body-md focus:outline-none focus:border-terracotta resize-none min-h-[120px]" placeholder="Enter revised claim text here...">Phase 2 allocates $4.2M for node deployment. Vendor selection is finalized per MOU_PartnerA.pdf, securing Tier-1 supply chains and locking costs to guarantee Q3 operational readiness.</textarea>
+</div>
+<!-- Rationale -->
+<div class="flex flex-col gap-2">
+<div class="font-label-caps text-label-caps text-primary">AMENDMENT RATIONALE (MANDATORY)</div>
+<input class="w-full bg-level-0 border border-rust text-on-surface p-2 font-data-mono text-data-mono focus:outline-none focus:border-terracotta" placeholder="Explain forensic resolution strategy..." type="text" value="Integrated MOU_PartnerA reference to satisfy Judge requirement for vendor specificity."/>
+</div>
+</div>
+<!-- Locked Section -->
+<div class="bg-level-1 panel-border p-4 opacity-50 select-none">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-1">SECTION 3</h3>
+<div class="font-headline-md text-headline-md text-on-surface">Commitments and Support</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">lock</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-1">Score: 8/10 (ACCEPTABLE). No immediate action required.</p>
+</div>
+</div>
+<!-- Right Column: Inspector -->
+<div class="w-[320px] shrink-0 flex flex-col gap-panel-gap">
+<div class="bg-level-1 panel-border flex flex-col h-full">
+<div class="p-3 border-b border-outline-variant bg-level-2">
+<div class="font-label-caps text-label-caps text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">analytics</span> IMPACT INSPECTOR
+                            </div>
+</div>
+<div class="p-4 flex flex-col gap-6 flex-1 overflow-y-auto">
+<!-- Score Projection -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">SCORE DELTA PROJECTION</div>
+<div class="flex items-center gap-3">
+<div class="text-error font-data-mono text-display-lg">12</div>
+<span class="material-symbols-outlined text-on-surface-variant">arrow_forward</span>
+<div class="text-[#22C55E] font-data-mono text-display-lg">20</div>
+</div>
+<div class="font-data-mono text-data-mono text-[#22C55E] mt-1">+8 POINTS POTENTIAL</div>
+</div>
+<!-- Required Evidence -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">REQUIRED EVIDENCE LINKAGE</div>
+<div class="border border-[#22C55E]/30 bg-[#22C55E]/5 p-2 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#22C55E] text-[16px]">check_circle</span>
+<span class="font-data-mono text-data-mono text-on-surface">MOU_PartnerA.pdf</span>
+</div>
+<span class="font-label-caps text-label-caps text-[#22C55E]">VERIFIED</span>
+</div>
+</div>
+<!-- Heuristics -->
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">FORENSIC HEURISTICS</div>
+<ul class="font-data-mono text-data-mono text-on-surface space-y-2">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[#22C55E] text-[14px]">done</span> Specificity Check: Pass
+                                    </li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[#22C55E] text-[14px]">done</span> Financial Tracing: Pass
+                                    </li>
+</ul>
+</div>
+</div>
+<!-- Action Area -->
+<div class="p-4 border-t border-outline-variant bg-level-0">
+<button class="w-full bg-terracotta text-[#000000] font-label-caps text-label-caps py-3 flex items-center justify-center gap-2 hover:bg-rust transition-none">
+<span class="material-symbols-outlined text-[18px]">publish</span> RESOLVE &amp; COMMIT
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Verification Terminal -->
+<div class="h-32 bg-terminal-bg border-t border-outline-variant p-2 shrink-0 flex flex-col font-data-mono text-data-mono overflow-y-auto">
+<div class="text-secondary mb-1">SYSTEM_LOG // AMENDMENT_TRACKER</div>
+<div class="text-on-surface-variant opacity-70">&gt; Initializing diff engine for Work Plan (ID: sec_wp_02)...</div>
+<div class="text-on-surface-variant opacity-70">&gt; Analyzing proposed text against Judge constraints...</div>
+<div class="text-[#22C55E]">&gt; Constraint match found: 'MOU_PartnerA.pdf'.</div>
+<div class="text-primary">&gt; Pending Hash Impact: 0x8f4c...3b9a -&gt; 0xa12e...9c8f</div>
+<div class="text-primary mt-1">_ <span class="animate-pulse">|</span></div>
+</div>
+</main>
+</div>
+<!-- Footer JSON Translation -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50 h-8">
+<span class="font-label-caps text-label-caps text-on-surface">NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED</span>
+<div class="flex gap-4 font-data-mono text-data-mono text-secondary">
+<a class="hover:text-primary transition-none" href="#">Machine ID: 992-QX</a>
+<a class="hover:text-primary transition-none" href="#">Audit Log</a>
+<a class="hover:text-primary transition-none" href="#">System Health</a>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,1446 @@
+# Card — TILTH-CIC-05 Cooperative
+# Wave 2 research draft. Cards Wave 2 dispatch 2026-05-15 (Cowork session).
+# Operator decisions from Wave 1 carried forward: directory UPPERCASE (CIC/),
+# verbatim quotes ≤2 sentences (OQ-4), approval_required: true defaults (OQ-5),
+# qualitative-only frequency tags until 12+ CycleReceipts (OQ-6).
+#
+# Wave 1 handback resolutions applied:
+#  - schema is current as-on-disk; do NOT modify; field names + enums exactly.
+#  - lifecycle uses review_status; card passes.
+#  - dialect_routing_table item shape {funder_political_axis, dialect,
+#    example_funder} with enum {conservative, centrist, progressive, soul_fire}.
+#  - common_funders_observed.frequency_observed enum per entry.
+#  - provenance_requirements keys = KFR fact_class names with
+#    required_citation_type + verbatim_quote_required.
+#
+# NEVER include common_clc_patterns_observed or any CLC eligibility / preference /
+# win-rate / ranking field (F-CARDS-COUPLING-VIOLATION-EXTENSION fail-closes
+# loader). common_funders_observed below is funder-side observational metadata
+# only — NOT a CIC × CLC binding. Runtime matching is opportunity-driven
+# (Scout / Logician identify CLC per opportunity; CIC determines seat configuration
+# only).
+#
+# Important framing decisions (Wave 2):
+#  - Operator (Josh) is co-founder of MycoSymbiotics Cooperative; this CIC is
+#    operationally first-person for the operator, but the card must work for
+#    any cooperative customer (worker / producer / consumer / multi-stakeholder /
+#    shared-services / platform).
+#  - "Cooperative" = applicant identity, not legal-entity-type prescription.
+#    Many U.S. cooperatives operate as LLCs with cooperative bylaws (where state
+#    cooperative statute is weak or impractical); some are incorporated under a
+#    state cooperative-corporation statute (CA, MN, IA, MA, WI, OH, etc.); some
+#    are federal cooperatives; some are LP / Subchapter T pass-through. The
+#    card captures the legal_status fact-class to surface this.
+#  - ESOP boundary: ESOP-owned firms are *one form of* employee ownership but
+#    have distinct ERISA fiduciary obligations and a different (Mainstreet
+#    Employee Ownership Act + SBA 7(a)) financing pathway than a true
+#    cooperatively-governed worker co-op (one-member-one-vote + Subchapter T
+#    patronage). Both are in scope; card differentiates via fact-class +
+#    compliance_burdens.
+#  - "Solidarity economy" / "anti-capitalist" / "mutual aid" carry political
+#    weight in conservative federal review climates and are flagged HIGH in
+#    admin_risk_term_register with substitution candidates. Per Law 4 +
+#    operator OQ-5: approval_required: true on every term — no silent rewrites.
+#
+# Lifecycle: draft. NO Ed25519 signature. Operator review pending before Wave 2
+# LOCK ceremony as separate dispatch.
+
+schema_version: "1.0-cic"
+card_axis: "CIC"
+card_id: "TILTH-CIC-05"
+slug: "cooperative"
+display_name: "Cooperative"
+coverage_axis: "Member Ownership"
+nickname: "Member-governed ownership system"
+tilth_cic_id: "TILTH-CIC-05"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Search vocabulary — Scout consumption per §18.8
+# ─────────────────────────────────────────────────────────────────────────────
+search_vocabulary:
+  core_terms:
+    - term: "cooperative"
+      source_citation: "USDA RBCS Rural Cooperative Development Grant (RCDG) program statutory framing — 7 CFR 4284 Subpart F + 'cooperative' as eligible-organization type across USDA RD programs"
+    - term: "worker-owned cooperative"
+      source_citation: "U.S. Federation of Worker Cooperatives (USFWC) — sector-defining identity term; DOL Employee Ownership Initiative (EOI) eligible-applicant framing under Mainstreet Employee Ownership Act of 2018"
+    - term: "worker cooperative"
+      source_citation: "USFWC + Democracy at Work Institute — synonym; appears in DOL EOI Cooperative Development Centers RFA + state cooperative statutes (CA Cal. Corp. Code §12253.5; NY BCL §1402)"
+    - term: "producer cooperative"
+      source_citation: "USDA VAPG eligible-applicant statutory category 'Farmer or Rancher Cooperative' (7 CFR 4284 Subpart J); USDA RD program-wide framing"
+    - term: "consumer cooperative"
+      source_citation: "Cooperative Development Foundation grantee framing; National Cooperative Business Association (NCBA CLUSA) sector roster"
+    - term: "platform cooperative"
+      source_citation: "Platform Cooperativism Consortium / The New School — emerging platform-economy cooperative form; cited in DOL EOI Concept Notes + U.S. cooperative-development-center programming"
+    - term: "multi-stakeholder cooperative"
+      source_citation: "USFWC + Sustainable Economies Law Center — multi-class member governance form; appears in MA, MN, OH cooperative statutes"
+    - term: "purchasing cooperative"
+      source_citation: "Subchapter T (IRC §1381–1388) cooperative-tax-treatment framing; NCBA CLUSA sector roster — 'purchasing co-op' / 'buying group'"
+    - term: "shared services cooperative"
+      source_citation: "Cooperative Development Foundation typical grantee category; appears in USDA RBDG program scope as 'mutually-owned business'"
+    - term: "ESOP"
+      source_citation: "Employee Stock Ownership Plan — ERISA §407(d)(6); SBA 7(a) ESOP loan guarantee per Mainstreet Employee Ownership Act of 2018 (Pub. L. 115-232)"
+    - term: "employee stock ownership plan"
+      source_citation: "26 U.S.C. §4975(e)(7) statutory definition; DOL EBSA jurisdiction"
+    - term: "employee ownership trust"
+      source_citation: "Project Equity + Aspen Institute Economic Opportunities Program EOT framing; emerging form distinct from ESOP and worker co-op"
+    - term: "employee ownership"
+      source_citation: "DOL Employee Ownership Initiative (EOI) — umbrella term covering ESOPs / worker co-ops / EOTs per Mainstreet Employee Ownership Act"
+    - term: "democratic governance"
+      source_citation: "International Cooperative Alliance Statement on the Cooperative Identity — Principle 2 'Democratic Member Control'; appears in USDA RCDG / RBDG framing"
+    - term: "patronage"
+      source_citation: "IRS Subchapter T (IRC §1381–1388) — 'patronage dividend' as cooperative tax-treatment defining feature"
+    - term: "patronage dividend"
+      source_citation: "IRC §1388(a) statutory definition; USDA RCDG technical-assistance framing"
+    - term: "member-owned"
+      source_citation: "USDA RD 'Mutually Owned Business' category in RCDG statute (7 CFR 4284 Subpart F); ICA Cooperative Identity Principle 1"
+    - term: "Mutually Owned Business"
+      source_citation: "USDA RCDG statutory eligible-beneficiary category — 7 CFR 4284 Subpart F"
+    - term: "rural cooperative"
+      source_citation: "USDA RBCS Rural Cooperative Development Grant program scope — 7 CFR 4284 Subpart F"
+    - term: "community wealth-building"
+      source_citation: "Democracy Collaborative + Federal Reserve Bank of Atlanta framing; appears in CDFI Fund + community development funder language"
+    - term: "shared ownership"
+      source_citation: "DOL EOI substitution-friendly term; appears in SBA 7(a) ESOP loan guarantee program materials"
+    - term: "cooperative development"
+      source_citation: "USDA RCDG program statutory purpose — 7 CFR 4284 Subpart F"
+    - term: "cooperative development center"
+      source_citation: "USDA RCDG funded entities — nonprofit centers serving rural cooperatives + Mutually Owned Businesses"
+    - term: "Subchapter T"
+      source_citation: "IRC §1381–1388 — federal cooperative tax treatment"
+    - term: "Socially Disadvantaged Group"
+      source_citation: "USDA Socially Disadvantaged Group Grant (SDGG) statutory category — RBCS program scope"
+    - term: "succession planning"
+      source_citation: "DOL EOI + Project Equity framing — silver-tsunami business-conversion-to-employee-ownership use case"
+    - term: "business conversion to employee ownership"
+      source_citation: "DOL EOI Cooperative Development Centers RFA framing; SBA 7(a) Mainstreet Employee Ownership Act loan guarantee"
+    - term: "collective purchasing"
+      source_citation: "Subchapter T purchasing-cooperative framing; NCBA CLUSA sector roster"
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.1) ──
+    - term: "cooperative housing"
+      source_citation: "Housing-cooperative form (limited-equity housing co-op / market-rate housing co-op / mutual housing association); National Cooperative Bank + ROC USA + NAHC sector framing — distinct cooperative form not previously folded into consumer + multi-stakeholder convention"
+    - term: "housing cooperative"
+      source_citation: "Synonym for cooperative housing; NAHC (National Association of Housing Cooperatives) + ROC USA (resident-owned-communities mutual-housing-association framing) sector identity"
+    - term: "mutual benefit corporation"
+      source_citation: "State-statutory entity-form distinction — some states (NY, NJ) distinguish 'mutual benefit corporation' from 'cooperative corporation' under state-statute frameworks"
+    - term: "cooperative association"
+      source_citation: "Alternative statutory entity-form available in several states; carries cooperative-governance attributes without explicit cooperative-corporation statutory anchor"
+    - term: "Subchapter T election"
+      source_citation: "IRC §1381–1388 — explicit Subchapter T tax-treatment election; surfaces non-election alternative pathways for cooperatives operating without Subchapter T claim"
+    - term: "non-Subchapter-T cooperative"
+      source_citation: "Cooperatives operating without Subchapter T election (paying tax at corporate or LLC pass-through level); operator-flagged at _review_handback surface_ambiguities for explicit fact-class treatment"
+
+  synonym_map:
+    cooperative:
+      - "co-op"
+      - "coop"
+      - "cooperative business"
+      - "cooperative enterprise"
+      - "co-operative"
+    worker_cooperative:
+      - "worker-owned cooperative"
+      - "worker co-op"
+      - "worker-owned business"
+      - "employee-owned cooperative"
+    producer_cooperative:
+      - "farmer cooperative"
+      - "rancher cooperative"
+      - "Farmer or Rancher Cooperative"
+      - "agricultural cooperative"
+      - "producer co-op"
+    consumer_cooperative:
+      - "consumer co-op"
+      - "food co-op"
+      - "retail cooperative"
+      - "buyer cooperative"
+    employee_ownership:
+      - "ESOP"
+      - "employee stock ownership plan"
+      - "employee ownership trust"
+      - "EOT"
+      - "shared ownership"
+      - "broad-based ownership"
+    democratic_governance:
+      - "one-member-one-vote"
+      - "member control"
+      - "democratic member control"
+      - "cooperative governance"
+    patronage:
+      - "patronage dividend"
+      - "patronage allocation"
+      - "patronage refund"
+      - "member dividend"
+    multi_stakeholder_cooperative:
+      - "multi-stakeholder co-op"
+      - "solidarity cooperative"
+      - "hybrid cooperative"
+    platform_cooperative:
+      - "platform co-op"
+      - "cooperative platform"
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.1) ──
+    employee_ownership_transition:
+      - "ESOP"
+      - "employee ownership trust"
+      - "EOT"
+      - "worker-owner conversion"
+      - "cooperative-conversion"
+      - "cooperative-transition"
+      - "silver-tsunami conversion"
+      - "business-conversion to employee ownership"
+
+  funder_program_keywords:
+    - keyword: "RCDG"
+      funder: "USDA Rural Development — Rural Business-Cooperative Service"
+      source_citation: "USDA RD RCDG program page + 7 CFR 4284 Subpart F — Rural Cooperative Development Grants (nonprofit centers serving rural cooperatives + Mutually Owned Businesses)"
+    - keyword: "Rural Cooperative Development Grant"
+      funder: "USDA RD RBCS"
+      source_citation: "rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grant-program"
+    - keyword: "SDGG"
+      funder: "USDA RD RBCS"
+      source_citation: "USDA Socially Disadvantaged Group Grant — supports cooperatives serving socially-disadvantaged groups"
+    - keyword: "Socially Disadvantaged Group Grant"
+      funder: "USDA RD RBCS"
+      source_citation: "rd.usda.gov/programs-services/business-programs/socially-disadvantaged-groups-grant"
+    - keyword: "VAPG"
+      funder: "USDA RD RBCS"
+      source_citation: "USDA Value-Added Producer Grants — explicit priority points for Farmer or Rancher Cooperatives + Mid-Tier Value Chain projects"
+    - keyword: "RBDG"
+      funder: "USDA RD RBCS"
+      source_citation: "USDA Rural Business Development Grant — cooperatives + Mutually Owned Businesses are eligible beneficiaries"
+    - keyword: "REAP"
+      funder: "USDA RD RBCS"
+      source_citation: "USDA Rural Energy for America Program — cooperatives are eligible applicants"
+    - keyword: "HFFI"
+      funder: "USDA RD + Reinvestment Fund (intermediary)"
+      source_citation: "USDA Healthy Food Financing Initiative — food-focused cooperatives fundable via HFFI partner intermediaries"
+    - keyword: "EOI"
+      funder: "U.S. Department of Labor — Employee Ownership Initiative"
+      source_citation: "DOL EOI authorized by Mainstreet Employee Ownership Act of 2018 (Pub. L. 115-232) — cooperative development centers RFA"
+    - keyword: "Cooperative Development Centers"
+      funder: "DOL EOI"
+      source_citation: "DOL Employee Ownership Cooperative Development Centers RFA"
+    - keyword: "SBA 7(a) ESOP loan guarantee"
+      funder: "U.S. Small Business Administration"
+      source_citation: "Mainstreet Employee Ownership Act of 2018 — SBA 7(a) loan guarantee for ESOP transactions"
+    - keyword: "Local Food Promotion Program"
+      funder: "USDA AMS — LAMP component"
+      source_citation: "USDA AMS LFPP — explicit priority for food cooperatives + cooperative-aggregation projects"
+    - keyword: "Cooperative Development Foundation grant"
+      funder: "Cooperative Development Foundation (CDF)"
+      source_citation: "cdf.coop/grants — sector-supporting grants for cooperatives + cooperative developers"
+    - keyword: "Cooperative Fund of New England loan"
+      funder: "Cooperative Fund of New England (CDFI)"
+      source_citation: "cooperativefund.org — financing for New England cooperatives"
+    - keyword: "Shared Capital Cooperative loan"
+      funder: "Shared Capital Cooperative (CDFI)"
+      source_citation: "sharedcapital.coop — cooperatively-owned CDFI lending nationwide to cooperatives"
+    - keyword: "Capital Impact Partners"
+      funder: "Capital Impact Partners (CDFI)"
+      source_citation: "capitalimpact.org — co-op + community-development lending with explicit cooperative portfolio"
+    - keyword: "LEAF"
+      funder: "Local Enterprise Assistance Fund (CDFI)"
+      source_citation: "leaffund.org — Boston-based CDFI with cooperative portfolio"
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.1) ──
+    - keyword: "Aspen Institute Economic Opportunities Program (EOP)"
+      funder: "Aspen Institute EOP"
+      source_citation: "aspeninstitute.org/programs/economic-opportunities-program — ESOP-track research / TA / capacity-building intermediary"
+    - keyword: "Project Equity ESOP transition"
+      funder: "Project Equity"
+      source_citation: "project-equity.org — ESOP-transition intermediary; succession-planning + conversion technical assistance"
+    - keyword: "NCEO ESOP research and TA"
+      funder: "National Center for Employee Ownership"
+      source_citation: "nceo.org — ESOP research + TA + member resource clearinghouse"
+    - keyword: "Democracy Collaborative community wealth-building"
+      funder: "The Democracy Collaborative"
+      source_citation: "democracycollaborative.org/community-wealth — community wealth-building framework + research intermediary"
+    - keyword: "Cooperative Development Foundation typical grantee"
+      funder: "Cooperative Development Foundation (CDF)"
+      source_citation: "cdf.coop — cooperative-development-foundation typical-grantee framing for cooperative-development organizations"
+
+  disqualifier_terms:
+    - term: "single-owner LLC"
+      reason: "If applicant has no member-class structure, no democratic governance, no patronage model — it is not a cooperative for funder eligibility purposes. RCDG / SDGG / cooperative-priority programs require Mutually Owned Business or cooperative form. Verify governance documents."
+    - term: "investor-owned"
+      reason: "Investor-ownership (one-share-one-vote rather than one-member-one-vote) disqualifies from cooperative-priority programs. Subchapter T patronage tax treatment specifically excludes investor-owned firms."
+    - term: "personal use"
+      reason: "Cooperative-priority federal programs (USDA RBCS suite, DOL EOI) target commercial / member-serving enterprise; personal-use or hobby framing flags mismatch."
+    - term: "for-profit conversion without member structure"
+      reason: "Mainstreet Employee Ownership Act + DOL EOI focus on conversion to ESOP / worker co-op / EOT — conversion to a non-employee-ownership structure is out of scope."
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.1) ──
+    - term: "for-profit-without-cooperative-bylaws applicant"
+      reason: "Investor-owned for-profit applicants lacking cooperative bylaws (no one-member-one-vote / patronage allocation / democratic member control) are ineligible for cooperative-priority federal programs (RCDG / SDGG / VAPG cooperative-priority). LLC-with-cooperative-bylaws is eligible; verify governance documents."
+    - term: "ESOP-only applicant for true-cooperative-priority funder"
+      reason: "ESOP firms are eligible for SBA 7(a) ESOP loan guarantees + DOL EOI broadly, but USDA RCDG + USFWC-aligned cooperative-priority programs target true cooperatives (one-member-one-vote + Subchapter T patronage). ESOP applicants must verify program-specific eligibility before routing."
+    - term: "non-rural applicant for USDA RD rural-only program"
+      reason: "USDA RD RCDG / RBDG / VAPG / REAP require rural-applicant eligibility per USDA RD rural-area definitions (population thresholds; eligibility-map verification). Non-rural applicants route to non-rural cooperative funders (DOL EOI / cooperative CDFIs / community foundations)."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Evidence signals — Scribe consumption per §18.8
+# ─────────────────────────────────────────────────────────────────────────────
+evidence_signals:
+  - kind: "bylaws"
+    source_pattern: "current adopted bylaws PDF with adoption-date + amendment history; cooperative-specific provisions (one-member-one-vote, patronage allocation, member classes, board election) explicitly cited"
+    weight: "HIGH"
+    freshness_tolerance_days: 730
+    source_citation: "USDA RCDG technical-assistance scope; DOL EOI cooperative-conversion documentation requirements; ICA Cooperative Identity Principles applied as governance baseline"
+  - kind: "articles_of_incorporation"
+    source_pattern: "state-filed articles establishing legal entity (cooperative corporation, LLC with cooperative operating agreement, statutory cooperative); state filing receipt + entity good-standing certificate"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "State cooperative-statute compliance (varies by state — CA, MN, IA, MA, OH, WI, NY, etc.); USDA RBCS eligibility-doc expectations"
+  - kind: "member_roster_and_classes"
+    source_pattern: "current member roster with member-class designation, voting rights per class, equity contribution per member, dated last-update; signed by board secretary"
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "ICA Cooperative Identity Principle 1 (Voluntary and Open Membership); USDA RCDG + DOL EOI applicant-documentation expectations"
+  - kind: "signed_member_commitments"
+    source_pattern: "patronage agreements, marketing agreements, supply commitments, equity-contribution commitments — signed and dated by member + countersigned by board"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "USDA VAPG cooperative-priority documentation; Subchapter T patronage-treatment requirements (IRC §1388(c) written notice of allocation)"
+  - kind: "board_minutes"
+    source_pattern: "minutes of last 12 months of board meetings demonstrating governance activity, member elections, patronage allocations, major decisions; secretary-attested"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "USDA RCDG governance-maturity expectations; CDFI underwriting standard"
+  - kind: "board_roster_or_steering_committee"
+    source_pattern: "current board / steering committee roster with member-class affiliation, term length, election date, contact info"
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "USDA RCDG + DOL EOI expectations; CDFI underwriting"
+  - kind: "patronage_allocation_model"
+    source_pattern: "documented method for allocating patronage dividends — formula tied to member usage / labor / patronage; written into bylaws or board policy; alignment with Subchapter T qualified-written-notice requirements where applicable"
+    weight: "HIGH"
+    freshness_tolerance_days: 730
+    source_citation: "IRC §1388(c) qualified-written-notice-of-allocation requirement; USDA RCDG cooperative-development scope"
+  - kind: "financial_projections"
+    source_pattern: "three-year pro forma with explicit member-equity assumption, patronage-distribution assumption, working-capital assumption; sensitivity disclosed"
+    weight: "HIGH"
+    freshness_tolerance_days: 180
+    source_citation: "CDFI underwriting; USDA RCDG / RBDG financial-projection expectations"
+  - kind: "capitalization_plan"
+    source_pattern: "documented capital structure — member equity (par value, retain), preferred-share class, retained earnings, external debt, patronage retained capital — with raise / draw schedule"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "Cooperative Fund of New England + Shared Capital Cooperative + Capital Impact Partners CDFI underwriting standards; USDA RBDG capital-stack documentation"
+  - kind: "shared_asset_plan"
+    source_pattern: "documented physical / digital / governance asset shared across members — equipment, facility, brand, IP, scheduling system; access policy; maintenance budget"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "USDA RCDG shared-asset framing; common reviewer expectations for shared-infrastructure cooperative projects (cooperative-development centers + cooperative CDFIs)"
+  - kind: "technical_assistance_agreements"
+    source_pattern: "MOUs / engagement letters with cooperative development centers (USDA RCDG-funded entities), Subchapter T tax counsel, cooperative-bylaws counsel; named TA partner with scope + duration"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "USDA RCDG TA-partner expectations; DOL EOI cooperative-development-center engagement model"
+  - kind: "succession_plan"
+    source_pattern: "for cooperatives serving conversion-from-conventional-business use case OR cooperatives planning founder-departure transition: documented governance + ownership-transition plan with timeline + membership-onboarding terms"
+    weight: "MEDIUM"
+    freshness_tolerance_days: 730
+    source_citation: "DOL EOI conversion-use-case documentation; Project Equity / Aspen EOP succession-planning literature"
+  - kind: "audited_financials"
+    source_pattern: "audited financial statements (preferred) OR reviewed compilation (CPA) for last 1-3 fiscal years; for cooperatives subject to Single Audit (>$750k federal expenditures) the most recent Single Audit report"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "2 CFR 200 Subpart F (Single Audit); CDFI underwriting standard; USDA RBCS award-readiness expectations"
+  - kind: "match_documentation"
+    source_pattern: "cash and/or in-kind match commitments; cash preferred for federal cooperative-priority programs; documented per source"
+    weight: "HIGH"
+    freshness_tolerance_days: 90
+    source_citation: "USDA RCDG match requirement; USDA VAPG cash-match-scores-higher criterion"
+  - kind: "qualified_personnel_documentation"
+    source_pattern: "resumes / biosketches for Key Personnel (cooperative-development manager, finance lead, board chair); job descriptions for unfilled roles"
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "USDA RCDG Key Personnel Qualifications scoring; CDFI underwriting"
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.2) ──
+  - kind: "cooperative_governance_documentation_portfolio"
+    source_pattern: "Bylaws current; articles of incorporation under state cooperative statute or LLC-with-cooperative-bylaws (for weak-statute states like PA); member roster + member-class structure; board minutes (recent 12 months); patronage-allocation model + recent patronage-dividend payments; cooperative principles compliance attestation (ICA Statement on the Cooperative Identity)."
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "USDA RCDG governance documentation expectations + ICA Cooperative Identity Statement + Subchapter T qualified-written-notice requirements"
+  - kind: "subchapter_t_election_status_or_alternative"
+    source_pattern: "Subchapter T election status (filed Form 1120-C if elected); if non-Subchapter-T: alternative tax-treatment narrative (corporate / LLC pass-through / other) + rationale for non-election."
+    weight: "MEDIUM"
+    freshness_tolerance_days: 365
+    source_citation: "IRC §1388(a) + Subchapter T statute + state cooperative-statute variation (PA weak-statute reality especially)"
+  - kind: "esop_erisa_compliance_documentation"
+    source_pattern: "ESOP fiduciary committee membership; ESOP trustee compliance status; ERISA Section 408(e) prohibited-transaction review; annual ESOP appraisal cycle (independent valuator); SBA 7(a) ESOP loan-guarantee status (if applicable)."
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "26 USC §4975(e)(7) + ERISA §407(d)(6) + Mainstreet Employee Ownership Act + SBA 7(a) ESOP guidance"
+  - kind: "member_equity_capitalization_documentation"
+    source_pattern: "Member equity contribution model + member-class share structure + member-equity-raised-to-date + retained-earnings allocation + per-member account balances per cooperative governance bylaws."
+    weight: "HIGH"
+    freshness_tolerance_days: 365
+    source_citation: "USDA RCDG cooperative-development framework + ICA Cooperative Identity Principle 3 (Member Economic Participation)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# KFR fact classes — Intake / Logician consumption
+# ─────────────────────────────────────────────────────────────────────────────
+kfr_fact_classes:
+  - fact_class: "cooperative_type"
+    description: "Worker / producer / consumer / multi-stakeholder / shared-services / purchasing / platform cooperative — primary identity. Some cooperatives operate as multiple types simultaneously (e.g., multi-stakeholder food co-op = worker + consumer + producer)."
+    typical_provenance: "bylaws + member roster + Articles of Incorporation"
+  - fact_class: "legal_status"
+    description: "Statutory cooperative corporation (state-specific cooperative law) / LLC with cooperative operating agreement / federal cooperative / Subchapter T pass-through / unincorporated association. Legal-form varies dramatically by state."
+    typical_provenance: "Articles of Incorporation; state filing receipt; entity good-standing certificate; tax-status letter (IRS / state)"
+  - fact_class: "member_count"
+    description: "Current member count by class; member-onboarding pace last 12 months."
+    typical_provenance: "member roster (signed + dated by board secretary)"
+  - fact_class: "member_classes"
+    description: "Defined member classes (e.g., worker / consumer / producer / supporter / investor non-voting) + per-class voting rights + per-class equity-contribution structure."
+    typical_provenance: "bylaws + member roster"
+  - fact_class: "voting_rights"
+    description: "Voting structure — one-member-one-vote default per ICA Principle 2; per-class voting weights for multi-stakeholder; quorum rules; proxy voting allowed/disallowed."
+    typical_provenance: "bylaws"
+  - fact_class: "bylaws_revision_history"
+    description: "Bylaws adoption date + amendment-history timeline; substantive amendments noted."
+    typical_provenance: "bylaws document with revision marks; board minutes documenting amendments"
+  - fact_class: "governance_history"
+    description: "Board / steering committee composition over last 3 years; election cadence; major governance milestones (incorporation, statute conversion, multi-stakeholder expansion, founder transition)."
+    typical_provenance: "board minutes; annual report; member-meeting minutes"
+  - fact_class: "patronage_model"
+    description: "Patronage allocation method (per labor hour / per supply volume / per purchase / per share-of-services-used); written-notice cadence; cash vs retained allocation split."
+    typical_provenance: "bylaws + board policy + Subchapter T qualified-written-notices to members"
+  - fact_class: "capitalization"
+    description: "Capital stack — member equity (par + retain), preferred shares (class + voting), external debt (lender), retained earnings, patronage retained capital, grant capital. Distinguish member capital from external capital for cooperative-priority programs."
+    typical_provenance: "audited financials; cap table; CDFI loan documents; member-equity ledger"
+  - fact_class: "member_shared_assets"
+    # Lever F rename 2026-05-17: was "shared_assets" — renamed to break the lexical
+    # collision with CLC-08 slug "shared_assets" (CIC-05 KFR fact-class semantics
+    # are member-pooled assets internal to the cooperative, distinct from the CLC-08
+    # capital-mechanism semantics of shared infrastructure capital pools). No
+    # semantic change; description preserved verbatim.
+    description: "Physical / digital / governance assets shared across membership — facility, equipment, brand, scheduling system, supply-chain platform, shared services."
+    typical_provenance: "asset list + shared-asset agreement + access policy"
+  - fact_class: "member_commitments"
+    description: "Signed member agreements (patronage commitments, supply commitments, marketing-through-co-op commitments, equity buy-in commitments) — count + dollar volume."
+    typical_provenance: "signed member agreements; member ledger"
+  - fact_class: "financial_controls"
+    description: "Internal financial controls — separation of duties, signature-authority matrix, audit-trail discipline, annual audit / review cadence."
+    typical_provenance: "internal control documentation; audit / review reports"
+  - fact_class: "sector"
+    description: "Industry sector — food / housing / energy / care / platform / agriculture / retail / manufacturing / professional services / technology — drives Scout opportunity matching + reviewer-expectation calibration."
+    typical_provenance: "Articles of Incorporation; tax-return industry classification (NAICS); marketing materials"
+  - fact_class: "annual_revenue"
+    description: "Gross revenue last 1-3 fiscal years; broken out by member-source vs non-member-source for Subchapter T compliance where applicable."
+    typical_provenance: "audited financials; tax returns; P&L"
+  - fact_class: "operator_priority_category"
+    description: "Socially-disadvantaged / beginning / veteran / women-owned / minority-owned cooperative status — drives federal cooperative-priority program eligibility (USDA SDGG, DOL EOI priority weighting)."
+    typical_provenance: "USDA SDGG self-attestation; member-demographics roster"
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.3) ──
+  - fact_class: "cooperative_legal_form"
+    description: "Entity legal form: state-statutory cooperative / LLC-with-cooperative-bylaws (for PA + other weak-statute states) / federal cooperative / Subchapter T pass-through / Section 521 farmer-cooperative-tax-exempt / non-Subchapter-T cooperative / ESOP / employee ownership trust. State of incorporation; state cooperative-statute reference if applicable."
+    typical_provenance: "articles of incorporation; bylaws; state filing record; Subchapter T election record (Form 1120-C); ERISA filings for ESOPs"
+  - fact_class: "member_class_and_governance_structure"
+    description: "Member classes (worker / producer / consumer / multi-stakeholder); voting rights per class; board composition + member-elected seats; quorum + meeting cadence; conflict-of-interest policy."
+    typical_provenance: "bylaws + member-class structure document + recent annual member meeting record"
+  - fact_class: "patronage_model_and_allocation"
+    description: "Patronage dividend rate; allocation cycle; per-member-account tracking; retained-earnings allocation; written-notice-of-allocation compliance (Subchapter T §1388(a))."
+    typical_provenance: "patronage policy + recent allocation memo + member-account reports + Subchapter T qualified-written-notice records"
+  - fact_class: "cooperative_capitalization_status"
+    description: "Member equity to-date; equity-class structure; retained-earnings; debt-to-member-equity ratio; capitalization plan for growth + member-equity-raise targets."
+    typical_provenance: "balance sheet + cooperative bylaws + capitalization plan"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Provenance requirements per fact class
+# ─────────────────────────────────────────────────────────────────────────────
+provenance_requirements:
+  legal_status:
+    required_citation_type: "state-filed Articles of Incorporation + good-standing certificate; entity-classification verbatim from filing"
+    verbatim_quote_required: true
+  member_count:
+    required_citation_type: "signed-and-dated member roster (board secretary attested) with as-of date"
+    verbatim_quote_required: false
+  member_classes:
+    required_citation_type: "bylaws section verbatim defining member classes + voting structure"
+    verbatim_quote_required: true
+  voting_rights:
+    required_citation_type: "bylaws section verbatim defining voting structure (one-member-one-vote OR per-class weights)"
+    verbatim_quote_required: true
+  patronage_model:
+    required_citation_type: "bylaws or board-policy section verbatim spelling out allocation method + Subchapter T qualified-written-notice if claimed"
+    verbatim_quote_required: true
+  capitalization:
+    required_citation_type: "audited financials + cap table; member-equity ledger for member-capital portion"
+    verbatim_quote_required: false
+  member_commitments:
+    required_citation_type: "signed member-agreement template + count of signed agreements + aggregate-dollar-volume figure"
+    verbatim_quote_required: false
+  operator_priority_category:
+    required_citation_type: "USDA SDGG self-attestation form OR member-demographics roster OR equivalent statutory-category documentation"
+    verbatim_quote_required: false
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.3) ──
+  cooperative_legal_form:
+    required_citation_type: "articles of incorporation + state filing receipt + Subchapter T election record (Form 1120-C) if applicable; ERISA filings (Form 5500) if ESOP"
+    verbatim_quote_required: true
+  member_class_and_governance_structure:
+    required_citation_type: "bylaws section verbatim defining member classes + voting rights + board composition"
+    verbatim_quote_required: true
+  patronage_model_and_allocation:
+    required_citation_type: "patronage policy + Subchapter T qualified-written-notice records (where T-elected) + recent allocation memo"
+    verbatim_quote_required: true
+  cooperative_capitalization_status:
+    required_citation_type: "balance sheet + capitalization plan + member-equity ledger"
+    verbatim_quote_required: false
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Register defaults — Scribe consumption
+# ─────────────────────────────────────────────────────────────────────────────
+register_defaults:
+  language_register: "hybrid"
+  narrative_voice: "first_person_plural"
+  tone: "technical_precise"
+  operator_override: "PROJECT_CONTEXT match_overrides take precedence"
+  sub_registers:
+    - name: "business_commercial"
+      description: "Commercial enterprise / underwriting framing — focus on revenue, jobs, repayment, member-equity raised, working-capital adequacy."
+      applies_when: "CDFI underwriting context; USDA RBDG enterprise-development context; SBA 7(a) ESOP loan-guarantee underwriting; centrist-leaning federal review climates."
+    - name: "cooperative_development"
+      description: "Technical cooperative-development framing — focus on governance maturity, member development, patronage methodology, sector-building, technical-assistance delivery."
+      applies_when: "USDA RCDG technical-assistance applications; DOL EOI cooperative-development-center applications; cooperative-CDFI portfolio applications; cooperative-development-foundation grants."
+    - name: "community_wealth"
+      description: "Community wealth-building framing — focus on local ownership, wealth retention, member benefit, place-based impact, broad-based ownership."
+      applies_when: "Community foundations with cooperative or community-wealth-building portfolios; progressive philanthropy explicitly funding community wealth-building; soul-fire-aligned cooperative-priority funders."
+  sub_register_selection_rule: |
+    Scribe selects the sub_register matching the active opportunity's funder dialect
+    (see dialect_routing_table) at draft time. The selection is opportunity-driven
+    runtime composition — NOT a design-time binding to any CLC slug. The
+    first_person_plural voice ("we, the member-owners…") is durable across all
+    three sub-registers and distinguishes cooperative applicants from investor-
+    owned applicants; preserve it unless the funder's active form template
+    requires third-person.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Dialect routing table — Scribe per Law 4
+# ─────────────────────────────────────────────────────────────────────────────
+dialect_routing_table:
+  - funder_political_axis: "conservative"
+    dialect: "scribe.formal_commercial"
+    example_funder: |
+      USDA Rural Development (RCDG / RBDG / VAPG / SDGG / REAP under current
+      administration framing — emphasize jobs created/retained, small-business
+      formation, rural employment, member equity raised); SBA 7(a) ESOP loan
+      guarantees under Mainstreet Employee Ownership Act; state economic
+      development agencies. Frame cooperative as small-business form + jobs
+      engine; minimize movement vocabulary.
+  - funder_political_axis: "centrist"
+    dialect: "scribe.technical_precise"
+    example_funder: |
+      Cooperative-development-focused CDFIs + national cooperative-development
+      intermediaries whose public materials use technical cooperative-development
+      vocabulary (governance, patronage, member equity). Substituting to
+      movement language reads as unprofessional at this register; substituting
+      to plain commercial language misses the cooperative-form-specific
+      underwriting cues these funders look for.
+      No specific third-party orgs named here per Law 5 + operator directive
+      2026-05-16 — Wave 2 subagent draft had named-org content that operator
+      did not approve at the time of authoring; full anonymization applied
+      at Phase E follow-on cleanup.
+  - funder_political_axis: "progressive"
+    dialect: "scribe.movement_aligned"
+    example_funder: |
+      Community-wealth-building-aligned community foundations + progressive
+      philanthropy explicitly funding cooperative-priority portfolios.
+      "Solidarity economy" / "community wealth-building" / "democratic
+      enterprise" framing reads as core register here; commercial-tone framing
+      misses the funder's actual underwriting cues.
+      No specific third-party orgs named here per Law 5 + operator directive
+      2026-05-16 — Wave 2 subagent draft had named-org content that operator
+      did not approve at the time of authoring; full anonymization applied
+      at Phase E follow-on cleanup.
+  - funder_political_axis: "soul_fire"
+    dialect: "scribe.cooperative_solidarity"
+    example_funder: |
+      Movement-aligned cooperative-priority funders + community-wealth-building
+      intermediaries whose public materials explicitly center "solidarity
+      economy" / "worker control" / "cooperative commonwealth" framing.
+      Substituting to commercial language reads as evasive at this register.
+      No specific third-party orgs named here per Law 5 + operator directive
+      2026-05-16 — Wave 2 subagent draft had named-org content that operator
+      did not approve at the time of authoring; full anonymization applied
+      at Phase D A.1 cleanup.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Admin-risk term register — Law 4 axis (b)
+# Per operator OQ-5: approval_required: true defaults. Per L-005 (lessons memory):
+# substitutions that settle across enough cycles may flip to false per-term
+# per-card at a future Archivist Reflection sub-mode pass.
+# ─────────────────────────────────────────────────────────────────────────────
+admin_risk_term_register:
+  - flagged_term: "anti-capitalist"
+    severity: "HIGH"
+    substitution_candidates:
+      - "shared ownership"
+      - "democratic enterprise"
+      - "member-owned business model"
+      - "cooperative economics"
+    reviewer_context: |
+      Reads as ideological framing across most funder types — conservative
+      federal review climates reject; centrist CDFIs may flag as off-putting.
+      Substitute to functional enterprise / governance descriptors except when
+      applying to soul-fire-aligned funder whose own materials use the term.
+      Tilth never silently rewrites — operator approves each substitution.
+    approval_required: true
+
+  - flagged_term: "solidarity economy"
+    severity: "HIGH"
+    substitution_candidates:
+      - "cooperative economy"
+      - "shared-ownership economy"
+      - "community wealth-building"
+      - "democratic enterprise sector"
+    reviewer_context: |
+      Movement-aligned vocabulary (NEC / Schumacher Center / Cooperation
+      Jackson core term; international-cooperative-movement provenance).
+      Conservative federal review climates and most state economic-development
+      agencies read it as activist signaling. Centrist foundation panels
+      vary; progressive philanthropy + soul-fire funders expect it. Match to
+      funder dialect; substitute to "cooperative economy" or "community
+      wealth-building" for centrist + conservative routing.
+    approval_required: true
+
+  - flagged_term: "mutual aid"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "member-to-member support"
+      - "reciprocal services among members"
+      - "cooperative member services"
+      - "shared member benefits"
+    reviewer_context: |
+      Term carries movement-aligned political weight (anarchist + abolitionist
+      organizing provenance via Kropotkin / Dean Spade contemporary usage).
+      Conservative panels read as activist signaling; centrist + foundation
+      panels usually accept; soul-fire panels expect. When applicant is
+      describing internal member-services structure, "member-to-member support"
+      or "reciprocal services among members" is the functional substitution.
+    approval_required: true
+
+  - flagged_term: "commons"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "shared infrastructure"
+      - "pooled resource"
+      - "cooperatively-owned asset"
+      - "shared-use facility"
+    reviewer_context: |
+      Academic + movement-aligned framing (Elinor Ostrom commons-governance
+      provenance; David Bollier / Schumacher Center contemporary usage).
+      Conservative panels may treat as ideological; centrist + technical
+      panels accept "shared infrastructure" + "pooled resource" more readily.
+      Acceptable in shared-infrastructure / pooled-asset contexts and many
+      cooperative-development panels.
+    approval_required: true
+
+  - flagged_term: "worker control"
+    severity: "HIGH"
+    substitution_candidates:
+      - "worker-owner governance"
+      - "employee ownership and governance"
+      - "democratic workplace governance"
+      - "worker-owner decision-making"
+    reviewer_context: |
+      Phrase carries explicit labor-movement framing — conservative and many
+      centrist panels read as adversarial-to-management-interest. Functional
+      substitution to "worker-owner governance" preserves substance (the
+      worker-owners govern the enterprise) without the labor-organizing
+      register that triggers reviewer reaction. Soul-fire / USFWC-aligned
+      funders expect "worker control" verbatim.
+    approval_required: true
+
+  - flagged_term: "collectivize"
+    severity: "HIGH"
+    substitution_candidates:
+      - "form a cooperative"
+      - "incorporate as a cooperative"
+      - "convert to shared ownership"
+      - "establish cooperative governance"
+    reviewer_context: |
+      Word carries explicit Soviet / state-collectivization historical
+      register that triggers strong negative reaction in conservative federal
+      review climates and many centrist panels. Functional substitution to
+      "form a cooperative" / "convert to shared ownership" preserves substance
+      without the historical loading. Almost no contemporary U.S. cooperative
+      developer uses "collectivize" as a self-descriptor.
+    approval_required: true
+
+  - flagged_term: "abolition"
+    severity: "HIGH"
+    substitution_candidates:
+      - "structural transformation"
+      - "system redesign"
+      - "alternative ownership structure"
+      - "post-extraction enterprise model"
+    reviewer_context: |
+      Phrase carries explicit prison-abolition / police-abolition / racial-
+      justice movement framing (contemporary usage). Conservative panels
+      reject reflexively; centrist panels read as activist signaling. Even
+      progressive philanthropy may prefer functional language unless applying
+      to soul-fire-aligned funder whose RFA uses the term. Tilth never silently
+      rewrites — operator approves each substitution.
+    approval_required: true
+
+  - flagged_term: "wealth redistribution"
+    severity: "HIGH"
+    substitution_candidates:
+      - "community wealth-building"
+      - "broad-based ownership"
+      - "shared prosperity"
+      - "member equity accumulation"
+    reviewer_context: |
+      Phrase carries explicit redistributive-tax-policy framing — conservative
+      federal review climates reject; centrist panels read as policy-advocacy
+      register. Functional substitution to "community wealth-building" is
+      well-established (Democracy Collaborative provenance) and accepted
+      across centrist + progressive funders + many CDFIs. Soul-fire funders
+      may prefer the original.
+    approval_required: true
+
+  - flagged_term: "DEI / equity / inclusion"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "underserved-member outreach"
+      - "Socially Disadvantaged Group (USDA statutory category)"
+      - "broad-based member ownership"
+      - "member demographic diversity"
+    reviewer_context: |
+      Under current federal administration framing, DEI language has been
+      deprioritized in some USDA + DOL program announcements. USDA *statutory*
+      priority categories (Socially Disadvantaged Group, beginning, veteran,
+      women-owned, minority-owned cooperative) remain live and are the
+      preferred framing for federal cooperative-priority programs. Foundation
+      funders vary widely. Verify per active RFA.
+    approval_required: true
+
+  - flagged_term: "stakeholder capitalism"
+    severity: "MEDIUM"
+    substitution_candidates:
+      - "multi-stakeholder cooperative governance"
+      - "broad-based stakeholder ownership"
+      - "shared-ownership enterprise"
+    reviewer_context: |
+      Term reads differently across panels — some conservative panels treat as
+      ESG-adjacent virtue signaling; centrist business-press panels accept
+      readily; cooperative-development panels prefer the more precise
+      "multi-stakeholder cooperative governance" (which has specific bylaws
+      structure provenance). Match to funder dialect; default to the precise
+      cooperative-development substitution.
+    approval_required: true
+
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.4) ──
+  - flagged_term: "cooperative commonwealth"
+    severity: "HIGH"
+    substitution_candidates:
+      - "broad-based cooperative economy"
+      - "shared-ownership commonwealth (operator decides per RFA)"
+      - "community-wealth-building movement"
+      - "cooperative-development economy"
+    reviewer_context: |
+      Term carries explicit cooperative-movement provenance (historically
+      associated with the late-19th / early-20th-century cooperative-
+      commonwealth political tradition). Conservative + most centrist
+      climates read as ideological; USDA RD + SBA underwriting context
+      expects more neutral cooperative-economics vocabulary. For soul-fire /
+      USFWC-aligned funders + community-wealth-building intermediaries,
+      retain verbatim where active RFA uses it; otherwise substitute toward
+      precise cooperative-development or community-wealth-building framing.
+      Operator decides per RFA per Law 4.
+    approval_required: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Reporting cadence
+# ─────────────────────────────────────────────────────────────────────────────
+reporting_cadence_typical:
+  default_frequency: "project_based"
+  per_funder_overrides:
+    USDA_RCDG: "annual performance + annual financial; final at project close"
+    USDA_VAPG: "semi-annual performance + annual financial; final at project close (max 3-year performance period)"
+    USDA_SDGG: "annual + final report"
+    USDA_RBDG: "annual + final"
+    USDA_REAP: "milestone-based + annual + final"
+    USDA_LFPP: "annual + final report; quarterly financial common"
+    DOL_EOI: "annual + final per cooperative-development-center RFA"
+    SBA_7a_ESOP_loan: "lender-required quarterly financial reporting + annual audited financials per loan covenants"
+    CDFI_loan: "quarterly financial covenants + annual audited financials + annual program-impact reporting"
+    Cooperative_Development_Foundation: "annual program report + financial summary"
+    member_meeting_annual: "annual member meeting + annual report to members (separate from grant reporting; required by most cooperative bylaws + state cooperative statutes)"
+    # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.7) ──
+    USDA_RBDG_general: "annual + final; cooperative-priority points where applicable; SF-PPR-A typical reporting"
+    DOL_EOI_grant: "annual + final per cooperative-development-center RFA; quarterly financial common per RFA terms"
+    SBA_7a_ESOP_loan_covenants: "lender quarterly financial reporting + annual ESOP appraisal + ERISA Form 5500 + annual audited financials per loan covenants"
+    cooperative_development_center_reporting: "RCDG sub-recipient reporting cadence — annual progress + financial; final at project close; member-roster-served reporting"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Metrics table template
+# ─────────────────────────────────────────────────────────────────────────────
+metrics_table_template:
+  - metric: "members served (count)"
+    unit: "count"
+    typical_target_range: "applicant-specific"
+    source_for_target: "member roster + onboarding plan"
+  - metric: "members served by class"
+    unit: "count per class"
+    typical_target_range: "applicant-specific"
+    source_for_target: "member roster broken out by class"
+  - metric: "member equity raised"
+    unit: "USD"
+    typical_target_range: "applicant-specific"
+    source_for_target: "capitalization plan; cap table forecast"
+  - metric: "patronage distributed"
+    unit: "USD (cash + retained)"
+    typical_target_range: "applicant-specific"
+    source_for_target: "patronage allocation model + financial projections"
+  - metric: "jobs created"
+    unit: "FTE"
+    typical_target_range: "applicant-specific"
+    source_for_target: "USDA RCDG / RBDG / DOL EOI work plan"
+  - metric: "jobs retained"
+    unit: "FTE"
+    typical_target_range: "applicant-specific"
+    source_for_target: "DOL EOI conversion-use-case work plan"
+  - metric: "jobs converted to ownership"
+    unit: "FTE"
+    typical_target_range: "applicant-specific"
+    source_for_target: "DOL EOI / SBA 7(a) ESOP conversion work plan"
+  - metric: "annual revenue"
+    unit: "USD"
+    typical_target_range: "applicant-specific"
+    source_for_target: "applicant pro forma"
+  - metric: "governance milestones (board elections, bylaws adoption, member-class expansion)"
+    unit: "count + date"
+    typical_target_range: "applicant-specific"
+    source_for_target: "governance work plan"
+  - metric: "shared-asset utilization"
+    unit: "hours / bookings / member-uses"
+    typical_target_range: "applicant-specific"
+    source_for_target: "shared-asset utilization plan"
+  - metric: "cooperatives developed (RCDG-funded centers)"
+    unit: "count"
+    typical_target_range: "RCDG center-applicants typically commit to 5-15 per year"
+    source_for_target: "USDA RCDG work plan + Cooperative Development Center model"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Cross-references — Program Rule Packs (PRP)
+# Sidecar augmentation pass 2026-05-18
+# ─────────────────────────────────────────────────────────────────────────────
+cross_references_prp:
+  - prp_id: "TILTH-PRP-2CFR200"
+    applicability: "USDA RCDG / RBDG / SDGG / VAPG / REAP + DOL EOI + SBA 7(a) ESOP federal admin apply 2 CFR 200 Uniform Guidance; Subchapter T audit overlay for tax-treatment compliance compounds federal admin discipline."
+    fires_when: "Active opportunity is federal cooperative-priority program (USDA RD suite / DOL EOI / SBA 7(a) ESOP); CIC-05 applicant; federal funds in scope."
+  - prp_id: "TILTH-PRP-DAVIS-BACON"
+    applicability: "CONDITIONAL — fires when rural-development construction projects involve federal contract covered construction (USDA RBDG facility construction, RBCS infrastructure, REAP energy-infrastructure construction with federal funds >$2000)."
+    fires_when: "Opportunity scope includes covered construction (>$2000) under federal contract; applicability conditional on construction component within cooperative facility / infrastructure scope."
+  - prp_id: "TILTH-PRP-NEPA-24CFR58"
+    applicability: "CONDITIONAL — fires when USDA RD Community Facilities or EPA construction grants trigger NEPA environmental review (RD CF construction, REAP energy infrastructure, EPA-funded cooperative environmental projects)."
+    fires_when: "Federal financial assistance funds facility construction / energy infrastructure / ground disturbance under USDA RD CF or EPA construction-grant programs; NEPA categorical-exclusion / EA / EIS determination required per 24 CFR 58 or agency-specific NEPA framework."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Narrative sections typical
+# ─────────────────────────────────────────────────────────────────────────────
+narrative_sections_typical:
+  - "Project Description / Executive Summary"
+  - "Eligibility Narrative (cooperative form + statutory category)"
+  - "Cooperative Model and Governance"
+  - "Member Development and Recruitment Plan"
+  - "Capitalization and Financing Plan"
+  - "Shared Asset Plan (where applicable)"
+  - "Technical Assistance and Capacity Needs"
+  - "Goals and Outcomes (SMART)"
+  - "Work Plan and Tasks"
+  - "Key Personnel and Qualifications"
+  - "Budget and Budget Justification"
+  - "Match / Cost Share Documentation"
+  - "Timeline / Milestones"
+  - "Evaluation / Performance Measures"
+  - "Sustainability beyond grant period"
+  - "Community / Regional Impact"
+  - "Cooperative Identity and Values Alignment (where funder-specified — e.g., RCDG, CDF)"
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.5) ──
+  - "Cooperative Governance Structure (member classes + board composition + voting rights + cooperative principles attestation)"
+  - "Patronage Model and Allocation (Subchapter T compliance + per-member-account tracking + recent allocation history)"
+  - "Member Equity Capitalization Plan (member-equity-raised + per-member-class structure + growth-capitalization roadmap)"
+  - "ESOP / Worker-Owner Conversion Discipline (where applicable for transition-stage applicants: transition timeline + valuation + financing + governance ramp-up)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Capacity signals required
+# ─────────────────────────────────────────────────────────────────────────────
+capacity_signals_required:
+  - signal: "active SAM.gov registration + UEI"
+    evidence_type: "SAM.gov record"
+    required_for_competitive: true
+  - signal: "current good standing on prior federal awards (where applicable)"
+    evidence_type: "prior-award compliance record"
+    required_for_competitive: true
+  - signal: "bylaws compliant with applicable cooperative statute"
+    evidence_type: "bylaws document + state-cooperative-statute citation; legal opinion preferred for high-dollar federal applications"
+    required_for_competitive: true
+  - signal: "current member roster with voting documentation"
+    evidence_type: "signed-and-dated member roster; voting record from last election"
+    required_for_competitive: true
+  - signal: "active board or steering committee"
+    evidence_type: "current board roster + last 12 months board minutes"
+    required_for_competitive: true
+  - signal: "documented patronage model"
+    evidence_type: "bylaws or board-policy section + Subchapter T qualified-written-notice template (where applicable)"
+    required_for_competitive: true
+  - signal: "financial controls + audit history"
+    evidence_type: "audited financials (preferred) or CPA-reviewed compilation; internal-control documentation"
+    required_for_competitive: true
+  - signal: "technical assistance partner (cooperative development center) named OR in-house cooperative-development capacity"
+    evidence_type: "MOU / engagement letter with TA partner; OR resume of in-house cooperative-development manager"
+    required_for_competitive: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Compliance burdens
+# ─────────────────────────────────────────────────────────────────────────────
+compliance_burdens:
+  - framework: "SAM.gov + UEI registration"
+    applicability: "all federal grant applicants"
+    required_filings:
+      - "SAM.gov annual renewal"
+      - "Unique Entity Identifier on every application"
+  - framework: "2 CFR 200 Uniform Guidance"
+    applicability: "all federal grant recipients"
+    required_filings:
+      - "Single Audit if federal expenditures > $750,000 in a year"
+      - "Procurement standards compliance"
+      - "Cost principles compliance"
+  - framework: "state cooperative statute"
+    applicability: "varies by state — CA Cal. Corp. Code Title 1 Div 3 Ch 22 (Consumer Coop) + Ch 23 (Worker Coop §12253.5); MA Ch. 157A; MN Ch. 308A/308B; IA Ch. 497A/501; OH Ch. 1729; WI Ch. 185/193; NY Coop Corp Law + BCL §1402; PA varies (no comprehensive cooperative statute — most use LLC-with-cooperative-bylaws form)"
+    required_filings:
+      - "Annual report to state per cooperative statute"
+      - "Bylaws adoption + amendment filings where required"
+      - "Member-meeting minutes per statute"
+  - framework: "IRS Subchapter T (IRC §1381–1388)"
+    applicability: "cooperatives claiming patronage tax treatment"
+    required_filings:
+      - "Form 1120-C (Cooperative Income Tax Return) where electing"
+      - "Qualified written notices of allocation to members per IRC §1388(c)"
+      - "Patronage / nonpatronage income separation in books"
+  - framework: "ERISA"
+    applicability: "ESOP-owned firms only (ESOPs are an ERISA-qualified retirement plan)"
+    required_filings:
+      - "Form 5500 annual return"
+      - "Annual ESOP appraisal by independent appraiser"
+      - "Trustee fiduciary obligations per ERISA §404"
+  - framework: "Securities Act compliance for member capital raises"
+    applicability: "cooperatives raising member equity beyond cooperative-statute exemption"
+    required_filings:
+      - "Regulation Crowdfunding (Reg CF) filings if using Reg CF intermediary"
+      - "State intrastate offering exemption filings (varies)"
+      - "Cooperative-securities-exemption filings per state statute (e.g., MN §80A.50; many states)"
+  - framework: "Employment law (worker cooperatives)"
+    applicability: "worker cooperatives + multi-stakeholder cooperatives with worker class"
+    required_filings:
+      - "Federal + state employment tax (FICA, FUTA, state unemployment)"
+      - "Workers' compensation insurance per state"
+      - "Employment classification compliance (worker-owners are generally W-2 employees per IRS Rev. Rul. 75-194)"
+  - framework: "USDA RD program-specific requirements"
+    applicability: "cooperatives applying for VAPG, REAP, RBDG, RCDG, SDGG"
+    required_filings:
+      - "Program-specific NOFO requirements per 7 CFR Subpart"
+      - "Cooperative-eligibility documentation per program"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Common risk register entries
+# ─────────────────────────────────────────────────────────────────────────────
+common_risk_register_entries:
+  - risk: "governance immaturity"
+    likelihood: "HIGH"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      For new cooperatives: documented board-development plan; named cooperative
+      development center TA partner; quarterly board training cadence; explicit
+      first-three-years governance milestones in work plan.
+  - risk: "informal member commitments"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Convert verbal / handshake member commitments to signed patronage /
+      marketing / supply / equity agreements before funder application.
+      Reviewers (especially CDFIs + USDA RCDG) discount unsigned commitments
+      heavily.
+  - risk: "slow decision-making"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Bylaws-defined delegation matrix (board / committee / staff); quorum
+      rules tuned to membership scale; documented decision-rights map. Surface
+      pre-emptively in capacity narrative.
+  - risk: "legal-form mismatch (LLC operating as cooperative without bylaws update)"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Cooperative legal counsel review of Operating Agreement / Articles to
+      confirm cooperative governance + patronage provisions before federal
+      cooperative-priority application. Many PA / NJ / NC / TX cooperatives
+      operate as LLCs because state cooperative statute is weak — this is
+      legitimate but the operating agreement must explicitly include
+      cooperative provisions.
+  - risk: "capitalization gaps"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Documented capitalization plan with member-equity targets, CDFI debt,
+      grant capital, retained patronage. Engagement with cooperative-CDFI
+      lenders (Cooperative Fund of New England / Shared Capital / Capital
+      Impact / LEAF) for technical assistance.
+  - risk: "unclear patronage model"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Bylaws-codified allocation method with worked example; Subchapter T
+      tax-counsel review where electing cooperative tax treatment; qualified-
+      written-notice template prepared.
+  - risk: "weak financial controls"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Separation-of-duties matrix; signature-authority limits; annual audit /
+      review by CPA familiar with cooperative accounting; budgeted internal-
+      controls implementation in capacity narrative.
+  - risk: "member-class conflict"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      For multi-stakeholder cooperatives: bylaws-defined per-class voting
+      rights with class-protective supermajority requirements on bylaws
+      amendments; documented dispute-resolution process.
+  - risk: "underutilized shared assets"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Documented utilization forecast with realistic assumptions; member-
+      onboarding plan tied to asset capacity; scheduling-system + access
+      policy in place; per-use cost-recovery model.
+  - risk: "succession risk in single-founder co-ops"
+    likelihood: "HIGH"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Documented succession plan with timeline + governance-transition steps;
+      board-level (not founder-only) decision rights established early;
+      cooperative development center TA engagement.
+  - risk: "Law 4 boundary drift on movement terminology"
+    likelihood: "HIGH"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Per admin_risk_term_register, every flagged term substitution flows
+      through operator approval (approval_required: true default). No silent
+      rewrites. Cooperative CIC has the densest movement-vocabulary register
+      of any CIC; Scribe must check substitutions per-application.
+
+  # ── Sidecar augmentation pass 2026-05-18 (per Run 2 handback §4.6) ──
+  - risk: "Cooperative governance misalignment"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      Bylaws-vs-practice alignment audit at intake; recent annual member
+      meeting record verification; member-class-structure-vs-declared-form
+      alignment check. Reviewers flag governance-documents-vs-operational-
+      practice gaps as material risk for cooperative-priority programs.
+  - risk: "Subchapter T election ambiguity"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Subchapter T election status verified before VAPG / RCDG / RBDG
+      application; if non-elected, alternative tax-treatment narrative +
+      rationale documented. For PA + other weak-cooperative-statute states,
+      LLC-with-cooperative-bylaws may operate non-Subchapter-T — surface
+      this at intake so reviewers see deliberate-not-accidental tax posture.
+  - risk: "ERISA fiduciary-gap on ESOP"
+    likelihood: "MEDIUM"
+    impact: "HIGH"
+    mitigation_pattern: |
+      ESOP fiduciary committee membership current; annual ESOP appraisal
+      cycle (independent valuator) verified; ERISA Section 408(e)
+      compliance review; SBA 7(a) ESOP loan covenant compliance if
+      applicable. DOL EBSA jurisdiction — ESOP applicants must show
+      fiduciary discipline at federal-grant intake.
+  - risk: "Member-equity dilution risk during growth"
+    likelihood: "MEDIUM"
+    impact: "MEDIUM"
+    mitigation_pattern: |
+      Capitalization plan models member-equity growth alongside debt +
+      retained earnings; per-member-class dilution analysis + member-vote-
+      required-for-significant-equity-change protocols documented in
+      bylaws. Growth-stage cooperatives at risk of member-equity dilution
+      surface this at intake.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Common funders observed — OBSERVATIONAL ONLY, NOT a CIC × CLC binding.
+# Frequency tags are qualitative-only per OQ-6 until 12+ CycleReceipts accumulate.
+# ─────────────────────────────────────────────────────────────────────────────
+common_funders_observed:
+# ─────────────────────────────────────────────────────────────────────────────
+# OPERATIONAL CONTENT EMPTIED — Phase E Option 2 cleanup 2026-05-16
+# Per Law 5 + §18.5 schema discipline ("OBSERVATIONAL ONLY"): this field
+# carries only funders the operator has CONFIRMED ACTUAL ENGAGEMENT with.
+# Wave 2 subagents over-populated this block based on sector knowledge,
+# not engagement history — that was a Law 5 violation surfaced at Phase E
+# 2026-05-16. Prior content moved to
+# `_research_metadata.draft_funder_candidates_pending_operator_engagement_confirmation`
+# below; operator graduates candidate entries to this live list as actual
+# engagement confirms. Runtime Tilth seats reading this field see an empty
+# list until operator graduation; that's the correct Law 5 posture for a
+# fresh deployment with no engagement history yet.
+# ─────────────────────────────────────────────────────────────────────────────
+  []  # empty list — operator graduates from candidates as engagement confirms
+lifecycle:
+  draft_status: "signed"
+  review_status: "passed"
+  cross_family_thesis_status: "passed"
+  signature_status: "signed"
+  runtime_load_status: "loaded"
+  runtime_loadable: true
+  signed_at: "2026-05-16T16:00:00Z"
+  signed_by: "founder"
+  content_hash: "sha256:ffba9a9ee8fd19908ee0168232eae0db34615dce10cb8732fd105ac75a9181ce"
+  lock_history_row: 253
+  lock_timestamp_utc: "2026-05-16T16:00:00Z"
+  # LOCK ceremony 2026-05-16 PM after L-005 two-cycle audit closed at
+  # pipeline/validation/cards_wave_2_thesis_2026-05-15/CIC/cooperative/FINAL_VERDICT.md
+  # (THESIS_PASSED). review_status flipped pending→passed; signature_status
+  # unsigned→signed; runtime_load_status not_loaded→loaded. Operator publisher
+  # pubkey pinned at vault_shared/cards/publisher_pubkey.signed.yaml. The
+  # ed25519_signature in _research_metadata is the operator Ed25519 signature
+  # over canonical-JSON of this YAML with ed25519_signature: null. OD-F + OD-H
+  # operator-decisions resolved pre-ceremony (cards LOCKed as-on-disk per
+  # operator directive 2026-05-16).
+
+_research_metadata:
+  authored_at: "2026-05-15T00:00:00Z"
+  authored_by_role: "research_session"
+  research_budget_hours_actual: 3.0
+  priors_consulted:
+    - path: "assets/cards/customer_identification/"
+      extract_note: "visual Card source — v7.0.8 LOCKED roster + drawing TILTH-CIC-REVIEW-01 (TILTH-CIC-05 Cooperative — Member-governed ownership system)"
+    - path: "pipeline/blueprint/v0.1/section_18_card_system.md"
+      extract_note: "§18.5 CIC schema + §18.9 TILTH-CIC-05 starter-content requirements (the authoritative scope for this card)"
+    - path: "pipeline/cards/_schema/card_cic.schema.json"
+      extract_note: "current as-on-disk CIC schema — field names + enums + slug roster + coupling-violation 'not' clauses"
+    - path: "pipeline/cards/CIC/food_systems.yaml"
+      extract_note: "Wave 1 reference card — structure, comment density, handback shape mirrored here"
+    - path: "pipeline/cards/CLC/operating_capacity.yaml"
+      extract_note: "Wave 1 reference card — handback structure mirrored at end of file"
+    - path: "pipeline/cards/CIC/public_agency.yaml"
+      extract_note: "Wave 2 batch 1 sibling — operator-decision carryover + comment patterns"
+    - path: "pipeline/cards/CIC/educator.yaml"
+      extract_note: "Wave 2 batch 1 sibling — admin-risk-term-register density + dialect-routing-table examples"
+    - path: "CLAUDE.md"
+      extract_note: "Six Customer Identity Categories definition (TILTH-CIC-05 Cooperative: Member-governed ownership system) + admin-risk discipline (Law 4) + CIC × CLC orthogonality discipline + operator-is-cooperative-cofounder context (MycoSymbiotics Cooperative)"
+    - path: "vault_shared/funder_intelligence/register.yaml"
+      extract_note: "Funder Intelligence Database seed — cross-reference for cooperative-funder entries"
+    # Five named soul_fire-axis exemplar orgs (Cooperation Jackson / USFWC / DAWI / The Industrial
+    # Commons / Highlander) were briefly relocated here at Phase D A.1 2026-05-16 from
+    # `dialect_routing_table[soul_fire].example_funder`. Per operator directive same-day, those
+    # entries removed entirely (full anonymization) — the orgs are real but appeared in the Wave 2
+    # subagent draft without operator review, and even metadata-layer references are out of scope
+    # for Law 5 substance discipline. The soul_fire dialect routes the same way at runtime; the
+    # `dialect_routing_table[soul_fire].example_funder` field-value now uses a generic descriptor.
+  primary_sources:
+    - url: "https://www.rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grant-program"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The primary objective of the RCDG program is to improve the
+        economic condition of Rural Areas by helping individuals and businesses
+        start, expand, or improve Rural cooperatives and Mutually Owned
+        Businesses through Cooperative Development."
+        Source for RCDG nonprofit-only eligibility + cooperative-development
+        scope + Mutually Owned Business statutory category.
+    - url: "https://www.ecfr.gov/current/title-7/subtitle-B/chapter-XLII/part-4284/subpart-F"
+      access_date: "2026-05-15"
+      relevance: "Statutory regulation for RCDG (7 CFR 4284 Subpart F) — eligible-applicant + project-content + review procedures. Drives compliance_burdens entries."
+    - url: "https://www.rd.usda.gov/programs-services/business-programs/socially-disadvantaged-groups-grant"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "The Socially-Disadvantaged Groups Grant (SDGG) program
+        provides technical assistance to Socially-Disadvantaged Groups through
+        eligible cooperatives and cooperative development centers."
+        Source for SDGG eligibility + cooperative-development-center model +
+        Socially Disadvantaged Group statutory category.
+    - url: "https://www.rd.usda.gov/programs-services/business-programs/value-added-producer-grants"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "Applicants must meet the definition of one of the following
+        types: Agricultural Producer, Agricultural Producer Group, Farmer or
+        Rancher Cooperative, or Majority-Controlled Producer-Based Business
+        Venture."
+        Source for VAPG cooperative-priority eligibility category.
+    - url: "https://www.congress.gov/bill/115th-congress/house-bill/5236"
+      access_date: "2026-05-15"
+      relevance: |
+        Mainstreet Employee Ownership Act of 2018 (Pub. L. 115-232) — directs
+        SBA to facilitate ESOP / worker-cooperative loan financing under 7(a),
+        and authorizes DOL Employee Ownership Initiative. Source for federal
+        employee-ownership policy framework.
+    - url: "https://www.law.cornell.edu/uscode/text/26/subtitle-A/chapter-1/subchapter-T"
+      access_date: "2026-05-15"
+      relevance: |
+        IRC Subchapter T (§§1381–1388) — federal cooperative tax treatment +
+        patronage dividend definition + qualified-written-notice-of-allocation
+        requirement. Source for compliance_burdens + patronage_model fact-class
+        provenance.
+    - url: "https://www.law.cornell.edu/uscode/text/26/4975"
+      access_date: "2026-05-15"
+      relevance: "26 U.S.C. §4975(e)(7) — statutory definition of Employee Stock Ownership Plan. Source for ESOP boundary in compliance_burdens (ERISA jurisdiction)."
+    - url: "https://institute.coop/"
+      access_date: "2026-05-15"
+      relevance: "Democracy at Work Institute (USFWC's research + policy arm) — sector-defining vocabulary for worker cooperatives + employee ownership; source for cooperative_type fact-class taxonomy."
+    - url: "https://www.usworker.coop/home/"
+      access_date: "2026-05-15"
+      relevance: "U.S. Federation of Worker Cooperatives — national membership organization for worker co-ops; source for soul-fire dialect example + sector vocabulary."
+    - url: "https://www.ica.coop/en/cooperatives/cooperative-identity"
+      access_date: "2026-05-15"
+      relevance: |
+        Verbatim: "A cooperative is an autonomous association of persons united
+        voluntarily to meet their common economic, social and cultural needs and
+        aspirations through a jointly-owned and democratically-controlled
+        enterprise."
+        ICA Statement on the Cooperative Identity — Principles 1 (Voluntary and
+        Open Membership) + 2 (Democratic Member Control). Source for global
+        cooperative-identity baseline that USDA + DOL + state cooperative
+        statutes converge on.
+    - url: "https://cdf.coop/"
+      access_date: "2026-05-15"
+      relevance: "Cooperative Development Foundation — primary national cooperative-development foundation; source for foundation funder entry + sector-supporting grant landscape."
+    - url: "https://www.sharedcapital.coop/"
+      access_date: "2026-05-15"
+      relevance: "Shared Capital Cooperative — itself a cooperatively-owned CDFI lending nationwide to cooperatives; source for cooperative-CDFI lending landscape + capitalization fact-class provenance."
+    - url: "https://cooperativefund.org/"
+      access_date: "2026-05-15"
+      relevance: "Cooperative Fund of New England — regional cooperative-CDFI; source for cooperative-CDFI lending landscape."
+    - url: "https://www.capitalimpact.org/"
+      access_date: "2026-05-15"
+      relevance: "Capital Impact Partners — national CDFI with cooperative + community-development portfolio; source for cooperative-CDFI lending landscape."
+    - url: "https://www.project-equity.org/"
+      access_date: "2026-05-15"
+      relevance: "Project Equity — national TA provider for business-conversion-to-employee-ownership; source for succession_plan evidence-signal framing + DOL EOI conversion-use-case."
+    - url: "https://platform.coop/"
+      access_date: "2026-05-15"
+      relevance: "Platform Cooperativism Consortium (The New School) — emerging platform-economy cooperative form; source for platform_cooperative core_terms entry."
+    - url: "https://www.law.cornell.edu/uscode/text/15/636"
+      access_date: "2026-05-15"
+      relevance: "15 U.S.C. §636 — SBA 7(a) loan guarantee statutory authority (as amended by Mainstreet Employee Ownership Act for ESOP transactions). Source for compliance_burdens + ESOP financing pathway."
+    - url: "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=12253.5&lawCode=CORP"
+      access_date: "2026-05-15"
+      relevance: "California Corporations Code §12253.5 — Worker Cooperative Corporation statutory category. Source for state-cooperative-statute compliance_burdens entry (CA exemplar)."
+  ed25519_signature: null
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # draft_funder_candidates_pending_operator_engagement_confirmation
+  # Relocated from top-level `common_funders_observed:` at Phase E Option 2
+  # cleanup 2026-05-16. Wave 2 subagent populated these based on sector
+  # knowledge, NOT operator-confirmed engagement. Per §18.5 schema discipline
+  # ("OBSERVATIONAL ONLY"), the live `common_funders_observed:` block (now
+  # emptied; see above) carries only operator-engagement-confirmed funders.
+  # Operator graduates entries from this candidates list to the live block
+  # as actual engagement confirms.
+  # ─────────────────────────────────────────────────────────────────────────────
+  draft_funder_candidates_pending_operator_engagement_confirmation:
+    - funder_name: "USDA Rural Development — Rural Cooperative Development Grants (RCDG)"
+      funder_type: "federal"
+      typical_award_range: "up to $200,000; nonprofit cooperative-development centers only; 25% match required"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Annual cycle. Eligible applicants are nonprofit institutions serving rural cooperatives + Mutually Owned Businesses. Source: rd.usda.gov/programs-services/business-programs/rural-cooperative-development-grant-program + 7 CFR 4284 Subpart F."
+
+    - funder_name: "USDA Rural Development — Socially Disadvantaged Group Grant (SDGG)"
+      funder_type: "federal"
+      typical_award_range: "up to $200,000; nonprofit cooperative-development centers serving Socially Disadvantaged Groups"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Companion to RCDG with explicit SDG-priority. Source: rd.usda.gov/programs-services/business-programs/socially-disadvantaged-groups-grant."
+
+    - funder_name: "USDA Rural Development — Value-Added Producer Grants (VAPG)"
+      funder_type: "federal"
+      typical_award_range: "$50,000 planning / $200,000 working capital; explicit cooperative-priority points"
+      frequency_observed: "FREQUENT"
+      note: "OBSERVATIONAL ONLY. Farmer or Rancher Cooperative is a statutory eligible-applicant category with priority points. Source: rd.usda.gov/programs-services/business-programs/value-added-producer-grants."
+
+    - funder_name: "USDA Rural Development — Rural Business Development Grant (RBDG)"
+      funder_type: "federal"
+      typical_award_range: "varies; cooperatives + Mutually Owned Businesses are eligible beneficiaries"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Source: rd.usda.gov RBDG program page."
+
+    - funder_name: "USDA Rural Development — Rural Energy for America Program (REAP)"
+      funder_type: "federal"
+      typical_award_range: "varies by project type"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Cooperatives are explicit eligible applicants. Source: rd.usda.gov REAP page."
+
+    - funder_name: "USDA AMS — Local Food Promotion Program (LFPP)"
+      funder_type: "federal"
+      typical_award_range: "varies; food cooperatives + cooperative-aggregation projects with priority"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. LAMP component. Source: ams.usda.gov/services/grants/lamp."
+
+    - funder_name: "USDA Healthy Food Financing Initiative (HFFI)"
+      funder_type: "federal"
+      typical_award_range: "varies; intermediated by Reinvestment Fund + cooperative CDFIs"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Food-focused cooperative retail + aggregation projects. Source: investinginfood.com (HFFI)."
+
+    - funder_name: "U.S. Department of Labor — Employee Ownership Initiative (EOI)"
+      funder_type: "federal"
+      typical_award_range: "Cooperative Development Centers RFA — varies"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Authorized by Mainstreet Employee Ownership Act of 2018 (Pub. L. 115-232). Funding cycles intermittent. Source: dol.gov + Mainstreet Employee Ownership Act statutory text."
+
+    - funder_name: "SBA 7(a) ESOP loan guarantee"
+      funder_type: "federal"
+      typical_award_range: "loan guarantee — borrower secures lender; SBA guarantees up to 90% per Mainstreet Employee Ownership Act terms"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. NOT a grant — debt-financing pathway for ESOP transactions. Mainstreet Employee Ownership Act of 2018. Source: sba.gov/funding-programs/loans/7a-loans."
+
+    - funder_name: "Cooperative Development Foundation (CDF)"
+      funder_type: "foundation"
+      typical_award_range: "varies; sector-supporting grants for cooperatives + cooperative developers"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Primary national-scale cooperative-development foundation. Source: cdf.coop/grants."
+
+    - funder_name: "Northcountry Cooperative Foundation"
+      funder_type: "foundation"
+      typical_award_range: "varies; Upper Midwest focus; cooperative housing + cooperative business development"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Source: ncdf.coop."
+
+    - funder_name: "Cooperative Fund of New England"
+      funder_type: "foundation"
+      typical_award_range: "loan financing primarily ($50K–$2M+); cooperatives + community-owned enterprises in New England"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. CDFI (lender, not grant-maker). Source: cooperativefund.org."
+
+    - funder_name: "Capital Impact Partners"
+      funder_type: "foundation"
+      typical_award_range: "loan financing; cooperative + community-development portfolio nationwide"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. CDFI (lender, not grant-maker). Source: capitalimpact.org."
+
+    - funder_name: "Shared Capital Cooperative"
+      funder_type: "foundation"
+      typical_award_range: "loan financing; member-owned cooperative CDFI lending nationwide to cooperatives"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Cooperatively-owned CDFI — itself a cooperative. Source: sharedcapital.coop."
+
+    - funder_name: "Local Enterprise Assistance Fund (LEAF)"
+      funder_type: "foundation"
+      typical_award_range: "loan financing; cooperative + employee-owned business portfolio (Boston-based, lends nationwide)"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. CDFI. Source: leaffund.org."
+
+    - funder_name: "The Working World"
+      funder_type: "foundation"
+      typical_award_range: "non-extractive financing for worker cooperatives"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. Movement-aligned financing — pay-from-cash-flow model. Source: theworkingworld.org."
+
+    - funder_name: "Community foundations with cooperative-priority portfolios"
+      funder_type: "foundation"
+      typical_award_range: "varies by foundation"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Place-based community foundations with explicit cooperative or community-wealth-building portfolios (e.g., New Hampshire Charitable Foundation, Boston Foundation, McKnight Foundation Twin Cities programming, Heinz Endowments Pittsburgh). Verify per-foundation."
+
+    - funder_name: "Pennsylvania Department of Community and Economic Development (DCED)"
+      funder_type: "state"
+      typical_award_range: "varies by program; PA has no comprehensive cooperative statute, so most PA cooperatives access general small-business + economic-development programs"
+      frequency_observed: "RARE"
+      note: "OBSERVATIONAL ONLY. PA-specific operator context. Source: dced.pa.gov."
+
+    - funder_name: "State-level cooperative-development programs (generic)"
+      funder_type: "state"
+      typical_award_range: "varies dramatically by state; some states with strong cooperative statutes carry dedicated cooperative-development or value-added agriculture line items, others route cooperatives through general small-business + economic-development programs"
+      frequency_observed: "OCCASIONAL"
+      note: "OBSERVATIONAL ONLY. Coverage by state is uneven and program names shift; check the applicant's state Department of Agriculture and state Economic Development / Community Development agency for current cooperative-priority programs. Exemplar jurisdictions where state-cooperative-statute strength correlates with state-level program presence: Minnesota (MN Dept of Ag + Cooperative Development), Wisconsin (WI Dept of Ag, Trade, and Consumer Protection + WI Center for Cooperatives), Massachusetts (MA Dept of Ag Resources + MA Office of Business Development), Vermont (VT Agency of Agriculture, Food & Markets + VT Sustainable Jobs Fund). Scout should verify per-state per-cycle."
+
+  # Ed25519 signature over canonical-JSON of this YAML with this field set to
+  # null. Canonical-JSON form: sorted keys, compact separators (",",":"), UTF-8,
+  # ensure_ascii=False. Canonical-JSON SHA3-512 (for white-glove integrity
+  # pinning): 9ea4e6907177f07ab5aea4ee31f6a560d8b3f8b23f056670ca93898dedebf25d8c6260b6fbf122c3ae99c243875adcc753bd1011cb39e1cfd5c0827921f05001
+  # Signature target pubkey: vault_shared/cards/publisher_pubkey.signed.yaml
+  # (publisher_pubkey_ed25519_hex 0b1a0bbfa5ee9149af2c4e6153ed037dd03c0d562c94d3eaefeaf798e6f375bd)
+  ed25519_signature: "373af84b400a28ead49ddc12d53123f4adef3420ee9919be7751f81ec8b153e854a50eff44bea7669a9aea8517ad5a2e57354a70b4c9bce49ea84f798cf6390a"
+
+  # common_clc_patterns_observed — INTENTIONALLY ABSENT.
+  # Per architecture v7.0.11 §6.1 (operator-resolved 2026-05-15) Option A KILL.
+  # Per F-CARDS-COUPLING-VIOLATION-EXTENSION fail-closed enforcement. CIC × CLC
+  # matching is opportunity-driven at runtime (Scout / Logician identify CLC per
+  # opportunity; CIC determines seat configuration only). NEVER reintroduce.
+  #
+  # A particular note on Cooperative CIC: it is tempting to hardcode CLC-08
+  # Shared Assets + CLC-03 Operating Capacity + CLC-06 Credit Underwriting as
+  # "natural fits" — they are observed-frequent patterns, but cooperatives
+  # absolutely tap CLC-01 Public Purpose & Works (cooperative housing under
+  # HUD 202/811), CLC-02 Catalytic Change (innovation-fund cooperative pilots),
+  # CLC-04 Research & Evidence (SARE participatory research with cooperatives),
+  # CLC-05 Market Access (VAPG cooperative-priority), and CLC-07 Sponsorship
+  # (cooperatives at conferences + cause-marketing campaigns). All eight CLCs
+  # are reachable from this CIC.
+# ---------------------------------------------------------------------------
+# REVIEW HANDBACK SUMMARY (per blueprint §18.11 Phase 5)
+# ---------------------------------------------------------------------------
+_review_handback:
+  card_axis_and_slug: "CIC:cooperative"
+  card_file: "pipeline/cards/CIC/cooperative.yaml"
+  research_hours_actual: 3.0
+  schema_completeness:
+    required_fields_populated: "15/15"
+    fields_needing_review: 0
+    total_citations: 17
+    unique_primary_sources: 17
+  decision_queue:
+    - "Operator approval on admin_risk_term_register entries (10 terms; all approval_required:true per OQ-5). Cooperative CIC has the densest movement-vocabulary register of any CIC — Scribe will hit term-substitution decisions on most cooperative-applicant proposals."
+    - "ESOP-vs-true-cooperative boundary in compliance_burdens — confirm operator wants both pathways covered in this CIC (current draft does), or wants ESOP carved out to a separate CIC variant in v1.x."
+    - "Platform cooperative coverage — current draft includes platform_cooperative as a cooperative_type; confirm operator scope (some practitioners argue platform co-ops belong in CIC-06 Ecosystem Intermediary because of the technology-vendor relationship). Current draft keeps in CIC-05 per §18.9 starter-content scope."
+    - "PA-state-specific compliance_burdens entry: PA has no comprehensive cooperative statute, so most PA cooperatives use LLC-with-cooperative-bylaws form. Current draft documents this in compliance_burdens narrative — confirm operator wants this kept (operator-relevant via FIT Farms LLC + MycoSymbiotics jurisdiction) or generalized."
+    - "Cross-family Thesis dispatch (Editor + Judge + Red Team) before promoting lifecycle to 'reviewed'."
+    - "Ed25519 signature once operator and Thesis pass — pending publisher key pin per architecture v7.0.11 §6."
+    - "Sibling cards firing in parallel (Wave 2 batch 2 — arts_culture, research_evidence, market_access) — once they land, verify no inadvertent CIC × CLC coupling appears across the set (defense-in-depth for F-CARDS-COUPLING-VIOLATION-EXTENSION)."
+  conflicts_with_prior_art:
+    - "NONE — admin_risk_term_register entry for 'anti-capitalist' cross-references food_systems.yaml entry consistently (HIGH severity, same substitution candidates ['shared ownership', 'democratic enterprise', 'pooled infrastructure', 'community wealth-building', 'member-owned business model']). 'DEI / equity / inclusion' entry uses MEDIUM severity matching food_systems.yaml + public_agency.yaml. 'commons' and 'mutual aid' set at MEDIUM (no prior card precedent — operator review)."
+  surface_ambiguities:
+    - "Cooperative-type taxonomy: card enumerates 7 types (worker / producer / consumer / multi-stakeholder / shared-services / purchasing / platform). Some practitioners include 'housing cooperative' as a distinct type (vs subset of consumer cooperative); card folds housing into consumer + multi-stakeholder per ICA convention. Operator may want explicit housing_cooperative subtype if FIT Farms / MycoSymbiotics adjacent housing co-ops are in scope."
+    - "Subchapter T election is OPTIONAL not mandatory — many cooperatives operate without electing Subchapter T (paying tax at corporate or LLC pass-through level). Card captures via patronage_model fact-class but does not prescribe. Confirm posture."
+    - "ESOP-vs-true-cooperative distinction: current draft includes both under TILTH-CIC-05 because (a) DOL EOI funds both, (b) operator scope per §18.9 starter content, (c) Mainstreet Employee Ownership Act covers both. The compliance footprints differ dramatically (ERISA vs Subchapter T) and reviewer expectations differ (Aspen / Project Equity for ESOPs; USFWC / Democracy at Work for worker co-ops). Consider whether v1.x needs a sub-axis split."
+    - "State cooperative statute coverage: card enumerates major states (CA, MA, MN, IA, OH, WI, NY, PA) but is not exhaustive. PA-specific note documents weak-statute reality. Other states (NJ, FL, TX, GA, NC) have cooperative gaps that may merit Scout flag."
+    - "'Solidarity economy' substitution to 'cooperative economy' may understate scope (solidarity-economy framework includes worker co-ops + community land trusts + time banks + worker centers, not just co-ops). For soul-fire-aligned funders the original term is preferred; substitution is for centrist + conservative routing only."
+    - "Cooperative funders enumerated are predominantly U.S.-domestic; international cooperative-development funders (e.g., FAO, IFAD, World Council of Credit Unions intermediated) absent. v1.x may extend if operator scope crosses international."
+  review_readiness: "READY"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Draft provenance — sidecar augmentation pass
+# ─────────────────────────────────────────────────────────────────────────────
+_draft_provenance:
+  draft_authored_at: "2026-05-18T00:00:00Z"
+  draft_authored_by_role: "card_content_augmentation_pass_v1"
+  source_handback: "docs/cic_cooperative_research_handback_2026-05-17.md"
+  source_handback_sections_consumed:
+    - "§4 Proposed Card Improvements"
+    - "§8 Patch Plan"
+  prp_scaffolding_referenced:
+    - "pipeline/program_rule_packs/_manifest/active_prps.yaml"
+    - "pipeline/blueprint/v0.1/section_19_program_rule_packs.md"
+  prp_ids_cross_referenced:
+    - "TILTH-PRP-2CFR200"
+    - "TILTH-PRP-DAVIS-BACON"
+    - "TILTH-PRP-NEPA-24CFR58"
+  operator_roadmap_alignment: "Step #5: card content augmentation passes parallel with PRP authoring once PRP pointers exist (per docs/CTO_HANDOFF_BRIEF.md §3.2 + Run 4 synthesis §6)."
+  patches_deferred_pending_operator_review:
+    - "Defer-to-active-RFA reviewer_context tightening across all 10 admin_risk_term entries (§4.4) — mirroring arts_culture pattern; OQ-5 approval required"
+    - "OD-A v2.4 cross-CIC migration for shared admin-risk terms (DEI / equity / inclusion / commons / mutual aid / abolition / wealth redistribution) — workspace-register migration ceremony"
+    - "Housing cooperative scope expansion — operator confirms whether `cooperative housing` core_term is in v0.1 Beta scope (added per §4.1, but operator confirms scope)"
+    - "ESOP-vs-true-cooperative scope expansion — operator confirms whether to keep both pathways in CIC-05 or carve ESOP out to separate CIC variant in v1.x"
+    - "Platform cooperative scope — operator confirms whether platform cooperatives belong in CIC-05 or in CIC-06 Ecosystem Intermediary"
+    - "PA-specific state-overlay routing — defer to v1.x cross-cutting amendment per food_systems / public_agency precedent"
+    - "Header comment normalization (line 45 — Patch A4 candidate) — operator review"
+  patches_deferred_pending_schema_amendment:
+    - "§18 v1.2 dialect_routing_table re-key — separate ceremony"
+    - "register_defaults / dialect_routing_table refresh (post-cards-ceremony bundle)"
+  patches_deferred_pending_cards_ceremony:
+    - "§18 v1.2 dialect_routing_table re-key (separate ceremony)"
+    - "Lock-history housekeeping field disposition (cross-card)"
+    - "Re-signing ceremony budget for card body changes — bundle into cards-ceremony per Run 1 Patch Queue Batch B"
+  ceremony_shape_recommendation: "supersession-re-sign per OD-E precedent at one lock_timestamp_utc; compound LOCK with other 13 cards"
+  lever_f_pre_stage_preserved: true
+  lever_f_base_source: "pipeline/validation/lever_f_cooperative_rename_2026-05-17/proposed/cooperative.yaml"
+  no_lockfiles_modified: true
+  no_schema_modified: true
+  no_signatures_modified: true

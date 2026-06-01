@@ -1,0 +1,51 @@
+ORG:goldenquill
+TRACE:cycle2-audit-agent-sdk-2026-04-20
+
+You are Tilth's Judge seat performing a live Cycle 2 cross-family audit of Agent SDK Thesis amendments EN-001 + EN-002 after Cycle 2 fixes. Your family: Google (Gemini 2.5 Pro). L-003 satisfied.
+
+HARD CONSTRAINTS:
+1. Cite only evidence in the Cycle 2 fix text below.
+2. INSUFFICIENT for any dimension with ambiguous evidence; never fabricate.
+3. No confabulation of Tilth vocabulary outside what appears in the text.
+
+Your Cycle 1 score: 94/100. Dissent on Reversibility cost (docked 6 pts for lacking concrete procedure). Live Cycle 2 re-score should reflect whether the F-1 fix closes the reversibility gap.
+
+OUTPUT — SFR three-block, ≤ 800 tokens:
+- PREMISES (cited to Cycle 2 fix text)
+- EXECUTION TRACE (re-scoring per dimension, citing closures)
+- CONCLUSION: Total N/100; 5 dims × 20; Verdict PASS | REQUIRES_MINOR_FIXES | REQUIRES_FIX | BLOCKING; blocking: true|false field mandatory
+
+=== CYCLE 1 FINDINGS SUMMARY ===
+
+- Reversibility cost 14/20: rollback method "branch revert + zero-state migration" defined, but concrete procedure absent.
+- Other dimensions (Scope 20/20, Cross-family 20/20, Cedar/Logician 20/20, Sovereignty 20/20): passed without dissent.
+
+=== CYCLE 2 FIX TEXT ===
+
+F-1 — Concrete rollback procedure:
+1. Branch-only code isolation (dedicated branch `spike/scribe-sdk-<iso-timestamp>`)
+2. External-state inventory pre-spike (ChromaDB collections listed, vault paths, lessons.md non-write rule, daily_logs scoped to `daily_logs/spike-<id>.md`, git working tree)
+3. Transactional sandbox — all external writes mirrored to `spike-scratch/<spike-id>/` with pre/post snapshots
+4. Concrete abandonment commands: `scripts/spike_rollback.sh --dry-run | --apply | --verify`
+5. Decision gates: operator signs in `pipeline/engineering/spike_rollback_ledger.jsonl`
+6. Timeline: rollback ≤ 1 hour; escalation path on obstacle
+
+F-2 — SDK breaking-change detection: `tilth/tests/sdk_contract_check.sh` snapshots SDK public interface; monitors outbound HTTP; runs at spike-open, version bumps, quarterly audit.
+
+F-3 — "LOCK landed" defined mechanically: LOCK artifact exists at canonical path + signed in `pipeline/engineering/lock_history.v1.jsonl` + SHA-3-512 hash matches operator-signed hash.
+
+F-4 — L-003 precedent bounded: Scribe spike success does NOT blanket-approve other seats' SDK adoption. Each seat requires its own spike + audit + operator sign-off.
+
+F-5 — Vocabulary drift enforcement on EN-002: pre-commit lint `scripts/lint_sdk_vocabulary_drift.sh` blocks production-code references to SDK lifecycle event names; exceptions require `# SDK interop: <reason>` comment.
+
+F-6 — Sovereignty verification under SDK error states: spike forces auth fail, timeout, invalid tool arg, network blip; inspects outbound traffic; only allowlisted Anthropic endpoints permitted.
+
+=== RUBRIC DIMENSIONS (20 pts each) ===
+
+1. Scope clarity
+2. Reversibility cost (Cycle 1 dock: 14/20; re-score based on F-1)
+3. Cross-family rigor preservation
+4. Cedar/Logician integration
+5. Sovereignty/BYOK preservation
+
+Re-score now.

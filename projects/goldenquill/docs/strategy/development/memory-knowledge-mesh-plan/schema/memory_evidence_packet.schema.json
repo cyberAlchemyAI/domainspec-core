@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://goldenquill.local/schema/memory_evidence_packet.schema.json",
+  "title": "MemoryEvidencePacket",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "packet_id",
+    "created_utc",
+    "source_path",
+    "authority_class",
+    "org_scope",
+    "retrieval_surface",
+    "freshness_signal",
+    "mutation_permission",
+    "downstream_consumer"
+  ],
+  "properties": {
+    "packet_id": {
+      "type": "string",
+      "pattern": "^mep-[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+$"
+    },
+    "created_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "line_start": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "line_end": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "authority_class": {
+      "type": "string",
+      "enum": [
+        "canonical_source",
+        "signed_contract",
+        "runtime_index",
+        "derived_summary",
+        "proposal_only",
+        "generated_state",
+        "absent_current_checkout"
+      ]
+    },
+    "org_scope": {
+      "type": "string",
+      "enum": [
+        "workspace_global",
+        "single_org",
+        "no_org_loaded",
+        "cross_org_forbidden"
+      ]
+    },
+    "retrieval_surface": {
+      "type": "string",
+      "minLength": 1
+    },
+    "freshness_signal": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mutation_permission": {
+      "type": "string",
+      "enum": [
+        "read_only",
+        "append_only",
+        "proposal_requires_approval",
+        "runtime_mutation_requires_gate",
+        "not_present"
+      ]
+    },
+    "downstream_consumer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_excerpt_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}
+

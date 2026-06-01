@@ -1,0 +1,92 @@
+# Card publisher-pubkey signed asset
+# §18 v1 §1.10 / §6 / architecture v7.0.11 §1.10
+#
+# Mirrors the v7.0.7 §6.1 router-template publisher pubkey pinning byte-for-
+# byte (also mirrored by §17 v1 Coefficient Registry + §16 v1.1 Reflection
+# Packet producer-pubkey).
+#
+# Operator IS the publisher for cards per §18 §1.10 — the operator-controlled
+# Ed25519 signing key for cards. At LOCK ceremony first-install (Trust-
+# On-First-Use), the operator pubkey self-signs this asset; subsequent
+# rotations require co-signing by the prior pubkey via
+# prior_pubkey_signature_ed25519_hex — UNLESS the rotation is a compromise-
+# class rotation where the prior key is under attacker control, in which
+# case the operator uses the TOFU re-pin path per key_rotation_policy.md
+# §4.1 step 5 second clause.
+#
+# The card loader at `pipeline/cards/loader.py` resolves card
+# signature verification (F-CARDS-SIGNATURE-INVALID) against this pubkey.
+#
+# Trust pinning: white-glove onboarding pins this asset path AND records the
+# canonical_bytes_sha3_512_hex below for integrity verification at startup.
+#
+# ─────────────────────────────────────────────────────────────────────────
+# ROTATION HEADER — COMPROMISE-CLASS RE-PIN 2026-05-18
+# ─────────────────────────────────────────────────────────────────────────
+# Rotated FROM:
+#   0b1a0bbfa5ee9149af2c4e6153ed037dd03c0d562c94d3eaefeaf798e6f375bd  (OLD)
+# Rotated TO:
+#   c93f1881cbb7ff315b29f416c2f8bc16dc9e1d1576e743f63e577de992e41107  (NEW)
+# Compromise reason:
+#   Cards-publisher Ed25519 seed exposed in Dispatch chat 2026-05-17.
+#   Old key presumed under attacker control → TOFU re-pin (no prior-key
+#   co-sign per key_rotation_policy.md §4.1 step 5 second clause).
+# Audit anchors:
+#   - lock_history.v1.jsonl row 280 (key_rotation, this rotation event)
+#   - lock_history.v1.jsonl row 281 (§0.5 v33 paired-commit marker)
+#   - pipeline/handoffs/cards_publisher_key_rotation_2026-05-17/
+#       05_old_key_compromise_record.md  (old-key compromise record)
+# ─────────────────────────────────────────────────────────────────────────
+
+schema_version: "1.0.0"
+published_at_utc: "2026-05-18T00:00:00Z"
+publisher_role_id: "cards.operator_publisher"
+
+# 32-byte Ed25519 raw pubkey, hex-encoded. Generated at COMPROMISE-CLASS
+# ROTATION ceremony 2026-05-18 (Cards-publisher seed exposed in Dispatch
+# chat 2026-05-17 → rotation per key_rotation_policy.md §4 compromise-
+# response runbook). Private key in operator key custody — NEVER committed
+# to git (stashed at _private/cards_publisher_privkey_2026-05-17.txt,
+# gitignored, mode 600). PRIOR compromised pubkey
+# 0b1a0bbfa5ee9149af2c4e6153ed037dd03c0d562c94d3eaefeaf798e6f375bd
+# marked COMPROMISED-RETIRED — see
+# pipeline/handoffs/cards_publisher_key_rotation_2026-05-17/05_old_key_compromise_record.md
+# for the full incident record. Trust-On-First-Use re-pin (no prior-key
+# co-sign per §4.1 step 5 second clause — old key under attacker control).
+publisher_pubkey_ed25519_hex: "c93f1881cbb7ff315b29f416c2f8bc16dc9e1d1576e743f63e577de992e41107"
+
+# Trust-On-First-Use rotation chain. None at initial install AND none at
+# compromise-class re-pin (the prior key is presumed under attacker control
+# and cannot attest the rotation). Audit anchor for the rotation lives in
+# lock_history.v1.jsonl row 280 + the compromise record at
+# 05_old_key_compromise_record.md.
+prior_pubkey_signature_ed25519_hex: null
+
+# Publisher (operator) self-signs the canonical-YAML bytes minus the
+# publisher_signature_ed25519_hex field itself, mirroring v7.0.7 §6.1
+# byte-for-byte. Verification target: publisher_pubkey_ed25519_hex above
+# (Trust-On-First-Use re-assertion at COMPROMISE-CLASS ROTATION ceremony
+# 2026-05-18). Filled at LOCK ceremony by
+# pipeline/scripts/cards_publisher_key_rotation_ceremony_2026-05-17.py.
+publisher_signature_ed25519_hex: "a073b12b530fefcd9ae027a08dbb775c6e0b337448cd937e1a571489613ff7759c0ad9f2e68023f5f58f88e48aafc4ecf9f4ec639fd77c5a17807c619b02a805"
+
+# SHA3-512 over the canonical-YAML bytes (signature field excluded). The
+# white-glove signed manifest records this hash for integrity verification
+# at loader startup. Mismatch fails-closed at
+# F-CARDS-PUBLISHER-PUBKEY-HASH-MISMATCH (forward-binding sub-tag of
+# F-CARDS-SIGNATURE-INVALID at v0.2 first wave loader-realization).
+# Recipe: yaml.safe_dump(data, sort_keys=True, default_flow_style=False)
+#         where data = file contents minus
+#                      {publisher_signature_ed25519_hex,
+#                       canonical_bytes_sha3_512_hex}.
+canonical_bytes_sha3_512_hex: "cbf5e38282424fd0474a1ba5aea2381c78f0eaaaaf09c2607ef0a6669ba7b9598371e36b7ba7879318546561dae0e6e96440b18ef52b5b25866748f5a1e33549"
+
+# Rotation policy notes (advisory):
+#   - Publisher pubkey rotation requires HIGH-severity admin-risk ledger entry.
+#   - New pubkey MUST be co-signed by the prior pubkey for the rotation YAML
+#     to verify (Trust-On-First-Use chain) — EXCEPT compromise-class rotations
+#     where the prior key is under attacker control (TOFU re-pin path per
+#     key_rotation_policy.md §4.1 step 5 second clause).
+#   - Rotation cadence: operator-driven; no automatic rotation at v0.1 Beta.
+#   - v1.x scheduled-cadence Archivist may surface rotation-overdue warnings
+#     based on operator-configured policy.

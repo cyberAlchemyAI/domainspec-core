@@ -1,0 +1,529 @@
+# =============================================================================
+# Program Rule Pack — TILTH-PRP-NEPA-24CFR58
+# National Environmental Policy Act (NEPA, 42 U.S.C. 4321 et seq.) + HUD's
+# implementing regulations at 24 CFR Part 58 (Responsible Entity pathway)
+# and 24 CFR Part 50 (HUD-led pathway), together with the related federal
+# laws and authorities flowed down via 24 CFR 58.5 / 58.6.
+# v0.2 first wave — DRAFT body. NOT SIGNED. NOT runtime-loadable.
+# Authored 2026-05-18 per operator's roadmap recommendation (PRP first wave).
+# =============================================================================
+#
+# Lifecycle truth at this commit:
+#   - draft_status: draft
+#   - review_status: pending
+#   - signature_status: unsigned
+#   - runtime_load_status: not_loaded
+#   - runtime_loadable: false
+#   - signed_at / signed_by / content_hash / ed25519_signature: all null
+#
+# A DRAFT PRP MUST NOT be runtime-loaded. The loader at
+# pipeline/program_rule_packs/loader.py raises NotImplementedError at the
+# top-level call at v0.1; this body is never validated against
+# pipeline/program_rule_packs/_schema/program_rule_pack.schema.json in
+# production at v0.1. On-disk-only for review + the v0.2 first wave LOCK
+# ceremony's signing slate.
+#
+# Source-freshness note: 24 CFR Part 58 was most recently amended at
+# 89 FR 30913 (April 23, 2024). The verified amendment date is used as the
+# effective_date below. NEPA itself was amended by the Fiscal
+# Responsibility Act of 2023 (Pub. L. 118-5, June 3, 2023), and CEQ
+# rescinded its NEPA implementing regulations effective April 11, 2025
+# (89 FR 80636); HUD's 24 CFR Part 58 remains the controlling
+# implementation for HUD-funded programs. Operator should reconcile the
+# CEQ-rescission impact on HUD practice at LOCK ceremony — HUD Part 58
+# stands but cross-references to CEQ regulations require care.
+#
+# Audit-source anchor: docs/phased_card_system_research_audit_extracted_2026-05-17.md
+# §"NEPA and HUD 24 CFR Part 58 Environmental Review" + synthesis
+# recommendation #4 "Deploy Programmatic Compliance Locks" (construction-
+# payout gate blocking until ECO signs the ERR).
+#
+# Affected card scope (observational; not eligibility-coupling):
+#   CLC-01 (public_purpose_works) — federal-assisted construction triggers
+#     NEPA / 24 CFR Part 58 review at the primary level.
+#   CIC-03 (public_agency) — public agencies are the most common
+#     "Responsible Entity" (RE) under 24 CFR Part 58 (HUD CDBG, HOME, ESG
+#     formula programs).
+# These card-name references are observational binding hints only and do
+# NOT create cic_clc_matrix, eligible_clc_subset, or any other forbidden
+# coupling field on this PRP body.
+#
+# Coupling discipline (PRP schema §forbidden_coupling_fields + §forbidden_law3_key_patterns):
+# This PRP body contains NO forbidden coupling or Law-3 field. PRPs encode
+# published live law only — never operator-specific overrides, never
+# private member rosters, never CIC × CLC eligibility coupling.
+# =============================================================================
+
+schema_version: '1.0-prp'
+prp_id: TILTH-PRP-NEPA-24CFR58
+prp_kind: cross_cutting_regulation
+display_name: 'NEPA Environmental Review (HUD 24 CFR Part 58 Responsible Entity pathway + 24 CFR Part 50 HUD-led pathway)'
+
+funding_program_ref: null
+
+# Effective date of the most recent 24 CFR Part 58 amendments (89 FR
+# 30913, April 23, 2024). HUD-funded projects whose environmental review
+# is conducted on or after this date are subject to the revised
+# regulations. The underlying NEPA statute (42 U.S.C. 4321 et seq.) was
+# last meaningfully amended by the Fiscal Responsibility Act of 2023
+# (June 3, 2023); the 2024 HUD revisions reflect post-FRA conforming
+# updates.
+effective_date: '2024-04-23'
+
+# expiry_date null: NEPA and 24 CFR Part 58 are permanent federal authorities
+# with no operator-known sunset. Future targeted amendments are handled by
+# re-authoring this PRP body and incrementing the on-disk version.
+expiry_date: null
+
+cross_references: []
+
+live_law_rules:
+
+  # -------------------------------------------------------------------------
+  # PATHWAY SELECTION (24 CFR 58 vs. 24 CFR 50)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R01
+    rule_type: eligibility
+    rule_summary: >
+      Pathway selection: HUD environmental review proceeds under either
+      24 CFR Part 58 (Responsible Entity pathway, where a unit of general
+      local government, an Indian tribe, an Alaska Native Village, or a
+      State assumes HUD's environmental responsibilities) or 24 CFR Part
+      50 (HUD-led pathway, where HUD conducts the environmental review
+      directly). The applicable pathway is determined by the underlying
+      program statute and HUD policy; for CDBG, HOME, ESG, and other
+      formula programs, the Responsible Entity pathway under Part 58 is
+      controlling.
+    source_citation: '24 CFR 58.1(a) (Purpose and applicability) + 24 CFR 50.1(a)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R02
+    rule_type: eligibility
+    rule_summary: >
+      Responsible Entity (RE) assumption of HUD's environmental
+      responsibilities: the chief executive officer of the RE must, in
+      writing, assume HUD's environmental responsibilities and accept the
+      jurisdiction of federal courts for enforcement; the Certifying
+      Officer designated by the RE assumes personal legal liability for
+      the environmental review's compliance with NEPA and the related
+      federal laws and authorities at 24 CFR 58.5 and 58.6.
+    source_citation: '24 CFR 58.13 (Responsibilities of the responsible entity Certifying Officer) + 24 CFR 58.71 (Certification)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # FIVE LEVELS OF REVIEW (24 CFR 58.34 - 58.40)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R03
+    rule_type: eligibility
+    rule_summary: >
+      Exempt activities: certain activities listed at 24 CFR 58.34(a) are
+      exempt from NEPA review — including environmental and other studies,
+      resource identification, planning, technical assistance, training,
+      administrative and management activities, public services that will
+      not have a physical impact or result in any physical changes, and
+      similar activities that do not alter physical conditions. No
+      environmental review record (ERR) is required, but the RE must
+      document the exemption determination.
+    source_citation: '24 CFR 58.34(a) (Exempt activities)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R04
+    rule_type: eligibility
+    rule_summary: >
+      Categorical Exclusions Not Subject to §58.5 (CENST): activities
+      listed at 24 CFR 58.35(b) are categorically excluded under NEPA and
+      are not subject to the related federal laws and authorities at
+      §58.5. Examples include tenant-based rental assistance, supportive
+      services, certain operating costs, economic-development activities
+      that do not have a physical impact on the environment, and
+      acquisition of equipment not involving physical change to land.
+    source_citation: '24 CFR 58.35(b) (Categorical exclusions not subject to §58.5)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R05
+    rule_type: eligibility
+    rule_summary: >
+      Categorical Exclusions Subject to §58.5 (CEST): activities listed
+      at 24 CFR 58.35(a) are categorically excluded under NEPA but
+      remain subject to the related federal laws and authorities at
+      §58.5. Examples include acquisition or disposition of an existing
+      structure, rehabilitation of buildings where unit density is not
+      changed by more than 20%, individual action on existing
+      single-family or multi-family dwellings, and minor amendments to
+      previously approved environmental reviews. CEST projects require
+      a §58.5 compliance review and may require public notice depending
+      on whether a Request for Release of Funds (RROF) is required.
+    source_citation: '24 CFR 58.35(a) (Categorical exclusions subject to §58.5)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R06
+    rule_type: eligibility
+    rule_summary: >
+      Environmental Assessment (EA): required when an activity does not
+      qualify as Exempt, CENST, CEST, or EIS — typically larger-scale
+      construction, rehabilitation that exceeds the CEST density-change
+      threshold, or activities with potentially significant environmental
+      impacts that require analysis to determine whether an EIS is needed.
+      The EA culminates in either a Finding of No Significant Impact
+      (FONSI) or a determination that an EIS is required.
+    source_citation: '24 CFR Part 58 Subpart E (Environmental Assessment) — §58.36 - §58.42'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R07
+    rule_type: eligibility
+    rule_summary: >
+      Environmental Impact Statement (EIS): required for projects
+      determined to have significant environmental impacts on the quality
+      of the human environment. The EIS process includes scoping, draft
+      EIS (DEIS), public comment, final EIS (FEIS), and Record of Decision
+      (ROD). EIS preparation under 24 CFR Part 58 follows the HUD-
+      recommended format (or its equivalent) per 24 CFR 58.37 and uses
+      current techniques by qualified professionals.
+    source_citation: '24 CFR Part 58 Subpart F (Environmental Impact Statement) — §58.37 + §58.42'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # FONSI + RROF + PUBLIC COMMENT + OBJECTION (24 CFR 58.43 - 58.77)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R08
+    rule_type: deadline
+    rule_summary: >
+      CEST public-notice and objection windows: for CEST projects requiring
+      a Request for Release of Funds (RROF) — that is, projects that
+      require a §58.5 compliance review — a Notice of Intent to Request
+      Release of Funds (NOI-RROF) must be published; a public comment
+      period of at least seven (7) calendar days runs from publication or
+      mailing date, and an objection period of fifteen (15) calendar days
+      runs from HUD's (or the State's) receipt of the RROF and
+      certification.
+    source_citation: '24 CFR 58.43 (Dissemination and / or publication of the findings of no significant impact) + 24 CFR 58.70 - 58.77 (release of funds procedures)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R09
+    rule_type: deadline
+    rule_summary: >
+      EA public-notice and objection windows: for EA-level projects with
+      a FONSI, a combined Notice of FONSI and Notice of Intent to Request
+      Release of Funds (NOI-RROF / FONSI) is published; a public comment
+      period of at least fifteen (15) calendar days runs from publication
+      or mailing date, and an objection period of fifteen (15) calendar
+      days runs from HUD's (or the State's) receipt of the RROF and
+      certification.
+    source_citation: '24 CFR 58.43 + 24 CFR 58.45 + 24 CFR 58.46 + 24 CFR 58.70 - 58.77'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R10
+    rule_type: deadline
+    rule_summary: >
+      Request for Release of Funds (RROF) gate: HUD (or the State for
+      State-administered CDBG) may not release funds until (i) the
+      applicable public comment period has run, (ii) the applicable
+      objection period has run, and (iii) HUD (or the State) has issued
+      the Authority to Use Grant Funds (AUGF / Form HUD-7015.16). RROF is
+      submitted to HUD (or the State) using Form HUD-7015.15. No project
+      funds may be drawn down for any physical activity until AUGF is
+      issued.
+    source_citation: '24 CFR 58.70 - 58.77 (Release of funds procedures) + Forms HUD-7015.15 / HUD-7015.16'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R11
+    rule_type: form
+    rule_summary: >
+      Environmental Review Record (ERR) documentation: for every project
+      requiring environmental review under 24 CFR Part 58 (other than
+      Exempt activities for which exemption documentation suffices), the
+      RE must maintain a written ERR that documents the environmental
+      review process, the determinations made, and the basis for those
+      determinations. The ERR is a public document available for
+      inspection.
+    source_citation: '24 CFR 58.38 (Environmental review record)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # CHOICE-LIMITING-ACTION PROHIBITION (24 CFR 58.22)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R12
+    rule_type: hard_export_gate
+    rule_summary: >
+      Choice-limiting action prohibition: neither a recipient nor any
+      participant in the development process — including public or
+      private nonprofit or for-profit entities, or any of their
+      contractors — may commit HUD assistance under a program listed in
+      §58.1(b) on an activity, or commit non-HUD funds with respect to
+      the activity, until HUD or the State has approved the recipient's
+      RROF and the related certification from the responsible entity.
+      Choice-limiting actions include executing real-property purchase
+      options, leasing real property, publishing construction bids, or
+      commencing physical demolition, site excavation, ground disturbance,
+      or other physical activity that would limit the choice of
+      reasonable project alternatives.
+    source_citation: '24 CFR 58.22 (Limitations on activities pending clearance)'
+    verbatim_quote: >
+      "Neither a recipient nor any participant in the development
+      process, including public or private nonprofit or for-profit
+      entities, or any of their contractors, may commit HUD assistance
+      under a program listed in §58.1(b) on an activity or project until
+      HUD or the State has approved the recipient's RROF and the related
+      certification from the responsible entity."
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R13
+    rule_type: hard_export_gate
+    rule_summary: >
+      Programmatic compliance lock (operator-implementable at v0.2 first
+      wave, after Logician F-PRP-* primitives graduate): block any
+      construction-related payout, drawdown request, or commitment of
+      project funds until the ERR is signed by the Certifying Officer
+      and (where required) HUD (or the State) has issued the Authority
+      to Use Grant Funds (AUGF / Form HUD-7015.16). Mirrors audit
+      synthesis recommendation #4 — "Deploy Programmatic Compliance
+      Locks" — and the §58.22 choice-limiting-action statutory backstop.
+    source_citation: '24 CFR 58.22 + 24 CFR 58.13 + Forms HUD-7015.15 / HUD-7015.16 + docs/phased_card_system_research_audit_extracted_2026-05-17.md synthesis recommendation #4'
+    verbatim_quote: >
+      "The local procurement module must block construction payouts until
+      the Environmental Certifying Officer signs the Environmental Review
+      Record."
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # RELATED FEDERAL LAWS + AUTHORITIES (24 CFR 58.5 + 58.6)
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R14
+    rule_type: eligibility
+    rule_summary: >
+      Related federal laws and authorities (§58.5) for CEST, EA, and EIS
+      projects include compliance with: (i) National Historic
+      Preservation Act (NHPA) Section 106 + ACHP regulations at 36 CFR
+      Part 800; (ii) Endangered Species Act (ESA) Section 7 consultation;
+      (iii) Clean Air Act (CAA) general conformity; (iv) Clean Water Act
+      (CWA) Section 401 / 404 wetlands and Section 402 NPDES where
+      applicable; (v) Coastal Zone Management Act (CZMA) federal
+      consistency; (vi) Sole Source Aquifer Protection (Safe Drinking
+      Water Act); (vii) Wild and Scenic Rivers Act; (viii) Farmland
+      Protection Policy Act; (ix) Environmental Justice (Executive Order
+      12898); (x) Floodplain Management (Executive Order 11988); (xi)
+      Wetland Protection (Executive Order 11990); (xii) airport hazards;
+      (xiii) noise abatement and control; (xiv) explosive and flammable
+      operations; (xv) toxic chemicals, radioactive materials, and
+      contamination.
+    source_citation: '24 CFR 58.5 (Related Federal laws and authorities)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R15
+    rule_type: eligibility
+    rule_summary: >
+      Statutory compliance authorities at §58.6 (apply at all review
+      levels, including CENST and Exempt): (i) Flood Disaster Protection
+      Act of 1973 — flood insurance purchase requirement for properties
+      in Special Flood Hazard Areas; (ii) Coastal Barrier Resources Act —
+      restrictions on federal funding within CBRS units; (iii) Runway
+      Clear Zones and Clear Zones at civil airports — restrictions on
+      federal assistance for housing or other facilities within Accident
+      Potential Zones and Runway Clear Zones.
+    source_citation: '24 CFR 58.6 (Other requirements)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R16
+    rule_type: eligibility
+    rule_summary: >
+      Eight-Step Decision-Making Process for Floodplain Management
+      (24 CFR Part 55, implementing Executive Order 11988): for projects
+      proposed in a 100-year floodplain (or 500-year floodplain for
+      critical actions), the RE must complete the Eight-Step Decision-
+      Making Process: (1) determine whether the proposed action is
+      located in a floodplain; (2) provide an early public notice; (3)
+      identify and evaluate practicable alternatives to locating in the
+      floodplain; (4) identify the potential direct and indirect impacts
+      and floodplain values; (5) where practicable, design or modify the
+      proposed action to minimize impacts and preserve and restore
+      floodplain values; (6) reevaluate alternatives based on the
+      analysis; (7) issue findings and a public explanation; and (8)
+      implement the proposed action.
+    source_citation: '24 CFR 55.20 (Decision making process) — implementing E.O. 11988'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R17
+    rule_type: eligibility
+    rule_summary: >
+      NHPA Section 106 consultation: federal undertakings (including HUD-
+      assisted projects) that may affect properties listed in or eligible
+      for listing in the National Register of Historic Places require
+      consultation with the State Historic Preservation Officer (SHPO)
+      and / or Tribal Historic Preservation Officer (THPO) under 36 CFR
+      Part 800. Programmatic Agreements (PAs) may streamline routine
+      undertakings.
+    source_citation: '54 U.S.C. 306108 (NHPA Section 106) + 36 CFR Part 800 (ACHP regulations)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R18
+    rule_type: eligibility
+    rule_summary: >
+      ESA Section 7 consultation: federal undertakings that may affect
+      threatened or endangered species or designated critical habitat
+      require consultation with the U.S. Fish and Wildlife Service
+      (USFWS) and / or the National Marine Fisheries Service (NMFS) under
+      Section 7 of the Endangered Species Act and 50 CFR Part 402.
+    source_citation: '16 U.S.C. 1536 (ESA Section 7) + 50 CFR Part 402'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # PROJECT AGGREGATION + TIERING + REEVALUATION
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R19
+    rule_type: eligibility
+    rule_summary: >
+      Project aggregation: an RE must group together and evaluate as a
+      single project all individual activities which are related either
+      geographically or functionally, or are logical parts of a composite
+      of contemplated actions. Aggregation prevents impermissible
+      "salami-slicing" of a single larger project into smaller pieces
+      each individually below review thresholds.
+    source_citation: '24 CFR 58.32 (Project aggregation)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R20
+    rule_type: eligibility
+    rule_summary: >
+      Reevaluation: when a project undergoes substantial changes after
+      the original environmental review is completed, or when significant
+      new circumstances or information relevant to environmental concerns
+      arise, the RE must perform a reevaluation of the environmental
+      review to determine whether the original findings remain valid or
+      whether a supplemental review (or a new EIS) is required.
+    source_citation: '24 CFR 58.47 (Reevaluation of environmental assessments and other environmental findings)'
+    rule_body: {}
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R21
+    rule_type: eligibility
+    rule_summary: >
+      Tiering: when reviewing site-specific projects, the RE may
+      incorporate by reference a programmatic environmental review (an
+      "umbrella" or "tiered" review) for analyses common to all sites,
+      and limit the site-specific review to analyses unique to the
+      individual project. Tiering reduces duplicative analysis where
+      programmatic reviews have already addressed broader-scope issues.
+    source_citation: '24 CFR 58.15 (Tiering)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # STATE OR LOCAL REVIEW ADOPTION + FEMA REVIEW ADOPTION
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R22
+    rule_type: eligibility
+    rule_summary: >
+      Adoption of another agency's environmental review: an RE may adopt
+      another agency's environmental review (e.g., a state-level review,
+      a FEMA review for disaster-recovery matching projects, or a
+      previously completed federal EA / EIS) where the review meets HUD
+      Part 58 requirements and the adopting RE makes the required
+      certifications. Adoption avoids duplicative analysis but does not
+      relieve the RE of its certification obligations.
+    source_citation: '24 CFR 58.50 (Adoption of other agencies'' environmental reviews) + 24 CFR 58.14 (interagency cooperation)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # CERTIFYING OFFICER PERSONAL LIABILITY
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R23
+    rule_type: eligibility
+    rule_summary: >
+      Certifying Officer personal legal liability: the Certifying Officer
+      designated by the RE assumes personal legal liability in federal
+      court for the environmental review's compliance with NEPA and the
+      related federal laws and authorities at §58.5 and §58.6, and for
+      the accuracy of the certification submitted on Form HUD-7015.15.
+      The Certifying Officer is a natural person; the certification is
+      not made in the abstract by an entity.
+    source_citation: '24 CFR 58.13 (Responsibilities of the responsible entity Certifying Officer) + 24 CFR 58.71 + 24 CFR 58.77'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # ERR RECORDKEEPING + PUBLIC AVAILABILITY
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R24
+    rule_type: reporting
+    rule_summary: >
+      ERR retention and public availability: the Environmental Review
+      Record must be retained by the RE and made available for public
+      inspection upon request. The ERR must be retained for the duration
+      required by the underlying program's record-retention rules
+      (typically the longer of three years from the final expenditure
+      report under 2 CFR 200.334 or as specified in the program statute).
+    source_citation: '24 CFR 58.38 + 2 CFR 200.334 (record retention)'
+    rule_body: {}
+
+  # -------------------------------------------------------------------------
+  # PUBLIC NOTICE FORMAT + DISTRIBUTION
+  # -------------------------------------------------------------------------
+
+  - rule_id: TILTH-PRP-NEPA-24CFR58-R25
+    rule_type: form
+    rule_summary: >
+      Public notice format and distribution: NOI-RROF / FONSI notices
+      must be published in a newspaper of general circulation in the
+      affected area, posted on the RE's web site (where one exists),
+      and (where appropriate) distributed in alternative-language
+      formats reflecting the affected population. Notices must specify
+      where the ERR is available for public inspection and how comments
+      and objections may be submitted.
+    source_citation: '24 CFR 58.43 + 24 CFR 58.45 (publication / dissemination)'
+    rule_body: {}
+
+lifecycle:
+  draft_status: draft
+  review_status: pending
+  signature_status: unsigned
+  runtime_load_status: not_loaded
+  runtime_loadable: false
+  signed_at: null
+  signed_by: null
+  content_hash: null
+
+_research_metadata:
+  authored_at: '2026-05-18T00:00:00Z'
+  authored_by_role: research_session
+  primary_sources:
+    - citation: 'National Environmental Policy Act of 1969, as amended, 42 U.S.C. 4321 et seq. (statute)'
+      url_or_locator: 'https://uscode.house.gov/view.xhtml?path=/prelim@title42/chapter55&edition=prelim'
+      accessed_date: '2026-05-18'
+    - citation: '24 CFR Part 58 — Environmental Review Procedures for Entities Assuming HUD Environmental Responsibilities (current eCFR; most recent amendment 89 FR 30913, April 23, 2024)'
+      url_or_locator: 'https://www.ecfr.gov/current/title-24/subtitle-A/part-58'
+      accessed_date: '2026-05-18'
+    - citation: '24 CFR 58.5 — Related Federal laws and authorities (eCFR canonical)'
+      url_or_locator: 'https://www.ecfr.gov/current/title-24/subtitle-A/part-58/subpart-A/section-58.5'
+      accessed_date: '2026-05-18'
+    - citation: '24 CFR Part 58 Subpart D — Environmental Review Process: Documentation, Range of Activities, Project Aggregation and Classification'
+      url_or_locator: 'https://www.ecfr.gov/current/title-24/subtitle-A/part-58/subpart-D'
+      accessed_date: '2026-05-18'
+    - citation: '24 CFR Part 58 Subpart E — Environmental Review Process: Environmental Assessments (EAs)'
+      url_or_locator: 'https://www.ecfr.gov/current/title-24/subtitle-A/part-58/subpart-E'
+      accessed_date: '2026-05-18'
+    - citation: '24 CFR Part 50 — Protection and Enhancement of Environmental Quality (HUD-led environmental review pathway, for cross-reference)'
+      url_or_locator: 'https://www.ecfr.gov/current/title-24/subtitle-A/part-50'
+      accessed_date: '2026-05-18'
+    - citation: '24 CFR Part 55 — Floodplain Management and Protection of Wetlands (Eight-Step Decision-Making Process implementing Executive Order 11988)'
+      url_or_locator: 'https://www.ecfr.gov/current/title-24/subtitle-A/part-55'
+      accessed_date: '2026-05-18'
+    - citation: 'HUD Exchange — Orientation to Environmental Reviews (HUD program-office guidance landing page, secondary practitioner reference)'
+      url_or_locator: 'https://www.hudexchange.info/programs/environmental-review/orientation-to-environmental-reviews/'
+      accessed_date: '2026-05-18'
+    - citation: 'HUD CPD Environmental Assessment Format (Part 58 EA template, HUD CPD; secondary practitioner reference)'
+      url_or_locator: 'https://www.hud.gov/sites/dfiles/CPD/documents/Part-58-EA-Format.pdf'
+      accessed_date: '2026-05-18'
+    - citation: 'Advisory Council on Historic Preservation regulations, 36 CFR Part 800 (NHPA Section 106 implementation; cross-cited by §58.5)'
+      url_or_locator: 'https://www.ecfr.gov/current/title-36/chapter-VIII/part-800'
+      accessed_date: '2026-05-18'
+    - citation: 'docs/phased_card_system_research_audit_extracted_2026-05-17.md §"NEPA and HUD 24 CFR Part 58 Environmental Review" + synthesis recommendation #4 "Deploy Programmatic Compliance Locks" (audit-source anchor; secondary)'
+      url_or_locator: 'docs/phased_card_system_research_audit_extracted_2026-05-17.md'
+      accessed_date: '2026-05-17'
+  last_verified_date: '2026-05-18'
+  ed25519_signature: null

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #020617;
+            color: #d8e3fb;
+            font-family: 'Hanken Grotesk', sans-serif;
+            overflow: hidden;
+        }
+        .serif-reading { font-family: 'Source Serif 4', serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #081425; }
+        ::-webkit-scrollbar-thumb { background: #2a3548; }
+        .matrix-btn:hover { background-color: #1e293b; }
+        .matrix-btn.active { background-color: #ffffff; color: #020617; border-color: #ffffff; }
+        .terracotta-action { background-color: #B8523A; color: white; }
+        .terracotta-action:hover { background-color: #9b4430; }
+        .terminal-text { color: #22C55E; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#5d5f5f",
+                        "surface-container-lowest": "#040e1f",
+                        "tertiary-fixed": "#dae2fd",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "surface-container-high": "#1f2a3c",
+                        "on-tertiary-container": "#5c647a",
+                        "surface-tint": "#c6c6c7",
+                        "background": "#081425",
+                        "on-secondary-container": "#a9bad3",
+                        "primary-container": "#e2e2e2",
+                        "on-tertiary-fixed": "#131b2e",
+                        "secondary": "#b7c8e1",
+                        "tertiary": "#ffffff",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "surface-dim": "#081425",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "primary-fixed": "#e2e2e2",
+                        "surface-container-highest": "#2a3548",
+                        "outline-variant": "#444748",
+                        "secondary-container": "#3a4a5f",
+                        "on-primary-container": "#636565",
+                        "inverse-surface": "#d8e3fb",
+                        "inverse-on-surface": "#263143",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "primary": "#ffffff",
+                        "on-surface": "#d8e3fb",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#283044",
+                        "on-primary-fixed-variant": "#454747",
+                        "surface": "#081425",
+                        "surface-variant": "#2a3548",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-background": "#d8e3fb",
+                        "on-error-container": "#ffdad6",
+                        "outline": "#8e9192",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#dae2fd",
+                        "surface-container-low": "#111c2d",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-error": "#690005",
+                        "on-secondary": "#213145",
+                        "surface-container": "#152031",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-primary": "#2f3131",
+                        "surface-bright": "#2f3a4c"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-sm": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                        "body-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-container-padding w-full h-[56px] border-b border-outline-variant bg-surface-container-highest fixed top-0 z-[100]">
+<div class="flex items-center gap-6">
+<h1 class="font-display-lg text-display-lg font-bold text-primary tracking-tighter">GOLDEN QUILL</h1>
+<div class="h-6 w-px bg-outline-variant"></div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-primary">POSTURE: SECURE</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant text-[10px]">EPOCH SYNC: OK</span>
+</div>
+</div>
+<div class="flex-1 max-w-xl mx-8">
+<div class="bg-surface-container-low border border-outline-variant px-3 py-1 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">search</span>
+<span class="font-data-mono text-data-mono">Food Systems · Research &amp; Evidence</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant opacity-50">MISSION_CONTEXT</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">security</span>
+<span class="material-symbols-outlined text-primary">verified_user</span>
+<span class="material-symbols-outlined text-primary">gavel</span>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[220px] flex flex-col pt-[56px] border-r border-outline-variant bg-surface-container-low z-50">
+<div class="p-4 border-b border-outline-variant mb-2">
+<h2 class="font-headline-md text-headline-md text-primary">NODE IDENTITY</h2>
+<p class="font-label-caps text-[10px] text-on-surface-variant">POSTURE: SECURE</p>
+</div>
+<div class="flex-1 overflow-y-auto">
+<!-- Nav Items -->
+<div class="flex flex-col">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span> Home
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">search</span> Scout
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span> Intake
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span> Eligibility
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">map</span> Module Mapper
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span> Drafting
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span> Budget
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span> Judge
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span> Red Team
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">signature</span> Sign-Off
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span> Audit
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">style</span> Cards
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span> FIDs
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span> Costs
+                </a>
+</div>
+</div>
+</nav>
+<!-- Main Workspace Layout -->
+<main class="ml-[220px] pt-[56px] h-screen flex overflow-hidden">
+<!-- Left Column: Mission Setup -->
+<div class="flex-1 flex flex-col h-full border-r border-outline-variant bg-surface overflow-y-auto">
+<div class="p-8 max-w-4xl mx-auto w-full">
+<header class="mb-10">
+<div class="flex justify-between items-end mb-2">
+<h2 class="font-display-lg text-display-lg serif-reading">Mission Initialization</h2>
+<div class="text-right">
+<p class="font-data-mono text-[10px] text-on-surface-variant">SOURCE_FRESHNESS: OPTIMAL</p>
+<p class="font-data-mono text-data-mono text-primary">LAST SYNC: 2024-05-21 08:00:00 UTC</p>
+</div>
+</div>
+<div class="h-1 w-full bg-surface-container-highest">
+<div class="h-full bg-primary w-1/3"></div>
+</div>
+</header>
+<!-- Mission Parameters Sections -->
+<section class="space-y-12 mb-16">
+<!-- CIC Matrix -->
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4 flex items-center gap-2"><div class="flex items-center justify-between w-full"><div class="flex items-center gap-2"><span class="w-2 h-2 bg-primary"></span> CIC: COMMUNITY IDENTITY CATEGORY (AGENT SELECTIONS)</div><button class="font-label-caps text-[9px] text-on-surface-variant hover:text-primary underline decoration-dotted">MANUAL OVERRIDE</button></div></h3>
+<div class="grid grid-cols-3 gap-1">
+<button class="matrix-btn active text-left p-4 border border-outline-variant font-body-md text-body-md transition-all"><div class="flex justify-between items-start mb-1"><span class="font-label-caps text-[9px] bg-[#b89745] text-black px-1.5 py-0.5">MATCHED</span></div>
+<span class="block font-bold mb-1">Cooperative</span>
+<span class="text-xs opacity-70">Collective ownership structures and mutual aid frameworks.</span>
+</button>
+<button class="matrix-btn text-left p-4 border border-outline-variant font-body-md text-body-md transition-all">
+<span class="block font-bold mb-1 text-primary">Public Agency</span>
+<span class="text-xs text-on-surface-variant">Governmental and municipal governance bodies.</span>
+</button>
+<button class="matrix-btn text-left p-4 border border-outline-variant font-body-md text-body-md transition-all">
+<span class="block font-bold mb-1 text-primary">Regenerative Farmer</span>
+<span class="text-xs text-on-surface-variant">Soil-centric land stewards and decentralized producers.</span>
+</button>
+</div>
+</div>
+<!-- CLC Matrix -->
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4 flex items-center gap-2"><div class="flex items-center justify-between w-full"><div class="flex items-center gap-2"><span class="w-2 h-2 bg-primary"></span> CLC: CAPITAL LOGIC CATEGORY (AUTOMATED MAPPING)</div><button class="font-label-caps text-[9px] text-on-surface-variant hover:text-primary underline decoration-dotted">MANUAL OVERRIDE</button></div></h3>
+<div class="grid grid-cols-3 gap-1">
+<button class="matrix-btn text-left p-4 border border-outline-variant font-body-md text-body-md transition-all">
+<span class="block font-bold mb-1 text-primary">Public Works</span>
+<span class="text-xs text-on-surface-variant">Infrastructure for communal benefit and durability.</span>
+</button>
+<button class="matrix-btn active text-left p-4 border border-outline-variant font-body-md text-body-md transition-all"><div class="flex justify-between items-start mb-1"><span class="font-label-caps text-[9px] bg-[#b89745] text-black px-1.5 py-0.5">MATCHED</span></div>
+<span class="block font-bold mb-1">Research &amp; Evidence</span>
+<span class="text-xs opacity-70">Data gathering, impact analysis, and knowledge creation.</span>
+</button>
+<button class="matrix-btn text-left p-4 border border-outline-variant font-body-md text-body-md transition-all">
+<span class="block font-bold mb-1 text-primary">Operating Capacity</span>
+<span class="text-xs text-on-surface-variant">Day-to-day functional viability and labor support.</span>
+</button>
+</div>
+</div>
+<!-- Funder Envelope -->
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4">FUNDER ENVELOPE REGISTRY</h3>
+<div class="relative">
+<select class="w-full bg-surface-container-low border border-outline-variant p-4 font-data-mono text-data-mono appearance-none focus:outline-none focus:border-primary">
+<option>USDA_REGISTRY_SECURE_2024</option>
+<option>SARE_FEDERAL_PORTFOLIO</option>
+<option>HEINZ_ENDOWMENT_V2</option>
+<option>ROCKEFELLER_FOOD_INITIATIVE</option>
+</select>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Section -->
+<div class="flex flex-col items-center gap-4 py-8 border-t border-outline-variant">
+<button class="terracotta-action w-full py-6 flex flex-col items-center justify-center transition-all group active:scale-[0.98]">
+<span class="font-label-caps tracking-widest text-[16px] font-bold">VERIFY &amp; INITIATE SCOUT MISSION</span>
+<span class="font-data-mono text-[10px] opacity-80 mt-1 uppercase">Signed Authorization Required</span>
+</button>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">Operator 0x4B2... authenticated for this initialization.</p>
+</div>
+</div>
+</div>
+<!-- Right Column: Inspector -->
+<aside class="w-[340px] flex flex-col bg-surface-container-low h-full">
+<div class="p-4 border-b border-outline-variant bg-surface-container-high">
+<h3 class="font-label-caps text-label-caps text-primary">SCOUT AGENT: SELECTION RATIONALE</h3>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-6">
+<!-- Fit Rationale -->
+<div class="space-y-3">
+<span class="font-label-caps text-[10px] text-on-surface-variant">FIT_RATIONALE (CIC/CLC)</span>
+<div class="bg-surface p-4 border border-outline-variant">
+<p class="serif-reading text-body-md italic leading-relaxed text-on-surface">"FIT Farms LLC exhibits core institutional attributes of decentralized production and collective data stewardship. Mapping to Cooperative (CIC) and Research &amp; Evidence (CLC) provides the optimal protocol alignment for this node's profile."</p>
+</div>
+</div>
+<!-- Readiness Checklist -->
+<div class="space-y-3">
+<span class="font-label-caps text-[10px] text-on-surface-variant">EVIDENCE READINESS</span>
+<div class="border border-outline-variant divide-y divide-outline-variant">
+<div class="p-3 flex items-center justify-between">
+<span class="font-body-sm text-body-sm">Funder Meta-Tagging</span>
+<span class="w-3 h-3 bg-[#22C55E]"></span>
+</div>
+<div class="p-3 flex items-center justify-between">
+<span class="font-body-sm text-body-sm">Projected Node Density</span>
+<span class="w-3 h-3 bg-[#22C55E]"></span>
+</div>
+<div class="p-3 flex items-center justify-between">
+<span class="font-body-sm text-body-sm">Geospatial Overlay</span>
+<span class="w-3 h-3 bg-[#F59E0B]"></span>
+</div>
+<div class="p-3 flex items-center justify-between">
+<span class="font-body-sm text-body-sm">Evidence Vault Access</span>
+<span class="w-3 h-3 border border-outline-variant"></span>
+</div>
+</div>
+</div>
+<!-- Schematic Visual (Optional for vibe) -->
+<div class="pt-4">
+<div class="w-full aspect-square border border-dashed border-outline-variant flex items-center justify-center bg-surface-container-lowest">
+<div class="relative w-32 h-32 border border-primary/20 rounded-full animate-[spin_10s_linear_infinite] flex items-center justify-center">
+<div class="w-24 h-24 border border-primary/40 rounded-full flex items-center justify-center">
+<div class="w-2 h-2 bg-primary"></div>
+</div>
+<div class="absolute -top-1 left-1/2 w-2 h-2 bg-primary"></div>
+</div>
+</div>
+<p class="font-data-mono text-[10px] mt-2 text-center text-on-surface-variant">MISSION_HEURISTIC_PREVIEW.SVG</p>
+</div>
+</div>
+</aside>
+</main>
+<!-- Footer / Terminal -->
+<footer class="fixed bottom-0 left-0 w-full z-[100] h-[120px] bg-black border-t border-outline-variant p-4 overflow-hidden flex flex-col">
+<div class="flex items-center justify-between mb-2 pb-1 border-b border-white/10">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-[10px] text-primary">SYSTEM LIVE STREAM</span>
+<span class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 bg-[#22C55E] animate-pulse"></span>
+<span class="font-data-mono text-[10px] text-[#22C55E]">CONNECTION_STABLE</span>
+</span>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">NODE_FINALITY: GOLD-BURNISHED</span>
+</div>
+<div class="flex-1 font-data-mono text-[12px] space-y-1 overflow-y-auto">
+<div class="flex gap-4 opacity-70">
+<span class="text-on-surface-variant">14:24:58</span>
+<span class="text-on-surface">[SYSTEM] Port initialization... 0x882A</span>
+</div>
+<div class="flex gap-4 terminal-text">
+<span class="text-on-surface-variant">14:25:01</span>
+<span>[NODE_INIT] Mission configuration pending operator signature...</span>
+</div><div class="flex gap-4 text-[#b89745]"><span class="text-on-surface-variant">14:25:30</span><span>[SCOUT_AGENT] Mapping organization identity to CIC/CLC matrices...</span></div><div class="flex gap-4 text-[#b89745]"><span class="text-on-surface-variant">14:25:32</span><span>[LOGICIAN] Context matched: Cooperative structures detected for FIT Farms LLC.</span></div>
+<div class="flex gap-4 opacity-50">
+<span class="text-on-surface-variant">14:25:05</span>
+<span>[DAEMON_IDLE] Awaiting target parameters.</span>
+</div>
+<div class="flex gap-4 animate-pulse">
+<span class="text-on-surface-variant">14:26:10</span>
+<span class="text-white">&gt; _</span>
+</div>
+</div>
+<div class="mt-2 pt-1 border-t border-white/5 flex gap-6">
+<a class="font-label-caps text-[9px] text-on-surface-variant hover:text-primary transition-colors" href="#">SYSTEM_STATUS</a>
+<a class="font-label-caps text-[9px] text-on-surface-variant hover:text-primary transition-colors" href="#">AUDIT_LOG</a>
+<a class="font-label-caps text-[9px] text-on-surface-variant hover:text-primary transition-colors" href="#">FID_0x2A</a>
+</div>
+</footer>
+<script>
+        // Matrix selection logic
+        document.querySelectorAll('.matrix-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Find sibling buttons in the same parent grid
+                const parent = this.closest('.grid');
+                parent.querySelectorAll('.matrix-btn').forEach(sib => {
+                    sib.classList.remove('active');
+                    sib.classList.remove('bg-white');
+                    sib.classList.remove('text-black');
+                    sib.querySelector('.font-bold').classList.add('text-primary');
+                    if(sib.querySelector('.text-xs')) sib.querySelector('.text-xs').classList.add('text-on-surface-variant');
+                });
+                
+                this.classList.add('active');
+                this.querySelector('.font-bold').classList.remove('text-primary');
+                if(this.querySelector('.text-xs')) this.querySelector('.text-xs').classList.remove('text-on-surface-variant');
+            });
+        });
+
+        // Atmospheric Terminal typing simulation
+        const terminalOutput = document.querySelector('.terminal-text').parentElement;
+        const addLog = (msg) => {
+            const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+            const div = document.createElement('div');
+            div.className = 'flex gap-4 text-on-surface opacity-80';
+            div.innerHTML = `<span class="text-on-surface-variant">${time}</span><span>${msg}</span>`;
+            terminalOutput.insertBefore(div, terminalOutput.lastElementChild);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        };
+
+        setInterval(() => {
+            const messages = [
+                "[QUERY_OPTIMIZER] Tuning parameters for SARE registry...",
+                "[CACHE] Clearing stale evidence fragments...",
+                "[SECURE_SHELL] Integrity check verified.",
+                "[POSTURE] Monitoring operator biometric markers..."
+            ];
+            if(Math.random() > 0.85) addLog(messages[Math.floor(Math.random() * messages.length)]);
+        }, 3000);
+    </script>
+</body></html>

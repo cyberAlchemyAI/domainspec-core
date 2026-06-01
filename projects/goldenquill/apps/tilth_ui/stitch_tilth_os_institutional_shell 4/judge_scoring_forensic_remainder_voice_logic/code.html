@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FIT Farms - Judge Scoring</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#152031",
+                        "tertiary-container": "#dae2fd",
+                        "primary-fixed": "#e2e2e2",
+                        "error-container": "#93000a",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-primary-fixed": "#1a1c1c",
+                        "surface-variant": "#2a3548",
+                        "on-secondary-container": "#a9bad3",
+                        "surface-container-highest": "#2a3548",
+                        "inverse-primary": "#5d5f5f",
+                        "secondary-container": "#3a4a5f",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "surface-container-low": "#111c2d",
+                        "secondary": "#b7c8e1",
+                        "on-surface": "#d8e3fb",
+                        "background": "#081425",
+                        "primary-container": "#e2e2e2",
+                        "tertiary": "#ffffff",
+                        "on-secondary": "#213145",
+                        "outline-variant": "#444748",
+                        "surface-bright": "#2f3a4c",
+                        "inverse-on-surface": "#263143",
+                        "surface-container-lowest": "#040e1f",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary-container": "#636565",
+                        "surface-container-high": "#1f2a3c",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-tint": "#c6c6c7",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-primary": "#2f3131",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-secondary-fixed": "#0b1c30",
+                        "inverse-surface": "#d8e3fb",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#081425",
+                        "primary": "#ffffff",
+                        "on-tertiary": "#283044",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-background": "#d8e3fb",
+                        "surface-dim": "#081425",
+                        "outline": "#8e9192",
+                        "on-tertiary-container": "#5c647a",
+                        "primary-fixed-dim": "#c6c6c7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "1px",
+                        "sidebar-width": "240px",
+                        "panel-gap": "8px",
+                        "unit": "4px",
+                        "container-padding": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-sm": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #020617; color: #d8e3fb; }
+        .panel { background-color: #0F172A; border: 1px solid #334155; }
+        .nested-panel { background-color: #1E293B; border: 1px solid #334155; }
+        .border-tiled { border: 1px solid #334155; }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden font-body-md text-body-md">
+<!-- TopAppBar -->
+<header class="bg-surface-container-low border-b border-outline-variant flex justify-between items-center w-full px-container-padding gap-panel-gap h-14 shrink-0 z-10">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary">GOLDEN QUILL</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-primary hover:bg-surface-container-highest p-2 transition-none flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">verified_user</span>
+</button>
+<button class="text-primary hover:bg-surface-container-highest p-2 transition-none flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">vpn_key</span>
+</button>
+<button class="text-primary hover:bg-surface-container-highest p-2 transition-none flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full border-r border-outline-variant bg-surface-container w-sidebar-width shrink-0 overflow-y-auto">
+<div class="p-4 border-b border-outline-variant">
+<div class="font-display-lg text-display-lg text-primary mb-1">FIT Farms</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant">FRONTIER POSTURE</div>
+</div>
+<div class="flex flex-col flex-1 py-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">search_insights</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+<span class="font-label-caps text-label-caps">Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-surface-container-highest text-primary border-l-2 border-primary transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps">Final Packet Authorization</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">policy</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">credit_card</span>
+<span class="font-label-caps text-label-caps">Cards</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDs</span>
+</a>
+</div>
+<div class="mt-auto border-t border-outline-variant py-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto bg-background p-4 flex flex-col gap-unit">
+<div class="flex items-center justify-between mb-4">
+<h1 class="font-headline-md text-headline-md text-primary">SCORING MATRIX: DECOMPOSITION</h1>
+<div class="font-data-mono text-data-mono text-on-surface-variant bg-surface px-3 py-1 border border-outline-variant">
+                    NODE: JUDGE_EVAL_0X9A
+                </div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-unit auto-rows-min">
+<!-- 100-Point Breakdown (Left Col) -->
+<div class="col-span-12 lg:col-span-4 panel p-4 flex flex-col gap-4">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">100-POINT FORENSIC DECOMPOSITION</div>
+<div class="flex items-end gap-2 mb-4">
+<span class="font-display-lg text-[48px] leading-none text-primary font-bold">88</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant pb-1">/100 PTS</span>
+</div>
+<div class="flex flex-col gap-unit">
+<!-- Uncontrolled Factors -->
+<div class="nested-panel p-3 border-l-2 border-[#F59E0B]">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-caps text-label-caps text-on-surface">NON-ADDRESSABLE (STRUCTURAL)</span>
+<span class="font-data-mono text-data-mono text-[#F59E0B]">-12 PTS</span>
+</div>
+<div class="flex flex-col gap-1 mt-2">
+<div class="flex justify-between text-on-surface-variant font-data-mono text-[11px]">
+<span>Geographic Penalty (Zone 4)</span>
+<span>-8</span>
+</div>
+<div class="flex justify-between text-on-surface-variant font-data-mono text-[11px]">
+<span>Demographic Cohort Base</span>
+<span>-4</span>
+</div>
+</div>
+</div>
+<!-- Addressable Factors -->
+<div class="nested-panel p-3 border-l-2 border-[#22C55E]">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-caps text-label-caps text-on-surface">ADDRESSABLE REMAINDER</span>
+<span class="font-data-mono text-data-mono text-[#22C55E]">88 PTS</span>
+</div>
+<div class="flex flex-col gap-1 mt-2">
+<div class="flex justify-between text-on-surface-variant font-data-mono text-[11px]">
+<span>Narrative Cohesion</span>
+<span class="text-primary">35/35</span>
+</div>
+<div class="flex justify-between text-on-surface-variant font-data-mono text-[11px]">
+<span>Technical Accuracy</span>
+<span class="text-primary">25/25</span>
+</div>
+<div class="flex justify-between text-on-surface-variant font-data-mono text-[11px]">
+<span>Authentic Voice (Synth-Adjusted)</span>
+<span class="text-primary">28/28</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Synthetic Language Logic (Right Col - Top) -->
+<div class="col-span-12 lg:col-span-8 panel p-4 flex flex-col gap-4">
+<div class="flex justify-between items-center border-b border-outline-variant pb-2">
+<div class="font-label-caps text-label-caps text-on-surface-variant">SYNTHETIC LANGUAGE LOGIC: ACCEPTED MINORITY</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-[#22C55E]"></span>
+<span class="font-data-mono text-[10px] text-[#22C55E]">POLICY: COMPLIANT</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-2">
+<div class="font-data-mono text-data-mono text-on-surface">SYNTH_DETECT RATIO</div>
+<div class="flex items-center gap-3">
+<div class="flex-1 h-2 bg-surface-container-highest relative">
+<div class="absolute top-0 left-0 h-full bg-[#F59E0B]" style="width: 12%;"></div>
+<div class="absolute top-0 left-[15%] h-full w-[1px] bg-primary z-10"></div>
+</div>
+<span class="font-data-mono text-data-mono text-primary">12.0%</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                                Threshold: &lt;15.0% (Red Team Policy RT-89B). The presence of synthetic phrasing is isolated to structural transitions and formatting, preserving core narrative authenticity.
+                            </div>
+</div>
+<div class="nested-panel p-3">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">AUTHENTIC VOICE CRITERIA</div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[16px] text-[#22C55E]">check_box</span>
+<span class="font-data-mono text-[11px] text-primary">PASS: Emotive Variance Detected</span>
+</div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[16px] text-[#22C55E]">check_box</span>
+<span class="font-data-mono text-[11px] text-primary">PASS: Idiosyncratic Lexicon Preserved</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-[#F59E0B]">warning</span>
+<span class="font-data-mono text-[11px] text-[#F59E0B]">NOTE: 12% Assist in Sector 4 (Methodology)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Log Output (Bottom Full Width) -->
+<div class="col-span-12 bg-black border border-outline-variant p-3 h-32 overflow-y-auto font-data-mono text-[11px] leading-tight">
+<div class="text-on-surface-variant">&gt;&gt;&gt; INITIATING JUDGE SCORING SEQUENCE...</div>
+<div class="text-on-surface-variant">&gt;&gt;&gt; APPLYING DEMOGRAPHIC/GEOGRAPHIC PENALTIES [Z4]... <span class="text-[#EF4444]">-12 PTS</span></div>
+<div class="text-on-surface-variant">&gt;&gt;&gt; EVALUATING ADDRESSABLE REMAINDER...</div>
+<div class="text-on-surface-variant">&gt;&gt;&gt; RUNNING SYNTH_DETECT V4.2...</div>
+<div class="text-[#F59E0B]">&gt;&gt;&gt; WARNING: SYNTHETIC PATTERNS DETECTED IN BLOCKS 4-7.</div>
+<div class="text-on-surface-variant">&gt;&gt;&gt; CALCULATING SYNTHETIC MINORITY RATIO... 12.0%</div>
+<div class="text-[#22C55E]">&gt;&gt;&gt; ACCEPTED MINORITY THRESHOLD MET. APPLYING RT-89B EXCEPTION.</div>
+<div class="text-primary">&gt;&gt;&gt; AUTHENTIC VOICE SCORE: 28/28 (ADJUSTED).</div>
+<div class="text-primary mt-2">&gt;&gt;&gt; FINAL COMPUTATION: 88/100 PTS. STATUS: <span class="text-[#22C55E]">APPROVED</span>.</div>
+<div class="flex items-center gap-2 mt-2 text-primary">
+<span>root@fit-farms-node:~#</span><span class="w-2 h-3 bg-primary animate-pulse"></span>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50 h-8">
+<div class="font-label-caps text-label-caps text-on-surface">
+            NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED
+        </div>
+<div class="flex items-center gap-4 font-data-mono text-data-mono">
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">Machine ID: 992-QX</a>
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">Audit Log</a>
+<a class="text-on-secondary-container hover:text-primary transition-none" href="#">System Health</a>
+</div>
+</footer>
+</body></html>

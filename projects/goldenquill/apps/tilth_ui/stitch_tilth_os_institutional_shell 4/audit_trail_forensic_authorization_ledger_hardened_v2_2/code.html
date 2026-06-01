@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GOLDEN QUILL - AUTHORIZATION LEDGER</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&amp;family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#2a3548",
+                        "on-secondary-container": "#a9bad3",
+                        "surface-container-highest": "#2a3548",
+                        "inverse-primary": "#5d5f5f",
+                        "secondary-container": "#3a4a5f",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "surface-container-low": "#111c2d",
+                        "secondary": "#b7c8e1",
+                        "on-surface": "#d8e3fb",
+                        "background": "#081425",
+                        "primary-container": "#e2e2e2",
+                        "tertiary": "#ffffff",
+                        "on-secondary": "#213145",
+                        "surface-container": "#152031",
+                        "tertiary-container": "#dae2fd",
+                        "primary-fixed": "#e2e2e2",
+                        "error-container": "#93000a",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-secondary-fixed": "#0b1c30",
+                        "inverse-surface": "#d8e3fb",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#081425",
+                        "primary": "#ffffff",
+                        "on-tertiary": "#283044",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-background": "#d8e3fb",
+                        "surface-dim": "#081425",
+                        "outline": "#8e9192",
+                        "on-tertiary-container": "#5c647a",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "outline-variant": "#444748",
+                        "surface-bright": "#2f3a4c",
+                        "inverse-on-surface": "#263143",
+                        "surface-container-lowest": "#040e1f",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary-container": "#636565",
+                        "surface-container-high": "#1f2a3c",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-tint": "#c6c6c7",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-primary": "#2f3131"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "16px",
+                        "unit": "4px",
+                        "gutter": "1px",
+                        "panel-gap": "8px",
+                        "sidebar-width": "240px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Source Serif 4"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Source Serif 4"],
+                        "label-caps": ["Inter"],
+                        "body-md": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #020617; color: #d8e3fb; }
+        .bg-level-1 { background-color: #0F172A; }
+        .bg-level-2 { background-color: #1E293B; }
+        .border-slate { border-color: #334155; }
+        .terminal-bg { background-color: #000000; }
+        .gold-burnished { color: #B89745; border-color: #B89745; background-color: rgba(184, 151, 69, 0.1); }
+        .label-tracking { text-transform: uppercase; letter-spacing: 0.1em; }
+        
+        @keyframes heartbeat {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.9); }
+        }
+        .animate-heartbeat { animation: heartbeat 2s ease-in-out infinite; }
+        
+        .transition-ui { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        [x-cloak] { display: none !important; }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #444748; }
+    </style>
+<script defer="" src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col font-body-md antialiased" x-cloak="" x-data="appStore">
+<!-- TopAppBar -->
+<nav class="flex justify-between items-center w-full px-container-padding gap-panel-gap bg-surface-container-low docked full-width top-0 h-14 border-b border-outline-variant shrink-0 relative z-20">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary italic">GOLDEN QUILL</span>
+</div>
+<div class="flex-1 flex justify-center max-w-xl px-4">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full bg-surface-container-highest border-none text-on-surface text-body-sm focus:ring-1 focus:ring-primary h-9 pl-10 rounded-none label-tracking" placeholder="Search Ledger Entries, Artifacts, or Signatures..." type="text" x-model="searchQuery"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-[10px] text-on-surface-variant label-tracking">POSTURE:</span>
+<button :class="posture === 'FRONTIER' ? 'text-primary' : 'text-on-surface-variant opacity-50'" @click="togglePosture" class="flex items-center gap-1 transition-ui px-2 py-1 border border-outline-variant hover:bg-surface-container-highest">
+<span :class="posture === 'FRONTIER' ? 'bg-[#22C55E]' : 'bg-outline'" class="w-1.5 h-1.5 rounded-full"></span>
+<span class="font-label-caps text-[10px]" x-text="posture"></span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-primary hover:bg-surface-container-highest p-2 rounded-none transition-ui flex items-center justify-center relative">
+<span class="material-symbols-outlined text-[20px]" data-icon="verified_user">verified_user</span>
+</button>
+<button class="text-primary hover:bg-surface-container-highest p-2 rounded-none transition-ui flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" data-icon="vpn_key">vpn_key</span>
+</button>
+<button class="flex items-center gap-2 hover:bg-surface-container-highest px-2 py-1 transition-ui group">
+<span class="material-symbols-outlined text-[24px]" data-icon="account_circle">account_circle</span>
+<div class="text-left leading-none">
+<div class="font-label-caps text-[10px] text-primary" x-text="operator.name"></div>
+<div class="font-data-mono text-[9px] text-on-surface-variant" x-text="operator.id"></div>
+</div>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Layout -->
+<div class="flex flex-1 overflow-hidden h-full relative z-10">
+<!-- SideNavBar -->
+<aside class="flex flex-col h-full border-r border-outline-variant bg-surface-container docked left-0 w-sidebar-width transition-ui shrink-0">
+<div class="p-4 border-b border-outline-variant flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-surface-variant flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-primary text-sm">dns</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-primary truncate" x-text="activeCycle"></div>
+<div class="font-label-caps text-[10px] text-on-surface-variant truncate label-tracking" x-text="posture + ' POSTURE'"></div>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2 flex flex-col gap-1 px-2 custom-scrollbar">
+<template :key="item.id" x-for="item in navItems">
+<button :class="activeNav === item.id ? 'bg-surface-container-highest text-primary border-l-2 border-primary' : 'text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent'" @click="activeNav = item.id" class="flex items-center gap-3 px-3 py-2 transition-ui w-full text-left">
+<span class="material-symbols-outlined text-lg" x-text="item.icon"></span>
+<span class="font-label-caps text-label-caps label-tracking" x-text="item.label"></span>
+</button>
+</template>
+</div>
+<div class="mt-auto border-t border-outline-variant p-2 flex flex-col gap-1">
+<button class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high transition-ui w-full text-left">
+<span class="material-symbols-outlined text-lg">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps label-tracking">Costs</span>
+</button>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 flex flex-col bg-[#020617] p-2 gap-2 relative z-0 overflow-hidden">
+<div class="flex-1 flex gap-2 min-h-0">
+<!-- Left Panel: Ledger Table -->
+<section class="flex-1 flex flex-col bg-level-1 border border-slate min-w-0">
+<header class="p-3 border-b border-slate flex justify-between items-center bg-surface-container-low shrink-0">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">receipt_long</span>
+<h1 class="font-headline-md text-headline-md text-primary tracking-tight">AUTHORIZATION LEDGER</h1>
+<span class="font-data-mono text-data-mono text-secondary px-2 py-1 bg-surface-variant border border-outline-variant ml-2">GRANT: F-2024-991A</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1 border border-slate text-primary font-label-caps text-label-caps hover:bg-surface-container-highest transition-ui flex items-center gap-1 label-tracking">
+<span class="material-symbols-outlined text-sm">download</span> EXPORT
+                        </button>
+</div>
+</header>
+<div class="flex-1 overflow-auto custom-scrollbar">
+<template :key="row.seq" x-for="row in filteredLedger">
+</template><table class="w-full text-left border-collapse whitespace-nowrap">
+<thead class="sticky top-0 bg-surface-container-low z-10 border-b border-slate font-label-caps text-label-caps text-on-surface-variant">
+<tr>
+<th class="py-2 px-4 font-normal tracking-wider w-12 text-center">SEQ</th>
+<th class="py-2 px-4 font-normal tracking-wider">AUTHORITY</th>
+<th class="py-2 px-4 font-normal tracking-wider">TIMESTAMP (UTC)</th>
+<th class="py-2 px-4 font-normal tracking-wider">FINGERPRINT (ED25519)</th>
+<th class="py-2 px-4 font-normal tracking-wider text-right">ARTIFACT HASH</th>
+</tr>
+</thead>
+<tbody class="font-data-mono text-data-mono text-on-surface divide-y divide-slate">
+<tr :class="selectedSeq === row.seq ? 'bg-surface-container-highest' : 'hover:bg-level-2'" @click="selectedSeq = row.seq" class="transition-ui group cursor-pointer relative">
+<td class="py-3 px-4 text-center">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-[#B89745]" x-show="selectedSeq === row.seq"></div>
+<span :class="selectedSeq === row.seq ? 'text-primary' : 'text-on-surface-variant group-hover:text-primary'" x-text="row.seq"></span>
+</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div :class="row.statusColor" class="w-2 h-2"></div>
+<span :class="row.isOverride ? 'text-primary font-bold' : ''" x-text="row.authority"></span>
+<template x-if="row.badge">
+<span :class="row.isOverride ? 'gold-burnished' : 'border-outline text-on-surface-variant'" class="ml-2 font-label-caps text-[9px] px-1.5 py-0.5 border flex items-center gap-1 label-tracking">
+<span :data-icon="row.badgeIcon" class="material-symbols-outlined text-[10px]" x-text="row.badgeIcon"></span>
+<span x-text="row.badge"></span>
+</span>
+</template>
+</div>
+</td>
+<td class="py-3 px-4 text-secondary" x-text="row.timestamp"></td>
+<td class="py-3 px-4" x-text="row.fingerprint"></td>
+<td class="py-3 px-4 text-right text-on-surface-variant truncate max-w-[120px]" x-text="row.hash"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Right Panel: Inspector -->
+<section class="w-[380px] flex flex-col gap-2 shrink-0">
+<div class="bg-level-1 border border-slate flex flex-col min-h-0">
+<header class="p-3 border-b border-slate bg-surface-container-low flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">policy</span>
+<h2 class="font-label-caps text-label-caps text-primary tracking-wider">EVENT INSPECTOR</h2>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface-variant" x-text="'SEQ:' + (selectedSeq || '---')"></span>
+</header>
+<!-- Inspector Tabs -->
+<nav class="flex border-b border-slate bg-surface-container-lowest">
+<button :class="inspectorTab === 'context' ? 'border-b-2 border-primary text-primary' : 'text-on-surface-variant'" @click="inspectorTab = 'context'" class="flex-1 py-2 font-label-caps text-[10px] label-tracking transition-ui">CONTEXT</button>
+<button :class="inspectorTab === 'meta' ? 'border-b-2 border-primary text-primary' : 'text-on-surface-variant'" @click="inspectorTab = 'meta'" class="flex-1 py-2 font-label-caps text-[10px] label-tracking transition-ui">METADATA</button>
+<button :class="inspectorTab === 'raw' ? 'border-b-2 border-primary text-primary' : 'text-on-surface-variant'" @click="inspectorTab = 'raw'" class="flex-1 py-2 font-label-caps text-[10px] label-tracking transition-ui">RAW PAYLOAD</button>
+</nav>
+<div class="flex-1 overflow-auto custom-scrollbar">
+<!-- Context Tab -->
+<div class="p-4 flex flex-col gap-4 font-data-mono text-data-mono" x-show="inspectorTab === 'context'">
+<template x-if="activeEvent">
+<div>
+<div>
+<div class="text-on-surface-variant font-label-caps text-[10px] mb-1 label-tracking">FORENSIC ACTION</div>
+<div class="text-primary text-sm font-bold" x-text="activeEvent.action"></div>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-4">
+<div>
+<div class="text-on-surface-variant font-label-caps text-[10px] mb-1 label-tracking">AUTH_ACTOR</div>
+<div class="text-secondary font-data-mono truncate" x-text="activeEvent.actor"></div>
+</div>
+<div>
+<div class="text-on-surface-variant font-label-caps text-[10px] mb-1 label-tracking">NODE_ID</div>
+<div class="text-secondary font-data-mono truncate" x-text="activeEvent.node"></div>
+</div>
+</div>
+<div class="mt-4 p-3 border border-slate bg-surface-container-lowest gold-burnished" x-show="activeEvent.isOverride">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-sm mt-0.5">security</span>
+<div>
+<div class="font-label-caps text-[10px] font-bold mb-1 label-tracking">SOVEREIGN OVERRIDE ACTIVE</div>
+<div class="text-[11px] leading-tight font-body-sm">Bypassed algorithmic consensus. Logic gating suspended. Authenticated via physical key 0x82F1.</div>
+</div>
+</div>
+</div>
+</div>
+</template>
+<template x-if="!activeEvent">
+<div class="text-center py-10 opacity-30 italic font-body-sm">SELECT AN ENTRY TO INSPECT</div>
+</template>
+</div>
+<!-- Metadata Tab (Simplified) -->
+<div class="p-4 flex flex-col gap-3 font-data-mono text-data-mono" x-show="inspectorTab === 'meta'">
+<div class="p-3 border border-slate bg-surface-container-lowest">
+<div class="text-on-surface-variant font-label-caps text-[10px] mb-1 label-tracking">VALIDATION_PROTOCOL</div>
+<div class="flex items-center gap-2">
+<span class="text-secondary">OAUTH_V3_STRICT</span>
+<span class="material-symbols-outlined text-[#22C55E] text-sm">check_circle</span>
+</div>
+</div>
+<div class="p-3 border border-slate bg-surface-container-lowest">
+<div class="text-on-surface-variant font-label-caps text-[10px] mb-1 label-tracking">CIPHER_SUITE</div>
+<div class="text-secondary">AES-256-GCM / ED25519</div>
+</div>
+</div>
+<!-- Raw Tab -->
+<div class="h-full flex flex-col terminal-bg" x-show="inspectorTab === 'raw'">
+<header class="px-3 py-2 border-b border-slate bg-surface-container-low flex justify-between items-center shrink-0">
+<span class="font-label-caps text-[10px] text-on-surface-variant label-tracking">JSON_STRUCTURE</span>
+<button @click="copyRaw" class="text-on-surface-variant hover:text-primary transition-ui">
+<span class="material-symbols-outlined text-xs">content_copy</span>
+</button>
+</header>
+<pre class="flex-1 p-3 overflow-auto font-data-mono text-[10px] text-on-surface-variant leading-relaxed custom-scrollbar" x-text="activeEventRaw"></pre>
+</div>
+</div>
+<!-- Action Block -->
+<div class="p-2 border-t border-slate bg-surface-container-low">
+<button class="w-full bg-primary text-[#020617] font-label-caps text-[11px] py-3 px-4 border-none hover:bg-surface-tint transition-ui flex items-center justify-center gap-2 label-tracking" style="background-color: #ffffff; color: #020617;">
+<span class="material-symbols-outlined text-sm">verified</span>
+                            ACKNOWLEDGE LOG ENTRY
+                        </button>
+</div>
+</div>
+</section>
+</div>
+<!-- Real-time Node Events Terminal -->
+<section class="h-32 bg-black border border-slate flex flex-col shrink-0 overflow-hidden">
+<header class="px-3 py-1 border-b border-slate bg-surface-container-low flex justify-between items-center shrink-0">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 bg-[#22C55E] rounded-full animate-pulse"></span>
+<span class="font-label-caps text-[10px] text-primary label-tracking">SYSTEM LIVE STREAM</span>
+</div>
+<div class="font-data-mono text-[10px] text-on-secondary-container">BUFFER: 4.2 KB</div>
+</header>
+<div class="flex-1 p-2 overflow-y-auto font-data-mono text-[10px] space-y-1 custom-scrollbar" x-ref="logStream">
+<template :key="log.id" x-for="log in systemLogs">
+<div class="flex gap-2">
+<span class="text-on-secondary-container" x-text="log.time"></span>
+<span :class="log.color" x-text="log.msg"></span>
+</div>
+</template>
+<div class="flex items-center gap-2 opacity-50 mt-1">
+<div class="w-2 h-3 bg-primary animate-pulse"></div>
+<span class="text-on-surface-variant">AWAITING NEXT NODE INSTRUCTION...</span>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50 bg-surface-container-lowest border-t border-outline-variant transition-ui h-8 font-data-mono text-data-mono text-secondary">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-[10px] text-on-surface label-tracking flex items-center gap-2">
+<span class="material-symbols-outlined text-xs text-primary animate-heartbeat">hub</span>
+            NODE:0x82f1...ed25519 | STATUS: <span class="text-primary" x-text="nodeStatus">LOCAL_OPTIMIZED</span>
+</span>
+</div>
+<div class="flex items-center gap-6 text-[10px]">
+<a class="text-on-secondary-container hover:text-primary transition-ui" href="#">Machine ID: 992-QX</a>
+<a class="text-on-secondary-container hover:text-primary transition-ui" href="#">Audit Log</a>
+<a class="text-on-secondary-container hover:text-primary transition-ui flex items-center gap-1" href="#">
+<div class="w-1.5 h-1.5 bg-[#22C55E]"></div>
+            System Health
+        </a>
+</div>
+</footer>
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('appStore', () => ({
+            // State
+            activeCycle: 'FIT Farms',
+            operator: { name: 'OPERATOR_03', id: 'SYS_OP_992' },
+            posture: 'FRONTIER',
+            nodeStatus: 'LOCAL_OPTIMIZED',
+            searchQuery: '',
+            activeNav: 'ledger',
+            selectedSeq: '03',
+            inspectorTab: 'context',
+            
+            navItems: [
+                { id: 'home', label: 'Home', icon: 'home' },
+                { id: 'scout', label: 'Scout', icon: 'search_insights' },
+                { id: 'intake', label: 'Intake', icon: 'input' },
+                { id: 'eligibility', label: 'Eligibility', icon: 'fact_check' },
+                { id: 'mapper', label: 'Module Mapper', icon: 'account_tree' },
+                { id: 'drafting', label: 'Drafting', icon: 'edit_note' },
+                { id: 'budget', label: 'Budget', icon: 'payments' },
+                { id: 'judge', label: 'Judge', icon: 'gavel' },
+                { id: 'redteam', label: 'Red Team', icon: 'security' },
+                { id: 'ledger', label: 'Final Packet Authorization', icon: 'history_edu' },
+                { id: 'audit', label: 'Audit', icon: 'policy' }
+            ],
+
+            ledgerData: [
+                { seq: '01', authority: 'Logician', timestamp: '2024-10-24T08:12:44Z', fingerprint: '0x7a2b...91f4', hash: 'e3b0c44298fc1c14', statusColor: 'bg-[#22C55E]', isOverride: false },
+                { seq: '02', authority: 'Scribe', timestamp: '2024-10-24T09:45:11Z', fingerprint: '0x3c9d...e2a1', hash: '9f86d081884c7d65', statusColor: 'bg-[#22C55E]', isOverride: false },
+                { seq: '03', authority: 'EXECUTIVE OVERRIDE', timestamp: '2024-10-24T11:02:59Z', fingerprint: '0x88f1...b42c', hash: '5d41402abc4b2a76', statusColor: 'bg-[#B89745]', isOverride: true, badge: 'SOVEREIGN', badgeIcon: 'gavel' },
+                { seq: '04', authority: 'Red Team', timestamp: '2024-10-24T14:30:22Z', fingerprint: '0x11a5...c99d', hash: '7d793037a0760186', statusColor: 'bg-[#22C55E]', isOverride: false },
+                { seq: '05', authority: 'Operator Auth (Pending)', timestamp: '--', fingerprint: '--', hash: '--', statusColor: 'border border-outline-variant bg-transparent', isOverride: false }
+            ],
+
+            systemLogs: [
+                { id: 1, time: '11:02:58', msg: '[INFO] Initializing JUDGEMENT phase verification...', color: 'text-on-surface-variant' },
+                { id: 2, time: '11:02:59', msg: '[WARN] Quorum check failed: Consensus not reached (2/5 signatures).', color: 'text-[#F59E0B]' },
+                { id: 3, time: '11:02:59', msg: '[ALRT] Sovereign Override detected: Physical Key 0x82F1.', color: 'text-[#B89745] font-bold' },
+                { id: 4, time: '11:03:00', msg: '[AUTH] Bypass successful. Event committed to shard 4a.', color: 'text-[#22C55E]' }
+            ],
+
+            // OpenClaw Plumbing / Mock Client
+            init() {
+                console.log('OpenClaw Node Client initialized...');
+                this.startMockStream();
+            },
+
+            // Computed
+            get filteredLedger() {
+                if (!this.searchQuery) return this.ledgerData;
+                const q = this.searchQuery.toLowerCase();
+                return this.ledgerData.filter(r => 
+                    r.authority.toLowerCase().includes(q) || 
+                    r.fingerprint.toLowerCase().includes(q) ||
+                    r.hash.toLowerCase().includes(q)
+                );
+            },
+
+            get activeEvent() {
+                if (this.selectedSeq === '03') {
+                    return {
+                        action: 'Manual Authorization Bypass',
+                        actor: 'SYS_OP_992',
+                        node: 'FIT_FARMS_MAIN',
+                        isOverride: true
+                    };
+                }
+                if (this.selectedSeq === '01') {
+                    return { action: 'Algorithmic Sequence Verification', actor: 'LOGIC_ENGINE_A', node: 'CORE_VALIDATOR', isOverride: false };
+                }
+                return null;
+            },
+
+            get activeEventRaw() {
+                if (!this.activeEvent) return '{}';
+                return JSON.stringify({
+                    event_id: `evt_${Math.random().toString(16).slice(2, 10)}`,
+                    timestamp: new Date().toISOString(),
+                    context: { grant_ref: "F-2024-991A", phase: "JUDGEMENT" },
+                    auth_matrix: { primary_sig: "valid", quorum_met: !this.activeEvent.isOverride, override_flag: this.activeEvent.isOverride }
+                }, null, 2);
+            },
+
+            // Actions
+            togglePosture() {
+                this.posture = this.posture === 'FRONTIER' ? 'STRICT' : 'FRONTIER';
+                this.addLog(`[POSTURE] Node moved to ${this.posture} state.`);
+            },
+
+            addLog(msg, color = 'text-on-surface-variant') {
+                const now = new Date();
+                const time = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+                this.systemLogs.push({ id: Date.now(), time, msg, color });
+                this.$nextTick(() => {
+                    const el = this.$refs.logStream;
+                    el.scrollTop = el.scrollHeight;
+                });
+            },
+
+            startMockStream() {
+                setInterval(() => {
+                    if (Math.random() > 0.8) {
+                        this.addLog(`[HEARTBEAT] Node 0x82f1 status: stable. Sync at ${Math.floor(99 + Math.random())}%`);
+                    }
+                }, 10000);
+            },
+
+            copyRaw() {
+                navigator.clipboard.writeText(this.activeEventRaw);
+                this.addLog('[UI] Raw payload copied to clipboard.');
+            }
+        }));
+    });
+</script>
+</body></html>

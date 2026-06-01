@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scribe Drafting Workspace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed-dim": "#c6c6c7",
+                      "on-surface-variant": "#c4c7c8",
+                      "surface-container-highest": "#2a3548",
+                      "tertiary-fixed": "#dae2fd",
+                      "on-error-container": "#ffdad6",
+                      "on-surface": "#d8e3fb",
+                      "outline": "#8e9192",
+                      "on-primary-fixed-variant": "#454747",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "error": "#ffb4ab",
+                      "surface-dim": "#081425",
+                      "on-secondary-fixed": "#0b1c30",
+                      "tertiary-container": "#dae2fd",
+                      "background": "#081425",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "secondary": "#b7c8e1",
+                      "surface-tint": "#c6c6c7",
+                      "primary-fixed": "#e2e2e2",
+                      "secondary-container": "#3a4a5f",
+                      "on-tertiary-container": "#5c647a",
+                      "on-secondary-container": "#a9bad3",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "surface-variant": "#2a3548",
+                      "surface-container-lowest": "#040e1f",
+                      "on-primary-container": "#636565",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "surface": "#081425",
+                      "surface-container-high": "#1f2a3c",
+                      "inverse-primary": "#5d5f5f",
+                      "surface-bright": "#2f3a4c",
+                      "primary": "#ffffff",
+                      "on-primary": "#2f3131",
+                      "on-primary-fixed": "#1a1c1c",
+                      "inverse-on-surface": "#263143",
+                      "secondary-fixed": "#d3e4fe",
+                      "on-tertiary": "#283044",
+                      "surface-container": "#152031",
+                      "error-container": "#93000a",
+                      "surface-container-low": "#111c2d",
+                      "tertiary": "#ffffff",
+                      "primary-container": "#e2e2e2",
+                      "on-error": "#690005",
+                      "inverse-surface": "#d8e3fb",
+                      "on-secondary": "#213145",
+                      "outline-variant": "#444748",
+                      "on-tertiary-fixed": "#131b2e",
+                      "on-background": "#d8e3fb"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sidebar-width": "240px",
+                      "panel-gap": "8px",
+                      "gutter": "1px",
+                      "container-padding": "16px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "data-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "label-caps": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-sm": [
+                              "Hanken Grotesk"
+                      ],
+                      "serif": [
+                              "Source Serif 4", "serif"
+                      ]
+              },
+              "fontSize": {
+                      "data-mono": [
+                              "13px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+        body {
+            background-color: #020617; /* Base Environment */
+            color: theme('colors.on-surface');
+            margin: 0;
+            overflow: hidden;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: theme('colors.surface-container-low');
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.surface-container-highest');
+            border-radius: 0;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline');
+        }
+        
+        .panel {
+            background-color: #0F172A; /* Level 1 Panel */
+            border: 1px solid #334155;
+        }
+        
+        .nested-panel {
+            background-color: #1E293B; /* Level 2 Panel */
+            border: 1px solid #334155;
+        }
+
+        .conjecture-tag {
+            background-color: theme('colors.surface-container-highest');
+            border: 1px solid #F59E0B;
+            color: #F59E0B;
+            padding: 2px 6px;
+            font-family: theme('fontFamily.data-mono');
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+            margin: 0 4px;
+            cursor: help;
+        }
+
+        .suspicious-term {
+            border-bottom: 2px wavy theme('colors.error');
+            cursor: help;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen text-on-surface">
+<!-- TopAppBar JSON Map -->
+<header class="flex items-center justify-between px-container-padding w-full h-[56px] border-b border-outline-variant bg-surface-container-highest shrink-0 z-50">
+<div class="flex items-center gap-6">
+<span class="font-display-lg text-display-lg font-bold text-primary tracking-tighter">GOLDEN QUILL</span>
+<div class="flex items-center gap-2 px-3 py-1 bg-[#1E293B] border border-[#334155]">
+<span class="font-label-caps text-label-caps text-outline">APPLIED AS:</span>
+<span class="font-data-mono text-data-mono text-primary">FIT Farms LLC</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 bg-[#1E293B] border border-[#334155]">
+<span class="font-label-caps text-label-caps text-outline">POSTURE:</span>
+<span class="font-data-mono text-data-mono text-[#F59E0B]">HYBRID</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 bg-[#1E293B] border border-[#334155]">
+<span class="material-symbols-outlined text-[16px] text-[#22C55E]">verified_user</span>
+<span class="font-label-caps text-label-caps text-[#22C55E]">VERIFIED</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 bg-[#1E293B] border border-[#334155]">
+<span class="material-symbols-outlined text-[16px] text-outline">key</span>
+<span class="font-data-mono text-data-mono text-primary">4a3f...b2c8</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1 bg-[#1E293B] border border-[#334155]">
+<span class="font-label-caps text-label-caps text-outline">REGISTER:</span>
+<span class="font-data-mono text-data-mono text-primary font-bold">USDA-RD (VAPG)</span>
+</div>
+<button class="material-symbols-outlined text-primary hover:bg-surface-bright transition-none p-1">security</button>
+<button class="material-symbols-outlined text-primary hover:bg-surface-bright transition-none p-1">verified_user</button>
+<button class="material-symbols-outlined text-primary hover:bg-surface-bright transition-none p-1">gavel</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar JSON Map -->
+<nav class="w-[220px] h-full border-r border-outline-variant bg-surface-container-low flex flex-col shrink-0">
+<div class="p-4 border-b border-outline-variant">
+<div class="font-headline-md text-headline-md text-primary">NODE IDENTITY</div>
+<div class="font-data-mono text-[11px] text-[#22C55E] mt-1 flex items-center gap-1">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+                    POSTURE: SECURE
+                </div>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">map</span>
+<span class="font-label-caps text-label-caps">Module Mapper</span>
+</a>
+<!-- Active Item -->
+<a class="flex items-center gap-3 px-4 py-2 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed instant toggle" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">signature</span>
+<span class="font-label-caps text-label-caps">Sign-Off</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">style</span>
+<span class="font-label-caps text-label-caps">Cards</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Workspace Area -->
+<main class="flex-1 flex bg-[#020617] overflow-hidden">
+<!-- Drafting Canvas (Center) -->
+<div class="flex-1 flex flex-col h-full overflow-hidden panel m-[1px]">
+<!-- Canvas Header Toolbar -->
+<div class="flex items-center justify-between px-4 py-2 border-b border-[#334155] bg-[#0F172A]">
+<div class="flex items-center gap-4">
+<span class="font-data-mono text-data-mono text-outline">SAVED 12S AGO</span>
+<div class="h-4 w-[1px] bg-[#334155]"></div>
+<div class="flex items-center gap-2 text-[#b7c8e1] cursor-pointer hover:text-primary">
+<span class="material-symbols-outlined text-[16px]">person</span>
+<span class="font-label-caps text-label-caps">OPERATOR: Josh Inklovich</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1 border border-[#334155] text-primary font-label-caps text-label-caps hover:bg-[#1E293B]">VERSIONS</button>
+<button class="px-3 py-1 bg-white text-black font-label-caps text-label-caps hover:bg-gray-200">FORMAT</button>
+</div>
+</div>
+<!-- Editor Area -->
+<div class="flex-1 overflow-y-auto p-12 flex justify-center">
+<div class="w-full max-w-[720px] font-serif text-[16px] leading-[1.8] text-[#d8e3fb]">
+<h1 class="font-headline-md text-[28px] font-bold text-white mb-8 border-b border-[#334155] pb-4">Project Eligibility &amp; Methodology</h1>
+<p class="mb-6">
+                            FIT Farms LLC asserts its status as an Independent Producer under 7 CFR § 4284.922(b). The applicant maintains 100% ownership of the raw agricultural commodity (hydroponic basil) from seed through post-harvest processing.
+                        </p>
+<p class="mb-6">
+                            The proposed value-added methodology relies on the physical segregation of the commodity to produce Basil Pesto. 
+                            <span class="group relative inline-flex items-center align-middle mx-1">
+<span class="conjecture-tag">
+<span class="material-symbols-outlined text-[12px] mr-1">warning</span>[CONJECTURE — Pillar-2 corpus pending]
+                                </span>
+</span></p><div class="hidden group-hover:block absolute bottom-full left-0 mb-1 w-[280px] bg-[#0F172A] border border-[#334155] p-3 z-20 shadow-lg">
+<div class="font-label-caps text-[10px] text-outline mb-2">RESOLUTION REQUIREMENTS:</div>
+<div class="flex flex-col gap-1">
+<button class="text-left font-data-mono text-[11px] text-[#b7c8e1] hover:text-primary hover:bg-[#1E293B] px-2 py-1.5 border border-transparent hover:border-[#334155] transition-none flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-[#F59E0B]">add_circle</span> Facility Blueprint
+                                        </button>
+<button class="text-left font-data-mono text-[11px] text-[#b7c8e1] hover:text-primary hover:bg-[#1E293B] px-2 py-1.5 border border-transparent hover:border-[#334155] transition-none flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-[#F59E0B]">add_circle</span> SOP Ledger
+                                        </button>
+<button class="text-left font-data-mono text-[11px] text-[#b7c8e1] hover:text-primary hover:bg-[#1E293B] px-2 py-1.5 border border-transparent hover:border-[#334155] transition-none flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-[#F59E0B]">add_circle</span> Third-Party Audit
+                                        </button>
+</div>
+</div>
+                            
+                            This process constitutes a change in physical state, rendering the final product distinct from the raw commodity and eligible for VAPG working capital funds.
+                        <p></p>
+<p class="mb-6">
+                            Furthermore, the enterprise anticipates capturing a significant market share in the regional direct-to-consumer sector through a <span class="suspicious-term" title="Admin-Risk Term Flagged">groundbreaking</span> supply chain integration model. This integration will bypass traditional distribution hubs, reducing logistical friction by an estimated 14%.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Right Inspector -->
+<aside class="w-[320px] flex flex-col shrink-0 panel m-[1px] ml-0 overflow-y-auto">
+<div class="p-4 border-b border-[#334155] bg-[#0F172A] sticky top-0 z-10 flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-primary">INSPECTOR</span>
+<span class="material-symbols-outlined text-[16px] text-outline cursor-pointer hover:text-white">tune</span>
+</div>
+<div class="p-4 space-y-6">
+<!-- Register Constraints -->
+<div>
+<div class="font-label-caps text-label-caps text-outline mb-2 flex items-center justify-between">
+                            REGISTER CONSTRAINTS
+                            <span class="material-symbols-outlined text-[14px]">policy</span>
+</div>
+<div class="nested-panel p-3 space-y-2">
+<div class="flex items-start gap-2">
+<div class="w-2 h-2 bg-[#22C55E] mt-1"></div>
+<div class="font-data-mono text-[11px] text-[#b7c8e1]">Must define independent producer status (7 CFR § 4284)</div>
+</div>
+<div class="flex items-start gap-2">
+<div class="w-2 h-2 bg-[#22C55E] mt-1"></div>
+<div class="font-data-mono text-[11px] text-[#b7c8e1]">Must detail change in physical state methodology</div>
+</div>
+<div class="flex items-start gap-2">
+<div class="w-2 h-2 bg-[#EF4444] mt-1"></div>
+<div class="font-data-mono text-[11px] text-[#ffb4ab]">Must quantify baseline vs projected revenue</div>
+</div>
+</div>
+</div>
+<!-- Evidence Tiers -->
+<div>
+<div class="font-label-caps text-label-caps text-outline mb-2 flex items-center justify-between">
+                            EVIDENCE TIERS
+                            <span class="material-symbols-outlined text-[14px]">science</span>
+</div>
+<div class="nested-panel p-3">
+<div class="flex justify-between items-center mb-4">
+<span class="font-data-mono text-[11px] text-[#b7c8e1]">Ownership Assertion</span>
+<span class="px-2 py-[2px] bg-[#22C55E]/10 border border-[#22C55E] text-[#22C55E] font-data-mono text-[10px]">STRONG</span>
+</div>
+<div class="flex flex-col">
+<div class="flex justify-between items-center mb-2">
+<span class="font-data-mono text-[11px] text-[#b7c8e1]">Process Feasibility</span>
+<span class="px-2 py-[2px] bg-[#F59E0B]/10 border border-[#F59E0B] text-[#F59E0B] font-data-mono text-[10px]">ACCEPTABLE</span>
+</div>
+<div class="pl-2 border-l-2 border-[#334155] flex flex-col gap-1 mt-1">
+<div class="font-label-caps text-[9px] text-[#8e9192] mb-1">ELEVATION PATHS:</div>
+<button class="text-left font-data-mono text-[10px] text-[#b7c8e1] hover:text-primary hover:bg-[#1E293B] px-2 py-1 border border-dashed border-[#334155] hover:border-[#F59E0B] transition-none">
+                                        + Attach Pilot Data
+                                    </button>
+<button class="text-left font-data-mono text-[10px] text-[#b7c8e1] hover:text-primary hover:bg-[#1E293B] px-2 py-1 border border-dashed border-[#334155] hover:border-[#F59E0B] transition-none">
+                                        + Cite ISO Standards
+                                    </button>
+<button class="text-left font-data-mono text-[10px] text-[#b7c8e1] hover:text-primary hover:bg-[#1E293B] px-2 py-1 border border-dashed border-[#334155] hover:border-[#F59E0B] transition-none">
+                                        + Reference Historical Yields
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Admin-Risk Terms -->
+<div>
+<div class="font-label-caps text-label-caps text-outline mb-2 flex items-center justify-between">
+                            ADMIN-RISK TERMS
+                            <span class="material-symbols-outlined text-[14px] text-error">warning</span>
+</div>
+<div class="nested-panel p-3 border-error">
+<div class="font-data-mono text-[11px] text-error mb-1">FLAG: "groundbreaking"</div>
+<div class="font-body-sm text-body-sm text-[#c4c7c8] mb-3">
+                                Subjective intensifier detected. Reviewer agencies prefer empirical assertions over marketing language.
+                            </div>
+<div class="font-label-caps text-[9px] text-[#8e9192] mb-2 border-t border-[#334155] pt-3">FORENSIC REFINEMENT:</div>
+<div class="flex flex-col gap-1.5">
+<button class="flex items-center justify-between bg-[#0F172A] p-2 border border-[#334155] hover:border-[#22C55E] group transition-none">
+<span class="font-data-mono text-[11px] text-[#22C55E]">EMPIRICAL / PROVEN</span>
+<span class="px-2 py-[2px] bg-transparent group-hover:bg-[#22C55E] group-hover:text-black text-[#22C55E] font-label-caps text-[9px] border border-[#22C55E] transition-none">APPLY</span>
+</button>
+<button class="flex items-center justify-between bg-[#0F172A] p-2 border border-[#334155] hover:border-[#22C55E] group transition-none">
+<span class="font-data-mono text-[11px] text-[#22C55E]">SYSTEMIC / INTEGRATED</span>
+<span class="px-2 py-[2px] bg-transparent group-hover:bg-[#22C55E] group-hover:text-black text-[#22C55E] font-label-caps text-[9px] border border-[#22C55E] transition-none">APPLY</span>
+</button>
+<button class="flex items-center justify-between bg-[#0F172A] p-2 border border-[#334155] hover:border-[#22C55E] group transition-none">
+<span class="font-data-mono text-[11px] text-[#22C55E]">OPERATIONAL / VERIFIED</span>
+<span class="px-2 py-[2px] bg-transparent group-hover:bg-[#22C55E] group-hover:text-black text-[#22C55E] font-label-caps text-[9px] border border-[#22C55E] transition-none">APPLY</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Primary Action -->
+<div class="mt-auto p-4 border-t border-[#334155] bg-[#0F172A]">
+<button class="w-full py-2 bg-[#B91C1C] text-white font-label-caps text-label-caps hover:bg-[#991B1B] transition-none flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">draw</span>
+                        SIGN SECTION
+                    </button>
+</div>
+</aside>
+</main>
+</div>
+<!-- Footer JSON Map -->
+<footer class="flex items-center justify-between px-4 w-full h-[32px] border-t border-outline-variant bg-surface-container-lowest shrink-0 z-50">
+<div class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</div>
+<div class="flex items-center gap-4">
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none" href="#">SYSTEM_STATUS</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none" href="#">AUDIT_LOG</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-none" href="#">FID_0x2A</a>
+<span class="font-data-mono text-[10px] text-outline ml-4">NODE: fit-farms-pgh-001</span>
+</div>
+</footer>
+</body></html>

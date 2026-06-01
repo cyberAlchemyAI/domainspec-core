@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scribe Drafting - FIT Farms</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "surface-bright": "#2f3a4c",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "surface-variant": "#2a3548",
+                        "error": "#ffb4ab",
+                        "background": "#081425",
+                        "on-primary-container": "#636565",
+                        "secondary": "#b7c8e1",
+                        "surface-container-low": "#111c2d",
+                        "on-background": "#d8e3fb",
+                        "surface-container": "#152031",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-secondary-fixed": "#0b1c30",
+                        "tertiary": "#ffffff",
+                        "inverse-on-surface": "#263143",
+                        "surface-container-lowest": "#040e1f",
+                        "on-secondary-container": "#a9bad3",
+                        "primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "surface-container-highest": "#2a3548",
+                        "on-primary": "#2f3131",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-container": "#dae2fd",
+                        "surface-dim": "#081425",
+                        "tertiary-fixed": "#dae2fd",
+                        "surface-container-high": "#1f2a3c",
+                        "error-container": "#93000a",
+                        "on-tertiary-container": "#5c647a",
+                        "on-secondary": "#213145",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-primary-fixed": "#1a1c1c",
+                        "outline": "#8e9192",
+                        "on-surface": "#d8e3fb",
+                        "surface-tint": "#c6c6c7",
+                        "primary-container": "#e2e2e2",
+                        "on-tertiary": "#283044",
+                        "inverse-surface": "#d8e3fb",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "inverse-primary": "#5d5f5f",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "outline-variant": "#444748",
+                        "primary-fixed": "#e2e2e2",
+                        "surface": "#081425",
+                        "on-primary-fixed-variant": "#454747",
+                        "secondary-container": "#3a4a5f",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-tertiary-fixed": "#131b2e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "1px",
+                        "sidebar-width": "240px",
+                        "panel-gap": "8px",
+                        "container-padding": "16px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Enforce strict brutalist corners overriding standard config if needed */
+        * { border-radius: 0 !important; }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen w-screen overflow-hidden flex flex-col font-body-md text-body-md antialiased">
+<!-- TopAppBar -->
+<header class="bg-surface-container-low dark:bg-surface-container-low docked full-width top-0 h-14 border-b border-outline-variant flat no shadows transition-none flex justify-between items-center w-full px-container-padding gap-panel-gap z-20 shrink-0">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter">GOLDEN QUILL</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 border border-outline-variant bg-surface-container-highest px-3 py-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">business</span>
+<span class="font-data-mono text-data-mono text-secondary">Applied As: FIT Farms LLC</span>
+</div>
+<div class="flex items-center gap-2 border border-outline-variant bg-surface-container px-3 py-1">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">dns</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">Licensed Node: fit-farms-pgh-001</span>
+</div>
+<div class="flex items-center gap-2 border border-outline-variant bg-surface-container px-3 py-1">
+<span class="material-symbols-outlined text-[14px] text-tertiary">cloud_sync</span>
+<span class="font-label-caps text-label-caps text-tertiary">POSTURE: HYBRID</span>
+</div>
+</div>
+<div class="flex items-center gap-4 font-data-mono text-data-mono text-primary dark:text-primary">
+<span class="material-symbols-outlined hover:bg-surface-container-highest p-1 cursor-pointer">verified_user</span>
+<span class="material-symbols-outlined hover:bg-surface-container-highest p-1 cursor-pointer">vpn_key</span>
+<span class="material-symbols-outlined hover:bg-surface-container-highest p-1 cursor-pointer">account_circle</span>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden pb-8"> <!-- pb-8 to account for absolute footer -->
+<!-- SideNavBar -->
+<nav class="bg-surface-container dark:bg-surface-container docked left-0 h-full w-sidebar-width border-r border-outline-variant flat no shadows transition-none flex flex-col h-full shrink-0 z-10">
+<div class="p-4 border-b border-outline-variant">
+<h2 class="font-display-lg text-display-lg text-primary tracking-tight">FIT Farms</h2>
+<div class="font-label-caps text-label-caps text-secondary mt-1">FRONTIER POSTURE</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<!-- Tab items -->
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">search_insights</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+<span class="font-label-caps text-label-caps">Module Mapper</span>
+</div>
+<!-- ACTIVE TAB: Drafting -->
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer transition-none bg-surface-container-highest text-primary border-l-2 border-primary">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps">Final Packet Authorization</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">policy</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">credit_card</span>
+<span class="font-label-caps text-label-caps">Cards</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDs</span>
+</div>
+</div>
+<div class="border-t border-outline-variant py-2">
+<div class="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</div>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-1 flex overflow-hidden bg-background">
+<!-- Editor Canvas -->
+<div class="flex-1 flex flex-col h-full border-r border-outline-variant relative">
+<!-- Document Header bar -->
+<div class="h-12 bg-surface-container-low border-b border-outline-variant flex items-center justify-between px-4 shrink-0">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary text-[18px]">article</span>
+<span class="font-data-mono text-data-mono text-primary">SCRIBE: PROJECT_NARRATIVE_V2.md</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-[14px]">sync_saved_locally</span>
+<span class="font-body-sm text-body-sm italic">Saved just now</span>
+</div>
+<div class="h-4 w-px bg-outline-variant mx-2"></div>
+<div class="border border-outline-variant bg-surface-container flex items-center gap-2 px-2 py-0.5">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span class="font-label-caps text-label-caps text-on-surface">OPERATOR: JD</span>
+</div>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-4 py-1.5 hover:bg-primary-fixed ml-2">
+                            COMMIT TO DRAFT
+                        </button>
+</div>
+</div>
+<!-- Reading Canvas -->
+<div class="flex-1 overflow-y-auto p-12 custom-scrollbar">
+<div class="max-w-3xl mx-auto text-on-surface bg-surface-container p-12 border border-outline-variant shadow-sm">
+<h1 class="font-headline-md text-headline-md text-primary mb-8 border-b border-outline-variant pb-4">USDA Value-Added Producer Grant (VAPG) - Project Narrative</h1>
+<div class="space-y-8 font-body-md text-body-md leading-relaxed text-secondary-fixed-dim">
+<section>
+<h2 class="font-data-mono text-data-mono text-primary mb-3">1.0 EXECUTIVE SUMMARY</h2>
+<p class="mb-4">
+                                    FIT Farms LLC requests $250,000 in Value-Added Producer Grant (VAPG) funding to expand the processing, marketing, and distribution of our premium, heritage-breed pastured poultry. This project will transition our operation from primarily whole-bird sales to a value-added line of precooked, frozen artisanal sausages and bone broths, directly addressing consumer demand for high-quality, convenient, locally-sourced protein.
+                                </p>
+<p>
+                                    By processing raw agricultural commodities into these value-added products, FIT Farms will expand its customer base within the <span class="inline-flex items-center bg-surface-variant border border-outline-variant px-1.5 mx-1 font-data-mono text-[11px] text-on-surface-variant leading-tight">[CONJECTURE: TARGET_MSA_REGION]</span> region, increase profit margins by an estimated <span class="inline-flex items-center bg-surface-variant border border-outline-variant px-1.5 mx-1 font-data-mono text-[11px] text-on-surface-variant leading-tight">[CONJECTURE: PROJECTED_MARGIN_INCREASE_PCT]%</span>, and create two new full-time equivalent (FTE) jobs in processing and distribution.
+                                </p>
+</section>
+<section>
+<h2 class="font-data-mono text-data-mono text-primary mb-3 mt-8">2.0 PROJECT OBJECTIVES</h2>
+<p class="mb-4">
+                                    The primary objective of this working capital grant is to successfully launch and stabilize the new product lines within a 36-month period. Specific objectives include:
+                                </p>
+<ul class="list-disc pl-6 space-y-2 mb-4">
+<li><strong class="text-on-surface">Objective A:</strong> Execute a comprehensive marketing campaign targeting specialized grocers, premium food service providers, and direct-to-consumer online sales.</li>
+<li><strong class="text-on-surface">Objective B:</strong> Secure dedicated co-packing facility time to process <span class="inline-flex items-center bg-surface-variant border border-outline-variant px-1.5 mx-1 font-data-mono text-[11px] text-on-surface-variant leading-tight">[CONJECTURE: ANNUAL_BIRD_VOLUME]</span> birds annually into sausage and broth inventory.</li>
+<li><strong class="text-on-surface">Objective C:</strong> Establish a continuous cold-chain logistics network for reliable regional distribution, mitigating current logistical bottlenecks.</li>
+</ul>
+</section>
+<section>
+<h2 class="font-data-mono text-data-mono text-primary mb-3 mt-8">3.0 OPERATIONAL CAPACITY &amp; TEAM</h2>
+<p class="mb-4">
+                                    FIT Farms is entirely owned and operated by primary producers. Our management team possesses a combined 15 years of experience in regenerative agriculture and direct-market sales. The Project Director, Jane Doe, will oversee all grant activities, coordinating between our farm operations and external processing partners.
+                                </p>
+<p>
+                                    Current processing bottlenecks have limited our growth. This working capital will fund specialized labor and marketing expenses crucial for bridging the gap between raw commodity production and established market presence for the new product lines. We have secured letters of intent from <span class="inline-flex items-center bg-surface-variant border border-outline-variant px-1.5 mx-1 font-data-mono text-[11px] text-on-surface-variant leading-tight">[CONJECTURE: NUMBER_OF_LOI_VENDORS]</span> regional distributors confirming market demand.
+                                </p>
+</section>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Inspector -->
+<aside class="w-80 bg-surface-container flex flex-col shrink-0 h-full border-l border-outline-variant">
+<div class="h-12 bg-surface-container-low border-b border-outline-variant flex items-center px-4 shrink-0">
+<span class="font-label-caps text-label-caps text-on-surface">AUTHORIZED ENTITY INSPECTOR</span>
+</div>
+<div class="flex-1 overflow-y-auto">
+<!-- Primary Beneficiary Block -->
+<div class="p-4 border-b border-outline-variant bg-surface-container-highest">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">PRIMARY BENEFICIARY</span>
+<span class="bg-[#152031] border border-[#22C55E] text-[#22C55E] px-2 py-0.5 font-label-caps text-[9px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">check_circle</span> VERIFIED
+                            </span>
+</div>
+<div class="font-data-mono text-data-mono text-primary text-base mb-1">FIT Farms LLC</div>
+<div class="font-body-sm text-body-sm text-secondary">UEI: Y9M4K12P7Z01</div>
+</div>
+<!-- Status Gates -->
+<div class="p-4 border-b border-outline-variant">
+<div class="space-y-4">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">LICENSE GATE</span>
+<div class="flex items-center gap-2 text-primary font-data-mono text-data-mono">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+                                    PASS
+                                </div>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">APPLIED AS</span>
+<div class="text-on-surface font-data-mono text-data-mono">FIT Farms LLC</div>
+</div>
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">ENTITY TYPE</span>
+<div class="text-on-surface font-data-mono text-data-mono">Independent Producer (100%)</div>
+</div>
+</div>
+</div>
+<!-- Funder Register -->
+<div class="p-4">
+<span class="font-label-caps text-label-caps text-primary border-b border-outline-variant pb-2 mb-3 block w-full">ACTIVE FUNDER REGISTER</span>
+<div class="bg-surface-container-low border border-outline-variant p-3">
+<div class="flex justify-between items-center mb-3">
+<span class="font-data-mono text-data-mono text-primary font-bold">USDA-RD</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">account_balance</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant">PROGRAM</span>
+<span class="font-data-mono text-data-mono text-secondary">VAPG 2024</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant">MAX REQUEST</span>
+<span class="font-data-mono text-data-mono text-secondary">$250,000</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant">MATCH REQ</span>
+<span class="font-data-mono text-data-mono text-secondary">1:1 Cash/In-Kind</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest docked bottom-0 full-width h-8 border-t border-outline-variant flat no shadows transition-none fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50">
+<div class="font-label-caps text-label-caps text-on-surface">
+            NODE:0x82f1...ed25519 | STATUS: LOCAL_OPTIMIZED
+        </div>
+<div class="flex gap-6">
+<span class="font-data-mono text-data-mono text-secondary dark:text-secondary hover:text-primary transition-none cursor-pointer">Machine ID: 992-QX</span>
+<span class="font-data-mono text-data-mono text-secondary dark:text-secondary hover:text-primary transition-none cursor-pointer">Audit Log</span>
+<span class="font-data-mono text-data-mono text-secondary dark:text-secondary hover:text-primary transition-none cursor-pointer">System Health</span>
+</div>
+</footer>
+</body></html>

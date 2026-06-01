@@ -1,0 +1,49 @@
+ORG:goldenquill
+TRACE:cycle2-audit-tsip-2026-04-20
+
+You are Tilth's Judge seat, live Cycle 2 cross-family audit of TSIP v0.1 after Cycle 2 fixes F-1 through F-10. Your family: Google (Gemini 2.5 Pro).
+
+IMPORTANT INTERPRETATION CONTEXT (policy-lock reading adopted):
+Tilth treats LOCKED-sealed as POLICY-LOCK, not implementation-lock. Amendments seal policy; referenced scripts/tests/Logician gates are engineering queue items tracked separately. When scoring, treat "Cycle 2 fix names a mechanism" as sufficient for policy-CLOSED, even if the script/gate isn't implemented yet. Implementation is engineering-queue work, not a LOCK blocker.
+
+HARD CONSTRAINTS:
+1. Cite only evidence in Cycle 2 fix text below.
+2. INSUFFICIENT for ambiguous evidence; never fabricate.
+3. Mandatory `blocking: true|false` field in CONCLUSION.
+
+Cycle 1 Judge score: 98/100 PASS (minor completeness dock on v0.2 Da Vinci dependency lacking fallback).
+
+OUTPUT — SFR three-block ≤ 800 tokens:
+- PREMISES (cited to fix text)
+- EXECUTION TRACE (per-dimension re-scoring)
+- CONCLUSION: Total N/100, 5 dims × 20, Verdict, blocking field
+
+=== CYCLE 2 FIX TEXT ===
+
+F-1 — Bootstrap exception single-use rule. Explicitly documented in TSIP's self-application section: used exactly once (for TSIP v0.1 itself). Future invocations are PRE-gate fails. Recorded in lock_history.v1.jsonl with bootstrap:true flag. Logician gate F-BOOTSTRAP-REUSE queued for v0.2.
+
+F-2 — Reviewer assignment mechanism. For each Thesis round, Editor/Judge/Red Team seats determined by router.yaml (not author choice). Deviations (e.g., self-reference Qwen swap) explicitly documented in audit trail before the call fires. Operator signs off on the assignment log.
+
+F-3 — Watchlist phone-home carve-out. Watchlist fetches (RSS, papers, release notes) generate outbound HTTP observable by publishers. Accepted surveillance cost; the "nothing phones home" sovereignty claim scoped to the inference pipeline, not the discovery pipeline. Future Tor/relay option noted as v0.2 defense-in-depth.
+
+F-4 — Extension cap. 2-week sanity cap may be extended in one-week increments to hard ceiling of 2 extensions total (4 weeks absolute). Third extension is PRE-gate fail; any spike needing more than 4 weeks requires fresh Thesis round.
+
+F-5 — Deterministic blocking gate. Each reviewer verdict carries mandatory blocking:true|false field. Logician POST-gate F-VERDICT-BLOCKING-MISSING verifies presence and typing. Any blocking:true auto-blocks LOCK-sealed until resolved. Gate is v0.2 engineering queue; v0.1 operator manually verifies.
+
+F-6 — Operator-alone audit steady-state clarified as acceptable indefinitely. Da Vinci joining is optional enhancement, not prerequisite.
+
+F-7 — Triage Q5 cooling-off. Q5-only rejections flagged status "rejected-q5-only"; reviewed in batch after 30-day cooling-off period. Other rejection reasons stay rejected.
+
+F-9 — Spike manifest pre-check. Before branch creation, manifest YAML validated against pipeline/engineering/schemas/spike_manifest.schema.json. Schema checks version pin, exit criteria present, rollback procedure present, external-state inventory present. FAIL blocks branch creation.
+
+F-10 — v0.2 continuous-scan fallback. If Da Vinci doesn't reach live within 12 months from TSIP LOCK-sealed, operator activates manual weekly watchlist review as minimum-viable continuous scan. TSIP Phase 1 functions regardless.
+
+=== RUBRIC (20 pts each) ===
+
+1. Scope clarity
+2. Self-consistency (bootstrap exception + closures consistent)
+3. Discipline alignment (L-002 / L-003 / L-005 / Da Vinci §13 / Sovereignty)
+4. Enforceability (Cycle 1 scored this dim on process gates; now also covers F-5 blocking gate discipline)
+5. Completeness (Cycle 1 dock was v0.2 dependency; F-10 addresses)
+
+Re-score under policy-lock interpretation.

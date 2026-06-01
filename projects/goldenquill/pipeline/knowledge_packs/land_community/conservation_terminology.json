@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "1.0",
+  "description": "Land + community development grant-domain terminology. Covers NRCS conservation programs (EQIP/CSP/CRP/ACEP), USDA Rural Development, HUD CDBG, and pollinator/wildlife/water-source frameworks. Drawn from NRCS NHCP, USDA RD, HUD CPD, and EPA Office of Water guidance.",
+  "domains": [
+    {
+      "id": "nrcs-conservation",
+      "name": "NRCS conservation programs",
+      "description": "EQIP, CSP, CRP, ACEP, RCPP, CIG, WLFW — the federal conservation funding stack."
+    },
+    {
+      "id": "rural-community-dev",
+      "name": "Rural + community development",
+      "description": "USDA Rural Development (RBDG/REAP/CFP), HUD CDBG, EDA — community-scale infrastructure + economic development."
+    },
+    {
+      "id": "habitat-water-equity",
+      "name": "Habitat, water, equity framings",
+      "description": "Pollinator + monarch corridor, source-water protection, Justice40, Tribal consultation, SDA / underserved producer framing."
+    }
+  ],
+  "facts": [
+    {
+      "id": "eqip-vs-csp",
+      "domainId": "nrcs-conservation",
+      "statement": "EQIP (Environmental Quality Incentives Program) funds NEW conservation practices on working lands — cost-share for installing cover crops, no-till, fencing, hoop houses, irrigation efficiency. CSP (Conservation Stewardship Program) is a 5-year stewardship contract that pays producers ALREADY meeting baseline conservation standards to enhance them further. Producers can layer EQIP for new practices + CSP for existing-stewardship payment. Both have SDA / BFR / Veteran ranking-question priority.",
+      "tags": ["EQIP", "CSP", "NRCS", "working-lands", "cost-share"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "crp-conservation-reserve",
+      "domainId": "nrcs-conservation",
+      "statement": "Conservation Reserve Program (CRP) is FSA-administered (not NRCS) — pays producers to RETIRE environmentally sensitive cropland for 10-15 years under specific cover (grass, trees, pollinator habitat). General CRP is competitive bid; Continuous CRP enrolls automatically for high-priority practices (e.g., riparian buffers, filter strips, pollinator habitat CP-42). Conservation Reserve Enhancement Program (CREP) overlays state-led incentives. CRP rental rates regionally indexed.",
+      "tags": ["CRP", "FSA", "land-retirement", "CREP", "CP-42", "riparian"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "acep-easements",
+      "domainId": "nrcs-conservation",
+      "statement": "Agricultural Conservation Easement Program (ACEP) has two components: ACEP-ALE (Agricultural Land Easements) protects farmland from development via permanent easement, partnered with land trusts or state ag departments holding the easement; ACEP-WRE (Wetland Reserve Easements) restores and protects wetlands via permanent or 30-year easement. Federal share up to 50% of fair market easement value; remaining is state/local/private match. Strong proposals identify the eligible-entity easement holder by name + the matching source breakdown.",
+      "tags": ["ACEP", "ALE", "WRE", "easement", "land-trust"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "rcpp-partnerships",
+      "domainId": "nrcs-conservation",
+      "statement": "Regional Conservation Partnership Program (RCPP) braids EQIP + CSP + ACEP into multi-partner regional projects. Lead-partner-led; non-federal partners commit match (cash + in-kind) and program design. Two funding pools: Classic (states + multi-state, project-based) and Alternative Funding Arrangements (AFA, more flexible, partner-led delivery). Projects must address a Critical Conservation Area (CCA) priority OR a state-level resource concern. RCPP is reviewer-favorable for innovative approaches that wouldn't fit a standard EQIP cost-list.",
+      "tags": ["RCPP", "AFA", "CCA", "regional", "multi-partner"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "cig-innovation-grant",
+      "domainId": "nrcs-conservation",
+      "statement": "Conservation Innovation Grants (CIG) fund innovation in conservation technology + approach — competitive, with a national pool and state pools. National CIG award range typically $250K-$2M; state CIGs smaller. Funded approaches must be NEW (not a typical EQIP practice). Recent priorities: pay-for-performance, soil-health metric quantification, climate-smart practices, working-lands carbon. Strong CIG proposals include peer-reviewed evaluation design + clear pathway to scale (e.g., 'will be added to CPS list', 'will inform RCPP design').",
+      "tags": ["CIG", "innovation", "pay-for-performance", "soil-health-metric"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "rural-development-rbdg-reap",
+      "domainId": "rural-community-dev",
+      "statement": "USDA Rural Development funds rural-area economic + community projects: RBDG (Rural Business Development Grant) — non-profits + public bodies serving small/emerging private businesses; REAP (Rural Energy for America Program) — direct grants + guaranteed loans for renewable energy + energy efficiency on agricultural producer / small rural business; CFP (Community Facilities Program) — essential community infrastructure (health, public-safety, education facilities). Service-area definition is critical — verify 'rural' status via USDA RD eligibility map (population < 50K cutoffs vary by program).",
+      "tags": ["RBDG", "REAP", "CFP", "Rural-Development", "rural-eligibility"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "cdbg-hud",
+      "domainId": "rural-community-dev",
+      "statement": "Community Development Block Grant (CDBG) is HUD-administered, formula-distributed to entitlement communities (cities >50K, urban counties >200K) and to states for non-entitlement areas. CDBG-eligible activities must meet a national objective: (1) benefit Low/Moderate-Income (LMI) persons, (2) prevent slum/blight, (3) urgent need. ≥70% of CDBG over consolidated-plan period must benefit LMI. Eligible activities range from housing rehab to public facilities to economic development. Strong proposals cite the CPD income-limits table for the specific MSA + tract.",
+      "tags": ["CDBG", "HUD", "LMI", "national-objective", "MSA"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "eda-econdev",
+      "domainId": "rural-community-dev",
+      "statement": "Economic Development Administration (EDA, in Commerce) funds distressed-region recovery + competitiveness via Public Works ($/infrastructure), Economic Adjustment Assistance ($/diversification post-disruption), and Build to Scale ($/innovation/entrepreneurship). EDA applies an Economic Distress Threshold — eligibility tied to unemployment rate + per-capita-income vs national average. Proposals must show outcome metrics: jobs created/retained, private investment leveraged, businesses created. EDA publishes return-on-investment expectations per program.",
+      "tags": ["EDA", "Commerce", "Public-Works", "Build-to-Scale", "distress-threshold"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "pollinator-habitat",
+      "domainId": "habitat-water-equity",
+      "statement": "Pollinator habitat is a high-priority conservation outcome across NRCS (EQIP CP-327, CSP enhancements), FSA (CRP CP-42 Pollinator Habitat), and FWS (Partners for Fish and Wildlife). Monarch butterfly corridor framing — milkweed restoration in the central flyway — is reviewer-favored and well-funded by USFWS Monarch Conservation Strategy. Strong proposals: cite specific seed mix per region (NRCS PMS standard), acres-target, neonic-free framing if applicable, post-establishment monitoring plan.",
+      "tags": ["pollinator", "monarch", "CP-42", "CP-327", "milkweed", "PMS"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "source-water-protection",
+      "domainId": "habitat-water-equity",
+      "statement": "Source water protection braids EPA + NRCS + state lead-agency funding. EPA Source Water Protection (SWP) Program funds delineation + protection plan development; NRCS EQIP funds on-farm BMPs (cover crops, nutrient mgmt, riparian buffers) within source-water-areas at higher cost-share rates; state lead agencies (e.g., PA DEP) administer state SWP. RCPP projects targeting source-water areas score highly. Proposals should cite the specific drinking-water-source area (DWSA), the affected public water system, and the BMP-to-pollutant-load reduction logic.",
+      "tags": ["source-water", "EPA-SWP", "DWSA", "EQIP-SWP-cost-share", "BMP"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "tribal-consultation",
+      "domainId": "habitat-water-equity",
+      "statement": "Federally-recognized Tribes have government-to-government consultation rights on federal projects affecting tribal interests (Executive Order 13175, NHPA Section 106 for cultural resources, NEPA tribal-consultation provisions). USDA NRCS, Rural Development, and FWS have specific tribal consultation procedures. Tribal proposals (or proposals impacting tribal lands / resources) must document consultation: meeting dates, attendees, outcomes, accommodation of tribal concerns. 'Did not consult' is a fatal review finding.",
+      "tags": ["tribal-consultation", "EO-13175", "NHPA-106", "NEPA", "government-to-government"],
+      "confidence": "high",
+      "scope": "federal"
+    },
+    {
+      "id": "sda-limited-resource",
+      "domainId": "habitat-water-equity",
+      "statement": "USDA defines Socially Disadvantaged Applicant (SDA) as a member of a group whose members have been subjected to racial, ethnic, or gender prejudice — explicitly: African American, American Indian/Alaska Native, Asian American, Hispanic, Native Hawaiian / Pacific Islander, women. Limited Resource Producer = farm gross sales ≤ $215,925 (FY26 indexed) AND household income ≤ NPL × 250%. Beginning Farmer/Rancher = ≤10 years operating. Many programs (EQIP, CSP, BFRDP, OASDVFR) provide priority points or set-asides for these populations — cite which apply explicitly.",
+      "tags": ["SDA", "Limited-Resource", "BFR", "USDA", "priority-populations"],
+      "confidence": "high",
+      "scope": "federal"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel-eqip-csp-stack",
+      "fromFactId": "eqip-vs-csp",
+      "toFactId": "rcpp-partnerships",
+      "relationType": "composes",
+      "description": "RCPP allows partners to braid EQIP + CSP + ACEP together at regional scale — the three are designed to compose."
+    },
+    {
+      "id": "rel-cig-eqip-pipeline",
+      "fromFactId": "cig-innovation-grant",
+      "toFactId": "eqip-vs-csp",
+      "relationType": "feeds",
+      "description": "CIG-proven approaches feed back into EQIP standard practice list — the CIG-to-CPS pipeline is the primary scale pathway."
+    },
+    {
+      "id": "rel-source-water-eqip",
+      "fromFactId": "source-water-protection",
+      "toFactId": "eqip-vs-csp",
+      "relationType": "modifies",
+      "description": "Source-water-area projects access higher EQIP cost-share rates."
+    },
+    {
+      "id": "rel-tribal-consult-rcpp",
+      "fromFactId": "tribal-consultation",
+      "toFactId": "rcpp-partnerships",
+      "relationType": "constrains",
+      "description": "RCPP projects on or affecting tribal lands require documented tribal consultation as eligibility criterion."
+    },
+    {
+      "id": "rel-sda-priority",
+      "fromFactId": "sda-limited-resource",
+      "toFactId": "eqip-vs-csp",
+      "relationType": "modifies",
+      "description": "SDA / BFR / Veteran status raises EQIP + CSP ranking-question priority points."
+    }
+  ]
+}

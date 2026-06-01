@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Audit Trail / Amendment Ledger</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#454747",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary-container": "#636565",
+                        "tertiary-container": "#dae2fd",
+                        "surface-container": "#152031",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-secondary-container": "#a9bad3",
+                        "on-error": "#690005",
+                        "surface-variant": "#2a3548",
+                        "inverse-on-surface": "#263143",
+                        "on-primary": "#2f3131",
+                        "outline": "#8e9192",
+                        "on-tertiary-container": "#5c647a",
+                        "surface-container-highest": "#2a3548",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "inverse-surface": "#d8e3fb",
+                        "surface-bright": "#2f3a4c",
+                        "tertiary": "#ffffff",
+                        "surface-dim": "#081425",
+                        "on-tertiary": "#283044",
+                        "error-container": "#93000a",
+                        "secondary": "#b7c8e1",
+                        "secondary-container": "#3a4a5f",
+                        "on-primary-fixed": "#1a1c1c",
+                        "background": "#081425",
+                        "inverse-primary": "#5d5f5f",
+                        "on-surface": "#d8e3fb",
+                        "primary": "#ffffff",
+                        "tertiary-fixed": "#dae2fd",
+                        "primary-container": "#e2e2e2",
+                        "error": "#ffb4ab",
+                        "on-secondary": "#213145",
+                        "on-background": "#d8e3fb",
+                        "surface-container-high": "#1f2a3c",
+                        "surface": "#081425",
+                        "surface-tint": "#c6c6c7",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary-fixed": "#131b2e",
+                        "surface-container-low": "#111c2d",
+                        "surface-container-lowest": "#040e1f",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "outline-variant": "#444748",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-surface-variant": "#c4c7c8",
+                        "secondary-fixed": "#d3e4fe",
+                        "primary-fixed": "#e2e2e2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "16px",
+                        "sidebar-width": "240px",
+                        "unit": "4px",
+                        "panel-gap": "8px",
+                        "gutter": "1px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Modern Brutalism / Technical Industrialism specific overrides */
+        * { border-radius: 0 !important; } /* Force zero radius globally */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #081425; }
+        ::-webkit-scrollbar-thumb { background: #3a4a5f; }
+        ::-webkit-scrollbar-thumb:hover { background: #5c647a; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md h-screen overflow-hidden flex flex-col antialiased">
+<!-- TopNavBar -->
+<header class="bg-surface-container-low dark:bg-surface-container-low text-primary dark:text-primary border-b border-outline-variant flex justify-between items-center w-full px-container-padding docked full-width top-0 h-14 shrink-0 z-20 relative">
+<div class="flex items-center space-x-6">
+<span class="font-label-caps text-label-caps tracking-widest text-on-surface dark:text-on-surface">IDEA FOUNDRY NODE</span>
+</div>
+<nav class="hidden md:flex space-x-1 items-center h-full">
+<a class="h-full flex items-center px-4 hover:bg-surface-variant dark:hover:bg-surface-variant text-on-surface-variant transition-none" href="#">
+<span class="font-label-caps text-label-caps">HYBRID</span>
+</a>
+<a class="h-full flex items-center px-4 hover:bg-surface-variant dark:hover:bg-surface-variant text-on-surface-variant transition-none" href="#">
+<span class="font-label-caps text-label-caps">VERIFIED</span>
+</a>
+<a class="h-full flex items-center px-4 hover:bg-surface-variant dark:hover:bg-surface-variant text-on-surface-variant transition-none" href="#">
+<span class="font-label-caps text-label-caps">4a3f...b2c8</span>
+</a>
+</nav>
+<div class="flex items-center space-x-4">
+<button aria-label="Sync" class="p-2 hover:bg-surface-variant text-on-surface-variant transition-none">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden h-[calc(100vh-56px-32px)]">
+<!-- SideNavBar -->
+<aside class="bg-surface dark:bg-surface text-primary dark:text-primary border-r border-outline-variant docked left-0 h-full w-sidebar-width flex flex-col h-full py-4 shrink-0 hidden md:flex overflow-y-auto">
+<div class="px-4 mb-6">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">GOLDEN QUILL</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">SOVEREIGN WORKSTATION</p>
+</div>
+<nav class="flex-1 flex flex-col space-y-1 px-2">
+<!-- Navigation Items -->
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">search</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">fact_check</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">account_tree</span>
+<span class="font-label-caps text-label-caps">Module Mapper</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">history_edu</span>
+<span class="font-label-caps text-label-caps">Sign-Off</span>
+</a>
+<!-- Active Item -->
+<a class="flex items-center space-x-3 px-3 py-2 bg-surface-container-high text-primary border-r-2 border-primary transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">credit_card</span>
+<span class="font-label-caps text-label-caps">Cards</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDs</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 bg-background overflow-hidden relative">
+<!-- Content Grid Container -->
+<div class="flex-1 flex overflow-hidden p-panel-gap space-x-panel-gap">
+<!-- Central Timeline Ledger (Bento Item 1) -->
+<section class="flex-1 bg-surface-container flex flex-col border border-outline-variant min-w-0 overflow-hidden relative">
+<!-- Header -->
+<header class="p-4 border-b border-outline-variant bg-surface-container-high flex justify-between items-center shrink-0">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Amendment Ledger</h2>
+<p class="font-data-mono text-data-mono text-secondary mt-1">cycle_2026-05-20T14:32Z</p>
+</div>
+<div class="flex space-x-2">
+<span class="flex items-center space-x-1 px-2 py-1 bg-on-secondary-container/20 border border-on-secondary-container">
+<span class="w-2 h-2 bg-[#22C55E]"></span>
+<span class="font-label-caps text-label-caps text-primary">IMMUTABLE</span>
+</span>
+</div>
+</header>
+<!-- Ledger Table Container -->
+<div class="flex-1 overflow-auto">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead class="sticky top-0 bg-surface-container-highest z-10 shadow-[0_1px_0_#334155]">
+<tr>
+<th class="px-4 py-3 font-label-caps text-label-caps text-[#64748B] font-normal w-12 text-center">SEQ</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-[#64748B] font-normal w-40">TIMESTAMP (UTC)</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-[#64748B] font-normal">EVENT SIGNATURE</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-[#64748B] font-normal w-48">ACTOR</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-[#64748B] font-normal w-48">PRIMARY BENEFICIARY</th>
+</tr>
+</thead>
+<tbody class="font-data-mono text-data-mono divide-y divide-[#334155]">
+<!-- Event 1 -->
+<tr class="hover:bg-surface-variant transition-none cursor-pointer group">
+<td class="px-4 py-3 text-center text-on-surface-variant font-bold" style="color: #d8e3fb; opacity: 1;">04</td>
+<td class="px-4 py-3 text-on-surface">2026-05-20 14:32:01</td>
+<td class="px-4 py-3">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-[16px] text-primary">AUTHORIZATION: Ed25519 (Packet Authorized)</span>
+<span class="text-primary group-hover:underline decoration-outline">AUTHORIZATION: Ed25519 (Packet Authorized)</span>
+</div>
+<div class="text-[10px] text-on-surface-variant mt-1 tracking-wider opacity-70 truncate max-w-xs">hash: 9a4b...2f1c</div>
+</td>
+<td class="px-4 py-3 text-secondary">Josh Inklovich</td>
+<td class="px-4 py-3">
+<span class="px-2 py-1 bg-surface-dim border border-outline-variant text-[11px]">FIT Farms LLC</span>
+</td>
+</tr>
+<!-- Event 2 (Active/Selected) -->
+<tr class="bg-[#1E293B] border-l-2 border-l-primary cursor-pointer">
+<td class="px-4 py-3 text-center text-primary font-bold" style="color: #d8e3fb; opacity: 1;">03</td>
+<td class="px-4 py-3 text-on-surface">2026-05-20 12:15:44</td>
+<td class="px-4 py-3">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-[16px] text-[#F59E0B]">security</span>
+<span class="text-primary font-bold">AUTHORIZATION: Ed25519 (Red Team Mitigation Applied)</span>
+</div>
+<div class="text-[10px] text-on-surface-variant mt-1 tracking-wider opacity-70 truncate max-w-xs">hash: e3b2...8d9a</div>
+</td>
+<td class="px-4 py-3 text-secondary">System Automaton</td>
+<td class="px-4 py-3">
+<span class="px-2 py-1 bg-surface-dim border border-outline-variant text-[11px]">FIT Farms LLC</span>
+</td>
+</tr>
+<!-- Event 3 -->
+<tr class="hover:bg-surface-variant transition-none cursor-pointer group">
+<td class="px-4 py-3 text-center text-on-surface-variant font-bold" style="color: #d8e3fb; opacity: 1;">02</td>
+<td class="px-4 py-3 text-on-surface">2026-05-19 09:45:12</td>
+<td class="px-4 py-3">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-[16px] text-[#EF4444]">gavel</span>
+<span class="text-primary group-hover:underline decoration-outline">AUTHORIZATION: Ed25519 (Executive Override Signed)</span>
+</div>
+<div class="text-[10px] text-on-surface-variant mt-1 tracking-wider opacity-70 truncate max-w-xs">hash: 7c1f...4e6b</div>
+</td>
+<td class="px-4 py-3 text-secondary">Director V. Vance</td>
+<td class="px-4 py-3">
+<span class="px-2 py-1 bg-surface-dim border border-outline-variant text-[11px]">FIT Farms LLC</span>
+</td>
+</tr>
+<!-- Event 4 -->
+<tr class="hover:bg-surface-variant transition-none cursor-pointer group">
+<td class="px-4 py-3 text-center text-on-surface-variant font-bold" style="color: #d8e3fb; opacity: 1;">01</td>
+<td class="px-4 py-3 text-on-surface">2026-05-18 16:20:00</td>
+<td class="px-4 py-3">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">input</span>
+<span class="text-primary group-hover:underline decoration-outline">AUTHORIZATION: Ed25519 (Evidence Intake Conflict Resolved)</span>
+</div>
+<div class="text-[10px] text-on-surface-variant mt-1 tracking-wider opacity-70 truncate max-w-xs">hash: 2d8e...1a5c</div>
+</td>
+<td class="px-4 py-3 text-secondary">Josh Inklovich</td>
+<td class="px-4 py-3">
+<span class="px-2 py-1 bg-surface-dim border border-outline-variant text-[11px]">FIT Farms LLC</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Bottom Terminal / Log -->
+<div class="h-32 border-t border-outline-variant bg-[#000000] p-3 overflow-y-auto shrink-0 flex flex-col font-data-mono text-data-mono text-[11px] leading-relaxed">
+<div class="text-secondary opacity-50 mb-1">// Ledger Synchronization Terminal</div>
+<div class="text-on-surface-variant">&gt; FETCH cycle_2026-05-20T14:32Z --full</div>
+<div class="text-secondary">&gt; Connecting to primary consensus node... OK</div>
+<div class="text-secondary">&gt; Verifying signature chain (4 blocks)... <span class="text-[#22C55E]">VALID</span></div>
+<div class="text-secondary">&gt; Loading artifact payloads... DONE</div>
+<div class="flex items-center mt-1">
+<span class="text-primary mr-2">SYS_OP@GQ:~$</span>
+<span class="w-2 h-4 bg-primary animate-pulse"></span>
+</div>
+</div>
+</section>
+<!-- Right Inspector Panel (Bento Item 2) -->
+<aside class="w-[340px] bg-surface-container flex flex-col border border-outline-variant shrink-0 relative hidden lg:flex">
+<!-- Overlay Header -->
+<header class="p-4 border-b border-outline-variant bg-surface-container-high shrink-0">
+<h3 class="font-label-caps text-label-caps text-[#64748B]">INSPECTOR</h3>
+<div class="font-headline-md text-headline-md text-primary mt-1">Signature Details</div>
+</header>
+<div class="flex-1 overflow-y-auto p-4 space-y-6">
+<!-- Status Banner -->
+<div class="border border-[#334155] bg-surface p-3 flex items-start space-x-3">
+<span class="material-symbols-outlined text-[#F59E0B] mt-0.5">verified_user</span>
+<div>
+<div class="font-label-caps text-label-caps text-primary">VERIFICATION STATUS</div>
+<div class="font-data-mono text-data-mono text-[#F59E0B] mt-1 text-sm">MITIGATION_ACTIVE</div>
+</div>
+</div>
+<!-- Data Grid -->
+<div class="space-y-4">
+<div>
+<label class="font-label-caps text-label-caps text-[#64748B] block mb-1">EVENT TYPE</label>
+<div class="font-data-mono text-data-mono text-primary p-2 border border-[#334155] bg-surface-dim">Red Team Mitigation Applied</div>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-[#64748B] block mb-1">ED25519 HASH (FULL)</label>
+<div class="font-data-mono text-[11px] text-secondary p-2 border border-[#334155] bg-[#000000] break-all">
+                                    e3b2c9a18d9a4f6e7b2c9a18d9a4f6e7b2c9a18d9a4f6e7b2c9a18d9a4f6e7
+                                </div>
+</div>
+<div class="grid grid-cols-2 gap-4 border-t border-[#334155] pt-4">
+<div>
+<label class="font-label-caps text-label-caps text-[#64748B] block mb-1">ACTOR ID</label>
+<div class="font-data-mono text-data-mono text-on-surface">SYS-AUTO-992</div>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-[#64748B] block mb-1">CLEARANCE</label>
+<div class="font-data-mono text-data-mono text-on-surface">LEVEL 4</div>
+</div>
+</div>
+<div class="border-t border-[#334155] pt-4"><label class="font-label-caps text-label-caps text-[#64748B] block mb-2">BENEFICIARY ATTESTATION</label><div class="flex items-center space-x-2"><span class="flex items-center space-x-1 px-2 py-0.5 bg-[#22C55E]/20 border border-[#22C55E]"><span class="w-1.5 h-1.5 bg-[#22C55E]"></span><span class="font-label-caps text-[10px] text-[#22C55E]">VERIFIED</span></span><span class="font-data-mono text-[11px] text-secondary">CRYPTOGRAPHIC_PROOF_STAMP</span></div></div><div class="border-t border-[#334155] pt-4">
+<label class="font-label-caps text-label-caps text-[#64748B] block mb-2">PRIMARY BENEFICIARY</label>
+<div class="flex items-center justify-between p-2 border border-[#334155] bg-surface-dim">
+<span class="font-data-mono text-data-mono text-primary">FIT Farms LLC</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">business</span>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="pt-6 border-t border-[#334155] space-y-3">
+<button class="w-full bg-primary text-[#000000] font-label-caps text-label-caps py-3 px-4 flex items-center justify-center space-x-2 hover:bg-primary-container active:bg-surface-tint transition-none">
+<span class="material-symbols-outlined text-[16px]">download</span>
+<span>EXPORT ARTIFACT</span>
+</button>
+<button class="w-full bg-transparent border border-[#334155] text-primary font-label-caps text-label-caps py-3 px-4 flex items-center justify-center space-x-2 hover:border-outline transition-none">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>VIEW RAW PAYLOAD</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest text-on-surface-variant dark:text-on-surface-variant border-t border-outline-variant fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-4 docked full-width bottom-0 h-8 shrink-0">
+<span class="font-data-mono text-body-sm">LOCAL NODE STATUS: OPERATIONAL</span>
+<div class="flex space-x-6">
+<span class="font-data-mono text-body-sm hover:text-primary transition-none cursor-default">FINGERPRINT: 88:92:AF</span>
+<span class="font-data-mono text-body-sm hover:text-primary transition-none cursor-default">NETWORK: ENCRYPTED</span>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Judge Scoring - Golden Quill</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#ffffff",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-dim": "#081425",
+                        "surface-tint": "#c6c6c7",
+                        "tertiary-container": "#dae2fd",
+                        "on-primary-container": "#636565",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#1f2a3c",
+                        "primary-container": "#e2e2e2",
+                        "on-background": "#d8e3fb",
+                        "surface-container": "#152031",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary-fixed-variant": "#454747",
+                        "secondary": "#b7c8e1",
+                        "on-tertiary-container": "#5c647a",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-tertiary-fixed": "#131b2e",
+                        "surface-bright": "#2f3a4c",
+                        "background": "#081425",
+                        "surface-container-highest": "#2a3548",
+                        "surface-variant": "#2a3548",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "secondary-container": "#3a4a5f",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-container-low": "#111c2d",
+                        "on-surface": "#d8e3fb",
+                        "surface": "#081425",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-secondary-container": "#a9bad3",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-secondary": "#213145",
+                        "primary-fixed": "#e2e2e2",
+                        "inverse-on-surface": "#263143",
+                        "outline-variant": "#444748",
+                        "on-surface-variant": "#c4c7c8",
+                        "outline": "#8e9192",
+                        "surface-container-lowest": "#040e1f",
+                        "tertiary": "#ffffff",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#d8e3fb",
+                        "on-error": "#690005",
+                        "inverse-primary": "#5d5f5f",
+                        "on-primary-fixed": "#1a1c1c",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary": "#283044",
+                        "on-primary": "#2f3131",
+                        // Earth-tone overrides requested by prompt but adapting to system tokens
+                        "sage": "#8b9c8b",
+                        "rust": "#c55a40",
+                        "bone": "#e3dac9",
+                        "paper": "#f5f5dc",
+                        "oak": "#806b52",
+                        "charcoal": "#333333"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "container-padding": "16px",
+                        "gutter": "1px",
+                        "panel-gap": "8px",
+                        "sidebar-width": "220px" // Adjusted to match JSON
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "data-mono": ["JetBrains Mono"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Modern Brutalism / Technical Industrialism resets */
+        * { border-radius: 0 !important; }
+        body { background-color: #020617; color: #d8e3fb; font-family: 'Hanken Grotesk', sans-serif; overflow: hidden; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border: 1px solid #020617; }
+        .border-slate { border-color: #334155; }
+        .bg-level-0 { background-color: #020617; }
+        .bg-level-1 { background-color: #0F172A; }
+        .bg-level-2 { background-color: #1E293B; }
+        .text-sage { color: #8b9c8b; }
+        .text-rust { color: #c55a40; }
+        .border-rust { border-color: #c55a40; }
+        .bg-rust-dim { background-color: rgba(197, 90, 64, 0.1); }
+        .font-serif-content { font-family: 'Georgia', serif; } /* For draft excerpts and rationale */
+    </style>
+</head>
+<body class="flex flex-col h-screen antialiased bg-level-0">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-container-padding w-full h-[56px] bg-surface-container-highest dark:bg-surface-container-highest border-b border-slate shrink-0 z-20">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter">GOLDEN QUILL</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-on-surface-variant font-data-mono text-data-mono">
+<span class="material-symbols-outlined text-[14px]">sync</span>
+<span class="">SYNCED</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-data-mono text-data-mono">
+<span class="material-symbols-outlined text-[14px]">key</span>
+<span class="">0x8f2...2A1B</span>
+</div>
+<div class="flex items-center gap-2 text-primary font-data-mono text-data-mono border border-slate px-2 py-1">
+<span class="material-symbols-outlined text-[14px] text-sage">verified_user</span>
+<span class="">VERIFIED (cycle_2026-05-20T14:32Z)</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">security</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">gavel</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="w-[220px] h-full border-r border-slate bg-surface-container-low dark:bg-surface-container-low flex flex-col shrink-0 z-10">
+<div class="p-4 border-b border-slate mb-2">
+<div class="font-headline-md text-headline-md text-primary mb-1">NODE IDENTITY</div>
+<div class="font-data-mono text-data-mono text-sage">POSTURE: SECURE</div>
+</div>
+<div class="flex-1 overflow-y-auto px-2 space-y-1">
+<!-- Nav Items based on JSON -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>Home
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>Scout
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>Intake
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>Eligibility
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">map</span>Module Mapper
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>Drafting
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>Budget
+                </a>
+<!-- Active Item -->
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">security</span>Red Team</a><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]">signature</span>Sign-Off</a><a class="flex items-center gap-3 px-3 py-2 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>Judge
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>Audit
+                </a>
+</div>
+</nav>
+<!-- Main Surface Area -->
+<main class="flex-1 flex overflow-hidden bg-level-0">
+<!-- Center Canvas: Judge Scoring -->
+<div class="flex-1 flex flex-col h-full overflow-y-auto border-r border-slate"><div class="bg-rust-dim border-b border-rust px-6 py-2 flex items-center justify-between font-label-caps text-label-caps text-rust animate-pulse"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]">sync_problem</span>STALE DATA DETECTED: Narrative amendments detected 4m ago</div><button class="underline hover:text-primary transition-colors text-[10px]">RUN REAL-TIME VALIDATION</button></div>
+<div class="p-6 border-b border-slate bg-level-1">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary mb-2">Judge - Rubric Scoring Trace</h1>
+<div class="inline-flex items-center gap-2 border border-[#F59E0B] text-[#F59E0B] px-2 py-1 font-data-mono text-data-mono bg-[#1E293B]">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                                STALE - Re-score required (Project Narrative amended)
+                            </div>
+</div>
+<div class="text-right flex flex-col items-end">
+<div class="font-data-mono text-on-surface-variant text-[10px] mb-1">PREDICTED SCORE</div><div class="flex items-center gap-1.5 text-sage animate-pulse font-data-mono text-[9px] mb-1"><span class="material-symbols-outlined text-[10px] FILL-1">radio_button_checked</span>LIVE EVALUATION</div>
+<div class="text-[48px] leading-none font-bold text-primary font-data-mono">
+                                82<span class="text-on-surface-variant text-[24px] font-data-mono">/100</span>
+</div>
+</div>
+</div>
+</div><div class="px-6 py-4 border-b border-slate bg-surface-container-low flex gap-6">
+<div class="flex-1 p-4 bg-[#081425] border border-[#806b52] relative">
+<div class="absolute top-0 right-0 bg-[#806b52] text-white px-2 py-0.5 font-label-caps text-[9px]">SCORE INTEGRITY</div>
+<div class="flex items-end justify-between mb-4">
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant block">MAXIMUM POTENTIAL SCORE</span>
+<span class="font-data-mono text-[32px] text-[#c55a40] font-bold">82% <span class="text-[14px] font-normal text-on-surface-variant tracking-normal">CEILING</span></span>
+</div>
+<div class="text-right">
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">SCORE-SYNC INTEGRITY</span>
+<div class="flex items-center gap-2 text-sage font-data-mono text-[11px]">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                    HIGH CONFIDENCE
+                </div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4"><div class="border-t border-[#806b52]/30 pt-2"><span class="font-label-caps text-[10px] text-on-surface-variant uppercase">Immutable Risk Profile</span><div class="space-y-1.5 mt-1"><div class="flex justify-between items-center"><span class="font-body-sm text-[11px] text-on-surface">County Affluence / Urbanity</span><span class="font-data-mono text-[11px] text-[#c55a40]">-12.00 pts</span></div><div class="flex justify-between items-center"><span class="font-body-sm text-[11px] text-on-surface">Entity Age / Maturity</span><span class="font-data-mono text-[11px] text-[#c55a40]">-2.00 pts</span></div><div class="flex justify-between items-center"><span class="font-body-sm text-[11px] text-on-surface">Prior Funding History</span><span class="font-data-mono text-[11px] text-[#c55a40]">-3.00 pts</span></div></div></div><div class="border-t border-[#806b52]/30 pt-2"><span class="font-label-caps text-[10px] text-on-surface-variant uppercase">Immutable Cycle Constants</span><div class="space-y-1.5 mt-1"><div class="flex justify-between items-center"><span class="font-body-sm text-[11px] text-on-surface">Organizational Type Match</span><span class="font-data-mono text-[11px] text-[#c55a40]">-1.00 pts</span></div><div class="flex justify-between items-center"><span class="font-body-sm text-[11px] text-on-surface">Funder Cycle Window</span><span class="font-data-mono text-[11px] text-on-surface">0.00 pts</span></div><div class="flex justify-between items-center border-t border-slate/10 mt-1 pt-1"><span class="font-label-caps text-[10px] text-sage">Addressable Potential</span><span class="font-data-mono text-[11px] text-sage">+82.00 pts</span></div></div></div></div>
+</div>
+</div>
+<div class="p-6 space-y-4">
+<!-- Rubric Sections -->
+<div class="border border-slate bg-level-1 p-4 flex items-center justify-between hover:bg-level-2 cursor-pointer group relative">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-1">WEIGHT: 40%<span class="ml-2 text-[9px] px-1 border border-rust text-rust">STALE</span></span>
+<span class="font-body-md text-body-md text-primary">1. Technical Methodology</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span class="font-data-mono text-data-mono text-on-surface">Acceptable</span>
+</div>
+<span class="font-data-mono text-data-mono text-primary w-12 text-right">34/40</span>
+<button class="opacity-0 group-hover:opacity-100 absolute right-4 px-2 py-1 bg-surface-bright border border-slate text-[9px] font-label-caps text-on-surface hover:bg-primary hover:text-on-primary transition-all">SIMULATE RE-SCORE</button></div>
+</div>
+<div class="border border-slate bg-level-1 p-4 flex items-center justify-between hover:bg-level-2 cursor-pointer group relative">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-1">WEIGHT: 25%<span class="ml-2 text-[9px] px-1 border border-rust text-rust">STALE</span></span>
+<span class="font-body-md text-body-md text-primary">2. Organizational Capacity</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span class="font-data-mono text-data-mono text-on-surface">Strongest</span>
+</div>
+<span class="font-data-mono text-data-mono text-primary w-12 text-right">22/25</span>
+<button class="opacity-0 group-hover:opacity-100 absolute right-4 px-2 py-1 bg-surface-bright border border-slate text-[9px] font-label-caps text-on-surface hover:bg-primary hover:text-on-primary transition-all">SIMULATE RE-SCORE</button></div>
+</div>
+<!-- Selected Evidence Ladder Drilldown -->
+<div class="border bg-level-2 flex flex-col border-[#806b52]">
+<div class="p-4 border-b border-slate flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-primary mb-1">WEIGHT: 20%<span class="ml-2 text-[9px] px-1 border border-rust text-rust">STALE</span></span>
+<span class="font-body-md text-body-md text-primary font-bold">3. Market Demand &amp; Impact</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-[#EF4444]"></div>
+<span class="font-data-mono text-data-mono text-rust">Weak</span>
+</div>
+<span class="font-data-mono text-data-mono text-primary w-12 text-right">12/20</span>
+</div>
+</div>
+<div class="p-4 bg-level-1">
+<div class="mb-4"><span class="font-label-caps text-label-caps text-on-surface-variant block mb-2">ADDRESSABLE DRAFTING FACTORS <span class="ml-2 text-[10px] normal-case opacity-70">(Drafting holds 18 pts of missing potential; all currently addressable)</span></span>
+<div class="border border-[#806b52] bg-[#081425] p-4">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-[#806b52] text-[16px]">analytics</span>
+<span class="font-data-mono text-data-mono text-[#806b52]">RECOMMENDED CORRECTIVE ACTIONS</span>
+</div>
+<ul class="space-y-3">
+<li class="flex gap-3">
+<span class="font-data-mono text-[11px] text-[#c55a40]">R-202.A</span>
+<div class="flex-1">
+<p class="font-serif-content text-sm text-primary">Attach signed LOIs from Local Context Vault to support claim of 'stable buyer relationships'.</p>
+<span class="font-label-caps text-[9px] text-sage">POTENTIAL: +4.5 PTS</span>
+</div>
+</li>
+<li class="flex gap-3 border-t border-slate/20 pt-2">
+<span class="font-data-mono text-[11px] text-[#c55a40]">R-202.B</span>
+<div class="flex-1">
+<p class="font-serif-content text-sm text-primary">Remove speculative terminology ["revolutionary"] from Section 3.2 to align with Forensic tone.</p>
+<span class="font-label-caps text-[9px] text-sage">POTENTIAL: +1.5 PTS</span>
+</div>
+</li>
+</ul>
+</div></div>
+</div>
+</div>
+<div class="border border-slate bg-level-1 p-4 flex items-center justify-between hover:bg-level-2 cursor-pointer group relative">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-1">WEIGHT: 15%<span class="ml-2 text-[9px] px-1 border border-rust text-rust">STALE</span></span>
+<span class="font-body-md text-body-md text-primary">4. Budget Reasonableness</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span class="font-data-mono text-data-mono text-on-surface">Strongest</span>
+</div>
+<span class="font-data-mono text-data-mono text-primary w-12 text-right">14/15</span>
+<button class="opacity-0 group-hover:opacity-100 absolute right-4 px-2 py-1 bg-surface-bright border border-slate text-[9px] font-label-caps text-on-surface hover:bg-primary hover:text-on-primary transition-all">SIMULATE RE-SCORE</button></div>
+</div>
+</div>
+</div>
+<!-- Right Inspector -->
+<aside class="w-[320px] h-full flex flex-col bg-level-1 shrink-0">
+<div class="p-4 border-b border-slate bg-surface-container-highest"><h2 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">biotech</span>
+    Forensic Reasoning Log
+</h2></div>
+<div class="flex-1 p-4 overflow-y-auto flex flex-col gap-6">
+<div><div class="font-label-caps text-label-caps text-on-surface-variant mb-2 border-b border-slate pb-1 uppercase">Bridge to 100% Addressable</div><div class="bg-level-0 border border-slate p-3 font-serif-content text-sm text-primary leading-relaxed opacity-90 space-y-4"><p>To capture the remaining <span class="font-data-mono text-sage">18.0 pts</span> of the addressable remainder:</p><ol class="list-decimal pl-4 space-y-2"><li><span class="font-bold">Evidence Bridge (R-202):</span> Replace speculative claims with LOIs (+4.5 pts).</li><li><span class="font-bold">Tone Neutralization:</span> Scrub 'revolutionary' framing to meet Forensic baseline (+1.5 pts).</li><li><span class="font-bold">Technical Audit:</span> Expand Methodology section 4.1 to include ISO mapping (+12.0 pts).</li></ol><div class="pt-2 border-t border-slate/30 text-[11px] italic text-on-surface-variant">Note: 18 pts represents the delta between current draft (64/82) and the Immutable Ceiling.</div></div></div>
+<div class="mt-auto pt-4 border-t border-slate">
+<button class="w-full bg-[#c55a40] text-white font-data-mono text-data-mono py-3 border border-[#c55a40] hover:bg-transparent hover:text-[#c55a40] transition-colors flex items-center justify-center gap-2" style="background-color: #c55a40; border-color: #c55a40;">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+                            RE-SCORE CYCLE
+                        </button>
+</div>
+</div>
+</aside>
+</main>
+</div>
+<!-- Footer -->
+<footer class="flex items-center justify-between px-4 w-full h-[32px] border-t border-slate bg-surface-container-lowest dark:bg-surface-container-lowest shrink-0 z-20">
+<div class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</div>
+<div class="flex items-center gap-4 font-data-mono text-data-mono text-on-surface-variant text-[10px]">
+<span class="">Machine: fit-farms-pgh-001</span>
+<span class="">FID: 0x88f2...1a9c</span>
+<span class="flex items-center gap-1"><div class="w-1.5 h-1.5 bg-[#22C55E]"></div> Status: OPERATIONAL</span>
+</div>
+</footer>
+</body></html>

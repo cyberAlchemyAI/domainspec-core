@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scribe - Drafting</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Source+Serif+4:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#c6c6c7",
+                        "primary-fixed": "#e2e2e2",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "secondary-container": "#3a4a5f",
+                        "on-tertiary-container": "#5c647a",
+                        "on-secondary-container": "#a9bad3",
+                        "surface-variant": "#2a3548",
+                        "surface-container-lowest": "#040e1f",
+                        "on-primary-container": "#636565",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-container-high": "#1f2a3c",
+                        "inverse-primary": "#5d5f5f",
+                        "surface": "#081425",
+                        "primary": "#ffffff",
+                        "on-primary": "#2f3131",
+                        "surface-bright": "#2f3a4c",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-tertiary": "#283044",
+                        "on-primary-fixed": "#1a1c1c",
+                        "inverse-on-surface": "#263143",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-surface-variant": "#c4c7c8",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#2a3548",
+                        "outline": "#8e9192",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-surface": "#d8e3fb",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#dae2fd",
+                        "background": "#081425",
+                        "surface-dim": "#081425",
+                        "on-secondary-fixed": "#0b1c30",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "secondary": "#b7c8e1",
+                        "inverse-surface": "#d8e3fb",
+                        "outline-variant": "#444748",
+                        "on-secondary": "#213145",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-background": "#d8e3fb",
+                        "surface-container": "#152031",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#111c2d",
+                        "tertiary": "#ffffff",
+                        "primary-container": "#e2e2e2",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sidebar-width": "240px",
+                        "panel-gap": "8px",
+                        "gutter": "1px",
+                        "container-padding": "16px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "serif-body": ["Source Serif 4"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "serif-body": ["18px", { "lineHeight": "1.8", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom scrollbar for data density feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617; 
+            border-left: 1px solid #334155;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+        
+        .grid-layout {
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr 320px;
+            grid-template-rows: 56px 1fr 32px;
+            height: 100vh;
+            background-color: #020617; /* Base level 0 */
+            gap: 1px; /* 1px slate borders acting as gaps between panels */
+        }
+
+        .top-app-bar {
+            grid-column: 1 / -1;
+            grid-row: 1;
+        }
+
+        .side-nav-bar {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .main-canvas {
+            grid-column: 2;
+            grid-row: 2;
+            background-color: #0F172A; /* Panel Level 1 */
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .right-inspector {
+            grid-column: 3;
+            grid-row: 2;
+            background-color: #0F172A; /* Panel Level 1 */
+            border-left: 1px solid #334155;
+            overflow-y: auto;
+        }
+
+        .footer-bar {
+            grid-column: 1 / -1;
+            grid-row: 3;
+        }
+
+        /* Gold burnished tone override */
+        .text-gold-burnished { color: #B89745; }
+        .bg-gold-burnished { background-color: rgba(184, 151, 69, 0.1); }
+        .border-gold-burnished { border-color: #B89745; }
+        
+        /* Serif Drafting area */
+        .drafting-area {
+            font-family: 'Source Serif 4', serif;
+            font-size: 18px;
+            line-height: 1.8;
+            color: #e2e2e2;
+        }
+        
+        .conjecture-tag {
+            background-color: #1E293B; /* Level 2 */
+            color: #8e9192;
+            padding: 0 4px;
+            border: 1px solid #334155;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            vertical-align: middle;
+            margin: 0 2px;
+        }
+        
+        .smart-suggestion {
+            border-bottom: 1px dashed #B89745;
+            cursor: pointer;
+        }
+        
+        .smart-suggestion:hover {
+            background-color: rgba(184, 151, 69, 0.1);
+        }
+    </style>
+</head>
+<body class="text-on-surface antialiased overflow-hidden">
+<div class="grid-layout">
+<!-- TopAppBar -->
+<header class="top-app-bar bg-surface-container-low border-b border-outline-variant flex justify-between items-center px-container-padding gap-panel-gap z-20">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary">GOLDEN QUILL</span>
+</div>
+<div class="flex-1 flex justify-center items-center gap-4">
+<!-- AppliedAsIndicator -->
+<div class="flex items-center gap-2 border border-outline-variant px-3 py-1 bg-surface-container">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+<span class="font-data-mono text-data-mono text-secondary">Applied: FIT Farms LLC | Node: fit-farms-pgh-001</span>
+</div>
+<!-- PostureBadge -->
+<div class="flex items-center gap-2 border border-outline-variant px-3 py-1 bg-surface-container">
+<span class="font-label-caps text-label-caps text-on-surface-variant">POSTURE:</span>
+<span class="font-data-mono text-data-mono text-primary">HYBRID</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<!-- AuditPill -->
+<div class="flex items-center gap-2 border border-outline-variant px-2 py-1 bg-[#1E293B]">
+<span class="material-symbols-outlined text-[14px] text-[#22C55E]">check_circle</span>
+<span class="font-data-mono text-data-mono text-on-surface">verified · 14/14</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">lock</span>
+</div>
+<!-- SigningKeyChip -->
+<div class="flex items-center gap-2 border border-outline-variant px-2 py-1 bg-[#1E293B]">
+<span class="material-symbols-outlined text-[14px] text-secondary">vpn_key</span>
+<span class="font-data-mono text-data-mono text-secondary">Ed25519 · 4a3f...b2c8</span>
+</div>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-white">account_circle</span>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="side-nav-bar bg-surface-container flex flex-col h-full border-r border-outline-variant z-10">
+<div class="p-container-padding border-b border-outline-variant mb-2">
+<div class="font-headline-md text-headline-md text-primary mb-1">FIT Farms</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant">FRONTIER POSTURE</div>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="flex flex-col gap-1 px-2">
+<!-- Inactive Tabs -->
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]">home</span>Home</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]">search_insights</span>Scout</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]">input</span>Intake</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]">fact_check</span>Eligibility</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]">account_tree</span>Module Mapper</a></li>
+<!-- Active Tab -->
+<li><a class="flex items-center gap-3 px-3 py-2 bg-surface-container-highest text-primary border-l-2 border-primary font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">edit_note</span>Drafting</a></li>
+<!-- More Inactive Tabs -->
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]">payments</span>Budget</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]">gavel</span>Judge</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]">security</span>Red Team</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]">history_edu</span>Final Packet Authorization</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]">policy</span>Audit</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]">credit_card</span>Cards</a></li>
+<li><a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]">fingerprint</span>FIDs</a></li>
+</ul>
+</div>
+<div class="p-2 border-t border-outline-variant mt-auto">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high border-l-2 border-transparent font-label-caps text-label-caps uppercase" href="#"><span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>Costs</a>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="main-canvas flex flex-col">
+<!-- E-104 Override Banner -->
+<div class="bg-gold-burnished border-b border-gold-burnished px-container-padding py-2 flex items-center gap-3 shrink-0">
+<span class="material-symbols-outlined text-gold-burnished text-[18px]">warning</span>
+<span class="font-data-mono text-data-mono text-gold-burnished tracking-wider">DRAFTING UNDER SIGNED ELIGIBILITY RISK: E-104 OVERRIDE ACTIVE</span>
+</div>
+<!-- Document Header -->
+<div class="px-8 py-6 border-b border-outline-variant shrink-0 flex justify-between items-end bg-[#020617]">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary mb-2">Section: Project Narrative</h1>
+<div class="font-data-mono text-data-mono text-secondary">Lease: Operator (Josh Inklovich)</div>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">sync_saved_locally</span>
+<span class="font-data-mono text-data-mono">Autosave: Saved 12s ago</span>
+</div>
+</div>
+<!-- Writing Area -->
+<div class="flex-1 px-12 py-12 max-w-4xl mx-auto w-full">
+<div class="drafting-area text-left space-y-6">
+<p>
+                    The proposed expansion of FIT Farms' vertical hydroponic infrastructure represents a <span class="smart-suggestion">revolutionary</span> shift in regional food resilience. By leveraging controlled environment agriculture (CEA), we aim to mitigate the compounding risks of localized climate variability and supply chain fragilities <span class="conjecture-tag">[CONJECTURE — source pending]</span>.
+                </p>
+<p>
+                    Current operational metrics indicate a 40% reduction in water usage compared to traditional open-field analogs within the same watershed. However, to scale these efficiencies, immediate capital injection is required to procure and deploy next-generation nutrient dosing arrays.
+                </p>
+<p>
+                    The target demographic remains underserved urban centers within a 50-mile radius, ensuring that the perishable yield retains maximum nutritional density upon delivery. Preliminary market analyses <span class="conjecture-tag">[CONJECTURE — source pending]</span> suggest a latent demand that outstrips our current peak production capacity by a factor of three.
+                </p>
+<p>
+                    This project aligns directly with the USDA-VAPG core objective of expanding value-added market opportunities for independent agricultural producers, specifically through the implementation of technologically advanced processing and distribution nodes.
+                </p>
+</div>
+</div>
+</main>
+<!-- Right Inspector -->
+<aside class="right-inspector flex flex-col">
+<div class="p-4 border-b border-outline-variant bg-[#020617]">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant mb-1">REGISTER ALIGNMENT</h2>
+<div class="font-data-mono text-data-mono text-primary flex items-center justify-between">
+<span>USDA-RD</span>
+<span class="material-symbols-outlined text-[#22C55E] text-[16px]">check_circle</span>
+</div>
+</div>
+<div class="p-4 border-b border-outline-variant flex-1">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant mb-4">EVIDENCE GAPS (CURRENT PARAGRAPH)</h2>
+<div class="bg-[#1E293B] border border-outline-variant p-3 mb-3">
+<div class="flex items-start gap-2 mb-2">
+<span class="material-symbols-outlined text-[#F59E0B] text-[16px] mt-0.5">warning</span>
+<span class="font-data-mono text-data-mono text-on-surface">Missing source for "mitigate compounding risks"</span>
+</div>
+<div class="flex gap-2 mt-2">
+<button class="bg-primary text-on-primary font-data-mono text-data-mono px-2 py-1 text-[11px] uppercase border border-primary hover:bg-[#e2e2e2]">Query Knowledge Base</button>
+</div>
+</div>
+<div class="bg-[#1E293B] border border-outline-variant p-3">
+<div class="flex items-start gap-2 mb-2">
+<span class="material-symbols-outlined text-[#F59E0B] text-[16px] mt-0.5">warning</span>
+<span class="font-data-mono text-data-mono text-on-surface">"Revolutionary" flagged as potentially subjective.</span>
+</div>
+<div class="flex gap-2 mt-2">
+<button class="border border-outline-variant text-primary font-data-mono text-data-mono px-2 py-1 text-[11px] uppercase hover:bg-surface-container">View Alternatives</button>
+</div>
+</div>
+</div>
+<div class="p-4 bg-[#020617] mt-auto border-t border-outline-variant h-1/3">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant mb-3">SOURCE PROVENANCE</h2>
+<ul class="space-y-2">
+<li class="flex items-center justify-between font-data-mono text-data-mono text-secondary border-b border-[#1E293B] pb-1">
+<span>FIT_Water_Metrics_Q3.pdf</span>
+<span class="text-on-surface-variant text-[10px]">Pg 4</span>
+</li>
+<li class="flex items-center justify-between font-data-mono text-data-mono text-secondary border-b border-[#1E293B] pb-1">
+<span>USDA_VAPG_Guidelines_2023.pdf</span>
+<span class="text-on-surface-variant text-[10px]">Sec 2.1</span>
+</li>
+</ul>
+</div>
+</aside>
+<!-- Footer -->
+<footer class="footer-bar bg-surface-container-lowest border-t border-outline-variant fixed bottom-0 left-0 w-full flex justify-between items-center px-container-padding py-1 z-50 h-8">
+<div class="font-data-mono text-data-mono text-secondary flex items-center gap-4">
+<span>NODE:0x82f1...ed25519</span>
+<span>|</span>
+<span class="text-[#22C55E]">STATUS: LOCAL_OPTIMIZED</span>
+</div>
+<div class="flex items-center gap-6 font-data-mono text-data-mono text-on-secondary-container">
+<a class="hover:text-primary" href="#">Machine ID: 992-QX</a>
+<a class="hover:text-primary" href="#">Audit Log</a>
+<a class="hover:text-primary" href="#">System Health</a>
+</div>
+</footer>
+</div>
+</body></html>

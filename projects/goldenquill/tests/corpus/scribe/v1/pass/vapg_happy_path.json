@@ -1,0 +1,59 @@
+{
+  "schema_version": "v1",
+  "fixture_name": "vapg_happy_path",
+  "description": "VAPG FY26 happy-path: all four KGIE dimensions clean → PASS.",
+  "source": "pipeline/blueprint/v0.1/section_07_scribe.md §7.4 PASS cell",
+  "expected_status": "pass",
+  "rfa": {
+    "program_name": "VAPG FY26",
+    "cfda_or_aln": "10.352",
+    "eligible_applicant_types": ["Agricultural producers"],
+    "eligible_project_activities": ["Value-added processing"],
+    "award_ceiling": "250000",
+    "award_floor": "50000",
+    "match_requirement": {
+      "ratio_applicant_to_federal": "1.0",
+      "cash_vs_in_kind": "either",
+      "allowable_sources": ["cash on hand", "in-kind labor at BLS rate"]
+    },
+    "deadline_iso": "2026-10-01T17:00:00+00:00",
+    "evaluation_criteria": [
+      {"criterion_name": "Project Feasibility", "max_points": 25, "sub_criteria": ["Labor plan", "Financial plan"]},
+      {"criterion_name": "Economic Impact", "max_points": 30, "sub_criteria": []}
+    ],
+    "section_structure": [
+      {"section_name": "Executive Summary", "section_order": 1, "limit_kind": "words", "limit_value": 500, "required_content_cues": ["mission", "product"]}
+    ],
+    "required_attachments": ["Form SF-424"],
+    "key_terms": {"specialty_crops": "RFA page 4", "value_added": "RFA page 6"},
+    "rfa_content_sha3_512": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "extracted_at_iso": "2026-04-21T12:00:00+00:00"
+  },
+  "project_context": {
+    "location": {
+      "state": "PA",
+      "county": "Centre",
+      "zone_tags": ["Opportunity Zone"],
+      "justice40_tract": "42027011800"
+    },
+    "rfa_geographic_match": true,
+    "identity_affirmations": [
+      {"claim": "socially-disadvantaged", "source_field": "demographics.sda_affirmation", "rfa_priority_points": 5}
+    ],
+    "experience": {
+      "years_operating": 5,
+      "production_metrics": {"mushrooms_lb_yr": "12000"},
+      "certifications": ["USDA-Organic"],
+      "partnerships": ["Penn State Extension"]
+    },
+    "prior_grants": ["2024-VAPG-Planning"],
+    "keyword_sources": {
+      "specialty_crops": "PROJECT_CONTEXT:operations.crops",
+      "value_added": "PROJECT_CONTEXT:operations.processing"
+    }
+  },
+  "operator_affirmations": {
+    "specialty_crops": "affirmed",
+    "value_added": "affirmed"
+  }
+}

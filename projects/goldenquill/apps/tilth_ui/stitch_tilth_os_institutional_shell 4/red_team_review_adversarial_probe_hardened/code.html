@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Red Team Review - GOLDEN QUILL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#444748",
+                        "on-tertiary-container": "#5c647a",
+                        "on-tertiary-fixed": "#131b2e",
+                        "background": "#081425",
+                        "primary": "#ffffff",
+                        "on-surface-variant": "#c4c7c8",
+                        "tertiary-fixed": "#dae2fd",
+                        "primary-fixed": "#e2e2e2",
+                        "secondary-container": "#3a4a5f",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-primary-fixed-variant": "#454747",
+                        "outline": "#8e9192",
+                        "on-secondary-container": "#a9bad3",
+                        "surface-container-lowest": "#040e1f",
+                        "inverse-on-surface": "#263143",
+                        "tertiary-container": "#dae2fd",
+                        "on-secondary": "#213145",
+                        "surface-container": "#152031",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-background": "#d8e3fb",
+                        "surface-variant": "#2a3548",
+                        "surface-container-highest": "#2a3548",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-container-low": "#111c2d",
+                        "on-tertiary": "#283044",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "inverse-surface": "#d8e3fb",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#1f2a3c",
+                        "surface": "#081425",
+                        "secondary": "#b7c8e1",
+                        "primary-container": "#e2e2e2",
+                        "surface-dim": "#081425",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-primary": "#2f3131",
+                        "secondary-fixed": "#d3e4fe",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed": "#0b1c30",
+                        "tertiary": "#ffffff",
+                        "on-surface": "#d8e3fb",
+                        "inverse-primary": "#5d5f5f",
+                        "on-primary-container": "#636565",
+                        "surface-tint": "#c6c6c7",
+                        "surface-bright": "#2f3a4c",
+                        "on-primary-fixed": "#1a1c1c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "panel-gap": "8px",
+                        "gutter": "1px",
+                        "sidebar-width": "240px",
+                        "container-padding": "16px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "data-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #020617; color: #d8e3fb; margin: 0; }
+        .panel { background-color: #0F172A; border: 1px solid #334155; border-radius: 0; }
+        .nested-panel { background-color: #1E293B; border: 1px solid #334155; border-radius: 0; }
+        .terminal { background-color: #000000; color: #b7c8e1; }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden font-body-md text-body-md antialiased bg-background text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-surface-container-highest flex items-center justify-between px-container-padding w-full h-[56px] border-b border-outline-variant z-20 relative">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary tracking-tighter">GOLDEN QUILL</span>
+<div class="h-4 w-px bg-outline-variant mx-2"></div>
+<span class="font-data-mono text-data-mono text-secondary">POSTURE: HYBRID</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-none">search</span>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-none">verified_user</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-none">gavel</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="w-[220px] h-full border-r border-outline-variant bg-surface-container-low flex flex-col flex-shrink-0 z-10 relative hidden md:flex">
+<div class="p-4 border-b border-outline-variant">
+<div class="font-headline-md text-headline-md text-primary">NODE IDENTITY</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">POSTURE: SECURE</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<!-- Navigation Items -->
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">map</span>
+<span class="font-label-caps text-label-caps">Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+<!-- Active Item -->
+<a class="flex items-center gap-3 px-4 py-2 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">signature</span>
+<span class="font-label-caps text-label-caps">Sign-Off</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">style</span>
+<span class="font-label-caps text-label-caps">Cards</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-1 flex flex-col bg-surface overflow-hidden p-unit gap-gutter">
+<!-- Council Split Banner -->
+<div class="panel bg-[#7C2D12] text-primary p-2 flex items-center gap-3 border-[#9A3412]">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-data-mono text-data-mono uppercase tracking-widest">COUNCIL SPLIT DETECTED: JUDGE SCORE [85] CONFLICTS WITH RED TEAM VERDICT [HIT]</span>
+</div>
+<!-- Decision Strip -->
+<div class="panel p-4 flex justify-between items-center">
+<div class="font-headline-md text-headline-md text-primary">What downgrades the proposal?</div>
+<button class="bg-primary text-[#000000] font-label-caps text-label-caps px-6 py-2 border border-primary hover:bg-primary-fixed transition-none">RESOLVE RISKS</button>
+</div>
+<div class="flex-1 flex gap-gutter overflow-hidden">
+<!-- Main Canvas: Probe Checklist -->
+<div class="flex-[2] panel flex flex-col overflow-hidden">
+<div class="p-3 border-b border-outline-variant bg-surface-container flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">PROBE VECTORS</span>
+<span class="font-data-mono text-data-mono text-secondary">3 ACTIVE</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+<!-- Hit Item (Active) -->
+<div class="nested-panel border-primary border-l-4">
+<div class="p-3 border-b border-[#334155] flex justify-between items-start bg-surface-container-high">
+<div class="flex gap-3">
+<div class="w-4 h-4 bg-[#EF4444] mt-1"></div>
+<div>
+<div class="font-data-mono text-data-mono text-primary">VECTOR_01: FAKE-FIT SIGNAL</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">Founding team claims technical depth mismatched with commit history.</div>
+</div>
+</div>
+<span class="font-label-caps text-label-caps text-[#EF4444] border border-[#EF4444] px-2 py-1 bg-[#450A0A]">HIT</span>
+</div>
+<div class="p-3 bg-surface-container">
+<p class="font-data-mono text-data-mono text-secondary text-xs">ANALYSIS: High likelihood of narrative engineering. The CTO's public repositories show frontend boilerplate, while the proposal claims proprietary backend consensus algorithms. Evidence hash matches pre-packaged templates.</p>
+</div>
+</div>
+<!-- Clean Item -->
+<div class="nested-panel border-[#334155]">
+<div class="p-3 flex justify-between items-start">
+<div class="flex gap-3">
+<div class="w-4 h-4 bg-[#22C55E] mt-1"></div>
+<div>
+<div class="font-data-mono text-data-mono text-primary">VECTOR_02: FINANCIAL RUNWAY</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">Burn rate vs projected milestones.</div>
+</div>
+</div>
+<span class="font-label-caps text-label-caps text-[#22C55E] border border-[#22C55E] px-2 py-1">CLEAN</span>
+</div>
+</div>
+<!-- Uncertain Item -->
+<div class="nested-panel border-[#334155]">
+<div class="p-3 flex justify-between items-start">
+<div class="flex gap-3">
+<div class="w-4 h-4 bg-[#F59E0B] mt-1"></div>
+<div>
+<div class="font-data-mono text-data-mono text-primary">VECTOR_03: MARKET CAPTURE</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1">Defensibility of initial user acquisition strategy.</div>
+</div>
+</div>
+<span class="font-label-caps text-label-caps text-[#F59E0B] border border-[#F59E0B] px-2 py-1">UNCERTAIN</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Inspector Panel -->
+<div class="flex-1 panel flex flex-col overflow-hidden">
+<div class="p-3 border-b border-outline-variant bg-surface-container">
+<span class="font-label-caps text-label-caps text-on-surface-variant">INSPECTOR: VECTOR_01 PATH</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+<div>
+<div class="font-label-caps text-label-caps text-secondary mb-2">REQUIRED RESPONSE</div>
+<div class="nested-panel p-3">
+<div class="font-data-mono text-data-mono text-primary text-sm mb-3">Require technical audit of proprietary backend systems before next funding tranche.</div>
+<div class="flex gap-2">
+<button class="bg-surface-variant text-primary border border-outline-variant px-3 py-1 font-label-caps text-label-caps hover:bg-surface-container-high">ENFORCE</button>
+<button class="text-on-surface-variant border border-outline-variant px-3 py-1 font-label-caps text-label-caps hover:text-primary">OVERRIDE</button>
+</div>
+</div>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-secondary mb-2">AFFECTED CLAIMS</div>
+<div class="flex flex-col gap-2">
+<div class="nested-panel p-2 flex justify-between items-center cursor-pointer hover:border-primary">
+<span class="font-data-mono text-data-mono text-xs text-on-surface">CLAIM_HASH_7A2B</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">open_in_new</span>
+</div>
+<div class="nested-panel p-2 flex justify-between items-center cursor-pointer hover:border-primary">
+<span class="font-data-mono text-data-mono text-xs text-on-surface">EVIDENCE_REF_99X</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">open_in_new</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Terminal/Logs -->
+<div class="terminal h-[100px] p-2 flex flex-col border border-[#334155]">
+<div class="font-label-caps text-label-caps text-[#64748B] mb-1">SYSTEM LOGS</div>
+<div class="font-data-mono text-data-mono text-xs flex-1 overflow-y-auto">
+<div>&gt; [14:02:45] SCAN INITIATED: VECTOR_01...</div>
+<div>&gt; [14:02:47] ANOMALY DETECTED: Commit density variance exceeds threshold.</div>
+<div class="text-[#EF4444]">&gt; [14:02:48] VERDICT GENERATED: HIT (Confidence: 0.92)</div>
+<div><span class="text-primary animate-pulse">_</span></div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest flex items-center justify-between px-4 w-full h-[32px] border-t border-outline-variant fixed bottom-0 z-50">
+<span class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</span>
+<div class="flex gap-4">
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary" href="#">SYSTEM_STATUS</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary" href="#">AUDIT_LOG</a>
+<a class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary" href="#">FID_0x2A</a>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Golden Quill - Card Matrix (Retired State)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary": "#283044",
+                        "surface-container": "#152031",
+                        "surface-bright": "#2f3a4c",
+                        "surface-container-lowest": "#040e1f",
+                        "on-primary-fixed": "#1a1c1c",
+                        "inverse-on-surface": "#263143",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-primary": "#2f3131",
+                        "outline": "#8e9192",
+                        "surface-container-low": "#111c2d",
+                        "surface": "#081425",
+                        "on-secondary": "#213145",
+                        "inverse-surface": "#d8e3fb",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-background": "#d8e3fb",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "inverse-primary": "#5d5f5f",
+                        "surface-container-high": "#1f2a3c",
+                        "on-tertiary-container": "#5c647a",
+                        "on-tertiary-fixed": "#131b2e",
+                        "surface-variant": "#2a3548",
+                        "on-primary-container": "#636565",
+                        "tertiary-container": "#dae2fd",
+                        "surface-tint": "#c6c6c7",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed": "#0b1c30",
+                        "secondary": "#b7c8e1",
+                        "primary": "#ffffff",
+                        "surface-dim": "#081425",
+                        "outline-variant": "#444748",
+                        "on-surface": "#d8e3fb",
+                        "on-secondary-container": "#a9bad3",
+                        "secondary-fixed": "#d3e4fe",
+                        "tertiary": "#ffffff",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "background": "#081425",
+                        "primary-container": "#e2e2e2",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "secondary-container": "#3a4a5f",
+                        "on-surface-variant": "#c4c7c8",
+                        "primary-fixed": "#e2e2e2",
+                        "surface-container-highest": "#2a3548"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "sidebar-width": "240px",
+                        "panel-gap": "8px",
+                        "gutter": "1px",
+                        "container-padding": "16px"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "data-mono": ["13px", {"lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                        "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "body-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface h-screen w-screen overflow-hidden flex flex-col font-body-md text-body-md selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<nav class="bg-surface-container-lowest dark:bg-surface-container-lowest flex items-center justify-between px-container-padding w-full h-[56px] z-50 fixed top-0 w-full h-[56px] border-b border-outline-variant duration-0">
+<div class="flex items-center gap-6">
+<span class="font-headline-md text-headline-md font-bold tracking-tight text-primary">GOLDEN QUILL</span>
+<div class="hidden md:flex h-full items-center gap-4 pt-[2px]">
+<button class="text-on-surface-variant font-data-mono text-data-mono uppercase h-full flex items-center px-2 hover:bg-surface-container-high transition-colors duration-0">AppliedAsIndicator</button>
+<button class="text-on-surface-variant font-data-mono text-data-mono uppercase h-full flex items-center px-2 hover:bg-surface-container-high transition-colors duration-0">PostureBadge</button>
+<button class="text-primary border-b-2 border-primary font-data-mono text-data-mono uppercase h-full flex items-center px-2 bg-surface-container-highest transition-colors duration-0">AuditPill</button>
+<button class="text-on-surface-variant font-data-mono text-data-mono uppercase h-full flex items-center px-2 hover:bg-surface-container-high transition-colors duration-0">SigningKeyChip</button>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="bg-surface-container-lowest border border-outline-variant text-on-surface font-data-mono text-data-mono pl-8 pr-3 py-1 focus:outline-none focus:border-primary placeholder-on-surface-variant rounded-none w-64" placeholder="Search matrices..." type="text"/>
+</div>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-4 py-2 hover:bg-primary-container transition-colors duration-0 border-none rounded-none flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">terminal</span>
+                OPERATOR_SESSION
+            </button>
+</div>
+</nav>
+<div class="flex flex-1 pt-[56px] h-full overflow-hidden">
+<!-- SideNavBar -->
+<aside class="bg-surface-container dark:bg-surface-container fixed left-0 top-[56px] w-[220px] h-[calc(100vh-56px-32px)] border-r border-outline-variant flex flex-col w-[220px] py-panel-gap duration-0 z-40">
+<div class="px-4 mb-6 mt-2">
+<div class="font-headline-md text-headline-md text-primary font-bold tracking-tight">OPERATOR_NODE</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant mt-1">SOVEREIGNTY_PHASE</div>
+</div>
+<nav class="flex-1 flex flex-col gap-[2px]">
+<button class="w-full flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-0 text-left group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors duration-0" style="font-variation-settings: 'FILL' 0;">radar</span>
+<span class="font-label-caps text-label-caps tracking-widest uppercase">Scout</span>
+</button>
+<button class="w-full flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-0 text-left group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors duration-0" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+<span class="font-label-caps text-label-caps tracking-widest uppercase">Evidence Intake</span>
+</button>
+<button class="w-full flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-0 text-left group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors duration-0" style="font-variation-settings: 'FILL' 0;">fact_check</span>
+<span class="font-label-caps text-label-caps tracking-widest uppercase">Eligibility</span>
+</button>
+<button class="w-full flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-0 text-left group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors duration-0" style="font-variation-settings: 'FILL' 0;">map</span>
+<span class="font-label-caps text-label-caps tracking-widest uppercase">Mapper</span>
+</button>
+<button class="w-full flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-0 text-left group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors duration-0" style="font-variation-settings: 'FILL' 0;">edit_note</span>
+<span class="font-label-caps text-label-caps tracking-widest uppercase">Drafting</span>
+</button>
+<button class="w-full flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-0 text-left group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors duration-0" style="font-variation-settings: 'FILL' 0;">payments</span>
+<span class="font-label-caps text-label-caps tracking-widest uppercase">Budget</span>
+</button>
+<button class="w-full flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-0 text-left group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors duration-0" style="font-variation-settings: 'FILL' 0;">gavel</span>
+<span class="font-label-caps text-label-caps tracking-widest uppercase">Judge</span>
+</button>
+<button class="w-full flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-0 text-left group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors duration-0" style="font-variation-settings: 'FILL' 0;">security</span>
+<span class="font-label-caps text-label-caps tracking-widest uppercase">Red Team</span>
+</button>
+<button class="w-full flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors duration-0 text-left group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors duration-0" style="font-variation-settings: 'FILL' 0;">key</span>
+<span class="font-label-caps text-label-caps tracking-widest uppercase">Authorization</span>
+</button>
+<button class="w-full flex items-center gap-3 px-4 py-2 bg-surface-variant text-primary border-r-2 border-primary transition-colors duration-0 text-left group">
+<span class="material-symbols-outlined text-primary transition-colors duration-0" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+<span class="font-label-caps text-label-caps tracking-widest uppercase">Audit</span>
+</button>
+</nav>
+</aside>
+<!-- Main Workspace Canvas -->
+<main class="flex-1 ml-[220px] bg-surface flex flex-col h-[calc(100vh-56px-32px)] overflow-hidden relative">
+<!-- Decision Strip (Retired State Banner) -->
+<div class="bg-error-container text-on-error-container px-6 py-3 border-b border-error flex items-center justify-between shrink-0">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-data-mono text-data-mono font-bold tracking-tight">CARD MATRIX RETIRED FOR CURRENT DOCTRINE</span>
+</div>
+<button class="border border-error text-error hover:bg-error hover:text-on-error px-4 py-1 font-label-caps text-label-caps transition-colors duration-0 rounded-none flex items-center gap-2">
+                    VIEW ACTIVE LENSES
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+<!-- Matrix Content Area -->
+<div class="flex-1 p-6 overflow-auto relative">
+<!-- Watermark Overlay -->
+<div class="absolute inset-0 pointer-events-none flex items-center justify-center z-10 opacity-10 mix-blend-overlay">
+<div class="font-display-lg text-[120px] font-bold text-on-surface transform -rotate-12 tracking-tighter uppercase whitespace-nowrap">
+                        RETIRED
+                    </div>
+</div>
+<div class="max-w-6xl mx-auto space-y-6 relative z-0 opacity-40 grayscale pointer-events-none">
+<header class="flex justify-between items-end border-b border-outline-variant pb-4">
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface">Card Matrix Overview</h1>
+<p class="font-data-mono text-data-mono text-on-surface-variant mt-1">Archived Dataset // Doctrine V.3.1.0</p>
+</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant text-right">
+                            LAST_UPDATED: 2023-10-24T08:14:00Z<br/>
+                            STATUS: DEPRECATED
+                        </div>
+</header>
+<!-- Bento Grid Simulation -->
+<div class="grid grid-cols-12 gap-4">
+<!-- Panel 1: Stats -->
+<div class="col-span-4 bg-surface-container border border-outline-variant p-4 flex flex-col gap-4">
+<div class="font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant pb-2">MATRIX VITALITY</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="font-data-mono text-data-mono text-on-surface-variant mb-1">TOTAL NODES</div>
+<div class="font-headline-md text-headline-md text-on-surface">1,024</div>
+</div>
+<div>
+<div class="font-data-mono text-data-mono text-on-surface-variant mb-1">INTEGRITY</div>
+<div class="font-headline-md text-headline-md text-error">FAILED</div>
+</div>
+<div class="col-span-2">
+<div class="font-data-mono text-data-mono text-on-surface-variant mb-1">LAST AUDIT HASH</div>
+<div class="font-data-mono text-data-mono text-on-surface break-all bg-surface-container-lowest p-2 border border-outline-variant">0x8f9c2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f</div>
+</div>
+</div>
+</div>
+<!-- Panel 2: Table -->
+<div class="col-span-8 bg-surface-container border border-outline-variant flex flex-col h-[400px]">
+<div class="p-4 border-b border-outline-variant font-label-caps text-label-caps text-on-surface-variant">
+                                NODE_ROSTER [ARCHIVED]
+                            </div>
+<div class="flex-1 overflow-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low font-label-caps text-label-caps text-on-surface-variant sticky top-0 z-10">
+<tr>
+<th class="p-3 border-b border-outline-variant font-normal">ID</th>
+<th class="p-3 border-b border-outline-variant font-normal">DESIGNATION</th>
+<th class="p-3 border-b border-outline-variant font-normal">SECTOR</th>
+<th class="p-3 border-b border-outline-variant font-normal">STATUS</th>
+</tr>
+</thead>
+<tbody class="font-data-mono text-data-mono">
+<tr class="border-b border-outline-variant hover:bg-surface-container-high transition-colors">
+<td class="p-3 text-on-surface-variant">NX-01</td>
+<td class="p-3 text-on-surface">Alpha Core</td>
+<td class="p-3 text-on-surface-variant">SEC-A</td>
+<td class="p-3"><span class="w-2 h-2 inline-block bg-error mr-2"></span>Terminated</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-high transition-colors">
+<td class="p-3 text-on-surface-variant">NX-02</td>
+<td class="p-3 text-on-surface">Beta Node</td>
+<td class="p-3 text-on-surface-variant">SEC-B</td>
+<td class="p-3"><span class="w-2 h-2 inline-block bg-error mr-2"></span>Terminated</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-high transition-colors">
+<td class="p-3 text-on-surface-variant">NX-03</td>
+<td class="p-3 text-on-surface">Gamma Relay</td>
+<td class="p-3 text-on-surface-variant">SEC-A</td>
+<td class="p-3"><span class="w-2 h-2 inline-block bg-error mr-2"></span>Terminated</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-high transition-colors">
+<td class="p-3 text-on-surface-variant">NX-04</td>
+<td class="p-3 text-on-surface">Delta Prime</td>
+<td class="p-3 text-on-surface-variant">SEC-C</td>
+<td class="p-3"><span class="w-2 h-2 inline-block bg-error mr-2"></span>Terminated</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-high transition-colors">
+<td class="p-3 text-on-surface-variant">NX-05</td>
+<td class="p-3 text-on-surface">Epsilon Hub</td>
+<td class="p-3 text-on-surface-variant">SEC-B</td>
+<td class="p-3"><span class="w-2 h-2 inline-block bg-error mr-2"></span>Terminated</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-surface-container-low flex items-center justify-between px-container-padding w-full h-[32px] z-50 fixed bottom-0 border-t border-outline-variant duration-0">
+<div class="font-data-mono text-data-mono text-on-surface-variant">MACHINE_ID: GQ-8829-X // NODE_STATUS: NOMINAL</div>
+<div class="flex items-center gap-4 h-full">
+<button class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-colors duration-0 h-full px-2 flex items-center uppercase">VERIFY_INTEGRITY</button>
+<button class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary transition-colors duration-0 h-full px-2 flex items-center uppercase">SYSTEM_LOGS</button>
+</div>
+</footer>
+</body></html>

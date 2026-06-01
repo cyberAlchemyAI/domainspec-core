@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GOLDEN QUILL - Evidence Intake</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#2f3a4c",
+                        "primary": "#ffffff",
+                        "outline-variant": "#444748",
+                        "inverse-primary": "#5d5f5f",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "on-surface-variant": "#c4c7c8",
+                        "inverse-surface": "#d8e3fb",
+                        "secondary-fixed": "#d3e4fe",
+                        "error": "#ffb4ab",
+                        "secondary": "#b7c8e1",
+                        "on-background": "#d8e3fb",
+                        "tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-secondary": "#213145",
+                        "surface-tint": "#c6c6c7",
+                        "surface-container-high": "#1f2a3c",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#dae2fd",
+                        "surface-variant": "#2a3548",
+                        "surface-container-low": "#111c2d",
+                        "primary-container": "#e2e2e2",
+                        "tertiary-fixed": "#dae2fd",
+                        "surface-container-lowest": "#040e1f",
+                        "surface-container": "#152031",
+                        "on-secondary-container": "#a9bad3",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-tertiary-container": "#5c647a",
+                        "outline": "#8e9192",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-surface": "#d8e3fb",
+                        "secondary-container": "#3a4a5f",
+                        "on-primary-container": "#636565",
+                        "on-primary": "#2f3131",
+                        "surface-container-highest": "#2a3548",
+                        "surface": "#081425",
+                        "background": "#081425",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "surface-dim": "#081425",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "on-primary-fixed": "#1a1c1c",
+                        "inverse-on-surface": "#263143",
+                        "primary-fixed": "#e2e2e2",
+                        "on-tertiary": "#283044",
+                        "on-tertiary-fixed": "#131b2e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "panel-gap": "8px",
+                        "gutter": "1px",
+                        "container-padding": "16px",
+                        "sidebar-width": "220px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "data-mono": ["13px", { "lineHeight": "1", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #020617; } /* Level 0 Base override for strict brutalism */
+        .panel { background-color: #0F172A; } /* Level 1 */
+        .nested-panel { background-color: #1E293B; } /* Level 2 */
+        
+        /* Strict flat components, no radius */
+        * { border-radius: 0 !important; }
+        
+        /* 1px borders for structure */
+        .border-system { border-color: #334155; }
+        .border-active { border-color: #ffffff; }
+        
+        /* Custom scrollbar for raw terminal feel */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; }
+        ::-webkit-scrollbar-thumb:hover { background: #ffffff; }
+    </style>
+</head>
+<body class="text-on-surface font-body-md h-screen overflow-hidden flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface-container-highest dark:bg-surface-container-highest border-b border-system flex items-center justify-between px-container-padding w-full h-[56px] flex-shrink-0 z-20">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter">GOLDEN QUILL</span>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search bar on_left as per JSON, but moving to center/right for balance -->
+<div class="flex items-center border border-system nested-panel px-3 py-1 w-64 focus-within:border-active transition-none">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px] mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none outline-none text-primary font-data-mono text-data-mono w-full placeholder-on-surface-variant" placeholder="QUERY_VAULT..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-on-surface-variant hover:bg-surface-bright transition-none p-1">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-bright transition-none p-1">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-bright transition-none p-1">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low dark:bg-surface-container-low w-[220px] h-full border-r border-system flex flex-col flex-shrink-0 z-10 hidden md:flex">
+<div class="p-4 border-b border-system mb-2">
+<h2 class="font-headline-md text-headline-md text-primary">NODE IDENTITY</h2>
+<div class="font-data-mono text-data-mono text-[#22C55E] mt-1 flex items-center gap-2">
+<div class="w-2 h-2 bg-[#22C55E]"></div> POSTURE: SECURE
+                </div>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="flex flex-col gap-1">
+<li><a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="home">home</span> Home</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="search">search</span> Scout</a></li>
+<!-- Active State: Intake -->
+<li><a class="flex items-center gap-3 px-4 py-2 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="input" data-weight="fill" style="font-variation-settings: 'FILL' 1;">input</span> Intake</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="assignment_turned_in">assignment_turned_in</span> Eligibility</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="map">map</span> Module Mapper</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="edit_note">edit_note</span> Drafting</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="payments">payments</span> Budget</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="gavel">gavel</span> Judge</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="security">security</span> Red Team</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="signature">signature</span> Sign-Off</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="history_edu">history_edu</span> Audit</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="style">style</span> Cards</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="fingerprint">fingerprint</span> FIDs</a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none font-label-caps text-label-caps" href="#"><span class="material-symbols-outlined text-[18px]" data-icon="account_balance_wallet">account_balance_wallet</span> Costs</a></li>
+</ul>
+</div>
+</nav>
+<!-- Main Canvas - Modular Grid Setup -->
+<main class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
+<!-- Left Column: Dropzone & Queue -->
+<div class="flex-1 flex flex-col border-r border-system p-2 gap-2 overflow-hidden bg-[#020617]">
+<!-- Drop Zone -->
+<div class="panel border border-system h-48 flex flex-col items-center justify-center relative border-dashed hover:border-active transition-none cursor-pointer group shrink-0">
+<span class="material-symbols-outlined text-[48px] text-on-surface-variant group-hover:text-primary mb-2" data-icon="upload_file">upload_file</span>
+<h3 class="font-headline-md text-headline-md text-primary">SECURE INGESTION GATE</h3>
+<p class="font-data-mono text-data-mono text-on-surface-variant mt-1">DRAG &amp; DROP SECURE FILES OR <span class="text-primary underline">BROWSE</span></p>
+<div class="absolute bottom-2 right-2 flex gap-2">
+<span class="font-label-caps text-label-caps text-[#64748B] bg-[#020617] px-1 py-0.5 border border-system">PDF</span>
+<span class="font-label-caps text-label-caps text-[#64748B] bg-[#020617] px-1 py-0.5 border border-system">TXT</span>
+<span class="font-label-caps text-label-caps text-[#64748B] bg-[#020617] px-1 py-0.5 border border-system">JSON</span>
+</div>
+</div>
+<!-- Intake Queue Table -->
+<div class="panel border border-system flex-1 flex flex-col overflow-hidden">
+<div class="p-2 border-b border-system flex justify-between items-center bg-[#0F172A]">
+<h3 class="font-label-caps text-label-caps text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="list_alt">list_alt</span> INTAKE QUEUE (4 UNCOMMITTED)
+                        </h3>
+<div class="flex gap-2">
+<button class="px-2 py-1 bg-[#020617] border border-system font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-none">FILTER</button>
+<button class="px-2 py-1 bg-primary text-on-primary font-label-caps text-label-caps hover:bg-surface-bright hover:text-primary transition-none">PROCESS ALL</button>
+</div>
+</div>
+<div class="overflow-auto flex-1">
+<table class="w-full text-left font-data-mono text-data-mono border-collapse">
+<thead class="sticky top-0 bg-[#0F172A] border-b border-system">
+<tr>
+<th class="p-2 font-label-caps text-label-caps text-[#64748B]">ID</th>
+<th class="p-2 font-label-caps text-label-caps text-[#64748B]">FILENAME</th>
+<th class="p-2 font-label-caps text-label-caps text-[#64748B]">SIZE</th>
+<th class="p-2 font-label-caps text-label-caps text-[#64748B]">STATUS</th>
+</tr>
+</thead>
+<tbody>
+<!-- Selected / Conflict Item -->
+<tr class="nested-panel border-b border-system cursor-pointer border-l-2 border-l-primary">
+<td class="p-2 text-on-surface-variant">0x8F2</td>
+<td class="p-2 text-primary font-bold">Proj_Alpha_Scope_v2.pdf</td>
+<td class="p-2 text-on-surface-variant">2.4MB</td>
+<td class="p-2">
+<div class="flex items-center gap-2 text-[#EF4444]"><div class="w-2 h-2 bg-[#22C55E]"></div><span class="font-label-caps text-label-caps text-[#22C55E]">RESOLVED · READY FOR COMMIT</span></div>
+</td>
+</tr>
+<!-- Quarantined Item -->
+<tr class="hover:bg-[#1E293B] border-b border-system cursor-pointer transition-none">
+<td class="p-2 text-on-surface-variant">0x8F3</td>
+<td class="p-2 text-primary">Unknown_Source_Scan.png</td>
+<td class="p-2 text-on-surface-variant">8.1MB</td>
+<td class="p-2">
+<div class="flex items-center gap-2 text-[#F59E0B]">
+<div class="w-2 h-2 bg-[#F59E0B]"></div>
+<span class="font-label-caps text-label-caps">QUARANTINED - ONTOLOGY UNRESOLVED</span>
+</div>
+</td>
+</tr>
+<!-- Clean Items -->
+<tr class="hover:bg-[#1E293B] border-b border-system cursor-pointer transition-none">
+<td class="p-2 text-on-surface-variant">0x8F4</td>
+<td class="p-2 text-primary">Budget_Q3_Draft.xlsx</td>
+<td class="p-2 text-on-surface-variant">1.1MB</td>
+<td class="p-2">
+<div class="flex items-center gap-2 text-[#22C55E]">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span class="font-label-caps text-label-caps">READY FOR COMMIT</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-[#1E293B] cursor-pointer transition-none">
+<td class="p-2 text-on-surface-variant">0x8F5</td>
+<td class="p-2 text-primary">Meeting_Notes_Oct.txt</td>
+<td class="p-2 text-on-surface-variant">12KB</td>
+<td class="p-2">
+<div class="flex items-center gap-2 text-[#22C55E]">
+<div class="w-2 h-2 bg-[#22C55E]"></div>
+<span class="font-label-caps text-label-caps">READY FOR COMMIT</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Column: Inspector Panel -->
+<aside class="w-full md:w-[400px] border-l border-system panel flex flex-col flex-shrink-0 z-10 overflow-hidden bg-[#0F172A] p-2 gap-2">
+<div class="flex items-center justify-between p-2 bg-[#020617] border border-system">
+<h3 class="font-label-caps text-label-caps text-primary">INSPECTOR: 0x8F2</h3>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant cursor-pointer" data-icon="close">close</span>
+</div>
+<div class="flex-1 overflow-y-auto pr-1 flex flex-col gap-2">
+<!-- Metadata Block -->
+<div class="border border-system p-3 bg-[#020617]">
+<h4 class="font-label-caps text-label-caps text-[#64748B] mb-2 border-b border-system pb-1">FILE METADATA</h4>
+<div class="grid grid-cols-2 gap-2 font-data-mono text-data-mono">
+<div class="text-on-surface-variant">SOURCE:</div>
+<div class="text-primary truncate" title="user_upload_gw_99">user_upload_gw_99</div>
+<div class="text-on-surface-variant">HASH:</div>
+<div class="text-primary truncate">a8f9c2...b1e4</div>
+<div class="text-on-surface-variant">TIMESTAMP:</div>
+<div class="text-primary">2023-10-24T09:12Z</div>
+</div>
+</div><div class="border border-[#F59E0B] p-3 bg-[#020617] mt-2"><h4 class="font-label-caps text-label-caps text-[#F59E0B] mb-2 border-b border-[#F59E0B] pb-1 flex items-center gap-2"><span class="material-symbols-outlined text-[14px]" data-icon="schema">schema</span> MAPPING PENDING</h4><p class="font-body-sm text-body-sm text-primary mb-3">Item 0x8F3 requires manual alignment with existing knowledge ontology schema.</p><button class="w-full bg-[#F59E0B] text-[#000000] font-label-caps text-label-caps py-2 hover:bg-[#fbbf24] transition-none border-none">MAP TO ONTOLOGY</button></div>
+<!-- Conflict Resolution Block -->
+<div class="border border-[#22C55E] p-3 bg-[#020617]"><h4 class="font-label-caps text-label-caps text-[#22C55E] mb-2 border-b border-[#22C55E] pb-1 flex items-center gap-2"><span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span> CONFLICT RESOLVED</h4><p class="font-body-sm text-body-sm text-primary mb-3">Governing value selected from Vault Record (0x4A1) over document extraction.</p><div class="flex flex-col gap-2 mb-4"><div class="nested-panel p-2 border border-system opacity-50"><div class="font-label-caps text-label-caps text-[#64748B] mb-1">REJECTED DOCUMENT VALUE:</div><div class="font-data-mono text-data-mono text-primary line-through">2024-01-15</div></div><div class="nested-panel p-2 border-2 border-[#22C55E] bg-[#22C55E]/10"><div class="font-label-caps text-label-caps text-[#22C55E] mb-1 font-bold">RESOLVED GOVERNING VALUE:</div><div class="font-data-mono text-data-mono text-primary">2024-02-01</div><div class="font-data-mono text-data-mono text-[#22C55E] mt-1">Status: Committed to Batch</div></div></div><div class="flex gap-2"><button class="flex-1 bg-transparent text-on-surface-variant border border-system font-label-caps text-label-caps py-1.5 hover:text-primary transition-none">REVERT CHOICE</button><button class="flex-1 bg-primary text-on-primary font-label-caps text-label-caps py-1.5 hover:bg-surface-bright hover:text-primary transition-none">FINAL COMMIT</button></div></div>
+<!-- Classification Fields -->
+<div class="border border-system p-3 bg-[#020617]">
+<h4 class="font-label-caps text-label-caps text-[#64748B] mb-2 border-b border-system pb-1">CLASSIFICATION SCHEMA</h4>
+<div class="flex flex-col gap-3">
+<div class="flex flex-col gap-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant">DOMAIN</label>
+<select class="bg-[#0F172A] border border-system text-primary font-data-mono text-data-mono p-1.5 focus:border-active outline-none appearance-none rounded-none">
+<option>Strategic Budgeting</option>
+<option>Operational Audit</option>
+<option>Personnel Roster</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant">SENSITIVITY LEVEL</label>
+<div class="flex gap-1">
+<button class="flex-1 border border-system bg-[#0F172A] text-on-surface-variant font-data-mono text-data-mono py-1 hover:border-active">L1</button>
+<button class="flex-1 border border-active bg-[#1E293B] text-primary font-data-mono text-data-mono py-1">L2</button>
+<button class="flex-1 border border-system bg-[#0F172A] text-on-surface-variant font-data-mono text-data-mono py-1 hover:border-active">L3</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</div>
+<!-- Footer Terminal/Status -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-system h-[32px] w-full flex items-center justify-between px-4 fixed bottom-0 z-50 flex-shrink-0">
+<div class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</div>
+<div class="flex items-center gap-4 font-data-mono text-data-mono text-on-surface-variant">
+<a class="hover:text-primary transition-none" href="#">SYSTEM_STATUS</a>
+<a class="hover:text-primary transition-none" href="#">AUDIT_LOG</a>
+<a class="hover:text-primary transition-none" href="#">FID_0x2A</a>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,240 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# Virtual environments — match both directories and worktree symlinks
+# (worktrees commonly symlink ./.venv to the repo-root .venv).
+.venv
+.venv/
+venv/
+ENV/
+
+# Environment and secrets
+.env
+.env.*
+*.key
+*.pem
+*.crt
+*.p12
+**/*credentials*
+**/*secret*
+
+# Key rotation policy — operational posture / SPOF disclosure (governance,
+# not live keys); kept local until operator decides to make it public.
+vault_shared/key_rotation_policy.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Node (if any tooling uses it)
+node_modules/
+
+# Pytest
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# Session data — contains operational metrics, not for public commit
+pipeline/metrics/session_log.jsonl
+
+# Client org data — NEVER commit (Law 3)
+# Default-deny entire orgs/; allow only the deployment template
+orgs/
+!orgs/_TEMPLATE/
+
+# Daily logs — operational, not for initial commit
+daily_logs/
+
+# Memory files — session-specific operator-memory dirs (top-level `memory/`,
+# Cowork space `spaces/*/memory/`, Sovereign_Node_Handoff/memory/, etc.).
+# Negate `pipeline/memory/` and `tests/memory/` because they are the
+# canonical-search code directory + its test suite — shipped, imported by
+# CLI modules, exercised by tests/cli.
+# Narrow the negation to *.py files only so __pycache__/ stays ignored.
+memory/
+!pipeline/memory/
+!pipeline/memory/*.py
+!tests/memory/
+!tests/memory/*.py
+
+# Trigger-log JSONL is a runtime artifact, not source.
+pipeline/institutional_memory/memory_consolidation_log.jsonl
+
+# OpenClaw local config
+.openclaw/
+
+# Calibration artifacts (machine-specific)
+vault_shared/machine_calibration.json
+
+# Lock history is committed (audit trail), but session metrics are not
+# pipeline/engineering/lock_history.v1.jsonl  ← DO commit this
+
+# Jupyter
+.ipynb_checkpoints/
+
+# mypy
+.mypy_cache/
+
+# Distribution
+*.tar.gz
+*.whl
+
+# === 2026-05-11 sweep additions ===
+
+# Operator private working (sigil/servitor)
+_private/
+
+# Cowork session transcripts
+sessions/
+
+# Secondary daily_logs/ tree under pipeline/
+pipeline/daily_logs/
+
+# Client-derived scout databases (move to orgs/<slug>/data/ where applicable)
+pipeline/scout/databases/
+
+# Radar / scan outputs (runtime artifacts, often client-scoped)
+pipeline/radar/
+!pipeline/radar/.gitkeep
+
+# Operator/session handoff prompts (contain operator + client context)
+pipeline/handoffs/
+
+# Orchestrator runtime log (contains org refs in execution traces)
+pipeline/orchestrator/run_log.json
+
+# Pipeline-debugging audits (often client-scoped)
+pipeline/audits/
+
+# Subscriber data (currently empty list; exclude to prevent future leak)
+pipeline/subscribers/
+
+# Client-scoped validation runs (archived but never moved)
+pipeline/validation/archive_2026-04-15_client_scoped/
+pipeline/validation/vapg-fy26-test/
+pipeline/validation/admin-risk-test/
+pipeline/validation/bedrock_audit_2026-04-15/
+
+# Operator self-analysis memory archives (contain real EIN)
+Sovereign_Node_Handoff/memory/agent_self_analysis_*.md
+
+# Stale embedded .git from prior work (belt + suspenders; Josh also rm -rf's)
+**/Sovereign_Node_Handoff/prior_work/Supporting_Docs/GrantFinderWriter/.git/
+
+# Prior Replit MycoGrant TypeScript app — operator-decided exclusion 2026-05-15
+# Out of scope for the engineering repo; preserved local-only as prior-work reference.
+Sovereign_Node_Handoff/prior_work/Supporting_Docs/GrantFinderWriter/
+
+# Office app lock files
+.~lock.*#
+~$*.docx
+~$*.xlsx
+~$*.pptx
+
+# === 2026-05-15 CTO-readability sweep — keep the repo skimmable ===
+# Historical thesis-team / audit-round dump (~2580 files). Architecture audit
+# trail is `pipeline/architecture/` + `pipeline/engineering/lock_history.v1.jsonl`.
+# Exception: the v7.0.5 round is preserved as canonical prior art — AGENTS.md
+# instructs cloning it for every new cross-family Thesis round.
+pipeline/validation/*
+!pipeline/validation/v7_0_5_thesis_2026-05-09/
+!pipeline/validation/v7_0_5_thesis_2026-05-09/**
+
+# Marketing artifacts (pitch deck + tilth deck) — out of engineering repo.
+assets/Decks/
+tilth_v2.pptx
+
+# Blueprint and website mockup images (heavy, non-code).
+assets/Tilth BluePrint/
+assets/website/
+
+# Top-level research PDFs (capital logic / interop / sovereignty etc.) —
+# live as working files; not in the engineering repo.
+/research/
+
+# Bulk corpus directory — IRS Form 990-PF TEOS XML extracts (raw, ~4.8 GB)
+# plus derived summaries (processed, ~99 MB). Regeneratable from the IRS
+# bulk download endpoints; out of scope for the engineering repo. Track only
+# the README that documents what lives here and how to refresh it.
+# (Pattern is `data/*` not `data/` so git still descends and the README
+# negation can match — git won't descend into a fully-ignored directory.)
+/data/*
+!/data/README.md
+
+# Historical handoff PDFs / .odt — superseded by pipeline/architecture/v0.1/.
+Sovereign_Node_Handoff/project_docs/
+
+# Dated review snapshots and brand-render PNGs at root.
+CTO_Review_*/
+Improvement_Plan_*.md
+king_midas_external_review_brief_*.md
+/AsusGoldenQuill.png
+/DellGoldenQuill.png
+/DellGoldenQuill2.png
+/ChatGPT Image *.png
+/Golden Quill Business Plan*.docx
+
+# Local Claude harness settings (machine-specific allow-rules).
+.claude/
+
+# === 2026-05-15 second pass — anything not active for Tilth-running / Golden-Quill-building today ===
+# Last-month handoff package and sibling-project newsroom kit; superseded by
+# pipeline/architecture/v0.1/ as the canonical authority.
+Sovereign_Node_Handoff/
+
+# Tilth runtime batch logs + cache ledgers (operational artifacts).
+tilth/logs/
+
+# Marketing/site SVG diagrams — out of engineering repo scope.
+site_images/
+
+# === 2026-05-17 — legal templates (operational, not product) ===
+# Working drafts of NDA / non-compete / engagement-letter templates live
+# under docs/legal/. They are operator-facing instruments, contain
+# placeholders for counterparties / consideration / state-of-formation,
+# and are intended for attorney review before signature — not for the
+# public engineering repo. Default-deny the whole directory.
+docs/legal/
+
+# === 2026-05-18 — Ed25519 seed material (defense-in-depth) ===
+# Raw 32-byte Ed25519 seeds derive private signing keys. They live next to
+# ceremony scripts during key-rotation work (e.g. cards-publisher rotation,
+# operator-attestation rotation) and must never enter the public repo.
+# Operator-canonical private seeds live under _private/ (deny-all line 98);
+# this rule catches stray *.seed files anywhere in the tree.
+*.seed
+
+# Funder intelligence staging bulk data
+pipeline/funder_intelligence/_staging/**/*.csv
+pipeline/funder_intelligence/_staging/**/*.jsonl
+pipeline/funder_intelligence/_staging/**/*.xlsx
+
+# Funder staging YAMLs (policy: externalize unless proven canonical)
+pipeline/funder_intelligence/_staging/**/*.yaml
+
+# UI generated material and local states
+apps/tilth_ui/.local/
+apps/tilth_ui/stitch_tilth_os_institutional_shell 3/**/screen.png
+apps/tilth_ui/assets/stitch-tailwind.config-cache.json
+apps/tilth_ui/assets/stitch-tailwind.css
+apps/tilth_ui/assets/stitch-fonts.css
+apps/tilth_ui/assets/fonts/

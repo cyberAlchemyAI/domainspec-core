@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Budget Validator - Golden Quill</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#444748",
+                    "on-tertiary-container": "#5c647a",
+                    "on-tertiary-fixed": "#131b2e",
+                    "background": "#081425",
+                    "primary": "#ffffff",
+                    "on-surface-variant": "#c4c7c8",
+                    "tertiary-fixed": "#dae2fd",
+                    "primary-fixed": "#e2e2e2",
+                    "secondary-container": "#3a4a5f",
+                    "on-error-container": "#ffdad6",
+                    "primary-fixed-dim": "#c6c6c7",
+                    "on-primary-fixed-variant": "#454747",
+                    "outline": "#8e9192",
+                    "on-secondary-container": "#a9bad3",
+                    "surface-container-lowest": "#040e1f",
+                    "inverse-on-surface": "#263143",
+                    "tertiary-container": "#dae2fd",
+                    "on-secondary": "#213145",
+                    "surface-container": "#152031",
+                    "on-error": "#690005",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "on-background": "#d8e3fb",
+                    "surface-variant": "#2a3548",
+                    "surface-container-highest": "#2a3548",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "surface-container-low": "#111c2d",
+                    "on-tertiary": "#283044",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "inverse-surface": "#d8e3fb",
+                    "error": "#ffb4ab",
+                    "surface-container-high": "#1f2a3c",
+                    "surface": "#081425",
+                    "secondary": "#b7c8e1",
+                    "primary-container": "#e2e2e2",
+                    "surface-dim": "#081425",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "on-primary": "#2f3131",
+                    "secondary-fixed": "#d3e4fe",
+                    "error-container": "#93000a",
+                    "on-secondary-fixed": "#0b1c30",
+                    "tertiary": "#ffffff",
+                    "on-surface": "#d8e3fb",
+                    "inverse-primary": "#5d5f5f",
+                    "on-primary-container": "#636565",
+                    "surface-tint": "#c6c6c7",
+                    "surface-bright": "#2f3a4c",
+                    "on-primary-fixed": "#1a1c1c"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "panel-gap": "8px",
+                    "gutter": "1px",
+                    "sidebar-width": "220px",
+                    "container-padding": "16px"
+            },
+            "fontFamily": {
+                    "label-caps": [
+                            "JetBrains Mono"
+                    ],
+                    "body-md": [
+                            "Hanken Grotesk"
+                    ],
+                    "headline-md": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-sm": [
+                            "Hanken Grotesk"
+                    ],
+                    "display-lg": [
+                            "Hanken Grotesk"
+                    ],
+                    "data-mono": [
+                            "JetBrains Mono"
+                    ]
+            },
+            "fontSize": {
+                    "label-caps": [
+                            "11px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "20px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "display-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "data-mono": [
+                            "13px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "500"
+                            }
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { background-color: #020617; color: #d8e3fb; font-family: 'Hanken Grotesk', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; font-size: 18px; }
+        .panel { background-color: #0F172A; }
+        .sub-panel { background-color: #1E293B; }
+        .border-tech { border: 1px solid #334155; }
+        .border-tech-primary { border: 1px solid #ffffff; }
+        .rust-text { color: #EF4444; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 0px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden">
+<!-- TopAppBar -->
+<header class="flex items-center justify-between px-container-padding w-full h-[56px] bg-surface-container-highest dark:bg-surface-container-highest border-b border-outline-variant shrink-0 z-10">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg font-bold text-primary dark:text-primary tracking-tighter">GOLDEN QUILL</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 border-r border-outline-variant pr-6">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Applied As:</span>
+<span class="font-data-mono text-data-mono text-primary">FIT Farms LLC</span>
+</div>
+<div class="flex items-center gap-2 border-r border-outline-variant pr-6">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Licensed Node:</span>
+<span class="font-data-mono text-data-mono text-primary">fit-farms-pgh-001</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-surface-tint">security</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-surface-tint">verified_user</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-surface-tint">gavel</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="w-[220px] h-full border-r border-outline-variant bg-surface-container-low dark:bg-surface-container-low flex flex-col shrink-0">
+<div class="p-4 border-b border-outline-variant">
+<div class="font-headline-md text-headline-md text-primary">NODE IDENTITY</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mt-1">POSTURE: SECURE</div>
+</div>
+<div class="flex-1 overflow-y-auto py-2">
+<!-- Nav Items -->
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-label-caps">Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-caps text-label-caps">Scout</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined">input</span>
+<span class="font-label-caps text-label-caps">Intake</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps">Eligibility</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-caps text-label-caps">Module Mapper</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-label-caps text-label-caps">Drafting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 bg-primary text-on-primary font-bold border-l-2 border-on-tertiary-fixed" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-caps text-label-caps">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-caps text-label-caps">Judge</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="font-label-caps text-label-caps">Red Team</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined">signature</span>
+<span class="font-label-caps text-label-caps">Sign-Off</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined">history_edu</span>
+<span class="font-label-caps text-label-caps">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined">style</span>
+<span class="font-label-caps text-label-caps">Cards</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined">fingerprint</span>
+<span class="font-label-caps text-label-caps">FIDs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:bg-surface-container-high transition-none" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-caps text-label-caps">Costs</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col min-w-0 p-[8px] gap-[8px] overflow-hidden">
+<!-- Decision Strip -->
+<div class="panel border-tech p-4 flex items-center justify-between shrink-0">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-[#F59E0B]"></div>
+<span class="font-headline-md text-headline-md text-primary">Is the budget current and compliant?</span>
+</div>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-2 hover:bg-primary-fixed transition-none">
+                    RUN BUDGET VALIDATION
+                </button>
+</div>
+<!-- Content Grid Layout -->
+<div class="flex-1 flex gap-[8px] overflow-hidden">
+<!-- Left Panel: Fiscal Compliance Grid -->
+<div class="flex-[2] panel border-tech flex flex-col overflow-hidden relative">
+<div class="p-3 border-b border-outline-variant bg-surface-container-highest shrink-0 flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">FISCAL COMPLIANCE LEDGER</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">VALIDATION: PENDING</span>
+</div>
+<div class="flex-1 overflow-auto">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-[#0F172A] z-10">
+<tr>
+<th class="font-label-caps text-label-caps text-[#64748B] p-3 border-b border-outline-variant font-normal">CATEGORY</th>
+<th class="font-label-caps text-label-caps text-[#64748B] p-3 border-b border-outline-variant font-normal text-right">REQUESTED</th>
+<th class="font-label-caps text-label-caps text-[#64748B] p-3 border-b border-outline-variant font-normal text-right">MATCH REQUIRED</th>
+<th class="font-label-caps text-label-caps text-[#64748B] p-3 border-b border-outline-variant font-normal text-center">STATUS</th>
+</tr>
+</thead>
+<tbody class="font-data-mono text-data-mono">
+<tr class="hover:bg-[#1E293B] border-b border-outline-variant cursor-pointer">
+<td class="p-3 text-primary">Equipment Procurement</td>
+<td class="p-3 text-right">$450,000.00</td>
+<td class="p-3 text-right">$112,500.00</td>
+<td class="p-3 text-center"><div class="inline-block w-2 h-2 bg-[#22C55E]"></div></td>
+</tr>
+<tr class="hover:bg-[#1E293B] border-b border-outline-variant cursor-pointer sub-panel border-tech-primary">
+<td class="p-3 text-primary">Facility Expansion (Phase II)</td>
+<td class="p-3 text-right">$1,200,000.00</td>
+<td class="p-3 text-right">$300,000.00</td>
+<td class="p-3 text-center"><div class="inline-block w-2 h-2 bg-[#EF4444]"></div></td>
+</tr>
+<tr class="hover:bg-[#1E293B] border-b border-outline-variant cursor-pointer">
+<td class="p-3 text-primary">Personnel (FTEs)</td>
+<td class="p-3 text-right">$280,000.00</td>
+<td class="p-3 text-right">$70,000.00</td>
+<td class="p-3 text-center"><div class="inline-block w-2 h-2 bg-[#22C55E]"></div></td>
+</tr>
+<tr class="hover:bg-[#1E293B] border-b border-outline-variant cursor-pointer">
+<td class="p-3 text-primary">Specialized Software Licensing</td>
+<td class="p-3 text-right">$45,000.00</td>
+<td class="p-3 text-right">$11,250.00</td>
+<td class="p-3 text-center"><div class="inline-block w-2 h-2 bg-[#22C55E]"></div></td>
+</tr>
+<tr class="hover:bg-[#1E293B] border-b border-outline-variant cursor-pointer">
+<td class="p-3 text-primary">Consulting Services</td>
+<td class="p-3 text-right">$85,000.00</td>
+<td class="p-3 text-right">$21,250.00</td>
+<td class="p-3 text-center"><div class="inline-block w-2 h-2 bg-[#F59E0B]"></div></td>
+</tr>
+<tr class="hover:bg-[#1E293B] border-b border-outline-variant cursor-pointer">
+<td class="p-3 text-primary">Travel &amp; Logistics</td>
+<td class="p-3 text-right">$12,000.00</td>
+<td class="p-3 text-right">$3,000.00</td>
+<td class="p-3 text-center"><div class="inline-block w-2 h-2 bg-[#22C55E]"></div></td>
+</tr>
+<tr class="hover:bg-[#1E293B] border-b border-outline-variant cursor-pointer">
+<td class="p-3 text-primary">Contingency Fund</td>
+<td class="p-3 text-right">$103,600.00</td>
+<td class="p-3 text-right">$25,900.00</td>
+<td class="p-3 text-center"><div class="inline-block w-2 h-2 bg-[#22C55E]"></div></td>
+</tr>
+</tbody>
+<tfoot class="bg-surface-container-highest font-data-mono text-data-mono sticky bottom-0 border-t border-outline-variant">
+<tr>
+<td class="p-3 text-primary font-bold">TOTAL AGGREGATE</td>
+<td class="p-3 text-right text-primary font-bold">$2,175,600.00</td>
+<td class="p-3 text-right text-primary font-bold">$543,900.00</td>
+<td class="p-3 text-center"><span class="font-label-caps text-label-caps rust-text">VIOLATION</span></td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+<!-- Right Panel: Inspector -->
+<div class="flex-1 panel border-tech flex flex-col overflow-hidden">
+<div class="p-3 border-b border-outline-variant bg-surface-container-highest shrink-0">
+<span class="font-label-caps text-label-caps text-on-surface-variant">INSPECTOR: FACILITY EXPANSION (PHASE II)</span>
+</div>
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+<!-- Violation Header -->
+<div class="border border-[#9C3C28] bg-[#0F172A] p-4 relative">
+<div class="absolute top-0 left-0 w-1 h-full bg-[#9C3C28]"></div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined rust-text">warning</span>
+<span class="font-headline-md text-headline-md rust-text">Over Budget Cap</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant font-serif">
+                                The requested amount for Facility Expansion exceeds the maximum allowable cap defined in Section 4.2.A of the FY24 Capital Projects Directive.
+                            </p>
+</div>
+<!-- Data Points -->
+<div class="grid grid-cols-2 gap-4">
+<div class="sub-panel border-tech p-3">
+<div class="font-label-caps text-label-caps text-[#64748B] mb-1">REQUESTED</div>
+<div class="font-data-mono text-data-mono text-primary">$1,200,000.00</div>
+</div>
+<div class="sub-panel border-tech p-3">
+<div class="font-label-caps text-label-caps text-[#64748B] mb-1">ALLOWABLE CAP</div>
+<div class="font-data-mono text-data-mono text-primary">$1,000,000.00</div>
+</div>
+<div class="sub-panel border-tech p-3 col-span-2">
+<div class="font-label-caps text-label-caps text-[#64748B] mb-1">VARIANCE</div>
+<div class="font-data-mono text-data-mono rust-text">+$200,000.00 (20.00% Overage)</div>
+</div>
+</div>
+<!-- Allowable Use Rules -->
+<div class="border-t border-outline-variant pt-4">
+<h3 class="font-label-caps text-label-caps text-primary mb-3">SOURCE-BACKED RULES</h3>
+<div class="sub-panel border-tech p-3 mb-3">
+<div class="flex justify-between items-center mb-2">
+<span class="font-data-mono text-data-mono text-on-surface-variant text-[11px]">DOC_HASH: <span class="text-primary">a7f9b2...4c1d</span></span>
+<span class="material-symbols-outlined text-[#64748B] text-[14px]">open_in_new</span>
+</div>
+<blockquote class="font-body-sm text-body-sm text-on-surface-variant italic font-serif border-l-2 border-[#64748B] pl-3">
+                                    "Capital expenditures related to structural expansion or ground-up construction shall not exceed $1,000,000 per licensed node per fiscal year without explicit Level 3 authorization."
+                                </blockquote>
+</div>
+</div>
+<!-- Actions -->
+<div class="mt-auto pt-4 flex gap-3 border-t border-outline-variant">
+<button class="flex-1 bg-transparent border border-outline-variant text-primary font-label-caps text-label-caps px-4 py-2 hover:bg-surface-container-high transition-none">
+                                OVERRIDE (L3 REQ)
+                            </button>
+<button class="flex-1 bg-transparent border border-[#EF4444] text-[#EF4444] font-label-caps text-label-caps px-4 py-2 hover:bg-[#EF4444] hover:text-black transition-none">
+                                REJECT LINE ITEM
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Terminal/Log Panel -->
+<div class="h-[120px] panel border-tech flex flex-col shrink-0 bg-black">
+<div class="p-2 border-b border-outline-variant bg-surface-container-highest shrink-0 flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[14px]">terminal</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">SYSTEM LOGS</span>
+</div>
+<div class="p-3 font-data-mono text-[12px] text-[#64748B] overflow-y-auto flex-1 flex flex-col gap-1">
+<div><span class="text-primary">&gt;</span> INITIALIZING BUDGET VALIDATION SEQUENCE...</div>
+<div><span class="text-primary">&gt;</span> LOADED 7 LINE ITEMS FOR NODE: fit-farms-pgh-001</div>
+<div><span class="text-primary">&gt;</span> VERIFYING MATCH REQUIREMENTS... OK.</div>
+<div><span class="text-primary">&gt;</span> CHECKING CATEGORY CAPS AGAINST FY24 DIRECTIVE...</div>
+<div class="text-[#EF4444]"><span class="text-primary">&gt;</span> ERR: LINE ITEM 2 (Facility Expansion) EXCEEDS HARD CAP.</div>
+<div><span class="text-primary animate-pulse">_</span></div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="flex items-center justify-between px-4 w-full h-[32px] bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant shrink-0 z-50 fixed bottom-0">
+<span class="font-label-caps text-label-caps text-primary">NODE_FINALITY: GOLD-BURNISHED</span>
+<div class="flex items-center gap-6">
+<span class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary cursor-pointer">SYSTEM_STATUS</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary cursor-pointer">AUDIT_LOG</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant hover:text-primary cursor-pointer">FID_0x2A</span>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,21 @@
+{
+  "_comment": "Preserved topology vectors. Each vector: {path_under_repo, bound_slug, expected, root_label}. Vectors cover all five DOC_SOURCED roots plus rejection cases. Committee will audit against these exact triples.",
+  "_schema_version": "v1",
+  "_created": "2026-04-19",
+  "accept": [
+    {"path_under_repo": "rfa/usda_vapg_fy26.pdf", "bound_slug": "myco", "root_label": "rfa"},
+    {"path_under_repo": "rfa/nested/deep/file.txt", "bound_slug": "myco", "root_label": "rfa"},
+    {"path_under_repo": "orgs/myco/PROJECT_CONTEXT.md", "bound_slug": "myco", "root_label": "org"},
+    {"path_under_repo": "orgs/myco/dossier/entities/partner_a.md", "bound_slug": "myco", "root_label": "dossier"},
+    {"path_under_repo": "pipeline/rubrics/vapg_fy26.json", "bound_slug": "myco", "root_label": "rubrics"},
+    {"path_under_repo": "pipeline/institutional_memory/lessons.md", "bound_slug": "myco", "root_label": "institutional_memory"}
+  ],
+  "reject": [
+    {"path_under_repo": "vault/cached/foo.md", "bound_slug": "myco", "reason": "cache_root_not_doc_sourced"},
+    {"path_under_repo": "pipeline/drafts/x.md", "bound_slug": "myco", "reason": "drafts_root_not_doc_sourced"},
+    {"path_under_repo": "orgs/other/PROJECT_CONTEXT.md", "bound_slug": "myco", "reason": "cross_org_slug_mismatch"},
+    {"path_under_repo": "orgs/myco2/PROJECT_CONTEXT.md", "bound_slug": "myco", "reason": "prefix_collision_not_whitelisted"},
+    {"path_under_repo": "rfa2/file.md", "bound_slug": "myco", "reason": "prefix_collision_rfa"},
+    {"path_under_repo": "README.md", "bound_slug": "myco", "reason": "repo_root_not_doc_sourced"}
+  ]
+}
