@@ -1,27 +1,57 @@
 ---
-name: arcanum-spell-implementation-readiness
-description: Run the installed Arcanum spell implementation-readiness through its local runtime adapter.
-argument-hint: "<request-for-implementation-readiness>"
-allowed-tools: Read, Glob, Grep, AskQuestions, Task
+surface_kind: generated-native-runtime-package
+runtime: github-copilot
+canonical_source: spells/implementation-readiness/README.md
+alias_of: null
+generated_by: tools/bootstrap_arcanum.sh --profile
+mutation_policy: regenerate-from-canonical-source
 ---
 
-# Arcanum spell: implementation readiness
+# Implementation Readiness
 
-<objective>
-Expose the installed Arcanum spell adapter to GitHub Copilot's required discovery path.
-</objective>
+## Identity
 
-<context>
-The canonical local adapter lives at .arcanum/runtimes/github-copilot/skills/arcanum-spell-implementation-readiness/SKILL.md.
-</context>
+- Canonical ID: `implementation-readiness`
+- Aliases: none
+- Scope: library
 
-<process>
-1. Read .arcanum/runtimes/github-copilot/skills/arcanum-spell-implementation-readiness/SKILL.md.
-2. Follow that adapter's process.
-3. If the runtime adapter is unavailable, report a blocked install and ask to rerun Arcanum bootstrap.
-</process>
+Implementation Readiness composes `implementation-layering`, `decision-gate`, and `task-session` so a rough implementation goal becomes staged, decided, and ready for one bounded execution loop.
 
-<guardrails>
-- Keep this file as a discovery bridge only.
-- Do not copy full artifact internals into this wrapper.
-</guardrails>
+## Trigger Conditions
+
+- The user has a feature, workflow, infrastructure change, or improvement idea.
+- The work needs staged implementation before execution.
+- Blocker decisions should be resolved before mutation.
+
+## Required Sigils
+
+| Sigil | Role In Spell | Required Mode |
+| ----- | ------------- | ------------- |
+| `implementation-layering` | Create staged implementation layers. | standard |
+| `decision-gate` | Resolve blocker-level decisions revealed by the layers. | generic |
+| `task-session` | Prepare or execute one selected task. | dry-run or execute |
+
+## Shared State
+
+| State | Owner | Updated By | Consumed By |
+| ----- | ----- | ---------- | ----------- |
+| layer plan | spell | `implementation-layering` | `decision-gate`, `task-session` |
+| decision record | spell | `decision-gate` | `task-session` |
+| task run report | spell | `task-session` | user, observability |
+
+## Execution Phases
+
+| Phase | Sigil | Input | Output | Gate | Failure Policy |
+| ----- | ----- | ----- | ------ | ---- | -------------- |
+| 1 | `implementation-layering` | implementation goal | layer plan | minimum useful proof identified | block if scope is unclear |
+| 2 | `decision-gate` | layer plan | decision record | blocker decisions resolved | block on unresolved blockers |
+| 3 | `task-session` | selected layer or task | task report | done criteria and validation path known | flag if execution should wait |
+| 4 | optional `inventory` | layer plan and decisions | inventory entries | inventory exists | skip if no inventory package |
+
+## Observability
+
+Record layer count, decision count, blockers, selected task, validation readiness, and follow-up items when `.arcanum/observability/` exists.
+
+## Output Contract
+
+Return a readiness report with layer plan path or summary, resolved decisions, task-session result, blockers, and recommended next action.

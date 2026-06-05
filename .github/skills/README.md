@@ -6,6 +6,7 @@ Rules:
 
 - Keep Type A canonical DomainSpec implementation skills in `implementation/domainspec/copilot`.
 - Keep Type C project-local overlays in their local consumer repositories.
+- Treat skills as the default Arcanum and DomainSpec runtime surface. Do not add paired `.codex/commands` files unless a documented runtime-compatibility task requires them.
 - Track any migration decisions in `ops/AGENT-SKILL-TRIAGE-MATRIX.md`.
 
 Research-scoped discovery skills include:

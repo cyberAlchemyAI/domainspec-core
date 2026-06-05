@@ -1,27 +1,49 @@
 ---
-name: arcanum-spell-sigil-maintenance-loop
-description: Run the installed Arcanum spell sigil-maintenance-loop through its local runtime adapter.
-argument-hint: "<request-for-sigil-maintenance-loop>"
-allowed-tools: Read, Glob, Grep, AskQuestions, Task
+surface_kind: generated-native-runtime-package
+runtime: github-copilot
+canonical_source: spells/sigil-maintenance-loop/README.md
+alias_of: null
+generated_by: tools/bootstrap_arcanum.sh --profile
+mutation_policy: regenerate-from-canonical-source
 ---
 
-# Arcanum spell: sigil maintenance loop
+# Sigil Maintenance Loop
 
-<objective>
-Expose the installed Arcanum spell adapter to GitHub Copilot's required discovery path.
-</objective>
+## Identity
 
-<context>
-The canonical local adapter lives at .arcanum/runtimes/github-copilot/skills/arcanum-spell-sigil-maintenance-loop/SKILL.md.
-</context>
+- Canonical ID: `sigil-maintenance-loop`
+- Aliases: none
+- Scope: library
 
-<process>
-1. Read .arcanum/runtimes/github-copilot/skills/arcanum-spell-sigil-maintenance-loop/SKILL.md.
-2. Follow that adapter's process.
-3. If the runtime adapter is unavailable, report a blocked install and ask to rerun Arcanum bootstrap.
-</process>
+Sigil Maintenance Loop composes `signal-observer`, `workflow-reflect`, and `sigil-development` so reusable sigils improve from usage evidence.
 
-<guardrails>
-- Keep this file as a discovery bridge only.
-- Do not copy full artifact internals into this wrapper.
-</guardrails>
+## Trigger Conditions
+
+- A sigil has meaningful execution history.
+- Telemetry shows repeated gaps, output drift, user corrections, or quality failures.
+- The user asks to tune, reflect on, or improve a sigil.
+
+## Required Sigils
+
+| Sigil | Role In Spell | Required Mode |
+| ----- | ------------- | ------------- |
+| `signal-observer` | Record post-run behavior signals. | observe |
+| `workflow-reflect` | Analyze accumulated signals and propose changes. | reflect |
+| `sigil-development` | Apply approved targeted updates. | update or reflect |
+
+## Execution Phases
+
+| Phase | Sigil | Input | Output | Gate | Failure Policy |
+| ----- | ----- | ----- | ------ | ---- | -------------- |
+| 1 | `signal-observer` | latest invocation envelope | telemetry row | evidence is sufficient | skip when no meaningful run exists |
+| 2 | `workflow-reflect` | telemetry ledger | reflection report | threshold or manual trigger met | stop if insufficient signal |
+| 3 | `sigil-development` | reflection report | updated sigil or no-change decision | user approves change scope | block on contract-breaking changes |
+| 4 | spell report | phase outputs | maintenance report | validation performed | flag remaining gaps |
+
+## Observability
+
+Record signal counts, thresholds, proposed changes, accepted changes, rejected changes, validation status, and next reflection trigger.
+
+## Output Contract
+
+Return a maintenance report with observed sigil, reflection trigger, proposal summary, files changed if any, validation, and next lifecycle step.
