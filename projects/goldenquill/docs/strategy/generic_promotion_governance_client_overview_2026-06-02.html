@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Promotion Governance - Generic Client Overview</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17202a;
+      --muted: #596579;
+      --line: #d9e0e7;
+      --paper: #f7f8fa;
+      --panel: #ffffff;
+      --navy: #20324a;
+      --teal: #167a78;
+      --gold: #b77616;
+      --rose: #a54a5d;
+      --green: #4b7d3b;
+      --blue: #3c659c;
+      --shadow: 0 18px 45px rgba(21, 33, 49, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    section,
+    .hero-copy,
+    .hero-model {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    section {
+      margin-bottom: 18px;
+      padding: 22px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(310px, 0.95fr);
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 22px;
+    }
+
+    .hero-copy { padding: 30px; }
+    .hero-model { padding: 22px; }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--teal);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3 {
+      letter-spacing: 0;
+      line-height: 1.12;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      max-width: 760px;
+      color: var(--navy);
+      font-size: clamp(2rem, 5vw, 4.1rem);
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      color: var(--navy);
+      font-size: 1.45rem;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      color: var(--navy);
+      font-size: 1rem;
+    }
+
+    p { margin: 0 0 12px; }
+
+    .lead {
+      max-width: 760px;
+      color: #334054;
+      font-size: 1.08rem;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 5px 10px;
+      border: 1px solid #cfd8df;
+      border-radius: 999px;
+      background: #fbfcfd;
+      color: #3e4d60;
+      font-size: 0.83rem;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .stack {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .stack-row {
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-left-width: 6px;
+      border-radius: 8px;
+      background: #fbfcfd;
+    }
+
+    .stack-row strong {
+      display: block;
+      color: var(--navy);
+      font-size: 0.88rem;
+    }
+
+    .stack-row span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .workflow { border-left-color: var(--blue); }
+    .evidence { border-left-color: var(--teal); }
+    .candidate { border-left-color: var(--gold); }
+    .vault { border-left-color: var(--rose); }
+    .decision { border-left-color: var(--green); }
+
+    .toc {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      margin: 0 0 22px;
+      padding: 12px;
+      background: rgba(247, 248, 250, 0.94);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .toc nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .toc a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: #2d4058;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card {
+      min-height: 100%;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfd;
+    }
+
+    .card p,
+    .card li {
+      color: #425066;
+      font-size: 0.92rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      margin-bottom: 8px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #edf5f4;
+      color: var(--teal);
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+
+    .diagram {
+      overflow-x: auto;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfd;
+    }
+
+    .flow-svg {
+      width: 100%;
+      min-width: 760px;
+      height: auto;
+      display: block;
+    }
+
+    .node {
+      fill: #fff;
+      stroke: #cdd7df;
+      stroke-width: 1.3;
+    }
+
+    .node-text {
+      fill: var(--navy);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .node-sub {
+      fill: #5f6c7c;
+      font-size: 11px;
+    }
+
+    .line {
+      stroke: #9aaaba;
+      stroke-width: 2;
+      marker-end: url(#arrow);
+    }
+
+    .gate-line {
+      stroke: var(--rose);
+      stroke-width: 2;
+      stroke-dasharray: 5 5;
+      marker-end: url(#arrow-red);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 2px;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--navy);
+      background: #eef2f6;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: #eef2f6;
+      color: #28384b;
+      font-size: 0.86em;
+    }
+
+    pre {
+      overflow-x: auto;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #101923;
+      color: #edf6ff;
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    ul { margin: 8px 0 0; padding-left: 20px; }
+    li + li { margin-top: 6px; }
+
+    .callout {
+      padding: 14px 16px;
+      border: 1px solid #d6e5e3;
+      border-left: 5px solid var(--teal);
+      border-radius: 8px;
+      background: #f3faf9;
+    }
+
+    .warning {
+      border-color: #ead7da;
+      border-left-color: var(--rose);
+      background: #fff7f8;
+    }
+
+    .footer {
+      color: var(--muted);
+      font-size: 0.86rem;
+      text-align: center;
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy { padding: 24px; }
+      .stack-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">Generic overview | Promotion governance</p>
+        <h1>A governed learning layer for any knowledge workflow</h1>
+        <p class="lead">
+          Teams can learn from real outcomes, failures, reviews, customer feedback,
+          operational metrics, and expert judgment without turning a draft, metric,
+          meeting note, or dashboard label into reusable truth too early.
+        </p>
+        <p class="lead">
+          The design treats each work run as a traceable learning graph: what
+          happened, what proved it, what it suggests, what can be reused, and who
+          approved that reuse.
+        </p>
+        <div class="meta">
+          <span class="pill">Source-backed evidence</span>
+          <span class="pill">Privacy-aware learning</span>
+          <span class="pill">Owner-approved reuse</span>
+          <span class="pill">Metrics without false authority</span>
+        </div>
+      </div>
+      <div class="hero-model">
+        <p class="eyebrow">Layer model</p>
+        <h2>From work run to approved learning</h2>
+        <div class="stack">
+          <div class="stack-row workflow">
+            <strong>Work Run</strong>
+            <span>Context, task, review, drafting, scoring, gates, signoff, and delivery.</span>
+          </div>
+          <div class="stack-row evidence">
+            <strong>Evidence</strong>
+            <span>Source records, customer feedback, evaluator notes, outcomes, reports, logs, and decision receipts.</span>
+          </div>
+          <div class="stack-row candidate">
+            <strong>Learning Signal</strong>
+            <span>Validated outcomes and metrics create reviewable lessons, not automatic reusable knowledge.</span>
+          </div>
+          <div class="stack-row vault">
+            <strong>Governance</strong>
+            <span>Privacy, source strength, allowed-use boundaries, and contradiction paths are checked before reuse.</span>
+          </div>
+          <div class="stack-row decision">
+            <strong>Owner Decision</strong>
+            <span>Reuse becomes approved only after an explicit approve, reject, retire, contradict, or keep-private decision.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="toc">
+      <nav aria-label="Overview sections">
+        <a href="#executive">Executive View</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#graph">Run Graph</a>
+        <a href="#evidence">Evidence Rules</a>
+        <a href="#metrics">Metrics</a>
+        <a href="#examples">Outcome Examples</a>
+        <a href="#decisions">Client Decisions</a>
+      </nav>
+    </div>
+
+    <section id="executive">
+      <h2>Executive View</h2>
+      <div class="grid-3">
+        <div class="card">
+          <span class="tag">Problem</span>
+          <h3>Real-world learning is valuable but easy to misread.</h3>
+          <p>
+            A project may be started, reviewed, blocked, delivered, rejected,
+            adopted, partially successful, or retired later. Each event is useful,
+            but none should be over-interpreted.
+          </p>
+        </div>
+        <div class="card">
+          <span class="tag">Design</span>
+          <h3>Make learning traceable before it becomes reusable.</h3>
+          <p>
+            The system records the work run, captures source-backed outcomes, turns
+            selected signals into reviewable learning, and asks an owner to decide
+            what may be reused.
+          </p>
+        </div>
+        <div class="card">
+          <span class="tag">Value</span>
+          <h3>Improve decisions without leaking private context.</h3>
+          <p>
+            The organization can learn from real outcomes while keeping customer,
+            team, evaluator, or partner-specific details private unless they are
+            safely generalized and approved.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <h2>Architecture</h2>
+      <div class="callout">
+        <strong>Selected model:</strong>
+        local work model -> source-backed outcome capture -> reviewable learning
+        signal -> governance layer -> owner decision -> approved reuse, rejection,
+        retirement, contradiction, or private residue.
+      </div>
+      <div class="diagram" aria-label="Architecture flow diagram">
+        <svg class="flow-svg" viewBox="0 0 1020 335" role="img" aria-label="Generic promotion governance architecture">
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L9,3 z" fill="#9aaaba"></path>
+            </marker>
+            <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L9,3 z" fill="#a54a5d"></path>
+            </marker>
+          </defs>
+
+          <rect class="node" x="28" y="44" width="160" height="78" rx="8"></rect>
+          <text class="node-text" x="50" y="76">Work workflow</text>
+          <text class="node-sub" x="50" y="98">Context, review,</text>
+          <text class="node-sub" x="50" y="114">creation, scoring</text>
+
+          <line class="line" x1="188" y1="83" x2="236" y2="83"></line>
+          <rect class="node" x="240" y="44" width="160" height="78" rx="8"></rect>
+          <text class="node-text" x="262" y="76">Run graph</text>
+          <text class="node-sub" x="262" y="98">Order, artifacts,</text>
+          <text class="node-sub" x="262" y="114">gates, blocks</text>
+
+          <line class="line" x1="400" y1="83" x2="448" y2="83"></line>
+          <rect class="node" x="452" y="44" width="160" height="78" rx="8"></rect>
+          <text class="node-text" x="474" y="76">Outcome evidence</text>
+          <text class="node-sub" x="474" y="98">Adoption, rejection,</text>
+          <text class="node-sub" x="474" y="114">feedback, closeout</text>
+
+          <line class="line" x1="532" y1="122" x2="532" y2="166"></line>
+          <rect class="node" x="452" y="170" width="160" height="78" rx="8"></rect>
+          <text class="node-text" x="474" y="202">Metric observation</text>
+          <text class="node-sub" x="474" y="224">Denominators and</text>
+          <text class="node-sub" x="474" y="240">interpretation limits</text>
+
+          <line class="line" x1="612" y1="83" x2="660" y2="83"></line>
+          <line class="line" x1="612" y1="209" x2="660" y2="125"></line>
+          <rect class="node" x="664" y="67" width="160" height="78" rx="8"></rect>
+          <text class="node-text" x="686" y="99">Learning signal</text>
+          <text class="node-sub" x="686" y="121">Candidate for review;</text>
+          <text class="node-sub" x="686" y="137">not authority</text>
+
+          <line class="line" x1="744" y1="145" x2="744" y2="186"></line>
+          <rect class="node" x="664" y="190" width="160" height="78" rx="8"></rect>
+          <text class="node-text" x="686" y="222">Governance layer</text>
+          <text class="node-sub" x="686" y="244">Privacy, source,</text>
+          <text class="node-sub" x="686" y="260">reuse boundaries</text>
+
+          <line class="line" x1="824" y1="229" x2="906" y2="148"></line>
+          <rect class="node" x="876" y="67" width="120" height="78" rx="8"></rect>
+          <text class="node-text" x="897" y="99">Owner</text>
+          <text class="node-sub" x="897" y="121">Approve, reject,</text>
+          <text class="node-sub" x="897" y="137">retire, contradict</text>
+
+          <line class="gate-line" x1="334" y1="122" x2="334" y2="260"></line>
+          <text class="node-sub" x="240" y="292">A blocked gate stops downstream movement until the issue is resolved or explicitly reopened.</text>
+        </svg>
+      </div>
+      <div class="grid-2" style="margin-top: 14px;">
+        <div class="card">
+          <h3>The local model owns work context</h3>
+          <p>
+            Tasks, artifacts, decisions, reviews, outcomes, feedback, stage depth,
+            and metric observations remain grounded in the local business context.
+          </p>
+        </div>
+        <div class="card">
+          <h3>The governance layer owns reuse safety</h3>
+          <p>
+            Reuse requires source strength, privacy treatment, an explicit owner, a
+            permitted use, and a way to challenge the lesson if later evidence disagrees.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="graph">
+      <h2>Work Run Graph</h2>
+      <p>
+        The run graph answers three operational questions: what happened in this
+        work run, in what order, and which gate allowed or blocked the next step.
+      </p>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Minimum run moments</h3>
+          <table>
+            <tbody>
+              <tr><td><code>run_context</code></td><td>One bounded work run.</td></tr>
+              <tr><td><code>project_context_reference</code></td><td>Source pointer to the working context.</td></tr>
+              <tr><td><code>requirement_reference</code></td><td>Source pointer to requirements, brief, policy, or target criteria.</td></tr>
+              <tr><td><code>discovery_record</code></td><td>Record that the work item or opportunity was identified.</td></tr>
+              <tr><td><code>verification_record</code></td><td>Record that the item was verified as usable or rejected.</td></tr>
+              <tr><td><code>operator_review_decision</code></td><td>Human go/no-go or review decision.</td></tr>
+              <tr><td><code>requirement_dissection</code></td><td>Extracted requirements, deadlines, forms, criteria, or constraints.</td></tr>
+              <tr><td><code>preflight_check</code></td><td>Fit, evidence, risk, and gap check.</td></tr>
+              <tr><td><code>draft_or_work_product</code></td><td>Created section, artifact, or version.</td></tr>
+              <tr><td><code>review_suggestion_report</code></td><td>Clarity, risk, quality, or fit suggestions.</td></tr>
+              <tr><td><code>score_or_assessment_report</code></td><td>Rubric score, risk score, or quality assessment.</td></tr>
+              <tr><td><code>responsiveness_map</code></td><td>Requirement-to-response map.</td></tr>
+              <tr><td><code>risk_review</code></td><td>Conditional adversarial or risk review.</td></tr>
+              <tr><td><code>gate_result</code></td><td>Pass, fail, or warn gate result.</td></tr>
+              <tr><td><code>operator_signoff</code></td><td>Approval to deliver, revise, pause, or stop.</td></tr>
+              <tr><td><code>delivery_envelope</code></td><td>Final package delivered, submitted, shipped, or handed off.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Minimum relationships</h3>
+          <table>
+            <tbody>
+              <tr><td><code>precedes</code></td><td>One run moment happened before another.</td></tr>
+              <tr><td><code>consumes</code></td><td>A step used a source, artifact, or decision.</td></tr>
+              <tr><td><code>emits</code></td><td>A step produced an artifact or event.</td></tr>
+              <tr><td><code>blocked_by_gate</code></td><td>A gate prevented movement.</td></tr>
+              <tr><td><code>revised_by</code></td><td>A later review or revision changed an artifact.</td></tr>
+              <tr><td><code>approved_by</code></td><td>Human approval allowed a transition.</td></tr>
+              <tr><td><code>delivered_as</code></td><td>A delivery became a shipped artifact or handoff.</td></tr>
+            </tbody>
+          </table>
+          <h3 style="margin-top: 16px;">Blocked path example</h3>
+          <pre>preflight_check
+  blocked_by_gate gate_result
+gate_result emits evidence_gap</pre>
+          <p>
+            In business terms: if a required evidence or quality gap blocks the run,
+            delivery should not quietly continue as if the gate passed.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="evidence">
+      <h2>Evidence Rules</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Five evidence states stay separate</h3>
+          <table>
+            <thead>
+              <tr><th>State</th><th>Meaning</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Work stage</td><td>Where the work appears to be: discovered, reviewed, created, delivered, adopted, rejected, paused, or retired.</td></tr>
+              <tr><td>Outcome event</td><td>A source-backed event, such as adoption, rejection, feedback, exception, incident, closeout, or renewal.</td></tr>
+              <tr><td>Validation state</td><td>Whether a claim, metric denominator, source reading, risk interpretation, or feedback item has been checked.</td></tr>
+              <tr><td>Graph authority</td><td>Whether the run history is traceable before it becomes reusable knowledge.</td></tr>
+              <tr><td>Source truth</td><td>The official or approved source proving a business fact.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Non-negotiable boundaries</h3>
+          <pre>workflow status != outcome truth
+review feedback != performance validation
+approval notice != long-term success
+draft claim != source fact
+dashboard metric != promotion authority</pre>
+          <p>
+            These boundaries let the organization learn aggressively without
+            inventing false certainty or leaking private context.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="metrics">
+      <h2>Metric Families</h2>
+      <p>
+        Metrics are observations. They can identify useful lessons, but they do not
+        approve those lessons for reuse by themselves.
+      </p>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Lifecycle Depth</h3>
+          <p><code>stage_depth</code>, <code>stage_depth_score</code>, <code>submission_or_delivery_rate</code>, <code>review_reached_rate</code>, <code>decision_reached_rate</code>, <code>closeout_completed_rate</code>.</p>
+        </div>
+        <div class="card">
+          <h3>Outcome Evidence</h3>
+          <p><code>success_rate_by_count</code>, <code>success_rate_by_value</code>, <code>rejection_rate</code>, <code>pending_rate</code>, <code>partial_success_rate</code>, <code>repeat_success_rate</code>, <code>new_channel_conversion_rate</code>.</p>
+        </div>
+        <div class="card">
+          <h3>Quality And Review Movement</h3>
+          <p><code>gate_pass_rate</code>, <code>rubric_coverage_score</code>, <code>objection_resolution_rate</code>, <code>evidence_gap_resolution_rate</code>, <code>revision_delta</code>, <code>feedback_quality</code>.</p>
+        </div>
+        <div class="card">
+          <h3>Strategy Fit</h3>
+          <p><code>go_no_go_selectivity</code>, <code>high_match_pursuit_rate</code>, <code>low_fit_avoidance_rate</code>, <code>relationship_present_rate</code>, <code>prior_pattern_alignment</code>, <code>requirement_drift_rate</code>.</p>
+        </div>
+        <div class="card">
+          <h3>Effort And ROI</h3>
+          <p><code>hours_per_delivery</code>, <code>cost_per_delivery</code>, <code>cost_per_success</code>, <code>value_requested_per_hour</code>, <code>value_realized_per_hour</code>, <code>cycle_time_start_to_delivery</code>, <code>cycle_time_delivery_to_decision</code>.</p>
+        </div>
+        <div class="card">
+          <h3>Capacity And Relationship</h3>
+          <p><code>stakeholder_contacts</code>, <code>new_stakeholder_engagement_rate</code>, <code>collaboration_artifacts_count</code>, <code>team_consultations</code>, <code>internal_training_hours</code>, <code>relationship_touchpoints</code>, <code>retention_rate</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="examples">
+      <h2>Outcome Examples</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Delivered but not reviewed</h3>
+          <pre>delivery package sent
+recipient accepts package
+stage becomes delivered
+metric updates delivery_rate</pre>
+          <p>Use to track operational completion. Do not infer quality or impact.</p>
+        </div>
+        <div class="card">
+          <h3>Rejected after review</h3>
+          <pre>review feedback arrives
+rejection notice arrives
+metric updates review_reached_rate
+private lesson is created for review</pre>
+          <p>Use to learn from evaluator feedback. Reuse outside the original context requires generalization and approval.</p>
+        </div>
+        <div class="card">
+          <h3>Partially successful</h3>
+          <pre>requested value: 100%
+realized value: 60%
+metric updates realization_rate
+scope framing lesson is reviewed</pre>
+          <p>Use to learn about framing, fit, expectation setting, or value assumptions.</p>
+        </div>
+        <div class="card">
+          <h3>Successful closeout</h3>
+          <pre>final report accepted
+work item closed out
+relationship metric updates
+stewardship lesson is reviewed</pre>
+          <p>Use to learn from delivery quality, stewardship, operations, and relationship signals.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="decisions">
+      <h2>Client Decisions To Confirm</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Business and governance decisions</h3>
+          <ul>
+            <li>Who can approve reuse beyond the original customer, team, or project context?</li>
+            <li>Which feedback must always remain private?</li>
+            <li>Which source types count as acceptable evidence?</li>
+            <li>Which metric families matter most for the first client-facing view?</li>
+            <li>When should lessons be reviewed: after delivery, review, decision, closeout, or renewal?</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Recommended guardrails</h3>
+          <ul>
+            <li>Metrics identify lessons; they do not approve reuse.</li>
+            <li>Private feedback stays private unless generalized and approved.</li>
+            <li>Approved reuse requires a named owner decision.</li>
+            <li>Every lesson needs a source and a way to be challenged by later evidence.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout warning" style="margin-top: 14px;">
+        <strong>Reusable framing:</strong>
+        Promotion governance turns day-to-day work into a governed learning loop
+        around strategy, quality, evidence gaps, outcomes, relationships, and safe reuse.
+      </div>
+    </section>
+
+    <p class="footer">Prepared 2026-06-02 as a generic presentation artifact.</p>
+  </main>
+</body>
+</html>

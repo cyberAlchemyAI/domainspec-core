@@ -1,0 +1,67 @@
+{
+  "dispatch_id": "goldenquill-poc-today-2026-06-05",
+  "status": "planned",
+  "raw_operator_intent": "I want to have a POC of Golden Quill today; refine everything so we can have the whole plan ready to execute, get all blockers and gaps, then run interrogation with decision-gate.",
+  "refinement_objective": "Produce an execution-ready same-day POC plan with blockers, gaps, interrogation review, and decision gate.",
+  "selected_overlays": [
+    "baseline_sequence",
+    "xray_for_hidden_structure",
+    "toy_game_for_low_cost_falsification",
+    "memory_residue_for_context_recovery",
+    "owner_boundary_check"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "reason": "Same-day POC planning can be completed from current repository artifacts without sibling agents."
+  },
+  "steps": [
+    {
+      "id": "context-builder",
+      "owner": "refine",
+      "status": "pass",
+      "output": "RUN-MANIFEST.md"
+    },
+    {
+      "id": "refine-seed",
+      "owner": "refine",
+      "status": "pass",
+      "output": "REFINE-SEED-PROPOSAL.md"
+    },
+    {
+      "id": "interrogation",
+      "owner": "interrogation",
+      "status": "pass",
+      "output": "stages/INTERROGATION-REVIEW.md"
+    },
+    {
+      "id": "decision-gate",
+      "owner": "decision-gate",
+      "status": "block",
+      "output": "../../../../decisions/goldenquill-poc-today-decision-gate-2026-06-05.md"
+    },
+    {
+      "id": "final-plan",
+      "owner": "refine",
+      "status": "pass",
+      "output": "RESULT.md"
+    }
+  ],
+  "gates": [
+    {
+      "id": "no-production-mutation",
+      "status": "pass",
+      "rule": "Plan only; execution must not mutate production org memory, signed cards, LOCKed blueprints, or ontology templates."
+    },
+    {
+      "id": "poc-audience-decision",
+      "status": "block",
+      "rule": "Audience affects copy, route, and validation depth."
+    },
+    {
+      "id": "poc-surface-decision",
+      "status": "block",
+      "rule": "Surface choice affects implementation path."
+    }
+  ]
+}
+

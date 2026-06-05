@@ -1,0 +1,218 @@
+{
+  "identity": {
+    "task_or_swu": "GQ-PR-L0",
+    "source_reference": "GoldenQuill canonical promotion-record strategy and Ontology Vault PromotionRecord refresh",
+    "session_or_run_id": "arcanum-hook-019e8f03-5862-7381-b103-9d1be1a42f60",
+    "session_evidence_path": "docs/strategy/development/handoffs/2026-06-03-promotion-record-l0-continuation/context-builder/",
+    "runtime_handoff": "runtime",
+    "repository_revision": "477f2ea5c72797d4c757086d98aac8aca130c0b7",
+    "evidence_date": "2026-06-03"
+  },
+  "strict_coverage": "pass",
+  "fallback_exploration": {
+    "status": "named-gaps-only",
+    "allowed_gap_ids": [
+      "locate-existing-grant-dag-files",
+      "check-import-test-conventions",
+      "verify-validation-command-availability"
+    ]
+  },
+  "obligations": [
+    {
+      "id": "O1",
+      "status": "covered",
+      "summary": "Continue in GoldenQuill, not Arcanum.",
+      "selected_evidence": [
+        {
+          "path": "docs/strategy/goldenquill_canonical_promotion_record_refine_2026-06-03.md",
+          "selector": "lines 17-42",
+          "excerpt_summary": "GoldenQuill is the canonical applied reference; Ontology Vault owns governance semantics."
+        }
+      ],
+      "resolution": "covered"
+    },
+    {
+      "id": "O2",
+      "status": "covered",
+      "summary": "Build the L0 fixture/proof layer first.",
+      "selected_evidence": [
+        {
+          "path": "docs/strategy/goldenquill_canonical_promotion_record_refine_2026-06-03.md",
+          "selector": "lines 144-173",
+          "excerpt_summary": "Required positive and negative fixture families are listed."
+        },
+        {
+          "path": "docs/strategy/goldenquill_promotion_governance_architecture_design_2026-06-01.md",
+          "selector": "lines 722-755",
+          "excerpt_summary": "L0 fixture-only governance shape requires JSON fixtures and lightweight validator."
+        }
+      ],
+      "resolution": "covered"
+    },
+    {
+      "id": "O3",
+      "status": "covered",
+      "summary": "Preserve PromotionRecord authority boundary.",
+      "selected_evidence": [
+        {
+          "path": "arcanum/arcana/ontology-vault/development/schema-validation-plan/GOVERNED-CANDIDATE-BUNDLE.md",
+          "selector": "lines 14-19,42-59,76-96,112-130",
+          "excerpt_summary": "PromotionRecord is canonical as record kind only; templates, schemas, and external adoption are gated."
+        },
+        {
+          "path": "arcanum/arcana/ontology-vault/development/schema-validation-plan/REFRESH-REPORT.md",
+          "selector": "lines 25-39,41-52",
+          "excerpt_summary": "Refresh passed and preserved non-mutation boundaries."
+        }
+      ],
+      "resolution": "covered"
+    },
+    {
+      "id": "O4",
+      "status": "covered",
+      "summary": "Preserve GoldenQuill object model and owner decisions.",
+      "selected_evidence": [
+        {
+          "path": "docs/strategy/goldenquill_canonical_promotion_record_refine_2026-06-03.md",
+          "selector": "lines 59-126",
+          "excerpt_summary": "Canonical objects and required behavior are defined."
+        },
+        {
+          "path": "docs/decisions/goldenquill-promotion-mechanism-open-gaps.md",
+          "selector": "lines 33-116",
+          "excerpt_summary": "PromotionCandidate lives in GoldenQuill local model with Ontology Vault governance layer; allowed uses are split."
+        }
+      ],
+      "resolution": "covered"
+    },
+    {
+      "id": "O5",
+      "status": "covered",
+      "summary": "Preserve privacy, KPI, and stage-depth rules.",
+      "selected_evidence": [
+        {
+          "path": "docs/decisions/goldenquill-promotion-mechanism-open-gaps.md",
+          "selector": "lines 118-210",
+          "excerpt_summary": "KPIs cannot promote directly; feedback needs redaction; toy validation uses synthetic/demo fixtures."
+        },
+        {
+          "path": "docs/strategy/goldenquill_promotion_governance_architecture_design_2026-06-01.md",
+          "selector": "lines 650-720",
+          "excerpt_summary": "Dependencies, candidate states, allowed uses, and stage baseline are defined."
+        }
+      ],
+      "resolution": "covered"
+    },
+    {
+      "id": "O6",
+      "status": "covered",
+      "summary": "Keep write scope and non-goals narrow.",
+      "selected_evidence": [
+        {
+          "path": "docs/strategy/goldenquill_canonical_promotion_record_refine_2026-06-03.md",
+          "selector": "lines 236-247",
+          "excerpt_summary": "Production org-vault, signed-card, dashboard, ontology template, KPI promotion, and private feedback mutations are not allowed."
+        },
+        {
+          "path": "docs/strategy/goldenquill_promotion_governance_architecture_design_2026-06-01.md",
+          "selector": "lines 59-66,799-817",
+          "excerpt_summary": "First slice non-goals and done criteria prohibit production mutations."
+        }
+      ],
+      "resolution": "covered"
+    },
+    {
+      "id": "O7",
+      "status": "covered",
+      "summary": "Provide validation surface for next task-session.",
+      "selected_evidence": [
+        {
+          "path": "docs/strategy/goldenquill_canonical_promotion_record_refine_2026-06-03.md",
+          "selector": "lines 175-192,248-265",
+          "excerpt_summary": "Local validator should return named failures; done criteria require fixture list, pass/fail results, rule IDs, and no production state."
+        },
+        {
+          "path": "docs/strategy/goldenquill_promotion_governance_architecture_design_2026-06-01.md",
+          "selector": "lines 722-764,811-817",
+          "excerpt_summary": "Positive fixtures pass, negative fixtures fail closed, validator output deterministic, vocabulary GoldenQuill-native."
+        }
+      ],
+      "resolution": "covered"
+    }
+  ],
+  "selected_sources": [
+    {
+      "path": "docs/strategy/goldenquill_canonical_promotion_record_refine_2026-06-03.md",
+      "selectors": ["17-42", "59-126", "128-142", "144-192", "216-265"],
+      "obligations": ["O1", "O2", "O4", "O6", "O7"],
+      "evidence_kind": "architecture"
+    },
+    {
+      "path": "docs/strategy/goldenquill_promotion_governance_architecture_design_2026-06-01.md",
+      "selectors": ["14-66", "120-209", "650-817"],
+      "obligations": ["O2", "O5", "O6", "O7"],
+      "evidence_kind": "architecture"
+    },
+    {
+      "path": "docs/decisions/goldenquill-promotion-mechanism-open-gaps.md",
+      "selectors": ["17-29", "33-116", "118-210", "212-220"],
+      "obligations": ["O4", "O5"],
+      "evidence_kind": "decision"
+    },
+    {
+      "path": "arcanum/arcana/ontology-vault/development/schema-validation-plan/GOVERNED-CANDIDATE-BUNDLE.md",
+      "selectors": ["14-19", "42-59", "76-96", "112-130", "149-166"],
+      "obligations": ["O3"],
+      "evidence_kind": "contract"
+    },
+    {
+      "path": "arcanum/arcana/ontology-vault/development/schema-validation-plan/REFRESH-REPORT.md",
+      "selectors": ["17-39", "41-52", "54-77", "79-96"],
+      "obligations": ["O3", "O6", "O7"],
+      "evidence_kind": "contract"
+    }
+  ],
+  "write_scope": [
+    "projects/goldenquill/pipeline/grant_dag/",
+    "projects/goldenquill/tests/grant_dag/",
+    "projects/goldenquill/docs/strategy/development/task-sessions/"
+  ],
+  "validation_surface": [
+    "JSON fixture parse check",
+    "deterministic validator output with named rule IDs",
+    "positive fixtures pass",
+    "negative fixtures fail closed",
+    "static review confirms no production org memory, signed card, dashboard, or owner artifact mutation",
+    "targeted pytest under projects/goldenquill/tests/grant_dag/ after L1 package exists"
+  ],
+  "gaps_and_blockers": [
+    {
+      "id": "exact-python-module-names",
+      "status": "deferred",
+      "summary": "Exact module names can be settled during L0/L1 task-session.",
+      "runtime_fallback_allowed": true
+    },
+    {
+      "id": "exact-stage-kpi-enums",
+      "status": "deferred",
+      "summary": "Exact enum spelling can be settled with fixture cases.",
+      "runtime_fallback_allowed": true
+    },
+    {
+      "id": "owner-decision-shape",
+      "status": "deferred",
+      "summary": "Whether OwnerDecision is standalone file, model, or projection remains deferrable for L0.",
+      "runtime_fallback_allowed": true
+    }
+  ],
+  "authority_precedence": [
+    "GoldenQuill canonical promotion-record refinement",
+    "GoldenQuill promotion-governance architecture design",
+    "GoldenQuill decision gate",
+    "Ontology Vault governed candidate bundle and refresh report"
+  ],
+  "output_paths": {
+    "markdown": "docs/strategy/development/handoffs/2026-06-03-promotion-record-l0-continuation/context-builder/HANDOFF-PACK.md",
+    "json_index": "docs/strategy/development/handoffs/2026-06-03-promotion-record-l0-continuation/context-builder/index.json"
+  }
+}

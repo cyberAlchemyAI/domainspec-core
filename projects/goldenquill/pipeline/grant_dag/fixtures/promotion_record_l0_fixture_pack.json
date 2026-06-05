@@ -1,0 +1,258 @@
+{
+  "schema_version": "goldenquill.promotion_record_l0.v0",
+  "fixture_pack_id": "gq-pr-l0-synthetic-2026-06-03",
+  "synthetic_data_only": true,
+  "authority_boundary": {
+    "evidence_capture_is_not_promotion": true,
+    "kpi_observation_is_not_promotion": true,
+    "owner_decision_required_for_approved_reuse": true,
+    "production_memory_mutation_allowed": false,
+    "signed_card_mutation_allowed": false,
+    "dashboard_mutation_allowed": false,
+    "canonical_ontology_template_mutation_allowed": false
+  },
+  "rule_registry": {
+    "GQ-PR-L0-001": "GrantOutcomeEvent requires a source truth record.",
+    "GQ-PR-L0-002": "GrantKpiObservation requires denominator semantics.",
+    "GQ-PR-L0-003": "Application stage depth cannot be treated as outcome truth.",
+    "GQ-PR-L0-004": "PromotionCandidate requires a contradiction path.",
+    "GQ-PR-L0-005": "PromotionCandidate cannot carry approved uses before owner decision.",
+    "GQ-PR-L0-006": "Org-scoped feedback needs redaction/generalization before workspace reuse.",
+    "GQ-PR-L0-007": "OntologyVaultProjection requires evidence references.",
+    "GQ-PR-L0-008": "KPI threshold alone cannot directly promote.",
+    "GQ-PR-L0-009": "OntologyVaultProjection must project to record_kind promotion_record.",
+    "GQ-PR-L0-010": "Approved OwnerDecision requires approved allowed uses and decision source.",
+    "GQ-PR-L0-011": "PromotionCandidate requires proposed allowed uses."
+  },
+  "positive_cases": [
+    {
+      "case_id": "pos-outcome-source-backed-decline",
+      "fixture_type": "GrantOutcomeEvent",
+      "expected": "pass",
+      "data": {
+        "grant_run_id": "demo-run-001",
+        "application_stage": "declined",
+        "outcome": "declined",
+        "outcome_truth_from": "source",
+        "source": {
+          "type": "portal_notice",
+          "locator": "demo://sources/portal/decline-notice-001",
+          "captured_at": "2026-06-03T10:00:00Z"
+        }
+      }
+    },
+    {
+      "case_id": "pos-kpi-denominator-defined",
+      "fixture_type": "GrantKpiObservation",
+      "expected": "pass",
+      "data": {
+        "kpi_id": "review_reached_rate",
+        "value": 0.75,
+        "denominator_definition": {
+          "numerator": "submitted applications reaching external review",
+          "denominator": "submitted applications with source-backed disposition",
+          "period": "quarter"
+        },
+        "source_event_refs": ["pos-outcome-source-backed-decline"],
+        "triggers_promotion_directly": false
+      }
+    },
+    {
+      "case_id": "pos-promotion-candidate-proposed-uses",
+      "fixture_type": "PromotionCandidate",
+      "expected": "pass",
+      "data": {
+        "candidate_id": "pc-demo-review-framing-001",
+        "target_owner": "goldenquill.strategy",
+        "target_artifact": "grant_dag.learning_candidate",
+        "evidence_packet_refs": ["mep-demo-001"],
+        "outcome_event_refs": ["pos-outcome-source-backed-decline"],
+        "kpi_observation_refs": ["pos-kpi-denominator-defined"],
+        "proposed_allowed_uses": ["orient", "draft_support", "learning_candidate"],
+        "privacy_scope": "org_private",
+        "source_feedback_scope": "org_scoped",
+        "redaction_status": "not_required",
+        "contradiction_path": "owner_review_can_contradict_or_retire_candidate"
+      }
+    },
+    {
+      "case_id": "pos-ontology-vault-projection",
+      "fixture_type": "OntologyVaultProjection",
+      "expected": "pass",
+      "data": {
+        "projection_id": "ovp-demo-001",
+        "record_kind": "promotion_record",
+        "source_candidate_ref": "pc-demo-review-framing-001",
+        "evidence_refs": ["mep-demo-001", "pos-outcome-source-backed-decline"],
+        "target_owner": "goldenquill.strategy",
+        "review_gate": "owner_decision_required",
+        "contradiction_path": "owner_review_can_contradict_or_retire_candidate",
+        "mutation_authority": "none_projection_only"
+      }
+    },
+    {
+      "case_id": "pos-redacted-feedback-workspace-candidate",
+      "fixture_type": "PromotionCandidate",
+      "expected": "pass",
+      "data": {
+        "candidate_id": "pc-demo-redacted-feedback-001",
+        "target_owner": "goldenquill.strategy",
+        "target_artifact": "workspace_reusable_learning_candidate",
+        "evidence_packet_refs": ["mep-demo-redacted-001"],
+        "proposed_allowed_uses": ["workspace_reuse", "learning_candidate"],
+        "privacy_scope": "workspace_candidate",
+        "source_feedback_scope": "org_scoped",
+        "redaction_status": "redacted",
+        "generalized_summary": "Evaluator objected to missing partner commitment evidence.",
+        "contradiction_path": "privacy_owner_can_reject_or_restrict_reuse"
+      }
+    },
+    {
+      "case_id": "pos-owner-decision-approved-uses",
+      "fixture_type": "OwnerDecision",
+      "expected": "pass",
+      "data": {
+        "decision_id": "od-demo-001",
+        "candidate_ref": "pc-demo-redacted-feedback-001",
+        "decision": "approved",
+        "approved_allowed_uses": ["orient", "draft_support"],
+        "conditions": ["workspace reuse only after source details remain redacted"],
+        "decision_source": {
+          "type": "operator_signoff",
+          "locator": "demo://decisions/operator-signoff-001",
+          "captured_at": "2026-06-03T11:00:00Z"
+        },
+        "contradiction_path": "owner_review_can_supersede_decision"
+      }
+    }
+  ],
+  "negative_cases": [
+    {
+      "case_id": "neg-outcome-missing-source",
+      "fixture_type": "GrantOutcomeEvent",
+      "expected": "fail",
+      "expected_failures": ["GQ-PR-L0-001"],
+      "data": {
+        "grant_run_id": "demo-run-002",
+        "application_stage": "declined",
+        "outcome": "declined",
+        "outcome_truth_from": "source"
+      }
+    },
+    {
+      "case_id": "neg-kpi-missing-denominator",
+      "fixture_type": "GrantKpiObservation",
+      "expected": "fail",
+      "expected_failures": ["GQ-PR-L0-002"],
+      "data": {
+        "kpi_id": "review_reached_rate",
+        "value": 0.75,
+        "source_event_refs": ["pos-outcome-source-backed-decline"],
+        "triggers_promotion_directly": false
+      }
+    },
+    {
+      "case_id": "neg-stage-depth-treated-as-award",
+      "fixture_type": "GrantOutcomeEvent",
+      "expected": "fail",
+      "expected_failures": ["GQ-PR-L0-003"],
+      "data": {
+        "grant_run_id": "demo-run-003",
+        "application_stage": "award_recommended",
+        "outcome": "awarded",
+        "outcome_truth_from": "application_stage",
+        "source": {
+          "type": "internal_dashboard",
+          "locator": "demo://dashboard/stage-depth-001",
+          "captured_at": "2026-06-03T12:00:00Z"
+        }
+      }
+    },
+    {
+      "case_id": "neg-candidate-missing-contradiction-path",
+      "fixture_type": "PromotionCandidate",
+      "expected": "fail",
+      "expected_failures": ["GQ-PR-L0-004"],
+      "data": {
+        "candidate_id": "pc-demo-missing-contradiction",
+        "target_owner": "goldenquill.strategy",
+        "target_artifact": "grant_dag.learning_candidate",
+        "evidence_packet_refs": ["mep-demo-002"],
+        "proposed_allowed_uses": ["orient"],
+        "privacy_scope": "org_private",
+        "source_feedback_scope": "public",
+        "redaction_status": "not_required"
+      }
+    },
+    {
+      "case_id": "neg-candidate-approved-before-owner-decision",
+      "fixture_type": "PromotionCandidate",
+      "expected": "fail",
+      "expected_failures": ["GQ-PR-L0-005"],
+      "data": {
+        "candidate_id": "pc-demo-premature-approved-use",
+        "target_owner": "goldenquill.strategy",
+        "target_artifact": "grant_dag.learning_candidate",
+        "evidence_packet_refs": ["mep-demo-003"],
+        "proposed_allowed_uses": ["orient"],
+        "approved_allowed_uses": ["workspace_reuse"],
+        "privacy_scope": "org_private",
+        "source_feedback_scope": "public",
+        "redaction_status": "not_required",
+        "contradiction_path": "owner_review_can_reject"
+      }
+    },
+    {
+      "case_id": "neg-workspace-reuse-from-unredacted-org-feedback",
+      "fixture_type": "PromotionCandidate",
+      "expected": "fail",
+      "expected_failures": ["GQ-PR-L0-006"],
+      "data": {
+        "candidate_id": "pc-demo-unredacted-feedback",
+        "target_owner": "goldenquill.strategy",
+        "target_artifact": "workspace_reusable_learning_candidate",
+        "evidence_packet_refs": ["mep-demo-private-feedback"],
+        "proposed_allowed_uses": ["workspace_reuse"],
+        "privacy_scope": "workspace_candidate",
+        "source_feedback_scope": "org_scoped",
+        "redaction_status": "raw",
+        "contradiction_path": "privacy_owner_can_reject_or_restrict_reuse"
+      }
+    },
+    {
+      "case_id": "neg-governance-projection-missing-evidence",
+      "fixture_type": "OntologyVaultProjection",
+      "expected": "fail",
+      "expected_failures": ["GQ-PR-L0-007"],
+      "data": {
+        "projection_id": "ovp-demo-missing-evidence",
+        "record_kind": "promotion_record",
+        "source_candidate_ref": "pc-demo-review-framing-001",
+        "evidence_refs": [],
+        "target_owner": "goldenquill.strategy",
+        "review_gate": "owner_decision_required",
+        "contradiction_path": "owner_review_can_contradict_or_retire_candidate",
+        "mutation_authority": "none_projection_only"
+      }
+    },
+    {
+      "case_id": "neg-kpi-threshold-direct-promotion",
+      "fixture_type": "GrantKpiObservation",
+      "expected": "fail",
+      "expected_failures": ["GQ-PR-L0-008"],
+      "data": {
+        "kpi_id": "award_rate",
+        "value": 0.9,
+        "denominator_definition": {
+          "numerator": "awards",
+          "denominator": "submitted applications with source-backed decision",
+          "period": "quarter"
+        },
+        "source_event_refs": ["pos-outcome-source-backed-decline"],
+        "threshold": 0.8,
+        "triggers_promotion_directly": true
+      }
+    }
+  ]
+}
+
