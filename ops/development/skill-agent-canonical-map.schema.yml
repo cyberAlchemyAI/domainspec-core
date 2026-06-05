@@ -1,0 +1,144 @@
+schema_version: 0.1.0
+title: DomainSpec Skill And Agent Canonical Map
+description: >
+  Root-owned canonical-source and runtime-reader map for the Claude/Codex
+  skill-agent architecture. This schema is intentionally conservative for
+  SWU-AGENTARCH-001; later SWUs may add generated fields, but must preserve
+  these required keys.
+type: object
+required:
+  - schema_version
+  - generated_at
+  - task_reference
+  - source_artifacts
+  - records
+properties:
+  schema_version:
+    type: string
+  generated_at:
+    type: string
+  task_reference:
+    type: string
+  source_artifacts:
+    type: array
+    items:
+      type: string
+  records:
+    type: array
+    items:
+      type: object
+      required:
+        - logical_id
+        - artifact_kind
+        - owner_family
+        - canonical_path
+        - canonical_status
+        - claude_reader
+        - codex_reader
+        - shared_skill_facade
+        - github_delete_candidate
+        - blocked_owner
+        - validation_notes
+      properties:
+        logical_id:
+          type: string
+        artifact_kind:
+          type: string
+          enum:
+            - skill
+            - agent
+            - router
+        owner_family:
+          type: string
+          enum:
+            - DomainSpec
+            - GSD
+            - Lean formalization
+            - Arcanum/root-runtime
+            - MARS research/root
+            - GitNexus/utility
+            - Other/root
+        canonical_path:
+          type:
+            - string
+            - "null"
+        canonical_status:
+          type: string
+          enum:
+            - canonical-candidate
+            - owner-scoped-candidate
+            - generated-from-canonical-source
+            - residue-candidate
+            - missing-canonical
+            - blocked-owner
+        claude_reader:
+          oneOf:
+            - type: "null"
+            - "$ref": "#/definitions/reader"
+        codex_reader:
+          oneOf:
+            - type: "null"
+            - "$ref": "#/definitions/reader"
+        shared_skill_facade:
+          oneOf:
+            - type: "null"
+            - "$ref": "#/definitions/reader"
+        github_delete_candidate:
+          type: array
+          items:
+            type: object
+            required:
+              - path
+              - status
+              - reason
+            properties:
+              path:
+                type: string
+              status:
+                type: string
+                enum:
+                  - safe-delete
+                  - blocked-active-use
+                  - needs-claude-replacement
+                  - needs-codex-replacement
+                  - needs-parity-check
+                  - owner-scoped
+              reason:
+                type: string
+        blocked_owner:
+          oneOf:
+            - type: "null"
+            - type: object
+              required:
+                - owner_scope
+                - reason
+              properties:
+                owner_scope:
+                  type: string
+                reason:
+                  type: string
+        validation_notes:
+          type: array
+          items:
+            type: string
+definitions:
+  reader:
+    type: object
+    required:
+      - path
+      - status
+    properties:
+      path:
+        type:
+          - string
+          - "null"
+      status:
+        type: string
+        enum:
+          - present
+          - missing
+          - not-applicable
+          - runtime-rewrite
+          - blocked-owner
+      note:
+        type: string

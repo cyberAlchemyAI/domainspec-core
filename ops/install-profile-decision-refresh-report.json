@@ -1,0 +1,62 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "sourceSignals": [
+    {
+      "id": "SIG-INSTALL-PROFILE-001",
+      "source_path": "current session user selection",
+      "signal_type": "blocker_resolved",
+      "target_artifacts": [
+        "ops/development/TASK-SESSION-RUNTIME-005.md",
+        "docs/decisions/install-profile-contract.md"
+      ],
+      "claim": "The install profile blocker is resolved by selecting explicit native profiles.",
+      "evidence": "User selected option 1.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "SIG-INSTALL-PROFILE-002",
+      "source_path": "docs/decisions/install-profile-contract.md",
+      "signal_type": "route_changed",
+      "target_artifacts": [
+        "ops/development/TASK-SESSION-RUNTIME-005.md"
+      ],
+      "claim": "TASK-RUNTIME-004 / SWU-RUNTIME-005 can resume implementation.",
+      "evidence": "Decision record defines write scopes for every profile.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "ops/development/TASK-SESSION-RUNTIME-005.md",
+    "docs/decisions/install-profile-contract.md"
+  ],
+  "deltaSummary": [
+    {
+      "class": "blocker_resolved",
+      "count": 1,
+      "summary": "Install profile semantics are approved."
+    },
+    {
+      "class": "route_changed",
+      "count": 1,
+      "summary": "Resume task-session implementation for profile support."
+    }
+  ],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "docs/decisions/install-profile-contract.md",
+    "ops/development/TASK-SESSION-RUNTIME-005.md"
+  ],
+  "skippedChanges": [
+    "arcanum/tools/bootstrap_arcanum.sh",
+    "arcanum/tools/install_arcanum.sh"
+  ],
+  "blockers": [],
+  "nextRoute": "task-session",
+  "validation": [
+    "Review: decision record includes selected option, rationale, rejected options, downstream impact, and remaining decisions.",
+    "Review: blocked task record points to the decision artifact and says implementation can resume."
+  ]
+}

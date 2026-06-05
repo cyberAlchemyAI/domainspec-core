@@ -1,0 +1,168 @@
+{
+  "run_id": "2026-05-27-zone-taxonomy",
+  "target": "repository zone taxonomy and best repository shape",
+  "status": "flag",
+  "preset": "standard",
+  "research_mode": "research-if-gap-appears",
+  "research_decision": {
+    "status": "pass",
+    "external_research": "not_run",
+    "reason": "local repository evidence was sufficient"
+  },
+  "source_evidence": [
+    "README.md",
+    "ops/REPOSITORY-ORGANIZATION-PLAN.md",
+    "ops/ASSET-OWNERSHIP-POLICY.md",
+    "ops/REPOSITORY-ORGANIZATION-INVOKE-PLAN.md",
+    ".gitmodules",
+    "top-level tree scan",
+    "git status --short",
+    "git submodule status"
+  ],
+  "artifacts": {
+    "seed_proposal": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/REFINE-SEED-PROPOSAL.md",
+    "goal_handoff": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/GOAL-HANDOFF.md",
+    "run_manifest": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/RUN-MANIFEST.md",
+    "result": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/RESULT.md",
+    "deletion_candidate_pass": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/DELETION-CANDIDATE-PASS.md",
+    "runtime_surface_invoke": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/RUNTIME-SURFACE-INVOKE.md",
+    "symlink_strategy_refine": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/SYMLINK-STRATEGY-REFINE.md"
+  },
+  "stages": [
+    {
+      "stage": "context-builder evidence baseline",
+      "command": "context-builder",
+      "command_file": "arcanum/.codex/commands/context-builder.md",
+      "mode": "standard",
+      "artifact": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/stages/01-context-builder.md",
+      "status": "pass",
+      "verdict": "dry-run evidence"
+    },
+    {
+      "stage": "invoke define",
+      "command": "invoke",
+      "command_file": "arcanum/.codex/commands/invoke.md",
+      "mode": "define",
+      "artifact": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/stages/02-invoke-define.md",
+      "status": "pass",
+      "verdict": "dry-run evidence"
+    },
+    {
+      "stage": "interrogation refine-review",
+      "command": "interrogation",
+      "command_file": "arcanum/.codex/commands/interrogation.md",
+      "mode": "refine-review",
+      "artifact": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/stages/03-interrogation-refine-review.md",
+      "status": "pass",
+      "verdict": "dry-run evidence"
+    },
+    {
+      "stage": "research decision",
+      "command": null,
+      "command_file": null,
+      "mode": "research-if-gap-appears",
+      "artifact": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/stages/04-research-decision.md",
+      "status": "pass",
+      "verdict": "no external research"
+    },
+    {
+      "stage": "distill",
+      "command": "distill",
+      "command_file": "arcanum/.codex/commands/distill.md",
+      "mode": "standard",
+      "artifact": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/stages/05-distill.md",
+      "status": "pass",
+      "verdict": "dry-run evidence"
+    },
+    {
+      "stage": "invoke redefine design",
+      "command": "invoke",
+      "command_file": "arcanum/.codex/commands/invoke.md",
+      "mode": "design",
+      "artifact": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/stages/06-invoke-design.md",
+      "status": "pass",
+      "verdict": "dry-run evidence"
+    },
+    {
+      "stage": "interrogation refine-design-review",
+      "command": "interrogation",
+      "command_file": "arcanum/.codex/commands/interrogation.md",
+      "mode": "refine-design-review",
+      "artifact": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/stages/07-interrogation-design-review.md",
+      "status": "pass",
+      "verdict": "dry-run evidence"
+    },
+    {
+      "stage": "distill repair",
+      "command": "distill",
+      "command_file": "arcanum/.codex/commands/distill.md",
+      "mode": "validate",
+      "artifact": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/stages/08-distill-repair.md",
+      "status": "pass",
+      "verdict": "dry-run evidence"
+    },
+    {
+      "stage": "invoke plan",
+      "command": "invoke",
+      "command_file": "arcanum/.codex/commands/invoke.md",
+      "mode": "plan",
+      "artifact": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/stages/09-invoke-plan.md",
+      "status": "pass",
+      "verdict": "dry-run evidence"
+    },
+    {
+      "stage": "final interrogation and synthesis",
+      "command": "interrogation",
+      "command_file": "arcanum/.codex/commands/interrogation.md",
+      "mode": "refine-final",
+      "artifact": "ops/development/refinement-runs/2026-05-27-zone-taxonomy/stages/10-final-interrogation.md",
+      "status": "flag",
+      "verdict": "final synthesis completed by refine; stage command evidence is dry-run"
+    }
+  ],
+  "recommended_next_routes": [
+    "decision-gate for deletion candidates",
+    "task-session for ops/RUNTIME-SURFACE-POLICY.md",
+    "task-session for ops/REPOSITORY-ZONE-CONTRACT.md",
+    "decision-gate for cyberAlchemy, projects/body-war, and research/projects/hermes-agent/repo",
+    "invoke refresh after accepted taxonomy"
+  ],
+  "post_result_correction": {
+    "status": "applied",
+    "reason": "user clarified sigils-library was the first name of Arcanum",
+    "changes": [
+      "sigils-library reclassified as superseded-name deletion candidate",
+      "capability-library removed as current canonical zone",
+      "deletion-candidate audit added before zone contract execution"
+    ]
+  },
+  "runtime_surface_addition": {
+    "status": "applied",
+    "reason": "user identified duplicated Arcanum/Codex/DomainSpec runtime surfaces across global, repo-local, submodule, and project-local installs",
+    "observed_counts": {
+      "global_codex_commands": 82,
+      "global_codex_arcanum_skills": 29,
+      "arcanum_repo_commands": 83,
+      "domainspec_repo_commands": 86,
+      "bodywar_project_commands": 82,
+      "sonar_loop_arcanum_github_skills": 31
+    },
+    "changes": [
+      "runtime-surface added as first-class policy layer",
+      "canonical source separated from installed surfaces and generated runtime state",
+      "machine-global Codex home marked audit-only from this repo",
+      "project-local installs require admission metadata before cleanup"
+    ]
+  },
+  "symlink_strategy_addition": {
+    "status": "applied",
+    "reason": "user asked whether symbolic links should be used to avoid copies and copies",
+    "decision": "mixed model",
+    "rules": [
+      "use symlinks for repo-local discovery facades when source and consumer are in the same checkout",
+      "use managed snapshots for machine-global Codex installs and cross-runtime distribution surfaces",
+      "manifest every snapshot",
+      "ignore or untrack generated runtime state"
+    ]
+  }
+}
