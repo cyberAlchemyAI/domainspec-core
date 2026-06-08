@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(GH_TOKEN=$\\(gh auth token -u vaboscaro\\) gh api /user/repos --paginate --jq '.[].full_name')",
+      "Bash(GH_TOKEN=$\\(gh auth token -u vaboscaro\\) gh api /user/repository_invitations)",
+      "Bash(GH_TOKEN=$\\(gh auth token -u vaboscaro\\) gh api /user/repository_invitations --jq '.[] | {repo: .repository.full_name, inviter: .inviter.login}')"
+    ]
+  }
+}
