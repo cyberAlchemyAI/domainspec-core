@@ -1,0 +1,865 @@
+{
+  "dispatch_id": "ontologize-research-20260608",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Create a research dispatch for project ontologize: ingest what was done in the codex goldenquill client package worktree and branch, then synthesize a general solution for cyberalchemy's first product, which offers consulting on how to use ontology and DAG to improve a company's business intelligence and agent work.",
+    "objective": "Plan a governed research route that recovers the GoldenQuill client-package worktree and branch evidence (promotion record DAG, ontology/governance substrate, client-sendable packages, agent skills), extracts the reusable ontology-plus-DAG patterns, and distills them into a candidate productized consulting offer for CyberAlchemy without claiming it as a built product or promoting canonical Arcanum knowledge.",
+    "target_artifact": "projects/ontologize/README.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "context-builder",
+      "research-tower",
+      "robot-talks",
+      "distill",
+      "feature-glossary",
+      "definitions-governance",
+      "ontology-vault",
+      "task-session",
+      "invoke",
+      "observability",
+      "residue",
+      "handoff",
+      "promotion guardrail",
+      "DAG"
+    ],
+    "operator_sentence": "Read the GoldenQuill client-package work in source terms first, extract its ontology and DAG patterns, then translate them into a general CyberAlchemy consulting product for ontology- and DAG-driven business intelligence and agent work."
+  },
+  "mode": "research",
+  "techniques": [
+    "sequence",
+    "route_menu",
+    "frame_handoff",
+    "residue_ledger",
+    "concrete_path_evidence",
+    "delegation_boundary",
+    "execution_receipt_handoff",
+    "state_namespace_boundary",
+    "memory_promotion_split",
+    "validation_loop",
+    "approval_semantics_map"
+  ],
+  "route_menu": {
+    "context_hint": "The selected route mirrors the autobayes research tower: recover source context first, scaffold a tower, fan out role-bound research, then distill an operator-facing synthesis. Here the 'source' is the GoldenQuill client-package worktree/branch, and the 'operator interface' is a CyberAlchemy consulting product offer.",
+    "items": [
+      {
+        "id": "source-first-product-synthesis",
+        "label": "Source-first product synthesis",
+        "description": "Recover the GoldenQuill client-package evidence, scaffold the research tower, fan out ontology/DAG/BI/agent/productization lanes, then distill a candidate CyberAlchemy consulting product.",
+        "capability_ref": "dispatch-spec",
+        "pattern": "route"
+      },
+      {
+        "id": "product-pitch-first",
+        "label": "Product pitch first",
+        "description": "Draft the consulting offer immediately and backfill evidence later; faster but weak on source-backed claims and reusable patterns.",
+        "capability_ref": "distill",
+        "pattern": "distill"
+      },
+      {
+        "id": "ontology-vault-first",
+        "label": "Ontology vault first",
+        "description": "Build a governed ontology vault from GoldenQuill before product synthesis; useful if knowledge-modeling rigor is the main blocker.",
+        "capability_ref": "ontology-vault",
+        "pattern": "sequential"
+      }
+    ],
+    "selected_item_id": "source-first-product-synthesis"
+  },
+  "technique_overlays": [
+    {
+      "overlay_id": "source-fidelity-discipline",
+      "trigger": "The user asked to base the product on what was actually done in the GoldenQuill client-package worktree and branch, not on invented capabilities.",
+      "techniques": [
+        "concrete_path_evidence",
+        "residue_ledger",
+        "validation_loop"
+      ],
+      "applies_to_steps": [
+        "recover-goldenquill-context",
+        "extract-ontology-dag-patterns",
+        "synthesize-product-solution"
+      ],
+      "validation_expectation": "Every product claim must trace to a concrete GoldenQuill artifact path or be explicitly marked as an analogy, hypothesis, or open residue."
+    },
+    {
+      "overlay_id": "product-not-promotion",
+      "trigger": "The route produces a CyberAlchemy product offer plus glossary and definitions that could be mistaken for shipped capabilities or canonical Arcanum knowledge.",
+      "techniques": [
+        "delegation_boundary",
+        "execution_receipt_handoff",
+        "state_namespace_boundary",
+        "memory_promotion_split"
+      ],
+      "applies_to_steps": [
+        "build-glossary-definitions",
+        "synthesize-product-solution",
+        "prepare-next-handoff"
+      ],
+      "validation_expectation": "The product synthesis is a candidate consulting offer; it may not promote canonical Arcanum vocabulary, claim the product is built, or commit pricing/contract terms without owner review."
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "recover-goldenquill-context",
+      "name": "Recover GoldenQuill client-package worktree and branch evidence",
+      "capability_ref": "context-builder",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": ["concrete_path_evidence", "frame_handoff"],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "external_context",
+          "ref": "git branch: codex/goldenquill-client-package"
+        },
+        {
+          "kind": "artifact",
+          "ref": "../goldenquill/docs/client-packages/goldenquill_promotion_governance_client_sendable_2026-06-01/"
+        },
+        {
+          "kind": "artifact",
+          "ref": "../goldenquill/docs/decisions/"
+        },
+        {
+          "kind": "artifact",
+          "ref": "../goldenquill/skills/"
+        },
+        {
+          "kind": "artifact",
+          "ref": "../goldenquill/PROJECT_STATUS.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "goldenquill-source-orientation-frame"
+        },
+        {
+          "kind": "route_menu",
+          "ref": "ontologize-research-route-menu"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "ontologize-source-context-recovered"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if the GoldenQuill client-package worktree cannot be inspected on the codex/goldenquill-client-package branch.",
+        "Flag if the promotion record DAG or governance docs are missing and record the gap as missing-source residue."
+      ]
+    },
+    {
+      "step_id": "build-research-tower",
+      "name": "Scaffold the ontologize research tower",
+      "capability_ref": "research-tower",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "kind": "installed-skill",
+        "note": "research-tower is an installed Arcanum skill but is not in the validator's narrow canonical set; treated as a candidate capability here."
+      },
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["sequence", "residue_ledger", "validation_loop"],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "goldenquill-source-orientation-frame"
+        },
+        {
+          "kind": "frame",
+          "ref": "ontologize-research-route-menu"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/README.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/TOWER.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/levels/L0-corpus.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/levels/L1-pattern-map.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/levels/L2-product-closure-plan.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "ontologize-research-tower-built"
+        }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "The tower names corpus, pattern map, product closure plan, gates, and open residues.",
+        "The tower separates GoldenQuill source evidence from CyberAlchemy product hypotheses.",
+        "The tower speaks in Arcanum vocabulary while preserving GoldenQuill terms (promotion DAG, governance, council, logician)."
+      ],
+      "stop_conditions": [
+        "Block if the route grants promotion authority.",
+        "Flag if the tower lacks closure gates."
+      ]
+    },
+    {
+      "step_id": "extract-ontology-dag-patterns",
+      "name": "Fan out role-bound extraction of ontology and DAG patterns",
+      "capability_ref": "robot-talks",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "kind": "installed-skill",
+        "note": "robot-talks is an installed Arcanum multi-agent skill but is not in the validator's narrow canonical set; treated as a candidate capability here."
+      },
+      "pattern": "fanout",
+      "parallel": true,
+      "roles": [
+        "ontology-pattern-reader",
+        "dag-promotion-reader",
+        "bi-value-reader",
+        "agent-work-reader",
+        "client-packaging-reader",
+        "productization-synthesizer"
+      ],
+      "techniques": [
+        "delegation_boundary",
+        "execution_receipt_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "goldenquill-source-orientation-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/levels/L2-product-closure-plan.md"
+        },
+        {
+          "kind": "human_answer",
+          "ref": "subagent-execution-approval"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "ontologize-pattern-extraction-ledger"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/sessions/pattern-extraction-receipts.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "ontologize-pattern-fanout-completed"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Each role returns source-backed findings with concrete GoldenQuill paths, open residue, and confidence.",
+        "Findings distinguish GoldenQuill source facts, reusable patterns, and CyberAlchemy product hypotheses.",
+        "The ontology lane and the DAG lane each name what transfers to a generic company BI and agent-work context."
+      ],
+      "evidence_artifact": "projects/ontologize/sessions/pattern-extraction-receipts.md",
+      "stop_conditions": [
+        "Block until the operator approves delegated research subagents.",
+        "Block synthesis if a role lacks source evidence.",
+        "Flag if a lane cannot find GoldenQuill evidence and classify the gap as missing-source residue."
+      ]
+    },
+    {
+      "step_id": "build-glossary-definitions",
+      "name": "Build glossary and definitions for the consulting product",
+      "capability_ref": "feature-glossary",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "kind": "installed-skill",
+        "note": "feature-glossary is an installed Arcanum skill but is not in the validator's narrow canonical set; treated as a candidate capability here."
+      },
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "residue_ledger",
+        "memory_promotion_split",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/levels/L1-pattern-map.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "ontologize-pattern-extraction-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/GLOSSARY.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/DEFINITIONS.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "ontologize-glossary-definitions-built"
+        }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "Each term states whether it is GoldenQuill source language, generic ontology/DAG/BI language, or a CyberAlchemy product coinage.",
+        "Each definition states status: source-backed, seed, analogy, candidate, or rejected.",
+        "Terms cover ontology, DAG, business intelligence, and agent-work as a client would hear them."
+      ],
+      "stop_conditions": [
+        "Block canonical promotion of glossary or definitions.",
+        "Flag coinages that lack a source-backed or generic-practice basis."
+      ]
+    },
+    {
+      "step_id": "synthesize-product-solution",
+      "name": "Synthesize the CyberAlchemy consulting product solution",
+      "capability_ref": "distill",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": [
+        "memory_promotion_split",
+        "owner_boundary_check",
+        "residue_ledger"
+      ],
+      "roles": ["source-loyal-reading", "client-facing-product-translation"],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/GLOSSARY.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/DEFINITIONS.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "ontologize-pattern-extraction-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/PRODUCT.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "cyberalchemy-product-frame"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "ontologize-product-synthesized"
+        }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "The product names the offer, target buyer, problem, ontology-plus-DAG method, deliverables, engagement shape, and proof drawn from GoldenQuill.",
+        "Every method claim ties to an extracted GoldenQuill pattern or is marked as a hypothesis with a validation step.",
+        "The offer generalizes beyond GoldenQuill to a company's business intelligence and agent work."
+      ],
+      "stop_conditions": [
+        "Block if the synthesis claims the product is already built or sold.",
+        "Block if it commits pricing, contracts, or client names without owner review."
+      ]
+    },
+    {
+      "step_id": "validate-and-record-residue",
+      "name": "Validate dispatch, gates, and open residue",
+      "capability_ref": "dispatch-spec",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": ["validation_loop", "residue_ledger"],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/ontologize-research.dispatch.json"
+        },
+        {
+          "kind": "frame",
+          "ref": "cyberalchemy-product-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/residue/open-residue.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/NEXT.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "ontologize-dispatch-validated"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ontologize/ontologize-research.dispatch.json",
+      "convergence_criteria": [
+        "The dispatch validates against the dispatch-spec validator.",
+        "Open residue has named next objects and owners.",
+        "Next actions are executable and ordered."
+      ],
+      "stop_conditions": [
+        "Block if validation fails.",
+        "Flag if open residue lacks owner or next route."
+      ]
+    },
+    {
+      "step_id": "prepare-next-handoff",
+      "name": "Prepare next-route handoff for product validation",
+      "capability_ref": "invoke",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "approval_semantics_map",
+        "execution_receipt_handoff",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/NEXT.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/ontologize-research.dispatch.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "ontologize-product-validation-handoff"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "ontologize-next-handoff-prepared"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Ask operator approval before executing subagent fanout.",
+        "Defer building any consulting collateral until research closure."
+      ]
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The research spans GoldenQuill source recovery, ontology modeling, DAG/promotion governance, business-intelligence value, agent-work patterns, client packaging, and product synthesis across distinct lanes.",
+    "explanation": "Role-bound sibling agents keep source reading separate from product invention, so the CyberAlchemy offer stays traceable to concrete GoldenQuill evidence instead of drifting into wishful capability claims.",
+    "context": [
+      "The source material is the codex/goldenquill-client-package worktree and branch, including a promotion record DAG and governance/ontology substrate.",
+      "The user wants a general consulting product, so one lane must explicitly generalize patterns beyond GoldenQuill."
+    ],
+    "roles": [
+      {
+        "role_id": "ontology-pattern-reader",
+        "purpose": "Extract how GoldenQuill models knowledge as an ontology/vault and what generalizes.",
+        "owns": "ontology pattern reading",
+        "applies_to_steps": ["extract-ontology-dag-patterns"]
+      },
+      {
+        "role_id": "dag-promotion-reader",
+        "purpose": "Extract the promotion record DAG and governance graph structure and its decision flow.",
+        "owns": "DAG and governance reading",
+        "applies_to_steps": ["extract-ontology-dag-patterns"]
+      },
+      {
+        "role_id": "bi-value-reader",
+        "purpose": "Identify where ontology and DAG produced business-intelligence value in GoldenQuill.",
+        "owns": "business-intelligence value reading",
+        "applies_to_steps": ["extract-ontology-dag-patterns"]
+      },
+      {
+        "role_id": "agent-work-reader",
+        "purpose": "Extract how agents/skills use the ontology and DAG to do work in GoldenQuill.",
+        "owns": "agent-work reading",
+        "applies_to_steps": ["extract-ontology-dag-patterns"]
+      },
+      {
+        "role_id": "client-packaging-reader",
+        "purpose": "Study the client-sendable package to learn how value was already framed for a buyer.",
+        "owns": "client packaging reading",
+        "applies_to_steps": ["extract-ontology-dag-patterns"]
+      },
+      {
+        "role_id": "productization-synthesizer",
+        "purpose": "Generalize the patterns into a candidate CyberAlchemy consulting product.",
+        "owns": "product synthesis",
+        "applies_to_steps": [
+          "extract-ontology-dag-patterns",
+          "synthesize-product-solution"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Run the ontologize research fanout with ontology, DAG/governance, business-intelligence, agent-work, client-packaging, and productization roles over the GoldenQuill client-package worktree, returning source-backed receipts only?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "handoff_note",
+      "source claims with concrete GoldenQuill artifact paths",
+      "reusable patterns clearly marked",
+      "CyberAlchemy product hypotheses clearly marked",
+      "open residues with next object",
+      "confidence and missing-source notes"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "pass",
+    "agents": [
+      {
+        "agent_id": "ontologize-lane-1",
+        "role_id": "ontology-pattern-reader",
+        "lane_name": "ontology",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "projects/ontologize/sessions/pattern-extraction-receipts.md",
+        "close_status": "closed"
+      },
+      {
+        "agent_id": "ontologize-lane-2",
+        "role_id": "dag-promotion-reader",
+        "lane_name": "dag-governance",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "projects/ontologize/sessions/pattern-extraction-receipts.md",
+        "close_status": "closed"
+      },
+      {
+        "agent_id": "ontologize-lane-3",
+        "role_id": "bi-value-reader",
+        "lane_name": "business-intelligence",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "projects/ontologize/sessions/pattern-extraction-receipts.md",
+        "close_status": "closed"
+      },
+      {
+        "agent_id": "ontologize-lane-4",
+        "role_id": "agent-work-reader",
+        "lane_name": "agent-work",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "projects/ontologize/sessions/pattern-extraction-receipts.md",
+        "close_status": "closed"
+      },
+      {
+        "agent_id": "ontologize-lane-5",
+        "role_id": "client-packaging-reader",
+        "lane_name": "client-packaging",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "projects/ontologize/sessions/pattern-extraction-receipts.md",
+        "close_status": "closed"
+      },
+      {
+        "agent_id": "ontologize-lane-6",
+        "role_id": "productization-synthesizer",
+        "lane_name": "productization",
+        "spawn_status": "blocked",
+        "spawn_error": "Not delegated as a separate subagent; the parent route ran synthesis inline to avoid duplicating the five lanes' receipts.",
+        "residue": "Productization synthesis was performed by the parent rather than a sibling agent.",
+        "reroute": "Executed inline by parent during synthesize-product-solution; output is PRODUCT.md."
+      }
+    ]
+  },
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "ontologize-research-20260608",
+      "step_id": "recover-goldenquill-context",
+      "capability_ref": "context-builder",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": ["projects/ontologize/levels/L0-corpus.md"],
+      "validation": [
+        "GoldenQuill client package, promotion DAG, skills, and decisions inspected read-only on branch codex/goldenquill-client-package."
+      ],
+      "observer_status": "ontologize-source-context-recovered"
+    },
+    {
+      "dispatch_id": "ontologize-research-20260608",
+      "step_id": "build-research-tower",
+      "capability_ref": "research-tower",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "projects/ontologize/README.md",
+        "projects/ontologize/TOWER.md",
+        "projects/ontologize/levels/L0-corpus.md",
+        "projects/ontologize/levels/L1-pattern-map.md",
+        "projects/ontologize/levels/L2-product-closure-plan.md"
+      ],
+      "validation": [
+        "Tower includes README, TOWER, L0 corpus, L1 pattern map, L2 product closure plan."
+      ],
+      "observer_status": "ontologize-research-tower-built"
+    },
+    {
+      "dispatch_id": "ontologize-research-20260608",
+      "step_id": "extract-ontology-dag-patterns",
+      "capability_ref": "robot-talks",
+      "receipt_kind": "subagent",
+      "status": "pass",
+      "artifacts": [
+        "projects/ontologize/sessions/pattern-extraction-receipts.md"
+      ],
+      "validation": [
+        "Five role-bound lanes returned source-backed findings; sixth role synthesized inline.",
+        "Findings tagged source-backed / reusable-pattern / hypothesis."
+      ],
+      "observer_status": "ontologize-pattern-fanout-completed"
+    },
+    {
+      "dispatch_id": "ontologize-research-20260608",
+      "step_id": "build-glossary-definitions",
+      "capability_ref": "feature-glossary",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "projects/ontologize/GLOSSARY.md",
+        "projects/ontologize/DEFINITIONS.md"
+      ],
+      "validation": [
+        "Each term marks origin (GoldenQuill / generic / coinage) and status (source-backed / seed / analogy / candidate)."
+      ],
+      "observer_status": "ontologize-glossary-definitions-built"
+    },
+    {
+      "dispatch_id": "ontologize-research-20260608",
+      "step_id": "synthesize-product-solution",
+      "capability_ref": "distill",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": ["projects/ontologize/PRODUCT.md"],
+      "validation": [
+        "Every capability claim tagged proven (with source) or hypothesis (with validation step).",
+        "No built/sold claims; no pricing, contracts, or named clients."
+      ],
+      "observer_status": "ontologize-product-synthesized"
+    },
+    {
+      "dispatch_id": "ontologize-research-20260608",
+      "step_id": "validate-and-record-residue",
+      "capability_ref": "dispatch-spec",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "projects/ontologize/ontologize-research.dispatch.json",
+        "projects/ontologize/residue/open-residue.md",
+        "projects/ontologize/NEXT.md"
+      ],
+      "validation": [
+        "Dispatch validates against scripts/validate-dispatch.py; open residue and NEXT recorded."
+      ],
+      "observer_status": "ontologize-dispatch-validated"
+    },
+    {
+      "dispatch_id": "ontologize-research-20260608",
+      "step_id": "prepare-next-handoff",
+      "capability_ref": "invoke",
+      "receipt_kind": "handoff",
+      "status": "pass",
+      "artifacts": ["projects/ontologize/NEXT.md"],
+      "validation": [
+        "Next route is decision-gate then task-session; product validation handoff named."
+      ],
+      "observer_status": "ontologize-next-handoff-prepared",
+      "handoff_note": "ontologize-product-validation-handoff"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "goldenquill-import-boundary",
+        "kind": "artifact_import",
+        "from_owner": "goldenquill",
+        "to_owner": "context-builder",
+        "applies_to_steps": [
+          "recover-goldenquill-context",
+          "extract-ontology-dag-patterns"
+        ],
+        "contract": "GoldenQuill client-package artifacts are read-only source evidence; this dispatch imports and cites them but does not modify the GoldenQuill project.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "research-to-product-boundary",
+        "kind": "capability_handoff",
+        "from_owner": "distill",
+        "to_owner": "owner-review",
+        "applies_to_steps": [
+          "synthesize-product-solution",
+          "prepare-next-handoff"
+        ],
+        "contract": "The CyberAlchemy product synthesis is a candidate offer until an owner approves it for client-facing use; no pricing, contracts, or commitments are authorized here.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "dispatch-spec",
+      "execution": "task-session-or-approved-subagents",
+      "validation": "dispatch-spec",
+      "evidence": "signal-observer",
+      "memory": "inventory",
+      "promotion": "owning Arcanum capability"
+    },
+    "receipts": [
+      {
+        "receipt_id": "pattern-extraction-receipts",
+        "producer": "robot-talks",
+        "required_fields": [
+          "session_id",
+          "artifacts",
+          "audit_reference",
+          "residue",
+          "validation_result"
+        ],
+        "stores": [
+          "projects/ontologize/sessions/pattern-extraction-receipts.md"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "dispatch-validation-receipt",
+        "producer": "dispatch-spec",
+        "required_fields": [
+          "run_id",
+          "artifacts",
+          "validation_result",
+          "audit_reference",
+          "residue"
+        ],
+        "stores": ["projects/ontologize/ontologize-research.dispatch.json"],
+        "on_missing": "flag"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects-ontologize",
+        "owner": "projects/ontologize",
+        "write_policy": "Research and product artifacts may be written under projects/ontologize only unless a later approved task expands scope."
+      },
+      {
+        "namespace": "projects-goldenquill",
+        "owner": "projects/goldenquill",
+        "write_policy": "Read-only for this dispatch; no GoldenQuill writes."
+      },
+      {
+        "namespace": "arcanum-canonical",
+        "owner": "registry and owning capability folders",
+        "write_policy": "No writes from this dispatch without explicit owner-review task."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "projects/ontologize candidate product, glossary, and definitions",
+        "target": "canonical Arcanum knowledge or client-facing CyberAlchemy collateral",
+        "rule": "requires owner review and a separate promotion route",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "gates": [
+    {
+      "gate_id": "source-visibility",
+      "kind": "quality",
+      "owner": "context-builder",
+      "condition": "Every finding must distinguish GoldenQuill source facts, generic ontology/DAG/BI practice, reusable patterns, CyberAlchemy product hypotheses, and open questions.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "goldenquill-read-only",
+      "kind": "policy",
+      "owner": "dispatch-spec",
+      "condition": "The GoldenQuill project is read-only source evidence; this dispatch must not modify any GoldenQuill artifact.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "tower-shape",
+      "kind": "validation",
+      "owner": "research-tower",
+      "condition": "The research artifact set must include README, TOWER, L0 corpus, L1 pattern map, L2 product closure plan, glossary, definitions, PRODUCT, open residue, and NEXT.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "subagent-approval",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Recommended research subagent execution requires explicit operator approval before delegated research runs.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "product-honesty",
+      "kind": "quality",
+      "owner": "distill",
+      "condition": "The product synthesis must mark every capability claim as proven by GoldenQuill evidence or as a hypothesis with a validation step, and must not claim the product is built or sold.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "arcanum",
+      "condition": "Research outputs may propose candidate mappings and a candidate product but must not promote glossary, ontology, sigil, spell, memory, or runtime authority, nor commit client-facing terms.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "dispatch-validation",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "The dispatch must pass the dispatch-spec validator before being treated as handoff-ready.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "ontologize-source-context-recovered",
+      "ontologize-research-tower-built",
+      "ontologize-pattern-fanout-completed",
+      "ontologize-glossary-definitions-built",
+      "ontologize-product-synthesized",
+      "ontologize-dispatch-validated",
+      "ontologize-next-handoff-prepared"
+    ],
+    "signal_grouping": "ontologize-research"
+  },
+  "promotion_guardrails": [
+    "Do not modify the GoldenQuill project; treat it as read-only source evidence.",
+    "Do not promote ontologize terms into canonical Arcanum vocabulary without owner review.",
+    "Do not treat the candidate product as a built or sold offering.",
+    "Do not commit pricing, contracts, or named client engagements without owner review.",
+    "Do not execute research subagents without explicit operator approval."
+  ]
+}

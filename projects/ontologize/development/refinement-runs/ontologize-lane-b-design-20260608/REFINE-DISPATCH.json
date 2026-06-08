@@ -1,0 +1,417 @@
+{
+  "dispatch_id": "ontologize-lane-b-design-20260608",
+  "parent_dispatch_id": "ontologize-delivery-lanes-20260608",
+  "intent": {
+    "raw": "Refine Lane B (Arcanum inventory + ontology) into a buildable design: confirm the four-layer mapping against real sigil capabilities and design the five bridges (signed register, runtime event-to-card dispatch, 11-rule lint schema, proof-harness, reflection cadence).",
+    "objective": "Run the canonical refine loop with one Arcanum-capability-surveyor subagent to turn Lane B from a sketch into a buildable design: per-layer mapping to actual sigil capabilities, a reuse-vs-build verdict + MVP + cost for each of the five bridges, and a build order, reusing local Arcanum skill definitions.",
+    "target_artifact": "projects/ontologize/LANE-B-DESIGN.md",
+    "arcanum_vocabulary": [
+      "refine",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "dispatch-spec",
+      "inventory",
+      "ontology-vault",
+      "x_ray",
+      "residue"
+    ],
+    "operator_sentence": "Make Lane B buildable: design the five bridges on top of the Arcanum sigils."
+  },
+  "mode": "mixed",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "data_quality_completeness",
+    "x_ray",
+    "memory_loop",
+    "residue_ledger",
+    "concrete_path_evidence"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "The main uncertainty is how each Lane B layer and each of the five bridges maps onto concrete sigil mechanics.",
+      "techniques": ["x_ray", "component_descriptor", "concrete_path_evidence"],
+      "applies_to_steps": ["distill", "invoke-redesign"],
+      "validation_expectation": "LANE-B-DESIGN.md emits a concrete per-layer and per-bridge mapping, each traced to a cited Arcanum skill capability path or marked net-new with a reason."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "The Lane B sketch, prior lane-designer receipts, and local Arcanum skill definitions are material.",
+      "techniques": [
+        "memory_loop",
+        "residue_ledger",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": ["context-baseline", "distill"],
+      "validation_expectation": "Reuse DELIVERY-LANES.md + skill definitions; dedup against the prior Lane B receipt; record residue."
+    }
+  ],
+  "route_menu": {
+    "context_hint": "Single profile: x-ray the bridge mechanics + memory reuse. No competing-design tournament needed (bridges are complementary).",
+    "items": [
+      {
+        "id": "xray-bridges",
+        "label": "X-ray the bridges",
+        "description": "Map each layer + bridge to concrete sigil capability; verdict reuse-vs-build.",
+        "capability_ref": "refine",
+        "pattern": "route"
+      },
+      {
+        "id": "defer-lane-b",
+        "label": "Defer Lane B",
+        "description": "Leave Lane B as a sketch until a client picks it; risks under-scoping the offer.",
+        "capability_ref": "invoke",
+        "pattern": "synthesis"
+      }
+    ],
+    "selected_item_id": "xray-bridges"
+  },
+  "steps": [
+    {
+      "step_id": "context-baseline",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "pattern": "route",
+      "techniques": ["frame_handoff", "memory_loop", "concrete_path_evidence"],
+      "inputs": [
+        { "kind": "intent", "ref": "intent.raw" },
+        { "kind": "artifact", "ref": "projects/ontologize/DELIVERY-LANES.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/DAG-AND-METRICS.md" },
+        { "kind": "artifact", "ref": ".claude/skills/inventory/SKILL.md" },
+        { "kind": "artifact", "ref": ".claude/skills/ontology-vault/SKILL.md" }
+      ],
+      "outputs": [
+        { "kind": "frame", "ref": "lane-b-evidence-baseline" },
+        { "kind": "trace_event", "ref": "lane-b-context-baseline-built" }
+      ],
+      "stop_conditions": [
+        "Block if the Arcanum skill definitions cannot be read."
+      ]
+    },
+    {
+      "step_id": "invoke-define",
+      "name": "Invoke Define the Lane B build",
+      "capability_ref": "invoke",
+      "pattern": "sequential",
+      "techniques": ["sequence", "minimum_component_catalog"],
+      "inputs": [{ "kind": "frame", "ref": "lane-b-evidence-baseline" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/02-define.md" },
+        { "kind": "trace_event", "ref": "lane-b-define-built" }
+      ],
+      "stop_conditions": ["Flag if a done-criterion is unaddressed."]
+    },
+    {
+      "step_id": "interrogation-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "pattern": "validation",
+      "techniques": ["validation_loop"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/02-define.md" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/03-interrogation-review.md" },
+        { "kind": "trace_event", "ref": "lane-b-define-reviewed" }
+      ],
+      "evidence_artifact": "stages/03-interrogation-review.md",
+      "stop_conditions": ["Flag named gaps."]
+    },
+    {
+      "step_id": "research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "pattern": "decision",
+      "techniques": ["owner_boundary_check"],
+      "inputs": [
+        { "kind": "artifact", "ref": "stages/03-interrogation-review.md" }
+      ],
+      "outputs": [
+        { "kind": "decision", "ref": "lane-b-research-decision-no-research" },
+        { "kind": "trace_event", "ref": "lane-b-research-decided" }
+      ],
+      "stop_conditions": [
+        "Ask before any external pass if a named external gap appears."
+      ]
+    },
+    {
+      "step_id": "distill",
+      "name": "Distill: map layers + bridges to sigil capabilities",
+      "capability_ref": "distill",
+      "pattern": "distill",
+      "techniques": [
+        "x_ray",
+        "residue_ledger",
+        "concrete_path_evidence",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        { "kind": "decision", "ref": "lane-b-research-decision-no-research" },
+        { "kind": "frame", "ref": "lane-b-evidence-baseline" },
+        { "kind": "ledger", "ref": "capability-surveyor-receipt" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/05-distill.md" },
+        { "kind": "trace_event", "ref": "lane-b-distilled" }
+      ],
+      "stop_conditions": [
+        "Block if a layer or bridge cannot map to a cited capability or be marked net-new with a reason."
+      ]
+    },
+    {
+      "step_id": "invoke-redesign",
+      "name": "Invoke Redesign to LANE-B-DESIGN.md",
+      "capability_ref": "invoke",
+      "pattern": "synthesis",
+      "techniques": ["x_ray", "component_descriptor", "frame_handoff"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/05-distill.md" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/LANE-B-DESIGN.md" },
+        { "kind": "frame", "ref": "lane-b-design-frame" },
+        { "kind": "trace_event", "ref": "lane-b-redesigned" }
+      ],
+      "stop_conditions": [
+        "Block if the artifact lacks the layer mapping, the five bridge designs, and a build order."
+      ]
+    },
+    {
+      "step_id": "interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "pattern": "validation",
+      "techniques": ["validation_loop"],
+      "inputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/LANE-B-DESIGN.md" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/07-design-review.md" },
+        { "kind": "trace_event", "ref": "lane-b-design-reviewed" }
+      ],
+      "evidence_artifact": "stages/07-design-review.md",
+      "stop_conditions": [
+        "Flag any bridge that lacks a decidable build/reuse verdict or MVP."
+      ]
+    },
+    {
+      "step_id": "distill-repair",
+      "name": "Distill repair",
+      "capability_ref": "distill",
+      "pattern": "validation",
+      "techniques": ["validation_loop", "residue_ledger"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/07-design-review.md" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/08-distill-repair.md" },
+        { "kind": "trace_event", "ref": "lane-b-repaired" }
+      ],
+      "evidence_artifact": "stages/08-distill-repair.md",
+      "stop_conditions": [
+        "Block if a flagged gap cannot be repaired or named as residue."
+      ]
+    },
+    {
+      "step_id": "invoke-plan",
+      "name": "Invoke Plan deltas (Lane-B bridges build task)",
+      "capability_ref": "invoke",
+      "pattern": "sequential",
+      "techniques": ["sequence", "handle_handoff"],
+      "inputs": [
+        { "kind": "artifact", "ref": "stages/08-distill-repair.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/LANE-B-DESIGN.md" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/09-plan-deltas.md" },
+        { "kind": "trace_event", "ref": "lane-b-plan-updated" }
+      ],
+      "stop_conditions": [
+        "Non-executed; flag if deltas are not mapped to existing tasks."
+      ]
+    },
+    {
+      "step_id": "final-synthesis",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "interrogation",
+      "pattern": "synthesis",
+      "techniques": ["validation_loop", "residue_ledger"],
+      "inputs": [
+        { "kind": "artifact", "ref": "stages/09-plan-deltas.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/LANE-B-DESIGN.md" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "RESULT.md" },
+        { "kind": "trace_event", "ref": "lane-b-final-synthesized" }
+      ],
+      "evidence_artifact": "RESULT.md",
+      "stop_conditions": [
+        "Block if the done-criteria are not concretely satisfied."
+      ]
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Mapping the five Lane B bridges to reuse-vs-build verdicts spans ~8 Arcanum skills beyond the three core ones.",
+    "explanation": "A capability surveyor reads the broader skill surface and returns, per bridge, the best reuse candidate or a net-new verdict, so the design rests on real capabilities instead of guesses.",
+    "context": [
+      "Bridges likely touch inventory lint, observability-setup, observed-invocation-loop, workflow-reflect, schedule, decision-gate, necronomicon, sigil-development.",
+      "Lane B's hardest gap is the Layer-2 classification register."
+    ],
+    "roles": [
+      {
+        "role_id": "arcanum-capability-surveyor",
+        "purpose": "Survey the candidate Arcanum skills and return, per bridge, a reuse-existing-sigil-vs-net-new verdict with skill path, MVP sketch, and residual gap.",
+        "owns": "Arcanum capability survey for the five bridges",
+        "applies_to_steps": ["distill", "invoke-redesign"]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Run one capability-surveyor subagent to map the five Lane B bridges across the Arcanum skill surface?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "handoff_note",
+      "per-bridge reuse-vs-build verdict with skill path",
+      "MVP sketch per bridge",
+      "residual gap per bridge",
+      "source-or-hypothesis tags"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "pass",
+    "agents": [
+      {
+        "agent_id": "lane-b-capability-surveyor",
+        "role_id": "arcanum-capability-surveyor",
+        "lane_name": "capability-survey",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "stages/04-capability-surveyor-receipt.md",
+        "close_status": "closed"
+      }
+    ]
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "arcanum-skills-readonly",
+        "kind": "artifact_import",
+        "from_owner": "arcanum-skills",
+        "to_owner": "context-builder",
+        "applies_to_steps": ["context-baseline", "distill"],
+        "contract": "Arcanum skill definitions are read-only capability evidence cited but not modified.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "research-owner-boundary",
+        "kind": "human_approval",
+        "from_owner": "refine",
+        "to_owner": "operator",
+        "applies_to_steps": ["research-decision"],
+        "contract": "No external research without operator confirmation; default no-research/local-first.",
+        "on_violation": "ask"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine",
+      "execution": "refine-inline-stages-plus-approved-subagents",
+      "validation": "dispatch-spec",
+      "evidence": "signal-observer",
+      "memory": "inventory",
+      "promotion": "owning Arcanum capability"
+    },
+    "promotion_splits": [
+      {
+        "source": "projects/ontologize/LANE-B-DESIGN.md candidate design",
+        "target": "canonical Arcanum knowledge, a new sigil, or client-facing collateral",
+        "rule": "requires owner review and a separate promotion/sigil-development route",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "gates": [
+    {
+      "gate_id": "native-capability-handles",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "Every runtime-backed stage names a canonical capability handle.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "bridge-verdict-decidable",
+      "kind": "validation",
+      "owner": "interrogation",
+      "condition": "Each of the five bridges has a decidable reuse-vs-build verdict, an MVP, and either a cited Arcanum skill path or a net-new reason.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "readonly-evidence",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "Arcanum skill definitions are read-only; this run must not modify them.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "subagent-receipt",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "The approved capability-surveyor subagent returns its per-bridge verdicts before parent synthesis.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "arcanum",
+      "condition": "Outputs are candidates; no canonical promotion, no new sigil install, no pricing/contracts/named clients.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "final-synthesis-readiness",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "RESULT.md is synthesized from stage artifacts and the subagent receipt and confirms the done-criteria.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "ontologize-delivery-lanes-20260608",
+    "trace_events": [
+      "lane-b-context-baseline-built",
+      "lane-b-define-built",
+      "lane-b-define-reviewed",
+      "lane-b-research-decided",
+      "lane-b-distilled",
+      "lane-b-redesigned",
+      "lane-b-design-reviewed",
+      "lane-b-repaired",
+      "lane-b-plan-updated",
+      "lane-b-final-synthesized"
+    ],
+    "signal_grouping": "ontologize-lane-b-design"
+  },
+  "promotion_guardrails": [
+    "Arcanum skill definitions are read-only evidence.",
+    "LANE-B-DESIGN.md is a candidate design, not a built system or an installed sigil.",
+    "Building the bridges or installing a new sigil is a separate sigil-development/task-session route.",
+    "No canonical Arcanum promotion; no pricing/contracts/named clients."
+  ]
+}
