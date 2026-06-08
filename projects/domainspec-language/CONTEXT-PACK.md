@@ -24,7 +24,7 @@ The language should let an agent or tool answer:
 
 ### Generic Route And Validation Evidence
 
-`/home/vrondelli/projects/domainspec-core/arcanum/formulae/dispatch-spec/dispatch.schema.yml`
+`/home/vrondelli/projects/domainspec-core-language-research/arcanum/formulae/dispatch-spec/dispatch.schema.yml`
 
 Shows how Arcanum already expresses a structured, validator-facing contract for
 routes: required fields, route steps, subagent strategy, evidence contracts,
@@ -37,7 +37,7 @@ Use it as evidence for:
 - required-vs-optional validation boundaries
 - how validators become the authority for accepted shape
 
-`/home/vrondelli/projects/domainspec-core/arcanum/spells/invoke/handoff.md`
+`/home/vrondelli/projects/domainspec-core-language-research/arcanum/spells/invoke/handoff.md`
 
 Shows the handoff pattern used to transfer implementation intent while keeping
 scope, stage, evidence, and completion expectations explicit.
@@ -51,7 +51,7 @@ Use it as evidence for:
 
 ### Craft Use Case Evidence
 
-`/home/vrondelli/projects/domainspec-core/arcanum/development/craft/CRAFT-INTERFACE.md`
+`/home/vrondelli/projects/domainspec-core-language-research/arcanum/development/craft/CRAFT-INTERFACE.md`
 
 Defines the Craft interface concept: starting a Craft project, operating a
 ledger, surfacing state, description, blockers, enables, next actions, open
@@ -64,7 +64,7 @@ Use it as one example of a contract language target:
 - operation-level methods
 - ledger-backed state
 
-`/home/vrondelli/projects/domainspec-core/arcanum/development/craft/CRAFT-INTERFACE-LEDGER-SCHEMA.yml`
+`/home/vrondelli/projects/domainspec-core-language-research/arcanum/development/craft/CRAFT-INTERFACE-LEDGER-SCHEMA.yml`
 
 Shows the structural schema for Craft interface ledger entries.
 
@@ -76,7 +76,7 @@ Use it as evidence for:
 - validation status
 - recursive references
 
-`/home/vrondelli/projects/domainspec-core/arcanum/development/craft/CRAFT-INTERACTION-CONTRACT.md`
+`/home/vrondelli/projects/domainspec-core-language-research/arcanum/development/craft/CRAFT-INTERACTION-CONTRACT.md`
 
 Defines how Craft should interact with external sigils and spells such as
 refine, decision-gate, invoke, task-session, and dispatch-spec.
@@ -88,7 +88,7 @@ Use it as one example of:
 - authority boundaries
 - lifecycle coordination
 
-`/home/vrondelli/projects/domainspec-core/arcanum/development/craft/CRAFT-INTERACTION-LEDGER-SCHEMA.yml`
+`/home/vrondelli/projects/domainspec-core-language-research/arcanum/development/craft/CRAFT-INTERACTION-LEDGER-SCHEMA.yml`
 
 Shows the structural schema for cross-sigil interaction ledger entries.
 
@@ -99,19 +99,19 @@ Use it as evidence for:
 - open decisions
 - unresolved gaps
 
-`/home/vrondelli/projects/domainspec-core/arcanum/development/craft/CRAFT-INTERFACE-EXAMPLE.yml`
+`/home/vrondelli/projects/domainspec-core-language-research/arcanum/development/craft/CRAFT-INTERFACE-EXAMPLE.yml`
 
 Example instance of the Craft interface ledger schema.
 
 Use it to derive example-driven validation needs.
 
-`/home/vrondelli/projects/domainspec-core/arcanum/development/craft/CRAFT-INTERACTION-EXAMPLE.yml`
+`/home/vrondelli/projects/domainspec-core-language-research/arcanum/development/craft/CRAFT-INTERACTION-EXAMPLE.yml`
 
 Example instance of Craft interaction with other capabilities.
 
 Use it to derive example-driven cross-contract validation needs.
 
-`/home/vrondelli/projects/domainspec-core/arcanum/development/craft/CRAFT-INTERFACE-VALIDATION.md`
+`/home/vrondelli/projects/domainspec-core-language-research/arcanum/development/craft/CRAFT-INTERFACE-VALIDATION.md`
 
 Documents validation expectations for the Craft interface.
 
@@ -121,7 +121,7 @@ Use it as evidence for:
 - readiness criteria
 - failure modes
 
-`/home/vrondelli/projects/domainspec-core/arcanum/development/craft/CRAFT-INTERACTION-VALIDATION.md`
+`/home/vrondelli/projects/domainspec-core-language-research/arcanum/development/craft/CRAFT-INTERACTION-VALIDATION.md`
 
 Documents validation expectations for Craft interaction.
 
