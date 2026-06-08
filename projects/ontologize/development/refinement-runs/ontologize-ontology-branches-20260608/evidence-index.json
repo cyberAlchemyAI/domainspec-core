@@ -1,0 +1,123 @@
+{
+  "run_id": "ontologize-ontology-branches-20260608",
+  "target": "projects/ontologize ontology branches design",
+  "parent_dispatch_id": "ontologize-research-20260608",
+  "preset": "standard",
+  "research_mode": "no-research",
+  "research_confirmation": "not-needed (local)",
+  "subagent_strategy": "recommended",
+  "subagent_authorization": "approved",
+  "dispatch_route": "REFINE-DISPATCH.json",
+  "dispatch_validation": "pass",
+  "runtime_handoff": "RUNTIME-HANDOFF.md",
+  "seed_proposal": "REFINE-SEED-PROPOSAL.md",
+  "result": "RESULT.md",
+  "stages": [
+    {
+      "n": 1,
+      "stage": "context-baseline",
+      "capability": "context-builder",
+      "artifact": "DAG-AND-METRICS.md+ontology-vault+git:master ontology DAG",
+      "status": "pass"
+    },
+    {
+      "n": 2,
+      "stage": "invoke-define",
+      "capability": "invoke",
+      "artifact": "stages/02-define.md",
+      "status": "pass"
+    },
+    {
+      "n": 3,
+      "stage": "interrogation-review",
+      "capability": "interrogation",
+      "artifact": "stages/03-interrogation-review.md",
+      "status": "flag"
+    },
+    {
+      "n": 4,
+      "stage": "research-decision",
+      "capability": "refine",
+      "artifact": "decision:no-research",
+      "status": "pass"
+    },
+    {
+      "n": "4s",
+      "stage": "subagent-survey",
+      "capability": "Agent",
+      "artifact": "stages/04-branch-evidence-mapper-receipt.md",
+      "status": "pass"
+    },
+    {
+      "n": 5,
+      "stage": "distill",
+      "capability": "distill",
+      "artifact": "stages/05-distill.md",
+      "status": "pass"
+    },
+    {
+      "n": 6,
+      "stage": "invoke-redesign",
+      "capability": "invoke",
+      "artifact": "projects/ontologize/ONTOLOGY-BRANCHES.md",
+      "status": "pass"
+    },
+    {
+      "n": 7,
+      "stage": "interrogation-design-review",
+      "capability": "interrogation",
+      "artifact": "stages/07-design-review.md",
+      "status": "flag"
+    },
+    {
+      "n": 8,
+      "stage": "distill-repair",
+      "capability": "distill",
+      "artifact": "stages/08-distill-repair.md",
+      "status": "pass"
+    },
+    {
+      "n": 9,
+      "stage": "invoke-plan",
+      "capability": "invoke",
+      "artifact": "stages/09-plan-deltas.md",
+      "status": "pass"
+    },
+    {
+      "n": 10,
+      "stage": "final-synthesis",
+      "capability": "interrogation",
+      "artifact": "RESULT.md",
+      "status": "pass"
+    }
+  ],
+  "subagents": [
+    {
+      "agent_id": "branches-mapper",
+      "role": "branch-evidence-mapper",
+      "spawn": "spawned",
+      "join": "completed",
+      "close": "closed"
+    }
+  ],
+  "branches": ["B1-meaning", "B2-system", "B3-operational", "B4-bridge"],
+  "bridge_edge_types": [
+    "realized_by",
+    "depends_on",
+    "constrained_by",
+    "observed_by",
+    "tested_by",
+    "drifts_from",
+    "traced_to"
+  ],
+  "target_artifacts": [
+    "projects/ontologize/ONTOLOGY-BRANCHES.md",
+    "projects/ontologize/DESIGN.md",
+    "projects/ontologize/DAG-AND-METRICS.md"
+  ],
+  "blocked_fields": [],
+  "recommended_next_routes": [
+    "task-session: WORK-PACK T1 (populate the 4 branches per client)",
+    "feature-glossary: branch terms (candidate)"
+  ]
+}
