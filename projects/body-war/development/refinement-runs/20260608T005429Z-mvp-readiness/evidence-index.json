@@ -1,0 +1,105 @@
+{
+  "run_id": "20260608T005429Z-mvp-readiness",
+  "target": "projects/body-war",
+  "status": "strategy-prepared",
+  "evidence": [
+    {
+      "id": "current-branch",
+      "kind": "git",
+      "ref": "git branch --show-current",
+      "summary": "Current branch is codex/goldenquill-client-package."
+    },
+    {
+      "id": "head-path-check",
+      "kind": "git",
+      "ref": "git ls-tree -r --name-only HEAD projects/body-war",
+      "summary": "No projects/body-war files are present in current HEAD."
+    },
+    {
+      "id": "history-scaffold",
+      "kind": "git",
+      "ref": "6d2ff7c",
+      "summary": "Commit 6d2ff7c adds the Body War project scaffold and is contained by master."
+    },
+    {
+      "id": "scaffold-readme",
+      "kind": "git-show",
+      "ref": "6d2ff7c:projects/body-war/README.md",
+      "summary": "TROQAR is a GPS-based territorial running game; first feature slice is game-rules."
+    },
+    {
+      "id": "park-track-distill",
+      "kind": "git-show",
+      "ref": "6d2ff7c:projects/body-war/docs/features/park-track-pilot/DISTILL.md",
+      "summary": "Park Track Control is the smallest coherent candidate."
+    },
+    {
+      "id": "implementation-layering",
+      "kind": "git-show",
+      "ref": "6d2ff7c:projects/body-war/docs/features/park-track-pilot/implementation-layering.md",
+      "summary": "L0 is one park, two or three tracks, manual evidence, controller, challenge, and 48h defense window."
+    },
+    {
+      "id": "command-resolution",
+      "kind": "runtime",
+      "ref": "arcanum/tools/arcanum --resolve",
+      "summary": "context-builder, distill, and decision-gate resolve; invoke, interrogation, and refine do not resolve through the repo-local arcanum command surface."
+    },
+    {
+      "id": "dispatch-validation",
+      "kind": "validator",
+      "ref": "python3 arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py projects/body-war/development/refinement-runs/20260608T005429Z-mvp-readiness/REFINE-DISPATCH.json",
+      "summary": "Dispatch route validates with VALIDATION=pass."
+    },
+    {
+      "id": "scaffold-restored",
+      "kind": "git",
+      "ref": "git checkout 6d2ff7c -- projects/body-war",
+      "summary": "Operator approved restoring the Body War scaffold from commit 6d2ff7c; restore completed successfully."
+    },
+    {
+      "id": "craft-pilot-selection",
+      "kind": "operator-decision",
+      "ref": "arcanum/development/craft/",
+      "summary": "Operator selected Craft as the internal pilot context for the Body War MVP-readiness refine route."
+    },
+    {
+      "id": "craft-current-state",
+      "kind": "artifact",
+      "ref": "arcanum/development/craft/README.md",
+      "summary": "Craft has validated recursive-ledger MVP evidence, deferred promotion, and a current next move under the aggregate Refine receipt model with internal Refine work still incomplete."
+    },
+    {
+      "id": "craft-pilot-slice",
+      "kind": "operator-decision",
+      "ref": "arcanum/development/craft/README.md; arcanum/development/craft/CRAFT-MVP-DESIGN.md",
+      "summary": "Operator selected aggregate Refine receipt / Distill blocker and recursive ledger MVP as the paired Craft pilot slice."
+    },
+    {
+      "id": "hybrid-scoring-readiness",
+      "kind": "operator-decision",
+      "ref": "projects/body-war/docs/decisions/mvp-readiness.md#DG-004",
+      "summary": "Operator selected hybrid authority: simple public controller plus richer evidence captured underneath."
+    },
+    {
+      "id": "strava-app-validation-channel",
+      "kind": "operator-decision",
+      "ref": "projects/body-war/app/",
+      "summary": "Operator selected app/runtime-backed validation with Strava API linking and backend."
+    },
+    {
+      "id": "app-smoke-check",
+      "kind": "runtime",
+      "ref": "python3 server.py; GET /; GET /api/status; GET /api/tracks",
+      "summary": "Backend compiled and local smoke checks returned page/status/track responses without Strava credentials."
+    }
+  ],
+  "artifacts": [
+    "REFINE-SEED-PROPOSAL.md",
+    "REFINE-DISPATCH.json",
+    "RUNTIME-HANDOFF.md",
+    "RUN-MANIFEST.md",
+    "projects/body-war/docs/decisions/mvp-readiness.md",
+    "stages/03-interrogation-refine-review.md"
+  ]
+}

@@ -1,0 +1,580 @@
+{
+  "dispatch_id": "body-war-mvp-readiness-20260608T005429Z",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Create a strategy so Body War/TROQAR can be refined into an MVP-ready plan with decisions and gaps closed through decision-gate and interrogation.",
+    "objective": "Produce a validated refine route that closes blocker decisions and prepares a non-executed MVP plan for the Park Track Control L0 pilot.",
+    "target_artifact": "projects/body-war/development/refinement-runs/20260608T005429Z-mvp-readiness",
+    "operator_sentence": "refine this project so we have all decisions and gaps closed and get this MVP done",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "refine",
+      "decision-gate",
+      "interrogation",
+      "distill",
+      "context-builder",
+      "invoke",
+      "craft"
+    ],
+    "pilot_context": "arcanum/development/craft/",
+    "pilot_context_decision": "Craft is the internal refinement pilot context; the future physical TROQAR park/city pilot is deferred.",
+    "pilot_slice": "aggregate Refine receipt / Distill blocker plus recursive ledger MVP fixture"
+  },
+  "mode": "mixed",
+  "route_menu": {
+    "context_hint": "Body War scaffold has been restored from commit 6d2ff7c, and Craft is selected as the internal refinement pilot context.",
+    "items": [
+      {
+        "id": "rehydrate-then-refine",
+        "label": "Rehydrate then refine",
+        "description": "Restore the scaffold from master, then run the canonical refine loop against live project files.",
+        "capability_ref": "refine",
+        "pattern": "sequence"
+      },
+      {
+        "id": "history-backed-refine",
+        "label": "History-backed refine",
+        "description": "Use commit evidence without restoring the scaffold, producing a plan that later rehydrates the project.",
+        "capability_ref": "refine",
+        "pattern": "sequence"
+      }
+    ],
+    "selected_item_id": "rehydrate-then-refine"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "route_menu",
+    "approval_checkpoint",
+    "memory_loop",
+    "residue_ledger",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "toy_game",
+    "concrete_path_evidence",
+    "state_namespace_boundary",
+    "execution_receipt_handoff",
+    "memory_promotion_split"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The refine run has a canonical ten-stage sequence.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping",
+        "minimum_component_catalog",
+        "conditional_component",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s02-invoke-define",
+        "s03-interrogation-refine-review",
+        "s04-research-decision",
+        "s05-distill",
+        "s06-invoke-design",
+        "s07-interrogation-design-review",
+        "s08-distill-repair",
+        "s09-invoke-plan",
+        "s10-final-interrogation-synthesis"
+      ],
+      "validation_expectation": "Every non-first step consumes a prior frame, handle, decision, ledger, or human answer."
+    },
+    {
+      "overlay_id": "route_menu_for_project_state",
+      "trigger": "The target project exists in git history but not current branch HEAD.",
+      "techniques": [
+        "route_menu",
+        "one_or_more_option_set",
+        "approval_checkpoint",
+        "state_namespace_boundary"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s03-interrogation-refine-review"
+      ],
+      "validation_expectation": "Operator must select whether to rehydrate the scaffold before full refine execution."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "Prior memory and git history contain material project state not present in the current branch.",
+      "techniques": [
+        "memory_loop",
+        "residue_ledger",
+        "data_quality_deduplication",
+        "concrete_path_evidence"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s05-distill",
+        "s10-final-interrogation-synthesis"
+      ],
+      "validation_expectation": "Recovered evidence must cite commit handles or file paths and must not silently become canonical until restored or approved."
+    },
+    {
+      "overlay_id": "toy_game_for_low_cost_falsification",
+      "trigger": "The MVP is a real-world game loop that can be falsified before software build-out.",
+      "techniques": [
+        "toy_game",
+        "validation_loop",
+        "assessment_failure_reference",
+        "recomposition_proof"
+      ],
+      "applies_to_steps": [
+        "s05-distill",
+        "s08-distill-repair",
+        "s09-invoke-plan"
+      ],
+      "validation_expectation": "The plan must name a small manual pilot evidence artifact and failure interpretation."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "MVP readiness spans product rules, real-world pilot operations, game mechanics, and current repository state.",
+    "explanation": "Role-bound sibling passes can close gaps faster without mixing product decisions, operations risk, and repo-state repair.",
+    "context": [
+      "projects/body-war has been restored from commit 6d2ff7c.",
+      "Operator selected arcanum/development/craft/ as the internal pilot context.",
+      "Operator selected aggregate Refine receipt / Distill blocker plus recursive ledger MVP fixture as the Craft pilot slice.",
+      "Scoring/readiness authority is hybrid: simple public controller plus richer evidence substrate.",
+      "Validation channel is app/runtime-backed with Strava API linking and backend.",
+      "Open decisions include monetization and runtime execution surface.",
+      "MVP should prove Park Track Control before app or hex infrastructure."
+    ],
+    "roles": [
+      {
+        "role_id": "repo-state-recovery",
+        "purpose": "Verify the correct source of project truth and propose the least risky rehydration path.",
+        "owns": "project-state evidence and scaffold rehydration recommendation",
+        "applies_to_steps": [
+          "s01-context-builder",
+          "s03-interrogation-refine-review"
+        ]
+      },
+      {
+        "role_id": "pilot-ops",
+        "purpose": "Reduce the MVP to one park, track cards, runner workflow, evidence review, and operator cadence.",
+        "owns": "manual pilot operations gaps",
+        "applies_to_steps": [
+          "s05-distill",
+          "s06-invoke-design",
+          "s09-invoke-plan"
+        ]
+      },
+      {
+        "role_id": "game-rule-trust",
+        "purpose": "Stress scoring, challenge, defense, tie, invalid-run, and dispute rules before implementation.",
+        "owns": "game rule blocker decisions",
+        "applies_to_steps": [
+          "s03-interrogation-refine-review",
+          "s07-interrogation-design-review",
+          "s08-distill-repair"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Confirm permission to run the Body War refine route with three delegated role passes: repo-state-recovery, pilot-ops, and game-rule-trust?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "handoff_note",
+      "blockers",
+      "evidence_paths_or_commit_handles",
+      "blocker_decisions_found",
+      "recommended_default",
+      "reroute",
+      "residue",
+      "validation_result"
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s01-context-builder",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": ["memory_loop", "concrete_path_evidence", "frame_handoff"],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "operator intent"
+        },
+        {
+          "kind": "external_context",
+          "ref": "git commit 6d2ff7c:projects/body-war"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/01-context-builder.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if neither current branch nor git history can provide project evidence"
+      ]
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "name": "Invoke Define MVP scope",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "s01-context-builder"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s03-interrogation-refine-review",
+      "name": "Interrogation refine review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "decision",
+      "techniques": ["approval_checkpoint", "residue_ledger"],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "s02-invoke-define"
+        },
+        {
+          "kind": "decision",
+          "ref": "projects/body-war/docs/decisions/mvp-readiness.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/03-interrogation-refine-review.md"
+        },
+        {
+          "kind": "decision",
+          "ref": "projects/body-war/docs/decisions/mvp-readiness.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "inputs": [
+        {
+          "kind": "human_answer",
+          "ref": "s03-interrogation-refine-review"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s05-distill",
+      "name": "Distill coherent L0 MVP unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": ["scu_swu_reduction", "recomposition_proof"],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "s04-research-decision"
+        },
+        {
+          "kind": "frame",
+          "ref": "s01-context-builder"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/05-distill.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "name": "Invoke Design MVP workflow",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "s05-distill"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "name": "Interrogation design review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "decision",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "s06-invoke-design"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/07-interrogation-design-review.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "stages/07-design-residue.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "name": "Distill repair and toy pilot validation",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "toy_game",
+      "techniques": [
+        "toy_game",
+        "validation_loop",
+        "assessment_failure_reference"
+      ],
+      "inputs": [
+        {
+          "kind": "human_answer",
+          "ref": "s07-interrogation-design-review"
+        },
+        {
+          "kind": "artifact",
+          "ref": "s06-invoke-design"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/08-distill-repair.md"
+        }
+      ],
+      "evidence_artifact": "stages/08-toy-pilot-validation.md"
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "name": "Invoke Plan non-executed MVP",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "s08-distill-repair"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s10-final-interrogation-synthesis",
+      "name": "Final interrogation and refine synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "s09-invoke-plan"
+        },
+        {
+          "kind": "ledger",
+          "ref": "s07-design-residue"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "body-war-mvp-readiness.final_synthesis"
+        }
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-project-state-anchor",
+      "kind": "decision",
+      "owner": "decision-gate",
+      "condition": "Operator selects whether to restore projects/body-war from master before full refine execution.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g02-command-resolution",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "Required runtime-backed stage capabilities resolve or have explicit native-runtime fallback.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g03-human-approval",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Operator confirms the strategy and delegated role-pass permission before execution.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04-mvp-decision-closure",
+      "kind": "decision",
+      "owner": "decision-gate",
+      "condition": "MVP blocker decisions are resolved or explicitly deferred with implementation blocked.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g05-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Execution evidence cannot promote Inventory, Ontology, glossary, sigil, or spell artifacts without owner review.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "body-war-mvp-readiness.strategy_created",
+      "body-war-mvp-readiness.operator_approved",
+      "body-war-mvp-readiness.stage_completed",
+      "body-war-mvp-readiness.decision_recorded",
+      "body-war-mvp-readiness.final_synthesis"
+    ],
+    "signal_grouping": "body-war-mvp-readiness-20260608T005429Z"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b01-history-to-current-branch",
+        "kind": "artifact_import",
+        "from_owner": "git-history/master",
+        "to_owner": "projects/body-war",
+        "applies_to_steps": [
+          "s01-context-builder",
+          "s03-interrogation-refine-review"
+        ],
+        "contract": "Commit 6d2ff7c evidence may be cited during strategy, but full scaffold restore requires operator approval.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b02-delegated-role-receipts",
+        "kind": "evidence_return",
+        "from_owner": "subagent roles",
+        "to_owner": "refine parent synthesis",
+        "applies_to_steps": [
+          "s05-distill",
+          "s06-invoke-design",
+          "s08-distill-repair",
+          "s09-invoke-plan"
+        ],
+        "contract": "Each delegated role returns evidence, blocker decisions, residue, and validation result before parent synthesis.",
+        "on_violation": "flag"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine",
+      "execution": "operator-approved native runtime",
+      "validation": "dispatch-spec",
+      "evidence": "stage capability owners",
+      "memory": "memory visibility only",
+      "promotion": "owner review required"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r01-stage-receipt",
+        "producer": "runtime-backed stages",
+        "required_fields": [
+          "run_id",
+          "artifacts",
+          "validation_result",
+          "residue"
+        ],
+        "stores": ["RUN-MANIFEST.md", "evidence-index.json"],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects/body-war/development/refinement-runs/20260608T005429Z-mvp-readiness",
+        "owner": "refine",
+        "write_policy": "strategy and stage evidence only"
+      },
+      {
+        "namespace": "projects/body-war/docs/decisions",
+        "owner": "decision-gate",
+        "write_policy": "decision records only"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "execution evidence",
+        "target": "canonical project docs",
+        "rule": "No canonical promotion without explicit operator approval and owner review.",
+        "on_violation": "block"
+      },
+      {
+        "source": "memory evidence",
+        "target": "inventory or ontology",
+        "rule": "Memory visibility does not equal knowledge promotion.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "This dispatch proposes and validates route shape only.",
+    "It does not restore the project scaffold without approval.",
+    "It does not implement the MVP.",
+    "It does not promote memory, inventory, ontology, glossary, sigil, or spell artifacts."
+  ]
+}
