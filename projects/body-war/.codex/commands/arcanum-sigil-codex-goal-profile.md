@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `codex-goal-profile` using the canonical definition snapshot embedded below.
@@ -163,7 +162,6 @@ Official reference: <https://developers.openai.com/cookbook/examples/codex/using
 ## Why This Is A Transmutation
 
 The sigil transforms a structured Arcanum execution unit into a native Codex operating contract. It does not coordinate the work itself, own task execution, or create a competing runtime.
-
 ````
 
 ## Canonical SKILL Snapshot
@@ -197,7 +195,7 @@ Use this skill when:
 - native Codex Goals are available,
 - the task may require continuation across turns,
 - the user needs a compact, auditable `/goal` command rather than another planning artifact.
-</applicability>
+  </applicability>
 
 <inputs>
 Expected inputs:
@@ -216,7 +214,7 @@ Expected inputs:
 - fallback exploration rule,
 - blocker state,
 - budget or stop constraints.
-</inputs>
+  </inputs>
 
 <process>
 1. Confirm the selected task or SWU. If multiple SWUs are available and none is selected, stop and ask for the SWU.
@@ -259,7 +257,7 @@ A good profile:
 - names dependencies and blockers,
 - explains what Codex should do between iterations,
 - states when to stop and what to report.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -273,12 +271,12 @@ Avoid:
 - treating fallback exploration as permission for broad discovery,
 - saying "keep going until done" without a budget or stop condition,
 - marking the goal complete without evidence.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
 
-```markdown
+````markdown
 ## Codex Goal Profile Result
 
 - Source work-pack: <path>
@@ -288,6 +286,8 @@ Return:
   ```text
   /goal <goal text>
   ```
+````
+
 - Verification surface: <command or evidence>
 - Boundaries: <write scope and source context>
 - Handoff pack: <markdown path and JSON/index path>
@@ -296,7 +296,8 @@ Return:
 - Extra-source reporting: required | n/a
 - Stop condition: <blocked report rule>
 - Validation: <checks performed or not run>
+
 ```
 </output-contract>
-
+```
 ````

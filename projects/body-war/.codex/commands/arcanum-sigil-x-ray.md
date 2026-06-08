@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `x-ray` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `x-ray` using the canonical definition snapshot 
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/x-ray/README.md
 
-````markdown
+```markdown
 # x-ray
 
 `x-ray` is an Arcana sigil seed for turning user-supplied context into a structured HTML explanation page.
@@ -108,13 +107,13 @@ Expected sections include:
 
 ## Ownership Model
 
-| Capability | Owner |
-| --- | --- |
-| Seed execution | Task Session |
-| Sigil lifecycle | Sigil Development |
-| Experiment mechanics | Experiment Harness |
-| Runtime handoff | Codex Goal adapter when strict coverage passes |
-| Promotion readiness | Sigil Development after live examples |
+| Capability           | Owner                                          |
+| -------------------- | ---------------------------------------------- |
+| Seed execution       | Task Session                                   |
+| Sigil lifecycle      | Sigil Development                              |
+| Experiment mechanics | Experiment Harness                             |
+| Runtime handoff      | Codex Goal adapter when strict coverage passes |
+| Promotion readiness  | Sigil Development after live examples          |
 
 ## Development
 
@@ -123,8 +122,7 @@ The seed work-pack lives at [development/WORK-PACK.md](development/WORK-PACK.md)
 The refined source seed lives at [development/REFINE-SEED.md](development/REFINE-SEED.md).
 
 Promotion requires live examples for at least one component, one process, and one architecture or plan.
-
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -164,7 +162,7 @@ Use this sigil when:
 - the explanation should be stepwise and user-driven,
 - HTML is the desired output surface,
 - diagram-like visual structure would help explain flows, transformations, or relationships.
-</applicability>
+  </applicability>
 
 <non-applicability>
 Do not use this sigil when:
@@ -174,7 +172,7 @@ Do not use this sigil when:
 - the context should not be transformed into a generated artifact,
 - a production renderer or polished design system is required immediately,
 - there is not enough context to identify the object under inspection.
-</non-applicability>
+  </non-applicability>
 
 <inputs>
 Expected inputs:
@@ -184,7 +182,7 @@ Expected inputs:
 - optional user question or intent,
 - optional output path for the HTML page,
 - optional constraints on depth, audience, or visual style.
-</inputs>
+  </inputs>
 
 <process>
 1. Resolve the input context and identify what kind of object the user wants to inspect.
@@ -230,6 +228,7 @@ Return:
 - Evidence boundary: <what came from source vs inference>
 - Validation: <checks performed or blocked reason>
 ```
+
 </output-contract>
 
 <quality-bar>
@@ -244,7 +243,7 @@ A successful `x-ray` run must:
 - distinguish evidence from inference,
 - emit or prepare an HTML explanation page shape,
 - report blockers when context is insufficient.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -256,7 +255,7 @@ Avoid:
 - making visuals that obscure the explanation,
 - claiming production renderer readiness from seed artifacts,
 - promoting the sigil before live examples exist.
-</anti-patterns>
+  </anti-patterns>
 
 <observability>
 For meaningful executions, record:
@@ -269,7 +268,7 @@ For meaningful executions, record:
 - evidence/inference boundary quality,
 - missing-context gaps,
 - user correction signals.
-</observability>
+  </observability>
 
 <promotion-gate>
 Promotion requires Sigil Development review plus Experiment Harness evidence for:
@@ -279,6 +278,5 @@ Promotion requires Sigil Development review plus Experiment Harness evidence for
 - one architecture or plan example,
 - at least one generated HTML output body,
 - one blocked or flagged example showing insufficient context handling.
-</promotion-gate>
-
+  </promotion-gate>
 ````

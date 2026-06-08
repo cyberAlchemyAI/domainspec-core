@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Create, set up, resume, research, route, maintain, update, or close a repository-local Necronomicon harness.
@@ -121,16 +120,16 @@ The everyday loop is:
 
 Necronomicon should support these daily activities without ceremony:
 
-| Activity | User Intent | Necronomicon Behavior |
-| --- | --- | --- |
-| Start the day | "Where were we?" | Resume memory, summarize open work, surface blockers, suggest next routes. |
-| Pick up a feature | "Continue the cache invalidation work." | Load prior decisions and route to `invoke`, `implementation-readiness`, or `task-session`. |
-| Ask project questions | "What do we know about auth boundaries?" | Search memory and inventory, then route to context or ontology flows when needed. |
-| Research a decision | "Find evidence before we choose." | Run bounded research with source trail, contradictions, and a synthesis checkpoint. |
-| Make architecture or ontology sense | "Map domain intent to implementation." | Route to `ontology-harness` and keep promotion candidates gated. |
-| Execute a task | "Implement the next slice." | Route to the task owner and record outcome, validation, and gaps. |
-| End the day | "Checkpoint this." | Write a concise checkpoint and update the gap ledger. |
-| Maintain the harness | "This route keeps missing." | Use telemetry and route history to propose explicit updates. |
+| Activity                            | User Intent                              | Necronomicon Behavior                                                                      |
+| ----------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Start the day                       | "Where were we?"                         | Resume memory, summarize open work, surface blockers, suggest next routes.                 |
+| Pick up a feature                   | "Continue the cache invalidation work."  | Load prior decisions and route to `invoke`, `implementation-readiness`, or `task-session`. |
+| Ask project questions               | "What do we know about auth boundaries?" | Search memory and inventory, then route to context or ontology flows when needed.          |
+| Research a decision                 | "Find evidence before we choose."        | Run bounded research with source trail, contradictions, and a synthesis checkpoint.        |
+| Make architecture or ontology sense | "Map domain intent to implementation."   | Route to `ontology-harness` and keep promotion candidates gated.                           |
+| Execute a task                      | "Implement the next slice."              | Route to the task owner and record outcome, validation, and gaps.                          |
+| End the day                         | "Checkpoint this."                       | Write a concise checkpoint and update the gap ledger.                                      |
+| Maintain the harness                | "This route keeps missing."              | Use telemetry and route history to propose explicit updates.                               |
 
 The target user experience is low-friction: the user should not need to remember which sigil owns every workflow. Explicit commands still win, but ordinary language should be enough for Necronomicon to propose a route, name its confidence, and ask only one focused question when the route is ambiguous.
 
@@ -138,13 +137,13 @@ The target user experience is low-friction: the user should not need to remember
 
 Necronomicon works as a substrate loop plus support layers:
 
-| Layer | Responsibility | Persistent State |
-| --- | --- | --- |
-| Inventory and ontology substrate | Retrieve inventory, capture evidence, classify authority, record gaps, and build safe handoffs. | inventory refs, session evidence, authority classification, gap ledger, handoffs |
-| Harness setup | Support the substrate by selecting dependencies, fallback policy, privacy policy, and runtime surface. | setup decisions, capability manifest |
-| Session memory | Support continuation with compact memory, decisions, route history, checkpoints, and unresolved gaps. | session folder, route ledger, gap ledger |
-| Routed execution | Support the substrate by delegating bounded work to selected local sigils or spells through runtime adapters. | route records, validation status, follow-ups |
-| Maintenance | Support substrate quality by reading route misses, telemetry, stale signals, and repeated gaps. | maintenance reports, capability update reports |
+| Layer                            | Responsibility                                                                                                | Persistent State                                                                 |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Inventory and ontology substrate | Retrieve inventory, capture evidence, classify authority, record gaps, and build safe handoffs.               | inventory refs, session evidence, authority classification, gap ledger, handoffs |
+| Harness setup                    | Support the substrate by selecting dependencies, fallback policy, privacy policy, and runtime surface.        | setup decisions, capability manifest                                             |
+| Session memory                   | Support continuation with compact memory, decisions, route history, checkpoints, and unresolved gaps.         | session folder, route ledger, gap ledger                                         |
+| Routed execution                 | Support the substrate by delegating bounded work to selected local sigils or spells through runtime adapters. | route records, validation status, follow-ups                                     |
+| Maintenance                      | Support substrate quality by reading route misses, telemetry, stale signals, and repeated gaps.               | maintenance reports, capability update reports                                   |
 
 The default substrate-first flow is:
 
@@ -163,17 +162,17 @@ Necronomicon must distinguish a new route request from a continuation of an acti
 
 Each active Necronomicon session tracks an `active_interaction` record:
 
-| Field | Meaning |
-| --- | --- |
-| `interaction_id` | Stable ID for the current back-and-forth flow. |
-| `owning_capability` | The sigil or spell currently responsible for interpreting the next user turn. |
-| `mode` | The active mode, such as `research`, `implementation-research`, `invoke define`, `setup-profile`, or `task-session`. |
-| `status` | `awaiting-user`, `running`, `handoff-ready`, `blocked`, `completed`, or `abandoned`. |
-| `pending_prompt` | The question, choice, approval, or evidence request the user is answering. |
-| `expected_response_shape` | Free-form answer, option choice, approval, correction, artifact path, scope clarification, or interruption. |
-| `continuation_policy` | Whether the next turn should continue the active run by default, require confirmation, or route fresh. |
-| `handoff_target` | The next capability to route to after this interaction completes. |
-| `side_note_queue` | Facts, research seeds, unblocker tasks, contradictions, reminders, or parking-lot items captured without derailing the active flow. |
+| Field                     | Meaning                                                                                                                             |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `interaction_id`          | Stable ID for the current back-and-forth flow.                                                                                      |
+| `owning_capability`       | The sigil or spell currently responsible for interpreting the next user turn.                                                       |
+| `mode`                    | The active mode, such as `research`, `implementation-research`, `invoke define`, `setup-profile`, or `task-session`.                |
+| `status`                  | `awaiting-user`, `running`, `handoff-ready`, `blocked`, `completed`, or `abandoned`.                                                |
+| `pending_prompt`          | The question, choice, approval, or evidence request the user is answering.                                                          |
+| `expected_response_shape` | Free-form answer, option choice, approval, correction, artifact path, scope clarification, or interruption.                         |
+| `continuation_policy`     | Whether the next turn should continue the active run by default, require confirmation, or route fresh.                              |
+| `handoff_target`          | The next capability to route to after this interaction completes.                                                                   |
+| `side_note_queue`         | Facts, research seeds, unblocker tasks, contradictions, reminders, or parking-lot items captured without derailing the active flow. |
 
 Incoming user turns are classified in this order:
 
@@ -194,14 +193,14 @@ Small related unblockers are allowed to become tasks directly when they are boun
 
 Feature definition should not jump straight to `invoke define` when the problem is still unclear. Necronomicon should treat feature work as a funnel:
 
-| Stage | Purpose | Owning Route | Exit Signal |
-| --- | --- | --- | --- |
-| Discover | Understand intent, boundaries, users, constraints, and known artifacts. | `context-builder`, `scope-interview`, or Necronomicon `implementation-research` | Scope is clear enough to research or define. |
-| Research | Gather local and optional web evidence, contradictions, and decision options. | Necronomicon `research` or `implementation-research` | Evidence brief and unresolved gaps are recorded. |
-| Decide | Resolve consequential choices exposed by discovery or research. | `decision-gate` or owning capability gate | Decision is approved, deferred, or blocked. |
-| Define | Produce governed spec and glossary baseline. | `invoke define` | Define output is pass, flag, or block. |
-| Design/Plan | Convert the definition into architecture, implementation layering, plan, or work-pack. | `invoke design`, `invoke plan`, or `implementation-readiness` | Handoff is ready for task execution. |
-| Execute | Run a bounded implementation or documentation task. | `task-session` or the selected executor | Result, validation, and follow-up are recorded. |
+| Stage       | Purpose                                                                                | Owning Route                                                                    | Exit Signal                                      |
+| ----------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------ |
+| Discover    | Understand intent, boundaries, users, constraints, and known artifacts.                | `context-builder`, `scope-interview`, or Necronomicon `implementation-research` | Scope is clear enough to research or define.     |
+| Research    | Gather local and optional web evidence, contradictions, and decision options.          | Necronomicon `research` or `implementation-research`                            | Evidence brief and unresolved gaps are recorded. |
+| Decide      | Resolve consequential choices exposed by discovery or research.                        | `decision-gate` or owning capability gate                                       | Decision is approved, deferred, or blocked.      |
+| Define      | Produce governed spec and glossary baseline.                                           | `invoke define`                                                                 | Define output is pass, flag, or block.           |
+| Design/Plan | Convert the definition into architecture, implementation layering, plan, or work-pack. | `invoke design`, `invoke plan`, or `implementation-readiness`                   | Handoff is ready for task execution.             |
+| Execute     | Run a bounded implementation or documentation task.                                    | `task-session` or the selected executor                                         | Result, validation, and follow-up are recorded.  |
 
 The funnel is not mandatory for every request. Explicit `invoke define` should route directly to `invoke` when enough context exists. When context is missing, Necronomicon should create or resume an active discovery/research interaction, then hand off to `invoke define` only when the required define inputs are ready or the user explicitly accepts the risk.
 
@@ -211,16 +210,16 @@ The "soul" of Necronomicon is the governed knowledge substrate: the path from ra
 
 Necronomicon coordinates this flow but does not promote knowledge by itself.
 
-| Layer | Meaning | Owning Capability | Promotion Rule |
-| --- | --- | --- | --- |
-| Session evidence | Raw or distilled interaction history, decisions, contradictions, open questions. | Necronomicon checkpoint, `ontology-vault distill-sessions` | Evidence only; never authoritative by itself. |
-| Discovery baseline | Scoped understanding of problem, users, vocabulary, constraints, and unknowns. | `discovery-to-inventory` | Can become inventory entries when source-backed. |
-| Inventory knowledge | Reusable project facts, glossary terms, source summaries, and capability evidence. | `inventory`, `feature-glossary` | Durable lookup substrate; still not ontology promotion. |
-| Ontology candidates | Candidate concepts, relationships, premises, branch claims, bridge edges, and drift findings. | `ontology-harness`, `ontology-vault map`, `ontology-vault distill-sessions` | Candidate-only until reviewed by owning ontology mode. |
-| Premises | Working bets or assumptions under review. | `ontology-vault premise-review` | Promote, revise, split, demote, retire, or escalate. |
-| Confidence states | Evidence confidence and commitment confidence for claims or premises. | `ontology-vault promote-confidence` | Promotion requires source evidence, contradiction handling, and gate compliance. |
-| Constitutions | Codified governance rules, process conventions, and agent/human operating constraints. | `ontology-vault convention-update`, `decision-gate` | Require explicit approval, migration impact, and rollback path. |
-| Axioms | Load-bearing truths or foundational principles that justify downstream governance. | `ontology-vault promote-confidence`, `decision-gate` | Highest bar; require strong evidence, explicit commitment, and review path. |
+| Layer               | Meaning                                                                                       | Owning Capability                                                           | Promotion Rule                                                                   |
+| ------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Session evidence    | Raw or distilled interaction history, decisions, contradictions, open questions.              | Necronomicon checkpoint, `ontology-vault distill-sessions`                  | Evidence only; never authoritative by itself.                                    |
+| Discovery baseline  | Scoped understanding of problem, users, vocabulary, constraints, and unknowns.                | `discovery-to-inventory`                                                    | Can become inventory entries when source-backed.                                 |
+| Inventory knowledge | Reusable project facts, glossary terms, source summaries, and capability evidence.            | `inventory`, `feature-glossary`                                             | Durable lookup substrate; still not ontology promotion.                          |
+| Ontology candidates | Candidate concepts, relationships, premises, branch claims, bridge edges, and drift findings. | `ontology-harness`, `ontology-vault map`, `ontology-vault distill-sessions` | Candidate-only until reviewed by owning ontology mode.                           |
+| Premises            | Working bets or assumptions under review.                                                     | `ontology-vault premise-review`                                             | Promote, revise, split, demote, retire, or escalate.                             |
+| Confidence states   | Evidence confidence and commitment confidence for claims or premises.                         | `ontology-vault promote-confidence`                                         | Promotion requires source evidence, contradiction handling, and gate compliance. |
+| Constitutions       | Codified governance rules, process conventions, and agent/human operating constraints.        | `ontology-vault convention-update`, `decision-gate`                         | Require explicit approval, migration impact, and rollback path.                  |
+| Axioms              | Load-bearing truths or foundational principles that justify downstream governance.            | `ontology-vault promote-confidence`, `decision-gate`                        | Highest bar; require strong evidence, explicit commitment, and review path.      |
 
 The normal substrate flow is:
 
@@ -308,19 +307,19 @@ Profiles are composable. Treat `basic-inventory` or `ontology-harness` as the ba
 
 ## Required Sigils And Spells
 
-| Artifact                    | Role In Spell                                                                                                            | Required Mode                                                                             |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
-| `ontology-harness`          | Provide ontology governance, session distillation, premise review, branch mapping, and bridge validation contract.       | direct or delegated                                                                       |
-| `inventory`                 | Track repository knowledge entries and capability evidence when inventory exists.                                        | lookup, ingest, validate                                                                  |
-| `context-builder`           | Build compact context packs for session resume, routing, and evidence retrieval.                                         | lean, standard, or deep                                                                   |
-| `structured-interview-kits` | Provide one-question setup and decision interview modes for human-gated Necronomicon flows.                              | setup-profile, gap-check, checkpoint-review, research-clarification, maintenance-decision |
-| `observability-setup`       | Initialize and validate repository-local telemetry paths used by Necronomicon.                                           | setup, validate, maintain                                                                 |
-| `signal-observer`           | Capture route misses, outcomes, and quality gaps as structured maintenance signals.                                      | post-route, maintain                                                                      |
-| `workflow-reflect`          | Analyze accumulated signals into evidence-backed maintenance recommendations.                                            | maintain, closeout                                                                        |
-| `spellcraft`                | Author or revise local and reusable spells from approved maintenance recommendations.                                    | maintain, compose                                                                         |
-| `sigil-development`         | Author or revise local and reusable sigils from approved maintenance recommendations.                                    | maintain, author                                                                          |
-| `sigil-maintenance-loop`    | Consolidate and prioritize cross-sigil maintenance actions from accumulated signal evidence.                             | maintain, reflect                                                                         |
-| `invoke`                    | Provide unified define/design/plan/full/validate lifecycle authoring and implementation-research handoff execution.      | route, implementation-research, maintain                                                  |
+| Artifact                    | Role In Spell                                                                                                       | Required Mode                                                                             |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `ontology-harness`          | Provide ontology governance, session distillation, premise review, branch mapping, and bridge validation contract.  | direct or delegated                                                                       |
+| `inventory`                 | Track repository knowledge entries and capability evidence when inventory exists.                                   | lookup, ingest, validate                                                                  |
+| `context-builder`           | Build compact context packs for session resume, routing, and evidence retrieval.                                    | lean, standard, or deep                                                                   |
+| `structured-interview-kits` | Provide one-question setup and decision interview modes for human-gated Necronomicon flows.                         | setup-profile, gap-check, checkpoint-review, research-clarification, maintenance-decision |
+| `observability-setup`       | Initialize and validate repository-local telemetry paths used by Necronomicon.                                      | setup, validate, maintain                                                                 |
+| `signal-observer`           | Capture route misses, outcomes, and quality gaps as structured maintenance signals.                                 | post-route, maintain                                                                      |
+| `workflow-reflect`          | Analyze accumulated signals into evidence-backed maintenance recommendations.                                       | maintain, closeout                                                                        |
+| `spellcraft`                | Author or revise local and reusable spells from approved maintenance recommendations.                               | maintain, compose                                                                         |
+| `sigil-development`         | Author or revise local and reusable sigils from approved maintenance recommendations.                               | maintain, author                                                                          |
+| `sigil-maintenance-loop`    | Consolidate and prioritize cross-sigil maintenance actions from accumulated signal evidence.                        | maintain, reflect                                                                         |
+| `invoke`                    | Provide unified define/design/plan/full/validate lifecycle authoring and implementation-research handoff execution. | route, implementation-research, maintain                                                  |
 
 ## Recommended Capabilities
 
@@ -376,24 +375,24 @@ Necronomicon uses `structured-interview-kits` for human-gated flows.
 
 ## Shared State
 
-| State                                                      | Owner      | Updated By                           | Consumed By                            |
-| ---------------------------------------------------------- | ---------- | ------------------------------------ | -------------------------------------- |
-| `.arcanum/necronomicon/README.md`                          | repository | bootstrap or harness spell           | user, local agents                     |
-| `.arcanum/necronomicon/capabilities.json`                  | repository | bootstrap, capability update flow    | session router                         |
-| `.arcanum/necronomicon/setup-decisions.md`                 | repository | setup mode, profile updates          | setup, resume, maintain                |
-| `.arcanum/necronomicon/gaps.json`                          | repository | checkpoint, research, maintain       | setup, route, maintain                 |
-| `.arcanum/necronomicon/routes/common-routes.json`          | repository | setup, maintain, update-capabilities | route, maintain                        |
-| `.arcanum/necronomicon/sessions/<session-id>/SESSION.md`   | session    | harness spell                        | user, resume flow                      |
-| `.arcanum/necronomicon/sessions/<session-id>/memory.md`    | session    | harness spell, close flow            | resume flow, router                    |
-| `.arcanum/necronomicon/sessions/<session-id>/routes.jsonl` | session    | route flow                           | resume flow, signal observer           |
-| `.arcanum/necronomicon/sessions/<session-id>/decisions.md` | session    | decision gate, harness spell         | resume flow, user                      |
-| `.arcanum/necronomicon/sessions/<session-id>/active-interaction.json` | session | harness spell, active capability | turn classification, resume flow       |
-| `.arcanum/necronomicon/sessions/<session-id>/checkpoints/` | session    | checkpoint mode, close flow          | resume, route, maintenance             |
-| `.arcanum/necronomicon/research/<project-id>/`             | repository | implementation-research mode         | implementation-readiness, task-session |
-| `.arcanum/necronomicon/maintenance/<date>-report.md`       | repository | maintain mode                        | capability updates, local authors      |
-| `.arcanum/necronomicon/sessions/<session-id>/handoff.md`   | session    | close flow                           | future sessions                        |
-| `.arcanum/necronomicon/capability-updates/`                | repository | update-capabilities flow             | bootstrap, sigil-runtime-installer     |
-| `.arcanum/observability/`                                  | repository | harness spell and routed commands    | reflection workflows                   |
+| State                                                                 | Owner      | Updated By                           | Consumed By                            |
+| --------------------------------------------------------------------- | ---------- | ------------------------------------ | -------------------------------------- |
+| `.arcanum/necronomicon/README.md`                                     | repository | bootstrap or harness spell           | user, local agents                     |
+| `.arcanum/necronomicon/capabilities.json`                             | repository | bootstrap, capability update flow    | session router                         |
+| `.arcanum/necronomicon/setup-decisions.md`                            | repository | setup mode, profile updates          | setup, resume, maintain                |
+| `.arcanum/necronomicon/gaps.json`                                     | repository | checkpoint, research, maintain       | setup, route, maintain                 |
+| `.arcanum/necronomicon/routes/common-routes.json`                     | repository | setup, maintain, update-capabilities | route, maintain                        |
+| `.arcanum/necronomicon/sessions/<session-id>/SESSION.md`              | session    | harness spell                        | user, resume flow                      |
+| `.arcanum/necronomicon/sessions/<session-id>/memory.md`               | session    | harness spell, close flow            | resume flow, router                    |
+| `.arcanum/necronomicon/sessions/<session-id>/routes.jsonl`            | session    | route flow                           | resume flow, signal observer           |
+| `.arcanum/necronomicon/sessions/<session-id>/decisions.md`            | session    | decision gate, harness spell         | resume flow, user                      |
+| `.arcanum/necronomicon/sessions/<session-id>/active-interaction.json` | session    | harness spell, active capability     | turn classification, resume flow       |
+| `.arcanum/necronomicon/sessions/<session-id>/checkpoints/`            | session    | checkpoint mode, close flow          | resume, route, maintenance             |
+| `.arcanum/necronomicon/research/<project-id>/`                        | repository | implementation-research mode         | implementation-readiness, task-session |
+| `.arcanum/necronomicon/maintenance/<date>-report.md`                  | repository | maintain mode                        | capability updates, local authors      |
+| `.arcanum/necronomicon/sessions/<session-id>/handoff.md`              | session    | close flow                           | future sessions                        |
+| `.arcanum/necronomicon/capability-updates/`                           | repository | update-capabilities flow             | bootstrap, sigil-runtime-installer     |
+| `.arcanum/observability/`                                             | repository | harness spell and routed commands    | reflection workflows                   |
 
 ## Runtime UX Contract
 
@@ -440,18 +439,18 @@ Necronomicon uses `structured-interview-kits` for human-gated flows.
 
 ## Execution Phases
 
-| Phase | Capability             | Input                                                 | Output                             | Gate                               | Failure Policy                                   |
-| ----- | ---------------------- | ----------------------------------------------------- | ---------------------------------- | ---------------------------------- | ------------------------------------------------ |
-| 1     | setup resolver         | repository root, mode, existing decisions             | selected profile and policy draft  | required setup decisions exist     | run `setup-profile` interview mode               |
-| 2     | capability load        | `capabilities.json`, setup decisions, runtime folders | selected command surface           | selected capabilities are readable | flag stale entries                               |
-| 3     | memory and gap load    | memory, decisions, checkpoints, `gaps.json`           | compact session + open-gap context | source context is explicit         | start fresh session memory if missing            |
-| 4     | interaction classification | user request, active interaction, profile, route presets | continuation, handoff, or route candidates | active pending response is honored | ask whether to continue or route fresh when ambiguous |
-| 5     | selected routing       | selected capabilities and policy gates                | chosen local command               | command adapter exists             | fallback discover when no selected match exists  |
-| 6     | bounded execution      | chosen command and mode contract                      | routed result and active interaction update | mode-specific gate satisfied       | report partial and next safest route             |
-| 7     | checkpoint handling    | route result and checkpoint policy                    | checkpoint artifact and candidates | candidate-only promotions enforced | defer promotions to owning flows                 |
-| 8     | gap ledger update      | unresolved items, contradictions, misses              | updated `gaps.json` entries        | JSON remains valid                 | flag when ledger write fails                     |
-| 9     | maintenance evaluation | route history and observability signals               | maintenance recommendations        | evidence cited for recommendations | defer unsupported recommendations                |
-| 10    | close or continue      | session status and next action                        | handoff or resumable continuation  | blockers named                     | leave session resumable                          |
+| Phase | Capability                 | Input                                                    | Output                                      | Gate                               | Failure Policy                                        |
+| ----- | -------------------------- | -------------------------------------------------------- | ------------------------------------------- | ---------------------------------- | ----------------------------------------------------- |
+| 1     | setup resolver             | repository root, mode, existing decisions                | selected profile and policy draft           | required setup decisions exist     | run `setup-profile` interview mode                    |
+| 2     | capability load            | `capabilities.json`, setup decisions, runtime folders    | selected command surface                    | selected capabilities are readable | flag stale entries                                    |
+| 3     | memory and gap load        | memory, decisions, checkpoints, `gaps.json`              | compact session + open-gap context          | source context is explicit         | start fresh session memory if missing                 |
+| 4     | interaction classification | user request, active interaction, profile, route presets | continuation, handoff, or route candidates  | active pending response is honored | ask whether to continue or route fresh when ambiguous |
+| 5     | selected routing           | selected capabilities and policy gates                   | chosen local command                        | command adapter exists             | fallback discover when no selected match exists       |
+| 6     | bounded execution          | chosen command and mode contract                         | routed result and active interaction update | mode-specific gate satisfied       | report partial and next safest route                  |
+| 7     | checkpoint handling        | route result and checkpoint policy                       | checkpoint artifact and candidates          | candidate-only promotions enforced | defer promotions to owning flows                      |
+| 8     | gap ledger update          | unresolved items, contradictions, misses                 | updated `gaps.json` entries                 | JSON remains valid                 | flag when ledger write fails                          |
+| 9     | maintenance evaluation     | route history and observability signals                  | maintenance recommendations                 | evidence cited for recommendations | defer unsupported recommendations                     |
+| 10    | close or continue          | session status and next action                           | handoff or resumable continuation           | blockers named                     | leave session resumable                               |
 
 ## Routing Rules
 
@@ -572,5 +571,4 @@ Return:
 - Validation: <checks>
 - Follow-up: <items or none>
 ```
-
 ````

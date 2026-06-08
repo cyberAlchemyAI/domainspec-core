@@ -1,0 +1,370 @@
+{
+  "dispatch_id": "ontologize-dag-metrics-20260608",
+  "parent_dispatch_id": "ontologize-research-20260608",
+  "intent": {
+    "raw": "Improve the ontologize design: it does not say how we structure the DAG, which events update it, which metrics we track, and how we improve it over time. Reuse the GoldenQuill work already done.",
+    "objective": "Run the canonical refine loop to turn the abstract ontologize promotion-DAG/BI design into a concrete DAG-and-metrics design: node and edge types, the event model that updates the DAG, evidence-linked metric families, and the improve-over-time loop, instantiated for the cap factory and logistics verticals, reusing GoldenQuill's grant_dag implementation and KPI families as source evidence.",
+    "target_artifact": "projects/ontologize/DAG-AND-METRICS.md",
+    "arcanum_vocabulary": [
+      "refine",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "dispatch-spec",
+      "x_ray",
+      "memory_loop",
+      "residue",
+      "promotion guardrail"
+    ],
+    "operator_sentence": "Make the DAG and metrics concrete by reusing the GoldenQuill promotion-record DAG and KPI work."
+  },
+  "mode": "mixed",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "data_quality_completeness",
+    "x_ray",
+    "memory_loop",
+    "residue_ledger",
+    "concrete_path_evidence"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "The operator asked specifically for the unstated DAG node/edge/event structure and metric set.",
+      "techniques": ["x_ray", "component_descriptor", "concrete_path_evidence"],
+      "applies_to_steps": ["distill", "invoke-redesign"],
+      "validation_expectation": "Distill and redesign must emit a concrete structural artifact (DAG-AND-METRICS.md) naming node types, edge types, events, and metrics, each traced to a GoldenQuill source path or marked hypothesis."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "The operator said a lot of work is already done in GoldenQuill and in our prior extraction receipts.",
+      "techniques": [
+        "memory_loop",
+        "residue_ledger",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": ["context-baseline", "distill"],
+      "validation_expectation": "Reuse GoldenQuill grant_dag (master) and pattern-extraction-receipts.md; dedup against prior findings; record residue rather than re-deriving."
+    }
+  ],
+  "route_menu": {
+    "context_hint": "Single technique profile selected: x-ray to surface the concrete DAG structure plus memory reuse of GoldenQuill prior work. Dialectic/tournament not applicable (make-concrete task, no competing-principle tension).",
+    "items": [
+      {
+        "id": "xray-memory-concrete",
+        "label": "X-ray + memory reuse",
+        "description": "Surface the concrete DAG node/edge/event/metric structure by reusing GoldenQuill's grant_dag and KPI work.",
+        "capability_ref": "refine",
+        "pattern": "route"
+      },
+      {
+        "id": "from-scratch-design",
+        "label": "Design from scratch",
+        "description": "Invent a DAG/metrics model without reusing GoldenQuill; slower and ignores existing proof.",
+        "capability_ref": "invoke",
+        "pattern": "synthesis"
+      }
+    ],
+    "selected_item_id": "xray-memory-concrete"
+  },
+  "steps": [
+    {
+      "step_id": "context-baseline",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "pattern": "route",
+      "techniques": ["frame_handoff", "memory_loop", "concrete_path_evidence"],
+      "inputs": [
+        { "kind": "intent", "ref": "intent.raw" },
+        { "kind": "artifact", "ref": "projects/ontologize/DESIGN.md" },
+        {
+          "kind": "artifact",
+          "ref": "projects/ontologize/sessions/pattern-extraction-receipts.md"
+        },
+        {
+          "kind": "external_context",
+          "ref": "git:master:projects/goldenquill/pipeline/grant_dag/validate.py"
+        }
+      ],
+      "outputs": [
+        { "kind": "frame", "ref": "ontologize-dag-evidence-baseline" },
+        { "kind": "trace_event", "ref": "dag-context-baseline-built" }
+      ],
+      "stop_conditions": [
+        "Block if the grant_dag source cannot be read from master."
+      ]
+    },
+    {
+      "step_id": "invoke-define",
+      "name": "Invoke Define the DAG/metrics improvement",
+      "capability_ref": "invoke",
+      "pattern": "sequential",
+      "techniques": ["sequence", "minimum_component_catalog"],
+      "inputs": [
+        { "kind": "frame", "ref": "ontologize-dag-evidence-baseline" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/02-define.md" },
+        { "kind": "trace_event", "ref": "dag-define-built" }
+      ],
+      "stop_conditions": ["Flag if done-criteria are not all addressed."]
+    },
+    {
+      "step_id": "interrogation-review",
+      "name": "Interrogation refine-review of the define",
+      "capability_ref": "interrogation",
+      "pattern": "validation",
+      "techniques": ["validation_loop"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/02-define.md" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/03-interrogation-review.md" },
+        { "kind": "trace_event", "ref": "dag-define-reviewed" }
+      ],
+      "evidence_artifact": "stages/03-interrogation-review.md",
+      "stop_conditions": [
+        "Flag named gaps; block if define misses a done-criterion."
+      ]
+    },
+    {
+      "step_id": "research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "pattern": "decision",
+      "techniques": ["owner_boundary_check"],
+      "inputs": [
+        { "kind": "artifact", "ref": "stages/03-interrogation-review.md" }
+      ],
+      "outputs": [
+        { "kind": "decision", "ref": "dag-research-decision-no-research" },
+        { "kind": "trace_event", "ref": "dag-research-decided" }
+      ],
+      "stop_conditions": [
+        "Ask before any external pass if a named external gap appears."
+      ]
+    },
+    {
+      "step_id": "distill",
+      "name": "Distill the concrete DAG/metrics unit from GoldenQuill",
+      "capability_ref": "distill",
+      "pattern": "distill",
+      "techniques": [
+        "x_ray",
+        "residue_ledger",
+        "concrete_path_evidence",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        { "kind": "decision", "ref": "dag-research-decision-no-research" },
+        { "kind": "frame", "ref": "ontologize-dag-evidence-baseline" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/05-distill.md" },
+        { "kind": "trace_event", "ref": "dag-distilled" }
+      ],
+      "stop_conditions": [
+        "Block if a node/edge/event/metric cannot trace to a source or be marked hypothesis."
+      ]
+    },
+    {
+      "step_id": "invoke-redesign",
+      "name": "Invoke Redesign to DAG-AND-METRICS.md",
+      "capability_ref": "invoke",
+      "pattern": "synthesis",
+      "techniques": ["x_ray", "component_descriptor", "frame_handoff"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/05-distill.md" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/DAG-AND-METRICS.md" },
+        { "kind": "frame", "ref": "ontologize-dag-design-frame" },
+        { "kind": "trace_event", "ref": "dag-redesigned" }
+      ],
+      "stop_conditions": [
+        "Block if the artifact lacks node/edge/event/metric/improvement sections."
+      ]
+    },
+    {
+      "step_id": "interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "pattern": "validation",
+      "techniques": ["validation_loop"],
+      "inputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/DAG-AND-METRICS.md" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/07-design-review.md" },
+        { "kind": "trace_event", "ref": "dag-design-reviewed" }
+      ],
+      "evidence_artifact": "stages/07-design-review.md",
+      "stop_conditions": ["Flag concreteness gaps."]
+    },
+    {
+      "step_id": "distill-repair",
+      "name": "Distill repair of flagged gaps",
+      "capability_ref": "distill",
+      "pattern": "validation",
+      "techniques": ["validation_loop", "residue_ledger"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/07-design-review.md" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/08-distill-repair.md" },
+        { "kind": "trace_event", "ref": "dag-repaired" }
+      ],
+      "evidence_artifact": "stages/08-distill-repair.md",
+      "stop_conditions": [
+        "Block if a flagged gap cannot be repaired or named as residue."
+      ]
+    },
+    {
+      "step_id": "invoke-plan",
+      "name": "Invoke Plan deltas to PLAN/WORK-PACK",
+      "capability_ref": "invoke",
+      "pattern": "sequential",
+      "techniques": ["sequence", "handle_handoff"],
+      "inputs": [
+        { "kind": "artifact", "ref": "stages/08-distill-repair.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/DAG-AND-METRICS.md" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/09-plan-deltas.md" },
+        { "kind": "trace_event", "ref": "dag-plan-updated" }
+      ],
+      "stop_conditions": [
+        "Plan is non-executed; flag if deltas are not mapped to existing tasks."
+      ]
+    },
+    {
+      "step_id": "final-synthesis",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "interrogation",
+      "pattern": "synthesis",
+      "techniques": ["validation_loop", "residue_ledger"],
+      "inputs": [
+        { "kind": "artifact", "ref": "stages/09-plan-deltas.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/DAG-AND-METRICS.md" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "RESULT.md" },
+        { "kind": "trace_event", "ref": "dag-final-synthesized" }
+      ],
+      "evidence_artifact": "RESULT.md",
+      "stop_conditions": [
+        "Block if the four done-criteria are not concretely satisfied."
+      ]
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The GoldenQuill DAG and metric evidence is already captured in pattern-extraction-receipts.md and the grant_dag source on master can be read directly inside the distill/redesign stages; a parallel fanout would duplicate completed work.",
+    "authorization": "not_needed"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "goldenquill-readonly-import",
+        "kind": "artifact_import",
+        "from_owner": "goldenquill",
+        "to_owner": "context-builder",
+        "applies_to_steps": ["context-baseline", "distill"],
+        "contract": "GoldenQuill grant_dag and KPI artifacts (read from master via git) are read-only source evidence; this run cites and adapts them but does not modify GoldenQuill.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "research-owner-boundary",
+        "kind": "human_approval",
+        "from_owner": "refine",
+        "to_owner": "operator",
+        "applies_to_steps": ["research-decision"],
+        "contract": "No external research pass without operator confirmation; default is no-research/local-first.",
+        "on_violation": "ask"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine",
+      "execution": "refine-inline-stages",
+      "validation": "dispatch-spec",
+      "evidence": "signal-observer",
+      "memory": "inventory",
+      "promotion": "owning Arcanum capability"
+    },
+    "promotion_splits": [
+      {
+        "source": "projects/ontologize/DAG-AND-METRICS.md candidate design",
+        "target": "canonical Arcanum knowledge or client-facing collateral",
+        "rule": "requires owner review and a separate promotion route",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "gates": [
+    {
+      "gate_id": "native-capability-handles",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "Every runtime-backed stage names a canonical capability handle (context-builder, invoke, interrogation, distill, refine).",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "source-or-hypothesis",
+      "kind": "quality",
+      "owner": "distill",
+      "condition": "Every DAG node, edge, event, and metric traces to a GoldenQuill source path or is explicitly marked hypothesis.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "goldenquill-read-only",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "GoldenQuill (any branch) is read-only source evidence; this run must not modify it.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "concreteness",
+      "kind": "validation",
+      "owner": "interrogation",
+      "condition": "DAG-AND-METRICS.md must answer node/edge structure, event model, metric families, and improve-over-time loop concretely and per vertical, not restate them abstractly.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "arcanum",
+      "condition": "Outputs are candidates; no canonical promotion, no pricing/contracts/named clients.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "final-synthesis-readiness",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "RESULT.md is synthesized from stage artifacts and confirms the four done-criteria.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "ontologize-research-20260608",
+    "trace_events": [
+      "dag-context-baseline-built",
+      "dag-define-built",
+      "dag-define-reviewed",
+      "dag-research-decided",
+      "dag-distilled",
+      "dag-redesigned",
+      "dag-design-reviewed",
+      "dag-repaired",
+      "dag-plan-updated",
+      "dag-final-synthesized"
+    ],
+    "signal_grouping": "ontologize-dag-metrics"
+  },
+  "promotion_guardrails": [
+    "GoldenQuill is read-only source evidence on any branch.",
+    "DAG-AND-METRICS.md is a candidate design, not a built system.",
+    "No canonical Arcanum promotion; no pricing/contracts/named clients."
+  ]
+}

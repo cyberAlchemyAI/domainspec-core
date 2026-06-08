@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `observability-setup` using the canonical definition snapshot embedded below.
@@ -111,7 +110,6 @@ The central ledger preserves chronological history across all capabilities. Inde
 ## Why This Is Formulae
 
 This sigil performs deterministic setup. It does not decide what a sigil means, synthesize ambiguous evidence, or coordinate reflection. It creates or verifies a known folder and file contract.
-
 ````
 
 ## Canonical SKILL Snapshot
@@ -228,5 +226,4 @@ Return:
 ```
 
 </output-contract>
-
 ````

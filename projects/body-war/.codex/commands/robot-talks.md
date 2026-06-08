@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `robot-talks` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `robot-talks` using the canonical definition sna
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/robot-talks/README.md
 
-````markdown
+```markdown
 # Robot-Talks
 
 Robot-Talks is an Arcana sigil for coordinated cross-layer investigation.
@@ -103,13 +102,13 @@ The primary output is a preserved investigation record containing:
 ## Why This Is Arcana
 
 The sigil coordinates multiple reasoning threads, preserves state across phases, and requires human validation before action. Its value is not a single transformed artifact; it is governed inquiry that produces a responsible next move.
-````
+```
 
 ## Canonical SKILL Snapshot
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/robot-talks/SKILL.md
 
-````markdown
+```markdown
 ---
 name: robot-talks
 description: Run a multi-agent parallel investigation to identify cross-layer tensions
@@ -196,5 +195,4 @@ No action without human validation. Present tensions, human decides:
 Create `claude/current_conversations/YYYY-MM-DD-HHMM-UNIQUEID-<topic>.md` (`node_type: agent-dialogue`) containing: scope definition, all agent reports, synthesis with tensions, human gate notes, follow-up action links.
 
 Recommended agent count: 3-5. Heartbeat timeout: 30 min per agent.
-
-````
+```

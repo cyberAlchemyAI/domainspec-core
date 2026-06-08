@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum spell `ontology-harness` using the canonical spell snapshot embedded below.
@@ -187,5 +186,4 @@ Return:
 - Validation: <checks>
 - Follow-up: <items or none>
 ```
-
 ````

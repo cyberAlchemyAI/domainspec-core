@@ -113,24 +113,24 @@ Park Track Control is smaller than city hex territory but larger than a generic 
 
 ## Concept Layer Map
 
-| Layer | Concept | Notes |
-| ----- | ------- | ----- |
-| Broad product | TROQAR territorial running game | Real-world places become competitive assets. |
-| Game system | Territory control loop | Run, claim, challenge, defend, repeat. |
-| Candidate unit | Park Track Control | Tracks are the first territory units. |
-| Minimum proof | One park, 2-3 tracks, manual evidence | Enough to test behavior before infrastructure. |
+| Layer          | Concept                               | Notes                                          |
+| -------------- | ------------------------------------- | ---------------------------------------------- |
+| Broad product  | TROQAR territorial running game       | Real-world places become competitive assets.   |
+| Game system    | Territory control loop                | Run, claim, challenge, defend, repeat.         |
+| Candidate unit | Park Track Control                    | Tracks are the first territory units.          |
+| Minimum proof  | One park, 2-3 tracks, manual evidence | Enough to test behavior before infrastructure. |
 
 ## Technique Pack Trace
 
-| Technique | Activation Reason | Output | Decision | Readiness Effect |
-| --------- | ----------------- | ------ | -------- | ---------------- |
-| Abstraction-level guard | Needed to avoid reducing to a mere leaderboard. | Keep territory unit plus defense loop. | pass | Candidate remains game-shaped. |
-| Recomposition proof | Needed because hexes are deferred. | Track is a pilot `Territory Unit`; hex can be later geometry. | pass | Avoids throwaway model. |
-| Evolution profile | Future path includes parks, city areas, hexes, app GPS. | Preserve geometry boundary and scoring boundary. | pass | Keeps extension light. |
-| Frame-expiry note | Candidate depends on manual/local pilot. | Expires when testing requires multiple neighborhoods or automated app validation. | pass | Prevents overclaiming. |
-| Navigable result check | User asked for first candidate. | Route to implementation layering. | pass | Ready for staged plan. |
-| Cognitive load check | Triggered by user concern that hexes may be too much. | Use named park tracks and fastest verified time for L0. | pass | Simpler runner/operator explanation. |
-| Premortem | Triggered by pilot/product risk. | Failure likely if runners see tracks as leaderboard only. | flag | Add defense window and controller status in L0. |
+| Technique               | Activation Reason                                       | Output                                                                            | Decision | Readiness Effect                                |
+| ----------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------- | -------- | ----------------------------------------------- |
+| Abstraction-level guard | Needed to avoid reducing to a mere leaderboard.         | Keep territory unit plus defense loop.                                            | pass     | Candidate remains game-shaped.                  |
+| Recomposition proof     | Needed because hexes are deferred.                      | Track is a pilot `Territory Unit`; hex can be later geometry.                     | pass     | Avoids throwaway model.                         |
+| Evolution profile       | Future path includes parks, city areas, hexes, app GPS. | Preserve geometry boundary and scoring boundary.                                  | pass     | Keeps extension light.                          |
+| Frame-expiry note       | Candidate depends on manual/local pilot.                | Expires when testing requires multiple neighborhoods or automated app validation. | pass     | Prevents overclaiming.                          |
+| Navigable result check  | User asked for first candidate.                         | Route to implementation layering.                                                 | pass     | Ready for staged plan.                          |
+| Cognitive load check    | Triggered by user concern that hexes may be too much.   | Use named park tracks and fastest verified time for L0.                           | pass     | Simpler runner/operator explanation.            |
+| Premortem               | Triggered by pilot/product risk.                        | Failure likely if runners see tracks as leaderboard only.                         | flag     | Add defense window and controller status in L0. |
 
 ## Closure And Recomposition Proof
 
@@ -178,12 +178,12 @@ Deferred because none of these are required to decide whether real runners care 
 
 ## Tension Ledger
 
-| Tension | Status | Resolution |
-| ------- | ------ | ---------- |
-| Hex zones vs park tracks | resolved for first candidate | Start with park tracks; preserve territory-unit abstraction. |
-| Leaderboard vs territory | resolved | Require current controller plus challenge/defense window, not only rankings. |
-| Fastest time vs composite score | unresolved | Use fastest verified time in L0 for simplicity; revisit in L1/L2. |
-| Manual evidence vs app validation | resolved for L0 | Manual Strava/operator evidence is enough for first proof. |
+| Tension                           | Status                       | Resolution                                                                   |
+| --------------------------------- | ---------------------------- | ---------------------------------------------------------------------------- |
+| Hex zones vs park tracks          | resolved for first candidate | Start with park tracks; preserve territory-unit abstraction.                 |
+| Leaderboard vs territory          | resolved                     | Require current controller plus challenge/defense window, not only rankings. |
+| Fastest time vs composite score   | unresolved                   | Use fastest verified time in L0 for simplicity; revisit in L1/L2.            |
+| Manual evidence vs app validation | resolved for L0              | Manual Strava/operator evidence is enough for first proof.                   |
 
 ## Premortem
 

@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum spell `implementation-readiness` using the canonical spell snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum spell `implementation-readiness` using the canonical s
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/spells/implementation-readiness/README.md
 
-````markdown
+```markdown
 # Implementation Readiness
 
 ## Identity
@@ -71,28 +70,28 @@ Implementation Readiness composes `implementation-layering`, `decision-gate`, an
 
 ## Required Sigils
 
-| Sigil | Role In Spell | Required Mode |
-| ----- | ------------- | ------------- |
-| `implementation-layering` | Create staged implementation layers. | standard |
-| `decision-gate` | Resolve blocker-level decisions revealed by the layers. | generic |
-| `task-session` | Prepare or execute one selected task. | dry-run or execute |
+| Sigil                     | Role In Spell                                           | Required Mode      |
+| ------------------------- | ------------------------------------------------------- | ------------------ |
+| `implementation-layering` | Create staged implementation layers.                    | standard           |
+| `decision-gate`           | Resolve blocker-level decisions revealed by the layers. | generic            |
+| `task-session`            | Prepare or execute one selected task.                   | dry-run or execute |
 
 ## Shared State
 
-| State | Owner | Updated By | Consumed By |
-| ----- | ----- | ---------- | ----------- |
-| layer plan | spell | `implementation-layering` | `decision-gate`, `task-session` |
-| decision record | spell | `decision-gate` | `task-session` |
-| task run report | spell | `task-session` | user, observability |
+| State           | Owner | Updated By                | Consumed By                     |
+| --------------- | ----- | ------------------------- | ------------------------------- |
+| layer plan      | spell | `implementation-layering` | `decision-gate`, `task-session` |
+| decision record | spell | `decision-gate`           | `task-session`                  |
+| task run report | spell | `task-session`            | user, observability             |
 
 ## Execution Phases
 
-| Phase | Sigil | Input | Output | Gate | Failure Policy |
-| ----- | ----- | ----- | ------ | ---- | -------------- |
-| 1 | `implementation-layering` | implementation goal | layer plan | minimum useful proof identified | block if scope is unclear |
-| 2 | `decision-gate` | layer plan | decision record | blocker decisions resolved | block on unresolved blockers |
-| 3 | `task-session` | selected layer or task | task report | done criteria and validation path known | flag if execution should wait |
-| 4 | optional `inventory` | layer plan and decisions | inventory entries | inventory exists | skip if no inventory package |
+| Phase | Sigil                     | Input                    | Output            | Gate                                    | Failure Policy                |
+| ----- | ------------------------- | ------------------------ | ----------------- | --------------------------------------- | ----------------------------- |
+| 1     | `implementation-layering` | implementation goal      | layer plan        | minimum useful proof identified         | block if scope is unclear     |
+| 2     | `decision-gate`           | layer plan               | decision record   | blocker decisions resolved              | block on unresolved blockers  |
+| 3     | `task-session`            | selected layer or task   | task report       | done criteria and validation path known | flag if execution should wait |
+| 4     | optional `inventory`      | layer plan and decisions | inventory entries | inventory exists                        | skip if no inventory package  |
 
 ## Observability
 
@@ -101,4 +100,4 @@ Record layer count, decision count, blockers, selected task, validation readines
 ## Output Contract
 
 Return a readiness report with layer plan path or summary, resolved decisions, task-session result, blockers, and recommended next action.
-````
+```

@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `invoke-example-runner` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `invoke-example-runner` using the canonical defi
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/invoke-example-runner/README.md
 
-````markdown
+```markdown
 # Invoke Example Runner
 
 Invoke Example Runner is an Arcana sigil for selecting invoke template validation prompts and running them through the active Codex session.
@@ -88,8 +87,7 @@ It turns the template validation task matrix into an executable workflow: pick o
 ## Why This Is Arcana
 
 The sigil coordinates prompt selection, Codex command routing, output capture, and validation evidence across invoke templates. It is orchestration around another spell, not a deterministic transformation by itself.
-
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -135,7 +133,7 @@ A successful run must:
 - save a user-facing output file,
 - avoid marking deferred modes as implemented,
 - report any block or flag result honestly.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -145,7 +143,7 @@ Avoid:
 - bypassing `arcanum-spell-invoke`,
 - editing canonical invoke contracts while running examples,
 - replacing missing outputs with generic placeholder text.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -160,6 +158,6 @@ Return:
 - Saved output: yes | no
 - Next unrun: <task-id | none>
 ```
-</output-contract>
 
+</output-contract>
 ````

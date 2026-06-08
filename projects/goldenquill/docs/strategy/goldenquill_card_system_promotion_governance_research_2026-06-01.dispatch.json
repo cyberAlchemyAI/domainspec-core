@@ -1,0 +1,438 @@
+{
+  "dispatch_id": "goldenquill-card-system-promotion-governance-research-20260601",
+  "parent_dispatch_id": "goldenquill-promotion-governance-research-20260601",
+  "intent": {
+    "raw": "Look at the card_system_deep_research_2026-05-17 folder and create research to explore these topics and how it relates to promotion governance.",
+    "objective": "Create a governed research route that extracts card-system authority, lifecycle, naming, orthogonality, gate, and ceremony lessons and maps them to GoldenQuill promotion governance.",
+    "target_artifact": "projects/goldenquill/docs/strategy/goldenquill_card_system_promotion_governance_research_2026-06-01.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "fanout",
+      "synthesis",
+      "boundary_evidence",
+      "promotion_guardrail"
+    ],
+    "operator_sentence": "Use the May 17 card-system deep research as a pattern library for promotion governance."
+  },
+  "mode": "research",
+  "route_menu": {
+    "context_hint": "The route should read the card-system audit as evidence and produce promotion-governance lessons without mutating cards, specs, schemas, gates, or signed artifacts.",
+    "items": [
+      {
+        "id": "research-synthesis",
+        "label": "Research synthesis",
+        "description": "Extract lessons and map them to promotion governance.",
+        "capability_ref": "dispatch-spec",
+        "pattern": "synthesis"
+      },
+      {
+        "id": "fanout-follow-up",
+        "label": "Fanout follow-up",
+        "description": "Use role-bound lanes to deepen authority, orthogonality, human confirmation, ceremony, and rule-pack implications.",
+        "capability_ref": "context-builder",
+        "pattern": "fanout"
+      }
+    ],
+    "selected_item_id": "research-synthesis"
+  },
+  "techniques": [
+    {
+      "id": "authority_layer_crosswalk",
+      "source": "local-extension",
+      "purpose": "Map card-system authority states to promotion-governance states without collapsing them.",
+      "validation_note": "Every mapped concept must name whether it is source-backed fact, candidate, human confirmation, owner approval, active reuse, or retirement."
+    },
+    {
+      "id": "orthogonality_failure_transfer",
+      "source": "local-extension",
+      "purpose": "Transfer CIC/CLC orthogonality lessons into grant evidence/KPI/candidate/decision coupling checks.",
+      "validation_note": "The output must list at least five promotion drift classes and a guardrail for each."
+    },
+    {
+      "id": "locked_text_vs_companion_artifact_split",
+      "source": "local-extension",
+      "purpose": "Study LOCKED-but-not-applied card-system drift and recommend promotion companion-readiness states.",
+      "validation_note": "The output must distinguish approved text, approved evidence, privacy readiness, owner decision, and active reuse."
+    }
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "card-authority-to-promotion-authority",
+      "trigger": "The card-system audit repeatedly separates signed, locked, loaded, runtime-loadable, gate-live, and companion-applied states.",
+      "techniques": [
+        {
+          "id": "authority_layer_crosswalk",
+          "source": "local-extension",
+          "validation_note": "State axes must remain separate in the synthesis."
+        }
+      ],
+      "applies_to_steps": [
+        "card-system-fanout",
+        "promotion-crosswalk-synthesis"
+      ],
+      "validation_expectation": "The synthesis explicitly prevents one status label from implying all authority layers."
+    },
+    {
+      "overlay_id": "orthogonality-to-promotion-gates",
+      "trigger": "CIC/CLC coupling failures resemble promotion drift between evidence, KPI, feedback, candidate, dashboard, and owner decision layers.",
+      "techniques": [
+        {
+          "id": "orthogonality_failure_transfer",
+          "source": "local-extension",
+          "validation_note": "Every drift class must include a proposed promotion guardrail."
+        }
+      ],
+      "applies_to_steps": [
+        "card-system-fanout",
+        "promotion-crosswalk-synthesis"
+      ],
+      "validation_expectation": "The synthesis contains a table mapping drift classes to guardrails."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The source folder contains multiple dense audits with separable concerns: lifecycle, naming, orthogonality, CTO blockers, patch queues, and PRP routing.",
+    "explanation": "A role-bound fanout would reduce overload and let each lane extract one class of promotion-governance lesson before parent synthesis.",
+    "context": [
+      "The card-system audit has concrete P0/P1/P2 findings about authority drift.",
+      "Promotion governance needs clear separation between evidence, KPI, candidate, privacy, owner approval, and active reuse.",
+      "The immediate request can be satisfied with a local synthesis, while deeper research should use fanout."
+    ],
+    "roles": [
+      {
+        "role_id": "authority-states-lane",
+        "purpose": "Extract lifecycle, signature, loadability, LOCK, and companion-readiness patterns.",
+        "owns": "Authority-state crosswalk",
+        "applies_to_steps": [
+          "card-system-fanout"
+        ]
+      },
+      {
+        "role_id": "orthogonality-lane",
+        "purpose": "Extract naming and coupling failures and translate them into promotion drift guards.",
+        "owns": "Orthogonality guardrail map",
+        "applies_to_steps": [
+          "card-system-fanout"
+        ]
+      },
+      {
+        "role_id": "human-confirmation-lane",
+        "purpose": "Use Law-5 funder-confirmation discipline as a model for grant-learning approval.",
+        "owns": "Human confirmation and candidate split",
+        "applies_to_steps": [
+          "card-system-fanout"
+        ]
+      },
+      {
+        "role_id": "ceremony-drift-lane",
+        "purpose": "Extract LOCKED-but-not-applied drift and propose promotion companion-status labels.",
+        "owns": "Companion readiness model",
+        "applies_to_steps": [
+          "card-system-fanout"
+        ]
+      },
+      {
+        "role_id": "rule-pack-lane",
+        "purpose": "Explore whether Program Rule Pack routing informs funder/compliance rules separate from outcome-learning promotion.",
+        "owns": "PRP and grant-rules boundary",
+        "applies_to_steps": [
+          "card-system-fanout"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Run the five-lane fanout to deepen the card-system-to-promotion-governance research?",
+    "receipt_requirements": [
+      "artifacts",
+      "audit_reference",
+      "residue",
+      "validation_result"
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "resolve-card-research-boundary",
+      "name": "Resolve source folder and promotion-governance target boundary",
+      "capability_ref": "dispatch-spec",
+      "pattern": "route",
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "user request for card-system promotion-governance research"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/card_system_deep_research_2026-05-17/"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/strategy/goldenquill_promotion_governance_proposal_2026-06-01.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "bounded research scope over card-system audits and promotion governance"
+        }
+      ],
+      "stop_conditions": [
+        "Source folder cannot be resolved.",
+        "Promotion-governance target artifacts cannot be resolved."
+      ]
+    },
+    {
+      "step_id": "card-system-fanout",
+      "name": "Extract card-system lessons by role lane",
+      "capability_ref": "context-builder",
+      "pattern": "fanout",
+      "parallel": true,
+      "roles": [
+        "authority-states-lane",
+        "orthogonality-lane",
+        "human-confirmation-lane",
+        "ceremony-drift-lane",
+        "rule-pack-lane"
+      ],
+      "join_policy": "parent_synthesis",
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "bounded research scope over card-system audits and promotion governance"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/card_system_deep_research_2026-05-17/CARD_LIFECYCLE_AND_LOADER_GOVERNANCE_AUDIT.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/card_system_deep_research_2026-05-17/CANONICAL_NAMING_AND_ORTHOGONALITY_AUDIT.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/card_system_deep_research_2026-05-17/INITIAL_CTO_HANDOFF_BLOCKERS.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/card_system_deep_research_2026-05-17/FILE_BY_FILE_PATCH_QUEUE_PRE_V0_2.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/card_system_deep_research_2026-05-17/PHASED_CARD_SYSTEM_RESEARCH_AUDIT.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handle",
+          "ref": "card-system-authority-orthogonality-ceremony-lane-handles"
+        }
+      ],
+      "stop_conditions": [
+        "Any required card-system audit file is missing.",
+        "Fanout lanes cannot cite their source artifacts."
+      ]
+    },
+    {
+      "step_id": "promotion-crosswalk-synthesis",
+      "name": "Map card-system findings to promotion-governance concepts",
+      "capability_ref": "dispatch-spec",
+      "pattern": "synthesis",
+      "techniques": [
+        {
+          "id": "authority_layer_crosswalk",
+          "source": "local-extension",
+          "validation_note": "Mapped concepts must name the authority layer they belong to."
+        },
+        {
+          "id": "orthogonality_failure_transfer",
+          "source": "local-extension",
+          "validation_note": "The synthesis must convert card coupling drift into promotion drift classes."
+        },
+        {
+          "id": "locked_text_vs_companion_artifact_split",
+          "source": "local-extension",
+          "validation_note": "The synthesis must distinguish approved text from companion evidence, privacy, owner decision, and active reuse."
+        }
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "card-system-authority-orthogonality-ceremony-lane-handles"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/strategy/goldenquill_promotion_governance_architecture_design_2026-06-01.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/strategy/goldenquill_card_system_promotion_governance_research_2026-06-01.md"
+        }
+      ],
+      "stop_conditions": [
+        "Synthesis collapses card-system states into one promotion authority label.",
+        "Synthesis claims card-system findings directly promote grant knowledge."
+      ]
+    },
+    {
+      "step_id": "promotion-guardrail-validation",
+      "name": "Validate authority and promotion guardrails",
+      "capability_ref": "dispatch-spec",
+      "pattern": "validation",
+      "evidence_artifact": "projects/goldenquill/docs/strategy/goldenquill_card_system_promotion_governance_research_2026-06-01.md",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/strategy/goldenquill_card_system_promotion_governance_research_2026-06-01.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "trace_event",
+          "ref": "card_system_promotion_guardrails_validated"
+        }
+      ],
+      "stop_conditions": [
+        "Research does not name promotion guardrails.",
+        "Research lacks authority-boundary caveats."
+      ]
+    },
+    {
+      "step_id": "handoff-next-route",
+      "name": "Hand off open decisions and follow-up fanout route",
+      "capability_ref": "decision-gate",
+      "pattern": "handoff",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/docs/strategy/goldenquill_card_system_promotion_governance_research_2026-06-01.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "operator decision: adopt card-system lessons into promotion governance or run deeper fanout"
+        }
+      ],
+      "stop_conditions": [
+        "No follow-up decision is needed.",
+        "Operator requests synthesis-only with no next route."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "source-boundary-gate",
+      "kind": "quality",
+      "owner": "dispatch-spec",
+      "condition": "Research cites card-system audit files and promotion-governance artifacts rather than inventing new card-system truth.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "promotion-authority-gate",
+      "kind": "promotion_guardrail",
+      "owner": "GoldenQuill",
+      "condition": "Card-system findings may inform promotion-governance design but do not directly promote grant knowledge or mutate card artifacts.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "orthogonality-coverage-gate",
+      "kind": "quality",
+      "owner": "GoldenQuill",
+      "condition": "The synthesis names at least five promotion drift classes and guardrails.",
+      "on_fail": "flag"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "goldenquill-promotion-governance-research-20260601",
+    "trace_events": [
+      "card_system_research_boundary_resolved",
+      "card_system_fanout_lanes_selected",
+      "promotion_crosswalk_synthesized",
+      "promotion_guardrails_validated",
+      "next_route_handoff_recorded"
+    ],
+    "signal_grouping": "goldenquill.card-system.promotion-governance"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "card-audit-to-promotion-research",
+        "kind": "artifact_import",
+        "from_owner": "card-system research folder",
+        "to_owner": "GoldenQuill promotion governance research",
+        "applies_to_steps": [
+          "card-system-fanout",
+          "promotion-crosswalk-synthesis"
+        ],
+        "contract": "Use card-system findings as research evidence and design precedent only; do not mutate cards, schemas, gates, signed artifacts, or lock-history state.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "candidate-versus-approved-learning",
+        "kind": "memory_interaction",
+        "from_owner": "promotion candidate learning",
+        "to_owner": "owner-approved reuse",
+        "applies_to_steps": [
+          "promotion-crosswalk-synthesis",
+          "promotion-guardrail-validation"
+        ],
+        "contract": "Model-suggested or metric-suggested learning remains candidate-only until source, privacy, and owner decision checks pass.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "Card lifecycle findings are source evidence for research only.",
+      "execution": "Dispatch route governs research flow; it does not execute card ceremonies.",
+      "validation": "Local dispatch validation checks route shape and guardrail coverage.",
+      "evidence": "Card-system audit files and promotion-governance artifacts are the cited evidence.",
+      "memory": "No memory or card-system artifact is promoted by this research route.",
+      "promotion": "Owner decision remains the only source of approved reuse."
+    },
+    "receipts": [
+      {
+        "receipt_id": "research-synthesis-receipt",
+        "producer": "dispatch-spec",
+        "required_fields": [
+          "artifacts",
+          "audit_reference",
+          "validation_result",
+          "residue"
+        ],
+        "stores": [
+          "projects/goldenquill/docs/strategy/goldenquill_card_system_promotion_governance_research_2026-06-01.md"
+        ],
+        "on_missing": "flag"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "goldenquill.card-system-research",
+        "owner": "GoldenQuill research docs",
+        "write_policy": "sidecar research artifacts only"
+      },
+      {
+        "namespace": "goldenquill.promotion-governance",
+        "owner": "GoldenQuill promotion governance",
+        "write_policy": "design recommendations only until operator approval"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "card-system audit finding",
+        "target": "promotion-governance design recommendation",
+        "rule": "Findings can generate recommendations but cannot become approved grant-learning authority.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Do not mutate signed cards, lock-history rows, card schemas, or gate modules.",
+    "Do not treat card-system findings as approved reusable grant knowledge.",
+    "Keep evidence, KPI, candidate, privacy, owner decision, and active reuse as separate promotion states.",
+    "Require human owner approval before approved allowed uses exist."
+  ]
+}

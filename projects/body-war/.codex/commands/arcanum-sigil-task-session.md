@@ -31,7 +31,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `task-session` using the canonical definition snapshot embedded below.
@@ -223,7 +222,6 @@ Task Session may complete an execution unit, but it does not decide reusable spe
 ## Why This Is Arcana
 
 Task Session coordinates decisions, gates, execution, validation, and state synchronization across a whole task lifecycle. It is more than a checklist: it governs whether the task may proceed, how choices are recorded, and when completion is credible.
-
 ````
 
 ## Canonical SKILL Snapshot
@@ -254,8 +252,8 @@ Arcana: guided execution loop with human decision points, hard gates, and comple
 
 <required-sigils>
 
-| Sigil | Role In Task Session | Required Mode |
-| --- | --- | --- |
+| Sigil             | Role In Task Session                                                                                                                                                                                                                                                                                              | Required Mode    |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
 | `context-builder` | Build a bounded context pack from the selected task/SWU, source links, constraints, related architecture/spec artifacts, write scope, and validation surface before decisions, gates, or runtime handoff. For `--via runtime`, produce a strict Markdown plus JSON/index handoff pack stored as session evidence. | lean or standard |
 
 </required-sigils>
@@ -279,7 +277,7 @@ Use this sigil when:
 - implementation choices need visible trade-offs,
 - gate failures must stop mutation,
 - the task record should be synchronized with evidence after completion.
-</applicability>
+  </applicability>
 
 <inputs>
 Expected inputs, if available:
@@ -295,7 +293,7 @@ Expected inputs, if available:
 - optional `WORK-PACK.md` with task board, SWU manifest, waves, and task contracts,
 - optional runtime adapter selection from the installed repository command context.
 - optional lifecycle owner and experiment harness path when executing spell or sigil development work.
-</inputs>
+  </inputs>
 
 <process>
 ## Step 1 - Resolve Task Scope
@@ -320,14 +318,16 @@ Expected inputs, if available:
 
 16. Enumerate unresolved task decisions with more than one viable option.
 17. For each decision, build option cards with:
-   - what the option entails,
-   - short-term consequence,
-   - long-term consequence,
-   - speed impact,
-   - complexity impact,
-   - risk impact,
-   - maintenance impact,
-   - recommended option with rationale.
+
+- what the option entails,
+- short-term consequence,
+- long-term consequence,
+- speed impact,
+- complexity impact,
+- risk impact,
+- maintenance impact,
+- recommended option with rationale.
+
 19. Ask the user to choose each blocker decision.
 20. If `--auto` is provided, auto-select only decisions that are non-blocking or where a recommendation is clearly safe, and record the auto-selection.
 
@@ -370,7 +370,7 @@ Expected inputs, if available:
 ## Step 9 - Report
 
 44. Return a compact task-session report with context pack, handoff pack artifact, strict coverage, fallback-search status, decisions, runtime adapter, gate verdict, files updated, validations, experiment harness status, and remaining follow-up.
-</process>
+    </process>
 
 <authority-rule>
 No consequential mutation proceeds when gate status is `BLOCK`. Completion state may only be updated when supporting evidence exists.
@@ -397,7 +397,7 @@ Recommended signals:
 - selected runtime and adapter when used,
 - runtime handoff command shape or blocked fallback.
 - experiment harness status when the task belongs to spell or sigil lifecycle work.
-</observability>
+  </observability>
 
 <quality-bar>
 A successful execution of this sigil must:
@@ -415,7 +415,7 @@ A successful execution of this sigil must:
 - distinguish task/SWU execution evidence from reusable-behavior experiment evidence,
 - synchronize completion evidence accurately,
 - return a report that a reviewer can audit without reconstructing the full session.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -431,7 +431,7 @@ Avoid:
 - letting synchronization updates rewrite unrelated planning or status history.
 - hardcoding Codex as the only possible runtime,
 - treating a generated runtime handoff as completed work before evidence returns.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -455,6 +455,6 @@ Return:
 - Synchronized records: <paths or none>
 - Follow-up: <items or none>
 ```
-</output-contract>
 
+</output-contract>
 ````

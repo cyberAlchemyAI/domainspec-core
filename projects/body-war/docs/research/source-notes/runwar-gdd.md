@@ -31,4 +31,3 @@
 - The GDD emphasizes reference time and pace supremacy, while the JSX source emphasizes a composite Zone Score.
 - Monetization is extensive, but early validation should avoid pay-to-win distortion.
 - Anti-cheat is described as existential, but the first pilot may need cheap manual validation before full sensor fusion.
-

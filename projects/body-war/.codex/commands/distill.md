@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `distill` using the canonical definition snapshot embedded below.
@@ -116,13 +115,13 @@ If the user does not choose a budget, the default is Standard.
 
 ## Modes
 
-| Mode | Use When | Shape |
-| --- | --- | --- |
-| Compact | The user wants a quick bounded pass. | One proposal track, one recursive round, always-on gates only. |
-| Standard | Default planning depth is enough. | One Proposer, one Balancer, two recursive rounds, one reconciliation pass. |
-| Tournament | Multiple possible designs should compete. | Several proposal tracks, each balanced, followed by evidence-based pitch-off. |
-| Deep | The context is high-risk, broad, or strategically important. | More rounds, stronger cycle checks, triggered techniques, premortem, and possible human gates. |
-| Validate | An existing design needs review. | Balancer-led critique with optional Proposer repair and readiness verdict. |
+| Mode       | Use When                                                     | Shape                                                                                          |
+| ---------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| Compact    | The user wants a quick bounded pass.                         | One proposal track, one recursive round, always-on gates only.                                 |
+| Standard   | Default planning depth is enough.                            | One Proposer, one Balancer, two recursive rounds, one reconciliation pass.                     |
+| Tournament | Multiple possible designs should compete.                    | Several proposal tracks, each balanced, followed by evidence-based pitch-off.                  |
+| Deep       | The context is high-risk, broad, or strategically important. | More rounds, stronger cycle checks, triggered techniques, premortem, and possible human gates. |
+| Validate   | An existing design needs review.                             | Balancer-led critique with optional Proposer repair and readiness verdict.                     |
 
 All modes must keep finite proposal tracks, finite recursive rounds, cycle guards, and a recorded reason for skipped techniques.
 
@@ -274,7 +273,6 @@ Use the reflection route when repeated runs show:
 ## Next
 
 The final `B-CLO-002` approval was granted on 2026-05-24, and Distill is listed in [registry/SIGILS.md](../../registry/SIGILS.md). Future changes should follow the maintenance classes in [development/READINESS-REVIEW.md](development/READINESS-REVIEW.md).
-
 ````
 
 ## Canonical SKILL Snapshot
@@ -312,7 +310,7 @@ Use this sigil when:
 - the work needs a clear relationship between broad concept layers and the first coherent unit,
 - multiple possible designs should compete before convergence,
 - the output needs a navigable next route such as implementation-layering, robot-talks, decision-gate, invoke design, invoke plan, or task-session.
-</applicability>
+  </applicability>
 
 <non-applicability>
 Do not use this sigil when:
@@ -322,7 +320,7 @@ Do not use this sigil when:
 - the request only needs a summary or explanation,
 - there is no meaningful output artifact to optimize toward,
 - the user needs factual discovery as the primary work rather than planning optimization.
-</non-applicability>
+  </non-applicability>
 
 <inputs>
 Expected inputs, if available:
@@ -334,7 +332,7 @@ Expected inputs, if available:
 - constraints: time, cost, quality, governance, risk, implementation, audience, or domain limits,
 - existing artifacts: specs, notes, code, diagrams, plans, or decisions that should count as evidence,
 - budget preference: Compact, Standard, Tournament, Deep, or Validate.
-</inputs>
+  </inputs>
 
 <first-action>
 Before decomposing, confirm intent and budget:
@@ -374,7 +372,7 @@ Both paths must preserve the same role trace:
 - Balancer objection category,
 - reconciliation decision,
 - stable disagreement, if one remains.
-</runtime-role-policy>
+  </runtime-role-policy>
 
 <process>
 1. Confirm design intent, target context, output artifact, optimization goal, and budget.
@@ -424,7 +422,7 @@ Technique activation trace must include:
 - emitted output,
 - decision,
 - readiness effect.
-</technique-pack>
+  </technique-pack>
 
 <cycle-guards>
 Stop or gate when:
@@ -467,7 +465,7 @@ A successful execution must:
 - select a smallest coherent unit with closure and recomposition proof,
 - defer complexity that lacks a named tension or confirmed evolution profile,
 - return a navigable result with start-here guidance, unresolved tensions, and next route.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -481,7 +479,7 @@ Avoid:
 - letting true-subagent and role-simulation paths produce different trace contracts,
 - claiming pass readiness when the result has no navigation guide,
 - routing to implementation when a blocker decision or cross-layer tension remains.
-</anti-patterns>
+  </anti-patterns>
 
 <observability>
 For meaningful executions, emit or prepare usage telemetry when the local observability package is available.
@@ -499,7 +497,7 @@ Recommended signal fields:
 - objective-output drift,
 - navigation closeout status,
 - next route.
-</observability>
+  </observability>
 
 <output-contract>
 Return:
@@ -527,6 +525,6 @@ Return:
 - Navigation guide: <where to start, what changed, what remains unresolved, and how to use the result>
 - Next route: implementation-layering | robot-talks | decision-gate | invoke design | invoke plan | task-session | deferred
 ```
-</output-contract>
 
+</output-contract>
 ````

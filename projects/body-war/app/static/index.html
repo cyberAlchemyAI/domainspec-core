@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TROQAR Pilot Control</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">TROQAR / Body War</p>
+        <h1>Track Control Pilot</h1>
+      </div>
+      <a id="connect" class="button primary" href="/api/auth/strava/start"
+        >Connect Strava</a
+      >
+    </header>
+
+    <main class="layout">
+      <section class="panel status-panel">
+        <div>
+          <h2>Connection</h2>
+          <p id="connection-copy">Checking Strava connection...</p>
+        </div>
+        <div id="athlete-card" class="athlete hidden"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Activities</h2>
+            <p>Select a recent run and submit it to a pilot track.</p>
+          </div>
+          <button id="refresh" class="button">Refresh</button>
+        </div>
+        <div id="activities" class="activity-list"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Pilot Tracks</h2>
+            <p>
+              Hybrid authority: simple controller now, richer evidence
+              underneath.
+            </p>
+          </div>
+        </div>
+        <div id="tracks" class="track-grid"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Submitted Evidence</h2>
+        <div id="submissions" class="submission-list"></div>
+      </section>
+    </main>
+
+    <template id="activity-template">
+      <article class="activity">
+        <div>
+          <h3 data-name></h3>
+          <p data-meta></p>
+        </div>
+        <select data-track></select>
+        <button class="button" data-submit>Submit</button>
+      </article>
+    </template>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

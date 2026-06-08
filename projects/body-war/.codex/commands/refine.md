@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `refine` using the canonical definition snapshot embedded below.
@@ -80,14 +79,14 @@ Users often have a target, concern, folder, repository area, or rough idea, but 
 
 ## Ownership Model
 
-| Capability | Owns |
-| --- | --- |
-| Refine | Seed design, research decision, runtime handoff, stage dispatch plan, manifest/index, final synthesis, recommended next routes. |
-| Context Builder | Evidence baseline and runtime handoff context. |
-| Invoke | Define, Design, and Plan artifacts. |
-| Interrogation | Critique and readiness verdict artifacts. |
-| Distill | Coherent-unit selection, optimization, and repair artifacts. |
-| Runtime adapters | Adapter-specific execution status when a durable runtime run is dispatched. |
+| Capability       | Owns                                                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Refine           | Seed design, research decision, runtime handoff, stage dispatch plan, manifest/index, final synthesis, recommended next routes. |
+| Context Builder  | Evidence baseline and runtime handoff context.                                                                                  |
+| Invoke           | Define, Design, and Plan artifacts.                                                                                             |
+| Interrogation    | Critique and readiness verdict artifacts.                                                                                       |
+| Distill          | Coherent-unit selection, optimization, and repair artifacts.                                                                    |
+| Runtime adapters | Adapter-specific execution status when a durable runtime run is dispatched.                                                     |
 
 Task Session and Sigil Development may be recommended after refinement, but they are not stages in the refine loop.
 
@@ -156,7 +155,6 @@ development/write-experiment-report.sh
 ```
 
 Promotion requires realistic live outputs for seed proposal, research decision, runtime handoff, valid manifest/index evidence, deterministic `tools/arcanum` stage dispatch evidence, and final synthesis. Proposal-only output is preflight evidence, not completed refinement evidence.
-
 ````
 
 ## Canonical SKILL Snapshot
@@ -189,13 +187,13 @@ Arcana: discovery and design orchestration with research decision, critique, rep
 
 Refine owns the seed, runtime handoff, stage dispatch plan, run manifest, evidence index, research decision, and final synthesis. Stage capabilities own their native artifacts.
 
-| Capability | Required For | Evidence Required |
-| --- | --- | --- |
-| `context-builder` | Build the evidence baseline and runtime handoff context. | Context pack path or blocked coverage reason. |
-| `invoke` | Produce Define, Redefine/Design, and Plan artifacts. | Invoke artifact path, mode, command file, and verdict. |
-| `interrogation` | Critique Define, Design, and final synthesis. | Interrogation artifact path, mode, command file, and pass/flag/block verdict. |
-| `distill` | Select the coherent unit and run repair/validation before planning. | Distill artifact path, mode, selected unit or repair verdict, and rejected alternatives. |
-| `runtime-handoff` | Prepare or validate the durable runtime handoff when available. | Runtime handoff path, adapter, run folder, or blocked reason. |
+| Capability        | Required For                                                        | Evidence Required                                                                        |
+| ----------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `context-builder` | Build the evidence baseline and runtime handoff context.            | Context pack path or blocked coverage reason.                                            |
+| `invoke`          | Produce Define, Redefine/Design, and Plan artifacts.                | Invoke artifact path, mode, command file, and verdict.                                   |
+| `interrogation`   | Critique Define, Design, and final synthesis.                       | Interrogation artifact path, mode, command file, and pass/flag/block verdict.            |
+| `distill`         | Select the coherent unit and run repair/validation before planning. | Distill artifact path, mode, selected unit or repair verdict, and rejected alternatives. |
+| `runtime-handoff` | Prepare or validate the durable runtime handoff when available.     | Runtime handoff path, adapter, run folder, or blocked reason.                            |
 
 </required-capabilities>
 
@@ -292,7 +290,7 @@ Use this sigil when:
 - the target needs discovery, critique, repair, or design before execution,
 - the user needs a budget, research mode, loop evidence, or final refined synthesis,
 - a future Task Session, Sigil Development, or other route should be recommended only after refinement.
-</applicability>
+  </applicability>
 
 <non-applicability>
 Do not use this sigil when:
@@ -301,7 +299,7 @@ Do not use this sigil when:
 - the request is a trivial direct edit,
 - the user wants only Invoke artifacts without the refine loop,
 - the user wants lifecycle promotion rather than discovery/design refinement.
-</non-applicability>
+  </non-applicability>
 
 <inputs>
 Expected inputs, if available:
@@ -311,7 +309,7 @@ Expected inputs, if available:
 - desired research mode: no, bounded, or if-gap,
 - existing source context or constraints,
 - preferred output location for seed artifacts.
-</inputs>
+  </inputs>
 
 <ownership-boundary>
 
@@ -373,7 +371,7 @@ A successful Refine run must:
 - block unavailable commands or unsafe runtime handoff with exact missing fields,
 - produce a final refined synthesis,
 - keep Task Session and Sigil Development out of the loop except as optional next-route recommendations.
-</quality-bar>
+  </quality-bar>
 
 <observability>
 For meaningful executions, emit or prepare a post-run signal through the local observability package when available.
@@ -392,7 +390,7 @@ Recommended signal fields:
 - final result path,
 - blocked fields,
 - recommended next routes.
-</observability>
+  </observability>
 
 <promotion-gate>
 Refine is promotion-ready only after experiment evidence shows:
@@ -404,7 +402,7 @@ Refine is promotion-ready only after experiment evidence shows:
 - bounded research choices are offered and recorded,
 - final synthesis is produced from stage artifacts rather than a route proposal,
 - Task Session and Sigil Development are only next-route recommendations.
-</promotion-gate>
+  </promotion-gate>
 
 <anti-patterns>
 Avoid:
@@ -415,7 +413,7 @@ Avoid:
 - running external research without the selected mode and confirmation,
 - marking refinement complete before final interrogation and synthesis,
 - silently falling back from failed runtime handoff or failed command dispatch.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -445,6 +443,6 @@ Return:
 - Final synthesis: <summary or blocked reason>
 - Recommended next routes: <items or none>
 ```
-</output-contract>
 
+</output-contract>
 ````

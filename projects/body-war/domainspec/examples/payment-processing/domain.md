@@ -11,4 +11,3 @@ Example enum/value concept referenced by `domainspec/TAXONOMY.md`.
 ## PaymentErrorCode
 
 Example enum/value concept referenced by `domainspec/TAXONOMY.md`.
-

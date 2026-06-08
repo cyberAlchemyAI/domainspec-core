@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `residuality-spec` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `residuality-spec` using the canonical definitio
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/residuality-spec/README.md
 
-````markdown
+```markdown
 # Residuality Spec
 
 Residuality Spec is an Arcana sigil for defining or hardening specifications through stressor and residue analysis.
@@ -112,7 +111,7 @@ Use [inventory](../inventory/) to store recurring stressors, residues, incidents
 ## Why This Is Arcana
 
 Residuality Spec coordinates uncertainty exploration, human decision points, stressor synthesis, residue trade-offs, spec patching, and downstream verification. It governs how a system should survive stress, not just how one artifact should be formatted.
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -155,7 +154,7 @@ Use this sigil when:
 - unknown or surprising stress matters,
 - non-functional behavior must be first-class in the spec,
 - social, operational, environmental, or organizational stressors may change the system outcome.
-</applicability>
+  </applicability>
 
 <inputs>
 Expected inputs, if available:
@@ -169,7 +168,7 @@ Expected inputs, if available:
 - tests and monitoring docs,
 - inventory entries,
 - known decisions or constraints.
-</inputs>
+  </inputs>
 
 <default-output>
 If the user does not provide `--output`, use the first suitable location:
@@ -178,7 +177,7 @@ If the user does not provide `--output`, use the first suitable location:
 2. `docs/specs/<target-scope>-resilience.md` when `docs/specs/` exists,
 3. `<feature-or-scope-folder>/RESILIENCE-SPEC.md` when a scope folder exists,
 4. return a markdown report and ask where to persist it when no docs structure exists.
-</default-output>
+   </default-output>
 
 <process>
 ## Step 1 - Resolve Scope And Evidence
@@ -221,22 +220,24 @@ If the user does not provide `--output`, use the first suitable location:
 ## Step 5 - Produce Spec Implications
 
 13. Convert residues into concrete specification material:
-   - resilience requirements,
-   - invariants,
-   - degradation behavior,
-   - fallback behavior,
-   - user communication rules,
-   - operational response rules,
-   - observability signals,
-   - verification ideas,
-   - decisions and open questions.
+
+- resilience requirements,
+- invariants,
+- degradation behavior,
+- fallback behavior,
+- user communication rules,
+- operational response rules,
+- observability signals,
+- verification ideas,
+- decisions and open questions.
+
 14. Create a spec patch plan or write the resilience spec when output is approved.
 15. If inventory exists, recommend entries for recurring stressors, residues, attractors, incidents, and decisions.
 
 ## Step 6 - Report
 
 16. Return a concise result with stressors analyzed, residues defined, attractors found, decisions, blockers, spec outputs, verification ideas, and next action.
-</process>
+    </process>
 
 <quality-bar>
 A successful execution must:
@@ -249,7 +250,7 @@ A successful execution must:
 - identify attractors as clusters rather than isolated anecdotes,
 - avoid vague requirements like "the system must be resilient",
 - avoid fear-driven overengineering.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -262,7 +263,7 @@ Avoid:
 - ignoring social, operational, environmental, or organizational stressors,
 - mutating specs without recording decisions and trade-offs,
 - presenting theoretical terms without converting them into specification behavior.
-</anti-patterns>
+  </anti-patterns>
 
 <observability>
 When `.arcanum/observability/` exists, emit post-run signals for:
@@ -276,7 +277,7 @@ When `.arcanum/observability/` exists, emit post-run signals for:
 - spec outputs created,
 - verification ideas created,
 - follow-up sigils recommended.
-</observability>
+  </observability>
 
 <output-contract>
 Return:
@@ -297,5 +298,6 @@ Return:
 - Inventory updates recommended: <yes | no>
 - Next action: <action>
 ```
+
 </output-contract>
 ````

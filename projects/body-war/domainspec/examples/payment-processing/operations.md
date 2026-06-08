@@ -15,4 +15,3 @@ Example operation referenced by `domainspec/TAXONOMY.md`.
 ## FeeCalculation
 
 Example calculation referenced by `domainspec/TAXONOMY.md`.
-

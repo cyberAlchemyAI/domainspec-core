@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run Experiment Harness in `validate` mode.
@@ -38,7 +37,7 @@ Run Experiment Harness in `validate` mode.
 ## Command Shape
 
 ```text
-/experiment-validate <artifact-path> 
+/experiment-validate <artifact-path>
 ```
 
 ## Process

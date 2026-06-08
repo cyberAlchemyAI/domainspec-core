@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `structured-interview-kits` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `structured-interview-kits` using the canonical 
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/structured-interview-kits/README.md
 
-````markdown
+```markdown
 # Structured Interview Kits
 
 Structured Interview Kits is an Arcana sigil for running evidence-backed interviews one question at a time using pluggable interview modes.
@@ -114,7 +113,7 @@ The sigil returns:
 ## Why This Is Arcana
 
 The sigil coordinates evidence gathering, mode selection, human gates, artifact mutation, and readiness interpretation across a multi-turn session.
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -130,7 +129,7 @@ domain: structured-interviewing
 version: 0.1.0
 origin: generalized from recurring evidence-backed interview practice
 aliases:
-   - Interrogation
+  - Interrogation
 alias-command-slug: interrogation
 alias-command: arcanum-sigil-interrogation
 allowed-tools: Read, Write, Glob, Grep, AskQuestions, Task
@@ -200,7 +199,7 @@ A successful execution must:
 - preserve decision traceability,
 - distinguish blocker ambiguity from non-blocker ambiguity,
 - stop cleanly when exit criteria are met.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -211,7 +210,7 @@ Avoid:
 - using interview mode as hidden implementation planning,
 - inventing answers for the user,
 - treating unresolved blocker ambiguity as readiness.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -228,5 +227,6 @@ Return:
 - Verdict: pass | flag | block
 - Next step: <action>
 ```
+
 </output-contract>
 ````

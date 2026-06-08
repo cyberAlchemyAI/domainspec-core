@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `implementation-layering` using the canonical definition snapshot embedded below.
@@ -142,7 +141,7 @@ Use this skill for any project that needs to sequence implementation scope befor
 - process automation,
 - data pipelines,
 - agentic or human-in-the-loop systems.
-</applicability>
+  </applicability>
 
 <inputs>
 Expected inputs, if available:
@@ -151,7 +150,7 @@ Expected inputs, if available:
 - existing requirements, specs, issues, PRDs, ADRs, README sections, or roadmap notes,
 - existing implementation files or tests,
 - known constraints such as budget, timeline, team size, safety, compliance, reliability, or pilot needs.
-</inputs>
+  </inputs>
 
 <default-output>
 If the user does not provide `--path`, write the artifact to the first suitable location:
@@ -159,7 +158,7 @@ If the user does not provide `--path`, write the artifact to the first suitable 
 1. `docs/{target-name}/implementation-layering.md` when a target-specific docs folder exists,
 2. `docs/implementation-layering.md` when project-level docs exist,
 3. `implementation-layering.md` at the project root when no docs folder exists.
-</default-output>
+   </default-output>
 
 <template>
 Use `templates/implementation-layering.md` as the starting point.
@@ -199,7 +198,7 @@ A good implementation layering artifact:
 - makes promotion decisions evidence-based,
 - balances working length against value delivered,
 - can be understood by both implementation agents and human reviewers.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -210,7 +209,7 @@ Avoid:
 - making layer boundaries by component ownership alone,
 - deferring verification until the final layer,
 - adding a layer when it does not unlock a new decision.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -230,5 +229,4 @@ Return:
 ```
 
 </output-contract>
-
 ````

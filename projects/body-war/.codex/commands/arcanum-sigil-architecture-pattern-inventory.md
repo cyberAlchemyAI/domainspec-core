@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `architecture-pattern-inventory` using the canonical definition snapshot embedded below.
@@ -157,7 +156,7 @@ Use this sigil for:
 - creating concept and relationship cards,
 - aligning architecture guidance with testing and observability expectations,
 - preparing a codebase for agentic implementation with selective context loading.
-</applicability>
+  </applicability>
 
 <inputs>
 Expected inputs, if available:
@@ -171,7 +170,7 @@ Expected inputs, if available:
 - known architectural constraints,
 - desired output path,
 - whether existing package files should be updated or preserved.
-</inputs>
+  </inputs>
 
 <default-output>
 If the user does not provide `--output`, create or update:
@@ -230,7 +229,7 @@ A successful execution of this sigil must:
 - make concept and relationship cards selectively loadable,
 - preserve existing package content unless update scope is explicit,
 - identify unresolved gaps rather than inventing missing architecture.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -242,7 +241,7 @@ Avoid:
 - letting mapper subagents write canonical files without synthesis,
 - documenting ideal rules as if they are currently enforced,
 - ignoring tests and observability when mapping implementation patterns.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -262,6 +261,6 @@ Return:
 - Validation: <checks performed>
 - Next refresh trigger: <condition>
 ```
-</output-contract>
 
+</output-contract>
 ````

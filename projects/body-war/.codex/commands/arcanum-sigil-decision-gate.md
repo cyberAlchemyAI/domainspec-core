@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `decision-gate` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `decision-gate` using the canonical definition s
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/decision-gate/README.md
 
-````markdown
+```markdown
 # Decision Gate
 
 Decision Gate is an Arcana sigil for resolving blocker-level multi-option decisions before planning, implementation, document mutation, or other consequential changes continue.
@@ -106,7 +105,7 @@ The sigil produces a decision record with:
 ## Why This Is Arcana
 
 The sigil governs whether other work may proceed. It coordinates ambiguity, user choice, persistence, and stop/go authority across a task lifecycle. Its value is not just the decision artifact; it is the gate that prevents hidden assumptions from becoming implementation facts.
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -142,7 +141,7 @@ Use this sigil when:
 - the agent cannot responsibly infer the correct option,
 - downstream work should stop until the decision is explicit,
 - a durable decision record is needed.
-</applicability>
+  </applicability>
 
 <inputs>
 Expected inputs, if available:
@@ -153,7 +152,7 @@ Expected inputs, if available:
 - options already proposed by the user,
 - preferred output path,
 - decision profile, if the project has one.
-</inputs>
+  </inputs>
 
 <default-output>
 If the user does not provide `--output`, write or update the decision record at the first suitable location:
@@ -161,7 +160,7 @@ If the user does not provide `--output`, write or update the decision record at 
 1. `docs/decisions/{target-scope}.md` when a docs folder exists,
 2. `decisions/{target-scope}.md` when a decisions folder exists,
 3. `DECISIONS.md` at the repository root when no better location exists.
-</default-output>
+   </default-output>
 
 <process>
 1. Identify the target scope and the consequential work that is blocked by unresolved decisions.
@@ -210,7 +209,7 @@ Recommended signals:
 - output path,
 - user override, if any,
 - follow-up reflection trigger when the same decision type repeats.
-</observability>
+  </observability>
 
 <quality-bar>
 A successful execution of this sigil must:
@@ -222,7 +221,7 @@ A successful execution of this sigil must:
 - persist a reviewable decision record,
 - return a clear `PASS` or `BLOCK` result,
 - preserve enough context for future reviewers to understand why each decision was made.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -234,7 +233,7 @@ Avoid:
 - proceeding with consequential mutation after a `BLOCK` result,
 - hiding assumptions inside implementation or documentation,
 - writing a decision record that cannot be traced back to the user choice or source context.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -252,5 +251,6 @@ Return:
 - Validation: <checks performed>
 - Next step: <proceed | ask remaining decision | stop>
 ```
+
 </output-contract>
 ````

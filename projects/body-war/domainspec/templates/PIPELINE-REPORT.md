@@ -118,9 +118,7 @@ domainspec-version: { version from CHANGELOG }
 <!-- Insights worth persisting to user/repo memory for future sessions -->
 <!-- Only include if the insight is reusable and non-obvious -->
 
--
-
----
+- ***
 
 ## Artifacts Produced
 

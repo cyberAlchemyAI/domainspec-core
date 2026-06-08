@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `signal-observer` using the canonical definition snapshot embedded below.
@@ -123,7 +122,6 @@ It must not emit normal capability telemetry for its own hook operation. Hook ro
 ## Why This Is Arcana
 
 Signal Observer coordinates evidence interpretation, quality assessment, telemetry mutation, and reflection routing. It is not just a file append; it turns execution traces into governed maintenance signals.
-
 ````
 
 ## Canonical SKILL Snapshot
@@ -278,5 +276,4 @@ Return:
 ```
 
 </output-contract>
-
 ````

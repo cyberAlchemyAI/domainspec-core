@@ -1,0 +1,462 @@
+{
+  "dispatch_id": "ontologize-delivery-lanes-20260608",
+  "parent_dispatch_id": "ontologize-research-20260608",
+  "intent": {
+    "raw": "Add 2 delivery lanes to the ontologize method: using the tools the client already has, or using Arcanum inventory and ontology.",
+    "objective": "Run the canonical refine loop with two role-bound lane-designer subagents to add two implementation lanes to the ontologize engagement: Lane A on the client's existing tools and Lane B on Arcanum inventory + ontology-vault + context-builder. Define each lane's four-layer mapping, a selection rule, and the per-vertical candidate lane, reusing local ontologize artifacts and Arcanum skill definitions.",
+    "target_artifact": "projects/ontologize/DELIVERY-LANES.md",
+    "arcanum_vocabulary": [
+      "refine",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "dispatch-spec",
+      "inventory",
+      "ontology-vault",
+      "tournament",
+      "x_ray",
+      "residue"
+    ],
+    "operator_sentence": "Add an existing-tools lane and an Arcanum-inventory/ontology lane to the method."
+  },
+  "mode": "mixed",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "data_quality_completeness",
+    "tournament",
+    "pareto_gate",
+    "x_ray",
+    "memory_loop",
+    "residue_ledger",
+    "concrete_path_evidence"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "tournament_for_alternatives",
+      "trigger": "Two competing implementation lanes (existing tools vs Arcanum substrate) must be compared on cost vs capability vs sovereignty.",
+      "techniques": ["tournament", "pareto_gate", "recomposition_proof"],
+      "applies_to_steps": ["distill", "invoke-redesign"],
+      "validation_expectation": "The two lanes are compared with named roles and convergence criteria (when each lane wins); the result is a decidable selection rule, not a vague preference."
+    },
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "How each of the four layers maps onto each lane's concrete tooling is the main uncertainty.",
+      "techniques": ["x_ray", "component_descriptor", "concrete_path_evidence"],
+      "applies_to_steps": ["distill", "invoke-redesign"],
+      "validation_expectation": "DELIVERY-LANES.md emits a concrete per-lane four-layer mapping, each element traced to a tool capability or Arcanum skill path or marked hypothesis."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "Existing ontologize artifacts and local Arcanum inventory/ontology-vault skills are material.",
+      "techniques": [
+        "memory_loop",
+        "residue_ledger",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": ["context-baseline", "distill"],
+      "validation_expectation": "Reuse ontologize design + Arcanum skill definitions; dedup against prior findings; record residue."
+    }
+  ],
+  "route_menu": {
+    "context_hint": "Tournament between two delivery lanes plus x-ray of the layer mapping. Single profile selected.",
+    "items": [
+      {
+        "id": "two-lane-tournament",
+        "label": "Two-lane tournament",
+        "description": "Compare existing-tools vs Arcanum-substrate lanes and define a selection rule.",
+        "capability_ref": "refine",
+        "pattern": "tournament"
+      },
+      {
+        "id": "single-lane-arcanum",
+        "label": "Arcanum-only",
+        "description": "Only design the Arcanum substrate lane; ignores clients who cannot adopt new tooling.",
+        "capability_ref": "invoke",
+        "pattern": "synthesis"
+      }
+    ],
+    "selected_item_id": "two-lane-tournament"
+  },
+  "steps": [
+    {
+      "step_id": "context-baseline",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "pattern": "route",
+      "techniques": ["frame_handoff", "memory_loop", "concrete_path_evidence"],
+      "inputs": [
+        { "kind": "intent", "ref": "intent.raw" },
+        { "kind": "artifact", "ref": "projects/ontologize/DESIGN.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/DAG-AND-METRICS.md" },
+        { "kind": "artifact", "ref": ".claude/skills/inventory/SKILL.md" },
+        { "kind": "artifact", "ref": ".claude/skills/ontology-vault/SKILL.md" }
+      ],
+      "outputs": [
+        { "kind": "frame", "ref": "lanes-evidence-baseline" },
+        { "kind": "trace_event", "ref": "lanes-context-baseline-built" }
+      ],
+      "stop_conditions": [
+        "Block if the Arcanum inventory/ontology-vault skills cannot be read."
+      ]
+    },
+    {
+      "step_id": "invoke-define",
+      "name": "Invoke Define the two-lane addition",
+      "capability_ref": "invoke",
+      "pattern": "sequential",
+      "techniques": ["sequence", "minimum_component_catalog"],
+      "inputs": [{ "kind": "frame", "ref": "lanes-evidence-baseline" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/02-define.md" },
+        { "kind": "trace_event", "ref": "lanes-define-built" }
+      ],
+      "stop_conditions": ["Flag if a done-criterion is unaddressed."]
+    },
+    {
+      "step_id": "interrogation-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "pattern": "validation",
+      "techniques": ["validation_loop"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/02-define.md" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/03-interrogation-review.md" },
+        { "kind": "trace_event", "ref": "lanes-define-reviewed" }
+      ],
+      "evidence_artifact": "stages/03-interrogation-review.md",
+      "stop_conditions": ["Flag named gaps."]
+    },
+    {
+      "step_id": "research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "pattern": "decision",
+      "techniques": ["owner_boundary_check"],
+      "inputs": [
+        { "kind": "artifact", "ref": "stages/03-interrogation-review.md" }
+      ],
+      "outputs": [
+        { "kind": "decision", "ref": "lanes-research-decision-no-research" },
+        { "kind": "trace_event", "ref": "lanes-research-decided" }
+      ],
+      "stop_conditions": [
+        "Ask before any external pass if a named external gap appears."
+      ]
+    },
+    {
+      "step_id": "distill",
+      "name": "Distill: tournament between the two lanes",
+      "capability_ref": "distill",
+      "pattern": "tournament",
+      "techniques": [
+        "tournament",
+        "pareto_gate",
+        "x_ray",
+        "residue_ledger",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "existing-tools-lane-designer",
+        "arcanum-substrate-lane-designer"
+      ],
+      "convergence_criteria": [
+        "Each lane's four-layer mapping is concrete and traced to a tool capability or Arcanum skill path.",
+        "A decidable selection rule names when Lane A wins, when Lane B wins, and the dominated region.",
+        "Cost vs capability vs sovereignty trade-offs are stated, not asserted."
+      ],
+      "inputs": [
+        { "kind": "decision", "ref": "lanes-research-decision-no-research" },
+        { "kind": "frame", "ref": "lanes-evidence-baseline" },
+        { "kind": "ledger", "ref": "lane-designer-receipts" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/05-distill.md" },
+        { "kind": "trace_event", "ref": "lanes-distilled" }
+      ],
+      "stop_conditions": [
+        "Block if a lane mapping cannot trace to a real capability or be marked hypothesis."
+      ]
+    },
+    {
+      "step_id": "invoke-redesign",
+      "name": "Invoke Redesign to DELIVERY-LANES.md",
+      "capability_ref": "invoke",
+      "pattern": "synthesis",
+      "techniques": [
+        "x_ray",
+        "component_descriptor",
+        "recomposition_proof",
+        "frame_handoff"
+      ],
+      "inputs": [{ "kind": "artifact", "ref": "stages/05-distill.md" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/DELIVERY-LANES.md" },
+        { "kind": "frame", "ref": "lanes-design-frame" },
+        { "kind": "trace_event", "ref": "lanes-redesigned" }
+      ],
+      "stop_conditions": [
+        "Block if the artifact lacks both lanes, the layer mapping, and a selection rule."
+      ]
+    },
+    {
+      "step_id": "interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "pattern": "validation",
+      "techniques": ["validation_loop"],
+      "inputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/DELIVERY-LANES.md" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/07-design-review.md" },
+        { "kind": "trace_event", "ref": "lanes-design-reviewed" }
+      ],
+      "evidence_artifact": "stages/07-design-review.md",
+      "stop_conditions": ["Flag selection-rule vagueness."]
+    },
+    {
+      "step_id": "distill-repair",
+      "name": "Distill repair",
+      "capability_ref": "distill",
+      "pattern": "validation",
+      "techniques": ["validation_loop", "residue_ledger"],
+      "inputs": [{ "kind": "artifact", "ref": "stages/07-design-review.md" }],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/08-distill-repair.md" },
+        { "kind": "trace_event", "ref": "lanes-repaired" }
+      ],
+      "evidence_artifact": "stages/08-distill-repair.md",
+      "stop_conditions": [
+        "Block if a flagged gap cannot be repaired or named as residue."
+      ]
+    },
+    {
+      "step_id": "invoke-plan",
+      "name": "Invoke Plan deltas (lane-selection step)",
+      "capability_ref": "invoke",
+      "pattern": "sequential",
+      "techniques": ["sequence", "handle_handoff"],
+      "inputs": [
+        { "kind": "artifact", "ref": "stages/08-distill-repair.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/DELIVERY-LANES.md" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "stages/09-plan-deltas.md" },
+        { "kind": "trace_event", "ref": "lanes-plan-updated" }
+      ],
+      "stop_conditions": [
+        "Non-executed; flag if deltas are not mapped to existing tasks."
+      ]
+    },
+    {
+      "step_id": "final-synthesis",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "interrogation",
+      "pattern": "synthesis",
+      "techniques": ["validation_loop", "residue_ledger"],
+      "inputs": [
+        { "kind": "artifact", "ref": "stages/09-plan-deltas.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/DELIVERY-LANES.md" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "RESULT.md" },
+        { "kind": "trace_event", "ref": "lanes-final-synthesized" }
+      ],
+      "evidence_artifact": "RESULT.md",
+      "stop_conditions": [
+        "Block if the done-criteria are not concretely satisfied."
+      ]
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Two genuinely independent design investigations, one per delivery lane, each needing distinct evidence (client-tool integration patterns vs Arcanum inventory/ontology-vault capabilities).",
+    "explanation": "Role-bound lane designers keep the existing-tools lane and the Arcanum-substrate lane from blurring, so the tournament compares two concretely-grounded options instead of one hand-waved blend.",
+    "context": [
+      "The operator asked to add exactly two lanes: existing tools, or Arcanum inventory + ontology.",
+      "Lane B must be grounded in the local inventory and ontology-vault skill definitions."
+    ],
+    "roles": [
+      {
+        "role_id": "existing-tools-lane-designer",
+        "purpose": "Design Lane A: install the four layers on a client's existing ERP/TMS/spreadsheet/BI stack.",
+        "owns": "existing-tools lane design",
+        "applies_to_steps": ["distill", "invoke-redesign"]
+      },
+      {
+        "role_id": "arcanum-substrate-lane-designer",
+        "purpose": "Design Lane B: install the four layers on Arcanum inventory + ontology-vault + context-builder, grounded in the local skill definitions.",
+        "owns": "arcanum-substrate lane design",
+        "applies_to_steps": ["distill", "invoke-redesign"]
+      }
+    ],
+    "parallelism": "tournament",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Run the two lane-designer subagents (existing-tools, arcanum-substrate) to design and compare the two delivery lanes?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "handoff_note",
+      "four-layer mapping for the lane",
+      "selection criteria where the lane wins",
+      "cost/capability/sovereignty notes",
+      "source-or-hypothesis tags",
+      "open residue"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "pass",
+    "agents": [
+      {
+        "agent_id": "lanes-a-designer",
+        "role_id": "existing-tools-lane-designer",
+        "lane_name": "existing-tools",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "stages/04-lane-designer-receipts.md",
+        "close_status": "closed"
+      },
+      {
+        "agent_id": "lanes-b-designer",
+        "role_id": "arcanum-substrate-lane-designer",
+        "lane_name": "arcanum-substrate",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "stages/04-lane-designer-receipts.md",
+        "close_status": "closed"
+      }
+    ]
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "ontologize-and-arcanum-readonly",
+        "kind": "artifact_import",
+        "from_owner": "arcanum-and-ontologize",
+        "to_owner": "context-builder",
+        "applies_to_steps": ["context-baseline", "distill"],
+        "contract": "ontologize artifacts are the design under refinement; Arcanum inventory/ontology-vault skill definitions are read-only capability evidence cited but not modified.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "research-owner-boundary",
+        "kind": "human_approval",
+        "from_owner": "refine",
+        "to_owner": "operator",
+        "applies_to_steps": ["research-decision"],
+        "contract": "No external research without operator confirmation; default no-research/local-first.",
+        "on_violation": "ask"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine",
+      "execution": "refine-inline-stages-plus-approved-subagents",
+      "validation": "dispatch-spec",
+      "evidence": "signal-observer",
+      "memory": "inventory",
+      "promotion": "owning Arcanum capability"
+    },
+    "promotion_splits": [
+      {
+        "source": "projects/ontologize/DELIVERY-LANES.md candidate design",
+        "target": "canonical Arcanum knowledge or client-facing collateral",
+        "rule": "requires owner review and a separate promotion route",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "gates": [
+    {
+      "gate_id": "native-capability-handles",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "Every runtime-backed stage names a canonical capability handle.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "source-or-hypothesis",
+      "kind": "quality",
+      "owner": "distill",
+      "condition": "Every lane layer-mapping element traces to a client-tool capability or a local Arcanum skill path, or is marked hypothesis.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "selection-rule-decidable",
+      "kind": "validation",
+      "owner": "interrogation",
+      "condition": "The Lane A vs Lane B selection rule must be decidable from observable client facts, not a vague preference.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "readonly-evidence",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "GoldenQuill and Arcanum skill definitions are read-only; this run must not modify them.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "subagent-receipts",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "Each approved lane-designer subagent returns a receipt with its four-layer mapping, selection criteria, and residue before parent synthesis.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "arcanum",
+      "condition": "Outputs are candidates; no canonical promotion, no pricing/contracts/named clients.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "final-synthesis-readiness",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "RESULT.md is synthesized from stage artifacts and subagent receipts and confirms the done-criteria.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "ontologize-research-20260608",
+    "trace_events": [
+      "lanes-context-baseline-built",
+      "lanes-define-built",
+      "lanes-define-reviewed",
+      "lanes-research-decided",
+      "lanes-distilled",
+      "lanes-redesigned",
+      "lanes-design-reviewed",
+      "lanes-repaired",
+      "lanes-plan-updated",
+      "lanes-final-synthesized"
+    ],
+    "signal_grouping": "ontologize-delivery-lanes"
+  },
+  "promotion_guardrails": [
+    "GoldenQuill and Arcanum skill definitions are read-only evidence.",
+    "DELIVERY-LANES.md is a candidate design, not a built system.",
+    "No canonical Arcanum promotion; no pricing/contracts/named clients."
+  ]
+}

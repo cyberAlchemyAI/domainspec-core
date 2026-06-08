@@ -27,4 +27,3 @@ This project starts as a DomainSpec and Arcanum discovery baseline. No applicati
 - Tagline: `Corra. Conecte. Conquiste.`
 - First feature slice: `game-rules`
 - Source policy: RunWar GDD, TROQAR gamification JSX, and supplied brand images are seed evidence; conflicts become project decisions.
-

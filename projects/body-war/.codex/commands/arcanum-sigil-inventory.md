@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `inventory` using the canonical definition snapshot embedded below.
@@ -138,7 +137,6 @@ Use the [repository observability package](../../framework/observability/REPOSIT
 ## Why This Is Arcana
 
 Inventory coordinates installation, local schema design, source ingestion, cross-page maintenance, lookup contracts, linting, and integration with other sigils. It is a long-lived repository knowledge system, not a one-time synthesis artifact.
-
 ````
 
 ## Canonical SKILL Snapshot
@@ -200,6 +198,7 @@ Default layout:
   queries/
   lint/
 ```
+
 </default-package>
 
 <install-process>
@@ -280,7 +279,7 @@ Check for:
 - raw sources not yet inventoried,
 - generated pages without source coverage,
 - log entries that do not match the configured heading pattern.
-</lint-process>
+  </lint-process>
 
 <entry-types>
 Default entry types:
@@ -324,7 +323,7 @@ For `architecture-pattern-inventory`, inventory output should support entries fo
 - test patterns,
 - observability signals,
 - relationship notes.
-</integration-contract>
+  </integration-contract>
 
 <authority-rule>
 Raw sources are read-only inputs. Generated inventory pages may evolve, but every material claim should point back to source evidence or be marked as inference, synthesis, or open question.
@@ -343,7 +342,7 @@ When `.arcanum/observability/` exists, emit post-run signals for:
 - validation result,
 - downstream sigil lookups,
 - filed query syntheses.
-</observability>
+  </observability>
 
 <quality-bar>
 A successful execution must:
@@ -356,7 +355,7 @@ A successful execution must:
 - flag contradictions instead of hiding them,
 - expose lookup results that other sigils can consume,
 - avoid creating a competing system when a repository already has a usable wiki or inventory.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -369,7 +368,7 @@ Avoid:
 - overwriting contradictions instead of recording them,
 - installing a new package when existing repository conventions can be adapted,
 - letting inventory maintenance replace human source curation.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -392,5 +391,6 @@ Return:
 - Downstream lookup output: <summary or none>
 - Next action: <action>
 ```
+
 </output-contract>
 ````

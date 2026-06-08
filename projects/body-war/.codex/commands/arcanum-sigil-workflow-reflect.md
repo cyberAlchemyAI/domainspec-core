@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `workflow-reflect` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `workflow-reflect` using the canonical definitio
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/workflow-reflect/README.md
 
-````markdown
+```markdown
 # Workflow Reflect
 
 Workflow Reflect is an Arcana sigil for turning accumulated sigil observability signals into evidence-backed improvement proposals.
@@ -115,8 +114,7 @@ The sigil produces a reflection report with:
 ## Why This Is Arcana
 
 Workflow Reflect coordinates cross-run evidence analysis, threshold interpretation, proposal generation, and lifecycle routing. It changes the future of the workflow by interpreting accumulated behavior, not by executing a single local transformation.
-
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -160,7 +158,7 @@ Use this sigil when:
 - repeated workflow gaps, quality failures, user corrections, or output drift appear,
 - there is enough telemetry to support pattern-level claims,
 - changes to a sigil should be proposed from evidence rather than a single anecdote.
-</applicability>
+  </applicability>
 
 <inputs>
 Expected inputs:
@@ -172,7 +170,7 @@ Expected inputs:
 - target sigil name or `--all`,
 - threshold configuration,
 - report output path.
-</inputs>
+  </inputs>
 
 <default-paths>
 Use these defaults when explicit paths are not provided:
@@ -180,7 +178,7 @@ Use these defaults when explicit paths are not provided:
 - signals: `.arcanum/observability/signals/sigil-invocations.jsonl`
 - reflection state: `.arcanum/observability/reflection-state.json`
 - reports: `.arcanum/observability/reflections/`
-</default-paths>
+  </default-paths>
 
 <process>
 ## Step 1 - Load Signals
@@ -248,7 +246,7 @@ Use these defaults when explicit paths are not provided:
 ## Step 6 - Return Actionable Summary
 
 16. Return a compact summary with analyzed signal counts, thresholds triggered, proposal counts, report path, and recommended next action.
-</process>
+    </process>
 
 <authority-rule>
 This sigil writes reflection reports and may update reflection state. It must not directly modify the observed sigil, application source code, or user-facing artifacts unless the user explicitly starts a separate maintenance task.
@@ -264,7 +262,7 @@ A successful execution of this sigil must:
 - preserve the observed sigil's core contract unless evidence justifies a contract change,
 - write a report that a maintainer can act on,
 - keep direct sigil mutation out of the reflection step.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -276,7 +274,7 @@ Avoid:
 - preserving raw sensitive content in reports,
 - resetting reflection counters before a report is written,
 - hiding compatibility impact when recommending contract changes.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -293,5 +291,6 @@ Return:
 - Reflection state: <updated | unchanged | unavailable>
 - Recommended next action: <none | targeted update | major revision | retire | gather more signal>
 ```
+
 </output-contract>
 ````

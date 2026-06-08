@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum spell `discovery-to-inventory` using the canonical spell snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum spell `discovery-to-inventory` using the canonical spe
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/spells/discovery-to-inventory/README.md
 
-````markdown
+```markdown
 # Discovery To Inventory
 
 ## Identity
@@ -71,20 +70,20 @@ Discovery To Inventory composes `scope-interview`, `feature-glossary`, and `inve
 
 ## Required Sigils
 
-| Sigil | Role In Spell | Required Mode |
-| ----- | ------------- | ------------- |
-| `scope-interview` | Build the discovery baseline. | greenfield, brownfield, or auto |
-| `feature-glossary` | Clarify local vocabulary. | create or update |
-| `inventory` | Install or update reusable knowledge entries. | install, ingest, backfill |
+| Sigil              | Role In Spell                                 | Required Mode                   |
+| ------------------ | --------------------------------------------- | ------------------------------- |
+| `scope-interview`  | Build the discovery baseline.                 | greenfield, brownfield, or auto |
+| `feature-glossary` | Clarify local vocabulary.                     | create or update                |
+| `inventory`        | Install or update reusable knowledge entries. | install, ingest, backfill       |
 
 ## Execution Phases
 
-| Phase | Sigil | Input | Output | Gate | Failure Policy |
-| ----- | ----- | ----- | ------ | ---- | -------------- |
-| 1 | `scope-interview` | project idea or repository | discovery baseline | observed, stated, and hypothesized content separated | block on unresolved scope gate |
-| 2 | `feature-glossary` | discovery baseline and source docs | glossary | terms link to evidence | flag unresolved vocabulary |
-| 3 | `inventory` | baseline and glossary | inventory entries | index and log updated | flag missing source coverage |
-| 4 | spell report | phase outputs | discovery-to-inventory report | blockers named | report partial when discovery remains open |
+| Phase | Sigil              | Input                              | Output                        | Gate                                                 | Failure Policy                             |
+| ----- | ------------------ | ---------------------------------- | ----------------------------- | ---------------------------------------------------- | ------------------------------------------ |
+| 1     | `scope-interview`  | project idea or repository         | discovery baseline            | observed, stated, and hypothesized content separated | block on unresolved scope gate             |
+| 2     | `feature-glossary` | discovery baseline and source docs | glossary                      | terms link to evidence                               | flag unresolved vocabulary                 |
+| 3     | `inventory`        | baseline and glossary              | inventory entries             | index and log updated                                | flag missing source coverage               |
+| 4     | spell report       | phase outputs                      | discovery-to-inventory report | blockers named                                       | report partial when discovery remains open |
 
 ## Observability
 
@@ -93,4 +92,4 @@ Record questions asked, decisions captured, glossary terms, entries created, unr
 ## Output Contract
 
 Return a report with discovery verdict, glossary coverage, inventory updates, blockers, and recommended next discovery or planning step.
-````
+```

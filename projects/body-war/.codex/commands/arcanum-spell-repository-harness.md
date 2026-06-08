@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum spell `repository-harness` using the canonical spell snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum spell `repository-harness` using the canonical spell s
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/spells/repository-harness/README.md
 
-````markdown
+```markdown
 # Repository Harness
 
 ## Identity
@@ -123,5 +122,4 @@ Record spell-level telemetry for install decisions, sources ingested, architectu
 ## Output Contract
 
 Return a spell run report with inventory path, architecture package path, optional ontology output path, context-builder result, gates, validation, and recommended next repository harness action.
-
-````
+```

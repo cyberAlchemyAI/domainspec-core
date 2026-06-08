@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `feature-glossary` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `feature-glossary` using the canonical definitio
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/transmutations/feature-glossary/README.md
 
-````markdown
+```markdown
 # Feature Glossary
 
 Feature Glossary is a Transmutation sigil for creating or updating a concise vocabulary layer for a feature, workflow, product area, or bounded project scope.
@@ -95,7 +94,7 @@ The glossary should include:
 ## Why This Is A Transmutation
 
 Feature Glossary transforms scattered vocabulary into a bounded, evidence-linked artifact. It requires interpretation, but it does not coordinate a long-running governance loop.
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -155,7 +154,7 @@ A successful execution must:
 - identify duplicate or conflicting terms,
 - report unresolved vocabulary gaps,
 - keep the glossary concise enough to read.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -166,7 +165,7 @@ Avoid:
 - hiding missing source decisions behind vague definitions,
 - mixing global definitions governance into a feature glossary,
 - leaving terms without evidence links.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -183,5 +182,6 @@ Return:
 - Validation: <checks performed>
 - Follow-up: <source gaps or none>
 ```
+
 </output-contract>
 ````

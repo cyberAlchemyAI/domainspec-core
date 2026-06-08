@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `context-builder` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `context-builder` using the canonical definition
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/transmutations/context-builder/README.md
 
-````markdown
+```markdown
 # Context Builder
 
 Context Builder is a Transmutation sigil for creating a compact task-ready context pack from existing project evidence.
@@ -132,8 +131,7 @@ Strict coverage is required for runtime handoff: every obligation must be covere
 ## Why This Is A Transmutation
 
 Context Builder transforms scattered project material into a bounded, evidence-linked artifact. It requires judgment, but the output is a concrete context package rather than a long-running orchestration loop.
-
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -226,7 +224,7 @@ A successful execution must:
 - produce a compact artifact another agent can use immediately,
 - emit Markdown plus JSON/index for runtime handoff packs,
 - label persisted handoff packs as session evidence rather than canonical docs.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -239,7 +237,7 @@ Avoid:
 - allowing a runtime handoff from incomplete, stale, contradictory, unsafe, or validation-missing context,
 - persisting handoff packs beside canonical planning docs without labeling them session evidence,
 - exceeding the selected mode budget without explanation.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -272,6 +270,6 @@ Return:
 
 1. <action>
 ```
-</output-contract>
 
+</output-contract>
 ````

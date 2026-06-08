@@ -26,4 +26,3 @@
 - Territory and community are first-class product concepts, not cosmetic layers.
 - UI should eventually make current territory, active challenge, and next run action immediately visible.
 - Branding should remain TROQAR even while the repository project id is `body-war`.
-

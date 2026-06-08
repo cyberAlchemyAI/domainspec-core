@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `sigil-development` using the canonical definition snapshot embedded below.
@@ -191,7 +190,6 @@ Default thresholds are intentionally conservative: reflect after 5 meaningful ex
 ## Why This Is Arcana
 
 This sigil coordinates a recursive lifecycle, delegates observation to a subagent, preserves evidence across executions, and routes reflection into governed iteration. Its primary behavior is lifecycle orchestration, not a single deterministic check or bounded synthesis artifact.
-
 ````
 
 ## Canonical SKILL Snapshot
@@ -452,5 +450,4 @@ Return:
 ```
 
 </output-contract>
-
 ````

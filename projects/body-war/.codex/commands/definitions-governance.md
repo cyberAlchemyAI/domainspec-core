@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `definitions-governance` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `definitions-governance` using the canonical def
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/definitions-governance/README.md
 
-````markdown
+```markdown
 # Definitions Governance
 
 Definitions Governance is an Arcana sigil for keeping critical terminology authoritative, interpretable, indexed, and traceable across a repository.
@@ -95,7 +94,7 @@ The consuming repository should identify:
 ## Why This Is Arcana
 
 Definitions Governance coordinates authority, interpretation, indexing, drift detection, and remediation routing across many artifacts. It governs semantic consistency over time.
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -163,7 +162,7 @@ A successful execution must:
 - keep indexes synchronized,
 - identify downstream drift with exact remediation targets,
 - validate structure where checks exist.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -174,7 +173,7 @@ Avoid:
 - changing stable IDs casually,
 - syncing indexes without auditing downstream consumers,
 - treating local glossary terms as global canonical definitions without review.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -190,5 +189,6 @@ Return:
 - Validation: pass | fail | not run
 - Follow-ups: <ordered remediation list>
 ```
+
 </output-contract>
 ````

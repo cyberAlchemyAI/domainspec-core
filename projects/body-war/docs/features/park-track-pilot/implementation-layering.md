@@ -33,31 +33,31 @@ Stop a layer when the next unit of work adds less value-per-cost to the current 
 
 ## Layer Decision Framing
 
-| Layer | Decision Question | Minimum Working Unit | Deferred Scope | Promotion Decision |
-| ----- | ----------------- | -------------------- | -------------- | ------------------ |
-| L0 (POC) | After this layer, we know whether runners care about controlling and defending named park tracks at all. | One park, 2-3 delimited tracks, manual run evidence, current controller, challenge, and 48h defense window. | Hex grid, app GPS, composite score, clans, XP economy, anti-cheat automation. | Continue if challenged controllers return or challengers repeat. |
-| L1 | After this layer, we know whether the park-track loop is repeatable with low operator burden. | Repeat the same workflow across multiple sessions and formalize track cards, run submission, and results log. | Multiple parks, app implementation, advanced scoring, sponsor/reward loops. | Harden if admin can run the loop without confusion. |
-| L2 | After this layer, we know whether scoring and dispute policy can stay trusted under real competition. | Add simple policy depth: score rule decision, tie handling, invalid run handling, evidence review, and dispute log. | Sensor fusion, automated GPS validation, monetization, clans. | Scale if disputes are rare and decisions are accepted. |
-| L3 | After this layer, we know whether park tracks can expand into a city pilot without losing clarity. | Add multiple selected parks, a territory-unit registry, lightweight automation, and recurring weekly standings. | City-wide hexes, full mobile app, marketplace/economy, sponsor dashboard. | Move to app/hex design if repeat behavior and operator workflow both hold. |
+| Layer    | Decision Question                                                                                        | Minimum Working Unit                                                                                                | Deferred Scope                                                                | Promotion Decision                                                         |
+| -------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| L0 (POC) | After this layer, we know whether runners care about controlling and defending named park tracks at all. | One park, 2-3 delimited tracks, manual run evidence, current controller, challenge, and 48h defense window.         | Hex grid, app GPS, composite score, clans, XP economy, anti-cheat automation. | Continue if challenged controllers return or challengers repeat.           |
+| L1       | After this layer, we know whether the park-track loop is repeatable with low operator burden.            | Repeat the same workflow across multiple sessions and formalize track cards, run submission, and results log.       | Multiple parks, app implementation, advanced scoring, sponsor/reward loops.   | Harden if admin can run the loop without confusion.                        |
+| L2       | After this layer, we know whether scoring and dispute policy can stay trusted under real competition.    | Add simple policy depth: score rule decision, tie handling, invalid run handling, evidence review, and dispute log. | Sensor fusion, automated GPS validation, monetization, clans.                 | Scale if disputes are rare and decisions are accepted.                     |
+| L3       | After this layer, we know whether park tracks can expand into a city pilot without losing clarity.       | Add multiple selected parks, a territory-unit registry, lightweight automation, and recurring weekly standings.     | City-wide hexes, full mobile app, marketplace/economy, sponsor dashboard.     | Move to app/hex design if repeat behavior and operator workflow both hold. |
 
 ## Capability-To-Layer Progression
 
-| Capability | Layer 0 (POC Proof) | Layer 1 (Repeatability) | Layer 2 (Policy Trust) | Layer 3 (Pilot Scale) |
-| ---------- | ------------------- | ----------------------- | ---------------------- | --------------------- |
-| Territory Unit | Named park track | Standard track card | Track registry with rule fields | Multi-park territory registry |
-| Run Evidence | Strava screenshot/manual confirmation | Submission template and result log | Evidence review/dispute rules | Lightweight form or app-assisted capture |
-| Control | Current controller per track | Historical controller log | Tie/invalid-run policies | Weekly standings across parks |
-| Challenge/Defense | Challenge opens 48h defense window | Repeatable notification template | Defense outcome rules | Recurring weekly operating cadence |
-| Scoring | Fastest verified time by default | Compare optional composite score offline | Select scoring authority | Prepare for app/zone abstraction |
+| Capability        | Layer 0 (POC Proof)                   | Layer 1 (Repeatability)                  | Layer 2 (Policy Trust)          | Layer 3 (Pilot Scale)                    |
+| ----------------- | ------------------------------------- | ---------------------------------------- | ------------------------------- | ---------------------------------------- |
+| Territory Unit    | Named park track                      | Standard track card                      | Track registry with rule fields | Multi-park territory registry            |
+| Run Evidence      | Strava screenshot/manual confirmation | Submission template and result log       | Evidence review/dispute rules   | Lightweight form or app-assisted capture |
+| Control           | Current controller per track          | Historical controller log                | Tie/invalid-run policies        | Weekly standings across parks            |
+| Challenge/Defense | Challenge opens 48h defense window    | Repeatable notification template         | Defense outcome rules           | Recurring weekly operating cadence       |
+| Scoring           | Fastest verified time by default      | Compare optional composite score offline | Select scoring authority        | Prepare for app/zone abstraction         |
 
 ## Layer Definitions
 
-| Layer | Objective | Builds On | Primary Scope | Exit Evidence | Value/Cost Notes |
-| ----- | --------- | --------- | ------------- | ------------- | ---------------- |
-| L0 (POC) | Prove the track-control behavior exists. | none | One park, 2-3 tracks, manual controller/challenge/defense loop. | Defense attempts, repeat submissions, runner feedback. | Highest value per cost because no map/app infrastructure is needed. |
-| L1 | Prove the loop can be operated repeatedly. | L0 | Repeat sessions, track cards, submission template, results log. | Operator time per run, fewer clarification messages, repeatable standings. | Adds structure only where L0 friction appears. |
-| L2 | Prove trust under competition. | L1 | Score authority, tie rules, invalid-run policy, dispute log. | Low dispute rate, accepted rulings, clear rule comprehension. | Worth it only after people compete enough to care. |
-| L3 | Prove city pilot expansion. | L2 | Multiple parks, territory-unit registry, lightweight automation, weekly standings. | Activity across parks, operator capacity, readiness for app/hex decision. | Scale work waits until repeatability and trust are proven. |
+| Layer    | Objective                                  | Builds On | Primary Scope                                                                      | Exit Evidence                                                              | Value/Cost Notes                                                    |
+| -------- | ------------------------------------------ | --------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| L0 (POC) | Prove the track-control behavior exists.   | none      | One park, 2-3 tracks, manual controller/challenge/defense loop.                    | Defense attempts, repeat submissions, runner feedback.                     | Highest value per cost because no map/app infrastructure is needed. |
+| L1       | Prove the loop can be operated repeatedly. | L0        | Repeat sessions, track cards, submission template, results log.                    | Operator time per run, fewer clarification messages, repeatable standings. | Adds structure only where L0 friction appears.                      |
+| L2       | Prove trust under competition.             | L1        | Score authority, tie rules, invalid-run policy, dispute log.                       | Low dispute rate, accepted rulings, clear rule comprehension.              | Worth it only after people compete enough to care.                  |
+| L3       | Prove city pilot expansion.                | L2        | Multiple parks, territory-unit registry, lightweight automation, weekly standings. | Activity across parks, operator capacity, readiness for app/hex decision.  | Scale work waits until repeatability and trust are proven.          |
 
 ## Layer 0 - Minimum Working Unit POC
 
@@ -142,12 +142,12 @@ Run a manual pilot in one selected park with two or three delimited tracks to te
 
 ## Implementation Wave Backbone
 
-| Wave | Target Layer | Goal | Key Artifacts | Verification |
-| ---- | ------------ | ---- | ------------- | ------------ |
-| W0 | L0 | Complete one-park manual proof. | `DISTILL.md`, `implementation-layering.md`, track control board, pilot notes. | Manual run log and runner feedback. |
-| W1 | L1 | Make the workflow repeatable. | Track card template, submission template, operator checklist. | Operator time and fewer ambiguous submissions. |
-| W2 | L2 | Make scoring and disputes trusted. | Scoring decision, dispute policy, invalid-run policy. | Low dispute rate and accepted rulings. |
-| W3 | L3 | Prepare selected park expansion. | Territory-unit registry, weekly standings, lightweight automation notes. | Multi-park activity and app/hex readiness decision. |
+| Wave | Target Layer | Goal                               | Key Artifacts                                                                 | Verification                                        |
+| ---- | ------------ | ---------------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------- |
+| W0   | L0           | Complete one-park manual proof.    | `DISTILL.md`, `implementation-layering.md`, track control board, pilot notes. | Manual run log and runner feedback.                 |
+| W1   | L1           | Make the workflow repeatable.      | Track card template, submission template, operator checklist.                 | Operator time and fewer ambiguous submissions.      |
+| W2   | L2           | Make scoring and disputes trusted. | Scoring decision, dispute policy, invalid-run policy.                         | Low dispute rate and accepted rulings.              |
+| W3   | L3           | Prepare selected park expansion.   | Territory-unit registry, weekly standings, lightweight automation notes.      | Multi-park activity and app/hex readiness decision. |
 
 ## Source-Of-Truth References
 

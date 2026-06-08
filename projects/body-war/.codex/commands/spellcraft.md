@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `spellcraft` using the canonical definition snapshot embedded below.
@@ -150,7 +149,6 @@ Reusable library spells live in [spells](../../spells/).
 ## Why This Is Arcana
 
 Spellcraft coordinates workflow design, local repository adaptation, sigil compatibility checks, gate design, observability, and lifecycle maintenance across multiple sigils.
-
 ````
 
 ## Canonical SKILL Snapshot
@@ -247,6 +245,7 @@ For reusable library spells, write to:
 ```text
 spells/<spell-name>/README.md
 ```
+
 </default-output>
 
 <process>
@@ -316,7 +315,7 @@ Every spell must define:
 - local customization,
 - observability,
 - output contract.
-</spell-contract>
+  </spell-contract>
 
 <authority-rule>
 A spell may compose sigils, but it must not redefine the internal contract of a referenced sigil. If a sigil contract needs to change, route that work through the sigil's own maintenance workflow.
@@ -336,7 +335,7 @@ When `.arcanum/observability/` exists, record:
 - validation result,
 - user corrections,
 - recommended spell updates.
-</observability>
+  </observability>
 
 <quality-bar>
 A successful execution must:
@@ -352,7 +351,7 @@ A successful execution must:
 - require experiment harness evidence or a named block before promotion readiness,
 - define observability for reusable spells,
 - return a clear next action.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -365,7 +364,7 @@ Avoid:
 - running later phases after an earlier gate blocks,
 - letting a spell mutate a sigil contract without explicit maintenance work,
 - omitting failure policy for handoff gaps.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -385,6 +384,6 @@ Return:
 - Observability: configured | unavailable | not needed
 - Next action: <action>
 ```
-</output-contract>
 
+</output-contract>
 ````

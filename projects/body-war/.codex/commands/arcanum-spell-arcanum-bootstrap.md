@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum spell `arcanum-bootstrap` using the canonical spell snapshot embedded below.
@@ -89,12 +88,12 @@ The spell supports two installation postures:
 
 ## Optional Sigils
 
-| Sigil               | Use When                                                            | Notes                                             |
-| ------------------- | ------------------------------------------------------------------- | ------------------------------------------------- |
-| `inventory`         | The target repository should track installed knowledge entries.     | Useful for larger installs.                       |
-| `context-builder`   | The target repository should prove retrieval over installed sigils. | Useful after selected installs.                   |
-| `sigil-development` | The user plans to author local sigils.                              | Include in authoring-oriented installs.           |
-| `spellcraft`        | The user plans to compose local spells.                             | Include when local workflow recipes are expected. |
+| Sigil                | Use When                                                            | Notes                                             |
+| -------------------- | ------------------------------------------------------------------- | ------------------------------------------------- |
+| `inventory`          | The target repository should track installed knowledge entries.     | Useful for larger installs.                       |
+| `context-builder`    | The target repository should prove retrieval over installed sigils. | Useful after selected installs.                   |
+| `sigil-development`  | The user plans to author local sigils.                              | Include in authoring-oriented installs.           |
+| `spellcraft`         | The user plans to compose local spells.                             | Include when local workflow recipes are expected. |
 | `experiment-harness` | The user plans to validate local spells or sigils with examples.    | Include in authoring-oriented installs.           |
 
 ## Prerequisites
@@ -107,27 +106,27 @@ The spell supports two installation postures:
 
 ## Shared State
 
-| State                                 | Owner             | Updated By                              | Consumed By                                                             |
-| ------------------------------------- | ----------------- | --------------------------------------- | ----------------------------------------------------------------------- |
-| `.arcanum/`                           | target repository | bootstrap script                        | observability, Necronomicon state, users, local agents                  |
-| `.arcanum/observability/`             | target repository | `observability-setup`, bootstrap script | runtime commands, sigil and spell runs, reflection workflows            |
-| `.arcanum/necronomicon/`              | target repository | bootstrap script, Necronomicon          | session memory, capability manifest, route ledgers, decisions, handoffs |
-| artifact-local `development/`         | local artifacts   | `experiment-harness`                    | spellcraft, sigil-development, Codex CLI example runners                |
-| `.codex/commands/`                    | target repository | `sigil-runtime-installer`               | Codex command surface                                                   |
-| `.codex/hooks.json`, `.codex/hooks/`  | target repository | bootstrap script                        | observer envelope open/enrich/close hooks                               |
-| install report                        | spell             | all phases                              | user, observability                                                     |
+| State                                | Owner             | Updated By                              | Consumed By                                                             |
+| ------------------------------------ | ----------------- | --------------------------------------- | ----------------------------------------------------------------------- |
+| `.arcanum/`                          | target repository | bootstrap script                        | observability, Necronomicon state, users, local agents                  |
+| `.arcanum/observability/`            | target repository | `observability-setup`, bootstrap script | runtime commands, sigil and spell runs, reflection workflows            |
+| `.arcanum/necronomicon/`             | target repository | bootstrap script, Necronomicon          | session memory, capability manifest, route ledgers, decisions, handoffs |
+| artifact-local `development/`        | local artifacts   | `experiment-harness`                    | spellcraft, sigil-development, Codex CLI example runners                |
+| `.codex/commands/`                   | target repository | `sigil-runtime-installer`               | Codex command surface                                                   |
+| `.codex/hooks.json`, `.codex/hooks/` | target repository | bootstrap script                        | observer envelope open/enrich/close hooks                               |
+| install report                       | spell             | all phases                              | user, observability                                                     |
 
 ## Execution Phases
 
-| Phase | Sigil Or Tool             | Input                                         | Output                                                                                                                                                                         | Gate                                                              | Failure Policy                                         |
-| ----- | ------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- | ------------------------------------------------------ |
-| 1     | bootstrap script          | target root, sigil selection, spell selection | dry-run plan or install plan                                                                                                                                                   | target root resolved                                              | block on missing target                                |
-| 2     | bootstrap script          | command posture                               | selected sigil and spell command list                                                                                                                                          | selections resolve to canonical Arcanum artifacts                 | block on unknown command selection                     |
-| 3     | `observability-setup`     | target root                                   | `.arcanum/observability/`                                                                                                                                                      | folders exist                                                     | flag if setup partial                                  |
-| 4     | bootstrap script          | selected ontology/session posture             | optional `.arcanum/necronomicon/` harness state and `capabilities.json`                                                                                                        | folder contains harness state only                                | block on obsolete runtime-book files without `--force` |
+| Phase | Sigil Or Tool             | Input                                         | Output                                                                                                                 | Gate                                                                     | Failure Policy                                         |
+| ----- | ------------------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------ |
+| 1     | bootstrap script          | target root, sigil selection, spell selection | dry-run plan or install plan                                                                                           | target root resolved                                                     | block on missing target                                |
+| 2     | bootstrap script          | command posture                               | selected sigil and spell command list                                                                                  | selections resolve to canonical Arcanum artifacts                        | block on unknown command selection                     |
+| 3     | `observability-setup`     | target root                                   | `.arcanum/observability/`                                                                                              | folders exist                                                            | flag if setup partial                                  |
+| 4     | bootstrap script          | selected ontology/session posture             | optional `.arcanum/necronomicon/` harness state and `capabilities.json`                                                | folder contains harness state only                                       | block on obsolete runtime-book files without `--force` |
 | 5     | `sigil-runtime-installer` | selected runtime                              | `.codex/commands/` orchestrator, per-sigil commands, per-spell commands, aliases, Necronomicon command, and hook files | commands contain executable instruction snapshots and observer task zero | skip if runtime is none                                |
-| 6     | validation                | installed files                               | command, bridge, syntax, link, and observability validation                                                                                                                    | selected commands can run without copied Necronomicon definitions | block on broken local runtime links                    |
-| 7     | spell report              | phase outputs                                 | install report                                                                                                                                                                 | all blockers named                                                | report partial if optional runtime skipped             |
+| 6     | validation                | installed files                               | command, bridge, syntax, link, and observability validation                                                            | selected commands can run without copied Necronomicon definitions        | block on broken local runtime links                    |
+| 7     | spell report              | phase outputs                                 | install report                                                                                                         | all blockers named                                                       | report partial if optional runtime skipped             |
 
 ## Bootstrap Script
 
@@ -216,5 +215,4 @@ Return:
 - Validation: <checks>
 - Follow-up: <items or none>
 ```
-
 ````

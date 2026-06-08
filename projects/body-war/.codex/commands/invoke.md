@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum spell `invoke` using the canonical spell snapshot embedded below.
@@ -75,15 +74,15 @@ Invoke is an authoring front door, not the lifecycle owner for every artifact it
 
 ## Mode Contracts
 
-| Mode       | Status           | Contract File                              | Notes                                                  |
-| ---------- | ---------------- | ------------------------------------------ | ------------------------------------------------------ |
-| `define`   | implemented (L0) | [define.md](./define.md)     | Active authoring baseline mode with Module Formulae baseline coverage, standalone companions, and candidate family scaffolds. |
-| `design`   | implemented (L1 contract) | [design.md](./design.md)     | Converts approved define outputs into governed architecture/design artifacts; validation examples still gate promotion. |
-| `plan`     | implemented (L2 contract) | [plan.md](./plan.md)         | Converts approved design outputs into implementation plans, layering artifacts, and work-packs. |
-| `handoff`  | implemented (L2 companion contract) | [handoff.md](./handoff.md) | Creates a new session/thread handoff from a prompt, source session reference, and Context Builder selection. |
-| `refresh`  | implemented (L2 refresh contract) | [refresh.md](./refresh.md) | Updates existing invoke-authored workflow artifacts from new session evidence through typed deltas. |
-| `full`     | deferred         | [full.md](./full.md)         | Composite execution mode, pending L2 and L3 readiness. |
-| `validate` | deferred         | [validate.md](./validate.md) | Lifecycle validation mode, pending L3.                 |
+| Mode       | Status                              | Contract File                | Notes                                                                                                                         |
+| ---------- | ----------------------------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `define`   | implemented (L0)                    | [define.md](./define.md)     | Active authoring baseline mode with Module Formulae baseline coverage, standalone companions, and candidate family scaffolds. |
+| `design`   | implemented (L1 contract)           | [design.md](./design.md)     | Converts approved define outputs into governed architecture/design artifacts; validation examples still gate promotion.       |
+| `plan`     | implemented (L2 contract)           | [plan.md](./plan.md)         | Converts approved design outputs into implementation plans, layering artifacts, and work-packs.                               |
+| `handoff`  | implemented (L2 companion contract) | [handoff.md](./handoff.md)   | Creates a new session/thread handoff from a prompt, source session reference, and Context Builder selection.                  |
+| `refresh`  | implemented (L2 refresh contract)   | [refresh.md](./refresh.md)   | Updates existing invoke-authored workflow artifacts from new session evidence through typed deltas.                           |
+| `full`     | deferred                            | [full.md](./full.md)         | Composite execution mode, pending L2 and L3 readiness.                                                                        |
+| `validate` | deferred                            | [validate.md](./validate.md) | Lifecycle validation mode, pending L3.                                                                                        |
 
 ## Core Required Sigils
 
@@ -95,13 +94,13 @@ Invoke is an authoring front door, not the lifecycle owner for every artifact it
 
 ## Core Optional Sigils
 
-| Sigil                            | Use When                                                             | Notes                                                                              |
-| -------------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `decision-gate`                  | A blocker-level decision cannot be resolved from available evidence. | Route only consequential unresolved choices.                                       |
-| `spellcraft`                     | Approved invoke output targets spell authoring or spell revision.    | Invoke prepares handoff context only; Spellcraft owns spell lifecycle mutation, validation, install, observation, and reflection. |
+| Sigil                            | Use When                                                             | Notes                                                                                                                                                  |
+| -------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `decision-gate`                  | A blocker-level decision cannot be resolved from available evidence. | Route only consequential unresolved choices.                                                                                                           |
+| `spellcraft`                     | Approved invoke output targets spell authoring or spell revision.    | Invoke prepares handoff context only; Spellcraft owns spell lifecycle mutation, validation, install, observation, and reflection.                      |
 | `sigil-development`              | Approved invoke output targets sigil authoring or sigil revision.    | Invoke prepares handoff context only; Sigil Development owns sigil lifecycle mutation, validation, observability, reflection, and promotion readiness. |
-| `architecture-pattern-inventory` | Design-stage work needs reusable pattern evidence or alternatives.    | Optional design-mode evidence source; does not override design gates.              |
-| `task-session`                   | Plan output is ready for bounded execution.                          | Invoke emits handoff context; Task Session owns execution.                         |
+| `architecture-pattern-inventory` | Design-stage work needs reusable pattern evidence or alternatives.   | Optional design-mode evidence source; does not override design gates.                                                                                  |
+| `task-session`                   | Plan output is ready for bounded execution.                          | Invoke emits handoff context; Task Session owns execution.                                                                                             |
 
 ## Lifecycle Authority Chain
 
@@ -150,8 +149,8 @@ When a target is already clearly a sigil or spell, Invoke should produce a compa
 
 ## Cross-Cutting Transmutations
 
-| Transmutation | Role In Spell | Application Rule |
-| --- | --- | --- |
+| Transmutation             | Role In Spell                                                                                | Application Rule                                                                                       |
+| ------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | `implementation-layering` | Keeps plan/full/validate outputs bounded by explicit layer decisions and promotion evidence. | Optional seed in `define` and `design`; required companion artifact in `plan`, `full`, and `validate`. |
 
 ## Prerequisites
@@ -167,23 +166,23 @@ When a target is already clearly a sigil or spell, Invoke should produce a compa
 
 ## Shared State
 
-| State                       | Owner | Updated By                                      | Consumed By                           |
-| --------------------------- | ----- | ----------------------------------------------- | ------------------------------------- |
-| define intent record        | spell | `structured-interview-kits` and `invoke define` | define synthesis, decision routing    |
-| template selection record   | spell | `inventory` and `invoke define`                 | define synthesis, validation, handoff |
-| spec artifact               | spell | `invoke define`                                 | downstream design or plan routing     |
-| glossary artifact           | spell | `invoke define`                                 | downstream design or plan routing     |
-| design artifact             | spell | `invoke design`                                 | downstream plan routing and validation |
-| glossary consistency report | spell | `invoke design`                                 | design validation and gap routing     |
-| implementation layering artifact | spell | `invoke design`, `invoke plan`, and `invoke full` | plan validation, execution handoff, and release checks |
-| implementation plan artifact | spell | `invoke plan` and `invoke full` | work-pack mapping, validation strategy, and execution handoff |
-| work-pack artifact          | spell | `invoke plan` and `invoke full`                 | stable planning manifest and execution handoff |
-| session handoff artifact    | spell | `invoke handoff`                                | new session/thread start, reflection, research, or continuation route |
-| refresh report              | spell | `invoke refresh`                                | evidence-backed artifact deltas, proposals, no-op decisions, and next route |
-| define transport report     | spell | `invoke define`                                 | Necronomicon context          |
-| design transport report     | spell | `invoke design`                                 | Necronomicon context          |
-| plan transport report       | spell | `invoke plan`                                   | Necronomicon context          |
-| unresolved gap ledger entry | spell | `invoke define`, `invoke design`, and optional `decision-gate` | follow-up routing                     |
+| State                            | Owner | Updated By                                                     | Consumed By                                                                 |
+| -------------------------------- | ----- | -------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| define intent record             | spell | `structured-interview-kits` and `invoke define`                | define synthesis, decision routing                                          |
+| template selection record        | spell | `inventory` and `invoke define`                                | define synthesis, validation, handoff                                       |
+| spec artifact                    | spell | `invoke define`                                                | downstream design or plan routing                                           |
+| glossary artifact                | spell | `invoke define`                                                | downstream design or plan routing                                           |
+| design artifact                  | spell | `invoke design`                                                | downstream plan routing and validation                                      |
+| glossary consistency report      | spell | `invoke design`                                                | design validation and gap routing                                           |
+| implementation layering artifact | spell | `invoke design`, `invoke plan`, and `invoke full`              | plan validation, execution handoff, and release checks                      |
+| implementation plan artifact     | spell | `invoke plan` and `invoke full`                                | work-pack mapping, validation strategy, and execution handoff               |
+| work-pack artifact               | spell | `invoke plan` and `invoke full`                                | stable planning manifest and execution handoff                              |
+| session handoff artifact         | spell | `invoke handoff`                                               | new session/thread start, reflection, research, or continuation route       |
+| refresh report                   | spell | `invoke refresh`                                               | evidence-backed artifact deltas, proposals, no-op decisions, and next route |
+| define transport report          | spell | `invoke define`                                                | Necronomicon context                                                        |
+| design transport report          | spell | `invoke design`                                                | Necronomicon context                                                        |
+| plan transport report            | spell | `invoke plan`                                                  | Necronomicon context                                                        |
+| unresolved gap ledger entry      | spell | `invoke define`, `invoke design`, and optional `decision-gate` | follow-up routing                                                           |
 
 ## Mode Router
 
@@ -315,5 +314,4 @@ Return:
 ```
 
 Mode-specific execution phases and mode-level output contracts are defined in [define.md](./define.md), [design.md](./design.md), [plan.md](./plan.md), [handoff.md](./handoff.md), [refresh.md](./refresh.md), [full.md](./full.md), and [validate.md](./validate.md).
-
 ````

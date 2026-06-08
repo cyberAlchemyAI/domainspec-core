@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `skill-decomposer` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `skill-decomposer` using the canonical definitio
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/skill-decomposer/README.md
 
-````markdown
+```markdown
 # Skill Decomposer
 
 Skill Decomposer is an Arcana sigil for extracting one reusable capability from a larger skill, prompt, workflow, command set, or mixed document.
@@ -102,8 +101,7 @@ Use Skill Decomposer to define what should become a sigil. Use Skill Transcripto
 ## Why This Is Arcana
 
 The sigil coordinates ambiguity, candidate discovery, boundary decisions, coupling risk, human gates, and handoff into conversion. It must stop safely when the reusable capability cannot be isolated.
-
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -253,5 +251,4 @@ Return:
 ```
 
 </output-contract>
-
 ````

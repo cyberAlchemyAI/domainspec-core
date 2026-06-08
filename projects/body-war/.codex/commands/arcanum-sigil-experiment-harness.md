@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `experiment-harness` using the canonical definition snapshot embedded below.
@@ -164,7 +163,6 @@ The reusable check step reads the target artifact's `SKILL.md` when present:
 ## Why This Is Arcana
 
 The sigil coordinates lifecycle evidence across artifacts and runtimes. It does not decide what a spell or sigil should mean; it makes the development feedback loop executable and portable.
-
 ````
 
 ## Canonical SKILL Snapshot
@@ -204,7 +202,7 @@ Use this sigil for:
 - writing a run report,
 - emitting signal-observer-compatible telemetry from a run report,
 - making the same harness pattern usable in external repositories.
-</applicability>
+  </applicability>
 
 <inputs>
 Expected inputs:
@@ -216,7 +214,7 @@ Expected inputs:
 - optional example ID or `--all`,
 - optional `RERUN=1` when overwriting existing example outputs is intentional,
 - optional `CODEX_BIN` when Codex CLI is not on `PATH`.
-</inputs>
+  </inputs>
 
 <process>
 1. Resolve the artifact path and confirm the artifact exists and has a readable `SKILL.md` or `README.md` contract.
@@ -241,7 +239,7 @@ When validating saved outputs, extract the target artifact's `SKILL.md` sections
 - The first implementation uses structured section and keyword checks; semantic judging can be layered into the observer later.
 - Report machine fields must include `QUALITY_BAR_STATUS`, `ANTI_PATTERN_HITS_JSON`, and `WORKFLOW_GAPS_JSON` when findings exist.
 - Profile-aware validation must emit `PROFILE_ID`, `LIFECYCLE_OWNER`, `ARTIFACT_TYPE`, `CONTRACT_PATH`, `PROMPT_SET`, `REGIME_SET`, and `PROFILE_VALIDATION`.
-</validation-loop>
+  </validation-loop>
 
 <observability-loop>
 The experiment harness closes the lifecycle loop by integrating with `signal-observer` and the framework observability package:
@@ -254,7 +252,7 @@ The experiment harness closes the lifecycle loop by integrating with `signal-obs
 - configured reflection thresholds are evaluated during observation and emitted as `usage-threshold`, `output-threshold`, `gap-threshold`, or `severe-gap` with recommendation `reflect-now`,
 - dedupe prevents repeated observer emissions for the same report and observer version,
 - telemetry write failures never block the primary validation result.
-</observability-loop>
+  </observability-loop>
 
 <loop-first-architecture>
 The planned promotion path is loop-first:
@@ -306,7 +304,7 @@ A successful execution must:
 - emit one observer-compatible telemetry event when repository observability is available,
 - report `pass`, `flag`, or `block` honestly,
 - remain usable from external repositories through runtime command adapters.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -318,7 +316,7 @@ Avoid:
 - validating only markdown presence while ignoring output shape,
 - accepting a legacy harness without profile metadata as valid,
 - embedding invoke-specific assumptions in the generic harness.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -338,6 +336,6 @@ Return:
 - Observation: recorded | skipped | failed
 - Next unrun: <task-id | none | unknown>
 ```
-</output-contract>
 
+</output-contract>
 ````

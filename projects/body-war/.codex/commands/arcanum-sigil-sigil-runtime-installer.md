@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `sigil-runtime-installer` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `sigil-runtime-installer` using the canonical de
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/sigil-runtime-installer/README.md
 
-````markdown
+```markdown
 # Sigil Runtime Installer
 
 Sigil Runtime Installer installs Arcanum sigils and spells into the Codex command surface.
@@ -86,10 +85,10 @@ Generated commands use their embedded canonical instruction snapshots and the ob
 
 ## Supported Targets
 
-| Target | Command Surface | Generated Shape |
-| --- | --- | --- |
-| Codex | `.codex/commands/<command>.md` | Full command contract with observer task-zero block and embedded canonical snapshot |
-| None | n/a | Observability and optional Necronomicon state only |
+| Target | Command Surface                | Generated Shape                                                                     |
+| ------ | ------------------------------ | ----------------------------------------------------------------------------------- |
+| Codex  | `.codex/commands/<command>.md` | Full command contract with observer task-zero block and embedded canonical snapshot |
+| None   | n/a                            | Observability and optional Necronomicon state only                                  |
 
 ## Output
 
@@ -105,8 +104,7 @@ The sigil can produce:
 ## Why This Is Arcana
 
 The sigil coordinates command generation, local path decisions, canonical snapshot embedding, observer hook installation, validation, and installation reporting across repository boundaries.
-
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -157,7 +155,7 @@ Expected inputs, if available:
 - selected sigils,
 - selected spells,
 - dry-run preference.
-</inputs>
+  </inputs>
 
 <default-output>
 If no command is provided, install or plan `arcanum-orchestrate` plus individual artifact commands.
@@ -177,6 +175,7 @@ codex -> .codex/commands/arcanum-orchestrate.md
          .codex/hooks/arcanum-post-tool-use.sh
          .codex/hooks/arcanum-stop.sh
 ```
+
 </default-output>
 
 <process>
@@ -213,7 +212,7 @@ codex -> .codex/commands/arcanum-orchestrate.md
 20. Check that `.codex/hooks.json` is valid JSON and hook scripts are executable.
 21. Check that no `.arcanum/runtimes/` or `.github/skills/` tree is generated.
 22. Return pass, flag, or block.
-</process>
+    </process>
 
 <quality-bar>
 A successful execution must:
@@ -228,7 +227,7 @@ A successful execution must:
 - validate command and hook paths,
 - preserve unrelated local agent configuration,
 - report what was installed and how to invoke it.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -238,7 +237,7 @@ Avoid:
 - embedding stale or untraceable copies of sigil instructions in command files,
 - making a consuming repository's generated command the canonical sigil source,
 - hiding validation failures behind a successful install message.
-</anti-patterns>
+  </anti-patterns>
 
 <observability>
 When `.arcanum/observability/` exists, emit telemetry for:
@@ -253,7 +252,7 @@ When `.arcanum/observability/` exists, emit telemetry for:
 - runtime metadata status,
 - validation result,
 - blockers.
-</observability>
+  </observability>
 
 <output-contract>
 Return:
@@ -272,6 +271,6 @@ Return:
 - Invocation: <command or command name>
 - Next action: <action>
 ```
-</output-contract>
 
+</output-contract>
 ````

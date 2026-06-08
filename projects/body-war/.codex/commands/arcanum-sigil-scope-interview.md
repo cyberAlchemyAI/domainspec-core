@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `scope-interview` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `scope-interview` using the canonical definition
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/scope-interview/README.md
 
-````markdown
+```markdown
 # Scope Interview
 
 Scope Interview is an Arcana sigil for turning a vague idea or existing repository into a discovery baseline.
@@ -97,7 +96,7 @@ The output package should separate:
 ## Why This Is Arcana
 
 Scope Interview coordinates repository inspection, human discovery, evidence classification, decision capture, and readiness routing. It is a strategic entrypoint, not a single artifact transformation.
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -172,7 +171,7 @@ A successful execution must:
 - make hypotheses falsifiable,
 - avoid implementation planning before the baseline is stable,
 - return a readiness verdict with concrete next actions.
-</quality-bar>
+  </quality-bar>
 
 <anti-patterns>
 Avoid:
@@ -183,7 +182,7 @@ Avoid:
 - hiding out-of-scope boundaries,
 - omitting counter-positions for central assumptions,
 - marking readiness while blocker decisions remain unresolved.
-</anti-patterns>
+  </anti-patterns>
 
 <output-contract>
 Return:
@@ -200,5 +199,6 @@ Return:
 - Verdict: ready for planning | needs more discovery | blocked on scope gate | blocked on decisions
 - Next actions: <ordered list>
 ```
+
 </output-contract>
 ````

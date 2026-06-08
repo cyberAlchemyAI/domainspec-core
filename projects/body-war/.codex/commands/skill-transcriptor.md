@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `skill-transcriptor` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `skill-transcriptor` using the canonical definit
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/skill-transcriptor/README.md
 
-````markdown
+```markdown
 # Skill Transcriptor
 
 Skill Transcriptor is an Arcana sigil for converting a complete, coherent skill, prompt, command, or workflow into an Arcanum-compliant sigil package.
@@ -103,8 +102,7 @@ Use Skill Transcriptor to convert a coherent source into a package. Use Sigil De
 ## Why This Is Arcana
 
 The sigil coordinates source analysis, tier judgment, neutral rewriting, package planning, conversion gating, validation, and observability. It must stop safely when the source is not coherent enough for direct conversion.
-
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -268,5 +266,4 @@ Return:
 ```
 
 </output-contract>
-
 ````

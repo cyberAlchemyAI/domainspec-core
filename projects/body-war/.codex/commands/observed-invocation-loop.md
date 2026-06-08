@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum spell `observed-invocation-loop` using the canonical spell snapshot embedded below.
@@ -81,19 +80,19 @@ The observability handoff is hook-first. Telemetry emission must be enforced by 
 
 ## Required Sigils
 
-| Sigil | Role In Spell | Required Mode |
-| ----- | ------------- | ------------- |
-| `signal-observer` | Read or receive an invocation envelope, append telemetry, update reflection counters, and emit reflection recommendation. | observe |
-| `workflow-reflect` | Analyze accumulated telemetry and write a reflection report when thresholds or manual routing require it. | reflect |
+| Sigil              | Role In Spell                                                                                                             | Required Mode |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `signal-observer`  | Read or receive an invocation envelope, append telemetry, update reflection counters, and emit reflection recommendation. | observe       |
+| `workflow-reflect` | Analyze accumulated telemetry and write a reflection report when thresholds or manual routing require it.                 | reflect       |
 
 ## Optional Sigils
 
-| Sigil | Use When | Notes |
-| ----- | -------- | ----- |
-| `observability-setup` | The repository does not yet have `.arcanum/observability/`. | Install or repair the observability package before strict telemetry is required. |
-| `sigil-development` | Reflection proposes a sigil update and the user approves mutation. | Reflection itself remains non-mutating. |
-| `spellcraft` | Reflection proposes a spell update and the user approves mutation. | Spell lifecycle execution stays outside this spell. |
-| `decision-gate` | Telemetry strictness, privacy, or reflection routing has a blocker-level ambiguity. | Use only for consequential unresolved choices. |
+| Sigil                 | Use When                                                                            | Notes                                                                            |
+| --------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `observability-setup` | The repository does not yet have `.arcanum/observability/`.                         | Install or repair the observability package before strict telemetry is required. |
+| `sigil-development`   | Reflection proposes a sigil update and the user approves mutation.                  | Reflection itself remains non-mutating.                                          |
+| `spellcraft`          | Reflection proposes a spell update and the user approves mutation.                  | Spell lifecycle execution stays outside this spell.                              |
+| `decision-gate`       | Telemetry strictness, privacy, or reflection routing has a blocker-level ambiguity. | Use only for consequential unresolved choices.                                   |
 
 ## Prerequisites
 
@@ -105,35 +104,35 @@ The observability handoff is hook-first. Telemetry emission must be enforced by 
 
 ## Shared State
 
-| State | Owner | Updated By | Consumed By |
-| ----- | ----- | ---------- | ----------- |
-| invocation envelope | Codex hook or wrapper | capability wrapper | `signal-observer` |
-| central signal ledger | observability package | `signal-observer` | `workflow-reflect`, maintainers |
-| hook operations ledger | observability package | observer/reflection hooks | hook-health review |
-| reflection state | observability package | `signal-observer`, `workflow-reflect` | threshold evaluator |
-| reflection reports | observability package | `workflow-reflect` | `sigil-development`, `spellcraft`, maintainers |
+| State                  | Owner                 | Updated By                            | Consumed By                                    |
+| ---------------------- | --------------------- | ------------------------------------- | ---------------------------------------------- |
+| invocation envelope    | Codex hook or wrapper | capability wrapper                    | `signal-observer`                              |
+| central signal ledger  | observability package | `signal-observer`                     | `workflow-reflect`, maintainers                |
+| hook operations ledger | observability package | observer/reflection hooks             | hook-health review                             |
+| reflection state       | observability package | `signal-observer`, `workflow-reflect` | threshold evaluator                            |
+| reflection reports     | observability package | `workflow-reflect`                    | `sigil-development`, `spellcraft`, maintainers |
 
 ## Execution Phases
 
-| Phase | Sigil | Input | Output | Gate | Failure Policy |
-| ----- | ----- | ----- | ------ | ---- | -------------- |
-| 1 | Codex command or hook | user request and target capability | observed run metadata | target capability resolved | block if capability cannot be resolved |
-| 2 | target capability | managed invocation context | primary capability result | primary run completed, blocked, or failed with evidence | return primary result honestly |
-| 3 | Codex hook or wrapper | primary result and metadata | invocation envelope | envelope has required fields and no sensitive raw content | flag when telemetry is skipped; block only if strict mode requires telemetry |
-| 4 | `signal-observer` | invocation envelope | telemetry row and threshold recommendation | exactly one append or deduped skip | never hide primary result unless strict telemetry mode is active |
-| 5 | `workflow-reflect` | telemetry ledger and threshold result | reflection report or insufficient-signal result | only run on threshold or manual request | skip when no threshold and no manual reflection request |
-| 6 | spell closeout | phase outputs | observed invocation result | primary result and observability state are reported | flag unresolved telemetry or reflection gaps |
+| Phase | Sigil                 | Input                                 | Output                                          | Gate                                                      | Failure Policy                                                               |
+| ----- | --------------------- | ------------------------------------- | ----------------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 1     | Codex command or hook | user request and target capability    | observed run metadata                           | target capability resolved                                | block if capability cannot be resolved                                       |
+| 2     | target capability     | managed invocation context            | primary capability result                       | primary run completed, blocked, or failed with evidence   | return primary result honestly                                               |
+| 3     | Codex hook or wrapper | primary result and metadata           | invocation envelope                             | envelope has required fields and no sensitive raw content | flag when telemetry is skipped; block only if strict mode requires telemetry |
+| 4     | `signal-observer`     | invocation envelope                   | telemetry row and threshold recommendation      | exactly one append or deduped skip                        | never hide primary result unless strict telemetry mode is active             |
+| 5     | `workflow-reflect`    | telemetry ledger and threshold result | reflection report or insufficient-signal result | only run on threshold or manual request                   | skip when no threshold and no manual reflection request                      |
+| 6     | spell closeout        | phase outputs                         | observed invocation result                      | primary result and observability state are reported       | flag unresolved telemetry or reflection gaps                                 |
 
 ## Gates
 
-| Gate | Required Evidence | Result |
-| ---- | ----------------- | ------ |
-| managed invocation | capability ran through Arcanum command, hook, wrapper, or orchestrator | pass or block |
-| envelope validity | timestamp, capability id, kind, mode, execution status, outputs, validation, observer evidence | pass or flag |
-| telemetry append | ledger append, dedupe skip, or explicit skipped reason | pass, flag, or block in strict mode |
-| threshold evaluation | reflection trigger and recommendation recorded | pass or flag |
-| reflection route | report written, skipped with reason, or queued | pass or flag |
-| hook enforcement | Codex hook or deterministic wrapper performed the observation handoff | pass or flag |
+| Gate                 | Required Evidence                                                                              | Result                              |
+| -------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
+| managed invocation   | capability ran through Arcanum command, hook, wrapper, or orchestrator                         | pass or block                       |
+| envelope validity    | timestamp, capability id, kind, mode, execution status, outputs, validation, observer evidence | pass or flag                        |
+| telemetry append     | ledger append, dedupe skip, or explicit skipped reason                                         | pass, flag, or block in strict mode |
+| threshold evaluation | reflection trigger and recommendation recorded                                                 | pass or flag                        |
+| reflection route     | report written, skipped with reason, or queued                                                 | pass or flag                        |
+| hook enforcement     | Codex hook or deterministic wrapper performed the observation handoff                          | pass or flag                        |
 
 ## Command And Hook Contract
 
@@ -141,22 +140,22 @@ Arcanum-managed Codex commands must make observer envelope setup task zero. Code
 
 Required phases:
 
-| Phase | Responsibility | Required Evidence |
-| --- | --- | --- |
-| start | Resolve capability id, kind, tier, mode, request summary, and run id. | observed run metadata or equivalent local variables |
-| execute | Run or dry-run the target capability while preserving the primary result. | primary status, outputs, changed files, validation |
-| envelope | Assemble a privacy-safe invocation envelope. | `capability.id`, `capability.kind`, legacy `sigil`, execution status, observer fields |
-| observe | Call `framework/observability/scripts/observe-invocation.sh`. | `OBSERVATION`, `LEDGER`, `LEDGER_LINE`, `REFLECTION_TRIGGER`, `RECOMMENDATION`, `DEDUPE_KEY` |
-| reflect | If enabled and recommended, call `framework/observability/scripts/reflect-invocation-signals.sh`. | report path or skipped reason |
-| closeout | Return primary result plus telemetry status. | observed invocation result |
+| Phase    | Responsibility                                                                                    | Required Evidence                                                                            |
+| -------- | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| start    | Resolve capability id, kind, tier, mode, request summary, and run id.                             | observed run metadata or equivalent local variables                                          |
+| execute  | Run or dry-run the target capability while preserving the primary result.                         | primary status, outputs, changed files, validation                                           |
+| envelope | Assemble a privacy-safe invocation envelope.                                                      | `capability.id`, `capability.kind`, legacy `sigil`, execution status, observer fields        |
+| observe  | Call `framework/observability/scripts/observe-invocation.sh`.                                     | `OBSERVATION`, `LEDGER`, `LEDGER_LINE`, `REFLECTION_TRIGGER`, `RECOMMENDATION`, `DEDUPE_KEY` |
+| reflect  | If enabled and recommended, call `framework/observability/scripts/reflect-invocation-signals.sh`. | report path or skipped reason                                                                |
+| closeout | Return primary result plus telemetry status.                                                      | observed invocation result                                                                   |
 
 Required capability kinds:
 
-| Kind | Example Adapter | Required `capability.kind` |
-| --- | --- | --- |
-| skill | `.codex/commands/arcanum-orchestrate.md` | `skill` |
-| sigil | `.codex/commands/arcanum-sigil-signal-observer.md` | `sigil` |
-| spell | `.codex/commands/arcanum-spell-invoke.md` | `spell` |
+| Kind  | Example Adapter                                    | Required `capability.kind` |
+| ----- | -------------------------------------------------- | -------------------------- |
+| skill | `.codex/commands/arcanum-orchestrate.md`           | `skill`                    |
+| sigil | `.codex/commands/arcanum-sigil-signal-observer.md` | `sigil`                    |
+| spell | `.codex/commands/arcanum-spell-invoke.md`          | `spell`                    |
 
 Adapter controls:
 
@@ -232,5 +231,4 @@ Return:
 - Report: <path or n/a>
 - Next route: none | workflow-reflect | sigil-development | spellcraft | decision-gate
 ```
-
 ````

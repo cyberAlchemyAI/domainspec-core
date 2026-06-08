@@ -31,4 +31,3 @@
 - The JSX score formula may be more inclusive than fastest-time-only conquest, but it needs balancing and explanation.
 - JSX clan contribution uses XP contribution; the GDD also has RunCoin coffer mechanics. These should remain separate unless unified by a later decision.
 - Some numeric values differ from the GDD; DomainSpec should record these as unresolved until selected.
-

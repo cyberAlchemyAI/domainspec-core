@@ -30,7 +30,6 @@ Closeout is mandatory but must not hide the primary result. At the end, report:
 
 If deterministic hook or wrapper telemetry is unavailable, preserve the result and report the observability gap.
 
-
 ## Objective
 
 Run the installed Arcanum sigil `ontology-vault` using the canonical definition snapshot embedded below.
@@ -52,7 +51,7 @@ Run the installed Arcanum sigil `ontology-vault` using the canonical definition 
 
 Canonical source: https://github.com/cyberAlchemyAI/arcanum/blob/main/arcana/ontology-vault/README.md
 
-````markdown
+```markdown
 # Ontology Vault
 
 Ontology Vault is an Arcana sigil for creating and maintaining a governed knowledge vault.
@@ -154,8 +153,7 @@ Use [feature-glossary](../../transmutations/feature-glossary/) when local ontolo
 ## Why This Is Arcana
 
 Ontology Vault coordinates long-lived knowledge governance across sources, sessions, evidence, roles, confidence gates, and human decisions. It does not merely transform one artifact; it manages how a repository decides what its knowledge means and when that knowledge is mature enough to rely on.
-
-````
+```
 
 ## Canonical SKILL Snapshot
 
@@ -418,5 +416,4 @@ Return:
 ```
 
 </output-contract>
-
 ````
