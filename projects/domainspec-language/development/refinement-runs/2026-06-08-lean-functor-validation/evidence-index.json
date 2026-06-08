@@ -1,7 +1,8 @@
 {
   "run_id": "2026-06-08-lean-functor-validation",
   "owner": "refine",
-  "status": "awaiting-permission",
+  "status": "complete",
+  "final_verdict": "flag",
   "dispatch": {
     "path": "REFINE-DISPATCH.json",
     "validated_against": "arcanum/formulae/dispatch-spec/dispatch.schema.yml",
@@ -13,42 +14,35 @@
     "REFINE-SEED-PROPOSAL.md",
     "REFINE-DISPATCH.json",
     "RUN-MANIFEST.md",
-    "evidence-index.json"
+    "evidence-index.json",
+    "RUNTIME-HANDOFF.md",
+    "RESULT.md"
   ],
-  "deferred_until_permission": ["RUNTIME-HANDOFF.md", "RESULT.md", "stages/"],
-  "evidence_sources": [
-    {
-      "path": "projects/domainspec-language/research/DESIGN-PACKAGE.md",
-      "role": "prior DomainSpec language design package",
-      "authority": "local-canonical"
-    },
-    {
-      "path": "implementation/domainspec/internal_tools/lean-code-validator/",
-      "role": "existing machine-checked structural validator (sigma model, P1-P5)",
-      "authority": "local-canonical"
-    },
-    {
-      "path": "arcanum/.agents/skills/craft/CRAFT-INITIAL-DEFINITION.md",
-      "role": "schema/data/functor/residue/PCRA model",
-      "authority": "local-canonical"
-    },
-    {
-      "path": "implementation/domainspec/{AXIOMS.md,CONSTITUTION.md,TAXONOMY.md,RELATIONSHIPS.md,ARCHITECTURE-PATTERN-LIBRARY.md}",
-      "role": "vocabulary, composability, architecture patterns",
-      "authority": "local-canonical"
-    },
-    {
-      "path": "external: Spivak Functorial Data Migration; Lawvere Functorial Semantics; Kan extensions",
-      "role": "categorical analogy",
-      "authority": "external-noncanonical"
-    }
-  ],
-  "research_decision": {
-    "mode": "bounded-research",
-    "confirmation_status": "pending"
+  "stage_artifacts": {
+    "s1": ["stages/s1-context-builder/context-pack.md", "stages/s1-context-builder/VALIDATOR-XRAY.md"],
+    "s2": ["stages/s2-invoke-define/DEFINE.md"],
+    "s3": ["stages/s3-interrogation/REVIEW.md"],
+    "s4": ["stages/s4-research/CATEGORICAL-FORMALIZATIONS.md", "stages/s4-research/STAGE-A-CORRECTNESS.md"],
+    "s5": ["stages/s5-distill/DISTILL.md", "stages/s5-distill/CATEGORICAL-MODEL-DECISION.md"],
+    "s6": ["stages/s6-invoke-design/DESIGN.md", "stages/s6-invoke-design/TRANSLATOR-DESIGN.md"],
+    "s7": ["stages/s7-interrogation/DESIGN-REVIEW.md"],
+    "s8": ["stages/s8-distill-repair/REPAIR.md", "stages/s8-distill-repair/TOYGAME-FALSIFICATION.md"],
+    "s9": ["stages/s9-invoke-plan/PLAN.md"],
+    "s10": ["RESULT.md"]
   },
-  "subagent_strategy": {
-    "status": "required",
-    "authorization": "requires_user_permission"
-  }
+  "decisions": [
+    {"id": "DEC-CAT-01", "title": "categorical formalization", "outcome": "presheaf-lan target / fdm core", "status": "provisional-owner-ratifiable"}
+  ],
+  "blockers": [
+    {"id": "B-1", "summary": "contract obligation_ids needed before P3 per-meta obligations can be real", "source": "DESIGN-PACKAGE"},
+    {"id": "R-determinism", "summary": "T determinism does not make residue codegen-attributable until provenance split populated"}
+  ],
+  "research_decision": {"mode": "bounded-research", "confirmation_status": "confirmed", "external_sources_authority": "non-canonical-analogy"},
+  "subagent_strategy": {"status": "required", "authorization": "approved", "lanes": 5, "join": "parent_synthesis"},
+  "recommended_next_routes": [
+    "task-session on Wave A (per-edge provenance + real P4)",
+    "decision-gate to ratify DEC-CAT-01",
+    "fold two-stage model + honesty boundary into research/DESIGN-PACKAGE.md",
+    "resolve B-1 obligation_ids to unlock P3"
+  ]
 }
