@@ -1,0 +1,65 @@
+{
+  "task": "Run the validated card-system-to-promotion-governance research route",
+  "mode": "standard",
+  "session_date": "2026-06-01",
+  "target_output": "projects/goldenquill/docs/strategy/goldenquill_card_system_promotion_governance_research_2026-06-01.md",
+  "dispatch_route": "projects/goldenquill/docs/strategy/goldenquill_card_system_promotion_governance_research_2026-06-01.dispatch.json",
+  "obligation_coverage": {
+    "O1_source_folder": "covered",
+    "O2_naming_orthogonality": "covered",
+    "O3_lifecycle_loader": "covered",
+    "O4_cto_blockers_patch_queue": "covered",
+    "O5_no_card_mutation": "covered",
+    "O6_promotion_guardrail": "covered",
+    "O7_dispatch_validation": "covered",
+    "O8_deeper_fanout_deferred": "covered"
+  },
+  "selected_sources": [
+    {
+      "path": "projects/goldenquill/docs/card_system_deep_research_2026-05-17/CARD_LIFECYCLE_AND_LOADER_GOVERNANCE_AUDIT.md",
+      "selectors": ["findings L1-F0-L1-F9", "section 3.1", "section 3.3", "section 6"]
+    },
+    {
+      "path": "projects/goldenquill/docs/card_system_deep_research_2026-05-17/CANONICAL_NAMING_AND_ORTHOGONALITY_AUDIT.md",
+      "selectors": ["findings L2-F0-L2-F9", "section 3", "section 4", "section 5", "section 6"]
+    },
+    {
+      "path": "projects/goldenquill/docs/card_system_deep_research_2026-05-17/INITIAL_CTO_HANDOFF_BLOCKERS.md",
+      "selectors": ["section 0", "P0-1", "CR-1", "section 5"]
+    },
+    {
+      "path": "projects/goldenquill/docs/card_system_deep_research_2026-05-17/FILE_BY_FILE_PATCH_QUEUE_PRE_V0_2.md",
+      "selectors": ["Batch A", "Batch B", "Batch C", "Batch D", "Batch E"]
+    },
+    {
+      "path": "projects/goldenquill/docs/card_system_deep_research_2026-05-17/PHASED_CARD_SYSTEM_RESEARCH_AUDIT.md",
+      "selectors": ["section 0", "section 3", "section 4"]
+    },
+    {
+      "path": "projects/goldenquill/docs/strategy/goldenquill_card_system_promotion_governance_research_2026-06-01.md",
+      "selectors": ["Direct Mapping To Promotion Governance", "Immediate Design Recommendations", "Open Gaps"]
+    }
+  ],
+  "gates": {
+    "source_boundary": "pass",
+    "mutation_boundary": "pass",
+    "promotion_authority": "pass",
+    "fanout_authorization": "deferred",
+    "dispatch_validation": "pass"
+  },
+  "validation": [
+    {
+      "command": "python3 arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py projects/goldenquill/docs/strategy/goldenquill_card_system_promotion_governance_research_2026-06-01.dispatch.json --json",
+      "result": "pass"
+    },
+    {
+      "command": "python3 -m json.tool projects/goldenquill/docs/strategy/goldenquill_card_system_promotion_governance_research_2026-06-01.dispatch.json",
+      "result": "pass"
+    }
+  ],
+  "follow_up": [
+    "Operator decision: adopt card-system lessons into promotion-governance design.",
+    "Optional five-lane fanout: authority states, orthogonality, human confirmation, ceremony drift, rule-pack boundary.",
+    "If adopted, update promotion governance with companion-readiness states and promotion orthogonality gates."
+  ]
+}

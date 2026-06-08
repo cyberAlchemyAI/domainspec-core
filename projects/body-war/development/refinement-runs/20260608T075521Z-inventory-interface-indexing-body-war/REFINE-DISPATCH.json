@@ -1,0 +1,458 @@
+{
+  "dispatch_id": "refine-inventory-body-war-20260608T075521Z",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Use /home/vrondelli/projects/domainspec-core/projects/body-war as the new target for this Inventory interface/indexing refine route.",
+    "objective": "Create a validated Refine strategy for adapting the Inventory interface/indexing MVP to the Body War project before execution.",
+    "target_artifact": "/home/vrondelli/projects/domainspec-core/projects/body-war/development/refinement-runs/20260608T075521Z-inventory-interface-indexing-body-war/RESULT.md",
+    "arcanum_vocabulary": [
+      "inventory",
+      "refine",
+      "dispatch-spec",
+      "target inference",
+      "confirmation proposal",
+      "evidence card",
+      "selector index",
+      "link index",
+      "gap/risk queue"
+    ],
+    "operator_sentence": "i want to use this as new target /home/vrondelli/projects/domainspec-core/projects/body-war"
+  },
+  "mode": "sequence",
+  "route_menu": {
+    "context_hint": "Body War is a live project target with DomainSpec docs, Arcanum command surfaces, and candidate pilot artifacts.",
+    "items": [
+      {
+        "id": "route-body-war-project-local",
+        "label": "Body War project-local",
+        "description": "Refine Inventory interface/indexing around Body War project docs and local Arcanum/DomainSpec surfaces.",
+        "capability_ref": "refine",
+        "pattern": "sequential"
+      },
+      {
+        "id": "route-domainspec-framework",
+        "label": "DomainSpec framework target",
+        "description": "Continue using implementation/domainspec as the framework target.",
+        "capability_ref": "refine",
+        "pattern": "sequential"
+      },
+      {
+        "id": "route-direct-body-war-pilot",
+        "label": "Direct Body War pilot",
+        "description": "Skip refinement and immediately create a Body War Inventory pilot slice.",
+        "capability_ref": "task-session",
+        "pattern": "handoff"
+      }
+    ],
+    "selected_item_id": "route-body-war-project-local"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "route_menu",
+    "approval_checkpoint",
+    "x_ray",
+    "memory_loop",
+    "residue_ledger"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The target needs an ordered refinement path before Inventory pilot mutation.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping"
+      ],
+      "applies_to_steps": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S8",
+        "S9",
+        "S10"
+      ],
+      "validation_expectation": "Every stage must produce an artifact path or blocked reason."
+    },
+    {
+      "overlay_id": "route_menu_for_ambiguity",
+      "trigger": "The target changed, and the first Body War pilot corpus has multiple viable options.",
+      "techniques": [
+        "route_menu",
+        "one_or_more_option_set",
+        "approval_checkpoint"
+      ],
+      "applies_to_steps": ["S1", "S3", "S10"],
+      "validation_expectation": "The selected route must preserve Body War as target and Arcanum Inventory as capability source."
+    },
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "Body War knowledge is dispersed across product, rules, pilot, decisions, source notes, and local runtime surfaces.",
+      "techniques": [
+        "x_ray",
+        "component_descriptor",
+        "entity_component_reference"
+      ],
+      "applies_to_steps": ["S1", "S5", "S6"],
+      "validation_expectation": "The final plan must distinguish project docs, source notes, feature slices, generated Inventory read models, and authority owners."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "Prior Inventory work and existing Body War refinement artifacts materially affect scope.",
+      "techniques": [
+        "memory_loop",
+        "residue_ledger",
+        "data_quality_deduplication"
+      ],
+      "applies_to_steps": ["S1", "S3", "S7", "S10"],
+      "validation_expectation": "Existing project decisions and MVP-readiness artifacts must be reused or explicitly excluded."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "The target is bounded and the current step is a strategy proposal.",
+    "explanation": "No subagents are required for the first Body War retargeting run. Subagents can be reconsidered if the confirmed run expands into broad project indexing.",
+    "context": [
+      "Body War project docs",
+      "Arcanum Inventory active development pack"
+    ],
+    "roles": [],
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "permission_prompt": "Confirm to run the Body War-targeted refine route?",
+    "receipt_requirements": [
+      "stage_id",
+      "capability_ref",
+      "status",
+      "artifact_path_or_blocked_reason",
+      "validation"
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["frame_handoff", "x_ray", "memory_loop"],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S1-context-builder.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "block if Body War target cannot be read",
+        "block if Arcanum Inventory source pack is unavailable",
+        "block if selected evidence would require broad repository inventorization"
+      ]
+    },
+    {
+      "step_id": "S2",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["sequence", "artifact_contract_bridge"],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S1-context-builder.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S2-invoke-define.md"
+        }
+      ],
+      "join_policy": "none"
+    },
+    {
+      "step_id": "S3",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "decision",
+      "parallel": false,
+      "techniques": ["approval_checkpoint", "residue_ledger"],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S2-invoke-define.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S3-interrogation-review.md"
+        }
+      ],
+      "join_policy": "human_gate",
+      "stop_conditions": [
+        "block if the first pilot corpus requires mutation before confirmation"
+      ]
+    },
+    {
+      "step_id": "S4",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "no-research",
+      "pattern": "decision",
+      "parallel": false,
+      "techniques": ["approval_checkpoint", "protected_context_flag"],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S3-interrogation-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/S4-research-decision.md"
+        }
+      ],
+      "join_policy": "human_gate"
+    },
+    {
+      "step_id": "S5",
+      "name": "Distill coherent unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": [
+        "x_ray",
+        "minimum_component_catalog",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S4-research-decision.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S5-distill.md"
+        }
+      ],
+      "join_policy": "none"
+    },
+    {
+      "step_id": "S6",
+      "name": "Invoke Redefine Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["entity_component_reference", "owner_boundary_check"],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S5-distill.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S6-invoke-design.md"
+        }
+      ],
+      "join_policy": "none"
+    },
+    {
+      "step_id": "S7",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "decision",
+      "parallel": false,
+      "techniques": ["residue_ledger", "owner_boundary_check"],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S6-invoke-design.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S7-design-review.md"
+        }
+      ],
+      "join_policy": "human_gate"
+    },
+    {
+      "step_id": "S8",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": ["validation_loop", "data_quality_deduplication"],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S7-design-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S8-distill-repair.md"
+        }
+      ],
+      "join_policy": "none"
+    },
+    {
+      "step_id": "S9",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["sequence", "validation_loop"],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S8-distill-repair.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S9-invoke-plan.md"
+        }
+      ],
+      "join_policy": "none"
+    },
+    {
+      "step_id": "S10",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "refine",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "residue_ledger",
+        "observability_grouping",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S9-invoke-plan.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        }
+      ],
+      "join_policy": "human_gate",
+      "stop_conditions": [
+        "block if final synthesis treats Inventory read models as DomainSpec authority",
+        "block if final synthesis recommends pilot mutation without target confirmation"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G1-dispatch-schema",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "REFINE-DISPATCH.json validates before execution.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2-user-confirmation",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "User confirms this Body War strategy before runtime-backed stages run.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3-target-boundary",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "Body War remains target; Arcanum Inventory remains capability source; generated Inventory artifacts remain read models.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G4-pilot-mutation",
+      "kind": "decision",
+      "owner": "operator",
+      "condition": "Pilot slice mutation requires separate target confirmation after plan stage.",
+      "on_fail": "ask"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "strategy_proposed",
+      "dispatch_validated",
+      "authorization_pending",
+      "stage_started",
+      "stage_completed_or_blocked",
+      "final_synthesis_ready"
+    ],
+    "signal_grouping": "refine-inventory-body-war"
+  },
+  "boundary_evidence": {
+    "authority": {
+      "lifecycle": "Refine owns this run; Task Session owns later execution.",
+      "execution": "No runtime-backed stages run until confirmation.",
+      "validation": "Dispatch Spec owns route-shape validation; Inventory validators own later index/link checks.",
+      "evidence": "Body War docs are read-only evidence inputs until confirmed pilot mutation.",
+      "promotion": "Inventory links remain read models and do not promote definitions or ontology."
+    },
+    "state_namespaces": [
+      {
+        "namespace": "body-war-source-docs",
+        "owner": "Body War project",
+        "write_policy": "Read-only during strategy proposal."
+      },
+      {
+        "namespace": "arcanum-inventory-source",
+        "owner": "Arcanum Inventory",
+        "write_policy": "Read-only during Body War retarget proposal."
+      },
+      {
+        "namespace": "generated-inventory-read-models",
+        "owner": "Inventory",
+        "write_policy": "Planned only; pilot mutation requires separate confirmation."
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Do not run a broad Body War repository inventory sweep.",
+    "Do not mutate pilot slices before target confirmation.",
+    "Do not treat Inventory read-model links as DomainSpec relationships or definitions.",
+    "Do not mutate .codex, .arcanum, or generated observability state during refine proposal."
+  ]
+}
