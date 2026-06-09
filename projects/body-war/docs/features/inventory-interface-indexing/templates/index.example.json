@@ -1,0 +1,84 @@
+{
+  "schema_version": "body-war.inventory.index.example.v0.1",
+  "slice_id": "park-track-control",
+  "artifact_role": "template-example",
+  "target_label": "Park Track Control Inventory Slice",
+  "inventory_root": "docs/features/inventory-interface-indexing/",
+  "planned_generated_root": "docs/features/inventory-interface-indexing/pilot/park-track-control/",
+  "source_corpus": [
+    "docs/PROJECT-OVERVIEW.md",
+    "docs/PROJECT-DECISIONS.md",
+    "docs/features/game-rules/SPEC.md",
+    "docs/features/park-track-pilot/DISTILL.md",
+    "docs/features/park-track-pilot/implementation-layering.md",
+    "docs/research/source-notes/"
+  ],
+  "excluded_sources": [
+    ".codex/",
+    ".arcanum/",
+    "domainspec/",
+    "app/prototype code",
+    "raw/source assets outside curated notes"
+  ],
+  "object_index": {
+    "cards": [
+      "inventory.card.body-war.project-identity",
+      "inventory.card.body-war.park-track-control",
+      "inventory.card.body-war.l0-layer",
+      "inventory.card.body-war.first-park-gap"
+    ],
+    "selectors": [
+      "selector.project-overview.identity",
+      "selector.decisions.pd-007",
+      "selector.game-rules.first-candidate-note",
+      "selector.park-track-distill.current-unit",
+      "selector.layering.l0-poc",
+      "selector.decisions.od-005"
+    ],
+    "gaps": [
+      "gap.body-war.pilot-validation-city",
+      "gap.body-war.first-park-track-set",
+      "gap.body-war.track-boundary-format",
+      "gap.body-war.app-backed-validation-implementation"
+    ],
+    "risks": [
+      "risk.body-war.generated-cards-mistaken-for-rules",
+      "risk.body-war.pilot-slice-before-confirmation"
+    ]
+  },
+  "tag_index": {
+    "park-track-control": [
+      "inventory.card.body-war.park-track-control"
+    ],
+    "pilot-readiness": [
+      "inventory.card.body-war.first-park-gap",
+      "gap.body-war.first-park-track-set"
+    ],
+    "manual-evidence": [
+      "inventory.card.body-war.l0-layer"
+    ],
+    "gap": [
+      "inventory.card.body-war.first-park-gap",
+      "gap.body-war.pilot-validation-city",
+      "gap.body-war.first-park-track-set",
+      "gap.body-war.track-boundary-format",
+      "gap.body-war.app-backed-validation-implementation"
+    ]
+  },
+  "file_manifest": [
+    "cards.example.json",
+    "selector-index.example.json",
+    "link-index.example.json",
+    "gap-risk-index.example.json",
+    "index.example.json",
+    "retrieval.example.json"
+  ],
+  "validation_expectations": [
+    "json-parse",
+    "known-edge-vocabulary",
+    "known-card-links",
+    "source-ref-paths-exist-or-are-marked-external",
+    "gap-links-have-owner"
+  ],
+  "updated_at": "2026-06-08"
+}

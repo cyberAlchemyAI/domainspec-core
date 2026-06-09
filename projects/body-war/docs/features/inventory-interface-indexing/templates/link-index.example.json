@@ -1,0 +1,72 @@
+{
+  "schema_version": "body-war.inventory.link-index.example.v0.1",
+  "slice_id": "park-track-control",
+  "artifact_role": "template-example",
+  "edge_vocabulary": [
+    "cites",
+    "summarizes",
+    "indexes",
+    "derived-from",
+    "excludes",
+    "duplicates-risk",
+    "conflicts-with",
+    "hands-off-to",
+    "validates"
+  ],
+  "links": [
+    {
+      "link_id": "link.card.project-identity.cites.project-overview",
+      "from": "inventory.card.body-war.project-identity",
+      "edge": "cites",
+      "to": "selector.project-overview.identity",
+      "evidence": "source_ref",
+      "authority": "inventory-read-model",
+      "non_authority_notice": "Citation proves source backing only; it does not alter the source doc."
+    },
+    {
+      "link_id": "link.card.park-track-control.cites.distill",
+      "from": "inventory.card.body-war.park-track-control",
+      "edge": "cites",
+      "to": "selector.park-track-distill.current-unit",
+      "evidence": "source_ref",
+      "authority": "inventory-read-model",
+      "non_authority_notice": "Citation proves source backing only; it does not promote a canonical ontology relation."
+    },
+    {
+      "link_id": "link.card.park-track-control.derived-from.first-candidate-note",
+      "from": "inventory.card.body-war.park-track-control",
+      "edge": "derived-from",
+      "to": "selector.game-rules.first-candidate-note",
+      "evidence": "synthesis",
+      "authority": "inventory-read-model",
+      "non_authority_notice": "Derived-from records provenance for retrieval and must not be treated as game-rule authority."
+    },
+    {
+      "link_id": "link.index.selector.indexes.l0-layer",
+      "from": "selector.layering.l0-poc",
+      "edge": "indexes",
+      "to": "inventory.card.body-war.l0-layer",
+      "evidence": "source_ref",
+      "authority": "inventory-read-model",
+      "non_authority_notice": "Selector membership supports lookup only."
+    },
+    {
+      "link_id": "link.card.first-park-gap.hands-off-to.product",
+      "from": "inventory.card.body-war.first-park-gap",
+      "edge": "hands-off-to",
+      "to": "body-war/product",
+      "evidence": "open_question",
+      "authority": "inventory-read-model",
+      "non_authority_notice": "The handoff identifies the owner of an unresolved decision; Inventory does not resolve it."
+    },
+    {
+      "link_id": "link.retrieval.excludes.hex-implementation",
+      "from": "retrieval.example.park-track-control-status",
+      "edge": "excludes",
+      "to": "docs/features/game-rules/SPEC.md#Hex Zone",
+      "evidence": "synthesis",
+      "authority": "inventory-read-model",
+      "non_authority_notice": "Exclusion means out of scope for this slice, not invalid or deleted project knowledge."
+    }
+  ]
+}

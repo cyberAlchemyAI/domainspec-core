@@ -1,0 +1,55 @@
+{
+  "schema_version": "body-war.inventory.retrieval.example.v0.1",
+  "retrieval_id": "retrieval.example.park-track-control-status",
+  "slice_id": "park-track-control",
+  "artifact_role": "template-example",
+  "query": "what does Body War know about Park Track Control readiness?",
+  "result_summary": "Park Track Control is the bounded first candidate, but live pilot readiness still depends on choosing a validation city, first park, track boundaries, and implementation path for app-backed validation.",
+  "selected_cards": [
+    {
+      "card_id": "inventory.card.body-war.park-track-control",
+      "why_selected": "Defines the candidate unit and preserves the territory-control loop.",
+      "source_selectors": [
+        "selector.park-track-distill.current-unit",
+        "selector.game-rules.first-candidate-note"
+      ]
+    },
+    {
+      "card_id": "inventory.card.body-war.l0-layer",
+      "why_selected": "Defines the minimum proof shape and deferred complexity.",
+      "source_selectors": [
+        "selector.layering.l0-poc"
+      ]
+    },
+    {
+      "card_id": "inventory.card.body-war.first-park-gap",
+      "why_selected": "Shows the major unresolved live-pilot blocker.",
+      "source_selectors": [
+        "selector.decisions.od-005"
+      ]
+    }
+  ],
+  "excluded_nearby_evidence": [
+    {
+      "source": "docs/features/game-rules/SPEC.md#Hex Zone",
+      "reason": "Hex zones are real game-rule context but out of scope for the first Park Track Control slice."
+    },
+    {
+      "source": "docs/features/game-rules/SPEC.md#XP And Rewards",
+      "reason": "XP/economy rules are not required to answer Park Track Control readiness."
+    },
+    {
+      "source": "docs/research/source-notes/troqar-visual-identity.md",
+      "reason": "Brand evidence is relevant to product presentation but not to this readiness lookup."
+    }
+  ],
+  "gaps": [
+    "gap.body-war.pilot-validation-city",
+    "gap.body-war.first-park-track-set",
+    "gap.body-war.track-boundary-format",
+    "gap.body-war.app-backed-validation-implementation"
+  ],
+  "next_owner": "body-war/product",
+  "next_route": "Resolve first city, first park, and track boundary format before generating the confirmed pilot slice.",
+  "authority_note": "This retrieval is an Inventory read-model example and does not change Body War source docs."
+}

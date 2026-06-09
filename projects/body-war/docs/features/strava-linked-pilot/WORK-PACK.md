@@ -76,9 +76,9 @@ Use `activity:read_all` only if the test athlete needs to import private or Only
 
 | Task ID         | Goal                                                  | Layer | Status                             |
 | --------------- | ----------------------------------------------------- | ----- | ---------------------------------- |
-| STRAVA-TEST-001 | Run local smoke tests without credentials.            | L0    | ready                              |
-| STRAVA-TEST-002 | Configure Strava app credentials and complete OAuth.  | L1    | blocked until credentials exist    |
-| STRAVA-TEST-003 | Fetch activities and submit one run to a pilot track. | L2    | blocked until OAuth passes         |
+| STRAVA-TEST-001 | Run local smoke tests without credentials.            | L0    | pass                               |
+| STRAVA-TEST-002 | Configure Strava app credentials and complete OAuth.  | L1    | pass                               |
+| STRAVA-TEST-003 | Fetch activities and submit one run to a pilot track. | L2    | block: connected athlete returned zero activities |
 | STRAVA-TEST-004 | Test token refresh and error states.                  | L3    | blocked until OAuth passes         |
 | STRAVA-TEST-005 | Review evidence and decide readiness.                 | L3    | blocked until test evidence exists |
 
@@ -250,11 +250,11 @@ Already completed before this plan:
 - Backend compiled once.
 - Local smoke checks returned page/status/track responses without credentials.
 - Dispatch validation returned `VALIDATION=pass`.
+- Test run `test-runs/20260608-strava-test-001.md` passed local smoke and OAuth-start preflight with configured credentials.
+- Test run `test-runs/20260608-strava-test-002-003.md` passed OAuth verification and blocked activity import because Strava returned zero activities.
 
 Still needed:
 
-- Real Strava credentials.
-- Browser OAuth.
 - Live activity fetch.
 - Live submission evidence.
 

@@ -1,0 +1,245 @@
+{
+  "schema_version": "body-war.inventory.cards.example.v0.1",
+  "slice_id": "park-track-control",
+  "artifact_role": "template-example",
+  "authority": "inventory-read-model",
+  "non_authority_notice": "Example cards are source-backed Inventory read models. They do not update Body War rules, decisions, definitions, or ontology.",
+  "cards": [
+    {
+      "id": "inventory.card.body-war.project-identity",
+      "schema_version": "inventory.evidence-card.v0.2",
+      "profile": "full",
+      "card_type": "source-summary",
+      "title": "Body War is the TROQAR project workspace",
+      "summary": "Body War is the internal project id for the TROQAR GPS-based territorial running game workspace.",
+      "source_refs": [
+        {
+          "path": "docs/PROJECT-OVERVIEW.md",
+          "selector": "# Identity",
+          "selector_type": "heading",
+          "fragment_kind": "section"
+        },
+        {
+          "path": "docs/PROJECT-DECISIONS.md",
+          "selector": "PD-001",
+          "selector_type": "query",
+          "fragment_kind": "clause"
+        }
+      ],
+      "authority_level": "discovery-baseline",
+      "tags": [
+        "body-war",
+        "troqar",
+        "project-identity"
+      ],
+      "selection_reason": "Needed as the root identity card for Body War Inventory lookup.",
+      "captured": {
+        "by": "agent",
+        "at": "2026-06-08",
+        "source_stage": "manual"
+      },
+      "promotion_status": "captured",
+      "promotion_owner": "none",
+      "handoff_targets": [
+        "context-builder"
+      ],
+      "related_cards": [
+        "inventory.card.body-war.park-track-control"
+      ],
+      "trace": [
+        {
+          "field": "summary",
+          "rule": "copy project id and brand language from canonical project docs",
+          "source_ref": "docs/PROJECT-OVERVIEW.md#Identity",
+          "confidence": 0.95,
+          "decision": "copied"
+        }
+      ],
+      "updated_at": "2026-06-08"
+    },
+    {
+      "id": "inventory.card.body-war.park-track-control",
+      "schema_version": "inventory.evidence-card.v0.2",
+      "profile": "full",
+      "card_type": "concept",
+      "title": "Park Track Control is the first candidate territory unit",
+      "summary": "Park Track Control narrows the first TROQAR proof to selected parks with two or three named delimited tracks, manual evidence, current controller state, challenge events, and a 48h defense window.",
+      "source_refs": [
+        {
+          "path": "docs/features/park-track-pilot/DISTILL.md",
+          "selector": "## Current Smallest Coherent Unit",
+          "selector_type": "heading",
+          "fragment_kind": "section"
+        },
+        {
+          "path": "docs/features/game-rules/SPEC.md",
+          "selector": "## First Candidate Note",
+          "selector_type": "heading",
+          "fragment_kind": "section"
+        }
+      ],
+      "authority_level": "discovery-baseline",
+      "tags": [
+        "park-track-control",
+        "territory-unit",
+        "pilot",
+        "controller",
+        "defense-window"
+      ],
+      "selection_reason": "Central concept for the first bounded Inventory slice.",
+      "captured": {
+        "by": "agent",
+        "at": "2026-06-08",
+        "source_stage": "distill"
+      },
+      "promotion_status": "captured",
+      "promotion_owner": "none",
+      "handoff_targets": [
+        "context-builder",
+        "invoke"
+      ],
+      "related_cards": [
+        "inventory.card.body-war.l0-layer",
+        "inventory.card.body-war.first-park-gap"
+      ],
+      "claim_shape": {
+        "subject_ref": "Park Track Control",
+        "predicate_label": "pilot-form-of",
+        "predicate_status": "captured",
+        "object_ref": "Territory Unit",
+        "target_resolution": "proposed",
+        "evidence_refs": [
+          "docs/features/park-track-pilot/DISTILL.md## Current Smallest Coherent Unit",
+          "docs/features/game-rules/SPEC.md## First Candidate Note"
+        ],
+        "non_authority_notice": "This relation is an Inventory read model and must not be treated as an ontology relation until promoted by the proper owner."
+      },
+      "trace": [
+        {
+          "field": "summary",
+          "rule": "synthesize matching statements from distill and game-rules first-candidate sections",
+          "source_ref": "docs/features/park-track-pilot/DISTILL.md## Current Smallest Coherent Unit",
+          "confidence": 0.9,
+          "decision": "inferred"
+        }
+      ],
+      "updated_at": "2026-06-08"
+    },
+    {
+      "id": "inventory.card.body-war.l0-layer",
+      "schema_version": "inventory.evidence-card.v0.2",
+      "profile": "full",
+      "card_type": "method",
+      "title": "L0 proves one park and two or three tracks before infrastructure",
+      "summary": "The L0 pilot proof uses one selected park, two or three delimited tracks, manual run evidence, a current controller, challenge state, and a 48h defense window while deferring hexes, app GPS, composite-score authority, clans, economy, and automated anti-cheat.",
+      "source_refs": [
+        {
+          "path": "docs/features/park-track-pilot/implementation-layering.md",
+          "selector": "## Layer 0 - Minimum Working Unit POC",
+          "selector_type": "heading",
+          "fragment_kind": "section"
+        },
+        {
+          "path": "docs/features/park-track-pilot/implementation-layering.md",
+          "selector": "## Deferred Complexity",
+          "selector_type": "heading",
+          "fragment_kind": "section"
+        }
+      ],
+      "authority_level": "discovery-baseline",
+      "tags": [
+        "l0",
+        "pilot-proof",
+        "manual-evidence",
+        "deferred-complexity"
+      ],
+      "selection_reason": "Needed to keep generated slice scope smaller than app or hex implementation.",
+      "captured": {
+        "by": "agent",
+        "at": "2026-06-08",
+        "source_stage": "manual"
+      },
+      "promotion_status": "captured",
+      "promotion_owner": "none",
+      "handoff_targets": [
+        "context-builder",
+        "invoke"
+      ],
+      "related_cards": [
+        "inventory.card.body-war.park-track-control",
+        "inventory.card.body-war.first-park-gap"
+      ],
+      "trace": [
+        {
+          "field": "summary",
+          "rule": "compress included and deferred L0 scope into one retrieval card",
+          "source_ref": "docs/features/park-track-pilot/implementation-layering.md## Layer 0 - Minimum Working Unit POC",
+          "confidence": 0.92,
+          "decision": "inferred"
+        }
+      ],
+      "updated_at": "2026-06-08"
+    },
+    {
+      "id": "inventory.card.body-war.first-park-gap",
+      "schema_version": "inventory.evidence-card.v0.2",
+      "profile": "full",
+      "card_type": "question",
+      "title": "First park and track set remains unresolved",
+      "summary": "The first park and track set is still unresolved and must remain a gap owned by Body War product planning before live runner recruitment.",
+      "source_refs": [
+        {
+          "path": "docs/PROJECT-DECISIONS.md",
+          "selector": "OD-005",
+          "selector_type": "query",
+          "fragment_kind": "clause"
+        },
+        {
+          "path": "docs/features/park-track-pilot/implementation-layering.md",
+          "selector": "## Open Decisions",
+          "selector_type": "heading",
+          "fragment_kind": "section"
+        }
+      ],
+      "authority_level": "discovery-baseline",
+      "tags": [
+        "gap",
+        "first-park",
+        "track-boundaries",
+        "pilot-readiness"
+      ],
+      "selection_reason": "Required gap card so Inventory does not flatten unresolved live-pilot decisions into claims.",
+      "captured": {
+        "by": "agent",
+        "at": "2026-06-08",
+        "source_stage": "manual"
+      },
+      "promotion_status": "blocked",
+      "promotion_owner": "other",
+      "handoff_targets": [
+        "invoke",
+        "context-builder"
+      ],
+      "related_cards": [
+        "inventory.card.body-war.park-track-control",
+        "inventory.card.body-war.l0-layer"
+      ],
+      "residue": {
+        "type": "instance",
+        "status": "open",
+        "surfaced_by": "TASK-BW-INV-003",
+        "note": "Needs Body War product decision, not Inventory generation."
+      },
+      "trace": [
+        {
+          "field": "summary",
+          "rule": "preserve unresolved open decision as a gap card",
+          "source_ref": "docs/PROJECT-DECISIONS.md#Open Decisions",
+          "confidence": 0.94,
+          "decision": "copied"
+        }
+      ],
+      "updated_at": "2026-06-08"
+    }
+  ]
+}

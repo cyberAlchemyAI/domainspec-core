@@ -1,0 +1,105 @@
+{
+  "schema_version": "body-war.inventory.gap-risk-index.example.v0.1",
+  "slice_id": "park-track-control",
+  "artifact_role": "template-example",
+  "gaps": [
+    {
+      "gap_id": "gap.body-war.pilot-validation-city",
+      "label": "Pilot validation city",
+      "status": "open",
+      "owner": "body-war/product",
+      "source_refs": [
+        {
+          "path": "docs/PROJECT-DECISIONS.md",
+          "selector": "OD-002",
+          "selector_type": "query"
+        }
+      ],
+      "next_action": "Choose Campinas, Sao Paulo neighborhood, or another local city before live pilot planning.",
+      "inventory_handling": "preserve-as-gap"
+    },
+    {
+      "gap_id": "gap.body-war.first-park-track-set",
+      "label": "First park and track set",
+      "status": "open",
+      "owner": "body-war/product",
+      "source_refs": [
+        {
+          "path": "docs/PROJECT-DECISIONS.md",
+          "selector": "OD-005",
+          "selector_type": "query"
+        },
+        {
+          "path": "docs/features/park-track-pilot/implementation-layering.md",
+          "selector": "## Open Decisions",
+          "selector_type": "heading"
+        }
+      ],
+      "next_action": "Select one park and two or three delimited tracks before recruiting runners.",
+      "inventory_handling": "preserve-as-gap"
+    },
+    {
+      "gap_id": "gap.body-war.track-boundary-format",
+      "label": "Track boundary description format",
+      "status": "open",
+      "owner": "body-war/product",
+      "source_refs": [
+        {
+          "path": "docs/features/park-track-pilot/implementation-layering.md",
+          "selector": "## Open Decisions",
+          "selector_type": "heading"
+        }
+      ],
+      "next_action": "Decide how L0 describes route boundaries clearly enough for runners and reviewers.",
+      "inventory_handling": "preserve-as-gap"
+    },
+    {
+      "gap_id": "gap.body-war.app-backed-validation-implementation",
+      "label": "App-backed validation implementation path",
+      "status": "open",
+      "owner": "body-war/implementation",
+      "source_refs": [
+        {
+          "path": "docs/PROJECT-DECISIONS.md",
+          "selector": "PD-011",
+          "selector_type": "query"
+        },
+        {
+          "path": "docs/features/game-rules/SPEC.md",
+          "selector": "## Open Decisions",
+          "selector_type": "heading"
+        }
+      ],
+      "next_action": "Design the Strava OAuth, recent activity import, backend, and track evidence submission path outside this Inventory slice.",
+      "inventory_handling": "handoff"
+    }
+  ],
+  "risks": [
+    {
+      "risk_id": "risk.body-war.generated-cards-mistaken-for-rules",
+      "label": "Generated cards mistaken for game-rule authority",
+      "severity": "medium",
+      "source_refs": [
+        {
+          "path": "docs/features/inventory-interface-indexing/ARCHITECTURE.md",
+          "selector": "## Risks",
+          "selector_type": "heading"
+        }
+      ],
+      "mitigation": "Keep non-authority notices on relation-like cards and links."
+    },
+    {
+      "risk_id": "risk.body-war.pilot-slice-before-confirmation",
+      "label": "Pilot slice generated before operator confirmation",
+      "severity": "high",
+      "source_refs": [
+        {
+          "path": "docs/features/inventory-interface-indexing/WORK-PACK.md",
+          "selector": "B-BW-PILOT-CONFIRMATION",
+          "selector_type": "query"
+        }
+      ],
+      "mitigation": "Do not create pilot/park-track-control until target confirmation and validator checks pass."
+    }
+  ]
+}

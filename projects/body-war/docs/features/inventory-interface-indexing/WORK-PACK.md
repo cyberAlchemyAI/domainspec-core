@@ -22,7 +22,7 @@ owners:
 | architectureRef       | `ARCHITECTURE.md`        | Boundary and component model.                             |
 | implementationPlanRef | `IMPLEMENTATION-PLAN.md` | Delivery slices and task order.                           |
 | activeLayerWindow     | L0-L3                    | Feature baseline through readiness sync.                  |
-| readinessProfile      | ready-for-task-session   | Ready for `TASK-BW-INV-003`.                              |
+| readinessProfile      | blocked-at-decision-gate | `TASK-BW-INV-005` requires target confirmation.           |
 
 ## Objective Summary
 
@@ -75,9 +75,9 @@ Out of scope:
 | --------------- | --------------------------------------------------------------------------- | ----- | ---------- | -------------------------------------- | ----------- |
 | TASK-BW-INV-001 | Create Body War Inventory feature pack baseline.                            | L0    | low        | ready                                  | completed   |
 | TASK-BW-INV-002 | Add target proposal and chat-view templates for Body War.                   | L0    | medium     | ready-after-001                        | completed   |
-| TASK-BW-INV-003 | Add Body War selector/link/index example templates.                         | L1    | medium     | ready-after-001                        | ready       |
-| TASK-BW-INV-004 | Add validator checks or fixtures for Body War source refs, links, and gaps. | L2    | medium     | blocked-by-003                         | not-started |
-| TASK-BW-INV-005 | Confirm and create Park Track Control pilot slice.                          | L2    | medium     | blocked-by-004-and-target-confirmation | not-started |
+| TASK-BW-INV-003 | Add Body War selector/link/index example templates.                         | L1    | medium     | ready-after-001                        | completed   |
+| TASK-BW-INV-004 | Add validator checks or fixtures for Body War source refs, links, and gaps. | L2    | medium     | ready-after-003                        | completed   |
+| TASK-BW-INV-005 | Confirm and create Park Track Control pilot slice.                          | L2    | medium     | blocked-by-target-confirmation         | blocked     |
 | TASK-BW-INV-006 | Add lookup/status/explain examples.                                         | L2    | medium     | blocked-by-005                         | not-started |
 | TASK-BW-INV-007 | Sync readiness and next-route handoff.                                      | L3    | low        | blocked-by-006                         | not-started |
 
@@ -88,8 +88,8 @@ Out of scope:
 | SWU-BW-INV-001 | TASK-BW-INV-001 | Create baseline feature pack docs.             | `docs/features/inventory-interface-indexing/` | required four files exist                                         | file presence and grep | completed |
 | SWU-BW-INV-002 | TASK-BW-INV-002 | Add target confirmation template.              | feature folder templates path                 | template names included/excluded/write path/generated files/risks | review                 | completed |
 | SWU-BW-INV-003 | TASK-BW-INV-002 | Add status/explain/lookup chat view templates. | feature folder templates path                 | views show selected evidence, exclusions, gaps, next owner        | review                 | completed |
-| SWU-BW-INV-004 | TASK-BW-INV-003 | Add selector/link/index examples.              | feature folder templates path                 | examples parse as JSON                                            | `jq empty`             | ready     |
-| SWU-BW-INV-005 | TASK-BW-INV-004 | Add validator fixture/check plan.              | feature folder or future script path          | bad refs/edges/missing gaps fail                                  | fixture review         | blocked   |
+| SWU-BW-INV-004 | TASK-BW-INV-003 | Add selector/link/index examples.              | feature folder templates path                 | examples parse as JSON                                            | `jq empty`             | completed |
+| SWU-BW-INV-005 | TASK-BW-INV-004 | Add validator fixture/check plan.              | feature folder or future script path          | bad refs/edges/missing gaps fail                                  | fixture review         | completed |
 | SWU-BW-INV-006 | TASK-BW-INV-005 | Confirm and create pilot slice.                | `pilot/park-track-control/`                   | cards/index/retrieval/coverage exist and pass                     | slice validation       | blocked   |
 
 ## Blockers
@@ -97,7 +97,6 @@ Out of scope:
 | Blocker ID                | Scope      | Description                                                                             | Owner              | Next Action                                                   |
 | ------------------------- | ---------- | --------------------------------------------------------------------------------------- | ------------------ | ------------------------------------------------------------- |
 | B-BW-PILOT-CONFIRMATION   | pilot      | Pilot slice mutation requires target confirmation.                                      | operator/inventory | Ask before `TASK-BW-INV-005`.                                 |
-| B-BW-VALIDATOR            | pilot      | Pilot proof waits for index/link examples and validator checks.                         | inventory          | Complete `TASK-BW-INV-003` and `TASK-BW-INV-004`.             |
 | B-BW-LIVE-PILOT-DECISIONS | live pilot | First park, track boundaries, validation channel, and scoring metric remain unresolved. | body-war/product   | Preserve in gap queue; resolve before live runner experiment. |
 
 ## Gate Checks
@@ -113,5 +112,7 @@ Out of scope:
 
 | Date       | Change                                                           | Author |
 | ---------- | ---------------------------------------------------------------- | ------ |
+| 2026-06-08 | Completed `TASK-BW-INV-004`; added validator checks and invalid fixtures, then stopped at the target confirmation blocker for `TASK-BW-INV-005`. | Codex  |
+| 2026-06-08 | Completed `TASK-BW-INV-003`; added selector, link, index, gap/risk, card, and retrieval JSON examples. | Codex  |
 | 2026-06-08 | Completed `TASK-BW-INV-002`; added target confirmation and chat-view templates. | Codex  |
 | 2026-06-08 | Completed `TASK-BW-INV-001`; created baseline feature pack docs. | Codex  |

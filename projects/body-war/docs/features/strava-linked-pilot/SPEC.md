@@ -41,6 +41,7 @@ Strava-Linked Pilot is the first app-backed validation channel for TROQAR / Body
 | ---------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | `IMPLEMENTATION-LAYERING.md` | L0-L3 test layer boundaries and promotion evidence.                                                               |
 | `WORK-PACK.md`               | Executable test plan for local smoke, OAuth, activity import, submission, failure handling, and readiness review. |
+| `test-runs/20260608-strava-test-001.md` | First local smoke and OAuth-start preflight report. |
 
 ## API Contract
 
