@@ -11,6 +11,11 @@ created_by: victorboscaro@gmail.com
 > Orientation document for Victor. Plain language, lots of context, lean.
 > Every factual claim points to the file it came from. Where something is **designed
 > but not built**, it is marked ⚠️.
+>
+> Sibling docs: [`system-view.md`](system-view.md) gives the same product at a tighter
+> "shape" altitude (stakeholder-facing); [`engineer-view.md`](engineer-view.md) owns the
+> contracts, schemas, and the decision-inventory verdicts. This doc is the plain-language
+> walkthrough + the open business questions.
 
 ## Objective
 
@@ -61,8 +66,12 @@ against a type-Y funding source*. That signature never changes. (Post-award repo
 v0.2 Data Collector / Report Generator work in section 7 — is a *second* fixed-shape task
 layered on top; "the task is fixed" means each task has a stable signature, not that the
 system only ever does one thing.) What changes — and what gives the product its value — is
-the **knowledge** that enters the agents' context window, which gets smarter every cycle. The
-product does **not** train new models; it improves what it hands to the models. Source:
+the **knowledge** that enters the agents' context window. The product does **not** train new
+models; it improves what it hands to the models. That improvement is not hill-climbing toward
+any single target: the shared cards stay **general guardposts** the AI works within, and the
+deep, compounding edge is **per-org** — the accumulated context each client builds (its KFR and
+Match DB; the Funder Intelligence DB is a *shared*, cross-org asset, not per-org). See §5, §6,
+and §8 Q1. Source:
 [CLAUDE.md](../CLAUDE.md) (substrate LOCKED; refinement via cards, not via weights).
 
 ---
@@ -233,10 +242,13 @@ see the table in section 6.
 
 ### The learning loop (the heart — and the single biggest gap)
 
-The idea: each grant result (won/lost) becomes an *insight* that improves the cards for the
-next cycle, so the product compounds. **⚠️ Today, nothing learns automatically.** The "gets
-smarter every cycle" story is *designed, not built* — a human currently edits the cards by
-hand after each grant. This is the largest gap between the vision and what runs, and section 8
+The idea: each grant result (won/lost) becomes an *insight*. An insight can refine the shared
+cards, but only up to a **general guardpost level** — they are never hill-climbed toward a
+single metric (see §8 Q1) — while the deeper, defensible compounding accrues **per-org** in the
+accumulated context (KFR, Match DB). **⚠️ Today, nothing in the automatic learning loop is
+built** — neither shared-card refinement nor per-org accumulation feedback runs by itself. The
+whole loop is *designed, not built* — a human currently edits the cards by hand after each
+grant. This is the largest gap between the vision and what runs, and section 8
 treats the loop as the (still-hypothetical) value engine.
 
 ---
@@ -295,13 +307,16 @@ This is the easiest confusion to fall into. Three layers:
 |---|---|---|
 | **The task** | "grant for company X, funding Y" | **Given, fixed forever.** |
 | **Funder hard constraints** | eligibility rules, format, deadline | **Given by the funder. Binary — you obey, fail-closed.** You only optimize your ability to *detect* and *satisfy* them. |
-| **Funder graded objectives** | the scoring rubric, the panel's political read | **Given by the funder — but you *do* optimize your response toward them.** The Judge/Red Team loop maximizes your draft's score against the funder's own rubric. |
-| **The cards (knowledge)** | search vocabulary, evidence schema, language register, how to argue each logic | **Optimized** — they start expert-authored, and the loop refines them over the cycles. |
+| **Funder graded objectives** | the scoring rubric, the panel's political read | **Given by the funder — but you *do* optimize your response toward them, per proposal.** The Judge/Red Team loop maximizes *this draft's* score against the funder's own rubric. This is per-proposal scoring — it does not hill-climb the shared cards toward a metric. |
+| **The cards (knowledge)** | search vocabulary, evidence schema, language register, how to argue each logic | **General guardposts, kept general by design — not a maximization surface.** Expert-authored; the loop may refine them, but only up to a *general* level the AI then works *within* — they are not maximized toward any north-star metric. The deep optimization is per-org (KFR, Match DB), inside these guardposts. |
 | **The execution parameters** | temperature per seat, variants, model team, delegation mode | **Optimized** (⚠️ the "calibration discipline" is missing — not even properly designed). |
 
 **Rule of thumb:** funder *constraints* you obey (fail-closed); funder *objectives* you
-optimize *toward* (the rubric is given, but your response surface over it is the whole game);
-your *craft knowledge* (the cards) is the lever you accumulate over time.
+optimize *toward* **on a single proposal** (the rubric is given, and the Judge/Red Team loop
+scores *that draft* against it — per-proposal scoring, not card hill-climbing); your
+*craft knowledge* (the cards) is a set of **general guardposts** you refine but do not maximize
+toward a metric. The thing that actually compounds is the **per-org / individual** accumulated
+context (KFR, Match DB) — where decentralization, sovereignty, and individuality live.
 
 And a fourth phenomenon that isn't optimization but still makes the system better:
 **corpus accumulation** — the KFR (client facts), the Funder Intelligence Database, and the
@@ -310,8 +325,10 @@ sovereignty promise cuts the other way: the client owns and can walk away with a
 the per-client corpora (KFR, Match DB) are Law-3-isolated, so they neither lock a client in
 nor transfer to other clients. The only cross-client asset is the Funder Intelligence DB — and
 it is the *least* defensible (Grants.gov, SAM.gov, and rubrics are largely public). The honest
-version: there is **no lock-in moat by design**; the defensible thing is the *rate* of
-intelligence improvement, not the static corpus (see section 8, Q3). Source:
+version: there is **no lock-in moat by design**; the defensible thing is chiefly the **per-org
+accumulated context** (the org's own KFR and Match DB) plus each org's work *within* the general
+guardposts — not the static corpus and not maximized shared cards. Cross-client shared-intelligence
+improvement is real but **bounded to a general guardpost level** (see §6, §8 Q1). Source:
 [architecture_v7_0_5_amendment.md](../pipeline/architecture/v0.1/architecture_v7_0_5_amendment.md).
 
 ---
@@ -355,11 +372,13 @@ The card is the **archetype default**; the client's `PROJECT_CONTEXT` **override
 needed (`match_overrides take precedence`). Sources:
 [food_systems.yaml](../pipeline/cards/CIC/food_systems.yaml), [CLAUDE.md](../CLAUDE.md).
 
-**Business consequence (answering "do I optimize per client?"):** you optimize the **whole
-system** almost always. A lesson learned from client A's grant (Food Systems) improves the
-Food Systems card for **all** Food Systems clients. Per-client is just a thin override. It's
-this compounding effect — one client pays for the learning, all the others reap it — that is
-the product's value thesis.
+**Business consequence (answering "do I optimize per client?"):** there are **two optimization
+surfaces**, and the system uses both. One is the **shared card** — a lesson learned from client
+A's grant (Food Systems) can improve the Food Systems card for all Food Systems clients; the
+card is kept general (a guardpost), so this is the *compounding* surface ("one pays, others in
+the same world reap it"). The other is the **per-org / per-project** layer, where each client
+tunes within that guardpost on its own terms — the *sovereignty* surface. Neither subordinates
+the other: the shared layer stays a loose frame; the specific work happens inside it.
 
 ---
 
@@ -459,100 +478,53 @@ note §"Support Agents" lists an older "email/text/voice" — the doc uses the n
 
 ---
 
-## 8. Open questions (business & optimization)
+## 8. Open questions (business)
 
-These are the open **business** questions — how the product creates value, what we optimize
-*toward*, and how it grows. (Development gaps are a separate track: they're marked ⚠️ inline
-throughout this doc and are deferred for now — they are *how* we build, not *what makes this a
-business*.)
+The development gaps (⚠️ inline above) are a separate track. These are the **business**
+questions — how the product creates value and grows. Each is one question, one stance.
 
-*The compounding-value engine: every grant outcome can become an insight that improves the cards — so the next client in the same CIC starts smarter. This loop is what turns a one-off tool into an asset that appreciates. The open questions below are all about making this engine pay.*
+1. **What do we optimize *toward*? — ANSWERED (Josh).** We do **not** maximize the cards toward
+   a single metric. The cards are **guardposts** — kept deliberately general — that the AI then
+   works within, per organization and per project. There are two optimization surfaces: the
+   shared card (general) and the org/project layer (specific). This *is* decentralization and
+   sovereignty in practice. (It also sidesteps a real trap — over-tuning one shared metric is
+   exactly what would corrupt a shared card for every client in that world.)
 
-```mermaid
-flowchart LR
-  O[Grant outcome - won or lost] --> PC[Insight - what worked or failed]
-  PC --> OD{Operator approves}
-  OD -->|approved| KP[Card update]
-  KP --> Cards[Smarter cards and funder intelligence]
-  Cards -.next cycle and next client start smarter.-> O
-  OD -->|rejected| R[residue - logged, not applied]
-```
+2. **Deep or wide — who is the second client?** Shared-card benefit only accrues when clients
+   share a CIC — and even then only up to the *general guardpost level* on the funder-shareable
+   slice (per Q1 the shared cards are not maximized toward a metric); the deep, defensible
+   compounding is per-org (KFR, Match DB), not the shared card. *Stance:* go deep in one CIC for the first cohort
+   (3–5 clients) to prove the loop, then go wide — wide is what escapes a small TAM and spreads
+   the risk that one budget cut wipes the whole book. Watch the trap: same-CIC clients may
+   compete for the same grants.
 
-1. **What do we optimize *toward*? (the north-star metric.)** The cards get smarter every
-   cycle — but smarter toward *what*? And beware: whatever you pick, the card-refinement loop
-   will drive the whole CIC's corpus toward that metric's failure mode at once. Each single
-   metric is gamed: **win rate** → cherry-pick easy grants, decline hard ones (the
-   `declined_cycle` lever already exists — you win the ratio by shrinking the denominator);
-   **dollars won** → chase big long-shots, ignore cost-to-win; **operator hours saved** →
-   decoupled from outcomes entirely (draft fast, win nothing). **Recommendation:** don't pick
-   one — use a guardrailed composite: primary = *expected dollars won* (award size × calibrated
-   win-probability), with hard floors on hours-per-dollar-won and on opportunities-attempted,
-   and track each metric's gamed counter-metric explicitly.
+3. **How do we price without breaking sovereignty?** There is no lock-in moat — the client owns
+   and can walk with everything. *Stance:* charge for the *stream* of intelligence improvements
+   (a subscription to getting better), not for holding data hostage. Decide which is
+   load-bearing: sovereignty or recurring revenue. (Per Q1, the rate-of-improvement edge
+   applies to the **per-org** accumulated context — KFR and Match DB; the shared cards stay
+   general guardposts, not a maximized surface.)
 
-2. **Deep or wide — who is the second client?** The value thesis ("one client pays for the
-   learning, all the others reap it") only compounds when clients **share a CIC** — and even
-   then only on the *funder-shareable* slice (Law 3 keeps client facts private; see Q4), so
-   honestly it's "one pays, same-CIC clients reap the shareable part." Two tensions the thesis
-   hides: (a) **free-rider / cannibalization** — same-CIC clients often compete for the *same*
-   grants, so improving the shared card with client A's winning insight arms client B against A
-   next round; and (b) the **early client** pays full price for the dumbest version of the card
-   and subsidizes everyone after. **Recommendation:** go *deep* in one CIC for the *first
-   cohort* (3–5 clients) to harden white-glove and prove the loop — but treat that as a
-   sequencing tactic, not the business shape. Going wide later is what (i) escapes a small,
-   grant-dependent, low-ability-to-pay single-CIC TAM, (ii) diversifies the concentration risk
-   that one federal budget cut wipes the whole book, and (iii) actually validates the CIC×CLC
-   generality the architecture was built for. Design an early-adopter incentive and a
-   within-CIC anti-cannibalization policy before stacking clients.
+4. **How much is shareable across clients?** Funder-side intelligence is shareable; client facts
+   are not (Law 3). The bigger the shareable layer, the stronger the network effect. *Stance:*
+   treat that boundary as a business decision, not only a privacy one. (Per Q1, the shared
+   advantage is bounded to the **general guardpost layer** — not a shared surface hill-climbed
+   toward a metric.)
 
-3. **How do we price and capture value without breaking the sovereignty promise?** This is a
-   genuine contradiction to resolve, not just a pricing choice. The "moat" (KFR, Funder
-   Intelligence DB, Match DB) is something the client owns and can walk away with — so it isn't
-   a moat. And the fix below — a *continuously-updating* shared-intelligence subscription — is
-   in direct tension with the "nothing is held hostage" promise (if updates stop when you stop
-   paying, something *is* held hostage). Sovereignty + BYOK also deliberately demolish the
-   lock-in that every vertical-SaaS moat relies on. **Recommendation:** separate "what the
-   client owns outright" (their data, their machine, today's snapshot) from "the
-   shared-intelligence subscription" (the *stream* of card + funder-DB improvements) — and
-   accept that the defensible asset is the *rate of improvement* (out-improving the snapshot a
-   client could walk with, faster than it decays), not captivity. Decide explicitly which is
-   load-bearing — sovereignty or recurring revenue — before pricing on top of it.
+5. **Does the model generalize beyond grants?** ⚠️ Unproven — the two-axis model was *derived
+   from* grants, so the claim is circular. *Stance:* test it with one cheap non-grant pilot
+   before counting the bigger market.
 
-4. **How much intelligence is shareable across clients vs. locked by Law 3?** The network
-   effect — and the Stage-5 commons — depends on cross-client sharing, but Law 3 isolates
-   client data. Funder-side intelligence (rubrics, funder docs, what wins a given funder) is
-   shareable; client-side facts are not. The bigger the shareable layer, the stronger the
-   *shared-intelligence advantage* (not a lock-in moat — see Q3; the client can still walk with
-   their copy). **Recommendation:** treat the shareable/private boundary as a *business*
-   decision (how strong can the network effect get?), not only a privacy one.
-
-5. **Does the two-axis model generalize beyond grants? (the market-size question.)** ⚠️
-   *Unproven, and currently circular* — the CIC×CLC model was *derived from* the grant world
-   (RFAs as source-of-truth, federal solicitation vocabulary, funder rubrics, political-dialect
-   admin-risk), so "it generalizes" leans on n=1 where the 1 was reverse-engineered from the
-   domain. Adjacent markets may keep the *structure* but lose the *content* that made it
-   valuable — e.g. a loan application's "why money flows" axis collapses to essentially one
-   logic (Credit & Underwriting), dissolving the 8-CLC richness. **Recommendation:** treat any
-   non-grant TAM as a hypothesis to *kill or confirm* with one cheap pilot — and keep it out of
-   any sizing or pitch material until that pilot lands.
-
-6. **What is the real throughput ceiling? (the scaling constraint nobody priced.)** Smarter
-   cards don't lift the binding limit: **one operator's approval hours**. Every cycle needs the
-   operator to review the verified-fit list, approve each sensitive-term substitution
-   individually (Law 4, never silent), and sign the classification + cycle gates. The
-   compounding loop makes cards better but does *nothing* for this ceiling — so "stack clients
-   in one CIC" (Q2) saturates at max-clients-per-operator, not at a software limit. The only
-   lever that raises it is the **Synthesizer** gear (full delegation) — which trades directly
-   against the no-silent-rewrite trust promise. Separately, **BYOK-only** forecloses any
-   inference markup and turns every client's provider-key lifecycle into per-client support load
-   on hardware you can't remote into — a cost that does *not* compound down as the cards
-   improve. **Recommendation:** model max-clients-per-operator and the per-client support-cost
-   curve *before* costing the deep-CIC growth plan; decide whether white-glove key management
-   and higher-delegation gears are paid tiers.
+6. **What is the real scaling ceiling?** One operator's approval hours — smarter cards don't
+   lift it. *Stance:* model clients-per-operator before planning growth. (BYOK also blocks any
+   inference markup.)
 
 ---
 
 ## Connections
 
+- Sibling docs: [system-view.md](system-view.md) (shape / stakeholder altitude),
+  [engineer-view.md](engineer-view.md) (contracts, schemas, decision-inventory verdicts).
 - Primary source: [projects/goldenquill/](../) (README, CLAUDE.md, cards, eligibility_filter, lessons).
 - Product generalization: [projects/ontologize/PRODUCT.md](../../ontologize/PRODUCT.md),
   [DAG-AND-METRICS.md](../../ontologize/DAG-AND-METRICS.md).
