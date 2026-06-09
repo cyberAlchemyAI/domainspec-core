@@ -34,8 +34,10 @@ parallel pilots (cap factory + logistics company), led by evidence-linked BI.
 - R-B Deliverable leads with evidence-linked BI; closes the five inherited GoldenQuill gaps
   (meta-metrics, buyer readiness, consequence/cost per decision, current→target transition, failure modes).
 - R-C Method install is staged: each layer produces standalone value before the next.
-- R-D Every capability claim to a client is tagged proven (GoldenQuill precedent) or hypothesis
-  (with a validation step). Honesty gate from [L2](levels/L2-product-closure-plan.md) G1.
+- R-D Honesty is enforced at two altitudes: **document-level** capability claims are tagged
+  proven/hypothesis in prose (G-honesty-doc); **DAG nodes** (N3 MetricObservation / N4 PromotionCandidate
+  / N6 KnowledgeProjection) carry formal `veracidade` + `evidence_refs`, checked deterministically by the
+  L0 validator (G-honesty-node). Honesty gate from [L2](levels/L2-product-closure-plan.md) G1.
 - R-E Proof is measured independently per vertical, then compared to evidence generalization (R1).
 - R-F Privacy/governance: a signed classification register gates data movement before any agent runs.
 - R-G Optimization chains connect operational actions to KPI movement using a named method, claim

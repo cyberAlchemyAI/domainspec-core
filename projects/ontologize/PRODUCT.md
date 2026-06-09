@@ -20,9 +20,12 @@ governance. Primary buyer: an ops/data or AI lead with an executive sponsor.
 
 Most companies produce work and dashboards but don't _learn_ from outcomes systematically:
 
-- Metrics collapse — a single number (win rate, conversion, NPS) hides lifecycle depth, realization
-  gap, and evidence quality, and nobody can trace where it came from. **[proven]** GoldenQuill showed
-  flat win-rate hides four dimensions.
+- Metrics collapse — a single number (win rate, conversion, NPS) can fail in two independent ways one
+  number cannot see: **concept erasure** (the schema drops a dimension — lifecycle depth, realization
+  gap, evidence quality) and **number hallucination** (the value is distorted — wrong denominator,
+  invented rows), and nobody can trace where it came from. **[proven]** GoldenQuill showed flat win-rate
+  hides four dimensions. **[hypothesis]** the two-axis framing is an interpretive grounding (see
+  DAG-AND-METRICS §5), not a mathematical proof.
 - Knowledge is ungoverned — lessons live in staff memory and stale docs; private signal leaks into
   shared "truth," or useful learning never gets reused safely. **[proven]** the promotion DAG exists
   precisely to stop "turning a draft or dashboard number into reusable authority too early."
@@ -42,9 +45,11 @@ Most companies produce work and dashboards but don't _learn_ from outcomes syste
    (source-truth, contradiction path, privacy redaction, metric≠authority). **[proven]** the 11-rule
    L0 validator + state model.
 4. **Evidence-linked BI + governed agents** — rebuild KPIs so each traces to its evidence chain
-   (anti-collapse, anti-drift) and emit counterfactual receipts; route the agent workforce by ontology
+   (anti-collapse, anti-drift), carries an explicit `veracidade` grade + `evidence_refs` (so BI is
+   _graded_, not just traceable), and emit counterfactual receipts; route the agent workforce by ontology
    and govern it with deterministic gates + per-agent self-validation. **[proven]** KPI families +
-   CycleReceipt + Council/Logician/cross-family rigor.
+   CycleReceipt + Council/Logician/cross-family rigor. **[hypothesis]** the per-node veracidade grade is
+   an adaptation, validated in the pilot.
 
 ## What proves it works
 
@@ -75,8 +80,13 @@ lifted from the GoldenQuill client package.
 
 - The cross-vertical generalization is a **hypothesis** until a non-grant pilot proves it.
 - GoldenQuill gaps we inherit and must address (or list as backlog): meta-metrics on whether the
-  governance layer itself works; buyer-readiness scaffolding; consequence/cost statements per
-  decision; an explicit current→target transition plan; failure modes in buyer language.
+  governance layer itself works (the per-node `veracidade` field opens one — *what fraction of promoted
+  KnowledgeProjections were `veracidade: high` at decision time?*); buyer-readiness scaffolding;
+  consequence/cost statements per decision; an explicit current→target transition plan; failure modes
+  in buyer language.
+- The anti-collapse "concept erasure vs number hallucination" framing is borrowed as an interpretive
+  principle from the DomainSpec two-layer framework; the underlying Lean result is about data migration
+  and is silent on metrics — we do not claim a proof that KPIs cannot collapse.
 - No pricing, contract terms, or named client engagements are authorized in this artifact.
 
 ## Why "CyberAlchemy"

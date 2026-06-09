@@ -23,7 +23,7 @@ Layer gate: SWU-3+ may start only after SWU-2 evidence passes; SWU-6 after SWU-5
 ### T1 — Assessment instrument (SWU-1)
 
 - **Do:** Author the repeatable assessment template per [PLAN IDS-1](PLAN.md): sections for the two
-  ontology axes (with operational primitives), data-inventory, agent-inventory, Four-Autonomy maturity
+  ontology axes (with card primitives), data-inventory, agent-inventory, Four-Autonomy maturity
   rubric (0–3 each).
 - **Write scope:** `projects/ontologize/assessment/`.
 - **Acceptance:** template covers all IDS-1 outputs; orthogonality check present; maturity rubric scorable.
@@ -51,10 +51,18 @@ Layer gate: SWU-3+ may start only after SWU-2 evidence passes; SWU-6 after SWU-5
 ### T3 — Install method, logistics (SWU-3)
 
 - **Do:** Install L-ont → L-reg → L-dag → L-bi per [DESIGN View 2](DESIGN.md) + [PLAN IDS-2](PLAN.md).
-  Sign the classification register before any agent runs (G-privacy).
+  Sign the classification register before any agent runs (G-privacy). Stand up the append-only
+  `promotion_events` ledger ([ENGINE.md §2](ENGINE.md)) as part of L-dag.
 - **Write scope:** `projects/ontologize/pilots/logistics/method/`.
-- **Acceptance:** four layers installed; each layer's evidence gate passes; register signed.
-- **Check:** DAG gate ruleset dry-run on sample historical shipments passes the 6 core rules.
+- **Acceptance:** four layers installed; each layer's evidence gate passes; register signed;
+  `promotion_events` table created and write-only (agents INSERT, never UPDATE/DELETE); the
+  G-honesty-node check is exercised — every N3/N4/N6 node carries `veracidade`; `veracidade: high`
+  requires non-empty `evidence_refs`.
+- **Check:** DAG gate ruleset dry-run on sample historical shipments passes the full L0 ruleset (the
+  11 GoldenQuill rules + the contradiction gate) per [DAG-AND-METRICS §7](DAG-AND-METRICS.md); a
+  GATE_BLOCK row is written for a deliberately rule-violating sample record; the fixture pack's negative
+  cases include missing `veracidade`, `veracidade: high` with empty `evidence_refs`, and a candidate
+  with `veracidade: low` promoted without an `approved_allowed_uses` override.
 - **Depends on:** T2.
 
 ### T4 — Deliverable template v1 (SWU-4)
@@ -70,10 +78,11 @@ Layer gate: SWU-3+ may start only after SWU-2 evidence passes; SWU-6 after SWU-5
 
 - **Do:** Pick one evidence-linked metric (D-defer-1), define its evidence chain + denominator +
   baseline, measure movement per [PLAN IDS-3](PLAN.md), and express the result as an optimization
-  chain per [OPTIMIZATION-CHAIN-METHOD.md](OPTIMIZATION-CHAIN-METHOD.md).
+  chain (the BI-expression layer) per [OPTIMIZATION-CHAIN-METHOD.md](OPTIMIZATION-CHAIN-METHOD.md).
 - **Write scope:** `projects/ontologize/pilots/logistics/proof.md` plus one optimization-chain fixture.
 - **Acceptance:** metric traces to source events; baseline + post value + interpretation limits recorded;
-  optimization-chain fixture validates against schema.
+  the proof metric (N3) carries `veracidade` + non-empty `evidence_refs` (a proof metric should be
+  `veracidade: high`); the optimization-chain fixture validates against schema.
 - **Check:** an independent reviewer reproduces the number from the evidence chain and validates the
   optimization-chain fixture.
 - **Depends on:** T4. **Promotes L1→L2 on pass.**
@@ -105,7 +114,9 @@ Layer gate: SWU-3+ may start only after SWU-2 evidence passes; SWU-6 after SWU-5
   (1, 4) = separate `sigil-development` route.
 - **Write scope:** `pilots/<vertical>/lane-b/` + any new sigil packages via sigil-development (not here).
 - **Acceptance:** Bridge 2 + 3 working on the pilot's real events (dispatch routes; the 11 rules block
-  violations); Bridge 1 at least advisory; Bridges 4/5 scoped or stubbed.
+  violations); Bridge 1 at least advisory; Bridges 4/5 scoped or stubbed. Each working bridge names its
+  operating engine agent ([ENGINE.md §1](ENGINE.md): Bridge 2 = Intake, Bridge 3 = Gate Runner, Bridge
+  4/5 = Promotion Scorer).
 - **Check:** an OutcomeEvent routes to a card and a rule-violating PromotionCandidate is blocked.
 - **Depends on:** T2b (lane = B or Hybrid) + T3 (method install). Owner: sigil-development / task-session.
 

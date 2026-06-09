@@ -22,6 +22,19 @@ Of the five bridges: **3 EXTEND** existing sigils (config + a custom entry type)
 | L-dag promotion DAG           | `inventory` evidence-cards/EvidenceSets (state, `source_refs`, `promotion_owner`) + `ontology-vault` `distill-sessions` (candidates) + `promote-confidence` (owner decision, falsification, blocks premature promotion) + `inventory lint` (see **Bridge 3**) | reuse + extend  |
 | L-bi BI + agents              | `inventory` `lookup`/`query` + `context-builder` obligation-covered handoff packs feed agents; metric drift = **Bridge 4**; observability spine = observability-setup + observed-invocation-loop                                                              | reuse + net-new |
 
+## Bridge → engine agent
+
+Each bridge is *operated by* one engine agent (see [ENGINE.md](ENGINE.md)) — the bridge is the
+capability, the agent is the runtime actor. The engine adds no build items beyond these five bridges.
+
+| Bridge                          | Engine agent             |
+| ------------------------------- | ------------------------ |
+| Bridge 2 (event→card dispatch)  | **Intake Agent**         |
+| Bridge 3 (11-rule lint)         | **Gate Runner Agent**    |
+| Bridge 4 (metric drift)         | **Promotion Scorer Agent** (metric trend) |
+| Bridge 5 (reflection cadence)   | **Promotion Scorer Agent** (candidate batching) |
+| Bridge 1 (signed register)      | operator (human) — advisory in pilot-1 |
+
 ## The five bridges
 
 ### Bridge 1 — Signed classification register · **NET-NEW** · owner: sigil-development

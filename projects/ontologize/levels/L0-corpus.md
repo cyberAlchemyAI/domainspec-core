@@ -6,7 +6,7 @@ Read-only. Each item is a concrete, citable artifact.
 ## Ontology substrate
 
 - `projects/goldenquill/CLAUDE.md` — CIC (6 Customer Identity Cards) × CLC (8 Capital Logic
-  Cards) taxonomy; orthogonality rule; the five operational primitives each card configures.
+  Cards) taxonomy; orthogonality rule; the five card primitives each card configures.
 - `projects/goldenquill/assets/cards/customer_identification/`, `assets/cards/capital_logic/` — card assets.
 - `projects/goldenquill/pipeline/cards/models.py` — frozen-dataclass card models, lifecycle, signature gate.
 - `projects/goldenquill/pipeline/orchestrator/classification_review.py` — per-org signed classification register.

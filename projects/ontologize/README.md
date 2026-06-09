@@ -39,6 +39,7 @@ Define → design → plan baseline for executing the engagement:
 - [IMPLEMENTATION-LAYERING.md](IMPLEMENTATION-LAYERING.md) — L0–L3 value/cost layers
 - [PLAN.md](PLAN.md) — implementation plan + detail specs
 - [WORK-PACK.md](WORK-PACK.md) — SWUs T1–T7 for `task-session`
+- [ENGINE.md](ENGINE.md) — the agent pipeline + audit ledger that operates the governed learning loop
 - [decisions/pilot-and-positioning.md](decisions/pilot-and-positioning.md) — resolved decisions
 
 ## Next

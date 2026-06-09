@@ -10,8 +10,9 @@ Arcanum or CyberAlchemy vocabulary without owner review.
 - **Two-axis ontology** — _source-backed._ A company's knowledge modeled as orthogonal subject and
   mechanism axes, matched at runtime. Proven by GoldenQuill's CIC × CLC with the
   `F-CIC-CLC-COUPLING-VIOLATION` guard.
-- **Operational primitive** — _source-backed._ A field on an ontology card that configures downstream
-  behavior (e.g., search vocabulary, evidence schema, language register, reporting rhythm).
+- **Card primitive** — _source-backed._ A field on an ontology card that configures downstream
+  behavior (e.g., search vocabulary, evidence schema, language register, reporting rhythm). (Formerly
+  "operational primitive"; renamed to free "operational" from overload now that B3 is **run-context**.)
 - **Classification register** — _source-backed._ Operator-signed field→authority-class map; gates
   data movement; fail-closed when class is indeterminate.
 
@@ -24,11 +25,26 @@ Arcanum or CyberAlchemy vocabulary without owner review.
   validation; propose-vs-approve uses; governance orthogonal to execution.
 - **Deterministic gate** — _source-backed._ A zero-token, fail-closed, code-enforced rule (GoldenQuill's
   Logician + the 11-rule L0 validator).
+- **Governed edge catalog** — _seed._ A single table governing each DAG edge (source-type→target-type,
+  cardinality, named inverse, category, acyclicity). Clear and useful, but unproven outside GoldenQuill's
+  edge set; the cardinality/inverse columns are an adaptation.
+- **Contradicts edge** — _candidate._ A first-class, symmetric, promotion-blocking edge (PC↔PC or
+  PC↔KP). Generalizes GoldenQuill's mandatory contradiction path into a graph rule; patterned on the
+  `domainspec/vault` `contradicts` edge.
+- **Veracidade (node field)** — _candidate._ A per-node confidence grade {high, medium, low} on the
+  three evidence-bearing node types; the formal replacement for hand-written proven/hypothesis prose.
+  Borrowed from `domainspec/vault`; convicção deliberately omitted (materialized by OwnerDecision).
+- **Evidence refs (node field)** — _candidate._ The list of source/event/test locators backing a node's
+  `veracidade`; non-empty is required for `veracidade: high`.
 
 ### BI layer (the "decision value" output)
 
 - **Evidence-linked KPI** — _source-backed._ A metric carrying denominator definition, interpretation
   limits, source events, and a promotion owner.
+- **Anti-collapse principle** — _analogy._ A metric fails in two independent ways — concept erasure
+  (schema drops a dimension) and number hallucination (value distorted) — so every metric reports a
+  pair, not a number. Borrowed framing from the DomainSpec schema-residue vs instance-residue
+  distinction; interpretive, not a proof for metrics.
 - **Counterfactual receipt** — _source-backed._ "Actual vs counterfactual = delta, with proof"
   (GoldenQuill CycleReceipt / WPFA PDF).
 - **Governed learning loop** — _source-backed._ observe → propose → approve with privacy and
@@ -47,6 +63,12 @@ Arcanum or CyberAlchemy vocabulary without owner review.
   clean output.
 - **Cross-family rigor** — _source-backed._ A reviewer agent must not share a model family with the
   author it reviews.
+- **Engine** — _candidate._ The runtime operator of the governed learning loop: 5 agents (Intake, Run
+  Tracker, Gate Runner, Promotion Scorer, Receipts/Query) over the 6 node types + a human OwnerDecision
+  gate. Adapted from the `domainspec/vault` 5-agent maintenance architecture.
+- **`promotion_events` ledger** — _candidate._ An append-only, hash-chained audit log; one row per node
+  mutation (INSERT only). Makes the 11 gates auditable after the fact; adapted from the vault's
+  `ontology_events` table.
 
 ### Product layer (the "what we sell")
 

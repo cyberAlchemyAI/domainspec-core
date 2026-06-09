@@ -22,17 +22,31 @@ them into one blurry truth. [SB ontology-vault branch-aware model]
 | ---------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | **B1 — meaning** (a.k.a. business / domain / intent) | what the company _means_ — policy, rules, value claims, outcomes          | domain concepts, policies, targets, premises, value measures        |
 | **B2 — system**                                      | how it's actually _implemented / run_ — artifacts, runtime behavior, data | events, records, services, data shapes, metrics, tests, gates       |
-| **B3 — operational**                                 | one bounded _run context_ (first-class, not optional)                     | run id, org scope, deadline/posture, lifecycle state + depth        |
+| **B3 — run-context**                                 | one bounded _run context_ (first-class, not optional)                     | run id, org scope, deadline/posture, lifecycle state + depth        |
 | **B4 — bridge**                                      | the _connections + evidence between branches_                             | realization, observation, constraint, contradiction, drift findings |
 
-> **B3 operational is load-bearing:** denominators are defined _inside a run context_, so the rule
+> **Naming:** B3 is named **run-context** in ontologize. The GoldenQuill source calls the same branch
+> *operational*; we renamed it to avoid colliding with the Arcanum/CyberAlchemy "Operational Ontology",
+> which is a different concept (knowledge about *agent operation* — routes, sigils, prompts), not a
+> per-run denominator context (decision: [RECONCILIATION.md](RECONCILIATION.md) §1, resolves R13).
+>
+> **B3 run-context is load-bearing:** denominators are defined _inside a run context_, so the rule
 > "stage ≠ outcome" (GQ-PR-L0-003) and honest metric denominators (GQ-PR-L0-002) are really a _branch
-> boundary_. GoldenQuill made operational first-class precisely because run truth is run-specific. [SB]
+> boundary_. GoldenQuill made this branch first-class precisely because run truth is run-specific. All
+> four branches are first-class in ontologize (decision: RECONCILIATION.md §1, resolves R14). [SB]
 
 ## Bridge edge types (how branches connect) [SB]
 
-`realized_by` · `depends_on` · `constrained_by` · `observed_by` · `tested_by` · `drifts_from` ·
-`traced_to` (plus the DAG control edges `blocked_by_gate` / `approved_by`).
+The bridge (B4) edges are `realized_by` · `depends_on` · `observed_by` · `tested_by` · `drifts_from`
+· `traced_to`. These — together with the execution, promotion, and control edges — are governed by a
+single **edge catalog** (source-type → target-type, cardinality, inverse, acyclicity) in
+[DAG-AND-METRICS.md §3](DAG-AND-METRICS.md#3-edge-catalog-how-nodes-connect--governed). That catalog
+is the single source of truth; this file keeps only the branch mapping.
+
+> **`drifts_from` vs `contradicts`:** `drifts_from` is the neutral, observed divergence between actual
+> behavior (B2/B3) and intended meaning (B1) — it preserves both sides. `contradicts` (a promotion
+> edge, added in the catalog) is the *adjudicated* conflict between governance artifacts that **blocks
+> promotion** until an owner resolves it. Drift is the raw signal; contradiction is the verdict.
 
 ## Branch → product layer
 
@@ -40,7 +54,7 @@ them into one blurry truth. [SB ontology-vault branch-aware model]
 | -------------- | ------------------------------------- | -------------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
 | B1 meaning     | **primary** (subject×mechanism cards) | authority class of a field | claim / rule / criterion nodes                       | business outcomes → KPI families                       |
 | B2 system      | secondary                             | field → authority mapping  | execution-path nodes (events, records, gate results) | system metrics, agent routing, gate enforcement        |
-| B3 operational | — (run context, not a card)           | org-scope marker           | **lifecycle_state, outcome_event**                   | **run boundary = metric denominators**; agent dispatch |
+| B3 run-context | — (run context, not a card)           | org-scope marker           | **lifecycle_state, outcome_event**                   | **run boundary = metric denominators**; agent dispatch |
 | B4 bridge      | realization of a card                 | cross-field constraints    | **edges + drift_finding / test_link / evidence_gap** | alignment gates, contradiction paths, feedback loops   |
 
 ## Branch → client work
@@ -49,14 +63,14 @@ them into one blurry truth. [SB ontology-vault branch-aware model]
 
 - B1 meaning: yield/scheduling/cost policy ("SKU X must hit 95% first-pass yield on line 2").
 - B2 system: MES events — `lot_completed`, `defect_logged`, `rework_logged`.
-- B3 operational: the lot-or-order run boundary (assessment decision) + production cycle context.
+- B3 run-context: the lot-or-order run boundary (assessment decision) + production cycle context.
 - B4 bridge: "Q4 line-2 rework spike **drifts_from** the baseline process rule" → candidate → owner decision → revised scheduling rule.
 
 **Logistics** (discrete shipments):
 
 - B1 meaning: routing/SLA/carrier policy ("lane A→B in 3 days, 99%, under $X").
 - B2 system: TMS events — `delivered`, `delivery_exception`, `cost_posted`, `claim_filed`.
-- B3 operational: the shipment-id run boundary + carrier/lane/customer context.
+- B3 run-context: the shipment-id run boundary + carrier/lane/customer context.
 - B4 bridge: "lane A→B late **observed_by** the on-time metric when carrier C used in winter" → candidate → routing adjustment → next runs routed better.
 
 ## Cross-branch interaction + drift detection [SB]
@@ -64,7 +78,7 @@ them into one blurry truth. [SB ontology-vault branch-aware model]
 The improve-over-time loop _is_ a walk across branches:
 
 ```text
-B2 system events ─▶ B3 operational metrics (denominators) ─▶ B4 bridge candidate (drifts_from / observed_by)
+B2 system events ─▶ B3 run-context metrics (denominators) ─▶ B4 bridge candidate (drifts_from / observed_by)
         ─▶ owner decision (needs evidence from BOTH branches) ─▶ B1 meaning updated (cards/rules)
         ─▶ next runs discovered/routed/scored better
 ```
@@ -89,4 +103,4 @@ branches before promotion.
 - B3 run-boundary for cap factory (lot vs order) — assessment. [H]
 - Per-vertical event catalog + proof metric — assessment. [H]
 - Card runtime concept-graphing is dormant upstream in GoldenQuill (not ours). [SB]
-- Operational branch was absent from older ontology templates; now first-class. [SB]
+- The run-context branch (the source's *operational* branch) was absent from older ontology templates; now first-class. [SB]

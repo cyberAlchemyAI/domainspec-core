@@ -25,7 +25,7 @@ Work-pack with SWUs: [WORK-PACK.md](WORK-PACK.md).
   `data-inventory`, `agent-inventory`, `maturity-score`.
 - **Rules (ordered):** (1) elicit who/what the client serves → subject axis candidates; (2) elicit
   how value flows (orders/shipments/contracts) → mechanism axis candidates; (3) assert orthogonality —
-  reject any baked subject→mechanism binding; (4) for each axis card capture the operational primitives
+  reject any baked subject→mechanism binding; (4) for each axis card capture the card primitives
   (search vocabulary, evidence schema, language register, reporting rhythm); (5) inventory data sources
   with an owner + sensitivity guess; (6) inventory existing agents; (7) score each Four-Autonomy-Rule
   0–3.
@@ -37,16 +37,20 @@ Work-pack with SWUs: [WORK-PACK.md](WORK-PACK.md).
 
 ### IDS-2 Promotion DAG gate ruleset (per vertical)
 
-- **Concrete spec:** [DAG-AND-METRICS.md](DAG-AND-METRICS.md) §2–§7 — the 6 node types, edge set,
-  event model, and the 11 GoldenQuill rules generalized. This IDS is the per-vertical instantiation of it.
+- **Concrete spec:** [DAG-AND-METRICS.md](DAG-AND-METRICS.md) §2–§7 — the 6 node types, the governed
+  edge catalog (§3), event model, and the 11 GoldenQuill rules generalized. This IDS is the per-vertical
+  instantiation of it; the §3 catalog is the per-vertical edge-rule source.
 - **Inputs:** the vertical's run definition + evidence types.
-- **Outputs:** a gate ruleset adapting GoldenQuill's 11 L0 rules to the vertical.
+- **Outputs:** a gate ruleset adapting GoldenQuill's 11 L0 rules to the vertical, plus the edge catalog
+  bound to the vertical's node instances.
 - **Rules:** enforce source-truth (every event has a source); metric≠authority (KPIs cannot
   auto-promote); mandatory contradiction path; privacy redaction before any cross-scope reuse;
-  propose-vs-approve allowed-uses; stage≠outcome≠validation.
+  propose-vs-approve allowed-uses; stage≠outcome≠validation; **contradiction gate** (a candidate with
+  an open `contradicts` edge cannot be promoted); **acyclicity** of the acyclic edge set (§3).
 - **Edge cases:** cap factory lot-as-run vs order-as-run (decided in S5 assessment).
 - **Failure modes:** no clear outcome signal → metric cannot be evidence-linked → pick a different metric.
-- **Validation:** dry-run the ruleset on sample historical runs.
+- **Validation:** dry-run the ruleset on sample historical runs; the fixture pack adds negative cases
+  for a cycle in an acyclic edge and a promotion blocked by an open contradiction.
 
 ### IDS-3 Proof-harness measurement
 

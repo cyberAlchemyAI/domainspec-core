@@ -9,7 +9,7 @@ unless noted.
 **GoldenQuill:** CIC (who applies) × CLC (why funding flows), orthogonal, matched at runtime,
 never coupled at design time (`F-CIC-CLC-COUPLING-VIOLATION`).
 **Generic:** a _subject ontology_ (customer/segment) × a _mechanism ontology_ (revenue/deal/funding
-route). Keep the axes independent; match per-opportunity at runtime. Each card carries operational
+route). Keep the axes independent; match per-opportunity at runtime. Each card carries card
 primitives (search vocabulary, evidence schema, language register, reporting rhythm).
 **Why it transfers:** any company that serves multiple segments through multiple value mechanisms
 has this latent 2-axis structure; hardcoding the cross-product is the common, costly mistake.

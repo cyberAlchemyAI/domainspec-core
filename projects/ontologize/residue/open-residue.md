@@ -29,6 +29,22 @@ Unresolved items after the ontologize research run. Each has an owner and a next
   counts as success? Owner: product + design. Next object: pilot success criteria.
 - **R9 — KPI denominator authority** (who defines numerator/denominator) is unresolved even in
   GoldenQuill; the BI layer must specify this per engagement.
+- **R11 — N2→N3 gate coverage gap. [H]** [DAG-AND-METRICS §7](../DAG-AND-METRICS.md) flags that no L0
+  rule currently guards the N2→N3 transition (LifecycleState → MetricObservation). Decide in assessment
+  whether this transition needs an explicit gate or whether the stage≠outcome guard (GQ-PR-L0-003)
+  suffices. Owner: design. Next object: assessment.
+
+## Ontology reconciliation (from [RECONCILIATION.md](../RECONCILIATION.md))
+
+- **R12 — B1 canonical name unresolved. [open]** "meaning" (ontologize) vs "business" (all prior art:
+  `BUSINESS-ONTOLOGY.md`, `ontology-vault` `--branch business`, `ONTOLOGY-ARCHITECTURE.md`).
+  Recommendation: adopt **business**, keep meaning/domain/intent as aliases. Owner: ontology owner.
+  Next object: decision-gate. (R13 B3-rename and R14 4-first-class are RESOLVED 2026-06-08 — see
+  RECONCILIATION.md §1.)
+- **R15 — Authority-ladder reuse-as-template undecided. [open]** Whether to lift
+  `cyberAlchemy/ontology/entries/knowledge-governance-authority-ladder.md` as the pilots' promotion-method
+  template vs. designing fresh. (Existing entries as *content* stay separate — already decided.) Owner:
+  design. Next object: assessment / WORK-PACK T1. [H]
 
 ## Promotion guardrail residue
 
