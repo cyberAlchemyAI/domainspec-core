@@ -317,13 +317,58 @@ source of truth); the **card fills the silence** with the default per fact type 
 
 ### The evidence schema × capital logic relationship (you spotted it correctly)
 
-There is a relationship, but it's a **runtime** one, not a fixed coupling. The **capital
-logic decides which evidence convinces**: Credit & Underwriting → financial/repayment
-evidence; Research & Evidence → pilot data; Market Access → buyer letters (LOIs). The **CIC's
-evidence schema** says *what proves each client fact* (provenance). At runtime, the active
-CLC decides *which* of the client's proven facts to foreground. They meet at (CIC × CLC) —
-and that is exactly why they sit on separate axes: hardcoding "this evidence for this logic"
-would recreate the coupling error.
+This is the part that trips everyone up, so go slowly. There are **two separate jobs**, one
+per axis, and they only combine **at runtime** — never in a fixed table.
+
+**Job 1 — the CIC says *how you prove each fact* (provenance).** The client's card lists each
+fact type and what document counts as proof of it. For a Food Systems client: revenue is
+proven by a Schedule F or audited P&L; a buyer relationship is proven by an invoice or a
+signed letter of intent (LOI); a conservation practice is proven by an NRCS plan. This is
+fixed by the client's *world* — a farm proves revenue with a Schedule F, a nonprofit would
+prove the same fact with audited statements. It does **not** depend on who the funder is.
+(Source: `provenance_requirements` in [food_systems.yaml](../pipeline/cards/CIC/food_systems.yaml).)
+
+**Job 2 — the CLC says *which proven facts to lead with* (emphasis).** The funder's logic
+decides which of the client's facts actually persuade *this* funder. Credit & Underwriting
+asks "can you repay?" → lead with financials. Research & Evidence asks "does it work?" → lead
+with pilot data. Market Access asks "is there demand?" → lead with buyer LOIs. This depends on
+the funder, not the client.
+
+**Worked example — same farm, same facts, two funders.** A farm's Key Facts Register holds
+three proven facts: revenue (proven by Schedule F), a signed LOI from a regional grocery
+chain, and soil-health trial results.
+
+- Applying for a **CDFI loan** (Credit & Underwriting) → the argument *leads* with revenue and
+  repayment capacity; the LOI and trial data are supporting color.
+- Applying for a **market-development grant** (Market Access) → the argument *leads* with the
+  LOI as proof of real demand; the financials drop to the background.
+
+Same farm, same evidence, same proof-of-each-fact — but *which* evidence carries the argument
+flips with the funder's logic.
+
+**Why this lives on two axes and not one table.** It is tempting to write a single lookup —
+"Credit logic → use a Schedule F." But that quietly assumes every client proves revenue the
+same way (they don't — that's Job 1, the CIC's) *and* that the funder's emphasis is fixed
+regardless of client (it isn't — that's Job 2, the CLC's). Collapsing the two into one
+hardcoded table is exactly the `F-CIC-CLC-COUPLING-VIOLATION` error the project already made
+and corrected. Kept separate, *any* client world can meet *any* funder logic, and the right
+evidence emphasis is computed per opportunity: **provenance from the CIC × emphasis from the
+CLC**.
+
+*Provenance (how each fact is proven) comes from the client's world; emphasis (which facts lead the argument) comes from the funder's logic. They multiply per opportunity — never a fixed table.*
+
+```mermaid
+flowchart TD
+  subgraph CICaxis[CIC - the client's world]
+    P[How each fact is PROVEN<br/>revenue to Schedule F<br/>buyer to LOI<br/>practice to NRCS plan]
+  end
+  subgraph CLCaxis[CLC - the funder's logic]
+    E[Which facts to LEAD WITH<br/>Credit to financials<br/>Research to pilot data<br/>Market to buyer LOIs]
+  end
+  P --> R[Runtime - this opportunity<br/>provenance from CIC x emphasis from CLC]
+  E --> R
+  R --> A[Evidence argument for THIS funder]
+```
 
 ### Post-award data capture — does it change per client?
 
@@ -338,42 +383,58 @@ Source: [CLAUDE.md](../CLAUDE.md) §"Support Agents" +
 
 ---
 
-## 8. Open questions (with a recommendation)
+## 8. Open questions (business & optimization)
 
-*The learning loop, with the gap marked — ⚠️ DESIGN, does not run today. Closing the loop (rewriting the cards) is done by hand by the operator; there is no automatic validator.*
+These are the open **business** questions — how the product creates value, what we optimize
+*toward*, and how it grows. (Development gaps are a separate track: they're marked ⚠️ inline
+throughout this doc and are deferred for now — they are *how* we build, not *what makes this a
+business*.)
+
+*The compounding-value engine: every grant outcome can become an insight that improves the cards — so the next client in the same CIC starts smarter. This loop is what turns a one-off tool into an asset that appreciates. The open questions below are all about making this engine pay.*
 
 ```mermaid
 flowchart LR
-  O[Outcome: won or lost] --> PC[PromotionCandidate<br/>proposed insight]
-  PC --> OD{OwnerDecision<br/>human approves}
-  OD -->|approved| KP[KnowledgeProjection]
-  KP --> Cards[Rewrites cards and gates<br/>TODAY: manual / not automated]
-  Cards -.next cycle improves.-> O
-  OD -->|rejected| R[residue]
+  O[Grant outcome - won or lost] --> PC[Insight - what worked or failed]
+  PC --> OD{Operator approves}
+  OD -->|approved| KP[Card update]
+  KP --> Cards[Smarter cards and funder intelligence]
+  Cards -.next cycle and next client start smarter.-> O
+  OD -->|rejected| R[residue - logged, not applied]
 ```
 
-⚠️ This loop is **designed but not built today** — there is no `grant_dag/validate.py` nor
-the 11 `GQ-PR-L0-*` rules in code.
+1. **What do we optimize *toward*? (the north-star metric.)** The cards get smarter every
+   cycle — but smarter toward *what*? Win rate? Dollars won per cycle? Operator hours saved per
+   proposal? Without one chosen business metric, "the cards improved" is unmeasurable.
+   **Recommendation:** pick one outcome metric per CIC and make every card edit justify itself
+   against it.
 
-1. **The learning loop is not built.** The promotion validator (the 11 `GQ-PR-L0-*` rules)
-   and the `grant_dag/validate.py` cited in the ontologize docs **do not exist in code** —
-   they live in design documents. Today the operator edits the cards by hand.
-   **Recommendation:** treat "Josh edits cards by hand → the loop rewrites cards with his
-   approval" as the first big deliverable; it's what separates "a product that learns" from
-   "a static template".
+2. **Deep or wide — who is the second client?** The value thesis ("one client pays for the
+   learning, all the others reap it") only compounds when clients **share a CIC**. Two Food
+   Systems clients compound; a Food Systems client plus an Arts & Culture client barely do —
+   different cards. **Recommendation:** go *deep* in one CIC first (stack clients in the same
+   world) before spreading across the six.
 
-2. **Eligibility is stuck to one client.** [eligibility_filter.py](../logician/filters/eligibility_filter.py)
-   is hardcoded to MycoSymbiotics. **Recommendation:** generalize to a per-client profile
-   (PROJECT_CONTEXT + KFR) before any second client.
+3. **How do we price and capture value without breaking the sovereignty promise?** The moat is
+   the accumulated corpus (KFR, Funder Intelligence DB, Match DB) — but the client owns their
+   machine, keys, and data and can walk away with all of it. So what is the recurring thing we
+   charge for: card / funder-intelligence updates, the cross-client learning, a success fee on
+   grants won? **Recommendation:** separate "what the client owns outright" (their data, their
+   machine) from "the shared-intelligence subscription" (the compounding cards + funder DB) —
+   that subscription is the business.
 
-3. **Execution-parameter optimization has no calibration discipline.** Temperature, variants,
-   and model team are listed as deferred ideas, but the method for *how Tilth learns* the
-   right tuning for a new funder is missing. **Recommendation:** make explicit that this is
-   backlog, not current capability — don't promise it to clients.
+4. **How much intelligence is shareable across clients vs. locked by Law 3?** The network
+   effect — and the Stage-5 commons — depends on cross-client sharing, but Law 3 isolates
+   client data. Funder-side intelligence (rubrics, funder docs, what wins a given funder) is
+   shareable; client-side facts are not. The bigger the shareable layer, the stronger the moat.
+   **Recommendation:** treat the shareable/private boundary as a *business* decision (how strong
+   can the network effect get?), not only a privacy one.
 
-4. **The premise "every business has two axes" is a hypothesis.** Proven only for grants. ⚠️
-   **Recommendation:** the first non-grant pilot should test exactly this, and treat it as
-   risk reduction (n=1), not proof of generality.
+5. **Does the two-axis model generalize beyond grants? (the market-size question.)** "Every
+   funding problem has a who-applies axis and a why-money-flows axis" is proven for grants only
+   (n=1). If it generalizes — sales proposals, RFP responses, loan applications — the market is
+   far larger than grant writing. **Recommendation:** treat the first non-grant pilot as a test
+   of total addressable market, not just a feature: it's the line between "a grant tool" and "a
+   proposal-intelligence platform".
 
 ---
 
