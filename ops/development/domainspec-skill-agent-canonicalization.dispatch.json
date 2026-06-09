@@ -1,0 +1,644 @@
+{
+  "dispatch_id": "domainspec-skill-agent-canonicalization-20260601",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Copy all DomainSpec skills and agents inside the repo, research the newest definitions, make the newest definition canonical, and have every runtime surface read from that canonical source.",
+    "objective": "Plan a governed research and canonicalization route for DomainSpec skill and agent definitions across repository-local source, root GitHub distribution surfaces, and generated runtime adapters without crossing owner boundaries prematurely.",
+    "target_artifact": "ops/DOMAINSPEC-SKILL-AGENT-CANONICALIZATION-STRATEGY.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "context-builder",
+      "inventory",
+      "decision-gate",
+      "task-session",
+      "validation_loop",
+      "owner_boundary_check",
+      "state_namespace_boundary",
+      "memory_promotion_split",
+      "execution_receipt_handoff"
+    ],
+    "operator_sentence": "First inventory every DomainSpec skill and agent source in the repo, then compare candidates by freshness and authority, select the canonical owner, and regenerate or thin-link downstream surfaces from that owner."
+  },
+  "mode": "research",
+  "route_menu": {
+    "context_hint": "The route separates read-only research from later copy/regeneration work because implementation/domainspec is a DomainSpec-owned scope.",
+    "items": [
+      {
+        "id": "research-first-canonicalization",
+        "label": "Research first canonicalization",
+        "description": "Inventory every candidate, identify the newest authoritative definition, and gate copy/regeneration behind owner approval.",
+        "capability_ref": "dispatch-spec",
+        "pattern": "sequence"
+      },
+      {
+        "id": "direct-root-copy",
+        "label": "Direct root copy",
+        "description": "Copy DomainSpec skills and agents directly into root .github surfaces now; blocked until owner scope and canonical source are confirmed.",
+        "capability_ref": "task-session",
+        "pattern": "handoff"
+      },
+      {
+        "id": "runtime-adapter-refresh",
+        "label": "Runtime adapter refresh",
+        "description": "Regenerate downstream GitHub/Copilot/Codex packages after canonical source selection and validation.",
+        "capability_ref": "sigil-runtime-installer",
+        "pattern": "validation"
+      },
+      {
+        "id": "lean-formalization-lane",
+        "label": "Lean formalization lane",
+        "description": "Inventory domainspec-lean-formalization skill and agent-prompt surfaces separately because math/Lean guardrails and authority differ from core DomainSpec workflow skills.",
+        "capability_ref": "inventory",
+        "pattern": "fanout"
+      }
+    ],
+    "selected_item_id": "research-first-canonicalization"
+  },
+  "techniques": [
+    "route_menu",
+    "validation_loop",
+    "owner_boundary_check",
+    "delegation_boundary",
+    "state_namespace_boundary",
+    "memory_promotion_split",
+    "execution_receipt_handoff",
+    "concrete_path_evidence"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "canonical-source-selection",
+      "trigger": "Multiple repo surfaces contain overlapping DomainSpec skills and agents.",
+      "techniques": [
+        "data_quality_timeliness",
+        "data_quality_integrity",
+        "data_quality_deduplication",
+        "authority_split_gate",
+        "approval_semantics_map"
+      ],
+      "applies_to_steps": [
+        "inventory-surfaces",
+        "compare-candidates",
+        "select-canonical-owner"
+      ],
+      "validation_expectation": "Newest-by-mtime is only evidence; canonical status requires owner, provenance, content diff, and approval record."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The route spans skills, agents, owner boundaries, and generated runtime surfaces that can drift independently.",
+    "explanation": "Role-bound sibling research reduces blind spots before selecting a canonical source or copying adapters.",
+    "context": [
+      "Root .github/skills has many generated or distribution-facing packages.",
+      "Root .github/agents has DomainSpec, GSD, and MARS agent definitions.",
+      "implementation/domainspec contains DomainSpec-owned skill sources and local agent/runtime surfaces.",
+      "domainspec-lean-formalization contains math/Lean-specific .agents skills and agent prompts with claim/proof guardrails.",
+      "ops/SURFACE-OWNER-BOUNDARIES.md says parent cleanup can classify child scopes but should not mutate them without an owner-scoped task."
+    ],
+    "roles": [
+      {
+        "role_id": "skill-surface-inventorist",
+        "purpose": "List DomainSpec, GSD, and bridge skill candidates with path, owner, mtime, checksum, and provenance hints.",
+        "owns": "skill candidate inventory",
+        "applies_to_steps": [
+          "inventory-surfaces"
+        ]
+      },
+      {
+        "role_id": "agent-surface-inventorist",
+        "purpose": "List DomainSpec and adjacent agent candidates with path, owner, mtime, duplicate pairing, and runtime expectation.",
+        "owns": "agent candidate inventory",
+        "applies_to_steps": [
+          "inventory-surfaces"
+        ]
+      },
+      {
+        "role_id": "lean-formalization-inventorist",
+        "purpose": "List Lean formalization skill and agent-prompt candidates, preserving proof-boundary and novelty-audit guardrails.",
+        "owns": "Lean formalization candidate inventory",
+        "applies_to_steps": [
+          "lean-formalization-lane"
+        ]
+      },
+      {
+        "role_id": "authority-auditor",
+        "purpose": "Compare owner policy, source provenance, and existing cleanup docs before any canonical source decision.",
+        "owns": "authority and boundary findings",
+        "applies_to_steps": [
+          "lean-formalization-lane",
+          "compare-candidates",
+          "select-canonical-owner"
+        ]
+      },
+      {
+        "role_id": "adapter-planner",
+        "purpose": "Design downstream read-from-canonical mechanics for root GitHub surfaces, Codex installs, and generated adapters.",
+        "owns": "adapter refresh plan",
+        "applies_to_steps": [
+          "plan-downstream-readers",
+          "handoff-task-session"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Run five bounded subagents to inventory DomainSpec skills, inventory agents, Lean formalization surfaces, audit authority, and plan adapters before selecting canonical sources?",
+    "receipt_requirements": [
+      "Each role returns concrete path evidence.",
+      "Each role separates read-only classification from mutation recommendations.",
+      "Each role names residue and blocked owner-boundary questions."
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "recover-policy-context",
+      "name": "Recover existing surface policy and owner boundaries",
+      "capability_ref": "context-builder",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "memory_loop",
+        "concrete_path_evidence",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "operator-request"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/CODEX-SKILL-SURFACE-POLICY.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/SURFACE-OWNER-BOUNDARIES.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/ROOT-GITHUB-SKILLS-CLASSIFICATION.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "surface-policy-context-frame"
+        },
+        {
+          "kind": "route_menu",
+          "ref": "canonicalization-route-menu"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block mutation if the target owner scope is not named.",
+        "Flag any existing policy conflict between root-owned distribution surfaces and DomainSpec-owned implementation surfaces."
+      ]
+    },
+    {
+      "step_id": "inventory-surfaces",
+      "name": "Inventory all candidate skill and agent surfaces",
+      "capability_ref": "inventory",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "delegation_boundary",
+        "concrete_path_evidence",
+        "data_quality_completeness"
+      ],
+      "roles": [
+        "skill-surface-inventorist",
+        "agent-surface-inventorist"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "surface-policy-context-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "domainspec-skill-agent-candidate-ledger"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-skill-agent-inventory-completed"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Every candidate includes concrete path evidence.",
+        "Each candidate is classified as canonical-source, generated-native-runtime-package, distribution-adapter, same-checkout-facade, submodule-owned, project-owned, or cleanup-candidate.",
+        "DomainSpec skill candidates include implementation/domainspec/copilot/skills, implementation/domainspec/.agents/skills, and root .github/skills.",
+        "DomainSpec agent candidates include root .github/agents and any implementation/domainspec agent surface found by the inventory.",
+        "Lean formalization candidates are noted but kept in their own lane instead of merged into the main DomainSpec duplicate decision."
+      ],
+      "evidence_artifact": "ops/development/domainspec-skill-agent-candidate-ledger.md",
+      "stop_conditions": [
+        "Block canonicalization if implementation/domainspec cannot be inspected.",
+        "Flag generated or copied definitions with missing provenance."
+      ]
+    },
+    {
+      "step_id": "lean-formalization-lane",
+      "name": "Inventory Lean formalization skill and agent prompt surfaces",
+      "capability_ref": "inventory",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "delegation_boundary",
+        "concrete_path_evidence",
+        "protected_context_flag",
+        "owner_boundary_check"
+      ],
+      "roles": [
+        "lean-formalization-inventorist",
+        "authority-auditor"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "surface-policy-context-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "domainspec-lean-formalization/CLAUDE.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "domainspec-lean-formalization/.agents/skills"
+        },
+        {
+          "kind": "artifact",
+          "ref": "domainspec-lean-formalization/.agents/agent-prompts"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "lean-formalization-skill-agent-candidate-ledger"
+        },
+        {
+          "kind": "frame",
+          "ref": "lean-formalization-authority-frame"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "lean-formalization-lane-inventory-completed"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Record Lean skills separately from core DomainSpec workflow skills.",
+        "Preserve claim <= proof, novelty-audit, precedent-search, Lean build, and mathlib PR guardrails from domainspec-lean-formalization/CLAUDE.md.",
+        "Classify shared utility skills such as commit-message, scratchpad, robot-talks, and test-uncommitted-changes as shared-tool candidates rather than proof-domain canonical sources.",
+        "Do not copy Lean formalization agents into root .github/agents unless a downstream runtime need and owner approval are recorded."
+      ],
+      "evidence_artifact": "ops/development/lean-formalization-skill-agent-candidate-ledger.md",
+      "stop_conditions": [
+        "Block if a candidate rewrite would weaken claim/proof or precedent-search guardrails.",
+        "Ask the operator before moving or copying Lean formalization surfaces into root runtime surfaces."
+      ]
+    },
+    {
+      "step_id": "compare-candidates",
+      "name": "Compare newest, authoritative, and duplicate definitions",
+      "capability_ref": "definitions-governance",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "data_quality_timeliness",
+        "data_quality_integrity",
+        "data_quality_deduplication",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "domainspec-skill-agent-candidate-ledger"
+        },
+        {
+          "kind": "ledger",
+          "ref": "lean-formalization-skill-agent-candidate-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-skill-agent-canonical-candidate-matrix.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "canonical-source-candidate-frame"
+        }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "For each logical skill or agent, compare content hash, modified time, provenance header, owner policy, and root adapter need.",
+        "Newest file wins only when authority and provenance do not contradict it.",
+        "Lean formalization definitions remain canonical inside domainspec-lean-formalization unless a decision record explicitly promotes a shared utility or downstream adapter.",
+        "Exact duplicates are marked for thin-link or generated-reader conversion, not independent maintenance."
+      ],
+      "stop_conditions": [
+        "Block if two candidates both claim canonical authority with incompatible content.",
+        "Ask the operator if a root-owned skill has no DomainSpec-owned source but must remain available."
+      ]
+    },
+    {
+      "step_id": "select-canonical-owner",
+      "name": "Select canonical owner and approval path",
+      "capability_ref": "decision-gate",
+      "pattern": "decision",
+      "parallel": false,
+      "techniques": [
+        "authority_split_gate",
+        "approval_semantics_map",
+        "memory_promotion_split"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "canonical-source-candidate-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-skill-agent-canonical-candidate-matrix.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "domainspec-skill-agent-canonical-owner-decision"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-skill-agent-canonical-owner-decision.md"
+        }
+      ],
+      "join_policy": "human_gate",
+      "convergence_criteria": [
+        "Each logical definition has one named canonical owner path or a blocked reason.",
+        "Each downstream runtime surface is assigned regenerate, thin-link, copy-on-release, or delete-candidate treatment.",
+        "Approval distinguishes research authorization from write authorization."
+      ],
+      "stop_conditions": [
+        "Ask the operator before rewriting implementation/domainspec, root .github, or machine-global Codex home.",
+        "Block if the decision would make a generated runtime package the source of truth."
+      ]
+    },
+    {
+      "step_id": "plan-downstream-readers",
+      "name": "Plan downstream read-from-canonical mechanics",
+      "capability_ref": "sigil-runtime-installer",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "execution_receipt_handoff",
+        "artifact_contract_bridge",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "domainspec-skill-agent-canonical-owner-decision"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-skill-agent-reader-refresh-plan.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-reader-refresh-plan-prepared"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/domainspec-skill-agent-reader-refresh-plan.md",
+      "convergence_criteria": [
+        "Root .github skills and agents either include provenance to canonical source or are generated from the canonical source.",
+        "Repo-local adapters do not fork body text unless the runtime requires a native package copy.",
+        "Validation checks detect drift between canonical sources and downstream readers."
+      ],
+      "stop_conditions": [
+        "Block implementation if no drift-check command exists or can be added safely.",
+        "Defer machine-global Codex refresh unless explicitly scoped."
+      ]
+    },
+    {
+      "step_id": "handoff-task-session",
+      "name": "Prepare bounded implementation handoff",
+      "capability_ref": "task-session",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "frame_handoff",
+        "execution_receipt_handoff",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-skill-agent-reader-refresh-plan.md"
+        },
+        {
+          "kind": "decision",
+          "ref": "domainspec-skill-agent-canonical-owner-decision"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "domainspec-skill-agent-canonicalization-task-session-handoff"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-canonicalization-handoff-prepared"
+        }
+      ],
+      "join_policy": "none"
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "owner-scope-gate",
+      "kind": "policy",
+      "owner": "surface-owner-boundaries",
+      "condition": "The route may classify implementation/domainspec and nested project surfaces, but writes require a task scoped to that owner.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "canonical-source-gate",
+      "kind": "decision",
+      "owner": "operator",
+      "condition": "A generated adapter or copied root surface cannot become the source of truth unless the owner explicitly approves that source move.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "freshness-is-evidence-not-authority",
+      "kind": "quality",
+      "owner": "definitions-governance",
+      "condition": "Modified time and content freshness are compared with provenance and owner policy before source selection.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "downstream-reader-validation",
+      "kind": "validation",
+      "owner": "task-session",
+      "condition": "Any downstream surface that reads from canonical must have a drift check, generation receipt, or explicit copy-on-release rule.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "arcanum",
+      "condition": "Research artifacts can recommend canonical owners and downstream readers, but cannot grant lifecycle authority without the named approval record.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+      "trace_events": [
+        "domainspec-skill-agent-canonicalization-started",
+        "domainspec-skill-agent-inventory-completed",
+        "lean-formalization-lane-inventory-completed",
+        "domainspec-canonical-source-candidate-matrix-created",
+        "domainspec-canonical-owner-decision-recorded",
+      "domainspec-reader-refresh-plan-prepared",
+      "domainspec-canonicalization-handoff-prepared"
+    ],
+    "signal_grouping": "domainspec-skill-agent-canonicalization"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "domainspec-owner-boundary",
+        "kind": "capability_handoff",
+        "from_owner": "root-domainspec-core",
+            "to_owner": "implementation/domainspec",
+            "applies_to_steps": [
+              "inventory-surfaces",
+              "compare-candidates",
+              "select-canonical-owner"
+        ],
+            "contract": "Parent route may inspect and classify DomainSpec-owned source; writes require an owner-scoped task or explicit operator approval.",
+            "on_violation": "block"
+          },
+          {
+            "boundary_id": "lean-formalization-owner-boundary",
+            "kind": "capability_handoff",
+            "from_owner": "root-domainspec-core",
+            "to_owner": "domainspec-lean-formalization",
+            "applies_to_steps": [
+              "lean-formalization-lane",
+              "compare-candidates",
+              "select-canonical-owner"
+            ],
+            "contract": "Parent route may inspect and classify Lean formalization skills and agent prompts; writes, copies, or guardrail rewrites require a Lean-formalization-scoped task and approval.",
+            "on_violation": "block"
+          },
+          {
+        "boundary_id": "root-distribution-boundary",
+        "kind": "state_write",
+        "from_owner": "canonical-source-owner",
+        "to_owner": "root-.github-runtime-surface",
+        "applies_to_steps": [
+          "plan-downstream-readers",
+          "handoff-task-session"
+        ],
+        "contract": "Root .github skills and agents are downstream distribution/adaptation surfaces unless a decision record says otherwise.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "canonical source owner selected by decision gate",
+      "execution": "task-session after approval",
+      "validation": "definitions-governance plus drift checks",
+      "evidence": "inventory ledger and concrete path receipts",
+      "memory": "memory may record the decision after explicit request only",
+      "promotion": "operator-approved decision record"
+    },
+    "receipts": [
+      {
+        "receipt_id": "candidate-inventory-receipt",
+        "producer": "inventory-surfaces",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "audit_reference",
+          "residue"
+        ],
+        "stores": [
+          "ops/development/domainspec-skill-agent-candidate-ledger.md"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "reader-refresh-receipt",
+        "producer": "plan-downstream-readers",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "approval_record",
+          "residue"
+        ],
+        "stores": [
+          "ops/development/domainspec-skill-agent-reader-refresh-plan.md"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "lean-formalization-inventory-receipt",
+        "producer": "lean-formalization-lane",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "audit_reference",
+          "residue"
+        ],
+        "stores": [
+          "ops/development/lean-formalization-skill-agent-candidate-ledger.md"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "root-github-runtime-surface",
+        "owner": "root-domainspec-core",
+        "write_policy": "Write only from a root-owned task-session after canonical owner selection."
+      },
+      {
+        "namespace": "implementation-domainspec-source",
+        "owner": "implementation/domainspec",
+        "write_policy": "Inspect from parent route; write only with DomainSpec-owned task scope."
+      },
+      {
+        "namespace": "lean-formalization-source",
+        "owner": "domainspec-lean-formalization",
+        "write_policy": "Inspect from parent route; write or copy only with Lean-formalization-scoped approval."
+      },
+      {
+        "namespace": "machine-global-codex-home",
+        "owner": "operator-machine",
+        "write_policy": "Out of scope until explicitly requested."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "research inventory and adapter receipts",
+        "target": "canonical source selection",
+        "rule": "Evidence supports a decision but does not change source authority without an approval record.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Generated runtime packages stay downstream of canonical source.",
+    "Copied definitions must carry provenance or be replaced by thin readers.",
+    "Research evidence cannot mutate source authority without the decision gate."
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "chain_id": "optchain.logistics.exception-resolution",
+  "chain_name": "Exception Resolution Acceleration",
+  "vertical": "logistics",
+  "status": "candidate",
+  "run_node_refs": [
+    "delivery_exception",
+    "exception_response",
+    "shipment_delivered"
+  ],
+  "action_fact_refs": [
+    "action_pattern.exception_response.v1"
+  ],
+  "metric_refs": [
+    "exception_resolution_time",
+    "on_time_delivery_rate"
+  ],
+  "response_window_refs": [
+    "metric_window.exception_response.delivery_recovery.72h"
+  ],
+  "analysis_method_ref": "method.time_to_event.v1",
+  "association_refs": [
+    "association.exception_response.delivery_recovery.fixture_l0"
+  ],
+  "desired_bi_optimization": "Exception Resolution Acceleration",
+  "claim_label": "correlation_candidate",
+  "confidence_class": "weak",
+  "expression_set": {
+    "plain_language": "When delivery exceptions occur, we measure response time and on-time recovery so the client learns which response patterns reduce delay.",
+    "operator": "For delivery_exception and exception_response, compare exception_resolution_time inside the 72 hour recovery window using method.time_to_event.v1 and emit only correlation_candidate.",
+    "executive": "CyberAlchemy's advantage is that exception handling becomes measurable operational learning, not a dashboard note that disappears after the shipment closes.",
+    "contract": "OptimizationChainDefinition(optchain.logistics.exception-resolution, delivery_exception, exception_resolution_time, method.time_to_event.v1, Exception Resolution Acceleration, correlation_candidate).",
+    "causal_careful": "This chain can show that faster response patterns correlate with delivery recovery; it does not prove the response caused recovery without stronger comparison gates.",
+    "dashboard_label": "Exception Resolution Acceleration: recovery time after exception response, correlation candidate.",
+    "ontology": "exception_response -> measured_by -> exception_resolution_time_window -> evaluated_with -> method.time_to_event.v1 -> proposes -> Exception Resolution Acceleration."
+  },
+  "governance_route": {
+    "candidate_record": "BIInsightCandidate",
+    "privacy_gate_required": true,
+    "owner_decision_required": true,
+    "knowledge_projection_required": true
+  },
+  "reuse_target": {
+    "surfaces": [
+      "shipment_exception_playbook",
+      "carrier_routing_gate",
+      "operations_dashboard"
+    ],
+    "allowed_use_requested": [
+      "suggest_exception_response_pattern",
+      "prioritize_late_shipment_intervention"
+    ],
+    "scope": "client_scoped_until_generalized"
+  },
+  "interpretation_limits": [
+    "Fixture-level evidence is not causal proof.",
+    "Shipment exceptions may be confounded by carrier, lane, weather, and client-specific operating constraints.",
+    "Approved reuse requires an owner decision before future routing or agent gates can act on this chain."
+  ],
+  "privacy_scope": "client_scoped",
+  "contradiction_path": "Contradict or retire this chain if later shipments with the same response pattern do not improve recovery time after controlling for lane and carrier.",
+  "source_basis": [
+    "OPTIMIZATION-CHAIN-METHOD.md",
+    "DAG-AND-METRICS.md#6-improve-over-time-loop"
+  ]
+}

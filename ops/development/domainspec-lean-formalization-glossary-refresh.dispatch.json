@@ -1,0 +1,447 @@
+{
+  "dispatch_id": "domainspec-lean-formalization-glossary-refresh-20260601",
+  "parent_dispatch_id": "domainspec-lean-formalization-research-20260601",
+  "intent": {
+    "raw": "Run subagents in fan out and use invoke refresh to refresh the glossary.",
+    "objective": "Refresh domainspec-lean-formalization/GLOSSARY.md from the latest research brief, claim ledger, relation ledger, validation ledger, and fan-out receipts while preserving claim-proof discipline.",
+    "target_artifact": "domainspec-lean-formalization/GLOSSARY.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "invoke",
+      "invoke refresh",
+      "fanout",
+      "RefreshSignal",
+      "typed delta",
+      "glossary",
+      "claim-proof discipline",
+      "relation boundary",
+      "validation loop"
+    ],
+    "operator_sentence": "Use delegated fan-out to identify glossary deltas, synthesize them through invoke refresh, apply only the approved scoped glossary update, and record refresh evidence."
+  },
+  "mode": "mixed",
+  "route_menu": {
+    "context_hint": "The user approved a scoped glossary refresh after the research strategy execution.",
+    "items": [
+      {
+        "id": "apply-approved-glossary-refresh",
+        "label": "Apply scoped glossary refresh",
+        "description": "Patch only the target glossary and write invoke refresh receipts.",
+        "capability_ref": "invoke",
+        "pattern": "sequential"
+      },
+      {
+        "id": "proposal-only-refresh",
+        "label": "Proposal only",
+        "description": "Write refresh reports without mutating the glossary.",
+        "capability_ref": "invoke",
+        "pattern": "handoff"
+      }
+    ],
+    "selected_item_id": "apply-approved-glossary-refresh"
+  },
+  "techniques": [
+    "delegation_boundary",
+    "concrete_path_evidence",
+    "artifact_contract_bridge",
+    "validation_loop",
+    "owner_boundary_check",
+    "execution_receipt_handoff",
+    "state_namespace_boundary"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "invoke-refresh-delta-discipline",
+      "trigger": "Refresh mode requires source signals, target inventory, declared scope, mutation mode, and evidence-mapped deltas.",
+      "techniques": [
+        "validation_loop",
+        "concrete_path_evidence",
+        "artifact_contract_bridge"
+      ],
+      "applies_to_steps": [
+        "collect-refresh-inputs",
+        "fanout-glossary-lanes",
+        "synthesize-refresh-deltas",
+        "apply-approved-glossary-update",
+        "validate-refresh"
+      ],
+      "validation_expectation": "Every glossary change maps to a RefreshSignal and evidence path."
+    },
+    {
+      "overlay_id": "claim-proof-glossary-discipline",
+      "trigger": "The glossary contains theorem, conjecture, analogy, and build-status terms.",
+      "techniques": [
+        "owner_boundary_check",
+        "concrete_path_evidence",
+        "validation_loop"
+      ],
+      "applies_to_steps": [
+        "fanout-glossary-lanes",
+        "synthesize-refresh-deltas",
+        "validate-refresh"
+      ],
+      "validation_expectation": "Glossary wording separates source-level proof, build evidence, sorry-free, axiom-free, PR-ready, conjecture, analogy, and demoted relation language."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "The user explicitly requested subagents in fan out for the glossary refresh.",
+    "explanation": "The glossary touches math terms, proof-status wording, and cross-repository relation language; separate lanes reduce overclaiming and coverage gaps.",
+    "context": [
+      "domainspec-lean-formalization/GLOSSARY.md is current but predates the 2026-06-01 research synthesis.",
+      "ops/development/domainspec-lean-formalization-research-brief.md identifies typed residue accounting as the bounded reading.",
+      "ops/development/domainspec-lean-formalization-claim-discipline-ledger.md separates theorem, build, sorry, axiom, PR-ready, conjecture, analogy, and demoted claims.",
+      "ops/development/domainspec-lean-formalization-relation-ledger.md demotes literal isomorphism language and prefers register/bridge wording."
+    ],
+    "roles": [
+      {
+        "role_id": "term-coverage-lane",
+        "purpose": "Find glossary terms to add, update, or leave unchanged based on the latest research synthesis.",
+        "owns": "term coverage recommendations",
+        "applies_to_steps": [
+          "fanout-glossary-lanes",
+          "synthesize-refresh-deltas"
+        ]
+      },
+      {
+        "role_id": "claim-status-audit-lane",
+        "purpose": "Audit glossary wording for overclaims around proof, build, sorry-free, axiom-free, PR-ready, conjecture, analogy, and demoted claims.",
+        "owns": "claim-status wording recommendations",
+        "applies_to_steps": [
+          "fanout-glossary-lanes",
+          "validate-refresh"
+        ]
+      },
+      {
+        "role_id": "relation-vocabulary-lane",
+        "purpose": "Identify safe relation vocabulary for Arcanum, CyberAlchemy, implementation/domainspec, and research/projects/domainspec boundaries.",
+        "owns": "relation vocabulary recommendations",
+        "applies_to_steps": [
+          "fanout-glossary-lanes",
+          "synthesize-refresh-deltas"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Already approved by user request: run sub agents in fan out and invoke refresh the glossary.",
+    "receipt_requirements": [
+      "Return proposed glossary term deltas with evidence paths and line numbers.",
+      "Classify each recommendation as add, update, no-op, demote, or defer.",
+      "Do not edit files in subagent lanes.",
+      "Flag any glossary change that would require theorem source, ontology, inventory, or sibling-repo mutation."
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "collect-refresh-inputs",
+      "name": "Collect source evidence and target inventory",
+      "capability_ref": "invoke",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "concrete_path_evidence",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "domainspec-lean-formalization/GLOSSARY.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-lean-formalization-research-brief.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-lean-formalization-claim-discipline-ledger.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-lean-formalization-relation-ledger.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-lean-formalization-validation-ledger.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "glossary-refresh-input-frame"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if target glossary is missing.",
+        "Block if source evidence is missing."
+      ]
+    },
+    {
+      "step_id": "fanout-glossary-lanes",
+      "name": "Run glossary refresh fan-out lanes",
+      "capability_ref": "robot-talks",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "delegation_boundary",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "term-coverage-lane",
+        "claim-status-audit-lane",
+        "relation-vocabulary-lane"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "glossary-refresh-input-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "glossary-fanout-receipts"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Each lane returns add/update/no-op/defer recommendations.",
+        "Every material recommendation cites source evidence.",
+        "Subagents do not edit files."
+      ],
+      "evidence_artifact": "ops/development/domainspec-lean-formalization-glossary-refresh-receipts.md",
+      "stop_conditions": [
+        "Flag timed-out lanes and continue only with parent evidence if enough source evidence remains."
+      ]
+    },
+    {
+      "step_id": "synthesize-refresh-deltas",
+      "name": "Synthesize invoke refresh deltas",
+      "capability_ref": "invoke",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "artifact_contract_bridge",
+        "validation_loop",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "glossary-fanout-receipts"
+        },
+        {
+          "kind": "frame",
+          "ref": "glossary-refresh-input-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "refresh-signals"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-lean-formalization-glossary-refresh/REFRESH-REPORT.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-lean-formalization-glossary-refresh/refresh-report.json"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Every proposed or applied change must map to a RefreshSignal."
+      ]
+    },
+    {
+      "step_id": "apply-approved-glossary-update",
+      "name": "Apply scoped glossary refresh",
+      "capability_ref": "invoke",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "owner_boundary_check",
+        "format_conformity_check",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "refresh-signals"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "domainspec-lean-formalization/GLOSSARY.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Only edit the target glossary and refresh receipts.",
+        "Do not edit Lean theorem/proof source."
+      ]
+    },
+    {
+      "step_id": "validate-refresh",
+      "name": "Validate dispatch, refresh receipts, and scoped file changes",
+      "capability_ref": "dispatch-spec",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "format_conformity_check",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "domainspec-lean-formalization/GLOSSARY.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-lean-formalization-glossary-refresh/REFRESH-REPORT.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "glossary-refresh-validation-ledger"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/domainspec-lean-formalization-glossary-refresh/VALIDATION.md",
+      "stop_conditions": [
+        "Block if dispatch validation fails.",
+        "Flag if changed glossary wording contains unsupported theorem, build, or relation claims."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "target-inventory-gate",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "Target artifact inventory names domainspec-lean-formalization/GLOSSARY.md and refresh receipt paths.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "apply-approval-gate",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "User request approves scoped glossary refresh; no other canonical artifact may be mutated.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "claim-status-gate",
+      "kind": "quality",
+      "owner": "claim-status-audit-lane",
+      "condition": "Glossary changes separate theorem source, build evidence, sorry-free, axiom-free, PR-ready, conjecture, analogy, refuted, and demoted relation claims.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "promotion-boundary-gate",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "The run refreshes the existing target glossary only and does not promote candidate terms into Inventory, Ontology, sigil, spell, or sibling-repo authority.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "domainspec-lean-formalization-research-20260601",
+    "trace_events": [
+      "glossary-refresh-route-created",
+      "glossary-fanout-completed",
+      "invoke-refresh-signals-synthesized",
+      "glossary-refresh-applied",
+      "glossary-refresh-validated"
+    ],
+    "signal_grouping": "domainspec-lean-formalization-glossary-refresh-20260601"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "target-glossary-boundary",
+        "kind": "state_write",
+        "from_owner": "invoke refresh",
+        "to_owner": "domainspec-lean-formalization/GLOSSARY.md",
+        "applies_to_steps": [
+          "apply-approved-glossary-update",
+          "validate-refresh"
+        ],
+        "contract": "Apply only scoped glossary wording updates backed by source evidence.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "lean-source-boundary",
+        "kind": "artifact_import",
+        "from_owner": "domainspec-lean-formalization Lean source",
+        "to_owner": "glossary refresh",
+        "applies_to_steps": [
+          "collect-refresh-inputs",
+          "fanout-glossary-lanes",
+          "validate-refresh"
+        ],
+        "contract": "Lean source may be cited but not edited.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "invoke refresh",
+      "execution": "parent synthesis plus approved scoped patch",
+      "validation": "dispatch-spec validator and review checks",
+      "evidence": "path-cited refresh signals and fan-out receipts",
+      "memory": "memory visibility only; no memory update requested",
+      "promotion": "existing glossary refresh only"
+    },
+    "receipts": [
+      {
+        "receipt_id": "refresh-report",
+        "producer": "invoke refresh",
+        "required_fields": [
+          "run_id",
+          "artifacts",
+          "validation_result",
+          "approval_record",
+          "audit_reference",
+          "residue"
+        ],
+        "stores": [
+          "ops/development/domainspec-lean-formalization-glossary-refresh/REFRESH-REPORT.md",
+          "ops/development/domainspec-lean-formalization-glossary-refresh/refresh-report.json"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "domainspec-lean-formalization/glossary",
+        "owner": "domainspec-lean-formalization",
+        "write_policy": "target glossary only"
+      },
+      {
+        "namespace": "ops/development/domainspec-lean-formalization-glossary-refresh",
+        "owner": "invoke refresh receipts",
+        "write_policy": "refresh receipts and validation only"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "fan-out recommendations and refresh evidence",
+        "target": "inventory, ontology, sigil, spell, and sibling-repo authority",
+        "rule": "Evidence may inform future routes but is not promoted here.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "The route refreshes only the existing target glossary and writes refresh receipts.",
+    "The route does not mutate Lean theorem/proof source.",
+    "The route does not promote candidate relation terms into ontology or inventory authority.",
+    "The route preserves theorem, build, sorry, axiom, PR-ready, conjecture, analogy, refuted, and demoted claim distinctions."
+  ]
+}

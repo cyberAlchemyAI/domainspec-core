@@ -1,0 +1,52 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "sourceSignals": [
+    {
+      "id": "SIGNAL-PERSONAL-CODEX-001",
+      "source_path": "user request: [$invoke] refresh 2",
+      "signal_type": "blocker_resolved",
+      "target_artifacts": [
+        "docs/decisions/personal-codex-skill-refresh.md",
+        "ops/ARCANUM-SURFACE-MAP-AND-PLAN.md"
+      ],
+      "claim": "The user selected option 2, Stage Then Promote.",
+      "evidence": "The previous decision gate presented options 1, 2, and 3; the user answered refresh 2.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "docs/decisions/personal-codex-skill-refresh.md",
+    "ops/ARCANUM-SURFACE-MAP-AND-PLAN.md"
+  ],
+  "deltaSummary": [
+    {
+      "class": "blocker_resolved",
+      "summary": "Personal Codex mutation gate is resolved for TASK-SURFACE-002."
+    },
+    {
+      "class": "route_changed",
+      "summary": "Next route is task-session for TASK-SURFACE-002 / SWU-SURFACE-002."
+    }
+  ],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "Marked docs/decisions/personal-codex-skill-refresh.md accepted.",
+    "Recorded selected option 2, Stage Then Promote.",
+    "Cleared the blocker for starting TASK-SURFACE-002."
+  ],
+  "skippedChanges": [
+    "Did not execute TASK-SURFACE-002.",
+    "Did not mutate /mnt/c/Users/vlad_/.codex/skills.",
+    "Did not decide whether superseded personal skill packages should be archived after promotion."
+  ],
+  "blockers": [],
+  "nextRoute": "task-session",
+  "validation": [
+    "Reviewed arcanum/spells/invoke/README.md.",
+    "Reviewed arcanum/spells/invoke/refresh.md.",
+    "Reviewed docs/decisions/personal-codex-skill-refresh.md.",
+    "Reviewed ops/ARCANUM-SURFACE-MAP-AND-PLAN.md."
+  ]
+}

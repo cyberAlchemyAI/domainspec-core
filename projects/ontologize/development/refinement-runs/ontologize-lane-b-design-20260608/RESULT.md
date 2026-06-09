@@ -6,7 +6,7 @@
 
 ## What changed
 
-Lane B is now buildable: [LANE-B-DESIGN.md](../../LANE-B-DESIGN.md).
+Lane B is now buildable: [LANE-B-DESIGN.md](../../../LANE-B-DESIGN.md).
 
 - **Four-layer mapping** confirmed against real sigil capabilities (ontology-vault, inventory,
   context-builder, observability).

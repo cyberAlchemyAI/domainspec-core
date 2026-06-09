@@ -1,27 +1,16 @@
 ---
 name: arcanum-sigil-interrogation
-description: Run the installed Arcanum sigil structured-interview-kits through its local runtime adapter.
-argument-hint: "<request-for-structured-interview-kits>"
-allowed-tools: Read, Glob, Grep, AskQuestions, Task
+description: "Alias package for arcanum-sigil-structured-interview-kits."
+surface_kind: generated-native-runtime-package
+runtime: github-copilot
+canonical_source: arcana/structured-interview-kits/SKILL.md
+alias_of: arcanum-sigil-structured-interview-kits
+generated_by: tools/bootstrap_arcanum.sh --profile
+mutation_policy: regenerate-from-canonical-source
 ---
 
-# Arcanum sigil: structured interview kits
+# Skill: Interrogation
 
-<objective>
-Expose the installed Arcanum sigil adapter to GitHub Copilot's required discovery path.
-</objective>
+Alias package for `arcanum-sigil-structured-interview-kits`.
 
-<context>
-The canonical local adapter lives at .arcanum/runtimes/github-copilot/skills/arcanum-sigil-interrogation/SKILL.md.
-</context>
-
-<process>
-1. Read .arcanum/runtimes/github-copilot/skills/arcanum-sigil-interrogation/SKILL.md.
-2. Follow that adapter's process.
-3. If the runtime adapter is unavailable, report a blocked install and ask to rerun Arcanum bootstrap.
-</process>
-
-<guardrails>
-- Keep this file as a discovery bridge only.
-- Do not copy full artifact internals into this wrapper.
-</guardrails>
+Use the canonical generated package named `arcanum-sigil-structured-interview-kits`. This file exists only so the runtime can discover a familiar invocation name.

@@ -1,0 +1,108 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "no-op",
+  "sourceSignals": [
+    {
+      "id": "SIG-RUNTIME-001",
+      "source_path": "current session user refinement",
+      "signal_type": "blocker_resolved",
+      "target_artifacts": [
+        "ops/ARCANUM-RUNTIME-SURFACE-INVOKE-DESIGN-PLAN.md",
+        "ops/CODEX-SKILL-SURFACE-POLICY.md"
+      ],
+      "claim": "Runtime packages should be generated native snapshots from canonical source, not cross-runtime pointers.",
+      "evidence": "User preferred copying skills into each runtime expected pattern for native Codex, Claude, and Copilot use while keeping canonical provenance.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "SIG-RUNTIME-002",
+      "source_path": "ops/ARCANUM-RUNTIME-SURFACE-INVOKE-DESIGN-PLAN.md",
+      "signal_type": "status_changed",
+      "target_artifacts": [
+        "ops/ARCANUM-RUNTIME-SURFACE-INVOKE-DESIGN-PLAN.md"
+      ],
+      "claim": "Root .github/skills is no longer a conceptual blocker when treated as generated GitHub/Copilot-native adapter output with provenance.",
+      "evidence": "The plan now records generated native package approach and keeps root .github/skills when provenance exists.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "SIG-RUNTIME-003",
+      "source_path": "ops/ROOT-GITHUB-SKILLS-CLASSIFICATION.md",
+      "signal_type": "artifact_drift",
+      "target_artifacts": [
+        "ops/ROOT-GITHUB-SKILLS-CLASSIFICATION.md"
+      ],
+      "claim": "Existing classification does not yet record generated provenance or alias status.",
+      "evidence": "The classification predates the generated-native-package decision.",
+      "confidence": "medium",
+      "mutation_safety": "needs_review"
+    },
+    {
+      "id": "SIG-RUNTIME-004",
+      "source_path": "ops/ARCANUM-RUNTIME-SURFACE-INVOKE-DESIGN-PLAN.md",
+      "signal_type": "route_changed",
+      "target_artifacts": [
+        "ops/ARCANUM-RUNTIME-SURFACE-INVOKE-DESIGN-PLAN.md"
+      ],
+      "claim": "Runtime adapter work should target concrete native adapters with native-skill only as an abstract selector.",
+      "evidence": "The plan names codex-skill, claude-skill, copilot-instructions, and native-skill.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "ops/ARCANUM-RUNTIME-SURFACE-INVOKE-DESIGN-PLAN.md",
+    "ops/CODEX-SKILL-SURFACE-POLICY.md",
+    "ops/ROOT-GITHUB-SKILLS-CLASSIFICATION.md"
+  ],
+  "deltaSummary": [
+    {
+      "class": "blocker_resolved",
+      "count": 1,
+      "summary": "Root .github/skills conceptual role resolved as generated GitHub/Copilot-native package surface when provenance exists."
+    },
+    {
+      "class": "status_changed",
+      "count": 1,
+      "summary": "Copied runtime packages are valid generated install artifacts, not independent canonical sources."
+    },
+    {
+      "class": "artifact_drift",
+      "count": 1,
+      "summary": "Root GitHub skill classification needs future provenance and alias enrichment."
+    },
+    {
+      "class": "route_changed",
+      "count": 1,
+      "summary": "Adapter implementation should prefer concrete runtime-native adapter IDs."
+    },
+    {
+      "class": "no_op",
+      "count": 1,
+      "summary": "No additional mutation is required in the main plan or Codex policy after the latest decision."
+    }
+  ],
+  "proposedChanges": [
+    {
+      "target": "ops/ROOT-GITHUB-SKILLS-CLASSIFICATION.md",
+      "change": "Add generated provenance fields in TASK-RUNTIME-007: runtime, canonical_source, generated_by, alias_of, mutation_policy, owner, action.",
+      "status": "deferred"
+    }
+  ],
+  "appliedChanges": [],
+  "skippedChanges": [
+    ".github/skills/*",
+    "implementation/domainspec/.agents/skills/*",
+    "tools/arcanum",
+    "machine-global Codex home"
+  ],
+  "blockers": [],
+  "nextRoute": "task-session",
+  "validation": [
+    "Review: plan contains Runtime Distribution Approach.",
+    "Review: plan records generated native packages, runtime-native adapters, alias handling, and G-RUNTIME-007.",
+    "Review: Codex policy distinguishes canonical source, generated native packages, and aliases."
+  ]
+}

@@ -28,4 +28,4 @@ Of the five bridges, **3 are EXTEND** (sit on existing sigils with config + a cu
 **2 are NET-NEW** (genuine builds). So Lane B is "mostly assemble + configure Arcanum, plus two real
 builds," not "all five from scratch." [SB surveyor receipt]
 
-Output unit → [LANE-B-DESIGN.md](../../../LANE-B-DESIGN.md).
+Output unit → [LANE-B-DESIGN.md](../../../../LANE-B-DESIGN.md).

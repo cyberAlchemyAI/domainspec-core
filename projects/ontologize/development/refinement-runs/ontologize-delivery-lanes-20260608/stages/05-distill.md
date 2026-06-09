@@ -34,4 +34,4 @@ Lane B's governance layers are [SB] to real sigil capabilities, but Layer-2 (cla
 runtime event→card dispatch, the 11-rule lint instantiation, the proof-harness, and reflection cadence
 are **[H] bridges Arcanum does not natively provide** — surfaced, not hidden.
 
-Output unit → [DELIVERY-LANES.md](../../../DELIVERY-LANES.md).
+Output unit → [DELIVERY-LANES.md](../../../../DELIVERY-LANES.md).

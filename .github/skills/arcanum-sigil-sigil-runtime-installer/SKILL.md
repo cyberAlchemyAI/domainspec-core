@@ -1,27 +1,166 @@
 ---
-name: arcanum-sigil-sigil-runtime-installer
-description: Run the installed Arcanum sigil sigil-runtime-installer through its local runtime adapter.
-argument-hint: "<request-for-sigil-runtime-installer>"
-allowed-tools: Read, Glob, Grep, AskQuestions, Task
+surface_kind: generated-native-runtime-package
+runtime: github-copilot
+canonical_source: arcana/sigil-runtime-installer/SKILL.md
+alias_of: null
+generated_by: tools/bootstrap_arcanum.sh --profile
+mutation_policy: regenerate-from-canonical-source
+name: sigil-runtime-installer
+description: "Use when installing Arcanum sigils and spells into the Codex command surface."
+argument-hint: "<codex|none> [--repo <path>] [--command <name>] [--dry-run]"
+tier: arcana
+domain: sigil-runtime-installation
+version: 0.2.0
+origin: updated for Codex-only commands with observer-envelope-first telemetry
+allowed-tools: Read, Write, Glob, Grep, Bash, AskQuestions
 ---
 
-# Arcanum sigil: sigil runtime installer
+# Sigil: Sigil Runtime Installer
 
 <objective>
-Expose the installed Arcanum sigil adapter to GitHub Copilot's required discovery path.
+Install Codex commands that expose Arcanum sigils and spells while keeping Necronomicon as repository harness state and observability as a hook-backed envelope pipeline.
 </objective>
 
-<context>
-The canonical local adapter lives at .arcanum/runtimes/github-copilot/skills/arcanum-sigil-sigil-runtime-installer/SKILL.md.
-</context>
+<logic-type>
+Arcana: command generation, repository-local installation, validation, observer hook installation, and Codex routing.
+</logic-type>
+
+<targets>
+- `codex`: create full command files directly under `.codex/commands/`.
+- `none`: install observability and optional Necronomicon state without command files.
+
+Install the general `arcanum-orchestrate` command and individual artifact commands for each selected sigil and spell. Prefixed commands use `arcanum-sigil-<id>` and `arcanum-spell-<id>` as stable compatibility names. Bare aliases use the artifact id, such as `interrogation` or `invoke`, unless the alias would collide. When `ontology-harness` is selected, install `arcanum-ontology-harness`. When Necronomicon harness generation is enabled, install `arcanum-necronomicon`.
+
+Generated Codex commands should declare the installed runtime with `arcanum:runtime codex`. Runtime-sensitive sigils may also declare adapter metadata. `task-session` must declare `arcanum:runtime-goal-adapter codex-goal` when installed for Codex so work-pack tasks/SWUs can be delegated through native Codex `/goal` via the `codex-goal-profile` transmutation.
+</targets>
+
+<applicability>
+Use this sigil when a repository should invoke Arcanum sigils from Codex slash-command style commands.
+</applicability>
+
+<inputs>
+Expected inputs, if available:
+
+- target runtime: `codex` or `none`,
+- repository root,
+- observability path,
+- command name,
+- selected sigils,
+- selected spells,
+- dry-run preference.
+</inputs>
+
+<default-output>
+If no command is provided, install or plan `arcanum-orchestrate` plus individual artifact commands.
+
+Default paths:
+
+```text
+codex -> .codex/commands/arcanum-orchestrate.md
+         .codex/commands/arcanum-sigil-<id>.md
+         .codex/commands/<id>.md
+         .codex/commands/arcanum-spell-<id>.md
+         .codex/commands/<id>.md
+         .codex/commands/arcanum-ontology-harness.md
+         .codex/commands/arcanum-necronomicon.md
+         .codex/hooks.json
+         .codex/hooks/arcanum-user-prompt-submit.sh
+         .codex/hooks/arcanum-post-tool-use.sh
+         .codex/hooks/arcanum-stop.sh
+```
+</default-output>
 
 <process>
-1. Read .arcanum/runtimes/github-copilot/skills/arcanum-sigil-sigil-runtime-installer/SKILL.md.
-2. Follow that adapter's process.
-3. If the runtime adapter is unavailable, report a blocked install and ask to rerun Arcanum bootstrap.
+## Step 1 - Select Target
+
+1. If the target runtime is not provided, ask whether to install `codex` commands or `none`.
+2. Resolve repository root and selected Arcanum artifacts.
+3. Resolve command name, defaulting to `arcanum-orchestrate`.
+4. Detect whether the target install path already exists.
+
+## Step 2 - Build Command Plan
+
+5. Generate `.codex/commands/` files directly; do not generate `.arcanum/runtimes/`.
+6. Add runtime metadata to generated Codex commands and adapter metadata to runtime-sensitive commands.
+7. Every command starts with observer envelope task zero.
+8. Every command embeds or references the canonical sigil/spell snapshot it needs to execute.
+9. Do not require generated `.arcanum/necronomicon/` registry files. If Necronomicon state exists there, treat it as harness memory and selected capability state only.
+10. Install Codex hooks for `UserPromptSubmit`, `PostToolUse`, and `Stop` so native slash-command usage is hook-backed.
+
+## Step 3 - Install Or Dry Run
+
+11. In dry-run mode, return the files that would be created or updated.
+12. In install mode, create or update only `.codex/commands/`, `.codex/hooks.json`, `.codex/hooks/`, `.arcanum/observability/`, and optional `.arcanum/necronomicon/`.
+13. For sigil and spell artifact commands, install both the prefixed compatibility command and the bare-id command.
+14. If an existing command has unrelated local changes, stop and ask before overwriting unless overwrite was explicitly approved.
+
+## Step 4 - Validate
+
+15. Check that command files exist.
+16. Check that each command contains observer task-zero metadata.
+17. Check that generated Codex commands include runtime metadata.
+18. Check that runtime-sensitive commands include expected adapter metadata.
+19. Check that short aliases exist for installed sigil and spell commands unless explicitly conflicted.
+20. Check that `.codex/hooks.json` is valid JSON and hook scripts are executable.
+21. Check that no `.arcanum/runtimes/` or `.github/skills/` tree is generated.
+22. Return pass, flag, or block.
 </process>
 
-<guardrails>
-- Keep this file as a discovery bridge only.
-- Do not copy full artifact internals into this wrapper.
-</guardrails>
+<quality-bar>
+A successful execution must:
+
+- install Codex commands only,
+- install bare-id aliases for sigils and spells unless a collision is reported,
+- keep Necronomicon as harness state,
+- install the Necronomicon command when the repository harness is enabled,
+- avoid requiring generated `.arcanum/necronomicon/` definition files,
+- install observer hooks,
+- preserve runtime metadata and runtime-goal adapter declarations,
+- validate command and hook paths,
+- preserve unrelated local agent configuration,
+- report what was installed and how to invoke it.
+</quality-bar>
+
+<anti-patterns>
+Avoid:
+
+- installing GitHub Copilot, Claude, or `.arcanum/runtimes/` adapter trees,
+- overwriting existing command files without checking ownership,
+- embedding stale or untraceable copies of sigil instructions in command files,
+- making a consuming repository's generated command the canonical sigil source,
+- hiding validation failures behind a successful install message.
+</anti-patterns>
+
+<observability>
+When `.arcanum/observability/` exists, emit telemetry for:
+
+- target runtime,
+- repository root,
+- command name,
+- files created,
+- files updated,
+- Necronomicon command status,
+- hook install status,
+- runtime metadata status,
+- validation result,
+- blockers.
+</observability>
+
+<output-contract>
+Return:
+
+```markdown
+## Sigil Runtime Installer Result
+
+- Target runtime: codex | none
+- Repository: <path>
+- Command: <name>
+- Files created: <paths>
+- Files updated: <paths>
+- Hooks: installed | skipped
+- Dry run: yes | no
+- Validation: pass | flag | block
+- Invocation: <command or command name>
+- Next action: <action>
+```
+</output-contract>

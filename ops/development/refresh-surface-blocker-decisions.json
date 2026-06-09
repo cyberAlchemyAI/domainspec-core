@@ -1,0 +1,64 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "sourceSignals": [
+    {
+      "id": "SIGNAL-SURFACE-BLOCKERS-001",
+      "source_path": "user request: [$invoke] refresh with recomended set",
+      "signal_type": "blocker_resolved",
+      "target_artifacts": [
+        "docs/decisions/surface-cleanup-blocker-decisions.md",
+        "ops/development/refinement-runs/20260531T171344Z-surface-blockers-gap-refine/RESULT.md",
+        "ops/development/refinement-runs/20260531T171344Z-surface-blockers-gap-refine/RUN-MANIFEST.md",
+        "ops/development/refinement-runs/20260531T171344Z-surface-blockers-gap-refine/evidence-index.json"
+      ],
+      "claim": "The user approved the recommended decision set 1A 2B 3A 4A 5C.",
+      "evidence": "The previous decision-gate result recommended 1A 2B 3A 4A 5C; the user requested refresh with the recommended set.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "docs/decisions/surface-cleanup-blocker-decisions.md",
+    "ops/development/refinement-runs/20260531T171344Z-surface-blockers-gap-refine/RESULT.md",
+    "ops/development/refinement-runs/20260531T171344Z-surface-blockers-gap-refine/RUN-MANIFEST.md",
+    "ops/development/refinement-runs/20260531T171344Z-surface-blockers-gap-refine/evidence-index.json"
+  ],
+  "deltaSummary": [
+    {
+      "class": "blocker_resolved",
+      "summary": "All five blocker decision groups are now accepted."
+    },
+    {
+      "class": "status_changed",
+      "summary": "Decision artifact changed from blocked to accepted."
+    },
+    {
+      "class": "status_changed",
+      "summary": "Refinement result and manifest changed from block to pass."
+    },
+    {
+      "class": "route_changed",
+      "summary": "Next route is task-session for TASK-SURFACE-002 / SWU-SURFACE-002."
+    }
+  ],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "Recorded selected options 1A 2B 3A 4A 5C.",
+    "Added rationale for each selected option.",
+    "Cleared remaining blockers for the next bounded task session.",
+    "Updated refinement run status artifacts from block to pass."
+  ],
+  "skippedChanges": [
+    "Did not execute TASK-SURFACE-002.",
+    "Did not mutate /mnt/c/Users/vlad_/.codex/skills.",
+    "Did not delete, untrack, or edit .github/skills, .arcanum/runtimes/github-copilot, or observability ledgers."
+  ],
+  "blockers": [],
+  "nextRoute": "task-session",
+  "validation": [
+    "Decision record reviewed after patch.",
+    "Refinement result and manifest reviewed after patch.",
+    "evidence-index.json parsed with python3 -m json.tool."
+  ]
+}

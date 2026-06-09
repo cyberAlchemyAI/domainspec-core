@@ -1,27 +1,16 @@
 ---
 name: arcanum-necronomicon-session
-description: Run the installed Necronomicon session harness through its local runtime adapter.
-argument-hint: "<setup|start|resume|route|checkpoint|research|implementation-research|update-capabilities|fallback-discover|maintain|close> <request>"
-allowed-tools: Read, Glob, Grep, AskQuestions, Task
+description: "Alias package for arcanum-spell-necronomicon."
+surface_kind: generated-native-runtime-package
+runtime: github-copilot
+canonical_source: spells/necronomicon/README.md
+alias_of: arcanum-spell-necronomicon
+generated_by: tools/bootstrap_arcanum.sh --profile
+mutation_policy: regenerate-from-canonical-source
 ---
 
-# Arcanum Necronomicon Session
+# Skill: Necronomicon Session
 
-<objective>
-Expose the installed Necronomicon session adapter to GitHub Copilot's required discovery path.
-</objective>
+Alias package for `arcanum-spell-necronomicon`.
 
-<context>
-The canonical local adapter lives at .arcanum/runtimes/github-copilot/skills/arcanum-necronomicon-session/SKILL.md.
-</context>
-
-<process>
-1. Read .arcanum/runtimes/github-copilot/skills/arcanum-necronomicon-session/SKILL.md.
-2. Follow that adapter's process.
-3. If the runtime adapter is unavailable, report a blocked install and ask to rerun Arcanum bootstrap.
-</process>
-
-<guardrails>
-- Keep this file as a discovery bridge only.
-- Do not copy full artifact internals into this wrapper.
-</guardrails>
+Use the canonical generated package named `arcanum-spell-necronomicon`. This file exists only so the runtime can discover a familiar invocation name.

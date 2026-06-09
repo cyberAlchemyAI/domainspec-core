@@ -1,27 +1,49 @@
 ---
-name: arcanum-spell-discovery-to-inventory
-description: Run the installed Arcanum spell discovery-to-inventory through its local runtime adapter.
-argument-hint: "<request-for-discovery-to-inventory>"
-allowed-tools: Read, Glob, Grep, AskQuestions, Task
+surface_kind: generated-native-runtime-package
+runtime: github-copilot
+canonical_source: spells/discovery-to-inventory/README.md
+alias_of: null
+generated_by: tools/bootstrap_arcanum.sh --profile
+mutation_policy: regenerate-from-canonical-source
 ---
 
-# Arcanum spell: discovery to inventory
+# Discovery To Inventory
 
-<objective>
-Expose the installed Arcanum spell adapter to GitHub Copilot's required discovery path.
-</objective>
+## Identity
 
-<context>
-The canonical local adapter lives at .arcanum/runtimes/github-copilot/skills/arcanum-spell-discovery-to-inventory/SKILL.md.
-</context>
+- Canonical ID: `discovery-to-inventory`
+- Aliases: none
+- Scope: library
 
-<process>
-1. Read .arcanum/runtimes/github-copilot/skills/arcanum-spell-discovery-to-inventory/SKILL.md.
-2. Follow that adapter's process.
-3. If the runtime adapter is unavailable, report a blocked install and ask to rerun Arcanum bootstrap.
-</process>
+Discovery To Inventory composes `scope-interview`, `feature-glossary`, and `inventory` so early discovery becomes persistent reusable knowledge.
 
-<guardrails>
-- Keep this file as a discovery bridge only.
-- Do not copy full artifact internals into this wrapper.
-</guardrails>
+## Trigger Conditions
+
+- A user has a vague idea, brownfield project, or unclear project scope.
+- Discovery findings should not disappear into chat history.
+- Vocabulary and decisions should become reusable inventory entries.
+
+## Required Sigils
+
+| Sigil | Role In Spell | Required Mode |
+| ----- | ------------- | ------------- |
+| `scope-interview` | Build the discovery baseline. | greenfield, brownfield, or auto |
+| `feature-glossary` | Clarify local vocabulary. | create or update |
+| `inventory` | Install or update reusable knowledge entries. | install, ingest, backfill |
+
+## Execution Phases
+
+| Phase | Sigil | Input | Output | Gate | Failure Policy |
+| ----- | ----- | ----- | ------ | ---- | -------------- |
+| 1 | `scope-interview` | project idea or repository | discovery baseline | observed, stated, and hypothesized content separated | block on unresolved scope gate |
+| 2 | `feature-glossary` | discovery baseline and source docs | glossary | terms link to evidence | flag unresolved vocabulary |
+| 3 | `inventory` | baseline and glossary | inventory entries | index and log updated | flag missing source coverage |
+| 4 | spell report | phase outputs | discovery-to-inventory report | blockers named | report partial when discovery remains open |
+
+## Observability
+
+Record questions asked, decisions captured, glossary terms, entries created, unresolved scope gaps, and next discovery actions.
+
+## Output Contract
+
+Return a report with discovery verdict, glossary coverage, inventory updates, blockers, and recommended next discovery or planning step.

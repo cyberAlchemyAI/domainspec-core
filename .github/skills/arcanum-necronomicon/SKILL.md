@@ -1,27 +1,16 @@
 ---
 name: arcanum-necronomicon
-description: Run the installed Arcanum necronomicon ontology-harness through its local runtime adapter.
-argument-hint: "<request-for-ontology-harness>"
-allowed-tools: Read, Glob, Grep, AskQuestions, Task
+description: "Alias package for arcanum-spell-ontology-harness."
+surface_kind: generated-native-runtime-package
+runtime: github-copilot
+canonical_source: spells/ontology-harness/README.md
+alias_of: arcanum-spell-ontology-harness
+generated_by: tools/bootstrap_arcanum.sh --profile
+mutation_policy: regenerate-from-canonical-source
 ---
 
-# Arcanum necronomicon: ontology harness
+# Skill: Necronomicon
 
-<objective>
-Expose the installed Arcanum necronomicon adapter to GitHub Copilot's required discovery path.
-</objective>
+Alias package for `arcanum-spell-ontology-harness`.
 
-<context>
-The canonical local adapter lives at .arcanum/runtimes/github-copilot/skills/arcanum-necronomicon/SKILL.md.
-</context>
-
-<process>
-1. Read .arcanum/runtimes/github-copilot/skills/arcanum-necronomicon/SKILL.md.
-2. Follow that adapter's process.
-3. If the runtime adapter is unavailable, report a blocked install and ask to rerun Arcanum bootstrap.
-</process>
-
-<guardrails>
-- Keep this file as a discovery bridge only.
-- Do not copy full artifact internals into this wrapper.
-</guardrails>
+Use the canonical generated package named `arcanum-spell-ontology-harness`. This file exists only so the runtime can discover a familiar invocation name.

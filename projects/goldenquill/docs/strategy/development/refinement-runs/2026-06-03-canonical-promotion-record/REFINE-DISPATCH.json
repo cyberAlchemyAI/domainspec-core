@@ -1,0 +1,48 @@
+{
+  "dispatch_id": "goldenquill-canonical-promotion-record-refine-20260603",
+  "status": "local-inline-record",
+  "target": "docs/strategy",
+  "objective": "Refine the GoldenQuill promotion-record strategy as the canonical applied reference model.",
+  "research_policy": "local-bounded",
+  "subagent_strategy": {
+    "status": "none",
+    "reason": "The requested pass was a local strategy refinement over existing artifacts."
+  },
+  "steps": [
+    {
+      "id": "context-baseline",
+      "owner": "refine",
+      "status": "pass",
+      "output": "evidence-index.json"
+    },
+    {
+      "id": "local-synthesis",
+      "owner": "refine",
+      "status": "pass",
+      "output": "docs/strategy/goldenquill_canonical_promotion_record_refine_2026-06-03.md"
+    },
+    {
+      "id": "result",
+      "owner": "refine",
+      "status": "pass",
+      "output": "RESULT.md"
+    }
+  ],
+  "gates": [
+    {
+      "id": "owner-boundary",
+      "status": "pass",
+      "condition": "GoldenQuill owns grant-specific runtime semantics; Ontology Vault owns promotion-governance semantics."
+    },
+    {
+      "id": "mutation-boundary",
+      "status": "pass",
+      "condition": "No production memory, card, ontology, org-vault, or dashboard mutation occurred."
+    },
+    {
+      "id": "next-proof",
+      "status": "flag",
+      "condition": "L0 fixtures and deterministic validator remain required before runtime implementation."
+    }
+  ]
+}

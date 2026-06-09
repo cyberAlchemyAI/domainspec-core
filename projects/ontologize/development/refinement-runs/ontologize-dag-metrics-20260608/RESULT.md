@@ -7,7 +7,7 @@
 ## What changed
 
 The abstract "promotion DAG + evidence-linked KPIs" in DESIGN/PLAN is now a concrete design:
-[DAG-AND-METRICS.md](../../DAG-AND-METRICS.md). It answers all four operator questions, each lifted
+[DAG-AND-METRICS.md](../../../DAG-AND-METRICS.md). It answers all four operator questions, each lifted
 from GoldenQuill's `grant_dag` implementation on `master` and tagged source-backed / adapt / hypothesis.
 
 1. **How the DAG is structured** — two linked acyclic graphs (immutable execution DAG + ontology DAG),

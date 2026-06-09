@@ -32,12 +32,14 @@ denominators are defined inside a run context.
    sections. BI-led ordering.
 4. **Per-vertical instantiation** — cap factory + logistics seeds for components 1–3.
 5. **Proof harness** — defines, per vertical, the one evidence-linked metric, its evidence chain,
-   baseline, and movement measurement.
+   baseline, movement measurement, and optimization-chain definition. The chain method is specified
+   in [OPTIMIZATION-CHAIN-METHOD.md](OPTIMIZATION-CHAIN-METHOD.md).
 
 ## View 3 — Data / artifacts flow
 
 `assessment → ontology-map + inventories → method install (L-ont→L-reg→L-dag→L-bi) →
-evidence-linked KPIs + receipts → deliverable package → proof harness reading → cross-vertical verdict`.
+evidence-linked KPIs + receipts → optimization chains → deliverable package → proof harness reading
+→ cross-vertical verdict`.
 Each arrow is an artifact handoff; no step mutates the prior step's record (audit integrity, P3).
 
 ## View 4 — Governance / gates
@@ -47,6 +49,8 @@ Each arrow is an artifact handoff; no step mutates the prior step's record (audi
 - **G-promotion** — no pricing/contracts/canonical promotion in any artifact; block.
 - **G-layer** — a layer installs only after the prior layer produced its evidence (P-layering).
 - **G-proof (R-E)** — generalization claim is made only after both verticals report independent metric movement.
+- **G-chain (R-G)** — every BI optimization claim must resolve to an optimization-chain definition
+  with run node, metric, method, claim label, interpretation limits, and owner-decision route.
 
 > **DAG & metrics are now specified concretely** in [DAG-AND-METRICS.md](DAG-AND-METRICS.md)
 > (node/edge types, event model, metric families, improve-over-time loop, deterministic gates),
@@ -83,6 +87,7 @@ decidable selection rule: [DELIVERY-LANES.md](DELIVERY-LANES.md). The lane is ch
 - Risk: continuous-production run boundary (cap factory) — mitigated by assessment decision.
 - Risk: cross-vertical generalization is a hypothesis (R1) — mitigated by independent per-vertical proof.
 - Risk: client data sensitivity — mitigated by G-privacy (signed register before agents).
+- Risk: BI claims become dashboard slogans — mitigated by G-chain and schema validation.
 
 ## Glossary consistency
 

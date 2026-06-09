@@ -26,6 +26,10 @@ Client-facing terms for the CyberAlchemy ontology + DAG offer. Each entry marks 
 - **Contradiction path** [GQ] — the stated way a candidate could later be proven wrong; required.
 - **Evidence-linked KPI** [CA, from KPI families] — a metric bound to its source evidence and
   interpretation limits so it cannot silently drift.
+- **Optimization chain** [CA, from GoldenQuill grant optimization-chain work] — a sentence and schema
+  contract that connects a run node, evidence-linked KPI, analysis method, and named BI optimization.
+- **BI optimization** [CA] — the decision-improvement insight produced by an optimization chain,
+  always bounded by claim label, privacy scope, and owner decision.
 - **Receipt** [GQ] — an auditable artifact stating actual vs counterfactual (cost/energy/effort) with
   every claim traced to its source.
 - **Agent council / seats** [GQ] — a set of role-bound agents (discover, draft, review, score,
