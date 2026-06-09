@@ -1,0 +1,325 @@
+{
+  "dispatch_id": "ontologize-optimization-chain-method-20260609",
+  "parent_dispatch_id": "ontologize-research-20260608",
+  "intent": {
+    "raw": "Add the GoldenQuill optimization-chain work into projects/ontologize as a general method.",
+    "objective": "Run the canonical refine loop to generalize GoldenQuill optimization-chain definitions into a vertical-agnostic ontologize method that binds run nodes, evidence-linked KPIs, response windows, analysis methods, claim labels, and owner-governed reuse into named BI optimizations.",
+    "target_artifact": "projects/ontologize/OPTIMIZATION-CHAIN-METHOD.md",
+    "arcanum_vocabulary": [
+      "refine",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "dispatch-spec",
+      "x_ray",
+      "memory_loop",
+      "residue",
+      "promotion guardrail"
+    ],
+    "operator_sentence": "Generalize the GoldenQuill optimization-chain work into ontologize as a reusable method."
+  },
+  "mode": "mixed",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "data_quality_completeness",
+    "x_ray",
+    "memory_loop",
+    "residue_ledger",
+    "concrete_path_evidence"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "The target is a hidden bridge between DAG metrics and client-facing BI language.",
+      "techniques": ["x_ray", "component_descriptor", "concrete_path_evidence"],
+      "applies_to_steps": ["distill", "invoke-redesign"],
+      "validation_expectation": "The result must name the method components, contract fields, sentence forms, examples, and schema."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "The operator asked to reuse work already done in the GoldenQuill optimization-chain session.",
+      "techniques": ["memory_loop", "residue_ledger", "data_quality_completeness"],
+      "applies_to_steps": ["context-baseline", "distill"],
+      "validation_expectation": "Reuse local session output as source precedent while keeping GoldenQuill read-only."
+    }
+  ],
+  "route_menu": {
+    "context_hint": "Single technique profile selected: x-ray the bridge concept and reuse the local GoldenQuill precedent. Tournament is not needed because the selected unit is already clear.",
+    "items": [
+      {
+        "id": "xray-memory-generalize",
+        "label": "X-ray + generalize",
+        "description": "Generalize the GoldenQuill chain into a method, schema, and fixture.",
+        "capability_ref": "refine",
+        "pattern": "route"
+      },
+      {
+        "id": "leave-as-project-specific",
+        "label": "Leave project-specific",
+        "description": "Keep the chain only in GoldenQuill; rejected because the user asked for ontologize generalization.",
+        "capability_ref": "invoke",
+        "pattern": "synthesis"
+      }
+    ],
+    "selected_item_id": "xray-memory-generalize"
+  },
+  "steps": [
+    {
+      "step_id": "context-baseline",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "pattern": "route",
+      "techniques": ["frame_handoff", "handle_handoff", "memory_loop", "concrete_path_evidence"],
+      "inputs": [
+        {"kind": "intent", "ref": "intent.raw"},
+        {"kind": "artifact", "ref": "projects/ontologize/DAG-AND-METRICS.md"},
+        {"kind": "artifact", "ref": "projects/ontologize/SPEC.md"},
+        {"kind": "external_context", "ref": "local-session:GoldenQuill optimization-chain work"}
+      ],
+      "outputs": [
+        {"kind": "frame", "ref": "ontologize-optimization-chain-evidence-baseline"},
+        {"kind": "trace_event", "ref": "optimization-chain-context-baseline-built"}
+      ],
+      "stop_conditions": ["Block if ontologize DAG/metrics baseline is missing."]
+    },
+    {
+      "step_id": "invoke-define",
+      "name": "Invoke Define the optimization-chain method",
+      "capability_ref": "invoke",
+      "pattern": "sequential",
+      "techniques": ["sequence", "minimum_component_catalog"],
+      "inputs": [{"kind": "frame", "ref": "ontologize-optimization-chain-evidence-baseline"}],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/02-define.md"},
+        {"kind": "trace_event", "ref": "optimization-chain-define-built"}
+      ],
+      "stop_conditions": ["Flag if the method lacks schema or sentence forms."]
+    },
+    {
+      "step_id": "interrogation-review",
+      "name": "Interrogation refine-review of the define",
+      "capability_ref": "interrogation",
+      "pattern": "validation",
+      "techniques": ["validation_loop"],
+      "inputs": [{"kind": "artifact", "ref": "stages/02-define.md"}],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/03-interrogation-review.md"},
+        {"kind": "trace_event", "ref": "optimization-chain-define-reviewed"}
+      ],
+      "evidence_artifact": "stages/03-interrogation-review.md",
+      "stop_conditions": ["Flag if the method overclaims approval or causality."]
+    },
+    {
+      "step_id": "research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "pattern": "decision",
+      "techniques": ["owner_boundary_check"],
+      "inputs": [{"kind": "artifact", "ref": "stages/03-interrogation-review.md"}],
+      "outputs": [
+        {"kind": "decision", "ref": "optimization-chain-research-decision-no-research"},
+        {"kind": "trace_event", "ref": "optimization-chain-research-decided"}
+      ],
+      "stop_conditions": ["Ask before external research; default is local precedent only."]
+    },
+    {
+      "step_id": "distill",
+      "name": "Distill the reusable optimization-chain unit",
+      "capability_ref": "distill",
+      "pattern": "distill",
+      "techniques": ["x_ray", "residue_ledger", "concrete_path_evidence", "data_quality_completeness"],
+      "inputs": [
+        {"kind": "decision", "ref": "optimization-chain-research-decision-no-research"},
+        {"kind": "frame", "ref": "ontologize-optimization-chain-evidence-baseline"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/05-distill.md"},
+        {"kind": "trace_event", "ref": "optimization-chain-distilled"}
+      ],
+      "stop_conditions": ["Block if the unit cannot preserve evidence, claim, and approval boundaries."]
+    },
+    {
+      "step_id": "invoke-redesign",
+      "name": "Invoke Redesign to OPTIMIZATION-CHAIN-METHOD.md",
+      "capability_ref": "invoke",
+      "pattern": "synthesis",
+      "techniques": ["x_ray", "component_descriptor", "frame_handoff"],
+      "inputs": [{"kind": "artifact", "ref": "stages/05-distill.md"}],
+      "outputs": [
+        {"kind": "artifact", "ref": "projects/ontologize/OPTIMIZATION-CHAIN-METHOD.md"},
+        {"kind": "trace_event", "ref": "optimization-chain-method-authored"}
+      ],
+      "stop_conditions": ["Block if the method lacks examples, contract fields, or authority rules."]
+    },
+    {
+      "step_id": "interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "pattern": "validation",
+      "techniques": ["validation_loop"],
+      "inputs": [{"kind": "artifact", "ref": "projects/ontologize/OPTIMIZATION-CHAIN-METHOD.md"}],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/07-design-review.md"},
+        {"kind": "trace_event", "ref": "optimization-chain-design-reviewed"}
+      ],
+      "evidence_artifact": "stages/07-design-review.md",
+      "stop_conditions": ["Flag if proof harness integration is missing."]
+    },
+    {
+      "step_id": "distill-repair",
+      "name": "Distill repair of flagged gaps",
+      "capability_ref": "distill",
+      "pattern": "validation",
+      "techniques": ["validation_loop", "residue_ledger"],
+      "inputs": [{"kind": "artifact", "ref": "stages/07-design-review.md"}],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/08-distill-repair.md"},
+        {"kind": "trace_event", "ref": "optimization-chain-repaired"}
+      ],
+      "evidence_artifact": "stages/08-distill-repair.md",
+      "stop_conditions": ["Block if schema or work-pack integration cannot be repaired."]
+    },
+    {
+      "step_id": "invoke-plan",
+      "name": "Invoke Plan deltas",
+      "capability_ref": "invoke",
+      "pattern": "synthesis",
+      "techniques": ["frame_handoff", "validation_loop"],
+      "inputs": [{"kind": "artifact", "ref": "stages/08-distill-repair.md"}],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/09-plan-deltas.md"},
+        {"kind": "trace_event", "ref": "optimization-chain-plan-updated"}
+      ],
+      "stop_conditions": ["Block if T5 acceptance does not require schema-valid optimization chain."]
+    },
+    {
+      "step_id": "final-synthesis",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "refine",
+      "pattern": "validation",
+      "techniques": ["validation_loop", "observability_grouping"],
+      "inputs": [{"kind": "artifact", "ref": "stages/09-plan-deltas.md"}],
+      "outputs": [
+        {"kind": "artifact", "ref": "RESULT.md"},
+        {"kind": "trace_event", "ref": "optimization-chain-final-synthesized"}
+      ],
+      "evidence_artifact": "RESULT.md",
+      "stop_conditions": ["Block if done criteria are not satisfied."]
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The generalization target is narrow and the necessary GoldenQuill precedent plus ontologize DAG/metrics baseline are already local.",
+    "authorization": "not_needed"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "goldenquill-readonly-precedent",
+        "kind": "artifact_import",
+        "from_owner": "GoldenQuill local session output",
+        "to_owner": "projects/ontologize",
+        "applies_to_steps": ["context-baseline", "distill", "invoke-redesign"],
+        "contract": "GoldenQuill optimization-chain work is used as read-only source precedent and generalized into ontologize; no GoldenQuill repository push or mutation occurs.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "approval-authority-split",
+        "kind": "artifact_import",
+        "from_owner": "OptimizationChainDefinition",
+        "to_owner": "OwnerDecision",
+        "applies_to_steps": ["invoke-redesign", "invoke-plan"],
+        "contract": "Optimization chains can explain and prepare candidates; owner decisions are required before reuse authority.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine",
+      "execution": "refine-inline-stages",
+      "validation": "dispatch-spec",
+      "evidence": "signal-observer",
+      "promotion": "owner decision route"
+    },
+    "promotion_splits": [
+      {
+        "source": "OptimizationChainDefinition candidate",
+        "target": "approved client reuse, agent routing, or knowledge projection",
+        "rule": "requires owner decision and knowledge projection route",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "gates": [
+    {
+      "gate_id": "native-capability-handles",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "Every runtime-backed stage names a canonical capability handle.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "method-contract-complete",
+      "kind": "quality",
+      "owner": "distill",
+      "condition": "The method names run nodes, metrics, response windows, analysis methods, claim labels, sentence forms, and governance route.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "goldenquill-read-only",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "GoldenQuill is read-only precedent; this run modifies only projects/ontologize.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "schema-fixture",
+      "kind": "validation",
+      "owner": "invoke",
+      "condition": "The logistics example validates against optimization-chain-method.schema.json.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "arcanum",
+      "condition": "Outputs are candidates; no canonical promotion, no pricing/contracts/named clients.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "final-synthesis-readiness",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "RESULT.md confirms method, schema, example, and plan integration.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "ontologize-research-20260608",
+    "trace_events": [
+      "optimization-chain-context-baseline-built",
+      "optimization-chain-define-built",
+      "optimization-chain-define-reviewed",
+      "optimization-chain-research-decided",
+      "optimization-chain-distilled",
+      "optimization-chain-method-authored",
+      "optimization-chain-design-reviewed",
+      "optimization-chain-repaired",
+      "optimization-chain-plan-updated",
+      "optimization-chain-final-synthesized"
+    ],
+    "signal_grouping": "ontologize-optimization-chain-method"
+  },
+  "promotion_guardrails": [
+    "GoldenQuill remains read-only source precedent.",
+    "Optimization chains are candidate BI explanations until owner decision.",
+    "No canonical Arcanum promotion; no pricing/contracts/named clients."
+  ]
+}

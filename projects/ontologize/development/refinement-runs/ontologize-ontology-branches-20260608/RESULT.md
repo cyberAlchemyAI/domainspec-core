@@ -6,7 +6,7 @@
 
 ## What changed
 
-Added [ONTOLOGY-BRANCHES.md](../../ONTOLOGY-BRANCHES.md): the ontology is now explained as a **4-branch
+Added [ONTOLOGY-BRANCHES.md](../../../ONTOLOGY-BRANCHES.md): the ontology is now explained as a **4-branch
 model** with explicit product-layer and client-work interactions.
 
 - **Branches [SB]:** B1 meaning (business/intent) · B2 system (implementation/runtime) · B3 operational

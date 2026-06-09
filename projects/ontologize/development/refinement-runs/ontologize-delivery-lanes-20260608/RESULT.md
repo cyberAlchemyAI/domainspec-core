@@ -6,7 +6,7 @@
 
 ## What changed
 
-Added two delivery lanes to the ontologize method: [DELIVERY-LANES.md](../../DELIVERY-LANES.md).
+Added two delivery lanes to the ontologize method: [DELIVERY-LANES.md](../../../DELIVERY-LANES.md).
 
 - **Lane A — existing tools:** the four layers on the client's ERP/TMS/spreadsheets/BI; high
   sovereignty, low lift, advisory (not fail-closed) governance. [SB ontologize design]

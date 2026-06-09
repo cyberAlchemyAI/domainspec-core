@@ -12,7 +12,7 @@ parent task, an explicit write scope, acceptance evidence, and a reviewable chec
 | SWU-2 | S1    | L0    | T2 Run logistics assessment       | `pilots/logistics/assessment.md`             |
 | SWU-3 | S2    | L1    | T3 Install method (logistics)     | `pilots/logistics/method/`                   |
 | SWU-4 | S3    | L1    | T4 Deliverable template v1        | `deliverable/` + `pilots/logistics/package/` |
-| SWU-5 | S4    | L1    | T5 Proof harness (logistics)      | `pilots/logistics/proof.md`                  |
+| SWU-5 | S4    | L1    | T5 Proof harness (logistics)      | `pilots/logistics/proof.md`, chain fixture   |
 | SWU-6 | S5    | L2    | T6 Cap factory parallel run       | `pilots/cap-factory/`                        |
 | SWU-7 | S6    | L3    | T7 Cross-vertical + gap hardening | `deliverable/`, `GENERALIZATION.md`          |
 
@@ -66,13 +66,16 @@ Layer gate: SWU-3+ may start only after SWU-2 evidence passes; SWU-6 after SWU-5
 - **Check:** a reviewer with no project context understands the offer from the package alone.
 - **Depends on:** T3.
 
-### T5 — Proof harness, logistics (SWU-5)
+### T5 — Proof harness + optimization chain, logistics (SWU-5)
 
 - **Do:** Pick one evidence-linked metric (D-defer-1), define its evidence chain + denominator +
-  baseline, measure movement per [PLAN IDS-3](PLAN.md).
-- **Write scope:** `projects/ontologize/pilots/logistics/proof.md`.
-- **Acceptance:** metric traces to source events; baseline + post value + interpretation limits recorded.
-- **Check:** an independent reviewer reproduces the number from the evidence chain.
+  baseline, measure movement per [PLAN IDS-3](PLAN.md), and express the result as an optimization
+  chain per [OPTIMIZATION-CHAIN-METHOD.md](OPTIMIZATION-CHAIN-METHOD.md).
+- **Write scope:** `projects/ontologize/pilots/logistics/proof.md` plus one optimization-chain fixture.
+- **Acceptance:** metric traces to source events; baseline + post value + interpretation limits recorded;
+  optimization-chain fixture validates against schema.
+- **Check:** an independent reviewer reproduces the number from the evidence chain and validates the
+  optimization-chain fixture.
 - **Depends on:** T4. **Promotes L1→L2 on pass.**
 
 ### T6 — Cap factory parallel run (SWU-6)

@@ -33,6 +33,11 @@ Arcanum or CyberAlchemy vocabulary without owner review.
   (GoldenQuill CycleReceipt / WPFA PDF).
 - **Governed learning loop** — _source-backed._ observe → propose → approve with privacy and
   contradiction gates.
+- **Optimization chain** — _seed._ A sentence-and-contract method that binds a run node/action,
+  evidence-linked KPI, response window, analysis method, claim label, and reuse boundary into a named
+  BI optimization. Generalized in [OPTIMIZATION-CHAIN-METHOD.md](OPTIMIZATION-CHAIN-METHOD.md).
+- **BI optimization** — _seed._ A named decision-improvement output from an optimization chain, such
+  as exception resolution acceleration, carrier reliability optimization, or rework reduction insight.
 
 ### Agent layer (the "who does the work" execution)
 

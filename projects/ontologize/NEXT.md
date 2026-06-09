@@ -16,8 +16,9 @@ BI as the lever**. R2/R3 closed; R8 narrowed to per-vertical proof metrics (defe
    per-vertical instantiations. Close the five inherited GoldenQuill gaps (meta-metrics, buyer readiness,
    consequence/cost, transition plan, failure modes). Use `whisper` or `task-session`. Owner: deliverable design.
 4. **Pilot thin slices in both verticals (R1).** One segment × one mechanism × one learning loop each;
-   prove evidence-linked metric movement on real data; compare across verticals to evidence generalization.
-   Owner: product. Gated on (2).
+   prove evidence-linked metric movement on real data; express the movement as an optimization chain
+   using [OPTIMIZATION-CHAIN-METHOD.md](OPTIMIZATION-CHAIN-METHOD.md); compare across verticals to
+   evidence generalization. Owner: product. Gated on (2).
 5. **(If promotion wanted)** Open a separate owner-review route before any term, definition, or the
    "CyberAlchemy" brand is treated as canonical, and before any pricing/contract/client commitment.
 

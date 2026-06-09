@@ -35,6 +35,7 @@ Define → design → plan baseline for executing the engagement:
 
 - [SPEC.md](SPEC.md) — consolidated define-mode spec
 - [DESIGN.md](DESIGN.md) — six-view engagement design
+- [OPTIMIZATION-CHAIN-METHOD.md](OPTIMIZATION-CHAIN-METHOD.md) — general BI optimization-chain method
 - [IMPLEMENTATION-LAYERING.md](IMPLEMENTATION-LAYERING.md) — L0–L3 value/cost layers
 - [PLAN.md](PLAN.md) — implementation plan + detail specs
 - [WORK-PACK.md](WORK-PACK.md) — SWUs T1–T7 for `task-session`
@@ -42,5 +43,7 @@ Define → design → plan baseline for executing the engagement:
 
 ## Next
 
-Execute the work-pack via `task-session`, starting at **T1 (assessment instrument)**. See
+Execute the work-pack via `task-session`, starting at **T1 (assessment instrument)**. The BI proof
+slice now uses [OPTIMIZATION-CHAIN-METHOD.md](OPTIMIZATION-CHAIN-METHOD.md) to express action →
+metric → method → optimization chains. See
 [NEXT.md](NEXT.md) for the ordered roadmap.

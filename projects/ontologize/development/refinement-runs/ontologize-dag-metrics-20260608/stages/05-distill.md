@@ -17,4 +17,4 @@ factory + logistics instantiations. Rejected alternative: invent a fresh model (
 
 Residue carried: cap-factory run boundary; exact event catalog; per-vertical proof metric; reflection cadence.
 
-Output unit → [DAG-AND-METRICS.md](../../../DAG-AND-METRICS.md).
+Output unit → [DAG-AND-METRICS.md](../../../../DAG-AND-METRICS.md).

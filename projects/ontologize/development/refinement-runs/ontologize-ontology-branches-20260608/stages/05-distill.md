@@ -14,4 +14,4 @@
 Key insight (x-ray): the **operational branch is what makes metrics honest** — denominators are defined
 inside a run context, so "stage ≠ outcome" (GQ-PR-L0-003) is a branch boundary, not just a rule.
 
-Output unit → [ONTOLOGY-BRANCHES.md](../../../ONTOLOGY-BRANCHES.md).
+Output unit → [ONTOLOGY-BRANCHES.md](../../../../ONTOLOGY-BRANCHES.md).

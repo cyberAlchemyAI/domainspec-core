@@ -12,7 +12,7 @@ Work-pack with SWUs: [WORK-PACK.md](WORK-PACK.md).
 | S1b Lane selection            | L0    | chosen delivery lane (A / B / hybrid) per [DELIVERY-LANES.md](DELIVERY-LANES.md) | Selection rule applied to observable client facts; Lane-B bridges scoped if chosen |
 | S2 Method install (logistics) | L1    | 4 installed layers (on the chosen lane), signed register                         | Each layer's evidence gate passes; register signed before agents                   |
 | S3 Deliverable template v1    | L1    | client-sendable package (logistics)                                              | Honesty gate: every claim tagged; BI-led ordering present                          |
-| S4 Proof harness (logistics)  | L1    | one metric, evidence chain, baseline, movement                                   | Metric traces to evidence chain; movement measured vs baseline                     |
+| S4 Proof harness (logistics)  | L1    | one metric, evidence chain, baseline, movement, optimization chain               | Metric traces to evidence chain; movement measured vs baseline; chain validates    |
 | S5 Cap factory parallel run   | L2    | assessment + method + package (cap factory)                                      | Run-boundary decided; per-vertical metric moved                                    |
 | S6 Cross-vertical + hardening | L3    | generalization report + 5 gap sections                                           | Both verticals independent; gaps closed; template reusable                         |
 
@@ -51,13 +51,18 @@ Work-pack with SWUs: [WORK-PACK.md](WORK-PACK.md).
 ### IDS-3 Proof-harness measurement
 
 - **Concrete spec:** metric families + anti-collapse denominator rule in
-  [DAG-AND-METRICS.md](DAG-AND-METRICS.md) §5. The proof metric is one `MetricObservation` from those families.
+  [DAG-AND-METRICS.md](DAG-AND-METRICS.md) §5, plus the optimization-chain method in
+  [OPTIMIZATION-CHAIN-METHOD.md](OPTIMIZATION-CHAIN-METHOD.md). The proof metric is one
+  `MetricObservation` from those families.
 - **Inputs:** chosen metric, its evidence chain, a baseline window.
-- **Outputs:** baseline value, post-install value, movement + interpretation limits.
+- **Outputs:** baseline value, post-install value, movement + interpretation limits, and one
+  `OptimizationChainDefinition` fixture.
 - **Rules:** metric must trace to source events (no dashboard-only numbers); state denominator
-  definition; record interpretation limits (anti-collapse).
+  definition; record interpretation limits (anti-collapse); chain must name run node, response window,
+  method, claim label, privacy scope, contradiction path, and owner-decision route.
 - **Failure modes:** baseline window too short / noisy → widen window, mark low-confidence.
-- **Validation:** an independent reviewer can reproduce the number from the evidence chain.
+- **Validation:** an independent reviewer can reproduce the number from the evidence chain and validate
+  the chain against [schemas/optimization-chain-method.schema.json](schemas/optimization-chain-method.schema.json).
 
 ## Native handoff readiness
 

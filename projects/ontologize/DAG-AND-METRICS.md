@@ -151,6 +151,19 @@ OutcomeEvents  ──▶ MetricObservations ──▶ (signal a) PromotionCandid
   review — GoldenQuill's Reflection-Packet shape, adapted. Frequency/severity thresholds decide what
   reaches the owner.
 
+### Optimization chain method
+
+[OPTIMIZATION-CHAIN-METHOD.md](OPTIMIZATION-CHAIN-METHOD.md) adds the BI expression layer on top of
+this loop. A chain binds:
+
+```text
+RunNode + MetricObservation + response window + analysis method -> named BI optimization
+```
+
+This is how a pilot turns metric movement into a client-facing business-intelligence claim without
+letting the metric self-promote. The chain carries seven expression forms, a claim label,
+interpretation limits, privacy scope, and an owner-decision route.
+
 ---
 
 ## 7. Deterministic gates (reused verbatim, generalized)
@@ -176,6 +189,11 @@ The ruleset is testable the same way GoldenQuill tests it: a fixture pack of pos
 run through a deterministic validator (cf. `grant_dag/validate.py` + `test_promotion_record_l0.py`).
 The pilot (work-pack T3/T5) dry-runs the ruleset on the client's sample historical runs before any
 live use. **[SB** test pattern**]**
+
+The optimization-chain schema is validated separately through
+[schemas/optimization-chain-method.schema.json](schemas/optimization-chain-method.schema.json), with
+the first example at
+[examples/optimization-chain.logistics-exception-resolution.json](examples/optimization-chain.logistics-exception-resolution.json).
 
 ## Residue
 

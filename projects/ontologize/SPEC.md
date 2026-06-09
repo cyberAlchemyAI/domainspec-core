@@ -16,6 +16,8 @@ parallel pilots (cap factory + logistics company), led by evidence-linked BI.
 - A vertical-agnostic **deliverable template** (client-sendable package), BI-led.
 - A repeatable **four-layer install method** (ontology / classification register / promotion DAG /
   evidence-linked BI + governed agents).
+- A repeatable **optimization-chain method** that expresses run nodes, evidence-linked KPIs,
+  analysis methods, and named BI optimizations as plain-language and schema-backed contracts.
 - **Per-vertical instantiations** for cap factory and logistics.
 - A **proof harness** measuring one evidence-linked metric movement per vertical.
 
@@ -36,10 +38,14 @@ parallel pilots (cap factory + logistics company), led by evidence-linked BI.
   (with a validation step). Honesty gate from [L2](levels/L2-product-closure-plan.md) G1.
 - R-E Proof is measured independently per vertical, then compared to evidence generalization (R1).
 - R-F Privacy/governance: a signed classification register gates data movement before any agent runs.
+- R-G Optimization chains connect operational actions to KPI movement using a named method, claim
+  label, interpretation limits, contradiction path, and owner-decision route. See
+  [OPTIMIZATION-CHAIN-METHOD.md](OPTIMIZATION-CHAIN-METHOD.md).
 
 ## Success criteria
 
 - Both pilots produce a filled assessment, an instantiated method, and one moved evidence-linked metric.
+- Each pilot produces at least one valid optimization-chain definition for its proof metric.
 - The deliverable template is reused across both verticals with only per-vertical instantiation changing.
 - Cross-vertical comparison yields an explicit verdict on the generalization hypothesis.
 
