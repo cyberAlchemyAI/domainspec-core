@@ -36,15 +36,16 @@ Unresolved items after the ontologize research run. Each has an owner and a next
 
 ## Ontology reconciliation (from [RECONCILIATION.md](../RECONCILIATION.md))
 
-- **R12 — B1 canonical name unresolved. [open]** "meaning" (ontologize) vs "business" (all prior art:
-  `BUSINESS-ONTOLOGY.md`, `ontology-vault` `--branch business`, `ONTOLOGY-ARCHITECTURE.md`).
-  Recommendation: adopt **business**, keep meaning/domain/intent as aliases. Owner: ontology owner.
-  Next object: decision-gate. (R13 B3-rename and R14 4-first-class are RESOLVED 2026-06-08 — see
-  RECONCILIATION.md §1.)
-- **R15 — Authority-ladder reuse-as-template undecided. [open]** Whether to lift
+- **R12 — B1 canonical name. [RESOLVED 2026-06-10]** Canonical = **business**; keep
+  meaning/domain/intent as documented client-facing aliases. Resolved by operator via decision-gate —
+  see [decisions/b1-naming-and-promotion-template.md](../decisions/b1-naming-and-promotion-template.md)
+  Decision 1. (R13 B3-rename and R14 4-first-class were RESOLVED 2026-06-08 — see RECONCILIATION.md §1.)
+- **R15 — Authority-ladder reuse-as-template. [RESOLVED 2026-06-10]** Reuse
   `cyberAlchemy/ontology/entries/knowledge-governance-authority-ladder.md` as the pilots' promotion-method
-  template vs. designing fresh. (Existing entries as *content* stay separate — already decided.) Owner:
-  design. Next object: assessment / WORK-PACK T1. [H]
+  template, adapting per vertical; divergences tracked against the shared baseline. (Existing entries as
+  *content* stay separate — already decided.) Resolved by operator via decision-gate — see
+  [decisions/b1-naming-and-promotion-template.md](../decisions/b1-naming-and-promotion-template.md)
+  Decision 2.
 
 ## Promotion guardrail residue
 
