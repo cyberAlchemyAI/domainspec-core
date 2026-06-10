@@ -1,0 +1,43 @@
+{
+  "run_id": "autoads-seed-20260610",
+  "sigil": "refine",
+  "preset": "full",
+  "research_mode": "research-if-gap-appears",
+  "research_confirmation": "external research deferred; seed designed system-agnostic; no external pass run",
+  "dispatch": {
+    "path": "REFINE-DISPATCH.json",
+    "validation": "pass",
+    "validator": ".claude/skills/dispatch-spec/scripts/validate-dispatch.py"
+  },
+  "subagent_strategy": {
+    "status": "required",
+    "authorization": "approved",
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "receipts_collected": 4,
+    "receipts_expected": 4
+  },
+  "stages": [
+    {"step_id": "context-baseline", "capability": "context-builder", "receipt_kind": "native-stage", "status": "pass", "artifact": "stages/01-context-baseline.md"},
+    {"step_id": "invoke-define", "capability": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifact": "stages/02-define.md"},
+    {"step_id": "interrogation-review", "capability": "interrogation", "receipt_kind": "native-stage", "status": "flag", "artifact": "stages/03-interrogation-review.md"},
+    {"step_id": "research-decision", "capability": "refine", "receipt_kind": "native-stage", "status": "pass", "artifact": "stages/04-research-decision.md"},
+    {"step_id": "distill", "capability": "distill", "receipt_kind": "native-stage", "status": "pass", "artifact": "stages/05-distill.md"},
+    {"step_id": "invoke-design", "capability": "invoke", "receipt_kind": "subagent", "status": "pass", "artifact": "stages/06-design.md", "role_artifacts": ["stages/06-design-ontology-reuse.md", "stages/06-design-creative-pipeline.md", "stages/06-design-ad-network-measurement.md", "stages/06-design-auto-research.md"]},
+    {"step_id": "interrogation-design-review", "capability": "interrogation", "receipt_kind": "native-stage", "status": "flag", "artifact": "stages/07-design-review.md"},
+    {"step_id": "distill-repair", "capability": "distill", "receipt_kind": "native-stage", "status": "pass", "artifact": "stages/08-distill-repair.md"},
+    {"step_id": "invoke-plan", "capability": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifact": "stages/09-plan.md"},
+    {"step_id": "final-synthesis", "capability": "refine", "receipt_kind": "native-stage", "status": "pass", "artifact": "RESULT.md"}
+  ],
+  "subagent_receipts": [
+    {"role_id": "ontology-reuse", "verdict": "pass", "artifact": "stages/06-design-ontology-reuse.md"},
+    {"role_id": "creative-pipeline", "verdict": "pass", "artifact": "stages/06-design-creative-pipeline.md"},
+    {"role_id": "ad-network-measurement", "verdict": "pass", "artifact": "stages/06-design-ad-network-measurement.md"},
+    {"role_id": "auto-research", "verdict": "pass", "artifact": "stages/06-design-auto-research.md"}
+  ],
+  "seed_deliverables": ["../../README.md", "../../DEFINE.md", "../../DESIGN.md", "../../PLAN.md"],
+  "open_hypotheses": ["H1-network-schema", "H2-confound-thresholds", "H3-auto-research-card-contract", "H4-ads-generalization"],
+  "status": "pass",
+  "blocked_fields": [],
+  "recommended_next_routes": ["bounded-research:one-ad-network", "task-session:PLAN-Layer-0", "sigil-development:creative-learning-cycle (later)"]
+}
