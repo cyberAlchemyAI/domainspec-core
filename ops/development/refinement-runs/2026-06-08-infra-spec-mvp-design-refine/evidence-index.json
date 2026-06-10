@@ -1,0 +1,108 @@
+{
+  "run_id": "2026-06-08-infra-spec-mvp-design-refine",
+  "date": "2026-06-08",
+  "target": "infra-spec research synthesis corpus (ops/development/infra-spec-*.md)",
+  "target_artifact": "ops/development/refinement-runs/2026-06-08-infra-spec-mvp-design-refine/RESULT.md",
+  "preset": "full",
+  "research_mode": "research-if-gap-appears",
+  "status": "complete-pass",
+  "owned_artifacts": {
+    "seed_proposal": "REFINE-SEED-PROPOSAL.md",
+    "dispatch_route": "REFINE-DISPATCH.json",
+    "run_manifest": "RUN-MANIFEST.md",
+    "runtime_handoff": "RUNTIME-HANDOFF.md",
+    "result": "RESULT.md",
+    "subagent_receipts": "stages/subagent-receipts.md",
+    "candidate_schema": "candidate/infra-spec.schema.json",
+    "fixtures": "fixtures/"
+  },
+  "dispatch_validation": {
+    "validator": ".claude/skills/dispatch-spec/scripts/validate-dispatch.py",
+    "result": "pass",
+    "selected_overlays": [
+      "baseline_sequence",
+      "dialectic_for_tension",
+      "tournament_for_alternatives",
+      "toy_game_for_low_cost_falsification",
+      "memory_residue_for_context_recovery"
+    ],
+    "subagent_strategy": "recommended",
+    "authorization": "granted-run-with-subagents"
+  },
+  "source_evidence": [
+    "ops/development/infra-spec-research-brief.md",
+    "ops/development/infra-spec-candidate-dag.md",
+    "ops/development/infra-spec-interpretation-tournament.md",
+    "ops/development/infra-spec-schema-taxonomy-ledger.md",
+    "ops/development/infra-spec-lean-transfer-ledger.md",
+    "ops/development/infra-spec-gap-hunt-ledger.md",
+    "ops/development/infra-spec-cross-project-pattern-catalog.md",
+    "ops/development/infra-spec-runtime-atlas.md",
+    ".claude/skills/dispatch-spec/dispatch.schema.yml",
+    "implementation/domainspec/INFRA-SETUP.md",
+    "validation/poker-team"
+  ],
+  "stages": [
+    {
+      "step_id": "s01-context-builder",
+      "status": "pass"
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "status": "pass"
+    },
+    {
+      "step_id": "s03-interrogation-review",
+      "status": "pass"
+    },
+    {
+      "step_id": "s04-research-decision",
+      "status": "pass"
+    },
+    {
+      "step_id": "s05-distill",
+      "status": "pass"
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "status": "pass"
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "status": "pass"
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "status": "pass"
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "status": "pass"
+    },
+    {
+      "step_id": "s10-final-synthesis",
+      "status": "pass"
+    }
+  ],
+  "result_status": "pass",
+  "toy_game": "ALL EXPECTATIONS MET (jsonschema over 10 fixtures)",
+  "subagent_receipts": [
+    {
+      "role_id": "mvp-shape-tournament-reviewer",
+      "status": "pass"
+    },
+    {
+      "role_id": "schema-evidence-discipline-reviewer",
+      "status": "pass"
+    },
+    {
+      "role_id": "fixture-falsification-reviewer",
+      "status": "pass"
+    }
+  ],
+  "recommended_next_routes": [
+    "build validate-infra-spec.py + wire 3 governance fixtures",
+    "promote candidate -> formulae/infra-spec (owner-gated)",
+    "pilot on a real project (body-war / poker-team)"
+  ]
+}

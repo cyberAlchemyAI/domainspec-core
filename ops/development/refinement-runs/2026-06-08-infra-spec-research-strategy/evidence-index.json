@@ -1,0 +1,146 @@
+{
+  "run_id": "2026-06-08-infra-spec-research-strategy",
+  "date": "2026-06-08",
+  "target": "existing infra-spec capability research strategy (.md + .dispatch.json, 2026-06-03)",
+  "target_artifact": "ops/development/infra-spec-research-strategy.dispatch.json",
+  "preset": "full",
+  "research_mode": "research-if-gap-appears",
+  "status": "complete-pass",
+  "owned_artifacts": {
+    "seed_proposal": "REFINE-SEED-PROPOSAL.md",
+    "dispatch_route": "REFINE-DISPATCH.json",
+    "run_manifest": "RUN-MANIFEST.md",
+    "runtime_handoff": "RUNTIME-HANDOFF.md",
+    "result": "RESULT.md",
+    "subagent_receipts": "stages/subagent-receipts.md",
+    "repaired_dispatch_evidence": "stages/infra-spec-research-strategy.dispatch.repaired.json"
+  },
+  "dispatch_validation": {
+    "validator": ".claude/skills/dispatch-spec/scripts/validate-dispatch.py",
+    "result": "pass",
+    "selected_overlays": [
+      "baseline_sequence",
+      "route_menu_for_ambiguity",
+      "dialectic_for_tension",
+      "tournament_for_alternatives",
+      "memory_residue_for_context_recovery"
+    ],
+    "subagent_strategy": "recommended",
+    "authorization": "granted-run-with-subagents"
+  },
+  "source_evidence": [
+    "ops/RUNTIME-SURFACE-CONVERGENCE-REFINE.md",
+    "ops/SKILLS-FIRST-RUNTIME-POLICY.md",
+    "ops/SURFACE-OWNER-BOUNDARIES.md",
+    "ops/ARCANUM-SURFACE-MAP-AND-PLAN.md",
+    "ops/RUNTIME-SURFACE-INVENTORY.md",
+    "ops/ARCANUM-STATE-CLASSIFICATION.md",
+    "ops/CODEX-SKILL-SURFACE-POLICY.md",
+    "ops/ROOT-GITHUB-SKILLS-CLASSIFICATION.md",
+    "ops/DUPLICATE-SKILL-PRUNING-PLAN.md",
+    "ops/REPOSITORY-ORGANIZATION-DESIGN.md",
+    "ops/REPOSITORY-ORGANIZATION-INVOKE-PLAN.md",
+    "ops/development/TASK-SESSION-RUNTIME-001.md",
+    "ops/development/TASK-SESSION-SURFACE-001.md"
+  ],
+  "stages": [
+    {
+      "step_id": "s01-context-builder",
+      "capability": "context-builder",
+      "mode": "standard",
+      "status": "pass",
+      "artifact": "stages/01-context-builder.md"
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "capability": "invoke",
+      "mode": "define",
+      "status": "pass",
+      "artifact": "stages/02-invoke-define.md"
+    },
+    {
+      "step_id": "s03-interrogation-review",
+      "capability": "interrogation",
+      "mode": "refine-review",
+      "status": "flag",
+      "artifact": "stages/03-interrogation-refine-review.md"
+    },
+    {
+      "step_id": "s04-research-decision",
+      "capability": "refine",
+      "mode": "research-if-gap-appears",
+      "status": "pass",
+      "artifact": "stages/04-research-decision.md"
+    },
+    {
+      "step_id": "s05-distill",
+      "capability": "distill",
+      "mode": "standard",
+      "status": "pass",
+      "artifact": "stages/05-distill.md"
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "capability": "invoke",
+      "mode": "design",
+      "status": "pass",
+      "artifact": "stages/06-invoke-design.md"
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "capability": "interrogation",
+      "mode": "refine-design-review",
+      "status": "pass",
+      "artifact": "stages/07-interrogation-refine-design-review.md"
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "capability": "distill",
+      "mode": "validate",
+      "status": "pass",
+      "artifact": "stages/08-distill-repair.md"
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "capability": "invoke",
+      "mode": "plan",
+      "status": "pass",
+      "artifact": "stages/09-invoke-plan.md"
+    },
+    {
+      "step_id": "s10-final-synthesis",
+      "capability": "interrogation",
+      "mode": "refine-final",
+      "status": "pass",
+      "artifact": "stages/10-final-interrogation-and-synthesis.md"
+    }
+  ],
+  "target_correction": "initially mis-resolved as ops/ runtime-surface convergence program; re-baselined after dispatch-route-reviewer read the real artifacts",
+  "emitted_artifacts": {
+    "ops/development/infra-spec-research-strategy.dispatch.json": "promoted repaired; VALIDATION=pass",
+    "ops/development/infra-spec-research-strategy.md": "self-test command repaired + Scope Boundary section added"
+  },
+  "subagent_receipts": [
+    {
+      "role_id": "dispatch-route-reviewer",
+      "status": "pass-with-findings",
+      "note": "corrected target mis-resolution"
+    },
+    {
+      "role_id": "owner-boundary-and-evidence-reviewer",
+      "status": "pass",
+      "note": "confirmed write scope in-bounds"
+    },
+    {
+      "role_id": "convergence-tension-reviewer",
+      "status": "flag",
+      "note": "scope drift to adjacent program; quarantined, repurposed as B3 evidence"
+    }
+  ],
+  "result_status": "pass",
+  "recommended_next_routes": [
+    "task-session read-only MVP-first (L1+L2+L7)",
+    "operator decision on MVP-first ordering (B-opt)",
+    "git submodule update --init arcanum"
+  ]
+}

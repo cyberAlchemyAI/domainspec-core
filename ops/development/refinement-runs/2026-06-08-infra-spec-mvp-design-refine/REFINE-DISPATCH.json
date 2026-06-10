@@ -1,0 +1,758 @@
+{
+  "dispatch_id": "2026-06-08-infra-spec-mvp-design-refine",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "refine this create a full on refine",
+    "objective": "Run the canonical Refine loop over the infra-spec research synthesis corpus and produce an MVP-ready, non-executed infra-spec design + plan: a YAML-first operational-contract-spine schema candidate, a fixture-first validation surface, and net-new reversal/lifecycle obligations. Candidate-only; no formulae/infra-spec promotion.",
+    "target_artifact": "ops/development/refinement-runs/2026-06-08-infra-spec-mvp-design-refine/RESULT.md",
+    "arcanum_vocabulary": [
+      "refine",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "dispatch-spec",
+      "infra-spec",
+      "evidence-substrate",
+      "operational-contract",
+      "fixture-first",
+      "residue",
+      "promotion-gate"
+    ],
+    "operator_sentence": "refine this create a full on refine"
+  },
+  "mode": "sequence",
+  "route_menu": {
+    "context_hint": "Refine always preserves the canonical ten-stage loop, then selects technique overlays that change validation expectations or stage configuration.",
+    "items": [
+      {
+        "id": "baseline_sequence",
+        "label": "Baseline sequence",
+        "description": "Use the canonical loop with sequence, handoff, validation, owner-boundary, and observability techniques.",
+        "pattern": "sequential"
+      },
+      {
+        "id": "tension_or_alternative_overlay",
+        "label": "Tension or alternatives",
+        "description": "Add dialectic, tournament, Pareto, and recomposition techniques when competing designs must be compared.",
+        "pattern": "tournament"
+      },
+      {
+        "id": "structure_or_test_overlay",
+        "label": "Structure or test",
+        "description": "Add x-ray, toy-game, memory, protected-context, or standards techniques when the target needs explanation or falsification.",
+        "pattern": "validation"
+      }
+    ],
+    "selected_item_id": "baseline_sequence",
+    "route_decision": "Baseline canonical loop; the design-alternatives choice (which MVP shape leads) is handled by the tournament + dialectic overlays inside the loop, and a controlled falsification by toy_game, rather than by changing the loop shape."
+  },
+  "techniques": [
+    "sequence",
+    "sentence_grammar",
+    "route_menu",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "residue_ledger",
+    "pareto_gate",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "mandatory_component",
+    "conditional_component",
+    "data_quality_completeness",
+    "data_quality_conformity"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "Default for ordinary refinement targets where uncertainty can be reduced by the canonical ten-stage order.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s02-invoke-define",
+        "s03-interrogation-review",
+        "s04-research-decision",
+        "s05-distill",
+        "s06-invoke-design",
+        "s07-interrogation-design-review",
+        "s08-distill-repair",
+        "s09-invoke-plan",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "Every non-first step consumes a named frame, artifact, decision, or ledger from an earlier step."
+    },
+    {
+      "overlay_id": "dialectic_for_tension",
+      "trigger": "The target contains competing principles, likely disagreements, or explore/exploit pressure.",
+      "techniques": [
+        "dialectic",
+        "zig_zag",
+        "residue_ledger"
+      ],
+      "applies_to_steps": [
+        "s03-interrogation-review",
+        "s07-interrogation-design-review",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "Dialectic steps name roles, preserve stable disagreement, and leave unresolved residue in a ledger."
+    },
+    {
+      "overlay_id": "tournament_for_alternatives",
+      "trigger": "Several candidate abstractions, designs, or implementation slices are plausible and premature convergence would be expensive.",
+      "techniques": [
+        "tournament",
+        "pareto_gate",
+        "recomposition_proof"
+      ],
+      "applies_to_steps": [
+        "s05-distill",
+        "s08-distill-repair",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "Tournament use names roles, convergence criteria, rejected alternatives, Pareto criteria, and recomposition target."
+    },
+    {
+      "overlay_id": "toy_game_for_low_cost_falsification",
+      "trigger": "A selected abstraction sounds plausible but needs a controlled failure test before planning or promotion.",
+      "techniques": [
+        "toy_game",
+        "validation_loop",
+        "assessment_failure_reference"
+      ],
+      "applies_to_steps": [
+        "s08-distill-repair",
+        "s09-invoke-plan"
+      ],
+      "validation_expectation": "The plan or repair step names expected toy-game evidence and how failure routes back to repair."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "Prior sessions, repository memory, or rejected candidates are part of the target context.",
+      "techniques": [
+        "memory_loop",
+        "residue_ledger",
+        "data_quality_deduplication"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s03-interrogation-review",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "Recovered context is cited by handle, duplicate claims are not copied, and residue has an owner or next route."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Full preset over a corpus with competing MVP shapes, a falsification requirement, and design tensions; Dispatch Spec recommends role-bound reviewers to keep alternatives-comparison, schema/evidence critique, and falsification design independent before parent synthesis.",
+    "explanation": "Use role-bound sibling agents only when the selected overlays justify parallel critique, structure discovery, tournament comparison, memory recovery, or delegated verification. Refine remains the orchestrator and must show this strategy with context before asking permission to run.",
+    "context": [
+      "Selected overlays drive the role set.",
+      "Subagents return receipts; they do not own lifecycle promotion.",
+      "Execution waits for operator approval after dispatch validation."
+    ],
+    "roles": [
+      {
+        "role_id": "mvp-shape-tournament-reviewer",
+        "purpose": "Compare candidate MVP shapes against value/cost/owner-boundary criteria and check the recomposition proof into the full evidence substrate.",
+        "owns": "alternatives comparison + recomposition-proof critique",
+        "applies_to_steps": [
+          "s05-distill",
+          "s06-invoke-design",
+          "s10-final-synthesis"
+        ]
+      },
+      {
+        "role_id": "schema-evidence-discipline-reviewer",
+        "purpose": "Verify the schema reuses dispatch.schema $defs, keeps schema!=instance and evidence!=authority, labels analogies, and stays candidate-only (no package promotion).",
+        "owns": "schema discipline + Lean-transfer + promotion-guardrail risks",
+        "applies_to_steps": [
+          "s03-interrogation-review",
+          "s06-invoke-design",
+          "s07-interrogation-design-review"
+        ]
+      },
+      {
+        "role_id": "fixture-falsification-reviewer",
+        "purpose": "Ensure every kept axis has >=1 pass + >=1 violation fixture that actually falsifies the schema, and that reversal/lifecycle obligations are testable.",
+        "owns": "toy-game evidence sufficiency",
+        "applies_to_steps": [
+          "s08-distill-repair",
+          "s09-invoke-plan"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Dispatch Spec recommends the listed subagent strategy for this refinement. Run these delegated reviewers before native runtime-backed stages?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note",
+      "scope reviewed",
+      "findings",
+      "validation impact",
+      "blocked fields or no-block verdict"
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s01-context-builder",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "sentence_grammar",
+        "route_menu",
+        "minimum_component_catalog",
+        "frame_handoff",
+        "memory_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "context-builder-frame"
+        },
+        {
+          "kind": "handle",
+          "ref": "context-builder-artifact"
+        }
+      ],
+      "evidence_artifact": "stages/01-context-builder.md",
+      "stop_conditions": [
+        "block if strict context coverage cannot support a coherent seed"
+      ]
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "component_descriptor"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "context-builder-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ],
+      "evidence_artifact": "stages/02-invoke-define.md"
+    },
+    {
+      "step_id": "s03-interrogation-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "dialectic",
+        "zig_zag",
+        "residue_ledger",
+        "data_quality_integrity"
+      ],
+      "roles": [
+        "proposer",
+        "critic",
+        "synthesizer"
+      ],
+      "convergence_criteria": [
+        "unsupported assumptions are separated",
+        "stable disagreements are preserved as residue"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "refine-review-ledger"
+        }
+      ],
+      "evidence_artifact": "stages/03-interrogation-refine-review.md"
+    },
+    {
+      "step_id": "s04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "techniques": [
+        "approval_checkpoint",
+        "conditional_component"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "refine-review-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "research-decision"
+        }
+      ],
+      "evidence_artifact": "stages/04-research-decision.md"
+    },
+    {
+      "step_id": "s05-distill",
+      "name": "Distill",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": [
+        "scu_swu_reduction",
+        "tournament",
+        "pareto_gate",
+        "recomposition_proof"
+      ],
+      "roles": [
+        "candidate-a",
+        "candidate-b",
+        "synthesis"
+      ],
+      "convergence_criteria": [
+        "Pareto criteria are named",
+        "rejected alternatives are recorded",
+        "selected unit has a recomposition target"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "research-decision"
+        },
+        {
+          "kind": "ledger",
+          "ref": "refine-review-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "distill-frame"
+        }
+      ],
+      "evidence_artifact": "stages/05-distill.md"
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "name": "Invoke Redefine / Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "handle_handoff",
+        "x_ray",
+        "component_descriptor",
+        "entity_component_reference"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "distill-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ],
+      "evidence_artifact": "stages/06-invoke-design.md"
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "dialectic",
+        "residue_ledger",
+        "data_quality_completeness"
+      ],
+      "roles": [
+        "design-advocate",
+        "risk-reviewer",
+        "repair-synthesizer"
+      ],
+      "convergence_criteria": [
+        "design risks are named",
+        "repair candidates are separated from accepted design claims"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "design-review-ledger"
+        }
+      ],
+      "evidence_artifact": "stages/07-interrogation-refine-design-review.md"
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "toy_game",
+        "assessment_failure_reference",
+        "recomposition_proof"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "design-review-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "repair-frame"
+        }
+      ],
+      "evidence_artifact": "stages/08-distill-repair.md"
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "minimum_component_catalog",
+        "toy_game",
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "repair-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        }
+      ],
+      "evidence_artifact": "stages/09-invoke-plan.md"
+    },
+    {
+      "step_id": "s10-final-synthesis",
+      "name": "Final Interrogation and Synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": [
+        "owner_boundary_check",
+        "residue_ledger",
+        "spell_candidate",
+        "protected_context_flag",
+        "data_quality_conformity",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "repair-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "dispatch_completed"
+        }
+      ],
+      "evidence_artifact": "stages/10-final-interrogation-and-synthesis.md"
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-dispatch-valid",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "REFINE-DISPATCH.json validates against dispatch.schema.yml and cited techniques are used by steps or gates.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-subagent-permission",
+      "kind": "human_approval",
+      "owner": "refine",
+      "condition": "If subagent_strategy.status is recommended or required, Refine shows the strategy, explains why with target context, and asks permission before delegated or native runtime-backed execution.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g03-native-capability-receipts",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "Each native runtime-backed stage declares a capability_ref and records a native stage receipt, approved subagent receipt, or explicit blocked reason before pass is claimed.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04-research-confirmation",
+      "kind": "human_approval",
+      "owner": "refine",
+      "condition": "External research runs only when bounded research is selected or a named gap triggers confirmation.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g05-owner-boundary",
+      "kind": "promotion_guardrail",
+      "owner": "refine",
+      "condition": "Task Session, Sigil Development, Inventory, Ontology, Glossary, and Spellcraft authority is not claimed by Refine.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g06-final-artifact-completeness",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "Every selected stage has an artifact path or blocked reason before RESULT.md claims completion.",
+      "on_fail": "block"
+    }
+  ],
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "2026-06-08-infra-spec-mvp-design-refine",
+      "step_id": "s01-context-builder",
+      "capability_ref": "context-builder",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "stage not executed yet"
+      ],
+      "residue": "",
+      "handoff_note": "fill when Context Builder returns an artifact or blocked reason"
+    },
+    {
+      "dispatch_id": "2026-06-08-infra-spec-mvp-design-refine",
+      "step_id": "s02-invoke-define",
+      "capability_ref": "invoke",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "stage not executed yet"
+      ],
+      "residue": "",
+      "handoff_note": "fill when Invoke Define returns an artifact or blocked reason"
+    },
+    {
+      "dispatch_id": "2026-06-08-infra-spec-mvp-design-refine",
+      "step_id": "s03-interrogation-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "stage not executed yet"
+      ],
+      "residue": "",
+      "handoff_note": "fill when Interrogation returns a refine-review verdict or blocked reason"
+    },
+    {
+      "dispatch_id": "2026-06-08-infra-spec-mvp-design-refine",
+      "step_id": "s04-research-decision",
+      "capability_ref": "refine",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "stage not executed yet"
+      ],
+      "residue": "",
+      "handoff_note": "fill when Refine records the research decision"
+    },
+    {
+      "dispatch_id": "2026-06-08-infra-spec-mvp-design-refine",
+      "step_id": "s05-distill",
+      "capability_ref": "distill",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "stage not executed yet"
+      ],
+      "residue": "",
+      "handoff_note": "fill when Distill returns a coherent-unit artifact or blocked reason"
+    },
+    {
+      "dispatch_id": "2026-06-08-infra-spec-mvp-design-refine",
+      "step_id": "s06-invoke-design",
+      "capability_ref": "invoke",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "stage not executed yet"
+      ],
+      "residue": "",
+      "handoff_note": "fill when Invoke Design returns an artifact or blocked reason"
+    },
+    {
+      "dispatch_id": "2026-06-08-infra-spec-mvp-design-refine",
+      "step_id": "s07-interrogation-design-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "stage not executed yet"
+      ],
+      "residue": "",
+      "handoff_note": "fill when Interrogation returns a design-review verdict or blocked reason"
+    },
+    {
+      "dispatch_id": "2026-06-08-infra-spec-mvp-design-refine",
+      "step_id": "s08-distill-repair",
+      "capability_ref": "distill",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "stage not executed yet"
+      ],
+      "residue": "",
+      "handoff_note": "fill when Distill Repair returns an artifact or blocked reason"
+    },
+    {
+      "dispatch_id": "2026-06-08-infra-spec-mvp-design-refine",
+      "step_id": "s09-invoke-plan",
+      "capability_ref": "invoke",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "stage not executed yet"
+      ],
+      "residue": "",
+      "handoff_note": "fill when Invoke Plan returns an artifact or blocked reason"
+    },
+    {
+      "dispatch_id": "2026-06-08-infra-spec-mvp-design-refine",
+      "step_id": "s10-final-synthesis",
+      "capability_ref": "interrogation",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "stage not executed yet"
+      ],
+      "residue": "",
+      "handoff_note": "fill when final interrogation and Refine synthesis complete or block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "dispatch_validated",
+      "stage_started",
+      "stage_completed",
+      "stage_blocked",
+      "dispatch_completed"
+    ],
+    "signal_grouping": "dispatch_id=2026-06-08-infra-spec-mvp-design-refine"
+  },
+  "promotion_guardrails": [
+    "Refine may recommend Task Session or Sigil Development only after final synthesis.",
+    "Refine may not promote inventory, ontology, glossary, sigil, or spell artifacts.",
+    "Dispatch validation is route-shape evidence, not proof that semantic stage execution completed."
+  ],
+  "selected_overlays": {
+    "selected": {
+      "baseline_sequence": "Always: one MVP design artifact reducible by the canonical ten-stage order.",
+      "tournament_for_alternatives": "Multiple plausible MVP shapes compete (operational-contract spine vs evidence-substrate-first vs schema-only); premature lock-in is expensive; recomposition into the full substrate must be proven.",
+      "dialectic_for_tension": "Real recorded tensions: R2 operational-contract vs R3 evidence-substrate as MVP lead; template-drift (which infra template is canonical); spec-vs-instance budget.",
+      "toy_game_for_low_cost_falsification": "The design output is a candidate schema; before any package/plan, a controlled failure test (>=1 pass + >=1 violation fixture per kept axis) cheaply falsifies it. The research brief itself recommends fixture-first.",
+      "memory_residue_for_context_recovery": "Prior refine run + 7 lane ledgers + rejected candidates + residue ledgers are the material inputs; cite by handle without duplication; unresolved tensions persist as residue."
+    },
+    "not_selected": {
+      "xray_for_hidden_structure": "The repo's infra structure was already x-rayed during the research run (zone-classification + runtime-atlas + candidate-DAG); remaining uncertainty is design/schema, not hidden structure.",
+      "route_menu_for_ambiguity": "The lead-shape ambiguity is covered by the tournament overlay; a separate route menu would duplicate it.",
+      "protected_context_for_external_or_sensitive_evidence": "Local-first; no external/sensitive evidence in scope unless a named gap triggers confirmed bounded research."
+    }
+  }
+}

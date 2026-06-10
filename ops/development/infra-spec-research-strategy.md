@@ -11,6 +11,12 @@ Build the evidence base for a future `infra-spec` capability by scrubbing the wh
 
 The output of this route is not the infra-spec package. It is the route that makes the package worth creating.
 
+## Scope Boundary
+
+`infra-spec` here means a governed **infrastructure / deployment / runtime contract** (source intent ↔ runtime realization ↔ schemas/instances ↔ environment boundaries and state namespaces ↔ deployment topology ↔ observability/receipts/reflection ↔ failure residue ↔ owner boundaries and promotion gates).
+
+It is **distinct** from the `ops/` **runtime-surface convergence** program (e.g. `ops/SKILLS-FIRST-RUNTIME-POLICY.md`, `ops/SURFACE-OWNER-BOUNDARIES.md`, `ops/RUNTIME-SURFACE-CONVERGENCE-REFINE.md`), which governs *Arcanum/DomainSpec skill install surfaces, command deprecation, and orchestration-runtime execution* — not infrastructure/deployment. Both efforts live under `ops/` and share the words "infra/runtime," which makes them easy to conflate; they are separate research tracks with separate owners. Do not import that program's tensions or lanes into this route.
+
 ## Starting Thesis
 
 Infra-spec should not be "deployment docs with nicer names."
@@ -296,11 +302,11 @@ The execution route should produce:
 
 ## Validation
 
-Dispatch validation command:
+Dispatch validation command (in-checkout validator; the `arcanum/` submodule may be uninitialized):
 
 ```bash
-cd /home/vrondelli/projects/domainspec-core/arcanum
-python3 formulae/dispatch-spec/scripts/validate-dispatch.py ../ops/development/infra-spec-research-strategy.dispatch.json
+python3 .claude/skills/dispatch-spec/scripts/validate-dispatch.py \
+  ops/development/infra-spec-research-strategy.dispatch.json
 ```
 
 Coverage validation should check:

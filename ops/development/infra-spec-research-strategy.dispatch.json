@@ -229,7 +229,23 @@
       "Each lane classifies claims as source-backed, implementation-backed, validation-backed, analogy, candidate, stale, contradiction, or unsupported.",
       "Each lane returns at least one residue item or a negative-result explanation.",
       "Any child-dispatch proposal includes parent dispatch id, scope, roles, inputs, outputs, stop conditions, and join policy.",
-      "No lane promotes findings into Inventory, Ontology, glossary, sigil, spell, or infra-spec authority without owner review."
+      "No lane promotes findings into Inventory, Ontology, glossary, sigil, spell, or infra-spec authority without owner review.",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "handoff_note",
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute"
     ]
   },
   "steps": [
@@ -317,7 +333,13 @@
       "stop_conditions": [
         "Flag any top-level zone with unknown owner or unclear source/generated/install/runtime status.",
         "Stop before moving or deleting files; this is research only."
-      ]
+      ],
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "kind": "installed-native-skill",
+        "provenance": ".claude/skills/x-ray",
+        "note": "Real installed native skill beyond the core dispatch capability set; not a freeform/unknown handle."
+      }
     },
     {
       "step_id": "fanout-repository-scrub",
@@ -398,7 +420,13 @@
       "stop_conditions": [
         "Block child dispatch execution until the operator approves scope and authorization.",
         "Each approved child route must include parent_dispatch_id=infra-spec-research-strategy-20260603."
-      ]
+      ],
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "kind": "installed-native-skill",
+        "provenance": ".claude/skills/decision-gate",
+        "note": "Real installed native skill beyond the core dispatch capability set; not a freeform/unknown handle."
+      }
     },
     {
       "step_id": "zigzag-lane-critique",
@@ -447,7 +475,13 @@
       "stop_conditions": [
         "Stop if critique collapses into implementation planning before research validation.",
         "Demote unsupported concepts to residue instead of discarding them."
-      ]
+      ],
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "kind": "installed-native-skill",
+        "provenance": ".claude/skills/robot-talks",
+        "note": "Real installed native skill beyond the core dispatch capability set; not a freeform/unknown handle."
+      }
     },
     {
       "step_id": "dialectic-and-tournament",
@@ -629,7 +663,13 @@
       "stop_conditions": [
         "The handoff may recommend formulae/infra-spec creation, but cannot authorize it by itself.",
         "Any mutation route must start from a validated candidate schema and explicit owner decision."
-      ]
+      ],
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "kind": "installed-native-skill",
+        "provenance": ".claude/skills/implementation-readiness",
+        "note": "Real installed native skill beyond the core dispatch capability set; not a freeform/unknown handle."
+      }
     }
   ],
   "gates": [
