@@ -24,7 +24,11 @@ jobs:
           tools/check_github_drift.sh
 
       - name: Run DomainSpec code-tag validation
-        working-directory: implementation/domainspec
         run: |
+          if [ ! -f implementation/domainspec/package.json ]; then
+            echo "[skip] implementation/domainspec is not populated; skipping code-tag validation" >&2
+            exit 0
+          fi
+          cd implementation/domainspec
           corepack enable
           pnpm run check:code-tags

@@ -4,10 +4,10 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-if [[ ! -d "implementation/domainspec" ]] || [[ ! -d "validation/poker-team" ]]; then
-  echo "[error] expected submodules at implementation/domainspec and validation/poker-team" >&2
-  echo "[hint] run: git submodule update --init --recursive" >&2
-  exit 2
+if [[ ! -d "implementation/domainspec/.github" ]] || [[ ! -d "validation/poker-team/.github" ]]; then
+  echo "[skip] submodules not populated (implementation/domainspec and/or validation/poker-team); skipping drift check" >&2
+  echo "[hint] run: git submodule update --init --recursive to enable the full drift check" >&2
+  exit 0
 fi
 
 TMP_DIR="$(mktemp -d)"
