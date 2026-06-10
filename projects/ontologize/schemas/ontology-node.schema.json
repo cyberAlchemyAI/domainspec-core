@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/projects/ontologize/schemas/ontology-node.schema.json",
+  "title": "Ontologize Ontology Node",
+  "description": "Candidate machine form of an ontology node (DEF-ONT-002). One typed assertion in the ontology: exactly one of six node types (N1-N6), carrying identity, branch, governed edges, and per-type honesty fields. Prose authority: definitions/DEFINITIONS.md DEF-ONT-002. Node/edge/gate design: DAG-AND-METRICS.md. Candidate only: no canonical promotion, GoldenQuill source read-only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "node_id",
+    "node_type",
+    "branch",
+    "label"
+  ],
+  "properties": {
+    "node_id": {
+      "type": "string",
+      "pattern": "^node\\.(oe|ls|mo|pc|od|kp)\\.[a-z0-9][a-z0-9-]*$",
+      "description": "Stable identity. Prefix encodes node type: oe|ls|mo|pc|od|kp."
+    },
+    "node_type": {
+      "type": "string",
+      "enum": [
+        "OutcomeEvent",
+        "LifecycleState",
+        "MetricObservation",
+        "PromotionCandidate",
+        "OwnerDecision",
+        "KnowledgeProjection"
+      ],
+      "description": "N1-N6. The vocabulary of what can be asserted."
+    },
+    "branch": {
+      "type": "string",
+      "enum": [
+        "B1-meaning",
+        "B2-system",
+        "B3-run-context",
+        "B4-bridge"
+      ],
+      "description": "Primary ontology branch (DEF-ONT-003). Candidate primary-branch mapping per DEF-ONT-002."
+    },
+    "label": {
+      "type": "string",
+      "minLength": 3,
+      "description": "Human-readable name of the assertion."
+    },
+    "run_context_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the B3 run-context this node is scoped within (the metric-denominator boundary). Required for B3 nodes."
+    },
+    "source": {
+      "$ref": "#/$defs/source",
+      "description": "Provenance. Mandatory for OutcomeEvent (gate GQ-PR-L0-001: no event without provenance)."
+    },
+    "veracidade": {
+      "type": "string",
+      "enum": ["high", "medium", "low"],
+      "description": "Confidence grade for evidence-bearing nodes (N3/N4/N6). high=tested against reality; medium=derived from principle, untested here; low=untested projection."
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Source/event/test locators justifying veracidade. Must be non-empty when veracidade=high (gate G-honesty-node-b)."
+    },
+    "denominator": {
+      "$ref": "#/$defs/denominator",
+      "description": "Denominator semantics for MetricObservation (gate GQ-PR-L0-002)."
+    },
+    "interpretation_limits": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Stated limits on how the metric/claim may be read (anti-collapse: guards number hallucination)."
+    },
+    "contradiction_path": {
+      "type": "string",
+      "minLength": 12,
+      "description": "How this candidate could later be proven wrong. Mandatory for PromotionCandidate (gate GQ-PR-L0-004)."
+    },
+    "proposed_allowed_uses": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Uses requested by a PromotionCandidate (gate GQ-PR-L0-011)."
+    },
+    "decision": {
+      "$ref": "#/$defs/decision",
+      "description": "Disposition for OwnerDecision (gates GQ-PR-L0-005/-010)."
+    },
+    "record_kind": {
+      "type": "string",
+      "description": "Projection kind. Must equal 'promotion_record' for KnowledgeProjection (gate GQ-PR-L0-009)."
+    },
+    "edges": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/edge" },
+      "description": "Outgoing governed edges. Legality is fixed by the edge catalog (DAG-AND-METRICS.md §3), not validated structurally here beyond edge_type membership."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "node_type": { "const": "OutcomeEvent" } }
+      },
+      "then": {
+        "required": ["source"],
+        "properties": {
+          "branch": { "const": "B2-system" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "node_type": { "const": "LifecycleState" } }
+      },
+      "then": {
+        "required": ["run_context_ref"],
+        "properties": {
+          "branch": { "const": "B3-run-context" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "node_type": { "const": "MetricObservation" } }
+      },
+      "then": {
+        "required": ["veracidade", "evidence_refs", "denominator", "run_context_ref"],
+        "properties": {
+          "branch": { "const": "B3-run-context" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "node_type": { "const": "PromotionCandidate" } }
+      },
+      "then": {
+        "required": ["veracidade", "evidence_refs", "contradiction_path", "proposed_allowed_uses"],
+        "properties": {
+          "branch": { "const": "B4-bridge" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "node_type": { "const": "OwnerDecision" } }
+      },
+      "then": {
+        "required": ["decision"],
+        "properties": {
+          "branch": { "const": "B4-bridge" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "node_type": { "const": "KnowledgeProjection" } }
+      },
+      "then": {
+        "required": ["veracidade", "evidence_refs", "record_kind"],
+        "properties": {
+          "branch": { "const": "B1-meaning" },
+          "record_kind": { "const": "promotion_record" },
+          "evidence_refs": { "minItems": 1 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "veracidade": { "const": "high" } },
+        "required": ["veracidade"]
+      },
+      "then": {
+        "required": ["evidence_refs"],
+        "properties": {
+          "evidence_refs": { "minItems": 1 }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "locator", "captured_at"],
+      "properties": {
+        "type": { "type": "string", "minLength": 1 },
+        "locator": { "type": "string", "minLength": 1 },
+        "captured_at": { "type": "string", "minLength": 1 }
+      }
+    },
+    "denominator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["numerator", "denominator", "period"],
+      "properties": {
+        "numerator": { "type": "string", "minLength": 1 },
+        "denominator": { "type": "string", "minLength": 1 },
+        "period": { "type": "string", "minLength": 1 }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["disposition", "decision_source"],
+      "properties": {
+        "disposition": {
+          "type": "string",
+          "enum": ["approve", "reject", "retire", "contradict"]
+        },
+        "approved_allowed_uses": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Required in spirit when disposition=approve (gate GQ-PR-L0-010); also the convicção/commitment signal."
+        },
+        "decision_source": { "type": "string", "minLength": 1 }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["edge_type", "target_node_id"],
+      "properties": {
+        "edge_type": {
+          "type": "string",
+          "enum": [
+            "precedes",
+            "consumes",
+            "emits",
+            "revised_by",
+            "observed_by",
+            "realized_by",
+            "depends_on",
+            "tested_by",
+            "traced_to",
+            "drifts_from",
+            "contradicts",
+            "promotes_to",
+            "supersedes",
+            "retires",
+            "constrains",
+            "validates",
+            "blocked_by_gate",
+            "approved_by"
+          ],
+          "description": "Forward edge from the governed edge catalog (DAG-AND-METRICS.md §3)."
+        },
+        "target_node_id": {
+          "type": "string",
+          "pattern": "^node\\.(oe|ls|mo|pc|od|kp)\\.[a-z0-9][a-z0-9-]*$"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["execution", "promotion", "structural", "control"]
+        }
+      }
+    }
+  }
+}

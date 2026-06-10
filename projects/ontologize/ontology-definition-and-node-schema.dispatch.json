@@ -1,0 +1,331 @@
+{
+  "dispatch_id": "ontologize-ontology-definition-20260610",
+  "parent_dispatch_id": "ontologize-research-20260608",
+  "intent": {
+    "raw": "get all definitions and node types, and prepare a candidate for a canonical definition of 'What is an ontology' and propose a node schema, inside projects/ontologize/. use definitions-governance to create the candidate definitions.",
+    "objective": "Gather every existing ontologize definition and node type from the project artifacts, then under definitions-governance author a candidate project-canonical definition of 'ontology' (plus the supporting canonical terms ontology node, ontology branch, governed edge) and propose a machine-checkable ontology node schema, without promoting any term to canonical Arcanum or CyberAlchemy vocabulary and keeping GoldenQuill source read-only.",
+    "target_artifact": "projects/ontologize/definitions/DEFINITIONS.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "context-builder",
+      "definitions-governance",
+      "ontology-vault",
+      "residue",
+      "promotion guardrail",
+      "node schema",
+      "edge catalog"
+    ],
+    "operator_sentence": "Read the existing ontologize definitions and the six node types first, then write a candidate canonical definition of 'ontology' and a node schema that encodes the project's own honesty gates."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "residue_ledger",
+    "owner_boundary_check",
+    "validation_loop",
+    "observability_grouping"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "candidate-not-canonical",
+      "trigger": "The route produces a definition of 'ontology' and a node schema that could be mistaken for promoted canonical vocabulary or a shipped contract.",
+      "techniques": ["owner_boundary_check", "residue_ledger"],
+      "applies_to_steps": [
+        "author-canonical-definitions",
+        "propose-node-schema"
+      ],
+      "validation_expectation": "Every new definition is marked candidate/seed/source-backed with a contradiction path; the node schema is labelled candidate; neither promotes Arcanum/CyberAlchemy vocabulary nor commits client-facing terms."
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "gather-definitions-and-node-types",
+      "name": "Gather all existing definitions and the six node types from project artifacts",
+      "capability_ref": "context-builder",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": ["frame_handoff"],
+      "inputs": [
+        { "kind": "intent", "ref": "intent.raw" },
+        { "kind": "artifact", "ref": "projects/ontologize/DEFINITIONS.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/GLOSSARY.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/ONTOLOGY-BRANCHES.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/DAG-AND-METRICS.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/schemas/optimization-chain-method.schema.json" }
+      ],
+      "outputs": [
+        { "kind": "frame", "ref": "ontologize-definition-corpus-frame" },
+        { "kind": "trace_event", "ref": "ontologize-definition-corpus-gathered" }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if the six node types (N1-N6) or the four branches (B1-B4) cannot be located in the source artifacts.",
+        "Flag and record missing-source residue if a referenced artifact is absent."
+      ]
+    },
+    {
+      "step_id": "author-canonical-definitions",
+      "name": "Author candidate canonical definition of 'ontology' plus supporting terms",
+      "capability_ref": "definitions-governance",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "kind": "installed-skill",
+        "note": "definitions-governance is an installed Arcanum skill but is not in the validator's narrow canonical set; treated as a candidate capability here."
+      },
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": ["owner_boundary_check", "residue_ledger"],
+      "inputs": [
+        { "kind": "frame", "ref": "ontologize-definition-corpus-frame" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/definitions/DEFINITIONS.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/definitions/DEFINITIONS-INDEX.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/definitions/DEFINITION-DRIFT-AUDIT.md" },
+        { "kind": "trace_event", "ref": "ontologize-canonical-definitions-authored" }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "A canonical definition of 'ontology' (DEF-ONT-001) states a one-line, a plain-language intuition, a normative structural definition, an operational interpretation, neighbor boundaries, and a contradiction path.",
+        "Supporting terms (ontology node, ontology branch, governed edge) are defined with stable IDs and status tags.",
+        "The index is synchronized and a drift audit reconciles against GLOSSARY.md, the layered DEFINITIONS.md, ONTOLOGY-BRANCHES.md, and DAG-AND-METRICS.md."
+      ],
+      "stop_conditions": [
+        "Block canonical promotion of any term to Arcanum or CyberAlchemy vocabulary.",
+        "Flag any definition lacking a status tag or contradiction path."
+      ]
+    },
+    {
+      "step_id": "propose-node-schema",
+      "name": "Propose a candidate machine-checkable ontology node schema",
+      "capability_ref": "ontology-vault",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "kind": "installed-skill",
+        "note": "ontology-vault is an installed Arcanum skill but is not in the validator's narrow canonical set; treated as a candidate capability here."
+      },
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": ["owner_boundary_check", "validation_loop"],
+      "inputs": [
+        { "kind": "frame", "ref": "ontologize-definition-corpus-frame" },
+        { "kind": "artifact", "ref": "projects/ontologize/definitions/DEFINITIONS.md" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/schemas/ontology-node.schema.json" },
+        { "kind": "artifact", "ref": "projects/ontologize/examples/ontology-node.logistics-on-time-delivery.json" },
+        { "kind": "trace_event", "ref": "ontologize-node-schema-proposed" }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ontologize/examples/ontology-node.logistics-on-time-delivery.json",
+      "convergence_criteria": [
+        "The schema covers all six node types (N1-N6) with a discriminator on node_type.",
+        "Per-type honesty gates are encoded: source on OutcomeEvent; veracidade + evidence_refs on N3/N4/N6; denominator on MetricObservation; contradiction_path on PromotionCandidate; record_kind=promotion_record on KnowledgeProjection; veracidade=high requires non-empty evidence_refs.",
+        "Edges reference the governed edge catalog edge_type set; an example node validates against the schema."
+      ],
+      "stop_conditions": [
+        "Block if the schema drops a node type or a deterministic honesty gate.",
+        "Flag if the example node does not validate."
+      ]
+    },
+    {
+      "step_id": "validate-and-record-residue",
+      "name": "Validate dispatch and record open residue plus next route",
+      "capability_ref": "dispatch-spec",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": ["validation_loop", "residue_ledger"],
+      "inputs": [
+        { "kind": "frame", "ref": "ontologize-definition-corpus-frame" },
+        { "kind": "artifact", "ref": "projects/ontologize/ontology-definition-and-node-schema.dispatch.json" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/definitions/DEFINITION-DRIFT-AUDIT.md" },
+        { "kind": "trace_event", "ref": "ontologize-definition-dispatch-validated" }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ontologize/ontology-definition-and-node-schema.dispatch.json",
+      "convergence_criteria": [
+        "The dispatch validates against the dispatch-spec validator.",
+        "Open residue (e.g. primary-branch mapping, undefined-but-load-bearing terms) has named next objects and owners."
+      ],
+      "stop_conditions": [
+        "Block if validation fails.",
+        "Flag if open residue lacks an owner or next route."
+      ]
+    }
+  ],
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "ontologize-ontology-definition-20260610",
+      "step_id": "gather-definitions-and-node-types",
+      "capability_ref": "context-builder",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "projects/ontologize/DEFINITIONS.md",
+        "projects/ontologize/GLOSSARY.md",
+        "projects/ontologize/ONTOLOGY-BRANCHES.md",
+        "projects/ontologize/DAG-AND-METRICS.md"
+      ],
+      "validation": [
+        "Six node types (N1-N6) located in DAG-AND-METRICS.md §2; four branches (B1-B4) in ONTOLOGY-BRANCHES.md; layered and client-facing definitions read."
+      ],
+      "observer_status": "ontologize-definition-corpus-gathered"
+    },
+    {
+      "dispatch_id": "ontologize-ontology-definition-20260610",
+      "step_id": "author-canonical-definitions",
+      "capability_ref": "definitions-governance",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "projects/ontologize/definitions/DEFINITIONS.md",
+        "projects/ontologize/definitions/DEFINITIONS-INDEX.md",
+        "projects/ontologize/definitions/DEFINITION-DRIFT-AUDIT.md"
+      ],
+      "validation": [
+        "DEF-ONT-001 'ontology' carries one-line, intuition, structural definition, operational interpretation, boundaries, contradiction path; DEF-ONT-002/003/004 added with IDs and status tags; index synced; drift audit reconciles downstream surfaces."
+      ],
+      "observer_status": "ontologize-canonical-definitions-authored"
+    },
+    {
+      "dispatch_id": "ontologize-ontology-definition-20260610",
+      "step_id": "propose-node-schema",
+      "capability_ref": "ontology-vault",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "projects/ontologize/schemas/ontology-node.schema.json",
+        "projects/ontologize/examples/ontology-node.logistics-on-time-delivery.json"
+      ],
+      "validation": [
+        "Schema covers N1-N6 with node_type discriminator and per-type honesty gates; example MetricObservation node validates."
+      ],
+      "observer_status": "ontologize-node-schema-proposed"
+    },
+    {
+      "dispatch_id": "ontologize-ontology-definition-20260610",
+      "step_id": "validate-and-record-residue",
+      "capability_ref": "dispatch-spec",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "projects/ontologize/ontology-definition-and-node-schema.dispatch.json",
+        "projects/ontologize/definitions/DEFINITION-DRIFT-AUDIT.md"
+      ],
+      "validation": [
+        "Dispatch validates against scripts/validate-dispatch.py; open residue recorded in the drift audit with owners."
+      ],
+      "observer_status": "ontologize-definition-dispatch-validated"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "definitions-authority-boundary",
+        "kind": "state_write",
+        "from_owner": "definitions-governance",
+        "to_owner": "projects/ontologize",
+        "applies_to_steps": ["author-canonical-definitions", "propose-node-schema"],
+        "contract": "Canonical definitions and the node schema are written only under projects/ontologize as candidate artifacts; they are not promoted to canonical Arcanum or CyberAlchemy vocabulary without owner review.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "dispatch-spec",
+      "execution": "definitions-governance-and-ontology-vault",
+      "validation": "dispatch-spec",
+      "evidence": "signal-observer",
+      "memory": "inventory",
+      "promotion": "owning Arcanum capability"
+    },
+    "state_namespaces": [
+      {
+        "namespace": "projects-ontologize",
+        "owner": "projects/ontologize",
+        "write_policy": "Definitions and schema artifacts may be written under projects/ontologize only unless a later approved task expands scope."
+      },
+      {
+        "namespace": "projects-goldenquill",
+        "owner": "projects/goldenquill",
+        "write_policy": "Read-only source evidence; no GoldenQuill writes."
+      },
+      {
+        "namespace": "arcanum-canonical",
+        "owner": "registry and owning capability folders",
+        "write_policy": "No writes from this dispatch without an explicit owner-review task."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "projects/ontologize candidate canonical definitions and node schema",
+        "target": "canonical Arcanum vocabulary or client-facing CyberAlchemy collateral",
+        "rule": "requires owner review and a separate promotion route",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "gates": [
+    {
+      "gate_id": "source-fidelity",
+      "kind": "quality",
+      "owner": "context-builder",
+      "condition": "Every node type, branch, and field in the definitions and schema must trace to an existing ontologize artifact or be explicitly marked as a candidate adaptation.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "definitions-status-tagging",
+      "kind": "quality",
+      "owner": "definitions-governance",
+      "condition": "Each canonical term must carry a status (candidate, seed, or source-backed) and the canonical 'ontology' definition must carry a contradiction path.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "definitions-drift",
+      "kind": "validation",
+      "owner": "definitions-governance",
+      "condition": "A drift audit must reconcile the new canonical definitions against GLOSSARY.md, the layered DEFINITIONS.md, ONTOLOGY-BRANCHES.md, and DAG-AND-METRICS.md.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "schema-completeness",
+      "kind": "validation",
+      "owner": "ontology-vault",
+      "condition": "The node schema must cover all six node types and encode the deterministic honesty gates; an example node must validate.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "arcanum",
+      "condition": "Outputs may propose candidate canonical definitions and a candidate node schema but must not promote glossary, ontology, sigil, spell, memory, or runtime authority, nor commit client-facing terms.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "dispatch-validation",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "The dispatch must pass the dispatch-spec validator before being treated as handoff-ready.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "ontologize-research-20260608",
+    "trace_events": [
+      "ontologize-definition-corpus-gathered",
+      "ontologize-canonical-definitions-authored",
+      "ontologize-node-schema-proposed",
+      "ontologize-definition-dispatch-validated"
+    ],
+    "signal_grouping": "ontologize-research"
+  },
+  "promotion_guardrails": [
+    "Do not modify the GoldenQuill project; treat it as read-only source evidence.",
+    "Do not promote ontologize canonical definitions into canonical Arcanum vocabulary without owner review.",
+    "Do not treat the candidate node schema as a shipped contract.",
+    "Do not commit client-facing terms without owner review."
+  ]
+}

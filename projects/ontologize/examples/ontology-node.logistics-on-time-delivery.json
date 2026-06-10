@@ -1,0 +1,33 @@
+{
+  "node_id": "node.mo.on-time-delivery-lane-ab",
+  "node_type": "MetricObservation",
+  "branch": "B3-run-context",
+  "label": "On-time delivery, lane A to B",
+  "run_context_ref": "node.ls.shipment-2026-q2",
+  "veracidade": "high",
+  "evidence_refs": [
+    "tms-event:delivered#2026-04..06",
+    "tms-event:delivery_exception#2026-04..06"
+  ],
+  "denominator": {
+    "numerator": "shipments delivered on or before promised date",
+    "denominator": "shipments delivered (not booked) in the period",
+    "period": "2026-Q2"
+  },
+  "interpretation_limits": [
+    "Divides by delivered, not booked: does not count cancellations.",
+    "Excludes claims still open at period close."
+  ],
+  "edges": [
+    {
+      "edge_type": "observed_by",
+      "target_node_id": "node.ls.shipment-2026-q2",
+      "category": "structural"
+    },
+    {
+      "edge_type": "drifts_from",
+      "target_node_id": "node.kp.lane-ab-sla-rule",
+      "category": "structural"
+    }
+  ]
+}
