@@ -1,0 +1,82 @@
+---
+role: derivation substrate (handle.impl-architecture-and-model)
+status: working note — shared input for the four victor-pattern views
+source: derived READ-ONLY from goldenquill-promotion-governance spec, 2026-06-10
+dispatch: gq-impl-arch-discovery-2026-06-10
+note: every load-bearing claim cites a spec selector (file + section/line). Where the spec defers or is silent, it is marked [DEFERRED] / [SILENT] / [RESIDUE].
+---
+
+# Derivation — current implementation architecture & model (spec-derived)
+
+Scope: "Victor" is the GoldenQuill grant runtime; the `integration/` docs are a *design plan*
+(status draft/candidate, "promotes nothing"), not built code. The whole feature is the L0
+buildout spec for GoldenQuill's designed-not-built learning loop.
+
+## 1. Architecture topology
+
+Left-to-right event-sourced flow (SPEC.md §"selected architecture" lines 39–51; architecture.md
+View 2 lines 114–129; SPEC.md Module Map lines 60–74):
+
+| Component (spec id) | Responsibility | Authority boundary |
+| --- | --- | --- |
+| Adapter Producer boundary (`AdapterProducer`, `event_spine`) | Observe portal/seat/uploader/outcome/CycleReceipt/Reflection/backfill → emit typed `GrantWorkEvent` in a `GrantWorkEventEnvelope` | Observation only; no DAG/promotion authority, cannot set `approved_allowed_uses` (SPEC.md 164–201; domain.md 45–46; architecture.md View 3 line 193) |
+| Typed Event Journal (`event_spine`) | Single replayable, idempotent, source-backed ingress; sole authority store for projection | Journal ≠ approved knowledge (SPEC.md 200; architecture.md View 6 line 264) |
+| `AcceptGrantWorkEvent` + `EventProjectionReceipt` | Validate envelope; idempotency (same key+hash→no-op, same key+diff hash→block); receipt on every projection | Rejects missing producer/source/idempotency/interpretation_limits; rejects adapter-set approved uses (operations.md §AcceptGrantWorkEvent R1–R7) |
+| DAG projector (`ProjectEventToDag`, `execution`) | Accepted events → `GrantRunNode`/`GrantRunEdge` (what happened, in what order, which gate allowed/blocked) | Needs `validation_state==checked`; must emit receipt; cannot bypass blocked traversal (operations.md §ProjectEventToDag R1–R4; SPEC.md 92–162) |
+| Lifecycle/KPI projector (`ProjectEventToLifecycleAndKpi`, `metrics`) | Source-backed events → `ApplicationLifecycleState` + `GrantKpiObservation` | Source-backed + denominator-safe only; no promotion (operations.md §ProjectEventToLifecycleAndKpi; §ComputeKpiObservation) |
+| Analytics pipeline (`analytics_methods`) | `ProjectGrantActionFacts` → `BuildKpiResponseWindow` → `EvaluateActionKpiAssociation` → `CreateBIInsightCandidate`, gated by `StatisticalMethodSpec` registry | Evidence only; bias/sample/temporal-leakage fail-closed; cannot approve reuse (analytics-methods.md 19–23; operations.md §EvaluateActionKpiAssociation R6) |
+| Optimization chains (`optimization_chains`) | `ActionKpiAssociation` → named BI optimization in 7 expression forms | Packages evidence; cannot approve reuse or exceed method claim label (optimization-chains.md 21–25; OCR-005/OCR-007) |
+| Candidate builder (`CreatePromotionCandidate`, `promotion`) | Validated outcomes/KPIs/feedback/associations → `PromotionCandidate` carrying `proposed_allowed_uses` | Proposed uses only; never `approved_allowed_uses` (domain.md 196–197; operations.md §CreatePromotionCandidate R2) |
+| Ontology Vault governance projection (`OntologyVaultProjection`, `ontology_vault`) | Check governance compatibility (evidence refs, review gate, contradiction path, allowed-use separation) | Audit projection, not mutation; `mutation_allowed=false` in L0 (mappings.md 108–124; operations.md §ValidatePromotionGovernance R4; architecture.md A-R4) |
+| Redaction/Generalization privacy gate (`RedactionGeneralizationGate`, `privacy`) | Block workspace-safe reuse of org-scoped feedback until generalized + owner-approved | Org-scoped feedback org-private; workspace reuse needs `redaction_status==generalized` AND owner approval (operations.md §RedactionGeneralizationGate R1–R3) |
+| Owner decision (`RecordOwnerDecision`, `promotion`) | Record approved/rejected/retired/contradicted; only place `approved_allowed_uses` may be set | First and only point where approved reuse exists (domain.md 216; SPEC.md 89; operations.md §RecordOwnerDecision R1–R2) |
+| Approved reuse packet store (`ApprovedReusePacket`, `reuse`) | Bounded handoff carrying approved uses into future context | Only future-context input with approved uses (SPEC.md 90; domain.md 237–238) |
+| Future-context hydrator (`HydrateFutureGrantContext`) | Feed approved learning into Scout/Scribe/Judge/Logician/Funding Goal/memory | Requested use ⊆ `approved_allowed_uses`; scope must fit; retired/contradicted cannot hydrate (operations.md §HydrateFutureGrantContext R1–R3; states.md ARP-I2/I3) |
+
+### Runtime topology — three planes (runtime-design §1,§3; ARCHITECTURE Views 2–3; D-B)
+1. **Observability plane** — Logfire spans (LOCKED) + `pipeline/metrics/session_log.jsonl`. Never authority; not replayable; no idempotency. CycleReceipt + Reflection Packet *read* Logfire and *emit* events — they are adapters, not the journal (runtime-design §2.4 lines 99–104; seam-map Seam 1).
+2. **Event/governance authority plane** — event journal (only replayable/idempotent/source-backed store) + projectors + audit OntologyVaultProjection (`mutation_allowed=false` L0) + `approved_reuse_packets/`.
+3. **Storage plane** — per-org sovereign (`orgs/<slug>/vault/…`, Law-3 isolated `F-MATCH-DB-CROSS-ORG`, append-only, hydration auto-applies after approval) ⟂ shared ontology (`pipeline/cards/CIC|CLC/*`, owner-gated, guardpost-level only D5a, never auto-promote) ⟂ governance/audit (journal + audit projection + `vault_shared/promotion_governance/approved_reuse_packets/<id>.yaml`, append-only).
+
+**Store tech (D-A):** JSONL journal + in-memory idempotency index for v0.1 → SQLite (`INSERT OR IGNORE`) at ~50k events/cycle → DuckDB only if analytics reach L2+. Rejected: Logfire-as-journal, session_log extension, embedded store (no-marketplace constraint).
+
+### Component inventory C1–C16 (ARCHITECTURE View 3 lines 73–92; runtime-design §5)
+C1 AdapterProducer wrappers (L1) · **C2 Event journal + idempotency index (L0)** · **C3 AcceptGrantWorkEvent + receipts (L0)** · C4 DAG + lifecycle/KPI projectors (L0/L1) · C5 KPI engine "47 KPIs" numpy/scipy (L1) · C6 Analytics registry L0-descriptive (L1) · C7 Candidate builder (L1) · **C8 OntologyVaultProjection audit-only (L0)** · C9 ScopeAndPrivacyGate (L1) · C10 RecordOwnerDecision + Ed25519 (L1) · C11 ApprovedReusePacket store + hydrator (L2) · C12 Victor operator card-edit gate (L2) · C13 F-PROMOTION-* failure codes (L1) · C14 Per-CIC redaction rule tables (L2) · C15 Improvement engine DSPy+GEPA / operator edit (L2.5) · C16 Improvement verification held-out eval + KPI-delta (L2.5). Only C2/C3/C8 are L0. [RESIDUE: spec prose "47 KPIs" vs 44 GrantKpiKind enum entries in domain.md 402–449 — unreconciled, 3-entry gap. (Corrected 2026-06-10 by direct count; an earlier "49" was a miscount.)]
+
+## 2. Data model
+
+Core entities (domain.md): GrantWorkEvent (13–30) · GrantWorkEventEnvelope VO (242–260) · AdapterProducer (32–46) · EventProjectionReceipt (48–66, projection_kind ∈ dag|lifecycle|kpi|candidate|owner_decision|approved_reuse|future_context) · GrantRunNode (68–86) · GrantRunEdge (88–105) · GrantOutcomeEvent (107–130, source_ref REQUIRED) · GrantKpiObservation (132–151, source_events REQUIRED) · PromotionCandidate (169–197, carries `proposed_allowed_uses`, MUST NOT carry `approved_allowed_uses`) · OwnerDecision (199–216, `approved_allowed_uses` conditional-on-approved) · ApprovedReusePacket (218–238) · MemoryEvidencePacketRef VO (262–277) · SourceRef VO (279–287, integration upgrades to accept Ed25519) · StageProfile VO (289–296).
+
+Analytics facts (analytics-methods.md): GrantActionFact (51–81) · GrantLifecycleTransitionFact (83–100) · GrantOutcomeFact (102–135) · GrantCostFact (137–158) · KpiResponseWindow (160–191, pending outcomes must be `censored` not losses) · StatisticalMethodSpec policy (195–214) · ActionKpiAssociation (253–283) · BIInsightCandidate profile (500–523). Optimization: OptimizationChainDefinition (optimization-chains.md 69–90) + OptimizationChainExpression 7 forms (92–105: plain_language/operator/executive/contract/causal_careful/dashboard_label/ontology).
+
+Enums (domain.md 299–545): GrantWorkEventKind(9) · AdapterProducerKind(9) · GrantRunNodeKind(16; SPEC:102–119 agrees) · GrantRunEdgeKind(7) · GrantOutcomeEventKind(11) · ApplicationStage(19) · GrantKpiKind(44; prose says "47") · PromotionCandidateStateValue(8: captured/candidate/validated/decision_pending/approved/rejected/retired/contradicted) · OwnerDecisionStateValue(4: approved/rejected/retired/contradicted) · ApprovedReusePacketStateValue(3: active/retired/contradicted) · AllowedUse(9) · AuthorityClass(6) · OrgScope(4: workspace_global/single_org/no_org_loaded/cross_org_forbidden) · ValidationState(5: candidate/checked/failed/waived/contradicted) · RedactionStatus(5: not_required/required/redacted/generalized/blocked) · PromotionCandidateKind(6). Analytics: StatisticalMethodFamily(11) · AnalyticsMaturityLevel(L0–L4) · AnalyticsClaimLabel(6 incl terminal blocked_or_residue).
+
+Load-bearing invariants: PCS-I1 `candidate.approved_allowed_uses==null` · PCS-I2 `approved → owner_decision_ref!=null` · ODS-I1/I2 approved↔non-empty approved uses · A-R3 no approved uses before OwnerDecision · A-R6 adapters cannot set approved uses · A-R7 every projection emits a receipt · analytics facts/associations cannot carry approved uses.
+
+## 3. State machines (states.md)
+- **GrantRunTraversalState** (11–40): not_started→active→{blocked↔active}→delivered→outcome_tracking→[*]. GRT-I1 no downstream after blocked gate w/o reopen; GRT-I2 path from run_context; GRT-I3 delivery requires operator_signoff approved_by edge.
+- **ApplicationLifecycleState** (42–101): 20 stages prospect→…→awarded|declined|withdrawn|closed_out. ALS-I1 stage_depth≠final_outcome; ALS-I2 final outcome requires source_ref; ALS-I3 baseline overridden only by named StageProfile w/ source.
+- **PromotionCandidateState** (102–141): captured→candidate→{validated|rejected}; validated→decision_pending; decision_pending→{approved|rejected|retired|contradicted}; approved→{retired|contradicted}. PCS-I1/I2/I3 (I3: workspace_reuse→generalized+owner approved).
+- **OwnerDecisionState** (143–176): pending→{approved|rejected|retired|contradicted}; approved→{retired|contradicted}. ODS-I1/I2/I3 (I3 every decision has decision_source).
+- **ApprovedReusePacketState** (178–203): [*]→active→{retired|contradicted}. ARP-I1 active requires approved uses; ARP-I2 retired/contradicted cannot hydrate; ARP-I3 hydration use ⊆ approved uses.
+Chain `status` is a flat field (candidate/validated/approved/rejected/retired/residue), [not a transition machine in spec].
+
+## 4. Authority & promotion boundaries
+One-way authority gated by acceptance — W-I5: `adapter_output → accepted_event → projection_receipt → DAG`. Adapters emit only (A-R6); journal ≠ approved knowledge (SPEC 200); KPIs/outcomes/associations/chains may *create* candidates, cannot promote (W-I2); candidates carry proposed uses (PCS-I1); **OwnerDecision is the sole setter of `approved_allowed_uses`** (SPEC 89; domain 216). Law 3: org-scoped feedback org-private until generalized+approved (RedactionGeneralizationGate R1–R3; W-I3; A-R5), structurally enforced by per-org store isolation + cross-org window block (operations §BuildKpiResponseWindow R4). Integration two-layer privacy: Classification Register (routing) ⟂ RedactionStatus (reuse), joined by ScopeAndPrivacyGate (seam-map Seam 4; D-D). **L0 fixture-only:** in scope = envelope fixtures, fake adapters, acceptance validator, event→DAG projector, receipts, audit-only vault projection, T1–T35 fixtures, deterministic pytest. Deferred = UI/dashboard, real importer, production memory writes, signed-card mutation, org-vault mutation, automatic promotion, KPI engine, candidate builder, owner decision, reuse packet, improvement loop. W-I4: `L0 → no org_vault_write and no card_write and no dashboard_write`.
+
+## 5. Build status — designed vs built
+Everything is DESIGNED, NOT BUILT. All 16 files draft/candidate. integration/ARCHITECTURE.md: `promotion_decision: pending`, "promotes nothing; L0 stays fixture-only and audit-only" (lines 12–23). Victor engineer-view names the learning loop **D7 "designed, not built — CRITICAL."** This feature is the L0 buildout spec for that unbuilt loop. WORK-PACK.md: gate pass, complexity low, readiness pilot, **all tasks not-started** (TASK-EVT/DAG/VAULT/FIX + TASK-VERIFY; SWU-GQDAG-001…008 all ready, all target `pipeline/grant_dag/`, disjoint write scopes). Blockers: **B-001** TEST-SPEC T1–T35 stability unconfirmed (blocks TASK-FIX); **B-002/OQ-4** vocabulary LOCK blocks **L1** (not L0); **OQ-9** CIC×CLC matrix coupling must not re-enter via candidate generalization. OQ-4 has a PROPOSED resolution under review (three decision surfaces — PursuitDecision/MatchFitVerdict/OwnerDecision — not one unified enum; see integration/OPEN-QUESTIONS-LEDGER.md). Decisions resolved: D-A…D-F (runtime-design §6) + D-001…D-007 (architecture.md). Residue (runtime-design §7): event-count 13-vs-12, card-edit versioning/rollback + consent-tier default, JSONL replay at scale + unauthored per-CIC redaction rules + unvendored analytics methods, D5a "no metric hill-climb" assertion, C16 held-out eval composition + passing-KPI-delta definition.
+
+## 6. Distilled load-bearing model
+**One sentence:** an event-sourced governance spine that turns bounded-adapter observations into a replayable journal, projects that journal into a grant-run DAG + lifecycle/KPI/analytics read models, derives only *proposed* learning candidates, and lets **owner decision alone** convert a candidate into approved, scope-bounded reusable knowledge that future grant work may consume.
+
+**5 invariants everything recomposes from:**
+1. **Authority flows one way, gated by acceptance** — `adapter_output→accepted_event→projection_receipt→DAG/read-models` (W-I5). Recomposes the entire ingress half.
+2. **Source-or-nothing** — outcomes need source_ref, KPIs need denominator, everything carries interpretation_limits (ALS-I2, A-R1/R2). Recomposes outcome/lifecycle/KPI/analytics + fail-closed behavior.
+3. **Approved uses live only on OwnerDecision; candidates carry only proposed uses** (PCS-I1, ODS-I1/I2, A-R3, A-R6). Recomposes the whole promotion lane and why nothing self-promotes.
+4. **Privacy is gated and scope-bounded** — org feedback org-private until generalized+approved (PCS-I3, A-R5); hydration use ⊆ approved uses, scope ⊆ reuse_scope (ARP-I3). Recomposes redaction/scope gates, Law-3 isolation, reuse packet, hydrator.
+5. **L0 is fixture-only and audit-only — projection mutates nothing canonical** (`mutation_allowed=false`, W-I4). Recomposes build posture (L0 vs L1/L2/L2.5).
+
+**Recomposition:** the entity sequence GrantWorkEvent→EventProjectionReceipt→{GrantRunNode/Edge, GrantOutcomeEvent→ApplicationLifecycleState, GrantKpiObservation}→{analytics facts/windows/associations/chains}→PromotionCandidate(+BIInsight)→OntologyVaultProjection→RedactionGeneralizationGate→OwnerDecision→ApprovedReusePacket→HydrateFutureGrantContext, with invariant 2 gating every read-model write, 3 gating candidate→approved, 4 gating every privacy/scope boundary, 5 bounding what is built first. The five state machines are exactly the legal transitions of that sequence; the three runtime planes are the same sequence projected onto where state lives. The whole architecture is this one sequence plus "who may write each step."
+
+**Caveats:** TEST-SPEC.md (T1–T35), glossary.md, OPEN-QUESTIONS-LEDGER.md referenced load-bearingly but outside derivation read set; B-001 flags TEST-SPEC stability as unconfirmed. "47 (prose) vs 44 (enum)" KPI and "13 vs 12" event counts are open residue. integration/ C-numbers + decisions are proposed-resolved-but-unbuilt. Note: runtime-design §6 letters five decisions (A/B/C/D/F, numpy/scipy freeze folded into D-D); ARCHITECTURE.md surfaces that freeze as a sixth row D-E — both correct, doc-sync residue.
