@@ -1,12 +1,57 @@
 ledger_id: craft.goldenquill.promotion_governance
-schema_ref: ../../arcanum/development/craft/CRAFT-INTERFACE-LEDGER-SCHEMA.yml
-schema_version: 0.1.0
+schema_ref: ../../arcanum/arcana/craft/templates/ledger.schema.yml
+schema_version: 0.2.0
 status: candidate-local
 source_of_truth: .craft/ledger.yml
 human_view: CRAFT.md
 notes:
   - Paths are relative to project root projects/goldenquill unless marked [repo-root].
   - Created 2026-06-10 to record promotion-governance open questions/blockers/gaps and the impl-architecture discovery.
+
+indexes:
+  by_id:
+    CTX-GQ-PROMO-GOV: contexts[0]
+    CTX-GQ-IMPL-ARCH: contexts[1]
+    CTX-GQ-ARCH-DESIGN: contexts[2]
+    DEC-OQ4: decisions[0]
+    DEC-D2-FLIP: decisions[2]
+    DEC-D3-SHARED-GATE: decisions[3]
+    DEC-D4-VERIFY: decisions[4]
+    BLK-OQ4-VOCAB: typed_items[0]
+    BLK-B001-TESTSPEC: typed_items[1]
+    BLK-D5A-THRESHOLD: typed_items[2]
+    BLK-OQ13-EDGES: typed_items[3]
+    ART-OQ-LEDGER: artifacts[2]
+    ART-ARCH-DESIGN: artifacts[7]
+    ART-IMPL-PACK: artifacts[3]
+  open_decisions:
+    - DEC-OQ4
+    - DEC-D2-FLIP
+    - DEC-D3-SHARED-GATE
+    - DEC-D4-VERIFY
+  blocking_decisions:
+    - DEC-OQ4
+  active_blockers:
+    - BLK-OQ4-VOCAB
+    - BLK-B001-TESTSPEC
+    - BLK-D5A-THRESHOLD
+    - BLK-OQ13-EDGES
+  active_gaps:
+    - GAP-DESIGNED-NOT-BUILT
+    - GAP-PROMO-ENFORCE
+    - GAP-L0L1-FLIP
+    - GAP-REDACTION-TABLES
+    - GAP-KPI-COUNT
+    - GAP-EVENT-COUNT
+  next_moves:
+    - context_id: CTX-GQ-PROMO-GOV
+      next_move: Resolve OQ-4 decision shape (DEC-OQ4), then route L1 candidate-shape work.
+    - context_id: CTX-GQ-ARCH-DESIGN
+      next_move: Take D1-D4 proposals to the team alongside the open-questions PDF; close DEC-OQ4 first.
+  artifacts_by_path:
+    docs/features/goldenquill-promotion-governance/integration/OPEN-QUESTIONS-LEDGER.md: ART-OQ-LEDGER
+    docs/features/goldenquill-promotion-governance/integration/whole-system-architecture-design.md: ART-ARCH-DESIGN
+    docs/features/goldenquill-promotion-governance/discovery/impl-architecture/README.md: ART-IMPL-PACK
 
 contexts:
   - context_id: CTX-GQ-PROMO-GOV
@@ -243,7 +288,7 @@ typed_items:
     closure_condition: A machine-checkable "general guardpost" threshold + a "no metric hill-climb" assertion encoded in PromotionAuthorityPolicy.
     evidence: victor engineer-view D5a; OQ-3
     decision_ref: none
-    reason: "Shared cards stay general, never overfit" is a verdict with no enforceable boundary.
+    reason: '"Shared cards stay general, never overfit" is a verdict with no enforceable boundary.'
   - item_id: BLK-OQ13-EDGES
     kind: blocker
     base_type: governance_blocker
@@ -300,49 +345,108 @@ decisions:
   - decision_id: DEC-OQ4
     scope_id: CTX-GQ-PROMO-GOV
     decision_type: selection
+    question: Should GoldenQuill keep three typed decision surfaces or collapse them into one unified enum?
+    description: Blocking vocabulary decision for L1 candidate shape and promotion-authority semantics.
     selected: PENDING — operator weighing three decision surfaces vs single unified enum.
     rationale: Proposed resolution is three typed surfaces (PursuitDecision / MatchFitVerdict / OwnerDecision) with OwnerDecision the sole promotion vocabulary; operator answered "let me think" on the shape.
     evidence: docs/features/goldenquill-promotion-governance/integration/OPEN-QUESTIONS-LEDGER.md
     status: active
     blocking: true
+    impact: Blocks L1 candidate shape and keeps BLK-OQ4-VOCAB active until the vocabulary model is locked.
+    owner: governance
+    links:
+      - label: open questions ledger
+        target: ART-OQ-LEDGER
+        kind: artifact-id
+      - label: vocabulary blocker
+        target: BLK-OQ4-VOCAB
+        kind: row-id
   - decision_id: DEC-PACK-LOCATION
     scope_id: CTX-GQ-IMPL-ARCH
     decision_type: selection
+    question: Where should the implementation-architecture discovery pack live?
+    description: Closed packaging decision for the victor-pattern implementation architecture discovery.
     selected: Impl-architecture pack lands under docs/features/goldenquill-promotion-governance/discovery/impl-architecture/.
     rationale: Scopes the explanation to the feature, mirrors the victor four-file pattern.
     evidence: ART-IMPL-PACK
     status: closed
+    blocking: false
+    impact: Keeps the pack near feature docs and makes the discovery path stable for future links.
+    owner: architecture
+    links:
+      - label: implementation pack
+        target: ART-IMPL-PACK
+        kind: artifact-id
   - decision_id: DEC-D2-FLIP
     scope_id: CTX-GQ-ARCH-DESIGN
     decision_type: selection
+    question: How should GoldenQuill authorize the L0 to L1 mutation_allowed flip?
+    description: Proposed team decision for per-org promotion activation.
     selected: "PROPOSED: operator-signed per-org Ed25519 flip of mutation_allowed (false->true), journaled; shared-card mutation stays separately gated."
     rationale: Matches existing white-glove Ed25519 discipline; keeps operator in loop; scopes per-org for Law 3.
     evidence: ART-ARCH-DESIGN (D2)
     status: active
     blocking: false
+    impact: If accepted, L0 to L1 activation becomes an operator-signed per-org event rather than an implicit runtime transition.
+    owner: governance
+    links:
+      - label: architecture design D2
+        target: ART-ARCH-DESIGN
+        kind: artifact-id
+      - label: L0/L1 flip gap
+        target: GAP-L0L1-FLIP
+        kind: row-id
   - decision_id: DEC-D3-SHARED-GATE
     scope_id: CTX-GQ-ARCH-DESIGN
     decision_type: selection
+    question: What gate keeps shared cards general and prevents metric hill-climbing?
+    description: Proposed structural shared-card gate for promotion authority policy hardening.
     selected: "PROPOSED: structural 'general' rule (generalized + >=K orgs + >=2 CICs, no metric hill-climb) + operator Ed25519 card-edit review; requires consent_tier=composable_with_others."
     rationale: D5a says shared cards are guardposts, not hill-climbed; boundary should be structural not a score.
     evidence: ART-ARCH-DESIGN (D3); links BLK-D5A-THRESHOLD
     status: active
     blocking: false
+    impact: If accepted, BLK-D5A-THRESHOLD can close through a machine-checkable PromotionAuthorityPolicy boundary.
+    owner: governance
+    links:
+      - label: architecture design D3
+        target: ART-ARCH-DESIGN
+        kind: artifact-id
+      - label: threshold blocker
+        target: BLK-D5A-THRESHOLD
+        kind: row-id
   - decision_id: DEC-D4-VERIFY
     scope_id: CTX-GQ-ARCH-DESIGN
     decision_type: selection
+    question: How should GoldenQuill verify an improvement without overfitting to one funder or metric?
+    description: Proposed descriptive-statistics verification rule for promotion candidates.
     selected: "PROPOSED: diverse held-out set (>=2 CIC/CLC); reject on negative primary-KPI delta or any guardrail-KPI significant decrease; descriptive stats only (numpy/scipy)."
     rationale: Stays within L0/L1 descriptive analytics per D-E; prevents single-funder overfit (RK-006).
     evidence: ART-ARCH-DESIGN (D4)
     status: active
     blocking: false
+    impact: If accepted, promotion candidates get an evidence rule without turning evaluation into metric optimization.
+    owner: validator
+    links:
+      - label: architecture design D4
+        target: ART-ARCH-DESIGN
+        kind: artifact-id
   - decision_id: DEC-USE-CRAFT
     scope_id: CTX-GQ-PROMO-GOV
     decision_type: selection
+    question: Should this promotion-governance work be tracked in a scoped Craft ledger?
+    description: Closed decision to use Craft as the recursive state surface for this feature.
     selected: Record this work in a goldenquill-scoped Craft ledger (.craft/ledger.yml).
     rationale: Craft is the right surface for recursive blockers/decisions/gaps/definitions state; operator asked to use it.
-    evidence: arcanum/development/craft/SKILL.md
+    evidence: ../../arcanum/arcana/craft/SKILL.md
     status: closed
+    blocking: false
+    impact: Establishes this `.craft/ledger.yml` as the feature-local state authority and `CRAFT.md` as its human view.
+    owner: governance
+    links:
+      - label: canonical Craft sigil
+        target: ../../arcanum/arcana/craft/SKILL.md
+        kind: path
 
 relations:
   - relation_id: REL-CONTAINS-001
