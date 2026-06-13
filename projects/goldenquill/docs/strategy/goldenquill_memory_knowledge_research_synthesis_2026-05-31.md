@@ -53,4 +53,3 @@ Create `docs/MEMORY_KNOWLEDGE_LAYER_INDEX.md` before implementing new memory beh
 - approval requirements,
 - Arcanum equivalent,
 - next-route owner.
-

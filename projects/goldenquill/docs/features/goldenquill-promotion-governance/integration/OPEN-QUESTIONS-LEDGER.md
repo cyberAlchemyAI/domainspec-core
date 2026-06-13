@@ -64,7 +64,7 @@ unified enum (operator preference pending).
 ### Vocabulary & schema
 - **`ApprovedReusePacket`** referenced as "new" in seam-map but the domain.md schema exists — reconcile seam-map against domain.md (no longer fully open). (seam-map:85 vs domain.md:218)
 - **Allowed-use / `reuse_scope` vocabulary** (`workspace_safe_after_generalization`, `suggest_review_focus`, …) is free-string everywhere; no enum or registry; fixtures reference IDs no registry validates.
-- **Event count:** 13 vs 12 domain events unresolved; canonical enumeration missing. (runtime-design residue)
+- **Event count — RESOLVED 2026-06-13:** two real axes named explicitly — **9 ingestion event families** (`GrantWorkEventKind` enum, domain.md:301–313) and **13 operation-output events** (events.md sections). The phantom "12" is struck. (runtime-design residue)
 - **OQ-11 / Five-Laws map:** consent-tier gate filed under Law 4 on disk but reasoned as Law 3; no canonical Five-Laws→failure-code map.
 
 ### Conflict handling (unspecified in states/operations)

@@ -41,4 +41,3 @@ deterministic validator plan from the invoke handoff:
 
 PASS. The handoff already has strict context-builder coverage and no remaining
 blocker for L0 fixture work.
-

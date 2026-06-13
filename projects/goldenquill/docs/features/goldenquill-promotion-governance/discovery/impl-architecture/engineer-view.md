@@ -23,7 +23,7 @@ source: _derivation-substrate.md (read-only derivation from goldenquill-promotio
 - **Plain-language story / "the heart" narrative + open business questions** →
   [discovery.md](discovery.md). Do not look here for the why-it-matters telling.
 - **Formal entity / enum / state-machine schema** → [ontology-view.md](ontology-view.md).
-  The 13 entities, the enum cardinalities (and the 47-vs-44 KPI residue), the five
+  The 13 entities, the enum cardinalities (the 47-vs-44 KPI residue is RESOLVED — prose corrected to 44), the five
   state machines live there.
 - **Stakeholder-altitude shape + cross-reference map of the whole feature** →
   [system-view.md](system-view.md). It names the load-bearing stances; the
@@ -50,7 +50,7 @@ production code behind any row. The L0 column means "in the current
 | **C2** | **Event journal store + idempotency index** | **L0** | **JSONL (→SQLite) (D-A)** | **fixture-only (TASK-EVT / SWU-002)** |
 | **C3** | **`AcceptGrantWorkEvent` + projection receipts** | **L0** | **Pydantic + Logician** | **fixture-only (TASK-EVT / SWU-001..003)** |
 | C4 | DAG + lifecycle/KPI projectors | L0/L1 | Pydantic | DAG half fixture-only (TASK-DAG / SWU-004,005); lifecycle/KPI half L1 designed |
-| C5 | KPI engine (prose "47 KPIs"; enum is 44 — residue §1) | L1 | numpy/scipy | designed |
+| C5 | KPI engine (44 KPIs — enum is authoritative; prose reconciled, residue §1 RESOLVED) | L1 | numpy/scipy | designed |
 | C6 | Analytics method registry (L0-descriptive only) | L1 | numpy/scipy | designed |
 | C7 | Promotion candidate builder | L1 | Pydantic | designed |
 | **C8** | **`OntologyVaultProjection` (audit-only)** | **L0** | **Pydantic + Cedar** | **fixture-only (TASK-VAULT / SWU-006); `mutation_allowed=false`** |
@@ -74,9 +74,9 @@ signed-card mutation, org-vault mutation, automatic promotion, the KPI engine, t
 candidate builder, owner decision, reuse packet, and the improvement loop. So the
 L0 proof is the *seam shape* — not the loop.
 
-> [RESIDUE] C5/C6 prose says "47 KPIs" but the `GrantKpiKind` enum in domain.md has
-> **44** entries (verified by direct count 2026-06-10) — a 3-entry gap. Unreconciled —
-> see [ontology-view.md](ontology-view.md) and residue §1.
+> [RESOLVED 2026-06-13] C5/C6 prose previously said "47 KPIs"; the `GrantKpiKind` enum
+> in domain.md is authoritative at **44** entries (verified by direct count 2026-06-10).
+> Prose reconciled to 44 — see [ontology-view.md](ontology-view.md) and residue §1.
 
 ---
 

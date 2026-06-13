@@ -13,4 +13,3 @@ Layer 2: Add a memory-to-Arcanum handoff packet format that can export query res
 Layer 3: Plan Reflection Packet activation after source/promotion rules are explicit.
 
 No work-pack was created in this run because the user asked for refine research plus invoke design, not execution planning.
-

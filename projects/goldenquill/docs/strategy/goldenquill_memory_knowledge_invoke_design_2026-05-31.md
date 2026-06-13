@@ -190,4 +190,3 @@ flowchart TD
 ## Next Route
 
 Recommended: `invoke plan` for this design, then `task-session` for L0 (`docs/MEMORY_KNOWLEDGE_LAYER_INDEX.md`).
-

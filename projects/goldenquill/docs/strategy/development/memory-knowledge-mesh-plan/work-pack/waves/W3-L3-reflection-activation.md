@@ -17,4 +17,3 @@ Exit gate:
 - first experiment corpus proposed
 - failure modes and gates named
 - no runtime activation without separate approval
-

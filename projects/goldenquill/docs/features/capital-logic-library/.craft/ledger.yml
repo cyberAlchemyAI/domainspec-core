@@ -1,0 +1,182 @@
+ledger_id: craft.goldenquill.capital_logic_library
+schema_ref: '[repo-root] .agents/skills/craft/SKILL.md'
+schema_version: 0.2.0
+status: active-local
+source_of_truth: .craft/ledger.yml
+human_view: CRAFT.md
+notes:
+- Paths are relative to docs/features/capital-logic-library unless marked [repo-root].
+- Owns workbook Workstream D and links to existing promotion-governance Craft state.
+indexes:
+  by_id:
+    ART-CLL-DS-SPEC: artifacts[9]
+    ART-CLL-BUILD-SPEC: artifacts[8]
+    CTX-CLL-ROOT: contexts[0]
+    GAP-CLL-LAUNCH-CARDS: gaps[0]
+    GAP-CLL-DOMAIN-EXPERTS: gaps[1]
+    GAP-CLL-RULE-PACKS: gaps[2]
+    ART-CLL-PROMO-GOV: artifacts[1]
+    ART-CLL-REFINE-RUN: artifacts[2]
+    ART-CLL-REFINE-DISPATCH: artifacts[3]
+    ART-CLL-RUNTIME-HANDOFF: artifacts[4]
+    ART-CLL-INVOKE-FIRST: artifacts[5]
+    ENA-CLL-REFINE-ROUTE: typed_items[0]
+    ART-CLL-RESEARCH-STRATEGY: artifacts[6]
+    ART-CLL-RESEARCH-DISPATCH: artifacts[7]
+    ENA-CLL-RESEARCH-STRATEGY: typed_items[1]
+  open_decisions: []
+  blocking_decisions: []
+  active_blockers: []
+  active_gaps:
+  - GAP-CLL-LAUNCH-CARDS
+  - GAP-CLL-DOMAIN-EXPERTS
+  - GAP-CLL-RULE-PACKS
+  next_moves:
+  - context_id: CTX-CLL-ROOT
+    next_move: "Build spec authored & tracked 2026-06-12 (BUILD-SPEC.md, ART-CLL-BUILD-SPEC). Rule-pack + card schema ready for Vlad to build. Pending operator-input: Josh contracts 4 segment domain experts + authors/validates 5 launch cards. Handoffs: TO-VLAD.md, TO-JOSH.md. | DomainSpec first spec authored+audited 2026-06-13 (SPEC.md, audit severity 5)."
+  artifacts_by_path:
+    '[repo-root] docs/features/capital-logic-library/SPEC.md': ART-CLL-DS-SPEC
+    '[repo-root] docs/features/capital-logic-library/BUILD-SPEC.md': ART-CLL-BUILD-SPEC
+    '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md': ART-CLL-HANDOFF
+    '[repo-root] .craft/ledger.yml': ART-CLL-PROMO-GOV
+    ? '[repo-root] docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+    : ART-CLL-REFINE-RUN
+    ? '[repo-root] docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+    : ART-CLL-REFINE-DISPATCH
+    ? '[repo-root] docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+    : ART-CLL-RUNTIME-HANDOFF
+    '[repo-root] docs/features/capital-logic-library/INVOKE-DEVELOPMENT.md': ART-CLL-INVOKE-FIRST
+    ? '[repo-root] docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+    : ART-CLL-RESEARCH-STRATEGY
+    ? '[repo-root] docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+    : ART-CLL-RESEARCH-DISPATCH
+contexts:
+- context_id: CTX-CLL-ROOT
+  parent_id: root
+  title: Capital Logic Library
+  purpose: Track card schema, launch cards, expert validation, search seed libraries, and recurring funder rule packs.
+  stage: start
+  gate: flag
+  next_move: "Build spec authored & tracked 2026-06-12 (BUILD-SPEC.md, ART-CLL-BUILD-SPEC). Rule-pack + card schema ready for Vlad to build. Pending operator-input: Josh contracts 4 segment domain experts + authors/validates 5 launch cards. Handoffs: TO-VLAD.md, TO-JOSH.md. | DomainSpec first spec authored+audited 2026-06-13 (SPEC.md, audit severity 5)."
+artifacts:
+- artifact_id: ART-CLL-HANDOFF
+  owner_context_id: CTX-CLL-ROOT
+  path: '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md'
+  artifact_type: source-contract
+  status: active
+- artifact_id: ART-CLL-PROMO-GOV
+  owner_context_id: CTX-CLL-ROOT
+  path: '[repo-root] .craft/ledger.yml'
+  artifact_type: linked-craft-ledger
+  status: active
+  notes: Existing promotion-governance ledger owns reusable-knowledge promotion decisions.
+- artifact_id: ART-CLL-REFINE-RUN
+  owner_context_id: CTX-CLL-ROOT
+  path: '[repo-root] docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+  artifact_type: refine-run-manifest
+  status: flag
+  notes: Strategy-ready run manifest; runtime stages not executed.
+- artifact_id: ART-CLL-REFINE-DISPATCH
+  owner_context_id: CTX-CLL-ROOT
+  path: '[repo-root] docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+  artifact_type: dispatch-spec-route
+  status: pass
+  notes: Dispatch route validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; runtime execution remains
+    permission-gated.
+- artifact_id: ART-CLL-RUNTIME-HANDOFF
+  owner_context_id: CTX-CLL-ROOT
+  path: '[repo-root] docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+  artifact_type: runtime-handoff
+  status: not_run
+  notes: Runtime handoff is blocked until Josh confirms the strategy.
+- artifact_id: ART-CLL-INVOKE-FIRST
+  owner_context_id: CTX-CLL-ROOT
+  path: '[repo-root] docs/features/capital-logic-library/INVOKE-DEVELOPMENT.md'
+  artifact_type: invoke-development
+  status: pass
+  notes: Canonical Invoke define/design/plan artifact authored 2026-06-13; runtime execution remains separate.
+- artifact_id: ART-CLL-RESEARCH-STRATEGY
+  owner_context_id: CTX-CLL-ROOT
+  path: '[repo-root] docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+  artifact_type: research-strategy
+  status: pass
+  notes: Node-local research strategy; external research remains permission-gated.
+- artifact_id: ART-CLL-RESEARCH-DISPATCH
+  owner_context_id: CTX-CLL-ROOT
+  path: '[repo-root] docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+  artifact_type: research-dispatch-spec
+  status: pass
+  notes: Research dispatch validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; execution remains permission-gated.
+- artifact_id: ART-CLL-BUILD-SPEC
+  owner_context_id: CTX-CLL-ROOT
+  path: '[repo-root] docs/features/capital-logic-library/BUILD-SPEC.md'
+  artifact_type: build-spec
+  status: pass
+  notes: Canonical Define/Design/Plan build spec from refine->invoke 2026-06-12; refine-solvable gaps authored, operator-input and decision-gated items flagged.
+- artifact_id: ART-CLL-DS-SPEC
+  owner_context_id: CTX-CLL-ROOT
+  path: '[repo-root] docs/features/capital-logic-library/SPEC.md'
+  artifact_type: domainspec-spec
+  status: flag
+  notes: DomainSpec first spec authored+audited 2026-06-13 via .domainspec/scripts/audit_richness.py (severity 5); residue documented in SPEC.md.
+descriptions:
+- description_id: DESC-CLL-001
+  context_id: CTX-CLL-ROOT
+  description: Capital Logic Content includes card schema governance, five launch cards, seed libraries, and program rule
+    packs.
+  status: active
+  evidence: ART-CLL-HANDOFF
+gaps:
+- gap_id: GAP-CLL-LAUNCH-CARDS
+  scope_id: CTX-CLL-ROOT
+  summary: Five launch cards need current authoring and validation status captured.
+  severity: flag
+  treatment: inventory
+  owner: founder
+  status: active
+  evidence: ART-CLL-HANDOFF
+- gap_id: GAP-CLL-DOMAIN-EXPERTS
+  scope_id: CTX-CLL-ROOT
+  summary: Four segment experts need scoped paid structured input.
+  severity: block
+  treatment: onboard
+  owner: founder
+  status: active
+  evidence: ART-CLL-HANDOFF
+- gap_id: GAP-CLL-RULE-PACKS
+  scope_id: CTX-CLL-ROOT
+  summary: Recurring funder rule packs need ownership and ongoing maintenance shape.
+  severity: flag
+  treatment: plan
+  owner: founder-backend
+  status: active
+  evidence: ART-CLL-HANDOFF
+decisions: []
+typed_items:
+- item_id: ENA-CLL-REFINE-ROUTE
+  item_type: enabler
+  scope_id: CTX-CLL-ROOT
+  summary: A Dispatch Spec validated Refine route can now hydrate this Craft layer into Invoke define/design/plan artifacts
+    after operator confirmation.
+  enabler_type: route
+  lane: refine-pipeline
+  status: active
+  evidence: ART-CLL-REFINE-DISPATCH
+- item_id: ENA-CLL-RESEARCH-STRATEGY
+  item_type: enabler
+  scope_id: CTX-CLL-ROOT
+  summary: A node-local Dispatch Spec research strategy now defines local-first questions, evidence boundaries, approval gates,
+    and validation focus.
+  enabler_type: research-route
+  lane: research-strategy
+  status: active
+  evidence: ART-CLL-RESEARCH-DISPATCH
+relations:
+- relation_id: REL-CLL-PROMO-GOV
+  source_id: CTX-CLL-ROOT
+  target_id: ART-CLL-PROMO-GOV
+  type: depends_on_existing_ledger
+  status: active
+  reason: Library promotion and reusable knowledge decisions already live in the promotion-governance Craft ledger.
+  evidence: ART-CLL-PROMO-GOV
+recomposition: []

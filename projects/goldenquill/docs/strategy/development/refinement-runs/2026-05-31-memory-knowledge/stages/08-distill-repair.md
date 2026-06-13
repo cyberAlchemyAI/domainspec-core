@@ -10,4 +10,3 @@ Repairs applied:
 - Kept `EvidenceCard`/Inventory as a compatible evidence-packet format for Arcanum handoffs.
 - Kept Ontology as meaning governance, not storage or promotion authority.
 - Added a first safe task: current-truth memory/knowledge layer index.
-

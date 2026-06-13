@@ -5,11 +5,16 @@ status: candidate-local
 source_of_truth: .craft/ledger.yml
 human_view: CRAFT.md
 notes:
-  - Paths are relative to project root projects/goldenquill unless marked [repo-root].
+  - Paths are relative to the project root unless marked [repo-root].
   - Created 2026-06-10 to record promotion-governance open questions/blockers/gaps and the impl-architecture discovery.
 
 indexes:
   by_id:
+    ART-GQ-DS-SPEC: artifacts[15]
+    ART-GQ-DS-DISPATCH-APPLY: artifacts[14]
+    ART-GQ-DS-DISPATCH-INV: artifacts[13]
+    ART-GQ-DS-INVENTORY: artifacts[12]
+    ART-GQ-BUILD-SPEC: artifacts[11]
     CTX-GQ-PROMO-GOV: contexts[0]
     CTX-GQ-IMPL-ARCH: contexts[1]
     CTX-GQ-ARCH-DESIGN: contexts[2]
@@ -45,10 +50,15 @@ indexes:
     - GAP-EVENT-COUNT
   next_moves:
     - context_id: CTX-GQ-PROMO-GOV
-      next_move: Resolve OQ-4 decision shape (DEC-OQ4), then route L1 candidate-shape work.
+      next_move: Build spec authored 2026-06-12 (ART-GQ-BUILD-SPEC); BLOCKING ratify DEC-OQ4 then route L1 build.
     - context_id: CTX-GQ-ARCH-DESIGN
       next_move: Take D1-D4 proposals to the team alongside the open-questions PDF; close DEC-OQ4 first.
   artifacts_by_path:
+    '[repo-root] docs/features/goldenquill-promotion-governance/SPEC.md': ART-GQ-DS-SPEC
+    '[repo-root] docs/strategy/development/domainspec-adoption/DISPATCH-APPLY-GOLDENQUILL.json': ART-GQ-DS-DISPATCH-APPLY
+    '[repo-root] docs/strategy/development/domainspec-adoption/DISPATCH-CAPABILITY-INVENTORY.json': ART-GQ-DS-DISPATCH-INV
+    '[repo-root] docs/strategy/development/domainspec-adoption/CAPABILITY-INVENTORY.md': ART-GQ-DS-INVENTORY
+    '[repo-root] .craft/artifacts/BUILD-SPEC.md': ART-GQ-BUILD-SPEC
     docs/features/goldenquill-promotion-governance/integration/OPEN-QUESTIONS-LEDGER.md: ART-OQ-LEDGER
     docs/features/goldenquill-promotion-governance/integration/whole-system-architecture-design.md: ART-ARCH-DESIGN
     docs/features/goldenquill-promotion-governance/discovery/impl-architecture/README.md: ART-IMPL-PACK
@@ -60,7 +70,7 @@ contexts:
     purpose: Track open questions, blockers, gaps, and decisions for the promotion-governance feature and its Victor learning loop.
     stage: validate
     gate: flag
-    next_move: Resolve OQ-4 decision shape (three decision surfaces vs single unified enum) — top P0 unblocker; see DEC-OQ4.
+    next_move: "Build spec authored & tracked 2026-06-12 (.craft/artifacts/BUILD-SPEC.md, ART-GQ-BUILD-SPEC). L0 learning-loop spine + promotion-authority gate ready for Vlad to build. BLOCKING: ratify DEC-OQ4 (decision-surface shape) then D2/D3/D4. Handoffs: TO-VLAD.md, TO-JOSH.md. | DomainSpec first spec authored+audited 2026-06-13 (SPEC.md, audit severity 11)."
     owned_artifacts:
       - ART-LEDGER-YML
       - ART-CRAFT-MD
@@ -161,6 +171,36 @@ artifacts:
     status: active
     notes: Reusable Markdown->PDF renderer (fpdf2 + DejaVu unicode). Usage - render_pdf.py in.md out.pdf "Title" "Subtitle".
 
+  - artifact_id: ART-GQ-BUILD-SPEC
+    owner_context_id: CTX-GQ-PROMO-GOV
+    path: '[repo-root] .craft/artifacts/BUILD-SPEC.md'
+    artifact_type: build-spec
+    status: pass
+    notes: Canonical Define/Design/Plan build spec from refine->invoke 2026-06-12; refine-solvable gaps authored, operator-input and decision-gated items flagged.
+  - artifact_id: ART-GQ-DS-INVENTORY
+    owner_context_id: CTX-GQ-PROMO-GOV
+    path: '[repo-root] docs/strategy/development/domainspec-adoption/CAPABILITY-INVENTORY.md'
+    artifact_type: capability-inventory
+    status: pass
+    notes: DomainSpec capability inventory + first-spec recommendation (fanout of 5 readers, dispatch gq-domainspec-capability-inventory-2026-06-13).
+  - artifact_id: ART-GQ-DS-DISPATCH-INV
+    owner_context_id: CTX-GQ-PROMO-GOV
+    path: '[repo-root] docs/strategy/development/domainspec-adoption/DISPATCH-CAPABILITY-INVENTORY.json'
+    artifact_type: dispatch-spec-route
+    status: pass
+    notes: Validated capability-inventory subagent strategy (validate-dispatch.py = pass).
+  - artifact_id: ART-GQ-DS-DISPATCH-APPLY
+    owner_context_id: CTX-GQ-PROMO-GOV
+    path: '[repo-root] docs/strategy/development/domainspec-adoption/DISPATCH-APPLY-GOLDENQUILL.json'
+    artifact_type: dispatch-spec-route
+    status: pass
+    notes: Validated route to build/validate GoldenQuill first DomainSpec spec at promotion-governance L0 (validate-dispatch.py = pass); requires operator go.
+  - artifact_id: ART-GQ-DS-SPEC
+    owner_context_id: CTX-GQ-PROMO-GOV
+    path: '[repo-root] docs/features/goldenquill-promotion-governance/SPEC.md'
+    artifact_type: domainspec-spec
+    status: flag
+    notes: DomainSpec first spec authored+audited 2026-06-13 via .domainspec/scripts/audit_richness.py (severity 11); residue documented in SPEC.md.
 descriptions:
   - description_id: DESC-GQ-PROMO-GOV-001
     context_id: CTX-GQ-PROMO-GOV

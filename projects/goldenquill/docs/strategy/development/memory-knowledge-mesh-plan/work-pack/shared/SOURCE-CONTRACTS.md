@@ -24,4 +24,3 @@ absent_current_checkout: expected or documented surface that is not present in t
 - Derived summaries can be edited, but must not silently outrank source files.
 - Proposal-only files can guide work but cannot mutate runtime behavior alone.
 - Generated state should not be committed unless an explicit policy says so.
-

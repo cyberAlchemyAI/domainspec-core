@@ -12,4 +12,3 @@ Exit gate:
 - index exists
 - live memory CLI smoke passes
 - static review passes
-

@@ -4,9 +4,9 @@ from pathlib import Path
 from pipeline.grant_dag.validate import RULES, load_fixture_pack, validate_fixture_pack
 
 
-ROOT = Path(__file__).resolve().parents[4]
-FIXTURE_PACK = ROOT / "projects/goldenquill/pipeline/grant_dag/fixtures/promotion_record_l0_fixture_pack.json"
-EXPECTED = ROOT / "projects/goldenquill/tests/grant_dag/fixtures/promotion_record_l0_expected.json"
+ROOT = Path(__file__).resolve().parents[2]
+FIXTURE_PACK = ROOT / "pipeline/grant_dag/fixtures/promotion_record_l0_fixture_pack.json"
+EXPECTED = ROOT / "tests/grant_dag/fixtures/promotion_record_l0_expected.json"
 
 
 def test_fixture_pack_declares_synthetic_non_mutating_boundary():

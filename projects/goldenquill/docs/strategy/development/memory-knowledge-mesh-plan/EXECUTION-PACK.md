@@ -32,4 +32,3 @@ Stop and record blocker when:
 - a task needs an org context not named by the operator
 - current runtime behavior conflicts with the plan
 - mutation authority is ambiguous
-

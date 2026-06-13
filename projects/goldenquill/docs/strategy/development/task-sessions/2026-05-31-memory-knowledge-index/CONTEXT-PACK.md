@@ -29,4 +29,3 @@ Date: 2026-05-31
 ## Key Constraint
 
 The next code-adjacent task requires a runnable test surface. Current environment lacks `pytest` through system Python and prior inspection found no usable project `.venv`.
-

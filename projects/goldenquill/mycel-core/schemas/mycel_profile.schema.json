@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MyCel Profile Contract",
+  "description": "Defines the develop engine or preset for a MyCel projection.",
+  "type": "object",
+  "properties": {
+    "profile_id": { "type": "string" },
+    "profile_version": { "type": "string" },
+    "display_name": { "type": "string" },
+    "kind": { "enum": ["lens", "profile"] },
+    "projection_only": { "type": "boolean" },
+    "canonical_axes": { "type": "array", "items": { "type": "string" } },
+    "aliases": { "type": "object", "additionalProperties": { "type": "string" } },
+    "evaluators": { "type": "array", "items": { "type": "string" } },
+    "derived_functions": { "type": "object" },
+    "fallback_behavior": { "type": "string", "enum": ["show_core", "hide", "flag_unresolved"] },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "allowed_model_access_modes": {
+          "type": "array",
+          "items": { "enum": ["LOCAL_ONLY", "HYBRID", "FULL_ACCESS"] }
+        }
+      }
+    }
+  },
+  "required": ["profile_id", "profile_version", "kind", "projection_only", "fallback_behavior"]
+}

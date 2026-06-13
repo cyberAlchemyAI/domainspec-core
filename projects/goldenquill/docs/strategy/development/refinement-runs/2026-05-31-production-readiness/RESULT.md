@@ -41,4 +41,3 @@ This is a materialized local refine-full artifact package. Command resolution fo
 ## Recommended Next Action
 
 Start a task-session for the current-truth refresh pack, unless Josh chooses to gate a different candidate first.
-

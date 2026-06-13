@@ -14,4 +14,3 @@
 3. Reflection Packet has blueprint/policy presence but is dormant as a runtime consumer.
 4. `logfire` is not installed in this shell, so memory CLI observability is degraded but not failed.
 5. `pytest` is not available through system Python and no usable project `.venv` was found in the prior validation pass.
-

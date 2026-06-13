@@ -147,4 +147,3 @@ Recommended next task-session:
 Create the current-truth refresh pack.
 
 Do not start with UI buildout, feature expansion, or production security default mutation. Those may become valid later, but the design says the first production-readiness move is to repair the truth spine.
-

@@ -12,4 +12,3 @@ The client-identified memory layer is real and important. The repository already
 - route meaning questions to Ontology,
 - require Logician/operator approval for promotion,
 - activate Reflection Packet only after those rules are explicit.
-

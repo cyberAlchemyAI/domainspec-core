@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RouteLock",
+  "type": "object",
+  "properties": {
+    "applied_as_entity_id": { "type": ["string", "null"] },
+    "beneficiary_entity_id": { "type": ["string", "null"] },
+    "sponsor_entity_id": { "type": ["string", "null"] },
+    "route_type": { "type": ["string", "null"] },
+    "authorization_record_required": { "type": "boolean" },
+    "authorization_record_present": { "type": "boolean" },
+    "route_status": {
+      "type": "string",
+      "enum": ["MISSING", "PENDING_LOGICIAN_REVIEW", "VALID", "INVALID", "BLOCKED"]
+    },
+    "route_blockers": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["route_status"]
+}

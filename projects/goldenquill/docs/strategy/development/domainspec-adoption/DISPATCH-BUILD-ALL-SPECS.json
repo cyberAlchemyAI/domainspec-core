@@ -1,0 +1,334 @@
+{
+  "dispatch_id": "gq-domainspec-build-all-specs-2026-06-13",
+  "parent_dispatch_id": "gq-domainspec-capability-inventory-2026-06-13",
+  "intent": {
+    "raw": "i want all possible executed, not only a specific project use /dispatch-spec and execute subagents strategies; domainspec core as part of goldenquill workspace without committing it to goldenquill",
+    "objective": "Build or validate a first DomainSpec spec for every buildable GoldenQuill software domain in parallel, using the workspace-wired DomainSpec tooling (.domainspec symlink), and report a richness verdict per spec.",
+    "target_artifact": "docs/features/<domain>/SPEC.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "invoke",
+      "context-builder",
+      "interrogation",
+      "craft"
+    ],
+    "operator_sentence": "i want all possible executed, not only a specific project",
+    "approval_state": "operator_approved_build_all"
+  },
+  "mode": "fanout",
+  "route_menu": {
+    "context_hint": "One spec-builder per software domain. domainspec-core is wired at ./.domainspec (gitignored, uncommitted). Business-strategy nodes (sales/staffing/finance/roadmap) are excluded \u2014 they are not domain-modelable software contracts.",
+    "items": [
+      {
+        "id": "fanout_build_all",
+        "label": "Build all software-domain specs in parallel",
+        "description": "Validate+complete where docs exist; author net-new bounded first slice where they do not.",
+        "pattern": "fanout"
+      }
+    ],
+    "selected_item_id": "fanout_build_all"
+  },
+  "techniques": [
+    "minimum_component_catalog",
+    "component_descriptor",
+    "frame_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "conditional_component",
+    "data_quality_completeness",
+    "data_quality_conformity"
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "Operator approved executing all possible specs in parallel; each software domain is an independent spec-build.",
+    "explanation": "One role-bound spec-builder per domain; each authors/validates its SPEC under docs/features/<domain>/ and runs audit_richness via the .domainspec symlink. Parent collects verdicts.",
+    "context": [
+      "DomainSpec tooling wired at ./.domainspec (-> ../domainspec-core/implementation/domainspec), gitignored",
+      "audit_richness.py is stdlib and runs now: python3 .domainspec/scripts/audit_richness.py <spec-dir>",
+      "No CLAUDE.md / locked-enum / orgs/ mutation; new SPEC files are planning artifacts"
+    ],
+    "roles": [
+      {
+        "role_id": "spec-builder-promotion-governance",
+        "purpose": "Validate + complete the existing promotion-governance DomainSpec doc set to a richness pass.",
+        "owns": "docs/features/goldenquill-promotion-governance spec hygiene",
+        "applies_to_steps": [
+          "b01-promotion-governance"
+        ]
+      },
+      {
+        "role_id": "spec-builder-capital-logic",
+        "purpose": "Author a net-new bounded first DomainSpec spec for the CIC/CLC card + rule-pack schema.",
+        "owns": "docs/features/capital-logic-library/SPEC.md",
+        "applies_to_steps": [
+          "b02-capital-logic"
+        ]
+      },
+      {
+        "role_id": "spec-builder-hardware-golden-image",
+        "purpose": "Author a net-new bounded first DomainSpec spec for the Golden Image build/verify/backup domain.",
+        "owns": "docs/features/hardware-golden-image/SPEC.md",
+        "applies_to_steps": [
+          "b03-hardware-golden-image"
+        ]
+      },
+      {
+        "role_id": "spec-builder-quality-security-proof",
+        "purpose": "Author a net-new bounded first DomainSpec spec for the guardrail-test/claims/instrumentation domain.",
+        "owns": "docs/features/quality-security-proof/SPEC.md",
+        "applies_to_steps": [
+          "b04-quality-security-proof"
+        ]
+      },
+      {
+        "role_id": "spec-builder-tilth-runtime",
+        "purpose": "Author a bounded first DomainSpec spec for the Tilth council pipeline, marking posture/UI concepts decision-gated.",
+        "owns": "docs/features/tilth-runtime-build/SPEC.md",
+        "applies_to_steps": [
+          "b05-tilth-runtime"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Build/validate a DomainSpec spec for all buildable software domains in parallel?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "b01-promotion-governance",
+      "name": "Validate + complete promotion-governance spec",
+      "capability_ref": "invoke",
+      "mode": "validation",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "data_quality_conformity",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "external_context",
+          "ref": "docs/features/goldenquill-promotion-governance"
+        },
+        {
+          "kind": "artifact",
+          "ref": "[repo-root] .craft/artifacts/BUILD-SPEC.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/features/goldenquill-promotion-governance/SPEC.md"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/BUILD-ALL-RESULT.md",
+      "stop_conditions": [
+        "block if completion would mutate a canonical enum instead of registering/reconciling concepts"
+      ]
+    },
+    {
+      "step_id": "b02-capital-logic",
+      "name": "Author capital-logic-library first spec",
+      "capability_ref": "invoke",
+      "mode": "authoring",
+      "pattern": "fanout",
+      "techniques": [
+        "minimum_component_catalog",
+        "component_descriptor"
+      ],
+      "inputs": [
+        {
+          "kind": "external_context",
+          "ref": "docs/features/capital-logic-library/BUILD-SPEC.md"
+        },
+        {
+          "kind": "external_context",
+          "ref": "CLAUDE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/features/capital-logic-library/SPEC.md"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/BUILD-ALL-RESULT.md",
+      "stop_conditions": [
+        "block if any concept encodes a CIC->CLC binding (F-CIC-CLC-COUPLING-VIOLATION)"
+      ]
+    },
+    {
+      "step_id": "b03-hardware-golden-image",
+      "name": "Author hardware-golden-image first spec",
+      "capability_ref": "invoke",
+      "mode": "authoring",
+      "pattern": "fanout",
+      "techniques": [
+        "minimum_component_catalog",
+        "component_descriptor"
+      ],
+      "inputs": [
+        {
+          "kind": "external_context",
+          "ref": "docs/features/hardware-golden-image/BUILD-SPEC.md"
+        },
+        {
+          "kind": "external_context",
+          "ref": "router.yaml"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/features/hardware-golden-image/SPEC.md"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/BUILD-ALL-RESULT.md"
+    },
+    {
+      "step_id": "b04-quality-security-proof",
+      "name": "Author quality-security-proof first spec",
+      "capability_ref": "invoke",
+      "mode": "authoring",
+      "pattern": "fanout",
+      "techniques": [
+        "minimum_component_catalog",
+        "component_descriptor",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "external_context",
+          "ref": "docs/features/quality-security-proof/BUILD-SPEC.md"
+        },
+        {
+          "kind": "external_context",
+          "ref": "CLAUDE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/features/quality-security-proof/SPEC.md"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/BUILD-ALL-RESULT.md"
+    },
+    {
+      "step_id": "b05-tilth-runtime",
+      "name": "Author tilth-runtime council-pipeline first spec (gated parts marked)",
+      "capability_ref": "invoke",
+      "mode": "authoring",
+      "pattern": "fanout",
+      "techniques": [
+        "minimum_component_catalog",
+        "conditional_component",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "external_context",
+          "ref": "docs/features/tilth-runtime-build/BUILD-SPEC.md"
+        },
+        {
+          "kind": "external_context",
+          "ref": "CLAUDE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/features/tilth-runtime-build/SPEC.md"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/BUILD-ALL-RESULT.md",
+      "stop_conditions": [
+        "mark posture (DEC-BC-POSTURE-VOCAB) and console (DEC-BC-UI-BOUNDARY) concepts decision-gated; do not resolve them"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "bg01-org-isolation",
+      "kind": "policy",
+      "owner": "Golden Quill governance",
+      "condition": "No client org PROJECT_CONTEXT under orgs/ is read or referenced.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "bg02-owner-boundary",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "No mutation of CLAUDE.md, locked architecture, or canonical enums; specs reconcile prose to enums and are planning artifacts.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "bg03-no-cic-clc-coupling",
+      "kind": "policy",
+      "owner": "Golden Quill governance",
+      "condition": "No spec concept encodes a CIC->CLC binding (F-CIC-CLC-COUPLING-VIOLATION); axes stay orthogonal.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "bg04-headless-v01",
+      "kind": "policy",
+      "owner": "Golden Quill governance",
+      "condition": "No interactive v0.1 UI concept is specced; console stays read-only-projection or deferred.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "bg05-richness-verdict",
+      "kind": "validation",
+      "owner": "context-builder",
+      "condition": "Each spec runs audit_richness.py and reports a pass/flag/block verdict with named residue.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "bg06-mutation-scope",
+      "kind": "policy",
+      "owner": "dispatch-spec",
+      "condition": "Only docs/features/<domain>/ and the domainspec-adoption working folder are mutated; the .domainspec symlink stays gitignored.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "gq-domainspec-capability-inventory-2026-06-13",
+    "trace_events": [
+      "build_all_started",
+      "domain_spec_authored",
+      "domain_spec_audited",
+      "build_all_synthesized"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "promotion_guardrails": [
+    "Specs are planning artifacts; no canonical enum or locked architecture is mutated.",
+    "Decision-gated concepts are marked, not resolved.",
+    "Business-strategy Craft nodes are out of scope (not domain-modelable software contracts)."
+  ]
+}

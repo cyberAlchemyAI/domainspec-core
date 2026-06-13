@@ -13,4 +13,3 @@ The mapped context shows many memory surfaces with different authority:
 - org contexts.
 
 Baseline risk: agents can retrieve useful context without knowing whether it is authoritative.
-

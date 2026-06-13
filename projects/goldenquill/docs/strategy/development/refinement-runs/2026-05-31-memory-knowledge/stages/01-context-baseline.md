@@ -15,4 +15,3 @@ The repository has a fragmented but substantial memory/knowledge layer:
 - Reflection Packet is spec-locked/dormant for cross-cycle learning.
 
 Live checks passed for list-registers, query, and memory size. `logfire` is not installed, so CLI calls emit an observability warning while still succeeding.
-

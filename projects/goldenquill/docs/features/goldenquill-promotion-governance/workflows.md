@@ -10,9 +10,9 @@ docType: workflows
 
 ## GrantPromotionGovernanceWorkflow
 
-**Type:** Workflow
+**Type:** Saga
 **Triggers:** A grant opportunity enters a bounded GoldenQuill run and later produces outcome evidence or KPI learning signals.
-**Orchestrates:** [AcceptGrantWorkEvent](operations.md#acceptgrantworkevent), [ProjectEventToDag](operations.md#projecteventtodag), [RecordGrantRunEvent](operations.md#recordgrantrunevent), [RecordOutcomeEvent](operations.md#recordoutcomeevent), [ProjectEventToLifecycleAndKpi](operations.md#projecteventtolifecycleandkpi), [ComputeKpiObservation](operations.md#computekpiobservation), [CreatePromotionCandidate](operations.md#createpromotioncandidate), [ValidatePromotionGovernance](operations.md#validatepromotiongovernance), [RedactionGeneralizationGate](operations.md#redactiongeneralizationgate), [RecordOwnerDecision](operations.md#recordownerdecision), [PublishApprovedReusePacket](operations.md#publishapprovedreusepacket), [HydrateFutureGrantContext](operations.md#hydratefuturegrantcontext)
+**Coordinates (sub-workflows, not leaf operations):** [GrantRunCaptureLoop](#grantruncaptureloop) → [OutcomeMeasurementLoop](#outcomemeasurementloop) → [KnowledgeFeedbackLoop](#knowledgefeedbackloop). The saga owns cross-loop progression and compensation; each leaf operation is orchestrated by exactly one sub-loop so no operation has two orchestrators.
 **Compensation Strategy:** fail closed, record residue, and preserve source evidence without promoting.
 **Idempotency:** event-envelope based. Replaying the same `idempotency_key` is a no-op only when the event content matches; changed content under the same key blocks as contradiction/residue.
 
@@ -108,7 +108,7 @@ the same key blocks as contradiction or residue.
 
 **Type:** Workflow
 **Triggers:** Outcome source, CycleReceipt, Reflection Packet, portal export, report, or operator upload is accepted as a grant-work event.
-**Orchestrates:** [ProjectEventToLifecycleAndKpi](operations.md#projecteventtolifecycleandkpi), [RecordOutcomeEvent](operations.md#recordoutcomeevent), [ComputeKpiObservation](operations.md#computekpiobservation), [CreatePromotionCandidate](operations.md#createpromotioncandidate)
+**Orchestrates:** [ProjectEventToLifecycleAndKpi](operations.md#projecteventtolifecycleandkpi), [RecordOutcomeEvent](operations.md#recordoutcomeevent), [ComputeKpiObservation](operations.md#computekpiobservation), [ProjectGrantActionFacts](operations.md#projectgrantactionfacts), [BuildKpiResponseWindow](operations.md#buildkpiresponsewindow), [EvaluateActionKpiAssociation](operations.md#evaluateactionkpiassociation), [CreateBIInsightCandidate](operations.md#createbiinsightcandidate), [CreatePromotionCandidate](operations.md#createpromotioncandidate)
 
 ```mermaid
 graph LR

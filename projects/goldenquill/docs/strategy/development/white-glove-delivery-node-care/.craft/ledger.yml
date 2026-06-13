@@ -1,0 +1,160 @@
+ledger_id: craft.goldenquill.white_glove_delivery_node_care
+schema_ref: '[repo-root] .agents/skills/craft/SKILL.md'
+schema_version: 0.2.0
+status: active-local
+source_of_truth: .craft/ledger.yml
+human_view: CRAFT.md
+notes:
+- Paths are relative to docs/strategy/development/white-glove-delivery-node-care unless marked [repo-root].
+- Owns workbook Workstream F and Node Care handoff into operations.
+indexes:
+  by_id:
+    ART-WGD-BUILD-SPEC: artifacts[7]
+    CTX-WGD-ROOT: contexts[0]
+    GAP-WGD-PLAYBOOK: gaps[0]
+    GAP-WGD-CS-HANDOFF: gaps[1]
+    GAP-WGD-DAY60: gaps[2]
+    ART-WGD-REFINE-RUN: artifacts[1]
+    ART-WGD-REFINE-DISPATCH: artifacts[2]
+    ART-WGD-RUNTIME-HANDOFF: artifacts[3]
+    ART-WGD-INVOKE-FIRST: artifacts[4]
+    ENA-WGD-REFINE-ROUTE: typed_items[0]
+    ART-WGD-RESEARCH-STRATEGY: artifacts[5]
+    ART-WGD-RESEARCH-DISPATCH: artifacts[6]
+    ENA-WGD-RESEARCH-STRATEGY: typed_items[1]
+  open_decisions: []
+  blocking_decisions: []
+  active_blockers: []
+  active_gaps:
+  - GAP-WGD-PLAYBOOK
+  - GAP-WGD-CS-HANDOFF
+  - GAP-WGD-DAY60
+  next_moves:
+  - context_id: CTX-WGD-ROOT
+    next_move: "Build spec authored & tracked 2026-06-12 (BUILD-SPEC.md, ART-WGD-BUILD-SPEC). Service-wrapper playbook delta ready for Josh/CS; Day-60 template authored (metric defs depend on QSP instrumentation); CS-handoff checklist gated on staffing trigger. Handoffs: TO-JOSH.md, TO-VICTOR.md."
+  artifacts_by_path:
+    '[repo-root] docs/strategy/development/white-glove-delivery-node-care/BUILD-SPEC.md': ART-WGD-BUILD-SPEC
+    '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md': ART-WGD-HANDOFF
+    ? '[repo-root] docs/strategy/development/white-glove-delivery-node-care/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+    : ART-WGD-REFINE-RUN
+    ? '[repo-root] docs/strategy/development/white-glove-delivery-node-care/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+    : ART-WGD-REFINE-DISPATCH
+    ? '[repo-root] docs/strategy/development/white-glove-delivery-node-care/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+    : ART-WGD-RUNTIME-HANDOFF
+    '[repo-root] docs/strategy/development/white-glove-delivery-node-care/INVOKE-DEVELOPMENT.md': ART-WGD-INVOKE-FIRST
+    ? '[repo-root] docs/strategy/development/white-glove-delivery-node-care/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+    : ART-WGD-RESEARCH-STRATEGY
+    ? '[repo-root] docs/strategy/development/white-glove-delivery-node-care/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+    : ART-WGD-RESEARCH-DISPATCH
+contexts:
+- context_id: CTX-WGD-ROOT
+  parent_id: root
+  title: White-glove delivery and Node Care
+  purpose: Track pre-deployment, Day 0 install, vault build, source universe, first opportunity packet, training, support,
+    and Day 60 use review.
+  stage: start
+  gate: flag
+  next_move: "Build spec authored & tracked 2026-06-12 (BUILD-SPEC.md, ART-WGD-BUILD-SPEC). Service-wrapper playbook delta ready for Josh/CS; Day-60 template authored (metric defs depend on QSP instrumentation); CS-handoff checklist gated on staffing trigger. Handoffs: TO-JOSH.md, TO-VICTOR.md."
+artifacts:
+- artifact_id: ART-WGD-HANDOFF
+  owner_context_id: CTX-WGD-ROOT
+  path: '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md'
+  artifact_type: source-contract
+  status: active
+- artifact_id: ART-WGD-REFINE-RUN
+  owner_context_id: CTX-WGD-ROOT
+  path: '[repo-root] docs/strategy/development/white-glove-delivery-node-care/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+  artifact_type: refine-run-manifest
+  status: flag
+  notes: Strategy-ready run manifest; runtime stages not executed.
+- artifact_id: ART-WGD-REFINE-DISPATCH
+  owner_context_id: CTX-WGD-ROOT
+  path: '[repo-root] docs/strategy/development/white-glove-delivery-node-care/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+  artifact_type: dispatch-spec-route
+  status: pass
+  notes: Dispatch route validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; runtime execution remains
+    permission-gated.
+- artifact_id: ART-WGD-RUNTIME-HANDOFF
+  owner_context_id: CTX-WGD-ROOT
+  path: '[repo-root] docs/strategy/development/white-glove-delivery-node-care/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+  artifact_type: runtime-handoff
+  status: not_run
+  notes: Runtime handoff is blocked until Josh confirms the strategy.
+- artifact_id: ART-WGD-INVOKE-FIRST
+  owner_context_id: CTX-WGD-ROOT
+  path: '[repo-root] docs/strategy/development/white-glove-delivery-node-care/INVOKE-DEVELOPMENT.md'
+  artifact_type: invoke-development
+  status: pass
+  notes: Canonical Invoke define/design/plan artifact authored 2026-06-13; runtime execution remains separate.
+- artifact_id: ART-WGD-RESEARCH-STRATEGY
+  owner_context_id: CTX-WGD-ROOT
+  path: '[repo-root] docs/strategy/development/white-glove-delivery-node-care/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+  artifact_type: research-strategy
+  status: pass
+  notes: Node-local research strategy; external research remains permission-gated.
+- artifact_id: ART-WGD-RESEARCH-DISPATCH
+  owner_context_id: CTX-WGD-ROOT
+  path: '[repo-root] docs/strategy/development/white-glove-delivery-node-care/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+  artifact_type: research-dispatch-spec
+  status: pass
+  notes: Research dispatch validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; execution remains permission-gated.
+- artifact_id: ART-WGD-BUILD-SPEC
+  owner_context_id: CTX-WGD-ROOT
+  path: '[repo-root] docs/strategy/development/white-glove-delivery-node-care/BUILD-SPEC.md'
+  artifact_type: build-spec
+  status: pass
+  notes: Canonical Define/Design/Plan build spec from refine->invoke 2026-06-12; refine-solvable gaps authored, operator-input and decision-gated items flagged.
+descriptions:
+- description_id: DESC-WGD-001
+  context_id: CTX-WGD-ROOT
+  description: Delivery starts founder-led and must become a Customer Success and Field Tech repeatable process as deployments
+    stack.
+  status: active
+  evidence: ART-WGD-HANDOFF
+gaps:
+- gap_id: GAP-WGD-PLAYBOOK
+  scope_id: CTX-WGD-ROOT
+  summary: Pre-deployment through training sessions needs a repeatable delivery playbook.
+  severity: block
+  treatment: author
+  owner: customer-success
+  status: active
+  evidence: ART-WGD-HANDOFF
+- gap_id: GAP-WGD-CS-HANDOFF
+  scope_id: CTX-WGD-ROOT
+  summary: Customer Success and Field Tech transition from Josh/engineers needs trigger and checklist training.
+  severity: flag
+  treatment: coordinate
+  owner: staffing-budget-and-triggers
+  status: active
+  evidence: ART-WGD-HANDOFF
+- gap_id: GAP-WGD-DAY60
+  scope_id: CTX-WGD-ROOT
+  summary: Day 60 review needs metrics, support-load evidence, renewal signal, and next-cycle plan shape.
+  severity: flag
+  treatment: author
+  owner: qa-customer-success
+  status: active
+  evidence: ART-WGD-HANDOFF
+decisions: []
+typed_items:
+- item_id: ENA-WGD-REFINE-ROUTE
+  item_type: enabler
+  scope_id: CTX-WGD-ROOT
+  summary: A Dispatch Spec validated Refine route can now hydrate this Craft layer into Invoke define/design/plan artifacts
+    after operator confirmation.
+  enabler_type: route
+  lane: refine-pipeline
+  status: active
+  evidence: ART-WGD-REFINE-DISPATCH
+- item_id: ENA-WGD-RESEARCH-STRATEGY
+  item_type: enabler
+  scope_id: CTX-WGD-ROOT
+  summary: A node-local Dispatch Spec research strategy now defines local-first questions, evidence boundaries, approval gates,
+    and validation focus.
+  enabler_type: research-route
+  lane: research-strategy
+  status: active
+  evidence: ART-WGD-RESEARCH-DISPATCH
+relations: []
+recomposition: []

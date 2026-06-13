@@ -304,23 +304,23 @@ These may remain promotion-layer edges instead of execution-run edges.
 
 Run a focused fanout across five lanes:
 
-1. **Authority States Lane**  
+1. **Authority States Lane**
    Extract card lifecycle/signature/loadability states and propose promotion
    state axes.
 
-2. **Orthogonality Lane**  
+2. **Orthogonality Lane**
    Map CIC/CLC coupling controls to grant evidence/KPI/candidate/decision
    coupling controls.
 
-3. **Human Confirmation Lane**  
+3. **Human Confirmation Lane**
    Use Law-5 as the model for source-backed versus human-confirmed grant
    learning.
 
-4. **Ceremony And Drift Lane**  
+4. **Ceremony And Drift Lane**
    Study `LOCKED`-but-not-applied drift and propose promotion companion-status
    labels.
 
-5. **Rule-Pack Lane**  
+5. **Rule-Pack Lane**
    Explore whether program rule packs should become a separate GoldenQuill
    layer for funder/compliance rules, distinct from outcome-learning promotion.
 

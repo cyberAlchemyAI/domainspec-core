@@ -112,11 +112,13 @@ docType: operations
 | R2 | DAG projection must emit an [EventProjectionReceipt](domain.md#eventprojectionreceipt). | `projection -> receipt` |
 | R3 | Projected nodes and edges must satisfy [RecordGrantRunEvent](#recordgrantrunevent). | `projected_dag -> RecordGrantRunEvent.rules_pass` |
 | R4 | Projection cannot bypass blocked traversal. | `blocked_by_gate -> no downstream draft_or_delivery_without_reopen` |
+| R5 | Replaying the same accepted event must be projection-idempotent. | `replay(idempotency_key) -> no duplicate node_or_edge` |
 
 ### Postconditions
 
 - DAG nodes and edges are created, updated, skipped, or blocked with a receipt.
 - The run DAG can explain which accepted event caused each projection.
+- Replayed events resolve to a no-op receipt rather than a duplicate node or edge.
 
 ### Error States
 
@@ -125,6 +127,7 @@ docType: operations
 | Event not accepted | Reject projection. |
 | Missing projection receipt | Reject projection. |
 | Projected DAG violates traversal rules | Block projection. |
+| Replay under same key with changed content | Block as contradiction or residue. |
 
 ## RecordOutcomeEvent
 
@@ -348,7 +351,7 @@ analysis.
 
 | ID | Rule | Formal |
 | --- | --- | --- |
-| R1 | Method must be registered. | `method_spec.method_id in StatisticalMethodRegistry` |
+| R1 | Method must be a registered [StatisticalMethodSpec](analytics-methods.md#statisticalmethodspec). | `method_spec.method_id in StatisticalMethodRegistry` |
 | R2 | Required fields must be present. | `method_spec.required_fields subset input.fields` |
 | R3 | Sample and segment gates must pass. | `sample_size >= minimum_observations and segments >= minimum_segments` |
 | R4 | Bias checks must pass or downgrade to residue. | `failed_bias_check -> claim_label == blocked_or_residue` |

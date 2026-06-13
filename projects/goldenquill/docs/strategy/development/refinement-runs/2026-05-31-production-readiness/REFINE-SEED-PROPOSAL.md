@@ -37,4 +37,3 @@ The smallest coherent unit is not a feature. It is a readiness map that lets the
 ## Risk Boundary
 
 This seed is deliberately docs-and-validation first. It should not mutate LOCKed architecture text, client org state, provider keys, or production runtime defaults until a later task-session or decision-gate authorizes the change.
-

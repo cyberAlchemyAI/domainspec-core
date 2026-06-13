@@ -1,0 +1,209 @@
+ledger_id: craft.goldenquill.boundary_and_canon
+schema_ref: '[repo-root] .agents/skills/craft/SKILL.md'
+schema_version: 0.2.0
+status: active-local
+source_of_truth: .craft/ledger.yml
+human_view: CRAFT.md
+notes:
+- Paths are relative to docs/strategy/development/boundary-and-canon unless marked [repo-root].
+- Owns cross-cutting canon drift from the task-role workbook.
+indexes:
+  by_id:
+    ART-BC-BUILD-SPEC: artifacts[9]
+    CTX-BC-ROOT: contexts[0]
+    DEC-BC-POSTURE-VOCAB: decisions[0]
+    DEC-BC-UI-BOUNDARY: decisions[1]
+    BLK-BC-POSTURE-VOCAB: typed_items[0]
+    GAP-BC-UI-SCOPE: gaps[0]
+    ART-BC-REFINE-RUN: artifacts[3]
+    ART-BC-REFINE-DISPATCH: artifacts[4]
+    ART-BC-RUNTIME-HANDOFF: artifacts[5]
+    ART-BC-INVOKE-FIRST: artifacts[6]
+    ENA-BC-REFINE-ROUTE: typed_items[1]
+    ART-BC-RESEARCH-STRATEGY: artifacts[7]
+    ART-BC-RESEARCH-DISPATCH: artifacts[8]
+    ENA-BC-RESEARCH-STRATEGY: typed_items[2]
+  open_decisions:
+  - DEC-BC-POSTURE-VOCAB
+  - DEC-BC-UI-BOUNDARY
+  blocking_decisions:
+  - DEC-BC-POSTURE-VOCAB
+  active_blockers:
+  - BLK-BC-POSTURE-VOCAB
+  active_gaps:
+  - GAP-BC-UI-SCOPE
+  next_moves:
+  - context_id: CTX-BC-ROOT
+    next_move: "Build spec authored & tracked 2026-06-12 (BUILD-SPEC.md, ART-BC-BUILD-SPEC). 4-to-3 posture translation table + UI-phase options authored. BLOCKING: Josh ratifies DEC-BC-POSTURE-VOCAB (unblocks tilth posture + node-readiness canon) and decides DEC-BC-UI-BOUNDARY. Handoff: TO-JOSH.md."
+  artifacts_by_path:
+    '[repo-root] docs/strategy/development/boundary-and-canon/BUILD-SPEC.md': ART-BC-BUILD-SPEC
+    '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md': ART-BC-HANDOFF
+    '[repo-root] AGENTS.md': ART-BC-AGENTS
+    '[repo-root] CLAUDE.md': ART-BC-CLAUDE
+    ? '[repo-root] docs/strategy/development/boundary-and-canon/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+    : ART-BC-REFINE-RUN
+    ? '[repo-root] docs/strategy/development/boundary-and-canon/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+    : ART-BC-REFINE-DISPATCH
+    ? '[repo-root] docs/strategy/development/boundary-and-canon/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+    : ART-BC-RUNTIME-HANDOFF
+    '[repo-root] docs/strategy/development/boundary-and-canon/INVOKE-DEVELOPMENT.md': ART-BC-INVOKE-FIRST
+    ? '[repo-root] docs/strategy/development/boundary-and-canon/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+    : ART-BC-RESEARCH-STRATEGY
+    ? '[repo-root] docs/strategy/development/boundary-and-canon/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+    : ART-BC-RESEARCH-DISPATCH
+contexts:
+- context_id: CTX-BC-ROOT
+  parent_id: root
+  title: Boundary and canon
+  purpose: Keep workbook-derived tasks aligned with current Golden Quill canon, locked boundaries, and customer-facing vocabulary.
+  stage: start
+  gate: block
+  next_move: "Build spec authored & tracked 2026-06-12 (BUILD-SPEC.md, ART-BC-BUILD-SPEC). 4-to-3 posture translation table + UI-phase options authored. BLOCKING: Josh ratifies DEC-BC-POSTURE-VOCAB (unblocks tilth posture + node-readiness canon) and decides DEC-BC-UI-BOUNDARY. Handoff: TO-JOSH.md."
+artifacts:
+- artifact_id: ART-BC-HANDOFF
+  owner_context_id: CTX-BC-ROOT
+  path: '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md'
+  artifact_type: source-contract
+  status: active
+- artifact_id: ART-BC-AGENTS
+  owner_context_id: CTX-BC-ROOT
+  path: '[repo-root] AGENTS.md'
+  artifact_type: canon
+  status: active
+  notes: Current three-posture vocabulary.
+- artifact_id: ART-BC-CLAUDE
+  owner_context_id: CTX-BC-ROOT
+  path: '[repo-root] CLAUDE.md'
+  artifact_type: boundary-register
+  status: active
+- artifact_id: ART-BC-REFINE-RUN
+  owner_context_id: CTX-BC-ROOT
+  path: '[repo-root] docs/strategy/development/boundary-and-canon/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+  artifact_type: refine-run-manifest
+  status: flag
+  notes: Strategy-ready run manifest; runtime stages not executed.
+- artifact_id: ART-BC-REFINE-DISPATCH
+  owner_context_id: CTX-BC-ROOT
+  path: '[repo-root] docs/strategy/development/boundary-and-canon/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+  artifact_type: dispatch-spec-route
+  status: pass
+  notes: Dispatch route validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; runtime execution remains
+    permission-gated.
+- artifact_id: ART-BC-RUNTIME-HANDOFF
+  owner_context_id: CTX-BC-ROOT
+  path: '[repo-root] docs/strategy/development/boundary-and-canon/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+  artifact_type: runtime-handoff
+  status: not_run
+  notes: Runtime handoff is blocked until Josh confirms the strategy.
+- artifact_id: ART-BC-INVOKE-FIRST
+  owner_context_id: CTX-BC-ROOT
+  path: '[repo-root] docs/strategy/development/boundary-and-canon/INVOKE-DEVELOPMENT.md'
+  artifact_type: invoke-development
+  status: pass
+  notes: Canonical Invoke define/design/plan artifact authored 2026-06-13; runtime execution remains separate.
+- artifact_id: ART-BC-RESEARCH-STRATEGY
+  owner_context_id: CTX-BC-ROOT
+  path: '[repo-root] docs/strategy/development/boundary-and-canon/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+  artifact_type: research-strategy
+  status: pass
+  notes: Node-local research strategy; external research remains permission-gated.
+- artifact_id: ART-BC-RESEARCH-DISPATCH
+  owner_context_id: CTX-BC-ROOT
+  path: '[repo-root] docs/strategy/development/boundary-and-canon/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+  artifact_type: research-dispatch-spec
+  status: pass
+  notes: Research dispatch validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; execution remains permission-gated.
+- artifact_id: ART-BC-BUILD-SPEC
+  owner_context_id: CTX-BC-ROOT
+  path: '[repo-root] docs/strategy/development/boundary-and-canon/BUILD-SPEC.md'
+  artifact_type: build-spec
+  status: pass
+  notes: Canonical Define/Design/Plan build spec from refine->invoke 2026-06-12; refine-solvable gaps authored, operator-input and decision-gated items flagged.
+descriptions:
+- description_id: DESC-BC-001
+  context_id: CTX-BC-ROOT
+  description: The workbook is source evidence for tasks, but not canonical for current architecture vocabulary or v0.1 scope
+    boundaries.
+  status: active
+  evidence: ART-BC-HANDOFF, ART-BC-AGENTS, ART-BC-CLAUDE
+definitions:
+- definition_id: DEF-BC-POSTURES-001
+  scope_id: CTX-BC-ROOT
+  term: deployment posture vocabulary
+  statement: Customer-facing and engineer-facing surfaces use Frontier-Eligible, Split-Context Hybrid, and Local-Only / Sovereign.
+  status: candidate
+  evidence: ART-BC-AGENTS
+gaps:
+- gap_id: GAP-BC-UI-SCOPE
+  scope_id: CTX-BC-ROOT
+  summary: Workbook includes an operator console UI row; v0.1 has a locked no-UI boundary, so this row needs phase/scoping
+    treatment before execution.
+  severity: flag
+  treatment: decide
+  owner: governance
+  status: active
+  evidence: ART-BC-HANDOFF, ART-BC-CLAUDE
+typed_items:
+- item_id: BLK-BC-POSTURE-VOCAB
+  kind: blocker
+  base_type: vocabulary_blocker
+  context_type: craft.canon_correction_gate
+  primary_lane: governance
+  secondary_lanes:
+  - engineering
+  source_id: CTX-BC-ROOT
+  target_id: CTX-BC-ROOT
+  status: active
+  refinement_status: refined
+  default_role: governance_reviewer
+  delegation_route: none
+  closure_condition: Workbook posture row is translated into current three-posture vocabulary and stale "Sanitized" wording
+    is not propagated.
+  evidence: ART-BC-HANDOFF, ART-BC-AGENTS
+  decision_ref: DEC-BC-POSTURE-VOCAB
+  reason: The workbook uses retired vocabulary in a load-bearing Tilth Build row.
+- item_id: ENA-BC-REFINE-ROUTE
+  item_type: enabler
+  scope_id: CTX-BC-ROOT
+  summary: A Dispatch Spec validated Refine route can now hydrate this Craft layer into Invoke define/design/plan artifacts
+    after operator confirmation.
+  enabler_type: route
+  lane: refine-pipeline
+  status: active
+  evidence: ART-BC-REFINE-DISPATCH
+- item_id: ENA-BC-RESEARCH-STRATEGY
+  item_type: enabler
+  scope_id: CTX-BC-ROOT
+  summary: A node-local Dispatch Spec research strategy now defines local-first questions, evidence boundaries, approval gates,
+    and validation focus.
+  enabler_type: research-route
+  lane: research-strategy
+  status: active
+  evidence: ART-BC-RESEARCH-DISPATCH
+decisions:
+- decision_id: DEC-BC-POSTURE-VOCAB
+  scope_id: CTX-BC-ROOT
+  decision_type: correction
+  question: How should workbook posture wording be translated into current canon?
+  description: The workbook names an older posture set and includes "Sanitized"; Golden Quill canon has three current postures.
+  selected: PENDING - expected correction is current three-posture vocabulary.
+  rationale: Current canon lives in AGENTS.md and router/architecture, not in the spreadsheet extraction.
+  evidence: ART-BC-HANDOFF, ART-BC-AGENTS
+  status: active
+  blocking: true
+  impact: Blocks direct reuse of the posture row in task specs, customer-facing material, or engineer-facing handoffs.
+  owner: governance
+- decision_id: DEC-BC-UI-BOUNDARY
+  scope_id: CTX-BC-ROOT
+  decision_type: phase_boundary
+  question: Is the operator console row a v0.1 task, a read-only internal projection, or a later-phase product surface?
+  description: Workbook says operator console UI; v0.1 scope says no UI layer.
+  selected: PENDING
+  rationale: Needs phase treatment before it becomes executable work.
+  evidence: ART-BC-HANDOFF, ART-BC-CLAUDE
+  status: active
+  blocking: false
+  impact: Prevents accidental v0.1 UI scope drift.
+  owner: governance
+relations: []
+recomposition: []

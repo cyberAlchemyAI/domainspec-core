@@ -78,4 +78,3 @@ No client org context was read for this index.
 | Task Session | bounded SWUs with validation and blocker records |
 | Residuality Spec | degraded behavior under missing observability/test surfaces |
 | Signal Observer | future Reflection Packet and memory query telemetry |
-

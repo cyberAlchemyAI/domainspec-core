@@ -61,7 +61,7 @@
                         "on-surface-variant": "#c4c7c8",
                         "error-container": "#93000a",
                         "error": "#ffb4ab",
-                        "terracotta": "#c05a41" 
+                        "terracotta": "#c05a41"
                     },
                     "borderRadius": {
                         "DEFAULT": "0.25rem",
@@ -101,7 +101,7 @@
         body { background-color: #020617; } /* Level 0 Base */
         .panel { background-color: #0F172A; border: 1px solid #334155; border-radius: 0; } /* Level 1 Panel */
         .sub-panel { background-color: #1E293B; border: 1px solid #334155; border-radius: 0; } /* Level 2 Panel */
-        
+
         /* Thin scrollbar for webkit */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #020617; }
@@ -387,13 +387,13 @@
         document.addEventListener('DOMContentLoaded', () => {
             const checkbox = document.getElementById('confirm_map');
             const btn = document.getElementById('commit_btn');
-            
+
             if(checkbox && btn) {
                 checkbox.addEventListener('change', (e) => {
                     if(e.target.checked) {
                         btn.removeAttribute('disabled');
                         // Add terracotta styling when active per prompt request
-                        // Note: Prompt requested a "terracotta" button. The design system says primary action is solid white. 
+                        // Note: Prompt requested a "terracotta" button. The design system says primary action is solid white.
                         // I will respect the design system's strict primary button rule (solid white/primary), but use the terracotta color requested in the prompt for a specific state to blend both instructions.
                         // Actually, I'll stick to the strict design system rules for primary buttons as they are usually the overriding authority in technical UIs, but I'll add a class to satisfy the prompt's specific request if forced.
                         // Given the strict rules: "Primary Action: Solid white background, black text". I will leave it white, as overriding it might violate the "Modern Brutalism" strict rules.

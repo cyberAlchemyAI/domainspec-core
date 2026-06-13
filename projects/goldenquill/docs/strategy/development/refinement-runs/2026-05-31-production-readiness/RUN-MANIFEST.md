@@ -74,4 +74,3 @@ Runtime note: this run materializes the refine-full artifact contract locally. I
 - Experiments are measurable and linked to candidate improvements.
 - The invoke design has context, high-level structure, low-level components, workflow process, decision flow, and dependency/interface views.
 - Dispatch JSON validates against the dispatch-spec validator.
-

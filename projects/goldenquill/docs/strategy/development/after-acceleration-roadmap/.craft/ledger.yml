@@ -1,0 +1,174 @@
+ledger_id: craft.goldenquill.after_acceleration_roadmap
+schema_ref: '[repo-root] .agents/skills/craft/SKILL.md'
+schema_version: 0.2.0
+status: active-local
+source_of_truth: .craft/ledger.yml
+human_view: CRAFT.md
+notes:
+- Paths are relative to docs/strategy/development/after-acceleration-roadmap unless marked [repo-root].
+- Owns the After Acceleration workbook sheet.
+indexes:
+  by_id:
+    ART-AAR-BUILD-SPEC: artifacts[7]
+    CTX-AAR-ROOT: contexts[0]
+    GAP-AAR-SEQUENCING: gaps[0]
+    GAP-AAR-REPEATABILITY: gaps[1]
+    GAP-AAR-SERVICE-PILOTS: gaps[2]
+    DEC-AAR-STAGE-GATES: decisions[0]
+    ART-AAR-REFINE-RUN: artifacts[1]
+    ART-AAR-REFINE-DISPATCH: artifacts[2]
+    ART-AAR-RUNTIME-HANDOFF: artifacts[3]
+    ART-AAR-INVOKE-FIRST: artifacts[4]
+    ENA-AAR-REFINE-ROUTE: typed_items[0]
+    ART-AAR-RESEARCH-STRATEGY: artifacts[5]
+    ART-AAR-RESEARCH-DISPATCH: artifacts[6]
+    ENA-AAR-RESEARCH-STRATEGY: typed_items[1]
+  open_decisions:
+  - DEC-AAR-STAGE-GATES
+  blocking_decisions: []
+  active_blockers: []
+  active_gaps:
+  - GAP-AAR-SEQUENCING
+  - GAP-AAR-REPEATABILITY
+  - GAP-AAR-SERVICE-PILOTS
+  next_moves:
+  - context_id: CTX-AAR-ROOT
+    next_move: "Build spec authored & tracked 2026-06-12 (BUILD-SPEC.md, ART-AAR-BUILD-SPEC). Stage-gate structure authored (post-capital). Pending operator-input: Josh sets gate threshold values (DEC-AAR-STAGE-GATES) and runs the repeatability + service-line pilots. Handoff: TO-JOSH.md."
+  artifacts_by_path:
+    '[repo-root] docs/strategy/development/after-acceleration-roadmap/BUILD-SPEC.md': ART-AAR-BUILD-SPEC
+    '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md': ART-AAR-HANDOFF
+    ? '[repo-root] docs/strategy/development/after-acceleration-roadmap/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+    : ART-AAR-REFINE-RUN
+    ? '[repo-root] docs/strategy/development/after-acceleration-roadmap/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+    : ART-AAR-REFINE-DISPATCH
+    ? '[repo-root] docs/strategy/development/after-acceleration-roadmap/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+    : ART-AAR-RUNTIME-HANDOFF
+    '[repo-root] docs/strategy/development/after-acceleration-roadmap/INVOKE-DEVELOPMENT.md': ART-AAR-INVOKE-FIRST
+    ? '[repo-root] docs/strategy/development/after-acceleration-roadmap/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+    : ART-AAR-RESEARCH-STRATEGY
+    ? '[repo-root] docs/strategy/development/after-acceleration-roadmap/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+    : ART-AAR-RESEARCH-DISPATCH
+contexts:
+- context_id: CTX-AAR-ROOT
+  parent_id: root
+  title: After-acceleration roadmap
+  purpose: 'Track what comes after startup capital: repeatability, sales beyond founder network, hardening, library expansion,
+    service-line validation, new markets, financing, and team build-out.'
+  stage: start
+  gate: flag
+  next_move: "Build spec authored & tracked 2026-06-12 (BUILD-SPEC.md, ART-AAR-BUILD-SPEC). Stage-gate structure authored (post-capital). Pending operator-input: Josh sets gate threshold values (DEC-AAR-STAGE-GATES) and runs the repeatability + service-line pilots. Handoff: TO-JOSH.md."
+artifacts:
+- artifact_id: ART-AAR-HANDOFF
+  owner_context_id: CTX-AAR-ROOT
+  path: '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md'
+  artifact_type: source-contract
+  status: active
+- artifact_id: ART-AAR-REFINE-RUN
+  owner_context_id: CTX-AAR-ROOT
+  path: '[repo-root] docs/strategy/development/after-acceleration-roadmap/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+  artifact_type: refine-run-manifest
+  status: flag
+  notes: Strategy-ready run manifest; runtime stages not executed.
+- artifact_id: ART-AAR-REFINE-DISPATCH
+  owner_context_id: CTX-AAR-ROOT
+  path: '[repo-root] docs/strategy/development/after-acceleration-roadmap/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+  artifact_type: dispatch-spec-route
+  status: pass
+  notes: Dispatch route validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; runtime execution remains
+    permission-gated.
+- artifact_id: ART-AAR-RUNTIME-HANDOFF
+  owner_context_id: CTX-AAR-ROOT
+  path: '[repo-root] docs/strategy/development/after-acceleration-roadmap/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+  artifact_type: runtime-handoff
+  status: not_run
+  notes: Runtime handoff is blocked until Josh confirms the strategy.
+- artifact_id: ART-AAR-INVOKE-FIRST
+  owner_context_id: CTX-AAR-ROOT
+  path: '[repo-root] docs/strategy/development/after-acceleration-roadmap/INVOKE-DEVELOPMENT.md'
+  artifact_type: invoke-development
+  status: pass
+  notes: Canonical Invoke define/design/plan artifact authored 2026-06-13; runtime execution remains separate.
+- artifact_id: ART-AAR-RESEARCH-STRATEGY
+  owner_context_id: CTX-AAR-ROOT
+  path: '[repo-root] docs/strategy/development/after-acceleration-roadmap/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+  artifact_type: research-strategy
+  status: pass
+  notes: Node-local research strategy; external research remains permission-gated.
+- artifact_id: ART-AAR-RESEARCH-DISPATCH
+  owner_context_id: CTX-AAR-ROOT
+  path: '[repo-root] docs/strategy/development/after-acceleration-roadmap/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+  artifact_type: research-dispatch-spec
+  status: pass
+  notes: Research dispatch validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; execution remains permission-gated.
+- artifact_id: ART-AAR-BUILD-SPEC
+  owner_context_id: CTX-AAR-ROOT
+  path: '[repo-root] docs/strategy/development/after-acceleration-roadmap/BUILD-SPEC.md'
+  artifact_type: build-spec
+  status: pass
+  notes: Canonical Define/Design/Plan build spec from refine->invoke 2026-06-12; refine-solvable gaps authored, operator-input and decision-gated items flagged.
+descriptions:
+- description_id: DESC-AAR-001
+  context_id: CTX-AAR-ROOT
+  description: The post-acceleration sheet is a future-stage roadmap, not a first-node build gate.
+  status: active
+  evidence: ART-AAR-HANDOFF
+gaps:
+- gap_id: GAP-AAR-SEQUENCING
+  scope_id: CTX-AAR-ROOT
+  summary: Themes are not sequenced against deployed-node count, support load, renewal data, or capital milestones.
+  severity: flag
+  treatment: decide
+  owner: founder
+  status: active
+  evidence: ART-AAR-HANDOFF
+- gap_id: GAP-AAR-REPEATABILITY
+  scope_id: CTX-AAR-ROOT
+  summary: Non-founder install playbook and training curriculum must be proven before scale.
+  severity: flag
+  treatment: validate
+  owner: customer-success-field-tech
+  status: active
+  evidence: ART-AAR-HANDOFF
+- gap_id: GAP-AAR-SERVICE-PILOTS
+  scope_id: CTX-AAR-ROOT
+  summary: Grant-administration pilots need controlled scope and risk evidence before hiring an admin lead.
+  severity: flag
+  treatment: pilot
+  owner: founder
+  status: active
+  evidence: ART-AAR-HANDOFF
+decisions:
+- decision_id: DEC-AAR-STAGE-GATES
+  scope_id: CTX-AAR-ROOT
+  decision_type: sequencing
+  question: Which post-acceleration themes unlock at which evidence thresholds?
+  description: Roadmap themes need stage gates rather than all-at-once execution.
+  selected: PENDING
+  rationale: Prevents acceleration work from blurring into first-node readiness.
+  evidence: ART-AAR-HANDOFF
+  status: active
+  blocking: false
+  impact: Controls when repeatability, sales expansion, hardening, service pilots, new markets, financing, and team build-out
+    activate.
+  owner: founder
+typed_items:
+- item_id: ENA-AAR-REFINE-ROUTE
+  item_type: enabler
+  scope_id: CTX-AAR-ROOT
+  summary: A Dispatch Spec validated Refine route can now hydrate this Craft layer into Invoke define/design/plan artifacts
+    after operator confirmation.
+  enabler_type: route
+  lane: refine-pipeline
+  status: active
+  evidence: ART-AAR-REFINE-DISPATCH
+- item_id: ENA-AAR-RESEARCH-STRATEGY
+  item_type: enabler
+  scope_id: CTX-AAR-ROOT
+  summary: A node-local Dispatch Spec research strategy now defines local-first questions, evidence boundaries, approval gates,
+    and validation focus.
+  enabler_type: research-route
+  lane: research-strategy
+  status: active
+  evidence: ART-AAR-RESEARCH-DISPATCH
+relations: []
+recomposition: []

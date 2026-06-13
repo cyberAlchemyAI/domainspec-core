@@ -29,4 +29,3 @@ Use `invoke plan` next if Josh wants a full implementation plan/work-pack. Use `
 Recommended first bounded improvement:
 
 Create `docs/MEMORY_KNOWLEDGE_LAYER_INDEX.md`, a current-truth index that maps every memory/knowledge surface by authority, scope, mutability, maturity, owner, retrieval path, mutation path, and Arcanum equivalent.
-

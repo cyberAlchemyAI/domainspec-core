@@ -520,12 +520,66 @@ analytics methods.
 | [ProjectEventToLifecycleAndKpi](operations.md#projecteventtolifecycleandkpi) | goldenquill-promotion-governance.ProjectEventToLifecycleAndKpi | Operation |
 | [PublishApprovedReusePacket](operations.md#publishapprovedreusepacket) | goldenquill-promotion-governance.PublishApprovedReusePacket | Operation |
 | [HydrateFutureGrantContext](operations.md#hydratefuturegrantcontext) | goldenquill-promotion-governance.HydrateFutureGrantContext | Operation |
-| [GrantPromotionGovernanceWorkflow](workflows.md#grantpromotiongovernanceworkflow) | goldenquill-promotion-governance.GrantPromotionGovernanceWorkflow | Workflow |
+| [ProjectGrantActionFacts](operations.md#projectgrantactionfacts) | goldenquill-promotion-governance.ProjectGrantActionFacts | Operation |
+| [BuildKpiResponseWindow](operations.md#buildkpiresponsewindow) | goldenquill-promotion-governance.BuildKpiResponseWindow | Operation |
+| [EvaluateActionKpiAssociation](operations.md#evaluateactionkpiassociation) | goldenquill-promotion-governance.EvaluateActionKpiAssociation | Operation |
+| [CreateBIInsightCandidate](operations.md#createbiinsightcandidate) | goldenquill-promotion-governance.CreateBIInsightCandidate | Operation |
+| [GrantPromotionGovernanceWorkflow](workflows.md#grantpromotiongovernanceworkflow) | goldenquill-promotion-governance.GrantPromotionGovernanceWorkflow | Saga |
 | [GrantRunCaptureLoop](workflows.md#grantruncaptureloop) | goldenquill-promotion-governance.GrantRunCaptureLoop | Workflow |
 | [OutcomeMeasurementLoop](workflows.md#outcomemeasurementloop) | goldenquill-promotion-governance.OutcomeMeasurementLoop | Workflow |
 | [KnowledgeFeedbackLoop](workflows.md#knowledgefeedbackloop) | goldenquill-promotion-governance.KnowledgeFeedbackLoop | Workflow |
 | [PromotionAuthorityPolicy](workflows.md#promotionauthoritypolicy) | goldenquill-promotion-governance.PromotionAuthorityPolicy | Policy |
 | [EvidenceStatePolicy](workflows.md#evidencestatepolicy) | goldenquill-promotion-governance.EvidenceStatePolicy | Policy |
+| [GrantRunTraversalState](states.md#grantruntraversalstate) | goldenquill-promotion-governance.GrantRunTraversalState | State Machine |
+| [PromotionCandidateState](states.md#promotioncandidatestate) | goldenquill-promotion-governance.PromotionCandidateState | State Machine |
+| [OwnerDecisionState](states.md#ownerdecisionstate) | goldenquill-promotion-governance.OwnerDecisionState | State Machine |
+| [ApprovedReusePacketState](states.md#approvedreusepacketstate) | goldenquill-promotion-governance.ApprovedReusePacketState | State Machine |
+| [GrantWorkEventAccepted](events.md#grantworkeventaccepted) | goldenquill-promotion-governance.GrantWorkEventAccepted | Event |
+| [GrantWorkEventRejected](events.md#grantworkeventrejected) | goldenquill-promotion-governance.GrantWorkEventRejected | Event |
+| [DagProjectionUpdated](events.md#dagprojectionupdated) | goldenquill-promotion-governance.DagProjectionUpdated | Event |
+| [GrantRunNodeRecorded](events.md#grantrunnoderecorded) | goldenquill-promotion-governance.GrantRunNodeRecorded | Event |
+| [GrantOutcomeEventRecorded](events.md#grantoutcomeeventrecorded) | goldenquill-promotion-governance.GrantOutcomeEventRecorded | Event |
+| [KpiObservationComputed](events.md#kpiobservationcomputed) | goldenquill-promotion-governance.KpiObservationComputed | Event |
+| [KpiProjectionUpdated](events.md#kpiprojectionupdated) | goldenquill-promotion-governance.KpiProjectionUpdated | Event |
+| [PromotionCandidateCreated](events.md#promotioncandidatecreated) | goldenquill-promotion-governance.PromotionCandidateCreated | Event |
+| [PromotionCandidateProjected](events.md#promotioncandidateprojected) | goldenquill-promotion-governance.PromotionCandidateProjected | Event |
+| [GovernanceProjectionValidated](events.md#governanceprojectionvalidated) | goldenquill-promotion-governance.GovernanceProjectionValidated | Event |
+| [OwnerDecisionRecorded](events.md#ownerdecisionrecorded) | goldenquill-promotion-governance.OwnerDecisionRecorded | Event |
+| [ApprovedReusePacketPublished](events.md#approvedreusepacketpublished) | goldenquill-promotion-governance.ApprovedReusePacketPublished | Event |
+| [FutureGrantContextHydrated](events.md#futuregrantcontexthydrated) | goldenquill-promotion-governance.FutureGrantContextHydrated | Event |
+| [GrantWorkEventToDagNode](mappings.md#grantworkeventtodagnode) | goldenquill-promotion-governance.GrantWorkEventToDagNode | Mapping |
+| [GrantWorkEventToDagEdge](mappings.md#grantworkeventtodagedge) | goldenquill-promotion-governance.GrantWorkEventToDagEdge | Mapping |
+| [GrantWorkEventToOutcomeEvent](mappings.md#grantworkeventtooutcomeevent) | goldenquill-promotion-governance.GrantWorkEventToOutcomeEvent | Mapping |
+| [OutcomeEventToLifecycleState](mappings.md#outcomeeventtolifecyclestate) | goldenquill-promotion-governance.OutcomeEventToLifecycleState | Mapping |
+| [KpiObservationToPromotionCandidate](mappings.md#kpiobservationtopromotioncandidate) | goldenquill-promotion-governance.KpiObservationToPromotionCandidate | Mapping |
+| [ActionKpiAssociationToBIInsightCandidate](mappings.md#actionkpiassociationtobiinsightcandidate) | goldenquill-promotion-governance.ActionKpiAssociationToBIInsightCandidate | Mapping |
+| [ActionKpiAssociationToOptimizationChainDefinition](mappings.md#actionkpiassociationtooptimizationchaindefinition) | goldenquill-promotion-governance.ActionKpiAssociationToOptimizationChainDefinition | Mapping |
+| [BIInsightCandidateToOntologyVaultProjection](mappings.md#biinsightcandidatetoontologyvaultprojection) | goldenquill-promotion-governance.BIInsightCandidateToOntologyVaultProjection | Mapping |
+| [OwnerDecisionToApprovedReusePacket](mappings.md#ownerdecisiontoapprovedreusepacket) | goldenquill-promotion-governance.OwnerDecisionToApprovedReusePacket | Mapping |
+| [ApprovedReusePacketToFutureGrantContext](mappings.md#approvedreusepackettofuturegrantcontext) | goldenquill-promotion-governance.ApprovedReusePacketToFutureGrantContext | Mapping |
+| [SourceRef](domain.md#sourceref) | goldenquill-promotion-governance.SourceRef | Value Object |
+| [StageProfile](domain.md#stageprofile) | goldenquill-promotion-governance.StageProfile | Value Object |
+| [GrantActionFact](analytics-methods.md#grantactionfact) | goldenquill-promotion-governance.GrantActionFact | Entity |
+| [KpiResponseWindow](analytics-methods.md#kpiresponsewindow) | goldenquill-promotion-governance.KpiResponseWindow | Entity |
+| [StatisticalMethodSpec](analytics-methods.md#statisticalmethodspec) | goldenquill-promotion-governance.StatisticalMethodSpec | Policy |
+| [ActionKpiAssociation](analytics-methods.md#actionkpiassociation) | goldenquill-promotion-governance.ActionKpiAssociation | Entity |
+| [BIInsightCandidate](analytics-methods.md#biinsightcandidate-profile) | goldenquill-promotion-governance.BIInsightCandidate | Entity |
+| [GrantWorkEventKind](domain.md#grantworkeventkind) | goldenquill-promotion-governance.GrantWorkEventKind | Enum |
+| [AdapterProducerKind](domain.md#adapterproducerkind) | goldenquill-promotion-governance.AdapterProducerKind | Enum |
+| [GrantRunNodeKind](domain.md#grantrunnodekind) | goldenquill-promotion-governance.GrantRunNodeKind | Enum |
+| [GrantRunEdgeKind](domain.md#grantrunedgekind) | goldenquill-promotion-governance.GrantRunEdgeKind | Enum |
+| [GrantOutcomeEventKind](domain.md#grantoutcomeeventkind) | goldenquill-promotion-governance.GrantOutcomeEventKind | Enum |
+| [ApplicationStage](domain.md#applicationstage) | goldenquill-promotion-governance.ApplicationStage | Enum |
+| [GrantKpiKind](domain.md#grantkpikind) | goldenquill-promotion-governance.GrantKpiKind | Enum |
+| [PromotionCandidateStateValue](domain.md#promotioncandidatestatevalue) | goldenquill-promotion-governance.PromotionCandidateStateValue | Enum |
+| [OwnerDecisionStateValue](domain.md#ownerdecisionstatevalue) | goldenquill-promotion-governance.OwnerDecisionStateValue | Enum |
+| [ApprovedReusePacketStateValue](domain.md#approvedreusepacketstatevalue) | goldenquill-promotion-governance.ApprovedReusePacketStateValue | Enum |
+| [AllowedUse](domain.md#alloweduse) | goldenquill-promotion-governance.AllowedUse | Enum |
+| [AuthorityClass](domain.md#authorityclass) | goldenquill-promotion-governance.AuthorityClass | Enum |
+| [OrgScope](domain.md#orgscope) | goldenquill-promotion-governance.OrgScope | Enum |
+| [ValidationState](domain.md#validationstate) | goldenquill-promotion-governance.ValidationState | Enum |
+| [RedactionStatus](domain.md#redactionstatus) | goldenquill-promotion-governance.RedactionStatus | Enum |
+| [PromotionCandidateKind](domain.md#promotioncandidatekind) | goldenquill-promotion-governance.PromotionCandidateKind | Enum |
 
 ## Feature Concept Graph
 
@@ -680,6 +734,37 @@ Use these terms in implementation-facing docs:
 Avoid importing historical method vocabulary into the active implementation
 surface. Older research ledgers may preserve source history, but active design,
 validator, fixture, and implementation docs use GoldenQuill-native terms.
+
+## Audit Residue (named, accepted)
+
+The DomainSpec L1 richness audit (`audit_richness.py`) is clean on orphan H2
+sections (0), test-row parsing (80 rows parse), and the two originally flagged
+collapse clusters (PromotionCandidate vs OwnerDecision and ProjectEventToDag vs
+PublishApprovedReusePacket are now structurally distinguished). The following
+residue is intentional and named rather than papered over:
+
+- **Notification-event and boundary-mapping collapse candidates.** Check 1 groups
+  several `Event` concepts (and a few `Mapping` concepts) as collapse candidates
+  because their only discriminator is the payload / field-mapping table, which
+  the L1 injectivity check does not count — it compares meta-type, rule/
+  postcondition/error counts, and typed-edge multisets only. A 13-member event
+  notification family and the 11 boundary mappings are genuinely distinct domain
+  concepts (distinct payloads, consumers, and source/target shapes) and must not
+  be merged or deleted. They are kept as separate registry entries by design.
+- **`SourceRef` shared value object (Check 4 / Check 6).** Five entities embed
+  `SourceRef`. This is the expected shared-value-object pattern — the same
+  many-to-one convergence the audit already exempts for `Entity` aggregate-root
+  targets — not residue-bait. `SourceRef` stays a single shared VO.
+- **Two cross-file faithfulness gaps.** `StatisticalMethodSpec` (a `Policy`) and
+  `BIInsightCandidate` live in `analytics-methods.md`, which the audit does not
+  parse as a backend aspect file; their inbound `applies` / `maps` witnesses are
+  declared from parsed files where possible but a residual cross-file anchor gap
+  remains for analytics-only edges.
+- **Cardinality ratio.** `|T|_min` is computed assuming one test row per rule
+  pass+fail, per postcondition, per error state, and ≥2 per event/workflow.
+  The 80 enumerated rows in `TEST-SPEC.md` are representative obligations; the
+  generated suite expands them parametrically (per-rule `parametrize`), so the
+  raw row count is below the theoretical lower bound by construction.
 
 ## References
 

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PacketState",
+  "type": "object",
+  "properties": {
+    "draft_ready": { "type": "boolean" },
+    "review_ready": { "type": "boolean" },
+    "export_staged": { "type": "boolean" },
+    "operator_authorization_required": { "type": "boolean" },
+    "operator_authorization_present": { "type": "boolean" },
+    "export_blocked": { "type": "boolean" },
+    "blockers": { "type": "array", "items": { "type": "string" } },
+    "human_authority_note": { "type": "string" }
+  },
+  "required": ["draft_ready", "review_ready", "export_staged", "operator_authorization_required", "operator_authorization_present", "export_blocked"]
+}

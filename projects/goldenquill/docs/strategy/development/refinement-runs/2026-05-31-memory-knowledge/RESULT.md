@@ -41,4 +41,3 @@ The layer should be designed as:
 `retrieve -> classify authority -> cite provenance -> decide promotion -> hand off to owner`.
 
 That chain works with Arcanum because it lets Inventory package evidence, Ontology govern meaning, Invoke author designs/plans, Logician enforce gates, and Task Session execute bounded changes without collapsing ownership.
-

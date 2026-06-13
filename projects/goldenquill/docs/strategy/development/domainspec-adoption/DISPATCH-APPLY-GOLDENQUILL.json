@@ -1,0 +1,346 @@
+{
+  "dispatch_id": "gq-domainspec-apply-firstspec-2026-06-13",
+  "parent_dispatch_id": "gq-domainspec-capability-inventory-2026-06-13",
+  "intent": {
+    "raw": "then /dispatch-spec to apply what we got here for GoldenQuill",
+    "objective": "Apply the DomainSpec framework + tooling to build and validate GoldenQuill's first DomainSpec spec, targeting the goldenquill-promotion-governance L0 fixture-only event spine, which already carries a near-complete DomainSpec doc set.",
+    "target_artifact": "docs/features/goldenquill-promotion-governance/SPEC.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "invoke",
+      "context-builder",
+      "interrogation",
+      "craft",
+      "decision-gate"
+    ],
+    "operator_sentence": "apply what we got here for GoldenQuill",
+    "approval_state": "route_authored_pending_operator_go"
+  },
+  "mode": "sequence",
+  "route_menu": {
+    "context_hint": "Apply DomainSpec to the recommended first-spec target. Building mutates GoldenQuill docs; requires operator go + adoption-mode decision.",
+    "items": [
+      {
+        "id": "validate_and_complete",
+        "label": "Validate + complete existing promotion-governance spec",
+        "description": "Run DomainSpec validators against the existing 14-file doc set, reconcile nits, author gaps, re-validate to pass.",
+        "pattern": "sequence"
+      },
+      {
+        "id": "net_new_capital_logic",
+        "label": "Author net-new capital-logic-library spec",
+        "description": "Alternative first target (#2, score 7): author a from-scratch CIC/CLC schema spec.",
+        "pattern": "sequence"
+      }
+    ],
+    "selected_item_id": "validate_and_complete"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "approval_checkpoint",
+    "data_quality_completeness",
+    "data_quality_conformity"
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Validator runs (richness audit, tooling guard, structural check) parallelize per spec dir; authoring + reconciliation are single-owner.",
+    "explanation": "Validators may fan out; the build steps run in sequence under operator approval because they mutate GoldenQuill docs.",
+    "context": [
+      "Target spec: docs/features/goldenquill-promotion-governance (existing DomainSpec doc set + TEST-SPEC T1-T35)",
+      "DomainSpec tooling lives in ../domainspec-core/implementation/domainspec; audit_richness.py is stdlib and runs now",
+      "DEC-OQ4 gates L1 only; the L0 fixture-only first slice proceeds without it"
+    ],
+    "roles": [
+      {
+        "role_id": "spec-validator",
+        "purpose": "Run audit_richness.py + categorical-tooling-guard + tower-explorer against the target spec dir.",
+        "owns": "richness/structural verdict",
+        "applies_to_steps": [
+          "a02-baseline-validate",
+          "a05-revalidate-verdict"
+        ]
+      },
+      {
+        "role_id": "doc-reconciler",
+        "purpose": "Reconcile KPI/event count nits to the canonical enum and author any concept/aspect gaps the audit flags.",
+        "owns": "spec doc completeness",
+        "applies_to_steps": [
+          "a03-reconcile-nits",
+          "a04-author-gaps"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Build the first DomainSpec spec by validating + completing goldenquill-promotion-governance (mutates GoldenQuill docs)?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "a01-adoption-mode",
+      "name": "Decide DomainSpec adoption mode",
+      "capability_ref": "invoke",
+      "mode": "decision",
+      "pattern": "decision",
+      "techniques": [
+        "approval_checkpoint"
+      ],
+      "inputs": [
+        {
+          "kind": "external_context",
+          "ref": "../domainspec-core/implementation/domainspec/README.md"
+        },
+        {
+          "kind": "external_context",
+          "ref": "docs/strategy/development/domainspec-adoption/CAPABILITY-INVENTORY.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "adoption-mode-decision"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/CAPABILITY-INVENTORY.md",
+      "stop_conditions": [
+        "ask operator: wire domainspec-core as a git submodule vs run tooling in-place from ../domainspec-core"
+      ]
+    },
+    {
+      "step_id": "a02-baseline-validate",
+      "name": "Baseline-validate the existing spec",
+      "capability_ref": "context-builder",
+      "mode": "validation",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "adoption-mode-decision"
+        },
+        {
+          "kind": "external_context",
+          "ref": "docs/features/goldenquill-promotion-governance"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "baseline-verdict"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/APPLY-RESULT.md",
+      "stop_conditions": [
+        "block if audit_richness.py cannot locate SPEC.md/TEST-SPEC.md in the target dir"
+      ]
+    },
+    {
+      "step_id": "a03-reconcile-nits",
+      "name": "Reconcile KPI/event-count nits to canonical enums",
+      "capability_ref": "invoke",
+      "mode": "authoring",
+      "pattern": "sequential",
+      "techniques": [
+        "data_quality_conformity",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "baseline-verdict"
+        },
+        {
+          "kind": "artifact",
+          "ref": "[repo-root] .craft/artifacts/BUILD-SPEC.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/features/goldenquill-promotion-governance/domain.md"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/APPLY-RESULT.md",
+      "stop_conditions": [
+        "block if reconciliation would mutate a canonical enum instead of the prose count"
+      ]
+    },
+    {
+      "step_id": "a04-author-gaps",
+      "name": "Author concept/aspect gaps + sync registry",
+      "capability_ref": "invoke",
+      "mode": "authoring",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "baseline-verdict"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/features/goldenquill-promotion-governance/SPEC.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/features/goldenquill-promotion-governance/SPEC.md"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/APPLY-RESULT.md",
+      "stop_conditions": [
+        "ask if a flagged gap requires an operator decision (e.g. DEC-OQ4 for L1 concept shape)"
+      ]
+    },
+    {
+      "step_id": "a05-revalidate-verdict",
+      "name": "Re-validate and emit first-spec verdict",
+      "capability_ref": "interrogation",
+      "mode": "validation",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "data_quality_conformity"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/features/goldenquill-promotion-governance/SPEC.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "firstspec-verdict"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "firstspec_validated"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/APPLY-RESULT.md",
+      "stop_conditions": [
+        "block if audit_richness.py does not reach pass (or flag-with-residue) on the target spec"
+      ]
+    },
+    {
+      "step_id": "a06-record-craft",
+      "name": "Record receipts + advance Craft ledger",
+      "capability_ref": "invoke",
+      "mode": "handoff",
+      "pattern": "synthesis",
+      "techniques": [
+        "owner_boundary_check",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "firstspec-verdict"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "[repo-root] .craft/ledger.yml"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/APPLY-RESULT.md"
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "ag01-adoption-approval",
+      "kind": "human_approval",
+      "owner": "decision-gate",
+      "condition": "Operator chooses adoption mode (submodule vs in-place) and approves building before any GoldenQuill doc is mutated.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "ag02-org-isolation",
+      "kind": "policy",
+      "owner": "Golden Quill governance",
+      "condition": "No client org PROJECT_CONTEXT under orgs/ is read or referenced.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "ag03-owner-boundary",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Reconciliation aligns prose to the canonical enum; locked architecture/enums in CLAUDE.md and the promotion-governance domain enums are not mutated.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "ag04-dec-oq4-l1-only",
+      "kind": "policy",
+      "owner": "Golden Quill governance",
+      "condition": "DEC-OQ4 gates the L1 candidate shape only; the L0 fixture-only first spec proceeds without it.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "ag05-richness-pass",
+      "kind": "validation",
+      "owner": "context-builder",
+      "condition": "audit_richness.py reaches pass (or flag-with-named-residue) on the target spec before the first spec is claimed built.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "ag06-mutation-scope",
+      "kind": "policy",
+      "owner": "dispatch-spec",
+      "condition": "Only docs/features/goldenquill-promotion-governance, the global registry/glossary, the adoption wiring, and the domainspec-adoption working folder are mutated.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "gq-domainspec-capability-inventory-2026-06-13",
+    "trace_events": [
+      "apply_started",
+      "baseline_validated",
+      "nits_reconciled",
+      "gaps_authored",
+      "firstspec_validated",
+      "craft_recorded"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "promotion_guardrails": [
+    "This route mutates GoldenQuill docs only on operator approval (ag01).",
+    "No canonical enum or locked architecture is mutated; prose reconciles to the enum, never the reverse.",
+    "First spec is claimed built only after the richness audit passes (ag05)."
+  ]
+}

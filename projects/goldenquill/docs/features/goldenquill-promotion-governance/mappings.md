@@ -236,9 +236,12 @@ docType: mappings
 
 ## BIInsightCandidateToOntologyVaultProjection
 
-**From:** [BIInsightCandidate](analytics-methods.md#biinsightcandidate-profile)
+**From:** [PromotionCandidate](domain.md#promotioncandidate) (carrying a BIInsightCandidate profile)
 **To:** [OntologyVaultProjection](#ontologyvaultprojection)
 **Direction:** Governance compatibility mapping
+
+This mapping reshapes a [PromotionCandidate](domain.md#promotioncandidate) bearing
+a BIInsightCandidate profile into a governance-compatible projection shape.
 
 ### Field Mapping
 

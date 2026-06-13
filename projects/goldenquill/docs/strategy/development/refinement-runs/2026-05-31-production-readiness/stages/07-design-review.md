@@ -9,4 +9,3 @@ Review focus:
 - Does it include measurable experiments rather than vague recommendations?
 
 Result: pass with runtime caveat. The design is suitable as a next-task selector, not as proof of runtime-backed Arcanum execution.
-

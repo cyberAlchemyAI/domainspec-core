@@ -1,0 +1,160 @@
+ledger_id: craft.goldenquill.sales_contracting_legal
+schema_ref: '[repo-root] .agents/skills/craft/SKILL.md'
+schema_version: 0.2.0
+status: active-local
+source_of_truth: .craft/ledger.yml
+human_view: CRAFT.md
+notes:
+- Paths are relative to docs/strategy/development/sales-contracting-legal unless marked [repo-root].
+- Owns workbook Workstream E.
+indexes:
+  by_id:
+    ART-SCL-BUILD-SPEC: artifacts[7]
+    CTX-SCL-ROOT: contexts[0]
+    GAP-SCL-SALES-MATERIALS: gaps[0]
+    GAP-SCL-LEGAL-FIRST-LOI: gaps[1]
+    GAP-SCL-DEPOSIT-INVOICING: gaps[2]
+    ART-SCL-REFINE-RUN: artifacts[1]
+    ART-SCL-REFINE-DISPATCH: artifacts[2]
+    ART-SCL-RUNTIME-HANDOFF: artifacts[3]
+    ART-SCL-INVOKE-FIRST: artifacts[4]
+    ENA-SCL-REFINE-ROUTE: typed_items[0]
+    ART-SCL-RESEARCH-STRATEGY: artifacts[5]
+    ART-SCL-RESEARCH-DISPATCH: artifacts[6]
+    ENA-SCL-RESEARCH-STRATEGY: typed_items[1]
+  open_decisions: []
+  blocking_decisions: []
+  active_blockers: []
+  active_gaps:
+  - GAP-SCL-SALES-MATERIALS
+  - GAP-SCL-LEGAL-FIRST-LOI
+  - GAP-SCL-DEPOSIT-INVOICING
+  next_moves:
+  - context_id: CTX-SCL-ROOT
+    next_move: "Build spec authored & tracked 2026-06-12 (BUILD-SPEC.md, ART-SCL-BUILD-SPEC). Sales-material structures ready for Josh (claims trace to QSP register). Pending operator-input: retain fractional legal counsel (LOI/agreement/data-policy) + bookkeeper at first revenue. Handoff: TO-JOSH.md."
+  artifacts_by_path:
+    '[repo-root] docs/strategy/development/sales-contracting-legal/BUILD-SPEC.md': ART-SCL-BUILD-SPEC
+    '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md': ART-SCL-HANDOFF
+    ? '[repo-root] docs/strategy/development/sales-contracting-legal/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+    : ART-SCL-REFINE-RUN
+    ? '[repo-root] docs/strategy/development/sales-contracting-legal/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+    : ART-SCL-REFINE-DISPATCH
+    ? '[repo-root] docs/strategy/development/sales-contracting-legal/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+    : ART-SCL-RUNTIME-HANDOFF
+    '[repo-root] docs/strategy/development/sales-contracting-legal/INVOKE-DEVELOPMENT.md': ART-SCL-INVOKE-FIRST
+    ? '[repo-root] docs/strategy/development/sales-contracting-legal/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+    : ART-SCL-RESEARCH-STRATEGY
+    ? '[repo-root] docs/strategy/development/sales-contracting-legal/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+    : ART-SCL-RESEARCH-DISPATCH
+contexts:
+- context_id: CTX-SCL-ROOT
+  parent_id: root
+  title: Sales, contracting, and legal
+  purpose: Track sales material, qualification, customer agreement, LOI, data policy, procurement notes, insurance, deposits,
+    and invoicing.
+  stage: start
+  gate: flag
+  next_move: "Build spec authored & tracked 2026-06-12 (BUILD-SPEC.md, ART-SCL-BUILD-SPEC). Sales-material structures ready for Josh (claims trace to QSP register). Pending operator-input: retain fractional legal counsel (LOI/agreement/data-policy) + bookkeeper at first revenue. Handoff: TO-JOSH.md."
+artifacts:
+- artifact_id: ART-SCL-HANDOFF
+  owner_context_id: CTX-SCL-ROOT
+  path: '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md'
+  artifact_type: source-contract
+  status: active
+- artifact_id: ART-SCL-REFINE-RUN
+  owner_context_id: CTX-SCL-ROOT
+  path: '[repo-root] docs/strategy/development/sales-contracting-legal/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+  artifact_type: refine-run-manifest
+  status: flag
+  notes: Strategy-ready run manifest; runtime stages not executed.
+- artifact_id: ART-SCL-REFINE-DISPATCH
+  owner_context_id: CTX-SCL-ROOT
+  path: '[repo-root] docs/strategy/development/sales-contracting-legal/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+  artifact_type: dispatch-spec-route
+  status: pass
+  notes: Dispatch route validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; runtime execution remains
+    permission-gated.
+- artifact_id: ART-SCL-RUNTIME-HANDOFF
+  owner_context_id: CTX-SCL-ROOT
+  path: '[repo-root] docs/strategy/development/sales-contracting-legal/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+  artifact_type: runtime-handoff
+  status: not_run
+  notes: Runtime handoff is blocked until Josh confirms the strategy.
+- artifact_id: ART-SCL-INVOKE-FIRST
+  owner_context_id: CTX-SCL-ROOT
+  path: '[repo-root] docs/strategy/development/sales-contracting-legal/INVOKE-DEVELOPMENT.md'
+  artifact_type: invoke-development
+  status: pass
+  notes: Canonical Invoke define/design/plan artifact authored 2026-06-13; runtime execution remains separate.
+- artifact_id: ART-SCL-RESEARCH-STRATEGY
+  owner_context_id: CTX-SCL-ROOT
+  path: '[repo-root] docs/strategy/development/sales-contracting-legal/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+  artifact_type: research-strategy
+  status: pass
+  notes: Node-local research strategy; external research remains permission-gated.
+- artifact_id: ART-SCL-RESEARCH-DISPATCH
+  owner_context_id: CTX-SCL-ROOT
+  path: '[repo-root] docs/strategy/development/sales-contracting-legal/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+  artifact_type: research-dispatch-spec
+  status: pass
+  notes: Research dispatch validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; execution remains permission-gated.
+- artifact_id: ART-SCL-BUILD-SPEC
+  owner_context_id: CTX-SCL-ROOT
+  path: '[repo-root] docs/strategy/development/sales-contracting-legal/BUILD-SPEC.md'
+  artifact_type: build-spec
+  status: pass
+  notes: Canonical Define/Design/Plan build spec from refine->invoke 2026-06-12; refine-solvable gaps authored, operator-input and decision-gated items flagged.
+descriptions:
+- description_id: DESC-SCL-001
+  context_id: CTX-SCL-ROOT
+  description: Sales and contracting work covers external materials, qualification, disclosure rules, customer agreement,
+    LOI, data policy, procurement, insurance, deposits, invoicing, and deployment cost tracking.
+  status: active
+  evidence: ART-SCL-HANDOFF
+gaps:
+- gap_id: GAP-SCL-SALES-MATERIALS
+  scope_id: CTX-SCL-ROOT
+  summary: One-pager, demo, segment framing, and pipeline tracker need claims-register evidence before use.
+  severity: flag
+  treatment: coordinate
+  owner: founder
+  status: active
+  evidence: ART-SCL-HANDOFF
+- gap_id: GAP-SCL-LEGAL-FIRST-LOI
+  scope_id: CTX-SCL-ROOT
+  summary: Legal, LOI, data policy, procurement language, and insurance are onboard-now before first LOI signs.
+  severity: block
+  treatment: onboard
+  owner: founder-legal
+  status: active
+  evidence: ART-SCL-HANDOFF
+- gap_id: GAP-SCL-DEPOSIT-INVOICING
+  scope_id: CTX-SCL-ROOT
+  summary: Deposit handling, invoicing, and cost tracking need bookkeeper trigger at first revenue.
+  severity: flag
+  treatment: plan
+  owner: bookkeeping
+  status: active
+  evidence: ART-SCL-HANDOFF
+decisions: []
+typed_items:
+- item_id: ENA-SCL-REFINE-ROUTE
+  item_type: enabler
+  scope_id: CTX-SCL-ROOT
+  summary: A Dispatch Spec validated Refine route can now hydrate this Craft layer into Invoke define/design/plan artifacts
+    after operator confirmation.
+  enabler_type: route
+  lane: refine-pipeline
+  status: active
+  evidence: ART-SCL-REFINE-DISPATCH
+- item_id: ENA-SCL-RESEARCH-STRATEGY
+  item_type: enabler
+  scope_id: CTX-SCL-ROOT
+  summary: A node-local Dispatch Spec research strategy now defines local-first questions, evidence boundaries, approval gates,
+    and validation focus.
+  enabler_type: research-route
+  lane: research-strategy
+  status: active
+  evidence: ART-SCL-RESEARCH-DISPATCH
+relations: []
+recomposition: []
