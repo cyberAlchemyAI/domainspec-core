@@ -12,6 +12,15 @@ This document is the normative definition contract for the DomainSpec evidence p
 
 When wording differs across artifacts, this document is authoritative for definition semantics.
 
+> **Open-core split (2026-06-14).** The DomainSpec **wedge** vocabulary — `DS-D1`, `DS-D2`,
+> `DS-D3`, `DS-D7`, `DS-D8`, `DS-D10`, `DS-P1`, `DS-P2`, `DS-P3` — is now **canonical in public
+> `arcanum/definitions/DEFINITIONS.md`**. For those IDs, arcanum is authoritative and this file
+> defers to it (the entries below are retained as a local mirror pending de-duplication).
+> This document remains canonical only for the **private moat cluster** (`DS-C3`, `DS-D9`,
+> `DS-COR-1`, `DS-F1`, `DS-F5`, `DS-F6`, `DS-M13`) and the **ambiguous cluster** held private by
+> default (`DS-D4`, `DS-D5`, `DS-D6`, pending decoupling review). Moat definitions must not be
+> published.
+
 ## Definition Families
 
 - `DS-C*`: contribution-level definitions
@@ -59,7 +68,7 @@ $$
 \mathcal{M} = \mathcal{M}_B \cup \mathcal{M}_U
 $$
 
-Paper baseline profile (24 types):
+Pre-composition baseline profile (24 types; historical — the published papers report only the 25-type extension profile below, not this baseline):
 
 $$
 \mathcal{M}_B^{24} = \{Entity, ValueObject, Enum, Operation, Query, Calculation, Rule, Policy, Workflow, Interface, Event, Mapping, StateMachine\}
@@ -87,7 +96,7 @@ $$
 \mathcal{R} = \mathcal{R}_B \cup \mathcal{R}_U \cup \mathcal{R}_X
 $$
 
-Paper baseline profile (26 edges):
+Pre-composition baseline profile (26 edges; historical — the published papers report only the 29-edge extension profile below, not this baseline):
 
 $$
 \mathcal{R}_B^{12} = \{performs, produces, enforces, calculates, transitions, exposes, orchestrates, applies, maps, contains, queries, emits\}
@@ -112,6 +121,8 @@ $$
 $$
 
 Intuition: this defines the allowed relationship verbs, partitioned by layer role, with optional cross-feature relations for composition-heavy analyses.
+
+**Canon boundary (adopted vs proposed).** The canonical vocabulary is exactly the 25-type / 29-edge composition-extension profile above, as shipped in `TAXONOMY.md` and `RELATIONSHIPS.md`. A separate design study proposes a larger extension (~38 edges and seven backend categories, adding Aggregate Root, Repository, Read Model/Projection, Outbox, and Saga-completing edges). That study is **proposed, not adopted**: it is design rationale deferred to a future spec stage and is **not** part of the canonical vocabulary. Do not report the ~38-edge set as adopted, and do not let "designed for extension" wording imply it has landed.
 
 ### DS-D3: Concept Graph
 
@@ -451,6 +462,17 @@ Validity_{TS} = 1 \land
 G1 = pass \land G2 = pass \land G3 = pass \land G4 = pass \land
 AdjudicationClosure = 1 \land ConfirmingRerun = 1
 $$
+
+**Crosswalk to E11 protocol success criteria.** The four validity thresholds are operationalized in the E11 protocol under different names; the mapping is:
+
+| DS-M13 threshold | E11 protocol criterion |
+| --- | --- |
+| `PrecisionF1 ≥ 0.75` | SC-TS-5 |
+| `ApplicabilityRate ≥ 0.80` | SC-TS-1 |
+| `AmbiguityRate ≤ 0.15` | dual-rater disagreement ≤ 15% (catalog promotion rule) |
+| `TradeoffCompleteness ≥ 0.85` | SC-TS-2 |
+
+Cite this crosswalk when traceably mapping E11 results to DS-M13 validity.
 
 Intuition: technique/specialization outcomes become candidates for canonical meta-model promotion only after decision-quality thresholds and full governance closure both pass.
 

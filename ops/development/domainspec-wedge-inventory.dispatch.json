@@ -1,0 +1,130 @@
+{
+  "dispatch_id": "domainspec-wedge-inventory-20260614",
+  "parent_dispatch_id": "domainspec-into-arcanum-research-20260610",
+  "intent": {
+    "raw": "Run 3 subagents to produce a data-grounded inventory of implementation/domainspec, classifying each item for the domainspec->arcanum wedge lift. Decision Q1 (recorded): domainspec stays private; only the free wedge is exported to public arcanum. 'Going public' means exporting to arcanum only what arcanum will actually use.",
+    "objective": "Produce one merged, evidence-grounded inventory that classifies every domainspec subsystem as wedge (export to public arcanum), moat (stay private), or runtime (stay private), with reason and decision-support fields, so the open seam and parity decisions are made from data instead of assumption. This is evidence, not a migration and not a promotion.",
+    "target_artifact": "ops/development/domainspec-wedge-inventory.md",
+    "operator_sentence": "Inventory first, decide second: classify domainspec by the open-core boundary, export only the wedge arcanum will use, record public/private + reason + parity + collision + coupling for each item.",
+    "boundary_source": "implementation/domainspec/development/COMMERCIALIZATION-SYNTHESIS.md",
+    "prior_classification": "implementation/domainspec/development/arcanum-integration/research/domainspec-integration/README.md",
+    "row_schema": ["item", "path", "layer", "disposition", "reason", "already_in_arcanum", "collision_risk", "dependencies", "ci_gate_coupling", "lift_effort", "confidence", "seam_ref"]
+  },
+  "mode": "inventory-classification",
+  "steps": [
+    {
+      "step_id": "s01-frame-partition",
+      "name": "Frame the boundary and partition the repo into 3 non-overlapping scopes",
+      "capability_ref": "inventory",
+      "pattern": "route",
+      "techniques": ["sequence", "owner_boundary_check"],
+      "inputs": [
+        { "kind": "intent", "ref": "intent.raw" },
+        { "kind": "external_context", "ref": "COMMERCIALIZATION-SYNTHESIS.md wedge/moat boundary" }
+      ],
+      "outputs": [
+        { "kind": "frame", "ref": "frame.partitions-and-row-schema" }
+      ],
+      "stop_conditions": [
+        "Stop if a scope overlaps another partition; each path belongs to exactly one agent."
+      ]
+    },
+    {
+      "step_id": "s02-fanout-inventory",
+      "name": "Three sibling agents inventory one partition each",
+      "capability_ref": "inventory",
+      "pattern": "fanout",
+      "parallel": true,
+      "join_policy": "union-by-path; on duplicate path keep higher-confidence row and record the conflict",
+      "techniques": ["fanout", "owner_boundary_check"],
+      "inputs": [
+        { "kind": "frame", "ref": "frame.partitions-and-row-schema" }
+      ],
+      "outputs": [
+        { "kind": "handle", "ref": "handle.partial-inventory.knowledge-governance" },
+        { "kind": "handle", "ref": "handle.partial-inventory.sigils-tools-craft" },
+        { "kind": "handle", "ref": "handle.partial-inventory.runtime-spectest-lean" }
+      ],
+      "stop_conditions": [
+        "Stop a row at needs-decision rather than guessing when the wedge/moat seam runs through one artifact.",
+        "Never mark a moat or runtime item as export."
+      ]
+    },
+    {
+      "step_id": "s03-synthesis",
+      "name": "Merge partials into one classified inventory with seam references and conflicts",
+      "capability_ref": "distill",
+      "pattern": "synthesis",
+      "inputs": [
+        { "kind": "handle", "ref": "handle.partial-inventory.knowledge-governance" },
+        { "kind": "handle", "ref": "handle.partial-inventory.sigils-tools-craft" },
+        { "kind": "handle", "ref": "handle.partial-inventory.runtime-spectest-lean" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "ops/development/domainspec-wedge-inventory.md" }
+      ],
+      "stop_conditions": [
+        "Stop at classification; do not promote any item into arcanum or mutate domainspec."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-classification-evidence",
+      "applies_to_steps": ["s02-fanout-inventory", "s03-synthesis"],
+      "rule": "Every row must carry a reason grounded in a file or a COMMERCIALIZATION-SYNTHESIS section, plus a confidence value.",
+      "result": "flag-if-unevidenced"
+    },
+    {
+      "gate_id": "g-moat-protection",
+      "applies_to_steps": ["s02-fanout-inventory", "s03-synthesis"],
+      "rule": "No moat or runtime item may carry disposition=export. Lean attestation half, CyberAlchemy engine, Craft metering, enforcement runtime, attestation product, Golden Quill/Tilth stay private.",
+      "result": "block-on-violation"
+    },
+    {
+      "gate_id": "g-no-promotion",
+      "applies_to_steps": ["s03-synthesis"],
+      "rule": "Inventory is evidence only. It does not promote inventory, ontology, glossary, sigil, or spell knowledge, and does not move content.",
+      "result": "pass"
+    }
+  ],
+  "stop_conditions": [
+    "Stop before any file is moved into arcanum; this dispatch only classifies.",
+    "Stop and mark needs-decision rather than resolve a seam the user owns (Lean, host trees, Craft, constitution, definitions split)."
+  ],
+  "observability": {
+    "dispatch_id": "domainspec-wedge-inventory-20260614",
+    "events": [
+      "fanout.spawn",
+      "fanout.join",
+      "synthesis.complete",
+      "gate.moat-protection",
+      "inventory.row-count"
+    ]
+  },
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "Repo too large for one context; classification needs parallel coverage of disjoint subsystems with one shared schema.",
+    "explanation": "Three role-bound siblings cover disjoint partitions so coverage is complete and rows are comparable; the seam decisions need breadth, not depth-in-one-area.",
+    "context": "domainspec spans knowledge/governance, sigils/tools/Craft, and runtime/spec-test/Lean; the wedge/moat seam runs through definitions, Craft, constitution, and Lean.",
+    "roles": [
+      { "role_id": "r-knowledge-governance", "purpose": "Inventory taxonomy, relationships, definitions, constitution/axioms, governance-attenuation, vault constitutions", "ownership": "Partition A", "affected_steps": ["s02-fanout-inventory"] },
+      { "role_id": "r-sigils-tools-craft", "purpose": "Inventory the five host skill trees, tools/ validators+generators, code-tag extraction, Craft ledger, .arcanum/, and run the arcanum parity check", "ownership": "Partition B", "affected_steps": ["s02-fanout-inventory"] },
+      { "role_id": "r-runtime-spectest-lean", "purpose": "Inventory backend/apps/infra/implementation runtime, TEST-PIPELINE.md spec->test surface, and the Lean formalization", "ownership": "Partition C", "affected_steps": ["s02-fanout-inventory"] }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "union-by-path; orchestrator synthesizes in s03 and records conflicts",
+    "authorization": "approved",
+    "permission_prompt": "Run 3 read-only inventory subagents over disjoint domainspec partitions? (approved by operator in-session)",
+    "receipt_requirements": ["inventory rows in the shared schema", "scope/coverage note", "list of unknowns or needs-decision items", "parity findings vs arcanum where checked"]
+  },
+  "subagent_lifecycle": {
+    "status": "pass",
+    "agents": [
+      { "agent_id": "ad31f875ecc8e2be1", "role_id": "r-knowledge-governance", "spawn_status": "spawned", "join_status": "completed", "close_status": "closed", "receipt_artifact": "ops/development/domainspec-wedge-inventory.md (section A/B/C/D, partition A rows)", "residue": "vault/discovery and full constitution bodies not deep-read; confidence-levels.md flagged for closer pass", "reroute": "none" },
+      { "agent_id": "a26a338adf8f9c5b6", "role_id": "r-sigils-tools-craft", "spawn_status": "spawned", "join_status": "completed", "close_status": "closed", "receipt_artifact": "ops/development/domainspec-wedge-inventory.md (partition B rows + parity summary)", "residue": "framework/observability vs public observability-setup needs a diff; experiment-harness local extraction divergence unknown", "reroute": "none" },
+      { "agent_id": "a504fe1443d9d64eb", "role_id": "r-runtime-spectest-lean", "spawn_status": "spawned", "join_status": "completed", "close_status": "closed", "receipt_artifact": "ops/development/domainspec-wedge-inventory.md (partition C rows + Lean split)", "residue": "Lean lives in umbrella-root sibling submodule domainspec-lean-formalization, not inside implementation/domainspec; deterministic test-derivation-engine refutes R1", "reroute": "none" }
+    ]
+  },
+  "next_route": "decision-gate"
+}
