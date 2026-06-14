@@ -57,12 +57,14 @@ Per capability: a validation-example suite (sigil-development) + a worked exampl
 - ✅ M2-C4 `arcana/observability-derivation` + ✅ M2-C2 `arcana/code-tag-audit` + ✅ M2-C3 `arcana/test-derivation` (`911a75a`)
 - B-M2-1 satisfied: [../keystone-lift/M2-CONTRACT.md](../keystone-lift/M2-CONTRACT.md) frozen.
 
-**Remaining = code implementations (runtime-gated; need build/test runtime, NOT doc authoring):**
-- **M2-C2-impl** — port the deterministic code-tag TS toolchain into arcanum, decouple DS schema/feature paths, verify build/tests green.
-- **M2-C3-impl** — build the deterministic spec→test compiler fresh (B3) from the SKILL contract; L0 = one rule type + round-trip oracle, then expand.
-- (C4 may add a deterministic derivation helper later; C1/C5/C6 are skill-complete.)
+**Code implementations — DONE + verified via `pnpm dlx tsx` (runtime was available):**
+- ✅ **M2-C2-impl** — ported the deterministic code-tag toolchain to `arcana/code-tag-audit/tools/`; DS paths genericized; extract/validate/composability **run green** against `definitions/` (`846beea`).
+- ✅ **M2-C3-impl (L0)** — built the spec→test engine fresh (B3) at `arcana/test-derivation/tools/derive.ts`; **verified deterministic + round-trip oracle PASS** (`2181769`). Expansion (more rule cardinalities) is the next layer.
+- ✅ **MF-REMOVE-3 fixture coupling** — cutover-caused harness failures cleared (`3793c23`); my changes add zero net harness failures.
 
-These need a verification runtime; shipping unverified compiled code to public arcanum is gated on a green build — owner `sigil-development` + `task-session` with the build runtime.
+**Genuinely remaining (separate concerns, not blocking):**
+- C3 rule-cardinality expansion (invalid-transition, presence/range/count-cap) — next layer of the engine.
+- Physical deletion of `templates/module-formulae/` — still entangled with the example-prompt/example-runner machinery (which has pre-existing, unrelated breakage: 6 missing `.codex/` command files). Not clean to delete yet.
 
 ## Next Route
 Skill layer done. For the two code impls: `invoke plan M2-C2-impl` / `M2-C3-impl` → `sigil-development` → `task-session` with the build runtime. Sigils are usable now as governed methodology.
