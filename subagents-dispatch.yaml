@@ -1,0 +1,23 @@
+# subagents-dispatch.yaml — registry of subagent dispatches (one row per dispatch).
+# Written by the register-dispatch skill. `agents` and `anti_bias` are JSON columns.
+dispatches:
+  - dispatch_id: "dec-oq4-change-analysis"
+    corpus: "projects/goldenquill/promotion-governance"
+    topic_slug: "dec-oq4-change-analysis"
+    created: "2026-06-11T22:50:29.706Z"
+    status: "complete"
+    goal: "Determine what needs to change on DEC-OQ4, testing whether the grant-approval/operator_signoff decision is a missing fourth surface or a correctly-excluded operational gate."
+    success_metric: {"type":"closure"}
+    max_loops: 1
+    anti_bias: {"axis":"completeness-vs-scope (over-inclusion vs over-exclusion of decision surfaces)","pairs":["broad-enumerator (Agent A) ⟂ inclusion-skeptic (Agent C)","canonical-as-written (Agent B) ⟂ emergent-gap (Agents A/C)"]}
+    agents: [{"seq":"01","role":"agent","model":"sonnet","mode":"single","name":null,"target":"all operator-decision vocabularies (domain.md/states.md/mappings.md/SPEC.md)","angle":"exhaustive inventory of every operator/human typed decision surface + enum values + file:line; surface anything beyond the three DEC-OQ4 surfaces (risk: over-inclusion)"},{"seq":"02","role":"agent","model":"sonnet","mode":"single","name":null,"target":"DEC-OQ4 source set (OPEN-QUESTIONS-LEDGER, team-review, ledger.yml, engineer-view, ontology-view)","angle":"extract canonical current state + proposed resolution + open sub-question + lock output as written; pin the three-surface framing"},{"seq":"03","role":"agent","model":"sonnet","mode":"single","name":null,"target":"operator_signoff node kind + analytics-methods learning loop","angle":"adversarial: is grant-approval/operator_signoff a missing fourth surface or correctly-excluded operational gate; does it feed the learning loop (risk: over-exclusion)"}]
+  - dispatch_id: "dec-oq4-proposal-assessment"
+    corpus: "projects/goldenquill/promotion-governance"
+    topic_slug: "dec-oq4-proposal-assessment"
+    created: "2026-06-12T01:46:29.237Z"
+    status: "complete"
+    goal: "Stress-test the proposed changes to DEC-OQ4 (add fourth grant-approval boundary assertion; resolve operator_signoff learning-signal status; keep three surfaces) to decide which points survive."
+    success_metric: {"type":"closure"}
+    max_loops: 1
+    anti_bias: {"axis":"keep-vs-cut (is the proposal a real fix or scope creep)","pairs":["reject-skeptic ⟂ fact-checker","minimal-DEC-scope ⟂ surface-the-gap"]}
+    agents: [{"seq":"01","role":"skeptic","model":"sonnet","mode":"single","name":null,"target":"the 3-point DEC-OQ4 change proposal","angle":"argue for rejection/trimming; test whether the vocabulary collision is imaginary given existing invariants (GRT-I3, ODS-I1/I2) and whether learning-signal status is out of scope"},{"seq":"02","role":"auditor","model":"sonnet","mode":"single","name":null,"target":"factual claims A-E behind the proposal","angle":"fact-check each claim TRUE/FALSE/PARTLY against domain.md/states.md/analytics-methods.md/OPEN-QUESTIONS-LEDGER/seam-map; flag overstatement"}]
