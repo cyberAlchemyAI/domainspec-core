@@ -50,5 +50,19 @@ Per capability: a validation-example suite (sigil-development) + a worked exampl
 - **G-M2-1:** per-capability full work-packs not authored (deliberate — each via `invoke plan` on pickup). This roadmap defines their scope + entry criteria.
 - **G-M2-2:** C3's internal layering (which rule types first) sketched, not fully planned — done at C3 pickup.
 
+## Current State (2026-06-14)
+**Sigil layer DELIVERED — all 6 capability sigils authored + published to arcanum:**
+- ✅ M2-C1 sync-registry → `arcana/definitions-governance` concept-registry-aggregation capability (`568c8cf`)
+- ✅ M2-C6 `arcana/audit-alignment` + ✅ M2-C5 `arcana/sync-user-stories` (`e10ff76`)
+- ✅ M2-C4 `arcana/observability-derivation` + ✅ M2-C2 `arcana/code-tag-audit` + ✅ M2-C3 `arcana/test-derivation` (`911a75a`)
+- B-M2-1 satisfied: [../keystone-lift/M2-CONTRACT.md](../keystone-lift/M2-CONTRACT.md) frozen.
+
+**Remaining = code implementations (runtime-gated; need build/test runtime, NOT doc authoring):**
+- **M2-C2-impl** — port the deterministic code-tag TS toolchain into arcanum, decouple DS schema/feature paths, verify build/tests green.
+- **M2-C3-impl** — build the deterministic spec→test compiler fresh (B3) from the SKILL contract; L0 = one rule type + round-trip oracle, then expand.
+- (C4 may add a deterministic derivation helper later; C1/C5/C6 are skill-complete.)
+
+These need a verification runtime; shipping unverified compiled code to public arcanum is gated on a green build — owner `sigil-development` + `task-session` with the build runtime.
+
 ## Next Route
-Per capability: `invoke plan <capability>` → `sigil-development --new/--update` → `task-session`. Start with L0 (M2-C1, M2-C2) once B-M2-1 (contract freeze) is satisfied by keystone-closeout.
+Skill layer done. For the two code impls: `invoke plan M2-C2-impl` / `M2-C3-impl` → `sigil-development` → `task-session` with the build runtime. Sigils are usable now as governed methodology.
