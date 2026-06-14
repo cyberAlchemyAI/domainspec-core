@@ -36,7 +36,7 @@ This view names a stance and points to the owner; it never restates a verdict or
 | Build status of every component / entity (designed vs built) | [engineer-view.md](engineer-view.md) | The D7 "designed, not built — CRITICAL" verdict; C1–C16 build status; L0/L1/L2 layering |
 | Stakeholder-altitude shape + cross-cutting reference map | [system-view.md](system-view.md) | The topology at altitude; how the planes/components compose |
 | `approved_allowed_uses` = sole authority of OwnerDecision | this view §4 + [engineer-view.md](engineer-view.md) | Type fact owned here; promotion-lane verdict owned there |
-| The "47 vs 44" KPI / "13 vs 12" event count mismatches | this view §6 (RESIDUE) | Flagged here as unreconciled; **no owner has reconciled them** (GrantRunNodeKind 15-vs-~14 was resolved to 16) |
+| The "47 vs 44" KPI / "13 vs 12" event count mismatches | this view §6 (RESIDUE) | **RESOLVED 2026-06-13** — KPI prose reconciled to 44 (enum authoritative); event axis named explicitly: 9 ingestion event families (`GrantWorkEventKind` enum) + 13 operation-output events (events.md sections); phantom "12" struck (GrantRunNodeKind 15-vs-~14 was resolved to 16) |
 
 ---
 
@@ -115,7 +115,7 @@ owner approval (PCS-I3).
 | GrantRunEdgeKind | 7 | domain.md:350–360 |
 | GrantOutcomeEventKind | 11 | domain.md:362–376 |
 | ApplicationStage | 19 | domain.md:378–400 |
-| GrantKpiKind | 44 | domain.md:402–449 — **[RESIDUE: component-inventory prose says "47 KPIs"; 3-entry gap]** (see §6) |
+| GrantKpiKind | 44 | domain.md:402–449 — **[RESOLVED: component-inventory prose reconciled to 44; enum authoritative]** (see §6) |
 | AuthorityClass | 6 | domain.md:495–504 |
 | PromotionCandidateKind | 6 | domain.md:535–544 |
 | StatisticalMethodFamily | 11 | analytics-methods.md |
@@ -251,8 +251,8 @@ spec. **This view does not pick a winner** — reconciliation is not authored at
 
 | # | Mismatch | Counted side | Prose side | Status |
 |---|---|---|---|---|
-| RES-1 | **GrantKpiKind: 47 vs 44** | `GrantKpiKind` enum has **44** entries (`stage_depth` … `grant_retention_rate`, domain.md:402–449; verified by direct count 2026-06-10) | Component inventory C5 / KPI-engine prose says **"47 KPIs"** (runtime-design / ARCHITECTURE C5) | **open / unreconciled** — 3-entry gap; an earlier "49" figure was a miscount, now corrected |
-| RES-2 | **GrantWorkEvent count: 13 vs 12** | events.md has 13 event sections | runtime-design §7 / OPEN-QUESTIONS-LEDGER list it as open residue; "12" source unidentified | **open / unreconciled** — note: `GrantWorkEventKind` *enum* itself has **9** values (domain.md:301–313); the 13-vs-12 residue is at the event-catalog (events.md) level, canonical count unresolved in spec |
+| RES-1 | **GrantKpiKind: 47 vs 44** | `GrantKpiKind` enum has **44** entries (`stage_depth` … `grant_retention_rate`, domain.md:402–449; verified by direct count 2026-06-10) | Component inventory C5 / KPI-engine prose said **"47 KPIs"** (runtime-design / ARCHITECTURE C5) | **RESOLVED 2026-06-13** — prose corrected to 44 in all files; enum is authoritative; an earlier "49" figure was a miscount |
+| RES-2 | **GrantWorkEvent count: 13 vs ~~12~~** | Two distinct axes: **9 ingestion event families** (`GrantWorkEventKind` enum, domain.md:301–313) and **13 operation-output events** (events.md sections — events emitted by operations/projections) | runtime-design §7 / OPEN-QUESTIONS-LEDGER listed a "12" figure | **RESOLVED 2026-06-13** — the two real axes are 9 (enum) and 13 (events.md sections); the "12" was a phantom and is struck |
 | RES-3 | ~~GrantRunNodeKind: 15 vs ~14~~ **RESOLVED — not residue** | `GrantRunNodeKind` enum has **16** entries (domain.md:329–348) | SPEC.md:102–119 independently lists the same **16**; the earlier "15"/"~14" were miscounts | **resolved** — counts agree at 16 |
 
 Additional caveat carried from the substrate: TEST-SPEC.md (T1–T35), glossary.md, and

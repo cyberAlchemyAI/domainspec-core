@@ -1,0 +1,119 @@
+{
+  "dispatch_id": "gq-domainspec-capability-inventory-2026-06-13",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "what i can already build a first spec with ../domainspec-core/implementation/domainspec? dispatch sub agent to create a subagent strategy with /dispatch-spec then execute it using subagents, i'm approving, and get all tools that we could use, including skills, agent definitions, tools, everything.",
+    "objective": "Inventory every reusable capability (DomainSpec framework first-spec path, skills, agent definitions, tools/validators) available across domainspec-core and GoldenQuill, and determine which GoldenQuill domain can be formalized as a first DomainSpec spec now.",
+    "target_artifact": "docs/strategy/development/domainspec-adoption/CAPABILITY-INVENTORY.md",
+    "arcanum_vocabulary": ["dispatch-spec", "inventory", "context-builder", "craft", "invoke", "discovery-to-inventory"],
+    "operator_sentence": "get all tools that we could use, including skills, agent definitions, tools, everything",
+    "approval_state": "operator_approved_subagent_execution"
+  },
+  "mode": "fanout",
+  "route_menu": {
+    "context_hint": "Read-only capability discovery across two repos. Operator pre-approved parallel subagent execution.",
+    "items": [
+      {"id": "fanout_inventory", "label": "Parallel capability inventory", "description": "One reader per capability family, joined by parent synthesis.", "pattern": "fanout"}
+    ],
+    "selected_item_id": "fanout_inventory"
+  },
+  "techniques": ["minimum_component_catalog", "component_descriptor", "frame_handoff", "owner_boundary_check", "observability_grouping", "data_quality_completeness", "data_quality_deduplication"],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "Operator explicitly requested a subagent strategy and approved parallel execution to inventory all capabilities.",
+    "explanation": "Five role-bound readers fan out across capability families; parent synthesizes the inventory and the first-spec recommendation.",
+    "context": [
+      "domainspec-core lives at ../domainspec-core (sibling repo); implementation at ../domainspec-core/implementation/domainspec",
+      "GoldenQuill is the consumer project that will build a first DomainSpec spec",
+      "Read-only discovery; no mutation of either repo's canonical surfaces"
+    ],
+    "roles": [
+      {"role_id": "domainspec-firstspec-reader", "purpose": "Determine what a DomainSpec first spec requires and the minimal authoring path.", "owns": "first-spec authoring path + required artifacts/templates", "applies_to_steps": ["c01-domainspec-firstspec"]},
+      {"role_id": "skills-inventory-reader", "purpose": "Enumerate all skills usable for spec authoring across both repos.", "owns": "skills catalog with relevance tags", "applies_to_steps": ["c02-skills-inventory"]},
+      {"role_id": "agents-inventory-reader", "purpose": "Enumerate agent definitions and their tool surfaces.", "owns": "agent roster", "applies_to_steps": ["c03-agents-inventory"]},
+      {"role_id": "tools-inventory-reader", "purpose": "Enumerate runnable tools, validators, scripts, MCP surfaces, Makefile targets.", "owns": "tools catalog", "applies_to_steps": ["c04-tools-inventory"]},
+      {"role_id": "goldenquill-seed-reader", "purpose": "Identify GoldenQuill domain content that can seed a first spec and recommend the highest-leverage target.", "owns": "first-spec target recommendation", "applies_to_steps": ["c05-goldenquill-seed"]}
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Run the five capability-inventory readers in parallel?",
+    "receipt_requirements": ["agent_id", "role_id", "spawn_status", "join_status", "close_status", "dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "reroute", "handoff_note", "findings", "source_paths"]
+  },
+  "subagent_lifecycle": {"status": "none", "agents": []},
+  "steps": [
+    {
+      "step_id": "c01-domainspec-firstspec",
+      "name": "DomainSpec first-spec authoring path",
+      "capability_ref": "context-builder",
+      "mode": "discovery",
+      "pattern": "fanout",
+      "techniques": ["minimum_component_catalog", "component_descriptor", "frame_handoff"],
+      "inputs": [{"kind": "external_context", "ref": "../domainspec-core/implementation/domainspec"}],
+      "outputs": [{"kind": "frame", "ref": "firstspec-path"}, {"kind": "artifact", "ref": "docs/strategy/development/domainspec-adoption/CAPABILITY-INVENTORY.md"}],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/CAPABILITY-INVENTORY.md",
+      "stop_conditions": ["block if the SPEC.md template or pipeline cannot be located"]
+    },
+    {
+      "step_id": "c02-skills-inventory",
+      "name": "Skills inventory",
+      "capability_ref": "context-builder",
+      "mode": "discovery",
+      "pattern": "fanout",
+      "techniques": ["minimum_component_catalog", "data_quality_deduplication"],
+      "inputs": [{"kind": "external_context", "ref": "../domainspec-core/.claude/skills"}, {"kind": "external_context", "ref": ".claude/skills"}],
+      "outputs": [{"kind": "frame", "ref": "skills-catalog"}],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/CAPABILITY-INVENTORY.md"
+    },
+    {
+      "step_id": "c03-agents-inventory",
+      "name": "Agent definitions inventory",
+      "capability_ref": "context-builder",
+      "mode": "discovery",
+      "pattern": "fanout",
+      "techniques": ["minimum_component_catalog", "component_descriptor"],
+      "inputs": [{"kind": "external_context", "ref": "../domainspec-core/implementation/domainspec/.claude/agents"}, {"kind": "external_context", "ref": ".claude/agents"}],
+      "outputs": [{"kind": "frame", "ref": "agents-roster"}],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/CAPABILITY-INVENTORY.md"
+    },
+    {
+      "step_id": "c04-tools-inventory",
+      "name": "Tools / validators / scripts inventory",
+      "capability_ref": "context-builder",
+      "mode": "discovery",
+      "pattern": "fanout",
+      "techniques": ["minimum_component_catalog", "data_quality_completeness"],
+      "inputs": [{"kind": "external_context", "ref": "../domainspec-core/implementation/domainspec/internal_tools"}, {"kind": "external_context", "ref": "../domainspec-core/implementation/domainspec/scripts"}, {"kind": "external_context", "ref": ".agents/skills/dispatch-spec/scripts"}],
+      "outputs": [{"kind": "frame", "ref": "tools-catalog"}],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/CAPABILITY-INVENTORY.md"
+    },
+    {
+      "step_id": "c05-goldenquill-seed",
+      "name": "GoldenQuill first-spec seed + target recommendation",
+      "capability_ref": "context-builder",
+      "mode": "discovery",
+      "pattern": "fanout",
+      "techniques": ["component_descriptor", "owner_boundary_check"],
+      "inputs": [{"kind": "external_context", "ref": "CLAUDE.md"}, {"kind": "external_context", "ref": "docs/features"}, {"kind": "external_context", "ref": "docs/strategy/development"}],
+      "outputs": [{"kind": "frame", "ref": "firstspec-target"}],
+      "evidence_artifact": "docs/strategy/development/domainspec-adoption/CAPABILITY-INVENTORY.md",
+      "stop_conditions": ["ask if more than one target is equally strong and the choice needs operator business judgment"]
+    }
+  ],
+  "gates": [
+    {"gate_id": "ig01-read-only", "kind": "policy", "owner": "dispatch-spec", "condition": "Discovery is read-only; no canonical surfaces in either repo are mutated.", "on_fail": "block"},
+    {"gate_id": "ig02-org-isolation", "kind": "policy", "owner": "Golden Quill governance", "condition": "No client org PROJECT_CONTEXT under orgs/ is read.", "on_fail": "block"},
+    {"gate_id": "ig03-evidence-paths", "kind": "validation", "owner": "dispatch-spec", "condition": "Every catalogued capability cites a concrete file path.", "on_fail": "flag"},
+    {"gate_id": "ig04-completeness", "kind": "quality", "owner": "context-builder", "condition": "Each role reports residue naming any family it could not fully enumerate.", "on_fail": "flag"}
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": ["inventory_started", "role_findings_ready", "inventory_synthesized", "firstspec_recommended"],
+    "signal_grouping": "dispatch_id"
+  },
+  "promotion_guardrails": [
+    "Capability inventory is planning evidence only.",
+    "No domainspec-core or GoldenQuill canonical artifact is mutated by this discovery."
+  ]
+}

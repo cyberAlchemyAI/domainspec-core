@@ -9,4 +9,3 @@ Design components:
 5. Consumer contracts.
 6. Promotion Gate.
 7. Reflection Packet as proposal-only producer.
-

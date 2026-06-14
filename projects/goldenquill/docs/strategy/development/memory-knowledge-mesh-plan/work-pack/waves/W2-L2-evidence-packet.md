@@ -15,4 +15,3 @@ Exit gate:
 - schema validates
 - at least one fixture validates
 - downstream consumers are named
-

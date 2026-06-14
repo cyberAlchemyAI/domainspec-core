@@ -1,0 +1,24 @@
+[allowlist]
+description = "Project specific allowlists for false positives and test fixtures"
+
+paths = [
+    # 1. nervous_system demo fixtures
+    '''pipeline/nervous_system/fixtures/scout_demo_data\.json''',
+    '''tests/fixtures/nervous_system/DEMO_DATA\.json''',
+    
+    # 2. logician test fixtures
+    '''tests/logician/gates/test_f_class_register\.py''',
+    '''tests/logician/test_cedar_eval\.py''',
+    
+    # 3. public URL UUID false positives
+    '''pipeline/cards/_drafts/clc_credit_underwriting_augmented.*\.yaml''',
+    '''pipeline/cards/CLC/credit_underwriting\.yaml''',
+    '''docs/clc_run_aggregate_.*\.md''',
+    
+    # 4. hash/signature documentation false positives
+    '''logician/board_health\.py''',
+    '''pipeline/logician/board_health\.py''',
+    '''pipeline/calibration/signing\.py''',
+    '''pipeline/blueprint/v0\.1/section_1_sovereignty_envelope\.md''',
+    '''pipeline/engineering/spec_cards/gpp/gpp_det_report_.*\.json'''
+]

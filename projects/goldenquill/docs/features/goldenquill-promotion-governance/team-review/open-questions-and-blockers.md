@@ -49,8 +49,8 @@ There are **three different operator-decision vocabularies** in the system today
 | **GAP-PROMO-ENFORCE** | block | grant-runtime | No centralized enforcement spec/test proving an adapter's `approved_allowed_uses` is rejected. The "nothing self-promotes" rule is stated everywhere but unproven in code. (Closes together with OQ-4.) |
 | **GAP-L0L1-FLIP** | flag | governance | No gate spec for flipping per-org `mutation_allowed` from false→true at the L0→L1 transition. Who/what authorizes the first real write? |
 | **GAP-REDACTION-TABLES** | flag | governance | Per-CIC redaction/generalization rule tables (C14) are unauthored; blocks workspace reuse at L2. |
-| **GAP-KPI-COUNT** | flag | grant-runtime | Spec prose says "47 KPIs" but the enum has **44** (verified) — a 3-entry gap to reconcile. |
-| **GAP-EVENT-COUNT** | flag | grant-runtime | Event count "13 vs 12" unresolved; the canonical event enumeration is undefined. |
+| **GAP-KPI-COUNT** | RESOLVED 2026-06-13 | grant-runtime | Prose reconciled to **44 KPIs** (the `GrantKpiKind` enum is authoritative); the "47" figure is struck. |
+| **GAP-EVENT-COUNT** | RESOLVED 2026-06-13 | grant-runtime | Two real axes named explicitly: **9 ingestion event families** (`GrantWorkEventKind` enum) and **13 operation-output events** (events.md sections); the phantom "12" is struck. |
 
 ---
 
@@ -69,6 +69,6 @@ There are **three different operator-decision vocabularies** in the system today
 2. **BLK-B001** — confirm TEST-SPEC T1–T35 stability (unblocks the L0 validator build).
 3. **BLK-D5A-THRESHOLD** + **GAP-L0L1-FLIP** — the two human-gate designs (when does shared knowledge get promoted, and who flips the first real write).
 4. **BLK-OQ13** — file the edge amendments (unblocks vault graduation).
-5. Housekeeping: reconcile the KPI (47→44) and event (13 vs 12) counts.
+5. Housekeeping — DONE 2026-06-13: KPI count reconciled to 44 (enum authoritative); event count named as 9 ingestion families + 13 operation-output events (phantom "12" struck).
 
 *Companion document: the whole-system integration & promotion-governance architecture design.*

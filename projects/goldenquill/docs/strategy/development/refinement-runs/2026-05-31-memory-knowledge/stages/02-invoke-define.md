@@ -14,4 +14,3 @@ Core distinction:
 - Promotion is the governed transition from candidate evidence to canonical reusable memory/knowledge.
 
 The layer must be local-first, provenance-bearing, fail-closed on org boundaries, and compatible with Arcanum Inventory/Ontology rather than replacing them.
-

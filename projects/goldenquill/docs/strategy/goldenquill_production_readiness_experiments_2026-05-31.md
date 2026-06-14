@@ -40,4 +40,3 @@ status: proposed
 ## Readiness Gate
 
 GoldenQuill is ready to start production implementation work when H1, H2, and H3 have passing artifacts, and every selected follow-on task has either a validation path or a decision-gate requirement.
-

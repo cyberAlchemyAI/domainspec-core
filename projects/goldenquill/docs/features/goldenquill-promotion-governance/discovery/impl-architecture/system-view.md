@@ -187,5 +187,5 @@ stop and link to the owning view instead.
   This view describes the *intended* shape; build-status verdict is [engineer-view.md](engineer-view.md)'s.
 - **Out-of-derivation-set sources.** TEST-SPEC.md (T1–T35), glossary.md, and OPEN-QUESTIONS-LEDGER.md are
   cited load-bearingly but were outside the read set; **B-001** flags T1–T35 stability as *unconfirmed*.
-- **Open counting residue.** "47 vs 44" KPIs (spec prose vs enum, verified 2026-06-10) and "13 vs 12" event kinds are unreconciled; resolution is engineer/ontology territory, not settled here. (GrantRunNodeKind, once flagged 15-vs-~14, resolved to 16.)
+- **Counting residue — RESOLVED 2026-06-13.** KPI prose reconciled to **44** (the `GrantKpiKind` enum is authoritative; the "47" figure is struck). The event axis is named explicitly: **9 ingestion event families** (`GrantWorkEventKind` enum) and **13 operation-output events** (events.md sections); the phantom "12" is struck. (GrantRunNodeKind, once flagged 15-vs-~14, resolved to 16.)
 - **Integration C-numbers + D-A…D-F are proposed-resolved-but-unbuilt** — topology named, verdicts deferred to [engineer-view.md](engineer-view.md).

@@ -11,4 +11,3 @@ Blocked task-session candidates until decision-gate:
 - Customer-facing vocabulary reconciliation.
 - Whitepaper canonicality changes.
 - Signed-register production-default changes.
-

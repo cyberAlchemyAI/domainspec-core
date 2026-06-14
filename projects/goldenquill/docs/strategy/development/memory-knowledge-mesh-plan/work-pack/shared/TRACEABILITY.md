@@ -24,4 +24,3 @@
 Validation evidence is recorded in:
 
 - `docs/strategy/development/task-sessions/2026-05-31-memory-knowledge-index/TASK-SESSION-REPORT.md`
-

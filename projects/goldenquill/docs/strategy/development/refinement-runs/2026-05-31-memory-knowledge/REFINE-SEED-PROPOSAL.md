@@ -44,4 +44,3 @@ Design a production-ready Memory/Knowledge Mesh for GoldenQuill that works well 
 - New improvements are scoped as a coherent layer, not scattered fixes.
 - The design includes six Invoke design views.
 - The next route is a plan or task-session candidate, not hidden implementation.
-

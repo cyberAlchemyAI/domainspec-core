@@ -143,7 +143,7 @@ ApprovedReusePacket
 | Logician gates | gate results | DAG `logician_gate_result` | fail-closed; no downstream without reopen |
 | Deliver / submit | `delivery_envelope` | lifecycle `application_submitted` | `operator_signoff` required |
 | Outcome (portal/agency) | `outcome_source` events | lifecycle → `awarded`/`declined`/… | source_ref required |
-| Cycle close | `CycleReceipt`, (v0.2) `Reflection Packet` | KPI observations (47 KPIs) | feeds candidate generator |
+| Cycle close | `CycleReceipt`, (v0.2) `Reflection Packet` | KPI observations (44 KPIs) | feeds candidate generator |
 | Learning | KPI + outcome | `PromotionCandidate` → vault projection | privacy + owner decision → reuse packet |
 
 This is Victor's **D7 loop, fully wired**: outcome → KPI/Insight → candidate →
@@ -159,7 +159,7 @@ ScopeAndPrivacyGate → owner decision → approved reuse → future context.
 | C2 | Event journal store + idempotency index | **new** | JSONL (→SQLite) | L0 fixture, L1 real |
 | C3 | `AcceptGrantWorkEvent` + projection receipts | new | Pydantic + Logician | L0 |
 | C4 | DAG + lifecycle/KPI projectors | new | Pydantic | L0/L1 |
-| C5 | KPI engine (47 KPIs, denominator-safe) | new | numpy/scipy | L1 |
+| C5 | KPI engine (44 KPIs, denominator-safe) | new | numpy/scipy | L1 |
 | C6 | Analytics method registry (L0 descriptive only) | new | numpy/scipy | L1 |
 | C7 | Promotion candidate builder | new | Pydantic | L1 |
 | C8 | `OntologyVaultProjection` (audit-only) | new | Pydantic + Cedar | L0 |

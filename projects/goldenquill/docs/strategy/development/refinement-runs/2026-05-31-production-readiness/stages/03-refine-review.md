@@ -10,4 +10,3 @@ The strongest improvement candidates form one coherent production-readiness spin
 - Provider-boundary signed-register wiring check.
 
 The spine should be built in this order because stale front-door truth contaminates every later design, test, or production-readiness claim.
-

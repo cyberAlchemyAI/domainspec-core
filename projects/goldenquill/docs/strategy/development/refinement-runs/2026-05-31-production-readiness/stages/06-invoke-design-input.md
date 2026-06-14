@@ -10,4 +10,3 @@ The invoke design should use the six required design views:
 - Dependency interface.
 
 It should not produce a work-pack yet. The next work-pack belongs after Josh chooses the first implementation task.
-

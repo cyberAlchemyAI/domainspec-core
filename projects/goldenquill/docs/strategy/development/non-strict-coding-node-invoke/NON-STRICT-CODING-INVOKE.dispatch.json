@@ -1,0 +1,393 @@
+{
+  "dispatch_id": "gq-non-strict-coding-invoke-2026-06-13",
+  "intent": {
+    "raw": "/goal craft: identify specs that do not necessarily need coding; dispatch-spec: create a subagent strategy; invoke: create define/design/plan development artifacts for each topic; execute the strategy.",
+    "objective": "Classify Golden Quill Craft nodes whose next useful movement is authoring rather than code mutation, then produce canonical Invoke define/design/plan artifacts for each selected node.",
+    "target_artifact": "docs/strategy/development/non-strict-coding-node-invoke/NODE-SELECTION.md plus per-node INVOKE-DEVELOPMENT.md files",
+    "arcanum_vocabulary": [
+      "craft",
+      "dispatch-spec",
+      "invoke",
+      "define",
+      "design",
+      "plan"
+    ],
+    "operator_sentence": "The result should be canonical artifacts for each of the non-strict coding nodes."
+  },
+  "mode": "mixed",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "artifact_contract_bridge",
+    "concrete_path_evidence",
+    "state_namespace_boundary",
+    "memory_promotion_split",
+    "execution_receipt_handoff",
+    "role_projection_boundary",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The selected node set can be reviewed or authored in parallel by role, but runtime subagent execution needs operator approval.",
+    "explanation": "The problem shape splits cleanly across governance, procedure/proof, operations, and parent-synthesis lanes. Parallel review would be useful after this local authoring pass, while the current pass can produce the canonical artifacts without spawning agents.",
+    "context": [
+      "Craft sweep discovered 12 ledgers; 10 selected nodes are authoring/spec/procedure surfaces.",
+      "tilth-runtime-build and root promotion-governance are excluded because their next useful movement is stricter runtime/build implementation.",
+      "Existing BUILD-SPEC.md files are treated as source evidence, not overwritten."
+    ],
+    "roles": [
+      {
+        "role_id": "governance-author",
+        "purpose": "Author and review governance decision packets and canon guardrails.",
+        "owns": "boundary-and-canon, after-acceleration-roadmap, staffing-budget-and-triggers",
+        "applies_to_steps": [
+          "s3-invoke-authoring-fanout"
+        ]
+      },
+      {
+        "role_id": "procedure-author",
+        "purpose": "Author and review procedure, test, proof, and receipt contracts.",
+        "owns": "hardware-golden-image, quality-security-proof",
+        "applies_to_steps": [
+          "s3-invoke-authoring-fanout"
+        ]
+      },
+      {
+        "role_id": "ops-author",
+        "purpose": "Author and review service, sales, legal, finance, and support operating artifacts.",
+        "owns": "capital-logic-library, sales-contracting-legal, white-glove-delivery-node-care, company-operations-finance",
+        "applies_to_steps": [
+          "s3-invoke-authoring-fanout"
+        ]
+      },
+      {
+        "role_id": "parent-synthesizer",
+        "purpose": "Check parent recomposition and cross-node gate consistency.",
+        "owns": "node-on-desk-readiness",
+        "applies_to_steps": [
+          "s3-invoke-authoring-fanout",
+          "s4-validate-and-synthesize"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Approve spawning role-bound subagents to review or extend the non-strict-coding Invoke artifacts in parallel.",
+    "receipt_requirements": [
+      "run_id",
+      "session_id",
+      "artifacts",
+      "validation_result",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "approval_record",
+      "audit_reference",
+      "residue",
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s1-craft-state",
+      "name": "Craft ledger state sweep",
+      "capability_ref": "craft",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "source": ".agents/skills/craft/SKILL.md",
+        "reason": "Craft is installed as a generated-native runtime package in this workspace."
+      },
+      "pattern": "route",
+      "techniques": [
+        "memory_loop",
+        "frame_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "operator goal"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "frame.craft-ledger-selection"
+        }
+      ],
+      "stop_conditions": [
+        "Every .craft/ledger.yml in the workspace has been discovered before selection.",
+        "Selected and excluded nodes are explained with source ledger paths."
+      ]
+    },
+    {
+      "step_id": "s2-selection-synthesis",
+      "name": "Non-strict-coding selection synthesis",
+      "capability_ref": "dispatch-spec",
+      "pattern": "synthesis",
+      "techniques": [
+        "sequence",
+        "scu_swu_reduction",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "frame.craft-ledger-selection"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/non-strict-coding-node-invoke/NODE-SELECTION.md"
+        }
+      ],
+      "stop_conditions": [
+        "The selection rule distinguishes authoring/spec work from strict runtime/code implementation.",
+        "No selected node claims runtime completion."
+      ]
+    },
+    {
+      "step_id": "s3-invoke-authoring-fanout",
+      "name": "Invoke define/design/plan authoring fanout",
+      "capability_ref": "invoke",
+      "mode": "define-design-plan",
+      "pattern": "fanout",
+      "parallel": true,
+      "join_policy": "parent_synthesis",
+      "techniques": [
+        "delegation_boundary",
+        "role_projection_boundary",
+        "execution_receipt_handoff",
+        "artifact_contract_bridge",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "governance-author",
+        "procedure-author",
+        "ops-author",
+        "parent-synthesizer"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/non-strict-coding-node-invoke/NODE-SELECTION.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "selected node .craft/ledger.yml files"
+        },
+        {
+          "kind": "artifact",
+          "ref": "selected node BUILD-SPEC.md files"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "selected node INVOKE-DEVELOPMENT.md files"
+        }
+      ],
+      "stop_conditions": [
+        "Every selected node has a canonical Invoke development artifact.",
+        "Each artifact includes a coding boundary and next route."
+      ]
+    },
+    {
+      "step_id": "s4-validate-and-synthesize",
+      "name": "Validate dispatch and artifact boundaries",
+      "capability_ref": "dispatch-spec",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/development/non-strict-coding-node-invoke/NON-STRICT-CODING-INVOKE.dispatch.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "selected node INVOKE-DEVELOPMENT.md files"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "trace_event",
+          "ref": "trace.gq-non-strict-coding-invoke.validation"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/development/non-strict-coding-node-invoke/NODE-SELECTION.md#validation-surface",
+      "stop_conditions": [
+        "Dispatch validator returns pass or named residue.",
+        "Artifacts do not claim code/runtime execution, ledger closure, or canonical knowledge promotion."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g1-craft-source-evidence",
+      "kind": "quality",
+      "owner": "craft",
+      "condition": "Every selected node must cite its owning Craft ledger and source BUILD-SPEC.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g2-authoring-only-boundary",
+      "kind": "policy",
+      "owner": "invoke",
+      "condition": "The route authors planning/spec artifacts only and must not claim code mutation, runtime execution, or ledger closure.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g3-subagent-authorization",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Recommended delegated subagent review remains authorization=requires_user_permission until Josh approves a runtime fanout.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g4-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Execution or authoring evidence may update local planning artifacts but cannot automatically promote canonical Arcanum knowledge.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g5-validation",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "The dispatch JSON validates against the local dispatch-spec validator.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "gq-non-strict-coding-invoke.selection",
+      "gq-non-strict-coding-invoke.authoring",
+      "gq-non-strict-coding-invoke.validation"
+    ],
+    "signal_grouping": "non-strict-coding-node-invoke"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b1-invoke-to-node-artifacts",
+        "kind": "capability_handoff",
+        "from_owner": "invoke",
+        "to_owner": "selected Craft nodes",
+        "applies_to_steps": [
+          "s3-invoke-authoring-fanout"
+        ],
+        "contract": "Invoke owns define/design/plan authoring; each Craft node retains its own ledger authority and unresolved gaps.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b2-subagent-permission",
+        "kind": "human_approval",
+        "from_owner": "dispatch-spec",
+        "to_owner": "operator",
+        "applies_to_steps": [
+          "s3-invoke-authoring-fanout"
+        ],
+        "contract": "Runtime subagents are recommended only; no delegated execution starts without operator approval.",
+        "on_violation": "ask"
+      },
+      {
+        "boundary_id": "b3-artifact-evidence",
+        "kind": "evidence_return",
+        "from_owner": "selected node artifacts",
+        "to_owner": "Craft status and future task-session routes",
+        "applies_to_steps": [
+          "s4-validate-and-synthesize"
+        ],
+        "contract": "Artifacts return concrete paths and named residue, not vague completion claims.",
+        "on_violation": "flag"
+      }
+    ],
+    "authority": {
+      "lifecycle": "invoke owns this authoring pass; each node owns downstream lifecycle.",
+      "execution": "not executed in this dispatch; future task-session or subagents require approval.",
+      "validation": "dispatch-spec validator plus reviewable artifact boundary checks.",
+      "evidence": "local file paths and Craft ledger references.",
+      "memory": "Craft ledgers remain source of truth; this package is an artifact set.",
+      "promotion": "no automatic promotion from this dispatch."
+    },
+    "receipts": [
+      {
+        "receipt_id": "r1-future-subagent-receipt",
+        "producer": "future delegated role-bound subagent",
+        "required_fields": [
+          "run_id",
+          "session_id",
+          "artifacts",
+          "validation_result",
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "validation",
+          "observer_status",
+          "blockers",
+          "handoff_note",
+          "approval_record",
+          "audit_reference",
+          "residue"
+        ],
+        "stores": [
+          "selected node development/refinement-runs or future task-session evidence folder"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "docs/strategy/development/non-strict-coding-node-invoke",
+        "owner": "dispatch-spec plus invoke authoring package",
+        "write_policy": "Strategy and selection artifacts only."
+      },
+      {
+        "namespace": "selected node root folders",
+        "owner": "selected Craft node",
+        "write_policy": "One INVOKE-DEVELOPMENT.md artifact per selected node."
+      },
+      {
+        "namespace": ".craft ledgers",
+        "owner": "craft",
+        "write_policy": "Source of truth; not mutated by this dispatch unless a separate Craft update is performed."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "authoring evidence and future runtime receipts",
+        "target": "local planning artifacts and Craft ledger evidence",
+        "rule": "Evidence may inform local planning state, but canonical knowledge changes require owner review and a separate route.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "No output from this route changes canonical Arcanum sigils, spells, inventory, ontology, glossary, or generated runtime packages.",
+    "No selected node artifact claims code mutation, runtime execution, child receipt recomposition, or closure of operator-owned decisions.",
+    "No org PROJECT_CONTEXT is read or referenced."
+  ]
+}

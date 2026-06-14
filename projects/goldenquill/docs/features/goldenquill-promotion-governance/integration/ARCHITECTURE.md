@@ -78,7 +78,7 @@ source of authority.
 | C2 | Event journal + idempotency index | **new** | JSONL→SQLite | L0/L1 |
 | C3 | AcceptGrantWorkEvent + receipts | new | Pydantic+Logician | L0 |
 | C4 | DAG + lifecycle/KPI projectors | new | Pydantic | L0/L1 |
-| C5 | KPI engine (47 KPIs) | new | numpy/scipy | L1 |
+| C5 | KPI engine (44 KPIs) | new | numpy/scipy | L1 |
 | C6 | Analytics registry (L0 descriptive) | new | numpy/scipy | L1 |
 | C7 | Promotion candidate builder | new | Pydantic | L1 |
 | C8 | OntologyVaultProjection (audit-only) | new | Pydantic+Cedar | L0 |

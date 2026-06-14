@@ -11,4 +11,3 @@ Entry gate:
 
 - L0 complete
 - runnable test surface available or substitute validation approved
-

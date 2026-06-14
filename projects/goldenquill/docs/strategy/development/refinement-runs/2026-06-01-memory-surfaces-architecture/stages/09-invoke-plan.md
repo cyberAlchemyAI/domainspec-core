@@ -8,4 +8,3 @@ Recommended next tasks:
 4. Add authority classifier.
 5. Add Logician context-reference gate.
 6. Run Reflection Packet activation experiment on non-org evidence.
-

@@ -18,4 +18,3 @@ None for synthesis.
 - Task Session for `MemoryEvidencePacket` fixture.
 - Task Session for register-count parity once pytest or substitute validation is available.
 - Decision Gate before Reflection Packet runtime activation.
-

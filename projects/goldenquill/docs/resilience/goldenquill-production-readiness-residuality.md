@@ -70,4 +70,3 @@ After stress, interruption, partial execution, stale docs, or failed validation,
 - A future agent can distinguish target, prototype, archive, demo, generated, draft, and customer-facing surfaces.
 - A future agent can find the proof path for any promoted production-readiness claim.
 - A future agent cannot silently route a decision-gated change into ordinary task-session.
-

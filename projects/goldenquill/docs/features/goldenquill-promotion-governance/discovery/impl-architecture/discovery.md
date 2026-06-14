@@ -97,7 +97,7 @@ These are the things a teammate should weigh in on. Honest framing — these are
 
 **Q5 — CIC×CLC coupling must not sneak back in (OQ-9).** GoldenQuill forbids hardcoding client-type → funder-type couplings. The team must ensure candidate *generalization* does not quietly re-introduce that coupling through the learning loop (substrate §5, OQ-9). Worth an explicit check: can an approved learning ever encode a forbidden CIC×CLC binding?
 
-**Q6 — Two unreconciled counts.** Minor but real residue the team should close before any external use: the spec prose says "47 KPIs" in three places but the `GrantKpiKind` enum actually has **44** entries (domain.md:402–449) — a 3-entry gap; and an event-count "13 vs 12" discrepancy (events.md sections vs the 9-value `GrantWorkEventKind` enum; canonical count unresolved). Both are flagged, neither is resolved. (Counts verified by direct enum count 2026-06-10; an earlier "49" figure was a miscount.)
+**Q6 — Two counts, both RESOLVED 2026-06-13.** The spec prose previously said "47 KPIs" in three places; the `GrantKpiKind` enum is authoritative at **44** entries (domain.md:402–449) and the prose is now reconciled to 44. The event-count discrepancy is resolved by naming the two real axes explicitly: **9 ingestion event families** (the `GrantWorkEventKind` enum, domain.md:301–313) and **13 operation-output events** (the 13 events.md domain-event sections — events emitted by operations/projections). The "12" figure was a phantom and is struck. (Counts verified by direct enum count 2026-06-10; the earlier "47"/"49" KPI figures were miscounts.)
 
 ---
 

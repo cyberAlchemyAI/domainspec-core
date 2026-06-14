@@ -52,4 +52,3 @@ Runtime caveat: command resolution proves command-surface availability only. Thi
 - Improvement candidates are deduped against existing machinery.
 - Arcanum compatibility is explicit: Inventory remains evidence packaging, Ontology remains meaning governance, Invoke remains authoring, and Task Session remains execution.
 - Dispatch route validates.
-

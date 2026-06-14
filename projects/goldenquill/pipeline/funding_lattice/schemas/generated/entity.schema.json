@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Entity",
+  "type": "object",
+  "properties": {
+    "entity_id": { "type": "string" },
+    "display_name": { "type": "string" },
+    "entity_type": { "type": "string" },
+    "legal_status": { "type": "string" },
+    "applicant_roles": { "type": "array", "items": { "type": "string" } },
+    "identifiers": { "type": "object", "additionalProperties": { "type": "string" } },
+    "authorization_requirements": { "type": "array", "items": { "type": "string" } },
+    "permitted_routes": { "type": "array", "items": { "type": "string" } },
+    "prohibited_routes": { "type": "array", "items": { "type": "string" } },
+    "data_sensitivity_default": { "type": "string" },
+    "guardrails": { "type": "array", "items": { "type": "string" } },
+    "notes": { "type": "string" }
+  },
+  "required": ["entity_id", "display_name", "entity_type", "legal_status"]
+}

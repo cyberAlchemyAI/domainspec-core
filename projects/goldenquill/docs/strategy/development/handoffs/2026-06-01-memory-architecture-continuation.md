@@ -153,4 +153,3 @@ Primary artifacts:
 - `docs/strategy/goldenquill_memory_knowledge_invoke_design_2026-05-31.md`
 - `docs/strategy/development/memory-knowledge-mesh-plan/WORK-PACK.md`
 - `docs/strategy/development/refinement-runs/2026-06-01-memory-surfaces-architecture/RESULT.md`
-

@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Asset Register Schema",
+  "type": "object",
+  "properties": {
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "asset_id": { "type": "string" },
+          "title": { "type": "string" },
+          "asset_type": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["planned", "generated", "qa_pending", "qa_passed", "rejected", "archived"]
+          },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" },
+          "source_inputs": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "generation_prompt_ref": { "type": "string" },
+          "output_paths": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "qa_status": {
+            "type": "string",
+            "enum": ["not_started", "pending", "passed", "failed", "needs_human_review"]
+          },
+          "notes": { "type": "string" }
+        },
+        "required": [
+          "asset_id",
+          "title",
+          "asset_type",
+          "status",
+          "created_at",
+          "updated_at",
+          "source_inputs",
+          "generation_prompt_ref",
+          "output_paths",
+          "qa_status"
+        ]
+      }
+    }
+  },
+  "required": ["assets"]
+}

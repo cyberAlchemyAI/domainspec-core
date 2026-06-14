@@ -1,66 +1,129 @@
-# CRAFT — GoldenQuill promotion-governance
+# CRAFT - GoldenQuill Promotion Governance
 
-> Human-readable **view** of `.craft/ledger.yml`. The ledger is the source of truth; do not edit state here. Generated 2026-06-10.
+Human-readable view of [.craft/ledger.yml](.craft/ledger.yml). The ledger is the
+source of truth; this page is a linked index for humans.
+
+## Quick Links
+
+- Current blocker decision: [DEC-OQ4](#decision-dec-oq4).
+- Active blockers: [BLK-OQ4-VOCAB](#blocker-blk-oq4-vocab), [BLK-B001-TESTSPEC](#blocker-blk-b001-testspec), [BLK-D5A-THRESHOLD](#blocker-blk-d5a-threshold), [BLK-OQ13-EDGES](#blocker-blk-oq13-edges).
+- Active architecture proposals: [DEC-D2-FLIP](#decision-dec-d2-flip), [DEC-D3-SHARED-GATE](#decision-dec-d3-shared-gate), [DEC-D4-VERIFY](#decision-dec-d4-verify).
+- Main evidence: [OPEN-QUESTIONS-LEDGER.md](docs/features/goldenquill-promotion-governance/integration/OPEN-QUESTIONS-LEDGER.md), [whole-system-architecture-design.md](docs/features/goldenquill-promotion-governance/integration/whole-system-architecture-design.md), [impl-architecture README](docs/features/goldenquill-promotion-governance/discovery/impl-architecture/README.md).
 
 ## Contexts
 
-### CTX-GQ-PROMO-GOV (root) — GoldenQuill promotion-governance readiness · stage: validate · gate: **flag**
-An event-sourced governance spine where **owner decision alone** converts a learning candidate into approved, scope-bounded reusable knowledge. Designed-not-built; L0 fixture-only/audit-only.
-- **Next move:** Resolve OQ-4 decision shape (three surfaces vs single enum) — top P0 (DEC-OQ4).
+### <a id="context-ctx-gq-promo-gov"></a>CTX-GQ-PROMO-GOV - GoldenQuill Promotion-Governance Readiness
 
-### CTX-GQ-IMPL-ARCH — Implementation-architecture discovery (victor pattern) · stage: validate · gate: **pass**
-Derived the implementation architecture + model READ-ONLY from spec, rendered four victor-pattern views, drift-checked every claim to a spec selector.
-- **Next move:** Recomposed into root; optional — link the pack from the feature SPEC.md.
+- Stage: `validate`
+- Gate: `flag`
+- Purpose: track open questions, blockers, gaps, and decisions for the promotion-governance feature and its Victor learning loop.
+- Current next move: resolve [DEC-OQ4](#decision-dec-oq4), then route L1 candidate-shape work.
 
-### CTX-GQ-ARCH-DESIGN — Whole-system architecture design (integration + promotion governance) · stage: validate · gate: **flag**
-Consolidated baseline + Part II design proposals (D1–D4) for the open decisions; rendered two team-shareable PDFs.
-- **Next move:** Take D1–D4 to the team alongside the open-questions PDF; close DEC-OQ4 first.
+### <a id="context-ctx-gq-impl-arch"></a>CTX-GQ-IMPL-ARCH - Implementation-Architecture Discovery
 
-## Blockers (raw blockers cannot be resolved directly)
-| ID | Lane | Status | Closure condition |
-|----|------|--------|-------------------|
-| BLK-OQ4-VOCAB | governance | active (refined) | Operator confirms three-surface vs single enum; promotion vocabulary LOCKED before L1 |
-| BLK-B001-TESTSPEC | validator | active (raw) | TEST-SPEC T1–T35 confirmed stable before TASK-FIX |
-| BLK-D5A-THRESHOLD | governance | active (raw) | Machine-checkable "general guardpost" threshold + "no metric hill-climb" in PromotionAuthorityPolicy |
-| BLK-OQ13-EDGES | governance | active (raw) | GQ-AMD-001/002 filed; edge-amendments discovery authored for vault graduation |
+- Stage: `validate`
+- Gate: `pass`
+- Summary: derived the implementation architecture and model read-only from spec, rendered four Victor-pattern views, and drift-checked load-bearing claims.
+- Evidence: [impl-architecture README](docs/features/goldenquill-promotion-governance/discovery/impl-architecture/README.md), [drift-check-ledger.md](docs/features/goldenquill-promotion-governance/discovery/impl-architecture/drift-check-ledger.md).
 
-## Enablers
-- **ENA-DISPATCH-ROUTE** — validated, reusable dispatch route (validate-dispatch.py = pass).
-- **ENA-IMPL-PACK** — four-view victor-pattern explanation pack, drift-checked.
+### <a id="context-ctx-gq-arch-design"></a>CTX-GQ-ARCH-DESIGN - Whole-System Architecture Design
 
-## Open / blocking decisions
-- **DEC-OQ4** *(active, blocking)* — three decision surfaces (PursuitDecision / MatchFitVerdict / OwnerDecision) vs single unified enum. Operator: "let me think." Blocks L1 candidate shape.
+- Stage: `validate`
+- Gate: `flag`
+- Summary: consolidated integration and promotion-governance architecture; proposed D2-D4 designs for team discussion.
+- Evidence: [whole-system-architecture-design.md](docs/features/goldenquill-promotion-governance/integration/whole-system-architecture-design.md).
 
-## Open architecture proposals (non-blocking — for team decision)
-- **DEC-D2-FLIP** — operator-signed per-org Ed25519 flip of `mutation_allowed`, journaled.
-- **DEC-D3-SHARED-GATE** — structural "general" rule (no metric hill-climb) + operator card-edit review; links BLK-D5A-THRESHOLD.
-- **DEC-D4-VERIFY** — diverse held-out set (≥2 CIC/CLC); reject on negative delta or guardrail significance.
+## Decisions
 
-## Closed decisions
-- **DEC-PACK-LOCATION** — pack lands under `docs/.../discovery/impl-architecture/`.
-- **DEC-USE-CRAFT** — record this work in a goldenquill-scoped Craft ledger.
+### <a id="decision-dec-oq4"></a>DEC-OQ4 - Promotion Decision Vocabulary
+
+- Question: Should GoldenQuill keep three typed decision surfaces or collapse them into one unified enum?
+- Status: `active`, `blocking`
+- Description: blocking vocabulary decision for L1 candidate shape and promotion-authority semantics.
+- Current selection: pending; operator is weighing three surfaces versus a single enum.
+- Proposed direction: three typed surfaces, with `OwnerDecision` as the sole promotion vocabulary.
+- Impact: keeps [BLK-OQ4-VOCAB](#blocker-blk-oq4-vocab) active until the vocabulary model is locked.
+- Evidence: [OPEN-QUESTIONS-LEDGER.md](docs/features/goldenquill-promotion-governance/integration/OPEN-QUESTIONS-LEDGER.md)
+
+### <a id="decision-dec-d2-flip"></a>DEC-D2-FLIP - L0 To L1 Activation
+
+- Question: How should GoldenQuill authorize the L0 to L1 `mutation_allowed` flip?
+- Status: `active`, non-blocking proposal
+- Proposed selection: operator-signed per-org Ed25519 flip, journaled; shared-card mutation remains separately gated.
+- Impact: turns L0 to L1 activation into an explicit operator event instead of an implicit runtime transition.
+- Evidence: [whole-system-architecture-design.md](docs/features/goldenquill-promotion-governance/integration/whole-system-architecture-design.md)
+
+### <a id="decision-dec-d3-shared-gate"></a>DEC-D3-SHARED-GATE - Shared-Card Guardpost
+
+- Question: What gate keeps shared cards general and prevents metric hill-climbing?
+- Status: `active`, non-blocking proposal
+- Proposed selection: structural generality rule plus operator Ed25519 card-edit review; requires `consent_tier=composable_with_others`.
+- Impact: gives [BLK-D5A-THRESHOLD](#blocker-blk-d5a-threshold) a machine-checkable closure path.
+- Evidence: [whole-system-architecture-design.md](docs/features/goldenquill-promotion-governance/integration/whole-system-architecture-design.md)
+
+### <a id="decision-dec-d4-verify"></a>DEC-D4-VERIFY - Improvement Verification
+
+- Question: How should GoldenQuill verify an improvement without overfitting to one funder or metric?
+- Status: `active`, non-blocking proposal
+- Proposed selection: diverse held-out set with rejection on negative primary-KPI delta or significant guardrail-KPI decrease; descriptive stats only.
+- Impact: creates an evidence rule without turning promotion into metric optimization.
+- Evidence: [whole-system-architecture-design.md](docs/features/goldenquill-promotion-governance/integration/whole-system-architecture-design.md)
+
+## Blockers
+
+### <a id="blocker-blk-oq4-vocab"></a>BLK-OQ4-VOCAB
+
+- Lane: `governance`
+- Status: `active`, `refined`
+- Closure: operator confirms three-surface model versus single unified enum; canonical promotion vocabulary is locked before L1 candidate shape.
+- Linked decision: [DEC-OQ4](#decision-dec-oq4)
+
+### <a id="blocker-blk-b001-testspec"></a>BLK-B001-TESTSPEC
+
+- Lane: `validator`
+- Status: `active`, `raw`
+- Closure: TEST-SPEC T1-T35 are confirmed authored and stable before TASK-FIX.
+
+### <a id="blocker-blk-d5a-threshold"></a>BLK-D5A-THRESHOLD
+
+- Lane: `governance`
+- Status: `active`, `raw`
+- Closure: encode a machine-checkable "general guardpost" threshold and "no metric hill-climb" assertion in `PromotionAuthorityPolicy`.
+- Related proposal: [DEC-D3-SHARED-GATE](#decision-dec-d3-shared-gate)
+
+### <a id="blocker-blk-oq13-edges"></a>BLK-OQ13-EDGES
+
+- Lane: `governance`
+- Status: `active`, `raw`
+- Closure: file GQ-AMD-001/002 and author edge-amendments discovery so the 16 coined edges plus `gq_kind` can graduate to the vault.
 
 ## Gaps
-| ID | Severity | Owner | Summary |
-|----|----------|-------|---------|
-| GAP-DESIGNED-NOT-BUILT | block | grant-runtime | Learning loop designed, not built (human edits cards by hand) |
-| GAP-PROMO-ENFORCE | block | grant-runtime | No centralized promotion-authority enforcement test |
-| GAP-L0L1-FLIP | flag | governance | No gate for flipping per-org `mutation_allowed` at L0→L1 |
-| GAP-REDACTION-TABLES | flag | governance | Per-CIC redaction rule tables (C14) unauthored |
-| GAP-KPI-COUNT | flag | grant-runtime | Prose "47 KPIs" vs enum 44 (verified) — 3-entry gap |
-| GAP-EVENT-COUNT | flag | grant-runtime | Event count "13 vs 12" unresolved |
 
-## Candidate definitions (local — not canonical)
-- **promotion authority** — OwnerDecision is the only setter of `approved_allowed_uses` (SPEC.md:89; domain.md:216).
-- **L0 fixture-only / audit-only** — only C2/C3/C8; `mutation_allowed=false`; no org-vault/card/dashboard write (mappings.md:114; SPEC.md:596-630).
+| ID | Severity | Owner | Summary |
+| --- | --- | --- | --- |
+| GAP-DESIGNED-NOT-BUILT | block | grant-runtime | Learning loop is designed, not built; humans edit cards by hand today. |
+| GAP-PROMO-ENFORCE | block | grant-runtime | No centralized enforcement test proves adapter-side `approved_allowed_uses` is rejected. |
+| GAP-L0L1-FLIP | flag | governance | No gate spec for flipping per-org `mutation_allowed` at L0 to L1. |
+| GAP-REDACTION-TABLES | flag | governance | Per-CIC redaction/generalization rule tables are unauthored. |
+| GAP-KPI-COUNT | flag | grant-runtime | Spec prose says 47 KPIs but enum currently verifies 44. |
+| GAP-EVENT-COUNT | flag | grant-runtime | Event-count "13 vs 12" remains unresolved. |
+
+## Candidate Definitions
+
+- **promotion authority** - `OwnerDecision` is the only setter of `approved_allowed_uses`.
+- **L0 fixture-only / audit-only** - only C2/C3/C8; `mutation_allowed=false`; no org-vault, card, or dashboard write.
 
 ## Recomposition
-- **CTX-GQ-IMPL-ARCH → root: pass.** Architecture derived + explained in four views; drift-checked and count-corrected (KPI 44, node-kinds 16, D-E reworded). Residue: KPI 47-vs-44, event 13-vs-12, OQ-4 LOCK pending. Next parent move: resolve DEC-OQ4.
+
+- [CTX-GQ-IMPL-ARCH](#context-ctx-gq-impl-arch) -> [CTX-GQ-PROMO-GOV](#context-ctx-gq-promo-gov): pass. Residue: KPI 47-vs-44, event 13-vs-12, and [DEC-OQ4](#decision-dec-oq4).
+- [CTX-GQ-ARCH-DESIGN](#context-ctx-gq-arch-design) -> [CTX-GQ-PROMO-GOV](#context-ctx-gq-promo-gov): pass. Residue: D2-D4 remain team proposals; [DEC-OQ4](#decision-dec-oq4) remains blocking.
 
 ## Artifacts
-- `.craft/ledger.yml` (source of truth) · `CRAFT.md` (this view)
-- `docs/features/goldenquill-promotion-governance/integration/OPEN-QUESTIONS-LEDGER.md`
-- `docs/features/goldenquill-promotion-governance/integration/whole-system-architecture-design.md`
-- `docs/features/goldenquill-promotion-governance/discovery/impl-architecture/` (README + 4 views + substrate + drift-check)
-- **Team PDFs:** `docs/features/goldenquill-promotion-governance/team-review/open-questions-and-blockers.pdf` · `…/whole-system-architecture-design.pdf`
-- Tooling: `.craft/artifacts/render_pdf.py` (Markdown→PDF) · `[repo-root] ops/development/goldenquill-impl-architecture-discovery.dispatch.json`
+
+- [.craft/ledger.yml](.craft/ledger.yml) - machine source of truth.
+- [CRAFT.md](CRAFT.md) - this human view.
+- [OPEN-QUESTIONS-LEDGER.md](docs/features/goldenquill-promotion-governance/integration/OPEN-QUESTIONS-LEDGER.md)
+- [whole-system-architecture-design.md](docs/features/goldenquill-promotion-governance/integration/whole-system-architecture-design.md)
+- [impl-architecture README](docs/features/goldenquill-promotion-governance/discovery/impl-architecture/README.md)
+- [open-questions-and-blockers.pdf](docs/features/goldenquill-promotion-governance/team-review/open-questions-and-blockers.pdf)
+- [whole-system-architecture-design.pdf](docs/features/goldenquill-promotion-governance/team-review/whole-system-architecture-design.pdf)

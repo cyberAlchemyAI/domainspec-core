@@ -26,4 +26,3 @@ No external research. The needed evidence is local and was already mapped.
 - Propose a whole-architecture context-reference contract.
 - Reuse the mapped surfaces instead of inventing a monolithic memory store.
 - Preserve Golden Quill Law 3 org isolation and source-of-truth discipline.
-

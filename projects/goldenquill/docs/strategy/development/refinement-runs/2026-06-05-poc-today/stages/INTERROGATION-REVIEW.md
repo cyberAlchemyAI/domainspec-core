@@ -104,4 +104,3 @@ Recommended defaults:
 - audience: product/client concept demo;
 - surface: `tilth_demo_v0`;
 - data: synthetic-only.
-

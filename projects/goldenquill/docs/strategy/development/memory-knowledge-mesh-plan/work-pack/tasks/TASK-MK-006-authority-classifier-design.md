@@ -6,4 +6,3 @@ Status: pending
 ## Objective
 
 Design the classifier that assigns `authority_class` and `mutation_permission` before retrieval evidence enters drafting or Reflection Packet flows.
-

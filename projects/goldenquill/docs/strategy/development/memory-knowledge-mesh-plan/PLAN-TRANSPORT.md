@@ -30,4 +30,3 @@ The plan is split into two execution windows:
 2. L1+ code/test/schema work after validation tooling is available or substitute validation is approved.
 
 This keeps the first production movement useful and reversible while preserving the larger design.
-

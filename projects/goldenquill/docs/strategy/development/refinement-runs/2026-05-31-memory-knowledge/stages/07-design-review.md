@@ -14,4 +14,3 @@ Review:
 Flag:
 
 The repository's current truth docs need refresh. A design may be correct while the human-facing docs still tell an older story.
-

@@ -12,4 +12,3 @@ Create an Invoke design for a GoldenQuill Memory/Knowledge Mesh that:
 - Provides an Arcanum-compatible handoff pattern for Inventory and Ontology.
 - Keeps Reflection Packet activation as a downstream decision, not an implicit mutation.
 - Includes context, high-level structure, low-level components, workflow process, decision flow, and dependency interface views.
-

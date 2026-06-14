@@ -43,4 +43,3 @@ Published synthesis: `docs/strategy/goldenquill_memory_surface_architecture_synt
 2. Task Session: `MemoryEvidencePacket` schema fixture and validator.
 3. Decision Gate: Reflection Packet activation boundaries.
 4. Task Session: register-count parity once validation surface is available.
-

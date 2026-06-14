@@ -8,4 +8,3 @@ Production-readiness means the next implementation agent can answer four questio
 4. Which gate path governs mutation?
 
 This frame narrows the problem from "make GoldenQuill production-ready" to "build the readiness spine that lets production work start safely."
-

@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MyCel Session Envelope",
+  "type": "object",
+  "properties": {
+    "active_profile_id": { "type": "string" },
+    "active_lens_id": { "type": "string" },
+    "active_model_access_mode": { "enum": ["LOCAL_ONLY", "HYBRID", "FULL_ACCESS"] },
+    "selected_topology_id": { "type": "string" },
+    "content_version_id": { "type": "string" },
+    "reference_corpus": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["active_profile_id", "active_model_access_mode"]
+}

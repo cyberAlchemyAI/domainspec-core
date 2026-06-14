@@ -280,4 +280,3 @@ This is the smallest honest POC that can be shown today:
 - it uses existing validator-backed governance fixtures;
 - it avoids live data and production mutation;
 - it demonstrates the core GoldenQuill idea clearly.
-

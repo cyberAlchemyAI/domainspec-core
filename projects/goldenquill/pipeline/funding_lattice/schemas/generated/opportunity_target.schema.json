@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpportunityTarget",
+  "type": "object",
+  "properties": {
+    "opportunity_id": { "type": "string" },
+    "title": { "type": "string" },
+    "funder": { "type": "string" },
+    "source_url": { "type": "string" },
+    "verification_status": {
+      "type": "string",
+      "enum": ["UNVERIFIED_CACHE_REFERENCE", "LIVE_VERIFIED", "STALE_VERIFICATION", "VERIFICATION_FAILED"]
+    },
+    "deadline": { "type": "string" },
+    "lifecycle_stage": {
+      "type": "string",
+      "enum": ["MONITOR", "PREPARE", "ACTIVE_SPRINT", "DRAFTING_ELIGIBLE", "DRAFTING_BLOCKED", "REVIEW_READY", "EXPORT_STAGED", "CLOSED"]
+    },
+    "eligible_applicant_types": { "type": "array", "items": { "type": "string" } },
+    "required_documents": { "type": "array", "items": { "type": "string" } },
+    "allowable_routes": { "type": "array", "items": { "type": "string" } },
+    "fatal_gates": { "type": "array", "items": { "type": "string" } },
+    "advisory_warnings": { "type": "array", "items": { "type": "string" } },
+    "evidence_requirements": { "type": "array", "items": { "type": "string" } },
+    "route_lock": { "$ref": "route_lock.schema.json" },
+    "packet_state": { "$ref": "packet_state.schema.json" },
+    "context_bundle_manifest": { "type": "object" }
+  },
+  "required": ["opportunity_id", "title", "verification_status", "lifecycle_stage", "route_lock", "packet_state"]
+}

@@ -548,4 +548,3 @@ naive result: positive association
 guarded result: downgraded to correlation_candidate or blocked_or_residue
 promotion result: no approved reuse packet without owner decision
 ```
-

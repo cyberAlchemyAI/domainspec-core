@@ -36,4 +36,3 @@ The local command resolver finds `refine` and `invoke`, but this run did not exe
 - `docs/resilience/goldenquill-production-readiness-residuality.md`
 - `docs/strategy/goldenquill_production_readiness_experiments_2026-05-31.md`
 - `docs/strategy/goldenquill_production_readiness_invoke_design_2026-05-31.md`
-

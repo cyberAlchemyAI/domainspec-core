@@ -25,4 +25,3 @@ The repository already contains multiple mature memory/knowledge surfaces. The h
 ## Next Blocker
 
 The next useful implementation task is register-count parity. It is code-adjacent and should be validated with tests. Prior validation found `/usr/bin/python3: No module named pytest` and no usable project `.venv`, so that task remains blocked unless substitute validation is approved.
-

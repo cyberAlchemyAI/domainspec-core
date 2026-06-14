@@ -243,4 +243,3 @@ The repository already has enough memory infrastructure to support a serious arc
 Better architecture means every memory/knowledge surface becomes a named, governed context reference source. Retrieval finds candidates. Authority classification says what they are. Evidence packets carry them. Consumers use them within allowed scope. Promotion gates decide whether they become durable memory. Reflection proposes improvements, but owners approve mutations.
 
 That shape preserves Golden Quill's sovereignty and Law 3 isolation while making the whole architecture much smarter at reusing what it already knows.
-

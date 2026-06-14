@@ -1,0 +1,173 @@
+ledger_id: craft.goldenquill.staffing_budget_and_triggers
+schema_ref: '[repo-root] .agents/skills/craft/SKILL.md'
+schema_version: 0.2.0
+status: active-local
+source_of_truth: .craft/ledger.yml
+human_view: CRAFT.md
+notes:
+- Paths are relative to docs/strategy/development/staffing-budget-and-triggers unless marked [repo-root].
+- Owns roles, onboarding triggers, hours, rates, and staffing budget gaps from the workbook.
+indexes:
+  by_id:
+    ART-SBT-BUILD-SPEC: artifacts[7]
+    CTX-SBT-ROOT: contexts[0]
+    GAP-SBT-HOURS-RATES: gaps[0]
+    GAP-SBT-ONBOARD-NOW: gaps[1]
+    GAP-SBT-ONBOARD-LATER: gaps[2]
+    DEC-SBT-TRIGGER-MODEL: decisions[0]
+    ART-SBT-REFINE-RUN: artifacts[1]
+    ART-SBT-REFINE-DISPATCH: artifacts[2]
+    ART-SBT-RUNTIME-HANDOFF: artifacts[3]
+    ART-SBT-INVOKE-FIRST: artifacts[4]
+    ENA-SBT-REFINE-ROUTE: typed_items[0]
+    ART-SBT-RESEARCH-STRATEGY: artifacts[5]
+    ART-SBT-RESEARCH-DISPATCH: artifacts[6]
+    ENA-SBT-RESEARCH-STRATEGY: typed_items[1]
+  open_decisions:
+  - DEC-SBT-TRIGGER-MODEL
+  blocking_decisions: []
+  active_blockers: []
+  active_gaps:
+  - GAP-SBT-HOURS-RATES
+  - GAP-SBT-ONBOARD-NOW
+  - GAP-SBT-ONBOARD-LATER
+  next_moves:
+  - context_id: CTX-SBT-ROOT
+    next_move: "Build spec authored & tracked 2026-06-12 (BUILD-SPEC.md, ART-SBT-BUILD-SPEC). Budget worksheet scaffold + trigger-model options authored. Pending operator-input: Josh fills hours/rates and picks the trigger model (DEC-SBT-TRIGGER-MODEL) + staffing onboard decisions. Handoff: TO-JOSH.md."
+  artifacts_by_path:
+    '[repo-root] docs/strategy/development/staffing-budget-and-triggers/BUILD-SPEC.md': ART-SBT-BUILD-SPEC
+    '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md': ART-SBT-HANDOFF
+    ? '[repo-root] docs/strategy/development/staffing-budget-and-triggers/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+    : ART-SBT-REFINE-RUN
+    ? '[repo-root] docs/strategy/development/staffing-budget-and-triggers/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+    : ART-SBT-REFINE-DISPATCH
+    ? '[repo-root] docs/strategy/development/staffing-budget-and-triggers/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+    : ART-SBT-RUNTIME-HANDOFF
+    '[repo-root] docs/strategy/development/staffing-budget-and-triggers/INVOKE-DEVELOPMENT.md': ART-SBT-INVOKE-FIRST
+    ? '[repo-root] docs/strategy/development/staffing-budget-and-triggers/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+    : ART-SBT-RESEARCH-STRATEGY
+    ? '[repo-root] docs/strategy/development/staffing-budget-and-triggers/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+    : ART-SBT-RESEARCH-DISPATCH
+contexts:
+- context_id: CTX-SBT-ROOT
+  parent_id: root
+  title: Staffing, budget, and triggers
+  purpose: Convert workbook roles and empty budget columns into budgetable staffing state.
+  stage: start
+  gate: flag
+  next_move: "Build spec authored & tracked 2026-06-12 (BUILD-SPEC.md, ART-SBT-BUILD-SPEC). Budget worksheet scaffold + trigger-model options authored. Pending operator-input: Josh fills hours/rates and picks the trigger model (DEC-SBT-TRIGGER-MODEL) + staffing onboard decisions. Handoff: TO-JOSH.md."
+artifacts:
+- artifact_id: ART-SBT-HANDOFF
+  owner_context_id: CTX-SBT-ROOT
+  path: '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md'
+  artifact_type: source-contract
+  status: active
+- artifact_id: ART-SBT-REFINE-RUN
+  owner_context_id: CTX-SBT-ROOT
+  path: '[repo-root] docs/strategy/development/staffing-budget-and-triggers/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+  artifact_type: refine-run-manifest
+  status: flag
+  notes: Strategy-ready run manifest; runtime stages not executed.
+- artifact_id: ART-SBT-REFINE-DISPATCH
+  owner_context_id: CTX-SBT-ROOT
+  path: '[repo-root] docs/strategy/development/staffing-budget-and-triggers/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+  artifact_type: dispatch-spec-route
+  status: pass
+  notes: Dispatch route validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; runtime execution remains
+    permission-gated.
+- artifact_id: ART-SBT-RUNTIME-HANDOFF
+  owner_context_id: CTX-SBT-ROOT
+  path: '[repo-root] docs/strategy/development/staffing-budget-and-triggers/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+  artifact_type: runtime-handoff
+  status: not_run
+  notes: Runtime handoff is blocked until Josh confirms the strategy.
+- artifact_id: ART-SBT-INVOKE-FIRST
+  owner_context_id: CTX-SBT-ROOT
+  path: '[repo-root] docs/strategy/development/staffing-budget-and-triggers/INVOKE-DEVELOPMENT.md'
+  artifact_type: invoke-development
+  status: pass
+  notes: Canonical Invoke define/design/plan artifact authored 2026-06-13; runtime execution remains separate.
+- artifact_id: ART-SBT-RESEARCH-STRATEGY
+  owner_context_id: CTX-SBT-ROOT
+  path: '[repo-root] docs/strategy/development/staffing-budget-and-triggers/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+  artifact_type: research-strategy
+  status: pass
+  notes: Node-local research strategy; external research remains permission-gated.
+- artifact_id: ART-SBT-RESEARCH-DISPATCH
+  owner_context_id: CTX-SBT-ROOT
+  path: '[repo-root] docs/strategy/development/staffing-budget-and-triggers/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+  artifact_type: research-dispatch-spec
+  status: pass
+  notes: Research dispatch validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; execution remains permission-gated.
+- artifact_id: ART-SBT-BUILD-SPEC
+  owner_context_id: CTX-SBT-ROOT
+  path: '[repo-root] docs/strategy/development/staffing-budget-and-triggers/BUILD-SPEC.md'
+  artifact_type: build-spec
+  status: pass
+  notes: Canonical Define/Design/Plan build spec from refine->invoke 2026-06-12; refine-solvable gaps authored, operator-input and decision-gated items flagged.
+descriptions:
+- description_id: DESC-SBT-001
+  context_id: CTX-SBT-ROOT
+  description: Staffed core is Josh, Koichi, Vlad, and Victor; external or later roles include Customer Success, Field Tech,
+    Domain Experts, Legal, Security Reviewer, and Bookkeeper.
+  status: active
+  evidence: ART-SBT-HANDOFF
+gaps:
+- gap_id: GAP-SBT-HOURS-RATES
+  scope_id: CTX-SBT-ROOT
+  summary: Est. Hrs and Notes / Rate are blank; budget cannot be computed.
+  severity: block
+  treatment: fill
+  owner: founder
+  status: active
+  evidence: ART-SBT-HANDOFF
+- gap_id: GAP-SBT-ONBOARD-NOW
+  scope_id: CTX-SBT-ROOT
+  summary: Domain Experts, Legal, and Security Reviewer are onboard-now/near-now roles that need procurement shape and cost.
+  severity: flag
+  treatment: plan
+  owner: founder
+  status: active
+  evidence: ART-SBT-HANDOFF
+- gap_id: GAP-SBT-ONBOARD-LATER
+  scope_id: CTX-SBT-ROOT
+  summary: Customer Success and Field Tech handoff from Josh/engineers needs deployed-node trigger criteria.
+  severity: flag
+  treatment: decide
+  owner: operations
+  status: active
+  evidence: ART-SBT-HANDOFF
+decisions:
+- decision_id: DEC-SBT-TRIGGER-MODEL
+  scope_id: CTX-SBT-ROOT
+  decision_type: selection
+  question: What deployment count or revenue trigger moves each absorbed role into paid staffing?
+  description: Workbook names triggers qualitatively, but not thresholds.
+  selected: PENDING
+  rationale: Triggers are required before the workbook can become a staffing budget.
+  evidence: ART-SBT-HANDOFF
+  status: active
+  blocking: false
+  impact: Controls when Josh stops absorbing Customer Success and delivery work.
+  owner: founder
+relations: []
+recomposition: []
+typed_items:
+- item_id: ENA-SBT-REFINE-ROUTE
+  item_type: enabler
+  scope_id: CTX-SBT-ROOT
+  summary: A Dispatch Spec validated Refine route can now hydrate this Craft layer into Invoke define/design/plan artifacts
+    after operator confirmation.
+  enabler_type: route
+  lane: refine-pipeline
+  status: active
+  evidence: ART-SBT-REFINE-DISPATCH
+- item_id: ENA-SBT-RESEARCH-STRATEGY
+  item_type: enabler
+  scope_id: CTX-SBT-ROOT
+  summary: A node-local Dispatch Spec research strategy now defines local-first questions, evidence boundaries, approval gates,
+    and validation focus.
+  enabler_type: research-route
+  lane: research-strategy
+  status: active
+  evidence: ART-SBT-RESEARCH-DISPATCH

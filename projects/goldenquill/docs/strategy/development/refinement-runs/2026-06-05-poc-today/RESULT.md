@@ -64,4 +64,3 @@ current artifacts.
 - `REFINE-DISPATCH.json`
 - `stages/INTERROGATION-REVIEW.md`
 - `projects/goldenquill/docs/decisions/goldenquill-poc-today-decision-gate-2026-06-05.md`
-

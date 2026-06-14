@@ -1,0 +1,392 @@
+ledger_id: craft.goldenquill.node_on_desk_readiness
+schema_ref: '[repo-root] .agents/skills/craft/SKILL.md'
+schema_version: 0.2.0
+status: active-local
+source_of_truth: .craft/ledger.yml
+human_view: CRAFT.md
+notes:
+- Paths are relative to docs/strategy/development/node-on-desk-readiness unless marked [repo-root].
+- Parent Craft space for the Golden Quill task and role breakdown workbook.
+- Child spaces own detailed blockers, decisions, gaps, and recomposition evidence.
+indexes:
+  by_id:
+    ART-NOD-TO-JOSH: artifacts[23]
+    ART-NOD-TO-VICTOR: artifacts[22]
+    ART-NOD-TO-KINOSHITA: artifacts[21]
+    ART-NOD-TO-VLAD: artifacts[20]
+    ART-NOD-DISPATCH-VALIDATION: artifacts[19]
+    ART-NOD-BUILD-SPEC: artifacts[18]
+    CTX-NOD-ROOT: contexts[0]
+    CTX-NOD-BOUNDARY: contexts[1]
+    CTX-NOD-STAFFING: contexts[2]
+    CTX-NOD-HARDWARE: contexts[3]
+    CTX-NOD-TILTH: contexts[4]
+    CTX-NOD-QUALITY: contexts[5]
+    CTX-NOD-CAPITAL: contexts[6]
+    CTX-NOD-SALES: contexts[7]
+    CTX-NOD-DELIVERY: contexts[8]
+    CTX-NOD-OPS: contexts[9]
+    CTX-NOD-ACCEL: contexts[10]
+    DEC-NOD-SPACE-NAMING: decisions[0]
+    GAP-NOD-HOURS-RATES: gaps[0]
+    GAP-NOD-CANON-VOCAB: gaps[1]
+    GAP-NOD-SEQUENCE: gaps[2]
+    ART-NOD-REFINE-RUN: artifacts[12]
+    ART-NOD-REFINE-DISPATCH: artifacts[13]
+    ART-NOD-RUNTIME-HANDOFF: artifacts[14]
+    ART-NOD-INVOKE-FIRST: artifacts[15]
+    ENA-NOD-REFINE-ROUTE: typed_items[0]
+    ART-NOD-RESEARCH-STRATEGY: artifacts[16]
+    ART-NOD-RESEARCH-DISPATCH: artifacts[17]
+    ENA-NOD-RESEARCH-STRATEGY: typed_items[1]
+  open_decisions: []
+  blocking_decisions: []
+  active_blockers: []
+  active_gaps:
+  - GAP-NOD-HOURS-RATES
+  - GAP-NOD-CANON-VOCAB
+  - GAP-NOD-SEQUENCE
+  next_moves:
+  - context_id: CTX-NOD-ROOT
+    next_move: "Build spec + dispatch-validation authored & tracked 2026-06-12. RG-1..RG-10 recomposition ladder authored. Pending: ratify DEC-BC-POSTURE-VOCAB (RG-1) + Josh fills hours/rates; child runtime receipts not yet recomposed upward (path mappable, not proven). Handoffs: repo-root TO-*.md."
+  artifacts_by_path:
+    '[repo-root] TO-JOSH.md': ART-NOD-TO-JOSH
+    '[repo-root] TO-VICTOR.md': ART-NOD-TO-VICTOR
+    '[repo-root] TO-KINOSHITA.md': ART-NOD-TO-KINOSHITA
+    '[repo-root] TO-VLAD.md': ART-NOD-TO-VLAD
+    '[repo-root] docs/strategy/development/node-on-desk-readiness/DISPATCH-VALIDATION.md': ART-NOD-DISPATCH-VALIDATION
+    '[repo-root] docs/strategy/development/node-on-desk-readiness/BUILD-SPEC.md': ART-NOD-BUILD-SPEC
+    '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md': ART-NOD-HANDOFF
+    '[repo-root] .craft/ledger.yml': ART-PROMO-GOV-LEDGER
+    '[repo-root] docs/strategy/development/boundary-and-canon/.craft/ledger.yml': ART-BOUNDARY-LEDGER
+    '[repo-root] docs/strategy/development/staffing-budget-and-triggers/.craft/ledger.yml': ART-STAFFING-LEDGER
+    '[repo-root] docs/features/hardware-golden-image/.craft/ledger.yml': ART-HARDWARE-LEDGER
+    '[repo-root] docs/features/tilth-runtime-build/.craft/ledger.yml': ART-TILTH-LEDGER
+    '[repo-root] docs/features/quality-security-proof/.craft/ledger.yml': ART-QUALITY-LEDGER
+    '[repo-root] docs/features/capital-logic-library/.craft/ledger.yml': ART-CAPITAL-LEDGER
+    '[repo-root] docs/strategy/development/sales-contracting-legal/.craft/ledger.yml': ART-SALES-LEDGER
+    '[repo-root] docs/strategy/development/white-glove-delivery-node-care/.craft/ledger.yml': ART-DELIVERY-LEDGER
+    '[repo-root] docs/strategy/development/company-operations-finance/.craft/ledger.yml': ART-OPS-LEDGER
+    '[repo-root] docs/strategy/development/after-acceleration-roadmap/.craft/ledger.yml': ART-ACCEL-LEDGER
+    ? '[repo-root] docs/strategy/development/node-on-desk-readiness/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+    : ART-NOD-REFINE-RUN
+    ? '[repo-root] docs/strategy/development/node-on-desk-readiness/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+    : ART-NOD-REFINE-DISPATCH
+    ? '[repo-root] docs/strategy/development/node-on-desk-readiness/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+    : ART-NOD-RUNTIME-HANDOFF
+    '[repo-root] docs/strategy/development/node-on-desk-readiness/INVOKE-DEVELOPMENT.md': ART-NOD-INVOKE-FIRST
+    ? '[repo-root] docs/strategy/development/node-on-desk-readiness/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+    : ART-NOD-RESEARCH-STRATEGY
+    ? '[repo-root] docs/strategy/development/node-on-desk-readiness/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+    : ART-NOD-RESEARCH-DISPATCH
+contexts:
+- context_id: CTX-NOD-ROOT
+  parent_id: root
+  title: Golden Quill node-on-desk readiness
+  purpose: Govern the full set of build, per-node, ongoing, staffing, and acceleration work needed to put a working Golden
+    Quill node on a customer's desk.
+  stage: start
+  gate: flag
+  next_move: "Build spec + dispatch-validation authored & tracked 2026-06-12. RG-1..RG-10 recomposition ladder authored. Pending: ratify DEC-BC-POSTURE-VOCAB (RG-1) + Josh fills hours/rates; child runtime receipts not yet recomposed upward (path mappable, not proven). Handoffs: repo-root TO-*.md."
+  owned_artifacts:
+  - ART-NOD-HANDOFF
+- context_id: CTX-NOD-BOUNDARY
+  parent_id: CTX-NOD-ROOT
+  title: Boundary and canon
+  purpose: Keep task wording aligned with current Golden Quill canon, especially posture vocabulary and v0.1 boundaries.
+  stage: start
+  gate: flag
+  next_move: Resolve stale workbook language before deriving customer-facing or engineer-facing tasks.
+- context_id: CTX-NOD-STAFFING
+  parent_id: CTX-NOD-ROOT
+  title: Staffing, budget, and triggers
+  purpose: Convert roles, gaps, onboarding triggers, hours, and rates into budgetable staffing state.
+  stage: start
+  gate: flag
+  next_move: Fill blank hours/rates and confirm triggers for onboard-now and onboard-later roles.
+- context_id: CTX-NOD-HARDWARE
+  parent_id: CTX-NOD-ROOT
+  title: Hardware and Golden Image
+  purpose: Track hardware, OS baseline, imaging, backup/export, update signing, and Golden Image readiness.
+  stage: start
+  gate: flag
+  next_move: Confirm reference workstation spec and Golden Image verification path.
+- context_id: CTX-NOD-TILTH
+  parent_id: CTX-NOD-ROOT
+  title: Tilth runtime build
+  purpose: Track local inference, routing, vault, ingestion, Scout, Mapper, drafting, review, audit log, and evidence/report
+    capture.
+  stage: start
+  gate: flag
+  next_move: Split runtime rows into buildable work packs and route boundary issues to CTX-NOD-BOUNDARY.
+- context_id: CTX-NOD-QUALITY
+  parent_id: CTX-NOD-ROOT
+  title: Quality, security, and proof
+  purpose: Track guardrails-as-tests, deployment tests, independent security review, claims evidence, demo standard, and instrumentation.
+  stage: start
+  gate: flag
+  next_move: Define proof artifacts required before first customer node.
+- context_id: CTX-NOD-CAPITAL
+  parent_id: CTX-NOD-ROOT
+  title: Capital Logic Library
+  purpose: Track card schema, launch cards, expert review, seed libraries, and recurring funder rule packs.
+  stage: start
+  gate: flag
+  next_move: Link to promotion-governance Craft state and list missing expert-review inputs.
+- context_id: CTX-NOD-SALES
+  parent_id: CTX-NOD-ROOT
+  title: Sales, contracting, and legal
+  purpose: Track sales materials, qualification, customer agreement, LOI, data-policy terms, insurance, deposits, and invoicing.
+  stage: start
+  gate: flag
+  next_move: Identify legal-first tasks required before first LOI signs.
+- context_id: CTX-NOD-DELIVERY
+  parent_id: CTX-NOD-ROOT
+  title: White-glove delivery and Node Care
+  purpose: Track pre-deployment, Day 0 install, vault build, source universe, first packet, training, support, and Day 60
+    review.
+  stage: start
+  gate: flag
+  next_move: Turn first-node Josh-led delivery into a repeatable checklist.
+- context_id: CTX-NOD-OPS
+  parent_id: CTX-NOD-ROOT
+  title: Company operations and finance
+  purpose: Track entity hygiene, banking, bookkeeping, contract filing, support channel, issue log, Node Care operations,
+    and validation packet maintenance.
+  stage: start
+  gate: flag
+  next_move: Separate first-revenue bookkeeping from ongoing operating floor.
+- context_id: CTX-NOD-ACCEL
+  parent_id: CTX-NOD-ROOT
+  title: After-acceleration roadmap
+  purpose: Track post-capital repeatability, sales beyond founder network, hardening, service validation, new markets, financing,
+    and team build-out.
+  stage: start
+  gate: flag
+  next_move: Sequence post-acceleration themes against deployed-node count and validation evidence.
+artifacts:
+- artifact_id: ART-NOD-HANDOFF
+  owner_context_id: CTX-NOD-ROOT
+  path: '[repo-root] docs/golden-quill-task-role-breakdown-handoff.md'
+  artifact_type: source-contract
+  status: active
+  notes: Workbook Markdown extraction generated 2026-06-12.
+- artifact_id: ART-PROMO-GOV-LEDGER
+  owner_context_id: CTX-NOD-CAPITAL
+  path: '[repo-root] .craft/ledger.yml'
+  artifact_type: linked-craft-ledger
+  status: active
+  notes: Existing promotion-governance Craft ledger; linked, not overwritten.
+- artifact_id: ART-BOUNDARY-LEDGER
+  owner_context_id: CTX-NOD-BOUNDARY
+  path: '[repo-root] docs/strategy/development/boundary-and-canon/.craft/ledger.yml'
+  artifact_type: child-ledger
+  status: active
+- artifact_id: ART-STAFFING-LEDGER
+  owner_context_id: CTX-NOD-STAFFING
+  path: '[repo-root] docs/strategy/development/staffing-budget-and-triggers/.craft/ledger.yml'
+  artifact_type: child-ledger
+  status: active
+- artifact_id: ART-HARDWARE-LEDGER
+  owner_context_id: CTX-NOD-HARDWARE
+  path: '[repo-root] docs/features/hardware-golden-image/.craft/ledger.yml'
+  artifact_type: child-ledger
+  status: active
+- artifact_id: ART-TILTH-LEDGER
+  owner_context_id: CTX-NOD-TILTH
+  path: '[repo-root] docs/features/tilth-runtime-build/.craft/ledger.yml'
+  artifact_type: child-ledger
+  status: active
+- artifact_id: ART-QUALITY-LEDGER
+  owner_context_id: CTX-NOD-QUALITY
+  path: '[repo-root] docs/features/quality-security-proof/.craft/ledger.yml'
+  artifact_type: child-ledger
+  status: active
+- artifact_id: ART-CAPITAL-LEDGER
+  owner_context_id: CTX-NOD-CAPITAL
+  path: '[repo-root] docs/features/capital-logic-library/.craft/ledger.yml'
+  artifact_type: child-ledger
+  status: active
+- artifact_id: ART-SALES-LEDGER
+  owner_context_id: CTX-NOD-SALES
+  path: '[repo-root] docs/strategy/development/sales-contracting-legal/.craft/ledger.yml'
+  artifact_type: child-ledger
+  status: active
+- artifact_id: ART-DELIVERY-LEDGER
+  owner_context_id: CTX-NOD-DELIVERY
+  path: '[repo-root] docs/strategy/development/white-glove-delivery-node-care/.craft/ledger.yml'
+  artifact_type: child-ledger
+  status: active
+- artifact_id: ART-OPS-LEDGER
+  owner_context_id: CTX-NOD-OPS
+  path: '[repo-root] docs/strategy/development/company-operations-finance/.craft/ledger.yml'
+  artifact_type: child-ledger
+  status: active
+- artifact_id: ART-ACCEL-LEDGER
+  owner_context_id: CTX-NOD-ACCEL
+  path: '[repo-root] docs/strategy/development/after-acceleration-roadmap/.craft/ledger.yml'
+  artifact_type: child-ledger
+  status: active
+- artifact_id: ART-NOD-REFINE-RUN
+  owner_context_id: CTX-NOD-ROOT
+  path: '[repo-root] docs/strategy/development/node-on-desk-readiness/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUN-MANIFEST.md'
+  artifact_type: refine-run-manifest
+  status: flag
+  notes: Strategy-ready run manifest; runtime stages not executed.
+- artifact_id: ART-NOD-REFINE-DISPATCH
+  owner_context_id: CTX-NOD-ROOT
+  path: '[repo-root] docs/strategy/development/node-on-desk-readiness/development/refinement-runs/2026-06-12-craft-pipeline-hydration/REFINE-DISPATCH.json'
+  artifact_type: dispatch-spec-route
+  status: pass
+  notes: Dispatch route validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; runtime execution remains
+    permission-gated.
+- artifact_id: ART-NOD-RUNTIME-HANDOFF
+  owner_context_id: CTX-NOD-ROOT
+  path: '[repo-root] docs/strategy/development/node-on-desk-readiness/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RUNTIME-HANDOFF.md'
+  artifact_type: runtime-handoff
+  status: not_run
+  notes: Runtime handoff is blocked until Josh confirms the strategy.
+- artifact_id: ART-NOD-INVOKE-FIRST
+  owner_context_id: CTX-NOD-ROOT
+  path: '[repo-root] docs/strategy/development/node-on-desk-readiness/INVOKE-DEVELOPMENT.md'
+  artifact_type: invoke-development
+  status: pass
+  notes: Canonical Invoke define/design/plan artifact authored 2026-06-13; runtime execution remains separate.
+- artifact_id: ART-NOD-RESEARCH-STRATEGY
+  owner_context_id: CTX-NOD-ROOT
+  path: '[repo-root] docs/strategy/development/node-on-desk-readiness/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md'
+  artifact_type: research-strategy
+  status: pass
+  notes: Node-local research strategy; external research remains permission-gated.
+- artifact_id: ART-NOD-RESEARCH-DISPATCH
+  owner_context_id: CTX-NOD-ROOT
+  path: '[repo-root] docs/strategy/development/node-on-desk-readiness/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-DISPATCH.json'
+  artifact_type: research-dispatch-spec
+  status: pass
+  notes: Research dispatch validated with .agents/skills/dispatch-spec/scripts/validate-dispatch.py; execution remains permission-gated.
+- artifact_id: ART-NOD-BUILD-SPEC
+  owner_context_id: CTX-NOD-ROOT
+  path: '[repo-root] docs/strategy/development/node-on-desk-readiness/BUILD-SPEC.md'
+  artifact_type: build-spec
+  status: pass
+  notes: Canonical Define/Design/Plan build spec from refine->invoke 2026-06-12; refine-solvable gaps authored, operator-input and decision-gated items flagged.
+- artifact_id: ART-NOD-DISPATCH-VALIDATION
+  owner_context_id: CTX-NOD-ROOT
+  path: '[repo-root] docs/strategy/development/node-on-desk-readiness/DISPATCH-VALIDATION.md'
+  artifact_type: dispatch-validation-record
+  status: pass
+  notes: Refine-solvability classification of every gap/decision across all 12 spaces; index of the build specs + owner handoffs.
+- artifact_id: ART-NOD-TO-VLAD
+  owner_context_id: CTX-NOD-ROOT
+  path: '[repo-root] TO-VLAD.md'
+  artifact_type: owner-handoff
+  status: pass
+  notes: Backend/domain-modeler build + decision-proposal assignments.
+- artifact_id: ART-NOD-TO-KINOSHITA
+  owner_context_id: CTX-NOD-ROOT
+  path: '[repo-root] TO-KINOSHITA.md'
+  artifact_type: owner-handoff
+  status: pass
+  notes: AI-engineer build assignments.
+- artifact_id: ART-NOD-TO-VICTOR
+  owner_context_id: CTX-NOD-ROOT
+  path: '[repo-root] TO-VICTOR.md'
+  artifact_type: owner-handoff
+  status: pass
+  notes: QA/measurement build assignments.
+- artifact_id: ART-NOD-TO-JOSH
+  owner_context_id: CTX-NOD-ROOT
+  path: '[repo-root] TO-JOSH.md'
+  artifact_type: owner-handoff
+  status: pass
+  notes: Founder decisions, staffing, content, and capital actions.
+descriptions:
+- description_id: DESC-NOD-001
+  context_id: CTX-NOD-ROOT
+  description: The workbook is treated as a task inventory, not a completed plan. Craft spaces use durable operating-surface
+    names while preserving one-to-one traceability to workbook workstreams.
+  status: active
+  evidence: ART-NOD-HANDOFF
+definitions:
+- definition_id: DEF-NOD-CRAFT-SPACE-001
+  scope_id: CTX-NOD-ROOT
+  term: Craft operating-surface name
+  statement: A durable name for a work surface that can outlive the spreadsheet label while keeping traceability to the workbook
+    row family.
+  status: candidate
+  evidence: '[repo-root] daily_logs/2026-06-12.md'
+gaps:
+- gap_id: GAP-NOD-HOURS-RATES
+  scope_id: CTX-NOD-ROOT
+  summary: Est. Hrs and Notes / Rate columns are blank across the workbook; staffing and capital budget cannot be computed
+    yet.
+  severity: block
+  treatment: fill
+  owner: staffing-budget-and-triggers
+  status: active
+  evidence: ART-NOD-HANDOFF
+- gap_id: GAP-NOD-CANON-VOCAB
+  scope_id: CTX-NOD-BOUNDARY
+  summary: Workbook posture language includes deprecated vocabulary that must be translated to the current three-posture canon
+    before any customer-facing or engineer-facing surface uses it.
+  severity: block
+  treatment: correct
+  owner: boundary-and-canon
+  status: active
+  evidence: ART-NOD-HANDOFF
+- gap_id: GAP-NOD-SEQUENCE
+  scope_id: CTX-NOD-ROOT
+  summary: Workbook lists tasks and roles but not dependency order, done definitions, or recomposition gates.
+  severity: flag
+  treatment: plan
+  owner: node-on-desk-readiness
+  status: active
+  evidence: ART-NOD-HANDOFF
+decisions:
+- decision_id: DEC-NOD-SPACE-NAMING
+  scope_id: CTX-NOD-ROOT
+  decision_type: selection
+  question: Should Craft spaces use raw workbook labels or durable operating-surface names?
+  description: Naming decision for the new node-on-desk Craft space family.
+  selected: Use durable operating-surface names from the first proposal while preserving workbook traceability.
+  rationale: Operator confirmed the first proposal was best because it kept the same split with better naming.
+  evidence: '[repo-root] daily_logs/2026-06-12.md'
+  status: closed
+  blocking: false
+  impact: Sets the directory names for the child Craft spaces.
+  owner: governance
+relations:
+- relation_id: REL-NOD-LINK-PROMO-GOV
+  source_id: CTX-NOD-CAPITAL
+  target_id: ART-PROMO-GOV-LEDGER
+  type: links_existing_scope
+  status: active
+  reason: Promotion-governance is already governed by the root Craft ledger and should not be recreated here.
+  evidence: ART-PROMO-GOV-LEDGER
+recomposition:
+- child_id: CTX-NOD-ROOT
+  parent_id: root
+  summary: New parent space initialized; child spaces created for each operating surface.
+  evidence: ART-NOD-HANDOFF
+  residue: Hours/rates, canon corrections, sequencing, and child-ledger task decomposition remain open.
+  next_parent_move: Populate each child ledger with blockers, decisions, gaps, and first receipts.
+  status: flag
+typed_items:
+- item_id: ENA-NOD-REFINE-ROUTE
+  item_type: enabler
+  scope_id: CTX-NOD-ROOT
+  summary: A Dispatch Spec validated Refine route can now hydrate this Craft layer into Invoke define/design/plan artifacts
+    after operator confirmation.
+  enabler_type: route
+  lane: refine-pipeline
+  status: active
+  evidence: ART-NOD-REFINE-DISPATCH
+- item_id: ENA-NOD-RESEARCH-STRATEGY
+  item_type: enabler
+  scope_id: CTX-NOD-ROOT
+  summary: A node-local Dispatch Spec research strategy now defines local-first questions, evidence boundaries, approval gates,
+    and validation focus.
+  enabler_type: research-route
+  lane: research-strategy
+  status: active
+  evidence: ART-NOD-RESEARCH-DISPATCH

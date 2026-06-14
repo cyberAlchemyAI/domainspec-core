@@ -1,0 +1,541 @@
+{
+  "dispatch_id": "gq-research-strategy-capital-logic-library-2026-06-12",
+  "parent_dispatch_id": "gq-craft-hydration-capital-logic-library-2026-06-12",
+  "intent": {
+    "raw": "create a research strategy of each node now",
+    "objective": "Create a research strategy for Capital Logic Library that defines local-first questions, evidence boundaries, external-research approval gates, and validation before any research execution.",
+    "target_artifact": "docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "research",
+      "craft",
+      "refine",
+      "invoke",
+      "context-builder",
+      "interrogation"
+    ],
+    "operator_sentence": "create a research strategy of each node now",
+    "craft_node": "capital-logic-library",
+    "research_lane": "Capital Logic Library research",
+    "core_question": "What source universes, expert inputs, card schema evidence, and rule-pack boundaries are needed to hydrate launch cards safely?"
+  },
+  "mode": "research",
+  "route_menu": {
+    "context_hint": "Research is local-first. External research is available only after a named gap and explicit operator approval.",
+    "items": [
+      {
+        "id": "local_first",
+        "label": "Local first",
+        "description": "Use workbook, Craft ledger, architecture, daily logs, and existing project evidence only.",
+        "pattern": "sequential"
+      },
+      {
+        "id": "gap_triggered_external",
+        "label": "Gap-triggered external",
+        "description": "Ask for approval before a bounded external comparison pass when local evidence leaves a named gap.",
+        "pattern": "decision"
+      },
+      {
+        "id": "defer_research",
+        "label": "Defer",
+        "description": "Record research gaps but do not execute research until the node route is otherwise ready.",
+        "pattern": "handoff"
+      }
+    ],
+    "selected_item_id": "gap_triggered_external"
+  },
+  "techniques": [
+    "sequence",
+    "sentence_grammar",
+    "route_menu",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "memory_loop",
+    "residue_ledger",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "component_descriptor",
+    "conditional_component",
+    "one_or_more_option_set",
+    "approval_checkpoint",
+    "protected_context_flag",
+    "data_quality_accuracy",
+    "data_quality_integrity",
+    "data_quality_completeness",
+    "data_quality_conformity",
+    "data_quality_deduplication"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "local_first_research_baseline",
+      "trigger": "Every Golden Quill node must exhaust local workspace evidence before any external pass.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "memory_loop",
+        "data_quality_deduplication"
+      ],
+      "applies_to_steps": [
+        "r01-scope-questions",
+        "r02-local-evidence-baseline"
+      ],
+      "validation_expectation": "Local sources are cited by path or handle before external-source classes are considered."
+    },
+    {
+      "overlay_id": "gap_triggered_external_research",
+      "trigger": "External evidence may be useful but cannot run without a named gap and operator approval.",
+      "techniques": [
+        "route_menu",
+        "one_or_more_option_set",
+        "approval_checkpoint",
+        "protected_context_flag",
+        "conditional_component"
+      ],
+      "applies_to_steps": [
+        "r03-research-lane-map",
+        "r04-external-approval-gate"
+      ],
+      "validation_expectation": "The strategy records the selected route and blocks external research until approval is present."
+    },
+    {
+      "overlay_id": "claim_evidence_validation",
+      "trigger": "Research findings must become evidence classes and validation questions, not loose claims.",
+      "techniques": [
+        "validation_loop",
+        "data_quality_accuracy",
+        "data_quality_completeness",
+        "owner_boundary_check"
+      ],
+      "applies_to_steps": [
+        "r05-claim-evidence-validation",
+        "r06-synthesis-handoff"
+      ],
+      "validation_expectation": "Every claim has a source class, path/handle expectation, and owner-boundary check."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Capital Logic Library research may benefit from parallel source-boundary and claim-validation review, but execution must wait for approval.",
+    "explanation": "Dispatch Spec records a role strategy for later research execution. No subagents are spawned by this artifact.",
+    "context": [
+      "Craft node: capital-logic-library",
+      "Core question: What source universes, expert inputs, card schema evidence, and rule-pack boundaries are needed to hydrate launch cards safely?",
+      "External research is permission-gated and local-first."
+    ],
+    "roles": [
+      {
+        "role_id": "local-evidence-reviewer",
+        "purpose": "Confirm local workspace evidence covers the research question before external lookup.",
+        "owns": "local evidence handles and missing local-source gaps",
+        "applies_to_steps": [
+          "r01-scope-questions",
+          "r02-local-evidence-baseline"
+        ]
+      },
+      {
+        "role_id": "external-boundary-reviewer",
+        "purpose": "Check whether proposed external sources are bounded, necessary, and approved.",
+        "owns": "external research approval and protected-context risk",
+        "applies_to_steps": [
+          "r03-research-lane-map",
+          "r04-external-approval-gate"
+        ]
+      },
+      {
+        "role_id": "claim-validation-reviewer",
+        "purpose": "Validate that research outputs can map to concrete claims, evidence classes, and next-route decisions.",
+        "owns": "claim evidence and validation residue",
+        "applies_to_steps": [
+          "r05-claim-evidence-validation",
+          "r06-synthesis-handoff"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Run the research reviewers and bounded research route for Capital Logic Library?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note",
+      "research question",
+      "source boundary",
+      "claim evidence",
+      "validation impact"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "r01-scope-questions",
+      "name": "Scope research questions",
+      "capability_ref": "context-builder",
+      "mode": "research-scope",
+      "pattern": "sequential",
+      "techniques": [
+        "sentence_grammar",
+        "minimum_component_catalog",
+        "component_descriptor",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "ledger",
+          "ref": "docs/features/capital-logic-library/.craft/ledger.yml"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "research-question-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md"
+        }
+      ],
+      "evidence_artifact": "docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md",
+      "stop_conditions": [
+        "block if the node scope cannot be separated from another Craft node",
+        "ask if the research question needs Josh's business judgment"
+      ]
+    },
+    {
+      "step_id": "r02-local-evidence-baseline",
+      "name": "Build local evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "local-evidence",
+      "pattern": "sequential",
+      "techniques": [
+        "memory_loop",
+        "handle_handoff",
+        "data_quality_deduplication",
+        "data_quality_accuracy"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "research-question-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/golden-quill-task-role-breakdown-handoff.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handle",
+          "ref": "local-evidence-handles"
+        }
+      ],
+      "evidence_artifact": "docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md"
+    },
+    {
+      "step_id": "r03-research-lane-map",
+      "name": "Map research lanes",
+      "capability_ref": "invoke",
+      "mode": "research-strategy",
+      "pattern": "sequential",
+      "techniques": [
+        "route_menu",
+        "one_or_more_option_set",
+        "component_descriptor",
+        "conditional_component"
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "local-evidence-handles"
+        },
+        {
+          "kind": "frame",
+          "ref": "research-question-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "research-lane-frame"
+        },
+        {
+          "kind": "route_menu",
+          "ref": "research-route-menu"
+        }
+      ],
+      "evidence_artifact": "docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md"
+    },
+    {
+      "step_id": "r04-external-approval-gate",
+      "name": "Decide external research boundary",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "techniques": [
+        "approval_checkpoint",
+        "protected_context_flag",
+        "conditional_component"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "research-lane-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "external-research-decision"
+        }
+      ],
+      "evidence_artifact": "docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md"
+    },
+    {
+      "step_id": "r05-claim-evidence-validation",
+      "name": "Validate evidence and claim shape",
+      "capability_ref": "interrogation",
+      "mode": "research-validation",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "data_quality_completeness",
+        "data_quality_conformity",
+        "data_quality_integrity"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "external-research-decision"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "research-validation-ledger"
+        }
+      ],
+      "evidence_artifact": "docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/research-validation-ledger.md",
+      "stop_conditions": [
+        "block if a claim lacks a local path, source class, or explicit external approval state"
+      ]
+    },
+    {
+      "step_id": "r06-synthesis-handoff",
+      "name": "Synthesize research strategy handoff",
+      "capability_ref": "invoke",
+      "mode": "handoff",
+      "pattern": "synthesis",
+      "techniques": [
+        "owner_boundary_check",
+        "observability_grouping",
+        "frame_handoff",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "research-validation-ledger"
+        },
+        {
+          "kind": "decision",
+          "ref": "external-research-decision"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "research_strategy_ready"
+        }
+      ],
+      "evidence_artifact": "docs/features/capital-logic-library/development/refinement-runs/2026-06-12-craft-pipeline-hydration/RESEARCH-STRATEGY.md"
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "rg01-dispatch-valid",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "RESEARCH-DISPATCH.json validates and cited techniques are reflected in steps, gates, or observability.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "rg02-local-first",
+      "kind": "quality",
+      "owner": "context-builder",
+      "condition": "Local workspace evidence is reviewed before external source classes are activated.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "rg03-external-approval",
+      "kind": "human_approval",
+      "owner": "refine",
+      "condition": "External research requires a named local-evidence gap and Josh's explicit approval.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "rg04-org-isolation",
+      "kind": "policy",
+      "owner": "Golden Quill governance",
+      "condition": "Research uses Golden Quill project evidence only and does not pull any client org PROJECT_CONTEXT unless an org-scoped task is explicitly opened.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "rg05-claim-evidence",
+      "kind": "validation",
+      "owner": "interrogation",
+      "condition": "Each research claim is mapped to a source class, path or handle expectation, and validation question.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "rg06-owner-boundary",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Research strategy is route evidence only and cannot mutate canonical knowledge stores or lifecycle artifacts.",
+      "on_fail": "block"
+    }
+  ],
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "gq-research-strategy-capital-logic-library-2026-06-12",
+      "step_id": "r01-scope-questions",
+      "capability_ref": "context-builder",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "research strategy prepared; execution requires operator confirmation"
+      ],
+      "residue": "",
+      "handoff_note": "Fill during an approved research execution pass."
+    },
+    {
+      "dispatch_id": "gq-research-strategy-capital-logic-library-2026-06-12",
+      "step_id": "r02-local-evidence-baseline",
+      "capability_ref": "context-builder",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "research strategy prepared; execution requires operator confirmation"
+      ],
+      "residue": "",
+      "handoff_note": "Fill during an approved research execution pass."
+    },
+    {
+      "dispatch_id": "gq-research-strategy-capital-logic-library-2026-06-12",
+      "step_id": "r03-research-lane-map",
+      "capability_ref": "invoke",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "research strategy prepared; execution requires operator confirmation"
+      ],
+      "residue": "",
+      "handoff_note": "Fill during an approved research execution pass."
+    },
+    {
+      "dispatch_id": "gq-research-strategy-capital-logic-library-2026-06-12",
+      "step_id": "r04-external-approval-gate",
+      "capability_ref": "refine",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "research strategy prepared; execution requires operator confirmation"
+      ],
+      "residue": "",
+      "handoff_note": "Fill during an approved research execution pass."
+    },
+    {
+      "dispatch_id": "gq-research-strategy-capital-logic-library-2026-06-12",
+      "step_id": "r05-claim-evidence-validation",
+      "capability_ref": "interrogation",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "research strategy prepared; execution requires operator confirmation"
+      ],
+      "residue": "",
+      "handoff_note": "Fill during an approved research execution pass."
+    },
+    {
+      "dispatch_id": "gq-research-strategy-capital-logic-library-2026-06-12",
+      "step_id": "r06-synthesis-handoff",
+      "capability_ref": "invoke",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": [
+        "research strategy prepared; execution requires operator confirmation"
+      ],
+      "residue": "",
+      "handoff_note": "Fill during an approved research execution pass."
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "gq-craft-hydration-capital-logic-library-2026-06-12",
+    "trace_events": [
+      "research_strategy_created",
+      "research_scope_ready",
+      "external_research_approval_requested",
+      "research_validation_completed",
+      "research_strategy_handoff"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "promotion_guardrails": [
+    "Research strategy is planning evidence only.",
+    "External research cannot run without operator approval.",
+    "Research findings cannot mutate canonical knowledge stores or lifecycle artifacts without the owning route."
+  ]
+}

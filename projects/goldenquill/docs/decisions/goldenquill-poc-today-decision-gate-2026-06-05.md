@@ -132,4 +132,3 @@ Ask the operator to select:
 
 After selection, run one bounded task-session to implement the selected same-day
 POC.
-
