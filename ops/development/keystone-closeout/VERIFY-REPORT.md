@@ -15,5 +15,7 @@ updatedAt: 2026-06-14
 ## Overall: FLAG
 Keystone is functionally closed — cutover proven, definitions de-duplicated, define-baseline retirement complete. One bounded follow-up remains: **TASK-MF-REMOVE-3** = author DomainSpec **design-stage (architecture-bundle)** + **plan-stage (execution-pack)** templates, regenerate the 9 invoke fixtures, then physically delete `module-formulae/`. This needs the invoke spell's validation runtime to verify green — a `spellcraft` task, not a doc edit.
 
-## Newly surfaced (feeds back to M2/invoke)
-The DomainSpec template family is currently **define-stage only**. Full parity with Module Formulae requires design-stage + plan-stage DomainSpec templates. Recorded as a precondition for fully retiring Module Formulae.
+## Newly surfaced → RESOLVED (same session)
+The DomainSpec template family was define-stage only. **Now authored** the design-stage (`architecture-bundle.md`) + plan-stage (`execution-pack.md`) DomainSpec templates and repointed `design.md`/`plan.md`/`work-pack.md`/`README`. The full invoke pipeline (define/design/plan) is off Module Formulae; no active contract references it. (arcanum `2ced192`.)
+
+**TASK-MF-REMOVE-3 residual (runtime-gated, NOT a doc edit):** regenerate the 9 invoke validation fixtures against the DomainSpec family + green `run-validation-fixtures.sh`, then physically delete `templates/module-formulae/`. Owner: `spellcraft` with the invoke validation runtime. The `mogt` project's own `module-formulae/` dir is out of scope.
