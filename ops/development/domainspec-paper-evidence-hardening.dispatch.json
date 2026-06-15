@@ -1,0 +1,748 @@
+{
+  "dispatch_id": "domainspec-paper-evidence-hardening-20260610",
+  "parent_dispatch_id": "domainspec-paper-update-research-20260610",
+  "intent": {
+    "raw": "See if anything in arcanum/ could be used here and whether we should create a sub-agent strategy for it. Anchor the remaining paper work to the publication-research-pipeline spell and fan out the gap phases (research-tower, research-evidence-harness, definitions-governance) to harden the evidence behind the updated DomainSpec paper.",
+    "objective": "Design a governed sub-agent route that anchors to the arcanum publication-research-pipeline spell and executes only its not-yet-done phases over the already-updated paper: build a source-backed learning tower (phase 2), produce dry-run-validated evidence run-schemas/fixtures for the hedged integrity flags and the E11 adjudication (phase 4), and canonicalize the load-bearing definitions with cross-copy drift checks (definitions-governance), feeding a claim-adjudication and research-readiness ledger without live runs or claim promotion.",
+    "target_artifact": "research/projects/domainspec/papers/domainspec-paper.md",
+    "arcanum_vocabulary": [
+      "publication-research-pipeline",
+      "dispatch-spec",
+      "refine",
+      "research-tower",
+      "research-evidence-harness",
+      "definitions-governance",
+      "context-builder",
+      "task-session",
+      "fanout",
+      "validation_loop",
+      "owner_boundary_check",
+      "concrete_path_evidence",
+      "execution_receipt_handoff"
+    ],
+    "operator_sentence": "Anchor to the publication-research-pipeline spell, recover the completed sweep and updated paper as inputs, then fan out three bounded lanes — a source-backed research tower, a dry-run evidence harness for the hedged claims, and a definitions-canon keeper — adjudicate which hedged flags can be promoted versus held, and hand off a research-readiness ledger, all without live experiment runs or claim promotion."
+  },
+  "mode": "research",
+  "route_menu": {
+    "context_hint": "The route hardens evidence behind an already-updated paper. It is read-only plus dry-run validation; live experiment runs (e.g. E7) and any claim-status promotion require separate operator approval.",
+    "items": [
+      {
+        "id": "spell-anchored-gap-fanout",
+        "label": "Publication-pipeline gap fanout",
+        "description": "Anchor to publication-research-pipeline and fan out only its unfinished phases (tower, evidence-harness, definitions-governance) over the updated paper.",
+        "capability_ref": "publication-research-pipeline",
+        "pattern": "fanout"
+      },
+      {
+        "id": "evidence-harness-only",
+        "label": "Evidence harness only",
+        "description": "Run research-evidence-harness on just the two hedged integrity flags; cheaper but leaves source-tower and definitions drift unaddressed.",
+        "capability_ref": "research-evidence-harness",
+        "pattern": "validation"
+      },
+      {
+        "id": "definitions-only",
+        "label": "Definitions canon only",
+        "description": "Lock DS-M13, the 25/29 counts, and E11 T-codes as canonical with cross-copy drift checks; narrowest scope.",
+        "capability_ref": "definitions-governance",
+        "pattern": "validation"
+      },
+      {
+        "id": "task-session-handoff",
+        "label": "Task session execution",
+        "description": "Execute an approved readiness ledger as a bounded SWU (e.g. stage an E7 run package) once gates clear.",
+        "capability_ref": "task-session",
+        "pattern": "handoff"
+      }
+    ],
+    "selected_item_id": "spell-anchored-gap-fanout"
+  },
+  "techniques": [
+    "route_menu",
+    "validation_loop",
+    "owner_boundary_check",
+    "concrete_path_evidence",
+    "delegation_boundary",
+    "execution_receipt_handoff",
+    "evidence_summary_handoff",
+    "state_namespace_boundary",
+    "memory_promotion_split",
+    "observability_grouping",
+    "residue_ledger"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "spell-phase-anchoring",
+      "trigger": "The arcanum publication-research-pipeline spell already defines the owner lanes and gate model; this route must reuse them rather than re-invent a bespoke pipeline.",
+      "techniques": [
+        "owner_boundary_check",
+        "evidence_summary_handoff",
+        "execution_receipt_handoff",
+        "concrete_path_evidence"
+      ],
+      "applies_to_steps": [
+        "recover-pipeline-route",
+        "build-learning-tower",
+        "evidence-harness-flags",
+        "definitions-canon"
+      ],
+      "validation_expectation": "Each lane maps to a named publication-research-pipeline phase (2, 4, or definitions support) and returns artifacts in that phase's owner lane without crossing into claim promotion or live execution."
+    },
+    {
+      "overlay_id": "dry-run-before-live",
+      "trigger": "research-evidence-harness must validate schemas and fixtures only; evidence-status upgrades require live analysis, which this route does not perform.",
+      "techniques": [
+        "validation_loop",
+        "concrete_path_evidence",
+        "data_quality_accuracy",
+        "state_namespace_boundary"
+      ],
+      "applies_to_steps": [
+        "evidence-harness-flags",
+        "claim-adjudication",
+        "validate-route-and-readiness"
+      ],
+      "validation_expectation": "The hedged flags (§6.5 signals, §8 counts, E11 adjudication) yield validated run-schemas and fixtures plus a promotion-readiness verdict; no claim status is changed and no live experiment is run."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The remaining publication-research-pipeline phases are owned by three distinct, independently-runnable sigils (research-tower, research-evidence-harness, definitions-governance) over separate evidence surfaces, and the prior fan-out already produced the source material they consume.",
+    "explanation": "Role-bound lanes let each spell phase run in its own owner lane and return phase-scoped receipts, while a shared claim-adjudicator keeps the dry-run evidence and definitions canon from drifting into claim promotion or live execution.",
+    "context": [
+      "The arcanum publication-research-pipeline spell (arcanum/spells/publication-research-pipeline/README.md) defines phases 2 (research-tower), 4 (research-evidence-harness), 6 (claim adjudication), 7 (paper rewrite) and an owner/gate model this route reuses.",
+      "Phases 1, 3, 5, 7 are already satisfied: ops/development/domainspec-paper-update-research-strategy.dispatch.json (route), ops/development/domainspec-paper-candidate-additions-brief.md (context/evidence sweep), and the updated research/projects/domainspec/papers/domainspec-paper.md (rewrite).",
+      "The audit left two integrity flags hedged because no artifact backs them: §6.5 signal-emission numbers (live telemetry empty, E7 not run) and §8 case-study counts (no independent experiment artifact).",
+      "E11's D4 gate passed only under a single-reviewer policy override; the claim matrix was deliberately left unchanged — a claim-adjudication question, not a rewrite question.",
+      "Two paper copies plus DEFINITIONS.md, TAXONOMY.md, and RELATIONSHIPS.md carry the 25/29 counts, DS-M13, and T01-T24 codes that must stay canonical and drift-checked."
+    ],
+    "roles": [
+      {
+        "role_id": "tower-source-cartographer",
+        "purpose": "Run the research-tower phase: build source-first claims, a related-work map for §2, a notation bridge, and a residue ledger for the paper's C1-C4 and E6/E9/E11 evidence, keeping source claims separate from local inference.",
+        "owns": "source-backed learning tower",
+        "applies_to_steps": [
+          "build-learning-tower"
+        ]
+      },
+      {
+        "role_id": "evidence-harness-validator",
+        "purpose": "Run research-evidence-harness in dry-run/validate mode: produce run-schemas, JSONL fixtures, and metric definitions for the §6.5 signal-rate (E7), §8 case-study counts, and E11 adjudication, with a promotion-readiness verdict and no live runs.",
+        "owns": "evidence harness validation pack",
+        "applies_to_steps": [
+          "evidence-harness-flags"
+        ]
+      },
+      {
+        "role_id": "definitions-canon-keeper",
+        "purpose": "Run definitions-governance: canonicalize DS-M13, the 25/29 meta-type/edge counts, and the T01-T24 catalog, and drift-check them across both paper copies, DEFINITIONS.md, TAXONOMY.md, and RELATIONSHIPS.md.",
+        "owns": "canonical definitions and drift report",
+        "applies_to_steps": [
+          "definitions-canon"
+        ]
+      },
+      {
+        "role_id": "claim-adjudicator",
+        "purpose": "Decide, from tower + harness + definitions receipts, which hedged flags are promotable, which stay insufficient, and what each requires (e.g. a live E7 run), without changing any claim status here.",
+        "owns": "claim-adjudication ledger",
+        "applies_to_steps": [
+          "claim-adjudication",
+          "validate-route-and-readiness"
+        ]
+      },
+      {
+        "role_id": "pipeline-synthesis-editor",
+        "purpose": "Synthesize lane receipts into a research-readiness ledger keyed to publication-research-pipeline phases and a bounded next-route handoff.",
+        "owns": "research-readiness ledger",
+        "applies_to_steps": [
+          "synthesize-readiness",
+          "handoff-next-route"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Run three bounded publication-research-pipeline lanes (research-tower, dry-run research-evidence-harness, definitions-governance) plus a claim-adjudicator over the updated paper to produce a research-readiness ledger, with no live experiment runs and no claim-status promotion?",
+    "receipt_requirements": [
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "residue",
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute"
+    ],
+    "receipt_requirement_notes": [
+      "Each lane maps its output to a named publication-research-pipeline phase and owner lane.",
+      "Each lane returns concrete path evidence and classifies claims by evidence status.",
+      "The evidence-harness lane stays dry-run/validate only; no live experiment is executed.",
+      "No lane changes claim status or promotes inventory/ontology/glossary/sigil/spell artifacts."
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "recover-pipeline-route",
+      "name": "Anchor to the publication-research-pipeline spell and recover prior artifacts",
+      "capability_ref": "refine",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "route_menu",
+        "owner_boundary_check",
+        "concrete_path_evidence",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "operator-request"
+        },
+        {
+          "kind": "artifact",
+          "ref": "arcanum/spells/publication-research-pipeline/README.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-paper-candidate-additions-brief.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/projects/domainspec/papers/domainspec-paper.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "pipeline-anchor-frame"
+        },
+        {
+          "kind": "route_menu",
+          "ref": "gap-phase-route-menu"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Map each planned lane to a publication-research-pipeline phase before any lane runs.",
+        "Treat phases 1, 3, 5, 7 as already satisfied by the prior dispatch, brief, and updated paper.",
+        "Keep the route read-only plus dry-run; live runs and promotions are out of scope."
+      ]
+    },
+    {
+      "step_id": "build-learning-tower",
+      "name": "Phase 2 — build source-backed learning tower",
+      "capability_ref": "research-tower",
+      "capability_status": "candidate",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "delegation_boundary",
+        "concrete_path_evidence",
+        "residue_ledger",
+        "owner_boundary_check"
+      ],
+      "roles": [
+        "tower-source-cartographer",
+        "claim-adjudicator"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "pipeline-anchor-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/projects/domainspec/results/DOMAINSPEC-EVIDENCE-STATUS.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "tower-learning-pack"
+        },
+        {
+          "kind": "ledger",
+          "ref": "related-work-and-residue-ledger"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-paper-tower-built"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Source-first claims for C1-C4 and E6/E9/E11 are separated from local inference with path evidence.",
+        "A related-work map covers the paper's §2 references and any uncited adjacent work surfaced from sources.",
+        "Residue and contradictions (e.g. E11 independence downgrade) are recorded, not resolved by inference."
+      ],
+      "evidence_artifact": "ops/development/domainspec-paper-tower-learning-pack.md",
+      "stop_conditions": [
+        "Block any source claim that collapses into local inference without a citation.",
+        "Flag any paper claim whose source the tower cannot locate."
+      ]
+    },
+    {
+      "step_id": "evidence-harness-flags",
+      "name": "Phase 4 — dry-run evidence harness for hedged flags",
+      "capability_ref": "research-evidence-harness",
+      "capability_status": "candidate",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "concrete_path_evidence",
+        "data_quality_accuracy",
+        "state_namespace_boundary"
+      ],
+      "roles": [
+        "evidence-harness-validator",
+        "claim-adjudicator"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "tower-learning-pack"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/projects/mars/runbooks/E11-TECHNIQUE-SPECIALIZATION-PLAN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "evidence-harness-validation-pack"
+        },
+        {
+          "kind": "decision",
+          "ref": "flag-promotion-readiness"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-paper-evidence-harness-validated"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/domainspec-paper-evidence-harness-pack.md",
+      "convergence_criteria": [
+        "§6.5 signal-rate, §8 counts, and E11 adjudication each receive a run-schema, fixtures, and metric definition.",
+        "Each hedged flag receives a promotion-readiness verdict: promotable-on-live-run, needs-protocol, or stays-insufficient.",
+        "No live experiment is executed and no claim status is changed."
+      ],
+      "stop_conditions": [
+        "Block any move from dry-run validation to a live evidence-status upgrade.",
+        "Flag any flag whose fixtures cannot be schema-validated."
+      ]
+    },
+    {
+      "step_id": "definitions-canon",
+      "name": "Canonicalize definitions with cross-copy drift checks",
+      "capability_ref": "definitions-governance",
+      "capability_status": "candidate",
+      "pattern": "validation",
+      "parallel": true,
+      "techniques": [
+        "validation_loop",
+        "concrete_path_evidence",
+        "data_quality_deduplication",
+        "owner_boundary_check"
+      ],
+      "roles": [
+        "definitions-canon-keeper"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "pipeline-anchor-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/projects/domainspec/definitions/DEFINITIONS.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/research/domainspec-paper.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "definitions-drift-report"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-paper-definitions-canon-checked"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "evidence_artifact": "ops/development/domainspec-paper-definitions-drift-report.md",
+      "convergence_criteria": [
+        "DS-M13, the 25/29 meta-type/edge counts, and the T01-T24 catalog have one canonical definition each.",
+        "Drift is reported across both paper copies, DEFINITIONS.md, TAXONOMY.md, and RELATIONSHIPS.md with source paths.",
+        "Proposed-but-unadopted extensions (e.g. the ~38-edge study) are kept distinct from canonical counts."
+      ],
+      "stop_conditions": [
+        "Block silent canonicalization of proposed extensions as if adopted.",
+        "Flag any term whose definition differs across the cited files."
+      ]
+    },
+    {
+      "step_id": "claim-adjudication",
+      "name": "Phase 6 — adjudicate promotability without changing status",
+      "capability_ref": "task-session",
+      "pattern": "decision",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "concrete_path_evidence",
+        "residue_ledger",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "evidence-harness-validation-pack"
+        },
+        {
+          "kind": "decision",
+          "ref": "flag-promotion-readiness"
+        },
+        {
+          "kind": "ledger",
+          "ref": "related-work-and-residue-ledger"
+        },
+        {
+          "kind": "ledger",
+          "ref": "definitions-drift-report"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "claim-adjudication-ledger"
+        },
+        {
+          "kind": "frame",
+          "ref": "readiness-synthesis-frame"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Each hedged flag and the E11 claim is classified: hold-insufficient, promotable-on-live-run, or definition-fix-only.",
+        "Every promotion path names the exact missing evidence (e.g. a live E7 run) and its owner.",
+        "No claim status is changed in this route."
+      ],
+      "evidence_artifact": "ops/development/domainspec-paper-claim-adjudication-ledger.md",
+      "stop_conditions": [
+        "Block any in-route claim-status change.",
+        "Flag any adjudication not backed by a harness or tower receipt."
+      ]
+    },
+    {
+      "step_id": "synthesize-readiness",
+      "name": "Synthesize research-readiness ledger keyed to spell phases",
+      "capability_ref": "context-builder",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "evidence_summary_handoff",
+        "residue_ledger",
+        "concrete_path_evidence",
+        "execution_receipt_handoff"
+      ],
+      "roles": [
+        "pipeline-synthesis-editor"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "readiness-synthesis-frame"
+        },
+        {
+          "kind": "ledger",
+          "ref": "claim-adjudication-ledger"
+        },
+        {
+          "kind": "ledger",
+          "ref": "tower-learning-pack"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-paper-research-readiness-ledger.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-paper-readiness-synthesized"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Key every readiness item to a publication-research-pipeline phase and an owner.",
+        "Do not write canonical ontology/glossary/inventory promotions from the ledger."
+      ]
+    },
+    {
+      "step_id": "validate-route-and-readiness",
+      "name": "Validate evidence coverage and promotion guardrails",
+      "capability_ref": "dispatch-spec",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "concrete_path_evidence",
+        "format_conformity_check",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-paper-research-readiness-ledger.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "claim-adjudication-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "readiness-validation-ledger"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-paper-readiness-validation-completed"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/domainspec-paper-readiness-validation-ledger.md",
+      "stop_conditions": [
+        "Block if the ledger implies any live run or claim promotion was performed.",
+        "Flag any readiness item missing a phase, owner, or source path."
+      ]
+    },
+    {
+      "step_id": "handoff-next-route",
+      "name": "Handoff next route under operator approval",
+      "capability_ref": "task-session",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "execution_receipt_handoff",
+        "approval_semantics_map",
+        "memory_promotion_split",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "readiness-validation-ledger"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-paper-research-readiness-ledger.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "approved-next-route-menu"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-paper-evidence-handoff-ready"
+        }
+      ],
+      "join_policy": "human_gate",
+      "stop_conditions": [
+        "Live execution (e.g. an E7 run) or claim-status promotion requires explicit separate operator approval.",
+        "Export packaging (spell phase 8) remains a distinct, later decision."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "read-only-and-dry-run-gate",
+      "kind": "policy",
+      "owner": "operator",
+      "condition": "This route is read-only plus dry-run validation; it produces strategy, tower, harness, definitions, and readiness artifacts but performs no live experiment run and no claim-status promotion.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "dry-run-before-live-gate",
+      "kind": "validation",
+      "owner": "evidence-harness-validator",
+      "condition": "research-evidence-harness stays in dry-run/validate mode; any evidence-status upgrade is deferred to a separately approved live run.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "definitions-drift-gate",
+      "kind": "quality",
+      "owner": "definitions-canon-keeper",
+      "condition": "DS-M13, the 25/29 counts, and the T01-T24 catalog have one canonical definition each, with proposed extensions kept distinct from adopted counts.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "claim-status-freeze-gate",
+      "kind": "promotion_guardrail",
+      "owner": "claim-adjudicator",
+      "condition": "No claim status is changed in this route; adjudication only classifies promotability and names missing evidence.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "subagent-authorization-gate",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Recommended fan-out/subagent execution requires explicit user approval before delegated runtime work starts.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "promotion-guardrail-gate",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Lane receipts summarize findings only and do not promote inventory, ontology, glossary, sigil, or spell artifacts.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "domainspec-paper-update-research-20260610",
+    "trace_events": [
+      "domainspec-paper-evidence-route-created",
+      "domainspec-paper-tower-built",
+      "domainspec-paper-evidence-harness-validated",
+      "domainspec-paper-definitions-canon-checked",
+      "domainspec-paper-readiness-synthesized",
+      "domainspec-paper-readiness-validation-completed",
+      "domainspec-paper-evidence-handoff-ready"
+    ],
+    "signal_grouping": "domainspec-paper-evidence-hardening-20260610"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "spell-phase-owner-boundary",
+        "kind": "capability_handoff",
+        "from_owner": "publication-research-pipeline phases",
+        "to_owner": "research-readiness-ledger",
+        "applies_to_steps": [
+          "build-learning-tower",
+          "evidence-harness-flags",
+          "definitions-canon",
+          "claim-adjudication"
+        ],
+        "contract": "Each lane stays inside its spell-phase owner lane and returns phase-scoped receipts; the parent synthesis owns cross-lane interpretation.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "dry-run-evidence-boundary",
+        "kind": "evidence_return",
+        "from_owner": "research-evidence-harness",
+        "to_owner": "claim-adjudication-ledger",
+        "applies_to_steps": [
+          "evidence-harness-flags",
+          "claim-adjudication"
+        ],
+        "contract": "Harness returns validated schemas and fixtures with a promotion-readiness verdict only; live runs and claim-status upgrades are out of scope.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "definitions-source-boundary",
+        "kind": "artifact_import",
+        "from_owner": "DEFINITIONS.md, TAXONOMY.md, RELATIONSHIPS.md, both paper copies",
+        "to_owner": "definitions-drift-report",
+        "applies_to_steps": [
+          "definitions-canon"
+        ],
+        "contract": "Definitions are read and drift-reported; canonical files are not mutated by this route.",
+        "on_violation": "flag"
+      }
+    ],
+    "authority": {
+      "lifecycle": "dispatch-spec strategy artifact anchored to publication-research-pipeline",
+      "execution": "operator-approved subagent or task-session run",
+      "validation": "dispatch-spec validator plus research-evidence-harness dry-run checks",
+      "evidence": "path-cited repository artifacts, tower receipts, and validated fixtures",
+      "memory": "memory visibility only after separate user request",
+      "promotion": "no promotion authority"
+    },
+    "receipts": [
+      {
+        "receipt_id": "evidence-harness-validation-pack",
+        "producer": "evidence-harness-validator",
+        "required_fields": [
+          "session_id",
+          "artifacts",
+          "validation_result",
+          "audit_reference",
+          "residue"
+        ],
+        "stores": [
+          "ops/development/domainspec-paper-evidence-harness-pack.md"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "readiness-validation-ledger",
+        "producer": "validate-route-and-readiness",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "audit_reference",
+          "residue"
+        ],
+        "stores": [
+          "ops/development/domainspec-paper-readiness-validation-ledger.md"
+        ],
+        "on_missing": "flag"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "research/projects/domainspec/papers",
+        "owner": "research domainspec",
+        "write_policy": "read-only for this route"
+      },
+      {
+        "namespace": "research/projects/domainspec/definitions",
+        "owner": "research domainspec",
+        "write_policy": "read-only drift inspection"
+      },
+      {
+        "namespace": "ops/development/research-strategy",
+        "owner": "domainspec-core ops",
+        "write_policy": "strategy, tower, harness, and readiness artifacts only"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "dry-run evidence and tower receipts",
+        "target": "claim status, inventory, ontology, glossary, sigil, and spell artifacts",
+        "rule": "Evidence may be summarized as readiness input only; claim-status upgrade and canonical promotion require live analysis and separate approval.",
+        "on_violation": "block"
+      },
+      {
+        "source": "memory visibility note",
+        "target": "Arcanum or DomainSpec canonical knowledge",
+        "rule": "Memory updates, if requested later, do not imply canonical knowledge promotion.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "The route does not claim promotion authority for Inventory, Ontology, glossary, sigil, or spell artifacts.",
+    "The route does not change any claim status; it only classifies promotability and names missing evidence.",
+    "The route does not run live experiments; research-evidence-harness stays in dry-run/validate mode.",
+    "The route reuses publication-research-pipeline phase owners rather than re-inventing a bespoke pipeline."
+  ]
+}

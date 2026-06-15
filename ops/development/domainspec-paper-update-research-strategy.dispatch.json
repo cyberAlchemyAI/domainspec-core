@@ -1,0 +1,909 @@
+{
+  "dispatch_id": "domainspec-paper-update-research-20260610",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "The version of the paper at implementation/domainspec/docs/research/domainspec-paper.md is more recent than research/projects/domainspec/papers/domainspec-paper.md. Update the paper inside research using the more recent one as base, integrate E11 into it, and run a really broad and thorough sub-agent search for real information dispersed across the whole repo that could be added to the paper.",
+    "objective": "Design a governed, evidence-cited fan-out research route that (1) adopts the more recent paper as the base for the research copy, (2) maps where E11 (Technique/Specialization experiment, DS-M13, T01-T24) integrates into the paper, and (3) sweeps the whole repository broadly for dispersed, paper-grade material, producing a section-keyed candidate-additions brief before any paper mutation.",
+    "target_artifact": "research/projects/domainspec/papers/domainspec-paper.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "fanout",
+      "zig_zag",
+      "dialectic",
+      "tournament",
+      "x_ray",
+      "residue_ledger",
+      "context-builder",
+      "inventory",
+      "robot-talks",
+      "distill",
+      "validation_loop",
+      "owner_boundary_check",
+      "concrete_path_evidence",
+      "execution_receipt_handoff"
+    ],
+    "operator_sentence": "First adopt the recent paper as base and map its section slots, then fan out bounded evidence lanes across the whole repo (E11, research evidence, vault ontology, formal theory), zig-zag each candidate addition through claim critique, run a dialectic over how much to add, synthesize a section-keyed candidate brief, and only then update the research paper under operator approval without promoting any claim past its evidence."
+  },
+  "mode": "research",
+  "route_menu": {
+    "context_hint": "The route is read-only research and produces a candidate-additions brief; the final paper write to research/projects/domainspec/papers/domainspec-paper.md requires separate operator approval.",
+    "items": [
+      {
+        "id": "mixed-fanout-zigzag-dialectic",
+        "label": "Fanout evidence lanes + critique + synthesis",
+        "description": "Parallel lanes sweep different evidence surfaces of the repo, each candidate is critiqued for evidence and scope, then a parent synthesis produces a section-keyed candidate brief.",
+        "capability_ref": "dispatch-spec",
+        "pattern": "fanout"
+      },
+      {
+        "id": "single-reader-diff",
+        "label": "Single reader diff-and-merge",
+        "description": "One agent diffs the two papers and merges; cheaper but likely to miss dispersed evidence and E11 integration depth.",
+        "capability_ref": "x-ray",
+        "pattern": "xray"
+      },
+      {
+        "id": "publication-pipeline",
+        "label": "Publication research pipeline",
+        "description": "Route the approved brief through the publication-research-pipeline lanes for claim adjudication and export packaging.",
+        "capability_ref": "publication-research-pipeline",
+        "pattern": "handoff"
+      },
+      {
+        "id": "task-session-update",
+        "label": "Task session paper update",
+        "description": "Execute the approved candidate brief as a bounded work pack that updates the research paper and records evidence ledgers.",
+        "capability_ref": "task-session",
+        "pattern": "handoff"
+      }
+    ],
+    "selected_item_id": "mixed-fanout-zigzag-dialectic"
+  },
+  "techniques": [
+    "route_menu",
+    "zig_zag",
+    "dialectic",
+    "tournament",
+    "x_ray",
+    "residue_ledger",
+    "validation_loop",
+    "owner_boundary_check",
+    "concrete_path_evidence",
+    "delegation_boundary",
+    "execution_receipt_handoff",
+    "evidence_summary_handoff",
+    "state_namespace_boundary",
+    "memory_promotion_split",
+    "observability_grouping"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "claim-evidence-discipline",
+      "trigger": "The target is a publication-bound paper, so every candidate addition must stay a subset of measured, proved, documented, or cited evidence.",
+      "techniques": [
+        "data_quality_accuracy",
+        "concrete_path_evidence",
+        "validation_loop",
+        "owner_boundary_check"
+      ],
+      "applies_to_steps": [
+        "fanout-evidence-lanes",
+        "map-e11-integration",
+        "zigzag-critique-loop",
+        "validate-evidence-and-claims"
+      ],
+      "validation_expectation": "Every candidate addition is either path-cited as measured/proved/documented evidence, demoted to hypothesis, or moved to the residue ledger before it can enter the paper."
+    },
+    {
+      "overlay_id": "dispersed-sweep-discipline",
+      "trigger": "The operator asked for a really broad and thorough sweep because real information is dispersed across many owner surfaces (research, implementation vault, lean formalization, ops, validation).",
+      "techniques": [
+        "state_namespace_boundary",
+        "memory_promotion_split",
+        "evidence_summary_handoff",
+        "data_quality_deduplication"
+      ],
+      "applies_to_steps": [
+        "fanout-evidence-lanes",
+        "map-e11-integration",
+        "synthesize-candidate-brief"
+      ],
+      "validation_expectation": "Findings from each owner surface are deduplicated, attributed to a source path, and routed to a paper section slot without cross-owner promotion or canonical knowledge writes."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Paper-grade evidence is dispersed across at least five independent owner surfaces (the two papers, the E11 experiment, the research evidence/claims registries, the implementation vault and domain inventories, and the Lean formalization), which a single reader cannot sweep broadly without flattening evidence classes.",
+    "explanation": "A broad fan-out lets each lane own one evidence surface and return path-cited candidates quickly, while the skeptical auditor and the zig-zag/dialectic phases keep an attractive-but-unproven addition from entering a publication paper.",
+    "context": [
+      "Two paper versions exist: implementation/domainspec/docs/research/domainspec-paper.md (recent base, 813 lines) and research/projects/domainspec/papers/domainspec-paper.md (older target, 836 lines, has an extra 3.1.1 Hard Layer-System Definitions the recent one dropped).",
+      "E11 is the MARS Technique/Specialization experiment: research/projects/mars/runbooks/E11-TECHNIQUE-SPECIALIZATION-PLAN.md plus implementation/domainspec/vault/sessions/2026-05-19-1533-domainspec-discovery-e11-reconciliation.md map DDD patterns (Outbox/T04, Read Model/T07, Port+Adapter/T24, Saga/T01-T03) to technique codes under model DS-M13.",
+      "research/projects/domainspec/results/DOMAINSPEC-EVIDENCE-STATUS.md, the claims registry, and research/projects/mars + meta-meta TRACEABILITY-MATRIX/CLAIMS/EXPERIMENTS files carry quantitative evidence that may refresh Section 6.5 and Section 8.",
+      "implementation/domainspec/vault/discovery/* and implementation/domainspec/docs/research/inventory/* (cargo-shipping, food-delivery, banking-finance, ride-hailing, ecommerce, collaboration) carry ontology, typed-edge, and domain-coverage material relevant to Sections 4 and 5.",
+      "domainspec-lean-formalization carries formal properties and theoretical-bound material relevant to Sections 4.3, 6.3, and 6.4."
+    ],
+    "roles": [
+      {
+        "role_id": "paper-baseline-differ",
+        "purpose": "Adopt the recent paper as base, diff it against the older research copy, and record structural deltas including content the older copy has that the recent one dropped (e.g. 3.1.1 Hard Layer-System Definitions).",
+        "owns": "paper baseline and delta map",
+        "applies_to_steps": [
+          "recover-paper-baseline",
+          "xray-paper-section-map"
+        ]
+      },
+      {
+        "role_id": "e11-evidence-lane",
+        "purpose": "Map E11 (DS-M13, T01-T24 technique/specialization axis) from the MARS runbook, adjudication/claim-delta outputs, and the vault reconciliation session into specific paper section slots.",
+        "owns": "E11 integration evidence map",
+        "applies_to_steps": [
+          "fanout-evidence-lanes",
+          "map-e11-integration"
+        ]
+      },
+      {
+        "role_id": "research-evidence-lane",
+        "purpose": "Extract quantitative and claim-status evidence from research/projects/domainspec, mars, and meta-meta evidence-status, claims, and traceability registries that could refresh the case study and empirical sections.",
+        "owns": "quantitative research evidence map",
+        "applies_to_steps": [
+          "fanout-evidence-lanes",
+          "zigzag-critique-loop"
+        ]
+      },
+      {
+        "role_id": "vault-ontology-lane",
+        "purpose": "Sweep the implementation vault discoveries and the domain inventories for ontology, typed-relationship, derivation, and domain-coverage material relevant to Sections 4 and 5.",
+        "owns": "ontology and domain-coverage map",
+        "applies_to_steps": [
+          "fanout-evidence-lanes",
+          "zigzag-critique-loop"
+        ]
+      },
+      {
+        "role_id": "formal-theory-lane",
+        "purpose": "Map formal-property, channel-capacity, and theoretical-bound material from the Lean formalization to Sections 4.3, 6.3, and 6.4 without overclaiming proof status.",
+        "owns": "formal theory map",
+        "applies_to_steps": [
+          "fanout-evidence-lanes",
+          "map-relation-and-formal-surfaces"
+        ]
+      },
+      {
+        "role_id": "skeptical-claims-auditor",
+        "purpose": "Classify every candidate addition by evidence status (measured, proved, documented, conjectural, analogy, refuted, unsupported) and block publication-bound overclaims.",
+        "owns": "claim discipline ledger",
+        "applies_to_steps": [
+          "zigzag-critique-loop",
+          "interpretation-tournament",
+          "validate-evidence-and-claims"
+        ]
+      },
+      {
+        "role_id": "candidate-synthesis-editor",
+        "purpose": "Turn lane receipts into a section-keyed candidate-additions brief plus an E11 integration plan, and stage the bounded paper update.",
+        "owns": "candidate brief and paper update plan",
+        "applies_to_steps": [
+          "synthesize-candidate-brief",
+          "update-paper-handoff"
+        ]
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Run seven bounded research roles to sweep the whole repository for paper-grade evidence, map E11 into the paper, and produce a section-keyed candidate-additions brief before any write to research/projects/domainspec/papers/domainspec-paper.md?",
+    "receipt_requirements": [
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "residue",
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute"
+    ],
+    "receipt_requirement_notes": [
+      "Each role returns concrete path evidence for every candidate addition.",
+      "Each role classifies each candidate by evidence status: measured, proved, documented, conjectural, analogy, refuted, or unsupported.",
+      "Each role names the target paper section slot for each candidate, or records it as out-of-scope residue.",
+      "Each role records tensions and rejected candidates in the residue ledger.",
+      "No role promotes findings into Inventory, Ontology, glossary, sigil, or spell surfaces, and no role writes the paper."
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "recover-paper-baseline",
+      "name": "Adopt recent paper as base and diff against the research copy",
+      "capability_ref": "context-builder",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "memory_loop",
+        "route_menu",
+        "owner_boundary_check",
+        "concrete_path_evidence",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "operator-request"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/docs/research/domainspec-paper.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/projects/domainspec/papers/domainspec-paper.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "paper-baseline-frame"
+        },
+        {
+          "kind": "ledger",
+          "ref": "paper-version-delta-ledger"
+        },
+        {
+          "kind": "route_menu",
+          "ref": "paper-update-route-menu"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Treat implementation/domainspec/docs/research/domainspec-paper.md as the more recent base for the research copy.",
+        "Record any content the older research copy has that the recent base dropped (e.g. 3.1.1 Hard Layer-System Definitions) as a delta decision rather than silently discarding it.",
+        "Keep the route read-only until the operator approves the paper write."
+      ]
+    },
+    {
+      "step_id": "xray-paper-section-map",
+      "name": "X-ray the paper into evidence-receiving section slots",
+      "capability_ref": "x-ray",
+      "pattern": "xray",
+      "parallel": false,
+      "techniques": [
+        "x_ray",
+        "minimum_component_catalog",
+        "entity_classing",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "paper-baseline-frame"
+        },
+        {
+          "kind": "ledger",
+          "ref": "paper-version-delta-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handle",
+          "ref": "paper-section-map"
+        },
+        {
+          "kind": "ledger",
+          "ref": "section-slot-ledger"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Each section/subsection becomes a slot with its current claim and current evidence so candidate additions can be routed precisely.",
+        "Do not merge distinct evidence classes (measured case-study numbers, formal properties, ontology definitions, governance theory) into one slot."
+      ],
+      "capability_status": "candidate"
+    },
+    {
+      "step_id": "fanout-evidence-lanes",
+      "name": "Fan out broad evidence lanes across the whole repository",
+      "capability_ref": "robot-talks",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "delegation_boundary",
+        "role_projection_boundary",
+        "concrete_path_evidence",
+        "residue_ledger"
+      ],
+      "roles": [
+        "e11-evidence-lane",
+        "research-evidence-lane",
+        "vault-ontology-lane",
+        "formal-theory-lane",
+        "skeptical-claims-auditor"
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "paper-section-map"
+        },
+        {
+          "kind": "frame",
+          "ref": "paper-baseline-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "candidate-additions-receipts"
+        },
+        {
+          "kind": "ledger",
+          "ref": "claim-status-ledger"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-paper-evidence-fanout-completed"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "E11 lane returns the DS-M13 technique/specialization mapping (T01-T24, Outbox/Read Model/Port+Adapter/Saga), its experiment gate/claim status, and candidate paper slots.",
+        "Research-evidence lane separates measured case-study numbers, claim-registry statuses, and traceability links across domainspec, mars, and meta-meta.",
+        "Vault-ontology lane returns typed-relationship, derivation, and domain-coverage candidates with source paths and dedup against existing paper content.",
+        "Formal-theory lane returns formal-property and theoretical-bound candidates and marks each as proved, build-evidenced, or conjectural.",
+        "Every candidate carries a source path, a target section slot, and an evidence-status classification."
+      ],
+      "evidence_artifact": "ops/development/domainspec-paper-candidate-receipts.md",
+      "stop_conditions": [
+        "Block any candidate that cannot provide a concrete source path.",
+        "Flag any lane that treats analogy or plan-language as measured or proved evidence.",
+        "Sweep beyond the obvious paths (also ops, validation, projects, research/shared) and log surfaces that were intentionally excluded."
+      ],
+      "capability_status": "candidate"
+    },
+    {
+      "step_id": "map-e11-integration",
+      "name": "Deep-map E11 into specific paper sections",
+      "capability_ref": "research-evidence-harness",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "state_namespace_boundary",
+        "memory_promotion_split",
+        "data_quality_deduplication",
+        "evidence_summary_handoff",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "e11-evidence-lane",
+        "skeptical-claims-auditor"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "candidate-additions-receipts"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/projects/mars/runbooks/E11-TECHNIQUE-SPECIALIZATION-PLAN.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "implementation/domainspec/vault/sessions/2026-05-19-1533-domainspec-discovery-e11-reconciliation.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "e11-integration-ledger"
+        },
+        {
+          "kind": "handle",
+          "ref": "e11-insertion-handle"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "E11 is mapped to concrete slots (e.g. the Technique/Specialization axis in Section 4.2 typed relationships and empirical evidence in Sections 6.5 and 8).",
+        "E11 claim status (gate snapshot, D4 hold, DS-M13 validation) is reported at its actual evidence grade, not upgraded.",
+        "The DDD-pattern-to-technique mapping (T04, T07, T24, T01-T03) is recorded with source paths and any contradictions (e.g. the independence-grade downgrade)."
+      ],
+      "evidence_artifact": "ops/development/domainspec-paper-e11-integration-ledger.md",
+      "stop_conditions": [
+        "Block any E11 claim that exceeds the experiment's recorded gate/adjudication status.",
+        "Flag any E11 addition that would overlap an existing paper claim without reconciling it."
+      ],
+      "capability_status": "candidate"
+    },
+    {
+      "step_id": "map-relation-and-formal-surfaces",
+      "name": "Map formal and cross-surface candidates with confidence",
+      "capability_ref": "inventory",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "state_namespace_boundary",
+        "data_quality_deduplication",
+        "evidence_summary_handoff",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "formal-theory-lane",
+        "skeptical-claims-auditor"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "candidate-additions-receipts"
+        },
+        {
+          "kind": "external_context",
+          "ref": "domainspec-lean-formalization"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "formal-surface-candidate-ledger"
+        },
+        {
+          "kind": "handle",
+          "ref": "formal-candidate-handle"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Each formal candidate has a source path, a target section slot, an evidence confidence, and an open question.",
+        "Lean-proved properties are separated from stated-but-unproven targets and from operational analogies.",
+        "No formal candidate is promoted into the paper as a theorem without proof or cited evidence."
+      ],
+      "evidence_artifact": "ops/development/domainspec-paper-formal-candidate-ledger.md",
+      "stop_conditions": [
+        "Block mutation of the Lean formalization repository.",
+        "Flag formal candidates supported only by name similarity to paper terms."
+      ],
+      "capability_status": "candidate"
+    },
+    {
+      "step_id": "zigzag-critique-loop",
+      "name": "Zig-zag candidate additions through critique and demotion",
+      "capability_ref": "robot-talks",
+      "pattern": "dialectic",
+      "parallel": false,
+      "techniques": [
+        "zig_zag",
+        "dialectic",
+        "validation_loop",
+        "residue_ledger",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "candidate-advocate",
+        "skeptical-claims-auditor",
+        "paper-scope-auditor"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "candidate-additions-receipts"
+        },
+        {
+          "kind": "ledger",
+          "ref": "e11-integration-ledger"
+        },
+        {
+          "kind": "ledger",
+          "ref": "formal-surface-candidate-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "demoted-candidates-and-residue-ledger"
+        },
+        {
+          "kind": "frame",
+          "ref": "critique-cleaned-candidate-frame"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-paper-zigzag-critique-completed"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Every candidate is either backed by cited measured/proved/documented evidence or demoted.",
+        "Every candidate is assigned an in-scope or out-of-scope verdict against the paper's altitude and existing sections.",
+        "The loop stops after two critique passes or when no candidate status changes."
+      ],
+      "evidence_artifact": "ops/development/domainspec-paper-claim-discipline-ledger.md",
+      "stop_conditions": [
+        "Stop after two advocate/critic turns per candidate cluster.",
+        "Block publication-bound additions without measured, proved, documented, or cited evidence."
+      ],
+      "capability_status": "candidate"
+    },
+    {
+      "step_id": "interpretation-tournament",
+      "name": "Dialectic over how much to add and select a bounded update shape",
+      "capability_ref": "distill",
+      "pattern": "tournament",
+      "parallel": false,
+      "techniques": [
+        "dialectic",
+        "tournament",
+        "scu_swu_reduction",
+        "pareto_gate",
+        "recomposition_proof"
+      ],
+      "roles": [
+        "minimal-refresh-reading",
+        "e11-integrated-reading",
+        "full-evidence-consolidation-reading"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "critique-cleaned-candidate-frame"
+        },
+        {
+          "kind": "handle",
+          "ref": "e11-insertion-handle"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "bounded-update-shape-decision"
+        },
+        {
+          "kind": "ledger",
+          "ref": "rejected-update-shapes-ledger"
+        },
+        {
+          "kind": "frame",
+          "ref": "synthesis-frame"
+        }
+      ],
+      "join_policy": "ranked",
+      "convergence_criteria": [
+        "Winning update shape adopts the recent base, integrates E11, and absorbs surviving candidates without inflating the paper past its scope.",
+        "Rejected shapes are preserved with what they would add and what they would distort.",
+        "The selected shape is small enough to apply as a bounded edit and rich enough to cover E11 plus the high-confidence dispersed additions."
+      ],
+      "evidence_artifact": "ops/development/domainspec-paper-update-shape-tournament.md",
+      "stop_conditions": [
+        "Flag if no shape integrates E11 without contradicting an existing paper claim.",
+        "Choose a bounded update instead of an unbounded rewrite."
+      ]
+    },
+    {
+      "step_id": "synthesize-candidate-brief",
+      "name": "Synthesize the section-keyed candidate-additions brief",
+      "capability_ref": "context-builder",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "frame_handoff",
+        "handle_handoff",
+        "evidence_summary_handoff",
+        "residue_ledger",
+        "artifact_contract_bridge"
+      ],
+      "roles": [
+        "candidate-synthesis-editor"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "synthesis-frame"
+        },
+        {
+          "kind": "ledger",
+          "ref": "claim-status-ledger"
+        },
+        {
+          "kind": "ledger",
+          "ref": "e11-integration-ledger"
+        },
+        {
+          "kind": "ledger",
+          "ref": "formal-surface-candidate-ledger"
+        },
+        {
+          "kind": "ledger",
+          "ref": "demoted-candidates-and-residue-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-paper-candidate-additions-brief.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "paper-update-plan-ledger"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-paper-candidate-brief-drafted"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "The brief keys every surviving candidate to a paper section slot with source path, evidence status, and an E11 integration plan.",
+        "Do not write the paper or any canonical ontology/glossary/inventory promotion from the brief."
+      ]
+    },
+    {
+      "step_id": "validate-evidence-and-claims",
+      "name": "Validate evidence coverage and promotion guardrails",
+      "capability_ref": "dispatch-spec",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "concrete_path_evidence",
+        "format_conformity_check",
+        "orphan_record_check",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-paper-candidate-additions-brief.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "paper-update-plan-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "candidate-brief-validation-ledger"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-paper-update-validation-completed"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/domainspec-paper-validation-ledger.md",
+      "stop_conditions": [
+        "Block if the brief contains uncited strong claims or E11 claims above their recorded gate status.",
+        "Flag if any candidate lacks a source path, evidence status, or target section slot.",
+        "Flag if any formal property is stated as proved without checking the relevant Lean file or build evidence."
+      ]
+    },
+    {
+      "step_id": "update-paper-handoff",
+      "name": "Handoff bounded paper update under operator approval",
+      "capability_ref": "task-session",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "handle_handoff",
+        "approval_semantics_map",
+        "execution_receipt_handoff",
+        "memory_promotion_split",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "candidate-brief-validation-ledger"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ops/development/domainspec-paper-candidate-additions-brief.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "approved-paper-update-handoff"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/projects/domainspec/papers/domainspec-paper.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "domainspec-paper-update-handoff-ready"
+        }
+      ],
+      "join_policy": "human_gate",
+      "stop_conditions": [
+        "The write to research/projects/domainspec/papers/domainspec-paper.md requires explicit operator approval of the candidate brief.",
+        "Apply only validated, section-keyed, evidence-classed additions; leave demoted candidates in the residue ledger.",
+        "Memory visibility updates and canonical artifact promotion remain separate decisions."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "read-only-until-approval-gate",
+      "kind": "policy",
+      "owner": "operator",
+      "condition": "All steps before update-paper-handoff produce read-only research and brief artifacts; the paper write happens only after the operator approves the candidate brief.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "claim-evidence-subset-gate",
+      "kind": "quality",
+      "owner": "skeptical-claims-auditor",
+      "condition": "Every candidate addition must be a subset of measured, proved, documented, or cited evidence; otherwise it is demoted or recorded as residue, and E11 claims must not exceed their recorded gate/adjudication status.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "paper-scope-gate",
+      "kind": "quality",
+      "owner": "paper-scope-auditor",
+      "condition": "Every candidate addition must carry a target section slot, fit the paper's altitude, and reconcile rather than duplicate existing content.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "subagent-authorization-gate",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Recommended fan-out/subagent execution requires explicit user approval before delegated runtime work starts.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "promotion-guardrail-gate",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Research receipts summarize findings only and do not promote inventory, ontology, glossary, sigil, or spell artifacts.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "domainspec-paper-update-route-created",
+      "domainspec-paper-evidence-fanout-completed",
+      "domainspec-paper-zigzag-critique-completed",
+      "domainspec-paper-candidate-brief-drafted",
+      "domainspec-paper-update-validation-completed",
+      "domainspec-paper-update-handoff-ready"
+    ],
+    "signal_grouping": "domainspec-paper-update-research-20260610"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "paper-source-read-only-boundary",
+        "kind": "artifact_import",
+        "from_owner": "implementation/domainspec docs and research registries",
+        "to_owner": "candidate-additions-brief",
+        "applies_to_steps": [
+          "recover-paper-baseline",
+          "xray-paper-section-map",
+          "fanout-evidence-lanes",
+          "zigzag-critique-loop",
+          "validate-evidence-and-claims"
+        ],
+        "contract": "Import path-cited evidence and summaries only; do not edit source papers, vault, or research registries during the research phase.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "lean-formalization-read-only-boundary",
+        "kind": "external_context",
+        "from_owner": "domainspec-lean-formalization",
+        "to_owner": "formal-surface-candidate-ledger",
+        "applies_to_steps": [
+          "map-relation-and-formal-surfaces"
+        ],
+        "contract": "Formal candidates are evidence-backed observations or hypotheses with proof/build status, not authority transfer or theorem promotion.",
+        "on_violation": "flag"
+      },
+      {
+        "boundary_id": "delegated-research-boundary",
+        "kind": "evidence_return",
+        "from_owner": "subagent roles",
+        "to_owner": "parent synthesis",
+        "applies_to_steps": [
+          "fanout-evidence-lanes",
+          "map-e11-integration",
+          "map-relation-and-formal-surfaces",
+          "zigzag-critique-loop"
+        ],
+        "contract": "Delegated lanes return receipts with artifacts, validation result, evidence status, and residue; parent synthesis owns interpretation and the paper update plan.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "paper-write-approval-boundary",
+        "kind": "human_approval",
+        "from_owner": "candidate-additions-brief",
+        "to_owner": "research/projects/domainspec/papers/domainspec-paper.md",
+        "applies_to_steps": [
+          "update-paper-handoff"
+        ],
+        "contract": "The paper write requires explicit operator approval of the validated candidate brief; only validated, section-keyed, evidence-classed additions are applied.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "dispatch-spec strategy artifact",
+      "execution": "operator-approved task-session or robot-talks run",
+      "validation": "dispatch-spec validator plus skeptical-claims-auditor checks",
+      "evidence": "path-cited repository artifacts and lane receipts",
+      "memory": "memory visibility only after separate user request",
+      "promotion": "no promotion authority"
+    },
+    "receipts": [
+      {
+        "receipt_id": "candidate-additions-receipts",
+        "producer": "subagent roles",
+        "required_fields": [
+          "session_id",
+          "artifacts",
+          "validation_result",
+          "audit_reference",
+          "residue"
+        ],
+        "stores": [
+          "ops/development/domainspec-paper-candidate-receipts.md"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "candidate-brief-validation-ledger",
+        "producer": "validate-evidence-and-claims",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "audit_reference",
+          "residue"
+        ],
+        "stores": [
+          "ops/development/domainspec-paper-validation-ledger.md"
+        ],
+        "on_missing": "flag"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "implementation/domainspec/docs/research/source-paper",
+        "owner": "implementation/domainspec",
+        "write_policy": "read-only base for this strategy"
+      },
+      {
+        "namespace": "research/projects/domainspec/papers",
+        "owner": "research domainspec",
+        "write_policy": "paper write only after approval"
+      },
+      {
+        "namespace": "ops/development/research-strategy",
+        "owner": "domainspec-core ops",
+        "write_policy": "strategy, brief, and ledger artifacts only"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "research receipts and candidate brief",
+        "target": "inventory, ontology, glossary, sigil, and spell artifacts",
+        "rule": "Evidence may be summarized as handoff input only; canonical promotion requires owner review and separate approval.",
+        "on_violation": "block"
+      },
+      {
+        "source": "memory visibility note",
+        "target": "Arcanum or DomainSpec canonical knowledge",
+        "rule": "Memory updates, if requested later, do not imply canonical knowledge promotion.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "The route does not claim promotion authority for Inventory, Ontology, glossary, sigil, or spell artifacts.",
+    "The route does not add any paper claim above its measured, proved, documented, or cited evidence status.",
+    "The route does not upgrade E11 claims above their recorded experiment gate/adjudication status.",
+    "The route keeps the paper write behind explicit operator approval of the validated candidate brief."
+  ]
+}
