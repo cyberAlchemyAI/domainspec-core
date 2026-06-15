@@ -12,6 +12,15 @@ This document is the normative definition contract for the DomainSpec evidence p
 
 When wording differs across artifacts, this document is authoritative for definition semantics.
 
+> **Open-core split (2026-06-14).** The DomainSpec **wedge** vocabulary — `DS-D1`, `DS-D2`,
+> `DS-D3`, `DS-D7`, `DS-D8`, `DS-D10`, `DS-P1`, `DS-P2`, `DS-P3` — is now **canonical in public
+> `arcanum/definitions/DEFINITIONS.md`**. For those IDs, arcanum is authoritative and this file
+> defers to it (the entries below are retained as a local mirror pending de-duplication).
+> This document remains canonical only for the **private moat cluster** (`DS-C3`, `DS-D9`,
+> `DS-COR-1`, `DS-F1`, `DS-F5`, `DS-F6`, `DS-M13`) and the **ambiguous cluster** held private by
+> default (`DS-D4`, `DS-D5`, `DS-D6`, pending decoupling review). Moat definitions must not be
+> published.
+
 ## Definition Families
 
 - `DS-C*`: contribution-level definitions
@@ -53,82 +62,15 @@ Intuition: the governance system is monitored and tuned by explicit feedback, no
 
 ### DS-D1: Meta-Type System
 
-Let:
-
-$$
-\mathcal{M} = \mathcal{M}_B \cup \mathcal{M}_U
-$$
-
-Paper baseline profile (24 types):
-
-$$
-\mathcal{M}_B^{24} = \{Entity, ValueObject, Enum, Operation, Query, Calculation, Rule, Policy, Workflow, Interface, Event, Mapping, StateMachine\}
-$$
-
-$$
-\mathcal{M}_U = \{Page, Layout, Component, ViewModel, Hook, Form, Action, Guard, Binding, Adapter, StateIndicator\}
-$$
-
-Composition extension profile (25 types):
-
-$$
-\mathcal{M}_B^{25} = \mathcal{M}_B^{24} \cup \{Saga\}
-$$
-
-Use paper/profile-specific counts explicitly when reporting experiment evidence.
-
-Intuition: this defines the allowed concept-type vocabulary; profile-specific counts avoid mixing baseline and extended semantics in evidence reports.
+> Canonical in [arcanum/definitions/DEFINITIONS.md](../../../../arcanum/definitions/DEFINITIONS.md#ds-d1-meta-type-system). Non-normative pointer (wedge de-duplicated 2026-06-14); arcanum is authoritative.
 
 ### DS-D2: Typed Relationship System
 
-Let:
-
-$$
-\mathcal{R} = \mathcal{R}_B \cup \mathcal{R}_U \cup \mathcal{R}_X
-$$
-
-Paper baseline profile (26 edges):
-
-$$
-\mathcal{R}_B^{12} = \{performs, produces, enforces, calculates, transitions, exposes, orchestrates, applies, maps, contains, queries, emits\}
-$$
-
-$$
-\mathcal{R}_U^{8} = \{renders, wraps, composes, consumes, submits, shapes, protects, displays\}
-$$
-
-$$
-\mathcal{R}_X^{6} = \{fetches, mutates, reflects, derives, contracts, mirrors\}
-$$
-
-Composition extension profile (29 edges):
-
-$$
-\mathcal{R}_{CF}^{3} = \{produces\text{-}for, triggers\text{-}cross, enforces\text{-}cross\}
-$$
-
-$$
-\mathcal{R}^{29} = \mathcal{R}_B^{12} \cup \mathcal{R}_U^{8} \cup \mathcal{R}_X^{6} \cup \mathcal{R}_{CF}^{3}
-$$
-
-Intuition: this defines the allowed relationship verbs, partitioned by layer role, with optional cross-feature relations for composition-heavy analyses.
+> Canonical in [arcanum/definitions/DEFINITIONS.md](../../../../arcanum/definitions/DEFINITIONS.md#ds-d2-typed-relationship-system). Non-normative pointer (wedge de-duplicated 2026-06-14); arcanum is authoritative.
 
 ### DS-D3: Concept Graph
 
-A feature-level concept graph is:
-
-$$
-G = (V, E, \tau, \lambda)
-$$
-
-where:
-
-- $V$ is concept vertices
-- $E \subseteq V \times V$ is directed edges
-- $\tau: V \rightarrow \mathcal{M}$ is meta-type assignment
-- $\lambda: E \rightarrow \mathcal{R}$ is edge-type assignment
-
-Intuition: every feature is modeled as a typed graph where both nodes and edges carry explicit semantics.
+> Canonical in [arcanum/definitions/DEFINITIONS.md](../../../../arcanum/definitions/DEFINITIONS.md#ds-d3-concept-graph). Non-normative pointer (wedge de-duplicated 2026-06-14); arcanum is authoritative.
 
 ### DS-D4: Derivation Function
 
@@ -192,35 +134,11 @@ Intuition: stage completion emits signals, thresholds evaluate them, and resulti
 
 ### DS-D7: Edge-Family Partition
 
-Relationship families are disjoint:
-
-$$
-\mathcal{R} = \mathcal{R}_B \uplus \mathcal{R}_U \uplus \mathcal{R}_X
-$$
-
-and in composition-enabled analyses may extend to:
-
-$$
-\mathcal{R}^{+} = \mathcal{R} \uplus \mathcal{R}_{CF}
-$$
-
-Intuition: each edge family has a unique semantic home; optional cross-feature edges are explicit extensions, not implicit overloads.
+> Canonical in [arcanum/definitions/DEFINITIONS.md](../../../../arcanum/definitions/DEFINITIONS.md#ds-d7-edge-family-partition). Non-normative pointer (wedge de-duplicated 2026-06-14); arcanum is authoritative.
 
 ### DS-D8: Edge-Signature Operator
 
-Let:
-
-$$
-\sigma: \mathcal{R} \rightarrow \mathcal{P}(\mathcal{M}) \times \mathcal{P}(\mathcal{M})
-$$
-
-A typed edge instance $e=(u,r,v)$ is valid iff:
-
-$$
-\tau(u) \in \pi_1(\sigma(r)) \land \tau(v) \in \pi_2(\sigma(r))
-$$
-
-Intuition: relation typing behaves like a graph type-checker: source and target types must satisfy the edge signature contract.
+> Canonical in [arcanum/definitions/DEFINITIONS.md](../../../../arcanum/definitions/DEFINITIONS.md#ds-d8-edge-signature-operator). Non-normative pointer (wedge de-duplicated 2026-06-14); arcanum is authoritative.
 
 ### DS-D9: Governance Attenuation Function
 
@@ -240,41 +158,21 @@ Intuition: attenuation measures lost fidelity; beyond the critical density $k^*$
 
 ### DS-D10: Coverage-Status Taxonomy
 
-Concept mapping status (E6 style):
-
-- `covered`
-- `strained`
-- `uncovered`
-
-Edge modeling status (E9 style):
-
-- `works`
-- `strained`
-- `broken`
-
-Cross-experiment synthesis must preserve these vocabularies without relabeling.
-
-Intuition: fixed status vocabularies keep evidence comparable across experiments and reruns.
+> Canonical in [arcanum/definitions/DEFINITIONS.md](../../../../arcanum/definitions/DEFINITIONS.md#ds-d10-coverage-status-taxonomy). Non-normative pointer (wedge de-duplicated 2026-06-14); arcanum is authoritative.
 
 ## Structural Properties and Corollary
 
 ### DS-P1: Type Safety Property
 
-All edge instances satisfy signature constraints.
-
-Intuition: no relation may connect concept types that violate the declared signature.
+> Canonical in [arcanum/definitions/DEFINITIONS.md](../../../../arcanum/definitions/DEFINITIONS.md#ds-p1-type-safety-property). Non-normative pointer (wedge de-duplicated 2026-06-14); arcanum is authoritative.
 
 ### DS-P2: Backend/UI Partition Property
 
-$\mathcal{M}_B \cap \mathcal{M}_U = \emptyset$ for the selected profile.
-
-Intuition: backend and UI type sets are intentionally non-overlapping to reduce ambiguity.
+> Canonical in [arcanum/definitions/DEFINITIONS.md](../../../../arcanum/definitions/DEFINITIONS.md#ds-p2-backendui-partition-property). Non-normative pointer (wedge de-duplicated 2026-06-14); arcanum is authoritative.
 
 ### DS-P3: Cross-Layer Direction Property
 
-Edges in $\mathcal{R}_X$ are directed UI -> backend.
-
-Intuition: cross-layer interactions are modeled with a single directional semantics for consistency.
+> Canonical in [arcanum/definitions/DEFINITIONS.md](../../../../arcanum/definitions/DEFINITIONS.md#ds-p3-cross-layer-direction-property). Non-normative pointer (wedge de-duplicated 2026-06-14); arcanum is authoritative.
 
 ### DS-COR-1: Critical Layer Corollary
 
@@ -451,6 +349,17 @@ Validity_{TS} = 1 \land
 G1 = pass \land G2 = pass \land G3 = pass \land G4 = pass \land
 AdjudicationClosure = 1 \land ConfirmingRerun = 1
 $$
+
+**Crosswalk to E11 protocol success criteria.** The four validity thresholds are operationalized in the E11 protocol under different names; the mapping is:
+
+| DS-M13 threshold | E11 protocol criterion |
+| --- | --- |
+| `PrecisionF1 ≥ 0.75` | SC-TS-5 |
+| `ApplicabilityRate ≥ 0.80` | SC-TS-1 |
+| `AmbiguityRate ≤ 0.15` | dual-rater disagreement ≤ 15% (catalog promotion rule) |
+| `TradeoffCompleteness ≥ 0.85` | SC-TS-2 |
+
+Cite this crosswalk when traceably mapping E11 results to DS-M13 validity.
 
 Intuition: technique/specialization outcomes become candidates for canonical meta-model promotion only after decision-quality thresholds and full governance closure both pass.
 
