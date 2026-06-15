@@ -1,0 +1,618 @@
+{
+  "dispatch_id": "operational-ontology-research-20260612",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Create a full research in projects/ontologize so we can validate the idea of using arcanum/disciplines/DISCIPLINES.md as the highest category of knowledge, the same as axioms and constitutions for the operational branch. We need to understand which type of mutations and things we should carry in the operational branch, what literature we have, and what we can derive from all the telemetry scattered through this repo. We can already start an operation-ontology branch for domainspec-core.",
+    "objective": "Plan a governed research route that validates (or refutes) the hypothesis that arcanum/disciplines/DISCIPLINES.md should be the highest knowledge category for an operational ontology branch of domainspec-core, on the same authority tier as axioms (L7) and constitutions (L6); names the node, edge, and mutation set the operational branch should carry; grounds the answer in existing literature (BUSINESS-ONTOLOGY axioms/constitutions, the L0-L7 authority hierarchy, the operational-ontology slice, the disciplines catalog) and in telemetry scattered across the repo; and seeds a candidate operational-ontology branch for domainspec-core without promoting any canonical knowledge.",
+    "target_artifact": "projects/ontologize/operational-ontology/README.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "context-builder",
+      "inventory",
+      "research-tower",
+      "robot-talks",
+      "decision-gate",
+      "definitions-governance",
+      "ontology-vault",
+      "ontology-harness",
+      "invoke",
+      "discipline",
+      "axiom",
+      "constitution",
+      "operational ontology",
+      "branch-aware ontology",
+      "authority levels",
+      "telemetry",
+      "promotion guardrail",
+      "residue",
+      "handoff"
+    ],
+    "operator_sentence": "Read the existing authority-hierarchy and operational-ontology literature first, inventory the scattered telemetry as candidate operational evidence, then adjudicate whether disciplines belong at axiom/constitution tier and seed a candidate operational-ontology branch for domainspec-core carrying the right mutations -- all as candidates pending Constitution Governance and ontology-harness review."
+  },
+  "mode": "research",
+  "techniques": [
+    "sequence",
+    "route_menu",
+    "frame_handoff",
+    "residue_ledger",
+    "concrete_path_evidence",
+    "evidence_receipt_link",
+    "delegation_boundary",
+    "dialectic",
+    "execution_receipt_handoff",
+    "state_namespace_boundary",
+    "memory_promotion_split",
+    "owner_boundary_check",
+    "validation_loop",
+    "approval_semantics_map"
+  ],
+  "route_menu": {
+    "context_hint": "The selected route mirrors a source-first research tower: recover the authority/operational literature first, inventory scattered telemetry as candidate evidence, scaffold a tower, fan out role-bound analysis, adjudicate the disciplines-as-axiom hypothesis through an explicit decision gate, then seed a candidate operational-ontology branch. The 'source' is the repo's own governance literature and telemetry; the 'product' is a validated verdict plus a candidate operational branch for domainspec-core.",
+    "items": [
+      {
+        "id": "literature-and-telemetry-first",
+        "label": "Literature-and-telemetry-first adjudication",
+        "description": "Recover the L0-L7 authority literature and operational-ontology evidence, inventory scattered telemetry, fan out role-bound readers, adjudicate disciplines-as-axiom through a decision gate, then seed a candidate operational branch.",
+        "capability_ref": "dispatch-spec",
+        "pattern": "route"
+      },
+      {
+        "id": "seed-branch-first",
+        "label": "Seed the branch first, justify later",
+        "description": "Stand up an operational-ontology branch immediately and backfill the authority justification; faster but risks treating disciplines as axiom-level before the tension is adjudicated.",
+        "capability_ref": "ontology-vault",
+        "pattern": "synthesis"
+      },
+      {
+        "id": "decision-gate-only",
+        "label": "Decision-gate-only",
+        "description": "Run just the disciplines-as-axiom decision gate on existing literature without telemetry inventory or branch seeding; cheapest but leaves the carry-set and branch unspecified.",
+        "capability_ref": "decision-gate",
+        "pattern": "decision"
+      }
+    ],
+    "selected_item_id": "literature-and-telemetry-first"
+  },
+  "technique_overlays": [
+    {
+      "overlay_id": "authority-tier-honesty",
+      "trigger": "The hypothesis asks to place DISCIPLINES.md at axiom/constitution tier, but the existing literature defines axioms as L7 and constitutions as L6 while disciplines are explicitly forbidden from claiming promotion authority -- a prima facie tension that must be adjudicated, not assumed.",
+      "techniques": [
+        "concrete_path_evidence",
+        "dialectic",
+        "owner_boundary_check",
+        "residue_ledger"
+      ],
+      "applies_to_steps": [
+        "recover-operational-literature",
+        "fanout-operational-analysis",
+        "adjudicate-disciplines-as-axiom"
+      ],
+      "validation_expectation": "Every authority-tier claim must cite a concrete literature path (BUSINESS-ONTOLOGY axioms/constitutions, ONTOLOGY-ARCHITECTURE L0-L7, disciplines boundary) and the verdict must explicitly resolve the disciplines-vs-axiom tension instead of asserting equivalence."
+    },
+    {
+      "overlay_id": "candidate-not-promotion",
+      "trigger": "The route inventories telemetry and seeds an operational branch that could be mistaken for promoted ontology, a canonical constitution, or an authoritative axiom set.",
+      "techniques": [
+        "delegation_boundary",
+        "execution_receipt_handoff",
+        "state_namespace_boundary",
+        "memory_promotion_split"
+      ],
+      "applies_to_steps": [
+        "inventory-operational-telemetry",
+        "define-operational-branch",
+        "seed-operational-branch",
+        "prepare-next-handoff"
+      ],
+      "validation_expectation": "The operational branch, its carry-set, and any disciplines-as-axiom finding are candidates; telemetry is non-authoritative evidence and may not be promoted to ontology, constitution, or axiom authority without Constitution Governance and ontology-harness review."
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "recover-operational-literature",
+      "name": "Recover the authority-hierarchy and operational-ontology literature",
+      "capability_ref": "context-builder",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": ["concrete_path_evidence", "frame_handoff", "sequence"],
+      "inputs": [
+        { "kind": "intent", "ref": "intent.raw" },
+        { "kind": "artifact", "ref": "arcanum/BUSINESS-ONTOLOGY.md" },
+        { "kind": "artifact", "ref": "arcanum/development/cyberalchemy-ontology-lifecycle/ONTOLOGY-ARCHITECTURE.md" },
+        { "kind": "artifact", "ref": "arcanum/development/cyberalchemy-ontology-lifecycle/PROMOTION-LIFECYCLE.md" },
+        { "kind": "artifact", "ref": "arcanum/disciplines/DISCIPLINES.md" },
+        { "kind": "artifact", "ref": "arcanum/arcana/ontology-vault/development/BRANCH-AWARE-ONTOLOGY-CANDIDATE.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/RECONCILIATION.md" }
+      ],
+      "outputs": [
+        { "kind": "frame", "ref": "operational-ontology-orientation-frame" },
+        { "kind": "route_menu", "ref": "operational-ontology-route-menu" },
+        { "kind": "trace_event", "ref": "operational-literature-recovered" }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if the L0-L7 authority hierarchy or the axiom/constitution definitions cannot be located in source.",
+        "Flag if the operational-ontology slice or branch-aware candidate is missing and record the gap as missing-literature residue."
+      ]
+    },
+    {
+      "step_id": "inventory-operational-telemetry",
+      "name": "Inventory scattered telemetry as candidate operational evidence",
+      "capability_ref": "inventory",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "kind": "installed-skill",
+        "note": "inventory is an installed Arcanum skill but is outside the validator's narrow canonical set; treated as a candidate capability here."
+      },
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["concrete_path_evidence", "evidence_receipt_link", "residue_ledger"],
+      "inputs": [
+        { "kind": "frame", "ref": "operational-ontology-orientation-frame" },
+        { "kind": "external_context", "ref": "telemetry streams: .arcanum/observability/signals/sigil-invocations.jsonl, arcanum/.arcanum/observability/ (390+ executions), reflection-state.json, by-sigil indexes, hooks/hook-operations.jsonl, necronomicon/capabilities.json, scattered *.dispatch.json receipts and session ledgers" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/levels/L0-telemetry-inventory.md" },
+        { "kind": "ledger", "ref": "operational-telemetry-evidence-ledger" },
+        { "kind": "trace_event", "ref": "operational-telemetry-inventoried" }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "Each telemetry stream is cataloged with its concrete path, record shape (fields), and what operational node/edge/mutation it could support.",
+        "Telemetry is tagged as non-authoritative candidate evidence, never as promoted knowledge.",
+        "Gaps (streams with no path or empty data) are recorded as missing-telemetry residue."
+      ],
+      "stop_conditions": [
+        "Block if telemetry is treated as canonical operational knowledge rather than candidate evidence.",
+        "Flag if a named stream cannot be located and record it as missing-telemetry residue."
+      ]
+    },
+    {
+      "step_id": "scaffold-operational-tower",
+      "name": "Scaffold the operational-ontology research tower",
+      "capability_ref": "research-tower",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "kind": "installed-skill",
+        "note": "research-tower is an installed Arcanum skill but is outside the validator's narrow canonical set; treated as a candidate capability here."
+      },
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["sequence", "residue_ledger", "validation_loop"],
+      "inputs": [
+        { "kind": "frame", "ref": "operational-ontology-orientation-frame" },
+        { "kind": "ledger", "ref": "operational-telemetry-evidence-ledger" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/TOWER.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/levels/L1-authority-map.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/levels/L2-carry-set-plan.md" },
+        { "kind": "trace_event", "ref": "operational-tower-built" }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "The tower names the corpus, an authority map (where disciplines, axioms, and constitutions sit on L0-L7), a carry-set plan (candidate node/edge/mutation types for the operational branch), closure gates, and open residue.",
+        "The tower separates source literature, telemetry-derived candidate evidence, and project hypotheses.",
+        "The tower keeps the run-context branch (B3) distinct from the operational ontology branch per RECONCILIATION."
+      ],
+      "stop_conditions": [
+        "Block if the route grants promotion authority to disciplines, telemetry, or the seeded branch.",
+        "Flag if the tower lacks closure gates."
+      ]
+    },
+    {
+      "step_id": "fanout-operational-analysis",
+      "name": "Fan out role-bound analysis of authority, disciplines, telemetry, and branch shape",
+      "capability_ref": "robot-talks",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "kind": "installed-skill",
+        "note": "robot-talks is an installed Arcanum multi-agent skill but is outside the validator's narrow canonical set; treated as a candidate capability here."
+      },
+      "pattern": "fanout",
+      "parallel": true,
+      "roles": [
+        "authority-hierarchy-reader",
+        "discipline-authority-reader",
+        "telemetry-derivation-reader",
+        "branch-schema-reader",
+        "axiom-coherence-adversary"
+      ],
+      "techniques": ["delegation_boundary", "execution_receipt_handoff", "concrete_path_evidence"],
+      "inputs": [
+        { "kind": "frame", "ref": "operational-ontology-orientation-frame" },
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/levels/L2-carry-set-plan.md" },
+        { "kind": "human_answer", "ref": "subagent-execution-approval" }
+      ],
+      "outputs": [
+        { "kind": "ledger", "ref": "operational-analysis-ledger" },
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/sessions/operational-analysis-receipts.md" },
+        { "kind": "trace_event", "ref": "operational-analysis-fanout-completed" }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Each role returns source-backed findings with concrete repo paths, open residue, and confidence.",
+        "The authority-hierarchy and discipline-authority roles each state whether disciplines can sit at L6/L7 given current boundaries, with evidence.",
+        "The telemetry-derivation role names which operational nodes/edges are derivable from which telemetry streams; the adversary tries to refute disciplines-as-axiom and surfaces the strongest counterargument."
+      ],
+      "evidence_artifact": "projects/ontologize/operational-ontology/sessions/operational-analysis-receipts.md",
+      "stop_conditions": [
+        "Block until the operator approves delegated analysis subagents.",
+        "Block synthesis if a role lacks source evidence.",
+        "Flag if a lane cannot find evidence and classify the gap as missing-source residue."
+      ]
+    },
+    {
+      "step_id": "adjudicate-disciplines-as-axiom",
+      "name": "Adjudicate whether disciplines belong at axiom/constitution tier",
+      "capability_ref": "decision-gate",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "kind": "installed-skill",
+        "note": "decision-gate is an installed Arcanum skill but is outside the validator's narrow canonical set; treated as a candidate capability here."
+      },
+      "pattern": "decision",
+      "parallel": false,
+      "techniques": ["dialectic", "owner_boundary_check", "residue_ledger"],
+      "roles": ["proponent-disciplines-as-axiom", "skeptic-authority-boundary"],
+      "inputs": [
+        { "kind": "ledger", "ref": "operational-analysis-ledger" },
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/levels/L1-authority-map.md" }
+      ],
+      "outputs": [
+        { "kind": "decision", "ref": "disciplines-as-axiom-verdict" },
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/decisions/disciplines-as-axiom.md" },
+        { "kind": "trace_event", "ref": "disciplines-as-axiom-adjudicated" }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "The verdict states one of: disciplines-as-axiom is coherent, is in irreconcilable tension, or needs reframing (e.g. disciplines feed an operational axiom/constitution layer they do not themselves hold).",
+        "Both the proponent and skeptic positions are recorded with their strongest evidence before the verdict.",
+        "The verdict names the owner (Constitution Governance / ontology-harness) and the next promotion route required, and assigns no promotion authority itself."
+      ],
+      "stop_conditions": [
+        "Block if the verdict asserts equivalence without resolving the L6/L7-vs-discipline-boundary tension.",
+        "Flag if the verdict lacks a named owner or next route."
+      ]
+    },
+    {
+      "step_id": "define-operational-branch",
+      "name": "Define the operational branch carry-set (nodes, edges, mutations)",
+      "capability_ref": "definitions-governance",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "kind": "installed-skill",
+        "note": "definitions-governance is an installed Arcanum skill but is outside the validator's narrow canonical set; treated as a candidate capability here."
+      },
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": ["residue_ledger", "owner_boundary_check", "memory_promotion_split"],
+      "inputs": [
+        { "kind": "decision", "ref": "disciplines-as-axiom-verdict" },
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/levels/L2-carry-set-plan.md" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/DEFINITIONS.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/CARRY-SET.md" },
+        { "kind": "trace_event", "ref": "operational-carry-set-defined" }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "The carry-set enumerates candidate operational node types (e.g. route, sigil, prompt-contract, discipline, decision, lesson, failure-mode, telemetry-threshold, maintenance-trigger), edge types (e.g. triggers, derived-from, governed-by, refutes), and mutation types the branch records.",
+        "Each carry-set item states its status (source-backed / telemetry-derived / hypothesis) and its boundary versus the run-context branch.",
+        "Definitions mark which items, if any, would rise to constitution or axiom tier and which stay discipline/policy tier."
+      ],
+      "stop_conditions": [
+        "Block canonical promotion of the definitions or carry-set.",
+        "Flag carry-set items that lack a source-backed or telemetry-derived basis."
+      ]
+    },
+    {
+      "step_id": "seed-operational-branch",
+      "name": "Seed a candidate operational-ontology branch for domainspec-core",
+      "capability_ref": "ontology-vault",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "kind": "installed-skill",
+        "note": "ontology-vault is an installed Arcanum skill but is outside the validator's narrow canonical set; treated as a candidate capability here."
+      },
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": ["memory_promotion_split", "state_namespace_boundary", "owner_boundary_check", "residue_ledger"],
+      "inputs": [
+        { "kind": "decision", "ref": "disciplines-as-axiom-verdict" },
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/CARRY-SET.md" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/branch/operational-branch-seed.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/branch/operational-node.schema.yml" },
+        { "kind": "trace_event", "ref": "operational-branch-seeded" }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "The seed is a branch-aware candidate skeleton (branch id, scope, edge catalog reference, a handful of candidate nodes derived from inventoried telemetry) marked candidate, not promoted.",
+        "The seed keeps the operational branch (agent-operation knowledge) distinct from the run-context branch (per-run denominators).",
+        "Every seeded node cites its telemetry or literature source and carries confidence and candidate status."
+      ],
+      "stop_conditions": [
+        "Block if the seeded branch claims canonical ontology, constitution, or axiom authority.",
+        "Flag if a seeded node lacks a cited telemetry or literature source."
+      ]
+    },
+    {
+      "step_id": "validate-and-record-residue",
+      "name": "Validate dispatch, gates, and open residue",
+      "capability_ref": "dispatch-spec",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": ["validation_loop", "residue_ledger"],
+      "inputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/operational-ontology-research.dispatch.json" },
+        { "kind": "decision", "ref": "disciplines-as-axiom-verdict" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/residue/open-residue.md" },
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/NEXT.md" },
+        { "kind": "trace_event", "ref": "operational-dispatch-validated" }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ontologize/operational-ontology/operational-ontology-research.dispatch.json",
+      "convergence_criteria": [
+        "The dispatch validates against the dispatch-spec validator.",
+        "Open residue has named next objects and owners.",
+        "Next actions are executable and ordered."
+      ],
+      "stop_conditions": [
+        "Block if validation fails.",
+        "Flag if open residue lacks owner or next route."
+      ]
+    },
+    {
+      "step_id": "prepare-next-handoff",
+      "name": "Prepare next-route handoff for governance review",
+      "capability_ref": "invoke",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": ["approval_semantics_map", "execution_receipt_handoff", "state_namespace_boundary"],
+      "inputs": [
+        { "kind": "artifact", "ref": "projects/ontologize/operational-ontology/NEXT.md" },
+        { "kind": "decision", "ref": "disciplines-as-axiom-verdict" }
+      ],
+      "outputs": [
+        { "kind": "handoff", "ref": "operational-ontology-review-handoff" },
+        { "kind": "trace_event", "ref": "operational-next-handoff-prepared" }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Ask operator approval before executing the analysis subagent fanout.",
+        "Defer any constitution or axiom promotion to Constitution Governance and ontology-harness review."
+      ]
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The research spans four distinct lanes -- the L0-L7 authority hierarchy, the discipline authority boundary, telemetry-to-ontology derivation, and branch-aware schema shape -- plus an adversarial check against the disciplines-as-axiom hypothesis.",
+    "explanation": "Role-bound sibling agents keep the authority reading separate from the telemetry derivation and pit a dedicated adversary against the hypothesis, so the verdict is traceable to concrete repo evidence instead of confirming the proposal by default.",
+    "context": [
+      "The hypothesis conflicts on its face with the disciplines boundary (disciplines must not claim promotion authority) and the axiom/constitution definitions (L6/L7), so an adversary role is needed to test it honestly.",
+      "Telemetry is scattered across at least three observability roots and 60+ dispatch receipts, so a dedicated derivation lane is needed to map streams to candidate operational nodes."
+    ],
+    "roles": [
+      {
+        "role_id": "authority-hierarchy-reader",
+        "purpose": "Map the L0-L7 authority levels and the axiom/constitution definitions and locate where disciplines currently sit.",
+        "owns": "authority-hierarchy reading",
+        "applies_to_steps": ["fanout-operational-analysis"]
+      },
+      {
+        "role_id": "discipline-authority-reader",
+        "purpose": "Extract the disciplines boundary, growth rule, and current canonical/active-pattern statuses, and what promotion a discipline can and cannot drive.",
+        "owns": "discipline authority reading",
+        "applies_to_steps": ["fanout-operational-analysis"]
+      },
+      {
+        "role_id": "telemetry-derivation-reader",
+        "purpose": "Map scattered telemetry streams to candidate operational nodes, edges, and mutations.",
+        "owns": "telemetry-to-ontology derivation",
+        "applies_to_steps": ["fanout-operational-analysis"]
+      },
+      {
+        "role_id": "branch-schema-reader",
+        "purpose": "Extract the branch-aware ontology model and edge catalog and propose the operational branch's schema shape and its boundary versus run-context.",
+        "owns": "branch-aware schema reading",
+        "applies_to_steps": ["fanout-operational-analysis"]
+      },
+      {
+        "role_id": "axiom-coherence-adversary",
+        "purpose": "Try to refute disciplines-as-axiom; surface the strongest counterargument and the conditions under which it would fail.",
+        "owns": "adversarial coherence check",
+        "applies_to_steps": ["fanout-operational-analysis", "adjudicate-disciplines-as-axiom"]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Run the operational-ontology analysis fanout with authority-hierarchy, discipline-authority, telemetry-derivation, branch-schema, and adversarial-coherence roles over the repo's governance literature and telemetry, returning source-backed receipts only?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "residue",
+      "reroute",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "source claims with concrete repo artifact paths",
+      "candidate operational nodes/edges clearly marked",
+      "confidence and missing-source notes"
+    ]
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "literature-read-only-boundary",
+        "kind": "artifact_import",
+        "from_owner": "arcanum-framework",
+        "to_owner": "context-builder",
+        "applies_to_steps": ["recover-operational-literature", "fanout-operational-analysis"],
+        "contract": "The authority-hierarchy and operational-ontology literature (BUSINESS-ONTOLOGY, ONTOLOGY-ARCHITECTURE, disciplines, ontology-vault candidates) is read-only source evidence; this dispatch cites it but does not mutate framework documents.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "telemetry-evidence-boundary",
+        "kind": "capability_handoff",
+        "from_owner": "inventory",
+        "to_owner": "definitions-governance",
+        "applies_to_steps": ["inventory-operational-telemetry", "define-operational-branch", "seed-operational-branch"],
+        "contract": "Telemetry is non-authoritative candidate evidence; it may seed candidate operational nodes but may not be promoted to ontology, constitution, or axiom authority without owner review.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "branch-promotion-boundary",
+        "kind": "capability_handoff",
+        "from_owner": "ontology-vault",
+        "to_owner": "constitution-governance-and-ontology-harness",
+        "applies_to_steps": ["seed-operational-branch", "prepare-next-handoff"],
+        "contract": "The seeded operational branch and any disciplines-as-axiom finding are candidates pending Constitution Governance and ontology-harness review; this dispatch assigns no promotion authority.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "dispatch-spec",
+      "execution": "task-session-or-approved-subagents",
+      "validation": "dispatch-spec",
+      "evidence": "signal-observer-and-inventory",
+      "memory": "inventory",
+      "promotion": "constitution-governance and ontology-harness"
+    },
+    "receipts": [
+      {
+        "receipt_id": "operational-analysis-receipts",
+        "producer": "robot-talks",
+        "required_fields": [
+          "session_id",
+          "artifacts",
+          "audit_reference",
+          "residue",
+          "validation_result"
+        ],
+        "stores": ["projects/ontologize/operational-ontology/sessions/operational-analysis-receipts.md"],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "operational-dispatch-validation-receipt",
+        "producer": "dispatch-spec",
+        "required_fields": [
+          "run_id",
+          "artifacts",
+          "validation_result",
+          "audit_reference",
+          "residue"
+        ],
+        "stores": ["projects/ontologize/operational-ontology/operational-ontology-research.dispatch.json"],
+        "on_missing": "flag"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects-ontologize-operational",
+        "owner": "projects/ontologize/operational-ontology",
+        "write_policy": "Research, definitions, and the seeded operational branch may be written under projects/ontologize/operational-ontology only unless a later approved task expands scope."
+      },
+      {
+        "namespace": "arcanum-framework",
+        "owner": "arcanum/framework, arcanum/disciplines, arcanum/development",
+        "write_policy": "Read-only for this dispatch; no framework, disciplines, or development writes."
+      },
+      {
+        "namespace": "arcanum-observability-telemetry",
+        "owner": ".arcanum/observability and per-project observability roots",
+        "write_policy": "Read-only telemetry source; this dispatch reads signals but does not write or rewrite them."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "projects/ontologize/operational-ontology candidate branch, carry-set, and telemetry-derived execution evidence",
+        "target": "canonical ontology, constitution, or axiom authority",
+        "rule": "requires Constitution Governance and ontology-harness review through a separate promotion route; execution and telemetry evidence cannot be promoted directly and not without owner approval",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "gates": [
+    {
+      "gate_id": "literature-fidelity",
+      "kind": "quality",
+      "owner": "context-builder",
+      "condition": "Every authority-tier and operational-branch claim must distinguish source literature facts, telemetry-derived candidate evidence, reusable patterns, project hypotheses, and open questions, each with a concrete path.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "telemetry-non-authoritative",
+      "kind": "policy",
+      "owner": "inventory",
+      "condition": "Scattered telemetry is candidate evidence only; it may not be treated as canonical operational knowledge or used to bypass owner review.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "authority-boundary-honesty",
+      "kind": "quality",
+      "owner": "decision-gate",
+      "condition": "The disciplines-as-axiom verdict must explicitly resolve the tension between the disciplines boundary (no promotion authority) and the axiom/constitution tiers (L6/L7), recording both proponent and skeptic positions before concluding.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "subagent-approval",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Recommended analysis subagent execution requires explicit operator approval before delegated analysis runs.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "arcanum",
+      "condition": "Research outputs may propose a candidate operational branch and a candidate axiom/constitution mapping but must not promote ontology, glossary, sigil, spell, constitution, or axiom authority without Constitution Governance and ontology-harness review.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "dispatch-validation",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "The dispatch must pass the dispatch-spec validator before being treated as handoff-ready.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "operational-literature-recovered",
+      "operational-telemetry-inventoried",
+      "operational-tower-built",
+      "operational-analysis-fanout-completed",
+      "disciplines-as-axiom-adjudicated",
+      "operational-carry-set-defined",
+      "operational-branch-seeded",
+      "operational-dispatch-validated",
+      "operational-next-handoff-prepared"
+    ],
+    "signal_grouping": "operational-ontology-research"
+  },
+  "promotion_guardrails": [
+    "Do not mutate framework, disciplines, or development documents; treat them as read-only source evidence.",
+    "Do not treat scattered telemetry as canonical operational knowledge; it is candidate evidence only.",
+    "Do not promote ontology, glossary, sigil, spell, constitution, or axiom authority without Constitution Governance and ontology-harness review.",
+    "Do not assert disciplines-as-axiom as settled; it is a hypothesis the route adjudicates and hands off.",
+    "Do not execute analysis subagents without explicit operator approval."
+  ]
+}
