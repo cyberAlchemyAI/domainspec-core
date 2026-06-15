@@ -1,0 +1,700 @@
+{
+  "dispatch_id": "body-war-craft-refine-validate-summary-20260610",
+  "parent_dispatch_id": "body-war-parque-taquaral-review-audit-20260610",
+  "intent": {
+    "raw": "Now that Body War has Craft, update the dispatch strategy to refine and validate all gaps and blockers, then use the model in projects/goldenquill/victor discovery to create a summary document for reasoning about what we will build and how it will be built.",
+    "objective": "Route Body War through Craft-ledger state, Refine gap/blocker closure, validation, and Victor-style discovery synthesis before implementation.",
+    "target_artifact": "projects/body-war/docs/features/parque-taquaral-online-mvp/DISCOVERY.md",
+    "operator_sentence": "Use Craft as the state ledger, refine and validate gaps/blockers, and summarize the build model in a Victor-style discovery document.",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "craft",
+      "refine",
+      "decision-gate",
+      "validation_loop",
+      "residue_ledger",
+      "Victor discovery model"
+    ]
+  },
+  "mode": "mixed",
+  "route_menu": {
+    "context_hint": "Craft is now the local Body War state ledger; architecture/import-boundary decision is closed, while Strava evidence and track geometry remain visible open items.",
+    "selected_item_id": "craft-refine-validate-summary",
+    "items": [
+      {
+        "id": "craft-refine-validate-summary",
+        "label": "Craft refine validate summary",
+        "description": "Use Craft state, refine all blockers/gaps, validate the ledger, and synthesize a Victor-style summary before implementation.",
+        "capability_ref": "refine",
+        "pattern": "synthesis"
+      },
+      {
+        "id": "direct-implementation",
+        "label": "Direct implementation",
+        "description": "Rejected until architecture/import-boundary blocker is closed.",
+        "capability_ref": "task-session",
+        "pattern": "sequential"
+      },
+      {
+        "id": "summary-only",
+        "label": "Summary only",
+        "description": "Rejected because the summary must remain tied to Craft blockers, gaps, and validation gates.",
+        "capability_ref": "context-builder",
+        "pattern": "sequential"
+      }
+    ]
+  },
+  "techniques": [
+    "sequence",
+    "x_ray",
+    "validation_loop",
+    "frame_handoff",
+    "residue_ledger",
+    "approval_checkpoint",
+    "authority_split_gate",
+    "artifact_contract_bridge",
+    "role_projection_boundary",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "state_namespace_boundary",
+    "owner_boundary_check",
+    "observability_grouping"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "craft-ledger-as-state",
+      "trigger": "Body War now has a project-local Craft ledger.",
+      "techniques": [
+        "x_ray",
+        "frame_handoff",
+        "residue_ledger",
+        "state_namespace_boundary"
+      ],
+      "applies_to_steps": [
+        "s01-craft-state-baseline"
+      ],
+      "validation_expectation": "Craft ledger remains the source of truth for blockers, gaps, open decisions, next moves, and recomposition state."
+    },
+    {
+      "overlay_id": "refine-blockers-and-gaps",
+      "trigger": "Open Craft blockers and gaps must be refined before build planning.",
+      "techniques": [
+        "sequence",
+        "validation_loop",
+        "residue_ledger",
+        "approval_checkpoint"
+      ],
+      "applies_to_steps": [
+        "s02-refine-gap-blocker-closure",
+        "s03-decision-gate-check"
+      ],
+      "validation_expectation": "Each blocker/gap must be classified as close-now, decision-needed, defer, or reject, with closure evidence or residue."
+    },
+    {
+      "overlay_id": "victor-discovery-synthesis",
+      "trigger": "Operator requested the Victor discovery model for the reasoning summary.",
+      "techniques": [
+        "artifact_contract_bridge",
+        "concrete_path_evidence",
+        "owner_boundary_check"
+      ],
+      "applies_to_steps": [
+        "s05-victor-summary-synthesis"
+      ],
+      "validation_expectation": "Summary separates plain-language orientation, system shape, engineer verdicts, blockers, and build plan."
+    },
+    {
+      "overlay_id": "receipt-and-authority-boundary",
+      "trigger": "Dispatch and summary evidence must not be mistaken for implementation readiness.",
+      "techniques": [
+        "authority_split_gate",
+        "role_projection_boundary",
+        "execution_receipt_handoff",
+        "observability_grouping"
+      ],
+      "applies_to_steps": [
+        "s04-validate-gap-blocker-ledger",
+        "s06-implementation-readiness-handoff"
+      ],
+      "validation_expectation": "Implementation remains blocked unless architecture/import boundary and validation obligations are explicitly closed."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The route spans Craft state, Refine closure, DomainSpec architecture, Strava evidence, and Victor-style synthesis.",
+    "explanation": "Use projected review lanes only after approval: Craft ledger reviewer, Refine blocker reviewer, DomainSpec architecture reviewer, Strava validation reviewer, and Victor-model summarizer. The parent dispatch owns synthesis.",
+    "context": [
+      "Craft ledger exists at projects/body-war/.craft/ledger.yml.",
+      "Active blockers include architecture/import boundary and Strava activity submission.",
+      "Active gaps include Parque Taquaral geometry and DomainSpec method export/import selection.",
+      "Victor discovery model uses layered plain-language, system-shape, engineer-verdict, and ontology/ledger views."
+    ],
+    "roles": [
+      {
+        "role_id": "craft-ledger-reviewer",
+        "purpose": "Verify Craft ledger state and recomposition status.",
+        "owns": "Craft state findings only.",
+        "applies_to_steps": [
+          "s01-craft-state-baseline",
+          "s04-validate-gap-blocker-ledger"
+        ]
+      },
+      {
+        "role_id": "refine-blocker-reviewer",
+        "purpose": "Refine each blocker/gap into closure evidence, decision need, deferral, or rejection.",
+        "owns": "Refine recommendations and residue.",
+        "applies_to_steps": [
+          "s02-refine-gap-blocker-closure"
+        ]
+      },
+      {
+        "role_id": "domainspec-architecture-reviewer",
+        "purpose": "Check TypeScript architecture/import boundary against DomainSpec methods.",
+        "owns": "Architecture boundary findings.",
+        "applies_to_steps": [
+          "s02-refine-gap-blocker-closure",
+          "s03-decision-gate-check"
+        ]
+      },
+      {
+        "role_id": "strava-validation-reviewer",
+        "purpose": "Keep OAuth, activity import, and submission readiness claims separate.",
+        "owns": "Strava evidence validation findings.",
+        "applies_to_steps": [
+          "s04-validate-gap-blocker-ledger"
+        ]
+      },
+      {
+        "role_id": "victor-model-summarizer",
+        "purpose": "Synthesize Body War into Victor-style discovery sections.",
+        "owns": "Summary structure and evidence separation.",
+        "applies_to_steps": [
+          "s05-victor-summary-synthesis"
+        ]
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Approve projected review lanes to refine and validate all Body War Craft blockers/gaps before implementation?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute",
+      "run_id",
+      "session_id",
+      "artifacts",
+      "validation_result",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "residue"
+    ]
+  },
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "body-war-craft-refine-validate-summary-20260610",
+      "step_id": "s01-craft-state-baseline",
+      "capability_ref": "craft",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "projects/body-war/.craft/ledger.yml",
+        "projects/body-war/CRAFT.md"
+      ],
+      "validation": [
+        "YAML parse passed before dispatch update."
+      ],
+      "observer_status": "manual",
+      "blockers": [
+        "BLK-ARCH-BOUNDARY-001",
+        "BLK-STRAVA-ACTIVITY-001"
+      ],
+      "residue": "Craft state is valid but implementation remains blocked.",
+      "handoff_note": "Use Craft ledger as the root state frame."
+    },
+    {
+      "dispatch_id": "body-war-craft-refine-validate-summary-20260610",
+      "step_id": "s05-victor-summary-synthesis",
+      "capability_ref": "context-builder",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "projects/body-war/docs/features/parque-taquaral-online-mvp/DISCOVERY.md"
+      ],
+      "validation": [
+        "Victor-style summary artifact created."
+      ],
+      "observer_status": "manual",
+      "blockers": [
+        "DEC-ARCH-BOUNDARY-001 is closed by projects/body-war/docs/decisions/architecture-import-boundary.md."
+      ],
+      "residue": "Summary is reasoning evidence, not build completion; Strava activity evidence remains blocked.",
+      "handoff_note": "Summary and architecture audit can feed the future implementation work-pack."
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "s01-craft-state-baseline",
+      "name": "X-ray Craft ledger state",
+      "capability_ref": "craft",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "source": "projects/body-war/.agents/skills/craft/SKILL.md",
+        "projection": "Project-local Craft state ledger; not canonical Arcanum promotion."
+      },
+      "pattern": "xray",
+      "techniques": [
+        "x_ray",
+        "frame_handoff",
+        "residue_ledger",
+        "state_namespace_boundary",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/.craft/ledger.yml"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/CRAFT.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handle",
+          "ref": "body-war-craft-state-map"
+        },
+        {
+          "kind": "ledger",
+          "ref": "body-war-active-blockers-and-gaps"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if Craft ledger cannot parse or lacks blocker/gap/decision rows.",
+        "Stop if CRAFT.md is treated as source of truth instead of .craft/ledger.yml."
+      ]
+    },
+    {
+      "step_id": "s02-refine-gap-blocker-closure",
+      "name": "Refine every active Craft blocker and gap",
+      "capability_ref": "refine",
+      "pattern": "sequential",
+      "techniques": [
+        "sequence",
+        "residue_ledger",
+        "approval_checkpoint",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "body-war-craft-state-map"
+        },
+        {
+          "kind": "ledger",
+          "ref": "body-war-active-blockers-and-gaps"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/development/dispatches/20260610-body-war-parque-taquaral-review-audit.spec.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "refined-body-war-gap-blocker-ledger"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if any active blocker lacks a closure condition.",
+        "Stop if implementation is proposed before DEC-ARCH-BOUNDARY-001 is closed or explicitly deferred."
+      ]
+    },
+    {
+      "step_id": "s03-decision-gate-check",
+      "name": "Gate blocker-level architecture decisions",
+      "capability_ref": "decision-gate",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "source": "/mnt/c/Users/vlad_/.codex/skills/decision-gate/SKILL.md",
+        "projection": "Used for blocker-level architecture choice if refine cannot safely close or defer it."
+      },
+      "pattern": "decision",
+      "techniques": [
+        "approval_checkpoint",
+        "authority_split_gate",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "refined-body-war-gap-blocker-ledger"
+        },
+        {
+          "kind": "decision",
+          "ref": "DEC-ARCH-BOUNDARY-001"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "architecture-import-boundary-decision"
+        },
+        {
+          "kind": "ledger",
+          "ref": "post-decision-gap-blocker-ledger"
+        }
+      ],
+      "stop_conditions": [
+        "Ask before closing a blocker-level architecture choice.",
+        "Block implementation if no architecture/import boundary is selected or explicitly deferred."
+      ]
+    },
+    {
+      "step_id": "s04-validate-gap-blocker-ledger",
+      "name": "Validate all gaps, blockers, and route evidence",
+      "capability_ref": "dispatch-spec",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "execution_receipt_handoff",
+        "residue_ledger",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "post-decision-gap-blocker-ledger"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/.craft/ledger.yml"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/development/dispatches/20260610-body-war-craft-refine-validate-summary.dispatch.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "validated-body-war-gap-blocker-ledger"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "gap-blocker-validation-complete"
+        }
+      ],
+      "evidence_artifact": "projects/body-war/docs/features/parque-taquaral-online-mvp/DISCOVERY.md",
+      "stop_conditions": [
+        "Block if any active blocker is marked closed without evidence.",
+        "Flag if any gap has no owner, treatment, or next route."
+      ]
+    },
+    {
+      "step_id": "s05-victor-summary-synthesis",
+      "name": "Synthesize Victor-style discovery summary",
+      "capability_ref": "context-builder",
+      "pattern": "synthesis",
+      "techniques": [
+        "artifact_contract_bridge",
+        "concrete_path_evidence",
+        "owner_boundary_check",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "validated-body-war-gap-blocker-ledger"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/victor/discovery.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/victor/system-view.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/goldenquill/victor/engineer-view.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/parque-taquaral-online-mvp/DISCOVERY.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "body-war-build-reasoning-frame"
+        }
+      ],
+      "stop_conditions": [
+        "Do not mark the summary as build completion evidence.",
+        "Do not omit active blockers or deferred gaps from the summary."
+      ]
+    },
+    {
+      "step_id": "s06-implementation-readiness-handoff",
+      "name": "Prepare implementation-readiness handoff without executing it",
+      "capability_ref": "invoke",
+      "pattern": "handoff",
+      "techniques": [
+        "sequence",
+        "execution_receipt_handoff",
+        "authority_split_gate",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "body-war-build-reasoning-frame"
+        },
+        {
+          "kind": "decision",
+          "ref": "architecture-import-boundary-decision"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "future-task-session-implementation-readiness-handoff"
+        }
+      ],
+      "stop_conditions": [
+        "Return deferred if DEC-ARCH-BOUNDARY-001 remains open.",
+        "Do not start task-session implementation from this dispatch."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G01-craft-source-of-truth",
+      "kind": "quality",
+      "owner": "Craft local ledger",
+      "condition": "projects/body-war/.craft/ledger.yml is the state source of truth; CRAFT.md is only a human view.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G02-refine-all-active-items",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "Every active Craft blocker, blocking decision, and gap must be refined into closure evidence, decision need, deferral, or rejection.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G03-architecture-boundary-before-build",
+      "kind": "decision",
+      "owner": "Body War architecture",
+      "condition": "DEC-ARCH-BOUNDARY-001 must be closed or explicitly deferred before implementation.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "G04-strava-evidence-honesty",
+      "kind": "validation",
+      "owner": "Body War validation",
+      "condition": "OAuth pass, activity import, and evidence submission must remain separate readiness claims.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "G05-victor-summary-contract",
+      "kind": "quality",
+      "owner": "context-builder",
+      "condition": "The summary must separate plain-language orientation, system shape, engineer verdicts, blockers, gaps, and build route.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "G06-no-implementation-in-this-route",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "This dispatch updates strategy and summary artifacts only; no app implementation or deployment is authorized.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G07-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "This route cannot promote Craft, DomainSpec, Inventory, Ontology, glossary, sigil, spell, or Body War readiness artifacts.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "body-war-parque-taquaral-review-audit-20260610",
+    "signal_grouping": "body-war-craft-refine-validate-summary",
+    "trace_events": [
+      "dispatch-authored",
+      "craft-state-baseline",
+      "gap-blocker-refine-planned",
+      "decision-gate-check-planned",
+      "gap-blocker-validation-complete",
+      "victor-summary-synthesized",
+      "implementation-readiness-handoff-deferred"
+    ]
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B01-craft-state-boundary",
+        "kind": "state_write",
+        "from_owner": "Craft local ledger",
+        "to_owner": "Body War project",
+        "applies_to_steps": [
+          "s01-craft-state-baseline",
+          "s04-validate-gap-blocker-ledger"
+        ],
+        "contract": "Craft ledger owns local state; generated summary and dispatch artifacts may reference it but do not replace it.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B02-refine-authority-boundary",
+        "kind": "capability_handoff",
+        "from_owner": "Craft local ledger",
+        "to_owner": "refine",
+        "applies_to_steps": [
+          "s02-refine-gap-blocker-closure"
+        ],
+        "contract": "Refine may shape closure-ready artifacts and residue but does not close blocker-level decisions without decision-gate or operator approval.",
+        "on_violation": "ask"
+      },
+      {
+        "boundary_id": "B03-victor-model-boundary",
+        "kind": "artifact_import",
+        "from_owner": "projects/goldenquill/victor/",
+        "to_owner": "Body War summary document",
+        "applies_to_steps": [
+          "s05-victor-summary-synthesis"
+        ],
+        "contract": "Victor discovery structure may be used as a model; GoldenQuill product claims must not be copied into Body War.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B04-no-implementation-boundary",
+        "kind": "human_approval",
+        "from_owner": "operator",
+        "to_owner": "Body War implementation",
+        "applies_to_steps": [
+          "s06-implementation-readiness-handoff"
+        ],
+        "contract": "Implementation requires a later explicit task-session after architecture/import boundary closure.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "Body War Craft and dispatch artifacts",
+      "execution": "none in this dispatch; future task-session only after gates pass",
+      "validation": "dispatch-spec validator plus future refine/decision-gate/task-session receipts",
+      "evidence": "Craft ledger, dispatch JSON, Victor-style Body War discovery summary",
+      "memory": "none in this route",
+      "promotion": "none; summary and dispatch are reasoning artifacts"
+    },
+    "receipts": [
+      {
+        "receipt_id": "R01-craft-ledger-receipt",
+        "producer": "craft",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "validation",
+          "blockers",
+          "residue"
+        ],
+        "stores": [
+          "projects/body-war/.craft/ledger.yml"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "R02-refine-gap-blocker-receipt",
+        "producer": "refine",
+        "required_fields": [
+          "run_id",
+          "session_id",
+          "artifacts",
+          "validation_result",
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "validation",
+          "observer_status",
+          "blockers",
+          "handoff_note",
+          "residue"
+        ],
+        "stores": [
+          "projects/body-war/docs/features/parque-taquaral-online-mvp/"
+        ],
+        "on_missing": "flag"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects/body-war/.craft/",
+        "owner": "Body War Craft ledger",
+        "write_policy": "Craft state updates only; ledger remains source of truth."
+      },
+      {
+        "namespace": "projects/body-war/development/dispatches/",
+        "owner": "Body War dispatch artifacts",
+        "write_policy": "Validated dispatch route artifacts and strategy specs."
+      },
+      {
+        "namespace": "projects/body-war/docs/features/parque-taquaral-online-mvp/",
+        "owner": "Body War MVP reasoning and future architecture artifacts",
+        "write_policy": "Summary and audit docs only until implementation route is approved."
+      },
+      {
+        "namespace": "projects/goldenquill/victor/",
+        "owner": "GoldenQuill Victor discovery model",
+        "write_policy": "Read-only model reference; do not mutate from Body War route."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "Craft ledger state",
+        "target": "Body War implementation readiness",
+        "rule": "Craft state can identify blockers and next moves but cannot claim implementation readiness without closure evidence.",
+        "on_violation": "block"
+      },
+      {
+        "source": "Victor discovery model",
+        "target": "Body War discovery summary",
+        "rule": "Structure may be reused; GoldenQuill product content must not be imported as Body War product claims.",
+        "on_violation": "block"
+      },
+      {
+        "source": "dispatch validation pass",
+        "target": "Body War build readiness",
+        "rule": "Dispatch pass proves route shape only, not app readiness.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Do not implement or deploy from this dispatch.",
+    "Do not treat Victor/GoldenQuill content as Body War content; use only the document model.",
+    "Do not close DEC-ARCH-BOUNDARY-001 without decision evidence.",
+    "Do not claim Strava readiness until real activity import and submission pass.",
+    "Do not promote Craft beyond project-local candidate ledger status."
+  ]
+}

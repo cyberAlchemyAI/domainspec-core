@@ -5,11 +5,13 @@ source of truth; this page is an indexed navigation surface.
 
 ## Quick Links
 
-- Current next move: [create the Parque Taquaral online MVP work-pack](#next-move).
+- Current next move: [execute the W0 spec baseline](#next-move).
 - Active blocker: [BLK-STRAVA-ACTIVITY-001](#blocker-blk-strava-activity-001).
 - Active gap: [GAP-TAQUARAL-GEOMETRY-001](#gap-gap-taquaral-geometry-001).
 - Closed architecture decision: [DEC-ARCH-BOUNDARY-001](#decision-dec-arch-boundary-001).
-- Key artifacts: [architecture decision](docs/decisions/architecture-import-boundary.md), [architecture audit](docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md), [discovery summary](docs/features/parque-taquaral-online-mvp/DISCOVERY.md).
+- One-shot forecast: [MVP-ONESHOT-FORECAST.md](docs/features/parque-taquaral-online-mvp/MVP-ONESHOT-FORECAST.md).
+- Invoke design/plan: [DESIGN.md](docs/features/parque-taquaral-online-mvp/DESIGN.md), [WORK-PACK.md](docs/features/parque-taquaral-online-mvp/WORK-PACK.md), [EXECUTION-PACK.md](docs/features/parque-taquaral-online-mvp/EXECUTION-PACK.md).
+- Key artifacts: [architecture decision](docs/decisions/architecture-import-boundary.md), [architecture audit](docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md), [discovery summary](docs/features/parque-taquaral-online-mvp/DISCOVERY.md), [DomainSpec coverage](docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-COVERAGE.md), [DomainSpec backlog](docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-BACKLOG.md).
 
 ## Contexts
 
@@ -21,8 +23,9 @@ source of truth; this page is an indexed navigation surface.
 
 #### <a id="next-move"></a>Next Move
 
-Create the Parque Taquaral online MVP `WORK-PACK.md` for a bounded implementation
-slice while keeping Strava activity evidence and track geometry gaps visible.
+Execute the Parque Taquaral online MVP W0 spec baseline from
+`WORK-PACK.md`: write the P0 specs and contracts before mutating
+`projects/body-war/app/`.
 
 ### <a id="context-ctx-body-war-arch-audit"></a>CTX-BODY-WAR-ARCH-AUDIT - Parque Taquaral Architecture Review Audit
 
@@ -73,6 +76,13 @@ slice while keeping Strava activity evidence and track geometry gaps visible.
 - Craft refine/validate/summary dispatch: [20260610-body-war-craft-refine-validate-summary.dispatch.json](development/dispatches/20260610-body-war-craft-refine-validate-summary.dispatch.json)
 - Audit spec: [20260610-body-war-parque-taquaral-review-audit.spec.md](development/dispatches/20260610-body-war-parque-taquaral-review-audit.spec.md)
 - Victor-style discovery summary: [DISCOVERY.md](docs/features/parque-taquaral-online-mvp/DISCOVERY.md)
+- One-shot decision/spec forecast: [MVP-ONESHOT-FORECAST.md](docs/features/parque-taquaral-online-mvp/MVP-ONESHOT-FORECAST.md)
+- DomainSpec gap coverage: [PILOT-DOMAINSPEC-COVERAGE.md](docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-COVERAGE.md)
+- DomainSpec spec backlog: [PILOT-DOMAINSPEC-BACKLOG.md](docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-BACKLOG.md)
+- Invoke design: [DESIGN.md](docs/features/parque-taquaral-online-mvp/DESIGN.md)
+- Invoke implementation layering: [IMPLEMENTATION-LAYERING.md](docs/features/parque-taquaral-online-mvp/IMPLEMENTATION-LAYERING.md)
+- Invoke work-pack: [WORK-PACK.md](docs/features/parque-taquaral-online-mvp/WORK-PACK.md)
+- Invoke execution pack: [EXECUTION-PACK.md](docs/features/parque-taquaral-online-mvp/EXECUTION-PACK.md)
 - Architecture decision: [architecture-import-boundary.md](docs/decisions/architecture-import-boundary.md)
 - Architecture audit: [ARCHITECTURE-AUDIT.md](docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md)
 
