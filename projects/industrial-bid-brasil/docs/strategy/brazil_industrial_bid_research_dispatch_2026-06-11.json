@@ -1,0 +1,419 @@
+{
+  "dispatch_id": "gq-brazil-industrial-bid-research-2026-06-11",
+  "intent": {
+    "raw": "Create a research strategy for the Brazil industrial bid-response engine: identify which parameters and metrics to optimize, how to obtain them, what can be collected from scattered web data, and what organization-side data is required.",
+    "objective": "Produce a governed multi-lane research route that can discover, validate, and synthesize optimization targets, public-data feeds, private/org data requirements, and evidence limits for a Brazil industrial bid-response engine.",
+    "target_artifact": "docs/strategy/brazil_industrial_bid_research_strategy_2026-06-11.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "research",
+      "fanout",
+      "synthesis",
+      "validation",
+      "handoff"
+    ],
+    "operator_sentence": "Research what the Brazil industrial bid engine should optimize, what data can be collected from the web, and what org data is needed to make it best-in-class."
+  },
+  "mode": "research",
+  "techniques": [
+    "role_projection_boundary",
+    "execution_receipt_handoff",
+    "evidence_receipt_link",
+    "state_namespace_boundary",
+    "memory_promotion_split",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The research target naturally splits into independent evidence lanes: public tenders, private buyer portals, cost indices, standards/compliance, organization records, optimization metrics, and data-governance boundaries.",
+    "explanation": "Parallel lane research reduces blind spots because public procurement APIs, industrial buyer portals, estimator doctrine, cost-index sources, and org-internal bid histories each use different evidence types and freshness risks.",
+    "context": [
+      "Wladimir Cardoso de Lima's questionnaire response identifies object/scope, quantities, technical specification, draft contract, site visit, payment terms, atestado tecnico, mobilization, maintenance, and aditivo risk as core decision inputs.",
+      "The current GoldenQuill/Tilth repo is grant/funding oriented; Brazil industrial bidding is adjacent but needs its own optimization lens.",
+      "Public data appears scattered across PNCP, Compras.gov.br, Portal da Transparencia, buyer supplier portals, public cost indices, labor datasets, and financial index APIs.",
+      "Private/company data is required for pricing, productivity, qualification, win/loss learning, and risk-adjusted margin."
+    ],
+    "roles": [
+      {
+        "role_id": "public-procurement-data-lane",
+        "purpose": "Map public contracting data sources, available fields, historical award evidence, item-level price signals, contracts, deadlines, and bidder/winner patterns.",
+        "owns": "public procurement data source matrix and collection feasibility receipt",
+        "applies_to_steps": [
+          "s2"
+        ]
+      },
+      {
+        "role_id": "industrial-buyer-portal-lane",
+        "purpose": "Map private and state-company supplier surfaces such as Petrobras/Petronect, Vale supplier registration, SAP Ariba-like portals, Nimbi, SRM, and email/envelope submission patterns.",
+        "owns": "buyer portal and qualification surface receipt",
+        "applies_to_steps": [
+          "s2"
+        ]
+      },
+      {
+        "role_id": "cost-and-index-data-lane",
+        "purpose": "Map public cost, labor, inflation, interest, and regional price sources that can calibrate direct cost, financial cost, productivity assumptions, and escalation.",
+        "owns": "cost/index source matrix and freshness risk receipt",
+        "applies_to_steps": [
+          "s2"
+        ]
+      },
+      {
+        "role_id": "org-data-requirements-lane",
+        "purpose": "Define organization-side records needed for best engine performance: historical bids, win/loss, submitted prices, actual job costs, productivity, atestados, equipment, certificates, payment history, and post-job variance.",
+        "owns": "org data requirements and minimum viable intake schema receipt",
+        "applies_to_steps": [
+          "s2"
+        ]
+      },
+      {
+        "role_id": "optimization-metrics-lane",
+        "purpose": "Define objective functions, target metrics, proxy labels, scoring formulas, and validation loops for bid/no-bid, price, risk, technical compliance, and submission completeness.",
+        "owns": "optimization parameter and metric ledger receipt",
+        "applies_to_steps": [
+          "s2",
+          "s3"
+        ]
+      },
+      {
+        "role_id": "evidence-boundary-lane",
+        "purpose": "Classify which web data is authoritative, stale, scraped, private, confidential, paid, or manual-only and define promotion boundaries for future memory/inventory updates.",
+        "owns": "evidence boundary and promotion guardrail receipt",
+        "applies_to_steps": [
+          "s2",
+          "s4"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Spawn six research lanes for public procurement, industrial buyer portals, cost/index data, org data requirements, optimization metrics, and evidence boundaries, each returning a source-cited receipt?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "audit_reference",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Frame Brazil industrial bid engine research scope",
+      "capability_ref": "dispatch-spec",
+      "pattern": "route",
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/brazil_industrial_bid_intelligence_wladimir_2026-06-11.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "brazil-industrial-bid-research-frame"
+        }
+      ],
+      "stop_conditions": [
+        "block if scope collapses into generic proposal writing instead of industrial bid-response mechanics"
+      ]
+    },
+    {
+      "step_id": "s2",
+      "name": "Run parallel source and metric research lanes",
+      "capability_ref": "research-lane-candidates",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "reason": "Represents operator-approved sibling research lanes; not a canonical runtime capability in this repo."
+      },
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "role_projection_boundary",
+        "execution_receipt_handoff",
+        "evidence_receipt_link"
+      ],
+      "roles": [
+        "public-procurement-data-lane",
+        "industrial-buyer-portal-lane",
+        "cost-and-index-data-lane",
+        "org-data-requirements-lane",
+        "optimization-metrics-lane",
+        "evidence-boundary-lane"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "brazil-industrial-bid-research-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "source-and-metric-research-receipts"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "stop_conditions": [
+        "flag if any lane cannot distinguish public data, private portal data, and org-confidential data",
+        "block if source receipts make unverified claims about private buyer portal internals"
+      ]
+    },
+    {
+      "step_id": "s3",
+      "name": "Synthesize optimization targets and data acquisition plan",
+      "capability_ref": "context-builder",
+      "pattern": "synthesis",
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "source-and-metric-research-receipts"
+        },
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/brazil_industrial_bid_intelligence_wladimir_2026-06-11.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/brazil_industrial_bid_research_strategy_2026-06-11.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if optimization metrics are not linked to obtainable data or explicit org-side collection requirements"
+      ]
+    },
+    {
+      "step_id": "s4",
+      "name": "Validate evidence boundaries and promotion guardrails",
+      "capability_ref": "dispatch-spec",
+      "pattern": "validation",
+      "techniques": [
+        "state_namespace_boundary",
+        "memory_promotion_split"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/brazil_industrial_bid_research_strategy_2026-06-11.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "trace_event",
+          "ref": "brazil-industrial-bid-research-validation"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/brazil_industrial_bid_research_strategy_2026-06-11.md",
+      "stop_conditions": [
+        "block if execution evidence claims canonical promotion authority",
+        "flag if source freshness, access constraints, or confidentiality class are missing"
+      ]
+    },
+    {
+      "step_id": "s5",
+      "name": "Handoff to refine or task-session after operator approval",
+      "capability_ref": "handoff",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "reason": "Represents a generic handoff artifact projection rather than a canonical Arcanum capability."
+      },
+      "pattern": "handoff",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "docs/strategy/brazil_industrial_bid_research_strategy_2026-06-11.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "brazil-industrial-bid-research-validation"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "next-route-brazil-industrial-bid-engine"
+        }
+      ],
+      "evidence_artifact": "docs/strategy/brazil_industrial_bid_research_strategy_2026-06-11.md",
+      "stop_conditions": [
+        "defer implementation until operator approves whether this becomes a Brazil-mode extension, a separate product lane, or a research-only backlog item"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-source-authority",
+      "kind": "quality",
+      "owner": "parent-synthesis",
+      "condition": "Every proposed web data source must be labeled as authoritative API, official portal, public dashboard, scraped page, paid/private portal, or manual-only.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "g-metric-obtainability",
+      "kind": "validation",
+      "owner": "optimization-metrics-lane",
+      "condition": "Every optimization metric must name its required input fields, likely source, refresh cadence, and fallback proxy if direct labels are unavailable.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-org-confidentiality",
+      "kind": "policy",
+      "owner": "evidence-boundary-lane",
+      "condition": "Org bid history, prices, margins, certificates, atestados, buyer messages, and job actuals are treated as confidential unless explicitly classified otherwise.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-public-private-split",
+      "kind": "policy",
+      "owner": "dispatch-spec",
+      "condition": "Public procurement evidence must not be generalized into private-buyer behavior without a separate private-buyer evidence receipt.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "g-no-promotion",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Research outputs may propose future Inventory, card, ontology, or product promotion, but may not directly promote them.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-operator-approval",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Implementation, subagent execution, or canonical memory promotion requires explicit operator approval after strategy review.",
+      "on_fail": "ask"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b1-public-web-data",
+        "kind": "external_context",
+        "from_owner": "public web and official APIs",
+        "to_owner": "research synthesis",
+        "applies_to_steps": [
+          "s2",
+          "s3"
+        ],
+        "contract": "External data may inform source matrices and hypotheses only when source URL, access date, field availability, freshness, and authority class are recorded.",
+        "on_violation": "flag"
+      },
+      {
+        "boundary_id": "b2-org-confidential-data",
+        "kind": "artifact_import",
+        "from_owner": "operator organization",
+        "to_owner": "engine intake design",
+        "applies_to_steps": [
+          "s2",
+          "s3",
+          "s4"
+        ],
+        "contract": "Organization bid records, prices, margins, atestados, certificates, buyer messages, and actual job costs are requirements for future intake; this dispatch does not import or expose them.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b3-subagent-receipts",
+        "kind": "evidence_return",
+        "from_owner": "research lanes",
+        "to_owner": "parent synthesis",
+        "applies_to_steps": [
+          "s2",
+          "s3"
+        ],
+        "contract": "Each lane returns a concise receipt naming sources, fields, metric implications, blockers, and residue.",
+        "on_violation": "flag"
+      }
+    ],
+    "authority": {
+      "lifecycle": "dispatch-spec",
+      "execution": "operator-approved research or task-session",
+      "validation": "dispatch-spec",
+      "evidence": "research receipts and cited public sources",
+      "memory": "workspace memory only by explicit user request",
+      "promotion": "owning product/spec capability after operator approval"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r-lane-research-receipt",
+        "producer": "research-lane-candidates",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "audit_reference",
+          "residue"
+        ],
+        "stores": [
+          "docs/strategy/brazil_industrial_bid_research_strategy_2026-06-11.md"
+        ],
+        "on_missing": "flag"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "docs/strategy",
+        "owner": "workspace strategy artifacts",
+        "write_policy": "exploratory strategy artifacts may be added; runtime code and canonical product specs are not modified by this dispatch"
+      },
+      {
+        "namespace": "external-web-evidence",
+        "owner": "source websites and official APIs",
+        "write_policy": "read-only; store URLs and summaries, not copied datasets"
+      },
+      {
+        "namespace": "org-confidential-bid-data",
+        "owner": "future operator/client organization",
+        "write_policy": "requirements only in this strategy; actual org data requires explicit intake and classification"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "research strategy and source matrix",
+        "target": "product spec, card, inventory, or ontology",
+        "rule": "requires operator approval plus owning capability promotion; dispatch output alone is not canonical",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "dispatch_validated",
+      "research_sources_mapped",
+      "optimization_metrics_synthesized",
+      "org_data_requirements_defined",
+      "promotion_guardrail_checked",
+      "operator_handoff_ready"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "promotion_guardrails": [
+    "This route creates exploratory research strategy only.",
+    "No Inventory, ontology, card, sigil, spell, product spec, or runtime surface is promoted by this dispatch.",
+    "Organization data requirements are intake requirements, not permission to import or expose confidential records.",
+    "Subagent execution remains recommended and requires explicit operator permission."
+  ]
+}

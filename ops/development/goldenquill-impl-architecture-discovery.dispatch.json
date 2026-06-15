@@ -1,0 +1,242 @@
+{
+  "dispatch_id": "gq-impl-arch-discovery-2026-06-10",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "get the current state of implementation architecture and model, deriving it from spec, then use @projects/goldenquill/victor/ discovery pattern to explain for the team",
+    "objective": "Derive the current implementation architecture and data model of the goldenquill-promotion-governance feature strictly from its spec documents, then render a team-facing explanation using the victor discovery pattern (discovery + engineer/ontology/system views), source-backed and honest about unresolved gaps.",
+    "target_artifact": "projects/goldenquill/docs/features/goldenquill-promotion-governance/discovery/impl-architecture/ (new victor-pattern explanation pack)",
+    "arcanum_vocabulary": ["context-builder", "architecture-pattern-inventory", "distill", "whisper", "dispatch-spec"],
+    "operator_sentence": "get the current state of implementation architecture and model, deriving it from spec, then use the victor discovery pattern to explain for the team"
+  },
+  "mode": "implementation-research",
+  "techniques": [],
+  "steps": [
+    {
+      "step_id": "s1-ingest-spec",
+      "name": "Ingest and scope the promotion-governance spec corpus",
+      "capability_ref": "context-builder",
+      "pattern": "sequential",
+      "techniques": ["concrete_path_evidence", "frame_handoff", "protected_context_flag"],
+      "inputs": [
+        { "kind": "intent", "ref": "intent.objective" },
+        { "kind": "external_context", "ref": "projects/goldenquill/docs/features/goldenquill-promotion-governance/{SPEC.md,domain.md,states.md,events.md,workflows.md,operations.md,architecture.md,mappings.md,observability.md,analytics-methods.md,optimization-chains.md,integration/}" }
+      ],
+      "outputs": [
+        { "kind": "frame", "ref": "frame.spec-context-pack" }
+      ],
+      "stop_conditions": [
+        "Stop if a referenced spec doc is missing or empty; report gap rather than infer.",
+        "Stop ingestion at the spec boundary; do not read implementation code or org data."
+      ]
+    },
+    {
+      "step_id": "s2-derive-arch-model",
+      "name": "Derive current implementation architecture and data model from spec",
+      "capability_ref": "architecture-pattern-inventory",
+      "capability_status": "candidate",
+      "pattern": "xray",
+      "techniques": ["x_ray", "entity_classing", "component_descriptor", "data_quality_accuracy"],
+      "inputs": [
+        { "kind": "frame", "ref": "frame.spec-context-pack" }
+      ],
+      "outputs": [
+        { "kind": "handle", "ref": "handle.impl-architecture-and-model" },
+        { "kind": "trace_event", "ref": "trace.s2-derivation" }
+      ],
+      "stop_conditions": [
+        "Stop if architecture cannot be traced to a spec selector; mark as undefined, never invent.",
+        "Stop and flag where the spec defers a decision (TBD / fixture-only L0 boundary) instead of resolving it here."
+      ]
+    },
+    {
+      "step_id": "s3-distill-model",
+      "name": "Distill the load-bearing implementation model to its smallest coherent unit",
+      "capability_ref": "distill",
+      "pattern": "distill",
+      "techniques": ["scu_swu_reduction", "recomposition_proof"],
+      "inputs": [
+        { "kind": "handle", "ref": "handle.impl-architecture-and-model" }
+      ],
+      "outputs": [
+        { "kind": "frame", "ref": "frame.distilled-impl-model" }
+      ],
+      "stop_conditions": [
+        "Stop when the distilled model recomposes back to the full architecture handle without loss of a load-bearing boundary."
+      ]
+    },
+    {
+      "step_id": "s4-render-victor-views",
+      "name": "Render team explanation in the victor discovery pattern (discovery + engineer/ontology/system views)",
+      "capability_ref": "whisper",
+      "capability_status": "candidate",
+      "pattern": "synthesis",
+      "parallel": true,
+      "join_policy": "parent_synthesis",
+      "roles": ["discovery-author", "engineer-view-author", "ontology-view-author", "system-view-author"],
+      "techniques": ["frame_handoff", "evidence_summary_handoff", "residue_ledger", "unique_standard_component"],
+      "inputs": [
+        { "kind": "frame", "ref": "frame.distilled-impl-model" },
+        { "kind": "handle", "ref": "handle.impl-architecture-and-model" },
+        { "kind": "external_context", "ref": "projects/goldenquill/victor/{discovery.md,engineer-view.md,ontology-view.md,system-view.md}" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "artifact.victor-pattern-explanation-pack" },
+        { "kind": "ledger", "ref": "ledger.open-questions-residue" }
+      ],
+      "stop_conditions": [
+        "Stop if any view restates a claim owned by another view; nothing-decided-twice discipline, cross-reference instead.",
+        "Stop if a view smooths over an open question (OQ-*/B-*); honest-gap discipline requires it be named."
+      ]
+    },
+    {
+      "step_id": "s5-validate-source-trace",
+      "name": "Validate every explanation claim traces to a spec selector (drift check)",
+      "capability_ref": "context-builder",
+      "pattern": "validation",
+      "techniques": ["validation_loop", "concrete_path_evidence", "data_quality_integrity", "assessment_failure_reference"],
+      "inputs": [
+        { "kind": "artifact", "ref": "artifact.victor-pattern-explanation-pack" },
+        { "kind": "frame", "ref": "frame.spec-context-pack" },
+        { "kind": "ledger", "ref": "ledger.open-questions-residue" }
+      ],
+      "outputs": [
+        { "kind": "ledger", "ref": "ledger.drift-check" },
+        { "kind": "trace_event", "ref": "trace.s5-validation" }
+      ],
+      "evidence_artifact": "ledger.drift-check",
+      "stop_conditions": [
+        "Block sharing if any load-bearing claim lacks a spec selector.",
+        "Flag if an explanation claim conflicts with the spec; route repair back to s4."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g1-no-spec-mutation",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Derivation and rendering are read-only over spec; no spec doc, definition, glossary, sigil, or spell is mutated or promoted.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g2-source-backed",
+      "kind": "validation",
+      "owner": "context-builder (s5)",
+      "condition": "Every load-bearing architecture/model claim in the explanation cites a concrete spec selector.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "g3-honest-gaps",
+      "kind": "quality",
+      "owner": "whisper (s4)",
+      "condition": "Open questions, blockers, and fixture-only L0 boundaries are shown as honest gaps, not resolved or smoothed.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "g4-team-review",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Team-facing explanation pack is reviewed by the operator before it is shared with the team.",
+      "on_fail": "ask"
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Step s4 fans out into four independent authoring lanes (discovery + three views) that share one distilled model but own disjoint claims.",
+    "explanation": "The victor pattern is explicitly multi-view with a nothing-decided-twice discipline; role-bound sibling authors keep each view's claim ownership clean and let the parent synthesize the cross-reference map.",
+    "context": [
+      "Victor's four files each own distinct claims and cross-reference rather than restate.",
+      "Engineer/ontology/system views differ in altitude and would drift if written in one pass.",
+      "Open-question residue (OQ-*/B-*) must be preserved verbatim across views, not re-adjudicated per lane."
+    ],
+    "roles": [
+      { "role_id": "discovery-author", "purpose": "Layperson orientation + the load-bearing learning-loop narrative + open business questions.", "owns": "discovery view", "applies_to_steps": ["s4-render-victor-views"] },
+      { "role_id": "engineer-view-author", "purpose": "Decision inventory with verdicts and designed-vs-built status.", "owns": "engineer view", "applies_to_steps": ["s4-render-victor-views"] },
+      { "role_id": "ontology-view-author", "purpose": "Node/edge types, schema contracts, and OQ residue.", "owns": "ontology view", "applies_to_steps": ["s4-render-victor-views"] },
+      { "role_id": "system-view-author", "purpose": "Stakeholder altitude, shape, and given-vs-optimized framing.", "owns": "system view", "applies_to_steps": ["s4-render-victor-views"] }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Spawn 4 role-bound authoring subagents (discovery + engineer/ontology/system views) over the distilled impl model, joined by parent synthesis into one victor-pattern pack? Each returns its view draft + claim-to-selector evidence.",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute",
+      "residue",
+      "status",
+      "step_id",
+      "capability_ref",
+      "dispatch_id",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "view draft artifact path",
+      "claim-to-spec-selector evidence list"
+    ]
+  },
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "dispatch.gq-impl-arch-discovery-2026-06-10.start",
+      "step.s2-derive-arch-model.derivation",
+      "step.s4-render-victor-views.synthesis",
+      "step.s5-validate-source-trace.validation",
+      "dispatch.gq-impl-arch-discovery-2026-06-10.close"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b1-spec-read-only",
+        "kind": "capability_handoff",
+        "from_owner": "spec authors (promotion-governance)",
+        "to_owner": "explanation authors (victor pack)",
+        "applies_to_steps": ["s1-ingest-spec", "s2-derive-arch-model", "s4-render-victor-views"],
+        "contract": "Spec is consumed read-only as source truth; the explanation pack is a downstream derivative and never edits or re-versions the spec.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b2-evidence-return",
+        "kind": "evidence_return",
+        "from_owner": "whisper (s4)",
+        "to_owner": "context-builder (s5)",
+        "applies_to_steps": ["s4-render-victor-views", "s5-validate-source-trace"],
+        "contract": "Each authored claim returns with a concrete spec selector so the drift check can confirm or reject it.",
+        "on_violation": "flag"
+      }
+    ],
+    "authority": {
+      "lifecycle": "invoke (out of scope here)",
+      "execution": "task-session / whisper (downstream)",
+      "validation": "context-builder (s5)",
+      "evidence": "context-builder",
+      "memory": "none (no memory write in this route)",
+      "promotion": "none (explanation is not knowledge promotion)"
+    },
+    "state_namespaces": [
+      { "namespace": "projects/goldenquill/docs/features/goldenquill-promotion-governance (spec)", "owner": "promotion-governance spec authors", "write_policy": "read-only in this route" },
+      { "namespace": "projects/goldenquill/docs/features/goldenquill-promotion-governance/discovery/impl-architecture (generated explanation)", "owner": "explanation authors", "write_policy": "write generated victor-pattern pack only; never write back into spec" }
+    ],
+    "promotion_splits": [
+      {
+        "source": "victor-pattern explanation pack",
+        "target": "Inventory / Ontology / glossary / sigil / spell knowledge",
+        "rule": "A team explanation derived from spec is not knowledge promotion; promoting any derived claim requires the owning capability's review, not this route.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "This dispatch validates and routes only; it does not execute the derivation or render the pack.",
+    "No spec, definition, glossary, sigil, or spell is promoted or mutated by this route.",
+    "The team explanation is a derivative artifact and carries no promotion authority over the model it explains."
+  ]
+}

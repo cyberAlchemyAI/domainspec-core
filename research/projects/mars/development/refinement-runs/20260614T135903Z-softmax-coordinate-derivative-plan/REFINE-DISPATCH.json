@@ -1,0 +1,647 @@
+{
+  "dispatch_id": "20260614T135903Z-softmax-coordinate-derivative-plan",
+  "parent_dispatch_id": "20260614T102500Z-lean-softmax-cap2-proof-plan",
+  "intent": {
+    "raw": "Refine the whole step by step until full softmax coordinate derivative, then invoke define, design, and plan.",
+    "objective": "Produce a governed proof-program route from the current softmax foundation blocker to a task-session-ready Lean proof plan.",
+    "target_artifact": "research/projects/mars/papers/triton-top2-backward-kernel/formal/TritonTop2/SoftmaxCoordinate.lean",
+    "operator_sentence": "refine the whole step by step until full softmax coordinate derivative, then invoke define design and plan",
+    "arcanum_vocabulary": [
+      "refine",
+      "invoke",
+      "context-builder",
+      "interrogation",
+      "distill",
+      "dispatch-spec",
+      "task-session",
+      "lean",
+      "softmax"
+    ]
+  },
+  "mode": "sequence",
+  "route_menu": {
+    "context_hint": "The target is a formal proof ladder with an existing Lean foundation and one known calculus blocker.",
+    "items": [
+      {
+        "id": "local-first-proof-ladder",
+        "label": "Local-first proof ladder",
+        "description": "Use existing Lean files and blocker report to author define/design/plan artifacts before execution.",
+        "capability_ref": "refine",
+        "pattern": "sequence"
+      },
+      {
+        "id": "external-mathlib-research-first",
+        "label": "External theorem search first",
+        "description": "Run bounded external research before local authoring if Mathlib theorem shape is unknown.",
+        "capability_ref": "research",
+        "pattern": "research"
+      }
+    ],
+    "selected_item_id": "local-first-proof-ladder"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "conditional_component",
+    "data_quality_completeness",
+    "scu_swu_reduction",
+    "residue_ledger",
+    "concrete_path_evidence",
+    "approval_checkpoint"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The proof route is a sequential authoring loop from existing evidence to executable plan.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping",
+        "minimum_component_catalog",
+        "conditional_component",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": [
+        "stage-01-context",
+        "stage-02-define",
+        "stage-03-refine-review",
+        "stage-04-research-decision",
+        "stage-05-distill",
+        "stage-06-design",
+        "stage-07-design-review",
+        "stage-08-distill-repair",
+        "stage-09-plan",
+        "stage-10-final"
+      ],
+      "validation_expectation": "Every stage consumes the previous frame or artifact and returns a receipt, artifact, or explicit blocked reason."
+    },
+    {
+      "overlay_id": "toy_game_for_low_cost_falsification",
+      "trigger": "The quotient derivative can fail from theorem-shape or algebra choices; denominator and numerator derivatives are small falsification targets.",
+      "techniques": [
+        "toy_game",
+        "validation_loop",
+        "assessment_failure_reference"
+      ],
+      "applies_to_steps": [
+        "stage-05-distill",
+        "stage-09-plan"
+      ],
+      "validation_expectation": "The plan must isolate denominator derivative and numerator derivative as smallest proof units before the full quotient theorem."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "Prior sessions already established the differentiability boundary and the current blocker.",
+      "techniques": [
+        "memory_loop",
+        "residue_ledger",
+        "data_quality_deduplication"
+      ],
+      "applies_to_steps": [
+        "stage-01-context",
+        "stage-03-refine-review",
+        "stage-10-final"
+      ],
+      "validation_expectation": "The route must preserve the prior no-overclaim guards and avoid duplicating older proof feasibility plans as current execution proof."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "The next route is narrow enough for local parent execution; subagents may be introduced later if Mathlib theorem search stalls.",
+    "explanation": "No subagents are required for the strategy proposal. The confirmed invoke plan may recommend one proof-scout subagent only if the denominator derivative theorem remains blocked.",
+    "context": [
+      "Softmax foundation already builds.",
+      "The blocker is a standard calculus theorem chain rather than broad research.",
+      "The route must produce invoke define/design/plan artifacts before task-session execution."
+    ],
+    "roles": [],
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Confirm to run the refine loop and the invoke define/design/plan stages.",
+    "receipt_requirements": [
+      "run_id",
+      "artifacts",
+      "validation_result",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "residue"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "20260614T135903Z-softmax-coordinate-derivative-plan",
+      "step_id": "stage-01-context",
+      "capability_ref": "context-builder",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "artifacts": [
+        "stages/01-context-builder.md"
+      ],
+      "validation": [
+        "awaiting operator confirmation"
+      ],
+      "observer_status": "pending",
+      "blockers": [],
+      "residue": "",
+      "handoff_note": "Run after confirmation."
+    },
+    {
+      "dispatch_id": "20260614T135903Z-softmax-coordinate-derivative-plan",
+      "step_id": "stage-02-define",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "artifacts": [
+        "stages/02-invoke-define.md"
+      ],
+      "validation": [
+        "awaiting operator confirmation"
+      ],
+      "observer_status": "pending",
+      "blockers": [],
+      "residue": "",
+      "handoff_note": "Define proof-program scope, glossary, decisions, and no-overclaim guardrails."
+    },
+    {
+      "dispatch_id": "20260614T135903Z-softmax-coordinate-derivative-plan",
+      "step_id": "stage-06-design",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "artifacts": [
+        "stages/06-invoke-design.md"
+      ],
+      "validation": [
+        "awaiting operator confirmation"
+      ],
+      "observer_status": "pending",
+      "blockers": [],
+      "residue": "",
+      "handoff_note": "Design the Lean theorem architecture and dependencies."
+    },
+    {
+      "dispatch_id": "20260614T135903Z-softmax-coordinate-derivative-plan",
+      "step_id": "stage-09-plan",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "artifacts": [
+        "stages/09-invoke-plan.md",
+        "WORK-PACK.md",
+        "IMPLEMENTATION-LAYERING.md"
+      ],
+      "validation": [
+        "awaiting operator confirmation"
+      ],
+      "observer_status": "pending",
+      "blockers": [],
+      "residue": "",
+      "handoff_note": "Produce task-session-ready SWUs for denominator derivative, numerator derivative, quotient derivative, algebra, and paper sync."
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "stage-01-context",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "concrete_path_evidence",
+        "memory_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/projects/mars/papers/triton-top2-backward-kernel/formal/SOFTMAX-COORDINATE-BLOCKER.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/projects/mars/papers/triton-top2-backward-kernel/formal/TritonTop2/SoftmaxCoordinate.lean"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/01-context-builder.md"
+        }
+      ],
+      "stop_conditions": [
+        "do not run before operator confirmation"
+      ]
+    },
+    {
+      "step_id": "stage-02-define",
+      "name": "Invoke Define softmax derivative proof program",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/01-context-builder.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if the derivative target is stated for hard Top2 instead of finite softmax"
+      ]
+    },
+    {
+      "step_id": "stage-03-refine-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/03-refine-review.md"
+        }
+      ],
+      "evidence_artifact": "stages/03-refine-review.md"
+    },
+    {
+      "step_id": "stage-04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "techniques": [
+        "approval_checkpoint",
+        "conditional_component"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/03-refine-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision.md"
+        }
+      ],
+      "stop_conditions": [
+        "external research requires a named Mathlib theorem-shape gap and operator confirmation"
+      ]
+    },
+    {
+      "step_id": "stage-05-distill",
+      "name": "Distill smallest proof units",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": [
+        "scu_swu_reduction",
+        "toy_game",
+        "recomposition_proof"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "stages/03-refine-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/05-distill.md"
+        }
+      ],
+      "convergence_criteria": [
+        "denominator derivative is the first executable theorem",
+        "numerator derivative is separated from quotient derivative",
+        "algebraic normalization is separated from calculus"
+      ]
+    },
+    {
+      "step_id": "stage-06-design",
+      "name": "Invoke Design Lean theorem architecture",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "component_descriptor",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/05-distill.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if theorem dependencies require changing already-built definitions without a migration plan"
+      ]
+    },
+    {
+      "step_id": "stage-07-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/07-design-review.md"
+        }
+      ],
+      "evidence_artifact": "stages/07-design-review.md"
+    },
+    {
+      "step_id": "stage-08-distill-repair",
+      "name": "Distill repair proof route",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "techniques": [
+        "validation_loop",
+        "assessment_failure_reference"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "stages/07-design-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/08-distill-repair.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if the plan cannot name a smallest next theorem"
+      ]
+    },
+    {
+      "step_id": "stage-09-plan",
+      "name": "Invoke Plan proof work-pack",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "scu_swu_reduction",
+        "handle_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/08-distill-repair.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "WORK-PACK.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "IMPLEMENTATION-LAYERING.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if SWUs do not include denominator derivative, numerator derivative, quotient derivative, algebraic normalization, and evidence sync"
+      ]
+    },
+    {
+      "step_id": "stage-10-final",
+      "name": "Final interrogation and refine synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": [
+        "validation_loop",
+        "residue_ledger",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "WORK-PACK.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "IMPLEMENTATION-LAYERING.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": ".arcanum/observability/signals/sigil-invocations.jsonl"
+        }
+      ],
+      "evidence_artifact": "RESULT.md"
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G-001-confirm-before-runtime",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Operator confirms before refine stages or invoke stages run.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "G-002-preserve-claim-boundaries",
+      "kind": "promotion_guardrail",
+      "owner": "refine",
+      "condition": "Artifacts do not claim hard Top2 differentiability, Triton/CUDA formal correctness, FP16 formal proof, or CAP2 novelty.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-003-proof-swu-completeness",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "Plan names SWUs for denominator derivative, numerator derivative, quotient derivative, algebraic normalization, and evidence sync.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-004-lean-validation-surface",
+      "kind": "validation",
+      "owner": "task-session",
+      "condition": "Future execution validates with lake build and theorem/evidence marker scans.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "20260614T102500Z-lean-softmax-cap2-proof-plan",
+    "trace_events": [
+      "refine.strategy_proposed",
+      "refine.confirmation_required",
+      "invoke.define.pending",
+      "invoke.design.pending",
+      "invoke.plan.pending"
+    ],
+    "signal_grouping": "20260614T135903Z-softmax-coordinate-derivative-plan"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B-001-refine-to-invoke",
+        "kind": "capability_handoff",
+        "from_owner": "refine",
+        "to_owner": "invoke",
+        "applies_to_steps": [
+          "stage-02-define",
+          "stage-06-design",
+          "stage-09-plan"
+        ],
+        "contract": "Refine owns the strategy; invoke owns define/design/plan artifacts.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B-002-plan-to-task-session",
+        "kind": "capability_handoff",
+        "from_owner": "invoke",
+        "to_owner": "task-session",
+        "applies_to_steps": [
+          "stage-09-plan",
+          "stage-10-final"
+        ],
+        "contract": "Invoke may emit an executable work-pack but must not execute proof SWUs.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine",
+      "execution": "task-session after invoke plan approval",
+      "validation": "Lean lake build and paper evidence checks",
+      "evidence": "research/projects/mars/development/refinement-runs/20260614T135903Z-softmax-coordinate-derivative-plan",
+      "memory": "no memory promotion in this route",
+      "promotion": "operator"
+    },
+    "receipts": [
+      {
+        "receipt_id": "R-001-invoke-stage-receipt",
+        "producer": "invoke",
+        "required_fields": [
+          "run_id",
+          "artifacts",
+          "validation_result",
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "blockers",
+          "handoff_note"
+        ],
+        "stores": [
+          "RUN-MANIFEST.md",
+          "evidence-index.json"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "formal Lean source",
+        "owner": "task-session",
+        "write_policy": "No Lean source edits during refine proposal; edits only after invoke plan and task-session execution."
+      },
+      {
+        "namespace": "refinement run artifacts",
+        "owner": "refine",
+        "write_policy": "Seed, dispatch, manifest, index, handoff, and result proposal may be written by refine."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "strategy proposal",
+        "target": "formal validation claim",
+        "rule": "A strategy proposal is not a proof and cannot update paper claims as passed evidence.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "No hard Top2 differentiability claim.",
+    "No Triton/CUDA formal proof claim.",
+    "No FP16 formal proof claim.",
+    "No CAP2 novelty claim.",
+    "No softmax derivative claim until Lean theorem builds."
+  ]
+}

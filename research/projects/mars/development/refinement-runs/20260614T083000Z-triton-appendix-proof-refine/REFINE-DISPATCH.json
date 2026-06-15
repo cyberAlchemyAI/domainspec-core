@@ -1,0 +1,322 @@
+{
+  "dispatch_id": "20260614T083000Z-triton-appendix-proof-refine",
+  "parent_dispatch_id": "20260614T083000Z-triton-appendix-proof-strategy",
+  "intent": {
+    "raw": "Refine appendix/proof/review strategy for the Triton Top2 paper package.",
+    "objective": "Prepare the canonical refine route for appendix and proof planning, then stop before runtime execution.",
+    "target_artifact": "research/projects/mars/papers/triton-top2-backward-kernel/",
+    "arcanum_vocabulary": [
+      "refine",
+      "dispatch-spec",
+      "invoke",
+      "interrogation",
+      "distill"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Proof feasibility, appendix readability, and paper review are separable lanes.",
+    "explanation": "Subagents should be used only during the later execution route, after operator confirmation.",
+    "context": [
+      "Existing Mathlib theorem slice builds.",
+      "Next proof lanes have different risk profiles.",
+      "Refine must stop before runtime-backed stage execution without confirmation."
+    ],
+    "roles": [
+      {
+        "role_id": "proof-scout",
+        "purpose": "Check theorem feasibility before implementation.",
+        "owns": "proof lane feasibility",
+        "applies_to_steps": [
+          "stage-05-distill",
+          "stage-09-invoke-plan"
+        ]
+      },
+      {
+        "role_id": "appendix-reader",
+        "purpose": "Check appendix readability and reader bridge.",
+        "owns": "appendix review",
+        "applies_to_steps": [
+          "stage-07-design-review",
+          "stage-10-final"
+        ]
+      },
+      {
+        "role_id": "skeptical-reviewer",
+        "purpose": "Find overclaims and missing evidence.",
+        "owns": "reviewer pass",
+        "applies_to_steps": [
+          "stage-10-final"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Confirm before running refine stages or spawning subagents.",
+    "receipt_requirements": [
+      "run_id",
+      "artifacts",
+      "validation_result",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "residue",
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "stage-01-context",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "context-baseline"
+        }
+      ],
+      "stop_conditions": [
+        "not_run until operator confirmation"
+      ]
+    },
+    {
+      "step_id": "stage-02-define",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "context-baseline"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ]
+    },
+    {
+      "step_id": "stage-03-refine-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/03-refine-review.md"
+        }
+      ],
+      "evidence_artifact": "stages/03-refine-review.md"
+    },
+    {
+      "step_id": "stage-04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/03-refine-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision.md"
+        }
+      ]
+    },
+    {
+      "step_id": "stage-05-distill",
+      "name": "Distill coherent unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/05-distill.md"
+        }
+      ]
+    },
+    {
+      "step_id": "stage-06-design",
+      "name": "Invoke Redefine / Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/05-distill.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ]
+    },
+    {
+      "step_id": "stage-07-design-review",
+      "name": "Interrogation design review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/07-design-review.md"
+        }
+      ],
+      "evidence_artifact": "stages/07-design-review.md"
+    },
+    {
+      "step_id": "stage-08-distill-repair",
+      "name": "Distill repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/07-design-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/08-distill-repair.md"
+        }
+      ]
+    },
+    {
+      "step_id": "stage-09-invoke-plan",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/08-distill-repair.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        }
+      ]
+    },
+    {
+      "step_id": "stage-10-final",
+      "name": "Final interrogation and synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        }
+      ],
+      "evidence_artifact": "RESULT.md"
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g1-confirm-before-run",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Runtime-backed refine stages and subagents require confirmation.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g2-owner-boundary",
+      "kind": "promotion_guardrail",
+      "owner": "refine",
+      "condition": "Refine does not promote paper claims or memory; it prepares the route and synthesis only.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g3-claim-guard",
+      "kind": "quality",
+      "owner": "research/projects/mars",
+      "condition": "All proof and appendix plans preserve current claim guards.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "20260614T083000Z-triton-appendix-proof-strategy",
+    "trace_events": [
+      "refine_dispatch_validated",
+      "strategy_preview_created",
+      "operator_confirmation_required"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "promotion_guardrails": [
+    "No lifecycle promotion without owner route.",
+    "No execution before operator confirmation."
+  ]
+}

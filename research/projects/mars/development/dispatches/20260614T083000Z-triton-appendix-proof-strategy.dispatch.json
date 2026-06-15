@@ -1,0 +1,482 @@
+{
+  "dispatch_id": "20260614T083000Z-triton-appendix-proof-strategy",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Create a strategy for the next paper steps: math appendix, next formal proofs, and paper reviewer pass; refine the approach; invoke define/design/plan for each proof and appendix.",
+    "objective": "Produce a governed non-executing strategy and invoke work-pack for the Triton Top2 paper package next phase.",
+    "target_artifact": "research/projects/mars/papers/triton-top2-backward-kernel/",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "refine",
+      "invoke",
+      "task-session",
+      "mathlib",
+      "paper-package"
+    ],
+    "operator_sentence": "Create a strategy for steps 2, 3, and 4; refine appendix/proof approach; invoke define/design/plan for each proof and appendix."
+  },
+  "mode": "sequence",
+  "route_menu": {
+    "context_hint": "The next phase can either write the appendix first, proof first, or plan all lanes before execution.",
+    "items": [
+      {
+        "id": "plan-all-lanes",
+        "label": "Plan All Lanes",
+        "description": "Define appendix, fixed-mask proof, softmax proof, CAP2 proof, and reviewer pass before execution.",
+        "capability_ref": "invoke",
+        "pattern": "sequential"
+      },
+      {
+        "id": "appendix-first",
+        "label": "Appendix First",
+        "description": "Write the plain-language appendix before opening deeper proof tasks.",
+        "capability_ref": "task-session",
+        "pattern": "sequential"
+      },
+      {
+        "id": "proof-first",
+        "label": "Proof First",
+        "description": "Prioritize fixed-mask proof before paper prose.",
+        "capability_ref": "task-session",
+        "pattern": "sequential"
+      }
+    ],
+    "selected_item_id": "plan-all-lanes"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "scu_swu_reduction",
+    "route_menu",
+    "residue_ledger",
+    "concrete_path_evidence",
+    "execution_receipt_handoff"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The route must pass from strategy to refine proposal to invoke artifacts to later task-session execution.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping"
+      ],
+      "applies_to_steps": [
+        "s1-context-frame",
+        "s2-refine-strategy",
+        "s3-invoke-define",
+        "s4-invoke-design",
+        "s5-invoke-plan",
+        "s6-task-session-handoff"
+      ],
+      "validation_expectation": "Each step consumes a prior artifact/frame and emits an artifact handle."
+    },
+    {
+      "overlay_id": "route_menu_for_ambiguity",
+      "trigger": "The user named multiple possible next steps; the route records plan-all-lanes as the selected strategy.",
+      "techniques": [
+        "route_menu",
+        "one_or_more_option_set",
+        "approval_checkpoint"
+      ],
+      "applies_to_steps": [
+        "s2-refine-strategy"
+      ],
+      "validation_expectation": "The route menu records the selected next-phase strategy and later execution still requires confirmation."
+    },
+    {
+      "overlay_id": "proof_lane_scu_swu",
+      "trigger": "Each formal proof must be decomposed into a smallest executable theorem slice before coding.",
+      "techniques": [
+        "scu_swu_reduction",
+        "recomposition_proof",
+        "concrete_path_evidence"
+      ],
+      "applies_to_steps": [
+        "s5-invoke-plan",
+        "s6-task-session-handoff"
+      ],
+      "validation_expectation": "Every proof and appendix lane has SWUs with source anchors, write scopes, and validation commands."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The next phase has separable proof, prose, and reviewer lanes that benefit from role-bound critique before execution.",
+    "explanation": "Subagents are useful later for parallel proof feasibility, appendix readability, and skeptical paper review, but this dispatch only recommends them.",
+    "context": [
+      "Mathlib-backed router adjoint identities already build.",
+      "Fixed-mask proof is the next best formal target.",
+      "Softmax and CAP2 proofs carry higher risk and should be planned separately.",
+      "Paper prose must stay understandable to a non-specialist reader."
+    ],
+    "roles": [
+      {
+        "role_id": "proof-scout",
+        "purpose": "Assess theorem feasibility and minimal theorem statements before code execution.",
+        "owns": "formal proof lane feasibility notes",
+        "applies_to_steps": [
+          "s5-invoke-plan",
+          "s6-task-session-handoff"
+        ]
+      },
+      {
+        "role_id": "appendix-reader",
+        "purpose": "Check whether the math appendix explains the formal identities in plain language.",
+        "owns": "appendix readability review",
+        "applies_to_steps": [
+          "s5-invoke-plan",
+          "s6-task-session-handoff"
+        ]
+      },
+      {
+        "role_id": "skeptical-reviewer",
+        "purpose": "Find overclaims, missing evidence, and weak reader-facing claims.",
+        "owns": "paper reviewer pass",
+        "applies_to_steps": [
+          "s6-task-session-handoff"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Confirm before spawning proof/prose/reviewer subagents or executing task-session work.",
+    "receipt_requirements": [
+      "run_id",
+      "artifacts",
+      "validation_result",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "handoff_note",
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "20260614T083000Z-triton-appendix-proof-strategy",
+      "step_id": "s1-context-frame",
+      "capability_ref": "context-builder",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "handoff_note": "Context frame is represented by source anchors in the refine and invoke artifacts."
+    },
+    {
+      "dispatch_id": "20260614T083000Z-triton-appendix-proof-strategy",
+      "step_id": "s6-task-session-handoff",
+      "capability_ref": "task-session",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "artifacts": [
+        "research/projects/mars/development/invoke-runs/20260614T083000Z-triton-appendix-proof-plan/WORK-PACK.md"
+      ],
+      "validation": [],
+      "handoff_note": "Task Session execution starts only after operator confirmation."
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "s1-context-frame",
+      "name": "Frame current paper and formal evidence",
+      "capability_ref": "context-builder",
+      "mode": "lean",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "triton-paper-next-phase-context"
+        }
+      ],
+      "stop_conditions": [
+        "block if paper package or formal project paths are missing"
+      ]
+    },
+    {
+      "step_id": "s2-refine-strategy",
+      "name": "Refine appendix and proof approach",
+      "capability_ref": "refine",
+      "mode": "strategy-proposal",
+      "pattern": "sequential",
+      "techniques": [
+        "route_menu",
+        "residue_ledger",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "triton-paper-next-phase-context"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/projects/mars/development/refinement-runs/20260614T083000Z-triton-appendix-proof-refine/RESULT.md"
+        }
+      ],
+      "evidence_artifact": "research/projects/mars/development/refinement-runs/20260614T083000Z-triton-appendix-proof-refine/RESULT.md",
+      "stop_conditions": [
+        "stop before runtime-backed stages until operator confirms"
+      ]
+    },
+    {
+      "step_id": "s3-invoke-define",
+      "name": "Define appendix and proof lanes",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff",
+        "minimum_component_catalog"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/projects/mars/development/refinement-runs/20260614T083000Z-triton-appendix-proof-refine/RESULT.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/projects/mars/development/invoke-runs/20260614T083000Z-triton-appendix-proof-plan/INVOKE-DEFINE.md"
+        }
+      ],
+      "evidence_artifact": "research/projects/mars/development/invoke-runs/20260614T083000Z-triton-appendix-proof-plan/INVOKE-DEFINE.md"
+    },
+    {
+      "step_id": "s4-invoke-design",
+      "name": "Design appendix and proof lanes",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff",
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/projects/mars/development/invoke-runs/20260614T083000Z-triton-appendix-proof-plan/INVOKE-DEFINE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/projects/mars/development/invoke-runs/20260614T083000Z-triton-appendix-proof-plan/INVOKE-DESIGN.md"
+        }
+      ],
+      "evidence_artifact": "research/projects/mars/development/invoke-runs/20260614T083000Z-triton-appendix-proof-plan/INVOKE-DESIGN.md"
+    },
+    {
+      "step_id": "s5-invoke-plan",
+      "name": "Plan appendix and proof execution work-pack",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "scu_swu_reduction",
+        "recomposition_proof",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/projects/mars/development/invoke-runs/20260614T083000Z-triton-appendix-proof-plan/INVOKE-DESIGN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/projects/mars/development/invoke-runs/20260614T083000Z-triton-appendix-proof-plan/WORK-PACK.md"
+        }
+      ],
+      "evidence_artifact": "research/projects/mars/development/invoke-runs/20260614T083000Z-triton-appendix-proof-plan/WORK-PACK.md"
+    },
+    {
+      "step_id": "s6-task-session-handoff",
+      "name": "Hand off planned lanes for later execution",
+      "capability_ref": "task-session",
+      "mode": "next-route",
+      "pattern": "handoff",
+      "techniques": [
+        "execution_receipt_handoff",
+        "approval_checkpoint",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/projects/mars/development/invoke-runs/20260614T083000Z-triton-appendix-proof-plan/WORK-PACK.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "operator-confirmation-required"
+        }
+      ],
+      "stop_conditions": [
+        "do not execute appendix/proof/review tasks until operator confirms"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g1-claim-boundary",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "No route, appendix, proof, or review artifact may claim hard Top2 differentiability, CAP2 novelty, Triton proof, or FP16 proof.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g2-proof-order",
+      "kind": "decision",
+      "owner": "invoke",
+      "condition": "Fixed-mask proof is planned before softmax and CAP2 proofs unless a later decision gate changes the order.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "g3-human-execution-approval",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Task-session execution and any subagents require explicit operator confirmation.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g4-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Dispatch and execution evidence do not promote inventory, ontology, glossary, sigil, spell, or memory artifacts.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "dispatch_validated",
+      "refine_strategy_created",
+      "invoke_define_created",
+      "invoke_design_created",
+      "invoke_plan_created",
+      "execution_handoff_ready"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b1-planning-not-execution",
+        "kind": "human_approval",
+        "from_owner": "invoke",
+        "to_owner": "task-session",
+        "applies_to_steps": [
+          "s6-task-session-handoff"
+        ],
+        "contract": "This dispatch produces a strategy and work-pack only; execution waits for operator confirmation.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b2-paper-evidence-scope",
+        "kind": "evidence_return",
+        "from_owner": "task-session",
+        "to_owner": "research/projects/mars",
+        "applies_to_steps": [
+          "s5-invoke-plan",
+          "s6-task-session-handoff"
+        ],
+        "contract": "Future execution receipts must cite concrete files and validation commands before paper claims are updated.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "research/projects/mars",
+      "execution": "task-session after operator confirmation",
+      "validation": "Lean lake build, paper review, and dispatch-spec validator",
+      "evidence": "research/projects/mars/development",
+      "memory": "none",
+      "promotion": "none"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r1-task-session-future",
+        "producer": "task-session",
+        "required_fields": [
+          "run_id",
+          "artifacts",
+          "validation_result",
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "validation",
+          "blockers",
+          "handoff_note"
+        ],
+        "stores": [
+          "research/projects/mars/development/task-sessions/"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "paper-package",
+        "owner": "research/projects/mars",
+        "write_policy": "Only paper and formal-package artifacts should be updated by future execution."
+      },
+      {
+        "namespace": "strategy-artifacts",
+        "owner": "research/projects/mars/development",
+        "write_policy": "Dispatch, refine, and invoke strategy artifacts are planning evidence."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "execution receipts",
+        "target": "paper claims",
+        "rule": "Execution evidence may update paper claims only through explicit paper review and claim-guard updates.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "No hard Top2 differentiability claim.",
+    "No CAP2 novelty claim.",
+    "No Triton/CUDA correctness proof claim from Lean.",
+    "No memory, glossary, inventory, sigil, or spell promotion from this dispatch."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "mutationMode": "apply-approved",
+  "sourceSignals": [
+    {
+      "id": "SIG-LEAN-001",
+      "source_path": "user-request",
+      "signal_type": "route_changed",
+      "target_artifacts": [
+        "WORK-PACK.md",
+        "INVOKE-PLAN.md"
+      ],
+      "claim": "Add a Lean validation design and plan before paper drafting.",
+      "evidence": "User explicitly requested invoke refresh and a Lean design/plan lane.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "SIG-LEAN-002",
+      "source_path": "local-tooling-probe",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "LEAN-VALIDATION-DESIGN.md",
+        "LEAN-VALIDATION-PLAN.md"
+      ],
+      "claim": "Lean, Lake, and elan are locally available.",
+      "evidence": "lean --version, lake --version, elan --version succeeded.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "SIG-LEAN-003",
+      "source_path": "research/triton-top2-backward-kernel/FORMAL-MATH-SPEC.md",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "LEAN-VALIDATION-PLAN.md",
+        "tasks/TASK-TTP-005M.md"
+      ],
+      "claim": "Existing formal proof targets can seed the Lean lane.",
+      "evidence": "Formal math spec names PO-004, PO-005, PO-006 and explicit non-theorems.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "LEAN-VALIDATION-DESIGN.md",
+    "LEAN-VALIDATION-PLAN.md",
+    "WORK-PACK.md",
+    "INVOKE-DESIGN.md",
+    "INVOKE-PLAN.md",
+    "IMPLEMENTATION-LAYERING.md",
+    "RUN-MANIFEST.md",
+    "evidence-index.json",
+    "tasks/TASK-TTP-005L.md",
+    "tasks/TASK-TTP-005M.md",
+    "waves/W1L-LEAN.md"
+  ],
+  "deltaSummary": [
+    "Added Lean formal-validation lane before data appendix and paper drafting.",
+    "Changed TASK-TTP-006 dependency from TASK-TTP-005 to TASK-TTP-005M.",
+    "Added local Lean tooling evidence and formal non-claim boundaries."
+  ],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "created Lean design and plan artifacts",
+    "created two Lean task contracts",
+    "created one Lean wave file",
+    "updated main plan and work-pack artifacts"
+  ],
+  "skippedChanges": [
+    "did not scaffold the actual Lean project; that belongs to TASK-TTP-005L execution"
+  ],
+  "blockers": [],
+  "nextRoute": "task-session to research/projects/mars/development/invoke-runs/20260614T075231Z-triton-paper-package-plan/WORK-PACK.md --task TASK-TTP-001",
+  "validation": [
+    "jq empty refresh-report.json",
+    "source anchor existence check",
+    "lean/lake/elan version probe"
+  ]
+}

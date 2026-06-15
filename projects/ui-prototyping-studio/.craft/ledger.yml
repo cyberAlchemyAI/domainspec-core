@@ -1,0 +1,848 @@
+ledger_id: ui-prototyping-studio.craft
+schema_ref: ../../../arcanum/arcana/craft/templates/ledger.schema.yml
+schema_version: 0.2.0
+status: candidate-local
+source_of_truth: projects/ui-prototyping-studio/.craft/ledger.yml
+human_view: projects/ui-prototyping-studio/CRAFT.md
+indexes:
+  by_id:
+    CTX-UPS-ROOT: contexts[0]
+    CTX-UPS-DEEP-SPEC: contexts[1]
+    DEC-EXECUTION-SCOPE-001: decisions[0]
+    DEC-ONE-SHOT-SCOPE-002: decisions[1]
+    DEC-OQ1-TRUST-METER: decisions[2]
+    DEC-OQ2-SAW-DIFF: decisions[3]
+    DEC-OQ3-HANDOFF-CARRY: decisions[4]
+    DEC-OQ4-IMPORT-INTEGRITY: decisions[5]
+    BLK-FIXTURE-CORPUS-001: typed_items[0]
+    BLK-IDENTITY-TYPES-002: typed_items[1]
+    BLK-FAILURE-STATES-003: typed_items[2]
+    BLK-INVARIANTS-UNCALIBRATED-004: typed_items[3]
+    ENA-DEEP-SPEC-ROUTE-001: typed_items[4]
+    ENA-L0-SPINE-EXISTS-002: typed_items[5]
+    GAP-ERGONOMICS-UNPROVEN-001: gaps[0]
+    GAP-COMPONENT-REGISTRY-002: gaps[1]
+    GAP-CONFLICT-ALGEBRA-003: gaps[2]
+    GAP-CONTRACT-DRIFT-004: gaps[3]
+    GAP-DOCS-CODE-SPLIT-005: gaps[4]
+    CTX-UPS-EXTRACTION: contexts[2]
+    DEC-DEPRECATE-PIVOT-007: decisions[6]
+    ART-EXTRACTION-PLAN: artifacts[14]
+    ART-LEAN-SPEC: artifacts[15]
+    ART-README: artifacts[16]
+    ART-PROVENANCE: artifacts[17]
+    DEC-FRESH-MINIMAL-008: decisions[7]
+    DEC-INTERFACE-MODEL-009: decisions[8]
+    DEC-GENERATOR-PORT-010: decisions[9]
+    ENA-GENERATOR-PORT-003: typed_items[6]
+    DEC-RUNTIME-CLAUDE-CODE-011: decisions[10]
+    DEC-CLI-NOT-MCP-012: decisions[11]
+    GAP-ANNOTATION-UX-006: gaps[5]
+    ART-GLOSSARY: artifacts[18]
+    ART-STATES: artifacts[19]
+    ART-OPERATIONS: artifacts[20]
+    ART-INTERFACES: artifacts[21]
+    ART-ARCHITECTURE: artifacts[22]
+    DEC-INPROTO-ANNOTATION-013: decisions[12]
+    DEC-ATOMIC-IDS-014: decisions[13]
+  open_decisions:
+  - DEC-ONE-SHOT-SCOPE-002
+  - DEC-OQ1-TRUST-METER
+  - DEC-OQ2-SAW-DIFF
+  - DEC-OQ3-HANDOFF-CARRY
+  - DEC-OQ4-IMPORT-INTEGRITY
+  blocking_decisions:
+  - DEC-ONE-SHOT-SCOPE-002
+  - DEC-OQ1-TRUST-METER
+  - DEC-OQ2-SAW-DIFF
+  - DEC-OQ3-HANDOFF-CARRY
+  active_blockers:
+  - BLK-FIXTURE-CORPUS-001
+  - BLK-IDENTITY-TYPES-002
+  - BLK-FAILURE-STATES-003
+  - BLK-INVARIANTS-UNCALIBRATED-004
+  active_gaps:
+  - GAP-ERGONOMICS-UNPROVEN-001
+  - GAP-COMPONENT-REGISTRY-002
+  - GAP-CONFLICT-ALGEBRA-003
+  - GAP-CONTRACT-DRIFT-004
+  - GAP-DOCS-CODE-SPLIT-005
+  next_moves:
+  - context_id: CTX-UPS-ROOT
+    next_move: Execute extraction (P1 -> P1.5 studio CLI + skill, no MCP/SPA -> P3 e2e); runtime Claude Code-native via CLI; deep-spec decision-gate stays queued.
+  - context_id: CTX-UPS-EXTRACTION
+    next_move: Resolve D-EXT-1..5 and execute P1->P5.
+  artifacts_by_path:
+    projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-DISPATCH.json: ART-DEEP-SPEC-DISPATCH
+    projects/ui-prototyping-studio/development/deep-spec-dispatch/SYNTHESIZED-DEEP-DESIGN.md: ART-SYNTH-DEEP-DESIGN
+    projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-PROPOSAL.md: ART-DEEP-SPEC-PROPOSAL
+    projects/ui-prototyping-studio/development/deep-spec-dispatch/ONE-SHOT-IMPLEMENTATION-PLAN.md: ART-ONE-SHOT-PLAN
+    projects/ui-prototyping-studio/development/deep-spec-dispatch/RESULT.md: ART-DEEP-SPEC-RESULT
+    projects/ui-prototyping-studio/development/standalone-extraction/EXTRACTION-PLAN.md: ART-EXTRACTION-PLAN
+    projects/ui-prototyping-studio/SPEC.md: ART-LEAN-SPEC
+    projects/ui-prototyping-studio/glossary.md: ART-GLOSSARY
+    projects/ui-prototyping-studio/states.md: ART-STATES
+    projects/ui-prototyping-studio/operations.md: ART-OPERATIONS
+    projects/ui-prototyping-studio/interfaces.md: ART-INTERFACES
+    projects/ui-prototyping-studio/ARCHITECTURE.md: ART-ARCHITECTURE
+contexts:
+- context_id: CTX-UPS-ROOT
+  parent_id: root
+  title: UI Prototyping Studio Deep-Spec Readiness
+  purpose: Track the UI Prototyping Studio feature from an architecture-strong / evidence-sparse spec toward one-shot implementation readiness, keeping the deepened design, residuality invariants, UX evidence, open decisions, blockers, and gaps explicit.
+  stage: plan
+  gate: flag
+  next_move: 'Execute extraction: P1 backend lift -> P1.5 `studio` CLI + operating skill (no MCP, no SPA) -> P3 e2e. Deep-spec decision-gate (OQ-1..4) stays queued.'
+  owned_artifacts:
+  - ART-LEAN-SPEC
+  - ART-UPS-CRAFT-LEDGER
+  - ART-UPS-CRAFT-VIEW
+  - ART-EXISTING-SPEC
+  - ART-DEEP-SPEC-PROPOSAL
+  - ART-ONE-SHOT-PLAN
+  - ART-DEEP-SPEC-RESULT
+  - ART-README
+  - ART-PROVENANCE
+  - ART-GLOSSARY
+  - ART-STATES
+  - ART-OPERATIONS
+  - ART-INTERFACES
+  - ART-ARCHITECTURE
+  notes: Root context created by /craft for the ui-prototyping-studio feature, seeded from dispatch ui-prototyping-studio-deep-spec-001.
+- context_id: CTX-UPS-DEEP-SPEC
+  parent_id: CTX-UPS-ROOT
+  title: Deep-Spec Dispatch Exploration
+  purpose: Deepen the spec via a dialectical zig-zag exploration (novel vs defend) hardened by residuality stressors, UX evidence, a planned Playwright suite, and a context-isolated naive-user walkthrough, ending in a candid one-shot readiness verdict.
+  stage: closed
+  gate: flag
+  next_move: Recompose the conditional readiness verdict and carried residue into CTX-UPS-ROOT and route the open decisions to decision-gate.
+  owned_artifacts:
+  - ART-DEEP-SPEC-DISPATCH
+  - ART-DEEP-SPEC-README
+  - ART-SYNTH-DEEP-DESIGN
+  - ART-RESIDUALITY
+  - ART-UX-EVIDENCE
+  - ART-PLAYWRIGHT-PLAN
+  - ART-COLD-START
+  - ART-DEEP-SPEC-LIFECYCLE
+  notes: Child context closed after the workflow run (wf_ee6ffee8-68a, 12 agents) produced all artifacts and a CONDITIONAL readiness verdict. Subagent lifecycle pass.
+- context_id: CTX-UPS-EXTRACTION
+  parent_id: CTX-UPS-ROOT
+  title: Standalone Extraction
+  purpose: 'Claude Code-native standalone via a `studio` CLI (no MCP server): keep the working L0 governance core, wrap it in a CLI both Claude Code and the human drive, ship an operating skill; MVP visual review = `studio preview` (no React SPA). Build on existing code; full-vision spec + vendored reference archived to provenance/.'
+  stage: plan
+  gate: flag
+  next_move: 'Execute extraction: P1 backend lift -> P1.5 `studio` CLI + operating skill (no MCP, no SPA) -> P3 e2e. Deep-spec decision-gate (OQ-1..4) stays queued.'
+  owned_artifacts:
+  - ART-EXTRACTION-PLAN
+  notes: Opened after the operator reframed ui-prototyping-studio as a whole new project because domainspec is being deprecated.
+artifacts:
+- artifact_id: ART-UPS-CRAFT-LEDGER
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/.craft/ledger.yml
+  artifact_type: ledger-source
+  status: active
+  notes: Structured Craft source of truth for the UI Prototyping Studio feature.
+- artifact_id: ART-UPS-CRAFT-VIEW
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/CRAFT.md
+  artifact_type: human-view
+  status: active
+  notes: Human-readable view generated from the ledger; not source of truth.
+- artifact_id: ART-EXISTING-SPEC
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/provenance/legacy-domainspec-spec/SPEC.md
+  artifact_type: legacy-spec
+  status: superseded
+  notes: Full-vision DomainSpec spec (79KB). Archived as provenance; superseded for this release by the lean L0->L2 SPEC.md.
+- artifact_id: ART-DEEP-SPEC-DISPATCH
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-DISPATCH.json
+  artifact_type: dispatch-route
+  status: pass
+  notes: Dispatch route ui-prototyping-studio-deep-spec-001 validates VALIDATION=pass. Route-shape evidence only.
+- artifact_id: ART-DEEP-SPEC-README
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/README.md
+  artifact_type: route-readme
+  status: active
+  notes: Human-readable explanation of the route shape, lanes, gates, and artifacts.
+- artifact_id: ART-SYNTH-DEEP-DESIGN
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/SYNTHESIZED-DEEP-DESIGN.md
+  artifact_type: design
+  status: active
+  notes: Load-bearing synthesized design resolving the zig-zag dialectic into domainspec UI types. Proposal, not canonical.
+- artifact_id: ART-DEEP-SPEC-PROPOSAL
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-PROPOSAL.md
+  artifact_type: spec-proposal
+  status: flag
+  notes: Deepened spec resolving the shallow areas. PROPOSAL held behind gate g8-final-approval; does not mutate SPEC.md.
+- artifact_id: ART-ONE-SHOT-PLAN
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/ONE-SHOT-IMPLEMENTATION-PLAN.md
+  artifact_type: implementation-plan
+  status: flag
+  notes: Layered one-shot plan. Readiness CONDITIONAL - one-shot realistic only at L0->L2 scope.
+- artifact_id: ART-RESIDUALITY
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/RESIDUALITY-STRESSORS.md
+  artifact_type: resilience-spec
+  status: active
+  notes: Stressors, desired residue, attractors, and the eight proposed invariants Inv-1..8 (proposed, not calibrated).
+- artifact_id: ART-UX-EVIDENCE
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/UX-EVIDENCE-REPORT.md
+  artifact_type: ux-evidence-report
+  status: active
+  notes: Validator-safe checks across layers L0-L6 plus UX-FIXTURE-PLAN.md. 11 hard gates specified-but-unpromoted.
+- artifact_id: ART-PLAYWRIGHT-PLAN
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/PLAYWRIGHT-TEST-PLAN.md
+  artifact_type: test-plan
+  status: active
+  notes: Whole Playwright suite in planned mode (no execution). FX-* fixture IDs do not yet exist in apps/web/e2e.
+- artifact_id: ART-COLD-START
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/COLD-START-USABILITY-FINDINGS.md
+  artifact_type: usability-findings
+  status: active
+  notes: Context-isolated naive-user walkthrough. Task 3 (confirm identity/DNA) found effectively impossible in current UI.
+- artifact_id: ART-DEEP-SPEC-RESULT
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/RESULT.md
+  artifact_type: dispatch-result
+  status: active
+  notes: Summary, readiness verdict, artifact map, and carried residue for the deep-spec run.
+- artifact_id: ART-DEEP-SPEC-LIFECYCLE
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: projects/ui-prototyping-studio/development/deep-spec-dispatch/SUBAGENT-LIFECYCLE.json
+  artifact_type: lifecycle-ledger
+  status: pass
+  notes: AFK-safe closeout ledger; all 12 delegated agents joined and closed.
+- artifact_id: ART-EXTRACTION-PLAN
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/development/standalone-extraction/EXTRACTION-PLAN.md
+  artifact_type: extraction-plan
+  status: active
+  notes: Verified coupling assessment + phased plan to make the project standalone. Backend is a clean lift; frontend is plain React+CSS prop-driven; e2e moves with adapted playwright config.
+- artifact_id: ART-LEAN-SPEC
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/SPEC.md
+  artifact_type: feature-spec
+  status: active
+  notes: Lean L0->L2 spec (166 lines) distilled from the deep-spec proposal + one-shot plan. The buildable contract for this release.
+- artifact_id: ART-README
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/README.md
+  artifact_type: readme
+  status: active
+  notes: 'Project entry: what it is, scope L0->L2, what is spine vs provenance, run instructions.'
+- artifact_id: ART-PROVENANCE
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/provenance/
+  artifact_type: archive
+  status: active
+  notes: 'Archived, not spine: legacy-domainspec-spec/ (19 full-vision aspect docs) + open-design-reference/ (200-file vendored design-skills tree).'
+- artifact_id: ART-GLOSSARY
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/glossary.md
+  artifact_type: glossary
+  status: active
+  notes: Lean L0->L2 glossary aspect, CLI-native; authored via invoke define from SPEC.md + archived doc + code. Consistent with SPEC canonical names.
+- artifact_id: ART-STATES
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/states.md
+  artifact_type: states
+  status: active
+  notes: Lean L0->L2 states aspect, CLI-native; authored via invoke define from SPEC.md + archived doc + code. Consistent with SPEC canonical names.
+- artifact_id: ART-OPERATIONS
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/operations.md
+  artifact_type: operations
+  status: active
+  notes: Lean L0->L2 operations aspect, CLI-native; authored via invoke define from SPEC.md + archived doc + code. Consistent with SPEC canonical names.
+- artifact_id: ART-INTERFACES
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/interfaces.md
+  artifact_type: interfaces
+  status: active
+  notes: Lean L0->L2 interfaces aspect, CLI-native; authored via invoke define from SPEC.md + archived doc + code. Consistent with SPEC canonical names.
+- artifact_id: ART-ARCHITECTURE
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/ARCHITECTURE.md
+  artifact_type: architecture
+  status: active
+  notes: 'Architecture vision (invoke design): governance harness around Claude Code as the generation engine, studio CLI as the only seam, hexagonal core, deferred extension points. Decisions reference the ledger, not re-decided.'
+descriptions:
+- description_id: DESC-UPS-001
+  context_id: CTX-UPS-ROOT
+  description: The UI Prototyping Studio spec is architecture-strong and governance-clear but evidence-sparse. A deep-spec dispatch deepened it and produced a one-shot plan, but readiness is conditional - only the L0->L2 survival/trust floor is realistically one-shot-buildable; L3-L6 are net-new builds.
+  status: active
+  evidence: ART-DEEP-SPEC-RESULT
+- description_id: DESC-UPS-DEEP-SPEC-001
+  context_id: CTX-UPS-DEEP-SPEC
+  description: A dialectical zig-zag exploration (challenger vs defender), hardened by residuality, UX evidence, a planned Playwright suite, and a context-isolated naive-user walkthrough, synthesized into a deepened design + proposal + plan + candid readiness verdict.
+  status: active
+  evidence: ART-SYNTH-DEEP-DESIGN
+- description_id: DESC-UPS-FRESH-MINIMAL-001
+  context_id: CTX-UPS-ROOT
+  description: 'Restructured to a fresh-minimal standalone: lean L0->L2 SPEC + README at root, .craft ledger, development/ (deep-spec + extraction plan); the 19 full-vision aspect docs and the 200-file vendored design reference were archived under provenance/.'
+  status: active
+  evidence: ART-LEAN-SPEC
+- description_id: DESC-UPS-ASPECTS-001
+  context_id: CTX-UPS-ROOT
+  description: Authored lean companion aspect files (glossary, states, operations, interfaces) for the lean SPEC via invoke define — CLI-native, L0->L2 scope, grounded in code; the 79KB-era full-vision aspects remain archived in provenance/.
+  status: active
+  evidence: ART-OPERATIONS
+definitions:
+- definition_id: DEF-CONFORMANCE-DELTA-001
+  scope_id: CTX-UPS-ROOT
+  term: Conformance Delta
+  statement: The field-level diff between a candidate variant's UIVisualSignature and the committed baseline's, surfaced as governance FitnessSignals (preference -1|0|1) and reviewed instead of the full 24-field genome. Proposed (Lane A, dominant pareto) as the primary exploit-conformance review surface; resolves O-004.
+  status: candidate
+  evidence: ART-SYNTH-DEEP-DESIGN
+- definition_id: DEF-ONE-SHOT-FLOOR-001
+  scope_id: CTX-UPS-ROOT
+  term: L0->L2 survival/trust floor
+  statement: The validator-layer scope (L0 smoke, L1 accessibility, L2 layout integrity) that genuinely exists or is additive against existing code, and is the only scope s10 judged realistically buildable in one shot.
+  status: candidate
+  evidence: ART-DEEP-SPEC-RESULT
+- definition_id: DEF-EVIDENCE-FLOOR-001
+  scope_id: CTX-UPS-ROOT
+  term: Ergonomics-evidence floor
+  statement: The rule that every non-trivial UX claim is classified (hard_gate | soft_flag | screenshot_review | human_study | not_automatable) with a named proxy_limit, never asserted; hard gates only for deterministic or standards-backed failures.
+  status: candidate
+  evidence: ART-UX-EVIDENCE
+typed_items:
+- item_id: BLK-FIXTURE-CORPUS-001
+  kind: blocker
+  base_type: artifact_blocker
+  context_type: ui-prototyping-studio.fixture_corpus_absent
+  primary_lane: qa
+  secondary_lanes:
+  - validator
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  status: active
+  refinement_status: refined
+  default_role: validation_reviewer
+  delegation_route: ux-evidence-validator
+  closure_condition: The FX-* fixture corpus is authored under apps/web/e2e, @axe-core/playwright is added as a dependency, and a calibrate pass promotes the 11 specified hard gates.
+  evidence: ART-UX-EVIDENCE
+  decision_ref: none
+  reason: The plan's strict-superset gate suite is aspirational - zero FX-* IDs exist in e2e and axe is not installed, so the suite it claims to extend does not exist beyond two L0 specs.
+- item_id: BLK-IDENTITY-TYPES-002
+  kind: blocker
+  base_type: design_blocker
+  context_type: ui-prototyping-studio.identity_conformance_types_absent
+  primary_lane: tech
+  secondary_lanes:
+  - architecture
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  status: active
+  refinement_status: refined
+  default_role: architecture_reviewer
+  delegation_route: task-session
+  closure_condition: models.ts gains UIElementIdentity, UIElementInstance, UIVisualSignature, FieldDelta, FitnessSignal/Vector, PrototypeGenome, and ConfirmUIDecisionEvidence, with an IdentityEvidencePanel surface.
+  evidence: ART-COLD-START
+  decision_ref: none
+  reason: L4 identity/conformance is net-new greenfield, not additive; DiffSummary is only {added,changed,removed} counts and no identity types exist. s8 proves the current absence makes confirm-identity effectively impossible. Atomic-design components (atoms->organisms) are the natural L4 vocabulary for UIElementIdentity/conformance (DEC-ATOMIC-IDS-014); the light data-od-id stamping in MVP is the seed.
+- item_id: BLK-FAILURE-STATES-003
+  kind: blocker
+  base_type: design_blocker
+  context_type: ui-prototyping-studio.failure_recovery_states_absent
+  primary_lane: tech
+  secondary_lanes:
+  - qa
+  - product
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  status: active
+  refinement_status: refined
+  default_role: design_reviewer
+  delegation_route: task-session
+  closure_condition: Named failure/recovery states (GenerationFailed, SynthesisTimedOut, SourceStale, ApplyConflicted) are added to the state machines and mock-api gains failure injection (delay/abort/5xx) for L3/L5 gating.
+  evidence: ART-RESIDUALITY
+  decision_ref: none
+  reason: Both state machines and mock-api.ts model only the happy path (grep-verified); no failure injection exists, so L3/L5 require new domain + mock work, not additive layers.
+- item_id: BLK-INVARIANTS-UNCALIBRATED-004
+  kind: blocker
+  base_type: validation_blocker
+  context_type: ui-prototyping-studio.invariants_proposed_not_calibrated
+  primary_lane: validator
+  secondary_lanes:
+  - governance
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  status: active
+  refinement_status: refined
+  default_role: validation_reviewer
+  delegation_route: residuality-spec
+  closure_condition: Inv-1..8 are calibrated against authored fixtures and folded into the canonical SPEC before any layer that depends on them is built.
+  evidence: ART-RESIDUALITY
+  decision_ref: none
+  reason: The eight invariants are proposed-not-calibrated and the SPEC is unmutated; building against them would code to uncalibrated invariants.
+- item_id: ENA-DEEP-SPEC-ROUTE-001
+  kind: enabler
+  base_type: route_shape_enabler
+  context_type: ui-prototyping-studio.dispatch_validated
+  primary_lane: governance
+  secondary_lanes:
+  - validator
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  status: active
+  refinement_status: refined
+  default_role: governance_reviewer
+  delegation_route: dispatch-spec
+  closure_condition: The deep-spec dispatch remains VALIDATION=pass and is treated as route-shape evidence only.
+  evidence: ART-DEEP-SPEC-DISPATCH
+  decision_ref: none
+  reason: The exploration route is explicit, gated, observable, subagent-lifecycle pass, and non-promoting.
+- item_id: ENA-L0-SPINE-EXISTS-002
+  kind: enabler
+  base_type: knowledge_enabler
+  context_type: ui-prototyping-studio.l0_spine_real
+  primary_lane: tech
+  secondary_lanes:
+  - validator
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  status: active
+  refinement_status: refined
+  default_role: tech_reviewer
+  delegation_route: task-session
+  closure_condition: The L0->L2 one-shot builds on the verified spine (10-state StudioSessionState in models.ts, governance enforcement in mock-api.ts, two real e2e specs).
+  evidence: ART-DEEP-SPEC-RESULT
+  decision_ref: none
+  reason: 'Ground-truth verified by s10: L0 genuinely exists and governance (auto-apply forbidden, approval-before-apply, stale checks) is real, enabling a realistic scoped one-shot.'
+- item_id: ENA-GENERATOR-PORT-003
+  kind: enabler
+  base_type: design_enabler
+  context_type: ui-prototyping-studio.cli_seam
+  primary_lane: tech
+  secondary_lanes:
+  - product
+  source_id: CTX-UPS-EXTRACTION
+  target_id: CTX-UPS-ROOT
+  status: proposed
+  refinement_status: refined
+  default_role: tech_reviewer
+  delegation_route: task-session
+  closure_condition: A `studio` CLI wraps the orchestration module; Claude Code registers generated HTML via `studio variants register`; a deterministic fake drives e2e; an operating SKILL.md lets Claude Code drive the loop; gate enforcement (INV-3/4/5/8) lives server-side behind the CLI.
+  evidence: ART-EXTRACTION-PLAN
+  decision_ref: DEC-CLI-NOT-MCP-012
+  reason: 'Claude Code-native via a CLI (no MCP server): Claude Code generates/registers; the human drives the same CLI gates; deterministic synthesis + server-side gate enforcement preserved.'
+decisions:
+- decision_id: DEC-EXECUTION-SCOPE-001
+  scope_id: CTX-UPS-DEEP-SPEC
+  decision_type: selection
+  question: How should the validated deep-spec dispatch be executed?
+  description: Choice at the g0-charter gate between running the full route now, lane-by-lane with pauses, dialectic-only, or route-only.
+  options:
+  - Run the full route now
+  - Run lane by lane, pause at synthesis
+  - Just the dialectic lanes first
+  - Stop here - route only
+  default_option: Run the full route now
+  selected: Run the full route now
+  rationale: Operator approved subagent spend for maximum-depth exploration and to test one-shot design/planning ability.
+  status: closed
+  blocking: false
+  impact: 12 subagents ran end-to-end producing all artifacts and the readiness verdict.
+  owner: operator
+- decision_id: DEC-ONE-SHOT-SCOPE-002
+  scope_id: CTX-UPS-ROOT
+  decision_type: selection
+  question: What scope should the first one-shot implementation target?
+  description: s10 readiness judges a full L0-L6 one-shot unrealistic but an L0->L2 survival/trust floor realistic, with L3-L6 demoted to per-layer task-sessions.
+  options:
+  - L0->L2 survival/trust floor (recommended)
+  - Full L0-L6 one shot
+  - Defer until fixtures + types + failure states exist
+  default_option: L0->L2 survival/trust floor (recommended)
+  selected: pending
+  rationale: pending decision-gate
+  status: active
+  blocking: true
+  impact: Determines whether implementation can begin one-shot at a safe altitude or must wait on net-new builds.
+  owner: operator
+- decision_id: DEC-OQ1-TRUST-METER
+  scope_id: CTX-UPS-ROOT
+  decision_type: blocker
+  question: Does a session-level override/accuracy trust meter help or harm trust calibration?
+  description: OQ-1 from s8. Gates the L6 trust meter; plan says do not ship the trust meter unvalidated.
+  options:
+  - Ship a validated trust meter
+  - No trust meter in MVP
+  - Defer to a human study
+  default_option: Defer to a human study
+  selected: pending
+  rationale: pending decision-gate
+  status: active
+  blocking: true
+  impact: Blocks L6 ergonomics acceptance.
+  owner: operator
+- decision_id: DEC-OQ2-SAW-DIFF
+  scope_id: CTX-UPS-ROOT
+  decision_type: blocker
+  question: What is the minimal non-theater proxy that a human actually saw the diff before an irreversible apply?
+  description: OQ-2 from s6/s7 + s8. Gates L6 and the apply-gate acceptance.
+  options:
+  - Scroll/viewport proxy
+  - Explicit per-change acknowledgement
+  - Timed exposure threshold
+  default_option: Explicit per-change acknowledgement
+  selected: pending
+  rationale: pending decision-gate
+  status: active
+  blocking: true
+  impact: Blocks L6 and the apply-approval ergonomics.
+  owner: operator
+- decision_id: DEC-OQ3-HANDOFF-CARRY
+  scope_id: CTX-UPS-ROOT
+  decision_type: blocker
+  question: On operator handoff, does session-scoped tuning carry-with-attribution, reset, or prompt?
+  description: OQ-3 from decision-gate -> s9. Directly blocks Inv-8 (operator provenance) in L5.
+  options:
+  - Carry with attribution
+  - Reset on handoff
+  - Prompt the operator
+  default_option: Prompt the operator
+  selected: pending
+  rationale: pending decision-gate
+  status: active
+  blocking: true
+  impact: Blocks L5 Inv-8 operator-provenance invariant.
+  owner: operator
+- decision_id: DEC-OQ4-IMPORT-INTEGRITY
+  scope_id: CTX-UPS-ROOT
+  decision_type: deferral
+  question: Is artifact import-integrity (forged anchor / re-imported handoff) in the MVP or deferred?
+  description: OQ-4 from s9. An unresolved scope boundary rather than a layer blocker.
+  options:
+  - In MVP
+  - Deferred to hardening
+  default_option: Deferred to hardening
+  selected: pending
+  rationale: pending decision-gate
+  status: active
+  blocking: false
+  impact: Sets the MVP scope boundary for import integrity.
+  owner: operator
+- decision_id: DEC-DEPRECATE-PIVOT-007
+  scope_id: CTX-UPS-ROOT
+  decision_type: selection
+  question: Should ui-prototyping-studio be a docs-only project or a whole standalone project including its code?
+  description: 'Reframed mid-move: domainspec is being deprecated, so the code should not be orphaned in a sunsetting monorepo.'
+  options:
+  - Spec project only (docs)
+  - Whole standalone project incl. code
+  default_option: Whole standalone project incl. code
+  selected: Whole standalone project incl. code
+  rationale: domainspec is being deprecated; ui-prototyping-studio must stand on its own. Coupling verified low (backend node+fastify only; frontend plain React+CSS).
+  status: closed
+  blocking: false
+  impact: Supersedes the earlier docs-only move; triggers CTX-UPS-EXTRACTION and resolves the docs/code split by relocating the code too.
+  owner: operator
+- decision_id: DEC-FRESH-MINIMAL-008
+  scope_id: CTX-UPS-ROOT
+  decision_type: selection
+  question: Migrate all 220 docs, or start the standalone project minimal keeping only what the deep-spec result says is real?
+  description: '220 docs were mostly overhead: 200 were a vendored design-skills reference tree, 19 the full-vision spec the deep-spec judged mostly paper. Only the L0 code + the L0->L2 plan are validated assets.'
+  options:
+  - Fresh minimal (keep code + plan, archive rest)
+  - Greenfield rebuild incl. code
+  - Migrate everything as-is
+  default_option: Fresh minimal (keep code + plan, archive rest)
+  selected: Fresh minimal (keep code + plan, archive rest)
+  rationale: Build on the validated L0 code; treat the full-vision spec and vendored reference as provenance, not spine; write a lean L0->L2 SPEC from the deep-spec proposal.
+  status: closed
+  blocking: false
+  impact: Root spine is now README + lean SPEC + .craft + development; 19 vision docs and 200 reference files moved to provenance/. Code extraction (P1-P5) remains.
+  owner: operator
+- decision_id: DEC-INTERFACE-MODEL-009
+  scope_id: CTX-UPS-ROOT
+  decision_type: selection
+  question: What is the primary interaction model for the studio?
+  description: How humans/agents drive the studio.
+  options:
+  - Human workbench + embedded assistant
+  - Agent-operable service (API/MCP)
+  - Dual surface
+  default_option: Human workbench + embedded assistant
+  selected: Human workbench + embedded assistant
+  rationale: Designer-in-the-loop ergonomics; agent proposes inside the UI, human disposes at the governance gates. Matches the current React+REST shape. Agent-operable API/MCP is a possible later surface, out of scope now.
+  status: closed
+  blocking: false
+  impact: Build the human web workbench as primary; no agent-facing API/MCP surface this release.
+  owner: operator
+- decision_id: DEC-GENERATOR-PORT-010
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: selection
+  question: Where should the real generation agent (the LLM) come in?
+  description: GenerateVariants is currently a deterministic stub; ports.ts injects only a storage port, so no LLM seam exists.
+  options:
+  - Add generator port now
+  - Keep stub for L0-L2, port later
+  - Just record as a gap
+  default_option: Add generator port now
+  selected: Add generator port now
+  rationale: Make it a real agentic tool sooner; a VariantGeneratorPort abstracts a Claude-backed generator (app) and a deterministic fake (e2e). Mutation synthesis stays deterministic - generation is the only LLM seam.
+  status: closed
+  blocking: false
+  impact: Adds extraction phase P1.5 (generator port). Replaces the GenerateVariants stub; introduces the single LLM seam (Claude-backed).
+  owner: operator
+- decision_id: DEC-RUNTIME-CLAUDE-CODE-011
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: selection
+  question: What is the runtime for the generation agent and the product shape?
+  description: Whether the studio owns its own LLM (standalone) or is operated through Claude Code in VSCode.
+  options:
+  - Claude Code-native (run in VSCode)
+  - Standalone app (own the model)
+  - Port-agnostic now
+  - Both, Claude Code first
+  default_option: Claude Code-native (run in VSCode)
+  selected: Claude Code-native (run in VSCode)
+  rationale: 'The embedded assistant IS Claude Code: no API key, no agent loop to build, dogfoods the Arcanum/Claude-Code workflow. Studio = governance harness + review surface; Claude Code = generation/mutation engine. Coupled to Claude Code (not a standalone product); a standalone Anthropic-SDK adapter stays a future option behind the same port.'
+  status: closed
+  blocking: false
+  impact: Generator port's real adapter = MCP/Claude-Code bridge. Adds an MCP server + operating SKILL.md; the web app becomes the local human review surface, not a product shell. Removes @anthropic-ai/sdk from this release.
+  owner: operator
+- decision_id: DEC-CLI-NOT-MCP-012
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: selection
+  question: Operate the backend via an MCP server, or a CLI?
+  description: Refines DEC-RUNTIME-CLAUDE-CODE-011. For a single-user, local, Claude-Code-driven tool, MCP's typed-schema/cross-client/resource benefits don't pay off; Claude Code already has Bash.
+  options:
+  - studio CLI (no MCP)
+  - MCP server
+  default_option: studio CLI (no MCP)
+  selected: studio CLI (no MCP)
+  rationale: Nothing to run (no server/protocol), Claude Code calls it via Bash, the human drives the same commands (true dogfooding), trivially testable, matches the repo's CLI-heavy ecosystem. The orchestration core already exists; the CLI is a thin wrapper. Also lets MVP drop the React SPA (preview HTML + CLI gates).
+  status: closed
+  blocking: false
+  impact: Seam = `studio` CLI + operating SKILL.md (no MCP server). MVP needs no React review SPA. Generator seam collapses to `studio variants register` (Claude Code supplies HTML) + a deterministic fake.
+  owner: operator
+- decision_id: DEC-INPROTO-ANNOTATION-013
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: selection
+  question: How do humans annotate prototypes — hand-typed CSS selectors, a React form, or directly on the rendered components?
+  description: 'Ground truth: today the prototype HTML isn''t rendered in the workbench and AnnotationPanel makes the human type a CSS selector (e2e fills ''#state''). That violates ergonomics-first.'
+  options:
+  - In-prototype click-to-annotate via `studio preview` overlay
+  - Manual selector form (current)
+  - CLI `comment add` only
+  default_option: In-prototype click-to-annotate via `studio preview` overlay
+  selected: In-prototype click-to-annotate via `studio preview` overlay
+  rationale: 'Generation produces HTML, so the prototype itself is the natural annotation surface. `studio preview` serves the HTML from an ephemeral local server and injects a click-to-annotate overlay: click element -> capture selector+label -> {severity,intent,note} -> CaptureCommentEvent. Comments land directly on components, no hand-typed selectors, no React SPA. `comment add` stays the headless path; both produce the identical CommentEvent contract.'
+  status: closed
+  blocking: false
+  impact: '`studio preview --annotate` gains an injected overlay + ephemeral local callback server. Resolves GAP-ANNOTATION-UX-006 in-design (in scope, not deferred). The existing selector-typing React AnnotationPanel is superseded; no SPA needed.'
+  owner: operator
+- decision_id: DEC-ATOMIC-IDS-014
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: selection
+  question: Does adopting atomic-design components help annotation / element selection?
+  description: CSS selectors are brittle across regeneration; AnnotationTarget.odId (a stable-id slot) already exists end-to-end but is unused and generated HTML emits no stable ids.
+  options:
+  - 'Light: stamp stable data-od-id now, full atomic design at L4'
+  - Full atomic-design system now (atoms->organisms + registry + conformance)
+  - Keep brittle CSS selectors
+  default_option: 'Light: stamp stable data-od-id now, full atomic design at L4'
+  selected: 'Light: stamp stable data-od-id now, full atomic design at L4'
+  rationale: Generator stamps a stable data-od-id (minimal component-role convention) -> overlay captures odId as primary target (selector fallback) -> comment targets survive regeneration. Cheap (odId slot already plumbed; mostly a generation-contract line in the operating skill). Full atomic-design taxonomy + component registry + UIElementIdentity/conformance-delta is the L4 realization of the same idea, deferred.
+  status: closed
+  blocking: false
+  impact: AnnotationTarget.odId becomes the primary annotation target (selector fallback). Operating skill requires data-od-id stamping. Atomic design named as the L4 vocabulary unifying identity (BLK-IDENTITY-TYPES-002), registry (GAP-COMPONENT-REGISTRY-002), and conformance-delta.
+  owner: operator
+gaps:
+- gap_id: GAP-ERGONOMICS-UNPROVEN-001
+  scope_id: CTX-UPS-ROOT
+  summary: The entire ergonomics floor - the stated first principle and the reason the feature exists - is unproven. L4 is proxy-only and L6 is gated behind a non-automated human study.
+  severity: flag
+  treatment: human-study
+  owner: ux-evidence-validator + s8 naive-user study
+  status: active
+  evidence: ART-COLD-START
+- gap_id: GAP-COMPONENT-REGISTRY-002
+  scope_id: CTX-UPS-ROOT
+  summary: Component-registry persistence/indexing entity is unspecified (R-1); the typed version edge is decided but the storage/match/index entity is not. Atomic-design component set is the natural registry shape (DEC-ATOMIC-IDS-014, L4).
+  severity: flag
+  treatment: defer
+  owner: synthesis-architect
+  status: active
+  evidence: ART-DEEP-SPEC-PROPOSAL
+- gap_id: GAP-CONFLICT-ALGEBRA-003
+  scope_id: CTX-UPS-ROOT
+  summary: Full conflict algebra for CommentEvent -> MutationTask beyond the deterministic sort/dedup/co-locate fold is unspecified (R-2).
+  severity: flag
+  treatment: defer
+  owner: synthesis-architect
+  status: active
+  evidence: ART-DEEP-SPEC-PROPOSAL
+- gap_id: GAP-CONTRACT-DRIFT-004
+  scope_id: CTX-UPS-ROOT
+  summary: mock-api returns RevisionRecorded after apply and never emits a distinct RevisionApplied, yet models.ts declares both states (R-STATE-RENAME). Any new spec must reconcile the expected state sequence.
+  severity: flag
+  treatment: fix-in-spec-reconciliation
+  owner: spec calibration pass
+  status: active
+  evidence: ART-DEEP-SPEC-RESULT
+- gap_id: GAP-DOCS-CODE-SPLIT-005
+  scope_id: CTX-UPS-ROOT
+  summary: 'Transitional: docs moved to projects/ while code still sits in domainspec. Per DEC-DEPRECATE-PIVOT-007 the code is being extracted too (CTX-UPS-EXTRACTION); the 8 stale domainspec doc-path refs move with the code in P4 and resolve naturally. Tracked until extraction P4 lands.'
+  severity: flag
+  treatment: resolved-by-extraction-P4
+  owner: operator
+  status: active
+  evidence: implementation/domainspec/backend/src/modules/ui-prototyping-studio/application/export-design-handoff.ts
+- gap_id: GAP-ANNOTATION-UX-006
+  scope_id: CTX-UPS-EXTRACTION
+  summary: 'RESOLVED in design by DEC-INPROTO-ANNOTATION-013: `studio preview --annotate` injects a click-to-annotate overlay so comments are captured directly on rendered components (no hand-typed selectors, no SPA). Build it in P1.5/preview. Supersedes the manual-selector AnnotationPanel.'
+  severity: low
+  treatment: addressed-by-design
+  owner: operator
+  status: resolved
+  evidence: projects/ui-prototyping-studio/SPEC.md
+route_handoffs:
+- handoff_id: HND-DEEP-SPEC-VALIDATE-001
+  context_id: CTX-UPS-DEEP-SPEC
+  capability_ref: dispatch-spec
+  mode: validate
+  objective: Validate the deep-exploration dispatch route for the UI Prototyping Studio.
+  source_artifacts:
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-DISPATCH.json
+  ledger_conditions:
+  - exploration blocked until route validates pass
+  expected_outputs:
+  - dispatch validation result
+  expected_receipt_fields:
+  - validation_result
+  - dispatch_id
+  - promotion_guardrail_status
+  status: completed
+- handoff_id: HND-DEEP-SPEC-EXEC-001
+  context_id: CTX-UPS-DEEP-SPEC
+  capability_ref: refine
+  mode: execute
+  objective: Execute the validated dispatch end to end via a 12-agent workflow and produce the deepened design, evidence artifacts, proposal, plan, and readiness verdict.
+  source_artifacts:
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-DISPATCH.json
+  ledger_conditions:
+  - BLK-FIXTURE-CORPUS-001
+  - BLK-IDENTITY-TYPES-002
+  - BLK-FAILURE-STATES-003
+  - BLK-INVARIANTS-UNCALIBRATED-004
+  expected_outputs:
+  - 12 dispatch artifacts
+  - subagent lifecycle ledger
+  expected_receipt_fields:
+  - artifacts
+  - validation_result
+  - residue
+  status: completed
+- handoff_id: HND-READINESS-001
+  context_id: CTX-UPS-ROOT
+  capability_ref: implementation-readiness
+  mode: decision
+  objective: Judge whether the deep-spec proposal and one-shot plan are ready for one-shot implementation.
+  source_artifacts:
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/ONE-SHOT-IMPLEMENTATION-PLAN.md
+  ledger_conditions:
+  - DEC-ONE-SHOT-SCOPE-002
+  expected_outputs:
+  - readiness verdict
+  - next-route menu
+  expected_receipt_fields:
+  - validation_result
+  - residue
+  status: completed
+receipts:
+- receipt_id: RCT-DEEP-SPEC-VALIDATE-001
+  handoff_id: HND-DEEP-SPEC-VALIDATE-001
+  producer: dispatch-spec
+  status: pass
+  artifacts:
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/DEEP-SPEC-DISPATCH.json
+  validation_result: Dispatch route validates with VALIDATION=pass; 11 steps, 9 gates, subagent_strategy required/approved, promotion guardrail pass. Route-shape evidence only.
+  audit_reference: ART-DEEP-SPEC-DISPATCH
+  residue: none
+- receipt_id: RCT-DEEP-SPEC-EXEC-001
+  handoff_id: HND-DEEP-SPEC-EXEC-001
+  producer: refine
+  status: pass
+  artifacts:
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/SYNTHESIZED-DEEP-DESIGN.md
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/RESIDUALITY-STRESSORS.md
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/UX-EVIDENCE-REPORT.md
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/PLAYWRIGHT-TEST-PLAN.md
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/COLD-START-USABILITY-FINDINGS.md
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/SUBAGENT-LIFECYCLE.json
+  validation_result: 12 agents ran end to end (run wf_ee6ffee8-68a); subagent lifecycle pass (all joined and closed); all artifacts produced as proposals; SPEC.md unmutated.
+  audit_reference: ART-DEEP-SPEC-RESULT
+  residue: R-1, R-2, R-3, R-4, R-5, R-7 carried; Inv-1..8 proposed-not-calibrated; OQ-1..4 open.
+- receipt_id: RCT-READINESS-001
+  handoff_id: HND-READINESS-001
+  producer: implementation-readiness
+  status: flag
+  artifacts:
+  - projects/ui-prototyping-studio/development/deep-spec-dispatch/RESULT.md
+  validation_result: CONDITIONAL. A full L0-L6 one-shot is not realistic; an L0->L2 one-shot is. L3-L5 are net-new backend/mock/type builds; L6 ergonomics payoff is human-study-gated.
+  audit_reference: ART-DEEP-SPEC-RESULT
+  residue: Scope decision, four open questions, fixture corpus, identity types, failure states, and invariant calibration all precede a full build.
+relations:
+- relation_id: REL-CONTAINS-DEEP-SPEC-001
+  source_id: CTX-UPS-ROOT
+  target_id: CTX-UPS-DEEP-SPEC
+  type: contains
+  status: active
+  reason: The deep-spec dispatch exploration is a child context of the feature readiness root.
+  evidence: ART-DEEP-SPEC-DISPATCH
+- relation_id: REL-BLOCKS-FIXTURE-001
+  source_id: BLK-FIXTURE-CORPUS-001
+  target_id: CTX-UPS-ROOT
+  type: blocks
+  status: active
+  reason: Without the FX-* fixture corpus and axe, the strict-superset gate suite the plan relies on does not exist.
+  evidence: ART-UX-EVIDENCE
+- relation_id: REL-BLOCKS-IDENTITY-001
+  source_id: BLK-IDENTITY-TYPES-002
+  target_id: CTX-UPS-ROOT
+  type: blocks
+  status: active
+  reason: L4 identity/conformance types are absent from models.ts; the largest build chunk is greenfield.
+  evidence: ART-COLD-START
+- relation_id: REL-INFORMS-READINESS-001
+  source_id: RCT-READINESS-001
+  target_id: CTX-UPS-ROOT
+  type: informs
+  status: active
+  reason: The conditional readiness verdict sets the next move - scope to L0->L2 and route open decisions to decision-gate.
+  evidence: ART-DEEP-SPEC-RESULT
+- relation_id: REL-RECOMPOSE-DEEP-SPEC-001
+  source_id: CTX-UPS-DEEP-SPEC
+  target_id: CTX-UPS-ROOT
+  type: informs
+  status: resolved
+  reason: The deep-spec child context returns the deepened design, evidence, proposal, plan, and readiness verdict to the feature readiness root.
+  evidence: RCT-READINESS-001
+- relation_id: REL-CONTAINS-EXTRACTION-001
+  source_id: CTX-UPS-ROOT
+  target_id: CTX-UPS-EXTRACTION
+  type: contains
+  status: active
+  reason: Standalone extraction is a child context of the feature project root.
+  evidence: ART-EXTRACTION-PLAN
+recomposition:
+- child_id: CTX-UPS-DEEP-SPEC
+  parent_id: CTX-UPS-ROOT
+  summary: The deep-spec dispatch exploration is complete. It produced a deepened design (conformance-delta review surface, identity/DNA rejection lifecycle, failure/recovery states), residuality invariants Inv-1..8, UX evidence across L0-L6, a planned Playwright suite, and a context-isolated naive-user walkthrough, synthesized into a deep-spec proposal and a one-shot plan with a CONDITIONAL readiness verdict.
+  evidence: RCT-READINESS-001
+  residue: Ergonomics floor unproven (R-5); four open decisions OQ-1..4; fixture corpus, identity types, and failure states do not exist; invariants Inv-1..8 proposed-not-calibrated; component-registry and conflict-algebra gaps; contract drift on RevisionApplied/RevisionRecorded.
+  next_parent_move: Open a decision-gate on the one-shot scope (recommend L0->L2) and on OQ-1..4, then route L3/L4/L5 to per-layer task-sessions and the fixture corpus to ux-evidence-validator calibrate.
+  status: pass

@@ -1,0 +1,335 @@
+{
+  "dispatch_id": "refine-2026-06-15-arch-refine",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "refine the initial archtecture of /home/vrondelli/projects/domainspec-core/projects/alpha-grant/decentralized-living-library-summary.md",
+    "objective": "Refine the initial prose architecture of the Decentralized Living Library grant network into a refined architecture design plus a non-executed plan: surface the node/lane/ask/entity graph, resolve or ledger the public-benefit vs private/commercial tension, make the entity-home fork an approvable decision, and preserve every non-negotiable partner/authorization boundary.",
+    "target_artifact": "projects/alpha-grant/decentralized-living-library-summary.md",
+    "operator_sentence": "refine the initial architecture of the decentralized-living-library-summary.md",
+    "arcanum_vocabulary": ["refine", "dispatch-spec", "context-builder", "invoke", "interrogation", "distill"]
+  },
+  "mode": "dialectic",
+  "route_menu": {
+    "context_hint": "Entity-home route is the highest-leverage architectural fork; the menu is surfaced by the Design stage and selection is gated by operator approval.",
+    "items": [
+      {"id": "fiscal-sponsor", "label": "Fiscal sponsor", "description": "Public collection assets live under an existing mission-locked fiscal sponsor; fastest path, least new governance.", "pattern": "decision"},
+      {"id": "new-nonprofit", "label": "New nonprofit", "description": "Stand up a dedicated public-benefit nonprofit as the mission-locked home for the living library.", "pattern": "decision"},
+      {"id": "coop-program", "label": "Co-op program", "description": "Public-benefit cooperative program lane funding member benefit and shared infrastructure.", "pattern": "decision"},
+      {"id": "fit-farms-service-lane", "label": "FIT Farms service lane", "description": "FIT Farms operates as funding architecture/integration layer via service agreements, not as asset owner.", "pattern": "decision"}
+    ],
+    "selected_item_id": null
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "data_quality_completeness",
+    "x_ray",
+    "dialectic",
+    "route_menu",
+    "residue_ledger",
+    "protected_context_flag",
+    "approval_checkpoint",
+    "recomposition_proof",
+    "state_namespace_boundary"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "Ordinary refinement always uses the canonical sequenced loop with handoffs, validation, owner boundaries, and observability.",
+      "techniques": ["sequence", "frame_handoff", "handle_handoff", "validation_loop", "owner_boundary_check", "observability_grouping", "minimum_component_catalog", "data_quality_completeness"],
+      "applies_to_steps": ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10"],
+      "validation_expectation": "Every non-first step consumes a prior frame/handle/decision/ledger/artifact; trace events carry dispatch and step ids; missing required components flag or block."
+    },
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "The target's main uncertainty is hidden architecture: nodes, lanes, asks, and entity/asset/ownership routing live only in prose.",
+      "techniques": ["x_ray", "component_descriptor", "entity_component_reference"],
+      "applies_to_steps": ["s6"],
+      "validation_expectation": "The Design stage outputs a structural architecture artifact (handle) describing nodes, lanes, asks, and the entity/authority graph that later steps consume."
+    },
+    {
+      "overlay_id": "dialectic_for_tension",
+      "trigger": "Public-benefit infrastructure vs private/commercial integration (MycoSymbiotics IP, FIT Farms revenue, co-op assets) is a competing-principle tension repeated across the source doc.",
+      "techniques": ["dialectic", "zig_zag", "residue_ledger"],
+      "applies_to_steps": ["s6", "s7"],
+      "validation_expectation": "Opposing roles and convergence criteria are named; the tension is resolved in the design or recorded in a residue ledger with an owner/next route."
+    },
+    {
+      "overlay_id": "route_menu_for_ambiguity",
+      "trigger": "The entity-home route (fiscal sponsor / nonprofit / co-op / FIT Farms service lane) is ambiguous and is the highest-leverage architectural fork.",
+      "techniques": ["route_menu", "one_or_more_option_set", "approval_checkpoint"],
+      "applies_to_steps": ["s6"],
+      "validation_expectation": "A bounded entity-route menu is emitted; selection is recorded via the entity-route approval gate or left explicitly unselected/blocked."
+    },
+    {
+      "overlay_id": "protected_context_for_external_or_sensitive_evidence",
+      "trigger": "KU/INVAM authorization, MTA/strain access, and unverified partner claims are sensitive external context governed by non-negotiable boundaries.",
+      "techniques": ["protected_context_flag", "system_agnostic_standard", "local_nuance_coordination"],
+      "applies_to_steps": ["s2", "s6", "s7", "s10"],
+      "validation_expectation": "External/sensitive partner context is flagged and cannot become a canonical commitment; the boundary-preservation gate blocks implied KU/INVAM partnership, unverified partner claims, commingling, or Houston-as-automation framing."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The dialectic overlay needs at least two opposing roles, and the x-ray and protected-context overlays benefit from dedicated structural-mapper and boundary-auditor lanes.",
+    "explanation": "Role-bound sibling agents run the Design-stage dialectic (public-benefit vs funding-pragmatist), the structural x-ray map, and the boundary audit in parallel, returning receipts to the parent for synthesis. They are recommended, not required: the parent native runtime can run these lanes inline if subagents are unavailable.",
+    "context": [
+      "source doc: projects/alpha-grant/decentralized-living-library-summary.md (read-only)",
+      "non-negotiable boundaries section governs every role",
+      "entity-route menu is the shared decision surface"
+    ],
+    "roles": [
+      {"role_id": "structure-mapper", "purpose": "X-ray the prose into an explicit node/lane/ask/entity/authority graph.", "owns": "structural architecture map artifact", "applies_to_steps": ["s6"]},
+      {"role_id": "public-benefit-advocate", "purpose": "Dialectic thesis: defend mission-lock, public-collection integrity, governance, and non-commingling.", "owns": "public-benefit position notes", "applies_to_steps": ["s6"]},
+      {"role_id": "funding-pragmatist", "purpose": "Dialectic antithesis: defend fundability, speed, and value of private/commercial and co-op integration.", "owns": "funding-pragmatist position notes", "applies_to_steps": ["s6"]},
+      {"role_id": "boundary-auditor", "purpose": "Protected-context audit: check every claim/route against the non-negotiable boundaries.", "owns": "boundary audit ledger", "applies_to_steps": ["s6", "s7"]}
+    ],
+    "parallelism": "dialectic",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Approve spawning four role-bound subagents (structure-mapper, public-benefit-advocate, funding-pragmatist, boundary-auditor) for the Design stage?",
+    "receipt_requirements": ["dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "observer_status", "blockers", "residue", "handoff_note", "agent_id", "role_id", "spawn_status", "join_status", "close_status", "reroute"]
+  },
+  "native_stage_receipts": [
+    {"step_id": "s1", "capability_ref": "context-builder", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/s1-context-builder/context-pack.md"]},
+    {"step_id": "s2", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/s2-invoke-define/DEFINE.md"]},
+    {"step_id": "s3", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "flag", "artifacts": ["stages/s3-interrogation-define/REVIEW.md"], "residue": "F1 authority/ownership split, F2 framing obligations as typed labels, F3 spine locally decidable — carried into distill/design"},
+    {"step_id": "s4", "capability_ref": "refine", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/s4-research-decision/RESEARCH-DECISION.md"]},
+    {"step_id": "s5", "capability_ref": "distill", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/s5-distill/DISTILL.md"]},
+    {"step_id": "s6", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/s6-invoke-design/DESIGN.md", "stages/s6-invoke-design/architecture-graph.md", "stages/s6-invoke-design/entity-route-menu.md", "stages/s6-invoke-design/tension-residue.md"]},
+    {"step_id": "s7", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "flag", "artifacts": ["stages/s7-interrogation-design/DESIGN-REVIEW.md"], "residue": "R-a gate owners, R-b Stage-1 enforceable artifact, R-c Z1 guarded default — applied in distill repair (s8)"},
+    {"step_id": "s8", "capability_ref": "distill", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/s8-distill-repair/REPAIR.md"]},
+    {"step_id": "s9", "capability_ref": "invoke", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/s9-invoke-plan/PLAN.md"]},
+    {"step_id": "s10", "capability_ref": "interrogation", "receipt_kind": "native-stage", "status": "pass", "artifacts": ["stages/s10-final/FINAL-REVIEW.md", "RESULT.md"]}
+  ],
+  "subagent_lifecycle": {
+    "status": "pass",
+    "agents": [
+      {"agent_id": "sa-structure-mapper", "role_id": "structure-mapper", "lane_name": "s6-design", "spawn_status": "spawned", "join_status": "completed", "receipt_artifact": "stages/s6-invoke-design/architecture-graph.md", "close_status": "closed"},
+      {"agent_id": "sa-public-benefit-advocate", "role_id": "public-benefit-advocate", "lane_name": "s6-design", "spawn_status": "spawned", "join_status": "completed", "receipt_artifact": "stages/s6-invoke-design/tension-residue.md", "close_status": "closed"},
+      {"agent_id": "sa-funding-pragmatist", "role_id": "funding-pragmatist", "lane_name": "s6-design", "spawn_status": "spawned", "join_status": "completed", "receipt_artifact": "stages/s6-invoke-design/tension-residue.md", "close_status": "closed"},
+      {"agent_id": "sa-boundary-auditor", "role_id": "boundary-auditor", "lane_name": "s6-design", "spawn_status": "spawned", "join_status": "completed", "receipt_artifact": "stages/s6-invoke-design/DESIGN.md", "close_status": "closed"}
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": ["minimum_component_catalog", "frame_handoff", "data_quality_completeness"],
+      "inputs": [
+        {"kind": "artifact", "ref": "projects/alpha-grant/decentralized-living-library-summary.md"},
+        {"kind": "intent", "ref": "REFINE-SEED-PROPOSAL.md"}
+      ],
+      "outputs": [
+        {"kind": "frame", "ref": "stages/s1-context-builder/context-pack.md"},
+        {"kind": "handoff", "ref": "stages/s1-context-builder/runtime-handoff"}
+      ],
+      "evidence_artifact": "stages/s1-context-builder/context-pack.md"
+    },
+    {
+      "step_id": "s2",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": ["sequence", "protected_context_flag"],
+      "inputs": [
+        {"kind": "frame", "ref": "stages/s1-context-builder/context-pack.md"},
+        {"kind": "intent", "ref": "REFINE-SEED-PROPOSAL.md"}
+      ],
+      "outputs": [{"kind": "artifact", "ref": "stages/s2-invoke-define/DEFINE.md"}]
+    },
+    {
+      "step_id": "s3",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": ["validation_loop"],
+      "inputs": [{"kind": "artifact", "ref": "stages/s2-invoke-define/DEFINE.md"}],
+      "outputs": [{"kind": "artifact", "ref": "stages/s3-interrogation-define/REVIEW.md"}],
+      "evidence_artifact": "stages/s3-interrogation-define/REVIEW.md"
+    },
+    {
+      "step_id": "s4",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "techniques": ["data_quality_completeness"],
+      "inputs": [{"kind": "artifact", "ref": "stages/s3-interrogation-define/REVIEW.md"}],
+      "outputs": [{"kind": "decision", "ref": "stages/s4-research-decision/RESEARCH-DECISION.md"}],
+      "stop_conditions": ["External research runs only on a named gap with operator confirmation"]
+    },
+    {
+      "step_id": "s5",
+      "name": "Distill coherent unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": ["scu_swu_reduction", "recomposition_proof"],
+      "inputs": [
+        {"kind": "artifact", "ref": "stages/s2-invoke-define/DEFINE.md"},
+        {"kind": "decision", "ref": "stages/s4-research-decision/RESEARCH-DECISION.md"}
+      ],
+      "outputs": [{"kind": "artifact", "ref": "stages/s5-distill/DISTILL.md"}],
+      "convergence_criteria": ["Selected architecture unit has a named recomposition target into the full network"]
+    },
+    {
+      "step_id": "s6",
+      "name": "Invoke Redefine / Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "dialectic",
+      "techniques": ["x_ray", "dialectic", "route_menu", "residue_ledger", "component_descriptor", "protected_context_flag"],
+      "roles": ["structure-mapper", "public-benefit-advocate", "funding-pragmatist", "boundary-auditor"],
+      "inputs": [
+        {"kind": "artifact", "ref": "stages/s5-distill/DISTILL.md"},
+        {"kind": "frame", "ref": "stages/s1-context-builder/context-pack.md"},
+        {"kind": "external_context", "ref": "source doc partner/authorization context (KU/INVAM, unverified partners) — protected"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/s6-invoke-design/DESIGN.md"},
+        {"kind": "handle", "ref": "stages/s6-invoke-design/architecture-graph.md"},
+        {"kind": "route_menu", "ref": "stages/s6-invoke-design/entity-route-menu.md"},
+        {"kind": "ledger", "ref": "stages/s6-invoke-design/tension-residue.md"}
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Public-benefit vs private/commercial tension is resolved or recorded in tension-residue.md",
+        "Entity-route menu emitted with selection deferred to approval gate",
+        "Architecture graph names node/lane/ask/entity ownership and authority boundaries"
+      ],
+      "evidence_artifact": "stages/s6-invoke-design/architecture-graph.md"
+    },
+    {
+      "step_id": "s7",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": ["validation_loop", "protected_context_flag"],
+      "inputs": [
+        {"kind": "artifact", "ref": "stages/s6-invoke-design/DESIGN.md"},
+        {"kind": "ledger", "ref": "stages/s6-invoke-design/tension-residue.md"}
+      ],
+      "outputs": [{"kind": "artifact", "ref": "stages/s7-interrogation-design/DESIGN-REVIEW.md"}],
+      "evidence_artifact": "stages/s7-interrogation-design/DESIGN-REVIEW.md"
+    },
+    {
+      "step_id": "s8",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": ["validation_loop", "recomposition_proof"],
+      "inputs": [
+        {"kind": "artifact", "ref": "stages/s6-invoke-design/DESIGN.md"},
+        {"kind": "artifact", "ref": "stages/s7-interrogation-design/DESIGN-REVIEW.md"}
+      ],
+      "outputs": [{"kind": "artifact", "ref": "stages/s8-distill-repair/REPAIR.md"}],
+      "evidence_artifact": "stages/s8-distill-repair/REPAIR.md"
+    },
+    {
+      "step_id": "s9",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": ["sequence", "minimum_component_catalog"],
+      "inputs": [{"kind": "artifact", "ref": "stages/s8-distill-repair/REPAIR.md"}],
+      "outputs": [{"kind": "artifact", "ref": "stages/s9-invoke-plan/PLAN.md"}],
+      "stop_conditions": ["Plan is non-executed; refine does not run lifecycle execution"]
+    },
+    {
+      "step_id": "s10",
+      "name": "Final Interrogation and Synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": ["validation_loop", "owner_boundary_check", "protected_context_flag"],
+      "inputs": [
+        {"kind": "artifact", "ref": "stages/s9-invoke-plan/PLAN.md"},
+        {"kind": "artifact", "ref": "stages/s6-invoke-design/DESIGN.md"},
+        {"kind": "ledger", "ref": "stages/s6-invoke-design/tension-residue.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "stages/s10-final/FINAL-REVIEW.md"},
+        {"kind": "artifact", "ref": "RESULT.md"}
+      ],
+      "evidence_artifact": "RESULT.md"
+    }
+  ],
+  "gates": [
+    {"gate_id": "g1-native-capability-handles", "kind": "policy", "owner": "refine", "condition": "Each runtime-backed stage resolves a native capability handle before execution.", "on_fail": "block"},
+    {"gate_id": "g2-stage-receipts", "kind": "validation", "owner": "refine", "condition": "Every executed stage records a native receipt or an explicit blocked reason.", "on_fail": "block"},
+    {"gate_id": "g3-research-confirmation", "kind": "decision", "owner": "refine", "condition": "External research runs only when a named gap appears and the operator confirms.", "on_fail": "ask"},
+    {"gate_id": "g4-required-artifacts", "kind": "validation", "owner": "refine", "condition": "Seed, dispatch, runtime handoff, result, and each pass stage's artifact exist on disk.", "on_fail": "block"},
+    {"gate_id": "g5-owner-boundary", "kind": "policy", "owner": "dispatch-spec", "condition": "No step claims another capability's authority; refine owns only seed/dispatch/handoff/synthesis/next-route.", "on_fail": "block"},
+    {"gate_id": "g6-boundary-preservation", "kind": "policy", "owner": "boundary-auditor", "condition": "No implied KU/INVAM partnership/strain/MTA/name-use; no unverified partner commitment; no public/private asset commingling; Houston framed as research node not automation module.", "on_fail": "block"},
+    {"gate_id": "g7-entity-route-approval", "kind": "human_approval", "owner": "operator", "condition": "Entity-home selection from the route menu is treated as decided only after operator approval.", "on_fail": "ask"},
+    {"gate_id": "g8-dialectic-convergence", "kind": "quality", "owner": "refine", "condition": "Public/private tension is resolved in the design or recorded in the residue ledger with an owner/next route.", "on_fail": "flag"},
+    {"gate_id": "g9-final-synthesis-readiness", "kind": "quality", "owner": "refine", "condition": "RESULT.md synthesis is built from stage artifacts, not from the route proposal.", "on_fail": "block"},
+    {"gate_id": "g10-subagent-authorization", "kind": "human_approval", "owner": "operator", "condition": "Role-bound subagents are spawned only after explicit operator permission.", "on_fail": "block"}
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "refine.dispatch.validated",
+      "refine.strategy.previewed",
+      "refine.permission.requested",
+      "stage.s1.context-builder",
+      "stage.s2.invoke-define",
+      "stage.s3.interrogation-review",
+      "stage.s4.research-decision",
+      "stage.s5.distill",
+      "stage.s6.invoke-design",
+      "stage.s7.interrogation-design-review",
+      "stage.s8.distill-repair",
+      "stage.s9.invoke-plan",
+      "stage.s10.final-synthesis",
+      "refine.result.synthesized"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {"boundary_id": "b1-protected-partner-context", "kind": "external_context", "from_owner": "source-doc", "to_owner": "refine", "applies_to_steps": ["s2", "s6", "s7", "s10"], "contract": "KU/INVAM, MTA/strain-access, and unverified partner context stay flagged as protected and never become canonical commitments.", "on_violation": "block"},
+      {"boundary_id": "b2-subagent-delegation", "kind": "capability_handoff", "from_owner": "refine", "to_owner": "subagent-roles", "applies_to_steps": ["s6", "s7"], "contract": "Role-bound subagents return receipts to the parent; the parent owns synthesis. Delegation requires operator authorization.", "on_violation": "block"},
+      {"boundary_id": "b3-source-immutability", "kind": "state_write", "from_owner": "refine", "to_owner": "run-folder", "applies_to_steps": ["s1", "s2", "s5", "s6", "s8", "s9", "s10"], "contract": "Refine writes only under the run folder; the source summary doc is read-only.", "on_violation": "block"}
+    ],
+    "authority": {
+      "lifecycle": "invoke",
+      "execution": "parent-native-runtime",
+      "validation": "interrogation+dispatch-spec",
+      "evidence": "refine",
+      "memory": "none",
+      "promotion": "refine (next-route recommendation only)"
+    },
+    "receipts": [
+      {"receipt_id": "r1-stage-receipt", "producer": "stage-capability", "required_fields": ["dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation"], "stores": ["evidence-index.json", "RUN-MANIFEST.md"], "on_missing": "block"},
+      {"receipt_id": "r2-subagent-receipt", "producer": "subagent-role", "required_fields": ["artifacts", "status", "residue"], "stores": ["RUN-MANIFEST.md"], "on_missing": "flag"}
+    ],
+    "state_namespaces": [
+      {"namespace": "source", "owner": "alpha-grant", "write_policy": "read-only"},
+      {"namespace": "refinement-runs/2026-06-15-arch-refine", "owner": "refine", "write_policy": "refine-only"}
+    ],
+    "promotion_splits": [
+      {"source": "decentralized-living-library-summary.md", "target": "refined architecture design", "rule": "The refined design is a candidate; it does not replace or rewrite the authoritative source doc.", "on_violation": "block"}
+    ]
+  },
+  "promotion_guardrails": [
+    "Task Session and Sigil Development are next-route recommendations only, never refine loop stages.",
+    "Dispatch validation precedes any runtime-backed stage execution.",
+    "Operator permission precedes subagent spawning and runtime-backed execution."
+  ]
+}

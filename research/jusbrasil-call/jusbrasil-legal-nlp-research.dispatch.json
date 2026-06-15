@@ -1,0 +1,444 @@
+{
+  "dispatch_id": "jusbrasil-legal-nlp-deep-research-20260610",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "create a deep research sub agent strategy, to get papers that make sense with jus brasil ai products, they said they have unique challenges with NLP, i want to prepare for the call, what could i read of literature, what papers we can find in arxiv?",
+    "objective": "Plan a governed multi-agent deep-research investigation that produces an arXiv-backed reading list on legal NLP relevant to Jusbrasil's AI products (Jus IA: smart summaries, main theses extraction, similar jurisprudence retrieval, legal research assistant, audio transcription), organized as call-preparation talking points about Brazilian legal NLP challenges.",
+    "target_artifact": "research/jusbrasil-call/READING-LIST.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "subagent strategy",
+      "fanout",
+      "frame",
+      "ledger",
+      "residue",
+      "handoff",
+      "promotion guardrail"
+    ],
+    "operator_sentence": "Use a deep-research fanout over six legal-NLP literature lanes, then synthesize a product-mapped reading list and call-prep brief."
+  },
+  "mode": "research",
+  "techniques": [
+    "frame_handoff",
+    "residue_ledger",
+    "observability_grouping",
+    "delegation_boundary",
+    "execution_receipt_handoff"
+  ],
+  "route_menu": {
+    "context_hint": "The target is external literature, not repository code, so web-capable research subagents are the natural executor.",
+    "items": [
+      {
+        "id": "deep-research-fanout",
+        "label": "Deep-research literature fanout",
+        "description": "Run parallel research lanes over Portuguese legal language models, legal retrieval/RAG, summarization, NER/structure, evaluation/hallucination, and product crosswalk.",
+        "capability_ref": "deep-research",
+        "pattern": "fanout"
+      },
+      {
+        "id": "single-pass-survey",
+        "label": "Single-pass survey",
+        "description": "One agent does a broad survey without lane specialization; cheaper but shallower coverage of arXiv.",
+        "capability_ref": "deep-research",
+        "pattern": "sequential"
+      }
+    ],
+    "selected_item_id": "deep-research-fanout"
+  },
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The intent spans six weakly-coupled literature areas that each need independent web/arXiv search depth; one context cannot hold all lanes without shallow coverage.",
+    "explanation": "Role-bound sibling research agents let each lane sweep arXiv and adjacent venues independently (different query vocabularies per lane), while a parent synthesis step joins receipts into one product-mapped reading list. This matches the fanout shape: lanes do not depend on each other's intermediate results.",
+    "context": [
+      "Jusbrasil's Jus IA Academy site confirms product features: smart summaries, main theses organization, similar jurisprudence retrieval, prompt library, audio transcription.",
+      "Jusbrasil engineers claim 'unique challenges with NLP', most plausibly: Brazilian Portuguese legal register, very long judicial documents, OCR-noisy filings, citation/jurisprudence graph scale, and hallucination risk in legal answers.",
+      "The operator needs the reading list before a scheduled call, so lanes must return concrete arXiv IDs, not vague pointers."
+    ],
+    "roles": [
+      {
+        "role_id": "L1-portuguese-legal-lms",
+        "purpose": "Find papers on Portuguese and Brazilian-legal-domain language models and domain adaptation (e.g. BERTimbau, Albertina, RoBERTaLexPT, Sabia/Juru lineage).",
+        "owns": "Lane receipt: portuguese-legal-lms paper set with arXiv IDs and relevance notes.",
+        "applies_to_steps": ["literature-fanout"]
+      },
+      {
+        "role_id": "L2-legal-retrieval-rag",
+        "purpose": "Find papers on case-law retrieval, similar-jurisprudence matching, dense retrieval, citation networks, and RAG for legal question answering.",
+        "owns": "Lane receipt: legal-retrieval-rag paper set with arXiv IDs and relevance notes.",
+        "applies_to_steps": ["literature-fanout"]
+      },
+      {
+        "role_id": "L3-legal-summarization",
+        "purpose": "Find papers on judicial decision summarization, main-thesis/holding extraction, rhetorical role labeling, and long-document modeling.",
+        "owns": "Lane receipt: legal-summarization paper set with arXiv IDs and relevance notes.",
+        "applies_to_steps": ["literature-fanout"]
+      },
+      {
+        "role_id": "L4-legal-ner-structure",
+        "purpose": "Find papers on legal NER and entity linking for Portuguese (e.g. LeNER-Br lineage), document segmentation, and OCR-noisy legal text processing.",
+        "owns": "Lane receipt: legal-ner-structure paper set with arXiv IDs and relevance notes.",
+        "applies_to_steps": ["literature-fanout"]
+      },
+      {
+        "role_id": "L5-evaluation-hallucination",
+        "purpose": "Find papers on legal AI evaluation benchmarks, hallucination measurement in legal LLMs, faithfulness, and Brazilian/Portuguese legal benchmarks.",
+        "owns": "Lane receipt: evaluation-hallucination paper set with arXiv IDs and relevance notes.",
+        "applies_to_steps": ["literature-fanout"]
+      },
+      {
+        "role_id": "L7-next-product-opportunities",
+        "purpose": "Find papers and recent systems pointing at plausible next products for Jusbrasil: judicial outcome prediction, contract review, petition/document drafting, agentic legal workflows, multimodal (audio/hearing) processing, negotiation and settlement analytics.",
+        "owns": "Lane receipt: next-product-opportunities paper set with arXiv IDs, relevance notes, and a candidate-product sketch per cluster.",
+        "applies_to_steps": ["literature-fanout"]
+      },
+      {
+        "role_id": "L6-product-crosswalk",
+        "purpose": "Map joined lane findings to specific Jus IA product features and draft call-ready talking points about Jusbrasil's stated NLP challenges.",
+        "owns": "Crosswalk receipt: feature-to-paper mapping and candidate call questions.",
+        "applies_to_steps": ["synthesize-reading-list"]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "authorization_record": "Operator approved on 2026-06-10 via AskUserQuestion with modification: add one lane exploring possible next products (L7-next-product-opportunities).",
+    "permission_prompt": "Run 6 parallel deep-research lanes (web + arXiv search) plus parent synthesis to produce an arXiv-backed legal-NLP reading list mapped to Jusbrasil's Jus IA products and next-product opportunities? Output written to research/jusbrasil-call/READING-LIST.md.",
+    "receipt_requirements": [
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "residue",
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute",
+      "Each lane returns 5-10 papers with arXiv ID or DOI, title, year, venue when known.",
+      "Each paper carries a one-paragraph relevance note tied to a Jus IA feature or stated NLP challenge.",
+      "Each lane separately lists Brazilian/Portuguese-specific work versus general legal-NLP work.",
+      "Each lane names residue: queries that returned nothing useful and open questions for the call."
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "pass",
+    "note": "Role L6-product-crosswalk was executed by the parent (join_policy parent_synthesis), not spawned, so it has no agent entry. All six spawned lane agents joined with receipts and closed.",
+    "agents": [
+      {
+        "agent_id": "a46a890a21ab86e4a",
+        "role_id": "L1-portuguese-legal-lms",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "research/jusbrasil-call/lane-receipts.md#l1--portuguese--legal-domain-language-models",
+        "residue": "Gervásio and legal-PT tokenizer work unverified; recorded in receipt residue.",
+        "reroute": "none"
+      },
+      {
+        "agent_id": "a3617b88b5d35502b",
+        "role_id": "L2-legal-retrieval-rag",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "research/jusbrasil-call/lane-receipts.md#l2--legal-retrieval--rag",
+        "residue": "LegalSearchLM authorship unconfirmed; COLIEE overviews not on arXiv; recorded in receipt residue.",
+        "reroute": "none"
+      },
+      {
+        "agent_id": "ae830d416054a3a20",
+        "role_id": "L3-legal-summarization",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "research/jusbrasil-call/lane-receipts.md#l3--legal-summarization--thesis-extraction",
+        "residue": "RulingBR standalone identifier unverified; no temas-repetitivos supervision work found; recorded in receipt residue.",
+        "reroute": "none"
+      },
+      {
+        "agent_id": "a5f0004ac97e1d2fc",
+        "role_id": "L4-legal-ner-structure",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "research/jusbrasil-call/lane-receipts.md#l4--legal-ner-extraction--document-structure",
+        "residue": "LGPD pseudonymization benchmark and LegNER unverified; recorded in receipt residue.",
+        "reroute": "none"
+      },
+      {
+        "agent_id": "a47ce08265f5d9f79",
+        "role_id": "L5-evaluation-hallucination",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "research/jusbrasil-call/lane-receipts.md#l5--evaluation-benchmarks--hallucination",
+        "residue": "LegalBench-BR and Rabula identifiers unverified; recorded in receipt residue.",
+        "reroute": "none"
+      },
+      {
+        "agent_id": "acdd1c04e3f8b3939",
+        "role_id": "L7-next-product-opportunities",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "research/jusbrasil-call/lane-receipts.md#l7--next-product-opportunities",
+        "residue": "Settlement-value prediction and PT-BR deposition summarization gaps; two unverified arXiv candidates excluded; recorded in receipt residue.",
+        "reroute": "none"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "scope-call-prep",
+      "name": "Recover Jusbrasil product context and frame the research questions",
+      "capability_ref": "context-builder",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": ["frame_handoff"],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "operator-call-prep-request"
+        },
+        {
+          "kind": "external_context",
+          "ref": "https://ia.jusbrasil.com.br/jusia-academy/"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "jusbrasil-product-context-frame"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "jusbrasil-context-recovered"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Flag if product-feature claims cannot be grounded in the Jus IA Academy site or operator-provided context."
+      ]
+    },
+    {
+      "step_id": "literature-fanout",
+      "name": "Run parallel legal-NLP literature research lanes",
+      "capability_ref": "deep-research",
+      "capability_status": "external",
+      "capability_metadata": {
+        "source": "claude-code-session-skill",
+        "note": "deep-research is a session-level research harness skill, external to the Arcanum canonical capability registry; it executes web/arXiv fan-out searches with adversarial verification."
+      },
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": ["delegation_boundary", "execution_receipt_handoff"],
+      "roles": [
+        "L1-portuguese-legal-lms",
+        "L2-legal-retrieval-rag",
+        "L3-legal-summarization",
+        "L4-legal-ner-structure",
+        "L5-evaluation-hallucination",
+        "L7-next-product-opportunities"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "jusbrasil-product-context-frame"
+        },
+        {
+          "kind": "human_answer",
+          "ref": "operator-subagent-approval"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "legal-nlp-lane-findings-ledger"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "literature-fanout-completed"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Every lane returns its receipt with arXiv IDs or DOIs for each cited paper.",
+        "Every lane separates Brazilian/Portuguese-specific findings from general legal-NLP findings.",
+        "Every lane includes at least two papers from 2024 or later."
+      ],
+      "evidence_artifact": "research/jusbrasil-call/lane-receipts.md",
+      "stop_conditions": [
+        "Block synthesis if any lane returns papers without resolvable identifiers.",
+        "Flag lanes that cannot find Brazilian/Portuguese-specific work and record the gap as residue."
+      ]
+    },
+    {
+      "step_id": "synthesize-reading-list",
+      "name": "Synthesize product-mapped reading list and call-prep brief",
+      "capability_ref": "distill",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": ["residue_ledger"],
+      "roles": ["L6-product-crosswalk"],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "legal-nlp-lane-findings-ledger"
+        },
+        {
+          "kind": "frame",
+          "ref": "jusbrasil-product-context-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/jusbrasil-call/READING-LIST.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "call-prep-brief-frame"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "reading-list-synthesized"
+        }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "Reading list is organized by Jus IA product feature, then by lane.",
+        "A prioritized 'read first' shortlist of at most 8 papers exists for limited prep time.",
+        "Open questions for the call are listed with the papers that motivated them.",
+        "Residue (gaps, dead-end queries, unverified claims) is preserved in a ledger section."
+      ],
+      "evidence_artifact": "research/jusbrasil-call/READING-LIST.md"
+    },
+    {
+      "step_id": "handoff-call-prep",
+      "name": "Hand off call-prep brief to the operator",
+      "capability_ref": "invoke",
+      "pattern": "handoff",
+      "parallel": false,
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "call-prep-brief-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "jusbrasil-call-prep-handoff"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "call-prep-handoff-prepared"
+        }
+      ],
+      "join_policy": "none"
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "subagent-authorization",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "The literature fanout must not spawn subagents until the operator approves the subagent strategy permission prompt.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "arxiv-evidence",
+      "kind": "quality",
+      "owner": "deep-research",
+      "condition": "Every cited paper must carry a resolvable arXiv ID, DOI, or stable link; unresolvable citations are dropped or flagged as residue.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "recency-balance",
+      "kind": "quality",
+      "owner": "distill",
+      "condition": "The synthesized reading list must mix foundational work with at least one-third papers from 2024-2026.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "private-content-boundary",
+      "kind": "policy",
+      "owner": "domainspec-core",
+      "condition": "Call-prep artifacts stay in the private parent repository and are never written into the public arcanum submodule.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "no-promotion",
+      "kind": "promotion_guardrail",
+      "owner": "arcanum",
+      "condition": "Research outputs are call-prep candidates only; they must not promote inventory, ontology, glossary, sigil, or spell knowledge.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "jusbrasil-context-recovered",
+      "literature-fanout-completed",
+      "reading-list-synthesized",
+      "call-prep-handoff-prepared"
+    ],
+    "signal_grouping": "jusbrasil-legal-nlp-research"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "deep-research-delegation",
+        "kind": "capability_handoff",
+        "from_owner": "dispatch-spec",
+        "to_owner": "deep-research",
+        "applies_to_steps": ["literature-fanout"],
+        "contract": "Research lanes receive the product-context frame and lane charter only; they return structured receipts and must not write repository artifacts outside research/jusbrasil-call/.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "private-parent-write",
+        "kind": "state_write",
+        "from_owner": "deep-research",
+        "to_owner": "domainspec-core",
+        "applies_to_steps": ["literature-fanout", "synthesize-reading-list"],
+        "contract": "All call-prep artifacts are written under research/jusbrasil-call/ in the private parent repository, never under the public arcanum submodule.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "dispatch-spec",
+      "execution": "deep-research",
+      "validation": "dispatch-spec",
+      "evidence": "domainspec-core",
+      "memory": "operator",
+      "promotion": "none-claimed"
+    },
+    "receipts": [
+      {
+        "receipt_id": "lane-receipt",
+        "producer": "deep-research",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "artifacts",
+          "status",
+          "residue"
+        ],
+        "stores": ["research/jusbrasil-call/lane-receipts.md"],
+        "on_missing": "flag"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Do not promote literature findings into Arcanum inventory, ontology, glossary, sigil, or spell artifacts.",
+    "Do not write call-prep or client-specific content into the public arcanum submodule.",
+    "Treat paper relevance claims as candidates until the operator reviews them before the call."
+  ]
+}

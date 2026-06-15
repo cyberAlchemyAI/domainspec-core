@@ -1,0 +1,17 @@
+# Bridge Decisions
+
+How findings from this paper bridge into the Jusbrasil **judicial outcome prediction ("Probabilidade de Êxito")** opportunity. Every row is an **ARCANUM-READING** resting on labeled primary claims (see `claim-ledger.md`). Statuses: **ADOPT** (carry into product thinking), **ADAPT** (carry with change), **CONSTRAINT** (a real limit/guardrail), **BLOCK** (do not transfer).
+
+| # | Bridge | Status | Rationale | Rests on |
+|---|---|---|---|---|
+| B1 | Use this paper as the external credibility anchor that "Brazilian legal outcomes are predictable from text, beating experts on equal footing." | ADOPT | Strongest published, open-access, dataset-backed evidence with a fair human baseline. | R2–R5, E3, A1 |
+| B2 | Replicate a **same-inputs human-expert benchmark** before making any "better than lawyers" product claim. | ADOPT | The baseline is the paper's most defensible asset; without it, claims are unfalsifiable marketing. | E2, E3, A4 |
+| B3 | Default to **time-sequential evaluation** and **MCC + calibration** (not accuracy/F1) for the product's models. | ADOPT | Random splits and accuracy both flatter imbalanced legal data and would mislead the business. | E1, R1, R7 |
+| B4 | Re-instantiate the *finding* with modern long-context LLMs/encoders rather than ULMFiT/BERT/BigBird verbatim. | ADAPT | Architectures are 2022-era; the signal generalizes but the stack should be modernized. | M1, M2 |
+| B5 | Redefine the target for the product: "êxito" is lawyer-side and multi-outcome, not panel affirm/reverse. Build a per-jurisdiction labeling spec. | ADAPT | The paper predicts only binary affirm/reverse on first-instance text; product framing differs materially. | D4, D6, C4 |
+| B6 | **Own a defensible, auditable labeling pipeline.** Do not reuse the filename/regex/metadata voting shortcut in production. | CONSTRAINT | Label provenance is the central reproducibility risk; "labels were not easy" is the authors' own caution. | D5, C2, A3 |
+| B7 | Present outputs as **probabilities with uncertainty**, never as binary guarantees; bound claims by the modest absolute signal (MCC ≈ 0.37). | CONSTRAINT | Over-claiming outruns the science and invites professional/legal blowback. | R7, A2, C5 |
+| B8 | **OAB / professional-ethics + "promising results" framing is a real deployment constraint, not a footnote.** Treat an outcome-probability product as assistive decision support under bar-ethics scrutiny (lawyer duty of competence/candor, access-to-justice, automation of legal judgment). Engage OAB-aware framing the paper itself skipped. | CONSTRAINT | Authors frame results as "promising," say models "cannot replace human decision-making," and report no OAB engagement; the gap is ours to close. | C5, C6, A5 |
+| B9 | Do not generalize a TRF5 prototype to national coverage without cross-region/cross-instance validation and drift monitoring. | CONSTRAINT | Single-region scope; authors assert but do not validate generalization; Jusbrasil's national corpus is more heterogeneous. | C3, A6 |
+| B10 | Use **BrCAD-5** as a cold-start benchmark / sanity-check dataset for an initial TRF5-scoped prototype. | ADOPT | Public, open, full-text, labeled, with pretrained models — fast path to a reproducible baseline. | L0 dataset record |
+| B11 | Do not market "predicts your case outcome" as a settled capability. | BLOCK | Absolute accuracy ceiling + assistive framing + ethics exposure forbid it. | R7, C5, A2, A5 |

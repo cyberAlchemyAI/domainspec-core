@@ -1,0 +1,252 @@
+{
+  "dispatch_id": "read-decompose-menezes-neto-outcome-prediction-20260610",
+  "parent_dispatch_id": "jusbrasil-legal-nlp-deep-research-20260610",
+  "intent": {
+    "raw": "create a research tower of each of one of first 8 and then a dispatch for each of the paper, so we can full decompose the papers and accelerate our read",
+    "objective": "Decompose 'Using deep learning to predict outcomes of legal appeals better than human experts (de Menezes-Neto et al., 2022)' into a reusable, source-backed reading path that accelerates understanding for the Jusbrasil call, mapped to: next product: judicial outcome prediction (Probabilidade de Exito).",
+    "target_artifact": "research/jusbrasil-call/towers/menezes-neto-outcome-prediction/LEARNING-PACK.md",
+    "arcanum_vocabulary": [
+      "research-tower",
+      "claim-ledger",
+      "distill",
+      "frame",
+      "residue",
+      "handoff",
+      "promotion guardrail"
+    ],
+    "operator_sentence": "Recover the source, build a claim ledger, govern the definitions, distill the operator model, then synthesize a learning pack and hand off an accelerated reading plan."
+  },
+  "mode": "research",
+  "steps": [
+    {
+      "step_id": "recover-source",
+      "name": "Confirm source record and section map",
+      "capability_ref": "context-builder",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "operator-decompose-request"
+        },
+        {
+          "kind": "external_context",
+          "ref": "DOI:10.1371/journal.pone.0272287"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "menezes-neto-outcome-prediction-source-record-frame"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "menezes-neto-outcome-prediction-source-recovered"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Flag if the source identifier cannot be resolved or the paper is inaccessible (record as open-residue, do not fabricate)."
+      ]
+    },
+    {
+      "step_id": "claim-ledger",
+      "name": "Build claim ledger and notation bridge",
+      "capability_ref": "research-tower",
+      "capability_metadata": {
+        "source": "arcanum-repository-local-skill",
+        "note": "Installed Arcanum skill, not in the hardcoded canonical capability set."
+      },
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "menezes-neto-outcome-prediction-source-record-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "menezes-neto-outcome-prediction-claim-ledger"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/jusbrasil-call/towers/menezes-neto-outcome-prediction/claim-ledger.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Every quantitative claim is tagged primary-source or demoted to open-residue when unverifiable."
+      ]
+    },
+    {
+      "step_id": "governed-definitions",
+      "name": "Govern glossary and load-bearing definitions",
+      "capability_ref": "definitions-governance",
+      "capability_metadata": {
+        "source": "arcanum-repository-local-skill",
+        "note": "Installed Arcanum skill, not in the hardcoded canonical capability set."
+      },
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "sequence"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "menezes-neto-outcome-prediction-claim-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/jusbrasil-call/towers/menezes-neto-outcome-prediction/definitions.md"
+        }
+      ],
+      "join_policy": "none"
+    },
+    {
+      "step_id": "distill-operator-model",
+      "name": "Distill the operator model and borrow/block decisions",
+      "capability_ref": "distill",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": [
+        "scu_swu_reduction"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "menezes-neto-outcome-prediction-claim-ledger"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/jusbrasil-call/towers/menezes-neto-outcome-prediction/definitions.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "menezes-neto-outcome-prediction-operator-model-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/jusbrasil-call/towers/menezes-neto-outcome-prediction/distill.md"
+        }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "Produce a one-sentence model and a compositional spine.",
+        "Separate borrow-carefully, analogy-only, and block decisions for Jusbrasil."
+      ]
+    },
+    {
+      "step_id": "learning-pack",
+      "name": "Synthesize the accelerated learning pack",
+      "capability_ref": "research-tower",
+      "capability_metadata": {
+        "source": "arcanum-repository-local-skill",
+        "note": "Installed Arcanum skill, not in the hardcoded canonical capability set."
+      },
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "menezes-neto-outcome-prediction-operator-model-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "research/jusbrasil-call/towers/menezes-neto-outcome-prediction/claim-ledger.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/jusbrasil-call/towers/menezes-neto-outcome-prediction/LEARNING-PACK.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "menezes-neto-outcome-prediction-learning-pack-synthesized"
+        }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "Source-backed claims are separated from operator readings.",
+        "Honest cutoff names what still requires the full PDF."
+      ]
+    },
+    {
+      "step_id": "handoff-read-plan",
+      "name": "Hand off the accelerated reading plan",
+      "capability_ref": "invoke",
+      "pattern": "handoff",
+      "parallel": false,
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "research/jusbrasil-call/towers/menezes-neto-outcome-prediction/LEARNING-PACK.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "menezes-neto-outcome-prediction-accelerated-read-handoff"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "menezes-neto-outcome-prediction-read-plan-prepared"
+        }
+      ],
+      "join_policy": "none"
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "source-evidence",
+      "kind": "quality",
+      "owner": "research-tower",
+      "condition": "Every claim cites the source or is labeled local-inference/analogy/open-residue; no invented numbers.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "private-boundary",
+      "kind": "policy",
+      "owner": "domainspec-core",
+      "condition": "Tower artifacts stay under research/jusbrasil-call/ in the private parent; never written into the public arcanum submodule.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "no-promotion",
+      "kind": "promotion_guardrail",
+      "owner": "arcanum",
+      "condition": "Tower outputs are local research artifacts; they must not promote inventory, ontology, glossary, sigil, or spell knowledge.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "jusbrasil-legal-nlp-deep-research-20260610",
+    "trace_events": [
+      "menezes-neto-outcome-prediction-source-recovered",
+      "menezes-neto-outcome-prediction-learning-pack-synthesized",
+      "menezes-neto-outcome-prediction-read-plan-prepared"
+    ],
+    "signal_grouping": "jusbrasil-paper-towers"
+  },
+  "promotion_guardrails": [
+    "Tower findings remain local research artifacts pending a separate governed promotion decision.",
+    "Do not write paper-decomposition content into the public arcanum submodule."
+  ]
+}
