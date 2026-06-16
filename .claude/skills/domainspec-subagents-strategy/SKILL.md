@@ -3,7 +3,7 @@ name: domainspec-subagents-strategy
 description: Route any subagent dispatch — check the Principle-1 trigger, hold the human gate, enforce the universal invariants, then route by dispatch_type to the owning type skill (research, review, and experiment are LIVE; code/plan/suggestion are reserved). The record/sheet form is owned by register-dispatch; field definitions by constitution §5. This skill defines no field and no type-specific judgment — it routes.
 ---
 
-**Governing doc:** operationalizes `internal_tools/subagents-dispatch-hooks/constitution/subagents-strategy-constitution-proposal.md` (v0.6.1-proposal). The live vault constitution is still v0.3.0; where the two conflict, v0.6.x wins (owner decision 2026-06-12; doc bumped to v0.6.0 then v0.6.1 on 2026-06-15 per §10 / §12). The wire `schema_version` is `"0.6.0"` (§10.1; the v0.6.1 bump is the `experiment` propose/run re-scope, not a row-schema change).
+**Governing doc:** operationalizes `internal_tools/subagents-dispatch-hooks/constitution/subagents-strategy-constitution-proposal.md` (v0.6.2-proposal). The live vault constitution is still v0.3.0; where the two conflict, v0.6.x wins (owner decision 2026-06-12; doc bumped to v0.6.0 then v0.6.1 on 2026-06-15, then v0.6.2 on 2026-06-16 per §10 / §12 / §13). The wire `schema_version` is `"0.6.0"` (§10.1; neither the v0.6.1 `experiment` re-scope nor the v0.6.2 P8 citation-licensing extension is a row-schema change). **P8 (trust-but-verify)** now covers citations: a cite is verified only when the cited location is opened and confirmed to *license* its claim, not merely to exist (§13).
 
 ## When to dispatch (P1) — and what is not a dispatch (P11)
 

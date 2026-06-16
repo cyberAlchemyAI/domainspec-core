@@ -5,8 +5,8 @@ is_session: false
 layer: architecture
 nature: procedural, technical
 status: draft
-version: 0.6.1-proposal
-last_updated: 2026-06-15
+version: 0.6.2-proposal
+last_updated: 2026-06-16
 replaces: vault/constitution/domainspec-subagents-strategy-constitution.md@v0.3.0 (and the v0.4.0 draft; v0.5.1 amended in place after the 2026-06-12 adversarial assessment)
 derives_from: vault/premise/domainspec-subagents-strategy-premises.md@v0.4.0
 ---
@@ -131,7 +131,7 @@ redesigning the framework itself — and is the only context in which dispatch l
    A sheet that passes all four tests PASSES — no residual judgment call. **Enforcement split:** the appender enforces the presence conditionals (group `anti_bias` at n ≥ 2; `anti_bias_global` when ≥ 2 groups have n ≥ 2 — both exit 2); tests 1–4 are checked on the sheet at the gate.
 6. **Synthesizer midfield.** Between explorers and reviewers there is always a synthesizer. Synthesizer ↔ reviewers iterate via zig-zag; synthesizer → explorers via **feedback**, which is **conditional** — it is instantiated only when there is a reviewer/auditor group *and* material may be missing, not auto-instantiated in every dispatch. Reviewers never review raw explorer output directly.
 7. **Aggregation is derived.** A group with `robot_talks: true` → `synthesize`; otherwise → `concat` (an `n = 1` group simply returns its single output). Aggregation is never a field. Zig-zag is inter-group exchange — it does not change either group's combination rule. *(Non-binding note: a bare `concat` is intermediate plumbing, never the dispatch's final deliverable — concatenated parallel outputs feed a downstream `synthesize` group or the `final_approver`, they are not handed back as the answer.)*
-8. **Trust-but-verify.** If a subagent wrote files or claimed a check passed, the parent inspects the actual diff / runs the actual check before treating it as done.
+8. **Trust-but-verify.** If a subagent wrote files or claimed a check passed, the parent inspects the actual diff / runs the actual check before treating it as done. The same standard applies to **citations**: a reference is verified only when the cited location is opened and confirmed to *license the claim resting on it* — not merely to exist. A **line-accurate but non-licensing cite** (the lines exist and look on-topic, yet do not establish the claim) counts as unverified. *(Extension landed v0.6.2 — see §13.)*
 9. **Outputs.** For a `dispatch_type: research` dispatch, everything the dispatch produces lands in `working_folder`. The two-file rule applies only to a **research fan-out (n ≥ 2)**: the collected returns (research) and the cited synthesis (findings) — every load-bearing claim in the findings cites the collected return it rests on, and the `final_approver` checks this when recommending acceptance. A **research n = 1** dispatch produces a single file, `findings.md`.
 10. **Claim ≤ proof** in every artifact produced.
 11. **Helper invocations are not dispatches.** A single agent spawned *by* a running agent, within its parent's scope, needs no row and no gate — it is reported post-hoc in the parent's `agents_spawned` report (chat + findings, not written to the ledger row). It escalates to a real dispatch if it fans out (2+) or outgrows the scope. Spawn count is unregulated; reporting is the brake. *(The exact helper-vs-dispatch boundary is provisional — an open question, not settled law.)*
@@ -766,6 +766,37 @@ the document `version` bumps **0.6.0 → 0.6.1**. It touches **no** field, enum,
 surface, so the wire `schema_version` stays `0.6.0` and §10.2's five-surface atomic promotion does
 **not** fire (verified: the appender test battery asserts only `experiment`'s `working_folder`
 requirement — nothing about outputs, verdict, or roles).
+
+## 13. v0.6.2 amendment (2026-06-16 — P8 citation-licensing extension)
+
+Source: the review dispatch `2026-06-16-comparison-answer-review` (red-team of an assistant
+comparison answer; 3 attackers robot_talks — governance-derivation ⟂ literal-execution ⟂
+reference-tracing — → strategist-synthesizer ↔ verifier zig-zag → dedicated auditor;
+`reviews/2026-06-16-comparison-answer/findings.md`). Owner decision 2026-06-16: extend **P8
+(Trust-but-verify)** to cover citations.
+
+**What changed.** P8 previously bound only file-writes and check-claims. Two MAJOR findings in the
+source review were **non-licensing cites** — references that pass a line-number check (the cited
+lines exist and look on-topic) but fail a support check (they do not establish the claim): finding
+**#1** (a cite to dispatch-spec L98-120 proved a `subagent_strategy` block *existed*, not the
+"domainspec-subagents-strategy takes over" handoff claim chained to it) and finding **#3**
+(`pass/flag/block` cited at L31-32, scope prose; the contract is actually at L148 / L166-169). The
+class is more dangerous than a broken cite because it survives the cheap verification. P8 now names
+**"line-accurate but non-licensing cite"** and requires the cited location be confirmed to *license*
+its claim, not merely to exist.
+
+**Version mechanics (§10.1).** Extending an existing principle is a principle change → document
+`version` bumps **0.6.1 → 0.6.2**. It touches **no** field, enum, row-schema, or code surface, so the
+wire `schema_version` stays `0.6.0` and §10.2's five-surface atomic promotion does **not** fire.
+
+**Validation mode.** `review` — whether a cite licenses its claim is a model/human judgment, not
+deterministically lintable; no appender or validator change. The verifier and `final_approver` are
+the natural enforcement points (the source review's auditor confirmed both non-licensing cites
+against the literal artifact before acceptance).
+
+**Premise-debt.** No premise re-confrontation required: P8's scope (verify before "done") is
+unchanged in kind; the amendment narrows *what counts as verified* within that existing scope. No
+debt opened, discharged, or affected.
 
 | # | Decision | Amendment |
 |---|---|---|
