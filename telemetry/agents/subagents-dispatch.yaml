@@ -1,0 +1,83 @@
+# subagents-dispatch.yaml — registry of subagent dispatches (one row per dispatch,
+# plus one close row per dispatch — append-only, never edited in place).
+# Written by the register-dispatch skill. `groups`/`connections` (dispatch rows) and
+# `agents_spawned`/`feedback_prompts` (close rows) are JSON columns.
+dispatches:
+  - dispatch_id: "2026-06-15-subagents-strategy-skill-context"
+    schema_version: "0.5.2"
+    created: "2026-06-15T14:43:12.062Z"
+    invoked_by: "victorboscaro@gmail.com"
+    dispatch_type: "research"
+    goal: "Gather the three inputs needed to design how a subagents-strategy capability should be wired into Arcanum: the dispatch-composition-attack research, the existing subagents-dispatch-hooks tooling, and Arcanum's own dispatch-skill conventions."
+    context: "User asked for the best way to wire a subagents-strategy skill into Arcanum, integrating the dispatch-composition-attack research folder and ../domainspec/internal_tools/subagents-dispatch-hooks. Observability wiring is explicitly out of scope for now. Outputs inform a wiring recommendation, no code is written yet."
+    max_loops: 1
+    final_approver: "parent"
+    working_folder: "projects/dispatch-composition-attack/"
+    groups: [{"group_id":"context-gatherers","role":"investigate","n":3,"anti_bias":"coverage decomposition across three orthogonal evidence sources (research concept vs existing tooling vs host conventions) so no single source's framing dominates the wiring design","agents":[{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":2500,"angle":"owns the research/concept source — synthesizes the dispatch-composition-attack thesis, vocabulary, and proposed mechanisms","initial_prompt":"Read all 6 markdown files in projects/dispatch-composition-attack and synthesize core thesis, vocabulary, mechanisms/artifacts, strategy heuristics, and open residue to inform a subagents-strategy skill design. Read-only."},{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":2500,"angle":"owns the existing-tooling source — reverse-engineers subagents-dispatch-hooks (hooks, schema, appender, constitution)","initial_prompt":"Locate and analyze ../domainspec/internal_tools/subagents-dispatch-hooks: what it is, file inventory, the v0.5.2 ledger schema, hook trigger points, and the router/type-skill/form chain. Read-only."},{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":2500,"angle":"owns the host-conventions source — maps Arcanum skill package structure and the register-dispatch/dispatch-spec/orchestrate/task-session conventions","initial_prompt":"Investigate .claude/skills register-dispatch, dispatch-spec, orchestrate, task-session: package structure, frontmatter keys, the two senses of dispatch, routing, and where a subagents-strategy skill slots. Read-only."}]}]
+  - dispatch_id: "2026-06-15-qsp-guardrail-matrix-scoping"
+    schema_version: "0.5.2"
+    created: "2026-06-15T14:43:24.260Z"
+    invoked_by: "victorboscaro@gmail.com"
+    dispatch_type: "research"
+    goal: "Determine exactly what must be built for the Golden Quill guardrails-as-tests matrix (GAP-QSP-TEST-PLAN): which enforcement gates exist, what is already tested, and how the matrix must be shaped and self-checked."
+    context: "TO-VICTOR.md assigns QSP the guardrail-test-matrix as a block-severity, deployment-gating deliverable. Before authoring guardrail-test-matrix.yaml we need ground truth on the live Logician/Cedar gate surface, existing test coverage, the gate-call contract, and how the F-CLASS-COVERAGE-INCOMPLETE META gate actually verifies coverage. Outputs scope the build and surface spec-vs-code drift."
+    max_loops: 1
+    final_approver: "parent"
+    working_folder: "projects/goldenquill/docs/features/quality-security-proof/development/"
+    groups: [{"group_id":"investigators","role":"investigate","n":3,"anti_bias":"code-on-disk truth vs documentation claims vs spec-proposed shape","agents":[{"agent_name":null,"role":"auditor","model":"claude-opus-4-8","token_budget":4000,"angle":"trust code on disk over docs — produce authoritative gate roster + spec-vs-code drift table","initial_prompt":"Enumerate every f_class_* and f_wpfa_* gate file, extract each canonical failure-code string, list Cedar policies, read the META coverage gate's REQUIRED_F_CLASS_CODES, and reconcile against BUILD-SPEC §1's claimed 16 F-CLASS + 12 F-WPFA. Return an authoritative roster + a drift table flagging codes claimed but with no gate file, and naming mismatches."},{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":4000,"angle":"search the whole tree, not just tests/logician — map existing coverage + extract the test idiom","initial_prompt":"Search the full tests/ tree for tests referencing each F-CLASS/F-WPFA gate. Build a coverage map (gate -> tested? -> where), extract the canonical test pattern with a cited example, document fixture conventions and reusable helpers, and the verdict/assertion vocabulary."},{"agent_name":null,"role":"auditor","model":"claude-opus-4-8","token_budget":4500,"angle":"derive the matrix shape from how the META gate actually verifies, not from the spec's proposed schema","initial_prompt":"Read gate_runner/pre_gate/post_gate/types/_protocols plus a representative f_class and f_wpfa gate to state the precise gate-call contract. Read f_class_coverage_incomplete fully to determine exactly how it verifies coverage. Recommend the guardrail-test-matrix.yaml row schema + self-check that ties to the real META gate, and concrete Windows run instructions."}]}]
+  - close_of: "2026-06-15-qsp-guardrail-matrix-scoping"
+    closed: "2026-06-15T14:43:37.234Z"
+    invoked_by: "victorboscaro@gmail.com"
+    exit_reason: "resolved"
+    agents_spawned: {"total":3,"tree":{"investigate":3,"synthesize":0,"helpers":0},"loops_used":1}
+  - dispatch_id: "2026-06-15-arcanum-research-gap-map"
+    schema_version: "0.6.0"
+    created: "2026-06-15T20:18:25.787Z"
+    invoked_by: "victorboscaro@gmail.com"
+    dispatch_type: "research"
+    goal: "Map DomainSpec's research approach onto Arcanum's existing research capabilities to locate the real coverage gap before adding anything new."
+    context: "User wants to add 'research' to Arcanum but chose to first map DomainSpec research onto Arcanum's existing research sigils/spells and find the genuine gap. Two independent inventories were run over two distinct codebases, then synthesized by the parent into a coverage map. No code or artifacts written yet."
+    max_loops: 1
+    final_approver: "parent"
+    working_folder: "research/arcanum-research-gap-map/"
+    groups: [{"group_id":"inventory-explorers","n":2,"anti_bias":"source corpus (Arcanum codebase vs DomainSpec codebase — two distinct corpora investigated independently so neither framing colors the other)","agents":[{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":3500,"angle":"owns the Arcanum corpus — inventories existing research capabilities (research-tower, research-evidence-harness, publication-research-pipeline, robot-talks, scope-interview, distill): artifacts, method, coverage axes","initial_prompt":"Explore c:/Users/victo/Arcanum and map its research capabilities only. For each (research-tower, research-evidence-harness, publication-research-pipeline, robot-talks, scope-interview, distill) report id+tier, purpose, triggers, inputs, output artifacts, method/phases, and whether it handles hypotheses/experiments/evidence/citations/multi-agent/findings. Return a coverage table. Map only what exists; do not propose changes."},{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":3500,"angle":"owns the DomainSpec corpus — inventories the research method (hypotheses, experiment-candidates, research/findings split, subagents-strategy-constitution, research workspace registry) and its distinctive features","initial_prompt":"Explore c:/Users/victo/domainspec and domainspec-core/research and map its research approach only: the research artifacts (hypotheses, experiment-candidates, research/findings), the subagents-dispatch method (strategist vs children, research->findings split, key R-rules on citation/coverage/grading), how research feeds the spec via claims, and the research workspace registry structure. Summarize distinctive features a generic tool would lack. Map only what exists; do not propose changes."}]}]
+  - close_of: "2026-06-15-subagents-strategy-skill-context"
+    closed: "2026-06-15T20:24:43.639Z"
+    invoked_by: "victorboscaro@gmail.com"
+    exit_reason: "resolved"
+    agents_spawned: {"total":3,"tree":{"investigate":3,"synthesize":0,"helpers":0},"loops_used":1}
+  - dispatch_id: "2026-06-15-folder-thesis-comparison"
+    schema_version: "0.6.0"
+    created: "2026-06-16T00:55:07.882Z"
+    invoked_by: "victorboscaro@gmail.com"
+    dispatch_type: "research"
+    goal: "Compare the theses of three project folders (cyber-alchemy-lean-fusion, dispatch-composition-attack, domainspec-language) to judge whether they describe the same underlying idea."
+    context: "The user suspects these three projects overlap. Three read-only Explore agents each read one folder independently, then the parent synthesizes the comparison. Partition-by-corpus keeps each read uncontaminated by the others before synthesis."
+    max_loops: 1
+    final_approver: "parent"
+    working_folder: "telemetry/research/folder-thesis-comparison/"
+    groups: [{"group_id":"folder-readers","n":3,"anti_bias":"subject corpus (each agent owns one folder, blind to the others)","agents":[{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":1500,"angle":"owns cyber-alchemy-lean-fusion: residue/proof-gate fusion thesis","initial_prompt":"Read projects/cyber-alchemy-lean-fusion and synthesize its core thesis, vocabulary (residue, claim-proof gate, dispatch composition, charge/flux), the Lean fusion, and its relationship to Arcanum. Read-only."},{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":1500,"angle":"owns dispatch-composition-attack: observability+schema wiring thesis","initial_prompt":"Read projects/dispatch-composition-attack (7 files) and synthesize what the 'attack' is, dispatch composition, threat model, relationship to Arcanum, findings and plan. Read-only."},{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":1500,"angle":"owns domainspec-language: contract/schema/iteration language thesis","initial_prompt":"Read projects/domainspec-language (CONTEXT-PACK, refinement runs) and synthesize what the language is, its constructs, relationship to Arcanum/pipeline, and to residue/claims/observability. Read-only."}]}]
+    connections: []
+  - close_of: "2026-06-15-folder-thesis-comparison"
+    closed: "2026-06-16T00:55:29.871Z"
+    invoked_by: "victorboscaro@gmail.com"
+    exit_reason: "resolved"
+    agents_spawned: {"total":3,"tree":{"explorer":3,"skeptic":0,"writer":0,"auditor":0,"helpers":0},"loops_used":1}
+  - dispatch_id: "2026-06-15-system-highlevel-research"
+    schema_version: "0.6.0"
+    created: "2026-06-16T01:08:33.783Z"
+    invoked_by: "victorboscaro@gmail.com"
+    dispatch_type: "research"
+    goal: "Build the research base for a high-level view of the agentic system that turns user intent into finished code (Arcanum engine + the 3 project folders), focused on how everything communicates."
+    context: "User wants a high-level view to orient themselves. Three read-only Explore agents each took an angle (the engine, the communication fabric, the end-to-end pipeline + folder fit) over the checked-out corpus, since the arcanum submodule is not initialized. Outputs feed the next discovery phase."
+    max_loops: 1
+    final_approver: "parent"
+    anti_bias_global: "mechanism (what the parts are) vs interfaces (how the parts communicate)"
+    working_folder: "research/projects/system-highlevel-view/"
+    groups: [{"group_id":"system-mappers","n":3,"anti_bias":"altitude/angle (engine internals vs communication wiring vs end-to-end pipeline & folder fit)","agents":[{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":1800,"angle":"the engine: what the agentic system is and its core mechanism nouns","initial_prompt":"Map the engine from cyberAlchemy/ docs: what the system is, the intent->code lifecycle, core nouns (invoke/dispatch/task-session/sigil/spell/arcana/gate/handoff), unit of work, Arcanum vs DomainSpec, named pipeline. Flag built vs aspirational. Read-only."},{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":1800,"angle":"the communication fabric: how pieces talk (signals, ledgers, handoffs, gates)","initial_prompt":"Map communication channels: signal ledgers/.jsonl, dispatch ledger, handoff artifacts, gates/verdicts, registries. What flows, who writes, who reads, real vs aspirational. Read-only."},{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":1800,"angle":"the end-to-end pipeline and where each projects/ folder plugs in","initial_prompt":"Trace intent->code pipeline stages and classify every projects/ folder as engine vs design-research vs application, with its connection point. Special focus on the 3 target folders. Read-only."}]}]
+    connections: []
+  - close_of: "2026-06-15-system-highlevel-research"
+    closed: "2026-06-16T01:09:02.397Z"
+    invoked_by: "victorboscaro@gmail.com"
+    exit_reason: "resolved"
+    agents_spawned: {"total":3,"tree":{"explorer":3,"skeptic":0,"writer":0,"auditor":0,"helpers":0},"loops_used":1}
