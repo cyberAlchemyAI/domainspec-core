@@ -15,6 +15,8 @@ updatedAt: 2026-06-15
 > `implementation/domainspec/backend/src/modules/ui-prototyping-studio/domain/models.ts`
 > (`StudioSessionState`); `IdentityEvidenceConfirmed` is the optional doc-level confirm branch and is
 > not a code enum member at L0.
+> The **two-gate apply** semantics for `RevisionApplied`/`RevisionRecorded` (INV-10..13, marked
+> `[PROPOSAL]`) come from the mutation-execution-mechanics refine RESULT §5 and are not yet canonical.
 
 ## States
 
@@ -26,8 +28,8 @@ updatedAt: 2026-06-15
 6. **CommentsCaptured** — one or more canonical element-level comments appended (self-loop on more).
 7. **MutationDrafted** — deterministic draft `MutationBatch` synthesized (`status=draft`).
 8. **MutationApproved** — explicit human approval (`status=approved`; apply gate satisfied).
-9. **RevisionApplied** — approved batch applied (non-stale, non-auto).
-10. **RevisionRecorded** — exactly one `RevisionManifestEntry` appended; revision head updated.
+9. **RevisionApplied** — *staged preview / accept-diff gate* `[PROPOSAL]`. After `validate` admits, the proposed candidate HTML is staged at a **temp ref (NOT head)**, the honest diff is computed and shown (the saw-the-diff moment), and the session **waits for the human accept-diff gate**. Nothing has become head yet. (Resolves GAP-CONTRACT-DRIFT-004: distinct from RevisionRecorded.)
+10. **RevisionRecorded** — human accepted the staged diff; the exact accepted candidate is atomically recorded (head advanced) and exactly one `RevisionManifestEntry` appended.
 
 Terminal: **SessionCompleted** — session locked for handoff export.
 
@@ -46,8 +48,10 @@ Terminal: **SessionCompleted** — session locked for handoff export.
 | CommentsCaptured | `studio comment add` · CaptureCommentEvent | CommentsCaptured | *(self-loop)* additional valid comment appended (INV-7) |
 | CommentsCaptured | `studio synthesize` · SynthesizeMutationBatch | MutationDrafted | ordered comment set exists; `status=draft` |
 | MutationDrafted | `studio batch approve` · ApproveMutationBatch | MutationApproved | explicit human approval; `status=approved`, apply gate satisfied (INV-3) |
-| MutationApproved | `studio batch apply` · ApplyApprovedBatch | RevisionApplied | batch approved (INV-3), non-stale (INV-5), non-auto `applyRequestedBy != system:auto` (INV-4), server-side (INV-8), no proof gate (INV-9) |
-| RevisionApplied | (apply effect) · AppendManifest | RevisionRecorded | exactly one `RevisionManifestEntry` appended (INV-6) |
+| MutationApproved | `studio apply` · ProposeAndValidate `[PROPOSAL]` | RevisionApplied *(candidate staged)* | batch approved (INV-3), non-stale (INV-5), non-auto (INV-4), server-side (INV-8), no proof gate (INV-9); **all required validators pass** (INV-10) ⇒ candidate staged at temp ref |
+| MutationApproved | `studio apply` · ProposeAndValidate (**required-fail**) `[PROPOSAL]` | MutationApproved *(no write)* | required validator fails ⇒ **REJECT, no write**, fail-closed (INV-12); bounded `maxProposeAttempts` retry then stays MutationApproved |
+| RevisionApplied | `studio apply accept` · AcceptDiffAndRecord `[PROPOSAL]` | RevisionRecorded | **human accept-diff gate** (second gate); accept-time staleness re-check (INV-5); atomic all-or-nothing record (INV-11); exactly one `RevisionManifestEntry` appended (INV-6); commits exactly the accepted `candidateHtmlHash`, seen==recorded (INV-13) |
+| RevisionApplied | `studio apply reject` · DiscardStagedCandidate `[PROPOSAL]` | MutationApproved | human rejects/discards staged candidate; temp ref dropped, no head change |
 | RevisionRecorded | `studio comment add` · ContinueIteration | CommentsCaptured | *(iterate)* session not finalized; loop continues on active baseline |
 | RevisionRecorded | `studio handoff export` · FinalizeSession | SessionCompleted | user finalizes; session locked for handoff |
 
@@ -64,6 +68,10 @@ Terminal: **SessionCompleted** — session locked for handoff export.
 | INV-7 | Comment notes and prompt text escaped/sanitized before persist and render. | SubmitPrompt; every CaptureCommentEvent edge |
 | INV-8 | Gate checks (selection, approval, staleness, non-auto actor) enforced server-side, not only UI. | ApplyApprovedBatch (guard); all gate transitions behind the CLI |
 | INV-9 | Normal MVP apply MUST NOT depend on proof-gate evaluation. | ApplyApprovedBatch (no proof-gate dependency) |
+| INV-10 `[PROPOSAL]` | Validate is **fail-closed**: candidate staged only if ALL required validators pass; any required fail ⇒ reject, no write. | ProposeAndValidate (composite admission rule) |
+| INV-11 `[PROPOSAL]` | **Whole-batch all-or-nothing**: record commits the entire candidate atomically or nothing; no partial apply. | AcceptDiffAndRecord (single commit point) |
+| INV-12 `[PROPOSAL]` | Reject leaves no trace: required-fail and human reject/discard both perform **no write** and keep the prior head. | ProposeAndValidate; DiscardStagedCandidate |
+| INV-13 `[PROPOSAL]` | **Idempotency-at-verdict**: record commits exactly the accepted `candidateHtmlHash` (the diff the human saw); seen == recorded. | AcceptDiffAndRecord (hash-bound record) |
 
 ## Deferred (L3+)
 

@@ -1,0 +1,80 @@
+{
+  "run_id": "20260615-mutation-execution-mechanics",
+  "dispatch": "REFINE-DISPATCH.json",
+  "seed": "REFINE-SEED-PROPOSAL.md",
+  "result": "RESULT.md",
+  "runtime_handoff": "RUNTIME-HANDOFF.md",
+  "stage_status": {
+    "context": "pass",
+    "define": "pass",
+    "review": "flag",
+    "research": "pass",
+    "tournament": "pass",
+    "design": "pass",
+    "design_review": "flag",
+    "toy_game": "flag",
+    "plan": "pass",
+    "final": "flag"
+  },
+  "advocate_scores": [
+    {
+      "approach": "A \u2014 Deterministic typed-patch transformer",
+      "scores": {
+        "auditability": 5,
+        "expressiveness": 2,
+        "cc_fit": 2,
+        "odid_stability": 5,
+        "ergonomics": 3
+      }
+    },
+    {
+      "approach": "B \u2014 Agentic Regeneration (Claude Code regenerates the HTML from the tasks)",
+      "scores": {
+        "auditability": 2.5,
+        "expressiveness": 5,
+        "cc_fit": 5,
+        "odid_stability": 3,
+        "ergonomics": 4.5
+      }
+    },
+    {
+      "approach": "C \u2014 Hybrid (Agentic-Propose + Deterministic-Validate)",
+      "scores": {
+        "auditability": 4,
+        "expressiveness": 4,
+        "cc_fit": 5,
+        "odid_stability": 4,
+        "ergonomics": 5
+      }
+    }
+  ],
+  "stages": [
+    {
+      "file": "stages/01-context-pack.md"
+    },
+    {
+      "file": "stages/02-define.md"
+    },
+    {
+      "file": "stages/03-refine-review.md"
+    },
+    {
+      "file": "stages/04-research-decision.md"
+    },
+    {
+      "file": "stages/05-approach-comparison.md"
+    },
+    {
+      "file": "stages/06-design.md"
+    },
+    {
+      "file": "stages/07-design-review.md"
+    },
+    {
+      "file": "stages/08-toy-game.md"
+    },
+    {
+      "file": "stages/09-plan.md"
+    }
+  ]
+}

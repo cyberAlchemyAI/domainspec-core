@@ -45,6 +45,11 @@ indexes:
     ART-ARCHITECTURE: artifacts[22]
     DEC-INPROTO-ANNOTATION-013: decisions[12]
     DEC-ATOMIC-IDS-014: decisions[13]
+    ART-MUTEXEC-RESULT: artifacts[23]
+    ART-MUTEXEC-DESIGN: artifacts[24]
+    ART-MUTEXEC-PLAN: artifacts[25]
+    DEC-MUTATION-EXEC-015: decisions[14]
+    GAP-ACCEPTANCE-CHECK-007: gaps[6]
   open_decisions:
   - DEC-ONE-SHOT-SCOPE-002
   - DEC-OQ1-TRUST-METER
@@ -65,8 +70,8 @@ indexes:
   - GAP-ERGONOMICS-UNPROVEN-001
   - GAP-COMPONENT-REGISTRY-002
   - GAP-CONFLICT-ALGEBRA-003
-  - GAP-CONTRACT-DRIFT-004
   - GAP-DOCS-CODE-SPLIT-005
+  - GAP-ACCEPTANCE-CHECK-007
   next_moves:
   - context_id: CTX-UPS-ROOT
     next_move: Execute extraction (P1 -> P1.5 studio CLI + skill, no MCP/SPA -> P3 e2e); runtime Claude Code-native via CLI; deep-spec decision-gate stays queued.
@@ -85,6 +90,9 @@ indexes:
     projects/ui-prototyping-studio/operations.md: ART-OPERATIONS
     projects/ui-prototyping-studio/interfaces.md: ART-INTERFACES
     projects/ui-prototyping-studio/ARCHITECTURE.md: ART-ARCHITECTURE
+    projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/RESULT.md: ART-MUTEXEC-RESULT
+    projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/stages/06-design.md: ART-MUTEXEC-DESIGN
+    projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/stages/09-plan.md: ART-MUTEXEC-PLAN
 contexts:
 - context_id: CTX-UPS-ROOT
   parent_id: root
@@ -132,7 +140,7 @@ contexts:
   purpose: 'Claude Code-native standalone via a `studio` CLI (no MCP server): keep the working L0 governance core, wrap it in a CLI both Claude Code and the human drive, ship an operating skill; MVP visual review = `studio preview` (no React SPA). Build on existing code; full-vision spec + vendored reference archived to provenance/.'
   stage: plan
   gate: flag
-  next_move: 'Execute extraction: P1 backend lift -> P1.5 `studio` CLI + operating skill (no MCP, no SPA) -> P3 e2e. Deep-spec decision-gate (OQ-1..4) stays queued.'
+  next_move: 'Mutation-execution model folded into the spec [PROPOSAL]. Next: run the C-1 spike (RESIDUE-B: whole-tree V3 fence + V2-vs-CSS decision + calibration S/B/k/c) — the single gate before build — then task-session L0 (schema + artifact content port + canonicalizer).'
   owned_artifacts:
   - ART-EXTRACTION-PLAN
   notes: Opened after the operator reframed ui-prototyping-studio as a whole new project because domainspec is being deprecated.
@@ -275,6 +283,24 @@ artifacts:
   artifact_type: architecture
   status: active
   notes: 'Architecture vision (invoke design): governance harness around Claude Code as the generation engine, studio CLI as the only seam, hexagonal core, deferred extension points. Decisions reference the ledger, not re-decided.'
+- artifact_id: ART-MUTEXEC-RESULT
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/RESULT.md
+  artifact_type: refine-result
+  status: active
+  notes: Chosen mutation-execution model (Approach C, admission-boundary determinism, two-gate apply). Proposal; status flag (named residue).
+- artifact_id: ART-MUTEXEC-DESIGN
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/stages/06-design.md
+  artifact_type: design
+  status: active
+  notes: The execution-model design + validator set V1-V9b + apply state machine.
+- artifact_id: ART-MUTEXEC-PLAN
+  owner_context_id: CTX-UPS-EXTRACTION
+  path: projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/stages/09-plan.md
+  artifact_type: implementation-plan
+  status: active
+  notes: 7-layer MWU->hardening plan; all contract changes tagged [PROPOSAL].
 descriptions:
 - description_id: DESC-UPS-001
   context_id: CTX-UPS-ROOT
@@ -296,6 +322,11 @@ descriptions:
   description: Authored lean companion aspect files (glossary, states, operations, interfaces) for the lean SPEC via invoke define — CLI-native, L0->L2 scope, grounded in code; the 79KB-era full-vision aspects remain archived in provenance/.
   status: active
   evidence: ART-OPERATIONS
+- description_id: DESC-UPS-MUTEXEC-FOLD-001
+  context_id: CTX-UPS-EXTRACTION
+  description: 'Folded DEC-MUTATION-EXEC-015 (Approach C) into the spec spine: SPEC, operations, states, interfaces, glossary, ARCHITECTURE, and EXTRACTION-PLAN now carry the four-lane admission-boundary model, the V1-V9b validator suite, the two-gate apply (RevisionApplied staged-preview -> accept-diff -> RevisionRecorded), the schema deltas (odId/MutationChangeType, DiffSummaryHonest, ExecutionProvenance), and the artifact content port. All contract changes tagged [PROPOSAL].'
+  status: active
+  evidence: projects/ui-prototyping-studio/SPEC.md
 definitions:
 - definition_id: DEF-CONFORMANCE-DELTA-001
   scope_id: CTX-UPS-ROOT
@@ -660,6 +691,22 @@ decisions:
   blocking: false
   impact: AnnotationTarget.odId becomes the primary annotation target (selector fallback). Operating skill requires data-od-id stamping. Atomic design named as the L4 vocabulary unifying identity (BLK-IDENTITY-TYPES-002), registry (GAP-COMPONENT-REGISTRY-002), and conformance-delta.
   owner: operator
+- decision_id: DEC-MUTATION-EXEC-015
+  scope_id: CTX-UPS-EXTRACTION
+  decision_type: selection
+  question: What is the mutation-execution model — how does ApplyApprovedBatch turn approved MutationTasks into the next revision HTML?
+  description: 'Full refine (run 20260615-mutation-execution-mechanics): tournament A(deterministic) vs B(agentic) vs C(hybrid), dialectic, toy-game falsification. Apply today does no HTML mutation.'
+  options:
+  - A deterministic patch
+  - B agentic regeneration
+  - 'C hybrid: agentic-propose + deterministic-validate'
+  default_option: 'C hybrid: agentic-propose + deterministic-validate'
+  selected: 'C hybrid: agentic-propose + deterministic-validate'
+  rationale: 'Claude Code proposes the mutated HTML behind the CLI seam (non-deterministic/expressive lane); determinism is RECOVERED at the ADMISSION boundary in the pure core — a clock-free validator suite (V1-V9b) admits a candidate and the human accepts the exact staged diff they previewed (two gates: approve-intent + accept-diff via the dormant RevisionApplied state). A and B kept as Pareto-frontier config (C->A, C->B), not redesign. Pareto scores: A audit5/expr2/cc2, B audit2.5/expr5/cc5, C audit4/expr4/cc5/ergonomics5.'
+  status: closed
+  blocking: false
+  impact: 'Schema: add odId + MutationChangeType union to MutationTask (GAP-1); DiffSummaryHonest + per-od-id fragments, delete buildDiffSummary (D5); add htmlArtifactRef+candidateHtmlHash+ExecutionProvenance to RevisionManifestEntry (GAP-2). Apply becomes produce->validate->stage->human-accept->record (all-or-nothing, fail-closed, bounded retry). 7-layer plan; all [PROPOSAL].'
+  owner: operator
 gaps:
 - gap_id: GAP-ERGONOMICS-UNPROVEN-001
   scope_id: CTX-UPS-ROOT
@@ -687,11 +734,11 @@ gaps:
   evidence: ART-DEEP-SPEC-PROPOSAL
 - gap_id: GAP-CONTRACT-DRIFT-004
   scope_id: CTX-UPS-ROOT
-  summary: mock-api returns RevisionRecorded after apply and never emits a distinct RevisionApplied, yet models.ts declares both states (R-STATE-RENAME). Any new spec must reconcile the expected state sequence.
+  summary: 'RESOLVED by DEC-MUTATION-EXEC-015 fold: RevisionApplied is now the staged-preview/accept-diff state and RevisionRecorded is the committed head — two distinct, meaningful states. The two-gate apply machine makes the distinction load-bearing, not drift.'
   severity: flag
-  treatment: fix-in-spec-reconciliation
+  treatment: resolved-by-fold
   owner: spec calibration pass
-  status: active
+  status: resolved
   evidence: ART-DEEP-SPEC-RESULT
 - gap_id: GAP-DOCS-CODE-SPLIT-005
   scope_id: CTX-UPS-ROOT
@@ -709,6 +756,14 @@ gaps:
   owner: operator
   status: resolved
   evidence: projects/ui-prototyping-studio/SPEC.md
+- gap_id: GAP-ACCEPTANCE-CHECK-007
+  scope_id: CTX-UPS-EXTRACTION
+  summary: 'Toy-game TG-2: acceptanceText (e.g. ''button >= 44x44px'') is natural language and is NOT machine-checked by the validator suite — V-acceptance is a presence/proxy check only, so ''accepted'' does not prove the intent was met. Priced as residue; the human accept-diff gate is the real backstop. Also TG-3: V2 may false-reject idiomatic CSS sizing (spike R2-a/R2-b).'
+  severity: medium
+  treatment: defer-to-spike
+  owner: operator
+  status: active
+  evidence: projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/stages/08-toy-game.md
 route_handoffs:
 - handoff_id: HND-DEEP-SPEC-VALIDATE-001
   context_id: CTX-UPS-DEEP-SPEC

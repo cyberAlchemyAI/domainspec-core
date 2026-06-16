@@ -74,6 +74,40 @@ The single operation surface for both Claude Code and the human; gates are enfor
 | Claude Code-native | The runtime model: the embedded assistant *is* Claude Code — no separate LLM integration, API key, agent loop, or MCP server. |
 | Human disposes / agent proposes | The governing principle: the agent proposes reversible work (generate, mutate); the human disposes every durable change (select, approve, apply). |
 
+## 4. Mutation execution mechanics (refine-run `20260615-mutation-execution-mechanics`, Approach C)
+
+The propose-validate-record model that turns an approved batch into head. Source: `development/refinement-runs/20260615-mutation-execution-mechanics/RESULT.md`.
+
+### The seam and its lanes
+
+| Term | Definition |
+|---|---|
+| Admission boundary | Where determinism is recovered — the pure validator/recorder lane — not the producer. |
+| Proposer / engine | Claude Code (impure) behind the `studio` CLI seam: `propose(currentHtml, tasks, context) → candidateHtml + provenance`. |
+| Validator suite (V1–V9b) | Pure, clock-free admission checks run in fixed order; composite fail-closed. |
+| Shared canonicalizer | One module (Dom/odIndex/version) used on both sides of the seam, killing accidental non-determinism. |
+
+### Contract types (schema / behavior changes)
+
+| Term | Definition |
+|---|---|
+| `AdmissionVerdict` | The `admit | reject` result of the validator suite. |
+| `DiffSummaryHonest` / `OdDiffFragment` | Per-od-id diff derived from real before/after, replacing the counts-only `DiffSummary`. **[PROPOSAL]** |
+| `ExecutionProvenance` | Record of how `candidateHtml` was produced (model, `promptHash`, hashes) plus the replayable verdict. **[PROPOSAL]** |
+| `candidateHtmlHash` | Hash of the staged candidate the human accepts; record commits exactly it (`seen == recorded`). |
+| `MutationChangeType` | The `add | remove | change` union replacing the bare `changeType` string. **[PROPOSAL]** |
+| `odId` on `MutationTask` | Stable component id threaded from the comment target. **[PROPOSAL]** |
+| Artifact content port | `readHtml/stageHtml/commitHtml/discardStagedHtml/removeRevision` — currently missing. **[PROPOSAL]** |
+
+### Apply state machine
+
+| Term | Definition |
+|---|---|
+| `RevisionApplied` (staged preview) | Candidate staged at a temp ref with the honest diff shown — the saw-the-diff moment, not head. |
+| accept-diff gate | The human's second gate; commits the previewed candidate. |
+| two-gate apply | Approve-intent then accept-diff. |
+| replay-by-verdict | The admit decision is replayable; the proposal is not. |
+
 ## Deferred families (named, not defined here)
 
 The following legacy domain families are **(deferred L3+)** — they exist as names but carry no

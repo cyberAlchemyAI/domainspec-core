@@ -62,6 +62,31 @@ synthesis stays deterministic** so the agent can never reinterpret the human's i
 no `@anthropic-ai/sdk`, no API key. (An MCP adapter and a standalone Anthropic-SDK adapter both remain
 future options behind the same orchestration core if ever needed.)
 
+### Mutation-execution model (Approach C — part of L0 scope) `[PROPOSAL]`
+
+How an approved batch becomes a recorded revision (DEC-MUTATION-EXEC-015, Approach C). The model
+keeps generation expressive in one impure lane and **recovers determinism at the admission boundary**
+inside the pure core — four lanes, the seam between lane 2 and lanes 3–4 being load-bearing:
+
+| Lane | Owner | Purity | Responsibility |
+|---|---|---|---|
+| 1. Synthesis | core | pure | comments → `MutationBatch` (checksummed) — unchanged |
+| 2. Proposer (engine) | Claude Code | impure (LLM) | `propose(currentHtml, tasks, context) → candidateHtml + provenance`, behind the `studio` CLI seam |
+| 3. Validator suite | core | pure, clock-free | `validate(...) → AdmissionVerdict` (V1–V9b) |
+| 4. Recorder | core | pure-effectful | admit ⇒ persist HTML + append exactly-one revision + advance; reject ⇒ persist nothing |
+
+**Admission-boundary determinism (not producer, not persist-step alone).** Determinism is *relocated*:
+validator purity (no `Date.now`/`Math.random`/fs/network; structural validators run over a canonical
+parse), **one shared canonicalizer used on both sides of the seam**, and **replay-by-verdict** — the
+*decision to admit* is replayable, the *proposal* is not. (A and B reachable as config — C→B if the
+validator proves unbuildable, C→A if the workload is enumerable — not redesign.)
+
+**Two-gate apply.** First gate = approve-intent (existing). The proposer runs, the validator admits or
+rejects fail-closed; on admission the candidate is **staged at a temp ref (NOT head)** and the honest
+diff is shown — the saw-the-diff moment. Second gate = the human **accept-diff** on the exact staged
+candidate; only then does the recorder commit. Whole-batch all-or-nothing; commit binds the previewed
+`candidateHtmlHash` (seen == recorded).
+
 ## 3. Scope: L0→L2 (this release)
 
 ### IN
@@ -109,15 +134,15 @@ types exist as *names* in the legacy domain but carry no working code yet — th
 | `PrototypeVariant` | Entity | One row per generated candidate in the current cycle (HTML-first + metadata). |
 | `CommentEvent` | Entity | Canonical element-level comment; append-only durable source for synthesis. |
 | `MutationBatch` | Entity | Deterministic draft from comments; starts `draft`, requires approval before apply. |
-| `RevisionManifestEntry` | Entity | Exactly one append-only record per successful apply. |
+| `RevisionManifestEntry` | Entity | Exactly one append-only record per successful apply. `[PROPOSAL]` gains `htmlArtifactRef`, `candidateHtmlHash`, and `provenance: ExecutionProvenance` (model, `promptHash`, input/output hashes [non-replayable] + `verdictHash` + per-validator results [replayable]). |
 | `BaselineGenealogyFamily` | Entity | Durable family created when one baseline survives the generated population. |
 | `VariantCount` | Value Object | Allowed `{1,2,3}`, session default `3`. |
 | `GenerationMode` | Value Object | `explore` (new directions) or `exploit` (baseline-conforming; requires existing baseline). |
 | `BaselineProvenance` | Value Object | `mode ∈ {selected, committed}`; the intentional-baseline record. |
 | `BaselineRevisionAnchor` | Value Object | Explicit anchor created at baseline resolution; staleness oracle for apply. |
 | `AnnotationTarget` | Value Object | Stable target reference a `CommentEvent` points at. |
-| `MutationTask` | Value Object | One deterministic task folded from comments into a `MutationBatch`. |
-| `DiffSummary` | Value Object | Apply diff; currently bare `{added, changed, removed}` counts (L4 extends it). |
+| `MutationTask` | Value Object | One deterministic task folded from comments into a `MutationBatch`. `[PROPOSAL]` gains `odId: string \| null` (copied from `comment.target.odId`) and `changeType: MutationChangeType = "add"\|"remove"\|"change"`; batch `sha256` re-baselined with a checksum version stamp. |
+| `DiffSummaryHonest` / `OdDiffFragment` | Value Object | `[PROPOSAL]` replaces `DiffSummary` (and deletes `buildDiffSummary`): per-od-id `OdDiffFragment` units; counts **derived** from a real before/after `odIndex` set-diff, never from `changeType`. |
 | `TypedReference` | Value Object | Wire-level ref for domain/artifact/handoff links. |
 | `CommentSeverity` | Enum | `blocker / high / medium / low`. |
 | `MutationBatchStatus` | Enum | `draft / approved` (apply forbidden until `approved`). |
@@ -136,8 +161,18 @@ types exist as *names* in the legacy domain but carry no working code yet — th
 6. `CommentsCaptured` — one or more canonical comments appended (self-loop on more).
 7. `MutationDrafted` — deterministic draft `MutationBatch` (`status=draft`).
 8. `MutationApproved` — explicit human approval (`status=approved`, apply gate satisfied).
-9. `RevisionApplied` — approved batch applied (non-stale, non-auto).
+9. `RevisionApplied` — `[PROPOSAL]` **the staged preview / accept-diff state** (no longer dead): the
+   admitted candidate is staged at a temp ref (NOT head) and the honest diff is shown for human review.
 10. `RevisionRecorded` — exactly one `RevisionManifestEntry` appended; revision head updated.
+
+**Two-gate apply transitions `[PROPOSAL]`** (DEC-MUTATION-EXEC-015): `MutationApproved` → [propose]
+(impure) → [validate] (pure; **required-fail ⇒ reject, no write, stay `MutationApproved`**) →
+`RevisionApplied` (candidate staged at temp ref + honest diff shown) → human **accept-diff** → [record]
+(atomic, whole-batch all-or-nothing, commits exactly the previewed `candidateHtmlHash`) →
+`RevisionRecorded`. Bounded `maxProposeAttempts`.
+
+> This **resolves the old `RevisionApplied`/`RevisionRecorded` contract-drift** (§8): the two states now
+> carry distinct meaning — `RevisionApplied` = staged-but-not-head preview gate, `RevisionRecorded` = committed.
 
 Terminal: `RevisionRecorded → SessionCompleted` (finalize) or `RevisionRecorded → CommentsCaptured`
 (continue iteration). `BaselineReady → CommentsCaptured` is also valid (identity confirm is optional).
@@ -182,6 +217,10 @@ Terminal: `RevisionRecorded → SessionCompleted` (finalize) or `RevisionRecorde
 - **AC-L0-10** The `studio` CLI exposes the full session loop (`open`/`variants register`/`state`/`baseline`/`comment`/`synthesize`/`batch approve`/`batch apply`/`handoff`/`preview`); a Claude Code session drives generate→register→(human CLI gates)→apply, and `batch apply` refuses non-approved, auto (`system:auto`), or stale applies server-side (INV-3/4/5/8) regardless of CLI flags.
 - **AC-L0-11** `studio preview` serves the prototype HTML with a click-to-annotate overlay: clicking a rendered element captures its **`data-od-id` (stable component id) as the primary target**, with the CSS selector + label as fallback, and submits a `CommentEvent` with `{severity, intent, note}` — no manual selector entry. The overlay path and `studio comment add` produce the identical `CommentEvent` contract (`{target:{odId,selector,elementLabel}, severity, intent, note}`), and annotation stays gated (blocked until a baseline exists, INV-2).
 - **AC-L0-12** Generated variant HTML stamps annotatable elements with a stable `data-od-id`; a comment captured on a variant resolves to the same `odId` after the baseline is regenerated/mutated (target survives regeneration). Where no `data-od-id` is present, the overlay falls back to the CSS selector and flags the target as non-durable.
+- **AC-L0-13** `[PROPOSAL]` The V1–V9b validator suite admits **server-side and fail-closed**: a proposed candidate is recorded only if every required validator passes; any required failure rejects with a reproducible first-failure code, writes nothing, and the session stays `MutationApproved`. (DEC-MUTATION-EXEC-015)
+- **AC-L0-14** `[PROPOSAL]` The accept-diff gate commits **exactly the previewed `candidateHtmlHash`** (seen == recorded): the recorded `RevisionManifestEntry.candidateHtmlHash` equals the hash of the candidate staged at `RevisionApplied`; a mismatch aborts the commit.
+- **AC-L0-15** `[PROPOSAL]` Recording is **whole-batch all-or-nothing**: either the full candidate HTML is persisted with exactly one revision appended and head advanced, or nothing is written — no partial apply.
+- **AC-L0-16** `[PROPOSAL]` `acceptanceText` is **NOT machine-checked**: admission means "anchored, in-scope, well-formed, safe, bounded change occurred," not "acceptance met." Quantitative intent (e.g. `button >= 44x44px`) is human-judged at the accept-diff gate; the pure lane performs no geometry/CSS-layout check.
 
 ### L1 — accessibility (axe + keyboard checks)
 
@@ -207,5 +246,7 @@ Terminal: `RevisionRecorded → SessionCompleted` (finalize) or `RevisionRecorde
 - **L5 deferred** — fitness scoring + concurrency atomicity + bounded stores: net-new; gated by OQ-3. See `development/deep-spec-dispatch/`.
 - **L6 deferred** — human-evidence / trust ergonomics: unproven, human-study-gated; gated by OQ-1/OQ-2. See `development/deep-spec-dispatch/`.
 - **OQ-1** trust meter · **OQ-2** saw-the-diff proxy · **OQ-3** operator-handoff carry/reset · **OQ-4** import-integrity MVP boundary — all open; resolve via `decision-gate` before the layer they block. See `development/deep-spec-dispatch/RESULT.md`.
-- **Contract drift** — the implemented state machine emits `RevisionApplied` then `RevisionRecorded`; the deep-spec design language treats this as one apply step. Reconcile the naming before L3. See `development/deep-spec-dispatch/`.
+- **Contract drift — RESOLVED** `[PROPOSAL]` — the `RevisionApplied`/`RevisionRecorded` two-state split is now load-bearing (staged-preview vs committed); see §5. No longer pending reconciliation.
+- **`GAP-ACCEPTANCE-CHECK-007`** `[PROPOSAL]` — intent-fidelity ceiling: admission ≠ `acceptanceText` satisfied. Quantitative criteria are judged only by the human eye at accept-diff; the pure lane never checks geometry/CSS layout. Accepted as a ceiling, priced into the determinism budget — not closed. See `development/refinement-runs/20260615-mutation-execution-mechanics/RESULT.md`.
+- **C-1 spike (RESIDUE-B)** `[PROPOSAL]` — single gating action between "C designed" and "C trusted": build/stress-test the whole-tree od-id-attributed V3 fence, decide V2 (R2-a vs R2-b), and commit/report calibration constants `S`/`B`/`k`/`c` on real comment workloads before mutation-execution implementation. `GAP-R1` (external deterministic-validation pass) is the named fallback if it stalls.
 - **Proposed-not-calibrated invariants** — the 8 residuality invariants (`Inv-1..8`) from the deep-spec are NOT part of this release's contract; they belong to L3–L5. See `development/deep-spec-dispatch/DEEP-SPEC-PROPOSAL.md`.
