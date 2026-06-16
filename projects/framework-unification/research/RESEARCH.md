@@ -62,6 +62,14 @@ but **nothing feeds it** — so dispatch/multi-agent work stays invisible until 
 built and a Claude hook surface is wired. (This is exactly what the `dispatch-composition-attack`
 layer proposes to fix.)
 
+A **second, still-aspirational feeder** of that same central ledger is **PermGuard** — a
+verified-core reference monitor (`permguard` binary, sorry-free but never wired into an Arcanum
+dispatch) that would emit a per-tool-call `allow/deny` decision (the operational gate on
+*tool-calls*, distinct from the epistemic `pass|flag|block` gates on *artifacts*) into
+`.arcanum/observability/`. Honest scope: CERTIFIED is the decision core, **not** security — a
+machine-checked NEGATIVE bounds it (`curl` via `Bash` provably evades the egress guard;
+`isEgress` covers only `WebFetch`). See `layers/cyber-alchemy-lean-fusion/PERMGUARD-IN-ARCANUM.md`.
+
 ## The three layers (confirmed)
 
 The three folders are **not applications — they are layers of the engine**, each owning a
@@ -71,7 +79,7 @@ part of "how everything communicates":
 |---|---|---|
 | `domainspec-language` | **representation** | the language for the contracts/schemas that validate pipeline artifacts |
 | `dispatch-composition-attack` | **communication / observability** | makes multi-agent work an observable signal in the ledger (fills the gap above) |
-| `cyber-alchemy-lean-fusion` | **epistemology / gate** | the `subset-rule` (claim ≤ proof) + typed residue that keep junk from being promoted |
+| `cyber-alchemy-lean-fusion` | **epistemology / gate** | the `subset-rule` (claim ≤ proof) + typed residue that keep junk from being promoted; its `claim ≤ proof` / typed-residue core is anchored on a real machine-checked Lean repo (`../domainspec-lean-formalization`, e.g. `FunctorialResidueStructure.lean`) — but the proofs certify the formal residue object, **not** that an Arcanum run is lossless or correct (fusion `DESIGN.md §4`) |
 
 The rest of `projects/` are **applications built with the system** (autoads, body-war,
 whisky-doses, pos-multilevel, goldenquill, sonar-loop) or **research** (ontologize, equalizator).
@@ -104,10 +112,11 @@ altitudes:
 Philosophy and governance layers are **mature**; runtime and observability are **still in
 implementation**. Built: delegation-tuning + terminal-guard ledgers, dispatch ledger, research
 infrastructure, DomainSpec constitution. Aspirational: central observability ledger producer,
-meta-governance reflection loops, the unified DomainSpec language, the typed-DAG ratification.
+meta-governance reflection loops, the unified DomainSpec language, the typed-DAG ratification, the PermGuard operational tool-call gate (binary exists, unwired).
 
 ## Open seams carried into discovery
 
 - The `arcanum` submodule is uninitialized — engine mapped by description, not code.
 - Two duplicated owners (above) need a single-owner decision.
 - The observability producer gap is the one concrete build that unblocks the feedback loop.
+- The sibling repo `../domainspec-lean-formalization` (the Lean theorem repo + `permguard` kernel the epistemology/gate layer rests on) was outside the read corpus — like the `arcanum` submodule, that layer's formal backing is mapped by description, not verified here.

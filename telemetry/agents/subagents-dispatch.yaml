@@ -81,3 +81,81 @@ dispatches:
     invoked_by: "victorboscaro@gmail.com"
     exit_reason: "resolved"
     agents_spawned: {"total":3,"tree":{"explorer":3,"skeptic":0,"writer":0,"auditor":0,"helpers":0},"loops_used":1}
+  - dispatch_id: "2026-06-15-research-md-lean-permguard-eval"
+    schema_version: "0.6.0"
+    created: "2026-06-16T01:28:05.886Z"
+    invoked_by: "victorboscaro@gmail.com"
+    dispatch_type: "research"
+    goal: "Decide whether to add the Lean formalization and PermGuard to projects/framework-unification/research/RESEARCH.md, and how to word it honestly."
+    context: "RESEARCH.md describes the cyber-alchemy-lean-fusion layer as epistemology/gate (subset-rule + typed residue) but omits its real machine-checked Lean backing (sibling repo domainspec-lean-formalization) and PermGuard (verified tool-call enforcement, with a proved egress-bypass negative). Owner asked to verify the edit makes sense before making it. Outputs gate the Phase-2 edit."
+    max_loops: 1
+    final_approver: "parent"
+    working_folder: "projects/framework-unification/research/"
+    groups: [{"group_id":"evaluators","n":2,"anti_bias":"confirm-vs-refute (accept-leaning evaluator vs refute-default skeptic)","agents":[{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":2000,"angle":"accept-leaning: assess accuracy and whether each addition belongs in a unification synthesis","initial_prompt":"Read RESEARCH.md and the cyber-alchemy-lean-fusion README/DESIGN/PERMGUARD docs plus confirm the sibling Lean repo exists. Judge each of 3 proposed additions (Lean backing, PermGuard operational gate, sibling-repo open seam) ACCEPT/ACCEPT-WITH-CHANGES/REJECT with honest wording and file:line anchors."},{"agent_name":null,"role":"skeptic","model":"claude-opus-4-8","token_budget":2000,"angle":"refute-default: attack scope-creep, overclaim risk, accuracy (built vs aspirational), redundancy","initial_prompt":"Adversarially refute the proposed RESEARCH.md edit. Attack scope-creep vs the doc's communication frame, overclaim traps (Lean-certifies-correctness, verified-enforcement), built-vs-aspirational accuracy, and redundancy with existing lines 74/88. Return strongest case against each addition then a balanced verdict with file:line anchors."}]}]
+    connections: []
+  - dispatch_id: "2026-06-15-research-md-lean-permguard-edit"
+    schema_version: "0.6.0"
+    created: "2026-06-16T01:31:45.827Z"
+    invoked_by: "victorboscaro@gmail.com"
+    dispatch_type: "code"
+    goal: "Apply the approved reduced edit to projects/framework-unification/research/RESEARCH.md (Lean backing anchor, PermGuard as aspirational second feeder, sibling-repo open seam) and review it for honesty/accuracy."
+    context: "Phase-1 evaluation (dispatch 2026-06-15-research-md-lean-permguard-eval) approved a reduced edit under hard anti-overclaim constraints. A writer applies the 4 bounded edits; an auditor checks them against DESIGN.md §4 and PERMGUARD-IN-ARCANUM.md §4/§6. Output is the edited RESEARCH.md (uncommitted)."
+    max_loops: 1
+    final_approver: "parent"
+    working_folder: "projects/framework-unification/research/"
+    groups: [{"group_id":"writer","agents":[{"agent_name":null,"role":"writer","model":"claude-opus-4-8","token_budget":1500,"initial_prompt":"Apply exactly 4 bounded edits to RESEARCH.md: Lean-backing anchor in the layer table with DESIGN §4 anti-overclaim; a PermGuard paragraph as the second aspirational feeder of the central .arcanum/observability ledger with CERTIFIED-vs-ASSUMED + bash-curl egress negative; PermGuard in the Real-vs-aspirational list; sibling-repo bullet in Open seams. Keep net ~4-6 lines; respect honesty constraints."}]},{"group_id":"reviewer","agents":[{"agent_name":null,"role":"auditor","model":"claude-opus-4-8","token_budget":2000,"initial_prompt":"Adversarially review the edited RESEARCH.md against DESIGN.md §4 and PERMGUARD-IN-ARCANUM.md §4/§6: no engine/run/system as subject of verified/proved; no 'verified tool-call enforcement gate' phrase; PermGuard+Lean marked aspirational; accuracy of bash-curl bypass / isEgress-WebFetch-only / CERTIFIED-not-security / sorry-free-but-unwired; Lean anti-overclaim present; small scope, no markdown breakage. Return APPROVE/CHANGES-REQUIRED with a per-constraint table."}]}]
+    connections: [{"from":"writer","to":"reviewer","type":"sequential"}]
+  - close_of: "2026-06-15-research-md-lean-permguard-eval"
+    closed: "2026-06-16T01:31:46.179Z"
+    invoked_by: "victorboscaro@gmail.com"
+    exit_reason: "resolved"
+    agents_spawned: {"total":2,"tree":{"explorer":1,"skeptic":1,"writer":0,"auditor":0,"helpers":0},"loops_used":1}
+  - close_of: "2026-06-15-research-md-lean-permguard-edit"
+    closed: "2026-06-16T01:31:46.494Z"
+    invoked_by: "victorboscaro@gmail.com"
+    exit_reason: "resolved"
+    agents_spawned: {"total":2,"tree":{"explorer":0,"skeptic":0,"writer":1,"auditor":1,"helpers":0},"loops_used":1}
+  - dispatch_id: "2026-06-15-fu-discovery-review"
+    schema_version: "0.6.0"
+    created: "2026-06-16T02:17:09.151Z"
+    invoked_by: "victorboscaro@gmail.com"
+    dispatch_type: "review"
+    goal: "Red-team the two newly written framework-unification artifacts (domainspec-findings.md + discovery.md) and produce verified change requests."
+    context: "The findings + discovery were authored via a pragmatic chain (research source = RESEARCH.md synthesis, not a verbatim domainspec-research.md), in domainspec-core projects/framework-unification (not ../domainspec), so the strict discovery-writer contract was not run. This review red-teams them for governance/fidelity, reference-integrity, and abuse/gaming flaws. Passed the check-tension gate (both agents PASS) on the revised sheet."
+    max_loops: 1
+    final_approver: "coverage-auditor"
+    anti_bias_global: "attack-to-improve vs verify-against-the-literal-artifact"
+    working_folder: "projects/framework-unification/review/"
+    groups: [{"group_id":"attackers","n":3,"robot_talks":true,"anti_bias":"attack-vector (review lens)","agents":[{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":1500,"angle":"fidelity/governance lens","initial_prompt":"Attack the two targets from the fidelity/governance lens: do they honor their governing law (findings template R16/R17/R18; ontology-conventions discovery frontmatter + discovery-writer structure)? Read-only. Return findings with file, quoted evidence, severity, one-line fix."},{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":1500,"angle":"ownership/reference-integrity lens","initial_prompt":"Attack from the ownership/reference-integrity lens: resolve every relative link and section anchor; do citations land where claimed; any double-owned concept? Read-only. Return findings with file, evidence, severity, fix."},{"agent_name":null,"role":"explorer","model":"claude-opus-4-8","token_budget":1500,"angle":"abuse/gaming lens","initial_prompt":"Attack from the abuse/gaming lens: does the pragmatic chain satisfy the letter while defeating the spirit (R17 wanted verbatim research)? Any fabricated decisions/alternatives? Any Lean/PermGuard overclaim? Read-only. Return findings with file, evidence, severity, fix."}]},{"group_id":"synthesizer","agents":[{"agent_name":null,"role":"writer","model":"claude-opus-4-8","token_budget":2500,"initial_prompt":"Dedupe and severity-rank the attackers' findings (CRITICAL/MAJOR/MINOR). Write attacks.md (verbatim returns) and a draft findings.md (cited change requests) to projects/framework-unification/review/. Receive each attacker's positions for collapse detection."}]},{"group_id":"verifiers","n":2,"anti_bias":"methodology (deductive-against-governing-law vs empirical-against-literal-files)","agents":[{"agent_name":null,"role":"skeptic","model":"claude-opus-4-8","token_budget":1500,"angle":"deductive against the governing law","initial_prompt":"Refute each draft finding DEDUCTIVELY against the governing law (findings template R16/R17/R18, ontology-conventions). Does the law actually require what the finding claims? Drop refuted findings (claim <= proof). Return per-finding verdict + reason."},{"agent_name":null,"role":"skeptic","model":"claude-opus-4-8","token_budget":1500,"angle":"empirical against the literal files","initial_prompt":"Refute each draft finding EMPIRICALLY against the literal files: open them, resolve every cited link/anchor, run the fabrication check. Does the artifact literally already satisfy or contradict the finding? Drop refuted findings. Return per-finding verdict + reason."}]},{"group_id":"auditor","agents":[{"agent_name":"coverage-auditor","role":"auditor","model":"claude-sonnet-4-6","token_budget":1200,"initial_prompt":"Coverage audit (final_approver, no other work): did every target get attacked from every declared lens; were refuted findings dropped, not softened; fire the zero-findings flag if all attackers returned nothing. Accept or reject the change-request list in findings.md."}]}]
+    connections: [{"from":"attackers","to":"synthesizer","type":"sequential"},{"from":"synthesizer","to":"verifiers","type":"zig-zag","loop_cap":2},{"from":"verifiers","to":"auditor","type":"sequential"}]
+  - close_of: "2026-06-15-fu-discovery-review"
+    closed: "2026-06-16T02:30:44.084Z"
+    invoked_by: "victorboscaro@gmail.com"
+    exit_reason: "resolved"
+    agents_spawned: {"total":7,"tree":{"explorer":3,"skeptic":2,"writer":1,"auditor":1,"helpers":0},"loops_used":1}
+  - dispatch_id: "2026-06-16-framework-unification-attack-fresh"
+    schema_version: "0.6.0"
+    created: "2026-06-16T03:02:54.135Z"
+    invoked_by: "victorboscaro@gmail.com"
+    dispatch_type: "review"
+    goal: "Fresh adversarial red-team of the framework-unification orientation artifacts (RESEARCH.md, domainspec-findings.md, discovery.md), finding what the prior review round missed."
+    context: "A prior review already convicted and fixed three MAJORs (layer:ontology enum, mis-cited Saturn triad, invented `feeds` edge) plus minor hygiene. The owner asked for a new attack over the same targets. Three skeptics swept distinct anti-bias axes — thesis substance, cross-document consistency, and evidence-grounding/overclaim — under instruction not to re-litigate the fixed findings. Outputs feed a verified change-request synthesis the parent reconciles against the literal files."
+    max_loops: 1
+    final_approver: "parent"
+    anti_bias_global: "thesis-substance vs cross-document-consistency vs on-disk-evidence-grounding"
+    working_folder: "projects/framework-unification/review/"
+    groups: [{"group_id":"attackers","n":3,"anti_bias":"attack surface (architectural thesis truth vs internal/cross-doc coherence vs evidence-vs-claim grounding)","agents":[{"agent_name":null,"role":"skeptic","model":"claude-opus-4-8","token_budget":2500,"angle":"substance/architecture thesis — question whether one-engine/three-layers, the shared spine, D-4, and T1/T2 are discovered or imposed (anti-bias: attack the ideas, not formatting)","initial_prompt":"Adversarially attack the SUBSTANCE of the one-engine/three-layers thesis, the shared-spine argument, D-4 (novelty=Lean / here=operationalization judged by utility), and the T1/T2 duplicated-owner merge. Do not re-raise the prior round's fixed MAJORs or formatting nits. Return sharp findings with IDs, quoted claims, line numbers, severity, and concrete fixes."},{"agent_name":null,"role":"skeptic","model":"claude-opus-4-8","token_budget":2500,"angle":"cross-document internal consistency — hunt contradictions between RESEARCH/findings/discovery/SCOPE/README/IMPROVEMENTS (anti-bias: logic/coherence)","initial_prompt":"Find places where the framework-unification artifacts contradict each other or themselves: layer-label drift, status disagreements, D-4 applied inconsistently, OQ cross-reference mismatches, citations whose target says something different. Do not re-raise the prior round's fixed findings. Return findings with the two+ conflicting locations quoted, severity, and which side to change."},{"agent_name":null,"role":"skeptic","model":"claude-opus-4-8","token_budget":3000,"angle":"evidence-grounding/overclaim — hold docs to their own claim<=proof ethic and check cited ledger files on disk (anti-bias: epistemic humility/provenance)","initial_prompt":"Attack the gap between assertion and verified evidence. Check the 'real vs aspirational' ledger labels against the actual files on disk, re-attack the Lean/PermGuard honesty border independently, and flag description-only premises stated as fact. Do not re-raise prior fixed findings. Return findings with quoted overclaims, what the on-disk evidence actually shows, severity, and honest fixes."}]}]
+    connections: []
+  - dispatch_id: "2026-06-16-framework-unification-attack-verify"
+    schema_version: "0.6.0"
+    created: "2026-06-16T03:09:02.621Z"
+    invoked_by: "victorboscaro@gmail.com"
+    dispatch_type: "review"
+    goal: "Adversarially verify the fresh attack findings (E-1, E-2, T-1..T-6, S-1..S-3, CON-1) against the governing conventions and the literal files before they become change-requests."
+    context: "The prior dispatch (2026-06-16-framework-unification-attack-fresh) produced a roster of attack findings over the framework-unification orientation artifacts. The owner asked for a verification pass. Two verifiers tried to refute each finding on independent lenses — V1 deductive against SCOPE/DESIGN conventions and logic, V2 empirical re-checking quotes/line-numbers and on-disk ledger files. Outputs reconcile into a verified, severity-adjusted change-request roster."
+    max_loops: 1
+    final_approver: "parent"
+    anti_bias_global: "deductive governing-law refutation vs empirical literal-file re-check"
+    working_folder: "projects/framework-unification/review/"
+    groups: [{"group_id":"verifiers","n":2,"anti_bias":"verification lens (deductive against conventions/logic vs empirical against literal files and disk)","agents":[{"agent_name":null,"role":"auditor","model":"claude-opus-4-8","token_budget":2500,"angle":"V1 deductive — try to refute each finding against SCOPE/DESIGN conventions, the docs' own framing, and logic; flag external-law that does not bind","initial_prompt":"Adversarially try to refute each attack finding (E-1, E-2, T-1..T-6, S-1..S-3, CON-1). Default to skepticism: demote/drop findings that hold a doc to a standard it never adopted or mistake a disclosed/deliberate choice for a defect. Return a per-finding verdict UPHOLD/DEMOTE(severity)/DROP with a one-sentence deductive reason."},{"agent_name":null,"role":"auditor","model":"claude-opus-4-8","token_budget":2500,"angle":"V2 empirical — independently re-check every quote, line number, and file-existence claim on disk; confirm or refute the underlying facts","initial_prompt":"Do not trust the attacker's quotes or line numbers — open the files and the filesystem yourself. For each finding return CONFIRMED/PARTIAL/REFUTED with the literal quote and/or disk result (exists/missing/line count). Do not judge severity; just confirm or refute facts."}]}]
+    connections: []
