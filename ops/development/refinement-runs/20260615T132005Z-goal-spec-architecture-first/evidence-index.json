@@ -1,0 +1,139 @@
+{
+  "run_id": "20260615T132005Z-goal-spec-architecture-first",
+  "dispatch_id": "refine-goal-spec-architecture-first-20260615T132005Z",
+  "target": "ops/development",
+  "status": "strategy-proposed",
+  "preset": "standard",
+  "research": {
+    "mode": "research-if-gap-appears",
+    "confirmation_status": "blocked_until_named_gap_and_operator_confirmation"
+  },
+  "sources": [
+    "ops/development/NEXT-STEPS.md",
+    "ops/development/REFINE-SYNTHESIS-AGENT-ARCHITECTURE.md",
+    "ops/development/INVOKE-DESIGN-AGENT-ARCHITECTURE.md",
+    "ops/development/INVOKE-PLAN-AGENT-ARCHITECTURE.md",
+    "CLAUDE.md",
+    "AGENTS.md",
+    "SUBMODULE-DISCIPLINE.md",
+    ".agents/skills/refine/SKILL.md",
+    ".agents/skills/dispatch-spec/SKILL.md",
+    ".agents/skills/codex-goal-profile/SKILL.md"
+  ],
+  "outputs": [
+    "RUN-MANIFEST.md",
+    "evidence-index.json",
+    "REFINE-SEED-PROPOSAL.md",
+    "REFINE-DISPATCH.json",
+    "RUNTIME-HANDOFF.md",
+    "RESULT.md",
+    "stages/"
+  ],
+  "selected_route": {
+    "id": "architecture-first-goal-spec",
+    "reason": "Immediate native goal projection lacks selected SWU/work-pack unit, strict handoff pack, verification surface, and blocker state."
+  },
+  "subagent_strategy": {
+    "status": "recommended",
+    "authorization": "requires_user_permission",
+    "roles": [
+      "architecture-mapper",
+      "goal-profile-readiness-auditor",
+      "owner-boundary-auditor"
+    ],
+    "join_policy": "parent_synthesis"
+  },
+  "stages": [
+    {
+      "stage": "Context Builder evidence baseline",
+      "step_id": "s01-context-builder",
+      "capability": "context-builder",
+      "status": "not_run",
+      "artifact": "stages/01-context-builder.md",
+      "blocked_reason": "awaiting operator confirmation"
+    },
+    {
+      "stage": "Invoke Define",
+      "step_id": "s02-invoke-define",
+      "capability": "invoke",
+      "status": "not_run",
+      "artifact": "stages/02-invoke-define.md",
+      "blocked_reason": "awaiting operator confirmation"
+    },
+    {
+      "stage": "Interrogation refine-review",
+      "step_id": "s03-interrogation-refine-review",
+      "capability": "interrogation",
+      "status": "not_run",
+      "artifact": "stages/03-interrogation-refine-review.md",
+      "blocked_reason": "awaiting operator confirmation"
+    },
+    {
+      "stage": "Research decision",
+      "step_id": "s04-research-decision",
+      "capability": "refine",
+      "status": "not_run",
+      "artifact": "stages/04-research-decision.md",
+      "blocked_reason": "awaiting operator confirmation"
+    },
+    {
+      "stage": "Distill",
+      "step_id": "s05-distill-architecture-unit",
+      "capability": "distill",
+      "status": "not_run",
+      "artifact": "stages/05-distill-architecture-unit.md",
+      "blocked_reason": "awaiting operator confirmation"
+    },
+    {
+      "stage": "Invoke Redefine / Design",
+      "step_id": "s06-invoke-design",
+      "capability": "invoke",
+      "status": "not_run",
+      "artifact": "stages/06-invoke-design.md",
+      "blocked_reason": "awaiting operator confirmation"
+    },
+    {
+      "stage": "Interrogation refine-design-review",
+      "step_id": "s07-interrogation-design-review",
+      "capability": "interrogation",
+      "status": "not_run",
+      "artifact": "stages/07-interrogation-design-review.md",
+      "blocked_reason": "awaiting operator confirmation"
+    },
+    {
+      "stage": "Distill Repair",
+      "step_id": "s08-distill-repair",
+      "capability": "distill",
+      "status": "not_run",
+      "artifact": "stages/08-distill-repair.md",
+      "blocked_reason": "awaiting operator confirmation"
+    },
+    {
+      "stage": "Invoke Plan",
+      "step_id": "s09-invoke-plan",
+      "capability": "invoke",
+      "status": "not_run",
+      "artifact": "stages/09-invoke-plan.md",
+      "blocked_reason": "awaiting operator confirmation"
+    },
+    {
+      "stage": "Final Interrogation and Synthesis",
+      "step_id": "s10-final-interrogation-synthesis",
+      "capability": "interrogation",
+      "status": "not_run",
+      "artifact": "stages/10-final-interrogation-synthesis.md",
+      "blocked_reason": "awaiting operator confirmation"
+    }
+  ],
+  "validation": {
+    "dispatch_spec": "pass",
+    "command": "python3 arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py ops/development/refinement-runs/20260615T132005Z-goal-spec-architecture-first/REFINE-DISPATCH.json --json",
+    "blocks": [],
+    "flags": []
+  },
+  "recommended_next_routes": [
+    "run approved refine strategy",
+    "codex-goal-profile only after selected SWU/work-pack and strict context pack exist",
+    "task-session only after final plan approval"
+  ]
+}

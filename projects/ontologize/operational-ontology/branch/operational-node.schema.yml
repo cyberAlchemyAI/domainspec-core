@@ -1,0 +1,106 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "operational-node.schema.yml"
+title: Operational ontology node (candidate)
+description: >
+  Candidate branch-aware node schema for the operational ontology branch (B-op) of
+  domainspec-core. Reuses the branch-aware node shape (node_id, branch, node_type, label,
+  source, veracidade, evidence_refs, status, edges) and the single edge catalog from
+  DAG-AND-METRICS.md §3. Status is candidate; this schema assigns no promotion authority.
+status: candidate
+owner: ontology-harness (acceptance) + Constitution Governance (apex promotion)
+type: object
+required:
+  - node_id
+  - node_type
+  - branch
+  - label
+  - status
+properties:
+  node_id:
+    type: string
+    pattern: "^node\\.op\\.[a-z0-9-]+$"
+    description: Stable id, namespaced to the operational branch.
+  node_type:
+    type: string
+    enum:
+      - route
+      - capability
+      - invocation
+      - prompt_contract
+      - operational_discipline
+      - decision
+      - workflow_gap
+      - lesson
+      - maintenance_trigger
+      - operational_policy
+      - operational_constitution
+      - operational_axiom
+  branch:
+    type: string
+    const: B-op
+    description: Operational branch; must stay distinct from B3 run-context.
+  label:
+    type: string
+    minLength: 3
+  source:
+    type: object
+    description: Provenance; required for telemetry-derived nodes.
+    properties:
+      type:
+        type: string
+        enum: [telemetry, literature, dispatch, decision]
+      locator: { type: string }
+      captured_at: { type: string }
+  veracidade:
+    type: string
+    enum: [high, medium, low]
+  evidence_refs:
+    type: array
+    items: { type: string }
+    description: Source/telemetry locators. Must be non-empty when veracidade=high.
+  status:
+    type: string
+    enum: [candidate, premise, promoted]
+    description: >
+      Telemetry-derived nodes may not exceed 'candidate' without Constitution Governance
+      and ontology-harness review.
+  authority_level:
+    type: string
+    enum: [L0, L1, L2, L3, L4, L5, L6, L7]
+    description: Evidence ceiling. Telemetry-only nodes cap at L3.
+  edges:
+    type: array
+    items:
+      type: object
+      required: [edge_type, target]
+      properties:
+        edge_type:
+          type: string
+          enum: [triggers, derived_from, governed_by, observed_by, realized_by, contradicts, drifts_from]
+        target: { type: string }
+allOf:
+  # Telemetry-derived nodes cannot claim authority above L3.
+  - if:
+      properties:
+        source:
+          properties:
+            type: { const: telemetry }
+    then:
+      properties:
+        status: { const: candidate }
+  # High-confidence nodes must cite evidence.
+  - if:
+      properties:
+        veracidade: { const: high }
+    then:
+      required: [evidence_refs]
+  # Apex nodes are not seedable from telemetry; require literature/decision + promoted status.
+  - if:
+      properties:
+        node_type:
+          enum: [operational_constitution, operational_axiom]
+    then:
+      properties:
+        status: { const: promoted }
+      required: [evidence_refs, authority_level]
+additionalProperties: true

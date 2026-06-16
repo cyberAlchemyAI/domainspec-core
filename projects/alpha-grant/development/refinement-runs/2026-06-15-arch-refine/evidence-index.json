@@ -1,0 +1,45 @@
+{
+  "run_id": "2026-06-15-arch-refine",
+  "dispatch_id": "refine-2026-06-15-arch-refine",
+  "target": "projects/alpha-grant/decentralized-living-library-summary.md",
+  "phase": "complete",
+  "status": "pass",
+  "dispatch_validation": "pass",
+  "owner": "refine",
+  "preset": "standard",
+  "research_mode": "research-if-gap-appears",
+  "research_performed": false,
+  "artifacts": {
+    "seed_proposal": "REFINE-SEED-PROPOSAL.md",
+    "dispatch_route": "REFINE-DISPATCH.json",
+    "runtime_handoff": "RUNTIME-HANDOFF.md",
+    "run_manifest": "RUN-MANIFEST.md",
+    "result": "RESULT.md"
+  },
+  "stages": [
+    {"n": 1, "name": "context-baseline", "capability": "context-builder", "status": "pass", "artifact": "stages/s1-context-builder/context-pack.md"},
+    {"n": 2, "name": "invoke-define", "capability": "invoke", "status": "pass", "artifact": "stages/s2-invoke-define/DEFINE.md"},
+    {"n": 3, "name": "interrogation-refine-review", "capability": "interrogation", "status": "flag", "artifact": "stages/s3-interrogation-define/REVIEW.md"},
+    {"n": 4, "name": "research-decision", "capability": "refine", "status": "pass", "artifact": "stages/s4-research-decision/RESEARCH-DECISION.md"},
+    {"n": 5, "name": "distill", "capability": "distill", "status": "pass", "artifact": "stages/s5-distill/DISTILL.md"},
+    {"n": 6, "name": "invoke-design", "capability": "invoke", "status": "pass", "artifact": "stages/s6-invoke-design/DESIGN.md", "companions": ["stages/s6-invoke-design/architecture-graph.md", "stages/s6-invoke-design/entity-route-menu.md", "stages/s6-invoke-design/tension-residue.md"]},
+    {"n": 7, "name": "interrogation-refine-design-review", "capability": "interrogation", "status": "flag", "artifact": "stages/s7-interrogation-design/DESIGN-REVIEW.md"},
+    {"n": 8, "name": "distill-repair", "capability": "distill", "status": "pass", "artifact": "stages/s8-distill-repair/REPAIR.md"},
+    {"n": 9, "name": "invoke-plan", "capability": "invoke", "status": "pass", "artifact": "stages/s9-invoke-plan/PLAN.md"},
+    {"n": 10, "name": "final-interrogation-synthesis", "capability": "interrogation", "status": "pass", "artifact": "stages/s10-final/FINAL-REVIEW.md"}
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "authorization": "approved",
+    "join_policy": "parent_synthesis",
+    "roles": [
+      {"role_id": "structure-mapper", "status": "pass"},
+      {"role_id": "public-benefit-advocate", "status": "pass"},
+      {"role_id": "funding-pragmatist", "status": "pass"},
+      {"role_id": "boundary-auditor", "status": "pass"}
+    ]
+  },
+  "open_decisions": ["entity-home route approval (gate g7)"],
+  "residue": ["Z1 outreach-timing (guarded default)", "Z2 endowment-timing (deferred)", "Z3 contribution-threshold (N1 board)"],
+  "next_routes": ["decision-gate: entity-home", "task-session: Phase-1 governance substrate", "optional bounded research for named funder-eligibility fact"]
+}

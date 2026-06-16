@@ -1,0 +1,824 @@
+{
+  "dispatch_id": "ui-prototyping-studio-deep-spec-001",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "The ui-prototyping-studio spec feels shallow. Set up a dispatch with refine nodes and two dialectical zig-zag lanes (one for novel/better implementations + research of resonant-os-design-tokens philosophy and web tools, one to defend the current design), use residuality-spec for invalidations, domainspec UI types, the ux-evidence-validator basis, a planned-mode Playwright UI test lane, and a naive-user-who-does-not-know-the-app lane. Ergonomics is the first principle.",
+    "objective": "Deepen the ui-prototyping-studio feature spec to one-shot implementation readiness through a dialectical zig-zag exploration, hardened by residuality stressors, evidence-backed UX, a planned Playwright suite, and a cold-start naive-user walkthrough, with human-agent ergonomics as the first principle.",
+    "target_artifact": "projects/ui-prototyping-studio",
+    "arcanum_vocabulary": [
+      "refine",
+      "dialectic",
+      "zig_zag",
+      "residuality-spec",
+      "ux-evidence-validator",
+      "context-builder",
+      "dispatch-spec",
+      "implementation-readiness"
+    ],
+    "operator_sentence": "Explore max depth so we can implement this in depth; this is a test of our one-shot design and planning ability."
+  },
+  "mode": "mixed",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "zig_zag",
+    "dialectic",
+    "validation_loop",
+    "residue_ledger",
+    "pareto_gate",
+    "toy_game",
+    "observability_grouping",
+    "owner_boundary_check",
+    "protected_context_flag",
+    "data_quality_completeness",
+    "spell_candidate"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "dialectic-zigzag-lanes",
+      "trigger": "Operator asked for two lanes that alternate generation and critique (zig-zag) while preserving a novel-implementation thesis against a defend-current-design antithesis until synthesis.",
+      "techniques": [
+        "zig_zag",
+        "dialectic",
+        "pareto_gate"
+      ],
+      "applies_to_steps": [
+        "s2-lane-a-challenger",
+        "s3-lane-b-defender",
+        "s4-zigzag-synthesis"
+      ],
+      "validation_expectation": "Each contested point converges to a decision, a logged residue, or a deferred option; no endless alternation; synthesized design is expressed in domainspec UI types with an ergonomics-first rationale per kept decision."
+    },
+    {
+      "overlay_id": "ergonomics-evidence-floor",
+      "trigger": "Ergonomics is the declared first principle; design claims must be backed by evidence, not asserted.",
+      "techniques": [
+        "validation_loop",
+        "toy_game",
+        "residue_ledger"
+      ],
+      "applies_to_steps": [
+        "s6-ux-evidence",
+        "s7-playwright-plan",
+        "s8-naive-user"
+      ],
+      "validation_expectation": "Every non-trivial UX claim is classified (hard_gate/soft_flag/screenshot_review/human_study) and either backed by Playwright-observable evidence or named as a human-study residue; cold-start friction is captured from an uninformed agent."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "Dialectical lanes, parallel external research, role-bound critique, and a context-isolated naive user all require sibling agents that cannot share each other's framing.",
+    "explanation": "The route's value depends on independent perspectives. The challenger and defender must not collapse into one voice; the token/web researchers must fan out; and the naive-user agent must be denied the design rationale so its friction is genuine. These are role-bound sibling agents with isolated context, which the orchestrator (refine) must spawn and join under one dispatch_id.",
+    "context": [
+      "Spec is architecture-strong and governance-clear but execution-light and evidence-sparse on human factors (per discovery): fitness scoring (O-004), exploit conformance metric, identity/DNA rejection lifecycle, accessibility interaction detail, and error/recovery flows are all underspecified.",
+      "Operator explicitly approved subagent spend for maximum-depth exploration in this conversation.",
+      "Naive-user evidence is only valid if the agent is isolated from internal docs and rationale."
+    ],
+    "roles": [
+      {
+        "role_id": "token-researcher",
+        "purpose": "Research the resonant-os-design-tokens philosophy and whether/how it composes with domainspec Visual DNA types.",
+        "owns": "RESEARCH-EVIDENCE-CARDS.md (token philosophy section)",
+        "applies_to_steps": [
+          "s1-research"
+        ]
+      },
+      {
+        "role_id": "web-tool-researcher",
+        "purpose": "Survey current web tooling for UI prototyping studios, design-token pipelines, and evidence-backed UX so we know what to reuse vs build.",
+        "owns": "RESEARCH-EVIDENCE-CARDS.md (tooling section)",
+        "applies_to_steps": [
+          "s1-research"
+        ]
+      },
+      {
+        "role_id": "challenger-designer",
+        "purpose": "Generate novel/better implementation directions and alternative paths in domainspec UI types (antithesis).",
+        "owns": "LANE-A-NOVEL-DESIGN.md",
+        "applies_to_steps": [
+          "s2-lane-a-challenger"
+        ]
+      },
+      {
+        "role_id": "defender-designer",
+        "purpose": "Defend and deepen the current design and its load-bearing decisions D-001..D-009 (thesis), absorbing what it can and rejecting what it must.",
+        "owns": "LANE-B-DEFENSE.md",
+        "applies_to_steps": [
+          "s3-lane-b-defender"
+        ]
+      },
+      {
+        "role_id": "synthesis-architect",
+        "purpose": "Resolve the dialectic into one deepened design expressed in domainspec UI types.",
+        "owns": "SYNTHESIZED-DEEP-DESIGN.md",
+        "applies_to_steps": [
+          "s4-zigzag-synthesis",
+          "s9-synthesis-plan"
+        ]
+      },
+      {
+        "role_id": "residuality-analyst",
+        "purpose": "Stress the deepened design to surface invalidations, attractors, and desired residue.",
+        "owns": "RESIDUALITY-STRESSORS.md",
+        "applies_to_steps": [
+          "s5-residuality"
+        ]
+      },
+      {
+        "role_id": "ux-evidence-validator-agent",
+        "purpose": "Translate ergonomics/accessibility/market practice into validator-safe checks and a fixture plan for the studio surfaces.",
+        "owns": "UX-EVIDENCE-REPORT.md, UX-FIXTURE-PLAN.md",
+        "applies_to_steps": [
+          "s6-ux-evidence"
+        ]
+      },
+      {
+        "role_id": "playwright-test-planner",
+        "purpose": "Devise the full planned-mode Playwright UI test suite (no execution) with expected evidence and failure interpretation per scenario.",
+        "owns": "PLAYWRIGHT-TEST-PLAN.md",
+        "applies_to_steps": [
+          "s7-playwright-plan"
+        ]
+      },
+      {
+        "role_id": "naive-user-agent",
+        "purpose": "Attempt the studio tasks cold, with only task goals and the rendered surface, to expose genuine ergonomic friction.",
+        "owns": "COLD-START-USABILITY-FINDINGS.md",
+        "applies_to_steps": [
+          "s8-naive-user"
+        ]
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "This route spawns up to 9 role-bound subagents (2 researchers, challenger, defender, synthesis architect, residuality analyst, UX-evidence validator, Playwright planner, naive user). The naive-user agent is deliberately denied internal docs. Approve subagent execution under dispatch_id ui-prototyping-studio-deep-spec-001? (Operator approved in-session.)",
+    "receipt_requirements": [
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "residue",
+      "reroute",
+      "for naive-user-agent: confirmation it received no internal rationale"
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s0-frame",
+      "name": "Build evidence baseline and ergonomics-first charter",
+      "capability_ref": "context-builder",
+      "pattern": "sequential",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "protected_context_flag",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ui-prototyping-studio/SPEC.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ui-prototyping-studio/domain.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "frame.evidence-baseline"
+        },
+        {
+          "kind": "artifact",
+          "ref": "CONTEXT-PACK.md"
+        }
+      ],
+      "stop_conditions": [
+        "Context pack cites the existing spec, the domainspec UI type catalog, the ux-evidence-validator basis, and the ergonomics-first charter."
+      ]
+    },
+    {
+      "step_id": "s1-research",
+      "name": "Fan-out research: resonant-os-design-tokens philosophy + web tooling",
+      "capability_ref": "deep-research",
+      "pattern": "fanout",
+      "parallel": true,
+      "join_policy": "parent_synthesis",
+      "techniques": [
+        "frame_handoff",
+        "residue_ledger",
+        "protected_context_flag",
+        "data_quality_accuracy"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "frame.evidence-baseline"
+        },
+        {
+          "kind": "external_context",
+          "ref": "https://github.com/michelnavarra/resonant-os-design-tokens"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESEARCH-EVIDENCE-CARDS.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.token-philosophy"
+        }
+      ],
+      "stop_conditions": [
+        "Each external source is labelled external_context with a citation.",
+        "Tooling survey names candidates to reuse vs build with trade-offs."
+      ],
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "kind": "installed-skill",
+        "note": "deep-research harness; candidate for promotion to a canonical research capability"
+      }
+    },
+    {
+      "step_id": "s2-lane-a-challenger",
+      "name": "Lane A (antithesis): novel and better implementations via refine",
+      "capability_ref": "refine",
+      "pattern": "dialectic",
+      "roles": [
+        "challenger-designer",
+        "antithesis"
+      ],
+      "techniques": [
+        "zig_zag",
+        "dialectic",
+        "residue_ledger",
+        "minimum_component_catalog"
+      ],
+      "convergence_criteria": [
+        "Produces at least 2 novel implementation directions expressed in domainspec UI types.",
+        "Each direction cites token/tooling research evidence or names a residue where evidence is missing.",
+        "Alternative paths are ranked by ergonomics gain versus implementation cost (pareto)."
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "frame.evidence-baseline"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.token-philosophy"
+        },
+        {
+          "kind": "artifact",
+          "ref": "RESEARCH-EVIDENCE-CARDS.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "LANE-A-NOVEL-DESIGN.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.antithesis"
+        }
+      ],
+      "stop_conditions": [
+        "At most 3 ranked directions; alternation halts once directions stop improving on ergonomics."
+      ]
+    },
+    {
+      "step_id": "s3-lane-b-defender",
+      "name": "Lane B (thesis): defend and deepen the current design via refine",
+      "capability_ref": "refine",
+      "pattern": "dialectic",
+      "roles": [
+        "defender-designer",
+        "thesis"
+      ],
+      "techniques": [
+        "zig_zag",
+        "dialectic",
+        "residue_ledger",
+        "owner_boundary_check"
+      ],
+      "convergence_criteria": [
+        "Restates the load-bearing decisions D-001..D-009 with their rationale.",
+        "Names which Lane A proposals the current design can absorb versus must reject, with reasons.",
+        "Defends the manual-governance and evidence model on ergonomics grounds (governance as a feature, not friction)."
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "frame.evidence-baseline"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.antithesis"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "LANE-B-DEFENSE.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.thesis"
+        }
+      ],
+      "stop_conditions": [
+        "Defense responds to each Lane A direction exactly once; no re-litigation after synthesis opens."
+      ]
+    },
+    {
+      "step_id": "s4-zigzag-synthesis",
+      "name": "Zig-zag dialectic synthesis into one deepened design",
+      "capability_ref": "refine",
+      "pattern": "synthesis",
+      "roles": [
+        "synthesis-architect"
+      ],
+      "techniques": [
+        "dialectic",
+        "zig_zag",
+        "pareto_gate",
+        "frame_handoff"
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Each contested point becomes a decision, a logged residue, or an explicitly deferred option.",
+        "Synthesized design is expressed entirely in domainspec UI types (entities, value objects, enums, states, operations).",
+        "An ergonomics-first rationale is stated for every kept or changed decision."
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "handle.antithesis"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.thesis"
+        },
+        {
+          "kind": "artifact",
+          "ref": "LANE-A-NOVEL-DESIGN.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "LANE-B-DEFENSE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "SYNTHESIZED-DEEP-DESIGN.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "frame.deep-design"
+        }
+      ],
+      "stop_conditions": [
+        "Single converged design produced; residue ledger holds anything unresolved with an owner."
+      ]
+    },
+    {
+      "step_id": "s5-residuality",
+      "name": "Residuality: stress the deepened design for invalidations",
+      "capability_ref": "residuality-spec",
+      "pattern": "validation",
+      "techniques": [
+        "residue_ledger",
+        "validation_loop",
+        "data_quality_completeness"
+      ],
+      "evidence_artifact": "RESIDUALITY-STRESSORS.md",
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "frame.deep-design"
+        },
+        {
+          "kind": "artifact",
+          "ref": "SYNTHESIZED-DEEP-DESIGN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESIDUALITY-STRESSORS.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.invalidations"
+        }
+      ],
+      "stop_conditions": [
+        "Every significant stressor maps to a desired residue or a named open question.",
+        "Attractors are reported as clusters with spec implications."
+      ],
+      "capability_status": "external",
+      "capability_metadata": {
+        "kind": "installed-arcana",
+        "canonical_id": "arcana/residuality-spec"
+      }
+    },
+    {
+      "step_id": "s6-ux-evidence",
+      "name": "UX evidence: validator-safe checks and fixture plan for the studio",
+      "capability_ref": "ux-evidence-validator",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "residue_ledger",
+        "data_quality_accuracy"
+      ],
+      "evidence_artifact": "UX-EVIDENCE-REPORT.md",
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "frame.deep-design"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.invalidations"
+        },
+        {
+          "kind": "external_context",
+          "ref": "WCAG 2.2 + design-system UX practice + ergonomics-first charter"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "UX-EVIDENCE-REPORT.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "UX-FIXTURE-PLAN.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.ux-evidence"
+        }
+      ],
+      "stop_conditions": [
+        "Every non-trivial UX claim is classified hard_gate/soft_flag/screenshot_review/human_study with proxy limits named.",
+        "Hard gates only for deterministic or standards-backed failures."
+      ],
+      "capability_status": "external",
+      "capability_metadata": {
+        "kind": "installed-arcana",
+        "canonical_id": "arcana/ux-evidence-validator"
+      }
+    },
+    {
+      "step_id": "s7-playwright-plan",
+      "name": "Planned-mode Playwright UI test suite (design only, no execution)",
+      "capability_ref": "ux-evidence-validator",
+      "pattern": "toy_game",
+      "techniques": [
+        "toy_game",
+        "validation_loop",
+        "conditional_component"
+      ],
+      "evidence_artifact": "PLAYWRIGHT-TEST-PLAN.md",
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "frame.deep-design"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.ux-evidence"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.invalidations"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "PLAYWRIGHT-TEST-PLAN.md"
+        }
+      ],
+      "stop_conditions": [
+        "Plan is planned-only; no tests are executed.",
+        "Each scenario names locator strategy, expected evidence (screenshot/trace/axe/measurement), and the failure interpretation if it breaks."
+      ],
+      "capability_status": "external",
+      "capability_metadata": {
+        "kind": "installed-arcana",
+        "canonical_id": "arcana/ux-evidence-validator"
+      }
+    },
+    {
+      "step_id": "s8-naive-user",
+      "name": "Cold-start naive-user walkthrough (context-isolated agent)",
+      "capability_ref": "ux-evidence-validator",
+      "pattern": "toy_game",
+      "techniques": [
+        "toy_game",
+        "residue_ledger",
+        "protected_context_flag"
+      ],
+      "evidence_artifact": "COLD-START-USABILITY-FINDINGS.md",
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "frame.deep-design"
+        },
+        {
+          "kind": "external_context",
+          "ref": "task-goal scenarios only (no internal docs, decisions, or rationale)"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "COLD-START-USABILITY-FINDINGS.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.ergonomics-gaps"
+        }
+      ],
+      "stop_conditions": [
+        "Agent receives only task goals and the rendered surface.",
+        "Each blocker is captured as where a fresh user stalls, with the inferred missing affordance."
+      ],
+      "capability_status": "external",
+      "capability_metadata": {
+        "kind": "installed-arcana",
+        "canonical_id": "arcana/ux-evidence-validator"
+      }
+    },
+    {
+      "step_id": "s9-synthesis-plan",
+      "name": "Fold all evidence into a deepened spec proposal + one-shot implementation plan",
+      "capability_ref": "refine",
+      "pattern": "synthesis",
+      "roles": [
+        "synthesis-architect"
+      ],
+      "techniques": [
+        "frame_handoff",
+        "residue_ledger",
+        "pareto_gate",
+        "data_quality_completeness"
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Deepened spec proposal resolves the shallow areas (fitness scoring, exploit conformance, identity/DNA rejection, accessibility interaction detail, error/recovery).",
+        "One-shot implementation plan is layered and traceable to domainspec UI types and the test plan.",
+        "Residuality invalidations, UX evidence, and naive-user gaps are each addressed or carried as named residue."
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "frame.deep-design"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.invalidations"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.ux-evidence"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.ergonomics-gaps"
+        },
+        {
+          "kind": "artifact",
+          "ref": "RESIDUALITY-STRESSORS.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "PLAYWRIGHT-TEST-PLAN.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "COLD-START-USABILITY-FINDINGS.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "DEEP-SPEC-PROPOSAL.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ONE-SHOT-IMPLEMENTATION-PLAN.md"
+        },
+        {
+          "kind": "handoff",
+          "ref": "handoff.implementation-readiness"
+        }
+      ],
+      "stop_conditions": [
+        "Proposal and plan are proposals only; no canonical spec file is mutated."
+      ]
+    },
+    {
+      "step_id": "s10-readiness",
+      "name": "Implementation-readiness decision and next-route menu",
+      "capability_ref": "implementation-readiness",
+      "pattern": "decision",
+      "techniques": [
+        "pareto_gate",
+        "owner_boundary_check",
+        "spell_candidate"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "handoff.implementation-readiness"
+        },
+        {
+          "kind": "handle",
+          "ref": "handle.ergonomics-gaps"
+        },
+        {
+          "kind": "artifact",
+          "ref": "ONE-SHOT-IMPLEMENTATION-PLAN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "decision.implementation-ready"
+        },
+        {
+          "kind": "route_menu",
+          "ref": "route_menu.next"
+        }
+      ],
+      "stop_conditions": [
+        "Readiness verdict (ready|conditional|not-ready) recorded with the residue that blocks one-shot implementation, if any."
+      ],
+      "capability_status": "external",
+      "capability_metadata": {
+        "kind": "installed-skill",
+        "canonical_id": "implementation-readiness"
+      }
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g0-charter",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Ergonomics-first charter and dialectic role split are approved before lane execution.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g1-research-boundary",
+      "kind": "policy",
+      "owner": "dispatch-spec",
+      "condition": "External web/github research is labelled external_context and is not promoted to canonical memory.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g2-convergence",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "Dialectic convergence_criteria for s2/s3/s4 are met, or unresolved points are logged as residue with an owner.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "g3-residuality",
+      "kind": "validation",
+      "owner": "residuality-spec",
+      "condition": "Every significant stressor maps to a residue or an open question (s5 evidence present).",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "g4-ux-evidence",
+      "kind": "validation",
+      "owner": "ux-evidence-validator",
+      "condition": "UX claims are classified; hard gates are used only for deterministic or standards-backed failures.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "g5-test-plan",
+      "kind": "validation",
+      "owner": "ux-evidence-validator",
+      "condition": "Playwright plan is planned-only (no execution) and names expected evidence plus failure interpretation per scenario.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "g6-naive-isolation",
+      "kind": "policy",
+      "owner": "dispatch-spec",
+      "condition": "Naive-user agent received only task goals and the rendered surface, never internal rationale or decisions.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g7-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Dispatch does not promote SPEC/domain/glossary/inventory/ontology/sigil artifacts; the deepened spec stays a proposal pending operator approval.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g8-final-approval",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "DEEP-SPEC-PROPOSAL and ONE-SHOT-IMPLEMENTATION-PLAN are approved before any spec mutation or implementation.",
+      "on_fail": "ask"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "dispatch.start",
+      "stage.context.complete",
+      "research.fanout.join",
+      "dialectic.lane_a.complete",
+      "dialectic.lane_b.complete",
+      "dialectic.synthesis.converged",
+      "residuality.complete",
+      "ux.evidence.complete",
+      "playwright.plan.complete",
+      "naive_user.walkthrough.complete",
+      "synthesis.plan.complete",
+      "readiness.decision",
+      "dispatch.complete"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-external-research",
+        "kind": "external_context",
+        "from_owner": "deep-research",
+        "to_owner": "refine",
+        "applies_to_steps": [
+          "s1-research",
+          "s6-ux-evidence"
+        ],
+        "contract": "Web and GitHub sources are imported as labelled external_context and cited in evidence cards; never promoted to canonical inventory/ontology without owner review.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-naive-isolation",
+        "kind": "external_context",
+        "from_owner": "dispatch-spec",
+        "to_owner": "naive-user-agent",
+        "applies_to_steps": [
+          "s8-naive-user"
+        ],
+        "contract": "The naive-user agent receives only task goals and the rendered surface; it must not read design rationale, decisions, or internal docs.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-spec-proposal",
+        "kind": "capability_handoff",
+        "from_owner": "refine",
+        "to_owner": "operator",
+        "applies_to_steps": [
+          "s9-synthesis-plan",
+          "s10-readiness"
+        ],
+        "contract": "The deepened spec is a proposal handoff; promotion to canonical SPEC requires human approval, mirroring the studio's own manual-governance ethos.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine",
+      "execution": "refine (dispatch orchestrator)",
+      "validation": "ux-evidence-validator + residuality-spec",
+      "evidence": "ux-evidence-validator",
+      "memory": "necronomicon/inventory (owner review required)",
+      "promotion": "operator"
+    }
+  },
+  "promotion_guardrails": [
+    "Dispatch does not promote SPEC.md, domain.md, glossary, inventory, ontology, or sigil artifacts.",
+    "DEEP-SPEC-PROPOSAL.md and ONE-SHOT-IMPLEMENTATION-PLAN.md are proposals pending operator approval.",
+    "External research stays external_context until owner review."
+  ]
+}

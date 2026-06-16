@@ -1,0 +1,302 @@
+{
+  "dispatch_id": "gq-victor-promotion-integration-2026-06-10",
+  "intent": {
+    "raw": "research and then /refine of how the work done in projects/goldenquill/victor/ integrates with projects/goldenquill/docs/features/goldenquill-promotion-governance/, we also need to design run time integrations, how events will be emitted and listened, how ontology is stored, how each part of run integrates, which components we need to design and decide integrations, libraries, vendors",
+    "objective": "Produce a refined integration design and non-executed plan that reconciles Victor's GoldenQuill/Tilth system (council, CIC/CLC ontology, Five Laws, privacy postures, eligibility ladder, and the unbuilt D7 learning loop) with the goldenquill-promotion-governance L0 feature spec (event spine, execution DAG, KPI observations, promotion candidates, Ontology Vault governance, owner decision, approved reuse), covering runtime event emit/listen, ontology storage, per-run integration, and the component/library/vendor decisions the buildout requires.",
+    "target_artifact": "projects/goldenquill/docs/features/goldenquill-promotion-governance/integration/",
+    "arcanum_vocabulary": ["refine", "decision-gate", "x-ray", "implementation-layering", "invoke", "necronomicon", "boundary_evidence", "promotion_guardrail"],
+    "operator_sentence": "Refine the Victor <-> promotion-governance integration into a runtime design with decided events, ontology storage, components, and vendors."
+  },
+  "mode": "implementation-research",
+  "techniques": [
+    "x_ray",
+    "scu_swu_reduction",
+    "authority_split_gate",
+    "state_namespace_boundary",
+    "memory_promotion_split",
+    "execution_receipt_handoff",
+    "owner_boundary_check",
+    "residue_ledger",
+    "observability_grouping"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "boundary-reconciliation-overlay",
+      "trigger": "The route crosses three authority owners (GoldenQuill grant runtime, promotion-governance feature, Ontology Vault governance) and must not let any step claim another owner's promotion authority.",
+      "techniques": ["authority_split_gate", "state_namespace_boundary", "memory_promotion_split", "execution_receipt_handoff"],
+      "applies_to_steps": ["s2-seam-xray", "s4-runtime-design", "s6-handoff"],
+      "validation_expectation": "Each boundary technique is backed by a boundary_evidence entry naming owner, contract, and on_violation; no step promotes Victor cards, ontology, or sigils."
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "s1-frame",
+      "name": "Frame the integration target and preserve operator intent",
+      "capability_ref": "invoke",
+      "pattern": "sequential",
+      "techniques": ["sentence_grammar"],
+      "inputs": [
+        {"kind": "intent", "ref": "intent.raw"},
+        {"kind": "external_context", "ref": "projects/goldenquill/victor/"},
+        {"kind": "external_context", "ref": "projects/goldenquill/docs/features/goldenquill-promotion-governance/"}
+      ],
+      "outputs": [
+        {"kind": "frame", "ref": "frame.integration-objective"}
+      ],
+      "stop_conditions": ["Objective and target artifact path are explicit and operator-confirmed."]
+    },
+    {
+      "step_id": "s2-seam-xray",
+      "name": "X-ray the integration seams between Victor and promotion-governance",
+      "capability_ref": "x-ray",
+      "capability_status": "candidate",
+      "pattern": "xray",
+      "parallel": true,
+      "join_policy": "parent_synthesis",
+      "techniques": ["x_ray", "delegation_boundary", "concrete_path_evidence", "residue_ledger"],
+      "roles": ["event-spine-seam", "ontology-storage-seam", "vendor-substrate-seam", "governance-vocabulary-seam"],
+      "inputs": [
+        {"kind": "frame", "ref": "frame.integration-objective"},
+        {"kind": "external_context", "ref": "projects/goldenquill/victor/engineer-view.md"},
+        {"kind": "external_context", "ref": "projects/goldenquill/docs/features/goldenquill-promotion-governance/architecture.md"}
+      ],
+      "outputs": [
+        {"kind": "handle", "ref": "handle.seam-map"},
+        {"kind": "ledger", "ref": "ledger.seam-residue"}
+      ],
+      "evidence_artifact": "projects/goldenquill/docs/features/goldenquill-promotion-governance/integration/seam-map.md",
+      "stop_conditions": ["All four seams mapped with concrete file/path evidence on both sides."]
+    },
+    {
+      "step_id": "s3-decisions",
+      "name": "Resolve blocker-level integration decisions before design",
+      "capability_ref": "decision-gate",
+      "capability_status": "candidate",
+      "pattern": "decision",
+      "techniques": ["authority_split_gate", "pareto_gate", "approval_checkpoint"],
+      "inputs": [
+        {"kind": "handle", "ref": "handle.seam-map"},
+        {"kind": "ledger", "ref": "ledger.seam-residue"}
+      ],
+      "outputs": [
+        {"kind": "decision", "ref": "decision.event-store-vendor"},
+        {"kind": "decision", "ref": "decision.journal-vs-logfire-boundary"},
+        {"kind": "decision", "ref": "decision.ontology-storage-location"},
+        {"kind": "decision", "ref": "decision.vocabulary-reconciliation-owner"}
+      ],
+      "stop_conditions": ["Each blocker decision has a recorded owner, chosen option, and rejected alternatives."]
+    },
+    {
+      "step_id": "s4-runtime-design",
+      "name": "Refine the runtime integration design through the Refine loop",
+      "capability_ref": "refine",
+      "pattern": "synthesis",
+      "techniques": ["scu_swu_reduction", "state_namespace_boundary", "execution_receipt_handoff", "memory_promotion_split", "owner_boundary_check"],
+      "inputs": [
+        {"kind": "frame", "ref": "frame.integration-objective"},
+        {"kind": "handle", "ref": "handle.seam-map"},
+        {"kind": "decision", "ref": "decision.event-store-vendor"},
+        {"kind": "decision", "ref": "decision.journal-vs-logfire-boundary"},
+        {"kind": "decision", "ref": "decision.ontology-storage-location"},
+        {"kind": "decision", "ref": "decision.vocabulary-reconciliation-owner"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "projects/goldenquill/docs/features/goldenquill-promotion-governance/integration/runtime-design.md"},
+        {"kind": "ledger", "ref": "ledger.design-residue"}
+      ],
+      "evidence_artifact": "projects/goldenquill/docs/features/goldenquill-promotion-governance/integration/runtime-design.md",
+      "stop_conditions": ["Event emit/listen wiring, ontology storage, per-run DAG integration, and component map are explicit and source-backed; no step mutates Victor cards or claims promotion."]
+    },
+    {
+      "step_id": "s5-layering",
+      "name": "Layer the buildout from minimum working unit to hardened",
+      "capability_ref": "implementation-layering",
+      "capability_status": "candidate",
+      "pattern": "sequential",
+      "techniques": ["scu_swu_reduction", "recomposition_proof", "min_max_constraint"],
+      "inputs": [
+        {"kind": "artifact", "ref": "projects/goldenquill/docs/features/goldenquill-promotion-governance/integration/runtime-design.md"},
+        {"kind": "ledger", "ref": "ledger.design-residue"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "projects/goldenquill/docs/features/goldenquill-promotion-governance/integration/layering.md"}
+      ],
+      "stop_conditions": ["Layers run from L0 fixture-only event-spine proof to governed promotion loop, each with a value/cost boundary."]
+    },
+    {
+      "step_id": "s6-handoff",
+      "name": "Hand off the refined design and plan to lifecycle authoring",
+      "capability_ref": "invoke",
+      "pattern": "handoff",
+      "techniques": ["frame_handoff", "handle_handoff", "owner_boundary_check"],
+      "inputs": [
+        {"kind": "artifact", "ref": "projects/goldenquill/docs/features/goldenquill-promotion-governance/integration/runtime-design.md"},
+        {"kind": "artifact", "ref": "projects/goldenquill/docs/features/goldenquill-promotion-governance/integration/layering.md"},
+        {"kind": "ledger", "ref": "ledger.design-residue"}
+      ],
+      "outputs": [
+        {"kind": "handoff", "ref": "handoff.invoke-design-or-plan"},
+        {"kind": "trace_event", "ref": "trace.dispatch-complete"}
+      ],
+      "stop_conditions": ["Design hands off to Invoke/Task-Session without claiming promotion of any Victor ontology, card, sigil, or spell artifact."]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g1-decisions-resolved",
+      "kind": "decision",
+      "owner": "decision-gate",
+      "condition": "All four blocker decisions (event-store vendor, journal/Logfire boundary, ontology storage location, vocabulary reconciliation owner) are resolved before s4 refine begins.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g2-authority-split",
+      "kind": "policy",
+      "owner": "promotion-governance feature",
+      "condition": "Grant runtime shape stays owned by GoldenQuill; promotion safety stays owned by the Ontology Vault governance layer; no design step merges the two authorities.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g3-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "No step promotes Victor CIC/CLC cards, ontology, glossary, sigils, or spells; approved reuse only flows through an owner decision recorded outside this dispatch.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g4-design-evidence",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "runtime-design.md cites concrete Victor and promotion-governance paths for every emit/listen, storage, and component claim.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "g5-human-approval-subagents",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Operator approves the parallel x-ray subagent fan-out before s2 runtime execution.",
+      "on_fail": "ask"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "dispatch.gq-victor-promotion-integration.start",
+      "step.s2-seam-xray.fanout",
+      "step.s3-decisions.resolved",
+      "step.s4-runtime-design.synthesized",
+      "step.s6-handoff.complete"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The integration has four largely independent seams (event spine, ontology storage, vendor/substrate, governance vocabulary) that each need deep cross-document reading before synthesis; this is a fan-out + parent-synthesis shape.",
+    "explanation": "Role-bound sibling agents can map each seam against both Victor and promotion-governance source in parallel, returning seam evidence the Refine loop joins, instead of one serial reader holding all four contexts at once.",
+    "context": [
+      "Victor D7 (learning loop) is designed-not-built and is exactly what promotion-governance L0 specifies, so the seam map is high-value but spans many files.",
+      "Victor substrate is LOCKED (Pydantic AI, Logfire, Ollama/vLLM, Python+Cedar) while promotion-governance is implementation-agnostic; the vendor seam needs its own reader.",
+      "Vocabulary diverges (Scout ACCEPT/REJECT/HOLD vs Match-DB confirmed_fit/rejected; OwnerDecision approved_allowed_uses vs Victor consent-tier + Ed25519); reconciliation needs a dedicated lane."
+    ],
+    "roles": [
+      {"role_id": "event-spine-seam", "purpose": "Map how council-seat outputs and Logfire traces become typed GrantWorkEvents and the execution DAG.", "owns": "seam-map event-emission section", "applies_to_steps": ["s2-seam-xray"]},
+      {"role_id": "ontology-storage-seam", "purpose": "Map where ontology and approved reuse land across Victor card files, KFR/Match-DB, and the Ontology Vault projection.", "owns": "seam-map ontology-storage section", "applies_to_steps": ["s2-seam-xray"]},
+      {"role_id": "vendor-substrate-seam", "purpose": "Map promotion-governance components onto the LOCKED Victor substrate and name the one open vendor decision (event journal store).", "owns": "seam-map vendor section", "applies_to_steps": ["s2-seam-xray"]},
+      {"role_id": "governance-vocabulary-seam", "purpose": "Reconcile owner-decision/consent-tier/operator-signature vocabulary between the two specs.", "owns": "seam-map vocabulary section", "applies_to_steps": ["s2-seam-xray"]}
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Run four parallel read-only seam-mapping subagents (event-spine, ontology-storage, vendor-substrate, governance-vocabulary) over the Victor and promotion-governance docs, then synthesize a seam map for the Refine loop?",
+    "receipt_requirements": [
+      "seam section markdown with concrete file paths on both sides",
+      "no card/ontology/sigil mutation",
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "residue",
+      "reroute",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note"
+    ]
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b1-runtime-vs-governance",
+        "kind": "capability_handoff",
+        "from_owner": "GoldenQuill grant runtime (Victor council + cycle)",
+        "to_owner": "Ontology Vault governance layer",
+        "applies_to_steps": ["s4-runtime-design", "s6-handoff"],
+        "contract": "GoldenQuill emits typed events and promotion candidates only; promotion safety, target-owner routing, and approved_allowed_uses stay with the Ontology Vault governance layer.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b2-owner-decision-approval",
+        "kind": "human_approval",
+        "from_owner": "promotion candidate builder",
+        "to_owner": "operator / owner decision",
+        "applies_to_steps": ["s4-runtime-design"],
+        "contract": "approved_allowed_uses appear only after an owner decision (Victor: operator Ed25519 + consent-tier check); candidates and KPI thresholds never self-promote.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "GoldenQuill grant runtime (Victor)",
+      "execution": "council seats + adapter producers",
+      "validation": "promotion-governance fail-closed validator + Logician",
+      "evidence": "event journal + Logfire + cycle receipts",
+      "memory": "per-org KFR/Match-DB (Law-3 isolated) and shared cards",
+      "promotion": "Ontology Vault governance layer via owner decision"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r1-event-projection",
+        "producer": "ProjectEventToDag",
+        "required_fields": ["dispatch_id", "step_id", "artifacts", "validation_result", "status"],
+        "stores": ["event journal", "Logfire trace"],
+        "on_missing": "flag"
+      },
+      {
+        "receipt_id": "r2-owner-decision",
+        "producer": "RecordOwnerDecision",
+        "required_fields": ["approval_record", "audit_reference", "status"],
+        "stores": ["owner decision ledger"],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {"namespace": "orgs/<slug>/vault/ (KFR, classification, match_database)", "owner": "per-client (Law-3 isolated)", "write_policy": "per-org only; cross-org read blocked by F-MATCH-DB-CROSS-ORG"},
+      {"namespace": "pipeline/cards/CIC, pipeline/cards/CLC (shared cards)", "owner": "shared ontology", "write_policy": "owner-decision-gated; no auto-promotion"},
+      {"namespace": "event journal + Logfire observability", "owner": "promotion-governance event spine", "write_policy": "append-only, replayable, idempotent; audit-only projection"}
+    ],
+    "promotion_splits": [
+      {
+        "source": "per-org outcome / Match-DB row (consent_tier)",
+        "target": "shared CIC/CLC card refinement",
+        "rule": "Shared-card promotion requires source_consent_tier == composable_with_others plus owner decision; per-org learning never auto-flows to shared cards.",
+        "on_violation": "block"
+      },
+      {
+        "source": "KPI observation / analytics method output",
+        "target": "approved reuse packet",
+        "rule": "KPIs and analytics create candidates only; approved_allowed_uses are recorded solely by an owner decision.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "This dispatch designs the promotion loop; it does not execute promotion of Victor ontology, CIC/CLC cards, glossary, sigils, or spells.",
+    "Approved reuse only flows through an owner decision recorded outside this dispatch.",
+    "L0 stays fixture-only and audit-only; no production memory or signed-card mutation."
+  ]
+}

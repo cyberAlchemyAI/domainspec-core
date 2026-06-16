@@ -1,0 +1,102 @@
+# Decision-Mentality Profile — operator: Vladimir (vrondelli)
+#
+# PRIVATE artifact, runtime location. This is the consuming-repo runtime copy that
+# the public `goal` spell (arcanum/spells/goal) loads at runtime to parameterize its
+# N5 decision-mentality mechanism. It lives in `.arcanum/` (the PRIVATE consuming-repo
+# runtime dir) — NOT in the public `arcanum/` submodule. The public spell ships only
+# `decision-profile.schema` + a neutral default; this filled instance stays private.
+#
+# Provenance: distilled from the corpus referenced in `source_corpus` below
+# (8 ledger decisions + transcript directives + >=4 domainspec decision records;
+#  confidence HIGH). Pattern ids [P#] and decision ids [D#] cite that corpus.
+
+profile:
+  id: operator-vladimir
+  confidence: high
+  source_corpus: /home/vrondelli/projects/workspace-resonant/.craft/artifacts/autonomous-dag-orchestration/development/refinement-runs/2026-06-14-autonomous-dag-goal-loop/stages/s02-decision-corpus.md
+  voice_caveat: >
+    Strongest evidence is in raw transcript directives; ledger/ADR text is
+    agent-authored about the operator's choices. Treat as a working model, not a
+    fixed identity; refine as more decisions are observed.
+
+# --- Risk classification defaults (feeds the goal spell's risk-tier classifier) ---
+risk:
+  posture: strictest-safe              # [P1] take the stricter option when posture differs
+  unknown_action: default-deny         # [P1,P8/D6] unknown => T3 (deny)
+  ambient_authority: forbidden         # [D6] no inherited/ambient credentials or scope
+  compound_when_unsure: true           # [D6] prefer compound guards (default-deny AND native-only AND allowlist)
+  proportionality: reject-both-extremes # [P2/D7,D8] reject disproportionate AND under-built
+  selection_criterion: testable        # [P1,P3] an option is only acceptable if it is checkable/fixture-expressible
+
+# --- Approval & mutation policy (feeds propose-then-promote + batched approval) ---
+approval:
+  delegation: broad                    # [P7] "run all" — breadth of read-only work is cheap
+  mutation_gate: every-mutation        # [P7] every product/source mutation is separately gated
+  default_mode: propose-then-promote   # [P7,P6/D12] author/refresh is proposal-only until explicit apply
+  promotion: batched-explicit          # batch deltas; promote only on an explicit operator approval
+  approval_record: durable             # approvals should leave a durable decision record (decision-gate), not a transient token
+  reversibility_required_for: [cleanup, destructive-ops]  # [D10] mutate only behind a restorable backup/rollback gate
+
+# --- Slice & sequencing policy (feeds technique/route selection) ---
+slice:
+  size: smallest-reliable              # [P3/D1,D9] smallest testable slice first, generalize later
+  validate_before_broaden: true        # [P3/D9] prove one slice before widening scope
+  reconcile_before_act: true           # [P4/D4] refresh/align to ground truth before executing
+  local_static_before_mutation: true   # [P8/D5] local/static work before product mutation or live simulation
+
+# --- Ownership & boundaries (feeds owner-selection + immutability gates) ---
+ownership:
+  model: owner-scoped                  # [P5/D11] per-owner lanes; out-of-scope items blocked/deferred
+  named_humans: true                   # [P5/D6] assign concrete owners (disclosure=Vladimir, release-trust=Tom Pennington)
+  immutable_substrate:                 # [P6/D2,D3,D12] hard boundaries on shared/product substrate
+    - arcanum                          # public submodule is NEVER touched by this work [D12]
+    - product-PR-tree                  # process/research artifacts excluded from product PRs [D2,D3]
+  human_only_decisions: name-explicitly # [C] flag assignment-only gaps for the human; default the rest
+
+# --- Verdict & output style ---
+verdicts:
+  vocabulary: graded                   # [P9/D12] borrow-carefully | analogy-only | block | promotion-candidate | future-work
+  binary_accept_reject: avoid
+
+# --- Gap-filling style (feeds the spell's stop/escalation + interrogation behavior) ---
+gap_filling:
+  interrogation: one-question-at-a-time # [C] sequential, evidence-backed single questions
+  answer_style: terse                   # [P10/C] trusts a well-framed menu; answers in shorthand ("confirmed", "run all")
+  rejected_options: record-as-residue   # [C/D7,D8] explicit deferral over silent assumption; keep upgrade-path residue
+  defaults: accept-recommended-unless-illegitimate  # [C] spend human attention only where a default is illegitimate
+
+# --- Technique-selection weights (feeds node->technique selector) ---
+# Higher weight => the spell prefers this dispatch-spec technique for that shape.
+technique_weights:
+  dialectic: high        # for competing principles / tensions [P2; refine dialectic runs D7,D8]
+  zig_zag: high
+  tournament: high       # for several plausible alternatives [D8 balanced-middle selection]
+  pareto_gate: high      # proportionality made operational [P2]
+  review_then_audit: high # gate before close [P1 testability, P7 mutation gate]
+  toy_game: medium       # low-cost falsification before commit
+  research_external: low  # local-first; external research only on a named gap [no-research default]
+
+# --- Anti-patterns the loop must NOT auto-take (default-reject list) ---
+anti_patterns:
+  - ambient-or-inherited-credentials        # [D6]
+  - unbounded-shell-without-allowlist         # [D6]
+  - disproportionate-controls                 # [D7] (e.g. mutual-TLS for a loopback dev service)
+  - over-built-schema-with-unneeded-machinery # [D8]
+  - silent-mutation-of-shared-substrate       # [D2,D3,D11,D12]
+  - binary-accept-reject-of-evidence          # [D12]
+  - acting-on-stale-assumptions               # [D4]
+  - broadening-scope-before-one-slice-validated # [D1,D9]
+
+# --- How the public goal spell consumes this (the public/private split) ---
+consumed_by:
+  spell: arcanum/spells/goal
+  mechanism: N5 decision-mentality parameterization
+  public_counterpart: arcanum/spells/goal/decision-profile.schema  # shape only, neutral default
+  load: runtime                         # the spell loads this private instance from the consuming repo
+  mapping:
+    risk.* -> risk-tier-classifier defaults (allowlist strictness, unknown=T3)
+    approval.* -> propose-then-promote + batched-approval + decision-gate record
+    slice.* + technique_weights.* -> node->owner+technique selector
+    ownership.immutable_substrate -> read-only / never-touch boundaries (incl. arcanum)
+    gap_filling.* -> stop/escalation contract + interrogation behavior
+    anti_patterns -> default-deny reinforcement (these never auto-run)

@@ -1,0 +1,349 @@
+{
+  "dispatch_id": "domainspec-into-arcanum-research-20260610",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "create a research so we can add implementation/domainspec inside arcanum; domainspec is becoming public again; ground everything in implementation/domainspec/development/COMMERCIALIZATION-SYNTHESIS.md — the open-core boundary 'give away the wedge, sell the trust'. The free wedge becomes public arcanum; the paid moat and runtime stay private in domainspec.",
+    "objective": "Design a governed research route that classifies implementation/domainspec content against the open-core commercial boundary defined in COMMERCIALIZATION-SYNTHESIS.md: the FREE WEDGE (validators/audits, spec->test derivation, taxonomy/relationships, code-tag extraction, Arcanum sigils, Necronomicon, Craft ledger schema, intent tools) is lifted into public arcanum; the PAID MOAT (CyberAlchemy governance engine, Craft deferred automation/metering, enforcement runtime, vendor-neutral attestation product, Golden Quill/Tilth vertical, the Lean formal-proof half) and the runtime layer stay private in domainspec. Produce a candidate integration research artifact and an explicit wedge-vs-moat boundary decision, not an executed migration.",
+    "target_artifact": "arcanum/research/domainspec-integration/README.md",
+    "arcanum_vocabulary": [
+      "necronomicon",
+      "x-ray",
+      "distill",
+      "decision-gate",
+      "research-tower",
+      "owner_boundary_check",
+      "memory_promotion_split",
+      "scu_swu_reduction",
+      "residue_ledger"
+    ],
+    "operator_sentence": "Research, do not execute: split domainspec by the open-core boundary — free wedge becomes public arcanum, paid moat and runtime stay private — grounded in COMMERCIALIZATION-SYNTHESIS.md, and record the wedge-vs-moat decision before anything moves."
+  },
+  "mode": "implementation-research",
+  "steps": [
+    {
+      "step_id": "s01-survey-knowledge",
+      "name": "Survey what arcanum already knows and what domainspec is",
+      "capability_ref": "necronomicon",
+      "capability_metadata": {
+        "owner": "necronomicon",
+        "status": "installed-skill",
+        "role": "repository knowledge harness"
+      },
+      "pattern": "route",
+      "techniques": ["sequence", "owner_boundary_check"],
+      "inputs": [
+        { "kind": "intent", "ref": "intent.raw" },
+        { "kind": "external_context", "ref": "implementation/domainspec/development/COMMERCIALIZATION-SYNTHESIS.md (open-core wedge-vs-moat boundary)" }
+      ],
+      "outputs": [
+        { "kind": "route_menu", "ref": "candidate-integration-areas" },
+        { "kind": "frame", "ref": "frame.domainspec-vs-arcanum-knowledge" }
+      ],
+      "stop_conditions": [
+        "Stop if an area is paid moat or runtime per COMMERCIALIZATION-SYNTHESIS.md; it stays private in domainspec.",
+        "Stop if arcanum already contains an equivalent capability."
+      ]
+    },
+    {
+      "step_id": "s02-map-structure",
+      "name": "X-ray domainspec structure to expose contribution candidates",
+      "capability_ref": "x-ray",
+      "capability_metadata": {
+        "owner": "x-ray",
+        "status": "installed-skill",
+        "role": "layered structure explainer"
+      },
+      "pattern": "xray",
+      "techniques": ["x_ray"],
+      "inputs": [
+        { "kind": "frame", "ref": "frame.domainspec-vs-arcanum-knowledge" }
+      ],
+      "outputs": [
+        { "kind": "handle", "ref": "handle.domainspec-structure-map" }
+      ],
+      "stop_conditions": [
+        "Stop mapping at the subsystem boundary; tag each element by layer (runtime vs governance/agent/skills/concepts)."
+      ]
+    },
+    {
+      "step_id": "s03-distill-candidates",
+      "name": "Distill smallest governance/concept abstraction units",
+      "capability_ref": "distill",
+      "pattern": "distill",
+      "techniques": ["scu_swu_reduction"],
+      "inputs": [
+        { "kind": "handle", "ref": "handle.domainspec-structure-map" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "artifact.candidate-abstraction-units" }
+      ],
+      "stop_conditions": [
+        "Stop when each candidate unit names a recomposition target inside arcanum and stays decoupled from domainspec runtime."
+      ]
+    },
+    {
+      "step_id": "s04-boundary-decision",
+      "name": "Resolve the open-core wedge-vs-moat boundary decision",
+      "capability_ref": "decision-gate",
+      "capability_metadata": {
+        "owner": "decision-gate",
+        "status": "installed-skill",
+        "role": "blocker-level decision resolver"
+      },
+      "pattern": "decision",
+      "techniques": ["memory_promotion_split", "owner_boundary_check"],
+      "inputs": [
+        { "kind": "artifact", "ref": "artifact.candidate-abstraction-units" },
+        { "kind": "frame", "ref": "frame.domainspec-vs-arcanum-knowledge" },
+        { "kind": "external_context", "ref": "implementation/domainspec/development/COMMERCIALIZATION-SYNTHESIS.md" }
+      ],
+      "outputs": [
+        { "kind": "decision", "ref": "decision.wedge-vs-moat-split" }
+      ],
+      "stop_conditions": [
+        "Stop and escalate to the user if any candidate is paid moat (CyberAlchemy engine, Craft automation/metering, enforcement runtime, attestation product, Golden Quill/Tilth, Lean formal-proof half) or cannot be decoupled from it."
+      ]
+    },
+    {
+      "step_id": "s04a-extract-lean",
+      "name": "Extract source-first knowledge from the lean-formalization corpus",
+      "capability_ref": "research-tower",
+      "capability_metadata": {
+        "owner": "research-tower",
+        "status": "installed-skill",
+        "role": "source-first research tower over a corpus",
+        "source_path": "domainspec-lean-formalization"
+      },
+      "pattern": "route",
+      "techniques": ["handle_handoff", "concrete_path_evidence"],
+      "inputs": [
+        { "kind": "external_context", "ref": "domainspec-lean-formalization/ (Lean formalization, theorems, taxonomy, novel-mappings, essays; separate git repo)" }
+      ],
+      "outputs": [
+        { "kind": "handle", "ref": "handle.lean-formalization-tower" }
+      ],
+      "stop_conditions": [
+        "Stop at source-backed claims and notation bridge; do not import the Lean proof runtime or scratch into arcanum.",
+        "Stop if the corpus yields no governance/concept-level knowledge distinct from domainspec."
+      ]
+    },
+    {
+      "step_id": "s04b-distill-lean",
+      "name": "Distill the lean-formalization knowledge into reusable concept units",
+      "capability_ref": "distill",
+      "pattern": "distill",
+      "techniques": ["scu_swu_reduction", "residue_ledger"],
+      "inputs": [
+        { "kind": "handle", "ref": "handle.lean-formalization-tower" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "artifact.lean-distilled-knowledge" }
+      ],
+      "stop_conditions": [
+        "Stop when each distilled unit names a recomposition target and stays decoupled from the Lean proof runtime.",
+        "Flag any unit that is part of the Lean formal-proof attestation moat (per COMMERCIALIZATION-SYNTHESIS.md §3/§9) for the wedge-vs-moat decision; do not auto-route it to public arcanum."
+      ]
+    },
+    {
+      "step_id": "s05-author-research",
+      "name": "Author the candidate research artifact",
+      "capability_ref": "research-tower",
+      "capability_metadata": {
+        "owner": "research-tower",
+        "status": "installed-skill",
+        "role": "source-first research artifact builder"
+      },
+      "pattern": "synthesis",
+      "techniques": ["residue_ledger", "frame_handoff"],
+      "inputs": [
+        { "kind": "decision", "ref": "decision.wedge-vs-moat-split" },
+        { "kind": "artifact", "ref": "artifact.candidate-abstraction-units" },
+        { "kind": "artifact", "ref": "artifact.lean-distilled-knowledge" }
+      ],
+      "outputs": [
+        { "kind": "artifact", "ref": "arcanum/research/domainspec-integration/README.md" },
+        { "kind": "ledger", "ref": "ledger.integration-residue" }
+      ],
+      "stop_conditions": [
+        "Stop at a research artifact with candidate findings and residue; do not perform the migration.",
+        "Stop if the wedge-vs-moat decision did not approve any lift into arcanum."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-submodule-discipline",
+      "kind": "policy",
+      "owner": "operator",
+      "condition": "arcanum and implementation/domainspec are separate submodules; the runtime layer stays in domainspec, only free-wedge governance/agent-work/skills/concepts are candidates for arcanum, and submodule-first commit discipline applies.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g05-moat-protection",
+      "kind": "policy",
+      "owner": "operator",
+      "condition": "Paid-moat assets per COMMERCIALIZATION-SYNTHESIS.md (CyberAlchemy governance engine, Craft deferred automation/metering, enforcement runtime, vendor-neutral attestation product, Golden Quill/Tilth vertical, the Lean formal-proof half) must NOT be lifted into public arcanum; only the free wedge crosses.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "necronomicon",
+      "condition": "This route produces candidate research only and does not claim promotion authority for inventory, ontology, glossary, sigil, or spell artifacts.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "g03-boundary-approval",
+      "kind": "human_approval",
+      "owner": "user",
+      "condition": "Any lift of governance/agent-work/skills/concepts from domainspec into arcanum requires explicit user approval before content is moved.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g04-decision-resolved",
+      "kind": "decision",
+      "owner": "decision-gate",
+      "condition": "The s04 open-core wedge-vs-moat boundary decision must be resolved before the research artifact is authored.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "dispatch.created",
+      "step.completed",
+      "boundary.checked",
+      "decision.recorded",
+      "knowledge.distilled",
+      "research.authored"
+    ],
+    "signal_grouping": "by_dispatch_id"
+  },
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "domainspec spans many independent subsystems (framework, docs, experiments, governance, tools); mapping and distilling public-safe candidates per subsystem fits a fan-out shape.",
+    "explanation": "Parallel subsystem mappers can each x-ray one domainspec area and propose candidate abstractions, while a boundary classifier flags private-only content, so the parent can synthesize a single candidate set without one agent holding the whole tree.",
+    "context": [
+      "domainspec is a large private submodule with many top-level areas.",
+      "The open/private boundary is the dominant risk, so a dedicated classifier role is warranted.",
+      "Research only: no agent may move or commit content across the boundary."
+    ],
+    "roles": [
+      {
+        "role_id": "subsystem-mapper",
+        "purpose": "X-ray one domainspec subsystem and propose public-safe abstraction candidates.",
+        "owns": "Per-subsystem structure map and candidate list",
+        "applies_to_steps": ["s02-map-structure", "s03-distill-candidates"]
+      },
+      {
+        "role_id": "layer-classifier",
+        "purpose": "Classify each mapped element against the open-core boundary: free wedge (candidate for public arcanum) vs paid moat or runtime (stays private in domainspec), grounded in COMMERCIALIZATION-SYNTHESIS.md.",
+        "owns": "Wedge-vs-moat classification of candidates",
+        "applies_to_steps": ["s02-map-structure", "s04-boundary-decision"]
+      },
+      {
+        "role_id": "lean-distiller",
+        "purpose": "Build a source-first tower over the lean-formalization corpus and distill its concept-level knowledge, leaving the Lean proof runtime behind.",
+        "owns": "Distilled lean-formalization knowledge units",
+        "applies_to_steps": ["s04a-extract-lean", "s04b-distill-lean"]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Spawn parallel subsystem-mapper and boundary-classifier subagents to x-ray domainspec and propose public-safe abstraction candidates? They will only read and propose; no content crosses the boundary without your approval.",
+    "receipt_requirements": [
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "handoff_note",
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "pass",
+    "agents": [
+      {
+        "agent_id": "adf09dec03bcce723",
+        "role_id": "subsystem-mapper",
+        "lane_name": "domainspec layer mapper (mapper + layer-classifier)",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "arcanum/research/domainspec-integration/README.md (Part A) — domainspec wedge/moat/runtime classification",
+        "close_status": "closed"
+      },
+      {
+        "agent_id": "a4e7166cf6dec31c3",
+        "role_id": "lean-distiller",
+        "lane_name": "lean-formalization distiller",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "arcanum/research/domainspec-integration/README.md (Part B) — Lean distilled units under moat protection",
+        "close_status": "closed"
+      }
+    ]
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b1-artifact-import",
+        "kind": "artifact_import",
+        "from_owner": "implementation/domainspec",
+        "to_owner": "arcanum",
+        "applies_to_steps": ["s02-map-structure", "s03-distill-candidates", "s05-author-research"],
+        "contract": "Only free-wedge governance, agent-work, skills, and concept abstractions (per COMMERCIALIZATION-SYNTHESIS.md) may be referenced toward arcanum; the paid moat and runtime layer stay private in domainspec and are referenced by handle, never copied.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b3-lean-import",
+        "kind": "artifact_import",
+        "from_owner": "domainspec-lean-formalization",
+        "to_owner": "arcanum",
+        "applies_to_steps": ["s04a-extract-lean", "s04b-distill-lean", "s05-author-research"],
+        "contract": "Only generic engineering concepts from the lean-formalization corpus that are NOT part of the paid attestation moat may be referenced toward arcanum; the Lean formal-proof/attestation half (per COMMERCIALIZATION-SYNTHESIS.md §3/§9), proof runtime, scratch, and experiments stay private and are referenced by handle, never copied.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b2-human-approval",
+        "kind": "human_approval",
+        "from_owner": "research route",
+        "to_owner": "user",
+        "applies_to_steps": ["s04-boundary-decision", "s05-author-research"],
+        "contract": "Lifting any layer into arcanum requires explicit user approval recorded as a decision before authoring.",
+        "on_violation": "ask"
+      }
+    ],
+    "authority": {
+      "lifecycle": "invoke",
+      "execution": "task-session",
+      "validation": "dispatch-spec",
+      "evidence": "necronomicon",
+      "memory": "necronomicon",
+      "promotion": "deferred-to-owner-with-user-approval"
+    },
+    "promotion_splits": [
+      {
+        "source": "implementation/domainspec paid-moat and runtime layers",
+        "target": "arcanum public open-core wedge",
+        "rule": "Only free-wedge governance/agent-work/skills/concept abstractions (per COMMERCIALIZATION-SYNTHESIS.md) may cross, and only after explicit user approval; the paid moat and runtime stay private, no automatic crossing, and no claim of canonical knowledge promotion.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Research findings remain candidate-level; they do not become canonical inventory, ontology, glossary, sigil, or spell knowledge without owner review.",
+    "Open-core boundary (COMMERCIALIZATION-SYNTHESIS.md): give away the wedge, sell the trust. Only the free wedge crosses to public arcanum; the paid moat (CyberAlchemy engine, Craft automation/metering, enforcement runtime, attestation product, Golden Quill/Tilth, Lean formal-proof half) and the runtime stay private in domainspec, with explicit user approval under submodule-first discipline."
+  ]
+}

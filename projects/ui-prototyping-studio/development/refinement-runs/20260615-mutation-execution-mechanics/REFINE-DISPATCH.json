@@ -1,0 +1,235 @@
+{
+  "dispatch_id": "refine-ups-mutation-exec-20260615",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Full refine of mutation execution mechanics: how ApplyApprovedBatch turns approved MutationTasks into the next revision HTML. Get the model and architecture right; it could be a mix of mutation task with deterministic validators; evaluate each approach.",
+    "objective": "Choose and design the mutation-execution model + architecture (deterministic-patch vs agentic-regeneration vs hybrid agentic-propose + deterministic-validate), with a toy-game falsification and a non-executed implementation plan.",
+    "target_artifact": "projects/ui-prototyping-studio (mutation execution mechanics)",
+    "arcanum_vocabulary": ["refine", "tournament", "dialectic", "toy_game", "pareto_gate", "distill", "invoke", "interrogation"],
+    "operator_sentence": "We need to get the model and architecture right; it could be a mix of mutation task with deterministic validators; evaluate each approach."
+  },
+  "mode": "mixed",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "dialectic",
+    "tournament",
+    "pareto_gate",
+    "toy_game",
+    "residue_ledger",
+    "data_quality_completeness",
+    "minimum_component_catalog"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "Ordinary refinement requires ordered stage handoff, validation, owner boundaries, and observability.",
+      "techniques": ["sequence", "frame_handoff", "validation_loop", "owner_boundary_check", "observability_grouping"],
+      "applies_to_steps": ["s1-context", "s2-define", "s3-review", "s9-plan", "s10-final"],
+      "validation_expectation": "Each non-first stage consumes a prior frame/handle/decision and records a receipt; owner boundaries preserved."
+    },
+    {
+      "overlay_id": "tournament_for_alternatives",
+      "trigger": "Three plausible execution models (deterministic-patch, agentic-regeneration, hybrid-validated) must be compared, not assumed.",
+      "techniques": ["tournament", "pareto_gate"],
+      "applies_to_steps": ["s5-distill-tournament"],
+      "validation_expectation": "Each approach gets an advocate; elimination/convergence criteria and rejected alternatives are recorded; selection is a non-dominated pareto choice across auditability, expressiveness, runtime fit, and ergonomics."
+    },
+    {
+      "overlay_id": "dialectic_for_tension",
+      "trigger": "Determinism/auditability and agentic flexibility are competing principles that must be preserved until synthesis.",
+      "techniques": ["dialectic", "residue_ledger"],
+      "applies_to_steps": ["s6-design-dialectic"],
+      "validation_expectation": "Determinism-guardian and flexibility-advocate roles are preserved; each contested point becomes a decision, a residue, or a deferred option; the design states where determinism lives."
+    },
+    {
+      "overlay_id": "toy_game_for_low_cost_falsification",
+      "trigger": "The selected execution model must survive a controlled apply before planning.",
+      "techniques": ["toy_game", "validation_loop"],
+      "applies_to_steps": ["s8-distill-repair-toygame"],
+      "validation_expectation": "A sample MutationTask is applied to sample HTML under the chosen model; expected evidence and failure interpretation are named; repair feeds the plan."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Evaluating three competing execution models fairly needs independent advocates plus a deterministic-validator designer and a toy-game runner; one voice would bias the tournament.",
+    "explanation": "The tournament and dialectic depend on independent perspectives: an advocate per approach argues its strongest case, a validator-designer specifies the deterministic checks, and a toy-game runner falsifies the chosen model. Parent synthesis joins their receipts. Role-bound sibling agents with isolated framing produce a fairer comparison than a single chain.",
+    "context": [
+      "Apply currently does no HTML mutation; the model is undesigned, so a fair multi-approach evaluation is high-value.",
+      "Operator asked for a full refine to get the model and architecture right and to evaluate each approach.",
+      "Operator has approved subagent spend across this project's design sessions."
+    ],
+    "roles": [
+      { "role_id": "advocate-deterministic", "purpose": "Argue the strongest case for Approach A (deterministic typed-patch transformer).", "owns": "tournament entry A", "applies_to_steps": ["s5-distill-tournament"] },
+      { "role_id": "advocate-agentic", "purpose": "Argue the strongest case for Approach B (Claude Code regenerates the HTML).", "owns": "tournament entry B", "applies_to_steps": ["s5-distill-tournament"] },
+      { "role_id": "advocate-hybrid", "purpose": "Argue the strongest case for Approach C (agentic-propose + deterministic-validate).", "owns": "tournament entry C", "applies_to_steps": ["s5-distill-tournament"] },
+      { "role_id": "validator-designer", "purpose": "Specify the deterministic validator set and where determinism must live, independent of which approach wins.", "owns": "validator model", "applies_to_steps": ["s6-design-dialectic"] },
+      { "role_id": "toy-game-runner", "purpose": "Falsify the chosen model by applying a sample MutationTask to sample HTML and interpreting failures.", "owns": "toy-game evidence", "applies_to_steps": ["s8-distill-repair-toygame"] },
+      { "role_id": "synthesis-architect", "purpose": "Join advocate/validator/toy-game receipts into the chosen model + architecture.", "owns": "design + result synthesis", "applies_to_steps": ["s6-design-dialectic", "s10-final"] }
+    ],
+    "parallelism": "tournament",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Run the full mutation-execution refine with 6 role-bound subagents (3 approach advocates + validator-designer + toy-game runner + synthesis), pareto join? Approve subagent execution under dispatch refine-ups-mutation-exec-20260615.",
+    "receipt_requirements": [
+      "dispatch_id", "step_id", "capability_ref", "status", "artifacts", "validation", "observer_status", "blockers", "handoff_note",
+      "agent_id", "role_id", "spawn_status", "join_status", "close_status", "residue", "reroute"
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s1-context",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "pattern": "sequential",
+      "techniques": ["sequence", "frame_handoff", "observability_grouping"],
+      "inputs": [{ "kind": "intent", "ref": "intent.raw" }, { "kind": "artifact", "ref": "projects/ui-prototyping-studio/development/refinement-runs/20260615-mutation-execution-mechanics/REFINE-SEED-PROPOSAL.md" }],
+      "outputs": [{ "kind": "frame", "ref": "frame.evidence-baseline" }, { "kind": "artifact", "ref": "stages/01-context-pack.md" }],
+      "stop_conditions": ["Baseline cites apply-approved-batch.ts, MutationTask/DiffSummary, synthesis determinism, the CLI-native runtime, and data-od-id."]
+    },
+    {
+      "step_id": "s2-define",
+      "name": "Invoke Define — the execution problem + candidate approaches",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": ["sequence", "frame_handoff", "minimum_component_catalog"],
+      "inputs": [{ "kind": "frame", "ref": "frame.evidence-baseline" }],
+      "outputs": [{ "kind": "artifact", "ref": "stages/02-define.md" }, { "kind": "handle", "ref": "handle.define" }]
+    },
+    {
+      "step_id": "s3-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": ["validation_loop"],
+      "evidence_artifact": "stages/03-refine-review.md",
+      "inputs": [{ "kind": "frame", "ref": "frame.evidence-baseline" }, { "kind": "handle", "ref": "handle.define" }],
+      "outputs": [{ "kind": "decision", "ref": "decision.define-ready" }, { "kind": "artifact", "ref": "stages/03-refine-review.md" }]
+    },
+    {
+      "step_id": "s4-research",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "techniques": ["data_quality_completeness"],
+      "inputs": [{ "kind": "decision", "ref": "decision.define-ready" }, { "kind": "frame", "ref": "frame.evidence-baseline" }],
+      "outputs": [{ "kind": "decision", "ref": "decision.research" }]
+    },
+    {
+      "step_id": "s5-distill-tournament",
+      "name": "Distill — tournament of the three execution approaches",
+      "capability_ref": "distill",
+      "pattern": "tournament",
+      "parallel": true,
+      "join_policy": "pareto",
+      "roles": ["advocate-deterministic", "advocate-agentic", "advocate-hybrid"],
+      "convergence_criteria": [
+        "Each approach is scored on auditability/determinism, change expressiveness, Claude Code-native fit, data-od-id stability, and apply-gate ergonomics (OQ-2).",
+        "Dominated approaches are eliminated with recorded reasons; the non-dominated selection (or a synthesis) is named.",
+        "Rejected alternatives are preserved in a residue ledger."
+      ],
+      "techniques": ["tournament", "pareto_gate", "residue_ledger"],
+      "inputs": [{ "kind": "handle", "ref": "handle.define" }, { "kind": "decision", "ref": "decision.research" }],
+      "outputs": [{ "kind": "artifact", "ref": "stages/05-approach-comparison.md" }, { "kind": "handle", "ref": "handle.selected-approach" }],
+      "stop_conditions": ["One model selected (likely the hybrid synthesis) with a pareto rationale; no further rounds once scores stop changing."]
+    },
+    {
+      "step_id": "s6-design-dialectic",
+      "name": "Invoke Design — execution model + architecture (determinism vs flexibility dialectic)",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "dialectic",
+      "roles": ["determinism-guardian", "flexibility-advocate", "validator-designer", "synthesis-architect"],
+      "convergence_criteria": [
+        "States where determinism lives (synthesis, validators, or both) and why.",
+        "Specifies the MutationTask/DiffSummary schema changes, the apply state machine, and the deterministic validator set.",
+        "Each determinism-vs-flexibility tension becomes a decision, a residue, or a deferred option, with an ergonomics rationale."
+      ],
+      "techniques": ["dialectic", "residue_ledger", "minimum_component_catalog"],
+      "inputs": [{ "kind": "handle", "ref": "handle.selected-approach" }, { "kind": "artifact", "ref": "stages/05-approach-comparison.md" }],
+      "outputs": [{ "kind": "artifact", "ref": "stages/06-design.md" }, { "kind": "frame", "ref": "frame.design" }]
+    },
+    {
+      "step_id": "s7-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": ["validation_loop"],
+      "evidence_artifact": "stages/07-design-review.md",
+      "inputs": [{ "kind": "frame", "ref": "frame.design" }],
+      "outputs": [{ "kind": "decision", "ref": "decision.design-ready" }, { "kind": "artifact", "ref": "stages/07-design-review.md" }]
+    },
+    {
+      "step_id": "s8-distill-repair-toygame",
+      "name": "Distill Repair — toy-game falsification of the chosen model",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "toy_game",
+      "techniques": ["toy_game", "validation_loop", "residue_ledger"],
+      "evidence_artifact": "stages/08-toy-game.md",
+      "inputs": [{ "kind": "frame", "ref": "frame.design" }, { "kind": "decision", "ref": "decision.design-ready" }],
+      "outputs": [{ "kind": "artifact", "ref": "stages/08-toy-game.md" }, { "kind": "handle", "ref": "handle.repaired-design" }],
+      "stop_conditions": ["A sample MutationTask applied to sample HTML under the chosen model; failures interpreted; repairs recorded or design adjusted."]
+    },
+    {
+      "step_id": "s9-plan",
+      "name": "Invoke Plan — non-executed implementation plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": ["sequence", "frame_handoff", "data_quality_completeness"],
+      "inputs": [{ "kind": "handle", "ref": "handle.repaired-design" }, { "kind": "frame", "ref": "frame.design" }],
+      "outputs": [{ "kind": "artifact", "ref": "stages/09-plan.md" }]
+    },
+    {
+      "step_id": "s10-final",
+      "name": "Final Interrogation and Refine-owned synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "roles": ["synthesis-architect"],
+      "techniques": ["validation_loop", "frame_handoff", "residue_ledger"],
+      "inputs": [{ "kind": "frame", "ref": "frame.design" }, { "kind": "artifact", "ref": "stages/09-plan.md" }, { "kind": "handle", "ref": "handle.repaired-design" }],
+      "outputs": [{ "kind": "artifact", "ref": "RESULT.md" }, { "kind": "decision", "ref": "decision.final" }]
+    }
+  ],
+  "gates": [
+    { "gate_id": "g1-capability-handles", "kind": "policy", "owner": "refine", "condition": "Each runtime-backed stage names its native capability handle and expected receipt before execution.", "on_fail": "block" },
+    { "gate_id": "g2-research-confirm", "kind": "decision", "owner": "refine", "condition": "External research runs only if a named gap appears and the operator confirms; default local-first.", "on_fail": "ask" },
+    { "gate_id": "g3-tournament-convergence", "kind": "quality", "owner": "distill", "condition": "Tournament records advocate entries, elimination/convergence criteria, and rejected alternatives before a model is selected.", "on_fail": "flag" },
+    { "gate_id": "g4-toy-game-evidence", "kind": "validation", "owner": "distill", "condition": "The chosen model is falsified on a sample apply with named expected evidence and failure interpretation before planning.", "on_fail": "flag" },
+    { "gate_id": "g5-owner-boundary", "kind": "promotion_guardrail", "owner": "refine", "condition": "Stage capabilities own their native artifacts; refine does not rewrite them; no SPEC/operations/architecture mutation without operator approval (proposals only).", "on_fail": "block" },
+    { "gate_id": "g6-synthesis-readiness", "kind": "quality", "owner": "refine", "condition": "RESULT.md is synthesized from stage artifacts (not the route proposal) and names the chosen model, residue, and next routes.", "on_fail": "flag" },
+    { "gate_id": "g7-subagent-permission", "kind": "human_approval", "owner": "operator", "condition": "Subagent execution is approved before any subagent spawns.", "on_fail": "ask" }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "refine.start",
+      "stage.context.complete",
+      "stage.define.complete",
+      "stage.review.complete",
+      "research.decision",
+      "tournament.join",
+      "design.dialectic.converged",
+      "stage.design-review.complete",
+      "toy_game.complete",
+      "stage.plan.complete",
+      "refine.synthesis.complete"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "promotion_guardrails": [
+    "Refine does not mutate SPEC.md, operations.md, architecture.md, or the ledger as canonical truth; it proposes, and changes are applied only on operator approval.",
+    "Stage capabilities own their native artifacts; the manifest references them.",
+    "External research stays external_context until owner review."
+  ]
+}

@@ -1,0 +1,816 @@
+{
+  "dispatch_id": "refine-goal-spec-architecture-first-20260615T132005Z",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "we need to create the goal spec, architecture first",
+    "objective": "Create a governed architecture-first goal-spec package before projecting any runnable native Codex goal profile.",
+    "target_artifact": "ops/development/refinement-runs/20260615T132005Z-goal-spec-architecture-first/RESULT.md",
+    "arcanum_vocabulary": [
+      "refine",
+      "dispatch-spec",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "codex-goal-profile",
+      "runtime-handoff",
+      "owner-boundary"
+    ],
+    "operator_sentence": "Create the goal spec, architecture first."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "route_menu",
+    "approval_checkpoint",
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference",
+    "memory_loop",
+    "residue_ledger",
+    "route_projection_boundary",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "state_namespace_boundary"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "Refine must preserve its ten ordered stages before runtime execution.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping",
+        "minimum_component_catalog",
+        "conditional_component",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s02-invoke-define",
+        "s03-interrogation-refine-review",
+        "s04-research-decision",
+        "s05-distill-architecture-unit",
+        "s06-invoke-design",
+        "s07-interrogation-design-review",
+        "s08-distill-repair",
+        "s09-invoke-plan",
+        "s10-final-interrogation-synthesis"
+      ],
+      "validation_expectation": "Every stage has a native receipt expectation or a blocked reason before execution."
+    },
+    {
+      "overlay_id": "route_menu_for_goal_projection_ambiguity",
+      "trigger": "The operator asked for a goal spec, but a runnable Codex goal profile is unsafe until architecture and SWU readiness are explicit.",
+      "techniques": [
+        "route_menu",
+        "one_or_more_option_set",
+        "approval_checkpoint"
+      ],
+      "applies_to_steps": [
+        "s02-invoke-define",
+        "s06-invoke-design",
+        "s09-invoke-plan"
+      ],
+      "validation_expectation": "The selected route must record why immediate native goal projection is deferred."
+    },
+    {
+      "overlay_id": "xray_for_hidden_architecture",
+      "trigger": "The goal spec depends on hidden architecture relationships across ops, runtime surfaces, owner scopes, and generated adapters.",
+      "techniques": [
+        "x_ray",
+        "component_descriptor",
+        "entity_component_reference"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s05-distill-architecture-unit",
+        "s06-invoke-design"
+      ],
+      "validation_expectation": "The architecture unit must be represented as an artifact or handle before planning."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "Prior ops architecture artifacts and stale goal-handoff language affect the route choice.",
+      "techniques": [
+        "memory_loop",
+        "residue_ledger",
+        "data_quality_deduplication"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s03-interrogation-refine-review",
+        "s08-distill-repair",
+        "s10-final-interrogation-synthesis"
+      ],
+      "validation_expectation": "Stale or rejected goal-adapter language becomes residue, not active route authority."
+    }
+  ],
+  "route_menu": {
+    "context_hint": "Choose how to turn the operator's goal-spec intent into a safe route.",
+    "items": [
+      {
+        "id": "architecture-first-goal-spec",
+        "label": "Architecture first",
+        "description": "Run the Refine loop to design the architecture, selected unit, strict context surface, and non-executed goal-spec plan before any runnable goal profile.",
+        "capability_ref": "refine",
+        "pattern": "sequential"
+      },
+      {
+        "id": "immediate-native-goal-profile",
+        "label": "Goal profile now",
+        "description": "Create a runnable native Codex goal profile immediately; deferred because no selected SWU, strict context pack, and verification surface are yet confirmed.",
+        "capability_ref": "codex-goal-profile",
+        "pattern": "handoff"
+      }
+    ],
+    "selected_item_id": "architecture-first-goal-spec"
+  },
+  "steps": [
+    {
+      "step_id": "s01-context-builder",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "concrete_path_evidence",
+        "memory_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/01-context-builder.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "context-builder/runtime-handoff-pack"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "block if local evidence cannot identify the architecture target and owner boundaries"
+      ]
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "name": "Invoke Define architecture-first goal-spec target",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff",
+        "minimum_component_catalog",
+        "route_menu"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/01-context-builder.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "block if Define skips the architecture-first target or collapses into immediate execution"
+      ]
+    },
+    {
+      "step_id": "s03-interrogation-refine-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/03-interrogation-refine-review.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "stages/03-interrogation-refine-review.md",
+      "stop_conditions": [
+        "block if review finds unresolved target, owner, or goal-profile readiness ambiguity"
+      ]
+    },
+    {
+      "step_id": "s04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "techniques": [
+        "approval_checkpoint",
+        "protected_context_flag",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/03-interrogation-refine-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "block external research unless a named gap is found and the operator confirms"
+      ]
+    },
+    {
+      "step_id": "s05-distill-architecture-unit",
+      "name": "Distill architecture unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "xray",
+      "techniques": [
+        "x_ray",
+        "component_descriptor",
+        "entity_component_reference",
+        "scu_swu_reduction"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "stages/03-interrogation-refine-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/05-distill-architecture-unit.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "architecture-unit-handle"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "block if the selected unit cannot be recomposed into the larger goal-spec target"
+      ]
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "name": "Invoke Redefine / Design architecture-first goal spec",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff",
+        "component_descriptor",
+        "owner_boundary_check",
+        "route_projection_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "architecture-unit-handle"
+        },
+        {
+          "kind": "artifact",
+          "ref": "stages/05-distill-architecture-unit.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "block if design claims execution authority or treats the goal profile as ready without selected SWU evidence"
+      ]
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/07-interrogation-design-review.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "stages/07-interrogation-design-review.md",
+      "stop_conditions": [
+        "block if design readiness, validation surface, or owner boundaries are not reviewable"
+      ]
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "techniques": [
+        "recomposition_proof",
+        "residue_ledger",
+        "data_quality_deduplication"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/07-interrogation-design-review.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/08-distill-repair.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "block if repair cannot separate architecture plan, executable goal projection, and residue"
+      ]
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "name": "Invoke Plan non-executed goal-spec work-pack",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "route_projection_boundary",
+        "execution_receipt_handoff",
+        "approval_semantics_map",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/08-distill-repair.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "block if the plan lacks selected unit, verification surface, write scope, handoff pack requirements, and blocked stop condition"
+      ]
+    },
+    {
+      "step_id": "s10-final-interrogation-synthesis",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check",
+        "route_projection_boundary",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "stages/08-distill-repair.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "goal-spec-architecture-first-synthesis"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "block if final synthesis cannot state whether codex-goal-profile is ready, deferred, or blocked"
+      ]
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Architecture-first goal spec has separable uncertainties across architecture mapping, native goal readiness, and owner-boundary validation.",
+    "explanation": "Role-bound sibling agents can inspect those concerns in parallel after approval while the parent keeps synthesis and final route authority.",
+    "context": [
+      "ops/development already contains architecture and plan artifacts for skill and agent canonicalization.",
+      "codex-goal-profile requires a selected work-pack task or SWU and strict handoff pack before generating a runnable native goal.",
+      "The private umbrella includes public and private submodules with enforced owner boundaries."
+    ],
+    "roles": [
+      {
+        "role_id": "architecture-mapper",
+        "purpose": "Map the architecture components and recomposition target for the goal-spec plan.",
+        "owns": "architecture evidence and selected unit proposal",
+        "applies_to_steps": [
+          "s01-context-builder",
+          "s05-distill-architecture-unit",
+          "s06-invoke-design"
+        ]
+      },
+      {
+        "role_id": "goal-profile-readiness-auditor",
+        "purpose": "Check whether a native Codex goal profile has the required selected unit, strict context pack, verification surface, and blockers.",
+        "owns": "goal-profile readiness verdict",
+        "applies_to_steps": [
+          "s06-invoke-design",
+          "s09-invoke-plan",
+          "s10-final-interrogation-synthesis"
+        ]
+      },
+      {
+        "role_id": "owner-boundary-auditor",
+        "purpose": "Audit public/private submodule boundaries, generated mirror boundaries, and root ops write scope.",
+        "owns": "owner-boundary and write-scope verdict",
+        "applies_to_steps": [
+          "s03-interrogation-refine-review",
+          "s07-interrogation-design-review",
+          "s10-final-interrogation-synthesis"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Confirm running the architecture-first Refine route and spawning the three proposed role-bound subagents?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "residue",
+      "reroute",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "artifact_paths",
+      "validation_result"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "refine-goal-spec-architecture-first-20260615T132005Z",
+      "step_id": "s01-context-builder",
+      "capability_ref": "context-builder",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "blockers": [
+        "awaiting operator confirmation"
+      ]
+    },
+    {
+      "dispatch_id": "refine-goal-spec-architecture-first-20260615T132005Z",
+      "step_id": "s02-invoke-define",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "blockers": [
+        "awaiting operator confirmation"
+      ]
+    },
+    {
+      "dispatch_id": "refine-goal-spec-architecture-first-20260615T132005Z",
+      "step_id": "s03-interrogation-refine-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "blockers": [
+        "awaiting operator confirmation"
+      ]
+    },
+    {
+      "dispatch_id": "refine-goal-spec-architecture-first-20260615T132005Z",
+      "step_id": "s04-research-decision",
+      "capability_ref": "refine",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "blockers": [
+        "awaiting operator confirmation"
+      ]
+    },
+    {
+      "dispatch_id": "refine-goal-spec-architecture-first-20260615T132005Z",
+      "step_id": "s05-distill-architecture-unit",
+      "capability_ref": "distill",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "blockers": [
+        "awaiting operator confirmation"
+      ]
+    },
+    {
+      "dispatch_id": "refine-goal-spec-architecture-first-20260615T132005Z",
+      "step_id": "s06-invoke-design",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "blockers": [
+        "awaiting operator confirmation"
+      ]
+    },
+    {
+      "dispatch_id": "refine-goal-spec-architecture-first-20260615T132005Z",
+      "step_id": "s07-interrogation-design-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "blockers": [
+        "awaiting operator confirmation"
+      ]
+    },
+    {
+      "dispatch_id": "refine-goal-spec-architecture-first-20260615T132005Z",
+      "step_id": "s08-distill-repair",
+      "capability_ref": "distill",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "blockers": [
+        "awaiting operator confirmation"
+      ]
+    },
+    {
+      "dispatch_id": "refine-goal-spec-architecture-first-20260615T132005Z",
+      "step_id": "s09-invoke-plan",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "blockers": [
+        "awaiting operator confirmation"
+      ]
+    },
+    {
+      "dispatch_id": "refine-goal-spec-architecture-first-20260615T132005Z",
+      "step_id": "s10-final-interrogation-synthesis",
+      "capability_ref": "interrogation",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "blockers": [
+        "awaiting operator confirmation"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-dispatch-valid",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "REFINE-DISPATCH.json validates before any runtime-backed stage runs.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-operator-approval",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Runtime-backed stages and recommended subagents require explicit operator confirmation.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g03-native-capability-receipts",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "Every runtime-backed stage records a native stage receipt or explicit blocked reason.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04-owner-boundaries",
+      "kind": "promotion_guardrail",
+      "owner": "refine",
+      "condition": "The run preserves root ops, public arcanum, private implementation, validation, generated mirror, and machine-global boundaries.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g05-research-confirmation",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "External research runs only after a named gap appears and the operator confirms.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g06-goal-profile-readiness",
+      "kind": "quality",
+      "owner": "codex-goal-profile",
+      "condition": "A runnable native Codex goal profile is only a next route after selected unit, strict context pack, verification surface, write scope, and blocker state are explicit.",
+      "on_fail": "defer"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "dispatch_validated",
+      "strategy_previewed",
+      "operator_confirmation_required",
+      "runtime_handoff_blocked_until_approval",
+      "goal_spec_architecture_synthesized"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "ops-local-refinement-write-scope",
+        "kind": "state_write",
+        "from_owner": "refine",
+        "to_owner": "ops/development",
+        "applies_to_steps": [
+          "s01-context-builder",
+          "s02-invoke-define",
+          "s03-interrogation-refine-review",
+          "s04-research-decision",
+          "s05-distill-architecture-unit",
+          "s06-invoke-design",
+          "s07-interrogation-design-review",
+          "s08-distill-repair",
+          "s09-invoke-plan",
+          "s10-final-interrogation-synthesis"
+        ],
+        "contract": "Pre-confirmation writes stay inside this refinement-run folder.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "goal-profile-projection-boundary",
+        "kind": "capability_handoff",
+        "from_owner": "refine",
+        "to_owner": "codex-goal-profile",
+        "applies_to_steps": [
+          "s09-invoke-plan",
+          "s10-final-interrogation-synthesis"
+        ],
+        "contract": "Refine may recommend a native goal profile, but codex-goal-profile owns the runnable profile only after readiness inputs exist.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "external-research-boundary",
+        "kind": "external_context",
+        "from_owner": "operator",
+        "to_owner": "refine",
+        "applies_to_steps": [
+          "s04-research-decision"
+        ],
+        "contract": "External context is blocked unless a named gap appears and the operator approves bounded research.",
+        "on_violation": "ask"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine owns the refinement run lifecycle until final synthesis",
+      "execution": "task-session or native Codex goal owns any later execution route",
+      "validation": "dispatch-spec validates route shape; stage capabilities validate their own artifacts",
+      "evidence": "ops/development/refinement-runs owns this run evidence",
+      "memory": "memory-derived context is advisory and must be rechecked against local artifacts",
+      "promotion": "owner review is required for any canonical knowledge or runtime surface change"
+    },
+    "receipts": [
+      {
+        "receipt_id": "native-stage-receipt",
+        "producer": "refine",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          "RUN-MANIFEST.md",
+          "evidence-index.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "goal-profile-readiness-receipt",
+        "producer": "codex-goal-profile",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "blockers",
+          "residue"
+        ],
+        "stores": [
+          "RESULT.md"
+        ],
+        "on_missing": "defer"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "ops/development/refinement-runs/20260615T132005Z-goal-spec-architecture-first",
+        "owner": "refine",
+        "write_policy": "pre-confirmation strategy packet and later approved stage artifacts only"
+      },
+      {
+        "namespace": "arcanum",
+        "owner": "public submodule",
+        "write_policy": "no writes in this strategy packet"
+      },
+      {
+        "namespace": "implementation/domainspec",
+        "owner": "private submodule",
+        "write_policy": "no writes in this strategy packet"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "refinement evidence",
+        "target": "canonical runtime surface change",
+        "rule": "requires a later approved task route and owner-boundary validation",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "This dispatch is a strategy and architecture packet, not an implementation approval.",
+    "Immediate native goal projection is deferred until readiness inputs exist.",
+    "Submodule writes and generated mirror updates require a later owner-scoped route.",
+    "Stage evidence cannot replace owner review for canonical runtime or knowledge changes."
+  ]
+}

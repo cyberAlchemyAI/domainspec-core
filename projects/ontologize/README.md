@@ -42,6 +42,20 @@ Define → design → plan baseline for executing the engagement:
 - [ENGINE.md](ENGINE.md) — the agent pipeline + audit ledger that operates the governed learning loop
 - [decisions/pilot-and-positioning.md](decisions/pilot-and-positioning.md) — resolved decisions
 
+## Clients
+
+- [clients/](clients/) — client-specific account research sections.
+- [clients/hellbender/](clients/hellbender/) — public-source research strategy, fanout receipts, and
+  offering-start summary for a candidate Hellbender synergy/offering path.
+
+## Sub-projects
+
+- [operational-ontology/](operational-ontology/) — validates whether
+  `arcanum/disciplines/DISCIPLINES.md` is the highest knowledge category (axiom/constitution
+  tier) for an **operational ontology branch** of domainspec-core, and seeds a candidate
+  branch. Route `operational-ontology-research-20260612` validated `pass`. This is about
+  *agent-operation* knowledge, distinct from the `run-context` (B3) branch.
+
 ## Next
 
 Execute the work-pack via `task-session`, starting at **T1 (assessment instrument)**. The BI proof

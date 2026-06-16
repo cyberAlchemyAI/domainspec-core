@@ -47,6 +47,8 @@ Behavior contract:
 
 ## Dependency-Ordered Execution Backlog
 
+> Note: the execution task IDs below (`T1`–`T9`) are workflow steps and are a **distinct namespace** from the E11 technique-catalog codes `T01`–`T24` (Saga T01–T03, Outbox T04, Read Model T07, …). They do not correspond; do not cross-reference `T1` here with catalog `T01`.
+
 | Task ID | Task | Depends On | Gate/Stage | Claim Mapping | Required Outputs |
 | --- | --- | --- | --- | --- | --- |
 | T1 | Freeze protocol and baseline pin | none | G1 | C2, MARS-C2 | `protocol.md`, `results/E11-baseline-pin.md` |

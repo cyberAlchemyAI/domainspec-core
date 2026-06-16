@@ -14,6 +14,13 @@ indexes:
     GAP-TAQUARAL-GEOMETRY-001: gaps[0]
     ART-ARCH-BOUNDARY-DECISION: artifacts[8]
     ART-ARCHITECTURE-AUDIT: artifacts[9]
+    ART-MVP-ONESHOT-FORECAST: artifacts[10]
+    ART-PILOT-DOMAINSPEC-COVERAGE: artifacts[11]
+    ART-PILOT-DOMAINSPEC-BACKLOG: artifacts[12]
+    ART-PARQUE-MVP-DESIGN: artifacts[13]
+    ART-PARQUE-MVP-LAYERING: artifacts[14]
+    ART-PARQUE-MVP-WORK-PACK: artifacts[15]
+    ART-PARQUE-MVP-EXECUTION-PACK: artifacts[16]
   open_decisions: []
   blocking_decisions: []
   active_blockers:
@@ -22,13 +29,20 @@ indexes:
     - GAP-TAQUARAL-GEOMETRY-001
   next_moves:
     - context_id: CTX-BODY-WAR-ROOT
-      next_move: Create the Parque Taquaral online MVP WORK-PACK.md for a bounded implementation slice.
+      next_move: Execute the Parque Taquaral online MVP W0 spec baseline from WORK-PACK.md before mutating projects/body-war/app/.
     - context_id: CTX-BODY-WAR-ARCH-AUDIT
       next_move: Recompose architecture-boundary decision into CTX-BODY-WAR-ROOT and proceed to bounded MVP work-pack planning.
   artifacts_by_path:
     projects/body-war/docs/decisions/architecture-import-boundary.md: ART-ARCH-BOUNDARY-DECISION
     projects/body-war/docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md: ART-ARCHITECTURE-AUDIT
     projects/body-war/docs/features/parque-taquaral-online-mvp/DISCOVERY.md: ART-VICTOR-DISCOVERY-SUMMARY
+    projects/body-war/docs/features/parque-taquaral-online-mvp/MVP-ONESHOT-FORECAST.md: ART-MVP-ONESHOT-FORECAST
+    projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-COVERAGE.md: ART-PILOT-DOMAINSPEC-COVERAGE
+    projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-BACKLOG.md: ART-PILOT-DOMAINSPEC-BACKLOG
+    projects/body-war/docs/features/parque-taquaral-online-mvp/DESIGN.md: ART-PARQUE-MVP-DESIGN
+    projects/body-war/docs/features/parque-taquaral-online-mvp/IMPLEMENTATION-LAYERING.md: ART-PARQUE-MVP-LAYERING
+    projects/body-war/docs/features/parque-taquaral-online-mvp/WORK-PACK.md: ART-PARQUE-MVP-WORK-PACK
+    projects/body-war/docs/features/parque-taquaral-online-mvp/EXECUTION-PACK.md: ART-PARQUE-MVP-EXECUTION-PACK
 
 contexts:
   - context_id: CTX-BODY-WAR-ROOT
@@ -37,7 +51,7 @@ contexts:
     purpose: Track Body War MVP decisions, blockers, gaps, route evidence, and recomposition while the product moves from prototype evidence to governed architecture.
     stage: review-audit
     gate: flag
-    next_move: Create the Parque Taquaral online MVP WORK-PACK.md for a bounded implementation slice while keeping Strava activity evidence and track geometry gaps visible.
+    next_move: Execute the Parque Taquaral online MVP W0 spec baseline from WORK-PACK.md before mutating projects/body-war/app/.
     owned_artifacts:
       - ART-BODY-WAR-CRAFT-LEDGER
       - ART-BODY-WAR-CRAFT-VIEW
@@ -47,6 +61,13 @@ contexts:
       - ART-VICTOR-DISCOVERY-SUMMARY
       - ART-ARCH-BOUNDARY-DECISION
       - ART-ARCHITECTURE-AUDIT
+      - ART-MVP-ONESHOT-FORECAST
+      - ART-PILOT-DOMAINSPEC-COVERAGE
+      - ART-PILOT-DOMAINSPEC-BACKLOG
+      - ART-PARQUE-MVP-DESIGN
+      - ART-PARQUE-MVP-LAYERING
+      - ART-PARQUE-MVP-WORK-PACK
+      - ART-PARQUE-MVP-EXECUTION-PACK
     notes: Root context created by /craft start for Body War.
   - context_id: CTX-BODY-WAR-ARCH-AUDIT
     parent_id: CTX-BODY-WAR-ROOT
@@ -123,6 +144,48 @@ artifacts:
     artifact_type: architecture-audit
     status: pass
     notes: Closure evidence for DEC-ARCH-BOUNDARY-001 and BLK-ARCH-BOUNDARY-001.
+  - artifact_id: ART-MVP-ONESHOT-FORECAST
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/MVP-ONESHOT-FORECAST.md
+    artifact_type: readiness-forecast
+    status: active
+    notes: Predicts one-shot MVP decisions and missing specs before WORK-PACK.md or implementation mutation.
+  - artifact_id: ART-PILOT-DOMAINSPEC-COVERAGE
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-COVERAGE.md
+    artifact_type: coverage-synthesis
+    status: active
+    notes: Subagent-joined DomainSpec coverage matrix for the hosted friend preview.
+  - artifact_id: ART-PILOT-DOMAINSPEC-BACKLOG
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-BACKLOG.md
+    artifact_type: spec-backlog
+    status: active
+    notes: Ordered P0 spec backlog and implementation-contract choices before app mutation.
+  - artifact_id: ART-PARQUE-MVP-DESIGN
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/DESIGN.md
+    artifact_type: architecture-bundle
+    status: active
+    notes: Invoke design-mode six-view architecture bundle for the hosted friend preview.
+  - artifact_id: ART-PARQUE-MVP-LAYERING
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/IMPLEMENTATION-LAYERING.md
+    artifact_type: implementation-layering
+    status: active
+    notes: L0-L3 layering model for W0 specs, hosted flow build, preview reliability, and pilot-readiness split.
+  - artifact_id: ART-PARQUE-MVP-WORK-PACK
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/WORK-PACK.md
+    artifact_type: work-pack
+    status: active
+    notes: Invoke plan-mode work-pack; executable for W0 spec authoring and blocked for app mutation until W0 closes.
+  - artifact_id: ART-PARQUE-MVP-EXECUTION-PACK
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/parque-taquaral-online-mvp/EXECUTION-PACK.md
+    artifact_type: execution-pack
+    status: active
+    notes: Medium-complexity execution-pack with W0-W3 waves and app-mutation gate.
 
 descriptions:
   - description_id: DESC-BODY-WAR-001

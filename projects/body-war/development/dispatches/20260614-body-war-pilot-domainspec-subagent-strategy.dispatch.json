@@ -1,0 +1,708 @@
+{
+  "dispatch_id": "body-war-pilot-domainspec-subagent-strategy-20260614",
+  "parent_dispatch_id": "body-war-craft-refine-validate-summary-20260610",
+  "intent": {
+    "raw": "Create a subagent strategy to see whether something is missing. Use DomainSpec skills/templates to spec write, TEST-SPEC, ui-spec, and related artifacts for each pilot feature.",
+    "objective": "Validate a non-executing subagent fanout route that audits every Body War Parque Taquaral hosted-preview pilot feature for missing DomainSpec artifacts before WORK-PACK.md and implementation planning.",
+    "target_artifact": "projects/body-war/docs/features/parque-taquaral-online-mvp/",
+    "operator_sentence": "Use dispatch-spec to create a role-bound subagent strategy for missing DomainSpec spec coverage across pilot features.",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "context-builder",
+      "invoke",
+      "task-session",
+      "subagent_strategy",
+      "DomainSpec",
+      "SPEC.md",
+      "TEST-SPEC.md",
+      "ui-spec.md",
+      "work-pack"
+    ]
+  },
+  "mode": "fanout",
+  "route_menu": {
+    "context_hint": "The one-shot decision gate passed for a hosted friend preview, but the pilot still lacks per-feature DomainSpec spec coverage.",
+    "selected_item_id": "subagent-domainspec-gap-audit",
+    "items": [
+      {
+        "id": "subagent-domainspec-gap-audit",
+        "label": "Subagent DomainSpec gap audit",
+        "description": "Use role-bound lanes to inspect missing SPEC, TEST-SPEC, ui-spec, domain, API, persistence, geometry, and work-pack artifacts before implementation.",
+        "capability_ref": "context-builder",
+        "pattern": "fanout"
+      },
+      {
+        "id": "direct-work-pack",
+        "label": "Direct WORK-PACK",
+        "description": "Rejected for this dispatch because the operator suspects missing DomainSpec spec surfaces across pilot features.",
+        "capability_ref": "invoke",
+        "pattern": "sequential"
+      },
+      {
+        "id": "implementation-now",
+        "label": "Implementation now",
+        "description": "Rejected for this dispatch because missing specification coverage should be audited before code mutation.",
+        "capability_ref": "task-session",
+        "pattern": "sequential"
+      }
+    ]
+  },
+  "techniques": [
+    "sequence",
+    "route_menu",
+    "x_ray",
+    "validation_loop",
+    "frame_handoff",
+    "handle_handoff",
+    "residue_ledger",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "component_descriptor",
+    "data_quality_completeness",
+    "protected_context_flag",
+    "delegation_boundary",
+    "role_projection_boundary",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "state_namespace_boundary",
+    "authority_split_gate",
+    "artifact_contract_bridge"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "pilot-feature-spec-coverage",
+      "trigger": "Hosted friend preview is now decided, but each pilot feature needs DomainSpec artifact coverage before planning.",
+      "techniques": [
+        "minimum_component_catalog",
+        "component_descriptor",
+        "data_quality_completeness",
+        "concrete_path_evidence"
+      ],
+      "applies_to_steps": [
+        "s02-inventory-existing-domainspec-surfaces",
+        "s04-parent-synthesize-missing-spec-backlog"
+      ],
+      "validation_expectation": "The route must list each pilot feature and whether SPEC.md, TEST-SPEC.md, ui-spec.md, and supporting domain/interface/state/work-pack artifacts exist, are missing, or are intentionally deferred."
+    },
+    {
+      "overlay_id": "role-bound-subagent-fanout",
+      "trigger": "The problem spans product feature specification, UI specification, testing, hosted storage/security, and track geometry.",
+      "techniques": [
+        "delegation_boundary",
+        "role_projection_boundary",
+        "execution_receipt_handoff",
+        "observability_grouping"
+      ],
+      "applies_to_steps": [
+        "s03-subagent-fanout-domainspec-gap-audit"
+      ],
+      "validation_expectation": "Every recommended subagent role must declare ownership, affected steps, receipt fields, and parent synthesis as the join policy."
+    },
+    {
+      "overlay_id": "protected-friend-data-hosted-preview",
+      "trigger": "The hosted preview will accept a friend's Strava login and real activity data.",
+      "techniques": [
+        "protected_context_flag",
+        "state_namespace_boundary",
+        "authority_split_gate"
+      ],
+      "applies_to_steps": [
+        "s01-load-body-war-pilot-context",
+        "s03-subagent-fanout-domainspec-gap-audit",
+        "s04-parent-synthesize-missing-spec-backlog"
+      ],
+      "validation_expectation": "The route must keep Strava tokens, friend activity data, hosted secrets, and local repo docs in distinct state namespaces with no secret material copied into artifacts."
+    },
+    {
+      "overlay_id": "domainspec-template-contract",
+      "trigger": "The operator specifically requested DomainSpec-style spec writing, test specs, UI specs, and related artifacts.",
+      "techniques": [
+        "artifact_contract_bridge",
+        "owner_boundary_check",
+        "handle_handoff"
+      ],
+      "applies_to_steps": [
+        "s02-inventory-existing-domainspec-surfaces",
+        "s04-parent-synthesize-missing-spec-backlog",
+        "s05-validate-and-handoff"
+      ],
+      "validation_expectation": "Outputs must reference Body War DomainSpec templates rather than inventing new artifact shapes."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Missing DomainSpec coverage likely spans multiple pilot feature lanes with different owners: product spec, UI, tests, hosted Strava data/security, geometry, and parent integration.",
+    "explanation": "Use role-bound sibling agents to audit the pilot feature surfaces in parallel. Each role checks a different DomainSpec artifact family and returns a receipt to the parent, which synthesizes the missing-spec backlog. Dispatch Spec only defines and validates this strategy; it does not execute the subagents.",
+    "context": [
+      "Decision gate PASS at projects/body-war/docs/decisions/parque-taquaral-online-mvp-oneshot.md.",
+      "One-shot success is hosted friend preview, not pilot-ready or engineering-ready.",
+      "The implementation target is projects/body-war/app/ as a new TypeScript app replacing Python.",
+      "Friend-facing MVP uses real Strava data, hosted public preview, managed storage/sealed secrets, existing Parque Taquaral pilot track geometry target, auto-accepted preview controller updates, and preview-only validation.",
+      "Current online MVP folder has DISCOVERY.md, ARCHITECTURE-AUDIT.md, and MVP-ONESHOT-FORECAST.md but no SPEC.md, TEST-SPEC.md, ui-spec.md, WORK-PACK.md, domain.md, interfaces.md, operations.md, states.md, or persistence/security spec."
+    ],
+    "roles": [
+      {
+        "role_id": "pilot-feature-spec-cartographer",
+        "purpose": "Map the hosted-preview pilot into feature lanes and check which DomainSpec feature artifacts are missing for each lane.",
+        "owns": "Pilot feature inventory and SPEC/domain/interfaces/operations/queries/states coverage findings.",
+        "applies_to_steps": [
+          "s03-subagent-fanout-domainspec-gap-audit",
+          "s04-parent-synthesize-missing-spec-backlog"
+        ]
+      },
+      {
+        "role_id": "pilot-ui-spec-architect",
+        "purpose": "Check the friend login, activity, track-control, and preview-controller page against DomainSpec UI spec expectations.",
+        "owns": "ui-spec.md, route table, component inventory, data flow, form contracts, state-to-UI mapping, and accessibility coverage findings.",
+        "applies_to_steps": [
+          "s03-subagent-fanout-domainspec-gap-audit",
+          "s04-parent-synthesize-missing-spec-backlog"
+        ]
+      },
+      {
+        "role_id": "pilot-test-spec-validator",
+        "purpose": "Define minimum preview validation coverage for login, activity fetch, submission, controller update, deployment callback, and no-secret leakage.",
+        "owns": "TEST-SPEC.md coverage findings and preview-validation acceptance matrix.",
+        "applies_to_steps": [
+          "s03-subagent-fanout-domainspec-gap-audit",
+          "s04-parent-synthesize-missing-spec-backlog",
+          "s05-validate-and-handoff"
+        ]
+      },
+      {
+        "role_id": "hosted-strava-data-security-reviewer",
+        "purpose": "Check hosted public preview, Strava OAuth, managed storage, sealed secrets, token storage, and friend activity privacy boundaries.",
+        "owns": "Persistence, security, deployment, protected-context, and no-secret artifact requirements.",
+        "applies_to_steps": [
+          "s03-subagent-fanout-domainspec-gap-audit",
+          "s04-parent-synthesize-missing-spec-backlog"
+        ]
+      },
+      {
+        "role_id": "parque-track-geometry-spec-reviewer",
+        "purpose": "Check that the existing Parque Taquaral pilot track is represented as a geometry artifact without overclaiming final GPS validation.",
+        "owns": "Track geometry artifact, track card, geometry status, and GPS-validation guardrail findings.",
+        "applies_to_steps": [
+          "s03-subagent-fanout-domainspec-gap-audit",
+          "s04-parent-synthesize-missing-spec-backlog"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Approve launching the five DomainSpec audit subagents to identify missing pilot feature specs before WORK-PACK.md and implementation?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "residue",
+      "reroute",
+      "run_id",
+      "session_id",
+      "artifacts",
+      "validation_result",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "audit_reference"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "pass",
+    "summary": "Operator approved execution with message 'execute the strategu'. Five role-bound explorer subagents spawned, completed, were joined into parent synthesis, and were closed.",
+    "agents": [
+      {
+        "agent_id": "019ec50d-7df0-7532-85cd-f22106441075",
+        "role_id": "pilot-feature-spec-cartographer",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "projects/body-war/docs/features/parque-taquaral-online-mvp/subagent-receipts/pilot-feature-spec-cartographer.md",
+        "residue": "none",
+        "reroute": "not_needed"
+      },
+      {
+        "agent_id": "019ec50d-7e9a-7d52-b493-4eff1f8357f7",
+        "role_id": "pilot-ui-spec-architect",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "projects/body-war/docs/features/parque-taquaral-online-mvp/subagent-receipts/pilot-ui-spec-architect.md",
+        "residue": "none",
+        "reroute": "not_needed"
+      },
+      {
+        "agent_id": "019ec50d-7fce-72e3-b122-f9cc0b1f51fd",
+        "role_id": "pilot-test-spec-validator",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "projects/body-war/docs/features/parque-taquaral-online-mvp/subagent-receipts/pilot-test-spec-validator.md",
+        "residue": "none",
+        "reroute": "not_needed"
+      },
+      {
+        "agent_id": "019ec50d-82f6-7911-84e9-6050e2788998",
+        "role_id": "hosted-strava-data-security-reviewer",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "projects/body-war/docs/features/parque-taquaral-online-mvp/subagent-receipts/hosted-strava-data-security-reviewer.md",
+        "residue": "none",
+        "reroute": "not_needed"
+      },
+      {
+        "agent_id": "019ec50d-8605-7ca0-a5f9-5517782e5799",
+        "role_id": "parque-track-geometry-spec-reviewer",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "projects/body-war/docs/features/parque-taquaral-online-mvp/subagent-receipts/parque-track-geometry-spec-reviewer.md",
+        "residue": "none",
+        "reroute": "not_needed"
+      }
+    ],
+    "parent_synthesis_artifacts": [
+      "projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-COVERAGE.md",
+      "projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-BACKLOG.md"
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s01-load-body-war-pilot-context",
+      "name": "X-ray Body War hosted-preview pilot context",
+      "capability_ref": "context-builder",
+      "mode": "bounded",
+      "pattern": "xray",
+      "techniques": [
+        "x_ray",
+        "concrete_path_evidence",
+        "protected_context_flag",
+        "state_namespace_boundary",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "operator request 2026-06-14"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/decisions/parque-taquaral-online-mvp-oneshot.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/parque-taquaral-online-mvp/MVP-ONESHOT-FORECAST.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/parque-taquaral-online-mvp/DISCOVERY.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/.craft/ledger.yml"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handle",
+          "ref": "body-war-hosted-preview-context-map"
+        },
+        {
+          "kind": "frame",
+          "ref": "body-war-pilot-feature-lanes-frame"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the one-shot decision gate is not PASS.",
+        "Stop if friend Strava tokens or private activity payloads would be copied into repository artifacts.",
+        "Stop if the route expands success beyond hosted friend preview without a new decision gate."
+      ]
+    },
+    {
+      "step_id": "s02-inventory-existing-domainspec-surfaces",
+      "name": "Inventory existing DomainSpec artifacts and templates",
+      "capability_ref": "context-builder",
+      "mode": "coverage",
+      "pattern": "sequential",
+      "techniques": [
+        "sequence",
+        "minimum_component_catalog",
+        "component_descriptor",
+        "data_quality_completeness",
+        "concrete_path_evidence",
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "body-war-hosted-preview-context-map"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/domainspec/templates/SPEC.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/domainspec/templates/TEST-SPEC.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/domainspec/templates/ui-spec.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/domainspec/templates/work-pack.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/parque-taquaral-online-mvp/"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-COVERAGE.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "domainspec-template-coverage-frame"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if template references are missing or replaced with invented artifact shapes.",
+        "Stop if existing docs are treated as generated DomainSpec specs without checking required sections."
+      ]
+    },
+    {
+      "step_id": "s03-subagent-fanout-domainspec-gap-audit",
+      "name": "Fan out DomainSpec missing-spec audit lanes",
+      "capability_ref": "context-builder",
+      "mode": "subagent-strategy-preview",
+      "pattern": "fanout",
+      "parallel": true,
+      "join_policy": "parent_synthesis",
+      "roles": [
+        "pilot-feature-spec-cartographer",
+        "pilot-ui-spec-architect",
+        "pilot-test-spec-validator",
+        "hosted-strava-data-security-reviewer",
+        "parque-track-geometry-spec-reviewer"
+      ],
+      "techniques": [
+        "delegation_boundary",
+        "role_projection_boundary",
+        "execution_receipt_handoff",
+        "observability_grouping",
+        "artifact_contract_bridge",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "body-war-pilot-feature-lanes-frame"
+        },
+        {
+          "kind": "frame",
+          "ref": "domainspec-template-coverage-frame"
+        },
+        {
+          "kind": "decision",
+          "ref": "projects/body-war/docs/decisions/parque-taquaral-online-mvp-oneshot.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/parque-taquaral-online-mvp/subagent-receipts/"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "body-war-pilot-domainspec-subagent-fanout-recommended"
+        }
+      ],
+      "stop_conditions": [
+        "Stop before spawning agents until the operator approves the strategy.",
+        "Stop if any subagent role claims implementation completion or pilot-ready status.",
+        "Stop if a subagent writes secrets, tokens, or private activity data into a repository artifact."
+      ]
+    },
+    {
+      "step_id": "s04-parent-synthesize-missing-spec-backlog",
+      "name": "Synthesize missing DomainSpec spec backlog",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "synthesis",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "residue_ledger",
+        "artifact_contract_bridge",
+        "owner_boundary_check",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/parque-taquaral-online-mvp/subagent-receipts/"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-COVERAGE.md"
+        },
+        {
+          "kind": "decision",
+          "ref": "projects/body-war/docs/decisions/parque-taquaral-online-mvp-oneshot.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-BACKLOG.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "parque-taquaral-online-mvp-work-pack-inputs"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the backlog omits a role receipt or leaves a missing spec without owner and next route.",
+        "Stop if the backlog requires implementation before WORK-PACK.md is written."
+      ]
+    },
+    {
+      "step_id": "s05-validate-and-handoff",
+      "name": "Validate dispatch and hand off to WORK-PACK planning",
+      "capability_ref": "dispatch-spec",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping",
+        "approval_semantics_map",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/development/dispatches/20260614-body-war-pilot-domainspec-subagent-strategy.dispatch.json"
+        },
+        {
+          "kind": "handle",
+          "ref": "parque-taquaral-online-mvp-work-pack-inputs"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "trace_event",
+          "ref": "body-war-pilot-domainspec-dispatch-validated"
+        },
+        {
+          "kind": "handoff",
+          "ref": "next-route-invoke-work-pack"
+        }
+      ],
+      "evidence_artifact": "projects/body-war/development/dispatches/20260614-body-war-pilot-domainspec-subagent-strategy.validation.txt",
+      "stop_conditions": [
+        "Stop if dispatch validation returns block.",
+        "Flag but do not execute subagents if authorization remains requires_user_permission.",
+        "Next route is WORK-PACK planning, not implementation, until the missing-spec backlog exists."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-decision-gate-pass",
+      "kind": "decision",
+      "owner": "decision-gate",
+      "condition": "projects/body-war/docs/decisions/parque-taquaral-online-mvp-oneshot.md records Result: PASS, Decisions resolved: 9, Blockers remaining: 0.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-subagent-permission",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Subagent fanout is recommended but must not execute until the operator approves the five DomainSpec audit roles.",
+      "on_fail": "defer"
+    },
+    {
+      "gate_id": "g03-protected-context",
+      "kind": "policy",
+      "owner": "hosted-strava-data-security-reviewer",
+      "condition": "No Strava tokens, secrets, or private friend activity payloads may be written into repository docs or observability signals.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04-domainspec-artifact-coverage",
+      "kind": "quality",
+      "owner": "parent-dispatch",
+      "condition": "The coverage audit must classify each hosted-preview feature lane against SPEC.md, TEST-SPEC.md, ui-spec.md, work-pack.md, and required supporting DomainSpec aspect docs.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "g05-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "This dispatch may recommend missing specs and a WORK-PACK route; it must not claim implementation completion, pilot-ready status, canonical DomainSpec promotion, or Strava validation proof.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g06-dispatch-validation",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "The route must validate with arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py before use.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "body-war-craft-refine-validate-summary-20260610",
+    "signal_grouping": "body-war-pilot-domainspec-subagent-strategy-20260614",
+    "trace_events": [
+      "dispatch.created",
+      "decision_gate.pass.confirmed",
+      "domainspec.coverage.inventory.planned",
+      "subagent_strategy.recommended",
+      "subagent_authorization.approved",
+      "subagents.spawned",
+      "subagents.joined",
+      "subagents.closed",
+      "parent_synthesis.completed",
+      "protected_context.guardrail.active",
+      "work_pack_handoff.ready"
+    ]
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b01-subagent-delegation",
+        "kind": "capability_handoff",
+        "from_owner": "parent-dispatch",
+        "to_owner": "role-bound-subagents",
+        "applies_to_steps": [
+          "s03-subagent-fanout-domainspec-gap-audit"
+        ],
+        "contract": "Subagents audit missing DomainSpec coverage and return receipts only; parent owns synthesis and no subagent implements code.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b02-protected-strava-context",
+        "kind": "external_context",
+        "from_owner": "friend-strava-account",
+        "to_owner": "hosted-preview-runtime",
+        "applies_to_steps": [
+          "s01-load-body-war-pilot-context",
+          "s03-subagent-fanout-domainspec-gap-audit",
+          "s04-parent-synthesize-missing-spec-backlog"
+        ],
+        "contract": "External friend activity data may be summarized as requirements but not copied into repository artifacts; tokens and secrets stay in hosted managed storage.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b03-domainspec-template-bridge",
+        "kind": "artifact_import",
+        "from_owner": "projects/body-war/domainspec/templates",
+        "to_owner": "projects/body-war/docs/features/parque-taquaral-online-mvp",
+        "applies_to_steps": [
+          "s02-inventory-existing-domainspec-surfaces",
+          "s04-parent-synthesize-missing-spec-backlog"
+        ],
+        "contract": "DomainSpec templates define artifact shape; generated Body War feature docs remain project-local artifacts, not canonical DomainSpec method promotion.",
+        "on_violation": "flag"
+      }
+    ],
+    "authority": {
+      "lifecycle": "parent-dispatch",
+      "execution": "operator-approved-subagent-audit-executed-2026-06-14",
+      "validation": "dispatch-spec",
+      "evidence": "role-bound-subagent-receipts-plus-parent-synthesis",
+      "memory": "Craft ledger and Body War docs only through explicit follow-up updates",
+      "promotion": "none"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r01-subagent-gap-audit-receipt",
+        "producer": "each-recommended-subagent",
+        "required_fields": [
+          "run_id",
+          "session_id",
+          "artifacts",
+          "validation_result",
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "validation",
+          "observer_status",
+          "blockers",
+          "handoff_note",
+          "residue"
+        ],
+        "stores": [
+          "projects/body-war/docs/features/parque-taquaral-online-mvp/subagent-receipts/"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r02-parent-backlog-receipt",
+        "producer": "parent-dispatch",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "dispatch_id",
+          "status",
+          "validation",
+          "blockers",
+          "handoff_note",
+          "residue"
+        ],
+        "stores": [
+          "projects/body-war/docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-BACKLOG.md"
+        ],
+        "on_missing": "flag"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "repo-docs",
+        "owner": "Body War project docs",
+        "write_policy": "May write dispatch and future coverage/backlog artifacts only; no secrets or raw friend activity payloads."
+      },
+      {
+        "namespace": "hosted-runtime-secrets",
+        "owner": "Hosted preview platform",
+        "write_policy": "Stores Strava client secret and token material outside the repository."
+      },
+      {
+        "namespace": "friend-strava-data",
+        "owner": "Consenting friend / Strava",
+        "write_policy": "May be used through runtime APIs; repository artifacts store only redacted summaries and requirements."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "subagent audit evidence",
+        "target": "canonical DomainSpec methods",
+        "rule": "Subagent audit evidence cannot automatically promote or alter canonical DomainSpec methods; project-local docs may only reference templates and source authorities.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Do not claim pilot-ready status; the selected success label is hosted friend preview.",
+    "Do not claim engineering-ready status; selected validation is preview-only.",
+    "Do not promote generated Body War specs into canonical DomainSpec methods.",
+    "Do not implement or delete Python app files from this dispatch.",
+    "Do not store Strava secrets, tokens, or private friend activity data in repository artifacts."
+  ]
+}

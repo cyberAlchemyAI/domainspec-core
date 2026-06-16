@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Questionario - Licitacoes Industriais Brasil</title>
+  <style>
+    :root {
+      --ink: #1f2520;
+      --muted: #5f675f;
+      --line: #cfd8d1;
+      --paper: #fbfaf6;
+      --panel: #ffffff;
+      --accent: #0f6b57;
+      --accent-2: #8a4b22;
+      --soft: #e9f2ee;
+      --warn: #fff2d8;
+      --danger: #8b1e1e;
+      --shadow: 0 10px 28px rgba(31, 37, 32, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+
+    header {
+      background: #12382f;
+      color: #fff;
+      padding: 28px 18px 22px;
+      border-bottom: 5px solid #b78441;
+    }
+
+    .wrap {
+      width: min(1080px, calc(100% - 28px));
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 5vw, 46px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: #e4eee8;
+      font-size: 20px;
+      max-width: 860px;
+    }
+
+    main { padding: 20px 0 120px; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(251, 250, 246, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 0;
+    }
+
+    .progress-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .progress-track {
+      height: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--accent);
+      transition: width 180ms ease;
+    }
+
+    .progress-text {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 86px;
+      text-align: right;
+    }
+
+    section {
+      margin: 22px 0;
+      padding: 24px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      margin: 0 0 6px;
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .section-note {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .question {
+      padding: 18px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .question:first-of-type { border-top: 0; }
+
+    .question label.prompt {
+      display: block;
+      font-weight: 700;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      min-height: 54px;
+      padding: 13px 14px;
+      border: 2px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .option:has(input:checked) {
+      border-color: var(--accent);
+      background: var(--soft);
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      margin: 0;
+      accent-color: var(--accent);
+      flex: 0 0 auto;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    textarea,
+    select {
+      width: 100%;
+      min-height: 52px;
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 108px;
+      resize: vertical;
+    }
+
+    select { cursor: pointer; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field-label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .small-help {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .result-panel {
+      background: #f7fbf9;
+      border-color: #b7cec4;
+    }
+
+    .result-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    button,
+    .button-link {
+      border: 0;
+      border-radius: 8px;
+      padding: 14px 18px;
+      color: #fff;
+      background: var(--accent);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+    }
+
+    button.secondary { background: var(--accent-2); }
+    button.neutral { background: #58615a; }
+    button.danger { background: var(--danger); }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .chunk-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .status {
+      min-height: 28px;
+      margin: 10px 0 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .warning {
+      display: none;
+      background: var(--warn);
+      border: 1px solid #dfbf78;
+      padding: 12px 14px;
+      border-radius: 8px;
+      color: #4d3513;
+      margin-top: 12px;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 360px;
+      overflow: auto;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 15px;
+    }
+
+    footer.actionbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 20;
+      background: #fff;
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -10px 24px rgba(31, 37, 32, 0.08);
+      padding: 12px 0;
+    }
+
+    .footer-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media (max-width: 720px) {
+      body { font-size: 19px; }
+      section { padding: 18px; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .options { grid-template-columns: 1fr; }
+      .progress-row { grid-template-columns: 1fr; }
+      .progress-text { text-align: left; }
+      .footer-actions { grid-template-columns: 1fr; }
+      button, .button-link { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Experiencia em Licitacoes Industriais</h1>
+      <p class="subtitle">Questionario para capturar o jeito pratico de participar de concorrencias, montar orcamentos e enviar propostas para grandes empresas no Brasil.</p>
+    </div>
+  </header>
+
+  <div class="topbar">
+    <div class="wrap progress-row">
+      <div class="progress-track" aria-label="Progresso preenchido">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-text" id="progressText">0%</div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <form id="questionnaire">
+      <section>
+        <h2>1. Perfil da experiencia</h2>
+        <p class="section-note">Comece pelo seu historico real de trabalho.</p>
+
+        <div class="grid-2">
+          <div>
+            <label class="field-label" for="respondente_nome">Nome</label>
+            <input id="respondente_nome" name="respondente_nome" type="text" autocomplete="name">
+          </div>
+          <div>
+            <label class="field-label" for="anos_experiencia">Anos de experiencia</label>
+            <select id="anos_experiencia" name="anos_experiencia">
+              <option value="">Selecionar</option>
+              <option>Menos de 10 anos</option>
+              <option>10 a 20 anos</option>
+              <option>20 a 30 anos</option>
+              <option>Mais de 30 anos</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Em quais tipos de servico voce mais orcou?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="servicos" value="Pintura industrial">Pintura industrial</label>
+            <label class="option"><input type="checkbox" name="servicos" value="Jateamento">Jateamento</label>
+            <label class="option"><input type="checkbox" name="servicos" value="Hidrojato">Hidrojato</label>
+            <label class="option"><input type="checkbox" name="servicos" value="Andaime / acesso">Andaime / acesso</label>
+            <label class="option"><input type="checkbox" name="servicos" value="Isolamento">Isolamento</label>
+            <label class="option"><input type="checkbox" name="servicos" value="Manutencao industrial">Manutencao industrial</label>
+            <label class="option"><input type="checkbox" name="servicos" value="Offshore">Offshore</label>
+            <label class="option"><input type="checkbox" name="servicos" value="Outro">Outro</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Quais compradores ou setores voce conhece melhor?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="setores" value="Petrobras / oleo e gas">Petrobras / oleo e gas</label>
+            <label class="option"><input type="checkbox" name="setores" value="Vale / mineracao">Vale / mineracao</label>
+            <label class="option"><input type="checkbox" name="setores" value="CSN / siderurgia">CSN / siderurgia</label>
+            <label class="option"><input type="checkbox" name="setores" value="ArcelorMittal / siderurgia">ArcelorMittal / siderurgia</label>
+            <label class="option"><input type="checkbox" name="setores" value="Energia / hidreletrica">Energia / hidreletrica</label>
+            <label class="option"><input type="checkbox" name="setores" value="Portos / naval">Portos / naval</label>
+            <label class="option"><input type="checkbox" name="setores" value="Empresas privadas">Empresas privadas</label>
+            <label class="option"><input type="checkbox" name="setores" value="Governo / instituicoes">Governo / instituicoes</label>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>2. Entrada da concorrencia</h2>
+        <p class="section-note">Como a oportunidade chega e como voce decide se vale entrar.</p>
+
+        <div class="question">
+          <label class="prompt">Qual e o primeiro tipo de processo que voce identifica?</label>
+          <div class="options">
+            <label class="option"><input type="radio" name="tipo_processo" value="Edital publico / instituicao">Edital publico / instituicao</label>
+            <label class="option"><input type="radio" name="tipo_processo" value="Carta convite privada">Carta convite privada</label>
+            <label class="option"><input type="radio" name="tipo_processo" value="Portal privado">Portal privado</label>
+            <label class="option"><input type="radio" name="tipo_processo" value="Convite direto por comprador">Convite direto por comprador</label>
+            <label class="option"><input type="radio" name="tipo_processo" value="Nao sei no inicio">Nao sei no inicio</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">O que faz voce dizer "essa concorrencia vale entrar"?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="vale_entrar" value="Escopo claro">Escopo claro</label>
+            <label class="option"><input type="checkbox" name="vale_entrar" value="Prazo executavel">Prazo executavel</label>
+            <label class="option"><input type="checkbox" name="vale_entrar" value="Preco pode dar margem">Preco pode dar margem</label>
+            <label class="option"><input type="checkbox" name="vale_entrar" value="Tem equipe e equipamento">Tem equipe e equipamento</label>
+            <label class="option"><input type="checkbox" name="vale_entrar" value="Empresa ja cadastrada">Empresa ja cadastrada</label>
+            <label class="option"><input type="checkbox" name="vale_entrar" value="Conhece a planta / cliente">Conhece a planta / cliente</label>
+            <label class="option"><input type="checkbox" name="vale_entrar" value="Risco controlavel">Risco controlavel</label>
+            <label class="option"><input type="checkbox" name="vale_entrar" value="Pouca concorrencia forte">Pouca concorrencia forte</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">O que faz voce desistir antes de orcar?</label>
+          <textarea name="desistir_antes" placeholder="Ex.: prazo impossivel, multa alta, escopo confuso, documentacao impossivel, margem baixa..."></textarea>
+        </div>
+      </section>
+
+      <section>
+        <h2>3. Leitura do edital ou carta convite</h2>
+        <p class="section-note">O que nunca pode passar batido.</p>
+
+        <div class="question">
+          <label class="prompt">Quando chega o edital, qual parte voce olha primeiro?</label>
+          <div class="options">
+            <label class="option"><input type="radio" name="primeira_leitura" value="Objeto / escopo">Objeto / escopo</label>
+            <label class="option"><input type="radio" name="primeira_leitura" value="Prazo de entrega da proposta">Prazo de entrega da proposta</label>
+            <label class="option"><input type="radio" name="primeira_leitura" value="Documentos exigidos">Documentos exigidos</label>
+            <label class="option"><input type="radio" name="primeira_leitura" value="Planilha de servicos">Planilha de servicos</label>
+            <label class="option"><input type="radio" name="primeira_leitura" value="Minuta de contrato">Minuta de contrato</label>
+            <label class="option"><input type="radio" name="primeira_leitura" value="Visita tecnica">Visita tecnica</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Quais exigencias precisam virar alerta vermelho?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="alertas_edital" value="Prazo curto">Prazo curto</label>
+            <label class="option"><input type="checkbox" name="alertas_edital" value="Multa alta">Multa alta</label>
+            <label class="option"><input type="checkbox" name="alertas_edital" value="Garantia / caucao">Garantia / caucao</label>
+            <label class="option"><input type="checkbox" name="alertas_edital" value="Responsabilidade por retrabalho">Responsabilidade por retrabalho</label>
+            <label class="option"><input type="checkbox" name="alertas_edital" value="Retencao de pagamento">Retencao de pagamento</label>
+            <label class="option"><input type="checkbox" name="alertas_edital" value="Mobilizacao dificil">Mobilizacao dificil</label>
+            <label class="option"><input type="checkbox" name="alertas_edital" value="Norma tecnica pesada">Norma tecnica pesada</label>
+            <label class="option"><input type="checkbox" name="alertas_edital" value="Documentacao trabalhista pesada">Documentacao trabalhista pesada</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Quais perguntas voce sempre faria ao comprador antes de fechar o preco?</label>
+          <textarea name="perguntas_comprador" placeholder="Liste as perguntas que evitam erro de orcamento."></textarea>
+        </div>
+      </section>
+
+      <section>
+        <h2>4. Habilitacao e documentos</h2>
+        <p class="section-note">Documentos que tiram a empresa da disputa se faltarem.</p>
+
+        <div class="question">
+          <label class="prompt">Quais documentos quase sempre aparecem?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="documentos" value="Contrato social">Contrato social</label>
+            <label class="option"><input type="checkbox" name="documentos" value="CNPJ / inscricoes">CNPJ / inscricoes</label>
+            <label class="option"><input type="checkbox" name="documentos" value="Certidoes negativas">Certidoes negativas</label>
+            <label class="option"><input type="checkbox" name="documentos" value="Atestados tecnicos">Atestados tecnicos</label>
+            <label class="option"><input type="checkbox" name="documentos" value="Balanco / financeiro">Balanco / financeiro</label>
+            <label class="option"><input type="checkbox" name="documentos" value="QSMS / seguranca">QSMS / seguranca</label>
+            <label class="option"><input type="checkbox" name="documentos" value="NRs / treinamentos">NRs / treinamentos</label>
+            <label class="option"><input type="checkbox" name="documentos" value="Seguro / ART / CREA">Seguro / ART / CREA</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Qual documento da mais problema na pratica?</label>
+          <textarea name="documento_problema" placeholder="Ex.: certificado vencido, atestado que nao bate com escopo, cadastro no portal..."></textarea>
+        </div>
+      </section>
+
+      <section>
+        <h2>5. Visita tecnica e escopo</h2>
+        <p class="section-note">O que voce tenta descobrir antes de prometer preco.</p>
+
+        <div class="question">
+          <label class="prompt">A visita tecnica muda o preco?</label>
+          <div class="options">
+            <label class="option"><input type="radio" name="visita_muda_preco" value="Quase sempre">Quase sempre</label>
+            <label class="option"><input type="radio" name="visita_muda_preco" value="As vezes">As vezes</label>
+            <label class="option"><input type="radio" name="visita_muda_preco" value="Pouco">Pouco</label>
+            <label class="option"><input type="radio" name="visita_muda_preco" value="Depende do tipo de servico">Depende do tipo de servico</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Na visita, o que precisa ser medido ou observado?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="visita_observar" value="Area real">Area real</label>
+            <label class="option"><input type="checkbox" name="visita_observar" value="Altura / acesso">Altura / acesso</label>
+            <label class="option"><input type="checkbox" name="visita_observar" value="Estado da superficie">Estado da superficie</label>
+            <label class="option"><input type="checkbox" name="visita_observar" value="Interferencia com operacao">Interferencia com operacao</label>
+            <label class="option"><input type="checkbox" name="visita_observar" value="Horario permitido">Horario permitido</label>
+            <label class="option"><input type="checkbox" name="visita_observar" value="Ponto de agua / energia / ar">Ponto de agua / energia / ar</label>
+            <label class="option"><input type="checkbox" name="visita_observar" value="Restricoes de seguranca">Restricoes de seguranca</label>
+            <label class="option"><input type="checkbox" name="visita_observar" value="Mobilizacao e transporte">Mobilizacao e transporte</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Qual erro de escopo custa mais caro?</label>
+          <textarea name="erro_escopo_caro" placeholder="Conte um exemplo se lembrar."></textarea>
+        </div>
+      </section>
+
+      <section>
+        <h2>6. Montagem do orcamento</h2>
+        <p class="section-note">Como transformar escopo em custo e preco.</p>
+
+        <div class="question">
+          <label class="prompt">Quais blocos de custo entram sempre?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="blocos_custo" value="Mao de obra direta">Mao de obra direta</label>
+            <label class="option"><input type="checkbox" name="blocos_custo" value="Encargos sociais">Encargos sociais</label>
+            <label class="option"><input type="checkbox" name="blocos_custo" value="Beneficios / alimentacao / transporte">Beneficios / alimentacao / transporte</label>
+            <label class="option"><input type="checkbox" name="blocos_custo" value="Materiais de consumo">Materiais de consumo</label>
+            <label class="option"><input type="checkbox" name="blocos_custo" value="Tintas / solventes">Tintas / solventes</label>
+            <label class="option"><input type="checkbox" name="blocos_custo" value="Equipamentos">Equipamentos</label>
+            <label class="option"><input type="checkbox" name="blocos_custo" value="Subempreiteiros">Subempreiteiros</label>
+            <label class="option"><input type="checkbox" name="blocos_custo" value="Custos indiretos">Custos indiretos</label>
+            <label class="option"><input type="checkbox" name="blocos_custo" value="Impostos">Impostos</label>
+            <label class="option"><input type="checkbox" name="blocos_custo" value="Margem / risco">Margem / risco</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Como voce calcula produtividade?</label>
+          <textarea name="calculo_produtividade" placeholder="Ex.: m2 por dia por equipe, depende do metodo, altura, acesso, preparacao..."></textarea>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Qual custo as pessoas esquecem e depois perdem dinheiro?</label>
+          <textarea name="custo_esquecido" placeholder="Ex.: mobilizacao, alojamento, EPI, manutencao, bico, mangueira, insalubridade..."></textarea>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Como voce decide margem?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="decide_margem" value="Risco tecnico">Risco tecnico</label>
+            <label class="option"><input type="checkbox" name="decide_margem" value="Concorrencia provavel">Concorrencia provavel</label>
+            <label class="option"><input type="checkbox" name="decide_margem" value="Cliente aperta preco">Cliente aperta preco</label>
+            <label class="option"><input type="checkbox" name="decide_margem" value="Prazo de pagamento">Prazo de pagamento</label>
+            <label class="option"><input type="checkbox" name="decide_margem" value="Possibilidade de aditivo">Possibilidade de aditivo</label>
+            <label class="option"><input type="checkbox" name="decide_margem" value="Necessidade de ganhar">Necessidade de ganhar</label>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>7. Proposta tecnica</h2>
+        <p class="section-note">O que precisa convencer engenharia, seguranca e suprimentos.</p>
+
+        <div class="question">
+          <label class="prompt">O que uma proposta tecnica boa precisa mostrar?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="proposta_tecnica" value="Entendimento do escopo">Entendimento do escopo</label>
+            <label class="option"><input type="checkbox" name="proposta_tecnica" value="Metodo executivo">Metodo executivo</label>
+            <label class="option"><input type="checkbox" name="proposta_tecnica" value="Cronograma">Cronograma</label>
+            <label class="option"><input type="checkbox" name="proposta_tecnica" value="Equipe chave">Equipe chave</label>
+            <label class="option"><input type="checkbox" name="proposta_tecnica" value="Equipamentos">Equipamentos</label>
+            <label class="option"><input type="checkbox" name="proposta_tecnica" value="Plano de seguranca">Plano de seguranca</label>
+            <label class="option"><input type="checkbox" name="proposta_tecnica" value="Controle de qualidade">Controle de qualidade</label>
+            <label class="option"><input type="checkbox" name="proposta_tecnica" value="Experiencia anterior">Experiencia anterior</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Quais normas, padroes ou termos tecnicos aparecem muito?</label>
+          <textarea name="normas_termos" placeholder="Ex.: Sa 2 1/2, ST2, ST3, NR-35, NR-33, QSMS, inspecao, espessura, rendimento..."></textarea>
+        </div>
+
+        <div class="question">
+          <label class="prompt">O que diferencia uma proposta de empresa grande de uma proposta fraca?</label>
+          <textarea name="proposta_forte_fraca"></textarea>
+        </div>
+      </section>
+
+      <section>
+        <h2>8. Revisao de preco e negociacao</h2>
+        <p class="section-note">Quando o comprador pede desconto, revisao ou nova rodada.</p>
+
+        <div class="question">
+          <label class="prompt">Em carta convite privada, quantas revisoes de preco podem acontecer?</label>
+          <div class="options">
+            <label class="option"><input type="radio" name="revisoes_preco" value="Nenhuma">Nenhuma</label>
+            <label class="option"><input type="radio" name="revisoes_preco" value="1 rodada">1 rodada</label>
+            <label class="option"><input type="radio" name="revisoes_preco" value="2 a 3 rodadas">2 a 3 rodadas</label>
+            <label class="option"><input type="radio" name="revisoes_preco" value="Mais de 3 rodadas">Mais de 3 rodadas</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Quando o comprador pede para baixar, o que voce mexe primeiro?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="baixar_preco" value="Margem">Margem</label>
+            <label class="option"><input type="checkbox" name="baixar_preco" value="Produtividade">Produtividade</label>
+            <label class="option"><input type="checkbox" name="baixar_preco" value="Equipe">Equipe</label>
+            <label class="option"><input type="checkbox" name="baixar_preco" value="Equipamento">Equipamento</label>
+            <label class="option"><input type="checkbox" name="baixar_preco" value="Prazo">Prazo</label>
+            <label class="option"><input type="checkbox" name="baixar_preco" value="Escopo / exclusoes">Escopo / exclusoes</label>
+            <label class="option"><input type="checkbox" name="baixar_preco" value="Condicao comercial">Condicao comercial</label>
+            <label class="option"><input type="checkbox" name="baixar_preco" value="Nao mexe sem esclarecer risco">Nao mexe sem esclarecer risco</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Qual limite voce nunca passaria numa negociacao?</label>
+          <textarea name="limite_negociacao" placeholder="Ex.: margem minima, risco de prazo, custo sem cobertura, condicao de pagamento ruim..."></textarea>
+        </div>
+      </section>
+
+      <section>
+        <h2>9. Portais e envio</h2>
+        <p class="section-note">Como a proposta sai da empresa e chega no comprador.</p>
+
+        <div class="question">
+          <label class="prompt">Quais portais ou meios voce ja usou ou viu?</label>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="portais" value="Nimbi">Nimbi</label>
+            <label class="option"><input type="checkbox" name="portais" value="SRM">SRM</label>
+            <label class="option"><input type="checkbox" name="portais" value="Ariba">Ariba</label>
+            <label class="option"><input type="checkbox" name="portais" value="E-mail">E-mail</label>
+            <label class="option"><input type="checkbox" name="portais" value="Envelope lacrado presencial">Envelope lacrado presencial</label>
+            <label class="option"><input type="checkbox" name="portais" value="Correio">Correio</label>
+            <label class="option"><input type="checkbox" name="portais" value="Portal proprio do cliente">Portal proprio do cliente</label>
+            <label class="option"><input type="checkbox" name="portais" value="Outro">Outro</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Qual erro de envio elimina a empresa?</label>
+          <textarea name="erro_envio" placeholder="Ex.: prazo, arquivo errado, falta de assinatura, envelope errado, planilha incompleta..."></textarea>
+        </div>
+      </section>
+
+      <section>
+        <h2>10. Empresas e concorrentes</h2>
+        <p class="section-note">A leitura do mercado que so vem com experiencia.</p>
+
+        <div class="question">
+          <label class="prompt">Quais empresas aparecem muito nesse mercado?</label>
+          <textarea name="empresas_mercado" placeholder="Ex.: CONAMI, Reframax, Ecoblast, Manserv, Kaefer, Priner..."></textarea>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Como voce percebe que um concorrente esta forte?</label>
+          <textarea name="concorrente_forte" placeholder="Ex.: conhece o cliente, tem contrato atual, tem equipamento, tem cadastro, preco agressivo..."></textarea>
+        </div>
+      </section>
+
+      <section>
+        <h2>11. O que o sistema deveria aprender</h2>
+        <p class="section-note">Transforme sua experiencia em regra para a maquina.</p>
+
+        <div class="question">
+          <label class="prompt">Se a maquina lesse um edital, o que ela deveria te avisar primeiro?</label>
+          <textarea name="maquina_avisar_primeiro"></textarea>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Se a maquina montasse o orcamento, o que ela nunca poderia esquecer?</label>
+          <textarea name="maquina_nunca_esquecer"></textarea>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Se voce pudesse ensinar 5 regras para um jovem orcamentista, quais seriam?</label>
+          <textarea name="cinco_regras"></textarea>
+        </div>
+
+        <div class="question">
+          <label class="prompt">Alguma historia real de erro, acerto ou negociacao que ensina muito?</label>
+          <textarea name="historia_real"></textarea>
+        </div>
+      </section>
+
+      <section class="result-panel" id="resultado">
+        <h2>Enviar respostas</h2>
+        <p class="section-note">As respostas ficam neste navegador ate voce limpar. O WhatsApp recebe o texto organizado.</p>
+
+        <div class="grid-2">
+          <div>
+            <label class="field-label" for="whatsapp_phone">Numero do WhatsApp para enviar</label>
+            <input id="whatsapp_phone" name="whatsapp_phone" type="tel" placeholder="Ex.: 5511999999999">
+            <p class="small-help">Pode deixar em branco para escolher o contato no WhatsApp.</p>
+          </div>
+          <div>
+            <label class="field-label" for="resumo_tipo">Tamanho da mensagem</label>
+            <select id="resumo_tipo" name="resumo_tipo">
+              <option value="completo">Completo</option>
+              <option value="curto">Resumo curto</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="result-actions">
+          <button type="button" id="copyBtn">Copiar resposta</button>
+          <button type="button" class="secondary" id="whatsBtn">Enviar no WhatsApp</button>
+          <button type="button" class="neutral" id="previewBtn">Atualizar texto</button>
+          <button type="button" class="danger" id="clearBtn">Limpar tudo</button>
+        </div>
+
+        <div class="warning" id="lengthWarning"></div>
+        <div class="chunk-list" id="chunkList"></div>
+        <div class="status" id="status"></div>
+        <pre id="preview" aria-label="Previa da resposta"></pre>
+      </section>
+    </form>
+  </main>
+
+  <footer class="actionbar">
+    <div class="wrap footer-actions">
+      <button type="button" id="jumpResult">Ir para enviar</button>
+      <button type="button" class="secondary" id="saveNow">Salvar no navegador</button>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('questionnaire');
+    const storageKey = 'brazil-industrial-bid-questionnaire-v1';
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const preview = document.getElementById('preview');
+    const statusEl = document.getElementById('status');
+    const lengthWarning = document.getElementById('lengthWarning');
+    const chunkList = document.getElementById('chunkList');
+
+    const labels = {
+      respondente_nome: 'Nome',
+      anos_experiencia: 'Anos de experiencia',
+      servicos: 'Tipos de servico',
+      setores: 'Compradores / setores',
+      tipo_processo: 'Tipo de processo',
+      vale_entrar: 'Criterios para entrar',
+      desistir_antes: 'Motivos para desistir antes de orcar',
+      primeira_leitura: 'Primeira parte lida no edital',
+      alertas_edital: 'Alertas vermelhos no edital',
+      perguntas_comprador: 'Perguntas ao comprador',
+      documentos: 'Documentos frequentes',
+      documento_problema: 'Documento que da problema',
+      visita_muda_preco: 'Visita tecnica muda preco',
+      visita_observar: 'O que observar na visita',
+      erro_escopo_caro: 'Erro de escopo caro',
+      blocos_custo: 'Blocos de custo',
+      calculo_produtividade: 'Calculo de produtividade',
+      custo_esquecido: 'Custo esquecido',
+      decide_margem: 'Como decide margem',
+      proposta_tecnica: 'Proposta tecnica boa mostra',
+      normas_termos: 'Normas e termos tecnicos',
+      proposta_forte_fraca: 'Proposta forte vs fraca',
+      revisoes_preco: 'Rodadas de revisao de preco',
+      baixar_preco: 'Onde mexe para baixar preco',
+      limite_negociacao: 'Limite de negociacao',
+      portais: 'Portais e meios de envio',
+      erro_envio: 'Erro de envio eliminatorio',
+      empresas_mercado: 'Empresas do mercado',
+      concorrente_forte: 'Sinais de concorrente forte',
+      maquina_avisar_primeiro: 'Primeiro alerta da maquina',
+      maquina_nunca_esquecer: 'O que a maquina nunca pode esquecer',
+      cinco_regras: 'Cinco regras para orcamentista',
+      historia_real: 'Historia real importante'
+    };
+
+    const sections = [
+      ['Perfil', ['respondente_nome', 'anos_experiencia', 'servicos', 'setores']],
+      ['Entrada da concorrencia', ['tipo_processo', 'vale_entrar', 'desistir_antes']],
+      ['Edital / carta convite', ['primeira_leitura', 'alertas_edital', 'perguntas_comprador']],
+      ['Habilitacao', ['documentos', 'documento_problema']],
+      ['Visita tecnica', ['visita_muda_preco', 'visita_observar', 'erro_escopo_caro']],
+      ['Orcamento', ['blocos_custo', 'calculo_produtividade', 'custo_esquecido', 'decide_margem']],
+      ['Proposta tecnica', ['proposta_tecnica', 'normas_termos', 'proposta_forte_fraca']],
+      ['Negociacao', ['revisoes_preco', 'baixar_preco', 'limite_negociacao']],
+      ['Envio', ['portais', 'erro_envio']],
+      ['Mercado', ['empresas_mercado', 'concorrente_forte']],
+      ['Regras para o sistema', ['maquina_avisar_primeiro', 'maquina_nunca_esquecer', 'cinco_regras', 'historia_real']]
+    ];
+
+    function cleanPhone(phone) {
+      return (phone || '').replace(/\D/g, '');
+    }
+
+    function getGroupedData() {
+      const data = {};
+      const fd = new FormData(form);
+
+      for (const key of Object.keys(labels)) {
+        const values = fd.getAll(key).map(value => String(value).trim()).filter(Boolean);
+        if (values.length > 1) data[key] = values;
+        else data[key] = values[0] || '';
+      }
+
+      return data;
+    }
+
+    function saveData(silent = true) {
+      const data = {};
+      const fd = new FormData(form);
+      for (const [key, value] of fd.entries()) {
+        if (!data[key]) data[key] = [];
+        data[key].push(value);
+      }
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      if (!silent) setStatus('Salvo neste navegador.');
+    }
+
+    function restoreData() {
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) return;
+      let data;
+      try { data = JSON.parse(raw); } catch { return; }
+
+      for (const [key, values] of Object.entries(data)) {
+        const inputs = form.elements[key];
+        if (!inputs) continue;
+        const list = Array.isArray(inputs) || inputs instanceof RadioNodeList ? Array.from(inputs) : [inputs];
+        for (const input of list) {
+          if (input.type === 'checkbox' || input.type === 'radio') {
+            input.checked = values.includes(input.value);
+          } else {
+            input.value = values[0] || '';
+          }
+        }
+      }
+    }
+
+    function answeredCount(data) {
+      const keys = Object.keys(labels);
+      const answered = keys.filter(key => {
+        const value = data[key];
+        return Array.isArray(value) ? value.length > 0 : String(value || '').trim().length > 0;
+      }).length;
+      return { answered, total: keys.length };
+    }
+
+    function updateProgress() {
+      const data = getGroupedData();
+      const { answered, total } = answeredCount(data);
+      const pct = Math.round((answered / total) * 100);
+      progressFill.style.width = pct + '%';
+      progressText.textContent = pct + '%';
+    }
+
+    function formatValue(value) {
+      if (Array.isArray(value)) return value.join(', ');
+      return String(value || '').trim();
+    }
+
+    function buildMessage(shortMode = false) {
+      const data = getGroupedData();
+      const name = data.respondente_nome || 'Respondente';
+      const lines = [
+        'QUESTIONARIO - LICITACOES INDUSTRIAIS BRASIL',
+        'Respondente: ' + name,
+        'Data: ' + new Date().toLocaleDateString('pt-BR'),
+        ''
+      ];
+
+      for (const [sectionName, keys] of sections) {
+        lines.push('## ' + sectionName);
+        for (const key of keys) {
+          const value = formatValue(data[key]);
+          if (!value) continue;
+          if (shortMode && value.length > 260) {
+            lines.push('- ' + labels[key] + ': ' + value.slice(0, 257) + '...');
+          } else {
+            lines.push('- ' + labels[key] + ': ' + value);
+          }
+        }
+        lines.push('');
+      }
+
+      lines.push('FIM DAS RESPOSTAS');
+      return lines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+    }
+
+    function splitMessage(text, maxLength = 5200) {
+      if (text.length <= maxLength) return [text];
+      const chunks = [];
+      const parts = text.split('\n\n');
+      let current = '';
+
+      for (const part of parts) {
+        const candidate = current ? current + '\n\n' + part : part;
+        if (candidate.length > maxLength && current) {
+          chunks.push(current);
+          current = part;
+        } else {
+          current = candidate;
+        }
+      }
+      if (current) chunks.push(current);
+      return chunks;
+    }
+
+    function whatsappUrl(text) {
+      const phone = cleanPhone(document.getElementById('whatsapp_phone').value);
+      const base = phone ? 'https://wa.me/' + phone : 'https://api.whatsapp.com/send';
+      const separator = phone ? '?text=' : '?text=';
+      return base + separator + encodeURIComponent(text);
+    }
+
+    function updatePreview() {
+      const shortMode = document.getElementById('resumo_tipo').value === 'curto';
+      const message = buildMessage(shortMode);
+      preview.textContent = message;
+      renderChunks(message);
+      return message;
+    }
+
+    function renderChunks(message) {
+      chunkList.innerHTML = '';
+      const chunks = splitMessage(message);
+      if (chunks.length <= 1) {
+        lengthWarning.style.display = 'none';
+        return;
+      }
+      lengthWarning.style.display = 'block';
+      lengthWarning.textContent = 'A resposta ficou grande. Envie em ' + chunks.length + ' partes pelo WhatsApp.';
+      chunks.forEach((chunk, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'secondary';
+        btn.textContent = 'Enviar parte ' + (index + 1);
+        btn.addEventListener('click', () => {
+          const labeled = 'PARTE ' + (index + 1) + ' DE ' + chunks.length + '\n\n' + chunk;
+          window.open(whatsappUrl(labeled), '_blank', 'noopener');
+        });
+        chunkList.appendChild(btn);
+      });
+    }
+
+    function setStatus(text) {
+      statusEl.textContent = text;
+      window.clearTimeout(setStatus.timer);
+      setStatus.timer = window.setTimeout(() => { statusEl.textContent = ''; }, 3600);
+    }
+
+    form.addEventListener('input', () => {
+      saveData(true);
+      updateProgress();
+      updatePreview();
+    });
+
+    form.addEventListener('change', () => {
+      saveData(true);
+      updateProgress();
+      updatePreview();
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      const message = updatePreview();
+      try {
+        await navigator.clipboard.writeText(message);
+        setStatus('Resposta copiada.');
+      } catch {
+        preview.focus();
+        setStatus('Selecione o texto da previa e copie manualmente.');
+      }
+    });
+
+    document.getElementById('whatsBtn').addEventListener('click', () => {
+      const message = updatePreview();
+      const chunks = splitMessage(message);
+      if (chunks.length > 1) {
+        setStatus('Use os botoes de partes para enviar tudo.');
+        return;
+      }
+      window.open(whatsappUrl(message), '_blank', 'noopener');
+    });
+
+    document.getElementById('previewBtn').addEventListener('click', () => {
+      updatePreview();
+      setStatus('Texto atualizado.');
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      const ok = window.confirm('Limpar todas as respostas deste navegador?');
+      if (!ok) return;
+      localStorage.removeItem(storageKey);
+      form.reset();
+      updateProgress();
+      updatePreview();
+      setStatus('Respostas limpas.');
+    });
+
+    document.getElementById('jumpResult').addEventListener('click', () => {
+      document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.getElementById('saveNow').addEventListener('click', () => {
+      saveData(false);
+    });
+
+    restoreData();
+    updateProgress();
+    updatePreview();
+  </script>
+</body>
+</html>
