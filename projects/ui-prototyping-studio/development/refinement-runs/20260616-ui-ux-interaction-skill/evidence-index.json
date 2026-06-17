@@ -1,0 +1,56 @@
+{
+  "run_id": "20260616-ui-ux-interaction-skill",
+  "dispatch_id": "refine-ups-ui-ux-skill-20260616",
+  "capability_ref": "refine",
+  "preset": "full",
+  "status": "flag",
+  "updatedAt": "2026-06-16",
+  "workflow": {
+    "workflow_run_id": "wf_d237687a-482",
+    "task_id": "wqgd6s4wz",
+    "agent_count": 14,
+    "subagent_tokens": 908524,
+    "tool_uses": 145,
+    "duration_ms": 2617389
+  },
+  "seed": "REFINE-SEED-PROPOSAL.md",
+  "dispatch": "REFINE-DISPATCH.json",
+  "result": "RESULT.md",
+  "runtime_handoff": "RUNTIME-HANDOFF.md",
+  "stages": [
+    { "step": "s1", "name": "context", "owner": "context-builder", "artifact": "stages/01-context-pack.md", "status": "pass" },
+    { "step": "s2", "name": "define+xray", "owner": "invoke", "artifact": "stages/02-define-and-flow-xray.md", "status": "pass" },
+    { "step": "s3", "name": "refine-review", "owner": "interrogation", "artifact": "stages/03-refine-review.md", "status": "flag" },
+    { "step": "s4", "name": "research-decision", "owner": "refine", "artifact": "stages/04-research-decision.md", "status": "pass" },
+    { "step": "s5", "name": "tournament", "owner": "distill", "artifact": "stages/05-surface-comparison.md", "status": "pass" },
+    { "step": "s6", "name": "design", "owner": "invoke", "artifact": "stages/06-interaction-design.md", "status": "pass" },
+    { "step": "s6", "name": "skill-draft", "owner": "invoke", "artifact": "06-SKILL-draft.md", "status": "pass", "note": "parent-assembled from s2 §4 + s6 design + RESULT §2.5; F-CRIT-1 correction baked in; full draft (s7 saw only a truncated draft, R-S7-3)" },
+    { "step": "s7", "name": "design-review", "owner": "interrogation", "artifact": "stages/07-design-review.md", "status": "flag" },
+    { "step": "s8", "name": "toy-game", "owner": "distill", "artifact": "stages/08-toy-game-walkthrough.md", "status": "pass" },
+    { "step": "s9", "name": "plan", "owner": "invoke", "artifact": "stages/09-plan.md", "status": "pass" },
+    { "step": "s10", "name": "final-synthesis", "owner": "refine", "artifact": "RESULT.md", "status": "flag" }
+  ],
+  "decisions": [
+    "Surface = C (same-origin local web review page); B eliminated; A (overlay) deferred as a named upgrade hook.",
+    "Who-leads-when: 6 reversible steps Claude Code may drive + 5 durable gates the human alone disposes; agent is propose-only.",
+    "Overlay/render mechanics: one read-only GET render via readHtml into sandboxed iframes; same-origin click-to-annotate POSTing the existing CommentEvent route; DC-1 requires non-empty selector+elementLabel.",
+    "Accept-diff UX = two-gate saw-the-diff (validateAndStage -> acceptStaged engine ALREADY EXISTS, this is wiring); honest single-gate interim label ships first.",
+    "Operating SKILL binds Claude Code propose-only; its 'refused server-side' authority claim is FALSE and must be rewritten (F-CRIT-1)."
+  ],
+  "blocking_residue": [
+    "F-CRIT-1: durable gates do NOT distinguish Claude Code from the human (approve has zero actor-class check; apply refuses only literal 'system:auto'; route defaults actor to 'web-ui'). The SKILL's never-do discipline is the SOLE control. Must be corrected before build.",
+    "R-S7-3: the SKILL draft handed to s7 review was truncated; never-do spine, refusal narration, two-layer scoping, DC-1 propagation were UNREVIEWED and must be reviewed at full draft."
+  ],
+  "deferred_residue": [
+    "ODQ-7 / R1: ergonomics floor UNPROVEN — no ergonomic gain asserted; needs a real cold-start study.",
+    "R-S7-1 / P-c3: core needs a real human-vs-agent identity signal at durable routes (routed to core owners).",
+    "R-S7-2 / R2: keyboard-annotation-over-iframe AT-reachability harness UNBUILT; keyboard-native claim is Tier-B/provisional; comment add is the AT floor.",
+    "F2/F3: two a11y hard_gate cells need '(pending calibration)'; cold-start coverage claim overstated; glossary owner (ODQ-5) unassigned."
+  ],
+  "next_routes": [
+    "domainspec-subagents-strategy REVIEW (dispatch_type: review) of the SKILL draft + design — operator's requested next step, precedes build.",
+    "task-session to build stages/09-plan.md in dependency order (after review passes).",
+    "Route R-S7-1 / P-c3 to core owners as a separate decision.",
+    "Deferred: cold-start ergonomics study (ODQ-7); iframe-traversal a11y harness (R-S7-2)."
+  ]
+}

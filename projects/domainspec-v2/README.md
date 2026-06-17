@@ -33,19 +33,24 @@ Every tower runs under the [Two-Lane Discipline](research/TWO-LANE-DISCIPLINE.md
 | [target-state](research/target-state/SEED.md) | Make "target state" an explicit, *buildable* artifact, borrowing from Narrative-Driven Development. | DomainSpec implies a target state everywhere but never formalizes it, so agents lack the discipline of "where are we going / what does done look like." | [SEED](research/target-state/SEED.md) |
 | [spec-ontology-unification](research/spec-ontology-unification/SEED.md) | Treat spec and ontology as one typed graph (tree inside a feature, graph across features); feed specs to ephemeral implementation agents that only know node→code-pattern and edge→composition. | Spec→code mapping is implicit, so implementation agents are expensive and drift-prone; spec and code are really two forms of the same domain taxonomy. | [SEED](research/spec-ontology-unification/SEED.md) |
 | [dcb-correctness](research/dcb-correctness/HANDOFF.md) | Dynamic Consistency Boundaries as a selective spec-to-code correctness discipline. | Existing validators check a snapshot, not whether a later claim was made against still-current facts. | (already underway) |
+| [alloy-tla-modeling](research/alloy-tla-modeling/README.md) | Use Alloy for bounded graph-completeness counterexamples and TLA+/PlusCal for temporal saga behavior, fed by the TypeScript bounded witness. | DomainSpec v2 needs formal-modeling lanes without overclaiming that TypeScript, DCB, Alloy, or TLA+ alone proves saga correctness. | [README](research/alloy-tla-modeling/README.md) |
 
 ## Route
 
-The towers above are sequenced and gated by one validated dispatch:
+The initial target-state and spec-ontology towers are sequenced and gated by one
+validated dispatch:
 [`domainspec-v2-research-towers.dispatch.json`](research/domainspec-v2-research-towers.dispatch.json).
-That route is **designed and validated, not yet executed** — it is the plan for
-running the towers under the Two-Lane Discipline and synthesizing their bridge
-decisions.
+That route is **designed and validated, not yet executed**. Later towers can
+carry their own route or proposed subagent sheet inside their tower folder; for
+example, `alloy-tla-modeling` records its `/domainspec-subagents-strategy`
+proposal in
+[`subagents/PROPOSED-DISPATCH.md`](research/alloy-tla-modeling/subagents/PROPOSED-DISPATCH.md).
 
 ## Artifact conventions
 
 - Each tower owns a subfolder under `research/<tower>/` and keeps its own
-  `SEED.md`, `LANE-RECEIPTS.md`, learning pack, and tower-local notes there.
+  seed or `README.md`, `LANE-RECEIPTS.md` when lanes run, learning pack, and
+  tower-local notes there.
 - Cross-tower, program-level artifacts live at `research/` root and are prefixed
   `PROGRAM-` (e.g. `PROGRAM-SYNTHESIS.md`, `PROGRAM-HANDOFF.md`) so they never
   collide with a tower's own files.
