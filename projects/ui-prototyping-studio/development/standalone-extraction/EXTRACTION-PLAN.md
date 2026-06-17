@@ -4,7 +4,7 @@ project: ui-prototyping-studio
 title: "Standalone Extraction Plan — ui-prototyping-studio out of domainspec"
 status: proposal
 node_type: plan
-updatedAt: 2026-06-15
+updatedAt: 2026-06-16
 ---
 
 # Standalone Extraction Plan
@@ -83,18 +83,20 @@ Decided: `DEC-INTERFACE-MODEL-009` (human workbench + embedded assistant), `DEC-
 3. Gate enforcement lives in the orchestration module **behind** the CLI: `batch apply` refuses non-approved / `system:auto` / stale applies (INV-3/4/5/8) regardless of CLI flags.
 4. **Operating skill** (`SKILL.md`) — discipline for Claude Code: generate on request, `variants register`, never self-approve/apply, hand the gates to the human via the CLI.
 
+> **Status update (2026-06-16):** decision-gate PASS — scope confirmed **L0→L2** (`DEC-ONE-SHOT-SCOPE-002`); no open/blocking decisions. The **C-1 spike SURVIVED** (`DEC-C1-SPIKE-SURVIVED-016`, parent-verified): the whole-tree od-id V3 fence is **buildable** on the closed set. Two items moved to **separated research tracks** (off the L0→L2 critical path): (1) UX/ergonomics (OQ-1 trust meter + `GAP-ERGONOMICS-UNPROVEN-001`); (2) CSS-attribution/node-identity spike (`DEC-R2-CSS-ATTRIBUTION-017` + `GAP-V3-NODE-IDENTITY-008`).
+
 **Apply is the produce→validate→stage→accept→record machine** (not a one-shot "apply"). Generation is non-deterministic behind the CLI seam (Claude Code proposer); determinism is recovered at the *admission* boundary in the pure core: `propose` → `validate` (pure clock-free verdict) → stage candidate at a temp ref (`RevisionApplied`, NOT head) → human **accept-diff** the exact staged hash → atomic **record** (seen == recorded). The full build is the refine's 7-layer sub-plan `[PROPOSAL]` (`development/refinement-runs/20260615-mutation-execution-mechanics/`, RESULT §8):
 - **L0 substrate** — schema migrations (`odId` + `MutationChangeType` union, `DiffSummaryHonest`/`OdDiffFragment`, `ExecutionProvenance`) + the artifact content port (`readHtml`/`stageHtml`/`commitHtml`/`discardStagedHtml`) + the shared canonicalizer. **Unblocks everything.**
-- **L1 (MWU)** — pure validator suite V1–V9b + composite fail-closed verdict + whole-tree V3 fence; toy-game falsifiers land as regression fixtures.
+- **L1 (MWU)** — pure validator suite V1–V9b + composite fail-closed verdict + whole-tree V3 fence; toy-game falsifiers land as regression fixtures. **C-1 spike SURVIVED** — the fence is buildable (port `run_spike.py` logic); carry `GAP-V3-NODE-IDENTITY-008` (reordering-robust node identity + real CSS cascade/specificity for production, beyond the spike's conservative version).
 - **L2** — two-gate state machine + `RevisionApplied` staged-preview lifecycle + accept-time staleness re-check.
 - **L3** — recorder atomicity: all-or-nothing commit + compensating rollback + `removeRevision`.
-- **L4 (SPIKE-GATED)** — the C-1 spike: calibrate `S`/`B`/`k`/`c`, decide V2-vs-CSS (R2-a/R2-b); wire C→A / C→B config levers.
+- **L4 (RESEARCH-TRACK-GATED)** — *C-1 V3-fence dimension already SURVIVED.* Remaining: the **CSS-attribution/node-identity spike** (research track 2) calibrates `S`/`B`/`k`/`c` and decides V2-vs-CSS (R2-a/R2-b, `DEC-R2-CSS-ATTRIBUTION-017`); wire C→A / C→B config levers. Runs off the critical path; gates L4+, not L0–L3.
 - **L5** — `studio apply`/accept CLI + Claude Code proposer adapter; toy-game-style e2e with a **scripted** proposer (no live LLM in CI).
 - **L6** — governance closeout + D4 checksum migration.
 
 **THREE BLOCK-LOCAL fixes must land early** (each blocks the lane it sits in): **A1** — the artifact content port (substrate; today HTML is read/written through a port that does not exist, so lanes 3/4 have no input); **B1** — the whole-tree V3 fence (od-id-blind detection admits/hides adversarial un-anchored markup); **C1** — the `RevisionApplied` staged-preview lifecycle (the real saw-the-diff gate).
 
-**RESIDUE-B (the C-1 spike) is the single gate between "C designed" and "C trusted"** — build/stress the whole-tree od-id-attributed V3 fence, decide R2-a vs R2-b, commit+report `S`/`B`/`k`/`c` on real comment workloads. Sequence the spike **before** L4+ build; L0–L3 are buildable before it.
+**RESIDUE-B — partially cleared.** The V3-fence dimension **SURVIVED** the C-1 spike (the fence is buildable). Remaining in RESIDUE-B: decide R2-a vs R2-b and commit+report `S`/`B`/`k`/`c` on real comment workloads — now **research track 2**, gating L4+ only. **L0–L3 build now** without it.
 - **Verify:** existing slice/e2e pass against the fake (contract unchanged) · a Claude Code session drives generate→`variants register`→propose→validate→stage→(human accept-diff gate)→record over a smoke prompt · `batch apply` rejects non-approved/auto/stale.
 
 ### P2 — `studio preview` + in-prototype annotation overlay — MVP (no React SPA)
