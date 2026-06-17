@@ -26,10 +26,11 @@ populated 2026-06-12). Division of law:
   `.claude/skills/domainspec-subagents-strategy/SKILL.md`. Route back there; nothing here
   overrides it.
 - **Record/sheet mechanics** (the two appends, the appender, validation) —
-  `register-dispatch` (`internal_tools/subagents-dispatch-hooks/skills/register-dispatch/SKILL.md`).
-- **Field definitions** —
-  `internal_tools/subagents-dispatch-hooks/constitution/subagents-strategy-constitution-proposal.md`
-  §5. This skill defines no field; it says which **values** a good research dispatch puts in them.
+  `register-dispatch` (`.claude/skills/register-dispatch/SKILL.md`).
+- **Field definitions** — inline in `register-dispatch` (read there); constitution §5
+  (`internal_tools/subagents-dispatch-hooks/constitution/subagents-strategy-constitution-proposal.md`)
+  is upstream authority only, not a routine read. This skill defines no field; it says which
+  **values** a good research dispatch puts in them.
 
 ## Roles as epistemic functions
 

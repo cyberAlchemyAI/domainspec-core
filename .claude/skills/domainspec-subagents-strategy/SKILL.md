@@ -5,6 +5,8 @@ description: Route any subagent dispatch — check the Principle-1 trigger, hold
 
 **Governing doc:** operationalizes `internal_tools/subagents-dispatch-hooks/constitution/subagents-strategy-constitution-proposal.md` (v0.6.1-proposal). The live vault constitution is still v0.3.0; where the two conflict, v0.6.x wins (owner decision 2026-06-12; doc bumped to v0.6.0 then v0.6.1 on 2026-06-15 per §10 / §12). The wire `schema_version` is `"0.6.0"` (§10.1; the v0.6.1 bump is the `experiment` propose/run re-scope, not a row-schema change).
 
+> **Read budget — do NOT open the constitution to run a dispatch.** The full operational form is inline: routing + invariants here, every field/enum/schema/skeleton/close-row in `register-dispatch`. The constitution (822 lines) is **authority-of-last-resort** — open it *only* to adjudicate a genuine conflict between this skill and the constitution, never as a routine lookup. The `§N` cites below are provenance anchors for that rare case, not an instruction to read.
+
 ## When to dispatch (P1) — and what is not a dispatch (P11)
 
 Dispatch only when at least one trigger holds: **synthesis** (3+ sources to combine), **context protection** (raw output ≫ what the parent needs), **isolation** (discardable exploration), **parallelism** (independent tasks). Otherwise work inline.
@@ -13,10 +15,10 @@ Dispatch only when at least one trigger holds: **synthesis** (3+ sources to comb
 
 ## Lifecycle — the universal four steps (§3)
 
-1. **Propose.** The strategist fills the sheet — consulting the type skill (routing table below) for type judgment — and proposes it in chat, stating for each tensioned pair the question on which the two agents are predicted to disagree (P5). Before presenting to the human, run the **check-tension gate** (Pointers): two independent agents verify the sheet is genuinely tensioned (Tests 1–4); the sheet reaches the human only if **both PASS**, otherwise it returns here for revision.
-2. **Confirm.** The human's explicit affirmative — silence or a question is not confirmation. Nothing persists before it. The confirmed sheet is **frozen**; any strategist edit after confirm re-enters the gate (P2).
+1. **Propose.** The strategist fills the sheet — consulting the type skill (routing table below) for type judgment — and proposes it in chat, stating for each tensioned pair the question on which the two agents are predicted to disagree (P5). The proposal **states where the dispatch's artifacts will be saved** — the `working_folder` path, or **inline** (no files) where the type allows it (`review` is inline by default; `research`/`experiment` require a `working_folder`). Before presenting to the human, run the **check-tension gate** (Pointers): two independent agents verify the sheet is genuinely tensioned (Tests 1–4); the sheet reaches the human only if **both PASS**, otherwise it returns here for revision.
+2. **Confirm.** The human's explicit affirmative — silence or a question is not confirmation. Nothing persists before it. **The same gate confirms the artifact destination** (universal, any `dispatch_type`): the human explicitly confirms the `working_folder` path the artifacts will be saved to — or confirms **inline** delivery when the type permits it (`review`). Do not register or write artifacts to a folder the human has not confirmed. The confirmed sheet is **frozen**; any strategist edit after confirm — including the folder — re-enters the gate (P2).
 3. **Register + run.** Append the dispatch row, then schedule groups **by dependency** (P4, amended 2026-06-12): a group is READY when every group with a `sequential`/`zig-zag` edge into it has produced what it must respond to (zig-zag counts only in its `from`→`to` direction — the `from` endpoint opens the exchange); launch all READY groups concurrently; `feedback` edges never count as dependencies; a sheet with no connections declares its groups independent; declared order is narration tiebreak only. Agents inside a group run in parallel. An agent error degrades to a **partial group result** that downstream groups and the `final_approver` must be told about.
-4. **Close.** Report `exit_reason` + `agents_spawned` in chat and in the findings doc, and append the close row. Two appends, one ledger, append-only (P3).
+4. **Close.** Report `exit_reason` + `agents_spawned` in chat — and in the findings doc when artifacts are persisted (an inline `review` reports in chat only) — and append the close row. Two appends, one ledger, append-only (P3).
 
 For the record shape, the appender, and the close-row mechanics: **register-dispatch owns them** — see Pointers.
 
@@ -49,8 +51,8 @@ LIVE status is **declared by constitution §5** (promoting a reserved type goes 
 
 ## Pointers (single owners)
 
-- **Form — record/sheet fill mechanics:** `register-dispatch` (repo: `internal_tools/subagents-dispatch-hooks/skills/register-dispatch/SKILL.md`; deployed: `~/.claude/skills/register-dispatch/`) — field tables, enums, the appender, the close row, `invoked_by`.
-- **Definitions + skeleton:** constitution §5 (parameter reference) and §6 (annotated skeleton YAML).
+- **Form — record/sheet fill mechanics:** `register-dispatch` (`.claude/skills/register-dispatch/SKILL.md`; appender `.claude/skills/register-dispatch/append-dispatch.cjs`) — field tables, enums, the appender, the close row, `invoked_by`.
+- **Definitions + skeleton:** inline in `register-dispatch` (field tables, enums, schema v0.6.0, annotated example) — read there, not the constitution. Constitution §5 (parameter reference) / §6 (skeleton YAML) are the upstream authority only.
 - **Agent names:** `telemetry/agents/agent-pool.yaml`.
-- **Anti-bias design:** `vault/discovery/anti-bias-vector-composition/` — reached via the type skill.
+- **Anti-bias design:** `.claude/skills/anti-bias-vector-composition/SKILL.md` (the `check-tension` gate enforces it; the vault discovery `implementation/domainspec/vault/discovery/anti-bias-vector-composition/` is the knowledge home).
 - **Init-time tensioning gate:** `check-tension` (`.claude/skills/check-tension/SKILL.md`) — the two independent agents that verify Tests 1–4 before the human confirm; only "both PASS" reaches the human.
