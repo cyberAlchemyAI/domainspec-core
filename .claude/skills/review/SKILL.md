@@ -1,6 +1,6 @@
 ---
 name: review
-description: Red-team dispatch over EXISTING artifacts (skills, constitutions, code, docs) — attack what exists and hunt flaws to improve it. Routed here from domainspec-subagents-strategy as the LIVE type skill for `dispatch_type: review`. Defines review-type judgment only — attack lenses, severity taxonomy, verification discipline, and the change-request findings shape. Use research (not review) when the question is whether a NEW claim/candidate survives; use review when the target already exists and the deliverable is verified change requests.
+description: Red-team dispatch over EXISTING artifacts (skills, constitutions, code, docs) — attack what exists and hunt flaws to improve it. Routed here from domainspec-subagents-strategy as the LIVE type skill for `dispatch_type: review`. Defines review-type judgment only — attack lenses, severity taxonomy, verification discipline, and the change-request findings shape. Review is INLINE by default (since 2026-06-16): change requests are delivered in chat, no mandated artifact files, `working_folder` optional. Use research (not review) when the question is whether a NEW claim/candidate survives; use review when the target already exists and the deliverable is verified change requests.
 ---
 
 # review — red-team type skill
@@ -8,10 +8,12 @@ description: Red-team dispatch over EXISTING artifacts (skills, constitutions, c
 The LIVE type skill for `dispatch_type: review`, populated 2026-06-12 by owner decision
 (recorded in the constitution's §5 dispatch_type note). Universal law — triggers, the human
 gate, lifecycle, exit_reason, invariants — lives in the **router**
-(`.claude/skills/domainspec-subagents-strategy/SKILL.md`). The record/sheet form lives in
-**register-dispatch**. Field definitions live in the **constitution** §5
-(`internal_tools/subagents-dispatch-hooks/constitution/subagents-strategy-constitution-proposal.md`).
-This skill says only what a good **review** dispatch contains.
+(`.claude/skills/domainspec-subagents-strategy/SKILL.md`). The record/sheet form — and the
+inline field definitions you actually read — live in **register-dispatch**
+(`.claude/skills/register-dispatch/SKILL.md`). Constitution §5
+(`internal_tools/subagents-dispatch-hooks/constitution/subagents-strategy-constitution-proposal.md`)
+is the upstream authority for those fields only — not a routine read. This skill says only
+what a good **review** dispatch contains.
 
 **What review is:** a red team. The targets exist; the dispatch attacks them to surface
 flaws worth fixing. The deliverable is **verified change requests**, not verdicts on new
@@ -106,16 +108,23 @@ no connections declares its groups independent; declared order is narration tieb
 Attackers run **read-only over the targets**: they never modify the artifacts under
 attack — findings are the only output.
 
-## Outputs (P9 pattern, review flavor)
+## Outputs — inline by default (no mandated files)
 
-Everything lands in `working_folder` — a docs path (§5 `working_folder`). For a review
-fan-out (n ≥ 2): **`attacks.md`** (the collected attacker + verifier returns, verbatim) and
-**`findings.md`** (the cited change requests — every surviving finding cites the attack
-return it came from and quotes the artifact). A review n = 1 produces `findings.md` only.
-The requirement is the FILES, not who writes them — the strategist may write them itself or
-delegate.
+**Review is inline (owner decision 2026-06-16).** Unlike research and experiment, a review
+dispatch produces **no mandated artifact files**: the deliverable — the cited change-request
+report — is delivered **in chat**. The prior two-file rule (`attacks.md` + `findings.md`) is
+**removed**; `working_folder` is **optional** for review and **not required by the appender**
+(§5; the appender's required-`working_folder` set is `research`/`experiment` only).
 
-`findings.md` shape: per-artifact section → table of surviving findings
+- **Default — inline.** The strategist reports the change-request list directly in chat
+  (collected attacker/verifier returns may be summarized inline). No files are written.
+- **Opt-in persistence.** If the user wants the review banked to disk, they confirm a
+  `working_folder` at the gate (router lifecycle step 2 — the universal folder confirmation).
+  Only then does the dispatch write into it (e.g. a `findings.md` and, for a fan-out, the
+  verbatim returns) — and the appender accepts the optional `working_folder` like any other
+  type. The requirement is never the files; it is the cited report, wherever it lands.
+
+**Report shape (inline or persisted):** per-artifact section → table of surviving findings
 (| # | file | evidence | severity | proposed fix |) → per-artifact verdict (KEEP/FIX) →
 a closing change-request list ordered by severity. **Close (canonical definition for this
 skill):** per §5, `resolved` = the `final_approver` accepted; for review, acceptance

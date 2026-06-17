@@ -18,7 +18,7 @@
  *     final_approver, groups[] (each group: group_id, agents[] — NO group
  *     `role` field; each agent: role explorer|skeptic|writer|auditor, model,
  *     token_budget, initial_prompt). Optional: meta (true), parent_dispatch_id,
- *     anti_bias_global, working_folder (REQUIRED for LIVE types research/review/experiment; never vault/),
+ *     anti_bias_global, working_folder (REQUIRED for research/experiment; optional for review — inline since 2026-06-16; never vault/),
  *     invoked_by (tooling extension, not in constitution §5),
  *     connections[] ({from,to,type,loop_cap?}).
  *   CLOSE ROW — keyed by `close_of`. Required: exit_reason
@@ -44,7 +44,7 @@
  * VALIDATION SPLIT (grandfathering — constitution §2):
  *   - The INCOMING record is validated STRICTLY against the v0.5.2 schema
  *     before append: required fields, closed enums, conditional fields
- *     (working_folder on research; anti_bias/angle at n >= 2;
+ *     (working_folder on research/experiment; anti_bias/angle at n >= 2;
  *     anti_bias_global when >= 2 groups have >= 2 agents; n ==
  *     agents.length; loop_cap only on zig-zag/feedback; connection endpoints
  *     declared), and unknown-key rejection — keys in constitution §7's removed
@@ -97,6 +97,11 @@ const DISPATCH_TYPES = ['research', 'code', 'review', 'plan', 'suggestion', 'exp
 // LIVE per constitution §5 (review 2026-06-12; experiment 2026-06-14, owner decisions); others
 // RESERVED (code, plan, suggestion) — recorded but not yet dispatchable.
 const LIVE_TYPES = new Set(['research', 'review', 'experiment']);
+// working_folder is REQUIRED only for the artifact-producing LIVE types. `review`
+// went inline 2026-06-16 (owner decision): its findings are delivered in chat by
+// default, so it requires no working_folder. A review MAY still set one (optional)
+// when the user confirms persistence at the gate.
+const WORKING_FOLDER_TYPES = new Set(['research', 'experiment']);
 // Group `role` was removed from the row schema at v0.6.0 (constitution §11 / CR-2): a group's
 // function is read off its agents' roles, its workflow position off its connections.
 const AGENT_ROLES = ['explorer', 'skeptic', 'writer', 'auditor'];
@@ -150,7 +155,7 @@ function validateDispatch(rec) {
   if (rec.invoked_by !== undefined && !isNonEmptyStr(rec.invoked_by)) errs.push('invoked_by, when present, must be a non-empty string (email)');
   if (rec.project_dir !== undefined && !isNonEmptyStr(rec.project_dir)) errs.push('project_dir, when present, must be a non-empty string');
 
-  if (LIVE_TYPES.has(rec.dispatch_type) && rec.working_folder === undefined) {
+  if (WORKING_FOLDER_TYPES.has(rec.dispatch_type) && rec.working_folder === undefined) {
     errs.push(`working_folder is required when dispatch_type is "${rec.dispatch_type}" (§5)`);
   }
   if (rec.working_folder !== undefined) {

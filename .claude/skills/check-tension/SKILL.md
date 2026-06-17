@@ -8,8 +8,8 @@ description: Init-time anti-bias gate. Before the human confirm, two independent
 Anti-bias is enforced **only at initialization** (owner decision 2026-06-15): the guarantee
 is that the agents of a dispatch are tensioned **by design**, checked here *before* the human
 confirm. There is **no post-dispatch realization check** — the `Dissent:`-line apparatus was
-retired (`vault/discovery/anti-bias-vector-composition/validator-check.md` v0.3.0). This skill
-is the gate; it owns no field and no type judgment.
+retired (`.claude/skills/anti-bias-vector-composition/reference/validator-check.md` v0.3.0).
+This skill is the gate; it owns no field and no type judgment.
 
 ## When it runs
 
@@ -34,8 +34,8 @@ both — the reviewer's independence is the whole point.
 
 ## The rubric — validator-check Tests 1–4 (not duplicated here)
 
-Owner: `vault/discovery/anti-bias-vector-composition/validator-check.md` Items 1–8. Per
-subject group:
+Owner: `.claude/skills/anti-bias-vector-composition/reference/validator-check.md` Items 1–8.
+Per subject group:
 
 - **Test 1 — axis.** `anti_bias` names one canonical axis (methodology / source-corpus /
   attack-vector / temporal-prior) or a declared composite. Outside the vocabulary → REJECT.

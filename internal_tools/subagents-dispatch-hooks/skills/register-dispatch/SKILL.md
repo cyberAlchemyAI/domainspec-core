@@ -57,7 +57,7 @@ appender-enforced** since the 2026-06-12 in-place amendment (constitution §9).
 | `meta` | – | If present, must be boolean `true` (planning/framework dispatches only). |
 | `parent_dispatch_id` | – | String (or null/omitted) — only on a dispatch planned by a meta dispatch. |
 | `anti_bias_global` | ≥ 2 fan-out groups: ✅ | String — dispatch-wide tension theme. **Required when ≥ 2 groups have ≥ 2 agents — appender-enforced (exit 2)** since the 2026-06-12 in-place amendment (constitution §9). |
-| `working_folder` | LIVE types: ✅ | Repo-relative path where outputs land. **Required when `dispatch_type` is `research`, `review`, or `experiment`; must never start with `vault/`.** |
+| `working_folder` | research/experiment: ✅ | Repo-relative path where outputs land. **Required when `dispatch_type` is `research` or `experiment`; must never start with `vault/`.** **Optional for `review`** — review is inline by default (findings delivered in chat, since 2026-06-16); set it only when the user confirms persistence at the gate. Whenever a `working_folder` is set, the gate confirms the path with the user (router lifecycle step 2). |
 | `invoked_by` | – | Email of the invoking human. If omitted, the appender resolves it from `git config user.email` (fail-soft: warning + `null`). Tooling-level extension, not in constitution §5 (owner-directed 2026-06-12), pending a one-line constitutional amendment. |
 | `connections` | – | **JSON column** — array of `{from, to, type, loop_cap?}` objects (below). |
 | `project_dir` | – | Control key: repo-root fallback when `CLAUDE_PROJECT_DIR` is unset. Never emitted to the ledger. |

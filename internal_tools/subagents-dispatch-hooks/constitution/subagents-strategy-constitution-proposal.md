@@ -5,8 +5,8 @@ is_session: false
 layer: architecture
 nature: procedural, technical
 status: draft
-version: 0.6.1-proposal
-last_updated: 2026-06-15
+version: 0.6.2-proposal
+last_updated: 2026-06-16
 replaces: vault/constitution/domainspec-subagents-strategy-constitution.md@v0.3.0 (and the v0.4.0 draft; v0.5.1 amended in place after the 2026-06-12 adversarial assessment)
 derives_from: vault/premise/domainspec-subagents-strategy-premises.md@v0.4.0
 ---
@@ -236,12 +236,19 @@ once two or more groups each fan out, where uncoordinated axes would drift.
 **Enforcement:** the conditional is appender-enforced (exit 2) since the 2026-06-12 in-place
 amendment (§9) — a record with ≥ 2 fan-out groups and no `anti_bias_global` is rejected.
 
-#### `working_folder` — C · A (required when `dispatch_type` is `research`, `review`, or `experiment`)
+#### `working_folder` — C · A (required when `dispatch_type` is `research` or `experiment`; optional for `review`)
 **What:** where the dispatch's outputs land — research + findings documents, a spec file,
 or the code itself, depending on what the dispatch produces. For `research`, this is always a
 docs path. For a research **n ≥ 2** dispatch the two files of Principle 9 are
 `<working_folder>/research.md` (collected returns) and `<working_folder>/findings.md` (cited
 synthesis); a research **n = 1** dispatch produces a single `<working_folder>/findings.md`.
+**Review went inline 2026-06-16** (§13): `review` produces **no mandated files** — its
+cited change-request report is delivered in chat — so `working_folder` is **optional** for
+`review` and **not appender-required** (the required set is `research`/`experiment`). A
+`review` MAY set a `working_folder` when the user opts to persist the report.
+**Folder confirmation (universal, §13):** whenever a dispatch will save artifacts, the
+`working_folder` path is **explicitly confirmed with the human at the P2 gate** before
+register/run; a `review` confirms **inline-vs-persist** there too.
 **Why:** outputs need one declared home; the registry row only points at it.
 **How:** repo-relative path. Never `vault/**`.
 
@@ -780,3 +787,36 @@ re-confrontation" block); not duplicated here.
 **Open (owner / next):** the **run phase** is undesigned — whether it is a new mode of `experiment`,
 a use of the RESERVED `code` type once it lands, or a separate type, is the next design decision; the
 deferred registry pointer + content hash (§7) is the run's OPEN hardening.
+
+## 13. v0.6.2 amendment (2026-06-16 — `review` goes inline + universal folder confirmation)
+
+Owner decision 2026-06-16. Two coupled changes:
+
+1. **`review` is inline by default.** A `dispatch_type: review` dispatch produces **no
+   mandated artifact files**: its deliverable — the cited change-request report (per-artifact
+   findings table → KEEP/FIX verdict → severity-ordered change-request list) — is delivered
+   **in chat**. The prior two-file rule (`attacks.md` + `findings.md`, owned by the review type
+   skill) is **removed**. A review MAY still persist to a `working_folder` when the user opts in.
+2. **Universal folder confirmation at the P2 gate.** Whenever a dispatch will save artifacts,
+   the `working_folder` path is **explicitly confirmed with the human** at the confirm gate
+   before register/run — and a `review` confirms **inline-vs-persist** there too. The folder is
+   part of the frozen sheet; changing it after confirm re-enters the gate (§3 / P2).
+
+This **loosens a conditional validation rule** (review no longer requires `working_folder`) and
+touches the appender code surface, but it adds/removes **no row-schema key, enum, or field** —
+`working_folder` remains the same optional key it already was. Per the **2026-06-12 §9 precedent**
+(a conditional requirement amended in place without a wire bump), the wire `schema_version` stays
+**`0.6.0`**; only the document `version` bumps **0.6.1 → 0.6.2** (§10.1: a behaviour/principle
+change). §10.2's five-surface atomic promotion does **not** fire (no row-schema change).
+
+| # | Decision | Amendment |
+|---|---|---|
+| **RV-1 — review inline** | `review` produces no mandated files; the cited change-request report is delivered in chat. `attacks.md`/`findings.md` mandate removed. Authority: type skill `.claude/skills/review/SKILL.md` (Outputs section). |
+| **RV-2 — `working_folder` optional for review** | §5 `working_folder` conditional narrowed: **required for `research`/`experiment`, optional for `review`**. Appender enforcement moved from `LIVE_TYPES` to a `WORKING_FOLDER_TYPES = {research, experiment}` set (`append-dispatch.cjs`); `review` stays LIVE (the RESERVED-note path still keys off `LIVE_TYPES`). |
+| **RV-3 — universal folder confirmation** | Router lifecycle (`domainspec-subagents-strategy/SKILL.md`) steps 1–2: the proposal states the artifact destination and the human confirms the `working_folder` (or inline) at the P2 gate, for any `dispatch_type`. §5 `working_folder` note records the universal confirmation. |
+| **RV-4 — downstream reconciliation** | `register-dispatch/SKILL.md` field table updated (working_folder required→research/experiment, optional for review); appender header/validation-split comments updated; router Close step (4) made tolerant of inline (chat-only when no findings doc). |
+
+**Premise-debt re-confrontation:** none required — no field/enum/row-schema added or removed
+(per §10.1 a conditional-rule loosening is a behaviour change, not a schema change); the
+persistence debt (§7) is **unaffected** (review never carried a SURVIVED/FALSIFIED-style row,
+and an inline review writes nothing to re-confront).

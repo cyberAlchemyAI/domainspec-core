@@ -9,9 +9,11 @@ The LIVE type skill for `dispatch_type: experiment`. **When/whether to dispatch*
 universal law — triggers, the human gate, lifecycle, `final_approver`, `exit_reason`, the
 invariants — live in the **router** (`.claude/skills/domainspec-subagents-strategy/SKILL.md`);
 nothing here overrides it. **Record/sheet mechanics** — the two appends, the appender,
-validation — live in **register-dispatch**. **Field definitions** live in the **constitution**
+validation — and the inline **field definitions** you actually read live in
+**register-dispatch** (`.claude/skills/register-dispatch/SKILL.md`). Constitution §5
 (`internal_tools/subagents-dispatch-hooks/constitution/subagents-strategy-constitution-proposal.md`)
-§5. This skill defines no field; it says what a good **experiment** dispatch contains.
+is the upstream authority for those fields only — not a routine read. This skill defines no
+field; it says what a good **experiment** dispatch contains.
 
 **What this dispatch is — propose, don't run.** An experiment dispatch **pre-registers** a
 falsifiable experiment: the `designer` authors a success/failure criterion and the `skeptic`

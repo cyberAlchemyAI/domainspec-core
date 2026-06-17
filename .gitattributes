@@ -1,0 +1,4 @@
+# Append-only telemetry ledgers: both branches only ever append rows, so a
+# union merge (keep both sides' added lines, no conflict markers) is correct
+# and avoids hand-editing a file guarded as append-only.
+telemetry/agents/subagents-dispatch.yaml merge=union

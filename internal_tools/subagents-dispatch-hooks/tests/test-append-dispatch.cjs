@@ -263,10 +263,15 @@ console.log('\n[10] working_folder rules');
   // a non-research type does not require working_folder (reserved-type note, still appends)
   const r = run(root, validDispatch({ dispatch_id: '2026-06-12-battery-code', dispatch_type: 'code', working_folder: undefined }));
   check('10c non-research without working_folder appends (exit 0, RESERVED note)', r.status === 0 && /RESERVED type/.test(r.stdout), r.stderr || r.stdout);
-  // experiment is LIVE (2026-06-14) — requires working_folder like research/review, no FORECAST note
+  // experiment is LIVE (2026-06-14) — requires working_folder like research, no FORECAST note
   expectReject('10i experiment without working_folder rejected (LIVE type)', root, validDispatch({ dispatch_id: '2026-06-12-battery-exp-nf', dispatch_type: 'experiment', working_folder: undefined }), /working_folder is required when dispatch_type is "experiment"/);
   const re = run(root, validDispatch({ dispatch_id: '2026-06-12-battery-experiment', dispatch_type: 'experiment' }));
   check('10i experiment with working_folder appends (exit 0, no RESERVED note)', re.status === 0 && !/RESERVED type/.test(re.stdout), re.stderr || re.stdout);
+  // review went inline 2026-06-16 (§13) — LIVE but working_folder is OPTIONAL, no RESERVED note
+  const rvnf = run(root, validDispatch({ dispatch_id: '2026-06-16-battery-review-nf', dispatch_type: 'review', working_folder: undefined }));
+  check('10j review without working_folder appends (exit 0, inline — no RESERVED note)', rvnf.status === 0 && !/RESERVED type/.test(rvnf.stdout), rvnf.stderr || rvnf.stdout);
+  const rvwf = run(root, validDispatch({ dispatch_id: '2026-06-16-battery-review-wf', dispatch_type: 'review', working_folder: 'docs/reviews/battery/' }));
+  check('10k review with optional working_folder still appends (exit 0)', rvwf.status === 0 && !/RESERVED type/.test(rvwf.stdout), rvwf.stderr || rvwf.stdout);
 }
 
 console.log('\n[11] close rows');
