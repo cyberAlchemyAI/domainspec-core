@@ -1,0 +1,486 @@
+{
+ "dispatch_id": "refine-ups-skill-rewrite-playwright-20260618",
+ "intent": {
+  "raw": "skill rewrite and plan a test with playwright",
+  "objective": "Rewrite the installed ui-prototyping-studio SKILL to the reversibility model (DEC-026/027) \u2014 HUMAN accepts / AUTO auto-accepts / export the one human-confirmed edge, never-do spine rewritten, false 'never accept' removed, new verbs documented; AND author a Playwright e2e test plan for the closed loop (both modes) over the preview HTTP surface, including a governance-falsification test."
+ },
+ "mode": "mixed",
+ "techniques": [
+  "sequence",
+  "frame_handoff",
+  "validation_loop",
+  "owner_boundary_check",
+  "observability_grouping",
+  "x_ray",
+  "component_descriptor",
+  "entity_component_reference",
+  "dialectic",
+  "zig_zag",
+  "residue_ledger",
+  "toy_game",
+  "data_quality_completeness"
+ ],
+ "technique_overlays": [
+  {
+   "overlay_id": "baseline_sequence",
+   "trigger": "Ordered handoff, validation, owner boundaries, observability for an ordinary contract+plan refinement.",
+   "techniques": [
+    "sequence",
+    "frame_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping"
+   ],
+   "applies_to_steps": [
+    "s1-context",
+    "s2-define",
+    "s3-review",
+    "s4-research",
+    "s5-distill",
+    "s6-design-dialectic",
+    "s7-design-review",
+    "s8-distill-repair-toygame",
+    "s9-plan",
+    "s10-final"
+   ],
+   "validation_expectation": "Each non-first stage consumes a prior frame and records a receipt."
+  },
+  {
+   "overlay_id": "xray_for_hidden_structure",
+   "trigger": "The SKILL's many control statements must be classified keep/rewrite under reversibility, and the loop's HTTP/CLI surface mapped for e2e \u2014 both hidden structure.",
+   "techniques": [
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference"
+   ],
+   "applies_to_steps": [
+    "s2-define",
+    "s5-distill"
+   ],
+   "validation_expectation": "An x-ray table: each SKILL control statement -> keep|rewrite; each loop step -> its testable HTTP/CLI seam."
+  },
+  {
+   "overlay_id": "dialectic_for_tension",
+   "trigger": "The SKILL's 'you propose, the human disposes' identity-gate philosophy vs DEC-026 reversibility-not-gating + DEC-027 auto-accept \u2014 a genuine governance-philosophy clash the rewrite must reconcile mode-by-mode.",
+   "techniques": [
+    "dialectic",
+    "zig_zag",
+    "residue_ledger"
+   ],
+   "applies_to_steps": [
+    "s6-design-dialectic",
+    "s7-design-review"
+   ],
+   "validation_expectation": "Resolved posture: HUMAN accepts / AUTO auto-accepts / export the one human-confirmed edge; residue of what's lost/kept."
+  },
+  {
+   "overlay_id": "toy_game_for_low_cost_falsification",
+   "trigger": "The Playwright plan must include a test that actually catches a governance violation, not just a happy path.",
+   "techniques": [
+    "toy_game",
+    "validation_loop",
+    "assessment_failure_reference"
+   ],
+   "applies_to_steps": [
+    "s8-distill-repair-toygame"
+   ],
+   "validation_expectation": "export-without-confirm test FAILS on violation; revert-restores + auto-accept-revertible assertions hold."
+  }
+ ],
+ "subagent_strategy": {
+  "status": "none",
+  "trigger": "A focused contract-rewrite + test-plan over well-grounded local material (the built surface + the two decisions); one design voice with internal dialectic roles suffices.",
+  "explanation": "The principle is already decided (DEC-026/027); this run applies it to the SKILL prose and plans the test. Inline dialectic roles reconcile the old/new governance without sibling-agent spend.",
+  "authorization": "not_needed",
+  "note": "Inline; strong local grounding."
+ },
+ "steps": [
+  {
+   "step_id": "s1-context",
+   "name": "Context Builder evidence baseline",
+   "capability_ref": "context-builder",
+   "pattern": "sequential",
+   "techniques": [
+    "frame_handoff"
+   ],
+   "inputs": [
+    {
+     "kind": "artifact",
+     "ref": "REFINE-SEED-PROPOSAL.md"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/01-context.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.context"
+    }
+   ],
+   "stop_conditions": [
+    "Current SKILL spine + DEC-026/027 + the built surface + existing Playwright material captured."
+   ]
+  },
+  {
+   "step_id": "s2-define",
+   "name": "Invoke Define \u2014 x-ray the SKILL control surface + the testable loop surface",
+   "capability_ref": "invoke",
+   "pattern": "xray",
+   "techniques": [
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.context"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/06-design.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.define"
+    }
+   ],
+   "stop_conditions": [
+    "Every SKILL control statement classified keep/rewrite under reversibility; the loop's HTTP/CLI surface mapped for e2e."
+   ]
+  },
+  {
+   "step_id": "s3-review",
+   "name": "Interrogation refine-review",
+   "capability_ref": "interrogation",
+   "pattern": "validation",
+   "mode": "refine-review",
+   "evidence_artifact": "stages/03-review.md",
+   "techniques": [
+    "validation_loop"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.define"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/03-review.md"
+    }
+   ],
+   "stop_conditions": [
+    "The propose/dispose-vs-reversibility reconciliation + the false 'never accept' claim confirmed as the load-bearing edits."
+   ]
+  },
+  {
+   "step_id": "s4-research",
+   "name": "Research decision",
+   "capability_ref": "refine",
+   "pattern": "decision",
+   "mode": "research-if-gap-appears",
+   "techniques": [
+    "sequence"
+   ],
+   "inputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/03-review.md"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "decision",
+     "ref": "decision.research"
+    }
+   ],
+   "stop_conditions": [
+    "Local-first; Playwright + ux-evidence-validator known; external only on a named gap + confirm."
+   ]
+  },
+  {
+   "step_id": "s5-distill",
+   "name": "Distill \u2014 the minimal coherent reversibility posture + the smallest e2e that proves it",
+   "capability_ref": "distill",
+   "pattern": "distill",
+   "techniques": [
+    "data_quality_completeness",
+    "residue_ledger"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.define"
+    },
+    {
+     "kind": "decision",
+     "ref": "decision.research"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/06-design.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.distilled"
+    }
+   ],
+   "stop_conditions": [
+    "A minimal posture statement (modes + export edge) + the smallest e2e path that falsifies a governance violation."
+   ]
+  },
+  {
+   "step_id": "s6-design-dialectic",
+   "name": "Invoke Design \u2014 reconcile propose/dispose vs reversibility (the rewritten contract)",
+   "capability_ref": "invoke",
+   "pattern": "dialectic",
+   "mode": "design",
+   "roles": [
+    "thesis-propose-dispose",
+    "antithesis-reversibility-not-gating",
+    "synthesis-architect"
+   ],
+   "convergence_criteria": [
+    "The old identity-gate spine vs reversibility resolved mode-by-mode: HUMAN accepts (workflow), AUTO auto-accepts (reversible), export is the one human-confirmed edge.",
+    "The never-do spine rewritten to reversibility invariants (never export w/o confirm; never bypass the fence; always revertible + honestly diffed).",
+    "Residue: what the rewrite loses/keeps from the old contract recorded."
+   ],
+   "techniques": [
+    "dialectic",
+    "zig_zag",
+    "residue_ledger"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.distilled"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/06-design.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.design"
+    }
+   ],
+   "stop_conditions": [
+    "Rewritten SKILL posture + the Playwright plan shape fixed."
+   ]
+  },
+  {
+   "step_id": "s7-design-review",
+   "name": "Interrogation refine-design-review",
+   "capability_ref": "interrogation",
+   "pattern": "validation",
+   "mode": "refine-design-review",
+   "evidence_artifact": "stages/07-design-review.md",
+   "techniques": [
+    "validation_loop",
+    "owner_boundary_check"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.design"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/07-design-review.md"
+    }
+   ],
+   "stop_conditions": [
+    "No stale 'never accept' survives; export confirm is the sole hard human edge; the plan has a real governance-falsification test."
+   ]
+  },
+  {
+   "step_id": "s8-distill-repair-toygame",
+   "name": "Distill Repair \u2014 toy-game (does the planned governance test catch a violation?)",
+   "capability_ref": "distill",
+   "pattern": "toy_game",
+   "mode": "validate",
+   "evidence_artifact": "stages/08-toygame.md",
+   "techniques": [
+    "toy_game",
+    "validation_loop",
+    "assessment_failure_reference"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.design"
+    },
+    {
+     "kind": "artifact",
+     "ref": "stages/07-design-review.md"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/08-toygame.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.repaired-design"
+    }
+   ],
+   "stop_conditions": [
+    "The plan's export-without-confirm test FAILS on violation; revert-restores + auto-accept-revertible assertions hold; repairs folded back."
+   ]
+  },
+  {
+   "step_id": "s9-plan",
+   "name": "Invoke Plan \u2014 rewrite SKILL.md + author PLAYWRIGHT-CLOSED-LOOP-TEST-PLAN.md",
+   "capability_ref": "invoke",
+   "pattern": "sequential",
+   "mode": "plan",
+   "techniques": [
+    "sequence",
+    "frame_handoff",
+    "data_quality_completeness"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.repaired-design"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "../../../.claude/skills/ui-prototyping-studio/SKILL.md"
+    },
+    {
+     "kind": "artifact",
+     "ref": "../../PLAYWRIGHT-CLOSED-LOOP-TEST-PLAN.md"
+    },
+    {
+     "kind": "artifact",
+     "ref": "stages/09-plan.md"
+    }
+   ],
+   "stop_conditions": [
+    "SKILL rewritten to the reversibility model; a runnable Playwright test plan over the preview surface incl. a governance-falsification test."
+   ]
+  },
+  {
+   "step_id": "s10-final",
+   "name": "Final Interrogation and Refine-owned synthesis",
+   "capability_ref": "interrogation",
+   "pattern": "synthesis",
+   "mode": "refine-final",
+   "techniques": [
+    "validation_loop"
+   ],
+   "inputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/09-plan.md"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "RESULT.md"
+    }
+   ],
+   "stop_conditions": [
+    "RESULT.md synthesizes the rewritten posture + the test plan + next routes."
+   ]
+  }
+ ],
+ "gates": [
+  {
+   "gate_id": "g1-capability-handles",
+   "kind": "policy",
+   "owner": "refine",
+   "condition": "Each runtime-backed stage names its native capability handle and expected receipt before execution.",
+   "on_fail": "block"
+  },
+  {
+   "gate_id": "g2-research-confirm",
+   "kind": "decision",
+   "owner": "refine",
+   "condition": "External research only if a named gap appears and the operator confirms; default local-first.",
+   "on_fail": "ask"
+  },
+  {
+   "gate_id": "g3-no-stale-claim",
+   "kind": "quality",
+   "owner": "invoke",
+   "condition": "The rewritten SKILL contains no 'never accept' / identity-gate claim that contradicts DEC-026/027; every changed control statement is reconciled.",
+   "on_fail": "block"
+  },
+  {
+   "gate_id": "g4-export-is-the-edge",
+   "kind": "policy",
+   "owner": "refine",
+   "condition": "The rewrite names export (handoff export --confirm) as the one human-required irreversible edge; reversibility is the control everywhere else.",
+   "on_fail": "block"
+  },
+  {
+   "gate_id": "g5-governance-falsification",
+   "kind": "quality",
+   "owner": "distill",
+   "condition": "The Playwright plan includes a test that FAILS on a governance violation (export w/o confirm; non-restoring revert), not only happy paths.",
+   "on_fail": "block"
+  },
+  {
+   "gate_id": "g6-toygame-evidence",
+   "kind": "quality",
+   "owner": "distill",
+   "condition": "Toy-game artifact demonstrates the governance test catches the violation.",
+   "on_fail": "block"
+  },
+  {
+   "gate_id": "g7-owner-boundary",
+   "kind": "policy",
+   "owner": "refine",
+   "condition": "Edits limited to the run folder + SKILL.md + PLAYWRIGHT-CLOSED-LOOP-TEST-PLAN.md; no test code executed; no public-push.",
+   "on_fail": "block"
+  },
+  {
+   "gate_id": "g8-final-synthesis",
+   "kind": "quality",
+   "owner": "refine",
+   "condition": "RESULT.md synthesized from stage artifacts, not the route proposal.",
+   "on_fail": "block"
+  }
+ ],
+ "observability": {
+  "dispatch_id_required": true,
+  "parent_dispatch_id": null,
+  "trace_events": [
+   "refine.start",
+   "stage.context.complete",
+   "stage.define.xray.complete",
+   "stage.review.complete",
+   "research.decision",
+   "stage.distill.complete",
+   "design.dialectic.converged",
+   "stage.design-review.complete",
+   "toy_game.walkthrough.complete",
+   "stage.plan.complete",
+   "refine.synthesis.complete"
+  ],
+  "signal_grouping": "dispatch_id"
+ },
+ "promotion_guardrails": [
+  "Proposals + the SKILL/plan edits only; no test code executed.",
+  "Edits limited to run folder + SKILL.md + PLAYWRIGHT-CLOSED-LOOP-TEST-PLAN.md.",
+  "DEC-026 preserved; no public-push (the SKILL rewrite is the pre-publish fix, applied locally)."
+ ]
+}

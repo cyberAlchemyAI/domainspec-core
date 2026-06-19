@@ -7,7 +7,7 @@ import {
 } from "node:fs";
 import { dirname } from "node:path";
 
-import type { StudioSessionStorePort } from "../application/ports.js";
+import type { StagedCandidateRecord, StudioSessionStorePort } from "../application/ports.js";
 import type {
   CommentEvent,
   HandoffBundle,
@@ -31,6 +31,7 @@ interface PersistentStoreDocument {
   batchesBySession: Record<string, MutationBatch[]>;
   revisionsBySession: Record<string, RevisionManifestEntry[]>;
   handoffBySession: Record<string, HandoffBundle>;
+  stagedBySession: Record<string, StagedCandidateRecord>;
 }
 
 interface CreateFileBackedStudioSessionStoreOptions {
@@ -155,6 +156,18 @@ export function createFileBackedStudioSessionStore(
       const bundle = documentState.handoffBySession[sessionId];
       return bundle ? cloneHandoffBundle(bundle) : null;
     },
+    saveStagedCandidate(sessionId, record) {
+      documentState.stagedBySession[sessionId] = { ...record };
+      persist();
+    },
+    getStagedCandidate(sessionId) {
+      const record = documentState.stagedBySession[sessionId];
+      return record ? { ...record } : null;
+    },
+    clearStagedCandidate(sessionId) {
+      delete documentState.stagedBySession[sessionId];
+      persist();
+    },
   };
 }
 
@@ -163,13 +176,18 @@ function loadDocument(filePath: string): PersistentStoreDocument {
     return createEmptyDocument();
   }
 
+  // N10 (F12): only an ABSENT file means "fresh start". A present-but-unparseable file must NOT be silently
+  // reset to empty (that is silent data-loss) — fail loud so the operator can back it up / investigate.
+  const raw = readFileSync(filePath, "utf8");
+  let parsed: Partial<PersistentStoreDocument>;
   try {
-    const raw = readFileSync(filePath, "utf8");
-    const parsed = JSON.parse(raw) as Partial<PersistentStoreDocument>;
-    return normalizeDocument(parsed);
-  } catch {
-    return createEmptyDocument();
+    parsed = JSON.parse(raw) as Partial<PersistentStoreDocument>;
+  } catch (cause) {
+    throw new Error(
+      `Studio data file is present but not valid JSON: ${filePath}. Refusing to silently reset (data-loss guard) — back it up or remove it to start fresh. Cause: ${String(cause)}`,
+    );
   }
+  return normalizeDocument(parsed);
 }
 
 function writeDocument(
@@ -196,6 +214,7 @@ function createEmptyDocument(): PersistentStoreDocument {
     batchesBySession: {},
     revisionsBySession: {},
     handoffBySession: {},
+    stagedBySession: {},
   };
 }
 
@@ -230,6 +249,10 @@ function normalizeDocument(
     handoffBySession: asRecord(
       parsed.handoffBySession,
       fallback.handoffBySession,
+    ),
+    stagedBySession: asRecord(
+      parsed.stagedBySession,
+      fallback.stagedBySession,
     ),
   };
 }

@@ -1,4 +1,4 @@
-import type { StudioSessionStorePort } from "./ports.js";
+import type { StagedCandidateRecord, StudioSessionStorePort } from "./ports.js";
 import type {
   CommentEvent,
   HandoffBundle,
@@ -16,6 +16,7 @@ export function createInMemoryStudioSessionStore(): StudioSessionStorePort {
   const batchesBySession = new Map<string, MutationBatch[]>();
   const revisionsBySession = new Map<string, RevisionManifestEntry[]>();
   const handoffBySession = new Map<string, HandoffBundle>();
+  const stagedBySession = new Map<string, StagedCandidateRecord>();
 
   let sessionSequence = 0;
   let commentSequence = 0;
@@ -113,6 +114,16 @@ export function createInMemoryStudioSessionStore(): StudioSessionStorePort {
     getHandoffBundle(sessionId) {
       const bundle = handoffBySession.get(sessionId);
       return bundle ? cloneHandoffBundle(bundle) : null;
+    },
+    saveStagedCandidate(sessionId, record) {
+      stagedBySession.set(sessionId, { ...record });
+    },
+    getStagedCandidate(sessionId) {
+      const record = stagedBySession.get(sessionId);
+      return record ? { ...record } : null;
+    },
+    clearStagedCandidate(sessionId) {
+      stagedBySession.delete(sessionId);
     },
   };
 }

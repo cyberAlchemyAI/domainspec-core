@@ -27,13 +27,43 @@ Per the deep-spec readiness verdict, only **L0** exists in code (the 10-state se
 ## Status
 
 - Spec spine + Craft ledger: **in place**.
-- Code (backend + web + e2e): **extraction pending** — see [development/standalone-extraction/EXTRACTION-PLAN.md](development/standalone-extraction/EXTRACTION-PLAN.md). The backend module is a clean lift (node + fastify); the frontend is plain React + Vite + CSS.
+- **Backend lifted and runnable** — the full mutation loop works through the `studio` CLI: generate/register variants (real HTML), select a baseline, comment, synthesize, **approve → apply → accept** (two-gate, with an honest per-component diff), record, hand off. Backend is node + fastify + TypeScript (run via `tsx`).
+- **Shipped:** the browser **preview + click-to-annotate** surface (`studio preview <sid>`), AUTO `cycle`/`watch` verbs, in-preview **Accept/Revert** controls, and a Playwright e2e suite (`pnpm test:e2e`). Export stays the one terminal, `--confirm` edge (no button). (A full `web/` SPA scaffold is still deferred — the preview is a no-build loopback page, not an SPA.)
 
-## Running (after code extraction)
+## Running
+
+> ⚠️ **Before you test, read [TESTER-BRIEF.md](TESTER-BRIEF.md)** (a one-page safety/consent note) and follow [TEST-PROTOCOL.md](TEST-PROTOCOL.md) for a guided run.
+
+Requires Node ≥ 20 and pnpm. The CLI lives in `backend/`:
 
 ```bash
+cd backend
 pnpm install
-pnpm build      # backend (tsc) + web (vite)
-pnpm test       # backend node:test slice tests
-pnpm test:e2e   # playwright (wp01 / wp02wp03)
+pnpm test            # node:test suite (unit + slice)
+
+# Drive the studio. STUDIO_DATA is the data FILE inside a fresh per-run DIR, so the session
+# state AND the artifacts (under <dir>/artifacts) are fully isolated and reset together.
+# STUDIO_DOCS_ROOT points at a docs root for the handoff export.
+export STUDIO_DATA=/tmp/ups-run-1/studio.json      # fresh DIR per run, not a bare /tmp file
+export STUDIO_DOCS_ROOT="$(pwd)/.."
+
+pnpm studio session open                         # -> { sessionId: ups-session-0001, ... }
+pnpm studio prompt submit ups-session-0001 "a sign-up card"
+# register real variant HTML (each <label>.html must stamp data-od-id on annotatable components):
+pnpm studio variants register ups-session-0001 --from ./my-variants     # dir of a.html/b.html/c.html
+#   (or)  pnpm studio variants register ups-session-0001 --label A --file a.html --label B --file b.html
+pnpm studio baseline select ups-session-0001 B
+pnpm studio baseline commit ups-session-0001
+pnpm studio comment add ups-session-0001 --selector "[data-od-id=cta.primary]" --label "Primary button" --od-id cta.primary --intent reword --note "say Continue"
+pnpm studio synthesize ups-session-0001          # -> { batch: { batchId: ups-batch-00001, ... } }
+pnpm studio batch approve ups-session-0001 ups-batch-00001
+# two-gate apply: stage an agent-proposed candidate (head does NOT advance), then accept:
+pnpm studio apply ups-session-0001 ups-batch-00001 --candidate-from ./candidate.html   # -> openPath to view the staged diff
+pnpm studio accept ups-session-0001              # -> head advances by one; openPath to the committed HTML
+pnpm studio revisions ups-session-0001
+pnpm studio handoff export ups-session-0001
 ```
+
+**Seeing the result in a browser:** run `studio preview <sid>` and open the printed loopback URL in VSCode's Simple Browser — it renders the variants (sandboxed), the staged before/after + honest diff, a click-to-annotate panel, and in-preview **Accept/Revert** buttons. (`register`/`apply`/`accept` also print an `openPath` to the rendered `.html` on disk if you prefer `xdg-open`.) Variant HTML should be self-contained (inline styles) to render faithfully.
+
+**Reset:** point `STUDIO_DATA` at a file inside a fresh **directory** per run (e.g. `/tmp/ups-run-2/studio.json`) — both the session state and the artifacts live under that directory, so a new dir is a clean slate. To reset in place: `rm -rf "$(dirname "$STUDIO_DATA")"`.

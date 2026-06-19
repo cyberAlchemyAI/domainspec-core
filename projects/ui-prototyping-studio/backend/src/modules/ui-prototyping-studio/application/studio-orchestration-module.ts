@@ -3,6 +3,14 @@ import { makeApproveMutationBatchUseCase } from "./approve-mutation-batch.js";
 import { makeCaptureCommentEventUseCase } from "./capture-comment-event.js";
 import { makeExportDesignHandoffUseCase } from "./export-design-handoff.js";
 import { makeGenerateStudioVariantsUseCase } from "./generate-variants.js";
+import { makeRegisterStudioVariantsUseCase } from "./register-variants.js";
+import { makeApplyAndStageUseCase } from "./apply-and-stage.js";
+import { makeAcceptStagedRevisionUseCase } from "./accept-staged-revision.js";
+import { makeDiscardStagedRevisionUseCase } from "./discard-staged-revision.js";
+import { makeRevertRevisionUseCase } from "./revert-revision.js";
+import { makeRunCycleUseCase } from "./run-cycle.js";
+import { makeListPendingCommentsQuery } from "./list-pending-comments.js";
+import type { ArtifactContentPort } from "./artifact-content-port.js";
 import { makeGetDraftMutationBatchQuery } from "./get-draft-mutation-batch.js";
 import { makeGetHandoffBundleQuery } from "./get-handoff-bundle.js";
 import { makeGetStudioSessionSnapshotQuery } from "./get-session-snapshot.js";
@@ -16,6 +24,8 @@ import { makeSynthesizeMutationBatchUseCase } from "./synthesize-mutation-batch.
 
 interface CreateStudioOrchestrationModuleOptions {
   featureDocsRootDir: string;
+  /** MR1 — injected by the composition root (CLI) so application stays free of infrastructure. */
+  artifactContentStore?: ArtifactContentPort;
 }
 
 /**
@@ -32,11 +42,18 @@ export function createStudioOrchestrationModule(
     initializeSession: makeInitializeStudioSessionUseCase(store),
     submitPrompt: makeSubmitStudioPromptUseCase(store),
     generateVariants: makeGenerateStudioVariantsUseCase(store),
+    registerVariants: makeRegisterStudioVariantsUseCase(store, options.artifactContentStore ?? null),
     selectOrCommitBaseline: makeSelectOrCommitBaselineUseCase(store),
     captureCommentEvent: makeCaptureCommentEventUseCase(store),
     synthesizeMutationBatch: makeSynthesizeMutationBatchUseCase(store),
     approveMutationBatch: makeApproveMutationBatchUseCase(store),
     applyApprovedBatch: makeApplyApprovedBatchUseCase(store),
+    applyAndStage: makeApplyAndStageUseCase(store, options.artifactContentStore ?? null),
+    acceptStagedRevision: makeAcceptStagedRevisionUseCase(store, options.artifactContentStore ?? null),
+    discardStagedRevision: makeDiscardStagedRevisionUseCase(store, options.artifactContentStore ?? null),
+    revertRevision: makeRevertRevisionUseCase(store, options.artifactContentStore ?? null),
+    runCycle: makeRunCycleUseCase(store, options.artifactContentStore ?? null),
+    listPendingComments: makeListPendingCommentsQuery(store),
     exportDesignHandoff: makeExportDesignHandoffUseCase(store, {
       featureDocsRootDir: options.featureDocsRootDir,
     }),

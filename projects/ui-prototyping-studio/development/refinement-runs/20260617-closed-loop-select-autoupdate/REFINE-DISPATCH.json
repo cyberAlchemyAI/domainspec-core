@@ -1,0 +1,607 @@
+{
+ "dispatch_id": "refine-ups-closed-loop-select-autoupdate-20260617",
+ "intent": {
+  "raw": "we need a way of selecting and automatically claude code getting the changes and doing the update \u2014 is that possible?",
+  "objective": "Design + feasibility-verdict + plan for a closed visual loop: select a component in the preview -> Claude Code automatically picks up the selection -> proposes + STAGES the update -> preview reflects it; human still ACCEPTS at the gate. Preserve the propose-only/never-auto-accept boundary."
+ },
+ "mode": "mixed",
+ "techniques": [
+  "sequence",
+  "frame_handoff",
+  "validation_loop",
+  "owner_boundary_check",
+  "observability_grouping",
+  "x_ray",
+  "tournament",
+  "pareto_gate",
+  "dialectic",
+  "toy_game",
+  "residue_ledger",
+  "protected_context_flag",
+  "data_quality_completeness"
+ ],
+ "technique_overlays": [
+  {
+   "overlay_id": "baseline_sequence",
+   "trigger": "Ordinary refinement needs ordered handoff, validation, owner boundaries, observability.",
+   "techniques": [
+    "sequence",
+    "frame_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping"
+   ],
+   "applies_to_steps": [
+    "s1-context",
+    "s2-define",
+    "s3-review",
+    "s4-research",
+    "s5-distill-tournament",
+    "s6-design-dialectic",
+    "s7-design-review",
+    "s8-distill-repair-toygame",
+    "s9-plan",
+    "s10-final"
+   ],
+   "validation_expectation": "Each non-first stage consumes a prior frame and records a receipt."
+  },
+  {
+   "overlay_id": "xray_for_hidden_structure",
+   "trigger": "The trigger/event path browser->studio->agent and the new who-leads-when across the interactive boundary is the core uncertainty.",
+   "techniques": [
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference"
+   ],
+   "applies_to_steps": [
+    "s2-define",
+    "s5-distill-tournament",
+    "s8-distill-repair-toygame"
+   ],
+   "validation_expectation": "An x-ray maps where 'automatic' happens (selection capture + agent pickup) and where the human gate stays."
+  },
+  {
+   "overlay_id": "tournament_for_alternatives",
+   "trigger": "The agent-pickup mechanism has competing options (watch-loop vs next-turn-drain vs event-bridge).",
+   "techniques": [
+    "tournament",
+    "pareto_gate",
+    "recomposition_proof"
+   ],
+   "applies_to_steps": [
+    "s5-distill-tournament",
+    "s6-design-dialectic",
+    "s7-design-review",
+    "s8-distill-repair-toygame"
+   ],
+   "validation_expectation": "Mechanisms scored on automation/governance-safety/build-cost/turn-based-fit; pareto pick with rejected alternatives."
+  },
+  {
+   "overlay_id": "dialectic_for_tension",
+   "trigger": "Automation ('automatically doing the update') vs the never-do spine + F2 (human disposes durable changes).",
+   "techniques": [
+    "dialectic",
+    "zig_zag",
+    "residue_ledger"
+   ],
+   "applies_to_steps": [
+    "s6-design-dialectic",
+    "s7-design-review"
+   ],
+   "validation_expectation": "Resolved automation boundary (auto propose+stage; never auto-accept) + F2 re-raise residue."
+  },
+  {
+   "overlay_id": "toy_game_for_low_cost_falsification",
+   "trigger": "The closed loop must be falsified cheaply before planning.",
+   "techniques": [
+    "toy_game",
+    "validation_loop",
+    "assessment_failure_reference"
+   ],
+   "applies_to_steps": [
+    "s8-distill-repair-toygame"
+   ],
+   "validation_expectation": "click->comment->agent-pickup->stage->preview-shows; and a check that head does NOT advance without human accept."
+  }
+ ],
+ "subagent_strategy": {
+  "status": "none",
+  "trigger": "A fair interaction design needs independent perspectives: an interaction-designer, a skill-author, an ergonomics-critic (the naive-user/who-leads-when lens), each role-bound, joined by a synthesis architect.",
+  "explanation": "The UX surface and the operating SKILL are different crafts; the ergonomics critique must be independent of the designer to be honest (the first principle is unproven). Role-bound sibling agents with isolated framing produce a fairer design than one voice; parent synthesis joins their receipts.",
+  "context": [
+   "Ergonomics is the declared first principle and is still unmeasured (GAP-ERGONOMICS-UNPROVEN-001).",
+   "The runnable studio CLI (X2) already exists; the cold-start naive-user findings + ux-evidence report from the deep-spec are the evidence base.",
+   "Operator approved subagent spend across this project; review via domainspec-subagents-strategy is requested as the next step."
+  ],
+  "roles": [
+   {
+    "role_id": "interaction-designer",
+    "purpose": "Design the chosen interaction surface + the overlay mechanics + the human-agent loop.",
+    "owns": "interaction-interface design",
+    "applies_to_steps": [
+     "s5-distill-tournament",
+     "s6-design-dialectic"
+    ]
+   },
+   {
+    "role_id": "skill-author",
+    "purpose": "Author the operating SKILL.md (the Claude-Code operating contract + discipline).",
+    "owns": "SKILL.md draft",
+    "applies_to_steps": [
+     "s6-design-dialectic"
+    ]
+   },
+   {
+    "role_id": "ergonomics-critic",
+    "purpose": "Attack each interaction decision on who-leads-when / cognitive load / friction (the naive-user + ux-evidence lens), independent of the designer.",
+    "owns": "ergonomics critique",
+    "applies_to_steps": [
+     "s3-review",
+     "s7-design-review"
+    ]
+   },
+   {
+    "role_id": "naive-user",
+    "purpose": "Walk the interaction cold (only task goals + the rendered surface) to expose genuine friction.",
+    "owns": "toy-game walkthrough",
+    "applies_to_steps": [
+     "s8-distill-repair-toygame"
+    ]
+   },
+   {
+    "role_id": "synthesis-architect",
+    "purpose": "Join the design + skill + critique + walkthrough into one coherent surface + plan.",
+    "owns": "design synthesis + result",
+    "applies_to_steps": [
+     "s6-design-dialectic",
+     "s10-final"
+    ]
+   }
+  ],
+  "parallelism": "mixed",
+  "join_policy": "parent_synthesis",
+  "authorization": "requires_user_permission",
+  "permission_prompt": "Run the full UI/UX-interaction refine with 5 role-bound subagents (interaction-designer, skill-author, ergonomics-critic, naive-user, synthesis-architect)? Approve subagent execution under dispatch refine-ups-ui-ux-skill-20260616.",
+  "receipt_requirements": [
+   "dispatch_id",
+   "step_id",
+   "capability_ref",
+   "status",
+   "artifacts",
+   "validation",
+   "observer_status",
+   "blockers",
+   "handoff_note",
+   "agent_id",
+   "role_id",
+   "spawn_status",
+   "join_status",
+   "close_status",
+   "residue",
+   "reroute"
+  ],
+  "note": "Inline; strong grounding."
+ },
+ "steps": [
+  {
+   "step_id": "s1-context",
+   "name": "Context Builder evidence baseline",
+   "capability_ref": "context-builder",
+   "pattern": "sequential",
+   "techniques": [
+    "sequence",
+    "frame_handoff",
+    "protected_context_flag",
+    "observability_grouping"
+   ],
+   "inputs": [
+    {
+     "kind": "intent",
+     "ref": "intent.raw"
+    },
+    {
+     "kind": "artifact",
+     "ref": "projects/ui-prototyping-studio/development/refinement-runs/20260616-ui-ux-interaction-skill/REFINE-SEED-PROPOSAL.md"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "frame",
+     "ref": "frame.evidence-baseline"
+    },
+    {
+     "kind": "artifact",
+     "ref": "stages/01-context-pack.md"
+    }
+   ],
+   "stop_conditions": [
+    "Baseline cites the SPEC interaction model, the CLI-native + annotation decisions, the ergonomics charter, and the cold-start/ux-evidence findings."
+   ]
+  },
+  {
+   "step_id": "s2-define",
+   "name": "Invoke Define \u2014 interaction surface + skill purpose (x-ray the flow)",
+   "capability_ref": "invoke",
+   "mode": "define",
+   "pattern": "xray",
+   "techniques": [
+    "x_ray",
+    "frame_handoff",
+    "minimum_component_catalog"
+   ],
+   "inputs": [
+    {
+     "kind": "frame",
+     "ref": "frame.evidence-baseline"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/02-define-and-flow-xray.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.define"
+    }
+   ]
+  },
+  {
+   "step_id": "s3-review",
+   "name": "Interrogation refine-review (ergonomics-critic lens)",
+   "capability_ref": "interrogation",
+   "mode": "refine-review",
+   "pattern": "validation",
+   "techniques": [
+    "validation_loop"
+   ],
+   "evidence_artifact": "stages/03-refine-review.md",
+   "inputs": [
+    {
+     "kind": "frame",
+     "ref": "frame.evidence-baseline"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.define"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "decision",
+     "ref": "decision.define-ready"
+    },
+    {
+     "kind": "artifact",
+     "ref": "stages/03-refine-review.md"
+    }
+   ]
+  },
+  {
+   "step_id": "s4-research",
+   "name": "Research decision",
+   "capability_ref": "refine",
+   "mode": "research-if-gap-appears",
+   "pattern": "decision",
+   "techniques": [
+    "data_quality_completeness",
+    "protected_context_flag"
+   ],
+   "inputs": [
+    {
+     "kind": "decision",
+     "ref": "decision.define-ready"
+    },
+    {
+     "kind": "frame",
+     "ref": "frame.evidence-baseline"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "decision",
+     "ref": "decision.research"
+    }
+   ]
+  },
+  {
+   "step_id": "s5-distill-tournament",
+   "name": "Distill \u2014 tournament of interaction surfaces (overlay vs TUI vs local web)",
+   "capability_ref": "distill",
+   "pattern": "tournament",
+   "parallel": true,
+   "join_policy": "pareto",
+   "roles": [
+    "interaction-designer",
+    "advocate-overlay",
+    "advocate-tui",
+    "advocate-localweb"
+   ],
+   "convergence_criteria": [
+    "Each surface scored on who-leads-when clarity, cognitive load, friction reduction, in-prototype annotation fidelity, and build cost.",
+    "Dominated surfaces eliminated with reasons; the non-dominated choice (or synthesis) named.",
+    "Rejected alternatives preserved in a residue ledger."
+   ],
+   "techniques": [
+    "tournament",
+    "pareto_gate",
+    "residue_ledger"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.define"
+    },
+    {
+     "kind": "decision",
+     "ref": "decision.research"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/05-surface-comparison.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.selected-surface"
+    }
+   ],
+   "stop_conditions": [
+    "One interaction surface selected with a pareto/ergonomics rationale."
+   ]
+  },
+  {
+   "step_id": "s6-design-dialectic",
+   "name": "Invoke Design \u2014 interaction surface + author SKILL.md (autonomy vs control dialectic)",
+   "capability_ref": "invoke",
+   "mode": "design",
+   "pattern": "dialectic",
+   "roles": [
+    "interaction-designer",
+    "skill-author",
+    "human-control-guardian",
+    "synthesis-architect"
+   ],
+   "convergence_criteria": [
+    "Produces the operating SKILL.md content (the Claude-Code operating contract + discipline).",
+    "Produces the interaction-interface design: overlay mechanics + the human-agent loop, with who-leads-when / cognitive-load / friction stated per step.",
+    "Each agent-autonomy-vs-human-control tension becomes a decision, a residue, or a deferred option."
+   ],
+   "techniques": [
+    "dialectic",
+    "residue_ledger",
+    "minimum_component_catalog"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.selected-surface"
+    },
+    {
+     "kind": "artifact",
+     "ref": "stages/05-surface-comparison.md"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/06-interaction-design.md"
+    },
+    {
+     "kind": "artifact",
+     "ref": "stages/06-SKILL-draft.md"
+    },
+    {
+     "kind": "frame",
+     "ref": "frame.design"
+    }
+   ]
+  },
+  {
+   "step_id": "s7-design-review",
+   "name": "Interrogation refine-design-review (ergonomics + ux-evidence classification)",
+   "capability_ref": "interrogation",
+   "mode": "refine-design-review",
+   "pattern": "validation",
+   "techniques": [
+    "validation_loop"
+   ],
+   "evidence_artifact": "stages/07-design-review.md",
+   "inputs": [
+    {
+     "kind": "frame",
+     "ref": "frame.design"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "decision",
+     "ref": "decision.design-ready"
+    },
+    {
+     "kind": "artifact",
+     "ref": "stages/07-design-review.md"
+    }
+   ]
+  },
+  {
+   "step_id": "s8-distill-repair-toygame",
+   "name": "Distill Repair \u2014 dual walkthrough (naive user + Claude Code)",
+   "capability_ref": "distill",
+   "mode": "validate",
+   "pattern": "toy_game",
+   "techniques": [
+    "toy_game",
+    "validation_loop",
+    "residue_ledger"
+   ],
+   "evidence_artifact": "stages/08-toy-game-walkthrough.md",
+   "inputs": [
+    {
+     "kind": "frame",
+     "ref": "frame.design"
+    },
+    {
+     "kind": "decision",
+     "ref": "decision.design-ready"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/08-toy-game-walkthrough.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.repaired-design"
+    }
+   ],
+   "stop_conditions": [
+    "A cold-start naive user and a Claude Code session each walk the interaction on a sample session; friction interpreted; repairs recorded."
+   ]
+  },
+  {
+   "step_id": "s9-plan",
+   "name": "Invoke Plan \u2014 non-executed build plan for the overlay + skill install",
+   "capability_ref": "invoke",
+   "mode": "plan",
+   "pattern": "sequential",
+   "techniques": [
+    "sequence",
+    "frame_handoff",
+    "data_quality_completeness"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.repaired-design"
+    },
+    {
+     "kind": "frame",
+     "ref": "frame.design"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/09-plan.md"
+    }
+   ]
+  },
+  {
+   "step_id": "s10-final",
+   "name": "Final Interrogation and Refine-owned synthesis",
+   "capability_ref": "interrogation",
+   "mode": "refine-final",
+   "pattern": "synthesis",
+   "roles": [
+    "synthesis-architect"
+   ],
+   "techniques": [
+    "validation_loop",
+    "frame_handoff",
+    "residue_ledger"
+   ],
+   "inputs": [
+    {
+     "kind": "frame",
+     "ref": "frame.design"
+    },
+    {
+     "kind": "artifact",
+     "ref": "stages/09-plan.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.repaired-design"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "RESULT.md"
+    },
+    {
+     "kind": "decision",
+     "ref": "decision.final"
+    }
+   ]
+  }
+ ],
+ "gates": [
+  {
+   "gate_id": "g1-capability-handles",
+   "kind": "policy",
+   "owner": "refine",
+   "condition": "Each runtime-backed stage names its native capability handle and expected receipt before execution.",
+   "on_fail": "block"
+  },
+  {
+   "gate_id": "g2-research-confirm",
+   "kind": "decision",
+   "owner": "refine",
+   "condition": "External UX research runs only if a named gap appears and the operator confirms; default local-first; sources labelled external_context.",
+   "on_fail": "ask"
+  },
+  {
+   "gate_id": "g3-tournament-convergence",
+   "kind": "quality",
+   "owner": "distill",
+   "condition": "Surface tournament records advocates, pareto criteria, and rejected alternatives before a surface is selected.",
+   "on_fail": "flag"
+  },
+  {
+   "gate_id": "g4-ergonomics-rationale",
+   "kind": "quality",
+   "owner": "invoke",
+   "condition": "Every kept/changed interaction decision states who-leads-when, cognitive load, and friction reduction (the ergonomics charter).",
+   "on_fail": "flag"
+  },
+  {
+   "gate_id": "g5-toy-game-evidence",
+   "kind": "validation",
+   "owner": "distill",
+   "condition": "The dual walkthrough (naive user + Claude Code) is run with named friction + ux-evidence classes before planning.",
+   "on_fail": "flag"
+  },
+  {
+   "gate_id": "g6-owner-boundary",
+   "kind": "promotion_guardrail",
+   "owner": "refine",
+   "condition": "Stage capabilities own their artifacts; no canonical SPEC/skill install without operator approval (the SKILL.md + design are proposals).",
+   "on_fail": "block"
+  },
+  {
+   "gate_id": "g7-subagent-permission",
+   "kind": "human_approval",
+   "owner": "operator",
+   "condition": "Subagent execution is approved before any subagent spawns.",
+   "on_fail": "ask"
+  }
+ ],
+ "observability": {
+  "dispatch_id_required": true,
+  "parent_dispatch_id": null,
+  "trace_events": [
+   "refine.start",
+   "stage.context.complete",
+   "stage.define.xray.complete",
+   "stage.review.complete",
+   "research.decision",
+   "tournament.join",
+   "design.dialectic.converged",
+   "stage.design-review.complete",
+   "toy_game.walkthrough.complete",
+   "stage.plan.complete",
+   "refine.synthesis.complete"
+  ],
+  "signal_grouping": "dispatch_id",
+  "dispatch_id": "refine-ups-closed-loop-select-autoupdate-20260617"
+ },
+ "promotion_guardrails": [
+  "Refine does not install a live SKILL.md or mutate SPEC as canonical; it proposes \u2014 operator approval (and the requested domainspec-subagents-strategy review) precede any install.",
+  "Stage capabilities own their native artifacts; the manifest references them.",
+  "External UX research stays external_context until owner review."
+ ]
+}

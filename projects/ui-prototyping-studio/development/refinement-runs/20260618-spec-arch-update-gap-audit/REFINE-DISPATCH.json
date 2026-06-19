@@ -1,0 +1,495 @@
+{
+ "dispatch_id": "refine-ups-spec-arch-update-gap-audit-20260618",
+ "intent": {
+  "raw": "lets update specs and architecture and then create a plan add a sub agent to see if there is more gaps",
+  "objective": "Sync SPEC.md + ARCHITECTURE.md to the built reality (reversibility model, two modes, full verb surface, test reality, UI dead-end + OQ-5 as named gaps); author a next-build plan (UI accept/revert control first); and run ONE independent gap-auditor subagent to surface missed gaps, trust-but-verified and triaged into the plan."
+ },
+ "mode": "mixed",
+ "techniques": [
+  "sequence",
+  "frame_handoff",
+  "validation_loop",
+  "owner_boundary_check",
+  "observability_grouping",
+  "x_ray",
+  "component_descriptor",
+  "entity_component_reference",
+  "memory_loop",
+  "residue_ledger",
+  "data_quality_completeness",
+  "data_quality_deduplication"
+ ],
+ "technique_overlays": [
+  {
+   "overlay_id": "baseline_sequence",
+   "trigger": "Ordered handoff, validation, owner boundaries, observability for a doc-sync + plan refinement.",
+   "techniques": [
+    "sequence",
+    "frame_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping"
+   ],
+   "applies_to_steps": [
+    "s1-context",
+    "s2-define",
+    "s3-review",
+    "s4-research",
+    "s5-distill",
+    "s6-design",
+    "s7-design-review",
+    "s8-gap-audit",
+    "s9-plan",
+    "s10-final"
+   ],
+   "validation_expectation": "Each non-first stage consumes a prior frame and records a receipt."
+  },
+  {
+   "overlay_id": "xray_for_hidden_structure",
+   "trigger": "The core uncertainty is the DRIFT between the built system and what SPEC/ARCH document \u2014 a hidden-structure mapping problem.",
+   "techniques": [
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference"
+   ],
+   "applies_to_steps": [
+    "s2-define",
+    "s5-distill"
+   ],
+   "validation_expectation": "A drift table maps each built capability to the SPEC/ARCH edit it requires."
+  },
+  {
+   "overlay_id": "memory_residue_for_context_recovery",
+   "trigger": "Multiple prior decisions (DEC-024/025/026/027), resolved/open gaps (GAP-010, OQ-5) and several plans must be reconciled into the synced docs.",
+   "techniques": [
+    "memory_loop",
+    "residue_ledger",
+    "data_quality_deduplication"
+   ],
+   "applies_to_steps": [
+    "s1-context",
+    "s5-distill",
+    "s8-gap-audit"
+   ],
+   "validation_expectation": "The decision/gap history is pulled in and de-duplicated; no superseded claim re-enters the docs."
+  }
+ ],
+ "subagent_strategy": {
+  "status": "recommended",
+  "trigger": "An independent set of eyes finds gaps the author (me) is blind to \u2014 the inline work has author bias; a fresh agent auditing SPEC/ARCH/code/tests catches what self-review misses.",
+  "explanation": "One gap-auditor subagent (a P11 helper \u2014 single, within the run's scope) reviews the synced docs + code + tests + plans against each other and reports gaps/inconsistencies/missing coverage. The parent trust-but-verifies each claim against the actual files (P8) before any gap enters the plan. Single agent \u21d2 no pairwise-tension gate; reported post-hoc in agents_spawned.",
+  "roles": [
+   {
+    "role_id": "gap-auditor",
+    "purpose": "Independently audit SPEC/ARCH/code/tests/plans for gaps, inconsistencies, missing coverage, and overclaims; return a structured, file-cited gap list.",
+    "owns": "the gap-audit report (stages/08-gap-audit.md input)",
+    "applies_to_steps": [
+     "s8-gap-audit"
+    ]
+   }
+  ],
+  "parallelism": "fanout",
+  "join_policy": "parent_synthesis",
+  "authorization": "requires_user_permission",
+  "permission_prompt": "Run one independent gap-auditor subagent over the studio (SPEC/ARCH/code/tests/plans) to surface missed gaps? Findings will be trust-but-verified before entering the plan.",
+  "receipt_requirements": [
+   "dispatch_id",
+   "step_id",
+   "capability_ref",
+   "status",
+   "artifacts",
+   "validation",
+   "observer_status",
+   "blockers",
+   "handoff_note",
+   "agent_id",
+   "role_id",
+   "spawn_status",
+   "join_status",
+   "close_status",
+   "residue",
+   "reroute"
+  ],
+  "note": "P11 helper (single, within scope) \u2014 no ledger dispatch row required; reported post-hoc in agents_spawned + the run manifest."
+ },
+ "steps": [
+  {
+   "step_id": "s1-context",
+   "name": "Context Builder evidence baseline",
+   "capability_ref": "context-builder",
+   "pattern": "sequential",
+   "techniques": [
+    "frame_handoff",
+    "memory_loop"
+   ],
+   "inputs": [
+    {
+     "kind": "artifact",
+     "ref": "REFINE-SEED-PROPOSAL.md"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/01-context.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.context"
+    }
+   ],
+   "stop_conditions": [
+    "Built reality (code+tests+verbs) + current SPEC/ARCH text + DEC-024/025/026/027 + OQ-5 captured."
+   ]
+  },
+  {
+   "step_id": "s2-define",
+   "name": "Invoke Define \u2014 x-ray the drift (built vs documented)",
+   "capability_ref": "invoke",
+   "pattern": "xray",
+   "techniques": [
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.context"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/06-design.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.define"
+    }
+   ],
+   "stop_conditions": [
+    "A drift table: each built capability -> where SPEC/ARCH must change; each stale claim flagged."
+   ]
+  },
+  {
+   "step_id": "s3-review",
+   "name": "Interrogation refine-review",
+   "capability_ref": "interrogation",
+   "pattern": "validation",
+   "mode": "refine-review",
+   "evidence_artifact": "stages/03-review.md",
+   "techniques": [
+    "validation_loop"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.define"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/03-review.md"
+    }
+   ],
+   "stop_conditions": [
+    "The drift list is complete + no doc edit overclaims beyond what code/tests support (P10)."
+   ]
+  },
+  {
+   "step_id": "s4-research",
+   "name": "Research decision",
+   "capability_ref": "refine",
+   "pattern": "decision",
+   "mode": "research-if-gap-appears",
+   "techniques": [
+    "sequence"
+   ],
+   "inputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/03-review.md"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "decision",
+     "ref": "decision.research"
+    }
+   ],
+   "stop_conditions": [
+    "Local-first; external only on a named gap + confirm."
+   ]
+  },
+  {
+   "step_id": "s5-distill",
+   "name": "Distill \u2014 minimal doc-sync edits + the gap-audit scope",
+   "capability_ref": "distill",
+   "pattern": "distill",
+   "techniques": [
+    "data_quality_completeness",
+    "residue_ledger"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.define"
+    },
+    {
+     "kind": "decision",
+     "ref": "decision.research"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/06-design.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.distilled"
+    }
+   ],
+   "stop_conditions": [
+    "The smallest set of SPEC/ARCH edits that removes the drift + the explicit surfaces the gap-auditor will sweep."
+   ]
+  },
+  {
+   "step_id": "s6-design",
+   "name": "Invoke Design \u2014 the SPEC + ARCH update content",
+   "capability_ref": "invoke",
+   "pattern": "synthesis",
+   "mode": "design",
+   "techniques": [
+    "sequence",
+    "frame_handoff"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.distilled"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/06-design.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.design"
+    }
+   ],
+   "stop_conditions": [
+    "The exact reversibility/two-modes/verb-surface/test-reality edits for SPEC + ARCH drafted."
+   ]
+  },
+  {
+   "step_id": "s7-design-review",
+   "name": "Interrogation refine-design-review",
+   "capability_ref": "interrogation",
+   "pattern": "validation",
+   "mode": "refine-design-review",
+   "evidence_artifact": "stages/07-design-review.md",
+   "techniques": [
+    "validation_loop",
+    "owner_boundary_check"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.design"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/07-design-review.md"
+    }
+   ],
+   "stop_conditions": [
+    "Edits are accurate to code/tests; UI dead-end + OQ-5 carried as named gaps; no public content leaks."
+   ]
+  },
+  {
+   "step_id": "s8-gap-audit",
+   "name": "Distill Repair \u2014 INDEPENDENT subagent gap-audit (then trust-but-verify)",
+   "capability_ref": "distill",
+   "pattern": "validation",
+   "mode": "validate",
+   "evidence_artifact": "stages/08-gap-audit.md",
+   "techniques": [
+    "validation_loop",
+    "residue_ledger",
+    "assessment_failure_reference"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.design"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/08-gap-audit.md"
+    },
+    {
+     "kind": "handle",
+     "ref": "handle.gaps"
+    }
+   ],
+   "stop_conditions": [
+    "A gap-auditor subagent sweeps SPEC/ARCH/code/tests/plans for missed gaps; parent trust-but-verifies each claim (P8) and triages in-plan/deferred/rejected."
+   ]
+  },
+  {
+   "step_id": "s9-plan",
+   "name": "Invoke Plan \u2014 update SPEC + ARCH + author PLAN-NEXT",
+   "capability_ref": "invoke",
+   "pattern": "sequential",
+   "mode": "plan",
+   "techniques": [
+    "sequence",
+    "frame_handoff",
+    "data_quality_completeness"
+   ],
+   "inputs": [
+    {
+     "kind": "handle",
+     "ref": "handle.gaps"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "../../../SPEC.md"
+    },
+    {
+     "kind": "artifact",
+     "ref": "../../../ARCHITECTURE.md"
+    },
+    {
+     "kind": "artifact",
+     "ref": "../../PLAN-NEXT.md"
+    },
+    {
+     "kind": "artifact",
+     "ref": "stages/09-plan.md"
+    }
+   ],
+   "stop_conditions": [
+    "SPEC + ARCH synced; PLAN-NEXT lists the UI accept/revert control first + the triaged subagent gaps."
+   ]
+  },
+  {
+   "step_id": "s10-final",
+   "name": "Final Interrogation and Refine-owned synthesis",
+   "capability_ref": "interrogation",
+   "pattern": "synthesis",
+   "mode": "refine-final",
+   "techniques": [
+    "validation_loop"
+   ],
+   "inputs": [
+    {
+     "kind": "artifact",
+     "ref": "stages/09-plan.md"
+    }
+   ],
+   "outputs": [
+    {
+     "kind": "artifact",
+     "ref": "RESULT.md"
+    }
+   ],
+   "stop_conditions": [
+    "RESULT.md synthesizes the doc sync + the gap-audit triage + the plan + next routes."
+   ]
+  }
+ ],
+ "gates": [
+  {
+   "gate_id": "g1-capability-handles",
+   "kind": "policy",
+   "owner": "refine",
+   "condition": "Each runtime-backed stage names its native capability handle and expected receipt before execution.",
+   "on_fail": "block"
+  },
+  {
+   "gate_id": "g2-research-confirm",
+   "kind": "decision",
+   "owner": "refine",
+   "condition": "External research only if a named gap appears and the operator confirms; default local-first.",
+   "on_fail": "ask"
+  },
+  {
+   "gate_id": "g3-no-overclaim",
+   "kind": "quality",
+   "owner": "invoke",
+   "condition": "Every SPEC/ARCH edit is backed by actual code or a passing test (P10 claim<=proof); no aspirational capability documented as present.",
+   "on_fail": "block"
+  },
+  {
+   "gate_id": "g4-subagent-permission",
+   "kind": "decision",
+   "owner": "refine",
+   "condition": "The gap-auditor subagent runs only after explicit operator permission (strategy gate).",
+   "on_fail": "ask"
+  },
+  {
+   "gate_id": "g5-trust-but-verify",
+   "kind": "quality",
+   "owner": "refine",
+   "condition": "Every subagent-reported gap is verified against the actual code/docs before it enters the plan (P8); unverifiable claims are dropped or flagged.",
+   "on_fail": "block"
+  },
+  {
+   "gate_id": "g6-gap-triage",
+   "kind": "quality",
+   "owner": "distill",
+   "condition": "Each found gap is triaged in-plan / deferred / rejected with a reason.",
+   "on_fail": "block"
+  },
+  {
+   "gate_id": "g7-owner-boundary",
+   "kind": "policy",
+   "owner": "refine",
+   "condition": "Edits limited to the run folder + SPEC.md + ARCHITECTURE.md + PLAN-NEXT.md; no code; no public-push.",
+   "on_fail": "block"
+  },
+  {
+   "gate_id": "g8-final-synthesis",
+   "kind": "quality",
+   "owner": "refine",
+   "condition": "RESULT.md synthesized from stage artifacts incl. the gap-audit receipt.",
+   "on_fail": "block"
+  }
+ ],
+ "observability": {
+  "dispatch_id_required": true,
+  "parent_dispatch_id": null,
+  "trace_events": [
+   "refine.start",
+   "stage.context.complete",
+   "stage.define.xray.complete",
+   "stage.review.complete",
+   "research.decision",
+   "stage.distill.complete",
+   "stage.design.complete",
+   "stage.design-review.complete",
+   "gap_audit.subagent.joined",
+   "stage.plan.complete",
+   "refine.synthesis.complete"
+  ],
+  "signal_grouping": "dispatch_id"
+ },
+ "promotion_guardrails": [
+  "Proposals + the SPEC/ARCH/PLAN edits only; no code executed.",
+  "Edits limited to run folder + SPEC.md + ARCHITECTURE.md + PLAN-NEXT.md.",
+  "Subagent runs only after operator permission; every reported gap trust-but-verified (P8) before the plan.",
+  "No public-push."
+ ]
+}

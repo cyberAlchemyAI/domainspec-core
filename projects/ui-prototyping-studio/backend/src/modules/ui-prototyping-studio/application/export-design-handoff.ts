@@ -17,6 +17,12 @@ export interface ExportDesignHandoffInput {
   sessionId: string;
   exportProfile?: string;
   requestedBy: string;
+  /**
+   * N1 — export is the one IRREVERSIBLE edge (downstream consumption). The human confirmation lives HERE,
+   * in the core use-case, so EVERY adapter (CLI, HTTP) inherits it — not only the CLI (closes F1, restores
+   * ARCHITECTURE §4 "gates live in the core, never in the adapter"). Must be a non-empty confirming actor.
+   */
+  confirmedBy?: string;
 }
 
 export interface ExportDesignHandoffResult {
@@ -41,6 +47,15 @@ export function makeExportDesignHandoffUseCase(
   return function exportDesignHandoff(
     input: ExportDesignHandoffInput,
   ): ExportDesignHandoffResult {
+    // N1 (gate-in-core): the irreversible edge requires an explicit human confirmation. Enforced here so no
+    // adapter can reach export unconfirmed (the HTTP route previously bypassed the CLI-only `--confirm`).
+    if (!input.confirmedBy || input.confirmedBy.trim().length === 0) {
+      throw createUiPrototypingStudioError(
+        "HANDOFF_CONFIRMATION_REQUIRED",
+        "Export is the one irreversible edge — an explicit human confirmation is required",
+        { sessionId: input.sessionId },
+      );
+    }
     const session = store.getSession(input.sessionId);
     if (!session) {
       throw createUiPrototypingStudioError(
@@ -75,26 +90,15 @@ export function makeExportDesignHandoffUseCase(
       );
     }
 
-    const requiredFiles = [
-      "SPEC.md",
-      "STORIES.md",
-      "UI-SPEC.md",
-      "TEST-SPEC.md",
-    ];
-    const missingFiles = requiredFiles.filter(
+    // GAP-009 (G2): feature-doc refs are ADVISORY, not gating. The lean standalone project
+    // consolidated STORIES/UI-SPEC/TEST-SPEC into SPEC.md + aspect docs, so a hard existsSync
+    // gate blocked handoff in the lean setup. The real anchors (a recorded revision + baseline
+    // provenance, checked above) gate the export; the doc refs are pointers a consumer resolves.
+    // `missingRefs` is recorded on the bundle for honesty.
+    const advisoryFiles = ["SPEC.md", "STORIES.md", "UI-SPEC.md", "TEST-SPEC.md"];
+    const missingRefs = advisoryFiles.filter(
       (fileName) => !existsSync(join(options.featureDocsRootDir, fileName)),
     );
-
-    if (missingFiles.length > 0) {
-      throw createUiPrototypingStudioError(
-        "HANDOFF_REFERENCE_INCOMPLETE",
-        "Handoff export references are incomplete",
-        {
-          sessionId: session.sessionId,
-          missingFiles,
-        },
-      );
-    }
 
     const bundle: HandoffBundle = {
       sessionId: session.sessionId,
@@ -106,6 +110,7 @@ export function makeExportDesignHandoffUseCase(
       acceptanceRefs: [SPEC_ACCEPTANCE_REF],
       uiSpecRef: UI_SPEC_REF,
       testSpecRef: TEST_SPEC_REF,
+      missingRefs,
     };
 
     const nextSession: StudioSession = {

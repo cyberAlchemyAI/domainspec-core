@@ -138,6 +138,8 @@ export interface HandoffBundle {
   acceptanceRefs: string[];
   uiSpecRef: string;
   testSpecRef: string;
+  /** [G2] advisory: feature-doc refs not present under the docs root (lean project); non-gating. */
+  missingRefs?: string[];
 }
 
 /**

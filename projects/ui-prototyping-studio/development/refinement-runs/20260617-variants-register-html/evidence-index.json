@@ -1,0 +1,26 @@
+{
+  "run_id": "20260617-variants-register-html",
+  "dispatch_id": "refine-ups-variants-register-html-20260617",
+  "capability_ref": "refine",
+  "preset": "standard",
+  "research": "no-research",
+  "status": "pass",
+  "dispatch_validation": "pass",
+  "seed": "REFINE-SEED-PROPOSAL.md",
+  "dispatch": "REFINE-DISPATCH.json",
+  "runtime_handoff": "RUNTIME-HANDOFF.md",
+  "result": "RESULT.md",
+  "manifest": "RUN-MANIFEST.md",
+  "stages": [
+    {"step": "s5-s8", "name": "design (x-ray+tournament+dialectic+toy-game)", "artifact": "stages/05-design.md", "status": "pass"},
+    {"step": "s9", "name": "plan", "artifact": "stages/09-plan.md", "status": "pass"}
+  ],
+  "decision": {
+    "ingestion": "Option A: variants register --label X --file path (repeatable); --from dir optional later",
+    "od_id_responsibility": "agent stamps + core validates presence and rejects (OD_ID_MISSING) — the good mirror of F2 (enforceable, unlike identity)",
+    "stub": "variants generate kept as testable-surface path; register is the real path",
+    "gate_granularity": "MVP coarse (>=1 data-od-id); per-component deferred (GAP-OD-ID-GRANULARITY)"
+  },
+  "swu": "MR1: registerVariants use-case + OD_ID_MISSING gate + CLI --label/--file + harness M2 closure; deps M0b/M0c exist; no F2 dependency",
+  "next_routes": ["task-session MR1 (lifts WW2)", "WW3 install still gated on F2", "GAP-OD-ID-GRANULARITY deferred"]
+}

@@ -26,4 +26,6 @@ export interface ArtifactContentPort {
   commitHtml(stagedRef: string): string;
   /** Drop a staged candidate with no trace (reject / accept-diff discard path). */
   discardStagedHtml(stagedRef: string): void;
+  /** D1a — the on-disk path for a ref (for "open this in a browser"), or null if not file-backed. */
+  pathForRef(ref: string): string | null;
 }

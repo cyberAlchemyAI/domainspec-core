@@ -28,10 +28,17 @@ nothing executed; each SWU is run via a separate `task-session`.
   (`DEC-EXT-COMMIT-POLICY-020`).
 - Assumptions at defaults (confirm at execution): docs at project root (D-EXT-1); pnpm workspace
   (D-EXT-3); Node ≥20 + pnpm pinned in `engines` (D-EXT-5).
+- **Review gate (`DEC-UX-REVIEW-FIX-BEFORE-BUILD-023`):** the SKILL/design draft passed a red-team review
+  (dispatch `2026-06-16-ups-skill-design-review`, resolved). The doc-fix findings (F1/F3/F4/F5/F6/F7/F8)
+  are **APPLIED** to the run drafts (`development/refinement-runs/20260616-ui-ux-interaction-skill/`, see
+  `REFRESH-REPORT.md`). The remaining blocker is **F2 / R-S7-1** — the core has **no human-vs-agent
+  identity gate** (`approve` has zero actor check; `apply` refuses only literal `system:auto`); the SKILL
+  never-do spine is currently the SOLE control. Build is gated on the **F2 decision** (`PLAN-FIXES.md`).
 
 ## Program map (waves)
 
 ```
+W0 Review gate     : F2a identity-gate decision · S1 install corrected SKILL · B-PRE overclaim guard  (PLAN-FIXES.md; gates the build)
 W1 Extraction      : SWU-X1 backend lift → SWU-X2 studio CLI + skill        (unblocks everything)
 W2 Mutation L0     : SWU-M0a schema · SWU-M0b artifact port · SWU-M0c canonicalizer   (||, after X1)
 W3 Mutation L1     : SWU-M1 validator suite V1–V9b + whole-tree V3 fence     (after M0*)
@@ -144,4 +151,7 @@ Unit tests (M0*, validators) → slice tests (M1/M2 against the orchestration mo
 
 ## Next route
 
-`task-session` per SWU, wave order W1→W8. Start: **SWU-X1** (backend lift). The two research tracks run in parallel, off this critical path.
+**W0 first** (`PLAN-FIXES.md`): `decision-gate` for **F2a** (the core identity-gate decision) is the only
+blocker; then `task-session` for **S1** (install the corrected SKILL) + **B-PRE** (overclaim grep guard),
+and **F2b** if F2a says before-build. Then `task-session` per SWU in wave order W1→W8 (start **SWU-X1**).
+The two research tracks run in parallel, off this critical path.

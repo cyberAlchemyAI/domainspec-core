@@ -7,6 +7,13 @@ import type {
   StudioSession,
 } from "../domain/models.js";
 
+/** MW1 — the transient staged candidate held between `apply` (gate 2A) and `accept`/`discard` (gate 2B). */
+export interface StagedCandidateRecord {
+  stagedRef: string;
+  candidateHtmlHash: string;
+  batchId: string;
+}
+
 export interface StudioSessionStorePort {
   allocateSessionId(): string;
   allocateCommentId(): string;
@@ -26,4 +33,7 @@ export interface StudioSessionStorePort {
   listRevisions(sessionId: string): RevisionManifestEntry[];
   saveHandoffBundle(bundle: HandoffBundle): void;
   getHandoffBundle(sessionId: string): HandoffBundle | null;
+  saveStagedCandidate(sessionId: string, record: StagedCandidateRecord): void;
+  getStagedCandidate(sessionId: string): StagedCandidateRecord | null;
+  clearStagedCandidate(sessionId: string): void;
 }

@@ -76,5 +76,9 @@ export function createFileArtifactContentStore(
       const p = pathForRef(stagedRef);
       if (p && existsSync(p)) rmSync(p);
     },
+
+    pathForRef(ref: string): string | null {
+      return pathForRef(ref);
+    },
   };
 }

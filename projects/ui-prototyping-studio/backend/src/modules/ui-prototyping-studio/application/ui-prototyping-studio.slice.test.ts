@@ -400,6 +400,7 @@ test("UPS-CON-008 UPS-CON-009 UPS-CON-010 UPS-OP-009 UPS-OP-010 UPS-QRY-005 UPS-
       context.exportDesignHandoff({
         sessionId: session.sessionId,
         requestedBy: "test-suite",
+        confirmedBy: "test-suite", // N1: confirm passes so this reaches the revision-required check it tests
       }),
     (error) => {
       assert.ok(isUiPrototypingStudioError(error));
@@ -418,6 +419,7 @@ test("UPS-CON-008 UPS-CON-009 UPS-CON-010 UPS-OP-009 UPS-OP-010 UPS-QRY-005 UPS-
   const exported = context.exportDesignHandoff({
     sessionId: session.sessionId,
     requestedBy: "test-suite",
+    confirmedBy: "test-suite", // N1: export is the one irreversible edge — confirmation required
     exportProfile: "mvp",
   });
   assert.equal(exported.bundle.storyRefs.length, 1);

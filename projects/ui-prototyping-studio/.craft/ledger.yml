@@ -166,13 +166,23 @@ contexts:
   purpose: Full refine (14-agent workflow) of the interaction surface + operating SKILL.md, ergonomics-first. Tournament A/B/C of review surfaces; dialectic agent-autonomy vs human-control; dual-walkthrough toy-game; non-executed build plan.
   stage: design
   gate: flag
-  next_move: 'domainspec-subagents-strategy REVIEW (dispatch_type: review) of 06-SKILL-draft.md + the interaction design, targeting F-CRIT-1 rewrite + the unreviewed never-do spine (R-S7-3); then task-session build of stages/09-plan.md after review passes.'
+  next_move: 'PLAN-NEXT whole work pack DONE (N1-N11). All 3 audit gaps resolved/mitigated (F1 export-gate-to-core is the keystone — HTTP door closed). UI dead-end closed (in-preview accept/revert). Unit 61/61 + e2e 13/13. Studio is now consistent: docs match build, governance holes closed. Pending (your go): commit (branch+submodule-first); MAKE-MVP DOC public-republish now unblocked (F1+README done).'
   owned_artifacts:
   - ART-UX-REFINE-RESULT
   - ART-UX-SKILL-DRAFT
   - ART-UX-INTERACTION-DESIGN
   - ART-UX-BUILD-PLAN
   notes: Surface choice flipped A(overlay)->C(local web page); B(TUI) eliminated. Workflow wf_d237687a-482 / task wqgd6s4wz.
+- context_id: CTX-UPS-TYPE-TAXONOMY
+  parent_id: CTX-UPS-ROOT
+  title: Operating-contract artifact-type decision (vs Craft)
+  purpose: 'Decide whether the project-local operating-contract artifact class (#6) needs a new framework type; compare with Craft. Outcome: defer the type, name it now.'
+  stage: design
+  gate: pass
+  next_move: Add a one-line denotational note to 06-SKILL-draft.md now; defer artifact_type:operating-contract behind a sharpened trigger (2nd instance OR skill-contract validator branch); optional Craft typed_item for governance.
+  owned_artifacts:
+  - ART-TYPE-REFINE-RESULT
+  notes: Refine run 20260617-operating-contract-type; lean 3-advocate tournament. Craft types ledger conditions, not artifact kinds.
 artifacts:
 - artifact_id: ART-UPS-CRAFT-LEDGER
   owner_context_id: CTX-UPS-ROOT
@@ -238,8 +248,8 @@ artifacts:
   owner_context_id: CTX-UPS-DEEP-SPEC
   path: projects/ui-prototyping-studio/development/deep-spec-dispatch/PLAYWRIGHT-TEST-PLAN.md
   artifact_type: test-plan
-  status: active
-  notes: Whole Playwright suite in planned mode (no execution). FX-* fixture IDs do not yet exist in apps/web/e2e.
+  status: done
+  notes: 'Whole Playwright suite in planned mode (no execution). FX-* fixture IDs do not yet exist in apps/web/e2e. [BUILT+RUN 2026-06-18: wired @playwright/test + playwright.config.ts + e2e/ (helpers, fixtures, 4 specs). 8/8 pass — governance(3 CLI), smoke, human-loop(annotate click->postMessage->/comment->pending through the sandboxed frame), auto(3). MUTATION-TESTED: bypassing the export-confirm gate makes the governance test FAIL, proving it bites; restored. Unit suite still 53/53; tsc clean. test:e2e script added.]'
 - artifact_id: ART-COLD-START
   owner_context_id: CTX-UPS-DEEP-SPEC
   path: projects/ui-prototyping-studio/development/deep-spec-dispatch/COLD-START-USABILITY-FINDINGS.md
@@ -407,7 +417,7 @@ artifacts:
   path: development/refinement-runs/20260616-ui-ux-interaction-skill/06-SKILL-draft.md
   artifact_type: skill-draft
   status: draft
-  notes: Parent-assembled full SKILL draft (s6 skill-author draft was truncated at s7 review, R-S7-3). F-CRIT-1 honest-authority correction baked in. PROPOSAL — not installed.
+  notes: 'Parent-assembled full SKILL draft (s6 skill-author draft was truncated at s7 review, R-S7-3). F-CRIT-1 honest-authority correction baked in. PROPOSAL — not installed. [2026-06-17 invoke refresh: added Quality bar (closes the conformance-audit FLAG->PASS), the operating-contract denotational note (DEC-024), and an Inputs&result section. Behavior harness authored at development/operating-skill-harness/.]'
 - artifact_id: ART-UX-INTERACTION-DESIGN
   owner_context_id: CTX-UPS-UX-REFINE
   path: development/refinement-runs/20260616-ui-ux-interaction-skill/stages/06-interaction-design.md
@@ -426,6 +436,312 @@ artifacts:
   artifact_type: run-manifest
   status: flag
   notes: Run manifest + stage ledger + tournament scores + subagent closeout (14 agents, pass).
+- artifact_id: ART-UX-REVIEW-FINDINGS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260616-ui-ux-interaction-skill/review/findings.md
+  artifact_type: review-findings
+  status: resolved
+  notes: '7 surviving change requests + 1 build-blocking ROUTE; dispatch 2026-06-16-ups-skill-design-review closed resolved. Per-artifact: design FIX, SKILL FIX, RESULT KEEP, s2 FIX(precondition).'
+- artifact_id: ART-UX-REVIEW-ATTACKS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260616-ui-ux-interaction-skill/review/attacks.md
+  artifact_type: review-attacks
+  status: resolved
+  notes: Verbatim attacker returns (2 rounds, robot-talks) + collapse map.
+- artifact_id: ART-UX-REFRESH-REPORT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260616-ui-ux-interaction-skill/REFRESH-REPORT.md
+  artifact_type: refresh-report
+  status: applied
+  notes: 'invoke refresh: 7 doc-fix Fs APPLIED to run drafts (F1/F3/F4/F5/F6/F7/F8); F2 routed open. Typed deltas mapped to review/findings.md.'
+- artifact_id: ART-UX-PLAN-FIXES
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260616-ui-ux-interaction-skill/PLAN-FIXES.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'invoke plan: closes the doc-fix Fs (applied+guarded); isolates F2 core identity-gate decision (decision-gate) + S1 SKILL install + B-PRE guard; sequences into WORK-PACK build waves.'
+- artifact_id: ART-TYPE-REFINE-RESULT
+  owner_context_id: CTX-UPS-TYPE-TAXONOMY
+  path: development/refinement-runs/20260617-operating-contract-type/RESULT.md
+  artifact_type: refinement-result
+  status: pass
+  notes: 'Decision: defer framework artifact_type; record one-line denotational note now; interim skill-contract-family + optional Craft typed_item. #6 prior upheld, trigger sharpened.'
+- artifact_id: ART-TYPE-TOURNAMENT
+  owner_context_id: CTX-UPS-TYPE-TAXONOMY
+  path: development/refinement-runs/20260617-operating-contract-type/stages/05-tournament.md
+  artifact_type: tournament
+  status: pass
+  notes: 3-registry x-ray + A/B/D advocates + pareto judgment (naming vs typing split).
+- artifact_id: ART-UX-SKILL-HARNESS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/operating-skill-harness/VALIDATION-EXPERIMENT.md
+  artifact_type: validation-experiment
+  status: proposal
+  notes: 'Behavior-contract harness for the operating SKILL: M1-M5 mechanizable checks (never-do + Quality bar) over a session transcript + R1-R3 human rubric. Runner self-tested (pass/violation). Lifecycle owner: experiment-harness/sigil-development.'
+- artifact_id: ART-UX-SKILL-HARNESS-RUNNER
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/operating-skill-harness/run-validation-fixtures.sh
+  artifact_type: script
+  status: proposal
+  notes: 'Runner: parses a JSONL transcript, enforces M1 (agent-never-gates), M2 data-od-id, M3 comment fields, M4 no nonexistent verbs, M5 stop-at-gate; emits QUALITY_BAR_STATUS/ANTI_PATTERN_HITS_JSON/WORKFLOW_GAPS_JSON; non-zero on block/fail.'
+- artifact_id: ART-UX-SKILL-TEST-WIRING-PLAN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/operating-skill-harness/TEST-WIRING-PLAN.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'Plan: test the SKILL (harness on real transcript) -> wire it (capture adapter TW1, test surface WW1, M2 real-path WW2) -> install gated on harness-green + F2 (WW3). Medium; layered L0-L3.'
+- artifact_id: ART-UX-SKILL-FIRST-TEST
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/operating-skill-harness/FIRST-TEST-RESULT.md
+  artifact_type: validation-report
+  status: pass
+  notes: 'First test: live CLI session drove to RevisionRecorded/rev-0001, agent never gated, harness pass (M1/M3/M4/M5/M6). Trust-but-verify caught a shape-vs-success gap (nested batchId masked failed approve/apply) -> fixed: nested parse + per-call ok + runner M6. M2 unexercised (stub path).'
+- artifact_id: ART-UX-CAPTURE-ADAPTER
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/operating-skill-harness/capture-session.sh
+  artifact_type: script
+  status: pass
+  notes: 'TW1 done: runs one studio verb under an actor, appends a transcript JSONL line with nested-field-safe args + ok flag. Validated.'
+- artifact_id: ART-UX-TESTSKILL-SCRIPT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/package.json
+  artifact_type: script
+  status: pass
+  notes: 'WW1 done: backend test:skill script runs the harness runner. Validated (green exit 0, violation exit 1).'
+- artifact_id: ART-REGISTER-HTML-RESULT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260617-variants-register-html/RESULT.md
+  artifact_type: refinement-result
+  status: pass
+  notes: Design+plan for the missing variants register HTML ingestion. Ingestion=Option A (--label/--file); data-od-id = agent-stamps + core-validates (OD_ID_MISSING, the good mirror of F2); SWU MR1, no F2 dependency, lifts WW2.
+- artifact_id: ART-REGISTER-HTML-PLAN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260617-variants-register-html/stages/09-plan.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'SWU MR1: registerVariants use-case + gate + CLI + harness M2 closure. Deps M0b/M0c exist; buildable now.'
+- artifact_id: ART-MR1-REGISTER-VARIANTS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/register-variants.ts
+  artifact_type: code
+  status: pass
+  notes: 'MR1 done: registerVariants use-case. canonicalize M0c then data-od-id gate OD_ID_MISSING then stage+commit M0b then htmlArtifactRef set to committed ref. Fail-closed. 4 unit tests pass, tsc clean, full suite 37/37, e2e GOOD to VariantsReady with committed refs and BAD to OD_ID_MISSING.'
+- artifact_id: ART-MR1-REGISTER-TESTS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/register-variants.test.ts
+  artifact_type: test
+  status: pass
+  notes: GOOD admit plus readHtml, BAD OD_ID_MISSING, idempotent content-addressed ref, no-port fail-closed.
+- artifact_id: ART-WW3-LIVE-SKILL
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: .claude/skills/ui-prototyping-studio/SKILL.md
+  artifact_type: operating-contract
+  status: installed
+  notes: 'WW3 done: live operating SKILL installed (Claude Code auto-discovery). Inner block from 06-SKILL-draft.md post all fixes (Quality bar, F1 honest authority, F3 authorship, F8, denotational note). variants register row updated to MR1 reality. Installed under DEC-F2 interim posture (spine sole control, disclosed); harness green.'
+- artifact_id: ART-G018-REGISTER-PAIRS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/cli/studio.ts
+  artifact_type: code
+  status: pass
+  notes: 'GAP-018: repeatable --label/--file register (Option-A) + --from dir. Validated.'
+- artifact_id: ART-MW1-RESULT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260617-m2-wire-two-gate/RESULT.md
+  artifact_type: refinement-result
+  status: pass
+  notes: 'M2-wire design+plan. Surfaced: current apply is HTML-free + inferred-diff. Decisions: store-method staged persistence, full-doc candidate ingestion via apply --candidate-from, honest DiffSummaryHonest. SWU MW1; no F2 dep; chain dep MR1.'
+- artifact_id: ART-MW1-PLAN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260617-m2-wire-two-gate/stages/09-plan.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'SWU MW1 a/b/c: staged persistence + applyAndStage/acceptStagedRevision/discardStagedRevision + CLI apply --candidate-from/accept/discard + honest diff. Toy-game fixtures.'
+- artifact_id: ART-MW1-USECASES
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/apply-and-stage.ts
+  artifact_type: code
+  status: pass
+  notes: 'MW1: applyAndStage (gate 2A) + accept-staged-revision + discard-staged-revision + current-html resolver + admission.diffByOdId (honest diff). tsc clean; full suite 42/42; e2e two-gate loop green.'
+- artifact_id: ART-MW1-STAGED-STORE
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/ports.ts
+  artifact_type: code
+  status: pass
+  notes: 'MW1: StagedCandidateRecord + saveStagedCandidate/getStagedCandidate/clearStagedCandidate on the port; impl in file + in-memory stores.'
+- artifact_id: ART-MW1-TESTS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/m2-wire.test.ts
+  artifact_type: test
+  status: pass
+  notes: '5 toy-game tests: admit+staged head-not-advanced, accept commits+head+1+honest diff, out-of-scope REJECT, discard then NO_STAGED_CANDIDATE, auto-apply forbidden.'
+- artifact_id: ART-MW1-SKILL-REFRESH
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: .claude/skills/ui-prototyping-studio/SKILL.md
+  artifact_type: operating-contract
+  status: installed
+  notes: 'Post-MW1 refresh: apply/accept/discard two-gate now EXIST (removed the false do-not-exist + single-gate caveat); batch apply marked legacy.'
+- artifact_id: ART-CYCLE-CLOSE-FINDINGS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/cycle-close-research/findings.md
+  artifact_type: research-findings
+  status: resolved
+  notes: 'Cycle-close research (dispatch 2026-06-17, closed resolved). Answer: close the cycle with Deliverable 1 = THREE docs (true README+path-print, F2 tester disclosure, governance-scoped test protocol); Deliverable 2 (rendered diff + preview --annotate + onboarding) tests the first principle next. reset + handoff-commit demoted out of the test-floor (delivery-hygiene). Deferred: e2e/M3/F2-code/SWU-Z. One human decision: revisit DEC-020 for a handoff commit.'
+- artifact_id: ART-CYCLE-CLOSE-RETURNS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/cycle-close-research/research.md
+  artifact_type: research-returns
+  status: resolved
+  notes: 3 explorers x 2 rounds (Goldratt/Alexander/Grove) + collapse map.
+- artifact_id: ART-PLAN-D1-D2-D3
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/PLAN-D1-D2-D3.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'Execution plan from cycle-close research: D1 (3 docs, close cycle) -> DEC-D3-COMMIT (blocker, decision-gate) -> D3 (handoff commit + run governance test) -> D2 (visual build: rendered diff + preview --annotate + onboarding) -> D3c (visual evidence). L0-L3 layering + SWU manifest + validation. D1 runnable now; only blocker is the commit-policy decision (gates delivery, not authoring/build).'
+- artifact_id: ART-D1A-README-RUNSEAM
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: README.md
+  artifact_type: doc
+  status: pass
+  notes: 'D1a: true README Running section (real cd backend && pnpm studio … path) + run-seam: register/apply/accept print openPaths/openPath (abs .html). Per-run-dir STUDIO_DATA isolation documented + verified. ArtifactContentPort.pathForRef added. tsc clean, suite 42/42, e2e openPath resolves to a real file.'
+- artifact_id: ART-D1B-TESTER-BRIEF
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: TESTER-BRIEF.md
+  artifact_type: doc
+  status: pass
+  notes: 'D1b: one-page tester safety/consent brief — F2 self-disposal interim risk disclosed (bounded/reversible/supervised); scope = governance not visual.'
+- artifact_id: ART-D1C-TEST-PROTOCOL
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: TEST-PROTOCOL.md
+  artifact_type: doc
+  status: pass
+  notes: 'D1c: governance-scoped test protocol — 9 tasks + feedback form, explicit governance-not-visual scope line, fresh-STUDIO_DATA-dir per run, the task-8 self-disposal safety check. Distinct from D2 onboarding (Wittgenstein boundary).'
+- artifact_id: ART-PUBLIC-STUDIO
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: arcanum/projects/ui-prototyping-studio/
+  artifact_type: published
+  status: public
+  notes: 'Curated public copy in arcanum (PUBLIC, commit 4d0e4c8, pushed). Contents: backend (CLI + L0-L2 mutation core, two-gate apply/accept, honest diff), spec+aspect docs, operating SKILL, tester brief + protocol. Excluded (private): provenance/, .craft/, CRAFT.md, development/, WORK-PACK.md. node_modules/.data/dist gitignored. Private parent retains full dev context (copy, not move).'
+- artifact_id: ART-PUBLIC-OPEN-DESIGN-REFS
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: arcanum/projects/ui-prototyping-studio/provenance/open-design-reference/
+  artifact_type: published
+  status: public
+  notes: 'Published (arcanum f8c231f, pushed; parent gitlink b2cd8d5 merged+pushed). Two vendored doc refs under their ORIGINAL licenses, verbatim upstream LICENSE files + PROVENANCE + a VENDORED-LICENSES.md: voltagent-design-md = VoltAgent/awesome-design-md (MIT, public-CSS disclaimer carried); skills-references/open-design = nexu-io/open-design (Apache-2.0, NOTICE with frontmatter-modification statement per 4(b)). legacy-domainspec-spec still EXCLUDED. Licensing VERIFIED via upstream LICENSE fetch: operator believed all-MIT; actual = MIT + Apache-2.0.'
+- artifact_id: ART-PLAN-STUDIO-PREVIEW
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/PLAN-STUDIO-PREVIEW.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'Build plan: fill gaps + serve the studio as live HTML in VSCode. L0 G1 baseline-commit-idempotent (GAP-015) + G2 handoff-export-standalone (GAP-009); L1 P1 studio preview <sid> (ephemeral fastify route + no-build page, variants in sandboxed iframes, open in VSCode Simple Browser); L2 P2 rendered before/after diff at the gate; L3 P3 click-to-annotate (defer). = research D2/Surface C made concrete. Uses the published open-design refs as the generation grounding.'
+- artifact_id: ART-MAKE-MVP-PLAN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/MAKE-MVP-PLAN.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'Consolidated MVP sequence (refine 20260617-make-mvp-consolidation): G1 baseline-commit, G2 handoff-export, P1 studio preview (see in VSCode), P2 rendered diff, DOC refresh+republish. Done = design UI + see it live in VSCode, no documented step erroring. Recomposition-proven; deferrals (F2/P3/OD-id/e2e/M3/SWU-Z) named. Distillation not discovery — next is execution.'
+- artifact_id: ART-G1-BASELINE-COMMIT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/select-or-commit-baseline.ts
+  artifact_type: code
+  status: pass
+  notes: 'G1: baseline commit (no label) now commits the already-selected baseline (idempotent select->commit). tsc clean, suite green, e2e: commit -> {mode:committed,label:B}.'
+- artifact_id: ART-G2-HANDOFF-OPTIONAL
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/export-design-handoff.ts
+  artifact_type: code
+  status: pass
+  notes: 'G2: feature-doc refs advisory (non-gating); handoff export succeeds in the lean project, records bundle.missingRefs. e2e: export -> head rev-0001, missingRefs=[STORIES,UI-SPEC,TEST-SPEC].'
+- artifact_id: ART-P1-P2-PREVIEW
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/cli/studio.ts
+  artifact_type: code
+  status: pass
+  notes: 'P1+P2: studio preview <sid> --port — loopback node:http server (NOT scoped fastify) serving a no-build page: variants in sandboxed iframes + (when staged) before/after + honest od-id diff. Open in VSCode Simple Browser. Verified: page renders 3 variants + pending diff; raw routes serve real before/after HTML.'
+- artifact_id: ART-PLAN-CLOSED-LOOP
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/PLAN-CLOSED-LOOP.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'Feasibility=YES. Closed loop: select in preview -> Claude Code auto picks up (B next-turn-drain now / A /loop watch for automatic) -> propose+STAGE -> preview updates; human ACCEPTS. CL1 capture, CL2 drain, CL3 watch, CL4 auto-refresh, CL5 F2 token. Governance: auto up to stage; accept always human. RE-RAISES F2 to pre-req for unsupervised.'
+- artifact_id: ART-TWO-MODES-RUN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260617-two-modes-exploit-explore-hil/RESULT.md
+  artifact_type: refinement-result
+  status: pass
+  notes: 'Two operating modes on the closed loop: AUTO (exploit/explore cycles) + HUMAN-in-the-loop, composed as a handoff pipeline (human anchors the fitness signal, AUTO cycles against it). Resolved "exploit toward what": human-anchored composite fitness = human objective + heuristic gate + self-critique ordering + pause-to-human. Plan ML1-ML5 added to PLAN-CLOSED-LOOP. Both modes keep export as the only human-required edge (DEC-026).'
+- artifact_id: ART-UX-CONSTRAINTS-RUN
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260618-ux-constraints-exploit-explore-spec/RESULT.md
+  artifact_type: refinement-result
+  status: pass
+  notes: 'UX-constraint exploit/explore fitness specced as DEFERRED. Same existing constraint layers, two uses: explore=boundary (diverge within valid region), exploit=gradient (climb soft scores above hard gates). Gate correctness (a11y+layout+deterministic-flow) / score taste (cognitive+laws-of-ux). Signal informs candidate selection only, never disposal (DEC-026). SPEC.md L5+ DEFERRED row + subsection + OQ-5; PLAN ML2+ forward-ref. Deferral dep: ux-evidence-validator + axe/layout runner in-cycle. No code.'
+- artifact_id: ART-CL5-REVERT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/revert-revision.ts
+  artifact_type: implementation
+  status: done
+  notes: CL5 reversibility keystone BUILT + verified 2026-06-18. revert-revision.ts (append inverse revision at prior candidateHtmlHash; append-only, no destructive rewind; re-revertible) + studio revert [--to] CLI verb + handoff export --confirm gate (the one irreversible edge, exit 3 without confirm). 5 unit tests (revert-revision.test.ts) + e2e CLI round-trip. Backend suite 47/47. Realizes DEC-REVERSIBILITY-NOT-GATING-026.
+- artifact_id: ART-CL1-ANNOTATE
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/cli/studio.ts
+  artifact_type: implementation
+  status: done
+  notes: 'CL1 BUILT+verified 2026-06-18: /annotate/variant/:label trusted click->postMessage wrapper (raw stays sandboxed) + POST /comment (browser->studio write) + overlay form. e2e: click->comment->pending=1.'
+- artifact_id: ART-CL2-PENDING
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/list-pending-comments.ts
+  artifact_type: implementation
+  status: done
+  notes: 'CL2 BUILT+verified: studio pending = head comments not yet batched; idempotent; clears on synthesize.'
+- artifact_id: ART-CL4-REFRESH
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/cli/studio.ts
+  artifact_type: implementation
+  status: done
+  notes: 'CL4 BUILT+verified: preview /state + poll-refresh (reloads only on state/head/staged change).'
+- artifact_id: ART-AUTO-CYCLE
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/src/modules/ui-prototyping-studio/application/run-cycle.ts
+  artifact_type: implementation
+  status: done
+  notes: 'ML1/ML2/ML3 BUILT+verified: run-cycle.ts one exploit/explore cycle; agent candidate HTML + self-critique score; M1 fence (exploit=head od-ids, explore=+candidate od-ids); AUTO-ACCEPTS top score (reversible, DEC-026); empty-objective start gate. studio cycle/watch CLI. Lighter fitness per decision; UX-constraint backing deferred (OQ-5). 6 tests + e2e.'
+- artifact_id: ART-SKILL-REWRITE
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: .claude/skills/ui-prototyping-studio/SKILL.md
+  artifact_type: operating-contract
+  status: done
+  notes: 'SKILL rewritten 2026-06-18 to the reversibility model (DEC-026/027): posture = every change reversible / human owns the one irreversible edge (export); two modes (HUMAN accepts, AUTO auto-accepts); accept reframed (false "never call this" removed); never-do spine RELOCATED to export-confirm + honest-trail + scope-fence + objective-start-gate; honest-authority note rewritten (safety=reversibility not identity gate); new verbs documented (revert/cycle/pending/watch/preview+annotate). Resolves the pre-publish SKILL conflict flagged after DEC-027.'
+- artifact_id: ART-E2E-SUITE
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: backend/e2e/
+  artifact_type: test
+  status: done
+  notes: 'Playwright e2e suite for the closed loop: governance.spec (export-confirm/revert-restores/auto-accept-revertible), smoke, human-loop (annotate->comment->pending), auto-cycle (exploit/explore/start-gate). 8/8 pass. Governance falsifiers mutation-verified to bite. [+blind-naive-user.spec 2026-06-18: black-box, browser-only body, asserts only on what a cold-start user SEES (no CLI/JSON in body). Findings encoded: page orients via plain-language next step; annotate->comment is the only completable UI action + confirms visibly; staged screen shows real before/after ("Go"->"Continue"), not a hash; ERGONOMIC CEILING asserted — user is told "studio accept" but has no clickable control (loop not UI-completable today). 12/12 e2e total.]'
+- artifact_id: ART-SPEC-ARCH-SYNC
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: SPEC.md
+  artifact_type: spec
+  status: done
+  notes: 'SPEC+ARCHITECTURE synced 2026-06-18 to built reality: appended Operating-model-update (DEC-026/027 reversibility + two modes + full verb surface + 53u/12e2e test reality); corrected INV-7 escaping (render not persistence) + buildDiffSummary status (legacy not deleted); reconciled F2 (cycle = sanctioned auto-accept, INV-4 scopes to human apply path); embedded Known-gaps table (F1-F13 + UI dead-end).'
+- artifact_id: ART-PLAN-NEXT
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/PLAN-NEXT.md
+  artifact_type: implementation-plan
+  status: proposal
+  notes: 'Prioritized post-build plan from the gap-audit: P0 N1 export-gate-to-core (F1), N2 HTTP-surface decision (F7); P1 N3 in-preview accept/revert (UI dead-end+F6), N4 revert wrong-target (F5); P2 N5-N9 accuracy+AUTO soundness; P3 N10-N11 low. N1 keystone.'
+- artifact_id: ART-GAP-AUDIT-001
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/refinement-runs/20260618-spec-arch-update-gap-audit/stages/08-gap-audit.md
+  artifact_type: reference
+  status: proposal
+  notes: 'Independent gap-auditor subagent (a9403c5d28449d6e1, read-only) — 13 file-cited findings, 5/5 HIGH parent-trust-but-verified true, 0 rejected. Headline: F1 HTTP /handoff/export bypasses the --confirm edge (reversibility checkpoint reachable over 0.0.0.0:8787); F2 cycle no auto-actor guard. P11 helper.'
+- artifact_id: ART-PLAN-NEXT-EXECUTED
+  owner_context_id: CTX-UPS-UX-REFINE
+  path: development/PLAN-NEXT.md
+  artifact_type: implementation
+  status: done
+  notes: 'PLAN-NEXT whole work pack executed 2026-06-18: N1 export-gate-to-core (F1), N2 HTTP kept+gated+tested (F7), N3 in-preview Accept/Discard/Revert (UI dead-end closed; export stays button-less terminal), N4 revert wrong-target (F5), N5 doc-sync, N6 score validation (F9), N7 core cycle ceiling (F10), N8 doc corrections (F3/F8), N9 no-double-fold test (F11), N10 corrupt-file guard (F12), N11 preview free-port (F13). Unit 61/61, e2e 13/13, tsc clean.'
 descriptions:
 - description_id: DESC-UPS-001
   context_id: CTX-UPS-ROOT
@@ -979,6 +1295,92 @@ decisions:
   blocking: true
   impact: BLOCKING correction owed before build; the SKILL discipline is currently the only control on agent self-disposal.
   owner: refine
+- decision_id: DEC-UX-REVIEW-FIX-BEFORE-BUILD-023
+  scope_id: CTX-UPS-UX-REFINE
+  decision_type: governance
+  question: Is the SKILL draft + interaction design ready to build, or must fixes land first?
+  options:
+  - Build now
+  - FIX the CRITICAL/MAJOR change requests first, then build
+  default_option: FIX the CRITICAL/MAJOR change requests first, then build
+  selected: FIX the CRITICAL/MAJOR change requests first, then build
+  rationale: Review dispatch 2026-06-16-ups-skill-design-review closed resolved with 1 CRITICAL (F1 design phantom backstop), 2 MAJOR (F3 SKILL authorship silence, F4 s2 propagation), 3 MINOR, and 1 build-blocking ROUTE (F2 core identity gate / R-S7-1). FIX verdicts on design + SKILL + s2 must land before task-session build; F2 is a separate core decision.
+  status: decided
+  blocking: true
+  impact: Gates the build phase on the F1/F3/F4 doc fixes; F2 routed to core owners.
+  owner: refine
+- decision_id: DEC-UX-OPERATING-CONTRACT-TYPE-024
+  scope_id: CTX-UPS-TYPE-TAXONOMY
+  decision_type: taxonomy
+  question: Do we need to define another type for the project-local operating-contract artifact class?
+  options:
+  - Define artifact_type:operating-contract now
+  - Reuse skill-contract + field / Craft typed_item
+  - Defer the type; record a denotational note now
+  default_option: Defer the type; record a denotational note now
+  selected: Defer the type; record a denotational note now
+  rationale: 'Separated typing(enforcement) from naming(denotation). Typing buys nothing now (constitution candidate, no validator; n=1 unreviewed) -> defer behind sharpened trigger (2nd instance OR skill-contract validator branch). Naming need is per-reader -> fix now with a one-line note. Craft types conditions not kinds; it can track but not classify. Interim: skill-contract-family + optional Craft typed_item. #6 prior upheld.'
+  status: decided
+  blocking: false
+  impact: No framework mutation now; cheap denotational note recommended; type deferred behind trigger.
+  owner: refine
+- decision_id: DEC-F2-IDENTITY-GATE-INTERIM-025
+  scope_id: CTX-UPS-UX-REFINE
+  decision_type: governance-risk-acceptance
+  question: How should the core handle the human-vs-agent identity gate (F2/R-S7-1) before the SKILL installs live?
+  options:
+  - Honest interim + token target
+  - Per-session token first (no install until enforced)
+  - Actor allowlist / deny-agent (weak)
+  - OS-user / out-of-band identity
+  default_option: Honest interim + token target
+  selected: Honest interim + token target
+  rationale: 'Risk is a BOUNDED, reversible, harness-detected accountability breach (agent records an in-scope revision the human did not truly approve). Compensating controls already exist: the scope fence (V3) caps damage to in-scope, append-only revisions are reversible/visible, the SKILL never-do spine forbids it, and the success-aware harness detects an agent-actor gate verb. The only REAL enforcement (per-session human-only token) needs the W7 web page, so over-building it before install is premature. Accept the disclosed interim risk now; token is the named fast-follow when autonomy/injection surface grows. Allowlist is spoofable (agent sets STUDIO_ACTOR); OS-user is env-dependent.'
+  status: decided
+  blocking: true
+  impact: UNBLOCKS WW3 install (allowed once harness green; risk documented, not core-enforced). Token gate becomes a tracked fast-follow.
+  owner: human:operator
+- decision_id: DEC-WW3-INSTALL-026
+  scope_id: CTX-UPS-UX-REFINE
+  decision_type: rollout
+  question: Install the corrected operating SKILL live?
+  options:
+  - Install now
+  - Hold until token gate
+  default_option: Install now
+  selected: Install now
+  rationale: 'Operator approved ("install skill"). All gates satisfied: F2 interim accepted+disclosed (DEC-025), harness green, F1/F3/QB fixes applied. Installed to .claude/skills/ui-prototyping-studio/SKILL.md. Residual risk = the accepted interim (spine sole control, scope-fenced/reversible/harness-detected). Token gate remains the tracked fast-follow.'
+  status: decided
+  blocking: true
+  impact: Operating SKILL is LIVE; Claude Code operates the studio under it. Token gate fast-follow when autonomy/injection surface grows.
+  owner: human:operator
+- decision_id: DEC-D3-COMMIT-POLICY-027
+  scope_id: CTX-UPS-UX-REFINE
+  decision_type: policy
+  question: Lift DEC-EXT-COMMIT-POLICY-020 to allow a handoff commit so D1 is deliverable to humans, or keep uncommitted?
+  options:
+  - Allow handoff commit (deliver)
+  - Keep uncommitted
+  default_option: null
+  selected: Allow handoff commit (deliver) — curated public subset
+  rationale: 'Surfaced by the cycle-close research (Popper: not a test-necessity but the deliverer precondition; Kuhn: two-gate chain + live SKILL currently untracked). PENDING human decision via decision-gate before D3a. RESOLVED 2026-06-17: operator chose to publish a CURATED public subset to arcanum (public submodule) + commit/push. Boundary-verified: provenance (vendored 3rd-party + legacy domainspec spec), .craft ledger, development, CRAFT.md, WORK-PACK.md EXCLUDED. arcanum commit 4d0e4c8 pushed; parent gitlink bumped (17ef944) after make bump-check. Reverses DEC-EXT-COMMIT-POLICY-020 for this scope only.'
+  status: decided
+  blocking: true
+  impact: Gates delivery (D3a handoff commit). Does NOT gate D1 authoring or D2 build.
+  owner: human:operator
+- decision_id: DEC-REVERSIBILITY-NOT-GATING-026
+  context_id: CTX-UPS-UX-REFINE
+  date: '2026-06-17'
+  status: accepted
+  statement: Control is reversibility, not identity-gating. The studio does NOT distinguish human from agent. The agent may run the full loop including accept; safety = every in-studio action is undoable (discard for staged, revert for accepted) and visible (preview auto-refresh). The single human checkpoint is export/handoff (the one irreversible, downstream-consumed edge). Supersedes DEC-F2-INTERIM-025.
+  supersedes: DEC-F2-INTERIM-025
+  consequences: 'F2 identity gate dropped (not built). New build: revert-revision use case (append inverse revision at prior candidateHtmlHash; append-only, no destructive head rewind) + explicit human confirm on handoff export. Installed SKILL never-do line "agent must never accept" must be rewritten before publish (flagged follow-up).'
+- decision_id: DEC-AUTO-BUILD-027
+  context_id: CTX-UPS-UX-REFINE
+  date: '2026-06-18'
+  status: accepted
+  statement: 'Batched build decision (one pass): build everything buildable now (CL1,CL2,CL4 + AUTO ML1-ML5); AUTO default autonomy = auto-accept under reversibility; AUTO fitness = lighter (agent self-critique + human objective). Only the UX-constraint fitness backing (OQ-5) stays deferred.'
+  consequences: 'Closed loop fully real: annotate->comment->pending->cycle/synthesize->accept->revert; AUTO exploit/explore cycles auto-accept the top self-critique score, reversible via CL5. Honest limits: explore auto-accepts top-scored (one staged slot, not K presented); stop dials live in the agent /loop not core; ML2+ UX-constraint backing deferred (OQ-5). Backend 53/53 + e2e verified.'
 gaps:
 - gap_id: GAP-ERGONOMICS-UNPROVEN-001
   scope_id: CTX-UPS-ROOT
@@ -1046,27 +1448,27 @@ gaps:
   evidence: projects/ui-prototyping-studio/development/spikes/c1-validator-criterion/RUN-RESULT.md
 - gap_id: GAP-HANDOFF-DOC-REFS-009
   scope_id: CTX-UPS-EXTRACTION
-  summary: 'exportDesignHandoff requires SPEC.md+STORIES.md+UI-SPEC.md+TEST-SPEC.md to exist under a feature-docs root and emits docs/features/ui-prototyping-studio/* refs. The lean standalone project consolidated those into SPEC.md + aspect files and archived the rest to provenance/, so the existsSync gate fails (slice test 1/9). FOLLOW-UP SWU: reconcile the handoff doc-ref contract (constants + required-files list + featureDocsRootDir + the slice-test assertion) with the lean doc set. A small decision: point at lean SPEC/aspects, or at provenance/legacy-domainspec-spec/.'
+  summary: 'exportDesignHandoff requires SPEC.md+STORIES.md+UI-SPEC.md+TEST-SPEC.md to exist under a feature-docs root and emits docs/features/ui-prototyping-studio/* refs. The lean standalone project consolidated those into SPEC.md + aspect files and archived the rest to provenance/, so the existsSync gate fails (slice test 1/9). FOLLOW-UP SWU: reconcile the handoff doc-ref contract (constants + required-files list + featureDocsRootDir + the slice-test assertion) with the lean doc set. A small decision: point at lean SPEC/aspects, or at provenance/legacy-domainspec-spec/. RESOLVED 2026-06-17 by G2 (advisory refs + missingRefs).'
   severity: medium
-  treatment: reconcile-handoff-refs
+  treatment: build-G1/G2 in PLAN-STUDIO-PREVIEW
   owner: operator
-  status: active
+  status: resolved
   evidence: projects/ui-prototyping-studio/backend/src/modules/ui-prototyping-studio/application/export-design-handoff.ts
 - gap_id: GAP-CORE-IDENTITY-GATE-010
   scope_id: CTX-UPS-UX-REFINE
-  summary: 'Durable gates (approve, apply) have NO human-vs-agent identity check: approve-mutation-batch.ts accepts any non-empty approvedBy; apply-approved-batch.ts:33 refuses only literal "system:auto" while the route defaults actor to "web-ui". Core cannot refuse agent self-disposal; only scope is enforced. The SKILL never-do spine is the sole control. ROUTE: core owners (R-S7-1/P-c3) — add a real identity signal at durable routes.'
+  summary: 'Durable gates (approve, apply) have NO human-vs-agent identity check: approve-mutation-batch.ts accepts any non-empty approvedBy; apply-approved-batch.ts:33 refuses only literal "system:auto" while the route defaults actor to "web-ui". Core cannot refuse agent self-disposal; only scope is enforced. The SKILL never-do spine is the sole control. ROUTE: core owners (R-S7-1/P-c3) — add a real identity signal at durable routes. [2026-06-17 DEC-F2-IDENTITY-GATE-INTERIM-025: risk ACCEPTED as honest interim (scope fence + spine + harness + append-only compensate; risk disclosed). WW3 install unblocked once harness green. Per-session human-only token (needs W7 page) is the tracked fast-follow, trigger = unattended runs / untrusted HTML.] [2026-06-17 RE-RAISED by PLAN-CLOSED-LOOP: a watch-loop auto-pickup increases agent autonomy -> the F2 token becomes a PRE-REQ for unsupervised auto-pickup (CL5), not just interim.] [2026-06-17 RESOLVED — SUPERSEDED by owner principle: control is REVERSIBILITY, not gating. F2 identity gate will NOT be built (DEC-F2-INTERIM-025 superseded). Replaced by reversibility invariant: revert for accepts + a human confirm only at the irreversible export edge. See PLAN-CLOSED-LOOP CL5.]'
   severity: high
   treatment: route-to-core-owners
   owner: core
-  status: open
+  status: resolved
   evidence: development/refinement-runs/20260616-ui-ux-interaction-skill/RESULT.md §3 (F-CRIT-1); approve-mutation-batch.ts; apply-approved-batch.ts:33
 - gap_id: GAP-SKILL-DRAFT-UNREVIEWED-011
   scope_id: CTX-UPS-UX-REFINE
-  summary: 'The s6 skill-author SKILL draft handed to s7 design-review was TRUNCATED (R-S7-3): the never-do spine, refusal narration, two-layer scoping rule, and DC-1 propagation were UNREVIEWED. A full parent-assembled draft (06-SKILL-draft.md) now exists but has not passed design-review. FOLLOW-UP: the next domainspec-subagents-strategy REVIEW must red-team the full draft.'
+  summary: 'The s6 skill-author SKILL draft handed to s7 design-review was TRUNCATED (R-S7-3): the never-do spine, refusal narration, two-layer scoping rule, and DC-1 propagation were UNREVIEWED. A full parent-assembled draft (06-SKILL-draft.md) now exists but has not passed design-review. FOLLOW-UP: the next domainspec-subagents-strategy REVIEW must red-team the full draft. [RESOLVED 2026-06-16 by review dispatch 2026-06-16-ups-skill-design-review — full draft red-teamed, both verifiers + coverage auditor passed.]'
   severity: medium
   treatment: next-review-pass
   owner: refine
-  status: open
+  status: resolved
   evidence: development/refinement-runs/20260616-ui-ux-interaction-skill/stages/07-design-review.md (R-S7-3); development/refinement-runs/20260616-ui-ux-interaction-skill/06-SKILL-draft.md
 - gap_id: GAP-UX-ERGONOMICS-FLOOR-012
   scope_id: CTX-UPS-UX-REFINE
@@ -1076,6 +1478,74 @@ gaps:
   owner: refine
   status: open
   evidence: development/refinement-runs/20260616-ui-ux-interaction-skill/stages/08-toy-game-walkthrough.md; development/refinement-runs/20260616-ui-ux-interaction-skill/RESULT.md §3
+- gap_id: GAP-DESIGN-PHANTOM-BACKSTOP-012
+  scope_id: CTX-UPS-UX-REFINE
+  summary: 'F1 (CRITICAL, review): stages/06-interaction-design.md step-7 cell (:219) "Claude Code refused server-side if it tries (AUTO_APPLY_FORBIDDEN lineage / INV-3)" is categorically FALSE for the approve gate (zero actor check) — reasserts the F-CRIT-1 phantom backstop on the BUILD-consumed step table. Design self-contradicts (§3 vs R3 ledger :383). s2 (:141/:74/:191) propagates the same overclaim with no forward-correction (F4 MAJOR, precondition). FIX before build: rewrite step-7 (+siblings) to state scope-enforced/identity-not; add forward-correction banner to s2. [RESOLVED 2026-06-16 by invoke refresh — F1 applied to design step-7/§5.1; F4 forward-correction applied to s2. See REFRESH-REPORT.md.]'
+  severity: critical
+  treatment: fix-before-build
+  owner: refine
+  status: resolved
+  evidence: development/refinement-runs/20260616-ui-ux-interaction-skill/review/findings.md F1+F4; 06-interaction-design.md:219; backend approve-mutation-batch.ts
+- gap_id: GAP-SKILL-AUTHORSHIP-SILENCE-013
+  scope_id: CTX-UPS-UX-REFINE
+  summary: 'F3 (MAJOR, review): the SKILL never-do spine (06-SKILL-draft.md :105-108) forbids the agent EXECUTING a durable verb but is silent on the agent AUTHORING the decision the human enacts. The SKILL-fixable core of A2 exploits X1 (recommendatory narration at gates), X2 (agent authors the verbatim gate command string), X4 ("offer don''t decide" undefined / sole-next-step framing), X5 ("on the human''s behalf" laundering beyond comment add). FIX: add an authorship clause to the spine. Survives the F1 fix. The irreducible relay residue routes to the core (see GAP-CORE-IDENTITY-GATE-010 / R-S7-1). [RESOLVED 2026-06-16 by invoke refresh — F3 authorship rule added to the SKILL never-do spine + must-NOT. See REFRESH-REPORT.md.]'
+  severity: high
+  treatment: fix-before-build
+  owner: refine
+  status: resolved
+  evidence: development/refinement-runs/20260616-ui-ux-interaction-skill/review/findings.md F3; 06-SKILL-draft.md:79-80,105-108; studio.ts:24
+- gap_id: GAP-SKILL-HARNESS-M2-UNEXERCISED-014
+  scope_id: CTX-UPS-UX-REFINE
+  summary: 'WW2 BLOCKED: M2 (data-od-id on registered variants) cannot be exercised — the stub generateVariants (generate-variants.ts:56) produces variants with only a dangling htmlArtifactRef path, NO HTML body and NO data-od-id, and the CLI `variants register` just calls that stub (ignores HTML). UNBLOCK: implement a real `variants register` HTML-ingestion path (accept HTML, write via the M0b artifact content port, stamp/verify data-od-id) — a planned-but-unbuilt feature (WORK-PACK ''real generation = Claude Code via variants register, M-later''). Until then M2 is structurally unprovable. [2026-06-17 DESIGNED: refine run 20260617-variants-register-html -> SWU MR1 lifts this (registerVariants + OD_ID_MISSING gate via M0b/M0c). Still blocked until MR1 is built; no F2 dependency.] RESOLVED 2026-06-17 by MR1 task-session: variants register HTML ingestion built; data-od-id is now CORE-ENFORCED via OD_ID_MISSING server-side, not just a documentary harness check. WW2 lifted. CLI variants register --from dir (repeatable --label/--file deferred, parser is last-wins). RESOLVED 2026-06-17 by MR1 task-session: variants register HTML ingestion built; data-od-id is now CORE-ENFORCED via OD_ID_MISSING server-side, not just a documentary harness check. WW2 lifted. CLI variants register --from dir (repeatable --label/--file deferred, parser is last-wins).'
+  severity: high
+  treatment: resolved-MR1
+  owner: experiment-harness
+  status: resolved
+  evidence: development/operating-skill-harness/FIRST-TEST-RESULT.md
+- gap_id: GAP-SKILL-BASELINE-COMMIT-REDUNDANT-015
+  scope_id: CTX-UPS-UX-REFINE
+  summary: baseline commit after baseline select errors BASELINE_SELECTION_REQUIRED; select already satisfies the gate. Loop/SKILL should not call commit redundantly, or commit needs the label. RESOLVED 2026-06-17 by G1.
+  severity: low
+  treatment: build-G1/G2 in PLAN-STUDIO-PREVIEW
+  owner: refine
+  status: resolved
+  evidence: development/operating-skill-harness/FIRST-TEST-RESULT.md
+- gap_id: GAP-OD-ID-GRANULARITY-017
+  scope_id: CTX-UPS-UX-REFINE
+  summary: MVP register gate is coarse (rejects only zero-data-od-id HTML); a per-component requirement (every annotatable structural element carries an od-id) is a follow-up.
+  severity: low
+  treatment: follow-up
+  owner: refine
+  status: open
+  evidence: development/refinement-runs/20260617-variants-register-html/stages/05-design.md §3
+- gap_id: GAP-CLI-REGISTER-PARSER-018
+  scope_id: CTX-UPS-UX-REFINE
+  summary: 'CLI parse is last-wins so the planned Option-A repeatable --label/--file is not yet supported; MR1 shipped --from dir reading label.html. Follow-up: a repeatable-flag parser for per-variant register. RESOLVED 2026-06-17: CLI variants register now supports repeated --label X --file path (scanned from raw argv) AND --from dir. tsc clean, full suite green, e2e 3-variant register -> VariantsReady.'
+  severity: low
+  treatment: resolved
+  owner: refine
+  status: resolved
+  evidence: backend/src/cli/studio.ts variants register
+- gap_id: GAP-M2-WIRE-CHAIN-MR1-019
+  scope_id: CTX-UPS-UX-REFINE
+  summary: 'MW1 live two-gate apply requires MR1-registered variants (real HTML); stub generate variants leave current-HTML unresolvable. Chain dep MR1 -> MW1. RESOLVED 2026-06-17 by MW1: applyAndStage resolves current HTML from MR1-registered variants and fails closed (CURRENT_HTML_UNRESOLVABLE) when only stub variants exist; the chain is honored, not violated.'
+  severity: medium
+  treatment: honored
+  owner: refine
+  status: resolved
+  evidence: development/refinement-runs/20260617-m2-wire-two-gate/stages/05-design.md
+- gap_id: GAP-EXPORT-HTTP-UNGATED-F1
+  owner_context_id: CTX-UPS-UX-REFINE
+  status: resolved
+  summary: '[2026-06-18 gap-audit, HIGH] HTTP POST /handoff/export calls exportDesignHandoff with no --confirm; gate is CLI-only; server binds 0.0.0.0:8787 -> the DEC-026 irreversible-edge checkpoint is bypassable over HTTP. Fix: move confirm into the core use-case (PLAN-NEXT N1). Violates ARCHITECTURE §4 gate-in-core. || RESOLVED 2026-06-18 (N1): confirm gate moved into exportDesignHandoff use-case; CLI+HTTP both refuse unconfirmed; fastify-inject test proves it.'
+- gap_id: GAP-LEGACY-HTTP-UNTESTED-F7
+  owner_context_id: CTX-UPS-UX-REFINE
+  status: mitigated
+  summary: '[2026-06-18 gap-audit, MED] legacy Fastify route surface is untested + lacks the new gates while network-bound. Decide gate-to-parity or remove (PLAN-NEXT N2). || MITIGATED 2026-06-18 (N2): critical export route gated (N1) + fastify-inject tested; other routes call already-gated use-cases. Surface kept (conservative default), broader route test suite still optional.'
+- gap_id: GAP-REVERT-WRONGTARGET-F5
+  owner_context_id: CTX-UPS-UX-REFINE
+  status: resolved
+  summary: '[2026-06-18 gap-audit, HIGH] revert --to <rev> with no candidateHtmlHash silently restores baseline instead of erroring (revert-revision.ts:84,104). Fix: explicit error (PLAN-NEXT N4). || RESOLVED 2026-06-18 (N4): revert --to with no candidateHtmlHash now throws REVISION_NOT_FOUND; unit test.'
 route_handoffs:
 - handoff_id: HND-DEEP-SPEC-VALIDATE-001
   context_id: CTX-UPS-DEEP-SPEC
