@@ -1,0 +1,336 @@
+{
+  "dispatch_id": "2026-06-21-house-project-vault-import",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Get the latest local ../house_project/docs/vault/ and copy it into CyberAlchemy v2, then inventory it for future definition, constitution, axiom, ontology, and governance searches.",
+    "objective": "Preserve the house_project vault as a private imported source snapshot and create Inventory read models that make its high-signal governance material searchable without promoting it.",
+    "target_artifact": "cyberAlchemy-v2/authority/imports/house_project/docs/vault/",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "inventory",
+      "source import",
+      "evidence-card",
+      "EvidenceSet",
+      "promotion guardrail"
+    ],
+    "operator_sentence": "Copy the latest house_project docs vault here and inventory it; the vault has a lot of material we should reuse."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "handle_handoff",
+    "concrete_path_evidence",
+    "state_namespace_boundary",
+    "memory_promotion_split",
+    "evidence_receipt_link",
+    "validation_loop",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The source vault is small enough for direct local copy and targeted inventory backfill in this turn.",
+    "authorization": "not_needed"
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s1-copy-vault-snapshot",
+      "name": "Copy house_project vault snapshot",
+      "capability_ref": "inventory",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "owner": "inventory",
+        "known_runtime": ".agents/skills/inventory/SKILL.md"
+      },
+      "mode": "ingest-source-copy",
+      "pattern": "sequential",
+      "techniques": [
+        "sequence",
+        "concrete_path_evidence",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "external_context",
+          "ref": "/home/vrondelli/projects/house_project/docs/vault/"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "cyberAlchemy-v2/authority/imports/house_project/docs/vault/"
+        },
+        {
+          "kind": "handle",
+          "ref": "house-project-vault-snapshot"
+        }
+      ],
+      "stop_conditions": [
+        "block if source path does not exist",
+        "block if copy target is outside private cyberAlchemy-v2 import space"
+      ]
+    },
+    {
+      "step_id": "s2-source-manifest",
+      "name": "Record source manifest",
+      "capability_ref": "inventory",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "owner": "inventory",
+        "known_runtime": ".agents/skills/inventory/SKILL.md"
+      },
+      "mode": "backfill",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "house-project-vault-snapshot"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/raw/manifests/2026-06-21-house-project-vault-import.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "cyberAlchemy-v2/authority/imports/house_project/IMPORT-MANIFEST.md"
+        }
+      ],
+      "stop_conditions": [
+        "flag if source commit or file count cannot be recorded",
+        "block if imported source is represented as canonical authority"
+      ]
+    },
+    {
+      "step_id": "s3-inventory-backfill",
+      "name": "Backfill inventory cards and evidence sets",
+      "capability_ref": "inventory",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "owner": "inventory",
+        "known_runtime": ".agents/skills/inventory/SKILL.md"
+      },
+      "mode": "ingest",
+      "pattern": "synthesis",
+      "techniques": [
+        "handle_handoff",
+        "evidence_receipt_link",
+        "memory_promotion_split"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/raw/manifests/2026-06-21-house-project-vault-import.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "cyberAlchemy-v2/authority/imports/house_project/docs/vault/"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/entries/evidence-cards/2026-06-21-house-project-vault-cards.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/entries/evidence-sets/2026-06-21-house-project-vault-sets.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/queries/2026-06-21-house-project-vault-import/findings.md"
+        }
+      ],
+      "stop_conditions": [
+        "flag contradictions or status mismatches instead of flattening them",
+        "block if evidence cards imply ontology, definition, constitution, axiom, or discipline promotion"
+      ]
+    },
+    {
+      "step_id": "s4-validate-route-and-inventory",
+      "name": "Validate dispatch and inventory outputs",
+      "capability_ref": "dispatch-spec",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "concrete_path_evidence",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/queries/2026-06-21-house-project-vault-import/DISPATCH.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/entries/evidence-cards/2026-06-21-house-project-vault-cards.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "trace_event",
+          "ref": "dispatch_spec_validation"
+        }
+      ],
+      "evidence_artifact": ".arcanum/inventory/queries/2026-06-21-house-project-vault-import/findings.md",
+      "stop_conditions": [
+        "block if dispatch validation returns block",
+        "flag if inventory cards lack source refs, promotion owners, trace, or residue"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g1-source-immutability",
+      "kind": "quality",
+      "owner": "inventory",
+      "condition": "The original house_project vault is read-only input and the imported snapshot is source evidence.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g2-private-import-boundary",
+      "kind": "policy",
+      "owner": "parent-private-repo",
+      "condition": "The copied vault stays under private cyberAlchemy-v2 authority imports and public arcanum/ is not mutated.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g3-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Execution and inventory evidence must not directly promote Inventory, Ontology, glossary, sigil, spell, definition, constitution, axiom, discipline, schema, or vault knowledge without owner review.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g4-validation",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "The dispatch validates with dispatch-spec and inventory outputs pass local schema checks.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "house_project_vault_snapshot_copied",
+      "house_project_vault_manifest_recorded",
+      "house_project_vault_inventory_backfilled",
+      "dispatch_spec_validation"
+    ],
+    "signal_grouping": "2026-06-21-house-project-vault-import"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b1-external-source-import",
+        "kind": "artifact_import",
+        "from_owner": "house_project",
+        "to_owner": "cyberAlchemy-v2 authority imports",
+        "applies_to_steps": [
+          "s1-copy-vault-snapshot",
+          "s2-source-manifest"
+        ],
+        "contract": "The house_project vault is copied as source evidence, not edited during ingest.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b2-inventory-read-model",
+        "kind": "capability_handoff",
+        "from_owner": "imported source snapshot",
+        "to_owner": "inventory",
+        "applies_to_steps": [
+          "s3-inventory-backfill",
+          "s4-validate-route-and-inventory"
+        ],
+        "contract": "Inventory may create cards, sets, manifests, and lookup findings, but may not promote imported authority.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "dispatch-spec and inventory import route",
+      "execution": "parent session",
+      "validation": "dispatch-spec plus local inventory checks",
+      "evidence": "imported house_project vault snapshot and inventory cards",
+      "memory": ".arcanum/inventory and .arcanum/observability",
+      "promotion": "downstream owner only; no direct promotion from this route"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r1-vault-copy",
+        "producer": "inventory",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "status",
+          "residue"
+        ],
+        "stores": [
+          "cyberAlchemy-v2/authority/imports/house_project/docs/vault/",
+          "cyberAlchemy-v2/authority/imports/house_project/IMPORT-MANIFEST.md"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r2-inventory-backfill",
+        "producer": "inventory",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "status",
+          "residue"
+        ],
+        "stores": [
+          ".arcanum/inventory/index.md",
+          ".arcanum/inventory/log.md",
+          ".arcanum/inventory/entries/evidence-cards/2026-06-21-house-project-vault-cards.md",
+          ".arcanum/inventory/entries/evidence-sets/2026-06-21-house-project-vault-sets.md"
+        ],
+        "on_missing": "flag"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "external-house-project-vault",
+        "owner": "house_project",
+        "write_policy": "read-only source input during this route"
+      },
+      {
+        "namespace": "cyberalchemy-v2-imported-source",
+        "owner": "cyberAlchemy-v2",
+        "write_policy": "private imported source snapshot under cyberAlchemy-v2/authority/imports/"
+      },
+      {
+        "namespace": "inventory-generated",
+        "owner": "inventory",
+        "write_policy": "generated cards, sets, manifests, queries, indexes, tags, log, and observability"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "imported source snapshot and execution evidence",
+        "target": "Inventory, Ontology, glossary, sigil, spell, definition, constitution, axiom, discipline, schema, or vault authority",
+        "rule": "requires explicit downstream owner review and re-authoring; no automatic promotion",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Imported house_project vault material is source evidence only.",
+    "Inventory cards and EvidenceSets are non-authority read models.",
+    "Definitions, constitutions, axioms, disciplines, ontology nodes, schemas, and validators require owner-governed promotion or re-authoring."
+  ]
+}

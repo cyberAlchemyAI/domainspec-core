@@ -1,0 +1,563 @@
+{
+  "dispatch_id": "2026-06-18-dispersed-knowledge-cartography",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Create an explore strategy and cartographer route to inventory dispersed repository knowledge, then use ontology-vault to condense it without promoting it.",
+    "objective": "Map dispersed knowledge across domainspec-core into source-backed inventory entries, evidence-cards, EvidenceSets, and a candidate ontology-vault condensation map.",
+    "target_artifact": ".arcanum/inventory/queries/2026-06-18-dispersed-knowledge-cartography/",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "inventory",
+      "ontology-vault",
+      "evidence-card",
+      "EvidenceSet",
+      "source manifest",
+      "promotion split"
+    ],
+    "operator_sentence": "Really inventory dispersed knowledge first; ontology-vault may condense candidate meaning later, but cannot promote it."
+  },
+  "mode": "research",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "concrete_path_evidence",
+    "execution_receipt_handoff",
+    "state_namespace_boundary",
+    "memory_promotion_split",
+    "role_projection_boundary",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "required",
+    "trigger": "The repository has many dispersed knowledge corpora across public Arcanum, private DomainSpec implementation, project research folders, generated skill mirrors, CyberAlchemy docs, observability, and decision/session surfaces; a single inline scan would either miss corpora or overload the parent context.",
+    "explanation": "Use role-bound cartographers in parallel so each lane owns one source family, returns source-backed receipts, and exposes exclusions before the parent writes inventory entries or ontology candidates.",
+    "context": [
+      "Inventory package exists at .arcanum/inventory/ and currently has only a high-level source-system map.",
+      "The user requested the frontmatter tagging profile used by research/cyber-alchemy-space/capability-taxonomy/findings.md.",
+      "Ontology-vault must remain a candidate condensation layer; it must not promote Inventory, Ontology, glossary, sigil, or spell knowledge.",
+      "Public/private boundaries apply: arcanum/ is public, while this parent and implementation/domainspec are private."
+    ],
+    "roles": [
+      {
+        "role_id": "cartographer-arcanum-capabilities",
+        "purpose": "Map public Arcanum framework, registry, sigils, spells, and generated runtime mirrors.",
+        "owns": "source-backed receipt for arcanum/, .agents/skills/, .claude/skills/, .codex/commands/, and .github/skills without copying private material into public surfaces.",
+        "applies_to_steps": [
+          "s2-cartographer-fanout"
+        ]
+      },
+      {
+        "role_id": "cartographer-domainspec-private",
+        "purpose": "Map private DomainSpec implementation, submodule discipline, v1 evidence, and validation harness knowledge.",
+        "owns": "source-backed receipt for implementation/domainspec/, validation/poker-team/, docs/, ops/, sessions/, and telemetry boundaries.",
+        "applies_to_steps": [
+          "s2-cartographer-fanout"
+        ]
+      },
+      {
+        "role_id": "cartographer-project-research",
+        "purpose": "Map project and research towers, especially domainspec-v2, framework-unification, ontologize, CyberAlchemy, and cyber-alchemy-space research.",
+        "owns": "source-backed receipt for projects/, research/, cyberAlchemy/, and tower conventions.",
+        "applies_to_steps": [
+          "s2-cartographer-fanout"
+        ]
+      },
+      {
+        "role_id": "cartographer-knowledge-governance",
+        "purpose": "Map inventory, ontology, definitions, Craft, Necronomicon, observability, dispatch, and promotion-governance surfaces.",
+        "owns": "source-backed receipt for .arcanum/, .craft where present, ontology/vault folders, dispatch ledgers, and governance documents.",
+        "applies_to_steps": [
+          "s2-cartographer-fanout"
+        ]
+      },
+      {
+        "role_id": "cartography-skeptic",
+        "purpose": "Attack the parent synthesis for missed corpora, duplicate authority, source-less claims, and ontology promotion leakage.",
+        "owns": "defect receipt against the inventory synthesis and ontology-vault condensation map.",
+        "applies_to_steps": [
+          "s5-validate-boundaries"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Run the required repository cartographer subagents for 2026-06-18-dispersed-knowledge-cartography and require source-backed receipts before inventory ingest?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s1-source-manifest",
+      "name": "Create source manifest and tagging profile",
+      "capability_ref": "inventory",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "owner": "inventory",
+        "known_runtime": ".agents/skills/inventory/SKILL.md"
+      },
+      "mode": "backfill",
+      "pattern": "sequential",
+      "techniques": [
+        "sequence",
+        "concrete_path_evidence",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/raw/manifests/2026-06-18-dispersed-knowledge-sources.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "frontmatter-tagging-profile"
+        }
+      ],
+      "stop_conditions": [
+        "block if source cohorts lack concrete paths",
+        "block if generated inventory metadata claims canonical promotion authority"
+      ]
+    },
+    {
+      "step_id": "s2-cartographer-fanout",
+      "name": "Run source-family cartographers",
+      "capability_ref": "inventory",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "owner": "inventory",
+        "known_runtime": ".agents/skills/inventory/SKILL.md"
+      },
+      "mode": "ingest-planning",
+      "pattern": "fanout",
+      "parallel": true,
+      "techniques": [
+        "execution_receipt_handoff",
+        "role_projection_boundary",
+        "concrete_path_evidence"
+      ],
+      "roles": [
+        "cartographer-arcanum-capabilities",
+        "cartographer-domainspec-private",
+        "cartographer-project-research",
+        "cartographer-knowledge-governance"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/raw/manifests/2026-06-18-dispersed-knowledge-sources.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "frontmatter-tagging-profile"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": ".arcanum/inventory/queries/2026-06-18-dispersed-knowledge-cartography/cartographer-receipts.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/queries/2026-06-18-dispersed-knowledge-cartography/research.md"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "stop_conditions": [
+        "block if any spawned cartographer remains unjoined or unclosed",
+        "flag any corpus excluded because of size, privacy, binary format, or submodule dirt"
+      ]
+    },
+    {
+      "step_id": "s3-inventory-synthesis",
+      "name": "Create inventory entries, cards, sets, and lookup pages",
+      "capability_ref": "inventory",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "owner": "inventory",
+        "known_runtime": ".agents/skills/inventory/SKILL.md"
+      },
+      "mode": "ingest",
+      "pattern": "synthesis",
+      "techniques": [
+        "handle_handoff",
+        "residue_ledger",
+        "memory_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": ".arcanum/inventory/queries/2026-06-18-dispersed-knowledge-cartography/cartographer-receipts.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/queries/2026-06-18-dispersed-knowledge-cartography/research.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/queries/2026-06-18-dispersed-knowledge-cartography/findings.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/entries/evidence-cards/"
+        },
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/entries/evidence-sets/"
+        },
+        {
+          "kind": "ledger",
+          "ref": ".arcanum/inventory/log.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if findings cite generated synthesis without raw cartographer or source evidence",
+        "flag contradictions instead of overwriting source claims"
+      ]
+    },
+    {
+      "step_id": "s4-ontology-condensation",
+      "name": "Condense candidate meaning with ontology-vault",
+      "capability_ref": "ontology-vault",
+      "capability_status": "candidate",
+      "capability_metadata": {
+        "owner": "ontology-vault",
+        "known_runtime": ".agents/skills/ontology-vault/SKILL.md"
+      },
+      "mode": "map --branches business,system",
+      "pattern": "distill",
+      "techniques": [
+        "handle_handoff",
+        "memory_promotion_split",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/queries/2026-06-18-dispersed-knowledge-cartography/findings.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/entries/evidence-cards/"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/ontology-vault/map-2026-06-18-dispersed-knowledge.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "candidate-ontology-map-handoff"
+        }
+      ],
+      "stop_conditions": [
+        "block if ontology-vault asserts bridge alignment without evidence from both business and system branches",
+        "block if candidate ontology output claims promotion"
+      ]
+    },
+    {
+      "step_id": "s5-validate-boundaries",
+      "name": "Validate route, inventory, and ontology boundary guardrails",
+      "capability_ref": "dispatch-spec",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/queries/2026-06-18-dispersed-knowledge-cartography/DISPATCH.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "candidate-ontology-map-handoff"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "trace_event",
+          "ref": "dispatch_spec_validation"
+        },
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/lint/2026-06-18-dispersed-knowledge-cartography.md"
+        }
+      ],
+      "evidence_artifact": ".arcanum/inventory/lint/2026-06-18-dispersed-knowledge-cartography.md",
+      "stop_conditions": [
+        "block if dispatch-spec validation returns block",
+        "flag missing evidence-cards, missing EvidenceSets, untagged generated pages, or ontology promotion ambiguity"
+      ]
+    },
+    {
+      "step_id": "s6-handoff-next-route",
+      "name": "Prepare next-route handoff",
+      "capability_ref": "dispatch-spec",
+      "mode": "handoff",
+      "pattern": "handoff",
+      "techniques": [
+        "handle_handoff",
+        "approval_semantics_map"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/inventory/lint/2026-06-18-dispersed-knowledge-cartography.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": ".arcanum/ontology-vault/map-2026-06-18-dispersed-knowledge.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "confirm-run-or-defer"
+        }
+      ],
+      "stop_conditions": [
+        "ask for explicit operator permission before spawning any cartographer agents"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g1-human-runtime-authorization",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Subagent cartography cannot run until the operator explicitly confirms the dispatch.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g2-source-immutability",
+      "kind": "quality",
+      "owner": "inventory",
+      "condition": "Raw repository sources remain read-only; generated inventory artifacts must cite them.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g3-public-private-boundary",
+      "kind": "policy",
+      "owner": "parent",
+      "condition": "Private parent or implementation evidence must not be written into public arcanum/ artifacts.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g4-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "Execution evidence must not promote Inventory, Ontology, glossary, sigil, or spell knowledge without owner review.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g5-ontology-bridge-evidence",
+      "kind": "promotion_guardrail",
+      "owner": "ontology-vault",
+      "condition": "Ontology bridge claims require evidence from both branch sides or must remain explicit gaps.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g6-route-validation",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "Route validates with dispatch-spec and records pass, flag, or block state.",
+      "on_fail": "block"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b1-subagent-execution",
+        "kind": "human_approval",
+        "from_owner": "dispatch-spec",
+        "to_owner": "operator",
+        "applies_to_steps": [
+          "s2-cartographer-fanout"
+        ],
+        "contract": "The route may require cartographers, but runtime subagent execution waits for explicit operator permission.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b2-inventory-to-ontology",
+        "kind": "capability_handoff",
+        "from_owner": "inventory",
+        "to_owner": "ontology-vault",
+        "applies_to_steps": [
+          "s4-ontology-condensation"
+        ],
+        "contract": "Ontology-vault consumes inventory cards and findings as evidence records, not as promoted ontology authority.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b3-public-private",
+        "kind": "state_write",
+        "from_owner": "parent-private-repo",
+        "to_owner": "generated-inventory",
+        "applies_to_steps": [
+          "s1-source-manifest",
+          "s3-inventory-synthesis",
+          "s4-ontology-condensation"
+        ],
+        "contract": "Generated private inventory and ontology-vault artifacts may cite private paths; public arcanum/ artifacts must not be mutated by this route.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "dispatch-spec route artifact until operator confirms runtime",
+      "execution": "operator-approved parent session or domainspec-subagents-strategy after confirmation",
+      "validation": "dispatch-spec plus inventory lint and ontology-vault validate",
+      "evidence": "inventory",
+      "memory": "inventory and .arcanum/observability",
+      "promotion": "downstream owner only; no direct promotion from this route"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r1-cartographer-receipt",
+        "producer": "cartographer-subagents",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          ".arcanum/inventory/queries/2026-06-18-dispersed-knowledge-cartography/cartographer-receipts.md",
+          ".arcanum/inventory/queries/2026-06-18-dispersed-knowledge-cartography/research.md"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r2-inventory-ingest",
+        "producer": "inventory",
+        "required_fields": [
+          "artifacts",
+          "validation",
+          "status",
+          "residue"
+        ],
+        "stores": [
+          ".arcanum/inventory/index.md",
+          ".arcanum/inventory/log.md",
+          ".arcanum/inventory/entries/"
+        ],
+        "on_missing": "flag"
+      },
+      {
+        "receipt_id": "r3-ontology-condensation",
+        "producer": "ontology-vault",
+        "required_fields": [
+          "artifacts",
+          "validation",
+          "status",
+          "residue"
+        ],
+        "stores": [
+          ".arcanum/ontology-vault/map-2026-06-18-dispersed-knowledge.md"
+        ],
+        "on_missing": "flag"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "repo-source",
+        "owner": "git worktree and submodule owners",
+        "write_policy": "read-only for inventory ingest; no raw source mutation"
+      },
+      {
+        "namespace": "inventory-generated",
+        "owner": "inventory",
+        "write_policy": "generated pages, entries, cards, sets, queries, lint, index, tags, and log under .arcanum/inventory/"
+      },
+      {
+        "namespace": "ontology-candidate",
+        "owner": "ontology-vault",
+        "write_policy": "candidate maps under .arcanum/ontology-vault/; no convention mutation without explicit approval"
+      },
+      {
+        "namespace": "observability",
+        "owner": ".arcanum/observability",
+        "write_policy": "append-only signals and run notes when not ignored by repository policy"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "delegated execution evidence",
+        "target": "Inventory candidate knowledge",
+        "rule": "requires inventory owner review before any candidate becomes durable lookup output",
+        "on_violation": "block"
+      },
+      {
+        "source": "inventory evidence-cards",
+        "target": "Ontology candidate map",
+        "rule": "ontology-vault may condense branch roles and gaps, but cannot promote governed ontology without separate review",
+        "on_violation": "block"
+      },
+      {
+        "source": "ontology candidate map",
+        "target": "Definitions, glossary, sigil, spell, or canonical ontology",
+        "rule": "requires downstream owner decision and separate promotion artifact",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "dispatch_spec_validated",
+      "source_manifest_created",
+      "cartographer_fanout_authorized",
+      "cartographer_receipts_joined",
+      "inventory_entries_ingested",
+      "ontology_candidate_map_created",
+      "boundary_guardrails_checked",
+      "handoff_ready"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "promotion_guardrails": [
+    "Route execution evidence is not canonical promotion.",
+    "Inventory owns evidence-cards and candidate EvidenceSets only.",
+    "Ontology-vault owns candidate branch maps and confidence review; promotion requires a later owner decision.",
+    "Definitions Governance owns canonical definitions.",
+    "Public arcanum/ is not a target for private inventory writes."
+  ]
+}
