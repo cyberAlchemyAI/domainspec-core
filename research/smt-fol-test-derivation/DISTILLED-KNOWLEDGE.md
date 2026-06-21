@@ -41,3 +41,19 @@ This is the theoretical justification for the engine's existing `needs_formal` h
 ## One-line recommendation for the engine
 
 Keep δ pure-syntactic and deterministic as the default; treat SMT as a **deferred, opt-in verification/witness pass** scoped strictly to the decidable quantifier-free fragment; let the decidability map above *define* the `needs_formal` boundary. Do **not** let "we can call a solver" widen the spec language.
+
+## First-class property: derivation gaps are a spec-formalization metric (2026-06-21)
+
+The decidability boundary above has a corollary that is arguably the engine's headline property — the **dual of its soundness + honesty**:
+
+> The engine derives a test only from a closed, decidable spec expression, and otherwise refuses (`needs_formal` / `coverage_gap`) rather than guessing. Therefore **everything it cannot derive is a precise, mechanical signal that the spec is not formal enough there.**
+
+A sound deterministic deriver that will not fabricate *is, by construction, a spec-completeness analyzer.* The `coverage_gap` count is a **spec-quality metric**. Two lenses:
+- **`needs_formal`** = *un-formalized* spec (named, no closed formula) — sits outside the decidable fragment until authored.
+- **mutation survivors** (E3) = *under-formalized* spec (formula present but incomplete, e.g. an under-model closed form).
+
+An LLM generator lacks this property: it fabricates a plausible test for the opaque case, **hiding** the gap. The deterministic engine converts spec incompleteness into a visible, counted, actionable signal, and a feedback loop (more formal spec → more derived tests → fewer gaps).
+
+**Empirical witness (2026-06-21):** authoring C4 `applyMakeupPolicy` closed-form (from documented semantics) moved the E3 derived arm 38.75% → 54.37% (makeup-policy 17.2% → 36.56%), derived assertions passing against real code — confirming the gap was *unwritten spec*, not impl divergence. See [E3 results](../../implementation/domainspec/docs/research/results/E3-results.md) and the [computational-obligation track](tracks/computational-obligation-derivation/findings.md).
+
+Honest scope: measures **formalization** completeness (where the spec is formal enough to derive), distinct from coverage-vs-ground-truth recall against an independent gold set — different axes, both needed.
