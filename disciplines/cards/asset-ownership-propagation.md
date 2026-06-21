@@ -1,6 +1,6 @@
 # Asset Ownership Propagation Discipline
 
-Status: candidate
+Status: active-pattern
 Steward: ops
 Scope: PRIVATE (umbrella root only)
 
@@ -21,7 +21,8 @@ Names the asset-ownership/propagation practice. It does not own the asset conten
 
 - Mode: validator
 - Check: `tools/check_github_drift.sh` (deterministic drift detection).
-- Latest result: not-run (this session)
+- Latest result: not-run (validator exists; not executed this session)
+- Promotion (2026-06-21, exec #5): candidate -> active-pattern — used by active ops capability with a real validator (check_github_drift.sh) + policy doc as cross-capability evidence (satisfies the v0.2.1 active-pattern evidence rule). Canonical still gated on running the validator in CI.
 
 ## Quality Bar
 
