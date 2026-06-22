@@ -1,0 +1,107 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "mutationMode": "apply-approved",
+  "evidenceDate": "2026-06-21",
+  "targetWorkflowRoot": "projects/auth-user-management/development/refinement-runs/20260621T072243Z-poker-auth-standalone-service",
+  "sourceSignals": [
+    {
+      "id": "SIG-AUM-DOCS-001",
+      "source_path": "validation/poker-team/docs/features/auth-access-control/",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "stages/01-context-builder/CONTEXT-PACK.md",
+        "stages/02-invoke-define/DEFINE.md",
+        "stages/05-distill/COPY-UNIT.md",
+        "stages/06-invoke-design/DESIGN.md",
+        "stages/08-distill-repair/REPAIR.md",
+        "stages/09-invoke-plan/WORK-PACK.md",
+        "stages/10-final-synthesis/SYNTHESIS.md"
+      ],
+      "claim": "Poker Team auth-access-control docs are source material and must be extracted with the reusable service.",
+      "evidence": "Source docs include SPEC.md, DomainSpec aspect docs, capability docs, TEST-SPEC.md, STORIES.md, tasks.en.md, decisions.en.md, and CHANGELOG.md.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "SIG-AUM-DOCS-002",
+      "source_path": "user correction: refresh we need to extract the docs too",
+      "signal_type": "route_changed",
+      "target_artifacts": [
+        "stages/09-invoke-plan/WORK-PACK.md",
+        "RUNTIME-HANDOFF.md",
+        "RESULT.md"
+      ],
+      "claim": "Readiness audit must depend on a docs extraction SWU.",
+      "evidence": "The previous work-pack treated docs mainly as adoption output and listed six SWUs; the corrected route adds docs extraction before final audit.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "REFINE-SEED-PROPOSAL.md",
+    "REFINE-DISPATCH.json",
+    "RUN-MANIFEST.md",
+    "RUNTIME-HANDOFF.md",
+    "RESULT.md",
+    "evidence-index.json",
+    "stages/01-context-builder/CONTEXT-PACK.md",
+    "stages/01-context-builder/context-index.json",
+    "stages/02-invoke-define/DEFINE.md",
+    "stages/05-distill/COPY-UNIT.md",
+    "stages/06-invoke-design/DESIGN.md",
+    "stages/08-distill-repair/REPAIR.md",
+    "stages/09-invoke-plan/IMPLEMENTATION-LAYERING.md",
+    "stages/09-invoke-plan/WORK-PACK.md",
+    "stages/10-final-synthesis/SYNTHESIS.md"
+  ],
+  "deltaSummary": [
+    "evidence_added: source documentation boundary added",
+    "route_changed: SWU-AUM-006 now extracts docs and SWU-AUM-007 performs readiness audit"
+  ],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "Added O7 context obligation for docs extraction.",
+    "Expanded define/design/distill/repair/layering artifacts with docs extraction requirements.",
+    "Added SWU-AUM-006 for docs extraction and renumbered readiness audit to SWU-AUM-007.",
+    "Updated dispatch validation wording to seven SWUs.",
+    "Updated result, synthesis, handoff, manifest, and evidence index."
+  ],
+  "skippedChanges": [
+    "No implementation code was changed.",
+    "No Poker Team source file was changed.",
+    "No public arcanum file was changed."
+  ],
+  "blockers": [],
+  "nextRoute": "task-session",
+  "validation": [
+    {
+      "command": "python3 -m json.tool projects/auth-user-management/development/refinement-runs/20260621T072243Z-poker-auth-standalone-service/stages/01-context-builder/context-index.json",
+      "status": "pass"
+    },
+    {
+      "command": "python3 -m json.tool projects/auth-user-management/development/refinement-runs/20260621T072243Z-poker-auth-standalone-service/evidence-index.json",
+      "status": "pass"
+    },
+    {
+      "command": "python3 -m json.tool projects/auth-user-management/development/refinement-runs/20260621T072243Z-poker-auth-standalone-service/refreshes/20260621T073454Z-docs-extraction/refresh-report.json",
+      "status": "pass"
+    },
+    {
+      "command": "python3 arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py projects/auth-user-management/development/refinement-runs/20260621T072243Z-poker-auth-standalone-service/REFINE-DISPATCH.json",
+      "status": "pass"
+    },
+    {
+      "command": "rg -n \"SWU-AUM-006|SWU-AUM-007|docs/features/auth-access-control|Extract And Normalize Source Docs\" projects/auth-user-management/development/refinement-runs/20260621T072243Z-poker-auth-standalone-service",
+      "status": "pass"
+    },
+    {
+      "command": "git diff --check -- projects/auth-user-management/development/refinement-runs/20260621T072243Z-poker-auth-standalone-service",
+      "status": "pass"
+    },
+    {
+      "command": "! rg -n '[[:blank:]]$' projects/auth-user-management/development/refinement-runs/20260621T072243Z-poker-auth-standalone-service",
+      "status": "pass"
+    }
+  ]
+}

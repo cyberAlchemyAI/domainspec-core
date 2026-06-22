@@ -1,0 +1,569 @@
+{
+  "dispatch_id": "ide-ergonomics-mvp-two-lane-20260619T172822Z",
+  "parent_dispatch_id": "refine-20260619T171214Z-ide-ergonomics",
+  "intent": {
+    "raw": "Use two lanes: one for validating the MVP idea, and another to propose different angles for the problem. The objective is to understand whether this MVP is the most valid one.",
+    "objective": "Run a two-lane validation route for the current IDE Ergonomics MVP so the candidate MVP is tested against counterexamples and compared with genuinely different solution angles before implementation.",
+    "target_artifact": "projects/ide-ergonomics/development/mvp-validation/20260619T172822Z-two-lane-mvp/MVP-TWO-LANE-SYNTHESIS.md",
+    "operator_sentence": "Use two lanes to validate if the IDE ergonomics MVP is the most valid one.",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "two-lane-discipline",
+      "dialectic",
+      "zig_zag",
+      "tournament",
+      "subagent_strategy",
+      "handoff"
+    ]
+  },
+  "mode": "dialectic",
+  "route_menu": {
+    "context_hint": "The current MVP candidate is three IDE action cards: candidate definition, handoff composer, and subagent fanout preview. The dispatch must decide whether that is the strongest first proof or whether another angle should win.",
+    "items": [
+      {
+        "id": "three-card-mvp",
+        "label": "Three Card MVP",
+        "description": "Validate candidate definition, handoff composer, and subagent fanout preview as the smallest useful proof.",
+        "capability_ref": "refine",
+        "pattern": "dialectic"
+      },
+      {
+        "id": "definition-only-mvp",
+        "label": "Definition Only MVP",
+        "description": "Start with only candidate definition capture and prove knowledge-substrate value before any handoff or subagent UX.",
+        "capability_ref": "definitions-governance",
+        "pattern": "validation"
+      },
+      {
+        "id": "handoff-first-mvp",
+        "label": "Handoff First MVP",
+        "description": "Make handoff generation the first proof because it creates immediate continuity across sessions and agents.",
+        "capability_ref": "necronomicon",
+        "pattern": "handoff"
+      },
+      {
+        "id": "route-menu-first-mvp",
+        "label": "Route Menu MVP",
+        "description": "Start by exposing bounded sigil/spell route choices before building richer action cards.",
+        "capability_ref": "dispatch-spec",
+        "pattern": "route"
+      }
+    ],
+    "selected_item_id": null
+  },
+  "techniques": [
+    "dialectic",
+    "zig_zag",
+    "tournament",
+    "pareto_gate",
+    "route_menu",
+    "one_or_more_option_set",
+    "approval_checkpoint",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "toy_game",
+    "assessment_failure_reference",
+    "recomposition_proof",
+    "owner_boundary_check",
+    "observability_grouping",
+    "execution_receipt_handoff",
+    "evidence_summary_handoff",
+    "concrete_path_evidence",
+    "role_projection_boundary",
+    "state_namespace_boundary"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "two_lane_mvp_validation",
+      "trigger": "The operator needs to know if the three-card MVP is the most valid first proof rather than the first attractive idea.",
+      "techniques": [
+        "dialectic",
+        "zig_zag",
+        "tournament",
+        "pareto_gate",
+        "recomposition_proof"
+      ],
+      "applies_to_steps": [
+        "s2-two-lane-validation",
+        "s3-adjudicate"
+      ],
+      "validation_expectation": "Lane Z must test the MVP with counterexamples; Lane A must keep the underlying problem fixed and propose non-renamed alternatives. Parent synthesis chooses the non-dominated MVP candidate."
+    },
+    {
+      "overlay_id": "toy_game_for_low_cost_falsification",
+      "trigger": "The MVP can be tested with a small conversation scenario before any IDE implementation.",
+      "techniques": [
+        "toy_game",
+        "validation_loop",
+        "assessment_failure_reference"
+      ],
+      "applies_to_steps": [
+        "s2-two-lane-validation"
+      ],
+      "validation_expectation": "Lane Z uses at least one realistic conversation toy scenario and records failure interpretation."
+    },
+    {
+      "overlay_id": "route_menu_for_mvp_choices",
+      "trigger": "Multiple first-proof shapes are plausible and should be compared explicitly.",
+      "techniques": [
+        "route_menu",
+        "one_or_more_option_set",
+        "approval_checkpoint"
+      ],
+      "applies_to_steps": [
+        "s1-frame-problem",
+        "s3-adjudicate"
+      ],
+      "validation_expectation": "The final synthesis must select, reject, or defer each route menu item."
+    },
+    {
+      "overlay_id": "boundary_and_receipt_safety",
+      "trigger": "IDE action cards can accidentally imply execution or promotion authority.",
+      "techniques": [
+        "owner_boundary_check",
+        "execution_receipt_handoff",
+        "evidence_summary_handoff",
+        "concrete_path_evidence",
+        "role_projection_boundary",
+        "state_namespace_boundary"
+      ],
+      "applies_to_steps": [
+        "s1-frame-problem",
+        "s2-two-lane-validation",
+        "s3-adjudicate",
+        "s4-handoff"
+      ],
+      "validation_expectation": "Every proposed MVP must name its owner, proof evidence, mutation boundary, and receipt or handoff requirement."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Two-lane validation requires separated ownership: one lane should stress-test the current MVP and the other should propose different angles without anchoring on it.",
+    "explanation": "Role-bound sibling lanes reduce anchoring and create a clear parent synthesis point before implementation.",
+    "context": [
+      "Current MVP candidate: candidate definition action, handoff composer popup, subagent fanout preview.",
+      "Underlying problem: Arcanum has strong workflow contracts, but users must manually notice when a conversation should become a definition, handoff, route, side node, or delegated run.",
+      "Decision need: choose the smallest first proof that best validates the value of IDE-side Arcanum ergonomics."
+    ],
+    "roles": [
+      {
+        "role_id": "lane-z-mvp-validator",
+        "purpose": "Validate the current three-card MVP by building it out, testing it with at least one realistic counterexample, and naming the conditions where it fails.",
+        "owns": "MVP validation, counterexample, failure interpretation, and repaired version of the current MVP.",
+        "applies_to_steps": [
+          "s2-two-lane-validation",
+          "s3-adjudicate"
+        ]
+      },
+      {
+        "role_id": "lane-a-alternative-angles",
+        "purpose": "Hold the same underlying problem fixed and propose genuinely different first-proof angles, not variants of the same three-card MVP.",
+        "owns": "Alternative MVP candidates, rejected variants, trade-off comparison, and strongest challenge to the current MVP.",
+        "applies_to_steps": [
+          "s2-two-lane-validation",
+          "s3-adjudicate"
+        ]
+      }
+    ],
+    "parallelism": "dialectic",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Approve running the two-lane MVP validation with Lane Z for current-MVP validation and Lane A for alternative angles?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "pass",
+    "agents": [
+      {
+        "agent_id": "019ee10d-f235-7e31-81a6-052e8ce65504",
+        "role_id": "lane-z-mvp-validator",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "projects/ide-ergonomics/development/mvp-validation/20260619T172822Z-two-lane-mvp/LANE-RECEIPTS.md",
+        "residue": "host-specific feasibility remains unverified; no runtime IDE or browser evidence was gathered",
+        "reroute": "repair current MVP into a bounded conversation-transition card or replace subagent preview with route menu in the first proof"
+      },
+      {
+        "agent_id": "019ee10d-f31a-7272-954a-d0d0cf7bcd2e",
+        "role_id": "lane-a-alternative-angles",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "projects/ide-ergonomics/development/mvp-validation/20260619T172822Z-two-lane-mvp/LANE-RECEIPTS.md",
+        "residue": "host-specific IDE affordances remain unverified; no toy UI proof was run",
+        "reroute": "replace current MVP with bounded route-menu over conversation span and defer subagent fanout preview"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s1-frame-problem",
+      "name": "Frame underlying problem and MVP candidates",
+      "capability_ref": "refine",
+      "mode": "mvp-validation-frame",
+      "pattern": "route",
+      "techniques": [
+        "route_menu",
+        "frame_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-ergonomics/development/refinement-runs/20260619T171214Z-ide-ergonomics/RESULT.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-ergonomics/ERGONOMICS-OPPORTUNITIES.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "mvp-problem-frame"
+        },
+        {
+          "kind": "route_menu",
+          "ref": "route_menu"
+        },
+        {
+          "kind": "frame",
+          "ref": "route-menu-frame"
+        }
+      ],
+      "stop_conditions": [
+        "block if the underlying problem is phrased as the current MVP solution",
+        "block if fewer than two viable MVP candidates are named"
+      ]
+    },
+    {
+      "step_id": "s2-two-lane-validation",
+      "name": "Run Lane Z and Lane A in tension",
+      "capability_ref": "refine",
+      "mode": "two-lane-mvp-validation",
+      "pattern": "dialectic",
+      "parallel": true,
+      "techniques": [
+        "dialectic",
+        "zig_zag",
+        "toy_game",
+        "validation_loop",
+        "role_projection_boundary",
+        "execution_receipt_handoff"
+      ],
+      "roles": [
+        "lane-z-mvp-validator",
+        "lane-a-alternative-angles"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "mvp-problem-frame"
+        },
+        {
+          "kind": "frame",
+          "ref": "route-menu-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "lane-receipts"
+        },
+        {
+          "kind": "artifact",
+          "ref": "LANE-RECEIPTS.md"
+        }
+      ],
+      "join_policy": "parent_synthesis",
+      "convergence_criteria": [
+        "Lane Z records at least one real counterexample against the current three-card MVP.",
+        "Lane A proposes at least two alternatives that are not renamed versions of the current MVP.",
+        "Both lanes score candidates against the same problem statement and criteria.",
+        "Parent synthesis can name a winner, a narrowed MVP, or a block with residue."
+      ],
+      "evidence_artifact": "LANE-RECEIPTS.md",
+      "stop_conditions": [
+        "block if Lane A only tweaks the current MVP",
+        "block if Lane Z has no counterexample",
+        "block if delegated agents are spawned without explicit user approval"
+      ]
+    },
+    {
+      "step_id": "s3-adjudicate",
+      "name": "Adjudicate MVP validity",
+      "capability_ref": "decision-gate",
+      "capability_status": "candidate",
+      "mode": "mvp-adjudication",
+      "pattern": "tournament",
+      "techniques": [
+        "tournament",
+        "pareto_gate",
+        "recomposition_proof",
+        "owner_boundary_check"
+      ],
+      "roles": [
+        "lane-z-mvp-validator",
+        "lane-a-alternative-angles"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "lane-receipts"
+        },
+        {
+          "kind": "frame",
+          "ref": "mvp-problem-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "mvp-adjudication"
+        },
+        {
+          "kind": "artifact",
+          "ref": "MVP-TWO-LANE-SYNTHESIS.md"
+        }
+      ],
+      "join_policy": "pareto",
+      "convergence_criteria": [
+        "Candidate solves the underlying problem with the least implementation surface.",
+        "Candidate produces observable value without canonical Arcanum mutation.",
+        "Candidate has a clear owner and validation evidence.",
+        "Candidate can fail cheaply before host integration work begins."
+      ],
+      "stop_conditions": [
+        "defer if no candidate dominates",
+        "route to decision-gate if the trade-off is consequential and cannot be inferred"
+      ]
+    },
+    {
+      "step_id": "s4-handoff",
+      "name": "Prepare next-route handoff",
+      "capability_ref": "necronomicon",
+      "capability_status": "local-extension",
+      "mode": "handoff",
+      "pattern": "handoff",
+      "techniques": [
+        "handle_handoff",
+        "evidence_summary_handoff",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "mvp-adjudication"
+        },
+        {
+          "kind": "artifact",
+          "ref": "MVP-TWO-LANE-SYNTHESIS.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "MVP-NEXT-HANDOFF.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "mvp-two-lane-route-closed"
+        }
+      ],
+      "stop_conditions": [
+        "handoff must name next owner: spellcraft, invoke, task-session, discipline-governance, or deferred"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-underlying-problem",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "The underlying problem is independent of the current three-card MVP.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-two-lane-integrity",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "Lane Z validates the current MVP with counterexamples and Lane A proposes genuinely different angles.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-subagent-permission",
+      "kind": "human_approval",
+      "owner": "refine",
+      "condition": "Delegated two-lane execution requires explicit user approval before subagents are spawned.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g-no-silent-promotion",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "MVP validation evidence cannot directly promote definitions, ontology, spells, sigils, or runtime surfaces.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-adjudication-criteria",
+      "kind": "decision",
+      "owner": "decision-gate",
+      "condition": "The selected MVP is judged against value, implementation surface, proof cost, owner clarity, and boundary safety.",
+      "on_fail": "defer"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "refine-20260619T171214Z-ide-ergonomics",
+    "trace_events": [
+      "mvp_problem_framed",
+      "lane_z_validation_completed",
+      "lane_a_alternatives_completed",
+      "mvp_adjudicated",
+      "mvp_handoff_written"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-lane-execution-approval",
+        "kind": "human_approval",
+        "from_owner": "dispatch-spec",
+        "to_owner": "refine runtime executor",
+        "applies_to_steps": [
+          "s2-two-lane-validation"
+        ],
+        "contract": "Two-lane subagent execution is only recommended by this dispatch and requires explicit user approval before runtime fanout.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-mvp-evidence-to-promotion",
+        "kind": "evidence_return",
+        "from_owner": "lane receipts",
+        "to_owner": "decision-gate and next-route owner",
+        "applies_to_steps": [
+          "s3-adjudicate",
+          "s4-handoff"
+        ],
+        "contract": "Lane evidence can support a next route, but cannot directly promote reusable capabilities or canonical definitions.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "dispatch-spec validates route shape; refine or necronomicon may orchestrate after approval",
+      "execution": "future approved two-lane subagents or parent-led lane passes",
+      "validation": "dispatch-spec plus decision-gate adjudication",
+      "evidence": "LANE-RECEIPTS.md and MVP-TWO-LANE-SYNTHESIS.md",
+      "memory": "necronomicon route memory after handoff",
+      "promotion": "owning capability only"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r-lane-z",
+        "producer": "lane-z-mvp-validator",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "handoff_note",
+          "residue"
+        ],
+        "stores": [
+          "LANE-RECEIPTS.md"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-lane-a",
+        "producer": "lane-a-alternative-angles",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "handoff_note",
+          "residue"
+        ],
+        "stores": [
+          "LANE-RECEIPTS.md"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects/ide-ergonomics/development/mvp-validation",
+        "owner": "project-local MVP validation",
+        "write_policy": "route, lane receipts, synthesis, and handoff only"
+      },
+      {
+        "namespace": "arcanum",
+        "owner": "public Arcanum canonical owners",
+        "write_policy": "read-only unless a later owner route approves mutation"
+      },
+      {
+        "namespace": ".arcanum",
+        "owner": "repository-local harness and observability",
+        "write_policy": "observability only when runtime execution occurs"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "MVP lane evidence",
+        "target": "spellcraft local spell",
+        "rule": "Spell creation requires a later Spellcraft lifecycle route.",
+        "on_violation": "block"
+      },
+      {
+        "source": "MVP lane evidence",
+        "target": "canonical definitions or ontology",
+        "rule": "Knowledge promotion requires definitions-governance or ontology owner review.",
+        "on_violation": "block"
+      },
+      {
+        "source": "MVP lane evidence",
+        "target": "host IDE implementation",
+        "rule": "Implementation requires an Invoke define/design or Task Session route with validation evidence.",
+        "on_violation": "defer"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Two-lane validation is evidence for choosing an MVP, not proof that the MVP is implemented.",
+    "No canonical Arcanum or DomainSpec mutation from this dispatch.",
+    "No subagent execution without explicit user approval."
+  ]
+}

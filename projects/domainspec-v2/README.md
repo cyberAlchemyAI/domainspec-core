@@ -35,6 +35,12 @@ Every tower runs under the [Two-Lane Discipline](research/TWO-LANE-DISCIPLINE.md
 | [dcb-correctness](research/dcb-correctness/HANDOFF.md) | Dynamic Consistency Boundaries as a selective spec-to-code correctness discipline. | Existing validators check a snapshot, not whether a later claim was made against still-current facts. | (already underway) |
 | [alloy-tla-modeling](research/alloy-tla-modeling/README.md) | Use Alloy for bounded graph-completeness counterexamples and TLA+/PlusCal for temporal saga behavior, fed by the TypeScript bounded witness. | DomainSpec v2 needs formal-modeling lanes without overclaiming that TypeScript, DCB, Alloy, or TLA+ alone proves saga correctness. | [README](research/alloy-tla-modeling/README.md) |
 
+> Moved out: the **intent-latitude tags** work (`[literal]`/`[goal]`/`[constraint]`
+> grounded by a validator) was reclassified as an IDE chat-ergonomics primitive and
+> now lives at
+> [`projects/ide-ergonomics/intent-latitude-tags/`](../ide-ergonomics/intent-latitude-tags/README.md).
+> The `target-state` and `spec-ontology-unification` towers above still cross-reference it.
+
 ## Route
 
 The initial target-state and spec-ontology towers are sequenced and gated by one

@@ -1,0 +1,541 @@
+{
+  "dispatch_id": "poker-agent-arena-mechanics-20260619",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Dispatch lanes to create poker agent competition game rules and mechanics. Use toy games, zig-zags, and create one lane just for novel ideas.",
+    "objective": "Produce a handoff-ready game rules and mechanics package for a poker-agent competition, including CLI protocol implications, scoring mechanics, toy-game validation fixtures, zig-zag critique, and a novelty lane.",
+    "target_artifact": "projects/poker-agent-arena/development/dispatches/20260619-agent-arena-mechanics/GAME-MECHANICS-HANDOFF.md",
+    "arcanum_vocabulary": [
+      "dispatch-spec",
+      "toy_game",
+      "zig_zag",
+      "tournament",
+      "dialectic",
+      "subagent_strategy"
+    ],
+    "operator_sentence": "Create lanes for game rules and mechanics, with toy games and zig-zag critique, plus one dedicated novelty lane."
+  },
+  "mode": "mixed",
+  "techniques": [
+    "sequence",
+    "zig_zag",
+    "dialectic",
+    "tournament",
+    "toy_game",
+    "validation_loop",
+    "delegation_boundary",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "approval_semantics_map",
+    "state_namespace_boundary",
+    "observability_grouping"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "toy-game-zig-zag",
+      "trigger": "Mechanics should be tested against small controlled games before full no-limit Hold'em implementation.",
+      "techniques": [
+        "toy_game",
+        "zig_zag",
+        "validation_loop"
+      ],
+      "applies_to_steps": [
+        "s3-toy-game-fixtures",
+        "s4-zig-zag-critique",
+        "s7-dispatch-validation"
+      ],
+      "validation_expectation": "Toy fixtures produce named evidence; zig-zag critique records accepted, rejected, and unresolved mechanics; final validation confirms route shape before execution."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Rules, scoring, protocol, toy-game validation, and novelty search are independent enough for parallel lane work, but their outputs must be synthesized under one route.",
+    "explanation": "Role-bound lanes reduce design bias: one lane can optimize poker correctness, one can optimize competitive scoring, one can optimize agent ergonomics, one can stress mechanics with toy games, and one is free to propose unusual mechanics without contaminating baseline rules.",
+    "context": [
+      "The prior research direction favored a local engine plus a thin CLI/WebSocket protocol rather than building the full poker layer from scratch.",
+      "The competition should reward both performance and cleverness: EV, latency discipline, legal-action reliability, adaptation, and robustness across formats.",
+      "Toy games are needed before full no-limit Hold'em so timing, hidden information, invalid actions, and scoring can be checked in small deterministic fixtures."
+    ],
+    "roles": [
+      {
+        "role_id": "rules-mechanics",
+        "purpose": "Define baseline games, legal action contract, clock model, blinds/stacks, side-pot expectations, and hidden-information rules.",
+        "owns": "rules mechanics receipt",
+        "applies_to_steps": [
+          "s2-fanout-lanes"
+        ]
+      },
+      {
+        "role_id": "scoring-economy",
+        "purpose": "Define tournament scoring, EV/ROI windows, latency and invalid-action penalties, drawdown penalties, and tie-breakers.",
+        "owns": "scoring mechanics receipt",
+        "applies_to_steps": [
+          "s2-fanout-lanes"
+        ]
+      },
+      {
+        "role_id": "agent-protocol",
+        "purpose": "Define CLI/stdin-stdout observation/action contract, deadline behavior, schema errors, and later WebSocket compatibility.",
+        "owns": "agent protocol receipt",
+        "applies_to_steps": [
+          "s2-fanout-lanes"
+        ]
+      },
+      {
+        "role_id": "toy-game-validator",
+        "purpose": "Design toy games and fixtures that expose timing, hidden information, collusion-adjacent behavior, all-in behavior, and exploitability problems early.",
+        "owns": "toy game evidence receipt",
+        "applies_to_steps": [
+          "s3-toy-game-fixtures"
+        ]
+      },
+      {
+        "role_id": "novelty-lane",
+        "purpose": "Propose intentionally unusual mechanics that could make the arena more agent-native while preserving fair hidden-information play.",
+        "owns": "novel ideas receipt",
+        "applies_to_steps": [
+          "s5-novelty-tournament"
+        ]
+      },
+      {
+        "role_id": "exploitability-skeptic",
+        "purpose": "Attack the proposed mechanics for degenerate strategies, time-bank abuse, information leakage, overfitting, and scoring exploits.",
+        "owns": "zig-zag critique receipt",
+        "applies_to_steps": [
+          "s4-zig-zag-critique"
+        ]
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Spawn the poker-agent-arena mechanics lanes and require structured receipts before synthesis?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s1-frame-arena",
+      "name": "Frame the poker-agent arena target",
+      "capability_ref": "context-builder",
+      "mode": "dispatch-context",
+      "pattern": "sequential",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "external_context",
+          "ref": "prior-research:PokerKit/OpenPoker/RLCard/OpenSpiel/PyPokerEngine/Slumbot"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "arena-context-frame"
+        }
+      ],
+      "stop_conditions": [
+        "block if the arena objective cannot distinguish local engine work from hosted external arenas",
+        "flag if source assumptions are not carried as external context instead of canonical project knowledge"
+      ]
+    },
+    {
+      "step_id": "s2-fanout-lanes",
+      "name": "Fan out baseline design lanes",
+      "capability_ref": "task-session",
+      "mode": "lane-fanout",
+      "pattern": "fanout",
+      "parallel": true,
+      "join_policy": "parent_synthesis",
+      "techniques": [
+        "delegation_boundary",
+        "execution_receipt_handoff",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "arena-context-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "baseline-lane-receipts"
+        }
+      ],
+      "stop_conditions": [
+        "block if any lane proposes mechanics that expose hidden card/deck state to agents",
+        "block if the CLI protocol cannot express legal actions, deadlines, invalid-action behavior, and timeout fallbacks"
+      ]
+    },
+    {
+      "step_id": "s3-toy-game-fixtures",
+      "name": "Create toy-game validation fixtures",
+      "capability_ref": "task-session",
+      "mode": "toy-game-design",
+      "pattern": "toy_game",
+      "techniques": [
+        "toy_game",
+        "validation_loop",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "baseline-lane-receipts"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "TOY-GAME-FIXTURES.md"
+        }
+      ],
+      "evidence_artifact": "projects/poker-agent-arena/development/dispatches/20260619-agent-arena-mechanics/TOY-GAME-FIXTURES.md",
+      "stop_conditions": [
+        "block if toy games do not include at least one deterministic hidden-information fixture and one timing/timeout fixture",
+        "flag if the fixture set cannot later map to full no-limit Hold'em states"
+      ]
+    },
+    {
+      "step_id": "s4-zig-zag-critique",
+      "name": "Zig-zag mechanics critique",
+      "capability_ref": "interrogation",
+      "mode": "design-zig-zag",
+      "pattern": "dialectic",
+      "techniques": [
+        "zig_zag",
+        "dialectic",
+        "residue_ledger"
+      ],
+      "roles": [
+        "mechanics-advocate",
+        "exploitability-skeptic"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "TOY-GAME-FIXTURES.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "baseline-lane-receipts"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "zig-zag-critique-ledger"
+        }
+      ],
+      "convergence_criteria": [
+        "Each accepted mechanic has a named exploitability check or toy-game fixture.",
+        "Each rejected mechanic records the failure mode.",
+        "Unresolved mechanics are preserved as residue with an owner and next test."
+      ],
+      "stop_conditions": [
+        "stop after two advocate/skeptic loops unless a human explicitly authorizes more",
+        "block if the critique finds an information leak or scoring exploit with no repair path"
+      ]
+    },
+    {
+      "step_id": "s5-novelty-tournament",
+      "name": "Run the dedicated novel ideas lane",
+      "capability_ref": "distill",
+      "mode": "novelty-tournament",
+      "pattern": "tournament",
+      "parallel": true,
+      "join_policy": "ranked",
+      "techniques": [
+        "tournament",
+        "pareto_gate",
+        "recomposition_proof"
+      ],
+      "roles": [
+        "strange-clock-designer",
+        "memory-metagame-designer",
+        "mixed-game-designer",
+        "agent-native-mechanic-designer"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "arena-context-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "novelty-candidate-set"
+        }
+      ],
+      "convergence_criteria": [
+        "Rank ideas by novelty, fairness, implementability, agent-cleverness signal, and toy-game testability.",
+        "Keep at least one safe wild-card mechanic even if it is not MVP-ready.",
+        "Reject any idea that depends on hidden-state leakage, collusion, or non-reproducible scoring."
+      ],
+      "stop_conditions": [
+        "block if novelty proposals override baseline hidden-information fairness",
+        "flag if all novel ideas collapse into simple scoring tweaks"
+      ]
+    },
+    {
+      "step_id": "s6-synthesize-mechanics",
+      "name": "Synthesize the game mechanics handoff",
+      "capability_ref": "invoke",
+      "mode": "design-handoff",
+      "pattern": "synthesis",
+      "techniques": [
+        "frame_handoff",
+        "handle_handoff",
+        "recomposition_proof"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "baseline-lane-receipts"
+        },
+        {
+          "kind": "artifact",
+          "ref": "TOY-GAME-FIXTURES.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "zig-zag-critique-ledger"
+        },
+        {
+          "kind": "frame",
+          "ref": "novelty-candidate-set"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "GAME-MECHANICS-HANDOFF.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if the handoff lacks MVP rules, scoring, CLI protocol, toy-game fixtures, and novelty appendix",
+        "flag if implementation choices are asserted without naming validation evidence"
+      ]
+    },
+    {
+      "step_id": "s7-dispatch-validation",
+      "name": "Validate and close the route artifact",
+      "capability_ref": "dispatch-spec",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "format_conformity_check",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "GAME-MECHANICS-HANDOFF.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "poker-agent-arena-mechanics.dispatch.json"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "DISPATCH-VALIDATION.md"
+        }
+      ],
+      "evidence_artifact": "projects/poker-agent-arena/development/dispatches/20260619-agent-arena-mechanics/DISPATCH-VALIDATION.md",
+      "stop_conditions": [
+        "block if dispatch validation returns block",
+        "flag if dispatch validation returns flag and the residue is not carried into the handoff"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g1-human-execution-approval",
+      "kind": "human_approval",
+      "owner": "parent-operator",
+      "condition": "Subagent execution requires explicit operator approval after reviewing this route.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g2-hidden-information-integrity",
+      "kind": "quality",
+      "owner": "rules-mechanics",
+      "condition": "No agent observation may expose hidden deck state, other players' private cards, random seed internals, or future community cards.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g3-toy-game-evidence",
+      "kind": "validation",
+      "owner": "toy-game-validator",
+      "condition": "Toy-game fixtures must include expected evidence artifacts and failure interpretation before full engine implementation planning.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g4-novelty-safety",
+      "kind": "quality",
+      "owner": "novelty-lane",
+      "condition": "Novel mechanics may be creative, but must preserve reproducibility, fair hidden-information boundaries, and implementable scoring.",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "g5-promotion-guardrail",
+      "kind": "promotion_guardrail",
+      "owner": "dispatch-spec",
+      "condition": "This route does not promote inventory, ontology, glossary, sigil, or spell artifacts; it only creates project-local design handoff evidence.",
+      "on_fail": "block"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b1-subagent-design-lanes",
+        "kind": "capability_handoff",
+        "from_owner": "parent-operator",
+        "to_owner": "role-bound-lanes",
+        "applies_to_steps": [
+          "s2-fanout-lanes",
+          "s3-toy-game-fixtures",
+          "s4-zig-zag-critique",
+          "s5-novelty-tournament"
+        ],
+        "contract": "Each lane returns structured receipts and project-local artifact handles; no lane writes canonical Arcanum inventory, ontology, glossary, sigil, or spell artifacts.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b2-hidden-information",
+        "kind": "evidence_return",
+        "from_owner": "rules-mechanics",
+        "to_owner": "parent-synthesis",
+        "applies_to_steps": [
+          "s2-fanout-lanes",
+          "s3-toy-game-fixtures",
+          "s4-zig-zag-critique",
+          "s6-synthesize-mechanics"
+        ],
+        "contract": "All game mechanics evidence must distinguish public observation, private hole-card observation, legal actions, and forbidden engine state.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b3-execution-approval",
+        "kind": "human_approval",
+        "from_owner": "dispatch-spec",
+        "to_owner": "domainspec-subagents-strategy",
+        "applies_to_steps": [
+          "s2-fanout-lanes",
+          "s3-toy-game-fixtures",
+          "s4-zig-zag-critique",
+          "s5-novelty-tournament"
+        ],
+        "contract": "This dispatch may recommend subagent lanes, but execution is blocked until the operator explicitly approves the runtime dispatch.",
+        "on_violation": "ask"
+      }
+    ],
+    "authority": {
+      "lifecycle": "parent-operator",
+      "execution": "domainspec-subagents-strategy after explicit approval",
+      "validation": "dispatch-spec",
+      "evidence": "project-local poker-agent-arena artifacts",
+      "memory": "none unless separately requested",
+      "promotion": "no canonical promotion from this route"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r1-lane-receipts",
+        "producer": "role-bound-lanes",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          "projects/poker-agent-arena/development/dispatches/20260619-agent-arena-mechanics/lane-receipts/"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r2-dispatch-validation",
+        "producer": "dispatch-spec",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "audit_reference"
+        ],
+        "stores": [
+          "projects/poker-agent-arena/development/dispatches/20260619-agent-arena-mechanics/DISPATCH-VALIDATION.md"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects/poker-agent-arena/development/dispatches/20260619-agent-arena-mechanics/",
+        "owner": "parent-operator",
+        "write_policy": "Project-local design and validation artifacts only; no generated runtime mirrors and no public Arcanum promotion."
+      },
+      {
+        "namespace": "telemetry/agents/subagents-dispatch.yaml",
+        "owner": "domainspec-subagents-strategy",
+        "write_policy": "Only the governed subagent strategy appender may write dispatch/close rows after explicit execution approval."
+      }
+    ]
+  },
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "dispatch_validated",
+      "lane_proposed",
+      "subagent_execution_requested",
+      "toy_game_fixture_defined",
+      "zig_zag_loop_completed",
+      "novelty_candidate_ranked",
+      "handoff_synthesized"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "promotion_guardrails": [
+    "This dispatch is a project-local route artifact and does not promote inventory, ontology, glossary, sigil, or spell artifacts.",
+    "Execution receipts from future subagent lanes cannot automatically become canonical knowledge without a separate owner-reviewed promotion route.",
+    "Private checkout paths remain project-local unless a later public-safe artifact is explicitly requested."
+  ]
+}

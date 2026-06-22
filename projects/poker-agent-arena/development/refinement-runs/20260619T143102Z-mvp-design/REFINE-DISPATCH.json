@@ -1,0 +1,1196 @@
+{
+  "dispatch_id": "refine-20260619T143102Z-poker-agent-arena-mvp-design",
+  "parent_dispatch_id": "refine-20260619T022414Z-poker-agent-arena-current-spec-architecture-plan",
+  "intent": {
+    "raw": "Use DomainSpec to design everything necessary for the Poker Agent Arena MVP.",
+    "objective": "Run the canonical Refine loop over the Poker Agent Arena project to produce a non-executed Local Arena CLI v0 DomainSpec design and implementation plan.",
+    "target_artifact": "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/RESULT.md",
+    "operator_sentence": "use domain spec to design all necessary for doing mvp of this",
+    "arcanum_vocabulary": [
+      "refine",
+      "dispatch-spec",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "task-session",
+      "DomainSpec",
+      "MVP",
+      "toy_game"
+    ]
+  },
+  "mode": "sequence",
+  "route_menu": {
+    "context_hint": "The project can cut the first executable route several ways; refinement should select a bounded route before task-session work starts.",
+    "items": [
+      {
+        "id": "local-arena-cli-v0",
+        "label": "Local Arena CLI v0",
+        "description": "Build the first local CLI arena proof with protocol, runner, transcript, replay, diagnostics, sample agents, and a Kuhn fixture gate.",
+        "capability_ref": "refine",
+        "pattern": "sequence"
+      },
+      {
+        "id": "two-fixture-arena-cli-v0",
+        "label": "Two-Fixture Arena CLI v0",
+        "description": "Build Kuhn and Leduc into the first executable route, increasing validation coverage at higher implementation cost.",
+        "capability_ref": "refine",
+        "pattern": "sequence"
+      },
+      {
+        "id": "holdem-engine-cli-v1",
+        "label": "Hold'em Engine CLI v1",
+        "description": "Select or wrap a Hold'em engine before toy fixtures prove the Local Arena CLI v0 protocol.",
+        "capability_ref": "invoke",
+        "pattern": "sequential"
+      },
+      {
+        "id": "leaderboard-diagnostics-v2",
+        "label": "Leaderboard Diagnostics v2",
+        "description": "Prioritize adjusted scoring and competitive presentation before calibration fixtures.",
+        "capability_ref": "distill",
+        "pattern": "distill"
+      }
+    ],
+    "selected_item_id": "local-arena-cli-v0"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "conditional_component",
+    "data_quality_completeness",
+    "route_menu",
+    "one_or_more_option_set",
+    "approval_checkpoint",
+    "dialectic",
+    "zig_zag",
+    "tournament",
+    "pareto_gate",
+    "recomposition_proof",
+    "scu_swu_reduction",
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference",
+    "toy_game",
+    "assessment_failure_reference",
+    "memory_loop",
+    "residue_ledger",
+    "protected_context_flag",
+    "local_nuance_coordination",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "authority_split_gate",
+    "state_namespace_boundary",
+    "approval_semantics_map",
+    "artifact_contract_bridge",
+    "memory_promotion_split"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "Refine requires the canonical ten-stage sequence with native receipt handoffs.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping",
+        "minimum_component_catalog",
+        "conditional_component",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": [
+        "s1-context",
+        "s2-define",
+        "s3-define-review",
+        "s4-research-decision",
+        "s5-distill",
+        "s6-design",
+        "s7-design-review",
+        "s8-repair",
+        "s9-plan",
+        "s10-final"
+      ],
+      "validation_expectation": "Every stage records a native receipt or explicit blocked reason; final synthesis consumes stage evidence."
+    },
+    {
+      "overlay_id": "route_menu_for_mvp_cut",
+      "trigger": "The first executable route could mean contract-only, one-fixture runtime, two-fixture runtime, Hold'em first, or leaderboard first.",
+      "techniques": [
+        "route_menu",
+        "one_or_more_option_set",
+        "approval_checkpoint",
+        "pareto_gate"
+      ],
+      "applies_to_steps": [
+        "s4-research-decision",
+        "s5-distill",
+        "s9-plan"
+      ],
+      "validation_expectation": "The run must select one MVP cut and preserve rejected alternatives with reasons."
+    },
+    {
+      "overlay_id": "dialectic_for_mvp_tensions",
+      "trigger": "Local Arena CLI v0 must balance competitive feel, implementation cost, hidden-information safety, replay proof, and future Hold'em compatibility.",
+      "techniques": [
+        "dialectic",
+        "zig_zag",
+        "tournament",
+        "residue_ledger",
+        "recomposition_proof"
+      ],
+      "applies_to_steps": [
+        "s3-define-review",
+        "s5-distill",
+        "s7-design-review",
+        "s10-final"
+      ],
+      "validation_expectation": "Critique stages must preserve tension between minimality and compelling competition until synthesis."
+    },
+    {
+      "overlay_id": "xray_for_mvp_architecture",
+      "trigger": "The current docs name major concepts, but Local Arena CLI v0 still needs module boundaries, interfaces, artifact ownership, and CLI command shape.",
+      "techniques": [
+        "x_ray",
+        "component_descriptor",
+        "entity_component_reference"
+      ],
+      "applies_to_steps": [
+        "s1-context",
+        "s5-distill",
+        "s6-design",
+        "s8-repair"
+      ],
+      "validation_expectation": "Design output must expose the minimum component catalog for runner, protocol, referee, transcript, replay, fixtures, CLI, and diagnostics."
+    },
+    {
+      "overlay_id": "toy_game_for_low_cost_falsification",
+      "trigger": "Local Arena CLI v0 should be falsified through a Kuhn fixture gate first, with Leduc board reveal staged before Hold'em integration.",
+      "techniques": [
+        "toy_game",
+        "validation_loop",
+        "assessment_failure_reference"
+      ],
+      "applies_to_steps": [
+        "s5-distill",
+        "s8-repair",
+        "s9-plan"
+      ],
+      "validation_expectation": "The plan must name toy fixtures, abuse agents, golden transcripts, and failure interpretations."
+    },
+    {
+      "overlay_id": "memory_residue_for_existing_artifacts",
+      "trigger": "Prior dispatch, invoke, refine, refresh, and whisper artifacts already define constraints and should be reused without silently becoming implementation proof.",
+      "techniques": [
+        "memory_loop",
+        "residue_ledger",
+        "data_quality_completeness",
+        "concrete_path_evidence",
+        "memory_promotion_split"
+      ],
+      "applies_to_steps": [
+        "s1-context",
+        "s3-define-review",
+        "s7-design-review",
+        "s10-final"
+      ],
+      "validation_expectation": "Existing evidence informs the MVP but does not count as runtime completion."
+    },
+    {
+      "overlay_id": "protected_context_for_private_parent",
+      "trigger": "The project lives in a private umbrella repo with public/private submodule boundaries.",
+      "techniques": [
+        "protected_context_flag",
+        "local_nuance_coordination",
+        "authority_split_gate",
+        "state_namespace_boundary"
+      ],
+      "applies_to_steps": [
+        "s1-context",
+        "s6-design",
+        "s9-plan",
+        "s10-final"
+      ],
+      "validation_expectation": "The route must keep public docs, generated refinement evidence, future runtime code, private validation, and observability state separate."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The first executable route has several plausible cuts and needs role-bound pressure before a future task-session starts building runtime code.",
+    "explanation": "Four sibling roles can independently pressure-test scope, architecture, validation, and agent-author experience while parent Refine owns final synthesis.",
+    "context": [
+      "Existing artifacts are strong but still planning and documentation surfaces.",
+      "The current next route is SWU-PAA-001R before runtime implementation.",
+      "The MVP must avoid slipping into full Hold'em, hosted tournaments, or composite leaderboard claims.",
+      "The docs deliberately create human/product and engineer/agent views that must remain distinct."
+    ],
+    "roles": [
+      {
+        "role_id": "mvp-scope-cutter",
+        "purpose": "Cut the smallest credible MVP and reject tempting but premature scope.",
+        "owns": "route boundary critique, rejected alternatives, and minimum acceptance list.",
+        "applies_to_steps": [
+          "s3-define-review",
+          "s5-distill",
+          "s10-final"
+        ]
+      },
+      {
+        "role_id": "runtime-architecture-mapper",
+        "purpose": "Map the runtime modules, file tree, interfaces, and CLI command surface needed for the selected route.",
+        "owns": "Architecture x-ray receipt and component/interface gap list.",
+        "applies_to_steps": [
+          "s1-context",
+          "s6-design",
+          "s8-repair"
+        ]
+      },
+      {
+        "role_id": "fixture-validation-skeptic",
+        "purpose": "Attack the MVP through toy fixtures, hidden-information leaks, invalid-output abuse, fallback strategy, and replay determinism.",
+        "owns": "Fixture falsification receipt and validation gate recommendations.",
+        "applies_to_steps": [
+          "s5-distill",
+          "s8-repair",
+          "s9-plan"
+        ]
+      },
+      {
+        "role_id": "agent-author-experience-critic",
+        "purpose": "Check whether a first agent author can understand, run, and debug the MVP without reading all internal artifacts.",
+        "owns": "Developer-experience receipt and first-run documentation requirements.",
+        "applies_to_steps": [
+          "s6-design",
+          "s7-design-review",
+          "s9-plan"
+        ]
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Confirm to run the standard Refine route and spawn the recommended route scope, runtime architecture, fixture validation, and agent-author experience subagents?",
+    "receipt_requirements": [
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "handoff_note",
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute"
+    ],
+    "approval_record": {
+      "approved_by": "operator",
+      "approval_text": "run spawn subagents",
+      "approved_at": "2026-06-19",
+      "dispatch_id": "2026-06-19-poker-agent-arena-mvp-review"
+    }
+  },
+  "subagent_lifecycle": {
+    "status": "flag",
+    "dispatch_id": "2026-06-19-poker-agent-arena-mvp-review",
+    "check_tension": {
+      "status": "pass",
+      "checker_agent_id": "019ee091-119e-7ee2-ab07-4230a55a96be",
+      "reviewer_agent_id": "019ee091-1238-7e22-a52a-91d12cc5f30c",
+      "artifact": "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/check-tension-results.md"
+    },
+    "registration": {
+      "status": "registered",
+      "artifact": "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/register-dispatch-record.json",
+      "ledger": "telemetry/agents/subagents-dispatch.yaml"
+    },
+    "parent_verdict": "FIX",
+    "agents": [
+      {
+        "role_id": "mvp-scope-cutter",
+        "agent_name": "Banach, Stefan",
+        "agent_id": "019ee093-8a7a-75e0-a043-a8e6b6c3fcf9",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "status": "flag",
+        "receipt_artifact": "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/stage-receipts/mvp-scope-cutter.md",
+        "residue": "Local Arena CLI v0 naming resolves prior broad Kuhn/Leduc M0/L0 wording.",
+        "reroute": "parent_synthesis"
+      },
+      {
+        "role_id": "runtime-architecture-mapper",
+        "agent_name": "Grothendieck, Alexander",
+        "agent_id": "019ee093-8d2e-7a32-b32c-601bb217698c",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "status": "flag",
+        "receipt_artifact": "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/stage-receipts/runtime-architecture-mapper.md",
+        "residue": "Runtime root, CLI command contract, module tree, and sample-agent ownership need freezing.",
+        "reroute": "parent_synthesis"
+      },
+      {
+        "role_id": "fixture-validation-skeptic",
+        "agent_name": "Capucci, Matteo",
+        "agent_id": "019ee093-8e57-73e1-a7fd-74e71fa8c9b7",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "status": "flag",
+        "receipt_artifact": "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/stage-receipts/fixture-validation-skeptic.md",
+        "residue": "Fallback, canary, invalid-event, timing, replay, and scoring gates are still prose-level.",
+        "reroute": "parent_synthesis"
+      },
+      {
+        "role_id": "agent-author-experience-critic",
+        "agent_name": "Fong, Brendan",
+        "agent_id": "019ee093-90b5-7a43-944d-09a42330da24",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "status": "flag",
+        "receipt_artifact": "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/stage-receipts/agent-author-experience-critic.md",
+        "residue": "First-run author path needs commands, JSON examples, diagnostics examples, and timeout defaults.",
+        "reroute": "parent_synthesis"
+      }
+    ],
+    "artifacts": [
+      "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/attacks.md",
+      "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/findings.md",
+      "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/stages/03-subagent-review.md"
+    ],
+    "close": {
+      "status": "closed",
+      "close_artifact": "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/close-dispatch-record.json",
+      "ledger": "telemetry/agents/subagents-dispatch.yaml",
+      "exit_reason": "resolved",
+      "agents_spawned": {
+        "total": 4,
+        "tree": {
+          "explorer": 4,
+          "skeptic": 0,
+          "writer": 0,
+          "auditor": 0,
+          "helpers": 0
+        },
+        "loops_used": 1
+      }
+    }
+  },
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "refine-20260619T143102Z-poker-agent-arena-mvp-design",
+      "step_id": "s1-context",
+      "capability_ref": "context-builder",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "pending",
+      "blockers": [
+        "not executed in this parent synthesis refresh"
+      ],
+      "residue": "Existing source artifacts were read directly for this parent synthesis refresh.",
+      "handoff_note": "Run context-builder only if the next route needs a standalone context pack."
+    },
+    {
+      "dispatch_id": "refine-20260619T143102Z-poker-agent-arena-mvp-design",
+      "step_id": "s2-define",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "pending",
+      "blockers": [
+        "not executed in this parent synthesis refresh"
+      ],
+      "residue": "MVP boundary was defined by parent refine synthesis over existing artifacts and review receipts.",
+      "handoff_note": "Run invoke define only if the operator wants a fresh define artifact."
+    },
+    {
+      "dispatch_id": "refine-20260619T143102Z-poker-agent-arena-mvp-design",
+      "step_id": "s3-define-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "native-stage",
+      "status": "flag",
+      "artifacts": [
+        "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/attacks.md",
+        "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/findings.md",
+        "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/stages/03-subagent-review.md"
+      ],
+      "validation": [
+        "check-tension gate returned PASS from both infrastructure agents",
+        "four review agents completed and were closed",
+        "parent accepted FIX findings for next synthesis"
+      ],
+      "observer_status": "local-receipt-written",
+      "blockers": [
+        "full ten-stage Refine loop still pending",
+        "runtime code remains blocked until SWU-PAA-001R and SWU-PAA-001 pass"
+      ],
+      "residue": "Review found Local Arena CLI v0 scope drift, runtime boundary gaps, fixture acceptance gaps, and first-run author-experience gaps.",
+      "handoff_note": "Findings were consumed by parent synthesis; preserve them as evidence for SWU-PAA-001R."
+    },
+    {
+      "dispatch_id": "refine-20260619T143102Z-poker-agent-arena-mvp-design",
+      "step_id": "s4-research-decision",
+      "capability_ref": "refine",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/IMPLEMENTATION-STREAM.md",
+        "projects/poker-agent-arena/MVP-PATH.md"
+      ],
+      "validation": [
+        "No external dependency gap appears for the Local Arena CLI v0 Kuhn-first route.",
+        "Hold'em engine research is deferred to M1."
+      ],
+      "observer_status": "local-receipt-written",
+      "blockers": [],
+      "residue": "Research is not required before the local toy fixture MVP path.",
+      "handoff_note": "Ask before external engine/library research if the route widens beyond Local Arena CLI v0."
+    },
+    {
+      "dispatch_id": "refine-20260619T143102Z-poker-agent-arena-mvp-design",
+      "step_id": "s5-distill",
+      "capability_ref": "distill",
+      "receipt_kind": "native-stage",
+      "status": "flag",
+      "artifacts": [
+        "projects/poker-agent-arena/MVP-PATH.md"
+      ],
+      "validation": [
+        "Selected one MVP unit: Local Arena CLI v0 with Kuhn as first fixture gate.",
+        "Leduc, Hold'em, leaderboard scoring, and novelty mechanics are deferred."
+      ],
+      "observer_status": "local-receipt-written",
+      "blockers": [
+        "operator may still override runtime root, timeout default, fallback selector, or Leduc deferral"
+      ],
+      "residue": "The selected unit is executable but still decision-ready rather than runtime-complete.",
+      "handoff_note": "Use MVP-PATH.md as the decision context for SWU-PAA-001R."
+    },
+    {
+      "dispatch_id": "refine-20260619T143102Z-poker-agent-arena-mvp-design",
+      "step_id": "s6-design",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "pending",
+      "blockers": [
+        "not executed in this parent synthesis refresh"
+      ],
+      "residue": "Design changes were limited to parent refine synthesis and root handoff artifacts.",
+      "handoff_note": "Run invoke design if the next route needs a separate design artifact before contract files."
+    },
+    {
+      "dispatch_id": "refine-20260619T143102Z-poker-agent-arena-mvp-design",
+      "step_id": "s7-design-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "native-stage",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "pending",
+      "blockers": [
+        "not executed in this parent synthesis refresh"
+      ],
+      "residue": "Existing subagent review receipts supplied the design-review pressure for this refresh.",
+      "handoff_note": "Run a fresh design-review only after contract files or runtime code exist."
+    },
+    {
+      "dispatch_id": "refine-20260619T143102Z-poker-agent-arena-mvp-design",
+      "step_id": "s8-repair",
+      "capability_ref": "distill",
+      "receipt_kind": "native-stage",
+      "status": "flag",
+      "artifacts": [
+        "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/IMPLEMENTATION-STREAM.md",
+        "projects/poker-agent-arena/MVP-PATH.md"
+      ],
+      "validation": [
+        "Review FIX findings were compacted into one ordered implementation stream.",
+        "Runtime, timing, fallback, replay, diagnostics, and author-experience gaps are explicitly surfaced."
+      ],
+      "observer_status": "local-receipt-written",
+      "blockers": [
+        "runtime code remains blocked until SWU-PAA-001R and SWU-PAA-001 pass"
+      ],
+      "residue": "The repair is a handoff repair, not runtime evidence.",
+      "handoff_note": "Proceed to contract freeze before implementation."
+    },
+    {
+      "dispatch_id": "refine-20260619T143102Z-poker-agent-arena-mvp-design",
+      "step_id": "s9-plan",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "flag",
+      "artifacts": [
+        "projects/poker-agent-arena/WORK-PACK.md",
+        "projects/poker-agent-arena/MVP-PATH.md"
+      ],
+      "validation": [
+        "Work pack now uses one implementation stream: SWU-PAA-001R through SWU-PAA-004.",
+        "Leduc and later layers are deferred rather than parallel implementation streams."
+      ],
+      "observer_status": "local-receipt-written",
+      "blockers": [
+        "SWU-PAA-001R is the next executable task-session; runtime starts only at SWU-PAA-002"
+      ],
+      "residue": "Plan is executable after operator accepts or overrides surfaced defaults.",
+      "handoff_note": "Run task-session on SWU-PAA-001R next."
+    },
+    {
+      "dispatch_id": "refine-20260619T143102Z-poker-agent-arena-mvp-design",
+      "step_id": "s10-final",
+      "capability_ref": "interrogation",
+      "receipt_kind": "native-stage",
+      "status": "flag",
+      "artifacts": [
+        "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/stages/10-final-implementation-stream.md",
+        "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/RESULT.md",
+        "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/RUNTIME-HANDOFF.md"
+      ],
+      "validation": [
+        "Parent synthesis completed and produced one implementation stream.",
+        "Validation remains flag because open decisions and FIX residue are intentionally preserved."
+      ],
+      "observer_status": "local-receipt-written",
+      "blockers": [
+        "runtime MVP acceptance blocked until contract, Kuhn execution, replay, diagnostics, canary, samples, and quickstart pass"
+      ],
+      "residue": "Final synthesis is decision-ready, not runtime-complete.",
+      "handoff_note": "Use RESULT.md and MVP-PATH.md as the task-session entrypoint."
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "s1-context",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard --strict --emit both --handoff runtime",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "handle_handoff",
+        "x_ray",
+        "component_descriptor",
+        "protected_context_flag",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/poker-agent-arena/README.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/poker-agent-arena/SPEC.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/poker-agent-arena/DESIGN.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/poker-agent-arena/WORK-PACK.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/01-context-builder/context-pack.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "stages/01-context-builder/context-index.json"
+        }
+      ],
+      "stop_conditions": [
+        "block if root docs, spec, design, or work-pack cannot be resolved"
+      ]
+    },
+    {
+      "step_id": "s2-define",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "minimum_component_catalog",
+        "sentence_grammar",
+        "frame_handoff",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/01-context-builder/context-pack.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "define-frame"
+        }
+      ],
+      "stop_conditions": [
+        "block if define treats MVP as full Hold'em, hosted tournament, real-money play, or final leaderboard"
+      ]
+    },
+    {
+      "step_id": "s3-define-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": [
+        "dialectic",
+        "zig_zag",
+        "residue_ledger",
+        "owner_boundary_check",
+        "validation_loop"
+      ],
+      "roles": [
+        "mvp-scope-cutter",
+        "agent-author-experience-critic"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "define-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/03-refine-review.md"
+        }
+      ],
+      "evidence_artifact": "stages/03-refine-review.md",
+      "convergence_criteria": [
+        "MVP boundary excludes M1/M2 claims",
+        "agent-author first-run path is understandable",
+        "scope residue is named instead of hidden"
+      ],
+      "stop_conditions": [
+        "block if MVP boundary cannot distinguish useful local runtime from docs-only planning"
+      ]
+    },
+    {
+      "step_id": "s4-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "techniques": [
+        "approval_checkpoint",
+        "protected_context_flag",
+        "local_nuance_coordination"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/03-refine-review.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "define-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision.md"
+        }
+      ],
+      "stop_conditions": [
+        "ask before external research if a named engine/library/comparison gap appears"
+      ]
+    },
+    {
+      "step_id": "s5-distill",
+      "name": "Distill MVP unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": [
+        "tournament",
+        "pareto_gate",
+        "scu_swu_reduction",
+        "toy_game",
+        "recomposition_proof",
+        "residue_ledger"
+      ],
+      "roles": [
+        "local-arena-cli-v0",
+        "two-fixture-arena-cli-v0",
+        "holdem-first-mvp",
+        "leaderboard-first-mvp"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "stages/03-refine-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/05-distill.md"
+        },
+        {
+          "kind": "decision",
+          "ref": "selected-mvp-unit"
+        }
+      ],
+      "evidence_artifact": "stages/05-distill.md",
+      "convergence_criteria": [
+        "selected route is buildable in small SWUs",
+        "Local Arena CLI v0 recomposes into later Leduc and Hold'em paths",
+        "rejected alternatives preserve their future route"
+      ],
+      "stop_conditions": [
+        "block if no selected route unit can be validated by toy fixtures"
+      ]
+    },
+    {
+      "step_id": "s6-design",
+      "name": "Invoke Redefine / Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "xray",
+      "techniques": [
+        "x_ray",
+        "component_descriptor",
+        "entity_component_reference",
+        "minimum_component_catalog",
+        "state_namespace_boundary",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "selected-mvp-unit"
+        },
+        {
+          "kind": "artifact",
+          "ref": "stages/05-distill.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "mvp-component-catalog"
+        }
+      ],
+      "stop_conditions": [
+        "block if design lacks runner, protocol, referee, transcript, replay, fixture, CLI, and diagnostics boundaries"
+      ]
+    },
+    {
+      "step_id": "s7-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": [
+        "dialectic",
+        "zig_zag",
+        "validation_loop",
+        "owner_boundary_check"
+      ],
+      "roles": [
+        "runtime-architecture-mapper",
+        "fixture-validation-skeptic",
+        "agent-author-experience-critic"
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "mvp-component-catalog"
+        },
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/07-refine-design-review.md"
+        }
+      ],
+      "evidence_artifact": "stages/07-refine-design-review.md",
+      "convergence_criteria": [
+        "architecture has enough detail for task-session",
+        "fixture plan can falsify hidden-information leaks and fallback abuse",
+        "developer experience does not require undocumented assumptions"
+      ],
+      "stop_conditions": [
+        "block if design is too vague for SWU planning"
+      ]
+    },
+    {
+      "step_id": "s8-repair",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": [
+        "toy_game",
+        "validation_loop",
+        "assessment_failure_reference",
+        "recomposition_proof",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/07-refine-design-review.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/08-distill-repair.md"
+        },
+        {
+          "kind": "decision",
+          "ref": "repaired-mvp-unit"
+        }
+      ],
+      "evidence_artifact": "stages/08-distill-repair.md",
+      "stop_conditions": [
+        "block if the repaired MVP cannot be validated by local fixtures"
+      ]
+    },
+    {
+      "step_id": "s9-plan",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "scu_swu_reduction",
+        "minimum_component_catalog",
+        "conditional_component",
+        "execution_receipt_handoff",
+        "artifact_contract_bridge",
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "repaired-mvp-unit"
+        },
+        {
+          "kind": "artifact",
+          "ref": "stages/08-distill-repair.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        },
+        {
+          "kind": "handoff",
+          "ref": "mvp-task-session-handoff"
+        }
+      ],
+      "evidence_artifact": "stages/09-invoke-plan.md",
+      "stop_conditions": [
+        "block if the plan lacks SWUs, validation checks, or a first executable route"
+      ]
+    },
+    {
+      "step_id": "s10-final",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": [
+        "residue_ledger",
+        "owner_boundary_check",
+        "observability_grouping",
+        "memory_loop",
+        "approval_semantics_map"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "mvp-task-session-handoff"
+        },
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/10-final-interrogation.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if final synthesis claims runtime completion or executes task-session work"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-dispatch-validation",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "REFINE-DISPATCH.json validates before runtime-backed stage execution.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-human-approval",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Operator confirms the route and approved subagent strategy before runtime execution.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g03-native-capability-receipts",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "Every runtime-backed stage records a native stage receipt or explicit blocked reason.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04-mvp-boundary",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "MVP plan excludes full Hold'em, hosted public matchmaking, real-money play, and composite leaderboard scoring.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g05-owner-boundary",
+      "kind": "promotion_guardrail",
+      "owner": "refine",
+      "condition": "Refine does not claim task-session execution, Inventory/Ontology promotion, or public Arcanum mutation.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g06-research-confirmation",
+      "kind": "decision",
+      "owner": "operator",
+      "condition": "External research runs only if a named gap appears and the operator confirms the bounded pass.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g07-subagent-closeout",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "If subagents are spawned after approval, every spawned subagent has terminal join and close state before final synthesis.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g08-final-synthesis-readiness",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "Final synthesis consumes stage evidence and records residues, rejected alternatives, and recommended next routes.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "refine-20260619T022414Z-poker-agent-arena-current-spec-architecture-plan",
+    "signal_grouping": "refine-20260619T143102Z-poker-agent-arena-mvp-design",
+    "trace_events": [
+      "refine.mvp_design.strategy_proposed",
+      "refine.mvp_design.dispatch_validated",
+      "refine.mvp_design.awaiting_confirmation",
+      "refine.mvp_design.stage_receipt_recorded",
+      "refine.mvp_design.subagent_receipt_joined",
+      "refine.mvp_design.final_synthesis_written"
+    ]
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b01-refine-vs-task-session",
+        "kind": "capability_handoff",
+        "from_owner": "refine",
+        "to_owner": "task-session",
+        "applies_to_steps": [
+          "s9-plan",
+          "s10-final"
+        ],
+        "contract": "Refine may recommend task-session and prepare a work-pack, but it must not execute MVP implementation.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b02-private-parent-boundary",
+        "kind": "state_write",
+        "from_owner": "refine",
+        "to_owner": "domainspec-core-private-parent",
+        "applies_to_steps": [
+          "s1-context",
+          "s6-design",
+          "s9-plan",
+          "s10-final"
+        ],
+        "contract": "Refine writes generated evidence under the poker project only and does not mutate public Arcanum or private validation submodules.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b03-human-agent-rule-views",
+        "kind": "artifact_import",
+        "from_owner": "invoke-refresh",
+        "to_owner": "refine",
+        "applies_to_steps": [
+          "s1-context",
+          "s2-define",
+          "s6-design"
+        ],
+        "contract": "RULES.md remains human/product-facing while AGENT-RULES.md remains engineer/agent-facing.",
+        "on_violation": "flag"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine owns this Local Arena CLI v0 design refinement run",
+      "execution": "task-session owns future MVP implementation",
+      "validation": "dispatch-spec validates route shape; future task-session validates runtime behavior",
+      "evidence": "stage capabilities own their artifacts; refine indexes them",
+      "memory": "memory may inform context but cannot promote project knowledge",
+      "promotion": "no Inventory/Ontology/glossary/sigil/spell promotion in this run"
+    },
+    "receipts": [
+      {
+        "receipt_id": "native-stage-receipt",
+        "producer": "stage owner capability",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "handoff_note",
+          "residue"
+        ],
+        "stores": [
+          "RUN-MANIFEST.md",
+          "evidence-index.json",
+          "REFINE-DISPATCH.json"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "subagent-lifecycle-receipt",
+        "producer": "refine parent coordinator",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "handoff_note",
+          "residue",
+          "approval_record"
+        ],
+        "stores": [
+          "REFINE-DISPATCH.json",
+          "stages/subagent-receipts/"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "project.generated_refine_evidence",
+        "owner": "refine",
+        "write_policy": "write only under projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design"
+      },
+      {
+        "namespace": "project.runtime_mvp_code",
+        "owner": "future task-session",
+        "write_policy": "blocked in this refine strategy and only allowed after task-session route approval"
+      },
+      {
+        "namespace": "public_arcanum",
+        "owner": "arcanum public submodule",
+        "write_policy": "no writes in this run"
+      },
+      {
+        "namespace": "observability.local",
+        "owner": "Arcanum observability",
+        "write_policy": "append telemetry only"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "runtime or refine execution evidence",
+        "target": "canonical Inventory/Ontology/glossary/sigil/spell knowledge",
+        "rule": "requires owner review; does not automatically promote",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Do not execute task-session work inside Refine.",
+    "Do not promote Inventory, Ontology, glossary, sigil, or spell knowledge.",
+    "Do not mutate public Arcanum or private validation submodules.",
+    "Do not convert docs or plans into runtime completion proof."
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "mutationMode": "apply-approved",
+  "evidenceDate": "2026-06-19",
+  "sourceSignals": [
+    {
+      "id": "RS-PAA-RULES-HUMAN-VIEW",
+      "source_path": "user /invoke request on 2026-06-19",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/poker-agent-arena/RULES.md",
+        "projects/poker-agent-arena/SPEC.md",
+        "projects/poker-agent-arena/DESIGN.md",
+        "projects/poker-agent-arena/WORK-PACK.md"
+      ],
+      "claim": "The arena needs a human/product rule view that explains the competition without becoming the machine contract.",
+      "evidence": "User requested one view for humans, product/explainer oriented.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "RS-PAA-RULES-AGENT-VIEW",
+      "source_path": "user /invoke request on 2026-06-19",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/poker-agent-arena/AGENT-RULES.md",
+        "projects/poker-agent-arena/SPEC.md",
+        "projects/poker-agent-arena/DESIGN.md",
+        "projects/poker-agent-arena/WORK-PACK.md"
+      ],
+      "claim": "The arena needs an engineer/agent rule view that complements the spec for agent authors, validators, and future implementation agents.",
+      "evidence": "User requested another engineer/agent view and named two rule files as the example structure.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "RS-PAA-L0-HANDOFF-TREE-DRIFT",
+      "source_path": "user /invoke request on 2026-06-19",
+      "signal_type": "artifact_drift",
+      "target_artifacts": [
+        "projects/poker-agent-arena/DESIGN.md",
+        "projects/poker-agent-arena/IMPLEMENTATION-LAYERING.md",
+        "projects/poker-agent-arena/WORK-PACK.md",
+        "projects/poker-agent-arena/INVOKE-RESULT.md"
+      ],
+      "claim": "The L0 handoff output tree and acceptance gates drifted because the two required rule files were not represented.",
+      "evidence": "Existing SWU-PAA-001R tree named protocol, transcript, namespace, and fixture surfaces but not the requested human/product and engineer/agent rule surfaces.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "projects/poker-agent-arena/RULES.md",
+    "projects/poker-agent-arena/AGENT-RULES.md",
+    "projects/poker-agent-arena/SPEC.md",
+    "projects/poker-agent-arena/DESIGN.md",
+    "projects/poker-agent-arena/GLOSSARY.md",
+    "projects/poker-agent-arena/IMPLEMENTATION-LAYERING.md",
+    "projects/poker-agent-arena/WORK-PACK.md",
+    "projects/poker-agent-arena/INVOKE-RESULT.md"
+  ],
+  "deltaSummary": [
+    {
+      "delta": "evidence_added",
+      "summary": "Added RULES.md as the human/product rule view."
+    },
+    {
+      "delta": "evidence_added",
+      "summary": "Added AGENT-RULES.md as the engineer/agent rule view."
+    },
+    {
+      "delta": "artifact_drift",
+      "summary": "Updated L0 handoff surfaces to require both rule views before runtime work."
+    }
+  ],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "Added RULES.md as the human/product rule view.",
+    "Added AGENT-RULES.md as the engineer/agent rule view.",
+    "Updated SPEC.md with the rule-view contract and L0 refresh requirement.",
+    "Updated DESIGN.md with rule-view architecture and the expanded L0 output tree.",
+    "Updated GLOSSARY.md with both rule-view terms.",
+    "Updated IMPLEMENTATION-LAYERING.md with L0R deliverables and exit gates for the two rule files.",
+    "Updated WORK-PACK.md so SWU-PAA-001R and SWU-PAA-001 preserve the rule-view split.",
+    "Updated INVOKE-RESULT.md to list the two new outputs and refresh delta."
+  ],
+  "skippedChanges": [
+    {
+      "change": "Create versioned spec/l0 schema files",
+      "reason": "That belongs to later task-session execution."
+    },
+    {
+      "change": "Implement runtime protocol or game logic",
+      "reason": "Refresh must not execute target work."
+    },
+    {
+      "change": "Change scoring or engine-selection gates",
+      "reason": "The source signal only changes the rule-view artifact structure."
+    }
+  ],
+  "blockers": [],
+  "nextRoute": "task-session",
+  "validation": [
+    {
+      "command": "python3 -m json.tool projects/poker-agent-arena/development/invoke-refreshes/20260619T141951Z-two-rule-views/refresh-report.json >/dev/null",
+      "status": "pass"
+    },
+    {
+      "command": "find projects/poker-agent-arena -name '*.json' -print0 | xargs -0 -n1 python3 -m json.tool >/dev/null",
+      "status": "pass"
+    },
+    {
+      "command": "git diff --check -- projects/poker-agent-arena",
+      "status": "pass"
+    },
+    {
+      "command": "rg -n \"RULES.md|AGENT-RULES.md|human/product|engineer/agent|Rule View\" projects/poker-agent-arena",
+      "status": "pass"
+    },
+    {
+      "command": "bash -lc \"! rg -n 'Status: first Invoke artifact|Run `task-session` on `SWU-PAA-001` next|Replay \\\\| Seed handle' projects/poker-agent-arena/*.md\"",
+      "status": "pass"
+    }
+  ]
+}

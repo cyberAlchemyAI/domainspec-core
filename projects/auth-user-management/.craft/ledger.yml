@@ -1,0 +1,402 @@
+ledger_id: auth-user-management.craft
+schema_ref: ../../arcanum/arcana/craft/templates/ledger.schema.yml
+schema_version: 0.2.0
+status: candidate-local
+source_of_truth: projects/auth-user-management/.craft/ledger.yml
+human_view: projects/auth-user-management/CRAFT.md
+
+indexes:
+  by_id:
+    CTX-AUTH-UM-ROOT: contexts[0]
+    DEF-AUTH-UM-001: definitions[0]
+    DEF-AUTH-UM-002: definitions[1]
+    DEF-AUTH-UM-003: definitions[2]
+    ENA-POKER-AUTH-REFERENCE-001: typed_items[0]
+    ENA-SAVVY-COOKIE-GUARD-001: typed_items[1]
+    DEC-AUTH-TRANSPORT-001: decisions[0]
+    DEC-AUTH-STRAVA-SCOPE-001: decisions[1]
+    GAP-AUTH-COPY-BOUNDARY-001: gaps[0]
+    GAP-STRAVA-PROVIDER-CONTRACT-001: gaps[1]
+    ART-AUTH-README: artifacts[0]
+    ART-AUTH-CRAFT-LEDGER: artifacts[1]
+    ART-AUTH-CRAFT-VIEW: artifacts[2]
+    ART-AUTH-REFINE-SEED: artifacts[3]
+    ART-AUTH-REFINE-DISPATCH: artifacts[4]
+    ART-AUTH-RUNTIME-HANDOFF: artifacts[5]
+    ART-AUTH-RUN-MANIFEST: artifacts[6]
+    ART-AUTH-EVIDENCE-INDEX: artifacts[7]
+    ART-AUTH-RESULT: artifacts[8]
+    ART-AUTH-GOAL-PROFILE: artifacts[9]
+    ART-AUTH-GOAL-RESULT: artifacts[10]
+    ART-AUTH-RUNTIME-PACKAGE: artifacts[11]
+    ART-AUTH-TESTS: artifacts[12]
+    ART-AUTH-ADOPTION-GUIDE: artifacts[13]
+    GAP-AUTH-PRODUCTION-CUSTODY-001: gaps[2]
+    RCT-AUTH-ONE-SHOT-001: receipts[1]
+  open_decisions: []
+  blocking_decisions: []
+  active_blockers: []
+  active_gaps: []
+  next_moves:
+    - context_id: CTX-AUTH-UM-ROOT
+      next_move: Select a production database/secret backend before hosted deployment; use docs/ADOPTION.md for project reuse.
+  artifacts_by_path:
+    projects/auth-user-management/README.md: ART-AUTH-README
+    projects/auth-user-management/.craft/ledger.yml: ART-AUTH-CRAFT-LEDGER
+    projects/auth-user-management/CRAFT.md: ART-AUTH-CRAFT-VIEW
+    projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-SEED-PROPOSAL.md: ART-AUTH-REFINE-SEED
+    projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-DISPATCH.json: ART-AUTH-REFINE-DISPATCH
+    projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RUNTIME-HANDOFF.md: ART-AUTH-RUNTIME-HANDOFF
+    projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RUN-MANIFEST.md: ART-AUTH-RUN-MANIFEST
+    projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/evidence-index.json: ART-AUTH-EVIDENCE-INDEX
+    projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md: ART-AUTH-RESULT
+    projects/auth-user-management/development/goals/20260621T-auth-one-shot/GOAL-PROFILE.md: ART-AUTH-GOAL-PROFILE
+    projects/auth-user-management/development/goals/20260621T-auth-one-shot/RESULT.md: ART-AUTH-GOAL-RESULT
+    projects/auth-user-management/src: ART-AUTH-RUNTIME-PACKAGE
+    projects/auth-user-management/tests: ART-AUTH-TESTS
+    projects/auth-user-management/docs/ADOPTION.md: ART-AUTH-ADOPTION-GUIDE
+
+contexts:
+  - context_id: CTX-AUTH-UM-ROOT
+    parent_id: root
+    title: Auth User Management Foundation
+    purpose: Design a reusable login, session, permission, user-management, and provider-connection foundation that Body War can consume first for Strava OAuth before track and game features resume.
+    stage: implemented
+    gate: pass
+    next_move: Select a production database/secret backend before hosted deployment; use docs/ADOPTION.md for project reuse.
+    owned_artifacts:
+      - ART-AUTH-README
+      - ART-AUTH-CRAFT-LEDGER
+      - ART-AUTH-CRAFT-VIEW
+      - ART-AUTH-REFINE-SEED
+      - ART-AUTH-REFINE-DISPATCH
+      - ART-AUTH-RUNTIME-HANDOFF
+      - ART-AUTH-RUN-MANIFEST
+      - ART-AUTH-EVIDENCE-INDEX
+      - ART-AUTH-RESULT
+      - ART-AUTH-GOAL-PROFILE
+      - ART-AUTH-GOAL-RESULT
+      - ART-AUTH-RUNTIME-PACKAGE
+      - ART-AUTH-TESTS
+      - ART-AUTH-ADOPTION-GUIDE
+    notes: "Started from operator pivot on 2026-06-21: login/auth first, connect to Strava next, defer track and game work."
+
+artifacts:
+  - artifact_id: ART-AUTH-README
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/README.md
+    artifact_type: project-readme
+    status: active
+    notes: Project-local overview for the reusable auth/user-management planning surface.
+  - artifact_id: ART-AUTH-CRAFT-LEDGER
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/.craft/ledger.yml
+    artifact_type: ledger-source
+    status: active
+    notes: Structured Craft source of truth.
+  - artifact_id: ART-AUTH-CRAFT-VIEW
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/CRAFT.md
+    artifact_type: human-view
+    status: active
+    notes: Human-readable view generated from the ledger.
+  - artifact_id: ART-AUTH-REFINE-SEED
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-SEED-PROPOSAL.md
+    artifact_type: refine-seed
+    status: prepared
+    notes: Seed proposal for the auth + Strava foundation refinement run.
+  - artifact_id: ART-AUTH-REFINE-DISPATCH
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-DISPATCH.json
+    artifact_type: dispatch-route
+    status: pass
+    notes: Dispatch route validates with VALIDATION=pass; route-shape evidence only.
+  - artifact_id: ART-AUTH-RUNTIME-HANDOFF
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RUNTIME-HANDOFF.md
+    artifact_type: runtime-handoff
+    status: pass
+    notes: Handoff completed after approved refine execution with three read-only delegated lanes and final synthesis.
+  - artifact_id: ART-AUTH-RUN-MANIFEST
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RUN-MANIFEST.md
+    artifact_type: run-manifest
+    status: pass
+    notes: Manifest records the completed refine run and stage receipts.
+  - artifact_id: ART-AUTH-EVIDENCE-INDEX
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/evidence-index.json
+    artifact_type: evidence-index
+    status: pass
+    notes: Index of local evidence, delegated lane receipts, stage artifacts, and validation commands.
+  - artifact_id: ART-AUTH-RESULT
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md
+    artifact_type: refine-result
+    status: pass
+    notes: Final synthesis selects the hybrid transport, Strava first-provider slice, SWU plan, and remaining implementation residue.
+  - artifact_id: ART-AUTH-GOAL-PROFILE
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/development/goals/20260621T-auth-one-shot/GOAL-PROFILE.md
+    artifact_type: codex-goal-profile
+    status: pass
+    notes: Sidecar-backed one-shot goal profile for implementing the ordered auth SWU stream.
+  - artifact_id: ART-AUTH-GOAL-RESULT
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/development/goals/20260621T-auth-one-shot/RESULT.md
+    artifact_type: implementation-result
+    status: pass
+    notes: Implementation evidence summary for SWU-AUTH-001 through SWU-AUTH-006 and Body War first consumer adapter.
+  - artifact_id: ART-AUTH-RUNTIME-PACKAGE
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/src
+    artifact_type: runtime-package
+    status: pass
+    notes: TypeScript auth package with DomainSpec-style auth/provider modules, browser guard, bearer guard, storage adapters, and Strava provider.
+  - artifact_id: ART-AUTH-TESTS
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/tests
+    artifact_type: test-suite
+    status: pass
+    notes: Unit tests cover forged auth, session expiry/revocation, CSRF/origin, permission/resource checks, bearer sid behavior, storage, and Strava redaction.
+  - artifact_id: ART-AUTH-ADOPTION-GUIDE
+    owner_context_id: CTX-AUTH-UM-ROOT
+    path: projects/auth-user-management/docs/ADOPTION.md
+    artifact_type: adoption-guide
+    status: pass
+    notes: Copy boundary, env, storage, browser, bearer, Strava, Body War, and validation guide.
+
+descriptions:
+  - description_id: DESC-AUTH-UM-001
+    context_id: CTX-AUTH-UM-ROOT
+    description: "The project should become a reusable auth/user-management foundation: login, logout, server-owned session, permission guard, user identity, provider account links, Strava OAuth connection, token custody, audit trace, tests, and adoption guide."
+    status: active
+    evidence: operator request, 2026-06-21
+
+definitions:
+  - definition_id: DEF-AUTH-UM-001
+    scope_id: CTX-AUTH-UM-ROOT
+    term: reusable auth/user-management foundation
+    statement: A portable private project that packages auth domain, session transport, user/resource authorization, provider link management, tests, and adoption guidance for reuse by Body War and later projects.
+    status: candidate
+    evidence: operator request, 2026-06-21
+  - definition_id: DEF-AUTH-UM-002
+    scope_id: CTX-AUTH-UM-ROOT
+    term: server-owned session
+    statement: A session whose validity is established from server-side session/token records and protected transport, not from client-supplied authStatus payloads.
+    status: candidate
+    evidence: validation/poker-team/docs/features/auth-access-control/SPEC.md
+  - definition_id: DEF-AUTH-UM-003
+    scope_id: CTX-AUTH-UM-ROOT
+    term: provider connection
+    statement: A user-owned external account link, such as Strava, with OAuth state validation, scoped token custody, refresh/revocation behavior, and redacted audit evidence.
+    status: candidate
+    evidence: projects/body-war/docs/features/strava-linked-pilot/WORK-PACK.md
+
+typed_items:
+  - item_id: ENA-POKER-AUTH-REFERENCE-001
+    kind: enabler
+    base_type: source_reference_enabler
+    context_type: auth-user-management.poker-team-auth
+    primary_lane: architecture
+    secondary_lanes:
+      - security
+      - validator
+    source_id: CTX-AUTH-UM-ROOT
+    target_id: CTX-AUTH-UM-ROOT
+    status: active
+    refinement_status: refined
+    default_role: auth_domain_reviewer
+    delegation_route: refine
+    closure_condition: The reusable foundation maps poker-team auth concepts without copying poker-team product-specific roles, permissions, or implementation assumptions blindly.
+    evidence: validation/poker-team/docs/features/auth-access-control/SPEC.md
+    decision_ref: DEC-AUTH-TRANSPORT-001
+    reason: Poker-team supplies the strongest local auth domain and use-case reference.
+  - item_id: ENA-SAVVY-COOKIE-GUARD-001
+    kind: enabler
+    base_type: source_reference_enabler
+    context_type: auth-user-management.savvy-cookie-session
+    primary_lane: security
+    secondary_lanes:
+      - architecture
+      - validator
+    source_id: CTX-AUTH-UM-ROOT
+    target_id: CTX-AUTH-UM-ROOT
+    status: active
+    refinement_status: refined
+    default_role: browser_session_reviewer
+    delegation_route: refine
+    closure_condition: The reusable foundation keeps Savvy's useful cookie, CSRF, permission, resource-scope, and deny-by-default proof while excluding mock 2FA and client-asserted authStatus weaknesses.
+    evidence: projects/savvy_legal-studio-ai/frontend/savvy-legal-studio/lib/auth/savvy-auth.ts
+    decision_ref: DEC-AUTH-TRANSPORT-001
+    reason: Savvy has browser-session proof and tests that should inform, not dominate, the reusable foundation.
+
+decisions:
+  - decision_id: DEC-AUTH-TRANSPORT-001
+    scope_id: CTX-AUTH-UM-ROOT
+    decision_type: implementation_boundary
+    question: What production session transport should the reusable foundation standardize first?
+    description: Select the first production transport before implementation so projects do not mix client-asserted session payloads, bearer-only APIs, and cookie sessions without a threat model.
+    options:
+      - http-only-cookie-session-with-csrf-and-server-session-store
+      - bearer-jwt-with-sid-and-server-session-token-records
+      - hybrid-cookie-for-browser-bearer-for-service-api
+    selected: hybrid-cookie-for-browser-bearer-for-service-api
+    rationale: Browser flows need HttpOnly cookie sessions, CSRF binding, same-origin checks, and server session lookup from Savvy's proof, while service/API flows can preserve poker-team's bearer token shape only when the server-backed sid remains authoritative.
+    evidence: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md
+    status: closed
+    blocking: false
+    impact: Unblocks SWU-AUTH-001 while requiring separate browser and bearer guards over the same server-owned session authority.
+    owner: auth-user-management architecture
+    links:
+      - label: poker-team auth reference
+        target: validation/poker-team/docs/features/auth-access-control/SPEC.md
+        kind: path
+      - label: savvy cookie guard reference
+        target: projects/savvy_legal-studio-ai/frontend/savvy-legal-studio/lib/auth/savvy-auth.ts
+        kind: path
+      - label: refine seed
+        target: ART-AUTH-REFINE-SEED
+        kind: artifact-id
+  - decision_id: DEC-AUTH-STRAVA-SCOPE-001
+    scope_id: CTX-AUTH-UM-ROOT
+    decision_type: provider_scope
+    question: What is the minimum Strava provider capability for Body War's first auth consumer slice?
+    description: Decide whether the first reusable provider adapter only links Strava identity, imports activity summaries, or stores refresh-capable activity access.
+    options:
+      - link-strava-identity-only
+      - link-identity-and-import-recent-activity-summaries
+      - link-identity-and-store-refreshable-activity-access
+    selected: link-identity-and-import-recent-activity-summaries
+    rationale: Body War's first consumer needs login plus Strava connection and recent activity summaries, not track/game mechanics or broad private activity access; default scope is read,activity:read with activity:read_all only for explicit consenting-athlete private activity import.
+    evidence: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md
+    status: closed
+    blocking: false
+    impact: Affects Body War's first consumer implementation and the token custody/security contract.
+    owner: Body War plus auth-user-management
+    links:
+      - label: Body War Strava blocker
+        target: projects/body-war/.craft/ledger.yml
+        kind: path
+      - label: Strava linked pilot work-pack
+        target: projects/body-war/docs/features/strava-linked-pilot/WORK-PACK.md
+        kind: path
+
+gaps:
+  - gap_id: GAP-AUTH-COPY-BOUNDARY-001
+    scope_id: CTX-AUTH-UM-ROOT
+    summary: The copyable package boundary is not defined yet; the project must separate reusable auth core, app adapter, provider adapter, storage adapter, migrations, tests, and adoption docs.
+    severity: flag
+    treatment: refine
+    owner: auth-user-management architecture
+    status: resolved
+    evidence: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/stages/09-invoke-plan/PLAN.md
+  - gap_id: GAP-STRAVA-PROVIDER-CONTRACT-001
+    scope_id: CTX-AUTH-UM-ROOT
+    summary: The Strava OAuth provider contract needs state/PKCE, callback, token custody, refresh, revocation, scope minimization, redacted audit, and test fixtures before implementation.
+    severity: flag
+    treatment: refine
+    owner: auth-user-management provider-integration
+    status: resolved
+    evidence: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/stages/06-invoke-design/DESIGN.md
+  - gap_id: GAP-AUTH-PRODUCTION-CUSTODY-001
+    scope_id: CTX-AUTH-UM-ROOT
+    summary: Hosted production deployment still needs an explicit database and managed secret/token custody backend; the JSON store is local-pilot only.
+    severity: note
+    treatment: defer
+    owner: auth-user-management production deployment
+    status: deferred
+    evidence: projects/auth-user-management/docs/ADOPTION.md
+
+route_handoffs:
+  - handoff_id: HND-AUTH-REFINE-001
+    context_id: CTX-AUTH-UM-ROOT
+    capability_ref: refine
+    mode: standard
+    objective: Refine the reusable auth/user-management foundation and Body War Strava consumer slice into a production-ready non-executed plan.
+    source_artifacts:
+      - projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-DISPATCH.json
+      - validation/poker-team/docs/features/auth-access-control/SPEC.md
+      - projects/savvy_legal-studio-ai/frontend/savvy-legal-studio/lib/auth/savvy-auth.ts
+      - projects/body-war/docs/features/strava-linked-pilot/WORK-PACK.md
+    ledger_conditions:
+      - DEC-AUTH-TRANSPORT-001
+      - DEC-AUTH-STRAVA-SCOPE-001
+      - GAP-AUTH-COPY-BOUNDARY-001
+      - GAP-STRAVA-PROVIDER-CONTRACT-001
+    expected_outputs:
+      - reusable auth define/design/plan artifacts
+      - Body War first-consumer Strava plan
+      - validation and security checklist
+    expected_receipt_fields:
+      - dispatch_id
+      - stage_artifacts
+      - validation_result
+      - blockers
+      - residue
+      - next_routes
+    status: completed
+
+receipts:
+  - receipt_id: RCT-AUTH-REFINE-STRATEGY-001
+    handoff_id: HND-AUTH-REFINE-001
+    producer: refine
+    status: pass
+    artifacts:
+      - projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-SEED-PROPOSAL.md
+      - projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-DISPATCH.json
+      - projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RUNTIME-HANDOFF.md
+      - projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RUN-MANIFEST.md
+      - projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/evidence-index.json
+      - projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md
+      - projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/stages/10-final/FINAL-REVIEW.md
+    validation_result: Dispatch route validates with VALIDATION=pass; JSON/YAML parse, markdown links, and git diff whitespace checks are expected final verification surfaces.
+    audit_reference: ART-AUTH-REFINE-DISPATCH
+    residue: Superseded by RCT-AUTH-ONE-SHOT-001 implementation receipt.
+  - receipt_id: RCT-AUTH-ONE-SHOT-001
+    handoff_id: ONE-SHOT-AUTH-FOUNDATION-001
+    producer: codex-goal
+    status: pass
+    artifacts:
+      - projects/auth-user-management/src
+      - projects/auth-user-management/tests
+      - projects/auth-user-management/docs/ADOPTION.md
+      - projects/auth-user-management/development/goals/20260621T-auth-one-shot/RESULT.md
+      - projects/body-war/app/server.ts
+      - projects/body-war/app/tests/auth-consumer.test.ts
+    validation_result: Auth npm check, Body War npm check, JSON/YAML parse, markdown link checks, runtime-language invariant check, and scoped git diff whitespace checks are required final evidence.
+    audit_reference: ART-AUTH-GOAL-RESULT
+    residue: Hosted production deployment needs a selected database/secret backend before using real provider tokens outside local pilot storage.
+
+relations:
+  - relation_id: REL-AUTH-USES-POKER-REFERENCE-001
+    source_id: ENA-POKER-AUTH-REFERENCE-001
+    target_id: CTX-AUTH-UM-ROOT
+    type: informs
+    status: active
+    reason: Poker-team auth-access-control provides reusable auth concepts and use-case behavior.
+    evidence: validation/poker-team/docs/features/auth-access-control/SPEC.md
+  - relation_id: REL-AUTH-USES-SAVVY-REFERENCE-001
+    source_id: ENA-SAVVY-COOKIE-GUARD-001
+    target_id: CTX-AUTH-UM-ROOT
+    type: informs
+    status: active
+    reason: Savvy's cookie session guard and tests provide browser-session safety evidence and known anti-patterns.
+    evidence: projects/savvy_legal-studio-ai/frontend/savvy-legal-studio/tests/auth/savvy-auth.test.ts
+  - relation_id: REL-AUTH-BODY-WAR-FIRST-CONSUMER-001
+    source_id: CTX-AUTH-UM-ROOT
+    target_id: projects/body-war
+    type: informs
+    status: active
+    reason: Body War is the first planned consumer for login and Strava connection while track and game mechanics stay deferred.
+    evidence: projects/body-war/.craft/ledger.yml
+
+recomposition:
+  - child_id: CTX-AUTH-UM-ROOT
+    parent_id: projects/body-war
+    summary: Runtime auth package implemented and recomposed into Body War as the first login/session plus Strava connection consumer path.
+    evidence: RCT-AUTH-ONE-SHOT-001
+    residue: Body War's real Strava activity evidence blocker remains active until a consenting activity imports and submits without token leakage.
+    next_parent_move: Validate with real consenting Strava activity in the pilot environment; keep track geometry and game mechanics deferred.
+    status: pass

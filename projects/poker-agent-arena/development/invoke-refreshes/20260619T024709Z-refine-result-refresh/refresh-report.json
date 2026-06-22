@@ -1,0 +1,145 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "mutationMode": "apply-approved",
+  "evidenceDate": "2026-06-19",
+  "sourceSignals": [
+    {
+      "id": "RS-PAA-001R-ROUTE-CHANGED",
+      "source_path": "projects/poker-agent-arena/development/refinement-runs/20260619T022414Z-current-spec-architecture-plan/RESULT.md",
+      "signal_type": "route_changed",
+      "target_artifacts": [
+        "projects/poker-agent-arena/WORK-PACK.md",
+        "projects/poker-agent-arena/INVOKE-RESULT.md"
+      ],
+      "claim": "The next route changes from SWU-PAA-001 to SWU-PAA-001R, then SWU-PAA-001.",
+      "evidence": "Refine final synthesis selected SWU-PAA-001R: Repair L0 Contract Handoff before SWU-PAA-001.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "RS-PAA-L0-TREE-ADDED",
+      "source_path": "projects/poker-agent-arena/development/refinement-runs/20260619T022414Z-current-spec-architecture-plan/stages/06-invoke-design.md",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/poker-agent-arena/DESIGN.md",
+        "projects/poker-agent-arena/WORK-PACK.md"
+      ],
+      "claim": "SWU-PAA-001 needs a concrete L0 protocol/transcript/state/fixture output tree.",
+      "evidence": "Architecture-component review flagged the missing tree; Invoke Design proposed a concrete tree.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "RS-PAA-STATE-NAMESPACE-ADDED",
+      "source_path": "projects/poker-agent-arena/development/refinement-runs/20260619T022414Z-current-spec-architecture-plan/stages/06-invoke-design.md",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/poker-agent-arena/DESIGN.md",
+        "projects/poker-agent-arena/GLOSSARY.md"
+      ],
+      "claim": "The design needs explicit state namespaces for referee truth, agent observation, actions, private transcript, public replay, and diagnostics.",
+      "evidence": "Refine design stage created the namespace matrix.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "RS-PAA-TRANSCRIPT-DRIFT",
+      "source_path": "projects/poker-agent-arena/development/refinement-runs/20260619T022414Z-current-spec-architecture-plan/review-dispatch/findings.md",
+      "signal_type": "artifact_drift",
+      "target_artifacts": [
+        "projects/poker-agent-arena/SPEC.md",
+        "projects/poker-agent-arena/DESIGN.md",
+        "projects/poker-agent-arena/GLOSSARY.md",
+        "projects/poker-agent-arena/WORK-PACK.md"
+      ],
+      "claim": "Seed and replay language needed a referee transcript vs public replay split.",
+      "evidence": "Review finding 3 flagged raw seed ambiguity and replay redaction drift.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "RS-PAA-FIXTURE-GATES-ADDED",
+      "source_path": "projects/poker-agent-arena/development/refinement-runs/20260619T022414Z-current-spec-architecture-plan/review-dispatch/findings.md",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/poker-agent-arena/IMPLEMENTATION-LAYERING.md",
+        "projects/poker-agent-arena/WORK-PACK.md",
+        "projects/poker-agent-arena/SPEC.md"
+      ],
+      "claim": "M0 needs canonical Kuhn/Leduc fixture specs, fallback-abuse fixtures, broad canary coverage, and timing policy fields.",
+      "evidence": "Review findings 9, 10, 11, and 12.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "projects/poker-agent-arena/SPEC.md",
+    "projects/poker-agent-arena/GLOSSARY.md",
+    "projects/poker-agent-arena/DESIGN.md",
+    "projects/poker-agent-arena/IMPLEMENTATION-LAYERING.md",
+    "projects/poker-agent-arena/WORK-PACK.md",
+    "projects/poker-agent-arena/INVOKE-RESULT.md"
+  ],
+  "deltaSummary": [
+    {
+      "delta": "route_changed",
+      "summary": "Immediate next route is SWU-PAA-001R before SWU-PAA-001."
+    },
+    {
+      "delta": "evidence_added",
+      "summary": "L0 output tree, component map, namespace matrix, fixture gates, and timing gates were added."
+    },
+    {
+      "delta": "artifact_drift",
+      "summary": "Replay/seed language was reconciled by splitting referee transcript from public replay."
+    }
+  ],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "Updated SPEC.md with refresh evidence, replay split, broad canary gates, fallback-abuse gate, and L0 refresh section.",
+    "Updated GLOSSARY.md with new transcript, replay, namespace, fallback-abuse, and timing terms.",
+    "Updated DESIGN.md with L0 component map, state namespace matrix, transcript split, timing policy, and L0 output tree.",
+    "Updated IMPLEMENTATION-LAYERING.md with L0R and expanded L0 gates.",
+    "Updated WORK-PACK.md to route through SWU-PAA-001R and name the L0 output tree.",
+    "Updated INVOKE-RESULT.md with refresh summary and route change."
+  ],
+  "skippedChanges": [
+    {
+      "change": "Mutate older dispatch lane receipts",
+      "reason": "Older receipts remain historical evidence; refresh reconciles current root artifacts instead."
+    },
+    {
+      "change": "Create spec/l0 and fixtures/l0 implementation tree",
+      "reason": "That work belongs to SWU-PAA-001 after SWU-PAA-001R passes."
+    },
+    {
+      "change": "Runtime implementation or Hold'em engine selection",
+      "reason": "Refresh must not execute target work."
+    }
+  ],
+  "blockers": [],
+  "nextRoute": "task-session",
+  "validation": [
+    {
+      "command": "python3 -m json.tool projects/poker-agent-arena/development/invoke-refreshes/20260619T024709Z-refine-result-refresh/refresh-report.json >/dev/null",
+      "status": "pass"
+    },
+    {
+      "command": "git diff --check -- projects/poker-agent-arena",
+      "status": "pass"
+    },
+    {
+      "command": "find projects/poker-agent-arena -name '*.json' -print0 | xargs -0 -n1 python3 -m json.tool >/dev/null",
+      "status": "pass"
+    },
+    {
+      "command": "rg -n \"SWU-PAA-001R|state namespace|referee transcript|public replay|fallback-abuse\" projects/poker-agent-arena",
+      "status": "pass"
+    },
+    {
+      "command": "bash -lc \"! rg -n 'Status: first Invoke artifact|Run `task-session` on `SWU-PAA-001` next|Replay \\\\| Seed handle' projects/poker-agent-arena/*.md\"",
+      "status": "pass"
+    }
+  ]
+}

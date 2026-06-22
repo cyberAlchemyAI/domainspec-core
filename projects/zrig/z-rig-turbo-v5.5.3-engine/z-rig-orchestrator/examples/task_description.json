@@ -1,0 +1,38 @@
+{
+  "task_id": "TASK-DEMO-001",
+  "summary": "Build the Z-Rig core pipeline engine",
+  "requested_change": "Create a Python module implementing the wave state machine, gate evaluation, failure routing, and manifest management",
+  "acceptance_criteria": [
+    "All standard waves execute in sequence",
+    "Gate predicates evaluate correctly",
+    "Pipeline bounds are enforced",
+    "Manifest is checkpointed at each wave boundary"
+  ],
+  "artifact_type": "python-module",
+  "artifact_domain_tags": ["orchestration", "pipeline"],
+  "stakes_level": "routine",
+  "scope_ambiguity": "none",
+  "target_files": ["src/zrig/pipeline.py"],
+  "public_interface_impact": {
+    "changes_public_surface": false,
+    "surface_types": ["none"]
+  },
+  "deterministic_verifier": {
+    "kind": "frozen_test_suite",
+    "identifier": "pytest",
+    "command_or_dispatch_key": "pytest tests/",
+    "frozen_before_run": true,
+    "coverage_of_changed_scope": 0.90
+  },
+  "reversibility": {
+    "fully_reversible": true,
+    "requires_migration": false,
+    "requires_cleanup": false
+  },
+  "deployment_side_effects": "none",
+  "security_relevance": {
+    "is_security_relevant": false,
+    "is_safety_relevant": false,
+    "is_compliance_relevant": false
+  }
+}

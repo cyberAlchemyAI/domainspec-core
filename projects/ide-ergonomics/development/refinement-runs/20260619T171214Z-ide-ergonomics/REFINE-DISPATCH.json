@@ -1,0 +1,713 @@
+{
+  "dispatch_id": "refine-20260619T171214Z-ide-ergonomics",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Create a new project called ide-ergonomics and inspect DomainSpec Core plus Arcanum workflow for IDE-side ergonomics such as candidate definition actions, handoff buttons, side nodes, spell or sigil improvement suggestions, and subagent dispatch previews.",
+    "objective": "Create a project-local refinement seed and route strategy for IDE ergonomics without mutating canonical Arcanum or spawning subagents before approval.",
+    "target_artifact": "projects/ide-ergonomics/development/refinement-runs/20260619T171214Z-ide-ergonomics/RESULT.md",
+    "operator_sentence": "/refine create a new project called ide-ergonomics",
+    "arcanum_vocabulary": [
+      "refine",
+      "necronomicon",
+      "spellcraft",
+      "dispatch-spec",
+      "definitions-governance",
+      "handoff",
+      "subagent_strategy"
+    ]
+  },
+  "mode": "sequence",
+  "route_menu": {
+    "context_hint": "IDE ergonomics could become a discipline, a spell, a host integration, or a narrow button proof. This run selects project-local discipline and spell candidates while deferring implementation.",
+    "items": [
+      {
+        "id": "discipline-plus-spell-candidate",
+        "label": "Discipline Plus Spell Candidate",
+        "description": "Capture the recurring IDE action surface practice and design the composed workflow before any plugin implementation.",
+        "capability_ref": "refine",
+        "pattern": "sequential"
+      },
+      {
+        "id": "host-integration-define",
+        "label": "Host Integration Define",
+        "description": "Move directly into Invoke define/design for one selected IDE host surface.",
+        "capability_ref": "invoke",
+        "pattern": "sequential"
+      },
+      {
+        "id": "definition-button-proof",
+        "label": "Definition Button Proof",
+        "description": "Prototype only the candidate definition action and route it through Definitions Governance.",
+        "capability_ref": "definitions-governance",
+        "pattern": "validation"
+      },
+      {
+        "id": "subagent-preview-proof",
+        "label": "Subagent Preview Proof",
+        "description": "Prototype only the subagent permission and receipt preview around Dispatch Spec.",
+        "capability_ref": "dispatch-spec",
+        "pattern": "validation"
+      }
+    ],
+    "selected_item_id": "discipline-plus-spell-candidate"
+  },
+  "techniques": [
+    "sequence",
+    "route_menu",
+    "one_or_more_option_set",
+    "approval_checkpoint",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "memory_loop",
+    "spell_candidate",
+    "state_namespace_boundary",
+    "execution_receipt_handoff",
+    "evidence_summary_handoff",
+    "concrete_path_evidence",
+    "role_projection_boundary"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "Refine requires a visible sequence with frames, handles, validation, owner boundaries, and observability.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping"
+      ],
+      "applies_to_steps": [
+        "s1-context",
+        "s2-define",
+        "s3-define-review",
+        "s4-research-decision",
+        "s5-distill",
+        "s6-design",
+        "s7-design-review",
+        "s8-repair",
+        "s9-plan",
+        "s10-final"
+      ],
+      "validation_expectation": "Every runtime-backed stage must later produce a native receipt or blocked reason; this proposal run records not_run until confirmed."
+    },
+    {
+      "overlay_id": "route_menu_for_ide_action_surface",
+      "trigger": "The target could become a discipline, spell, host integration, narrow definition button, or subagent preview.",
+      "techniques": [
+        "route_menu",
+        "one_or_more_option_set",
+        "approval_checkpoint"
+      ],
+      "applies_to_steps": [
+        "s1-context",
+        "s4-research-decision",
+        "s5-distill",
+        "s10-final"
+      ],
+      "validation_expectation": "The route selection is recorded and implementation remains deferred until the selected owner approves it."
+    },
+    {
+      "overlay_id": "memory_loop_for_conversation_actions",
+      "trigger": "The requested ergonomics depend on active interaction, side notes, handoffs, and candidate knowledge.",
+      "techniques": [
+        "memory_loop",
+        "state_namespace_boundary",
+        "evidence_summary_handoff"
+      ],
+      "applies_to_steps": [
+        "s1-context",
+        "s3-define-review",
+        "s7-design-review",
+        "s10-final"
+      ],
+      "validation_expectation": "Necronomicon session state and repository inventory remain evidence, not canonical definitions or ontology promotion."
+    },
+    {
+      "overlay_id": "spell_candidate_for_repeated_composition",
+      "trigger": "Candidate definition actions, handoff composer, route menus, and subagent previews form a repeatable multi-sigil workflow.",
+      "techniques": [
+        "spell_candidate",
+        "owner_boundary_check",
+        "execution_receipt_handoff"
+      ],
+      "applies_to_steps": [
+        "s6-design",
+        "s8-repair",
+        "s9-plan",
+        "s10-final"
+      ],
+      "validation_expectation": "Reusable spell work must route through Spellcraft and cannot be considered created by this refine packet."
+    },
+    {
+      "overlay_id": "subagent_preview_without_runtime_spawn",
+      "trigger": "The user named subagent dispatch as a desired ergonomic but did not explicitly approve runtime fanout for this turn.",
+      "techniques": [
+        "role_projection_boundary",
+        "approval_checkpoint",
+        "execution_receipt_handoff"
+      ],
+      "applies_to_steps": [
+        "s4-research-decision",
+        "s6-design",
+        "s10-final"
+      ],
+      "validation_expectation": "Subagent strategy may be recommended, but authorization remains requires_user_permission and lifecycle status remains none."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "IDE ergonomics spans workflow design, host-surface constraints, and authority-boundary risk.",
+    "explanation": "A later approved run would benefit from role-bound lanes for action-card workflow, host integration constraints, and governance boundary review.",
+    "context": [
+      "Action-card workflow must preserve Necronomicon, Dispatch Spec, Definitions Governance, and Spellcraft authority.",
+      "Host integration constraints must be checked against the selected IDE surface before implementation.",
+      "Boundary review must prevent action buttons from becoming silent promotion or execution shortcuts."
+    ],
+    "roles": [
+      {
+        "role_id": "action-card-workflow-mapper",
+        "purpose": "Map conversation triggers into action cards, route menus, handoff drafts, and receipt expectations.",
+        "owns": "Workflow card model and first proof recommendations.",
+        "applies_to_steps": [
+          "s1-context",
+          "s5-distill",
+          "s6-design",
+          "s10-final"
+        ]
+      },
+      {
+        "role_id": "host-surface-constraints-reviewer",
+        "purpose": "Review the selected IDE or rules surface and name what evidence would prove the integration.",
+        "owns": "Host constraints and validation surface.",
+        "applies_to_steps": [
+          "s4-research-decision",
+          "s6-design",
+          "s9-plan"
+        ]
+      },
+      {
+        "role_id": "governance-boundary-guardian",
+        "purpose": "Protect definition, ontology, spell, sigil, subagent, and observability boundaries.",
+        "owns": "Boundary warnings and blocked promotion paths.",
+        "applies_to_steps": [
+          "s3-define-review",
+          "s7-design-review",
+          "s8-repair",
+          "s10-final"
+        ]
+      }
+    ],
+    "parallelism": "mixed",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Approve a later IDE ergonomics fanout with action-card, host-surface, and boundary-review lanes?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "refine-20260619T171214Z-ide-ergonomics",
+      "step_id": "s1-context",
+      "capability_ref": "context-builder",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [
+        "proposal only; runtime stages require confirmation"
+      ],
+      "observer_status": "not_run",
+      "blockers": [
+        "awaiting user confirmation for runtime-backed refine stages"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "s1-context",
+      "name": "Build repository evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "repository-evidence-frame"
+        }
+      ],
+      "stop_conditions": [
+        "block if concrete repository evidence cannot be cited"
+      ]
+    },
+    {
+      "step_id": "s2-define",
+      "name": "Define IDE ergonomics target",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "repository-evidence-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "future-stages/02-invoke-define.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if target mutates canonical Arcanum before owner approval"
+      ]
+    },
+    {
+      "step_id": "s3-define-review",
+      "name": "Review definition target",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "future-stages/02-invoke-define.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "future-stages/03-refine-review.md"
+        }
+      ],
+      "evidence_artifact": "future-stages/03-refine-review.md"
+    },
+    {
+      "step_id": "s4-research-decision",
+      "name": "Record research and host-surface decision",
+      "capability_ref": "refine",
+      "mode": "no-research",
+      "pattern": "decision",
+      "techniques": [
+        "route_menu",
+        "approval_checkpoint",
+        "role_projection_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "future-stages/03-refine-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "research-decision"
+        },
+        {
+          "kind": "route_menu",
+          "ref": "route_menu"
+        }
+      ],
+      "stop_conditions": [
+        "ask before web or host-specific research",
+        "block subagent fanout until approval"
+      ]
+    },
+    {
+      "step_id": "s5-distill",
+      "name": "Select smallest coherent proof unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": [
+        "memory_loop",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "research-decision"
+        },
+        {
+          "kind": "frame",
+          "ref": "repository-evidence-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "selected-proof-unit"
+        }
+      ],
+      "stop_conditions": [
+        "flag if the first proof is a full IDE plugin instead of a narrow action surface"
+      ]
+    },
+    {
+      "step_id": "s6-design",
+      "name": "Design discipline and spell candidate",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "spell_candidate",
+        "frame_handoff",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "selected-proof-unit"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "future-stages/06-invoke-design.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if design redefines sigil internals instead of composing capabilities"
+      ]
+    },
+    {
+      "step_id": "s7-design-review",
+      "name": "Review design boundaries",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "future-stages/06-invoke-design.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "future-stages/07-refine-design-review.md"
+        }
+      ],
+      "evidence_artifact": "future-stages/07-refine-design-review.md"
+    },
+    {
+      "step_id": "s8-repair",
+      "name": "Repair oversized or unsafe route",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "future-stages/07-refine-design-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "repair-frame"
+        }
+      ],
+      "stop_conditions": [
+        "block if candidate knowledge is promoted by the wrong owner"
+      ]
+    },
+    {
+      "step_id": "s9-plan",
+      "name": "Plan first implementation handoff",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "execution_receipt_handoff",
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "repair-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "future-stages/09-invoke-plan.md"
+        },
+        {
+          "kind": "handoff",
+          "ref": "RUNTIME-HANDOFF.md"
+        }
+      ],
+      "stop_conditions": [
+        "defer task-session until implementation surface and validation evidence are selected"
+      ]
+    },
+    {
+      "step_id": "s10-final",
+      "name": "Synthesize project seed",
+      "capability_ref": "refine",
+      "mode": "final",
+      "pattern": "synthesis",
+      "techniques": [
+        "evidence_summary_handoff",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-ergonomics/ERGONOMICS-OPPORTUNITIES.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-ergonomics/SPELL-IDE-ASSISTED-ARCANUM-ROUTING.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "ide-ergonomics-strategy-proposal-written"
+        }
+      ],
+      "stop_conditions": [
+        "do not claim runtime-backed refine stage execution"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-dispatch-validates",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "REFINE-DISPATCH.json must validate before being used as route evidence.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-runtime-confirmation",
+      "kind": "human_approval",
+      "owner": "refine",
+      "condition": "Runtime-backed stages and subagent fanout require explicit confirmation after this strategy proposal.",
+      "on_fail": "defer"
+    },
+    {
+      "gate_id": "g-definition-owner",
+      "kind": "promotion_guardrail",
+      "owner": "definitions-governance",
+      "condition": "Candidate definition actions must route through Definitions Governance and remain candidates until promoted.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-spell-owner",
+      "kind": "promotion_guardrail",
+      "owner": "spellcraft",
+      "condition": "Reusable spell creation must be performed through Spellcraft, not this refine packet.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-state-boundary",
+      "kind": "policy",
+      "owner": "necronomicon",
+      "condition": "Conversation side nodes and handoff drafts are session evidence, not canonical source authority.",
+      "on_fail": "flag"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "dispatch_validated",
+      "strategy_proposal_written",
+      "runtime_handoff_deferred",
+      "subagent_strategy_recommended_not_approved"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-action-card-to-owner",
+        "kind": "capability_handoff",
+        "from_owner": "ide-assisted-arcanum-routing",
+        "to_owner": "selected capability owner",
+        "applies_to_steps": [
+          "s4-research-decision",
+          "s6-design",
+          "s9-plan"
+        ],
+        "contract": "An IDE action card may preview or hand off work, but owner capabilities perform mutations, execution, and promotion.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-side-node-memory",
+        "kind": "memory_interaction",
+        "from_owner": "host adapter",
+        "to_owner": "necronomicon",
+        "applies_to_steps": [
+          "s1-context",
+          "s5-distill",
+          "s10-final"
+        ],
+        "contract": "Side nodes are session evidence or candidates and cannot override active route ownership.",
+        "on_violation": "flag"
+      },
+      {
+        "boundary_id": "b-subagent-authorization",
+        "kind": "human_approval",
+        "from_owner": "dispatch-spec",
+        "to_owner": "runtime executor",
+        "applies_to_steps": [
+          "s4-research-decision",
+          "s6-design",
+          "s10-final"
+        ],
+        "contract": "Subagent fanout remains recommended only until explicit user approval records authorization.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine for this strategy packet; spellcraft or discipline-governance for later owned artifacts",
+      "execution": "task-session or selected owner after explicit approval",
+      "validation": "dispatch-spec plus owner-specific validation",
+      "evidence": "project-local evidence index and future owner receipts",
+      "memory": "necronomicon for side notes, gaps, and route memory",
+      "promotion": "owning capability only"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r-subagent-lifecycle",
+        "producer": "future approved subagent route",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "handoff_note",
+          "residue"
+        ],
+        "stores": [
+          "future-stages/subagent-receipts/"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r-action-handoff",
+        "producer": "selected capability owner",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation_result",
+          "handoff_note"
+        ],
+        "stores": [
+          "RUNTIME-HANDOFF.md",
+          "future owner artifact"
+        ],
+        "on_missing": "flag"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects/ide-ergonomics",
+        "owner": "project-local refinement",
+        "write_policy": "proposal and planning artifacts only"
+      },
+      {
+        "namespace": "arcanum",
+        "owner": "public Arcanum canonical owners",
+        "write_policy": "read-only in this run"
+      },
+      {
+        "namespace": ".arcanum",
+        "owner": "repository-local runtime and harness state",
+        "write_policy": "read-only in this run except hook telemetry outside project edits"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "conversation span or IDE action card",
+        "target": "canonical definition",
+        "rule": "Definition promotion requires definitions-governance after candidate review.",
+        "on_violation": "block"
+      },
+      {
+        "source": "spell candidate proposal",
+        "target": "reusable spell artifact",
+        "rule": "Spell creation or promotion requires Spellcraft lifecycle evidence.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "No canonical Arcanum mutation from this project seed.",
+    "No definition, ontology, spell, sigil, or runtime promotion without the owning lifecycle.",
+    "No subagent fanout before explicit user approval."
+  ]
+}

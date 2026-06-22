@@ -1,0 +1,25 @@
+{
+  "fixture_id": "kuhn_hidden_info",
+  "states": [
+    {
+      "history": [],
+      "to_act": "seat_0",
+      "legal_actions": [{"type": "check"}, {"type": "bet", "min_amount": 1, "max_amount": 1}]
+    },
+    {
+      "history": ["check"],
+      "to_act": "seat_1",
+      "legal_actions": [{"type": "check"}, {"type": "bet", "min_amount": 1, "max_amount": 1}]
+    },
+    {
+      "history": ["bet"],
+      "to_act": "seat_1",
+      "legal_actions": [{"type": "call"}, {"type": "fold"}]
+    },
+    {
+      "history": ["check", "bet"],
+      "to_act": "seat_0",
+      "legal_actions": [{"type": "call"}, {"type": "fold"}]
+    }
+  ]
+}

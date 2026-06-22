@@ -1,0 +1,534 @@
+ledger_id: poker-agent-arena.local-arena-cli-v0
+schema_ref: ../../../arcanum/arcana/craft/templates/ledger.schema.yml
+schema_version: 0.3.0
+status: mvp-runtime-proof-pass
+source_of_truth: .craft/ledger.yml
+human_view: CRAFT.md
+
+indexes:
+  by_id:
+    CTX-PAA-ROOT: contexts[0]
+    DESC-PAA-001: descriptions[0]
+    DEF-PAA-LOCAL-ARENA-CLI-V0: definitions[0]
+    DEF-PAA-KUHN-FIXTURE-GATE: definitions[1]
+    DEF-PAA-REFEREE-TRANSCRIPT: definitions[2]
+    DEC-PAA-DEADLINE-001: decisions[0]
+    DEC-PAA-INVALID-RETIREMENT-001: decisions[1]
+    DEC-PAA-PUBLIC-REPLAY-001: decisions[2]
+    DEC-PAA-ORBIT-COUNT-001: decisions[3]
+    DEC-PAA-M1-ENGINE-001: decisions[4]
+    DEC-PAA-TIME-CREDITS-001: decisions[5]
+    BLK-PAA-RUNTIME-GATE-001: typed_items[0]
+    ENA-PAA-ONE-STREAM-001: typed_items[1]
+    ENA-PAA-GOAL-PROFILE-001: typed_items[2]
+    GAP-PAA-L0-SPEC-TREE-001: gaps[0]
+    GAP-PAA-RUNTIME-ROOT-001: gaps[1]
+    GAP-PAA-PROTOCOL-EXAMPLES-001: gaps[2]
+    GAP-PAA-TRANSCRIPT-REPLAY-001: gaps[3]
+    GAP-PAA-KUHN-ORACLE-001: gaps[4]
+    GAP-PAA-DIAGNOSTICS-001: gaps[5]
+    ART-PAA-CRAFT-LEDGER: artifacts[0]
+    ART-PAA-CRAFT-VIEW: artifacts[1]
+    ART-PAA-README: artifacts[2]
+    ART-PAA-SPEC: artifacts[3]
+    ART-PAA-DESIGN: artifacts[4]
+    ART-PAA-WORK-PACK: artifacts[5]
+    ART-PAA-MVP-PATH: artifacts[6]
+    ART-PAA-RULES: artifacts[7]
+    ART-PAA-AGENT-RULES: artifacts[8]
+    ART-PAA-RUNTIME-HANDOFF: artifacts[9]
+    ART-PAA-ONE-SHOT-GOAL: artifacts[10]
+    ART-PAA-REFINE-RESULT: artifacts[11]
+    ART-PAA-MVP-SIDECAR: artifacts[12]
+    ART-PAA-SHARE-PDF: artifacts[13]
+    ART-PAA-SHARE-HTML: artifacts[14]
+    ART-PAA-PYPROJECT: artifacts[15]
+    ART-PAA-L0-SPEC: artifacts[16]
+    ART-PAA-RUNTIME: artifacts[17]
+    ART-PAA-FIXTURES: artifacts[18]
+    ART-PAA-EXAMPLE-AGENTS: artifacts[19]
+    ART-PAA-TESTS: artifacts[20]
+    ART-PAA-VERIFICATION: artifacts[21]
+  open_decisions:
+    - DEC-PAA-M1-ENGINE-001
+    - DEC-PAA-TIME-CREDITS-001
+  blocking_decisions: []
+  active_blockers: []
+  active_gaps: []
+  next_moves:
+    - context_id: CTX-PAA-ROOT
+      next_move: >
+        Select the first post-MVP expansion route: Leduc board reveal, Hold'em
+        engine parity research, or calibrated leaderboard work. Do not widen
+        Local Arena CLI v0 without a new explicit route.
+  artifacts_by_path:
+    .craft/ledger.yml: ART-PAA-CRAFT-LEDGER
+    CRAFT.md: ART-PAA-CRAFT-VIEW
+    Poker-Agent-Arena.pdf: ART-PAA-SHARE-PDF
+    pyproject.toml: ART-PAA-PYPROJECT
+    README.md: ART-PAA-README
+    SPEC.md: ART-PAA-SPEC
+    DESIGN.md: ART-PAA-DESIGN
+    WORK-PACK.md: ART-PAA-WORK-PACK
+    MVP-PATH.md: ART-PAA-MVP-PATH
+    RULES.md: ART-PAA-RULES
+    AGENT-RULES.md: ART-PAA-AGENT-RULES
+    development/refinement-runs/20260619T143102Z-mvp-design/RUNTIME-HANDOFF.md: ART-PAA-RUNTIME-HANDOFF
+    development/goals/local-arena-cli-v0-one-shot-goal.md: ART-PAA-ONE-SHOT-GOAL
+    development/refinement-runs/20260619T143102Z-mvp-design/RESULT.md: ART-PAA-REFINE-RESULT
+    development/goals/local-arena-cli-v0-mvp-sidecar.md: ART-PAA-MVP-SIDECAR
+    development/verification/local-arena-cli-v0/VERIFICATION.md: ART-PAA-VERIFICATION
+    docs/poker-agent-arena-share.html: ART-PAA-SHARE-HTML
+    spec/l0/: ART-PAA-L0-SPEC
+    src/poker_agent_arena/: ART-PAA-RUNTIME
+    fixtures/l0/: ART-PAA-FIXTURES
+    examples/agents/: ART-PAA-EXAMPLE-AGENTS
+    tests/: ART-PAA-TESTS
+
+contexts:
+  - context_id: CTX-PAA-ROOT
+    parent_id: root
+    title: Poker Agent Arena - Local Arena CLI v0
+    purpose: >
+      Govern the Poker Agent Arena MVP path as one implementation stream: a local CLI
+      arena that proves strict agent protocol, Kuhn hidden-information fixtures,
+      deterministic fallback, transcript replay, diagnostics, and author-facing
+      first-run proof before larger poker engines or leaderboards are introduced.
+    stage: mvp-proof
+    gate: pass
+    next_move: >
+      Select the first post-MVP expansion route: Leduc board reveal, Hold'em
+      engine parity research, or calibrated leaderboard work. Do not widen
+      Local Arena CLI v0 without a new explicit route.
+    owned_artifacts:
+      - ART-PAA-CRAFT-LEDGER
+      - ART-PAA-CRAFT-VIEW
+      - ART-PAA-README
+      - ART-PAA-SPEC
+      - ART-PAA-DESIGN
+      - ART-PAA-WORK-PACK
+      - ART-PAA-MVP-PATH
+      - ART-PAA-RULES
+      - ART-PAA-AGENT-RULES
+      - ART-PAA-RUNTIME-HANDOFF
+      - ART-PAA-ONE-SHOT-GOAL
+      - ART-PAA-REFINE-RESULT
+      - ART-PAA-MVP-SIDECAR
+      - ART-PAA-SHARE-PDF
+      - ART-PAA-SHARE-HTML
+      - ART-PAA-PYPROJECT
+      - ART-PAA-L0-SPEC
+      - ART-PAA-RUNTIME
+      - ART-PAA-FIXTURES
+      - ART-PAA-EXAMPLE-AGENTS
+      - ART-PAA-TESTS
+      - ART-PAA-VERIFICATION
+    links:
+      - label: Work pack
+        target: ART-PAA-WORK-PACK
+        kind: artifact-id
+      - label: MVP path
+        target: ART-PAA-MVP-PATH
+        kind: artifact-id
+      - label: One-shot goal
+        target: ART-PAA-ONE-SHOT-GOAL
+        kind: artifact-id
+      - label: Verification
+        target: ART-PAA-VERIFICATION
+        kind: artifact-id
+    notes: Root context created by `$craft start`; scope = projects/poker-agent-arena/.
+
+descriptions:
+  - description_id: DESC-PAA-001
+    context_id: CTX-PAA-ROOT
+    description: >
+      Poker Agent Arena is a local competition harness where agents play
+      poker-like toy games through constrained CLI decisions. The first product
+      surface is Local Arena CLI v0, with Kuhn as the first fixture gate and
+      Leduc, Hold'em engine parity, calibrated leaderboards, and novelty
+      mechanics explicitly staged after the MVP line proves protocol and replay.
+    status: active
+    evidence:
+      - ART-PAA-README
+      - ART-PAA-SPEC
+      - ART-PAA-WORK-PACK
+
+definitions:
+  - definition_id: DEF-PAA-LOCAL-ARENA-CLI-V0
+    context_id: CTX-PAA-ROOT
+    term: Local Arena CLI v0
+    meaning: >
+      The first executable Poker Agent Arena route: local commands that can run
+      toy-game agent matches, enforce legal-action envelopes and deadlines,
+      write transcripts, replay deterministically, and report diagnostic scores.
+    status: candidate-local
+    evidence: ART-PAA-WORK-PACK
+  - definition_id: DEF-PAA-KUHN-FIXTURE-GATE
+    context_id: CTX-PAA-ROOT
+    term: Kuhn fixture gate
+    meaning: >
+      The first MVP validation game; it proves hidden-information boundaries,
+      legal-action masks, deterministic fallback, replay, and diagnostics before
+      larger poker engines are considered.
+    status: candidate-local
+    evidence: ART-PAA-SPEC
+  - definition_id: DEF-PAA-REFEREE-TRANSCRIPT
+    context_id: CTX-PAA-ROOT
+    term: Referee transcript
+    meaning: >
+      Private replay authority for accepted actions, fallback events, payouts,
+      diagnostics, and seed-handled material. Public replay is a redacted output,
+      not the authority.
+    status: candidate-local
+    evidence: ART-PAA-SPEC
+
+decisions:
+  - decision_id: DEC-PAA-DEADLINE-001
+    scope_id: CTX-PAA-ROOT
+    question: What exact Local Arena CLI v0 deadline policy should SWU-PAA-001 freeze?
+    status: closed
+    decision_type: runtime-contract
+    blocking: false
+    description: >
+      The work-pack recommends 5000ms decision timeout, 10000ms cleanup timeout,
+      monotonic clock, start after decision-envelope flush, and stop at first
+      complete stdout JSON object.
+    impact: Blocks deadline-policy spec, runner behavior, transcript timing fields, and timeout fixtures.
+    options:
+      - id: accept-refine-default
+        summary: Accept the current refine defaults.
+      - id: tighten-timeout
+        summary: Pick a shorter decision timeout after validating sample agent latency.
+      - id: split-by-fixture
+        summary: Allow fixture-specific timeout defaults in match config.
+    default_option: accept-refine-default
+    selected_option: accept-refine-default
+    evidence:
+      - ART-PAA-WORK-PACK
+      - ART-PAA-ONE-SHOT-GOAL
+    links:
+      - label: Work-pack recommendation
+        target: ART-PAA-WORK-PACK
+        kind: artifact-id
+  - decision_id: DEC-PAA-INVALID-RETIREMENT-001
+    scope_id: CTX-PAA-ROOT
+    question: What invalid-output strike and process retirement policy should v0 use?
+    status: closed
+    decision_type: protocol-contract
+    blocking: false
+    description: >
+      Invalid output categories are known, but strike limits and process
+      retirement rules are still prose-level.
+    impact: Blocks invalid-events spec, sample adversarial agents, and abuse fixtures.
+    options:
+      - id: per-decision-fallback
+        summary: Every invalid decision triggers fallback, with no match retirement in v0.
+      - id: strike-limit-retire
+        summary: Retire the agent after a fixed number of invalid decisions.
+      - id: fixture-policy
+        summary: Let match config define retirement thresholds by fixture.
+    default_option: per-decision-fallback
+    selected_option: per-decision-fallback
+    evidence: ART-PAA-SPEC
+  - decision_id: DEC-PAA-PUBLIC-REPLAY-001
+    scope_id: CTX-PAA-ROOT
+    question: What redaction and seed-commitment policy should public replay expose?
+    status: closed
+    decision_type: replay-policy
+    blocking: false
+    description: >
+      Public replay must not leak raw seed material or live hidden information,
+      while still proving accepted actions, fallback events, payouts, and
+      diagnostics.
+    impact: Blocks transcript spec, replay command acceptance, and canary checks.
+    options:
+      - id: opaque-seed-handles
+        summary: Public replay uses opaque seed handles and no raw seed material.
+      - id: post-match-commitment
+        summary: Public replay exposes post-match commitments but keeps raw seed referee-only.
+      - id: private-only-v0
+        summary: Defer public replay export until private replay passes.
+    default_option: opaque-seed-handles
+    selected_option: opaque-seed-handles
+    evidence: ART-PAA-SPEC
+  - decision_id: DEC-PAA-ORBIT-COUNT-001
+    scope_id: CTX-PAA-ROOT
+    question: What first hand or seat-orbit count should provisional diagnostics use?
+    status: closed
+    decision_type: fixture-contract
+    blocking: false
+    description: >
+      The MVP needs a repeatable first evaluation size for Kuhn diagnostics,
+      even if later leaderboard calibration changes the count.
+    impact: Blocks fixture corpus shape, smoke command expectations, and diagnostics examples.
+    options:
+      - id: tiny-smoke
+        summary: Use a tiny deterministic smoke orbit for fast local proof.
+      - id: provisional-eval
+        summary: Use a larger provisional orbit for more stable diagnostics.
+      - id: config-required
+        summary: Require match config to state the orbit count.
+    default_option: tiny-smoke
+    selected_option: tiny-smoke
+    evidence: ART-PAA-WORK-PACK
+  - decision_id: DEC-PAA-M1-ENGINE-001
+    scope_id: CTX-PAA-ROOT
+    question: Which local Hold'em engine should M1 wrap after Local Arena CLI v0 passes?
+    status: open
+    decision_type: post-mvp
+    blocking: false
+    description: >
+      Engine choice is explicitly deferred until v0 protocol, replay, fallback,
+      and diagnostics are proven on toy fixtures.
+    impact: Does not block SWU-PAA-001R through SWU-PAA-004.
+    options:
+      - id: defer
+        summary: Defer until after MVP acceptance.
+      - id: research-now
+        summary: Research in parallel without affecting v0 implementation.
+    default_option: defer
+    evidence: ART-PAA-SPEC
+  - decision_id: DEC-PAA-TIME-CREDITS-001
+    scope_id: CTX-PAA-ROOT
+    question: Should appendix time credits reset per hand, match, or evaluation block?
+    status: open
+    decision_type: novelty-appendix
+    blocking: false
+    description: >
+      Time-bank or credit mechanics are novelty candidates and must not affect
+      primary Local Arena CLI v0 ranking.
+    impact: Deferred; does not block the MVP.
+    options:
+      - id: defer
+        summary: Keep novelty mechanics outside v0.
+      - id: appendix-only
+        summary: Specify appendix-only reset semantics after v0 clocks pass.
+    default_option: defer
+    evidence: ART-PAA-SPEC
+
+typed_items:
+  - item_id: BLK-PAA-RUNTIME-GATE-001
+    context_id: CTX-PAA-ROOT
+    item_type: blocker
+    blocker_type: execution-gate
+    lane: task-session
+    summary: Runtime gate closed; SWU-PAA-001R through SWU-PAA-004 passed for Local Arena CLI v0.
+    status: closed
+    refinement_status: refined
+    closure_condition: >
+      Closed by versioned protocol, runtime, transcript, diagnostics, fixture,
+      deadline, fallback, state-namespace artifacts, sample agents, tests, and
+      verification evidence linked back into Craft.
+    evidence:
+      - ART-PAA-WORK-PACK
+      - ART-PAA-MVP-PATH
+      - ART-PAA-VERIFICATION
+    links:
+      - label: Next work pack
+        target: ART-PAA-WORK-PACK
+        kind: artifact-id
+  - item_id: ENA-PAA-ONE-STREAM-001
+    context_id: CTX-PAA-ROOT
+    item_type: enabler
+    enabler_type: scope-control
+    lane: implementation-stream
+    summary: >
+      One implementation stream is selected: Local Arena CLI v0, Kuhn-first.
+    status: closed
+    evidence: ART-PAA-L0-SPEC
+  - item_id: ENA-PAA-GOAL-PROFILE-001
+    context_id: CTX-PAA-ROOT
+    item_type: enabler
+    enabler_type: execution-handoff
+    lane: codex-goal-profile
+    summary: A generated one-shot Codex goal exists for the full gated WP-PAA-001 stream.
+    status: active
+    evidence: ART-PAA-ONE-SHOT-GOAL
+
+gaps:
+  - gap_id: GAP-PAA-L0-SPEC-TREE-001
+    context_id: CTX-PAA-ROOT
+    summary: The required `spec/l0/` runtime, protocol, transcript, diagnostics, fixture, and state-namespace tree exists.
+    severity: high
+    treatment: Closed by SWU-PAA-001 contract files.
+    owner_route: task-session
+    status: closed
+    evidence: ART-PAA-L0-SPEC
+  - gap_id: GAP-PAA-RUNTIME-ROOT-001
+    context_id: CTX-PAA-ROOT
+    summary: Runtime root is recommended as `src/poker_agent_arena/` but not yet frozen in contract or code.
+    severity: medium
+    treatment: Accept or override during SWU-PAA-001R/SWU-PAA-001.
+    owner_route: task-session
+    status: closed
+    evidence: ART-PAA-L0-SPEC
+  - gap_id: GAP-PAA-PROTOCOL-EXAMPLES-001
+    context_id: CTX-PAA-ROOT
+    summary: Decision/action examples and invalid-output matrix are not yet enumerated as versioned fixtures.
+    severity: high
+    treatment: Add canonical JSON examples and golden invalid cases in SWU-PAA-001.
+    owner_route: task-session
+    status: closed
+    evidence: ART-PAA-L0-SPEC
+  - gap_id: GAP-PAA-TRANSCRIPT-REPLAY-001
+    context_id: CTX-PAA-ROOT
+    summary: Referee transcript and public replay split is schema-level and runtime-backed.
+    severity: high
+    treatment: Closed by transcript specs, replay command, and public redaction smoke.
+    owner_route: task-session
+    status: closed
+    evidence: ART-PAA-L0-SPEC
+  - gap_id: GAP-PAA-KUHN-ORACLE-001
+    context_id: CTX-PAA-ROOT
+    summary: Kuhn fixture lacks seed corpus, legal-action table, expected transcript, and payout oracle.
+    severity: high
+    treatment: Create fixture descriptions in SWU-PAA-001, then runtime fixtures in SWU-PAA-002.
+    owner_route: task-session
+    status: closed
+    evidence: ART-PAA-FIXTURES
+  - gap_id: GAP-PAA-DIAGNOSTICS-001
+    context_id: CTX-PAA-ROOT
+    summary: Diagnostic report schema is not yet written for clean EV, fallback-inclusive EV, invalid rate, timeout rate, fallback count, and replay determinism.
+    severity: medium
+    treatment: Add diagnostics schema before first eval smoke proof.
+    owner_route: task-session
+    status: closed
+    evidence: ART-PAA-VERIFICATION
+
+artifacts:
+  - artifact_id: ART-PAA-CRAFT-LEDGER
+    owner_context_id: CTX-PAA-ROOT
+    path: .craft/ledger.yml
+    artifact_type: ledger-source
+    status: active
+    notes: Structured Craft source of truth for Poker Agent Arena local MVP state.
+  - artifact_id: ART-PAA-CRAFT-VIEW
+    owner_context_id: CTX-PAA-ROOT
+    path: CRAFT.md
+    artifact_type: human-view
+    status: active
+    notes: Human-readable linked view generated from the ledger, not source of truth.
+  - artifact_id: ART-PAA-README
+    owner_context_id: CTX-PAA-ROOT
+    path: README.md
+    artifact_type: project-readme
+    status: active
+    notes: Human-facing project overview and start-here navigation.
+  - artifact_id: ART-PAA-SPEC
+    owner_context_id: CTX-PAA-ROOT
+    path: SPEC.md
+    artifact_type: spec
+    status: active
+    notes: Owned boundary, milestone shape, primary contracts, gates, and open decisions.
+  - artifact_id: ART-PAA-DESIGN
+    owner_context_id: CTX-PAA-ROOT
+    path: DESIGN.md
+    artifact_type: design
+    status: active
+    notes: Current architecture/design artifact for the MVP path.
+  - artifact_id: ART-PAA-WORK-PACK
+    owner_context_id: CTX-PAA-ROOT
+    path: WORK-PACK.md
+    artifact_type: work-pack
+    status: active
+    notes: WP-PAA-001 one implementation stream and SWU manifest.
+  - artifact_id: ART-PAA-MVP-PATH
+    owner_context_id: CTX-PAA-ROOT
+    path: MVP-PATH.md
+    artifact_type: mvp-path
+    status: active
+    notes: One-stream MVP route and blockers.
+  - artifact_id: ART-PAA-RULES
+    owner_context_id: CTX-PAA-ROOT
+    path: RULES.md
+    artifact_type: human-rule-view
+    status: active
+    notes: Human/product rule view.
+  - artifact_id: ART-PAA-AGENT-RULES
+    owner_context_id: CTX-PAA-ROOT
+    path: AGENT-RULES.md
+    artifact_type: agent-rule-view
+    status: active
+    notes: Engineer/agent rule view for protocol-facing implementation.
+  - artifact_id: ART-PAA-RUNTIME-HANDOFF
+    owner_context_id: CTX-PAA-ROOT
+    path: development/refinement-runs/20260619T143102Z-mvp-design/RUNTIME-HANDOFF.md
+    artifact_type: runtime-handoff
+    status: pass
+    notes: Refined handoff evidence for the selected MVP stream.
+  - artifact_id: ART-PAA-ONE-SHOT-GOAL
+    owner_context_id: CTX-PAA-ROOT
+    path: development/goals/local-arena-cli-v0-one-shot-goal.md
+    artifact_type: codex-goal-profile
+    status: pass
+    notes: Compact one-shot native Codex goal profile used for the completed Local Arena CLI v0 proof.
+  - artifact_id: ART-PAA-REFINE-RESULT
+    owner_context_id: CTX-PAA-ROOT
+    path: development/refinement-runs/20260619T143102Z-mvp-design/RESULT.md
+    artifact_type: refine-result
+    status: pass
+    notes: Refine result that selected the Local Arena CLI v0 line.
+  - artifact_id: ART-PAA-MVP-SIDECAR
+    owner_context_id: CTX-PAA-ROOT
+    path: development/goals/local-arena-cli-v0-mvp-sidecar.md
+    artifact_type: codex-goal-sidecar
+    status: pass
+    notes: >
+      Dense execution frame for the compact MVP goal: defaults, capability
+      lanes, verification, and stop conditions.
+  - artifact_id: ART-PAA-SHARE-PDF
+    owner_context_id: CTX-PAA-ROOT
+    path: Poker-Agent-Arena.pdf
+    artifact_type: shareable-pdf
+    status: pass
+    notes: Public-safe product/system share packet rendered from the HTML source.
+  - artifact_id: ART-PAA-SHARE-HTML
+    owner_context_id: CTX-PAA-ROOT
+    path: docs/poker-agent-arena-share.html
+    artifact_type: shareable-html-source
+    status: pass
+    notes: Print-oriented source for the shareable Poker Agent Arena PDF.
+  - artifact_id: ART-PAA-PYPROJECT
+    owner_context_id: CTX-PAA-ROOT
+    path: pyproject.toml
+    artifact_type: package-config
+    status: pass
+    notes: Python package metadata and `paa` console-script entry point.
+  - artifact_id: ART-PAA-L0-SPEC
+    owner_context_id: CTX-PAA-ROOT
+    path: spec/l0/
+    artifact_type: versioned-contract-tree
+    status: pass
+    notes: Runtime, protocol, transcript, diagnostics, fixture, and state namespace contracts.
+  - artifact_id: ART-PAA-RUNTIME
+    owner_context_id: CTX-PAA-ROOT
+    path: src/poker_agent_arena/
+    artifact_type: runtime
+    status: pass
+    notes: Local Arena CLI v0 Python runtime for doctor, run, eval, replay, Kuhn, process protocol, transcript, replay, and diagnostics.
+  - artifact_id: ART-PAA-FIXTURES
+    owner_context_id: CTX-PAA-ROOT
+    path: fixtures/l0/
+    artifact_type: fixture-corpus
+    status: pass
+    notes: Kuhn seed/legal-action corpus plus invalid, timeout, fallback-abuse, and leak-canary fixture descriptions.
+  - artifact_id: ART-PAA-EXAMPLE-AGENTS
+    owner_context_id: CTX-PAA-ROOT
+    path: examples/agents/
+    artifact_type: sample-agents
+    status: pass
+    notes: Friendly and adversarial CLI agents for author proof and failure diagnostics.
+  - artifact_id: ART-PAA-TESTS
+    owner_context_id: CTX-PAA-ROOT
+    path: tests/
+    artifact_type: tests
+    status: pass
+    notes: Unittest coverage for envelope safety, invalid parsing, eval/replay, and timeout fallback.
+  - artifact_id: ART-PAA-VERIFICATION
+    owner_context_id: CTX-PAA-ROOT
+    path: development/verification/local-arena-cli-v0/VERIFICATION.md
+    artifact_type: verification-report
+    status: pass
+    notes: Durable command receipt for Local Arena CLI v0 one-shot verification.
+
+recompositions: []

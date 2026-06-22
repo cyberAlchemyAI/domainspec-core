@@ -1,0 +1,134 @@
+{
+  "dispatch_id": "2026-06-17-cyberalchemy-website-content-intake",
+  "schema_version": "0.6.0",
+  "dispatch_type": "research",
+  "goal": "Inventory dispersed CyberAlchemy-related material and curate it into a website-ready selection map: what to publish, what to adapt, what to keep internal, and what to defer until stronger proof exists.",
+  "context": "The target is a future CyberAlchemy website, not a website implementation in this run. Relevant material is dispersed across public Arcanum docs, private framework-unification and cyber-alchemy-lean-fusion project files, session summaries, prior dispatch rows, product-facing examples, existing built HTML pages under cyberAlchemy/, arcanum development packages, selected project prototypes, and PDF/printable explanation artifacts. The output must preserve source evidence, distinguish built versus planned versus open claims, extract reusable explanation methods, and enforce the public/private boundary before any public website copy is written.",
+  "max_loops": 1,
+  "final_approver": "parent",
+  "anti_bias_global": "public website clarity versus private research completeness",
+  "working_folder": "projects/cyberAlchemy-website/research/2026-06-17-content-inventory/",
+  "groups": [
+    {
+      "group_id": "content-explorers",
+      "n": 4,
+      "anti_bias": "declared composite(source-corpus + methodology)",
+      "agents": [
+        {
+          "agent_name": "Shannon, Claude",
+          "role": "explorer",
+          "model": "gpt-5.4",
+          "token_budget": 2400,
+          "angle": "owns public Arcanum and CyberAlchemy method sources; favors already-public language and stable method anchors",
+          "initial_prompt": "Read public-facing Arcanum and CyberAlchemy method sources, especially arcanum/framework/CYBERALCHEMY-METHOD.md, public-safe Arcanum docs, and built CyberAlchemy HTML pages under cyberAlchemy/*.html. Return candidate website content units with path anchors, the exact idea, public-ready wording if present, proof status, and whether each unit is publish-now, adapt, internal-only, or defer. Do not edit files. Budget about 2400 tokens."
+        },
+        {
+          "agent_name": "Tarski, Alfred",
+          "role": "explorer",
+          "model": "gpt-5.4",
+          "token_budget": 2600,
+          "angle": "owns private fusion and framework-unification sources; favors exact architecture concepts and proof-status boundaries",
+          "initial_prompt": "Read projects/framework-unification/layers/cyber-alchemy-lean-fusion/ and related framework-unification material. Extract website-relevant concepts, differentiators, open gates, proof boundaries, and source anchors. Classify each item as publish-now, adapt, internal-only, or defer. Keep private research detail separate from public-safe concept language. Do not edit files. Budget about 2600 tokens."
+        },
+        {
+          "agent_name": "Baars, Bernard",
+          "role": "explorer",
+          "model": "gpt-5.4",
+          "token_budget": 2600,
+          "angle": "owns session-history and prior-decision sources; favors intent, recurring language, chronology, and unresolved-decision trace",
+          "initial_prompt": "Search sessions/ and relevant telemetry/agents/subagents-dispatch.yaml rows for CyberAlchemy, capability foundry, framework unification, and public/private boundary decisions. Return the reusable ideas, recurring language, key decisions, and open questions that could inform a website. Preserve source anchors and mark anything that is only session-derived as not directly publishable until adapted. Do not edit files. Budget about 2600 tokens."
+        },
+        {
+          "agent_name": "Acemoglu, Daron",
+          "role": "explorer",
+          "model": "gpt-5.4",
+          "token_budget": 2200,
+          "angle": "owns product, PDF, HTML, and website-translation examples; favors visitor-facing offers, page roles, explanation methods, and narrative compression",
+          "initial_prompt": "Read product-facing examples such as projects/ontologize/PUBLIC-OFFERING.md and existing HTML/PDF/site artifacts that show how internal systems became public-facing pages. Start with projects/cyberAlchemy-website/strategy/2026-06-17-existing-html-source-inventory.md, projects/cyberAlchemy-website/strategy/2026-06-17-pdf-source-inventory.md, projects/cyberAlchemy-website/strategy/2026-06-17-explanation-methods-inventory.md, cyberAlchemy/*.html, cyberAlchemy/*.pdf, arcanum/development/**/*.html, arcanum/docs/*.html, arcanum/output/*.html, and representative project prototypes such as projects/goldenquill/landing/index.html and projects/ui-prototyping-studio/provenance/open-design-reference/**/*.html. Use them as translation, layout, and explanation-method patterns, not as CyberAlchemy source truth. Return proposed page roles, visitor questions, reusable page patterns, explanation methods, and adaptation patterns for CyberAlchemy website content. Do not edit files. Budget about 2200 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "site-synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Hawking, Stephen",
+          "role": "writer",
+          "model": "gpt-5.5",
+          "token_budget": 4200,
+          "initial_prompt": "Using the content-explorers returns, draft the candidate website selection map. Separate source evidence from proposed website copy. For every candidate section include source anchors, proof status, public-boundary status, website role, explanation method, inclusion verdict, and transformation needed. Produce a first sitemap and a list of Whisper page-preset inputs. Do not invent claims beyond the collected evidence. Budget about 4200 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "curation-reviewers",
+      "n": 3,
+      "robot_talks": true,
+      "anti_bias": "attack-vector",
+      "agents": [
+        {
+          "agent_name": "Kahneman, Daniel",
+          "role": "skeptic",
+          "model": "gpt-5.5",
+          "token_budget": 2200,
+          "angle": "public-boundary gate: rejects private leakage, owner-specific context, private paths, and internal-only residue",
+          "initial_prompt": "Attack the site-synthesizer output for public/private boundary failures. Reject any candidate that leaks private parent paths, private submodule paths, owner handoffs, internal-only residue, or workspace-specific evidence. For each surviving issue, cite the source candidate and propose a fix or downgrade. Budget about 2200 tokens."
+        },
+        {
+          "agent_name": "Russell, Bertrand",
+          "role": "skeptic",
+          "model": "gpt-5.5",
+          "token_budget": 2200,
+          "angle": "claim-proof gate: rejects novelty inflation, proof drift, and built-versus-planned ambiguity",
+          "initial_prompt": "Attack the site-synthesizer output for claim > proof failures. Reject or downgrade claims that imply built capability where the source says planned, open, designed, or unexercised. Flag novelty claims without precedent checks. For each surviving issue, cite the candidate and propose exact corrected wording or a defer verdict. Budget about 2200 tokens."
+        },
+        {
+          "agent_name": "Rittel, Horst",
+          "role": "skeptic",
+          "model": "gpt-5.5",
+          "token_budget": 2200,
+          "angle": "visitor-clarity gate: rejects material that is true but not useful, navigable, or matched to an effective explanation method for a website visitor",
+          "initial_prompt": "Attack the site-synthesizer output for visitor clarity and explanation-method failures. Reject pages or sections that are internally accurate but too abstract, jargon-heavy, lacking a visitor job, or assigned the wrong explanatory form. For each issue, propose a page-role fix, explanation-method fix, adaptation, or internal-only verdict while preserving proof discipline. Budget about 2200 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "coverage-auditor",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Vlachopulos, Ioannis",
+          "role": "auditor",
+          "model": "gpt-5.4",
+          "token_budget": 1800,
+          "initial_prompt": "Audit the collected returns, synthesis, and curation reviewer outputs. Check that every included candidate has a source anchor, public-boundary status, proof status, website role, explanation method, inclusion verdict, transformation need, and enough inputs for the project-local Whisper page preset. Recommend accept or reject to the parent final approver. Budget about 1800 tokens."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "content-explorers",
+      "to": "site-synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "site-synthesizer",
+      "to": "curation-reviewers",
+      "type": "zig-zag",
+      "loop_cap": 2
+    },
+    {
+      "from": "site-synthesizer",
+      "to": "content-explorers",
+      "type": "feedback",
+      "loop_cap": 1
+    },
+    {
+      "from": "curation-reviewers",
+      "to": "coverage-auditor",
+      "type": "sequential"
+    }
+  ]
+}

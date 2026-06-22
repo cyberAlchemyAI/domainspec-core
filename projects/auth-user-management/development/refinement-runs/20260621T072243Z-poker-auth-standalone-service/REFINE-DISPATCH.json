@@ -1,0 +1,781 @@
+{
+  "dispatch_id": "refine-20260621T072243Z-poker-auth-standalone-service",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Copy validation/poker-team/backend/src/domain/auth-access-control and make a standalone service importable by any other service, with spec and application ready with tests.",
+    "objective": "Refine the Poker Team auth-access-control vertical slice into a reusable standalone TypeScript auth-user-management service plan.",
+    "target_artifact": "projects/auth-user-management",
+    "operator_sentence": "copy Poker Team auth-access-control into standalone auth service",
+    "arcanum_vocabulary": [
+      "refine",
+      "dispatch-spec",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "task-session"
+    ]
+  },
+  "mode": "sequence",
+  "route_menu": {
+    "context_hint": "The operator corrected the source of truth: reuse Poker Team auth-access-control rather than continuing the hand-rolled foundation.",
+    "items": [
+      {
+        "id": "copy-poker-vertical-slice",
+        "label": "Copy Poker auth slice",
+        "description": "Copy domain, application use cases, tests, Drizzle schema, and repositories, then normalize dependencies into reusable ports.",
+        "capability_ref": "task-session",
+        "pattern": "sequence"
+      },
+      {
+        "id": "domain-only-copy",
+        "label": "Domain only",
+        "description": "Copy only domain primitives and rebuild application use cases from scratch.",
+        "capability_ref": "task-session",
+        "pattern": "route"
+      },
+      {
+        "id": "keep-current-foundation",
+        "label": "Keep current foundation",
+        "description": "Continue the earlier auth-user-management package and manually align it with Poker Team semantics later.",
+        "capability_ref": "task-session",
+        "pattern": "route"
+      }
+    ],
+    "selected_item_id": "copy-poker-vertical-slice"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "conditional_component",
+    "data_quality_completeness",
+    "route_menu",
+    "approval_checkpoint",
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference",
+    "protected_context_flag",
+    "system_agnostic_standard",
+    "local_nuance_coordination",
+    "concrete_path_evidence",
+    "artifact_contract_bridge",
+    "state_namespace_boundary",
+    "execution_receipt_handoff",
+    "residue_ledger"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The refinement needs the canonical ten-stage route before execution.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping",
+        "minimum_component_catalog",
+        "conditional_component",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": [
+        "s1-context-builder",
+        "s2-invoke-define",
+        "s3-interrogation-review",
+        "s4-research-decision",
+        "s5-distill",
+        "s6-invoke-design",
+        "s7-interrogation-design-review",
+        "s8-distill-repair",
+        "s9-invoke-plan",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "Each stage consumes a prior frame, handle, decision, ledger, or artifact and emits receipt-ready evidence."
+    },
+    {
+      "overlay_id": "route_menu_for_copy_boundary",
+      "trigger": "The target could copy only domain, copy the full vertical slice, or keep the current package direction.",
+      "techniques": [
+        "route_menu",
+        "approval_checkpoint",
+        "conditional_component"
+      ],
+      "applies_to_steps": [
+        "s1-context-builder",
+        "s3-interrogation-review",
+        "s9-invoke-plan"
+      ],
+      "validation_expectation": "The selected route must record why full vertical slice copy is preferred and keep execution behind confirmation."
+    },
+    {
+      "overlay_id": "xray_for_auth_slice_structure",
+      "trigger": "Poker Team auth spans domain entities, policies, application use cases, repositories, schema, token/password dependencies, telemetry, HTTP guards, and tests.",
+      "techniques": [
+        "x_ray",
+        "component_descriptor",
+        "entity_component_reference"
+      ],
+      "applies_to_steps": [
+        "s1-context-builder",
+        "s5-distill",
+        "s6-invoke-design",
+        "s8-distill-repair"
+      ],
+      "validation_expectation": "The design must separate reusable auth components from Poker Team-only route, metric, role, and bootstrap defaults."
+    },
+    {
+      "overlay_id": "protected_context_for_private_submodule_copy",
+      "trigger": "The source lives in private validation/poker-team and the target is a private reusable service package.",
+      "techniques": [
+        "protected_context_flag",
+        "system_agnostic_standard",
+        "local_nuance_coordination",
+        "concrete_path_evidence",
+        "artifact_contract_bridge",
+        "state_namespace_boundary",
+        "execution_receipt_handoff",
+        "owner_boundary_check"
+      ],
+      "applies_to_steps": [
+        "s1-context-builder",
+        "s2-invoke-define",
+        "s6-invoke-design",
+        "s9-invoke-plan"
+      ],
+      "validation_expectation": "Private source evidence remains local. Reusable package state writes stay under projects/auth-user-management. Execution receipts must cite concrete paths."
+    },
+    {
+      "overlay_id": "residue_for_aborted_raw_store",
+      "trigger": "The previous direction started a hand-rolled auth package; the corrected route must not silently inherit wrong raw SQL or JSON-first assumptions.",
+      "techniques": [
+        "residue_ledger",
+        "validation_loop",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": [
+        "s3-interrogation-review",
+        "s5-distill",
+        "s8-distill-repair",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "The plan must explicitly replace or quarantine earlier non-Poker implementations that conflict with the source-of-truth copy."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "The relevant source is local and bounded; parent execution can copy and normalize the vertical slice without delegated lanes.",
+    "explanation": "No subagents are proposed. The parent refine run owns the route, and a follow-up task-session can execute the copy.",
+    "context": [
+      "Source: validation/poker-team/backend/src/domain/auth-access-control",
+      "Application source: validation/poker-team/backend/src/use-cases/auth-access-control",
+      "SQL source: validation/poker-team/backend/src/infrastructure/repositories/drizzle-auth.repository.ts and database schema",
+      "Target: projects/auth-user-management"
+    ],
+    "roles": [],
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "permission_prompt": "Confirm to run the parent-only refinement and implementation handoff.",
+    "receipt_requirements": [
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "handoff_note"
+    ]
+  },
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "refine-20260621T072243Z-poker-auth-standalone-service",
+      "step_id": "s1-context-builder",
+      "capability_ref": "context-builder",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/01-context-builder/CONTEXT-PACK.md",
+        "stages/01-context-builder/context-index.json"
+      ],
+      "validation": [
+        "strict coverage pass"
+      ],
+      "observer_status": "recorded",
+      "blockers": [],
+      "residue": "No unresolved context blockers.",
+      "handoff_note": "Evidence baseline ready for implementation work-pack."
+    },
+    {
+      "dispatch_id": "refine-20260621T072243Z-poker-auth-standalone-service",
+      "step_id": "s2-invoke-define",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/02-invoke-define/DEFINE.md"
+      ],
+      "validation": [
+        "definition names reusable package scope and invariants"
+      ],
+      "observer_status": "recorded",
+      "blockers": [],
+      "residue": "None.",
+      "handoff_note": "Definition feeds design."
+    },
+    {
+      "dispatch_id": "refine-20260621T072243Z-poker-auth-standalone-service",
+      "step_id": "s3-interrogation-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/03-interrogation-review/REVIEW.md"
+      ],
+      "validation": [
+        "review confirms vertical-slice copy and port normalization"
+      ],
+      "observer_status": "recorded",
+      "blockers": [],
+      "residue": "None.",
+      "handoff_note": "Review feeds research decision and distill."
+    },
+    {
+      "dispatch_id": "refine-20260621T072243Z-poker-auth-standalone-service",
+      "step_id": "s4-research-decision",
+      "capability_ref": "refine",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/04-research-decision/DECISION.md"
+      ],
+      "validation": [
+        "no-research decision recorded"
+      ],
+      "observer_status": "recorded",
+      "blockers": [],
+      "residue": "External research deferred unless a named implementation gap appears.",
+      "handoff_note": "Local evidence remains authority."
+    },
+    {
+      "dispatch_id": "refine-20260621T072243Z-poker-auth-standalone-service",
+      "step_id": "s5-distill",
+      "capability_ref": "distill",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/05-distill/COPY-UNIT.md"
+      ],
+      "validation": [
+        "selected auth-access-control-core as smallest coherent unit"
+      ],
+      "observer_status": "recorded",
+      "blockers": [],
+      "residue": "Browser cookies, Strava, and UI deferred.",
+      "handoff_note": "Copy unit feeds design."
+    },
+    {
+      "dispatch_id": "refine-20260621T072243Z-poker-auth-standalone-service",
+      "step_id": "s6-invoke-design",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/06-invoke-design/DESIGN.md"
+      ],
+      "validation": [
+        "six design views covered"
+      ],
+      "observer_status": "recorded",
+      "blockers": [],
+      "residue": "Test runner choice carried to plan.",
+      "handoff_note": "Design feeds repair and plan."
+    },
+    {
+      "dispatch_id": "refine-20260621T072243Z-poker-auth-standalone-service",
+      "step_id": "s7-interrogation-design-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/07-interrogation-design-review/REVIEW.md"
+      ],
+      "validation": [
+        "design review passes with work-pack guardrails"
+      ],
+      "observer_status": "recorded",
+      "blockers": [],
+      "residue": "None.",
+      "handoff_note": "Review feeds repair."
+    },
+    {
+      "dispatch_id": "refine-20260621T072243Z-poker-auth-standalone-service",
+      "step_id": "s8-distill-repair",
+      "capability_ref": "distill",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/08-distill-repair/REPAIR.md"
+      ],
+      "validation": [
+        "repair closes source-boundary and bootstrap risks"
+      ],
+      "observer_status": "recorded",
+      "blockers": [],
+      "residue": "Two non-blocking implementation decisions remain.",
+      "handoff_note": "Repair feeds work-pack."
+    },
+    {
+      "dispatch_id": "refine-20260621T072243Z-poker-auth-standalone-service",
+      "step_id": "s9-invoke-plan",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/09-invoke-plan/IMPLEMENTATION-LAYERING.md",
+        "stages/09-invoke-plan/WORK-PACK.md"
+      ],
+      "validation": [
+        "medium complexity work-pack with seven SWUs"
+      ],
+      "observer_status": "recorded",
+      "blockers": [],
+      "residue": "Implementation not executed by refine.",
+      "handoff_note": "Route to task-session."
+    },
+    {
+      "dispatch_id": "refine-20260621T072243Z-poker-auth-standalone-service",
+      "step_id": "s10-final-synthesis",
+      "capability_ref": "refine",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/10-final-synthesis/SYNTHESIS.md",
+        "RESULT.md"
+      ],
+      "validation": [
+        "final synthesis recommends task-session"
+      ],
+      "observer_status": "recorded",
+      "blockers": [],
+      "residue": "None.",
+      "handoff_note": "Refine complete; implementation route ready."
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "s1-context-builder",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "concrete_path_evidence",
+        "minimum_component_catalog",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "operator-intent"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/01-context-builder/CONTEXT-PACK.md"
+        }
+      ],
+      "stop_conditions": [
+        "source paths missing",
+        "operator confirmation withheld"
+      ]
+    },
+    {
+      "step_id": "s2-invoke-define",
+      "name": "Invoke Define reusable auth service",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "artifact_contract_bridge",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/01-context-builder/CONTEXT-PACK.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define/DEFINE.md"
+        }
+      ],
+      "stop_conditions": [
+        "source-to-target copy boundary cannot be expressed without Poker Team product defaults"
+      ]
+    },
+    {
+      "step_id": "s3-interrogation-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "residue_ledger",
+        "approval_checkpoint"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define/DEFINE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/03-interrogation-review/REVIEW.md"
+        }
+      ],
+      "evidence_artifact": "stages/03-interrogation-review/REVIEW.md",
+      "stop_conditions": [
+        "define artifact preserves raw SQL or JSON-first production defaults",
+        "define artifact imports Poker Team HTTP route or telemetry coupling as package authority"
+      ]
+    },
+    {
+      "step_id": "s4-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "no-research",
+      "pattern": "decision",
+      "techniques": [
+        "protected_context_flag",
+        "system_agnostic_standard"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/03-interrogation-review/REVIEW.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision/DECISION.md"
+        }
+      ],
+      "stop_conditions": [
+        "external research becomes necessary and operator has not approved it"
+      ]
+    },
+    {
+      "step_id": "s5-distill",
+      "name": "Distill copy unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": [
+        "x_ray",
+        "component_descriptor",
+        "entity_component_reference"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision/DECISION.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "validation/poker-team/backend/src/domain/auth-access-control"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handle",
+          "ref": "stages/05-distill/COPY-UNIT.md"
+        }
+      ],
+      "evidence_artifact": "stages/05-distill/COPY-UNIT.md"
+      ,
+      "stop_conditions": [
+        "copy unit cannot separate reusable auth from Poker Team product roles"
+      ]
+    },
+    {
+      "step_id": "s6-invoke-design",
+      "name": "Invoke Design standalone service architecture",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff",
+        "state_namespace_boundary",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "stages/05-distill/COPY-UNIT.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design/DESIGN.md"
+        }
+      ],
+      "stop_conditions": [
+        "design does not preserve Drizzle/PostgreSQL as SQL default",
+        "design does not expose injectable token, password, id, clock, and telemetry ports"
+      ]
+    },
+    {
+      "step_id": "s7-interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design/DESIGN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/07-interrogation-design-review/REVIEW.md"
+        }
+      ],
+      "evidence_artifact": "stages/07-interrogation-design-review/REVIEW.md",
+      "stop_conditions": [
+        "design review finds unbounded source mutation or private/public boundary leak"
+      ]
+    },
+    {
+      "step_id": "s8-distill-repair",
+      "name": "Distill repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "residue_ledger",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "stages/07-interrogation-design-review/REVIEW.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handle",
+          "ref": "stages/08-distill-repair/REPAIR.md"
+        }
+      ],
+      "evidence_artifact": "stages/08-distill-repair/REPAIR.md"
+      ,
+      "stop_conditions": [
+        "repair cannot close source-boundary or validation-surface gaps"
+      ]
+    },
+    {
+      "step_id": "s9-invoke-plan",
+      "name": "Invoke Plan implementation work pack",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "handoff",
+      "techniques": [
+        "execution_receipt_handoff",
+        "validation_loop",
+        "approval_checkpoint"
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "stages/08-distill-repair/REPAIR.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "stages/09-invoke-plan/WORK-PACK.md"
+        }
+      ],
+      "stop_conditions": [
+        "plan lacks implementation tests or validation commands"
+      ]
+    },
+    {
+      "step_id": "s10-final-synthesis",
+      "name": "Final interrogation and synthesis",
+      "capability_ref": "refine",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": [
+        "observability_grouping",
+        "validation_loop",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan/WORK-PACK.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        }
+      ],
+      "stop_conditions": [
+        "final synthesis cannot recommend a bounded next task-session"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g1-confirm-before-runtime",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Runtime-backed stages and file mutation wait for explicit confirm.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g2-source-boundary",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "Poker Team source is read-only unless a later explicit instruction asks to mutate it.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g3-drizzle-postgres-default",
+      "kind": "policy",
+      "owner": "invoke",
+      "condition": "SQL persistence for the standalone service uses Drizzle with PostgreSQL; raw SQL query-client adapters require an explicit exception.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g4-validation-surface",
+      "kind": "validation",
+      "owner": "task-session",
+      "condition": "Implementation handoff must include npm package check, focused auth tests, runtime language policy, and diff checks.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "strategy_proposed",
+      "dispatch_validated",
+      "confirmation_approved",
+      "canonical_stages_completed",
+      "final_synthesis_pass"
+    ],
+    "signal_grouping": "refine-20260621T072243Z-poker-auth-standalone-service"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "source-to-target-copy",
+        "kind": "artifact_import",
+        "from_owner": "validation/poker-team",
+        "to_owner": "projects/auth-user-management",
+        "applies_to_steps": [
+          "s1-context-builder",
+          "s5-distill",
+          "s6-invoke-design",
+          "s9-invoke-plan"
+        ],
+        "contract": "Copy behavior and tests from Poker Team, but normalize product-specific defaults, telemetry imports, JWT/bcrypt process env access, and HTTP route coupling into ports.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "confirmation-before-execution",
+        "kind": "human_approval",
+        "from_owner": "operator",
+        "to_owner": "refine",
+        "applies_to_steps": [
+          "s1-context-builder",
+          "s2-invoke-define",
+          "s3-interrogation-review",
+          "s4-research-decision",
+          "s5-distill",
+          "s6-invoke-design",
+          "s7-interrogation-design-review",
+          "s8-distill-repair",
+          "s9-invoke-plan",
+          "s10-final-synthesis"
+        ],
+        "contract": "No runtime-backed stage or code mutation runs until the operator confirms this strategy.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine owns strategy proposal and final synthesis",
+      "execution": "task-session owns implementation after confirmation",
+      "validation": "dispatch-spec validates route shape; package checks validate code",
+      "evidence": "current local files are evidence authority",
+      "promotion": "no public arcanum promotion in this route"
+    },
+    "receipts": [
+      {
+        "receipt_id": "native-stage-receipt",
+        "producer": "parent runtime",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          "RUN-MANIFEST.md",
+          "evidence-index.json"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects/auth-user-management",
+        "owner": "auth-user-management package",
+        "write_policy": "Package code, tests, docs, and local refinement evidence may be written after confirmation."
+      },
+      {
+        "namespace": "validation/poker-team",
+        "owner": "Poker Team validation submodule",
+        "write_policy": "Read-only source evidence for this run."
+      }
+    ]
+  }
+}

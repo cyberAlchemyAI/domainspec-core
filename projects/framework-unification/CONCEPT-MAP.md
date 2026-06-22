@@ -219,6 +219,52 @@ bridge owner ([OQ-2](discovery/discovery.md)), observability producer gap
 ([OQ-3](discovery/discovery.md)). **Recommendation:** these are the paired-views / first-build
 targets; this map does not decide them. **Status:** OPEN (carried).
 
+### OQ-F. The generative gap — the engine governs generation more than it generates.
+**Context:** a capability census ([components/CAPABILITY-CENSUS.md](components/CAPABILITY-CENSUS.md),
+dispatch 2026-06-18) found `validate/distill/ontologize/govern/route` ≈ 70% of the catalog: the
+shipped set is a **knowledge-governance + verification machine, not a generation machine**. After
+subtracting owned generators (`whisper` = text only, `invoke` = design/plan authoring,
+`domainspec-implement` = spec→code), there is **no owner for portable, non-text, non-spec-bound
+synthesize / prototype / negotiate / migrate**. **Recommendation:** decide whether the absence is
+intentional (generation happens outside the engine, which governs it) or a gap to charter.
+**Status:** OPEN (novel-attempt if chartered).
+
+### OQ-G. Navigate / legibility is asserted, not gated.
+**Context:** the method makes navigability a *governance* obligation ("Ergonomics Is Governance") and
+a Quality-Bar close condition, yet the validator checks artifact class/retention, not whether an
+artifact exposes entrypoint / status / next-route ([CAPABILITY-CENSUS.md](components/CAPABILITY-CENSUS.md)).
+**Recommendation:** fold a legibility check into the **Validate** mechanism (build-from-owned,
+preferred) or charter a dedicated Navigate gate. **Status:** OPEN.
+
+### OQ-H. No continuous Business↔System Bridge comparator.
+**Context:** the law treats the Business→System bridge as the antifragility engine ("continuously
+compare"), but System-3 Control is a "manual trigger" and `@biz`/`@sys` binding is roadmap (G11) —
+the same gap-detector that exists at other altitudes (`drifts_from`, `claim ≤ proof`) has no
+*continuous* owner at the `@biz↔@sys` altitude. **Partial owner:** `domainspec-lean-formalization`'s
+`verifying-lean-build` is an existing machine-checkable gate, so "no machine comparator" is partial.
+**Recommendation:** build-from-owned — instantiate the existing residue detector (and the
+machine-gate pattern) at the bridge altitude. **Status:** OPEN.
+
+### OQ-I. The artifact catalog is two independent axes, not a single-cell grid.
+**Context:** the cyber-alchemy-space architecture synthesis
+([../../research/cyber-alchemy-space/findings.md](../../research/cyber-alchemy-space/findings.md) §2.6)
+finds the catalog crosses **two independent axes** — Arcanum **provenance class**
+(Source / Durable-Evidence / Generated / Local-Runtime) × **role tier** (A/B/C/D,
+[components/ARTIFACTS.md](components/ARTIFACTS.md)) — and that artifacts carry **multiple provenance
+facets** (a receipts file is Source+Runtime; a `dispatch.json` is Source+Durable+Runtime), so it is
+**not** a clean single cell. **Recommendation:** decide a **primary-class rule** or accept explicit
+**multi-tagging** in the node-envelope `identity` slice. **Status:** OPEN (novel — no on-disk owner
+for the cross-product).
+
+### OQ-J. Authority tie-break: principle owned (I5), algorithm only proposed.
+**Context:** single-owner ([I5](#invariants-what-must-always-hold-across-the-graph)) + document-class
+precedence are owned, but the **mechanical tie-break** (nearest-`.git` / highest-`VERSION` /
+longest-`PATH` / vendored-never-outranks) is **PROPOSED and absent** from
+[`domainspec/AUTHORITY-MAP.md`](../../implementation/domainspec/AUTHORITY-MAP.md) (grep-confirmed,
+architecture findings §2.7). **Recommendation:** adopt or reject the path/git/version tie-break as an
+explicit AUTHORITY-MAP **extension** — never attribute it to AUTHORITY-MAP until ratified.
+**Status:** OPEN.
+
 ---
 
 ## What this map does NOT decide / claim
@@ -236,6 +282,8 @@ targets; this map does not decide them. **Status:** OPEN (carried).
 | Document | Type | Description |
 |---|---|---|
 | [SCOPE.md](SCOPE.md) | `relates-to` | Governs the aspirational boundary (§2) and the open-questions rule (§3) this map obeys. |
+| [components/CAPABILITY-CENSUS.md](components/CAPABILITY-CENSUS.md) | `relates-to` | Censuses the operating capabilities (sigils) onto these two axes; holds OQ-F/G/H's gap detail and proposes axis refinements (OQ-1 end-product lifecycle, OQ-2 ownership-layer). |
+| [../../research/cyber-alchemy-space/findings.md](../../research/cyber-alchemy-space/findings.md) | `relates-to` | The cyber-alchemy-space architecture synthesis; source of OQ-I (catalog two-axis) and OQ-J (authority tie-break), and corroborates the OQ-A pipeline order + I9/I10 coupling. Its OD-1/2/3 (branch-as-view, run-view, residue-view) are **ontologize-scoped**, not for this spine. |
 | [discovery/discovery.md](discovery/discovery.md) | `derives-from` | The three-layer decisions and OQ-1..5 this map builds the two-axis frame on top of. |
 | [research/RESEARCH.md](research/RESEARCH.md) | `derives-from` | The pillars + pipeline + shared-spine synthesis. |
 | [layers/domainspec-language/SCHEMA-INVENTORY.md](layers/domainspec-language/SCHEMA-INVENTORY.md) | `cites` | The artifact/stage inventory and the node envelope (§C). |

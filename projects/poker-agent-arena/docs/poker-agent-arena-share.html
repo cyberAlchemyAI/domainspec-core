@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Poker Agent Arena</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 17mm 19mm;
+    }
+
+    :root {
+      --ink: #17212b;
+      --muted: #5c6875;
+      --line: #d6dee8;
+      --paper: #ffffff;
+      --wash: #f5f8fb;
+      --navy: #243b61;
+      --teal: #0f8f8c;
+      --blue: #2e6bb8;
+      --indigo: #5a5bc7;
+      --amber: #c98214;
+      --rose: #c84b64;
+      --green: #2f8b57;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 10.8pt;
+      line-height: 1.48;
+    }
+
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+
+    h1 {
+      color: var(--navy);
+      font-size: 42pt;
+      line-height: 0.98;
+      letter-spacing: 0;
+      margin-bottom: 12mm;
+    }
+
+    h2 {
+      color: var(--navy);
+      font-size: 19pt;
+      line-height: 1.12;
+      margin: 0 0 4mm;
+      break-after: avoid;
+    }
+
+    h3 {
+      color: var(--navy);
+      font-size: 12pt;
+      margin: 0 0 2mm;
+      break-after: avoid;
+    }
+
+    p {
+      margin-bottom: 3.7mm;
+    }
+
+    strong {
+      color: var(--navy);
+    }
+
+    .page {
+      min-height: 260mm;
+      page-break-after: always;
+      position: relative;
+    }
+
+    .page:last-child {
+      page-break-after: auto;
+    }
+
+    .eyebrow {
+      color: var(--teal);
+      font-size: 8.8pt;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 5mm;
+    }
+
+    .subtitle {
+      color: var(--navy);
+      font-size: 18pt;
+      font-weight: 650;
+      line-height: 1.22;
+      max-width: 150mm;
+      margin-bottom: 7mm;
+    }
+
+    .quote {
+      border-left: 3px solid var(--teal);
+      color: var(--navy);
+      background: #eef8f7;
+      padding: 4mm 5mm;
+      font-size: 13pt;
+      font-weight: 600;
+      line-height: 1.35;
+      margin: 6mm 0 9mm;
+      max-width: 162mm;
+    }
+
+    .scene {
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--amber);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 4.5mm 5mm;
+      margin: 5mm 0 7mm;
+      break-inside: avoid;
+    }
+
+    .scene p:last-child {
+      margin-bottom: 0;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .small {
+      font-size: 9pt;
+    }
+
+    .cover {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 260mm;
+    }
+
+    .cover-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 7mm;
+      align-items: stretch;
+      margin-top: 9mm;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--wash);
+      padding: 5mm;
+      break-inside: avoid;
+    }
+
+    .panel.white {
+      background: white;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 8.5pt;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 750;
+      margin-bottom: 2mm;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2mm;
+      margin: 4mm 0 0;
+    }
+
+    .badge {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 1.3mm 3mm;
+      color: var(--navy);
+      background: white;
+      font-size: 8.7pt;
+      font-weight: 650;
+    }
+
+    .rule {
+      height: 1px;
+      background: var(--line);
+      margin: 4mm 0 6mm;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7mm;
+      align-items: start;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4mm;
+      align-items: stretch;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 4mm;
+      min-height: 32mm;
+      break-inside: avoid;
+    }
+
+    .card h3 {
+      font-size: 10.5pt;
+      margin-bottom: 2mm;
+    }
+
+    .card p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 9.3pt;
+    }
+
+    .stack {
+      display: grid;
+      gap: 2.5mm;
+      margin: 4mm 0 6mm;
+    }
+
+    .stack-row {
+      display: grid;
+      grid-template-columns: 19mm 1fr;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      break-inside: avoid;
+    }
+
+    .stack-row .level {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 11pt;
+    }
+
+    .stack-row .body {
+      padding: 3mm 4mm;
+      background: white;
+    }
+
+    .stack-row .body strong {
+      display: block;
+      margin-bottom: .8mm;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 3mm;
+      margin: 6mm 0;
+      align-items: stretch;
+    }
+
+    .flow-step {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 3.2mm;
+      background: white;
+      position: relative;
+      min-height: 31mm;
+      break-inside: avoid;
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      top: 9mm;
+      right: -3.3mm;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .num {
+      width: 8mm;
+      height: 8mm;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      color: white;
+      background: var(--teal);
+      font-size: 8pt;
+      font-weight: 800;
+      margin-bottom: 2mm;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 4mm 0 6mm;
+      font-size: 9pt;
+      break-inside: avoid;
+    }
+
+    th {
+      text-align: left;
+      color: white;
+      background: var(--navy);
+      padding: 2.4mm 2.5mm;
+      font-size: 8.6pt;
+    }
+
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 2.5mm;
+      vertical-align: top;
+    }
+
+    ul {
+      margin: 0 0 4mm 0;
+      padding-left: 5mm;
+    }
+
+    li {
+      margin-bottom: 1.5mm;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 2mm;
+      font-size: 8.2pt;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .color-teal { background: var(--teal); }
+    .color-blue { background: var(--blue); }
+    .color-indigo { background: var(--indigo); }
+    .color-amber { background: var(--amber); }
+    .color-rose { background: var(--rose); }
+    .color-green { background: var(--green); }
+
+    .print-note {
+      color: var(--muted);
+      font-size: 8.5pt;
+      margin-top: 5mm;
+    }
+  </style>
+</head>
+<body>
+  <section class="page cover">
+    <div>
+      <div class="eyebrow">Poker Agent Arena · Competition Concept</div>
+      <h1>Poker Agent Arena</h1>
+      <div class="subtitle">A local-first poker competition where agents sit at the same table, see only the cards they are allowed to see, and have to prove strategy under pressure.</div>
+      <div class="quote">The best agent should not be the one with the cleverest loophole. It should be the one that can read a partial world, choose cleanly, act on time, and leave a hand history anyone can audit.</div>
+      <div class="cover-grid">
+        <div class="panel white">
+          <div class="label">What this packet is</div>
+          <p>A shareable product and system view for the full arena idea: agents competing at poker, the mechanics that make the contest meaningful, and the MVP slice that proves the table is fair before it becomes larger.</p>
+          <div class="badge-row">
+            <span class="badge">Arena Concept</span>
+            <span class="badge">Mechanics</span>
+            <span class="badge">Rules</span>
+            <span class="badge">MVP Tests</span>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="label">Current build target</div>
+          <p><strong>Local Arena CLI v0</strong> is the first proof slice. It is the small room before the stadium: a place to prove legal decisions, timing, replay, and hidden-information discipline.</p>
+        </div>
+      </div>
+    </div>
+    <div class="small muted">
+      Prepared 2026-06-20 · sources: README, RULES, AGENT-RULES, SPEC, MVP-PATH, WORK-PACK, Local Arena CLI v0 sidecar
+    </div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">The Whole Idea</div>
+    <h2>1. What We Want To Achieve</h2>
+    <p><strong>Poker Agent Arena is a competition harness where agents play progressively harder poker-like games through a constrained decision protocol.</strong> The arena should make strategic strength visible without letting protocol loopholes, hidden-information leaks, or slow responses masquerade as intelligence.</p>
+    <div class="scene">
+      <p>Picture a table with no speeches, no screenshots, and no hand-waving. Two agents receive the same kind of observation: public betting history, their private card, and the legal actions available right now. The clock starts. One bot folds too quickly. One tries to bet outside the rules. One waits too long. Another makes the boring legal call that keeps it alive for the next hand.</p>
+      <p>Over many hands, the noise starts to fall away. The table begins to show the difference between a wrapper that can talk about poker and an agent that can play inside a strict game.</p>
+    </div>
+    <p>The long-term shape is a ladder: small toy games first, board-reveal games next, then larger poker engines once the harness has earned trust. Each step adds more uncertainty, more state, and more room for adaptation.</p>
+    <div class="quote">The arena should feel like a fair table, a pressure test, and a measuring instrument at the same time.</div>
+
+    <h2>2. What Counts As A Good Agent</h2>
+    <div class="three-col">
+      <div class="card"><h3>Strategic Under Uncertainty</h3><p>It builds a plan from incomplete observations instead of hoping the harness leaks the answer.</p></div>
+      <div class="card"><h3>Fast Enough To Sit</h3><p>It makes a playable decision inside the budget, while the hand is still alive.</p></div>
+      <div class="card"><h3>Protocol Clean</h3><p>It speaks the table's language exactly: one decision id, one legal action, one valid response.</p></div>
+      <div class="card"><h3>Robust Over Many Hands</h3><p>It survives variance, seat rotation, resets, and repeated evaluation orbits.</p></div>
+      <div class="card"><h3>Adaptable</h3><p>It notices styles, traps, and reveal patterns without touching forbidden information.</p></div>
+      <div class="card"><h3>Auditable</h3><p>Its wins can be replayed from transcripts instead of defended by vibes.</p></div>
+    </div>
+    <div class="footer"><span>Poker Agent Arena</span><span>The Whole Idea</span></div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">Competition Mechanics</div>
+    <h2>3. The Core Loop</h2>
+    <p>Every hand is a small contract between the referee and the agent. The referee deals the visible world; the agent chooses one move; the arena decides whether that move belongs at the table.</p>
+    <div class="flow">
+      <div class="flow-step"><span class="num">1</span><h3>Observe</h3><p>The agent sees public table state and only its permitted private view.</p></div>
+      <div class="flow-step"><span class="num">2</span><h3>Commit</h3><p>It sends one action before the decision clock expires.</p></div>
+      <div class="flow-step"><span class="num">3</span><h3>Validate</h3><p>The arena checks shape, id, legality, amount, and timing.</p></div>
+      <div class="flow-step"><span class="num">4</span><h3>Resolve</h3><p>The game applies the action or a deterministic fallback.</p></div>
+      <div class="flow-step"><span class="num">5</span><h3>Remember</h3><p>The hand becomes transcript, diagnostics, and redacted public replay.</p></div>
+    </div>
+
+    <h2>4. The Mechanics That Matter</h2>
+    <table>
+      <thead>
+        <tr><th>Mechanic</th><th>What It Tests</th><th>Why It Matters</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Hidden-information envelope</td><td>Reasoning from partial state</td><td>Poker stops being poker if the agent sees future cards or opponent-private state.</td></tr>
+        <tr><td>Decision clock</td><td>Performance under pressure</td><td>A brilliant answer that arrives late belongs in the diagnostics, not the pot.</td></tr>
+        <tr><td>Legal-action mask</td><td>Rule obedience</td><td>The agent has to beat the table, not invent actions outside it.</td></tr>
+        <tr><td>Fallback policy</td><td>Failure containment</td><td>Invalid output should cost the agent predictably without breaking the match.</td></tr>
+        <tr><td>Replay and diagnostics</td><td>Auditability</td><td>A result matters when the hand can be replayed after the excitement cools.</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>Poker Agent Arena</span><span>Core Mechanics</span></div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">Rules</div>
+    <h2>5. Human Rules And Agent Rules</h2>
+    <p>Before there is a leaderboard, there has to be a table contract. The arena needs two complementary rule files: one for people who want to understand the contest, and one for agents and implementers that need exact protocol boundaries.</p>
+    <div class="two-col">
+      <div class="panel white">
+        <div class="label">Human rule view</div>
+        <ul>
+          <li>What game is being played.</li>
+          <li>What information each player can know.</li>
+          <li>What counts as a violation.</li>
+          <li>How wins, losses, and diagnostics are reported.</li>
+          <li>What is excluded from the current league.</li>
+        </ul>
+      </div>
+      <div class="panel white">
+        <div class="label">Agent rule view</div>
+        <ul>
+          <li>Decision-envelope schema.</li>
+          <li>Action-envelope schema.</li>
+          <li>Deadline and timeout semantics.</li>
+          <li>Invalid-output taxonomy.</li>
+          <li>Transcript, replay, and redaction contract.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>6. The Rule Of The Table</h2>
+    <table>
+      <thead>
+        <tr><th>Principle</th><th>Operational Meaning</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>No hidden-state leakage</td><td>Agents see only public state plus their own private hand, never raw seed, deck order, opponent cards, or future board state.</td></tr>
+        <tr><td>One decision, one response</td><td>Each decision id expects exactly one JSON action envelope before the deadline.</td></tr>
+        <tr><td>Legal actions are authoritative</td><td>The referee decides what can be played. The agent chooses from that set, or the table notices.</td></tr>
+        <tr><td>Failures are scored, not hidden</td><td>Invalid output, timeouts, crashes, and fallback events become part of the agent's record.</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>Poker Agent Arena</span><span>Rules</span></div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">Scoring And Pressure</div>
+    <h2>7. Winning Should Be Multi-Dimensional</h2>
+    <p>Raw chip EV is necessary, but it is not enough. The best agent is not just the one that wins a noisy run; it is the one whose wins survive pressure, repetition, and inspection.</p>
+    <table>
+      <thead>
+        <tr><th>Score Surface</th><th>Measures</th><th>Failure Signal</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Clean EV</td><td>Performance when valid decisions are made</td><td>The strategy itself is losing.</td></tr>
+        <tr><td>Fallback-inclusive EV</td><td>Actual result after timeouts and invalid actions</td><td>Protocol failures are dragging the agent down.</td></tr>
+        <tr><td>Invalid rate</td><td>Schema, id, legality, and amount errors</td><td>The agent cannot reliably sit at the table.</td></tr>
+        <tr><td>Timeout rate</td><td>Latency against the decision budget</td><td>The strategy may be clever, but it is too slow for the league.</td></tr>
+        <tr><td>Replay determinism</td><td>Whether a result reproduces from transcript</td><td>The result is not auditable enough to share.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>8. Optional Mechanics For Later Leagues</h2>
+    <div class="three-col">
+      <div class="card"><h3>Time Credits</h3><p>Reward agents that know when a hard spot deserves more thought.</p></div>
+      <div class="card"><h3>Opponent Mixes</h3><p>Test against styles, not a single sparring partner.</p></div>
+      <div class="card"><h3>Reveal Stress</h3><p>Add public cards or events that force belief updates mid-hand.</p></div>
+      <div class="card"><h3>Format Rotation</h3><p>Move across toy games, Leduc, and engine-backed poker.</p></div>
+      <div class="card"><h3>Exploit Checks</h3><p>Use canary fixtures where harness-gaming should not help.</p></div>
+      <div class="card"><h3>Diagnostics League</h3><p>Show not only who won, but which failures each agent avoided.</p></div>
+    </div>
+    <div class="footer"><span>Poker Agent Arena</span><span>Scoring And Pressure</span></div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">Game Ladder</div>
+    <h2>9. Why Start With Toy Games</h2>
+    <p>The first table should be small enough that mistakes are visible. Start with a room where every leak, late answer, and illegal move can be found. Then add cards, streets, opponents, and richer histories.</p>
+    <table>
+      <thead>
+        <tr><th>Stage</th><th>Game Shape</th><th>New Capability Tested</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Stage 0</td><td>Kuhn hidden information</td><td>Basic private observation, legal actions, bluff/call/fold pressure, deterministic replay.</td></tr>
+        <tr><td>Stage 1</td><td>Leduc-style board reveal</td><td>Belief updates as public information arrives after private cards.</td></tr>
+        <tr><td>Stage 2</td><td>Configurable toy tournaments</td><td>Seat rotation, opponent mixes, longer orbits, comparative diagnostics.</td></tr>
+        <tr><td>Stage 3</td><td>Engine-backed poker</td><td>Larger action spaces, bet sizing, richer histories, engine parity.</td></tr>
+        <tr><td>Stage 4</td><td>Hosted league</td><td>Submission workflow, public leaderboards, versioned seasons, reproducible reports.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>10. What The Arena Should Feel Like</h2>
+    <p>For an agent author, the first experience should be direct: write a CLI-compatible agent, run it locally, watch it fail loudly if it breaks the rules, then improve it until the transcript and diagnostics become respectable.</p>
+    <p>The competitive pull comes from the table being strict enough to make competence visible. A clean win should feel earned: the agent read the hand it was allowed to see, made a timely decision, accepted the risk, and left evidence another person can inspect without trusting the bot author.</p>
+    <div class="footer"><span>Poker Agent Arena</span><span>Game Ladder</span></div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">System View</div>
+    <h2>11. The Layer Stack</h2>
+    <div class="stack">
+      <div class="stack-row">
+        <div class="level color-green">L5</div>
+        <div class="body"><strong>League and reporting</strong> Seasons, leaderboards, diagnostics views, author proof, and shareable match reports.</div>
+      </div>
+      <div class="stack-row">
+        <div class="level color-rose">L4</div>
+        <div class="body"><strong>Replay and diagnostics</strong> Private referee transcript, redacted public replay, clean EV, fallback-inclusive EV, invalid rate, timeout rate, replay determinism.</div>
+      </div>
+      <div class="stack-row">
+        <div class="level color-indigo">L3</div>
+        <div class="body"><strong>Arena protocol</strong> Decision envelope, action envelope, legal-action masks, invalid-event taxonomy, deadline and fallback policy.</div>
+      </div>
+      <div class="stack-row">
+        <div class="level color-blue">L2</div>
+        <div class="body"><strong>Game fixtures</strong> Kuhn first; Leduc board reveal and larger engines later.</div>
+      </div>
+      <div class="stack-row">
+        <div class="level color-teal">L1</div>
+        <div class="body"><strong>Agent process</strong> Any CLI-driven agent wrapper that can read one decision envelope and emit one action envelope.</div>
+      </div>
+      <div class="stack-row">
+        <div class="level color-amber">L0</div>
+        <div class="body"><strong>Contracts</strong> Human rules, agent rules, versioned spec files, output layout, and hard acceptance gates.</div>
+      </div>
+    </div>
+    <p>The load-bearing separation is simple: <strong>the game referee decides legal state</strong>; the <strong>arena owns process protocol, observation filtering, deadlines, fallback, transcript, replay, and diagnostics</strong>. One side deals the hand. The other keeps the room honest.</p>
+    <div class="footer"><span>Poker Agent Arena</span><span>System View</span></div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">MVP As Proof Slice</div>
+    <h2>12. What The MVP Is Actually Testing</h2>
+    <p><strong>Local Arena CLI v0</strong> is deliberately narrow. Its job is not to deliver the final league. Its job is to prove that the arena can enforce the mechanics that make the larger idea credible: legal moves, hidden information, timed action, fallback, replay, and diagnostics.</p>
+    <table>
+      <thead>
+        <tr><th>MVP Test</th><th>Pass Means</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>CLI agent protocol</td><td>Agents can connect as local processes through a stable decision/action contract.</td></tr>
+        <tr><td>Hidden-information boundary</td><td>Kuhn observations expose only allowed state, and canary scans catch forbidden leakage.</td></tr>
+        <tr><td>Deadline enforcement</td><td>Late output is ignored for gameplay and counted in diagnostics.</td></tr>
+        <tr><td>Invalid-output handling</td><td>Malformed, illegal, or mismatched actions trigger deterministic fallback.</td></tr>
+        <tr><td>Transcript and replay</td><td>The match reproduces from private transcript and exports a redacted public replay.</td></tr>
+        <tr><td>Diagnostics</td><td>Clean EV, fallback-inclusive EV, invalid rate, timeout rate, fallback count, and replay determinism are reported.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>13. MVP Defaults</h2>
+    <table>
+      <thead>
+        <tr><th>Decision</th><th>Default</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>First fixture</td><td>Kuhn hidden-information poker.</td></tr>
+        <tr><td>CLI</td><td>doctor, run, eval, replay.</td></tr>
+        <tr><td>Deadline</td><td>5000ms decision timeout; 10000ms cleanup timeout.</td></tr>
+        <tr><td>Clock</td><td>Monotonic; start after decision-envelope flush; stop at first complete stdout JSON.</td></tr>
+        <tr><td>Fallback</td><td>check, fold, call, then minimum legal wager action by rule-defined order.</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>Poker Agent Arena</span><span>MVP As Proof Slice</span></div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">Safety And Honesty</div>
+    <h2>14. Hidden Information Is The Product Boundary</h2>
+    <p>A poker table has secrets by design. A live agent must never observe opponent private cards, deck order, raw seed, future state, referee traces, or reversible hidden-state hashes. The arena should test this not just in decision envelopes, but in transcripts, logs, public replay, stdout/stderr capture, diagnostics, and retained inputs.</p>
+
+    <div class="three-col">
+      <div class="card"><h3>Private Transcript</h3><p>Authority for replay and diagnostics; may contain referee-only material.</p></div>
+      <div class="card"><h3>Public Replay</h3><p>Redacted narrative/export; uses opaque seed handles and no raw seed material.</p></div>
+      <div class="card"><h3>Canary Scan</h3><p>Checks observations, action history, state hashes, logs, replay exports, and retained inputs.</p></div>
+    </div>
+
+    <h2>15. Why Fallback Must Be Boring</h2>
+    <p>Fallback exists to keep evaluation moving when an agent fails the protocol. It should be deterministic, legal, and competitively dull. A fallback that improves rank teaches agents to break the harness instead of play the game.</p>
+    <table>
+      <thead>
+        <tr><th>Bad Behavior</th><th>Expected Treatment</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Malformed JSON or prose before JSON</td><td>Invalid event, deterministic fallback, diagnostic count.</td></tr>
+        <tr><td>Mismatched decision id</td><td>Invalid event, ignored action, deterministic fallback.</td></tr>
+        <tr><td>Late output</td><td>Timeout event; late action ignored for gameplay.</td></tr>
+        <tr><td>Crash or EOF</td><td>Named diagnostic event, deterministic fallback or match-level report.</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>Poker Agent Arena</span><span>Safety And Honesty</span></div>
+  </section>
+
+  <section class="page">
+    <div class="eyebrow">Current State</div>
+    <h2>16. Ready Now Vs. Not Yet Claimed</h2>
+    <div class="two-col">
+      <div class="panel white">
+        <div class="label">Ready as design</div>
+        <ul>
+          <li>Whole arena concept and game ladder.</li>
+          <li>Human and agent rule views.</li>
+          <li>Mechanics to test strategy, speed, legality, and auditability.</li>
+          <li>One executable proof slice: Local Arena CLI v0.</li>
+          <li>Hard acceptance gates for runtime proof.</li>
+        </ul>
+      </div>
+      <div class="panel white">
+        <div class="label">Not yet claimed</div>
+        <ul>
+          <li>Runtime runner implementation.</li>
+          <li>Kuhn fixture oracle and golden transcript.</li>
+          <li>Replay/redaction smoke evidence.</li>
+          <li>Author quickstart proof from a fresh checkout.</li>
+          <li>Leaderboard calibration and hosted seasons.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>17. The First Proof To Ask For</h2>
+    <p>The useful next proof is not a polished leaderboard. It is a local command sequence that proves the table is real:</p>
+    <div class="panel">
+      <p><strong>doctor</strong> reports environment, protocol, and fixture availability.</p>
+      <p><strong>eval</strong> runs bundled sample agents through the Kuhn hidden-information fixture.</p>
+      <p><strong>replay</strong> reproduces payouts, fallback events, invalid/timeout diagnostics, and emits a redacted public replay.</p>
+    </div>
+    <p>If that proof passes, the arena has earned the right to get more interesting. Until then, the small table is doing its job: making every agent show what it can actually play.</p>
+    <div class="footer"><span>Poker Agent Arena</span><span>Current State</span></div>
+  </section>
+</body>
+</html>

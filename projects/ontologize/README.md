@@ -55,6 +55,10 @@ Define → design → plan baseline for executing the engagement:
   tier) for an **operational ontology branch** of domainspec-core, and seeds a candidate
   branch. Route `operational-ontology-research-20260612` validated `pass`. This is about
   *agent-operation* knowledge, distinct from the `run-context` (B3) branch.
+- [dogfood/cyberalchemy-lead-evidence-pilot/](dogfood/cyberalchemy-lead-evidence-pilot/) —
+  internal dogfood validation lane for a future Ontologize lead-evidence sub-product.
+  CyberAlchemy is the proving ground; `projects/autoads/` remains an internal experiment-loop seed,
+  not the buyer-facing product name.
 
 ## Next
 

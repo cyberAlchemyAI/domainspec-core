@@ -1,0 +1,47 @@
+{
+  "fixture_id": "invalid_output_matrix",
+  "cases": [
+    {
+      "case_id": "malformed-json",
+      "agent_behavior": "prints text that is not JSON",
+      "expected_event": "malformed_json",
+      "expected_fallback": "first legal action from fallback order"
+    },
+    {
+      "case_id": "prose-before-json",
+      "agent_behavior": "prints prose before an action object",
+      "expected_event": "prose_before_json",
+      "expected_fallback": "first legal action from fallback order"
+    },
+    {
+      "case_id": "mismatched-decision-id",
+      "agent_behavior": "returns a valid action with a stale decision_id",
+      "expected_event": "mismatched_decision_id",
+      "expected_fallback": "first legal action from fallback order"
+    },
+    {
+      "case_id": "illegal-action",
+      "agent_behavior": "returns an action not present in legal_actions",
+      "expected_event": "illegal_action",
+      "expected_fallback": "first legal action from fallback order"
+    },
+    {
+      "case_id": "timeout",
+      "agent_behavior": "waits past decision_timeout_ms",
+      "expected_event": "timeout",
+      "expected_fallback": "first legal action from fallback order"
+    },
+    {
+      "case_id": "eof",
+      "agent_behavior": "exits without stdout",
+      "expected_event": "eof",
+      "expected_fallback": "first legal action from fallback order"
+    },
+    {
+      "case_id": "crash",
+      "agent_behavior": "exits non-zero before action",
+      "expected_event": "crash",
+      "expected_fallback": "first legal action from fallback order"
+    }
+  ]
+}

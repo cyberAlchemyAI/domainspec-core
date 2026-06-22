@@ -1,0 +1,54 @@
+{
+  "dispatch_id": "2026-06-19-poker-agent-arena-mvp-review",
+  "schema_version": "0.6.0",
+  "dispatch_type": "review",
+  "goal": "Review the approved Poker Agent Arena MVP refine strategy and existing project artifacts before parent synthesis. Produce concrete change requests for MVP scope, runtime architecture, fixture validation, and first-run agent-author experience.",
+  "context": "The operator approved the proposed Refine subagent strategy by saying `run spawn subagents`. The current selected MVP route is `local-kuhn-cli-mvp`: a local CLI arena around one toy poker game with protocol, transcript, replay, diagnostics, and sample agents. Existing artifacts are planning/docs surfaces, not implementation proof; the review must keep public/product views separate from engineer/agent rule views and must avoid slipping into Hold'em-first, hosted tournaments, or composite leaderboard claims.",
+  "max_loops": 1,
+  "final_approver": "parent",
+  "anti_bias_global": "minimal playable MVP vs credible competitive validation vs first-run author usability",
+  "working_folder": "projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch",
+  "invoked_by": "rondelli.vladimir@gmail.com",
+  "groups": [
+    {
+      "group_id": "mvp-reviewers",
+      "n": 4,
+      "robot_talks": false,
+      "anti_bias": "attack-vector",
+      "agents": [
+        {
+          "agent_name": "Banach, Stefan",
+          "role": "explorer",
+          "model": "gpt-5",
+          "token_budget": 1400,
+          "angle": "scope-minimality gate: rejects MVP creep into Hold'em, hosting, composite scoring, or nonessential polish",
+          "initial_prompt": "You are the `mvp-scope-cutter` reviewer for Poker Agent Arena. Work read-only. Do not edit files. Attack the approved `local-kuhn-cli-mvp` from a scope-minimality lens.\n\nRead the target artifacts named in `projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/check-tension-sheet.md`, especially `SPEC.md`, `DESIGN.md`, `WORK-PACK.md`, `RULES.md`, `AGENT-RULES.md`, and `REFINE-DISPATCH.json`.\n\nReturn a markdown receipt only, with:\n\n- Status: `pass`, `flag`, or `block`\n- Findings table: severity, file, evidence, proposed fix\n- Smallest credible MVP boundary\n- Premature features to defer\n- Acceptance gates that must remain\n- One paragraph handoff to parent synthesis\n\nPrioritize concrete file-backed change requests. Quote short evidence snippets and cite paths. Do not propose implementation work beyond the design/plan level."
+        },
+        {
+          "agent_name": "Grothendieck, Alexander",
+          "role": "explorer",
+          "model": "gpt-5",
+          "token_budget": 1600,
+          "angle": "runtime-boundary gate: maps missing CLI, referee, transcript, replay, diagnostics, and module ownership contracts",
+          "initial_prompt": "You are the `runtime-architecture-mapper` reviewer for Poker Agent Arena. Work read-only. Do not edit files. Attack the MVP from a runtime-boundary lens.\n\nRead the target artifacts named in `projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/check-tension-sheet.md`, especially `DESIGN.md`, `IMPLEMENTATION-LAYERING.md`, `WORK-PACK.md`, `SPEC.md`, `AGENT-RULES.md`, and `REFINE-DISPATCH.json`.\n\nReturn a markdown receipt only, with:\n\n- Status: `pass`, `flag`, or `block`\n- Findings table: severity, file, evidence, proposed fix\n- Minimum component catalog for CLI, runner, protocol adapter, referee, transcript, replay, fixtures, diagnostics, and sample agents\n- Interface gaps or ownership ambiguities\n- File-tree recommendation for an MVP implementation\n- One paragraph handoff to parent synthesis\n\nPrioritize concrete file-backed change requests. Quote short evidence snippets and cite paths. Do not implement code."
+        },
+        {
+          "agent_name": "Capucci, Matteo",
+          "role": "explorer",
+          "model": "gpt-5",
+          "token_budget": 1600,
+          "angle": "fixture-abuse gate: attacks hidden-information safety, invalid action handling, timeout fallback, replay determinism, and scoring fixtures",
+          "initial_prompt": "You are the `fixture-validation-skeptic` reviewer for Poker Agent Arena. Work read-only. Do not edit files. Attack the MVP from a fixture-abuse lens.\n\nRead the target artifacts named in `projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/check-tension-sheet.md`, especially `AGENT-RULES.md`, `SPEC.md`, `DESIGN.md`, `WORK-PACK.md`, `RULES.md`, and `REFINE-DISPATCH.json`.\n\nReturn a markdown receipt only, with:\n\n- Status: `pass`, `flag`, or `block`\n- Findings table: severity, file, evidence, proposed fix\n- Abuse cases for hidden information, invalid actions, stdout/stderr protocol drift, timeout fallback, replay determinism, and scoring\n- Minimum golden transcripts and fixture agents\n- Validation gates that should block MVP acceptance\n- One paragraph handoff to parent synthesis\n\nPrioritize concrete file-backed change requests. Quote short evidence snippets and cite paths. Do not implement code."
+        },
+        {
+          "agent_name": "Fong, Brendan",
+          "role": "explorer",
+          "model": "gpt-5",
+          "token_budget": 1400,
+          "angle": "first-run-usability gate: checks whether a fresh agent author can run, debug, and improve a bot without internal context",
+          "initial_prompt": "You are the `agent-author-experience-critic` reviewer for Poker Agent Arena. Work read-only. Do not edit files. Attack the MVP from a first-run usability lens.\n\nRead the target artifacts named in `projects/poker-agent-arena/development/refinement-runs/20260619T143102Z-mvp-design/review-dispatch/check-tension-sheet.md`, especially `README.md`, `docs/AGENT-AUTHOR-GUIDE.md`, `AGENT-RULES.md`, `RULES.md`, `SPEC.md`, `DESIGN.md`, and `WORK-PACK.md`.\n\nReturn a markdown receipt only, with:\n\n- Status: `pass`, `flag`, or `block`\n- Findings table: severity, file, evidence, proposed fix\n- First-run path for an agent author\n- Missing diagnostics or examples\n- Human/product view vs engineer/agent view drift\n- One paragraph handoff to parent synthesis\n\nPrioritize concrete file-backed change requests. Quote short evidence snippets and cite paths. Do not implement code."
+        }
+      ]
+    }
+  ]
+}

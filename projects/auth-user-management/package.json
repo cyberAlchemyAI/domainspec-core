@@ -1,0 +1,39 @@
+{
+  "name": "@domainspec/auth-user-management",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.9.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "clean": "rm -rf dist dist-test .runtime/e2e-dist",
+    "build": "rm -rf dist && tsc -p tsconfig.json",
+    "build:test": "rm -rf dist-test && tsc -p tsconfig.test.json",
+    "build:e2e": "rm -rf .runtime/e2e-dist && tsc -p tsconfig.e2e.json",
+    "test": "npm run build:test && node --test dist-test/tests/*.test.js",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "e2e": "npm run build:e2e && node .runtime/e2e-dist/e2e/auth-api.e2e.js",
+    "e2e:all": "sh scripts/e2e.sh all",
+    "e2e:db:down": "docker compose -f docker-compose.e2e.yml down -v",
+    "e2e:db:up": "docker compose -f docker-compose.e2e.yml up -d --wait",
+    "check": "npm run build && npm test",
+    "validate": "bash scripts/validate.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "drizzle-kit": "^0.31.10",
+    "postgres": "^3.4.9",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.2"
+  }
+}

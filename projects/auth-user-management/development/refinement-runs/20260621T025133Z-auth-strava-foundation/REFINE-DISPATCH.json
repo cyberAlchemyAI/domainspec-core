@@ -1,0 +1,888 @@
+{
+  "dispatch_id": "refine-20260621-auth-strava-foundation",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Leave track and game features for later. Make login, auth, and Strava connection possible first. Use validation/poker-team as auth reference, learn from Savvy browser cookie session/security definitions, and shape a reusable auth/user-management project that can be copied into later projects.",
+    "objective": "Refine a reusable auth/user-management foundation and Body War first-consumer Strava connection into a production-ready non-executed plan.",
+    "target_artifact": "projects/auth-user-management",
+    "operator_sentence": "auth/user-management first, Body War Strava connection next, track and game later",
+    "arcanum_vocabulary": [
+      "craft",
+      "refine",
+      "dispatch-spec",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "task-session"
+    ]
+  },
+  "mode": "mixed",
+  "route_menu": {
+    "context_hint": "The operator wants a portable auth/user-management foundation, not a one-off Body War game implementation.",
+    "items": [
+      {
+        "id": "reusable-auth-foundation-first",
+        "label": "Reusable auth foundation first",
+        "description": "Design auth/user-management as its own copyable project and make Body War the first consumer for Strava connection.",
+        "capability_ref": "refine",
+        "pattern": "sequence"
+      },
+      {
+        "id": "body-war-direct-auth",
+        "label": "Body War direct auth",
+        "description": "Implement login and Strava directly in Body War, then extract reusable pieces later.",
+        "capability_ref": "task-session",
+        "pattern": "handoff"
+      },
+      {
+        "id": "full-game-mvp",
+        "label": "Full game MVP",
+        "description": "Continue the broader track, scoring, and game implementation plan before auth extraction.",
+        "capability_ref": "task-session",
+        "pattern": "route"
+      }
+    ],
+    "selected_item_id": "reusable-auth-foundation-first"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "conditional_component",
+    "data_quality_completeness",
+    "route_menu",
+    "approval_checkpoint",
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference",
+    "protected_context_flag",
+    "system_agnostic_standard",
+    "local_nuance_coordination",
+    "memory_loop",
+    "residue_ledger",
+    "data_quality_deduplication",
+    "role_projection_boundary",
+    "concrete_path_evidence",
+    "state_namespace_boundary",
+    "execution_receipt_handoff"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "Refine requires the canonical ten-stage loop before a final synthesis or next-route recommendation.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping",
+        "minimum_component_catalog",
+        "conditional_component",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": [
+        "s1-context-builder",
+        "s2-invoke-define",
+        "s3-interrogation-review",
+        "s4-research-decision",
+        "s5-distill",
+        "s6-invoke-design",
+        "s7-interrogation-design-review",
+        "s8-distill-repair",
+        "s9-invoke-plan",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "Every non-first step consumes a prior frame, handle, decision, ledger, artifact, or external context; stage receipts stay grouped by dispatch id."
+    },
+    {
+      "overlay_id": "route_menu_for_auth_boundary",
+      "trigger": "The target could be implemented directly in Body War, extracted later, or designed first as a reusable auth/user-management foundation.",
+      "techniques": [
+        "route_menu",
+        "approval_checkpoint",
+        "conditional_component"
+      ],
+      "applies_to_steps": [
+        "s1-context-builder",
+        "s3-interrogation-review",
+        "s9-invoke-plan"
+      ],
+      "validation_expectation": "The selected route keeps reusable auth as the first artifact boundary and records confirmation before execution."
+    },
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "Auth/user-management hides multiple components: identity, session, token, permission, resource, provider link, Strava OAuth, storage, browser safety, and audit.",
+      "techniques": [
+        "x_ray",
+        "component_descriptor",
+        "entity_component_reference"
+      ],
+      "applies_to_steps": [
+        "s2-invoke-define",
+        "s5-distill",
+        "s6-invoke-design",
+        "s8-distill-repair"
+      ],
+      "validation_expectation": "The design output must describe each component by owner, context, contract, evidence, and what transfers to later projects."
+    },
+    {
+      "overlay_id": "protected_context_for_sensitive_auth_evidence",
+      "trigger": "The route references private submodules, auth/session details, OAuth tokens, browser cookies, and Strava account-linking context.",
+      "techniques": [
+        "protected_context_flag",
+        "system_agnostic_standard",
+        "local_nuance_coordination",
+        "state_namespace_boundary"
+      ],
+      "applies_to_steps": [
+        "s1-context-builder",
+        "s2-invoke-define",
+        "s6-invoke-design",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "Private evidence remains local-path evidence; no token, secret, or private validation content is copied into public surfaces."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "Prior Body War and Savvy runs already contain Strava blockers, auth findings, and session-guard evidence that must be reused without drifting into stale authority.",
+      "techniques": [
+        "memory_loop",
+        "residue_ledger",
+        "data_quality_deduplication",
+        "concrete_path_evidence"
+      ],
+      "applies_to_steps": [
+        "s1-context-builder",
+        "s3-interrogation-review",
+        "s5-distill",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "Prior memory is used as routing context only; final claims must cite current local files or be marked as residue."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "Production-ready reusable auth spans domain auth, browser session security, and Strava OAuth provider integration; independent lanes reduce false transfer from poker-team or Savvy into the new foundation.",
+    "explanation": "Run three read-only sibling reviews after confirmation. The parent refine run owns final synthesis, decisions, and next-route recommendation.",
+    "context": [
+      "New target: projects/auth-user-management",
+      "Auth domain reference: validation/poker-team/docs/features/auth-access-control and backend auth use cases",
+      "Browser session reference: projects/savvy_legal-studio-ai/frontend/savvy-legal-studio/lib/auth/savvy-auth.ts and tests",
+      "First consumer: projects/body-war login plus Strava connection",
+      "Deferred: track geometry and game mechanics"
+    ],
+    "roles": [
+      {
+        "role_id": "auth-domain-porter",
+        "purpose": "Map poker-team auth-access-control into reusable auth concepts while excluding poker-specific roles, permissions, and product assumptions.",
+        "owns": "auth domain, session, token, permission, login/logout/introspection, and deny-by-default transfer rules",
+        "applies_to_steps": [
+          "s1-context-builder",
+          "s5-distill",
+          "s6-invoke-design"
+        ]
+      },
+      {
+        "role_id": "browser-session-security",
+        "purpose": "Review cookie session, CSRF, server session store, localStorage avoidance, resource scope, and browser guard risks using Savvy as evidence.",
+        "owns": "browser session transport and threat-model acceptance gates",
+        "applies_to_steps": [
+          "s3-interrogation-review",
+          "s6-invoke-design",
+          "s8-distill-repair"
+        ]
+      },
+      {
+        "role_id": "strava-provider-integration",
+        "purpose": "Define Strava OAuth provider-link scope, state validation, token custody, refresh/revocation, redacted audit, and first-consumer Body War handoff.",
+        "owns": "Strava provider adapter and Body War consumer boundary",
+        "applies_to_steps": [
+          "s5-distill",
+          "s6-invoke-design",
+          "s9-invoke-plan"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Confirm permission to run the auth-user-management refine strategy with three delegated read-only lanes: auth-domain-porter, browser-session-security, and strava-provider-integration?",
+    "receipt_requirements": [
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "handoff_note",
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "reroute"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "pass",
+    "agents": [
+      {
+        "agent_id": "019ee81e-8c50-70f1-89ab-ebfbe83e3969",
+        "role_id": "auth-domain-porter",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "stages/06-invoke-design/subagent-receipts.md",
+        "close_status": "closed",
+        "residue": "Lane content verdict was flag because implementation decisions and role/permission generalization remain future task-session work.",
+        "reroute": "Parent synthesis selected hybrid transport and routed implementation to task-session."
+      },
+      {
+        "agent_id": "019ee81e-8ce7-7980-a8ba-ae5b851dbce8",
+        "role_id": "browser-session-security",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "stages/06-invoke-design/subagent-receipts.md",
+        "close_status": "closed",
+        "residue": "Lane content verdict was flag because Savvy mock login and localStorage/body-session trust must not transfer.",
+        "reroute": "Parent synthesis kept cookie session and CSRF tests while excluding mock auth."
+      },
+      {
+        "agent_id": "019ee81e-8e04-74b2-a1f8-63c2f6183f63",
+        "role_id": "strava-provider-integration",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "receipt_artifact": "stages/06-invoke-design/subagent-receipts.md",
+        "close_status": "closed",
+        "residue": "Lane content verdict was flag because real Body War activity import/submission remains future evidence.",
+        "reroute": "Parent synthesis selected recent activity summary import with activity:read default."
+      }
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s1-context-builder",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "memory_loop",
+        "concrete_path_evidence",
+        "frame_handoff",
+        "protected_context_flag"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "operator auth-first pivot"
+        },
+        {
+          "kind": "ledger",
+          "ref": "projects/auth-user-management/.craft/ledger.yml"
+        },
+        {
+          "kind": "external_context",
+          "ref": "validation/poker-team and projects/savvy_legal-studio-ai local references"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/01-context-builder/context-pack.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if Body War, poker-team, and Savvy evidence cannot be read locally"
+      ]
+    },
+    {
+      "step_id": "s2-invoke-define",
+      "name": "Invoke Define auth foundation",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "x_ray",
+        "component_descriptor",
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "s1-context-builder"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define/DEFINE.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if the define artifact cannot separate reusable core from Body War first-consumer adapter"
+      ]
+    },
+    {
+      "step_id": "s3-interrogation-review",
+      "name": "Interrogation refine review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "sequential",
+      "techniques": [
+        "approval_checkpoint",
+        "residue_ledger",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "s2-invoke-define"
+        },
+        {
+          "kind": "ledger",
+          "ref": "projects/auth-user-management/.craft/ledger.yml"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/03-interrogation-review/REVIEW.md"
+        }
+      ],
+      "stop_conditions": [
+        "ask if the selected session transport or provider scope needs operator decision before design"
+      ]
+    },
+    {
+      "step_id": "s4-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "sequential",
+      "techniques": [
+        "protected_context_flag",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "s3-interrogation-review"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision/RESEARCH-DECISION.md"
+        }
+      ],
+      "stop_conditions": [
+        "ask before external research if a named external auth or Strava API gap appears"
+      ]
+    },
+    {
+      "step_id": "s5-distill",
+      "name": "Distill coherent auth unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": [
+        "entity_component_reference",
+        "data_quality_deduplication",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "s4-research-decision"
+        },
+        {
+          "kind": "artifact",
+          "ref": "s3-interrogation-review"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/05-distill/DISTILL.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if the selected unit includes track geometry or game mechanics in the first implementation slice"
+      ]
+    },
+    {
+      "step_id": "s6-invoke-design",
+      "name": "Invoke Redefine / Design auth foundation",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "component_descriptor",
+        "state_namespace_boundary",
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "s5-distill"
+        },
+        {
+          "kind": "external_context",
+          "ref": "approved subagent role receipts when available"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design/DESIGN.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if design copies Savvy mock auth or poker-team poker-specific permissions as reusable defaults"
+      ]
+    },
+    {
+      "step_id": "s7-interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "sequential",
+      "techniques": [
+        "owner_boundary_check",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "s6-invoke-design"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/07-interrogation-design-review/DESIGN-REVIEW.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if production-ready claims exceed route evidence"
+      ]
+    },
+    {
+      "step_id": "s8-distill-repair",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "techniques": [
+        "data_quality_completeness",
+        "residue_ledger",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "s7-interrogation-design-review"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/08-distill-repair/REPAIR.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if unresolved auth transport or Strava scope decisions make the plan non-actionable"
+      ]
+    },
+    {
+      "step_id": "s9-invoke-plan",
+      "name": "Invoke Plan auth implementation",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "route_menu",
+        "approval_checkpoint",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "s8-distill-repair"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan/PLAN.md"
+        }
+      ],
+      "stop_conditions": [
+        "stop at non-executed implementation plan; do not mutate runtime code inside refine"
+      ]
+    },
+    {
+      "step_id": "s10-final-synthesis",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": [
+        "observability_grouping",
+        "owner_boundary_check",
+        "recomposition_proof"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "s9-invoke-plan"
+        },
+        {
+          "kind": "ledger",
+          "ref": "projects/auth-user-management/.craft/ledger.yml"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "projects/auth-user-management/.craft/ledger.yml"
+        }
+      ],
+      "stop_conditions": [
+        "block if final synthesis lacks next routes for reusable auth core and Body War consumer adapter"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-operator-confirmation",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Approval checkpoint: operator confirms runtime-backed stages and delegated read-only subagent execution.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g02-private-source-boundary",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "Private poker-team, Savvy, and Body War evidence may be cited by local path but must not be copied into public Arcanum surfaces or exported with secrets.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g03-native-capability-receipts",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "Each runtime-backed stage records a native stage receipt or explicit blocked reason before final synthesis.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04-no-runtime-mutation",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "The refine run produces a non-executed plan only; Body War, Savvy, and poker-team runtime code remain read-only.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g05-production-readiness-claim",
+      "kind": "quality",
+      "owner": "interrogation",
+      "condition": "Production-ready means the plan names acceptance gates for auth, session, provider-link, Strava token custody, audit, tests, deployment, and adoption docs; it does not claim implementation proof.",
+      "on_fail": "flag"
+    }
+  ],
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "refine-20260621-auth-strava-foundation",
+      "step_id": "s1-context-builder",
+      "capability_ref": "context-builder",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/01-context-builder/context-pack.md"
+      ],
+      "validation": [
+        "local evidence baseline completed"
+      ],
+      "observer_status": "not_emitted",
+      "blockers": [],
+      "residue": "External official Strava docs checked only for provider scope currentness."
+    },
+    {
+      "dispatch_id": "refine-20260621-auth-strava-foundation",
+      "step_id": "s2-invoke-define",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/02-invoke-define/DEFINE.md"
+      ],
+      "validation": [
+        "definition separates reusable core from Body War first-consumer adapter"
+      ],
+      "observer_status": "not_emitted",
+      "blockers": [],
+      "residue": "Implementation is deferred to task-session."
+    },
+    {
+      "dispatch_id": "refine-20260621-auth-strava-foundation",
+      "step_id": "s3-interrogation-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/03-interrogation-review/REVIEW.md"
+      ],
+      "validation": [
+        "review excludes track and game work from first slice"
+      ],
+      "observer_status": "not_emitted",
+      "blockers": [],
+      "residue": "No runtime code executed."
+    },
+    {
+      "dispatch_id": "refine-20260621-auth-strava-foundation",
+      "step_id": "s4-research-decision",
+      "capability_ref": "refine",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/04-research-decision/RESEARCH-DECISION.md"
+      ],
+      "validation": [
+        "official Strava docs checked for scope currentness"
+      ],
+      "observer_status": "not_emitted",
+      "blockers": [],
+      "residue": "No broader external research performed."
+    },
+    {
+      "dispatch_id": "refine-20260621-auth-strava-foundation",
+      "step_id": "s5-distill",
+      "capability_ref": "distill",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/05-distill/DISTILL.md"
+      ],
+      "validation": [
+        "smallest coherent unit selected"
+      ],
+      "observer_status": "not_emitted",
+      "blockers": [],
+      "residue": "Implementation pending."
+    },
+    {
+      "dispatch_id": "refine-20260621-auth-strava-foundation",
+      "step_id": "s6-invoke-design",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/06-invoke-design/DESIGN.md",
+        "stages/06-invoke-design/subagent-receipts.md"
+      ],
+      "validation": [
+        "three delegated lane receipts joined into parent design"
+      ],
+      "observer_status": "not_emitted",
+      "blockers": [],
+      "residue": "Lane content flags converted to implementation residue."
+    },
+    {
+      "dispatch_id": "refine-20260621-auth-strava-foundation",
+      "step_id": "s7-interrogation-design-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/07-interrogation-design-review/DESIGN-REVIEW.md"
+      ],
+      "validation": [
+        "design claims remain bounded to non-executed plan"
+      ],
+      "observer_status": "not_emitted",
+      "blockers": [],
+      "residue": "Storage and provider token encryption remain implementation tasks."
+    },
+    {
+      "dispatch_id": "refine-20260621-auth-strava-foundation",
+      "step_id": "s8-distill-repair",
+      "capability_ref": "distill",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/08-distill-repair/REPAIR.md"
+      ],
+      "validation": [
+        "transport and Strava scope ambiguities repaired"
+      ],
+      "observer_status": "not_emitted",
+      "blockers": [],
+      "residue": "Body War activity evidence blocker remains active until implementation."
+    },
+    {
+      "dispatch_id": "refine-20260621-auth-strava-foundation",
+      "step_id": "s9-invoke-plan",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/09-invoke-plan/PLAN.md"
+      ],
+      "validation": [
+        "non-executed task-session route prepared"
+      ],
+      "observer_status": "not_emitted",
+      "blockers": [],
+      "residue": "First next route is SWU-AUTH-001."
+    },
+    {
+      "dispatch_id": "refine-20260621-auth-strava-foundation",
+      "step_id": "s10-final-synthesis",
+      "capability_ref": "interrogation",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/10-final/FINAL-REVIEW.md",
+        "RESULT.md"
+      ],
+      "validation": [
+        "final synthesis produced"
+      ],
+      "observer_status": "not_emitted",
+      "blockers": [],
+      "residue": "Implementation and real Strava activity proof remain next-route work."
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "refine-20260621-auth-strava-foundation:s1-context-builder",
+      "refine-20260621-auth-strava-foundation:s2-invoke-define",
+      "refine-20260621-auth-strava-foundation:s3-interrogation-review",
+      "refine-20260621-auth-strava-foundation:s4-research-decision",
+      "refine-20260621-auth-strava-foundation:s5-distill",
+      "refine-20260621-auth-strava-foundation:s6-invoke-design",
+      "refine-20260621-auth-strava-foundation:s7-interrogation-design-review",
+      "refine-20260621-auth-strava-foundation:s8-distill-repair",
+      "refine-20260621-auth-strava-foundation:s9-invoke-plan",
+      "refine-20260621-auth-strava-foundation:s10-final-synthesis"
+    ],
+    "signal_grouping": "refine-20260621-auth-strava-foundation"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b01-private-reference-read-only",
+        "kind": "artifact_import",
+        "from_owner": "validation/poker-team and projects/savvy_legal-studio-ai",
+        "to_owner": "projects/auth-user-management",
+        "applies_to_steps": [
+          "s1-context-builder",
+          "s2-invoke-define",
+          "s6-invoke-design"
+        ],
+        "contract": "Reference local evidence by path; do not mutate or copy private source packages during refine.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b02-body-war-first-consumer",
+        "kind": "capability_handoff",
+        "from_owner": "projects/auth-user-management",
+        "to_owner": "projects/body-war",
+        "applies_to_steps": [
+          "s6-invoke-design",
+          "s9-invoke-plan",
+          "s10-final-synthesis"
+        ],
+        "contract": "Body War consumes a login plus Strava connection adapter after the reusable auth core is defined; track and game work stays deferred.",
+        "on_violation": "flag"
+      },
+      {
+        "boundary_id": "b03-sensitive-oauth-state",
+        "kind": "external_context",
+        "from_owner": "Strava provider environment",
+        "to_owner": "projects/auth-user-management",
+        "applies_to_steps": [
+          "s6-invoke-design",
+          "s9-invoke-plan"
+        ],
+        "contract": "No real OAuth client secrets, callback secrets, refresh tokens, or athlete data enter repository artifacts.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "Refine owns the strategy packet and final synthesis.",
+      "execution": "Task Session or later implementation routes own code changes.",
+      "validation": "Dispatch Spec owns route-shape validation.",
+      "evidence": "Poker-team, Savvy, and Body War own their source evidence.",
+      "memory": "Memory may route the run but current local files must support final claims.",
+      "promotion": "No canonical promotion is performed by this refine run."
+    },
+    "receipts": [
+      {
+        "receipt_id": "r01-stage-receipt",
+        "producer": "native runtime stages",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "handoff_note",
+          "residue"
+        ],
+        "stores": [
+          "RUN-MANIFEST.md",
+          "evidence-index.json"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects/auth-user-management",
+        "owner": "auth-user-management",
+        "write_policy": "Refine artifacts and Craft ledger may be written; runtime code is not created during strategy preparation."
+      },
+      {
+        "namespace": "projects/body-war",
+        "owner": "Body War",
+        "write_policy": "Only planning links may be updated during strategy preparation; app code remains read-only."
+      },
+      {
+        "namespace": "validation/poker-team",
+        "owner": "poker-team validation submodule",
+        "write_policy": "Read-only reference evidence."
+      },
+      {
+        "namespace": "projects/savvy_legal-studio-ai",
+        "owner": "Savvy nested project",
+        "write_policy": "Read-only reference evidence."
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Do not treat route validation as implementation evidence.",
+    "Do not claim production-ready implementation before task-session receipts exist.",
+    "Do not copy private validation or project evidence into public Arcanum surfaces.",
+    "Do not expand the first implementation slice into track geometry or game mechanics."
+  ]
+}
