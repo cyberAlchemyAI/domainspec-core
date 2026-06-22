@@ -5,8 +5,8 @@
 - Runtime: `native-codex`
 - Adapter: `native-skill`
 - Owner: `refine`
-- Status: `not_run`
-- Runtime run folder: blocked until operator confirmation
+- Status: `pass`
+- Runtime run folder: `projects/body-war/development/refinement-runs/20260622T083402Z-troqar-production-ui-login-refine`
 
 ## Runtime Objective
 
@@ -29,7 +29,7 @@ Task Session.
 ## Subagent Strategy
 
 - Status: `recommended`
-- Authorization: `requires_user_permission`
+- Authorization: `confirmed`
 - Roles:
   - `route-choice-reviewer`
   - `alternative-comparator`
@@ -37,7 +37,7 @@ Task Session.
   - `falsification-reviewer`
 - Join policy: `parent_synthesis`
 
-## Handoff Requirements After Confirmation
+## Handoff Requirements For Next Task Session
 
 - Build context pack from current BodyWar app, TROQAR feature docs, Studio
   prototype gate docs, and current local browser evidence.
@@ -52,7 +52,5 @@ Task Session.
 
 ## Blocked Fields
 
-- Runtime stages: waiting for operator confirmation.
-- Subagents: waiting for explicit permission.
-- External research: not authorized unless a named gap appears and operator
-  confirms.
+- External research: not used; ask before package-specific research.
+- Implementation mutation: deferred to Task Session.

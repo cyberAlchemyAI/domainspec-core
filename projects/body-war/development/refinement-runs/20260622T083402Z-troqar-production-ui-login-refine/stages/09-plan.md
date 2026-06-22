@@ -67,6 +67,21 @@ Tasks:
 - Preserve connected operational dashboard after login.
 - Add polished loading/error/empty/submit states.
 - Preserve no-token and preview-evidence caveats.
+- Escape or DOM-build all dynamic track and submission content instead of
+  trusting template-string HTML for data returned by APIs.
+- Add production-state anchors:
+  - `auth.login-first`
+  - `auth.callback-status`
+  - `auth.error.banner`
+  - `auth.reconnect.cta`
+  - `profile.privacy-card`
+  - `activity.loading`
+  - `activity.empty`
+  - `activity.error`
+  - `track.geometry-status`
+  - `evidence.status-chip`
+  - `evidence.submission-list`
+  - `evidence.submit.error`
 
 Validation:
 
@@ -87,14 +102,22 @@ Tasks:
 - Assert anonymous login page:
   - one visible `Continue with Strava` CTA;
   - no empty dashboard panels;
+  - no visible `Profile`, `Logout`, activity list, submission list, or evidence
+    submit controls before login;
   - trust/privacy copy visible;
   - no raw auth terms.
+- Assert Strava-only MVP:
+  - no Google/email/password/guest/multiple-provider login.
+- Assert callback status:
+  - `/?connected=1` shows safe success copy;
+  - `/?auth_error=access_denied` shows safe retry copy.
 - Assert connected runner home:
   - public Strava link;
   - redacted activity summary;
   - preview submit;
   - logout.
-- Assert mobile fit at 390px for anonymous and connected states.
+- Assert mobile fit at 390px and 320px for anonymous and connected states.
+- Assert no verified/scoring/control overclaim before real verification exists.
 
 Validation:
 

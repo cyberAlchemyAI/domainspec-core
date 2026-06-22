@@ -3,7 +3,7 @@
   "target": "projects/body-war",
   "preset": "standard",
   "research_mode": "research-if-gap-appears",
-  "status": "strategy-proposal-pending-confirmation",
+  "status": "pass",
   "dispatch_validation": {
     "validator": ".agents/skills/dispatch-spec/scripts/validate-dispatch.py",
     "status": "pass",
@@ -16,7 +16,17 @@
     "dispatch_route": "REFINE-DISPATCH.json",
     "runtime_handoff": "RUNTIME-HANDOFF.md",
     "result": "RESULT.md",
-    "context_baseline": "stages/01-context-baseline.md"
+    "context_baseline": "stages/01-context-baseline.md",
+    "define": "stages/02-define.md",
+    "refine_review": "stages/03-refine-review.md",
+    "research_decision": "stages/04-research-decision.md",
+    "distill": "stages/05-distill.md",
+    "design": "stages/06-design.md",
+    "design_review": "stages/07-design-review.md",
+    "distill_repair": "stages/08-distill-repair.md",
+    "plan": "stages/09-plan.md",
+    "final_synthesis": "stages/10-final-synthesis.md",
+    "subagent_receipts": "stages/subagent-receipts.md"
   },
   "source_context": [
     "projects/body-war/app/static/index.html",
@@ -38,13 +48,22 @@
   ],
   "subagent_strategy": {
     "status": "recommended",
-    "authorization": "requires_user_permission",
+    "authorization": "confirmed",
     "roles": [
       "route-choice-reviewer",
       "alternative-comparator",
       "structure-explorer",
       "falsification-reviewer"
     ],
-    "join_policy": "parent_synthesis"
+    "join_policy": "parent_synthesis",
+    "completion_status": "complete"
+  },
+  "final_decisions": {
+    "visible_mvp_login": "strava_only",
+    "provider_extensibility": "preserve_in_backend_and_docs",
+    "ui_route": "plain_static_html_css_js_hardening",
+    "component_package": "defer",
+    "studio_route": "live_page_baseline_to_handoff_before_source_mutation",
+    "next_route": "task_session"
   }
 }
