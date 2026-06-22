@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TROQAR Online Runner Profile - Variant A</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #18212f;
+        --muted: #637083;
+        --line: #d9e0e8;
+        --panel: #ffffff;
+        --page: #f6f7f9;
+        --action: #23606a;
+        --signal: #7a3e2c;
+        --good: #2f6b4f;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--page);
+        color: var(--ink);
+        font: 16px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      .shell { max-width: 1160px; margin: 0 auto; padding: 28px; }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      .eyebrow { margin: 0 0 4px; color: var(--muted); font-size: 13px; text-transform: uppercase; }
+      h1, h2, h3, p { margin-top: 0; }
+      h1 { margin-bottom: 0; font-size: 32px; letter-spacing: 0; }
+      h2 { font-size: 18px; margin-bottom: 10px; }
+      h3 { font-size: 16px; margin-bottom: 6px; }
+      .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+      .button {
+        min-height: 40px;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+        border-radius: 6px;
+        padding: 9px 13px;
+        font-weight: 650;
+        text-decoration: none;
+      }
+      .button.primary { background: var(--action); border-color: var(--action); color: #fff; }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.1fr .9fr;
+        gap: 18px;
+        margin-top: 22px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+      }
+      .profile {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 16px;
+        align-items: center;
+      }
+      .avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #e5edf0;
+        border: 1px solid #bccad3;
+        font-weight: 800;
+      }
+      .profile-meta { display: grid; gap: 4px; }
+      .strava-link { color: var(--action); font-weight: 700; text-decoration: none; }
+      .metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+      .metric { border: 1px solid var(--line); border-radius: 6px; padding: 12px; background: #fbfcfd; }
+      .metric strong { display: block; font-size: 20px; }
+      .status { color: var(--good); font-weight: 700; }
+      .activity, .evidence {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 0;
+        border-top: 1px solid var(--line);
+      }
+      select { min-height: 38px; border: 1px solid var(--line); border-radius: 6px; background: white; padding: 6px 8px; }
+      .tag { margin: 0; color: var(--muted); font-size: 13px; }
+      .privacy { color: var(--muted); margin-bottom: 0; }
+      @media (max-width: 760px) {
+        .shell { padding: 18px; }
+        .topbar, .actions, .activity, .evidence { align-items: stretch; flex-direction: column; }
+        .grid, .metric-row { grid-template-columns: 1fr; }
+        .activity, .evidence { grid-template-columns: 1fr; }
+        .button, select { width: 100%; text-align: center; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell" data-od-id="troqar.shell">
+      <header class="topbar" data-od-id="topbar.account.actions">
+        <div>
+          <p class="eyebrow">TROQAR / Body War</p>
+          <h1>Online Runner Profile</h1>
+        </div>
+        <nav class="actions" aria-label="Account actions">
+          <a class="button" href="/profile">Profile</a>
+          <a class="button primary" data-od-id="auth.connect.cta" href="/api/auth/strava/start">Connect Strava</a>
+          <button class="button" type="button">Logout</button>
+        </nav>
+      </header>
+
+      <section class="grid">
+        <article class="panel" data-od-id="profile.safe-athlete-card">
+          <h2>Connected Runner</h2>
+          <div class="profile">
+            <div class="avatar" aria-hidden="true">VR</div>
+            <div class="profile-meta">
+              <h3>Vitor Runner</h3>
+              <p class="status">Strava connected with read activity scope</p>
+              <a class="strava-link" data-od-id="profile.strava-link" href="https://www.strava.com/athletes/123456" rel="noreferrer">Open Strava profile</a>
+            </div>
+          </div>
+          <div class="metric-row">
+            <div class="metric"><span class="tag">XP</span><strong>0</strong></div>
+            <div class="metric"><span class="tag">League</span><strong>Seed</strong></div>
+            <div class="metric"><span class="tag">Privacy</span><strong>Server</strong></div>
+          </div>
+        </article>
+
+        <article class="panel" data-od-id="activity.recent-summary">
+          <h2>Recent activity</h2>
+          <p>3 redacted summaries imported. Route geometry and scoring are not claimed.</p>
+          <div class="activity">
+            <div>
+              <h3>Morning run</h3>
+              <p class="tag">7.20 km - 39:12 - pace only</p>
+            </div>
+            <select aria-label="Pilot track">
+              <option>Parque Taquaral pilot</option>
+            </select>
+          </div>
+          <div class="evidence" data-od-id="evidence.submit.cta">
+            <p class="privacy">Submit visible summary as preview evidence.</p>
+            <button class="button primary" type="button">Submit</button>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,518 @@
+{
+  "dispatch_id": "ui-prototyping-studio-ui-pipeline-integration-20260621T172725Z",
+  "intent": {
+    "raw": "Refine ui-prototyping-studio integration with the UI pipeline currently being executed.",
+    "objective": "Produce a refined non-executed integration design and plan for using UI Prototyping Studio as a governed prototype/admission phase in the DomainSpec UI pipeline.",
+    "target_artifact": "projects/ui-prototyping-studio/development/refinement-runs/20260621T172725Z-ui-pipeline-integration/",
+    "operator_sentence": "How can UI Prototyping Studio integrate with the UI pipeline we are executing?",
+    "arcanum_vocabulary": [
+      "refine",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "dispatch-spec",
+      "task-session"
+    ]
+  },
+  "mode": "sequence",
+  "route_menu": {
+    "context_hint": "Choose how aggressively to integrate the studio with the UI pipeline.",
+    "items": [
+      {
+        "id": "prototype-gate",
+        "label": "Prototype Gate",
+        "description": "Insert UI Prototyping Studio as an optional phase between UI-SPEC/TEST-SPEC and implementation.",
+        "capability_ref": "refine",
+        "pattern": "sequence"
+      },
+      {
+        "id": "pipeline-replacement",
+        "label": "Pipeline Replacement",
+        "description": "Make the studio own UI pipeline generation and implementation authority.",
+        "capability_ref": "refine",
+        "pattern": "rejected"
+      },
+      {
+        "id": "bodywar-only-spike",
+        "label": "BodyWar Spike Only",
+        "description": "Use the studio once for TROQAR without defining a reusable bridge.",
+        "capability_ref": "task-session",
+        "pattern": "deferred"
+      }
+    ],
+    "selected_item_id": "prototype-gate"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "artifact_contract_bridge",
+    "concrete_path_evidence",
+    "residue_ledger",
+    "recomposition_proof"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The integration question can be answered through the canonical refine sequence using local evidence.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping"
+      ],
+      "applies_to_steps": [
+        "s01-context",
+        "s02-define",
+        "s05-distill",
+        "s09-plan",
+        "s10-final"
+      ],
+      "validation_expectation": "Each stage consumes prior artifacts and returns a bounded stage artifact or blocked reason."
+    },
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "The hidden structure is the relationship between the Studio CLI/governance loop, DomainSpec UI pipeline artifacts, and target app implementation authority.",
+      "techniques": [
+        "x_ray",
+        "artifact_contract_bridge",
+        "owner_boundary_check"
+      ],
+      "applies_to_steps": [
+        "s02-define",
+        "s06-design",
+        "s09-plan"
+      ],
+      "validation_expectation": "Design output must name owners, consumed artifacts, produced artifacts, and non-owners for every bridge edge."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "The target has historical full-vision UI specs and deep-spec dispatch residue that must not override the lean current spine.",
+      "techniques": [
+        "residue_ledger",
+        "concrete_path_evidence",
+        "recomposition_proof"
+      ],
+      "applies_to_steps": [
+        "s01-context",
+        "s05-distill",
+        "s08-repair",
+        "s10-final"
+      ],
+      "validation_expectation": "Final synthesis must distinguish current spine from provenance/legacy vision and carry unresolved residue forward."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "Local evidence is enough for the initial integration refinement.",
+    "explanation": "No role-bound sibling agents are needed unless a later confirmed run requests visual research, architecture red-team, or implementation spike.",
+    "authorization": "not_needed",
+    "parallelism": "none",
+    "join_policy": "none",
+    "receipt_requirements": []
+  },
+  "steps": [
+    {
+      "step_id": "s01-context",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "concrete_path_evidence",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/01-context-builder.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "stages/01-context-builder.index.json"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the current studio spine and BodyWar UI pipeline artifacts cannot both be evidenced by local paths."
+      ]
+    },
+    {
+      "step_id": "s02-define",
+      "name": "Invoke Define integration baseline",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "artifact_contract_bridge",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/01-context-builder.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the definition makes the studio own target-app implementation or canonical UI spec promotion."
+      ]
+    },
+    {
+      "step_id": "s03-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "evidence_artifact": "stages/03-interrogation-refine-review.md",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/03-interrogation-refine-review.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if a blocker-level owner boundary contradiction remains."
+      ]
+    },
+    {
+      "step_id": "s04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "no-research",
+      "pattern": "decision",
+      "techniques": [
+        "owner_boundary_check",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/03-interrogation-refine-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/04-research-decision.md"
+        }
+      ],
+      "stop_conditions": [
+        "Ask before bounded research if a named external-context gap appears."
+      ]
+    },
+    {
+      "step_id": "s05-distill",
+      "name": "Distill coherent integration unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "recomposition_proof",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/04-research-decision.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/05-distill.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the selected unit collapses into full UI pipeline replacement or a one-off BodyWar-only spike."
+      ]
+    },
+    {
+      "step_id": "s06-design",
+      "name": "Invoke Redefine / Design integration architecture",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "x_ray",
+        "artifact_contract_bridge",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/05-distill.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-integration-design.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the design lacks consumed artifacts, produced artifacts, gates, and owner boundaries."
+      ]
+    },
+    {
+      "step_id": "s07-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "evidence_artifact": "stages/07-design-review.md",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-integration-design.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/07-design-review.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if acceptance-critical integration risks remain unnamed."
+      ]
+    },
+    {
+      "step_id": "s08-repair",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": [
+        "recomposition_proof",
+        "validation_loop"
+      ],
+      "evidence_artifact": "stages/08-distill-repair.md",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/07-design-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/08-distill-repair.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if repair cannot keep the prototype gate small enough to execute."
+      ]
+    },
+    {
+      "step_id": "s09-plan",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "execution_receipt_handoff",
+        "validation_loop",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/08-distill-repair.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the plan lacks SWU boundaries, validation, or owner-safe handoff."
+      ]
+    },
+    {
+      "step_id": "s10-final",
+      "name": "Final Interrogation and Refine synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "residue_ledger",
+        "handle_handoff"
+      ],
+      "evidence_artifact": "RESULT.md",
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/10-final-interrogation.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if final synthesis cannot name the next route without executing it."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-local-evidence",
+      "kind": "validation",
+      "owner": "context-builder",
+      "condition": "Context must cite concrete paths for studio current spine and BodyWar UI pipeline artifacts.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-owner-boundary",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "The studio may own prototype governance and handoff, not canonical UI spec promotion or target app implementation.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g03-research-confirmation",
+      "kind": "human_approval",
+      "owner": "refine",
+      "condition": "External research stays off unless a named gap appears and the operator confirms bounded research.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g04-stage-artifacts",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "Every confirmed stage must produce a stage artifact or explicit blocked reason before final synthesis.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g05-final-plan-readiness",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "The final plan must include smallest working units, validation commands or review checks, and execution receipt expectations.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "refine_strategy_proposed",
+      "context_baseline_ready",
+      "define_reviewed",
+      "research_decision_recorded",
+      "integration_unit_distilled",
+      "design_reviewed",
+      "plan_reviewed",
+      "final_synthesis_ready"
+    ],
+    "signal_grouping": "ui-prototyping-studio-ui-pipeline-integration"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b01-ui-pipeline-to-studio",
+        "kind": "artifact_import",
+        "from_owner": "DomainSpec UI pipeline",
+        "to_owner": "UI Prototyping Studio",
+        "applies_to_steps": [
+          "s01-context",
+          "s02-define",
+          "s06-design"
+        ],
+        "contract": "The studio consumes UI-SPEC, TEST-SPEC, visual definitions, and target app constraints as prototype inputs.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b02-studio-to-target-app",
+        "kind": "evidence_return",
+        "from_owner": "UI Prototyping Studio",
+        "to_owner": "target app task-session",
+        "applies_to_steps": [
+          "s06-design",
+          "s09-plan",
+          "s10-final"
+        ],
+        "contract": "The studio returns accepted prototype HTML, annotation comments, revision manifest, and handoff references; it does not mutate the target app directly.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "Refine owns integration discovery and synthesis.",
+      "execution": "Task Session owns later implementation SWUs.",
+      "validation": "Dispatch validation gates route shape; later task sessions validate runtime changes.",
+      "evidence": "Studio prototype sessions produce handoff evidence; UI pipeline specs remain canonical inputs.",
+      "promotion": "Canonical UI spec updates require explicit invoke/refresh or task-session sync, not automatic studio promotion."
+    },
+    "receipts": [
+      {
+        "receipt_id": "r01-stage-artifact",
+        "producer": "refine-stage",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "status",
+          "blockers",
+          "residue"
+        ],
+        "stores": [
+          "projects/ui-prototyping-studio/development/refinement-runs/20260621T172725Z-ui-pipeline-integration/stages/"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "r02-task-session-handoff",
+        "producer": "task-session",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "status",
+          "residue"
+        ],
+        "stores": [
+          "projects/ui-prototyping-studio/development/task-sessions/",
+          "projects/body-war/development/task-sessions/"
+        ],
+        "on_missing": "flag"
+      }
+    ]
+  }
+}

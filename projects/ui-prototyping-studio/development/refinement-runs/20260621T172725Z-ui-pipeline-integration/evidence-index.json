@@ -1,0 +1,166 @@
+{
+  "run_id": "20260621T172725Z-ui-pipeline-integration",
+  "status": "pass",
+  "target": "projects/ui-prototyping-studio/",
+  "preset": "standard",
+  "research_mode": "no-research",
+  "dispatch": {
+    "path": "REFINE-DISPATCH.json",
+    "validation": "pass",
+    "validation_command": "python3 arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py projects/ui-prototyping-studio/development/refinement-runs/20260621T172725Z-ui-pipeline-integration/REFINE-DISPATCH.json"
+  },
+  "artifacts": [
+    {
+      "path": "REFINE-SEED-PROPOSAL.md",
+      "owner": "refine",
+      "status": "executed"
+    },
+    {
+      "path": "REFINE-DISPATCH.json",
+      "owner": "dispatch-spec",
+      "status": "validated"
+    },
+    {
+      "path": "RUNTIME-HANDOFF.md",
+      "owner": "refine",
+      "status": "completed"
+    },
+    {
+      "path": "RESULT.md",
+      "owner": "refine",
+      "status": "final"
+    },
+    {
+      "path": "goal-profiles/20260621T-ui-interface-one-shot/GOAL-PROFILE.md",
+      "owner": "codex-goal-profile",
+      "status": "ready"
+    }
+  ],
+  "goal_profile": {
+    "selected_unit": "STUDIO-PROTOTYPE-GATE-INTERFACE-ONE-SHOT",
+    "one_shot_mode": true,
+    "sidecar_profile": "goal-profiles/20260621T-ui-interface-one-shot/GOAL-PROFILE.md",
+    "goal_command": "goal-profiles/20260621T-ui-interface-one-shot/00-goal-command.md",
+    "readiness": "pass"
+  },
+  "stage_evidence": [
+    {
+      "stage": "01-context-builder",
+      "capability": "context-builder",
+      "status": "pass",
+      "artifacts": [
+        "stages/01-context-builder.md",
+        "stages/01-context-builder.index.json"
+      ]
+    },
+    {
+      "stage": "02-invoke-define",
+      "capability": "invoke",
+      "status": "pass",
+      "artifacts": [
+        "stages/02-invoke-define.md"
+      ]
+    },
+    {
+      "stage": "03-interrogation-refine-review",
+      "capability": "interrogation",
+      "status": "pass",
+      "artifacts": [
+        "stages/03-interrogation-refine-review.md"
+      ]
+    },
+    {
+      "stage": "04-research-decision",
+      "capability": "refine",
+      "status": "pass",
+      "artifacts": [
+        "stages/04-research-decision.md"
+      ]
+    },
+    {
+      "stage": "05-distill",
+      "capability": "distill",
+      "status": "pass",
+      "artifacts": [
+        "stages/05-distill.md"
+      ]
+    },
+    {
+      "stage": "06-integration-design",
+      "capability": "invoke",
+      "status": "pass",
+      "artifacts": [
+        "stages/06-integration-design.md"
+      ]
+    },
+    {
+      "stage": "07-design-review",
+      "capability": "interrogation",
+      "status": "pass",
+      "artifacts": [
+        "stages/07-design-review.md"
+      ]
+    },
+    {
+      "stage": "08-distill-repair",
+      "capability": "distill",
+      "status": "pass",
+      "artifacts": [
+        "stages/08-distill-repair.md"
+      ]
+    },
+    {
+      "stage": "09-invoke-plan",
+      "capability": "invoke",
+      "status": "pass",
+      "artifacts": [
+        "stages/09-invoke-plan.md"
+      ]
+    },
+    {
+      "stage": "10-final-interrogation",
+      "capability": "interrogation",
+      "status": "pass",
+      "artifacts": [
+        "stages/10-final-interrogation.md",
+        "RESULT.md"
+      ]
+    }
+  ],
+  "selected_sources": [
+    "projects/ui-prototyping-studio/README.md",
+    "projects/ui-prototyping-studio/SPEC.md",
+    "projects/ui-prototyping-studio/ARCHITECTURE.md",
+    "projects/ui-prototyping-studio/WORK-PACK.md",
+    "projects/ui-prototyping-studio/backend/package.json",
+    "projects/ui-prototyping-studio/backend/src/cli/studio.ts",
+    "projects/ui-prototyping-studio/backend/e2e/",
+    "projects/body-war/docs/features/troqar-product-architecture/UI-SPEC.md",
+    "projects/body-war/docs/features/troqar-product-architecture/TEST-SPEC.md",
+    "projects/body-war/development/invoke-runs/20260621T160132Z-troqar-frontend-ui-ux-plan/",
+    "projects/body-war/development/task-sessions/20260621T172253Z-swu-tui-001-generated-ui-baseline/"
+  ],
+  "recommended_next_routes": [
+    {
+      "route": "task-session",
+      "id": "UPS-GATE-001",
+      "purpose": "Write reusable Studio Prototype Gate integration contract."
+    },
+    {
+      "route": "task-session",
+      "id": "BW-TUI-PROT-001",
+      "purpose": "Run the TROQAR prototype session and export handoff evidence."
+    },
+    {
+      "route": "invoke-refresh",
+      "id": "BW-TUI-WORK-PACK-SYNC",
+      "purpose": "Sync BodyWar UI work-pack with the optional prototype handoff gate."
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "Prototype session not executed.",
+    "BodyWar work-pack not mutated.",
+    "Handoff export path convention still needs reusable contract."
+  ]
+}

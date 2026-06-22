@@ -433,7 +433,12 @@ function main(): void {
         process.exitCode = 3;
         break;
       }
-      out(studio.exportDesignHandoff({ sessionId, requestedBy: ACTOR, confirmedBy: ACTOR }));
+      out(studio.exportDesignHandoff({
+        sessionId,
+        exportProfile: flags["profile"],
+        requestedBy: ACTOR,
+        confirmedBy: ACTOR,
+      }));
       break;
     }
     default:

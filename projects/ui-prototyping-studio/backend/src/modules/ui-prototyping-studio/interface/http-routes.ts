@@ -555,6 +555,9 @@ function mapHandoffBundle(bundle: HandoffBundle) {
     acceptanceRefs: [...bundle.acceptanceRefs],
     uiSpecRef: bundle.uiSpecRef,
     testSpecRef: bundle.testSpecRef,
+    exportProfile: bundle.exportProfile,
+    sourceRefs: bundle.sourceRefs ? [...bundle.sourceRefs] : [],
+    missingRefs: bundle.missingRefs ? [...bundle.missingRefs] : [],
   };
 }
 

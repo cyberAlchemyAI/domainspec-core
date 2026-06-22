@@ -340,5 +340,7 @@ function cloneHandoffBundle(bundle: HandoffBundle): HandoffBundle {
     storyRefs: [...bundle.storyRefs],
     requirementRefs: [...bundle.requirementRefs],
     acceptanceRefs: [...bundle.acceptanceRefs],
+    sourceRefs: bundle.sourceRefs ? [...bundle.sourceRefs] : undefined,
+    missingRefs: bundle.missingRefs ? [...bundle.missingRefs] : undefined,
   };
 }

@@ -1,0 +1,283 @@
+{
+  "counters": {
+    "session": 1,
+    "comment": 4,
+    "batch": 1,
+    "revision": 1
+  },
+  "sessions": {
+    "ups-session-0001": {
+      "sessionId": "ups-session-0001",
+      "prompt": "Prototype the TROQAR online runner profile with safe Strava profile link, redacted activity summaries, and preview-only evidence submission.",
+      "variantCount": 3,
+      "variantLabels": [
+        "A",
+        "B",
+        "C"
+      ],
+      "baseline": {
+        "mode": "selected",
+        "label": "B"
+      },
+      "revisionHeadId": "rev-0001",
+      "selectionGate": "satisfied",
+      "applyGate": "satisfied",
+      "integration": {
+        "uiPhaseBridgeReady": true,
+        "generateTestsUiReady": true,
+        "uiImplementReady": true
+      },
+      "state": "RevisionRecorded"
+    }
+  },
+  "variantsBySession": {
+    "ups-session-0001": [
+      {
+        "sessionId": "ups-session-0001",
+        "variantLabel": "A",
+        "htmlArtifactRef": "artifact:3c42bc12a588b1ca513b0510bd9ddce4a0625296cf6dad99bf01af9656fe4720",
+        "componentsUsed": [],
+        "rationale": "Variant A registered by cli-user.",
+        "tradeoffs": "",
+        "risk": "",
+        "status": "candidate"
+      },
+      {
+        "sessionId": "ups-session-0001",
+        "variantLabel": "B",
+        "htmlArtifactRef": "artifact:020b561c2e8f83ab2eec96093a5fadf22bcac1d503c9c33d9ded50ad84e4d567",
+        "componentsUsed": [],
+        "rationale": "Variant B registered by cli-user.",
+        "tradeoffs": "",
+        "risk": "",
+        "status": "selected"
+      },
+      {
+        "sessionId": "ups-session-0001",
+        "variantLabel": "C",
+        "htmlArtifactRef": "artifact:77ed0c49a82b6e644f66bffea307bbf23cd7e747ea0b7cfb6e2621f4caa01b19",
+        "componentsUsed": [],
+        "rationale": "Variant C registered by cli-user.",
+        "tradeoffs": "",
+        "risk": "",
+        "status": "candidate"
+      }
+    ]
+  },
+  "commentsBySession": {
+    "ups-session-0001": [
+      {
+        "commentId": "ups-comment-00001",
+        "sessionId": "ups-session-0001",
+        "revisionId": "rev-0000",
+        "target": {
+          "selector": "[data-od-id=profile.safe-athlete-card]",
+          "elementLabel": "Safe athlete card",
+          "odId": "profile.safe-athlete-card"
+        },
+        "severity": "high",
+        "intent": "change",
+        "note": "Make token privacy explicit in the connected profile card.",
+        "createdBy": "cli-user",
+        "createdAt": "2026-06-21T21:18:58.643Z"
+      },
+      {
+        "commentId": "ups-comment-00002",
+        "sessionId": "ups-session-0001",
+        "revisionId": "rev-0000",
+        "target": {
+          "selector": "[data-od-id=profile.strava-link]",
+          "elementLabel": "Strava profile link",
+          "odId": "profile.strava-link"
+        },
+        "severity": "medium",
+        "intent": "change",
+        "note": "Copy should say public Strava profile so the link is display data, not auth data.",
+        "createdBy": "cli-user",
+        "createdAt": "2026-06-21T21:19:09.754Z"
+      },
+      {
+        "commentId": "ups-comment-00003",
+        "sessionId": "ups-session-0001",
+        "revisionId": "rev-0000",
+        "target": {
+          "selector": "[data-od-id=activity.recent-summary]",
+          "elementLabel": "Recent activity summary",
+          "odId": "activity.recent-summary"
+        },
+        "severity": "medium",
+        "intent": "change",
+        "note": "Call out that activity summaries are redacted and route geometry is not part of this proof.",
+        "createdBy": "cli-user",
+        "createdAt": "2026-06-21T21:19:19.626Z"
+      },
+      {
+        "commentId": "ups-comment-00004",
+        "sessionId": "ups-session-0001",
+        "revisionId": "rev-0000",
+        "target": {
+          "selector": "[data-od-id=evidence.submit.cta]",
+          "elementLabel": "Preview evidence CTA",
+          "odId": "evidence.submit.cta"
+        },
+        "severity": "high",
+        "intent": "change",
+        "note": "CTA should say preview evidence and avoid implying verified scoring.",
+        "createdBy": "cli-user",
+        "createdAt": "2026-06-21T21:19:32.651Z"
+      }
+    ]
+  },
+  "batchesBySession": {
+    "ups-session-0001": [
+      {
+        "batchId": "ups-batch-00001",
+        "sessionId": "ups-session-0001",
+        "sourceRevisionId": "rev-0000",
+        "status": "applied",
+        "generatedFromCommentIds": [
+          "ups-comment-00001",
+          "ups-comment-00002",
+          "ups-comment-00003",
+          "ups-comment-00004"
+        ],
+        "tasks": [
+          {
+            "taskId": "task-3ca09cd843",
+            "target": "[data-od-id=profile.safe-athlete-card]",
+            "odId": "profile.safe-athlete-card",
+            "intent": "change",
+            "changeType": "change",
+            "acceptanceText": "Apply change at [data-od-id=profile.safe-athlete-card]: Make token privacy explicit in the connected profile card.",
+            "priority": "p1"
+          },
+          {
+            "taskId": "task-25c077d10f",
+            "target": "[data-od-id=profile.strava-link]",
+            "odId": "profile.strava-link",
+            "intent": "change",
+            "changeType": "change",
+            "acceptanceText": "Apply change at [data-od-id=profile.strava-link]: Copy should say public Strava profile so the link is display data, not auth data.",
+            "priority": "p2"
+          },
+          {
+            "taskId": "task-92dd181c6d",
+            "target": "[data-od-id=activity.recent-summary]",
+            "odId": "activity.recent-summary",
+            "intent": "change",
+            "changeType": "change",
+            "acceptanceText": "Apply change at [data-od-id=activity.recent-summary]: Call out that activity summaries are redacted and route geometry is not part of this proof.",
+            "priority": "p2"
+          },
+          {
+            "taskId": "task-94816fde47",
+            "target": "[data-od-id=evidence.submit.cta]",
+            "odId": "evidence.submit.cta",
+            "intent": "change",
+            "changeType": "change",
+            "acceptanceText": "Apply change at [data-od-id=evidence.submit.cta]: CTA should say preview evidence and avoid implying verified scoring.",
+            "priority": "p1"
+          }
+        ],
+        "approval": {
+          "required": true,
+          "approvedBy": "cli-user",
+          "approvedAt": "2026-06-21T21:20:09.171Z"
+        },
+        "checksum": "b968bf653250f2821837f00c7f038fd8bc8c42a5a09d2a9cb0ab93fcd3bb9ede"
+      }
+    ]
+  },
+  "revisionsBySession": {
+    "ups-session-0001": [
+      {
+        "revisionId": "rev-0001",
+        "parentRevisionId": "rev-0000",
+        "sessionId": "ups-session-0001",
+        "variantCount": 3,
+        "baseline": {
+          "mode": "selected",
+          "label": "B"
+        },
+        "appliedBatchId": "ups-batch-00001",
+        "appliedTaskIds": [
+          "task-3ca09cd843",
+          "task-25c077d10f",
+          "task-92dd181c6d",
+          "task-94816fde47"
+        ],
+        "unresolvedCommentIds": [],
+        "diffSummary": {
+          "added": 0,
+          "changed": 8,
+          "removed": 0
+        },
+        "diffSummaryHonest": {
+          "fragments": [
+            {
+              "odId": "profile.safe-athlete-card",
+              "added": 0,
+              "changed": 3,
+              "removed": 0
+            },
+            {
+              "odId": "profile.strava-link",
+              "added": 0,
+              "changed": 1,
+              "removed": 0
+            },
+            {
+              "odId": "activity.recent-summary",
+              "added": 0,
+              "changed": 2,
+              "removed": 0
+            },
+            {
+              "odId": "evidence.submit.cta",
+              "added": 0,
+              "changed": 2,
+              "removed": 0
+            }
+          ],
+          "added": 0,
+          "changed": 8,
+          "removed": 0
+        },
+        "candidateHtmlHash": "33fa5f2100c3cdf5338b751d004f56027484f6338a7482cf0c04300d65a4d94f",
+        "createdAt": "2026-06-21T21:20:54.027Z"
+      }
+    ]
+  },
+  "handoffBySession": {
+    "ups-session-0001": {
+      "sessionId": "ups-session-0001",
+      "revisionHeadId": "rev-0001",
+      "baseline": {
+        "mode": "selected",
+        "label": "B"
+      },
+      "variantCount": 3,
+      "exportProfile": "troqar-product-architecture",
+      "storyRefs": [
+        "projects/body-war/docs/features/troqar-product-architecture/SPEC.md",
+        "projects/body-war/docs/features/troqar-product-architecture/ONLINE-AUTH-PROFILE-INFRA.md"
+      ],
+      "requirementRefs": [
+        "projects/body-war/docs/features/troqar-product-architecture/UI-SPEC.md#page-layout-and-profile",
+        "projects/body-war/docs/features/troqar-product-architecture/UI-SPEC.md#security-and-privacy-requirements"
+      ],
+      "acceptanceRefs": [
+        "projects/body-war/docs/features/troqar-product-architecture/TEST-SPEC.md#browser-e2e-obligations"
+      ],
+      "uiSpecRef": "projects/body-war/docs/features/troqar-product-architecture/UI-SPEC.md",
+      "testSpecRef": "projects/body-war/docs/features/troqar-product-architecture/TEST-SPEC.md",
+      "sourceRefs": [
+        "projects/body-war/docs/features/troqar-product-architecture/VISUAL-DEFINITIONS.md",
+        "projects/body-war/development/invoke-runs/20260621T160132Z-troqar-frontend-ui-ux-plan/UX-PLAN.md",
+        "projects/body-war/development/invoke-runs/20260621T160132Z-troqar-frontend-ui-ux-plan/WORK-PACK.md"
+      ],
+      "missingRefs": []
+    }
+  },
+  "stagedBySession": {}
+}

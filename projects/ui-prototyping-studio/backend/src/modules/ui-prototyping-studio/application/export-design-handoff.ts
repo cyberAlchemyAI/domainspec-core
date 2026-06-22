@@ -1,5 +1,5 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { isAbsolute, resolve } from "node:path";
 
 import type { StudioSessionStorePort } from "./ports.js";
 import { createUiPrototypingStudioError } from "../domain/errors.js";
@@ -32,6 +32,16 @@ export interface ExportDesignHandoffResult {
 
 interface ExportDesignHandoffOptions {
   featureDocsRootDir: string;
+}
+
+interface HandoffExportRefs {
+  profileId?: string;
+  storyRefs: string[];
+  requirementRefs: string[];
+  acceptanceRefs: string[];
+  uiSpecRef: string;
+  testSpecRef: string;
+  sourceRefs: string[];
 }
 
 /**
@@ -90,14 +100,9 @@ export function makeExportDesignHandoffUseCase(
       );
     }
 
-    // GAP-009 (G2): feature-doc refs are ADVISORY, not gating. The lean standalone project
-    // consolidated STORIES/UI-SPEC/TEST-SPEC into SPEC.md + aspect docs, so a hard existsSync
-    // gate blocked handoff in the lean setup. The real anchors (a recorded revision + baseline
-    // provenance, checked above) gate the export; the doc refs are pointers a consumer resolves.
-    // `missingRefs` is recorded on the bundle for honesty.
-    const advisoryFiles = ["SPEC.md", "STORIES.md", "UI-SPEC.md", "TEST-SPEC.md"];
-    const missingRefs = advisoryFiles.filter(
-      (fileName) => !existsSync(join(options.featureDocsRootDir, fileName)),
+    const refs = resolveExportRefs(input.exportProfile, options.featureDocsRootDir);
+    const missingRefs = refsForExistenceCheck(refs).filter(
+      (ref) => !existsSync(resolveRefPath(options.featureDocsRootDir, ref)),
     );
 
     const bundle: HandoffBundle = {
@@ -105,11 +110,13 @@ export function makeExportDesignHandoffUseCase(
       revisionHeadId: session.revisionHeadId,
       baseline: session.baseline,
       variantCount: session.variantCount,
-      storyRefs: [STORY_REF],
-      requirementRefs: [SPEC_REQUIREMENT_REF],
-      acceptanceRefs: [SPEC_ACCEPTANCE_REF],
-      uiSpecRef: UI_SPEC_REF,
-      testSpecRef: TEST_SPEC_REF,
+      exportProfile: refs.profileId ?? input.exportProfile,
+      storyRefs: refs.storyRefs,
+      requirementRefs: refs.requirementRefs,
+      acceptanceRefs: refs.acceptanceRefs,
+      uiSpecRef: refs.uiSpecRef,
+      testSpecRef: refs.testSpecRef,
+      sourceRefs: refs.sourceRefs,
       missingRefs,
     };
 
@@ -131,4 +138,67 @@ export function makeExportDesignHandoffUseCase(
       bundle,
     };
   };
+}
+
+function defaultExportRefs(): HandoffExportRefs {
+  return {
+    storyRefs: [STORY_REF],
+    requirementRefs: [SPEC_REQUIREMENT_REF],
+    acceptanceRefs: [SPEC_ACCEPTANCE_REF],
+    uiSpecRef: UI_SPEC_REF,
+    testSpecRef: TEST_SPEC_REF,
+    sourceRefs: [],
+  };
+}
+
+function resolveExportRefs(
+  exportProfile: string | undefined,
+  featureDocsRootDir: string,
+): HandoffExportRefs {
+  const defaults = defaultExportRefs();
+  if (!exportProfile) return defaults;
+
+  const profilePath = isAbsolute(exportProfile)
+    ? exportProfile
+    : resolve(featureDocsRootDir, exportProfile);
+  if (!existsSync(profilePath)) {
+    return { ...defaults, profileId: exportProfile };
+  }
+
+  const parsed = JSON.parse(readFileSync(profilePath, "utf8")) as Record<string, unknown>;
+  return {
+    profileId: optionalString(parsed.profileId) ?? exportProfile,
+    storyRefs: stringList(parsed.storyRefs, defaults.storyRefs),
+    requirementRefs: stringList(parsed.requirementRefs, defaults.requirementRefs),
+    acceptanceRefs: stringList(parsed.acceptanceRefs, defaults.acceptanceRefs),
+    uiSpecRef: optionalString(parsed.uiSpecRef) ?? defaults.uiSpecRef,
+    testSpecRef: optionalString(parsed.testSpecRef) ?? defaults.testSpecRef,
+    sourceRefs: stringList(parsed.sourceRefs, defaults.sourceRefs),
+  };
+}
+
+function stringList(value: unknown, fallback: string[]): string[] {
+  if (!Array.isArray(value)) return [...fallback];
+  const strings = value.filter((item): item is string => typeof item === "string" && item.trim().length > 0);
+  return strings.length ? strings : [...fallback];
+}
+
+function optionalString(value: unknown): string | undefined {
+  return typeof value === "string" && value.trim().length > 0 ? value : undefined;
+}
+
+function refsForExistenceCheck(refs: HandoffExportRefs): string[] {
+  return [
+    ...refs.storyRefs,
+    ...refs.requirementRefs,
+    ...refs.acceptanceRefs,
+    refs.uiSpecRef,
+    refs.testSpecRef,
+    ...refs.sourceRefs,
+  ].filter((ref) => !/^https?:\/\//.test(ref));
+}
+
+function resolveRefPath(rootDir: string, ref: string): string {
+  const [pathOnly] = ref.split("#", 1);
+  return isAbsolute(pathOnly ?? "") ? (pathOnly ?? "") : resolve(rootDir, pathOnly ?? "");
 }

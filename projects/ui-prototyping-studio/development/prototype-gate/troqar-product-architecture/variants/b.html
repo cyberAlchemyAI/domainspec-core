@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TROQAR Online Runner Profile - Variant B</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #17202b;
+        --muted: #627083;
+        --line: #d8e0e6;
+        --page: #f5f7f8;
+        --panel: #ffffff;
+        --action: #245f68;
+        --warm: #9b5b33;
+        --ok: #2e6d52;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--page);
+        color: var(--ink);
+        font: 16px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      .app { max-width: 1180px; margin: 0 auto; padding: 24px; }
+      .topbar {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 18px;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      .eyebrow { margin: 0 0 4px; color: var(--muted); font-size: 13px; text-transform: uppercase; }
+      h1, h2, h3, p { margin-top: 0; }
+      h1 { margin-bottom: 0; font-size: 30px; letter-spacing: 0; }
+      h2 { font-size: 18px; margin-bottom: 10px; }
+      h3 { font-size: 16px; margin-bottom: 4px; }
+      .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+      .button {
+        min-height: 40px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--ink);
+        border-radius: 6px;
+        padding: 9px 13px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .button.primary { background: var(--action); border-color: var(--action); color: white; }
+      .board {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr);
+        gap: 16px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+      }
+      .hero-card {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+      .avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #e7eef1;
+        border: 1px solid #bdcbd3;
+        font-weight: 900;
+      }
+      .status-line { color: var(--ok); font-weight: 800; }
+      .strava-link { color: var(--action); font-weight: 800; text-decoration: none; }
+      .stack { display: grid; gap: 12px; }
+      .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .info { border: 1px solid var(--line); border-radius: 6px; padding: 12px; background: #fbfcfd; }
+      .tag { margin: 0 0 4px; color: var(--muted); font-size: 13px; }
+      .activity {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+      }
+      .evidence {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 14px;
+        border: 1px solid #e3cdbd;
+        border-radius: 6px;
+        background: #fff9f4;
+      }
+      select { min-height: 38px; border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; background: white; }
+      @media (max-width: 780px) {
+        .app { padding: 18px; }
+        .topbar, .board, .info-grid, .activity, .evidence { grid-template-columns: 1fr; }
+        .actions { justify-content: stretch; }
+        .button, select { width: 100%; text-align: center; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app" data-od-id="troqar.shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">TROQAR / Body War</p>
+          <h1>Online Runner Profile</h1>
+        </div>
+        <nav class="actions" data-od-id="topbar.account.actions" aria-label="Account actions">
+          <a class="button" href="/profile">Profile</a>
+          <a class="button primary" data-od-id="auth.connect.cta" href="/api/auth/strava/start">Connect Strava</a>
+          <button class="button" type="button">Logout</button>
+        </nav>
+      </header>
+
+      <section class="board">
+        <article class="panel" data-od-id="profile.safe-athlete-card">
+          <div class="hero-card">
+            <div class="avatar" aria-hidden="true">VR</div>
+            <div>
+              <p class="tag">Runner</p>
+              <h2>Vitor Runner</h2>
+              <p class="status-line">Connected. Tokens stay server-side.</p>
+              <a class="strava-link" data-od-id="profile.strava-link" href="https://www.strava.com/athletes/123456" rel="noreferrer">Open Strava profile</a>
+            </div>
+          </div>
+          <div class="info-grid">
+            <div class="info"><p class="tag">Session</p><strong>Secure browser cookie</strong></div>
+            <div class="info"><p class="tag">Scope</p><strong>Read activity summaries</strong></div>
+            <div class="info"><p class="tag">XP</p><strong>Coming after proof</strong></div>
+            <div class="info"><p class="tag">Privacy</p><strong>No token text on page</strong></div>
+          </div>
+        </article>
+
+        <aside class="stack">
+          <article class="panel" data-od-id="activity.recent-summary">
+            <h2>Recent activity</h2>
+            <p>3 summaries imported. Route geometry and scoring are explicitly separate.</p>
+            <div class="activity">
+              <div>
+                <h3>Morning run</h3>
+                <p class="tag">7.20 km - 39:12 - redacted summary</p>
+              </div>
+              <select aria-label="Pilot track">
+                <option>Parque Taquaral pilot</option>
+              </select>
+            </div>
+          </article>
+          <article class="evidence" data-od-id="evidence.submit.cta">
+            <div>
+              <h2>Preview evidence</h2>
+              <p class="tag">Submit summary without claiming verification.</p>
+            </div>
+            <button class="button primary" type="button">Submit</button>
+          </article>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>
