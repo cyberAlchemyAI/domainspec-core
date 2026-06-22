@@ -1,0 +1,338 @@
+{
+  "identity": {
+    "task_or_swu": "GOAL-SPELL-NEXT-MOVE",
+    "ordered_units": [
+      "SWU-GOAL-README",
+      "SWU-GOAL-D3"
+    ],
+    "source_reference": "arcanum/spells/goal/.craft/ledger.yml",
+    "session_or_run_id": "2026-06-20-goal-spell-build",
+    "session_evidence_path": ".arcanum/profiles/goal-spell-build/",
+    "runtime_handoff": "codex-goal",
+    "repository_revision": {
+      "parent": "c0820c59bf9900872543428ec0c349ada400379c",
+      "arcanum": "8317c99ef2b3b2fcf98a9337c560d815ca5b72d6"
+    },
+    "evidence_date": "2026-06-20"
+  },
+  "strict_coverage": "pass",
+  "fallback_exploration": {
+    "status": "named-gaps-only",
+    "allowed_gap_ids": [
+      "GAP-GOAL-SCHEMA-001",
+      "GAP-GOAL-ADO-MOVE-001",
+      "validation-command-availability",
+      "runtime-blocker-named-before-exploring"
+    ]
+  },
+  "obligations": [
+    {
+      "id": "O1-target",
+      "status": "covered",
+      "summary": "Select the bounded goal-spell next move instead of the full spell build.",
+      "selected_evidence": [
+        {
+          "path": "arcanum/spells/goal/.craft/ledger.yml",
+          "selector": "indexes.next_moves",
+          "excerpt_summary": "The ledger names the next move as README plus decision-profile.schema, with ADO design move under approval."
+        },
+        {
+          "path": "arcanum/spells/goal/CRAFT.md",
+          "selector": "Quick links",
+          "excerpt_summary": "Human view repeats the next move and active blockers."
+        }
+      ],
+      "resolution": "Run a bounded next-move goal, not all SWU-GOAL units."
+    },
+    {
+      "id": "O2-public-private-boundary",
+      "status": "covered",
+      "summary": "Keep private operator/profile data out of the public arcanum submodule.",
+      "selected_evidence": [
+        {
+          "path": "arcanum/spells/goal/.craft/ledger.yml",
+          "selector": "DEC-GOAL-PRIVACY-SPLIT-001 and BLK-GOAL-SUBMODULE-001",
+          "excerpt_summary": "Public package ships schema/default only; filled profile stays private."
+        },
+        {
+          "path": ".arcanum/profiles/decision-profile.yml",
+          "selector": "consumed_by and policy section headings only",
+          "excerpt_summary": "Private runtime profile informs policy but must not be copied into public files."
+        }
+      ],
+      "resolution": "Summarize consumed policy fields only in this private sidecar."
+    },
+    {
+      "id": "O3-readme-source-contract",
+      "status": "covered",
+      "summary": "Author README.md as the source contract and do not hand-author generated SKILL.md.",
+      "selected_evidence": [
+        {
+          "path": "/home/vrondelli/projects/workspace-resonant/.craft/artifacts/autonomous-dag-orchestration/development/refinement-runs/2026-06-14-dag-loop-to-arcanum-sigils/stages/s09-plan.md",
+          "selector": "Package layout to author",
+          "excerpt_summary": "README.md is the source contract and SKILL.md is generated."
+        },
+        {
+          "path": "/home/vrondelli/projects/workspace-resonant/.craft/artifacts/autonomous-dag-orchestration/development/refinement-runs/2026-06-14-dag-loop-to-arcanum-sigils/RESULT.md",
+          "selector": "Convention notes",
+          "excerpt_summary": "Spells use README.md as the source contract."
+        }
+      ],
+      "resolution": "Limit source-contract authoring to README.md."
+    },
+    {
+      "id": "O4-decision-profile-schema",
+      "status": "covered",
+      "summary": "Author the public decision-profile.schema and neutral default.",
+      "selected_evidence": [
+        {
+          "path": "arcanum/spells/goal/.craft/ledger.yml",
+          "selector": "GAP-GOAL-SCHEMA-001",
+          "excerpt_summary": "The public schema counterpart has not yet been authored and must be resolved."
+        },
+        {
+          "path": "/home/vrondelli/projects/workspace-resonant/.craft/artifacts/autonomous-dag-orchestration/development/refinement-runs/2026-06-14-dag-loop-to-arcanum-sigils/stages/s09-plan.md",
+          "selector": "SWU-GOAL-D3",
+          "excerpt_summary": "Public package contains schema plus neutral default only."
+        }
+      ],
+      "resolution": "Create a public-safe JSON schema/default file."
+    },
+    {
+      "id": "O5-ado-design-move",
+      "status": "resolved",
+      "summary": "Handle the scrubbed ADO design move without silently widening scope.",
+      "selected_evidence": [
+        {
+          "path": "arcanum/spells/goal/.craft/ledger.yml",
+          "selector": "GAP-GOAL-ADO-MOVE-001",
+          "excerpt_summary": "Scrubbed public-safe ADO design artifacts are not yet moved and the move is gated."
+        }
+      ],
+      "resolution": "Defer unless approval and public-safety evidence are explicit in the current turn."
+    },
+    {
+      "id": "O6-validation-and-promotion",
+      "status": "covered",
+      "summary": "Validate the bounded authoring and avoid promotion.",
+      "selected_evidence": [
+        {
+          "path": "/home/vrondelli/projects/workspace-resonant/.craft/artifacts/autonomous-dag-orchestration/development/refinement-runs/2026-06-14-dag-loop-to-arcanum-sigils/stages/s09-plan.md",
+          "selector": "Build gates",
+          "excerpt_summary": "Promotion requires experiment-harness evidence later."
+        }
+      ],
+      "resolution": "Run local authoring checks only; promotion is out of scope."
+    },
+    {
+      "id": "O7-write-scope",
+      "status": "covered",
+      "summary": "Bound writes to the goal spell package and selected files.",
+      "selected_evidence": [
+        {
+          "path": "arcanum/spells/goal/.craft/ledger.yml",
+          "selector": "artifacts and next_moves",
+          "excerpt_summary": "Target scaffold and planned schema are under spells/goal."
+        },
+        {
+          "path": "/home/vrondelli/projects/workspace-resonant/.craft/artifacts/autonomous-dag-orchestration/development/refinement-runs/2026-06-14-dag-loop-to-arcanum-sigils/stages/s09-plan.md",
+          "selector": "Package layout to author",
+          "excerpt_summary": "Expected package layout lives under arcanum/spells/goal."
+        }
+      ],
+      "resolution": "Default writes to README.md and decision-profile.schema."
+    },
+    {
+      "id": "O8-capability-policy",
+      "status": "covered",
+      "summary": "Limit capability lanes and require approval receipts for widened moves.",
+      "selected_evidence": [
+        {
+          "path": "/home/vrondelli/projects/workspace-resonant/.craft/artifacts/autonomous-dag-orchestration/development/refinement-runs/2026-06-14-dag-loop-to-arcanum-sigils/stages/s09-plan.md",
+          "selector": "SWUs and Next route",
+          "excerpt_summary": "Uses spellcraft/invoke for contract and task-session per SWU later."
+        },
+        {
+          "path": "/home/vrondelli/projects/workspace-resonant/.craft/artifacts/autonomous-dag-orchestration/development/refinement-runs/2026-06-14-dag-loop-to-arcanum-sigils/RESULT.md",
+          "selector": "Recommended next routes",
+          "excerpt_summary": "Recommends spellcraft or sigil-development, then task-session per SWU."
+        }
+      ],
+      "resolution": "No subagents or external research without separate approval and receipts."
+    },
+    {
+      "id": "O9-extra-source-reporting",
+      "status": "resolved",
+      "summary": "Require runtime reporting for extra sources outside this pack.",
+      "selected_evidence": [
+        {
+          "path": ".agents/skills/codex-goal-profile/SKILL.md",
+          "selector": "process step 11",
+          "excerpt_summary": "Final report must name extra sources used and the gap that justified each."
+        }
+      ],
+      "resolution": "Native goal requires extra-source reporting."
+    },
+    {
+      "id": "O10-stop-condition",
+      "status": "covered",
+      "summary": "Stop on unsafe public/private leakage, approval needs, validation outside scope, promotion, generated-skill edits, or publication movement.",
+      "selected_evidence": [
+        {
+          "path": "arcanum/spells/goal/.craft/ledger.yml",
+          "selector": "typed_items",
+          "excerpt_summary": "Active blocker and promotion gate define when to stop."
+        },
+        {
+          "path": ".arcanum/profiles/decision-profile.yml",
+          "selector": "risk, approval, ownership, anti_patterns headings",
+          "excerpt_summary": "Private runtime policy reinforces default-deny, propose-then-promote, and no silent shared-substrate mutation."
+        }
+      ],
+      "resolution": "Native goal carries explicit blocked stop condition."
+    }
+  ],
+  "selected_sources": [
+    {
+      "path": "arcanum/spells/goal/.craft/ledger.yml",
+      "selectors": [
+        "indexes.next_moves",
+        "artifacts",
+        "typed_items",
+        "gaps",
+        "decisions"
+      ],
+      "obligations": [
+        "O1-target",
+        "O2-public-private-boundary",
+        "O4-decision-profile-schema",
+        "O5-ado-design-move",
+        "O7-write-scope",
+        "O10-stop-condition"
+      ],
+      "evidence_kind": "contract"
+    },
+    {
+      "path": "arcanum/spells/goal/CRAFT.md",
+      "selectors": [
+        "Quick links",
+        "Context",
+        "Blockers & gates",
+        "Gaps",
+        "Build SWUs"
+      ],
+      "obligations": [
+        "O1-target",
+        "O5-ado-design-move",
+        "O10-stop-condition"
+      ],
+      "evidence_kind": "contract"
+    },
+    {
+      "path": "/home/vrondelli/projects/workspace-resonant/.craft/artifacts/autonomous-dag-orchestration/development/refinement-runs/2026-06-14-dag-loop-to-arcanum-sigils/RESULT.md",
+      "selectors": [
+        "Synthesis",
+        "What the audit changed",
+        "Convention notes",
+        "Recommended next routes",
+        "Decision-mentality model"
+      ],
+      "obligations": [
+        "O2-public-private-boundary",
+        "O3-readme-source-contract",
+        "O6-validation-and-promotion",
+        "O8-capability-policy"
+      ],
+      "evidence_kind": "architecture"
+    },
+    {
+      "path": "/home/vrondelli/projects/workspace-resonant/.craft/artifacts/autonomous-dag-orchestration/development/refinement-runs/2026-06-14-dag-loop-to-arcanum-sigils/stages/s09-plan.md",
+      "selectors": [
+        "Objective",
+        "Package layout to author",
+        "SWUs",
+        "Build gates",
+        "Next route"
+      ],
+      "obligations": [
+        "O3-readme-source-contract",
+        "O4-decision-profile-schema",
+        "O6-validation-and-promotion",
+        "O7-write-scope",
+        "O8-capability-policy"
+      ],
+      "evidence_kind": "plan"
+    },
+    {
+      "path": ".arcanum/profiles/decision-profile.yml",
+      "selectors": [
+        "risk",
+        "approval",
+        "slice",
+        "ownership",
+        "gap_filling",
+        "technique_weights",
+        "anti_patterns",
+        "consumed_by"
+      ],
+      "obligations": [
+        "O2-public-private-boundary",
+        "O10-stop-condition"
+      ],
+      "evidence_kind": "policy"
+    }
+  ],
+  "write_scope": [
+    "arcanum/spells/goal/README.md",
+    "arcanum/spells/goal/decision-profile.schema",
+    "arcanum/spells/goal/development/ public-safe notes only when approved",
+    "arcanum/spells/goal/.craft/ledger.yml status/evidence updates only if readiness changes",
+    "arcanum/spells/goal/CRAFT.md status/evidence updates only if readiness changes"
+  ],
+  "validation_surface": [
+    "test -f arcanum/spells/goal/README.md",
+    "test -f arcanum/spells/goal/decision-profile.schema",
+    "python3 -m json.tool arcanum/spells/goal/decision-profile.schema",
+    "README section review for objective, capabilities, spine, modules, gates, observability, and output contract",
+    "public-boundary scan on new public files for private profile contents, absolute private paths, private corpus references, and operator-specific data",
+    "git -C arcanum diff --check -- spells/goal",
+    "make bump-check only if publication is explicitly requested later"
+  ],
+  "gaps_and_blockers": [
+    {
+      "id": "BLK-GOAL-SUBMODULE-001",
+      "status": "active",
+      "summary": "Public arcanum submodule authoring must exclude private operator data and follow submodule discipline before publication.",
+      "runtime_fallback_allowed": false
+    },
+    {
+      "id": "GATE-GOAL-PROMOTION-001",
+      "status": "active",
+      "summary": "Goal spell stays draft until experiment-harness proves the spine later.",
+      "runtime_fallback_allowed": false
+    },
+    {
+      "id": "GAP-GOAL-SCHEMA-001",
+      "status": "resolve",
+      "summary": "Public decision-profile.schema is not yet authored.",
+      "runtime_fallback_allowed": true
+    },
+    {
+      "id": "GAP-GOAL-ADO-MOVE-001",
+      "status": "deferred",
+      "summary": "Scrubbed public-safe ADO design artifacts have not yet been moved into spells/goal/development.",
+      "runtime_fallback_allowed": true
+    }
+  ],
+  "authority_precedence": [
+    "AGENTS.md, SUBMODULE-DISCIPLINE.md, and public/private boundary rules",
+    "arcanum/spells/goal/.craft/ledger.yml",
+    "ADO RESULT.md and stages/s09-plan.md",
+    ".arcanum/profiles/decision-profile.yml policy summary only",
+    "arcanum/spells/goal/CRAFT.md linked view"
+  ],
+  "output_paths": {
+    "markdown": ".arcanum/profiles/goal-spell-build/CONTEXT-PACK.md",
+    "json_index": ".arcanum/profiles/goal-spell-build/context-index.json"
+  }
+}

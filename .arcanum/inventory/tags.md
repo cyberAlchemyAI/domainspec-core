@@ -57,9 +57,15 @@ Controlled tags for this package.
 | `source-import` | Imported external or sibling-repository source material copied into a governed private source area. |
 | `house-project-vault` | The imported `/home/vrondelli/projects/house_project/docs/vault/` source snapshot and derived inventory handles. |
 | `confidence-lifecycle` | Status, maturity, veracidade/evidence, conviccao/commitment, or trust-gate lifecycle evidence. |
+| `operational-ontology` | Candidate Operational Ontology classification, D19/D22/D23 boundary, and related definition-owner handoff material. |
 | `graph-index` | Materialized graph edge, provenance, or navigation index used to shorten lookup. |
 | `schema-amendment` | Schema amendment logs, schema versioning, frontmatter ownership, or schema evolution governance. |
 | `authority-harness` | Candidate authority-harness / lifecycle-envelope-extension framing: shared rails vs per-entity judgment (typed-hole contract). |
 | `authority-node` | Candidate authority-type / authority-posture node framing and its current envelope, profile, record, and projection boundary. |
 | `ledger-spec` | Reusable ledger-spec selector and craft/dispatch/signals dialect axis (mutability / row_identity / graph). |
 | `bridge-edge` | Candidate forward-only movement/projection edge tying an authority record to its ontology node; the open ontology-tie link. |
+| `category-theory` | Category-theory framing: functors, presheaves, adjunctions, Kan extensions, and the DomainSpec L1/L2/Delta model. |
+| `yoneda` | Yoneda lemma, Yoneda embedding, representability (M2), and Yoneda-incompleteness as the non-representable/hallucination locus. |
+| `residue` | Translation residue (schema-axis and instance-axis), conservation-law framing, and the unit-iso recovery conditions. |
+| `domainspec-language` | DomainSpec language design material: contract/schema/iteration model and its categorical grounding. |
+| `latent-space` | Vect-enriched presheaf / embedding-geometry extension of the Set-valued formalization (LLM latent bridge, not yet proved). |

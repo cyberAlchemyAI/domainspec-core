@@ -1,7 +1,7 @@
 # Inventory Index
 
 Repository: `/home/vrondelli/projects/domainspec-core`
-Last updated: 2026-06-21 (house_project vault import)
+Last updated: 2026-06-22 (Operational Ontology authority lifecycle review ingest)
 
 ## Wiki Pages
 
@@ -29,6 +29,11 @@ Last updated: 2026-06-21 (house_project vault import)
 | [entries/evidence-sets/2026-06-21-schema-taxonomy-view-primitives-sets.md](entries/evidence-sets/2026-06-21-schema-taxonomy-view-primitives-sets.md) | evidence-set | `primitive-lifecycle`, `action-method`, `human-view`, `machine-view` | EvidenceSets for the governed-action-facet enforcement slice and the validator/open-link seed for non-vacuity checks. |
 | [entries/evidence-cards/2026-06-21-house-project-vault-cards.md](entries/evidence-cards/2026-06-21-house-project-vault-cards.md) | evidence-card | `source-import`, `house-project-vault`, `ontology-lifecycle`, `promotion-guardrail` | Candidate cards for the imported house_project vault snapshot; selected concepts were later consumed by CAV2-D22 through CAV2-D26 and the Vault Concept Adoption Constitution. |
 | [entries/evidence-sets/2026-06-21-house-project-vault-sets.md](entries/evidence-sets/2026-06-21-house-project-vault-sets.md) | evidence-set | `source-import`, `house-project-vault`, `definitions-governance`, `constitution-governance` | EvidenceSets for definitions, constitution/lifecycle, and search-shortcut handoffs into the imported house_project vault, now annotated with selected CAV2 authority consumption. |
+| [entries/category-theory-domainspec-language-synthesis.md](entries/category-theory-domainspec-language-synthesis.md) | synthesis | `category-theory`, `yoneda`, `residue`, `domainspec-language`, `latent-space` | Session synthesis tying domainspec-formalization (objects-as-categories, Yoneda, Yoneda-incompleteness as hallucination detector, schema⊥instance orthogonality) to the cyberAlchemy functor-chain and the DomainSpec language contract/schema/iteration model; Vect-enrichment marked open. |
+| [entries/evidence-cards/2026-06-21-category-theory-domainspec-language-cards.md](entries/evidence-cards/2026-06-21-category-theory-domainspec-language-cards.md) | evidence-card | `category-theory`, `yoneda`, `residue`, `domainspec-language`, `latent-space` | Six source-backed cards: objects-as-categories (L1), Yoneda concept-is-its-arrows, Yoneda-incompleteness/hallucination (M2 refuted), schema⊥instance two budgets, presheaf-in-Vect (open), cyberAlchemy pipeline as functor chain. |
+| [entries/evidence-cards/2026-06-22-presheaf-vect-novelty-orthogonality-cards.md](entries/evidence-cards/2026-06-22-presheaf-vect-novelty-orthogonality-cards.md) | evidence-card | `category-theory`, `yoneda`, `residue`, `latent-space`, `cyberalchemy-v2` | Novelty + orthogonality resolution: presheaf-in-Vect not-novel/build-from-owned+open (Popper no-witness); AsymmetricTowerVEnriched is schema-side Set-valued (trust-but-verify resolved); orthogonality is two distinct notions (Shannon vs Hilbert, per TO-VLAD); TO-VLAD handoffs move the target (CAV2-D22 amended, D28/C13 promoted). |
+| [entries/evidence-cards/2026-06-22-operational-ontology-authority-lifecycle-cards.md](entries/evidence-cards/2026-06-22-operational-ontology-authority-lifecycle-cards.md) | evidence-card | `operational-ontology`, `ontology-lifecycle`, `definitions-governance`, `classification` | Candidate cards from the verified Operational Ontology authority lifecycle review: Operational Ontology remains a D19-carried candidate term; definitions-governance decides using D22's test; D23 supplies lifecycle-axis separation; D19-D23 bridge remains candidate/projection-only. |
+| [entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md](entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md) | evidence-set | `operational-ontology`, `ontology-lifecycle`, `promotion-guardrail`, `evidence-backfill` | EvidenceSet for the next definitions-governance decision on Operational Ontology: retire/rewrite, promote as D19 branch/subtype/use case, or open a separate candidate only if D19+D23 cannot carry the distinction. |
 
 ## Query Files
 
@@ -61,6 +66,8 @@ Last updated: 2026-06-21 (house_project vault import)
 | [raw/manifests/2026-06-21-house-project-vault-import.md](raw/manifests/2026-06-21-house-project-vault-import.md) | source-manifest | `source-import`, `house-project-vault`, `cyberalchemy-v2` | Source manifest for the imported latest local house_project vault snapshot copied into CyberAlchemy v2 authority imports. |
 | [queries/2026-06-21-house-project-vault-import/DISPATCH.json](queries/2026-06-21-house-project-vault-import/DISPATCH.json) | dispatch-spec | `dispatch-spec`, `source-import`, `house-project-vault`, `promotion-guardrail` | Validator-backed route for copying the house_project vault snapshot and inventorying it as non-authority source evidence. |
 | [queries/2026-06-21-house-project-vault-import/findings.md](queries/2026-06-21-house-project-vault-import/findings.md) | findings | `source-import`, `house-project-vault`, `ontology-lifecycle`, `schema` | Inventory finding: the imported vault contains high-value source clusters for orthogonality, lifecycle/confidence, schema amendment, graph traversal, and ledger/idempotency governance. |
+| [../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md](../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md) | findings | `operational-ontology`, `ontology-lifecycle`, `definitions-governance`, `promotion-guardrail` | Verified review finding: Operational Ontology should not collapse into CAV2-D23; it remains a D19-carried candidate term, with definitions-governance deciding through D22's test and D23 only supplying lifecycle-axis separation. |
+| [../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/attacks.md](../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/attacks.md) | review | `operational-ontology`, `raw-returns`, `classification`, `promotion-guardrail` | Attack trace and verifier loop for the Operational Ontology review, including the narrowed pro-collapse argument and the final D19/D22/D23 boundary. |
 
 ## Lint Files
 
@@ -120,3 +127,9 @@ Last updated: 2026-06-21 (house_project vault import)
   `VAULT-CONCEPT-ADOPTION-CONSTITUTION.md`. Remaining source-local terms,
   ontology node schemas, event catalogs, axioms, disciplines, runtime schemas,
   and validators are still unpromoted until their owners re-author them.
+- Operational Ontology authority lifecycle cards are candidate read models only.
+  They preserve the verified review result that Operational Ontology is not
+  identical to `CAV2-D23`; it remains a `CAV2-D19`-carried candidate term until
+  definitions-governance decides using `CAV2-D22`'s test. The D19-D23 bridge,
+  lifecycle-model annotation, handoff wording, and drift-audit follow-up remain
+  unperformed owner work.

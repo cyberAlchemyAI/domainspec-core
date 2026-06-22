@@ -1,5 +1,63 @@
 # Inventory Log
 
+## 2026-06-22 ingest — presheaf-in-Vect novelty + orthogonality resolution
+
+- Mode: ingest
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Sources processed: 6 (dispatch findings + AsymmetricTowerVEnriched.lean + TannakianDiagnosis.lean + TO-VLAD/{TO-VLAD,RESOLUTION}.md + house_project v5-bridge-refuted.md)
+- Entries created: 1 file (4 evidence cards)
+- Entries updated: 0
+- Index updated: yes
+- Tags updated: no (reused category-theory/yoneda/residue/latent-space/cyberalchemy-v2)
+- Log updated: yes
+- Contradictions flagged: 0
+- Lint gaps: 0 new
+- Validation: not run
+- Notes: From dispatch `2026-06-22-presheaf-vect-novelty-lean-repo` (research, resolved,
+  reviewer-line-verified). presheaf-in-Vect novelty = build-from-owned (Kelly) + OPEN
+  (no-witness); AsymmetricTowerVEnriched.lean trust-but-verify RESOLVED (schema-side,
+  Set-valued xTower:132); orthogonality = TWO DISTINCT NOTIONS (Shannon vs Hilbert per the
+  TO-VLAD owner audit), Eilenberg unification refuted; TO-VLAD handoffs already amended
+  CAV2-D22 and promoted D28/C13 — flagged a cross-check vs the prior dispatch's
+  Representability-Grounded Promotion Gate candidate. All cards non-authority.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/evidence-cards/2026-06-22-presheaf-vect-novelty-orthogonality-cards.md`
+- `.arcanum/inventory/index.md`
+
+## 2026-06-21 ingest — category-theory / DomainSpec language synthesis
+
+- Mode: ingest
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Sources processed: 6 (domainspec-formalization GLOSSARY/paper/two-layer/M2Counter.lean; framework-unification README; domainspec-language README + handoff)
+- Entries created: 2 files (1 synthesis entry + 1 evidence-card bundle of 6 cards)
+- Entries updated: 0
+- Index updated: yes
+- Tags updated: yes (added `category-theory`, `yoneda`, `residue`, `domainspec-language`, `latent-space`)
+- Log updated: yes
+- Contradictions flagged: 0
+- Lint gaps: 0 new
+- Validation: not run
+- Notes: Captured a conversational session synthesis (not a registered
+  subagents-strategy dispatch; `dispatch_id` is a trace handle only). Mathematical
+  claims are source-backed to `domainspec-formalization/`; the cyberAlchemy
+  functor-chain reading, the contract/schema/iteration mapping, and the
+  presheaf-in-Vect (latent space) extension are marked inference/synthesis with
+  residue. The Vect-enrichment card is `open-question` (not in the Set-valued
+  Lean). One open design question carried for the DomainSpec language owner:
+  representability check as first-class schema check vs iteration-layer annotation
+  → decision-gate.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/category-theory-domainspec-language-synthesis.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-21-category-theory-domainspec-language-cards.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/tags.md`
+
 ## 2026-06-18 install + initial map
 
 - Mode: install/backfill
@@ -398,3 +456,35 @@ Artifacts:
 - `cyberAlchemy-v2/authority/constitutions/VAULT-CONCEPT-ADOPTION-CONSTITUTION.md`
 - `.arcanum/inventory/entries/evidence-cards/2026-06-21-house-project-vault-cards.md`
 - `.arcanum/inventory/entries/evidence-sets/2026-06-21-house-project-vault-sets.md`
+
+## 2026-06-22 Operational Ontology authority lifecycle review inventory ingest
+
+- Mode: ingest/backfill
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Dispatch: `2026-06-22-operational-ontology-authority-lifecycle-review`
+- Sources processed: 2 review artifacts plus cited CAV2 authority files
+- Entries created: 2 files, 5 evidence cards, 1 EvidenceSet
+- Entries updated: 3 files
+- Index updated: yes
+- Tags updated: yes (`operational-ontology`)
+- Log updated: yes
+- Contradictions flagged: 0
+- Lint gaps: 4
+- Validation: pass
+- Notes: Backfilled candidate Inventory evidence from the verified
+  Operational Ontology authority lifecycle review. The cards preserve the
+  narrowed verdict: Operational Ontology is not identical to `CAV2-D23`; it
+  remains a `CAV2-D19`-carried candidate term until definitions-governance
+  decides using `CAV2-D22`'s orthogonal-classification test. `CAV2-D23` supplies
+  lifecycle-axis separation; ontology may carry authorized read-model
+  projections, but D23 does not own or rename the ontology term. Inventory
+  records four owner-work gaps: D19 decision-test wording, lifecycle-model
+  annotation, D19-D23 candidate bridge relation, and drift/handoff sync.
+
+Artifacts:
+
+- `cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md` (source, read-only)
+- `cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/attacks.md` (source, read-only)
+- `.arcanum/inventory/entries/evidence-cards/2026-06-22-operational-ontology-authority-lifecycle-cards.md`
+- `.arcanum/inventory/entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md`
