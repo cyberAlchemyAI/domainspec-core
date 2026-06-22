@@ -8,8 +8,7 @@ Owner route: task-session + definitions-governance + constitution-governance
 
 This resolves the concrete TO-VLAD AX-ONT memo in this folder. It does not
 close the broader primordial-basis session handoff, which still carries
-definition clustering, Operational Ontology classification, public/private, and
-visible-space decisions.
+definition clustering, public/private, and visible-space decisions.
 
 ## Inputs
 
@@ -39,9 +38,11 @@ visible-space decisions.
 ## Still Open
 
 - [SESSION-HANDOFF-cav2-primordial-basis.md](SESSION-HANDOFF-cav2-primordial-basis.md)
-  still routes the broader next thread: Operational Ontology relative to
-  `CAV2-D19`, orthogonality and recursivity definition work, clustering of the
-  149 staged definition candidates, and the two human-required decisions.
+  still routes the broader next thread: clustering of the 149 staged definition
+  candidates and the two human-required decisions. Operational Ontology is
+  demoted into D19/D23 language, and orthogonality/recursivity are promoted as
+  [CAV2-D29](../authority/definitions/DEFINITIONS.md#cav2-d29-axis-orthogonality-invariant)
+  and [CAV2-D30](../authority/definitions/DEFINITIONS.md#cav2-d30-bounded-recursive-self-application).
 - `residue` subtyping and the future residue ledger remain blocked on the
   artifact-level residue-type question.
 - Standalone extraction remains blocked by public/private and visible-space

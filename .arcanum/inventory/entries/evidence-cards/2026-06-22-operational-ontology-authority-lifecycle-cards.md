@@ -18,12 +18,14 @@ Each card is a candidate Inventory read model. These cards do not promote,
 demote, or rewrite CyberAlchemy v2 definitions, ontology relations,
 constitutions, or schemas. Promotion requires the named downstream owner.
 
-## `op-ontology-d19-candidate-boundary`
+## `op-ontology-d19-demotion-boundary`
 
-- ID: `op-ontology-d19-candidate-boundary`
-- Status: candidate
-- Claim or candidate: `Operational Ontology` remains a `CAV2-D19`-carried
-  candidate term. It should not be treated as already canonical, and it should
+- ID: `op-ontology-d19-demotion-boundary`
+- Status: demoted
+- Claim or candidate: `Operational Ontology` was reviewed as a
+  `CAV2-D19`-carried candidate term, but the accepted CyberAlchemy v2
+  classification demotes it into D19 ontology projection language plus D23
+  lifecycle-axis language. It should not be treated as canonical, and it should
   not be collapsed into `CAV2-D23` by name alone.
 - Source refs:
   `cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md:9-19`,
@@ -34,18 +36,20 @@ constitutions, or schemas. Promotion requires the named downstream owner.
 - Promotion owner: definitions-governance for definition wording; ontology owner
   for ontology projection surfaces
 - Trace: `2026-06-22-operational-ontology-authority-lifecycle-review`
-- Residue: Needs a definitions-governance decision before the term is retired,
-  rewritten, promoted as a D19 branch/subtype/use case, or opened as a separate
-  definition candidate.
+- Residue: Definitions-governance added the D19-local decision test on
+  2026-06-22, then accepted the demotion decision: `Operational Ontology` is
+  source-local shorthand for an operation-facing D19 projection governed by D23
+  lifecycle axes, not a primitive, peer branch, subtype, or separate candidate.
 
 ## `op-ontology-d22-admission-test`
 
 - ID: `op-ontology-d22-admission-test`
-- Status: candidate
-- Claim or candidate: Definitions-governance should decide Operational Ontology
-  using `CAV2-D22`'s orthogonal-classification test: the term survives only if
-  it adds a non-redundant operational distinction that D19 ontology plus D23
-  lifecycle-axis separation cannot already carry.
+- Status: consumed
+- Claim or candidate: Definitions-governance used `CAV2-D22`'s
+  orthogonal-classification test to demote Operational Ontology: the broad term
+  does not survive as a standalone CyberAlchemy v2 candidate unless future work
+  names a non-redundant operational object, relation, action, run, or schema
+  obligation directly.
 - Source refs:
   `cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md:28`,
   `cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md:58-74`,
@@ -53,7 +57,7 @@ constitutions, or schemas. Promotion requires the named downstream owner.
 - Authority level: review recommendation for downstream definitions-governance
 - Promotion owner: definitions-governance
 - Trace: `2026-06-22-operational-ontology-authority-lifecycle-review`
-- Residue: D22 supplies the test, not the decision owner. Future wording must
+- Residue: D22 supplied the test, not the decision owner. Future wording must
   avoid saying that D22 decides by itself.
 
 ## `op-ontology-d23-axis-boundary`
@@ -75,9 +79,9 @@ constitutions, or schemas. Promotion requires the named downstream owner.
 - Promotion owner: definitions-governance for D23 wording; ontology owner for
   read-model projection rules
 - Trace: `2026-06-22-operational-ontology-authority-lifecycle-review`
-- Residue: `LIFECYCLE-MODEL.md` should be annotated in a later owner pass as a
-  D23 lifecycle-axis separation model for ontology use, preserving that ontology
-  may carry authorized projections but does not own lifecycle verdicts.
+- Residue: `LIFECYCLE-MODEL.md` was annotated on 2026-06-22 as a D23
+  lifecycle-axis separation model for ontology use. It still does not create a
+  lifecycle schema or authorize ontology to own lifecycle verdicts.
 
 ## `op-ontology-d19-d23-bridge-relation-open-link`
 
@@ -97,18 +101,18 @@ constitutions, or schemas. Promotion requires the named downstream owner.
 - Promotion owner: ontology route plus definitions-governance and schema
   governance if relation schema changes are required
 - Trace: `2026-06-22-operational-ontology-authority-lifecycle-review`
-- Residue: Suggested forbidden collapse is "not a D23 alias, not an ontology
-  verdict, not promotion by generated mirror", but the actual relation wording
-  still needs owner approval.
+- Residue: `RELATION-MODEL.md` now carries the candidate
+  `uses_lifecycle_axis` relation with the suggested forbidden collapse. Any
+  executable schema, vault edge, or authority effect still needs owner approval.
 
 ## `op-ontology-handoff-drift-followup`
 
 - ID: `op-ontology-handoff-drift-followup`
 - Status: candidate
 - Claim or candidate: The handoff and drift audit should be tightened so future
-  operators see the current review boundary: Operational Ontology is D19-relative
-  candidate work, with definitions-governance deciding through D22's test and
-  D23 only supplying lifecycle-axis separation.
+  operators see the current classification: Operational Ontology is demoted
+  source-local shorthand for D19-relative projection work, with D23 only
+  supplying lifecycle-axis separation.
 - Source refs:
   `cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md:34-35`,
   `cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md:41-46`,
@@ -118,5 +122,7 @@ constitutions, or schemas. Promotion requires the named downstream owner.
 - Authority level: review recommendation for handoff and drift-audit sync
 - Promotion owner: definitions-governance and session-handoff owner
 - Trace: `2026-06-22-operational-ontology-authority-lifecycle-review`
-- Residue: Inventory records the follow-up, but does not mutate canonical
-  definitions or handoff wording in this ingest.
+- Residue: Definitions-governance updated the canonical D19 boundary, drift
+  audit, index, and session handoff on 2026-06-22 to show the demotion decision:
+  future handoffs should route concrete work through D19/D23 language instead
+  of reviving `Operational Ontology` as a candidate definition.

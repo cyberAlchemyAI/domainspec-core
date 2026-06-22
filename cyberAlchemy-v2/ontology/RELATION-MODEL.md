@@ -50,6 +50,7 @@ typed residue, not permission.
 | `declares_source_posture` | source ref -> authority posture | staging/projection | Not trust by tag. |
 | `uses_owner_profile` | authority envelope -> owner route | staging | Not a shared promotion default. |
 | `requests_promotion_gate` | ontology candidate -> owner route | staging | Not a verdict. |
+| `uses_lifecycle_axis` | ontology candidate -> authority lifecycle axis | projection | Not a D23 alias, not an ontology verdict, not promotion by generated mirror. |
 | `decides_transition` | owner decision -> PromotionRecord-compatible record | owner-decision | Not an ontology decision. |
 | `emits_projection_when_allowed` | PromotionRecord-compatible record -> ontology projection | projection | Not promotion by generated mirror. |
 | `supports_candidate` | evidence card -> ontology candidate | staging | Not source replacement. |

@@ -1,7 +1,7 @@
 # Inventory Index
 
 Repository: `/home/vrondelli/projects/domainspec-core`
-Last updated: 2026-06-22 (Operational Ontology authority lifecycle review ingest)
+Last updated: 2026-06-22 (primitive type, method, and definition definitions-governance sync)
 
 ## Wiki Pages
 
@@ -32,8 +32,8 @@ Last updated: 2026-06-22 (Operational Ontology authority lifecycle review ingest
 | [entries/category-theory-domainspec-language-synthesis.md](entries/category-theory-domainspec-language-synthesis.md) | synthesis | `category-theory`, `yoneda`, `residue`, `domainspec-language`, `latent-space` | Session synthesis tying domainspec-formalization (objects-as-categories, Yoneda, Yoneda-incompleteness as hallucination detector, schema⊥instance orthogonality) to the cyberAlchemy functor-chain and the DomainSpec language contract/schema/iteration model; Vect-enrichment marked open. |
 | [entries/evidence-cards/2026-06-21-category-theory-domainspec-language-cards.md](entries/evidence-cards/2026-06-21-category-theory-domainspec-language-cards.md) | evidence-card | `category-theory`, `yoneda`, `residue`, `domainspec-language`, `latent-space` | Six source-backed cards: objects-as-categories (L1), Yoneda concept-is-its-arrows, Yoneda-incompleteness/hallucination (M2 refuted), schema⊥instance two budgets, presheaf-in-Vect (open), cyberAlchemy pipeline as functor chain. |
 | [entries/evidence-cards/2026-06-22-presheaf-vect-novelty-orthogonality-cards.md](entries/evidence-cards/2026-06-22-presheaf-vect-novelty-orthogonality-cards.md) | evidence-card | `category-theory`, `yoneda`, `residue`, `latent-space`, `cyberalchemy-v2` | Novelty + orthogonality resolution: presheaf-in-Vect not-novel/build-from-owned+open (Popper no-witness); AsymmetricTowerVEnriched is schema-side Set-valued (trust-but-verify resolved); orthogonality is two distinct notions (Shannon vs Hilbert, per TO-VLAD); TO-VLAD handoffs move the target (CAV2-D22 amended, D28/C13 promoted). |
-| [entries/evidence-cards/2026-06-22-operational-ontology-authority-lifecycle-cards.md](entries/evidence-cards/2026-06-22-operational-ontology-authority-lifecycle-cards.md) | evidence-card | `operational-ontology`, `ontology-lifecycle`, `definitions-governance`, `classification` | Candidate cards from the verified Operational Ontology authority lifecycle review: Operational Ontology remains a D19-carried candidate term; definitions-governance decides using D22's test; D23 supplies lifecycle-axis separation; D19-D23 bridge remains candidate/projection-only. |
-| [entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md](entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md) | evidence-set | `operational-ontology`, `ontology-lifecycle`, `promotion-guardrail`, `evidence-backfill` | EvidenceSet for the next definitions-governance decision on Operational Ontology: retire/rewrite, promote as D19 branch/subtype/use case, or open a separate candidate only if D19+D23 cannot carry the distinction. |
+| [entries/evidence-cards/2026-06-22-operational-ontology-authority-lifecycle-cards.md](entries/evidence-cards/2026-06-22-operational-ontology-authority-lifecycle-cards.md) | evidence-card | `operational-ontology`, `ontology-lifecycle`, `definitions-governance`, `classification` | Evidence cards from the verified Operational Ontology authority lifecycle review plus demotion sync: Operational Ontology is not identical to D23, but CyberAlchemy v2 now treats it as source-local shorthand for a D19 projection governed by D23, not a standalone candidate. |
+| [entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md](entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md) | evidence-set | `operational-ontology`, `ontology-lifecycle`, `promotion-guardrail`, `evidence-backfill` | EvidenceSet for the accepted definitions-governance demotion: rewrite/retire Operational Ontology into D19 typed-ontology obligations plus D23 lifecycle-axis obligations unless future work names concrete operational obligations directly. |
 
 ## Query Files
 
@@ -66,7 +66,7 @@ Last updated: 2026-06-22 (Operational Ontology authority lifecycle review ingest
 | [raw/manifests/2026-06-21-house-project-vault-import.md](raw/manifests/2026-06-21-house-project-vault-import.md) | source-manifest | `source-import`, `house-project-vault`, `cyberalchemy-v2` | Source manifest for the imported latest local house_project vault snapshot copied into CyberAlchemy v2 authority imports. |
 | [queries/2026-06-21-house-project-vault-import/DISPATCH.json](queries/2026-06-21-house-project-vault-import/DISPATCH.json) | dispatch-spec | `dispatch-spec`, `source-import`, `house-project-vault`, `promotion-guardrail` | Validator-backed route for copying the house_project vault snapshot and inventorying it as non-authority source evidence. |
 | [queries/2026-06-21-house-project-vault-import/findings.md](queries/2026-06-21-house-project-vault-import/findings.md) | findings | `source-import`, `house-project-vault`, `ontology-lifecycle`, `schema` | Inventory finding: the imported vault contains high-value source clusters for orthogonality, lifecycle/confidence, schema amendment, graph traversal, and ledger/idempotency governance. |
-| [../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md](../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md) | findings | `operational-ontology`, `ontology-lifecycle`, `definitions-governance`, `promotion-guardrail` | Verified review finding: Operational Ontology should not collapse into CAV2-D23; it remains a D19-carried candidate term, with definitions-governance deciding through D22's test and D23 only supplying lifecycle-axis separation. |
+| [../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md](../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md) | findings | `operational-ontology`, `ontology-lifecycle`, `definitions-governance`, `promotion-guardrail` | Historical review finding: Operational Ontology should not collapse into CAV2-D23 alone. Current definitions-governance demotes it into D19 typed ontology obligations plus D23 lifecycle-axis obligations. |
 | [../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/attacks.md](../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/attacks.md) | review | `operational-ontology`, `raw-returns`, `classification`, `promotion-guardrail` | Attack trace and verifier loop for the Operational Ontology review, including the narrowed pro-collapse argument and the final D19/D22/D23 boundary. |
 
 ## Lint Files
@@ -127,9 +127,18 @@ Last updated: 2026-06-22 (Operational Ontology authority lifecycle review ingest
   `VAULT-CONCEPT-ADOPTION-CONSTITUTION.md`. Remaining source-local terms,
   ontology node schemas, event catalogs, axioms, disciplines, runtime schemas,
   and validators are still unpromoted until their owners re-author them.
-- Operational Ontology authority lifecycle cards are candidate read models only.
+- Operational Ontology authority lifecycle cards are evidence read models only.
   They preserve the verified review result that Operational Ontology is not
-  identical to `CAV2-D23`; it remains a `CAV2-D19`-carried candidate term until
-  definitions-governance decides using `CAV2-D22`'s test. The D19-D23 bridge,
-  lifecycle-model annotation, handoff wording, and drift-audit follow-up remain
-  unperformed owner work.
+  identical to `CAV2-D23`, while the accepted definitions-governance decision
+  demotes it as a standalone CyberAlchemy v2 term. Normalize future uses into
+  `CAV2-D19` typed ontology obligations plus `CAV2-D23` lifecycle-axis
+  obligations; name any remaining operational obligation directly.
+- Orthogonality and recursivity source evidence has been consumed by
+  definitions-governance into `CAV2-D29` axis orthogonality invariant and
+  `CAV2-D30` bounded recursive self-application. The broad `recursivity` label
+  is only an alias for the bounded meaning. Ledger remains unpromoted until
+  inheritance relations and local Craft ledger conformance are reviewed.
+- Primordial source-cluster candidates for `primitive type`, generic `method`,
+  and `definition` have been consumed by definitions-governance into `CAV2-D31`,
+  `CAV2-D32`, and `CAV2-D33`. Remaining T-1 review candidates are authority,
+  intent, artifact, gate, provenance, traceability, and claim <= proof.

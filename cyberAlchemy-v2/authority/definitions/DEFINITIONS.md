@@ -966,15 +966,32 @@ constitutions, runtime contracts, or public claims by itself. The ontology
 package fixes authority by making candidate authority structure explicit; it
 does not own authority transitions.
 
-`Operational Ontology` remains a source-specific candidate branch term until a
-later pass decides whether CyberAlchemy v2 needs it as a subtype, branch label,
-alias, or separate term under this definition.
+`Operational Ontology` is demoted as a CyberAlchemy v2 definition candidate.
+Treat it as source-local shorthand for an operation-facing ontology projection:
+a `CAV2-D19` ontology view whose authority posture is governed by `CAV2-D23`.
+It is not a primitive, not a peer ontology branch, not a standalone subtype, and
+not a `CAV2-D23` alias.
+
+When a source uses `Operational Ontology`, normalize the phrase instead of
+promoting it:
+
+- typed meaning, relation, branch, evidence, retrieval, or use obligations route
+  to `CAV2-D19` ontology;
+- lifecycle posture, status, evidence confidence, commitment, provenance,
+  owner, or residue separation routes to `CAV2-D23` authority lifecycle axis;
+- agent-operation, run, action, routing, or workflow obligations must be named
+  as concrete object, relation, action, run, or schema obligations rather than
+  hidden inside the broad phrase;
+- if no concrete obligation remains after the D19/D23 split, retire the phrase
+  in local wording.
 
 ### Primary Consumers
 
 - [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
 - [../../CRAFT.md](../../CRAFT.md)
 - [../../../.arcanum/ontology-vault/map-2026-06-18-dispersed-knowledge.md](../../../.arcanum/ontology-vault/map-2026-06-18-dispersed-knowledge.md)
+- [../../development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md](../../development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md)
+- [../../../.arcanum/inventory/entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md](../../../.arcanum/inventory/entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md)
 
 ## CAV2-D20: Craft Method
 
@@ -1743,13 +1760,391 @@ review.
 - [../../TO-VLAD/TO-VLAD.md](../../TO-VLAD/TO-VLAD.md)
 - [../../TO-VLAD/RESOLUTION.md](../../TO-VLAD/RESOLUTION.md)
 
+## CAV2-D29: Axis Orthogonality Invariant
+
+Status: active
+Term: axis orthogonality invariant
+Aliases: orthogonality, orthogonal-axis invariant, independent-axis invariant, non-implied progress invariant
+
+### Normative Definition
+
+Axis orthogonality invariant is the CyberAlchemy v2 rule that two
+authority-bearing dimensions, roles, states, owner lanes, schema or instance
+axes, validation concerns, or artifact properties are treated as independently
+variable unless an explicit typed relation, gate, schema rule, validator, or
+owner decision relates them.
+
+Advancing one axis must not silently advance, validate, authorize, satisfy, or
+rewrite another axis. If a decision depends on such co-change, the dependency
+must be represented through `CAV2-D16` typed coupling invariant before it can
+govern work.
+
+### Formal Interpretation
+
+For a governed context `C`, let:
+
+```text
+A(C) = {a_1, a_2, ..., a_n}
+```
+
+be the declared axes that matter to a decision. Axes `a_i` and `a_j` are
+orthogonal for decision `d` when a valid move on `a_i` does not imply a move on
+`a_j` unless there is an explicit bridge:
+
+```text
+move(a_i) does not imply move(a_j) unless R_ij is declared
+```
+
+where `R_ij` is a typed coupling, gate, schema rule, validator, or owner
+decision with named endpoints, direction or symmetry, evidence, and effect.
+
+### Operational Interpretation
+
+Use this invariant before merging or ordering concepts such as maturity and
+promotion, evidence confidence and owner commitment, schema residue and
+instance residue, role and lane, source evidence and local canon, built status
+and authority status, or workflow state and lifecycle status.
+
+When the question is whether a new label or classifier adds independent
+information, use `CAV2-D22` orthogonal classification. When the question is
+which authority lifecycle component changed, use `CAV2-D23` authority lifecycle
+axis. When the axes are not independent, use `CAV2-D16` typed coupling
+invariant.
+
+### Plain-Language Intuition
+
+Moving one slider should not secretly move another slider. If it does, name the
+wire between them.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, axis orthogonality is the broader primordial invariant behind
+several already promoted local rules. `CAV2-D22` specializes it for
+classification admission, `CAV2-D23` applies it to authority lifecycle posture,
+and `CAV2-D16` handles the cases where independence fails. It lets the v2 base
+separate ontology from authority movement, schema from instance evidence,
+promotion from maturity, and source truth from local adoption without pretending
+those axes cannot interact.
+
+### Boundary
+
+Axis orthogonality is not isolation, not statistical independence unless a data
+model explicitly says so, not Hilbert-space or projector orthogonality, not a
+contextuality theorem, and not a consistency guarantee. It is a governance
+invariant about non-implied movement between axes. Interactions are allowed, but
+they must be explicit.
+
+### Primary Consumers
+
+- [source-clusters/primordial.md](source-clusters/primordial.md)
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [../../CRAFT.md](../../CRAFT.md)
+- [../../TO-VLAD/TO-VLAD.md](../../TO-VLAD/TO-VLAD.md)
+- [../../../.arcanum/inventory/entries/evidence-cards/2026-06-22-presheaf-vect-novelty-orthogonality-cards.md](../../../.arcanum/inventory/entries/evidence-cards/2026-06-22-presheaf-vect-novelty-orthogonality-cards.md)
+
+## CAV2-D30: Bounded Recursive Self-Application
+
+Status: active
+Term: bounded recursive self-application
+Aliases: recursivity, bounded recursivity, recursive self-application, process recursion, altitude-bounded recursion
+
+### Normative Definition
+
+Bounded recursive self-application is the CyberAlchemy v2 invariant that a
+governed process may be applied to artifacts produced by that same process only
+when each recursive step declares its artifact, altitude or layer, scope, owner,
+gate, carried state or residue, recomposition path, and stopping condition.
+
+The recursive move must preserve authority boundaries: the process, the artifact
+being processed, the owner route, and the resulting authority posture must remain
+distinct unless an explicit promotion or coupling records otherwise.
+
+### Formal Interpretation
+
+Given a governed process `P`, an artifact `a_n` already produced, shaped, or
+maintained by `P`, and an altitude marker `h_n`, a valid recursive
+self-application step has the form:
+
+```text
+P_hn(a_n) -> a_(n+1) at h_(n+1)
+```
+
+The step is admissible only if it records:
+
+- source artifact `a_n`
+- target artifact `a_(n+1)`
+- altitude or layer relation between `h_n` and `h_(n+1)`
+- owner route
+- gate or validation condition
+- residue or state carried forward
+- recomposition path back to the lower artifact or parent context
+- stopping condition, budget, or explicit next owner
+
+Without those fields, the move is ordinary recursion, self-hosting, looped work,
+or open residue, not CyberAlchemy v2 recursivity.
+
+### Operational Interpretation
+
+Use bounded recursive self-application when definitions-governance defines
+definition work, Craft records and routes work about Craft, CyberAlchemy applies
+its method to CyberAlchemy method artifacts, or a tower creates a higher-layer
+artifact that must explain back down to its source.
+
+The action must answer: what artifact is the method operating on, at what
+altitude, under which owner and gate, what residue or state is carried, how the
+result recomposes with the source, and where the recursion stops or hands off.
+
+### Plain-Language Intuition
+
+The system can use its own method on its own work, but each loop needs a label,
+a boundary, a reviewer, and a way back.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, this definition resolves the earlier `recursivity` candidate
+by promoting the bounded form rather than the vague label. It sits beside
+`CAV2-D17` reflection tower method and `CAV2-D20` Craft method: reflection tower
+names the residue-to-higher-layer move, Craft method names the recursive ledger
+discipline, and bounded recursive self-application names the cross-method
+invariant that lets a governed method operate on its own artifacts without
+collapsing authority surfaces.
+
+This definition partially unblocks the ledger primitive review: `recursivity`
+now has a local meaning, but ledger promotion still depends on inheritance
+relations and local Craft ledger conformance.
+
+### Boundary
+
+Bounded recursive self-application is not ordinary code recursion, not generic
+self-hosting, not endless reflection, not child-folder nesting, not automatic
+promotion, and not a license to run agents recursively without a budget. It does
+not replace `CAV2-D17` reflection tower method or `CAV2-D20` Craft method; it
+governs when process-on-own-artifact moves are admissible across those and
+other methods.
+
+### Primary Consumers
+
+- [source-clusters/primordial.md](source-clusters/primordial.md)
+- [reviews/ledger-primitive-review.md](reviews/ledger-primitive-review.md)
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [../../CRAFT.md](../../CRAFT.md)
+- [../../development/research/2026-06-21-recursivity-promotion-verdict/findings.md](../../development/research/2026-06-21-recursivity-promotion-verdict/findings.md)
+
+## CAV2-D31: Primitive Type
+
+Status: active
+Term: primitive type
+Aliases: semantic primitive type, primitive semantic type, base semantic object, semantic primitive
+
+### Normative Definition
+
+A primitive type is a CyberAlchemy v2 base semantic kind that lower definitions,
+methods, constitutions, disciplines, schemas, ontology records, or execution
+artifacts may reference without deriving its meaning from a narrower source
+space, implementation layer, project glossary, or generated representation.
+
+To count as a primitive type, the term must declare its stable name, authority
+scope, allowed consumers, source-evidence boundary, relation to any external
+authority term, and the condition under which lower layers may specialize it.
+Lower layers may instantiate, specialize, or compose a primitive type, but they
+must not silently redefine it.
+
+### Formal Interpretation
+
+For a CyberAlchemy v2 term `t`, `primitive_type(t)` is admissible only when:
+
+```text
+authority_scope(t) = CAV2
+owner(t) = definitions-governance
+derived_from_narrower_source_space(t) = false
+boundary(t) is declared
+consumer_surface(t) is declared
+specialization_rule(t) is declared
+```
+
+If `t` is borrowed from an external authority, the primitive claim applies only
+to CyberAlchemy v2's local role for `t`, not to the external authority's whole
+meaning.
+
+### Operational Interpretation
+
+Use this term when deciding whether a candidate belongs in the primordial basis
+rather than a lower tower. A primitive type should be small enough for multiple
+towers to reuse, but strict enough that lower artifacts cannot stretch it by
+vibe, proximity, or repeated use.
+
+### Plain-Language Intuition
+
+A primitive type is a base kind the project is allowed to build with before it
+builds narrower things.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, primitive type names the role played by local bases such as
+axis orthogonality, bounded recursive self-application, residue, method, and
+definition. It also keeps CAV2 local primitives separate from DomainSpec
+meta-types, Arcanum schema/contract terms, programming types, and ontology node
+types. Those may be evidence or external references, but they become CAV2
+primitive types only when this file re-authors the local semantic role.
+
+### Boundary
+
+Primitive type is not a programming-language primitive, not a database field
+type, not a schema class, not a DomainSpec `DS-D1` meta-type, not a source
+glossary label, and not automatic authority for any term called "primitive" in
+another folder.
+
+### Primary Consumers
+
+- [source-clusters/primordial.md](source-clusters/primordial.md)
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [DEFINITION-LOCALIZATION-ROUTE.md](DEFINITION-LOCALIZATION-ROUTE.md)
+- [../../CRAFT.md](../../CRAFT.md)
+
+## CAV2-D32: Method
+
+Status: active
+Term: method
+Aliases: governed method, method primitive, repeatable governance method
+
+### Normative Definition
+
+A method is a governed repeatable way to transform intent, source evidence,
+state, or residue into artifacts and continued work under declared roles,
+actions or phases, gates, validation conditions, residue handling, provenance,
+and recomposition or evolution rules.
+
+A method may be instantiated by a narrower named method, such as `CAV2-D17`
+reflection tower method, `CAV2-D20` Craft method, or `CAV2-D21` four-facet
+action method. The generic term names the umbrella role; each concrete method
+must still declare its own scope, inputs, outputs, gates, and boundaries.
+
+### Formal Interpretation
+
+For a method `M`, an admissible CyberAlchemy v2 method record has at least:
+
+```text
+M = (scope, inputs, actions, roles, gates, outputs, evidence,
+     residue_rule, validation_rule, recomposition_rule, boundary)
+```
+
+The method is repeatable when another execution can identify which fields are
+being reused, which are being specialized, and which residue remains open.
+
+### Operational Interpretation
+
+Use this term when deciding whether a repeated CyberAlchemy move is merely a
+task habit, an implementation pipeline, a technique, a lifecycle label, or a
+governed method. A method can use engines, pipelines, checklists, ledgers,
+schemas, agents, or workflows, but it is not identical to any one of them
+unless the concrete definition says so.
+
+### Plain-Language Intuition
+
+A method is the repeatable way the project turns intent and evidence into work
+that can be checked, carried forward, and improved.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, method is the umbrella term that lets the project compare
+the CyberAlchemy Method source material, Craft method, reflection tower method,
+four-facet action method, promotion routes, and later runtime workflows without
+collapsing them into one pipeline. This is why `method` belongs in the
+primordial basis: lower towers can build their own methods, but their method
+claims must remain explicit and reviewable.
+
+### Boundary
+
+Method is not a single technique, not a one-off task, not a mere checklist, not
+an engine, not a pipeline, not a lifecycle state, and not authority by itself.
+Authority comes from the owner surface and gate that admit a method into a
+particular use.
+
+### Primary Consumers
+
+- [source-clusters/primordial.md](source-clusters/primordial.md)
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [../../CRAFT.md](../../CRAFT.md)
+- [../../../arcanum/framework/CYBERALCHEMY-METHOD.md](../../../arcanum/framework/CYBERALCHEMY-METHOD.md)
+
+## CAV2-D33: Definition
+
+Status: active
+Term: definition
+Aliases: governed definition, canonical definition, definition unit, semantic definition unit
+
+### Normative Definition
+
+A definition is a governed semantic unit that assigns a term its normative
+meaning inside a declared authority scope, with a stable identifier when the
+scope uses identifiers, a status, aliases, colocated definition voices,
+boundaries, source or provenance references, primary consumers, index presence,
+and a drift route.
+
+In CyberAlchemy v2, a candidate row, glossary note, source quote, research
+finding, inventory card, generated index entry, or narrative explanation is not
+a definition until definitions-governance promotes or updates it in the
+canonical definitions source.
+
+### Formal Interpretation
+
+An admissible CyberAlchemy v2 definition record has the shape:
+
+```text
+Definition =
+  (id, term, status, aliases, normative_voice, plain_language_voice,
+   domain_context_voice, boundary, provenance_or_sources,
+   consumers, index_entry, drift_route)
+```
+
+The normative voice determines meaning. Plain-language and domain-context
+voices explain and locate the term, but they do not override the normative
+voice.
+
+### Operational Interpretation
+
+Use this term when deciding whether a piece of wording is allowed to govern
+CyberAlchemy v2 semantics. If a term is only represented in a source cluster,
+inventory card, tower map, handoff, or discussion, it is still candidate
+material. To become a definition, it must enter this file with the required
+voices and synchronized lookup surfaces.
+
+### Plain-Language Intuition
+
+A definition is the place where a term is finally allowed to mean something for
+this project.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, definition keeps the v2 authority surface honest while the
+project imports scattered vocabulary from Arcanum, DomainSpec, prior
+CyberAlchemy work, framework-unification, vaults, research, and validation
+evidence. The project may localize all of that material for search and Craft
+execution, but only this definitions surface can make a CyberAlchemy v2 term
+canonical.
+
+### Boundary
+
+Definition is not a glossary hint, not a candidate source-cluster row, not a
+research claim, not an inventory evidence card, not an ontology node by itself,
+not a generated lookup row, and not a comment thread. Those surfaces may supply
+evidence or navigation, but they cannot silently redefine a canonical term.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [source-clusters/primordial.md](source-clusters/primordial.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [DEFINITION-LOCALIZATION-ROUTE.md](DEFINITION-LOCALIZATION-ROUTE.md)
+- [../../CRAFT.md](../../CRAFT.md)
+
 ## Open Questions
 
 ### OQ-1. Which imported definitions should be promoted first?
 
 Context: the top-anchor queue is now promoted as `CAV2-D9` through `CAV2-D15`.
 The import manifest still contains 149 definition-like candidates, including
-`AgenticSystem`, `OperationalOntology`, `ContextSolution`, and
-`TranslationResidue` source material. Recommendation: classify and deduplicate
-the remaining import candidates before promoting terms into this file. Status:
-OPEN.
+`AgenticSystem`, `ContextSolution`, and `TranslationResidue` source material.
+`OperationalOntology` source material has been demoted into D19/D23 language.
+Recommendation: classify and deduplicate the remaining import candidates before
+promoting terms into this file. Status: OPEN.

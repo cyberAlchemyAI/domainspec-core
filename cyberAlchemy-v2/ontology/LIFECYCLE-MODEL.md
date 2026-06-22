@@ -5,8 +5,10 @@ Owner: CyberAlchemy v2 ontology route
 
 ## Purpose
 
-This file models authority lifecycle concepts for ontology use. It does not
-create a lifecycle schema and does not move lifecycle ownership into ontology.
+This file is a candidate `CAV2-D23` lifecycle-axis separation model for ontology
+use. It does not create a lifecycle schema and does not move lifecycle ownership
+into ontology. Ontology may carry authorized read-model projections, but it does
+not own lifecycle verdicts.
 
 ## Lifecycle Separation
 

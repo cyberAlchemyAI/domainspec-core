@@ -4,6 +4,17 @@ Status: audited finding
 Date: 2026-06-21
 Dispatch: `2026-06-21-recursivity-promotion-verdict`
 
+## 2026-06-22 Definitions-Governance Resolution
+
+This verdict remains valid for the vague label `recursivity`: do not promote the
+unbounded term. CyberAlchemy v2 resolved the blocker by promoting
+`CAV2-D30: bounded recursive self-application`, with `recursivity` only as an
+alias for the bounded meaning.
+
+The promoted term must preserve the discrimination tests below: it is not
+ordinary recursion, generic self-hosting, `CAV2-D17` reflection tower method, or
+`CAV2-D20` Craft method.
+
 ## Short Answer
 
 **DO NOT PROMOTE.**

@@ -57,7 +57,7 @@ Controlled tags for this package.
 | `source-import` | Imported external or sibling-repository source material copied into a governed private source area. |
 | `house-project-vault` | The imported `/home/vrondelli/projects/house_project/docs/vault/` source snapshot and derived inventory handles. |
 | `confidence-lifecycle` | Status, maturity, veracidade/evidence, conviccao/commitment, or trust-gate lifecycle evidence. |
-| `operational-ontology` | Candidate Operational Ontology classification, D19/D22/D23 boundary, and related definition-owner handoff material. |
+| `operational-ontology` | Demoted Operational Ontology classification, D19/D23 normalization boundary, and related definition-owner handoff material. |
 | `graph-index` | Materialized graph edge, provenance, or navigation index used to shorten lookup. |
 | `schema-amendment` | Schema amendment logs, schema versioning, frontmatter ownership, or schema evolution governance. |
 | `authority-harness` | Candidate authority-harness / lifecycle-envelope-extension framing: shared rails vs per-entity judgment (typed-hole contract). |

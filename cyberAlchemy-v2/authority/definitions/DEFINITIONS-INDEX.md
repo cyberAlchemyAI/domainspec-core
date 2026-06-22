@@ -35,6 +35,11 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D26 | append-only event ledger | active | [Append-Only Event Ledger](DEFINITIONS.md#cav2-d26-append-only-event-ledger) | Record what happened as a new line; retries should not count twice. |
 | CAV2-D27 | residue entropy | active | [Residue Entropy](DEFINITIONS.md#cav2-d27-residue-entropy) | The amount of meaningful distinction the current layer collapsed or left unnamed. |
 | CAV2-D28 | value-cycle edge guard | active | [Value-Cycle Edge Guard](DEFINITIONS.md#cav2-d28-value-cycle-edge-guard) | If an edge can force a value and loop, stop and prove the loop is safe before it becomes a rule. |
+| CAV2-D29 | axis orthogonality invariant | active | [Axis Orthogonality Invariant](DEFINITIONS.md#cav2-d29-axis-orthogonality-invariant) | Moving one slider should not secretly move another slider. If it does, name the wire between them. |
+| CAV2-D30 | bounded recursive self-application | active | [Bounded Recursive Self-Application](DEFINITIONS.md#cav2-d30-bounded-recursive-self-application) | The system can use its own method on its own work, but each loop needs a label, a boundary, a reviewer, and a way back. |
+| CAV2-D31 | primitive type | active | [Primitive Type](DEFINITIONS.md#cav2-d31-primitive-type) | A base kind the project is allowed to build with before it builds narrower things. |
+| CAV2-D32 | method | active | [Method](DEFINITIONS.md#cav2-d32-method) | The repeatable way the project turns intent and evidence into work that can be checked, carried forward, and improved. |
+| CAV2-D33 | definition | active | [Definition](DEFINITIONS.md#cav2-d33-definition) | The place where a term is finally allowed to mean something for this project. |
 
 ## Alias Lookup
 
@@ -46,7 +51,9 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | authority promotion queue | CAV2-D13 |
 | authority surface | CAV2-D3 |
 | base repository | CAV2-D1 |
+| base semantic object | CAV2-D31 |
 | bootstrap source spine | CAV2-D4 |
+| canonical definition | CAV2-D33 |
 | Craft ledger surface | CAV2-D12 |
 | Craft method | CAV2-D20 |
 | Craft recursive method | CAV2-D20 |
@@ -55,6 +62,8 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CyberAlchemy base repository | CAV2-D9 |
 | CyberAlchemy stable repository candidate | CAV2-D9 |
 | CyberAlchemy v2 project area | CAV2-D15 |
+| definition | CAV2-D33 |
+| definition unit | CAV2-D33 |
 | definition promotion queue | CAV2-D13 |
 | definition space | CAV2-D11 |
 | downloadable base repository | CAV2-D1 |
@@ -64,6 +73,9 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | action facet obligations | CAV2-D21 |
 | append-only ledger | CAV2-D26 |
 | authority axis split | CAV2-D23 |
+| altitude-bounded recursion | CAV2-D30 |
+| axis orthogonality | CAV2-D29 |
+| bounded recursivity | CAV2-D30 |
 | constitution-first traversal | CAV2-D24 |
 | confidence lifecycle axis | CAV2-D23 |
 | deterministic event ledger | CAV2-D26 |
@@ -74,6 +86,8 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | event-sourced authority ledger | CAV2-D26 |
 | four-facet action primitive | CAV2-D21 |
 | graph-indexed lookup | CAV2-D24 |
+| governed definition | CAV2-D33 |
+| governed method | CAV2-D32 |
 | governed action facet obligation | CAV2-D21 |
 | governed action facet obligations | CAV2-D21 |
 | governed action facets | CAV2-D21 |
@@ -82,8 +96,11 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | local Craft surface | CAV2-D12 |
 | local authority surface | CAV2-D3 |
 | local project space | CAV2-D15 |
+| method | CAV2-D32 |
+| method primitive | CAV2-D32 |
 | next stable repository | CAV2-D1 |
 | non-orthogonality explicitness rule | CAV2-D16 |
+| non-implied progress invariant | CAV2-D29 |
 | governed meaning layer | CAV2-D19 |
 | enforcement witness | CAV2-D25 |
 | idempotent event ledger | CAV2-D26 |
@@ -92,19 +109,30 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | ontology candidate | CAV2-D19 |
 | ontology candidate condensation | CAV2-D19 |
 | ontology map | CAV2-D19 |
+| orthogonal-axis invariant | CAV2-D29 |
 | orthogonal label discipline | CAV2-D22 |
 | orthogonal ontology basis | CAV2-D22 |
+| orthogonality | CAV2-D29 |
 | owner gate | CAV2-D5 |
+| process recursion | CAV2-D30 |
+| primitive semantic type | CAV2-D31 |
+| primitive type | CAV2-D31 |
 | promotion queue | CAV2-D13 |
 | provenance-first navigation | CAV2-D24 |
+| recursive self-application | CAV2-D30 |
+| recursivity | CAV2-D30 |
 | recursive ledger method | CAV2-D20 |
 | retrieval-entropy classification | CAV2-D22 |
 | repository stewardship | CAV2-D6 |
 | residue-carrying ledger method | CAV2-D20 |
+| repeatable governance method | CAV2-D32 |
 | rule promotion queue | CAV2-D13 |
 | runtime witness | CAV2-D25 |
 | schema amendment discipline | CAV2-D25 |
 | schema-evolution witness | CAV2-D25 |
+| semantic definition unit | CAV2-D33 |
+| semantic primitive | CAV2-D31 |
+| semantic primitive type | CAV2-D31 |
 | session-as-provenance navigation | CAV2-D24 |
 | source-indexed navigation | CAV2-D24 |
 | status-veracity-conviction split | CAV2-D23 |
@@ -134,6 +162,12 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | unique-information classification | CAV2-D22 |
 | value-constraining cycle guard | CAV2-D28 |
 | v2 consolidation surface | CAV2-D9 |
+
+## Demoted Term Notes
+
+| Term | Status | Normalization route | Do not treat as |
+| --- | --- | --- | --- |
+| Operational Ontology | demoted derived phrase under `CAV2-D19` + `CAV2-D23` | normalize typed meaning/relation/use obligations to D19, lifecycle posture axes to D23, and any concrete agent-operation obligation to a named object/relation/action/run/schema obligation. | primitive, peer ontology branch, standalone subtype, separate candidate term, or D23 alias. |
 
 ## Governance Notes
 

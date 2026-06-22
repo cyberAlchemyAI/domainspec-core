@@ -116,7 +116,7 @@ future implementation.
 - [../../../arcanum/framework/CYBERALCHEMY-METHOD.md](../../../arcanum/framework/CYBERALCHEMY-METHOD.md)
 - [../../../arcanum/arcana/craft/SKILL.md](../../../arcanum/arcana/craft/SKILL.md)
 
-### Candidate Local Terms
+### Active Local Terms
 
 - typed coupling invariant - [CAV2-D16](DEFINITIONS.md#cav2-d16-typed-coupling-invariant)
 - reflection tower method - [CAV2-D17](DEFINITIONS.md#cav2-d17-reflection-tower-method)
@@ -124,17 +124,34 @@ future implementation.
 - residue entropy - [CAV2-D27](DEFINITIONS.md#cav2-d27-residue-entropy)
 - value-cycle edge guard - [CAV2-D28](DEFINITIONS.md#cav2-d28-value-cycle-edge-guard)
 - four-facet action method - [CAV2-D21](DEFINITIONS.md#cav2-d21-four-facet-action-method)
-- orthogonality
-- recursivity
-- primitive type
-- method
-- definition
+- axis orthogonality invariant - [CAV2-D29](DEFINITIONS.md#cav2-d29-axis-orthogonality-invariant)
+- bounded recursive self-application - [CAV2-D30](DEFINITIONS.md#cav2-d30-bounded-recursive-self-application)
+- primitive type - [CAV2-D31](DEFINITIONS.md#cav2-d31-primitive-type)
+- method - [CAV2-D32](DEFINITIONS.md#cav2-d32-method)
+- definition - [CAV2-D33](DEFINITIONS.md#cav2-d33-definition)
+
+### Remaining Candidate Local Terms
+
+- authority
+- intent
+- artifact
+- gate
+- provenance
+- traceability
+- claim <= proof
 
 ### Boundary
 
-Primordial terms are candidates for local CyberAlchemy v2 authority, but this
-tower does not promote them by itself. Each term still needs definitions-
-governance promotion with complete voices, index sync, and drift review.
+Primordial terms may be represented here for local work, but this tower does
+not promote them by itself. Candidate terms still need definitions-governance
+promotion with complete voices, index sync, and drift review before they become
+CyberAlchemy v2 authority.
+
+### Next Review
+
+Review the remaining T-1 candidate local terms after the next import clustering
+pass determines whether they are primitives, aliases of existing authority
+terms, source-local vocabulary, or lower-tower concepts.
 
 ### Scope
 
@@ -323,8 +340,10 @@ context selection, and promotion concepts.
 
 Inventory and ontology reduce search and condense candidate meaning. They do
 not promote source authority, definitions, constitutions, or runtime contracts.
-`OperationalOntology` remains a source-specific branch candidate until reviewed
-against [CAV2-D19](DEFINITIONS.md#cav2-d19-ontology).
+`OperationalOntology` is demoted as a standalone definition candidate; normalize
+it into [CAV2-D19](DEFINITIONS.md#cav2-d19-ontology) ontology projection
+language plus [CAV2-D23](DEFINITIONS.md#cav2-d23-authority-lifecycle-axis)
+lifecycle-axis language.
 
 ## T5. Research And Product Towers
 
@@ -390,9 +409,9 @@ define semantic authority unless a promotion route consumes them.
 | Queue | First work | Owner route | Gate |
 | --- | --- | --- | --- |
 | Q1. Top anchors | Promoted CyberAlchemy v2, definition tower, tower space, Craft execution surface, authority promotion queue, source space, and project space as CAV2-D9 through CAV2-D15. | definitions-governance + Craft ledger | Pass for local definitions; broader import clustering still open. |
-| Q1a. Primordial basis | Promoted `typed coupling invariant` as CAV2-D16, `reflection tower method` as CAV2-D17, `residue` as CAV2-D18, `Craft method` as CAV2-D20, `four-facet action method` as CAV2-D21, and `residue entropy` as CAV2-D27; next review `orthogonality`, `recursivity`, `primitive type`, generic `method`, and `definition` from the primordial source cluster. | definitions-governance | Flag until remaining terms have complete voices and drift check. |
-| Q1b. Knowledge governance basis | Promoted `ontology` as CAV2-D19; next review `OperationalOntology`, `ContextSolution`, evidence card, evidence set, branch ownership, and confidence split. | definitions-governance + ontology-vault | Flag until source-specific branch terms are classified against CAV2-D19 and promotion boundaries. |
-| Q1c. Ledger primitive review | Reviewed `ledger` as a candidate cross-method evidence/state register; canonical promotion deferred. | definitions-governance + robot-talks + Craft schema review | Block until `recursivity`, inheritance relations, and local Craft ledger conformance are settled. |
+| Q1a. Primordial basis | Promoted `typed coupling invariant` as CAV2-D16, `reflection tower method` as CAV2-D17, `residue` as CAV2-D18, `Craft method` as CAV2-D20, `four-facet action method` as CAV2-D21, `residue entropy` as CAV2-D27, `axis orthogonality invariant` as CAV2-D29, `bounded recursive self-application` as CAV2-D30, `primitive type` as CAV2-D31, generic `method` as CAV2-D32, and `definition` as CAV2-D33. | definitions-governance | Flag until remaining T-1 candidates are classified: authority, intent, artifact, gate, provenance, traceability, and claim <= proof. |
+| Q1b. Knowledge governance basis | Promoted `ontology` as CAV2-D19 and demoted `OperationalOntology` into D19/D23 language; next review `ContextSolution`, evidence card, evidence set, branch ownership, and confidence split. | definitions-governance + ontology-vault | Flag until source-specific branch terms are classified against CAV2-D19 and promotion boundaries. |
+| Q1c. Ledger primitive review | Reviewed `ledger` as a candidate cross-method evidence/state register; canonical promotion deferred. | definitions-governance + robot-talks + Craft schema review | Block until inheritance relations and local Craft ledger conformance are settled; `CAV2-D30` resolves the recursivity-name blocker. |
 | Q1d. Schema and relationship invariant search sequence | Filed an inventory-backed search ladder for schema, typed relationships, taxonomy, graph admissibility, and relationship invariant evidence. | inventory + definitions-governance | Flag until evidence-cards distinguish `relationship invariant` from `CAV2-D16` and keep `schema` as Arcanum authority or a named v2 subtype. |
 | Q1e. Imported vault value concepts | Promoted `orthogonal classification`, `authority lifecycle axis`, `provenance-first navigation`, `schema amendment witness`, and `append-only event ledger` as CAV2-D22 through CAV2-D26 from the house_project vault source cluster. | definitions-governance + constitution-governance | Pass for local definitions; validator-backed constitutions and generic `ledger` remain open. |
 | Q2. Framework source cluster | Create v2-local representation rows for Arcanum-wide definitions, starting with `DEF-ARC-CONTRACT`, `DEF-ARC-SCHEMA`, `DEF-ARC-GOAL-SPELL`, `DEF-ARC-STAGED-DELTA`, and `DEF-ARC-APPROVAL-TOKEN`. | Craft + definitions-governance | Pass if source authority remains external and local promotion is explicit. |

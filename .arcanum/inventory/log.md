@@ -1,5 +1,39 @@
 # Inventory Log
 
+## 2026-06-22 Primitive type, method, and definition definitions-governance sync
+
+- Mode: definitions-governance promotion sync
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: `cyberAlchemy-v2/authority/definitions/source-clusters/primordial.md`, `cyberAlchemy-v2/authority/definitions/DEFINITION-LOCALIZATION-ROUTE.md`, `projects/framework-unification/`, `arcanum/framework/CYBERALCHEMY-METHOD.md`, and `.agents/skills/definitions-governance/SKILL.md`
+- Entries created: 0
+- Entries updated: 0
+- Index updated: yes
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass (`git diff --check`, Craft JSON parse, Craft YAML parse)
+- Notes: Definitions-governance promoted `CAV2-D31` primitive type,
+  `CAV2-D32` method, and `CAV2-D33` definition. The promotion resolves the
+  active T-1 queue items for local primitive type, generic method, and
+  definition while preserving boundaries against programming primitives,
+  DomainSpec meta-types, Arcanum schema/contract terms, concrete methods, and
+  non-authority glossary, inventory, ontology, or generated lookup records.
+  Remaining top-basis candidates are authority, intent, artifact, gate,
+  provenance, traceability, and claim <= proof.
+
+Artifacts:
+
+- `cyberAlchemy-v2/authority/definitions/DEFINITIONS.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITIONS-INDEX.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITION-TOWERS.md`
+- `cyberAlchemy-v2/authority/definitions/source-clusters/primordial.md`
+- `cyberAlchemy-v2/CRAFT.md`
+- `cyberAlchemy-v2/.craft/ledger.yml`
+- `cyberAlchemy-v2/.craft/index.json`
+- `cyberAlchemy-v2/TO-VLAD/SESSION-HANDOFF-cav2-primordial-basis.md`
+- `.arcanum/inventory/index.md`
+
 ## 2026-06-22 ingest — presheaf-in-Vect novelty + orthogonality resolution
 
 - Mode: ingest
@@ -432,7 +466,7 @@ Artifacts:
 - Inventory root: `.arcanum/inventory/`
 - Dispatch: `2026-06-21-house-project-vault-import`
 - Entries created: 0
-- Entries updated: 3 files
+- Entries updated: 2 entry files plus index
 - Index updated: yes
 - Tags updated: no
 - Log updated: yes
@@ -488,3 +522,126 @@ Artifacts:
 - `cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/attacks.md` (source, read-only)
 - `.arcanum/inventory/entries/evidence-cards/2026-06-22-operational-ontology-authority-lifecycle-cards.md`
 - `.arcanum/inventory/entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md`
+
+## 2026-06-22 Operational Ontology definitions-governance consumption sync
+
+- Mode: authority-consumption sync
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Dispatch: `2026-06-22-operational-ontology-authority-lifecycle-review`
+- Entries created: 0
+- Entries updated: 3 files
+- Index updated: yes
+- Tags updated: no
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass
+- Notes: Definitions-governance consumed the Operational Ontology review
+  EvidenceSet without promoting Operational Ontology as a new definition.
+  Canonical changes added the D19-local decision test, a candidate watchlist
+  entry, a drift-audit route, a lifecycle-model annotation, and the candidate
+  `uses_lifecycle_axis` relation. The actual classification decision remains
+  open: retire/rewrite, D19 branch label, D19 subtype/use case, or separate
+  candidate term.
+
+Artifacts:
+
+- `cyberAlchemy-v2/authority/definitions/DEFINITIONS.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITIONS-INDEX.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md`
+- `cyberAlchemy-v2/ontology/LIFECYCLE-MODEL.md`
+- `cyberAlchemy-v2/ontology/RELATION-MODEL.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-22-operational-ontology-authority-lifecycle-cards.md`
+- `.arcanum/inventory/entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md`
+
+## 2026-06-22 Operational Ontology demotion sync
+
+- Mode: definitions-governance demotion sync
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Dispatch: `2026-06-22-operational-ontology-authority-lifecycle-review`
+- Entries created: 0
+- Entries updated: 5 files
+- Index updated: yes
+- Tags updated: yes
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass
+- Notes: Owner direction accepted the demotion of `Operational Ontology`.
+  CyberAlchemy v2 no longer treats it as a primitive, peer ontology branch,
+  standalone subtype, separate candidate term, or D23 alias. Future uses should
+  normalize into `CAV2-D19` typed ontology obligations plus `CAV2-D23`
+  lifecycle-axis obligations, with any remaining agent-operation obligation
+  named directly.
+
+Artifacts:
+
+- `cyberAlchemy-v2/authority/definitions/DEFINITIONS.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITIONS-INDEX.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITION-TOWERS.md`
+- `cyberAlchemy-v2/TO-VLAD/SESSION-HANDOFF-cav2-primordial-basis.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/tags.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-22-operational-ontology-authority-lifecycle-cards.md`
+- `.arcanum/inventory/entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md`
+
+## 2026-06-22 Orthogonality and recursivity definitions-governance sync
+
+- Mode: definitions-governance promotion sync
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: `cyberAlchemy-v2/authority/definitions/source-clusters/primordial.md`, `cyberAlchemy-v2/development/research/2026-06-21-recursivity-promotion-verdict/findings.md`, TO-VLAD orthogonality resolution evidence, and existing D16/D17/D20/D22/D23 boundaries
+- Entries created: 0
+- Entries updated: index only
+- Index updated: yes
+- Tags updated: no
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass
+- Notes: Definitions-governance promoted broad orthogonality as `CAV2-D29`
+  axis orthogonality invariant and resolved `recursivity` by promoting
+  `CAV2-D30` bounded recursive self-application. The vague `recursivity` label
+  remains only as an alias for the bounded meaning. Ledger primitive promotion
+  is partially unblocked but still deferred pending inheritance relations and
+  local Craft ledger conformance.
+
+Artifacts:
+
+- `cyberAlchemy-v2/authority/definitions/DEFINITIONS.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITIONS-INDEX.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITION-TOWERS.md`
+- `cyberAlchemy-v2/authority/definitions/source-clusters/primordial.md`
+- `cyberAlchemy-v2/development/research/2026-06-21-recursivity-promotion-verdict/findings.md`
+- `cyberAlchemy-v2/CRAFT.md`
+- `cyberAlchemy-v2/.craft/ledger.yml`
+- `cyberAlchemy-v2/.craft/index.json`
+- `cyberAlchemy-v2/TO-VLAD/RESOLUTION.md`
+- `cyberAlchemy-v2/TO-VLAD/SESSION-HANDOFF-cav2-primordial-basis.md`
+
+## 2026-06-22 Inventory machine index sync
+
+- Mode: sync
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Entries created: 0
+- Entries updated: 0
+- Files changed: 4
+- Index updated: no
+- Machine index updated: yes
+- Tags updated: no
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass
+- Notes: Added `index.json` as the primary machine-readable projection of the
+  current Markdown inventory index. `index.md` remains the human catalog; CSV
+  projections, if added later, should derive from `index.json` rather than act
+  as authority.
+
+Artifacts:
+
+- `.arcanum/inventory/README.md`
+- `.arcanum/inventory/schema.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/log.md`

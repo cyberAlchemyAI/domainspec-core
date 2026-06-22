@@ -35,6 +35,11 @@ It now also contains promoted primitives derived from that basis:
 - [`Craft method`](../DEFINITIONS.md#cav2-d20-craft-method)
 - [`four-facet action method`](../DEFINITIONS.md#cav2-d21-four-facet-action-method)
 - [`value-cycle edge guard`](../DEFINITIONS.md#cav2-d28-value-cycle-edge-guard)
+- [`axis orthogonality invariant`](../DEFINITIONS.md#cav2-d29-axis-orthogonality-invariant)
+- [`bounded recursive self-application`](../DEFINITIONS.md#cav2-d30-bounded-recursive-self-application)
+- [`primitive type`](../DEFINITIONS.md#cav2-d31-primitive-type)
+- [`method`](../DEFINITIONS.md#cav2-d32-method)
+- [`definition`](../DEFINITIONS.md#cav2-d33-definition)
 
 The user seed `ortogonalith` is treated here as `orthogonality` unless later
 work intentionally promotes a distinct coined term.
@@ -50,11 +55,11 @@ work intentionally promotes a distinct coined term.
 | `value-cycle edge guard` | Block any edge proposal that is both value-constraining and cycle-permitted until schema governance runs an obstruction review. | TO-VLAD AX-ONT kill memo, typed coupling invariant, schema amendment witness, relation model, and edge-acyclicity source evidence. | `promoted-local` | Maintain as [CAV2-D28](../DEFINITIONS.md#cav2-d28-value-cycle-edge-guard). |
 | `Craft method` | Carry recursive project work through an explicit source-of-truth ledger with typed residue, validation, decisions, next moves, and recomposition obligations. | Arcanum Craft canonical sigil, Craft formal foundations, v2 Craft execution surface, reflection tower, and residue definitions. | `promoted-local` | Maintain as [CAV2-D20](../DEFINITIONS.md#cav2-d20-craft-method). |
 | `four-facet action method` | Require every governed action to bind, create, or residue classification/taxonomy, schema, human-continuation view, and machine-checkable view. | Schema/classification/view primitive dispatch, operator action-primitive correction, typed residue and Craft method evidence. | `promoted-local` | Maintain as [CAV2-D21](../DEFINITIONS.md#cav2-d21-four-facet-action-method). |
-| `orthogonality` | Keep independent axes, roles, states, or owner lanes separate so one kind of progress cannot silently imply another. | Framework-unification repeatedly separates pipeline/mechanism axes, lifecycle/promotion axes, and role/lane axes. | `project-canonical-candidate` | Define as a primordial invariant with examples and boundaries. |
-| `recursivity` | Let the method operate on its own artifacts at different altitudes while preserving a shared shape. | CyberAlchemy Method, framework-unification, DomainSpec language, and Craft all describe recursive self-application or recursive ledgers. | `project-canonical-candidate` | Decide whether the canonical term should be `recursivity`, `recursive self-application`, or `recursion`. |
-| `primitive type` | Name a base semantic object that lower definitions can reference without deriving it from a narrower project layer. | Emerging user framing; evidence scan still needed. | `local-adaptation-needed` | Gather source examples before promotion. |
-| `method` | Name the repeatable way CyberAlchemy turns intent and evidence into artifacts. | Arcanum CyberAlchemy Method and framework-unification engine map. | `project-canonical-candidate` | Reconcile method with engine, pipeline, and lifecycle vocabulary. |
-| `definition` | Name the governed semantic unit that can become canonical only through definition authority. | Definitions-governance and v2 authority surfaces. | `project-canonical-candidate` | Decide whether v2 needs a local definition of definition. |
+| `axis orthogonality invariant` | Keep independent axes, roles, states, or owner lanes separate so one kind of progress cannot silently imply another. | Framework-unification repeatedly separates pipeline/mechanism axes, lifecycle/promotion axes, role/lane axes, DomainSpec schema/instance axes, and D22 classification axes. | `promoted-local` | Maintain as [CAV2-D29](../DEFINITIONS.md#cav2-d29-axis-orthogonality-invariant). |
+| `bounded recursive self-application` | Let a governed process operate on its own artifacts at declared altitudes while preserving authority boundaries, gates, and recomposition paths. | CyberAlchemy Method, framework-unification, DomainSpec language, Craft, and the recursivity verdict all describe recursive self-application or recursive ledgers with guardrails. | `promoted-local` | Maintain as [CAV2-D30](../DEFINITIONS.md#cav2-d30-bounded-recursive-self-application); `recursivity` is an alias, not the broad unbounded label. |
+| `primitive type` | Name a base semantic kind lower definitions can reference without deriving it from a narrower source space or implementation layer. | User primordial-type framing, definition-tower localization route, DomainSpec/Arcanum boundary pressure, and CAV2 authority layering. | `promoted-local` | Maintain as [CAV2-D31](../DEFINITIONS.md#cav2-d31-primitive-type). |
+| `method` | Name the governed repeatable way CyberAlchemy turns intent, evidence, state, or residue into artifacts and continued work. | Arcanum CyberAlchemy Method, Craft method, reflection tower method, four-facet action method, and framework-unification pipeline/mechanism evidence. | `promoted-local` | Maintain as [CAV2-D32](../DEFINITIONS.md#cav2-d32-method). |
+| `definition` | Name the governed semantic unit that becomes canonical only through the definitions authority surface. | Definitions-governance three-voice contract, CAV2 canonical definitions/index/drift surfaces, source-cluster candidate flow, and definition localization route. | `promoted-local` | Maintain as [CAV2-D33](../DEFINITIONS.md#cav2-d33-definition). |
 
 ## Candidate Voice Sketches
 
@@ -63,6 +68,8 @@ definitions-governance pass can promote or revise them without starting from
 empty chat memory.
 
 ### Orthogonality
+
+Promoted as [CAV2-D29](../DEFINITIONS.md#cav2-d29-axis-orthogonality-invariant).
 
 Scientific/formal sketch: orthogonality is the invariant that two dimensions of
 classification, authority, lifecycle, ownership, or validation vary
@@ -79,12 +86,17 @@ authority status.
 Boundary sketch: orthogonality is not isolation. Orthogonal axes can interact,
 but the interaction must be named rather than implied.
 
-### Recursivity
+### Recursivity / Bounded Recursive Self-Application
 
-Scientific/formal sketch: recursivity is the invariant that a governed process
-can be applied to artifacts produced by the same process at a different
-altitude, while preserving enough shared structure for validation, provenance,
-and continuation.
+Promoted as
+[CAV2-D30](../DEFINITIONS.md#cav2-d30-bounded-recursive-self-application).
+The promoted term is the bounded form; `recursivity` remains an alias for this
+guarded meaning, not the vague unbounded label.
+
+Scientific/formal sketch: bounded recursive self-application is the invariant
+that a governed process can be applied to artifacts produced by the same
+process at a different altitude, while preserving enough shared structure for
+validation, provenance, continuation, owner routing, and recomposition.
 
 Plain-language sketch: the system can use its own method to improve its own
 method.
@@ -95,7 +107,65 @@ operating Craft, and when the intent-to-artifact pipeline can run on earlier
 pipeline artifacts.
 
 Boundary sketch: recursivity is not infinite regress. Each recursive step needs
-a bounded scope, an artifact, a gate, and a next owner.
+a bounded scope, an artifact, a gate, a next owner, and a recomposition path.
+
+### Primitive Type
+
+Promoted as [CAV2-D31](../DEFINITIONS.md#cav2-d31-primitive-type).
+
+Scientific/formal sketch: a primitive type is a base semantic kind admitted at
+the CyberAlchemy v2 authority layer with declared scope, consumers, source
+boundary, and specialization rule. It is not derived from a narrower source
+space, although it may cite narrower sources as evidence.
+
+Plain-language sketch: it is a base kind the project can build with before it
+builds narrower things.
+
+Domain-context sketch: in CyberAlchemy v2, primitive type separates local
+primordial terms from programming primitives, DomainSpec meta-types, Arcanum
+schemas/contracts, ontology node types, and source-local glossary terms.
+
+Boundary sketch: a lower tower may specialize a primitive type, but it cannot
+silently redefine the primitive by using the same word in a narrower context.
+
+### Method
+
+Promoted as [CAV2-D32](../DEFINITIONS.md#cav2-d32-method).
+
+Scientific/formal sketch: a method is a repeatable governance structure with
+scope, inputs, actions or phases, roles, gates, outputs, evidence, residue
+handling, validation, recomposition, and boundary.
+
+Plain-language sketch: it is how the project repeatedly turns intent and
+evidence into checkable work.
+
+Domain-context sketch: in CyberAlchemy v2, method is the umbrella over concrete
+methods such as Craft method, reflection tower method, four-facet action
+method, and future runtime workflows, without collapsing them into one pipeline.
+
+Boundary sketch: a method can use an engine, pipeline, lifecycle, workflow, or
+checklist, but it is not identical to those unless a concrete definition says
+so.
+
+### Definition
+
+Promoted as [CAV2-D33](../DEFINITIONS.md#cav2-d33-definition).
+
+Scientific/formal sketch: a definition is the governed semantic unit that binds
+a term to a normative meaning inside a declared authority scope, with identifier,
+status, aliases, voices, boundary, provenance, consumers, index entry, and drift
+route.
+
+Plain-language sketch: it is where the project lets a term finally mean
+something.
+
+Domain-context sketch: in CyberAlchemy v2, definition keeps imported source
+vocabulary, inventory cards, ontology candidates, handoffs, and source-cluster
+rows from becoming hidden authority.
+
+Boundary sketch: a candidate row, source quote, glossary hint, research claim,
+inventory card, ontology node, or generated index row can support a definition,
+but it is not a definition by itself.
 
 ### Typed Coupling Invariant
 
@@ -256,28 +326,36 @@ risk, witness, and residue.
 - `domainspec-lean-formalization/lean-formalization/StrangeLoop.lean` proves the safe omega substrate and refutes current K-only omega absorption.
 - `domainspec-lean-formalization/LEAN-ARCHITECTURE.md` names the D-axis as the diagonal promotion tower and warns that residue has multiple local meanings.
 - [../../../../projects/framework-unification/CONCEPT-MAP.md](../../../../projects/framework-unification/CONCEPT-MAP.md) defines one pipeline and three vertical mechanisms, separates edge catalogs, names recursive self-application as an invariant, and models connections as typed provenance edges.
+- [../../../../projects/framework-unification/research/domainspec-findings.md](../../../../projects/framework-unification/research/domainspec-findings.md) treats spine primitives as candidates for single-owner assignment in paired views.
 - [../../../../sessions/2026-06-15-2100-framework-integration-two-axis-fusion.md](../../../../sessions/2026-06-15-2100-framework-integration-two-axis-fusion.md) records that ontology layers, capability tower, and reflection tower are distinct axes and that climbing a reflection tower adds namability.
 - [../../../../projects/framework-unification/layers/domainspec-language/research/lanes/lane-06-lifecycle-promotion.md](../../../../projects/framework-unification/layers/domainspec-language/research/lanes/lane-06-lifecycle-promotion.md) separates maturity/lifecycle from promotion/authority as orthogonal axes.
 - [../../../../implementation/domainspec/PRODUCT-COMPONENTS-IDEA.md](../../../../implementation/domainspec/PRODUCT-COMPONENTS-IDEA.md) states that every relationship should be a typed, directed edge rather than an implicit link.
 - [../../../../implementation/domainspec/vault/discovery/graph-as-residue-attractor/README.md](../../../../implementation/domainspec/vault/discovery/graph-as-residue-attractor/README.md) treats reflection tower form as the corrected way to carry uniqueness across levels after fixed-point framing fails.
 - [../../../../arcanum/development/craft/CRAFT-INITIAL-DEFINITION.md](../../../../arcanum/development/craft/CRAFT-INITIAL-DEFINITION.md) defines reflection tower as the recursive residue-handling structure and describes the reflection tower method steps.
 - [../../../../arcanum/development/craft/CRAFT-FORMAL-FOUNDATIONS.md](../../../../arcanum/development/craft/CRAFT-FORMAL-FOUNDATIONS.md) maps reflection tower to formal DomainSpec evidence and notes that tower recursion does not imply finite total closure.
-- [../../../../arcanum/framework/CYBERALCHEMY-METHOD.md](../../../../arcanum/framework/CYBERALCHEMY-METHOD.md) describes the CyberAlchemy Method loop as recursive.
+- [../../../../arcanum/framework/CYBERALCHEMY-METHOD.md](../../../../arcanum/framework/CYBERALCHEMY-METHOD.md) describes the CyberAlchemy Method as a baseline method and distinguishes method primitives from narrower techniques.
 - [../../../../arcanum/arcana/craft/SKILL.md](../../../../arcanum/arcana/craft/SKILL.md) defines Craft as recursive project-local ledger governance.
+- [../../../../.agents/skills/definitions-governance/SKILL.md](../../../../.agents/skills/definitions-governance/SKILL.md) requires canonical definitions to carry formal, plain-language, and domain-context voices.
 
 ## Promotion Questions
 
 1. Should the top tower be called `primordial semantic basis`, `primitive basis`,
    or another name?
-2. Should the promoted term be `recursivity`, `recursion`, or `recursive
-   self-application`?
-3. Is `orthogonality` a primordial invariant, a method property, or a
-   DomainSpec/ontology property reused by CyberAlchemy?
-4. Which other top terms belong beside these: `traceability`, `claim <= proof`,
-   `authority`, `intent`, `artifact`, `method`, `definition`, `type`, `gate`, or
-   `provenance`?
+2. Resolved 2026-06-22: promote
+   [bounded recursive self-application](../DEFINITIONS.md#cav2-d30-bounded-recursive-self-application);
+   keep `recursivity` as an alias for the bounded meaning.
+3. Resolved 2026-06-22: promote
+   [axis orthogonality invariant](../DEFINITIONS.md#cav2-d29-axis-orthogonality-invariant)
+   as the primordial invariant; keep D22 as the classification specialization.
+4. Partially resolved 2026-06-22: promote
+   [primitive type](../DEFINITIONS.md#cav2-d31-primitive-type),
+   [method](../DEFINITIONS.md#cav2-d32-method), and
+   [definition](../DEFINITIONS.md#cav2-d33-definition). Remaining top-basis
+   candidates to review: `traceability`, `claim <= proof`, `authority`,
+   `intent`, `artifact`, `gate`, and `provenance`.
 5. Should imported `TranslationResidue` become a subtype of `residue`, an alias,
    or a separate operational term?
-6. Should generic `method` become an umbrella over Craft method, CyberAlchemy
-   Method, engine, pipeline, and lifecycle, or remain source-specific until the
-   next definition pass?
+6. Resolved 2026-06-22: generic `method` is promoted as
+   [CAV2-D32](../DEFINITIONS.md#cav2-d32-method), an umbrella over concrete
+   governed methods. Engines, pipelines, and lifecycles remain distinct unless a
+   concrete method definition binds them.

@@ -26,7 +26,7 @@ the source of truth; this page is a linked status and navigation surface.
 - Stage: `define`
 - Gate: `flag`
 - Purpose: keep the next stable repository work source-ledgered, authority-bounded, and executable from Craft.
-- Current next move: continue the primordial basis pass with orthogonality and recursivity after promoting residue.
+- Current next move: cluster, deduplicate, and localize the 149 staged definition candidates after promoting D29-D33 from the primordial basis.
 
 ### <a id="context-ctx-cav2-spaces"></a>CTX-CAV2-SPACES - Project, Source, And Execution Spaces
 
@@ -41,7 +41,7 @@ the source of truth; this page is a linked status and navigation surface.
 - Stage: `define`
 - Gate: `flag`
 - Purpose: organize high-to-low definition towers for CyberAlchemy, Arcanum, DomainSpec, Craft, knowledge governance, research/product, and validation/ops terms.
-- Current next move: run definitions-governance on orthogonality and recursivity using CAV2-D16, CAV2-D17, and CAV2-D18 as boundary rules.
+- Current next move: cluster remaining definition candidates by tower, source family, authority posture, and promotion action; next T-1 candidates are authority, intent, artifact, gate, provenance, traceability, and claim <= proof.
 - Evidence: [authority/definitions/DEFINITION-TOWERS.md](authority/definitions/DEFINITION-TOWERS.md), [authority/definitions/DEFINITION-LOCALIZATION-ROUTE.md](authority/definitions/DEFINITION-LOCALIZATION-ROUTE.md), [authority/definitions/source-clusters/primordial.md](authority/definitions/source-clusters/primordial.md), [authority/definitions/source-clusters/arcanum.md](authority/definitions/source-clusters/arcanum.md), [authority/definitions/DEFINITIONS.md](authority/definitions/DEFINITIONS.md), [authority/imports/definitions/MANIFEST.md](authority/imports/definitions/MANIFEST.md)
 
 ### <a id="context-ctx-cav2-authority-imports"></a>CTX-CAV2-AUTHORITY-IMPORTS - Authority Imports And Candidate Clustering
@@ -202,14 +202,28 @@ the source of truth; this page is a linked status and navigation surface.
 - **reflection tower method** - [CAV2-D17](authority/definitions/DEFINITIONS.md#cav2-d17-reflection-tower-method)
 - **residue** - [CAV2-D18](authority/definitions/DEFINITIONS.md#cav2-d18-residue)
 - **ontology** - [CAV2-D19](authority/definitions/DEFINITIONS.md#cav2-d19-ontology)
+- **Craft method** - [CAV2-D20](authority/definitions/DEFINITIONS.md#cav2-d20-craft-method)
+- **four-facet action method** - [CAV2-D21](authority/definitions/DEFINITIONS.md#cav2-d21-four-facet-action-method)
+- **orthogonal classification** - [CAV2-D22](authority/definitions/DEFINITIONS.md#cav2-d22-orthogonal-classification)
+- **authority lifecycle axis** - [CAV2-D23](authority/definitions/DEFINITIONS.md#cav2-d23-authority-lifecycle-axis)
+- **provenance-first navigation** - [CAV2-D24](authority/definitions/DEFINITIONS.md#cav2-d24-provenance-first-navigation)
+- **schema amendment witness** - [CAV2-D25](authority/definitions/DEFINITIONS.md#cav2-d25-schema-amendment-witness)
+- **append-only event ledger** - [CAV2-D26](authority/definitions/DEFINITIONS.md#cav2-d26-append-only-event-ledger)
+- **residue entropy** - [CAV2-D27](authority/definitions/DEFINITIONS.md#cav2-d27-residue-entropy)
+- **value-cycle edge guard** - [CAV2-D28](authority/definitions/DEFINITIONS.md#cav2-d28-value-cycle-edge-guard)
+- **axis orthogonality invariant** - [CAV2-D29](authority/definitions/DEFINITIONS.md#cav2-d29-axis-orthogonality-invariant)
+- **bounded recursive self-application** - [CAV2-D30](authority/definitions/DEFINITIONS.md#cav2-d30-bounded-recursive-self-application)
+- **primitive type** - [CAV2-D31](authority/definitions/DEFINITIONS.md#cav2-d31-primitive-type)
+- **method** - [CAV2-D32](authority/definitions/DEFINITIONS.md#cav2-d32-method)
+- **definition** - [CAV2-D33](authority/definitions/DEFINITIONS.md#cav2-d33-definition)
 
 ## Pending By Node
 
 | Node | Pending |
 | --- | --- |
-| CTX-CAV2-ROOT | Continue definition passes with Operational Ontology classification relative to CAV2-D19, then return to orthogonality and recursivity. |
+| CTX-CAV2-ROOT | Cluster, deduplicate, and localize the 149 staged definition candidates now that Operational Ontology and the D29-D33 primordial-basis terms are resolved. |
 | CTX-CAV2-SPACES | DEC-CAV2-VISIBLE-SPACES-001 remains blocking for extraction readiness. |
-| CTX-CAV2-DEF-TOWERS | Run definitions-governance on Operational Ontology relative to CAV2-D19, then return to orthogonality and recursivity using CAV2-D16, CAV2-D17, CAV2-D18, and CAV2-D19 as boundary rules; BLK-CAV2-SOURCE-TRUTH-001, GAP-CAV2-DUPLICATE-DETECTION-001, and GAP-CAV2-LOCAL-REPRESENTATION-001 remain active. |
+| CTX-CAV2-DEF-TOWERS | Cluster remaining definition candidates by tower, source family, authority posture, and promotion action; BLK-CAV2-SOURCE-TRUTH-001, GAP-CAV2-DUPLICATE-DETECTION-001, and GAP-CAV2-LOCAL-REPRESENTATION-001 remain active. |
 | CTX-CAV2-AUTHORITY-IMPORTS | GAP-CAV2-TERM-CLUSTERING-001; convert candidates into v2-local representation clusters. |
 | CTX-CAV2-CONSTITUTION-TOWERS | GAP-CAV2-CONSTITUTION-CLUSTERING-001. |
 | CTX-CAV2-CRAFT-SURFACE | Update the human view after each meaningful ledger mutation. |
@@ -223,7 +237,7 @@ the source of truth; this page is a linked status and navigation surface.
 - [CRAFT.md](CRAFT.md) - this human view.
 - [authority/definitions/DEFINITION-TOWERS.md](authority/definitions/DEFINITION-TOWERS.md) - candidate tower map.
 - [authority/definitions/DEFINITION-LOCALIZATION-ROUTE.md](authority/definitions/DEFINITION-LOCALIZATION-ROUTE.md) - route for localizing imported definitions inside v2.
-- [authority/definitions/source-clusters/primordial.md](authority/definitions/source-clusters/primordial.md) - candidate top-basis terms for CyberAlchemy v2.
+- [authority/definitions/source-clusters/primordial.md](authority/definitions/source-clusters/primordial.md) - primordial source cluster; D29-D33 are promoted from this cluster.
 - [authority/definitions/source-clusters/arcanum.md](authority/definitions/source-clusters/arcanum.md) - v2-local representation rows for Arcanum-wide definitions.
 - [development/invoke/definition-towers/INVOKE-RESULT.md](development/invoke/definition-towers/INVOKE-RESULT.md) - Invoke define report.
 - [authority/imports/definitions/MANIFEST.md](authority/imports/definitions/MANIFEST.md) - definition import ledger.
