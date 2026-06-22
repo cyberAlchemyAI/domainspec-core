@@ -1,0 +1,200 @@
+{
+  "dispatch_id": "2026-06-21-verification-weaver-handoff",
+  "parent_dispatch_id": "2026-06-21-verification-weaver-research",
+  "intent": {
+    "raw": "Create a public-safe candidate Arcana verification-weaver package from private research evidence without copying private code or examples.",
+    "objective": "Author and validate a candidate public router and VERIFICATION-WEAVE parent receipt contract that routes testing targets to status-qualified owner lanes.",
+    "target_artifact": "arcanum/arcana/verification-weaver/",
+    "arcanum_vocabulary": [
+      "invoke",
+      "verification-weaver",
+      "test-derivation",
+      "ux-evidence-validator",
+      "experiment-harness",
+      "architecture-pattern-inventory",
+      "research-evidence-harness",
+      "sigil-development"
+    ],
+    "operator_sentence": "Build the public testing router from synthetic fixtures and owner boundaries, not private implementation copies."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "authority_split_gate"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "Upstream research dispatch already completed the subagent strategy.",
+    "explanation": "This handoff dispatch consumes the completed research package and does not spawn new subagents.",
+    "authorization": "not_needed",
+    "parallelism": "none",
+    "join_policy": "none",
+    "roles": []
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b1",
+        "kind": "artifact_import",
+        "from_owner": "private parent research package",
+        "to_owner": "public arcanum candidate package",
+        "applies_to_steps": ["s2-author-public-candidate"],
+        "contract": "Private evidence may inform abstract lessons but must not become public fixtures, examples, code, or proof claims.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b2",
+        "kind": "capability_handoff",
+        "from_owner": "verification-weaver",
+        "to_owner": "status-qualified owner lanes",
+        "applies_to_steps": ["s2-author-public-candidate", "s3-record-residue-and-next-owner"],
+        "contract": "The parent receipt routes and joins owner receipts but cannot promote or rewrite lane outputs.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "invoke",
+      "execution": "task-session",
+      "validation": "experiment-harness",
+      "evidence": "inventory",
+      "promotion": "sigil-development"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r1",
+        "producer": "task-session",
+        "required_fields": ["artifacts", "validation_result", "residue", "handoff_note"],
+        "stores": ["arcanum/arcana/verification-weaver/development/VALIDATION.md"],
+        "on_missing": "flag"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "VERIFICATION-WEAVE parent receipt",
+        "target": "public sigil promotion",
+        "rule": "requires sigil-development and experiment-harness evidence",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s1-package-handoff",
+      "name": "Prepare mutation handoff",
+      "capability_ref": "invoke",
+      "mode": "handoff",
+      "pattern": "sequential",
+      "techniques": [
+        "sequence",
+        "scu_swu_reduction",
+        "recomposition_proof",
+        "handle_handoff"
+      ],
+      "inputs": [
+        {"kind": "intent", "ref": "intent.raw"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "ops/development/verification-weaver/development-package/WORK-PACK.md"},
+        {"kind": "artifact", "ref": "ops/development/verification-weaver/development-package/tasks/SWU-VW-001.md"}
+      ],
+      "stop_conditions": [
+        "block if SWU boundary does not recompose into the router and receipt design"
+      ]
+    },
+    {
+      "step_id": "s2-author-public-candidate",
+      "name": "Author candidate public package",
+      "capability_ref": "task-session",
+      "mode": "implementation",
+      "pattern": "sequential",
+      "techniques": [
+        "owner_boundary_check",
+        "concrete_path_evidence",
+        "validation_loop",
+        "authority_split_gate"
+      ],
+      "inputs": [
+        {"kind": "artifact", "ref": "ops/development/verification-weaver/development-package/WORK-PACK.md"},
+        {"kind": "artifact", "ref": "ops/development/verification-weaver/development-package/tasks/SWU-VW-001.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "arcanum/arcana/verification-weaver/README.md"},
+        {"kind": "artifact", "ref": "arcanum/arcana/verification-weaver/SKILL.md"},
+        {"kind": "artifact", "ref": "arcanum/arcana/verification-weaver/development/run-validation-fixtures.sh"}
+      ],
+      "stop_conditions": [
+        "block if private implementation paths become public fixture evidence",
+        "block if the parent receipt can promote owner artifacts",
+        "block if negative controls are only documented and not runnable"
+      ]
+    },
+    {
+      "step_id": "s3-record-residue-and-next-owner",
+      "name": "Record validation residue and next promotion owner",
+      "capability_ref": "sigil-development",
+      "mode": "handoff",
+      "pattern": "sequential",
+      "techniques": [
+        "residue_ledger",
+        "execution_receipt_handoff",
+        "authority_split_gate"
+      ],
+      "inputs": [
+        {"kind": "artifact", "ref": "arcanum/arcana/verification-weaver/development/run-validation-fixtures.sh"}
+      ],
+      "outputs": [
+        {"kind": "handoff", "ref": "arcanum/arcana/verification-weaver/development/VALIDATION.md"}
+      ],
+      "stop_conditions": [
+        "block registry/generated runtime exposure until sigil-development accepts promotion evidence"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g1-public-private",
+      "kind": "promotion_guardrail",
+      "owner": "sigil-development",
+      "condition": "Private implementation evidence must not become public fixture, example, code, or proof content.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g2-parent-receipt",
+      "kind": "promotion_guardrail",
+      "owner": "verification-weaver",
+      "condition": "VERIFICATION-WEAVE may route and join owner receipts but cannot promote lane outputs.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g3-swu-recomposition",
+      "kind": "validation",
+      "owner": "invoke",
+      "condition": "SWU-VW-001 must recompose into the approved router and receipt design without registry/runtime exposure.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "2026-06-21-verification-weaver-research",
+    "trace_events": [
+      "dispatch_validated",
+      "swu_selected",
+      "candidate_package_authored",
+      "validation_receipt_recorded"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "promotion_guardrails": [
+    "Parent receipt is not promotion.",
+    "Private evidence is internal-only.",
+    "Registry and generated runtime exposure require later sigil-development approval."
+  ]
+}

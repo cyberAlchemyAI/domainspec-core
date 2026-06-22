@@ -1,0 +1,33 @@
+{
+  "task_session_id": "20260621T-auth-workpack-oneshot",
+  "mode": "standard",
+  "strict_coverage": "pass",
+  "selected_scope": [
+    "SWU-AUTH-001",
+    "SWU-AUTH-002",
+    "SWU-AUTH-003",
+    "SWU-AUTH-004",
+    "SWU-AUTH-005",
+    "SWU-INV-001",
+    "SWU-BW-001",
+    "SWU-AUTH-008"
+  ],
+  "write_scope": [
+    "projects/auth-user-management",
+    "projects/body-war/app",
+    "development/invariants",
+    "tools/check-runtime-language-policy.sh",
+    "development/refinement-runs/20260621T-typescript-domainspec-invariant"
+  ],
+  "validation_surface": [
+    "bash projects/auth-user-management/scripts/validate.sh",
+    "bash tools/check-runtime-language-policy.sh",
+    "npm --prefix projects/body-war/app run check",
+    "python3 -m json.tool development/refinement-runs/20260621T-typescript-domainspec-invariant/evidence-index.json",
+    "python3 -m json.tool development/refinement-runs/20260621T-typescript-domainspec-invariant/task-session/20260621T-auth-workpack-oneshot/context-index.json",
+    "python3 arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py development/refinement-runs/20260621T-typescript-domainspec-invariant/REFINE-DISPATCH.json",
+    "YAML parse for projects/auth-user-management/.craft/ledger.yml and projects/body-war/.craft/ledger.yml",
+    "git diff --check -- projects/auth-user-management projects/body-war/app development/invariants tools/check-runtime-language-policy.sh development/refinement-runs/20260621T-typescript-domainspec-invariant"
+  ],
+  "gate_status": "pass"
+}
