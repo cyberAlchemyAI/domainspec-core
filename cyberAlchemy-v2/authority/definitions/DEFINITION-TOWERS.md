@@ -122,6 +122,7 @@ future implementation.
 - reflection tower method - [CAV2-D17](DEFINITIONS.md#cav2-d17-reflection-tower-method)
 - residue - [CAV2-D18](DEFINITIONS.md#cav2-d18-residue)
 - residue entropy - [CAV2-D27](DEFINITIONS.md#cav2-d27-residue-entropy)
+- value-cycle edge guard - [CAV2-D28](DEFINITIONS.md#cav2-d28-value-cycle-edge-guard)
 - four-facet action method - [CAV2-D21](DEFINITIONS.md#cav2-d21-four-facet-action-method)
 - orthogonality
 - recursivity

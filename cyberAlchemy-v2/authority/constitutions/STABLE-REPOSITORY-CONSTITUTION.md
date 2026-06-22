@@ -244,6 +244,42 @@ Non-examples:
 - Letting a speculative entropy analogy promote a definition, constitution,
   ontology node, or implementation task without a promotion gate.
 
+### CAV2-C13. Value-Cycle Edge Guard
+
+Validation mode: hybrid
+
+Any CyberAlchemy v2 relation, edge type, ontology movement, schema link, or
+authority transition that can constrain a value, label, authority state, schema
+field, or validation outcome must be acyclic unless schema governance records a
+contextuality-obstruction review and an explicit exception.
+
+Before a value-constraining cyclic edge can influence authority, ontology,
+validation, or implementation, the review must name:
+
+- the edge endpoints and direction or symmetry,
+- the constrained value, label, state, field, or validation outcome,
+- why a cycle is required,
+- the satisfiability or obstruction risk,
+- the validator, fixture, formal witness, or review witness,
+- the owner route and typed residue if enforcement is incomplete.
+
+Examples:
+
+- `derives-from`-like authority or value constraints remain acyclic.
+- `contextualizes`-like cyclic relations remain value-free unless separately
+  reviewed.
+- A future negotiated relation that both forces a label and cycles is blocked
+  until the obstruction review exists.
+
+Non-examples:
+
+- Adding a cyclic relation and relying on prose to say it will not affect
+  values.
+- Treating a candidate ontology movement edge as safe because it is useful for
+  navigation.
+- Using a contextuality analogy as authority without naming the edge semantics
+  that make the analogy live.
+
 ## Validation Adapters
 
 | Rule | Adapter |
@@ -260,6 +296,7 @@ Non-examples:
 | CAV2-C10 | Decision-gate. |
 | CAV2-C11 | Import manifest check plus owning governance route. |
 | CAV2-C12 | Entropy-register keyword scan plus definitions-governance review. |
+| CAV2-C13 | Edge proposal review plus schema amendment witness; future edge validator. |
 
 ## Promotion Boundary
 

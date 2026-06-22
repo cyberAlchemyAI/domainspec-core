@@ -34,6 +34,7 @@ It now also contains promoted primitives derived from that basis:
 - [`residue entropy`](../DEFINITIONS.md#cav2-d27-residue-entropy)
 - [`Craft method`](../DEFINITIONS.md#cav2-d20-craft-method)
 - [`four-facet action method`](../DEFINITIONS.md#cav2-d21-four-facet-action-method)
+- [`value-cycle edge guard`](../DEFINITIONS.md#cav2-d28-value-cycle-edge-guard)
 
 The user seed `ortogonalith` is treated here as `orthogonality` unless later
 work intentionally promotes a distinct coined term.
@@ -46,6 +47,7 @@ work intentionally promotes a distinct coined term.
 | `reflection tower method` | When structural residue cannot be closed locally, promote that residue into the seed for the next explanatory layer. | Craft reflection tower method, DomainSpec formalization and Lean reflection tower evidence, framework-unification axis separation, graph-as-residue-attractor discovery. | `promoted-local` | Maintain as [CAV2-D17](../DEFINITIONS.md#cav2-d17-reflection-tower-method). |
 | `residue` | Type the meaningful remainder exposed when a transformation cannot preserve, name, justify, validate, or carry required source structure. | DomainSpec theorem glossary, Lean residue files, reflection tower carrier evidence, Craft residue handling, framework-unification typed-edge work. | `promoted-local` | Maintain as [CAV2-D18](../DEFINITIONS.md#cav2-d18-residue). |
 | `residue entropy` | Measure typed residue by a declared entropy register after the residue source and operation are named. | Lean `Residue.H`, `EntropyAsFFResidue`, `SecondLawDiscrete`, thermodynamics status map, and orthogonal-classification retrieval-entropy evidence. | `promoted-local` | Maintain as [CAV2-D27](../DEFINITIONS.md#cav2-d27-residue-entropy). |
+| `value-cycle edge guard` | Block any edge proposal that is both value-constraining and cycle-permitted until schema governance runs an obstruction review. | TO-VLAD AX-ONT kill memo, typed coupling invariant, schema amendment witness, relation model, and edge-acyclicity source evidence. | `promoted-local` | Maintain as [CAV2-D28](../DEFINITIONS.md#cav2-d28-value-cycle-edge-guard). |
 | `Craft method` | Carry recursive project work through an explicit source-of-truth ledger with typed residue, validation, decisions, next moves, and recomposition obligations. | Arcanum Craft canonical sigil, Craft formal foundations, v2 Craft execution surface, reflection tower, and residue definitions. | `promoted-local` | Maintain as [CAV2-D20](../DEFINITIONS.md#cav2-d20-craft-method). |
 | `four-facet action method` | Require every governed action to bind, create, or residue classification/taxonomy, schema, human-continuation view, and machine-checkable view. | Schema/classification/view primitive dispatch, operator action-primitive correction, typed residue and Craft method evidence. | `promoted-local` | Maintain as [CAV2-D21](../DEFINITIONS.md#cav2-d21-four-facet-action-method). |
 | `orthogonality` | Keep independent axes, roles, states, or owner lanes separate so one kind of progress cannot silently imply another. | Framework-unification repeatedly separates pipeline/mechanism axes, lifecycle/promotion axes, and role/lane axes. | `project-canonical-candidate` | Define as a primordial invariant with examples and boundaries. |
@@ -218,6 +220,22 @@ implementation routing. Promotion is only the stricter downstream use case.
 Boundary sketch: the method is not a promotion gate and not a perfect-upfront
 schema requirement. Missing facets may be created by the action or carried as
 typed residue with owner route and continue/defer/block effect.
+
+### Value-Cycle Edge Guard
+
+Promoted as [CAV2-D28](../DEFINITIONS.md#cav2-d28-value-cycle-edge-guard).
+
+Definition sketch: no edge, relation, or ontology movement may both constrain
+a value and participate in cycles unless schema governance records an explicit
+obstruction review and exception.
+
+Plain-language sketch: an edge can force a value or freely loop; if it does
+both, stop and prove the loop is safe.
+
+Domain-context sketch: in CyberAlchemy v2, the useful residue from the AX-ONT
+kill memo is not a Lean-to-CAV2 theorem. It is the edge-layer guard that keeps
+value-carrying constraints acyclic unless an owner deliberately accepts the
+risk, witness, and residue.
 
 ## Evidence Notes
 

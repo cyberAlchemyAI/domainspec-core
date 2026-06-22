@@ -3,7 +3,7 @@ to: Vlad
 from: Victor (multi-agent audit, synthesized)
 re: cyberAlchemy-v2 — AX-ONT-2 "orthogonality" and why the Lean transfer fails (a kill, framed as clarity)
 date: 2026-06-21
-status: draft for discussion
+status: resolved locally by RESOLUTION.md
 ---
 
 # To Vlad — AX-ONT-2 orthogonality, and the bridge that isn't there

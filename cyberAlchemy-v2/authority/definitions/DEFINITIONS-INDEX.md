@@ -34,6 +34,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D25 | schema amendment witness | active | [Schema Amendment Witness](DEFINITIONS.md#cav2-d25-schema-amendment-witness) | If the shape changes, leave a receipt and show what will catch mistakes. |
 | CAV2-D26 | append-only event ledger | active | [Append-Only Event Ledger](DEFINITIONS.md#cav2-d26-append-only-event-ledger) | Record what happened as a new line; retries should not count twice. |
 | CAV2-D27 | residue entropy | active | [Residue Entropy](DEFINITIONS.md#cav2-d27-residue-entropy) | The amount of meaningful distinction the current layer collapsed or left unnamed. |
+| CAV2-D28 | value-cycle edge guard | active | [Value-Cycle Edge Guard](DEFINITIONS.md#cav2-d28-value-cycle-edge-guard) | If an edge can force a value and loop, stop and prove the loop is safe before it becomes a rule. |
 
 ## Alias Lookup
 
@@ -68,6 +69,8 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | deterministic event ledger | CAV2-D26 |
 | entropy observable | CAV2-D27 |
 | entropy readout | CAV2-D27 |
+| edge contextuality guard | CAV2-D28 |
+| edge non-contextuality guard | CAV2-D28 |
 | event-sourced authority ledger | CAV2-D26 |
 | four-facet action primitive | CAV2-D21 |
 | graph-indexed lookup | CAV2-D24 |
@@ -126,8 +129,10 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | typed entropy observable | CAV2-D27 |
 | typed residue | CAV2-D18 |
 | taxonomy-schema-human-machine obligation | CAV2-D21 |
+| contextuality tripwire | CAV2-D28 |
 | unpreserved structure | CAV2-D18 |
 | unique-information classification | CAV2-D22 |
+| value-constraining cycle guard | CAV2-D28 |
 | v2 consolidation surface | CAV2-D9 |
 
 ## Governance Notes

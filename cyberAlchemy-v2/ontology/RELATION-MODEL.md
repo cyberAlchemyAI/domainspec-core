@@ -25,6 +25,23 @@ Every candidate relation must record:
 | `authority_effect` | yes | none, staging, projection, owner-decision, or blocked. |
 | `forbidden_collapse` | yes | What this relation must not become. |
 
+## Value-Cycle Guard
+
+Before any candidate relation is promoted into a schema, edge catalog,
+movement-edge family, validator, or authority transition, review it against
+[CAV2-D28 value-cycle edge guard](../authority/definitions/DEFINITIONS.md#cav2-d28-value-cycle-edge-guard)
+and [CAV2-C13](../authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md#cav2-c13-value-cycle-edge-guard).
+
+The review must classify:
+
+- `value_effect`: `value-free`, `value-constraining`, or `unknown`
+- `cycle_policy`: `acyclic`, `cycle-permitted`, or `unknown`
+
+If `value_effect` is `value-constraining` and `cycle_policy` is
+`cycle-permitted`, the relation is blocked until schema governance records a
+contextuality-obstruction review and an explicit exception. Unknown values are
+typed residue, not permission.
+
 ## Allowed Candidate Relations
 
 | Relation | Source -> Target | Effect | Forbidden collapse |

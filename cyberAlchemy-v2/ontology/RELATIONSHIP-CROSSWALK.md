@@ -58,4 +58,6 @@ Before a candidate relation influences authority, check:
 - evidence path is concrete;
 - authority effect is one of `none`, `staging`, `projection`, `owner-decision`,
   or `blocked`;
-- forbidden collapse is named.
+- forbidden collapse is named;
+- value effect and cycle policy have been classified under
+  [CAV2-D28](../authority/definitions/DEFINITIONS.md#cav2-d28-value-cycle-edge-guard).

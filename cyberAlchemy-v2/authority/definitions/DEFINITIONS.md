@@ -1242,6 +1242,13 @@ retrieval-precision checks as evidence for uniqueness. When data does not
 exist, review must name the unique question, routing decision, or validation
 effect the classification adds.
 
+In this definition, orthogonality is an admission and compression discipline:
+it asks whether a label or axis contributes independent operational
+information. It is not Hilbert-space orthogonality, not a contextuality
+obstruction, and not a proof that cross-document consistency has been achieved.
+Consistency claims must come from typed relations, schema rules, validators, or
+owner decisions, not from the word "orthogonal" by itself.
+
 ### Operational Interpretation
 
 Use orthogonal classification when adding taxonomy, ontology, status,
@@ -1270,6 +1277,11 @@ Orthogonal classification is not a requirement that every classifier be
 statistically proven before exploratory work begins. It is also not isolation:
 classifications may interact, but the interaction must be represented through a
 typed coupling, schema rule, or explicit residue.
+
+This term does not authorize treating Shannon-style label independence and
+Hilbert-style projector orthogonality as the same formal object. Any bridge
+between classification independence and contextuality machinery must be
+recorded as a separate typed coupling or rejected residue.
 
 The imported house_project label system remains source evidence. CyberAlchemy
 v2 may adopt the orthogonality rule without adopting that source's exact node
@@ -1649,6 +1661,87 @@ CyberAlchemy v2 authority.
 - `domainspec-lean-formalization/lean-formalization/EntropyAsFFResidue.lean` (embedded local source evidence)
 - `domainspec-lean-formalization/lean-formalization/SecondLawDiscrete.lean` (embedded local source evidence)
 - `domainspec-lean-formalization/THERMODYNAMICS.md` (embedded local source evidence)
+
+## CAV2-D28: Value-Cycle Edge Guard
+
+Status: active
+Term: value-cycle edge guard
+Aliases: edge contextuality guard, value-constraining cycle guard, contextuality tripwire, edge non-contextuality guard
+
+### Normative Definition
+
+A value-cycle edge guard is the CyberAlchemy v2 invariant that no relation,
+edge type, or ontology movement may simultaneously:
+
+- constrain the value, label, authority state, schema field, or validation
+  outcome of another artifact; and
+- be allowed to participate in a cycle without an explicit acyclicity
+  constraint.
+
+If a proposed relation needs both properties, it must stop at schema governance
+and receive a contextuality-obstruction review before it can influence
+authority, ontology, validation, or implementation.
+
+### Formal Interpretation
+
+For any proposed edge type `E`, define two review predicates:
+
+```text
+value_constraining(E)
+cycle_permitted(E)
+```
+
+CyberAlchemy v2 requires:
+
+```text
+not (value_constraining(E) and cycle_permitted(E))
+```
+
+unless a schema owner records an explicit exception with source evidence,
+constraint semantics, satisfiability or obstruction review, validator or review
+witness, and typed residue.
+
+The current guard is a watch condition, not a theorem. It is satisfied when
+value-constraining edges are acyclic and cycle-permitted edges do not constrain
+values. It becomes live only when a proposed edge straddles both classes.
+
+### Operational Interpretation
+
+Use this guard when adding or revising ontology relations, relationship
+families, edge catalogs, movement edges, schema links, authority transitions, or
+validation-affecting graph rules. If the new edge can force a value or state
+and can also form cycles, block the promotion until the review names what
+constraints could fail to glue, what validator or reviewer will catch that
+failure, and which owner accepts the remaining residue.
+
+### Plain-Language Intuition
+
+An edge can either force a value or freely loop around the graph. If it does
+both, stop and prove the loop is safe before it becomes a rule.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, the TO-VLAD AX-ONT review killed the attempted bridge from
+Shannon-style classification orthogonality to Lean Hilbert/projector
+orthogonality. The reusable residue is this edge-layer guard: coupling lives in
+relations, so the first dangerous place is an edge that both constrains values
+and may cycle. CAV2 keeps that condition explicit instead of letting a future
+schema change create contextuality-like residue by accident.
+
+### Boundary
+
+Value-cycle edge guard is not a contextuality theorem, not a spectral-presheaf
+checker, not a ban on cyclic non-value relations, and not a ban on acyclic
+value constraints. It does not promote any live vault edge family. It only says
+which edge proposals must be stopped for schema governance and obstruction
+review.
+
+### Primary Consumers
+
+- [../constitutions/STABLE-REPOSITORY-CONSTITUTION.md](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md)
+- [../../ontology/RELATION-MODEL.md](../../ontology/RELATION-MODEL.md)
+- [../../TO-VLAD/TO-VLAD.md](../../TO-VLAD/TO-VLAD.md)
+- [../../TO-VLAD/RESOLUTION.md](../../TO-VLAD/RESOLUTION.md)
 
 ## Open Questions
 
