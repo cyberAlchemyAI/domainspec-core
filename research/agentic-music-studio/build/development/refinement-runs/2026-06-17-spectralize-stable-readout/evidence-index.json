@@ -1,0 +1,30 @@
+{
+  "run_id": "2026-06-17-spectralize-stable-readout",
+  "target": "studio-core/Spectralize (Lsigma)",
+  "status": "pass",
+  "preset": "standard",
+  "research_mode": "bounded-research",
+  "research_confirmed": true,
+  "artifacts": {
+    "seed": "REFINE-SEED-PROPOSAL.md",
+    "dispatch": "REFINE-DISPATCH.json",
+    "runtime_handoff": "RUNTIME-HANDOFF.md",
+    "manifest": "RUN-MANIFEST.md",
+    "result": "RESULT.md"
+  },
+  "stages": [
+    {"n": 1, "path": "stages/01-context.md", "status": "pass"},
+    {"n": 2, "path": "stages/02-define.md", "status": "pass"},
+    {"n": 3, "path": "stages/03-review.md", "status": "pass"},
+    {"n": 4, "path": "stages/04-research-survey.md", "status": "pass", "receipt": "5 subagent returns"},
+    {"n": 5, "path": "stages/05-distill.md", "status": "pass"},
+    {"n": 6, "path": "RESULT.md", "status": "pass"},
+    {"n": 7, "path": "stages/07-design-review.md", "status": "pass"},
+    {"n": 8, "path": "stages/08-repair.md", "status": "pass"},
+    {"n": 9, "path": "RESULT.md", "status": "pass"},
+    {"n": 10, "path": "RESULT.md", "status": "pass"}
+  ],
+  "subagents": {"spawned": 5, "joined": 5, "open": 0},
+  "source_mutation": "none",
+  "next_routes": ["invoke design (Spectralize-v2)", "task-session (implement)", "re-run O8", "research-evidence-harness (O1)"]
+}

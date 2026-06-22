@@ -1,0 +1,110 @@
+{
+  "dispatch_id": "2026-06-17-ternary-models-research",
+  "schema_version": "0.6.0",
+  "dispatch_type": "research",
+  "goal": "Study, research, and develop a source-backed local research tower for ternary models, separating owned prior art, current BitNet-era LLM claims, systems feasibility, and next buildable work.",
+  "context": "The tower lives at research/ternary-models and is local-research-only. The initial source spine includes BitNet b1.58, BitNet b1.58 2B4T, TernaryBERT, Trained Ternary Quantization, Ternary Weight Networks, and bitnet.cpp. The output must distinguish source claims from local inference and identify what needs empirical validation before implementation.",
+  "max_loops": 1,
+  "final_approver": "parent",
+  "anti_bias_global": "modern BitNet optimism versus historical quantization lineage versus systems skepticism",
+  "working_folder": "research/ternary-models/_dispatch",
+  "groups": [
+    {
+      "group_id": "explorers",
+      "n": 4,
+      "anti_bias": "source-corpus",
+      "agents": [
+        {
+          "agent_name": "Shannon, Claude",
+          "role": "explorer",
+          "angle": "modern BitNet and native low-bit LLM source corpus",
+          "model": "gpt-5.5",
+          "token_budget": 1600,
+          "initial_prompt": "Research the modern BitNet/native low-bit LLM source corpus for ternary models. Use primary sources where possible: BitNet b1.58, BitNet b1.58 2B4T, BitNet a4.8, and official model/code artifacts. Return source-backed claims, caveats, and what this lane suggests for research/ternary-models. Do not make local performance claims. Budget about 1600 tokens."
+        },
+        {
+          "agent_name": "Turing, Alan",
+          "role": "explorer",
+          "angle": "classic ternary quantization and model-compression source corpus",
+          "model": "gpt-5.5",
+          "token_budget": 1600,
+          "initial_prompt": "Research the classic ternary quantization lineage: Ternary Weight Networks, Trained Ternary Quantization, TernaryBERT, and adjacent low-bit methods only where they clarify named residue. Return source-backed method distinctions, reusable definitions, and caveats. Budget about 1600 tokens."
+        },
+        {
+          "agent_name": "Wiener, Norbert",
+          "role": "explorer",
+          "angle": "systems and inference-runtime source corpus",
+          "model": "gpt-5.5",
+          "token_budget": 1600,
+          "initial_prompt": "Research the systems/inference lane for ternary models: bitnet.cpp, mixed-precision GEMM, storage formats, CPU/GPU kernels, activation/KV-cache pressure, and hardware constraints. Return what must be measured locally before claiming speed, memory, or energy improvements. Budget about 1600 tokens."
+        },
+        {
+          "agent_name": "Friston, Karl",
+          "role": "explorer",
+          "angle": "development path and experiment-design source corpus",
+          "model": "gpt-5.5",
+          "token_budget": 1600,
+          "initial_prompt": "Research the development path for a local ternary-model project. Compare first-step options: inference-only reproduction, fine-tuning/ternarization, native training toy model, and benchmark harness. Return a recommended evidence-first route and what must be handed to research-evidence-harness. Budget about 1600 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Noether, Emmy",
+          "role": "writer",
+          "model": "gpt-5.5",
+          "token_budget": 3200,
+          "initial_prompt": "Synthesize the explorer returns into research/ternary-models/_dispatch/findings.md. Every load-bearing claim must cite the collected return it rests on. Update the final learning pack only as source-backed synthesis, preserving local-only promotion boundary. Budget about 3200 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "reviewers",
+      "n": 3,
+      "robot_talks": true,
+      "anti_bias": "attack-vector",
+      "agents": [
+        {
+          "agent_name": "Russell, Bertrand",
+          "role": "skeptic",
+          "angle": "precedent gate: mark owned prior art and block novelty inflation",
+          "model": "gpt-5.5",
+          "token_budget": 1800,
+          "initial_prompt": "Review the synthesis for precedent and ownership errors. Ternary weights, BitNet, TernaryBERT, TTQ, and TWN are owned prior art. Mark build-from-owned versus any legitimate novel-attempt claims. Budget about 1800 tokens."
+        },
+        {
+          "agent_name": "Quine, Willard Van Orman",
+          "role": "skeptic",
+          "angle": "definitional-soundness gate: block collapsed or misleading terminology",
+          "model": "gpt-5.5",
+          "token_budget": 1800,
+          "initial_prompt": "Review the synthesis for definitional collapse. Attack misleading uses of 1-bit, ternary, quantization, native training, inference kernel, and performance parity. Return concrete corrections. Budget about 1800 tokens."
+        },
+        {
+          "agent_name": "Tetlock, Philip",
+          "role": "skeptic",
+          "angle": "non-vacuity gate: demand measurable witnesses for development claims",
+          "model": "gpt-5.5",
+          "token_budget": 1800,
+          "initial_prompt": "Review the synthesis for non-vacuity. Any development recommendation must name a concrete witness, metric, or next evidence route. Block claims that cannot be tested. Budget about 1800 tokens."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "explorers",
+      "to": "synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "synthesizer",
+      "to": "reviewers",
+      "type": "zig-zag",
+      "loop_cap": 2
+    }
+  ]
+}

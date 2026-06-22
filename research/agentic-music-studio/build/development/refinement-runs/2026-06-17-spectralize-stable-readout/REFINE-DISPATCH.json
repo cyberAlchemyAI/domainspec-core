@@ -1,0 +1,37 @@
+{
+  "dispatch_id": "2026-06-17-spectralize-stable-readout",
+  "schema": "formulae/dispatch-spec/dispatch.schema.yml",
+  "operator_intent": "what other methods could we use for the Signal->P readout, and is there research that gives a taxonomy?",
+  "refinement_objective": "Produce a taxonomy of stable Signal->P / timbre-representation methods and a recommended Spectralize-v2 direction that resolves O8, as a non-executed design.",
+  "preset": "standard",
+  "research_mode": "bounded-research",
+  "research_confirmation": "operator-confirmed (run all refine)",
+  "validation_status": "validated",
+  "selected_overlays": [
+    {"id": "baseline_sequence", "why": "ordinary canonical loop"},
+    {"id": "tournament_for_alternatives", "why": "deliverable IS a scored comparison of competing method families across C1-C5 -> the taxonomy", "roles_and_convergence": "5 surveyors (one family each), parent synthesis converges on a stratified two-axis recommendation"},
+    {"id": "memory_residue_for_context_recovery", "why": "carries the O8 evidence (6-9% drift; 0.29% additive control) as the hard constraint each method must beat"}
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "authorization": "granted (operator: run all refine)",
+    "roles": ["surveyor:sms-sines-noise", "surveyor:multitaper-welch", "surveyor:whole-spectrum-moments", "surveyor:auditory-roughness", "surveyor:synthesis-coupled"],
+    "join_policy": "all-join-before-synthesis",
+    "receipt": "structured family return scored on C1-C5 + taxonomy placement + citations"
+  },
+  "stages": [
+    {"n": 1, "stage": "context-builder", "owner": "context-builder", "mode": "standard", "inputs": ["o8_report.md", "findings.md", "REFINE-SEED-PROPOSAL.md"], "output": "stages/01-context.md", "receipt": "parent-coordinator", "status": "pass"},
+    {"n": 2, "stage": "invoke-define", "owner": "invoke", "mode": "define", "output": "stages/02-define.md", "receipt": "parent-coordinator", "status": "pass"},
+    {"n": 3, "stage": "interrogation", "owner": "interrogation", "mode": "refine-review", "output": "stages/03-review.md", "receipt": "parent-coordinator", "status": "pass"},
+    {"n": 4, "stage": "research-decision", "owner": "refine", "mode": "bounded-research", "output": "stages/04-research-survey.md", "receipt": "5 subagent returns", "status": "pass"},
+    {"n": 5, "stage": "distill", "owner": "distill", "mode": "standard", "output": "stages/05-distill.md", "receipt": "parent-coordinator", "status": "pass"},
+    {"n": 6, "stage": "invoke-design", "owner": "invoke", "mode": "design", "output": "RESULT.md#non-executed-plan", "receipt": "parent-coordinator", "status": "pass"},
+    {"n": 7, "stage": "interrogation", "owner": "interrogation", "mode": "refine-design-review", "output": "stages/07-design-review.md", "receipt": "parent-coordinator", "status": "pass"},
+    {"n": 8, "stage": "distill-repair", "owner": "distill", "mode": "validate", "output": "stages/08-repair.md", "receipt": "parent-coordinator", "status": "pass"},
+    {"n": 9, "stage": "invoke-plan", "owner": "invoke", "mode": "plan", "output": "RESULT.md#non-executed-plan", "receipt": "parent-coordinator", "status": "pass"},
+    {"n": 10, "stage": "final-interrogation-synthesis", "owner": "refine", "mode": "refine-final", "output": "RESULT.md", "receipt": "parent-coordinator", "status": "pass"}
+  ],
+  "gates": ["native-handle-present", "stage-receipt-or-blocked", "research-confirmed", "required-artifacts-exist", "owner-boundary-preserved", "final-synthesis-ready"],
+  "observability": {"dispatch_id": "2026-06-17-spectralize-stable-readout", "trace_grouped": true},
+  "owner_boundary": "refine owns seed/dispatch/manifest/result; subagents own their family returns; no source mutation of studio_core/."
+}

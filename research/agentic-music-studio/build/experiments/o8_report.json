@@ -1,0 +1,33 @@
+{
+  "eps": 0.05,
+  "test1_rerender_identity": {
+    "signal_identical": true,
+    "features_identical": true
+  },
+  "test2_seed_sweep": {
+    "centroid_mean": 265.02356346989984,
+    "centroid_cv": 0.1517070084620774,
+    "dissonance_mean": 0.5150258255279996,
+    "dissonance_cv": 0.19470638003501184
+  },
+  "test3_param_perturbation": {
+    "ref_centroid": 246.29051677927072,
+    "ref_dissonance": 0.4969670473055528,
+    "ref_n_partials": 5,
+    "centroid_drift_median": 0.060891828123932186,
+    "centroid_drift_max": 0.17944358071516212,
+    "dissonance_drift_median": 0.08795206602811936,
+    "dissonance_drift_max": 0.17549616927700745,
+    "grid_size": 26
+  },
+  "control_additive_voice": {
+    "centroid_drift_median": 0.002856364304024231,
+    "dissonance_drift_median": 0.007481201794738102
+  },
+  "verdict": {
+    "test1_pass": true,
+    "test3_pass": false,
+    "O8": "FAIL",
+    "interpretation": "Param drift exceeds EPS on GENDYN -> P is analyzer-dependent; closed floor degrades to signal-only for stochastic timbres (model collapse-test fires). L0 STOP-GATE: bank this finding; do not promote L1 on stochastic voices as-is."
+  }
+}

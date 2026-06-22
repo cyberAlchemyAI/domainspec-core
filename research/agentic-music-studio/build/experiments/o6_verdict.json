@@ -1,0 +1,62 @@
+{
+  "cases": [
+    {
+      "pair": "darkness vs warmth",
+      "a_binding": [
+        "('spectral_centroid', 'low')"
+      ],
+      "b_binding": [
+        "('spectral_centroid', 'high')"
+      ],
+      "symmetric_set_difference": [
+        "('spectral_centroid', 'high')",
+        "('spectral_centroid', 'low')"
+      ],
+      "misuse_boundary_reducible_to_setdiff": true,
+      "non_reducible_witness": false
+    },
+    {
+      "pair": "dissonant_tension vs strangeness",
+      "a_binding": [
+        "('dissonance', 'high')"
+      ],
+      "b_binding": [
+        "('dissonance', 'high')",
+        "('harmonicity_match', 'high')"
+      ],
+      "symmetric_set_difference": [
+        "('harmonicity_match', 'high')"
+      ],
+      "misuse_boundary_reducible_to_setdiff": true,
+      "non_reducible_witness": false
+    }
+  ],
+  "registrations": [
+    {
+      "name": "darkness",
+      "outcome": "admitted",
+      "status": "grounded"
+    },
+    {
+      "name": "warmth",
+      "outcome": "admitted",
+      "status": "grounded"
+    },
+    {
+      "name": "dissonant_tension",
+      "outcome": "admitted",
+      "status": "grounded"
+    },
+    {
+      "name": "strangeness",
+      "outcome": "admitted",
+      "status": "grounded"
+    }
+  ],
+  "verdict": {
+    "O6": "RE-SKIN",
+    "non_reducible_case_found": false,
+    "interpretation": "Every named effect's boundary == the set-difference of its bindings. L2-lib is a RE-SKIN: keep labels + the contrastive-review gate as GOVERNANCE/ergonomics, but do NOT mint named effects as a primitive layer or first-class object. Confirms findings.md default and Wittgenstein's review verdict.",
+    "note": "The gate cannot, by construction (floor-clause: every leaf is an L1 feature), admit a boundary that is not a region of feature-space. A non-reducible case would require a misuse distinction with an EMPTY binding set-difference AND a real felt boundary - which the floor-clause forbids. So O6 resolves to RE-SKIN unless the floor-clause is relaxed."
+  }
+}
