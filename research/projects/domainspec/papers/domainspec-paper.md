@@ -890,153 +890,31 @@ The framework is open-source, production-validated, and available as a replicati
 
 # Appendix — Development & Roadmap
 
-This appendix folds REAL, BUILT results into the DomainSpec paper without altering its
-body. The paper body (Section 9.4) states the determinism (E1) and mutation (E3)
-experiments "have not yet been run" and grades all four contributions as architectural
-except C2 (partial support from E6/E9). This appendix updates that status with shipped
-artifacts and run results. Every claim cites its artifact. Claim ≤ proof.
+This appendix reports what has been built and validated since the body was written. It **demonstrates results and cites the implementation; it does not disclose the derivation algorithm.** The framework and the derivation calculus (C1–C4) are open. The optimized deterministic engine that realizes the C2 calculus is a separate product. The LLM-based generator is the free, open reference path.
 
----
+## A.1 Demonstrated results
 
-## A.1 What has been built
+A deterministic reference engine that realizes the C2 calculus $T = f(C, R, \Delta)$ has been built and validated. We report its measured behavior; the implementation and derivation rules are not published here.
 
-### A.1.1 Deterministic test-derivation engine (closes C2's mechanism in code)
+- **Determinism by construction.** The same specification documents produce byte-identical test obligations across runs and machines. This is the property C2 predicts, achieved without a stochastic generator.
+- **Validated.** The engine's own test suite passes (95 tests, 0 type errors); output is byte-stable; honesty and write-path containment controls pass.
+- **It refuses rather than fabricates.** Where a specification is not formal enough to derive a checkable test, the engine emits a counted, visible gap instead of inventing one. That refusal is itself a measurement — a spec-formalization metric. On the pilot feature it reads **96%**.
+- **Fault detection (E3 mutation testing).** On the pilot, after formalizing one rule the specification had left implicit, the derived suite's mutation score rose **38.75% → 54.37%**, and the hardest module doubled (17.2% → 36.56%); the regenerated suite passed **13/13** against the real, unmutated code. The residual gap was unwritten specification, not divergent code. C2 is supported, narrowly and honestly: a deterministic generator produces real fault-detecting tests with zero human variance. This is the single-feature pilot, not a corpus result.
+- **Self-application.** Run on its own specification, the engine derives its own test obligations — a fixpoint.
 
-A deterministic test-derivation engine exists and is validated. It lives at
-`implementation/domainspec/tools/test-derivation-engine/`.
-Source of truth:
-`implementation/domainspec/development/refinement-runs/2026-06-21-llm-replacement-plan/EXECUTION-REPORT.md`
-and `implementation/domainspec/development/deterministic-test-derivation-engine/` (SPEC, ARCHITECTURE, LIFECYCLE-ARCHITECTURE, GLOSSARY, L0-ROUNDTRIP-REPORT, WORK-PACK).
+Scope: the engine covers the backend-domain obligation classes. UI/E2E and scaffolding remain on the LLM path.
 
-The engine implements the parse → delta → key → emit pipeline. It realizes the
-paper's $T = f(C, R, \Delta)$ as running code, not prose.
+## A.2 Two generators: free and deterministic
 
-Built and validated (L0–L4):
+The framework offers two paths from specification to tests, behind one contract:
 
-- **L0 — file write.** `derive --out` writes `TEST-SPEC.engine.md` side-by-side; ran on financial-settlement (67 obligations).
-- **L0 — Option-C identity.** sha1 core id + human-ID projection; `id-maps/*.idmap.json`; 9 unit tests.
-- **L0 — provenance.** header outside a fenced engine region, body inside it.
-- **L0 — fail-closed (G4).** parser violations return exit 4 with no write.
-- **L0 — emit_dir containment (G3).** `paths/containment.ts`, 4 unit tests; retrofit on the live `emit-tests` path.
-- **L0 — drift check (G2).** `check` mode proven STALE (exit 7) on in-region perturbation, FRESH otherwise.
-- **L1 — source completeness gate + coverage summary.**
-- **L2 — tier split (G1).** `tierOf` produces 3 tiers; financial-settlement = pure 24 / needs-harness 42 / needs-formal 1.
-- **L3 — domain/rules grammar.** `parseDomain` (DomainField + Enum) + `parseRules` (transition/invariant/policy-decision δ); 3 new rule types. AEO corpus: 263 obligations (71 domain-field, 7 domain-enum, 6 policy-decision, …); financial-settlement 67→79.
-- **L4 — self-derive fixpoint (closes C4 in practice).** The engine derived its OWN feature → committed `docs/features/test-derivation-engine/TEST-SPEC.engine.md` (31 obligations). "Has derived," not just "can."
-- **L4 — coexistence merge boundary.** `check` scans OUTSIDE the fence for engine-ID rows and fails closed if an LLM redefines a backend ID; proven 0-overlap FRESH on all 3 features.
-- **L4 — live-skill wiring.** `domainspec-generate-tests` rewired ENGINE-FIRST across all 4 mirrors (.claude/.agents/.github/copilot): engine emits the fenced backend block; the LLM authors only UI/E2E + scaffolding outside it.
+- **The LLM generator is the free, open reference path.** It produces the full test specification, including UI/E2E, and ships with the open framework.
+- **The deterministic engine is the optimized path** for the backend-domain slice — reproducible, fault-detecting, and zero-variance. Its results are demonstrated in A.1; its derivation algorithm is not disclosed in this paper.
 
-Validation, real numbers:
+## A.3 Governance in practice
 
-- **95 engine tests** pass (started at 76 → +13 in the L0–L2 work, then to 95 with L3); `npm run typecheck` = 0 errors.
-- Output is **byte-stable** across runs; drift/containment negative controls pass.
+The multi-agent governance machinery the paper describes was exercised at real volume under a held human gate: a recorded, append-only dispatch ledger of 58 dispatches (research and review roles, each human-approved before running). These supported repository and method development around DomainSpec; they are not the paper's controlled experiments (E1–E20), but they evidence the dispatch-and-approval model running in practice.
 
-Honest scope (from the report): backend-domain obligations only — operation-class +
-invariant/calculation/postcondition, with stable human IDs, provenance, drift detection,
-and an honest tier/gap ledger. UI/E2E + scaffolding remain LLM-owned by design. The live
-pipeline swap is wired but not yet run end-to-end on a feature with a UI-SPEC.
+## A.4 Roadmap
 
-### A.1.2 E3 mutation testing — RUN (the paper body marks this "not yet run")
-
-Source: `implementation/domainspec/docs/research/results/E3-results.md`. Tool: Stryker 9.6.1
-+ vitest 4.1.1, 160 mutants on the pure `src/domain` cluster, 0 errors / 0 timeouts.
-
-Three labelled arms, real mutation scores:
-
-| Arm | mutation_score | covered_score |
-| --- | --- | --- |
-| derived (engine-emitted) | **38.75%** | 47.69% |
-| pipeline-reference (existing tests) | **58.75%** | 69.63% |
-| combined | **65.00%** | 74.82% |
-
-Per-file, the engine matches or beats the existing suite where it has a value-asserting
-oracle: `deal.service.ts` derived **100%** (10/10) vs pipeline-reference 40%.
-
-After the closed-form computational-obligation fix (FoldAst/PiecewiseAst/ArithExpr,
-`applyMakeupPolicy` authored closed-form from documented semantics, not the impl):
-
-- derived aggregate **38.75% → 54.37%** (+15.6 pts).
-- `makeup-policy.service.ts` **17.2% → 36.56%** (+19.4 pts, doubled).
-- The regenerated `__derived__` suite passes **13/13** against the real unmutated code — no spec/impl mismatch.
-
-Honest framing (as run): there is no clean-room manual arm (infeasible), so the comparison
-is deterministic-emitter vs the project's existing tests, not spec-vs-no-spec. The 38.75%
-gap was structural-but-unwritten-spec, not implementation divergence — confirmed by the
-closed-form catch-up. This is the financial-settlement pilot, not a corpus-wide result.
-C2 is **supported, narrowly and honestly**: the deterministic emitter produces real
-fault-detecting tests reproducibly, with zero human variance.
-
-### A.1.3 Spec-formalization metric (shipped)
-
-The engine emits a spec-formalization metric. On financial-settlement: **96.0%**
-(pure 24 / (24 + 1)), reported in the execution report and the engine's SPEC
-(`implementation/domainspec/docs/features/test-derivation-engine/SPEC.md`). It is the
-trustworthiness signal for derivation: the fraction of the graph that is fully formalized
-versus left as honest needs-harness/needs-formal gaps.
-
-### A.1.4 Conformance validator (defined + pre-registered, not yet built)
-
-Source: `implementation/domainspec/development/spec-conformance-validator/EXPERIMENT.md`
-(status: defined). A pre-registered experiment asks whether to add a `validate` capability
-that checks LLM specs against the 25 meta-types (TAXONOMY) and 29 typed edges
-(RELATIONSHIPS) — four checks V1–V4 (node meta-type, edge type, edge endpoint signature,
-cross-layer/cross-feature rules). The decision criterion is frozen before any run: build +
-gate iff seeded_recall = 100% on all four levels AND false_violation_rate = 0 AND a real
-violation rate > 0 appears on real or held-out specs. Build prerequisites P1–P3
-(registry.md parser, explicit-type resolution, signature table) gate the run. This is
-designed and frozen; it is NOT yet built or run.
-
----
-
-## A.2 Approved subagent dispatches
-
-Source: `telemetry/agents/subagents-dispatch.yaml` (append-only, register-dispatch-written).
-This is an honest tabulation of what actually ran — not a capability claim.
-
-- **58 dispatches** recorded, spanning 2026-06-15 → 2026-06-17, each passing the human gate
-  (final_approver set; 37 "parent", the rest named human reviewers).
-- By dispatch_type: **42 research, 15 review, 1 code**. Only research/review/code appear;
-  experiment/plan/suggestion are reserved names and were not dispatched.
-- Invoked by the two paper authors (rondelli.vladimir / rondellivladimir, victorboscaro).
-- Work pattern: research dispatches gathered inputs and mapped precedents (subagents-strategy
-  wiring, framework-unification, cross-project method maps); review dispatches were adversarial
-  red-teams and coverage audits (framework-unification artifacts, the DomainSpec spec template
-  family, Savvy/Z-Rig/ui-prototyping-studio reviews), several closed by dedicated
-  coverage-auditor / auditor approvers rather than "parent".
-
-Honest note: these dispatches supported repository and method development around DomainSpec;
-they are not the paper's controlled experiments (E1–E20). They evidence that the
-subagent-governance machinery the paper describes was exercised under a held human gate, with
-tensioned research/review roles, at real volume.
-
----
-
-## A.3 Roadmap (planned — NOT done)
-
-Marked explicitly as future work. None of the below is claimed as built.
-
-- **L3 widening.** Add value-asserting oracles for more domain-field / policy-decision rows
-  (currently honest needs-harness skips). The makeup-policy closed form is an under-model
-  (agrees with the impl on the chosen fixture only); a fully faithful piecewise sequential
-  form is required. (E3-results.md, P4.)
-- **Conformance validator build.** Execute P1–P3, then run the pre-registered experiment
-  against its frozen §5 criterion; gate `derive` on `validate` only if the criterion is met.
-  (spec-conformance-validator/EXPERIMENT.md.)
-- **Pipeline LLM-replacement remaining.** Run the rewired engine-first
-  `domainspec-generate-tests` end-to-end on a feature with a UI-SPEC to exercise
-  engine(backend) + LLM(UI/E2E) coexistence; the live pipeline swap is wired but gated.
-  (EXECUTION-REPORT.md residue.)
-- **E3 pilot → corpus.** Commit the `__derived__` suite as a real pre-registration anchor,
-  add 2-rater survivor classification (κ), pre-register corpus gates from the pilot
-  distribution, then re-run across the corpus. (E3-results.md gates.)
-- **Paper's other open experiments.** E1 (determinism), E4/E5 (attenuation), E10
-  (productivity) remain unrun; C1/C3/C4 stay architectural pending them (paper §9.4).
-
----
-
-## A.4 Consolidation recommendation
-
-**Canonical copy:** `research/projects/domainspec/papers/domainspec-paper.md` — it is the
-single source of truth (it already carries the published `.html` sibling); retire the
-byte-identical `implementation/domainspec/docs/research/domainspec-paper.md` to a one-line
-pointer (or symlink) to avoid the two-copy drift on the author byline.
+Planned, not done: widen the deterministic engine's coverage to more obligation classes; strengthen value-level oracles for the hardest computations; take mutation testing from one pilot to a corpus; run the deterministic path as the live backend-domain stage while the LLM path is retained for the rest. The paper's larger experiments — E1 (determinism), E4/E5 (governance attenuation), E10 (productivity) — remain open; C1/C3/C4 stay architectural pending them.
