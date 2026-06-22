@@ -203,6 +203,47 @@ Non-examples:
 - Copying a private constitution rule into CyberAlchemy v2 without source
   posture and boundary review.
 
+### CAV2-C12. Entropy Register Declaration
+
+Validation mode: hybrid
+
+Any durable CyberAlchemy v2 artifact that uses entropy, entropic language,
+entropy profiles, free energy, KL divergence, Gibbs/Boltzmann entropy,
+retrieval entropy, or a similar quantitative information-loss claim to support
+authority, ontology, routing, validation, or implementation must declare its
+entropy register and typed residue source.
+
+At minimum, the artifact must name:
+
+- the entropy register or mathematical reading,
+- the source operation or transformation,
+- the typed residue being measured,
+- the measure or observable used,
+- the scope boundary such as finite, weighted, retrieval, probabilistic, or
+  categorical,
+- the claim status: theorem, conjecture, analogy, review evidence, or open
+  question,
+- the intended authority effect or non-governing residue treatment.
+
+Examples:
+
+- A definition citing finite Boltzmann entropy states that it is using
+  `log |fiber|` as the finite microcanonical readout of `Residue_FF(Macro)`.
+- An ontology review using retrieval entropy states that the entropy value is
+  evidence for classification uniqueness, not proof that a node type is
+  canonical.
+- A research artifact discussing Gibbs entropy marks the claim as a weighted
+  bridge or open research route unless a promoted weighted proof exists.
+
+Non-examples:
+
+- Saying "entropy increased" without naming which residue and which register
+  were measured.
+- Treating retrieval entropy, Boltzmann entropy, Gibbs entropy, and KL
+  divergence as interchangeable because they all use entropy language.
+- Letting a speculative entropy analogy promote a definition, constitution,
+  ontology node, or implementation task without a promotion gate.
+
 ## Validation Adapters
 
 | Rule | Adapter |
@@ -218,6 +259,7 @@ Non-examples:
 | CAV2-C9 | Task-session or execution-pack review. |
 | CAV2-C10 | Decision-gate. |
 | CAV2-C11 | Import manifest check plus owning governance route. |
+| CAV2-C12 | Entropy-register keyword scan plus definitions-governance review. |
 
 ## Promotion Boundary
 

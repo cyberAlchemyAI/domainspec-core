@@ -1555,6 +1555,101 @@ matter.
 - [../../../.arcanum/inventory/entries/evidence-cards/2026-06-21-authority-harness-ledger-ontology-cards.md](../../../.arcanum/inventory/entries/evidence-cards/2026-06-21-authority-harness-ledger-ontology-cards.md)
 - [reviews/ledger-primitive-review.md](reviews/ledger-primitive-review.md)
 
+## CAV2-D27: Residue Entropy
+
+Status: active
+Term: residue entropy
+Aliases: entropy observable, typed entropy observable, entropy readout, residue measure, residue measurement
+
+### Normative Definition
+
+Residue entropy is a CyberAlchemy v2 primitive observable for typed residue: it
+measures the distinguishability, uncertainty, or information loss exposed by a
+transformation, translation, coarse-graining, classification, validation, or
+governance operation after the residue type and source operation have been
+declared.
+
+Residue entropy may influence authority, routing, validation, ontology, or
+implementation only when the entropy claim declares:
+
+- entropy register or mathematical reading
+- source operation or transformation
+- typed residue source
+- measure or observable used
+- finite, weighted, retrieval, probabilistic, or categorical scope
+- theorem, conjecture, analogy, or review status
+- authority effect or non-governing residue treatment
+
+### Formal Interpretation
+
+For a finite probabilistic residue object `R` with finite carrier `F_R` and
+probability mass function `rho`, the residue entropy observable is:
+
+```text
+H(R) = sum_{x in F_R} negMulLog(rho(x))
+```
+
+In the finite microcanonical macrostate bridge, for a coarse-graining
+`f : M -> M'`:
+
+```text
+S_f(m') = log |fiber_f(m')|
+```
+
+and positive entropy marks fully-faithful residue:
+
+```text
+S_f(m') > 0  <->  m' in ffNoise(f)
+```
+
+This makes finite Boltzmann entropy a readout of `Residue_FF(Macro)`, not a
+replacement for the broader `CAV2-D18` residue primitive.
+
+### Operational Interpretation
+
+Use residue entropy when a CyberAlchemy v2 artifact needs to compare, rank,
+route, or validate typed residue by a quantitative or categorical observable.
+Valid examples include finite Shannon entropy on a `ResidueObject`, Boltzmann
+`log |fiber|` in a finite coarse-graining bridge, KL or entropy-gap evidence in
+a declared finite-support setting, retrieval entropy as evidence for
+classification uniqueness, or an entropy profile over a declared residue chain.
+
+Before using the observable as evidence, the artifact must name what residue is
+being measured and which register supplies the measure. If the register cannot
+be named, the claim remains analogy, research pressure, or typed residue.
+
+### Plain-Language Intuition
+
+Residue entropy is how much meaningful distinction the current layer collapsed
+or left unnamed.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, residue entropy sits below `CAV2-D18` residue and beside
+`CAV2-D22` orthogonal classification. It lets the project reuse Lean-backed
+entropy evidence without turning every entropy mention into a global primitive
+or treating retrieval entropy, Boltzmann entropy, Gibbs entropy, KL divergence,
+and entropy profiles as interchangeable. The matching constitution rule
+requires durable entropy claims to declare their register and residue source.
+
+### Boundary
+
+Residue entropy is not generic disorder, not uncertainty by itself, not proof of
+novelty, and not automatic promotion. Non-numeric residue may still be valid and
+actionable. Weighted, Gibbs, continuous, Markov-category, free-energy, RG, or
+physical second-law claims require their own typed bridge before they may govern
+CyberAlchemy v2 authority.
+
+### Primary Consumers
+
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [../constitutions/STABLE-REPOSITORY-CONSTITUTION.md](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md)
+- `domainspec-lean-formalization/lean-formalization/Residue.lean` (embedded local source evidence)
+- `domainspec-lean-formalization/lean-formalization/EntropyAsFFResidue.lean` (embedded local source evidence)
+- `domainspec-lean-formalization/lean-formalization/SecondLawDiscrete.lean` (embedded local source evidence)
+- `domainspec-lean-formalization/THERMODYNAMICS.md` (embedded local source evidence)
+
 ## Open Questions
 
 ### OQ-1. Which imported definitions should be promoted first?

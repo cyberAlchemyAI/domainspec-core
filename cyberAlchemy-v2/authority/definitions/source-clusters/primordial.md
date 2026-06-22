@@ -31,6 +31,7 @@ It now also contains promoted primitives derived from that basis:
 - [`typed coupling invariant`](../DEFINITIONS.md#cav2-d16-typed-coupling-invariant)
 - [`reflection tower method`](../DEFINITIONS.md#cav2-d17-reflection-tower-method)
 - [`residue`](../DEFINITIONS.md#cav2-d18-residue)
+- [`residue entropy`](../DEFINITIONS.md#cav2-d27-residue-entropy)
 - [`Craft method`](../DEFINITIONS.md#cav2-d20-craft-method)
 - [`four-facet action method`](../DEFINITIONS.md#cav2-d21-four-facet-action-method)
 
@@ -44,6 +45,7 @@ work intentionally promotes a distinct coined term.
 | `typed coupling invariant` | When orthogonality fails, force the dependency into an explicit typed relation before it can govern work. | Framework-unification typed connections, DomainSpec typed edges, local orthogonality discussion, RDF/PROV-style explicit relation models. | `promoted-local` | Maintain as [CAV2-D16](../DEFINITIONS.md#cav2-d16-typed-coupling-invariant). |
 | `reflection tower method` | When structural residue cannot be closed locally, promote that residue into the seed for the next explanatory layer. | Craft reflection tower method, DomainSpec formalization and Lean reflection tower evidence, framework-unification axis separation, graph-as-residue-attractor discovery. | `promoted-local` | Maintain as [CAV2-D17](../DEFINITIONS.md#cav2-d17-reflection-tower-method). |
 | `residue` | Type the meaningful remainder exposed when a transformation cannot preserve, name, justify, validate, or carry required source structure. | DomainSpec theorem glossary, Lean residue files, reflection tower carrier evidence, Craft residue handling, framework-unification typed-edge work. | `promoted-local` | Maintain as [CAV2-D18](../DEFINITIONS.md#cav2-d18-residue). |
+| `residue entropy` | Measure typed residue by a declared entropy register after the residue source and operation are named. | Lean `Residue.H`, `EntropyAsFFResidue`, `SecondLawDiscrete`, thermodynamics status map, and orthogonal-classification retrieval-entropy evidence. | `promoted-local` | Maintain as [CAV2-D27](../DEFINITIONS.md#cav2-d27-residue-entropy). |
 | `Craft method` | Carry recursive project work through an explicit source-of-truth ledger with typed residue, validation, decisions, next moves, and recomposition obligations. | Arcanum Craft canonical sigil, Craft formal foundations, v2 Craft execution surface, reflection tower, and residue definitions. | `promoted-local` | Maintain as [CAV2-D20](../DEFINITIONS.md#cav2-d20-craft-method). |
 | `four-facet action method` | Require every governed action to bind, create, or residue classification/taxonomy, schema, human-continuation view, and machine-checkable view. | Schema/classification/view primitive dispatch, operator action-primitive correction, typed residue and Craft method evidence. | `promoted-local` | Maintain as [CAV2-D21](../DEFINITIONS.md#cav2-d21-four-facet-action-method). |
 | `orthogonality` | Keep independent axes, roles, states, or owner lanes separate so one kind of progress cannot silently imply another. | Framework-unification repeatedly separates pipeline/mechanism axes, lifecycle/promotion axes, and role/lane axes. | `project-canonical-candidate` | Define as a primordial invariant with examples and boundaries. |
@@ -151,6 +153,28 @@ including schema residue, instance residue, `ResidueObject`, `ResidueStructure`,
 `ResidueCat`, and reflection-tower `Carrier(mu_n)`. CAV2-D18 is the local
 umbrella term; subtype claims must be explicit.
 
+### Residue Entropy
+
+Promoted as [CAV2-D27](../DEFINITIONS.md#cav2-d27-residue-entropy).
+
+Definition sketch: residue entropy is a primitive observable for typed residue:
+after the operation and residue source are declared, it measures the
+distinguishability, uncertainty, or information loss exposed by that residue.
+
+Plain-language sketch: residue entropy tells us how much meaningful distinction
+the current layer collapsed or left unnamed.
+
+Domain-context sketch: in CyberAlchemy v2, residue entropy lets Lean-backed
+entropy evidence support classification, routing, validation, and research
+without treating Boltzmann entropy, retrieval entropy, Gibbs entropy, KL
+divergence, or entropy profiles as interchangeable.
+
+Formalization sketch: `Residue.H` supplies the finite Shannon readout on
+`ResidueObject`; `EntropyAsFFResidue` supplies the finite microcanonical
+Boltzmann bridge `log |fiber|` and positive-entropy/`ffNoise` equivalence;
+`SecondLawDiscrete` supplies monotone entropy profiles over finite residue
+chains. CAV2-D27 names the observable role, not a replacement for residue.
+
 ### Craft Method
 
 Promoted as [CAV2-D20](../DEFINITIONS.md#cav2-d20-craft-method).
@@ -201,6 +225,9 @@ typed residue with owner route and continue/defer/block effect.
 - `domainspec-formalization/GLOSSARY.md` separates schema residue from instance residue and records their two-layer framing.
 - `domainspec-formalization/docs/meta-layers-reference.md` states that schema discipline does not automatically buy instance fidelity, so schema and instance residues must be audited separately.
 - `domainspec-lean-formalization/lean-formalization/Residue.lean` defines `ResidueObject` and entropy behavior as one concrete residue reading.
+- `domainspec-lean-formalization/lean-formalization/EntropyAsFFResidue.lean` formalizes finite Boltzmann entropy as the microcanonical FF-residue readout of a macrostate functor.
+- `domainspec-lean-formalization/lean-formalization/SecondLawDiscrete.lean` defines finite residue and entropy profiles and proves monotonicity under supplied temporal coarsening.
+- `domainspec-lean-formalization/THERMODYNAMICS.md` records the current finite/discrete status boundary and separates the landed entropy bridge from weighted, continuous, RG, and physical second-law overclaims.
 - `domainspec-lean-formalization/lean-formalization/UniversalResidueFunctor.lean` defines `ResidueStructure` as a typeclass-level unification for carrier, schema, signal, noise, refinement, and monotonicity.
 - `domainspec-lean-formalization/lean-formalization/ResidueCat.lean` packages residue structures and monotone morphisms as a category.
 - `domainspec-lean-formalization/docs/reflection-tower.md` explains reflection tower levels as strictly richer successive systems where each level's residue becomes the next level's vocabulary.

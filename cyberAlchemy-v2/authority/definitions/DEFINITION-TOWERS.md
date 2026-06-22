@@ -105,10 +105,13 @@ future implementation.
 - `domainspec-formalization/README.md` (embedded local source evidence)
 - `domainspec-lean-formalization/docs/reflection-tower-framework.md` (embedded local source evidence)
 - `domainspec-lean-formalization/lean-formalization/Residue.lean` (embedded local source evidence)
+- `domainspec-lean-formalization/lean-formalization/EntropyAsFFResidue.lean` (embedded local source evidence)
+- `domainspec-lean-formalization/lean-formalization/SecondLawDiscrete.lean` (embedded local source evidence)
 - `domainspec-lean-formalization/lean-formalization/UniversalResidueFunctor.lean` (embedded local source evidence)
 - `domainspec-lean-formalization/lean-formalization/ResidueCat.lean` (embedded local source evidence)
 - `domainspec-lean-formalization/lean-formalization/ReflectionTower.lean` (embedded local source evidence)
 - `domainspec-lean-formalization/lean-formalization/ReflectionTowerAnchored.lean` (embedded local source evidence)
+- `domainspec-lean-formalization/THERMODYNAMICS.md` (embedded local source evidence)
 - [../../../projects/framework-unification/CONCEPT-MAP.md](../../../projects/framework-unification/CONCEPT-MAP.md)
 - [../../../arcanum/framework/CYBERALCHEMY-METHOD.md](../../../arcanum/framework/CYBERALCHEMY-METHOD.md)
 - [../../../arcanum/arcana/craft/SKILL.md](../../../arcanum/arcana/craft/SKILL.md)
@@ -118,6 +121,7 @@ future implementation.
 - typed coupling invariant - [CAV2-D16](DEFINITIONS.md#cav2-d16-typed-coupling-invariant)
 - reflection tower method - [CAV2-D17](DEFINITIONS.md#cav2-d17-reflection-tower-method)
 - residue - [CAV2-D18](DEFINITIONS.md#cav2-d18-residue)
+- residue entropy - [CAV2-D27](DEFINITIONS.md#cav2-d27-residue-entropy)
 - four-facet action method - [CAV2-D21](DEFINITIONS.md#cav2-d21-four-facet-action-method)
 - orthogonality
 - recursivity
@@ -385,7 +389,7 @@ define semantic authority unless a promotion route consumes them.
 | Queue | First work | Owner route | Gate |
 | --- | --- | --- | --- |
 | Q1. Top anchors | Promoted CyberAlchemy v2, definition tower, tower space, Craft execution surface, authority promotion queue, source space, and project space as CAV2-D9 through CAV2-D15. | definitions-governance + Craft ledger | Pass for local definitions; broader import clustering still open. |
-| Q1a. Primordial basis | Promoted `typed coupling invariant` as CAV2-D16, `reflection tower method` as CAV2-D17, `residue` as CAV2-D18, `Craft method` as CAV2-D20, and `four-facet action method` as CAV2-D21; next review `orthogonality`, `recursivity`, `primitive type`, generic `method`, and `definition` from the primordial source cluster. | definitions-governance | Flag until remaining terms have complete voices and drift check. |
+| Q1a. Primordial basis | Promoted `typed coupling invariant` as CAV2-D16, `reflection tower method` as CAV2-D17, `residue` as CAV2-D18, `Craft method` as CAV2-D20, `four-facet action method` as CAV2-D21, and `residue entropy` as CAV2-D27; next review `orthogonality`, `recursivity`, `primitive type`, generic `method`, and `definition` from the primordial source cluster. | definitions-governance | Flag until remaining terms have complete voices and drift check. |
 | Q1b. Knowledge governance basis | Promoted `ontology` as CAV2-D19; next review `OperationalOntology`, `ContextSolution`, evidence card, evidence set, branch ownership, and confidence split. | definitions-governance + ontology-vault | Flag until source-specific branch terms are classified against CAV2-D19 and promotion boundaries. |
 | Q1c. Ledger primitive review | Reviewed `ledger` as a candidate cross-method evidence/state register; canonical promotion deferred. | definitions-governance + robot-talks + Craft schema review | Block until `recursivity`, inheritance relations, and local Craft ledger conformance are settled. |
 | Q1d. Schema and relationship invariant search sequence | Filed an inventory-backed search ladder for schema, typed relationships, taxonomy, graph admissibility, and relationship invariant evidence. | inventory + definitions-governance | Flag until evidence-cards distinguish `relationship invariant` from `CAV2-D16` and keep `schema` as Arcanum authority or a named v2 subtype. |

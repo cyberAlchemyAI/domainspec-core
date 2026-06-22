@@ -33,6 +33,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D24 | provenance-first navigation | active | [Provenance-First Navigation](DEFINITIONS.md#cav2-d24-provenance-first-navigation) | Read the map before walking the whole city. |
 | CAV2-D25 | schema amendment witness | active | [Schema Amendment Witness](DEFINITIONS.md#cav2-d25-schema-amendment-witness) | If the shape changes, leave a receipt and show what will catch mistakes. |
 | CAV2-D26 | append-only event ledger | active | [Append-Only Event Ledger](DEFINITIONS.md#cav2-d26-append-only-event-ledger) | Record what happened as a new line; retries should not count twice. |
+| CAV2-D27 | residue entropy | active | [Residue Entropy](DEFINITIONS.md#cav2-d27-residue-entropy) | The amount of meaningful distinction the current layer collapsed or left unnamed. |
 
 ## Alias Lookup
 
@@ -65,6 +66,8 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | constitution-first traversal | CAV2-D24 |
 | confidence lifecycle axis | CAV2-D23 |
 | deterministic event ledger | CAV2-D26 |
+| entropy observable | CAV2-D27 |
+| entropy readout | CAV2-D27 |
 | event-sourced authority ledger | CAV2-D26 |
 | four-facet action primitive | CAV2-D21 |
 | graph-indexed lookup | CAV2-D24 |
@@ -106,6 +109,8 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | reflection-tower method | CAV2-D17 |
 | residual remainder | CAV2-D18 |
 | residue signal | CAV2-D18 |
+| residue measure | CAV2-D27 |
+| residue measurement | CAV2-D27 |
 | residue climb | CAV2-D17 |
 | residue escalation method | CAV2-D17 |
 | semantic tower | CAV2-D10 |
@@ -118,6 +123,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | tower-bearing space | CAV2-D11 |
 | tower climb method | CAV2-D17 |
 | typed coupling rule | CAV2-D16 |
+| typed entropy observable | CAV2-D27 |
 | typed residue | CAV2-D18 |
 | taxonomy-schema-human-machine obligation | CAV2-D21 |
 | unpreserved structure | CAV2-D18 |
