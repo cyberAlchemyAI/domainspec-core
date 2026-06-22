@@ -1,0 +1,229 @@
+{
+  "run_id": "20260621T141252Z-auth-integration-gap-blocker-refine",
+  "status": "refine-result-flag",
+  "target": "projects/body-war/development/invoke-runs/20260621T131933Z-auth-user-management-integration/",
+  "preset": "standard",
+  "research": "no-research",
+  "artifacts": [
+    {
+      "path": "REFINE-SEED-PROPOSAL.md",
+      "owner": "refine",
+      "status": "created"
+    },
+    {
+      "path": "REFINE-DISPATCH.json",
+      "owner": "dispatch-spec",
+      "status": "created-validated"
+    },
+    {
+      "path": "RUNTIME-HANDOFF.md",
+      "owner": "refine",
+      "status": "completed-confirmed-local-refine"
+    },
+    {
+      "path": "RUN-MANIFEST.md",
+      "owner": "refine",
+      "status": "updated-final"
+    },
+    {
+      "path": "RESULT.md",
+      "owner": "refine",
+      "status": "final-synthesis-flag"
+    },
+    {
+      "path": "stages/01-context-builder.md",
+      "owner": "context-builder",
+      "status": "pass"
+    },
+    {
+      "path": "stages/02-define-review.md",
+      "owner": "invoke",
+      "status": "flag"
+    },
+    {
+      "path": "stages/03-define-interrogation.md",
+      "owner": "interrogation",
+      "status": "flag"
+    },
+    {
+      "path": "stages/04-research-decision.md",
+      "owner": "refine",
+      "status": "pass"
+    },
+    {
+      "path": "stages/05-distill-gap-unit.md",
+      "owner": "distill",
+      "status": "pass"
+    },
+    {
+      "path": "stages/06-design-review.md",
+      "owner": "invoke",
+      "status": "flag"
+    },
+    {
+      "path": "stages/07-design-interrogation.md",
+      "owner": "interrogation",
+      "status": "pass"
+    },
+    {
+      "path": "stages/08-distill-repair.md",
+      "owner": "distill",
+      "status": "pass"
+    },
+    {
+      "path": "stages/09-plan-review.md",
+      "owner": "invoke",
+      "status": "flag"
+    }
+  ],
+  "selected_sources": [
+    "projects/body-war/development/invoke-runs/20260621T131933Z-auth-user-management-integration/",
+    "projects/body-war/.craft/ledger.yml",
+    "projects/body-war/docs/decisions/vps-deployment-readiness.md",
+    "projects/body-war/app/server.ts",
+    "projects/body-war/app/tests/auth-consumer.test.ts",
+    "projects/auth-user-management/src/index.ts",
+    "implementation/domainspec/architecture/pattern-library/SQL-PERSISTENCE.md"
+  ],
+  "fresh_validation": [
+    {
+      "command": "npm --prefix projects/body-war/app run check",
+      "status": "expected-fail",
+      "classification": "current BodyWar app compile is blocked by auth package export mismatch"
+    }
+  ],
+  "gap_classes": [
+    {
+      "id": "body_war_app_compile_failure",
+      "scope": "current_app",
+      "status": "block-current-state",
+      "route": "SWU-BWAUTH-001 through SWU-BWAUTH-003"
+    },
+    {
+      "id": "body_war_auth_adapter_ownership_repair",
+      "scope": "local_integration",
+      "status": "repair-required",
+      "route": "auth package generic trusted session plus BodyWar-owned browser/Strava adapters"
+    },
+    {
+      "id": "body_war_postgres_provider_profile_migration",
+      "scope": "local_integration",
+      "status": "not-implemented",
+      "route": "SWU-BWAUTH-002 with Drizzle Kit generated migrations"
+    },
+    {
+      "id": "operator_gated_online_proof",
+      "scope": "online_vps",
+      "status": "blocked-operator",
+      "route": "existing VPS deployment readiness decision gate"
+    },
+    {
+      "id": "friend_activity_consent",
+      "scope": "real_activity_validation",
+      "status": "blocked-operator",
+      "route": "explicit consent and redacted receipt policy"
+    },
+    {
+      "id": "taquaral_geometry_evidence",
+      "scope": "game_geometry",
+      "status": "blocked-project-gap",
+      "route": "GAP-TAQUARAL-GEOMETRY-001"
+    },
+    {
+      "id": "stale_doc_ownership_statements",
+      "scope": "documentation",
+      "status": "gap",
+      "route": "SWU-BWAUTH-007"
+    }
+  ],
+  "stage_receipts": [
+    {
+      "stage": "dispatch-validation",
+      "owner": "dispatch-spec",
+      "status": "pass",
+      "command": "python3 .agents/skills/dispatch-spec/scripts/validate-dispatch.py projects/body-war/development/refinement-runs/20260621T141252Z-auth-integration-gap-blocker-refine/REFINE-DISPATCH.json --json"
+    },
+    {
+      "stage": "json-parse-checks",
+      "owner": "refine",
+      "status": "pass",
+      "commands": [
+        "python3 -m json.tool projects/body-war/development/refinement-runs/20260621T141252Z-auth-integration-gap-blocker-refine/evidence-index.json >/dev/null",
+        "python3 -m json.tool projects/body-war/development/refinement-runs/20260621T141252Z-auth-integration-gap-blocker-refine/REFINE-DISPATCH.json >/dev/null"
+      ]
+    },
+    {
+      "stage": "diff-hygiene",
+      "owner": "refine",
+      "status": "pass",
+      "command": "git diff --check -- projects/body-war/development/refinement-runs/20260621T141252Z-auth-integration-gap-blocker-refine"
+    },
+    {
+      "stage": "s01-context-builder",
+      "owner": "context-builder",
+      "status": "pass",
+      "artifact": "stages/01-context-builder.md"
+    },
+    {
+      "stage": "s02-invoke-define-review",
+      "owner": "invoke",
+      "status": "flag",
+      "artifact": "stages/02-define-review.md"
+    },
+    {
+      "stage": "s03-interrogation-define",
+      "owner": "interrogation",
+      "status": "flag",
+      "artifact": "stages/03-define-interrogation.md"
+    },
+    {
+      "stage": "s04-research-decision",
+      "owner": "refine",
+      "status": "pass",
+      "artifact": "stages/04-research-decision.md"
+    },
+    {
+      "stage": "s05-distill-gap-unit",
+      "owner": "distill",
+      "status": "pass",
+      "artifact": "stages/05-distill-gap-unit.md"
+    },
+    {
+      "stage": "s06-invoke-design-review",
+      "owner": "invoke",
+      "status": "flag",
+      "artifact": "stages/06-design-review.md"
+    },
+    {
+      "stage": "s07-interrogation-design",
+      "owner": "interrogation",
+      "status": "pass",
+      "artifact": "stages/07-design-interrogation.md"
+    },
+    {
+      "stage": "s08-distill-repair",
+      "owner": "distill",
+      "status": "pass",
+      "artifact": "stages/08-distill-repair.md"
+    },
+    {
+      "stage": "s09-invoke-plan-review",
+      "owner": "invoke",
+      "status": "flag",
+      "artifact": "stages/09-plan-review.md"
+    },
+    {
+      "stage": "s10-final-synthesis",
+      "owner": "refine",
+      "status": "flag",
+      "artifact": "RESULT.md"
+    }
+  ],
+  "final_verdict": {
+    "status": "flag",
+    "first_swu": "SWU-BWAUTH-001",
+    "first_swu_blocked": false,
+    "next_route": "task-session",
+    "next_route_target": "projects/body-war/development/invoke-runs/20260621T131933Z-auth-user-management-integration/WORK-PACK.md --swu SWU-BWAUTH-001"
+  }
+}

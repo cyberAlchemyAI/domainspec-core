@@ -1,0 +1,32 @@
+{
+  "name": "@domainspec/body-war-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.9.0",
+  "scripts": {
+    "build": "npm --prefix ../../auth-user-management run build && tsc -p tsconfig.json",
+    "build:test": "npm --prefix ../../auth-user-management run build && tsc -p tsconfig.test.json",
+    "build:e2e": "npm --prefix ../../auth-user-management run build && rm -rf .runtime/e2e-dist && tsc -p tsconfig.e2e.json",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "npm run build && node dist/src/infrastructure/postgres/migrate-cli.js",
+    "e2e": "npm run build:e2e && BODY_WAR_AUTH_BACKEND=postgres BODY_WAR_STRAVA_FAKE=1 node .runtime/e2e-dist/e2e/body-war-auth.e2e.js",
+    "e2e:all": "sh scripts/e2e.sh all",
+    "validate": "sh scripts/validate.sh",
+    "test": "npm run build:test && BODY_WAR_AUTH_BACKEND=memory BODY_WAR_STRAVA_FAKE=1 node --test dist-test/tests/*.test.js",
+    "test:ui": "npm run build && playwright test",
+    "check": "npm run build && npm test",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@domainspec/auth-user-management": "file:../../auth-user-management",
+    "drizzle-orm": "^0.45.2",
+    "postgres": "^3.4.9"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.0",
+    "@types/node": "^22.10.2",
+    "drizzle-kit": "^0.31.10",
+    "typescript": "^5.7.2"
+  }
+}

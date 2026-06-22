@@ -1,0 +1,51 @@
+{
+  "run_id": "20260621T050630Z-task-bwo-004-activity-validation",
+  "task": "TASK-BWO-004",
+  "swus": [
+    "SWU-BWO-010",
+    "SWU-BWO-011",
+    "SWU-BWO-012"
+  ],
+  "mode": "standard",
+  "strict_coverage": "pass",
+  "selected_sources": [
+    {
+      "path": "projects/body-war/docs/features/troqar-product-architecture/ONLINE-AUTH-PROFILE-INFRA.md",
+      "selectors": [
+        "Friend activity validation fixture",
+        "Security Invariants",
+        "Validation Surface"
+      ],
+      "obligations": [
+        "consent",
+        "redaction"
+      ]
+    },
+    {
+      "path": "projects/body-war/app/server.ts",
+      "selectors": [
+        "handleActivities"
+      ],
+      "obligations": [
+        "backend-receipt"
+      ]
+    },
+    {
+      "path": "projects/body-war/app/static/app.js",
+      "selectors": [
+        "loadActivities",
+        "renderActivities"
+      ],
+      "obligations": [
+        "ui-caveat"
+      ]
+    }
+  ],
+  "blockers": [
+    "Real friend Taquaral activity validation remains blocked until explicit consent and private/redacted receipt exist."
+  ],
+  "flags": [
+    "Receipt persistence can be added after deployment and storage decisions.",
+    "Route geometry remains deferred."
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "run_id": "20260621T-troqar-product-architecture-gap-review",
+  "target": "projects/body-war/docs/features/troqar-product-architecture",
+  "status": "blocked-awaiting-confirmation",
+  "preset": "standard",
+  "research_mode": "no-research",
+  "artifacts": [
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/RUN-MANIFEST.md",
+      "owner": "refine",
+      "kind": "manifest",
+      "status": "present"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-SEED-PROPOSAL.md",
+      "owner": "refine",
+      "kind": "seed",
+      "status": "present"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json",
+      "owner": "dispatch-spec",
+      "kind": "dispatch",
+      "status": "validated-pass"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/RUNTIME-HANDOFF.md",
+      "owner": "refine",
+      "kind": "handoff",
+      "status": "blocked-awaiting-confirmation"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/RESULT.md",
+      "owner": "refine",
+      "kind": "result",
+      "status": "blocked-awaiting-confirmation"
+    },
+    {
+      "path": "projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md",
+      "owner": "refine",
+      "kind": "local-gap-review",
+      "status": "flag"
+    }
+  ],
+  "validation": [
+    {
+      "command": "python3 -m json.tool projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json",
+      "status": "pass",
+      "interpretation": "Dispatch JSON syntax validation passed."
+    },
+    {
+      "command": "python3 -m json.tool projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/evidence-index.json",
+      "status": "pass",
+      "interpretation": "Evidence index JSON syntax validation passed."
+    },
+    {
+      "command": "python3 arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json",
+      "status": "pass",
+      "interpretation": "Dispatch Spec validation returned VALIDATION=pass."
+    }
+  ],
+  "residue": [
+    "Formal Refine runtime-backed stages require operator confirmation.",
+    "Known Body War Strava and geometry gaps remain active."
+  ]
+}

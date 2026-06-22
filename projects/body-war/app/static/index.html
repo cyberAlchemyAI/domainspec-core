@@ -3,21 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>TROQAR Pilot Control</title>
+    <title>TROQAR Online Profile</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <header class="topbar">
       <div>
         <p class="eyebrow">TROQAR / Body War</p>
-        <h1>Track Control Pilot</h1>
+        <h1>Online Runner Profile</h1>
       </div>
-      <a id="connect" class="button primary" href="/api/auth/strava/start"
-        >Connect Strava</a
-      >
+      <nav class="top-actions" data-od-id="topbar.account.actions" aria-label="Account actions">
+        <a id="profile-link" class="button hidden" href="/profile">Profile</a>
+        <a id="connect" class="button primary" data-od-id="auth.connect.cta" href="/api/auth/strava/start"
+          >Connect Strava</a
+        >
+        <button id="logout" class="button hidden" type="button">Logout</button>
+      </nav>
     </header>
 
-    <main class="layout">
+    <main class="layout" data-od-id="troqar.shell">
       <section class="panel status-panel">
         <div>
           <h2>Connection</h2>
@@ -26,11 +30,24 @@
         <div id="athlete-card" class="athlete hidden"></div>
       </section>
 
-      <section class="panel">
+      <section class="panel profile-panel" data-od-id="profile.safe-athlete-card">
+        <div class="section-head">
+          <div>
+            <h2>Profile</h2>
+            <p id="profile-copy">Checking runner profile...</p>
+          </div>
+        </div>
+        <div id="profile-card" class="profile-grid"></div>
+      </section>
+
+      <section class="panel" data-od-id="activity.recent-summary">
         <div class="section-head">
           <div>
             <h2>Activities</h2>
-            <p>Select a recent run and submit it to a pilot track.</p>
+            <p id="activity-copy">
+              Recent summaries stay redacted. Route geometry and scoring are
+              explicitly separate from this preview.
+            </p>
           </div>
           <button id="refresh" class="button">Refresh</button>
         </div>
@@ -63,7 +80,9 @@
           <p data-meta></p>
         </div>
         <select data-track></select>
-        <button class="button" data-submit>Submit</button>
+        <button class="button" data-od-id="evidence.submit.cta" data-submit>
+          Submit preview
+        </button>
       </article>
     </template>
 

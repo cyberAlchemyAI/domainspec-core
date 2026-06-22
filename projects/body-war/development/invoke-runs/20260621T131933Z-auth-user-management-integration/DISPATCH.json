@@ -1,0 +1,351 @@
+{
+  "dispatch_id": "body-war-auth-user-management-integration-20260621T131933Z",
+  "intent": {
+    "raw": "Spec and design the implementation and integration of auth with BodyWar.",
+    "objective": "Author a governed define/design/plan packet for integrating BodyWar/TROQAR with @domainspec/auth-user-management without executing implementation.",
+    "target_artifact": "projects/body-war/development/invoke-runs/20260621T131933Z-auth-user-management-integration/",
+    "operator_sentence": "Use invoke to spec and design BodyWar auth integration.",
+    "arcanum_vocabulary": [
+      "invoke",
+      "context-builder",
+      "dispatch-spec",
+      "implementation-layering",
+      "distill",
+      "task-session"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "artifact_contract_bridge",
+    "owner_boundary_check",
+    "state_namespace_boundary",
+    "authority_split_gate",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "execution_receipt_handoff",
+    "residue_ledger",
+    "concrete_path_evidence",
+    "observability_grouping"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "auth-boundary-correction",
+      "trigger": "BodyWar imports non-existent package browser/OAuth helpers while the current auth package boundary excludes HTTP, cookies, OAuth, Strava, and UI.",
+      "techniques": [
+        "owner_boundary_check",
+        "authority_split_gate",
+        "artifact_contract_bridge"
+      ],
+      "applies_to_steps": [
+        "s02-author-spec",
+        "s03-author-design",
+        "s04-author-plan"
+      ],
+      "validation_expectation": "Artifacts must distinguish shared auth package ownership from BodyWar-owned browser, Strava, profile, and HTTP adapter ownership."
+    },
+    {
+      "overlay_id": "smallest-local-integration-unit",
+      "trigger": "Real VPS and Strava production proof are blocked, but local compile and E2E integration can proceed.",
+      "techniques": [
+        "scu_swu_reduction",
+        "recomposition_proof",
+        "validation_loop"
+      ],
+      "applies_to_steps": [
+        "s04-author-plan",
+        "s05-distill-and-handoff"
+      ],
+      "validation_expectation": "The work-pack must select a first SWU that repairs the package/app auth boundary and recomposes into local E2E and later deployment proof."
+    },
+    {
+      "overlay_id": "protected-auth-provider-state",
+      "trigger": "Strava tokens, OAuth codes, session cookies, friend activity evidence, and production secrets are protected state.",
+      "techniques": [
+        "state_namespace_boundary",
+        "concrete_path_evidence",
+        "residue_ledger"
+      ],
+      "applies_to_steps": [
+        "s01-build-context",
+        "s03-author-design",
+        "s04-author-plan"
+      ],
+      "validation_expectation": "Protected state must remain out of tracked artifacts, and operator-gated production proof must stay blocked."
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "s01-build-context",
+      "name": "Build bounded auth integration context",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "concrete_path_evidence",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "user-request-auth-with-bodywar"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "CONTEXT-PACK.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if live auth package exports contradict the selected integration boundary.",
+        "Stop if protected secrets or private provider payloads are required for planning."
+      ]
+    },
+    {
+      "step_id": "s02-author-spec",
+      "name": "Author BodyWar auth integration spec",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "artifact_contract_bridge",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "CONTEXT-PACK.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "AUTH-INTEGRATION-SPEC.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the spec assigns BodyWar product adapters to the shared auth package.",
+        "Stop if the spec requires real deployment credentials."
+      ]
+    },
+    {
+      "step_id": "s03-author-design",
+      "name": "Author six-view integration design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "authority_split_gate",
+        "owner_boundary_check",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "AUTH-INTEGRATION-SPEC.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "AUTH-INTEGRATION-DESIGN.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the design cannot separate package auth from BodyWar cookies, CSRF, Strava, profile, and HTTP routes.",
+        "Stop if generated migration ownership cannot be represented."
+      ]
+    },
+    {
+      "step_id": "s04-author-plan",
+      "name": "Author layering and executable work-pack",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "scu_swu_reduction",
+        "recomposition_proof",
+        "validation_loop",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "AUTH-INTEGRATION-DESIGN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "IMPLEMENTATION-LAYERING.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "WORK-PACK.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if no SWU can repair the current compile failure before deployment work.",
+        "Stop if any SWU needs real Strava secrets, real VPS access, or friend activity consent."
+      ]
+    },
+    {
+      "step_id": "s05-distill-and-handoff",
+      "name": "Validate smallest unit and prepare handoff",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": [
+        "scu_swu_reduction",
+        "recomposition_proof",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "IMPLEMENTATION-LAYERING.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "WORK-PACK.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "PLAN-TRANSPORT.md"
+        },
+        {
+          "kind": "handoff",
+          "ref": "task-session --swu SWU-BWAUTH-001"
+        }
+      ],
+      "evidence_artifact": "PLAN-TRANSPORT.md",
+      "stop_conditions": [
+        "Stop if the selected first SWU does not recompose into the BodyWar auth integration design.",
+        "Stop if deployment proof is treated as available without operator decisions."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-owner-boundary",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "Shared auth package and BodyWar adapter ownership are separated.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-no-secret-state",
+      "kind": "policy",
+      "owner": "BodyWar",
+      "condition": "No real Strava tokens, OAuth codes, production secrets, or friend activity payloads are written into artifacts.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g03-generated-sql",
+      "kind": "quality",
+      "owner": "DomainSpec SQL persistence obligation",
+      "condition": "PostgreSQL setup uses Drizzle schema and Drizzle Kit generated migrations.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04-online-proof-blocked",
+      "kind": "decision",
+      "owner": "operator",
+      "condition": "Real deployment and real Strava/friend evidence remain blocked until existing operator decisions are resolved.",
+      "on_fail": "ask"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "invoke.context.built",
+      "invoke.spec.auth_integration.authored",
+      "invoke.design.auth_integration.authored",
+      "invoke.plan.auth_integration.authored",
+      "invoke.distill.auth_integration.validated"
+    ],
+    "signal_grouping": "body-war-auth-user-management-integration"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "shared-auth-vs-bodywar-adapter",
+        "kind": "capability_handoff",
+        "from_owner": "auth-user-management",
+        "to_owner": "projects/body-war/app",
+        "applies_to_steps": [
+          "s02-author-spec",
+          "s03-author-design",
+          "s04-author-plan"
+        ],
+        "contract": "Auth package owns core auth use cases, repositories, token codec, and generated auth migrations; BodyWar owns cookies, CSRF, Strava OAuth, provider token custody, profile, and HTTP routes.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "operator-deployment-gate",
+        "kind": "human_approval",
+        "from_owner": "operator",
+        "to_owner": "task-session",
+        "applies_to_steps": [
+          "s04-author-plan",
+          "s05-distill-and-handoff"
+        ],
+        "contract": "No real deploy, DNS, Strava production callback, or friend activity use occurs before the operator supplies private decisions and consent.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "invoke authors artifacts; task-session owns execution",
+      "execution": "task-session per SWU",
+      "validation": "BodyWar and auth package npm checks plus E2E scripts",
+      "evidence": "run artifacts and task-session receipts",
+      "memory": "no memory promotion from this dispatch",
+      "promotion": "no production readiness promotion without deployment receipt"
+    },
+    "receipts": [
+      {
+        "receipt_id": "task-session-swu-receipt",
+        "producer": "task-session",
+        "required_fields": [
+          "run_id",
+          "session_id",
+          "artifacts",
+          "validation_result",
+          "status",
+          "blockers",
+          "handoff_note"
+        ],
+        "stores": [
+          "projects/body-war/development/task-sessions/"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "tracked-planning-artifacts",
+        "owner": "projects/body-war",
+        "write_policy": "May contain specs, designs, plans, redacted receipts, and placeholders only."
+      },
+      {
+        "namespace": "private-runtime-secrets",
+        "owner": "operator",
+        "write_policy": "Never write into tracked artifacts; use VPS or CI secret store."
+      },
+      {
+        "namespace": "provider-private-data",
+        "owner": "BodyWar runtime",
+        "write_policy": "Persist server-side only, encrypted/protected, and expose redacted summaries."
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "This dispatch does not promote production readiness.",
+    "This dispatch does not approve real Strava credential handling.",
+    "This dispatch does not promote glossary or architecture corrections into canonical docs without a later SWU."
+  ]
+}

@@ -1,0 +1,300 @@
+{
+  "dispatch_id": "troqar-frontend-ui-ux-plan-20260621T160132Z",
+  "intent": {
+    "raw": "Use domainspec-ui-pipeline to generate frontend specs and tests, and invoke a UX plan.",
+    "objective": "Generate BodyWar/TROQAR frontend UI specs, browser test obligations, and a governed Invoke UX implementation plan without executing Playwright wiring or broad frontend migration.",
+    "target_artifact": "projects/body-war/development/invoke-runs/20260621T160132Z-troqar-frontend-ui-ux-plan/",
+    "operator_sentence": "Use domainspec-ui-pipeline and invoke for a frontend UX plan.",
+    "arcanum_vocabulary": [
+      "domainspec-ui-pipeline",
+      "invoke",
+      "dispatch-spec",
+      "distill",
+      "task-session"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "artifact_contract_bridge",
+    "owner_boundary_check",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "residue_ledger",
+    "concrete_path_evidence"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "static-app-adaptation",
+      "trigger": "DomainSpec UI pipeline defaults to richer web app scaffolds, while BodyWar L0 currently uses a static HTML/CSS/JS app served by TypeScript Node.",
+      "techniques": [
+        "owner_boundary_check",
+        "artifact_contract_bridge"
+      ],
+      "applies_to_steps": [
+        "s01-load-ui-context",
+        "s02-generate-ui-specs"
+      ],
+      "validation_expectation": "Artifacts must preserve the current static L0 while making framework promotion explicit and deferred."
+    },
+    {
+      "overlay_id": "browser-test-scaffold-boundary",
+      "trigger": "Playwright is not yet installed in BodyWar, but the UI pipeline requires browser E2E obligations.",
+      "techniques": [
+        "scu_swu_reduction",
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "applies_to_steps": [
+        "s03-generate-tests",
+        "s04-author-plan"
+      ],
+      "validation_expectation": "Generate scaffolded tests without breaking the existing Node E2E build; route Playwright wiring to the first execution SWUs."
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "s01-load-ui-context",
+      "name": "Load DomainSpec UI pipeline context and BodyWar feature docs",
+      "capability_ref": "domainspec-ui-pipeline",
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "source": "implementation/domainspec/.agents/skills/domainspec-ui-pipeline/SKILL.md"
+      },
+      "mode": "spec-test-plan",
+      "pattern": "sequential",
+      "techniques": [
+        "concrete_path_evidence",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "user-request-troqar-frontend-spec-tests"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "source-inputs listed in PLAN-TRANSPORT.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if feature SPEC.md or interfaces.md are missing.",
+        "Stop if no HTTP endpoints exist for UI binding."
+      ]
+    },
+    {
+      "step_id": "s02-generate-ui-specs",
+      "name": "Generate UI architecture and UI-SPEC",
+      "capability_ref": "domainspec-ui-pipeline",
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "source": "implementation/domainspec/.agents/skills/domainspec-ui-pipeline/SKILL.md"
+      },
+      "mode": "spec",
+      "pattern": "sequential",
+      "techniques": [
+        "artifact_contract_bridge",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/troqar-product-architecture/SPEC.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/troqar-product-architecture/interfaces.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/UI-ARCHITECTURE.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/troqar-product-architecture/UI-SPEC.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the UI spec hides preview, geometry, auth, or token-redaction constraints."
+      ]
+    },
+    {
+      "step_id": "s03-generate-tests",
+      "name": "Generate frontend test spec and Playwright scaffold",
+      "capability_ref": "domainspec-ui-pipeline",
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "source": "implementation/domainspec/.agents/skills/domainspec-ui-pipeline/SKILL.md"
+      },
+      "mode": "test-scaffold",
+      "pattern": "sequential",
+      "techniques": [
+        "validation_loop",
+        "scu_swu_reduction"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/troqar-product-architecture/UI-SPEC.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/troqar-product-architecture/TEST-SPEC.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/app/e2e/troqar-product-architecture/ui.spec.ts"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if scaffolded tests require real Strava credentials or break current build/e2e validation."
+      ]
+    },
+    {
+      "step_id": "s04-author-plan",
+      "name": "Author Invoke UX implementation plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "sequence",
+        "recomposition_proof",
+        "execution_receipt_handoff",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/troqar-product-architecture/UI-SPEC.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/troqar-product-architecture/TEST-SPEC.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "UX-PLAN.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "IMPLEMENTATION-LAYERING.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "WORK-PACK.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "PLAN-TRANSPORT.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the plan routes directly to broad app rewrite instead of a smallest Playwright/runtime SWU."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-feature-docs-present",
+      "kind": "validation",
+      "owner": "domainspec-ui-pipeline",
+      "condition": "Feature SPEC.md and interfaces.md exist and include HTTP endpoints.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-static-l0-preserved",
+      "kind": "policy",
+      "owner": "invoke",
+      "condition": "The generated plan preserves the current static BodyWar L0 and defers React/Vite migration.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g03-current-builds-pass",
+      "kind": "validation",
+      "owner": "task-session",
+      "condition": "Current app build and Node E2E TypeScript build pass after scaffold generation.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04-playwright-wiring-deferred",
+      "kind": "promotion_guardrail",
+      "owner": "task-session",
+      "condition": "Playwright scaffold is not promoted to required validation until dependency/config/browser wiring lands.",
+      "on_fail": "flag"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "ui_context_loaded",
+      "ui_spec_generated",
+      "test_spec_generated",
+      "ux_plan_authored",
+      "build_validation_run"
+    ],
+    "signal_grouping": "troqar-frontend-ui-ux-plan"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b01-ui-pipeline-to-invoke",
+        "kind": "capability_handoff",
+        "from_owner": "domainspec-ui-pipeline",
+        "to_owner": "invoke",
+        "applies_to_steps": [
+          "s02-generate-ui-specs",
+          "s03-generate-tests",
+          "s04-author-plan"
+        ],
+        "contract": "UI specs and test scaffold become source artifacts for Invoke planning; Invoke does not claim frontend execution complete.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b02-scaffold-not-runtime",
+        "kind": "artifact_import",
+        "from_owner": "invoke",
+        "to_owner": "task-session",
+        "applies_to_steps": [
+          "s03-generate-tests",
+          "s04-author-plan"
+        ],
+        "contract": "Playwright test file is scaffolded and excluded from current Node E2E build until SWU-TUI-002 wires Playwright runtime.",
+        "on_violation": "flag"
+      }
+    ],
+    "authority": {
+      "lifecycle": "invoke authors plan artifacts; task-session owns execution.",
+      "execution": "task-session executes one SWU at a time.",
+      "validation": "current validation is build/build:e2e/diff-check; Playwright becomes required after SWU-TUI-002.",
+      "evidence": "receipts live in the invoke run and future task-session outputs.",
+      "promotion": "React/Vite promotion requires a later explicit decision."
+    },
+    "receipts": [
+      {
+        "receipt_id": "r01-task-session-swu",
+        "producer": "task-session",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "status",
+          "blockers",
+          "residue"
+        ],
+        "stores": [
+          "projects/body-war/development/task-sessions/"
+        ],
+        "on_missing": "flag"
+      }
+    ]
+  }
+}

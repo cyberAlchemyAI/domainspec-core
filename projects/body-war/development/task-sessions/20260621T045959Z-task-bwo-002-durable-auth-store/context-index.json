@@ -1,0 +1,55 @@
+{
+  "run_id": "20260621T045959Z-task-bwo-002-durable-auth-store",
+  "task": "TASK-BWO-002",
+  "swus": [
+    "SWU-BWO-004",
+    "SWU-BWO-005",
+    "SWU-BWO-006"
+  ],
+  "mode": "standard",
+  "strict_coverage": "pass",
+  "selected_sources": [
+    {
+      "path": "projects/auth-user-management/src/modules/auth/domain/auth.types.ts",
+      "selectors": [
+        "AuthStore",
+        "Principal",
+        "Session",
+        "OAuthState",
+        "ProviderAccount",
+        "ProviderToken"
+      ],
+      "obligations": [
+        "adapter-contract"
+      ]
+    },
+    {
+      "path": "projects/auth-user-management/src/modules/auth/infrastructure/json-store.ts",
+      "selectors": [
+        "createJsonAuthStore",
+        "consumeOAuthState",
+        "provider account lookup"
+      ],
+      "obligations": [
+        "store-semantics"
+      ]
+    },
+    {
+      "path": "projects/auth-user-management/docs/ADOPTION.md",
+      "selectors": [
+        "Storage",
+        "Strava Provider Flow",
+        "Validation"
+      ],
+      "obligations": [
+        "security",
+        "validation"
+      ]
+    }
+  ],
+  "blockers": [],
+  "flags": [
+    "Body War app integration with DATABASE_URL is a later task.",
+    "Live Postgres validation requires a deployed or local Postgres service; unit tests use a query-client fake."
+  ]
+}

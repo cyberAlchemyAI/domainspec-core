@@ -1,0 +1,149 @@
+{
+  "run_id": "20260621T043947Z-online-auth-profile-vps-refine",
+  "target": "projects/body-war/docs/features/troqar-product-architecture/ONLINE-AUTH-PROFILE-INFRA.md",
+  "status": "flag",
+  "preset": "standard",
+  "research_mode": "no-research",
+  "artifacts": [
+    {
+      "path": "projects/body-war/docs/features/troqar-product-architecture/ONLINE-AUTH-PROFILE-INFRA.md",
+      "owner": "refine",
+      "kind": "online-slice-definition",
+      "status": "present"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/RUN-MANIFEST.md",
+      "owner": "refine",
+      "kind": "manifest",
+      "status": "present"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/INFRA-DEFINITION-EXTRACTION.md",
+      "owner": "refine",
+      "kind": "source-extraction",
+      "status": "present"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/REFINE-SEED-PROPOSAL.md",
+      "owner": "refine",
+      "kind": "seed",
+      "status": "present"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/REFINE-DISPATCH.json",
+      "owner": "dispatch-spec",
+      "kind": "dispatch",
+      "status": "validated-pass"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/RUNTIME-HANDOFF.md",
+      "owner": "refine",
+      "kind": "handoff",
+      "status": "ready-with-flags"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/RESULT.md",
+      "owner": "refine",
+      "kind": "result",
+      "status": "flag"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/stages/S01-CONTEXT-BUILDER.md",
+      "owner": "context-builder",
+      "kind": "stage",
+      "status": "pass"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/stages/S02-INVOKE-DEFINE.md",
+      "owner": "invoke",
+      "kind": "stage",
+      "status": "pass"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/stages/S03-INTERROGATION-REFINE-REVIEW.md",
+      "owner": "interrogation",
+      "kind": "stage",
+      "status": "pass"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/stages/S04-RESEARCH-DECISION.md",
+      "owner": "refine",
+      "kind": "stage",
+      "status": "pass"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/stages/S05-DISTILL.md",
+      "owner": "distill",
+      "kind": "stage",
+      "status": "pass"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/stages/S06-INVOKE-DESIGN.md",
+      "owner": "invoke",
+      "kind": "stage",
+      "status": "pass"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/stages/S07-INTERROGATION-DESIGN-REVIEW.md",
+      "owner": "interrogation",
+      "kind": "stage",
+      "status": "flag"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/stages/S08-DISTILL-REPAIR.md",
+      "owner": "distill",
+      "kind": "stage",
+      "status": "pass"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/stages/S09-INVOKE-PLAN.md",
+      "owner": "invoke",
+      "kind": "stage",
+      "status": "flag"
+    },
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/stages/S10-FINAL-INTERROGATION.md",
+      "owner": "refine",
+      "kind": "stage",
+      "status": "flag"
+    }
+  ],
+  "validation": [
+    {
+      "command": "python3 -m json.tool projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/REFINE-DISPATCH.json",
+      "status": "pass",
+      "interpretation": "Dispatch JSON syntax validation passed."
+    },
+    {
+      "command": "python3 -m json.tool projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/evidence-index.json",
+      "status": "pass",
+      "interpretation": "Evidence index JSON syntax validation passed."
+    },
+    {
+      "command": "python3 arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/REFINE-DISPATCH.json",
+      "status": "pass",
+      "interpretation": "Dispatch Spec validation returned VALIDATION=pass."
+    },
+    {
+      "command": "LC_ALL=C rg -n \"[^\\\\x00-\\\\x7F]\" projects/body-war/docs/features/troqar-product-architecture/ONLINE-AUTH-PROFILE-INFRA.md projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine",
+      "status": "pass",
+      "interpretation": "ASCII scan found no non-ASCII characters."
+    },
+    {
+      "command": "find projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine -type f -print0 | xargs -0 rg -n \"[[:blank:]]$\"",
+      "status": "pass",
+      "interpretation": "Trailing whitespace scan over run artifacts found no matches."
+    },
+    {
+      "command": "rg -n \"[[:blank:]]$\" projects/body-war/docs/features/troqar-product-architecture/ONLINE-AUTH-PROFILE-INFRA.md",
+      "status": "pass",
+      "interpretation": "Trailing whitespace scan over the online slice definition found no matches."
+    }
+  ],
+  "residue": [
+    "Refine completed with implementation-ready plan and production flags.",
+    "Friend Strava activity requires consent and import receipts before blocker closure.",
+    "VPS exists but online readiness requires deployment receipt and health/login/connect validation.",
+    "Domain/DNS, Strava redirect URI, VPS access, and Postgres-backed token custody remain open."
+  ]
+}

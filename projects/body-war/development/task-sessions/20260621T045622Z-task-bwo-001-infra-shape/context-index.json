@@ -1,0 +1,81 @@
+{
+  "run_id": "20260621T045622Z-task-bwo-001-infra-shape",
+  "task": "TASK-BWO-001",
+  "swus": [
+    "SWU-BWO-001",
+    "SWU-BWO-002",
+    "SWU-BWO-003"
+  ],
+  "mode": "standard",
+  "strict_coverage": "pass",
+  "selected_sources": [
+    {
+      "path": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/stages/S09-INVOKE-PLAN.md",
+      "selectors": [
+        "TASK-BWO-001",
+        "SWU-BWO-001",
+        "SWU-BWO-002",
+        "SWU-BWO-003",
+        "Validation Matrix"
+      ],
+      "obligations": [
+        "task-contract",
+        "validation"
+      ]
+    },
+    {
+      "path": "projects/body-war/docs/features/troqar-product-architecture/ONLINE-AUTH-PROFILE-INFRA.md",
+      "selectors": [
+        "Infrastructure Definitions",
+        "Security Invariants",
+        "Validation Surface"
+      ],
+      "obligations": [
+        "infra-authority",
+        "security"
+      ]
+    },
+    {
+      "path": "implementation/domainspec/templates/infra-architecture.md",
+      "selectors": [
+        "Preset",
+        "Stack",
+        "Networking",
+        "Secrets",
+        "Infrastructure Layout"
+      ],
+      "obligations": [
+        "template-authority"
+      ]
+    },
+    {
+      "path": "validation/poker-team/infra/docker-compose.prod.yml",
+      "selectors": [
+        "app",
+        "postgres",
+        "caddy"
+      ],
+      "obligations": [
+        "runtime-pattern"
+      ]
+    },
+    {
+      "path": "projects/body-war/app/server.ts",
+      "selectors": [
+        "HOST",
+        "PORT",
+        "PUBLIC_BASE_URL",
+        "STRAVA_REDIRECT_URI",
+        "GET /api/status"
+      ],
+      "obligations": [
+        "body-war-runtime-truth"
+      ]
+    }
+  ],
+  "blockers": [],
+  "flags": [
+    "Production token custody still needs the Postgres auth/profile/provider adapter.",
+    "Canonical domain, VPS access, Strava redirect URI, and deployment receipt remain later gates."
+  ]
+}

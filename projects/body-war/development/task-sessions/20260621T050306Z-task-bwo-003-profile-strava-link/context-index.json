@@ -1,0 +1,51 @@
+{
+  "run_id": "20260621T050306Z-task-bwo-003-profile-strava-link",
+  "task": "TASK-BWO-003",
+  "swus": [
+    "SWU-BWO-007",
+    "SWU-BWO-008",
+    "SWU-BWO-009"
+  ],
+  "mode": "standard",
+  "strict_coverage": "pass",
+  "selected_sources": [
+    {
+      "path": "projects/body-war/app/server.ts",
+      "selectors": [
+        "authComponents",
+        "handleStatus",
+        "handleActivities",
+        "handleRequest"
+      ],
+      "obligations": [
+        "server-profile"
+      ]
+    },
+    {
+      "path": "projects/auth-user-management/src/modules/auth/interface/browser-session.ts",
+      "selectors": [
+        "secureCookies",
+        "allowedOrigins",
+        "csrfHeaderName"
+      ],
+      "obligations": [
+        "security-config"
+      ]
+    },
+    {
+      "path": "projects/body-war/app/static/app.js",
+      "selectors": [
+        "loadStatus",
+        "boot"
+      ],
+      "obligations": [
+        "profile-ui"
+      ]
+    }
+  ],
+  "blockers": [],
+  "flags": [
+    "Profile can show Strava connection state before the app is wired to Postgres.",
+    "Production readiness still requires live deployment and callback receipt."
+  ]
+}

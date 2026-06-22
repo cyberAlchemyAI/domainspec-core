@@ -21,15 +21,40 @@ indexes:
     ART-PARQUE-MVP-LAYERING: artifacts[14]
     ART-PARQUE-MVP-WORK-PACK: artifacts[15]
     ART-PARQUE-MVP-EXECUTION-PACK: artifacts[16]
+    ART-AUTH-USER-MANAGEMENT-REFINE: artifacts[17]
+    ART-AUTH-USER-MANAGEMENT-RESULT: artifacts[18]
+    ART-AUTH-USER-MANAGEMENT-IMPLEMENTATION: artifacts[19]
+    ART-TROQAR-PRODUCT-ARCH-README: artifacts[20]
+    ART-TROQAR-OPERATIONS-CAPABILITIES: artifacts[21]
+    ART-TROQAR-DOMAINSPEC-SPEC: artifacts[22]
+    ART-TROQAR-DOMAIN-MODEL: artifacts[23]
+    ART-TROQAR-ARCHITECTURE: artifacts[24]
+    ART-TROQAR-UI-UX: artifacts[25]
+    ART-TROQAR-VISUAL-DEFINITIONS: artifacts[26]
+    ART-TROQAR-BACKEND-SPEC: artifacts[27]
+    ART-TROQAR-GAP-BLOCKER-REVIEW: artifacts[28]
+    ART-TROQAR-REFINE-DISPATCH: artifacts[29]
+    DEC-BODY-WAR-AUTH-FIRST-001: decisions[1]
+    GAP-TROQAR-PAGE-PRIORITY-001: gaps[2]
+    GAP-TROQAR-SCORE-AUTHORITY-001: gaps[3]
+    GAP-TROQAR-BACKEND-PROVIDER-001: gaps[4]
+    GAP-TROQAR-GLOSSARY-PROMOTION-001: gaps[5]
+    RCT-BODY-WAR-AUTH-REFINE-001: receipts[3]
+    RCT-BODY-WAR-AUTH-IMPLEMENTED-001: receipts[4]
+    HND-TROQAR-PRODUCT-ARCH-REFINE-001: route_handoffs[3]
   open_decisions: []
   blocking_decisions: []
   active_blockers:
     - BLK-STRAVA-ACTIVITY-001
   active_gaps:
     - GAP-TAQUARAL-GEOMETRY-001
+    - GAP-TROQAR-PAGE-PRIORITY-001
+    - GAP-TROQAR-SCORE-AUTHORITY-001
+    - GAP-TROQAR-BACKEND-PROVIDER-001
+    - GAP-TROQAR-GLOSSARY-PROMOTION-001
   next_moves:
     - context_id: CTX-BODY-WAR-ROOT
-      next_move: Execute the Parque Taquaral online MVP W0 spec baseline from WORK-PACK.md before mutating projects/body-war/app/.
+      next_move: Confirm the validated TROQAR product-architecture refine strategy or route the packet into invoke plan; keep real Strava activity and geometry evidence as active gaps.
     - context_id: CTX-BODY-WAR-ARCH-AUDIT
       next_move: Recompose architecture-boundary decision into CTX-BODY-WAR-ROOT and proceed to bounded MVP work-pack planning.
   artifacts_by_path:
@@ -43,15 +68,28 @@ indexes:
     projects/body-war/docs/features/parque-taquaral-online-mvp/IMPLEMENTATION-LAYERING.md: ART-PARQUE-MVP-LAYERING
     projects/body-war/docs/features/parque-taquaral-online-mvp/WORK-PACK.md: ART-PARQUE-MVP-WORK-PACK
     projects/body-war/docs/features/parque-taquaral-online-mvp/EXECUTION-PACK.md: ART-PARQUE-MVP-EXECUTION-PACK
+    projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-DISPATCH.json: ART-AUTH-USER-MANAGEMENT-REFINE
+    projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md: ART-AUTH-USER-MANAGEMENT-RESULT
+    development/refinement-runs/20260621T-typescript-domainspec-invariant/task-session/20260621T-auth-workpack-oneshot/RESULT.md: ART-AUTH-USER-MANAGEMENT-IMPLEMENTATION
+    projects/body-war/docs/features/troqar-product-architecture/README.md: ART-TROQAR-PRODUCT-ARCH-README
+    projects/body-war/docs/features/troqar-product-architecture/OPERATIONS-CAPABILITIES.md: ART-TROQAR-OPERATIONS-CAPABILITIES
+    projects/body-war/docs/features/troqar-product-architecture/SPEC.md: ART-TROQAR-DOMAINSPEC-SPEC
+    projects/body-war/docs/features/troqar-product-architecture/domain.md: ART-TROQAR-DOMAIN-MODEL
+    projects/body-war/docs/features/troqar-product-architecture/ARCHITECTURE.md: ART-TROQAR-ARCHITECTURE
+    projects/body-war/docs/features/troqar-product-architecture/ui-spec.md: ART-TROQAR-UI-UX
+    projects/body-war/docs/features/troqar-product-architecture/VISUAL-DEFINITIONS.md: ART-TROQAR-VISUAL-DEFINITIONS
+    projects/body-war/docs/features/troqar-product-architecture/backend.md: ART-TROQAR-BACKEND-SPEC
+    projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md: ART-TROQAR-GAP-BLOCKER-REVIEW
+    projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json: ART-TROQAR-REFINE-DISPATCH
 
 contexts:
   - context_id: CTX-BODY-WAR-ROOT
     parent_id: root
     title: Body War MVP Readiness
     purpose: Track Body War MVP decisions, blockers, gaps, route evidence, and recomposition while the product moves from prototype evidence to governed architecture.
-    stage: review-audit
+    stage: auth-consumer-implemented
     gate: flag
-    next_move: Execute the Parque Taquaral online MVP W0 spec baseline from WORK-PACK.md before mutating projects/body-war/app/.
+    next_move: Confirm the validated TROQAR product-architecture refine strategy or route the packet into invoke plan; keep real Strava activity and geometry evidence as active gaps.
     owned_artifacts:
       - ART-BODY-WAR-CRAFT-LEDGER
       - ART-BODY-WAR-CRAFT-VIEW
@@ -68,6 +106,19 @@ contexts:
       - ART-PARQUE-MVP-LAYERING
       - ART-PARQUE-MVP-WORK-PACK
       - ART-PARQUE-MVP-EXECUTION-PACK
+      - ART-AUTH-USER-MANAGEMENT-REFINE
+      - ART-AUTH-USER-MANAGEMENT-RESULT
+      - ART-AUTH-USER-MANAGEMENT-IMPLEMENTATION
+      - ART-TROQAR-PRODUCT-ARCH-README
+      - ART-TROQAR-OPERATIONS-CAPABILITIES
+      - ART-TROQAR-DOMAINSPEC-SPEC
+      - ART-TROQAR-DOMAIN-MODEL
+      - ART-TROQAR-ARCHITECTURE
+      - ART-TROQAR-UI-UX
+      - ART-TROQAR-VISUAL-DEFINITIONS
+      - ART-TROQAR-BACKEND-SPEC
+      - ART-TROQAR-GAP-BLOCKER-REVIEW
+      - ART-TROQAR-REFINE-DISPATCH
     notes: Root context created by /craft start for Body War.
   - context_id: CTX-BODY-WAR-ARCH-AUDIT
     parent_id: CTX-BODY-WAR-ROOT
@@ -186,6 +237,84 @@ artifacts:
     artifact_type: execution-pack
     status: active
     notes: Medium-complexity execution-pack with W0-W3 waves and app-mutation gate.
+  - artifact_id: ART-AUTH-USER-MANAGEMENT-REFINE
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-DISPATCH.json
+    artifact_type: dispatch-route
+    status: pass
+    notes: Validated reusable auth/user-management refine dispatch. Body War is the first intended consumer for login plus Strava connection; track and game mechanics are deferred.
+  - artifact_id: ART-AUTH-USER-MANAGEMENT-RESULT
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md
+    artifact_type: refine-result
+    status: pass
+    notes: Completed auth/user-management refine synthesis selecting hybrid browser/service auth, Strava activity-summary import, and task-session SWU ordering.
+  - artifact_id: ART-AUTH-USER-MANAGEMENT-IMPLEMENTATION
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: development/refinement-runs/20260621T-typescript-domainspec-invariant/task-session/20260621T-auth-workpack-oneshot/RESULT.md
+    artifact_type: implementation-result
+    status: pass
+    notes: Auth one-shot replaced the legacy auth runtime with a TypeScript auth-user-management package and wired Body War to server-owned session plus Strava provider adapter.
+  - artifact_id: ART-TROQAR-PRODUCT-ARCH-README
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/README.md
+    artifact_type: architecture-packet-index
+    status: active
+    notes: App-wide TROQAR product architecture packet entrypoint.
+  - artifact_id: ART-TROQAR-OPERATIONS-CAPABILITIES
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/OPERATIONS-CAPABILITIES.md
+    artifact_type: capability-catalog
+    status: active
+    notes: Operations and capabilities listed before domain/page/backend design.
+  - artifact_id: ART-TROQAR-DOMAINSPEC-SPEC
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/SPEC.md
+    artifact_type: domainspec-feature-spec
+    status: active
+    notes: DomainSpec feature spec for the app-wide TROQAR product architecture.
+  - artifact_id: ART-TROQAR-DOMAIN-MODEL
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/domain.md
+    artifact_type: domain-model
+    status: active
+    notes: App-wide domain model, bounded contexts, entities, value objects, and invariants.
+  - artifact_id: ART-TROQAR-ARCHITECTURE
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/ARCHITECTURE.md
+    artifact_type: architecture-bundle
+    status: active
+    notes: Six-view architecture design for all TROQAR app pages and backend modules.
+  - artifact_id: ART-TROQAR-UI-UX
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/ui-spec.md
+    artifact_type: ui-ux-spec
+    status: active
+    notes: Route table, page inventory, component inventory, data flow, states, and accessibility rules.
+  - artifact_id: ART-TROQAR-VISUAL-DEFINITIONS
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/VISUAL-DEFINITIONS.md
+    artifact_type: visual-guide-definitions
+    status: active
+    notes: Local translation of the TROQAR visual guide source note into UI tokens and component rules.
+  - artifact_id: ART-TROQAR-BACKEND-SPEC
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/backend.md
+    artifact_type: backend-spec
+    status: active
+    notes: Backend module, storage, security, observability, and acceptance definitions.
+  - artifact_id: ART-TROQAR-GAP-BLOCKER-REVIEW
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md
+    artifact_type: gap-blocker-review
+    status: flag
+    notes: Local refine-style gap review preserving active Strava and geometry residue and naming new planning gaps.
+  - artifact_id: ART-TROQAR-REFINE-DISPATCH
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json
+    artifact_type: dispatch-route
+    status: pass
+    notes: Validated formal Refine route for the TROQAR product architecture gap/blocker review; execution waits for operator confirmation.
 
 descriptions:
   - description_id: DESC-BODY-WAR-001
@@ -198,6 +327,16 @@ descriptions:
     description: The Parque Taquaral online MVP should be reviewed against DomainSpec Functional TypeScript architecture methods before implementation; the current Python/static app is prototype evidence, not target architecture readiness.
     status: active
     evidence: projects/body-war/development/dispatches/20260610-body-war-parque-taquaral-review-audit.spec.md
+  - description_id: DESC-BODY-WAR-AUTH-FIRST-001
+    context_id: CTX-BODY-WAR-ROOT
+    description: "Operator pivot: defer track geometry and game mechanics; make login, auth/session, and Strava connection possible first through a reusable auth/user-management project."
+    status: active
+    evidence: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md
+  - description_id: DESC-TROQAR-PRODUCT-ARCH-001
+    context_id: CTX-BODY-WAR-ROOT
+    description: "Operator requested an app-wide TROQAR product architecture packet: operations and capabilities first, then DomainSpec domain, UI/UX, visual, and backend definitions for all pages."
+    status: active
+    evidence: projects/body-war/docs/features/troqar-product-architecture/README.md
 
 definitions:
   - definition_id: DEF-BODY-WAR-CRAFT-001
@@ -218,6 +357,12 @@ definitions:
     statement: The selected physical MVP context for Body War review, not a sourced GPS route or official track geometry claim.
     status: candidate
     evidence: operator supplied Google Maps link, 2026-06-10
+  - definition_id: DEF-TROQAR-PRODUCT-ARCH-001
+    scope_id: CTX-BODY-WAR-ROOT
+    term: TROQAR product architecture packet
+    statement: The project-local app-wide DomainSpec design surface that maps TROQAR capabilities, domain concepts, pages, UI/UX, visual definitions, and backend contracts before implementation planning.
+    status: candidate
+    evidence: projects/body-war/docs/features/troqar-product-architecture/README.md
 
 typed_items:
   - item_id: BLK-ARCH-BOUNDARY-001
@@ -301,6 +446,29 @@ decisions:
       - label: closed blocker
         target: BLK-ARCH-BOUNDARY-001
         kind: row-id
+  - decision_id: DEC-BODY-WAR-AUTH-FIRST-001
+    scope_id: CTX-BODY-WAR-ROOT
+    decision_type: priority_pivot
+    question: What should Body War prioritize before track geometry and game mechanics?
+    description: The operator chose to defer track and game work and prioritize login, auth/session, and Strava connection through a reusable auth/user-management project.
+    options:
+      - auth-user-management-first
+      - continue-track-and-game-mvp
+      - implement-body-war-direct-auth-without-reusable-foundation
+    selected: auth-user-management-first
+    rationale: Login/auth and Strava connection are the smallest production prerequisite for a usable hosted preview, and a reusable auth project can serve later projects.
+    evidence: projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-SEED-PROPOSAL.md
+    status: closed
+    blocking: false
+    impact: Body War's next move shifts from broad W0 track/game spec execution to real Strava activity validation through the auth-backed pilot.
+    owner: Body War product and auth-user-management
+    links:
+      - label: auth-user-management refine route
+        target: ART-AUTH-USER-MANAGEMENT-REFINE
+        kind: artifact-id
+      - label: reusable auth ledger
+        target: projects/auth-user-management/.craft/ledger.yml
+        kind: path
 
 gaps:
   - gap_id: GAP-TAQUARAL-GEOMETRY-001
@@ -319,6 +487,38 @@ gaps:
     owner: architecture-pattern-inventory
     status: resolved
     evidence: projects/body-war/docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md
+  - gap_id: GAP-TROQAR-PAGE-PRIORITY-001
+    scope_id: CTX-BODY-WAR-ROOT
+    summary: App-wide TROQAR pages are defined, but the first implementation order across Home, Connect, Map, Routes, Activities, Challenges, Community, Rankings, Profile, Notifications, Operator, Sponsor, and Store is not selected.
+    severity: flag
+    treatment: invoke-plan
+    owner: Body War product architecture
+    status: active
+    evidence: projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md
+  - gap_id: GAP-TROQAR-SCORE-AUTHORITY-001
+    scope_id: CTX-BODY-WAR-ROOT
+    summary: Zone Score and fastest-time controller both exist in source evidence; the authority switch or hybrid rule needs an explicit decision before full territory scoring implementation.
+    severity: flag
+    treatment: decision-gate
+    owner: Body War product/game rules
+    status: active
+    evidence: projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md
+  - gap_id: GAP-TROQAR-BACKEND-PROVIDER-001
+    scope_id: CTX-BODY-WAR-ROOT
+    summary: Hosted runtime, managed storage, secret store, and provider/schema choices are not selected for the app-wide backend architecture.
+    severity: flag
+    treatment: invoke-plan
+    owner: Body War backend/security
+    status: active
+    evidence: projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md
+  - gap_id: GAP-TROQAR-GLOSSARY-PROMOTION-001
+    scope_id: CTX-BODY-WAR-ROOT
+    summary: App-wide TROQAR product architecture terms are local candidate definitions and have not been promoted into a canonical glossary.
+    severity: note
+    treatment: definitions-governance
+    owner: Body War definitions
+    status: active
+    evidence: projects/body-war/docs/features/troqar-product-architecture/INVOKE-TRANSPORT.md
 
 route_handoffs:
   - handoff_id: HND-DISPATCH-REVIEW-AUDIT-001
@@ -378,6 +578,32 @@ route_handoffs:
       - blockers
       - residue
     status: completed
+  - handoff_id: HND-TROQAR-PRODUCT-ARCH-REFINE-001
+    context_id: CTX-BODY-WAR-ROOT
+    capability_ref: refine
+    mode: strategy-proposal
+    objective: Validate the TROQAR product architecture packet through the canonical Refine loop and return refined gaps/blockers before implementation planning.
+    source_artifacts:
+      - projects/body-war/docs/features/troqar-product-architecture/README.md
+      - projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md
+      - projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json
+    ledger_conditions:
+      - BLK-STRAVA-ACTIVITY-001
+      - GAP-TAQUARAL-GEOMETRY-001
+      - GAP-TROQAR-PAGE-PRIORITY-001
+      - GAP-TROQAR-SCORE-AUTHORITY-001
+      - GAP-TROQAR-BACKEND-PROVIDER-001
+      - GAP-TROQAR-GLOSSARY-PROMOTION-001
+    expected_outputs:
+      - confirmed Refine stage receipts or blocked reason
+      - refined gap/blocker synthesis
+    expected_receipt_fields:
+      - dispatch_id
+      - confirmation_status
+      - stage_artifacts
+      - blockers
+      - residue
+    status: blocked-awaiting-confirmation
 
 receipts:
   - receipt_id: RCT-DISPATCH-REVIEW-AUDIT-001
@@ -410,6 +636,29 @@ receipts:
     validation_result: User selected Body War-owned TypeScript workspace with DomainSpec path alias; architecture audit records import/reference mechanism and closes the architecture blocker for implementation planning.
     audit_reference: ART-ARCHITECTURE-AUDIT
     residue: Shared DomainSpec method package remains a future hardening option, not an MVP blocker.
+  - receipt_id: RCT-BODY-WAR-AUTH-REFINE-001
+    handoff_id: external-auth-user-management-refine
+    producer: refine
+    status: pass
+    artifacts:
+      - projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md
+      - projects/auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/stages/09-invoke-plan/PLAN.md
+    validation_result: Auth-user-management refine completed; Body War first-consumer route is login, server-owned session, Strava connection, and recent activity summary import before track/game work.
+    audit_reference: ART-AUTH-USER-MANAGEMENT-RESULT
+    residue: Superseded by RCT-BODY-WAR-AUTH-IMPLEMENTED-001; real Strava activity submission evidence remains open.
+  - receipt_id: RCT-BODY-WAR-AUTH-IMPLEMENTED-001
+    handoff_id: ONE-SHOT-AUTH-FOUNDATION-001
+    producer: codex-goal
+    status: pass
+    artifacts:
+      - projects/body-war/app/server.ts
+      - projects/body-war/app/static/app.js
+      - projects/body-war/app/static/index.html
+      - projects/body-war/app/tests/auth-consumer.test.ts
+      - development/refinement-runs/20260621T-typescript-domainspec-invariant/task-session/20260621T-auth-workpack-oneshot/RESULT.md
+    validation_result: Auth npm validate, Body War npm check, runtime language policy check, JSON/YAML/dispatch/diff checks passed; Body War now consumes TypeScript auth-user-management for server-owned session, CSRF guard, Strava connection, and activity summary import.
+    audit_reference: ART-AUTH-USER-MANAGEMENT-IMPLEMENTATION
+    residue: Real consenting Strava activity import/submission remains required to close BLK-STRAVA-ACTIVITY-001.
 
 relations:
   - relation_id: REL-CONTAINS-ARCH-AUDIT-001
@@ -454,6 +703,27 @@ relations:
     status: resolved
     reason: Architecture child context returns selected TypeScript boundary and audit evidence to the root MVP readiness context.
     evidence: RCT-ARCH-BOUNDARY-DECISION-001
+  - relation_id: REL-BODY-WAR-AUTH-FIRST-CONSUMER-001
+    source_id: ART-AUTH-USER-MANAGEMENT-REFINE
+    target_id: CTX-BODY-WAR-ROOT
+    type: informs
+    status: active
+    reason: The reusable auth-user-management route makes Body War the first consumer for login and Strava connection before track/game work resumes.
+    evidence: RCT-BODY-WAR-AUTH-IMPLEMENTED-001
+  - relation_id: REL-TROQAR-PRODUCT-ARCHITECTURE-001
+    source_id: ART-TROQAR-PRODUCT-ARCH-README
+    target_id: CTX-BODY-WAR-ROOT
+    type: informs
+    status: active
+    reason: The app-wide TROQAR product architecture packet maps capabilities, pages, domains, UI/UX, visual definitions, backend contracts, and refine residue before implementation planning.
+    evidence: ART-TROQAR-GAP-BLOCKER-REVIEW
+  - relation_id: REL-TROQAR-REFINE-STRATEGY-001
+    source_id: ART-TROQAR-REFINE-DISPATCH
+    target_id: CTX-BODY-WAR-ROOT
+    type: informs
+    status: blocked-awaiting-confirmation
+    reason: The formal Refine route validates, but canonical Refine runtime execution requires operator confirmation after the strategy preview.
+    evidence: HND-TROQAR-PRODUCT-ARCH-REFINE-001
 
 recomposition:
   - child_id: CTX-BODY-WAR-ARCH-AUDIT
@@ -463,3 +733,17 @@ recomposition:
     residue: Strava activity submission remains blocked; Parque Taquaral geometry remains deferred; shared DomainSpec method package is future hardening.
     next_parent_move: Create the Parque Taquaral online MVP WORK-PACK.md for a bounded implementation slice.
     status: pass
+  - child_id: projects/auth-user-management
+    parent_id: CTX-BODY-WAR-ROOT
+    summary: Auth-user-management implementation completed and Body War now consumes reusable server-owned session, CSRF guard, Strava connection, and recent activity summary import.
+    evidence: RCT-BODY-WAR-AUTH-IMPLEMENTED-001
+    residue: Strava real activity submission remains blocked until a consenting activity imports and submits without token leakage; track geometry remains deferred.
+    next_parent_move: Validate a real consenting Strava activity import and submission through the auth-backed pilot.
+    status: pass
+  - child_id: projects/body-war/docs/features/troqar-product-architecture
+    parent_id: CTX-BODY-WAR-ROOT
+    summary: App-wide TROQAR architecture, operations, DomainSpec domain model, UI/UX, visual definitions, backend contracts, and local gap review are now anchored as Body War design artifacts.
+    evidence: ART-TROQAR-PRODUCT-ARCH-README
+    residue: Formal Refine runtime execution waits for confirmation; Strava activity evidence, sourced geometry, page priority, score authority, backend provider choice, and glossary promotion remain open.
+    next_parent_move: Confirm the validated TROQAR product-architecture refine strategy or route the packet into invoke plan.
+    status: flag

@@ -1,0 +1,431 @@
+{
+  "dispatch_id": "online-auth-profile-vps-refine-20260621",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "/refine i have a friend that has taquaral run in strava, a vps that we can run, so i think our priority is making app online with login, and some use profile, with the link to strava page. then we need to get all possible infra definitions from domainspec and poker-team and infra-spec-research-strategy.md",
+    "objective": "Refine the Body War online auth/profile/VPS slice into a non-executed implementation-ready plan with infra definitions grounded in DomainSpec, poker-team, and the infra-spec research strategy.",
+    "target_artifact": "projects/body-war/docs/features/troqar-product-architecture/ONLINE-AUTH-PROFILE-INFRA.md",
+    "operator_sentence": "run /refine on the new online login/profile/Strava/VPS priority",
+    "arcanum_vocabulary": [
+      "refine",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "dispatch-spec"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "data_quality_completeness",
+    "protected_context_flag",
+    "residue_ledger",
+    "concrete_path_evidence",
+    "observability_grouping"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "Refine requires the canonical ten-stage loop before implementation planning is treated as refined.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s02-invoke-define",
+        "s03-interrogation-refine-review",
+        "s04-research-decision",
+        "s05-distill",
+        "s06-invoke-design",
+        "s07-interrogation-design-review",
+        "s08-distill-repair",
+        "s09-invoke-plan",
+        "s10-final-interrogation-synthesis"
+      ],
+      "validation_expectation": "Each stage consumes prior evidence or records a blocked reason."
+    },
+    {
+      "overlay_id": "infra_evidence_substrate",
+      "trigger": "The request explicitly asks to extract infra definitions from multiple local authority surfaces before planning the online app.",
+      "techniques": [
+        "data_quality_completeness",
+        "concrete_path_evidence",
+        "owner_boundary_check"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s02-invoke-define",
+        "s06-invoke-design",
+        "s09-invoke-plan"
+      ],
+      "validation_expectation": "The run must preserve the difference between DomainSpec template authority, poker-team reference evidence, and Body War implementation scope."
+    },
+    {
+      "overlay_id": "protected_context_for_friend_strava",
+      "trigger": "The friend's Taquaral activity is external personal data and can only become validation evidence with consent and token-safe handling.",
+      "techniques": [
+        "protected_context_flag",
+        "residue_ledger",
+        "owner_boundary_check"
+      ],
+      "applies_to_steps": [
+        "s03-interrogation-refine-review",
+        "s07-interrogation-design-review",
+        "s08-distill-repair",
+        "s10-final-interrogation-synthesis"
+      ],
+      "validation_expectation": "The run must not claim real Strava evidence is closed until consent and import receipts exist."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "A first pass can be refined locally against explicit source files; no delegated subagents are required before the operator confirms the canonical loop.",
+    "authorization": "requires_user_permission"
+  },
+  "steps": [
+    {
+      "step_id": "s01-context-builder",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "concrete_path_evidence",
+        "frame_handoff",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/troqar-product-architecture/ONLINE-AUTH-PROFILE-INFRA.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/INFRA-DEFINITION-EXTRACTION.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/S01-CONTEXT-BUILDER.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if Body War online infra definition is missing",
+        "block if named infra evidence sources cannot be read"
+      ]
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/S01-CONTEXT-BUILDER.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S02-INVOKE-DEFINE.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s03-interrogation-refine-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "sequential",
+      "techniques": [
+        "validation_loop",
+        "protected_context_flag",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S02-INVOKE-DEFINE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S03-INTERROGATION-REFINE-REVIEW.md"
+        }
+      ],
+      "evidence_artifact": "projects/body-war/docs/features/troqar-product-architecture/ONLINE-AUTH-PROFILE-INFRA.md",
+      "stop_conditions": [
+        "block if friend Strava activity is treated as consented validation evidence without consent receipt"
+      ]
+    },
+    {
+      "step_id": "s04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "no-research",
+      "pattern": "decision",
+      "techniques": [
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S03-INTERROGATION-REFINE-REVIEW.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/S04-RESEARCH-DECISION.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s05-distill",
+      "name": "Distill coherent unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": [
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/S04-RESEARCH-DECISION.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S05-DISTILL.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "name": "Invoke Redefine / Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S05-DISTILL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S06-INVOKE-DESIGN.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "protected_context_flag"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S06-INVOKE-DESIGN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S07-INTERROGATION-DESIGN-REVIEW.md"
+        }
+      ],
+      "evidence_artifact": "projects/body-war/development/refinement-runs/20260621T043947Z-online-auth-profile-vps-refine/INFRA-DEFINITION-EXTRACTION.md",
+      "stop_conditions": [
+        "block if the design exposes Strava tokens or raw private activity data",
+        "block if app online claim lacks a deployment receipt requirement"
+      ]
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "techniques": [
+        "residue_ledger",
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S07-INTERROGATION-DESIGN-REVIEW.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S08-DISTILL-REPAIR.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S08-DISTILL-REPAIR.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S09-INVOKE-PLAN.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s10-final-interrogation-synthesis",
+      "name": "Final Interrogation and Synthesis",
+      "capability_ref": "refine",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": [
+        "validation_loop",
+        "residue_ledger",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S09-INVOKE-PLAN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        }
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G-REFINE-CONFIRMATION",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Operator confirms this strategy before runtime-backed refine stages execute.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-OWNER-BOUNDARY",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "The run may consume DomainSpec and poker-team as source evidence but must not mutate them.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-PROTECTED-STRAVA-EVIDENCE",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "The friend's Strava activity remains protected external evidence until consent and import receipts exist.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-INFRA-RECEIPT",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "Any online-ready plan must require health, login, profile, Strava connect, activity import, cookie/CSRF, and secret-scan validation receipts.",
+      "on_fail": "flag"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "refine.strategy.proposed",
+      "refine.authorization.blocked_until_confirmation"
+    ],
+    "signal_grouping": "online-auth-profile-vps-refine"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B01-domainspec-infra-authority",
+        "kind": "artifact_import",
+        "from_owner": "implementation/domainspec",
+        "to_owner": "Body War online infra slice",
+        "applies_to_steps": [
+          "s01-context-builder",
+          "s02-invoke-define",
+          "s06-invoke-design",
+          "s09-invoke-plan"
+        ],
+        "contract": "DomainSpec supplies infra vocabulary and templates by reference; this run cannot mutate or promote canonical DomainSpec surfaces.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B02-poker-team-reference",
+        "kind": "artifact_import",
+        "from_owner": "validation/poker-team",
+        "to_owner": "Body War online infra slice",
+        "applies_to_steps": [
+          "s01-context-builder",
+          "s06-invoke-design",
+          "s09-invoke-plan"
+        ],
+        "contract": "Poker-team is a reference implementation; Body War may copy patterns but not product-specific secrets, roles, domains, or assumptions.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B03-friend-strava-privacy",
+        "kind": "state_write",
+        "from_owner": "external consenting athlete",
+        "to_owner": "Body War validation evidence",
+        "applies_to_steps": [
+          "s03-interrogation-refine-review",
+          "s07-interrogation-design-review",
+          "s10-final-interrogation-synthesis"
+        ],
+        "contract": "Friend activity evidence requires consent and must remain token-safe, redacted, and separate from public geometry claims.",
+        "on_violation": "block"
+      }
+    ]
+  }
+}

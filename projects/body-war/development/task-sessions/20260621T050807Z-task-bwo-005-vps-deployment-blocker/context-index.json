@@ -1,0 +1,44 @@
+{
+  "run_id": "20260621T050807Z-task-bwo-005-vps-deployment-blocker",
+  "task": "TASK-BWO-005",
+  "swus": [
+    "SWU-BWO-013",
+    "SWU-BWO-014",
+    "SWU-BWO-015"
+  ],
+  "mode": "standard",
+  "strict_coverage": "block",
+  "selected_sources": [
+    {
+      "path": "projects/body-war/docs/INFRA-ARCHITECTURE.md",
+      "selectors": [
+        "Deployment Flow",
+        "Validation Gates",
+        "Open Flags"
+      ],
+      "obligations": [
+        "deploy-authority"
+      ]
+    },
+    {
+      "path": "projects/body-war/infra/.env.example",
+      "selectors": [
+        "BODY_WAR_DOMAIN",
+        "STRAVA_REDIRECT_URI",
+        "BODY_WAR_SESSION_SECRET",
+        "POSTGRES_PASSWORD"
+      ],
+      "obligations": [
+        "secret-boundary"
+      ]
+    }
+  ],
+  "blockers": [
+    "Canonical domain/app origin is missing.",
+    "VPS access/deploy user details are missing.",
+    "Strava production callback configuration is missing.",
+    "Runtime secrets are intentionally unavailable.",
+    "Friend activity consent is missing for real activity validation."
+  ],
+  "decision_artifact": "projects/body-war/docs/decisions/vps-deployment-readiness.md"
+}

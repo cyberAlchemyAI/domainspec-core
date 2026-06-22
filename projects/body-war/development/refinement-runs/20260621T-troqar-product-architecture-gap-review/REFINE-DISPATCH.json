@@ -1,0 +1,381 @@
+{
+  "dispatch_id": "troqar-product-architecture-gap-review-20260621",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Run refine for any gap or blocker after the TROQAR app-wide architecture, UI/UX, domain, and backend definitions are authored.",
+    "objective": "Validate the TROQAR product architecture packet through the canonical refine loop and return refined gaps, blockers, and next-route guidance.",
+    "target_artifact": "projects/body-war/docs/features/troqar-product-architecture",
+    "operator_sentence": "run /refine for any gap or blocker",
+    "arcanum_vocabulary": [
+      "craft",
+      "invoke",
+      "refine",
+      "context-builder",
+      "interrogation",
+      "distill",
+      "dispatch-spec"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "residue_ledger",
+    "concrete_path_evidence",
+    "observability_grouping"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "Refine requires the canonical ten-stage loop.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s02-invoke-define",
+        "s03-interrogation-refine-review",
+        "s04-research-decision",
+        "s05-distill",
+        "s06-invoke-design",
+        "s07-interrogation-design-review",
+        "s08-distill-repair",
+        "s09-invoke-plan",
+        "s10-final-interrogation-synthesis"
+      ],
+      "validation_expectation": "Every stage consumes a prior artifact, frame, or explicit blocked reason."
+    },
+    {
+      "overlay_id": "residue_ledger_for_active_gaps",
+      "trigger": "The Body War Craft ledger still has active Strava and geometry residue.",
+      "techniques": [
+        "residue_ledger",
+        "concrete_path_evidence",
+        "owner_boundary_check"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s03-interrogation-refine-review",
+        "s08-distill-repair",
+        "s10-final-interrogation-synthesis"
+      ],
+      "validation_expectation": "The run must preserve BLK-STRAVA-ACTIVITY-001 and GAP-TAQUARAL-GEOMETRY-001 unless closure evidence exists."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The first refine pass can run locally against the authored packet and Body War ledger without delegated subagents.",
+    "authorization": "requires_user_permission"
+  },
+  "steps": [
+    {
+      "step_id": "s01-context-builder",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "concrete_path_evidence",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "projects/body-war/.craft/ledger.yml"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/docs/features/troqar-product-architecture/README.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/S01-CONTEXT-BUILDER.md"
+        }
+      ],
+      "stop_conditions": [
+        "block if Body War Craft ledger cannot be read",
+        "block if the TROQAR architecture packet is missing"
+      ]
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "stages/S01-CONTEXT-BUILDER.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S02-INVOKE-DEFINE.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s03-interrogation-refine-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "sequential",
+      "techniques": [
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S02-INVOKE-DEFINE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S03-INTERROGATION-REFINE-REVIEW.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "no-research",
+      "pattern": "decision",
+      "techniques": [
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S03-INTERROGATION-REFINE-REVIEW.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/S04-RESEARCH-DECISION.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s05-distill",
+      "name": "Distill coherent unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": [
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/S04-RESEARCH-DECISION.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S05-DISTILL.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "name": "Invoke Redefine / Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S05-DISTILL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S06-INVOKE-DESIGN.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S06-INVOKE-DESIGN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S07-INTERROGATION-DESIGN-REVIEW.md"
+        }
+      ],
+      "evidence_artifact": "projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md",
+      "stop_conditions": [
+        "block if the design review finds a blocker-level contradiction in page/domain/backend definitions"
+      ]
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "techniques": [
+        "residue_ledger",
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S07-INTERROGATION-DESIGN-REVIEW.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S08-DISTILL-REPAIR.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S08-DISTILL-REPAIR.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S09-INVOKE-PLAN.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s10-final-interrogation-synthesis",
+      "name": "Final Interrogation and Synthesis",
+      "capability_ref": "refine",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": [
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S09-INVOKE-PLAN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        }
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G-REFINE-CONFIRMATION",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Operator confirms this strategy before runtime-backed refine stages execute.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-OWNER-BOUNDARY",
+      "kind": "policy",
+      "owner": "refine",
+      "condition": "The run must not mutate app code or promote DomainSpec canonical methods.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-RESIDUE-PRESERVED",
+      "kind": "quality",
+      "owner": "craft",
+      "condition": "Known Body War blockers and gaps remain visible unless closure evidence exists.",
+      "on_fail": "flag"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "refine.strategy.proposed",
+      "refine.authorization.blocked_until_confirmation"
+    ],
+    "signal_grouping": "troqar-product-architecture-gap-review"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B01-body-war-craft-state",
+        "kind": "state_write",
+        "from_owner": "Craft local ledger",
+        "to_owner": "Body War project",
+        "applies_to_steps": [
+          "s01-context-builder",
+          "s10-final-interrogation-synthesis"
+        ],
+        "contract": "Craft ledger owns project state; refine may record residue and recommendations but cannot erase active blockers without closure evidence.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B02-domainspec-source-authority",
+        "kind": "artifact_import",
+        "from_owner": "DomainSpec architecture",
+        "to_owner": "TROQAR product architecture packet",
+        "applies_to_steps": [
+          "s02-invoke-define",
+          "s06-invoke-design",
+          "s09-invoke-plan"
+        ],
+        "contract": "Body War may consume DomainSpec methods by reference; this run must not promote or mutate canonical DomainSpec surfaces.",
+        "on_violation": "block"
+      }
+    ]
+  }
+}

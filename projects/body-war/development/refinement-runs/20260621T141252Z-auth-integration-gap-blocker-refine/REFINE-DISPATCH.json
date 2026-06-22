@@ -1,0 +1,520 @@
+{
+  "dispatch_id": "body-war-auth-integration-gap-blocker-refine-20260621T141252Z",
+  "intent": {
+    "raw": "/refine if we have any gaps or blockers",
+    "objective": "Run a governed local Refine loop over the BodyWar auth integration invoke packet to identify gaps, blockers, and packet repairs before task-session execution.",
+    "target_artifact": "projects/body-war/development/invoke-runs/20260621T131933Z-auth-user-management-integration/",
+    "operator_sentence": "Refine the auth integration packet for gaps and blockers.",
+    "arcanum_vocabulary": [
+      "refine",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "dispatch-spec",
+      "task-session"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "conditional_component",
+    "data_quality_completeness",
+    "residue_ledger",
+    "memory_loop",
+    "state_namespace_boundary",
+    "protected_context_flag",
+    "execution_receipt_handoff",
+    "concrete_path_evidence"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The target is an existing invoke-authored packet that should be checked in canonical refine order.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s02-invoke-define-review",
+        "s03-interrogation-define",
+        "s04-research-decision",
+        "s05-distill-gap-unit",
+        "s06-invoke-design-review",
+        "s07-interrogation-design",
+        "s08-distill-repair",
+        "s09-invoke-plan-review",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "Each stage must either produce a native artifact or record a blocked reason before final synthesis."
+    },
+    {
+      "overlay_id": "gap_blocker_audit",
+      "trigger": "The operator explicitly asked whether gaps or blockers remain.",
+      "techniques": [
+        "minimum_component_catalog",
+        "conditional_component",
+        "data_quality_completeness",
+        "residue_ledger",
+        "concrete_path_evidence"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s03-interrogation-define",
+        "s07-interrogation-design",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "The result must classify blockers by scope: first SWU, full local integration, online proof, and project-level residue."
+    },
+    {
+      "overlay_id": "memory_residue_for_context_recovery",
+      "trigger": "Prior BodyWar hosted-preview decisions and ledger authority affect current blockers.",
+      "techniques": [
+        "memory_loop",
+        "residue_ledger",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s04-research-decision",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "Local memory and the BodyWar Craft ledger must be treated as evidence, not promoted as new project state."
+    },
+    {
+      "overlay_id": "protected_context_for_auth_provider_state",
+      "trigger": "The target touches Strava tokens, OAuth codes, session cookies, friend activity evidence, and production secrets.",
+      "techniques": [
+        "protected_context_flag",
+        "state_namespace_boundary",
+        "owner_boundary_check"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s06-invoke-design-review",
+        "s09-invoke-plan-review",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "The route must not request, expose, or normalize real secrets or private activity evidence."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "Focused gap/blocker review over one invoke packet and known ledger state.",
+    "explanation": "No subagents are needed for the initial refinement because the evidence scope is local, bounded, and already indexed in the invoke packet and Craft ledger.",
+    "context": [
+      "The latest invoke packet already identifies the current compile failure and first SWU.",
+      "The BodyWar Craft ledger already lists active blockers and gaps.",
+      "Operator-gated deployment choices remain outside execution scope."
+    ],
+    "roles": [],
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "receipt_requirements": []
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s01-context-builder",
+      "name": "Build auth integration gap context",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "concrete_path_evidence",
+        "memory_loop",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "operator-refine-gaps-blockers"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/01-context-builder.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the auth integration packet is missing.",
+        "Stop if protected secrets are required for context."
+      ]
+    },
+    {
+      "step_id": "s02-invoke-define-review",
+      "name": "Review invoke define/spec output",
+      "capability_ref": "invoke",
+      "mode": "define-review",
+      "pattern": "sequential",
+      "techniques": [
+        "artifact_contract_bridge",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/01-context-builder.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-define-review.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if package ownership and BodyWar ownership cannot be separated."
+      ]
+    },
+    {
+      "step_id": "s03-interrogation-define",
+      "name": "Critique spec for blockers",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "sequential",
+      "techniques": [
+        "residue_ledger",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-define-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/03-define-interrogation.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if a blocker-level user decision is required before plan review."
+      ]
+    },
+    {
+      "step_id": "s04-research-decision",
+      "name": "Record research decision",
+      "capability_ref": "refine",
+      "mode": "no-research",
+      "pattern": "decision",
+      "techniques": [
+        "protected_context_flag",
+        "memory_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/03-define-interrogation.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop and ask before any external research is needed."
+      ]
+    },
+    {
+      "step_id": "s05-distill-gap-unit",
+      "name": "Distill smallest blocker-repair unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": [
+        "scu_swu_reduction",
+        "recomposition_proof"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/04-research-decision.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/05-distill-gap-unit.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the first executable unit cannot be selected without deployment choices."
+      ]
+    },
+    {
+      "step_id": "s06-invoke-design-review",
+      "name": "Review and repair design if needed",
+      "capability_ref": "invoke",
+      "mode": "design-review",
+      "pattern": "sequential",
+      "techniques": [
+        "owner_boundary_check",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/05-distill-gap-unit.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-design-review.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the design requires real Strava credentials or friend data."
+      ]
+    },
+    {
+      "step_id": "s07-interrogation-design",
+      "name": "Critique design blocker coverage",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "sequential",
+      "techniques": [
+        "data_quality_completeness",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-design-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/07-design-interrogation.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if acceptance-critical design gaps remain unowned."
+      ]
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "name": "Validate repair unit and residue",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "recomposition_proof"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/07-design-interrogation.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/08-distill-repair.md"
+        }
+      ],
+      "evidence_artifact": "stages/08-distill-repair.md",
+      "stop_conditions": [
+        "Stop if the proposed repair unit does not recompose into the work-pack."
+      ]
+    },
+    {
+      "step_id": "s09-invoke-plan-review",
+      "name": "Review work-pack and plan repairs",
+      "capability_ref": "invoke",
+      "mode": "plan-review",
+      "pattern": "sequential",
+      "techniques": [
+        "execution_receipt_handoff",
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/08-distill-repair.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-plan-review.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if the work-pack routes to deployment before local integration proof."
+      ]
+    },
+    {
+      "step_id": "s10-final-synthesis",
+      "name": "Final blocker synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": [
+        "residue_ledger",
+        "execution_receipt_handoff",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-plan-review.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        }
+      ],
+      "stop_conditions": [
+        "Stop if final blocker classes are not separated by execution scope."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-dispatch-valid",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "REFINE-DISPATCH.json validates before runtime-backed stages.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-confirm-before-run",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Operator confirms the strategy before canonical Refine stages execute.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g03-no-protected-state",
+      "kind": "policy",
+      "owner": "BodyWar",
+      "condition": "No real tokens, OAuth codes, production secrets, or friend activity payloads are required.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04-owner-boundary",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "Auth package ownership and BodyWar adapter ownership remain separated.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "refine.strategy.proposed",
+      "refine.dispatch.validated",
+      "refine.runtime.awaiting_confirmation",
+      "refine.gap_blocker_review.ready"
+    ],
+    "signal_grouping": "body-war-auth-integration-gap-blocker-refine"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "strategy-before-runtime",
+        "kind": "human_approval",
+        "from_owner": "refine",
+        "to_owner": "operator",
+        "applies_to_steps": [
+          "s01-context-builder",
+          "s02-invoke-define-review",
+          "s03-interrogation-define",
+          "s04-research-decision",
+          "s05-distill-gap-unit",
+          "s06-invoke-design-review",
+          "s07-interrogation-design",
+          "s08-distill-repair",
+          "s09-invoke-plan-review",
+          "s10-final-synthesis"
+        ],
+        "contract": "Runtime-backed stages do not execute until the operator confirms this strategy.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "protected-auth-state",
+        "kind": "external_context",
+        "from_owner": "operator/private runtime",
+        "to_owner": "tracked planning artifacts",
+        "applies_to_steps": [
+          "s01-context-builder",
+          "s06-invoke-design-review",
+          "s09-invoke-plan-review",
+          "s10-final-synthesis"
+        ],
+        "contract": "Protected auth/provider data may be named as a class of state but never copied into tracked artifacts.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine owns seed, dispatch, runtime handoff, manifest, evidence index, and result",
+      "execution": "no runtime execution before confirmation",
+      "validation": "dispatch-spec validates route shape",
+      "evidence": "target invoke packet and BodyWar Craft ledger",
+      "memory": "memory is evidence only, not project-state promotion",
+      "promotion": "no production or implementation readiness promotion before final refine synthesis"
+    },
+    "receipts": [
+      {
+        "receipt_id": "refine-stage-receipt",
+        "producer": "native stage capability",
+        "required_fields": [
+          "run_id",
+          "session_id",
+          "artifacts",
+          "validation_result",
+          "status",
+          "blockers",
+          "handoff_note"
+        ],
+        "stores": [
+          "projects/body-war/development/refinement-runs/20260621T141252Z-auth-integration-gap-blocker-refine/stages/"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "tracked-refine-artifacts",
+        "owner": "projects/body-war",
+        "write_policy": "May contain strategy, route, local evidence references, and blocker summaries only."
+      },
+      {
+        "namespace": "private-provider-runtime-state",
+        "owner": "operator/BodyWar runtime",
+        "write_policy": "Never copy secrets, tokens, OAuth codes, or raw private activity payloads into tracked artifacts."
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "This strategy proposal does not execute the canonical refine loop.",
+    "This strategy proposal does not mark the work-pack task-session-ready beyond the existing invoke verdict.",
+    "This strategy proposal does not resolve operator-gated VPS, Strava, or friend-consent blockers."
+  ]
+}
