@@ -709,6 +709,41 @@ Artifacts:
 - `.arcanum/inventory/tags.md`
 - `.arcanum/inventory/log.md`
 
+## 2026-06-23 Scientific authority lifecycle synthesis backfill
+
+- Mode: backfill
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: CAV2-D41 through CAV2-D44 in `cyberAlchemy-v2/authority/definitions/DEFINITIONS.md`, `cyberAlchemy-v2/development/research/2026-06-23-governed-artifact-primitive-formalization/findings.md`, `projects/ontologize/DAG-AND-METRICS.md`, `cyberAlchemy-v2/ontology/README.md`, `cyberAlchemy-v2/ontology/BRANCH-AS-VIEW.md`, `cyberAlchemy-v2/ontology/PACKAGE-MODEL.md`, and the governed-artifact EvidenceSet.
+- Entries created: 3 (1 synthesis, 1 evidence-card bundle, 1 EvidenceSet bundle)
+- Entries updated: 3 index rows
+- Index updated: yes
+- Machine index updated: yes (count 65 -> 68; by_type evidence-card 14 -> 15, evidence-set 12 -> 13)
+- Tags updated: yes (added `scientific-authority-lifecycle`,
+  `knowledge-promotion`, `operational-evidence`, `pattern-authority`, and
+  `relation-provenance`)
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass (`jq empty .arcanum/inventory/index.json`,
+  `git diff --check -- .arcanum/inventory .arcanum/observability`,
+  JSONL observer parse)
+- Notes: Candidate read models linking CyberAlchemy knowledge promotion to a
+  scientific-method-like authority lifecycle. The synthesis links operational
+  evidence, inventory EvidenceSets, ontology views, owner decisions, pattern
+  authority, and invariant/constitution pressure while preserving the
+  non-authority boundary. No canonical definition, ontology schema, pattern
+  authority, invariant, constitution, validator, or bridge claim was promoted.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/scientific-authority-lifecycle-synthesis.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-23-scientific-authority-lifecycle-cards.md`
+- `.arcanum/inventory/entries/evidence-sets/2026-06-23-scientific-authority-lifecycle-sets.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/tags.md`
+- `.arcanum/inventory/log.md`
+
 ## 2026-06-23 Self-Harness tower-lanes and golden-chain mining inventory ingest
 
 - Mode: ingest
@@ -738,6 +773,43 @@ Artifacts:
 - `.arcanum/inventory/entries/evidence-sets/2026-06-22-self-harness-ecosystem-relations-sets.md`
 - `.arcanum/inventory/entries/evidence-cards/2026-06-22-self-harness-golden-chain-mining-cards.md`
 - `.arcanum/inventory/entries/evidence-sets/2026-06-22-self-harness-golden-chain-mining-sets.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/tags.md`
+- `.arcanum/inventory/log.md`
+
+## 2026-06-23 Governed artifact primitive formalization backfill
+
+- Mode: backfill
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: `cyberAlchemy-v2/development/research/2026-06-23-governed-artifact-primitive-formalization/findings.md`, `research.md`, and `AUDIT.md`
+- Dispatch: `2026-06-23-cav2-governed-artifact-primitive-formalization` (research, resolved)
+- Entries created: 2 (1 evidence-card bundle, 1 EvidenceSet bundle)
+- Entries updated: 5 index rows
+- Index updated: yes
+- Machine index updated: yes (count 60 -> 65; by_type evidence-card 13 -> 14, evidence-set 11 -> 12)
+- Tags updated: yes (added `artifact-definition`, `governed-artifact`,
+  `view-model`, `ux-lessons`, `typed-negative`, `audit`)
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass (`jq empty .arcanum/inventory/index.json`, `git diff --check`)
+- Notes: Candidate Inventory read models for the governed artifact primitive
+  formalization dispatch. The accepted verdict rejects/collapses
+  `governed artifact` as a new primitive into existing CAV2 definitions and the
+  authority artifact lifecycle envelope/profile. The only surviving candidate
+  is a definitions-governance review of the base term `artifact`. Non-authority:
+  no canonical definition, ontology schema, constitution, runtime validator,
+  formal theorem claim, UX Lessons promotion, or branch-view authority change
+  was authorized.
+
+Artifacts:
+
+- `cyberAlchemy-v2/development/research/2026-06-23-governed-artifact-primitive-formalization/findings.md`
+- `cyberAlchemy-v2/development/research/2026-06-23-governed-artifact-primitive-formalization/research.md`
+- `cyberAlchemy-v2/development/research/2026-06-23-governed-artifact-primitive-formalization/AUDIT.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-23-governed-artifact-primitive-formalization-cards.md`
+- `.arcanum/inventory/entries/evidence-sets/2026-06-23-governed-artifact-primitive-formalization-sets.md`
 - `.arcanum/inventory/index.md`
 - `.arcanum/inventory/index.json`
 - `.arcanum/inventory/tags.md`

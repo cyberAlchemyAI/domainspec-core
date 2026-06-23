@@ -1,7 +1,7 @@
 # Inventory Index
 
 Repository: `/home/vrondelli/projects/domainspec-core`
-Last updated: 2026-06-22 (simple ontology presentation corpus backfill)
+Last updated: 2026-06-23 (scientific authority lifecycle synthesis backfill)
 
 ## Wiki Pages
 
@@ -40,6 +40,11 @@ Last updated: 2026-06-22 (simple ontology presentation corpus backfill)
 | [entries/evidence-sets/2026-06-22-self-harness-ecosystem-relations-sets.md](entries/evidence-sets/2026-06-22-self-harness-ecosystem-relations-sets.md) | evidence-set | `self-harness`, `harness-self-improvement`, `research` | EvidenceSet grouping the 5-target verdicts, the portable held-out gate, the regression-pass-not-promotion invariant, and the external-precedent cards; handoff to each target owner (advisory adoption, not auto-merge). |
 | [entries/evidence-cards/2026-06-22-self-harness-golden-chain-mining-cards.md](entries/evidence-cards/2026-06-22-self-harness-golden-chain-mining-cards.md) | evidence-card | `self-harness`, `golden-chain`, `dpi`, `regression-gate` | Self-Harness as a golden-chain miner in the functor-stack-bet game: Fork A (stack_s_only) trips DPI KILL + claim-guard; Fork B (stack_s_plus_source, source-grounded, sound verifier) admissible. Precedented by AlphaProof/STP -> build-from-owned; mines candidates not gold; sound-software-verifier open question. |
 | [entries/evidence-sets/2026-06-22-self-harness-golden-chain-mining-sets.md](entries/evidence-sets/2026-06-22-self-harness-golden-chain-mining-sets.md) | evidence-set | `self-harness`, `golden-chain`, `dpi`, `research` | EvidenceSet for the golden-chain mining verdict: Fork adjudication + AlphaProof/STP precedent + narrow-arm DPI escape + candidates-not-gold + sound-verifier open question. VERDICT PRECEDENTED+THREATENS, conditional EXTENDS for the guarded narrow-arm miner. |
+| [entries/evidence-cards/2026-06-23-governed-artifact-primitive-formalization-cards.md](entries/evidence-cards/2026-06-23-governed-artifact-primitive-formalization-cards.md) | evidence-card | `cyberalchemy-v2`, `definitions-governance`, `artifact-definition`, `governed-artifact`, `typed-negative` | Candidate cards from the governed artifact primitive formalization dispatch: `artifact` term review handoff survives; `governed artifact` primitive is a typed negative; UX Lessons remains local; view models are not authority; formal bridge open; operational DAG already carries lifecycle. |
+| [entries/evidence-sets/2026-06-23-governed-artifact-primitive-formalization-sets.md](entries/evidence-sets/2026-06-23-governed-artifact-primitive-formalization-sets.md) | evidence-set | `cyberalchemy-v2`, `definitions-governance`, `artifact-definition`, `governed-artifact`, `promotion-guardrail` | EvidenceSet for the governed artifact primitive resolution: new primitive rejected/collapsed; `artifact` term remains candidate-only pending definitions-governance review; view/read-model and formal/open boundaries preserved. |
+| [entries/scientific-authority-lifecycle-synthesis.md](entries/scientific-authority-lifecycle-synthesis.md) | synthesis | `scientific-authority-lifecycle`, `knowledge-promotion`, `operational-evidence`, `pattern-authority` | Candidate synthesis linking CyberAlchemy knowledge promotion to a scientific-method-like authority lifecycle, with provenance spine and relation map. |
+| [entries/evidence-cards/2026-06-23-scientific-authority-lifecycle-cards.md](entries/evidence-cards/2026-06-23-scientific-authority-lifecycle-cards.md) | evidence-card | `scientific-authority-lifecycle`, `operational-evidence`, `pattern-authority`, `relation-provenance` | Evidence cards for the thesis, operational evidence path, ontology/view routing boundary, owner-decision gate, pattern promotion path, governed-artifact nonprimitive guardrail, and relation-provenance map. |
+| [entries/evidence-sets/2026-06-23-scientific-authority-lifecycle-sets.md](entries/evidence-sets/2026-06-23-scientific-authority-lifecycle-sets.md) | evidence-set | `scientific-authority-lifecycle`, `knowledge-promotion`, `promotion-guardrail`, `relation-provenance` | EvidenceSet grouping the provenance and relation cards for the scientific authority lifecycle synthesis. |
 
 ## Query Files
 
@@ -76,6 +81,9 @@ Last updated: 2026-06-22 (simple ontology presentation corpus backfill)
 | [../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/attacks.md](../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/attacks.md) | review | `operational-ontology`, `raw-returns`, `classification`, `promotion-guardrail` | Attack trace and verifier loop for the Operational Ontology review, including the narrowed pro-collapse argument and the final D19/D22/D23 boundary. |
 | [../../cyberAlchemy-v2/development/research/2026-06-22-simple-ontology-presentation-corpus/findings.md](../../cyberAlchemy-v2/development/research/2026-06-22-simple-ontology-presentation-corpus/findings.md) | findings | `cyberalchemy-v2`, `ontology-lifecycle`, `knowledge-system`, `human-view`, `promotion-guardrail` | Whisper-ready presentation brief explaining ontology as a governed map of meaning with receipts, with slide spine, script seeds, claim table, and forbidden overclaims. |
 | [../../cyberAlchemy-v2/development/research/2026-06-22-simple-ontology-presentation-corpus/research.md](../../cyberAlchemy-v2/development/research/2026-06-22-simple-ontology-presentation-corpus/research.md) | research | `cyberalchemy-v2`, `ontology-lifecycle`, `raw-returns`, `knowledge-system` | Collected explorer returns for simple ontology presentation framing across systems/relations, language-use boundaries, and typed graph/agent context angles. |
+| [../../cyberAlchemy-v2/development/research/2026-06-23-governed-artifact-primitive-formalization/findings.md](../../cyberAlchemy-v2/development/research/2026-06-23-governed-artifact-primitive-formalization/findings.md) | findings | `cyberalchemy-v2`, `definitions-governance`, `artifact-definition`, `governed-artifact`, `typed-negative` | Audited candidate-only verdict: `governed artifact` primitive rejected/collapsed into existing CAV2 definitions and lifecycle envelope; `artifact` remains a definitions-governance term-review handoff. |
+| [../../cyberAlchemy-v2/development/research/2026-06-23-governed-artifact-primitive-formalization/research.md](../../cyberAlchemy-v2/development/research/2026-06-23-governed-artifact-primitive-formalization/research.md) | research | `cyberalchemy-v2`, `raw-returns`, `governed-artifact`, `ux-lessons`, `formalization` | Raw explorer transcript for UX Lessons, authority/inventory boundary, formal/category bridge, and operational DAG witness lanes testing artifact primitive pressure. |
+| [../../cyberAlchemy-v2/development/research/2026-06-23-governed-artifact-primitive-formalization/AUDIT.md](../../cyberAlchemy-v2/development/research/2026-06-23-governed-artifact-primitive-formalization/AUDIT.md) | audit | `cyberalchemy-v2`, `governed-artifact`, `promotion-guardrail`, `typed-negative` | Audit pass after no-promotion repair: source-strength labels, typed negative, negative controls, formal-status boundaries, and handoff-only downstream actions preserved. |
 
 ## Lint Files
 
@@ -155,3 +163,15 @@ Last updated: 2026-06-22 (simple ontology presentation corpus backfill)
   They support the next Whisper route and context-builder lookup, but they do
   not replace `CAV2-D19`, promote presentation wording into a canonical
   definition, or authorize ontology to promote authority by itself.
+- Governed artifact primitive formalization cards are candidate Inventory read
+  models only. They reject/collapse `governed artifact` as a new primitive and
+  preserve only a definitions-governance handoff for the base term `artifact`.
+  They do not authorize ontology schema changes, branch-view authority,
+  constitution changes, formal theorem claims, UX Lessons promotion, or runtime
+  validators.
+- Scientific authority lifecycle synthesis cards are candidate Inventory read
+  models only. They link operational evidence, ontology views, inventory
+  evidence, owner decisions, pattern authority, and invariant/constitution
+  pressure, but do not create a canonical definition, ontology schema, pattern
+  authority, invariant, constitution, or validator. Saturn/DomainSpec bridge
+  claims remain outside until reviewed.

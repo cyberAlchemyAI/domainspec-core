@@ -16,6 +16,7 @@ Controlled tags for this package.
 | `research-program` | Research towers, experiments, and project-level research files. |
 | `v2-repo` | DomainSpec v2 repository or program structure. |
 | `knowledge-system` | Docs, registries, inventories, towers, ledgers, or compiled knowledge. |
+| `knowledge-promotion` | Movement from evidence or candidates through owner-routed review into reusable knowledge, patterns, invariants, or constitutions. |
 | `observability` | Signals, run ledgers, reflection, or telemetry surfaces. |
 | `dispatch` | Subagent strategy, dispatch sheets, or dispatch ledger material. |
 | `dispatch-spec` | Dispatch Spec route, validation, or technique material. |
@@ -24,8 +25,15 @@ Controlled tags for this package.
 | `candidate-condensation` | Condensed candidate knowledge that has not been promoted. |
 | `knowledge-craft-governance` | Knowledge/Craft/Governance framing or correction. |
 | `cyberalchemy-v2` | CyberAlchemy v2 local consolidation, authority, definition, or project-space material. |
+| `scientific-authority-lifecycle` | Candidate synthesis that reads CyberAlchemy knowledge promotion as a scientific-method-like authority lifecycle from operational evidence to owner-routed authority. |
 | `definitions-governance` | Definitions Governance sigil, definition-owner route, or definition maintenance material. |
 | `constitution-governance` | Constitution Governance sigil, constitution-owner route, modular rule, or enforcement material. |
+| `artifact-definition` | Candidate or canonical material about the base term `artifact`, its owner route, and its definition boundary. |
+| `governed-artifact` | Candidate governed-artifact primitive pressure, lifecycle-envelope/profile reuse, or its typed-negative resolution. |
+| `view-model` | Branch view, artifact tree, ontology projection, or other read-model material that must not become authority by view placement. |
+| `ux-lessons` | UX Lessons sigil material, lesson/pattern schemas, consumer adapters, and honesty-gated local artifact contracts. |
+| `typed-negative` | A blocked candidate with an explicit proposed contribution and the exact fact that zeroes it. |
+| `audit` | Audit artifact, close recommendation, gate verification, or mutation-boundary review. |
 | `cyber-alchemy-space` | CyberAlchemy architecture and capability research space. |
 | `capability-taxonomy` | Capability census, taxonomy, reuse map, or capability grouping material. |
 | `findings` | Synthesized findings artifact. |
@@ -33,6 +41,9 @@ Controlled tags for this package.
 | `two-axis` | Pipeline/mechanism or two-axis taxonomy material. |
 | `reuse-map` | Map of existing owned concepts or capabilities to new work. |
 | `promotion-guardrail` | Explicit prevention of false promotion or authority leakage. |
+| `operational-evidence` | Source-backed run, event, metric, trace, or residue evidence used to raise candidates or validate claims. |
+| `pattern-authority` | Architecture pattern authority, pattern candidates, promotion path, and invariant or constitution pressure from repeated evidence. |
+| `relation-provenance` | Candidate relation maps and provenance chains tying claims to source refs, evidence cards, owner routes, and downstream handoffs. |
 | `lint` | Inventory, route, or ontology validation report. |
 | `public-private-boundary` | Public-safe vs private-only artifact routing. |
 | `contradiction` | Explicit contradiction, conflict, blocked claim, or incompatibility evidence surfaced for owner review. |
