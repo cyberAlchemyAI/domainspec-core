@@ -1347,6 +1347,35 @@ where each component may be known, unknown, deferred, or source-local. A
 governance move is valid only if it changes the intended component and does not
 imply changes to the others unless those changes are explicitly recorded.
 
+### Schema
+
+Schema handle: `CAV2-D23-SCHEMA` — tracked in
+[DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md).
+Status: tracked (documentary).
+Bound to: `CAV2-D23` authority lifecycle axis.
+
+Lifecycle posture record:
+
+```text
+L(a) = (kind, status, evidence, commitment, provenance, owner, residue)
+```
+
+| Field | Meaning | Value posture |
+| --- | --- | --- |
+| `kind` | role or artifact kind of `a` | known, unknown, deferred, or source-local |
+| `status` | maturity or lifecycle state | known, unknown, deferred, or source-local |
+| `evidence` | evidence confidence | known, unknown, deferred, or source-local |
+| `commitment` | owner conviction or commitment | known, unknown, deferred, or source-local |
+| `provenance` | source or origin | known, unknown, deferred, or source-local |
+| `owner` | responsible owner route | known, unknown, deferred, or source-local |
+| `residue` | unresolved remainder per `CAV2-D18` | typed residue or none |
+
+Schema invariant: a governance move changes the intended field without implying
+a change to the others unless an explicit typed coupling (`CAV2-D16`) records the
+link. This schema is documentary; a machine-checkable validator is a deferred
+follow-up recorded in the registry. Schema changes follow `CAV2-D25` schema
+amendment witness.
+
 ### Operational Interpretation
 
 Use authority lifecycle axes when evaluating definitions, constitutions, axioms,
@@ -2137,6 +2166,291 @@ evidence or navigation, but they cannot silently redefine a canonical term.
 - [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
 - [DEFINITION-LOCALIZATION-ROUTE.md](DEFINITION-LOCALIZATION-ROUTE.md)
 - [../../CRAFT.md](../../CRAFT.md)
+
+## CAV2-D34: Constitution
+
+Status: active
+Term: constitution
+Aliases: governed constitution, constitution artifact, structure constitution, modular constitution
+
+### Normative Definition
+
+A constitution is a governed authority artifact that fixes the required
+structure, form, or composition rules an artifact class or workspace must obey,
+without absorbing the term, decision, discipline, or runtime-contract authority
+owned by other surfaces. A constitution constrains shape — sections, fields,
+ordering, invariants, admissibility, and import or composition rules; it does
+not by itself define vocabulary, decide a contested choice, or implement
+behavior.
+
+In CyberAlchemy v2, a candidate rule, imported axiom, narrative convention, or
+research recommendation is not a constitution until constitution-governance
+promotes it into an `authority/constitutions/` surface.
+
+### Formal Interpretation
+
+An admissible CyberAlchemy v2 constitution record has at least:
+
+```text
+Constitution =
+  (id, scope, governed_artifact_class, structure_rules, invariants,
+   composition_or_import_rules, owner_route, source_or_provenance,
+   enforcement_or_witness, residue)
+```
+
+where `owner_route = constitution-governance` and `enforcement_or_witness`
+names the validator, review check, or typed residue (see `CAV2-D25`) that shows
+how each structure rule is enforced or why it cannot yet be.
+
+### Operational Interpretation
+
+Use this term when deciding whether a piece of structural guidance is allowed to
+constrain CyberAlchemy v2 artifacts. A constitution is the right home for rules
+such as "every spec must carry sections X, Y, Z" or "imported vault concepts
+must be re-authored before adoption". It is the wrong home for what a term means
+(`CAV2-D33` definition), which option to take (`CAV2-D36` decision), how to
+practice a recurring activity (`CAV2-D35` discipline), or how a runtime behaves
+(`CAV2-D37` spec).
+
+### Plain-Language Intuition
+
+A constitution is the rulebook for the shape of things, not for what they mean
+or what to do.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, constitutions live under
+[../constitutions/](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md) — for
+example the stable repository constitution and the vault concept adoption
+constitution — and the Arcanum constitution-governance capability is the
+promotion route that admits, splits, composes, validates, or retires them. The
+constitution artifact kind is modeled as an authority object in
+[../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md); this file is the
+canonical CAV2 meaning, while constitution-governance remains the owner of
+specific constitutions.
+
+### Boundary
+
+A constitution is not a definition, decision, discipline, or spec, and it is not
+enforceable merely because it is written. It binds structure only after
+constitution-governance promotes it, and a structure rule that affects
+validation or authority must carry an enforcement witness or typed residue per
+`CAV2-D25` schema amendment witness.
+
+### Primary Consumers
+
+- [../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md)
+- [../constitutions/STABLE-REPOSITORY-CONSTITUTION.md](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md)
+- [../README.md](../README.md)
+- [../promotion-policy.md](../promotion-policy.md)
+
+## CAV2-D35: Discipline
+
+Status: active
+Term: discipline
+Aliases: governed discipline, discipline practice, recurring-practice artifact
+
+### Normative Definition
+
+A discipline is a governed authority artifact that names a recurring
+cross-capability practice together with its trigger, the practice itself, the
+evidence that justifies it, and a hardening route, without claiming the term,
+structure, decision, or runtime authority owned by other surfaces. A discipline
+says how the project should repeatedly act; it does not define vocabulary, fix
+artifact shape, decide a contested choice, or implement runtime behavior.
+
+In CyberAlchemy v2, a candidate habit, observed pattern, or research
+recommendation is not a discipline until discipline-governance catalogs and
+hardens it.
+
+### Formal Interpretation
+
+An admissible CyberAlchemy v2 discipline record has at least:
+
+```text
+Discipline =
+  (id, name, trigger, practice, evidence, owner_route,
+   hardening_route, source_or_provenance, residue)
+```
+
+where `owner_route = discipline-governance`.
+
+### Operational Interpretation
+
+Use this term when a repeated CyberAlchemy v2 activity needs an owned home so it
+is practiced consistently — for example keeping the repository source-ledgered,
+authority-bounded, and navigable. A discipline is not the home for shape rules
+(`CAV2-D34` constitution), meanings (`CAV2-D33` definition), one-time choices
+(`CAV2-D36` decision), or contracts (`CAV2-D37` spec).
+
+### Plain-Language Intuition
+
+A discipline is a named good habit with evidence and a plan to make it stick.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, disciplines live under
+[../../disciplines/](../../disciplines/DISCIPLINES.md) — the catalog plus cards
+such as stable repository stewardship (`CAV2-D6`) — and the Arcanum
+discipline-governance capability is the owner route. The discipline artifact
+kind is modeled as an authority object in
+[../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md); this file is the
+canonical CAV2 meaning, while discipline-governance formalizes, routes,
+validates, promotes, or retires specific disciplines.
+
+### Boundary
+
+A discipline is not a constitution, definition, decision, or spec, and it is not
+an active practice merely because it is written down. It becomes active only
+after discipline-governance catalogs and hardens it, and it recommends hardening
+routes rather than promoting other authority by itself.
+
+### Primary Consumers
+
+- [../../disciplines/DISCIPLINES.md](../../disciplines/DISCIPLINES.md)
+- [../../disciplines/cards/stable-repository-stewardship.md](../../disciplines/cards/stable-repository-stewardship.md)
+- [../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md)
+- [../README.md](../README.md)
+
+## CAV2-D36: Decision
+
+Status: active
+Term: decision
+Aliases: governed decision, decision record, owner decision, resolved-choice artifact
+
+### Normative Definition
+
+A decision is a governed authority artifact that records the resolution of a
+contested or consequential choice — scope, ownership, naming, public/private
+posture, sequencing, or option selection — together with the options considered,
+the chosen option, the rationale, the owner, and the resulting effect, without
+absorbing the term, structure, discipline, or runtime authority owned by other
+surfaces.
+
+In CyberAlchemy v2, a discussion, recommendation, open question, or research
+verdict is not a decision until decision-gate, or the responsible owner route,
+records it as resolved.
+
+### Formal Interpretation
+
+An admissible CyberAlchemy v2 decision record has at least:
+
+```text
+Decision =
+  (id, question, options_considered, chosen_option, rationale,
+   owner_route, evidence, effect, status, residue)
+```
+
+where `owner_route` is decision-gate or the responsible owner, and `status` is
+one of resolved, deferred, or superseded.
+
+### Operational Interpretation
+
+Use this term when CyberAlchemy v2 must resolve a blocker-level choice before
+planning, implementation, or document mutation continues — for example whether
+`inventory/` and `ontology/` stay visible top-level areas, or when standalone
+extraction is allowed. A decision is not the home for meanings (`CAV2-D33`
+definition), shape (`CAV2-D34` constitution), recurring practice (`CAV2-D35`
+discipline), or contracts (`CAV2-D37` spec).
+
+### Plain-Language Intuition
+
+A decision is the written record of a choice the project actually made, and why.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, decision records are routed through the Arcanum decision-gate
+capability and are intended to live under `authority/decisions/`. The decision
+artifact kind is modeled as an authority object in
+[../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md). It is distinct from
+`CAV2-D5` promotion gate: a promotion gate is the owner route that returns pass,
+flag, or block, while a decision is the recorded resolution. This file is the
+canonical CAV2 meaning; decision-gate remains the owner that produces decisions.
+
+### Boundary
+
+A decision is not a promotion-gate result by itself, not a definition,
+constitution, discipline, or spec, and not authority merely because someone
+expressed a preference. It counts only when the responsible owner records the
+resolution with options, rationale, and effect; an unresolved choice remains an
+open question or blocker.
+
+### Primary Consumers
+
+- [../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md)
+- [../promotion-policy.md](../promotion-policy.md)
+- [../README.md](../README.md)
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+
+## CAV2-D37: Spec
+
+Status: active
+Term: spec
+Aliases: specification, governed spec, contract spec, promoted spec artifact
+
+### Normative Definition
+
+A spec is a governed authority artifact that fixes a product, domain, runtime,
+validation, or artifact contract for CyberAlchemy v2 after a promotion route
+admits it, stating the contract's scope, interface or shape, obligations, and
+validation surface, without redefining the vocabulary, structure rules,
+recurring practices, or owner decisions owned by other surfaces.
+
+In CyberAlchemy v2, a draft, research finding, candidate contract, or
+architecture sketch is not a spec until the spec owner or decision-gate promotes
+it.
+
+### Formal Interpretation
+
+An admissible CyberAlchemy v2 spec record has at least:
+
+```text
+Spec =
+  (id, scope, contract_kind, interface_or_shape, obligations,
+   validation_surface, owner_route, source_or_provenance,
+   promotion_state, residue)
+```
+
+where `contract_kind` is one of domain, runtime, validation, or artifact, and
+`promotion_state` records candidate or promoted.
+
+### Operational Interpretation
+
+Use this term when CyberAlchemy v2 is ready to fix a contract that downstream
+implementation or validation must honor — only after the relevant definition and
+constitution owners and gate have passed. A spec is not the home for meanings
+(`CAV2-D33` definition), shape rules (`CAV2-D34` constitution), recurring
+practice (`CAV2-D35` discipline), or contested choices (`CAV2-D36` decision).
+
+### Plain-Language Intuition
+
+A spec is the promised contract for how something must behave or be shaped, once
+the project has committed to it.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, specs live under [../../specs/](../../specs/README.md) and
+are promoted only after owner gates pass; the DomainSpec spec template and the
+Arcanum `contract` definition supply contract precedent. The spec artifact kind
+is modeled as an authority object in
+[../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md). This file is the
+canonical CAV2 meaning for the spec artifact kind; it does not redefine
+Arcanum-wide contract semantics.
+
+### Boundary
+
+A spec is not a runtime contract until promoted, not a definition, constitution,
+discipline, or decision, and not authority by proximity to the `specs/` folder.
+Arcanum-wide `contract` and `schema` semantics remain external authority unless
+CyberAlchemy v2 promotes a narrower local spec, and a spec that changes a
+governed shape must still carry a schema amendment witness per `CAV2-D25`.
+
+### Primary Consumers
+
+- [../../specs/README.md](../../specs/README.md)
+- [../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md)
+- [../promotion-policy.md](../promotion-policy.md)
+- [../../../arcanum/definitions/DEFINITIONS.md](../../../arcanum/definitions/DEFINITIONS.md)
 
 ## Open Questions
 
