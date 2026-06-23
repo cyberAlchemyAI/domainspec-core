@@ -1,0 +1,36 @@
+{
+  "run_id": "20260622T133331Z-agent-safe-traefik-deploy",
+  "target": "projects/body-war",
+  "artifacts": [
+    {
+      "path": "projects/body-war/infra/docker-compose.prod.yml",
+      "role": "current infra shape",
+      "finding": "Uses Caddy and already includes Docker Postgres; should be replaced or forked for the Hostinger Traefik path while keeping Postgres as a Docker Compose service."
+    },
+    {
+      "path": "projects/body-war/infra/SECRET-INVENTORY.md",
+      "role": "secret inventory",
+      "finding": "Needs Traefik and restricted-deploy additions; secrets remain untracked."
+    },
+    {
+      "path": "projects/body-war/docs/INFRA-ARCHITECTURE.md",
+      "role": "infra constitution",
+      "finding": "Single VPS existing-host route is valid, but reverse proxy choice changes from Caddy to Traefik."
+    },
+    {
+      "path": "projects/body-war/docs/decisions/vps-deployment-readiness.md",
+      "role": "prior blocker",
+      "finding": "VPS access blocker is partially resolved by operator update; domain and Strava private values remain operator-owned."
+    },
+    {
+      "path": "projects/body-war/app/server.ts",
+      "role": "runtime config",
+      "finding": "Production compose must explicitly set BODY_WAR_AUTH_BACKEND=postgres."
+    }
+  ],
+  "validations": [
+    "python3 -m json.tool REFINE-DISPATCH.json",
+    "python3 -m json.tool evidence-index.json",
+    "git diff --check -- refinement run folder"
+  ]
+}

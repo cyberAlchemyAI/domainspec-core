@@ -93,6 +93,16 @@ owner_route:
 evidence_posture:
 current_status:
 promotion_handle:
+challenge_contract:
+  challenge_response:
+  valid_challenge_modes:
+  contradiction_edges:
+  validation_edges:
+  confidence_reference:
+  owner_route:
+  resolution_gate:
+  blocking_questions:
+  residue:
 conflicts:
 drift_owner:
 ontology_refs:

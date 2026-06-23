@@ -35,6 +35,7 @@ Controlled tags for this package.
 | `promotion-guardrail` | Explicit prevention of false promotion or authority leakage. |
 | `lint` | Inventory, route, or ontology validation report. |
 | `public-private-boundary` | Public-safe vs private-only artifact routing. |
+| `contradiction` | Explicit contradiction, conflict, blocked claim, or incompatibility evidence surfaced for owner review. |
 | `open-question` | Known gap that should be surfaced during lookup. |
 | `schema` | Artifact, data, route, ledger, or graph shape rules and validation surfaces. |
 | `classification` | Controlled category/status assignment, classification facets, or governed category catalog material. |
@@ -69,3 +70,9 @@ Controlled tags for this package.
 | `residue` | Translation residue (schema-axis and instance-axis), conservation-law framing, and the unit-iso recovery conditions. |
 | `domainspec-language` | DomainSpec language design material: contract/schema/iteration model and its categorical grounding. |
 | `latent-space` | Vect-enriched presheaf / embedding-geometry extension of the Set-valued formalization (LLM latent bridge, not yet proved). |
+| `self-harness` | Self-Harness (arXiv 2606.09498) self-improving-harness paradigm, its relation lanes, and golden-chain mining application. |
+| `harness-self-improvement` | Agent/harness self-improvement loops: weakness-mining, proposal, regression-gated validation, and their ecosystem precedents. |
+| `regression-gate` | Proposer-blind held-out non-regression acceptance gate and the "regression-pass != authority promotion" invariant. |
+| `golden-chain` | cyberAlchemy functor-stack-bet golden-chain toy game: chains, residue cards, scoring, claim-guard, bounded collapse. |
+| `dpi` | Data Processing Inequality framing: pure-chain residue is set by the worst bottleneck; source-grounding injection as the escape. |
+| `research` | Research dispatch deliverable, tower, or findings material. |

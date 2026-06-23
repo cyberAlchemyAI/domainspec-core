@@ -11,13 +11,13 @@ This file defines reusable tags for generated inventory pages.
 
 ## Tags
 
-| Tag           | Meaning                                      | Aliases  | Notes |
-| ------------- | -------------------------------------------- | -------- | ----- |
-| source        | Raw source summary.                          |          |       |
-| concept       | Reusable concept page.                       |          |       |
-| architecture  | Architecture-related entry.                  | arch     |       |
-| pattern       | Reusable implementation or workflow pattern. |          |       |
-| decision      | Decision and rationale.                      |          |       |
-| contradiction | Conflicting or tensioned claims.             | conflict |       |
-| open-question | Question requiring follow-up.                | gap      |       |
-| synthesis     | Filed query answer or cross-source analysis. |          |       |
+| Tag | Meaning | Aliases | Notes |
+| --- | ------- | ------- | ----- |
+| source | Raw source summary. |  |  |
+| concept | Reusable concept page. |  |  |
+| architecture | Architecture-related entry. | arch |  |
+| pattern | Reusable implementation or workflow pattern. |  |  |
+| decision | Decision and rationale. |  |  |
+| contradiction | Conflicting or tensioned claims. | conflict |  |
+| open-question | Question requiring follow-up. | gap |  |
+| synthesis | Filed query answer or cross-source analysis. |  |  |

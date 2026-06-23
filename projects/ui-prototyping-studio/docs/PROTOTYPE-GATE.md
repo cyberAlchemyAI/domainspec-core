@@ -37,6 +37,7 @@ DomainSpec feature docs
 | `UI-SPEC.md` | yes | Source presentation contract. |
 | `TEST-SPEC.md` | yes | Browser and accessibility obligations. |
 | Visual definitions | recommended | Brand, layout, component, and copy constraints. |
+| Profile visual guidelines | recommended | Machine-readable brand/UI constraints, such as a feature-specific `*-ui-guidelines.json`, that variants must respect or name as deviations. |
 | Target app constraints | yes | Current framework/runtime, security posture, and non-goals. |
 | Handoff export profile | yes for cross-project use | JSON profile that maps export refs to the target feature docs. |
 
@@ -72,6 +73,8 @@ DomainSpec feature docs
 - Target app validation must run against the real app, not only Studio preview.
 - Real secrets, tokens, OAuth codes, private athlete payloads, and live deploy
   credentials are never prototype inputs.
+- Profile-specific visual guideline files are constraints for prototype
+  generation; unresolved deviations must be explicit in the handoff evidence.
 
 ## Completion Criteria
 
@@ -80,5 +83,7 @@ A feature passes the gate when:
 - the handoff bundle cites the target `UI-SPEC.md` and `TEST-SPEC.md`;
 - the accepted prototype maps key components to stable `data-od-id` values;
 - fallback selectors, missing refs, and unresolved spec deviations are named;
+- profile-specific visual guidelines are satisfied or named as unresolved
+  deviations;
 - the target app work-pack names how the handoff will be consumed;
 - implementation remains routed to target app task-session.

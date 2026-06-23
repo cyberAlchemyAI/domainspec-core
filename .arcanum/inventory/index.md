@@ -1,7 +1,7 @@
 # Inventory Index
 
 Repository: `/home/vrondelli/projects/domainspec-core`
-Last updated: 2026-06-22 (primitive type, method, and definition definitions-governance sync)
+Last updated: 2026-06-22 (simple ontology presentation corpus backfill)
 
 ## Wiki Pages
 
@@ -34,6 +34,12 @@ Last updated: 2026-06-22 (primitive type, method, and definition definitions-gov
 | [entries/evidence-cards/2026-06-22-presheaf-vect-novelty-orthogonality-cards.md](entries/evidence-cards/2026-06-22-presheaf-vect-novelty-orthogonality-cards.md) | evidence-card | `category-theory`, `yoneda`, `residue`, `latent-space`, `cyberalchemy-v2` | Novelty + orthogonality resolution: presheaf-in-Vect not-novel/build-from-owned+open (Popper no-witness); AsymmetricTowerVEnriched is schema-side Set-valued (trust-but-verify resolved); orthogonality is two distinct notions (Shannon vs Hilbert, per TO-VLAD); TO-VLAD handoffs move the target (CAV2-D22 amended, D28/C13 promoted). |
 | [entries/evidence-cards/2026-06-22-operational-ontology-authority-lifecycle-cards.md](entries/evidence-cards/2026-06-22-operational-ontology-authority-lifecycle-cards.md) | evidence-card | `operational-ontology`, `ontology-lifecycle`, `definitions-governance`, `classification` | Evidence cards from the verified Operational Ontology authority lifecycle review plus demotion sync: Operational Ontology is not identical to D23, but CyberAlchemy v2 now treats it as source-local shorthand for a D19 projection governed by D23, not a standalone candidate. |
 | [entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md](entries/evidence-sets/2026-06-22-operational-ontology-authority-lifecycle-sets.md) | evidence-set | `operational-ontology`, `ontology-lifecycle`, `promotion-guardrail`, `evidence-backfill` | EvidenceSet for the accepted definitions-governance demotion: rewrite/retire Operational Ontology into D19 typed-ontology obligations plus D23 lifecycle-axis obligations unless future work names concrete operational obligations directly. |
+| [entries/evidence-cards/2026-06-22-simple-ontology-presentation-cards.md](entries/evidence-cards/2026-06-22-simple-ontology-presentation-cards.md) | evidence-card | `cyberalchemy-v2`, `ontology-lifecycle`, `knowledge-system`, `human-view`, `machine-view`, `promotion-guardrail` | Candidate cards from the accepted simple ontology presentation corpus: map of meaning with receipts, inventory/ontology boundary, CAV2 authority caveat, Whisper spine, and forbidden overclaims. |
+| [entries/evidence-sets/2026-06-22-simple-ontology-presentation-sets.md](entries/evidence-sets/2026-06-22-simple-ontology-presentation-sets.md) | evidence-set | `cyberalchemy-v2`, `ontology-lifecycle`, `knowledge-system`, `human-view`, `machine-view`, `promotion-guardrail` | EvidenceSet for explaining ontology simply through Whisper while preserving inventory/ontology separation and CAV2 authority boundaries. |
+| [entries/evidence-cards/2026-06-22-self-harness-ecosystem-relations-cards.md](entries/evidence-cards/2026-06-22-self-harness-ecosystem-relations-cards.md) | evidence-card | `self-harness`, `harness-self-improvement`, `regression-gate`, `research` | Self-Harness (arXiv 2606.09498) related to 5 ecosystem targets: the proposer-blind held-out non-regression gate is the one portable mechanism; verdicts Saturn EXTENDS+PRECEDENTED, DomainSpec PRECEDENTED+THREATENS, Arcanum PRECEDENTED, CAv2 PRECEDENTED+THREATENS, Lean EXTENDS+INAPPLICABLE; regression-pass != authority promotion; loop externally precedented (SICA/ADAS/DGM) -> build-from-owned. |
+| [entries/evidence-sets/2026-06-22-self-harness-ecosystem-relations-sets.md](entries/evidence-sets/2026-06-22-self-harness-ecosystem-relations-sets.md) | evidence-set | `self-harness`, `harness-self-improvement`, `research` | EvidenceSet grouping the 5-target verdicts, the portable held-out gate, the regression-pass-not-promotion invariant, and the external-precedent cards; handoff to each target owner (advisory adoption, not auto-merge). |
+| [entries/evidence-cards/2026-06-22-self-harness-golden-chain-mining-cards.md](entries/evidence-cards/2026-06-22-self-harness-golden-chain-mining-cards.md) | evidence-card | `self-harness`, `golden-chain`, `dpi`, `regression-gate` | Self-Harness as a golden-chain miner in the functor-stack-bet game: Fork A (stack_s_only) trips DPI KILL + claim-guard; Fork B (stack_s_plus_source, source-grounded, sound verifier) admissible. Precedented by AlphaProof/STP -> build-from-owned; mines candidates not gold; sound-software-verifier open question. |
+| [entries/evidence-sets/2026-06-22-self-harness-golden-chain-mining-sets.md](entries/evidence-sets/2026-06-22-self-harness-golden-chain-mining-sets.md) | evidence-set | `self-harness`, `golden-chain`, `dpi`, `research` | EvidenceSet for the golden-chain mining verdict: Fork adjudication + AlphaProof/STP precedent + narrow-arm DPI escape + candidates-not-gold + sound-verifier open question. VERDICT PRECEDENTED+THREATENS, conditional EXTENDS for the guarded narrow-arm miner. |
 
 ## Query Files
 
@@ -68,6 +74,8 @@ Last updated: 2026-06-22 (primitive type, method, and definition definitions-gov
 | [queries/2026-06-21-house-project-vault-import/findings.md](queries/2026-06-21-house-project-vault-import/findings.md) | findings | `source-import`, `house-project-vault`, `ontology-lifecycle`, `schema` | Inventory finding: the imported vault contains high-value source clusters for orthogonality, lifecycle/confidence, schema amendment, graph traversal, and ledger/idempotency governance. |
 | [../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md](../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/findings.md) | findings | `operational-ontology`, `ontology-lifecycle`, `definitions-governance`, `promotion-guardrail` | Historical review finding: Operational Ontology should not collapse into CAV2-D23 alone. Current definitions-governance demotes it into D19 typed ontology obligations plus D23 lifecycle-axis obligations. |
 | [../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/attacks.md](../../cyberAlchemy-v2/development/reviews/2026-06-22-operational-ontology-authority-lifecycle-review/attacks.md) | review | `operational-ontology`, `raw-returns`, `classification`, `promotion-guardrail` | Attack trace and verifier loop for the Operational Ontology review, including the narrowed pro-collapse argument and the final D19/D22/D23 boundary. |
+| [../../cyberAlchemy-v2/development/research/2026-06-22-simple-ontology-presentation-corpus/findings.md](../../cyberAlchemy-v2/development/research/2026-06-22-simple-ontology-presentation-corpus/findings.md) | findings | `cyberalchemy-v2`, `ontology-lifecycle`, `knowledge-system`, `human-view`, `promotion-guardrail` | Whisper-ready presentation brief explaining ontology as a governed map of meaning with receipts, with slide spine, script seeds, claim table, and forbidden overclaims. |
+| [../../cyberAlchemy-v2/development/research/2026-06-22-simple-ontology-presentation-corpus/research.md](../../cyberAlchemy-v2/development/research/2026-06-22-simple-ontology-presentation-corpus/research.md) | research | `cyberalchemy-v2`, `ontology-lifecycle`, `raw-returns`, `knowledge-system` | Collected explorer returns for simple ontology presentation framing across systems/relations, language-use boundaries, and typed graph/agent context angles. |
 
 ## Lint Files
 
@@ -139,6 +147,11 @@ Last updated: 2026-06-22 (primitive type, method, and definition definitions-gov
   is only an alias for the bounded meaning. Ledger remains unpromoted until
   inheritance relations and local Craft ledger conformance are reviewed.
 - Primordial source-cluster candidates for `primitive type`, generic `method`,
-  and `definition` have been consumed by definitions-governance into `CAV2-D31`,
-  `CAV2-D32`, and `CAV2-D33`. Remaining T-1 review candidates are authority,
-  intent, artifact, gate, provenance, traceability, and claim <= proof.
+  `definition`, `authority`, `provenance`, `traceability`, `gate`,
+  `claim <= proof`, and `intent` have been consumed by definitions-governance
+  into `CAV2-D31` through `CAV2-D39`. Remaining explicit T-1 review candidate
+  is `artifact`; the broader 149-candidate import clustering remains open.
+- Simple ontology presentation cards are candidate Inventory read models only.
+  They support the next Whisper route and context-builder lookup, but they do
+  not replace `CAV2-D19`, promote presentation wording into a canonical
+  definition, or authorize ontology to promote authority by itself.

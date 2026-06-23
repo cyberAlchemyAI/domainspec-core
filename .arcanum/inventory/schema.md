@@ -60,6 +60,19 @@ Generated entries may also use these heading fields for shell-friendly lookup:
 - Confidence: `high`, `medium`, or `low`.
 - Residue: unresolved ambiguity, contradiction, or missing evidence.
 
+## Machine Index
+
+`index.md` is the human-readable catalog. `index.json` is the primary
+machine-readable catalog and must parse with `jq`.
+
+Machine index rows should include stable ID, path, kind, type, title, summary,
+tags, sources, updated date, status, confidence when known, selectors,
+evidence-card IDs, EvidenceSet IDs, and unresolved residue.
+
+Optional CSV projections may be added under `projections/`, but they must be
+derived from `index.json`, declare their source and freshness, and remain
+read-model projections rather than authority.
+
 ## Entry Types
 
 - `source`
@@ -105,6 +118,8 @@ terms, status, and residue.
 ## Update Behavior
 
 - Update `index.md` for every generated page or entry.
+- Update `index.json` with the same generated page or entry changes before
+  claiming lookup readiness.
 - Update `tags.md` when introducing a tag.
 - Append `log.md` for install, ingest, lookup filing, lint, validate, backfill,
   and sync actions.

@@ -2,15 +2,15 @@
 
 ## Metadata
 
-| Field       | Value                   |
-| ----------- | ----------------------- |
-| Type        | source                  |
-| Source path | {path}                  |
-| Captured    | YYYY-MM-DD              |
-| Ingested    | YYYY-MM-DD              |
-| Status      | active                  |
-| Tags        | {tags}                  |
-| Confidence  | high \/ moderate \/ low |
+| Field | Value |
+| ----- | ----- |
+| Type | source |
+| Source path | {path} |
+| Captured | YYYY-MM-DD |
+| Ingested | YYYY-MM-DD |
+| Status | active |
+| Tags | {tags} |
+| Confidence | high \/ moderate \/ low |
 
 ## Source Summary
 
@@ -18,12 +18,12 @@
 
 ## Extracted Knowledge
 
-| Kind     | Entry   | Notes   |
-| -------- | ------- | ------- |
-| concept  | {entry} | {notes} |
-| entity   | {entry} | {notes} |
+| Kind | Entry | Notes |
+| ---- | ----- | ----- |
+| concept | {entry} | {notes} |
+| entity | {entry} | {notes} |
 | decision | {entry} | {notes} |
-| pattern  | {entry} | {notes} |
+| pattern | {entry} | {notes} |
 
 ## Claims Worth Reusing
 

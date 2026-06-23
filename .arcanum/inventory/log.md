@@ -1,5 +1,38 @@
 # Inventory Log
 
+## 2026-06-22 Authority, provenance, traceability, gate, claim <= proof, and intent definitions-governance sync
+
+- Mode: definitions-governance promotion sync
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: `cyberAlchemy-v2/authority/definitions/source-clusters/primordial.md`, `projects/framework-unification/CONCEPT-MAP.md`, `arcanum/framework/CYBERALCHEMY-METHOD.md`, and `.agents/skills/definitions-governance/SKILL.md`
+- Entries created: 0
+- Entries updated: 0
+- Index updated: yes
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass (`git diff --check`, Craft JSON parse, Craft YAML parse)
+- Notes: Definitions-governance promoted `CAV2-D34` authority,
+  `CAV2-D35` provenance, `CAV2-D36` traceability, `CAV2-D37` gate,
+  `CAV2-D38` claim <= proof, and `CAV2-D39` intent. The promotion consumes six
+  T-1 queue items while preserving `artifact` as the only explicit remaining
+  primordial-basis review candidate. The broader 149-candidate import
+  clustering, dedupe, and local-representation work remains open.
+
+Artifacts:
+
+- `cyberAlchemy-v2/authority/definitions/DEFINITIONS.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITIONS-INDEX.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITION-TOWERS.md`
+- `cyberAlchemy-v2/authority/definitions/source-clusters/primordial.md`
+- `cyberAlchemy-v2/CRAFT.md`
+- `cyberAlchemy-v2/.craft/ledger.yml`
+- `cyberAlchemy-v2/.craft/index.json`
+- `cyberAlchemy-v2/TO-VLAD/SESSION-HANDOFF-cav2-primordial-basis.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/log.md`
+
 ## 2026-06-22 Primitive type, method, and definition definitions-governance sync
 
 - Mode: definitions-governance promotion sync
@@ -644,4 +677,68 @@ Artifacts:
 - `.arcanum/inventory/README.md`
 - `.arcanum/inventory/schema.md`
 - `.arcanum/inventory/index.json`
+- `.arcanum/inventory/log.md`
+
+## 2026-06-22 Simple ontology presentation corpus backfill
+
+- Mode: backfill
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: `cyberAlchemy-v2/development/research/2026-06-22-simple-ontology-presentation-corpus/findings.md` and `cyberAlchemy-v2/development/research/2026-06-22-simple-ontology-presentation-corpus/research.md`
+- Entries created: 2
+- Entries updated: 4 index rows
+- Index updated: yes
+- Machine index updated: yes
+- Tags updated: yes
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass
+- Notes: Added candidate Inventory read models for the accepted simple ontology
+  presentation corpus. The EvidenceSet supports the next Whisper handoff and
+  context-builder lookup while preserving the CAV2 authority caveat: ontology
+  can classify, relate, trace, condense, and prepare promotion requests, but it
+  does not promote definitions, constitutions, specs, runtime contracts, public
+  claims, or owner-route authority by itself.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/evidence-cards/2026-06-22-simple-ontology-presentation-cards.md`
+- `.arcanum/inventory/entries/evidence-sets/2026-06-22-simple-ontology-presentation-sets.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/tags.md`
+- `.arcanum/inventory/log.md`
+
+## 2026-06-23 Self-Harness tower-lanes and golden-chain mining inventory ingest
+
+- Mode: ingest
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: `domainspec-lean-formalization/research/self-harness-tower/findings.md` (+ `tower/TOWER.md`) and `domainspec-lean-formalization/research/cyberalchemy-functor-stack-bet/bridges/self-harness-mining/findings.md` (+ the functor-stack-bet tower and golden-chain experiment-package)
+- Dispatches: `2026-06-22-self-harness-tower-lanes` (research, resolved); `2026-06-22-self-harness-golden-chain-mining` (research, resolved)
+- Entries created: 4 (2 evidence-card bundles, 2 EvidenceSet bundles)
+- Entries updated: 4 index rows
+- Index updated: yes
+- Machine index updated: yes (count 56 -> 60; by_type evidence-card 11 -> 13, evidence-set 9 -> 11)
+- Tags updated: yes (added `self-harness`, `harness-self-improvement`, `regression-gate`, `golden-chain`, `dpi`, `research`)
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass
+- Notes: Candidate Inventory read models for the two Self-Harness research dispatches.
+  Cards capture: the paradigm, the proposer-blind held-out gate as the one portable
+  mechanism, the 5-target relation verdicts, the "regression-pass != authority
+  promotion" invariant, external precedent (SICA/ADAS/DGM), and the golden-chain
+  mining Fork A/Fork B adjudication with AlphaProof/STP precedent. Non-authority:
+  no target adoption decision, no promotion; the sound-software-verifier residue
+  and the un-run decisive experiment stay open.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/evidence-cards/2026-06-22-self-harness-ecosystem-relations-cards.md`
+- `.arcanum/inventory/entries/evidence-sets/2026-06-22-self-harness-ecosystem-relations-sets.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-22-self-harness-golden-chain-mining-cards.md`
+- `.arcanum/inventory/entries/evidence-sets/2026-06-22-self-harness-golden-chain-mining-sets.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/tags.md`
 - `.arcanum/inventory/log.md`

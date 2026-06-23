@@ -34,6 +34,10 @@ indexes:
     ART-TROQAR-BACKEND-SPEC: artifacts[27]
     ART-TROQAR-GAP-BLOCKER-REVIEW: artifacts[28]
     ART-TROQAR-REFINE-DISPATCH: artifacts[29]
+    ART-TROQAR-PRODUCTION-UI-TASK-SESSION: artifacts[30]
+    ART-TROQAR-PRODUCTION-UI-REVIEW: artifacts[31]
+    ART-TROQAR-PRODUCTION-LOGIN-HANDOFF: artifacts[32]
+    RCT-TROQAR-PRODUCTION-UI-001: receipts[5]
     DEC-BODY-WAR-AUTH-FIRST-001: decisions[1]
     GAP-TROQAR-PAGE-PRIORITY-001: gaps[2]
     GAP-TROQAR-SCORE-AUTHORITY-001: gaps[3]
@@ -54,7 +58,7 @@ indexes:
     - GAP-TROQAR-GLOSSARY-PROMOTION-001
   next_moves:
     - context_id: CTX-BODY-WAR-ROOT
-      next_move: Confirm the validated TROQAR product-architecture refine strategy or route the packet into invoke plan; keep real Strava activity and geometry evidence as active gaps.
+      next_move: Configure the Hostinger Traefik deployment manually from ONLINE-DEPLOY-MANUAL.md, then run the online deploy receipt before validating real Strava activity evidence.
     - context_id: CTX-BODY-WAR-ARCH-AUDIT
       next_move: Recompose architecture-boundary decision into CTX-BODY-WAR-ROOT and proceed to bounded MVP work-pack planning.
   artifacts_by_path:
@@ -81,6 +85,9 @@ indexes:
     projects/body-war/docs/features/troqar-product-architecture/backend.md: ART-TROQAR-BACKEND-SPEC
     projects/body-war/docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md: ART-TROQAR-GAP-BLOCKER-REVIEW
     projects/body-war/development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json: ART-TROQAR-REFINE-DISPATCH
+    projects/body-war/development/task-sessions/20260622T125002Z-production-ui-login/RESULT.md: ART-TROQAR-PRODUCTION-UI-TASK-SESSION
+    projects/body-war/docs/features/troqar-product-architecture/UI-REVIEW.md: ART-TROQAR-PRODUCTION-UI-REVIEW
+    projects/body-war/docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json: ART-TROQAR-PRODUCTION-LOGIN-HANDOFF
 
 contexts:
   - context_id: CTX-BODY-WAR-ROOT
@@ -89,7 +96,7 @@ contexts:
     purpose: Track Body War MVP decisions, blockers, gaps, route evidence, and recomposition while the product moves from prototype evidence to governed architecture.
     stage: auth-consumer-implemented
     gate: flag
-    next_move: Confirm the validated TROQAR product-architecture refine strategy or route the packet into invoke plan; keep real Strava activity and geometry evidence as active gaps.
+    next_move: Configure the Hostinger Traefik deployment manually from ONLINE-DEPLOY-MANUAL.md, then run the online deploy receipt before validating real Strava activity evidence; keep geometry/game mechanics deferred.
     owned_artifacts:
       - ART-BODY-WAR-CRAFT-LEDGER
       - ART-BODY-WAR-CRAFT-VIEW
@@ -119,6 +126,9 @@ contexts:
       - ART-TROQAR-BACKEND-SPEC
       - ART-TROQAR-GAP-BLOCKER-REVIEW
       - ART-TROQAR-REFINE-DISPATCH
+      - ART-TROQAR-PRODUCTION-UI-TASK-SESSION
+      - ART-TROQAR-PRODUCTION-UI-REVIEW
+      - ART-TROQAR-PRODUCTION-LOGIN-HANDOFF
     notes: Root context created by /craft start for Body War.
   - context_id: CTX-BODY-WAR-ARCH-AUDIT
     parent_id: CTX-BODY-WAR-ROOT
@@ -315,6 +325,24 @@ artifacts:
     artifact_type: dispatch-route
     status: pass
     notes: Validated formal Refine route for the TROQAR product architecture gap/blocker review; execution waits for operator confirmation.
+  - artifact_id: ART-TROQAR-PRODUCTION-UI-TASK-SESSION
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/development/task-sessions/20260622T125002Z-production-ui-login/RESULT.md
+    artifact_type: task-session-result
+    status: pass
+    notes: Production login UI task session completed SWU-PUI-001 through SWU-PUI-005 with Studio handoff and Playwright validation.
+  - artifact_id: ART-TROQAR-PRODUCTION-UI-REVIEW
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/UI-REVIEW.md
+    artifact_type: ui-review-receipt
+    status: pass
+    notes: Review receipt for the production login-first TROQAR UI, including browser and mobile evidence.
+  - artifact_id: ART-TROQAR-PRODUCTION-LOGIN-HANDOFF
+    owner_context_id: CTX-BODY-WAR-ROOT
+    path: projects/body-war/docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json
+    artifact_type: studio-handoff-bundle
+    status: pass
+    notes: Studio Prototype Gate bundle for the production login-first UI; accepted variant B, rev-0001, with no missing refs.
 
 descriptions:
   - description_id: DESC-BODY-WAR-001
@@ -659,6 +687,18 @@ receipts:
     validation_result: Auth npm validate, Body War npm check, runtime language policy check, JSON/YAML/dispatch/diff checks passed; Body War now consumes TypeScript auth-user-management for server-owned session, CSRF guard, Strava connection, and activity summary import.
     audit_reference: ART-AUTH-USER-MANAGEMENT-IMPLEMENTATION
     residue: Real consenting Strava activity import/submission remains required to close BLK-STRAVA-ACTIVITY-001.
+  - receipt_id: RCT-TROQAR-PRODUCTION-UI-001
+    handoff_id: SWU-PUI-001-through-SWU-PUI-005
+    producer: task-session
+    status: pass
+    artifacts:
+      - projects/body-war/development/task-sessions/20260622T125002Z-production-ui-login/RESULT.md
+      - projects/body-war/docs/features/troqar-product-architecture/UI-REVIEW.md
+      - projects/body-war/docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json
+      - projects/body-war/app/e2e/troqar-product-architecture/ui.spec.ts
+    validation_result: Studio check/test, Body War build/check/test:ui, JSON parse, JS syntax, and diff checks passed; production login-first UI is implemented and browser-falsified.
+    audit_reference: ART-TROQAR-PRODUCTION-UI-TASK-SESSION
+    residue: Real Strava activity submission and sourced geometry remain active gaps; this closes the UI production-login path only.
 
 relations:
   - relation_id: REL-CONTAINS-ARCH-AUDIT-001
@@ -724,6 +764,13 @@ relations:
     status: blocked-awaiting-confirmation
     reason: The formal Refine route validates, but canonical Refine runtime execution requires operator confirmation after the strategy preview.
     evidence: HND-TROQAR-PRODUCT-ARCH-REFINE-001
+  - relation_id: REL-TROQAR-PRODUCTION-UI-001
+    source_id: RCT-TROQAR-PRODUCTION-UI-001
+    target_id: CTX-BODY-WAR-ROOT
+    type: informs
+    status: active
+    reason: Production login-first UI implementation and validation provide the current hosted-preview entry surface while preserving Strava activity and geometry residue.
+    evidence: ART-TROQAR-PRODUCTION-UI-TASK-SESSION
 
 recomposition:
   - child_id: CTX-BODY-WAR-ARCH-AUDIT
@@ -743,7 +790,7 @@ recomposition:
   - child_id: projects/body-war/docs/features/troqar-product-architecture
     parent_id: CTX-BODY-WAR-ROOT
     summary: App-wide TROQAR architecture, operations, DomainSpec domain model, UI/UX, visual definitions, backend contracts, and local gap review are now anchored as Body War design artifacts.
-    evidence: ART-TROQAR-PRODUCT-ARCH-README
-    residue: Formal Refine runtime execution waits for confirmation; Strava activity evidence, sourced geometry, page priority, score authority, backend provider choice, and glossary promotion remain open.
-    next_parent_move: Confirm the validated TROQAR product-architecture refine strategy or route the packet into invoke plan.
+    evidence: ART-TROQAR-PRODUCTION-UI-TASK-SESSION
+    residue: Strava activity evidence, sourced geometry, score authority, backend provider choice, broader page ordering, and glossary promotion remain open.
+    next_parent_move: Use the production login UI as hosted preview entry, then validate real Strava activity import/submission without exposing tokens.
     status: flag

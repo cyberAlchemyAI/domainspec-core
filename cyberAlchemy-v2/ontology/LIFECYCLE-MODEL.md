@@ -37,8 +37,9 @@ These states are a candidate model. They do not bind current artifact schemas.
 
 ## Typed-Hole Rule
 
-The shared envelope may carry status, sources, promotion handle, conflicts,
-drift owner, and ontology refs. The owner profile produces the verdict.
+The shared envelope may carry status, sources, promotion handle,
+challenge contract, conflicts, drift owner, and ontology refs. The owner
+profile produces the verdict.
 
 ```text
 shared rail -> owner profile -> verdict

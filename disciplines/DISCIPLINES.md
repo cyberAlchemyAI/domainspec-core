@@ -12,6 +12,7 @@ This catalog formalizes recurring practices specific to the **private** `domains
 | `submodule-orchestration` | Submodule orchestration discipline | candidate | umbrella maintainer | [Submodule discipline](cards/submodule-orchestration.md) | Consolidate the duplicated prose (CLAUDE.md, AGENTS.md, SUBMODULE-DISCIPLINE.md) behind the Makefile `bump-check`/`doctor` validator and route to a constitution. |
 | `asset-ownership-propagation` | Asset ownership propagation discipline | active-pattern | ops | [Asset ownership card](cards/asset-ownership-propagation.md) | Promote `tools/check_github_drift.sh` to the named validator and tie each asset class to a single source of truth. |
 | `session-closure` | Session closure discipline | candidate | vault / close-session | [Session closure card](cards/session-closure.md) | Decide whether closure routes catalog-only or gains an edge-legality validator over session nodes. |
+| `troqar-ui-visual-discipline` | TROQAR UI visual discipline | active-pattern | body-war / ui-prototyping-studio | [TROQAR UI card](cards/troqar-ui-visual-discipline.md) | Promote the Studio guideline JSON into a reusable profile input and add deterministic palette/logo/selector checks before canonical status. |
 
 ## Status Meanings
 

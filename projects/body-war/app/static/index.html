@@ -1,90 +1,139 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>TROQAR Online Profile</title>
+    <title>TROQAR - Perfil do Corredor</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">TROQAR / Body War</p>
-        <h1>Online Runner Profile</h1>
-      </div>
-      <nav class="top-actions" data-od-id="topbar.account.actions" aria-label="Account actions">
-        <a id="profile-link" class="button hidden" href="/profile">Profile</a>
-        <a id="connect" class="button primary" data-od-id="auth.connect.cta" href="/api/auth/strava/start"
-          >Connect Strava</a
-        >
-        <button id="logout" class="button hidden" type="button">Logout</button>
-      </nav>
-    </header>
+    <div class="app-shell" data-od-id="troqar.shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="TROQAR home">
+          <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+            <path class="mark-outline" d="M32 4 57 18v28L32 60 7 46V18z" />
+            <circle class="runner-head" cx="41" cy="17" r="5" />
+            <path class="runner-fire" d="M17 33c8-8 17-12 28-12 6 0 11 2 14 6-8-2-14 0-20 3-7 4-14 6-22 3z" />
+            <path class="runner-green" d="M31 28c-6 9-13 16-22 21 12 2 23-1 34-7 7-5 12-10 16-18-8 3-17 4-28 4z" />
+            <path class="runner-green" d="M23 42c-3 6-7 12-11 17h12c3-5 6-10 11-15z" />
+          </svg>
+          <span class="brand-text" aria-hidden="true"><span>TROQ</span><span>AR</span></span>
+        </a>
+        <nav class="top-actions" data-od-id="topbar.account.actions" aria-label="Account actions">
+          <a id="profile-link" class="button ghost hidden" href="/profile">Perfil</a>
+          <a id="connect-top" class="button primary hidden" href="/api/auth/strava/start">Entrar com Strava</a>
+          <button id="logout" class="button ghost hidden" type="button">Sair</button>
+        </nav>
+      </header>
 
-    <main class="layout" data-od-id="troqar.shell">
-      <section class="panel status-panel">
-        <div>
-          <h2>Connection</h2>
-          <p id="connection-copy">Checking Strava connection...</p>
-        </div>
-        <div id="athlete-card" class="athlete hidden"></div>
-      </section>
-
-      <section class="panel profile-panel" data-od-id="profile.safe-athlete-card">
-        <div class="section-head">
-          <div>
-            <h2>Profile</h2>
-            <p id="profile-copy">Checking runner profile...</p>
-          </div>
-        </div>
-        <div id="profile-card" class="profile-grid"></div>
-      </section>
-
-      <section class="panel" data-od-id="activity.recent-summary">
-        <div class="section-head">
-          <div>
-            <h2>Activities</h2>
-            <p id="activity-copy">
-              Recent summaries stay redacted. Route geometry and scoring are
-              explicitly separate from this preview.
+      <main>
+        <section id="auth-login" class="login-screen" data-od-id="auth.login-first">
+          <div class="login-copy">
+            <p class="eyebrow">TROQAR / Body War</p>
+            <h1 data-od-id="login.hero">Bora correr</h1>
+            <p class="hero-line">
+              Conecte seu Strava. Conquiste territorio.
             </p>
-          </div>
-          <button id="refresh" class="button">Refresh</button>
-        </div>
-        <div id="activities" class="activity-list"></div>
-      </section>
-
-      <section class="panel">
-        <div class="section-head">
-          <div>
-            <h2>Pilot Tracks</h2>
-            <p>
-              Hybrid authority: simple controller now, richer evidence
-              underneath.
+            <p class="hero-copy" data-od-id="login.trust-copy">
+              Entre com Strava para carregar seu perfil publico e seus treinos recentes. As credenciais ficam no servidor; aqui aparecem so resumo seguro e evidencia de preview.
             </p>
+            <div class="login-actions">
+              <a id="connect" class="button primary" data-od-id="auth.connect.cta" href="/api/auth/strava/start">
+                Entrar com Strava
+              </a>
+              <p id="connection-copy" class="microcopy">Verificando conexao com Strava...</p>
+            </div>
+            <div id="callback-status" class="notice success hidden" data-od-id="auth.callback-status"></div>
+            <div id="auth-error" class="notice danger hidden" data-od-id="auth.error.banner">
+              <span id="auth-error-copy"></span>
+              <a id="reconnect" data-od-id="auth.reconnect.cta" href="/api/auth/strava/start">Tentar Strava de novo</a>
+            </div>
           </div>
-        </div>
-        <div id="tracks" class="track-grid"></div>
-      </section>
+          <aside class="preview-card" data-od-id="login.preview-card">
+            <div class="phone-frame">
+              <div class="phone-head">
+                <span class="mini-mark"></span>
+                <strong>TROQAR</strong>
+              </div>
+              <div class="metric-grid">
+                <div>
+                  <p>Semana</p>
+                  <strong>42,7 km</strong>
+                </div>
+                <div>
+                  <p>Territorio</p>
+                  <strong>verde</strong>
+                </div>
+              </div>
+              <div class="route-card">
+                <p>Rota em destaque</p>
+                <h2>Trilha do Morro</h2>
+                <svg viewBox="0 0 220 72" aria-hidden="true">
+                  <path d="M8 56c28-26 41-9 62-20 19-10 27 13 49 2 22-11 34-23 57-11 15 8 21 14 36 1" />
+                </svg>
+              </div>
+            </div>
+          </aside>
+        </section>
 
-      <section class="panel">
-        <h2>Submitted Evidence</h2>
-        <div id="submissions" class="submission-list"></div>
-      </section>
-    </main>
+        <section id="runner-home" class="runner-home hidden" aria-label="Connected runner home">
+          <section class="panel status-panel">
+            <div>
+              <p class="eyebrow">Conexao</p>
+              <h2>Strava pronto</h2>
+              <p id="connected-copy">Verificando conexao do corredor...</p>
+            </div>
+            <div id="athlete-card" class="athlete hidden"></div>
+          </section>
 
-    <template id="activity-template">
-      <article class="activity">
-        <div>
-          <h3 data-name></h3>
-          <p data-meta></p>
-        </div>
-        <select data-track></select>
-        <button class="button" data-od-id="evidence.submit.cta" data-submit>
-          Submit preview
-        </button>
-      </article>
-    </template>
+          <section class="panel profile-panel" data-od-id="profile.safe-athlete-card">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Perfil</p>
+                <h2 id="profile-title">Perfil do corredor</h2>
+                <p id="profile-copy">Carregando perfil seguro...</p>
+              </div>
+            </div>
+            <div id="profile-card" class="profile-grid"></div>
+          </section>
+
+          <section class="panel" data-od-id="activity.recent-summary">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Treinos</p>
+                <h2>Treinos recentes</h2>
+                <p id="activity-copy">
+                  Resumos recentes ficam seguros. Geometria da rota e pontuacao seguem separadas deste preview.
+                </p>
+              </div>
+              <button id="refresh" class="button ghost" type="button">Atualizar</button>
+            </div>
+            <div id="activities" class="activity-list"></div>
+          </section>
+
+          <section class="panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Rotas</p>
+                <h2>Pistas piloto</h2>
+                <p>Controle simples agora; evidencia melhor por baixo.</p>
+              </div>
+            </div>
+            <div id="tracks" class="track-grid"></div>
+          </section>
+
+          <section class="panel">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">Evidencia</p>
+                <h2>Evidencias de preview</h2>
+              </div>
+            </div>
+            <div id="submissions" class="submission-list" data-od-id="evidence.submission-list"></div>
+          </section>
+        </section>
+      </main>
+    </div>
 
     <script src="/app.js"></script>
   </body>
