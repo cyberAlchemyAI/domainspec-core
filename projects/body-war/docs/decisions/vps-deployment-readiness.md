@@ -1,15 +1,15 @@
 # Decision Gate - VPS Deployment Readiness
 
-Status: `blocked-pending-operator`
+Status: `blocked-pending-operator-configuration`
 Target scope: `TASK-BWO-005 - VPS Deployment Receipt`
 Created: 2026-06-21
 
 ## Consequential Work Blocked
 
-The next work-pack task would configure the production origin, deploy the
-app/postgres/caddy stack to the VPS, configure the Strava production callback,
-and produce the first deployment receipt. That work cannot proceed safely
-without operator choices and private inputs.
+The local deployment harness now targets the existing Hostinger VPS with Docker
+and Traefik. Actual online deployment still cannot proceed safely until the
+operator configures the public origin, server-owned `.env`, Strava production
+callback, and first validation identity.
 
 ## Decision 1 - Canonical App Origin
 
@@ -21,13 +21,13 @@ Question: Which public origin should the first online TROQAR deployment use?
 - Cost or risk: Requires real DNS control and Strava callback setup now.
 - When to choose: You already own/control the domain and want the first VPS
   deployment to be the production-facing URL.
-- Downstream impact: Caddy, `BODY_WAR_PUBLIC_BASE_URL`,
+- Downstream impact: Traefik, `BODY_WAR_PUBLIC_BASE_URL`,
   `BODY_WAR_ALLOWED_ORIGINS`, and `STRAVA_REDIRECT_URI` all use this domain.
 
 ### Option 2: Temporary Stable Subdomain
 
 - Benefit: Fastest safe online proof without committing to final branding.
-- Cost or risk: Later migration requires updating Caddy, Strava callback, and
+- Cost or risk: Later migration requires updating Traefik, Strava callback, and
   public links.
 - When to choose: You have any controlled subdomain ready before the final
   TROQAR domain is decided.
@@ -52,8 +52,8 @@ Question: How should deployment access to the existing VPS be handled?
 ### Option 1: Manual SSH/Compose Deploy
 
 - Benefit: Fastest path to the first online receipt.
-- Cost or risk: Operator must provide SSH host/user/key path privately and
-  accept manual operational steps.
+- Cost or risk: Operator must run or supervise the first deployment steps and
+  keep `/srv/troqar/.env` private.
 - When to choose: Speed matters more than full CI automation for L0.
 - Downstream impact: Use shell deploy checklist; GitHub Actions/Pulumi remain
   L1.
@@ -74,8 +74,9 @@ Question: How should deployment access to the existing VPS be handled?
 - Downstream impact: Task can produce scripts/checklists, then block before
   actual deploy.
 
-Recommendation: Option 1 for first L0 online proof, if you can provide access
-privately; otherwise Option 3.
+Recommendation: Option 1 for first L0 online proof. After the first manual
+deploy works, add the restricted `troqar-deploy-agent` command for agent
+image-tag deploys.
 
 ## Decision 3 - Strava Production Callback And Secrets
 
@@ -92,7 +93,7 @@ introduced?
 
 ### Option 2: Deploy Health/Profile Shell Without Strava Callback
 
-- Benefit: Proves HTTPS, app boot, Caddy, and profile unauthenticated behavior
+- Benefit: Proves HTTPS, app boot, Traefik, and profile unauthenticated behavior
   first.
 - Cost or risk: Does not close login/connect receipt.
 - When to choose: Domain/VPS are ready but Strava app settings are not.
@@ -141,6 +142,7 @@ after consent; Option 3 if Strava validation should wait.
 
 Result: `BLOCK`
 
-No option has been selected by the operator. Do not deploy, configure real
-secrets, update Strava callback settings, or use friend activity evidence until
-these decisions are resolved.
+Local deploy harness is implementation-ready. Do not run the online deploy,
+configure real secrets in tracked files, update Strava callback settings, or use
+friend activity evidence until the operator performs the private configuration
+in `projects/body-war/docs/ONLINE-DEPLOY-MANUAL.md`.

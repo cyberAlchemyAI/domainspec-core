@@ -54,6 +54,7 @@ root.
 | `uiSpecRef` | Canonical UI spec consumed by the prototype. |
 | `testSpecRef` | Canonical test spec consumed by the prototype. |
 | `sourceRefs` | Additional source docs such as visual definitions or architecture notes. |
+| profile visual guidelines | When a `sourceRefs` entry is a feature-specific `*-ui-guidelines.json`, Studio variants should treat it as a brand/UI constraint and name unresolved deviations in the handoff summary. |
 | `missingRefs` | Advisory refs not found under `STUDIO_DOCS_ROOT`; missing refs do not block export. |
 
 ## Handoff Summary

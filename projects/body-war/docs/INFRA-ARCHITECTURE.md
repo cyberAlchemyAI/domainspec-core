@@ -1,7 +1,7 @@
 ---
 project: body-war
 product-name: TROQAR
-status: draft-task-session
+status: task-session-pass
 preset: single-vps-existing-host
 vps-provider: existing-vps
 dns-provider: tbd
@@ -30,7 +30,7 @@ provisioning or Pulumi before the first online identity loop is useful.
 | Preset | Runtime | IaC | Monitoring | Deploy |
 | --- | --- | --- | --- | --- |
 | Dev | local Node/TypeScript app | none | app status only | `npm start` |
-| Single VPS existing host | Docker Compose on available VPS | shell/manual first | app, Caddy, and Postgres health | copy config and `docker compose up -d` |
+| Single VPS existing host | Docker Compose on available VPS | shell/manual first | app, Traefik, and Postgres health | copy config and `docker compose up -d` |
 | Single VPS managed | Docker Compose on provisioned VPS | Pulumi TypeScript | Prometheus/Grafana optional | GitHub Actions or scripted deploy |
 | Split/HA | later | later | later | later |
 
@@ -41,7 +41,7 @@ provisioning or Pulumi before the first online identity loop is useful.
 | VPS provider | existing VPS | Operator has an available VPS; provider details are not required for the first infra definition. |
 | DNS provider | tbd | Required before production Strava callback and TLS smoke. |
 | IaC | Docker Compose first; Pulumi TypeScript later | Keep the first deploy small, then promote to managed infra once the online loop works. |
-| Reverse proxy | Caddy | Public HTTPS entrypoint and same-origin routing to the TypeScript app. |
+| Reverse proxy | Existing Traefik | Public HTTPS entrypoint and same-origin routing to the TypeScript app on the Hostinger VPS. |
 | App runtime | TypeScript Node server | Current app starts with `npm --prefix projects/body-war/app start` after build. |
 | App image | configurable container image | `BODY_WAR_APP_IMAGE` and `IMAGE_TAG` select the deployed image. |
 | Database | PostgreSQL 15 | Included for auth package sessions/principals plus Body War profile/provider state. Migrations are Drizzle Kit generated. |
@@ -59,12 +59,13 @@ provisioning or Pulumi before the first online identity loop is useful.
 
 | Service | Internal Port | Exposed | Role |
 | --- | --- | --- | --- |
-| `app` | `5174` | via Caddy only | TypeScript static UI and `/api/*` server. |
+| `app` | `5174` | via Traefik only | TypeScript static UI and `/api/*` server. |
 | `postgres` | `5432` | no | Auth package sessions/principals plus Body War provider accounts, provider tokens, OAuth state, and runner profiles. |
-| `caddy` | `80`, `443` | yes | TLS and reverse proxy. |
+| `traefik` | existing VPS service | yes | TLS and reverse proxy; not owned by this app Compose stack. |
 
-For L0, `app + postgres + caddy` is the whole runtime. Monitoring services are
-deferred until the app has a deployment receipt and feature SLOs.
+For L0, the app Compose stack owns `app + postgres`; the existing VPS Traefik
+service owns ingress. Monitoring services are deferred until the app has a
+deployment receipt and feature SLOs.
 
 ## Networking
 
@@ -78,7 +79,7 @@ Private-only:
 
 - PostgreSQL stays on the Docker network.
 - App port `5174` is not published directly.
-- Future metrics ports stay private unless protected through Caddy auth.
+- Future metrics ports stay private unless protected through Traefik auth.
 
 Default route model:
 
@@ -96,7 +97,6 @@ CI secret store.
 | Secret | Purpose | Tracked Status |
 | --- | --- | --- |
 | `BODY_WAR_DOMAIN` | Canonical public host. | placeholder only |
-| `BODY_WAR_TLS_EMAIL` | ACME contact for Caddy. | placeholder only |
 | `BODY_WAR_SESSION_SECRET` | HMAC signing for session and CSRF cookies. | secret value never committed |
 | `STRAVA_CLIENT_ID` | Strava OAuth app id. | placeholder only |
 | `STRAVA_CLIENT_SECRET` | Strava OAuth app secret. | secret value never committed |
@@ -109,6 +109,8 @@ CI secret store.
 | `IMAGE_TAG` | App image tag. | non-secret |
 | `BODY_WAR_AUTH_BACKEND` | Selects memory or Postgres auth backend. | non-secret |
 | `BODY_WAR_TOKEN_PROTECTION_SECRET` | Encrypts provider token ciphertext at rest. | secret value never committed |
+| `TRAEFIK_NETWORK` | Existing external Traefik Docker network. | non-secret |
+| `TRAEFIK_CERT_RESOLVER` | Existing Traefik TLS resolver. | non-secret |
 
 The current app supports `BODY_WAR_AUTH_BACKEND=memory` for local fake-Strava
 development and `BODY_WAR_AUTH_BACKEND=postgres` for the local production-shape
@@ -123,8 +125,11 @@ projects/body-war/
   docs/
     INFRA-ARCHITECTURE.md
   infra/
-    Caddyfile
-    docker-compose.prod.yml
+    Caddyfile              # legacy/non-Hostinger Caddy path
+    docker-compose.prod.yml # legacy/non-Hostinger Caddy path
+    docker-compose.traefik.yml
+    .env.traefik.example
+    scripts/
     .env.example
     .gitignore
     SECRET-INVENTORY.md
@@ -148,15 +153,14 @@ projects/body-war/infra/
 
 ## Deployment Flow
 
-L0 manual compose:
+L0 manual compose on existing Hostinger Traefik:
 
 1. Build and publish a Body War app image.
-2. Copy `infra/docker-compose.prod.yml`, `infra/Caddyfile`, and a private
-   `.env` file to the VPS.
+2. Copy `infra/docker-compose.traefik.yml` and a private `.env` file to the VPS.
 3. Set DNS for `BODY_WAR_DOMAIN` to the VPS public IP.
 4. Set the Strava app callback to
    `https://<BODY_WAR_DOMAIN>/api/auth/strava/callback`.
-5. Run `docker compose --env-file .env -f docker-compose.prod.yml up -d`.
+5. Run migrations and `docker compose --env-file .env -f docker-compose.traefik.yml up -d`.
 6. Record a deployment receipt with health, login, connect, profile, activity,
    CSRF, and secret-redaction checks.
 
@@ -164,9 +168,9 @@ L0 manual compose:
 
 | Gate | Required Evidence |
 | --- | --- |
-| Compose shape | `docker compose --env-file projects/body-war/infra/.env.example -f projects/body-war/infra/docker-compose.prod.yml config` passes. |
+| Compose shape | `docker compose --env-file projects/body-war/infra/.env.traefik.example -f projects/body-war/infra/docker-compose.traefik.yml config` passes. |
 | Language invariant | `bash tools/check-runtime-language-policy.sh` passes. |
-| Health | `https://<BODY_WAR_DOMAIN>/api/status` returns 200 through Caddy/TLS. |
+| Health | `https://<BODY_WAR_DOMAIN>/api/status` returns 200 through Traefik/TLS. |
 | Session | Login creates server-owned cookies with HttpOnly, Secure, SameSite, and CSRF binding. |
 | Strava connect | OAuth callback succeeds with the configured production redirect URI. |
 | Profile link | `/profile` shows a safe Strava athlete link and no tokens. |

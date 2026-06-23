@@ -1,0 +1,20 @@
+{
+  "id": "context-pack-traefik-secret-blind-deploy",
+  "task": "SWU-BW-DEPLOY-TRAEFIK-001..004",
+  "strictCoverage": "pass",
+  "sources": [
+    "projects/body-war/development/refinement-runs/20260622T133331Z-agent-safe-traefik-deploy/RESULT.md",
+    "projects/body-war/app/package.json",
+    "projects/body-war/app/src/infrastructure/postgres/migrations.ts",
+    "projects/body-war/docs/INFRA-ARCHITECTURE.md",
+    "projects/body-war/docs/decisions/vps-deployment-readiness.md",
+    "projects/body-war/infra/SECRET-INVENTORY.md"
+  ],
+  "blockersAfterSession": [
+    "operator must configure real domain DNS",
+    "operator must configure Traefik network/cert resolver names",
+    "operator must create VPS .env with real secrets",
+    "operator must configure Strava callback URL",
+    "operator must decide first activity validation identity"
+  ]
+}

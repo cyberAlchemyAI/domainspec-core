@@ -2167,290 +2167,460 @@ evidence or navigation, but they cannot silently redefine a canonical term.
 - [DEFINITION-LOCALIZATION-ROUTE.md](DEFINITION-LOCALIZATION-ROUTE.md)
 - [../../CRAFT.md](../../CRAFT.md)
 
-## CAV2-D34: Constitution
+## CAV2-D34: Authority
 
 Status: active
-Term: constitution
-Aliases: governed constitution, constitution artifact, structure constitution, modular constitution
+Term: authority
+Aliases: normative authority, decision authority, authority primitive
 
 ### Normative Definition
 
-A constitution is a governed authority artifact that fixes the required
-structure, form, or composition rules an artifact class or workspace must obey,
-without absorbing the term, decision, discipline, or runtime-contract authority
-owned by other surfaces. A constitution constrains shape — sections, fields,
-ordering, invariants, admissibility, and import or composition rules; it does
-not by itself define vocabulary, decide a contested choice, or implement
-behavior.
+Authority is the scoped right or responsibility to let a term, rule, status,
+artifact, relation, gate result, validation result, or mutation count for a
+declared CyberAlchemy v2 purpose.
 
-In CyberAlchemy v2, a candidate rule, imported axiom, narrative convention, or
-research recommendation is not a constitution until constitution-governance
-promotes it into an `authority/constitutions/` surface.
+An authority claim is valid only when it names the scope, owner or owner route,
+authority surface, governed object, allowed operation, evidence or decision
+basis, effect, and challenge or drift route. Authority may decide what counts
+inside its scope, but it does not automatically transfer across scopes,
+surfaces, owners, generated mirrors, or source spaces.
 
 ### Formal Interpretation
 
-An admissible CyberAlchemy v2 constitution record has at least:
+For an authority claim `A` over object `x`, CyberAlchemy v2 requires:
 
 ```text
-Constitution =
-  (id, scope, governed_artifact_class, structure_rules, invariants,
-   composition_or_import_rules, owner_route, source_or_provenance,
-   enforcement_or_witness, residue)
+A(x) = (scope, owner, surface, object, operation, basis, effect, challenge_route)
 ```
 
-where `owner_route = constitution-governance` and `enforcement_or_witness`
-names the validator, review check, or typed residue (see `CAV2-D25`) that shows
-how each structure rule is enforced or why it cannot yet be.
+The claim is admissible only if `scope`, `owner`, `surface`, `operation`, and
+`effect` are explicit. If any field is implicit, the authority claim becomes
+candidate evidence or residue, not governing authority.
 
 ### Operational Interpretation
 
-Use this term when deciding whether a piece of structural guidance is allowed to
-constrain CyberAlchemy v2 artifacts. A constitution is the right home for rules
-such as "every spec must carry sections X, Y, Z" or "imported vault concepts
-must be re-authored before adoption". It is the wrong home for what a term means
-(`CAV2-D33` definition), which option to take (`CAV2-D36` decision), how to
-practice a recurring activity (`CAV2-D35` discipline), or how a runtime behaves
-(`CAV2-D37` spec).
+Use authority whenever a source, file, owner, process, gate, validator, or
+generated view would make something count. Ask: count for what scope, by which
+owner, through which surface, with which operation, and with what effect?
 
 ### Plain-Language Intuition
 
-A constitution is the rulebook for the shape of things, not for what they mean
-or what to do.
+Authority is the project's answer to "who or what is allowed to make this
+count, and only for which purpose?"
 
 ### Domain-Context Voice
 
-In CyberAlchemy v2, constitutions live under
-[../constitutions/](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md) — for
-example the stable repository constitution and the vault concept adoption
-constitution — and the Arcanum constitution-governance capability is the
-promotion route that admits, splits, composes, validates, or retires them. The
-constitution artifact kind is modeled as an authority object in
-[../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md); this file is the
-canonical CAV2 meaning, while constitution-governance remains the owner of
-specific constitutions.
+In CyberAlchemy v2, authority is the base term under existing local surfaces
+such as `CAV2-D3` authority layer, `CAV2-D13` authority promotion queue, and
+`CAV2-D23` authority lifecycle axis. It protects the stable repository from
+letting file proximity, generated indexes, ontology projections, inventory
+cards, source truth, or repeated usage silently become CyberAlchemy v2 canon.
 
 ### Boundary
 
-A constitution is not a definition, decision, discipline, or spec, and it is not
-enforceable merely because it is written. It binds structure only after
-constitution-governance promotes it, and a structure rule that affects
-validation or authority must carry an enforcement witness or typed residue per
-`CAV2-D25` schema amendment witness.
+Authority is not truth, confidence, maturity, popularity, file ownership,
+repository access, generated status, or implementation success. It may cite
+evidence and may be implemented by access controls, but neither evidence nor
+access control becomes authority without the scoped owner route.
 
 ### Primary Consumers
 
-- [../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md)
-- [../constitutions/STABLE-REPOSITORY-CONSTITUTION.md](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md)
-- [../README.md](../README.md)
-- [../promotion-policy.md](../promotion-policy.md)
-
-## CAV2-D35: Discipline
-
-Status: active
-Term: discipline
-Aliases: governed discipline, discipline practice, recurring-practice artifact
-
-### Normative Definition
-
-A discipline is a governed authority artifact that names a recurring
-cross-capability practice together with its trigger, the practice itself, the
-evidence that justifies it, and a hardening route, without claiming the term,
-structure, decision, or runtime authority owned by other surfaces. A discipline
-says how the project should repeatedly act; it does not define vocabulary, fix
-artifact shape, decide a contested choice, or implement runtime behavior.
-
-In CyberAlchemy v2, a candidate habit, observed pattern, or research
-recommendation is not a discipline until discipline-governance catalogs and
-hardens it.
-
-### Formal Interpretation
-
-An admissible CyberAlchemy v2 discipline record has at least:
-
-```text
-Discipline =
-  (id, name, trigger, practice, evidence, owner_route,
-   hardening_route, source_or_provenance, residue)
-```
-
-where `owner_route = discipline-governance`.
-
-### Operational Interpretation
-
-Use this term when a repeated CyberAlchemy v2 activity needs an owned home so it
-is practiced consistently — for example keeping the repository source-ledgered,
-authority-bounded, and navigable. A discipline is not the home for shape rules
-(`CAV2-D34` constitution), meanings (`CAV2-D33` definition), one-time choices
-(`CAV2-D36` decision), or contracts (`CAV2-D37` spec).
-
-### Plain-Language Intuition
-
-A discipline is a named good habit with evidence and a plan to make it stick.
-
-### Domain-Context Voice
-
-In CyberAlchemy v2, disciplines live under
-[../../disciplines/](../../disciplines/DISCIPLINES.md) — the catalog plus cards
-such as stable repository stewardship (`CAV2-D6`) — and the Arcanum
-discipline-governance capability is the owner route. The discipline artifact
-kind is modeled as an authority object in
-[../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md); this file is the
-canonical CAV2 meaning, while discipline-governance formalizes, routes,
-validates, promotes, or retires specific disciplines.
-
-### Boundary
-
-A discipline is not a constitution, definition, decision, or spec, and it is not
-an active practice merely because it is written down. It becomes active only
-after discipline-governance catalogs and hardens it, and it recommends hardening
-routes rather than promoting other authority by itself.
-
-### Primary Consumers
-
-- [../../disciplines/DISCIPLINES.md](../../disciplines/DISCIPLINES.md)
-- [../../disciplines/cards/stable-repository-stewardship.md](../../disciplines/cards/stable-repository-stewardship.md)
-- [../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md)
-- [../README.md](../README.md)
-
-## CAV2-D36: Decision
-
-Status: active
-Term: decision
-Aliases: governed decision, decision record, owner decision, resolved-choice artifact
-
-### Normative Definition
-
-A decision is a governed authority artifact that records the resolution of a
-contested or consequential choice — scope, ownership, naming, public/private
-posture, sequencing, or option selection — together with the options considered,
-the chosen option, the rationale, the owner, and the resulting effect, without
-absorbing the term, structure, discipline, or runtime authority owned by other
-surfaces.
-
-In CyberAlchemy v2, a discussion, recommendation, open question, or research
-verdict is not a decision until decision-gate, or the responsible owner route,
-records it as resolved.
-
-### Formal Interpretation
-
-An admissible CyberAlchemy v2 decision record has at least:
-
-```text
-Decision =
-  (id, question, options_considered, chosen_option, rationale,
-   owner_route, evidence, effect, status, residue)
-```
-
-where `owner_route` is decision-gate or the responsible owner, and `status` is
-one of resolved, deferred, or superseded.
-
-### Operational Interpretation
-
-Use this term when CyberAlchemy v2 must resolve a blocker-level choice before
-planning, implementation, or document mutation continues — for example whether
-`inventory/` and `ontology/` stay visible top-level areas, or when standalone
-extraction is allowed. A decision is not the home for meanings (`CAV2-D33`
-definition), shape (`CAV2-D34` constitution), recurring practice (`CAV2-D35`
-discipline), or contracts (`CAV2-D37` spec).
-
-### Plain-Language Intuition
-
-A decision is the written record of a choice the project actually made, and why.
-
-### Domain-Context Voice
-
-In CyberAlchemy v2, decision records are routed through the Arcanum decision-gate
-capability and are intended to live under `authority/decisions/`. The decision
-artifact kind is modeled as an authority object in
-[../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md). It is distinct from
-`CAV2-D5` promotion gate: a promotion gate is the owner route that returns pass,
-flag, or block, while a decision is the recorded resolution. This file is the
-canonical CAV2 meaning; decision-gate remains the owner that produces decisions.
-
-### Boundary
-
-A decision is not a promotion-gate result by itself, not a definition,
-constitution, discipline, or spec, and not authority merely because someone
-expressed a preference. It counts only when the responsible owner records the
-resolution with options, rationale, and effect; an unresolved choice remains an
-open question or blocker.
-
-### Primary Consumers
-
-- [../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md)
-- [../promotion-policy.md](../promotion-policy.md)
-- [../README.md](../README.md)
 - [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [source-clusters/primordial.md](source-clusters/primordial.md)
+- [../promotion-policy.md](../promotion-policy.md)
+- [../../CRAFT.md](../../CRAFT.md)
 
-## CAV2-D37: Spec
+## CAV2-D35: Provenance
 
 Status: active
-Term: spec
-Aliases: specification, governed spec, contract spec, promoted spec artifact
+Term: provenance
+Aliases: source provenance, origin chain, provenance chain, source chain
 
 ### Normative Definition
 
-A spec is a governed authority artifact that fixes a product, domain, runtime,
-validation, or artifact contract for CyberAlchemy v2 after a promotion route
-admits it, stating the contract's scope, interface or shape, obligations, and
-validation surface, without redefining the vocabulary, structure rules,
-recurring practices, or owner decisions owned by other surfaces.
+Provenance is the declared origin and transformation chain for a term, artifact,
+claim, rule, decision, relation, validation result, or residue. It records where
+the object came from, which sources or prior objects it depends on, which
+operations changed it, which owners or processes handled it, and which
+authority posture it held at each relevant step.
 
-In CyberAlchemy v2, a draft, research finding, candidate contract, or
-architecture sketch is not a spec until the spec owner or decision-gate promotes
-it.
+Provenance must identify source references and relation types with enough
+precision that a later reviewer can distinguish source evidence, local
+adaptation, promotion, demotion, translation, derivation, validation, and
+generated projection.
 
 ### Formal Interpretation
 
-An admissible CyberAlchemy v2 spec record has at least:
+For object `x`, provenance is a typed path:
 
 ```text
-Spec =
-  (id, scope, contract_kind, interface_or_shape, obligations,
-   validation_surface, owner_route, source_or_provenance,
-   promotion_state, residue)
+Prov(x) = [(source_i, relation_i, operation_i, owner_i, posture_i)]*
 ```
 
-where `contract_kind` is one of domain, runtime, validation, or artifact, and
-`promotion_state` records candidate or promoted.
+The path may be incomplete only if the missing segment is explicitly recorded
+as residue with an owner route. Untyped "came from" language is not sufficient
+for authority-bearing use.
 
 ### Operational Interpretation
 
-Use this term when CyberAlchemy v2 is ready to fix a contract that downstream
-implementation or validation must honor — only after the relevant definition and
-constitution owners and gate have passed. A spec is not the home for meanings
-(`CAV2-D33` definition), shape rules (`CAV2-D34` constitution), recurring
-practice (`CAV2-D35` discipline), or contested choices (`CAV2-D36` decision).
+Use provenance before promoting, adapting, importing, validating, or publishing
+anything. Provenance answers what source material is being used, what happened
+to it, and where the current object should be audited if it drifts.
 
 ### Plain-Language Intuition
 
-A spec is the promised contract for how something must behave or be shaped, once
-the project has committed to it.
+Provenance is the receipt trail for where something came from and how it got
+here.
 
 ### Domain-Context Voice
 
-In CyberAlchemy v2, specs live under [../../specs/](../../specs/README.md) and
-are promoted only after owner gates pass; the DomainSpec spec template and the
-Arcanum `contract` definition supply contract precedent. The spec artifact kind
-is modeled as an authority object in
-[../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md). This file is the
-canonical CAV2 meaning for the spec artifact kind; it does not redefine
-Arcanum-wide contract semantics.
+In CyberAlchemy v2, provenance is the lower-level basis for
+`CAV2-D24` provenance-first navigation, authority imports, source clusters,
+inventory evidence cards, Craft links, handoffs, and future extraction review.
+It lets v2 import scattered work without flattening source ownership or
+pretending that source evidence has already become local authority.
 
 ### Boundary
 
-A spec is not a runtime contract until promoted, not a definition, constitution,
-discipline, or decision, and not authority by proximity to the `specs/` folder.
-Arcanum-wide `contract` and `schema` semantics remain external authority unless
-CyberAlchemy v2 promotes a narrower local spec, and a spec that changes a
-governed shape must still carry a schema amendment witness per `CAV2-D25`.
+Provenance is not proof, not authority, not trust, not validation, and not
+credit assignment by itself. A perfect source trail can still point to a false,
+unpromoted, private, or unusable claim. It only tells the project where meaning
+and transformations came from.
 
 ### Primary Consumers
 
-- [../../specs/README.md](../../specs/README.md)
-- [../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md)
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [source-clusters/primordial.md](source-clusters/primordial.md)
+- [../imports/definitions/MANIFEST.md](../imports/definitions/MANIFEST.md)
+- [../../SOURCE-MAP.md](../../SOURCE-MAP.md)
+- [../../CRAFT.md](../../CRAFT.md)
+
+## CAV2-D36: Traceability
+
+Status: active
+Term: traceability
+Aliases: traceable chain, traceable linkage, lifecycle traceability
+
+### Normative Definition
+
+Traceability is the ability to follow explicit, typed links across intent,
+source evidence, provenance, definitions, rules, methods, artifacts, gates,
+validation, decisions, residue, and next routes so that a later human or agent
+can answer why something exists, what it depends on, what it affects, and where
+to continue.
+
+Traceability is satisfied only when the relevant chain has enough link targets,
+relation types, authority postures, and residue markers to be traversed without
+hidden conversation context.
+
+### Formal Interpretation
+
+For a work object `x` and a review question `q`, traceability holds when there
+is a declared path:
+
+```text
+trace_q(x) = x -> link_1 -> link_2 -> ... -> answer_or_residue
+```
+
+Each `link_i` must have a target, relation type, and authority posture. If the
+path breaks, the break must be recorded as typed residue or a named gap.
+
+### Operational Interpretation
+
+Use traceability when deciding whether CyberAlchemy v2 is navigable enough to
+resume, validate, publish, extract, or hand off. It is the check that source
+receipts, definitions, Craft state, decisions, and validation evidence are
+connected rather than merely present.
+
+### Plain-Language Intuition
+
+Traceability means you can follow the thread from "why are we doing this?" to
+"what changed?" to "what happens next?"
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, traceability turns the stable repository objective into a
+navigation requirement. It binds CAV2 definitions, source clusters, import
+manifests, Craft contexts, inventory cards, ontology projections, handoffs, and
+validation evidence into routes that future work can traverse without replaying
+the original conversation.
+
+### Boundary
+
+Traceability is not the same as provenance. Provenance records origin and
+transformation history; traceability tests whether the project can navigate the
+relevant links for a question. Traceability is also not proof, completeness, or
+approval.
+
+### Primary Consumers
+
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [source-clusters/primordial.md](source-clusters/primordial.md)
+- [../../CRAFT.md](../../CRAFT.md)
+- [../../TO-VLAD/SESSION-HANDOFF-cav2-primordial-basis.md](../../TO-VLAD/SESSION-HANDOFF-cav2-primordial-basis.md)
+
+## CAV2-D37: Gate
+
+Status: active
+Term: gate
+Aliases: governance gate, review gate, decision gate, admission gate
+
+### Normative Definition
+
+A gate is an explicit checkpoint that decides or routes whether a candidate
+term, rule, artifact, relation, method, claim, mutation, or execution may
+continue, must continue with named risk, must stop, or must defer to another
+owner.
+
+Every CyberAlchemy v2 gate must declare its owner route, scope, inputs,
+criteria, possible verdicts, required evidence, residue handling, record
+location, and downstream effect. Unless a narrower gate defines otherwise, the
+minimum verdict vocabulary is `pass`, `flag`, `block`, and `defer`.
+
+### Formal Interpretation
+
+A gate `G` is a decision function:
+
+```text
+G(scope, input, evidence, criteria) -> verdict
+verdict in {pass, flag, block, defer}
+```
+
+The verdict is admissible only if it records owner route, evidence basis,
+residue or risk when present, and downstream effect.
+
+### Operational Interpretation
+
+Use gate for any controlled transition: promotion, schema amendment,
+implementation mutation, validation acceptance, source import, extraction,
+public/private boundary movement, or recursive method step. A gate is the place
+where ambiguity either receives permission, receives risk, stops, or changes
+owner.
+
+### Plain-Language Intuition
+
+A gate is the checkpoint that says "go", "go with this named risk", "stop", or
+"send this to the right owner first."
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, gate is the generic primitive under `CAV2-D5` promotion
+gate, schema amendment checks, Craft blockers, decision-gate routes, validation
+checks, and the pass/flag/block behavior used across research and handoff
+surfaces. It keeps consequential movement explicit instead of implied by a file
+edit or successful generation.
+
+### Boundary
+
+Gate is not bureaucracy, not a checklist item by itself, not permission without
+a record, and not proof of correctness. A gate may use validators or human
+decisions, but the gate is the recorded transition logic and effect.
+
+### Primary Consumers
+
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [source-clusters/primordial.md](source-clusters/primordial.md)
 - [../promotion-policy.md](../promotion-policy.md)
-- [../../../arcanum/definitions/DEFINITIONS.md](../../../arcanum/definitions/DEFINITIONS.md)
+- [../../CRAFT.md](../../CRAFT.md)
+
+## CAV2-D38: Claim-Proof Bound
+
+Status: active
+Term: claim <= proof
+Aliases: claim-proof bound, claim proof invariant, evidence-bounded claim, proof-bounded claim
+
+### Normative Definition
+
+Claim <= proof is the CyberAlchemy v2 epistemic invariant that a claim's
+asserted strength, authority effect, validation status, or publication posture
+must not exceed the proof, evidence, witness, validation result, owner decision,
+or accepted premise cited for it.
+
+If support is absent, partial, private, indirect, disputed, or weaker than the
+claim, the claim must be downgraded, marked as hypothesis or candidate,
+flagged with residue, routed through a gate, or blocked from governing work.
+
+### Formal Interpretation
+
+For claim `c`, asserted strength `S(c)`, and support package `P(c)`:
+
+```text
+S(c) <= strength(P(c))
+```
+
+where `strength(P(c))` is interpreted by the relevant domain, validator,
+research standard, owner decision, or constitution. If no support package is
+declared, `S(c)` defaults to candidate or hypothesis.
+
+### Operational Interpretation
+
+Use claim <= proof when writing research findings, definitions, constitutions,
+validation reports, ontology projections, public statements, or implementation
+readiness notes. The invariant forces the project to ask: what exactly supports
+this claim, and how strong may the wording be?
+
+### Plain-Language Intuition
+
+Do not say more than the evidence can carry.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, claim <= proof prevents research synthesis, inventory
+cards, ontology projections, generated indexes, successful commands, or owner
+intuition from hardening into stronger authority than they earned. It is the
+epistemic companion to provenance and gates: provenance shows the support
+trail, gates decide movement, and claim <= proof bounds what the project is
+allowed to say.
+
+### Boundary
+
+Proof does not mean only formal mathematical proof. It can be a source citation,
+validation run, witness, owner decision, accepted premise, or formal proof,
+depending on the claim type. The invariant does not require maximal certainty;
+it requires honest wording relative to declared support.
+
+### Primary Consumers
+
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [source-clusters/primordial.md](source-clusters/primordial.md)
+- [../../CRAFT.md](../../CRAFT.md)
+- [../../../projects/framework-unification/CONCEPT-MAP.md](../../../projects/framework-unification/CONCEPT-MAP.md)
+
+## CAV2-D39: Intent
+
+Status: active
+Term: intent
+Aliases: human intent, work intent, governed intent, source intent
+
+### Normative Definition
+
+Intent is the declared purpose, desired capability, problem pressure, or change
+direction that orients a CyberAlchemy v2 method before the exact output shape,
+artifact, gate, or implementation path is fully settled.
+
+Intent must be attributable, bounded enough to route, revisable under discovery,
+and traceable to the artifacts, decisions, residue, or next routes that claim to
+satisfy it. An intent may be refined, split, renamed, or rejected, but it must
+not be silently replaced by an artifact or implementation convenience.
+
+### Formal Interpretation
+
+An admissible intent record has at least:
+
+```text
+Intent = (source, purpose, scope, constraints, target_pressure,
+          current_output_hypothesis, revision_route)
+```
+
+The `current_output_hypothesis` may change as discovery proceeds. The intent
+remains traceable only if the revision route records why the output changed.
+
+### Operational Interpretation
+
+Use intent at the start of definition, design, research, planning,
+implementation, validation, or handoff work. Intent keeps the work oriented
+while discovery decides whether the right output is a definition, constitution,
+method, work-pack, validation report, code change, or deferred question.
+
+### Plain-Language Intuition
+
+Intent is what the work is trying to make possible before we know the final
+shape.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, intent is the first input to the method stack: user
+corrections, stable repository objectives, definition-promotion requests,
+research questions, and handoff prompts all become governable when their intent
+is named and traceable. This lets the project preserve why a definition or
+route exists without treating the initial wording as immutable.
+
+### Boundary
+
+Intent is not a requirement, not an artifact, not proof, not a command to
+mutate, and not automatic scope approval. It orients work; gates, authority,
+evidence, and later artifact definitions decide what can count.
+
+### Primary Consumers
+
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [source-clusters/primordial.md](source-clusters/primordial.md)
+- [../../CRAFT.md](../../CRAFT.md)
+- [../../../arcanum/framework/CYBERALCHEMY-METHOD.md](../../../arcanum/framework/CYBERALCHEMY-METHOD.md)
+
+## CAV2-D40: Challenge Contract
+
+Status: active
+Term: challenge contract
+Aliases: challenge_contract, challenge response contract, contestability contract, contradiction review contract
+
+### Normative Definition
+
+A challenge contract is the explicit review surface attached to a
+CyberAlchemy v2 node, candidate, claim, or authority artifact that states how
+the object may be challenged, contradicted, validated, blocked, or routed for
+owner review without silently changing its meaning or confidence.
+
+A challenge contract must declare the valid challenge response, admissible
+challenge modes, contradiction and validation links when present, confidence
+reference, owner route, resolution gate, blocking questions, and residue. It
+does not introduce a third confidence axis; it references the existing
+evidence-confidence and commitment-confidence split governed by `CAV2-D23`.
+
+### Formal Interpretation
+
+An admissible challenge contract has at least:
+
+```text
+ChallengeContract =
+  (challenge_response, valid_challenge_modes, contradiction_edges,
+   validation_edges, confidence_reference, owner_route, resolution_gate,
+   blocking_questions, residue)
+```
+
+where `confidence_reference` points to existing confidence dimensions rather
+than creating a new dimension. For House-vault-derived ontology material, those
+dimensions are `veracidade` for evidence support and `convicção` for
+commitment posture.
+
+### Operational Interpretation
+
+Use challenge contract when a candidate ontology node, projection, definition
+proposal, constitution proposal, research claim, or authority artifact needs to
+say what kind of objection is valid and what happens next. A contradiction
+edge may block promotion; a validation edge may increase evidence support; a
+blocking question may defer the node; and unresolved challenge residue must
+remain attached until an owner route closes, waives, or demotes it.
+
+### Plain-Language Intuition
+
+It is the object's "how to disagree with me correctly" field.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, challenge contract belongs on the ontology candidate node
+shape before candidate concepts become load-bearing. It lets the project reuse
+House-vault challenge responses, `contradicts` and `validates` edges, and the
+`veracidade`/`convicção` confidence split without promoting "contestability" as
+a separate confidence dimension. It is the schema-level answer to the question:
+if this node is challenged, who reviews it, with which evidence, and where does
+the residue go?
+
+### Boundary
+
+Challenge contract is not a verdict, not a confidence score, not proof of
+truth, not a promotion decision, and not an ontology-owned override of the
+relevant owner route. It names the challenge path; owner routes and gates still
+decide movement.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md)
+- [../../ontology/PACKAGE-MODEL.md](../../ontology/PACKAGE-MODEL.md)
+- [../../ontology/LIFECYCLE-MODEL.md](../../ontology/LIFECYCLE-MODEL.md)
+- [../imports/house_project/docs/vault/ontology-conventions.md](../imports/house_project/docs/vault/ontology-conventions.md)
+- [../imports/house_project/docs/vault/premise/ontology-premises.md](../imports/house_project/docs/vault/premise/ontology-premises.md)
 
 ## Open Questions
 

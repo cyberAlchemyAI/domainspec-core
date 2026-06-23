@@ -5,7 +5,7 @@ source of truth; this page is an indexed navigation surface.
 
 ## Quick Links
 
-- Current next move: [confirm TROQAR refine strategy or plan implementation](#next-move).
+- Current next move: [configure Hostinger Traefik deploy for online testing](#next-move).
 - Active blocker: [BLK-STRAVA-ACTIVITY-001](#blocker-blk-strava-activity-001).
 - Active gaps: [GAP-TAQUARAL-GEOMETRY-001](#gap-gap-taquaral-geometry-001), [GAP-TROQAR-PAGE-PRIORITY-001](#gap-gap-troqar-page-priority-001), [GAP-TROQAR-SCORE-AUTHORITY-001](#gap-gap-troqar-score-authority-001), [GAP-TROQAR-BACKEND-PROVIDER-001](#gap-gap-troqar-backend-provider-001), [GAP-TROQAR-GLOSSARY-PROMOTION-001](#gap-gap-troqar-glossary-promotion-001).
 - Closed architecture decision: [DEC-ARCH-BOUNDARY-001](#decision-dec-arch-boundary-001).
@@ -13,6 +13,8 @@ source of truth; this page is an indexed navigation surface.
 - Auth/user-management route: [REFINE-DISPATCH.json](../auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/REFINE-DISPATCH.json), [RESULT.md](../auth-user-management/development/refinement-runs/20260621T025133Z-auth-strava-foundation/RESULT.md), [TypeScript one-shot result](../../development/refinement-runs/20260621T-typescript-domainspec-invariant/task-session/20260621T-auth-workpack-oneshot/RESULT.md).
 - TROQAR product architecture: [packet README](docs/features/troqar-product-architecture/README.md), [operations/capabilities](docs/features/troqar-product-architecture/OPERATIONS-CAPABILITIES.md), [DomainSpec SPEC](docs/features/troqar-product-architecture/SPEC.md), [UI/UX](docs/features/troqar-product-architecture/ui-spec.md), [backend](docs/features/troqar-product-architecture/backend.md), [gap review](docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md).
 - TROQAR refine route: [REFINE-DISPATCH.json](development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json), [RESULT.md](development/refinement-runs/20260621T-troqar-product-architecture-gap-review/RESULT.md).
+- TROQAR production login UI: [task-session RESULT.md](development/task-sessions/20260622T125002Z-production-ui-login/RESULT.md), [UI-REVIEW.md](docs/features/troqar-product-architecture/UI-REVIEW.md), [production handoff bundle](docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json).
+- TROQAR online deploy: [manual](docs/ONLINE-DEPLOY-MANUAL.md), [Traefik task session](development/task-sessions/20260622T140208Z-traefik-secret-blind-deploy/TASK-SESSION-RESULT.md), [secret inventory](infra/SECRET-INVENTORY.md).
 - One-shot forecast: [MVP-ONESHOT-FORECAST.md](docs/features/parque-taquaral-online-mvp/MVP-ONESHOT-FORECAST.md).
 - Invoke design/plan: [DESIGN.md](docs/features/parque-taquaral-online-mvp/DESIGN.md), [WORK-PACK.md](docs/features/parque-taquaral-online-mvp/WORK-PACK.md), [EXECUTION-PACK.md](docs/features/parque-taquaral-online-mvp/EXECUTION-PACK.md).
 - Key artifacts: [architecture decision](docs/decisions/architecture-import-boundary.md), [architecture audit](docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md), [discovery summary](docs/features/parque-taquaral-online-mvp/DISCOVERY.md), [DomainSpec coverage](docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-COVERAGE.md), [DomainSpec backlog](docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-BACKLOG.md).
@@ -27,9 +29,11 @@ source of truth; this page is an indexed navigation surface.
 
 #### <a id="next-move"></a>Next Move
 
-Confirm the validated TROQAR product-architecture refine strategy or route the
-packet into Invoke planning. Keep the real Strava activity and sourced geometry
-evidence gaps active until they are closed with real, token-safe evidence.
+Use the production login UI as the hosted preview entry surface. Next, configure
+the Hostinger Traefik deployment manually from [ONLINE-DEPLOY-MANUAL.md](docs/ONLINE-DEPLOY-MANUAL.md),
+then run the online deploy receipt before validating real Strava activity
+import/submission without exposing tokens. Keep sourced geometry and game
+mechanics deferred until real evidence is available.
 
 ### <a id="context-ctx-body-war-arch-audit"></a>CTX-BODY-WAR-ARCH-AUDIT - Parque Taquaral Architecture Review Audit
 
@@ -82,6 +86,7 @@ backend contracts, and local gap/blocker review.
 - DomainSpec: [SPEC.md](docs/features/troqar-product-architecture/SPEC.md), [domain.md](docs/features/troqar-product-architecture/domain.md), [operations.md](docs/features/troqar-product-architecture/operations.md), [queries.md](docs/features/troqar-product-architecture/queries.md), [states.md](docs/features/troqar-product-architecture/states.md), [interfaces.md](docs/features/troqar-product-architecture/interfaces.md), [events.md](docs/features/troqar-product-architecture/events.md), [mappings.md](docs/features/troqar-product-architecture/mappings.md)
 - Product design: [ARCHITECTURE.md](docs/features/troqar-product-architecture/ARCHITECTURE.md), [ui-spec.md](docs/features/troqar-product-architecture/ui-spec.md), [VISUAL-DEFINITIONS.md](docs/features/troqar-product-architecture/VISUAL-DEFINITIONS.md), [backend.md](docs/features/troqar-product-architecture/backend.md)
 - Refine residue: [GAP-BLOCKER-REVIEW.md](docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md), [REFINE-DISPATCH.json](development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json)
+- Production login UI: [task-session RESULT.md](development/task-sessions/20260622T125002Z-production-ui-login/RESULT.md), [UI-REVIEW.md](docs/features/troqar-product-architecture/UI-REVIEW.md), [PRODUCTION-LOGIN-HANDOFF-BUNDLE.json](docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json)
 
 ## Gaps
 
@@ -147,6 +152,9 @@ backend contracts, and local gap/blocker review.
 - TROQAR product architecture packet: [README.md](docs/features/troqar-product-architecture/README.md)
 - TROQAR local gap/blocker review: [GAP-BLOCKER-REVIEW.md](docs/features/troqar-product-architecture/GAP-BLOCKER-REVIEW.md)
 - TROQAR formal refine route: [REFINE-DISPATCH.json](development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json)
+- TROQAR production login task-session: [RESULT.md](development/task-sessions/20260622T125002Z-production-ui-login/RESULT.md)
+- TROQAR production login review: [UI-REVIEW.md](docs/features/troqar-product-architecture/UI-REVIEW.md)
+- TROQAR production Studio handoff: [PRODUCTION-LOGIN-HANDOFF-BUNDLE.json](docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json)
 
 Important boundary: dispatch pass is route-shape evidence only. It is not
 implementation readiness.
@@ -165,6 +173,8 @@ and recent activity summary import. Track geometry and game mechanics remain
 deferred.
 
 The TROQAR product architecture packet has recomposed into Body War as the
-current app-wide design surface. Formal Refine execution is blocked only on
-operator confirmation after the strategy preview; the validated route and local
-gap review are already recorded.
+current app-wide design surface. The production login-first UI task-session has
+now implemented and validated the hosted-preview entry surface with Studio
+handoff evidence and 7 Playwright checks. Remaining residue is not UI-blocking:
+real Strava activity evidence, sourced geometry, score authority, backend
+provider choice, broader page order, and glossary promotion remain open.

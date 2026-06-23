@@ -129,16 +129,16 @@ future implementation.
 - primitive type - [CAV2-D31](DEFINITIONS.md#cav2-d31-primitive-type)
 - method - [CAV2-D32](DEFINITIONS.md#cav2-d32-method)
 - definition - [CAV2-D33](DEFINITIONS.md#cav2-d33-definition)
+- authority - [CAV2-D34](DEFINITIONS.md#cav2-d34-authority)
+- provenance - [CAV2-D35](DEFINITIONS.md#cav2-d35-provenance)
+- traceability - [CAV2-D36](DEFINITIONS.md#cav2-d36-traceability)
+- gate - [CAV2-D37](DEFINITIONS.md#cav2-d37-gate)
+- claim <= proof - [CAV2-D38](DEFINITIONS.md#cav2-d38-claim-proof-bound)
+- intent - [CAV2-D39](DEFINITIONS.md#cav2-d39-intent)
 
 ### Remaining Candidate Local Terms
 
-- authority
-- intent
 - artifact
-- gate
-- provenance
-- traceability
-- claim <= proof
 
 ### Boundary
 
@@ -149,9 +149,9 @@ CyberAlchemy v2 authority.
 
 ### Next Review
 
-Review the remaining T-1 candidate local terms after the next import clustering
-pass determines whether they are primitives, aliases of existing authority
-terms, source-local vocabulary, or lower-tower concepts.
+Review `artifact` as the remaining T-1 candidate. Then resume import clustering
+to determine whether lower candidates are primitives, aliases of existing
+authority terms, source-local vocabulary, or lower-tower concepts.
 
 ### Scope
 
@@ -409,7 +409,7 @@ define semantic authority unless a promotion route consumes them.
 | Queue | First work | Owner route | Gate |
 | --- | --- | --- | --- |
 | Q1. Top anchors | Promoted CyberAlchemy v2, definition tower, tower space, Craft execution surface, authority promotion queue, source space, and project space as CAV2-D9 through CAV2-D15. | definitions-governance + Craft ledger | Pass for local definitions; broader import clustering still open. |
-| Q1a. Primordial basis | Promoted `typed coupling invariant` as CAV2-D16, `reflection tower method` as CAV2-D17, `residue` as CAV2-D18, `Craft method` as CAV2-D20, `four-facet action method` as CAV2-D21, `residue entropy` as CAV2-D27, `axis orthogonality invariant` as CAV2-D29, `bounded recursive self-application` as CAV2-D30, `primitive type` as CAV2-D31, generic `method` as CAV2-D32, and `definition` as CAV2-D33. | definitions-governance | Flag until remaining T-1 candidates are classified: authority, intent, artifact, gate, provenance, traceability, and claim <= proof. |
+| Q1a. Primordial basis | Promoted `typed coupling invariant` as CAV2-D16, `reflection tower method` as CAV2-D17, `residue` as CAV2-D18, `Craft method` as CAV2-D20, `four-facet action method` as CAV2-D21, `residue entropy` as CAV2-D27, `axis orthogonality invariant` as CAV2-D29, `bounded recursive self-application` as CAV2-D30, `primitive type` as CAV2-D31, generic `method` as CAV2-D32, `definition` as CAV2-D33, `authority` as CAV2-D34, `provenance` as CAV2-D35, `traceability` as CAV2-D36, `gate` as CAV2-D37, `claim <= proof` as CAV2-D38, and `intent` as CAV2-D39. | definitions-governance | Flag until the remaining T-1 candidate is classified: artifact. |
 | Q1b. Knowledge governance basis | Promoted `ontology` as CAV2-D19 and demoted `OperationalOntology` into D19/D23 language; next review `ContextSolution`, evidence card, evidence set, branch ownership, and confidence split. | definitions-governance + ontology-vault | Flag until source-specific branch terms are classified against CAV2-D19 and promotion boundaries. |
 | Q1c. Ledger primitive review | Reviewed `ledger` as a candidate cross-method evidence/state register; canonical promotion deferred. | definitions-governance + robot-talks + Craft schema review | Block until inheritance relations and local Craft ledger conformance are settled; `CAV2-D30` resolves the recursivity-name blocker. |
 | Q1d. Schema and relationship invariant search sequence | Filed an inventory-backed search ladder for schema, typed relationships, taxonomy, graph admissibility, and relationship invariant evidence. | inventory + definitions-governance | Flag until evidence-cards distinguish `relationship invariant` from `CAV2-D16` and keep `schema` as Arcanum authority or a named v2 subtype. |

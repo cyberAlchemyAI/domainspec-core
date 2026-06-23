@@ -1,199 +1,282 @@
----
-id: troqar-product-architecture-ui
-feature: troqar-product-architecture
-title: "TROQAR Frontend UI Specification"
-summary: Browser presentation contract for the BodyWar/TROQAR online runner profile and first evidence flow.
-status: draft-pass
-pillar: frontend
-domain: troqar-ui
-audience:
-  - developers
-  - product
-priority: p0
-lang: en
-owners:
-  - body-war
-updatedAt: 2026-06-21
-dependencies:
-  - SPEC.md
-  - interfaces.md
-  - operations.md
-  - queries.md
-  - states.md
-  - VISUAL-DEFINITIONS.md
-constitution: ../../UI-ARCHITECTURE.md
-source: domainspec-ui-pipeline
----
+# UI/UX Specification: TROQAR App
 
-# UI Specification: TROQAR Frontend
+Status: `draft-pass`
+Visual source: `docs/research/source-notes/troqar-visual-identity.md`
 
-> Governs the frontend presentation of the first BodyWar/TROQAR authenticated
-> runner loop. Constrained by [UI-ARCHITECTURE.md](../../UI-ARCHITECTURE.md).
+## UX Principle
 
-## Scope
-
-L0 covers the online runner profile and first evidence loop:
-
-1. See Strava/auth connection state.
-2. Connect through fake or real Strava flow.
-3. See safe runner profile and Strava profile link.
-4. Import redacted run summaries.
-5. Select a pilot track and submit one activity as preview evidence.
-6. See submitted evidence without verified-geometry claims.
-7. Logout.
-
-Deferred app-wide pages from `ui-spec.md` stay design-defined but are not L0
-implementation blockers.
+Every logged-in screen should answer three questions without instructional
+copy: where can I run, what can I win or defend, and what changes if I submit
+this activity?
 
 ## Route Table
 
-| Route | Page Title | Layout | Auth Required | Capability | L0 Status |
-| --- | --- | --- | --- | --- | --- |
-| `/` | Online Runner Profile | Static App Shell | optional | CAP-AUTH, CAP-ACTIVITY, CAP-TRACK, CAP-EVIDENCE | active |
-| `/profile` | Online Runner Profile | Static App Shell fallback | optional for shell, session for profile API | CAP-AUTH, CAP-SCORE | active |
-| `/api/auth/strava/start` | Strava OAuth Start | redirect | no | CAP-AUTH | active |
-| `/api/auth/strava/callback` | Strava OAuth Callback | redirect | state cookie | CAP-AUTH | active |
-| `/activities` | Activity Import | future route | yes | CAP-ACTIVITY | deferred |
-| `/routes` | Routes And Tracks | future route | optional | CAP-TRACK | deferred |
-| `/routes/:trackId` | Route Detail / Claim | future route | optional view, session submit | CAP-EVIDENCE | deferred |
-| `/profile/privacy` | Consent And Privacy | future route | yes | CAP-AUTH | deferred |
+| Route | Page | Primary Actor | Auth | Capability |
+| --- | --- | --- | --- | --- |
+| `/` | Home Command | Runner | optional | CAP-AUTH, CAP-CHALLENGE, CAP-CONTROL |
+| `/connect` | Connect Strava | Runner | optional | CAP-AUTH |
+| `/map` | Territory Map | Runner | optional | CAP-TRACK, CAP-CONTROL |
+| `/routes` | Routes And Tracks | Runner | optional | CAP-TRACK |
+| `/routes/:trackId` | Route Detail / Claim | Runner | optional for view, required for submit | CAP-EVIDENCE, CAP-CONTROL |
+| `/activities` | Activity Import | Runner | required | CAP-ACTIVITY |
+| `/challenges` | Challenges | Runner | optional for list, required for join | CAP-CHALLENGE |
+| `/community` | Community / Clans | Runner | optional for discovery, required for membership | CAP-CLAN |
+| `/clans/:clanId` | Clan Detail | Runner | optional/member-aware | CAP-CLAN |
+| `/rankings` | Rankings And Seasons | Runner | optional | CAP-SEASON |
+| `/profile` | Profile And Progress | Runner | required | CAP-SCORE |
+| `/notifications` | Notifications | Runner | required | CAP-NOTIFY |
+| `/profile/privacy` | Consent And Privacy | Runner | required | CAP-AUTH |
+| `/operator` | Pilot Operator Console | Operator | operator | CAP-OPERATOR |
+| `/sponsor` | Sponsor Zones | Sponsor/operator | restricted | CAP-SPONSOR, deferred |
+| `/store` | Store / RunCoins | Runner | required | CAP-ECONOMY, deferred |
 
-## Page Layout: `/` And `/profile`
+## Navigation Model
 
-```text
-Topbar
-  Product eyebrow
-  Page title
-  Account actions: Profile, Connect Strava, Logout
+Primary mobile bottom navigation:
 
-Main grid
-  Connection panel
-    Connection copy
-    Safe athlete summary/link
-  Profile panel
-    Runner identity
-    Provider connection
-    Privacy promise
-    Validation caveat
-  Activities panel
-    Redacted summary receipt
-    Activity cards with track select + submit
-  Pilot tracks panel
-    Track cards and controller metric
-  Submitted evidence panel
-    Preview submission history
-```
+1. Home
+2. Routes
+3. Challenges
+4. Community
+5. Profile
+
+Secondary actions:
+
+- Map is reachable from Home and Routes.
+- Notifications is an icon button in the app header.
+- Privacy is inside Profile.
+- Operator and Sponsor surfaces are role-gated and not in runner nav.
+
+## Page Layouts
+
+### `/` - Home Command
+
+Job: compress the runner's current situation into one scan.
+
+Components:
+
+- `WeeklyDistanceSummary`
+- `CurrentTerritoryStrip`
+- `ActiveChallengeCard`
+- `FeaturedRouteCard`
+- `NextRunAction`
+- `RecentChangeFeed`
+
+Data:
+
+- Q-HOME-SUMMARY
+- Q-AUTH-STATUS
+- Q-CONTROL-CURRENT
+- Q-CHALLENGE-ACTIVE
+
+### `/connect` - Connect Strava
+
+Job: explain consent and start the provider flow.
+
+Components:
+
+- `ConsentSummary`
+- `ProviderScopeList`
+- `ConnectStravaButton`
+- `PrivacyLink`
+- `ConnectionErrorBanner`
+
+### `/map` - Territory Map
+
+Job: show territory control, available routes, and status caveats.
+
+Components:
+
+- `MapViewport`
+- `TerritoryFilterBar`
+- `GeometryStatusBadge`
+- `ControllerLegend`
+- `RoutePreviewDrawer`
+
+State rules:
+
+- `geometryStatus=missing|placeholder` shows non-GPS caveat.
+- `preview-controlled` uses preview styling distinct from verified control.
+
+### `/routes` - Routes And Tracks
+
+Job: let runner choose where to compete next.
+
+Components:
+
+- `FeaturedRouteCard`
+- `RouteGrid`
+- `RouteDifficultyFilter`
+- `GeometryStatusBadge`
+- `ControllerMetricChip`
+
+### `/routes/:trackId` - Route Detail / Claim
+
+Job: convert a route into a run evidence action.
+
+Components:
+
+- `RouteHero`
+- `ControllerPanel`
+- `ActivityPicker`
+- `SubmitEvidenceButton`
+- `LeaderboardPreview`
+- `GeometryCaveat`
+- `RecentSubmissions`
+
+Actions:
+
+- OP-EVIDENCE-SUBMIT
+
+### `/activities` - Activity Import
+
+Job: show real run summaries and why any activity cannot be used.
+
+Components:
+
+- `ProviderStatusCard`
+- `ActivityList`
+- `RunTypeFilter`
+- `EmptyActivitiesState`
+- `RefreshActivitiesButton`
+
+### `/challenges` - Challenges
+
+Job: show active objectives and immediate rewards.
+
+Components:
+
+- `ActiveChallengeList`
+- `MissionProgressCard`
+- `RewardBadge`
+- `JoinChallengeButton`
+- `ExpiredChallengeArchive`
+
+### `/community` - Community / Clans
+
+Job: make clan membership and local competition visible.
+
+Components:
+
+- `ClanStatusCard`
+- `NearbyClansList`
+- `CommunityActivityFeed`
+- `CreateClanButton`
+- `JoinClanButton`
+
+### `/clans/:clanId` - Clan Detail
+
+Job: support coordination and shared identity.
+
+Components:
+
+- `ClanHeader`
+- `MemberRoster`
+- `ClanContributionPanel`
+- `DefenseAlerts`
+- `ClanRankingCard`
+
+### `/rankings` - Rankings And Seasons
+
+Job: make league and season status legible.
+
+Components:
+
+- `SeasonHeader`
+- `LeagueTabs`
+- `RunnerLeaderboard`
+- `ClanLeaderboard`
+- `HallOfFameLink`
+
+### `/profile` - Profile And Progress
+
+Job: show identity, XP, badges, streaks, and account state.
+
+Components:
+
+- `ProfileHeader`
+- `XPProgressBar`
+- `LeagueCard`
+- `BadgeShelf`
+- `StreakCard`
+- `RecentEvidenceList`
+
+### `/notifications`
+
+Job: collect action-needed events.
+
+Components:
+
+- `NotificationList`
+- `DefenseWindowAlert`
+- `ChallengeReminder`
+- `RewardNotice`
+
+### `/profile/privacy`
+
+Job: make consent, provider access, and data use inspectable.
+
+Components:
+
+- `ProviderConnectionCard`
+- `ScopeList`
+- `RevokeAccessButton`
+- `DataRetentionSummary`
+
+### `/operator`
+
+Job: let an operator review pilot evidence without touching raw tokens.
+
+Components:
+
+- `ReviewQueue`
+- `SubmissionAuditTimeline`
+- `VerifyRejectControls`
+- `DataHealthPanel`
 
 ## Component Inventory
 
-| Component | Type | Location | Purpose |
-| --- | --- | --- | --- |
-| `TopbarAccountActions` | Navigation | `static/index.html`, `static/app.js` | Shows profile, connect, and logout actions based on auth state. |
-| `ConnectionPanel` | State panel | `static/index.html`, `static/app.js` | Renders provider configured/authenticated/connected states. |
-| `SafeAthleteCard` | Component | `static/app.js` | Renders name/image/Strava profile link without tokens. |
-| `ProfileGrid` | Component group | `static/index.html`, `static/app.js` | Shows runner, provider, privacy, and validation cards. |
-| `ActivityList` | List/form hybrid | `static/index.html`, `static/app.js` | Renders redacted run-like activities with track selector. |
-| `SubmitEvidenceButton` | Action | `static/app.js` | Posts selected activity/track with CSRF header. |
-| `TrackGrid` | Card grid | `static/app.js` | Lists pilot tracks and controller metric. |
-| `SubmissionList` | List | `static/app.js` | Shows submitted preview evidence history. |
-
-## Prototype Gate Evidence
-
-The L0 UI consumed the accepted Studio prototype gate handoff in
-[`prototype-handoff/STUDIO-PROTOTYPE-HANDOFF.md`](prototype-handoff/STUDIO-PROTOTYPE-HANDOFF.md).
-The accepted session is `ups-session-0001`, revision `rev-0001`, with export
-profile `troqar-product-architecture`.
-
-| `data-od-id` | Component | Production Location |
+| Component | Type | Purpose |
 | --- | --- | --- |
-| `troqar.shell` | Online Runner Profile Page | `static/index.html` |
-| `topbar.account.actions` | TopbarAccountActions | `static/index.html` |
-| `auth.connect.cta` | Connect Strava CTA | `static/index.html` |
-| `profile.safe-athlete-card` | SafeAthleteCard/ProfileGrid | `static/index.html`, `static/app.js` |
-| `profile.strava-link` | Strava public profile link | `static/app.js` |
-| `activity.recent-summary` | ActivityList receipt panel | `static/index.html`, `static/app.js` |
-| `evidence.submit.cta` | SubmitEvidenceButton | `static/index.html`, `static/app.js` |
-
-## Data Flow
-
-| API Call | UI Function | Trigger | UI Obligation |
-| --- | --- | --- | --- |
-| `GET /api/status` | `loadStatus()` | boot, after auth changes | Toggle connect/logout/profile actions and render safe athlete summary. |
-| `GET /api/profile` | `loadProfile()` | boot, after auth changes | Render runner profile or connect prompt; no token internals. |
-| `GET /api/tracks` | `loadTracks()` | boot | Populate track cards and activity track selectors. |
-| `GET /api/activities?per_page=12` | `loadActivities()` | boot, refresh button | Render run-like summaries only; show geometry/scoring caveat. |
-| `GET /api/submissions` | `loadSubmissions()` | boot, after submit | Show preview evidence history. |
-| `POST /api/submissions` | `submitActivity()` | activity submit click | Send activity metrics and selected track with CSRF. |
-| `POST /api/auth/logout` | logout handler | logout click | Revoke session and return to anonymous UI. |
-
-## Form Contracts
-
-### Activity Evidence Submit
-
-| Field | Source | Validation | Error UI |
-| --- | --- | --- | --- |
-| `track_id` | selected track option | required, existing track | inline alert or retry copy |
-| `activity_id` | activity summary | required | activity row stays visible |
-| `activity_name` | activity summary | optional display value | fallback to activity id |
-| `moving_time` | activity summary | numeric if present | pace/time may show unavailable |
-| `distance` | activity summary | numeric if present | distance may show unavailable |
-| `average_speed` | activity summary | numeric if present | not displayed as proof |
-
-Unsafe POST requests must include `X-CSRF-Token` from `bw_csrf`.
+| `AppShell` | Layout | Header, bottom nav, auth-aware route chrome. |
+| `GeometryStatusBadge` | State Indicator | Shows missing/draft/source-backed/validated geometry. |
+| `ControllerPanel` | Component | Shows current controller and evidence basis. |
+| `ActivityPicker` | Form | Lets runner choose eligible activity. |
+| `SubmitEvidenceButton` | Action | Submits evidence with CSRF/session. |
+| `ActiveChallengeCard` | Component | Highlights current challenge. |
+| `RouteHero` | Component | Branded route/territory header. |
+| `XPProgressBar` | State Indicator | Shows permanent XP progress. |
+| `ConsentSummary` | Component | Shows provider scope and privacy promise. |
+| `ReviewQueue` | Operator Component | Lists submissions needing review. |
 
 ## State-To-UI Mapping
 
-| Domain/UI State | Representation |
+| Domain Value | UI Representation |
 | --- | --- |
-| `unconfigured` | Connection copy names missing Strava configuration and hides connect CTA. |
-| `anonymous` | Primary fire-orange `Connect Strava` action is visible. |
-| `connected` | Territory-green status copy and safe athlete card are visible. |
-| `not_connected` | Activity panel explains connect requirement. |
-| `empty` | Activity panel says no recent runs found. |
-| `ready` | Activity cards show distance, time, pace, track selector, and submit button. |
-| `preview-accepted` | Submission tag may show preview authority; never render as `verified`. |
-| `geometryStatus=missing|placeholder` | Activity receipt states route geometry and scoring are not claimed. |
-
-## Error Code Mapping
-
-| API Error Code | HTTP | UI Message |
-| --- | --- | --- |
-| `auth_required` | 401 | Connect Strava to continue. |
-| `csrf_required` | 403 | Refresh the page and retry the action. |
-| `not_connected` | 401 | Connect Strava before importing activity summaries. |
-| `invalid_activity` | 400 | This activity cannot be submitted for the selected track. |
-| `track_geometry_missing` | 409 | Route geometry is not verified for this claim yet. |
+| `anonymous` | Orange connect action. |
+| `connected` | Green status chip with athlete summary. |
+| `preview-accepted` | Orange/green mixed chip labeled `Preview accepted`. |
+| `verified` | Solid green chip labeled `Verified`. |
+| `geometryStatus=missing` | Neutral caveat row, no route line. |
+| `geometryStatus=source-backed` | Route map visible with source note. |
+| `contested` | Fire/orange alert with deadline. |
+| `expired` | Muted territory state. |
 
 ## Accessibility Requirements
 
 | Surface | Requirement |
 | --- | --- |
-| Topbar actions | Semantic `nav` with visible action labels and keyboard focus. |
-| Connection panel | Status text must not rely on color. |
-| Athlete/profile links | External links use visible text and `rel="noreferrer"`. |
-| Activity rows | Track select and submit button remain reachable by keyboard. |
-| Mobile layout | No action button, select, or profile text overlaps at 390px width. |
+| Bottom navigation | Use semantic nav, visible focus, current page state. |
+| Map | Provide list/table fallback for territory data. |
+| Activity picker | Label distance, time, pace, and eligibility. |
+| Controller state | Text label must not rely on color alone. |
+| Operator controls | Review buttons need explicit confirmation and reason capture. |
+| Alerts | Use role/status where live updates occur. |
 
-## Security And Privacy Requirements
+## UX Guardrails
 
-- UI must not render `access_token`, `refresh_token`, OAuth `code`, or token
-  expiry internals.
-- Strava profile URL may render only as a public athlete link.
-- Public profile link text must be `Open public Strava profile`.
-- Activity rows must use redacted summaries; no maps, notes, private payloads,
-  or raw provider objects.
-- Submission copy must preserve the distinction between preview evidence,
-  verified evidence, and missing geometry.
-
-## UI Concept Registry
-
-| Concept | ID | Type |
-| --- | --- | --- |
-| Online Runner Profile Page | ui.troqar.onlineRunnerProfile | Page |
-| Connection Panel | ui.troqar.ConnectionPanel | Component |
-| Safe Athlete Card | ui.troqar.SafeAthleteCard | Component |
-| Profile Grid | ui.troqar.ProfileGrid | Component |
-| Activity List | ui.troqar.ActivityList | Component |
-| Submit Evidence Button | ui.troqar.SubmitEvidenceButton | Action |
-| Track Grid | ui.troqar.TrackGrid | Component |
-| Submission List | ui.troqar.SubmissionList | Component |
+- Do not use "verified" when state is `preview-accepted`.
+- Do not hide geometry caveats on map/route pages.
+- Do not expose token expiry or provider token internals in runner UI.
+- Keep first-run path short: connect, choose activity, choose route, submit.
+- Keep deferred pages visible in architecture but disabled or absent in L0 builds.

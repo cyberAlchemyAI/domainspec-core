@@ -40,6 +40,12 @@ It now also contains promoted primitives derived from that basis:
 - [`primitive type`](../DEFINITIONS.md#cav2-d31-primitive-type)
 - [`method`](../DEFINITIONS.md#cav2-d32-method)
 - [`definition`](../DEFINITIONS.md#cav2-d33-definition)
+- [`authority`](../DEFINITIONS.md#cav2-d34-authority)
+- [`provenance`](../DEFINITIONS.md#cav2-d35-provenance)
+- [`traceability`](../DEFINITIONS.md#cav2-d36-traceability)
+- [`gate`](../DEFINITIONS.md#cav2-d37-gate)
+- [`claim <= proof`](../DEFINITIONS.md#cav2-d38-claim-proof-bound)
+- [`intent`](../DEFINITIONS.md#cav2-d39-intent)
 
 The user seed `ortogonalith` is treated here as `orthogonality` unless later
 work intentionally promotes a distinct coined term.
@@ -60,6 +66,13 @@ work intentionally promotes a distinct coined term.
 | `primitive type` | Name a base semantic kind lower definitions can reference without deriving it from a narrower source space or implementation layer. | User primordial-type framing, definition-tower localization route, DomainSpec/Arcanum boundary pressure, and CAV2 authority layering. | `promoted-local` | Maintain as [CAV2-D31](../DEFINITIONS.md#cav2-d31-primitive-type). |
 | `method` | Name the governed repeatable way CyberAlchemy turns intent, evidence, state, or residue into artifacts and continued work. | Arcanum CyberAlchemy Method, Craft method, reflection tower method, four-facet action method, and framework-unification pipeline/mechanism evidence. | `promoted-local` | Maintain as [CAV2-D32](../DEFINITIONS.md#cav2-d32-method). |
 | `definition` | Name the governed semantic unit that becomes canonical only through the definitions authority surface. | Definitions-governance three-voice contract, CAV2 canonical definitions/index/drift surfaces, source-cluster candidate flow, and definition localization route. | `promoted-local` | Maintain as [CAV2-D33](../DEFINITIONS.md#cav2-d33-definition). |
+| `authority` | Name the scoped right or responsibility to let something count for a declared CAV2 purpose. | Authority layers, authority promotion queue, promotion policy, D23 lifecycle-axis work, source-cluster boundaries, and inventory/ontology non-authority warnings. | `promoted-local` | Maintain as [CAV2-D34](../DEFINITIONS.md#cav2-d34-authority). |
+| `provenance` | Name the typed origin and transformation chain behind terms, artifacts, claims, rules, decisions, relations, validation, and residue. | Source-ledgered amalgamation, provenance-first navigation, authority imports, source maps, Craft links, and framework-unification typed provenance edges. | `promoted-local` | Maintain as [CAV2-D35](../DEFINITIONS.md#cav2-d35-provenance). |
+| `traceability` | Require explicit traversable links from intent and evidence through artifacts, gates, validation, residue, and next routes. | Stable repository objective, Craft execution state, handoff requirements, source-cluster links, and framework-unification intent/execution/evidence traceability. | `promoted-local` | Maintain as [CAV2-D36](../DEFINITIONS.md#cav2-d36-traceability). |
+| `gate` | Name the generic checkpoint that returns pass, flag, block, or defer with owner route, evidence, residue, and downstream effect. | Promotion gates, decision-gate routes, Craft blockers, schema amendment witness, validation checks, and CyberAlchemy Method mutation gates. | `promoted-local` | Maintain as [CAV2-D37](../DEFINITIONS.md#cav2-d37-gate). |
+| `claim <= proof` | Bound any claim's asserted strength, authority effect, validation status, or publication posture by its cited support package. | Framework-unification claim/proof gate language, research-finding discipline, validation evidence boundaries, and definitions-governance drift controls. | `promoted-local` | Maintain as [CAV2-D38](../DEFINITIONS.md#cav2-d38-claim-proof-bound). |
+| `intent` | Name the declared purpose or problem pressure that orients a CAV2 method before the final output shape is settled. | Arcanum CyberAlchemy Method, framework-unification intent-to-code spine, user correction flow, Craft next moves, and handoff prompts. | `promoted-local` | Maintain as [CAV2-D39](../DEFINITIONS.md#cav2-d39-intent). |
+| `artifact` | Decide whether durable work objects are a primordial primitive, a lower-tower execution term, or source-local vocabulary. | CyberAlchemy Method artifact-as-state language, Craft artifacts, stable-repository surfaces, implementation/spec handoffs, and validation reports. | `candidate-local` | Review next after D34-D39; do not promote by proximity. |
 
 ## Candidate Voice Sketches
 
@@ -166,6 +179,115 @@ rows from becoming hidden authority.
 Boundary sketch: a candidate row, source quote, glossary hint, research claim,
 inventory card, ontology node, or generated index row can support a definition,
 but it is not a definition by itself.
+
+### Authority
+
+Promoted as [CAV2-D34](../DEFINITIONS.md#cav2-d34-authority).
+
+Scientific/formal sketch: authority is the scoped right or responsibility to
+make an object count for a declared purpose, represented by scope, owner,
+surface, object, operation, basis, effect, and challenge route.
+
+Plain-language sketch: authority answers who or what is allowed to make this
+count, and only for which purpose.
+
+Domain-context sketch: in CyberAlchemy v2, authority prevents definitions,
+inventory, ontology, generated indexes, source evidence, implementation
+success, and owner intuition from silently substituting for the scoped
+authority surface.
+
+Boundary sketch: authority is not truth, confidence, maturity, popularity,
+access control, or source provenance by itself.
+
+### Provenance
+
+Promoted as [CAV2-D35](../DEFINITIONS.md#cav2-d35-provenance).
+
+Scientific/formal sketch: provenance is the typed origin and transformation
+path that records sources, relation types, operations, owners, and authority
+postures behind an object.
+
+Plain-language sketch: provenance is the receipt trail for where something came
+from and how it got here.
+
+Domain-context sketch: in CyberAlchemy v2, provenance lets source-ledgered
+amalgamation import scattered work without flattening source ownership or
+turning source evidence into local canon.
+
+Boundary sketch: provenance is not proof, authority, validation, trust, or
+credit assignment.
+
+### Traceability
+
+Promoted as [CAV2-D36](../DEFINITIONS.md#cav2-d36-traceability).
+
+Scientific/formal sketch: traceability is the ability to traverse typed links
+across intent, evidence, provenance, definitions, rules, methods, artifacts,
+gates, validation, decisions, residue, and next routes for a review question.
+
+Plain-language sketch: traceability means the project can follow the thread
+from why work exists to what changed and what happens next.
+
+Domain-context sketch: in CyberAlchemy v2, traceability turns the stable
+repository objective into a navigation requirement across Craft, definitions,
+source clusters, handoffs, inventory, ontology projections, and validation.
+
+Boundary sketch: traceability is not provenance, proof, completeness, or
+approval.
+
+### Gate
+
+Promoted as [CAV2-D37](../DEFINITIONS.md#cav2-d37-gate).
+
+Scientific/formal sketch: a gate is a scoped checkpoint that maps input,
+evidence, and criteria to a recorded verdict such as pass, flag, block, or
+defer.
+
+Plain-language sketch: a gate says go, go with named risk, stop, or route to
+the right owner.
+
+Domain-context sketch: in CyberAlchemy v2, gate is the generic primitive under
+promotion gates, schema amendment checks, Craft blockers, decision-gate routes,
+validation checks, and mutation control.
+
+Boundary sketch: a gate is not bureaucracy, a checklist by itself, permission
+without a record, or proof of correctness.
+
+### Claim-Proof Bound
+
+Promoted as [CAV2-D38](../DEFINITIONS.md#cav2-d38-claim-proof-bound).
+
+Scientific/formal sketch: claim <= proof is the invariant that asserted claim
+strength, authority effect, validation status, or publication posture must not
+exceed the cited support package.
+
+Plain-language sketch: do not say more than the evidence can carry.
+
+Domain-context sketch: in CyberAlchemy v2, claim <= proof bounds research,
+definitions, constitutions, validation reports, ontology projections, generated
+indexes, and public statements against their evidence.
+
+Boundary sketch: proof may mean source citation, validation run, witness, owner
+decision, accepted premise, or formal proof depending on claim type.
+
+### Intent
+
+Promoted as [CAV2-D39](../DEFINITIONS.md#cav2-d39-intent).
+
+Scientific/formal sketch: intent is an attributable and revisable purpose,
+capability pressure, or change direction with scope, constraints, output
+hypothesis, and revision route.
+
+Plain-language sketch: intent is what the work is trying to make possible
+before the final shape is known.
+
+Domain-context sketch: in CyberAlchemy v2, intent is the first input to method
+work: user corrections, stable repository objectives, definition-promotion
+requests, research questions, and handoffs become governable when intent is
+named and traceable.
+
+Boundary sketch: intent is not a requirement, artifact, proof, mutation command,
+or scope approval.
 
 ### Typed Coupling Invariant
 
@@ -325,7 +447,7 @@ risk, witness, and residue.
 - `domainspec-lean-formalization/lean-formalization/TowerColimit.lean` assembles the anchored tower into an omega-colimit object in `Cat`.
 - `domainspec-lean-formalization/lean-formalization/StrangeLoop.lean` proves the safe omega substrate and refutes current K-only omega absorption.
 - `domainspec-lean-formalization/LEAN-ARCHITECTURE.md` names the D-axis as the diagonal promotion tower and warns that residue has multiple local meanings.
-- [../../../../projects/framework-unification/CONCEPT-MAP.md](../../../../projects/framework-unification/CONCEPT-MAP.md) defines one pipeline and three vertical mechanisms, separates edge catalogs, names recursive self-application as an invariant, and models connections as typed provenance edges.
+- [../../../../projects/framework-unification/CONCEPT-MAP.md](../../../../projects/framework-unification/CONCEPT-MAP.md) defines one pipeline and three vertical mechanisms, separates edge catalogs, names recursive self-application as an invariant, models connections as typed provenance edges, and supplies intent/evidence/claim-proof traceability pressure.
 - [../../../../projects/framework-unification/research/domainspec-findings.md](../../../../projects/framework-unification/research/domainspec-findings.md) treats spine primitives as candidates for single-owner assignment in paired views.
 - [../../../../sessions/2026-06-15-2100-framework-integration-two-axis-fusion.md](../../../../sessions/2026-06-15-2100-framework-integration-two-axis-fusion.md) records that ontology layers, capability tower, and reflection tower are distinct axes and that climbing a reflection tower adds namability.
 - [../../../../projects/framework-unification/layers/domainspec-language/research/lanes/lane-06-lifecycle-promotion.md](../../../../projects/framework-unification/layers/domainspec-language/research/lanes/lane-06-lifecycle-promotion.md) separates maturity/lifecycle from promotion/authority as orthogonal axes.
@@ -333,7 +455,7 @@ risk, witness, and residue.
 - [../../../../implementation/domainspec/vault/discovery/graph-as-residue-attractor/README.md](../../../../implementation/domainspec/vault/discovery/graph-as-residue-attractor/README.md) treats reflection tower form as the corrected way to carry uniqueness across levels after fixed-point framing fails.
 - [../../../../arcanum/development/craft/CRAFT-INITIAL-DEFINITION.md](../../../../arcanum/development/craft/CRAFT-INITIAL-DEFINITION.md) defines reflection tower as the recursive residue-handling structure and describes the reflection tower method steps.
 - [../../../../arcanum/development/craft/CRAFT-FORMAL-FOUNDATIONS.md](../../../../arcanum/development/craft/CRAFT-FORMAL-FOUNDATIONS.md) maps reflection tower to formal DomainSpec evidence and notes that tower recursion does not imply finite total closure.
-- [../../../../arcanum/framework/CYBERALCHEMY-METHOD.md](../../../../arcanum/framework/CYBERALCHEMY-METHOD.md) describes the CyberAlchemy Method as a baseline method and distinguishes method primitives from narrower techniques.
+- [../../../../arcanum/framework/CYBERALCHEMY-METHOD.md](../../../../arcanum/framework/CYBERALCHEMY-METHOD.md) describes the CyberAlchemy Method as a baseline method, distinguishes method primitives from narrower techniques, and names intent, lifecycle authority, gates before mutation, artifact state, and navigation pressure.
 - [../../../../arcanum/arcana/craft/SKILL.md](../../../../arcanum/arcana/craft/SKILL.md) defines Craft as recursive project-local ledger governance.
 - [../../../../.agents/skills/definitions-governance/SKILL.md](../../../../.agents/skills/definitions-governance/SKILL.md) requires canonical definitions to carry formal, plain-language, and domain-context voices.
 
@@ -350,9 +472,14 @@ risk, witness, and residue.
 4. Partially resolved 2026-06-22: promote
    [primitive type](../DEFINITIONS.md#cav2-d31-primitive-type),
    [method](../DEFINITIONS.md#cav2-d32-method), and
-   [definition](../DEFINITIONS.md#cav2-d33-definition). Remaining top-basis
-   candidates to review: `traceability`, `claim <= proof`, `authority`,
-   `intent`, `artifact`, `gate`, and `provenance`.
+   [definition](../DEFINITIONS.md#cav2-d33-definition), then promote
+   [authority](../DEFINITIONS.md#cav2-d34-authority),
+   [provenance](../DEFINITIONS.md#cav2-d35-provenance),
+   [traceability](../DEFINITIONS.md#cav2-d36-traceability),
+   [gate](../DEFINITIONS.md#cav2-d37-gate),
+   [claim <= proof](../DEFINITIONS.md#cav2-d38-claim-proof-bound), and
+   [intent](../DEFINITIONS.md#cav2-d39-intent). Remaining top-basis candidate
+   to review: `artifact`.
 5. Should imported `TranslationResidue` become a subtype of `residue`, an alias,
    or a separate operational term?
 6. Resolved 2026-06-22: generic `method` is promoted as

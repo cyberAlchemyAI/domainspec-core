@@ -1,0 +1,39 @@
+{
+  "dispatch_id": "2026-06-22-music-studio-next-steps",
+  "schema": "formulae/dispatch-spec/dispatch.schema.yml",
+  "operator_intent": "what are next steps",
+  "refinement_objective": "Produce a prioritized non-executed next-route plan for the agentic-music-studio tower: rank the open work (harden v1 / run O1 / Spectralize-v2 / extend scope / promote research) into a sequenced do-next with gates, owners, and deferred items.",
+  "preset": "standard",
+  "research_mode": "research-if-gap-appears",
+  "research_confirmation": "pending-operator",
+  "validation_status": "validated",
+  "selected_overlays": [
+    {"id": "baseline_sequence", "why": "ordinary canonical ten-stage loop"},
+    {"id": "route_menu_for_ambiguity", "why": "the deliverable IS a choice among competing next routes (harden / validate / extend / promote); route, owner, and research choice are all ambiguous until ranked", "roles_and_convergence": "2 route-scorers under opposed lenses; parent converges on a single sequenced ordering with gate order"},
+    {"id": "dialectic_for_tension", "why": "competing principles: close honesty/correctness debt first (ship-honest-v1) vs validate the load-bearing felt-perception claim first (prove-thesis); needs adjudicated convergence not averaging", "roles_and_convergence": "Lens A hardening-first vs Lens B thesis-first; convergence = survives both or parent adjudicates"},
+    {"id": "memory_residue_for_context_recovery", "why": "carries prior evidence as hard inputs: F1-F6 residual fixes, the frozen O1 criterion, O8/O6 results, B8/B9 promotion candidates"}
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "authorization": "pending-operator",
+    "roles": ["route-scorer:hardening-first", "route-scorer:thesis-first"],
+    "join_policy": "all-join-before-synthesis",
+    "receipt": "structured ranking of the 5 candidate routes with per-route gate/owner/defer-reason + the lens's top-pick and why",
+    "fallback": "if subagents unavailable, parent runs both lenses inline and records subagent_execution=blocked with reason"
+  },
+  "stages": [
+    {"n": 1, "stage": "context-builder", "owner": "context-builder", "mode": "standard", "inputs": ["REFINE-SEED-PROPOSAL.md", "intent-engine/development/refinement-runs/2026-06-19-intent-engine-plan-verification/RESULT.md", "build/experiments/o1_strangeness_study/criterion.md", "bridge-decisions.md"], "output": "stages/01-context.md", "receipt": "parent-coordinator", "status": "pending"},
+    {"n": 2, "stage": "invoke-define", "owner": "invoke", "mode": "define", "output": "stages/02-define.md", "receipt": "parent-coordinator", "status": "pending"},
+    {"n": 3, "stage": "interrogation", "owner": "interrogation", "mode": "refine-review", "output": "stages/03-review.md", "receipt": "parent-coordinator", "status": "pending"},
+    {"n": 4, "stage": "research-decision", "owner": "refine", "mode": "research-if-gap-appears", "output": "stages/04-route-scoring.md", "receipt": "2 subagent route-scorer returns", "status": "pending"},
+    {"n": 5, "stage": "distill", "owner": "distill", "mode": "standard", "output": "stages/05-distill.md", "receipt": "parent-coordinator", "status": "pending"},
+    {"n": 6, "stage": "invoke-design", "owner": "invoke", "mode": "design", "output": "RESULT.md#next-route-plan", "receipt": "parent-coordinator", "status": "pending"},
+    {"n": 7, "stage": "interrogation", "owner": "interrogation", "mode": "refine-design-review", "output": "stages/07-design-review.md", "receipt": "parent-coordinator", "status": "pending"},
+    {"n": 8, "stage": "distill-repair", "owner": "distill", "mode": "validate", "output": "stages/08-repair.md", "receipt": "parent-coordinator", "status": "pending"},
+    {"n": 9, "stage": "invoke-plan", "owner": "invoke", "mode": "plan", "output": "RESULT.md#next-route-plan", "receipt": "parent-coordinator", "status": "pending"},
+    {"n": 10, "stage": "final-interrogation-synthesis", "owner": "refine", "mode": "refine-final", "output": "RESULT.md", "receipt": "parent-coordinator", "status": "pending"}
+  ],
+  "gates": ["native-handle-present", "stage-receipt-or-blocked", "research-confirmed", "required-artifacts-exist", "owner-boundary-preserved", "final-synthesis-ready"],
+  "observability": {"dispatch_id": "2026-06-22-music-studio-next-steps", "trace_grouped": true},
+  "owner_boundary": "refine owns seed/dispatch/manifest/result; subagent route-scorers own their rankings; no source mutation of studio_core/ or intent-engine/ — result recommends routes only."
+}

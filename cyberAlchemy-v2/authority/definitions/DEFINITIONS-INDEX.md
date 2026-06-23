@@ -40,10 +40,13 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D31 | primitive type | active | [Primitive Type](DEFINITIONS.md#cav2-d31-primitive-type) | A base kind the project is allowed to build with before it builds narrower things. |
 | CAV2-D32 | method | active | [Method](DEFINITIONS.md#cav2-d32-method) | The repeatable way the project turns intent and evidence into work that can be checked, carried forward, and improved. |
 | CAV2-D33 | definition | active | [Definition](DEFINITIONS.md#cav2-d33-definition) | The place where a term is finally allowed to mean something for this project. |
-| CAV2-D34 | constitution | active | [Constitution](DEFINITIONS.md#cav2-d34-constitution) | The rulebook for the shape of things, not for what they mean or what to do. |
-| CAV2-D35 | discipline | active | [Discipline](DEFINITIONS.md#cav2-d35-discipline) | A named good habit with evidence and a plan to make it stick. |
-| CAV2-D36 | decision | active | [Decision](DEFINITIONS.md#cav2-d36-decision) | The written record of a choice the project actually made, and why. |
-| CAV2-D37 | spec | active | [Spec](DEFINITIONS.md#cav2-d37-spec) | The promised contract for how something must behave or be shaped, once the project commits to it. |
+| CAV2-D34 | authority | active | [Authority](DEFINITIONS.md#cav2-d34-authority) | Who or what is allowed to make something count, and only for which purpose. |
+| CAV2-D35 | provenance | active | [Provenance](DEFINITIONS.md#cav2-d35-provenance) | The receipt trail for where something came from and how it got here. |
+| CAV2-D36 | traceability | active | [Traceability](DEFINITIONS.md#cav2-d36-traceability) | The thread from why this exists, to what changed, to what happens next. |
+| CAV2-D37 | gate | active | [Gate](DEFINITIONS.md#cav2-d37-gate) | The checkpoint that says go, go with risk, stop, or route to the right owner. |
+| CAV2-D38 | claim <= proof | active | [Claim-Proof Bound](DEFINITIONS.md#cav2-d38-claim-proof-bound) | Do not say more than the evidence can carry. |
+| CAV2-D39 | intent | active | [Intent](DEFINITIONS.md#cav2-d39-intent) | What the work is trying to make possible before we know the final shape. |
+| CAV2-D40 | challenge contract | active | [Challenge Contract](DEFINITIONS.md#cav2-d40-challenge-contract) | The object's "how to disagree with me correctly" field. |
 
 ## Alias Lookup
 
@@ -58,6 +61,10 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | base semantic object | CAV2-D31 |
 | bootstrap source spine | CAV2-D4 |
 | canonical definition | CAV2-D33 |
+| challenge contract | CAV2-D40 |
+| challenge_contract | CAV2-D40 |
+| challenge response contract | CAV2-D40 |
+| contestability contract | CAV2-D40 |
 | Craft ledger surface | CAV2-D12 |
 | Craft method | CAV2-D20 |
 | Craft recursive method | CAV2-D20 |
@@ -181,6 +188,35 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | unique-information classification | CAV2-D22 |
 | value-constraining cycle guard | CAV2-D28 |
 | v2 consolidation surface | CAV2-D9 |
+| authority | CAV2-D34 |
+| authority primitive | CAV2-D34 |
+| normative authority | CAV2-D34 |
+| decision authority | CAV2-D34 |
+| provenance | CAV2-D35 |
+| source provenance | CAV2-D35 |
+| origin chain | CAV2-D35 |
+| provenance chain | CAV2-D35 |
+| source chain | CAV2-D35 |
+| traceability | CAV2-D36 |
+| traceable chain | CAV2-D36 |
+| traceable linkage | CAV2-D36 |
+| lifecycle traceability | CAV2-D36 |
+| gate | CAV2-D37 |
+| governance gate | CAV2-D37 |
+| review gate | CAV2-D37 |
+| decision gate | CAV2-D37 |
+| admission gate | CAV2-D37 |
+| claim <= proof | CAV2-D38 |
+| claim-proof bound | CAV2-D38 |
+| claim proof invariant | CAV2-D38 |
+| contradiction review contract | CAV2-D40 |
+| evidence-bounded claim | CAV2-D38 |
+| proof-bounded claim | CAV2-D38 |
+| intent | CAV2-D39 |
+| human intent | CAV2-D39 |
+| work intent | CAV2-D39 |
+| governed intent | CAV2-D39 |
+| source intent | CAV2-D39 |
 
 ## Demoted Term Notes
 

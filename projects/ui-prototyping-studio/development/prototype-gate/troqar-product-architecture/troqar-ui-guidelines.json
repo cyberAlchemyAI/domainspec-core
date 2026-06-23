@@ -1,0 +1,179 @@
+{
+  "profileId": "troqar-product-architecture",
+  "disciplineId": "troqar-ui-visual-discipline",
+  "status": "active-pattern",
+  "consumer": "ui-prototyping-studio",
+  "targetProduct": "TROQAR / BodyWar",
+  "purpose": "Make every TROQAR prototype variant and downstream BodyWar page preserve the image-derived dark athletic identity, Strava-first login posture, privacy copy, and logo system.",
+  "brand": {
+    "name": "TROQAR",
+    "tagline": "CORRA. CONECTE. CONQUISTE.",
+    "thesis": "Running performance meets territory, people, and challenges.",
+    "tone": [
+      "athletic",
+      "competitive",
+      "territorial",
+      "mobile-first",
+      "direct"
+    ],
+    "languageNotes": [
+      "Prefer short Portuguese action copy when the surface is product-facing.",
+      "Keep privacy and evidence caveats plain and visible.",
+      "Do not make the first screen feel like a generic SaaS dashboard."
+    ]
+  },
+  "logoSystem": {
+    "markAsset": "projects/body-war/docs/features/troqar-product-architecture/assets/troqar-logo-mark.svg",
+    "lockupAsset": "projects/body-war/docs/features/troqar-product-architecture/assets/troqar-logo-lockup.svg",
+    "markDescription": "Hexagonal badge with orange upper/right stroke, green lower/left stroke, and a stylized runner whose orange upper body transitions into green stride/route motion.",
+    "wordmarkDescription": "All-caps condensed athletic wordmark; TROQ is fire-orange and AR is territory-green.",
+    "taglineDescription": "CORRA. CONECTE. CONQUISTE. with action words split orange, off-white, and green.",
+    "usageRules": [
+      "Use the horizontal lockup in top bars when there is enough width.",
+      "Use the hex mark alone in compact mobile headers, bottom navigation, favicons, or app-icon contexts.",
+      "Do not recolor the mark into a single hue.",
+      "Do not place the logo on light card surfaces except for isolated export previews."
+    ]
+  },
+  "tokens": {
+    "color": {
+      "asphaltBlack": {
+        "hex": "#050808",
+        "role": "Full-page app background and logo negative space."
+      },
+      "asphaltInk": {
+        "hex": "#0B0F10",
+        "role": "Primary shell, top bar, and dark surface base."
+      },
+      "cardGreenBlack": {
+        "hex": "#101918",
+        "role": "Raised card and phone-screen panels."
+      },
+      "panelRaised": {
+        "hex": "#121C1A",
+        "role": "Secondary panels and active dashboard cards."
+      },
+      "fireOrange": {
+        "hex": "#FF5C1A",
+        "role": "Primary action, Strava connect, active challenge, running energy."
+      },
+      "territoryGreen": {
+        "hex": "#1ED97A",
+        "role": "Connected state, success, owned territory, verified-safe status."
+      },
+      "offWhite": {
+        "hex": "#F4F1E8",
+        "role": "Primary text on dark surfaces."
+      },
+      "coolGray": {
+        "hex": "#8A9693",
+        "role": "Secondary copy, labels, muted evidence notes."
+      },
+      "deepBorder": {
+        "hex": "#1C2B28",
+        "role": "Subtle borders that preserve dark-app depth."
+      }
+    },
+    "typography": {
+      "display": {
+        "familyPreference": [
+          "Bebas Neue",
+          "Impact",
+          "Arial Narrow",
+          "sans-serif"
+        ],
+        "role": "TROQAR titles, route names, challenge titles, major metric numerals."
+      },
+      "body": {
+        "familyPreference": [
+          "DM Sans",
+          "Inter",
+          "system-ui",
+          "sans-serif"
+        ],
+        "role": "Forms, paragraphs, privacy copy, activity data, controls."
+      },
+      "number": {
+        "familyPreference": [
+          "DM Sans",
+          "Inter",
+          "system-ui",
+          "sans-serif"
+        ],
+        "role": "Distance, time, pace, stage counts, XP, ranking."
+      }
+    }
+  },
+  "layoutRules": [
+    "Design mobile-first and app-like; desktop may expand the same control surfaces, but must not become a landing page.",
+    "Use a dark full-viewport shell with compact dashboard panels, bottom navigation patterns, route cards, and athlete profile cards.",
+    "The first screen must show login/connection state, a clear Strava connect action, and a hint of profile/activity value.",
+    "Cards are allowed for repeated app objects; do not nest cards or float every page section as a card.",
+    "Use route/topographic line texture sparingly as background detail, not as a substitute for real route data.",
+    "Use stable dimensions for nav, controls, metric cards, and activity rows so content does not shift when auth state changes."
+  ],
+  "authAndPrivacyRules": [
+    "Visible MVP login method is Strava only.",
+    "Provider extensibility may exist internally, but the first page must not show unrelated login providers.",
+    "Never render access tokens, refresh tokens, OAuth codes, expiry internals, or raw provider payloads.",
+    "Public Strava profile links are allowed only as display data with safe link text.",
+    "Activity summaries must stay redacted; route geometry and scoring claims are deferred until verified by backend evidence."
+  ],
+  "componentRules": {
+    "loginPage": [
+      "Use the TROQAR lockup or mark in the first viewport.",
+      "Primary CTA is fire-orange and starts Strava auth.",
+      "Connected/success state uses territory-green.",
+      "Anonymous copy should say the app connects running, territory, and challenges without implying verified scoring yet."
+    ],
+    "topbar": [
+      "Dark asphalt background, logo at left, account actions at right.",
+      "Actions must fit 390px mobile width without overlap.",
+      "Do not use pale toolbar chrome."
+    ],
+    "profileCard": [
+      "Show safe athlete identity, public Strava link, connection state, and privacy promise.",
+      "Use green for connected state, gray for redacted/private data notes."
+    ],
+    "activityCard": [
+      "Show distance, time, pace if present, sport type, eligibility, and preview evidence CTA.",
+      "Use orange for action and green only for safe/complete status."
+    ],
+    "routeOrTrackCard": [
+      "Use territory/route context and controller metric.",
+      "Keep placeholder or preview status visibly distinct from verified state."
+    ]
+  },
+  "requiredDataOdIds": [
+    "troqar.shell",
+    "topbar.account.actions",
+    "auth.connect.cta",
+    "profile.safe-athlete-card",
+    "profile.strava-link",
+    "activity.recent-summary",
+    "evidence.submit.cta"
+  ],
+  "doNotUse": [
+    "White admin dashboard visual language for the main app surface.",
+    "Purple or blue-purple SaaS gradients.",
+    "Beige, cream, sand, or tan dominant palettes.",
+    "Orange-only or green-only one-note palettes.",
+    "Multiple visible login providers in the MVP first screen.",
+    "Decorative dark atmospherics that hide data, privacy caveats, or route status.",
+    "Verified, scored, or ranked evidence language before route geometry and evidence authority are implemented."
+  ],
+  "validationExpectations": [
+    "JSON must parse before handoff export.",
+    "Future Studio variants should list this file in export-profile sourceRefs.",
+    "Future BodyWar Playwright checks should assert mobile no-overlap, Strava-only anonymous login, safe profile copy, and no token leakage.",
+    "Screenshots should visibly preserve dark asphalt shell, fire-orange CTA, territory-green success state, and TROQAR logo usage."
+  ],
+  "evidenceRefs": [
+    "disciplines/cards/troqar-ui-visual-discipline.md",
+    "projects/body-war/docs/features/troqar-product-architecture/VISUAL-DEFINITIONS.md",
+    "projects/body-war/docs/features/troqar-product-architecture/UI-SPEC.md",
+    "projects/body-war/docs/features/troqar-product-architecture/prototype-handoff/STUDIO-PROTOTYPE-HANDOFF.md",
+    "projects/ui-prototyping-studio/development/prototype-gate/troqar-product-architecture/export-profile.json",
+    "projects/body-war/development/refinement-runs/20260622T083402Z-troqar-production-ui-login-refine/RESULT.md"
+  ]
+}

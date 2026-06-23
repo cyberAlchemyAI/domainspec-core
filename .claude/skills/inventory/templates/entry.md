@@ -2,13 +2,13 @@
 
 ## Metadata
 
-| Field      | Value                   |
-| ---------- | ----------------------- |
-| Type       | {entry-type}            |
-| Status     | active                  |
-| Tags       | {tags}                  |
-| Sources    | {source-list}           |
-| Updated    | YYYY-MM-DD              |
+| Field | Value |
+| ----- | ----- |
+| Type | {entry-type} |
+| Status | active |
+| Tags | {tags} |
+| Sources | {source-list} |
+| Updated | YYYY-MM-DD |
 | Confidence | high \/ moderate \/ low |
 
 ## Summary
@@ -17,8 +17,8 @@
 
 ## Key Claims
 
-| Claim   | Status                                                     | Evidence          | Notes   |
-| ------- | ---------------------------------------------------------- | ----------------- | ------- |
+| Claim | Status | Evidence | Notes |
+| ----- | ------ | -------- | ----- |
 | {claim} | evidence-backed \/ inference \/ synthesis \/ open-question | {source selector} | {notes} |
 
 ## Related Pages

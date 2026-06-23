@@ -1,0 +1,512 @@
+ledger_id: arcanum-journey.craft
+schema_ref: ../../../arcanum/arcana/craft/templates/ledger.schema.yml
+schema_version: 0.2.0
+status: active
+source_of_truth: projects/arcanum-journey/.craft/ledger.yml
+human_view: projects/arcanum-journey/CRAFT.md
+
+indexes:
+  by_id:
+    CTX-AJ-ROOT: contexts[0]
+    DEC-AJ-HOME-001: decisions[0]
+    DEC-AJ-PACKAGE-MODE-001: decisions[1]
+    DEC-AJ-ROUTING-001: decisions[2]
+    DEC-AJ-SURFACE-001: decisions[3]
+    ENA-AJ-READING-PKG-001: typed_items[0]
+    ENA-AJ-GOAL-PROFILE-001: typed_items[1]
+    ENA-AJ-PERSONA-SRC-001: typed_items[2]
+    ENA-AJ-XRAY-001: typed_items[3]
+    GAP-AJ-SIGIL-MAP-001: gaps[0]
+    GAP-AJ-PRESET-SCHEMA-001: gaps[1]
+    GAP-AJ-PERSONA-001: gaps[2]
+    GAP-AJ-CYBERALCHEMY-001: gaps[3]
+    GAP-AJ-CHAPTER-ORDER-001: gaps[4]
+    DEF-AJ-JOURNEY-001: definitions[0]
+    DEF-AJ-CHAPTER-001: definitions[1]
+    DEF-AJ-LEARNING-PRESET-001: definitions[2]
+    DEF-AJ-ROUTE-MAP-001: definitions[3]
+    DEF-AJ-STARTING-POINT-001: definitions[4]
+    DEF-AJ-CRAFT-CONTROL-SURFACE-001: definitions[5]
+    DEF-AJ-TEACH-WHILE-INSTALL-001: definitions[6]
+    DEF-AJ-EXPLAIN-SURFACE-001: definitions[7]
+    ART-AJ-CRAFT-LEDGER: artifacts[0]
+    ART-AJ-CRAFT-VIEW: artifacts[1]
+    ART-AJ-VISION-BRIEF: artifacts[2]
+    ART-AJ-DECISION-RECORD: artifacts[3]
+    ART-AJ-READING-PKG-SRC: artifacts[4]
+    ART-AJ-GOAL-PROFILE-SRC: artifacts[5]
+    ART-AJ-USER-GUIDE-SRC: artifacts[6]
+    ART-AJ-PERSONA-SRC: artifacts[7]
+    ART-AJ-CYBERALCHEMY-SRC: artifacts[8]
+    ART-AJ-XRAY-SRC: artifacts[9]
+    ART-AJ-INVOKE-RUN: artifacts[10]
+    ART-AJ-ROUTE-MAP: artifacts[11]
+  open_decisions: []
+  blocking_decisions: []
+  active_blockers: []
+  active_gaps:
+    - GAP-AJ-SIGIL-MAP-001
+    - GAP-AJ-PRESET-SCHEMA-001
+    - GAP-AJ-PERSONA-001
+    - GAP-AJ-CYBERALCHEMY-001
+    - GAP-AJ-CHAPTER-ORDER-001
+  next_moves:
+    - context_id: CTX-AJ-ROOT
+      next_move: >
+        Wave 0 / SWU-AJ-MAP-1 done: route map built (ART-AJ-ROUTE-MAP, 58
+        capabilities, sourced edges, grounded chapter order). Next: SWU-AJ-MAP-2 —
+        make the map durable as an /inventory package with tagged edges; then begin
+        Wave 1 (S-002 chapter authoring with the now-grounded order).
+  artifacts_by_path:
+    projects/arcanum-journey/.craft/ledger.yml: ART-AJ-CRAFT-LEDGER
+    projects/arcanum-journey/CRAFT.md: ART-AJ-CRAFT-VIEW
+    projects/arcanum-journey/.craft/artifacts/vision-brief.md: ART-AJ-VISION-BRIEF
+    projects/arcanum-journey/.craft/artifacts/DECISIONS.md: ART-AJ-DECISION-RECORD
+    projects/arcanum-journey/development/invoke-runs/20260622T223521Z-journey-define-design-plan/: ART-AJ-INVOKE-RUN
+    projects/arcanum-journey/development/route-map/SIGIL-SPELL-ROUTE-MAP.md: ART-AJ-ROUTE-MAP
+
+contexts:
+  - context_id: CTX-AJ-ROOT
+    parent_id: root
+    title: Arcanum Journey
+    purpose: >
+      Build a learning course that explains what Arcanum is by constructing it
+      piece by piece. Each sigil/spell introduced is a new chapter; the journey
+      teaches how concepts inherit, build on, and integrate with each other,
+      presenting Craft as the control surface. Surface area is a standalone
+      downloadable skill that installs the repo and teaches while installing,
+      using agent-generated HTML pages as explanation surfaces.
+    stage: plan
+    gate: flag
+    next_move: >
+      Plan complete (flag). Execute Wave 0 / S-000: dispatch-spec fan-out ->
+      inventory to build the sigil/spell route map.
+    owned_artifacts:
+      - ART-AJ-CRAFT-LEDGER
+      - ART-AJ-CRAFT-VIEW
+      - ART-AJ-VISION-BRIEF
+      - ART-AJ-DECISION-RECORD
+      - ART-AJ-INVOKE-RUN
+    notes: >
+      Root context created by /craft start for the Arcanum Journey course.
+      Scope = projects/arcanum-journey/.craft. The planning ledger stays in the
+      PRIVATE parent; DEC-AJ-HOME-001 resolved the SHIPPED deliverable to the
+      PUBLIC arcanum submodule because the Cyber Alchemy method is already public
+      inside arcanum and the explainer persona is anonymizable. Craft records the
+      downstream sigil routes here but does not execute them.
+
+decisions:
+  - decision_id: DEC-AJ-HOME-001
+    scope_id: CTX-AJ-ROOT
+    decision_type: approval
+    question: Where does the Arcanum Journey deliverable live — public arcanum submodule or the private parent?
+    description: >
+      The operator said "a project inside of arcanum". arcanum is the public
+      submodule. Premise checked during the gate: the explainer persona is
+      anonymizable (not private), and the Cyber Alchemy method is already
+      published inside public arcanum (development/cyberalchemy-ontology-lifecycle/,
+      ARCANUM-MANUAL, README), so a public home does not require private data.
+    options:
+      - public-arcanum-only
+      - hybrid-public-shell-private-content
+      - private-parent-project
+    default_option: hybrid-public-shell-private-content
+    selected: public-arcanum-only
+    rationale: >
+      Operator chose a public arcanum home and pointed to the Cyber Alchemy
+      method already present in public arcanum. Persona is anonymizable. Guardrail:
+      the journey teaches Cyber Alchemy only at the level already public in
+      arcanum; the deeper private cyberAlchemy-v2 specifics and its still-open
+      public/private boundary stay out. Engine/proprietary specifics excluded.
+    evidence: ART-AJ-CYBERALCHEMY-SRC
+    status: closed
+    blocking: false
+    impact: >
+      The shipped deliverable lives under arcanum/ (public). All authoring must
+      follow submodule discipline and exclude private operator data; only generic,
+      public-safe Arcanum + public-level Cyber Alchemy teaching is allowed.
+    owner: operator
+    decided_at: 2026-06-22
+    source: decision-gate (operator)
+    links:
+      - label: cyber alchemy already public in arcanum
+        target: ART-AJ-CYBERALCHEMY-SRC
+        kind: artifact-id
+      - label: decision record
+        target: ART-AJ-DECISION-RECORD
+        kind: artifact-id
+  - decision_id: DEC-AJ-PACKAGE-MODE-001
+    scope_id: CTX-AJ-ROOT
+    decision_type: selection
+    question: Is the learning package built per-user at runtime, pre-authored as static chapters, or hybrid?
+    description: >
+      The operator wants the user to end with "their first tower in their own
+      language" (runtime personalization via research-tower +
+      reading-learning-package), but a tutorial also needs stable chapters.
+    options:
+      - hybrid-authored-chapters-plus-runtime-tower
+      - runtime-tower-per-user
+      - pre-authored-static-chapters
+    default_option: hybrid-authored-chapters-plus-runtime-tower
+    selected: hybrid-authored-chapters-plus-runtime-tower
+    rationale: >
+      Operator chose hybrid: each chapter ships authored, stable teaching content;
+      at the end the user runs research-tower + reading-learning-package to build
+      their own personalized tower in their own language. Reliable lessons plus
+      the "first tower" payoff.
+    evidence: ART-AJ-READING-PKG-SRC
+    status: closed
+    blocking: false
+    impact: >
+      Each chapter pairs authored content with a runtime reading-learning-package
+      route; research-tower and reading-learning-package are wired per chapter.
+    owner: operator
+    decided_at: 2026-06-22
+    source: decision-gate (operator)
+    links:
+      - label: reading-learning-package source
+        target: ART-AJ-READING-PKG-SRC
+        kind: artifact-id
+  - decision_id: DEC-AJ-ROUTING-001
+    scope_id: CTX-AJ-ROOT
+    decision_type: selection
+    question: How is the starting point (first tool) selected?
+    description: >
+      Interrogation infers the user's primary goal and the system offers a first
+      tool; the operator also wants the user to be able to pick or probe freely.
+    options:
+      - both-interrogate-then-let-user-pick
+      - system-offers-by-interrogation
+      - user-picks-from-map
+    default_option: both-interrogate-then-let-user-pick
+    selected: both-interrogate-then-let-user-pick
+    rationale: >
+      Operator chose interrogate-then-pick: /interrogation infers primary goal and
+      recommends a first tool (creative -> Whisper; automation -> Craft/goal/
+      task-session), then shows the full map so the user can override or probe.
+    evidence: ART-AJ-VISION-BRIEF
+    status: closed
+    blocking: false
+    impact: >
+      The /interrogation mode produces a goal-to-tool recommendation, and the
+      post-session path offer presents the full sigil/spell map (GAP-AJ-SIGIL-MAP-001).
+    owner: operator
+    decided_at: 2026-06-22
+    source: decision-gate (operator)
+    links:
+      - label: sigil/spell route map gap
+        target: GAP-AJ-SIGIL-MAP-001
+        kind: row-id
+  - decision_id: DEC-AJ-SURFACE-001
+    scope_id: CTX-AJ-ROOT
+    decision_type: selection
+    question: What is the surface area of the journey?
+    description: >
+      Operator's stated shape: a standalone downloadable skill that installs the
+      repo, asks what the user wants to learn, or offers to install the whole repo
+      and let them pick / probe, refined during the gate to use agent-generated
+      HTML pages as explanation surfaces.
+    options:
+      - standalone-skill-installs-repo-teach-while-install-html-surfaces
+      - in-repo-only-no-standalone-download
+      - docs-only-no-install
+    default_option: standalone-skill-installs-repo-teach-while-install-html-surfaces
+    selected: standalone-skill-installs-repo-teach-while-install-html-surfaces
+    rationale: >
+      Operator chose the standalone install-and-teach skill AND specified
+      agent-generated HTML pages as the explanation surfaces (x-ray-style, as the
+      arcanum user-guide already does). The skill installs the repo (whole or a
+      picked slice), asks what to learn, and teaches while installing.
+    evidence: ART-AJ-XRAY-SRC
+    status: closed
+    blocking: false
+    impact: >
+      Adds an agent-generated-HTML explanation surface per chapter (x-ray as
+      generator enabler) on top of the install-and-teach skill; /refine must
+      harden the install + HTML-generation surface.
+    owner: operator
+    decided_at: 2026-06-22
+    source: decision-gate (operator)
+    links:
+      - label: x-ray HTML surface enabler
+        target: ENA-AJ-XRAY-001
+        kind: row-id
+
+typed_items:
+  - item_id: ENA-AJ-READING-PKG-001
+    kind: enabler
+    base_type: capability_enabler
+    context_type: arcanum-journey.base_tool
+    primary_lane: composition
+    source_id: CTX-AJ-ROOT
+    target_id: CTX-AJ-ROOT
+    status: active
+    enables: >
+      reading-learning-package is the base tool for building each learning
+      package from a completed research-tower; it owns the tower intake, preset
+      interview, Whisper substrate bridge, and package assembly.
+    evidence: ART-AJ-READING-PKG-SRC
+    reason: Operator named it the basic tool for the learning package.
+  - item_id: ENA-AJ-GOAL-PROFILE-001
+    kind: enabler
+    base_type: precedent_enabler
+    context_type: arcanum-journey.preset_model
+    primary_lane: schema
+    source_id: CTX-AJ-ROOT
+    target_id: CTX-AJ-ROOT
+    status: active
+    enables: >
+      goal/decision-profile.schema + user-guide are the precedent for a public
+      schema + neutral default + private-tweakable filled-profile pattern that
+      the user-tweakable learning preset should follow.
+    evidence: ART-AJ-GOAL-PROFILE-SRC
+    reason: Operator pointed at this model for the tweakable preset.
+  - item_id: ENA-AJ-PERSONA-SRC-001
+    kind: enabler
+    base_type: source_enabler
+    context_type: arcanum-journey.persona
+    primary_lane: persona
+    source_id: CTX-AJ-ROOT
+    target_id: CTX-AJ-ROOT
+    status: active
+    enables: >
+      The domainspec telemetry agent pool supplies candidate explainer personas
+      (allowed agent_name pool) for the Veritasium-style learning preset. The
+      chosen persona is copied ANONYMIZED into the public package (DEC-AJ-HOME-001).
+    evidence: ART-AJ-PERSONA-SRC
+    reason: Operator named this as the persona source; anonymized copy is public-safe.
+  - item_id: ENA-AJ-XRAY-001
+    kind: enabler
+    base_type: capability_enabler
+    context_type: arcanum-journey.explanation_surface
+    primary_lane: rendering
+    source_id: CTX-AJ-ROOT
+    target_id: CTX-AJ-ROOT
+    status: active
+    enables: >
+      The x-ray sigil generates the agent-generated HTML explanation pages used as
+      each chapter's teaching surface (DEC-AJ-SURFACE-001), consistent with the
+      arcanum user-guide HTML surfaces.
+    evidence: ART-AJ-XRAY-SRC
+    reason: Operator specified agent-generated HTML explanation surfaces.
+
+gaps:
+  - gap_id: GAP-AJ-SIGIL-MAP-001
+    scope_id: CTX-AJ-ROOT
+    summary: >
+      Route map BUILT via 6-way dispatch-spec fan-out (ART-AJ-ROUTE-MAP): 58
+      capabilities, sourced inherit/build-on/integrate edges, goal->tool routing.
+      Remaining: SWU-AJ-MAP-2 makes it durable as an inventory package.
+    severity: info
+    treatment: in-progress
+    owner: inventory (SWU-AJ-MAP-2)
+    evidence: ART-AJ-ROUTE-MAP
+  - gap_id: GAP-AJ-PRESET-SCHEMA-001
+    scope_id: CTX-AJ-ROOT
+    summary: >
+      The user-tweakable learning preset schema is not yet defined; model it on
+      goal/decision-profile.schema + user-guide, keep neutral defaults, and leave
+      room for the user to tweak the explanation language.
+    severity: flag
+    treatment: plan
+    owner: invoke-design
+    evidence: ART-AJ-GOAL-PROFILE-SRC
+  - gap_id: GAP-AJ-PERSONA-001
+    scope_id: CTX-AJ-ROOT
+    summary: >
+      The Veritasium-style explainer persona (clever analogies, simplicity) must
+      be extracted/selected from the domainspec telemetry agent pool and
+      anonymized for the public package.
+    severity: info
+    treatment: plan
+    owner: invoke-design
+    evidence: ART-AJ-PERSONA-SRC
+  - gap_id: GAP-AJ-CYBERALCHEMY-001
+    scope_id: CTX-AJ-ROOT
+    summary: >
+      The Cyber Alchemy method / framework must be included in the explored
+      knowledge, taught only at the level already public in arcanum (per
+      DEC-AJ-HOME-001 guardrail); deeper private cav2 specifics excluded.
+    severity: flag
+    treatment: plan
+    owner: dispatch-spec-fan-out
+    evidence: ART-AJ-CYBERALCHEMY-SRC
+  - gap_id: GAP-AJ-CHAPTER-ORDER-001
+    scope_id: CTX-AJ-ROOT
+    summary: >
+      Grounded draft chapter order now exists in ART-AJ-ROUTE-MAP §4 (Ch0 framing ->
+      Craft -> Refine -> Invoke -> goal-branch -> Decision-Gate -> Dispatch-Spec ->
+      Goal -> X-Ray -> tower capstone), justified by inherit edges. Finalize in W1.
+    severity: info
+    treatment: in-progress
+    owner: invoke-design (W1 S-002)
+    evidence: ART-AJ-ROUTE-MAP
+
+definitions:
+  - definition_id: DEF-AJ-JOURNEY-001
+    scope_id: CTX-AJ-ROOT
+    term: Arcanum Journey
+    statement: >
+      A learning course and installer companion that teaches what Arcanum is by
+      constructing it piece by piece; each sigil or spell introduced is a chapter,
+      and the course shows how concepts inherit, build on, and integrate.
+    status: candidate
+    evidence: ART-AJ-VISION-BRIEF
+  - definition_id: DEF-AJ-CHAPTER-001
+    scope_id: CTX-AJ-ROOT
+    term: chapter
+    statement: >
+      One sigil or spell introduced as a tutorial step that builds on the
+      chapters before it; adding a tool to the journey adds a chapter.
+    status: candidate
+    evidence: ART-AJ-VISION-BRIEF
+  - definition_id: DEF-AJ-LEARNING-PRESET-001
+    scope_id: CTX-AJ-ROOT
+    term: learning preset
+    statement: >
+      A decision-profile-style configuration that controls explanation style for
+      novices (clever analogies, simplicity, Veritasium-style), ships neutral
+      defaults, and remains user-tweakable so it speaks the user's language.
+    status: candidate
+    evidence: ART-AJ-GOAL-PROFILE-SRC
+  - definition_id: DEF-AJ-ROUTE-MAP-001
+    scope_id: CTX-AJ-ROOT
+    term: sigil/spell route map
+    statement: >
+      A map of all sigils and spells with inherit / build-on / integrate edges,
+      used to order chapters and to offer possible next paths after each session.
+    status: candidate
+    evidence: ART-AJ-VISION-BRIEF
+  - definition_id: DEF-AJ-STARTING-POINT-001
+    scope_id: CTX-AJ-ROOT
+    term: starting-point routing
+    statement: >
+      Interrogation-driven selection of the user's first tool by primary goal
+      (e.g. creative writing -> Whisper; automation -> Craft + goal or
+      task-session), with the user free to pick or probe afterward.
+    status: candidate
+    evidence: ART-AJ-VISION-BRIEF
+  - definition_id: DEF-AJ-CRAFT-CONTROL-SURFACE-001
+    scope_id: CTX-AJ-ROOT
+    term: Craft as control surface
+    statement: >
+      The framing that every sigil has a place inside Craft and the journey
+      returns to Craft as its spine; refine and invoke are explained as the entry
+      capabilities feeding that surface.
+    status: candidate
+    evidence: ART-AJ-VISION-BRIEF
+  - definition_id: DEF-AJ-TEACH-WHILE-INSTALL-001
+    scope_id: CTX-AJ-ROOT
+    term: teach-while-install
+    statement: >
+      The standalone downloadable skill installs the repo as it teaches, letting
+      a user learn by testing and probing, or install the whole repo and pick.
+    status: candidate
+    evidence: ART-AJ-VISION-BRIEF
+  - definition_id: DEF-AJ-EXPLAIN-SURFACE-001
+    scope_id: CTX-AJ-ROOT
+    term: explanation surface
+    statement: >
+      Each chapter's teaching surface is an agent-generated HTML page (x-ray
+      style) that lays out the concept visually, consistent with the existing
+      arcanum user-guide HTML surfaces.
+    status: candidate
+    evidence: ART-AJ-XRAY-SRC
+
+relations:
+  - relation_id: REL-AJ-VISION-001
+    source_id: ART-AJ-VISION-BRIEF
+    target_id: CTX-AJ-ROOT
+    relation_type: source_of
+    evidence: Operator /craft brief is the source authority for the root context.
+  - relation_id: REL-AJ-MAP-CHAPTER-001
+    source_id: GAP-AJ-SIGIL-MAP-001
+    target_id: GAP-AJ-CHAPTER-ORDER-001
+    relation_type: blocks
+    evidence: Chapter ordering depends on the sigil/spell route map.
+  - relation_id: REL-AJ-DECISIONS-001
+    source_id: ART-AJ-DECISION-RECORD
+    target_id: CTX-AJ-ROOT
+    relation_type: records
+    evidence: Decision-gate record for the four scoping decisions.
+
+artifacts:
+  - artifact_id: ART-AJ-CRAFT-LEDGER
+    owner_context_id: CTX-AJ-ROOT
+    path: projects/arcanum-journey/.craft/ledger.yml
+    artifact_type: ledger-source
+    status: active
+    notes: Structured Craft source of truth for the Arcanum Journey build.
+  - artifact_id: ART-AJ-CRAFT-VIEW
+    owner_context_id: CTX-AJ-ROOT
+    path: projects/arcanum-journey/CRAFT.md
+    artifact_type: human-view
+    status: active
+    notes: Human-readable linked view of the ledger.
+  - artifact_id: ART-AJ-VISION-BRIEF
+    owner_context_id: CTX-AJ-ROOT
+    path: projects/arcanum-journey/.craft/artifacts/vision-brief.md
+    artifact_type: source-brief
+    status: active
+    notes: Operator's /craft intent, preserved as source authority.
+  - artifact_id: ART-AJ-DECISION-RECORD
+    owner_context_id: CTX-AJ-ROOT
+    path: projects/arcanum-journey/.craft/artifacts/DECISIONS.md
+    artifact_type: decision-record
+    status: active
+    notes: Decision-gate record for DEC-AJ-HOME-001, PACKAGE-MODE, ROUTING, SURFACE.
+  - artifact_id: ART-AJ-READING-PKG-SRC
+    owner_context_id: CTX-AJ-ROOT
+    path: "[repo-root] arcanum/spells/reading-learning-package/"
+    artifact_type: external-source
+    status: reference
+    notes: Base tool for building the learning package from a research-tower.
+  - artifact_id: ART-AJ-GOAL-PROFILE-SRC
+    owner_context_id: CTX-AJ-ROOT
+    path: "[repo-root] arcanum/spells/goal/decision-profile.schema"
+    artifact_type: external-source
+    status: reference
+    notes: Precedent for a public-schema + neutral-default + private-tweakable-profile pattern.
+  - artifact_id: ART-AJ-USER-GUIDE-SRC
+    owner_context_id: CTX-AJ-ROOT
+    path: "[repo-root] arcanum/development/user-guide/"
+    artifact_type: external-source
+    status: reference
+    notes: Existing manual/guide + HTML surfaces; preset and explanation-surface precedent.
+  - artifact_id: ART-AJ-PERSONA-SRC
+    owner_context_id: CTX-AJ-ROOT
+    path: "[repo-root] implementation/domainspec/telemetry/agents/agent-pool.yaml"
+    artifact_type: external-source
+    status: reference
+    notes: Agent pool supplying candidate Veritasium-style explainer personas (anonymized for public use).
+  - artifact_id: ART-AJ-CYBERALCHEMY-SRC
+    owner_context_id: CTX-AJ-ROOT
+    path: "[repo-root] arcanum/development/cyberalchemy-ontology-lifecycle/"
+    artifact_type: external-source
+    status: reference
+    notes: >
+      Cyber Alchemy method already public inside arcanum (basis for DEC-AJ-HOME-001).
+      Deeper private framing lives in cyberAlchemy-v2/ and stays out of the public deliverable.
+  - artifact_id: ART-AJ-XRAY-SRC
+    owner_context_id: CTX-AJ-ROOT
+    path: "[repo-root] arcanum/arcana/x-ray/"
+    artifact_type: external-source
+    status: reference
+    notes: x-ray sigil generates the agent-generated HTML explanation surfaces.
+  - artifact_id: ART-AJ-INVOKE-RUN
+    owner_context_id: CTX-AJ-ROOT
+    path: projects/arcanum-journey/development/invoke-runs/20260622T223521Z-journey-define-design-plan/
+    artifact_type: invoke-authoring-bundle
+    status: active
+    notes: >
+      Invoke define->design->plan bundle (SPEC, ARCHITECTURE, IMPLEMENTATION-LAYERING,
+      WORK-PACK, INVOKE-RESULT). Phase status flag; next route task-session for Wave 0.
+  - artifact_id: ART-AJ-ROUTE-MAP
+    owner_context_id: CTX-AJ-ROOT
+    path: projects/arcanum-journey/development/route-map/SIGIL-SPELL-ROUTE-MAP.md
+    artifact_type: route-map
+    status: active
+    notes: >
+      Sigil/spell route map from the Wave 0 dispatch-spec fan-out (SWU-AJ-MAP-1): tier
+      taxonomy, 58-capability catalog with sourced inherit/build-on/integrate edges,
+      condensed spine, grounded chapter order, and goal->tool routing. Public-source only.

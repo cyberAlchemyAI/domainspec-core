@@ -1,0 +1,50 @@
+{
+  "dispatch_id": "refine-20260622T133331Z-agent-safe-traefik-deploy",
+  "status": "strategy_proposal",
+  "target": "projects/body-war",
+  "objective": "Refine an agent-safe Hostinger VPS deployment plan using existing Docker and Traefik without exposing secrets to deploying agents.",
+  "preset": "compact",
+  "research_mode": "no-research",
+  "selected_overlays": [
+    {
+      "id": "baseline_sequence",
+      "reason": "The target needs a clear non-executed plan and handoff without runtime deployment."
+    },
+    {
+      "id": "protected_context_for_external_or_sensitive_evidence",
+      "reason": "Production secrets, Strava credentials, SSH, and friend activity evidence are sensitive and must stay outside agent-visible artifacts."
+    },
+    {
+      "id": "owner_boundary_check",
+      "reason": "The VPS owns secrets and Traefik runtime state; repository artifacts own only deploy interfaces and placeholder contracts."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "reason": "The plan is narrow and local evidence plus operator update are enough for this proposal."
+  },
+  "stages": [
+    { "id": 1, "name": "Context Builder evidence baseline", "status": "summarized", "output": "stages/00-strategy.md" },
+    { "id": 2, "name": "Invoke Define", "status": "summarized", "output": "REFINE-SEED-PROPOSAL.md" },
+    { "id": 3, "name": "Interrogation refine-review", "status": "summarized", "output": "RESULT.md" },
+    { "id": 4, "name": "Research decision", "status": "pass", "output": "RUN-MANIFEST.md" },
+    { "id": 5, "name": "Distill", "status": "pass", "output": "RESULT.md" },
+    { "id": 6, "name": "Invoke Redefine / Design", "status": "pass", "output": "RESULT.md" },
+    { "id": 7, "name": "Interrogation refine-design-review", "status": "pass", "output": "RESULT.md" },
+    { "id": 8, "name": "Distill Repair", "status": "pass", "output": "RESULT.md" },
+    { "id": 9, "name": "Invoke Plan", "status": "pass", "output": "RESULT.md" },
+    { "id": 10, "name": "Final Interrogation and Synthesis", "status": "pass", "output": "RESULT.md" }
+  ],
+  "gates": [
+    "No real secrets enter repository artifacts.",
+    "Agent deploy path cannot require env value visibility.",
+    "Traefik replaces Caddy for the Hostinger VPS path.",
+    "Production uses BODY_WAR_AUTH_BACKEND=postgres.",
+    "Deploy receipt is redacted before tracking."
+  ],
+  "next_route": {
+    "capability": "task-session",
+    "unit": "SWU-BW-DEPLOY-TRAEFIK-001",
+    "summary": "Implement agent-safe Traefik deploy harness and docs."
+  }
+}

@@ -4,18 +4,18 @@ This contract defines the static checks required before evidence-cards can be us
 
 ## Required Checks
 
-| Check                                                           | Severity           | Expected finding                                                             |
-| --------------------------------------------------------------- | ------------------ | ---------------------------------------------------------------------------- |
-| Missing required field                                          | error              | The card omits a field required by `profile`.                                |
-| Empty `source_refs`                                             | error              | Every card requires at least one source ref.                                 |
-| Unknown controlled vocabulary value                             | error              | Unknown enum value; propose schema residue instead of silently accepting it. |
-| `profile: full` without `handoff_targets` or `trace`            | error              | Full cards must preserve handoff intent and field-level trace.               |
-| `profile: minimal` without traceable source refs                | error              | Minimal cards are still source-backed and reviewable.                        |
-| Terminal promotion status with `promotion_owner: none`          | error              | Terminal promotion state requires an explicit owner.                         |
-| Relation candidate without `claim_shape.non_authority_notice`   | error              | Relation candidates must not imply downstream ontology authority.            |
-| Relation candidate without evidence refs or target resolution   | error              | Relation candidates require evidence refs and a target resolution.           |
-| Trace confidence described as ontology or commitment confidence | error              | Trace confidence is extraction/rule confidence only.                         |
-| Query selector that cannot be reproduced                        | warning or residue | Query selectors need reproducible text or declared residue.                  |
+| Check | Severity | Expected finding |
+| --- | --- | --- |
+| Missing required field | error | The card omits a field required by `profile`. |
+| Empty `source_refs` | error | Every card requires at least one source ref. |
+| Unknown controlled vocabulary value | error | Unknown enum value; propose schema residue instead of silently accepting it. |
+| `profile: full` without `handoff_targets` or `trace` | error | Full cards must preserve handoff intent and field-level trace. |
+| `profile: minimal` without traceable source refs | error | Minimal cards are still source-backed and reviewable. |
+| Terminal promotion status with `promotion_owner: none` | error | Terminal promotion state requires an explicit owner. |
+| Relation candidate without `claim_shape.non_authority_notice` | error | Relation candidates must not imply downstream ontology authority. |
+| Relation candidate without evidence refs or target resolution | error | Relation candidates require evidence refs and a target resolution. |
+| Trace confidence described as ontology or commitment confidence | error | Trace confidence is extraction/rule confidence only. |
+| Query selector that cannot be reproduced | warning or residue | Query selectors need reproducible text or declared residue. |
 
 ## Invalid Examples
 

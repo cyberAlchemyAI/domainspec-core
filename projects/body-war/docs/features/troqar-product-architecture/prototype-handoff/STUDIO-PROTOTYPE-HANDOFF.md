@@ -12,9 +12,11 @@ Baseline: variant `B`
 | Prototype gate contract | `projects/ui-prototyping-studio/docs/PROTOTYPE-GATE.md` |
 | Handoff convention | `projects/ui-prototyping-studio/docs/HANDOFF-CONVENTION.md` |
 | Export profile | `projects/ui-prototyping-studio/development/prototype-gate/troqar-product-architecture/export-profile.json` |
+| Studio visual guidelines | `projects/ui-prototyping-studio/development/prototype-gate/troqar-product-architecture/troqar-ui-guidelines.json` |
 | Studio run store | `projects/ui-prototyping-studio/development/prototype-gate/troqar-product-architecture/run/studio.json` |
 | Accepted prototype | `projects/ui-prototyping-studio/development/prototype-gate/troqar-product-architecture/run/artifacts/committed/33fa5f2100c3cdf5338b751d004f56027484f6338a7482cf0c04300d65a4d94f.html` |
 | Bundle mirror | `projects/body-war/docs/features/troqar-product-architecture/prototype-handoff/HANDOFF-BUNDLE.json` |
+| Production login bundle | `projects/body-war/docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json` |
 
 ## Handoff Bundle
 
@@ -58,3 +60,32 @@ BodyWar consumes this handoff in:
 
 The handoff does not promote Studio HTML into production. It promotes the
 reviewed selector and copy obligations into the real app and browser tests.
+
+## Production Login Handoff
+
+Status: accepted task-session evidence
+Session data: `projects/body-war/development/task-sessions/20260622T125002Z-production-ui-login/studio/studio.json`
+Accepted revision: `rev-0001`
+Baseline: variant `B`
+Accepted prototype: `projects/body-war/development/task-sessions/20260622T125002Z-production-ui-login/studio/artifacts/committed/94bfb30acfacb8d3fa853fba8a0c0a8db15893a81fb9f7c2fb1ae1ede1ab8a96.html`
+
+The production login handoff consumes the Studio visual guideline file and adds
+the login-first selectors required by the production static UI:
+
+| `data-od-id` | Production Surface |
+| --- | --- |
+| `auth.login-first` | Anonymous login-first page. |
+| `login.hero` | First-viewport TROQAR page identity. |
+| `login.trust-copy` | Privacy and preview-evidence copy. |
+| `login.preview-card` | Dark mobile-app preview card. |
+| `auth.callback-status` | Safe Strava callback success copy. |
+| `auth.error.banner` | Safe provider retry copy. |
+| `auth.reconnect.cta` | Retry Strava CTA. |
+| `profile.privacy-card` | Server-side credential custody copy. |
+| `activity.loading` | Activity loading state. |
+| `activity.empty` | Empty recent-run state. |
+| `activity.error` | Safe activity error copy. |
+| `track.geometry-status` | Placeholder/preview geometry status. |
+| `evidence.status-chip` | Preview/submitted evidence status. |
+| `evidence.submission-list` | Submitted preview evidence list. |
+| `evidence.submit.error` | Safe submission error copy. |

@@ -1,10 +1,11 @@
 const state = {
   activities: [],
   profile: null,
+  status: null,
   tracks: [],
 };
 
-const $ = (selector) => document.querySelector(selector);
+const $ = (selector, root = document) => root.querySelector(selector);
 
 function getCookie(name) {
   const prefix = `${name}=`;
@@ -15,14 +16,46 @@ function getCookie(name) {
     ?.slice(prefix.length);
 }
 
+function clear(node) {
+  node.replaceChildren();
+}
+
+function setHidden(node, hidden) {
+  node.classList.toggle("hidden", hidden);
+}
+
+function el(tag, options = {}, children = []) {
+  const node = document.createElement(tag);
+  if (options.className) node.className = options.className;
+  if (options.text !== undefined) node.textContent = String(options.text);
+  if (options.odId) node.dataset.odId = options.odId;
+  if (options.attrs) {
+    for (const [name, value] of Object.entries(options.attrs)) {
+      if (value !== undefined && value !== null && value !== "") {
+        node.setAttribute(name, String(value));
+      }
+    }
+  }
+  for (const child of children) node.append(child);
+  return node;
+}
+
+function message(text, options = {}) {
+  return el("p", {
+    className: `state-message${options.error ? " error" : ""}`,
+    odId: options.odId,
+    text,
+  });
+}
+
 function fmtDistance(meters) {
-  if (!Number.isFinite(Number(meters))) return "unknown distance";
+  if (!Number.isFinite(Number(meters))) return "distancia indisponivel";
   return `${(Number(meters) / 1000).toFixed(2)} km`;
 }
 
 function fmtTime(seconds) {
   const total = Number(seconds);
-  if (!Number.isFinite(total)) return "unknown time";
+  if (!Number.isFinite(total)) return "tempo indisponivel";
   const minutes = Math.floor(total / 60);
   const secs = total % 60;
   return `${minutes}:${String(secs).padStart(2, "0")}`;
@@ -31,18 +64,8 @@ function fmtTime(seconds) {
 function pace(activity) {
   const meters = Number(activity.distance || 0);
   const seconds = Number(activity.moving_time || 0);
-  if (!meters || !seconds) return "pace unavailable";
+  if (!meters || !seconds) return "ritmo indisponivel";
   return `${(seconds / 60 / (meters / 1000)).toFixed(2)} min/km`;
-}
-
-function escapeHtml(value) {
-  return String(value ?? "").replace(/[&<>"']/g, (char) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    "\"": "&quot;",
-    "'": "&#39;",
-  })[char]);
 }
 
 function safeHttpUrl(value) {
@@ -54,11 +77,32 @@ function safeHttpUrl(value) {
   }
 }
 
+function isAuthRequired(message) {
+  return [
+    "Session cookie is required",
+    "Missing bearer token",
+    "auth_required",
+    "invalid_session",
+  ].includes(String(message));
+}
+
+function uiErrorMessage(message) {
+  const raw = String(message ?? "");
+  if (isAuthRequired(raw) || raw === "not_connected") return "Conecte o Strava para continuar.";
+  if (raw === "csrf_required") return "Atualize a pagina e tente novamente.";
+  if (raw === "invalid_activity") return "Este treino nao pode ser enviado para a pista selecionada.";
+  if (raw === "track_geometry_missing") return "Geometria da rota ainda nao foi confirmada para esta evidencia.";
+  if (raw === "access_denied") return "Nao foi possivel conectar com Strava. Tente de novo quando quiser.";
+  if (raw === "invalid_state") return "A sessao de login do Strava expirou. Comece de novo.";
+  return raw || "Nao foi possivel concluir. Tente de novo.";
+}
+
 async function getJson(url) {
   const response = await fetch(url);
   const payload = await response.json();
-  if (!response.ok)
-    throw new Error(payload.message || payload.error || "Request failed");
+  if (!response.ok) {
+    throw new Error(payload.error || payload.message || "Request failed");
+  }
   return payload;
 }
 
@@ -73,55 +117,104 @@ async function postJson(url, body) {
     body: JSON.stringify(body),
   });
   const payload = await response.json();
-  if (!response.ok)
-    throw new Error(payload.message || payload.error || "Request failed");
+  if (!response.ok) {
+    throw new Error(payload.error || payload.message || "Request failed");
+  }
   return payload;
+}
+
+function renderQueryNotices() {
+  const params = new URLSearchParams(window.location.search);
+  const callback = $("#callback-status");
+  const error = $("#auth-error");
+  const errorCopy = $("#auth-error-copy");
+  const connected = params.get("connected");
+  const authError = params.get("auth_error");
+
+  setHidden(callback, true);
+  setHidden(error, true);
+  callback.textContent = "";
+  errorCopy.textContent = "";
+
+  if (connected === "1") {
+    callback.textContent = "Strava conectado. Perfil publico e resumos seguros estao prontos.";
+    setHidden(callback, false);
+  }
+
+  if (authError) {
+    errorCopy.textContent = uiErrorMessage(authError);
+    setHidden(error, false);
+  }
+}
+
+function renderShell(status) {
+  const anonymous = !(status.authenticated && status.connected);
+  setHidden($("#auth-login"), !anonymous);
+  setHidden($("#runner-home"), anonymous);
+  setHidden($("#connect"), !anonymous || !status.configured);
+  setHidden($("#connect-top"), true);
+  setHidden($("#logout"), anonymous);
+  setHidden($("#profile-link"), anonymous);
+
+  if (!status.configured) {
+    $("#connection-copy").textContent = `Strava ainda nao esta configurado. Callback: ${status.redirect_uri}`;
+  } else if (anonymous) {
+    $("#connection-copy").textContent = "Login unico do MVP: Strava. Sem senha, sem outro provedor.";
+  }
+}
+
+function renderAthlete(status) {
+  const copy = $("#connected-copy");
+  const card = $("#athlete-card");
+  const athlete = status.athlete || {};
+  const imageUrl = safeHttpUrl(athlete.profile);
+  const stravaUrl = safeHttpUrl(athlete.strava_profile_url);
+
+  copy.textContent = `Conectado com escopo: ${athlete.scope || status.scope || "activity:read"}.`;
+  clear(card);
+
+  if (imageUrl) {
+    card.append(el("img", { attrs: { src: imageUrl, alt: "" } }));
+  }
+  const details = el("div");
+  details.append(el("strong", { text: `${athlete.firstname || "Corredor conectado"} ${athlete.lastname || ""}`.trim() }));
+  if (stravaUrl) {
+    details.append(
+      el("p", {}, [
+        el("a", {
+          odId: "profile.strava-link",
+          text: "Open public Strava profile",
+          attrs: { href: stravaUrl, rel: "noreferrer", target: "_blank" },
+        }),
+      ]),
+    );
+  }
+  card.append(details);
+  setHidden(card, false);
 }
 
 async function loadStatus() {
   const status = await getJson("/api/status");
-  const copy = $("#connection-copy");
-  const connect = $("#connect");
-  const logout = $("#logout");
-  const profileLink = $("#profile-link");
-  const card = $("#athlete-card");
-
-  if (!status.configured) {
-    copy.textContent = `Strava is not configured. Add .env credentials. Callback: ${status.redirect_uri}`;
-    connect.classList.add("hidden");
-    logout.classList.add("hidden");
-    return status;
-  }
-
-  connect.classList.toggle("hidden", status.connected);
-  logout.classList.toggle("hidden", !status.authenticated);
-  profileLink.classList.toggle("hidden", !status.authenticated);
-
-  if (!status.connected) {
-    copy.textContent =
-      "Connect Strava to load recent activities for pilot validation.";
-    card.classList.add("hidden");
-    return status;
-  }
-
-  const athlete = status.athlete || {};
-  copy.textContent = `Connected with scope: ${athlete.scope || status.scope}`;
-  card.classList.remove("hidden");
-  const imageUrl = safeHttpUrl(athlete.profile);
-  const stravaUrl = safeHttpUrl(athlete.strava_profile_url);
-  card.innerHTML = `
-    ${imageUrl ? `<img src="${escapeHtml(imageUrl)}" alt="" />` : ""}
-    <div>
-      <strong>${escapeHtml(athlete.firstname || "Connected")} ${escapeHtml(athlete.lastname || "")}</strong>
-      ${stravaUrl ? `<p><a data-od-id="profile.strava-link" href="${escapeHtml(stravaUrl)}" rel="noreferrer" target="_blank">Open public Strava profile</a></p>` : ""}
-    </div>
-  `;
+  state.status = status;
+  renderShell(status);
+  if (status.authenticated && status.connected) renderAthlete(status);
   return status;
+}
+
+function profileItem(tag, title, copy, link, options = {}) {
+  const article = el("article", { className: "profile-item", odId: options.odId });
+  article.append(el("p", { className: "tag", text: tag }));
+  article.append(el("h3", { text: title }));
+  article.append(el("p", { text: copy }));
+  if (link) article.append(link);
+  return article;
 }
 
 async function loadProfile() {
   const copy = $("#profile-copy");
+  const title = $("#profile-title");
   const card = $("#profile-card");
+  clear(card);
   try {
     const data = await getJson("/api/profile");
     const profile = data.profile;
@@ -129,117 +222,128 @@ async function loadProfile() {
     const strava = profile.strava || {};
     const account = strava.account || {};
     const stravaUrl = safeHttpUrl(strava.profile_url);
-    copy.textContent = `${profile.display_name || profile.principal_id}`;
-    card.innerHTML = `
-      <article class="profile-item">
-        <p class="tag">Runner</p>
-        <h3>${escapeHtml(profile.display_name || profile.principal_id)}</h3>
-        <p>${escapeHtml(profile.principal_id)}</p>
-      </article>
-      <article class="profile-item">
-        <p class="tag">${strava.connected ? "Strava connected" : "Strava disconnected"}</p>
-        <h3>${escapeHtml(account.provider || "strava")}</h3>
-        <p>${escapeHtml(account.scope || "scope unavailable")}</p>
-        ${stravaUrl ? `<a data-od-id="profile.strava-link" href="${escapeHtml(stravaUrl)}" rel="noreferrer" target="_blank">Open public Strava profile</a>` : ""}
-      </article>
-      <article class="profile-item">
-        <p class="tag">Privacy</p>
-        <h3>Server-owned session</h3>
-        <p>Tokens stay server-side and never render in this page. Activity summaries stay redacted.</p>
-      </article>
-      <article class="profile-item">
-        <p class="tag">Validation</p>
-        <h3>Taquaral pending</h3>
-        <p>Consent and route geometry remain separate checks.</p>
-      </article>
-    `;
+    const displayName = profile.display_name || profile.principal_id || "Corredor";
+    title.textContent = displayName;
+    copy.textContent = "Credenciais ficam no servidor e nunca aparecem nesta pagina. Os treinos chegam como resumos seguros.";
+    const profileLink = stravaUrl
+      ? el("a", {
+          odId: "profile.strava-link",
+          text: "Open public Strava profile",
+          attrs: { href: stravaUrl, rel: "noreferrer", target: "_blank" },
+        })
+      : null;
+    card.append(
+      profileItem("Corredor", displayName, profile.principal_id || "principal indisponivel"),
+      profileItem(strava.connected ? "Strava conectado" : "Strava desconectado", account.provider || "strava", account.scope || "escopo indisponivel", profileLink),
+      profileItem("Privacidade", "Sessao no servidor", "Credenciais do provedor e dados privados ficam fora do navegador.", null, { odId: "profile.privacy-card" }),
+      profileItem("Validacao", "Autoridade de preview", "Geometria da rota e pontuacao seguem como checagens separadas ate existir evidencia do backend."),
+    );
   } catch (error) {
     state.profile = null;
-    copy.textContent = isAuthRequired(error.message)
-      ? "Connect Strava to create a runner profile."
-      : error.message;
-    card.innerHTML = "";
+    copy.textContent = uiErrorMessage(error.message);
+    card.append(message(uiErrorMessage(error.message), { error: !isAuthRequired(error.message) }));
   }
 }
 
-function isAuthRequired(message) {
-  return [
-    "Session cookie is required",
-    "Missing bearer token",
-    "auth_required",
-    "invalid_session",
-  ].includes(String(message));
+function trackStatus(track) {
+  if (track.pilot === "body-war") return "Geometria pendente";
+  return "Metrica de controle";
 }
 
 async function loadTracks() {
   const data = await getJson("/api/tracks");
   state.tracks = data.tracks || [];
-  $("#tracks").innerHTML = state.tracks
-    .map(
-      (track) => `
-        <article class="track" data-pilot="${track.pilot}">
-          <p class="tag">${track.pilot}</p>
-          <h3>${track.name}</h3>
-          <p>${track.description}</p>
-          <p><strong>Controller metric:</strong> ${track.controller_metric}</p>
-        </article>
-      `,
-    )
-    .join("");
+  const container = $("#tracks");
+  clear(container);
+  if (!state.tracks.length) {
+    container.append(message("Nenhuma pista piloto configurada."));
+    return;
+  }
+  for (const track of state.tracks) {
+    const article = el("article", {
+      className: "track",
+      attrs: { "data-pilot": track.pilot || "unknown" },
+    });
+    article.append(el("p", { className: "tag", text: track.pilot || "pilot" }));
+    article.append(el("h3", { text: track.name || track.id }));
+    article.append(el("p", { text: track.description || "Sem descricao disponivel." }));
+    article.append(el("span", { className: "status-chip pending", odId: "track.geometry-status", text: trackStatus(track) }));
+    article.append(el("p", { text: `Metrica de controle: ${track.controller_metric || "nao selecionada"}` }));
+    container.append(article);
+  }
 }
 
 async function loadActivities() {
   const container = $("#activities");
   const copy = $("#activity-copy");
-  container.innerHTML = "<p>Loading recent activities...</p>";
+  clear(container);
+  container.append(message("Carregando treinos recentes...", { odId: "activity.loading" }));
   try {
     const data = await getJson("/api/activities?per_page=12");
     if (data.receipt) {
       copy.textContent =
-        `${data.receipt.summary_count || 0} summaries imported. Route geometry and scoring are explicitly separate from this preview.`;
+        `${data.receipt.summary_count || 0} resumos importados. Geometria da rota e pontuacao seguem separadas deste preview.`;
     }
     state.activities = (data.activities || []).filter((activity) =>
-      ["Run", "TrailRun", "VirtualRun"].includes(
-        activity.sport_type || activity.type,
-      ),
+      ["Run", "TrailRun", "VirtualRun"].includes(activity.sport_type || activity.type),
     );
     renderActivities();
   } catch (error) {
-    copy.textContent = "Connect Strava before importing redacted activity summaries.";
-    container.innerHTML = `<p>${error.message === "not_connected" || isAuthRequired(error.message) ? "Connect Strava first." : error.message}</p>`;
+    copy.textContent = "Conecte o Strava antes de importar resumos seguros dos treinos.";
+    clear(container);
+    container.append(message(uiErrorMessage(error.message), { error: true, odId: "activity.error" }));
   }
 }
 
 function renderActivities() {
   const container = $("#activities");
-  const template = $("#activity-template");
-  container.innerHTML = "";
+  clear(container);
 
   if (!state.activities.length) {
-    container.innerHTML = "<p>No recent runs found from Strava.</p>";
+    container.append(message("Nenhuma corrida recente encontrada no Strava.", { odId: "activity.empty" }));
     return;
   }
 
   for (const activity of state.activities) {
-    const node = template.content.cloneNode(true);
-    node.querySelector("[data-name]").textContent =
-      activity.name || `Activity ${activity.id}`;
-    node.querySelector("[data-meta]").textContent =
-      `${fmtDistance(activity.distance)} - ${fmtTime(activity.moving_time)} - ${pace(activity)}`;
+    const article = el("article", { className: "activity" });
+    const summary = el("div");
+    summary.append(el("h3", { text: activity.name || `Activity ${activity.id}` }));
+    summary.append(
+      el("p", {
+        className: "activity-meta",
+        text: `${fmtDistance(activity.distance)} - ${fmtTime(activity.moving_time)} - ${pace(activity)}`,
+      }),
+    );
 
-    const select = node.querySelector("[data-track]");
+    const select = el("select", { attrs: { "aria-label": "Pista piloto" } });
     for (const track of state.tracks) {
-      const option = document.createElement("option");
-      option.value = track.id;
-      option.textContent = track.name;
-      select.appendChild(option);
+      select.append(el("option", { text: track.name || track.id, attrs: { value: track.id } }));
     }
 
-    node.querySelector("[data-submit]").addEventListener("click", async () => {
-      await submitActivity(activity, select.value);
+    const actions = el("div");
+    const button = el("button", {
+      className: "button",
+      odId: "evidence.submit.cta",
+      text: "Enviar preview",
+      attrs: { type: "button" },
     });
-
-    container.appendChild(node);
+    const error = el("p", { className: "submit-error hidden", odId: "evidence.submit.error" });
+    button.addEventListener("click", async () => {
+      setHidden(error, true);
+      error.textContent = "";
+      button.disabled = true;
+      try {
+        await submitActivity(activity, select.value);
+      } catch (submitError) {
+        error.textContent = uiErrorMessage(submitError.message);
+        setHidden(error, false);
+      } finally {
+        button.disabled = false;
+      }
+    });
+    actions.append(button, error);
+    article.append(summary, select, actions);
+    container.append(article);
   }
 }
 
@@ -257,41 +361,48 @@ async function submitActivity(activity, trackId) {
 
 async function loadSubmissions() {
   const container = $("#submissions");
+  clear(container);
   const data = await getJson("/api/submissions");
   const submissions = data.submissions || [];
   if (!submissions.length) {
-    container.innerHTML = "<p>No submissions yet.</p>";
+    container.append(message("Nenhuma evidencia de preview enviada ainda."));
     return;
   }
-  container.innerHTML = submissions
-    .slice()
-    .reverse()
-    .map(
-      (item) => `
-        <article class="submission">
-          <p class="tag">${item.status} - ${item.authority}</p>
-          <h3>${item.activity_name || item.activity_id}</h3>
-          <p>${item.athlete_name || item.athlete_id} submitted to ${item.track_id}</p>
-          <p>${fmtDistance(item.distance)} - ${fmtTime(item.moving_time)}</p>
-        </article>
-      `,
-    )
-    .join("");
+  for (const item of submissions.slice().reverse()) {
+    const article = el("article", { className: "submission" });
+    article.append(el("span", {
+      className: "status-chip preview",
+      odId: "evidence.status-chip",
+      text: `${item.status === "submitted" ? "enviado" : item.status || "enviado"} - ${item.authority || "preview"}`,
+    }));
+    article.append(el("h3", { text: item.activity_name || item.activity_id || "Atividade" }));
+    article.append(el("p", { text: `${item.athlete_name || item.athlete_id || "Corredor"} enviou para ${item.track_id || "pista"}` }));
+    article.append(el("p", { text: `${fmtDistance(item.distance)} - ${fmtTime(item.moving_time)}` }));
+    container.append(article);
+  }
 }
 
-async function boot() {
-  $("#refresh").addEventListener("click", loadActivities);
-  $("#logout").addEventListener("click", async () => {
-    await postJson("/api/auth/logout", {});
-    window.location.href = "/";
-  });
-  await loadStatus();
+async function renderConnected() {
   await loadProfile();
   await loadTracks();
   await loadActivities();
   await loadSubmissions();
 }
 
+async function boot() {
+  renderQueryNotices();
+  $("#refresh").addEventListener("click", loadActivities);
+  $("#logout").addEventListener("click", async () => {
+    await postJson("/api/auth/logout", {});
+    window.location.href = "/";
+  });
+  const status = await loadStatus();
+  if (status.authenticated && status.connected) {
+    await renderConnected();
+  }
+}
+
 boot().catch((error) => {
-  $("#connection-copy").textContent = error.message;
+  const copy = $("#connection-copy");
+  if (copy) copy.textContent = uiErrorMessage(error.message);
 });

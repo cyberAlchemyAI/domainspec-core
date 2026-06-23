@@ -1,0 +1,69 @@
+services:
+  app:
+    image: ${BODY_WAR_APP_IMAGE:?BODY_WAR_APP_IMAGE is required}:${IMAGE_TAG:?IMAGE_TAG is required}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      BODY_WAR_AUTH_BACKEND: postgres
+      BODY_WAR_HOST: 0.0.0.0
+      BODY_WAR_PORT: "5174"
+      BODY_WAR_PUBLIC_BASE_URL: ${BODY_WAR_PUBLIC_BASE_URL:?BODY_WAR_PUBLIC_BASE_URL is required}
+      BODY_WAR_ALLOWED_ORIGINS: ${BODY_WAR_ALLOWED_ORIGINS:?BODY_WAR_ALLOWED_ORIGINS is required}
+      BODY_WAR_SECURE_COOKIES: "1"
+      BODY_WAR_SESSION_SECRET: ${BODY_WAR_SESSION_SECRET:?BODY_WAR_SESSION_SECRET is required}
+      BODY_WAR_TOKEN_PROTECTION_SECRET: ${BODY_WAR_TOKEN_PROTECTION_SECRET:?BODY_WAR_TOKEN_PROTECTION_SECRET is required}
+      STRAVA_CLIENT_ID: ${STRAVA_CLIENT_ID:?STRAVA_CLIENT_ID is required}
+      STRAVA_CLIENT_SECRET: ${STRAVA_CLIENT_SECRET:?STRAVA_CLIENT_SECRET is required}
+      STRAVA_REDIRECT_URI: ${STRAVA_REDIRECT_URI:?STRAVA_REDIRECT_URI is required}
+      DATABASE_URL: postgres://${POSTGRES_USER:-body_war}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}@postgres:5432/${POSTGRES_DB:-body_war}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "node -e \"fetch('http://127.0.0.1:5174/api/status').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=${TRAEFIK_NETWORK:?TRAEFIK_NETWORK is required}
+      - traefik.http.routers.${TRAEFIK_ROUTER_NAME:-troqar}.rule=Host(`${BODY_WAR_DOMAIN:?BODY_WAR_DOMAIN is required}`)
+      - traefik.http.routers.${TRAEFIK_ROUTER_NAME:-troqar}.entrypoints=${TRAEFIK_ENTRYPOINT:-websecure}
+      - traefik.http.routers.${TRAEFIK_ROUTER_NAME:-troqar}.tls=true
+      - traefik.http.routers.${TRAEFIK_ROUTER_NAME:-troqar}.tls.certresolver=${TRAEFIK_CERT_RESOLVER:?TRAEFIK_CERT_RESOLVER is required}
+      - traefik.http.services.${TRAEFIK_SERVICE_NAME:-troqar}.loadbalancer.server.port=5174
+    networks:
+      - troqar_internal
+      - traefik
+
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-body_war}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:-body_war}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-body_war} -d ${POSTGRES_DB:-body_war}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - troqar_internal
+
+volumes:
+  postgres_data:
+
+networks:
+  troqar_internal:
+    internal: true
+  traefik:
+    external: true
+    name: ${TRAEFIK_NETWORK:?TRAEFIK_NETWORK is required}
