@@ -112,8 +112,12 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | axis orthogonality | CAV2-D29 |
 | bounded recursivity | CAV2-D30 |
 | constitution-first traversal | CAV2-D24 |
+| constitution artifact | CAV2-D34 |
 | confidence lifecycle axis | CAV2-D23 |
+| contract spec | CAV2-D37 |
+| decision record | CAV2-D36 |
 | deterministic event ledger | CAV2-D26 |
+| discipline practice | CAV2-D35 |
 | entropy observable | CAV2-D27 |
 | entropy readout | CAV2-D27 |
 | edge contextuality guard | CAV2-D28 |
@@ -139,13 +143,18 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | next stable repository | CAV2-D1 |
 | non-orthogonality explicitness rule | CAV2-D16 |
 | non-implied progress invariant | CAV2-D29 |
+| governed constitution | CAV2-D34 |
+| governed decision | CAV2-D36 |
+| governed discipline | CAV2-D35 |
 | governed meaning layer | CAV2-D19 |
+| governed spec | CAV2-D37 |
 | enforcement witness | CAV2-D25 |
 | idempotent event ledger | CAV2-D26 |
 | interface evidence boundary | CAV2-D47 |
 | interface evidence lifecycle | CAV2-D46 |
 | interface knowledge governance | CAV2-D45 |
 | maturity-evidence-commitment split | CAV2-D23 |
+| modular constitution | CAV2-D34 |
 | ontology branch map | CAV2-D19 |
 | ontology candidate | CAV2-D19 |
 | ontology candidate condensation | CAV2-D19 |
@@ -154,6 +163,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | orthogonal label discipline | CAV2-D22 |
 | orthogonal ontology basis | CAV2-D22 |
 | orthogonality | CAV2-D29 |
+| owner decision | CAV2-D36 |
 | owner gate | CAV2-D5 |
 | owner-route model | CAV2-D41 |
 | pattern authority lifecycle | CAV2-D43 |
@@ -162,11 +172,14 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | primitive semantic type | CAV2-D31 |
 | primitive type | CAV2-D31 |
 | project authority model | CAV2-D41 |
+| promoted spec artifact | CAV2-D37 |
 | promotion queue | CAV2-D13 |
 | provenance-first navigation | CAV2-D24 |
 | recursive self-application | CAV2-D30 |
 | recursivity | CAV2-D30 |
+| recurring-practice artifact | CAV2-D35 |
 | recursive ledger method | CAV2-D20 |
+| resolved-choice artifact | CAV2-D36 |
 | retrieval-entropy classification | CAV2-D22 |
 | repository stewardship | CAV2-D6 |
 | residue-carrying ledger method | CAV2-D20 |
@@ -191,6 +204,8 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | residue climb | CAV2-D17 |
 | residue escalation method | CAV2-D17 |
 | semantic tower | CAV2-D10 |
+| specification | CAV2-D37 |
+| structure constitution | CAV2-D34 |
 | source evidence space | CAV2-D14 |
 | source-ledgered consolidation | CAV2-D2 |
 | staged candidate | CAV2-D8 |
@@ -259,3 +274,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
   semantics instead of redefining them here.
 - Update [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md) whenever a
   narrative artifact starts using these terms differently.
+- A definition that asserts a record, tuple, field set, or structural contract
+  in its formal voice carries a colocated `### Schema` section and a tracked row
+  in [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md). `CAV2-D23` is tracked; the
+  remaining schema-bearing definitions are queued in that registry's backlog.

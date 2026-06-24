@@ -1347,6 +1347,35 @@ where each component may be known, unknown, deferred, or source-local. A
 governance move is valid only if it changes the intended component and does not
 imply changes to the others unless those changes are explicitly recorded.
 
+### Schema
+
+Schema handle: `CAV2-D23-SCHEMA` — tracked in
+[DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md).
+Status: tracked (documentary).
+Bound to: `CAV2-D23` authority lifecycle axis.
+
+Lifecycle posture record:
+
+```text
+L(a) = (kind, status, evidence, commitment, provenance, owner, residue)
+```
+
+| Field | Meaning | Value posture |
+| --- | --- | --- |
+| `kind` | role or artifact kind of `a` | known, unknown, deferred, or source-local |
+| `status` | maturity or lifecycle state | known, unknown, deferred, or source-local |
+| `evidence` | evidence confidence | known, unknown, deferred, or source-local |
+| `commitment` | owner conviction or commitment | known, unknown, deferred, or source-local |
+| `provenance` | source or origin | known, unknown, deferred, or source-local |
+| `owner` | responsible owner route | known, unknown, deferred, or source-local |
+| `residue` | unresolved remainder per `CAV2-D18` | typed residue or none |
+
+Schema invariant: a governance move changes the intended field without implying
+a change to the others unless an explicit typed coupling (`CAV2-D16`) records the
+link. This schema is documentary; a machine-checkable validator is a deferred
+follow-up recorded in the registry. Schema changes follow `CAV2-D25` schema
+amendment witness.
+
 ### Operational Interpretation
 
 Use authority lifecycle axes when evaluating definitions, constitutions, axioms,
