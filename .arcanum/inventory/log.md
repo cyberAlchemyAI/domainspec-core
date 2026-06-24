@@ -814,3 +814,142 @@ Artifacts:
 - `.arcanum/inventory/index.json`
 - `.arcanum/inventory/tags.md`
 - `.arcanum/inventory/log.md`
+
+## 2026-06-23 Authority lifecycle invariant ingest
+
+- Mode: ingest
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: `cyberAlchemy-v2/authority/definitions/source-clusters/authority-lifecycle.md`, `cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md` (Ancestral Lineage Reconciliation), `cyberAlchemy-v2/authority/promotion-policy.md`, `cyberAlchemy-v2/authority/AUTHORITY-MODEL.md`, `arcanum/framework/CYBERALCHEMY-METHOD.md`, `arcanum/disciplines/DISCIPLINES.md`, `.arcanum/inventory/entries/scientific-authority-lifecycle-synthesis.md`
+- Entries created: 2 (1 synthesis, 1 evidence-card bundle)
+- Entries updated: 2 index rows
+- Index updated: yes
+- Machine index updated: yes (count 68 -> 70; by_type synthesis +1, evidence-card +1)
+- Tags updated: yes (added `authority-lifecycle-invariant`, `ancestral-lineage`, `condense-knowledge`, `build-from-owned`)
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass (`json.load` parse + `jq '.entries | length'` = 70)
+- Notes: Normative/decision layer over the scientific-authority-lifecycle synthesis.
+  Captures the promotion-lifecycle generalization (build-from-owned), the
+  `no authority without a lifecycle` invariant + collapse-test, the ancestral
+  CyberAlchemy Method / Discipline Growth Rule lineage (Evidence posture;
+  `CAV2-D43` != discipline growth rule), and the condense-knowledge-is-purpose
+  frame. Non-authority: candidates staged in the cav2 source-cluster + drift
+  audit; no canonical definition, constitution rule, or validator was promoted.
+  Routing: definitions-governance (terms) + constitution-governance (rule) +
+  project/decision-gate (purpose statement).
+
+Artifacts:
+
+- `.arcanum/inventory/entries/authority-lifecycle-invariant-synthesis.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-23-authority-lifecycle-invariant-cards.md`
+- `cyberAlchemy-v2/authority/definitions/source-clusters/authority-lifecycle.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/tags.md`
+- `.arcanum/inventory/log.md`
+
+## 2026-06-23 Authority lifecycle review change-requests ingest
+
+- Mode: ingest
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: review dispatch `2026-06-23-authority-lifecycle-artifacts-review` (telemetry/agents/subagents-dispatch.yaml); target artifacts (authority-lifecycle-invariant-synthesis.md, scientific-authority-lifecycle-synthesis.md); baselines `cyberAlchemy-v2/authority/AUTHORITY-MODEL.md`, `promotion-policy.md`
+- Entries created: 1 (1 evidence-card bundle, 6 cards CR1-CR6)
+- Entries updated: 1 index row
+- Index updated: yes
+- Machine index updated: yes (count 70 -> 71; by_type evidence-card +1)
+- Tags updated: yes (added `review-change-request`, `claim-proof`)
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass (`json.load` parse + `jq '.entries | length'` = 71)
+- Notes: Captures the six P8-verified change requests from the inline review as a
+  non-authority read model so they remain traceable and retrievable. Headline:
+  CR1 — the `no authority without a lifecycle` invariant is largely a re-skin of
+  the Authority Rule; its survivable core is a kind-table closure rule. None of
+  the CRs is applied; each routes to its owning gate (definitions / constitution).
+
+Artifacts:
+
+- `.arcanum/inventory/entries/evidence-cards/2026-06-23-authority-lifecycle-review-change-requests-cards.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/tags.md`
+- `.arcanum/inventory/log.md`
+
+## 2026-06-23 CR-1 resolution — re-scope authority-lifecycle invariant
+
+- Mode: sync
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Trigger: review change-request CR-1 (dispatch `2026-06-23-authority-lifecycle-artifacts-review`)
+- Decision: **re-scope (not demote)**. `CAV2-CAND-LIFECYCLE-002` + the `CAV2-C16` draft re-scoped from "no authority without a lifecycle" (re-skinned the Authority Rule) to **"closed authority-kind enumeration (default-deny for unenumerated kinds)"**, bound to OQ-2.
+- Source edits: `cyberAlchemy-v2/authority/definitions/source-clusters/authority-lifecycle.md` (candidate row, voice sketch, `CAV2-C16` draft, promotion-gate scope).
+- Read-model syncs: invariant card + synthesis (decision-spine row, staged-candidate line, collapse-test) re-scoped; CR-1 card marked **resolved (applied)**; index.json summaries refreshed.
+- Entries created: 0
+- Entries updated: 3 read-models + 2 index summaries
+- Index updated: yes (summaries) · Machine index updated: yes (count unchanged 71) · Log updated: yes
+- Contradictions flagged: 0 (stale framing reconciled in same pass)
+- Validation: pass (`json.load` parse; no residual old-framing left as binding text)
+- Notes: candidate/draft re-scope only — **no canonical promotion**. CR-2..CR-6 remain open.
+
+Artifacts:
+
+- `cyberAlchemy-v2/authority/definitions/source-clusters/authority-lifecycle.md`
+- `.arcanum/inventory/entries/authority-lifecycle-invariant-synthesis.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-23-authority-lifecycle-invariant-cards.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-23-authority-lifecycle-review-change-requests-cards.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/log.md`
+
+## 2026-06-23 CR-2 resolution — unify the lifecycle object's name
+
+- Mode: sync
+- Trigger: review change-request CR-2 (three competing names for the lifecycle object)
+- Decision: canonical-track term = `authority promotion lifecycle`; aliases `scientific authority lifecycle` + `pattern authority lifecycle` (the latter alias-only, adjacent to `CAV2-D43`).
+- Edits: `source-clusters/authority-lifecycle.md` (`-001` row + voice sketch declare canonical + aliases); `scientific-authority-lifecycle-synthesis.md` Candidate Name reconciled to one term + aliases; CR-2 card marked resolved.
+- Entries updated: 2 (descriptive synthesis, CR cards) · Index: unchanged · Validation: pass.
+- Notes: candidate-level naming reconciliation; no canonical promotion. definitions-governance now receives ONE term with aliases. CR-3..CR-6 remain open.
+
+Artifacts:
+
+- `cyberAlchemy-v2/authority/definitions/source-clusters/authority-lifecycle.md`
+- `.arcanum/inventory/entries/scientific-authority-lifecycle-synthesis.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-23-authority-lifecycle-review-change-requests-cards.md`
+- `.arcanum/inventory/log.md`
+
+## 2026-06-23 CR-3..CR-6 resolution — all review change-requests closed
+
+- Mode: sync
+- Trigger: review change-requests CR-3 (evidence attribution), CR-4 (build-from-owned wording), CR-5 (settled-tone framings), CR-6 (scope boundary).
+- Edits: normative synthesis (CR-3 evidence-backing note; CR-4 "generalization inference" in thesis + Generalization row; CR-5 "proposed ... not yet enacted" intro + Lineage row marked candidate-drift-not-confirmed); descriptive synthesis Boundary (CR-6 promotion-segment scope clause); invariant-cards generalization card + source-cluster `-001` (CR-4).
+- Status: **ALL SIX review CRs resolved** (CR-1 re-scope, CR-2 naming, CR-3/4/5/6). All six CR cards marked resolved. Candidate-level only; **no canonical promotion**.
+- Entries updated: both syntheses + invariant cards + the CR cards. Index: unchanged (content edits). Validation: pass (CR cards 6/6 resolved; index parseable).
+- Notes: the authority-lifecycle artifacts are now internally consistent and red-team-clean; next governance step is owner promotion (definitions-governance + OQ-2 decision, then constitution-governance for `CAV2-C16`).
+
+Artifacts:
+
+- `.arcanum/inventory/entries/authority-lifecycle-invariant-synthesis.md`
+- `.arcanum/inventory/entries/scientific-authority-lifecycle-synthesis.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-23-authority-lifecycle-invariant-cards.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-23-authority-lifecycle-review-change-requests-cards.md`
+- `cyberAlchemy-v2/authority/definitions/source-clusters/authority-lifecycle.md`
+- `.arcanum/inventory/log.md`
+
+## 2026-06-23 Owner promotion — CAV2-D48 / CAV2-D49 (governed_ref sync)
+
+- Mode: sync (definitions-governance promotion + inventory read-model sync)
+- Promotion: `CAV2-CAND-LIFECYCLE-001` → **`CAV2-D48` authority promotion lifecycle**; `CAV2-CAND-LIFECYCLE-002` → **`CAV2-D49` closed authority-kind enumeration**. Promoted into `DEFINITIONS.md` (three voices + interpretation package); `DEFINITIONS-INDEX.md` + drift audit synced; source-cluster candidates marked promoted.
+- Inventory sync: added `governed_ref: CAV2-D48 / CAV2-D49` to the two invariant cards; synthesis "Staged candidates" → PROMOTED; collapse-test residue re-scoped (vs Authority Rule). Inventory entries remain candidate read-models (the governed artifacts are D48/D49 in DEFINITIONS).
+- OQ-2: advanced per AUTHORITY-MODEL recommendation (definitions promoted; `invariant`/`axiom` kind-table amendment deferred to decision-gate).
+- Still blocked: `CAV2-C16` enactment (validator adapter none-yet) — `D49` names the closure invariant; it does not enact the kind table as closed.
+- Validation: pass (D48/D49 headers present; index + aliases added). Index counts unchanged (no new inventory entries; read-model edits only).
+
+Artifacts:
+
+- `cyberAlchemy-v2/authority/definitions/DEFINITIONS.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITIONS-INDEX.md`
+- `cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md`
+- `cyberAlchemy-v2/authority/definitions/source-clusters/authority-lifecycle.md`
+- `.arcanum/inventory/entries/authority-lifecycle-invariant-synthesis.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-23-authority-lifecycle-invariant-cards.md`
+- `.arcanum/inventory/log.md`

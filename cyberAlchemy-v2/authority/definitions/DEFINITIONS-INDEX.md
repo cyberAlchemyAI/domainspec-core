@@ -47,6 +47,15 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D38 | claim <= proof | active | [Claim-Proof Bound](DEFINITIONS.md#cav2-d38-claim-proof-bound) | Do not say more than the evidence can carry. |
 | CAV2-D39 | intent | active | [Intent](DEFINITIONS.md#cav2-d39-intent) | What the work is trying to make possible before we know the final shape. |
 | CAV2-D40 | challenge contract | active | [Challenge Contract](DEFINITIONS.md#cav2-d40-challenge-contract) | The object's "how to disagree with me correctly" field. |
+| CAV2-D41 | authority model | active | [Authority Model](DEFINITIONS.md#cav2-d41-authority-model) | The traffic map for what is allowed to count, who can make it count, and what it must not be confused with. |
+| CAV2-D42 | governed artifact tree | active | [Governed Artifact Tree](DEFINITIONS.md#cav2-d42-governed-artifact-tree) | A tree is allowed to organize serious work only after it shows who owns it, what it can prove, and how to disagree with it. |
+| CAV2-D43 | pattern promotion lifecycle | active | [Pattern Promotion Lifecycle](DEFINITIONS.md#cav2-d43-pattern-promotion-lifecycle) | A pattern earns authority by working, being generalized, being challenged, and being accepted by the owner route. |
+| CAV2-D44 | view-bearing concept | active | [View-Bearing Concept](DEFINITIONS.md#cav2-d44-view-bearing-concept) | Some ideas become important enough to need their own dashboard, but the dashboard still does not get to make the decision. |
+| CAV2-D45 | UX/UI knowledge governance | active | [UX/UI Knowledge Governance](DEFINITIONS.md#cav2-d45-uxui-knowledge-governance) | Interface learning can become reusable knowledge without pretending that a nice-looking screen or passing browser test is automatically truth. |
+| CAV2-D46 | experience evidence lifecycle | active | [Experience Evidence Lifecycle](DEFINITIONS.md#cav2-d46-experience-evidence-lifecycle) | A UI lesson becomes a rule only after it earns its way through evidence, repeat-use, challenge, and owner review. |
+| CAV2-D47 | interface evidence boundary | active | [Interface Evidence Boundary](DEFINITIONS.md#cav2-d47-interface-evidence-boundary) | A browser can show what happened on the page; it cannot by itself prove what a human understood, trusted, felt, or preferred. |
+| CAV2-D48 | authority promotion lifecycle | active | [Authority Promotion Lifecycle](DEFINITIONS.md#cav2-d48-authority-promotion-lifecycle) | The single staged path by which any authority-bearing candidate acquires authority; the build-from-owned generalization of D43/D46/Growth-Rule that the promotion-policy ladder instantiates. |
+| CAV2-D49 | closed authority-kind enumeration | active | [Closed Authority-Kind Enumeration](DEFINITIONS.md#cav2-d49-closed-authority-kind-enumeration) | The invariant that the authority-kind set is closed; an unenumerated kind defaults to blocked pending an owner decision adding it. Names the closure (enactment = proposed CAV2-C16). |
 
 ## Alias Lookup
 
@@ -55,8 +64,18 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | authority gate | CAV2-D5 |
 | authority candidate | CAV2-D8 |
 | authority import ledger | CAV2-D7 |
+| authority model | CAV2-D41 |
 | authority promotion queue | CAV2-D13 |
+| authority routing model | CAV2-D41 |
+| authority-kind closure | CAV2-D49 |
+| closed authority-kind enumeration | CAV2-D49 |
+| default-deny for unenumerated kinds | CAV2-D49 |
+| scientific authority lifecycle | CAV2-D48 |
+| pattern authority lifecycle | CAV2-D48 |
+| promotion lifecycle | CAV2-D48 |
 | authority surface | CAV2-D3 |
+| architecture pattern promotion lifecycle | CAV2-D43 |
+| artifact tree governance interface | CAV2-D42 |
 | base repository | CAV2-D1 |
 | base semantic object | CAV2-D31 |
 | bootstrap source spine | CAV2-D4 |
@@ -64,6 +83,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | challenge contract | CAV2-D40 |
 | challenge_contract | CAV2-D40 |
 | challenge response contract | CAV2-D40 |
+| concept with governed view | CAV2-D44 |
 | contestability contract | CAV2-D40 |
 | Craft ledger surface | CAV2-D12 |
 | Craft method | CAV2-D20 |
@@ -71,6 +91,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | Craft surface | CAV2-D12 |
 | CyberAlchemy base | CAV2-D9 |
 | CyberAlchemy base repository | CAV2-D9 |
+| CAV2 authority model | CAV2-D41 |
 | CyberAlchemy stable repository candidate | CAV2-D9 |
 | CyberAlchemy v2 project area | CAV2-D15 |
 | definition | CAV2-D33 |
@@ -78,8 +99,11 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | definition promotion queue | CAV2-D13 |
 | definition space | CAV2-D11 |
 | downloadable base repository | CAV2-D1 |
+| browser-evidence boundary | CAV2-D47 |
 | explicit coupling invariant | CAV2-D16 |
 | explicit typed relation rule | CAV2-D16 |
+| experience evidence lifecycle | CAV2-D46 |
+| experience knowledge governance | CAV2-D45 |
 | external source space | CAV2-D14 |
 | action facet obligations | CAV2-D21 |
 | append-only ledger | CAV2-D26 |
@@ -98,6 +122,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | four-facet action primitive | CAV2-D21 |
 | graph-indexed lookup | CAV2-D24 |
 | governed definition | CAV2-D33 |
+| governed tree interface | CAV2-D42 |
 | governed method | CAV2-D32 |
 | governed action facet obligation | CAV2-D21 |
 | governed action facet obligations | CAV2-D21 |
@@ -107,6 +132,8 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | local Craft surface | CAV2-D12 |
 | local authority surface | CAV2-D3 |
 | local project space | CAV2-D15 |
+| load-bearing artifact tree | CAV2-D42 |
+| load-bearing view concept | CAV2-D44 |
 | method | CAV2-D32 |
 | method primitive | CAV2-D32 |
 | next stable repository | CAV2-D1 |
@@ -115,6 +142,9 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | governed meaning layer | CAV2-D19 |
 | enforcement witness | CAV2-D25 |
 | idempotent event ledger | CAV2-D26 |
+| interface evidence boundary | CAV2-D47 |
+| interface evidence lifecycle | CAV2-D46 |
+| interface knowledge governance | CAV2-D45 |
 | maturity-evidence-commitment split | CAV2-D23 |
 | ontology branch map | CAV2-D19 |
 | ontology candidate | CAV2-D19 |
@@ -125,9 +155,13 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | orthogonal ontology basis | CAV2-D22 |
 | orthogonality | CAV2-D29 |
 | owner gate | CAV2-D5 |
+| owner-route model | CAV2-D41 |
+| pattern authority lifecycle | CAV2-D43 |
+| pattern promotion lifecycle | CAV2-D43 |
 | process recursion | CAV2-D30 |
 | primitive semantic type | CAV2-D31 |
 | primitive type | CAV2-D31 |
+| project authority model | CAV2-D41 |
 | promotion queue | CAV2-D13 |
 | provenance-first navigation | CAV2-D24 |
 | recursive self-application | CAV2-D30 |
@@ -137,6 +171,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | repository stewardship | CAV2-D6 |
 | residue-carrying ledger method | CAV2-D20 |
 | repeatable governance method | CAV2-D32 |
+| reusable pattern promotion path | CAV2-D43 |
 | rule promotion queue | CAV2-D13 |
 | runtime witness | CAV2-D25 |
 | schema amendment discipline | CAV2-D25 |
@@ -169,10 +204,18 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | typed residue | CAV2-D18 |
 | taxonomy-schema-human-machine obligation | CAV2-D21 |
 | contextuality tripwire | CAV2-D28 |
+| UI learning lifecycle | CAV2-D46 |
 | unpreserved structure | CAV2-D18 |
 | unique-information classification | CAV2-D22 |
+| UX evidence boundary | CAV2-D47 |
+| UX evidence lifecycle | CAV2-D46 |
+| UX/UI claim class boundary | CAV2-D47 |
+| UX/UI governance interface | CAV2-D45 |
+| UX/UI knowledge governance | CAV2-D45 |
 | value-constraining cycle guard | CAV2-D28 |
 | v2 consolidation surface | CAV2-D9 |
+| view-bearing authority candidate | CAV2-D44 |
+| view-bearing concept | CAV2-D44 |
 | authority | CAV2-D34 |
 | authority primitive | CAV2-D34 |
 | normative authority | CAV2-D34 |

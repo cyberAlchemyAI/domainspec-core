@@ -17,6 +17,7 @@ turning source evidence into authority by proximity.
 | DomainSpec v2 precedent | [../projects/domainspec-v2/README.md](../projects/domainspec-v2/README.md) | Research-first, promotion-gated repository discipline. | Pre-implementation research precedent. |
 | Private implementation evidence | [../implementation/domainspec](../implementation/domainspec) | Computable governance, registry/code binding, and runtime evidence patterns. | Private evidence; never public without boundary scrub. |
 | Validation evidence | [../validation/poker-team](../validation/poker-team) | Feature-pack validation shape and report precedent. | Private validation evidence. |
+| UX/UI evidence and prototyping | [../arcanum/arcana/ux-lessons](../arcanum/arcana/ux-lessons), [../arcanum/arcana/ux-evidence-validator](../arcanum/arcana/ux-evidence-validator), [../arcanum/projects/ui-prototyping-studio/ARCHITECTURE.md](../arcanum/projects/ui-prototyping-studio/ARCHITECTURE.md) | Lesson capture, validator-safe claim classes, and governed UI mutation handoffs. | Candidate UX/UI governance interface; not authority without owner promotion. |
 
 ## Ingest Rules
 
@@ -34,10 +35,11 @@ turning source evidence into authority by proximity.
 
 | Target | Source basis | Owner route |
 | --- | --- | --- |
-| Stable repository authority model | Inventory findings plus Arcanum definitions precedent. | definitions-governance and constitution-governance |
+| [Stable repository authority model](authority/AUTHORITY-MODEL.md) | Inventory findings plus Arcanum definitions precedent. | definitions-governance and constitution-governance |
 | Source-ledgered amalgamation discipline | Inventory evidence sets plus CyberAlchemy pipeline. | discipline-governance |
 | Two-axis architecture map | Framework-unification concept map. | architecture review |
 | Knowledge governance stack | Inventory, ontology-vault, CyberAlchemy pipeline, Arcanum method. | ontology-vault plus definitions-governance |
+| UX/UI knowledge governance | ux-lessons, ux-evidence-validator, ui-prototyping-studio. | UX/UI route plus definitions-governance and constitution-governance |
 | Public/private boundary | Parent AGENTS rules, inventory evidence cards, submodule discipline. | decision-gate |
 
 ## Open Questions

@@ -115,6 +115,7 @@ future implementation.
 - [../../../projects/framework-unification/CONCEPT-MAP.md](../../../projects/framework-unification/CONCEPT-MAP.md)
 - [../../../arcanum/framework/CYBERALCHEMY-METHOD.md](../../../arcanum/framework/CYBERALCHEMY-METHOD.md)
 - [../../../arcanum/arcana/craft/SKILL.md](../../../arcanum/arcana/craft/SKILL.md)
+- [reviews/constitution-invariant-axiom-role-review.md](reviews/constitution-invariant-axiom-role-review.md)
 
 ### Active Local Terms
 
@@ -139,6 +140,7 @@ future implementation.
 ### Remaining Candidate Local Terms
 
 - artifact
+- invariant - generic parent term under specific promoted invariants
 
 ### Boundary
 
@@ -174,6 +176,7 @@ trying to become and why source-ledgered consolidation matters.
 - `authority promotion queue` - [CAV2-D13](DEFINITIONS.md#cav2-d13-authority-promotion-queue)
 - `source space` - [CAV2-D14](DEFINITIONS.md#cav2-d14-source-space)
 - `project space` - [CAV2-D15](DEFINITIONS.md#cav2-d15-project-space)
+- `authority model` - [CAV2-D41](DEFINITIONS.md#cav2-d41-authority-model)
 
 ### Candidate Terms
 
@@ -235,9 +238,11 @@ drift/governance gates.
 ### Source Basis
 
 - [../../../implementation/domainspec/CONSTITUTION.md](../../../implementation/domainspec/CONSTITUTION.md)
+- [../../../implementation/domainspec/AXIOMS.md](../../../implementation/domainspec/AXIOMS.md)
 - [../../../implementation/domainspec/TAXONOMY.md](../../../implementation/domainspec/TAXONOMY.md)
 - [../../../implementation/domainspec/RELATIONSHIPS.md](../../../implementation/domainspec/RELATIONSHIPS.md)
 - [../../../arcanum/definitions/DEFINITIONS.md](../../../arcanum/definitions/DEFINITIONS.md)
+- [reviews/constitution-invariant-axiom-role-review.md](reviews/constitution-invariant-axiom-role-review.md)
 
 ### Active External Terms
 
@@ -252,6 +257,8 @@ drift/governance gates.
 - meta-type
 - typed relationship
 - constitution
+- axiom
+- invariant
 - governance gate
 - domain anchor
 - drift
@@ -309,12 +316,17 @@ context selection, and promotion concepts.
 - [../../../.arcanum/ontology-vault/map-2026-06-18-dispersed-knowledge.md](../../../.arcanum/ontology-vault/map-2026-06-18-dispersed-knowledge.md)
 - [../../../arcanum/arcana/ontology-vault/README.md](../../../arcanum/arcana/ontology-vault/README.md)
 - [../../../arcanum/spells/ontology-harness/README.md](../../../arcanum/spells/ontology-harness/README.md)
+- [../../../arcanum/arcana/architecture-pattern-inventory/SKILL.md](../../../arcanum/arcana/architecture-pattern-inventory/SKILL.md)
+- [../../../arcanum/arcana/ux-lessons/SKILL.md](../../../arcanum/arcana/ux-lessons/SKILL.md)
+- [../../../arcanum/arcana/ux-evidence-validator/SKILL.md](../../../arcanum/arcana/ux-evidence-validator/SKILL.md)
+- [../../../arcanum/projects/ui-prototyping-studio/ARCHITECTURE.md](../../../arcanum/projects/ui-prototyping-studio/ARCHITECTURE.md)
 - [../../../arcanum/BUSINESS-ONTOLOGY.md](../../../arcanum/BUSINESS-ONTOLOGY.md)
 - [../../../cyberAlchemy/agentic-system-inventory-ontology-pipeline.md](../../../cyberAlchemy/agentic-system-inventory-ontology-pipeline.md)
 - [../../../cyberAlchemy/agentic-system-ontology-entry-model.md](../../../cyberAlchemy/agentic-system-ontology-entry-model.md)
 - [../../../cyberAlchemy/ontology/README.md](../../../cyberAlchemy/ontology/README.md)
 - [../../../projects/framework-unification/layers/dispatch-composition-attack/ontology-view.md](../../../projects/framework-unification/layers/dispatch-composition-attack/ontology-view.md)
 - [../../../projects/ontologize/RECONCILIATION.md](../../../projects/ontologize/RECONCILIATION.md)
+- [../../architecture/ARCHITECTURE-KNOWLEDGE-GOVERNANCE.md](../../architecture/ARCHITECTURE-KNOWLEDGE-GOVERNANCE.md)
 
 ### Current Active Terms
 
@@ -324,6 +336,12 @@ context selection, and promotion concepts.
 - `provenance-first navigation` - [CAV2-D24](DEFINITIONS.md#cav2-d24-provenance-first-navigation)
 - `schema amendment witness` - [CAV2-D25](DEFINITIONS.md#cav2-d25-schema-amendment-witness)
 - `append-only event ledger` - [CAV2-D26](DEFINITIONS.md#cav2-d26-append-only-event-ledger)
+- `governed artifact tree` - [CAV2-D42](DEFINITIONS.md#cav2-d42-governed-artifact-tree)
+- `pattern promotion lifecycle` - [CAV2-D43](DEFINITIONS.md#cav2-d43-pattern-promotion-lifecycle)
+- `view-bearing concept` - [CAV2-D44](DEFINITIONS.md#cav2-d44-view-bearing-concept)
+- `UX/UI knowledge governance` - [CAV2-D45](DEFINITIONS.md#cav2-d45-uxui-knowledge-governance)
+- `experience evidence lifecycle` - [CAV2-D46](DEFINITIONS.md#cav2-d46-experience-evidence-lifecycle)
+- `interface evidence boundary` - [CAV2-D47](DEFINITIONS.md#cav2-d47-interface-evidence-boundary)
 
 ### Candidate Local References
 
@@ -335,6 +353,12 @@ context selection, and promotion concepts.
 - confidence split
 - context solution
 - memory observation
+- architecture-view interface
+- architecture pattern candidate
+- UX lesson
+- ux-pattern
+- validator claim map
+- interface evidence report
 
 ### Boundary
 
@@ -354,14 +378,22 @@ without immediately becoming authority.
 
 ### Source Basis
 
+- [../../VALUE-AND-PHILOSOPHY-PROPOSITION.md](../../VALUE-AND-PHILOSOPHY-PROPOSITION.md)
 - [../../../cyberAlchemy/agentic-system-definition.md](../../../cyberAlchemy/agentic-system-definition.md)
 - [../../../projects/framework-unification/CONCEPT-MAP.md](../../../projects/framework-unification/CONCEPT-MAP.md)
+- [../../../projects/ide-ergonomics/PRODUCT-VIEW.md](../../../projects/ide-ergonomics/PRODUCT-VIEW.md)
+- [../../../projects/ide-ergonomics/connective-task-manager/README.md](../../../projects/ide-ergonomics/connective-task-manager/README.md)
+- [../decisions/2026-06-23-hmi-candidate-promotion-prep.md](../decisions/2026-06-23-hmi-candidate-promotion-prep.md)
 - [../../../projects/ontologize/DEFINITIONS.md](../../../projects/ontologize/DEFINITIONS.md)
 - [../../../projects/domainspec-v2/README.md](../../../projects/domainspec-v2/README.md)
 - [../../../research](../../../research)
 
 ### Candidate Local References
 
+- synergetic cybernetic human-machine integration
+- governed human-machine integration
+- governed human-machine integration for complex knowledge work
+- Connective task manager
 - AgenticSystem
 - OperationalOntology
 - ContextSolution
@@ -408,15 +440,19 @@ define semantic authority unless a promotion route consumes them.
 
 | Queue | First work | Owner route | Gate |
 | --- | --- | --- | --- |
-| Q1. Top anchors | Promoted CyberAlchemy v2, definition tower, tower space, Craft execution surface, authority promotion queue, source space, and project space as CAV2-D9 through CAV2-D15. | definitions-governance + Craft ledger | Pass for local definitions; broader import clustering still open. |
+| Q1. Top anchors | Promoted CyberAlchemy v2, definition tower, tower space, Craft execution surface, authority promotion queue, source space, project space, and authority model as CAV2-D9 through CAV2-D15 plus CAV2-D41. | definitions-governance + Craft ledger | Pass for local definitions; broader import clustering still open. |
 | Q1a. Primordial basis | Promoted `typed coupling invariant` as CAV2-D16, `reflection tower method` as CAV2-D17, `residue` as CAV2-D18, `Craft method` as CAV2-D20, `four-facet action method` as CAV2-D21, `residue entropy` as CAV2-D27, `axis orthogonality invariant` as CAV2-D29, `bounded recursive self-application` as CAV2-D30, `primitive type` as CAV2-D31, generic `method` as CAV2-D32, `definition` as CAV2-D33, `authority` as CAV2-D34, `provenance` as CAV2-D35, `traceability` as CAV2-D36, `gate` as CAV2-D37, `claim <= proof` as CAV2-D38, and `intent` as CAV2-D39. | definitions-governance | Flag until the remaining T-1 candidate is classified: artifact. |
 | Q1b. Knowledge governance basis | Promoted `ontology` as CAV2-D19 and demoted `OperationalOntology` into D19/D23 language; next review `ContextSolution`, evidence card, evidence set, branch ownership, and confidence split. | definitions-governance + ontology-vault | Flag until source-specific branch terms are classified against CAV2-D19 and promotion boundaries. |
+| Q1b-arch. Architecture knowledge governance | Promoted `governed artifact tree`, `pattern promotion lifecycle`, and `view-bearing concept` as CAV2-D42 through CAV2-D44 so architecture-pattern-inventory can serve as a lens-specific governance interface without becoming authority. | definitions-governance + architecture route + constitution-governance | Pass for local definitions; implementation of machine-checkable architecture cards and cross-context pattern evidence remains open. |
+| Q1b-ux-ui. UX/UI knowledge governance | Promoted `UX/UI knowledge governance`, `experience evidence lifecycle`, and `interface evidence boundary` as CAV2-D45 through CAV2-D47 so ux-lessons, ux-evidence-validator, and ui-prototyping-studio can form a governed experience-knowledge view without collapsing browser evidence, subjective UX, and authority. | definitions-governance + UX/UI route + constitution-governance | Pass for local definitions; executable validator, fixture calibration, and cross-session promotion evidence remain open. |
 | Q1c. Ledger primitive review | Reviewed `ledger` as a candidate cross-method evidence/state register; canonical promotion deferred. | definitions-governance + robot-talks + Craft schema review | Block until inheritance relations and local Craft ledger conformance are settled; `CAV2-D30` resolves the recursivity-name blocker. |
 | Q1d. Schema and relationship invariant search sequence | Filed an inventory-backed search ladder for schema, typed relationships, taxonomy, graph admissibility, and relationship invariant evidence. | inventory + definitions-governance | Flag until evidence-cards distinguish `relationship invariant` from `CAV2-D16` and keep `schema` as Arcanum authority or a named v2 subtype. |
 | Q1e. Imported vault value concepts | Promoted `orthogonal classification`, `authority lifecycle axis`, `provenance-first navigation`, `schema amendment witness`, and `append-only event ledger` as CAV2-D22 through CAV2-D26 from the house_project vault source cluster. | definitions-governance + constitution-governance | Pass for local definitions; validator-backed constitutions and generic `ledger` remain open. |
 | Q2. Framework source cluster | Create v2-local representation rows for Arcanum-wide definitions, starting with `DEF-ARC-CONTRACT`, `DEF-ARC-SCHEMA`, `DEF-ARC-GOAL-SPELL`, `DEF-ARC-STAGED-DELTA`, and `DEF-ARC-APPROVAL-TOKEN`. | Craft + definitions-governance | Pass if source authority remains external and local promotion is explicit. |
 | Q3. DomainSpec references | Classify DomainSpec terms as private evidence or local references. | boundary review + definitions-governance | Block for public use until scrubbed. |
 | Q4. Imported term clusters | Cluster 149 definition candidates by tower, term type, and authority posture. | Craft + definitions-governance | Flag until dedupe complete. |
+| Q4a. CyberAlchemy product/philosophy candidates | Prepare `synergetic cybernetic human-machine integration` from [source-clusters/cyberalchemy.md](source-clusters/cyberalchemy.md) as a product/philosophy proposition candidate, with scope, spelling, proof surface, and public-safe wording resolved in [the HMI decision record](../decisions/2026-06-23-hmi-candidate-promotion-prep.md). | definitions-governance + boundary review | Flag until canonical definition draft, index sync, drift audit, and Connective proof fixture or explicit owner promotion. |
+| Q4b. Constitution, invariant, and axiom role split | Use [the role review](reviews/constitution-invariant-axiom-role-review.md) to decide whether CAV2 needs generic `invariant`, `axiom`, and `constitution` definitions, or only source-local references plus specific promoted invariant instances. | definitions-governance + constitution-governance | Flag until local-vs-external authority is decided and private DomainSpec evidence is boundary-reviewed. |
 | Q5. Constitution clusters | Cluster 106 constitution/axiom candidates by rule type, scope, and owner. | constitution-governance | Flag until pack composed. |
 | Q6. Execution readiness | Convert tower work into bounded work-pack or task-session slices. | Craft + invoke plan/task-session | Deferred until Q1-Q5 classify enough terms. |
 

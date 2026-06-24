@@ -1,0 +1,67 @@
+{
+  "run_id": "20260624T010822Z-suggested-track-expansion-route",
+  "target": "projects/body-war/app",
+  "status": "strategy-proposed",
+  "research_mode": "research-if-gap-appears",
+  "artifacts": [
+    {
+      "path": "REFINE-SEED-PROPOSAL.md",
+      "kind": "seed",
+      "status": "present"
+    },
+    {
+      "path": "ARCHITECTURE-PLAN.md",
+      "kind": "architecture-plan",
+      "status": "present"
+    },
+    {
+      "path": "REFINE-DISPATCH.json",
+      "kind": "dispatch",
+      "status": "present"
+    },
+    {
+      "path": "RUNTIME-HANDOFF.md",
+      "kind": "runtime-handoff",
+      "status": "present"
+    },
+    {
+      "path": "RESULT.md",
+      "kind": "result",
+      "status": "present"
+    }
+  ],
+  "source_evidence": [
+    {
+      "path": "projects/body-war/app/server.ts",
+      "note": "Existing tracks and submissions endpoints."
+    },
+    {
+      "path": "projects/body-war/app/static/app.js",
+      "note": "Existing connected home, track card, activity list, and evidence submission UI."
+    },
+    {
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/DESIGN.md",
+      "note": "Prior friend preview design and track/evidence guardrails."
+    },
+    {
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/WORK-PACK.md",
+      "note": "Prior W0/W1 implementation split."
+    }
+  ],
+  "route_decision": {
+    "selected": "suggested-track-first",
+    "rejected": [
+      "activity-first",
+      "operator-seeded-only"
+    ],
+    "reason": "SuggestedTrack lets users naturally expand routes while preserving consult-before-save for Strava evidence."
+  },
+  "guards": [
+    "consult before save",
+    "consent before evidence persistence",
+    "no token exposure",
+    "no raw private activity payload in browser or repo docs",
+    "no verified geometry claim before source-backed promotion",
+    "Drizzle-generated migrations required for schema changes"
+  ]
+}

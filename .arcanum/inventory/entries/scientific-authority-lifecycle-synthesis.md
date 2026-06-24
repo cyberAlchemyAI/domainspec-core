@@ -21,11 +21,20 @@ the reusable thesis:
 
 ## Candidate Name
 
-Recommended lookup name: `scientific authority lifecycle`.
+**Canonical-track term (reconciled per review CR-2, 2026-06-23):
+`authority promotion lifecycle`** (= candidate `CAV2-CAND-LIFECYCLE-001`). The
+names below are **aliases** of that one term, not separate terms:
 
-Narrower architecture-facing name: `pattern authority lifecycle`.
+- `scientific authority lifecycle` — this synthesis's lookup / framing name (the scientific-method reading).
+- `pattern authority lifecycle` — narrower, architecture-facing; **alias only** (adjacent to `CAV2-D43 pattern promotion lifecycle`, so never canonical).
 
 ## Boundary
+
+Scope (per review CR-6): only the **promotion segment**
+(`PromotionCandidate -> ArchitecturePatternAuthority`) is the binding-rule scope;
+the upstream evidence / event / metric portion is descriptive input, not
+authority-bearing. The binding rule itself is the closed kind-enumeration
+(`CAV2-CAND-LIFECYCLE-002`), not "everything."
 
 This synthesis does not promote a new primitive. It composes existing sources:
 

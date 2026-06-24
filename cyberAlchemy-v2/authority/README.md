@@ -15,12 +15,13 @@ must obey.
 | [definitions/DEFINITIONS-INDEX.md](definitions/DEFINITIONS-INDEX.md) | Lookup index and aliases for local definitions. |
 | [definitions/DEFINITION-DRIFT-AUDIT.md](definitions/DEFINITION-DRIFT-AUDIT.md) | Drift findings and remediation targets. |
 | [definitions/reviews/README.md](definitions/reviews/README.md) | Review-only definition candidates before canonical promotion. |
+| [AUTHORITY-MODEL.md](AUTHORITY-MODEL.md) | Owner-facing model for authority kinds, postures, routing, gates, and non-collapse rules. |
 | [constitutions/STABLE-REPOSITORY-CONSTITUTION.md](constitutions/STABLE-REPOSITORY-CONSTITUTION.md) | Structure and authority rules for this repository surface. |
 | [constitutions/CONSTITUTION-IMPORT-PACK.md](constitutions/CONSTITUTION-IMPORT-PACK.md) | Composition pack over imported constitution and definition candidates. |
 | [constitutions/VAULT-CONCEPT-ADOPTION-CONSTITUTION.md](constitutions/VAULT-CONCEPT-ADOPTION-CONSTITUTION.md) | Rules for re-authoring imported vault value concepts into CyberAlchemy v2 authority. |
 | [boundaries.md](boundaries.md) | Public/private, source/read-model, generated/canonical, and research/spec boundaries. |
 | [promotion-policy.md](promotion-policy.md) | How evidence can become local authority or implementation work. |
-| decisions/ | Future decision records. |
+| [decisions/](decisions/README.md) | Promotion, boundary, and product/philosophy decision records. |
 
 ## Authority Rule
 
@@ -41,4 +42,5 @@ explanation. They do not become authority without the appropriate owner route.
 
 Context: Arcanum is a source pattern, but CyberAlchemy v2 is a repository
 surface with product, method, and implementation ambitions. Recommendation:
-borrow authority separations, not folder names blindly. Status: OPEN.
+borrow authority separations, not folder names blindly. Resolved in
+[AUTHORITY-MODEL.md](AUTHORITY-MODEL.md). Status: RESOLVED.

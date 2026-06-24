@@ -1,0 +1,458 @@
+{
+  "dispatch_id": "self-assembling-ergonomics-20260623",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "A command, a visible button that suggests an IDE ergonomics improvement and self-assembles and tests it; when finished it sends a notification with a test for the user to run and approve.",
+    "objective": "Define the reusable route for a self-improving IDE Ergonomics action that suggests an evidenced improvement, assembles and tests it in an isolated candidate space, and gates all promotion behind a user-run test and explicit approval.",
+    "target_artifact": "projects/ide-ergonomics/self-assembling-ergonomics/SPEC.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "spellcraft",
+      "sigil-development",
+      "experiment",
+      "experiment-harness",
+      "decision-gate",
+      "owner_boundary_check",
+      "approval_semantics_map",
+      "execution_receipt_handoff",
+      "residue_ledger"
+    ],
+    "operator_sentence": "First suggest one evidenced ergonomics candidate, then assemble and test it in isolation against a pre-registered criterion, and only promote it after the user runs the delivered test and approves."
+  },
+  "mode": "spell-design",
+  "route_menu": {
+    "context_hint": "The route separates autonomous suggest/assemble/test from human-gated promotion because the loop can build and test itself but must never ship itself.",
+    "items": [
+      {
+        "id": "approval-gated-self-assembly",
+        "label": "Approval-gated self-assembly",
+        "description": "Suggest, assemble, and test autonomously in an isolated candidate space; promote only after a user-run test and explicit approval.",
+        "capability_ref": "dispatch-spec",
+        "pattern": "sequence"
+      },
+      {
+        "id": "autonomous-promotion",
+        "label": "Autonomous promotion",
+        "description": "Let the loop promote its own green build with no user test; blocked because assembled-and-green is not shipped.",
+        "capability_ref": "spellcraft",
+        "pattern": "handoff"
+      },
+      {
+        "id": "proposal-only-no-build",
+        "label": "Proposal only, no build",
+        "description": "Suggest candidates but stop before assembly; the L0 fallback when build consent is declined or autonomy is not yet earned.",
+        "capability_ref": "invoke",
+        "pattern": "handoff"
+      }
+    ],
+    "selected_item_id": "approval-gated-self-assembly"
+  },
+  "techniques": [
+    "route_menu",
+    "sequence",
+    "owner_boundary_check",
+    "delegation_boundary",
+    "state_namespace_boundary",
+    "approval_checkpoint",
+    "approval_semantics_map",
+    "validation_loop",
+    "execution_receipt_handoff",
+    "residue_ledger",
+    "concrete_path_evidence"
+  ],
+  "steps": [
+    {
+      "step_id": "suggest-candidate",
+      "name": "Suggest one evidenced ergonomics candidate",
+      "capability_ref": "inventory",
+      "capability_status": "external",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "concrete_path_evidence",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-ergonomics/ERGONOMICS-OPPORTUNITIES.md"
+        },
+        {
+          "kind": "external_context",
+          "ref": "ide-ergonomics-observed-friction"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "candidate-suggestion-frame"
+        }
+      ],
+      "join_policy": "none",
+      "stop_conditions": [
+        "Block if the suggestion cites no map entry and no friction signal.",
+        "Flag if the proposed acceptance idea is not falsifiable."
+      ]
+    },
+    {
+      "step_id": "confirm-start",
+      "name": "Confirm scoped build consent",
+      "capability_ref": "decision-gate",
+      "capability_status": "external",
+      "pattern": "decision",
+      "parallel": false,
+      "techniques": [
+        "approval_checkpoint",
+        "approval_semantics_map",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "candidate-suggestion-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "scoped-start-decision"
+        }
+      ],
+      "join_policy": "human_gate",
+      "stop_conditions": [
+        "Block assembly unless consent is granted and a candidate-space write allowlist is named.",
+        "Block if any allowlist path falls outside the candidate space."
+      ]
+    },
+    {
+      "step_id": "assemble-drafts",
+      "name": "Assemble invoke and owner-lifecycle drafts in isolation",
+      "capability_ref": "invoke",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "delegation_boundary",
+        "state_namespace_boundary",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "scoped-start-decision"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "isolated-assembly-drafts"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "self-assembling-ergonomics-assembled"
+        }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "All invoke and owner-lifecycle drafts live inside the consented candidate space.",
+        "Owner-lifecycle drafts are marked not promoted.",
+        "No canonical or runtime path is touched."
+      ],
+      "stop_conditions": [
+        "Block if assembly would write outside the candidate space.",
+        "Block if any arcanum/ canonical capability, definition, or runtime path is touched."
+      ]
+    },
+    {
+      "step_id": "preregister-criterion",
+      "name": "Freeze the acceptance criterion before any run",
+      "capability_ref": "experiment",
+      "capability_status": "external",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "approval_semantics_map"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "isolated-assembly-drafts"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "preregistered-criterion-frame"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-ergonomics/self-assembling-ergonomics/SPEC.md",
+      "stop_conditions": [
+        "Block the run if no falsifiable success and failure condition is frozen.",
+        "Block if the criterion is editable after a result exists."
+      ]
+    },
+    {
+      "step_id": "self-test",
+      "name": "Run the self-test against the frozen criterion",
+      "capability_ref": "experiment-harness",
+      "capability_status": "external",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "residue_ledger",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "preregistered-criterion-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "self-test-result"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "self-assembling-ergonomics-tested"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-ergonomics/self-assembling-ergonomics/SPEC.md",
+      "convergence_criteria": [
+        "The verdict is one of SURVIVED, FALSIFIED, or INVALID against the frozen criterion.",
+        "FALSIFIED or INVALID leaves a residue entry and ends the autonomous loop.",
+        "Only SURVIVED proceeds to notify the user."
+      ],
+      "stop_conditions": [
+        "Block if the run edits the success condition.",
+        "Block any silent retry-until-green loop."
+      ]
+    },
+    {
+      "step_id": "notify-and-approve",
+      "name": "Notify the user and gate promotion on their test and approval",
+      "capability_ref": "decision-gate",
+      "capability_status": "external",
+      "pattern": "decision",
+      "parallel": false,
+      "techniques": [
+        "approval_checkpoint",
+        "approval_semantics_map",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "self-test-result"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "user-approval-decision"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "self-assembling-ergonomics-notified"
+        }
+      ],
+      "join_policy": "human_gate",
+      "convergence_criteria": [
+        "The notification delivers a bounded user-runnable test, not a promotion.",
+        "Promotion is authorized only with an approved decision and a passing user test.",
+        "Rejected or deferred leaves the candidate in its space with residue."
+      ],
+      "stop_conditions": [
+        "Block promotion until the user runs the test and approves.",
+        "Block any notification that claims done or shipped."
+      ]
+    },
+    {
+      "step_id": "promote",
+      "name": "Route promotion through the owning capability with a receipt",
+      "capability_ref": "spellcraft",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "execution_receipt_handoff",
+        "owner_boundary_check",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "user-approval-decision"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "promotion-owner-handoff"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "self-assembling-ergonomics-promoted"
+        }
+      ],
+      "join_policy": "none",
+      "convergence_criteria": [
+        "The owning capability writes the promoted artifact and returns a receipt.",
+        "The loop never writes the promoted artifact from its own state."
+      ],
+      "stop_conditions": [
+        "Block if promotion runs without an approved user-approval-decision.",
+        "Block if the loop attempts to write the promoted artifact directly."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "scoped-start-gate",
+      "kind": "human_approval",
+      "owner": "user",
+      "condition": "Assembly may begin only after the user grants scoped consent with a candidate-space write allowlist.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "isolation-gate",
+      "kind": "policy",
+      "owner": "ide-ergonomics",
+      "condition": "All assembly and testing stays inside the consented candidate space; no arcanum/ canonical capability, definition, or runtime path is written.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "criterion-frozen-gate",
+      "kind": "validation",
+      "owner": "experiment-harness",
+      "condition": "The acceptance criterion is frozen before the run and cannot be edited after a result exists.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "approval-before-promotion-gate",
+      "kind": "human_approval",
+      "owner": "user",
+      "condition": "Assembled-and-green is not shipped: nothing is promoted, installed, or claimed shipped until the user runs the delivered test and approves.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "promotion-owner-gate",
+      "kind": "promotion_guardrail",
+      "owner": "spellcraft",
+      "condition": "Promotion routes through the capability that owns the target lifecycle and returns a receipt; the loop never writes the promoted artifact itself.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "self-assembling-ergonomics-started",
+      "self-assembling-ergonomics-assembled",
+      "self-assembling-ergonomics-tested",
+      "self-assembling-ergonomics-notified",
+      "self-assembling-ergonomics-promoted"
+    ],
+    "signal_grouping": "self-assembling-ergonomics"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "candidate-space-isolation-boundary",
+        "kind": "state_write",
+        "from_owner": "self-assembling-ergonomics-loop",
+        "to_owner": "candidate-space",
+        "applies_to_steps": [
+          "assemble-drafts",
+          "preregister-criterion",
+          "self-test"
+        ],
+        "contract": "The loop writes only inside the consented candidate space; canonical and runtime surfaces are read-only to it.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "promotion-owner-boundary",
+        "kind": "capability_handoff",
+        "from_owner": "self-assembling-ergonomics-loop",
+        "to_owner": "spellcraft-or-sigil-development",
+        "applies_to_steps": [
+          "notify-and-approve",
+          "promote"
+        ],
+        "contract": "Only an approved user decision with a passing user test authorizes promotion, which the owning capability performs and receipts.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "owning capability selected at promotion (spellcraft or sigil-development)",
+      "execution": "loop assembles and tests; owning capability promotes after approval",
+      "validation": "experiment-harness against a pre-registered criterion plus the user-run test",
+      "evidence": "candidate-space drafts, frozen criterion, and self-test result with concrete paths",
+      "memory": "memory records the candidate or decision only on explicit request",
+      "promotion": "user approval plus passing user test plus owner receipt"
+    },
+    "receipts": [
+      {
+        "receipt_id": "self-test-receipt",
+        "producer": "self-test",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "residue"
+        ],
+        "stores": [
+          "projects/ide-ergonomics/self-assembling-ergonomics/SPEC.md"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "promotion-receipt",
+        "producer": "promote",
+        "required_fields": [
+          "artifacts",
+          "approval_record",
+          "validation_result",
+          "residue"
+        ],
+        "stores": [
+          "projects/ide-ergonomics/self-assembling-ergonomics/SPEC.md"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "candidate-space",
+        "owner": "self-assembling-ergonomics-loop",
+        "write_policy": "Write freely inside the consented candidate space only."
+      },
+      {
+        "namespace": "arcanum-canonical",
+        "owner": "arcanum",
+        "write_policy": "Read-only to the loop; writes require the owning capability after approval."
+      },
+      {
+        "namespace": "generated-runtime",
+        "owner": "arcanum-bootstrap",
+        "write_policy": "Out of scope for the loop; regenerated by the owner after promotion."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "candidate-space drafts and self-test result",
+        "target": "promoted ergonomics capability",
+        "rule": "A green self-test supports promotion but does not authorize it; user approval plus a passing user test is required.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Assembled-and-green is not shipped without the user test and approval.",
+    "Assembly never writes canonical or runtime surfaces.",
+    "The acceptance criterion is frozen before the run and cannot be retrofitted.",
+    "Promotion is performed by the owning capability with a receipt, never by the loop."
+  ]
+}

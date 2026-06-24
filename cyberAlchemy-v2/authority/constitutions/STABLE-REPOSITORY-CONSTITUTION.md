@@ -280,6 +280,96 @@ Non-examples:
 - Using a contextuality analogy as authority without naming the edge semantics
   that make the analogy live.
 
+### CAV2-C14. Governed Artifact Tree Interface
+
+Validation mode: hybrid
+
+Any load-bearing artifact tree, architecture view, pattern library, ontology
+view, validation tree, or view-bearing concept must expose a governance
+interface before it can promote knowledge, constrain future work, or become a
+reusable authority surface.
+
+At minimum, the interface must name:
+
+- owner route,
+- canonical source or source boundary,
+- view roles,
+- evidence inputs,
+- promotion path,
+- validation surface,
+- challenge contract,
+- drift route,
+- allowed uses and blocked uses.
+
+A tree may organize search, inspection, reuse, and candidate promotion
+preparation. It may not become authority by having a folder, branch view,
+inventory row, concept card, architecture package, or projection. Authority
+requires the relevant owner route and promotion gate.
+
+Examples:
+
+- An architecture-pattern-inventory package records concept cards, relationship
+  cards, dependency rules, testing alignment, and observability alignment, then
+  routes pattern candidates to the CyberAlchemy authority model before they
+  constrain future work.
+- A UX lesson can be stored as a pattern-shaped card while remaining local
+  evidence until a second context, challenge review, and owner promotion exist.
+- An ontology branch view declares allowed readings and forbidden authority
+  moves before downstream agents use it as context.
+
+Non-examples:
+
+- Treating an architecture pattern card as an invariant because it appears in a
+  pattern library.
+- Treating a folder tree as canonical because it is well organized.
+- Letting successful code reuse become architecture authority without evidence,
+  challenge, and owner promotion.
+- Creating a view for every new term without distinct evidence, lifecycle,
+  owner route, and reuse surface.
+
+### CAV2-C15. Interface Evidence Boundary
+
+Validation mode: hybrid
+
+Any UX/UI lesson, interface pattern, validator claim, screenshot review, studio
+mutation intent, frontend validation report, or interface-governance artifact
+must declare its evidence class before it can constrain downstream work,
+promotion, validation, or implementation.
+
+The evidence class must be one of:
+
+- hard gate,
+- soft flag,
+- screenshot review,
+- human study,
+- not automatable.
+
+Hard gates may govern only deterministic or standards-backed browser evidence
+after fixture calibration. Cognitive, perception, trust, comprehension,
+delight, market-practice, or subjective experience claims must remain soft
+flags, screenshot review, human-study prompts, or residue unless a later owner
+route records the calibrated evidence that makes a narrower claim admissible.
+
+Examples:
+
+- An unnamed critical button can be a hard gate when the role/name/state failure
+  is directly observed and calibrated.
+- A dense expert dashboard can receive a soft flag for decision density without
+  blocking release until false-positive fixtures justify the threshold.
+- A screenshot can route a salience concern to review, but it cannot prove where
+  a user looked.
+- A `ux-pattern` from one session stays seed evidence and cannot become a hard
+  validator rule until cross-session evidence and owner promotion exist.
+
+Non-examples:
+
+- Publishing a single UX score as if it summarized accessibility, usability,
+  delight, and market fit.
+- Treating a passing Playwright run as proof of subjective product quality.
+- Promoting an anecdotal UX lesson into a hard gate.
+- Blocking a specialized expert interface with a generic density heuristic
+  before false-positive calibration.
+
 ## Validation Adapters
 
 | Rule | Adapter |
@@ -297,6 +387,8 @@ Non-examples:
 | CAV2-C11 | Import manifest check plus owning governance route. |
 | CAV2-C12 | Entropy-register keyword scan plus definitions-governance review. |
 | CAV2-C13 | Edge proposal review plus schema amendment witness; future edge validator. |
+| CAV2-C14 | Governed artifact tree interface checklist plus owner-route review; future architecture package validator. |
+| CAV2-C15 | Interface evidence class checklist plus ux-evidence-validator review; future fixture-calibrated Playwright validator. |
 
 ## Promotion Boundary
 

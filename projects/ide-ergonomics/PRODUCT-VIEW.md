@@ -20,6 +20,17 @@ right governed next step.
 The product is not "another agent button." It is the missing moment between
 noticing useful work and safely sending that work to the right place.
 
+## CyberAlchemy Proposition
+
+IDE Ergonomics makes CyberAlchemy's broader proposition visible. CyberAlchemy is
+not only a way to build agent systems, software systems, knowledge systems, or
+interfaces for those tools. The stronger proposition is synergetic cybernetic
+human-machine integration.
+
+In product terms, that means the IDE should help the human-machine loop sense,
+decide, route, test, remember, and hand off work while preserving agency,
+evidence, and owner boundaries.
+
 ## The Story
 
 Imagine you are deep in a development session.
@@ -77,6 +88,22 @@ questions:
 The first version is intentionally small. It can be tested without a full IDE
 extension, because the product value is the routing decision itself.
 
+The same surface can later open knowledge-entry references: cached inventory or
+ontology search results that behave like file-reference popups, but point at
+knowledge-system entries instead of paths alone.
+
+It can also grow a teammate-handoff window: addressed memos for agent + human
+partnership, shown at start-work time or when a route needs a person, role, future
+session, or agent lane to pick it up.
+
+A third extension is a Craft control panel: an IDE workbench that exports Craft
+state, shows pending nodes, and asks which owner route should handle the selected
+item.
+
+The flagship version is Connective: a task manager that takes Craft work, human
+attention, user-run checks, and domain priority, then recommends the next
+execution lane with reasons and expected receipts.
+
 ## What People Gain
 
 | Gain | Before | With IDE Ergonomics |
@@ -86,6 +113,10 @@ extension, because the product value is the routing decision itself.
 | Faster handoffs | The user reconstructs context at the end of a session. | Handoff drafts collect source refs, gaps, and next prompt while context is fresh. |
 | Safer definitions | Important terms are either missed or promoted too quickly. | Terms become candidates first, with explicit promotion boundaries. |
 | Safer delegation | "Run agents" is tempting but underspecified. | Delegation starts as a preview with roles, receipts, join policy, and permission. |
+| Faster knowledge reuse | Inventory and ontology searches are re-run or cited as broad files. | Recent searches reopen as precise knowledge-entry popups with source, freshness, and authority boundaries. |
+| Clearer teammate continuity | Partner handoffs live as files the user has to remember to check. | Addressed memos appear in a start-work window with open calls, next prompt, and resolution state. |
+| Easier project control | Craft state lives in ledgers and human views that require manual interpretation. | A panel exports pending nodes and asks one route question: Interrogation, Decision Gate, Refine, export, or defer. |
+| Better execution timing | Task managers rank work without knowing attention, load, tests, or domain consequences. | Connective recommends the next lane by balancing human indicators, user-run evidence, Craft state, and domain priority. |
 | Better continuity | Receipts, evidence, and next actions are scattered. | The card can feed a side rail of evidence, handoffs, and blocked fields. |
 
 The user gain is speed without looseness. The system gain is more workflow
@@ -249,6 +280,11 @@ Arcanum:
 
 - cards over conversation spans and artifact handles;
 - a side rail for evidence, receipts, gaps, and handoffs;
+- cached knowledge-entry references over recent inventory and ontology searches;
+- teammate handoff memo windows for addressed human + agent partnership;
+- Craft control panels that export pending-by-node state and route selected items;
+- Connective as the flagship task manager over Craft, attention, tests, and domain
+  priority;
 - route menus that expose Arcanum owners without overwhelming the user;
 - definition and side-node capture that preserve flow;
 - handoff composers that make session continuity cheap;
@@ -258,6 +294,10 @@ Arcanum:
 
 The future is an IDE that helps the user keep momentum while preserving the
 ownership rules that make the work durable.
+
+That future is also the practical CyberAlchemy value proposition: software,
+knowledge, agents, and interface ergonomics become one governed human-machine
+integration loop instead of four disconnected product categories.
 
 ## Product Boundary
 

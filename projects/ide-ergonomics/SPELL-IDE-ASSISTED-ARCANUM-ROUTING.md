@@ -21,6 +21,14 @@ package can project.
 - A conversation span looks like a candidate definition.
 - A side note appears during an active interaction.
 - The active interaction becomes handoff-ready.
+- The user repeats an inventory or ontology search, or hovers a knowledge entry
+  handle that should open as a reference popup.
+- The session starts in a scope with addressed teammate memos, or the current route
+  needs a person, role, future session, or agent lane handoff.
+- A Craft scope has pending nodes, blockers, decisions, gaps, artifacts, or next
+  moves that need a route choice.
+- The user needs a next-task recommendation that balances Craft work, cognitive
+  load, attention, user-run test evidence, and domain priority.
 - The user asks to dispatch a subagent or the route has role-bound fanout
   pressure.
 - A repeated workflow suggests a composed spell or sigil maintenance path.
@@ -41,8 +49,12 @@ package can project.
 
 Optional:
 
+- `craft` for ledger state export, pending-by-node views, and governed ledger
+  update receipts;
+- `interrogation` for one-question-at-a-time route clarification;
 - `inventory` for source-backed knowledge candidates;
 - `ontology-harness` for ontology or premise candidates;
+- `refine` for strategy proposals over vague gaps, design concerns, or next moves;
 - `discipline-governance` for recurring cross-capability practices;
 - `x-ray` for visual explanation of a route, artifact, or active graph;
 - `context-builder` for compact evidence packs.
@@ -54,6 +66,10 @@ Optional:
 | `conversation_span` | Text range or chat turn that triggered an action. | Host/IDE runtime |
 | `action_candidate` | Classified action card with owner, confidence, and route. | Spell frame, non-authoritative |
 | `route_menu` | Bounded 3-7 option menu. | `dispatch-spec` |
+| `knowledge_entry_reference` | Cached inventory/ontology result that can reopen as a source-aware popup. | `inventory` or `ontology-vault`, read-only until routed. |
+| `teammate_handoff_memo` | Addressed memo, reply, start-work check, or resolution record for agent + human partnership. | Handoff owner or `decision-gate`; human decisions remain explicit. |
+| `craft_control_panel_state` | Exported Craft scope state with pending-by-node rows and route options. | `craft` read model; `.craft/ledger.yml` remains source of truth. |
+| `connective_recommendation` | Ranked next execution lanes balancing Craft state, human indicators, tests, and domain priorities. | IDE Ergonomics read model; selected owner route produces proof. |
 | `handoff_draft` | Suggested destination, summary, refs, gaps, and next prompt. | Owning handoff capability |
 | `side_node` | Non-interrupting note, fact candidate, research seed, contradiction, or reminder. | Necronomicon |
 | `subagent_preview` | Role cards, join policy, permission, and receipt requirements. | `dispatch-spec` plus active owner |
@@ -76,7 +92,7 @@ Optional:
 ```yaml
 action_id: <stable-id>
 span_ref: <conversation-span-or-artifact-handle>
-detected_kind: definition_candidate | side_node | handoff | route_menu | subagent_preview | maintenance_nudge
+detected_kind: definition_candidate | side_node | handoff | route_menu | knowledge_reference | teammate_handoff | craft_control | connective_task | subagent_preview | maintenance_nudge
 label: <short button label>
 summary: <why this action is suggested>
 owner: <capability-id>
@@ -110,6 +126,18 @@ Required fields:
 - Candidate definitions route through `definitions-governance`.
 - Ontology or premise candidates route through `ontology-harness` or
   `ontology-vault`.
+- Knowledge-entry popups may cite inventory and ontology read models, but stale or
+  candidate-only status must be visible and no canonical mutation is allowed from
+  the popup alone.
+- Teammate handoff memo actions must preserve recipient, source, status, and open
+  calls; they cannot impersonate a human teammate or close a human-owned decision
+  without an explicit answer or decision record.
+- Craft control-panel actions must export state before route choice, show pending
+  work by node, and keep `.craft/ledger.yml` authoritative. Interrogation,
+  Decision Gate, and Refine own their native artifacts and receipts.
+- Connective recommendations must keep human indicators opt-in and reviewable,
+  balance domain priority against load rather than hiding either one, and require
+  confirmation before any selected owner route executes.
 - Subagents require explicit user approval and closeout receipts.
 - Reusable spell creation requires Spellcraft.
 - Sigil behavior changes require Sigil Development.
@@ -132,6 +160,14 @@ Required fields:
 Meaningful executions should record:
 
 - action kind;
+- cached query or knowledge handle, when the action references inventory or
+  ontology;
+- memo path, recipient, source, status, and resolution reference when the action
+  uses a teammate handoff;
+- Craft scope, selected row, route option set, interactive question, and owner
+  receipt when the action uses the control panel;
+- Connective candidate IDs, human indicator snapshot, user-executed test evidence,
+  domain priority lens, ranked lane, and selected owner-route receipt;
 - selected route;
 - owner capability;
 - whether a handoff or execution occurred;

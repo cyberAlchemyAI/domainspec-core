@@ -12,6 +12,10 @@ ontology-vault seed is
 Ontology can model authority, condense meaning, and prepare promotion requests.
 It cannot promote itself or redefine definitions, constitutions, specs,
 capabilities, runtime contracts, schemas, movement edges, or public claims.
+The owner-facing authority model lives in
+[../authority/AUTHORITY-MODEL.md](../authority/AUTHORITY-MODEL.md); this folder
+supplies candidate maps and projections that may support that model without
+replacing its owner routes.
 
 ## Repository Objective Role
 

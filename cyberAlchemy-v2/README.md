@@ -15,6 +15,24 @@ stay in their homes. This project records the stable spine, local definitions,
 constitution rules, source map, and promotion path that decide what may later
 become repository authority.
 
+## Value And Philosophy Proposition
+
+CyberAlchemy does not only build synergetic cybernetic agent systems. It does
+not only build software systems, knowledge systems, or interfaces around those
+tools.
+
+The stronger proposition is synergetic cybernetic human-machine integration: a
+governed way to compose human attention, judgment, intent, teammate handoffs,
+machine execution, knowledge authority, tests, feedback, and residue into one
+working loop.
+
+In that frame, IDE Ergonomics and Connective are not UI accessories. They are
+proof surfaces for the philosophy: the system becomes valuable when it helps a
+person and machine decide what should happen next, why, with which evidence,
+under which boundary, and through which owner route.
+
+See [VALUE-AND-PHILOSOPHY-PROPOSITION.md](VALUE-AND-PHILOSOPHY-PROPOSITION.md).
+
 ## Repository Objective
 
 CyberAlchemy v2 is intended to become the base repository someone receives when
@@ -32,7 +50,8 @@ letting ontology promote itself.
 
 | Need | Open |
 | --- | --- |
-| Project authority model | [authority/README.md](authority/README.md) |
+| Value and philosophy proposition | [VALUE-AND-PHILOSOPHY-PROPOSITION.md](VALUE-AND-PHILOSOPHY-PROPOSITION.md) |
+| Project authority model | [authority/AUTHORITY-MODEL.md](authority/AUTHORITY-MODEL.md) |
 | Authority import ledgers | [authority/imports/README.md](authority/imports/README.md) |
 | Source corpus and ingest boundary | [SOURCE-MAP.md](SOURCE-MAP.md) |
 | Craft execution surface | [CRAFT.md](CRAFT.md) |
@@ -87,6 +106,7 @@ CyberAlchemy v2 should preserve four separations:
 | [disciplines/](disciplines/DISCIPLINES.md) | Evidence-backed recurring practices for this repository surface. |
 | [research/](research/README.md) | Source-ledgered towers, investigations, and candidate synthesis. |
 | [architecture/](architecture/README.md) | Promoted or candidate layer maps, structure decisions, and system views. |
+| [ux-ui/](ux-ui/README.md) | Candidate UX/UI knowledge governance, experience evidence lifecycle, and interface evidence boundaries. |
 | [capabilities/](capabilities/README.md) | Capability contracts, packages, and generated-surface boundaries after promotion. |
 | [specs/](specs/README.md) | Domain, runtime, validation, and artifact contracts after promotion. |
 | [implementation/](implementation/README.md) | Code and package work after a task-session or implementation gate. |

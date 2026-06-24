@@ -2,7 +2,7 @@
 
 Status: active
 Owner: definitions-governance
-Last updated: 2026-06-22
+Last updated: 2026-06-23
 
 ## Audit Scope
 
@@ -11,6 +11,7 @@ This first audit covered the starter artifacts created for CyberAlchemy v2:
 - [../../README.md](../../README.md)
 - [../../SOURCE-MAP.md](../../SOURCE-MAP.md)
 - [../README.md](../README.md)
+- [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md)
 - [../boundaries.md](../boundaries.md)
 - [../promotion-policy.md](../promotion-policy.md)
 - [../constitutions/STABLE-REPOSITORY-CONSTITUTION.md](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md)
@@ -22,6 +23,10 @@ This first audit covered the starter artifacts created for CyberAlchemy v2:
 - [../../.craft/ledger.yml](../../.craft/ledger.yml)
 - [../../ontology/README.md](../../ontology/README.md)
 - [../../development/research/2026-06-21-ontology-package-consolidation-model/findings.md](../../development/research/2026-06-21-ontology-package-consolidation-model/findings.md)
+- [../../VALUE-AND-PHILOSOPHY-PROPOSITION.md](../../VALUE-AND-PHILOSOPHY-PROPOSITION.md)
+- [../../../projects/ide-ergonomics/README.md](../../../projects/ide-ergonomics/README.md)
+- [../../../projects/ide-ergonomics/PRODUCT-VIEW.md](../../../projects/ide-ergonomics/PRODUCT-VIEW.md)
+- [../../../projects/ide-ergonomics/connective-task-manager/README.md](../../../projects/ide-ergonomics/connective-task-manager/README.md)
 
 ## Findings
 
@@ -53,6 +58,11 @@ This first audit covered the starter artifacts created for CyberAlchemy v2:
 | `Primitive type`, generic `method`, and `definition` were T-1 candidate terms but still lived as queue language rather than canonical CyberAlchemy v2 semantics. | fixed | Promoted `CAV2-D31` primitive type, `CAV2-D32` method, and `CAV2-D33` definition. The promotion keeps local CAV2 primitive roles separate from programming types, DomainSpec meta-types, Arcanum schema/contract terms, concrete methods, and non-authority glossary or inventory records. |
 | `Authority`, `provenance`, `traceability`, `gate`, `claim <= proof`, and `intent` were still T-1 queue terms even though they govern how CyberAlchemy v2 makes work count, carries receipts, navigates links, moves through checkpoints, bounds claims, and preserves work purpose. | fixed | Promoted `CAV2-D34` authority, `CAV2-D35` provenance, `CAV2-D36` traceability, `CAV2-D37` gate, `CAV2-D38` claim <= proof, and `CAV2-D39` intent. `artifact` remains the only explicit T-1 review candidate. |
 | Challenge/contradiction handling existed as House-vault challenge response, `contradicts`, `validates`, confidence axes, and v2 promotion residue, but the v2 node shape had no single field for how a node may be contested. | fixed | Promoted `CAV2-D40` challenge contract and added `challenge_contract` to the candidate ontology node/package shape while preserving `veracidade` and `convicção` as the existing confidence axes rather than adding a third confidence dimension. |
+| `Authority model` was already load-bearing in the stable repository objective, source map, ontology package, and extraction gate, but it had no owner-facing authority document or canonical local definition. | fixed | Added [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md), promoted `CAV2-D41` authority model in [DEFINITIONS.md](DEFINITIONS.md), and synced [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md). |
+| Architecture knowledge needed a lens-specific governance interface after the governed-artifact primitive review rejected a broad primitive but preserved the need for inspectable artifact trees, pattern candidates, and governed views. | fixed | Promoted `CAV2-D42` governed artifact tree, `CAV2-D43` pattern promotion lifecycle, and `CAV2-D44` view-bearing concept. These definitions make architecture-pattern-inventory the architecture-view producer while preserving the guardrail that trees, views, inventory rows, and pattern candidates are not authority without owner promotion. |
+| UX/UI knowledge needed a lens-specific governance interface so interface lessons, browser evidence, accessibility checks, screenshot review, studio intents, and human-study residue can feed knowledge promotion without becoming a false UX authority. | fixed | Promoted `CAV2-D45` UX/UI knowledge governance, `CAV2-D46` experience evidence lifecycle, and `CAV2-D47` interface evidence boundary. These definitions make `ux-lessons`, `ux-evidence-validator`, and `ui-prototyping-studio` part of a governed experience-knowledge view while preserving the guardrail that browser evidence, UX patterns, screenshots, and subjective claims do not promote themselves. |
+| CyberAlchemy value framing now uses `synergetic cybernetic human-machine integration` as a load-bearing proposition across CAV2 and IDE Ergonomics. | flag | Added [source-clusters/cyberalchemy.md](source-clusters/cyberalchemy.md) with candidate `CAV2-CAND-HMI-001`, wired it into T5, and resolved promotion-prep blockers in [the HMI decision record](../decisions/2026-06-23-hmi-candidate-promotion-prep.md). Do not promote until a canonical definition draft, index sync, drift audit, and Connective proof fixture or owner approval exist. |
+| `constitution`, `invariant`, and `axiom` are all load-bearing in CAV2 imports, but their role boundary was implicit. | flag | Added [constitution-invariant-axiom-role-review.md](reviews/constitution-invariant-axiom-role-review.md). Provisional split: invariant is the constraint/source layer, axiom is the admitted load-bearing principle, constitution is the scoped enforceable ruleset. |
 
 ## Undefined Critical Terms
 
@@ -63,6 +73,8 @@ This first audit covered the starter artifacts created for CyberAlchemy v2:
 | Translation Residue | CyberAlchemy and framework-unification material. | definitions-governance plus residuality-spec review; classify as subtype, alias, or separate term relative to `CAV2-D18`. |
 | Ledger | Craft recursive ledger, authority import ledgers, framework-unification signal ledgers, and v2 tower execution material. | Defer promotion; `CAV2-D30` resolves the recursivity-name blocker, but ledger still requires inheritance-relation and local Craft ledger conformance review. |
 | Relationship Invariant | DomainSpec typed relationship system, `CAV2-D16`, framework-unification graph invariants, and sigma-valid edge formalization. | Use the inventory [schema/relationship search sequence](../../../.arcanum/inventory/queries/2026-06-21-schema-relationship-invariants/search-sequence.md); classify as subtype of `CAV2-D16`, alias, or separate primitive after evidence-cards exist. |
+| Synergetic Cybernetic Human-Machine Integration | CyberAlchemy value proposition and IDE Ergonomics now use this as the umbrella product/philosophy claim for agents, software, knowledge, interfaces, Craft state, tests, and handoffs becoming one governed loop. | Candidate `CAV2-CAND-HMI-001` in [source-clusters/cyberalchemy.md](source-clusters/cyberalchemy.md); promotion-prep decisions are resolved in [the HMI decision record](../decisions/2026-06-23-hmi-candidate-promotion-prep.md), but canonical promotion still needs definition drafting and proof or owner approval. |
+| Constitution / Axiom / Invariant Role Split | CAV2 has active constitutions, imported constitution and axiom candidates, and promoted specific invariant definitions, but no generic local role split for these three terms. | Review-only candidate in [constitution-invariant-axiom-role-review.md](reviews/constitution-invariant-axiom-role-review.md); next definitions-governance pass should decide whether to promote generic `invariant`, `axiom`, and/or a CAV2-local `constitution` subtype. |
 
 ## Imported Definition Candidate Count
 
@@ -77,3 +89,81 @@ This first audit covered the starter artifacts created for CyberAlchemy v2:
 Context: the import ledger now stages the broad corpus. Recommendation: classify
 and deduplicate the imported terms before promoting any large batch into this
 canonical file. The Q1 top-anchor terms are already promoted. Status: OPEN.
+
+## Ancestral Lineage Reconciliation — CyberAlchemy Method + Discipline Growth Rule (2026-06-23)
+
+Trigger: definitions-governance pass following research dispatch
+`2026-06-23-cav2-repo-primitives-authority-sweep`. Owner decision: **drift-reconcile
++ provenance only; no promotion** (consolidate, not import).
+
+### Lineage mapping (ancestral source → cav2 re-authored descendant)
+
+| Ancestral source (posture for cav2) | cav2 descendant | relation |
+| --- | --- | --- |
+| **CyberAlchemy Method** — [`arcanum/framework/CYBERALCHEMY-METHOD.md`](../../../arcanum/framework/CYBERALCHEMY-METHOD.md) (5 anchors: Objective / Output / Discovery / Tension / **Route**) | `CAV2-D32` method (generic); owner-route principle in `CAV2-D41` authority model + `CAV2-D34` authority | descendant — generic method + owner-route principle re-authored; **no** named "CyberAlchemy Method" term, *by design* (D32 kept generic, separate from concrete methods) |
+| **Discipline Growth Rule** — [`arcanum/disciplines/DISCIPLINES.md`](../../../arcanum/disciplines/DISCIPLINES.md) (maturity ladder candidate → active-pattern → canonical; promote only with steward/owner + evidence + maturity + next-hardening move) | `CAV2-D43` pattern promotion lifecycle (**shape only**); discipline promotion lives in the `disciplines/` surface | **partial** — D43 shares the promotion *shape* but its **object is architecture patterns, not disciplines** |
+
+### Finding (drift)
+
+- **`CAV2-D43` ≠ discipline growth rule.** D43 is the *pattern* promotion lifecycle
+  (architecture / code / spec hypothesis → reusable *pattern* authority). It shares the
+  earn-authority-by-evidence / generalization / challenge / owner-promotion shape but
+  governs patterns, not recurring disciplines. The Arcanum Discipline Growth Rule has
+  **no canonical cav2 definition** — discipline promotion is *referenced* via the
+  `disciplines/` surface (e.g. the `stable-repository-stewardship` card, status candidate)
+  but the growth rule itself is an **un-promoted gap**. Status: **flag**.
+
+### Posture (claim ≤ proof)
+
+Both ancestral sources hold **Evidence / Original-authority** posture for cav2
+(AUTHORITY-MODEL Authority Postures); **neither is deployed** as cav2 authority. cav2
+already embodies their principles in `D32` / `D34` / `D41` / `D43`, so the action is
+**consolidation, not import**. Authority must not flow by lineage or proximity
+(AUTHORITY-MODEL non-collapse rules + narrowest-owner rule).
+
+### Remediation
+
+| Item | Target | Recommended action | Status |
+| --- | --- | --- | --- |
+| Inline provenance cross-refs absent from the descendant definitions | [DEFINITIONS.md](DEFINITIONS.md) `CAV2-D32`, `CAV2-D34`, `CAV2-D41`, `CAV2-D43` | Owner-greenlit 2026-06-23: added one non-normative "Ancestral provenance" header line per definition citing the Arcanum source. Formal voice unchanged; no IDs changed; index unchanged. | done |
+| Discipline growth rule gap | `disciplines/` + definitions-governance | Route to **discipline-governance**: decide whether the discipline growth rule needs a canonical cav2 definition or stays a referenced Arcanum rule — mirrors `DISCIPLINES.md` ("Decide which discipline terms need canonical definitions versus local explanations"). | open |
+| Named "CyberAlchemy Method" term | [DEFINITIONS.md](DEFINITIONS.md) | **No action** — generic `CAV2-D32` + this lineage record suffice; promote a named term only if it becomes load-bearing beyond `D32`. | resolved (no-promotion) |
+
+No new terms promoted; `DEFINITIONS-INDEX.md` unchanged.
+
+## Authority-Lifecycle Candidate Staged (2026-06-23)
+
+Following from the lineage reconciliation: the Discipline Growth Rule, pattern
+lifecycle (`CAV2-D43`), and experience lifecycle (`CAV2-D46`) share one shape.
+Staged a paired candidate in
+[source-clusters/authority-lifecycle.md](source-clusters/authority-lifecycle.md):
+
+- `CAV2-CAND-LIFECYCLE-001` `authority promotion lifecycle` (aka `scientific
+  authority lifecycle`) — the general lifecycle **object** the existing
+  [promotion-policy.md](../promotion-policy.md) ladder already instantiates
+  (build-from-owned; `D43` / `D46` / Growth Rule are its instances).
+- `CAV2-CAND-LIFECYCLE-002` `no authority without a lifecycle` — the binding
+  **invariant** (references `-001`), carrying its inline collapse-test.
+
+Source evidence: inventory synthesis
+[scientific-authority-lifecycle-synthesis.md](../../../.arcanum/inventory/entries/scientific-authority-lifecycle-synthesis.md).
+Source evidence: inventory synthesis. Scope correction recorded earlier:
+**authority-bearing kinds only, not "everything."**
+
+**Status: PROMOTED 2026-06-23.** `-001` → **`CAV2-D48` authority promotion lifecycle**
+(build-from-owned generalization inference); `-002` (re-scoped per review CR-1 from
+"no authority without a lifecycle" to **`closed authority-kind enumeration`**) →
+**`CAV2-D49`**. `DEFINITIONS.md` + `DEFINITIONS-INDEX.md` synced (D48/D49 + aliases).
+**OQ-2 advanced** per the AUTHORITY-MODEL recommendation ("promote the definitions
+before adding to the kind table"): definitions promoted; the `invariant`/`axiom`
+**kind-table amendment stays a future decision-gate call**. **Still blocked:** the
+`CAV2-C16` *enactment* of closure (validator adapter `none-yet`) — the definition
+`D49` names the invariant; it does not enact the kind table as closed.
+
+**Update (2026-06-23, decision-gate):** closure now **enacted in review mode** — a
+default-deny catch-all row was added to the AUTHORITY-MODEL Authority Kinds table
+([decision record](../decisions/2026-06-23-authority-kind-closure-catchall-row.md)).
+The stand-alone `CAV2-C16` rule is **superseded** by that row; only the
+**deterministic validator** (automated kind-enumeration scan) remains pending
+(OQ-1). `invariant`/`axiom` as their own kinds (OQ-2) still deferred — they govern
+as the `Definition` kind, not blocked by the catch-all.

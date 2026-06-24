@@ -1,0 +1,453 @@
+{
+  "dispatch_id": "suggested-track-expansion-route-refine-20260624T010822Z",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "/refine this new route",
+    "objective": "Refine the SuggestedTrack-first route so users can naturally expand TROQAR tracks and attach Strava evidence only when needed.",
+    "target_artifact": "projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md",
+    "operator_sentence": "refine this new route",
+    "arcanum_vocabulary": [
+      "refine",
+      "dispatch-spec",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill"
+    ]
+  },
+  "mode": "sequence",
+  "route_menu": {
+    "context_hint": "Choose the product anchor for track expansion.",
+    "items": [
+      {
+        "id": "suggested-track-first",
+        "label": "SuggestedTrack first",
+        "description": "Users suggest tracks first; Strava evidence attaches later with consent.",
+        "capability_ref": "body-war-track-expansion"
+      },
+      {
+        "id": "activity-first",
+        "label": "Activity first",
+        "description": "A runner selects a Strava activity first and the app infers the route.",
+        "capability_ref": "body-war-strava-evidence"
+      },
+      {
+        "id": "operator-seeded-only",
+        "label": "Operator seeded only",
+        "description": "Only the operator adds routes; runners only submit evidence.",
+        "capability_ref": "body-war-operator-route-control"
+      }
+    ],
+    "selected_item_id": "suggested-track-first"
+  },
+  "techniques": [
+    "sequence",
+    "route_menu",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "data_quality_completeness",
+    "protected_context_flag",
+    "residue_ledger",
+    "observability_grouping"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The user asked for refinement and architecture/plan before implementation.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s02-invoke-define",
+        "s03-interrogation-refine-review",
+        "s04-research-decision",
+        "s05-distill",
+        "s06-invoke-design",
+        "s07-interrogation-design-review",
+        "s08-distill-repair",
+        "s09-invoke-plan",
+        "s10-final-interrogation-synthesis"
+      ],
+      "validation_expectation": "Runtime-backed execution is blocked until the operator confirms this strategy."
+    },
+    {
+      "overlay_id": "route_menu_for_product_anchor",
+      "trigger": "There are competing anchors: suggested track first, activity first, or operator seeded only.",
+      "techniques": [
+        "route_menu",
+        "one_or_more_option_set",
+        "approval_checkpoint"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s05-distill",
+        "s06-invoke-design"
+      ],
+      "validation_expectation": "The selected route must explain why SuggestedTrack is the anchor and what alternatives were rejected."
+    },
+    {
+      "overlay_id": "protected_context_for_strava_evidence",
+      "trigger": "Strava activities are personal data and should be consulted live before any consented save.",
+      "techniques": [
+        "protected_context_flag",
+        "owner_boundary_check",
+        "residue_ledger"
+      ],
+      "applies_to_steps": [
+        "s03-interrogation-refine-review",
+        "s06-invoke-design",
+        "s07-interrogation-design-review",
+        "s09-invoke-plan"
+      ],
+      "validation_expectation": "The plan must preserve consult-before-save and consent-before-evidence."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The route can be refined locally. Implementation may later benefit from UI/security review, but no subagents are needed for this strategy proposal.",
+    "authorization": "not_needed",
+    "parallelism": "none",
+    "join_policy": "none",
+    "receipt_requirements": [
+      "artifact path",
+      "status",
+      "blocked reason if not executed"
+    ]
+  },
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "suggested-track-expansion-route-refine-20260624T010822Z",
+      "step_id": "s10-final-interrogation-synthesis",
+      "capability_ref": "refine",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "artifacts": [
+        "REFINE-SEED-PROPOSAL.md",
+        "ARCHITECTURE-PLAN.md",
+        "REFINE-DISPATCH.json",
+        "RUNTIME-HANDOFF.md"
+      ],
+      "blockers": [
+        "Full canonical runtime-backed refine loop awaits operator confirmation."
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "s01-context-builder",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S01-CONTEXT-BUILDER.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S01-CONTEXT-BUILDER.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S02-INVOKE-DEFINE.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s03-interrogation-refine-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "protected_context_flag"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S02-INVOKE-DEFINE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S03-INTERROGATION-REFINE-REVIEW.md"
+        }
+      ],
+      "evidence_artifact": "REFINE-SEED-PROPOSAL.md",
+      "stop_conditions": [
+        "block if Strava activities are saved during consult without consent",
+        "block if SuggestedTrack status implies verified geometry"
+      ]
+    },
+    {
+      "step_id": "s04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "techniques": [
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S03-INTERROGATION-REFINE-REVIEW.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/S04-RESEARCH-DECISION.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s05-distill",
+      "name": "Distill coherent unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": [
+        "route_menu",
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/S04-RESEARCH-DECISION.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S05-DISTILL.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "name": "Invoke Redefine / Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "owner_boundary_check",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S05-DISTILL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "ARCHITECTURE-PLAN.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "protected_context_flag"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ARCHITECTURE-PLAN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S07-INTERROGATION-DESIGN-REVIEW.md"
+        }
+      ],
+      "evidence_artifact": "ARCHITECTURE-PLAN.md"
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "techniques": [
+        "residue_ledger",
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S07-INTERROGATION-DESIGN-REVIEW.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S08-DISTILL-REPAIR.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S08-DISTILL-REPAIR.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "ARCHITECTURE-PLAN.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s10-final-interrogation-synthesis",
+      "name": "Final Interrogation and Synthesis",
+      "capability_ref": "refine",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": [
+        "validation_loop",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ARCHITECTURE-PLAN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        }
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G-ROUTE-CONFIRMATION",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Operator confirms SuggestedTrack-first route before Task Session implementation begins.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-CONSULT-BEFORE-SAVE",
+      "kind": "quality",
+      "owner": "body-war",
+      "condition": "Strava activities are consulted live and only one selected activity is persisted after consent.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-DRIZZLE-POSTGRES",
+      "kind": "policy",
+      "owner": "body-war",
+      "condition": "Any SQL schema change uses Drizzle with Postgres and generated migrations.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-GEOMETRY-HONESTY",
+      "kind": "promotion_guardrail",
+      "owner": "body-war",
+      "condition": "Suggested tracks and evidence candidates must not claim verified geometry before source-backed promotion.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "refine.strategy.proposed",
+      "refine.route_menu.selected.suggested_track_first",
+      "refine.authorization.blocked_until_confirmation"
+    ],
+    "signal_grouping": "suggested-track-expansion-route"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B01-public-suggestion-boundary",
+        "kind": "state_write",
+        "from_owner": "connected runner",
+        "to_owner": "SuggestedTrack",
+        "applies_to_steps": [
+          "s06-invoke-design",
+          "s09-invoke-plan"
+        ],
+        "contract": "Suggested track metadata is public/product data and may be stored once submitted.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B02-strava-evidence-boundary",
+        "kind": "external_context",
+        "from_owner": "connected runner Strava account",
+        "to_owner": "TrackEvidenceCandidate",
+        "applies_to_steps": [
+          "s03-interrogation-refine-review",
+          "s06-invoke-design",
+          "s09-invoke-plan"
+        ],
+        "contract": "Strava activity data is consulted live, redacted in browser, and stored only after explicit consent.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Do not implement territory scoring in this route.",
+    "Do not infer source-backed route geometry from a suggestion alone.",
+    "Preserve the existing auth/profile/Strava-first pivot.",
+    "Use generated Drizzle migrations for Postgres schema changes."
+  ]
+}

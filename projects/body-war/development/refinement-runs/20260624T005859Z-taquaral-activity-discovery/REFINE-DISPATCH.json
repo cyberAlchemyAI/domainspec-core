@@ -1,0 +1,428 @@
+{
+  "dispatch_id": "taquaral-activity-discovery-refine-20260624T005859Z",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Refine and produce architecture and plan first for asking a connected Strava runner for the data needed to get the Taquaral circuit activity.",
+    "objective": "Produce a non-executed architecture and implementation plan for Taquaral activity discovery on the connected TROQAR home page.",
+    "target_artifact": "projects/body-war/development/refinement-runs/20260624T005859Z-taquaral-activity-discovery/ARCHITECTURE-PLAN.md",
+    "operator_sentence": "refine and produce architecture and plan first",
+    "arcanum_vocabulary": [
+      "refine",
+      "dispatch-spec",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "data_quality_completeness",
+    "protected_context_flag",
+    "residue_ledger",
+    "observability_grouping"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The request asks for architecture and plan before implementation.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s02-invoke-define",
+        "s03-interrogation-refine-review",
+        "s04-research-decision",
+        "s05-distill",
+        "s06-invoke-design",
+        "s07-interrogation-design-review",
+        "s08-distill-repair",
+        "s09-invoke-plan",
+        "s10-final-interrogation-synthesis"
+      ],
+      "validation_expectation": "No implementation stage executes before architecture and plan are accepted."
+    },
+    {
+      "overlay_id": "protected_context_for_friend_strava",
+      "trigger": "The target data is a friend's personal Strava activity and may include location evidence.",
+      "techniques": [
+        "protected_context_flag",
+        "owner_boundary_check",
+        "residue_ledger"
+      ],
+      "applies_to_steps": [
+        "s03-interrogation-refine-review",
+        "s06-invoke-design",
+        "s07-interrogation-design-review",
+        "s09-invoke-plan",
+        "s10-final-interrogation-synthesis"
+      ],
+      "validation_expectation": "Plan must require consent and must keep tokens and raw private activity payloads out of browser and repo artifacts."
+    },
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "The current app has auth, profile, placeholder summaries, submissions, and deferred geometry; the plan must expose where each responsibility belongs.",
+      "techniques": [
+        "x_ray",
+        "component_descriptor",
+        "entity_component_reference"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s06-invoke-design",
+        "s09-invoke-plan"
+      ],
+      "validation_expectation": "Architecture must separate UI prompt, Strava gateway, consent policy, candidate storage, and future geometry promotion."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "A local architecture and plan pass is sufficient before execution. Subagents are not needed until implementation or UI validation.",
+    "authorization": "not_needed",
+    "parallelism": "none",
+    "join_policy": "none",
+    "receipt_requirements": [
+      "artifact path",
+      "status",
+      "blocked reason if not executed"
+    ]
+  },
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "taquaral-activity-discovery-refine-20260624T005859Z",
+      "step_id": "s10-final-interrogation-synthesis",
+      "capability_ref": "refine",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "artifacts": [
+        "REFINE-SEED-PROPOSAL.md",
+        "ARCHITECTURE-PLAN.md",
+        "REFINE-DISPATCH.json",
+        "RUNTIME-HANDOFF.md"
+      ],
+      "blockers": [
+        "Full canonical runtime-backed refine loop awaits operator confirmation."
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "s01-context-builder",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "data_quality_completeness"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S01-CONTEXT-BUILDER.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S01-CONTEXT-BUILDER.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S02-INVOKE-DEFINE.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s03-interrogation-refine-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "protected_context_flag"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S02-INVOKE-DEFINE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S03-INTERROGATION-REFINE-REVIEW.md"
+        }
+      ],
+      "evidence_artifact": "REFINE-SEED-PROPOSAL.md",
+      "stop_conditions": [
+        "block if consent is optional for friend activity evidence",
+        "block if route geometry is claimed before source-backed evidence"
+      ]
+    },
+    {
+      "step_id": "s04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "techniques": [
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S03-INTERROGATION-REFINE-REVIEW.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/S04-RESEARCH-DECISION.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s05-distill",
+      "name": "Distill coherent unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": [
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/S04-RESEARCH-DECISION.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S05-DISTILL.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "name": "Invoke Redefine / Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "x_ray",
+        "component_descriptor",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S05-DISTILL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "ARCHITECTURE-PLAN.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "protected_context_flag"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ARCHITECTURE-PLAN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S07-INTERROGATION-DESIGN-REVIEW.md"
+        }
+      ],
+      "evidence_artifact": "ARCHITECTURE-PLAN.md"
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "techniques": [
+        "residue_ledger",
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S07-INTERROGATION-DESIGN-REVIEW.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S08-DISTILL-REPAIR.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S08-DISTILL-REPAIR.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "ARCHITECTURE-PLAN.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s10-final-interrogation-synthesis",
+      "name": "Final Interrogation and Synthesis",
+      "capability_ref": "refine",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": [
+        "validation_loop",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "ARCHITECTURE-PLAN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        }
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G-REFINE-CONFIRMATION",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Operator confirms this architecture before implementation task-session begins.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-FRIEND-CONSENT",
+      "kind": "quality",
+      "owner": "body-war",
+      "condition": "Any real Strava activity candidate requires explicit runner consent before persistence or review.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-NO-SECRET-LEAK",
+      "kind": "policy",
+      "owner": "body-war",
+      "condition": "Tokens, refresh tokens, client secret, and raw private activity payloads must not be rendered or committed.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-GEOMETRY-HONESTY",
+      "kind": "promotion_guardrail",
+      "owner": "body-war",
+      "condition": "Selected activity is preview evidence only until a source-backed geometry artifact is approved.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "refine.strategy.proposed",
+      "refine.architecture_plan.created",
+      "refine.authorization.blocked_until_confirmation"
+    ],
+    "signal_grouping": "taquaral-activity-discovery"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B01-strava-token-boundary",
+        "kind": "state_write",
+        "from_owner": "Strava OAuth provider",
+        "to_owner": "Body War backend",
+        "applies_to_steps": [
+          "s06-invoke-design",
+          "s09-invoke-plan"
+        ],
+        "contract": "Provider tokens stay encrypted server-side and are never exposed to browser UI or repo artifacts.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B02-friend-activity-boundary",
+        "kind": "external_context",
+        "from_owner": "connected runner",
+        "to_owner": "Taquaral preview evidence",
+        "applies_to_steps": [
+          "s03-interrogation-refine-review",
+          "s06-invoke-design",
+          "s09-invoke-plan"
+        ],
+        "contract": "The selected Strava activity can be stored only as redacted consented preview evidence.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Do not implement territory game mechanics in this slice.",
+    "Do not claim verified Taquaral geometry from a single candidate activity.",
+    "Use Drizzle-generated migrations for any Postgres schema change."
+  ]
+}

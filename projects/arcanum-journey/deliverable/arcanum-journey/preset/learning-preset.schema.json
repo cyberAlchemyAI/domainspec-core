@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://arcanum.local/spells/arcanum-journey/learning-preset.schema.json",
+  "title": "Arcanum Journey Learning Preset",
+  "description": "Public schema for the explanation-style preset that shapes how the Arcanum Journey teaches. Ships only shape + neutral defaults. The learner's tweaks (language, audience) are local runtime data and are never committed to the public package.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["profile", "explanation", "pacing", "surface"],
+  "properties": {
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "mode"],
+      "properties": {
+        "id": { "type": "string", "default": "neutral-default" },
+        "version": { "type": "string", "default": "1.0.0" },
+        "mode": {
+          "type": "string",
+          "enum": ["neutral-default", "custom-learner"],
+          "default": "neutral-default"
+        },
+        "description": {
+          "type": "string",
+          "default": "Veritasium-style novice explainer: analogy-first, simple, one concept at a time."
+        }
+      }
+    },
+    "explanation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["audience", "analogy_density", "simplicity", "style", "persona_ref"],
+      "properties": {
+        "audience": {
+          "type": "string",
+          "enum": ["novice", "practitioner"],
+          "default": "novice"
+        },
+        "analogy_density": {
+          "$ref": "#/$defs/level",
+          "default": "high"
+        },
+        "simplicity": {
+          "$ref": "#/$defs/level",
+          "default": "high"
+        },
+        "style": {
+          "type": "string",
+          "enum": ["veritasium", "reference", "socratic"],
+          "default": "veritasium"
+        },
+        "persona_ref": {
+          "type": "string",
+          "default": "anonymized-explainer",
+          "description": "Reference to an anonymized explainer persona. Never a real person name (public-boundary rule)."
+        }
+      }
+    },
+    "pacing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["one_concept_at_a_time", "probe_prompts"],
+      "properties": {
+        "one_concept_at_a_time": { "type": "boolean", "default": true },
+        "probe_prompts": { "type": "boolean", "default": true },
+        "check_understanding": {
+          "type": "string",
+          "enum": ["after_each_chapter", "never"],
+          "default": "after_each_chapter"
+        }
+      }
+    },
+    "surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["html", "generator"],
+      "properties": {
+        "html": { "type": "boolean", "default": true },
+        "generator": {
+          "type": "string",
+          "enum": ["x-ray", "plain-markdown"],
+          "default": "x-ray"
+        }
+      }
+    },
+    "language_tweaks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["term", "say_instead"],
+        "properties": {
+          "term": { "type": "string" },
+          "say_instead": { "type": "string" }
+        }
+      },
+      "default": [],
+      "description": "Learner-supplied vocabulary so the journey speaks their language. Local runtime data; not part of the public package."
+    }
+  },
+  "$defs": {
+    "level": { "type": "string", "enum": ["low", "medium", "high"] }
+  },
+  "x-neutralDefault": {
+    "profile": {
+      "id": "neutral-default",
+      "version": "1.0.0",
+      "mode": "neutral-default",
+      "description": "Veritasium-style novice explainer: analogy-first, simple, one concept at a time."
+    },
+    "explanation": {
+      "audience": "novice",
+      "analogy_density": "high",
+      "simplicity": "high",
+      "style": "veritasium",
+      "persona_ref": "anonymized-explainer"
+    },
+    "pacing": {
+      "one_concept_at_a_time": true,
+      "probe_prompts": true,
+      "check_understanding": "after_each_chapter"
+    },
+    "surface": { "html": true, "generator": "x-ray" },
+    "language_tweaks": []
+  }
+}

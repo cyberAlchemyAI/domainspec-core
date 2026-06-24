@@ -1,0 +1,46 @@
+# Arcanum Journey — onboarder routing config (S-003 / SWU-AJ-ROUTE-1)
+# Drives DEC-AJ-ROUTING-001: interrogate primary goal, recommend a first tool,
+# THEN show the full map so the learner can override or probe freely.
+# Source for the goal->tool edges: ../../route-map/SIGIL-SPELL-ROUTE-MAP.md §5
+
+interrogation:
+  style: one-question-at-a-time   # composes arcana/structured-interview-kits
+  questions:
+    - id: q-primary-goal
+      ask: "What do you most want to do with these tools?"
+      options:
+        - { value: creative,   label: "Write or create things (stories, docs, ideas)" }
+        - { value: automation, label: "Automate or build software / workflows" }
+        - { value: knowledge,  label: "Understand a topic, paper, or codebase deeply" }
+        - { value: unsure,     label: "I'm not sure yet — show me around" }
+    - id: q-software-comfort
+      ask: "How comfortable are you with code?"
+      options:
+        - { value: none,  label: "I don't code" }
+        - { value: some,  label: "A little" }
+        - { value: lots,  label: "I'm a developer" }
+      note: "Only adjusts analogy_density / pacing; never gates access."
+
+routing:
+  # primary_goal -> recommended first chapter-tool + suggested path
+  creative:
+    first_tool: whisper
+    path: [ch0-framing, ch1-craft, ch4a-whisper, ch9-capstone]
+    why: "Whisper is the creative front door — writing, no software knowledge needed."
+  automation:
+    first_tool: craft+task-session
+    path: [ch0-framing, ch1-craft, ch4b-task-session, ch7-goal]
+    why: "Craft is the control surface; task-session executes; goal is the autopilot."
+  knowledge:
+    first_tool: inventory+research-tower
+    path: [ch0-framing, ch1-craft, ch4c-inventory, ch9-capstone]
+    why: "Inventory makes knowledge durable; research-tower builds your own tower."
+  unsure:
+    first_tool: craft
+    path: [ch0-framing, ch1-craft]
+    why: "Start at the control surface, then re-ask once you've seen one tool."
+
+behavior:
+  always_show_full_map: true        # learner may override the recommendation
+  allow_free_probe: true            # learn-by-testing is first-class
+  after_each_chapter: offer_next_paths   # path-recommender uses route-map edges

@@ -1,0 +1,749 @@
+{
+  "dispatch_id": "2026-06-23-per-element-annotate",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Iterate per element: extract element properties (by spec or by computed style, e.g. button font), compose the page from elements, attach a Figma-like hover form to every element that saves/sends comments to the server, retrieve comments via CLI and run the cycle; user batches many comments then runs the skill; expand a candidate to full page and back to the grid view.",
+    "objective": "Run the canonical Refine loop for the UI Prototyping Studio annotate/preview surface and produce an MVP-ready non-executed plan (RESULT.md) for a per-element Figma-like annotate loop, resolving untagged-element addressing, property extraction, hover-form persistence, batch-then-run-cycle UX, expand/collapse view-state, and honest-diff reconciliation under freeform edits.",
+    "target_artifact": "RESULT.md",
+    "arcanum_vocabulary": [
+      "refine",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "dispatch-spec"
+    ],
+    "operator_sentence": "first we need to be able to iterate per element ... the experience should look like a figma ... attach to every element a form that appears when hovering ... saved or sent to the server ... retrieve the comment via cli and iterate ... user does as many comments as it wants then call the skill to make the cycle run ... if the candidate is a whole should be able to expand the page and go back to this view too"
+  },
+  "mode": "mixed",
+  "route_menu": {
+    "context_hint": "Two layers of choice: (1) technique overlays over the canonical ten-stage loop; (2) recorded product forks in the operator request (element addressing, property extraction, persistence, view-state, honest-diff reconciliation) \u2014 see REFINE-SEED-PROPOSAL.md and confirm with operator before s06-invoke-design.",
+    "items": [
+      {
+        "id": "baseline_sequence",
+        "label": "Baseline sequence",
+        "description": "Canonical ten-stage loop with sequence, handoff, validation, owner-boundary, and observability techniques.",
+        "pattern": "sequential"
+      },
+      {
+        "id": "dialectic_for_tension",
+        "label": "Dialectic for governance-vs-ergonomics tension",
+        "description": "Add dialectic, zig_zag, residue_ledger because annotate-any-element + theme edits collide with the honest per-component diff and the data-od-id governance model.",
+        "pattern": "dialectic"
+      },
+      {
+        "id": "route_menu_for_ambiguity",
+        "label": "Route menu for the property/persistence/scope forks",
+        "description": "Add route_menu, one_or_more_option_set, approval_checkpoint to record the by-spec-vs-by-computed-style, saved-vs-sent, tagged-only-vs-any-element choices.",
+        "pattern": "route_menu"
+      },
+      {
+        "id": "xray_for_hidden_structure",
+        "label": "X-ray the element/property/comment-flow structure",
+        "description": "Add x_ray, component_descriptor, entity_component_reference to surface the element to property to component composition model and the browser to server to CLI to cycle flow.",
+        "pattern": "validation"
+      }
+    ],
+    "selected_item_id": "baseline_sequence+route_menu+dialectic+xray"
+  },
+  "selected_overlays": [
+    "baseline_sequence",
+    "route_menu_for_ambiguity",
+    "dialectic_for_tension",
+    "xray_for_hidden_structure"
+  ],
+  "techniques": [
+    "sequence",
+    "sentence_grammar",
+    "route_menu",
+    "one_or_more_option_set",
+    "approval_checkpoint",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "dialectic",
+    "zig_zag",
+    "residue_ledger",
+    "x_ray",
+    "component_descriptor",
+    "entity_component_reference",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "conditional_component",
+    "data_quality_completeness"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "Default canonical ten-stage order for the refinement.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s02-invoke-define",
+        "s03-interrogation-review",
+        "s04-research-decision",
+        "s05-distill",
+        "s06-invoke-design",
+        "s07-interrogation-design-review",
+        "s08-distill-repair",
+        "s09-invoke-plan",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "Every non-first step consumes a named frame, artifact, decision, or ledger from an earlier step."
+    },
+    {
+      "overlay_id": "route_menu_for_ambiguity",
+      "trigger": "Operator request contains explicit unresolved forks: property extraction 'by spec, or by ...', persistence 'saved or sent', and tagged-only-vs-any-element scope.",
+      "techniques": [
+        "route_menu",
+        "one_or_more_option_set",
+        "approval_checkpoint"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s04-research-decision",
+        "s06-invoke-design"
+      ],
+      "validation_expectation": "The dispatch includes a bounded route menu of the product forks or records a blocked decision with the missing choice before design."
+    },
+    {
+      "overlay_id": "dialectic_for_tension",
+      "trigger": "Governed integrity (honest per-component diff, data-od-id model, auditable mutation) competes with Figma-freeform ergonomics (annotate any element, theme-level edits). Observed live: untagged tagline could not be annotated; theme-token edit produced a 0-changed honest diff.",
+      "techniques": [
+        "dialectic",
+        "zig_zag",
+        "residue_ledger"
+      ],
+      "applies_to_steps": [
+        "s03-interrogation-review",
+        "s07-interrogation-design-review",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "Dialectic steps name roles, preserve stable disagreement, and leave unresolved residue in a ledger."
+    },
+    {
+      "overlay_id": "xray_for_hidden_structure",
+      "trigger": "Element to property to component composition model and the browser to server to CLI to cycle comment flow are the hidden structure the design depends on.",
+      "techniques": [
+        "x_ray",
+        "component_descriptor",
+        "entity_component_reference"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s06-invoke-design",
+        "s10-final-synthesis"
+      ],
+      "validation_expectation": "The route emits an explanation handle or requires an x-ray next route before implementation planning."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The target carries a load-bearing governance-vs-ergonomics tension plus hidden element/property/flow structure; role-bound siblings with opposed vectors reduce single-perspective bias before parent synthesis.",
+    "explanation": "Three reviewers run during the interrogation/design stages: an ergonomics advocate pushing maximal Figma freedom, a governance-integrity skeptic defending the honest diff and component model, and an implementation-cost realist grounding what is buildable on the node/fastify/preview-server stack. Roles 1 and 2 are deliberately opposed (anti-bias axis: ergonomic-freedom <-> governed-integrity); role 3 supplies the cost vector. Refine remains orchestrator and synthesizes; subagents return receipts only.",
+    "anti_bias_axis": "ergonomic-freedom <-> governed-integrity, grounded by implementation-cost",
+    "context": [
+      "Selected overlays (dialectic, x-ray, route_menu) drive this role set.",
+      "Subagents return receipts; they do not own lifecycle promotion.",
+      "Execution waits for operator approval after dispatch validation."
+    ],
+    "roles": [
+      {
+        "role_id": "ergonomics-advocate",
+        "purpose": "Argue for maximal Figma-like freedom: hover any element, frictionless inline form, batch freely, expand/collapse anywhere. Ergonomics is the first principle.",
+        "owns": "user-leads-when, cognitive-load, friction-reduction risks",
+        "vector": "ergonomic-freedom / user-leads",
+        "applies_to_steps": [
+          "s03-interrogation-review",
+          "s07-interrogation-design-review"
+        ]
+      },
+      {
+        "role_id": "governance-integrity-skeptic",
+        "purpose": "Defend the honest per-component diff, data-od-id model, append-only manifest, and auditability. Attack any freeform/theme path that makes the diff lie or breaks two-gate approval.",
+        "owns": "diff-honesty, auditability, governance-invariant risks",
+        "vector": "governed-integrity / structure-leads",
+        "applies_to_steps": [
+          "s03-interrogation-review",
+          "s07-interrogation-design-review"
+        ]
+      },
+      {
+        "role_id": "implementation-cost-realist",
+        "purpose": "Bound the design to what is buildable for an MVP on node + fastify + the no-build preview server: computed-style extraction feasibility, stable element addressing, view-state, and test/e2e impact.",
+        "owns": "buildability, smallest-working-unit, test-harness-impact risks",
+        "vector": "cost / smallest-working-unit",
+        "applies_to_steps": [
+          "s06-invoke-design",
+          "s08-distill-repair"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "requires_user_permission",
+    "permission_prompt": "Dispatch Spec recommends three role-bound reviewers (ergonomics-advocate, governance-integrity-skeptic, implementation-cost-realist) during the interrogation/design stages. Run these delegated reviewers before native runtime-backed stages?",
+    "receipt_requirements": [
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "residue",
+      "reroute",
+      "handoff_note",
+      "scope reviewed",
+      "findings",
+      "validation impact",
+      "blocked fields or no-block verdict"
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s01-context-builder",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "sentence_grammar",
+        "route_menu",
+        "minimum_component_catalog",
+        "frame_handoff",
+        "memory_loop",
+        "x_ray"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "context-builder-frame"
+        },
+        {
+          "kind": "handle",
+          "ref": "context-builder-artifact"
+        }
+      ],
+      "evidence_artifact": "stages/01-context-builder.md",
+      "stop_conditions": [
+        "block if strict context coverage cannot support a coherent seed"
+      ]
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "component_descriptor"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "context-builder-frame"
+        },
+        {
+          "kind": "artifact",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ],
+      "evidence_artifact": "stages/02-invoke-define.md"
+    },
+    {
+      "step_id": "s03-interrogation-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "dialectic",
+        "zig_zag",
+        "residue_ledger"
+      ],
+      "roles": [
+        "ergonomics-advocate",
+        "governance-integrity-skeptic",
+        "synthesizer"
+      ],
+      "convergence_criteria": [
+        "unsupported assumptions are separated",
+        "stable disagreements are preserved as residue"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/02-invoke-define.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "refine-review-ledger"
+        }
+      ],
+      "evidence_artifact": "stages/03-interrogation-refine-review.md"
+    },
+    {
+      "step_id": "s04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "techniques": [
+        "approval_checkpoint",
+        "conditional_component"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "refine-review-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "research-decision"
+        }
+      ],
+      "evidence_artifact": "stages/04-research-decision.md"
+    },
+    {
+      "step_id": "s05-distill",
+      "name": "Distill",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": [
+        "scu_swu_reduction",
+        "pareto_gate",
+        "recomposition_proof"
+      ],
+      "roles": [
+        "candidate-a",
+        "candidate-b",
+        "synthesis"
+      ],
+      "convergence_criteria": [
+        "Pareto criteria are named",
+        "rejected alternatives are recorded",
+        "selected unit has a recomposition target"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "research-decision"
+        },
+        {
+          "kind": "ledger",
+          "ref": "refine-review-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "distill-frame"
+        }
+      ],
+      "evidence_artifact": "stages/05-distill.md"
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "name": "Invoke Redefine / Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "handle_handoff",
+        "x_ray",
+        "component_descriptor",
+        "entity_component_reference",
+        "route_menu"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "distill-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ],
+      "evidence_artifact": "stages/06-invoke-design.md"
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "dialectic",
+        "residue_ledger",
+        "data_quality_completeness"
+      ],
+      "roles": [
+        "ergonomics-advocate",
+        "governance-integrity-skeptic",
+        "implementation-cost-realist"
+      ],
+      "convergence_criteria": [
+        "design risks are named",
+        "repair candidates are separated from accepted design claims"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/06-invoke-design.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "ledger",
+          "ref": "design-review-ledger"
+        }
+      ],
+      "evidence_artifact": "stages/07-interrogation-refine-design-review.md"
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "toy_game",
+        "assessment_failure_reference",
+        "recomposition_proof"
+      ],
+      "inputs": [
+        {
+          "kind": "ledger",
+          "ref": "design-review-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "repair-frame"
+        }
+      ],
+      "evidence_artifact": "stages/08-distill-repair.md"
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "minimum_component_catalog",
+        "toy_game",
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "repair-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        }
+      ],
+      "evidence_artifact": "stages/09-invoke-plan.md"
+    },
+    {
+      "step_id": "s10-final-synthesis",
+      "name": "Final Interrogation and Synthesis",
+      "capability_ref": "interrogation",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": [
+        "owner_boundary_check",
+        "residue_ledger",
+        "spell_candidate",
+        "data_quality_conformity",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/09-invoke-plan.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "repair-frame"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "dispatch_completed"
+        }
+      ],
+      "evidence_artifact": "stages/10-final-interrogation-and-synthesis.md"
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-dispatch-valid",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "REFINE-DISPATCH.json validates against dispatch.schema.yml and cited techniques are used by steps or gates.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-subagent-permission",
+      "kind": "human_approval",
+      "owner": "refine",
+      "condition": "subagent_strategy.status is recommended; Refine shows the strategy with target context and asks permission before delegated or native runtime-backed execution.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g03-native-capability-receipts",
+      "kind": "validation",
+      "owner": "refine",
+      "condition": "Each native runtime-backed stage declares a capability_ref and records a native stage receipt, approved subagent receipt, or explicit blocked reason before pass is claimed.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04-research-confirmation",
+      "kind": "human_approval",
+      "owner": "refine",
+      "condition": "External research runs only when bounded research is selected or a named gap triggers confirmation.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g05-product-fork-decision",
+      "kind": "human_approval",
+      "owner": "refine",
+      "condition": "The five product forks (element addressing, property extraction, persistence, view-state, honest-diff reconciliation) are confirmed by the operator or recorded as blocked decisions before s06-invoke-design.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g06-owner-boundary",
+      "kind": "promotion_guardrail",
+      "owner": "refine",
+      "condition": "Task Session, Sigil Development, Inventory, Ontology, Glossary, and Spellcraft authority is not claimed by Refine.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g07-final-artifact-completeness",
+      "kind": "quality",
+      "owner": "refine",
+      "condition": "Every selected stage has an artifact path or blocked reason before RESULT.md claims completion.",
+      "on_fail": "block"
+    }
+  ],
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "2026-06-23-per-element-annotate",
+      "step_id": "s01-context-builder",
+      "capability_ref": "context-builder",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/01-context-builder.md"
+      ],
+      "validation": [],
+      "observer_status": "n/a",
+      "blockers": [],
+      "residue": "",
+      "handoff_note": "executed"
+    },
+    {
+      "dispatch_id": "2026-06-23-per-element-annotate",
+      "step_id": "s02-invoke-define",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/02-invoke-define.md"
+      ],
+      "validation": [],
+      "observer_status": "n/a",
+      "blockers": [],
+      "residue": "",
+      "handoff_note": "executed"
+    },
+    {
+      "dispatch_id": "2026-06-23-per-element-annotate",
+      "step_id": "s03-interrogation-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "subagent",
+      "status": "flag",
+      "artifacts": [
+        "stages/03-interrogation-refine-review.md"
+      ],
+      "validation": [],
+      "observer_status": "n/a",
+      "blockers": [],
+      "residue": "Stable disagreement R1-R3 preserved (F1 untagged-apply, F2 provenance, F3/F4 boundary); F5 block dissolved via existing null bucket.",
+      "handoff_note": "executed"
+    },
+    {
+      "dispatch_id": "2026-06-23-per-element-annotate",
+      "step_id": "s04-research-decision",
+      "capability_ref": "refine",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/04-research-decision.md"
+      ],
+      "validation": [],
+      "observer_status": "n/a",
+      "blockers": [],
+      "residue": "",
+      "handoff_note": "executed"
+    },
+    {
+      "dispatch_id": "2026-06-23-per-element-annotate",
+      "step_id": "s05-distill",
+      "capability_ref": "distill",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/05-distill.md"
+      ],
+      "validation": [],
+      "observer_status": "n/a",
+      "blockers": [],
+      "residue": "",
+      "handoff_note": "executed"
+    },
+    {
+      "dispatch_id": "2026-06-23-per-element-annotate",
+      "step_id": "s06-invoke-design",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/06-invoke-design.md"
+      ],
+      "validation": [],
+      "observer_status": "n/a",
+      "blockers": [],
+      "residue": "",
+      "handoff_note": "executed"
+    },
+    {
+      "dispatch_id": "2026-06-23-per-element-annotate",
+      "step_id": "s07-interrogation-design-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "subagent",
+      "status": "block",
+      "artifacts": [
+        "stages/07-interrogation-refine-design-review.md"
+      ],
+      "validation": [],
+      "observer_status": "n/a",
+      "blockers": [
+        "DD-F5 premise code-disconfirmed; repaired s08"
+      ],
+      "residue": "",
+      "handoff_note": "executed"
+    },
+    {
+      "dispatch_id": "2026-06-23-per-element-annotate",
+      "step_id": "s08-distill-repair",
+      "capability_ref": "distill",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/08-distill-repair.md"
+      ],
+      "validation": [],
+      "observer_status": "n/a",
+      "blockers": [],
+      "residue": "",
+      "handoff_note": "executed"
+    },
+    {
+      "dispatch_id": "2026-06-23-per-element-annotate",
+      "step_id": "s09-invoke-plan",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "stages/09-invoke-plan.md"
+      ],
+      "validation": [],
+      "observer_status": "n/a",
+      "blockers": [],
+      "residue": "",
+      "handoff_note": "executed"
+    },
+    {
+      "dispatch_id": "2026-06-23-per-element-annotate",
+      "step_id": "s10-final-synthesis",
+      "capability_ref": "interrogation",
+      "receipt_kind": "subagent",
+      "status": "flag",
+      "artifacts": [
+        "stages/10-final-interrogation-and-synthesis.md"
+      ],
+      "validation": [],
+      "observer_status": "n/a",
+      "blockers": [],
+      "residue": "R-A honest-diff truth (S4) deferred; R-B scope-coarsening friction needs real-use validation; g05 MVP-scope decision open for operator.",
+      "handoff_note": "executed"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "dispatch_validated",
+      "stage_started",
+      "stage_completed",
+      "stage_blocked",
+      "dispatch_completed"
+    ],
+    "signal_grouping": "dispatch_id"
+  },
+  "promotion_guardrails": [
+    "Refine may recommend Task Session or Sigil Development only after final synthesis.",
+    "Refine may not promote inventory, ontology, glossary, sigil, or spell artifacts.",
+    "Dispatch validation is route-shape evidence, not proof that semantic stage execution completed."
+  ]
+}

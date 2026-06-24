@@ -1,0 +1,62 @@
+{
+  "run_id": "20260624T005859Z-taquaral-activity-discovery",
+  "target": "projects/body-war/app",
+  "status": "strategy-proposed",
+  "research_mode": "research-if-gap-appears",
+  "artifacts": [
+    {
+      "path": "REFINE-SEED-PROPOSAL.md",
+      "kind": "seed",
+      "status": "present"
+    },
+    {
+      "path": "ARCHITECTURE-PLAN.md",
+      "kind": "architecture-plan",
+      "status": "present"
+    },
+    {
+      "path": "REFINE-DISPATCH.json",
+      "kind": "dispatch",
+      "status": "present"
+    },
+    {
+      "path": "RUNTIME-HANDOFF.md",
+      "kind": "runtime-handoff",
+      "status": "present"
+    },
+    {
+      "path": "RESULT.md",
+      "kind": "result",
+      "status": "present"
+    }
+  ],
+  "source_evidence": [
+    {
+      "path": "projects/body-war/app/server.ts",
+      "note": "Existing auth, profile, activity, tracks, and submission routes."
+    },
+    {
+      "path": "projects/body-war/app/src/auth/strava-oauth.ts",
+      "note": "OAuth flow, server-side token storage, placeholder activity summary path."
+    },
+    {
+      "path": "projects/body-war/app/static/app.js",
+      "note": "Connected home, activity list, and preview submission UI."
+    },
+    {
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/DESIGN.md",
+      "note": "Prior hosted friend preview design and guardrails."
+    },
+    {
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/WORK-PACK.md",
+      "note": "Prior wave plan and W0/W1 split."
+    }
+  ],
+  "guards": [
+    "friend consent required",
+    "no token exposure",
+    "no raw private activity payload in browser or repo docs",
+    "route geometry remains not_claimed until source-backed",
+    "Drizzle-generated migrations required for schema changes"
+  ]
+}

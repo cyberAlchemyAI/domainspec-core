@@ -26,6 +26,12 @@ Controlled tags for this package.
 | `knowledge-craft-governance` | Knowledge/Craft/Governance framing or correction. |
 | `cyberalchemy-v2` | CyberAlchemy v2 local consolidation, authority, definition, or project-space material. |
 | `scientific-authority-lifecycle` | Candidate synthesis that reads CyberAlchemy knowledge promotion as a scientific-method-like authority lifecycle from operational evidence to owner-routed authority. |
+| `authority-lifecycle-invariant` | The normative/decision layer over the scientific-authority-lifecycle: the general `authority promotion lifecycle` object and the `no authority without a lifecycle` invariant (candidates CAV2-CAND-LIFECYCLE-001/002). |
+| `review-change-request` | A verified, severity-ranked change request produced by a review dispatch and routed to an owning governance gate; non-authority until the owner applies it. |
+| `claim-proof` | Material bearing on the claim <= proof bound (CAV2-D38): demotion of overclaim, evidence attribution, or proof-bounded wording. |
+| `ancestral-lineage` | Material recording that a CAV2 construct descends from an Arcanum/DomainSpec ancestor held at Evidence posture (re-authored, not deployed). |
+| `condense-knowledge` | The knowledge-condensation function framed as the PURPOSE the authority-promotion-lifecycle serves, not a separate primitive term. |
+| `build-from-owned` | A candidate whose owner/precursor already exists in the repo, so the move is name/consolidate/deploy, never net-new invention. |
 | `definitions-governance` | Definitions Governance sigil, definition-owner route, or definition maintenance material. |
 | `constitution-governance` | Constitution Governance sigil, constitution-owner route, modular rule, or enforcement material. |
 | `artifact-definition` | Candidate or canonical material about the base term `artifact`, its owner route, and its definition boundary. |

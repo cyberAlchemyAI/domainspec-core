@@ -2006,6 +2006,7 @@ another folder.
 Status: active
 Term: method
 Aliases: governed method, method primitive, repeatable governance method
+Ancestral provenance (non-normative): generic descendant of the CyberAlchemy Method ([`arcanum/framework/CYBERALCHEMY-METHOD.md`](../../../arcanum/framework/CYBERALCHEMY-METHOD.md), 5 anchors). Evidence posture — not deployed. See [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md) § Ancestral Lineage Reconciliation.
 
 ### Normative Definition
 
@@ -2143,6 +2144,7 @@ evidence or navigation, but they cannot silently redefine a canonical term.
 Status: active
 Term: authority
 Aliases: normative authority, decision authority, authority primitive
+Ancestral provenance (non-normative): re-authors the owner-route principle of the CyberAlchemy Method's "Route" anchor ([`arcanum/framework/CYBERALCHEMY-METHOD.md`](../../../arcanum/framework/CYBERALCHEMY-METHOD.md)). Evidence posture — not deployed. See [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md) § Ancestral Lineage Reconciliation.
 
 ### Normative Definition
 
@@ -2592,6 +2594,691 @@ decide movement.
 - [../../ontology/LIFECYCLE-MODEL.md](../../ontology/LIFECYCLE-MODEL.md)
 - [../imports/house_project/docs/vault/ontology-conventions.md](../imports/house_project/docs/vault/ontology-conventions.md)
 - [../imports/house_project/docs/vault/premise/ontology-premises.md](../imports/house_project/docs/vault/premise/ontology-premises.md)
+
+## CAV2-D41: Authority Model
+
+Status: active
+Term: authority model
+Aliases: CAV2 authority model, project authority model, owner-route model, authority routing model
+Ancestral provenance (non-normative): the owner-route traffic map re-authors the CyberAlchemy Method's "Route" anchor ([`arcanum/framework/CYBERALCHEMY-METHOD.md`](../../../arcanum/framework/CYBERALCHEMY-METHOD.md)). Evidence posture — not deployed. See [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md) § Ancestral Lineage Reconciliation.
+
+### Normative Definition
+
+An authority model is the governed structure that classifies candidate material by
+authority kind, reliance posture, owner route, admissible movement, gate
+vocabulary, validation surface, and non-collapse rule so CyberAlchemy v2 can
+decide what may count for which purpose without letting evidence, ontology,
+research, generated projections, implementation success, or narrative repetition
+silently become authority.
+
+An authority model must name the authority surfaces it coordinates, the route
+that owns each kind of promotion, the states or postures a candidate may occupy,
+the gates that control movement between states, and the boundary conditions that
+prevent one authority layer from overriding another.
+
+### Formal Interpretation
+
+For a candidate object `x`, a CyberAlchemy v2 authority model provides a routing
+function:
+
+```text
+A(x) =
+  (kind, posture, owner_route, allowed_use, blocked_use,
+   gate, validation_surface, non_collapse_rules)
+```
+
+Movement is admissible only when the responsible `owner_route` records a gate
+verdict and the candidate's `allowed_use` covers the intended downstream effect.
+If a candidate crosses from evidence or model into local authority, the model
+requires a promotion gate rather than implied authority by proximity.
+
+### Operational Interpretation
+
+Use authority model when deciding whether a source fragment, definition
+candidate, ontology node, research finding, discipline, constitution rule,
+decision, spec, runtime contract, generated projection, validation result, or
+implementation artifact is allowed to influence CyberAlchemy v2 work.
+
+The authority model answers: what kind of thing is this, what may we rely on it
+for, who owns the next move, which gate must run, and what must not be collapsed
+into what?
+
+### Plain-Language Intuition
+
+The authority model is the traffic map for what is allowed to count, who can make
+it count, and what it must not be confused with.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, the authority model is authored in
+[../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md). It coordinates definitions,
+constitutions, disciplines, decisions, promotion policy, boundaries, ontology
+candidate views, inventory evidence, validation traces, and future implementation
+work. It turns the stable-repository objective into an owner-routed contract:
+ontology can model authority, inventory can preserve evidence, disciplines can
+name recurring practices, and constitutions can enforce scoped rules, but each
+promotion still needs the responsible owner route.
+
+### Boundary
+
+Authority model is not ontology by itself, not a schema by itself, not a
+decision, not access control, not proof, not a universal constitution, and not a
+license to promote all modeled material. It coordinates authority movement; the
+responsible owner routes still make the actual promotion decisions.
+
+### Primary Consumers
+
+- [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md)
+- [../README.md](../README.md)
+- [../promotion-policy.md](../promotion-policy.md)
+- [../../ontology/AUTHORITY-KINDS.md](../../ontology/AUTHORITY-KINDS.md)
+- [../../ontology/AUTHORITY-POSTURES.md](../../ontology/AUTHORITY-POSTURES.md)
+- [../constitutions/STABLE-REPOSITORY-CONSTITUTION.md](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md)
+
+## CAV2-D42: Governed Artifact Tree
+
+Status: active
+Term: governed artifact tree
+Aliases: artifact tree governance interface, governed tree interface, load-bearing artifact tree
+
+### Normative Definition
+
+A governed artifact tree is a load-bearing artifact tree that exposes the
+governance interface required before its contents can promote knowledge,
+constrain future work, or become a reusable authority surface.
+
+At minimum, the tree must declare:
+
+- owner route
+- canonical source or source boundary
+- view roles
+- evidence inputs
+- promotion path
+- validation surface
+- challenge contract
+- drift route
+- allowed uses and blocked uses
+
+The tree makes a concept inspectable. It does not make the concept
+authoritative by itself. Authority still requires the relevant owner route,
+gate, evidence, and promotion decision.
+
+### Formal Interpretation
+
+For artifact tree `T`, a CyberAlchemy v2 governed artifact tree is admissible
+only when:
+
+```text
+GAT(T) =
+  (tree_id, scope, owner_route, canonical_source, view_roles,
+   evidence_inputs, promotion_path, validation_surface,
+   challenge_contract, drift_route, allowed_use, blocked_use)
+```
+
+If any field is absent, `T` may still be useful context or a draft view, but it
+cannot promote knowledge, constrain downstream work, or act as a reusable
+authority surface without typed residue and owner review.
+
+### Operational Interpretation
+
+Use governed artifact tree when a folder, package, view, pattern library,
+ontology branch, architecture tree, validation tree, or other artifact set is
+becoming load-bearing. Before downstream work relies on the tree, ask: who owns
+it, what does it cite, what view does it provide, what evidence feeds it, how
+can it be promoted, how can it be checked, how can it be challenged, and who
+handles drift?
+
+### Plain-Language Intuition
+
+A tree is allowed to organize serious work only after it shows who owns it,
+what it can prove, and how to disagree with it.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, `architecture-pattern-inventory` is the architecture-facing
+producer of governed artifact trees for architecture knowledge. It can produce
+concept cards, relationship cards, dependency rules, testing alignment,
+observability alignment, and pattern candidates. It is not the authority owner
+by itself; it hands pattern candidates and evidence packages to the
+CyberAlchemy authority model, definitions-governance, constitution-governance,
+or the relevant owner route.
+
+### Boundary
+
+Governed artifact tree is not a primitive object type, not an ontology node
+type, not a promotion event, not an owner decision, and not authority by file
+proximity. It is an inspectable interface obligation on a load-bearing tree.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [../constitutions/STABLE-REPOSITORY-CONSTITUTION.md](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md)
+- [../../architecture/ARCHITECTURE-KNOWLEDGE-GOVERNANCE.md](../../architecture/ARCHITECTURE-KNOWLEDGE-GOVERNANCE.md)
+- [../../../arcanum/arcana/architecture-pattern-inventory/SKILL.md](../../../arcanum/arcana/architecture-pattern-inventory/SKILL.md)
+
+## CAV2-D43: Pattern Promotion Lifecycle
+
+Status: active
+Term: pattern promotion lifecycle
+Aliases: architecture pattern promotion lifecycle, pattern authority lifecycle, reusable pattern promotion path
+Ancestral provenance (non-normative): shares the promotion shape of the Arcanum Discipline Growth Rule ([`arcanum/disciplines/DISCIPLINES.md`](../../../arcanum/disciplines/DISCIPLINES.md)) but governs architecture patterns, NOT disciplines. Evidence posture — not deployed. See [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md) § Ancestral Lineage Reconciliation.
+
+### Normative Definition
+
+Pattern promotion lifecycle is the CyberAlchemy v2 lifecycle by which an
+operational, code, design, or specification hypothesis becomes a reusable
+architecture pattern authority only after evidence, generalization,
+cross-context exercise, challenge, and owner promotion.
+
+The normal path is:
+
+```text
+operational/code/spec hypothesis
+  -> exercised in domain
+  -> evidence set
+  -> localized concept
+  -> generalized abstraction
+  -> pattern candidate
+  -> exercised in another context
+  -> owner promotion
+  -> architecture pattern authority
+  -> invariant or constitution pressure when justified
+```
+
+A pattern is not born authoritative. Evidence can raise confidence; only the
+responsible owner route can promote the pattern's authority effect.
+
+### Formal Interpretation
+
+For candidate concept `c`, pattern promotion lifecycle tracks:
+
+```text
+PPL(c) =
+  (hypothesis, domain_exercise, evidence_set, local_concept,
+   abstraction, pattern_candidate, cross_context_exercise,
+   challenge_contract, owner_decision, authority_effect, residue)
+```
+
+Movement from `pattern_candidate` to `architecture pattern authority` is valid
+only when the owner decision declares the authority effect and the claim strength
+does not exceed the evidence set.
+
+### Operational Interpretation
+
+Use pattern promotion lifecycle when architecture knowledge emerges from
+operations, code, specs, tests, observability, UX lessons, or repeated domain
+work. It turns operations into an evidence engine for knowledge promotion
+without treating successful execution as promotion by itself.
+
+### Plain-Language Intuition
+
+A pattern earns authority by working, being generalized, being challenged, and
+being accepted by the owner route.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, architecture-pattern-inventory should capture the early and
+middle stages of this lifecycle: evidence, localized concepts, generalized
+abstractions, pattern candidates, relationship cards, dependency rules, testing
+alignment, and observability alignment. CyberAlchemy authority then decides
+whether the candidate becomes a reusable pattern authority or creates invariant
+or constitution pressure.
+
+### Boundary
+
+Pattern promotion lifecycle is not automatic generalization, not popularity,
+not code reuse alone, not an architecture decision record by itself, and not a
+shortcut around `CAV2-D21`, `CAV2-D23`, `CAV2-D34`, `CAV2-D38`, or `CAV2-D40`.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [../constitutions/STABLE-REPOSITORY-CONSTITUTION.md](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md)
+- [../../architecture/ARCHITECTURE-KNOWLEDGE-GOVERNANCE.md](../../architecture/ARCHITECTURE-KNOWLEDGE-GOVERNANCE.md)
+- [../../../arcanum/arcana/architecture-pattern-inventory/SKILL.md](../../../arcanum/arcana/architecture-pattern-inventory/SKILL.md)
+
+## CAV2-D44: View-Bearing Concept
+
+Status: active
+Term: view-bearing concept
+Aliases: load-bearing view concept, concept with governed view, view-bearing authority candidate
+
+### Normative Definition
+
+A view-bearing concept is a load-bearing concept that needs its own governed
+view or tree because it has distinct evidence, lifecycle posture, owner route,
+reuse surface, and challenge/drift behavior that cannot be safely handled as
+ordinary narrative vocabulary.
+
+Not every term deserves a view. A concept may become view-bearing only when the
+view helps preserve evidence, relations, lifecycle, owner route, reuse, or
+challenge behavior without pretending to decide authority by itself.
+
+### Formal Interpretation
+
+For concept `c`, `view_bearing(c)` is admissible when:
+
+```text
+view_bearing(c) =
+  distinct_evidence(c)
+  and lifecycle_posture_needed(c)
+  and owner_route(c)
+  and reuse_surface(c)
+  and challenge_or_drift_route(c)
+```
+
+The view attached to `c` must declare allowed readings and forbidden authority
+moves. If those fields are absent, `c` remains a term, candidate, or local
+concept rather than a view-bearing concept.
+
+### Operational Interpretation
+
+Use view-bearing concept when a concept starts carrying enough work that future
+agents need a dedicated lens over its meaning, system structure, run evidence,
+residue, or promotion status. The view should make the concept inspectable and
+usable without loading the whole repository.
+
+### Plain-Language Intuition
+
+Some ideas become important enough to need their own dashboard, but the
+dashboard still does not get to make the decision.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, ontology is becoming a set of governed views over
+knowledge. A view-bearing concept can support meaning views, architecture
+views, run views, residue/challenge views, and promotion views. For
+architecture specifically, architecture-pattern-inventory is the architecture
+view interface that turns architecture evidence into reusable candidates before
+CyberAlchemy authority decides promotion.
+
+### Boundary
+
+View-bearing concept is not a vault node type, not an ontology branch by
+itself, not a lifecycle state, not a promotion state, and not a reason to create
+a new tree for every term. It names the threshold where a concept needs a
+governed view because ordinary prose is no longer safe enough.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [../../ontology/BRANCH-AS-VIEW.md](../../ontology/BRANCH-AS-VIEW.md)
+- [../../ontology/views/ontology-view.md](../../ontology/views/ontology-view.md)
+- [../../ontology/views/system-view.md](../../ontology/views/system-view.md)
+- [../../ontology/views/bridge-view.md](../../ontology/views/bridge-view.md)
+- [../../architecture/ARCHITECTURE-KNOWLEDGE-GOVERNANCE.md](../../architecture/ARCHITECTURE-KNOWLEDGE-GOVERNANCE.md)
+
+## CAV2-D45: UX/UI Knowledge Governance
+
+Status: active
+Term: UX/UI knowledge governance
+Aliases: experience knowledge governance, interface knowledge governance, UX/UI governance interface
+
+### Normative Definition
+
+UX/UI knowledge governance is the CyberAlchemy v2 lens-specific governance
+interface that turns interface iteration, browser evidence, accessibility
+evidence, visual evidence, interaction traces, user-study residue, and reusable
+experience lessons into governed candidates without treating subjective
+experience quality as automatic authority.
+
+It must separate at least these lanes:
+
+- captured interface lesson
+- reusable UX/UI pattern candidate
+- browser-observable evidence
+- accessibility and semantic evidence
+- layout and interaction evidence
+- cognitive or attention risk proxy
+- domain-practice heuristic
+- human-study or expert-review residue
+- promotion request and owner decision
+
+UX/UI knowledge governance can produce candidate lessons, patterns, claim maps,
+validator specs, fixture plans, studio annotation intents, evidence reports, and
+promotion requests. It does not promote UX/UI authority by itself.
+
+### Formal Interpretation
+
+For interface knowledge object `u`, CyberAlchemy v2 tracks:
+
+```text
+UXG(u) =
+  (lesson_ref, pattern_candidate, browser_evidence, accessibility_evidence,
+   layout_interaction_evidence, cognitive_attention_proxy,
+   domain_practice_claim, human_study_residue,
+   owner_route, promotion_path, challenge_contract)
+```
+
+The object is authority-bearing only when the relevant owner route records the
+promotion effect and the claim strength remains bounded by available evidence.
+
+### Operational Interpretation
+
+Use UX/UI knowledge governance when UI work produces reusable lessons, design
+patterns, validation claims, accessibility claims, layout evidence, interaction
+evidence, or subjective experience claims. Route lesson capture through
+`ux-lessons`, validator-safe evidence through `ux-evidence-validator`, studio
+mutation intents through `ui-prototyping-studio`, and promotion through the
+CyberAlchemy authority model.
+
+### Plain-Language Intuition
+
+UX/UI governance is how the project remembers interface learning without
+pretending that a nice-looking screen, a screenshot, or a passing browser test
+is automatically truth.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, `ux-lessons` is the thin producer for lessons and
+`ux-pattern` cards, `ux-evidence-validator` is the validator-safe evidence
+interface, and `ui-prototyping-studio` is a governed mutation/prototyping
+consumer. Together they form the UX/UI knowledge view. CyberAlchemy authority
+still decides whether a pattern, rule, or validator becomes load-bearing.
+
+### Boundary
+
+UX/UI knowledge governance is not a universal UX score, not an accessibility
+certificate, not a design-system authority, not a human-study substitute, not a
+studio mutation approval, and not a promotion event.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [../constitutions/STABLE-REPOSITORY-CONSTITUTION.md](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md)
+- [../../ux-ui/UX-UI-KNOWLEDGE-GOVERNANCE.md](../../ux-ui/UX-UI-KNOWLEDGE-GOVERNANCE.md)
+- [../../../arcanum/arcana/ux-lessons/SKILL.md](../../../arcanum/arcana/ux-lessons/SKILL.md)
+- [../../../arcanum/arcana/ux-evidence-validator/SKILL.md](../../../arcanum/arcana/ux-evidence-validator/SKILL.md)
+
+## CAV2-D46: Experience Evidence Lifecycle
+
+Status: active
+Term: experience evidence lifecycle
+Aliases: UX evidence lifecycle, UI learning lifecycle, interface evidence lifecycle
+
+### Normative Definition
+
+Experience evidence lifecycle is the CyberAlchemy v2 lifecycle by which an
+interface observation or UI iteration becomes reusable UX/UI knowledge only
+after evidence capture, lesson formation, pattern distillation, validator or
+studio handoff, cross-session exercise, challenge, and owner promotion.
+
+The normal path is:
+
+```text
+interface observation or UI hypothesis
+  -> browser/user/session evidence
+  -> lesson
+  -> ux-pattern candidate
+  -> validator claim map or studio annotation intent
+  -> fixture, browser, or cross-session exercise
+  -> challenge and residue review
+  -> owner promotion
+  -> UX/UI pattern, validator rule, or interface constraint authority
+```
+
+An interface pattern is not authoritative because it looked better once. It must
+carry evidence and survive the claim class appropriate to its evidence.
+
+### Formal Interpretation
+
+For experience candidate `e`, the lifecycle is:
+
+```text
+EEL(e) =
+  (observation, evidence, lesson, pattern_candidate,
+   consumer_handoff, exercise, challenge, owner_decision,
+   authority_effect, residue)
+```
+
+Movement to authority is admissible only when the owner decision names the
+authority effect and the claim class is valid for the supporting evidence.
+
+### Operational Interpretation
+
+Use experience evidence lifecycle when harvesting a UI session, distilling a UX
+pattern, producing a validator claim map, preparing a studio mutation intent, or
+deciding whether repeated interface evidence should become a reusable rule.
+
+### Plain-Language Intuition
+
+A UI lesson becomes a rule only after it earns its way through evidence,
+repeat-use, challenge, and owner review.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, `ux-lessons` owns the early lifecycle from session to
+lesson/pattern, while `ux-evidence-validator` owns validator-safe claims and
+fixture calibration. `ui-prototyping-studio` can consume pattern intents, but it
+does not decide pattern authority.
+
+### Boundary
+
+Experience evidence lifecycle is not a usability study by itself, not a browser
+test result by itself, not a studio approval path, and not a guarantee that a
+subjective UX claim can become deterministic.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [../../ux-ui/UX-UI-KNOWLEDGE-GOVERNANCE.md](../../ux-ui/UX-UI-KNOWLEDGE-GOVERNANCE.md)
+- [../../../arcanum/arcana/ux-lessons/SKILL.md](../../../arcanum/arcana/ux-lessons/SKILL.md)
+- [../../../arcanum/arcana/ux-evidence-validator/development/UX-EVIDENCE-CLAIM-MAP.md](../../../arcanum/arcana/ux-evidence-validator/development/UX-EVIDENCE-CLAIM-MAP.md)
+
+## CAV2-D47: Interface Evidence Boundary
+
+Status: active
+Term: interface evidence boundary
+Aliases: UX evidence boundary, browser-evidence boundary, UX/UI claim class boundary
+
+### Normative Definition
+
+Interface evidence boundary is the CyberAlchemy v2 rule that UX/UI claims must
+state which kind of evidence can support them and what that evidence cannot
+prove.
+
+At minimum, UX/UI claims must be classified as one of:
+
+- hard gate
+- soft flag
+- screenshot review
+- human study
+- not automatable
+
+Browser automation may directly support page-load, accessibility-tree,
+keyboard, layout, interaction, screenshot, trace, console/network, and DOM
+measurement claims. It may prepare evidence for cognitive, attention,
+perception, trust, comprehension, delight, and real-user success claims, but it
+must not turn them into deterministic authority without calibrated fixtures and
+owner approval.
+
+### Formal Interpretation
+
+For UX/UI claim `c`, let:
+
+```text
+IEB(c) = (claim_class, evidence_kind, proxy_limit, owner_route, residue)
+```
+
+The claim is valid only when `claim_class` matches `evidence_kind` and the
+`proxy_limit` states what remains unproven. If the evidence class is weaker than
+the claim, `CAV2-D38` requires downgrading, routing, or blocking the claim.
+
+### Operational Interpretation
+
+Use interface evidence boundary when writing validator specs, Playwright
+reports, UI review findings, UX pattern cards, screenshot reviews, or studio
+mutation handoffs. Ask whether the claim is deterministic, a risk proxy, a
+visual review prompt, a human-study need, or not automatable.
+
+### Plain-Language Intuition
+
+A browser can show what happened on the page. It cannot by itself prove what a
+human understood, trusted, felt, or preferred.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, this definition imports the evidence honesty model from
+`ux-evidence-validator`: hard gates, soft flags, screenshot review, human
+study, and not-automatable residue. It keeps UI validation useful without
+collapsing browser evidence, accessibility, UX heuristics, and user research
+into one false certainty.
+
+### Boundary
+
+Interface evidence boundary is not a validator implementation, not a complete
+accessibility audit, not user research, not a universal UX score, and not a
+license to block dense expert interfaces without false-positive calibration.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-TOWERS.md](DEFINITION-TOWERS.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [../constitutions/STABLE-REPOSITORY-CONSTITUTION.md](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md)
+- [../../ux-ui/UX-UI-KNOWLEDGE-GOVERNANCE.md](../../ux-ui/UX-UI-KNOWLEDGE-GOVERNANCE.md)
+- [../../../arcanum/arcana/ux-evidence-validator/development/UX-EVIDENCE-CLAIM-MAP.md](../../../arcanum/arcana/ux-evidence-validator/development/UX-EVIDENCE-CLAIM-MAP.md)
+- [../../../arcanum/arcana/ux-evidence-validator/development/UX-PLAYWRIGHT-VALIDATOR-SPEC.md](../../../arcanum/arcana/ux-evidence-validator/development/UX-PLAYWRIGHT-VALIDATOR-SPEC.md)
+
+## CAV2-D48: Authority Promotion Lifecycle
+
+Status: active
+Term: authority promotion lifecycle
+Aliases: scientific authority lifecycle, pattern authority lifecycle, promotion lifecycle
+Promoted: 2026-06-23 from `source-clusters/authority-lifecycle.md` `CAV2-CAND-LIFECYCLE-001` (per review CR-2; build-from-owned generalization inference)
+
+### Normative Definition
+
+Authority promotion lifecycle is the single staged path by which any
+authority-bearing candidate may acquire authority — `source evidence -> candidate
+-> owner-routed review -> promoted authority -> (optional) invariant/constitution
+pressure` — with per-stage gates, an owner route, and a stopping/demotion rule. It
+is the generalization that `../promotion-policy.md`'s ladder instantiates and that
+`CAV2-D43` (patterns), `CAV2-D46` (experience), and the Arcanum Discipline Growth
+Rule (disciplines) are instances of.
+
+### Formal Interpretation
+
+```text
+APL = (stages, per_stage_gates, owner_route, stop_rule)
+instances = { CAV2-D43, CAV2-D46, Discipline Growth Rule }
+promotion-policy ladder = the cross-kind default
+```
+
+A kind's lifecycle is valid only when it names its stages, gates, owner route, and
+stop/demotion rule; `CAV2-D38` bounds any claim of completed promotion to the
+evidence.
+
+### Operational Interpretation
+
+Use when a new authority-bearing kind needs a promotion path: reuse a named
+instance (`D43`/`D46`/Growth Rule) or justify a new lifecycle. It turns "how does
+this earn authority?" into a declared, owner-routed path.
+
+### Plain-Language Intuition
+
+Nothing counts by appearing or being repeated; it walks a known path — candidate,
+evidence, challenge, owner decision — and only then becomes authority.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2 this is the parent of the per-kind lifecycles already promoted
+(`D43` patterns, `D46` experience) and the disciplines ladder. Naming it is
+**build-from-owned**: the shape is visible across owned sources but the unifying
+object is named in none of them, so this is a generalization inference — owner-gated,
+not a mechanical lift (review CR-4).
+
+### Boundary
+
+Not "everything has a lifecycle" — scoped to **authority-bearing kinds**. Evidence
+(`CAV2-D34` / non-collapse rule 1), residue (`CAV2-D18`), ledger events, one-off
+logs, and generated projections are inputs or terminal artifacts, not
+lifecycle-bearing. Naming this lifecycle does **not** enact a binding rule; the
+binding form is `CAV2-D49` + the proposed `CAV2-C16`.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [../promotion-policy.md](../promotion-policy.md)
+- [source-clusters/authority-lifecycle.md](source-clusters/authority-lifecycle.md)
+
+## CAV2-D49: Closed Authority-Kind Enumeration
+
+Status: active
+Term: closed authority-kind enumeration
+Aliases: authority-kind closure, default-deny for unenumerated kinds
+Promoted: 2026-06-23 from `source-clusters/authority-lifecycle.md` `CAV2-CAND-LIFECYCLE-002` (re-scoped per review CR-1 from "no authority without a lifecycle", which re-skinned the Authority Rule)
+
+### Normative Definition
+
+Closed authority-kind enumeration is the invariant that the set of authority
+**kinds** is a closed enumeration (the `../AUTHORITY-MODEL.md` Authority Kinds
+table). An artifact whose kind is **not** in that enumeration may not acquire or
+exercise authority — it defaults to **blocked** pending an owner decision that adds
+the kind to the enumeration with its declared lifecycle (`CAV2-D48`) and owner
+route. Adding a kind is itself owner-gated.
+
+### Formal Interpretation
+
+```text
+CAKE: Kinds is closed; for an artifact of kind k,
+  k in Kinds      -> governed by k's own ladder/owner
+  k not in Kinds  -> default-deny (blocked) until an owner amends Kinds
+```
+
+This **extends** `CAV2-D41` (which assumes a kind/owner exists and says "route to
+it") to the case it assumes away — a kind with no enumerated owner/ladder yet.
+
+### Operational Interpretation
+
+Use when a new *type* of authority appears (a new **kind**, not a new artifact of
+an existing kind). Live open instance: `AUTHORITY-MODEL` OQ-2 — `invariant` and
+`axiom` govern (`CAV2-D16`/`D29`/`D38`) yet sit outside the kind table.
+
+### Plain-Language Intuition
+
+A new *type* of authority can't start governing just because it appeared. Until it
+is on the official list of kinds — with its lifecycle and owner — anything of that
+kind is blocked.
+
+### Domain-Context Voice
+
+This definition **names** the closure invariant. As of 2026-06-23 it is **enacted
+in review mode**: a **default-deny catch-all row** was added to the
+[AUTHORITY-MODEL Authority Kinds table](../AUTHORITY-MODEL.md#authority-kinds) by
+decision-gate ([decision record](../decisions/2026-06-23-authority-kind-closure-catchall-row.md)),
+so an unenumerated kind defaults to blocked. The **deterministic** enforcement (the
+automated kind-enumeration scan, the former `CAV2-C16` validator) is still pending
+(OQ-1). Per the OQ-2 recommendation, the kind-table amendment for `invariant`/`axiom`
+as their own kinds stays a future decision-gate call (they currently govern as the
+`Definition` kind).
+
+### Boundary
+
+Scoped to authority **kinds** (the enumeration), not individual artifacts (that is
+the Authority Rule, `CAV2-D41`) and not the per-artifact promotion path (`CAV2-D48`
++ the promotion-policy ladder). Promoting this definition does **not** enact the
+kind table as closed-with-default-deny — that enactment is `CAV2-C16` (draft,
+blocked).
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md)
+- [source-clusters/authority-lifecycle.md](source-clusters/authority-lifecycle.md)
+- [../constitutions/STABLE-REPOSITORY-CONSTITUTION.md](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md)
 
 ## Open Questions
 

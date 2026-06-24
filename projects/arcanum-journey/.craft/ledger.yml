@@ -41,13 +41,12 @@ indexes:
     ART-AJ-XRAY-SRC: artifacts[9]
     ART-AJ-INVOKE-RUN: artifacts[10]
     ART-AJ-ROUTE-MAP: artifacts[11]
+    ART-AJ-DELIVERABLE: artifacts[12]
   open_decisions: []
   blocking_decisions: []
   active_blockers: []
   active_gaps:
     - GAP-AJ-SIGIL-MAP-001
-    - GAP-AJ-PRESET-SCHEMA-001
-    - GAP-AJ-PERSONA-001
     - GAP-AJ-CYBERALCHEMY-001
     - GAP-AJ-CHAPTER-ORDER-001
   next_moves:
@@ -64,6 +63,7 @@ indexes:
     projects/arcanum-journey/.craft/artifacts/DECISIONS.md: ART-AJ-DECISION-RECORD
     projects/arcanum-journey/development/invoke-runs/20260622T223521Z-journey-define-design-plan/: ART-AJ-INVOKE-RUN
     projects/arcanum-journey/development/route-map/SIGIL-SPELL-ROUTE-MAP.md: ART-AJ-ROUTE-MAP
+    projects/arcanum-journey/deliverable/arcanum-journey/: ART-AJ-DELIVERABLE
 
 contexts:
   - context_id: CTX-AJ-ROOT
@@ -76,11 +76,13 @@ contexts:
       presenting Craft as the control surface. Surface area is a standalone
       downloadable skill that installs the repo and teaches while installing,
       using agent-generated HTML pages as explanation surfaces.
-    stage: plan
+    stage: build
     gate: flag
     next_move: >
-      Plan complete (flag). Execute Wave 0 / S-000: dispatch-spec fan-out ->
-      inventory to build the sigil/spell route map.
+      L0 POC staged (ART-AJ-DELIVERABLE, boundary-lint PASS). Remaining executable
+      work: author chapters 2-9 (Wave 1 S-002), wire arcanum-bootstrap install-while-
+      teaching runtime (S-001 runtime half), then capstone tower (S-009) and
+      experiment-harness + promotion to public arcanum (W3, separate approval).
     owned_artifacts:
       - ART-AJ-CRAFT-LEDGER
       - ART-AJ-CRAFT-VIEW
@@ -304,23 +306,23 @@ gaps:
   - gap_id: GAP-AJ-PRESET-SCHEMA-001
     scope_id: CTX-AJ-ROOT
     summary: >
-      The user-tweakable learning preset schema is not yet defined; model it on
-      goal/decision-profile.schema + user-guide, keep neutral defaults, and leave
-      room for the user to tweak the explanation language.
-    severity: flag
-    treatment: plan
-    owner: invoke-design
-    evidence: ART-AJ-GOAL-PROFILE-SRC
+      DONE: public learning-preset.schema.json + neutral default authored
+      (ART-AJ-DELIVERABLE/preset/), modeled on goal/decision-profile.schema, with a
+      learner-only language_tweaks array. Validates as JSON; boundary-lint clean.
+    severity: info
+    treatment: complete
+    owner: done
+    evidence: ART-AJ-DELIVERABLE
   - gap_id: GAP-AJ-PERSONA-001
     scope_id: CTX-AJ-ROOT
     summary: >
-      The Veritasium-style explainer persona (clever analogies, simplicity) must
-      be extracted/selected from the domainspec telemetry agent pool and
-      anonymized for the public package.
+      DONE: anonymized "The Explainer" persona authored (ART-AJ-DELIVERABLE/preset/
+      persona-explainer.md) with the Veritasium teaching moves; no real names
+      (boundary-lint name check passes).
     severity: info
-    treatment: plan
-    owner: invoke-design
-    evidence: ART-AJ-PERSONA-SRC
+    treatment: complete
+    owner: done
+    evidence: ART-AJ-DELIVERABLE
   - gap_id: GAP-AJ-CYBERALCHEMY-001
     scope_id: CTX-AJ-ROOT
     summary: >
@@ -510,3 +512,14 @@ artifacts:
       Sigil/spell route map from the Wave 0 dispatch-spec fan-out (SWU-AJ-MAP-1): tier
       taxonomy, 58-capability catalog with sourced inherit/build-on/integrate edges,
       condensed spine, grounded chapter order, and goal->tool routing. Public-source only.
+  - artifact_id: ART-AJ-DELIVERABLE
+    owner_context_id: CTX-AJ-ROOT
+    path: projects/arcanum-journey/deliverable/arcanum-journey/
+    artifact_type: deliverable-staging
+    status: active
+    notes: >
+      L0 POC of the public arcanum-journey skill, STAGED in the private parent
+      (public-safe; boundary-lint PASS). Contains SKILL.md, preset schema + neutral
+      default, anonymized persona, onboarder routing, boundary lint, chapters 0-1 +
+      template + outline, and the Ch1 x-ray HTML surface. Promotion into the public
+      arcanum/ submodule is a separate, explicitly-approved step (not done).

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Arcanum Journey · Chapter 1 — Craft</title>
+<!-- L0 POC explanation surface (S-001 / SWU-AJ-POC-1). x-ray-style layered page.
+     Generated-by: arcanum-journey surface-renderer (composes arcana/x-ray).
+     Public-safe: no private data. -->
+<style>
+  :root { --bg:#0f1220; --card:#1a1f35; --ink:#eef1ff; --muted:#9aa3c7; --accent:#7c9cff; --good:#5ad19b; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:16px/1.6 system-ui,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--ink); }
+  header { padding:32px 24px; background:linear-gradient(135deg,#1a1f35,#0f1220); border-bottom:1px solid #2a335c; }
+  .kicker { color:var(--accent); letter-spacing:.12em; text-transform:uppercase; font-size:12px; }
+  h1 { margin:.2em 0 0; font-size:30px; }
+  .recap { color:var(--good); margin-top:8px; font-style:italic; }
+  main { max-width:920px; margin:0 auto; padding:24px; }
+  .lanes { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+  .card { background:var(--card); border:1px solid #2a335c; border-radius:14px; padding:18px; }
+  .card h3 { margin:0 0 6px; font-size:15px; color:var(--accent); }
+  .card p, .card li { color:var(--muted); font-size:14px; margin:.3em 0; }
+  .flow { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:18px 0; }
+  .node { background:#222a4d; border:1px solid #38427a; border-radius:999px; padding:6px 12px; font-size:13px; }
+  .node.surface { background:#2a2150; border-color:#6f5bd0; }
+  .arrow { color:var(--muted); }
+  .probe { background:#15233a; border-left:3px solid var(--good); border-radius:8px; padding:14px 16px; margin-top:18px; }
+  code { background:#0b0e1a; padding:1px 6px; border-radius:6px; color:#cfe0ff; }
+  footer { color:var(--muted); font-size:12px; text-align:center; padding:24px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">Arcanum Journey · Chapter 1</div>
+  <h1>Craft — the control surface</h1>
+  <div class="recap">The project's memory and dashboard: a queryable ledger every other tool plugs into.</div>
+</header>
+<main>
+  <p><strong>The puzzle:</strong> how does a <em>long</em> job not fall apart halfway
+  through? Not a smarter model — a place to write things down that the work can read back.</p>
+
+  <div class="lanes">
+    <div class="card">
+      <h3>What it is</h3>
+      <p>A file-backed <strong>recursive ledger</strong>. Source of truth =
+      <code>ledger.yml</code>. The readable <code>CRAFT.md</code> is just a view.</p>
+    </div>
+    <div class="card">
+      <h3>What lives in it</h3>
+      <ul>
+        <li>contexts (what you're doing)</li>
+        <li>blockers &amp; enablers</li>
+        <li>open decisions &amp; gaps</li>
+        <li>the current next move</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>The one rule</h3>
+      <p>Raw blockers can't be resolved directly — you must <strong>refine</strong>
+      them into a closure condition first. No hand-wavy "it's done".</p>
+    </div>
+    <div class="card">
+      <h3>Why "control surface"</h3>
+      <p>refine, invoke, task-session, goal all read from and write back to Craft.
+      Learn it once; every chapter plugs in here.</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:26px">How the tools plug into Craft</h3>
+  <div class="flow">
+    <span class="node">refine</span><span class="arrow">→</span>
+    <span class="node">invoke</span><span class="arrow">→</span>
+    <span class="node surface">CRAFT (ledger)</span><span class="arrow">←</span>
+    <span class="node">task-session</span><span class="arrow">←</span>
+    <span class="node">goal</span>
+  </div>
+
+  <div class="probe">
+    <strong>Probe:</strong> this journey was planned in a real Craft ledger. Open
+    <code>projects/arcanum-journey/CRAFT.md</code> and find the closed decisions, the
+    active gaps, and the current next move. You're reading a live control surface.
+  </div>
+</main>
+<footer>Arcanum Journey · generated explanation surface · public-safe · no private data</footer>
+</body>
+</html>
