@@ -3183,7 +3183,7 @@ license to block dense expert interfaces without false-positive calibration.
 
 Status: active
 Term: authority promotion lifecycle
-Aliases: scientific authority lifecycle, pattern authority lifecycle, promotion lifecycle
+Aliases: scientific authority lifecycle, promotion lifecycle
 Promoted: 2026-06-23 from `source-clusters/authority-lifecycle.md` `CAV2-CAND-LIFECYCLE-001` (per review CR-2; build-from-owned generalization inference)
 
 ### Normative Definition

@@ -23,7 +23,7 @@ constitution-governance."
 
 | Local candidate ID | Source term | Evidence basis | Local posture | Next action |
 | --- | --- | --- | --- | --- |
-| `CAV2-CAND-LIFECYCLE-001` | `authority promotion lifecycle` — **canonical-track term (per CR-2)**; aliases: `scientific authority lifecycle`, `pattern authority lifecycle` | Inventory synthesis [scientific-authority-lifecycle-synthesis.md](../../../../.arcanum/inventory/entries/scientific-authority-lifecycle-synthesis.md); [promotion-policy.md](../../promotion-policy.md) Promotion Ladder; [AUTHORITY-MODEL.md](../../AUTHORITY-MODEL.md) Core Flow; instances `CAV2-D43` (pattern), `CAV2-D46` (experience), `CAV2-D23` (lifecycle axis), `CAV2-D5`/`CAV2-D13`; Arcanum Discipline Growth Rule ([arcanum/disciplines/DISCIPLINES.md](../../../../arcanum/disciplines/DISCIPLINES.md)). | **PROMOTED → `CAV2-D48`** (2026-06-23); was the general lifecycle *object* candidate | Promote only as the **generalization** the existing ladder exhibits — a build-from-owned **generalization inference** (the parent object is named in no owned source; owner-gated, not a mechanical lift). Register `CAV2-D43`/`CAV2-D46`/Growth-Rule as instances, not rivals. |
+| `CAV2-CAND-LIFECYCLE-001` | `authority promotion lifecycle` — **canonical-track term (per CR-2)**; aliases: `scientific authority lifecycle`, `promotion lifecycle` (NOT `pattern authority lifecycle` — that is `CAV2-D43`'s) | Inventory synthesis [scientific-authority-lifecycle-synthesis.md](../../../../.arcanum/inventory/entries/scientific-authority-lifecycle-synthesis.md); [promotion-policy.md](../../promotion-policy.md) Promotion Ladder; [AUTHORITY-MODEL.md](../../AUTHORITY-MODEL.md) Core Flow; instances `CAV2-D43` (pattern), `CAV2-D46` (experience), `CAV2-D23` (lifecycle axis), `CAV2-D5`/`CAV2-D13`; Arcanum Discipline Growth Rule ([arcanum/disciplines/DISCIPLINES.md](../../../../arcanum/disciplines/DISCIPLINES.md)). | **PROMOTED → `CAV2-D48`** (2026-06-23); was the general lifecycle *object* candidate | Promote only as the **generalization** the existing ladder exhibits — a build-from-owned **generalization inference** (the parent object is named in no owned source; owner-gated, not a mechanical lift). Register `CAV2-D43`/`CAV2-D46`/Growth-Rule as instances, not rivals. |
 | `CAV2-CAND-LIFECYCLE-002` | `closed authority-kind enumeration` (default-deny for unenumerated kinds) — **re-scoped 2026-06-23 per review CR-1** from `no authority without a lifecycle` (which collapsed into the Authority Rule) | AUTHORITY-MODEL Authority Kinds table (closed enumeration, no catch-all) + Authority Rule; **live instance** = OQ-2 (`invariant`/`axiom` govern from *outside* the table); template invariants `CAV2-D16`/`D29`/`D38`; review dispatch `2026-06-23-authority-lifecycle-artifacts-review`. | **PROMOTED → `CAV2-D49`** (2026-06-23); the binding *closure rule* (definition), references `-001`; enactment `CAV2-C16` still blocked | Route the **term** through definitions-governance (with the OQ-2 decision); the **enforceable rule + validator** through constitution-governance. Carries the re-scoped collapse-test below. |
 
 ## Candidate Voice Sketches
@@ -35,9 +35,9 @@ definitions-governance pass without letting this cluster redefine CAV2 authority
 
 **Canonical-track name (per review CR-2):** `authority promotion lifecycle`.
 Aliases: `scientific authority lifecycle` (the scientific-method framing) and
-`pattern authority lifecycle` (narrower; **alias only** — do not use as canonical,
-it is adjacent to `CAV2-D43 pattern promotion lifecycle`). definitions-governance
-receives ONE term with these aliases, not three loose names.
+`promotion lifecycle`. **NOTE (post-merge cleanup 2026-06-24):** `pattern authority
+lifecycle` is **NOT** a `D48` alias — it belongs to `CAV2-D43 pattern promotion
+lifecycle` (the merge surfaced an alias collision; resolved in D43's favor).
 
 Scientific/formal sketch: the single staged path by which any authority-bearing
 candidate may acquire authority — `source evidence → candidate → owner-routed

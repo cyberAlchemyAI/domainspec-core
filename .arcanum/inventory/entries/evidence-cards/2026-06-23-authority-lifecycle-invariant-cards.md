@@ -25,7 +25,8 @@ NORMATIVE/decision layer over the descriptive
   Discipline Growth Rule (disciplines), `CAV2-D43` (architecture patterns),
   `CAV2-D46` (UI/experience), and the `promotion-policy.md` ladder **exhibit** one
   shape. Naming it as their parent (`authority promotion lifecycle`; aliases
-  `scientific` / `pattern authority lifecycle`) is a **build-from-owned
+  `scientific authority lifecycle` / `promotion lifecycle` — NOT `pattern
+  authority lifecycle`, which is `CAV2-D43`'s) is a **build-from-owned
   generalization inference** — the shape is visible across owned sources but the
   unifying object is named in none of them, so this is owner-gated, not a mechanical
   lift. Register the per-kind lifecycles as instances.

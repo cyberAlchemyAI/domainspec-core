@@ -71,7 +71,6 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | closed authority-kind enumeration | CAV2-D49 |
 | default-deny for unenumerated kinds | CAV2-D49 |
 | scientific authority lifecycle | CAV2-D48 |
-| pattern authority lifecycle | CAV2-D48 |
 | promotion lifecycle | CAV2-D48 |
 | authority surface | CAV2-D3 |
 | architecture pattern promotion lifecycle | CAV2-D43 |
