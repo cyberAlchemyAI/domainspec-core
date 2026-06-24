@@ -742,6 +742,18 @@ artifacts:
   artifact_type: implementation
   status: done
   notes: 'PLAN-NEXT whole work pack executed 2026-06-18: N1 export-gate-to-core (F1), N2 HTTP kept+gated+tested (F7), N3 in-preview Accept/Discard/Revert (UI dead-end closed; export stays button-less terminal), N4 revert wrong-target (F5), N5 doc-sync, N6 score validation (F9), N7 core cycle ceiling (F10), N8 doc corrections (F3/F8), N9 no-double-fold test (F11), N10 corrupt-file guard (F12), N11 preview free-port (F13). Unit 61/61, e2e 13/13, tsc clean.'
+- artifact_id: ART-UIIDENTITYINDEX-DESIGN
+  owner_context_id: CTX-UPS-DEEP-SPEC
+  path: development/component-registry-spec/UIIdentityIndex-DESIGN.md
+  artifact_type: design
+  status: draft
+  notes: 'A1 (goal loop 2026-06-24). UIIdentityIndex = repo-scoped derived read-model over the append-only event log; closes GAP-COMPONENT-REGISTRY-002 R-1 and specifies the BLK-IDENTITY-TYPES-002 identity/DNA types. Converges into SYNTHESIZED-DEEP-DESIGN §2.4; not yet merged.'
+- artifact_id: ART-STUDIO-READINESS-PLAN
+  owner_context_id: CTX-UPS-ROOT
+  path: development/component-registry-spec/STUDIO-READINESS-PLAN.md
+  artifact_type: implementation-plan
+  status: draft
+  notes: 'Goal B (goal loop 2026-06-24). Test/use/integration readiness route: B1 close GAP-CONTRACT-DRIFT-004, B2 BLK-FIXTURE-CORPUS-001, B3 formalize CLI integration contract (DEC-CLI-NOT-MCP-012), B4 GAP-DOCS-CODE-SPLIT-005 decision. Non-executed.'
 descriptions:
 - description_id: DESC-UPS-001
   context_id: CTX-UPS-ROOT
@@ -866,6 +878,7 @@ typed_items:
   closure_condition: models.ts gains UIElementIdentity, UIElementInstance, UIVisualSignature, FieldDelta, FitnessSignal/Vector, PrototypeGenome, and ConfirmUIDecisionEvidence, with an IdentityEvidencePanel surface.
   evidence: ART-COLD-START
   decision_ref: none
+  design_ref: ART-UIIDENTITYINDEX-DESIGN  # A1 (goal loop 2026-06-24) specifies these identity/DNA types; implementation still pending (A2).
   reason: L4 identity/conformance is net-new greenfield, not additive; DiffSummary is only {added,changed,removed} counts and no identity types exist. s8 proves the current absence makes confirm-identity effectively impossible. Atomic-design components (atoms->organisms) are the natural L4 vocabulary for UIElementIdentity/conformance (DEC-ATOMIC-IDS-014); the light data-od-id stamping in MVP is the seed.
 - item_id: BLK-FAILURE-STATES-003
   kind: blocker
@@ -1394,10 +1407,11 @@ gaps:
   scope_id: CTX-UPS-ROOT
   summary: Component-registry persistence/indexing entity is unspecified (R-1); the typed version edge is decided but the storage/match/index entity is not. Atomic-design component set is the natural registry shape (DEC-ATOMIC-IDS-014, L4).
   severity: flag
-  treatment: defer
+  treatment: fix-in-design-merge
   owner: synthesis-architect
   status: active
-  evidence: ART-DEEP-SPEC-PROPOSAL
+  evidence: ART-UIIDENTITYINDEX-DESIGN
+  notes: 'R-1 (persistence/index entity) specified as UIIdentityIndex (derived read-model) in ART-UIIDENTITYINDEX-DESIGN; pending merge into SYNTHESIZED-DEEP-DESIGN §2.4 (A1, goal loop 2026-06-24).'
 - gap_id: GAP-CONFLICT-ALGEBRA-003
   scope_id: CTX-UPS-ROOT
   summary: Full conflict algebra for CommentEvent -> MutationTask beyond the deterministic sort/dedup/co-locate fold is unspecified (R-2).
