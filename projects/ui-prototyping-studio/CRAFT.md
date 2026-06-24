@@ -136,7 +136,7 @@ meta). The deep-spec `decision-gate` on the one-shot scope + OQ-1..4 stays queue
 
 ### <a id="gap-gap-component-registry-002"></a>GAP-COMPONENT-REGISTRY-002
 
-- Severity: `flag` · Treatment: `fix-in-design-merge`. Component-registry persistence/index entity (R-1) now **specified as `UIIdentityIndex`** (a derived read-model over the append-only event log) in [UIIdentityIndex-DESIGN.md](development/component-registry-spec/UIIdentityIndex-DESIGN.md) (A1, goal loop 2026-06-24); pending merge into `SYNTHESIZED-DEEP-DESIGN §2.4`. Also specifies the `BLK-IDENTITY-TYPES-002` identity/DNA types.
+- Severity: `flag` · Treatment: `resolved-by-design-merge` · Status: **resolved** (2026-06-24). Component-registry persistence/index entity (R-1) specified as **`UIIdentityIndex`** (a repo-scoped derived read-model over the append-only event log) in [UIIdentityIndex-DESIGN.md](development/component-registry-spec/UIIdentityIndex-DESIGN.md) and **merged into `SYNTHESIZED-DEEP-DESIGN §2.4`** (R-1 row marked CLOSED; R-7 fill-approach decided). Remaining: A2 implementation (`models.ts` types + projection), gated on L4 — a build node, not a design hole. Also specifies the `BLK-IDENTITY-TYPES-002` types.
 
 ### <a id="gap-gap-conflict-algebra-003"></a>GAP-CONFLICT-ALGEBRA-003
 

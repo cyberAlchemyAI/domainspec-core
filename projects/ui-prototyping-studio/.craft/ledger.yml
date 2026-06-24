@@ -746,8 +746,8 @@ artifacts:
   owner_context_id: CTX-UPS-DEEP-SPEC
   path: development/component-registry-spec/UIIdentityIndex-DESIGN.md
   artifact_type: design
-  status: draft
-  notes: 'A1 (goal loop 2026-06-24). UIIdentityIndex = repo-scoped derived read-model over the append-only event log; closes GAP-COMPONENT-REGISTRY-002 R-1 and specifies the BLK-IDENTITY-TYPES-002 identity/DNA types. Converges into SYNTHESIZED-DEEP-DESIGN §2.4; not yet merged.'
+  status: active
+  notes: 'A1 (goal loop 2026-06-24). UIIdentityIndex = repo-scoped derived read-model over the append-only event log; closes GAP-COMPONENT-REGISTRY-002 R-1 and specifies the BLK-IDENTITY-TYPES-002 identity/DNA types. MERGED into SYNTHESIZED-DEEP-DESIGN §2.4 (R-1 CLOSED, R-7 approach decided).'
 - artifact_id: ART-STUDIO-READINESS-PLAN
   owner_context_id: CTX-UPS-ROOT
   path: development/component-registry-spec/STUDIO-READINESS-PLAN.md
@@ -1436,11 +1436,11 @@ gaps:
   scope_id: CTX-UPS-ROOT
   summary: Component-registry persistence/indexing entity is unspecified (R-1); the typed version edge is decided but the storage/match/index entity is not. Atomic-design component set is the natural registry shape (DEC-ATOMIC-IDS-014, L4).
   severity: flag
-  treatment: fix-in-design-merge
+  treatment: resolved-by-design-merge
   owner: synthesis-architect
-  status: active
+  status: resolved
   evidence: ART-UIIDENTITYINDEX-DESIGN
-  notes: 'R-1 (persistence/index entity) specified as UIIdentityIndex (derived read-model) in ART-UIIDENTITYINDEX-DESIGN; pending merge into SYNTHESIZED-DEEP-DESIGN §2.4 (A1, goal loop 2026-06-24).'
+  notes: 'RESOLVED 2026-06-24: R-1 (persistence/index entity) specified as UIIdentityIndex (repo-scoped derived read-model) and MERGED into SYNTHESIZED-DEEP-DESIGN §2.4 (R-1 row marked CLOSED; R-7 fill-approach decided). Remaining work is A2 implementation (models.ts types + projection), gated on L4 — a build node, not a design hole.'
 - gap_id: GAP-CONFLICT-ALGEBRA-003
   scope_id: CTX-UPS-ROOT
   summary: Full conflict algebra for CommentEvent -> MutationTask beyond the deterministic sort/dedup/co-locate fold is unspecified (R-2).
