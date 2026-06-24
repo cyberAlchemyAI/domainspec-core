@@ -754,6 +754,18 @@ artifacts:
   artifact_type: implementation-plan
   status: draft
   notes: 'Goal B (goal loop 2026-06-24). Test/use/integration readiness route: B1 close GAP-CONTRACT-DRIFT-004, B2 BLK-FIXTURE-CORPUS-001, B3 formalize CLI integration contract (DEC-CLI-NOT-MCP-012), B4 GAP-DOCS-CODE-SPLIT-005 decision. Non-executed.'
+- artifact_id: ART-FIXTURE-CORPUS
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/backend/e2e/fixtures/corpus/CORPUS.md
+  artifact_type: test-fixture
+  status: active
+  notes: 'B2 (goal loop 2026-06-24). Checked-in fixture corpus: troqar-login a/b/c.html (od-id stamped) + toy-game-theme baseline/desaturated-candidate (honest-diff blind-spot fixture) + comments.json (incl odId:null untagged capture). Proven end-to-end against the live CLI (register->baseline->comment->synthesize->apply; theme candidate -> diff 0-changed as documented). PARTIAL on BLK-FIXTURE-CORPUS-001: corpus now exists, but FX-* IDs + @axe-core/playwright + 11 calibrated gates remain.'
+- artifact_id: ART-INTEGRATION-CONTRACT
+  owner_context_id: CTX-UPS-ROOT
+  path: projects/ui-prototyping-studio/INTEGRATION.md
+  artifact_type: contract
+  status: active
+  notes: 'B3 (goal loop 2026-06-24). Studio CLI integration contract (DEC-CLI-NOT-MCP-012): verb catalog, stdout JSON / stderr {code,message,details} / exit codes, env isolation (STUDIO_DATA/STUDIO_DOCS_ROOT), the two-gate loop, invariants, the integration readiness block. The surface other apps drive; additive over L0.'
 descriptions:
 - description_id: DESC-UPS-001
   context_id: CTX-UPS-ROOT
@@ -861,6 +873,7 @@ typed_items:
   closure_condition: The FX-* fixture corpus is authored under apps/web/e2e, @axe-core/playwright is added as a dependency, and a calibrate pass promotes the 11 specified hard gates.
   evidence: ART-UX-EVIDENCE
   decision_ref: none
+  progress_note: 'B2 (goal loop 2026-06-24, ART-FIXTURE-CORPUS): a real fixture corpus now exists under backend/e2e/fixtures/corpus and drives the live CLI loop end-to-end — no longer "zero fixtures beyond two L0 specs." REMAINING for closure: FX-* IDs, @axe-core/playwright dependency, and the 11 calibrated hard gates. Status stays active.'
   reason: The plan's strict-superset gate suite is aspirational - zero FX-* IDs exist in e2e and axe is not installed, so the suite it claims to extend does not exist beyond two L0 specs.
 - item_id: BLK-IDENTITY-TYPES-002
   kind: blocker

@@ -144,7 +144,7 @@ meta). The deep-spec `decision-gate` on the one-shot scope + OQ-1..4 stays queue
 
 ### <a id="gap-gap-contract-drift-004"></a>GAP-CONTRACT-DRIFT-004
 
-- Severity: `flag` · Treatment: `fix-in-spec-reconciliation`. `mock-api` emits `RevisionRecorded` but never a distinct `RevisionApplied`, while `models.ts` declares both.
+- Severity: `flag` · Treatment: `resolved-by-fold` · Status: **resolved** (human-view reconciled 2026-06-24). `RevisionApplied` (staged-preview/accept-diff) and `RevisionRecorded` (committed head) are two distinct, load-bearing states in the **live CLI backend** (`apply-and-stage.ts` / `accept-staged-revision.ts`); verified by 62/62 unit/slice green. The only remaining `RevisionApplied`-absent copy is the deferred-SPA `mock-api.ts` in the `implementation/domainspec` submodule — a stale double, **superseded by the lifted backend**, downstream of `GAP-DOCS-CODE-SPLIT-005`.
 
 ### <a id="gap-gap-docs-code-split-005"></a>GAP-DOCS-CODE-SPLIT-005
 
