@@ -1292,6 +1292,22 @@ decisions:
   blocking: false
   impact: Resolved at the task-session gate (2026-06-16); applies when the extraction WORK-PACK executes.
   owner: operator
+- decision_id: DEC-DOCS-CODE-SPLIT-022
+  scope_id: CTX-UPS-ROOT
+  decision_type: approval
+  question: Where should the handoff bundle reference the moved spec, given the submodule cannot depend on a parent path?
+  options:
+  - Path-free logical id (ui-prototyping-studio:SPEC.md)
+  - In-submodule stub pointers
+  - Neutralize/drop spec paths
+  - Wait for extraction P4 (prior default)
+  default_option: Path-free logical id (ui-prototyping-studio:SPEC.md)
+  selected: Path-free logical id (ui-prototyping-studio:SPEC.md)
+  rationale: Repoint the 5 source-file refs (handoff mock-api + server.test assertions, PRODUCT-COMPONENTS-IDEA links, 2 code-tag drift reports) from docs/features/ui-prototyping-studio/* to stable path-free logical ids. Submodule stays self-contained, no parent coupling, decoupled from extraction timing. Generated data regenerates. Submodule commit 6f57151.
+  status: closed
+  blocking: false
+  impact: Supersedes resolved-by-extraction-P4 for the reference problem; GAP-DOCS-CODE-SPLIT-005 resolved without waiting for P4. Establishes the reusable pattern (submodule carries a logical spec id; the umbrella resolves it). Canonical spec home = projects/ui-prototyping-studio/.
+  owner: operator
 - decision_id: DEC-UX-SURFACE-C-021
   scope_id: CTX-UPS-UX-REFINE
   decision_type: design
@@ -1445,10 +1461,12 @@ gaps:
   scope_id: CTX-UPS-ROOT
   summary: 'Transitional: docs moved to projects/ while code still sits in domainspec. Per DEC-DEPRECATE-PIVOT-007 the code is being extracted too (CTX-UPS-EXTRACTION); the 8 stale domainspec doc-path refs move with the code in P4 and resolve naturally. Tracked until extraction P4 lands.'
   severity: flag
-  treatment: resolved-by-extraction-P4
+  treatment: resolved-by-logical-id-repoint
   owner: operator
-  status: active
+  status: resolved
+  decision_ref: DEC-DOCS-CODE-SPLIT-022
   evidence: implementation/domainspec/backend/src/modules/ui-prototyping-studio/application/export-design-handoff.ts
+  resolution_note: 'RESOLVED 2026-06-24 (DEC-DOCS-CODE-SPLIT-022, B4): the 5 source-file refs in the submodule were repointed from docs/features/ui-prototyping-studio/* to path-free logical ids (ui-prototyping-studio:SPEC.md) — submodule commit 6f57151 — so the submodule stays self-contained with no parent-path dependency, decoupled from extraction-P4 timing. Generated data (.data/telemetry) regenerates. Canonical spec home = projects/ui-prototyping-studio/.'
 - gap_id: GAP-ANNOTATION-UX-006
   scope_id: CTX-UPS-EXTRACTION
   summary: 'RESOLVED in design by DEC-INPROTO-ANNOTATION-013: `studio preview --annotate` injects a click-to-annotate overlay so comments are captured directly on rendered components (no hand-typed selectors, no SPA). Build it in P1.5/preview. Supersedes the manual-selector AnnotationPanel.'

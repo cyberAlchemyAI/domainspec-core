@@ -148,8 +148,8 @@ meta). The deep-spec `decision-gate` on the one-shot scope + OQ-1..4 stays queue
 
 ### <a id="gap-gap-docs-code-split-005"></a>GAP-DOCS-CODE-SPLIT-005
 
-- Severity: `flag` · Treatment: `decide-then-reconcile` · Owner: operator.
-- This spec project was moved out of the `implementation/domainspec` submodule to `projects/ui-prototyping-studio`; the code (backend module, frontend components, e2e, governance tags) stayed in domainspec. Eight domainspec files now hold stale `docs/features/ui-prototyping-studio/` paths (handoff refs in `export-design-handoff.ts` + e2e `mock-api.ts`, their assertions in `slice.test.ts`/`server.test.ts`, `PRODUCT-COMPONENTS-IDEA.md` links, two code-tag drift reports). Do **not** repoint them at `projects/...` — that would make the submodule depend on a parent path. Decide where the handoff bundle should reference the spec now.
+- Severity: `flag` · Treatment: `resolved-by-logical-id-repoint` · Status: **resolved** (B4, `DEC-DOCS-CODE-SPLIT-022`, 2026-06-24) · Owner: operator.
+- The spec moved to `projects/ui-prototyping-studio`; the submodule's `docs/features/ui-prototyping-studio/*.md` copies are gone, leaving dangling refs. **Decision: path-free logical ids** (`docs/features/ui-prototyping-studio/SPEC.md` → `ui-prototyping-studio:SPEC.md`) so the submodule can't depend on a parent path. Repointed the 5 source files (handoff `mock-api.ts` + `server.test.ts` assertions, `PRODUCT-COMPONENTS-IDEA.md` links, 2 drift reports) — **submodule commit `6f57151`**; generated data (`.data`/telemetry) regenerates. Canonical spec home = `projects/ui-prototyping-studio/`. This **supersedes `resolved-by-extraction-P4`** — the refs are decoupled now, independent of extraction timing.
 
 ## Route Handoffs (completed)
 
