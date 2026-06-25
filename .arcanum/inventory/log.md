@@ -953,3 +953,207 @@ Artifacts:
 - `.arcanum/inventory/entries/authority-lifecycle-invariant-synthesis.md`
 - `.arcanum/inventory/entries/evidence-cards/2026-06-23-authority-lifecycle-invariant-cards.md`
 - `.arcanum/inventory/log.md`
+
+## 2026-06-24 Ingest — unified IDE Ergonomics spine (dispatch 2026-06-24-unified-ide-ergonomics-product-view)
+
+- Mode: ingest
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: `projects/ide-ergonomics/UNIFIED-PRODUCT-VIEW.md`, `projects/ide-ergonomics/development/unified-product-view/findings.md` + `research.md`, `projects/ide-ergonomics/PRODUCT-VIEW.md`, `projects/ide-ergonomics/ERGONOMICS-OPPORTUNITIES.md`, `arcanum/spells/necronomicon/README.md`, `arcanum/arcana/spellcraft/SKILL.md`, `arcanum/formulae/dispatch-spec/ARCANUM-DISPATCH-SYNTHESIS.md` + `WEAVER-EXTRACTION.md`, `telemetry/agents/subagents-dispatch.yaml`
+- Entries created: 2 (1 synthesis, 1 evidence-card bundle of 5 cards)
+- Entries updated: 0
+- Index updated: yes (`index.md` + `index.json` — 71 → 73 entries; by_id/by_type/by_tag/by_source/by_status/by_evidence_card synced; `generated_at` bumped)
+- Tags added: `ide-ergonomics`, `unified-spine`, `dispatch-composition`, `restraint-contract`, `lifecycle-phase-graph`, `dispatch-grammar`, `claim-le-proof`
+- Log updated: yes
+- Contradictions flagged: 0
+- Lint gaps: open residue carried on cards — altitude-2 grammar mapping unverified against `dispatch.schema.yml`; field-hover/intent-latitude attach to grammar by analogy only; unified view is `status: draft`
+- Validation: pass (`jq` parse of `index.json` OK; both entries present in `by_id`; evidence-card bundle has `source_refs`, `promotion_owner`, `trace`, `residue`)
+- Authority boundary: candidate Inventory read models only; promotion owner = the IDE-ergonomics project / `PRODUCT-VIEW.md`. Inventory does not promote the unified product view.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/unified-ide-ergonomics-spine-synthesis.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-24-unified-ide-ergonomics-spine-cards.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/tags.md`
+- `.arcanum/inventory/log.md`
+
+## 2026-06-24 Sync — spine model revised to open coordinate space (review dispatch `2026-06-24-spine-model-premature-lock-review`)
+
+- Mode: sync (read-model update after model revision)
+- Trigger: red-team review of the three-altitude spine found a premature lock (sealed stack, no admission procedure, no open/closed declaration). All surviving change requests applied to the product model.
+- Model change: "three-altitude stack" → **open, default-deny, gated coordinate space** with a coordinate-admission gate (owner = PRODUCT-VIEW.md / governance) and a draft→accepted promotion path. "lifecycle" split into work-arc vs session-state clocks. Three further coordinates surfaced: evidence/receipt (admitted, load-bearing), input-side (candidate, home intent-latitude-tags/), social/addressee (candidate, home teammate-handoff-memos/). Package frontmatter `spine_altitude:1|2|3` → unordered `spine_dimension`.
+- Inventory action: added a REVISED note to the synthesis entry (records original build finding for provenance; points at the revised model). No new inventory entries; read-model edit only. Index counts unchanged.
+- Validation: pass (synthesis entry updated; ledger carries both the build and review dispatch rows).
+- Authority boundary: candidate read-model; promotion owner = PRODUCT-VIEW.md. Inventory does not promote the product model.
+
+Artifacts:
+
+- `projects/ide-ergonomics/UNIFIED-PRODUCT-VIEW.md` (rewritten to open coordinate space)
+- `projects/ide-ergonomics/restraint-floor/README.md`, `dispatch-grammar-routing/README.md`, `lifecycle-progression/README.md` (frontmatter + reframe)
+- `projects/ide-ergonomics/README.md` (file list)
+- `.arcanum/inventory/entries/unified-ide-ergonomics-spine-synthesis.md` (revision note)
+- `.arcanum/inventory/log.md`
+
+## 2026-06-24 Ingest — reflexive substrate harness vs ontologize (dispatch `2026-06-24-cav2-substrate-reflexive-harness-vs-ontologize`)
+
+- Mode: ingest
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: `projects/ontologize/development/reflexive-substrate-harness/findings.md`, `projects/ontologize/PRODUCT.md`, `DAG-AND-METRICS.md`, `operational-ontology/README.md` + `branch/operational-node.schema.yml` + `decisions/disciplines-as-axiom.md`, `cyberAlchemy-v2/authority/AUTHORITY-MODEL.md`, `projects/ide-ergonomics/UNIFIED-PRODUCT-VIEW.md` + `opportunity-backlog.md`, `.arcanum/spells/ergonomics-affordance-lifecycle/README.md`
+- Entries created: 2 (1 synthesis, 1 evidence-card bundle of 6 cards)
+- Entries updated: 0
+- Index updated: yes (`index.md` + `index.json` — 73 → 75 entries; all maps synced; `generated_at` bumped)
+- Tags added: `ontologize`, `reflexive-harness`, `governance-vs-ontology`, `promotion-dag`, `b-op-branch`, `circular-authority` (`operational-ontology` already present)
+- Log updated: yes
+- Contradictions flagged: 0 (the affirm/negate/reframe trilemma is preserved as a reconciled synthesis, not a contradiction entry)
+- Lint gaps: open residue carried — B-op branch is candidate pending ontology-harness; the bridge (author artifacts as B-op nodes) not executed; meta-metric gap unclosed
+- Validation: pass (`jq` parse OK; both entries in `by_id`; evidence-card bundle has `source_refs`, `promotion_owner`, `trace`, `residue`)
+- Authority boundary: candidate read-models only; promotion owners = the operational-ontology branch / ontology-harness + cav2 authority owner. Inventory promotes nothing.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/reflexive-substrate-harness-synthesis.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-24-reflexive-substrate-harness-cards.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/tags.md`
+- `.arcanum/inventory/log.md`
+
+## 2026-06-24 Ingest — authority / ontology / governed-artifact + CAV2-as-meta-authority (conceptual synthesis)
+
+- Mode: ingest (conceptual synthesis, not a dispatch)
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: `cyberAlchemy-v2/authority/AUTHORITY-MODEL.md`, `authority/definitions/DEFINITIONS-INDEX.md` (CAV2-D34/D35/D36/D37/D41/D48/D49), `projects/ontologize/operational-ontology/branch/operational-node.schema.yml`, the prior `2026-06-23` governed-artifact-primitive-formalization cards, `projects/ide-ergonomics/UNIFIED-PRODUCT-VIEW.md`, `.arcanum/spells/ergonomics-affordance-lifecycle/README.md`
+- Entries created: 2 (1 synthesis, 1 evidence-card bundle of 5 cards)
+- Entries updated: 0
+- Index updated: yes (`index.md` + `index.json` — 75 → 77 entries; all maps synced)
+- Tags added: `authority-model`, `meta-authority`, `non-collapse`, `map-vs-decision` (`ontology`, `governed-artifact` already present)
+- Log updated: yes
+- Contradictions flagged: 0
+- Lint gaps: open residue — CAV2 meta-authority is review-mode not validator-enforced (OQ-1/OQ-2); the harness→B-op-nodes bridge not executed; base term `artifact` (CAV2-D31) review open
+- Validation: pass (`jq` parse OK; both entries in `by_id`; cards carry source_refs/promotion_owner/trace/residue)
+- Authority boundary: candidate read-models; promotion owners = cav2 authority owner / definitions-governance / operational-ontology branch. Inventory promotes nothing.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/authority-ontology-governed-artifact-synthesis.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-24-authority-ontology-governed-artifact-cards.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/tags.md`
+- `.arcanum/inventory/log.md`
+
+## 2026-06-24 Ingest — machine map + moat (dispatch `2026-06-24-machine-map-and-moat`)
+
+- Mode: ingest
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: `development/machine-map/findings.md`, `implementation/domainspec/GOVERNANCE-ATTENUATION.md`, `ops/development/2026-06-21-paper-saturn-explainer/SATURN-LAYER-MAP.md`, `implementation/domainspec/plan/SATURN-L-SYSTEM.md`, `implementation/domainspec/AUTHORITY-MAP.md`, `development/COMMERCIALIZATION-SYNTHESIS.md`, `domainspec-lean-formalization/README.md` + `OPEN-SORRIES.md`, `cyberAlchemy-v2/authority/AUTHORITY-MODEL.md`
+- Entries created: 2 (1 synthesis, 1 evidence-card bundle of 6 cards)
+- Entries updated: 0
+- Index updated: yes (`index.md` + `index.json` — 77 → 79 entries; all maps synced; `generated_at` bumped)
+- Tags added: `machine-map`, `viable-system-model`, `saturn`, `attestation`, `moat`, `observer-executor-split`, `governance-attenuation`, `commercialization`, `cav2`
+- Log updated: yes
+- Contradictions flagged: 0 (the build/attenuate/sequence/moat tensions are preserved as a reconciled synthesis; the live AUTHORITY-MAP-vs-GOVERNANCE-ATTENUATION System-5 contradiction is carried as residue)
+- Lint gaps: open residue — Saturn intended-not-shipped + cav2 review-mode (machine is a roadmap); provability conjectural (zero cav2→Lean links); cav2-as-DomainSpec-S5 is analogy not cited; the System-5 doc contradiction unresolved
+- Validation: pass (`jq` parse OK; both entries in `by_id`; cards carry source_refs/promotion_owner/trace/residue)
+- Authority boundary: candidate read-models; promotion owners = DomainSpec plan owner / commercialization decision-gate / cav2 authority owner. Inventory promotes nothing.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/machine-map-and-moat-synthesis.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-24-machine-map-and-moat-cards.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/tags.md`
+- `.arcanum/inventory/log.md`
+
+## 2026-06-24 Ingest — moat stack + authority-triage sigil + build-from-owned-is-already-authority
+
+- Mode: ingest
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Source evidence: `development/moat-stack.md`, `development/COMMERCIALIZATION-SYNTHESIS.md`, `development/machine-map/findings.md`, `development/authority-triage/SKILL.md` + `README.md`, `cyberAlchemy-v2/authority/AUTHORITY-MODEL.md` + `definitions/DEFINITIONS-INDEX.md` + `DEFINITIONS.md`, `.claude/skills/research/SKILL.md`
+- Entries created: 2 (1 synthesis, 1 evidence-card bundle of 3 cards)
+- Entries updated: 0
+- Index updated: yes (`index.md` + `index.json` — 79 → 81 entries; all maps synced)
+- Tags added: `defensibility`, `authority-triage`, `capture-surface` (`moat`, `commercialization`, `authority-model`, `build-from-owned` already present)
+- Log updated: yes
+- Contradictions flagged: 0
+- Lint gaps: open residue — moat ratings are candidate judgments (proof-it-works unbuilt); build-from-owned consolidation optional; authority-triage is candidate (experiment-harness deferred)
+- Validation: pass (`jq` parse OK; both entries in `by_id`; cards carry source_refs/promotion_owner/trace/residue)
+- Authority boundary: candidate read-models; promotion owners = commercialization decision-gate / cav2 authority owner / sigil-development. Inventory promotes nothing.
+- Note: the build-from-owned principle is ALREADY repo authority (CAV2-D48 + the research-skill precedent gate), not only in Claude Code memory; the memory note is a personal restatement (capture-surface).
+
+Artifacts:
+
+- `.arcanum/inventory/entries/moat-stack-and-authority-triage-synthesis.md`
+- `.arcanum/inventory/entries/evidence-cards/2026-06-24-moat-stack-and-authority-triage-cards.md`
+- `development/moat-stack.md`, `development/authority-triage/SKILL.md` + `README.md`
+- `.arcanum/inventory/index.md`, `.arcanum/inventory/index.json`, `.arcanum/inventory/tags.md`, `.arcanum/inventory/log.md`
+
+## 2026-06-24 Sync — moat decisions promoted + build-from-owned consolidated (CAV2-C17) + sigil validated
+
+- Mode: sync (governed_ref backfill after owner-gated promotions)
+- Promotions (routed via authority-triage): the 2 moat decisions -> `cyberAlchemy-v2/authority/decisions/2026-06-24-engine-moat-and-free-paid-boundary.md` + `2026-06-24-saturn-domainspec-public-disclosure.md` (+ boundaries.md clauses + decisions/README rows); build-from-owned -> `CAV2-C17` Stable Repository Constitution (candidate, deriving from CAV2-D48); authority-triage -> VALIDATED on the memory corpus (7/7).
+- Inventory action: added `governed_ref` to the build-from-owned card (CAV2-C17), the moat-stack-layers card (engine trade-secret refinement), and the authority-triage-sigil card (validated); added a Promotion-status section to the synthesis entry. No new entries; read-model edits only. Index counts unchanged (81).
+- Moat-stack refined: layer #5 split into #5a withheld-engine-algorithm (trade-secret moat) vs #5b published design.
+- Validation: pass (jq parse OK). Authority boundary: candidate read-models; the governed artifacts are the decision records + CAV2-C17 in cav2 authority.
+
+Artifacts:
+
+- `cyberAlchemy-v2/authority/decisions/2026-06-24-engine-moat-and-free-paid-boundary.md`, `2026-06-24-saturn-domainspec-public-disclosure.md`, `decisions/README.md`, `boundaries.md`
+- `cyberAlchemy-v2/authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md` (CAV2-C17)
+- `development/authority-triage/development/VALIDATION-EXPERIMENT.md`, `development/moat-stack.md`
+- `.arcanum/inventory/entries/moat-stack-and-authority-triage-synthesis.md` + `entries/evidence-cards/2026-06-24-moat-stack-and-authority-triage-cards.md` + `log.md`
+
+## 2026-06-24 — ingest (resonantOS integration + ontology-over-RAG)
+
+- Mode: ingest
+- Sources: development/resonantos-integration/{findings.md,research.md,RESONANTOS-INTEGRATION-GUIDE.md}; development/machine-map/findings.md; "Agent Memory Architecture v7.1" (PDF, Victor Morrow); development/cyberalchemy-integration-sdk/findings.md.
+- Entries created (2): entries/resonantos-and-ontology-retrieval-synthesis.md (synthesis) + entries/evidence-cards/2026-06-24-resonantos-ontology-retrieval-cards.md (5 cards: resonantos-living-archive-dogfood, ontology-traversal-over-vector-rag, ingest-time-cost-relocation, governance-requires-determinism, typed-intent-discrete-vector).
+- Index: index.json 81 -> 83 (by_id/by_type/by_status/by_tag/by_source updated; jq parse OK); index.md catalog line added; 8 tags added to tags.md (resonantos, living-archive, integration, ontology-retrieval, semantic-search, rag, determinism, typed-intent).
+- Key claims (candidate, claim<=proof): READ decouples onto host substrate / WRITE doesn't (cav2 owns governed store + Review-Queue promotion); map-vs-decision (substrate governs facts-over-time = OVERLAP, has no authority/decision/promotion field = ADDITIVE gap); ontology kills traversal & shrinks grounding; semantic cost relocates query-time->ingest-time; typed-intent = discrete-vector start point (owned by DomainSpec, relates projects/domainspec-v2/); governance-requires-determinism makes cav2's missing S5 sit on ontology not vectors.
+- Validation: pass (jq parse OK). Authority boundary: candidate read-models only; owners = cav2 authority / DomainSpec / commercialization gate. Promotes nothing.
+- Next: research dispatch (domainspec-subagents-strategy) goes deeper on the 3 topics and precedent-grounds typed-intent-discrete-vector in projects/domainspec-v2/.
+
+## 2026-06-24 — ingest (ontology operationalization in the machine)
+
+- Mode: ingest (finalize — entries + index were already written; this completes tags.md + log.md)
+- Sources: development/machine-map/research/2026-06-24-ontology-operationalization/{findings.md,research.md}; development/machine-map/findings.md; cyberAlchemy-v2/authority/AUTHORITY-MODEL.md; implementation/domainspec/{ADLC-ALIGNMENT.md,RELATIONSHIPS.md}; cyberAlchemy-v2/development/research/2026-06-24-ontology-engineering-precedent/findings.md.
+- Entries (2, already present): entries/ontology-operationalization-in-the-machine-synthesis.md (synthesis) + entries/evidence-cards/2026-06-24-ontology-operationalization-cards.md (7 cards: operationalization-is-build-from-owned, write-authority-proviso-architectural-absence, two-ontologies-no-merge, leverage-point-finish-the-built-observer, schema-drift-eliminable-instance-drift-not, review-time-not-run-time-regulator-decay, cav2-relocation-default-deny).
+- Index: index.json already at 85 (both entries indexed; by_tag carries the 4 new tags). This row + tags.md complete the ingest.
+- tags.md: +4 (write-authority-proviso, leverage-point, two-ontologies, regulator-self-model) — were referenced by index.json but undefined; now recorded.
+- Key spine (candidate, claim<=proof): operationalizing ontology is build-from-owned (observer/Edge-Law/binding tools already coded), kept sound by ONE invariant — no modeling op may write a node's promotion-status (architectural absence); TWO ontologies (DomainSpec language A vs cav2 authority B) align-not-merge; leverage = finish+baseline the built read-only observer; relocating machine-map INTO cav2 = default-deny until cav2=S5 proven + self-model write-incapable.
+- Convergence note: this dispatch's spine (map-vs-decision / no-write-edge-to-authority / cav2-as-S5 / regulator-self-model) CONVERGES with the 2026-06-24-deterministic-retrieval-thesis result (typed-referent + recorded gate; determinism = cost not requirement). The retrieval thesis is NOT yet inventoried and revises 2 cards in resonantos-and-ontology-retrieval-synthesis — flagged as the next ingest.
+- Validation: pass (jq parse OK). Authority boundary: candidate read-models only; owners = DomainSpec plan / cav2 authority / commercialization gate. Promotes nothing.
+
+## 2026-06-24 — ingest (deterministic-retrieval thesis) + supersession
+
+- Mode: ingest
+- Sources: development/deterministic-retrieval-thesis/{findings.md,research.md}; development/machine-map/findings.md; projects/domainspec-v2/research/spec-ontology-unification/SEED.md.
+- Entries created (2): entries/deterministic-retrieval-thesis-synthesis.md (synthesis) + entries/evidence-cards/2026-06-24-deterministic-retrieval-thesis-cards.md (7 cards: irreducible-keystone-typed-referent-plus-gate, unification-is-not-the-keystone, determinism-is-cost-not-requirement, wrapper-not-algorithm-two-ontologies, typed-intent-seed-owned-but-unexecuted, ingest-relocation-epoch-scoped, dcb-seam-highest-leverage).
+- SUPERSESSION (contradictions resolved, not hidden): revised 2 cards in entries/evidence-cards/2026-06-24-resonantos-ontology-retrieval-cards.md -- (1) `governance-requires-determinism` DEMOTED (determinism = cost-dominance, NOT a precondition; the requirement is provenance + a citable referent); (2) `typed-intent-discrete-vector` REFINED (build-from-owned of spec-ontology-unification CONFIRMED but tower UNEXECUTED; 'shrinks toward zero' -> reduce-not-eliminate to a thin margin). Original claims retained verbatim with REVISED/REFINED notes; new cards cross-linked.
+- Index: index.json 85 -> 87 (by_id/by_type/by_status/by_tag/by_source updated; jq parse OK); index.md +2 Wiki-Pages rows; tags.md +5 (deterministic-retrieval, ingest-relocation, governance-determinism, arcanum, domainspec).
+- Convergence recorded: this thesis CONVERGES with ontology-operationalization-in-the-machine-synthesis on one spine (typed-ontology-not-vectors substrate / cav2 = recorded gate not generator / authority conferred-and-recorded at write / highest-leverage = prove the unproven substrate). Cross-linked both syntheses.
+- Validation: pass (jq parse OK). Authority boundary: candidate read-models only; owners = DomainSpec plan / cav2 authority / commercialization gate. Promotes nothing.
+
+## 2026-06-25 — ingest (resonantOS Living-Archive seam + owned base + importance)
+
+- Mode: ingest
+- Sources: development/resonantos-integration/{findings.md,RESONANTOS-INTEGRATION-GUIDE.md,research.md} + development/resonantos-integration/owned-base/{findings.md,BASE-FOR-VICTOR.md,research.md}; resonantos-vnext/public/addons/living-archive.json + src/core/policies.ts + examples/living-archive-mcp.mjs; "Agent Memory Architecture v7.1" (PDF, Victor Morrow); arcanum/spells/necronomicon/README.md; arcanum/arcana/inventory/. Two closed research dispatches: 2026-06-24-resonantos-living-archive-integration + 2026-06-24-resonantos-owned-base-and-importance.
+- Entries created (2): entries/resonantos-living-archive-seam-and-owned-base-synthesis.md (synthesis) + entries/evidence-cards/2026-06-25-resonantos-integration-and-owned-base-cards.md (6 cards: living-archive-write-seam, promotion-executor-host-resident, additive-vs-overlap-facts-vs-authority, owned-arcanum-base-blueprint-with-validators, two-senses-of-importance, authority-triage-private-boundary).
+- Key spine (candidate, claim<=proof): READ decouples / WRITE doesn't -- host owns the map, cav2 owns the governed WRITE/decision side + IMPLEMENTS the promotion provider body behind resonantOS's OWNED promote_review_artifact/501 boundary (host-resident+absent, NOT turnkey). Map-vs-decision: substrate governs facts-over-time (OVERLAP) / has no field for authority/decisions/promotion (ADDITIVE). Owned base = governance blueprint with validators, not a memory service (COPY schemas+validators+bootstrap / PORT necronomicon-guardrail+defs-gov+ontology-vault / ALREADY-HAVE the Review-Queue loop+recall-importance). Importance has TWO senses: recall-importance already solved (utility/JEPA/Aspirational/Self-Model) = redundant; govern-importance (evidence-vs-commitment confidence + authored/provenance-weighted priors + threshold-authority) FEEDS not replaces.
+- Boundary correction (radical candor): authority-triage is PRIVATE (repo-root development/authority-triage), NOT public arcanum -> the teammate handoff uses the public inventory evidence-card authority-state + promotion_owner analog; auditor confirmed absence.
+- Index: index.json 87 -> 89 (by_id/by_type/by_status/by_tag/by_source/by_evidence_card recomputed from entries; jq parse OK); index.md +2 Entries rows; tags.md +3 (importance, govern-importance, boundary -- build-from-owned/claim-le-proof already existed).
+- Validation: pass (jq parse OK). Authority boundary: candidate read-models only; owners = SDK/integration decision-gate / cav2 authority / arcanum-bootstrap. Promotes nothing.
+
+## 2026-06-25 — lint
+
+- Mode: lint
+- Findings: (1) 2 coverage gaps — resonantos-and-ontology-retrieval synthesis + cards were in index.json but unlinked in index.md (earlier free-text bullet dropped when index.md was normalized into tables); FIXED (added 2 Entries rows). (2) 3 dangling tags (synthesis, ontology, attenuation) used in by_tag but undefined in tags.md; FIXED (+3 definitions). (3) FLAG (not fixed): entries/evidence-cards/2026-06-23-governed-artifact-primitive-formalization-cards.md has `promotion_owner: none` (rationale: reuse existing envelope) — pre-existing card, surfaced to its owner, not silently changed.
+- Clean: evidence-card source_refs present; log headings parseable (42 dated); index.json parseable (89 entries).
+- Validation: pass.
