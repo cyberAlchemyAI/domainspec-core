@@ -42,6 +42,28 @@ Research can propose terms, maps, gates, or implementation ideas. Specs own
 contracts only after a promotion decision. Implementation waits for a task
 route or execution pack.
 
+## Free / Paid And Engine Mechanism
+
+The free/paid boundary and the engine-mechanism withholding are governed by
+[decisions/2026-06-24-engine-moat-and-free-paid-boundary.md](decisions/2026-06-24-engine-moat-and-free-paid-boundary.md):
+
+- **Free:** the layering / tag / alignment audits and the LLM test generator.
+- **Moat (paid):** the DomainSpec language and the Lean validations — the
+  deterministic derivation engine's algorithm.
+- **Cite results, withhold mechanism:** demonstrate engine *results* (determinism,
+  byte-stability, mutation/spec-formalization numbers, the self-derive fixpoint)
+  publicly; never disclose the `parse → δ → key → emit` pipeline, L0–L4 internals,
+  rule/grammar types, id-map, tier split, fenced regions, or Lean proof internals.
+
+## Public Disclosure (Saturn / DomainSpec)
+
+Governed by [decisions/2026-06-24-saturn-domainspec-public-disclosure.md](decisions/2026-06-24-saturn-domainspec-public-disclosure.md):
+Saturn and DomainSpec may be **named and explained publicly** (framed
+intended-not-shipped, claim ≤ proof); the "research-as-discovery / code-as-probe /
+Cybernetics²" framing is approved. **MARS / MOGT / Necronomicon**, the internal
+layer-map, and the engine mechanism stay **private**. (This resolves OQ-1 below for
+the Saturn/DomainSpec slice.)
+
 ## Open Questions
 
 ### OQ-1. What is the first public-safe slice?
@@ -49,4 +71,5 @@ route or execution pack.
 Context: CyberAlchemy v2 likely wants a public story eventually, but the current
 source spine mixes private and public evidence. Recommendation: choose the first
 public-safe slice through decision-gate after the local skeleton is reviewed.
-Status: OPEN.
+Status: **PARTIALLY RESOLVED** — the Saturn/DomainSpec naming + "who we are"
+framing slice is approved (see Public Disclosure above); broader slices remain OPEN.

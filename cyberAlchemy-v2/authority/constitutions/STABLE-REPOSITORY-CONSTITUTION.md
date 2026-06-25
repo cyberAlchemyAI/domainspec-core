@@ -367,6 +367,35 @@ Non-examples:
   delight, and market fit.
 - Treating a passing Playwright run as proof of subjective product quality.
 - Promoting an anecdotal UX lesson into a hard gate.
+
+### CAV2-C17. Precedent Sweep Before Net-New (Build-From-Owned)
+
+Status: candidate (pending constitution-governance number-confirm + validation; `C16` is a retired/superseded number)
+Validation mode: review
+Derives from: [CAV2-D48 authority promotion lifecycle](../definitions/DEFINITIONS.md#cav2-d48-authority-promotion-lifecycle)
+
+Before any capability emits a KILL or a net-new verdict — a new definition,
+constitution, discipline, spec, sigil, ontology concept, or "this is novel" claim
+— it must first **sweep for an existing owner in-repo**. A found owner is a
+**positive** result, never a kill: the candidate is relabeled **build-from-owned**
+(cite the owner, deploy it, never claim novelty); only a clean sweep admits a
+net-new verdict. This rule consolidates the build-from-owned principle that
+`CAV2-D48`'s definition already names and that the research-skill precedent gate
+already enforces — promoting nothing new, naming one enforceable cross-capability
+rule (Via Negativa: consolidation, not a new authority kind).
+
+Examples:
+
+- A research dispatch finds an owner for a "novel" candidate → verdict
+  `build-from-owned`, cite the owner, continue (the dispatch does not early-stop).
+- An authority-triage run sweeps `DEFINITIONS.md` / constitutions / disciplines /
+  inventory before recommending a new definition.
+
+Non-examples:
+
+- Emitting `net-new` / `novel` without a precedent sweep.
+- Treating a found owner as a KILL (the precedent gate emits no terminal KILL).
+- Re-promoting a principle already owned (e.g. re-defining build-from-owned itself).
 - Blocking a specialized expert interface with a generic density heuristic
   before false-positive calibration.
 
