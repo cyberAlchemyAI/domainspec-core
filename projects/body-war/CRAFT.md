@@ -15,6 +15,7 @@ source of truth; this page is an indexed navigation surface.
 - TROQAR refine route: [REFINE-DISPATCH.json](development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json), [RESULT.md](development/refinement-runs/20260621T-troqar-product-architecture-gap-review/RESULT.md).
 - TROQAR production login UI: [task-session RESULT.md](development/task-sessions/20260622T125002Z-production-ui-login/RESULT.md), [UI-REVIEW.md](docs/features/troqar-product-architecture/UI-REVIEW.md), [production handoff bundle](docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json).
 - TROQAR online deploy: [manual](docs/ONLINE-DEPLOY-MANUAL.md), [Traefik task session](development/task-sessions/20260622T140208Z-traefik-secret-blind-deploy/TASK-SESSION-RESULT.md), [secret inventory](infra/SECRET-INVENTORY.md).
+- Suggested track expansion child node: [CTX-BODY-WAR-SUGGESTED-TRACKS](#context-ctx-body-war-suggested-tracks), [architecture plan](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md), [runtime handoff](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUNTIME-HANDOFF.md).
 - One-shot forecast: [MVP-ONESHOT-FORECAST.md](docs/features/parque-taquaral-online-mvp/MVP-ONESHOT-FORECAST.md).
 - Invoke design/plan: [DESIGN.md](docs/features/parque-taquaral-online-mvp/DESIGN.md), [WORK-PACK.md](docs/features/parque-taquaral-online-mvp/WORK-PACK.md), [EXECUTION-PACK.md](docs/features/parque-taquaral-online-mvp/EXECUTION-PACK.md).
 - Key artifacts: [architecture decision](docs/decisions/architecture-import-boundary.md), [architecture audit](docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md), [discovery summary](docs/features/parque-taquaral-online-mvp/DISCOVERY.md), [DomainSpec coverage](docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-COVERAGE.md), [DomainSpec backlog](docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-BACKLOG.md).
@@ -41,6 +42,14 @@ mechanics deferred until real evidence is available.
 - Gate: `pass`
 - Closure evidence: [ARCHITECTURE-AUDIT.md](docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md)
 - Selected boundary: Body War-owned TypeScript workspace with DomainSpec path alias.
+
+### <a id="context-ctx-body-war-suggested-tracks"></a>CTX-BODY-WAR-SUGGESTED-TRACKS - Suggested Track Expansion
+
+- Stage: `strategy-proposed`
+- Gate: `flag`
+- Purpose: govern user-suggested tracks, live Strava consult, consented evidence attachment, and eventual promotion from suggestion to source-backed track.
+- Next move: run Task Session Slice 1 to add SuggestedTrack specs, Drizzle/Postgres schema, generated migration, and the Volta do Taquaral `needs_evidence` seed.
+- Evidence: [ARCHITECTURE-PLAN.md](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md), [REFINE-DISPATCH.json](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/REFINE-DISPATCH.json), [RESULT.md](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RESULT.md), [RUNTIME-HANDOFF.md](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUNTIME-HANDOFF.md)
 
 ## Blockers
 
@@ -155,6 +164,9 @@ backend contracts, and local gap/blocker review.
 - TROQAR production login task-session: [RESULT.md](development/task-sessions/20260622T125002Z-production-ui-login/RESULT.md)
 - TROQAR production login review: [UI-REVIEW.md](docs/features/troqar-product-architecture/UI-REVIEW.md)
 - TROQAR production Studio handoff: [PRODUCTION-LOGIN-HANDOFF-BUNDLE.json](docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json)
+- Suggested track architecture plan: [ARCHITECTURE-PLAN.md](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md)
+- Suggested track refine route: [REFINE-DISPATCH.json](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/REFINE-DISPATCH.json)
+- Suggested track runtime handoff: [RUNTIME-HANDOFF.md](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUNTIME-HANDOFF.md)
 
 Important boundary: dispatch pass is route-shape evidence only. It is not
 implementation readiness.
@@ -178,3 +190,8 @@ now implemented and validated the hosted-preview entry surface with Studio
 handoff evidence and 7 Playwright checks. Remaining residue is not UI-blocking:
 real Strava activity evidence, sourced geometry, score authority, backend
 provider choice, broader page order, and glossary promotion remain open.
+
+Suggested track expansion is now a child node under Body War. It keeps Taquaral
+as the first seeded suggestion and routes the next work through specs, Drizzle
+schema, generated migration, and consent-preserving activity evidence before
+any source-backed geometry claim.

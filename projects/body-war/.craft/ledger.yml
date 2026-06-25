@@ -9,6 +9,7 @@ indexes:
   by_id:
     CTX-BODY-WAR-ROOT: contexts[0]
     CTX-BODY-WAR-ARCH-AUDIT: contexts[1]
+    CTX-BODY-WAR-SUGGESTED-TRACKS: contexts[2]
     DEC-ARCH-BOUNDARY-001: decisions[0]
     BLK-STRAVA-ACTIVITY-001: typed_items[1]
     GAP-TAQUARAL-GEOMETRY-001: gaps[0]
@@ -46,6 +47,12 @@ indexes:
     RCT-BODY-WAR-AUTH-REFINE-001: receipts[3]
     RCT-BODY-WAR-AUTH-IMPLEMENTED-001: receipts[4]
     HND-TROQAR-PRODUCT-ARCH-REFINE-001: route_handoffs[3]
+    ART-SUGGESTED-TRACK-ARCHITECTURE-PLAN: artifacts[33]
+    ART-SUGGESTED-TRACK-REFINE-DISPATCH: artifacts[34]
+    ART-SUGGESTED-TRACK-RESULT: artifacts[35]
+    ART-SUGGESTED-TRACK-RUNTIME-HANDOFF: artifacts[36]
+    ART-SUGGESTED-TRACK-RUN-MANIFEST: artifacts[37]
+    HND-SUGGESTED-TRACK-SLICE-1-001: route_handoffs[4]
   open_decisions: []
   blocking_decisions: []
   active_blockers:
@@ -61,6 +68,8 @@ indexes:
       next_move: Configure the Hostinger Traefik deployment manually from ONLINE-DEPLOY-MANUAL.md, then run the online deploy receipt before validating real Strava activity evidence.
     - context_id: CTX-BODY-WAR-ARCH-AUDIT
       next_move: Recompose architecture-boundary decision into CTX-BODY-WAR-ROOT and proceed to bounded MVP work-pack planning.
+    - context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+      next_move: Run Task Session Slice 1 to add SuggestedTrack specs, Drizzle/Postgres schema, generated migration, and the Volta do Taquaral needs_evidence seed.
   artifacts_by_path:
     projects/body-war/docs/decisions/architecture-import-boundary.md: ART-ARCH-BOUNDARY-DECISION
     projects/body-war/docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md: ART-ARCHITECTURE-AUDIT
@@ -88,6 +97,11 @@ indexes:
     projects/body-war/development/task-sessions/20260622T125002Z-production-ui-login/RESULT.md: ART-TROQAR-PRODUCTION-UI-TASK-SESSION
     projects/body-war/docs/features/troqar-product-architecture/UI-REVIEW.md: ART-TROQAR-PRODUCTION-UI-REVIEW
     projects/body-war/docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json: ART-TROQAR-PRODUCTION-LOGIN-HANDOFF
+    projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md: ART-SUGGESTED-TRACK-ARCHITECTURE-PLAN
+    projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/REFINE-DISPATCH.json: ART-SUGGESTED-TRACK-REFINE-DISPATCH
+    projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RESULT.md: ART-SUGGESTED-TRACK-RESULT
+    projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUNTIME-HANDOFF.md: ART-SUGGESTED-TRACK-RUNTIME-HANDOFF
+    projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUN-MANIFEST.md: ART-SUGGESTED-TRACK-RUN-MANIFEST
 
 contexts:
   - context_id: CTX-BODY-WAR-ROOT
@@ -143,6 +157,20 @@ contexts:
       - ART-ARCH-BOUNDARY-DECISION
       - ART-ARCHITECTURE-AUDIT
     notes: Child context closed after user selected Body War-owned TypeScript workspace with DomainSpec path alias.
+  - context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    parent_id: CTX-BODY-WAR-ROOT
+    title: Suggested Track Expansion
+    purpose: Govern the TROQAR route where users suggest tracks, Strava activity is consulted live, and only consented evidence can promote a suggestion toward a source-backed track.
+    stage: strategy-proposed
+    gate: flag
+    next_move: Run Task Session Slice 1 to add SuggestedTrack specs, Drizzle/Postgres schema, generated migration, and the Volta do Taquaral needs_evidence seed.
+    owned_artifacts:
+      - ART-SUGGESTED-TRACK-ARCHITECTURE-PLAN
+      - ART-SUGGESTED-TRACK-REFINE-DISPATCH
+      - ART-SUGGESTED-TRACK-RESULT
+      - ART-SUGGESTED-TRACK-RUNTIME-HANDOFF
+      - ART-SUGGESTED-TRACK-RUN-MANIFEST
+    notes: Child context created after operator clarified that a new Craft space means a child node below the Body War project, not a separate .craft ledger.
 
 artifacts:
   - artifact_id: ART-BODY-WAR-CRAFT-LEDGER
@@ -343,6 +371,36 @@ artifacts:
     artifact_type: studio-handoff-bundle
     status: pass
     notes: Studio Prototype Gate bundle for the production login-first UI; accepted variant B, rev-0001, with no missing refs.
+  - artifact_id: ART-SUGGESTED-TRACK-ARCHITECTURE-PLAN
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md
+    artifact_type: architecture-plan
+    status: flag
+    notes: SuggestedTrack-first architecture plan; runtime implementation has not started.
+  - artifact_id: ART-SUGGESTED-TRACK-REFINE-DISPATCH
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/REFINE-DISPATCH.json
+    artifact_type: dispatch-route
+    status: pass
+    notes: Validated refine dispatch for the SuggestedTrack-first route; pass is route-shape evidence only.
+  - artifact_id: ART-SUGGESTED-TRACK-RESULT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RESULT.md
+    artifact_type: refine-result
+    status: flag
+    notes: Strategy result selecting SuggestedTrack -> EvidenceRequest -> ActivityEvidenceCandidate -> SourceBackedTrack.
+  - artifact_id: ART-SUGGESTED-TRACK-RUNTIME-HANDOFF
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUNTIME-HANDOFF.md
+    artifact_type: runtime-handoff
+    status: blocked-awaiting-confirmation
+    notes: Handoff for Task Session Slice 1; app mutation waits for confirmation.
+  - artifact_id: ART-SUGGESTED-TRACK-RUN-MANIFEST
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUN-MANIFEST.md
+    artifact_type: run-manifest
+    status: pass
+    notes: Manifest records JSON, dispatch-spec, and diff validation for the refinement packet.
 
 descriptions:
   - description_id: DESC-BODY-WAR-001
@@ -365,6 +423,11 @@ descriptions:
     description: "Operator requested an app-wide TROQAR product architecture packet: operations and capabilities first, then DomainSpec domain, UI/UX, visual, and backend definitions for all pages."
     status: active
     evidence: projects/body-war/docs/features/troqar-product-architecture/README.md
+  - description_id: DESC-SUGGESTED-TRACKS-001
+    context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    description: "Operator clarified that suggested-track expansion should be governed as a Body War child node: users can suggest tracks, consult Strava activities, and attach evidence only with consent."
+    status: active
+    evidence: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RESULT.md
 
 definitions:
   - definition_id: DEF-BODY-WAR-CRAFT-001
@@ -391,6 +454,18 @@ definitions:
     statement: The project-local app-wide DomainSpec design surface that maps TROQAR capabilities, domain concepts, pages, UI/UX, visual definitions, and backend contracts before implementation planning.
     status: candidate
     evidence: projects/body-war/docs/features/troqar-product-architecture/README.md
+  - definition_id: DEF-SUGGESTED-TRACK-001
+    scope_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    term: SuggestedTrack
+    statement: A route or place users want TROQAR to support; it may be seeded or user-submitted before any Strava activity evidence is attached.
+    status: candidate
+    evidence: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md
+  - definition_id: DEF-TRACK-EVIDENCE-CANDIDATE-001
+    scope_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    term: TrackEvidenceCandidate
+    statement: A consented activity summary attached to a SuggestedTrack as evidence; raw Strava consult data remains ephemeral until the runner explicitly attaches it.
+    status: candidate
+    evidence: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md
 
 typed_items:
   - item_id: BLK-ARCH-BOUNDARY-001
@@ -632,6 +707,28 @@ route_handoffs:
       - blockers
       - residue
     status: blocked-awaiting-confirmation
+  - handoff_id: HND-SUGGESTED-TRACK-SLICE-1-001
+    context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    capability_ref: task-session
+    mode: spec-and-schema
+    objective: Execute Slice 1 for SuggestedTrack expansion with specs, Drizzle/Postgres schema, generated migration, and Volta do Taquaral needs_evidence seed.
+    source_artifacts:
+      - projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md
+      - projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUNTIME-HANDOFF.md
+    ledger_conditions:
+      - BLK-STRAVA-ACTIVITY-001 remains open until consented activity evidence is submitted.
+      - GAP-TAQUARAL-GEOMETRY-001 remains open until sourced geometry exists.
+      - Strava consult must stay ephemeral until explicit evidence attachment consent.
+    expected_outputs:
+      - SuggestedTrack feature specs
+      - Drizzle/Postgres schema and generated migration
+      - Volta do Taquaral seed with needs_evidence status
+    expected_receipt_fields:
+      - artifacts
+      - validation_result
+      - blockers
+      - residue
+    status: blocked-awaiting-confirmation
 
 receipts:
   - receipt_id: RCT-DISPATCH-REVIEW-AUDIT-001
@@ -771,6 +868,13 @@ relations:
     status: active
     reason: Production login-first UI implementation and validation provide the current hosted-preview entry surface while preserving Strava activity and geometry residue.
     evidence: ART-TROQAR-PRODUCTION-UI-TASK-SESSION
+  - relation_id: REL-CONTAINS-SUGGESTED-TRACKS-001
+    source_id: CTX-BODY-WAR-ROOT
+    target_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    type: contains
+    status: active
+    reason: Suggested-track expansion is a child node under Body War, not a separate Craft ledger.
+    evidence: ART-SUGGESTED-TRACK-RESULT
 
 recomposition:
   - child_id: CTX-BODY-WAR-ARCH-AUDIT
