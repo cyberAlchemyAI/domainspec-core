@@ -120,6 +120,22 @@ Each viable candidate must include one coherent selection from all three cores. 
 | ----- | --------- | ------ | ------ |
 | 1 | `substack_research_post` | selected L0 proof | Forces clarity, voice, research-group relevance, argument structure, and reflective ending without immediate conversion pressure. |
 | 2 | `fundraising_copy` | next extension | Adds trust, proof, urgency, ask mechanics, and donor psychology after the base substrate works. |
+| 3 | `product_research_blueprint` | local preset extension | Creates an in-depth proposal and research blueprint that stays story-first, proof-honest, and focused on vision, gaps, verification, goals, impact, risks, and next decisions. |
+
+## Preset Extensions
+
+Whisper can use local preset packages when the target document needs a more
+specific transport contract than the base sequence above.
+
+Available local presets live in [presets/](presets/):
+
+| Preset ID | Use |
+| --------- | --- |
+| `product_research_blueprint` | Proposal, description blueprint, or research document for a product/system idea. It follows the `Tower-System.pdf` pattern: product view first, system view second, with an explicit evidence boundary. |
+
+Use this preset when the user asks for a proposal document that explains what
+the idea is, why it matters, what gaps remain, what must be verified, what goals
+and impacts it targets, and what next decision would justify continued pursuit.
 
 ## Local Customization
 
