@@ -1,0 +1,199 @@
+ledger_id: craft.ide_ergonomics.ergonomics_development_spell
+schema_ref: ../../../arcanum/arcana/craft/templates/ledger.schema.yml
+schema_version: 0.3.0
+status: candidate-local
+source_of_truth: .craft/ledger.yml
+human_view: CRAFT.md
+notes:
+  - Tracks the design of the `ergonomics-development` reusable spell via Spellcraft.
+  - Two-lane harvest discipline encoded as BLK-CAV2-HARVEST (primary_lane capability + secondary_lane authority).
+  - Created 2026-06-24.
+
+indexes:
+  by_id:
+    CTX-ERGO-SPELL-ROOT: contexts[0]
+    DESC-ERGO-SPELL-001: descriptions[0]
+    DEF-ERGO-SPELL: definitions[0]
+    DEF-ERGO-AFFORDANCE: definitions[1]
+    DEF-TWO-LANE-HARVEST: definitions[2]
+    DEF-COORD-ADMISSION: definitions[3]
+    DEF-HMI-BIND: definitions[4]
+    BLK-CAV2-HARVEST: typed_items[0]
+    DEC-SPELL-IDENTITY: decisions[0]
+    GAP-COORD-RESIDUE: gaps[0]
+    ART-ERGO-LEDGER: artifacts[0]
+    ART-ERGO-VIEW: artifacts[1]
+    ART-REQUIREMENTS: artifacts[2]
+  open_decisions: []
+  blocking_decisions: []
+  active_blockers: []
+  active_gaps:
+    - GAP-COORD-RESIDUE
+  next_moves:
+    - context_id: CTX-ERGO-SPELL-ROOT
+      next_move: DONE (2026-06-24) - step-1 discipline formalized (disciplines/ide-action-surface.md + DISCIPLINES.md); step-2 spell composed as `.arcanum/spells/ergonomics-affordance-lifecycle/` (the development-lifecycle realization; runtime `ide-assisted-arcanum-routing` is its sibling surface); easy intake built (OPPORTUNITY-INTAKE.md + opportunity-backlog.md). Remaining: experiment-harness init on first opportunity; run OPP-002/003/004 through their owners; promote discipline to active-pattern on usage evidence.
+  artifacts_by_path:
+    .craft/ledger.yml: ART-ERGO-LEDGER
+    CRAFT.md: ART-ERGO-VIEW
+    development/ergonomics-development-spell/REQUIREMENTS.md: ART-REQUIREMENTS
+
+contexts:
+  - context_id: CTX-ERGO-SPELL-ROOT
+    parent_id: root
+    title: ergonomics-development spell design
+    purpose: Design a governed Spellcraft spell that takes a NEW ergonomics affordance from proposal -> two-lane research -> design -> implement -> test -> owner-gated admission, building from cyberAlchemy-v2 authority.
+    stage: review-audit
+    gate: flag
+    next_move: REDIRECT verdict recorded (findings.md). Next = step-1 discipline-governance formalize ide-action-surface, then step-2 spellcraft design ide-assisted-arcanum-routing.
+    owned_artifacts:
+      - ART-ERGO-LEDGER
+      - ART-ERGO-VIEW
+      - ART-REQUIREMENTS
+    links:
+      - label: Two-lane harvest blocker
+        target: BLK-CAV2-HARVEST
+        kind: row-id
+      - label: Open spell-identity decision
+        target: DEC-SPELL-IDENTITY
+        kind: row-id
+      - label: IDE Ergonomics model (admission gate)
+        target: ART-REQUIREMENTS
+        kind: artifact-id
+    notes: Root context for the Spellcraft design. The spell is reusable and composes craft + research/review + invoke + experiment-harness + decision-gate, bound to cav2 authority.
+
+descriptions:
+  - description_id: DESC-ERGO-SPELL-001
+    context_id: CTX-ERGO-SPELL-ROOT
+    description: Requirements are drawn first (REQUIREMENTS.md). The spell needs a confirmed required-sigil set AND the exact cav2 definitions/constitutions/authority it binds; both are gathered by the two-lane harvest before composition.
+    status: active
+    evidence: ART-REQUIREMENTS
+
+definitions:
+  - definition_id: DEF-ERGO-SPELL
+    scope_id: CTX-ERGO-SPELL-ROOT
+    term: ergonomics-development spell
+    statement: A governed reusable Spellcraft spell that moves one new ergonomics affordance through proposal, two-lane research, design, implement, test, and owner-gated admission, never promoting it without its owner.
+    status: candidate
+    evidence: ART-REQUIREMENTS
+  - definition_id: DEF-ERGO-AFFORDANCE
+    scope_id: CTX-ERGO-SPELL-ROOT
+    term: ergonomics affordance
+    statement: A bounded human-machine-integration improvement to the IDE Ergonomics surface - a new coordinate, a new primitive, or an upgrade to one - subject to the coordinate-admission gate.
+    status: candidate
+    evidence: ART-REQUIREMENTS
+  - definition_id: DEF-TWO-LANE-HARVEST
+    scope_id: CTX-ERGO-SPELL-ROOT
+    term: two-lane harvest discipline
+    statement: Draw requirements first, then run two tensioned lanes - a capability lane (what the spell must compose) and a cav2-authority lane (what governed definitions/constitutions/authority it must build from) - and reconcile them into one bound concept set.
+    status: candidate
+    evidence: ART-REQUIREMENTS
+  - definition_id: DEF-COORD-ADMISSION
+    scope_id: CTX-ERGO-SPELL-ROOT
+    term: coordinate-admission gate
+    statement: The open + default-deny + irreducibility admission gate defined in projects/ide-ergonomics/UNIFIED-PRODUCT-VIEW.md; the spell's admit phase routes a new affordance through it (owner = PRODUCT-VIEW.md / governance).
+    status: candidate
+    evidence: ART-REQUIREMENTS
+  - definition_id: DEF-HMI-BIND
+    scope_id: CTX-ERGO-SPELL-ROOT
+    term: HMI proof-surface binding
+    statement: The spell's outputs feed CAV2-CAND-HMI-001 (synergetic cybernetic human-machine integration), whose declared proof surface is the Connective + IDE Ergonomics fixture package; the spell respects cav2 promotion guardrails and does not promote the HMI term itself.
+    status: candidate
+    evidence: ART-REQUIREMENTS
+
+typed_items:
+  - item_id: BLK-CAV2-HARVEST
+    kind: blocker
+    base_type: research_blocker
+    context_type: spell.concept_harvest
+    primary_lane: capability
+    secondary_lanes:
+      - authority
+    source_id: CTX-ERGO-SPELL-ROOT
+    target_id: CTX-ERGO-SPELL-ROOT
+    status: resolved
+    refinement_status: refined
+    default_role: strategist
+    allowed_roles:
+      - strategist
+      - researcher
+      - definitions_steward
+    delegation_route: domainspec-subagents-strategy
+    requires_human: true
+    role_confidence: candidate
+    owner_ref: strategist
+    role_notes: Capability lane owns the required-sigil/phase map; authority lane owns the cav2 definitions/constitutions binding. Human confirms the dispatch + the bound concept set.
+    closure_condition: A two-lane research dispatch returns (a) the confirmed required/optional sigil set + phase map and (b) the exact cav2 definitions, constitutions, and authority the spell binds, reconciled into one concept set with no un-owned promotion.
+    evidence: ART-REQUIREMENTS
+    decision_ref: DEC-SPELL-IDENTITY
+    reason: The spell cannot be composed until both the capability set and the bound cav2 authority are gathered and reconciled (build-from-owned, not invented).
+    links:
+      - label: Resolves into spell-identity decision
+        target: DEC-SPELL-IDENTITY
+        kind: row-id
+
+decisions:
+  - decision_id: DEC-SPELL-IDENTITY
+    scope_id: CTX-ERGO-SPELL-ROOT
+    decision_type: selection
+    question: What is the spell's canonical name, scope, and required-sigil set?
+    description: Names the spell and freezes its composition before authoring the spell contract.
+    options:
+      - ergonomics-development (reusable library spell)
+      - ergonomics-forge (reusable library spell)
+      - ide-ergonomics-lifecycle (local spell)
+      - REDIRECT - ide-assisted-arcanum-routing (discipline step-2, build-from-owned)
+    default_option: ergonomics-development (reusable library spell)
+    selected: REDIRECT - ide-assisted-arcanum-routing (discipline step-2, build-from-owned)
+    rationale: Design dialectic (2026-06-24-ergonomics-spell-design-dialectic) verdict REDIRECT. Do NOT author a net-new 8-phase ergonomics-development engine - it duplicates the self-assembling-ergonomics loop and collapses Discipline into Spell. Author instead the ide-action-surface discipline's step-2 spell `ide-assisted-arcanum-routing` (SPELL-IDE-ASSISTED-ARCANUM-ROUTING.md already on disk), build-from-owned, GATED on step-1 `discipline-governance formalize ide-action-surface`. Five must-fix conditions recorded in findings.md.
+    evidence: development/ergonomics-development-spell/findings.md
+    status: closed
+    blocking: false
+    impact: The spell is NOT composed now. Next move is step-1 discipline formalization, then spellcraft composes the thinned step-2 spell. self-assembling-ergonomics is a sibling (machine-led) the spell may compose, not a rename.
+    owner: strategist
+    links:
+      - label: Resolved by dialectic verdict
+        target: BLK-CAV2-HARVEST
+        kind: row-id
+
+gaps:
+  - gap_id: GAP-COORD-RESIDUE
+    scope_id: CTX-ERGO-SPELL-ROOT
+    summary: Carried from the spine-model review - the dispatch-grammar mapping is unverified against dispatch.schema.yml and two candidate coordinates (input-side, social) are pending the admission gate. The spell's admit phase must route through the existing coordinate-admission gate, not bypass it.
+    severity: flag
+    treatment: plan
+    owner: governance
+    status: active
+    evidence: ART-REQUIREMENTS
+    links:
+      - label: Admission gate definition
+        target: DEF-COORD-ADMISSION
+        kind: row-id
+
+artifacts:
+  - artifact_id: ART-ERGO-LEDGER
+    owner_context_id: CTX-ERGO-SPELL-ROOT
+    path: .craft/ledger.yml
+    artifact_type: ledger-source
+    status: active
+    notes: Craft source of truth for the ergonomics-development spell design.
+  - artifact_id: ART-ERGO-VIEW
+    owner_context_id: CTX-ERGO-SPELL-ROOT
+    path: CRAFT.md
+    artifact_type: human-view
+    status: active
+    notes: Human-readable view of this ledger.
+  - artifact_id: ART-REQUIREMENTS
+    owner_context_id: CTX-ERGO-SPELL-ROOT
+    path: development/ergonomics-development-spell/REQUIREMENTS.md
+    artifact_type: work-plan
+    status: active
+    notes: Drawn requirements + the concept shopping list the two-lane harvest must gather and reconcile.
+
+relations:
+  - relation_id: REL-HARVEST-BLOCKS-IDENTITY
+    source_id: BLK-CAV2-HARVEST
+    target_id: DEC-SPELL-IDENTITY
+    type: blocks
+    status: active
+    reason: The spell identity/composition cannot be fixed until the two-lane harvest reconciles capability + authority.
+    evidence: ART-REQUIREMENTS

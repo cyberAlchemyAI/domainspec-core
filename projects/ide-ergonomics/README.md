@@ -114,6 +114,12 @@ product and governance model for IDE action cards:
 ## Project Files
 
 - [PRODUCT-VIEW.md](PRODUCT-VIEW.md) - product-readable overview, MVP, test plan, and future direction.
+- [UNIFIED-PRODUCT-VIEW.md](UNIFIED-PRODUCT-VIEW.md) - the unified product view: an **open coordinate space** (revised 2026-06-24 from the original "three-altitude stack" after the premature-lock review) over the primitive federation, build-from-owned over PRODUCT-VIEW.md; declares an open + default-deny coordinate-admission gate. Source dispatches: `2026-06-24-unified-ide-ergonomics-product-view` (build) + `2026-06-24-spine-model-premature-lock-review` (revision).
+- [restraint-floor/](restraint-floor/README.md) - coordinate (the invariant): the owner-safe restraint contract shared by every primitive; net-new = graduated-trust dial + logged non-action.
+- [dispatch-grammar-routing/](dispatch-grammar-routing/README.md) - coordinate (the vocabulary): the latent dispatch-document routing model; internal coherence only, never a UI dump.
+- [lifecycle-progression/](lifecycle-progression/README.md) - coordinate (work-arc, load-bearing): the governed funnel + phase contract; partial order + receipt-debt; Connective flagship, card = one-point view.
+- Additional coordinates (from the review): evidence/receipt (admitted, load-bearing), input-side ([intent-latitude-tags/](intent-latitude-tags/README.md), candidate), social/addressee ([teammate-handoff-memos/](teammate-handoff-memos/README.md), candidate) — gated via the admission procedure.
+- [development/unified-product-view/](development/unified-product-view/findings.md) - the build dispatch's cited synthesis (findings.md, frozen pre-revision) and verbatim explorer briefs (research.md).
 - [IDE-ERGONOMICS-PRODUCT-VIEW.pdf](IDE-ERGONOMICS-PRODUCT-VIEW.pdf) - shareable PDF export of the product view.
 - [ERGONOMICS-OPPORTUNITIES.md](ERGONOMICS-OPPORTUNITIES.md) - improvement map.
 - [SPELL-IDE-ASSISTED-ARCANUM-ROUTING.md](SPELL-IDE-ASSISTED-ARCANUM-ROUTING.md) - Spellcraft-style spell candidate.

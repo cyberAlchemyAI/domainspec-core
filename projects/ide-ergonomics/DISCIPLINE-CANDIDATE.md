@@ -1,6 +1,8 @@
 # Discipline Candidate: IDE Action Surface
 
-Status: candidate
+Status: **formalized 2026-06-24** → see [disciplines/ide-action-surface.md](disciplines/ide-action-surface.md)
+and the project catalog [disciplines/DISCIPLINES.md](disciplines/DISCIPLINES.md).
+This file is the originating candidate, preserved for provenance.
 Steward: Discipline Governance, with Necronomicon and Spellcraft as likely
 workflow owners
 
