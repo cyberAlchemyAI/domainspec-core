@@ -12,6 +12,7 @@ or implementation by themselves.
 | ID | Discipline | Status | Steward | Evidence | Next hardening move |
 | --- | --- | --- | --- | --- | --- |
 | `stable-repository-stewardship` | Stable repository stewardship | candidate | CyberAlchemy v2 authority owner | [Stable repository stewardship card](cards/stable-repository-stewardship.md) | Harden through [Stable Repository Constitution](../authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md) and owner review. |
+| `provisional-model-stewardship` | Provisional model stewardship | candidate | CyberAlchemy v2 authority owner | [Provisional model stewardship card](cards/provisional-model-stewardship.md) | Route a private model-frame clause (frame status + recorded completeness probe + derivation context) through `constitution-governance`; make the completeness probe a validator surface. Do not edit the public CyberAlchemy method. |
 
 ## Status Meanings
 
