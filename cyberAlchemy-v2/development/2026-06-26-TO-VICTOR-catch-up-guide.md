@@ -16,6 +16,50 @@ promotion gates. **CAV2 is the highest context (the apex).** The engine: domain 
 authority; whatever proves it holds *beyond its origin domain* gets promoted **up** to CAV2, which
 accretes what survives. *Use domain authority to grow apex authority.*
 
+## The CAV2 machine map (read this before the details)
+Think of the whole thing as a **foundry that manufactures and maintains "domain authorities"** —
+governed bodies of knowledge a client/domain can trust and build on. Four parts, by role:
+
+```
+   DomainSpec ......... the BASELINE   — typed intent → implementation (the substrate)
+   Arcanum ............ the HANDS      — does the work: sigils/spells/ops      (PUBLIC)
+   CAV2 ............... the HEAD/MOLD  — decides what counts; owns the vocabulary,
+                                         the kinds, the gates, the promotion lifecycle
+   Saturn ............. the NERVES     — the feedback loop closing intent↔reality
+                                         with evidence            (intended, MOSTLY UNBUILT)
+```
+*(Underlying frame, if useful: Beer's Viable System Model — Arcanum = operations, CAV2 = the
+governing "System-5", Saturn = the regulator loop. Source: the `machine-map-and-moat-synthesis`
+inventory entry.)*
+
+**The conveyor — follow one piece of knowledge through the machine:**
+```
+  domain work (Arcanum)                                 ┌─ promote UP to CAV2 (apex)
+        │ produces                                      │   IF it holds beyond its
+        ▼                                               │   origin domain (context-invariant)
+   evidence ─► candidate ─►【 OWNER GATE 】─► promoted authority object ──┘
+                              ▲               (typed · frozen · citable)
+                              │                         │
+                    deterministic validators            ▼
+                    check every move:            CAV2 accretes the
+                    · non-collapse (D29)          invariant  →  the apex
+                    · closure (D49)               grows the trustworthy core
+                    · build-from-owned (C17)
+```
+Three lenses on the same machine:
+- **Ontology = the machine's MAP of itself** (the parts catalog: kinds, fields, relations). Describes; never decides.
+- **Authority = the machine's DECISIONS** (what's allowed to count, by owner route). Decides; this is where things get promoted.
+- **Determinism = the machine's QUALITY-CONTROL gates** (the validators above) — today hand-operated (review), being made automatic.
+
+**The moat** is not any single clever algorithm — it's **attestation + governance-data + the vertical**:
+the machine produces cheap, repeatable *proof* that its outputs followed the rules. (Determinism matters
+because it drives that proof cost toward zero. Formal provability is an amplifier on top, not the moat.)
+
+**Honest caveat for Victor:** the *mold works but is hand-operated* — CAV2 governs in **method/posture,
+not yet automated enforcement**. Saturn (the feedback loop) is **mostly unbuilt**. So most of this map is
+**the design we're building toward**, not a running system. The first real build is the deterministic
+validation layer (below).
+
 ## The mental model (4 things to internalize)
 1. **Ontology vs Authority — map vs territory.**
    - *Ontology* (`cyberAlchemy-v2/ontology/`) = the **structural model** of authority objects (kinds,
