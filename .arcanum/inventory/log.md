@@ -1182,3 +1182,21 @@ Artifacts:
 - Contradiction flagged (1, NOT silently fixed): the build-from-owned validator handoff says "precedent-sweep was a habit, not a gate" — inaccurate; C17 + research gate enforce it (review-mode); real gap = deterministic enforcement. Surfaced to the handoff author for correction.
 - Index: index.json 91 -> 92 (by_id/by_type.synthesis/by_status.candidate/by_tag/by_source updated; jq parse OK); index.md +1 Entries row; tags.md unchanged (all 6 tags already defined — no dangling).
 - Validation: pass. Authority boundary: candidate read-model; owners = definitions-governance / constitution-governance / handoff author. Promotes nothing.
+
+## 2026-06-26 — query (filed synthesis: how cav2 authority works + determinism + why it matters)
+
+- Mode: query (answer filed as durable integrative synthesis)
+- Question: "synthesis of how cav authority will work and how determinism is created and used, and why it matters."
+- Build-from-owned sweep first: refines/cross-links deterministic-retrieval-thesis-synthesis + machine-map-and-moat-synthesis + authority-ontology-governed-artifact-synthesis + this session's organizing/definitions-map entries — integrates, does not duplicate.
+- Entry created (1): entries/cav2-authority-and-determinism-synthesis.md — 3 parts (authority = decision layer + 9 kinds/D48 lifecycle/apex/non-collapse/claim≤proof, MOLD→castings, posture-not-enforcement; determinism = misnomer, only frozen referent+gate deterministic, created by quarantine+ingest-cost-relocation, used via typed traversal + 3 SMT validators OQ-1-gated, stops at count-collapse frontier; why = collapses attestation surface, moat=attestation not provability, counters LLM misbinding, proprietary engine, read-trivial — intended-not-shipped).
+- Index: index.json 92 -> 93 (by_id/by_type.synthesis/by_status.candidate/by_tag/by_source updated; jq parse OK); index.md +1 Entries row; tags.md unchanged (all 8 tags already defined — no dangling).
+- Validation: pass. Authority boundary: candidate read-model; owners = cav2 authority / definitions-governance / sigil-development / decision-gate. Promotes nothing.
+
+## 2026-06-26 — query (filed synthesis: deterministic validation build plan) + queue + Victor guide
+
+- Mode: query (filed synthesis) + governance queue + onboarding handoff
+- Entry created (1): entries/deterministic-validation-for-all-cav2-synthesis.md — build plan: every rule = SMT query over schema-typed records; one shared adapter + 3 sibling query families; per-rule review→validator migration; deterministic core + review shell (count-collapse frontier stays human); build order schema-G2 → adapter → validators → migrate → wire as gates. Build-from-owned extension of cav2-authority-and-determinism-synthesis (no dup).
+- Queue (outside inventory): added `Build-From-Owned` + `Non-Collapse` rows to cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md § Undefined Critical Terms (route: define the term + promote/correct C17; define-or-declare-umbrella for non-collapse).
+- Handoff created (1, outside inventory): cyberAlchemy-v2/development/2026-06-26-TO-VICTOR-catch-up-guide.md — human onboarding guide (60-sec picture, mental model, determinism plan, where-we-are, queue, reading path, ground rules). INTERNAL; engine algorithm deliberately omitted.
+- Index: index.json 93 -> 94 (by_id/by_type.synthesis/by_status.candidate/by_tag/by_source updated; jq parse OK); index.md +1 Entries row; tags.md unchanged (all 7 tags defined — no dangling).
+- Validation: pass. Authority boundary: candidate read-models; owners = sigil-development / definitions-governance / constitution-governance. Promotes nothing.
