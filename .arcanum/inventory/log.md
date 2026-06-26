@@ -1165,3 +1165,20 @@ Artifacts:
 - Entry created (1): entries/read-trivial-via-selective-promotion-synthesis.md — refines `two-senses-of-importance` with two further splits (two write surfaces: capture-writes-everything vs authority-writes-only-important, selectivity at promotion not keystroke; two senses of read-trivial: cost-trivial via pre-paid write + signal-trivial via default-deny). Caveat carried: trivial = cheap+high-signal not zero; the read is bought by the selective-write loop + gate.
 - Index: index.json 89 -> 90 (by_id/by_type/by_status/by_tag/by_source updated; jq parse OK); index.md +1 Entries row; tags.md unchanged (all 8 tags already defined — no dangling).
 - Validation: pass. Authority boundary: candidate read-model; owners = cav2 authority / SDK-commercialization gate. Promotes nothing.
+
+## 2026-06-26 — backfill (session: cav2 ontology↔authority organizing)
+
+- Mode: backfill (session synthesis + decisions + resume handoff)
+- Entry created (1): entries/cav2-ontology-authority-organizing-synthesis.md — the 2026-06-26 thread: upward-promotion engine is build-from-owned of CAV2-D23/D43/D48 (D48 context-blind); build-from-owned = dual of non-collapse (3 siblings, 1 SMT adapter, OQ-1-gated); two orthogonal axes (strength × context-scope); organizing = instantiation chain (kind/meta-instance/tower); ontology=structure/map vs authority=lifecycle/meaning; D48-cluster `specializes`-edge pilot designed (not built); `specializes`=reference/derive not inherit (proposed); 9 decisions + R1–R5 residue. boundary INTERNAL (moat-adjacent).
+- Handoff created (1, outside inventory): cyberAlchemy-v2/ontology/development/2026-06-26-cav2-ontology-authority-organizing-HANDOFF.md — resume packet; IMMEDIATE next action = read RELATION-MODEL.md (build-from-owned on the edge itself). Pairs with disciplines/development/2026-06-26-build-from-owned-validator-HANDOFF.md.
+- Index: index.json 90 -> 91 (by_id/by_type.synthesis/by_status.candidate/by_tag/by_source updated; jq parse OK); index.md +1 Entries row; tags.md +4 defs (authority, instantiation, context-invariant, epistemic-strength) — cav2/non-collapse already defined (no dup kept).
+- Validation: pass. Authority boundary: candidate read-model; owners = ontology route / cav2 authority / definitions-governance / decision-gate. Promotes nothing.
+
+## 2026-06-26 — query (filed synthesis: non-collapse + build-from-owned definitions map)
+
+- Mode: query (answer filed as durable reference synthesis)
+- Question: "what are the definitions for non-collapse and build-from-owned? give me everything."
+- Entry created (1): entries/non-collapse-and-build-from-owned-definitions-map-synthesis.md — NON-COLLAPSE = undefined umbrella over CAV2-D22 + CAV2-D29 + the 7 AUTHORITY-MODEL Non-Collapse Rules + `forbidden_collapse` (no standalone term = gap); BUILD-FROM-OWNED = constitution rule CAV2-C17 (candidate, review-mode) + named in CAV2-D48 + research-skill precedent gate (deliberately not a term). Dual relationship grounded in D29 (prove distinct) vs C17 (search for non-distinct owner).
+- Contradiction flagged (1, NOT silently fixed): the build-from-owned validator handoff says "precedent-sweep was a habit, not a gate" — inaccurate; C17 + research gate enforce it (review-mode); real gap = deterministic enforcement. Surfaced to the handoff author for correction.
+- Index: index.json 91 -> 92 (by_id/by_type.synthesis/by_status.candidate/by_tag/by_source updated; jq parse OK); index.md +1 Entries row; tags.md unchanged (all 6 tags already defined — no dangling).
+- Validation: pass. Authority boundary: candidate read-model; owners = definitions-governance / constitution-governance / handoff author. Promotes nothing.

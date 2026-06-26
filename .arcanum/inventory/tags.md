@@ -149,3 +149,7 @@ Controlled tags for this package.
 | `synthesis` | Structural tag for synthesis entries — a cross-source Inventory read model that combines multiple returns into one reusable map; never canonical. |
 | `ontology` | The typed node/edge knowledge structure (DomainSpec language graph / ontology-vault); distinct from cav2 authority. Used where an entry concerns ontology structure or operationalization. |
 | `attenuation` | Governance-attenuation framing: structural vs statistical attenuation, requisite variety, and the cost of adding governance layers (Gödel / Conant-Ashby / Shannon lenses). |
+| `authority` | The cav2 authority layer (definitions, constitutions, decisions, promotion-policy, AUTHORITY-MODEL) — where authority is promoted and counts; distinct from `ontology` (the structural map). |
+| `instantiation` | The instantiate/specialize relation between authority objects (D48 meta → D43/D46 instances → records); the chain that organizes schema-vs-data, distinct from tower/subject and from authority-kind. |
+| `context-invariant` | Authority that survives projection across contexts (the residue/invariant, CAV2-D18/D29) — the candidate name for the property that promotes domain authority up to the apex. |
+| `epistemic-strength` | The hypothesis→axiom strength axis (CAV2-D23 authority lifecycle axis: maturity / evidence-confidence / commitment); orthogonal to context-scope. |
