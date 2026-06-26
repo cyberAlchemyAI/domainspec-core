@@ -1,0 +1,267 @@
+{
+  "xray_version": "0.2.0-seed",
+  "example_id": "goal-control-loop-xray",
+  "mode": "process",
+  "target_boundary": "Explain the Arcanum goal spell as a Craft-backed, fail-closed routing process: how it reads a frontier, classifies risk, routes eligible nodes, audits receipts, stages deltas, waits for approval, and decides when to stop.",
+  "renderer_level": "L0",
+  "layer_interaction": [
+    "stacked",
+    "isolate",
+    "compare",
+    "trace"
+  ],
+  "reader_contract": {
+    "reader_baseline": "newcomer",
+    "target_public": "A reader who wants to understand what the goal spell will do before trusting it with a repository work graph.",
+    "assumed_knowledge": [
+      "The reader knows that a repository may have tasks, blockers, and next moves.",
+      "The reader can read a simple process graph with stop branches."
+    ],
+    "reader_reward": "The reader can explain how goal decides the next step, why it stops, and what evidence must exist before ledger changes are promoted.",
+    "opening_contract": {
+      "must_start_with": [
+        "Start from the plain problem: a work graph can keep going forever or mutate too early unless a control loop stops on uncertainty.",
+        "Introduce goal as a router before naming its internal artifacts."
+      ],
+      "must_not_start_with": [
+        "Do not start with the output contract or telemetry fields.",
+        "Do not imply goal executes protected work directly."
+      ],
+      "failure_message": "If the page makes goal look like an autonomous mutator instead of a fail-closed router, it fails the reader contract."
+    }
+  },
+  "reader_terms": [
+    {
+      "term": "goal",
+      "plain_meaning": "A router for a Craft-backed work graph.",
+      "why_it_matters": "It decides which work can continue, which work needs an owner, and which work must stop before mutation.",
+      "source_or_lane": "arcanum/spells/goal/README.md; surface lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not treat goal as the owner of delegated sigils or as permission to mutate the ledger directly."
+    },
+    {
+      "term": "Craft frontier",
+      "plain_meaning": "The currently visible set of open next moves, blockers, gaps, or candidate SWUs.",
+      "why_it_matters": "Goal can only decide from a bounded frontier snapshot; if the source cannot be identified safely, it blocks.",
+      "source_or_lane": "arcanum/spells/goal/README.md; flow lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not assume memory or broad repository intuition is the frontier."
+    },
+    {
+      "term": "Risk tier",
+      "plain_meaning": "A safety label for a node, from low-risk read-only work to protected work.",
+      "why_it_matters": "Unknown work defaults to protected, so unclear or dangerous actions stop before execution.",
+      "source_or_lane": "arcanum/spells/goal/decision-profile.schema; properties lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not downgrade a node just because the user wants progress."
+    },
+    {
+      "term": "Dispatch route",
+      "plain_meaning": "A validated handoff plan naming owner, technique, inputs, receipt, gate, and fallback.",
+      "why_it_matters": "Goal routes eligible work but does not redefine the delegated owner's behavior.",
+      "source_or_lane": "arcanum/spells/goal/README.md; internal_dependencies lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not treat a route as success; it only frames delegated work."
+    },
+    {
+      "term": "Execution receipt",
+      "plain_meaning": "Terminal evidence returned by the delegated owner after a routed node is handled or blocked.",
+      "why_it_matters": "Goal cannot audit or stage progress unless every delegated lane is joined and terminal.",
+      "source_or_lane": "arcanum/spells/goal/README.md; lifecycle lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not close a node from vibes, partial work, or an open lane."
+    },
+    {
+      "term": "Staged delta",
+      "plain_meaning": "A proposed ledger change held outside the active ledger until approval.",
+      "why_it_matters": "It keeps useful progress reviewable without silently changing source state.",
+      "source_or_lane": "arcanum/spells/goal/README.md; flow lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not write active ledger rows directly from a goal round."
+    },
+    {
+      "term": "Approval token",
+      "plain_meaning": "An explicit, durable permission record for applying a staged batch.",
+      "why_it_matters": "Promotion is blocked until the exact batch has approval and a decision record.",
+      "source_or_lane": "arcanum/spells/goal/decision-profile.schema; risk_questions lane",
+      "authority": "source-backed",
+      "misuse_warning": "Ambient approval or general enthusiasm is not enough."
+    },
+    {
+      "term": "Fail-closed",
+      "plain_meaning": "When unsure, stop or block instead of guessing permission.",
+      "why_it_matters": "This is the main safety posture: unknown source, unknown risk, missing receipt, audit veto, and missing approval all stop movement.",
+      "source_or_lane": "arcanum/spells/goal/README.md; flow lane",
+      "authority": "source-backed",
+      "misuse_warning": "Fail-closed is not a failure of the agent; it is the designed safety behavior."
+    }
+  ],
+  "layer_reader_outcomes": [
+    {
+      "layer": "surface",
+      "as_a_reader": "As a newcomer, I want the page to start with the practical problem.",
+      "should_understand": "Goal exists because a work graph needs a loop that can continue useful work without mutating protected state too early.",
+      "because_it_matters_for": "trusting the tool's purpose before learning its local vocabulary."
+    },
+    {
+      "layer": "properties",
+      "as_a_reader": "As a working reader, I want to know the invariant rules.",
+      "should_understand": "Goal is a router, default-denies unknown work, stages deltas, and promotes only after explicit approval.",
+      "because_it_matters_for": "predicting behavior before running the spell."
+    },
+    {
+      "layer": "components",
+      "as_a_reader": "As a working reader, I want the parts of the loop named plainly.",
+      "should_understand": "Frontier, risk classifier, dispatch route, receipt, audit, staged delta, approval, promotion, gap discovery, and telemetry are separate parts.",
+      "because_it_matters_for": "seeing where each decision happens."
+    },
+    {
+      "layer": "internal_dependencies",
+      "as_a_reader": "As a reviewer, I want to know which parts depend on each other inside the spell.",
+      "should_understand": "Risk classification feeds route selection; receipts feed audit; audit feeds staged deltas; approval gates promotion.",
+      "because_it_matters_for": "diagnosing why the loop stopped."
+    },
+    {
+      "layer": "external_dependencies",
+      "as_a_reader": "As a reviewer, I want to know what goal depends on but does not own.",
+      "should_understand": "Craft owns ledger apply, Dispatch Spec validates route shape, Task Session owns bounded execution, Decision Gate owns approval records, and observability records signals.",
+      "because_it_matters_for": "avoiding the mistake of blaming goal for delegated owner behavior."
+    },
+    {
+      "layer": "flow",
+      "as_a_reader": "As a newcomer, I want to follow the main path and its stop branches.",
+      "should_understand": "Goal binds scope, reads frontier, classifies risk, routes eligible work, joins receipts, audits, stages, waits for approval, then promotes or stops.",
+      "because_it_matters_for": "answering how it makes decisions."
+    },
+    {
+      "layer": "lifecycle",
+      "as_a_reader": "As a maintainer, I want to know what happens over a full round.",
+      "should_understand": "A round moves from bind to read to classify to dispatch to audit to stage to approval to promotion, or to bounded gap discovery when the frontier is empty.",
+      "because_it_matters_for": "knowing where the loop can terminate."
+    },
+    {
+      "layer": "risk_questions",
+      "as_a_reader": "As an operator, I want the stop conditions visible.",
+      "should_understand": "Goal stops on source-authority ambiguity, protected or unknown risk, route failure, missing receipt, audit veto, direct ledger writes, missing approval, budget ceiling, and promotion without experiment evidence.",
+      "because_it_matters_for": "understanding when it will stop."
+    },
+    {
+      "layer": "visual_composition",
+      "as_a_reader": "As a scanner, I want the graph and tables to explain different slices.",
+      "should_understand": "The graph shows the control spine, the switchboard shows decision questions, and the stop wall shows why a run returns STOP or BLOCK.",
+      "because_it_matters_for": "switching between overview and diagnosis."
+    }
+  ],
+  "readability_dynamics": {
+    "max_words_per_paragraph": 80,
+    "max_consecutive_dense_blocks": 1,
+    "require_scan_anchor_every_n_blocks": 3,
+    "allowed_visual_treatments": [
+      "layer toggles",
+      "inline svg decision graph",
+      "stop-condition cards",
+      "decision switchboard table",
+      "evidence and inference tags"
+    ]
+  },
+  "lanes": {
+    "surface": {
+      "handle": "surface.fail-closed-router",
+      "evidence": [
+        "arcanum/spells/goal/README.md says goal drives a Craft-backed work graph through an autonomous, fail-closed control loop.",
+        "arcanum/spells/goal/README.md says goal is a router and does not execute protected work directly or mutate the source ledger without approved staged proposal."
+      ],
+      "inference": [
+        "The best reader on-ramp is: goal is a cautious dispatcher for a work graph, not an all-powerful executor."
+      ]
+    },
+    "properties": {
+      "handle": "properties.decision-defaults",
+      "evidence": [
+        "arcanum/spells/goal/decision-profile.schema sets unknown_action to stop and default_tier to T3 in the neutral default.",
+        "arcanum/spells/goal/decision-profile.schema lists protected operations: active-ledger-mutation, commit, push, pull-request, publication, ci, network, and destructive-shell.",
+        "arcanum/spells/goal/decision-profile.schema requires explicit-token promotion mode and a decision record."
+      ],
+      "inference": [
+        "The practical decision model is default-deny: read-only and staged-proposal lanes can proceed; protected actions need explicit approval."
+      ]
+    },
+    "components": {
+      "handle": "components.control-parts",
+      "evidence": [
+        "arcanum/spells/goal/README.md lists Goal bind, Read frontier, Classify risk, Select owner and technique, Dispatch and receipt join, Audit gate, Stage delta, Batch approval, Promote, and Gap discovery as execution phases.",
+        "arcanum/spells/goal/README.md lists Frontier snapshot, Dispatch route, Execution receipt, Staged delta, Framed batch diff, Decision record, and Spell telemetry signal as handoff artifacts."
+      ],
+      "inference": [
+        "These phases and artifacts can be drawn as separate components because each has different entry evidence, owner boundary, and stop behavior."
+      ]
+    },
+    "internal_dependencies": {
+      "handle": "dependencies.internal-control-spine",
+      "evidence": [
+        "arcanum/spells/goal/README.md control spine orders frontier read, risk classification, Dispatch Spec route selection, delegated receipt collection, audit, staged delta, and explicit approval before promotion.",
+        "arcanum/spells/goal/runtime/goal_loop.py builds result stop_reason source-authority when binding source fails and t3-node when T3 reasons appear."
+      ],
+      "inference": [
+        "The loop is easier to diagnose if each phase exposes the artifact it needs from the previous phase."
+      ]
+    },
+    "external_dependencies": {
+      "handle": "dependencies.external-owners",
+      "evidence": [
+        "arcanum/spells/goal/README.md says arcana/craft reads frontier state and applies approved ledger batches.",
+        "arcanum/spells/goal/README.md says formulae/dispatch-spec validates per-node owner, technique, and receipt routes.",
+        "arcanum/spells/goal/README.md says arcana/task-session executes one bounded node or SWU with done criteria and validation.",
+        "arcanum/spells/goal/README.md says arcana/decision-gate records durable approval or blocker decisions.",
+        "arcanum/spells/goal/README.md says observability capabilities emit spell-level telemetry and post-run signals."
+      ],
+      "inference": [
+        "Goal's decision quality depends on these owners being present, but goal does not own their internal behavior."
+      ]
+    },
+    "flow": {
+      "handle": "flow.stop-aware-decision-graph",
+      "evidence": [
+        "arcanum/spells/goal/README.md lists the control spine and cross-cutting guards.",
+        "arcanum/spells/goal/README.md says unknown risk, missing approval, audit veto, and missing terminal closeout stop the loop.",
+        "arcanum/spells/goal/runtime/goal_loop.py classifies protected terms and blocked/protected status as T3.",
+        "arcanum/spells/goal/runtime/goal_loop.py evaluate_approval_boundary blocks ambient approval and token mismatch, and holds missing approval."
+      ],
+      "inference": [
+        "A single graph with green continue edges and red stop edges best answers how goal makes decisions."
+      ]
+    },
+    "lifecycle": {
+      "handle": "lifecycle.round-and-gap-discovery",
+      "evidence": [
+        "arcanum/spells/goal/README.md says gap discovery runs only after the active frontier is empty and the caller opts in.",
+        "arcanum/spells/goal/runtime/goal_loop.py run_gap_discovery blocks when frontier is not empty, stops at budget ceiling, and dedupes candidate gaps.",
+        "arcanum/spells/goal/validation/results/fixture-report.md shows gap_discovery passed with dedupe-complete and budget_stop stopped with budget-ceiling."
+      ],
+      "inference": [
+        "Gap discovery is not automatic expansion of work; it is a bounded proposal queue after the active frontier is done."
+      ]
+    },
+    "risk_questions": {
+      "handle": "risk.stop-wall",
+      "evidence": [
+        "arcanum/spells/goal/README.md failure policy lists protected risk, missing human gates, audit veto, missing closeout, direct mutation, public profile leakage, and promotion without Experiment Harness evidence as stop or block cases.",
+        "arcanum/spells/goal/validation/results/fixture-report.md shows protected_frontier STOP t3-node, missing_source BLOCK source-authority, audit_veto block, ambient_approval blocked, and budget_stop STOP budget-ceiling."
+      ],
+      "inference": [
+        "The useful question for operators is not 'why did goal fail?' but 'which designed stop protected the graph?'"
+      ]
+    },
+    "visual_composition": {
+      "handle": "visual.l0-static-graph",
+      "evidence": [
+        "arcanum/arcana/x-ray/SKILL.md says L0 static HTML/SVG is the default proof path.",
+        "arcanum/arcana/x-ray/library/patterns.yml includes process-branch, dependency-boundary, lifecycle-stack, and evidence-inference-split patterns.",
+        "arcanum/arcana/x-ray/library/components.yml includes shape.node, connector.arrow, connector.branch, connector.feedback-loop, chart.timeline-strip, and chart.risk-matrix."
+      ],
+      "inference": [
+        "Use process-branch for decisions, dependency-boundary for owners, lifecycle-stack for round states, and evidence-inference-split for the stop wall."
+      ]
+    }
+  }
+}

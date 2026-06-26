@@ -1,0 +1,1081 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>autoads Tracking Design X-Ray</title>
+  <style>
+    :root {
+      --bg: #f4f6f0;
+      --panel: #ffffff;
+      --panel-2: #edf1eb;
+      --ink: #17201d;
+      --muted: #5c6964;
+      --line: #d2dbd2;
+      --green: #266d54;
+      --teal: #217182;
+      --blue: #405f9c;
+      --amber: #aa7920;
+      --red: #b44f43;
+      --violet: #665a83;
+      --code: #e8ede8;
+      --shadow: 0 16px 42px rgba(23, 32, 29, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    code {
+      padding: 0.1rem 0.35rem;
+      border-radius: 5px;
+      background: var(--code);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 0.88em;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 288px minmax(0, 1fr);
+      min-width: 0;
+      min-height: 100vh;
+    }
+
+    .rail {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      min-width: 0;
+      height: 100vh;
+      padding: 24px 18px;
+      overflow: auto;
+      border-right: 1px solid var(--line);
+      background: #e8eee9;
+    }
+
+    .brand {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+
+    .brand strong {
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 0.9rem;
+      overflow-wrap: anywhere;
+    }
+
+    .controls {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 24px;
+    }
+
+    .controls label {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      cursor: pointer;
+      font-size: 0.92rem;
+    }
+
+    .controls input {
+      margin-top: 3px;
+      accent-color: var(--green);
+    }
+
+    .nav {
+      display: grid;
+      gap: 4px;
+      margin-top: 20px;
+    }
+
+    .nav a {
+      display: block;
+      padding: 7px 8px;
+      border-radius: 7px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.92rem;
+    }
+
+    .nav a:hover {
+      background: var(--panel);
+      color: var(--ink);
+    }
+
+    .note {
+      margin-top: 24px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--teal);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 0.88rem;
+      overflow-wrap: anywhere;
+    }
+
+    .page {
+      width: min(100%, 1180px);
+      min-width: 0;
+      margin: 0 auto;
+      padding: 46px 44px 90px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 22px;
+      padding-bottom: 42px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: var(--green);
+      font-size: 0.84rem;
+      font-weight: 820;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    figure {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 930px;
+      margin-bottom: 14px;
+      font-size: clamp(2.35rem, 5vw, 4.85rem);
+      line-height: 0.99;
+      font-weight: 860;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    h2 {
+      margin-bottom: 18px;
+      font-size: clamp(1.65rem, 3vw, 2.45rem);
+      line-height: 1.08;
+      font-weight: 820;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-size: 1.08rem;
+      line-height: 1.22;
+      font-weight: 780;
+      letter-spacing: 0;
+    }
+
+    .lede {
+      max-width: 890px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 1.16rem;
+      overflow-wrap: anywhere;
+    }
+
+    .plain-answer {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .answer-card {
+      min-height: 158px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-top: 6px solid var(--green);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .answer-card:nth-child(2) {
+      border-top-color: var(--teal);
+    }
+
+    .answer-card:nth-child(3) {
+      border-top-color: var(--red);
+    }
+
+    .answer-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+    }
+
+    .answer-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    section {
+      padding: 44px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-child {
+      border-bottom: 0;
+    }
+
+    .section-intro {
+      max-width: 900px;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .tag.source {
+      border-color: #b5d1c2;
+      color: var(--green);
+    }
+
+    .tag.inference {
+      border-color: #dfc5bd;
+      color: var(--red);
+    }
+
+    .graph-wrap {
+      max-width: 100%;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+      overflow-x: auto;
+      box-shadow: var(--shadow);
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      min-width: 1040px;
+      height: auto;
+    }
+
+    .node rect {
+      fill: #fbfcfa;
+      stroke: var(--line);
+      stroke-width: 1.4;
+    }
+
+    .node text {
+      fill: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 730;
+    }
+
+    .node .small {
+      fill: var(--muted);
+      font-size: 11px;
+      font-weight: 520;
+    }
+
+    .source-node rect {
+      fill: #f7fcf9;
+      stroke: #acd0be;
+    }
+
+    .gate-node rect {
+      fill: #fffaf0;
+      stroke: #dfc283;
+    }
+
+    .stop-node rect {
+      fill: #fff6f3;
+      stroke: #e4b6ad;
+    }
+
+    .knowledge-node rect {
+      fill: #f5f7ff;
+      stroke: #bcc7e9;
+    }
+
+    .arrow-line {
+      fill: none;
+      stroke: var(--teal);
+      stroke-width: 2;
+      marker-end: url(#arrowhead);
+    }
+
+    .gate-line {
+      fill: none;
+      stroke: var(--amber);
+      stroke-width: 2;
+      marker-end: url(#amberhead);
+    }
+
+    .feedback-line {
+      fill: none;
+      stroke: var(--violet);
+      stroke-width: 2;
+      stroke-dasharray: 6 4;
+      marker-end: url(#violethead);
+    }
+
+    .stop-line {
+      fill: none;
+      stroke: var(--red);
+      stroke-width: 2;
+      stroke-dasharray: 5 4;
+      marker-end: url(#stophead);
+    }
+
+    .edge-label {
+      fill: var(--muted);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 11px;
+      font-weight: 720;
+    }
+
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .panel {
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .panel strong {
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .panel p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .gate-board {
+      max-width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    table {
+      width: 100%;
+      min-width: 920px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.94rem;
+    }
+
+    th {
+      background: #e9efeb;
+      color: var(--ink);
+      font-weight: 780;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .pass {
+      color: var(--green);
+      font-weight: 780;
+    }
+
+    .block {
+      color: var(--red);
+      font-weight: 780;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .field-card {
+      min-height: 148px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--green);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .field-card.private {
+      border-top-color: var(--red);
+    }
+
+    .field-card.internal {
+      border-top-color: var(--teal);
+    }
+
+    .field-card.varies {
+      border-top-color: var(--amber);
+    }
+
+    .field-card strong {
+      display: block;
+      margin-bottom: 7px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 0.88rem;
+      overflow-wrap: anywhere;
+    }
+
+    .field-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .dependency-map {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .boundary {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .boundary h3 {
+      margin-bottom: 12px;
+    }
+
+    .boundary ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 20px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .timeline li {
+      padding: 12px 10px;
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--green);
+      border-radius: 8px;
+      background: var(--panel);
+      font-size: 0.9rem;
+      font-weight: 760;
+      text-align: center;
+    }
+
+    .timeline li:nth-child(2) {
+      border-top-color: var(--teal);
+    }
+
+    .timeline li:nth-child(3) {
+      border-top-color: var(--amber);
+    }
+
+    .timeline li:nth-child(4) {
+      border-top-color: var(--violet);
+    }
+
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .term p {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .evidence-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .evidence-box > div {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .evidence-box ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .result-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .result-list li {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      overflow-wrap: anywhere;
+    }
+
+    .shell:has(#toggle-surface:not(:checked)) .page [data-lane~="surface"],
+    .shell:has(#toggle-flow:not(:checked)) .page [data-lane~="flow"],
+    .shell:has(#toggle-deps:not(:checked)) .page [data-lane~="internal_dependencies"],
+    .shell:has(#toggle-deps:not(:checked)) .page [data-lane~="external_dependencies"],
+    .shell:has(#toggle-risk:not(:checked)) .page [data-lane~="risk_questions"] {
+      display: none;
+    }
+
+    @media (max-width: 1100px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .rail {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 30px 18px 64px;
+      }
+
+      .plain-answer,
+      .panel-grid,
+      .field-grid,
+      .dependency-map,
+      .timeline,
+      .terms,
+      .evidence-box,
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      svg {
+        min-width: 780px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail">
+      <div class="brand">
+        <strong>autoads Tracking Design X-Ray</strong>
+        <span>Visual explanation of how ad outcomes become governed evidence, not automatic truth.</span>
+      </div>
+
+      <div class="controls" aria-label="Layer controls">
+        <label><input id="toggle-surface" type="checkbox" checked> Surface: what tracking solves</label>
+        <label><input id="toggle-flow" type="checkbox" checked> Flow: how evidence moves</label>
+        <label><input id="toggle-deps" type="checkbox" checked> Dependencies: ownership boundary</label>
+        <label><input id="toggle-risk" type="checkbox" checked> Risk: what still blocks trust</label>
+      </div>
+
+      <nav class="nav" aria-label="Page sections">
+        <a href="#tracking-spine">Tracking spine</a>
+        <a href="#gate-board">Gate board</a>
+        <a href="#field-authority">Field authority</a>
+        <a href="#dependencies">Dependencies</a>
+        <a href="#lifecycle">Lifecycle</a>
+        <a href="#terms">Reader terms</a>
+        <a href="#xray-result">x-ray result</a>
+      </nav>
+
+      <div class="note">
+        Renderer: L0 static HTML/SVG. The page uses source-backed claims plus clearly marked inference. No remote renderer is required.
+      </div>
+    </aside>
+
+    <main class="page">
+      <header class="hero" data-lane="surface">
+        <p class="eyebrow">Mixed architecture + process x-ray</p>
+        <h1>autoads Tracks Creative Outcomes As Governed Evidence</h1>
+        <p class="lede">The design is not a normal ad dashboard. It is a Creative Learning Cycle where a variant is dispatched, outcomes are captured, metrics are normalized with evidence, a grader checks confidence and confounds, and only then can an owner decide whether the lesson should shape future creatives.</p>
+
+        <div class="plain-answer">
+          <div class="answer-card">
+            <strong>What is being tracked</strong>
+            <p>Creative variants, ontology card targets, hypothesis refs, network outcomes, KPI observations, confound flags, owner decisions, and feedback residue.</p>
+          </div>
+          <div class="answer-card">
+            <strong>Why tracking matters</strong>
+            <p>It keeps "better creative" from becoming opinion-led or metric-led. A metric must keep its source, denominator, response window, and allowed interpretation.</p>
+          </div>
+          <div class="answer-card">
+            <strong>Where it stops</strong>
+            <p>It stops on missing provenance, unclassified network fields, PII escape, incomplete windows, low confidence, unresolved confounds, or missing owner decision.</p>
+          </div>
+        </div>
+      </header>
+
+      <section id="tracking-spine" data-lane="flow internal_dependencies risk_questions">
+        <h2>Tracking Spine</h2>
+        <p class="section-intro">Read left to right. The blue-green path is the normal evidence path. Amber nodes are authority-changing gates. Red dashed branches are stop conditions. The source-backed claim is that no raw metric directly promotes itself into reusable creative knowledge.</p>
+        <div class="tag-row">
+          <span class="tag source">source-backed</span>
+          <span class="tag inference">inference: visual layout</span>
+          <span class="tag">pattern.process-branch</span>
+          <span class="tag">connector.feedback-loop</span>
+        </div>
+
+        <figure class="graph-wrap" aria-label="autoads tracking spine">
+          <svg viewBox="0 0 1140 650" role="img">
+            <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+                <path d="M0,0 L10,4 L0,8 z" fill="#217182"></path>
+              </marker>
+              <marker id="amberhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+                <path d="M0,0 L10,4 L0,8 z" fill="#aa7920"></path>
+              </marker>
+              <marker id="violethead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+                <path d="M0,0 L10,4 L0,8 z" fill="#665a83"></path>
+              </marker>
+              <marker id="stophead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+                <path d="M0,0 L10,4 L0,8 z" fill="#b44f43"></path>
+              </marker>
+            </defs>
+
+            <g class="node source-node" data-lane="components flow" transform="translate(28 56)">
+              <rect width="150" height="76" rx="8"></rect>
+              <text x="14" y="28">Ontology card</text>
+              <text class="small" x="14" y="50">audience + family</text>
+            </g>
+            <g class="node source-node" data-lane="components flow" transform="translate(224 56)">
+              <rect width="150" height="76" rx="8"></rect>
+              <text x="14" y="28">Creative variant</text>
+              <text class="small" x="14" y="50">lineage + hypothesis</text>
+            </g>
+            <g class="node source-node" data-lane="components flow external_dependencies" transform="translate(420 56)">
+              <rect width="150" height="76" rx="8"></rect>
+              <text x="14" y="28">Network adapter</text>
+              <text class="small" x="14" y="50">dispatch + pull</text>
+            </g>
+            <g class="node source-node" data-lane="components flow lifecycle" transform="translate(616 56)">
+              <rect width="150" height="76" rx="8"></rect>
+              <text x="14" y="28">OutcomeEvent</text>
+              <text class="small" x="14" y="50">source required</text>
+            </g>
+            <g class="node source-node" data-lane="components flow properties" transform="translate(812 56)">
+              <rect width="150" height="76" rx="8"></rect>
+              <text x="14" y="28">MetricObservation</text>
+              <text class="small" x="14" y="50">KPI + window</text>
+            </g>
+
+            <path class="arrow-line" d="M178 94 H224"></path>
+            <path class="arrow-line" d="M374 94 H420"></path>
+            <path class="arrow-line" d="M570 94 H616"></path>
+            <path class="arrow-line" d="M766 94 H812"></path>
+
+            <g class="node gate-node" data-lane="flow risk_questions" transform="translate(812 234)">
+              <rect width="150" height="76" rx="8"></rect>
+              <text x="14" y="28">Grader gate</text>
+              <text class="small" x="14" y="50">veracidade + confounds</text>
+            </g>
+            <g class="node gate-node" data-lane="flow risk_questions" transform="translate(616 234)">
+              <rect width="150" height="76" rx="8"></rect>
+              <text x="14" y="28">PromotionCandidate</text>
+              <text class="small" x="14" y="50">context + contradiction</text>
+            </g>
+            <g class="node gate-node" data-lane="flow external_dependencies" transform="translate(420 234)">
+              <rect width="150" height="76" rx="8"></rect>
+              <text x="14" y="28">OwnerDecision</text>
+              <text class="small" x="14" y="50">approved uses</text>
+            </g>
+            <g class="node knowledge-node" data-lane="flow components" transform="translate(224 234)">
+              <rect width="150" height="76" rx="8"></rect>
+              <text x="14" y="28">KnowledgeProjection</text>
+              <text class="small" x="14" y="50">promoted lesson</text>
+            </g>
+            <g class="node knowledge-node" data-lane="flow lifecycle" transform="translate(28 234)">
+              <rect width="150" height="76" rx="8"></rect>
+              <text x="14" y="28">Feedback residue</text>
+              <text class="small" x="14" y="50">reparameterizes card</text>
+            </g>
+
+            <path class="gate-line" d="M887 132 V234"></path>
+            <path class="gate-line" d="M812 272 H766"></path>
+            <path class="gate-line" d="M616 272 H570"></path>
+            <path class="gate-line" d="M420 272 H374"></path>
+            <path class="feedback-line" d="M224 272 H178"></path>
+            <path class="feedback-line" d="M103 234 V150 C103 138 103 132 103 132"></path>
+
+            <g class="node stop-node" data-lane="risk_questions" transform="translate(56 458)">
+              <rect width="178" height="78" rx="8"></rect>
+              <text x="14" y="28">Reject ingest</text>
+              <text class="small" x="14" y="50">missing source</text>
+            </g>
+            <g class="node stop-node" data-lane="risk_questions" transform="translate(276 458)">
+              <rect width="178" height="78" rx="8"></rect>
+              <text x="14" y="28">Block field</text>
+              <text class="small" x="14" y="50">PII or unclassified</text>
+            </g>
+            <g class="node stop-node" data-lane="risk_questions" transform="translate(496 458)">
+              <rect width="178" height="78" rx="8"></rect>
+              <text x="14" y="28">Hold metric</text>
+              <text class="small" x="14" y="50">window or denominator</text>
+            </g>
+            <g class="node stop-node" data-lane="risk_questions" transform="translate(716 458)">
+              <rect width="178" height="78" rx="8"></rect>
+              <text x="14" y="28">No candidate</text>
+              <text class="small" x="14" y="50">low confidence/confound</text>
+            </g>
+            <g class="node stop-node" data-lane="risk_questions" transform="translate(936 458)">
+              <rect width="178" height="78" rx="8"></rect>
+              <text x="14" y="28">No projection</text>
+              <text class="small" x="14" y="50">missing owner decision</text>
+            </g>
+
+            <path class="stop-line" d="M691 132 V458 H145"></path>
+            <text class="edge-label" x="598" y="392">no provenance</text>
+            <path class="stop-line" d="M495 132 V404 H365 V458"></path>
+            <text class="edge-label" x="412" y="392">unsafe network field</text>
+            <path class="stop-line" d="M887 132 V404 H585 V458"></path>
+            <text class="edge-label" x="770" y="392">bad metric shape</text>
+            <path class="stop-line" d="M887 310 V458 H805"></path>
+            <text class="edge-label" x="828" y="392">confound blocks</text>
+            <path class="stop-line" d="M495 310 V404 H1025 V458"></path>
+            <text class="edge-label" x="930" y="392">no approval</text>
+          </svg>
+        </figure>
+      </section>
+
+      <section id="gate-board" data-lane="flow risk_questions properties">
+        <h2>Gate Board</h2>
+        <p class="section-intro">This is the tracking logic in checklist form. Each row prevents one kind of false learning, especially the tempting shortcut where a good-looking metric becomes a reusable creative lesson without context.</p>
+        <div class="gate-board">
+          <table>
+            <thead>
+              <tr>
+                <th>Tracking question</th>
+                <th>Pass condition</th>
+                <th>Stop condition</th>
+                <th>Why it matters</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Is the variant tied to an ontology card and hypothesis?</td>
+                <td class="pass">Yes: generation has lineage and target context.</td>
+                <td class="block">No: log but do not measure as a trusted run.</td>
+                <td>Prevents concept erasure: the system knows which audience, family, and objective the metric belongs to.</td>
+              </tr>
+              <tr>
+                <td>Did the Network Adapter provide source provenance?</td>
+                <td class="pass">Yes: source, endpoint or locator, API context, and captured_at exist.</td>
+                <td class="block">No: reject at ingest.</td>
+                <td>An unsourced outcome cannot become evidence.</td>
+              </tr>
+              <tr>
+                <td>Are fields classified by authority class?</td>
+                <td class="pass">Aggregate fields compute locally; private fields stay redacted.</td>
+                <td class="block">PII, identifiers, spend, or network-specific metrics escape policy.</td>
+                <td>Separates usable tracking signal from sensitive or unclassified material.</td>
+              </tr>
+              <tr>
+                <td>Does the KPI preserve denominator and response window?</td>
+                <td class="pass">MetricObservation includes numerator, denominator, period, evidence_refs, and interpretation limit.</td>
+                <td class="block">Window, denominator, or evidence chain is missing.</td>
+                <td>Prevents comparing metrics that only look similar.</td>
+              </tr>
+              <tr>
+                <td>Did the Grader resolve confidence and confounds?</td>
+                <td class="pass">veracidade is declared and confound flags are absent, resolved, or bounded.</td>
+                <td class="block">Low veracidade plus unresolved confounds does not advance.</td>
+                <td>Keeps metric movement from masquerading as reliable creative learning.</td>
+              </tr>
+              <tr>
+                <td>Can a metric promote itself?</td>
+                <td class="pass">No: a candidate must carry context, contradiction path, allowed uses, and review.</td>
+                <td class="block">Direct N3 MetricObservation to N4/N6 shortcut is blocked.</td>
+                <td>This is the core metric != authority rule.</td>
+              </tr>
+              <tr>
+                <td>Did an owner approve reuse?</td>
+                <td class="pass">OwnerDecision records approved allowed uses.</td>
+                <td class="block">No owner record, no KnowledgeProjection.</td>
+                <td>Tracking can recommend, but it does not grant itself authority.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="field-authority" data-lane="properties external_dependencies risk_questions">
+        <h2>Field Authority Map</h2>
+        <p class="section-intro">The field map is the data-governance part of tracking. It decides which network fields can become aggregate KPI evidence, which fields stay private, and which fields block until a network-specific policy exists.</p>
+        <div class="field-grid">
+          <div class="field-card">
+            <strong>impressions clicks conversions ctr</strong>
+            <p>Aggregate signal. Compute locally and share only as aggregate KPI evidence.</p>
+          </div>
+          <div class="field-card internal">
+            <strong>spend_usd cpc cpa</strong>
+            <p>Business-sensitive financial fields. Store locally; audit access; avoid cloud transit.</p>
+          </div>
+          <div class="field-card private">
+            <strong>audience_target</strong>
+            <p>PII-adjacent audience field. Store locally and redact before promotion.</p>
+          </div>
+          <div class="field-card varies">
+            <strong>network_metrics</strong>
+            <p>Network-specific and still hypothesis-bound. Block at dispatch until classified per network.</p>
+          </div>
+          <div class="field-card private">
+            <strong>click_id conversion_event_id</strong>
+            <p>PII-bearing identifiers. Use only inside campaign scope; never export into shared knowledge.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="dependencies" data-lane="components internal_dependencies external_dependencies">
+        <h2>Dependency Boundary</h2>
+        <p class="section-intro">autoads owns the seed design and stubbed proof path. It depends on Ontologize governance rules, future ad-network API research, privacy routing, and human owner decisions before tracking can safely influence real spend or reusable creative knowledge.</p>
+        <div class="dependency-map">
+          <div class="boundary">
+            <h3>Inside autoads tracking design</h3>
+            <ul>
+              <li>Creative variant shape and lineage.</li>
+              <li>Ontology card target: audience, family, objective.</li>
+              <li>System-agnostic Network Adapter contract.</li>
+              <li>Outcome Measurement and KPI normalization.</li>
+              <li>Grader gates for veracidade, evidence_refs, and confounds.</li>
+              <li>Feedback loop into generator cards and auto-research residue.</li>
+            </ul>
+          </div>
+          <div class="boundary">
+            <h3>Outside or not yet proven</h3>
+            <ul>
+              <li>One real ad-network outcome API and attribution model.</li>
+              <li>Network-specific response windows and metric semantics.</li>
+              <li>PII and privacy policy decisions for live data.</li>
+              <li>Confound thresholds tuned on real traffic.</li>
+              <li>Owner approval records and allowed-use decisions.</li>
+              <li>Cross-network generalization after a first pilot.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="lifecycle" data-lane="lifecycle flow risk_questions">
+        <h2>Tracking Maturity Lifecycle</h2>
+        <p class="section-intro">The seed is intentionally not live. The plan makes tracking prove itself in layers so the first working slice can validate the whole loop without live spend, credentials, or PII.</p>
+        <ol class="timeline">
+          <li>L0 stub proof<br>fixture outcomes</li>
+          <li>L1 governance<br>authority classes</li>
+          <li>L2 single network<br>bounded research first</li>
+          <li>L3 closed loop<br>multi-network learning</li>
+        </ol>
+        <div class="panel-grid">
+          <div class="panel">
+            <strong>First proof</strong>
+            <p>One ontology card, control plus challenger, stub outcomes, KPI normalization, grader gate, owner decision, and feedback residue.</p>
+          </div>
+          <div class="panel">
+            <strong>Validation backlog</strong>
+            <p>H1 schema/windows, H2 confound thresholds, H3 candidate-to-card contract, H4 ads generalization.</p>
+          </div>
+          <div class="panel">
+            <strong>Live pilot condition</strong>
+            <p>Run bounded research on one target network's outcome API and attribution model before replacing the stub adapter.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="terms" data-lane="surface properties">
+        <h2>Reader Terms</h2>
+        <p class="section-intro">Reader terms are explanatory, not new canonical definitions. Each term says why it matters and what mistake to avoid while reading the tracking design.</p>
+        <div class="terms">
+          <div class="term">
+            <strong>Creative Learning Cycle</strong>
+            <p><b>Meaning:</b> one loop from generation to tracked outcome to owner-governed feedback.</p>
+            <p><b>Why it matters:</b> the tracking design only works if the whole loop closes.</p>
+          </div>
+          <div class="term">
+            <strong>OutcomeEvent</strong>
+            <p><b>Meaning:</b> a sourced event from dispatch or network outcome capture.</p>
+            <p><b>Why it matters:</b> no source, no evidence.</p>
+          </div>
+          <div class="term">
+            <strong>MetricObservation</strong>
+            <p><b>Meaning:</b> a KPI with denominator, window, veracidade, and evidence refs.</p>
+            <p><b>Why it matters:</b> it is evidence, not final authority.</p>
+          </div>
+          <div class="term">
+            <strong>veracidade</strong>
+            <p><b>Meaning:</b> confidence grade based on evidence outside the metric itself.</p>
+            <p><b>Why it matters:</b> high performance is not automatically high trust.</p>
+          </div>
+          <div class="term">
+            <strong>Authority-class register</strong>
+            <p><b>Meaning:</b> routing policy for fields such as aggregate signals, spend, audience data, and identifiers.</p>
+            <p><b>Why it matters:</b> tracking can compute without leaking sensitive source fields.</p>
+          </div>
+          <div class="term">
+            <strong>OwnerDecision</strong>
+            <p><b>Meaning:</b> human approval for allowed reuse.</p>
+            <p><b>Why it matters:</b> tracking may propose a lesson, but ownership decides whether it becomes knowledge.</p>
+          </div>
+        </div>
+      </section>
+
+      <section data-lane="risk_questions visual_composition">
+        <h2>Evidence And Inference Boundary</h2>
+        <p class="section-intro">This x-ray uses source-backed project claims for the tracking mechanics and marks visual organization as inference. That matters because the seed is a design package, not executed runtime evidence.</p>
+        <div class="evidence-box">
+          <div>
+            <h3>source-backed</h3>
+            <ul>
+              <li>autoads is seed-authored, validated, and not yet executed.</li>
+              <li>The Creative Learning Cycle tracks generation, dispatch, outcomes, grading, promotion, owner decision, and feedback.</li>
+              <li>KPI families carry response window, veracidade, evidence_refs, and interpretation limit.</li>
+              <li>PII and unclassified network fields fail closed.</li>
+              <li>Network schema and attribution research are still open before a live pilot.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>inference</h3>
+            <ul>
+              <li>The exact spatial placement of nodes in the SVG.</li>
+              <li>The grouping of gate questions into one board.</li>
+              <li>The reader framing that tracking is the strongest explanation lens.</li>
+              <li>The simplified lifecycle labels for scanning.</li>
+              <li>The visual emphasis on raw metric to reusable knowledge as the key authority transition.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section data-lane="surface flow internal_dependencies external_dependencies risk_questions">
+        <h2>Reader Outcomes</h2>
+        <p class="section-intro">The page succeeds when a reader can predict what autoads will track, where the data can stop, and what evidence is still missing before live use.</p>
+        <ul class="result-list">
+          <li><b>Surface:</b> autoads tracks creative learning, not just ad performance.</li>
+          <li><b>Flow:</b> variant -> event -> KPI -> grader -> candidate -> owner decision -> projection -> feedback.</li>
+          <li><b>Dependencies:</b> ad-network APIs and attribution models remain outside the seed until bounded research.</li>
+          <li><b>Risk:</b> metric self-promotion, PII escape, bad denominator, unresolved confound, and missing owner approval all block trust.</li>
+          <li><b>Renderer:</b> confirm this is L0 static HTML/SVG and does not require Mermaid, Three.js, Kroki, or network rendering.</li>
+        </ul>
+      </section>
+
+      <section id="xray-result" data-lane="visual_composition">
+        <h2>x-ray Result</h2>
+        <ul class="result-list">
+          <li><b>Status:</b> pass</li>
+          <li><b>Mode:</b> mixed</li>
+          <li><b>Target boundary:</b> projects/autoads tracking design, with emphasis on outcome capture, KPI evidence, grading, promotion, owner decision, and feedback.</li>
+          <li><b>User intent:</b> explain the design of autoads with focus on the tracking aspect.</li>
+          <li><b>Reader baseline:</b> working-reader with newcomer-friendly definitions for local tracking terms.</li>
+          <li><b>Output:</b> development/x-rays/autoads-tracking-design/autoads-tracking-design.html</li>
+          <li><b>Lane handles:</b> surface.tracking-as-governed-learning-loop; properties.tracking-invariants; components.tracking-loop-parts; dependencies.internal-tracking-chain; dependencies.external-tracking-boundary; flow.variant-to-knowledge-tracking-spine; lifecycle.seed-to-live-tracking-maturity; risk.tracking-gaps-and-stop-conditions; visual.l0-tracking-xray.</li>
+          <li><b>Layer interaction:</b> stacked, isolate, compare, trace.</li>
+          <li><b>Renderer level:</b> L0 static HTML/SVG.</li>
+          <li><b>Visual library:</b> pattern.process-branch, pattern.dependency-boundary, pattern.lifecycle-stack, pattern.evidence-inference-split; shape.node, shape.boundary, connector.arrow, connector.branch, connector.feedback-loop, chart.timeline-strip, chart.risk-matrix.</li>
+          <li><b>Evidence boundary:</b> source-backed mechanics come from projects/autoads README/DEFINE/DESIGN/PLAN and refinement role artifacts; node placement and visual grouping are inference.</li>
+          <li><b>Reader on-ramp:</b> explains tracking as evidence governance before introducing OutcomeEvent, MetricObservation, veracidade, evidence_refs, and OwnerDecision.</li>
+          <li><b>Validation:</b> intended for the repository x-ray validator: python3 arcanum/arcana/x-ray/scripts/validate-xray-example.py --lanes development/x-rays/autoads-tracking-design/autoads-tracking-design.lanes.json --html development/x-rays/autoads-tracking-design/autoads-tracking-design.html</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

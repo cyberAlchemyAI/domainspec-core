@@ -167,3 +167,29 @@ The stand-alone `CAV2-C16` rule is **superseded** by that row; only the
 **deterministic validator** (automated kind-enumeration scan) remains pending
 (OQ-1). `invariant`/`axiom` as their own kinds (OQ-2) still deferred — they govern
 as the `Definition` kind, not blocked by the catch-all.
+
+## Discipline promoted (CAV2-D50) + Ledger HELD (2026-06-23)
+
+**`CAV2-D50` discipline — PROMOTED.** Build-from-owned from the AUTHORITY-MODEL
+Authority Kinds row + `concept.discipline` + the Arcanum discipline model.
+Prerequisite for the governance stack (the `tracking` discipline, the
+non-collapsing-discipline validator, the validating constitution). Index synced
+(main row + 3 aliases). `non-collapse` stays **covered** by `CAV2-D22`/`D29` +
+`forbidden_collapse` + AUTHORITY-MODEL non-collapse rules — no separate term promoted.
+
+**`ledger` — HELD, NOT promoted** (requested, but blocked by its own review). The owned
+[`reviews/ledger-primitive-review.md`](reviews/ledger-primitive-review.md) verdict is
+**defer**, and only 1 of its 5 conditions is met:
+
+| Condition | Status |
+| --- | --- |
+| recursivity promoted/renamed | MET (`CAV2-D30`) |
+| Craft-ledger conformance gaps fixed/waived | UNMET |
+| parent/child containment separated from authority inheritance | UNMET |
+| v2 relation profile (inheritance/override/promotion/coupling/recomposition/residue) | UNMET (RELATION-MODEL still candidate) |
+| fixture proving parent+child ledger, inherited constraint, override, promotion, residue, recomposition, index | UNMET (does not exist) |
+
+Promoting now would reverse a recorded `defer` verdict with 4/5 conditions unmet
+(demote/promote protocol). The unmet conditions ride the still-candidate
+authority-object schema / relation work (OQ-1-gated). **Route:** clear the relation
+profile + conformance fixture (or an explicit decision-gate override) before promotion.

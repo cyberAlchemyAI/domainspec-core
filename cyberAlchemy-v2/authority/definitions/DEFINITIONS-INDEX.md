@@ -56,6 +56,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D47 | interface evidence boundary | active | [Interface Evidence Boundary](DEFINITIONS.md#cav2-d47-interface-evidence-boundary) | A browser can show what happened on the page; it cannot by itself prove what a human understood, trusted, felt, or preferred. |
 | CAV2-D48 | authority promotion lifecycle | active | [Authority Promotion Lifecycle](DEFINITIONS.md#cav2-d48-authority-promotion-lifecycle) | The single staged path by which any authority-bearing candidate acquires authority; the build-from-owned generalization of D43/D46/Growth-Rule that the promotion-policy ladder instantiates. |
 | CAV2-D49 | closed authority-kind enumeration | active | [Closed Authority-Kind Enumeration](DEFINITIONS.md#cav2-d49-closed-authority-kind-enumeration) | The invariant that the authority-kind set is closed; an unenumerated kind defaults to blocked pending an owner decision adding it. Names the closure (enactment = proposed CAV2-C16). |
+| CAV2-D50 | discipline | active | [Discipline](DEFINITIONS.md#cav2-d50-discipline) | A recurring cross-capability practice promoted via discipline-governance (steward + recurrence evidence + maturity ladder + hardening); evidence alone does not self-promote. Not a term/sigil/spell/task/work. |
 
 ## Alias Lookup
 
@@ -116,6 +117,9 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | contract spec | CAV2-D37 |
 | decision record | CAV2-D36 |
 | deterministic event ledger | CAV2-D26 |
+| governed discipline | CAV2-D50 |
+| recurring-practice discipline | CAV2-D50 |
+| discipline kind | CAV2-D50 |
 | discipline practice | CAV2-D35 |
 | entropy observable | CAV2-D27 |
 | entropy readout | CAV2-D27 |

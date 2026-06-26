@@ -1157,3 +1157,11 @@ Artifacts:
 - Findings: (1) 2 coverage gaps — resonantos-and-ontology-retrieval synthesis + cards were in index.json but unlinked in index.md (earlier free-text bullet dropped when index.md was normalized into tables); FIXED (added 2 Entries rows). (2) 3 dangling tags (synthesis, ontology, attenuation) used in by_tag but undefined in tags.md; FIXED (+3 definitions). (3) FLAG (not fixed): entries/evidence-cards/2026-06-23-governed-artifact-primitive-formalization-cards.md has `promotion_owner: none` (rationale: reuse existing envelope) — pre-existing card, surfaced to its owner, not silently changed.
 - Clean: evidence-card source_refs present; log headings parseable (42 dated); index.json parseable (89 entries).
 - Validation: pass.
+
+## 2026-06-25 — query (filed synthesis: read-trivial via selective promotion)
+
+- Mode: query (answer filed as durable synthesis)
+- Question: "does CyberAlchemy make read trivial by writing only the most important things?"
+- Entry created (1): entries/read-trivial-via-selective-promotion-synthesis.md — refines `two-senses-of-importance` with two further splits (two write surfaces: capture-writes-everything vs authority-writes-only-important, selectivity at promotion not keystroke; two senses of read-trivial: cost-trivial via pre-paid write + signal-trivial via default-deny). Caveat carried: trivial = cheap+high-signal not zero; the read is bought by the selective-write loop + gate.
+- Index: index.json 89 -> 90 (by_id/by_type/by_status/by_tag/by_source updated; jq parse OK); index.md +1 Entries row; tags.md unchanged (all 8 tags already defined — no dangling).
+- Validation: pass. Authority boundary: candidate read-model; owners = cav2 authority / SDK-commercialization gate. Promotes nothing.

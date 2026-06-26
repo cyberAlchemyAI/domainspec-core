@@ -3309,6 +3309,70 @@ blocked).
 - [source-clusters/authority-lifecycle.md](source-clusters/authority-lifecycle.md)
 - [../constitutions/STABLE-REPOSITORY-CONSTITUTION.md](../constitutions/STABLE-REPOSITORY-CONSTITUTION.md)
 
+## CAV2-D50: Discipline
+
+Status: active
+Term: discipline
+Aliases: governed discipline, recurring-practice discipline, discipline kind
+Promoted: 2026-06-23 (build-from-owned: AUTHORITY-MODEL Authority Kinds row + `concept.discipline` + Arcanum discipline model). Prerequisite for the governance stack (tracking discipline, non-collapse validator, validating constitution).
+
+### Normative Definition
+
+A discipline is a **recurring, cross-capability practice** promoted to authority via
+**discipline-governance** — cataloged in `../../disciplines/` with a steward/owner,
+evidence that it already recurs, a maturity status (`candidate -> active-pattern ->
+canonical`), and a named hardening route. Evidence of recurrence alone does **not**
+self-promote a discipline; the owner route does.
+
+### Formal Interpretation
+
+```text
+Discipline = (practice, steward/owner, recurrence_evidence, maturity_status, hardening_move)
+maturity_status in { candidate, active-pattern, canonical }
+promotion: discipline-governance over the maturity ladder (never auto)
+```
+
+A discipline is valid only when it names its steward, recurrence evidence, maturity,
+and hardening move; `CAV2-D38` bounds any claim of "canonical" to the evidence.
+
+### Operational Interpretation
+
+Use when a recurring practice spans capabilities and needs a steward + hardening path
+(AUTHORITY-MODEL narrowest-owner rule: *"a recurring practice needs a steward and
+hardening path → discipline-governance"*). It turns a habit into a governed, hardenable
+practice rather than ad-hoc repetition.
+
+### Plain-Language Intuition
+
+A habit the project does across many capabilities — named and hardened so it's done
+consistently. It earns authority by recurring and being stewarded, not by being declared.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, disciplines live as cards under `../../disciplines/` owned by
+discipline-governance (e.g. `stable-repository-stewardship`, `provisional-model-stewardship`).
+`CAV2-D20` Craft method is itself **a** discipline (an instance), not the genus. The
+Arcanum discipline model (maturity ladder / growth rule) is the ancestral source
+(Evidence posture).
+
+### Boundary
+
+A discipline is **not** a canonical term (definitions-governance owns terms), **not** a
+sigil, **not** a spell, **not** an implementation task (AUTHORITY-MODEL Authority Kinds
+"must not collapse into"), and **not** Craft method specifically (`CAV2-D20` is one
+discipline). Per AUTHORITY-MODEL non-collapse rule 4: *a discipline can recommend a
+route, but it cannot define a term or author a constitution.* It is **not** operational
+work (`CAV2-D20` Craft work-state) — authoring a discipline may be work, but the
+discipline-as-authority-kind is governance.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [../../disciplines/DISCIPLINES.md](../../disciplines/DISCIPLINES.md)
+- [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md) (Authority Kinds)
+- [../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md) (`concept.discipline`)
+
 ## Open Questions
 
 ### OQ-1. Which imported definitions should be promoted first?

@@ -1,0 +1,290 @@
+{
+  "xray_version": "0.2.0-seed",
+  "example_id": "autoads-tracking-design-xray",
+  "mode": "mixed",
+  "target_boundary": "Explain the tracking design inside projects/autoads: how creative variants are tracked through network dispatch, outcome capture, KPI normalization, veracidade grading, promotion gates, owner decision, and feedback into the next creative cycle.",
+  "renderer_level": "L0",
+  "layer_interaction": [
+    "stacked",
+    "isolate",
+    "compare",
+    "trace"
+  ],
+  "reader_contract": {
+    "reader_baseline": "working-reader",
+    "target_public": "A product or engineering reader who understands ad iteration but has not yet internalized the autoads tracking architecture.",
+    "assumed_knowledge": [
+      "The reader knows that ad creatives are tested on ad networks.",
+      "The reader can read a simple pipeline diagram and a gate table."
+    ],
+    "reader_reward": "The reader can explain why autoads treats ad-network metrics as evidence, not authority, and where tracking data is allowed to influence future creative generation.",
+    "opening_contract": {
+      "must_start_with": [
+        "Start from the tracking problem: an ad metric is only useful if the system knows what was tested, when it was observed, and what can safely be concluded.",
+        "Introduce autoads as a governed Creative Learning Cycle before naming local node types."
+      ],
+      "must_not_start_with": [
+        "Do not start with a generic advertising dashboard explanation.",
+        "Do not imply live ad-network integration has already been executed."
+      ],
+      "failure_message": "If the page makes raw CTR look like a direct source of truth, it fails the tracking design contract."
+    }
+  },
+  "reader_terms": [
+    {
+      "term": "Creative Learning Cycle",
+      "plain_meaning": "One closed loop that generates a variant, tracks outcomes, grades the evidence, decides promote or retire, and feeds the next cycle.",
+      "why_it_matters": "It is the smallest unit of value in autoads and the shape every tracking decision must support.",
+      "source_or_lane": "projects/autoads/README.md; projects/autoads/development/refinement-runs/autoads-seed-20260610/stages/05-distill.md; flow lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not treat it as an executed production pipeline; the seed says it is not yet executed."
+    },
+    {
+      "term": "Network Adapter",
+      "plain_meaning": "A network-neutral boundary that dispatches a variant and pulls outcomes without locking autoads to one ad platform.",
+      "why_it_matters": "It keeps tracking portable while making the real network schema a validation gap before any live pilot.",
+      "source_or_lane": "projects/autoads/DESIGN.md; stages/06-design-ad-network-measurement.md; external_dependencies lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not assume Meta, Google, TikTok, or any other network has already been integrated."
+    },
+    {
+      "term": "OutcomeEvent",
+      "plain_meaning": "A sourced event saying the network received a variant or returned outcome data.",
+      "why_it_matters": "Every tracked fact starts with provenance: source, API version or endpoint, locator, and capture time.",
+      "source_or_lane": "stages/06-design-ad-network-measurement.md; projects/ontologize/DAG-AND-METRICS.md; lifecycle lane",
+      "authority": "source-backed",
+      "misuse_warning": "An event without source information is rejected at ingest."
+    },
+    {
+      "term": "KPI family",
+      "plain_meaning": "A normalized metric family such as engagement rate, cost efficiency, attribution depth, or creative lift.",
+      "why_it_matters": "The family defines numerator, denominator, response window, interpretation limit, and evidence references.",
+      "source_or_lane": "stages/06-design-ad-network-measurement.md; properties lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not compare metrics whose denominator or observation window is different."
+    },
+    {
+      "term": "veracidade",
+      "plain_meaning": "A confidence grade for how much external evidence supports a metric, candidate, or projection.",
+      "why_it_matters": "It prevents a high-performing metric from automatically becoming a high-confidence recommendation.",
+      "source_or_lane": "projects/autoads/DEFINE.md; projects/ontologize/DAG-AND-METRICS.md; risk_questions lane",
+      "authority": "source-backed",
+      "misuse_warning": "A high CTR is not the same thing as high veracidade."
+    },
+    {
+      "term": "evidence_refs",
+      "plain_meaning": "The concrete source, event, test, or campaign references that justify a grade.",
+      "why_it_matters": "They make the tracking record auditable and stop claims from floating away from the evidence.",
+      "source_or_lane": "projects/autoads/DEFINE.md; stages/06-design-ad-network-measurement.md; properties lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not promote a knowledge projection without non-empty evidence references."
+    },
+    {
+      "term": "Response window",
+      "plain_meaning": "The fixed time interval over which outcomes are counted for a creative family.",
+      "why_it_matters": "It prevents post-hoc window changes and premature promotion before the observation period closes.",
+      "source_or_lane": "stages/06-design-creative-pipeline.md; stages/06-design-ad-network-measurement.md; lifecycle lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not count late conversions or early signals outside the declared window as settled proof."
+    },
+    {
+      "term": "Confound gate",
+      "plain_meaning": "A check for factors that could explain the metric without proving the creative pattern.",
+      "why_it_matters": "Audience selection, attribution drift, window mismatch, day-of-week, seasonality, or network capacity can make a winner look real too early.",
+      "source_or_lane": "stages/06-design-ad-network-measurement.md; stages/06-design-creative-pipeline.md; risk_questions lane",
+      "authority": "source-backed",
+      "misuse_warning": "Unresolved confounds block promotion unless an owner records an explicit strategic-bet override."
+    },
+    {
+      "term": "Authority-class register",
+      "plain_meaning": "A routing table that classifies ad-network fields by sensitivity and allowed use.",
+      "why_it_matters": "It determines whether tracking data can be computed locally, stored privately, redacted, shared as aggregate, or rejected.",
+      "source_or_lane": "stages/06-design-ad-network-measurement.md; external_dependencies lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not let PII-bearing identifiers, spend details, or unclassified network fields leak into shared projections."
+    },
+    {
+      "term": "OwnerDecision",
+      "plain_meaning": "The human approval node that decides whether a graded candidate can become reusable knowledge.",
+      "why_it_matters": "It keeps tracking evidence from approving itself and records approved allowed uses.",
+      "source_or_lane": "projects/autoads/DESIGN.md; stages/06-design-auto-research.md; flow lane",
+      "authority": "source-backed",
+      "misuse_warning": "No candidate or metric bypasses owner review."
+    }
+  ],
+  "layer_reader_outcomes": [
+    {
+      "layer": "surface",
+      "as_a_reader": "As a product reader, I want the page to say what problem tracking solves.",
+      "should_understand": "autoads is not just a creative generator; it is a governed loop for tracking what happened and what can safely be reused.",
+      "because_it_matters_for": "avoiding dashboard-shaped thinking where raw metrics are treated as final truth."
+    },
+    {
+      "layer": "properties",
+      "as_a_reader": "As an implementation reader, I want the tracking invariants named.",
+      "should_understand": "Every variant has lineage and an outcome contract; every metric needs denominator semantics, response window, veracidade, and evidence_refs.",
+      "because_it_matters_for": "knowing which data fields must exist before a cycle can be trusted."
+    },
+    {
+      "layer": "components",
+      "as_a_reader": "As an architecture reader, I want the pieces of the tracking loop separated.",
+      "should_understand": "Generator, Network Adapter, Outcome Measurement, Grader, Promotion DAG, OwnerDecision, Feedback Loop, and Auto-Research each own a different part of the tracking story.",
+      "because_it_matters_for": "diagnosing where a tracking claim was created, normalized, graded, blocked, or reused."
+    },
+    {
+      "layer": "internal_dependencies",
+      "as_a_reader": "As a reviewer, I want to know what depends on what inside autoads.",
+      "should_understand": "Outcome measurement depends on variant lineage and declared windows; grading depends on KPI evidence and confounds; feedback depends on owner-governed promotion.",
+      "because_it_matters_for": "spotting shortcuts that would collapse the tracking chain."
+    },
+    {
+      "layer": "external_dependencies",
+      "as_a_reader": "As a reviewer, I want to know what autoads does not own.",
+      "should_understand": "Ad-network APIs, attribution models, privacy policy, Ontologize DAG rules, and owner decisions sit outside the seed's executed code path.",
+      "because_it_matters_for": "knowing why bounded research and owner review remain required."
+    },
+    {
+      "layer": "flow",
+      "as_a_reader": "As a working reader, I want to trace one tracked creative cycle.",
+      "should_understand": "A variant moves from generated hypothesis to network event, raw outcomes, KPI observation, grader gate, promotion candidate, owner decision, knowledge projection, and feedback.",
+      "because_it_matters_for": "understanding how tracking data changes form before it can improve future creatives."
+    },
+    {
+      "layer": "lifecycle",
+      "as_a_reader": "As an operator, I want to know when tracking evidence becomes actionable.",
+      "should_understand": "The seed starts with fixtures, hardens governance, then requires bounded research before replacing the stub adapter with a live single-network pilot.",
+      "because_it_matters_for": "not mistaking the seed for a production integration."
+    },
+    {
+      "layer": "risk_questions",
+      "as_a_reader": "As an operator, I want the open gaps visible.",
+      "should_understand": "Network schemas, attribution windows, confound thresholds, candidate-to-card contract, and ads generalization are still validation hypotheses.",
+      "because_it_matters_for": "planning the next routes before trusting live spend or cross-network reuse."
+    },
+    {
+      "layer": "visual_composition",
+      "as_a_reader": "As a scanner, I want each visual to answer a different tracking question.",
+      "should_understand": "The spine shows movement, the gate board shows stop conditions, the boundary map shows ownership, and the lifecycle strip shows validation maturity.",
+      "because_it_matters_for": "moving from overview to diagnosis without losing evidence boundaries."
+    }
+  ],
+  "readability_dynamics": {
+    "max_words_per_paragraph": 75,
+    "max_consecutive_dense_blocks": 1,
+    "require_scan_anchor_every_n_blocks": 3,
+    "allowed_visual_treatments": [
+      "layer toggles",
+      "inline svg tracking spine",
+      "gate board table",
+      "field authority cards",
+      "lifecycle strip",
+      "evidence and inference labels"
+    ]
+  },
+  "lanes": {
+    "surface": {
+      "handle": "surface.tracking-as-governed-learning-loop",
+      "evidence": [
+        "projects/autoads/README.md defines autoads as a creative-development pipeline that generates better ad creatives by measuring ad-network outcomes.",
+        "projects/autoads/README.md says ad-network outcomes become governed events and the Promotion DAG decides which creatives or patterns are trustworthy.",
+        "projects/autoads/README.md says the project is seed-authored and validated, not yet executed."
+      ],
+      "inference": [
+        "The most useful explanation lens is not ad analytics in general, but tracking as evidence governance from event to reusable creative knowledge."
+      ]
+    },
+    "properties": {
+      "handle": "properties.tracking-invariants",
+      "evidence": [
+        "stages/06-design-creative-pipeline.md says a creative variant carries lineage, ontology_card_ref, hypothesis_ref, generation_method, creative fields, objective, governance_class, and an outcome_contract.",
+        "stages/06-design-ad-network-measurement.md says KPI families carry veracidade, evidence_refs, response_window, and interpretation_limit.",
+        "stages/06-design-creative-pipeline.md says response windows are fixed at family creation and minimum sample thresholds are declared before statistical tests.",
+        "stages/06-design-ad-network-measurement.md says metrics must report denominator definition and source-event chain."
+      ],
+      "inference": [
+        "Tracking correctness depends more on predeclared measurement shape than on the specific ad-network metric names."
+      ]
+    },
+    "components": {
+      "handle": "components.tracking-loop-parts",
+      "evidence": [
+        "projects/autoads/DESIGN.md lists Creative Generator, Network Adapter, Outcome Measurement, Grader, Promotion DAG, Auto-Research, and Feedback Loop.",
+        "stages/05-distill.md calls the Creative Learning Cycle the smallest coherent unit: generate, dispatch, measure, grade, review, owner decision, promote or retire, residue, feedback.",
+        "stages/06-design-auto-research.md says auto-research mines internal residue, competitor creatives, and trend signals into reviewed candidates."
+      ],
+      "inference": [
+        "OwnerDecision is represented as its own visual gate because the seed repeatedly emphasizes that promotion requires owner approval."
+      ]
+    },
+    "internal_dependencies": {
+      "handle": "dependencies.internal-tracking-chain",
+      "evidence": [
+        "stages/06-design-creative-pipeline.md says outcomes are measured over a shared response window for a family and confounds are measured as deltas to control.",
+        "stages/06-design-ad-network-measurement.md says OutcomeEvent becomes MetricObservation only after source and denominator rules are satisfied.",
+        "stages/06-design-ad-network-measurement.md says unresolved confounds and low veracidade block advancement to PromotionCandidate.",
+        "stages/06-design-auto-research.md says outcomes feed auto-research memory through drifts_from, contradicts, and promoted_from Promotion DAG edges."
+      ],
+      "inference": [
+        "The tracking chain is a dependency ladder: each downstream claim is only meaningful if the upstream event, window, denominator, and confound evidence are intact."
+      ]
+    },
+    "external_dependencies": {
+      "handle": "dependencies.external-tracking-boundary",
+      "evidence": [
+        "stages/04-research-decision.md says real ad-network outcome metrics, attribution windows, data export, and identifier sensitivity are an external gap.",
+        "stages/06-design-ad-network-measurement.md defines the Network Adapter as network-neutral across Meta, Google, TikTok, and similar systems.",
+        "stages/06-design-ad-network-measurement.md classifies spend as business-sensitive, audience_target as private, network_metrics as varies by network, and click_id/conversion_event_id as PII-bearing.",
+        "projects/ontologize/DAG-AND-METRICS.md defines the upstream DAG node and gate model reused by autoads."
+      ],
+      "inference": [
+        "The seed can explain the tracking contract, but live API semantics and field sensitivity must still be verified per network."
+      ]
+    },
+    "flow": {
+      "handle": "flow.variant-to-knowledge-tracking-spine",
+      "evidence": [
+        "projects/autoads/DESIGN.md diagrams Auto-Research to Creative Generator to Network Adapter to Outcome Measurement to Grader to Promotion DAG to Feedback Loop.",
+        "stages/06-design-ad-network-measurement.md gives a concrete gate flow from OutcomeEvent to MetricObservation to PromotionCandidate to OwnerDecision to KnowledgeProjection.",
+        "stages/06-design-ontology-reuse.md maps CreativeDispatch and NetworkOutcome to N1, MetricObservation to N3, PromotionCandidate to N4, OwnerDecision to N5, and KnowledgeProjection to N6."
+      ],
+      "inference": [
+        "A linear tracking spine with explicit block edges best explains how data changes authority as it moves."
+      ]
+    },
+    "lifecycle": {
+      "handle": "lifecycle.seed-to-live-tracking-maturity",
+      "evidence": [
+        "projects/autoads/PLAN.md says Layer 0 uses a stub network adapter with fixture outcomes, no live calls, no PII, and no credentials.",
+        "projects/autoads/PLAN.md says Layer 1 installs a field-to-authority-class register, deterministic Promotion DAG gates, and reviewed auto-research candidates.",
+        "projects/autoads/PLAN.md says Layer 2 replaces the stub with one real Network Adapter after bounded research, then tunes confound thresholds on real traffic.",
+        "projects/autoads/PLAN.md says Layer 3 closes the auto-research memory loop and generalizes the adapter to a second network."
+      ],
+      "inference": [
+        "Tracking maturity moves from proof with fixtures, to governance hardening, to a validated single-network pilot, to multi-network learning."
+      ]
+    },
+    "risk_questions": {
+      "handle": "risk.tracking-gaps-and-stop-conditions",
+      "evidence": [
+        "projects/autoads/RESULT.md carries H1 network schema/windows, H2 confound thresholds, H3 auto-research-generator card contract, and H4 ads generalization as open hypotheses.",
+        "stages/07-design-review.md flags that those hypotheses must stay visible and that the thin first slice must be explicit.",
+        "stages/06-design-ad-network-measurement.md says PII escape, unclassified fields, unresolved confounds, low veracidade, and metric self-promotion block or fail closed.",
+        "stages/04-research-decision.md says external research was not run and recommends bounded research on one target network before the MVP pilot."
+      ],
+      "inference": [
+        "The tracking design should be treated as ready for a stubbed proof slice, not ready for live spend or buyer-facing claims."
+      ]
+    },
+    "visual_composition": {
+      "handle": "visual.l0-tracking-xray",
+      "evidence": [
+        "arcanum/arcana/x-ray/SKILL.md says L0 static HTML/SVG is the default proof path.",
+        "arcanum/arcana/x-ray/library/patterns.yml includes process-branch, dependency-boundary, lifecycle-stack, and evidence-inference-split patterns.",
+        "arcanum/arcana/x-ray/library/components.yml includes shape.node, shape.boundary, connector.arrow, connector.branch, connector.feedback-loop, chart.timeline-strip, and chart.risk-matrix."
+      ],
+      "inference": [
+        "The HTML should combine a tracking spine, field authority map, gate board, dependency boundary, maturity strip, and evidence split rather than a single generic architecture diagram."
+      ]
+    }
+  }
+}

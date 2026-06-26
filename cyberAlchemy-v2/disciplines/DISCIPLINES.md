@@ -13,6 +13,7 @@ or implementation by themselves.
 | --- | --- | --- | --- | --- | --- |
 | `stable-repository-stewardship` | Stable repository stewardship | candidate | CyberAlchemy v2 authority owner | [Stable repository stewardship card](cards/stable-repository-stewardship.md) | Harden through [Stable Repository Constitution](../authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md) and owner review. |
 | `provisional-model-stewardship` | Provisional model stewardship | candidate | CyberAlchemy v2 authority owner | [Provisional model stewardship card](cards/provisional-model-stewardship.md) | Route a private model-frame clause (frame status + recorded completeness probe + derivation context) through `constitution-governance`; make the completeness probe a validator surface. Do not edit the public CyberAlchemy method. |
+| `tracking` | Tracking (governance-lifecycle ledger) | candidate | CyberAlchemy v2 authority owner | [Tracking card](cards/tracking.md) | Harden via (a) the SMT/FOL non-collapsing-discipline validator (validator route, OQ-1-gated) and (b) a validating constitution rule (`constitution-governance`); depends on the deferred `ledger` primitive. Scope-pinned to authority-lifecycle state (NOT Craft work). |
 
 ## Status Meanings
 

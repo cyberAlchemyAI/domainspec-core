@@ -1,0 +1,1047 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Goal Control Loop X-Ray</title>
+  <style>
+    :root {
+      --bg: #f5f7f2;
+      --surface: #ffffff;
+      --surface-2: #edf3ef;
+      --ink: #16201c;
+      --muted: #5b6661;
+      --line: #d5ded7;
+      --green: #277059;
+      --teal: #237284;
+      --amber: #a77a20;
+      --red: #b65247;
+      --plum: #5d5878;
+      --code: #e9eee9;
+      --shadow: 0 16px 40px rgba(22, 32, 28, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    code {
+      padding: 0.1rem 0.35rem;
+      border-radius: 5px;
+      background: var(--code);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 0.88em;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-width: 0;
+      min-height: 100vh;
+    }
+
+    .rail {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      min-width: 0;
+      height: 100vh;
+      padding: 24px 18px;
+      overflow: auto;
+      border-right: 1px solid var(--line);
+      background: #eaf0ec;
+    }
+
+    .brand {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+
+    .brand strong {
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 0.9rem;
+      overflow-wrap: anywhere;
+    }
+
+    .controls {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 24px;
+    }
+
+    .controls label {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.93rem;
+    }
+
+    .controls input {
+      margin-top: 3px;
+      accent-color: var(--green);
+    }
+
+    .nav {
+      display: grid;
+      gap: 4px;
+      margin-top: 20px;
+    }
+
+    .nav a {
+      display: block;
+      padding: 7px 8px;
+      border-radius: 7px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.92rem;
+    }
+
+    .nav a:hover {
+      background: var(--surface);
+      color: var(--ink);
+    }
+
+    .note {
+      margin-top: 24px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--teal);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.88rem;
+      overflow-wrap: anywhere;
+    }
+
+    .page {
+      width: min(100%, 1180px);
+      min-width: 0;
+      margin: 0 auto;
+      padding: 46px 44px 90px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 22px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: var(--green);
+      font-size: 0.84rem;
+      font-weight: 820;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    figure {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 870px;
+      margin-bottom: 14px;
+      font-size: clamp(2.4rem, 5vw, 4.85rem);
+      line-height: 0.98;
+      font-weight: 860;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    h2 {
+      margin-bottom: 18px;
+      font-size: clamp(1.65rem, 3vw, 2.45rem);
+      line-height: 1.08;
+      font-weight: 820;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-size: 1.08rem;
+      line-height: 1.22;
+      font-weight: 780;
+      letter-spacing: 0;
+    }
+
+    .lede {
+      max-width: 860px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 1.18rem;
+      overflow-wrap: anywhere;
+    }
+
+    .plain-answer {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .answer-card {
+      min-height: 150px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-top: 6px solid var(--green);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .answer-card:nth-child(2) {
+      border-top-color: var(--teal);
+    }
+
+    .answer-card:nth-child(3) {
+      border-top-color: var(--red);
+    }
+
+    .answer-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+    }
+
+    .answer-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    section {
+      padding: 44px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-child {
+      border-bottom: 0;
+    }
+
+    .section-intro {
+      max-width: 860px;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .tag.source {
+      border-color: #b8d1c4;
+      color: var(--green);
+    }
+
+    .tag.inference {
+      border-color: #e0c7bf;
+      color: var(--red);
+    }
+
+    .graph-wrap {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      overflow-x: auto;
+      max-width: 100%;
+      box-shadow: var(--shadow);
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      min-width: 980px;
+      height: auto;
+    }
+
+    .node rect {
+      fill: #fbfcfa;
+      stroke: var(--line);
+      stroke-width: 1.4;
+    }
+
+    .node text {
+      fill: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 720;
+    }
+
+    .node .small {
+      fill: var(--muted);
+      font-size: 11px;
+      font-weight: 520;
+    }
+
+    .stop rect {
+      fill: #fff6f3;
+      stroke: #e5b7ae;
+    }
+
+    .gate rect {
+      fill: #f6fbf8;
+      stroke: #afd1c1;
+    }
+
+    .arrow-line {
+      fill: none;
+      stroke: var(--teal);
+      stroke-width: 2;
+      marker-end: url(#arrowhead);
+    }
+
+    .stop-line {
+      fill: none;
+      stroke: var(--red);
+      stroke-width: 2;
+      stroke-dasharray: 5 4;
+      marker-end: url(#stophead);
+    }
+
+    .edge-label {
+      fill: var(--muted);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .panel {
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .panel strong {
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .panel p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .switchboard {
+      overflow-x: auto;
+      max-width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    table {
+      width: 100%;
+      min-width: 880px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.94rem;
+    }
+
+    th {
+      background: #eaf0ec;
+      color: var(--ink);
+      font-weight: 780;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .decision {
+      color: var(--green);
+      font-weight: 780;
+    }
+
+    .decision.stop {
+      color: var(--red);
+    }
+
+    .stop-wall {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stop-card {
+      min-height: 148px;
+      padding: 16px;
+      border: 1px solid #e3c7c0;
+      border-left: 6px solid var(--red);
+      border-radius: 8px;
+      background: #fffaf8;
+    }
+
+    .stop-card strong {
+      display: block;
+      margin-bottom: 7px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 0.94rem;
+    }
+
+    .stop-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .dependency-map {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .boundary {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .boundary h3 {
+      margin-bottom: 12px;
+    }
+
+    .boundary ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 20px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .timeline li {
+      padding: 12px 10px;
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--green);
+      border-radius: 8px;
+      background: var(--surface);
+      font-size: 0.9rem;
+      font-weight: 760;
+      text-align: center;
+    }
+
+    .timeline li:nth-child(2) {
+      border-top-color: var(--teal);
+    }
+
+    .timeline li:nth-child(3) {
+      border-top-color: var(--amber);
+    }
+
+    .timeline li:nth-child(4) {
+      border-top-color: var(--plum);
+    }
+
+    .timeline li:nth-child(5),
+    .timeline li:nth-child(6) {
+      border-top-color: var(--red);
+    }
+
+    .terms {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .term {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .term strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .term p {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .evidence-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .evidence-box > div {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .evidence-box ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .result-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .result-list li {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .shell:has(#toggle-surface:not(:checked)) .page [data-lane~="surface"],
+    .shell:has(#toggle-flow:not(:checked)) .page [data-lane~="flow"],
+    .shell:has(#toggle-deps:not(:checked)) .page [data-lane~="internal_dependencies"],
+    .shell:has(#toggle-deps:not(:checked)) .page [data-lane~="external_dependencies"],
+    .shell:has(#toggle-risk:not(:checked)) .page [data-lane~="risk_questions"] {
+      display: none;
+    }
+
+    @media (max-width: 1060px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .rail {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 30px 18px 64px;
+      }
+
+      .plain-answer,
+      .panel-grid,
+      .stop-wall,
+      .dependency-map,
+      .timeline,
+      .terms,
+      .evidence-box,
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      svg {
+        min-width: 760px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail">
+      <div class="brand">
+        <strong>Goal Control Loop X-Ray</strong>
+        <span>Visual explanation of when `goal` continues, stops, blocks, or asks for approval.</span>
+      </div>
+
+      <div class="controls" aria-label="Layer controls">
+        <label><input id="toggle-surface" type="checkbox" checked> Surface: what it is</label>
+        <label><input id="toggle-flow" type="checkbox" checked> Flow: how it decides</label>
+        <label><input id="toggle-deps" type="checkbox" checked> Dependencies: who owns what</label>
+        <label><input id="toggle-risk" type="checkbox" checked> Risk: when it stops</label>
+      </div>
+
+      <nav class="nav" aria-label="Page sections">
+        <a href="#graph">Decision graph</a>
+        <a href="#switchboard">Decision switchboard</a>
+        <a href="#stops">Stop wall</a>
+        <a href="#dependencies">Dependencies</a>
+        <a href="#lifecycle">Lifecycle</a>
+        <a href="#terms">Reader terms</a>
+        <a href="#xray-result">x-ray result</a>
+      </nav>
+
+      <div class="note">
+        Renderer: L0 static HTML/SVG. The page uses source-backed claims plus clearly marked inference. No remote renderer is required.
+      </div>
+    </aside>
+    <main class="page">
+      <header class="hero" data-lane="surface">
+        <p class="eyebrow">Process x-ray</p>
+        <h1>How `goal` Decides When To Continue Or Stop</h1>
+        <p class="lede">`goal` is a fail-closed router for a Craft-backed work graph. Its job is to keep moving only when the scope, risk, route, receipt, audit, staged delta, and approval evidence are clear. When evidence or authority is unclear, it stops instead of guessing.</p>
+
+        <div class="plain-answer">
+          <div class="answer-card">
+            <strong>What it is</strong>
+            <p>A control loop that reads the current frontier, classifies risk, routes eligible work to an owner, and stages proposed ledger changes.</p>
+          </div>
+          <div class="answer-card">
+            <strong>How it decides</strong>
+            <p>It asks a sequence of gate questions: is the source bound, is risk allowed, is the route valid, is the receipt terminal, did audit pass, and is approval exact?</p>
+          </div>
+          <div class="answer-card">
+            <strong>When it stops</strong>
+            <p>It stops on protected risk, unknown authority, missing approval, audit veto, missing closeout, direct ledger mutation, budget ceiling, or promotion without evidence.</p>
+          </div>
+        </div>
+      </header>
+
+      <section id="graph" data-lane="flow risk_questions">
+        <h2>Decision Graph</h2>
+        <p class="section-intro">Read the green path as "continue" and the red dashed paths as designed stops. The graph is source-backed by `arcanum/spells/goal/README.md`, the public decision profile schema, and the goal runtime fixtures.</p>
+        <div class="tag-row">
+          <span class="tag source">source-backed</span>
+          <span class="tag inference">inference: visual layout</span>
+          <span class="tag">pattern.process-branch</span>
+          <span class="tag">connector.branch</span>
+        </div>
+
+        <figure class="graph-wrap" aria-label="Goal decision graph">
+          <svg viewBox="0 0 1100 620" role="img">
+            <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+                <path d="M0,0 L10,4 L0,8 z" fill="#237284"></path>
+              </marker>
+              <marker id="stophead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+                <path d="M0,0 L10,4 L0,8 z" fill="#b65247"></path>
+              </marker>
+            </defs>
+
+            <g class="node gate" data-lane="flow surface" transform="translate(28 52)">
+              <rect width="150" height="68" rx="8"></rect>
+              <text x="14" y="26">Goal bind</text>
+              <text class="small" x="14" y="47">scope + source</text>
+            </g>
+            <g class="node gate" data-lane="flow" transform="translate(230 52)">
+              <rect width="150" height="68" rx="8"></rect>
+              <text x="14" y="26">Read frontier</text>
+              <text class="small" x="14" y="47">open nodes</text>
+            </g>
+            <g class="node gate" data-lane="flow risk_questions" transform="translate(432 52)">
+              <rect width="150" height="68" rx="8"></rect>
+              <text x="14" y="26">Classify risk</text>
+              <text class="small" x="14" y="47">unknown -> T3</text>
+            </g>
+            <g class="node gate" data-lane="flow internal_dependencies" transform="translate(634 52)">
+              <rect width="150" height="68" rx="8"></rect>
+              <text x="14" y="26">Select route</text>
+              <text class="small" x="14" y="47">owner + receipt</text>
+            </g>
+            <g class="node gate" data-lane="flow internal_dependencies" transform="translate(836 52)">
+              <rect width="150" height="68" rx="8"></rect>
+              <text x="14" y="26">Dispatch</text>
+              <text class="small" x="14" y="47">delegate owner</text>
+            </g>
+
+            <path class="arrow-line" d="M178 86 H230"></path>
+            <path class="arrow-line" d="M380 86 H432"></path>
+            <path class="arrow-line" d="M582 86 H634"></path>
+            <path class="arrow-line" d="M784 86 H836"></path>
+
+            <g class="node gate" data-lane="flow internal_dependencies" transform="translate(836 214)">
+              <rect width="150" height="68" rx="8"></rect>
+              <text x="14" y="26">Receipt join</text>
+              <text class="small" x="14" y="47">terminal only</text>
+            </g>
+            <g class="node gate" data-lane="flow risk_questions" transform="translate(634 214)">
+              <rect width="150" height="68" rx="8"></rect>
+              <text x="14" y="26">Audit gate</text>
+              <text class="small" x="14" y="47">pass / flag / veto</text>
+            </g>
+            <g class="node gate" data-lane="flow" transform="translate(432 214)">
+              <rect width="150" height="68" rx="8"></rect>
+              <text x="14" y="26">Stage delta</text>
+              <text class="small" x="14" y="47">proposal only</text>
+            </g>
+            <g class="node gate" data-lane="flow risk_questions" transform="translate(230 214)">
+              <rect width="150" height="68" rx="8"></rect>
+              <text x="14" y="26">Batch approval</text>
+              <text class="small" x="14" y="47">exact token</text>
+            </g>
+            <g class="node gate" data-lane="flow external_dependencies" transform="translate(28 214)">
+              <rect width="150" height="68" rx="8"></rect>
+              <text x="14" y="26">Promote</text>
+              <text class="small" x="14" y="47">Craft applies</text>
+            </g>
+
+            <path class="arrow-line" d="M911 120 V214"></path>
+            <path class="arrow-line" d="M836 248 H784"></path>
+            <path class="arrow-line" d="M634 248 H582"></path>
+            <path class="arrow-line" d="M432 248 H380"></path>
+            <path class="arrow-line" d="M230 248 H178"></path>
+
+            <g class="node stop" data-lane="risk_questions" transform="translate(28 420)">
+              <rect width="174" height="72" rx="8"></rect>
+              <text x="14" y="27">BLOCK</text>
+              <text class="small" x="14" y="49">source-authority</text>
+            </g>
+            <g class="node stop" data-lane="risk_questions" transform="translate(240 420)">
+              <rect width="174" height="72" rx="8"></rect>
+              <text x="14" y="27">STOP</text>
+              <text class="small" x="14" y="49">t3-node</text>
+            </g>
+            <g class="node stop" data-lane="risk_questions" transform="translate(452 420)">
+              <rect width="174" height="72" rx="8"></rect>
+              <text x="14" y="27">BLOCK</text>
+              <text class="small" x="14" y="49">route or receipt</text>
+            </g>
+            <g class="node stop" data-lane="risk_questions" transform="translate(664 420)">
+              <rect width="174" height="72" rx="8"></rect>
+              <text x="14" y="27">BLOCK</text>
+              <text class="small" x="14" y="49">audit-veto</text>
+            </g>
+            <g class="node stop" data-lane="risk_questions" transform="translate(876 420)">
+              <rect width="174" height="72" rx="8"></rect>
+              <text x="14" y="27">HELD / BLOCK</text>
+              <text class="small" x="14" y="49">approval problem</text>
+            </g>
+
+            <path class="stop-line" d="M92 120 V420"></path>
+            <text class="edge-label" x="42" y="345">missing source</text>
+            <path class="stop-line" d="M507 120 V420"></path>
+            <text class="edge-label" x="464" y="345">protected risk</text>
+            <path class="stop-line" d="M911 282 V420"></path>
+            <text class="edge-label" x="874" y="345">open lane</text>
+            <path class="stop-line" d="M709 282 V420"></path>
+            <text class="edge-label" x="676" y="345">veto</text>
+            <path class="stop-line" d="M305 282 V420"></path>
+            <text class="edge-label" x="258" y="345">no exact token</text>
+          </svg>
+        </figure>
+      </section>
+
+      <section id="switchboard" data-lane="flow risk_questions properties">
+        <h2>Decision Switchboard</h2>
+        <p class="section-intro">This table turns the graph into plain questions. It is the fastest way to understand how `goal` chooses PASS, STOP, BLOCK, or a next route.</p>
+        <div class="switchboard">
+          <table>
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>Continue when...</th>
+                <th>Stop or block when...</th>
+                <th>Next route</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Is the goal bound to a Craft scope and source ledger?</td>
+                <td class="decision">Yes: read the frontier.</td>
+                <td class="decision stop">No: BLOCK with <code>source-authority</code>.</td>
+                <td><code>decision-gate</code></td>
+              </tr>
+              <tr>
+                <td>Is each frontier node safely classified?</td>
+                <td class="decision">Allowed or read-only work can route.</td>
+                <td class="decision stop">Unknown or protected work becomes <code>T3</code> and STOPs with <code>t3-node</code>.</td>
+                <td><code>operator-approval</code></td>
+              </tr>
+              <tr>
+                <td>Does the route name owner, technique, receipt, gate, and fallback?</td>
+                <td class="decision">Dispatch through the owning capability.</td>
+                <td class="decision stop">Invalid route blocks before execution.</td>
+                <td><code>dispatch-spec</code></td>
+              </tr>
+              <tr>
+                <td>Did every delegated lane return a terminal receipt?</td>
+                <td class="decision">Audit the receipt evidence.</td>
+                <td class="decision stop">Open, missing, or unjoined lane blocks.</td>
+                <td><code>task-session</code> or reroute</td>
+              </tr>
+              <tr>
+                <td>Did audit accept the evidence?</td>
+                <td class="decision">Stage a proposed delta.</td>
+                <td class="decision stop">Audit veto blocks, even if work looks done.</td>
+                <td><code>audit-gate</code></td>
+              </tr>
+              <tr>
+                <td>Would the change mutate active ledger state?</td>
+                <td class="decision">Stage a delta and framed diff only.</td>
+                <td class="decision stop">Direct active ledger mutation blocks.</td>
+                <td><code>craft</code> after approval</td>
+              </tr>
+              <tr>
+                <td>Is there an exact approval token and durable decision record?</td>
+                <td class="decision">Ready for Craft apply.</td>
+                <td class="decision stop">Missing token is held; ambient approval or mismatch blocks.</td>
+                <td><code>decision-gate</code></td>
+              </tr>
+              <tr>
+                <td>Is the frontier empty and gap discovery enabled?</td>
+                <td class="decision">Run bounded gap discovery and queue proposals.</td>
+                <td class="decision stop">Stop at duplicate loop or budget ceiling.</td>
+                <td>next-slice proposal queue</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="stops" data-lane="risk_questions">
+        <h2>Stop Wall</h2>
+        <p class="section-intro">A stop is not always bad. In `goal`, a stop often means the control loop protected the ledger, the human approval boundary, or the source-authority boundary.</p>
+        <div class="stop-wall">
+          <div class="stop-card">
+            <strong>source-authority</strong>
+            <p>Goal cannot identify the Craft scope, source ledger, or selected context. It blocks before any round work.</p>
+          </div>
+          <div class="stop-card">
+            <strong>t3-node</strong>
+            <p>A node is protected or unknown risk. Neutral defaults treat unknown work as protected.</p>
+          </div>
+          <div class="stop-card">
+            <strong>route-validation</strong>
+            <p>The dispatch route does not name enough owner, technique, receipt, gate, or fallback evidence.</p>
+          </div>
+          <div class="stop-card">
+            <strong>receipt-closeout</strong>
+            <p>A delegated lane did not return terminal evidence: closed, blocked, timed out with reroute, or handed off.</p>
+          </div>
+          <div class="stop-card">
+            <strong>audit-veto</strong>
+            <p>Review evidence vetoes apparent progress. Audit can override the urge to close.</p>
+          </div>
+          <div class="stop-card">
+            <strong>approval-required</strong>
+            <p>A staged batch exists, but no exact approval token and durable decision record exist yet.</p>
+          </div>
+          <div class="stop-card">
+            <strong>ambient-approval</strong>
+            <p>General approval is not enough. The token must match the batch and carry a decision record.</p>
+          </div>
+          <div class="stop-card">
+            <strong>budget-ceiling</strong>
+            <p>The proportionality guard stops before exceeding configured turns, spawns, tokens, or no-progress budget.</p>
+          </div>
+          <div class="stop-card">
+            <strong>promotion-readiness</strong>
+            <p>Reusable promotion blocks without Experiment Harness evidence. Telemetry alone is not promotion.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="dependencies" data-lane="internal_dependencies external_dependencies">
+        <h2>Dependency Boundary</h2>
+        <p class="section-intro">Goal decides the control path, but other capabilities own major parts of the work. This boundary is what prevents the router from pretending to be every tool.</p>
+        <div class="dependency-map">
+          <div class="boundary">
+            <h3>Inside `goal`</h3>
+            <ul>
+              <li>Bind goal and source authority.</li>
+              <li>Read and freeze a frontier snapshot.</li>
+              <li>Classify risk fail-closed.</li>
+              <li>Assemble and validate route shape.</li>
+              <li>Join receipts and run audit gates.</li>
+              <li>Stage deltas as proposals.</li>
+              <li>Emit result and telemetry fields.</li>
+            </ul>
+          </div>
+          <div class="boundary">
+            <h3>Outside `goal`</h3>
+            <ul>
+              <li><code>arcana/craft</code> owns ledger reads and approved applies.</li>
+              <li><code>dispatch-spec</code> validates owner, technique, and receipt routes.</li>
+              <li><code>task-session</code> owns bounded execution evidence.</li>
+              <li><code>decision-gate</code> records approval or blocker decisions.</li>
+              <li><code>observability</code> records runtime signals without promotion.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="lifecycle" data-lane="lifecycle flow">
+        <h2>Round Lifecycle</h2>
+        <p class="section-intro">A goal round is not "keep working forever." It is a bounded pass through gates. Gap discovery runs only after the active frontier is empty and the caller opts in.</p>
+        <ol class="timeline">
+          <li>Bind</li>
+          <li>Read</li>
+          <li>Classify</li>
+          <li>Route</li>
+          <li>Audit</li>
+          <li>Stage / approve</li>
+        </ol>
+        <div class="panel-grid">
+          <div class="panel">
+            <strong>Normal progress</strong>
+            <p>Read-only or allowed work routes to an owner and returns terminal evidence. Audit passes, then a staged delta can be proposed.</p>
+          </div>
+          <div class="panel">
+            <strong>Batch ready</strong>
+            <p>Goal stops with a framed batch diff and waits. Promotion requires an exact approval token and decision record.</p>
+          </div>
+          <div class="panel">
+            <strong>Frontier empty</strong>
+            <p>If enabled, bounded gap discovery mines residue, dedupes proposals, and stops at the round budget or duplicate loop.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="terms" data-lane="surface properties">
+        <h2>Reader Terms</h2>
+        <p class="section-intro">Reader terms are explanatory, not new canonical definitions. Each term says why it matters and what misuse to avoid.</p>
+        <div class="terms">
+          <div class="term">
+            <strong>Fail-closed</strong>
+            <p>When unsure, stop or block instead of guessing permission.</p>
+            <p><b>Why it matters:</b> unknown risk, unclear authority, missing receipts, and missing approvals cannot slip through.</p>
+          </div>
+          <div class="term">
+            <strong>Frontier snapshot</strong>
+            <p>The frozen set of open nodes for one round.</p>
+            <p><b>Why it matters:</b> decisions are made against a bounded context, not a vague repo-wide feeling.</p>
+          </div>
+          <div class="term">
+            <strong>Risk tier</strong>
+            <p>A safety label for whether a node can route or must stop.</p>
+            <p><b>Why it matters:</b> unknown defaults to <code>T3</code>, so the system does not improvise protected work.</p>
+          </div>
+          <div class="term">
+            <strong>Staged delta</strong>
+            <p>A proposed ledger change, not an applied active row.</p>
+            <p><b>Why it matters:</b> work can be reviewed before it changes the source ledger.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="evidence" data-lane="visual_composition risk_questions">
+        <h2>Evidence And Inference Boundary</h2>
+        <p class="section-intro">This x-ray uses source-backed contract statements for behavior and marks visual layout as inference. That means the graph explains the contract; it is not a new runtime implementation.</p>
+        <div class="evidence-box">
+          <div>
+            <h3>source-backed</h3>
+            <ul>
+              <li>`goal` purpose, phases, gates, failure policy, and output contract.</li>
+              <li>Neutral decision-profile defaults.</li>
+              <li>Runtime skeleton classification and approval-boundary logic.</li>
+              <li>Fixture report results for pass, stop, and block examples.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>inference</h3>
+            <ul>
+              <li>The visual arrangement of nodes and stop branches.</li>
+              <li>The phrase "stop wall" as a reader aid.</li>
+              <li>The grouping of stop reasons into operator-facing categories.</li>
+              <li>The suggested mental model: "which designed stop protected the graph?"</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="outcomes" data-lane="visual_composition">
+        <h2>Reader Outcomes</h2>
+        <p class="section-intro">The page is successful when a reader can predict what `goal` will do before running it.</p>
+        <ul class="result-list">
+          <li><strong>Surface:</strong> understand `goal` as a fail-closed router, not a direct mutator.</li>
+          <li><strong>Flow:</strong> trace bind -> frontier -> risk -> route -> dispatch -> receipt -> audit -> stage -> approval.</li>
+          <li><strong>Dependencies:</strong> separate what `goal` owns from Craft, Dispatch Spec, Task Session, Decision Gate, and observability.</li>
+          <li><strong>Risk:</strong> explain stop reasons such as <code>source-authority</code>, <code>t3-node</code>, <code>audit-veto</code>, <code>ambient-approval</code>, and <code>budget-ceiling</code>.</li>
+          <li><strong>Renderer:</strong> confirm this is L0 static HTML/SVG and does not require Mermaid, Three.js, Kroki, or network rendering.</li>
+        </ul>
+      </section>
+
+      <section id="xray-result" data-lane="visual_composition">
+        <h2>x-ray Result</h2>
+        <ul class="result-list">
+          <li><strong>Status:</strong> pass</li>
+          <li><strong>Mode:</strong> process</li>
+          <li><strong>Target boundary:</strong> `goal` spell control loop, public decision profile defaults, runtime skeleton, and fixture results.</li>
+          <li><strong>User intent:</strong> explain the graph, visual decisions, and stop behavior of `goal`.</li>
+          <li><strong>Reader baseline:</strong> newcomer for prose, working-reader for labels.</li>
+          <li><strong>Output:</strong> `development/x-rays/goal-control-loop/goal-control-loop.html`</li>
+          <li><strong>Lane handles:</strong> surface.fail-closed-router; properties.decision-defaults; components.control-parts; dependencies.internal-control-spine; dependencies.external-owners; flow.stop-aware-decision-graph; lifecycle.round-and-gap-discovery; risk.stop-wall; visual.l0-static-graph.</li>
+          <li><strong>Layer interaction:</strong> stacked, isolate, compare, trace.</li>
+          <li><strong>Visual library:</strong> pattern.process-branch, pattern.dependency-boundary, pattern.lifecycle-stack, pattern.evidence-inference-split; shape.node, connector.arrow, connector.branch, connector.feedback-loop, chart.timeline-strip, chart.risk-matrix.</li>
+          <li><strong>Evidence boundary:</strong> source-backed behavior comes from `arcanum/spells/goal/README.md`, `decision-profile.schema`, `runtime/goal_loop.py`, and validation results; graph layout and stop-wall grouping are inference.</li>
+          <li><strong>Reader on-ramp:</strong> plain-language "cautious router" framing, reader terms, reader outcomes, and why it matters notes are included.</li>
+          <li><strong>Validation:</strong> intended for `python3 arcanum/arcana/x-ray/scripts/validate-xray-example.py --lanes development/x-rays/goal-control-loop/goal-control-loop.lanes.json --html development/x-rays/goal-control-loop/goal-control-loop.html`.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

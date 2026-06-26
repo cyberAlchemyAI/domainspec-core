@@ -37,8 +37,10 @@ path is where we plug in.
   **default-deny**: anything not explicitly enumerated stays blocked until a decision adds
   it. Your **Review Queue** *is* this promotion ladder — we map onto it, we don't add a
   parallel one.
-- **Authority-triage front door.** Every intake passes one question — "does writing this
-  govern future work?" — and routes to the **narrowest responsible owner**.
+- **Governed front door (triage on capture).** Every intake passes one question — "does
+  writing this govern future work?" — and routes to the **narrowest responsible owner**. In
+  the public base this is the inventory **evidence-card** `promotion_owner` + authority-state
+  model (raw source → candidate → owner-gated promotion).
 - **Scope-tags.** Each record carries exactly one scope: `user-memory`,
   `project-instructions`, `runtime-rules`, or `knowledge-store`. The queue reads per scope.
   One intake port spans many substrates by **tagging**, never by melting them together.
