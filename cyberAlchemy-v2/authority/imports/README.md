@@ -16,6 +16,7 @@ source becomes normative in CyberAlchemy v2 immediately.
 | --- | --- | --- |
 | [definitions/MANIFEST.md](definitions/MANIFEST.md) | Definition, glossary, taxonomy, relationship, and definition-governance sources. | 149 import candidates, 28 auxiliary/template/audit sources excluded from promotion. |
 | [constitutions/MANIFEST.md](constitutions/MANIFEST.md) | Constitution, axiom, quality-bar, and anti-pattern sources. | 106 import candidates, 3 constitution templates excluded from promotion. |
+| [resonantos-economy-research/README.md](resonantos-economy-research/README.md) | Standalone ResonantOS economy research repository import posture. | Active external research import; not CAV2 authority by proximity. |
 
 ## Import Rules
 
