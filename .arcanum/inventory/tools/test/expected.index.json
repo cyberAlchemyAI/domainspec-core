@@ -1,0 +1,104 @@
+{
+  "schema_version": "inventory.index.v0.1",
+  "inventory_root": ".arcanum/inventory",
+  "generated_at": "2026-06-29T12:00:00Z",
+  "human_index": "index.md",
+  "entries": [
+    {
+      "id": "seed-entry",
+      "path": "entries/seed.md",
+      "kind": "page",
+      "type": "concept",
+      "title": "Seed entry",
+      "summary": "A seed entry already in the index.",
+      "tags": [
+        "inventory"
+      ],
+      "sources": [],
+      "updated": "2026-01-01",
+      "status": "candidate",
+      "confidence": "high",
+      "selectors": [],
+      "evidence_card_ids": [],
+      "evidence_set_ids": [],
+      "residue": []
+    },
+    {
+      "id": "new-synthesis",
+      "path": "entries/new-synthesis.md",
+      "kind": "evidence-set-bundle",
+      "type": "synthesis",
+      "title": "New synthesis",
+      "summary": "Adds a new record deterministically.",
+      "tags": [
+        "inventory",
+        "knowledge-system"
+      ],
+      "sources": [
+        "raw/example.md#h1"
+      ],
+      "updated": "2026-06-29",
+      "status": "candidate",
+      "confidence": "medium",
+      "selectors": [],
+      "evidence_card_ids": [
+        "card-x"
+      ],
+      "evidence_set_ids": [
+        "evset-new"
+      ],
+      "residue": []
+    }
+  ],
+  "indexes": {
+    "by_id": {
+      "seed-entry": "entries/seed.md",
+      "new-synthesis": "entries/new-synthesis.md"
+    },
+    "by_type": {
+      "concept": [
+        "seed-entry"
+      ],
+      "synthesis": [
+        "new-synthesis"
+      ]
+    },
+    "by_tag": {
+      "inventory": [
+        "seed-entry",
+        "new-synthesis"
+      ],
+      "knowledge-system": [
+        "new-synthesis"
+      ]
+    },
+    "by_source": {
+      "raw/example.md#h1": [
+        "new-synthesis"
+      ]
+    },
+    "by_status": {
+      "candidate": [
+        "seed-entry",
+        "new-synthesis"
+      ]
+    },
+    "by_evidence_card": {
+      "card-x": [
+        "new-synthesis"
+      ]
+    },
+    "by_evidence_set": {
+      "old-form-set": "old-form-set",
+      "evset-new": [
+        "new-synthesis"
+      ]
+    }
+  },
+  "projections": [],
+  "validation": {
+    "parseable": true,
+    "source_coverage": "partial",
+    "validation_boundary": "inventory-read-model-only"
+  }
+}

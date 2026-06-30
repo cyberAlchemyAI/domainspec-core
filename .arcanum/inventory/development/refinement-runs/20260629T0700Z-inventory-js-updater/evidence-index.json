@@ -1,0 +1,30 @@
+{
+  "run_id": "20260629T0700Z-inventory-js-updater",
+  "owner": "refine",
+  "preset": "compact",
+  "research_mode": "no-research",
+  "subagent_strategy": "none",
+  "result": "pass",
+  "artifacts": [
+    {"role": "seed", "path": "REFINE-SEED-PROPOSAL.md", "owner": "refine", "exists": true},
+    {"role": "dispatch", "path": "REFINE-DISPATCH.json", "owner": "dispatch-spec", "exists": true, "validation_status": "accepted"},
+    {"role": "runtime-handoff", "path": "RUNTIME-HANDOFF.md", "owner": "refine", "exists": true},
+    {"role": "run-manifest", "path": "RUN-MANIFEST.md", "owner": "refine", "exists": true},
+    {"role": "result", "path": "RESULT.md", "owner": "refine", "exists": true}
+  ],
+  "stage_receipts": [
+    {"n": 1, "stage": "context-builder", "artifact": "REFINE-SEED-PROPOSAL.md", "verdict": "pass"},
+    {"n": 2, "stage": "invoke-define", "artifact": "RESULT.md", "verdict": "pass"},
+    {"n": 3, "stage": "interrogation-refine-review", "artifact": "REFINE-DISPATCH.json", "verdict": "pass"},
+    {"n": 4, "stage": "research-decision", "artifact": "REFINE-DISPATCH.json", "verdict": "pass"},
+    {"n": 5, "stage": "distill", "artifact": "REFINE-DISPATCH.json", "verdict": "pass"},
+    {"n": 6, "stage": "invoke-design", "artifact": "RESULT.md", "verdict": "pass"},
+    {"n": 7, "stage": "interrogation-refine-design-review", "artifact": "RESULT.md", "verdict": "pass"},
+    {"n": 8, "stage": "distill-repair", "artifact": "RESULT.md", "verdict": "pass"},
+    {"n": 9, "stage": "invoke-plan", "artifact": "RESULT.md", "verdict": "pass"},
+    {"n": 10, "stage": "final-interrogation-synthesis", "artifact": "RESULT.md", "verdict": "pass"}
+  ],
+  "overlays": ["baseline_sequence", "toy_game_for_low_cost_falsification"],
+  "deferred_next_route": "task-session",
+  "observability": {"group_by": "run_id", "emitted": false, "reason": "no .arcanum/observability package wired for refinement-runs"}
+}

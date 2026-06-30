@@ -20,6 +20,8 @@ Controlled tags for this package.
 | `observability` | Signals, run ledgers, reflection, or telemetry surfaces. |
 | `dispatch` | Subagent strategy, dispatch sheets, or dispatch ledger material. |
 | `dispatch-spec` | Dispatch Spec route, validation, or technique material. |
+| `strategy-result` | Result read model for a governed subagent strategy or dispatch, including P1 trigger, lanes, subagents, flow, gate, ledger state, and next/use outcome. |
+| `subagents` | Work that spawned, governed, or inventoried parallel/role-bound subagents and their closeout. |
 | `ontology-vault` | Ontology Vault branch maps, condensation, validation, or confidence material. |
 | `branch-map` | Business/system/bridge branch classification or map. |
 | `candidate-condensation` | Condensed candidate knowledge that has not been promoted. |
@@ -34,6 +36,8 @@ Controlled tags for this package.
 | `build-from-owned` | A candidate whose owner/precursor already exists in the repo, so the move is name/consolidate/deploy, never net-new invention. |
 | `definitions-governance` | Definitions Governance sigil, definition-owner route, or definition maintenance material. |
 | `constitution-governance` | Constitution Governance sigil, constitution-owner route, modular rule, or enforcement material. |
+| `discipline-governance` | Discipline Governance sigil, discipline catalog/card route, recurring-practice stewarding, or hardening-route material. |
+| `constitution-namespace` | The repo's four independent constitution ID-namespaces (DomainSpec `C1`–`C11` / research `RC1`–`RC3` / cav2 `CAV2-C*` / consumer-repo copies); only DomainSpec uses bare `C#`; collision latent-not-tripped (sweep-verified). |
 | `artifact-definition` | Candidate or canonical material about the base term `artifact`, its owner route, and its definition boundary. |
 | `governed-artifact` | Candidate governed-artifact primitive pressure, lifecycle-envelope/profile reuse, or its typed-negative resolution. |
 | `view-model` | Branch view, artifact tree, ontology projection, or other read-model material that must not become authority by view placement. |
@@ -93,6 +97,13 @@ Controlled tags for this package.
 | `golden-chain` | cyberAlchemy functor-stack-bet golden-chain toy game: chains, residue cards, scoring, claim-guard, bounded collapse. |
 | `dpi` | Data Processing Inequality framing: pure-chain residue is set by the worst bottleneck; source-grounding injection as the escape. |
 | `research` | Research dispatch deliverable, tower, or findings material. |
+| `ddd` | Domain-Driven Design concepts, aggregate boundaries, bounded contexts, or related modeling guidance. |
+| `event-sourcing` | Event-sourced persistence, append/precondition mechanics, event-store design, or event replay/streaming material. |
+| `process-manager` | Process manager, saga, workflow coordination, long-running process, or message-driven orchestration material. |
+| `uniqueness` | Uniqueness invariants, set-based validation, reservation/claim boundaries, unique indexes, or duplicate-prevention material. |
+| `long-context` | Long-context model behavior, context-window mechanics, visible-vs-usable context, or long-context evaluation. |
+| `attention` | Attention mechanisms, strict dense attention, sparse/approximate attention, or adjacent sequence-memory mechanisms. |
+| `parameter-efficiency` | Utility normalized by parameter count, cost, latency, energy, or other efficiency denominators. |
 | `ide-ergonomics` | IDE Ergonomics project material: the conversation-transition card and the federation of UX primitives over Arcanum workflows. |
 | `unified-spine` | The single organizing spine that unifies the IDE-Ergonomics primitive federation (three altitudes: restraint floor / latent dispatch grammar / lifecycle progression). |
 | `dispatch-composition` | Arcanum dispatch/composition machinery (necronomicon memory loop, spellcraft composition, dispatch-spec routes, the Dispatch Synthesis grammar) as source material. |

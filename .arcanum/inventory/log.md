@@ -1,5 +1,112 @@
 # Inventory Log
 
+## 2026-06-30 ingest — DDD process manager email uniqueness strategy result
+
+- Mode: ingest+backfill
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Sources processed: 3 (`research/ddd-event-sourcing/2026-06-30-process-manager-uniqueness/research.md`,
+  `research/ddd-event-sourcing/2026-06-30-process-manager-uniqueness/findings.md`,
+  `telemetry/agents/subagents-dispatch.yaml`)
+- Entries created: 1 synthesis entry
+- Entries updated: 0
+- Index updated: yes
+- Tags updated: yes (`ddd`, `event-sourcing`, `process-manager`, `uniqueness`)
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass (`git diff --check`, `index.json` parse, dispatch close row appended)
+- Notes: Backfilled the resolved research dispatch
+  `2026-06-30-ddd-process-manager-uniqueness` as a non-authority
+  strategy-result read model. The result records the P1 trigger, lanes,
+  subagents, dependency flow, double-PASS check-tension gate, registered/closed
+  ledger state, and auditor-accepted finding: process managers coordinate
+  mutable-email workflows, while hard uniqueness belongs to a write-side
+  per-key claim, stream/subject precondition, inline unique index, or external
+  unique reservation/claim table.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/ddd-process-manager-email-uniqueness-strategy-result-synthesis.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/tags.md`
+- `.arcanum/inventory/log.md`
+- `research/ddd-event-sourcing/2026-06-30-process-manager-uniqueness/research.md`
+- `research/ddd-event-sourcing/2026-06-30-process-manager-uniqueness/findings.md`
+- `telemetry/agents/subagents-dispatch.yaml`
+
+## 2026-06-30 ingest — repository development artifact cleanup strategy result
+
+- Mode: ingest+backfill
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Sources processed: 3 (`ops/development/repository-artifact-cleanup/20260630-watch-limit-research/research.md`,
+  `ops/development/repository-artifact-cleanup/20260630-watch-limit-research/findings.md`,
+  `telemetry/agents/subagents-dispatch.yaml`)
+- Entries created: 1 synthesis entry
+- Entries updated: 0
+- Index updated: yes
+- Tags updated: yes (`discipline-governance` controlled tag added)
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass (`git diff --check`, `index.json` parse, inventory index validator)
+- Notes: Backfilled the resolved research dispatch
+  `2026-06-30-repository-development-artifact-cleanup-research` as a
+  non-authority strategy-result read model. The result records the P1 trigger,
+  lanes, subagents, dependency flow, revised double-PASS check-tension gate,
+  registered/closed ledger state, and auditor-accepted finding: immediate VS
+  Code relief is workspace watcher/search exclusion, while durable cleanup
+  should be build-from-owned as a preservation-led dry-run gate that classifies
+  artifacts, proves successors, preserves open packets, and routes destructive
+  apply work to later owner-scoped task-session.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/repository-development-artifact-cleanup-strategy-result-synthesis.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/tags.md`
+- `.arcanum/inventory/log.md`
+- `ops/development/repository-artifact-cleanup/20260630-watch-limit-research/research.md`
+- `ops/development/repository-artifact-cleanup/20260630-watch-limit-research/findings.md`
+- `telemetry/agents/subagents-dispatch.yaml`
+
+## 2026-06-29 ingest — high-attention low-parameter research strategy result
+
+- Mode: ingest+backfill
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Sources processed: 3 (`research/high-attention-low-parameter-models/research.md`,
+  `research/high-attention-low-parameter-models/findings.md`,
+  `telemetry/agents/subagents-dispatch.yaml`)
+- Entries created: 1 synthesis entry
+- Entries updated: 0
+- Index updated: yes
+- Tags updated: yes (`strategy-result`, `subagents`, `long-context`,
+  `attention`, `parameter-efficiency`)
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass (`git diff --check`, `index.json` parse,
+  observability JSONL parse, duplicate-id check, lookup tag/source checks)
+- Notes: Backfilled the resolved research dispatch
+  `2026-06-29-high-attention-low-parameter-models` as a non-authority
+  strategy-result read model. The result records the P1 trigger, lanes,
+  subagents, dependency flow, double-PASS check-tension gate, registered/closed
+  ledger state, and auditor-approved finding: small models can expose large
+  visible context, but usable context remains empirical; the buildable lane is a
+  parameter-normalized usable-context harness, not a novelty claim about owned
+  long-context mechanisms.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/high-attention-low-parameter-models-strategy-result-synthesis.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/tags.md`
+- `.arcanum/inventory/log.md`
+- `.arcanum/observability/by-sigil/inventory.jsonl`
+- `.arcanum/observability/signals/sigil-invocations.jsonl`
+
 ## 2026-06-22 Authority, provenance, traceability, gate, claim <= proof, and intent definitions-governance sync
 
 - Mode: definitions-governance promotion sync
@@ -1200,3 +1307,52 @@ Artifacts:
 - Handoff created (1, outside inventory): cyberAlchemy-v2/development/2026-06-26-TO-VICTOR-catch-up-guide.md — human onboarding guide (60-sec picture, mental model, determinism plan, where-we-are, queue, reading path, ground rules). INTERNAL; engine algorithm deliberately omitted.
 - Index: index.json 93 -> 94 (by_id/by_type.synthesis/by_status.candidate/by_tag/by_source updated; jq parse OK); index.md +1 Entries row; tags.md unchanged (all 7 tags defined — no dangling).
 - Validation: pass. Authority boundary: candidate read-models; owners = sigil-development / definitions-governance / constitution-governance. Promotes nothing.
+
+## 2026-06-28 — ingest (2 dispatch findings: kodamai correctness layer + FOL constitution validation)
+
+- Mode: ingest (build-from-owned sweep first; 2 new synthesis entries, cross-linked, no duplication).
+- Build-from-owned sweep: kodamai/smithe/agent⊨spec = NO existing coverage (net-new). FOL-constitution = REFINES existing [[deterministic-validation-for-all-cav2-synthesis]] (which already held "every rule = SMT query" + "SMT non-thinness witness = FOL shadow of functorial_strictly_dominates_count"). Filed as a separate cross-linked entry (owner choice 2026-06-28), not folded — keeps the dispatch↔entry trace.
+- Entry created (1): entries/kodamai-smithe-correctness-layer-synthesis.md — Kodamai = Smithe's co (CTO); substrate build-from-owned, the agent⊨spec verifier = unpublished moat; we own 2 sorry-free halves (AgentPermissionKernel sound judgment + FunctorialResidueStructure functor) in provably-disjoint files → bridge = first target; collapse-test inline. INTERNAL/moat-adjacent.
+- Entry created (1): entries/fol-constitution-validation-complement-synthesis.md — sharpens the SMT-validation entry into 3 fibres (Row1 owned/relabel · Row2 cross-rule = open residue · Row3 categorical/FOL-blind); Gödel witness (governs-cycle vs CAV2-C13 the per-rule lint can't state); COMPLEMENT not fork; tightest tool Cedar (Lean-verified); first step + axiom⊨rule residue + collapse-test. Cross-links the kodamai entry. INTERNAL/moat-adjacent.
+- Index: index.json 94 → 96 (by_id/by_type.synthesis/by_status.candidate/by_tag/by_source updated; jq parse OK, .entries length = 96); index.md +2 Entries rows; tags.md unchanged (all tags — category-theory, formalization, commercialization, defensibility, claim-le-proof, build-from-owned, cav2, authority, determinism, constitution-governance, moat — already defined, no dangling).
+- Provenance: both dispatches closed `resolved` (final_approvers Loregian / Bourbaki); full findings + agent returns in their working_folders.
+- Validation: pass. Authority boundary: candidate read-models; owners = lean-formalization theorem route / sigil-development / definitions-governance / constitution-governance. Promotes nothing. Both INTERNAL — moat-adjacent, not for public arcanum/.
+
+## 2026-06-29 — query (filed synthesis: constitution namespaces + AXIOMS→CONSTITUTION system role)
+
+- Mode: query (answer filed as durable reference synthesis) + one read-only cross-wiring sweep
+- Question: importance/role/unblocks/alternatives of the DomainSpec `AXIOMS→CONSTITUTION` governance unit for cav2/machine-map/saturn — surfaced a `CONSTITUTION` mis-pairing en route.
+- Sweep (1 read-only Explore investigate, this session): audited every `C1`–`C17`/`CAV2-C*`/`RC1`–`RC3`/bare-"constitution" reference across the repo. Verdict: collision **LATENT not TRIPPED** — zero cross-wired refs; cav2 (`CAV2-C*`) + research (`RC*`) are prefixed/self-disambiguating; only `AXIOMS.md` writes bare unlinked `C#` (locally unambiguous). 4th namespace confirmed: consumer repos (`projects/*/domainspec/`) carry own `C1`–`C11` copies.
+- Correction: `AXIOMS` A1–A6 govern the **sibling** `implementation/domainspec/CONSTITUTION.md` (C1–C11, with an `L4 Axiom` column), NOT `research/projects/domainspec/definitions/CONSTITUTION.md` (RC1–RC3). The file pairing in the original `/domainspec-subagents-strategy` call was wrong.
+- Entry created (1): `entries/constitution-namespaces-and-axioms-role-synthesis.md` — namespace map + the importance table (cav2 structural-not-governing / machine-map high / saturn high-intent-low-live) + through-line (only computable governance exemplar with CI teeth). Grounded in machine-map-and-moat + SATURN-LAYER-MAP + cav2-authority-synthesis. INTERNAL (cav2/Saturn private).
+- Residue carried (not resolved): the AUTHORITY-MAP-vs-GOVERNANCE-ATTENUATION "CONSTITUTION exists vs S5 missing" contradiction (cav2-owner question); Saturn intended-not-shipped; the `AXIOMS` disambiguation note proposed-not-applied.
+- Index: index.json 96 → 97 (by_id/by_type.synthesis/by_status.candidate/by_tag/by_source updated; jq parse OK); index.md +1 Entries row + Last-updated bump; tags.md +1 (`constitution-namespace`; cav2/authority/constitution-governance/saturn/machine-map/claim-le-proof/build-from-owned already defined).
+- Validation: pass (jq parse OK). Authority boundary: candidate read-model; owners = DomainSpec implementation-governance / cav2 authority. Promotes nothing.
+
+## 2026-06-29 — ingest (2 entries: the Mint/foundry experiment arc + the attestation moat MVP)
+
+- Mode: ingest (build-from-owned sweep first; 2 net-new synthesis entries, cross-linked).
+- Build-from-owned sweep: no dedicated entry existed for the Mint feature, the foundry experiments, or the attestation capability. Entry A is a REFINEMENT of [[machine-map-and-moat-synthesis]] (its "two-System-5 boundary = analogy, not repo-cited fact" was empirically TESTED by the experiments); Entry B cross-links the moat thread [[kodamai-smithe-correctness-layer-synthesis]] + [[moat-stack-and-authority-triage-synthesis]].
+- Entry created (1): entries/mint-foundry-content-autonomy-synthesis.md — the 2-experiment result: KIND-level Obs-A FALSIFIED (research kinds = re-skins) → CONTENT-level Obs-A′ SURVIVED all 3 (research ≥3 carriers). Finding: foundry works for ALL domain classes under content-localization autonomy (not new-kind). Meta-lesson: pre-registration + independent skeptic caught the strategist's errors 3×.
+- Entry created (1): entries/attestation-capability-moat-mvp-synthesis.md — the attestation/signer capability; L1 integrity-seal BUILT + demonstrated (discriminating verify: untampered=valid AND content-mutated=tampered on a real cav2 decision record); L0 owned/L1 MVP/L2 moat-deferred; demonstration-over-assertion (the Kodamai edge); gates Mint L2; cite-results-withhold-mechanism.
+- Index: index.json 98 → 100 (by_id/by_type.synthesis/by_status.candidate/by_tag/by_source; jq OK, .entries=100); index.md +2 Entries rows; tags.md unchanged (machine-map/moat/attestation/commercialization/defensibility/claim-le-proof/build-from-owned/cav2/authority all defined).
+- Provenance: arc closed `resolved` — both foundry runs + the attestation L1 task-session; full artifacts under cyberAlchemy-v2/development/mint/ + .../attestation-capability/.
+- Validation: pass. Authority boundary: candidate read-models; owners = cav2 authority / sigil-development / commercialization. Promotes nothing. Both INTERNAL — moat-adjacent.
+
+## 2026-06-29 — ingest (evidence-cards + EvidenceSet: the foundry Obs-A/A′ rows + attestation demo)
+
+- Mode: ingest (selector-level cards backing the two 2026-06-29 synthesis entries, for context-builder reuse).
+- Entry created (1): entries/evidence-cards/2026-06-29-mint-foundry-experiments-cards.md — 5 cards: obs-a-kind-level-falsified-research · obs-a-prime-content-level-survived · obs-a-was-wrong-proxy-correction · obs-b-c-held-all-domains-both-runs · prereg-caught-author-errors-3x. Source-backed to the two run findings + the minted spines.
+- Entry created (1): entries/evidence-cards/2026-06-29-attestation-moat-mvp-cards.md — 2 cards: attestation-l1-discriminating-verify-passes · attestation-moat-upgrade-ladder. cite-results-withhold-mechanism (results, not mechanism).
+- Entry created (1): entries/evidence-sets/2026-06-29-mint-foundry-experiments-sets.md — EvidenceSet evset-mint-foundry-obs-verdicts grouping the 5 foundry cards; handoff_target=context-builder; index_terms for the Obs-A/A′ rows.
+- Index: index.json 100 → 103 (by_id/by_type.evidence-card+evidence-set/by_status.candidate/by_tag/by_source + by_evidence_card (7 ids) + by_evidence_set (1 id); jq OK, .entries=103); index.md +3 Entries rows; tags.md unchanged (evidence-card/evidence-set + carried tags all defined).
+- Validation: pass. Authority boundary: candidate read-models; owners = cav2 authority / sigil-development / commercialization. Promotes nothing. INTERNAL — moat-adjacent.
+
+## 2026-06-30 - query (filed synthesis: ontology population from inventory)
+
+- Mode: query (answer filed as durable synthesis)
+- Question: "research in the inventory so we can understand how we are going populate ontology."
+- Entry created (1): entries/ontology-population-from-inventory-synthesis.md - inventory-backed population method: source selector -> evidence card / EvidenceSet -> ontology candidate -> PromotionRecord -> governed node/projection -> generated read models. It records the first population run, ontology-vault handoff packet shape, lookup handles, and no-promotion guardrails.
+- Lookup handles carried: evset-knowledge-governance-stack; evset-caol-nonvacuity-witness-path; evset-authority-node-record-slice; evset-authority-node-schema-evolution-open-link; evset-scientific-authority-lifecycle-provenance-relations; entries-authority-ontology-governed-artifact-synthesis; entries-ontology-operationalization-in-the-machine-synthesis; entries-cav2-ontology-authority-organizing-synthesis.
+- Index: index.json 104 -> 105 (by_id/by_type.synthesis/by_status.candidate/by_tag/by_source + by_evidence_set updated; jq parse OK); index.md +1 Entries row + Last-updated bump; tags.md unchanged (all tags already defined).
+- Validation: pass. Authority boundary: candidate Inventory read model; owners = ontology-vault / cav2 authority / definitions-governance / decision-gate. Promotes nothing.

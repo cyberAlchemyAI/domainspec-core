@@ -1,7 +1,7 @@
 {
   "schema_version": "inventory.index.v0.1",
   "inventory_root": ".arcanum/inventory",
-  "generated_at": "2026-06-26T18:36:39Z",
+  "generated_at": "2026-06-30T11:08:23Z",
   "human_index": "index.md",
   "entries": [
     {
@@ -2882,6 +2882,473 @@
         "absolute non-thinness = review frontier",
         "intended-not-shipped: zero validators today"
       ]
+    },
+    {
+      "id": "entries-kodamai-smithe-correctness-layer-synthesis",
+      "path": "entries/kodamai-smithe-correctness-layer-synthesis.md",
+      "kind": "page",
+      "type": "synthesis",
+      "title": "Kodamai / Smithe — the agent correctness layer, its moat, and our leapfrog lane",
+      "summary": "Kodamai Ltd is Toby St Clere Smithe's company (co-founder/CTO; arXiv:2603.09431 = Kodamai affiliation; co-founder Ghani resigned pre-launch). Claim decomposition: the categorical substrate (Bayesian lenses, poly-functor interfaces) is build-from-owned (Spivak-Niu/Myers/optics); the verifier — a categorical agent⊨spec satisfaction judgment + soundness theorem, and 'at scale' — is published NOWHERE (the unpublished moat). 'denotational' is honorific; 'provably correct' = 'well-typed' minus the soundness theorem. WE own two sorry-free halves in provably-disjoint files: AgentPermissionKernel.lean (sound decidable judgment on the tool-call surface — more verifier than Smithe published) + FunctorialResidueStructure.lean (genuine functor, but over knowledge-residue not agents). First target = the bridge (agent denotation + sound ⟦A⟧⊨φ on one object). Collapse-test: if agent⊨spec reduces to decidePolicy with no functorial content, the categorical framing adds nothing. Claim≤proof: unpublished≠absent-internally. Moat-adjacent.",
+      "tags": [
+        "inventory",
+        "synthesis",
+        "category-theory",
+        "formalization",
+        "commercialization",
+        "defensibility",
+        "claim-le-proof",
+        "build-from-owned"
+      ],
+      "sources": [
+        "domainspec-lean-formalization/research-ai/kodamai-correctness-layer/research/findings.md",
+        "domainspec-lean-formalization/lean-engineer/AgentPermissionKernel.lean",
+        "domainspec-lean-formalization/lean-formalization/FunctorialResidueStructure.lean",
+        "domainspec-lean-formalization/SMITHE-2024-AUDIT.md"
+      ],
+      "updated": "2026-06-28",
+      "status": "candidate",
+      "confidence": "high",
+      "selectors": [],
+      "evidence_card_ids": [],
+      "evidence_set_ids": [],
+      "residue": [
+        "unpublished != absent-internally (unknowable from corpus)",
+        "'at scale' has zero mathematical referent",
+        "bridge is intended/buildable, not built"
+      ]
+    },
+    {
+      "id": "entries-fol-constitution-validation-complement-synthesis",
+      "path": "entries/fol-constitution-validation-complement-synthesis.md",
+      "kind": "page",
+      "type": "synthesis",
+      "title": "FOL constitution-validation is a bounded COMPLEMENT — the cross-rule (Row-2) residue",
+      "summary": "Build-from-owned refinement of deterministic-validation-for-all-cav2-synthesis. Sharpens the single 'every rule = SMT query' register into THREE fibres: Row 1 (per-rule r⊨rule) already owned in Lean (decidePolicy_sound) -> FOL here is a RELABEL; Row 2 (cross-rule: consistency/contradiction/∃state.state⊨whole-constitution) = the genuine OPEN residue, proof-theoretically non-distributive so a per-rule ∀rule.lint sweep cannot state it; Row 3 (residue/behavior gluing) categorical, FOL provably blind (count_blind_agrees). Witness (Gödel): a governs-cycle across three lint-clean CAV2-C nodes that per-rule C-1..C-3 pass but cross-rule reach(X,X) catches — and CAV2-C13 (lines 247-271) already mandates that acyclicity, so we can't enforce our own rule. Register verdict: COMPLEMENT (not fork, not subsume) to the categorical agent⊨spec prize — FOL owns discrete governance (Row 2), categorical owns residue (Row 3). Tightest tool = Cedar (Lean-verified, arXiv:2403.04651, shares trust base); Datalog/PCAS-FORGE (arXiv:2602.16708) blueprint. Buildable first step = formalize governs-acyclicity+CAV2-C13 in Cedar/Datalog. Narrow open residue = encode axioms A1-A6 as formulae for axiom⊨rule (collapse-test: vacuous if axiom is the rule restated). Intended-not-shipped.",
+      "tags": [
+        "inventory",
+        "cav2",
+        "authority",
+        "determinism",
+        "constitution-governance",
+        "build-from-owned",
+        "formalization",
+        "synthesis"
+      ],
+      "sources": [
+        "cyberAlchemy-v2/development/research/2026-06-28-constitution-fol-validation-path/findings.md",
+        ".arcanum/inventory/entries/deterministic-validation-for-all-cav2-synthesis.md",
+        "cyberAlchemy-v2/authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md",
+        "implementation/domainspec/AXIOMS.md"
+      ],
+      "updated": "2026-06-28",
+      "status": "candidate",
+      "confidence": "high",
+      "selectors": [],
+      "evidence_card_ids": [],
+      "evidence_set_ids": [],
+      "residue": [
+        "Row-2 build-from-owned on Cedar/Datalog; A1-A6 encoding = the one novel-attempt + collapse-test",
+        "absolute non-thinness stays the categorical Row-3 review frontier",
+        "intended-not-shipped"
+      ]
+    },
+    {
+      "id": "entries-constitution-namespaces-and-axioms-role-synthesis",
+      "path": "entries/constitution-namespaces-and-axioms-role-synthesis.md",
+      "kind": "entry",
+      "type": "synthesis",
+      "title": "entries/constitution-namespaces-and-axioms-role-synthesis.md",
+      "summary": "Two results. (1) The repo's FOUR constitution namespaces, only DomainSpec uses bare C#: implementation/domainspec/CONSTITUTION.md C1-C11 (governed by AXIOMS A1-A6, sibling); research RC1-RC3; cav2 CAV2-C*/CAV2-VC* (prefixed); consumer repos carry own C1-C11 copies. Sweep verdict: collision LATENT not TRIPPED, zero cross-wiring (kodamai/cav2-authority cite cav2's own CAV2-C*). Mis-pairing correction: AXIOMS pairs with its sibling CONSTITUTION.md, NOT the research RC file. (2) AXIOMS->CONSTITUTION importance: cav2 = structural-not-governing (object-S5 one recursion below cav2's meta-S5); machine-map = high (object baseline + A4 observer-executor-split IS its central correction); saturn = high-intent/low-live (intent-layer loop-contract; Saturn intended-not-shipped). The unit = the system's only computable governance exemplar with CI teeth. Open contradiction carried: AUTHORITY-MAP 'CONSTITUTION exists' vs GOVERNANCE-ATTENUATION 'S5 missing'.",
+      "tags": [
+        "inventory",
+        "cav2",
+        "authority",
+        "constitution-governance",
+        "constitution-namespace",
+        "saturn",
+        "machine-map",
+        "claim-le-proof",
+        "build-from-owned"
+      ],
+      "sources": [
+        "implementation/domainspec/AXIOMS.md",
+        "implementation/domainspec/CONSTITUTION.md",
+        "research/projects/domainspec/definitions/CONSTITUTION.md",
+        "cyberAlchemy-v2/authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md",
+        "ops/development/2026-06-21-paper-saturn-explainer/SATURN-LAYER-MAP.md",
+        ".arcanum/inventory/entries/machine-map-and-moat-synthesis.md",
+        "cyberAlchemy-v2/development/research/2026-06-25-cav2-authority-synthesis/findings.md"
+      ],
+      "updated": "2026-06-29",
+      "status": "candidate",
+      "confidence": "high",
+      "selectors": [],
+      "evidence_card_ids": [],
+      "evidence_set_ids": [],
+      "residue": [
+        "Open: AUTHORITY-MAP 'CONSTITUTION exists' vs GOVERNANCE-ATTENUATION 'S5 missing' -- does this unit fill cav2's System-5 slot (cav2-owner question)",
+        "Saturn intended-not-shipped -- the unit's Saturn role is aspirational; today it governs only DomainSpec's own implementation",
+        "AXIOMS disambiguation note proposed-not-applied (owner approval pending)"
+      ]
+    },
+    {
+      "id": "entries-high-attention-low-parameter-models-strategy-result-synthesis",
+      "path": "entries/high-attention-low-parameter-models-strategy-result-synthesis.md",
+      "kind": "entry",
+      "type": "synthesis",
+      "title": "High-Attention Low-Parameter Models Strategy Result",
+      "summary": "Strategy-result read model for dispatch 2026-06-29-high-attention-low-parameter-models: small models can expose large visible context, usable context remains empirical, and the buildable lane is a parameter-normalized usable-context harness rather than a novelty claim about existing mechanisms.",
+      "tags": [
+        "strategy-result",
+        "dispatch",
+        "subagents",
+        "research",
+        "long-context",
+        "attention",
+        "parameter-efficiency",
+        "claim-le-proof"
+      ],
+      "sources": [
+        "research/high-attention-low-parameter-models/research.md",
+        "research/high-attention-low-parameter-models/findings.md",
+        "telemetry/agents/subagents-dispatch.yaml"
+      ],
+      "updated": "2026-06-29",
+      "status": "candidate",
+      "confidence": "high",
+      "selectors": [
+        "## Strategy Summary",
+        "## Result",
+        "## Downstream Use",
+        "## Residue"
+      ],
+      "evidence_card_ids": [],
+      "evidence_set_ids": [],
+      "residue": [
+        "Harness not implemented; no benchmark fixtures or model runs executed.",
+        "Million-token small-model usable-context claims remain unproven."
+      ]
+    },
+    {
+      "id": "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis",
+      "path": "entries/ddd-process-manager-email-uniqueness-strategy-result-synthesis.md",
+      "kind": "entry",
+      "type": "synthesis",
+      "title": "entries/ddd-process-manager-email-uniqueness-strategy-result-synthesis.md",
+      "summary": "Strategy-result read model for dispatch `2026-06-30-ddd-process-manager-uniqueness`: process managers coordinate mutable-email workflows, but hard uniqueness belongs to a write-side per-key claim, stream/subject precondition, inline unique index, or external unique reservation/claim table.",
+      "tags": [
+        "inventory",
+        "strategy-result",
+        "dispatch",
+        "subagents",
+        "research",
+        "ddd",
+        "event-sourcing",
+        "process-manager",
+        "uniqueness",
+        "claim-le-proof",
+        "idempotency"
+      ],
+      "sources": [
+        "research/ddd-event-sourcing/2026-06-30-process-manager-uniqueness/research.md",
+        "research/ddd-event-sourcing/2026-06-30-process-manager-uniqueness/findings.md",
+        "telemetry/agents/subagents-dispatch.yaml"
+      ],
+      "updated": "2026-06-30",
+      "status": "candidate",
+      "confidence": "medium",
+      "selectors": [
+        "dispatch:2026-06-30-ddd-process-manager-uniqueness",
+        "working_folder:research/ddd-event-sourcing/2026-06-30-process-manager-uniqueness/",
+        "result:process-manager-coordinates-uniqueness-enforced-write-side"
+      ],
+      "evidence_card_ids": [],
+      "evidence_set_ids": [],
+      "residue": [
+        "No implementation or schema was changed by this research dispatch.",
+        "Privacy/legal policy for old-email retention and tombstones remains domain-specific.",
+        "Event-store capabilities must be verified against the deployed product/version."
+      ]
+    },
+    {
+      "id": "entries-mint-foundry-content-autonomy-synthesis",
+      "path": "entries/mint-foundry-content-autonomy-synthesis.md",
+      "kind": "page",
+      "type": "synthesis",
+      "title": "Mint / Foundry — content-autonomy holds for ALL domain classes (two-experiment result)",
+      "summary": "The Mint feature's two pre-registered experiments. Run 1 (KIND-level Obs-A) FALSIFIED — research(resonantos) kinds are re-skins of cav2 meta-kinds; process+product pass with new kinds. Correction: new-KIND was the wrong proxy (the design inherits kind-TYPES, localizes CONTENT). Run 2 (CONTENT-level Obs-A') SURVIVED all 3 — research HOLDS via >=3 carriers (Failure-Corpus-First, reputation-economy axes, Economy-Resilience). Finding: the foundry works for ALL domain classes when autonomy = content-localization+no-leak+non-circular, NOT 'invents a new kind'; object domains expand, methodological domains inherit-kinds+localize-content (narrow but robust). Refines machine-map's two-System-5 boundary (now empirically tested). Meta-lesson: pre-registration + independent skeptic caught the strategist's errors 3x; claim<=proof held under pressure. INTERNAL/moat-adjacent, intended-not-shipped.",
+      "tags": [
+        "inventory",
+        "synthesis",
+        "machine-map",
+        "cav2",
+        "authority",
+        "claim-le-proof",
+        "build-from-owned"
+      ],
+      "sources": [
+        "cyberAlchemy-v2/development/mint/experiment-foundry-boundary/run/findings.md",
+        "cyberAlchemy-v2/development/mint/experiment-content-autonomy/run-findings.md",
+        "cyberAlchemy-v2/development/mint/SPEC.md",
+        ".arcanum/inventory/entries/machine-map-and-moat-synthesis.md"
+      ],
+      "updated": "2026-06-29",
+      "status": "candidate",
+      "confidence": "high",
+      "selectors": [],
+      "evidence_card_ids": [],
+      "evidence_set_ids": [],
+      "residue": [
+        "Mint intended-not-shipped (L2 blocked on attestation capability; public mints deferred)",
+        "research content-autonomy is narrow (most rules are cav2's rigor relabeled)",
+        "machine-map two-System-5 still candidate, now empirically supported"
+      ]
+    },
+    {
+      "id": "entries-attestation-capability-moat-mvp-synthesis",
+      "path": "entries/attestation-capability-moat-mvp-synthesis.md",
+      "kind": "page",
+      "type": "synthesis",
+      "title": "Attestation capability — the moat MVP (L1 integrity-seal, BUILT + demonstrated)",
+      "summary": "A NEW cav2 capability greenlit 2026-06-29 (attestation-is-the-moat bet); its L1 rung is BUILT and demonstrated. attest(governance-act)->{header,artifact_sha256,seal} + a runnable verify(artifact,claimed)->valid|tampered (decidable+total, recomputes from claimed state, inherits the kernel's decidePolicy_sound discipline). Upgrade ladder: L0 attributional record (owned) -> L1 integrity-seal (MVP, BUILT — discriminating self-test PASSES: verify(untampered)=valid AND verify(content-mutated)=tampered on a real cav2 decision record) -> L2 external signature (the moat, intended-not-shipped). Differentiator = demonstration over assertion (a runnable verifier+specimen, the exact Kodamai edge). Gates Mint L2. cite-results-withhold-mechanism: results demonstrable, mechanism (attest.py) private. INTERNAL/moat-adjacent.",
+      "tags": [
+        "inventory",
+        "synthesis",
+        "moat",
+        "attestation",
+        "commercialization",
+        "defensibility",
+        "claim-le-proof",
+        "build-from-owned"
+      ],
+      "sources": [
+        "cyberAlchemy-v2/development/attestation-capability/SPEC.md",
+        "cyberAlchemy-v2/development/attestation-capability/SKILL.md",
+        "cyberAlchemy-v2/development/attestation-capability/development/specimen/DEMO.md",
+        "cyberAlchemy-v2/authority/decisions/2026-06-29-mint-signer-and-boundary.md"
+      ],
+      "updated": "2026-06-29",
+      "status": "candidate",
+      "confidence": "high",
+      "selectors": [],
+      "evidence_card_ids": [],
+      "evidence_set_ids": [],
+      "residue": [
+        "L0 owned, L1 MVP built, L2 (external signature) intended-not-shipped (the net-new moat work, gated on actor-identity decision)",
+        "mechanism stays private (cite-results-withhold-mechanism)"
+      ]
+    },
+    {
+      "id": "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards",
+      "path": "entries/evidence-cards/2026-06-29-mint-foundry-experiments-cards.md",
+      "kind": "evidence-card-bundle",
+      "type": "evidence-card",
+      "title": "Evidence Cards — Mint/Foundry experiments (Obs-A / Obs-A′ rows)",
+      "summary": "5 source-backed cards from the two foundry experiments: KIND-level Obs-A FALSIFIED (research re-skins) / CONTENT-level Obs-A′ SURVIVED (research ≥3 carriers) / new-KIND-was-wrong-proxy correction / Obs-B+C held all domains both runs / pre-registration caught the author's errors 3×.",
+      "tags": [
+        "inventory",
+        "evidence-card",
+        "machine-map",
+        "cav2",
+        "authority",
+        "claim-le-proof",
+        "build-from-owned"
+      ],
+      "sources": [
+        "cyberAlchemy-v2/development/mint/experiment-foundry-boundary/run/findings.md",
+        "cyberAlchemy-v2/development/mint/experiment-content-autonomy/run-findings.md",
+        "cyberAlchemy-v2/development/mint/SPEC.md",
+        "cyberAlchemy-v2/authority/AUTHORITY-MODEL.md"
+      ],
+      "updated": "2026-06-29",
+      "status": "candidate",
+      "confidence": "high",
+      "selectors": [],
+      "evidence_card_ids": [
+        "obs-a-kind-level-falsified-research",
+        "obs-a-prime-content-level-survived",
+        "obs-a-was-wrong-proxy-correction",
+        "obs-b-c-held-all-domains-both-runs",
+        "prereg-caught-author-errors-3x"
+      ],
+      "evidence_set_ids": [],
+      "residue": [
+        "research content-autonomy is narrow",
+        "verdicts rule-forced under frozen criteria"
+      ]
+    },
+    {
+      "id": "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards",
+      "path": "entries/evidence-cards/2026-06-29-attestation-moat-mvp-cards.md",
+      "kind": "evidence-card-bundle",
+      "type": "evidence-card",
+      "title": "Evidence Cards — Attestation capability (moat MVP)",
+      "summary": "2 cards: L1 discriminating-verify PASSES (untampered=valid AND content-mutated=tampered on a real cav2 decision record; sound, non-vacuous); the L0-owned/L1-built/L2-moat-deferred upgrade ladder (demonstration-over-assertion, gates Mint L2). cite-results-withhold-mechanism.",
+      "tags": [
+        "inventory",
+        "evidence-card",
+        "moat",
+        "attestation",
+        "commercialization",
+        "defensibility",
+        "claim-le-proof",
+        "build-from-owned"
+      ],
+      "sources": [
+        "cyberAlchemy-v2/development/attestation-capability/development/specimen/DEMO.md",
+        "cyberAlchemy-v2/development/attestation-capability/attest.py",
+        "cyberAlchemy-v2/development/attestation-capability/SKILL.md"
+      ],
+      "updated": "2026-06-29",
+      "status": "candidate",
+      "confidence": "high",
+      "selectors": [],
+      "evidence_card_ids": [
+        "attestation-l1-discriminating-verify-passes",
+        "attestation-moat-upgrade-ladder"
+      ],
+      "evidence_set_ids": [],
+      "residue": [
+        "L1 built; L2 intended-not-shipped"
+      ]
+    },
+    {
+      "id": "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets",
+      "path": "entries/evidence-sets/2026-06-29-mint-foundry-experiments-sets.md",
+      "kind": "evidence-set-bundle",
+      "type": "evidence-set",
+      "title": "EvidenceSet — Mint/Foundry experiment verdicts (Obs-A / Obs-A′)",
+      "summary": "Groups the 5 foundry cards for context-builder handoff: pull the exact Obs-A/Obs-A′ per-domain rows. index_terms = Obs-A, Obs-A′, FALSIFIED, SURVIVED, content-autonomy, inherit-and-expand, re-skin, REC-C5, Deprecation-schedule.",
+      "tags": [
+        "inventory",
+        "evidence-set",
+        "machine-map",
+        "cav2",
+        "authority",
+        "claim-le-proof",
+        "build-from-owned"
+      ],
+      "sources": [
+        "cyberAlchemy-v2/development/mint/experiment-foundry-boundary/run/findings.md",
+        "cyberAlchemy-v2/development/mint/experiment-content-autonomy/run-findings.md"
+      ],
+      "updated": "2026-06-29",
+      "status": "candidate",
+      "confidence": "high",
+      "selectors": [],
+      "evidence_card_ids": [],
+      "evidence_set_ids": [
+        "evset-mint-foundry-obs-verdicts"
+      ],
+      "residue": [
+        "handoff_target=context-builder + cav2 authority owner"
+      ]
+    },
+    {
+      "id": "entries-repository-development-artifact-cleanup-strategy-result-synthesis",
+      "path": "entries/repository-development-artifact-cleanup-strategy-result-synthesis.md",
+      "kind": "entry",
+      "type": "synthesis",
+      "title": "Repository Development Artifact Cleanup Strategy Result",
+      "summary": "Strategy-result read model for dispatch `2026-06-30-repository-development-artifact-cleanup-research`: immediate VS Code relief is workspace watcher/search exclusion, while durable cleanup should be build-from-owned as a preservation-led dry-run gate that classifies artifacts, proves successors, preserves open packets, and routes destructive apply work to later owner-scoped task-session.",
+      "tags": [
+        "strategy-result",
+        "dispatch",
+        "subagents",
+        "research",
+        "build-from-owned",
+        "promotion-guardrail",
+        "public-private-boundary",
+        "claim-le-proof",
+        "constitution-governance",
+        "discipline-governance"
+      ],
+      "sources": [
+        "ops/development/repository-artifact-cleanup/20260630-watch-limit-research/research.md",
+        "ops/development/repository-artifact-cleanup/20260630-watch-limit-research/findings.md",
+        "telemetry/agents/subagents-dispatch.yaml"
+      ],
+      "updated": "2026-06-30",
+      "status": "candidate",
+      "confidence": "medium",
+      "selectors": [
+        "development artifact cleanup",
+        "VS Code watcher limit",
+        "open development packet retention",
+        "preservation diff before deletion",
+        "build-from-owned cleanup sigil"
+      ],
+      "evidence_card_ids": [],
+      "evidence_set_ids": [],
+      "residue": [
+        "VS Code excludes not applied by this dispatch.",
+        "No cleanup/deletion/untracking performed.",
+        "Discipline, constitution, and possible sigil lifecycle remain future governed work."
+      ]
+    },
+    {
+      "id": "entries-ontology-population-from-inventory-synthesis",
+      "path": "entries/ontology-population-from-inventory-synthesis.md",
+      "kind": "entry",
+      "type": "synthesis",
+      "title": "Populating Ontology From Inventory",
+      "summary": "Inventory-backed synthesis for how to populate ontology safely: select source-backed claims into evidence cards/EvidenceSets, draft thick ontology candidates, govern movement with PromotionRecords, and expose only generated read models or bounded graph projections until owner gates promote meaning. It preserves the inventory-as-evidence, ontology-as-map, authority-as-decision split.",
+      "tags": [
+        "inventory",
+        "ontology",
+        "ontology-lifecycle",
+        "promotion-record",
+        "evidence-card",
+        "evidence-set",
+        "authority",
+        "map-vs-decision",
+        "promotion-guardrail",
+        "build-from-owned",
+        "knowledge-promotion",
+        "synthesis"
+      ],
+      "sources": [
+        ".arcanum/inventory/schema.md",
+        ".arcanum/inventory/index.json",
+        ".arcanum/inventory/entries/evidence-sets/2026-06-18-dispersed-knowledge-sets.md",
+        ".arcanum/inventory/entries/evidence-sets/2026-06-21-ontology-lifecycle-authority-sets.md",
+        ".arcanum/inventory/entries/evidence-sets/2026-06-21-authority-node-relationship-taxonomy-sets.md",
+        ".arcanum/inventory/entries/evidence-sets/2026-06-23-scientific-authority-lifecycle-sets.md",
+        ".arcanum/inventory/entries/authority-ontology-governed-artifact-synthesis.md",
+        ".arcanum/inventory/entries/scientific-authority-lifecycle-synthesis.md",
+        ".arcanum/inventory/entries/cav2-ontology-authority-organizing-synthesis.md",
+        ".arcanum/inventory/entries/ontology-operationalization-in-the-machine-synthesis.md",
+        ".arcanum/ontology-vault/map-2026-06-18-dispersed-knowledge.md",
+        "projects/ontology/ARCHITECTURE.md",
+        "projects/ontology/research/2026-06-18-materialization-model/findings.md",
+        "projects/ontology/research/2026-06-18-inventory-evolution-efficiency/findings.md"
+      ],
+      "updated": "2026-06-30",
+      "status": "candidate",
+      "confidence": "high",
+      "selectors": [
+        "source selector -> inventory evidence card / EvidenceSet -> ontology candidate -> PromotionRecord -> governed ontology node or projection -> generated read models",
+        "## First Population Run",
+        "## Current Inventory Lookup Handles",
+        "## Handoff Shape For Ontology Vault",
+        "## Open Residue"
+      ],
+      "evidence_card_ids": [],
+      "evidence_set_ids": [
+        "evset-knowledge-governance-stack",
+        "evset-caol-nonvacuity-witness-path",
+        "evset-authority-node-record-slice",
+        "evset-authority-node-schema-evolution-open-link",
+        "evset-scientific-authority-lifecycle-provenance-relations"
+      ],
+      "residue": [
+        "Branch-as-view remains an owner decision before canonical use.",
+        "B3 run-view needs a legal subject-runtime producer.",
+        "Authority movement and bridge-edge schema admission remain open schema-evolution packets.",
+        "Write-authority proviso remains a code-level proof obligation.",
+        "Plan is design/report/fixture-level, not a deployed incremental ontology compiler."
+      ]
     }
   ],
   "indexes": {
@@ -2979,7 +3446,19 @@
       "entries-cav2-ontology-authority-organizing-synthesis": "entries/cav2-ontology-authority-organizing-synthesis.md",
       "entries-non-collapse-and-build-from-owned-definitions-map-synthesis": "entries/non-collapse-and-build-from-owned-definitions-map-synthesis.md",
       "entries-cav2-authority-and-determinism-synthesis": "entries/cav2-authority-and-determinism-synthesis.md",
-      "entries-deterministic-validation-for-all-cav2-synthesis": "entries/deterministic-validation-for-all-cav2-synthesis.md"
+      "entries-deterministic-validation-for-all-cav2-synthesis": "entries/deterministic-validation-for-all-cav2-synthesis.md",
+      "entries-kodamai-smithe-correctness-layer-synthesis": "entries/kodamai-smithe-correctness-layer-synthesis.md",
+      "entries-fol-constitution-validation-complement-synthesis": "entries/fol-constitution-validation-complement-synthesis.md",
+      "entries-constitution-namespaces-and-axioms-role-synthesis": "entries/constitution-namespaces-and-axioms-role-synthesis.md",
+      "entries-high-attention-low-parameter-models-strategy-result-synthesis": "entries/high-attention-low-parameter-models-strategy-result-synthesis.md",
+      "entries-mint-foundry-content-autonomy-synthesis": "entries/mint-foundry-content-autonomy-synthesis.md",
+      "entries-attestation-capability-moat-mvp-synthesis": "entries/attestation-capability-moat-mvp-synthesis.md",
+      "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards": "entries/evidence-cards/2026-06-29-mint-foundry-experiments-cards.md",
+      "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards": "entries/evidence-cards/2026-06-29-attestation-moat-mvp-cards.md",
+      "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets": "entries/evidence-sets/2026-06-29-mint-foundry-experiments-sets.md",
+      "entries-repository-development-artifact-cleanup-strategy-result-synthesis": "entries/repository-development-artifact-cleanup-strategy-result-synthesis.md",
+      "entries-ontology-population-from-inventory-synthesis": "entries/ontology-population-from-inventory-synthesis.md",
+      "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis": "entries/ddd-process-manager-email-uniqueness-strategy-result-synthesis.md"
     },
     "by_type": {
       "synthesis": [
@@ -3001,7 +3480,16 @@
         "entries-cav2-ontology-authority-organizing-synthesis",
         "entries-non-collapse-and-build-from-owned-definitions-map-synthesis",
         "entries-cav2-authority-and-determinism-synthesis",
-        "entries-deterministic-validation-for-all-cav2-synthesis"
+        "entries-deterministic-validation-for-all-cav2-synthesis",
+        "entries-kodamai-smithe-correctness-layer-synthesis",
+        "entries-fol-constitution-validation-complement-synthesis",
+        "entries-constitution-namespaces-and-axioms-role-synthesis",
+        "entries-high-attention-low-parameter-models-strategy-result-synthesis",
+        "entries-mint-foundry-content-autonomy-synthesis",
+        "entries-attestation-capability-moat-mvp-synthesis",
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis",
+        "entries-ontology-population-from-inventory-synthesis",
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
       ],
       "ontology-map": [
         "ontology-vault-map-2026-06-18-dispersed-knowledge"
@@ -3035,7 +3523,9 @@
         "entries-evidence-cards-2026-06-24-resonantos-ontology-retrieval-cards",
         "entries-evidence-cards-2026-06-24-ontology-operationalization-cards",
         "entries-evidence-cards-2026-06-24-deterministic-retrieval-thesis-cards",
-        "entries-evidence-cards-2026-06-25-resonantos-integration-and-owned-base-cards"
+        "entries-evidence-cards-2026-06-25-resonantos-integration-and-owned-base-cards",
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards",
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards"
       ],
       "evidence-set": [
         "entries-evidence-sets-2026-06-18-dispersed-knowledge-sets",
@@ -3050,7 +3540,8 @@
         "entries-evidence-sets-2026-06-22-self-harness-ecosystem-relations-sets",
         "entries-evidence-sets-2026-06-22-self-harness-golden-chain-mining-sets",
         "entries-evidence-sets-2026-06-23-governed-artifact-primitive-formalization-sets",
-        "entries-evidence-sets-2026-06-23-scientific-authority-lifecycle-sets"
+        "entries-evidence-sets-2026-06-23-scientific-authority-lifecycle-sets",
+        "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets"
       ],
       "explore-strategy": [
         "queries-2026-06-18-dispersed-knowledge-cartography-explore-strategy"
@@ -3170,7 +3661,17 @@
         "entries-cav2-ontology-authority-organizing-synthesis",
         "entries-non-collapse-and-build-from-owned-definitions-map-synthesis",
         "entries-cav2-authority-and-determinism-synthesis",
-        "entries-deterministic-validation-for-all-cav2-synthesis"
+        "entries-deterministic-validation-for-all-cav2-synthesis",
+        "entries-kodamai-smithe-correctness-layer-synthesis",
+        "entries-fol-constitution-validation-complement-synthesis",
+        "entries-constitution-namespaces-and-axioms-role-synthesis",
+        "entries-mint-foundry-content-autonomy-synthesis",
+        "entries-attestation-capability-moat-mvp-synthesis",
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards",
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards",
+        "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets",
+        "entries-ontology-population-from-inventory-synthesis",
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
       ],
       "reuse-map": [
         "entries-evidence-cards-2026-06-18-dispersed-knowledge-cards",
@@ -3211,7 +3712,9 @@
         "entries-evidence-sets-2026-06-23-scientific-authority-lifecycle-sets",
         "entries-authority-lifecycle-invariant-synthesis",
         "entries-evidence-cards-2026-06-23-authority-lifecycle-invariant-cards",
-        "entries-evidence-cards-2026-06-23-authority-lifecycle-review-change-requests-cards"
+        "entries-evidence-cards-2026-06-23-authority-lifecycle-review-change-requests-cards",
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis",
+        "entries-ontology-population-from-inventory-synthesis"
       ],
       "ontology-lifecycle": [
         "entries-evidence-cards-2026-06-21-ontology-lifecycle-authority-cards",
@@ -3230,7 +3733,8 @@
         "cyberalchemy-v2-development-research-2026-06-22-simple-ontology-presentation-corpus-research",
         "entries-scientific-authority-lifecycle-synthesis",
         "entries-evidence-cards-2026-06-23-scientific-authority-lifecycle-cards",
-        "entries-evidence-sets-2026-06-23-scientific-authority-lifecycle-sets"
+        "entries-evidence-sets-2026-06-23-scientific-authority-lifecycle-sets",
+        "entries-ontology-population-from-inventory-synthesis"
       ],
       "authority-movement": [
         "entries-evidence-cards-2026-06-21-ontology-lifecycle-authority-cards",
@@ -3238,10 +3742,12 @@
         "cyberalchemy-v2-development-research-2026-06-21-ontology-knowledge-lifecycle-authority-research"
       ],
       "promotion-record": [
-        "entries-evidence-cards-2026-06-21-ontology-lifecycle-authority-cards"
+        "entries-evidence-cards-2026-06-21-ontology-lifecycle-authority-cards",
+        "entries-ontology-population-from-inventory-synthesis"
       ],
       "idempotency": [
-        "entries-evidence-cards-2026-06-21-ontology-lifecycle-authority-cards"
+        "entries-evidence-cards-2026-06-21-ontology-lifecycle-authority-cards",
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
       ],
       "evidence-backfill": [
         "entries-evidence-sets-2026-06-21-ontology-lifecycle-authority-sets",
@@ -3264,7 +3770,8 @@
       "public-private-boundary": [
         "entries-evidence-cards-2026-06-21-verification-weaver-cards",
         "queries-2026-06-18-dispersed-knowledge-cartography-boundary-skeptic-review",
-        "queries-2026-06-21-verification-weaver-research"
+        "queries-2026-06-21-verification-weaver-research",
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis"
       ],
       "authority-harness": [
         "entries-evidence-cards-2026-06-21-authority-harness-ledger-ontology-cards",
@@ -3364,12 +3871,16 @@
         "cyberalchemy-v2-development-research-2026-06-21-schema-taxonomy-view-primitives-action-primitive-correction",
         "entries-authority-lifecycle-invariant-synthesis",
         "entries-evidence-cards-2026-06-23-authority-lifecycle-invariant-cards",
-        "entries-evidence-cards-2026-06-23-authority-lifecycle-review-change-requests-cards"
+        "entries-evidence-cards-2026-06-23-authority-lifecycle-review-change-requests-cards",
+        "entries-fol-constitution-validation-complement-synthesis",
+        "entries-constitution-namespaces-and-axioms-role-synthesis",
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis"
       ],
       "category-theory": [
         "entries-category-theory-domainspec-language-synthesis",
         "entries-evidence-cards-2026-06-21-category-theory-domainspec-language-cards",
-        "entries-evidence-cards-2026-06-22-presheaf-vect-novelty-orthogonality-cards"
+        "entries-evidence-cards-2026-06-22-presheaf-vect-novelty-orthogonality-cards",
+        "entries-kodamai-smithe-correctness-layer-synthesis"
       ],
       "yoneda": [
         "entries-category-theory-domainspec-language-synthesis",
@@ -3444,7 +3955,10 @@
         "cyberalchemy-v2-development-research-2026-06-23-governed-artifact-primitive-formalization-research"
       ],
       "dispatch": [
-        "queries-2026-06-18-dispersed-knowledge-cartography-cartographer-receipts"
+        "queries-2026-06-18-dispersed-knowledge-cartography-cartographer-receipts",
+        "entries-high-attention-low-parameter-models-strategy-result-synthesis",
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis",
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
       ],
       "research-program": [
         "queries-2026-06-18-dispersed-knowledge-cartography-research"
@@ -3500,7 +4014,10 @@
         "entries-evidence-sets-2026-06-22-self-harness-ecosystem-relations-sets",
         "entries-evidence-sets-2026-06-22-self-harness-golden-chain-mining-sets",
         "cyberalchemy-v2-development-research-2026-06-23-governed-artifact-primitive-formalization-research",
-        "entries-ontology-operationalization-in-the-machine-synthesis"
+        "entries-ontology-operationalization-in-the-machine-synthesis",
+        "entries-high-attention-low-parameter-models-strategy-result-synthesis",
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis",
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
       ],
       "golden-chain": [
         "entries-evidence-cards-2026-06-22-self-harness-golden-chain-mining-cards",
@@ -3540,7 +4057,9 @@
       ],
       "formalization": [
         "cyberalchemy-v2-development-research-2026-06-23-governed-artifact-primitive-formalization-research",
-        "entries-evidence-cards-2026-06-23-governed-artifact-primitive-formalization-cards"
+        "entries-evidence-cards-2026-06-23-governed-artifact-primitive-formalization-cards",
+        "entries-kodamai-smithe-correctness-layer-synthesis",
+        "entries-fol-constitution-validation-complement-synthesis"
       ],
       "audit": [
         "cyberalchemy-v2-development-research-2026-06-23-governed-artifact-primitive-formalization-audit"
@@ -3557,7 +4076,8 @@
         "entries-evidence-cards-2026-06-23-scientific-authority-lifecycle-cards",
         "entries-evidence-sets-2026-06-23-scientific-authority-lifecycle-sets",
         "entries-authority-lifecycle-invariant-synthesis",
-        "entries-evidence-cards-2026-06-23-authority-lifecycle-invariant-cards"
+        "entries-evidence-cards-2026-06-23-authority-lifecycle-invariant-cards",
+        "entries-ontology-population-from-inventory-synthesis"
       ],
       "operational-evidence": [
         "entries-scientific-authority-lifecycle-synthesis",
@@ -3612,7 +4132,17 @@
         "entries-cav2-ontology-authority-organizing-synthesis",
         "entries-non-collapse-and-build-from-owned-definitions-map-synthesis",
         "entries-cav2-authority-and-determinism-synthesis",
-        "entries-deterministic-validation-for-all-cav2-synthesis"
+        "entries-deterministic-validation-for-all-cav2-synthesis",
+        "entries-kodamai-smithe-correctness-layer-synthesis",
+        "entries-fol-constitution-validation-complement-synthesis",
+        "entries-constitution-namespaces-and-axioms-role-synthesis",
+        "entries-mint-foundry-content-autonomy-synthesis",
+        "entries-attestation-capability-moat-mvp-synthesis",
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards",
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards",
+        "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets",
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis",
+        "entries-ontology-population-from-inventory-synthesis"
       ],
       "review-change-request": [
         "entries-evidence-cards-2026-06-23-authority-lifecycle-review-change-requests-cards"
@@ -3660,7 +4190,17 @@
         "entries-ontology-operationalization-in-the-machine-synthesis",
         "entries-evidence-cards-2026-06-24-ontology-operationalization-cards",
         "entries-resonantos-living-archive-seam-and-owned-base-synthesis",
-        "entries-evidence-cards-2026-06-25-resonantos-integration-and-owned-base-cards"
+        "entries-evidence-cards-2026-06-25-resonantos-integration-and-owned-base-cards",
+        "entries-kodamai-smithe-correctness-layer-synthesis",
+        "entries-constitution-namespaces-and-axioms-role-synthesis",
+        "entries-high-attention-low-parameter-models-strategy-result-synthesis",
+        "entries-mint-foundry-content-autonomy-synthesis",
+        "entries-attestation-capability-moat-mvp-synthesis",
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards",
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards",
+        "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets",
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis",
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
       ],
       "arcanum": [
         "entries-unified-ide-ergonomics-spine-synthesis",
@@ -3707,7 +4247,8 @@
       "ontology": [
         "entries-authority-ontology-governed-artifact-synthesis",
         "entries-evidence-cards-2026-06-24-authority-ontology-governed-artifact-cards",
-        "entries-cav2-ontology-authority-organizing-synthesis"
+        "entries-cav2-ontology-authority-organizing-synthesis",
+        "entries-ontology-population-from-inventory-synthesis"
       ],
       "meta-authority": [
         "entries-authority-ontology-governed-artifact-synthesis",
@@ -3729,13 +4270,18 @@
         "entries-authority-ontology-governed-artifact-synthesis",
         "entries-evidence-cards-2026-06-24-authority-ontology-governed-artifact-cards",
         "entries-ontology-operationalization-in-the-machine-synthesis",
-        "entries-evidence-cards-2026-06-24-ontology-operationalization-cards"
+        "entries-evidence-cards-2026-06-24-ontology-operationalization-cards",
+        "entries-ontology-population-from-inventory-synthesis"
       ],
       "machine-map": [
         "entries-machine-map-and-moat-synthesis",
         "entries-evidence-cards-2026-06-24-machine-map-and-moat-cards",
         "entries-ontology-operationalization-in-the-machine-synthesis",
-        "entries-evidence-cards-2026-06-24-ontology-operationalization-cards"
+        "entries-evidence-cards-2026-06-24-ontology-operationalization-cards",
+        "entries-constitution-namespaces-and-axioms-role-synthesis",
+        "entries-mint-foundry-content-autonomy-synthesis",
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards",
+        "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets"
       ],
       "viable-system-model": [
         "entries-machine-map-and-moat-synthesis",
@@ -3750,7 +4296,8 @@
       "saturn": [
         "entries-machine-map-and-moat-synthesis",
         "entries-evidence-cards-2026-06-24-machine-map-and-moat-cards",
-        "entries-deterministic-retrieval-thesis-synthesis"
+        "entries-deterministic-retrieval-thesis-synthesis",
+        "entries-constitution-namespaces-and-axioms-role-synthesis"
       ],
       "cav2": [
         "entries-machine-map-and-moat-synthesis",
@@ -3767,11 +4314,18 @@
         "entries-cav2-ontology-authority-organizing-synthesis",
         "entries-non-collapse-and-build-from-owned-definitions-map-synthesis",
         "entries-cav2-authority-and-determinism-synthesis",
-        "entries-deterministic-validation-for-all-cav2-synthesis"
+        "entries-deterministic-validation-for-all-cav2-synthesis",
+        "entries-fol-constitution-validation-complement-synthesis",
+        "entries-constitution-namespaces-and-axioms-role-synthesis",
+        "entries-mint-foundry-content-autonomy-synthesis",
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards",
+        "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets"
       ],
       "attestation": [
         "entries-machine-map-and-moat-synthesis",
-        "entries-evidence-cards-2026-06-24-machine-map-and-moat-cards"
+        "entries-evidence-cards-2026-06-24-machine-map-and-moat-cards",
+        "entries-attestation-capability-moat-mvp-synthesis",
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards"
       ],
       "moat": [
         "entries-machine-map-and-moat-synthesis",
@@ -3779,7 +4333,9 @@
         "entries-moat-stack-and-authority-triage-synthesis",
         "entries-evidence-cards-2026-06-24-moat-stack-and-authority-triage-cards",
         "entries-ontology-operationalization-in-the-machine-synthesis",
-        "entries-cav2-authority-and-determinism-synthesis"
+        "entries-cav2-authority-and-determinism-synthesis",
+        "entries-attestation-capability-moat-mvp-synthesis",
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards"
       ],
       "observer-executor-split": [
         "entries-machine-map-and-moat-synthesis",
@@ -3795,11 +4351,17 @@
         "entries-machine-map-and-moat-synthesis",
         "entries-evidence-cards-2026-06-24-machine-map-and-moat-cards",
         "entries-moat-stack-and-authority-triage-synthesis",
-        "entries-evidence-cards-2026-06-24-moat-stack-and-authority-triage-cards"
+        "entries-evidence-cards-2026-06-24-moat-stack-and-authority-triage-cards",
+        "entries-kodamai-smithe-correctness-layer-synthesis",
+        "entries-attestation-capability-moat-mvp-synthesis",
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards"
       ],
       "defensibility": [
         "entries-moat-stack-and-authority-triage-synthesis",
-        "entries-evidence-cards-2026-06-24-moat-stack-and-authority-triage-cards"
+        "entries-evidence-cards-2026-06-24-moat-stack-and-authority-triage-cards",
+        "entries-kodamai-smithe-correctness-layer-synthesis",
+        "entries-attestation-capability-moat-mvp-synthesis",
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards"
       ],
       "authority-triage": [
         "entries-moat-stack-and-authority-triage-synthesis",
@@ -3844,7 +4406,8 @@
         "entries-evidence-cards-2026-06-24-resonantos-ontology-retrieval-cards",
         "entries-read-trivial-via-selective-promotion-synthesis",
         "entries-cav2-authority-and-determinism-synthesis",
-        "entries-deterministic-validation-for-all-cav2-synthesis"
+        "entries-deterministic-validation-for-all-cav2-synthesis",
+        "entries-fol-constitution-validation-complement-synthesis"
       ],
       "typed-intent": [
         "entries-resonantos-and-ontology-retrieval-synthesis",
@@ -3864,7 +4427,12 @@
         "entries-cav2-ontology-authority-organizing-synthesis",
         "entries-non-collapse-and-build-from-owned-definitions-map-synthesis",
         "entries-cav2-authority-and-determinism-synthesis",
-        "entries-deterministic-validation-for-all-cav2-synthesis"
+        "entries-deterministic-validation-for-all-cav2-synthesis",
+        "entries-kodamai-smithe-correctness-layer-synthesis",
+        "entries-fol-constitution-validation-complement-synthesis",
+        "entries-mint-foundry-content-autonomy-synthesis",
+        "entries-attestation-capability-moat-mvp-synthesis",
+        "entries-ontology-population-from-inventory-synthesis"
       ],
       "write-authority-proviso": [
         "entries-ontology-operationalization-in-the-machine-synthesis",
@@ -3892,7 +4460,10 @@
       ],
       "evidence-card": [
         "entries-evidence-cards-2026-06-24-ontology-operationalization-cards",
-        "entries-evidence-cards-2026-06-25-resonantos-integration-and-owned-base-cards"
+        "entries-evidence-cards-2026-06-25-resonantos-integration-and-owned-base-cards",
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards",
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards",
+        "entries-ontology-population-from-inventory-synthesis"
       ],
       "deterministic-retrieval": [
         "entries-deterministic-retrieval-thesis-synthesis",
@@ -3929,7 +4500,13 @@
         "entries-cav2-ontology-authority-organizing-synthesis",
         "entries-non-collapse-and-build-from-owned-definitions-map-synthesis",
         "entries-cav2-authority-and-determinism-synthesis",
-        "entries-deterministic-validation-for-all-cav2-synthesis"
+        "entries-deterministic-validation-for-all-cav2-synthesis",
+        "entries-fol-constitution-validation-complement-synthesis",
+        "entries-constitution-namespaces-and-axioms-role-synthesis",
+        "entries-mint-foundry-content-autonomy-synthesis",
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards",
+        "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets",
+        "entries-ontology-population-from-inventory-synthesis"
       ],
       "instantiation": [
         "entries-cav2-ontology-authority-organizing-synthesis"
@@ -3939,6 +4516,47 @@
       ],
       "epistemic-strength": [
         "entries-cav2-ontology-authority-organizing-synthesis"
+      ],
+      "constitution-namespace": [
+        "entries-constitution-namespaces-and-axioms-role-synthesis"
+      ],
+      "strategy-result": [
+        "entries-high-attention-low-parameter-models-strategy-result-synthesis",
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis",
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
+      ],
+      "subagents": [
+        "entries-high-attention-low-parameter-models-strategy-result-synthesis",
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis",
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
+      ],
+      "long-context": [
+        "entries-high-attention-low-parameter-models-strategy-result-synthesis"
+      ],
+      "attention": [
+        "entries-high-attention-low-parameter-models-strategy-result-synthesis"
+      ],
+      "parameter-efficiency": [
+        "entries-high-attention-low-parameter-models-strategy-result-synthesis"
+      ],
+      "evidence-set": [
+        "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets",
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      "discipline-governance": [
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis"
+      ],
+      "ddd": [
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
+      ],
+      "event-sourcing": [
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
+      ],
+      "process-manager": [
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
+      ],
+      "uniqueness": [
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
       ]
     },
     "by_source": {
@@ -4019,7 +4637,8 @@
         "entries-evidence-sets-2026-06-23-scientific-authority-lifecycle-sets",
         "entries-authority-lifecycle-invariant-synthesis",
         "entries-evidence-cards-2026-06-23-authority-lifecycle-invariant-cards",
-        "entries-evidence-cards-2026-06-23-authority-lifecycle-review-change-requests-cards"
+        "entries-evidence-cards-2026-06-23-authority-lifecycle-review-change-requests-cards",
+        "entries-ontology-population-from-inventory-synthesis"
       ],
       ".arcanum/inventory/entries/evidence-cards/2026-06-23-scientific-authority-lifecycle-cards.md": [
         "entries-evidence-sets-2026-06-23-scientific-authority-lifecycle-sets"
@@ -4056,7 +4675,8 @@
         "entries-ontology-operationalization-in-the-machine-synthesis",
         "entries-evidence-cards-2026-06-24-ontology-operationalization-cards",
         "entries-cav2-authority-and-determinism-synthesis",
-        "entries-deterministic-validation-for-all-cav2-synthesis"
+        "entries-deterministic-validation-for-all-cav2-synthesis",
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards"
       ],
       "arcanum/framework/CYBERALCHEMY-METHOD.md": [
         "entries-evidence-cards-2026-06-23-authority-lifecycle-invariant-cards"
@@ -4066,7 +4686,10 @@
       ],
       "telemetry/agents/subagents-dispatch.yaml": [
         "entries-evidence-cards-2026-06-23-authority-lifecycle-review-change-requests-cards",
-        "entries-evidence-cards-2026-06-24-unified-ide-ergonomics-spine-cards"
+        "entries-evidence-cards-2026-06-24-unified-ide-ergonomics-spine-cards",
+        "entries-high-attention-low-parameter-models-strategy-result-synthesis",
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis",
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
       ],
       ".arcanum/inventory/entries/authority-lifecycle-invariant-synthesis.md": [
         "entries-evidence-cards-2026-06-23-authority-lifecycle-review-change-requests-cards"
@@ -4165,7 +4788,8 @@
       ],
       "ops/development/2026-06-21-paper-saturn-explainer/SATURN-LAYER-MAP.md": [
         "entries-machine-map-and-moat-synthesis",
-        "entries-evidence-cards-2026-06-24-machine-map-and-moat-cards"
+        "entries-evidence-cards-2026-06-24-machine-map-and-moat-cards",
+        "entries-constitution-namespaces-and-axioms-role-synthesis"
       ],
       "development/COMMERCIALIZATION-SYNTHESIS.md": [
         "entries-machine-map-and-moat-synthesis",
@@ -4319,13 +4943,136 @@
         "entries-non-collapse-and-build-from-owned-definitions-map-synthesis"
       ],
       ".arcanum/inventory/entries/machine-map-and-moat-synthesis.md": [
-        "entries-cav2-authority-and-determinism-synthesis"
+        "entries-cav2-authority-and-determinism-synthesis",
+        "entries-constitution-namespaces-and-axioms-role-synthesis",
+        "entries-mint-foundry-content-autonomy-synthesis"
       ],
       ".arcanum/inventory/entries/authority-ontology-governed-artifact-synthesis.md": [
-        "entries-cav2-authority-and-determinism-synthesis"
+        "entries-cav2-authority-and-determinism-synthesis",
+        "entries-ontology-population-from-inventory-synthesis"
       ],
       ".arcanum/inventory/entries/cav2-authority-and-determinism-synthesis.md": [
         "entries-deterministic-validation-for-all-cav2-synthesis"
+      ],
+      "domainspec-lean-formalization/research-ai/kodamai-correctness-layer/research/findings.md": [
+        "entries-kodamai-smithe-correctness-layer-synthesis"
+      ],
+      "domainspec-lean-formalization/lean-engineer/AgentPermissionKernel.lean": [
+        "entries-kodamai-smithe-correctness-layer-synthesis"
+      ],
+      "domainspec-lean-formalization/lean-formalization/FunctorialResidueStructure.lean": [
+        "entries-kodamai-smithe-correctness-layer-synthesis"
+      ],
+      "domainspec-lean-formalization/SMITHE-2024-AUDIT.md": [
+        "entries-kodamai-smithe-correctness-layer-synthesis"
+      ],
+      "cyberAlchemy-v2/development/research/2026-06-28-constitution-fol-validation-path/findings.md": [
+        "entries-fol-constitution-validation-complement-synthesis"
+      ],
+      ".arcanum/inventory/entries/deterministic-validation-for-all-cav2-synthesis.md": [
+        "entries-fol-constitution-validation-complement-synthesis"
+      ],
+      "cyberAlchemy-v2/authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md": [
+        "entries-fol-constitution-validation-complement-synthesis",
+        "entries-constitution-namespaces-and-axioms-role-synthesis"
+      ],
+      "implementation/domainspec/AXIOMS.md": [
+        "entries-fol-constitution-validation-complement-synthesis",
+        "entries-constitution-namespaces-and-axioms-role-synthesis"
+      ],
+      "implementation/domainspec/CONSTITUTION.md": [
+        "entries-constitution-namespaces-and-axioms-role-synthesis"
+      ],
+      "research/projects/domainspec/definitions/CONSTITUTION.md": [
+        "entries-constitution-namespaces-and-axioms-role-synthesis"
+      ],
+      "cyberAlchemy-v2/development/research/2026-06-25-cav2-authority-synthesis/findings.md": [
+        "entries-constitution-namespaces-and-axioms-role-synthesis"
+      ],
+      "research/high-attention-low-parameter-models/research.md": [
+        "entries-high-attention-low-parameter-models-strategy-result-synthesis"
+      ],
+      "research/high-attention-low-parameter-models/findings.md": [
+        "entries-high-attention-low-parameter-models-strategy-result-synthesis"
+      ],
+      "cyberAlchemy-v2/development/mint/experiment-foundry-boundary/run/findings.md": [
+        "entries-mint-foundry-content-autonomy-synthesis",
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards",
+        "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets"
+      ],
+      "cyberAlchemy-v2/development/mint/experiment-content-autonomy/run-findings.md": [
+        "entries-mint-foundry-content-autonomy-synthesis",
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards",
+        "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets"
+      ],
+      "cyberAlchemy-v2/development/mint/SPEC.md": [
+        "entries-mint-foundry-content-autonomy-synthesis",
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards"
+      ],
+      "cyberAlchemy-v2/development/attestation-capability/SPEC.md": [
+        "entries-attestation-capability-moat-mvp-synthesis"
+      ],
+      "cyberAlchemy-v2/development/attestation-capability/SKILL.md": [
+        "entries-attestation-capability-moat-mvp-synthesis",
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards"
+      ],
+      "cyberAlchemy-v2/development/attestation-capability/development/specimen/DEMO.md": [
+        "entries-attestation-capability-moat-mvp-synthesis",
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards"
+      ],
+      "cyberAlchemy-v2/authority/decisions/2026-06-29-mint-signer-and-boundary.md": [
+        "entries-attestation-capability-moat-mvp-synthesis"
+      ],
+      "cyberAlchemy-v2/development/attestation-capability/attest.py": [
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards"
+      ],
+      "ops/development/repository-artifact-cleanup/20260630-watch-limit-research/research.md": [
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis"
+      ],
+      "ops/development/repository-artifact-cleanup/20260630-watch-limit-research/findings.md": [
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis"
+      ],
+      ".arcanum/inventory/schema.md": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      ".arcanum/inventory/index.json": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      ".arcanum/inventory/entries/evidence-sets/2026-06-18-dispersed-knowledge-sets.md": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      ".arcanum/inventory/entries/evidence-sets/2026-06-21-ontology-lifecycle-authority-sets.md": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      ".arcanum/inventory/entries/evidence-sets/2026-06-21-authority-node-relationship-taxonomy-sets.md": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      ".arcanum/inventory/entries/evidence-sets/2026-06-23-scientific-authority-lifecycle-sets.md": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      ".arcanum/inventory/entries/cav2-ontology-authority-organizing-synthesis.md": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      ".arcanum/inventory/entries/ontology-operationalization-in-the-machine-synthesis.md": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      ".arcanum/ontology-vault/map-2026-06-18-dispersed-knowledge.md": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      "projects/ontology/ARCHITECTURE.md": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      "projects/ontology/research/2026-06-18-materialization-model/findings.md": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      "projects/ontology/research/2026-06-18-inventory-evolution-efficiency/findings.md": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      "research/ddd-event-sourcing/2026-06-30-process-manager-uniqueness/research.md": [
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
+      ],
+      "research/ddd-event-sourcing/2026-06-30-process-manager-uniqueness/findings.md": [
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
       ]
     },
     "by_status": {
@@ -4421,7 +5168,19 @@
         "entries-cav2-ontology-authority-organizing-synthesis",
         "entries-non-collapse-and-build-from-owned-definitions-map-synthesis",
         "entries-cav2-authority-and-determinism-synthesis",
-        "entries-deterministic-validation-for-all-cav2-synthesis"
+        "entries-deterministic-validation-for-all-cav2-synthesis",
+        "entries-kodamai-smithe-correctness-layer-synthesis",
+        "entries-fol-constitution-validation-complement-synthesis",
+        "entries-constitution-namespaces-and-axioms-role-synthesis",
+        "entries-high-attention-low-parameter-models-strategy-result-synthesis",
+        "entries-mint-foundry-content-autonomy-synthesis",
+        "entries-attestation-capability-moat-mvp-synthesis",
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards",
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards",
+        "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets",
+        "entries-repository-development-artifact-cleanup-strategy-result-synthesis",
+        "entries-ontology-population-from-inventory-synthesis",
+        "entries-ddd-process-manager-email-uniqueness-strategy-result-synthesis"
       ],
       "flag": [
         "queries-2026-06-18-dispersed-knowledge-cartography-boundary-skeptic-review",
@@ -4521,6 +5280,27 @@
       "authority-triage-private-boundary": [
         "entries-resonantos-living-archive-seam-and-owned-base-synthesis",
         "entries-evidence-cards-2026-06-25-resonantos-integration-and-owned-base-cards"
+      ],
+      "obs-a-kind-level-falsified-research": [
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards"
+      ],
+      "obs-a-prime-content-level-survived": [
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards"
+      ],
+      "obs-a-was-wrong-proxy-correction": [
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards"
+      ],
+      "obs-b-c-held-all-domains-both-runs": [
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards"
+      ],
+      "prereg-caught-author-errors-3x": [
+        "entries-evidence-cards-2026-06-29-mint-foundry-experiments-cards"
+      ],
+      "attestation-l1-discriminating-verify-passes": [
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards"
+      ],
+      "attestation-moat-upgrade-ladder": [
+        "entries-evidence-cards-2026-06-29-attestation-moat-mvp-cards"
       ]
     },
     "by_evidence_set": {
@@ -4536,7 +5316,25 @@
       "entries-evidence-sets-2026-06-22-self-harness-ecosystem-relations-sets": "entries-evidence-sets-2026-06-22-self-harness-ecosystem-relations-sets",
       "entries-evidence-sets-2026-06-22-self-harness-golden-chain-mining-sets": "entries-evidence-sets-2026-06-22-self-harness-golden-chain-mining-sets",
       "entries-evidence-sets-2026-06-23-governed-artifact-primitive-formalization-sets": "entries-evidence-sets-2026-06-23-governed-artifact-primitive-formalization-sets",
-      "entries-evidence-sets-2026-06-23-scientific-authority-lifecycle-sets": "entries-evidence-sets-2026-06-23-scientific-authority-lifecycle-sets"
+      "entries-evidence-sets-2026-06-23-scientific-authority-lifecycle-sets": "entries-evidence-sets-2026-06-23-scientific-authority-lifecycle-sets",
+      "evset-mint-foundry-obs-verdicts": [
+        "entries-evidence-sets-2026-06-29-mint-foundry-experiments-sets"
+      ],
+      "evset-knowledge-governance-stack": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      "evset-caol-nonvacuity-witness-path": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      "evset-authority-node-record-slice": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      "evset-authority-node-schema-evolution-open-link": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ],
+      "evset-scientific-authority-lifecycle-provenance-relations": [
+        "entries-ontology-population-from-inventory-synthesis"
+      ]
     }
   },
   "projections": [],
@@ -4546,7 +5344,9 @@
     "validation_boundary": "inventory-read-model-only",
     "notes": [
       "Generated from the current Markdown index as an initial machine view.",
-      "Entry source_refs remain in source files until the next inventory sync enriches them."
+      "Entry source_refs remain in source files until the next inventory sync enriches them.",
+      "2026-06-29 added high-attention low-parameter strategy-result synthesis entry.",
+      "2026-06-30 added DDD process-manager email uniqueness strategy-result synthesis entry."
     ]
   }
 }

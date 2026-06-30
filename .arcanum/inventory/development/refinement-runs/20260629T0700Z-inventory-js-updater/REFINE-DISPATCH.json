@@ -1,0 +1,34 @@
+{
+  "dispatch_id": "20260629T0700Z-inventory-js-updater",
+  "intent": "Design a deterministic, simple JS updater for .arcanum/inventory/index.json (+ index.md row sync).",
+  "refinement_objective": "MVP-ready non-executed plan for the updater; build is a follow-on task-session.",
+  "preset": "compact",
+  "research_mode": "no-research",
+  "validation_status": "accepted",
+  "validation_note": "Parent-validated against the canonical 10-stage shape; compact preset; subagent_strategy none. No full dispatch-spec validator invoked (single-capability authoring, no delegation).",
+  "overlays": [
+    {"id": "baseline_sequence", "why": "ordinary refinement of a well-scoped tool: sequence + frame_handoff + validation_loop + owner_boundary + observability."},
+    {"id": "toy_game_for_low_cost_falsification", "why": "'deterministic' is the core promise — it must be falsified by a controlled test: same input -> byte-identical index.json AND idempotent on existing id. Requires an evidence artifact (the test fixture)."}
+  ],
+  "subagent_strategy": {"status": "none", "why": "simple, well-scoped tool with no design tension; the canonical loop runs parent-authored."},
+  "stages": [
+    {"n": 1, "stage": "context-builder", "owner": "context-builder", "surface": "parent", "status": "pass", "receipt": "REFINE-SEED-PROPOSAL.md (schema + the by_evidence_set drift)"},
+    {"n": 2, "stage": "invoke-define", "owner": "invoke", "mode": "define", "surface": "parent", "status": "pass", "receipt": "RESULT.md §What it is + §Input contract"},
+    {"n": 3, "stage": "interrogation-refine-review", "owner": "interrogation", "mode": "refine-review", "surface": "parent", "status": "pass", "receipt": "define is grounded; the one open fork = write-scope (json-only vs +index.md vs +log.md)"},
+    {"n": 4, "stage": "research-decision", "owner": "refine", "mode": "no-research", "status": "pass", "receipt": "schema local+owned; no external gap"},
+    {"n": 5, "stage": "distill", "owner": "distill", "mode": "standard", "surface": "parent", "status": "pass", "receipt": "coherent unit = addRecord(record, timestamp) -> deterministic index.json mutation + index.md row"},
+    {"n": 6, "stage": "invoke-design", "owner": "invoke", "mode": "design", "surface": "parent", "status": "pass", "receipt": "RESULT.md §Design (determinism contract + map-update rules + scope=(b))"},
+    {"n": 7, "stage": "interrogation-refine-design-review", "owner": "interrogation", "mode": "refine-design-review", "surface": "parent", "status": "pass", "receipt": "load-bearing risks named: wall-clock breaks determinism (timestamp=input); Python->JS formatting delta (first-run reformat residue); by_evidence_set normalization needs a migration note"},
+    {"n": 8, "stage": "distill-repair", "owner": "distill", "mode": "validate", "surface": "parent", "status": "pass", "receipt": "repaired: timestamp is a required input; append-only map updates (no key reorder); idempotent on existing id; format-match-or-accept-one-time-reformat decided"},
+    {"n": 9, "stage": "invoke-plan", "owner": "invoke", "mode": "plan", "surface": "parent", "status": "pass", "receipt": "RESULT.md §Build plan (3 SWUs) + §Validation/toy_game"},
+    {"n": 10, "stage": "final-interrogation-synthesis", "owner": "interrogation+refine", "mode": "refine-final", "surface": "parent", "status": "pass", "receipt": "RESULT.md"}
+  ],
+  "gates": [
+    {"gate": "native-capability-handles", "status": "pass", "note": "parent native runtime; no subagents"},
+    {"gate": "stage-receipts", "status": "pass"},
+    {"gate": "research-confirmation", "status": "pass", "note": "no-research"},
+    {"gate": "owner-boundary-preservation", "status": "pass", "note": "refine owns seed/dispatch/synthesis; the build is deferred to task-session"},
+    {"gate": "final-synthesis-readiness", "status": "pass"}
+  ],
+  "observability": {"group_by": "dispatch_id"}
+}
