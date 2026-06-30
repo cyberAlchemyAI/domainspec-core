@@ -19,6 +19,7 @@ promotion records.
 | [../development/research/](../development/research/) | bridge | Evidence, findings, open blockers, and accepted design constraints. | Research findings are not automatic specs. |
 | [../inventory/](../inventory/README.md) | bridge | Project-local exported read models and evidence links. | Inventory is not source authority. |
 | [./](README.md) | ontology | Candidate authority model, views, crosswalks, projections, and promotion requests. | Ontology is not owner verdict. |
+| [../../projects/ontology/](../../projects/ontology/) | bridge | Private-parent witness/incubator material for ontology materialization, node eligibility, PromotionRecord fixtures, and glossary collision evidence. | Not current CAV2 ontology authority, not a promotion owner, and not public Arcanum source. |
 | [../architecture/](../architecture/README.md) | system + bridge | Architecture candidates or promoted maps after owner review. | Architecture cannot promote terms by usage. |
 | [../capabilities/](../capabilities/README.md) | system | Capability contracts after promotion. | Capability folders are not canonical definitions. |
 | [../specs/](../specs/README.md) | system | Promoted or candidate contracts after promotion routes. | Specs cannot bypass definition/constitution owners. |

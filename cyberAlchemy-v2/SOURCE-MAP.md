@@ -18,6 +18,7 @@ turning source evidence into authority by proximity.
 | Private implementation evidence | [../implementation/domainspec](../implementation/domainspec) | Computable governance, registry/code binding, and runtime evidence patterns. | Private evidence; never public without boundary scrub. |
 | Validation evidence | [../validation/poker-team](../validation/poker-team) | Feature-pack validation shape and report precedent. | Private validation evidence. |
 | UX/UI evidence and prototyping | [../arcanum/arcana/ux-lessons](../arcanum/arcana/ux-lessons), [../arcanum/arcana/ux-evidence-validator](../arcanum/arcana/ux-evidence-validator), [../arcanum/projects/ui-prototyping-studio/ARCHITECTURE.md](../arcanum/projects/ui-prototyping-studio/ARCHITECTURE.md) | Lesson capture, validator-safe claim classes, and governed UI mutation handoffs. | Candidate UX/UI governance interface; not authority without owner promotion. |
+| ResonantOS economy research | [../../resonantos-economy-research/README.md](../../resonantos-economy-research/README.md), [authority/imports/resonantos-economy-research/README.md](authority/imports/resonantos-economy-research/README.md) | Standalone research surface for contribution economy resilience, failed DAO precedent, science-of-science, formal mechanisms, and socioeconomic behavior. | External research evidence; CAV2 method/provenance authority only. |
 
 ## Ingest Rules
 

@@ -1316,7 +1316,7 @@ types, labels, metrics, or status vocabulary.
 
 Status: active
 Term: authority lifecycle axis
-Aliases: confidence lifecycle axis, authority axis split, maturity-evidence-commitment split, status-veracity-conviction split
+Aliases: confidence lifecycle axis, authority axis split, maturity-evidence-commitment split, status-evidence-commitment split
 
 ### Normative Definition
 
@@ -2564,10 +2564,11 @@ the object may be challenged, contradicted, validated, blocked, or routed for
 owner review without silently changing its meaning or confidence.
 
 A challenge contract must declare the valid challenge response, admissible
-challenge modes, contradiction and validation links when present, confidence
-reference, owner route, resolution gate, blocking questions, and residue. It
-does not introduce a third confidence axis; it references the existing
-evidence-confidence and commitment-confidence split governed by `CAV2-D23`.
+challenge modes, contradiction and validation links when present, owner route,
+resolution gate, blocking questions, and challenge residue route. It does not
+contain the object's own confidence or residue and does not introduce a third
+confidence axis. Object confidence remains a sibling posture using the
+`evidence_confidence` and `commitment_confidence` split governed by `CAV2-D23`.
 
 ### Formal Interpretation
 
@@ -2576,13 +2577,14 @@ An admissible challenge contract has at least:
 ```text
 ChallengeContract =
   (challenge_response, valid_challenge_modes, contradiction_edges,
-   validation_edges, confidence_reference, owner_route, resolution_gate,
-   blocking_questions, residue)
+   validation_edges, owner_route, resolution_gate, blocking_questions,
+   challenge_residue_route)
 ```
 
-where `confidence_reference` points to existing confidence dimensions rather
-than creating a new dimension. For House-vault-derived ontology material, those
-dimensions are `veracidade` for evidence support and `convicção` for
+where `challenge_residue_route` says where unresolved challenge residue is
+handled. The object's own confidence and residue are not part of the challenge
+contract. When an object records confidence, active CyberAlchemy v2 uses
+`evidence_confidence` for evidence support and `commitment_confidence` for
 commitment posture.
 
 ### Operational Interpretation
@@ -2602,11 +2604,11 @@ It is the object's "how to disagree with me correctly" field.
 
 In CyberAlchemy v2, challenge contract belongs on the ontology candidate node
 shape before candidate concepts become load-bearing. It lets the project reuse
-House-vault challenge responses, `contradicts` and `validates` edges, and the
-`veracidade`/`convicção` confidence split without promoting "contestability" as
-a separate confidence dimension. It is the schema-level answer to the question:
-if this node is challenged, who reviews it, with which evidence, and where does
-the residue go?
+challenge responses, `contradicts` and `validates` edges, owner routes, gates,
+and residue routing while node confidence remains outside the contract as
+`evidence_confidence` and `commitment_confidence`. It is the schema-level answer
+to the question: if this node is challenged, who reviews it, with which
+evidence, and where does the challenge residue go?
 
 ### Boundary
 

@@ -197,7 +197,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | semantic primitive type | CAV2-D31 |
 | session-as-provenance navigation | CAV2-D24 |
 | source-indexed navigation | CAV2-D24 |
-| status-veracity-conviction split | CAV2-D23 |
+| status-evidence-commitment split | CAV2-D23 |
 | reflection tower | CAV2-D17 |
 | reflection-tower method | CAV2-D17 |
 | residual remainder | CAV2-D18 |

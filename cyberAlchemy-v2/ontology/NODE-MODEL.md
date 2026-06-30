@@ -21,18 +21,24 @@ Every candidate node concept must record:
 | `source_refs` | yes | Concrete paths supporting the concept. |
 | `owner_route` | yes | Owner route for promotion or mutation. |
 | `candidate_status` | yes | candidate, reviewed-candidate, deferred, blocked, or projected. |
+| `confidence` | yes | Top-level node confidence using `evidence_confidence` and `commitment_confidence`; not a challenge threshold. |
 | `challenge_contract` | yes | How this concept may be challenged, contradicted, validated, blocked, or routed for review. |
+| `residue` | optional | The node's own unresolved remainder; not challenge-contract residue routing. |
 | `forbidden_collapse` | yes | What this concept must not be confused with. |
 
 `challenge_contract` is defined by
 [`CAV2-D40`](../authority/definitions/DEFINITIONS.md#cav2-d40-challenge-contract).
 It is not a third confidence axis. It binds existing challenge-response,
-`contradicts`, `validates`, confidence, owner-route, blocking-question, and
-residue semantics into one explicit node field.
+`contradicts`, `validates`, owner-route, blocking-question, and challenge
+residue-routing semantics into one explicit protocol field. Node confidence and
+node residue remain sibling properties.
 
 Minimum shape:
 
 ```yaml
+confidence:
+  evidence_confidence:
+  commitment_confidence:
 challenge_contract:
   challenge_response:
   valid_challenge_modes:
@@ -41,18 +47,16 @@ challenge_contract:
     - owner_review
   contradiction_edges:
   validation_edges:
-  confidence_reference:
-    evidence_axis: veracidade
-    commitment_axis: convicção
   owner_route:
   resolution_gate:
   blocking_questions:
-  residue:
+  challenge_residue_route:
+residue:
 ```
 
 The compact table below lists the initial concept set and collapse boundaries.
-Full node records must expand the `challenge_contract` before the concept can
-move beyond candidate modeling.
+Full node records must expand the top-level `confidence` and the
+`challenge_contract` before the concept can move beyond candidate modeling.
 
 ## Initial Node Concepts
 

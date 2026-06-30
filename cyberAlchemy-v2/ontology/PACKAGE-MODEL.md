@@ -13,6 +13,11 @@ authority.
 
 The package models authority. It does not decide authority.
 
+Private project witness material may support package modeling through
+[SOURCE-SURFACE-CROSSWALK.md](SOURCE-SURFACE-CROSSWALK.md). Such material is
+source context only unless an owner route promotes a specific claim, pattern, or
+projection.
+
 ## Source Contracts
 
 | Contract | Source | Use |
@@ -22,6 +27,7 @@ The package models authority. It does not decide authority.
 | SC-3 | [../development/research/2026-06-21-ontology-package-consolidation-model/findings.md](../development/research/2026-06-21-ontology-package-consolidation-model/findings.md) | Revised verdict for the candidate authority-model package. |
 | SC-4 | [../development/research/2026-06-21-authority-node-relationship-taxonomy/findings.md](../development/research/2026-06-21-authority-node-relationship-taxonomy/findings.md) | Authority-kind, posture, lifecycle, relation, and projection boundary. |
 | SC-5 | [../development/refinement-runs/20260621T043600Z-authority-artifact-lifecycle-placement/RESULT.md](../development/refinement-runs/20260621T043600Z-authority-artifact-lifecycle-placement/RESULT.md) | Authority artifact lifecycle envelope and multi-provenance rule. |
+| SC-6 | [SOURCE-SURFACE-CROSSWALK.md](SOURCE-SURFACE-CROSSWALK.md) | Private-parent `projects/ontology` witness map; source-context only, not package law or promotion authority. |
 
 ## Package Boundary
 
@@ -92,17 +98,19 @@ source_refs:
 owner_route:
 evidence_posture:
 current_status:
+confidence:
+  evidence_confidence:
+  commitment_confidence:
 promotion_handle:
 challenge_contract:
   challenge_response:
   valid_challenge_modes:
   contradiction_edges:
   validation_edges:
-  confidence_reference:
   owner_route:
   resolution_gate:
   blocking_questions:
-  residue:
+  challenge_residue_route:
 conflicts:
 drift_owner:
 ontology_refs:
