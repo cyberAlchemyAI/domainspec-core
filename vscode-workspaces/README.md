@@ -52,4 +52,7 @@ If title bar colors do not appear, set this in your VS Code user settings:
 
 - These files do not change project code.
 - Colors are workspace-local and apply only when opening the `.code-workspace` file.
+- The CyberAlchemy workspace includes the original `cyberAlchemy` folder,
+  `cyberAlchemy-v2`, and the standalone `resonantos-economy-research` research
+  repository so economy research can continue alongside its method authority.
 - The nested git repositories found during setup were root `domainspec-core`, `arcanum`, and `validation/sigil-spell-sandbox`; the other files are major working contexts.
