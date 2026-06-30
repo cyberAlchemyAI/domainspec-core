@@ -11,6 +11,8 @@ the source of truth; this page is a linked status and navigation surface.
 - Constitution towers: [CTX-CAV2-CONSTITUTION-TOWERS](#context-ctx-cav2-constitution-towers)
 - Craft execution surface: [CTX-CAV2-CRAFT-SURFACE](#context-ctx-cav2-craft-surface)
 - Boundary review: [CTX-CAV2-BOUNDARY](#context-ctx-cav2-boundary)
+- Mint feature (new 2026-06-29): `CTX-CAV2-MINT` + 6 sub-contexts in [.craft/ledger.yml](.craft/ledger.yml) · resolved design + plan: [refine RESULT](development/refinement-runs/20260629T0000Z-cav2-mint-feature/RESULT.md) _(full human-view section regenerable from ledger)_
+- DomainSpec v2 (new 2026-06-29): [CTX-CAV2-DOMAINSPEC-V2](#context-ctx-cav2-domainspec-v2) — v2 rework of the DomainSpec pillar · v1→v2 import triage done ([findings](../projects/domainspec-v2/research/2026-06-29-v1-import-triage/findings.md))
 - Blocking decisions: [DEC-CAV2-VISIBLE-SPACES-001](#decision-dec-cav2-visible-spaces-001), [DEC-CAV2-PUBLIC-PRIVATE-001](#decision-dec-cav2-public-private-001)
 - Active blockers: [BLK-CAV2-SOURCE-TRUTH-001](#blocker-blk-cav2-source-truth-001), [BLK-CAV2-PUBLIC-PRIVATE-001](#blocker-blk-cav2-public-private-001), [BLK-CAV2-VISIBLE-SPACES-001](#blocker-blk-cav2-visible-spaces-001)
 - Definition towers artifact: [authority/definitions/DEFINITION-TOWERS.md](authority/definitions/DEFINITION-TOWERS.md)
@@ -83,6 +85,14 @@ the source of truth; this page is a linked status and navigation surface.
 - Purpose: convert classified tower work into bounded implementation or governance tasks only after promotion and boundary gates are clear enough.
 - Current next move: after import clustering, create a bounded work-pack or task-session slice from this ledger.
 - Evidence: [development/invoke/definition-towers/INVOKE-RESULT.md](development/invoke/definition-towers/INVOKE-RESULT.md)
+
+### <a id="context-ctx-cav2-domainspec-v2"></a>CTX-CAV2-DOMAINSPEC-V2 - DomainSpec v2 — Pillar Rework
+
+- Stage: `define`
+- Gate: `flag`
+- Parent: [CTX-CAV2-ROOT](#context-ctx-cav2-root) (recomposes into root) · sibling of the Mint feature (`CTX-CAV2-MINT`)
+- Purpose: a fresh v2 design effort for the DomainSpec pillar (the *what* — typed intent → engine / Lean kernel), reworked as a peer cav2 workstream. Opened 2026-06-29 on user request; not yet scoped into blockers, decisions, gaps, or owned artifacts.
+- Current next move: **PIVOT (2026-06-29)** — v2 is now the *implementation home*; v1 to be frozen. SWU-A1 hook already shipped in v1. **Batch 1 migration done**: forked the engine (incl. private `src/rules` moat) + 6 Ontology-A docs into [`impl/`](../projects/domainspec-v2/impl/) + seeded [IMPORT-MANIFEST](../projects/domainspec-v2/IMPORT-MANIFEST.md). Batch 2 (validators + code-tag tooling) imported. **impl/ FULLY GREEN 2026-06-30** via npm (pnpm was the blocker, not network): `engine:test` 97/97 · `tags:test` 8/8 · `validate` RC 0 · `typecheck` RC 0 — the validation-governance gate (C9/C10/C11) runs. Next = reformulate the imported docs + Batch 3, freeze v1, wire G4 gate-in-CI.
 
 ## Decisions
 
@@ -235,6 +245,7 @@ the source of truth; this page is a linked status and navigation surface.
 | CTX-CAV2-CRAFT-SURFACE | Update the human view after each meaningful ledger mutation. |
 | CTX-CAV2-BOUNDARY | DEC-CAV2-PUBLIC-PRIVATE-001 and DEC-CAV2-VISIBLE-SPACES-001. |
 | CTX-CAV2-EXECUTION | GAP-CAV2-WORKPACK-001; create a work-pack after import clustering. |
+| CTX-CAV2-DOMAINSPEC-V2 | PIVOT: v2 = implementation home, v1 to be frozen. Batch 1+2 forked engine+docs+validators → impl/ + IMPORT-MANIFEST. **impl/ FULLY GREEN 2026-06-30** (npm; engine:test 97/97 · tags:test 8/8 · validate RC 0 · typecheck RC 0). Pending: Batch 3 (audit/layering reformulate); reformulate 6 imported-verbatim docs; v1-freeze; G4 gate-in-CI. Residue: C10/lint vacuous until a real feature lands; attestation fire-point + provability-as-moat bet (commercialization decision-gate); the Lean-positioning question still open. |
 
 ## Artifacts
 

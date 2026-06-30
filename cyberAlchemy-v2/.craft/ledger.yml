@@ -78,6 +78,9 @@ indexes:
     REL-CAV2-TOWERS-BLOCKED-BY-SOURCE-TRUTH: relations[3]
     REL-CAV2-BOUNDARY-BLOCKS-EXTRACTION: relations[4]
     REL-CAV2-CRAFT-ENABLES-EXECUTION: relations[5]
+    CTX-CAV2-DOMAINSPEC-V2: contexts[15]
+    DESC-CAV2-DOMAINSPEC-V2-001: descriptions[8]
+    REL-CAV2-ROOT-CONTAINS-DOMAINSPEC-V2: relations[6]
   open_decisions:
     - DEC-CAV2-TOWER-ALTITUDE-001
     - DEC-CAV2-VISIBLE-SPACES-001
@@ -112,6 +115,8 @@ indexes:
       next_move: Resolve public/private and visible-space decisions before standalone extraction.
     - context_id: CTX-CAV2-EXECUTION
       next_move: After import clustering, create a bounded work-pack or task-session slice from this ledger.
+    - context_id: CTX-CAV2-DOMAINSPEC-V2
+      next_move: v2 = implementation home; spine minted; recursion model APPLIED to AUTHORITY-MODEL.md + 3 kinds RATIFIED. impl/ FULLY GREEN 2026-06-30 — engine:test 97/97, tags:test 8/8, validate RC 0, typecheck RC 0 (G1/G2/G3 done; G4 CI-wiring deferred). Next = reformulate imported docs/tools per IMPORT-MANIFEST + Batch 3, make drift real (trend-type engine residue), wire G4 gate-in-CI, L2 attestation seal (blocked on attestation).
   artifacts_by_path:
     .craft/ledger.yml: ART-CAV2-LEDGER
     .craft/index.json: ART-CAV2-INDEX
@@ -131,6 +136,16 @@ indexes:
     authority/definitions/source-clusters/primordial.md: ART-CAV2-DEF-CLUSTER-PRIMORDIAL
     "[repo-root]/.arcanum/inventory/index.md": ART-CAV2-INVENTORY-INDEX
     "[repo-root]/.arcanum/ontology-vault/map-2026-06-18-dispersed-knowledge.md": ART-CAV2-ONTOLOGY-MAP
+    "[repo-root]/projects/domainspec-v2/research/2026-06-29-v1-import-triage/findings.md": ART-DSV2-IMPORT-TRIAGE
+    "[repo-root]/projects/domainspec-v2/impl/": ART-DSV2-IMPL
+    "[repo-root]/projects/domainspec-v2/IMPORT-MANIFEST.md": ART-DSV2-IMPORT-MANIFEST
+    "[repo-root]/projects/domainspec-v2/authority/": ART-DSV2-AUTHORITY
+    development/mint/development/handoffs/2026-06-29-first-real-mint-domainspec-v2.md: ART-MINT-FIRST-MINT-HANDOFF
+    "[repo-root]/development/authority-triage/development/handoffs/2026-06-29-governance-organs-via-triage.md": ART-GOVERNANCE-ORGAN-HANDOFF
+    "[repo-root]/projects/domainspec-v2/research/2026-06-29-recursive-governance-model/findings.md": ART-DSV2-RECURSION-RESEARCH
+    development/handoffs/2026-06-29-recursion-d30-refinement-from-domainspec-v2.md: ART-CAV2-RECURSION-D30-HANDOFF
+    "[repo-root]/projects/domainspec-v2/authority/decisions/2026-06-29-ratify-governance-kinds.md": ART-DSV2-RATIFY-KINDS
+    "[repo-root]/projects/domainspec-v2/development/make-it-green/": ART-DSV2-MAKE-IT-GREEN
 
 contexts:
   - context_id: CTX-CAV2-ROOT
@@ -182,6 +197,7 @@ contexts:
       - ART-CAV2-DEF-CLUSTER-PRIMORDIAL
       - ART-CAV2-DEFINITIONS
       - ART-CAV2-DEFINITIONS-INDEX
+      - ART-CAV2-RECURSION-D30-HANDOFF
     links:
       - label: Source-truth blocker
         target: BLK-CAV2-SOURCE-TRUTH-001
@@ -273,7 +289,244 @@ contexts:
         target: GAP-CAV2-WORKPACK-001
         kind: row-id
 
+  - context_id: CTX-CAV2-MINT
+    parent_id: CTX-CAV2-ROOT
+    title: Mint — cast the cav2 authority spine onto a new domain repo
+    purpose: >-
+      The Mint feature: a cav2-authority repo-minting capability that casts the authority spine
+      (kinds D49, definitions tower, constitutions, lifecycle D48 — the MOLD) onto a
+      domain/research/project to mint a new domain-specialized repo. Build-from-owned on
+      domainspec-new-repo (scaffold) + the resonantos precedents. Mint is ONE casting organ of the
+      machine-map foundry, not the whole foundry (scope guardrail).
+    stage: design
+    gate: flag
+    next_move: >-
+      FIRST REAL MINT executed 2026-06-29 (domainspec-v2 L1 authority spine; §7-clean; N=1 — the prior
+      release-approval was a hand-built fixture). Learnings filed as a workflow-reflection handoff
+      (development/handoffs/2026-06-29-first-real-mint-domainspec-v2.md): L1 existing-target L0 gap, L2
+      governance-as-kind + Methods-catalogue, L3 self-adjacent F3(c) scoping, L4 moat-boundary slot.
+      Plus a governance-organ design thread (handoff at [repo-root]/development/authority-triage/development/handoffs/2026-06-29-governance-organs-via-triage.md): reify minted governances as organs = authority-triage (route) + methods + constitution slice; open fork lane-vs-spell → decision-gate.
+      Next = sigil-development applies L1-L4, then the deferred N=3 falsification experiment run.
+    owned_artifacts:
+      - ART-MINT-MACHINE-MAP
+      - ART-MINT-FIRST-MINT-HANDOFF
+      - ART-GOVERNANCE-ORGAN-HANDOFF
+    links:
+      - label: Scaffold mechanics
+        target: CTX-CAV2-MINT-SCAFFOLD
+        kind: row-id
+      - label: Authority spine (the casting)
+        target: CTX-CAV2-MINT-SPINE
+        kind: row-id
+      - label: Precedents
+        target: CTX-CAV2-MINT-PRECEDENTS
+        kind: row-id
+      - label: Adoption / adopt-back
+        target: CTX-CAV2-MINT-ADOPTION
+        kind: row-id
+      - label: Boundary (public/private)
+        target: CTX-CAV2-MINT-BOUNDARY
+        kind: row-id
+      - label: Framework crosswalk
+        target: CTX-CAV2-MINT-CROSSWALK
+        kind: row-id
+      - label: Refine run result
+        target: development/refinement-runs/20260629T0000Z-cav2-mint-feature/RESULT.md
+        kind: path
+  - context_id: CTX-CAV2-MINT-SCAFFOLD
+    parent_id: CTX-CAV2-MINT
+    title: Scaffold mechanics (composed, not rebuilt)
+    purpose: >-
+      The repo-scaffold layer (~30%): partition tree, clone-safe framework attach, gate-first
+      dry-run. Build-from-owned — Mint CALLS domainspec-new-repo (inheriting its clone-safe +
+      single-sessions defect-fixes) WITHOUT inheriting its non-authority posture.
+    stage: design
+    gate: pass
+    next_move: Define the call contract to domainspec-new-repo (--source, --attach submodule, dry-run) as Mint stage 1.
+    owned_artifacts:
+      - ART-MINT-NEWREPO-SKILL
+    links: []
+  - context_id: CTX-CAV2-MINT-SPINE
+    parent_id: CTX-CAV2-MINT
+    title: Authority-spine casting (the core ~70%)
+    purpose: >-
+      What gets cast and is the feature's real work: domain authority kinds (D49), source-spine,
+      promotion-policy (D48 ladder + gates), a domain constitution, domain definitions — via the
+      authority-triage front-door (capture to governed authority). A governance act, not a file
+      drop: it coins edges and enforces, which the scaffolder by design does not.
+    stage: design
+    gate: flag
+    next_move: Specify the authority-spine seed contract (what kinds/policy/constitution a mint emits) — the plan's load-bearing slice.
+    owned_artifacts:
+      - ART-MINT-AUTHORITY-MODEL
+      - ART-MINT-AUTHORITY-DETERMINISM
+    links: []
+  - context_id: CTX-CAV2-MINT-PRECEDENTS
+    parent_id: CTX-CAV2-MINT
+    title: Prior hand-mintings (as-built ground truth)
+    purpose: >-
+      resonantos-economy-research = a fully hand-minted domain repo (~30% scaffold / ~70%
+      authority-spine: authority-model, source-spine, 7-rung promotion-policy, a 14-rule research
+      constitution, a signed decision-gate, 34K domain definitions, a framework crosswalk). No
+      reference to domainspec-new-repo — authority casting was a SEPARATE governance act.
+    stage: define
+    gate: pass
+    next_move: Reverse-engineer the resonantos authority artifacts into the Mint emit-template set.
+    owned_artifacts:
+      - ART-MINT-RESONANTOS-ECON
+      - ART-MINT-RESONANTOS-KIT
+    links: []
+  - context_id: CTX-CAV2-MINT-ADOPTION
+    parent_id: CTX-CAV2-MINT
+    title: Two-way mint-out / adopt-back
+    purpose: >-
+      Minting is two-way: cast the spine OUT to the domain, and adopt domain concepts BACK into
+      cav2 (a third governance act). Governed by the adoption constitution + import pack; the
+      authority-triage sigil is the capture-to-governed-authority front-door.
+    stage: define
+    gate: flag
+    next_move: Decide whether adopt-back is in Mint's MVP scope or a deferred follow-on route.
+    owned_artifacts:
+      - ART-MINT-ADOPTION-CONSTITUTION
+      - ART-MINT-IMPORT-PACK
+    links: []
+  - context_id: CTX-CAV2-MINT-BOUNDARY
+    parent_id: CTX-CAV2-MINT
+    title: Public/private + clone-safe boundary
+    purpose: >-
+      A mint must respect the public (Arcanum) vs private (cav2/DomainSpec/Saturn) boundary and
+      the clone-safe attach. Each minted repo also propagates the governance-data moat (moat-stack);
+      carry the candidate / intended-not-shipped boundary — do not let Mint claim the foundry/moat
+      as shipped.
+    stage: define
+    gate: block
+    next_move: Resolve against BLK-CAV2-PUBLIC-PRIVATE-001 before a mint can emit a public-attached repo.
+    owned_artifacts:
+      - ART-MINT-MOAT-STACK
+    links:
+      - label: Existing boundary review
+        target: CTX-CAV2-BOUNDARY
+        kind: row-id
+  - context_id: CTX-CAV2-MINT-CROSSWALK
+    parent_id: CTX-CAV2-MINT
+    title: Domain-to-framework crosswalk
+    purpose: >-
+      How a minted domain maps back to the framework — per-concept bridge decisions (borrow-carefully
+      / block / analogy-only / promotion-candidate). The resonantos RELATED-FRAMEWORK-CROSSWALK is
+      the worked template.
+    stage: define
+    gate: flag
+    next_move: Template the crosswalk emit from the resonantos as-built example.
+    owned_artifacts:
+      - ART-MINT-RESONANTOS-ECON
+    links: []
+
+  - context_id: CTX-CAV2-DOMAINSPEC-V2
+    parent_id: CTX-CAV2-ROOT
+    title: DomainSpec v2 — pillar rework
+    purpose: >-
+      A fresh v2 design effort for the DomainSpec pillar (the *what* — typed intent → engine /
+      Lean kernel). Reworks DomainSpec as a peer cav2 workstream to the authority spine and the
+      Mint feature; recomposes into CTX-CAV2-ROOT. Opened 2026-06-29 on user request as a new
+      context (trigger: user-initiated v2 rework). Expected artifact: a v2 DomainSpec design/seed
+      once the load-bearing change vs v1 is named. Not yet scoped into blockers, decisions, gaps,
+      or owned artifacts.
+    stage: define
+    gate: flag
+    next_move: >-
+      v2 = implementation home (v1 to be frozen). DONE: Batch-1 engine+docs fork → impl/ +
+      IMPORT-MANIFEST; L1 authority spine minted (3 governances; §7-clean); + validation rules C9
+      (linking) / C10 (completeness). RECURSIVE-GOVERNANCE RESEARCH RESOLVED (dispatch
+      2026-06-29-recursive-governance-model): law/check = μF bounded recursion (REAL, depth-1
+      witnessed, decidability-rooted leaf, ONE recursive schema, Model A as a D30-corollary);
+      drift/trend = νF coalgebraic dual — all BUILD-FROM-OWNED (Hagino/Jacobs/Turi-Rutten + D30/D17/D29);
+      net-new = 3 narrow claims. APPLIED to AUTHORITY-MODEL.md (Governance-Chain section + recursive
+      GovernanceNode schema; edge-law = the layering law); cav2 handoff filed for the D30 refinement. 3 KINDS RATIFIED (owner 2026-06-29; L2 seal pending). impl/ FULLY GREEN 2026-06-30 (engine:test 97/97; tags:test 8/8;
+      validate RC 0; typecheck RC 0; G1/G2/G3 done, G4 CI-wiring deferred). Next = reformulate
+      imported docs/tools per IMPORT-MANIFEST + Batch 3. Residue: R-leaf-inhabitation depth-2; R-trend-type
+      (Stream&lt;CheckResult&gt; + guardedness) → engine lane.
+    owned_artifacts:
+      - ART-DSV2-IMPORT-TRIAGE
+      - ART-DSV2-IMPL
+      - ART-DSV2-IMPORT-MANIFEST
+      - ART-DSV2-AUTHORITY
+      - ART-DSV2-RECURSION-RESEARCH
+      - ART-DSV2-RATIFY-KINDS
+      - ART-DSV2-MAKE-IT-GREEN
+    links:
+      - label: Recomposes into root
+        target: CTX-CAV2-ROOT
+        kind: row-id
+      - label: Sibling — Mint (spine casting)
+        target: CTX-CAV2-MINT
+        kind: row-id
+      - label: Opening description
+        target: DESC-CAV2-DOMAINSPEC-V2-001
+        kind: row-id
+      - label: v1→v2 import triage (findings)
+        target: ART-DSV2-IMPORT-TRIAGE
+        kind: artifact-id
 artifacts:
+  - artifact_id: ART-MINT-MACHINE-MAP
+    owner_context_id: CTX-CAV2-MINT
+    path: ../.arcanum/inventory/entries/machine-map-and-moat-synthesis.md
+    artifact_type: inventory-synthesis
+    status: candidate
+    notes: Foundry framing — the machine manufactures domain authorities; Mint = one casting organ (scope guardrail; intended-not-shipped).
+  - artifact_id: ART-MINT-NEWREPO-SKILL
+    owner_context_id: CTX-CAV2-MINT-SCAFFOLD
+    path: ../implementation/domainspec/.claude/skills/domainspec-new-repo/SKILL.md
+    artifact_type: skill
+    status: active
+    notes: Owned scaffolder Mint composes (clone-safe attach + single-sessions + gate-first dry-run defect-fixes). Deliberately non-authority ("coins no edges, enforces nothing").
+  - artifact_id: ART-MINT-AUTHORITY-MODEL
+    owner_context_id: CTX-CAV2-MINT-SPINE
+    path: authority/AUTHORITY-MODEL.md
+    artifact_type: authority-spec
+    status: candidate
+    notes: The MOLD a mint casts — authority kinds (D49 default-deny), owner routes, promotion mechanics.
+  - artifact_id: ART-MINT-AUTHORITY-DETERMINISM
+    owner_context_id: CTX-CAV2-MINT-SPINE
+    path: ../.arcanum/inventory/entries/cav2-authority-and-determinism-synthesis.md
+    artifact_type: inventory-synthesis
+    status: candidate
+    notes: MOLD-to-castings model; mint = produce a domain casting from the cav2 mold (D30 bounds self-validation).
+  - artifact_id: ART-MINT-RESONANTOS-ECON
+    owner_context_id: CTX-CAV2-MINT-PRECEDENTS
+    path: authority/imports/resonantos-economy-research/
+    artifact_type: precedent-import
+    status: active
+    notes: cav2's import surface of the hand-minted resonantos-economy-research domain repo (full repo at ../../resonantos-economy-research/). As-built ~30/70 scaffold/authority.
+  - artifact_id: ART-MINT-RESONANTOS-KIT
+    owner_context_id: CTX-CAV2-MINT-PRECEDENTS
+    path: ../../resonantos-cyberalchemy-kit/
+    artifact_type: precedent-repo
+    status: active
+    notes: NOT a minting kit (a one-off outbound integration handoff) — precedent-miner verdict; recorded to prevent re-mistaking it as a template source.
+  - artifact_id: ART-MINT-ADOPTION-CONSTITUTION
+    owner_context_id: CTX-CAV2-MINT-ADOPTION
+    path: authority/constitutions/VAULT-CONCEPT-ADOPTION-CONSTITUTION.md
+    artifact_type: constitution
+    status: candidate
+    notes: Governs adopt-back (imported concepts become cav2 authority only when re-authored by the owner).
+  - artifact_id: ART-MINT-IMPORT-PACK
+    owner_context_id: CTX-CAV2-MINT-ADOPTION
+    path: authority/constitutions/CONSTITUTION-IMPORT-PACK.md
+    artifact_type: constitution
+    status: candidate
+    notes: Constitution/axiom import staging — the mint-out / adopt-back machinery.
+  - artifact_id: ART-MINT-MOAT-STACK
+    owner_context_id: CTX-CAV2-MINT-BOUNDARY
+    path: ../.arcanum/inventory/entries/moat-stack-and-authority-triage-synthesis.md
+    artifact_type: inventory-synthesis
+    status: candidate
+    notes: Moat propagation (each mint embeds governance-data + switching-cost moat) + the authority-triage front-door. INTERNAL/moat-adjacent; candidate, not canonical.
+  - artifact_id: ART-MINT-AUTHORITY-TRIAGE
+    owner_context_id: CTX-CAV2-MINT-SPINE
+    path: ../development/authority-triage/
+    artifact_type: sigil-candidate
+    status: candidate
+    notes: The capture-to-governed-authority front-door Mint stage 2 routes through. Candidate, review-mode (passed first corpus; "not promotion-ready" gates only the public arcanum write, not internal use). Added per review C9; repo-root path per review C11.
   - artifact_id: ART-CAV2-LEDGER
     owner_context_id: CTX-CAV2-CRAFT-SURFACE
     path: .craft/ledger.yml
@@ -382,6 +635,66 @@ artifacts:
     artifact_type: definition-source-cluster
     status: candidate
     notes: Primordial source cluster; D29-D39 are promoted from this cluster and artifact remains the next T-1 review candidate.
+  - artifact_id: ART-DSV2-IMPORT-TRIAGE
+    owner_context_id: CTX-CAV2-DOMAINSPEC-V2
+    path: "[repo-root]/projects/domainspec-v2/research/2026-06-29-v1-import-triage/findings.md"
+    artifact_type: research-findings
+    status: candidate
+    notes: v1→v2 import triage (research dispatch 2026-06-29-domainspec-v1-import-triage); 3 IMPORT/25 REFORMULATE/4 DROP + free-vs-moat resolution. Candidate; promotion needs an approved task-session.
+  - artifact_id: ART-DSV2-IMPL
+    owner_context_id: CTX-CAV2-DOMAINSPEC-V2
+    path: "[repo-root]/projects/domainspec-v2/impl/"
+    artifact_type: forked-implementation
+    status: candidate
+    notes: Batch 1 fork of the v1 engine (test-derivation-engine, incl. PRIVATE src/rules moat — never publish to public arcanum) + impl/spec Ontology-A docs (imported-verbatim, reformulation-pending). Provenance v1 commit 33859b5. Build-proof blocked on sandbox toolchain. Batch 2 imported 2026-06-29 — validators (validate-doc-links/validate-relationships → impl/tools) + code-tag/drift tooling (governance/tags/tools + schema) → impl/governance/tags; v1 drift-report data left behind; reformulation-pending (retarget paths, wire tsx runtime, reset waivers). Node instantiated 2026-06-29 (impl/package.json npm workspace + tsconfig + tsconfig.base.json brought as a Batch-1 fork-gap fix; npm install OK 50 pkgs). Build-proof = engine COMPILES+TYPECHECKS+RUNS standalone (build-without-v1 PROVEN); full test-suite NOT green — corpus-dependent tests need fixtures relocated to v2 (l3 agent-execution-orchestrator path dead; tags suite no-load). build-standalone YES; engine test-suite GREEN (G1 done 2026-06-29 — fixtures relocated to test-derivation-engine/__fixtures__, 97/97 pass standalone); tags + validate gates pending (G2/G3).
+  - artifact_id: ART-DSV2-IMPORT-MANIFEST
+    owner_context_id: CTX-CAV2-DOMAINSPEC-V2
+    path: "[repo-root]/projects/domainspec-v2/IMPORT-MANIFEST.md"
+    artifact_type: migration-ledger
+    status: active
+    notes: The v1→v2 migration ledger ("the way") keyed to the 32 triage rows — src→dest, verdict, status, batch. Tracks IMPORT/REFORMULATE/DROP + the v1 freeze gate.
+  - artifact_id: ART-DSV2-AUTHORITY
+    owner_context_id: CTX-CAV2-DOMAINSPEC-V2
+    path: "[repo-root]/projects/domainspec-v2/authority/"
+    artifact_type: minted-authority-spine
+    status: candidate
+    notes: L1 authority spine minted via the Mint MOLD (AUTHORITY-MODEL + source-spine + promotion-policy + constitutions/domainspec-v2-CONSTITUTION + decisions/2026-06-29-mint + ../definitions/DEFINITIONS + ../RELATED-FRAMEWORK-CROSSWALK). 3 domain-originated governances (drift/validation/layering); §7-clean (0 leak, 3 default-deny); kinds RATIFIED (owner 2026-06-29, decisions/2026-06-29-ratify-governance-kinds.md); L2 attestation seal pending. INTERNAL/private (engine src/rules moat never published).
+  - artifact_id: ART-MINT-FIRST-MINT-HANDOFF
+    owner_context_id: CTX-CAV2-MINT
+    path: development/mint/development/handoffs/2026-06-29-first-real-mint-domainspec-v2.md
+    artifact_type: workflow-reflection-handoff
+    status: active
+    notes: invoke handoff capturing the FIRST REAL mint's learnings (L1 existing-target L0 gap; L2 governance-as-kind + Methods-catalogue; L3 self-adjacent F3(c) scoping; L4 moat-boundary slot) back to sigil-development. Mint's first N=1 evidence (release-approval was a fixture).
+  - artifact_id: ART-GOVERNANCE-ORGAN-HANDOFF
+    owner_context_id: CTX-CAV2-MINT
+    path: "[repo-root]/development/authority-triage/development/handoffs/2026-06-29-governance-organs-via-triage.md"
+    artifact_type: new-lifecycle-thread-handoff
+    status: active
+    notes: invoke handoff (new-lifecycle-thread) — the governance-organ architecture. kind × governance orthogonal axes; organ = authority-triage (route) + methods (exercise) + constitution slice (enforce); build-from-owned on authority-triage (candidate/unvalidated), don't rebuild the router. Open fork lane-vs-spell → decision-gate. Mint enhancement = emit minted governances as authority-triage owner-routes.
+  - artifact_id: ART-DSV2-RECURSION-RESEARCH
+    owner_context_id: CTX-CAV2-DOMAINSPEC-V2
+    path: "[repo-root]/projects/domainspec-v2/research/2026-06-29-recursive-governance-model/findings.md"
+    artifact_type: research-findings
+    status: candidate
+    notes: Resolved research (dispatch 2026-06-29-recursive-governance-model; 8 agents, 1 zig-zag loop, exit resolved). law/check = μF bounded recursion (REAL depth-1, decidability-rooted leaf, ONE GovernanceNode schema, Model A = D30-corollary); drift/trend = νF coalgebraic dual (bound = design commitment pending Stream<CheckResult> + guardedness). BUILD-FROM-OWNED (Hagino/Jacobs/Turi-Rutten/Meijer + D30/D17/D29); net-new = 3 narrow claims. Residue — R-leaf-inhabitation (depth-2), R-trend-type (engine). APPLIED to AUTHORITY-MODEL.md Governance-Chain section.
+  - artifact_id: ART-CAV2-RECURSION-D30-HANDOFF
+    owner_context_id: CTX-CAV2-DEF-TOWERS
+    path: development/handoffs/2026-06-29-recursion-d30-refinement-from-domainspec-v2.md
+    artifact_type: new-lifecycle-thread-handoff
+    status: active
+    notes: invoke handoff to cav2 — domainspec-v2's recursion research surfaced a build-from-owned refinement candidate to CAV2-D30 (decidability-rooted decidable-leaf bound + the μF/νF inductive-vs-coinductive split). Routes to definitions-governance + decision-gate (D49 owner-gate) to decide sharpen-D30 vs coin-sibling vs keep-domain-local. Proposal-only; N=1, author lean = coin-or-keep-local now, sharpen at N>=2.
+  - artifact_id: ART-DSV2-RATIFY-KINDS
+    owner_context_id: CTX-CAV2-DOMAINSPEC-V2
+    path: "[repo-root]/projects/domainspec-v2/authority/decisions/2026-06-29-ratify-governance-kinds.md"
+    artifact_type: ratification-decision
+    status: ratified
+    notes: domainspec-v2 owner ratification (D49 owner-gate, L0-attributional) of the 3 governance kinds (validation/layering/drift) proposed by 2026-06-29-mint.md. Owner-ratified 2026-06-29; L2 cryptographic attestation seal PENDING (attestation capability). Promotion into cav2 D49 remains a separate cav2 act.
+  - artifact_id: ART-DSV2-MAKE-IT-GREEN
+    owner_context_id: CTX-CAV2-DOMAINSPEC-V2
+    path: "[repo-root]/projects/domainspec-v2/development/make-it-green/"
+    artifact_type: design-plan-workpack
+    status: candidate
+    notes: invoke design+plan to make impl/ green (DESIGN.md + WORK-PACK.md). 4 SWUs L0-L3 — G1 relocate engine fixtures+repoint (engine:test green), G2 fix tag tests via node-test runner + drop pnpm (tags:test green), G3 retarget validators + seed a v2 feature fixture (validate green), G4 wire CI/hook (deferred). Distill pass; next route task-session per SWU. STATUS 2026-06-29 — G1 DONE (engine:test 97/97 green, fixtures relocated to __fixtures__). G2 runner FIXED (node:test + drop pnpm; tests execute 6/8) but FLAGGED — 2 fail on the G3 validator-path coupling (validators default RELATIONSHIPS/TAXONOMY/features-root to cwd impl/, but they live in impl/spec/). G3 retarget greens both validate AND the 2 tag tests. STATUS 2026-06-30 — G3 DONE; impl/ FULLY GREEN — engine:test 97/97, tags:test 8/8 (G2 closed), validate RC 0, typecheck RC 0. Retargeted 3 validators' defaults to spec/; seeded spec/features/sample/; engine:lint now direct-invokes the cli (avoids the nested npm -w re-entrancy bug). C9/C11 non-vacuous+discriminating (29 edges; broken link flips RC 1); C10/lint currently vacuous (sample has no tables/Formal cells). Only G4 (CI/hook wiring) deferred.
 
 descriptions:
   - description_id: DESC-CAV2-ROOT-001
@@ -424,6 +737,11 @@ descriptions:
     description: Execution is deferred until Craft selects bounded next slices from the tower map and the relevant authority route owns promotion or implementation.
     status: active
     evidence: ART-CAV2-INVOKE-RESULT
+  - description_id: DESC-CAV2-DOMAINSPEC-V2-001
+    context_id: CTX-CAV2-DOMAINSPEC-V2
+    description: DomainSpec v2 opens as a new cav2 child workstream to rework the DomainSpec pillar; scope, the load-bearing change vs v1, and the first design artifact are not yet defined.
+    status: active
+    evidence: ART-CAV2-LEDGER
 
 definitions:
   - definition_id: DEF-CAV2-DEFINITION-TOWER-001
@@ -798,6 +1116,12 @@ relations:
     source_id: ENA-CAV2-CRAFT-LEDGER-001
     target_id: CTX-CAV2-EXECUTION
     relation_type: enables
+    status: active
+    evidence: ART-CAV2-LEDGER
+  - relation_id: REL-CAV2-ROOT-CONTAINS-DOMAINSPEC-V2
+    source_id: CTX-CAV2-ROOT
+    target_id: CTX-CAV2-DOMAINSPEC-V2
+    relation_type: contains
     status: active
     evidence: ART-CAV2-LEDGER
 

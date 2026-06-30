@@ -1,0 +1,27 @@
+{
+  "name": "@domainspec-v2/impl",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "DomainSpec v2 implementation home — engine + governance tooling (migrated from v1; see ../IMPORT-MANIFEST.md).",
+  "workspaces": ["test-derivation-engine"],
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.4.0",
+    "tsx": "^4.7.0",
+    "vitest": "^2.0.0"
+  },
+  "scripts": {
+    "validate": "npm run validate:docs && npm run validate:rels && npm run engine:lint",
+    "validate:docs": "tsx tools/validate-doc-links.ts",
+    "validate:rels": "tsx tools/validate-relationships.ts",
+    "engine:lint": "tsx test-derivation-engine/src/cli.ts lint spec/features/sample",
+    "engine:test": "npm -w @domainspec/test-derivation-engine run test",
+    "tags:extract": "tsx governance/tags/tools/extract-code-tags.ts",
+    "tags:validate": "tsx governance/tags/tools/validate-code-tags.ts",
+    "tags:drift": "tsx governance/tags/tools/compare-code-tag-drift.ts",
+    "tags:composability": "tsx governance/tags/tools/check-code-tag-composability.ts",
+    "tags:test": "node --import tsx --test governance/tags/tools/tests/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  }
+}

@@ -1,14 +1,23 @@
 # DomainSpec v2
 
-Status: research program (pre-implementation)
+Status: **implementation home** (migrating from v1 by import+reformulate, 2026-06-29) — and still the research-tower program
 Owner: DomainSpec v2
 Started: 2026-06-11
 
-DomainSpec v2 is the next iteration of the DomainSpec discipline. v1 lives in
-[`implementation/domainspec`](../../implementation/domainspec) and is the
-evidence source for what already exists. v2 is where we re-think the core ideas
-**before** mutating any template, validator, registry, ontology, or runtime
-contract.
+DomainSpec v2 is the next iteration of the DomainSpec discipline. **As of 2026-06-29, v2 is
+becoming the implementation home:** v1 ([`implementation/domainspec`](../../implementation/domainspec))
+is being **frozen as an evidence source**, and the necessary capabilities are being **imported and
+reformulated** into v2 — see [`IMPORT-MANIFEST.md`](IMPORT-MANIFEST.md), driven by the
+[v1→v2 import triage](research/2026-06-29-v1-import-triage/findings.md). The forked implementation
+lives under [`impl/`](impl/). v2 also remains the research-tower program described below.
+
+## Implementation home (`impl/`) — migrated from v1
+
+The forked implementation lives under [`impl/`](impl/):
+- `impl/test-derivation-engine/` — the deterministic engine (fork of v1's; `src/rules/` is the **private moat** — never publish to public `arcanum/`).
+- `impl/spec/` — the Ontology-A docs (TAXONOMY, RELATIONSHIPS, AXIOMS, DRIFT-CONVERGENCE, TEST-PIPELINE, CONSTITUTION) — imported verbatim, **reformulation pending**.
+
+Migration is tracked in [`IMPORT-MANIFEST.md`](IMPORT-MANIFEST.md) (every v1→v2 row: verdict, status, batch). The 4 DROP-verdict v1 capabilities are never imported.
 
 ## How v2 works
 
@@ -66,8 +75,8 @@ proposal in
 
 ## Boundaries
 
-- Research writes stay under `projects/domainspec-v2/research/`.
-- No template, validator, ontology, registry, or runtime change without a later
-  approved `task-session`.
+- **v1 is frozen** (`implementation/domainspec/`) — a read-only evidence source; new work lands in v2, not v1.
+- Implementation lands under `impl/`; research under `research/`. The moat `impl/test-derivation-engine/src/rules/` stays **private** — never publish to public `arcanum/`.
+- REFORMULATE imports are copied to unblock the build, then re-authored for v2's *govern+enforce Ontology A on evidence* mandate (tracked in `IMPORT-MANIFEST.md`); the 4 DROP capabilities are never imported.
 - Public/private submodule discipline still applies (see
   [`SUBMODULE-DISCIPLINE.md`](../../SUBMODULE-DISCIPLINE.md)).
