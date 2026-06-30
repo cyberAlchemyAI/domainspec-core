@@ -1,0 +1,575 @@
+{
+  "dispatch_id": "refine-resonantos-integration-standalone-package-plan-20260629T162639Z",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Refine the standalone-package plan for development/resonantos-integration, then use invoke to author the canonical plan files.",
+    "objective": "Create a governed refinement route and Invoke plan package for a standalone ResonantOS CyberAlchemy integration package.",
+    "target_artifact": "development/resonantos-integration/standalone-package-plan/WORK-PACK.md",
+    "arcanum_vocabulary": [
+      "refine",
+      "invoke",
+      "dispatch-spec",
+      "distill",
+      "implementation-layering",
+      "task-session",
+      "promotion guardrail",
+      "residue"
+    ],
+    "operator_sentence": "Refine this plan, and then invoke the canonical files."
+  },
+  "mode": "mixed",
+  "route_menu": {
+    "context_hint": "The operator requested refinement followed by Invoke plan artifacts. The chosen route keeps runtime implementation out of scope.",
+    "items": [
+      {
+        "id": "refine-then-invoke-plan",
+        "label": "Refine then Invoke plan",
+        "description": "Materialize refinement evidence and the canonical Invoke plan files without executing implementation.",
+        "capability_ref": "refine",
+        "pattern": "sequential"
+      },
+      {
+        "id": "invoke-only-plan",
+        "label": "Invoke only",
+        "description": "Skip the Refine evidence folder and author only the plan files.",
+        "capability_ref": "invoke",
+        "pattern": "sequential"
+      }
+    ],
+    "selected_item_id": "refine-then-invoke-plan"
+  },
+  "techniques": [
+    "sequence",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "data_quality_completeness",
+    "protected_context_flag",
+    "residue_ledger",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "execution_receipt_handoff",
+    "state_namespace_boundary",
+    "memory_promotion_split",
+    "concrete_path_evidence"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "The target is a plan authoring route with ordered refinement and Invoke artifacts.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping",
+        "minimum_component_catalog",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S8",
+        "S9",
+        "S10"
+      ],
+      "validation_expectation": "Every stage has a frame, artifact, receipt, or blocked reason."
+    },
+    {
+      "overlay_id": "protected_context_for_private_parent",
+      "trigger": "The source folder is inside a private umbrella and the package is intended for a private external collaborator repo.",
+      "techniques": [
+        "protected_context_flag",
+        "state_namespace_boundary",
+        "memory_promotion_split",
+        "concrete_path_evidence"
+      ],
+      "applies_to_steps": [
+        "S1",
+        "S6",
+        "S9",
+        "S10"
+      ],
+      "validation_expectation": "Plan artifacts preserve private/public boundaries and do not convert local evidence into public promotion."
+    },
+    {
+      "overlay_id": "distill_to_first_swu",
+      "trigger": "The package could sprawl into runtime implementation unless the smallest working unit is explicit.",
+      "techniques": [
+        "scu_swu_reduction",
+        "recomposition_proof",
+        "residue_ledger",
+        "execution_receipt_handoff"
+      ],
+      "applies_to_steps": [
+        "S5",
+        "S8",
+        "S9"
+      ],
+      "validation_expectation": "The first executable unit is SWU-RCI-001 and later implementation work remains deferred."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "Artifact authoring is locally bounded and does not need role-bound sibling agents.",
+    "explanation": "The user requested refinement and Invoke authoring, not delegated research or implementation. Existing evidence is sufficient.",
+    "context": [
+      "development/resonantos-integration/findings.md",
+      "development/resonantos-integration/owned-base/BASE-FOR-VICTOR.md"
+    ],
+    "roles": [],
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "receipt_requirements": [
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation_result",
+      "blockers",
+      "residue"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "refine-resonantos-integration-standalone-package-plan-20260629T162639Z",
+      "step_id": "S9",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": [
+        "development/resonantos-integration/standalone-package-plan/WORK-PACK.md",
+        "development/resonantos-integration/standalone-package-plan/IMPLEMENTATION-LAYERING.md",
+        "development/resonantos-integration/standalone-package-plan/EXECUTION-PACK.md"
+      ],
+      "validation": [
+        "dispatch-spec validation",
+        "json parse",
+        "markdown presence checks"
+      ],
+      "observer_status": "prepared",
+      "blockers": [],
+      "residue": "No runtime implementation executed.",
+      "handoff_note": "Select one SWU for task-session."
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "concrete_path_evidence",
+        "protected_context_flag"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "operator request"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/01-context-baseline.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/01-context-baseline.md",
+      "stop_conditions": [
+        "block if source evidence is unavailable"
+      ]
+    },
+    {
+      "step_id": "S2",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "parallel": false,
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "S1.context-baseline"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/02-invoke-define.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/02-invoke-define.md"
+    },
+    {
+      "step_id": "S3",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "sequential",
+      "parallel": false,
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "S2.define-artifact"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/03-refine-review.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/03-refine-review.md"
+    },
+    {
+      "step_id": "S4",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "no-research",
+      "pattern": "decision",
+      "parallel": false,
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "S3.review-artifact"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "local evidence only"
+        },
+        {
+          "kind": "artifact",
+          "ref": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/04-research-decision.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/04-research-decision.md"
+    },
+    {
+      "step_id": "S5",
+      "name": "Distill smallest coherent unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": [
+        "scu_swu_reduction",
+        "recomposition_proof",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "local evidence only"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/05-distill.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/05-distill.md"
+    },
+    {
+      "step_id": "S6",
+      "name": "Invoke Redefine Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "parallel": false,
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "S5.distill-artifact"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/06-invoke-design.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/06-invoke-design.md"
+    },
+    {
+      "step_id": "S7",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "sequential",
+      "parallel": false,
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "S6.design-artifact"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/07-design-review.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/07-design-review.md"
+    },
+    {
+      "step_id": "S8",
+      "name": "Distill repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": [
+        "scu_swu_reduction",
+        "recomposition_proof",
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "S7.design-review-artifact"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/08-distill-repair.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/stages/08-distill-repair.md"
+    },
+    {
+      "step_id": "S9",
+      "name": "Invoke Plan canonical files",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "handle_handoff",
+        "artifact_contract_bridge",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "S8.distill-repair-artifact"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "development/resonantos-integration/standalone-package-plan/WORK-PACK.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "development/resonantos-integration/standalone-package-plan/IMPLEMENTATION-LAYERING.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "development/resonantos-integration/standalone-package-plan/EXECUTION-PACK.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "development/resonantos-integration/standalone-package-plan/WORK-PACK.md"
+    },
+    {
+      "step_id": "S10",
+      "name": "Final interrogation and synthesis",
+      "capability_ref": "refine",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "S9.invoke-plan-artifacts"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/RESULT.md"
+        },
+        {
+          "kind": "handoff",
+          "ref": "task-session on SWU-RCI-001"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "development/resonantos-integration/refinement-runs/20260629T162639Z-standalone-package-plan/RESULT.md"
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "dispatch-shape",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "REFINE-DISPATCH.json validates before plan files are treated as routed evidence.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "private-boundary",
+      "kind": "promotion_guardrail",
+      "owner": "refine",
+      "condition": "The plan must not put private parent history, private codenames, engine internals, or internal layer maps into the standalone package.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "invoke-plan-companions",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "WORK-PACK.md, IMPLEMENTATION-LAYERING.md, EXECUTION-PACK.md, Distill validation, waves, tasks, and shared context are present.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "swu-first-unit",
+      "kind": "quality",
+      "owner": "distill",
+      "condition": "The first mutation-capable handoff is one selected SWU, not the whole package.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "no-runtime-implementation",
+      "kind": "policy",
+      "owner": "invoke",
+      "condition": "This route authors planning artifacts only and does not implement ResonantOS runtime code.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "refine.strategy.created",
+      "dispatch.validation.completed",
+      "invoke.plan.files.created",
+      "distill.validation.completed",
+      "refine.result.completed"
+    ],
+    "signal_grouping": "resonantos-integration-standalone-package-plan"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1-private-parent-to-package",
+        "kind": "state_write",
+        "from_owner": "domainspec-core private parent evidence",
+        "to_owner": "standalone package staging plan",
+        "applies_to_steps": [
+          "S1",
+          "S9",
+          "S10"
+        ],
+        "contract": "Use local evidence as planning input; package content must be scrubbed and standalone.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B2-invoke-to-task-session",
+        "kind": "capability_handoff",
+        "from_owner": "invoke plan",
+        "to_owner": "task-session",
+        "applies_to_steps": [
+          "S9",
+          "S10"
+        ],
+        "contract": "Invoke authors SWU-ready plan artifacts; Task Session executes one selected SWU later.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine owns refinement evidence; invoke owns plan artifacts",
+      "execution": "task-session owns later SWU execution",
+      "validation": "dispatch-spec validates route shape; work-pack validation checks package readiness",
+      "evidence": "domainspec-core private parent evidence remains source evidence only",
+      "memory": "no Inventory or Ontology promotion occurs in this route",
+      "promotion": "no public or external package promotion occurs without a later handoff"
+    },
+    "receipts": [
+      {
+        "receipt_id": "invoke-plan-receipt",
+        "producer": "invoke",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation_result",
+          "blockers",
+          "residue"
+        ],
+        "stores": [
+          "RUN-MANIFEST.md",
+          "evidence-index.json"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "private-source-evidence",
+        "owner": "domainspec-core",
+        "write_policy": "read-only during this route"
+      },
+      {
+        "namespace": "refine-run-evidence",
+        "owner": "refine",
+        "write_policy": "append or replace only within the run folder"
+      },
+      {
+        "namespace": "invoke-plan-artifacts",
+        "owner": "invoke",
+        "write_policy": "write only under development/resonantos-integration/standalone-package-plan"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "local planning evidence",
+        "target": "standalone package content",
+        "rule": "Planning evidence may inform package content but cannot become public or external without scrub and explicit publish handoff.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "No public Arcanum promotion.",
+    "No external repository mutation.",
+    "No private codename or engine-internal leakage.",
+    "No claim that the ResonantOS promotion provider is already implemented."
+  ]
+}

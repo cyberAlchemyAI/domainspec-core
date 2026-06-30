@@ -1,0 +1,212 @@
+{
+  "schema_version": "inventory.evidence-card-fixture.v0.1",
+  "fixture_id": "inventory.fixture.resonantos-cyberalchemy-package.v0.1",
+  "purpose": "Validate candidate evidence cards for the standalone governance integration package.",
+  "source_slice": "standalone-package/FINDINGS.md",
+  "cards": [
+    {
+      "id": "inventory.card.resonantos-governed-write-seam",
+      "schema_version": "inventory.evidence-card.v0.2",
+      "profile": "full",
+      "card_type": "source-summary",
+      "title": "Governed Write Seam",
+      "summary": "The host archive owns read and fact-over-time behavior while CyberAlchemy adds candidate, decision, and promotion governance on the write side.",
+      "source_refs": [
+        {
+          "path": "FINDINGS.md",
+          "selector": "What This Package Supplies",
+          "selector_type": "heading",
+          "fragment_kind": "section"
+        }
+      ],
+      "authority_level": "session-evidence",
+      "tags": [
+        "resonantos",
+        "cyberalchemy",
+        "governed-write",
+        "promotion"
+      ],
+      "selection_reason": "Anchors the main integration boundary without claiming runtime implementation.",
+      "captured": {
+        "by": "agent",
+        "at": "2026-06-29",
+        "tool_or_command": "decision-gate package creation",
+        "source_stage": "manual"
+      },
+      "promotion_status": "candidate",
+      "promotion_owner": "inventory",
+      "handoff_targets": [
+        "context-builder",
+        "invoke"
+      ],
+      "related_cards": [
+        "inventory.card.resonantos-no-promotion-guardrail",
+        "inventory.card.resonantos-provider-body-gap"
+      ],
+      "claim_shape": {
+        "subject_ref": "host_archive.write_side",
+        "predicate_label": "is_governed_by",
+        "predicate_status": "candidate",
+        "object_ref": "cyberalchemy.governance_package",
+        "target_resolution": "proposed",
+        "evidence_refs": [
+          "FINDINGS.md#what-this-package-supplies"
+        ],
+        "non_authority_notice": "This card is package evidence only; it does not promote a runtime integration."
+      },
+      "trace": [
+        {
+          "field": "summary",
+          "rule": "package-source-summary",
+          "source_ref": "FINDINGS.md#what-this-package-supplies",
+          "confidence": 0.9,
+          "decision": "assigned"
+        }
+      ],
+      "residue": {
+        "type": "runtime-proof",
+        "status": "open",
+        "surfaced_by": "package creation",
+        "note": "No end-to-end host promotion run is included."
+      },
+      "open_questions": [
+        "Which host implementation repository will own the provider body?"
+      ],
+      "updated_at": "2026-06-29"
+    },
+    {
+      "id": "inventory.card.resonantos-no-promotion-guardrail",
+      "schema_version": "inventory.evidence-card.v0.2",
+      "profile": "full",
+      "card_type": "claim",
+      "title": "No Promotion Guardrail",
+      "summary": "Capture may create candidates, but candidates cannot promote themselves and trusted writes require explicit owner approval.",
+      "source_refs": [
+        {
+          "path": "docs/no-promotion-policy.md",
+          "selector": "Policy",
+          "selector_type": "heading",
+          "fragment_kind": "section"
+        }
+      ],
+      "authority_level": "session-evidence",
+      "tags": [
+        "default-deny",
+        "review-queue",
+        "no-promotion"
+      ],
+      "selection_reason": "Defines the key safety condition for the package.",
+      "captured": {
+        "by": "agent",
+        "at": "2026-06-29",
+        "tool_or_command": "decision-gate package creation",
+        "source_stage": "manual"
+      },
+      "promotion_status": "candidate",
+      "promotion_owner": "inventory",
+      "handoff_targets": [
+        "context-builder",
+        "invoke"
+      ],
+      "related_cards": [
+        "inventory.card.resonantos-governed-write-seam"
+      ],
+      "claim_shape": {
+        "subject_ref": "candidate.capture",
+        "predicate_label": "must_not_self_promote",
+        "predicate_status": "candidate",
+        "object_ref": "trusted_memory",
+        "target_resolution": "proposed",
+        "evidence_refs": [
+          "docs/no-promotion-policy.md#policy"
+        ],
+        "non_authority_notice": "This is a package guardrail candidate, not a host policy promotion."
+      },
+      "trace": [
+        {
+          "field": "summary",
+          "rule": "policy-summary",
+          "source_ref": "docs/no-promotion-policy.md#policy",
+          "confidence": 0.92,
+          "decision": "assigned"
+        }
+      ],
+      "residue": {
+        "type": "host-policy-proof",
+        "status": "open",
+        "surfaced_by": "package creation",
+        "note": "Host implementation tests are still required."
+      },
+      "open_questions": [],
+      "updated_at": "2026-06-29"
+    },
+    {
+      "id": "inventory.card.resonantos-provider-body-gap",
+      "schema_version": "inventory.evidence-card.v0.2",
+      "profile": "full",
+      "card_type": "question",
+      "title": "Provider Body Implementation Gap",
+      "summary": "The package specifies the host-side trusted-write provider body but does not implement it.",
+      "source_refs": [
+        {
+          "path": "docs/host-promotion-provider-body.md",
+          "selector": "Status",
+          "selector_type": "heading",
+          "fragment_kind": "section"
+        }
+      ],
+      "authority_level": "session-evidence",
+      "tags": [
+        "trusted-write",
+        "provider-body",
+        "runtime-gap"
+      ],
+      "selection_reason": "Keeps the main claim boundary visible to downstream implementers.",
+      "captured": {
+        "by": "agent",
+        "at": "2026-06-29",
+        "tool_or_command": "decision-gate package creation",
+        "source_stage": "manual"
+      },
+      "promotion_status": "candidate",
+      "promotion_owner": "inventory",
+      "handoff_targets": [
+        "context-builder",
+        "invoke"
+      ],
+      "related_cards": [
+        "inventory.card.resonantos-governed-write-seam"
+      ],
+      "claim_shape": {
+        "subject_ref": "trusted_write_provider_body",
+        "predicate_label": "is_unimplemented",
+        "predicate_status": "candidate",
+        "object_ref": "host_runtime",
+        "target_resolution": "unresolved",
+        "evidence_refs": [
+          "docs/host-promotion-provider-body.md#status"
+        ],
+        "non_authority_notice": "This card records a package gap and does not block candidate validation."
+      },
+      "trace": [
+        {
+          "field": "summary",
+          "rule": "gap-summary",
+          "source_ref": "docs/host-promotion-provider-body.md#status",
+          "confidence": 0.94,
+          "decision": "assigned"
+        }
+      ],
+      "residue": {
+        "type": "implementation-gap",
+        "status": "open",
+        "surfaced_by": "package creation",
+        "note": "Provider body implementation belongs to a later host-runtime task."
+      },
+      "open_questions": [
+        "Which host adapter owns the trusted write implementation?"
+      ],
+      "updated_at": "2026-06-29"
+    }
+  ]
+}

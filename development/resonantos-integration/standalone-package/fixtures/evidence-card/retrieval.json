@@ -1,0 +1,40 @@
+{
+  "schema_version": "inventory.evidence-card-retrieval-fixture.v0.1",
+  "retrieval_id": "inventory.retrieval.resonantos-governed-write-package.v0.1",
+  "query": {
+    "purpose": "Prepare context for implementing the first safe package slice.",
+    "filters": {
+      "tags_any": [
+        "governed-write",
+        "no-promotion",
+        "trusted-write"
+      ],
+      "authority_level_any": [
+        "session-evidence"
+      ],
+      "card_type_any": [
+        "source-summary",
+        "claim",
+        "question"
+      ]
+    }
+  },
+  "selected_cards": [
+    {
+      "id": "inventory.card.resonantos-governed-write-seam",
+      "reason": "Defines the read/write governance boundary."
+    },
+    {
+      "id": "inventory.card.resonantos-no-promotion-guardrail",
+      "reason": "Defines the no-promotion safety condition."
+    },
+    {
+      "id": "inventory.card.resonantos-provider-body-gap",
+      "reason": "Keeps the host-side implementation gap visible."
+    }
+  ],
+  "excluded_matches": [],
+  "trace_notes": [
+    "Selected cards preserve boundary, safety, and implementation-gap evidence."
+  ]
+}
