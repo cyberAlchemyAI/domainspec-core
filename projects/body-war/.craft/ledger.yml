@@ -53,6 +53,15 @@ indexes:
     ART-SUGGESTED-TRACK-RUNTIME-HANDOFF: artifacts[36]
     ART-SUGGESTED-TRACK-RUN-MANIFEST: artifacts[37]
     HND-SUGGESTED-TRACK-SLICE-1-001: route_handoffs[4]
+    ART-SUGGESTED-TRACK-DECISION-BUILD-DISPATCH: artifacts[38]
+    ART-SUGGESTED-TRACK-DECISION-BUILD-HANDOFF: artifacts[39]
+    ART-SUGGESTED-TRACK-DECISION-BUILD-RESULT: artifacts[40]
+    ART-SUGGESTED-TRACK-DECISION-BUILD-MANIFEST: artifacts[41]
+    HND-SUGGESTED-TRACK-ONE-GO-BUILD-001: route_handoffs[5]
+    RCT-SUGGESTED-TRACK-DECISION-BUILD-REFINE-001: receipts[6]
+    ART-SUGGESTED-TRACK-ONE-GO-CONTEXT: artifacts[42]
+    ART-SUGGESTED-TRACK-ONE-GO-RESULT: artifacts[43]
+    RCT-SUGGESTED-TRACK-ONE-GO-BUILD-001: receipts[7]
   open_decisions: []
   blocking_decisions: []
   active_blockers:
@@ -69,7 +78,7 @@ indexes:
     - context_id: CTX-BODY-WAR-ARCH-AUDIT
       next_move: Recompose architecture-boundary decision into CTX-BODY-WAR-ROOT and proceed to bounded MVP work-pack planning.
     - context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
-      next_move: Run Task Session Slice 1 to add SuggestedTrack specs, Drizzle/Postgres schema, generated migration, and the Volta do Taquaral needs_evidence seed.
+      next_move: Use the implemented SuggestedTrack flow in hosted preview testing to collect real consented Strava activity evidence; keep source-backed geometry and pilot-ready promotion deferred.
   artifacts_by_path:
     projects/body-war/docs/decisions/architecture-import-boundary.md: ART-ARCH-BOUNDARY-DECISION
     projects/body-war/docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md: ART-ARCHITECTURE-AUDIT
@@ -102,6 +111,12 @@ indexes:
     projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RESULT.md: ART-SUGGESTED-TRACK-RESULT
     projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUNTIME-HANDOFF.md: ART-SUGGESTED-TRACK-RUNTIME-HANDOFF
     projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUN-MANIFEST.md: ART-SUGGESTED-TRACK-RUN-MANIFEST
+    projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/REFINE-DISPATCH.json: ART-SUGGESTED-TRACK-DECISION-BUILD-DISPATCH
+    projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUNTIME-HANDOFF.md: ART-SUGGESTED-TRACK-DECISION-BUILD-HANDOFF
+    projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RESULT.md: ART-SUGGESTED-TRACK-DECISION-BUILD-RESULT
+    projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUN-MANIFEST.md: ART-SUGGESTED-TRACK-DECISION-BUILD-MANIFEST
+    projects/body-war/development/task-sessions/20260629T061500Z-suggested-track-one-go-build/CONTEXT-PACK.md: ART-SUGGESTED-TRACK-ONE-GO-CONTEXT
+    projects/body-war/development/task-sessions/20260629T061500Z-suggested-track-one-go-build/TASK-SESSION-RESULT.md: ART-SUGGESTED-TRACK-ONE-GO-RESULT
 
 contexts:
   - context_id: CTX-BODY-WAR-ROOT
@@ -161,15 +176,21 @@ contexts:
     parent_id: CTX-BODY-WAR-ROOT
     title: Suggested Track Expansion
     purpose: Govern the TROQAR route where users suggest tracks, Strava activity is consulted live, and only consented evidence can promote a suggestion toward a source-backed track.
-    stage: strategy-proposed
+    stage: one-go-build-complete
     gate: flag
-    next_move: Run Task Session Slice 1 to add SuggestedTrack specs, Drizzle/Postgres schema, generated migration, and the Volta do Taquaral needs_evidence seed.
+    next_move: Use the implemented SuggestedTrack flow in hosted preview testing to collect real consented Strava activity evidence; keep source-backed geometry and pilot-ready promotion deferred.
     owned_artifacts:
       - ART-SUGGESTED-TRACK-ARCHITECTURE-PLAN
       - ART-SUGGESTED-TRACK-REFINE-DISPATCH
       - ART-SUGGESTED-TRACK-RESULT
       - ART-SUGGESTED-TRACK-RUNTIME-HANDOFF
       - ART-SUGGESTED-TRACK-RUN-MANIFEST
+      - ART-SUGGESTED-TRACK-DECISION-BUILD-DISPATCH
+      - ART-SUGGESTED-TRACK-DECISION-BUILD-HANDOFF
+      - ART-SUGGESTED-TRACK-DECISION-BUILD-RESULT
+      - ART-SUGGESTED-TRACK-DECISION-BUILD-MANIFEST
+      - ART-SUGGESTED-TRACK-ONE-GO-CONTEXT
+      - ART-SUGGESTED-TRACK-ONE-GO-RESULT
     notes: Child context created after operator clarified that a new Craft space means a child node below the Body War project, not a separate .craft ledger.
 
 artifacts:
@@ -401,6 +422,42 @@ artifacts:
     artifact_type: run-manifest
     status: pass
     notes: Manifest records JSON, dispatch-spec, and diff validation for the refinement packet.
+  - artifact_id: ART-SUGGESTED-TRACK-DECISION-BUILD-DISPATCH
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/REFINE-DISPATCH.json
+    artifact_type: dispatch-route
+    status: pass
+    notes: Validated Refine dispatch for the confirmed decision-slate and one-go build handoff route.
+  - artifact_id: ART-SUGGESTED-TRACK-DECISION-BUILD-HANDOFF
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUNTIME-HANDOFF.md
+    artifact_type: runtime-handoff
+    status: ready-for-task-session
+    notes: Handoff to one bounded Task Session with required preflight docs/gate update before app mutation.
+  - artifact_id: ART-SUGGESTED-TRACK-DECISION-BUILD-RESULT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RESULT.md
+    artifact_type: refine-result
+    status: pass
+    notes: "Confirmed Refine result: decision slate closed enough for one-go Task Session handoff."
+  - artifact_id: ART-SUGGESTED-TRACK-DECISION-BUILD-MANIFEST
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUN-MANIFEST.md
+    artifact_type: run-manifest
+    status: pass
+    notes: Manifest indexes stage artifacts and completed subagent receipts for the decision-build route.
+  - artifact_id: ART-SUGGESTED-TRACK-ONE-GO-CONTEXT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/20260629T061500Z-suggested-track-one-go-build/CONTEXT-PACK.md
+    artifact_type: task-session-context-pack
+    status: pass
+    notes: Context pack for the one-go SuggestedTrack build; strict obligation coverage passed.
+  - artifact_id: ART-SUGGESTED-TRACK-ONE-GO-RESULT
+    owner_context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    path: projects/body-war/development/task-sessions/20260629T061500Z-suggested-track-one-go-build/TASK-SESSION-RESULT.md
+    artifact_type: task-session-result
+    status: pass
+    notes: Task Session result for SuggestedTrack docs, schema, migration, seed, API, UI, tests, and validation.
 
 descriptions:
   - description_id: DESC-BODY-WAR-001
@@ -428,6 +485,11 @@ descriptions:
     description: "Operator clarified that suggested-track expansion should be governed as a Body War child node: users can suggest tracks, consult Strava activities, and attach evidence only with consent."
     status: active
     evidence: projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RESULT.md
+  - description_id: DESC-SUGGESTED-TRACKS-DECISION-BUILD-001
+    context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    description: "Operator confirmed the decision-slate route: connected-runner suggestions, login before submit, idempotent Taquaral seed, operator-only promotion, existing Postgres/Drizzle, and one-go docs/schema/API/UI/tests build without source-backed geometry or pilot-ready overclaim."
+    status: active
+    evidence: projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RESULT.md
 
 definitions:
   - definition_id: DEF-BODY-WAR-CRAFT-001
@@ -729,6 +791,34 @@ route_handoffs:
       - blockers
       - residue
     status: blocked-awaiting-confirmation
+  - handoff_id: HND-SUGGESTED-TRACK-ONE-GO-BUILD-001
+    context_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    capability_ref: task-session
+    mode: one-go-build
+    objective: Build SuggestedTrack docs, Drizzle/Postgres schema, generated migration, idempotent Taquaral seed, API, connected-runner UI, and tests in one governed pass.
+    source_artifacts:
+      - projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RESULT.md
+      - projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUNTIME-HANDOFF.md
+      - projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S09-INVOKE-PLAN.md
+    ledger_conditions:
+      - Preflight docs/work-pack gate update must happen before app mutation.
+      - BLK-STRAVA-ACTIVITY-001 remains open until real consented activity evidence is submitted.
+      - GAP-TAQUARAL-GEOMETRY-001 remains open until source-backed geometry exists.
+      - Do not reuse legacy JSON-file /api/submissions as the new evidence-candidate persistence path.
+      - Do not claim source_backed or pilot_ready from suggested-track metadata alone.
+    expected_outputs:
+      - SuggestedTrack feature docs and status/API/UI/test contracts
+      - Drizzle/Postgres schema and generated migration
+      - Idempotent Volta do Taquaral needs_evidence seed
+      - SuggestedTrack API and connected-runner UI
+      - SuggestedTrack-specific tests and validation receipt
+    expected_receipt_fields:
+      - artifacts
+      - validation_result
+      - blockers
+      - residue
+      - files_touched
+    status: completed
 
 receipts:
   - receipt_id: RCT-DISPATCH-REVIEW-AUDIT-001
@@ -796,6 +886,33 @@ receipts:
     validation_result: Studio check/test, Body War build/check/test:ui, JSON parse, JS syntax, and diff checks passed; production login-first UI is implemented and browser-falsified.
     audit_reference: ART-TROQAR-PRODUCTION-UI-TASK-SESSION
     residue: Real Strava activity submission and sourced geometry remain active gaps; this closes the UI production-login path only.
+  - receipt_id: RCT-SUGGESTED-TRACK-DECISION-BUILD-REFINE-001
+    handoff_id: HND-SUGGESTED-TRACK-ONE-GO-BUILD-001
+    producer: refine
+    status: pass
+    artifacts:
+      - projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RESULT.md
+      - projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUN-MANIFEST.md
+      - projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S09-INVOKE-PLAN.md
+    validation_result: Refine dispatch validates with VALIDATION=pass; stage artifacts and subagent receipts complete; one-go Task Session handoff is ready with preflight gate before app mutation.
+    audit_reference: ART-SUGGESTED-TRACK-DECISION-BUILD-RESULT
+    residue: Source-backed geometry, pilot-ready status, real activity evidence, and territory scoring remain deferred outside the one-go build.
+  - receipt_id: RCT-SUGGESTED-TRACK-ONE-GO-BUILD-001
+    handoff_id: HND-SUGGESTED-TRACK-ONE-GO-BUILD-001
+    producer: task-session
+    status: pass
+    artifacts:
+      - projects/body-war/development/task-sessions/20260629T061500Z-suggested-track-one-go-build/TASK-SESSION-RESULT.md
+      - projects/body-war/docs/features/parque-taquaral-online-mvp/SPEC.md
+      - projects/body-war/app/drizzle/0001_lyrical_living_mummy.sql
+      - projects/body-war/app/server.ts
+      - projects/body-war/app/static/app.js
+      - projects/body-war/app/tests/auth-consumer.test.ts
+      - projects/body-war/app/e2e/body-war-auth.e2e.ts
+      - projects/body-war/app/e2e/troqar-product-architecture/ui.spec.ts
+    validation_result: "PASS: validate, test, e2e with managed Postgres, exact e2e with Postgres up, test:ui, and git diff --check all passed for the SuggestedTrack scope."
+    audit_reference: ART-SUGGESTED-TRACK-ONE-GO-RESULT
+    residue: Real consenting Strava activity evidence and source-backed geometry remain open; legacy /api/submissions remains only for old preview compatibility.
 
 relations:
   - relation_id: REL-CONTAINS-ARCH-AUDIT-001
@@ -875,6 +992,13 @@ relations:
     status: active
     reason: Suggested-track expansion is a child node under Body War, not a separate Craft ledger.
     evidence: ART-SUGGESTED-TRACK-RESULT
+  - relation_id: REL-SUGGESTED-TRACK-DECISION-BUILD-001
+    source_id: ART-SUGGESTED-TRACK-DECISION-BUILD-RESULT
+    target_id: CTX-BODY-WAR-SUGGESTED-TRACKS
+    type: informs
+    status: active
+    reason: Confirmed Refine result supersedes the Slice 1-only next move with a one-go Task Session handoff that starts with preflight docs/gate update.
+    evidence: RCT-SUGGESTED-TRACK-DECISION-BUILD-REFINE-001
 
 recomposition:
   - child_id: CTX-BODY-WAR-ARCH-AUDIT

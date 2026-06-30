@@ -15,7 +15,7 @@ source of truth; this page is an indexed navigation surface.
 - TROQAR refine route: [REFINE-DISPATCH.json](development/refinement-runs/20260621T-troqar-product-architecture-gap-review/REFINE-DISPATCH.json), [RESULT.md](development/refinement-runs/20260621T-troqar-product-architecture-gap-review/RESULT.md).
 - TROQAR production login UI: [task-session RESULT.md](development/task-sessions/20260622T125002Z-production-ui-login/RESULT.md), [UI-REVIEW.md](docs/features/troqar-product-architecture/UI-REVIEW.md), [production handoff bundle](docs/features/troqar-product-architecture/prototype-handoff/PRODUCTION-LOGIN-HANDOFF-BUNDLE.json).
 - TROQAR online deploy: [manual](docs/ONLINE-DEPLOY-MANUAL.md), [Traefik task session](development/task-sessions/20260622T140208Z-traefik-secret-blind-deploy/TASK-SESSION-RESULT.md), [secret inventory](infra/SECRET-INVENTORY.md).
-- Suggested track expansion child node: [CTX-BODY-WAR-SUGGESTED-TRACKS](#context-ctx-body-war-suggested-tracks), [architecture plan](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md), [runtime handoff](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUNTIME-HANDOFF.md).
+- Suggested track expansion child node: [CTX-BODY-WAR-SUGGESTED-TRACKS](#context-ctx-body-war-suggested-tracks), [architecture plan](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md), [decision-build result](development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RESULT.md), [one-go Task Session result](development/task-sessions/20260629T061500Z-suggested-track-one-go-build/TASK-SESSION-RESULT.md).
 - One-shot forecast: [MVP-ONESHOT-FORECAST.md](docs/features/parque-taquaral-online-mvp/MVP-ONESHOT-FORECAST.md).
 - Invoke design/plan: [DESIGN.md](docs/features/parque-taquaral-online-mvp/DESIGN.md), [WORK-PACK.md](docs/features/parque-taquaral-online-mvp/WORK-PACK.md), [EXECUTION-PACK.md](docs/features/parque-taquaral-online-mvp/EXECUTION-PACK.md).
 - Key artifacts: [architecture decision](docs/decisions/architecture-import-boundary.md), [architecture audit](docs/features/parque-taquaral-online-mvp/ARCHITECTURE-AUDIT.md), [discovery summary](docs/features/parque-taquaral-online-mvp/DISCOVERY.md), [DomainSpec coverage](docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-COVERAGE.md), [DomainSpec backlog](docs/features/parque-taquaral-online-mvp/PILOT-DOMAINSPEC-BACKLOG.md).
@@ -45,11 +45,11 @@ mechanics deferred until real evidence is available.
 
 ### <a id="context-ctx-body-war-suggested-tracks"></a>CTX-BODY-WAR-SUGGESTED-TRACKS - Suggested Track Expansion
 
-- Stage: `strategy-proposed`
+- Stage: `one-go-build-complete`
 - Gate: `flag`
 - Purpose: govern user-suggested tracks, live Strava consult, consented evidence attachment, and eventual promotion from suggestion to source-backed track.
-- Next move: run Task Session Slice 1 to add SuggestedTrack specs, Drizzle/Postgres schema, generated migration, and the Volta do Taquaral `needs_evidence` seed.
-- Evidence: [ARCHITECTURE-PLAN.md](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md), [REFINE-DISPATCH.json](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/REFINE-DISPATCH.json), [RESULT.md](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RESULT.md), [RUNTIME-HANDOFF.md](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUNTIME-HANDOFF.md)
+- Next move: use the implemented SuggestedTrack flow in hosted preview testing to collect real consented Strava activity evidence; keep source-backed geometry and pilot-ready promotion deferred.
+- Evidence: [ARCHITECTURE-PLAN.md](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md), [original route result](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RESULT.md), [decision-build RESULT.md](development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RESULT.md), [decision-build RUNTIME-HANDOFF.md](development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUNTIME-HANDOFF.md), [S09 Invoke Plan](development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S09-INVOKE-PLAN.md), [one-go Task Session result](development/task-sessions/20260629T061500Z-suggested-track-one-go-build/TASK-SESSION-RESULT.md)
 
 ## Blockers
 
@@ -167,6 +167,7 @@ backend contracts, and local gap/blocker review.
 - Suggested track architecture plan: [ARCHITECTURE-PLAN.md](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md)
 - Suggested track refine route: [REFINE-DISPATCH.json](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/REFINE-DISPATCH.json)
 - Suggested track runtime handoff: [RUNTIME-HANDOFF.md](development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/RUNTIME-HANDOFF.md)
+- Suggested track one-go build result: [TASK-SESSION-RESULT.md](development/task-sessions/20260629T061500Z-suggested-track-one-go-build/TASK-SESSION-RESULT.md)
 
 Important boundary: dispatch pass is route-shape evidence only. It is not
 implementation readiness.
@@ -192,6 +193,9 @@ real Strava activity evidence, sourced geometry, score authority, backend
 provider choice, broader page order, and glossary promotion remain open.
 
 Suggested track expansion is now a child node under Body War. It keeps Taquaral
-as the first seeded suggestion and routes the next work through specs, Drizzle
-schema, generated migration, and consent-preserving activity evidence before
-any source-backed geometry claim.
+as the first seeded suggestion. The confirmed decision-build route now supersedes
+the Slice 1-only next move: the next Task Session starts with a docs/work-pack
+preflight gate, then builds docs, Drizzle schema, generated migration, seed, API,
+UI, and tests in one pass. Source-backed geometry, pilot-ready status, territory
+scoring, and real activity evidence remain outside that build until separate
+evidence closes them.

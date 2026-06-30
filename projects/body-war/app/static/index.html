@@ -114,19 +114,44 @@
           <section class="panel">
             <div class="section-head">
               <div>
-                <p class="eyebrow">Rotas</p>
-                <h2>Pistas piloto</h2>
-                <p>Controle simples agora; evidencia melhor por baixo.</p>
+                <p class="eyebrow">Rotas sugeridas</p>
+                <h2>SuggestedTrack</h2>
+                <p id="suggested-track-copy">Sugira uma rota ou ajude uma existente com uma atividade recente.</p>
               </div>
             </div>
-            <div id="tracks" class="track-grid"></div>
+            <form id="suggest-track-form" class="suggest-form" data-od-id="suggested-track.create-form">
+              <label>
+                <span>Nome da rota</span>
+                <input id="suggest-name" name="name" autocomplete="off" maxlength="255" required />
+              </label>
+              <label>
+                <span>Lugar</span>
+                <input id="suggest-place" name="place_label" autocomplete="off" maxlength="255" required />
+              </label>
+              <label>
+                <span>Cidade</span>
+                <input id="suggest-city" name="city" autocomplete="off" maxlength="120" required value="Campinas" />
+              </label>
+              <label>
+                <span>Distancia aprox. em metros</span>
+                <input id="suggest-distance" name="distance_hint_meters" inputmode="numeric" min="1" type="number" />
+              </label>
+              <label class="wide">
+                <span>Nota publica</span>
+                <textarea id="suggest-note" name="public_note" maxlength="500" rows="2"></textarea>
+              </label>
+              <button class="button primary" data-od-id="suggested-track.create.cta" type="submit">Sugerir rota</button>
+              <p id="suggest-form-error" class="submit-error hidden" data-od-id="suggested-track.create.error"></p>
+            </form>
+            <div id="suggested-tracks" class="track-grid" data-od-id="suggested-track.list"></div>
           </section>
 
           <section class="panel">
             <div class="section-head">
               <div>
                 <p class="eyebrow">Evidencia</p>
-                <h2>Evidencias de preview</h2>
+                <h2>Candidatas enviadas</h2>
+                <p>Somente resumos redigidos entram para revisao; geometria e pontuacao seguem pendentes.</p>
               </div>
             </div>
             <div id="submissions" class="submission-list" data-od-id="evidence.submission-list"></div>

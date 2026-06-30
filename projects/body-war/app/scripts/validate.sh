@@ -21,7 +21,7 @@ if rg -n 'CREATE TABLE "?auth_' drizzle src tests e2e; then
   fail "BodyWar app must not hand-write or generate auth package tables"
 fi
 
-for table in body_war_runner_profiles body_war_oauth_states body_war_provider_accounts body_war_provider_tokens; do
+for table in body_war_runner_profiles body_war_oauth_states body_war_provider_accounts body_war_provider_tokens body_war_suggested_tracks body_war_activity_evidence_candidates; do
   if ! rg -n "$table" drizzle >/dev/null; then
     fail "missing Drizzle-generated BodyWar table in migrations: $table"
   fi

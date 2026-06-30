@@ -19,10 +19,14 @@ create table if not exists body_war_schema_migrations (
 const IGNORABLE_DUPLICATE_SQLSTATE: readonly string[] = ["42710", "42P07"];
 
 const DROP_BODY_WAR_SQL = [
+  "drop table if exists body_war_activity_evidence_candidates",
+  "drop table if exists body_war_suggested_tracks",
   "drop table if exists body_war_provider_tokens",
   "drop table if exists body_war_provider_accounts",
   "drop table if exists body_war_oauth_states",
   "drop table if exists body_war_runner_profiles",
+  "drop type if exists body_war_activity_evidence_candidate_status",
+  "drop type if exists body_war_suggested_track_status",
   "drop type if exists body_war_provider_status",
 ] as const;
 

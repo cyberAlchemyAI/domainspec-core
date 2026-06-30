@@ -58,10 +58,55 @@ export type ProviderTokenRecord = {
 export type ActivitySummary = {
   id: string;
   name: string;
+  sport_type?: string | undefined;
+  type?: string | undefined;
   distance: number;
   moving_time: number;
   average_speed: number;
   start_date: string;
+};
+
+export type SuggestedTrackStatus =
+  | "needs_evidence"
+  | "evidence_submitted"
+  | "operator_review"
+  | "source_backed"
+  | "retired";
+
+export type ActivityEvidenceCandidateStatus =
+  | "submitted"
+  | "operator_review"
+  | "accepted"
+  | "rejected";
+
+export type SuggestedTrack = {
+  id: string;
+  slug: string;
+  name: string;
+  placeLabel: string;
+  city: string;
+  country: string;
+  distanceHintMeters: number | null;
+  status: SuggestedTrackStatus;
+  geometryAuthority: string;
+  suggestedByPrincipalId: string | null;
+  publicNote: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ActivityEvidenceCandidate = {
+  id: string;
+  suggestedTrackId: string;
+  principalId: string;
+  provider: "strava";
+  providerActivityId: string;
+  redactedSummary: JsonRecord;
+  consentText: string;
+  consentedAt: string;
+  status: ActivityEvidenceCandidateStatus;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type AuthenticatedRequest = {

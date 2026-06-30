@@ -198,6 +198,9 @@ async function seedRunnerPermissions(
     "body-war.profile.read",
     "body-war.activity.read",
     "body-war.submission.create",
+    "body-war.suggested-track.read",
+    "body-war.suggested-track.create",
+    "body-war.suggested-track-evidence.create",
     "body-war.auth.disconnect",
   ]) {
     await repos.grantRepo.upsertGrant({

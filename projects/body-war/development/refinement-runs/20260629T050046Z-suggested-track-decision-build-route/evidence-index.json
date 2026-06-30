@@ -1,0 +1,266 @@
+{
+  "run_id": "20260629T050046Z-suggested-track-decision-build-route",
+  "dispatch_id": "suggested-track-decision-build-route-refine-20260629T050046Z",
+  "target": "projects/body-war",
+  "status": "pass",
+  "preset": "standard",
+  "research_mode": "research-if-gap-appears",
+  "authorization": {
+    "runtime": "approved",
+    "subagents": "approved",
+    "external_research": "blocked_until_named_gap_and_confirmation"
+  },
+  "source_evidence": [
+    {
+      "kind": "ledger",
+      "path": "projects/body-war/.craft/ledger.yml",
+      "reason": "Owns CTX-BODY-WAR-SUGGESTED-TRACKS and existing blockers/gaps."
+    },
+    {
+      "kind": "human_view",
+      "path": "projects/body-war/CRAFT.md",
+      "reason": "Human navigation for the Body War Craft state."
+    },
+    {
+      "kind": "prior_refine",
+      "path": "projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md",
+      "reason": "Existing SuggestedTrack architecture, open decisions, and slice plan."
+    },
+    {
+      "kind": "work_pack",
+      "path": "projects/body-war/docs/features/parque-taquaral-online-mvp/WORK-PACK.md",
+      "reason": "Documents W0 blockers and app mutation gates."
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "REFINE-SEED-PROPOSAL",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/REFINE-SEED-PROPOSAL.md",
+      "owner": "refine",
+      "status": "pass"
+    },
+    {
+      "artifact_id": "REFINE-DISPATCH",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/REFINE-DISPATCH.json",
+      "owner": "dispatch-spec",
+      "status": "pass"
+    },
+    {
+      "artifact_id": "RUNTIME-HANDOFF",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RUNTIME-HANDOFF.md",
+      "owner": "refine",
+      "status": "ready-for-task-session"
+    },
+    {
+      "artifact_id": "RESULT",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/RESULT.md",
+      "owner": "refine",
+      "status": "pass"
+    },
+    {
+      "artifact_id": "S01-CONTEXT-BUILDER",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S01-CONTEXT-BUILDER.md",
+      "owner": "context-builder",
+      "status": "pass"
+    },
+    {
+      "artifact_id": "S02-INVOKE-DEFINE",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S02-INVOKE-DEFINE.md",
+      "owner": "invoke",
+      "status": "pass"
+    },
+    {
+      "artifact_id": "S03-INTERROGATION-REFINE-REVIEW",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S03-INTERROGATION-REFINE-REVIEW.md",
+      "owner": "interrogation",
+      "status": "flag"
+    },
+    {
+      "artifact_id": "S04-RESEARCH-DECISION",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S04-RESEARCH-DECISION.md",
+      "owner": "refine",
+      "status": "pass"
+    },
+    {
+      "artifact_id": "S05-DISTILL-DECISION-SLATE",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S05-DISTILL-DECISION-SLATE.md",
+      "owner": "distill",
+      "status": "flag"
+    },
+    {
+      "artifact_id": "S06-INVOKE-DESIGN",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S06-INVOKE-DESIGN.md",
+      "owner": "invoke",
+      "status": "pass"
+    },
+    {
+      "artifact_id": "S07-INTERROGATION-DESIGN-REVIEW",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S07-INTERROGATION-DESIGN-REVIEW.md",
+      "owner": "interrogation",
+      "status": "flag"
+    },
+    {
+      "artifact_id": "S08-DISTILL-REPAIR",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S08-DISTILL-REPAIR.md",
+      "owner": "distill",
+      "status": "pass"
+    },
+    {
+      "artifact_id": "S09-INVOKE-PLAN",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S09-INVOKE-PLAN.md",
+      "owner": "invoke",
+      "status": "pass"
+    },
+    {
+      "artifact_id": "S10-FINAL-INTERROGATION-SYNTHESIS",
+      "path": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/stages/S10-FINAL-INTERROGATION-SYNTHESIS.md",
+      "owner": "refine",
+      "status": "pass"
+    }
+  ],
+  "decision_slate": {
+    "suggested_track_visibility": {
+      "recommended": "connected_runners_only_l0",
+      "alternatives": [
+        "public_read_only_cards",
+        "operator_only_preview"
+      ]
+    },
+    "suggestion_creation": {
+      "recommended": "login_required_before_submit",
+      "alternatives": [
+        "anonymous_draft_then_connect",
+        "operator_only_creation"
+      ]
+    },
+    "taquaral_seed": {
+      "recommended": "versioned_idempotent_seed_after_drizzle_migration",
+      "alternatives": [
+        "migration_insert",
+        "static_json_compatibility_only"
+      ]
+    },
+    "promotion_authority": {
+      "recommended": "operator_only_l0",
+      "alternatives": [
+        "automatic_after_evidence",
+        "crowd_threshold"
+      ]
+    },
+    "storage_provider": {
+      "recommended": "existing_body_war_postgres_drizzle",
+      "alternatives": [
+        "new_managed_provider_selection",
+        "local_json"
+      ]
+    },
+    "geometry_claim": {
+      "recommended": "needs_evidence_until_source_backed",
+      "alternatives": [
+        "attempt_sourced_geometry_now",
+        "no_seed_until_geometry"
+      ]
+    },
+    "one_go_build_scope": {
+      "recommended": "docs_schema_seed_api_ui_tests_without_pilot_ready_claim",
+      "alternatives": [
+        "slice_1_specs_schema_only",
+        "full_pilot_ready_geometry"
+      ]
+    }
+  },
+  "stage_evidence": [
+    {
+      "step_id": "s01-context-builder",
+      "status": "pass",
+      "artifact": "stages/S01-CONTEXT-BUILDER.md"
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "status": "pass",
+      "artifact": "stages/S02-INVOKE-DEFINE.md"
+    },
+    {
+      "step_id": "s03-interrogation-refine-review",
+      "status": "flag",
+      "artifact": "stages/S03-INTERROGATION-REFINE-REVIEW.md",
+      "repair": "handled by S08"
+    },
+    {
+      "step_id": "s04-research-decision",
+      "status": "pass",
+      "artifact": "stages/S04-RESEARCH-DECISION.md"
+    },
+    {
+      "step_id": "s05-distill-decision-slate",
+      "status": "flag",
+      "artifact": "stages/S05-DISTILL-DECISION-SLATE.md",
+      "repair": "handled by S08"
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "status": "pass",
+      "artifact": "stages/S06-INVOKE-DESIGN.md"
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "status": "flag",
+      "artifact": "stages/S07-INTERROGATION-DESIGN-REVIEW.md",
+      "repair": "handled by S08"
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "status": "pass",
+      "artifact": "stages/S08-DISTILL-REPAIR.md"
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "status": "pass",
+      "artifact": "stages/S09-INVOKE-PLAN.md"
+    },
+    {
+      "step_id": "s10-final-interrogation-synthesis",
+      "status": "pass",
+      "artifact": "stages/S10-FINAL-INTERROGATION-SYNTHESIS.md"
+    }
+  ],
+  "subagent_strategy": {
+    "status": "completed",
+    "authorization": "approved",
+    "roles": [
+      "product-decision-synthesist",
+      "data-security-schema-reviewer",
+      "one-go-build-slice-planner"
+    ],
+    "join_policy": "parent_synthesis",
+    "receipts": [
+      {
+        "role_id": "product-decision-synthesist",
+        "status": "flag",
+        "path": "stages/subagent-receipts/product-decision-synthesist.md"
+      },
+      {
+        "role_id": "data-security-schema-reviewer",
+        "status": "pass",
+        "path": "stages/subagent-receipts/data-security-schema-reviewer.md"
+      },
+      {
+        "role_id": "one-go-build-slice-planner",
+        "status": "flag",
+        "path": "stages/subagent-receipts/one-go-build-slice-planner.md"
+      }
+    ]
+  },
+  "validation": {
+    "dispatch_schema": "pass",
+    "json_parse": "pass",
+    "diff_check": "pass"
+  },
+  "recommended_next_route_after_refine": {
+    "capability": "task-session",
+    "mode": "one-go-build",
+    "status": "ready",
+    "handoff_id": "HND-SUGGESTED-TRACK-ONE-GO-BUILD-001",
+    "preflight": "Update feature docs/work-pack gate before app mutation."
+  }
+}

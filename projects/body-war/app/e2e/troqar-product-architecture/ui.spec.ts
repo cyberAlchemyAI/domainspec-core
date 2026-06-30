@@ -68,6 +68,7 @@ test.describe("TROQAR production login and runner profile", () => {
     await expect(page.locator('[data-od-id="activity.recent-summary"]')).toContainText(
       "Geometria da rota e pontuacao",
     )
+    await expect(page.locator('[data-od-id="suggested-track.list"]')).toContainText("Volta do Taquaral")
     await expect(page.locator('[data-od-id="track.geometry-status"]').first()).toBeVisible()
     await expect(page.locator("body")).not.toContainText(rawAuthTerms)
     await expect(page.locator("body")).not.toContainText(/verified scoring|verified control|ranked evidence/i)
@@ -77,9 +78,17 @@ test.describe("TROQAR production login and runner profile", () => {
   test("submits one activity as preview evidence through visible controls", async ({ page }) => {
     await connectFakeStrava(page)
 
+    await page.locator("#suggest-name").fill("Lago extra")
+    await page.locator("#suggest-place").fill("Parque Portugal")
+    await page.locator("#suggest-city").fill("Campinas")
+    await page.locator("#suggest-distance").fill("3200")
+    await page.locator("#suggest-note").fill("Candidata sem geometria confirmada.")
+    await page.locator('[data-od-id="suggested-track.create.cta"]').click()
+    await expect(page.locator('[data-od-id="suggested-track.list"]')).toContainText("Lago extra")
+
     const firstActivity = page.locator(".activity").first()
     await expect(firstActivity).toBeVisible()
-    await firstActivity.locator("select").selectOption({ index: 0 })
+    await firstActivity.locator("select").selectOption({ label: "Lago extra" })
     await firstActivity.locator('[data-od-id="evidence.submit.cta"]').click()
 
     await expect(page.locator(".submission").first()).toBeVisible()
@@ -110,6 +119,7 @@ test.describe("TROQAR production login and runner profile", () => {
       const criticalSelectors = [
         '[data-od-id="topbar.account.actions"]',
         '[data-od-id="profile.safe-athlete-card"]',
+        '[data-od-id="suggested-track.create.cta"]',
         '[data-od-id="activity.recent-summary"]',
         '[data-od-id="evidence.submit.cta"]',
       ]

@@ -17,7 +17,17 @@ import {
   createStravaOAuthAdapter,
   stravaPrincipalPlaceholder,
 } from "./src/auth/strava-oauth.js"
-import type { AppError, CookieMap, JsonRecord, ProviderAccount, RunnerProfile } from "./src/auth/types.js"
+import {
+  appError,
+  type ActivityEvidenceCandidate,
+  type ActivitySummary,
+  type AppError,
+  type CookieMap,
+  type JsonRecord,
+  type ProviderAccount,
+  type RunnerProfile,
+  type SuggestedTrack,
+} from "./src/auth/types.js"
 import { createBodyWarDatabase, createBodyWarSqlClient } from "./src/infrastructure/postgres/database.js"
 
 const APP_ROOT = resolve(process.env.BODY_WAR_APP_ROOT ?? process.cwd())
@@ -319,6 +329,91 @@ export function publicActivityImportReceipt(input: {
   }
 }
 
+function publicSuggestedTrack(track: SuggestedTrack): JsonRecord {
+  return {
+    id: track.id,
+    slug: track.slug,
+    name: track.name,
+    place_label: track.placeLabel,
+    city: track.city,
+    country: track.country,
+    distance_hint_meters: track.distanceHintMeters,
+    status: track.status,
+    geometry_authority: track.geometryAuthority,
+    suggested_by: track.suggestedByPrincipalId ? "connected_runner" : "seed",
+    public_note: track.publicNote,
+    created_at: track.createdAt,
+    updated_at: track.updatedAt,
+    authority: {
+      route_geometry: track.geometryAuthority === "source_backed" ? "source_backed" : "not_claimed",
+      scoring: "not_claimed",
+      pilot_ready: "not_claimed",
+    },
+  }
+}
+
+function publicActivityEvidenceCandidate(candidate: ActivityEvidenceCandidate): JsonRecord {
+  return {
+    id: candidate.id,
+    suggested_track_id: candidate.suggestedTrackId,
+    provider: candidate.provider,
+    provider_activity_id: candidate.providerActivityId,
+    redacted_summary: candidate.redactedSummary,
+    consented_at: candidate.consentedAt,
+    status: candidate.status,
+    created_at: candidate.createdAt,
+    updated_at: candidate.updatedAt,
+    authority: {
+      activity_summary: "redacted_candidate",
+      route_geometry: "not_claimed",
+      scoring: "not_claimed",
+    },
+  }
+}
+
+function publicSuggestedTrackEvidenceSummary(candidates: ActivityEvidenceCandidate[]): JsonRecord {
+  return {
+    candidate_count: candidates.length,
+    redaction: {
+      provider_tokens: "server_only",
+      raw_private_payload: "omitted",
+      maps: "omitted",
+      notes: "omitted",
+    },
+    authority: {
+      activity_summary: candidates.length > 0 ? "candidate_submitted" : "none",
+      route_geometry: "not_claimed",
+      scoring: "not_claimed",
+      pilot_ready: "not_claimed",
+    },
+  }
+}
+
+function redactedActivitySummary(activity: ActivitySummary): JsonRecord {
+  return {
+    id: activity.id,
+    name: activity.name,
+    sport_type: activity.sport_type ?? activity.type ?? "Run",
+    type: activity.type ?? activity.sport_type ?? "Run",
+    distance: activity.distance,
+    moving_time: activity.moving_time,
+    average_speed: activity.average_speed,
+    start_date: activity.start_date,
+  }
+}
+
+function textField(payload: JsonRecord, key: string, maxLength: number): string {
+  const value = typeof payload[key] === "string" ? payload[key] : ""
+  return value.trim().slice(0, maxLength)
+}
+
+function optionalPositiveInteger(payload: JsonRecord, key: string): number | null {
+  const value = payload[key]
+  if (value === undefined || value === null || value === "") return null
+  const number = Number(value)
+  return Number.isInteger(number) && number > 0 ? number : Number.NaN
+}
+
 async function readBodyJson(request: IncomingMessage): Promise<JsonRecord> {
   const chunks: Buffer[] = []
   for await (const chunk of request) chunks.push(Buffer.from(chunk))
@@ -462,6 +557,174 @@ async function handleActivities(response: ServerResponse, request: IncomingMessa
   })
 }
 
+async function authenticateSuggestedTrackRunner(
+  request: IncomingMessage,
+  response: ServerResponse,
+  method: string,
+  route: string,
+  requiredPermission: string,
+): Promise<AuthContext | null> {
+  const { browser, strava } = authComponents()
+  const auth = await browser.authenticate({
+    cookies: cookies(request),
+    method,
+    headers: headerRecord(request),
+    requiredPermission,
+    route,
+  })
+  if (!auth.ok) {
+    sendError(response, auth.error)
+    return null
+  }
+
+  const connection = await strava.connectionStatus(auth.value.principalId)
+  if (!connection.connected) {
+    sendError(response, appError("strava_not_connected", 409, "Strava account is not connected"))
+    return null
+  }
+
+  return auth.value
+}
+
+async function handleSuggestedTracksList(response: ServerResponse, request: IncomingMessage): Promise<void> {
+  const auth = await authenticateSuggestedTrackRunner(
+    request,
+    response,
+    "GET",
+    "GET /api/suggested-tracks",
+    "body-war.suggested-track.read",
+  )
+  if (!auth) return
+
+  const { bodyWarRepo } = authComponents()
+  const tracks = await bodyWarRepo.listSuggestedTracks()
+  sendJson(response, 200, {
+    suggested_tracks: tracks.map(publicSuggestedTrack),
+  })
+}
+
+async function handleSuggestedTrackCreate(response: ServerResponse, request: IncomingMessage): Promise<void> {
+  const payload = await readBodyJson(request)
+  const auth = await authenticateSuggestedTrackRunner(
+    request,
+    response,
+    "POST",
+    "POST /api/suggested-tracks",
+    "body-war.suggested-track.create",
+  )
+  if (!auth) return
+
+  const name = textField(payload, "name", 255)
+  const placeLabel = textField(payload, "place_label", 255)
+  const city = textField(payload, "city", 120)
+  const publicNote = textField(payload, "public_note", 500)
+  const distanceHintMeters = optionalPositiveInteger(payload, "distance_hint_meters")
+  if (!name || !placeLabel || !city || Number.isNaN(distanceHintMeters)) {
+    sendError(response, appError("invalid_suggested_track", 400, "Suggested track name, place, city, and optional positive distance are required"))
+    return
+  }
+
+  const { bodyWarRepo } = authComponents()
+  const track = await bodyWarRepo.createSuggestedTrack({
+    principalId: auth.principalId,
+    name,
+    placeLabel,
+    city,
+    country: "BR",
+    distanceHintMeters,
+    publicNote,
+  })
+  sendJson(response, 201, { suggested_track: publicSuggestedTrack(track) })
+}
+
+async function handleSuggestedTrackDetail(
+  response: ServerResponse,
+  request: IncomingMessage,
+  idOrSlug: string,
+): Promise<void> {
+  const auth = await authenticateSuggestedTrackRunner(
+    request,
+    response,
+    "GET",
+    "GET /api/suggested-tracks/:id",
+    "body-war.suggested-track.read",
+  )
+  if (!auth) return
+
+  const { bodyWarRepo } = authComponents()
+  const track = await bodyWarRepo.findSuggestedTrack(idOrSlug)
+  if (!track) {
+    sendError(response, appError("suggested_track_not_found", 404, "Suggested track was not found"))
+    return
+  }
+
+  const [allCandidates, myCandidates] = await Promise.all([
+    bodyWarRepo.listActivityEvidenceCandidates(track.id),
+    bodyWarRepo.listActivityEvidenceCandidates(track.id, auth.principalId),
+  ])
+  sendJson(response, 200, {
+    suggested_track: publicSuggestedTrack(track),
+    my_evidence_candidates: myCandidates.map(publicActivityEvidenceCandidate),
+    evidence_summary: publicSuggestedTrackEvidenceSummary(allCandidates),
+  })
+}
+
+async function handleSuggestedTrackEvidenceCreate(
+  response: ServerResponse,
+  request: IncomingMessage,
+  idOrSlug: string,
+): Promise<void> {
+  const payload = await readBodyJson(request)
+  const auth = await authenticateSuggestedTrackRunner(
+    request,
+    response,
+    "POST",
+    "POST /api/suggested-tracks/:id/evidence-candidates",
+    "body-war.suggested-track-evidence.create",
+  )
+  if (!auth) return
+
+  const activityId = textField(payload, "activity_id", 255)
+  const consentText = textField(payload, "consent_text", 500)
+  const consentAcknowledged = payload.consent_acknowledged === true
+  if (!activityId || !consentAcknowledged || !consentText) {
+    sendError(response, appError("consent_required", 400, "Explicit consent and activity_id are required"))
+    return
+  }
+
+  const { bodyWarRepo, strava } = authComponents()
+  const track = await bodyWarRepo.findSuggestedTrack(idOrSlug)
+  if (!track) {
+    sendError(response, appError("suggested_track_not_found", 404, "Suggested track was not found"))
+    return
+  }
+
+  const activities = await strava.listActivitySummaries(auth.principalId, "1", "50")
+  if (!activities.ok) {
+    sendError(response, activities.error)
+    return
+  }
+  const activity = activities.value.find((candidate) => String(candidate.id) === activityId)
+  if (!activity) {
+    sendError(response, appError("invalid_activity", 400, "Activity is not available for this runner"))
+    return
+  }
+
+  const candidate = await bodyWarRepo.addActivityEvidenceCandidate({
+    suggestedTrackId: track.id,
+    principalId: auth.principalId,
+    providerActivityId: activity.id,
+    redactedSummary: redactedActivitySummary(activity),
+    consentText,
+    consentedAt: new Date().toISOString(),
+  })
+  const updatedTrack = await bodyWarRepo.findSuggestedTrack(track.id) ?? track
+  sendJson(response, 201, {
+    evidence_candidate: publicActivityEvidenceCandidate(candidate),
+    suggested_track: publicSuggestedTrack(updatedTrack),
+  })
+}
+
 async function handleLogout(response: ServerResponse, request: IncomingMessage): Promise<void> {
   const { browser } = authComponents()
   const auth = await browser.authenticate({
@@ -538,6 +801,16 @@ export async function handleRequest(request: IncomingMessage, response: ServerRe
     if (request.method === "GET" && url.pathname === "/api/auth/strava/start") return handleStravaStart(response)
     if (request.method === "GET" && url.pathname === "/api/auth/strava/callback") return handleStravaCallback(response, url, request)
     if (request.method === "GET" && url.pathname === "/api/activities") return handleActivities(response, request, url)
+    if (request.method === "GET" && url.pathname === "/api/suggested-tracks") return handleSuggestedTracksList(response, request)
+    if (request.method === "POST" && url.pathname === "/api/suggested-tracks") return handleSuggestedTrackCreate(response, request)
+    const suggestedTrackEvidenceMatch = url.pathname.match(/^\/api\/suggested-tracks\/([^/]+)\/evidence-candidates$/)
+    if (request.method === "POST" && suggestedTrackEvidenceMatch?.[1]) {
+      return handleSuggestedTrackEvidenceCreate(response, request, decodeURIComponent(suggestedTrackEvidenceMatch[1]))
+    }
+    const suggestedTrackDetailMatch = url.pathname.match(/^\/api\/suggested-tracks\/([^/]+)$/)
+    if (request.method === "GET" && suggestedTrackDetailMatch?.[1]) {
+      return handleSuggestedTrackDetail(response, request, decodeURIComponent(suggestedTrackDetailMatch[1]))
+    }
     if (request.method === "GET" && url.pathname === "/api/tracks") return sendJson(response, 200, await readJson(TRACK_STORE, { tracks: [] }))
     if (request.method === "GET" && url.pathname === "/api/submissions") return sendJson(response, 200, await readJson(SUBMISSION_STORE, { submissions: [] }))
     if (request.method === "POST" && url.pathname === "/api/auth/logout") return handleLogout(response, request)

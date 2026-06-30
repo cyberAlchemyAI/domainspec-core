@@ -1,9 +1,13 @@
 const state = {
   activities: [],
+  evidenceCandidates: [],
   profile: null,
   status: null,
-  tracks: [],
+  suggestedTracks: [],
 };
+
+const EVIDENCE_CONSENT_TEXT =
+  "Autorizo o TROQAR a guardar somente o resumo redigido desta atividade como candidata de evidencia para a rota sugerida.";
 
 const $ = (selector, root = document) => root.querySelector(selector);
 
@@ -91,6 +95,9 @@ function uiErrorMessage(message) {
   if (isAuthRequired(raw) || raw === "not_connected") return "Conecte o Strava para continuar.";
   if (raw === "csrf_required") return "Atualize a pagina e tente novamente.";
   if (raw === "invalid_activity") return "Este treino nao pode ser enviado para a pista selecionada.";
+  if (raw === "invalid_suggested_track") return "Preencha nome, lugar, cidade e uma distancia positiva quando informada.";
+  if (raw === "consent_required") return "Confirme o consentimento antes de enviar a candidata.";
+  if (raw === "suggested_track_not_found") return "Esta rota sugerida nao esta mais disponivel.";
   if (raw === "track_geometry_missing") return "Geometria da rota ainda nao foi confirmada para esta evidencia.";
   if (raw === "access_denied") return "Nao foi possivel conectar com Strava. Tente de novo quando quiser.";
   if (raw === "invalid_state") return "A sessao de login do Strava expirou. Comece de novo.";
@@ -245,31 +252,87 @@ async function loadProfile() {
   }
 }
 
-function trackStatus(track) {
-  if (track.pilot === "body-war") return "Geometria pendente";
-  return "Metrica de controle";
+function suggestedTrackStatus(track) {
+  const labels = {
+    needs_evidence: "Precisa de evidencia",
+    evidence_submitted: "Evidencia enviada",
+    operator_review: "Em analise",
+    source_backed: "Fonte confirmada",
+    retired: "Retirada",
+  };
+  return labels[track.status] || "Precisa de evidencia";
 }
 
-async function loadTracks() {
-  const data = await getJson("/api/tracks");
-  state.tracks = data.tracks || [];
-  const container = $("#tracks");
+function renderSuggestedTracks() {
+  const container = $("#suggested-tracks");
   clear(container);
-  if (!state.tracks.length) {
-    container.append(message("Nenhuma pista piloto configurada."));
+  if (!state.suggestedTracks.length) {
+    container.append(message("Nenhuma rota sugerida ainda."));
     return;
   }
-  for (const track of state.tracks) {
+  for (const track of state.suggestedTracks) {
     const article = el("article", {
       className: "track",
-      attrs: { "data-pilot": track.pilot || "unknown" },
+      attrs: { "data-status": track.status || "needs_evidence" },
     });
-    article.append(el("p", { className: "tag", text: track.pilot || "pilot" }));
+    article.append(el("p", { className: "tag", text: track.place_label || track.city || "rota" }));
     article.append(el("h3", { text: track.name || track.id }));
-    article.append(el("p", { text: track.description || "Sem descricao disponivel." }));
-    article.append(el("span", { className: "status-chip pending", odId: "track.geometry-status", text: trackStatus(track) }));
-    article.append(el("p", { text: `Metrica de controle: ${track.controller_metric || "nao selecionada"}` }));
+    article.append(el("p", { text: track.public_note || "Aguardando uma candidata de atividade real." }));
+    article.append(el("span", {
+      className: `status-chip ${track.status === "source_backed" ? "" : "pending"}`,
+      odId: "track.geometry-status",
+      text: suggestedTrackStatus(track),
+    }));
+    article.append(el("p", {
+      text: `${fmtDistance(track.distance_hint_meters)} - geometria: ${track.geometry_authority || "needs_evidence"}`,
+    }));
+    const help = el("button", {
+      className: "button ghost",
+      odId: "suggested-track.help.cta",
+      text: "Tenho essa corrida",
+      attrs: { type: "button" },
+    });
+    help.addEventListener("click", () => $("#activities")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    article.append(help);
     container.append(article);
+  }
+}
+
+async function loadSuggestedTracks() {
+  const data = await getJson("/api/suggested-tracks");
+  state.suggestedTracks = data.suggested_tracks || [];
+  $("#suggested-track-copy").textContent =
+    `${state.suggestedTracks.length} rotas sugeridas. Promocao por fonte e piloto seguem fora deste preview.`;
+  renderSuggestedTracks();
+}
+
+async function createSuggestedTrack(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const error = $("#suggest-form-error");
+  const button = form.querySelector("button[type='submit']");
+  setHidden(error, true);
+  error.textContent = "";
+  button.disabled = true;
+  try {
+    const distance = $("#suggest-distance").value.trim();
+    await postJson("/api/suggested-tracks", {
+      name: $("#suggest-name").value,
+      place_label: $("#suggest-place").value,
+      city: $("#suggest-city").value,
+      distance_hint_meters: distance ? Number(distance) : null,
+      public_note: $("#suggest-note").value,
+    });
+    form.reset();
+    $("#suggest-city").value = "Campinas";
+    await loadSuggestedTracks();
+    renderActivities();
+    await loadSubmissions();
+  } catch (createError) {
+    error.textContent = uiErrorMessage(createError.message);
+    setHidden(error, false);
+  } finally {
+    button.disabled = false;
   }
 }
 
@@ -315,8 +378,8 @@ function renderActivities() {
       }),
     );
 
-    const select = el("select", { attrs: { "aria-label": "Pista piloto" } });
-    for (const track of state.tracks) {
+    const select = el("select", { attrs: { "aria-label": "Rota sugerida" } });
+    for (const track of state.suggestedTracks) {
       select.append(el("option", { text: track.name || track.id, attrs: { value: track.id } }));
     }
 
@@ -324,8 +387,8 @@ function renderActivities() {
     const button = el("button", {
       className: "button",
       odId: "evidence.submit.cta",
-      text: "Enviar preview",
-      attrs: { type: "button" },
+      text: "Enviar candidata",
+      attrs: { type: "button", disabled: state.suggestedTracks.length ? null : "disabled" },
     });
     const error = el("p", { className: "submit-error hidden", odId: "evidence.submit.error" });
     button.addEventListener("click", async () => {
@@ -348,43 +411,57 @@ function renderActivities() {
 }
 
 async function submitActivity(activity, trackId) {
-  await postJson("/api/submissions", {
-    track_id: trackId,
+  await postJson(`/api/suggested-tracks/${encodeURIComponent(trackId)}/evidence-candidates`, {
     activity_id: activity.id,
-    activity_name: activity.name,
-    moving_time: activity.moving_time,
-    distance: activity.distance,
-    average_speed: activity.average_speed,
+    consent_acknowledged: true,
+    consent_text: EVIDENCE_CONSENT_TEXT,
   });
+  await loadSuggestedTracks();
   await loadSubmissions();
 }
 
 async function loadSubmissions() {
   const container = $("#submissions");
   clear(container);
-  const data = await getJson("/api/submissions");
-  const submissions = data.submissions || [];
-  if (!submissions.length) {
-    container.append(message("Nenhuma evidencia de preview enviada ainda."));
+  if (!state.suggestedTracks.length) {
+    container.append(message("Nenhuma rota sugerida para receber candidatas."));
     return;
   }
-  for (const item of submissions.slice().reverse()) {
+  const detailResults = await Promise.all(
+    state.suggestedTracks.map((track) =>
+      getJson(`/api/suggested-tracks/${encodeURIComponent(track.id)}`),
+    ),
+  );
+  const candidates = detailResults.flatMap((detail) =>
+    (detail.my_evidence_candidates || []).map((candidate) => ({
+      ...candidate,
+      suggested_track: detail.suggested_track,
+    })),
+  );
+  state.evidenceCandidates = candidates;
+  if (!candidates.length) {
+    container.append(message("Nenhuma candidata enviada ainda."));
+    return;
+  }
+  for (const item of candidates) {
+    const summary = item.redacted_summary || {};
+    const track = item.suggested_track || {};
     const article = el("article", { className: "submission" });
     article.append(el("span", {
       className: "status-chip preview",
       odId: "evidence.status-chip",
-      text: `${item.status === "submitted" ? "enviado" : item.status || "enviado"} - ${item.authority || "preview"}`,
+      text: `${item.status === "submitted" ? "enviado" : item.status || "enviado"} - candidato`,
     }));
-    article.append(el("h3", { text: item.activity_name || item.activity_id || "Atividade" }));
-    article.append(el("p", { text: `${item.athlete_name || item.athlete_id || "Corredor"} enviou para ${item.track_id || "pista"}` }));
-    article.append(el("p", { text: `${fmtDistance(item.distance)} - ${fmtTime(item.moving_time)}` }));
+    article.append(el("h3", { text: summary.name || item.provider_activity_id || "Atividade" }));
+    article.append(el("p", { text: `Candidata para ${track.name || item.suggested_track_id}` }));
+    article.append(el("p", { text: `${fmtDistance(summary.distance)} - ${fmtTime(summary.moving_time)}` }));
     container.append(article);
   }
 }
 
 async function renderConnected() {
   await loadProfile();
-  await loadTracks();
+  await loadSuggestedTracks();
   await loadActivities();
   await loadSubmissions();
 }
@@ -392,6 +469,7 @@ async function renderConnected() {
 async function boot() {
   renderQueryNotices();
   $("#refresh").addEventListener("click", loadActivities);
+  $("#suggest-track-form").addEventListener("submit", createSuggestedTrack);
   $("#logout").addEventListener("click", async () => {
     await postJson("/api/auth/logout", {});
     window.location.href = "/";

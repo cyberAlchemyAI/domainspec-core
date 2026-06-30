@@ -1,0 +1,853 @@
+{
+  "dispatch_id": "suggested-track-decision-build-route-refine-20260629T050046Z",
+  "parent_dispatch_id": "suggested-track-expansion-route-refine-20260624T010822Z",
+  "intent": {
+    "raw": "[$refine] open paths so we can decide everything, then build in just 1 go",
+    "objective": "Refine the SuggestedTrack feature into a complete decision slate and one-go build handoff without starting runtime-backed execution before confirmation.",
+    "target_artifact": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/REFINE-SEED-PROPOSAL.md",
+    "operator_sentence": "open paths so we can decide everything, then build in just 1 go",
+    "arcanum_vocabulary": [
+      "refine",
+      "dispatch-spec",
+      "context-builder",
+      "invoke",
+      "interrogation",
+      "distill",
+      "task-session"
+    ]
+  },
+  "mode": "sequence",
+  "route_menu": {
+    "context_hint": "Choose how to move from SuggestedTrack strategy to implementation.",
+    "items": [
+      {
+        "id": "decision-slate-then-one-go-build",
+        "label": "Decide then build",
+        "description": "Confirm all build-critical defaults, run the Refine loop, then hand off one bounded Task Session for docs, schema, API, UI, and tests.",
+        "capability_ref": "refine",
+        "pattern": "sequence"
+      },
+      {
+        "id": "slice-1-only",
+        "label": "Specs/schema only",
+        "description": "Keep the earlier Slice 1 boundary and defer API/UI implementation until after another gate.",
+        "capability_ref": "task-session",
+        "pattern": "handoff"
+      },
+      {
+        "id": "direct-build-now",
+        "label": "Direct build now",
+        "description": "Skip the decision slate and mutate app code immediately; this remains blocked by Refine and Craft gates.",
+        "capability_ref": "blocked-direct-implementation",
+        "pattern": "route"
+      }
+    ],
+    "selected_item_id": "decision-slate-then-one-go-build",
+    "decision_slate": {
+      "suggested_track_visibility": "connected_runners_only_l0",
+      "suggestion_creation": "login_required_before_submit",
+      "taquaral_seed": "versioned_idempotent_seed_after_drizzle_migration",
+      "promotion_authority": "operator_only_l0",
+      "storage_provider": "existing_body_war_postgres_drizzle",
+      "geometry_claim": "needs_evidence_until_source_backed",
+      "one_go_build_scope": "docs_schema_seed_api_ui_tests_without_pilot_ready_claim"
+    }
+  },
+  "techniques": [
+    "sequence",
+    "route_menu",
+    "one_or_more_option_set",
+    "approval_checkpoint",
+    "frame_handoff",
+    "handle_handoff",
+    "validation_loop",
+    "owner_boundary_check",
+    "observability_grouping",
+    "minimum_component_catalog",
+    "conditional_component",
+    "data_quality_completeness",
+    "tournament",
+    "pareto_gate",
+    "residue_ledger",
+    "memory_loop",
+    "data_quality_deduplication",
+    "protected_context_flag",
+    "local_nuance_coordination",
+    "execution_receipt_handoff",
+    "state_namespace_boundary"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "baseline_sequence",
+      "trigger": "Refine requires the ten-stage canonical loop before a final synthesis or next-route handoff.",
+      "techniques": [
+        "sequence",
+        "frame_handoff",
+        "handle_handoff",
+        "validation_loop",
+        "owner_boundary_check",
+        "observability_grouping",
+        "minimum_component_catalog",
+        "conditional_component",
+        "data_quality_completeness"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s02-invoke-define",
+        "s03-interrogation-refine-review",
+        "s04-research-decision",
+        "s05-distill-decision-slate",
+        "s06-invoke-design",
+        "s07-interrogation-design-review",
+        "s08-distill-repair",
+        "s09-invoke-plan",
+        "s10-final-interrogation-synthesis"
+      ],
+      "validation_expectation": "Each stage must return a native receipt, artifact, or blocked reason after confirmation."
+    },
+    {
+      "overlay_id": "route_menu_for_decision_slate",
+      "trigger": "The operator asked to open paths and decide everything before building.",
+      "techniques": [
+        "route_menu",
+        "one_or_more_option_set",
+        "approval_checkpoint"
+      ],
+      "applies_to_steps": [
+        "s02-invoke-define",
+        "s05-distill-decision-slate",
+        "s06-invoke-design",
+        "s09-invoke-plan"
+      ],
+      "validation_expectation": "The route must expose the selected decision slate and the viable rejected paths."
+    },
+    {
+      "overlay_id": "tournament_for_one_go_scope",
+      "trigger": "The one-go build can be too broad unless scope options are compared and a non-dominated boundary is selected.",
+      "techniques": [
+        "tournament",
+        "pareto_gate",
+        "residue_ledger"
+      ],
+      "applies_to_steps": [
+        "s05-distill-decision-slate",
+        "s08-distill-repair",
+        "s09-invoke-plan"
+      ],
+      "validation_expectation": "The one-go build boundary must be narrower than pilot-ready and broader than specs-only, with rejected alternatives recorded as residue."
+    },
+    {
+      "overlay_id": "memory_residue_for_existing_body_war_route",
+      "trigger": "The route depends on earlier Body War Craft and SuggestedTrack refinement evidence.",
+      "techniques": [
+        "memory_loop",
+        "data_quality_deduplication",
+        "residue_ledger"
+      ],
+      "applies_to_steps": [
+        "s01-context-builder",
+        "s05-distill-decision-slate",
+        "s10-final-interrogation-synthesis"
+      ],
+      "validation_expectation": "The run must reference existing route artifacts instead of creating a parallel Craft root or duplicate feature authority."
+    },
+    {
+      "overlay_id": "protected_context_for_strava_and_geometry",
+      "trigger": "Strava activity evidence and route geometry are sensitive enough to require consent and source-backed claims.",
+      "techniques": [
+        "protected_context_flag",
+        "owner_boundary_check",
+        "local_nuance_coordination"
+      ],
+      "applies_to_steps": [
+        "s03-interrogation-refine-review",
+        "s06-invoke-design",
+        "s07-interrogation-design-review",
+        "s09-invoke-plan"
+      ],
+      "validation_expectation": "The design must preserve live consult before save, explicit consent before evidence attachment, and no source-backed geometry claim before promotion."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "trigger": "The one-go build crosses product decisions, private activity data, schema/migration, UI, and validation surfaces.",
+    "explanation": "Role-bound sibling review can reduce the chance that the one-go build smuggles in unsafe product, privacy, or scope assumptions.",
+    "context": [
+      "SuggestedTrack route is strategy-proposed and blocked awaiting confirmation.",
+      "The one-go build should close decisions before app mutation.",
+      "Strava consult data and source-backed geometry claims require protected handling."
+    ],
+    "roles": [
+      {
+        "role_id": "product-decision-synthesist",
+        "purpose": "Check the decision slate, rejected paths, and product copy/status implications.",
+        "owns": "decision slate and product-scope risks",
+        "applies_to_steps": [
+          "s03-interrogation-refine-review",
+          "s05-distill-decision-slate",
+          "s07-interrogation-design-review"
+        ]
+      },
+      {
+        "role_id": "data-security-schema-reviewer",
+        "purpose": "Check Strava consent, redaction, Drizzle/Postgres schema, migrations, and seed safety.",
+        "owns": "protected data and persistence boundaries",
+        "applies_to_steps": [
+          "s03-interrogation-refine-review",
+          "s06-invoke-design",
+          "s07-interrogation-design-review",
+          "s08-distill-repair"
+        ]
+      },
+      {
+        "role_id": "one-go-build-slice-planner",
+        "purpose": "Check that the final Task Session can build in one go without overclaiming pilot-ready status.",
+        "owns": "one-go task boundary and validation surface",
+        "applies_to_steps": [
+          "s05-distill-decision-slate",
+          "s09-invoke-plan",
+          "s10-final-interrogation-synthesis"
+        ]
+      }
+    ],
+    "parallelism": "fanout",
+    "join_policy": "parent_synthesis",
+    "authorization": "approved",
+    "permission_prompt": "Confirmed by operator; role-bound subagent reviews completed before one-go build handoff.",
+    "receipt_requirements": [
+      "dispatch_id",
+      "step_id",
+      "capability_ref",
+      "status",
+      "artifacts",
+      "validation",
+      "observer_status",
+      "blockers",
+      "handoff_note",
+      "residue",
+      "agent_id",
+      "role_id",
+      "spawn_status",
+      "join_status",
+      "close_status",
+      "receipt_artifact",
+      "residue",
+      "reroute"
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "pass",
+    "agents": [
+      {
+        "agent_id": "product-decision-synthesist",
+        "role_id": "product-decision-synthesist",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "stages/subagent-receipts/product-decision-synthesist.md",
+        "residue": "Craft next move alignment and Portuguese copy polish routed through S08 repair.",
+        "reroute": "s08-distill-repair"
+      },
+      {
+        "agent_id": "data-security-schema-reviewer",
+        "role_id": "data-security-schema-reviewer",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "stages/subagent-receipts/data-security-schema-reviewer.md",
+        "residue": "Legacy JSON submissions path must not become the new evidence-candidate persistence path.",
+        "reroute": "none"
+      },
+      {
+        "agent_id": "one-go-build-slice-planner",
+        "role_id": "one-go-build-slice-planner",
+        "spawn_status": "spawned",
+        "join_status": "completed",
+        "close_status": "closed",
+        "receipt_artifact": "stages/subagent-receipts/one-go-build-slice-planner.md",
+        "residue": "Task Session must run preflight gate before app mutation and add SuggestedTrack-specific tests.",
+        "reroute": "task-session after Refine final synthesis"
+      }
+    ]
+  },
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "suggested-track-decision-build-route-refine-20260629T050046Z",
+      "step_id": "s01-context-builder",
+      "capability_ref": "context-builder",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "blockers": [
+        "Awaiting operator confirmation."
+      ]
+    },
+    {
+      "dispatch_id": "suggested-track-decision-build-route-refine-20260629T050046Z",
+      "step_id": "s02-invoke-define",
+      "capability_ref": "invoke",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "blockers": [
+        "Awaiting operator confirmation."
+      ]
+    },
+    {
+      "dispatch_id": "suggested-track-decision-build-route-refine-20260629T050046Z",
+      "step_id": "s03-interrogation-refine-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "blockers": [
+        "Awaiting operator confirmation and subagent authorization."
+      ]
+    },
+    {
+      "dispatch_id": "suggested-track-decision-build-route-refine-20260629T050046Z",
+      "step_id": "s04-research-decision",
+      "capability_ref": "refine",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "blockers": [
+        "Awaiting operator confirmation."
+      ]
+    },
+    {
+      "dispatch_id": "suggested-track-decision-build-route-refine-20260629T050046Z",
+      "step_id": "s05-distill-decision-slate",
+      "capability_ref": "distill",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "blockers": [
+        "Awaiting operator confirmation and subagent authorization."
+      ]
+    },
+    {
+      "dispatch_id": "suggested-track-decision-build-route-refine-20260629T050046Z",
+      "step_id": "s06-invoke-design",
+      "capability_ref": "invoke",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "blockers": [
+        "Awaiting operator confirmation."
+      ]
+    },
+    {
+      "dispatch_id": "suggested-track-decision-build-route-refine-20260629T050046Z",
+      "step_id": "s07-interrogation-design-review",
+      "capability_ref": "interrogation",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "blockers": [
+        "Awaiting operator confirmation and subagent authorization."
+      ]
+    },
+    {
+      "dispatch_id": "suggested-track-decision-build-route-refine-20260629T050046Z",
+      "step_id": "s08-distill-repair",
+      "capability_ref": "distill",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "blockers": [
+        "Awaiting operator confirmation."
+      ]
+    },
+    {
+      "dispatch_id": "suggested-track-decision-build-route-refine-20260629T050046Z",
+      "step_id": "s09-invoke-plan",
+      "capability_ref": "invoke",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "blockers": [
+        "Awaiting operator confirmation."
+      ]
+    },
+    {
+      "dispatch_id": "suggested-track-decision-build-route-refine-20260629T050046Z",
+      "step_id": "s10-final-interrogation-synthesis",
+      "capability_ref": "refine",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "artifacts": [
+        "REFINE-SEED-PROPOSAL.md",
+        "REFINE-DISPATCH.json",
+        "RUNTIME-HANDOFF.md",
+        "RESULT.md"
+      ],
+      "blockers": [
+        "Full canonical runtime-backed refine loop awaits operator confirmation."
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "s01-context-builder",
+      "name": "Context Builder evidence baseline",
+      "capability_ref": "context-builder",
+      "mode": "standard",
+      "pattern": "sequential",
+      "techniques": [
+        "frame_handoff",
+        "data_quality_completeness",
+        "memory_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "REFINE-SEED-PROPOSAL.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "projects/body-war/.craft/ledger.yml"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S01-CONTEXT-BUILDER.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s02-invoke-define",
+      "name": "Invoke Define",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff",
+        "route_menu",
+        "approval_checkpoint"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S01-CONTEXT-BUILDER.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S02-INVOKE-DEFINE.md"
+        },
+        {
+          "kind": "route_menu",
+          "ref": "REFINE-DISPATCH.json#route_menu"
+        }
+      ]
+    },
+    {
+      "step_id": "s03-interrogation-refine-review",
+      "name": "Interrogation refine-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "protected_context_flag",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S02-INVOKE-DEFINE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S03-INTERROGATION-REFINE-REVIEW.md"
+        }
+      ],
+      "evidence_artifact": "REFINE-SEED-PROPOSAL.md",
+      "stop_conditions": [
+        "block if Strava activity payloads are stored before explicit evidence consent",
+        "block if SuggestedTrack implies source-backed geometry before promotion",
+        "block if one-go build scope skips tests for redaction and no-secret behavior"
+      ]
+    },
+    {
+      "step_id": "s04-research-decision",
+      "name": "Research decision",
+      "capability_ref": "refine",
+      "mode": "research-if-gap-appears",
+      "pattern": "decision",
+      "techniques": [
+        "owner_boundary_check",
+        "protected_context_flag"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S03-INTERROGATION-REFINE-REVIEW.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/S04-RESEARCH-DECISION.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s05-distill-decision-slate",
+      "name": "Distill decision slate and one-go build unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "techniques": [
+        "route_menu",
+        "tournament",
+        "pareto_gate",
+        "residue_ledger"
+      ],
+      "roles": [
+        "product-decision-synthesist",
+        "data-security-schema-reviewer",
+        "one-go-build-slice-planner"
+      ],
+      "convergence_criteria": [
+        "selected route resolves all listed decision paths or records exact residue",
+        "one-go scope remains buildable in one task session",
+        "pilot-ready, source-backed geometry, and territory scoring claims stay out of scope"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "stages/S04-RESEARCH-DECISION.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/body-war/development/refinement-runs/20260624T010822Z-suggested-track-expansion-route/ARCHITECTURE-PLAN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S05-DISTILL-DECISION-SLATE.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s06-invoke-design",
+      "name": "Invoke Redefine / Design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": [
+        "owner_boundary_check",
+        "data_quality_completeness",
+        "local_nuance_coordination"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S05-DISTILL-DECISION-SLATE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S06-INVOKE-DESIGN.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s07-interrogation-design-review",
+      "name": "Interrogation refine-design-review",
+      "capability_ref": "interrogation",
+      "mode": "refine-design-review",
+      "pattern": "validation",
+      "techniques": [
+        "validation_loop",
+        "protected_context_flag",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S06-INVOKE-DESIGN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S07-INTERROGATION-DESIGN-REVIEW.md"
+        }
+      ],
+      "evidence_artifact": "stages/S06-INVOKE-DESIGN.md",
+      "stop_conditions": [
+        "block if the design stores raw private Strava activity payloads",
+        "block if the design depends on an unselected external storage provider",
+        "flag if UI copy calls preview evidence verified"
+      ]
+    },
+    {
+      "step_id": "s08-distill-repair",
+      "name": "Distill Repair",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "techniques": [
+        "residue_ledger",
+        "validation_loop",
+        "pareto_gate"
+      ],
+      "roles": [
+        "product-decision-synthesist",
+        "data-security-schema-reviewer",
+        "one-go-build-slice-planner"
+      ],
+      "convergence_criteria": [
+        "repair removes all blockers that would force another pre-build decision gate",
+        "remaining residue has a deferred owner and does not block the one-go build handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S07-INTERROGATION-DESIGN-REVIEW.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S08-DISTILL-REPAIR.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s09-invoke-plan",
+      "name": "Invoke Plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": [
+        "handle_handoff",
+        "execution_receipt_handoff",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S08-DISTILL-REPAIR.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S09-INVOKE-PLAN.md"
+        },
+        {
+          "kind": "handoff",
+          "ref": "RUNTIME-HANDOFF.md"
+        }
+      ]
+    },
+    {
+      "step_id": "s10-final-interrogation-synthesis",
+      "name": "Final Interrogation and Synthesis",
+      "capability_ref": "refine",
+      "mode": "refine-final",
+      "pattern": "synthesis",
+      "techniques": [
+        "validation_loop",
+        "observability_grouping",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "stages/S09-INVOKE-PLAN.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "RESULT.md"
+        }
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G-STRATEGY-CONFIRMATION",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Operator confirms the decision-slate route, selected defaults, and recommended subagent reviews before runtime-backed refinement stages run.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-DECISION-SLATE-CLOSURE",
+      "kind": "decision",
+      "owner": "refine",
+      "condition": "Visibility, submit auth, seed mechanism, promotion authority, storage path, geometry claim, and one-go build scope are closed or recorded as explicit residue before app mutation.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-CONSULT-BEFORE-SAVE",
+      "kind": "quality",
+      "owner": "body-war",
+      "condition": "Strava activity consult is live/ephemeral; only redacted summaries are stored after explicit consent.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-DRIZZLE-POSTGRES",
+      "kind": "policy",
+      "owner": "body-war",
+      "condition": "Schema changes use the existing Body War Drizzle/Postgres stack with generated migrations.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-GEOMETRY-HONESTY",
+      "kind": "promotion_guardrail",
+      "owner": "body-war",
+      "condition": "Suggested tracks and evidence candidates cannot claim source-backed geometry or pilot-ready status until promotion evidence exists.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G-ONE-GO-BUILD-BOUNDARY",
+      "kind": "validation",
+      "owner": "task-session",
+      "condition": "The recommended next Task Session is one bounded build, not an open-ended pilot-ready implementation.",
+      "on_fail": "reroute"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "suggested-track-expansion-route-refine-20260624T010822Z",
+    "trace_events": [
+      "refine.strategy.proposed",
+      "refine.route_menu.selected.decision_slate_then_one_go_build",
+      "refine.subagent_strategy.recommended",
+      "refine.authorization.requires_user_permission"
+    ],
+    "signal_grouping": "suggested-track-decision-build-route"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B01-craft-state-owner",
+        "kind": "state_write",
+        "from_owner": "refine",
+        "to_owner": "craft",
+        "applies_to_steps": [
+          "s01-context-builder",
+          "s10-final-interrogation-synthesis"
+        ],
+        "contract": "Read existing Body War Craft state as authority; do not create a new Craft root for this feature.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B02-strava-protected-context",
+        "kind": "external_context",
+        "from_owner": "connected runner Strava account",
+        "to_owner": "TrackEvidenceCandidate",
+        "applies_to_steps": [
+          "s03-interrogation-refine-review",
+          "s06-invoke-design",
+          "s07-interrogation-design-review",
+          "s09-invoke-plan"
+        ],
+        "contract": "Strava activity data is consulted live, redacted in the browser, and saved only after explicit evidence attachment consent.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B03-runtime-permission",
+        "kind": "human_approval",
+        "from_owner": "operator",
+        "to_owner": "refine",
+        "applies_to_steps": [
+          "s01-context-builder",
+          "s02-invoke-define",
+          "s03-interrogation-refine-review",
+          "s04-research-decision",
+          "s05-distill-decision-slate",
+          "s06-invoke-design",
+          "s07-interrogation-design-review",
+          "s08-distill-repair",
+          "s09-invoke-plan",
+          "s10-final-interrogation-synthesis"
+        ],
+        "contract": "No runtime-backed stage or subagent execution starts before explicit operator confirmation.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "refine owns the run folder, dispatch, handoff, and final synthesis",
+      "execution": "task-session owns any later one-go implementation after confirmation",
+      "validation": "dispatch-spec validates route shape; stage skills validate native artifacts",
+      "evidence": "Body War repo artifacts and Craft ledger remain source evidence",
+      "memory": "memory may orient the route but must be checked against live ledger/files",
+      "promotion": "operator/Craft decision evidence owns source-backed and pilot-ready claims"
+    },
+    "receipts": [
+      {
+        "receipt_id": "RCT-REFINE-STAGE",
+        "producer": "native stage capability",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "residue"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "RCT-RECOMMENDED-SUBAGENT",
+        "producer": "approved role-bound subagent",
+        "required_fields": [
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "handoff_note",
+          "residue"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "body-war-source",
+        "owner": "body-war",
+        "root": "projects/body-war/",
+        "write_policy": "runtime implementation only after confirmed next-route handoff"
+      },
+      {
+        "namespace": "refine-run-evidence",
+        "owner": "refine",
+        "root": "projects/body-war/development/refinement-runs/20260629T050046Z-suggested-track-decision-build-route/",
+        "write_policy": "strategy artifacts now; stage artifacts only after confirmation"
+      },
+      {
+        "namespace": "arcanum-public-submodule",
+        "owner": "arcanum",
+        "root": "arcanum/",
+        "write_policy": "read-only for this Body War feature refinement"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "SuggestedTrack needs_evidence or evidence_submitted",
+        "target": "SourceBackedTrack or pilot_ready",
+        "rule": "Promotion requires accepted geometry/source evidence and an operator review receipt.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Do not mutate app code during the strategy proposal turn.",
+    "Do not create a new Craft root for SuggestedTrack work.",
+    "Do not store raw private Strava activity payloads in repo artifacts or browser state.",
+    "Do not infer source-backed geometry from suggested-track metadata.",
+    "Do not claim pilot-ready status from the one-go build unless later evidence closes geometry, review, and hosted validation.",
+    "Do not edit Arcanum canonical surfaces for this Body War feature route."
+  ]
+}

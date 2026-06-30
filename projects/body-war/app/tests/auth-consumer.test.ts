@@ -62,6 +62,86 @@ test("Body War local fake-Strava auth flow creates safe profile and cookies", as
     const activitiesJson = await activities.json() as Record<string, unknown>
     assert.equal(JSON.stringify(activitiesJson).includes("access_token"), false)
     assert.equal(nested(activitiesJson, ["receipt", "authority", "route_geometry"]), "not_claimed")
+    const activityList = activitiesJson.activities as Array<Record<string, unknown>>
+    assert.ok(activityList.length > 0)
+    const firstActivityId = String(activityList[0]?.id)
+
+    const suggestedTracks = await fetch(`${baseUrl}/api/suggested-tracks`, {
+      headers: { cookie: cookieHeader },
+    })
+    assert.equal(suggestedTracks.status, 200)
+    const suggestedTracksJson = await suggestedTracks.json() as Record<string, unknown>
+    const seededTracks = suggestedTracksJson.suggested_tracks as Array<Record<string, unknown>>
+    assert.ok(seededTracks.some((track) => track.slug === "volta-do-taquaral"))
+    assert.equal(seededTracks[0]?.status, "needs_evidence")
+
+    const suggestedTrackCsrfRejected = await fetch(`${baseUrl}/api/suggested-tracks`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        cookie: cookieHeader,
+        origin: ALLOWED_ORIGIN,
+      },
+      body: JSON.stringify({ name: "Lago extra", place_label: "Taquaral", city: "Campinas" }),
+    })
+    assert.equal(suggestedTrackCsrfRejected.status, 403)
+
+    const createdSuggestedTrack = await fetch(`${baseUrl}/api/suggested-tracks`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        cookie: cookieHeader,
+        origin: ALLOWED_ORIGIN,
+        "x-csrf-token": csrfToken,
+      },
+      body: JSON.stringify({
+        name: "Lago extra",
+        place_label: "Parque Portugal",
+        city: "Campinas",
+        distance_hint_meters: 3200,
+        public_note: "Precisa de evidencia antes de qualquer geometria.",
+      }),
+    })
+    assert.equal(createdSuggestedTrack.status, 201)
+    const createdSuggestedTrackJson = await createdSuggestedTrack.json() as Record<string, unknown>
+    const createdSuggestedTrackId = String(nested(createdSuggestedTrackJson, ["suggested_track", "id"]))
+    assert.equal(nested(createdSuggestedTrackJson, ["suggested_track", "status"]), "needs_evidence")
+    assert.equal(nested(createdSuggestedTrackJson, ["suggested_track", "authority", "route_geometry"]), "not_claimed")
+
+    const missingConsent = await fetch(`${baseUrl}/api/suggested-tracks/${createdSuggestedTrackId}/evidence-candidates`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        cookie: cookieHeader,
+        origin: ALLOWED_ORIGIN,
+        "x-csrf-token": csrfToken,
+      },
+      body: JSON.stringify({ activity_id: firstActivityId }),
+    })
+    assert.equal(missingConsent.status, 400)
+    assert.equal(nested(await missingConsent.json() as Record<string, unknown>, ["error"]), "consent_required")
+
+    const evidenceCandidate = await fetch(`${baseUrl}/api/suggested-tracks/${createdSuggestedTrackId}/evidence-candidates`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        cookie: cookieHeader,
+        origin: ALLOWED_ORIGIN,
+        "x-csrf-token": csrfToken,
+      },
+      body: JSON.stringify({
+        activity_id: firstActivityId,
+        consent_acknowledged: true,
+        consent_text: "Store only the redacted activity summary.",
+      }),
+    })
+    assert.equal(evidenceCandidate.status, 201)
+    const evidenceCandidateJson = await evidenceCandidate.json() as Record<string, unknown>
+    assert.equal(JSON.stringify(evidenceCandidateJson).includes("access_token"), false)
+    assert.equal(JSON.stringify(evidenceCandidateJson).includes("refresh_token"), false)
+    assert.equal(nested(evidenceCandidateJson, ["suggested_track", "status"]), "evidence_submitted")
+    assert.equal(nested(evidenceCandidateJson, ["suggested_track", "authority", "route_geometry"]), "not_claimed")
+    assert.equal(nested(evidenceCandidateJson, ["evidence_candidate", "authority", "scoring"]), "not_claimed")
 
     const csrfRejected = await fetch(`${baseUrl}/api/submissions`, {
       method: "POST",

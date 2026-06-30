@@ -1,0 +1,66 @@
+{
+  "dispatch_id": "20260629-troqar-score-authority",
+  "operator_intent": "Refine GAP-TROQAR-SCORE-AUTHORITY-001 into an MVP-ready non-executed plan for the zone-control authority rule, as the shipped-demo verification wedge slice.",
+  "refinement_objective": "A typed-invariant zone-control rule (+1 powerup) with falsified contention (Σ/TOCTOU) semantics, claim<=proof honest-labeled enforcement + re-verifiable audit, wired as the first auto-verdict-gate fixture; rule choice routed to decision-gate.",
+  "preset": "full",
+  "research_mode": "research-if-gap-appears",
+  "validation_status": "pass (self-validated against dispatch-spec contract checklist; see RUN-MANIFEST)",
+  "technique_overlays": {
+    "baseline": ["sequence", "frame_handoff", "validation_loop", "owner_boundary_check", "observability_grouping", "minimum_component_catalog", "data_quality_completeness"],
+    "selected": [
+      {"id": "route_menu_for_ambiguity", "why": "contested-zone control is a genuine multi-option decision; gap treatment is decision-gate"},
+      {"id": "dialectic_for_tension", "why": "competing principles: real-time excitement vs verifiability/anti-cheat/determinism"},
+      {"id": "toy_game_for_low_cost_falsification", "why": "simultaneous-claim Σ/TOCTOU needs a controlled failure test before planning; this artifact demonstrates the wedge"}
+    ],
+    "considered_not_selected": [
+      {"id": "x_ray", "why_not": "zone adjacency/state already documented in GDD/domainspec"},
+      {"id": "tournament", "why_not": "route_menu+dialectic already cover the rule alternatives"},
+      {"id": "protected_context", "why_not": "no external sensitive evidence"}
+    ]
+  },
+  "route_menu": {
+    "decision": "zone-control authority rule",
+    "options": [
+      {"id": "R1", "name": "fastest-lap controller", "shape": "running-max over activities", "feel": "high", "verifiability": "TOCTOU-risk"},
+      {"id": "R2", "name": "cumulative-presence controller", "shape": "Σ over window", "feel": "low", "verifiability": "deterministic-with-consistency-boundary"},
+      {"id": "R3", "name": "most-recent-valid (king-of-hill)", "shape": "last-writer-wins", "feel": "high", "verifiability": "TOCTOU-risk"},
+      {"id": "R4", "name": "season total-time leaderboard", "shape": "aggregate ranking", "feel": "med", "verifiability": "deterministic"}
+    ],
+    "decision_status": "open -> routed to decision-gate after refine"
+  },
+  "steps": [
+    {"n": 1, "stage": "context-builder", "owner": "context-builder", "mode": "standard", "in": "REFINE-SEED-PROPOSAL.md + body-war sources", "out": "stages/s1-context-builder/context-pack.md", "runtime": "parent-coordinator", "receipt": "context-pack"},
+    {"n": 2, "stage": "invoke-define", "owner": "invoke", "mode": "define", "in": "seed + s1", "out": "stages/s2-invoke-define/DEFINE.md", "runtime": "parent-coordinator", "receipt": "define-artifact"},
+    {"n": 3, "stage": "interrogation-refine-review", "owner": "interrogation", "mode": "refine-review", "in": "s2", "out": "stages/s3-interrogation-review/REVIEW.md", "runtime": "parent-coordinator", "receipt": "verdict"},
+    {"n": 4, "stage": "research-decision", "owner": "refine", "mode": "research-if-gap-appears", "out": "stages/s4-research-decision/RESEARCH-DECISION.md", "runtime": "refine", "receipt": "decision"},
+    {"n": 5, "stage": "distill", "owner": "distill", "mode": "standard", "in": "s2,s3", "out": "stages/s5-distill/DISTILL.md", "runtime": "parent-coordinator", "receipt": "selected-unit"},
+    {"n": 6, "stage": "invoke-design", "owner": "invoke", "mode": "design", "in": "s5 + route_menu", "out": "stages/s6-invoke-design/DESIGN.md", "runtime": "parent-coordinator", "receipt": "design-artifact"},
+    {"n": 7, "stage": "interrogation-refine-design-review", "owner": "interrogation", "mode": "refine-design-review", "overlay": "dialectic", "in": "s6", "out": "stages/s7-interrogation-design-review/REVIEW.md", "runtime": "subagents", "receipt": "advocate-receipts+verdict"},
+    {"n": 8, "stage": "distill-repair", "owner": "distill", "mode": "validate", "overlay": "toy_game", "in": "s7 + candidate rule", "out": "stages/s8-distill-repair/REPAIR.md + TOY-GAME.md", "runtime": "subagent", "receipt": "falsification-verdict"},
+    {"n": 9, "stage": "invoke-plan", "owner": "invoke", "mode": "plan", "in": "s6,s8", "out": "stages/s9-invoke-plan/PLAN.md", "runtime": "parent-coordinator", "receipt": "non-executed-plan"},
+    {"n": 10, "stage": "final-interrogation-synthesis", "owner": "interrogation+refine", "mode": "refine-final", "in": "all", "out": "RESULT.md", "runtime": "parent-coordinator", "receipt": "final-verdict"}
+  ],
+  "gates": [
+    "native capability handle present per runtime-backed stage",
+    "stage receipt or explicit blocked reason per selected stage",
+    "research confirmation recorded (s4)",
+    "required artifact existence (run-manifest invariant)",
+    "owner-boundary preserved (refine non-executed; body-war specs/app untouched)",
+    "final synthesis readiness (all prior stages pass/flag with artifacts)",
+    "dialectic convergence criterion stated (s7)",
+    "toy_game evidence artifact present (s8)"
+  ],
+  "subagent_strategy": {
+    "status": "recommended",
+    "authorization": "confirmed-by-operator 2026-06-29 (covers delegated subagent execution)",
+    "anti_bias": "rule-philosophy: real-time/excitement vs verifiability/determinism",
+    "roles": [
+      {"role": "rule-advocate-A", "angle": "real-time/excitement (R1/R3)", "stage": 7, "join": "parallel"},
+      {"role": "rule-advocate-B", "angle": "verifiability/determinism (R2/R4)", "stage": 7, "join": "parallel"},
+      {"role": "contention-falsifier", "angle": "Σ/TOCTOU well-definedness toy_game", "stage": 8, "join": "sequential-after-candidate"}
+    ],
+    "receipts": "advocate: position + steelman of opposing rule; falsifier: scenario + verdict {well-defined|underspecified|collapses-to-decidable|needs-concurrency-semantics} + failing trace",
+    "register": "logged in telemetry/agents/subagents-dispatch.yaml per universal record discipline"
+  },
+  "observability": {"group_by": "dispatch_id", "events": ["stage_start", "stage_receipt", "subagent_receipt", "gate_verdict", "final_synthesis"]}
+}

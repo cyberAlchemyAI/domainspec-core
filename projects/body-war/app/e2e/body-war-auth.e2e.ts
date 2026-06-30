@@ -55,6 +55,52 @@ async function main(): Promise<void> {
     });
     assert.equal(nested(activities, ["receipt", "authority", "route_geometry"]), "not_claimed");
     assertNoSecretLeak(activities);
+    const activityList = activities.activities as Array<Record<string, unknown>>;
+    assert.ok(activityList.length > 0);
+    const firstActivityId = String(activityList[0]?.id);
+
+    const suggestedTracks = await jsonFetch(`${baseUrl}/api/suggested-tracks`, {
+      headers: { cookie: cookieHeader },
+    });
+    const seededTracks = suggestedTracks.suggested_tracks as Array<Record<string, unknown>>;
+    assert.ok(seededTracks.some((track) => track.slug === "volta-do-taquaral"));
+    assert.equal(seededTracks[0]?.status, "needs_evidence");
+
+    const createdSuggestedTrack = await jsonFetch(`${baseUrl}/api/suggested-tracks`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        cookie: cookieHeader,
+        origin: ALLOWED_ORIGIN,
+        "x-csrf-token": csrfToken,
+      },
+      body: JSON.stringify({
+        name: "Bosque sprint",
+        place_label: "Campinas",
+        city: "Campinas",
+        public_note: "Candidate only.",
+      }),
+    }, 201);
+    const createdSuggestedTrackId = String(nested(createdSuggestedTrack, ["suggested_track", "id"]));
+    assert.equal(nested(createdSuggestedTrack, ["suggested_track", "status"]), "needs_evidence");
+
+    const evidenceCandidate = await jsonFetch(`${baseUrl}/api/suggested-tracks/${createdSuggestedTrackId}/evidence-candidates`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        cookie: cookieHeader,
+        origin: ALLOWED_ORIGIN,
+        "x-csrf-token": csrfToken,
+      },
+      body: JSON.stringify({
+        activity_id: firstActivityId,
+        consent_acknowledged: true,
+        consent_text: "Store only the redacted activity summary.",
+      }),
+    }, 201);
+    assert.equal(nested(evidenceCandidate, ["suggested_track", "status"]), "evidence_submitted");
+    assert.equal(nested(evidenceCandidate, ["suggested_track", "authority", "route_geometry"]), "not_claimed");
+    assertNoSecretLeak(evidenceCandidate);
 
     const rejected = await fetch(`${baseUrl}/api/submissions`, {
       method: "POST",
