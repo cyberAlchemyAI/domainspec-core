@@ -56,6 +56,10 @@ criterion 3.)
 
 ## 3. Measurement instruments (one per criterion — deterministic, reproducible)
 
+- **M0 catalog coverage (feature-independent; added 2026-07-01).** Of the 25 TAXONOMY types, how many
+  have exactly one appendix pattern? Of the 29 RELATIONSHIPS edges, how many have an authored composition
+  rule? This tests the *catalog's* completeness, not the corpus's — the single-feature toy can't. (T2
+  authored only **10/29** edge rules; the other 19 are the live gap, written by SWU-T2b.)
 - **M1 taxonomy closure** = classified concepts / total concepts (target 100%). Instrument: cross the
   feature's concept list against the 25 types; any residue is an M1 failure.
 - **M2 node→pattern 1:1** = nodes with exactly one pattern / total nodes (target ≥90%). Record every
@@ -67,6 +71,10 @@ criterion 3.)
 
 Determinism check: re-running T3 from the same spec-graph + mapping tables must reproduce the same
 metrics (if not, the mapping is under-specified — itself a finding).
+
+**Exercise coverage (added 2026-07-01).** Record which of the 25 types / 29 edges the corpus actually
+exercised (financial-settlement: **12/25, 10/29**). M1–M4 are *corpus-scoped*; M0 + exercise-coverage
+keep the verdict honest about how much of the catalog was tested. A SURVIVED verdict states its coverage.
 
 ## 4. Attack lenses (Lane Z zig-zag — SEED.md:43-47)
 

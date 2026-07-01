@@ -85,11 +85,16 @@ axiom points at a dropped v1 rule; A2 explicitly names the adapter-line = layeri
 normative layer-law; each concept carries its layer. *Semantic acceptance:* every concept type is one
 `validate-code-tags` accepts; layer assignment ≠ dependency verdict (C6 wording preserved).
 
-**R3 · RELATIONSHIPS** — *before:* 29 **allowed** edges + registry format. *after:* the same 29 as the
-allowed set **plus an explicit forbidden-edge law** (which endpoint pairs are unconstructible) + endpoint
-type signatures. *Semantic acceptance:* `validate-relationships` still PASS (29 canonical edges); a
-forbidden edge in a fixture is rejected as *unconstructible*, not merely flagged (C6); C11 is named as the
-check side.
+**R3 · RELATIONSHIPS** — *before:* 29 **allowed** edges + registry format. *after:* the allowed set
+**plus an explicit forbidden-edge law** (which endpoint pairs are unconstructible) + endpoint type
+signatures, **plus the catalog-coverage additions the toy T2b proved are missing**
+(`../../research/spec-ontology-unification/toy/catalog.md` §C/§D): **R3-P1** add an `Operation→Entity`
+read edge (or generalize `queries` to Behavioral→Entity); **R3-P2** add an `Operation→ValueObject`
+(returns) edge; **R3-P3** resolve the Event payload+publisher composite (keep one node, or split
+Structural payload / Connective publisher). *Semantic acceptance:* `validate-relationships` PASS at the
+**new** canonical-edge count (**>29** — R3-P1/P2 add edges); a forbidden edge in a fixture is rejected as
+*unconstructible*, not merely flagged (C6); C11 named as the check side; the two T1-found relations
+(op-reads-Entity, op-returns-VO) now have a typed edge.
 
 **R4 · TEST-PIPELINE** — *before:* doc-section→test-type rules + a payment example + `@source` traceability.
 *after:* the deterministic **derivation contract** (which obligation classes derive from which spec

@@ -38,7 +38,7 @@ references → **R5/R6a** · D4 forbidden-edge law form → **R3**.
 | --- | --- | --- | --- | --- |
 | **R1** | L0 | `impl/spec/AXIOMS.md` → base + layering (A2) | — | `validate:docs` RC 0; A2 bound to C6; namespace note folded in; review-pass |
 | **R2** | L1 | `impl/spec/TAXONOMY.md` → layering | R1 | `tags:test`/`validate-code-tags` recognizes all concept types; `engine:lint` CLEAN; no v1 residue |
-| **R3** | L1 | `impl/spec/RELATIONSHIPS.md` → layering law (C6) + validation check (C11) | R2 | `validate:rels` PASS; edge-law = what C11 checks & C6 forbids; endpoints typed |
+| **R3** | L1 | `impl/spec/RELATIONSHIPS.md` → layering law (C6) + validation check (C11) | R2 | `validate:rels` PASS; edge-law = what C11 checks & C6 forbids; endpoints typed; **+ R3-P1/P2/P3 catalog-coverage additions (toy T2b)** |
 | **R4** | L2 | `impl/spec/TEST-PIPELINE.md` → validation (C5, C10) | R2, R3 | Consistent w/ engine `derive`/`lint`; contract-only (no δ-algorithm); review-pass |
 | **R5** | L2 | `impl/spec/DRIFT-CONVERGENCE.md` → drift (C7) | R2 | 5 surfaces + trend-not-signal + write-authority proviso; code-tag-drift bound; review-pass |
 | **R6a** | L3 | `impl/spec/CONSTITUTION.md` (v1 C1–C11) → domain governance | R1–R5 | Each v1 C-rule crosswalked or explicitly dropped; validators stay green; **OQ-2 crosswalk closed** |
@@ -65,8 +65,9 @@ Global regression gate for **every** SWU: `npm run validate` **and** `npm run en
 ## R3 — RELATIONSHIPS (L1, layering law + validation check)
 - **Write scope:** `impl/spec/RELATIONSHIPS.md`.
 - **Steps:** re-author the typed-edge vocabulary + endpoint signatures + forbidden-edge set (the **edge-law**); bind the LAW to layering (C6) and note the CHECK is validation (C11, `validate-relationships`); keep the C6↔C11 relationship explicit.
+- **Catalog-coverage additions (from toy T2b — [../../research/spec-ontology-unification/toy/catalog.md](../../research/spec-ontology-unification/toy/catalog.md)):** the current 29 edges don't cover 2 real relations T1 found. Add **R3-P1** `Operation→Entity` read (or generalize `queries` to Behavioral→Entity), **R3-P2** `Operation→ValueObject` returns; decide **R3-P3** the Event payload+publisher composite (one node vs split). The canonical-edge count grows past 29 accordingly.
 - **Impl detail:** each edge = (name, from-type, to-type, allowed?) over TAXONOMY concepts; forbidden edges must be expressed so C6 renders them unconstructible, not merely flagged; `validate-relationships` reads this file (G3 default → `impl/spec/RELATIONSHIPS.md`).
-- **Validation:** `npm run validate:rels` PASS (canonicalEdges count sane); flip one edge in the sample feature → RC non-zero (discriminating).
+- **Validation:** `npm run validate:rels` PASS at the **new** canonicalEdges total (>29 after R3-P1/P2); flip one edge in the sample feature → RC non-zero (discriminating); the 2 T1-found relations (op-reads-Entity, op-returns-VO) now resolve to a typed edge.
 - **Verification:** every declared edge has typed endpoints; forbidden set present.
 
 ## R4 — TEST-PIPELINE (L2, validation)

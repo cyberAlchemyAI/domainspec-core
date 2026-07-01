@@ -44,6 +44,13 @@ spans Structural + Behavioral + Connective + Lifecycle — Entity, Value Object 
 Passing the toy is **substrate viability**, NOT proof of agent cost savings (that needs a later,
 separate agent-run experiment) and NOT authority to fuse spec and code — see promotion boundary.
 
+**Coverage vs completeness (added 2026-07-01, from T1/T2 evidence).** A pass on one feature exercises
+only the *subset* of the catalog that feature uses (financial-settlement: **12/25 node-types, 10/29
+edge-types**). So distinguish THREE things, not one: **corpus closure** (M1 — do the corpus's concepts
+fit a type), **catalog coverage** (M0 — do ALL 25 types + 29 edges each have a pattern/rule,
+feature-independent), and **exercise coverage** (how much of the catalog a corpus actually tests). A
+SURVIVED verdict MUST state its exercise coverage; single-feature is necessary, not sufficient.
+
 ## Glossary
 
 - **spec-graph** — the feature's concepts as typed nodes + typed edges (TAXONOMY × RELATIONSHIPS).
@@ -70,3 +77,8 @@ separate agent-run experiment) and NOT authority to fuse spec and code — see p
   (too trivial), escalate to AEO.
 - **DEF-D2 — criterion thresholds.** The 90%/≤10% bars are proposed; the owner FREEZES them at the
   experiment step before the run (experiment discipline — no post-hoc adjustment).
+- **DEF-D3 — catalog coverage (added 2026-07-01).** T1/T2 tested only 12/25 types + 10/29 edges. Add a
+  feature-independent **catalog-coverage instrument (M0)**: does every one of the 25 types have exactly
+  one appendix pattern, and every one of the 29 edges a composition rule? (Only **10/29** edge rules are
+  authored today — SWU-T2b writes the other 19.) Optionally add a second, UI-heavy corpus so the 13
+  untested types get exercised. The 19 authored edge rules feed the batch-1 **R3** (RELATIONSHIPS).
