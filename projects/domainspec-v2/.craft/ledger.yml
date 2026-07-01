@@ -1,0 +1,280 @@
+# DomainSpec v2 — Craft ledger (SOURCE OF TRUTH). Human view: ../CRAFT.md (CRAFT.md at scope root).
+# Scoped space promoted from the cav2 context CTX-CAV2-DOMAINSPEC-V2 (2026-07-01, DEC-DSV2-CRAFT-SCOPE).
+# cav2 remains the umbrella; its context now points here rather than flattening v2 into one row.
+craft:
+  version: 0.1
+  project_id: domainspec_v2
+  title: DomainSpec v2 — implementation home
+  root_context_id: CTX-DSV2-ROOT
+  scope: projects/domainspec-v2
+  source_contracts:
+    - IMPORT-MANIFEST.md
+    - authority/AUTHORITY-MODEL.md
+    - authority/constitutions/domainspec-v2-CONSTITUTION.md
+  parent_space: "[repo-root]/cyberAlchemy-v2/.craft/ledger.yml#CTX-CAV2-DOMAINSPEC-V2"
+
+indexes:
+  by_id:
+    CTX-DSV2-ROOT: contexts[0]
+    CTX-DSV2-AUTHORITY: contexts[1]
+    CTX-DSV2-MAKE-IT-GREEN: contexts[2]
+    CTX-DSV2-REFORMULATE-BATCH1: contexts[3]
+    CTX-DSV2-SPEC-ONTOLOGY: contexts[4]
+  open_decisions:
+    - DEC-DSV2-LANE-ZA
+  blocking_decisions: []
+  active_blockers:
+    - BLK-DSV2-DRIFT-ENGINE
+    - BLK-DSV2-L2-ATTESTATION
+  active_gaps:
+    - GAP-DSV2-EDGE-CATALOG
+    - GAP-DSV2-COMPOSABILITY-ENFORCE
+    - GAP-DSV2-EXERCISE
+  next_moves:
+    - context_id: CTX-DSV2-ROOT
+      next_move: Execute the batch-1 reformulation (R1 AXIOMS -> R6b), whose R3 now fixes the exact edge-catalog gaps the spec-ontology toy exposed; or stand up the agent-cost experiment that settles Lane Z vs A.
+    - context_id: CTX-DSV2-REFORMULATE-BATCH1
+      next_move: task-session R1 (AXIOMS) first; R3 carries R3-P1/P2/P3 catalog-coverage additions.
+    - context_id: CTX-DSV2-SPEC-ONTOLOGY
+      next_move: Lane Z vs A stays deferred to an agent-cost experiment; extend composability enforcement past 9/29 (drift) and consider a 2nd UI-heavy corpus (T5).
+  artifacts_by_path:
+    "IMPORT-MANIFEST.md": ART-DSV2-IMPORT-MANIFEST
+    "impl/": ART-DSV2-IMPL
+    "authority/": ART-DSV2-AUTHORITY
+    "development/make-it-green/": ART-DSV2-MAKE-IT-GREEN
+    "development/reformulate-batch1/": ART-DSV2-REFORMULATE-BATCH1
+    "research/2026-06-29-v1-import-triage/findings.md": ART-DSV2-IMPORT-TRIAGE
+    "research/2026-06-29-recursive-governance-model/findings.md": ART-DSV2-RECURSION-RESEARCH
+    "research/2026-07-01-spec-as-ontology/findings.md": ART-DSV2-SPEC-ONTOLOGY-RESEARCH
+    "research/spec-ontology-unification/": ART-DSV2-SPEC-ONTOLOGY-TOY
+    "research/2026-07-01-composability-edges-taxonomy-synthesis.md": ART-DSV2-COMPOSABILITY-SYNTHESIS
+
+contexts:
+  - context_id: CTX-DSV2-ROOT
+    parent_id: root
+    title: DomainSpec v2 — implementation home
+    purpose: >-
+      v2 rework of the DomainSpec pillar (the *what* — typed intent -> engine / Lean kernel). The
+      implementation home: import + reformulate from v1 (frozen evidence source) under the mandate
+      "govern + enforce Ontology A on evidence". Recomposes into cav2 CTX-CAV2-DOMAINSPEC-V2.
+    stage: build
+    gate: flag
+    next_move: >-
+      Execute batch-1 reformulation (R1 -> R6b) — R3 now fixes the toy-exposed edge gaps — or stand up
+      the agent-cost experiment for Lane Z vs A.
+    owned_artifacts: [ART-DSV2-IMPORT-MANIFEST, ART-DSV2-IMPL, ART-DSV2-AUTHORITY]
+
+  - context_id: CTX-DSV2-AUTHORITY
+    parent_id: CTX-DSV2-ROOT
+    recomposition_target: CTX-DSV2-ROOT
+    title: Minted authority spine (3 governances)
+    purpose: >-
+      The cav2 authority MOLD cast onto v2: 3 domain-originated governances (validation / layering /
+      drift), the recursion model (muF law/check + nuF drift), the credibility constitution + the
+      per-governance split plan.
+    stage: minted
+    gate: flag
+    next_move: L2 cryptographic attestation seal for the 3 ratified kinds (blocked on attestation capability).
+    owned_artifacts: [ART-DSV2-AUTHORITY, ART-DSV2-RECURSION-RESEARCH]
+
+  - context_id: CTX-DSV2-MAKE-IT-GREEN
+    parent_id: CTX-DSV2-ROOT
+    recomposition_target: CTX-DSV2-ROOT
+    title: Make impl/ green (L0-L3)
+    purpose: >-
+      Make the forked engine + governance tooling buildable and green in v2, and wire the
+      validation-governance gate (C9/C10/C11).
+    stage: validated
+    gate: flag
+    next_move: G4 — wire `validate` + the fail-closed hook into CI/pre-commit (deferred).
+    owned_artifacts: [ART-DSV2-MAKE-IT-GREEN, ART-DSV2-IMPL]
+
+  - context_id: CTX-DSV2-REFORMULATE-BATCH1
+    parent_id: CTX-DSV2-ROOT
+    recomposition_target: CTX-DSV2-ROOT
+    title: Reformulate the 6 Batch-1 spec docs (v1 -> v2)
+    purpose: >-
+      Re-author AXIOMS / TAXONOMY / RELATIONSHIPS / TEST-PIPELINE / DRIFT-CONVERGENCE / CONSTITUTION
+      from v1-verbatim to v2-native, bound to their governance owners; closes the v1-freeze gate.
+    stage: plan
+    gate: flag
+    next_move: task-session R1 (AXIOMS) first; design + plan authored (invoke design+plan), NOT executed.
+    owned_artifacts: [ART-DSV2-REFORMULATE-BATCH1, ART-DSV2-IMPORT-MANIFEST]
+
+  - context_id: CTX-DSV2-SPEC-ONTOLOGY
+    parent_id: CTX-DSV2-ROOT
+    recomposition_target: CTX-DSV2-ROOT
+    title: Spec-as-ontology (research + falsification toy)
+    purpose: >-
+      Decide whether the v2 spec surface (aspect files + TAXONOMY + RELATIONSHIPS) is a system
+      ontology, and whether "spec == ontology" (SEED Lane Z) is worth pursuing.
+    stage: research-complete
+    gate: flag
+    next_move: >-
+      Lane Z vs A deferred to an agent-cost experiment; interim = two-plane boundary. Toy T1-T4 done
+      (substrate SURVIVED-narrow); catalog-coverage gaps routed to batch-1 R3.
+    owned_artifacts: [ART-DSV2-SPEC-ONTOLOGY-RESEARCH, ART-DSV2-SPEC-ONTOLOGY-TOY, ART-DSV2-COMPOSABILITY-SYNTHESIS]
+
+descriptions:
+  - description_id: DESC-DSV2-ROOT-001
+    context_id: CTX-DSV2-ROOT
+    description: >-
+      As of 2026-07-01: spine minted + 3 kinds ratified; impl/ fully green (L0-L2); batch-1
+      reformulation designed+planned (unexecuted); spec-as-ontology research resolved (SURVIVED, two-plane
+      boundary) with the falsification toy T1-T4 complete (substrate SURVIVED-narrow); composability/edges/
+      taxonomy synthesis filed + inventory-registered. Promoted to its own Craft space this date.
+    evidence: [ART-DSV2-COMPOSABILITY-SYNTHESIS, ART-DSV2-SPEC-ONTOLOGY-TOY]
+
+decisions:
+  - decision_id: DEC-DSV2-CRAFT-SCOPE
+    scope_id: CTX-DSV2-ROOT
+    question: Should DomainSpec v2 have its own Craft space, or stay one context in the cav2 ledger?
+    options: [own-scoped-craft, stay-cav2-context]
+    decision_type: structural
+    blocking: false
+    status: closed
+    selected_option: own-scoped-craft
+    rationale: >-
+      v2 outgrew a single cav2 row — it has multiple nested sub-contexts (authority / make-it-green /
+      reformulate-batch1 / spec-ontology) each with its own blockers, decisions, gaps, and recomposition.
+      A scoped .craft/ is not a new cav2 folder (memory constraint intact); cav2 stays umbrella + points here.
+    evidence: [CTX-DSV2-ROOT]
+
+  - decision_id: DEC-DSV2-LANE-ZA
+    scope_id: CTX-DSV2-SPEC-ONTOLOGY
+    question: Lane Z (fuse spec == ontology) vs Lane A (keep separate + generated bidirectional mapping)?
+    options: [lane-z-unify, lane-a-generated-mapping, defer]
+    decision_type: research-direction
+    blocking: false
+    status: open
+    default_option: defer
+    description: >-
+      The toy proved the mapping is viable — which BOTH lanes need — so it does not decide between them.
+      The decider is SEED's "cheaper agents" claim, unmeasurable on paper (proxy gap).
+    impact: Determines whether the spec schema ever fuses with code patterns (SEED promotion boundary).
+    links:
+      - {label: verdict, target: ART-DSV2-SPEC-ONTOLOGY-TOY, kind: evidence}
+
+blockers:
+  - blocker_id: BLK-DSV2-DRIFT-ENGINE
+    context_id: CTX-DSV2-REFORMULATE-BATCH1
+    summary: Drift governance is designed but not implemented in the engine (Stream<CheckResult> + guardedness).
+    blocker_type: implementation
+    lane: engine
+    refinement_status: refined
+    closure_condition: >-
+      An engine realization of the drift stream + guardedness type exists and DRIFT-CONVERGENCE.md's 5
+      surfaces bind to runnable methods (R-trend-type residue closed).
+    evidence: [ART-DSV2-RECURSION-RESEARCH]
+
+  - blocker_id: BLK-DSV2-L2-ATTESTATION
+    context_id: CTX-DSV2-AUTHORITY
+    summary: L2 cryptographic attestation seal for the 3 ratified governance kinds is unavailable.
+    blocker_type: capability
+    lane: governance
+    refinement_status: raw
+    closure_condition: An attestation capability exists to sign the L2 gate over the ratified kinds.
+    requires_human: true
+    evidence: [ART-DSV2-AUTHORITY]
+
+gaps:
+  - gap_id: GAP-DSV2-EDGE-CATALOG
+    context_id: CTX-DSV2-SPEC-ONTOLOGY
+    summary: >-
+      The 29-edge RELATIONSHIPS catalog under-covers real relations — missing Operation->Entity (read) and
+      Operation->ValueObject (returns); Event is a composite.
+    severity: medium
+    treatment: fix-in-reformulation
+    owner_route: CTX-DSV2-REFORMULATE-BATCH1 (R3-P1/P2/P3)
+    evidence: [ART-DSV2-SPEC-ONTOLOGY-TOY]
+
+  - gap_id: GAP-DSV2-COMPOSABILITY-ENFORCE
+    context_id: CTX-DSV2-SPEC-ONTOLOGY
+    summary: Code-tag composability enforces only 9 of 29 edges (CT-COMP-001..009); 4 documented-not-yet, ~17 unpatterned.
+    severity: low
+    treatment: extend-tooling
+    owner_route: drift governance (extend check-code-tag-composability)
+    evidence: [ART-DSV2-COMPOSABILITY-SYNTHESIS]
+
+  - gap_id: GAP-DSV2-EXERCISE
+    context_id: CTX-DSV2-SPEC-ONTOLOGY
+    summary: The toy exercised one feature (12/25 types, 10/29 edges); a SURVIVED verdict is necessary, not sufficient.
+    severity: low
+    treatment: second-corpus
+    owner_route: CTX-DSV2-SPEC-ONTOLOGY (optional T5, UI-heavy corpus)
+    evidence: [ART-DSV2-SPEC-ONTOLOGY-TOY]
+
+definitions:
+  - definition_id: DEF-DSV2-TWO-PLANE
+    context_id: CTX-DSV2-SPEC-ONTOLOGY
+    term: two-plane boundary
+    meaning: >-
+      Ontology framing wins on the spec-AUTHORING plane; derivation stays primary on the engine-facing
+      CONTRACT plane; authority flows contract -> authoring, never reverse.
+    status: candidate
+    evidence: [ART-DSV2-SPEC-ONTOLOGY-RESEARCH]
+
+  - definition_id: DEF-DSV2-EXEC-GRAPH
+    context_id: CTX-DSV2-ROOT
+    term: executable typed graph
+    meaning: >-
+      The v2 spec as taxonomy (nodes) + edges (edge-law) + composability (how node-patterns compose in
+      code), governed by layering / validation / drift with two enforcement arms (engine derivation + code-tag).
+    status: candidate
+    evidence: [ART-DSV2-COMPOSABILITY-SYNTHESIS]
+
+artifacts:
+  - artifact_id: ART-DSV2-IMPORT-MANIFEST
+    path: IMPORT-MANIFEST.md
+    status: active
+    notes: The v1 -> v2 migration ledger; 3 IMPORT / 25 REFORMULATE / 4 DROP. Batch 1 forked; Batch 2 imported.
+  - artifact_id: ART-DSV2-IMPL
+    path: impl/
+    status: active
+    notes: Forked engine + spec + governance tooling. FULLY GREEN (engine:test 97/97, tags:test 8/8, validate RC 0, typecheck RC 0). src/rules = private moat.
+  - artifact_id: ART-DSV2-AUTHORITY
+    path: authority/
+    status: active
+    notes: Minted spine — 3 governances RATIFIED, recursion model applied, credibility constitution + per-governance split plan (executes at OQ-2).
+  - artifact_id: ART-DSV2-MAKE-IT-GREEN
+    path: development/make-it-green/
+    status: active
+    notes: DESIGN + WORK-PACK; G1/G2/G3 done (L0-L2 green); G4 CI-wiring deferred.
+  - artifact_id: ART-DSV2-REFORMULATE-BATCH1
+    path: development/reformulate-batch1/
+    status: candidate
+    notes: DESIGN + WORK-PACK + layering (invoke design+plan). 7 SWUs R1-R6b; NOT executed. R3 carries R3-P1/P2/P3 catalog-coverage additions from the toy.
+  - artifact_id: ART-DSV2-IMPORT-TRIAGE
+    path: research/2026-06-29-v1-import-triage/findings.md
+    status: active
+    notes: The import verdicts (3 IMPORT / 25 REFORMULATE / 4 DROP).
+  - artifact_id: ART-DSV2-RECURSION-RESEARCH
+    path: research/2026-06-29-recursive-governance-model/findings.md
+    status: active
+    notes: muF law/check + nuF drift; build-from-owned; net-new = 3 narrow claims.
+  - artifact_id: ART-DSV2-SPEC-ONTOLOGY-RESEARCH
+    path: research/2026-07-01-spec-as-ontology/findings.md
+    status: active
+    notes: Research dispatch (resolved) — spec-as-ontology = owned unexecuted HYPOTHESIS; ~15% authoring-plane; two-plane boundary.
+  - artifact_id: ART-DSV2-SPEC-ONTOLOGY-TOY
+    path: research/spec-ontology-unification/
+    status: active
+    notes: SEED Lane-Z toy T1-T4 (define/design/plan + graph/mapping/catalog/run/verdict). Verdict = substrate SURVIVED-narrow; failures = v1-spec-doc gaps.
+  - artifact_id: ART-DSV2-COMPOSABILITY-SYNTHESIS
+    path: research/2026-07-01-composability-edges-taxonomy-synthesis.md
+    status: active
+    notes: Inventory synthesis — the three as one executable typed graph; 3 coverage gaps; inventory-registered.
+
+recompositions:
+  - recomposition_id: REC-DSV2-GREEN
+    child_context_id: CTX-DSV2-MAKE-IT-GREEN
+    parent_context_id: CTX-DSV2-ROOT
+    status: partial
+    parent_fit_summary: G1/G2/G3 recomposed — impl/ green unblocks the reformulation + freeze gate. G4 residue (CI wiring).
+    evidence: [ART-DSV2-MAKE-IT-GREEN, ART-DSV2-IMPL]
+  - recomposition_id: REC-DSV2-TOY
+    child_context_id: CTX-DSV2-SPEC-ONTOLOGY
+    parent_context_id: CTX-DSV2-ROOT
+    status: partial
+    parent_fit_summary: Toy T1-T4 recomposed into the SURVIVED-narrow verdict; catalog gaps routed to R3. Residue = Lane Z-vs-A undecided (proxy gap).
+    evidence: [ART-DSV2-SPEC-ONTOLOGY-TOY, ART-DSV2-COMPOSABILITY-SYNTHESIS]
