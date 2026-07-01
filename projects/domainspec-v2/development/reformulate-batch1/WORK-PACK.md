@@ -43,6 +43,7 @@ references → **R5/R6a** · D4 forbidden-edge law form → **R3**.
 | **R5** | L2 | `impl/spec/DRIFT-CONVERGENCE.md` → drift (C7) | R2 | 5 surfaces + trend-not-signal + write-authority proviso; code-tag-drift bound; review-pass |
 | **R6a** | L3 | `impl/spec/CONSTITUTION.md` (v1 C1–C11) → domain governance | R1–R5 | Each v1 C-rule crosswalked or explicitly dropped; validators stay green; **OQ-2 crosswalk closed** |
 | **R6b** | L3 | credibility-constitution per-governance split | R6a | base + validation/layering/drift constitutions created; C6↔C11 binding preserved; `npm run validate`+`engine:test` green |
+| **R7** | L2 | `impl/spec/DEFINITIONS.md` (**NET-NEW** — migration omitted it) → domain vocabulary | R2, R3 | DS-D1 meta-types + DS-D2 verbs defined w/ IDs (3-voice); concept-registry home; `validate:docs` clean |
 
 Global regression gate for **every** SWU: `npm run validate` **and** `npm run engine:test` stay RC 0 after the edit.
 
@@ -66,6 +67,7 @@ Global regression gate for **every** SWU: `npm run validate` **and** `npm run en
 - **Write scope:** `impl/spec/RELATIONSHIPS.md`.
 - **Steps:** re-author the typed-edge vocabulary + endpoint signatures + forbidden-edge set (the **edge-law**); bind the LAW to layering (C6) and note the CHECK is validation (C11, `validate-relationships`); keep the C6↔C11 relationship explicit.
 - **Catalog-coverage additions (from toy T2b — [../../research/spec-ontology-unification/toy/catalog.md](../../research/spec-ontology-unification/toy/catalog.md)):** the current 29 edges don't cover 2 real relations T1 found. Add **R3-P1** `Operation→Entity` read (or generalize `queries` to Behavioral→Entity), **R3-P2** `Operation→ValueObject` returns; decide **R3-P3** the Event payload+publisher composite (one node vs split). The canonical-edge count grows past 29 accordingly.
+- **Edge-law admissibility (build-from-owned — CAV2-D22 orthogonal classification / D29 axis orthogonality / D16 typed coupling):** an edge type is admissible only if it composes into *different code*; else fold the distinction into the node type or a typed coupling flag. Rulings: **keep** `enforces`≠`applies` (guard vs select); **collapse** `enforces`/`enforces-cross` (same code + cross flag); **reject** `queries` for `Calc→Policy` (redundant); **widen** `applies : Policy→{Op,Calc}`. Governance orthogonality only (NOT Lean/Hilbert). See `DEC-DSV2-EDGE-ADMISSIBILITY`.
 - **Impl detail:** each edge = (name, from-type, to-type, allowed?) over TAXONOMY concepts; forbidden edges must be expressed so C6 renders them unconstructible, not merely flagged; `validate-relationships` reads this file (G3 default → `impl/spec/RELATIONSHIPS.md`).
 - **Validation:** `npm run validate:rels` PASS at the **new** canonicalEdges total (>29 after R3-P1/P2); flip one edge in the sample feature → RC non-zero (discriminating); the 2 T1-found relations (op-reads-Entity, op-returns-VO) now resolve to a typed edge.
 - **Verification:** every declared edge has typed endpoints; forbidden set present.
@@ -97,6 +99,14 @@ Global regression gate for **every** SWU: `npm run validate` **and** `npm run en
 - **Impl detail:** composition order (narrowest-first) must be documented in the base; no rule text changes beyond relocation + the crosswalk from R6a; do not over-fragment (per-governance, never per-rule).
 - **Validation:** `constitution-governance validate`; the four files compose without conflict; validators still green.
 - **Verification:** every rule lives in exactly one file; C6↔C11 reference resolves across files; OQ-2 marked closed.
+
+## R7 — DEFINITIONS (net-new, L2)  ← added 2026-07-01 (refresh)
+- **Write scope:** `impl/spec/DEFINITIONS.md` (new) + `impl/spec/DEFINITIONS-INDEX.md` (new).
+- **Depends:** R2 (meta-types) + R3 (edge verbs). **Net-new** — no v1 source in the 6-doc Batch-1 set (the migration omitted it; v1 definitions lived under `research/projects/domainspec/definitions/`).
+- **Steps:** aggregate the finalized 25 TAXONOMY meta-types as **DS-D1** definitions + the RELATIONSHIPS edge verbs as **DS-D2** definitions (+ the DS-D8 edge signature), each with a stable ID + 3 voices (formal / plain / domain-context); wire it as the `definitions-governance` M2-C1 concept-registry-aggregation home.
+- **Impl detail:** DS-D* = the *domain* vocabulary; do NOT duplicate the *governance* vocabulary `DSV2-D*` (that's `authority/definitions/`, already stood up). Each entry is a **term**, not a rule (rules stay in CONSTITUTION — no `RULES.md`, per DSV2-D1/CAV2-D22 orthogonality).
+- **Validation:** `npm run validate:docs` clean; every TAXONOMY type + RELATIONSHIPS verb resolves to a DS-D* entry; `definitions-governance` can aggregate a feature Concept Registry against it.
+- **Verification:** reviewer confirms every meta-type/verb has a definition; index synced.
 
 ---
 

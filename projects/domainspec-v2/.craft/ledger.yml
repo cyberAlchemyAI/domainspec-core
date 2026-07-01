@@ -125,6 +125,17 @@ descriptions:
       taxonomy synthesis filed + inventory-registered. Promoted to its own Craft space this date.
     evidence: [ART-DSV2-COMPOSABILITY-SYNTHESIS, ART-DSV2-SPEC-ONTOLOGY-TOY]
 
+  - description_id: DESC-DSV2-DEFINITIONS-001
+    context_id: CTX-DSV2-ROOT
+    description: >-
+      2026-07-01 — v2 GOVERNANCE definitions surface stood up (authority/definitions/DEFINITIONS.md +
+      INDEX): DEF-DSV2-EDGE-ADMISSIBILITY / EXEC-GRAPH / TWO-PLANE promoted as DSV2-D1 / D2 / D3 (3-voice;
+      cite CAV2-D22/D29/D16). Rules stay in the constitution — no RULES.md (a rules file = a redundant
+      constitution, per DSV2-D1 / CAV2-D22 orthogonality). Plan refreshed: R7 added for the NET-NEW
+      impl/spec/DEFINITIONS.md (DS-D1 meta-types + DS-D2 verbs — the 6-doc migration omitted it); flagged
+      in IMPORT-MANIFEST.
+    evidence: ["[repo-root]/projects/domainspec-v2/authority/definitions/DEFINITIONS.md"]
+
 decisions:
   - decision_id: DEC-DSV2-CRAFT-SCOPE
     scope_id: CTX-DSV2-ROOT
@@ -154,6 +165,27 @@ decisions:
     impact: Determines whether the spec schema ever fuses with code patterns (SEED promotion boundary).
     links:
       - {label: verdict, target: ART-DSV2-SPEC-ONTOLOGY-TOY, kind: evidence}
+
+  - decision_id: DEC-DSV2-EDGE-ADMISSIBILITY
+    scope_id: CTX-DSV2-REFORMULATE-BATCH1
+    question: What governs whether a RELATIONSHIPS edge earns its own type, vs folding into a node type or a coupling flag?
+    options: [ad-hoc, build-from-owned-cav2-orthogonality]
+    decision_type: edge-law
+    blocking: false
+    status: closed
+    selected_option: build-from-owned-cav2-orthogonality
+    rationale: >-
+      The edge-law admissibility test ("an edge earns its type iff it composes into different code") is a
+      domain specialization of owned cav2 invariants — CAV2-D22 (orthogonal classification), CAV2-D29
+      (axis orthogonality), CAV2-D16 (typed coupling). Rulings: keep enforces vs applies (guard vs
+      select); collapse enforces/enforces-cross to one edge + a cross-feature flag; reject queries for
+      Calculation->Policy (redundant with applies); widen applies to Policy->{Operation, Calculation}.
+      Scope = governance orthogonality, NOT Lean/Hilbert projector orthogonality (excluded from cav2).
+    evidence: [ART-DSV2-REFORMULATE-BATCH1, ART-DSV2-SPEC-ONTOLOGY-TOY]
+    links:
+      - {label: CAV2-D22 orthogonal classification, target: "[repo-root]/cyberAlchemy-v2/authority/definitions/DEFINITIONS.md", kind: path}
+      - {label: CAV2-D29 axis orthogonality, target: "[repo-root]/cyberAlchemy-v2/authority/definitions/DEFINITIONS.md", kind: path}
+      - {label: CAV2-D16 typed coupling, target: "[repo-root]/cyberAlchemy-v2/authority/definitions/DEFINITIONS.md", kind: path}
 
 blockers:
   - blocker_id: BLK-DSV2-DRIFT-ENGINE
@@ -222,6 +254,16 @@ definitions:
       code), governed by layering / validation / drift with two enforcement arms (engine derivation + code-tag).
     status: candidate
     evidence: [ART-DSV2-COMPOSABILITY-SYNTHESIS]
+
+  - definition_id: DEF-DSV2-EDGE-ADMISSIBILITY
+    context_id: CTX-DSV2-REFORMULATE-BATCH1
+    term: edge-law admissibility
+    meaning: >-
+      An edge type is admissible only if it composes into different code (adds a non-redundant
+      distinction); otherwise the distinction folds into the node type or an explicit typed coupling
+      flag. A domain specialization of CAV2-D22 / D29 / D16 (governance orthogonality, not Lean/Hilbert).
+    status: candidate
+    evidence: [ART-DSV2-REFORMULATE-BATCH1]
 
 artifacts:
   - artifact_id: ART-DSV2-IMPORT-MANIFEST

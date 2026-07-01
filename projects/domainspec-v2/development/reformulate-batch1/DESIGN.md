@@ -96,6 +96,18 @@ Structural payload / Connective publisher). *Semantic acceptance:* `validate-rel
 *unconstructible*, not merely flagged (C6); C11 named as the check side; the two T1-found relations
 (op-reads-Entity, op-returns-VO) now have a typed edge.
 
+**R3 edge-law admissibility (build-from-owned — CAV2-D22 / D29 / D16).** An edge type is admissible only
+if it adds a distinction *not silently redundant* with an existing axis (**CAV2-D22 orthogonal
+classification**); the concept-type / relation-kind / composition-shape / feature-boundary axes stay
+independent unless an explicit typed coupling relates them (**CAV2-D29 axis orthogonality** →
+**CAV2-D16 typed coupling**). Operational test: **an edge earns its own type iff it composes into
+different code.** Rulings: (a) `enforces` vs `applies` — **keep** (guard-vs-select is different code);
+(b) `enforces` vs `enforces-cross` — **collapse candidate** (same code; make cross-feature a typed flag,
+D16); (c) `queries` for `Calculation→Policy` — **reject** (redundant with `applies`; D22/D29); (d)
+`applies : Policy → {Operation, Calculation}` — **widen** (endpoint generalization, no new label). Scope:
+governance/classification orthogonality only — **not** Lean/Hilbert projector orthogonality (excluded from
+cav2 authority). Recorded: `DEC-DSV2-EDGE-ADMISSIBILITY` in the v2 Craft ledger.
+
 **R4 · TEST-PIPELINE** — *before:* doc-section→test-type rules + a payment example + `@source` traceability.
 *after:* the deterministic **derivation contract** (which obligation classes derive from which spec
 constructs) bound to validation (C5 from-spec, C10 completeness). *Semantic acceptance:* a reader can
@@ -115,6 +127,17 @@ explicitly resolved per §4-D1); every cited doc resolves in v2 or is marked Bat
 validation; C2/C7→layering). *Semantic acceptance:* every v1 rule accounted for; no rule silently lost; no
 overlap with the credibility constitution's rules; OQ-2 crosswalk closed. *(R6b then executes the
 credibility-constitution per-governance split.)*
+
+**R7 · DEFINITIONS (net-new — the migration's omission).** *before:* v1 had **no**
+`impl/spec/DEFINITIONS.md` — the domain vocabulary lived under `research/projects/domainspec/definitions/`,
+and the 6-doc Batch-1 set copied none of it (a real gap: TAXONOMY/RELATIONSHIPS *use* meta-types + verbs
+with no definitions home). *after:* a **new** `impl/spec/DEFINITIONS.md` aggregating **DS-D1 meta-types**
+(the 25 TAXONOMY types, from R2) + **DS-D2 edge verbs** (the RELATIONSHIPS edges, from R3) into typed
+definitions with stable IDs, and serving as the **concept-registry-aggregation** home
+(`definitions-governance` M2-C1). *Semantic acceptance:* every meta-type/verb TAXONOMY/RELATIONSHIPS use
+resolves to a `DS-D*` definition (3-voice: formal + plain + domain-context); the concept-registry
+aggregation can read it. **Owner:** `definitions-governance` — distinct from the *governance*-vocabulary
+`DSV2-D*` already stood up in `authority/definitions/DEFINITIONS.md`. **Depends:** R2 + R3.
 
 ## 4. Design decisions surfaced (NOT decided here)
 
