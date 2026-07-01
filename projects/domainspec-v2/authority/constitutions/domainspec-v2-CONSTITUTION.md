@@ -18,6 +18,27 @@ This constitution governs the credibility of DomainSpec v2 work. **It is the loc
 authority** (source posture, promotion discipline, non-collapse, layering law, convergence
 judgement) — owned here, NOT delegated to v1 or to CyberAlchemy v2.
 
+## Governance Grouping (split plan)
+
+The rules below are **pre-tagged by governance** (the `⟵ domain-originated (…)` labels). This table is
+the **split manifest**: the rules stay in this one file for now and move to per-governance artifacts when
+the reformulation lands. **Timing decision (2026-06-30, owner via `constitution-governance` split mode):**
+split **at reformulation (OQ-2)**, not before — layering and drift are one rule each today, so separate
+files now would be placeholders. Until then the grouping is explicit here and the seam is mechanical.
+
+| Group → split target | Owner route | Rules |
+| --- | --- | --- |
+| **Base / credibility** — stays in `domainspec-v2-CONSTITUTION.md` | `constitution-governance` | C1–C4, C8, C(meta-1..4) |
+| `constitutions/validation-governance-CONSTITUTION.md` | `validation-governance` | C5, C9, C10, C11 |
+| `constitutions/layering-governance-CONSTITUTION.md` | `layering-governance` | C6 |
+| `constitutions/drift-governance-CONSTITUTION.md` | `drift-governance` | C7 |
+
+- **Composition order** (narrowest first): task-pack → governance constitution → this base → repo default.
+- **Edge-Law cross-binding — preserve on split:** C6 (layering = the *law*) and C11 (validation = the
+  *check* of that law) are coupled; on split, keep an explicit C6↔C11 reference so the law→check→trend
+  chain (see `AUTHORITY-MODEL.md` "Governance Chain") is not lost across files.
+- **Do not over-fragment:** split by governance, never per-rule.
+
 ## Rules
 
 ### domainspec-v2-C1. Primary Source Boundary
@@ -150,4 +171,7 @@ Candidate: `pnpm install && pnpm test && pnpm run lint:docs` green in `impl/test
 (blocked on the sandbox toolchain at mint time — see IMPORT-MANIFEST). Status: OPEN.
 
 ### OQ-2. Per-rule reformulation of v1 CONSTITUTION.md (C1–C11)
-Candidate: crosswalk each v1 C-rule into a v2 object rule above. Status: OPEN (REFORMULATION-PENDING).
+Candidate: crosswalk each v1 C-rule into a v2 object rule above. **This is also when the Governance
+Grouping (split plan) executes** — each governance group moves to its own constitution artifact, this file
+slims to the base/credibility tier, and the C6↔C11 edge-law binding is preserved as a cross-reference.
+Status: OPEN (REFORMULATION-PENDING).
