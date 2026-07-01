@@ -1356,3 +1356,12 @@ Artifacts:
 - Lookup handles carried: evset-knowledge-governance-stack; evset-caol-nonvacuity-witness-path; evset-authority-node-record-slice; evset-authority-node-schema-evolution-open-link; evset-scientific-authority-lifecycle-provenance-relations; entries-authority-ontology-governed-artifact-synthesis; entries-ontology-operationalization-in-the-machine-synthesis; entries-cav2-ontology-authority-organizing-synthesis.
 - Index: index.json 104 -> 105 (by_id/by_type.synthesis/by_status.candidate/by_tag/by_source + by_evidence_set updated; jq parse OK); index.md +1 Entries row + Last-updated bump; tags.md unchanged (all tags already defined).
 - Validation: pass. Authority boundary: candidate Inventory read model; owners = ontology-vault / cav2 authority / definitions-governance / decision-gate. Promotes nothing.
+
+## 2026-07-01 - query (filed synthesis: composability, edges, taxonomy in domainspec-v2)
+
+- Mode: query (answer filed as durable synthesis)
+- Question: "do a comprehensive synthesis about composability, edges, taxonomy, in domainspec-v2"
+- Entry created (1): ../../projects/domainspec-v2/research/2026-07-01-composability-edges-taxonomy-synthesis.md — the three as node/edge/realization of ONE executable typed graph; governance homes (taxonomy+edges = layering, edge-law C6/C11; composability = drift via code-tag checker + spec patterns matrix; engine derivation = validation); THREE distinct coverage gaps (edge-catalog ≥2 missing → R3, composability 9/29 tool-enforced, exercise 12/25 types); toy verdict = substrate SURVIVED-narrow.
+- Prior art swept: 2026-06-21 authority-node-relationship-taxonomy / schema-taxonomy-view-primitives / category-theory-domainspec-language cards (cav2-authority ontology = adjacent discipline, DIFFERENT catalog; no false merge).
+- Index: index.json 106 → 107 (by_id/by_type.synthesis/by_status.candidate/by_tag/by_source; jq parse OK; .entries=107); index.md +1 Entries row + Last-updated bump.
+- Validation: pass. Authority boundary: candidate Inventory read model over v2 sources; owners = layering-governance / validation-governance / drift-governance (per gap); batch-1 R3 owns the edge-catalog fixes. Promotes nothing.
