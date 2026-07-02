@@ -30,3 +30,13 @@ requires the previous layer's fixtures to discriminate** (positive passes, negat
 
 **Boundary carried down:** public validation criteria only; the engine `src/rules` δ-derivation is never
 imported or exposed; a criterion that needs derivation to check is a **boundary flag**, not a moat leak.
+
+**Placement resolved (refresh 2026-07-02):** each layer's minimum-working-unit is a per-type `schema + md`
+pair — `meta-types/<category>/<type>.schema.yml` (machine criterion) + `<type>.md` (companion); the
+validator **loads the schemas**. L0 MWU = the `entity` pair + a schema-loading minimal validator. See
+[REFRESH-2026-07-02.md](./REFRESH-2026-07-02.md).
+
+**Testing evidence (all layers, refresh 2026-07-02):** each layer's new/extended validator carries an
+automated test (`impl/tools/tests/*.test.ts`, spawn-CLI idiom per DESIGN §7); `npm run tools:test` green is
+part of every layer's promotion evidence — build-from-owned on `governance/tags/tools/tests/`. See
+[REFRESH-2026-07-02-tests.md](./REFRESH-2026-07-02-tests.md).

@@ -82,14 +82,29 @@ validate-content(aspect_file, defs, edge_signatures):
 
 - **DES-D1 — where the formal criteria live.** (a) a **formal field in TAXONOMY.md** per type (single
   per-type home, upgraded from descriptive to formal) + a system-level `DS-D1` that cites it; or (b)
-  per-type cards in `definitions/` (`DS-D1.<n>`). **Recommend (a)** — one per-type surface avoids drift;
-  `definitions/DS-D1` becomes the governed "meta-type system" definition pointing at the formal TAXONOMY.
-  The validator reads TAXONOMY's formal criteria. **Owner decision.**
+  per-type cards in `definitions/` (`DS-D1.<n>`). **RESOLVED 2026-07-02 (refresh; owner-confirmed) →
+  per-type `schema + md` PAIR:** `meta-types/<category>/<type>.schema.yml` (machine criterion, in the
+  imported SCHEMA-CONSTITUTION `.schema.yml` format) + `<type>.md` (companion card, `companion_to` the
+  schema, artifact-metadata frontmatter per the adopt-wide decision). `definitions/DS-D1` is the
+  system-level definition pointing at the pair set; TAXONOMY.md keeps a back-reference. **The validator
+  LOADS the `.schema.yml` files.** See [REFRESH-2026-07-02.md](./REFRESH-2026-07-02.md).
 - **DES-D2 — validator/engine boundary** (above): public criteria, private δ-rules; consistency, not duplication.
-- **DES-D3 — criteria language.** Prose-predicate vs a small structured criterion DSL. Recommend
-  **prose-predicate + a structural check in the validator** first (smallest-reliable); a criterion DSL only
-  if the prose proves ambiguous.
+- **DES-D3 — criteria language.** Prose-predicate vs a small structured criterion DSL. **RESOLVED
+  2026-07-02 (refresh) →** the criterion is the **`.schema.yml`** (structured, validator-loadable) + a
+  **prose md** companion for humans — the machine twin replaces the "prose-predicate only" default.
 
 ## 6. Views coverage
 Context (§1 schema) · Structure (§2 categories) · Data (the per-type cards + edge signatures) · Behavior
 (§4 validator) · Alternatives (§5 DES-D1/D3) · Boundary (§4 DES-D2, engine moat).
+
+## 7. Validator testing convention (refresh 2026-07-02)
+Every validator added carries an **automated test** — build-from-owned on `governance/tags/tools/tests/`:
+
+- **Location:** `impl/tools/tests/<validator>.test.ts`.
+- **Idiom:** black-box CLI test — `node:test` + `node:assert/strict`; `spawnSync(process.execPath,
+  ["--import", "tsx", "tools/<validator>.ts", ...args], { cwd })` over fixtures written to
+  `mkdtempSync(tmpdir())`; assert on `.status` (exit code) + `.stdout`; clean up the temp dir. It exercises
+  the validator through its real CLI (no internal-function coupling), so it survives refactors.
+- **Runner:** `tools:test` = `node --import tsx --test tools/tests/*.test.ts` (mirrors `tags:test`).
+- **Gate:** `npm run tools:test` joins the per-SWU global gate. Each meta-type's test asserts its
+  positive fixture → exit 0 and its negative fixture → exit 1 with the expected violation on stdout.

@@ -1,7 +1,7 @@
 # Inventory Index
 
 Repository: `/home/vrondelli/projects/domainspec-core`
-Last updated: 2026-07-01 (domainspec-v2 composability/edges/taxonomy synthesis)
+Last updated: 2026-07-02 (session backfill: mint arc + arcanum-import + meta-type formalism + validation moat)
 
 ## Wiki Pages
 
@@ -223,3 +223,12 @@ Last updated: 2026-07-01 (domainspec-v2 composability/edges/taxonomy synthesis)
   governance-requires-determinism (you can't attest a cosine) is why cav2's
   missing System-5 must sit on the ontology, not on vectors. Candidate read-models
   only; owners = cav2 authority / DomainSpec (domainspec-v2) / commercialization gate.
+| [../../cyberAlchemy-v2/development/research/2026-07-02-validators-as-moat/DECISION.md](../../cyberAlchemy-v2/development/research/2026-07-02-validators-as-moat/DECISION.md) | decision | `moat`, `defensibility`, `commercialization` | Validation moat model DECIDED: authoring-aid free / at-scale-assurance paid; moats=engine+Kodamai+corpus; harden the service surface vs oracle-extraction. |
+| [../../cyberAlchemy-v2/development/research/2026-07-02-validators-as-moat/findings.md](../../cyberAlchemy-v2/development/research/2026-07-02-validators-as-moat/findings.md) | findings | `moat`, `defensibility`, `synthesis` | 7-asset defensibility split: only engine+Kodamai algorithmic, corpus=data, #1/#2/#7 public, #3 false-moat; leak surface = free/gated services as oracles. |
+| [../../projects/domainspec-v2/development/meta-type-formalization/research/2026-07-02-formalism-and-primitives/findings.md](../../projects/domainspec-v2/development/meta-type-formalization/research/2026-07-02-formalism-and-primitives/findings.md) | findings | `meta-type`, `formalism`, `build-from-owned` | Meta-type validation = structural .schema.yml table-walk; no DSL/SMT/Lean-proof; FOL/Cedar only cross-graph (owned); validate SHAPE not MEANING. |
+| [../../cyberAlchemy-v2/development/research/2026-07-01-arcanum-artifact-governance-import/findings.md](../../cyberAlchemy-v2/development/research/2026-07-01-arcanum-artifact-governance-import/findings.md) | findings | `artifact-governance`, `build-from-owned`, `submodule-boundary` | Arcanum→cav2 import: validator exists but form-only; metadata advisory-vaporware; Tier-1 port form-gates; DEV-TO-CANONICAL/hygiene already-owned; Arcanum public. |
+| [../../cyberAlchemy-v2/development/mint/development/research/2026-07-01-mint-cav2-inheritance-audit/findings.md](../../cyberAlchemy-v2/development/mint/development/research/2026-07-01-mint-cav2-inheritance-audit/findings.md) | findings | `mint`, `knowledge-promotion` | Mint under-inherits the authoring lifecycle (13 additions; #8 fires-into-void, #11 propose-without-close); ontology package correctly-withheld (motivating example inverted). |
+| [../../cyberAlchemy-v2/development/mint/development/research/2026-07-01-universal-baseline-partition/findings.md](../../cyberAlchemy-v2/development/mint/development/research/2026-07-01-universal-baseline-partition/findings.md) | findings | `mint`, `build-from-owned` | Partition of 50 CAV2-D defs → 27 inherit / 2 split / 12 localize / 9 already; D21 Four-Facet class = universal baseline; inherit META, localize OBJECT. |
+| [../../.claude/skills/mint/SKILL.md](../../.claude/skills/mint/SKILL.md) | capability | `mint`, `capability`, `build-from-owned` | Mint — cav2-native sigil: composes domainspec-new-repo + casts the authority spine; core-6 + 13 additions + universal baseline emit-logic; smoke-validated; intended-not-shipped. |
+| [../../cyberAlchemy-v2/development/mint/development/decisions/2026-07-01-mint-additions-scope.md](../../cyberAlchemy-v2/development/mint/development/decisions/2026-07-01-mint-additions-scope.md) | decision | `mint` | Mint additions scope DECIDED: build all 13 additions + close Tier-3 as disclosed non-seeds. |
+| [../../cyberAlchemy-v2/development/artifact-governance-import/DECISION-frontmatter-adoption.md](../../cyberAlchemy-v2/development/artifact-governance-import/DECISION-frontmatter-adoption.md) | decision | `artifact-governance`, `v2-repo` | cav2-wide YAML frontmatter adoption DECIDED (+ --require-metadata parser) to make Tier-2 ARTIFACT-METADATA enforce-by-type; staged migration. |

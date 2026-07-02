@@ -17,8 +17,11 @@ complexity: high
 Formalize the 25 meta-types into **checkable criteria**, by category, and build the **content validator**
 that checks an aspect file by types + edges. Per-SWU contract: for each type, author (a) a formal criterion,
 (b) required structure, (c) edge-participation signature, (d) a **positive + negative fixture** — the
-discriminating pair. **Placement per DES-D1** (recommend: formal field in `TAXONOMY.md` + system-level
-`DS-D1` in root `definitions/` that cites it — confirm at MT0). Every SWU keeps the moat boundary (no δ-rules).
+discriminating pair; (e) an **automated test** of the validator's accept/reject (spawn-CLI, per DESIGN §7).
+**Placement RESOLVED 2026-07-02 (refresh):** per type, a `schema + md` pair —
+`meta-types/<category>/<type>.schema.yml` (machine criterion, SCHEMA-CONSTITUTION format) + `<type>.md`
+(companion card); the **validator loads the `.schema.yml` files**; `definitions/DS-D1` cites the set. Every
+SWU keeps the moat boundary (no δ-rules). See [REFRESH-2026-07-02.md](./REFRESH-2026-07-02.md).
 
 ## SWU manifest
 | SWU | Layer | Category / scope | Acceptance (green) |
@@ -30,18 +33,20 @@ discriminating pair. **Placement per DES-D1** (recommend: formal field in `TAXON
 | **MT4** | L2/L3 | **content validator** (`validate-content`) | validates a real aspect file by all backend types + edges; a seeded violation flips it; wired to validation-governance |
 | **MT5** | L3 | **UI-*** (11 types) — deferred | (deferred; validate-before-broaden) |
 
-Global gate each SWU: `npm run validate` + `npm run engine:test` stay RC 0 (the formalization must not break the existing surface).
+Global gate each SWU: `npm run validate` + `npm run engine:test` + `npm run tools:test` stay RC 0 (the formalization must not break the existing surface; **every validator added carries an automated test** — refresh 2026-07-02, DESIGN §7).
 
 ---
 
 ## MT0 — Schema + Entity exemplar + minimal validator  (L0)
-- **Write scope:** the per-type card schema (in `TAXONOMY.md` per DES-D1(a), or `definitions/` per (b) — **confirm DES-D1 first**); `impl/tools/validate-content.ts` (new, minimal); `impl/spec/__fixtures__/mt/entity-{ok,bad}.md` (new).
+- **Status: DONE (2026-07-02, task-session).** Built `impl/spec/meta-types/structural/entity.{schema.yml,md}` + minimal `impl/tools/validate-content.ts` (loads the `.schema.yml`) + `impl/spec/__fixtures__/mt/entity-{ok,bad}.md`; `validate:content` npm script added (standalone, not yet in the `validate` aggregate). Proof: entity-ok **PASS**, entity-bad **REJECTED as Entity** (identity criterion), deterministic; `validate` / `engine:test` (97/97) / `typecheck` all RC 0. DES-D1 confirmed (schema+md pair); placement rooted at `impl/spec/meta-types/<category>/`. **Test DONE (2026-07-02):** `impl/tools/tests/validate-content.test.ts` + `tools:test` script (suite green). Next: **MT1** (done) → **MT2**.
+- **Write scope:** `meta-types/structural/entity.schema.yml` (machine criterion) + `meta-types/structural/entity.md` (companion card); `impl/tools/validate-content.ts` (new, minimal — **loads a `.schema.yml`**); `impl/spec/__fixtures__/mt/entity-{ok,bad}.md` (new).
 - **Steps:** (1) confirm DES-D1 placement; (2) write the Entity criterion — *≥1 identity field + typed fields (+ optional State Machine link)*; (3) minimal `validate-content` that reads a concept's declared type + runs the Entity criterion; (4) positive fixture (valid Entity) + negative (VO-shaped: no identity + equality clause).
 - **Impl detail:** criterion is a predicate over the aspect file's **structure** (parse the field table; check for an identity field). Inputs: aspect file + the criterion. Output: pass | violation(concept, reason). Failure mode: if the criterion needs *running* the impl to check → boundary flag (record, don't reach into the engine).
 - **Validation:** Entity-ok passes; Entity-bad **rejected**; determinism (re-run same result).
 - **Verification:** a reviewer recomputes accept/reject from the fixture + criterion.
 
 ## MT1 — Structural category  (L1)
+- **Status: DONE (2026-07-02).** Built `value-object.{schema.yml,md}` + `enum.{schema.yml,md}` + pos/neg fixtures + tests; validator generalized with rule kinds `none`, `section-contains`, `table-has-column`. VO-bad (identity-bearing) → rejected; Enum-bad (field table, no `Value`) → rejected; Entity↔VO cross-discriminate. `tools:test` green; `validate`/`engine:test`/`typecheck` RC 0.
 - **Write scope:** VO + Enum criteria (same placement) + `__fixtures__/mt/{value-object,enum}-{ok,bad}.md`.
 - **Steps:** Value Object — *fields, **no** identity, an equality rule*; Enum — *a finite value table*. Author criterion + required structure + edge signature + pos/neg fixtures.
 - **Impl detail:** the VO-negative is the Entity-positive's shape with identity added → must be rejected as VO (mirrors MT0's Entity/VO discriminator). Extend `validate-content` to dispatch by declared type.
@@ -63,7 +68,7 @@ Global gate each SWU: `npm run validate` + `npm run engine:test` stay RC 0 (the 
 - **Verification:** every backend type + edge has a checkable signature.
 
 ## MT4 — Content validator  (L2/L3)
-- **Write scope:** `impl/tools/validate-content.ts` (complete) + an npm script `validate:content` + a real aspect-file fixture.
+- **Write scope:** `impl/tools/validate-content.ts` (complete) + `impl/tools/tests/validate-content.test.ts` (complete) + npm scripts `validate:content` + `tools:test` (fold `tools:test` into the validation aggregate) + a real aspect-file fixture.
 - **Steps:** finish `validate-content(aspect_file)` = per-concept type-criterion + per-edge signature checks over a whole aspect file; emit a violations report; wire as a validation-governance method (add to `npm run validate`).
 - **Impl detail:** extends `validate-relationships` (edges) with per-type content checks; distinct from `engine lint`; **no δ-rule import**. Inputs: aspect file + criteria + signatures. Output: `{valid, violations[]}`.
 - **Validation:** on a valid feature pack → clean; seed one type-violation + one edge-violation → each flips RC non-zero (discriminating); `npm run validate`+`engine:test` stay green.

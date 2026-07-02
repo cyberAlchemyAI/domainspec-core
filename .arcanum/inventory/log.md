@@ -1365,3 +1365,11 @@ Artifacts:
 - Prior art swept: 2026-06-21 authority-node-relationship-taxonomy / schema-taxonomy-view-primitives / category-theory-domainspec-language cards (cav2-authority ontology = adjacent discipline, DIFFERENT catalog; no false merge).
 - Index: index.json 106 → 107 (by_id/by_type.synthesis/by_status.candidate/by_tag/by_source; jq parse OK; .entries=107); index.md +1 Entries row + Last-updated bump.
 - Validation: pass. Authority boundary: candidate Inventory read model over v2 sources; owners = layering-governance / validation-governance / drift-governance (per gap); batch-1 R3 owns the edge-catalog fixes. Promotes nothing.
+
+## 2026-07-02 - backfill (session: mint arc + arcanum-import + meta-type formalism + validation moat)
+
+- Mode: backfill (durable session knowledge → inventory entries).
+- Entries added (9): cyberalchemy-v2-validation-moat-model-decision, cyberalchemy-v2-validators-as-moat-findings, domainspec-v2-metatype-formalism-primitives-findings, cyberalchemy-v2-arcanum-artifact-governance-import-findings, cyberalchemy-v2-mint-cav2-inheritance-audit-findings, cyberalchemy-v2-universal-baseline-partition-findings, cyberalchemy-v2-mint-sigil-capability, cyberalchemy-v2-mint-additions-scope-decision, cyberalchemy-v2-frontmatter-adoption-decision.
+- Index: index.json 107 → 116 entries; by_id/by_type/by_tag/by_source/by_status rebuilt from all entries; evidence buckets preserved; jq-parseable.
+- Cross-links: moat thread [[entries-attestation-capability-moat-mvp-synthesis]] / [[entries-moat-stack-and-authority-triage-synthesis]] / [[entries-machine-map-and-moat-synthesis]].
+- Authority: candidate Inventory read models over session source docs; promotes nothing. Owners = decision-gate / sigil-development / validation-governance per doc.

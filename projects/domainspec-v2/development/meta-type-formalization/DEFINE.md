@@ -44,7 +44,8 @@ CAV2-D22 orthogonality). Where it physically lives (a formal field in TAXONOMY.m
 
 **SURVIVED** iff, per formalized type: (a) a criterion exists that a validator runs; (b) a **positive**
 fixture (valid instance) passes; (c) a **negative** fixture (malformed) is rejected (discriminating);
-(d) the type's edge-participation signature is stated + checked. **FALSIFIED** for a type if its
+(d) the type's edge-participation signature is stated + checked; (e) an **automated test** asserts the
+validator's accept/reject over fixtures (not only a manual run). **FALSIFIED** for a type if its
 well-formedness cannot be made checkable without running the implementation (that would collapse into the
 engine's derivation — a moat/boundary violation) — recorded, not forced.
 
@@ -72,9 +73,10 @@ NOT authority to expose the δ-rules.
 - Building the runtime/agent layer (this is spec-time content validation).
 
 ## Open decisions (surfaced)
-- **DEF-D1 — placement:** formal criteria as a field in TAXONOMY.md (single per-type home, upgraded to
-  formal) vs per-type cards in `definitions/` (DS-D1.<n>). *Recommend TAXONOMY.md-formal-upgrade + a
-  system-level DS-D1 that cites it* — one per-type surface, no drift (DESIGN §DES-D1).
+- **DEF-D1 — placement:** **RESOLVED 2026-07-02 (refresh) → per-type `schema + md` pair** —
+  `meta-types/<category>/<type>.schema.yml` (machine) + `<type>.md` (companion), authored in this dev
+  package first; the validator loads the schemas; `definitions/DS-D1` cites the set. Supersedes the earlier
+  "TAXONOMY.md-formal-upgrade" recommendation. See [REFRESH-2026-07-02.md](./REFRESH-2026-07-02.md).
 - **DEF-D2 — validator owner/relationship to the engine:** the content validator is a
   **validation-governance** method distinct from engine derivation; must stay consistent with the engine's
   per-type parsing without duplicating the δ-rules.

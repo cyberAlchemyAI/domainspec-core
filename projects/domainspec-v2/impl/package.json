@@ -15,6 +15,7 @@
     "validate": "npm run validate:docs && npm run validate:rels && npm run engine:lint",
     "validate:docs": "tsx tools/validate-doc-links.ts",
     "validate:rels": "tsx tools/validate-relationships.ts",
+    "validate:content": "tsx tools/validate-content.ts",
     "engine:lint": "tsx test-derivation-engine/src/cli.ts lint spec/features/sample",
     "engine:test": "npm -w @domainspec/test-derivation-engine run test",
     "tags:extract": "tsx governance/tags/tools/extract-code-tags.ts",
@@ -22,6 +23,7 @@
     "tags:drift": "tsx governance/tags/tools/compare-code-tag-drift.ts",
     "tags:composability": "tsx governance/tags/tools/check-code-tag-composability.ts",
     "tags:test": "node --import tsx --test governance/tags/tools/tests/*.test.ts",
+    "tools:test": "node --import tsx --test tools/tests/*.test.ts",
     "typecheck": "tsc --noEmit"
   }
 }

@@ -164,3 +164,8 @@ Controlled tags for this package.
 | `instantiation` | The instantiate/specialize relation between authority objects (D48 meta → D43/D46 instances → records); the chain that organizes schema-vs-data, distinct from tower/subject and from authority-kind. |
 | `context-invariant` | Authority that survives projection across contexts (the residue/invariant, CAV2-D18/D29) — the candidate name for the property that promotes domain authority up to the apex. |
 | `epistemic-strength` | The hypothesis→axiom strength axis (CAV2-D23 authority lifecycle axis: maturity / evidence-confidence / commitment); orthogonal to context-scope. |
+| `mint` | Mint sigil / foundry — casting a domain authority spine from cav2. |
+| `meta-type` | DomainSpec meta-type formalization (the 25 concept types) and their checkable criteria. |
+| `formalism` | Choice of formal machinery (schema/FOL/SMT/Lean) for validation/criteria. |
+| `artifact-governance` | Artifact/metadata/schema/retention governance and its validators. |
+| `capability` | A cav2/DomainSpec capability contract or sigil. |
