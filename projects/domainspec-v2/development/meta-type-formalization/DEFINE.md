@@ -55,7 +55,8 @@ NOT authority to expose the δ-rules.
 ## Scope & sequence
 
 - **In scope:** the 14 backend meta-types first (derivation-critical), then the edge signatures (DS-D8),
-  then the content validator. UI-11 deferred (validate-before-broaden).
+  then the content validator, then **machine-generated instance validation** (generate a YAML instance of a
+  schema + validate it — refresh 2026-07-02). UI-11 deferred (validate-before-broaden).
 - **Organized by category** (per the ask — "meta type value with its own category"): Structural /
   Behavioral / Connective / Lifecycle (+ UI-* later).
 
@@ -65,6 +66,8 @@ NOT authority to expose the δ-rules.
 - **formal criterion** — a checkable predicate: a concept is a well-formed instance of type T iff <criterion>.
 - **edge-participation signature (DS-D8)** — which edges a type may be the source/target of (endpoint typing).
 - **content validator** — the tool that checks an aspect file: every concept satisfies its type criterion + every edge matches its signature.
+- **instance** — a concept normalized to structured YAML data conforming to its meta-type schema (`<concept>.instance.yml`); the machine-readable form.
+- **instance validator** — checks a machine-generated instance against its meta-type `.schema.yml` (the same criterion, applied to YAML data instead of markdown tables).
 - **category** — the grouping a meta-type belongs to (Structural / Behavioral / Connective / Lifecycle / UI-*).
 
 ## Non-goals
@@ -80,3 +83,9 @@ NOT authority to expose the δ-rules.
 - **DEF-D2 — validator owner/relationship to the engine:** the content validator is a
   **validation-governance** method distinct from engine derivation; must stay consistent with the engine's
   per-type parsing without duplicating the δ-rules.
+- **DEF-D3 — instance source: RESOLVED 2026-07-02 → (B) canonical example generated from each schema.**
+  For each `.schema.yml` the generator emits `<type>.example.instance.yml` (conforming by construction from
+  the criterion); the instance validator checks it — a self-test that every schema is instantiable and that
+  the instance validator agrees with the criterion. (A) aspect-file round-trip and (C) both remain future
+  options. The generator normalizes shape only (no δ-rules); the instance validator is public structural
+  (validators-as-moat #1). Built as MT-INST.

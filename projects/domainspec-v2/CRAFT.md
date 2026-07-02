@@ -17,7 +17,7 @@
 | **CTX-DSV2-AUTHORITY** — minted spine | minted / flag | 3 kinds RATIFIED; recursion applied | L2 attestation seal (blocked) |
 | **CTX-DSV2-MAKE-IT-GREEN** — impl/ green | validated / flag | G1/G2/G3 done (L0-L2 green) | G4 CI-wiring (deferred) |
 | **CTX-DSV2-REFORMULATE-BATCH1** — 6 spec docs | plan / flag | design+plan authored, **unexecuted** | task-session R1 (AXIOMS) first |
-| ↳ **CTX-DSV2-META-TYPE-FORMALIZATION** (child) | build / flag | **MT0–MT2 DONE** (10/14 backend types: Entity/VO/Enum + 7 behavioral, declared-attributes convention; validator + tests green); **MT3 blocked** (edge-sigs need R3; connective/lifecycle criteria + multi-table decision) | decide MT3 path → task-session MT3 |
+| ↳ **CTX-DSV2-META-TYPE-FORMALIZATION** (child) | build / flag | **MT0–MT3 nodes + MT-INST DONE** (14 node types + machine-instance generate/validate, source B; tests green); **MT3b edges deferred to R3** | R3 (edges) · MT4 (wire validator) · MT5 (UI, deferred) |
 | **CTX-DSV2-SPEC-ONTOLOGY** — spec-as-ontology | research-complete / flag | toy T1-T4 → **SURVIVED-narrow** | Lane Z-vs-A deferred; extend composability; 2nd corpus |
 
 ## Pending by node

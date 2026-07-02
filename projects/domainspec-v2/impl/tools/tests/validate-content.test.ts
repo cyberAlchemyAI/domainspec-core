@@ -139,3 +139,13 @@ for (const t of [
     assert.equal(bad.status, 1, bad.stdout + bad.stderr);
   });
 }
+
+// MT3 (node half) — Connective + Lifecycle. Edge signatures deferred to batch-1 R3.
+for (const t of ["interface", "event", "mapping", "state-machine"]) {
+  test(`Connective/Lifecycle ${t} fixtures behave (ok passes, bad rejected)`, () => {
+    const ok = runValidator(["--file", `spec/__fixtures__/mt/${t}-ok.md`]);
+    assert.equal(ok.status, 0, ok.stdout + ok.stderr);
+    const bad = runValidator(["--file", `spec/__fixtures__/mt/${t}-bad.md`]);
+    assert.equal(bad.status, 1, bad.stdout + bad.stderr);
+  });
+}

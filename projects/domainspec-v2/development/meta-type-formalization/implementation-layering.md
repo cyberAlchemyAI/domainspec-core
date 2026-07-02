@@ -40,3 +40,9 @@ validator **loads the schemas**. L0 MWU = the `entity` pair + a schema-loading m
 automated test (`impl/tools/tests/*.test.ts`, spawn-CLI idiom per DESIGN §7); `npm run tools:test` green is
 part of every layer's promotion evidence — build-from-owned on `governance/tags/tools/tests/`. See
 [REFRESH-2026-07-02-tests.md](./REFRESH-2026-07-02-tests.md).
+
+**Instance layer (refresh 2026-07-02):** beyond authored-markdown validation, the machine-generated
+**instance** surface (`<concept>.instance.yml`) is generated and validated against the same schemas (MT-INST).
+Each layer's promotion adds "generated instances of this layer's types validate" (round-trip). Public
+structural — the generator normalizes shape, never derives (moat-safe). See
+[REFRESH-2026-07-02-instances.md](./REFRESH-2026-07-02-instances.md).

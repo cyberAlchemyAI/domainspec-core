@@ -108,3 +108,31 @@ Every validator added carries an **automated test** — build-from-owned on `gov
 - **Runner:** `tools:test` = `node --import tsx --test tools/tests/*.test.ts` (mirrors `tags:test`).
 - **Gate:** `npm run tools:test` joins the per-SWU global gate. Each meta-type's test asserts its
   positive fixture → exit 0 and its negative fixture → exit 1 with the expected violation on stdout.
+
+## 8. Machine-generated instance validation (refresh 2026-07-02; DEF-D3 → source B) — BUILT
+Beyond validating authored **markdown**, the `instances` tool generates a machine-readable **instance** per
+meta-type schema and validates it against the same schema — so machine-generated files are validated too.
+
+- **Instance shape** — `<type>.example.instance.yml`. To stay within the minimal YAML-subset reader (no
+  lists-of-maps), fields are parallel arrays keyed `field_<column>`:
+  ```
+  meta_type: Entity
+  concept: ExampleEntity
+  field_name: [id, sample]
+  field_type: [Uuid, String]
+  field_identity: [yes, no]
+  ```
+  Enum uses `values: [...]`; behavioral/connective/lifecycle use `attributes: { key: value }`; a
+  `section-contains` criterion (e.g. Value Object equality) emits a scalar carrying the required token.
+- **Generator** — `instances generate` emits one `<type>.example.instance.yml` per **schema** (DEF-D3 = B: a
+  canonical example built from the schema's `required_structure` + `criterion`, conforming by construction).
+  It **normalizes shape only — it does not derive** (no `src/rules`, no δ-algorithm): a public asset.
+- **Instance validator** — `instances validate` loads each instance's schema and applies the **same criterion
+  rules** to the instance's YAML data (identity / typedness / none / table-has-column / attribute-equals /
+  attribute-present / section-contains) that `validate-content` applies to markdown — only the data reader
+  differs (YAML keys vs table cells).
+- **Round-trip (acceptance)** — every generated example validates (exit 0); a mutated instance (identity flag
+  dropped) is rejected (exit 1). Proven by `tools/tests/instances.test.ts`.
+- **Boundary (moat)** — generator + instance validator are the **public structural** authoring aid
+  (validators-as-moat asset #1); they never expose or reproduce derivation. Generated instances are gitignored
+  (`spec/__generated__/`), regenerated via `npm run instances:generate`.

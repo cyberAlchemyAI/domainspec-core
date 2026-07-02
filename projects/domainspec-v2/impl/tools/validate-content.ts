@@ -194,6 +194,23 @@ function applyCriterion(
     return null;
   }
 
+  // attribute-present: a declared key exists in the "Attribute | Value" table (any value).
+  // Used where a type is defined by declaring a key with several valid values (e.g. interface_kind).
+  if (crit.rule === "attribute-present") {
+    const attrIdx = headerMap.get("attribute");
+    if (attrIdx === undefined) {
+      return `criterion '${name}': expected an "Attribute | Value" table`;
+    }
+    const wantKey = (crit.key || "").toLowerCase();
+    const has = table.rows.some(
+      (r) => (r.cells[attrIdx] || "").trim().toLowerCase() === wantKey,
+    );
+    if (!has) {
+      return `criterion '${name}': attribute '${crit.key}' is not declared`;
+    }
+    return null;
+  }
+
   const colIdx = headerMap.get((crit.column || "").toLowerCase());
   if (colIdx === undefined) {
     return `criterion '${name}': required column '${crit.column}' missing from the table`;

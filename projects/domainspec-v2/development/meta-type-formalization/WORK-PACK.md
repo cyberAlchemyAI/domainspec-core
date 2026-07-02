@@ -32,6 +32,7 @@ SWU keeps the moat boundary (no δ-rules). See [REFRESH-2026-07-02.md](./REFRESH
 | **MT3** | L2 | **Connective** (Interface, Event, Mapping) + **Lifecycle** (State Machine) + **edge signatures** (DS-D8) | all 14 backend types criteria; 29 edge-participation signatures; validator checks edges (bad-endpoint rejected) |
 | **MT4** | L2/L3 | **content validator** (`validate-content`) | validates a real aspect file by all backend types + edges; a seeded violation flips it; wired to validation-governance |
 | **MT5** | L3 | **UI-*** (11 types) — deferred | (deferred; validate-before-broaden) |
+| **MT-INST** | L2/L3 | **machine-generated instance validation** — generate `<concept>.instance.yml` + validate instances against the schema (refresh 2026-07-02) | a generator emits a YAML instance conforming to each concept's meta-type schema; the instance validator accepts a conforming instance and rejects a malformed one (round-trip); automated test; public structural (moat-safe) |
 
 Global gate each SWU: `npm run validate` + `npm run engine:test` + `npm run tools:test` stay RC 0 (the formalization must not break the existing surface; **every validator added carries an automated test** — refresh 2026-07-02, DESIGN §7).
 
@@ -62,6 +63,7 @@ Global gate each SWU: `npm run validate` + `npm run engine:test` + `npm run tool
 - **Verification:** all 7 Behavioral types runnable; the "Common Confusion" pairs are mechanically separable.
 
 ## MT3 — Connective + Lifecycle + edge signatures  (L2)
+- **Status: NODES DONE (2026-07-02); edges deferred to R3.** Built the 4 connective/lifecycle types (Interface/Event/Mapping/State Machine) as schema+md pairs + pos/neg fixtures + tests via declared-attributes (+ `attribute-present` rule kind for multi-value keys like `interface_kind`/`direction`). **All 14 backend node types now formalized (schemas=14).** `tools:test` 18/18; gate green. **Edge half (29 signatures + edge checks) split as MT3b — BLOCKED on batch-1 R3** (reformulated `RELATIONSHIPS.md` is the source of truth).
 - **Write scope:** Interface, Event, Mapping, State Machine criteria; the **29 edge-participation signatures** (DS-D2/DS-D8) in `RELATIONSHIPS.md` (or `definitions/`); extend `validate-content` to check edges.
 - **Steps:** criteria for the 4 types; for each of the 29 edges, state `source.type`/`target.type`; validator checks each declared edge's endpoints against the signature.
 - **Impl detail:** edge signatures are governed by `domainspec-v2-D3` admissibility (widen/collapse/reject rulings apply — e.g. `queries : Behavioral→Entity`). Bad-endpoint edge (e.g. `enforces` with a Calculation source) → violation.
@@ -77,6 +79,13 @@ Global gate each SWU: `npm run validate` + `npm run engine:test` + `npm run tool
 
 ## MT5 — UI category  (L3, deferred)
 - The 11 UI meta-types + UI edges, same method. Deferred until backend is proven (validate-before-broaden).
+
+## MT-INST — Machine-generated instance validation  (L2/L3)  ← added 2026-07-02 (refresh)
+- **Status: DONE (2026-07-02). DEF-D3 = B (canonical example from each schema).** `impl/tools/instances.ts` (`generate` + `validate` modes) + `impl/tools/tests/instances.test.ts` + scripts `instances:generate` / `instances:validate`; generated instances gitignored (`spec/__generated__/`). All 14 schemas → 14 example instances → all validate; a mutated Entity instance (identity dropped) is rejected. `tools:test` 20/20; `validate` / `engine:test` 97/97 / `typecheck` RC 0.
+- **Write scope (built):** `impl/tools/instances.ts` + `impl/tools/tests/instances.test.ts` + `package.json` scripts + `.gitignore` (`spec/__generated__/`).
+- **Steps (built):** (1) `instances generate` → per schema, emit `<type>.example.instance.yml` conforming by construction from `required_structure` + `criterion`; (2) `instances validate` loads each instance's schema + applies the same criterion rules to the YAML instance data; (3) round-trip: generated examples validate (exit 0), a mutated instance rejected (exit 1).
+- **Impl detail:** the instance criterion applier mirrors `validate-content`'s rule kinds over structured data (parallel `field_<column>` arrays / `values` / `attributes`). **No δ-rule import** — the generator normalizes shape, it does not derive (public structural, validators-as-moat #1). **Residue:** the YAML-subset reader is copied into `instances.ts` (a `tools/lib/` extraction is the follow-up).
+- **Verification:** `tools/tests/instances.test.ts` — generate→validate PASS + mutated→reject.
 
 ---
 

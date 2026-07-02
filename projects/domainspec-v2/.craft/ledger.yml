@@ -132,13 +132,10 @@ contexts:
     stage: build
     gate: flag
     next_move: >-
-      task-session MT3 (Connective + Lifecycle + edge signatures) — BLOCKED, two coupled decisions: (1) the
-      29 edge signatures encode the domainspec-v2-D3 admissibility rulings, which batch-1 R3 applies to
-      RELATIONSHIPS.md — sequence R3 first vs encode-ahead vs defer edges; (2) the 4 connective/lifecycle
-      node criteria (Interface/Event/Mapping/State Machine) have no clean pairwise discriminator and carry
-      multiple tables per concept (validator reads first table only) — uniform declared-attributes (weak) vs
-      structural table checks (needs a multi-table validator extension) vs hybrid. MT0/MT0-test/MT1/MT2 all
-      DONE 2026-07-02 (10/14 backend types formalized, all green).
+      MT3 node half DONE (14/14 backend node types formalized; owner chose nodes-now / defer-edges). Remaining:
+      MT3b edge signatures — deferred to batch-1 R3 (the reformulated RELATIONSHIPS.md is the source of truth);
+      then MT4 (wire validate:content into the validate aggregate + a real feature fixture); MT5 UI deferred
+      (validate-before-broaden).
     owned_artifacts: [ART-DSV2-META-TYPE-FORMALIZATION]
     links:
       - {label: child of / recomposes into (owns the formal type system; R2/R7 consume it), target: CTX-DSV2-REFORMULATE-BATCH1, kind: row-id}
@@ -219,6 +216,44 @@ descriptions:
       tools:test 14/14; validate / engine:test (97/97) / typecheck RC 0. 10 of 14 backend node types formalized.
       MT3 next but BLOCKED (edge-signatures depend on R3; connective/lifecycle need a criteria + multi-table decision).
     evidence: ["[repo-root]/projects/domainspec-v2/impl/spec/meta-types/behavioral/rule.schema.yml", "[repo-root]/projects/domainspec-v2/impl/tools/validate-content.ts"]
+
+  - description_id: DESC-DSV2-METATYPE-004
+    context_id: CTX-DSV2-META-TYPE-FORMALIZATION
+    description: >-
+      2026-07-02 — MT3 node half executed (owner chose nodes-now, defer edges to R3). The 4 connective/
+      lifecycle types (Interface, Event, Mapping, State Machine) authored as schema+md pairs + pos/neg
+      fixtures + tests via the declared-attributes convention; validator gains the attribute-present rule
+      kind (keys with several valid values, e.g. interface_kind / direction). ALL 14 backend node types now
+      formalized (schemas=14). tools:test 18/18; validate / engine:test 97/97 / typecheck RC 0. Remaining:
+      MT3b edge signatures (deferred to batch-1 R3), MT4 (wire validate:content into the validate aggregate),
+      MT5 (UI, deferred).
+    evidence: ["[repo-root]/projects/domainspec-v2/impl/spec/meta-types/lifecycle/state-machine.schema.yml", "[repo-root]/projects/domainspec-v2/impl/spec/meta-types/connective/interface.schema.yml"]
+
+  - description_id: DESC-DSV2-METATYPE-005
+    context_id: CTX-DSV2-META-TYPE-FORMALIZATION
+    description: >-
+      2026-07-02 — invoke refresh (instances). Added a machine-generated instance-validation requirement to
+      the package (DEFINE scope+glossary+DEF-D3 / DESIGN §8 / WORK-PACK MT-INST / layering): the tooling should
+      generate a YAML instance per concept (<concept>.instance.yml) conforming to its meta-type schema, and
+      validate that instance against the same criterion — so machine-generated files are validated too, not only
+      authored markdown. Public structural (validators-as-moat asset #1); the generator normalizes shape, never
+      derives (δ-engine moat intact). Open: DEF-D3 (instance source — from an authored aspect file [taken] vs a
+      canonical example-from-schema vs both). Next: task-session MT-INST after DEF-D3 is confirmed.
+    evidence: ["[repo-root]/projects/domainspec-v2/development/meta-type-formalization/REFRESH-2026-07-02-instances.md"]
+
+  - description_id: DESC-DSV2-METATYPE-006
+    context_id: CTX-DSV2-META-TYPE-FORMALIZATION
+    description: >-
+      2026-07-02 — MT-INST executed (DEF-D3 resolved by owner to B = canonical example from each schema).
+      impl/tools/instances.ts (generate + validate modes) emits one <type>.example.instance.yml per schema
+      (conforming by construction from required_structure + criterion) and validates instances by applying the
+      same criterion rules to structured YAML data. All 14 schemas -> 14 example instances -> all validate; a
+      mutated Entity instance (identity flag dropped) is rejected. Round-trip proven by tools/tests/instances.test.ts.
+      Generated instances gitignored (spec/__generated__/); scripts instances:generate / instances:validate.
+      Public structural (validators-as-moat #1) — the generator normalizes shape, never derives (moat intact).
+      tools:test 20/20; validate / engine:test 97/97 / typecheck RC 0. Residue: YAML-subset reader duplicated in
+      instances.ts (a tools/lib extraction is the follow-up).
+    evidence: ["[repo-root]/projects/domainspec-v2/impl/tools/instances.ts", "[repo-root]/projects/domainspec-v2/impl/tools/tests/instances.test.ts"]
 
 decisions:
   - decision_id: DEC-DSV2-CRAFT-SCOPE
