@@ -3,7 +3,7 @@ node_type: synthesis
 is_session: false
 status: candidate
 created: 2026-07-01
-revised: 2026-07-01 (targeted — edge-law admissibility DSV2-D1; R7 DEFINITIONS omission; R3-P1/P2 decided)
+revised: 2026-07-01 (targeted — edge-law admissibility domainspec-v2-D3; R7 DEFINITIONS omission; R3-P1/P2 decided)
 authored_by: inventory (query/synthesis)
 scope: DomainSpec v2 — composability, edges, taxonomy (how the three form one executable typed graph)
 sources:
@@ -49,8 +49,8 @@ Mapping Appendix" Layer Dependency Rule — Domain⊳Application⊳Interface/Inf
   a taxonomy gap. Prior art frames this same "confidence/status axes must not collapse" discipline
   ([authority-node-relationship-taxonomy cards]).
 - **Definitions home (revision 2026-07-01):** the meta-types + edge verbs had **no `DS-D*` definitions
-  home** — `impl/spec/DEFINITIONS.md` was omitted by the migration → net-new **R7**. (Governance
-  vocabulary `DSV2-D1/D2/D3` now lives in `authority/definitions/DEFINITIONS.md`.)
+  home** — `impl/spec/DEFINITIONS.md` was omitted by the migration → net-new **R7**. (Governance/synthesis
+  vocabulary `domainspec-v2-D3/D4/D5` now lives in `definitions/DEFINITIONS.md`.)
 
 ## 2. Edges — the edge-law (29 typed relations)
 
@@ -69,7 +69,7 @@ source-widen, **not** a new edge); R3-P2 (op→VO) is likely a *signature proper
 rulings — collapse `enforces`/`enforces-cross`, reject `queries`-for-`Calc→Policy`, widen
 `applies`→`Policy→{Op,Calc}` (and R3-P3: split the Event composite).
 
-**Edge-law admissibility (`DSV2-D1`, build-from-owned on CAV2-D22/D29/D16).** What *earns* an edge type:
+**Edge-law admissibility (`domainspec-v2-D3`, build-from-owned on CAV2-D22/D29/D16).** What *earns* an edge type:
 **an edge is admissible iff it composes into different code** (a non-redundant distinction — CAV2-D22).
 Corollary: **widening a *source* endpoint (same target/semantics) is clean; changing the *target* type is
 an overload** (CAV2-D29; type genuine couplings per CAV2-D16). This governs every R3 edge decision above;
@@ -118,7 +118,7 @@ of one executable graph, governed by layering (structure), validation (derivatio
 
 | Gap | Where | Number | Owner route |
 | --- | --- | --- | --- |
-| **Edge-catalog coverage** | RELATIONSHIPS misses/underspecs real edge types | **decided 2026-07-01:** R3-P1 = *widen* `queries`→`Behavioral→Entity` (not a new edge); R3-P2 (op→VO) likely a *signature property, not an edge*; + collapse `enforces`/`enforces-cross`, reject `queries`-for-`Calc→Policy`, widen `applies`→`Policy→{Op,Calc}` | batch-1 **R3**, governed by **DSV2-D1** |
+| **Edge-catalog coverage** | RELATIONSHIPS misses/underspecs real edge types | **decided 2026-07-01:** R3-P1 = *widen* `queries`→`Behavioral→Entity` (not a new edge); R3-P2 (op→VO) likely a *signature property, not an edge*; + collapse `enforces`/`enforces-cross`, reject `queries`-for-`Calc→Policy`, widen `applies`→`Policy→{Op,Calc}` | batch-1 **R3**, governed by **domainspec-v2-D3** |
 | **Composability-pattern coverage** | patterns matrix + checker | ~12/29 edges have a pattern; **9/29 tool-enforced**; 4 "not yet"; ~17 unpatterned | drift governance (extend CT-COMP) |
 | **Exercise coverage** | the toy tested one feature | 12/25 types, 10/29 edges | 2nd UI-heavy corpus (optional T5) |
 
@@ -135,7 +135,7 @@ stance = the two-plane boundary** (ontology on the authoring plane, derivation o
 `2026-07-01-spec-as-ontology/findings.md`).
 
 ## 7. Open items → owners
-- **R3** (batch-1): apply the edge-law admissibility rulings (**DSV2-D1**) — widen `queries`/`applies`, collapse `enforces-cross`, reject overloads, resolve the Event composite; wired.
+- **R3** (batch-1): apply the edge-law admissibility rulings (**domainspec-v2-D3**) — widen `queries`/`applies`, collapse `enforces-cross`, reject overloads, resolve the Event composite; wired.
 - **R7** (batch-1, net-new): create `impl/spec/DEFINITIONS.md` (DS-D1 meta-types + DS-D2 verbs) — the omitted domain-vocabulary home.
 - **Composability enforcement**: promote the 4 "not yet" patterns + assess the ~17 unpatterned edges (drift governance).
 - **Dual-typing**: split Calculation∧Policy nodes; route Policy+Calculation through the Operation (default) — `applies`-widen only if a 2nd feature needs it (R2/R3/R6a).

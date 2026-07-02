@@ -37,13 +37,13 @@ references → **R5/R6a** · D4 forbidden-edge law form → **R3**.
 | SWU | Layer | Doc → governance | Depends | Acceptance (green) |
 | --- | --- | --- | --- | --- |
 | **R1** | L0 | `impl/spec/AXIOMS.md` → base + layering (A2) | — | `validate:docs` RC 0; A2 bound to C6; namespace note folded in; review-pass |
-| **R2** | L1 | `impl/spec/TAXONOMY.md` → layering | R1 | `tags:test`/`validate-code-tags` recognizes all concept types; `engine:lint` CLEAN; no v1 residue |
+| **R2** | L1 | `impl/spec/TAXONOMY.md` → layering | R1 | `tags:test`/`validate-code-tags` recognizes all concept types; `engine:lint` CLEAN; no v1 residue. **Consumes** the child `meta-type-formalization` for the formal per-type criteria (does not re-derive them). |
 | **R3** | L1 | `impl/spec/RELATIONSHIPS.md` → layering law (C6) + validation check (C11) | R2 | `validate:rels` PASS; edge-law = what C11 checks & C6 forbids; endpoints typed; **+ R3-P1/P2/P3 catalog-coverage additions (toy T2b)** |
 | **R4** | L2 | `impl/spec/TEST-PIPELINE.md` → validation (C5, C10) | R2, R3 | Consistent w/ engine `derive`/`lint`; contract-only (no δ-algorithm); review-pass |
 | **R5** | L2 | `impl/spec/DRIFT-CONVERGENCE.md` → drift (C7) | R2 | 5 surfaces + trend-not-signal + write-authority proviso; code-tag-drift bound; review-pass |
 | **R6a** | L3 | `impl/spec/CONSTITUTION.md` (v1 C1–C11) → domain governance | R1–R5 | Each v1 C-rule crosswalked or explicitly dropped; validators stay green; **OQ-2 crosswalk closed** |
 | **R6b** | L3 | credibility-constitution per-governance split | R6a | base + validation/layering/drift constitutions created; C6↔C11 binding preserved; `npm run validate`+`engine:test` green |
-| **R7** | L2 | `impl/spec/DEFINITIONS.md` (**NET-NEW** — migration omitted it) → domain vocabulary | R2, R3 | DS-D1 meta-types + DS-D2 verbs defined w/ IDs (3-voice); concept-registry home; `validate:docs` clean |
+| **R7** | L2 | `DEFINITIONS.md` (**NET-NEW** — migration omitted it) → domain vocabulary | R2, R3 | DS-D1 meta-types + DS-D2 verbs defined w/ IDs (3-voice); concept-registry home; `validate:docs` clean. **Consumes** the child `meta-type-formalization` (DS-D1/D2). **Home = root `definitions/`** per the consolidation (not `impl/spec/`). |
 
 Global regression gate for **every** SWU: `npm run validate` **and** `npm run engine:test` stay RC 0 after the edit.
 
@@ -104,7 +104,7 @@ Global regression gate for **every** SWU: `npm run validate` **and** `npm run en
 - **Write scope:** `impl/spec/DEFINITIONS.md` (new) + `impl/spec/DEFINITIONS-INDEX.md` (new).
 - **Depends:** R2 (meta-types) + R3 (edge verbs). **Net-new** — no v1 source in the 6-doc Batch-1 set (the migration omitted it; v1 definitions lived under `research/projects/domainspec/definitions/`).
 - **Steps:** aggregate the finalized 25 TAXONOMY meta-types as **DS-D1** definitions + the RELATIONSHIPS edge verbs as **DS-D2** definitions (+ the DS-D8 edge signature), each with a stable ID + 3 voices (formal / plain / domain-context); wire it as the `definitions-governance` M2-C1 concept-registry-aggregation home.
-- **Impl detail:** DS-D* = the *domain* vocabulary; do NOT duplicate the *governance* vocabulary `DSV2-D*` (that's `authority/definitions/`, already stood up). Each entry is a **term**, not a rule (rules stay in CONSTITUTION — no `RULES.md`, per DSV2-D1/CAV2-D22 orthogonality).
+- **Impl detail:** DS-D* = the *domain* vocabulary; do NOT duplicate the governance/synthesis vocabulary `domainspec-v2-D*` (that's `definitions/DEFINITIONS.md`, already stood up). Each entry is a **term**, not a rule (rules stay in CONSTITUTION — no `RULES.md`, per domainspec-v2-D3/CAV2-D22 orthogonality).
 - **Validation:** `npm run validate:docs` clean; every TAXONOMY type + RELATIONSHIPS verb resolves to a DS-D* entry; `definitions-governance` can aggregate a feature Concept Registry against it.
 - **Verification:** reviewer confirms every meta-type/verb has a definition; index synced.
 

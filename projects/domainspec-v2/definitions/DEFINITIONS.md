@@ -78,5 +78,99 @@ validation of specs/impls).
 
 Promotion boundary: RATIFIED kind (owner, 2026-06-29); L2 attestation seal pending
 
-<!-- SKELETON ENDS. The owner authors the layering-governance + drift-governance cards, a
-     definitions-index, and a drift-audit as the card set grows (constitution load-bearing-term rule). -->
+## domainspec-v2-D3. Edge-Law Admissibility ⟵ *build-from-owned (CAV2-D22/D29/D16)*
+
+Source kind: local-inference  *(cites cav2 CAV2-D22/D29/D16 in Evidence — citation only)*
+
+Evidence: [development/reformulate-batch1/DESIGN.md](../development/reformulate-batch1/DESIGN.md) (R3),
+[research/2026-07-01-composability-edges-taxonomy-synthesis.md](../research/2026-07-01-composability-edges-taxonomy-synthesis.md);
+provenance: cav2 CAV2-D22 (orthogonal classification), CAV2-D29 (axis orthogonality), CAV2-D16 (typed coupling)
+
+Formal voice:
+
+```text
+edge-law admissibility =
+  an edge TYPE is admissible IFF it composes into different code
+  (adds a non-redundant distinction over the axes
+   {concept-type, relation-kind, composition-shape, feature-boundary})
+corollary =
+  widen a SOURCE endpoint (same target, same semantics) = clean
+  change the TARGET type = overload -> reject
+```
+
+Plain-language voice: an edge deserves its own name only if it makes the code compose differently; else
+widen an existing edge or add a flag. Widening *who* uses an edge is fine; changing *what it points at* is not.
+
+Domain-context voice: governs R3 (RELATIONSHIPS reformulation). Rulings: keep `enforces`≠`applies`; collapse
+`enforces`/`enforces-cross`; reject `queries` for Calc→Policy; widen `applies`→Policy→{Op,Calc} and
+`queries`→Behavioral→Entity. See DEC-DSV2-EDGE-ADMISSIBILITY.
+
+Use carefully: this is classification/governance orthogonality (CAV2-D22/D29), NOT Lean/Hilbert projector
+orthogonality (excluded from cav2 authority).
+
+Misuse warning: do not overload an edge's target type to reuse a name; do not conflate with the
+linear-algebra orthogonality.
+
+Promotion boundary: local-only (governs the v2 edge-law; cites cav2, transfers no cav2 authority)
+
+## domainspec-v2-D4. Executable Typed Graph
+
+Source kind: local-inference; synthesis
+
+Evidence: [research/2026-07-01-composability-edges-taxonomy-synthesis.md](../research/2026-07-01-composability-edges-taxonomy-synthesis.md)
+
+Formal voice:
+
+```text
+executable typed graph =
+  the spec surface as ONE graph:
+    nodes   = TAXONOMY meta-types (each -> one code pattern)
+    edges   = RELATIONSHIPS typed edge-law
+    realize = composability (how connected patterns reference each other in code)
+  governed on 3 axes: layering (structure) / validation (derivation) / drift (alignment)
+```
+
+Plain-language voice: the spec is a typed graph you can build code from — the things (nodes), how they
+connect (edges), and how each connection turns into code (composability).
+
+Domain-context voice: thesis of the composability/edges/taxonomy synthesis; the substrate the spec-ontology
+toy tested (verdict SURVIVED-narrow). Two enforcement arms: engine derivation (validation) + code-tag
+composability (drift).
+
+Use carefully: "executable" = derivable/checkable, not that the spec runs.
+
+Misuse warning: do not collapse the three axes; engine derivation (moat) ≠ the composability check.
+
+Promotion boundary: local-only
+
+## domainspec-v2-D5. Two-Plane Boundary
+
+Source kind: local-inference (resolves the spec-as-ontology research)
+
+Evidence: [research/2026-07-01-spec-as-ontology/findings.md](../research/2026-07-01-spec-as-ontology/findings.md)
+
+Formal voice:
+
+```text
+two-plane boundary =
+  ontology framing governs the AUTHORING plane (writing/editing/organizing the spec)
+  derivation governs the CONTRACT plane (the crisp, total, engine-facing spec)
+  authority flows contract -> authoring, never reverse
+```
+
+Plain-language voice: use ontology tooling while you write the spec, but the strict engine-facing spec stays
+the source of truth — help flows one way only.
+
+Domain-context voice: interim stance while DEC-DSV2-LANE-ZA (fuse vs generate) is deferred to an agent-cost
+experiment.
+
+Use carefully: authoring-plane metadata (confidence/premises) is non-authoritative over the crisp docs until
+an owner route ratifies a consumer.
+
+Misuse warning: do not let authoring-plane ontology labels leak into the engine-facing contract docs.
+
+Promotion boundary: local-only
+
+<!-- SKELETON note: D1-D2 mint-seeded; D3-D5 consolidated 2026-07-01 into this canonical home (was the
+     separate governance surface DSV2-D1/2/3, now removed). Still owed: layering-governance
+     + drift-governance kind cards + a drift-audit as the card set grows (constitution load-bearing-term rule). -->

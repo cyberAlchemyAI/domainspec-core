@@ -136,8 +136,8 @@ with no definitions home). *after:* a **new** `impl/spec/DEFINITIONS.md` aggrega
 definitions with stable IDs, and serving as the **concept-registry-aggregation** home
 (`definitions-governance` M2-C1). *Semantic acceptance:* every meta-type/verb TAXONOMY/RELATIONSHIPS use
 resolves to a `DS-D*` definition (3-voice: formal + plain + domain-context); the concept-registry
-aggregation can read it. **Owner:** `definitions-governance` — distinct from the *governance*-vocabulary
-`DSV2-D*` already stood up in `authority/definitions/DEFINITIONS.md`. **Depends:** R2 + R3.
+aggregation can read it. **Owner:** `definitions-governance` — distinct from the governance/synthesis vocabulary
+`domainspec-v2-D*` already stood up in `definitions/DEFINITIONS.md`. **Depends:** R2 + R3.
 
 ## 4. Design decisions surfaced (NOT decided here)
 

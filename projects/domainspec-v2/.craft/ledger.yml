@@ -20,6 +20,7 @@ indexes:
     CTX-DSV2-MAKE-IT-GREEN: contexts[2]
     CTX-DSV2-REFORMULATE-BATCH1: contexts[3]
     CTX-DSV2-SPEC-ONTOLOGY: contexts[4]
+    CTX-DSV2-META-TYPE-FORMALIZATION: contexts[5]
   open_decisions:
     - DEC-DSV2-LANE-ZA
   blocking_decisions: []
@@ -48,6 +49,7 @@ indexes:
     "research/2026-07-01-spec-as-ontology/findings.md": ART-DSV2-SPEC-ONTOLOGY-RESEARCH
     "research/spec-ontology-unification/": ART-DSV2-SPEC-ONTOLOGY-TOY
     "research/2026-07-01-composability-edges-taxonomy-synthesis.md": ART-DSV2-COMPOSABILITY-SYNTHESIS
+    "development/meta-type-formalization/": ART-DSV2-META-TYPE-FORMALIZATION
 
 contexts:
   - context_id: CTX-DSV2-ROOT
@@ -100,6 +102,8 @@ contexts:
     gate: flag
     next_move: task-session R1 (AXIOMS) first; design + plan authored (invoke design+plan), NOT executed.
     owned_artifacts: [ART-DSV2-REFORMULATE-BATCH1, ART-DSV2-IMPORT-MANIFEST]
+    links:
+      - {label: child — meta-type formalization (owns the formal type system + content validator; R2/R7 consume it), target: CTX-DSV2-META-TYPE-FORMALIZATION, kind: row-id}
 
   - context_id: CTX-DSV2-SPEC-ONTOLOGY
     parent_id: CTX-DSV2-ROOT
@@ -115,6 +119,22 @@ contexts:
       (substrate SURVIVED-narrow); catalog-coverage gaps routed to batch-1 R3.
     owned_artifacts: [ART-DSV2-SPEC-ONTOLOGY-RESEARCH, ART-DSV2-SPEC-ONTOLOGY-TOY, ART-DSV2-COMPOSABILITY-SYNTHESIS]
 
+  - context_id: CTX-DSV2-META-TYPE-FORMALIZATION
+    parent_id: CTX-DSV2-REFORMULATE-BATCH1
+    recomposition_target: CTX-DSV2-REFORMULATE-BATCH1
+    title: Meta-type formalization (checkable type system + content validator)
+    purpose: >-
+      Formalize the 25 meta-types into checkable well-formedness criteria (by category) + the edge
+      signatures, and build the content validator that checks an aspect file by types + edges. Makes the
+      toy's M1 mechanical; feeds batch-1 R2 (TAXONOMY formal criteria) + R7 (DS-D1 system definition).
+    stage: plan
+    gate: flag
+    next_move: task-session MT0 (confirm DES-D1 placement + prove the card schema on Entity + a minimal validate-content).
+    owned_artifacts: [ART-DSV2-META-TYPE-FORMALIZATION]
+    links:
+      - {label: child of / recomposes into (owns the formal type system; R2/R7 consume it), target: CTX-DSV2-REFORMULATE-BATCH1, kind: row-id}
+      - {label: enabled by, target: ART-DSV2-COMPOSABILITY-SYNTHESIS, kind: evidence}
+
 descriptions:
   - description_id: DESC-DSV2-ROOT-001
     context_id: CTX-DSV2-ROOT
@@ -128,13 +148,15 @@ descriptions:
   - description_id: DESC-DSV2-DEFINITIONS-001
     context_id: CTX-DSV2-ROOT
     description: >-
-      2026-07-01 — v2 GOVERNANCE definitions surface stood up (authority/definitions/DEFINITIONS.md +
-      INDEX): DEF-DSV2-EDGE-ADMISSIBILITY / EXEC-GRAPH / TWO-PLANE promoted as DSV2-D1 / D2 / D3 (3-voice;
-      cite CAV2-D22/D29/D16). Rules stay in the constitution — no RULES.md (a rules file = a redundant
-      constitution, per DSV2-D1 / CAV2-D22 orthogonality). Plan refreshed: R7 added for the NET-NEW
-      impl/spec/DEFINITIONS.md (DS-D1 meta-types + DS-D2 verbs — the 6-doc migration omitted it); flagged
-      in IMPORT-MANIFEST.
-    evidence: ["[repo-root]/projects/domainspec-v2/authority/definitions/DEFINITIONS.md"]
+      2026-07-01 — v2 governance/synthesis definitions consolidated into the canonical root surface
+      (definitions/DEFINITIONS.md + INDEX): edge-law admissibility / executable typed graph / two-plane
+      boundary carried as domainspec-v2-D3 / D4 / D5 (3-voice; cite CAV2-D22/D29/D16). Initially stood up in
+      a separate authority/definitions/ surface, then merged here and that duplicate removed (import-value-
+      first, delete-last; refs repointed). Rules stay in the constitution — no RULES.md (a rules file = a
+      redundant constitution, per domainspec-v2-D3 / CAV2-D22 orthogonality). Plan refreshed: R7 added for the
+      NET-NEW impl/spec/DEFINITIONS.md (DS-D1 meta-types + DS-D2 verbs — the 6-doc migration omitted it);
+      flagged in IMPORT-MANIFEST.
+    evidence: ["[repo-root]/projects/domainspec-v2/definitions/DEFINITIONS.md"]
 
 decisions:
   - decision_id: DEC-DSV2-CRAFT-SCOPE
@@ -306,6 +328,10 @@ artifacts:
     path: research/2026-07-01-composability-edges-taxonomy-synthesis.md
     status: active
     notes: Inventory synthesis — the three as one executable typed graph; 3 coverage gaps; inventory-registered.
+  - artifact_id: ART-DSV2-META-TYPE-FORMALIZATION
+    path: development/meta-type-formalization/
+    status: candidate
+    notes: invoke define+design+plan — formalize the 25 meta-types into checkable criteria (by category) + edge signatures + a content validator (validate-content). 6 SWUs MT0-MT5 (UI deferred). PUBLIC criteria, engine δ-rules private. Feeds batch-1 R2 (TAXONOMY formal) + R7 (DS-D1 system definition).
 
 recompositions:
   - recomposition_id: REC-DSV2-GREEN
