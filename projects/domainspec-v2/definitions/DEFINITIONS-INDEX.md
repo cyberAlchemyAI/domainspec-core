@@ -20,6 +20,16 @@ Load-Bearing Term Tracking rule, `C(meta-4)`) is "tracked" iff it has a row here
 | `domainspec-v2-D3` | Edge-Law Admissibility | active | local-inference (build-from-owned: CAV2-D22/D29/D16) | [DEFINITIONS.md#domainspec-v2-d3](./DEFINITIONS.md) |
 | `domainspec-v2-D4` | Executable Typed Graph | active | local-inference; synthesis | [DEFINITIONS.md#domainspec-v2-d4](./DEFINITIONS.md) |
 | `domainspec-v2-D5` | Two-Plane Boundary | active | local-inference | [DEFINITIONS.md#domainspec-v2-d5](./DEFINITIONS.md) |
+| `domainspec-v2-D6` | meta-type | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d6](./DEFINITIONS.md) |
+| `domainspec-v2-D7` | category | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d7](./DEFINITIONS.md) |
+| `domainspec-v2-D8` | formal criterion | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d8](./DEFINITIONS.md) |
+| `domainspec-v2-D9` | edge-participation signature | candidate | method-vocabulary (aliased DS-D8) | [DEFINITIONS.md#domainspec-v2-d9](./DEFINITIONS.md) |
+| `domainspec-v2-D10` | content validator | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d10](./DEFINITIONS.md) |
+| `domainspec-v2-D11` | instance | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d11](./DEFINITIONS.md) |
+| `domainspec-v2-D12` | instance validator | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d12](./DEFINITIONS.md) |
+| `domainspec-v2-D13` | aspect file | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d13](./DEFINITIONS.md) |
+| `domainspec-v2-D14` | Concept Registry | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d14](./DEFINITIONS.md) |
+| `domainspec-v2-D15` | declared-attributes convention | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d15](./DEFINITIONS.md) |
 | `DS-D1` | Meta-Type System (25 types) | candidate | domain-vocabulary | [meta-types/meta-types.md](./meta-types/meta-types.md) · [.yml](./meta-types/meta-types.yml) |
 | `DS-D1.1` | Entity | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
 | `DS-D1.2` | Value Object | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
