@@ -171,7 +171,22 @@ Misuse warning: do not let authoring-plane ontology labels leak into the engine-
 
 Promotion boundary: local-only
 
+## DS-D1 — Meta-Type System
+
+The **DomainSpec domain-vocabulary** scheme (`DS-D*`) — the node/edge alphabet — is maintained **separately**
+from this file's governance/method scheme (`domainspec-v2-D*`), and linked here:
+
+- **meta-type** = one of the 25 DomainSpec concept types (the node alphabet of an aspect file).
+- Human cards (per type, 3-voice): [meta-types/meta-types.md](./meta-types/meta-types.md)
+- Machine view (registry): [meta-types/meta-types.yml](./meta-types/meta-types.yml)
+- Criterion (per type, machine-checkable): `impl/spec/meta-types/<category>/<type>.schema.yml`
+
+Status: `DS-D1.1..14` (backend) authored as candidate cards (1-by-1, owner-reviewed voices; each with a
+challenge + confirm contract). `DS-D1.15..25` (UI) deferred (MT5); edge verbs (`DS-D2`) + the edge signature
+(`DS-D8`) follow after batch-1 R3.
+
 <!-- SKELETON note: D1-D2 mint-seeded; D3-D5 consolidated 2026-07-01 into this canonical home (was the
      separate governance surface DSV2-D1/2/3, now removed). Companions backfilled 2026-07-01 to the current
      mint baseline: DEFINITIONS-INDEX + DEFINITION-DRIFT-AUDIT + DEFINITION-LOCALIZATION-ROUTE + reviews/.
-     Still owed: layering-governance + drift-governance kind cards (tracked as owed in the drift audit). -->
+     Still owed: layering-governance + drift-governance kind cards (tracked as owed in the drift audit).
+     DS-D1 meta-type system lives in meta-types/ (human meta-types.md + machine meta-types.yml), linked above. -->

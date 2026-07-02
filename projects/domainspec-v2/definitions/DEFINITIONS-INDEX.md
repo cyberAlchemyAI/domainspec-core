@@ -20,6 +20,21 @@ Load-Bearing Term Tracking rule, `C(meta-4)`) is "tracked" iff it has a row here
 | `domainspec-v2-D3` | Edge-Law Admissibility | active | local-inference (build-from-owned: CAV2-D22/D29/D16) | [DEFINITIONS.md#domainspec-v2-d3](./DEFINITIONS.md) |
 | `domainspec-v2-D4` | Executable Typed Graph | active | local-inference; synthesis | [DEFINITIONS.md#domainspec-v2-d4](./DEFINITIONS.md) |
 | `domainspec-v2-D5` | Two-Plane Boundary | active | local-inference | [DEFINITIONS.md#domainspec-v2-d5](./DEFINITIONS.md) |
+| `DS-D1` | Meta-Type System (25 types) | candidate | domain-vocabulary | [meta-types/meta-types.md](./meta-types/meta-types.md) · [.yml](./meta-types/meta-types.yml) |
+| `DS-D1.1` | Entity | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.2` | Value Object | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.3` | Enum | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.4` | Operation | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.5` | Query | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.6` | Calculation | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.7` | Rule | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.8` | Policy | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.9` | Workflow | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.10` | Saga | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.11` | Interface | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.12` | Event | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.13` | Mapping | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.14` | State Machine | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
 
 ## Status vocabulary
 - `candidate` — first-cited, carries an `Open / to-ground:` field; not yet validation.

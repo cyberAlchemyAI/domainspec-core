@@ -52,6 +52,7 @@ indexes:
     "research/2026-07-01-composability-edges-taxonomy-synthesis.md": ART-DSV2-COMPOSABILITY-SYNTHESIS
     "development/meta-type-formalization/": ART-DSV2-META-TYPE-FORMALIZATION
     "definitions/": ART-DSV2-DEFINITIONS
+    "development/meta-type-definitions/": ART-DSV2-METATYPE-DEFINITIONS
 
 contexts:
   - context_id: CTX-DSV2-ROOT
@@ -255,6 +256,33 @@ descriptions:
       instances.ts (a tools/lib extraction is the follow-up).
     evidence: ["[repo-root]/projects/domainspec-v2/impl/tools/instances.ts", "[repo-root]/projects/domainspec-v2/impl/tools/tests/instances.test.ts"]
 
+  - description_id: DESC-DSV2-METATYPE-DEFS-001
+    context_id: CTX-DSV2-META-TYPE-FORMALIZATION
+    description: >-
+      2026-07-02 — invoke define+design+plan authored development/meta-type-definitions/ to promote the
+      vocabulary the meta-type work used into real, tracked definitions. Tiered candidate list (CANDIDATES.md,
+      50 candidates): Tier 1 = 25 meta-types (DS-D1) + edge verbs (DS-D2, R3-gated) via R7 — 14 backend recommend
+      PROMOTE (criteria exist), 11 UI DEFER; Tier 2 = 10 method terms (domainspec-v2-D6+) via definitions-governance,
+      PROMOTE; Tier 3 = 15 schema-format terms (7 rule kinds + 8 attribute keys) recommend DOCUMENT (not canonical).
+      APPROVAL-GATED — nothing promoted until the owner marks the CANDIDATES rows. Open: DD-D1 (Tier-2 scheme),
+      DD-D2 (Tier-3 disposition), DD-D3 (Tier-1 via R7). Next: owner approves -> task-session DD1 + DD2 (via R7).
+    evidence: ["[repo-root]/projects/domainspec-v2/development/meta-type-definitions/CANDIDATES.md"]
+
+  - description_id: DESC-DSV2-METATYPE-DEFS-002
+    context_id: CTX-DSV2-META-TYPE-FORMALIZATION
+    description: >-
+      2026-07-02 — DS-D1.1..14 (all 14 backend meta-types) authored as candidate definition cards, 1-by-1
+      owner-reviewed (plain voice picked interactively per type). Home resolved to root definitions/ (DD-D3),
+      NOT impl/: a new definitions/meta-types/ group — meta-types.md (human 3-voice cards) + meta-types.yml
+      (machine registry), linked from DEFINITIONS.md (DS-D1 pointer) + 14 DEFINITIONS-INDEX rows. Each card
+      carries a CAV2-D40 challenge contract + a build-from-owned confirm contract (in md + yml). Added
+      definitions/VOICE-GUIDE.md (quality bar + lessons ledger, 5 lessons incl. dictionary-opener). Two gated
+      proposals authored by subagents: cav2 confirm-contract primitive (cav2 authority/definitions/reviews/) +
+      a sanitized definitions-governance sigil enhancement (development/definitions-governance-enhancement/,
+      arcanum untouched). Remaining: DS-D1.15..25 UI (deferred, MT5); DS-D2 edge verbs (after R3); promotion
+      candidate->active via the confirm contracts; reconcile DEFINITION-DRIFT-AUDIT with the new DS-D1 rows.
+    evidence: ["[repo-root]/projects/domainspec-v2/definitions/meta-types/meta-types.md", "[repo-root]/projects/domainspec-v2/definitions/meta-types/meta-types.yml"]
+
 decisions:
   - decision_id: DEC-DSV2-CRAFT-SCOPE
     scope_id: CTX-DSV2-ROOT
@@ -444,6 +472,10 @@ artifacts:
     path: definitions/
     status: active
     notes: Canonical local definitions surface — cards domainspec-v2-D1..D5 (all active, 3-voice). Companions backfilled 2026-07-01 to the current mint baseline (INDEX + DRIFT-AUDIT + LOCALIZATION-ROUTE + reviews/). Drift audit verdict flag — 2 governance kind cards owed.
+  - artifact_id: ART-DSV2-METATYPE-DEFINITIONS
+    path: development/meta-type-definitions/
+    status: candidate
+    notes: invoke define+design+plan — promote the meta-type vocabulary to real definitions. 3 tiers (CANDIDATES.md = 50-item owner approval list); Tier 1 = 25 meta-types DS-D1/D2 via R7, Tier 2 = 10 method terms domainspec-v2-D6+ via definitions-governance, Tier 3 = 15 schema-format terms (document, not define). Approval-gated — no promotion until owner marks the rows.
 
 recompositions:
   - recomposition_id: REC-DSV2-GREEN
