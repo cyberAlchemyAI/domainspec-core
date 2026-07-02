@@ -116,7 +116,7 @@ indexes:
     - context_id: CTX-CAV2-EXECUTION
       next_move: After import clustering, create a bounded work-pack or task-session slice from this ledger.
     - context_id: CTX-CAV2-DOMAINSPEC-V2
-      next_move: v2 = implementation home; spine minted; recursion model APPLIED to AUTHORITY-MODEL.md + 3 kinds RATIFIED. impl/ FULLY GREEN 2026-06-30 — engine:test 97/97, tags:test 8/8, validate RC 0, typecheck RC 0 (G1/G2/G3 done; G4 CI-wiring deferred). Next = reformulate imported docs/tools per IMPORT-MANIFEST + Batch 3, make drift real (trend-type engine residue), wire G4 gate-in-CI, L2 attestation seal (blocked on attestation).
+      next_move: v2 = implementation home; spine minted; recursion model APPLIED to AUTHORITY-MODEL.md + 3 kinds RATIFIED. impl/ FULLY GREEN 2026-06-30 — engine:test 97/97, tags:test 8/8, validate RC 0, typecheck RC 0 (G1/G2/G3 done; G4 CI-wiring deferred). Next = reformulate imported docs/tools per IMPORT-MANIFEST + Batch 3, make drift real (trend-type engine residue), wire G4 gate-in-CI, L2 attestation seal (blocked on attestation). PROMOTED 2026-07-01 to its own Craft space projects/domainspec-v2/.craft/ (live sub-context state there).
   artifacts_by_path:
     .craft/ledger.yml: ART-CAV2-LEDGER
     .craft/index.json: ART-CAV2-INDEX
@@ -443,7 +443,11 @@ contexts:
       net-new = 3 narrow claims. APPLIED to AUTHORITY-MODEL.md (Governance-Chain section + recursive
       GovernanceNode schema; edge-law = the layering law); cav2 handoff filed for the D30 refinement. 3 KINDS RATIFIED (owner 2026-06-29; L2 seal pending). impl/ FULLY GREEN 2026-06-30 (engine:test 97/97; tags:test 8/8;
       validate RC 0; typecheck RC 0; G1/G2/G3 done, G4 CI-wiring deferred). Next = reformulate
-      imported docs/tools per IMPORT-MANIFEST + Batch 3. Residue: R-leaf-inhabitation depth-2; R-trend-type
+      imported docs/tools per IMPORT-MANIFEST + Batch 3 (design+plan in reformulate-batch1/, R1-R6b
+      unexecuted). 2026-07-01 — spec-as-ontology RESOLVED (SURVIVED, two-plane boundary) + toy T1-T4
+      (substrate SURVIVED-narrow; catalog gaps → R3) + composability synthesis. v2 PROMOTED to its OWN
+      Craft space projects/domainspec-v2/.craft/ (DEC-DSV2-CRAFT-SCOPE) — this context is now the umbrella
+      pointer; live sub-context state lives there. Residue: R-leaf-inhabitation depth-2; R-trend-type
       (Stream&lt;CheckResult&gt; + guardedness) → engine lane.
     owned_artifacts:
       - ART-DSV2-IMPORT-TRIAGE
@@ -454,6 +458,9 @@ contexts:
       - ART-DSV2-RATIFY-KINDS
       - ART-DSV2-MAKE-IT-GREEN
     links:
+      - label: v2-local Craft space (live sub-context state)
+        target: "[repo-root]/projects/domainspec-v2/.craft/ledger.yml"
+        kind: path
       - label: Recomposes into root
         target: CTX-CAV2-ROOT
         kind: row-id
