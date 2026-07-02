@@ -1,0 +1,26 @@
+# DomainSpec v2 meta-type schema — Workflow (Behavioral). SCHEMA-CONSTITUTION; companion workflow.md.
+meta_type: Workflow
+category: behavioral
+companion: workflow.md
+code_pattern: multi-step orchestration of operations within one feature (intra-feature)
+
+required_structure:
+  attributes_table_columns: [Attribute, Value]
+
+criterion:
+  intra_feature:
+    rule: attribute-equals
+    key: scope
+    value: intra-feature
+
+distinguisher:
+  vs: Saga
+  rule: a Workflow orchestrates within one feature (scope=intra-feature); a Saga spans features
+
+edge_participation:
+  source_of: [performs]
+  target_of: [applies]
+
+fixtures:
+  positive: spec/__fixtures__/mt/workflow-ok.md
+  negative: spec/__fixtures__/mt/workflow-bad.md

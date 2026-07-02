@@ -54,6 +54,7 @@ Global gate each SWU: `npm run validate` + `npm run engine:test` + `npm run tool
 - **Verification:** the 3 Structural types each have a runnable criterion.
 
 ## MT2 — Behavioral category  (L1)
+- **Status: DONE (2026-07-02).** Convention chosen by owner = **declared `Attribute | Value` table** (validator rule `attribute-equals`). All 7 types + schema+md + pos/neg fixtures + tests. Discriminators: Rule/Policy = `formal_return_type` boolean/strategy; Query/Operation = `state_change` no/yes; Workflow/Saga = `scope` intra-/cross-feature; Calc = `formal_return_type` value. Each pair cross-discriminates (bad = neighbour's value → rejected). Boolean-ness is the **declared** key, never parsed (moat). `tools:test` 14/14; gate green. **10/14 backend types now formalized.**
 - **Write scope:** Operation, Query, Calculation, Rule, Policy, Workflow, Saga criteria + `__fixtures__/mt/*-{ok,bad}.md`.
 - **Steps:** e.g. Rule — *Formal cell parsing to a **boolean** predicate*; Policy — *selects a strategy/branch (decision table)*; Operation — *inputs + ≥1 postcondition + a state change*; Query — *read-only, returns a view*; Calculation — *pure fn, returns a value*; Workflow — *orchestrates Operations, intra-feature*; Saga — *cross-feature orchestration*.
 - **Impl detail — the key discriminators (checkable):** Rule vs Policy = boolean-return vs strategy-select; Query vs Operation = no-state-change vs state-change; Calculation vs Rule = value vs boolean. Each becomes a predicate over the Formal cell / table shape.

@@ -121,3 +121,21 @@ test("cross-discrimination: identity-bearing concept rejected as Value Object", 
     assert.match(r.stdout, /no_identity/);
   });
 });
+
+// MT2 — Behavioral: each type's positive fixture passes, its neighbor-valued negative is rejected.
+for (const t of [
+  "operation",
+  "query",
+  "calculation",
+  "rule",
+  "policy",
+  "workflow",
+  "saga",
+]) {
+  test(`Behavioral ${t} fixtures behave (ok passes, bad rejected)`, () => {
+    const ok = runValidator(["--file", `spec/__fixtures__/mt/${t}-ok.md`]);
+    assert.equal(ok.status, 0, ok.stdout + ok.stderr);
+    const bad = runValidator(["--file", `spec/__fixtures__/mt/${t}-bad.md`]);
+    assert.equal(bad.status, 1, bad.stdout + bad.stderr);
+  });
+}

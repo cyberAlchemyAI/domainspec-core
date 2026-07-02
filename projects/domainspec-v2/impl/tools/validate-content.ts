@@ -23,6 +23,8 @@ type Criterion = {
   column?: string;
   truthy?: string[];
   pattern?: string;
+  key?: string;
+  value?: string;
 };
 type Schema = {
   meta_type: string;
@@ -165,6 +167,29 @@ function applyCriterion(
     }
     if (table.rows.length < 1) {
       return `criterion '${name}': column '${crit.column}' present but the table has no rows`;
+    }
+    return null;
+  }
+
+  // attribute-equals: read a declared "Attribute | Value" table (the concept's primary table)
+  // and assert a declared key holds an expected value. Shape only — the author's declaration is
+  // checked, never the semantics of the Formal cell (that would be the engine moat).
+  if (crit.rule === "attribute-equals") {
+    const attrIdx = headerMap.get("attribute");
+    const valIdx = headerMap.get("value");
+    if (attrIdx === undefined || valIdx === undefined) {
+      return `criterion '${name}': expected an "Attribute | Value" table`;
+    }
+    const wantKey = (crit.key || "").toLowerCase();
+    const match = table.rows.find(
+      (r) => (r.cells[attrIdx] || "").trim().toLowerCase() === wantKey,
+    );
+    if (!match) {
+      return `criterion '${name}': attribute '${crit.key}' is not declared`;
+    }
+    const actual = (match.cells[valIdx] || "").trim().toLowerCase();
+    if (actual !== (crit.value || "").toLowerCase()) {
+      return `criterion '${name}': attribute '${crit.key}'='${actual}' (expected '${crit.value}')`;
     }
     return null;
   }

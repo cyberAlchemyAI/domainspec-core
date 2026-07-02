@@ -172,5 +172,6 @@ Misuse warning: do not let authoring-plane ontology labels leak into the engine-
 Promotion boundary: local-only
 
 <!-- SKELETON note: D1-D2 mint-seeded; D3-D5 consolidated 2026-07-01 into this canonical home (was the
-     separate governance surface DSV2-D1/2/3, now removed). Still owed: layering-governance
-     + drift-governance kind cards + a drift-audit as the card set grows (constitution load-bearing-term rule). -->
+     separate governance surface DSV2-D1/2/3, now removed). Companions backfilled 2026-07-01 to the current
+     mint baseline: DEFINITIONS-INDEX + DEFINITION-DRIFT-AUDIT + DEFINITION-LOCALIZATION-ROUTE + reviews/.
+     Still owed: layering-governance + drift-governance kind cards (tracked as owed in the drift audit). -->

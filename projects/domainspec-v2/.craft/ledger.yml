@@ -31,6 +31,7 @@ indexes:
     - GAP-DSV2-EDGE-CATALOG
     - GAP-DSV2-COMPOSABILITY-ENFORCE
     - GAP-DSV2-EXERCISE
+    - GAP-DSV2-GOVERNANCE-CARDS
   next_moves:
     - context_id: CTX-DSV2-ROOT
       next_move: Execute the batch-1 reformulation (R1 AXIOMS -> R6b), whose R3 now fixes the exact edge-catalog gaps the spec-ontology toy exposed; or stand up the agent-cost experiment that settles Lane Z vs A.
@@ -50,6 +51,7 @@ indexes:
     "research/spec-ontology-unification/": ART-DSV2-SPEC-ONTOLOGY-TOY
     "research/2026-07-01-composability-edges-taxonomy-synthesis.md": ART-DSV2-COMPOSABILITY-SYNTHESIS
     "development/meta-type-formalization/": ART-DSV2-META-TYPE-FORMALIZATION
+    "definitions/": ART-DSV2-DEFINITIONS
 
 contexts:
   - context_id: CTX-DSV2-ROOT
@@ -127,9 +129,16 @@ contexts:
       Formalize the 25 meta-types into checkable well-formedness criteria (by category) + the edge
       signatures, and build the content validator that checks an aspect file by types + edges. Makes the
       toy's M1 mechanical; feeds batch-1 R2 (TAXONOMY formal criteria) + R7 (DS-D1 system definition).
-    stage: plan
+    stage: build
     gate: flag
-    next_move: task-session MT0 (confirm DES-D1 placement + prove the card schema on Entity + a minimal validate-content).
+    next_move: >-
+      task-session MT3 (Connective + Lifecycle + edge signatures) — BLOCKED, two coupled decisions: (1) the
+      29 edge signatures encode the domainspec-v2-D3 admissibility rulings, which batch-1 R3 applies to
+      RELATIONSHIPS.md — sequence R3 first vs encode-ahead vs defer edges; (2) the 4 connective/lifecycle
+      node criteria (Interface/Event/Mapping/State Machine) have no clean pairwise discriminator and carry
+      multiple tables per concept (validator reads first table only) — uniform declared-attributes (weak) vs
+      structural table checks (needs a multi-table validator extension) vs hybrid. MT0/MT0-test/MT1/MT2 all
+      DONE 2026-07-02 (10/14 backend types formalized, all green).
     owned_artifacts: [ART-DSV2-META-TYPE-FORMALIZATION]
     links:
       - {label: child of / recomposes into (owns the formal type system; R2/R7 consume it), target: CTX-DSV2-REFORMULATE-BATCH1, kind: row-id}
@@ -157,6 +166,59 @@ descriptions:
       NET-NEW impl/spec/DEFINITIONS.md (DS-D1 meta-types + DS-D2 verbs — the 6-doc migration omitted it);
       flagged in IMPORT-MANIFEST.
     evidence: ["[repo-root]/projects/domainspec-v2/definitions/DEFINITIONS.md"]
+
+  - description_id: DESC-DSV2-DEFINITIONS-002
+    context_id: CTX-DSV2-ROOT
+    description: >-
+      2026-07-01 — definitions surface brought to the current mint baseline. v2 was the first real mint
+      (2026-06-29), predating the mint's Tier-1/2 additions (decision 2026-07-01), so its root definitions/
+      held only DEFINITIONS.md. Backfilled the companions the current mint emits: DEFINITIONS-INDEX,
+      DEFINITION-DRIFT-AUDIT, DEFINITION-LOCALIZATION-ROUTE, and reviews/ staging. Confirmed NOT a cav2
+      handoff — the mint already emits one root definitions/ home and does not copy cav2's
+      authority/definitions/ layout; the earlier authority/definitions/ duplicate was hand-error, now
+      removed. Drift audit verdict flag — layering-governance + drift-governance cards owed
+      (GAP-DSV2-GOVERNANCE-CARDS).
+    evidence: ["[repo-root]/projects/domainspec-v2/definitions/DEFINITION-DRIFT-AUDIT.md"]
+
+  - description_id: DESC-DSV2-METATYPE-001
+    context_id: CTX-DSV2-META-TYPE-FORMALIZATION
+    description: >-
+      2026-07-02 — MT0 executed (task-session). DES-D1 confirmed by building the schema+md pair:
+      impl/spec/meta-types/structural/entity.schema.yml (machine criterion, SCHEMA-CONSTITUTION format) +
+      entity.md (companion, artifact-metadata frontmatter). Minimal impl/tools/validate-content.ts loads the
+      .schema.yml and applies the Entity criterion (identity + typedness) as a decidable table-walk
+      (build-from-owned on validate-relationships.ts; no engine delta-rule import — shape only). Discriminating
+      fixtures: entity-ok PASS, entity-bad (VO-shaped, no identity + Equality clause) REJECTED as Entity;
+      deterministic on re-run. Global gate green — validate RC 0, engine:test 97/97, typecheck RC 0.
+      validate:content added as a standalone npm script (NOT yet in the validate aggregate — that is MT4).
+      Placement resolved: the meta-types tree roots at impl/spec/meta-types/<category>/.
+    evidence: ["[repo-root]/projects/domainspec-v2/impl/tools/validate-content.ts", "[repo-root]/projects/domainspec-v2/impl/spec/meta-types/structural/entity.schema.yml"]
+
+  - description_id: DESC-DSV2-METATYPE-002
+    context_id: CTX-DSV2-META-TYPE-FORMALIZATION
+    description: >-
+      2026-07-02 — MT0 test backfill + MT1 (Structural) executed. Test backfill: tools/tests/
+      validate-content.test.ts (spawn-CLI, node:test) + tools:test npm script (build-from-owned on
+      governance/tags/tools/tests). MT1: value-object + enum schema+md pairs + pos/neg fixtures; validator
+      generalized with rule kinds none / section-contains / table-has-column (all shape-only, no moat). VO-bad
+      (identity-bearing) and Enum-bad (field table) rejected; Entity/VO cross-discriminate. tools:test green;
+      validate / engine:test (97/97) / typecheck RC 0. MT2 (Behavioral) is BLOCKED pending an owner decision
+      on the discriminator convention (declared attributes vs existing structural markers vs hybrid) — the
+      boolean-predicate check must not parse Formal cells (moat).
+    evidence: ["[repo-root]/projects/domainspec-v2/impl/tools/tests/validate-content.test.ts", "[repo-root]/projects/domainspec-v2/impl/spec/meta-types/structural/value-object.schema.yml"]
+
+  - description_id: DESC-DSV2-METATYPE-003
+    context_id: CTX-DSV2-META-TYPE-FORMALIZATION
+    description: >-
+      2026-07-02 — MT2 (Behavioral) executed. Owner decision (AskUserQuestion): behavioral discriminators
+      declared in an "Attribute | Value" table; validator gains the attribute-equals rule kind. All 7 types
+      (Operation, Query, Calculation, Rule, Policy, Workflow, Saga) authored as schema+md pairs + pos/neg
+      fixtures + parametrized tests. Cross-discriminators: state_change (Operation vs Query), formal_return_type
+      (Rule vs Policy vs Calculation), scope (Workflow vs Saga) — every negative uses the neighbour's value and
+      is rejected. Boolean-ness is the DECLARED key, never parsed (moat-safe per the frozen findings). schemas=10;
+      tools:test 14/14; validate / engine:test (97/97) / typecheck RC 0. 10 of 14 backend node types formalized.
+      MT3 next but BLOCKED (edge-signatures depend on R3; connective/lifecycle need a criteria + multi-table decision).
+    evidence: ["[repo-root]/projects/domainspec-v2/impl/spec/meta-types/behavioral/rule.schema.yml", "[repo-root]/projects/domainspec-v2/impl/tools/validate-content.ts"]
 
 decisions:
   - decision_id: DEC-DSV2-CRAFT-SCOPE
@@ -258,6 +320,17 @@ gaps:
     owner_route: CTX-DSV2-SPEC-ONTOLOGY (optional T5, UI-heavy corpus)
     evidence: [ART-DSV2-SPEC-ONTOLOGY-TOY]
 
+  - gap_id: GAP-DSV2-GOVERNANCE-CARDS
+    context_id: CTX-DSV2-AUTHORITY
+    summary: >-
+      Two of v2's three domain-originated governances lack definition cards — layering-governance and
+      drift-governance (validation-governance = domainspec-v2-D2 is the carded sibling). Flagged by the
+      definition drift audit (verdict flag); owed, not yet exercised as authority.
+    severity: low
+    treatment: author-cards-via-definitions-lifecycle
+    owner_route: definitions-governance (stage in definitions/reviews/, then canonicalize + index)
+    evidence: [ART-DSV2-DEFINITIONS]
+
 definitions:
   - definition_id: DEF-DSV2-TWO-PLANE
     context_id: CTX-DSV2-SPEC-ONTOLOGY
@@ -332,6 +405,10 @@ artifacts:
     path: development/meta-type-formalization/
     status: candidate
     notes: invoke define+design+plan — formalize the 25 meta-types into checkable criteria (by category) + edge signatures + a content validator (validate-content). 6 SWUs MT0-MT5 (UI deferred). PUBLIC criteria, engine δ-rules private. Feeds batch-1 R2 (TAXONOMY formal) + R7 (DS-D1 system definition).
+  - artifact_id: ART-DSV2-DEFINITIONS
+    path: definitions/
+    status: active
+    notes: Canonical local definitions surface — cards domainspec-v2-D1..D5 (all active, 3-voice). Companions backfilled 2026-07-01 to the current mint baseline (INDEX + DRIFT-AUDIT + LOCALIZATION-ROUTE + reviews/). Drift audit verdict flag — 2 governance kind cards owed.
 
 recompositions:
   - recomposition_id: REC-DSV2-GREEN
