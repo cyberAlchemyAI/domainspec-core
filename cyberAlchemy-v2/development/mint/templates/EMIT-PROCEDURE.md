@@ -9,6 +9,7 @@ swu: SWU-3 (authority-spine emit step — the L1 stage-2 logic)
 composes:
   - templates/L0-compose-contract.md (stage 1 — produces the tree this stage casts onto)
   - templates/{authority-model,source-spine,promotion-policy,constitution,definitions,crosswalk}.md (the 6 emit-templates, SWU-2)
+  - "additions (decision 2026-07-01): templates/{definitions-index,definition-drift-audit,methods-catalogue,decision-mint-ratify,authority-postures,boundaries,constitution-import-pack,definition-localization-route,imports-README,nav-and-decisions}.md + in-place sections in authority-model.md (#1/#2/#4/#5) and promotion-policy.md (#7/#12)"
 front_door: development/authority-triage/SKILL.md (review-mode, INTERNAL)
 note: Paths are repo-root-relative from domainspec-core/. This is the PROCEDURE; the worked output is examples/<domain>/.
 ---
@@ -167,6 +168,67 @@ to the owner to enumerate kinds first — it does NOT emit a re-skin to fill the
 
 ---
 
+---
+
+## Additions emit steps (decision 2026-07-01 — the 13 committed additions)
+These run WITHIN stage 2 (spine seed) and stage 3 (decision-gate), composing the addition templates
+alongside the core 6. **Guardrail throughout: seed the FORMAT / route / slot, NEVER cav2's ROWS.**
+
+### Step 7 — definitions-lifecycle equipment (#8, SWU-5)
+Emit `definitions-index.md` → `DEFINITIONS-INDEX.md` and `definition-drift-audit.md` →
+`DEFINITION-DRIFT-AUDIT.md`, ALONGSIDE `DEFINITIONS.md`. **This CLOSES the fires-into-void defect:** the
+constitution's `<DOMAIN>-C(meta-4)` load-bearing-term rule now resolves against a real
+`DEFINITION-DRIFT-AUDIT.md` target + `DEFINITIONS-INDEX.md` registry. Seed the index with the D1/D2 cards;
+the drift-audit is empty-but-live.
+
+### Step 8 — governance→methods catalogue (#13, SWU-7)
+Emit `methods-catalogue.md` → `authority/METHODS-CATALOGUE.md`. For each domain-originated kind in
+AUTHORITY-MODEL, emit a methods block (intake/route/decide/record/demote). A proposed kind with no methods
+block fails self-check #6.
+
+### Step 9 — Tier-2 meta (#1/#2/#5/#9/#12)
+- #5 closed-table declaration + #1 narrowest-owner routing + #2 derivation pattern are emitted **in-place**
+  in `authority-model.md` (sections added there);
+- #9 emit `definition-localization-route.md` → `DEFINITION-LOCALIZATION-ROUTE.md` alongside DEFINITIONS;
+- #12 `stop_rule` is emitted **in-place** in `promotion-policy.md`.
+
+### Step 10 — Tier-2 seed-format (#3/#4/#6/#7/#17) — the empty contracts
+Emit `authority-postures.md` (#3) → `authority/AUTHORITY-POSTURES.md`; `boundaries.md` (#6) →
+`authority/boundaries.md`; `imports-README.md` (#7) → `authority/imports/README.md`;
+`constitution-import-pack.md` (#17) → `authority/constitutions/CONSTITUTION-IMPORT-PACK.md`. #4 is the
+`forbidden_collapse` field on the AUTHORITY-MODEL non-collapse rules. **GUARDRAIL:** each must contain
+ZERO cav2 rows/instances (self-check #8).
+
+### Step 11 — cheap nav/schema (#10/#18, SWU-10)
+Emit `nav-and-decisions.md` → `authority/README.md` (#18) + `authority/decisions/README.md` (#10).
+
+### Step 12 — ratify-CLOSE (#11, SWU-6) — STAGE 3, after owner review
+After the owner reviews the proposed kinds, emit `decision-mint-ratify.md` →
+`authority/decisions/<date>-ratify-mint.md`: every proposed kind gets a terminal verdict
+(`ratify`/`reject`/`defer`); update AUTHORITY-MODEL so **no kind is left `PROPOSED`** without a matching
+`defer` record. This is the CLOSE of the D49 owner-gate (self-check #7).
+
+### Step 13 — Universal Governance Baseline (frozen-partition bucket A; SWU-B1/B2) — STAGE 2, emitted PROPOSED
+Emit `baseline-constitution.md` -> `authority/constitutions/<DOMAIN>-BASELINE-CONSTITUTION.md` (the 9
+rule-baselines: **D21 four-facet keystone**, D16, D18, D23, D24, D25, D26, D28, D30) and
+`baseline-primitives.md` -> `authority/BASELINE-PRIMITIVES.md` (the 18 primitive references), both
+**PROPOSED**. Apply the **strip-bindings**: D31 -> the domain's own `authority_scope`/`owner` (NEVER `CAV2`);
+D11 -> omit cav2's space list; D40 -> protocol only, no cav2 NODE-MODEL consumers. Index the primitives into
+`DEFINITIONS-INDEX.md`. cav2 appears ONLY as `(CAV2-D<k>)` provenance tags.
+
+### Step 14 — Project-space roles (bucket B SPLIT; SWU-B3)
+Emit `project-space-roles.md` -> `authority/PROJECT-SPACE-ROLES.md` (D15): the empty role-declaration format;
+the domain lists its OWN folders, never cav2's. D42 (governed-artifact-tree interface) is DEFERRED — fold
+here or seed a thin checklist at build (residue).
+
+> **Ratify (L2, SWU-B5):** the baseline set is emitted PROPOSED and ratified at stage 3 via the ratify-CLOSE
+> record (#11) — no baseline governs before the owner ratifies. (L1 emits PROPOSED; L2 wires the ratify verdict.)
+
+### Disclosed non-seeds (Tier 3) — do NOT emit
+The ontology/artifact package (#14/#15/#16), disciplines catalog (#19), attestation seal (#20, owner:
+`../../attestation-capability/`), adopt-back (#21). Record them as **disclosed** non-seeds in
+`authority/README.md`, not silent omissions.
+
 ## §6 — The signed mint record (L0-attributional PLACEHOLDER; L2 signing BLOCKED)
 Stage 3 of the flow emits `<TARGET_REPO>/authority/decisions/<date>-mint.md`. **L2
 cryptographic/attested signing is BLOCKED** on the attestation/signer capability
@@ -196,7 +258,36 @@ criterion's mechanical sub-rules — NOT the frozen N=3 run):
    the minted `authority/`; removing the `--source` attach leaves zero dangling references; no
    rule requires cav2 to ADD/ALTER a D49 row to be operable.
 
-A failing check 1–5 is a **block** — do not emit the record over a failing spine.
+6. **methods present (#13)** — every domain-originated kind in AUTHORITY-MODEL has a methods block in
+   `METHODS-CATALOGUE.md` (no name-without-actuator).
+7. **ratify-close (#11)** — after stage 3, no AUTHORITY-MODEL row reads `PROPOSED` without a matching
+   `defer` verdict in `<date>-ratify-mint.md` (the D49 owner-gate is CLOSED). `grep -c "PROPOSED"` over the
+   ratified AUTHORITY-MODEL returns only rows a `defer` record accounts for.
+8. **seed-format zero-cav2-rows (#3/#17)** — `AUTHORITY-POSTURES.md` contains **none** of cav2's 8 posture
+   names (Original authority / Evidence / Template / Research / Generated projection / Private evidence /
+   Public framework / Unknown); `CONSTITUTION-IMPORT-PACK.md` contains **no** `CAV2-C*` rule body. The
+   emit carries the empty contract, not cav2's rows.
+9. **drift-audit target resolves (#8)** — the constitution's `C(meta-4)` load-bearing-term rule's named
+   target (`DEFINITION-DRIFT-AUDIT.md`) and registry (`DEFINITIONS-INDEX.md`) exist in the emitted tree
+   (the rule no longer fires into a void).
+10. **zero dangling placeholders (added 2026-07-01, harness mint-smoke-01 finding)** —
+    `grep -rnoE "<[A-Za-z_][A-Za-z0-9_ .-]*>"` over the **whole emitted tree** returns zero, EXCEPT
+    inside a fenced ```-code block explicitly labeled a *fill-later format specimen* (the
+    `CONSTITUTION-IMPORT-PACK` rule-slot format is the one such specimen). Check #1 only covers
+    AUTHORITY-MODEL; #10 closes the gap the smoke test found — the seed-format/slot templates could
+    otherwise emit with raw `<n>`/`<Rule name>` placeholders and no check would catch it.
+
+11. **four-facet (D21 / baseline B1, added 2026-07-01)** — every emitted action-governing artifact
+    (decisions, ratify, promotion records) declares the four facets (classification/schema/human-view/
+    machine-view) OR carries a typed-residue line naming the missing facet. Vacuous when the domain has no
+    governed action yet (the baseline still seeds; the check fires on the first real action).
+12. **baseline-present (added 2026-07-01)** — `<DOMAIN>-BASELINE-CONSTITUTION.md` carries all 9 rule-baselines
+    (B1..B9) and `BASELINE-PRIMITIVES.md` references all 18 primitives, each indexed in `DEFINITIONS-INDEX.md`.
+13. **baseline-no-leak (added 2026-07-01)** — `grep -n "CAV2" ` over the emitted baseline files returns ONLY
+    `(CAV2-D<k>)` provenance tags: NO `authority_scope=CAV2`, NO cav2 space/consumer list, NO cav2 resolution
+    path (the D11/D31/D40 strip-bindings verified on the emitted output).
+
+A failing check 1–13 is a **block** — do not emit the record over a failing spine.
 
 ## §8 — claim ≤ proof
 This procedure is **intended-not-shipped emit-logic**, validated on the hand-built worked

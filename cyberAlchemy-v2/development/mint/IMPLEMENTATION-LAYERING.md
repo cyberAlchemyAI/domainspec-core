@@ -19,6 +19,15 @@ not preference. Mint is **one casting organ**, layered minimum-working-unit firs
 | **L2** signed decision-gate + crosswalk | emit signed `authority/decisions/<date>-mint.md`; owner ratifies kinds; emit framework crosswalk | makes the mint a *governance act of record*, not a file drop | medium — needs an actored owner-gate + a signer capability (open) | a committed signed decision record naming ratified kinds; crosswalk covers each domain↔framework concept |
 | **L3** adopt-back (deferred) | register cav2 import surface for two-way adoption | closes the mint-out/adopt-back loop | medium — governed by VAULT-CONCEPT-ADOPTION; not MVP | — |
 
+**Committed additions layer placement (decision 2026-07-01 — committed-not-built).** The 13 additions
+sit predominantly in **L1** (authority-spine seed contract): definitions-lifecycle equipment (#8),
+methods catalogue (#13), the meta patterns (#1/#2/#5/#9/#12), the seed-format contracts
+(#3/#4/#6/#7/#17), and cheap nav/schema (#10/#18). The **ratify-CLOSE** (#11) spans **L1→L2** (it closes
+the L2 owner-gate). Expanded-L1 promotion evidence: the drift-audit stub resolves the seeded
+load-bearing-term rule (#8) and no minted kind is left `PROPOSED` (#11); seed-format items carry the
+empty contract, not cav2's rows. Tier-3 surfaces are disclosed non-seeds, out of all layers. SWUs:
+[WORK-PACK.md](./WORK-PACK.md) SWU-5..10.
+
 ## Layer-boundary heuristics applied
 - **L0/L1 split** = owned-mechanism vs net-new-governance (the value jump is the authority casting).
 - **L1/L2 split** = emitting artifacts vs the *signed governance act* (the gate is a distinct value + a distinct dependency, the signer capability).

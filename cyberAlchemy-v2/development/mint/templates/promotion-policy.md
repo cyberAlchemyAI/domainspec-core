@@ -39,6 +39,7 @@ Owner: <DOMAIN> owner
 
 | State | Meaning | May promote to |
 | --- | --- | --- |
+| Imported / staged source | A harvested source recorded in `authority/imports/` — staged, not yet relied on (**addition #7**, import before promotion). | Source evidence, once admitted for local use. |
 | Source evidence | Original source material in its own context. | Source record. |
 | Source record | Path, date, source kind, and boundary captured. | Source claim ledger. |
 | Source claim | A claim with evidence and local reading separated. | <DOMAIN> synthesis. |
@@ -77,3 +78,18 @@ Block promotion when:
 - the recommendation has no witness, falsifier, or audit route;
 - **the promotion would resolve by traversing into a framework attachment** (no framework
   edge is a promotion path — Obs-B at the promotion level).
+
+## Stop / Demotion Rule (addition #12)
+
+<!-- INHERITED: the D48 stop_rule shape — a lifecycle needs a way DOWN, not only up. LOCALIZED: the
+     domain's demotion triggers. -->
+
+Promotion is not one-way. An **active** artifact or a **ratified** kind may be **demoted / superseded** when:
+
+- its evidence is withdrawn or falsified;
+- a superseding artifact/kind is ratified (record `supersedes` / `superseded-by`, **never delete**);
+- a validation gate it depended on is retracted.
+
+Demotion route: `stop` → move the item to `superseded` (or back to `candidate`) via a **decision record**
+(`authority/decisions/`); update the kinds table + `DEFINITIONS-INDEX`. A demotion is a decision, not
+ambient. A ratified kind with **no reachable stop state** is a lifecycle defect — D48 requires a `stop_rule`.

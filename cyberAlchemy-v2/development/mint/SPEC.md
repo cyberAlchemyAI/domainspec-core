@@ -43,6 +43,39 @@ The minted repo's `authority/`, `definitions/`, `constitutions/`, `RELATED-FRAME
 plus an `authority/decisions/<date>-mint.md` signed record. Mint itself remains the *authoring*
 capability; the minted artifacts belong to the new repo's lifecycle.
 
+## Committed additions (decision 2026-07-01 — committed, NOT yet built)
+Source signals: `development/research/2026-07-01-mint-cav2-inheritance-audit/findings.md` (audit) +
+`development/decisions/2026-07-01-mint-additions-scope.md` (scope = **Tier 1+2 + close Tier 3**).
+The audit found Mint casts authority *outputs* but under-inherits the authority *authoring lifecycle*.
+The owner committed **13 buildable additions** to the mint contract (build owned by sigil-development):
+
+- **Tier 1 (fix live defects):** definitions-lifecycle equipment (INDEX + DRIFT-AUDIT + SCHEMAS stubs) [#8];
+  a **ratify-CLOSE** record so proposed kinds become live, not stuck `PROPOSED` [#11]; a
+  governance-function→**methods** catalogue [#13].
+- **Tier 2 full-meta (seed the rule/route/pattern):** narrowest-owner routing table [#1];
+  invariant→axiom→constitution→validator derivation [#2]; table-level default-deny **CLOSED**
+  declaration on the domain's own kinds table [#5]; DEFINITION-LOCALIZATION-ROUTE + `definitions/reviews/`
+  staging [#9]; stop/demotion rule (D48 `stop_rule`) [#12].
+- **Tier 2 seed-format (seed the empty contract, NEVER cav2's rows):** posture-*contract* columns +
+  posture≠confidence [#3]; non-collapse rule-*slot* + `forbidden_collapse` field [#4]; minimal
+  private-only boundary skeleton [#6]; promotion-flow import/inventory **rung** [#7]; constitution-authoring
+  route + `CONSTITUTION-IMPORT-PACK` template [#17].
+- **Tier 2 cheap:** `decisions/README` + D36 decision-card schema [#10]; `authority/README` nav stub [#18].
+
+**Self-inconsistency this closes (#8, claim ≤ proof):** the currently-seeded constitution's
+load-bearing-term rule *requires* a definitions drift-audit the contract does **not** emit — today the
+rule fires into a void. The INDEX + DRIFT-AUDIT stubs (Tier 1) close it.
+
+## Disclosed non-seeds (Tier 3 — recorded decisions, not oversights)
+Both audit skeptic gates (meta-vs-object; already-provided) agreed these are **correctly withheld**:
+- **Ontology / artifact package** [#14/#15/#16] — candidate-record-shape, NODE/RELATION/LIFECYCLE
+  models, ARTIFACT-TREE, cav2 crosswalks. This is cav2's **own self-model** (`ontology/PACKAGE-MODEL.md:9`);
+  seeding it re-fuses the two System-5 levels. At most seed the *empty* record-shape as an optional tool.
+  *(This was the motivating example — correctly localized, not a gap.)*
+- **Disciplines catalog** [#19] — no recurring practice exists at mint-time (seed only the Growth-Rule + card schema, later).
+- **Verifiable attestation seal** [#20] — build-from-owned; owner exists (`../attestation-capability/`, L2-blocked).
+- **Adopt-back surface** [#21] — Mint stage-5, explicitly deferred.
+
 ## Boundaries / Gates (load-bearing)
 - **D49 owner-gate (corrected per review C1).** A mint **proposes** the domain's authority kinds; the
   **cav2 authority owner ratifies**. The domain gets its *own* kinds table (a domain-local authority
@@ -59,10 +92,11 @@ precedent**, not a governing parent (per `resonantos .../decisions/2026-06-29-me
 
 | Inherited — the MOLD (how authority is made) | Localized — the casting (what this domain holds) |
 |---|---|
-| authority-lifecycle (`CAV2-D48`); the closure **rule** (`CAV2-D49`) applied to the domain's *own* table; non-collapse (D22/D29); claim ≤ proof (D38); build-from-owned (C17); the promotion-policy structure + source-movement + the Authority-Kinds-table **format** | the domain's own **kind rows**, definitions, constitution rules, source families, decisions |
+| authority-lifecycle (`CAV2-D48`) + its `stop_rule`; the closure **rule** (`CAV2-D49`) applied to the domain's *own* table; non-collapse (D22/D29); claim ≤ proof (D38); build-from-owned (C17); the promotion-policy structure + source-movement + the Authority-Kinds-table **format**; the narrowest-owner routing table; the invariant→axiom→constitution→validator derivation pattern; the DEFINITION-LOCALIZATION-ROUTE; the definitions-lifecycle equipment (INDEX/DRIFT-AUDIT/SCHEMAS) *as machinery* (added 2026-07-01) | the domain's own **kind rows**, definitions, constitution rules, source families, decisions |
 
 - **Boundary test:** defines *how* authority is made → **inherit**; *what* authority the domain holds → **localize**.
 - **Seed, don't bind:** the domain's tables are **seeded** from cav2's (a starting point) but owner-authored thereafter.
+- **Seed the format, not the rows (SPLIT items, decision 2026-07-01):** for the posture table, non-collapse rules, the closure declaration, and the constitution-import set, the domain inherits the *empty contract / slot / declaration / route*, **never** cav2's populated rows/rules/enumeration/instances — else the addition re-introduces the level-refusion the circularity guardrail forbids.
 - **Circularity guardrail (machine-map `two-system-5s-recursion-boundary`):** never inherit cav2's *object* kinds as a governing base — that re-fuses meta and object (the mold becomes a casting of itself). claim ≤ proof: the two-System-5 grounding is a **candidate analogy, not a repo-cited fact** (open AUTHORITY-MAP/GOVERNANCE-ATTENUATION contradiction).
 
 ## Glossary

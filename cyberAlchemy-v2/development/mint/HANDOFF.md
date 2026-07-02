@@ -16,6 +16,8 @@ note: Paths repo-root-relative from domainspec-core/.
 `cyberAlchemy-v2/development/mint/`: `SPEC.md` (define) · `ARCHITECTURE-BUNDLE.md` (design, re-grounded) ·
 `EXECUTION-PACK.md` (plan) · `IMPLEMENTATION-LAYERING.md` · `WORK-PACK.md` · this `HANDOFF.md`.
 All carry the `mint-design-plan-review` FIX changes (C1 re-grounded, C2 demoted, C3–C11 applied).
+**Refreshed 2026-07-01** (invoke mode=refresh) with the Mint⟵cav2 inheritance-audit additions — see
+[SPEC §Committed additions](./SPEC.md) and `development/2026-07-01-additions-refresh-report.md`.
 
 ## Supersession (honesty)
 This package **supersedes the C1/C2 justification** of `development/refinement-runs/20260629T0000Z-cav2-mint-feature/RESULT.md`
@@ -35,9 +37,11 @@ Invoke does **not** claim the sigil lifecycle is complete — this is a handoff.
 | `BLK-CAV2-PUBLIC-PRIVATE-001` (public-attached mint) | decision-gate | blocks public mints |
 | emit-templates validated on **one** domain only | sigil-development (validation) | generalization risk, not coverage |
 | `ART-MINT-AUTHORITY-TRIAGE` craft row (review C9) | applied to `.craft/ledger.yml` this run | — |
+| **13 authority-inheritance additions + 6 disclosed non-seeds** (audit + decision 2026-07-01) | sigil-development (build) | none — owner-approved scope; Tier-1 (#8/#11/#13) first (close live defects) |
 
 ## Recommended next route
-**sigil-development --new** (build the Mint sigil), then **task-session** for SWU-1..SWU-3 (the L0+L1 MVP).
+**sigil-development --new** (build the Mint sigil), then **task-session** for SWU-1..SWU-3 (the L0+L1 MVP),
+then **SWU-5..10** (the 2026-07-01 committed additions — Tier-1 SWU-5/6/7 first, they close live defects).
 Do not start L2 until the signer-capability gap is closed; do not emit a public-attached mint until `BLK-CAV2-PUBLIC-PRIVATE-001` resolves.
 
 ## Connection + scope guard (attestation · body-war candidate witness)

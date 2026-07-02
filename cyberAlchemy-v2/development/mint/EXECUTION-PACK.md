@@ -20,6 +20,15 @@ note: Paths are repo-root-relative from domainspec-core/.
 3. **L2 — signed decision-gate + crosswalk.** Emit the signed mint decision record + the framework crosswalk.
 4. **L3 — adopt-back (deferred).** Register the cav2 import surface.
 
+**Committed additions (audit + decision 2026-07-01 — extends L1, committed-NOT-built).** Beyond the 6
+templates, L1 also emits the 13 additions ([SPEC §Committed additions](./SPEC.md)): Tier-1 definitions
+drift-audit/index stubs (#8), ratify-CLOSE record (#11 — also touches L2), methods catalogue (#13); the
+Tier-2 meta patterns (#1/#2/#5/#9/#12) and seed-format contracts (#3/#4/#6/#7/#17) + cheap nav/schema
+(#10/#18). **Validation additions (D9):** the DRIFT-AUDIT stub must exist so the seeded load-bearing-term
+rule resolves (closes #8); the ratify-close record moves kinds `PROPOSED`→ratified (closes #11); the
+resonantos golden fixture is updated to the expanded spine shape. Seed-format items are validated to carry
+the *empty contract*, not cav2's rows (guardrail). Tier-3 surfaces are disclosed non-seeds ([SPEC](./SPEC.md)).
+
 ## The owner-gate, actored (review C7)
 "An owner ratifies" is made concrete:
 - **actor:** the cav2 authority owner (definitions-governance / constitution-governance per kind).

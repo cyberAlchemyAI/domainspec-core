@@ -155,3 +155,29 @@ Context: Arcanum has public framework constitutions, while private DomainSpec
 has a broad vault constitution library. Recommendation: start with public
 Arcanum constitution rules plus private DomainSpec only as pattern evidence
 until boundary review. Status: OPEN.
+
+## Re-scan 2026-07-01 (dispatch `2026-07-01-arcanum-artifact-governance-import`)
+
+The 2026-06-19 scan is **stale**. `arcanum/framework/` has since gained 7 docs not staged above —
+`ARTIFACT-AUTHORING-MEMORY`, `CYBERALCHEMY-METHOD`, `DEVELOPMENT-TO-CANONICAL-PROMOTION`,
+`EXPERIMENT-HARNESS-STANDARD`, `RECEIPT-ID-LEGEND-CONSTITUTION`, `SIGIL-DEVELOPMENT-WORKFLOW`,
+`VALIDATION-EXPERIMENT-PROTOCOL` — and the **validator tooling** (`arcanum/tools/validate-artifact-constitution.sh`
++ `validate-artifact-metadata.py` + `check_markdown_links.sh`) was **never staged**. **Zero** of the
+2026-06-19 candidates have been extracted into a cav2 local rule.
+
+**Verdicts** (frozen partition: `../../../development/research/2026-07-01-arcanum-artifact-governance-import/findings.md`):
+
+- **TIER-1 import — port to cav2 roots, real file-FORM enforcement:** `SCHEMA-CONSTITUTION`;
+  `ARTIFACT-CONSTITUTION` (retention-class taxonomy only) + `GITIGNORE-CONSTITUTION`; the **validator tooling**
+  (add as import candidates — port, do not copy; Arcanum-path-hardcoded).
+- **TIER-2 prose-only — adopt-first:** `ARTIFACT-METADATA-CONSTITUTION` (needs a cav2 YAML-frontmatter
+  decision-gate before it is enforcement, not prose); `MARKDOWN-LINKING` typed-edge-vocab residual (route to
+  ontology / definitions-governance, likely not a constitution).
+- **SKIP — already-owned (CAV2-C17 build-from-owned):** `DEVELOPMENT-TO-CANONICAL-PROMOTION` (CAV2-C3/C11/D48
+  + promotion-policy); `MARKDOWN-LINKING` hygiene (CAV2-C1/C7/C8); `ARTIFACT-CONSTITUTION` promotion-rule (C11/C3).
+- **SKIP — out-of-scope (capability-lifecycle, not artifact-IS):** `ANTI-PATTERNS`, `QUALITY-BAR`,
+  `CYBERALCHEMY-METHOD`, `SIGIL-DEVELOPMENT-WORKFLOW`, `VALIDATION-EXPERIMENT-PROTOCOL`,
+  `EXPERIMENT-HARNESS-STANDARD`, `ARTIFACT-AUTHORING-MEMORY`, `RECEIPT-ID-LEGEND-CONSTITUTION`.
+
+Next: the Tier-1 import pack (`development/artifact-governance-import/`, invoke → task-session), gated by
+CAV2-C11 import-before-promotion.

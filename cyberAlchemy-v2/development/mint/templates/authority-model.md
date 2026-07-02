@@ -86,6 +86,11 @@ propose mechanisms, invariants, workflows, and gates. Research cannot promote th
 > the `<DOMAIN>` authority owner **ratifies** them. They are this repo's OWN domain-local
 > kinds table — NOT a change to cav2's closed D49 enumeration. Seeded from cav2's table
 > format, owner-authored thereafter (seed, don't bind).
+>
+> **Closed-with-default-deny (addition #5).** This kinds table is **CLOSED**: an artifact whose
+> kind is not a ratified row above **defaults denied** — it acquires no authority until the owner
+> adds it (a `ratify`/`defer` verdict in `authority/decisions/<date>-ratify-mint.md`). This is the
+> D49 closure *rule* applied to the domain's OWN table, never cav2's enumeration.
 
 ## Source Movement
 
@@ -121,9 +126,39 @@ N. **Harvested external method precedent (incl. CyberAlchemy v2) supports
    over <DOMAIN> decisions.** *(This is the Obs-B non-collapse rule — keep verbatim in
    shape; it forbids the precedent's leak at the rule level.)*
 
+## Narrowest-Owner Routing (addition #1)
+
+<!-- INHERITED: the movement→owner routing FORMAT. LOCALIZED: the owner-route labels. Route each
+     movement to the NARROWEST owner that can decide it. -->
+
+| Movement | Owner route |
+| --- | --- |
+| A term becomes load-bearing. | definitions-governance (domain-local) |
+| A rule should constrain future artifacts. | constitution-governance (domain-local) |
+| A promotion / scope / public-private choice is contested. | decision-gate |
+| A candidate kind needs ratification. | `<DOMAIN>` authority owner (D49 owner-gate) |
+| A source must be staged before use. | authority import (`authority/imports/`) |
+
+## Invariant → Axiom → Constitution → Validator (addition #2)
+
+<!-- INHERITED derivation pattern; the domain fills the chain for its own invariants. Not a law —
+     some constitutions encode invariants directly; some invariants stay diagnostic until promoted. -->
+
+```text
+invariant (what must stay true / what counts as drift)
+  -> axiom (the load-bearing principle that explains why)
+  -> constitution rule (operationalizes it) [constitutions/<DOMAIN>-CONSTITUTION.md]
+  -> validator / gate (review | hybrid | deterministic)
+  -> artifact behavior
+```
+
 ## Gate Vocabulary
 
-<!-- INHERITED verbatim in shape — the pass/flag/block/defer vocabulary. -->
+<!-- INHERITED verbatim in shape — the pass/flag/block/defer vocabulary.
+     Non-collapse slot (addition #4): each Non-Collapse rule above may carry a `forbidden_collapse:`
+     field naming the exact X→Y collapse it forbids, so the rule is checkable. Seed the SLOT + field,
+     never cav2's 7 specific rules — the domain adds rules as its own conflation risks require. -->
+
 
 - `pass`: evidence, source kind, owner route, and validation surface are adequate for the
   next move.
