@@ -21,6 +21,7 @@ indexes:
     CTX-DSV2-REFORMULATE-BATCH1: contexts[3]
     CTX-DSV2-SPEC-ONTOLOGY: contexts[4]
     CTX-DSV2-META-TYPE-FORMALIZATION: contexts[5]
+    CTX-DSV2-APE: contexts[6]
   open_decisions:
     - DEC-DSV2-LANE-ZA
   blocking_decisions: []
@@ -28,17 +29,18 @@ indexes:
     - BLK-DSV2-DRIFT-ENGINE
     - BLK-DSV2-L2-ATTESTATION
   active_gaps:
-    - GAP-DSV2-EDGE-CATALOG
     - GAP-DSV2-COMPOSABILITY-ENFORCE
     - GAP-DSV2-EXERCISE
-    - GAP-DSV2-GOVERNANCE-CARDS
+    - GAP-DSV2-APE-CARD-TRIAGE
   next_moves:
     - context_id: CTX-DSV2-ROOT
-      next_move: Execute the batch-1 reformulation (R1 AXIOMS -> R6b), whose R3 now fixes the exact edge-catalog gaps the spec-ontology toy exposed; or stand up the agent-cost experiment that settles Lane Z vs A.
+      next_move: R3A relationship authority is landed and green; execute the remaining batch-1 reformulation docs (R1/R2/R4/R5/R6a/R6b) or stand up the agent-cost experiment that settles Lane Z vs A.
     - context_id: CTX-DSV2-REFORMULATE-BATCH1
-      next_move: task-session R1 (AXIOMS) first; R3 carries R3-P1/P2/P3 catalog-coverage additions.
+      next_move: R3A is complete; run the remaining SWUs in dependency order (R1, R2, R4, R5, R6a, R6b) before the freeze gate closes.
     - context_id: CTX-DSV2-SPEC-ONTOLOGY
-      next_move: Lane Z vs A stays deferred to an agent-cost experiment; extend composability enforcement past 9/29 (drift) and consider a 2nd UI-heavy corpus (T5).
+      next_move: Lane Z vs A stays deferred to an agent-cost experiment; extend legacy code-tag composability enforcement to consume root DS-D8 authority and consider a 2nd UI-heavy corpus (T5).
+    - context_id: CTX-DSV2-APE
+      next_move: L0 POC DONE and R3A unblocks the edge plane. Next — SWU-APE-004/005 defect cleanup, TASK-CARDS pattern-library triage, and dynamic edge-law enforcement over root DS-D8.
   artifacts_by_path:
     "IMPORT-MANIFEST.md": ART-DSV2-IMPORT-MANIFEST
     "impl/": ART-DSV2-IMPL
@@ -53,6 +55,7 @@ indexes:
     "development/meta-type-formalization/": ART-DSV2-META-TYPE-FORMALIZATION
     "definitions/": ART-DSV2-DEFINITIONS
     "development/meta-type-definitions/": ART-DSV2-METATYPE-DEFINITIONS
+    "development/architecture-pattern-enforcement/": ART-DSV2-APE
 
 contexts:
   - context_id: CTX-DSV2-ROOT
@@ -65,8 +68,8 @@ contexts:
     stage: build
     gate: flag
     next_move: >-
-      Execute batch-1 reformulation (R1 -> R6b) — R3 now fixes the toy-exposed edge gaps — or stand up
-      the agent-cost experiment for Lane Z vs A.
+      R3A relationship authority is landed and green; execute the remaining batch-1 reformulation docs
+      (R1/R2/R4/R5/R6a/R6b), or stand up the agent-cost experiment for Lane Z vs A.
     owned_artifacts: [ART-DSV2-IMPORT-MANIFEST, ART-DSV2-IMPL, ART-DSV2-AUTHORITY]
 
   - context_id: CTX-DSV2-AUTHORITY
@@ -103,7 +106,7 @@ contexts:
       from v1-verbatim to v2-native, bound to their governance owners; closes the v1-freeze gate.
     stage: plan
     gate: flag
-    next_move: task-session R1 (AXIOMS) first; design + plan authored (invoke design+plan), NOT executed.
+    next_move: R3A complete; remaining SWUs R1/R2/R4/R5/R6a/R6b still need task-session execution before freeze.
     owned_artifacts: [ART-DSV2-REFORMULATE-BATCH1, ART-DSV2-IMPORT-MANIFEST]
     links:
       - {label: child — meta-type formalization (owns the formal type system + content validator; R2/R7 consume it), target: CTX-DSV2-META-TYPE-FORMALIZATION, kind: row-id}
@@ -119,7 +122,8 @@ contexts:
     gate: flag
     next_move: >-
       Lane Z vs A deferred to an agent-cost experiment; interim = two-plane boundary. Toy T1-T4 done
-      (substrate SURVIVED-narrow); catalog-coverage gaps routed to batch-1 R3.
+      (substrate SURVIVED-narrow); R3A consumed the catalog-coverage gaps, leaving composability extension
+      and second-corpus evidence as active follow-ups.
     owned_artifacts: [ART-DSV2-SPEC-ONTOLOGY-RESEARCH, ART-DSV2-SPEC-ONTOLOGY-TOY, ART-DSV2-COMPOSABILITY-SYNTHESIS]
 
   - context_id: CTX-DSV2-META-TYPE-FORMALIZATION
@@ -133,14 +137,36 @@ contexts:
     stage: build
     gate: flag
     next_move: >-
-      MT3 node half DONE (14/14 backend node types formalized; owner chose nodes-now / defer-edges). Remaining:
-      MT3b edge signatures — deferred to batch-1 R3 (the reformulated RELATIONSHIPS.md is the source of truth);
-      then MT4 (wire validate:content into the validate aggregate + a real feature fixture); MT5 UI deferred
-      (validate-before-broaden).
+      MT0-MT4 plus MT-INST are DONE for backend scope: 14 node schemas, 31 active root relationship signatures,
+      edge-aware validate-content, aggregate validate wiring, and instance generation/validation. Remaining:
+      MT5 UI deferred and tools/lib extraction residue.
     owned_artifacts: [ART-DSV2-META-TYPE-FORMALIZATION]
     links:
       - {label: child of / recomposes into (owns the formal type system; R2/R7 consume it), target: CTX-DSV2-REFORMULATE-BATCH1, kind: row-id}
       - {label: enabled by, target: ART-DSV2-COMPOSABILITY-SYNTHESIS, kind: evidence}
+
+  - context_id: CTX-DSV2-APE
+    parent_id: CTX-DSV2-ROOT
+    recomposition_target: CTX-DSV2-ROOT
+    title: Architecture-pattern enforcement (APE) — validate + enforce patterns across projects
+    purpose: >-
+      Sequence the owned architecture-validation pieces (meta-type schemas, edge-law, validators, engine,
+      v1 pattern-library) into an enforced discipline: node plane (uniformity), R3A root edge-law authority,
+      downstream composability enforcement, authority promotion via cav2, cross-project inheritance via mint.
+      A candidate discipline — every handle owes owner-promotion ("has a tree != has authority").
+    stage: plan
+    gate: flag
+    next_move: >-
+      L0 POC DONE (2026-07-02): financial-settlement pack authored + node validators witnessed (green) + a
+      deliberate red (exit 1); GAP-DSV2-APE-VACUOUS resolved. Next (L1): SWU-APE-004/005 defect cleanup
+      (reset 4 stale waivers; fix docs/features anchors), TASK-CARDS pattern-library triage, and wire
+      validate:content into the `validate` aggregate (meta-type-formalization MT4).
+    owned_artifacts: [ART-DSV2-APE]
+    links:
+      - {label: consumes node schemas plus R3A edge signatures, target: CTX-DSV2-META-TYPE-FORMALIZATION, kind: row-id}
+      - {label: edge plane unblocked by R3A; downstream enforcement remains, target: GAP-DSV2-COMPOSABILITY-ENFORCE, kind: row-id}
+      - {label: rests on the two-plane boundary, target: CTX-DSV2-SPEC-ONTOLOGY, kind: row-id}
+      - {label: evidence — research findings, target: "[repo-root]/projects/domainspec-v2/research/2026-07-02-architecture-patterns-enforcement/findings.md", kind: path}
 
 descriptions:
   - description_id: DESC-DSV2-ROOT-001
@@ -221,13 +247,13 @@ descriptions:
   - description_id: DESC-DSV2-METATYPE-004
     context_id: CTX-DSV2-META-TYPE-FORMALIZATION
     description: >-
-      2026-07-02 — MT3 node half executed (owner chose nodes-now, defer edges to R3). The 4 connective/
+      2026-07-02 — MT3 node half executed (owner chose nodes-now first; R3A later completed edges). The 4 connective/
       lifecycle types (Interface, Event, Mapping, State Machine) authored as schema+md pairs + pos/neg
       fixtures + tests via the declared-attributes convention; validator gains the attribute-present rule
       kind (keys with several valid values, e.g. interface_kind / direction). ALL 14 backend node types now
-      formalized (schemas=14). tools:test 18/18; validate / engine:test 97/97 / typecheck RC 0. Remaining:
-      MT3b edge signatures (deferred to batch-1 R3), MT4 (wire validate:content into the validate aggregate),
-      MT5 (UI, deferred).
+      formalized (schemas=14). tools:test 18/18; validate / engine:test 97/97 / typecheck RC 0. Follow-up:
+      R3A completed MT3b edge signatures and MT4 aggregate/content-edge validation; remaining scope is MT5
+      (UI, deferred).
     evidence: ["[repo-root]/projects/domainspec-v2/impl/spec/meta-types/lifecycle/state-machine.schema.yml", "[repo-root]/projects/domainspec-v2/impl/spec/meta-types/connective/interface.schema.yml"]
 
   - description_id: DESC-DSV2-METATYPE-005
@@ -261,11 +287,11 @@ descriptions:
     description: >-
       2026-07-02 — invoke define+design+plan authored development/meta-type-definitions/ to promote the
       vocabulary the meta-type work used into real, tracked definitions. Tiered candidate list (CANDIDATES.md,
-      50 candidates): Tier 1 = 25 meta-types (DS-D1) + edge verbs (DS-D2, R3-gated) via R7 — 14 backend recommend
+      50 candidates): Tier 1 = 25 meta-types (DS-D1) + edge verbs (DS-D2, initially waiting for R3A) via R7 — 14 backend recommend
       PROMOTE (criteria exist), 11 UI DEFER; Tier 2 = 10 method terms (domainspec-v2-D6+) via definitions-governance,
       PROMOTE; Tier 3 = 15 schema-format terms (7 rule kinds + 8 attribute keys) recommend DOCUMENT (not canonical).
-      APPROVAL-GATED — nothing promoted until the owner marks the CANDIDATES rows. Open: DD-D1 (Tier-2 scheme),
-      DD-D2 (Tier-3 disposition), DD-D3 (Tier-1 via R7). Next: owner approves -> task-session DD1 + DD2 (via R7).
+      APPROVAL-GATED at authoring time. Follow-up: DS-D2/DS-D8 promoted from R3A root authority; UI remains
+      deferred; Tier-3 remains document-not-define.
     evidence: ["[repo-root]/projects/domainspec-v2/development/meta-type-definitions/CANDIDATES.md"]
 
   - description_id: DESC-DSV2-METATYPE-DEFS-002
@@ -279,9 +305,52 @@ descriptions:
       definitions/VOICE-GUIDE.md (quality bar + lessons ledger, 5 lessons incl. dictionary-opener). Two gated
       proposals authored by subagents: cav2 confirm-contract primitive (cav2 authority/definitions/reviews/) +
       a sanitized definitions-governance sigil enhancement (development/definitions-governance-enhancement/,
-      arcanum untouched). Remaining: DS-D1.15..25 UI (deferred, MT5); DS-D2 edge verbs (after R3); promotion
-      candidate->active via the confirm contracts; reconcile DEFINITION-DRIFT-AUDIT with the new DS-D1 rows.
+      arcanum untouched). Follow-up: DS-D2/DS-D8 are active from R3A root authority and the definition drift
+      audit is reconciled; remaining DS-D1.15..25 UI is deferred to MT5; backend DS-D1 cards still follow their
+      candidate->active confirm contracts.
     evidence: ["[repo-root]/projects/domainspec-v2/definitions/meta-types/meta-types.md", "[repo-root]/projects/domainspec-v2/definitions/meta-types/meta-types.yml"]
+
+  - description_id: DESC-DSV2-METATYPE-DEFS-003
+    context_id: CTX-DSV2-META-TYPE-FORMALIZATION
+    description: >-
+      2026-07-02 — Tier-2 method terms authored + D1-D5 retrofitted (owner chose "add contracts + retrofit
+      D1-D5"). domainspec-v2-D6..D15 (meta-type, category, formal criterion, edge-participation signature,
+      content validator, instance, instance validator, aspect file, Concept Registry, declared-attributes
+      convention) written in root DEFINITIONS.md, each 3-voice (plain voice picked interactively per term) +
+      challenge contract (CAV2-D40) + confirm contract (build-from-owned). D1-D5 retrofitted with the same two
+      contracts. All 15 domainspec-v2-D* cards now uniform (15 challenge + 15 confirm); 15 DEFINITIONS-INDEX
+      rows. Follow-up: Tier-1c edge verbs/signatures (`DS-D2`/`DS-D8`) promoted from R3A root authority and
+      DEFINITION-DRIFT-AUDIT is reconciled. Remaining: Tier-1b UI (DS-D1.15..25, deferred MT5); Tier-3
+      schema-format vocab (rule kinds + attribute keys, recommend DOCUMENT not define); backend DS-D1 promotion
+      candidate->active via the confirm contracts.
+    evidence: ["[repo-root]/projects/domainspec-v2/definitions/DEFINITIONS.md", "[repo-root]/projects/domainspec-v2/definitions/DEFINITIONS-INDEX.md"]
+
+  - description_id: DESC-DSV2-APE-001
+    context_id: CTX-DSV2-APE
+    description: >-
+      2026-07-02 — invoke define+design+plan authored development/architecture-pattern-enforcement/
+      (README + SPEC + GLOSSARY + architecture-bundle [6 views] + implementation-layering [L0-L3] +
+      execution-pack + WORK-PACK). Evidence base = research dispatch 2026-07-02-architecture-patterns-enforcement
+      (findings + collected returns), corrected by its skeptic loop: the tsx-runtime blocker was FALSIFIED
+      (impl/package.json + tsx already committed at HEAD 22bf33b1). Initial package stance was node-plane first
+      and edge-plane later. Follow-up: L0 is witnessed on financial-settlement and R3A unblocks the edge plane;
+      dynamic DS-D8 enforcement is still pending. Nothing promoted — candidate discipline.
+    evidence: [ART-DSV2-APE]
+
+  - description_id: DESC-DSV2-APE-002
+    context_id: CTX-DSV2-APE
+    description: >-
+      2026-07-02 — TASK-POC executed (task-session): the L0 POC is DONE. Authored the first real v2 feature
+      pack impl/spec/features/financial-settlement/SPEC.md — promoted build-from-owned from the engine
+      fixture + the toy's 23-node graph into the v2 pack shape, typed to 7 backend meta-type schemas
+      (Entity / Value Object / Enum / Operation / Query / Calculation / Rule). Node-plane validators now
+      WITNESSED, not vacuous: validate:content PASS (7 concepts, was 0), instances:validate 14 PASS,
+      engine:lint CLEAN; a red-check (dropped Entity identity flag) is rejected with exit 1 + the exact
+      criterion. Aggregate validate + tools:test 20/20 green (no regression). Edges omitted (node plane
+      only; R3-deferred). GAP-DSV2-APE-VACUOUS resolved.
+    evidence:
+      - {label: L0 feature pack, target: "[repo-root]/projects/domainspec-v2/impl/spec/features/financial-settlement/SPEC.md", kind: path}
+      - {label: red-check fixture, target: "[repo-root]/projects/domainspec-v2/impl/spec/features/financial-settlement/__redcheck__/entity-missing-identity.md", kind: path}
 
 decisions:
   - decision_id: DEC-DSV2-CRAFT-SCOPE
@@ -334,6 +403,36 @@ decisions:
       - {label: CAV2-D29 axis orthogonality, target: "[repo-root]/cyberAlchemy-v2/authority/definitions/DEFINITIONS.md", kind: path}
       - {label: CAV2-D16 typed coupling, target: "[repo-root]/cyberAlchemy-v2/authority/definitions/DEFINITIONS.md", kind: path}
 
+  - decision_id: DEC-DSV2-APE-L0-DOMAIN
+    scope_id: CTX-DSV2-APE
+    question: Which domain should the L0 POC feature pack use to make the node-plane validators non-vacuous?
+    options: [promote-the-sample-pack, author-a-new-small-domain, reuse-the-spec-ontology-toy-domain]
+    decision_type: scope
+    blocking: true
+    status: closed
+    default_option: author-a-new-small-domain
+    selected_option: reuse-the-spec-ontology-toy-domain
+    description: >-
+      The node validators (validate-content, instances validate, engine lint) run today but have no real
+      feature pack to check — only impl/spec/features/sample + fixtures. L0 needs one real domain slice
+      (>=1 entity, operation, rule, all typed) to become witnessed, not vacuous.
+    impact: >-
+      Gates TASK-POC / SWU-APE-001. The defect-cleanup SWU-APE-004/005 (waiver reset; docs/features anchor
+      fix) do NOT depend on it and can run first.
+    rationale: >-
+      Owner chose (decision-gate, 2026-07-02) to REUSE the owned financial-settlement domain — the
+      spec-ontology toy's corpus — rather than author a new one. Build-from-owned: backend aspect files
+      already exist under impl/test-derivation-engine/__fixtures__/financial-settlement/ and were typed
+      into 23 nodes by the toy's T1 graph extraction; it is node-rich (good for node-plane L0), engine
+      lint/roundtrip can target it, and it connects L0 to the SURVIVED-narrow evidence. The default
+      (author-new) was demoted once grounding showed an owned real domain exists; the sample stub is empty
+      (zero concepts) so promote-sample collapsed into author-new and was folded out.
+    evidence:
+      - {label: toy graph (23 nodes, financial-settlement), target: "[repo-root]/projects/domainspec-v2/research/spec-ontology-unification/toy/graph.md", kind: path}
+      - {label: engine fixture corpus, target: "[repo-root]/projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/financial-settlement/", kind: path}
+    links:
+      - {label: work-pack blocker B-003 / gap G-001, target: "[repo-root]/projects/domainspec-v2/development/architecture-pattern-enforcement/WORK-PACK.md", kind: path}
+
 blockers:
   - blocker_id: BLK-DSV2-DRIFT-ENGINE
     context_id: CTX-DSV2-REFORMULATE-BATCH1
@@ -359,17 +458,23 @@ blockers:
 gaps:
   - gap_id: GAP-DSV2-EDGE-CATALOG
     context_id: CTX-DSV2-SPEC-ONTOLOGY
+    status: resolved
     summary: >-
-      The 29-edge RELATIONSHIPS catalog under-covers real relations — missing Operation->Entity (read) and
-      Operation->ValueObject (returns); Event is a composite.
+      RESOLVED 2026-07-02 by SWU-R3A. Root relationship authority now has 31 active canonical signatures,
+      generated/deprecated/deferred sections, and endpoint-aware validation. Operation->Entity read is covered
+      by generalized `queries`; Operation->Entity production is covered by `produces-for`; Saga and
+      Entity-to-Entity ownership/belonging are represented. Operation->ValueObject returns, Event
+      payload/publisher composite, and `depends-on` remain future candidates, not R3 blockers.
     severity: medium
-    treatment: fix-in-reformulation
-    owner_route: CTX-DSV2-REFORMULATE-BATCH1 (R3-P1/P2/P3)
-    evidence: [ART-DSV2-SPEC-ONTOLOGY-TOY]
+    treatment: fixed-in-R3A
+    owner_route: CTX-DSV2-REFORMULATE-BATCH1 (SWU-R3A)
+    evidence:
+      - {label: R3A receipt, target: "[repo-root]/projects/domainspec-v2/development/reformulate-batch1/task-sessions/2026-07-02-swu-r3a/TASK-SESSION-RESULT.md", kind: path}
+      - {label: root relationship authority, target: "[repo-root]/projects/domainspec-v2/definitions/relationships/relationships.yml", kind: path}
 
   - gap_id: GAP-DSV2-COMPOSABILITY-ENFORCE
     context_id: CTX-DSV2-SPEC-ONTOLOGY
-    summary: Code-tag composability enforces only 9 of 29 edges (CT-COMP-001..009); 4 documented-not-yet, ~17 unpatterned.
+    summary: Legacy code-tag composability still needs to consume root DS-D8 authority; R3A made the edge-law typed and checkable, but this older code-tag enforcement path has not been broadened across the active signature set.
     severity: low
     treatment: extend-tooling
     owner_route: drift governance (extend check-code-tag-composability)
@@ -377,7 +482,7 @@ gaps:
 
   - gap_id: GAP-DSV2-EXERCISE
     context_id: CTX-DSV2-SPEC-ONTOLOGY
-    summary: The toy exercised one feature (12/25 types, 10/29 edges); a SURVIVED verdict is necessary, not sufficient.
+    summary: The toy and financial-settlement pack exercise only a narrow corpus; a SURVIVED verdict is necessary, not sufficient for broad language confidence.
     severity: low
     treatment: second-corpus
     owner_route: CTX-DSV2-SPEC-ONTOLOGY (optional T5, UI-heavy corpus)
@@ -385,14 +490,43 @@ gaps:
 
   - gap_id: GAP-DSV2-GOVERNANCE-CARDS
     context_id: CTX-DSV2-AUTHORITY
+    status: resolved
     summary: >-
-      Two of v2's three domain-originated governances lack definition cards — layering-governance and
-      drift-governance (validation-governance = domainspec-v2-D2 is the carded sibling). Flagged by the
-      definition drift audit (verdict flag); owed, not yet exercised as authority.
+      RESOLVED 2026-07-02 by definitions-governance follow-up. `layering governance` now resolves to
+      `domainspec-v2-D16`; `drift governance` now resolves to `domainspec-v2-D17`; the definition drift audit
+      verdict is pass. The L2 attestation seal remains a separate authority blocker, not definition drift.
     severity: low
-    treatment: author-cards-via-definitions-lifecycle
-    owner_route: definitions-governance (stage in definitions/reviews/, then canonicalize + index)
-    evidence: [ART-DSV2-DEFINITIONS]
+    treatment: authored-cards-via-definitions-lifecycle
+    owner_route: definitions-governance
+    evidence:
+      - {label: canonical definitions, target: "[repo-root]/projects/domainspec-v2/definitions/DEFINITIONS.md#domainspec-v2-d16-layering-governance", kind: path}
+      - {label: drift audit, target: "[repo-root]/projects/domainspec-v2/definitions/DEFINITION-DRIFT-AUDIT.md", kind: path}
+
+  - gap_id: GAP-DSV2-APE-VACUOUS
+    context_id: CTX-DSV2-APE
+    status: resolved
+    summary: >-
+      RESOLVED 2026-07-02 (task-session TASK-POC). The node-plane validators are now WITNESSED on a real
+      feature pack — impl/spec/features/financial-settlement/SPEC.md (7 backend meta-types): validate:content
+      PASS (7 concepts, was 0/vacuous), instances:validate 14 PASS, engine:lint CLEAN; a dropped identity
+      flag is rejected (exit 1). Was: validators ran but had no real pack to check.
+    severity: medium
+    treatment: author-L0-feature-pack
+    owner_route: CTX-DSV2-APE (TASK-POC / SWU-APE-001..003, after DEC-DSV2-APE-L0-DOMAIN)
+    evidence:
+      - {label: L0 feature pack, target: "[repo-root]/projects/domainspec-v2/impl/spec/features/financial-settlement/SPEC.md", kind: path}
+
+  - gap_id: GAP-DSV2-APE-CARD-TRIAGE
+    context_id: CTX-DSV2-APE
+    summary: >-
+      The v1 pattern-library (25 concept cards + 29 relationship cards + context packs) is owned but NOT
+      triaged into v2 — the largest build-from-owned opportunity not yet triaged. It is the authoring / card
+      layer (human voice + Evidence) above the .schema.yml gates. Relationship cards can now consume R3A root
+      relationship authority but still need triage.
+    severity: low
+    treatment: triage-into-v2-card-layer
+    owner_route: CTX-DSV2-APE (TASK-CARDS / SWU-APE-006/007/009) + IMPORT-MANIFEST
+    evidence: [ART-DSV2-APE]
 
 definitions:
   - definition_id: DEF-DSV2-TWO-PLANE
@@ -443,7 +577,7 @@ artifacts:
   - artifact_id: ART-DSV2-REFORMULATE-BATCH1
     path: development/reformulate-batch1/
     status: candidate
-    notes: DESIGN + WORK-PACK + layering (invoke design+plan). 7 SWUs R1-R6b; NOT executed. R3 carries R3-P1/P2/P3 catalog-coverage additions from the toy.
+    notes: DESIGN + WORK-PACK + layering (invoke design+plan). R3A executed and passed (root relationship authority + endpoint/content-edge validation). Remaining SWUs R1/R2/R4/R5/R6a/R6b still need task-session execution before the freeze gate closes.
   - artifact_id: ART-DSV2-IMPORT-TRIAGE
     path: research/2026-06-29-v1-import-triage/findings.md
     status: active
@@ -467,15 +601,28 @@ artifacts:
   - artifact_id: ART-DSV2-META-TYPE-FORMALIZATION
     path: development/meta-type-formalization/
     status: candidate
-    notes: invoke define+design+plan — formalize the 25 meta-types into checkable criteria (by category) + edge signatures + a content validator (validate-content). 6 SWUs MT0-MT5 (UI deferred). PUBLIC criteria, engine δ-rules private. Feeds batch-1 R2 (TAXONOMY formal) + R7 (DS-D1 system definition).
+    notes: >-
+      MT0-MT4 + MT-INST executed for backend scope: 14 node schemas, 31 active root relationship signatures,
+      edge-aware validate-content, aggregate validate wiring, and machine instance generation/validation. MT5 UI
+      remains deferred; tools/lib extraction is residue. PUBLIC criteria, engine δ-rules private.
   - artifact_id: ART-DSV2-DEFINITIONS
     path: definitions/
     status: active
-    notes: Canonical local definitions surface — cards domainspec-v2-D1..D5 (all active, 3-voice). Companions backfilled 2026-07-01 to the current mint baseline (INDEX + DRIFT-AUDIT + LOCALIZATION-ROUTE + reviews/). Drift audit verdict flag — 2 governance kind cards owed.
+    notes: Canonical local definitions surface — active governance/synthesis cards plus DS-D2/DS-D8 root relationship definitions; D16 layering governance and D17 drift governance added 2026-07-02. Companions synced; definition drift audit verdict pass.
   - artifact_id: ART-DSV2-METATYPE-DEFINITIONS
     path: development/meta-type-definitions/
     status: candidate
-    notes: invoke define+design+plan — promote the meta-type vocabulary to real definitions. 3 tiers (CANDIDATES.md = 50-item owner approval list); Tier 1 = 25 meta-types DS-D1/D2 via R7, Tier 2 = 10 method terms domainspec-v2-D6+ via definitions-governance, Tier 3 = 15 schema-format terms (document, not define). Approval-gated — no promotion until owner marks the rows.
+    notes: invoke define+design+plan — promote the meta-type vocabulary to real definitions. DS-D2/DS-D8 relationship cards promoted from R3A root authority; DS-D1 backend cards remain candidate; UI-11 deferred to MT5; Tier 3 schema-format terms remain document-not-define.
+  - artifact_id: ART-DSV2-APE
+    path: development/architecture-pattern-enforcement/
+    status: candidate
+    notes: >-
+      invoke define+design+plan — the architecture-pattern enforcement program (full scope). SPEC + GLOSSARY +
+      architecture-bundle (6 views) + implementation-layering (L0-L3) + execution-pack + WORK-PACK
+      (SWU-APE-001..009; TASK-EDGE/UNCONSTRUCT downstream enforcement/formalism). Evidence =
+      research/2026-07-02-architecture-patterns-enforcement/. L0 node plane is witnessed on financial-settlement;
+      R3A unblocks the edge plane but dynamic enforcement is still active residue. Candidate discipline — owes
+      owner-promotion.
 
 recompositions:
   - recomposition_id: REC-DSV2-GREEN

@@ -44,9 +44,13 @@ files now would be placeholders. Until then the grouping is explicit here and th
 ### domainspec-v2-C1. Primary Source Boundary
 Validation mode: review
 
-The official primary source is the DomainSpec language spec (`impl/spec/`) + research
-`DEFINITIONS.md` + the per-feature pack. Every other source is supporting, related, analogy, local
-inference, or open residue. v1 and cav2 are supporting (harvested precedent), never authority.
+The official primary source is the DomainSpec v2 root authority and definition surface plus
+the per-feature pack. Root `authority/` owns governance; root `definitions/` owns canonical
+language terms, relationship/edge-signature authority, and tracked load-bearing definitions.
+Implementation artifacts under `impl/` are implementation surfaces, executable consumers, or
+projections/views of root authority unless a root owner decision explicitly promotes one.
+Every other source is supporting, related, analogy, local inference, or open residue. v1 and
+cav2 are supporting (harvested precedent), never authority.
 
 ### domainspec-v2-C2. Claim ≤ Evidence
 Validation mode: review
