@@ -29,8 +29,8 @@ SWU keeps the moat boundary (no δ-rules). See [REFRESH-2026-07-02.md](./REFRESH
 | **MT0** | L0 | schema + **Entity** exemplar + minimal validator | card schema fixed (DES-D1 confirmed); Entity criterion runs; Entity positive passes, VO-shaped negative **rejected as Entity** |
 | **MT1** | L1 | **Structural** — Value Object, Enum | each has a criterion + pos/neg fixtures; Entity/VO discriminate |
 | **MT2** | L1 | **Behavioral** — Operation, Query, Calculation, Rule, Policy, Workflow, Saga | each has a criterion + pos/neg fixtures; **Rule≠Policy** discriminates (boolean vs strategy) |
-| **MT3** | L2 | **Connective** (Interface, Event, Mapping) + **Lifecycle** (State Machine) + **edge signatures** (DS-D8) | all 14 backend types criteria; 29 edge-participation signatures; validator checks edges (bad-endpoint rejected) |
-| **MT4** | L2/L3 | **content validator** (`validate-content`) | validates a real aspect file by all backend types + edges; a seeded violation flips it; wired to validation-governance |
+| **MT3** | L2 | **Connective** (Interface, Event, Mapping) + **Lifecycle** (State Machine) + **edge signatures** (DS-D8) | all 14 backend types criteria; 31 active root relationship signatures; validator checks edges (bad-endpoint rejected) |
+| **MT4** | L2/L3 | **content validator** (`validate-content`) | validates a real aspect file by all backend types + root relationship edges; a seeded violation flips it; wired to validation-governance and aggregate `validate` |
 | **MT5** | L3 | **UI-*** (11 types) — deferred | (deferred; validate-before-broaden) |
 | **MT-INST** | L2/L3 | **machine-generated instance validation** — generate `<concept>.instance.yml` + validate instances against the schema (refresh 2026-07-02) | a generator emits a YAML instance conforming to each concept's meta-type schema; the instance validator accepts a conforming instance and rejects a malformed one (round-trip); automated test; public structural (moat-safe) |
 
@@ -63,17 +63,18 @@ Global gate each SWU: `npm run validate` + `npm run engine:test` + `npm run tool
 - **Verification:** all 7 Behavioral types runnable; the "Common Confusion" pairs are mechanically separable.
 
 ## MT3 — Connective + Lifecycle + edge signatures  (L2)
-- **Status: NODES DONE (2026-07-02); edges deferred to R3.** Built the 4 connective/lifecycle types (Interface/Event/Mapping/State Machine) as schema+md pairs + pos/neg fixtures + tests via declared-attributes (+ `attribute-present` rule kind for multi-value keys like `interface_kind`/`direction`). **All 14 backend node types now formalized (schemas=14).** `tools:test` 18/18; gate green. **Edge half (29 signatures + edge checks) split as MT3b — BLOCKED on batch-1 R3** (reformulated `RELATIONSHIPS.md` is the source of truth).
-- **Write scope:** Interface, Event, Mapping, State Machine criteria; the **29 edge-participation signatures** (DS-D2/DS-D8) in `RELATIONSHIPS.md` (or `definitions/`); extend `validate-content` to check edges.
-- **Steps:** criteria for the 4 types; for each of the 29 edges, state `source.type`/`target.type`; validator checks each declared edge's endpoints against the signature.
+- **Status: NODES DONE (2026-07-02); EDGE CHECKS LANDED BY R3A.** Built the 4 connective/lifecycle types (Interface/Event/Mapping/State Machine) as schema+md pairs + pos/neg fixtures + tests via declared-attributes (+ `attribute-present` rule kind for multi-value keys like `interface_kind`/`direction`). **All 14 backend node types now formalized (schemas=14).** `tools:test` 18/18; gate green. R3A supplies the root relationship authority (`definitions/relationships/relationships.yml`) with **31 active canonical signatures** plus generated/deprecated/deferred sections; `validate-content` now checks declared feature edges against that authority.
+- **Write scope:** Interface, Event, Mapping, State Machine criteria; root relationship signatures (DS-D2/DS-D8) in `definitions/relationships/relationships.yml`; implementation projection in `impl/spec/RELATIONSHIPS.md`; schema `edge_participation` evidence slices.
+- **Steps:** criteria for the 4 types; for each active root relationship signature, state `source.type`/`target.type`; validator checks each declared edge's endpoints against the signature.
 - **Impl detail:** edge signatures are governed by `domainspec-v2-D3` admissibility (widen/collapse/reject rulings apply — e.g. `queries : Behavioral→Entity`). Bad-endpoint edge (e.g. `enforces` with a Calculation source) → violation.
-- **Validation:** all 14 backend types criteria present; 29 edge signatures present; a bad-endpoint fixture rejected.
-- **Verification:** every backend type + edge has a checkable signature.
+- **Validation:** all 14 backend types criteria present; 31 active root signatures present; bad-endpoint and generated-view fixtures rejected.
+- **Verification:** every backend type + active relationship signature has a checkable signature; schema edge-participation evidence agrees with root authority.
 
 ## MT4 — Content validator  (L2/L3)
-- **Write scope:** `impl/tools/validate-content.ts` (complete) + `impl/tools/tests/validate-content.test.ts` (complete) + npm scripts `validate:content` + `tools:test` (fold `tools:test` into the validation aggregate) + a real aspect-file fixture.
-- **Steps:** finish `validate-content(aspect_file)` = per-concept type-criterion + per-edge signature checks over a whole aspect file; emit a violations report; wire as a validation-governance method (add to `npm run validate`).
-- **Impl detail:** extends `validate-relationships` (edges) with per-type content checks; distinct from `engine lint`; **no δ-rule import**. Inputs: aspect file + criteria + signatures. Output: `{valid, violations[]}`.
+- **Status: EDGE-AWARE VALIDATOR LANDED BY R3A.** `validate-content` now runs per-concept type criteria plus root relationship signature checks over whole aspect files; `validate:content` and `tools:test` are included in the aggregate `npm run validate`.
+- **Write scope:** `impl/tools/validate-content.ts` (complete) + `impl/tools/tests/validate-content.test.ts` (complete) + npm scripts `validate:content` + `tools:test` + a real aspect-file fixture.
+- **Steps:** finish `validate-content(aspect_file)` = per-concept type-criterion + per-edge signature checks over a whole aspect file; emit a violations report; wire as a validation-governance method.
+- **Impl detail:** extends `validate-relationships` (edges) with per-type content checks; distinct from `engine lint`; **no δ-rule import**. Inputs: aspect file + criteria + root relationship signatures. Output: `{valid, violations[]}`.
 - **Validation:** on a valid feature pack → clean; seed one type-violation + one edge-violation → each flips RC non-zero (discriminating); `npm run validate`+`engine:test` stay green.
 - **Verification:** a reviewer confirms the validator's accept/reject matches the criteria on the fixture.
 

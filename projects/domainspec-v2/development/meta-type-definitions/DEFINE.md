@@ -38,7 +38,8 @@ for the meta-type surface.
 ## Scope — three tiers (the candidate list details each)
 - **Tier 1 — domain meta-types (DS-D1) + edge verbs (DS-D2).** The 25 concept types; the 14 backend now carry a
   formal criterion (their schema), the 11 UI are descriptive-only (criterion deferred). Owner route: **batch-1
-  R7** (the DS-D1/D2 home in `impl/spec/DEFINITIONS.md`), now realizable because the criteria exist.
+  R7** into root `definitions/DEFINITIONS.md` + `definitions/DEFINITIONS-INDEX.md`; implementation schemas are
+  cited evidence, not definition authority.
 - **Tier 2 — method/framework terms.** meta-type, category, formal criterion, edge-participation signature,
   content validator, instance, instance validator, aspect file, Concept Registry. Owner route:
   **definitions-governance**, root `definitions/DEFINITIONS.md` (`domainspec-v2-D6+`).
@@ -49,7 +50,8 @@ for the meta-type surface.
 ## Non-goals
 - Auto-promoting any term (approval-gated).
 - Formalizing UI-11 criteria (deferred; those definitions stay descriptive).
-- Defining edge-verb signatures (that is MT3b / R3; edge-verb definitions wait on the reformulated RELATIONSHIPS).
+- Defining edge-verb signatures (that is R3A root relationship authority; edge-verb definition cards consume
+  `definitions/relationships/relationships.yml` after owner approval).
 - Re-deriving or exposing the engine `src/rules` δ-rules (moat) — meta-type definitions **cite** the public
   `.schema.yml`, never the derivation.
 

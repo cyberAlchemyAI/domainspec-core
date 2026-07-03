@@ -5,7 +5,8 @@
 > On approval, each tier routes to its owner: **Tier 1 → batch-1 R7**, **Tier 2 → definitions-governance**,
 > **Tier 3 → a schema-format reference** (recommended: documented, not defined). No card is written before approval.
 
-- **Tier 1** — domain meta-types (`DS-D1`) + edge verbs (`DS-D2`): **25** candidates (14 backend + 11 UI).
+- **Tier 1** — domain meta-types (`DS-D1`) + edge verbs/signatures (`DS-D2`/`DS-D8`): **25** meta-type
+  candidates (14 backend + 11 UI) plus the R3A relationship class now promoted.
 - **Tier 2** — method / framework terms (`domainspec-v2-D6+`): **10** candidates.
 - **Tier 3** — schema-format / implementation vocabulary: **15** candidates (7 rule kinds + 8 attribute keys).
 - **Total: 50 candidates.**
@@ -50,9 +51,10 @@ Each card's Formal voice = its schema criterion; Evidence links the `.schema.yml
 | 24 | Adapter | DS-D1.24 | shape coercion between API and UI | DEFER | |
 | 25 | State Indicator | DS-D1.25 | a visual state signal (loading/error/empty) | DEFER | |
 
-### 1c. Edge verbs (`DS-D2`) — **recommend: DEFER to MT3b / R3**
-The 29 relationship verbs + their endpoint signatures depend on R3's reformulated `RELATIONSHIPS.md`. Not listed
-per-verb here — approve the class to defer, or request the per-verb list once R3 lands.
+### 1c. Edge verbs (`DS-D2`) + relationship signatures (`DS-D8`) — **APPROVED + PROMOTED 2026-07-02**
+R3A has landed the root relationship authority in `definitions/relationships/relationships.yml` with 31 active
+canonical signatures plus generated/deprecated/deferred sections. The class-level owner gate was consumed by
+definitions-governance; canonical cards now live as `DS-D2` and `DS-D8` in root `definitions/DEFINITIONS.md`.
 
 ---
 
@@ -64,7 +66,7 @@ per-verb here — approve the class to defer, or request the per-verb list once 
 | 26 | meta-type | domainspec-v2-D6 | one of the 25 DomainSpec concept types (the node alphabet) | PROMOTE | |
 | 27 | category | domainspec-v2-D7 | the grouping a meta-type belongs to (Structural / Behavioral / Connective / Lifecycle / UI) | PROMOTE | |
 | 28 | formal criterion | domainspec-v2-D8 | a checkable predicate: a concept is a well-formed T iff `<criterion>` | PROMOTE | |
-| 29 | edge-participation signature | domainspec-v2-D9 | which edges a type may be source/target of (endpoint typing); aliased `DS-D8` in schemas — see DD-D1 | PROMOTE | |
+| 29 | edge-participation signature | domainspec-v2-D9 | method/framework term for endpoint participation; cites DS-D8 as the domain relationship-signature authority, not an alias | PROMOTE DONE | |
 | 30 | content validator | domainspec-v2-D10 | tool checking an aspect file: each concept satisfies its criterion + each edge its signature | PROMOTE | |
 | 31 | instance | domainspec-v2-D11 | a concept normalized to structured YAML conforming to its meta-type schema | PROMOTE | |
 | 32 | instance validator | domainspec-v2-D12 | checks a machine-generated instance against its schema criterion | PROMOTE | |
@@ -109,7 +111,7 @@ pull any up to Tier 2 if you disagree.
 | --- | --- | --- |
 | 1a backend meta-types | 14 | **PROMOTE** (DS-D1.1–14, via R7; criteria exist) |
 | 1b UI meta-types | 11 | **DEFER** (descriptive; criterion pending MT5) |
-| 1c edge verbs | (class) | **DEFER** to MT3b / R3 |
+| 1c edge verbs + signatures | (class) | **PROMOTE DONE** (DS-D2/DS-D8 active from R3A authority) |
 | 2 method terms | 10 | **PROMOTE** (domainspec-v2-D6–D15) |
 | 3 schema-format vocab | 15 | **DOCUMENT** (not canonical) |
 

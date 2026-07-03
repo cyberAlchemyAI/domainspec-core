@@ -46,7 +46,9 @@ Each meta-type becomes a **card** carrying a checkable criterion, filed under it
 **Rule (Behavioral).**
 - Formal criterion: a **Formal cell that parses to a boolean predicate** over named inputs (no state mutation).
 - Required structure: an `ID | Rule | Formal` row whose Formal expression is boolean-typed.
-- Edge participation: SOURCE of `enforces` (+ `enforces-cross`); never a TARGET of `applies` (that's a Policy inbound). *(Governed by `domainspec-v2-D3`: `enforces` ≠ `applies`.)*
+- Edge participation: SOURCE of `enforces`; never a TARGET of `applies` (that's a Policy inbound).
+  `enforces-cross` is deprecated/collapsed into `enforces` plus cross-feature metadata. *(Governed by
+  `domainspec-v2-D3`: `enforces` ≠ `applies`.)*
 - Distinguisher vs Policy: Rule **blocks** (boolean); Policy **selects** (strategy).
 - Negative fixture: a "Formal cell returning a chosen strategy/branch, not a boolean" → **rejected as Rule** (it's a Policy).
 
@@ -54,6 +56,12 @@ Each meta-type becomes a **card** carrying a checkable criterion, filed under it
 - Signature: `source.type = Rule ∧ target.type = Operation`.
 - Check: both endpoints resolve to declared types matching the signature; else a violation.
 - Negative fixture: `enforces` with a Calculation source → **rejected** (calculates, not enforces).
+
+**Relationship authority (R3A).**
+- Root machine authority: `definitions/relationships/relationships.yml`.
+- Human companion: `definitions/relationships/relationships.md`.
+- Implementation projection: `impl/spec/RELATIONSHIPS.md`.
+- Current active canonical signatures: `31`; generated views such as `owned-by` are not authored edges.
 
 These show the shape: a criterion is a predicate over the aspect file's *structure* (tables/fields/Formal
 cells) + the declared types — checkable without running the implementation.

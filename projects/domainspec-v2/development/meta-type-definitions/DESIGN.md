@@ -15,7 +15,7 @@ promotion_boundary: PUBLIC vocabulary; canonical definitions cite public `.schem
 ## 1. Tiering (what deserves a canonical definition)
 | Tier | Terms | Canonical? | Scheme / home | Owner route |
 | --- | --- | --- | --- | --- |
-| **1** | 25 meta-types + edge verbs | yes — 14 backend now (criterion exists); 11 UI descriptive; edge verbs R3-gated | `DS-D1` / `DS-D2` in **root `definitions/DEFINITIONS.md`** (`#ds-d1-meta-type-system`), NOT impl/ — DD-D3 resolved | definitions-governance (R7 redirected here) |
+| **1** | 25 meta-types + edge verbs | yes — 14 backend now (criterion exists); 11 UI descriptive; edge verbs/signatures promoted from R3A | `DS-D1` / `DS-D2` / `DS-D8` in **root `definitions/DEFINITIONS.md`** (`#ds-d1-meta-type-system`), NOT impl/ — DD-D3 resolved | definitions-governance (R7 redirected here) |
 | **2** | method/framework terms (8) | yes | `domainspec-v2-D6+` in `definitions/DEFINITIONS.md` | **definitions-governance** |
 | **3** | criterion rule kinds (7) + declared-attribute keys (8) | no — **document**, not define | a schema-format reference (`meta-types/README.md` or SCHEMA-CONSTITUTION-local) | layering-governance |
 
@@ -36,15 +36,18 @@ reconciled. **No auto-promotion** (definitions-governance: candidate promotion i
 
 ## 5. Index + drift-audit
 Each promoted card gets a `DEFINITIONS-INDEX.md` row and is reconciled by `DEFINITION-DRIFT-AUDIT.md` (already
-backfilled to the mint baseline). The 2 owed governance cards (layering/drift governance,
-`GAP-DSV2-GOVERNANCE-CARDS`) are adjacent work, not in this package's scope.
+backfilled to the mint baseline). The prior governance-card gap (layering/drift governance,
+`GAP-DSV2-GOVERNANCE-CARDS`) is now closed by `domainspec-v2-D16` and `domainspec-v2-D17`; the cards remain
+adjacent work, not part of this package's meta-type-definition scope.
 
 ## 6. Coordination with R7 + meta-type-formalization (no duplication)
 Tier 1 **is** R7's DS-D1/D2 content — now concrete because the criteria exist. The DS-D1 cards land in **root
 `definitions/DEFINITIONS.md`** (DD-D3), citing the `impl/spec/meta-types/*.schema.yml` machine files; **R7 is
 redirected** from its old `impl/spec/DEFINITIONS.md` home to point the spec at root `definitions/`. Edge verbs
-(DS-D2) wait on **MT3b / R3** (reformulated `RELATIONSHIPS.md`). This package authors the candidate cards; the
-owner (you) approves each; definitions-governance writes them.
+(DS-D2) and relationship signatures (DS-D8) now consume **R3A** root relationship authority
+(`definitions/relationships/relationships.yml`) and have been promoted by definitions-governance. This package
+still owns candidate review for remaining terms; the owner (you) approves each before definitions-governance
+writes them.
 
 ## 7. Views coverage
 Context (§1 tiering) · Structure (§2 card format) · Data ([CANDIDATES.md](./CANDIDATES.md)) · Behavior (§4
