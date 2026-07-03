@@ -18,6 +18,11 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
+import {
+  loadRelationshipAuthority,
+  validateRelationshipSpecFile,
+} from "./lib/relationship-signatures";
+
 type Criterion = {
   rule: string;
   column?: string;
@@ -44,6 +49,10 @@ type Violation = {
 const args = process.argv.slice(2);
 const mode = getArg("--mode") || "strict";
 const schemaDir = resolve(process.cwd(), getArg("--schema-dir") || "spec/meta-types");
+const relationshipsPath = resolve(
+  process.cwd(),
+  getArg("--relationships") || "../definitions/relationships/relationships.yml",
+);
 const singleFile = getArg("--file");
 const featuresRoot = resolve(process.cwd(), getArg("--features-root") || "spec/features");
 
@@ -63,10 +72,24 @@ if (targets.length === 0) {
 
 const violations: Violation[] = [];
 let conceptsChecked = 0;
+let edgesChecked = 0;
 const skippedRules = new Set<string>();
+const relationshipAuthority = loadRelationshipAuthority(relationshipsPath);
 
 for (const file of targets) {
   const lines = readFileSync(file, "utf-8").split(/\r?\n/);
+  const relationshipResult = validateRelationshipSpecFile(file, relationshipAuthority);
+  edgesChecked += relationshipResult.edgesChecked;
+  for (const relationshipViolation of relationshipResult.violations) {
+    violations.push({
+      file: relationshipViolation.specPath,
+      concept: relationshipViolation.value,
+      type: "Relationship",
+      reason: `${relationshipViolation.className}: ${relationshipViolation.detail}`,
+      line: relationshipViolation.line,
+    });
+  }
+
   const registry = parseTableForSection(lines, "Concept Registry");
   if (!registry) {
     continue; // no declared concepts here (e.g. the sample fixture) — nothing to validate
@@ -118,7 +141,10 @@ for (const rule of skippedRules) {
 
 if (violations.length === 0) {
   console.log(
-    `validate-content: PASS (${conceptsChecked} concept(s) checked in ${targets.length} file(s); schemas=${schemasByType.size})`,
+    `validate-content: PASS (` +
+      `${conceptsChecked} concept(s) checked, ` +
+      `${edgesChecked} edge(s) checked in ${targets.length} file(s); ` +
+      `schemas=${schemasByType.size})`,
   );
   process.exit(0);
 }

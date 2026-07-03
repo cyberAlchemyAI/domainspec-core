@@ -330,23 +330,27 @@ Promotion boundary: local method vocabulary (DomainSpec v2); a public shape chec
 
 ## domainspec-v2-D9. edge-participation signature
 
-Source kind: method-vocabulary; local-inference  *(aliased `DS-D8` in the schemas)*
+Source kind: method-vocabulary; local-inference  *(method term that cites domain authority `DS-D8`)*
 
-Evidence: [impl/spec/RELATIONSHIPS.md](../impl/spec/RELATIONSHIPS.md) · [meta-types/](./meta-types/meta-types.md) (each card's edge-participation slice)
+Evidence: [relationships.yml](./relationships/relationships.yml) ·
+[relationships.md](./relationships/relationships.md) · [meta-types/](./meta-types/meta-types.md)
+(each card's edge-participation slice)
 
 Formal voice:
 
 ```text
 edge-participation signature (DS-D8) =
-  the endpoint typing of an edge verb:  verb : source.type -> target.type.
-  a declared edge is admissible iff its endpoints' meta-types match the signature.
+  the method term for asking whether a meta-type may participate
+  as source or target of a declared relationship.
+  It is realized by DS-D8, the domain relationship-signature authority.
 ```
 
 Plain-language voice: the who-may-connect-to-whom rule — for each edge verb, the allowed source and target
 meta-types; a declared edge with wrong endpoints is rejected.
 
-Domain-context voice: the DS-D8 slice each meta-type card lists (SOURCE of / TARGET of); the 29 signatures
-land at MT3b / R3. Distinct from the edge verbs themselves (`DS-D2`).
+Domain-context voice: the DS-D8 slice each meta-type card lists (SOURCE of / TARGET of) is now loaded from
+root `definitions/relationships/relationships.yml`. Current authority has 31 active signatures; generated
+views such as `owned-by` are navigation only. Distinct from the relationship verb vocabulary (`DS-D2`).
 
 Use carefully: the signature types the **endpoints**; *which* edges earn a type is edge-law admissibility
 (`domainspec-v2-D3`), a separate question.
@@ -360,11 +364,11 @@ definitions-governance; gate = owner decision; blocking question = "do both endp
 verb's signature?"; residue → `definitions/reviews/`.
 
 Confirm contract (promotion — build-from-owned on the cav2 promotion gate): promotes when = owner approves +
-the 29 signatures land (MT3b, after R3) + the validator checks endpoints + no open contradiction; gate =
-definitions-governance owner gate; status on confirm = candidate → active.
+DS-D8 authority lands in `definitions/relationships/relationships.yml` + the validator checks endpoints + no
+open contradiction; gate = definitions-governance owner gate; status on confirm = active.
 
-Promotion boundary: local method vocabulary (DomainSpec v2); the signatures depend on R3's reformulated
-RELATIONSHIPS.
+Promotion boundary: local method vocabulary (DomainSpec v2); it names the participation-check method and
+does not redefine DS-D8.
 
 ## domainspec-v2-D10. content validator
 
@@ -593,6 +597,453 @@ contradiction; gate = definitions-governance owner gate; status on confirm = can
 Promotion boundary: local method vocabulary (DomainSpec v2); declared-value checks, never the engine semantic
 parse (moat).
 
+## domainspec-v2-D16. Layering governance
+
+Source kind: local-inference (domain-originated; RATIFIED kind)
+
+Evidence: [authority/AUTHORITY-MODEL.md](../authority/AUTHORITY-MODEL.md),
+[authority/constitutions/domainspec-v2-CONSTITUTION.md](../authority/constitutions/domainspec-v2-CONSTITUTION.md),
+[development/reformulate-batch1/implementation-layering.md](../development/reformulate-batch1/implementation-layering.md),
+[domainspec-v2-D3](#domainspec-v2-d3), [DS-D8](#ds-d8)
+
+Formal voice:
+
+```text
+layering governance =
+  the domain-local authority over structural fidelity:
+    each concept's architectural layer assignment
+    AND the layer-law / Edge-Law admissibility of typed dependencies.
+
+layer-admissible relation =
+  a relation admitted by active DS-D8 relationship signature authority
+  AND not forbidden by the C6 layer-law / adapter-line boundary.
+
+forbidden edge =
+  unconstructible, not merely flagged after construction.
+```
+
+Plain-language voice: layering governance decides what may be connected, before any validator reports
+whether a specific document obeys that structure.
+
+Domain-context voice: one of v2's three ratified domain-originated governances. It owns the law side of the
+layering -> validation -> drift chain: layer membership, C6, and Edge-Law admissibility. Validation tools
+exercise this law, but do not own it.
+
+Use carefully: a layer assignment is evidence for structure, not itself a dependency-law verdict. DS-D8
+identifies active relationship signatures; layering governance decides whether the structural dependency is
+admissible under the layer-law and adapter-line boundary.
+
+Misuse warning: do not approve a cross-layer edge the law forbids, treat a forbidden edge as a warning, or
+collapse the layering law into the validation check that detects violations.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a relation is treated as
+constructible while C6, the adapter-line boundary, or active DS-D8 authority forbids it" -> challenges the
+term; owner route = definitions-governance; gate = owner decision; blocking question = "is the structure
+layer-admissible, and is the validator checking rather than owning the law?"; residue -> `definitions/reviews/`.
+
+Confirm contract (promotion -- build-from-owned on the cav2 promotion gate): promotes when = owner ratifies
+the kind (done 2026-06-29) + the L2 attestation seal (BLK-DSV2-L2-ATTESTATION) + no open contradiction; gate =
+definitions-governance owner gate; status = active (RATIFIED; L2 seal pending).
+
+Promotion boundary: RATIFIED local DomainSpec v2 governance kind; authority over structural fidelity only.
+It does not amend cav2's closed governance enumeration, external policy, or the implementation contract.
+
+## domainspec-v2-D17. Drift governance
+
+Source kind: local-inference (domain-originated; RATIFIED kind)
+
+Evidence: [authority/AUTHORITY-MODEL.md](../authority/AUTHORITY-MODEL.md),
+[authority/constitutions/domainspec-v2-CONSTITUTION.md](../authority/constitutions/domainspec-v2-CONSTITUTION.md),
+[impl/spec/DRIFT-CONVERGENCE.md](../impl/spec/DRIFT-CONVERGENCE.md),
+[domainspec-v2-D1](#domainspec-v2-d1)
+
+Formal voice:
+
+```text
+drift governance =
+  the domain-local authority over temporal fidelity / convergence:
+    whether measurable drift across
+    {semantic, contract, runtime, governance, coordination}
+    is being reduced over time with evidence.
+
+convergence verdict =
+  an evidence-backed trend over a stream of drift signals,
+  never one passing check or one observed signal.
+
+write-authority proviso =
+  no modeling surface may write directly to a node's promotion-status.
+```
+
+Plain-language voice: drift governance decides whether the spec and reality are getting closer over time,
+using evidence across the drift surfaces instead of one red/green signal.
+
+Domain-context voice: one of v2's three ratified domain-originated governances. It owns the drift/convergence
+ledger and temporal-fidelity verdicts. `DRIFT-CONVERGENCE.md` is the operational reference; Saturn is the
+actuator that acts on drift signals, not the authority that defines drift governance.
+
+Use carefully: drift is the divergence signal (`domainspec-v2-D1`); drift governance is the authority for
+trend judgement; Saturn is the corrective loop. Keep those three roles separate.
+
+Misuse warning: do not declare convergence from a single passing check, let a modeling surface write
+promotion status, or conflate the Saturn control loop with the governance kind.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a convergence claim is
+made from one signal, or a drift/control surface writes promotion-status directly" -> challenges the term;
+owner route = definitions-governance; gate = owner decision; blocking question = "is there evidence-backed
+reduction of drift over time across the relevant surfaces without violating write authority?"; residue ->
+`definitions/reviews/`.
+
+Confirm contract (promotion -- build-from-owned on the cav2 promotion gate): promotes when = owner ratifies
+the kind (done 2026-06-29) + the L2 attestation seal (BLK-DSV2-L2-ATTESTATION) + no open contradiction; gate =
+definitions-governance owner gate; status = active (RATIFIED; L2 seal pending).
+
+Promotion boundary: RATIFIED local DomainSpec v2 governance kind; authority over temporal fidelity and
+convergence only. It does not write promotion status, define Saturn, or transfer authority to external policy.
+
+## domainspec-v2-D18. relationship non-collapse test
+
+Source kind: method-vocabulary; local-inference; build-from-owned
+
+Evidence: [domainspec-v2-D3](#domainspec-v2-d3) ·
+[relationships.yml](./relationships/relationships.yml) · [relationships.md](./relationships/relationships.md) ·
+[development/r3-research/ds-d1-metatype-category-boundary/findings.md](../development/r3-research/ds-d1-metatype-category-boundary/findings.md)
+
+Formal voice:
+
+```text
+relationship non-collapse test =
+  DomainSpec v2's DS-D2/DS-D8-local import of the CAV2 non-collapse discipline
+  through domainspec-v2-D3 edge-law admissibility.
+
+relationship_non_collapse_properties =
+  {
+    reject/allow decision,
+    derivation consequence,
+    projection consequence,
+    composition path consequence,
+    owner route consequence,
+    generated artifact consequence
+  }
+
+  a candidate relationship is eligible for authored DS-D2/DS-D8 authority
+  only if removing that relationship would change at least one member of
+  relationship_non_collapse_properties.
+
+otherwise =
+  keep the candidate as prose, display notation, generated view,
+  attribute/scope metadata, reading aid, or deferred design pressure.
+```
+
+Plain-language voice: an edge deserves its own relationship name only if taking the edge away changes one of
+the named properties. If nothing changes except wording, it collapses into an existing edge, metadata, a
+generated view, or explanation.
+
+Domain-context voice: this is the R3/DS-D8 promotion filter and the local use of the CAV2 non-collapse test.
+It explains why `owned-by` is generated view only, `enforces-cross` collapsed into `enforces` plus scope
+metadata, `depends-on` remains deferred, and `owns` / `belongs-to` stay distinct because they change
+validation, projection, and owner-routing behavior.
+
+Use carefully: the test decides whether a relationship should be first-class. It does not by itself prove
+that every endpoint signature, validator rule, or category law has been implemented.
+
+Misuse warning: do not promote a relationship because the phrase is intuitive, repeated in docs, easy to draw
+as `Source --[verb]--> Target`, or useful as reverse navigation. Do not cite an unnamed "consequence"; cite at
+least one tracked property card.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a relationship remains
+first-class after removal changes none of the tracked non-collapse properties" -> challenges the term; owner
+route = definitions-governance; gate = owner decision; blocking question = "which tracked property changes if
+this relationship is removed?"; residue ->
+`definitions/reviews/`.
+
+Confirm contract: active after owner-approved R3A root relationship authority and endpoint validation; future
+candidate relationships must cite at least one changed non-collapse property before promotion. Gate =
+definitions-governance owner gate.
+
+Promotion boundary: local DomainSpec v2 method vocabulary; governs relationship promotion, not DS-D1
+meta-type formation and not full category-law authority.
+
+## domainspec-v2-D20. reject/allow decision
+
+Source kind: method-vocabulary; local-inference
+
+Evidence: [domainspec-v2-D18](#domainspec-v2-d18) · [DS-D8](#ds-d8) ·
+[validate-relationships.ts](../impl/tools/validate-relationships.ts)
+
+Formal voice:
+
+```text
+reject/allow decision =
+  an explicit validator or owner-gate outcome where a candidate relationship changes
+  whether a declared edge, endpoint pairing, fixture, or relationship label is accepted
+  or rejected.
+```
+
+Plain-language voice: the edge matters if it changes a red/green decision: this relationship row is allowed,
+that one is rejected.
+
+Domain-context voice: DS-D8 endpoint validation is the primary current witness. For example,
+`Operation --[emits]--> Event` is rejected while `Entity --[emits]--> Event` is allowed. A new edge can claim
+this property only when the validator or owner gate would make a different allow/reject decision.
+
+Use carefully: a human preference is not a reject/allow decision unless it is tied to a named gate, validator,
+fixture, or owner review outcome.
+
+Misuse warning: do not count "clearer wording" as a reject/allow change.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a relationship claims a
+reject/allow property with no validator, fixture, or owner-gate decision that changes" -> challenges the term;
+owner route = definitions-governance; gate = owner decision; blocking question = "which decision flips when
+this relationship is removed?"; residue -> `definitions/reviews/`.
+
+Confirm contract: active when a relationship proposal cites the changed validator/fixture/owner-gate result.
+Gate = definitions-governance owner gate.
+
+Promotion boundary: local method vocabulary; one property for D18, not a standalone relationship authority.
+
+## domainspec-v2-D21. derivation consequence
+
+Source kind: method-vocabulary; local-inference
+
+Evidence: [domainspec-v2-D18](#domainspec-v2-d18) · [domainspec-v2-D2](#domainspec-v2-d2) ·
+[impl/spec/TEST-PIPELINE.md](../impl/spec/TEST-PIPELINE.md)
+
+Formal voice:
+
+```text
+derivation consequence =
+  a change in which build-time obligations, tests, generated checks, or validation duties
+  are derived from a spec because the relationship exists.
+```
+
+Plain-language voice: the edge matters if it causes different checks or obligations to be produced.
+
+Domain-context voice: DomainSpec keeps the public derivation contract separate from private engine
+delta-rules. A relationship may pass this property when it changes the public obligation set, but it must not
+require importing private derivation logic into DS-D8.
+
+Use carefully: derivation consequence is about the public contract and observable obligations, not private
+engine internals.
+
+Misuse warning: do not claim derivation consequence merely because implementation code happens to read the
+edge; the derived obligation must be named.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a relationship claims a
+derivation property but no derived obligation changes" -> challenges the term; owner route =
+definitions-governance; gate = owner decision; blocking question = "which obligation, test, or check changes
+if this relationship is removed?"; residue -> `definitions/reviews/`.
+
+Confirm contract: active when a relationship proposal cites the changed public obligation or test surface.
+Gate = definitions-governance owner gate.
+
+Promotion boundary: local method vocabulary; does not expose private derivation delta-rules.
+
+## domainspec-v2-D22. projection consequence
+
+Source kind: method-vocabulary; local-inference
+
+Evidence: [domainspec-v2-D18](#domainspec-v2-d18) ·
+[relationships.md](./relationships/relationships.md) · [impl/spec/RELATIONSHIPS.md](../impl/spec/RELATIONSHIPS.md)
+
+Formal voice:
+
+```text
+projection consequence =
+  a change in a non-authoritative view, read model, markdown companion,
+  implementation-facing projection, or navigation surface that is generated from
+  or constrained by canonical relationship authority.
+```
+
+Plain-language voice: the edge matters if it changes a view people or tools rely on, while the root authority
+still remains elsewhere.
+
+Domain-context voice: `impl/spec/RELATIONSHIPS.md` and display notation are projections. `owned-by` is also a
+projection consequence of `owns`, but because it is generated reverse navigation it is not an authored
+canonical edge.
+
+Use carefully: projection consequence can justify a generated view, but not automatically a first-class
+authored relationship.
+
+Misuse warning: do not treat a projection as the source of truth.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a relationship claims a
+projection property but no governed view/read model changes" -> challenges the term; owner route =
+definitions-governance; gate = owner decision; blocking question = "which projection changes, and is it
+authoritative or generated?"; residue -> `definitions/reviews/`.
+
+Confirm contract: active when a relationship proposal cites the changed projection and its authority boundary.
+Gate = definitions-governance owner gate.
+
+Promotion boundary: local method vocabulary; projections remain subordinate to root relationship authority.
+
+## domainspec-v2-D23. composition path consequence
+
+Source kind: method-vocabulary; local-inference; build-from-owned
+
+Evidence: [domainspec-v2-D3](#domainspec-v2-d3) · [domainspec-v2-D18](#domainspec-v2-d18) ·
+[relationships.yml](./relationships/relationships.yml)
+
+Formal voice:
+
+```text
+composition path consequence =
+  a change in how typed concepts compose across relationship authority:
+    allowed source/target path,
+    relationship chain,
+    feature-boundary crossing,
+    ordered operation path,
+    or code-pattern connection.
+```
+
+Plain-language voice: the edge matters if it creates a different path through the typed graph or a different
+way code/spec pieces connect.
+
+Domain-context voice: this is the closest D18 property to the original CAV2 non-collapse idea in D3:
+an edge earns its own type when it composes differently. `enforces-cross` failed because scope metadata kept
+the same composition path; `owns` and `belongs-to` survive because they support different Entity-to-Entity
+paths.
+
+Use carefully: composition path consequence is not full category-law composition. It is finite DS-D8 path
+behavior inside the typed composable graph fragment.
+
+Misuse warning: do not claim this property from visual graph layout alone.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a relationship claims a
+composition path property but collapses into the same typed path as an existing edge plus metadata" ->
+challenges the term; owner route = definitions-governance; gate = owner decision; blocking question = "which
+typed composition path changes?"; residue -> `definitions/reviews/`.
+
+Confirm contract: active when a relationship proposal cites the changed typed path or code-pattern connection.
+Gate = definitions-governance owner gate.
+
+Promotion boundary: local method vocabulary; finite DS-D8 composition only, not full category law.
+
+## domainspec-v2-D24. owner route consequence
+
+Source kind: method-vocabulary; local-inference
+
+Evidence: [domainspec-v2-D18](#domainspec-v2-d18) ·
+[authority/AUTHORITY-MODEL.md](../authority/AUTHORITY-MODEL.md) ·
+[relationships.yml](./relationships/relationships.yml)
+
+Formal voice:
+
+```text
+owner route consequence =
+  a change in which governance owner, approval path, review gate, or remediation
+  route is responsible because the relationship exists.
+```
+
+Plain-language voice: the edge matters if it sends the problem to a different owner.
+
+Domain-context voice: DS-D1 formation, DS-D2 labels, DS-D8 signatures, validators, and implementation
+projections have different owners. A new relationship can claim this property only when removal changes the
+owner route, not merely because someone wants review.
+
+Use carefully: owner route consequence is about authority routing, not who happened to edit the file.
+
+Misuse warning: do not use this property to bypass the root definitions owner.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a relationship claims an
+owner-route property but the same owner and gate would handle the case without it" -> challenges the term;
+owner route = definitions-governance; gate = owner decision; blocking question = "which owner route changes?";
+residue -> `definitions/reviews/`.
+
+Confirm contract: active when a relationship proposal cites the changed owner/gate/remediation route. Gate =
+definitions-governance owner gate.
+
+Promotion boundary: local method vocabulary; does not transfer authority between owners.
+
+## domainspec-v2-D25. generated artifact consequence
+
+Source kind: method-vocabulary; local-inference
+
+Evidence: [domainspec-v2-D18](#domainspec-v2-d18) ·
+[relationships.yml](./relationships/relationships.yml) · [domainspec-v2-D11](#domainspec-v2-d11)
+
+Formal voice:
+
+```text
+generated artifact consequence =
+  a change in a generated file, generated view, generated instance, fixture,
+  test artifact, or machine-readable output caused by the relationship's presence.
+```
+
+Plain-language voice: the edge matters if generation produces something different.
+
+Domain-context voice: generated reverse navigation such as `owned-by`, generated instances, fixtures, and
+test artifacts can all witness this property. The property may justify generation without promoting the
+generated thing as an authored canonical relationship.
+
+Use carefully: generated artifact consequence must name the generated artifact and the source authority it is
+derived from.
+
+Misuse warning: do not treat generated output as canonical source just because it changed.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a relationship claims a
+generated artifact property but no generated artifact changes or provenance is named" -> challenges the term;
+owner route = definitions-governance; gate = owner decision; blocking question = "which generated artifact
+changes, and what source produced it?"; residue -> `definitions/reviews/`.
+
+Confirm contract: active when a relationship proposal cites the changed generated artifact and its provenance.
+Gate = definitions-governance owner gate.
+
+Promotion boundary: local method vocabulary; generation evidence is not canonical promotion.
+
+## domainspec-v2-D19. typed composable graph fragment
+
+Source kind: method-vocabulary; local-inference
+
+Evidence: [relationships.yml](./relationships/relationships.yml) ·
+[relationships.md](./relationships/relationships.md) · [domainspec-v2-D4](#domainspec-v2-d4) ·
+[DS-D8](#ds-d8)
+
+Formal voice:
+
+```text
+typed composable graph fragment =
+  a finite directed graph surface where:
+    nodes are typed by DS-D1 meta-types,
+    edges are typed by active DS-D2 relationship verbs,
+    endpoint admissibility is checked by DS-D8 signatures,
+    composition is limited to declared finite obligations in root relationship authority.
+
+fragment boundary =
+  this does not claim full category law:
+    no general identity,
+    no general closure under composition,
+    no associativity proof,
+    no path-equation proof,
+    no functorial preservation proof,
+  unless a later owner route turns those into finite validator obligations.
+```
+
+Plain-language voice: DomainSpec has a typed graph that can compose enough to validate and generate useful
+structure, but it is not yet claiming the full mathematical package of category laws.
+
+Domain-context voice: R3A relationship authority uses this phrase for the current DS-D8 state: 31 active
+relationship signatures with typed endpoints, generated/deferred/deprecated edge policies, and validators
+that reject noncanonical or unconstructible edges. Category laws remain a separate future formalization route.
+
+Use carefully: use this phrase when describing the current deployed relationship model. Use "category" only
+for the broader future formalization once identity, closure, associativity, path laws, and preservation checks
+are finite validator obligations.
+
+Misuse warning: do not infer full category-theory authority from the word "composable"; current composition
+is finite and signature-bound, not general.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a relationship path is
+claimed category-law valid without finite identity/composition/closure/associativity/path obligations" ->
+challenges the term; owner route = definitions-governance; gate = owner decision; blocking question = "is
+this claim inside the finite DS-D8 fragment or does it require full category laws?"; residue ->
+`definitions/reviews/`.
+
+Confirm contract: active with R3A DS-D8 root relationship authority; promote to fuller category-law language
+only through a separate owner route with finite validator obligations. Gate = definitions-governance owner gate.
+
+Promotion boundary: local DomainSpec v2 method vocabulary; names the current deployed graph authority without
+promoting full category law.
+
 ## DS-D1 — Meta-Type System
 
 The **DomainSpec domain-vocabulary** scheme (`DS-D*`) — the node/edge alphabet — is maintained **separately**
@@ -604,11 +1055,105 @@ from this file's governance/method scheme (`domainspec-v2-D*`), and linked here:
 - Criterion (per type, machine-checkable): `impl/spec/meta-types/<category>/<type>.schema.yml`
 
 Status: `DS-D1.1..14` (backend) authored as candidate cards (1-by-1, owner-reviewed voices; each with a
-challenge + confirm contract). `DS-D1.15..25` (UI) deferred (MT5); edge verbs (`DS-D2`) + the edge signature
-(`DS-D8`) follow after batch-1 R3.
+challenge + confirm contract). `DS-D1.15..25` (UI) deferred (MT5). Relationship verbs (`DS-D2`) and
+relationship signatures (`DS-D8`) are active from R3A root authority.
+
+## DS-D2 — Relationship Verb Set
+
+Source kind: domain-vocabulary; active (R3A)
+
+Evidence: [relationships.yml](./relationships/relationships.yml) (machine authority) ·
+[relationships.md](./relationships/relationships.md) (human companion) ·
+[impl/spec/RELATIONSHIPS.md](../impl/spec/RELATIONSHIPS.md) (implementation projection)
+
+Formal voice:
+
+```text
+DS-D2 relationship verb =
+  a canonical authored relationship label admitted by the active
+  signatures in definitions/relationships/relationships.yml.
+
+canonical authored verb =
+  present in at least one active relationship signature
+  AND not listed only as generated_view, deprecated, or deferred.
+```
+
+Plain-language voice: DS-D2 is the approved vocabulary for arrows in a DomainSpec graph: names like
+`enforces`, `queries`, `owns`, and `orchestrates`. If a label is only generated (`owned-by`), deprecated
+(`enforces-cross`), or deferred (`depends-on`), authors do not use it as a canonical edge.
+
+Domain-context voice: feature specs use DS-D2 labels in Concept Graph tables. The validator reads the root
+relationship authority, not the implementation projection, and rejects noncanonical labels before any endpoint
+meaning is considered.
+
+Use carefully: DS-D2 names the relationship label. DS-D8 types that label's allowed endpoints.
+
+Misuse warning: do not treat a display notation such as `Operation --[emits]--> Event` as authoritative if it
+is not backed by an active root signature. `owned-by` is a generated view for navigation, not an authored
+relationship.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a relationship label is
+authored as canonical while root authority lists it only as generated, deprecated, or deferred" -> challenges
+DS-D2; owner route = definitions-governance; gate = owner decision; blocking question = "is this label backed
+by an active root signature?"; residue -> `definitions/reviews/`.
+
+Confirm contract: active after owner-approved R3A root authority, `validate:rels` endpoint validation, and no
+open contradiction. Gate = definitions-governance owner gate.
+
+Promotion boundary: local DomainSpec v2 domain vocabulary; source of truth is root `definitions/relationships/`.
+
+## DS-D8 — Relationship Signature Authority
+
+Source kind: domain-vocabulary; active (R3A)
+
+Evidence: [relationships.yml](./relationships/relationships.yml) (machine authority) ·
+[relationships.md](./relationships/relationships.md) (human companion) ·
+[validate-relationships.ts](../impl/tools/validate-relationships.ts) (endpoint validator) ·
+[relationship-signatures.ts](../impl/tools/lib/relationship-signatures.ts) (shared loader/checker)
+
+Formal voice:
+
+```text
+DS-D8 relationship signature =
+  an active tuple in definitions/relationships/relationships.yml:
+    (verb, source_type(s), target_type(s), scope, multiplicity, lifecycle status).
+
+edge admissibility check =
+  a declared edge a --[verb]--> b is constructible iff:
+    verb resolves to an active DS-D2 label
+    AND type(a) is in the signature source set
+    AND type(b) is in the signature target set.
+```
+
+Plain-language voice: DS-D8 is the typed contract behind every allowed relationship. It says not only that
+`enforces` is a valid word, but that only a Rule may enforce an Operation.
+
+Domain-context voice: R3A currently defines 31 active signatures. `orchestrates` has separate Workflow and
+Saga signatures; `owned-by` is generated navigation; `depends-on`, Operation-returned Value Object, and the
+Event payload/publisher split stay deferred until new evidence proves distinct behavior.
+
+Use carefully: DS-D8 is endpoint authority, not a full category-law proof system. Category laws remain a
+separate future formalization route. Current wording is
+`typed composable graph fragment` (`domainspec-v2-D19`), and new or disputed relationships must pass the
+relationship non-collapse test (`domainspec-v2-D18`).
+
+Misuse warning: do not count generated/deprecated/deferred entries as active signatures, and do not use schema
+`edge_participation` slices as independent authority; they are evidence checked against DS-D8.
+
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a declared relationship
+passes while its endpoint meta-types do not match any active root signature" -> challenges DS-D8; owner route =
+definitions-governance; gate = owner decision; blocking question = "which active signature permits this
+source/target pair?"; residue -> `definitions/reviews/`.
+
+Confirm contract: active after owner-approved R3A root authority, schema participation consistency, endpoint
+fixtures, `validate:rels`, `validate:content`, and no open contradiction. Gate = definitions-governance owner
+gate.
+
+Promotion boundary: local DomainSpec v2 domain vocabulary; implementation surfaces may project DS-D8 but must
+not redefine it.
 
 <!-- SKELETON note: D1-D2 mint-seeded; D3-D5 consolidated 2026-07-01 into this canonical home (was the
      separate governance surface DSV2-D1/2/3, now removed). Companions backfilled 2026-07-01 to the current
      mint baseline: DEFINITIONS-INDEX + DEFINITION-DRIFT-AUDIT + DEFINITION-LOCALIZATION-ROUTE + reviews/.
-     Still owed: layering-governance + drift-governance kind cards (tracked as owed in the drift audit).
+     Governance-kind cards for layering-governance and drift-governance were added 2026-07-02 as D16/D17.
      DS-D1 meta-type system lives in meta-types/ (human meta-types.md + machine meta-types.yml), linked above. -->

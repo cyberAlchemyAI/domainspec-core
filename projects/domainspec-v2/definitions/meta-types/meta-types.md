@@ -36,9 +36,10 @@ Entity =
 Plain-language voice: a thing you'd give an ID in a database and track over time — User, Order,
 PaymentTransaction. Its sameness is its identity, not its field values.
 
-Domain-context voice: the primary "actor" node in a DomainSpec aspect file; SOURCE of `performs` / `contains`
-/ `emits`, TARGET of `queries` / `produces-for` / `derives` (the DS-D8 edge slice). Checked by the content
-validator against `entity.schema.yml`.
+Domain-context voice: the primary "actor" node in a DomainSpec aspect file; SOURCE of `belongs-to` /
+`contains` / `emits` / `owns` / `performs`, TARGET of `belongs-to` / `derives` / `maps` / `owns` /
+`produces-for` / `queries` (the DS-D8 edge slice). Checked by the content validator against
+`entity.schema.yml`.
 
 Use carefully: "identity" is a *declared* field flag (the `Identity` column), not inferred; an Entity MAY link
 a State Machine but need not.
@@ -84,8 +85,8 @@ their amount + currency match; there's no serial number to chase. Sameness is by
 that's what makes it a Value Object.
 
 Domain-context voice: the reusable value pieces embedded inside Entities and shared across features — `Money`
-on a Payment, `Address` on a User. It has fields but no lifecycle and no state machine; SOURCE of `contains`,
-TARGET of `contains` / `produces-for`. Checked by the content validator against `value-object.schema.yml`.
+on a Payment, `Address` on a User. It has fields but no lifecycle and no state machine; TARGET of `contains`
+under DS-D8. Checked by the content validator against `value-object.schema.yml`.
 
 Use carefully: equality is a *declared* clause (a prose marker), not proven semantic equality.
 
@@ -127,8 +128,9 @@ Plain-language voice: the allowed-values guardrail on a field — a fixed, close
 `PaymentMethod` is exactly {CREDIT_CARD, BANK_TRANSFER, WALLET}, so a field typed by it can't hold a typo or a
 fourth option nobody defined. If you can write out every value and it almost never grows, it's an enum.
 
-Domain-context voice: constrains what a field may hold and drives per-value branching; TARGET of `contains`
-(a field's type may be an enum). Checked by the content validator against `enum.schema.yml`.
+Domain-context voice: constrains what a field may hold and drives per-value branching; no active DS-D8
+relationship signatures currently target or source Enum. Checked by the content validator against
+`enum.schema.yml`.
 
 Use carefully: "finite + rarely-changes" is the intent; a set that grows constantly is data, not an enum.
 
@@ -169,9 +171,9 @@ Operation =
 Plain-language voice: a verb that leaves a mark — after it runs, the world is different: a payment charged, an
 order cancelled. Not a plain CRUD "update"; a named action with business meaning and postconditions.
 
-Domain-context voice: the write-side node; SOURCE of `performs` / `emits` / `produces-for`, TARGET of
-`enforces` / `applies` (rules guard it, policies steer it). Checked by the content validator against
-`operation.schema.yml`.
+Domain-context voice: the write-side node; SOURCE of `produces` / `produces-for` / `queries`, TARGET of
+`applies` / `calculates` / `enforces` / `exposes` / `mutates` / `orchestrates` / `performs` /
+`triggers-cross`. Checked by the content validator against `operation.schema.yml`.
 
 Use carefully: `state_change` is the *declared* attribute (the `Attribute | Value` table), not inferred from a body.
 
@@ -212,8 +214,8 @@ Query =
 Plain-language voice: a question, not an action — ask it twice and get the same answer, with no side effects.
 It defines what consumers may ask for, with which filters, in what shape.
 
-Domain-context voice: the read-side node; SOURCE of `queries`. Checked by the content validator against
-`query.schema.yml`.
+Domain-context voice: the read-side node; SOURCE of `queries`, TARGET of `exposes` / `fetches` under DS-D8.
+Checked by the content validator against `query.schema.yml`.
 
 Use carefully: `state_change` is the *declared* attribute (the `Attribute | Value` table), not inferred.
 
@@ -254,7 +256,7 @@ Calculation =
 Plain-language voice: a formula with a name — same inputs, same output, every time. FeeCalculation =
 amount × rate. No state, no side effects; just a value out.
 
-Domain-context voice: SOURCE of `derives`, TARGET of `performs` (operations use it). Checked by the content
+Domain-context voice: SOURCE of `calculates` / `queries`, TARGET of `applies`. Checked by the content
 validator against `calculation.schema.yml`.
 
 Use carefully: `formal_return_type` is the *declared* attribute (the `Attribute | Value` table), not inferred
@@ -297,8 +299,8 @@ Rule =
 Plain-language voice: a business constraint with a formal boolean expression — unambiguous and directly
 testable. It guards state transitions: the condition under which an operation may execute.
 
-Domain-context voice: SOURCE of `enforces`; **never** a TARGET of `applies` (that is a Policy inbound; per
-`domainspec-v2-D3`). Checked by the content validator against `rule.schema.yml`.
+Domain-context voice: SOURCE of `enforces`, TARGET of `mirrors`; **never** a TARGET of `applies` (that is a
+Policy inbound; per `domainspec-v2-D3`). Checked by the content validator against `rule.schema.yml`.
 
 Use carefully: `formal_return_type` is the *declared* attribute (the `Attribute | Value` table); a Rule
 **blocks** (boolean), it does not select.
@@ -384,8 +386,8 @@ Workflow =
 Plain-language voice: coordinates several operations across time inside one feature/bounded context.
 OrderFulfillment, UserOnboarding — one owner, many steps.
 
-Domain-context voice: SOURCE of `performs`, TARGET of `applies` (policies steer its decision points). Checked
-by the content validator against `workflow.schema.yml`.
+Domain-context voice: SOURCE of `orchestrates` for same-feature Operation coordination; no active DS-D8 target
+signatures. Checked by the content validator against `workflow.schema.yml`.
 
 Use carefully: `scope` is the *declared* attribute (the `Attribute | Value` table); a Workflow stays within
 one feature.
@@ -427,8 +429,8 @@ Saga =
 Plain-language voice: long-running coordination across features / bounded contexts, with compensation for
 partial failures. WireTransferSaga: accounts → compliance → transfer.
 
-Domain-context voice: SOURCE of `performs`, TARGET of `applies`. Checked by the content validator against
-`saga.schema.yml`.
+Domain-context voice: SOURCE of `orchestrates` for cross-feature Operation coordination; no active DS-D8 target
+signatures. Checked by the content validator against `saga.schema.yml`.
 
 Use carefully: `scope` is the *declared* attribute (the `Attribute | Value` table); a Saga spans features.
 
@@ -469,8 +471,8 @@ Interface =
 Plain-language voice: a typed contract at a system edge — what a consumer may call, with what payload, and
 what comes back. External (METHOD + path) or internal (a method signature).
 
-Domain-context voice: the boundary node exposing the domain to consumers (edge signatures deferred to
-MT3b / R3). Checked by the content validator against `interface.schema.yml`.
+Domain-context voice: the boundary node exposing the domain to consumers; SOURCE of `exposes`, TARGET of
+`contracts` / `maps` under DS-D8. Checked by the content validator against `interface.schema.yml`.
 
 Use carefully: `interface_kind` is a *declared* attribute (the `Attribute | Value` table); any value
 (`external` / `internal`) present satisfies it.
@@ -512,8 +514,8 @@ Event =
 Plain-language voice: a past fact about the system's state — something that already happened
 (PaymentCompleted, OrderShipped), broadcast so other parts can react without the emitter knowing them.
 
-Domain-context voice: TARGET of `emits` (operations emit events). Checked by the content validator against
-`event.schema.yml`.
+Domain-context voice: SOURCE of `transitions` / `triggers-cross`, TARGET of `emits` / `produces` under DS-D8.
+Checked by the content validator against `event.schema.yml`.
 
 Use carefully: `temporal` is the *declared* attribute (the `Attribute | Value` table); an Event names what
 already happened, not a request.
@@ -555,8 +557,8 @@ Mapping =
 Plain-language voice: a translator between two shapes: source field → target field, plus defaults, computed
 fields, and validation at the boundary.
 
-Domain-context voice: the shape-conversion node (edge signatures deferred to MT3b / R3). Checked by the
-content validator against `mapping.schema.yml`.
+Domain-context voice: the shape-conversion node; SOURCE of `maps` under DS-D8. Checked by the content
+validator against `mapping.schema.yml`.
 
 Use carefully: `direction` is a *declared* attribute (the `Attribute | Value` table); any value
 (`inbound` / `outbound` / `bidirectional`) present satisfies it.
@@ -598,8 +600,8 @@ State Machine =
 Plain-language voice: an entity's lifecycle made explicit — all states, which transitions are legal, and
 what each transition requires and does.
 
-Domain-context voice: the lifecycle node an Entity links to (edge signatures deferred to MT3b / R3). Checked
-by the content validator against `state-machine.schema.yml`.
+Domain-context voice: the lifecycle node; TARGET of `reflects` / `transitions` under DS-D8. Checked by the
+content validator against `state-machine.schema.yml`.
 
 Use carefully: `has_transitions` is the *declared* attribute (the `Attribute | Value` table); a State Machine
 has moves between states.

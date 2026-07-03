@@ -11,6 +11,21 @@ promotion_boundary: local; proposal only — the R3 owner decides. No files muta
 
 # Handoff → R3 — edge-law gaps found by USE (not by artifact review)
 
+## R3A resolution note (2026-07-02)
+This handoff has been consumed by R3A rather than rewritten:
+
+- **R3-F5 Entity→Entity association:** deferred as a modeling decision; structural associations remain field-table
+  structure until a distinct relationship verb proves implementation behavior.
+- **R3-F6 Saga orphaned:** resolved by adding an active `Saga --orchestrates--> Operation` signature in root
+  relationship authority.
+- **R3-F4 schema participation contradiction:** resolved by deriving schema `edge_participation` consistency
+  from root signatures and validating it in `validate:rels`.
+- **S7 `produces` vs `emits`:** resolved by endpoint signatures: `Operation --produces--> Event` and
+  `Entity --emits--> Event`.
+
+Canonical authority now lives in `definitions/relationships/relationships.yml`; `impl/spec/RELATIONSHIPS.md`
+is only an implementation projection.
+
 ## Why this exists
 A blind novice authored a real multi-entity spec (library lending) using only the DomainSpec surface. Its
 two hard **blockers were the edge model**, not type discrimination. The R3 review

@@ -93,6 +93,12 @@ test("committed Entity fixtures behave (ok passes, bad rejected)", () => {
   assert.equal(bad.status, 1, bad.stdout + bad.stderr);
 });
 
+test("financial-settlement feature checks node criteria and valid relationship edges", () => {
+  const r = runValidator(["--file", "spec/features/financial-settlement/SPEC.md"]);
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  assert.match(r.stdout, /5 edge\(s\) checked/);
+});
+
 test("Value Object fixtures behave (ok passes, bad rejected as VO)", () => {
   const ok = runValidator(["--file", "spec/__fixtures__/mt/value-object-ok.md"]);
   assert.equal(ok.status, 0, ok.stdout + ok.stderr);

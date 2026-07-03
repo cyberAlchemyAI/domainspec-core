@@ -85,16 +85,16 @@ axiom points at a dropped v1 rule; A2 explicitly names the adapter-line = layeri
 normative layer-law; each concept carries its layer. *Semantic acceptance:* every concept type is one
 `validate-code-tags` accepts; layer assignment ≠ dependency verdict (C6 wording preserved).
 
-**R3 · RELATIONSHIPS** — *before:* 29 **allowed** edges + registry format. *after:* the allowed set
-**plus an explicit forbidden-edge law** (which endpoint pairs are unconstructible) + endpoint type
-signatures, **plus the catalog-coverage additions the toy T2b proved are missing**
-(`../../research/spec-ontology-unification/toy/catalog.md` §C/§D): **R3-P1** add an `Operation→Entity`
-read edge (or generalize `queries` to Behavioral→Entity); **R3-P2** add an `Operation→ValueObject`
-(returns) edge; **R3-P3** resolve the Event payload+publisher composite (keep one node, or split
-Structural payload / Connective publisher). *Semantic acceptance:* `validate-relationships` PASS at the
-**new** canonical-edge count (**>29** — R3-P1/P2 add edges); a forbidden edge in a fixture is rejected as
-*unconstructible*, not merely flagged (C6); C11 named as the check side; the two T1-found relations
-(op-reads-Entity, op-returns-VO) now have a typed edge.
+**R3 · RELATIONSHIPS** — *before:* 29 **allowed** edges + registry format. *after:* root relationship
+authority lives in `definitions/relationships/relationships.yml` (machine) with
+`definitions/relationships/relationships.md` (human); `impl/spec/RELATIONSHIPS.md` is an implementation
+projection only. The authority states endpoint type signatures, generated views, deprecated aliases, and
+deferred candidates. *Semantic acceptance:* `validate-relationships` reads the root authority by default and
+passes at the reconciled active signature count (`canonicalSignatures=31`); a forbidden endpoint pair in a
+fixture is rejected as *unconstructible*, not merely flagged (C6); C11 named as the check side. Catalog
+coverage is handled by widening `queries` to `Behavioral -> Entity` and keeping `produces-for` for
+`Operation -> Entity`; `Operation -> ValueObject` returns and the Event payload+publisher composite remain
+deferred candidates rather than active canonical relationships.
 
 **R3 edge-law admissibility (build-from-owned — CAV2-D22 / D29 / D16).** An edge type is admissible only
 if it adds a distinction *not silently redundant* with an existing axis (**CAV2-D22 orthogonal
@@ -102,9 +102,10 @@ classification**); the concept-type / relation-kind / composition-shape / featur
 independent unless an explicit typed coupling relates them (**CAV2-D29 axis orthogonality** →
 **CAV2-D16 typed coupling**). Operational test: **an edge earns its own type iff it composes into
 different code.** Rulings: (a) `enforces` vs `applies` — **keep** (guard-vs-select is different code);
-(b) `enforces` vs `enforces-cross` — **collapse candidate** (same code; make cross-feature a typed flag,
+(b) `enforces-cross` — **collapse/deprecate** into `enforces` plus cross-feature metadata (same code path,
 D16); (c) `queries` for `Calculation→Policy` — **reject** (redundant with `applies`; D22/D29); (d)
-`applies : Policy → {Operation, Calculation}` — **widen** (endpoint generalization, no new label). Scope:
+`applies : Policy → {Operation, Calculation}` — **widen** (endpoint generalization, no new label); (e)
+`owned-by` — generated inverse view for `owns`, not an authored canonical edge. Scope:
 governance/classification orthogonality only — **not** Lean/Hilbert projector orthogonality (excluded from
 cav2 authority). Recorded: `DEC-DSV2-EDGE-ADMISSIBILITY` in the v2 Craft ledger.
 
@@ -129,11 +130,13 @@ overlap with the credibility constitution's rules; OQ-2 crosswalk closed. *(R6b 
 credibility-constitution per-governance split.)*
 
 **R7 · DEFINITIONS (net-new — the migration's omission).** *before:* v1 had **no**
-`impl/spec/DEFINITIONS.md` — the domain vocabulary lived under `research/projects/domainspec/definitions/`,
-and the 6-doc Batch-1 set copied none of it (a real gap: TAXONOMY/RELATIONSHIPS *use* meta-types + verbs
-with no definitions home). *after:* a **new** `impl/spec/DEFINITIONS.md` aggregating **DS-D1 meta-types**
-(the 25 TAXONOMY types, from R2) + **DS-D2 edge verbs** (the RELATIONSHIPS edges, from R3) into typed
-definitions with stable IDs, and serving as the **concept-registry-aggregation** home
+root v2 domain-vocabulary read model — the domain vocabulary lived under
+`research/projects/domainspec/definitions/`, and the 6-doc Batch-1 set copied none of it (a real gap:
+TAXONOMY/RELATIONSHIPS *use* meta-types + verbs with no definitions home). *after:* root
+`definitions/DEFINITIONS.md` and `definitions/DEFINITIONS-INDEX.md` aggregate **DS-D1 meta-types**
+(the 25 TAXONOMY types, from R2), **DS-D2 edge verbs** (the RELATIONSHIPS edges, from R3), and **DS-D8
+relationship signatures** into typed definitions with stable IDs, and serve as the
+**concept-registry-aggregation** home
 (`definitions-governance` M2-C1). *Semantic acceptance:* every meta-type/verb TAXONOMY/RELATIONSHIPS use
 resolves to a `DS-D*` definition (3-voice: formal + plain + domain-context); the concept-registry
 aggregation can read it. **Owner:** `definitions-governance` — distinct from the governance/synthesis vocabulary
@@ -152,14 +155,13 @@ aggregation can read it. **Owner:** `definitions-governance` — distinct from t
   TUNING-LOOP.md, SATURN-L-SYSTEM.md, ADLC-ALIGNMENT.md — none imported to v2 yet (ADLC is Batch-3; others
   may be drop/stub). *Recommend:* repoint to Batch-3 targets or mark "planned", don't leave dangling links
   (C9 link integrity would block).
-- **D4 — Forbidden-edge law form.** How to express "unconstructible" in a Markdown edge-law the validator
-  can check (an explicit forbidden table vs. a typed endpoint-signature the validator derives closure from).
-  *Recommend:* endpoint-signature typing + a small explicit forbidden set; let `validate-relationships`
-  compute admissibility. **Owner/validation-governance decision.**
+- **D4 — Forbidden-edge law form.** **Resolved by R3A.** The root relationship authority is a typed
+  endpoint-signature set with generated/deprecated/deferred sections; `validate-relationships` computes
+  admissibility from that authority and reports nonmatching endpoint pairs as `unconstructible-edge`.
 
 ## 5. Design → plan handoff
 
 Each work-pack SWU's acceptance gains a **"matches §3 target-result"** gate on top of its validator. The 4
-decisions above (D1–D4) are **pre-execution blockers for their specific SWU** (D1→R5, D2→R2, D3→R5/R6a,
-D4→R3) — resolve each before that SWU runs. Distill verdict for the design: **flag** (usable; D1–D4 named
-with owners + recommendations).
+decisions above are **pre-execution blockers for their specific SWU** while open (D1→R5, D2→R2,
+D3→R5/R6a; D4 is closed by R3A). Distill verdict for the design: **flag** (usable; open decisions named
+with owners + recommendations; D4 closed).

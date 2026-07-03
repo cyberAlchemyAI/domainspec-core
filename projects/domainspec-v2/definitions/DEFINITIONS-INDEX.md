@@ -23,13 +23,23 @@ Load-Bearing Term Tracking rule, `C(meta-4)`) is "tracked" iff it has a row here
 | `domainspec-v2-D6` | meta-type | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d6](./DEFINITIONS.md) |
 | `domainspec-v2-D7` | category | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d7](./DEFINITIONS.md) |
 | `domainspec-v2-D8` | formal criterion | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d8](./DEFINITIONS.md) |
-| `domainspec-v2-D9` | edge-participation signature | candidate | method-vocabulary (aliased DS-D8) | [DEFINITIONS.md#domainspec-v2-d9](./DEFINITIONS.md) |
+| `domainspec-v2-D9` | edge-participation signature | active | method-vocabulary (cites DS-D8) | [DEFINITIONS.md#domainspec-v2-d9](./DEFINITIONS.md) |
 | `domainspec-v2-D10` | content validator | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d10](./DEFINITIONS.md) |
 | `domainspec-v2-D11` | instance | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d11](./DEFINITIONS.md) |
 | `domainspec-v2-D12` | instance validator | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d12](./DEFINITIONS.md) |
 | `domainspec-v2-D13` | aspect file | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d13](./DEFINITIONS.md) |
 | `domainspec-v2-D14` | Concept Registry | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d14](./DEFINITIONS.md) |
 | `domainspec-v2-D15` | declared-attributes convention | candidate | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d15](./DEFINITIONS.md) |
+| `domainspec-v2-D16` | Layering governance | active | local-inference (domain-originated; RATIFIED kind) | [DEFINITIONS.md#domainspec-v2-d16](./DEFINITIONS.md) |
+| `domainspec-v2-D17` | Drift governance | active | local-inference (domain-originated; RATIFIED kind) | [DEFINITIONS.md#domainspec-v2-d17](./DEFINITIONS.md) |
+| `domainspec-v2-D18` | relationship non-collapse test | active | method-vocabulary (build-from-owned via D3) | [DEFINITIONS.md#domainspec-v2-d18](./DEFINITIONS.md) |
+| `domainspec-v2-D19` | typed composable graph fragment | active | method-vocabulary | [DEFINITIONS.md#domainspec-v2-d19](./DEFINITIONS.md) |
+| `domainspec-v2-D20` | reject/allow decision | active | method-vocabulary; D18 property | [DEFINITIONS.md#domainspec-v2-d20](./DEFINITIONS.md) |
+| `domainspec-v2-D21` | derivation consequence | active | method-vocabulary; D18 property | [DEFINITIONS.md#domainspec-v2-d21](./DEFINITIONS.md) |
+| `domainspec-v2-D22` | projection consequence | active | method-vocabulary; D18 property | [DEFINITIONS.md#domainspec-v2-d22](./DEFINITIONS.md) |
+| `domainspec-v2-D23` | composition path consequence | active | method-vocabulary; D18 property | [DEFINITIONS.md#domainspec-v2-d23](./DEFINITIONS.md) |
+| `domainspec-v2-D24` | owner route consequence | active | method-vocabulary; D18 property | [DEFINITIONS.md#domainspec-v2-d24](./DEFINITIONS.md) |
+| `domainspec-v2-D25` | generated artifact consequence | active | method-vocabulary; D18 property | [DEFINITIONS.md#domainspec-v2-d25](./DEFINITIONS.md) |
 | `DS-D1` | Meta-Type System (25 types) | candidate | domain-vocabulary | [meta-types/meta-types.md](./meta-types/meta-types.md) · [.yml](./meta-types/meta-types.yml) |
 | `DS-D1.1` | Entity | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
 | `DS-D1.2` | Value Object | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
@@ -45,6 +55,8 @@ Load-Bearing Term Tracking rule, `C(meta-4)`) is "tracked" iff it has a row here
 | `DS-D1.12` | Event | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
 | `DS-D1.13` | Mapping | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
 | `DS-D1.14` | State Machine | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D2` | Relationship Verb Set | active | domain-vocabulary; R3A root authority | [DEFINITIONS.md#ds-d2](./DEFINITIONS.md) · [relationships.yml](./relationships/relationships.yml) |
+| `DS-D8` | Relationship Signature Authority | active | domain-vocabulary; R3A root authority | [DEFINITIONS.md#ds-d8](./DEFINITIONS.md) · [relationships.yml](./relationships/relationships.yml) |
 
 ## Status vocabulary
 - `candidate` — first-cited, carries an `Open / to-ground:` field; not yet validation.
@@ -52,5 +64,5 @@ Load-Bearing Term Tracking rule, `C(meta-4)`) is "tracked" iff it has a row here
 - `deprecated` — superseded; keep the row with its supersedes/superseded-by link (never delete).
 
 <!-- The domain owner maintains this index through the definitions lifecycle. Every row must resolve to a
-     card; the drift audit flags any load-bearing term missing a row. Owed cards (layering-governance,
-     drift-governance) are tracked in the drift audit, not yet indexed here. -->
+     card; the drift audit flags any load-bearing term missing a row. The governance-kind cards
+     layering-governance and drift-governance resolve as domainspec-v2-D16/D17. -->
