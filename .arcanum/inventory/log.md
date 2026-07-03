@@ -1,5 +1,83 @@
 # Inventory Log
 
+## 2026-07-03 ingest — DS-D1 meta-type category boundary strategy result
+
+- Mode: ingest+backfill
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Sources processed: 3 (`projects/domainspec-v2/development/r3-research/ds-d1-metatype-category-boundary/research.md`,
+  `projects/domainspec-v2/development/r3-research/ds-d1-metatype-category-boundary/findings.md`,
+  `telemetry/agents/subagents-dispatch.yaml`)
+- Entries created: 1 synthesis entry
+- Entries updated: 0
+- Index updated: yes
+- Tags updated: no
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass (`git diff --check`, `validate`, `index.json` parse,
+  observability JSONL parse, dispatch close row present)
+- Notes: Backfilled the resolved research dispatch
+  `2026-07-02-dsv2-metatype-category-boundary` as a non-authority
+  strategy-result read model. The result records the P1 trigger, lanes,
+  subagents, dependency flow, double-PASS check-tension gate,
+  registered/closed ledger state, and auditor-accepted finding: DS-D8 is
+  active relationship-signature authority while DS-D1 is staged
+  type-formation authority. Backend `DS-D1.1..14` are shape/fixture-backed
+  candidates; UI `DS-D1.15..25` are endpoint-used but formation-deferred;
+  Saga requires an explicit harden-or-collapse owner route; full category law
+  is deferred.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/domainspec-v2-ds-d1-metatype-category-boundary-strategy-result-synthesis.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/log.md`
+- `projects/domainspec-v2/development/r3-research/ds-d1-metatype-category-boundary/research.md`
+- `projects/domainspec-v2/development/r3-research/ds-d1-metatype-category-boundary/findings.md`
+- `telemetry/agents/subagents-dispatch.yaml`
+
+## 2026-07-02 ingest — first-class category boundary strategy result
+
+- Mode: ingest+backfill
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Sources processed: 5 (`projects/domainspec-v2/research/2026-07-02-first-class-category-boundary/research.md`,
+  `projects/domainspec-v2/research/2026-07-02-first-class-category-boundary/findings.md`,
+  `telemetry/agents/subagents-dispatch.yaml`,
+  `projects/domainspec-v2/development/reformulate-batch1/governance/edge-signature-authority-decisions.md`,
+  `projects/domainspec-v2/development/reformulate-batch1/HANDOFF-novice-test-edge-findings.md`)
+- Entries created: 1 synthesis entry
+- Entries updated: 0
+- Index updated: yes
+- Tags updated: no
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass (`git diff --check`, `index.json` parse,
+  inventory updater tests, shared inventory index validator, observability
+  JSONL parse)
+- Notes: Backfilled the resolved research dispatch
+  `2026-07-02-first-class-category-boundary` as a non-authority
+  strategy-result read model. The result records the P1 trigger, lanes,
+  subagents, dependency flow, revised double-PASS check-tension gate,
+  registered/closed ledger state, and auditor-accepted finding: first-class
+  DomainSpec concepts and relations require stable contrast,
+  examples/non-examples, typed signatures, inverse policy, concrete downstream
+  obligations, and witnessed decision pressure. `depends-on` is deferred until a
+  witness exists; Saga remains conditional; notation is display-only. Also
+  normalized two `strategy-result` inventory records to `kind: entry` while
+  preserving the `strategy-result` tag so the shared index validator passes.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/domainspec-v2-first-class-category-boundary-strategy-result-synthesis.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/log.md`
+- `projects/domainspec-v2/research/2026-07-02-first-class-category-boundary/research.md`
+- `projects/domainspec-v2/research/2026-07-02-first-class-category-boundary/findings.md`
+- `telemetry/agents/subagents-dispatch.yaml`
+
 ## 2026-06-30 ingest — DDD process manager email uniqueness strategy result
 
 - Mode: ingest+backfill
@@ -1373,3 +1451,13 @@ Artifacts:
 - Index: index.json 107 → 116 entries; by_id/by_type/by_tag/by_source/by_status rebuilt from all entries; evidence buckets preserved; jq-parseable.
 - Cross-links: moat thread [[entries-attestation-capability-moat-mvp-synthesis]] / [[entries-moat-stack-and-authority-triage-synthesis]] / [[entries-machine-map-and-moat-synthesis]].
 - Authority: candidate Inventory read models over session source docs; promotes nothing. Owners = decision-gate / sigil-development / validation-governance per doc.
+
+## 2026-07-02 - ingest (strategy-result: domainspec-v2 R3 edge-law formalization review)
+
+- Mode: ingest (subagent strategy-result read model).
+- Entry created (1): entries/domainspec-v2-r3-edge-law-formalization-review-strategy-result-synthesis.md - records dispatch `2026-07-02-r3-edge-law-formalization-review`, the attacker/synthesizer/verifier/auditor flow, and the auditor-accepted four MAJOR R3 change requests.
+- Result: R3 is the current owner route for formalizing edges/relationships. Accepted findings cover endpoint-signature authority, stale count-led R3 acceptance vs edge-law decisions, missing forbidden-edge closure tests, and stale definition/DS-D8 routing.
+- Index: index.json 116 -> 117 entries; index.md +1 Entries row; uncontrolled-tag warnings were pre-existing and non-blocking.
+- Provenance: dispatch opened and closed in telemetry/agents/subagents-dispatch.yaml with `exit_reason: resolved`, `agents_spawned.total: 7`, `loops_used: 1`, and final approver Vlachopulos, Ioannis.
+- Validation: inventory updater dry-run + actual update passed; relationship/content/tool validations were captured in the review artifacts; final JSON/read-model validation recorded separately.
+- Authority: candidate Inventory read model only. It promotes no relationship signature, mutates no R3 canonical file, and leaves implementation to the R3 owner route.
