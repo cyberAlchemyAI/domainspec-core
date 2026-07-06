@@ -1,0 +1,1455 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Craft Mental Model Prototype</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070806;
+      --band: #0d100c;
+      --surface: #121610;
+      --surface-2: #171b15;
+      --ink: #f4f1e8;
+      --muted: #b9b1a2;
+      --dim: #827a6c;
+      --line: rgba(244, 241, 232, 0.14);
+      --line-strong: rgba(244, 241, 232, 0.28);
+      --green: #69d58a;
+      --cyan: #6fd6c8;
+      --amber: #f1bb68;
+      --red: #eb6f7b;
+      --blue: #7aa7ff;
+      --violet: #ba9cff;
+      --shadow: 0 18px 70px rgba(0, 0, 0, 0.42);
+    }
+
+    * {
+      box-sizing: border-box;
+      letter-spacing: 0;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(145deg, rgba(105, 213, 138, 0.11), transparent 28%),
+        linear-gradient(225deg, rgba(241, 187, 104, 0.09), transparent 32%),
+        linear-gradient(180deg, #151912 0%, #090a08 60%, #050504 100%);
+      background-size: 48px 48px, 48px 48px, auto, auto, auto;
+    }
+
+    input[type="checkbox"] {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    button,
+    label {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 12;
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto auto;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(7, 8, 6, 0.86);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(105, 213, 138, 0.42);
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(105, 213, 138, 0.24), rgba(111, 214, 200, 0.08));
+      color: var(--green);
+      font-weight: 900;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      flex: 0 0 auto;
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-size: 0.96rem;
+      line-height: 1.1;
+    }
+
+    .brand-copy span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .layer-controls,
+    .mode-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .layer-toggle,
+    .mode-button,
+    .action-button,
+    .concept-button,
+    .stress-button {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--ink);
+      cursor: pointer;
+      transition: transform 150ms ease, border-color 150ms ease, background 150ms ease, color 150ms ease;
+    }
+
+    .layer-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 10px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 760;
+      user-select: none;
+    }
+
+    .mode-button,
+    .action-button,
+    .stress-button {
+      padding: 8px 11px;
+      font-size: 0.84rem;
+      font-weight: 760;
+    }
+
+    .mode-button[aria-pressed="true"],
+    .stress-button[aria-pressed="true"] {
+      border-color: rgba(105, 213, 138, 0.72);
+      background: rgba(105, 213, 138, 0.16);
+      color: #dfffe8;
+    }
+
+    .layer-toggle:hover,
+    .layer-toggle:focus-visible,
+    .mode-button:hover,
+    .mode-button:focus-visible,
+    .action-button:hover,
+    .action-button:focus-visible,
+    .concept-button:hover,
+    .concept-button:focus-visible,
+    .stress-button:hover,
+    .stress-button:focus-visible {
+      transform: translateY(-1px);
+      border-color: rgba(111, 214, 200, 0.72);
+      outline: none;
+    }
+
+    #toggle-surface:not(:checked) ~ .app [data-lane~="surface"],
+    #toggle-flow:not(:checked) ~ .app [data-lane~="flow"],
+    #toggle-deps:not(:checked) ~ .app [data-lane~="internal_dependencies"],
+    #toggle-deps:not(:checked) ~ .app [data-lane~="external_dependencies"],
+    #toggle-risk:not(:checked) ~ .app [data-lane~="risk_questions"] {
+      opacity: 0.24;
+      filter: saturate(0.45);
+    }
+
+    #toggle-surface:checked ~ .app label[for="toggle-surface"],
+    #toggle-flow:checked ~ .app label[for="toggle-flow"],
+    #toggle-deps:checked ~ .app label[for="toggle-deps"],
+    #toggle-risk:checked ~ .app label[for="toggle-risk"] {
+      border-color: rgba(105, 213, 138, 0.72);
+      background: rgba(105, 213, 138, 0.14);
+      color: var(--ink);
+    }
+
+    main {
+      display: grid;
+      gap: 0;
+    }
+
+    .band {
+      border-bottom: 1px solid var(--line);
+      background: rgba(10, 12, 9, 0.68);
+    }
+
+    .inner {
+      width: min(1440px, calc(100vw - 44px));
+      margin: 0 auto;
+      padding: 26px 0;
+    }
+
+    .hero .inner {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.95fr) minmax(520px, 1.35fr);
+      gap: 28px;
+      align-items: end;
+      min-height: 360px;
+      padding-top: 34px;
+      padding-bottom: 30px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--amber);
+      font-size: 0.82rem;
+      font-weight: 850;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 16px;
+      max-width: 720px;
+      font-size: clamp(2.15rem, 4.2rem, 4.2rem);
+      line-height: 0.96;
+      text-wrap: balance;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      font-size: 1.35rem;
+      line-height: 1.12;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-size: 1rem;
+      line-height: 1.18;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .lead {
+      max-width: 700px;
+      margin-bottom: 0;
+      color: #e4ded1;
+      font-size: 1.08rem;
+    }
+
+    .claim-stack {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .claim-card,
+    .term-card,
+    .row-card,
+    .risk-card {
+      min-height: 118px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.046);
+      padding: 14px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025);
+    }
+
+    .claim-card strong,
+    .term-card strong,
+    .row-card strong,
+    .risk-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+      font-size: 0.92rem;
+    }
+
+    .claim-card span,
+    .term-card span,
+    .row-card span,
+    .risk-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .claim-card:nth-child(1) { border-color: rgba(105, 213, 138, 0.34); }
+    .claim-card:nth-child(2) { border-color: rgba(111, 214, 200, 0.32); }
+    .claim-card:nth-child(3) { border-color: rgba(241, 187, 104, 0.34); }
+    .claim-card:nth-child(4) { border-color: rgba(235, 111, 123, 0.32); }
+
+    .toolbar-note {
+      margin: 12px 0 0;
+      color: var(--dim);
+      font-size: 0.82rem;
+    }
+
+    .workbench .inner {
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr) 350px;
+      gap: 14px;
+      align-items: stretch;
+      min-height: 640px;
+    }
+
+    .rail,
+    .inspector,
+    .map-panel,
+    .lab-panel {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(18, 22, 16, 0.86);
+      box-shadow: var(--shadow);
+    }
+
+    .rail,
+    .inspector,
+    .lab-panel {
+      padding: 16px;
+    }
+
+    .rail {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 12px;
+    }
+
+    .concept-list {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+
+    .concept-button {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 10px;
+      width: 100%;
+      min-height: 66px;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .concept-button .symbol {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .concept-button span {
+      display: block;
+      min-width: 0;
+    }
+
+    .concept-button .name {
+      color: var(--ink);
+      font-weight: 820;
+      line-height: 1.16;
+    }
+
+    .concept-button .plain {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.28;
+    }
+
+    .concept-button.active {
+      border-color: rgba(105, 213, 138, 0.78);
+      background: rgba(105, 213, 138, 0.12);
+    }
+
+    .rail-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .map-panel {
+      position: relative;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      overflow: hidden;
+    }
+
+    .map-head,
+    .map-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(7, 8, 6, 0.48);
+    }
+
+    .map-foot {
+      border-top: 1px solid var(--line);
+      border-bottom: 0;
+      align-items: flex-start;
+    }
+
+    .formula {
+      color: #dfffe8;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .mini {
+      margin: 0;
+      color: var(--dim);
+      font-size: 0.78rem;
+    }
+
+    .model-svg {
+      width: 100%;
+      min-height: 410px;
+      height: 100%;
+      display: block;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 34px 34px;
+    }
+
+    .svg-node {
+      cursor: pointer;
+    }
+
+    .svg-node rect {
+      stroke: rgba(244, 241, 232, 0.26);
+      fill: rgba(18, 22, 16, 0.96);
+      transition: fill 150ms ease, stroke 150ms ease;
+    }
+
+    .svg-node.active rect {
+      stroke: rgba(105, 213, 138, 0.92);
+      fill: rgba(105, 213, 138, 0.18);
+    }
+
+    .svg-node text {
+      fill: var(--ink);
+      font-size: 14px;
+      font-weight: 760;
+      pointer-events: none;
+    }
+
+    .svg-node .sub {
+      fill: var(--muted);
+      font-size: 11px;
+      font-weight: 520;
+    }
+
+    .arrow {
+      stroke: rgba(244, 241, 232, 0.34);
+      stroke-width: 2;
+      marker-end: url(#arrowhead);
+    }
+
+    .feedback {
+      stroke: rgba(241, 187, 104, 0.68);
+      stroke-width: 2;
+      stroke-dasharray: 6 6;
+      marker-end: url(#arrowheadAmber);
+      fill: none;
+    }
+
+    .inspector {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 12px;
+    }
+
+    .inspector-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .token {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 42px;
+      min-height: 34px;
+      border-radius: 8px;
+      background: rgba(105, 213, 138, 0.14);
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .inspector-body {
+      display: grid;
+      gap: 10px;
+    }
+
+    .detail-block {
+      border-left: 3px solid rgba(111, 214, 200, 0.6);
+      padding-left: 12px;
+    }
+
+    .detail-block strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-size: 0.84rem;
+    }
+
+    .detail-block p {
+      margin: 0;
+      font-size: 0.88rem;
+    }
+
+    .ledger-strip {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .ledger-strip li {
+      display: grid;
+      grid-template-columns: 128px 1fr;
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .ledger-strip strong {
+      color: var(--ink);
+      font-size: 0.8rem;
+    }
+
+    .bridge .inner,
+    .philosophy .inner,
+    .reader .inner,
+    .evidence .inner {
+      display: grid;
+      gap: 16px;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.58fr) minmax(300px, 1fr);
+      gap: 24px;
+      align-items: end;
+    }
+
+    .section-head p {
+      margin-bottom: 0;
+    }
+
+    .row-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .row-card {
+      min-height: 142px;
+    }
+
+    .row-card em {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: var(--cyan);
+      font-style: normal;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.72fr) minmax(440px, 1fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .claim-ladder {
+      display: grid;
+      gap: 9px;
+    }
+
+    .ladder-step {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: 12px;
+      min-height: 84px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .ladder-step strong {
+      color: var(--ink);
+      font-size: 0.86rem;
+    }
+
+    .ladder-step span {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .lab-panel {
+      display: grid;
+      grid-template-columns: minmax(270px, 0.7fr) minmax(340px, 1fr);
+      gap: 18px;
+    }
+
+    .stress-list {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+
+    .stress-button {
+      text-align: left;
+    }
+
+    .residue-readout {
+      display: grid;
+      gap: 12px;
+      min-height: 300px;
+      padding: 18px;
+      border: 1px solid rgba(235, 111, 123, 0.32);
+      border-radius: 8px;
+      background: rgba(235, 111, 123, 0.075);
+    }
+
+    .meter {
+      height: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      overflow: hidden;
+    }
+
+    .meter span {
+      display: block;
+      height: 100%;
+      width: var(--meter, 54%);
+      background: linear-gradient(90deg, var(--green), var(--amber), var(--red));
+      transition: width 180ms ease;
+    }
+
+    .reader-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .term-card {
+      min-height: 170px;
+    }
+
+    .term-card small {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: var(--amber);
+      font-size: 0.74rem;
+      font-weight: 830;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
+      gap: 12px;
+    }
+
+    .evidence-box {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .evidence-box ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 6px 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 760;
+    }
+
+    @media (max-width: 1180px) {
+      .topbar {
+        grid-template-columns: 1fr;
+      }
+
+      .layer-controls,
+      .mode-controls {
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .hero .inner,
+      .workbench .inner,
+      .philosophy-grid,
+      .lab-panel,
+      .section-head,
+      .evidence-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .workbench .inner {
+        min-height: unset;
+      }
+
+      .row-grid,
+      .reader-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .inner {
+        width: min(100vw - 28px, 1440px);
+        padding: 20px 0;
+      }
+
+      .topbar {
+        padding: 12px 14px;
+      }
+
+      h1 {
+        font-size: 2.35rem;
+      }
+
+      .claim-stack,
+      .row-grid,
+      .reader-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .map-head,
+      .map-foot {
+        display: grid;
+      }
+
+      .model-svg {
+        min-height: 360px;
+      }
+
+      .ledger-strip li,
+      .ladder-step {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body data-mode="operational">
+  <input id="toggle-surface" type="checkbox" checked>
+  <input id="toggle-flow" type="checkbox" checked>
+  <input id="toggle-deps" type="checkbox" checked>
+  <input id="toggle-risk" type="checkbox" checked>
+
+  <div class="app">
+    <header class="topbar" data-od-id="craft.chrome.topbar">
+      <div class="brand" data-od-id="craft.brand">
+        <div class="mark" aria-hidden="true">C</div>
+        <div class="brand-copy">
+          <strong>Craft Mental Model</strong>
+          <span>Interact with the making loop: intention, schema, artifact, residue, recomposition.</span>
+        </div>
+      </div>
+      <div class="layer-controls" aria-label="Layer controls" data-od-id="craft.layer.controls">
+        <label class="layer-toggle" for="toggle-surface">Surface</label>
+        <label class="layer-toggle" for="toggle-flow">Flow</label>
+        <label class="layer-toggle" for="toggle-deps">Dependencies</label>
+        <label class="layer-toggle" for="toggle-risk">Risk</label>
+      </div>
+      <div class="mode-controls" aria-label="Interpretation mode" data-od-id="craft.mode.controls">
+        <button class="mode-button" type="button" data-mode="operational" aria-pressed="true">Operational</button>
+        <button class="mode-button" type="button" data-mode="formal" aria-pressed="false">Formal</button>
+        <button class="mode-button" type="button" data-mode="philosophy" aria-pressed="false">Philosophy</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="band hero" data-lane="surface" data-od-id="craft.hero">
+        <div class="inner">
+          <div>
+            <p class="eyebrow">A browser-first teaching artifact</p>
+            <h1>Craft is a way to make outputs answer back.</h1>
+            <p class="lead">
+              The simple version: a model does not merely obey a prompt. It translates an intention through a schema into an artifact. Craft keeps the residue visible, then decides whether to repair, stop, route, or open another layer.
+            </p>
+            <div class="status-line" aria-label="Prototype metadata">
+              <span class="badge">l0 static html/svg</span>
+              <span class="badge">source-backed</span>
+              <span class="badge">inference marked</span>
+              <span class="badge">reader terms included</span>
+            </div>
+            <p class="toolbar-note">Use the layer toggles, click any symbol, then try a residue stressor below.</p>
+          </div>
+          <div class="claim-stack" data-od-id="craft.claim.stack">
+            <div class="claim-card" data-od-id="craft.claim.operational">
+              <strong>Operational claim</strong>
+              <span>Craft makes agentic work safer by tracking schema, evidence, blockers, decisions, and residue in a local ledger.</span>
+            </div>
+            <div class="claim-card" data-od-id="craft.claim.formal">
+              <strong>Formal claim</strong>
+              <span>A craft operation can be modeled as C = (I, S, F, E, D, R, G, V), a translation with validation and residue.</span>
+            </div>
+            <div class="claim-card" data-od-id="craft.claim.philosophical">
+              <strong>Philosophical claim</strong>
+              <span>Making is a layered transformation: possible form becomes structure, artifact, remainder, and renewed explanation.</span>
+            </div>
+            <div class="claim-card" data-od-id="craft.claim.honesty">
+              <strong>Honesty boundary</strong>
+              <span>The large claim only stays meaningful when each local run names its schema, artifact, validation, residue, and next route.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band workbench" data-lane="flow internal_dependencies external_dependencies" data-od-id="craft.workbench">
+        <div class="inner">
+          <aside class="rail" data-od-id="craft.rail">
+            <div>
+              <h2>Symbols</h2>
+              <p>Click a piece of the tuple to inspect why it exists.</p>
+            </div>
+            <div class="concept-list" id="conceptList" aria-label="Craft tuple symbols"></div>
+            <div class="rail-actions">
+              <button class="action-button" type="button" id="traceLoop" data-od-id="craft.action.trace">Trace loop</button>
+              <button class="action-button" type="button" id="resetLoop" data-od-id="craft.action.reset">Reset</button>
+            </div>
+          </aside>
+
+          <section class="map-panel" data-od-id="craft.map.panel">
+            <div class="map-head">
+              <div>
+                <h2>Translation Map</h2>
+                <p class="mini">A model run becomes inspectable when the movement and the leftover both have names.</p>
+              </div>
+              <div class="formula" id="activeFormula">C = (I, S, F, E, D, R, G, V)</div>
+            </div>
+            <svg class="model-svg" viewBox="0 0 900 500" role="img" aria-labelledby="svgTitle svgDesc" data-od-id="craft.map.svg">
+              <title id="svgTitle">Craft translation map</title>
+              <desc id="svgDesc">A flow from intention to schema to translator to artifact to residue, with governance and validation wrapping the loop.</desc>
+              <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                  <path d="M0,0 L9,3 L0,6 Z" fill="rgba(244, 241, 232, 0.52)"></path>
+                </marker>
+                <marker id="arrowheadAmber" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                  <path d="M0,0 L9,3 L0,6 Z" fill="rgba(241, 187, 104, 0.88)"></path>
+                </marker>
+              </defs>
+              <path class="arrow" d="M160 174 L250 174"></path>
+              <path class="arrow" d="M382 174 L472 174"></path>
+              <path class="arrow" d="M604 174 L694 174"></path>
+              <path class="arrow" d="M788 236 L788 310 L610 310"></path>
+              <path class="feedback" d="M488 360 C350 430 170 394 124 244"></path>
+              <path class="feedback" d="M610 350 C712 428 824 398 824 246"></path>
+              <g class="svg-node active" data-node="intention" tabindex="0" role="button" aria-label="Inspect intention">
+                <rect x="40" y="125" width="120" height="98" rx="8"></rect>
+                <text x="64" y="164">I</text>
+                <text x="64" y="188" class="sub">Intention</text>
+              </g>
+              <g class="svg-node" data-node="schema" tabindex="0" role="button" aria-label="Inspect schema">
+                <rect x="262" y="125" width="120" height="98" rx="8"></rect>
+                <text x="286" y="164">S</text>
+                <text x="286" y="188" class="sub">Schema</text>
+              </g>
+              <g class="svg-node" data-node="translator" tabindex="0" role="button" aria-label="Inspect translator">
+                <rect x="484" y="125" width="120" height="98" rx="8"></rect>
+                <text x="508" y="164">F</text>
+                <text x="508" y="188" class="sub">Translator</text>
+              </g>
+              <g class="svg-node" data-node="artifact" tabindex="0" role="button" aria-label="Inspect artifact">
+                <rect x="706" y="125" width="120" height="98" rx="8"></rect>
+                <text x="730" y="164">D</text>
+                <text x="730" y="188" class="sub">Artifact</text>
+              </g>
+              <g class="svg-node" data-node="residue" tabindex="0" role="button" aria-label="Inspect residue">
+                <rect x="484" y="302" width="120" height="98" rx="8"></rect>
+                <text x="508" y="341">R</text>
+                <text x="508" y="365" class="sub">Residue</text>
+              </g>
+              <g class="svg-node" data-node="entropy" tabindex="0" role="button" aria-label="Inspect entropy">
+                <rect x="262" y="302" width="120" height="98" rx="8"></rect>
+                <text x="286" y="341">E</text>
+                <text x="286" y="365" class="sub">Entropy</text>
+              </g>
+              <g class="svg-node" data-node="governance" tabindex="0" role="button" aria-label="Inspect governance">
+                <rect x="40" y="302" width="120" height="98" rx="8"></rect>
+                <text x="64" y="341">G</text>
+                <text x="64" y="365" class="sub">Governance</text>
+              </g>
+              <g class="svg-node" data-node="validation" tabindex="0" role="button" aria-label="Inspect validation">
+                <rect x="706" y="302" width="120" height="98" rx="8"></rect>
+                <text x="730" y="341">V</text>
+                <text x="730" y="365" class="sub">Validation</text>
+              </g>
+            </svg>
+            <div class="map-foot">
+              <div>
+                <strong>Reader outcomes</strong>
+                <p class="mini">A reader should understand the thing being made, what translated it, what failed to fit, and why it matters before seeing ledger fields.</p>
+              </div>
+              <div class="formula" id="modeFormula">F_PCRA(I, S, context, tools) -&gt; D; V(S, D, G) -&gt; R</div>
+            </div>
+          </section>
+
+          <aside class="inspector" data-od-id="craft.inspector">
+            <div class="inspector-title">
+              <div>
+                <h2 id="inspectorTitle">Intention</h2>
+                <p class="mini" id="inspectorPlain">What you are trying to make real.</p>
+              </div>
+              <span class="token" id="inspectorToken">I</span>
+            </div>
+            <div class="detail-block">
+              <strong>Why it matters</strong>
+              <p id="inspectorWhy">Without intention, the model can only optimize for local plausibility.</p>
+            </div>
+            <div class="inspector-body">
+              <div class="detail-block">
+                <strong>Craft move</strong>
+                <p id="inspectorMove">Name the desired change, artifact, purpose, and pressure before prompt details take over.</p>
+              </div>
+              <div class="detail-block">
+                <strong>Ledger bridge</strong>
+                <p id="inspectorLedger">A context and description row preserve the local aim so the next session does not restart from memory.</p>
+              </div>
+              <div class="detail-block">
+                <strong>Risk if missing</strong>
+                <p id="inspectorRisk">The artifact may look competent while solving the wrong problem.</p>
+              </div>
+            </div>
+            <ul class="ledger-strip" aria-label="Current concept dependencies" data-od-id="craft.dependency.strip">
+              <li><strong>Internal</strong><span id="inspectorInternal">Needs schema selection to become executable.</span></li>
+              <li><strong>External</strong><span id="inspectorExternal">May need human owner input or domain evidence.</span></li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="band bridge" data-lane="internal_dependencies external_dependencies" data-od-id="craft.ledger.bridge">
+        <div class="inner">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Ledger Bridge</p>
+              <h2>The philosophy becomes useful only when it has rows.</h2>
+            </div>
+            <p>
+              The current canonical Craft package keeps the runtime architecture intentionally small: a project-local `.craft/ledger.yml` is source of truth; `CRAFT.md` and `.craft/index.json` are derived views. That is why the mental model lands in these row families.
+            </p>
+          </div>
+          <div class="row-grid">
+            <div class="row-card" data-od-id="craft.row.contexts">
+              <em>contexts</em>
+              <strong>Where the making is happening</strong>
+              <span>Scopes the local aim, child contexts, stage, gate, and current next move.</span>
+            </div>
+            <div class="row-card" data-od-id="craft.row.typed_items">
+              <em>typed_items</em>
+              <strong>Where blockers get shape</strong>
+              <span>Turns a vague stop into base type, lane, closure condition, evidence, and role hints.</span>
+            </div>
+            <div class="row-card" data-od-id="craft.row.decisions">
+              <em>decisions</em>
+              <strong>Where authority enters</strong>
+              <span>Keeps question, options, status, rationale, selected option, impact, and evidence visible.</span>
+            </div>
+            <div class="row-card" data-od-id="craft.row.recomposition">
+              <em>recomposition</em>
+              <strong>Where local work returns</strong>
+              <span>Prevents a child proof from disappearing without changing the parent context.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band philosophy" data-lane="surface risk_questions" data-od-id="craft.philosophy">
+        <div class="inner">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Philosophical Aspect</p>
+              <h2>Residue is not waste. It is evidence.</h2>
+            </div>
+            <p>
+              The deeper Craft thesis is that making is a general transformation pattern. But the page keeps the honesty boundary: the universal physics language is an inference and research horizon, not a proven property of every run.
+            </p>
+          </div>
+          <div class="philosophy-grid">
+            <div class="claim-ladder" data-od-id="craft.claim.ladder">
+              <div class="ladder-step">
+                <strong>1. Operational</strong>
+                <span>Track schema, artifact, validation, residue, decisions, blockers, and next moves.</span>
+              </div>
+              <div class="ladder-step">
+                <strong>2. Formal</strong>
+                <span>Model work as recursive structure-preserving translation with entropy and recomposition.</span>
+              </div>
+              <div class="ladder-step">
+                <strong>3. Philosophical</strong>
+                <span>Understand making as possible form becoming manifested instance under constraint.</span>
+              </div>
+              <div class="ladder-step">
+                <strong>4. Horizon</strong>
+                <span>Treat a universal physics of craft as a research program that must earn force through local evidence.</span>
+              </div>
+            </div>
+            <div class="lab-panel" data-lane="flow risk_questions" data-od-id="craft.residue.lab">
+              <div>
+                <h3>Try a residue stressor</h3>
+                <p>Pick what went wrong. Craft does not ask "was the output good?" first. It asks what kind of residue appeared and which route owns the next move.</p>
+                <div class="stress-list" id="stressList" aria-label="Residue stressors"></div>
+              </div>
+              <div class="residue-readout">
+                <div>
+                  <h3 id="residueTitle">Relation drift</h3>
+                  <p id="residueText">Important relationships were implied when they needed to be declared.</p>
+                </div>
+                <div>
+                  <strong>Entropy pressure</strong>
+                  <div class="meter" aria-hidden="true"><span id="residueMeter"></span></div>
+                </div>
+                <div class="detail-block">
+                  <strong>Recommended Craft move</strong>
+                  <p id="residueMove">Declare relationships, split responsibilities, or add a bridge schema before treating the output as complete.</p>
+                </div>
+                <div class="detail-block">
+                  <strong>Stop or continue?</strong>
+                  <p id="residueStop">Continue inside the current layer if a schema repair will reduce residue; climb only when the missing relation belongs to a higher layer.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band reader" data-lane="surface risk_questions" data-od-id="craft.reader">
+        <div class="inner">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Reader Terms</p>
+              <h2>Plain-language anchors before local jargon.</h2>
+            </div>
+            <p>
+              This prototype is for someone learning Craft. These terms are explanatory, not canonical definitions. They keep the mental model readable while pointing back to the source-backed architecture and initial formal model.
+            </p>
+          </div>
+          <div class="reader-grid">
+            <div class="term-card" data-od-id="craft.term.translation">
+              <small>reader terms</small>
+              <strong>Translation</strong>
+              <span>The whole act of turning intention and schema into an artifact through a model, tools, context, and validation path.</span>
+            </div>
+            <div class="term-card" data-od-id="craft.term.residue">
+              <small>why it matters</small>
+              <strong>Residue</strong>
+              <span>The meaningful remainder after the output exists: drift, missing structure, ambiguity, contradiction, or validation gap.</span>
+            </div>
+            <div class="term-card" data-od-id="craft.term.scu">
+              <small>reader outcomes</small>
+              <strong>Smallest Coherent Unit</strong>
+              <span>The smallest piece of work that still has enough meaning, local validation, and a return path into the larger work.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band evidence" data-lane="risk_questions internal_dependencies external_dependencies" data-od-id="craft.evidence">
+        <div class="inner">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Evidence Boundary</p>
+              <h2>What this page claims, and what it only suggests.</h2>
+            </div>
+            <p>
+              The artifact uses source-backed material from the two Craft development HTML files and the canonical Craft README/architecture. The interaction design and teaching sequence are inference, meant to make the model learnable.
+            </p>
+          </div>
+          <div class="evidence-grid">
+            <div class="evidence-box" data-od-id="craft.evidence.source">
+              <h3>Source-backed</h3>
+              <ul>
+                <li>Craft uses `.craft/ledger.yml` as source of truth and derives `CRAFT.md` plus optional indexes.</li>
+                <li>The formal tuple is C = (I, S, F, E, D, R, G, V).</li>
+                <li>Residue can lead to repair, stop criteria, routing, or reflection tower work.</li>
+                <li>Current canonical Craft architecture is intentionally small and does not ship a public CLI or renderer.</li>
+              </ul>
+            </div>
+            <div class="evidence-box" data-od-id="craft.evidence.inference">
+              <h3>Inference</h3>
+              <ul>
+                <li>The best first teaching surface is an interactive mental model rather than a document outline.</li>
+                <li>Showing philosophical claims as a ladder reduces overclaiming while preserving ambition.</li>
+                <li>Clicking tuple elements helps readers connect the formal model to ledger rows.</li>
+                <li>The visual style borrows the Studio prototype posture but is purpose-built for Craft.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const concepts = [
+      {
+        id: "intention",
+        symbol: "I",
+        title: "Intention",
+        plain: "What you are trying to make real.",
+        formula: "I = purpose + desired artifact + pressure",
+        why: "Without intention, the model can only optimize for local plausibility.",
+        move: "Name the desired change, artifact, purpose, and pressure before prompt details take over.",
+        ledger: "A context and description row preserve the local aim so the next session does not restart from memory.",
+        risk: "The artifact may look competent while solving the wrong problem.",
+        internal: "Needs schema selection to become executable.",
+        external: "May need human owner input or domain evidence."
+      },
+      {
+        id: "schema",
+        symbol: "S",
+        title: "Schema",
+        plain: "The shape you give the intention.",
+        formula: "S = spec | plan | interface | constitution | example set",
+        why: "A schema makes possible work legible enough for translation and validation.",
+        move: "Choose the form that can carry the responsibility: definition, design, plan, task, ledger row, or test.",
+        ledger: "Definitions, artifacts, links, and indexes keep the chosen shape inspectable.",
+        risk: "A weak schema pushes hidden glue into the output.",
+        internal: "Constrains translator behavior and validation.",
+        external: "May depend on canonical definitions or owner policy."
+      },
+      {
+        id: "translator",
+        symbol: "F",
+        title: "Translator",
+        plain: "The process that turns schema into artifact.",
+        formula: "F_PCRA(I, S, context, tools) -> D",
+        why: "The LLM is probabilistic, contextual, relational, and attentive; the whole harness matters.",
+        move: "Select context, tools, examples, and route ownership instead of treating the prompt as the only cause.",
+        ledger: "Route evidence and artifacts record which capability produced which result.",
+        risk: "The team may blame the model for a failure caused by missing context or wrong route.",
+        internal: "Consumes intention and schema; produces artifact.",
+        external: "Depends on model behavior, tools, local files, and capability contracts."
+      },
+      {
+        id: "entropy",
+        symbol: "E",
+        title: "Entropy",
+        plain: "Uncertainty pressure in the run.",
+        formula: "E = entropy(F, S, context, relation_load, unit_size)",
+        why: "Ambiguity, noisy context, relation load, and bad unit size make drift more likely.",
+        move: "Reduce relation load, stabilize vocabulary, or choose a smallest coherent unit.",
+        ledger: "Gaps and blockers make uncertainty explicit instead of burying it in prose.",
+        risk: "A task can be too small to recombine or too large to preserve relations.",
+        internal: "Modulates translation quality before validation sees the result.",
+        external: "May require research, distillation, or human decision input."
+      },
+      {
+        id: "artifact",
+        symbol: "D",
+        title: "Artifact",
+        plain: "What actually got made.",
+        formula: "D = code | doc | design | proof | report | behavior",
+        why: "Craft treats the output as inspectable evidence, not as self-proving completion.",
+        move: "Bind the artifact to the schema that produced it and the validation it must pass.",
+        ledger: "Artifacts rows link files, receipts, reports, and statuses back to contexts.",
+        risk: "A visible deliverable can hide mismatch with the original intent.",
+        internal: "Must be compared against schema and governance.",
+        external: "May live in files, tests, browser evidence, or downstream systems."
+      },
+      {
+        id: "validation",
+        symbol: "V",
+        title: "Validation",
+        plain: "The output has to answer back.",
+        formula: "V(S, D, G) -> R",
+        why: "Validation asks whether the artifact preserved enough of the intended structure to close.",
+        move: "Use tests, schema checks, link checks, x-ray, interrogation, human review, or telemetry as appropriate.",
+        ledger: "Validation artifacts and evidence links keep closure claims reviewable.",
+        risk: "Looks-good review can replace proof of fit.",
+        internal: "Depends on schema, artifact, and governance.",
+        external: "May use tests, validators, browser checks, or human review."
+      },
+      {
+        id: "residue",
+        symbol: "R",
+        title: "Residue",
+        plain: "What did not fit cleanly.",
+        formula: "R = drift | gap | ambiguity | contradiction | recomposition failure",
+        why: "Residue is the evidence that artifact and schema are not yet in full relation.",
+        move: "Classify it, then repair locally, route to an owner, open a decision, or promote a new layer seed.",
+        ledger: "Active blockers, active gaps, open decisions, and recomposition rows keep residue alive until handled.",
+        risk: "False closure turns residue into future confusion.",
+        internal: "Feeds repair, stop criteria, and reflection tower decisions.",
+        external: "May belong to a different lifecycle owner."
+      },
+      {
+        id: "governance",
+        symbol: "G",
+        title: "Governance",
+        plain: "Rules, owners, routes, and closure conditions.",
+        formula: "G = constitutions + axioms + routes + ownership",
+        why: "Governance tells Craft when to stop, who owns the next move, and what can become canonical.",
+        move: "Separate local evidence from promotion claims; require decisions where authority is human or policy-bound.",
+        ledger: "Decision rows and blocker role fields distinguish responsibility lanes from actual authority.",
+        risk: "A philosophical story becomes aesthetic language without local proof and ownership.",
+        internal: "Wraps validation, closure, and recomposition.",
+        external: "Depends on human decisions, policies, route contracts, and capability boundaries."
+      }
+    ];
+
+    const stressors = [
+      {
+        id: "relation",
+        title: "Relation drift",
+        text: "Important relationships were implied when they needed to be declared.",
+        meter: "72%",
+        move: "Declare relationships, split responsibilities, or add a bridge schema before treating the output as complete.",
+        stop: "Continue inside the current layer if a schema repair will reduce residue; climb only when the missing relation belongs to a higher layer."
+      },
+      {
+        id: "attention",
+        title: "Attention loss",
+        text: "The unit asked the model to preserve too many relations at once.",
+        meter: "88%",
+        move: "Distill toward a smallest coherent unit and improve context selection.",
+        stop: "Stop shrinking when the smaller piece can no longer recompose into the upper schema."
+      },
+      {
+        id: "governance",
+        title: "Governance residue",
+        text: "The system cannot tell which owner, route, or decision can close the work.",
+        meter: "64%",
+        move: "Open a decision, apply the constitution, or route to the lifecycle owner that has authority.",
+        stop: "Stop execution when the next residue is a human decision, not a modeling problem."
+      },
+      {
+        id: "recomposition",
+        title: "Recomposition failure",
+        text: "The piece works locally but cannot reattach to the parent artifact cleanly.",
+        meter: "79%",
+        move: "Add recomposition proof, widen the unit slightly, or define the missing bridge relation.",
+        stop: "Continue only if the parent ledger can record what changed upstream."
+      }
+    ];
+
+    const conceptList = document.getElementById("conceptList");
+    const stressList = document.getElementById("stressList");
+    const conceptNodes = Array.from(document.querySelectorAll(".svg-node"));
+    const modeButtons = Array.from(document.querySelectorAll(".mode-button"));
+    let activeConcept = "intention";
+    let traceTimer = null;
+
+    function renderConceptButtons() {
+      conceptList.innerHTML = concepts.map((concept) => `
+        <button class="concept-button ${concept.id === activeConcept ? "active" : ""}" type="button" data-node="${concept.id}" data-od-id="craft.concept.${concept.id}">
+          <span class="symbol">${concept.symbol}</span>
+          <span>
+            <span class="name">${concept.title}</span>
+            <span class="plain">${concept.plain}</span>
+          </span>
+        </button>
+      `).join("");
+      conceptList.querySelectorAll("[data-node]").forEach((button) => {
+        button.addEventListener("click", () => setConcept(button.dataset.node));
+      });
+    }
+
+    function setConcept(id) {
+      const concept = concepts.find((item) => item.id === id) || concepts[0];
+      activeConcept = concept.id;
+      document.getElementById("inspectorTitle").textContent = concept.title;
+      document.getElementById("inspectorPlain").textContent = concept.plain;
+      document.getElementById("inspectorToken").textContent = concept.symbol;
+      document.getElementById("activeFormula").textContent = concept.formula;
+      document.getElementById("inspectorWhy").textContent = concept.why;
+      document.getElementById("inspectorMove").textContent = concept.move;
+      document.getElementById("inspectorLedger").textContent = concept.ledger;
+      document.getElementById("inspectorRisk").textContent = concept.risk;
+      document.getElementById("inspectorInternal").textContent = concept.internal;
+      document.getElementById("inspectorExternal").textContent = concept.external;
+      document.querySelectorAll(".concept-button").forEach((button) => {
+        button.classList.toggle("active", button.dataset.node === concept.id);
+      });
+      conceptNodes.forEach((node) => {
+        node.classList.toggle("active", node.dataset.node === concept.id);
+      });
+    }
+
+    function renderStressors() {
+      stressList.innerHTML = stressors.map((stressor, index) => `
+        <button class="stress-button" type="button" data-stressor="${stressor.id}" aria-pressed="${index === 0 ? "true" : "false"}" data-od-id="craft.stressor.${stressor.id}">
+          ${stressor.title}
+        </button>
+      `).join("");
+      stressList.querySelectorAll("[data-stressor]").forEach((button) => {
+        button.addEventListener("click", () => setStressor(button.dataset.stressor));
+      });
+    }
+
+    function setStressor(id) {
+      const stressor = stressors.find((item) => item.id === id) || stressors[0];
+      document.getElementById("residueTitle").textContent = stressor.title;
+      document.getElementById("residueText").textContent = stressor.text;
+      document.getElementById("residueMeter").style.setProperty("--meter", stressor.meter);
+      document.getElementById("residueMove").textContent = stressor.move;
+      document.getElementById("residueStop").textContent = stressor.stop;
+      stressList.querySelectorAll("[data-stressor]").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.stressor === stressor.id));
+      });
+    }
+
+    function setMode(mode) {
+      document.body.dataset.mode = mode;
+      const formulas = {
+        operational: "ledger.yml owns state; CRAFT.md and index.json are derived",
+        formal: "C = (I, S, F, E, D, R, G, V)",
+        philosophy: "possible form -> selected schema -> artifact -> residue -> next explanation"
+      };
+      document.getElementById("modeFormula").textContent = formulas[mode] || formulas.operational;
+      modeButtons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.mode === mode));
+      });
+    }
+
+    function traceLoop() {
+      if (traceTimer) {
+        clearInterval(traceTimer);
+        traceTimer = null;
+        return;
+      }
+      let index = concepts.findIndex((item) => item.id === activeConcept);
+      traceTimer = setInterval(() => {
+        index = (index + 1) % concepts.length;
+        setConcept(concepts[index].id);
+      }, 1200);
+    }
+
+    renderConceptButtons();
+    renderStressors();
+    setConcept("intention");
+    setStressor("relation");
+
+    conceptNodes.forEach((node) => {
+      node.addEventListener("click", () => setConcept(node.dataset.node));
+      node.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          setConcept(node.dataset.node);
+        }
+      });
+    });
+
+    modeButtons.forEach((button) => {
+      button.addEventListener("click", () => setMode(button.dataset.mode));
+    });
+
+    document.getElementById("traceLoop").addEventListener("click", traceLoop);
+    document.getElementById("resetLoop").addEventListener("click", () => {
+      if (traceTimer) {
+        clearInterval(traceTimer);
+        traceTimer = null;
+      }
+      setMode("operational");
+      setConcept("intention");
+      setStressor("relation");
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+      const current = concepts.findIndex((item) => item.id === activeConcept);
+      const delta = event.key === "ArrowRight" ? 1 : -1;
+      const next = (current + delta + concepts.length) % concepts.length;
+      setConcept(concepts[next].id);
+    });
+  </script>
+</body>
+</html>

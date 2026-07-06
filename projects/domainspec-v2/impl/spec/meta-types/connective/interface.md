@@ -22,7 +22,7 @@ A concept declared **Interface** is well-formed IFF its `Attribute | Value` tabl
 An Interface is an exposed API boundary; a Mapping is a field-by-field transform.
 
 ## Edge participation (DS-D8 slice)
-Deferred to MT3 edges / batch-1 R3 (the reformulated `RELATIONSHIPS.md` is the source of truth).
+Deferred to MT3 edges / batch-1 R3 (the root relationship authority `definitions/relationships/relationships.yml` is the source of truth).
 
 ## Fixtures
 - positive: [`spec/__fixtures__/mt/interface-ok.md`](../../__fixtures__/mt/interface-ok.md)

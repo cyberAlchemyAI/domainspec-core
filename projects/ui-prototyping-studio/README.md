@@ -10,6 +10,7 @@ This is a **standalone project** (extracted from the now-deprecated `domainspec`
 |------|-----------|
 | [SPEC.md](SPEC.md) | **Lean spec** — the L0→L2 survival/trust floor (this release). The buildable contract. |
 | [CRAFT.md](CRAFT.md) · [.craft/](.craft/) | Craft ledger — live project state (contexts, decisions, blockers, gaps). Source of truth = `.craft/ledger.yml`. |
+| [ide-ergonomics-experience-prototype.html](ide-ergonomics-experience-prototype.html) | Interactive click-through prototype for the IDE Ergonomics presentation: highlighted chat phrase → route card → candidate/side-node/handoff/delegation previews → durable workbench outputs. |
 | [development/deep-spec-dispatch/](development/deep-spec-dispatch/) | The deep-spec exploration that produced the design + plan + readiness verdict ([RESULT.md](development/deep-spec-dispatch/RESULT.md), [DEEP-SPEC-PROPOSAL.md](development/deep-spec-dispatch/DEEP-SPEC-PROPOSAL.md), [ONE-SHOT-IMPLEMENTATION-PLAN.md](development/deep-spec-dispatch/ONE-SHOT-IMPLEMENTATION-PLAN.md)). |
 | [development/standalone-extraction/](development/standalone-extraction/) | The plan to bring the code over and make this project runnable. |
 | `provenance/` | Archive, not spine: the 19-doc full-vision DomainSpec spec (`legacy-domainspec-spec/`) and a vendored design-skills reference tree (`open-design-reference/`). Mine for detail; do not treat as current. |

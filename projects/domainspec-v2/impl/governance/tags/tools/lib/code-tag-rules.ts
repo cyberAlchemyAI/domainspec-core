@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
+import { loadRelationshipAuthority } from "../../../../tools/lib/relationship-signatures";
 import type { CanonicalEdgeRule, ConceptCatalogEntry } from "./code-tag-types";
 
 type TableRow = {
@@ -111,6 +112,70 @@ export function parseRelationshipRules(
       fromTypes,
       toTypes,
     });
+  }
+
+  return rules;
+}
+
+/**
+ * Load canonical edge rules from the ROOT relationship authority
+ * (`definitions/relationships/relationships.yml`) instead of a hand-authored
+ * `spec/RELATIONSHIPS.md` projection. Per DEC-DSV2-SPEC-HOMING: root is the sole
+ * authored authority; no hand-authored projections. Build-from-owned on
+ * `loadRelationshipAuthority`; adapts each active signature into a
+ * `CanonicalEdgeRule`, merging multiple signatures that share an edge label so
+ * the returned Map keeps one rule per edge with unioned endpoint type sets
+ * (the shape `validate-code-tags` consumes via `edgeRules.get(label)`).
+ */
+export function loadRelationshipRulesFromAuthority(
+  authorityPath: string,
+): Map<string, CanonicalEdgeRule> {
+  if (!existsSync(authorityPath)) {
+    return new Map();
+  }
+
+  const loaded = loadRelationshipAuthority(authorityPath);
+  const rules = new Map<string, CanonicalEdgeRule>();
+
+  for (const sig of loaded.authority.signatures) {
+    if (sig.status && sig.status !== "active") {
+      continue;
+    }
+    const edge = (sig.id || "").trim();
+    if (!edge) {
+      continue;
+    }
+
+    const sources = [sig.source_type, ...(sig.source_types ?? [])].filter(
+      (v): v is string => Boolean(v),
+    );
+    const targets = [sig.target_type, ...(sig.target_types ?? [])].filter(
+      (v): v is string => Boolean(v),
+    );
+
+    const fromTypes = new Set(
+      sources.map((t) => normalizeTypeName(t)).filter(Boolean),
+    );
+    const toTypes = new Set(
+      targets.map((t) => normalizeTypeName(t)).filter(Boolean),
+    );
+    if (fromTypes.size === 0 || toTypes.size === 0) {
+      continue;
+    }
+
+    const existing = rules.get(edge);
+    if (existing) {
+      for (const t of fromTypes) existing.fromTypes.add(t);
+      for (const t of toTypes) existing.toTypes.add(t);
+    } else {
+      rules.set(edge, {
+        edge,
+        fromRaw: sources.join(" / "),
+        toRaw: targets.join(" / "),
+        fromTypes,
+        toTypes,
+      });
+    }
   }
 
   return rules;

@@ -25,7 +25,7 @@ REFORMULATE / 4 DROP**).
 |---|---|---|---|---|---|
 | `tools/test-derivation-engine/` | `impl/test-derivation-engine/` | IMPORT | imported-verbatim | `src/rules` = private-moat | 1,2 (executor + obligation_key) |
 | `TAXONOMY.md` | `impl/spec/TAXONOMY.md` | REFORMULATE | reformulation-pending | — | 23 |
-| `RELATIONSHIPS.md` | `impl/spec/RELATIONSHIPS.md` | REFORMULATE | reformulation-pending | — | 24 |
+| `RELATIONSHIPS.md` | root `definitions/relationships/relationships.yml` (v2 projection deleted) | REFORMULATE | reformulated (R3A + R0; consumed from root) | — | 24 |
 | `AXIOMS.md` | `impl/spec/AXIOMS.md` | REFORMULATE | reformulation-pending | — | 28 |
 | `DRIFT-CONVERGENCE.md` | `impl/spec/DRIFT-CONVERGENCE.md` | REFORMULATE | reformulation-pending | — | 15 |
 | `TEST-PIPELINE.md` | `impl/spec/TEST-PIPELINE.md` | REFORMULATE | reformulation-pending | — | 4 |

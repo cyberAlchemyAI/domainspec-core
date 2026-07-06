@@ -30,6 +30,37 @@ So each doc is **re-homed to a governance owner**, de-duplicated against the cre
 boundary-corrected — not rewritten from scratch. Nothing invents new domain content; the reformulation
 moves existing content under the correct owner and makes the governance method runnable.
 
+## 0.5 Spec-homing decision — `DEC-DSV2-SPEC-HOMING` (2026-07-06 dialectic synthesis)
+
+A proposal to *"remove all `impl/spec/*.md` and consume everything from root"* was stress-tested by dialectic
+and **refined, not adopted literally**. Investigation: only 2 of the 6 top-level docs (TAXONOMY,
+RELATIONSHIPS) are machine-consumed (by `validate-code-tags`); the engine reads none of them; AXIOMS / DRIFT
+/ TEST-PIPELINE have no root home and no consumer.
+
+**The invariant (what actually governs):**
+
+> Root `definitions/` is the sole **authored** authority. There are **no hand-authored projections** — any
+> `impl/spec` view is **generated from root and CI-verified, or it does not exist**. Governance prose routes
+> to its **owner surface**, not to "root."
+
+This removes the projection-drift failure mode that caused the R3A orphan (a hand-authored, unverified
+projection) **without** collapsing the two-plane boundary (`DEF-DSV2-TWO-PLANE`) or category-erroring prose
+into `definitions/` (a proposition is not a term — orthogonality `domainspec-v2-D3` / CAV2-D22).
+
+**Per-doc verdict (re-scopes the SWUs below):**
+
+| Doc | SWU | Verdict | Home |
+| --- | --- | --- | --- |
+| RELATIONSHIPS.md | R0/R3 | **Delete projection; consume root** | `definitions/relationships/relationships.yml` (exists) |
+| TAXONOMY.md | R2 | **Migrate UI-11 → root, then delete/generate** | `definitions/meta-types/meta-types.yml` (backend today) |
+| CONSTITUTION.md | R6a/R6b | **Route to owner** | `authority/constitutions/` (already the plan) |
+| AXIOMS.md | R1 | **Route to owner (basis), NOT `definitions/`** | `authority/` |
+| DRIFT-CONVERGENCE.md | R5 | **Route to owner** | drift-governance home (generated view optional) |
+| TEST-PIPELINE.md | R4 | **STAYS contract-plane** | near `impl/` — two-plane rule protects it |
+
+The un-regretted first move under every branch is **RELATIONSHIPS** (delete + consume root = R0). See
+`refreshes/2026-07-06-spec-homing-synthesis/`.
+
 ## 1. Architecture — target spec surface + governance binding
 
 **Re-homing map (the spine):**
@@ -74,6 +105,11 @@ Every term that survives must resolve to a tracked definition ID (credibility C(
 without one become `candidate` definitions via `definitions-governance`.
 
 ## 3. Per-doc target-result (before → after + semantic acceptance)
+
+> **State update 2026-07-06 (post-R3A re-triage).** R3 is done + green; **R1 and R2 substantially match
+> their target-results on disk** (verify-and-close, not author); **R7 is substantially delivered** via the
+> `meta-type-definitions` cycle (DS-D1/DS-D2/DS-D8 in root `definitions/`). R4/R5/R6a remain genuine v1→v2
+> reformulation. A repair pre-req (R0) precedes them — see `refreshes/2026-07-06-batch1-post-r3a-retriage/`.
 
 **R1 · AXIOMS** — *before:* A1–A6 each "Governs: C{n} in CONSTITUTION" (v1 signal/observer rules).
 *after:* each axiom re-maps its "Governs" to a v2 governance owner (A1→validation, A2→layering/C6,
@@ -158,6 +194,10 @@ aggregation can read it. **Owner:** `definitions-governance` — distinct from t
 - **D4 — Forbidden-edge law form.** **Resolved by R3A.** The root relationship authority is a typed
   endpoint-signature set with generated/deprecated/deferred sections; `validate-relationships` computes
   admissibility from that authority and reports nonmatching endpoint pairs as `unconstructible-edge`.
+  **Consequence (2026-07-06):** the authority now has **two readers** — `validate-relationships` reads the
+  root machine file (green); the Batch-2 code-tag composability validator still reads
+  `impl/spec/RELATIONSHIPS.md` and must be repointed at the root authority (**R0** /
+  `GAP-DSV2-COMPOSABILITY-ENFORCE`) before `tags:test` is green again.
 
 ## 5. Design → plan handoff
 
