@@ -1,0 +1,256 @@
+{
+  "xray_version": "0.2.0-seed",
+  "example_id": "agentic-music-studio-presentation",
+  "mode": "artifact",
+  "target_boundary": "A product-view local HTML presentation about research/agentic-music-studio/Agentic-Music-Studio.pdf, reframed around problem, solution, insights, leverage, and a musician day-in-the-life.",
+  "renderer_level": "L0",
+  "layer_interaction": [
+    "stacked",
+    "isolate",
+    "trace"
+  ],
+  "reader_contract": {
+    "reader_baseline": "newcomer",
+    "target_public": "A reader who wants to understand the product opportunity, not only the research note: musicians, tool builders, researchers, or product collaborators.",
+    "assumed_knowledge": [
+      "The reader knows that software can render audio from code.",
+      "The reader can follow a left-to-right pipeline diagram.",
+      "The reader does not need prior knowledge of Xenakis, Sethares, TidalCycles, or NIME."
+    ],
+    "reader_reward": "The reader can explain the customer problem, why the product exists, how the spec-centered solution works, what insights were learned, how others can leverage it, and what a musician's day with the studio feels like.",
+    "opening_contract": {
+      "must_start_with": [
+        "Start with the musician's problem: choosing between control and speed.",
+        "Make the product promise visible before introducing implementation details."
+      ],
+      "must_not_start_with": [
+        "Do not start with a generic research summary.",
+        "Do not imply that a model generates audio.",
+        "Do not bury the reproducible spec behind decorative visuals."
+      ],
+      "failure_message": "If the deck does not explain the product problem and product use, it fails the revised request."
+    }
+  },
+  "reader_terms": [
+    {
+      "term": "Product bet",
+      "plain_meaning": "Musicians should be able to move fast from intent to sound without losing inspectable craft.",
+      "why_it_matters": "It frames the deck around the user problem rather than around implementation alone.",
+      "source_or_lane": "Product framing inference from Agentic-Music-Studio.pdf and LEARNING-PACK.md; surface lane",
+      "authority": "inferred",
+      "misuse_warning": "Do not treat the product bet as proven market demand; it is a presentation framing around the source proof."
+    },
+    {
+      "term": "Agentic music studio",
+      "plain_meaning": "A studio where the human gives intent and judgment while an agent performs deterministic engineering over inspectable code and specs.",
+      "why_it_matters": "It keeps the human in charge of taste while moving the engineering grind into a reproducible system.",
+      "source_or_lane": "Agentic-Music-Studio.pdf pages 1-2; surface lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not use the term to mean a model that directly generates sound."
+    },
+    {
+      "term": "Spec",
+      "plain_meaning": "The shared, reproducible document that every interface edits and the engine can replay from a seed.",
+      "why_it_matters": "It is the craft-preserving artifact: diffable, inspectable, forkable, and replayable.",
+      "source_or_lane": "Agentic-Music-Studio.md; properties lane",
+      "authority": "source-backed",
+      "misuse_warning": "A prompt alone is not the spec if it cannot reproduce the audio path."
+    },
+    {
+      "term": "Objective search",
+      "plain_meaning": "A deterministic tuning loop that changes synth parameters to hit measured perceptual targets.",
+      "why_it_matters": "The PDF says the intelligence lives in search against real measurements, not in black-box audio generation.",
+      "source_or_lane": "Agentic-Music-Studio.pdf page 2; flow lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not treat the optimized metric as proof that a listener will feel the named emotion."
+    },
+    {
+      "term": "Measurement floor",
+      "plain_meaning": "The baseline feature measurements the studio trusts before optimizing or making claims.",
+      "why_it_matters": "The PDF reports that peak-picking drifted 6.1 percent on GENDYN, while multitaper moment centroid drifted 1.3 percent.",
+      "source_or_lane": "Agentic-Music-Studio.pdf page 3; lifecycle lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not assume a feature is stable just because the code computes a number."
+    },
+    {
+      "term": "Pareto steering",
+      "plain_meaning": "Steering across trade-offs where improving one target can worsen another.",
+      "why_it_matters": "The PDF shows that adding bite increases dissonance and centroid, trading away some darkness.",
+      "source_or_lane": "Agentic-Music-Studio.md; internal_dependencies lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not present every critique as a simple improvement on all dimensions."
+    },
+    {
+      "term": "Proxy metric",
+      "plain_meaning": "A measured stand-in for a felt effect, such as using dissonance as a stand-in for strangeness.",
+      "why_it_matters": "The source explicitly keeps felt effect claims open until listener evidence exists.",
+      "source_or_lane": "Agentic-Music-Studio.pdf pages 3-4; risk_questions lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not claim the proxy equals the listener's experience."
+    },
+    {
+      "term": "Communication process",
+      "plain_meaning": "A kind of exchange between musician and studio, such as command, critique, annotation, performance, or feedback.",
+      "why_it_matters": "It lets other people leverage the work as a reusable product pattern, not only as one interface.",
+      "source_or_lane": "findings.md and definitions.md; components lane",
+      "authority": "source-backed",
+      "misuse_warning": "Do not collapse process into modality; voice can carry many different process types."
+    }
+  ],
+  "layer_reader_outcomes": [
+    {
+      "layer": "surface",
+      "as_a_reader": "As a newcomer, I want to know the product problem first.",
+      "should_understand": "Musicians should not have to choose between expressive control and fast exploration.",
+      "because_it_matters_for": "framing the studio as a product opportunity rather than only a technical proof."
+    },
+    {
+      "layer": "flow",
+      "as_a_reader": "As a working reader, I want the product motion in one glance.",
+      "should_understand": "Intent becomes a spec, the agent writes inspectable code, objective search tunes it, deterministic render creates audio, and critique loops back.",
+      "because_it_matters_for": "seeing how the product turns a musician's words into editable sound."
+    },
+    {
+      "layer": "internal_dependencies",
+      "as_a_reader": "As a reviewer, I want to see which insights shape the product.",
+      "should_understand": "Closed measurable primitives support open objectives, stable measurements support search, and visible trade-offs support steering.",
+      "because_it_matters_for": "understanding why the UI must expose measurements and trade-offs."
+    },
+    {
+      "layer": "external_dependencies",
+      "as_a_reader": "As a builder, I want to know how other people can leverage the work.",
+      "should_understand": "The pattern can support musicians, tool builders, researchers, live coders, educators, and product teams.",
+      "because_it_matters_for": "making the deck useful beyond the original proof artifact."
+    },
+    {
+      "layer": "lifecycle",
+      "as_a_reader": "As an implementer, I want the proof stage, day-in-life flow, and next gates.",
+      "should_understand": "v1 proves the core loop while roadmap gates decide how broadly the product generalizes.",
+      "because_it_matters_for": "connecting current proof to practical musician use."
+    },
+    {
+      "layer": "risk_questions",
+      "as_a_reader": "As a skeptical reader, I want product claims separated from proof.",
+      "should_understand": "The problem framing and leverage categories are product inference; measured drift, working render, and no-model sound path are source-backed.",
+      "because_it_matters_for": "keeping the product story useful without over-claiming evidence."
+    }
+  ],
+  "readability_dynamics": {
+    "max_words_per_paragraph": 58,
+    "max_consecutive_dense_blocks": 1,
+    "require_scan_anchor_every_n_blocks": 2,
+    "allowed_visual_treatments": [
+      "slide deck",
+      "left-to-right pipeline",
+      "problem-solution path",
+      "product insight cards",
+      "day-in-the-life timeline",
+      "evidence boundary rail",
+      "open-work gate list"
+    ]
+  },
+  "lanes": {
+    "surface": {
+      "handle": "surface.product-problem-and-bet",
+      "evidence": [
+        "The PDF title is Agentic Music Studio.",
+        "The PDF says the human supplies intent and taste while the agent does deterministic engineering over one shared reproducible spec.",
+        "The PDF says no generative model touches the sound path.",
+        "The LEARNING-PACK frames the core idea as supplying intent and taste while the agent does deterministic engineering."
+      ],
+      "inference": [
+        "The product-view deck should open with the musician's problem: control versus speed."
+      ]
+    },
+    "properties": {
+      "handle": "properties.reproducible-spec-proof",
+      "evidence": [
+        "The source says the artifact is authored, diffable, replayable code, not a black-box output.",
+        "The source says a model may only parse intent into an inspectable spec.",
+        "The PDF says v1 renders playable audio from the operator's own example."
+      ],
+      "inference": [
+        "The deck treats reproducibility, inspectability, seeded code, and no-model sound path as product trust properties."
+      ]
+    },
+    "components": {
+      "handle": "components.two-packages-and-interfaces",
+      "evidence": [
+        "The PDF names studio-core as the engine and measurement floor.",
+        "The PDF names intent-engine as the intent-to-agent-written-code-to-sound layer.",
+        "The research findings define ten communication processes, all editing one shared spec.",
+        "Definitions.md defines communication process as a speech-act plus initiative-profile."
+      ],
+      "inference": [
+        "The presentation groups leverage audiences around reusable product patterns."
+      ]
+    },
+    "internal_dependencies": {
+      "handle": "dependencies.internal.measurement-search-steering",
+      "evidence": [
+        "The PDF says effects are open objectives over a small closed set of measurable primitives.",
+        "The PDF says the floor must be measured, not assumed.",
+        "The PDF says steering is Pareto navigation because dark and strangeness conflict."
+      ],
+      "inference": [
+        "The product insights slide translates these findings into interface requirements."
+      ]
+    },
+    "external_dependencies": {
+      "handle": "dependencies.external.sources-and-proof-artifacts",
+      "evidence": [
+        "The PDF cites Xenakis dynamic stochastic synthesis, Sethares, Thomson multitaper spectral estimation, TidalCycles, and NIME.",
+        "The PDF says each key finding is backed by an artifact: a test, a measurement, or an adversarial review.",
+        "The README says the research tower is local-only and not a build spec."
+      ],
+      "inference": [
+        "The deck frames musicians, builders, researchers, live coders, educators, and product teams as leverage audiences."
+      ]
+    },
+    "flow": {
+      "handle": "flow.product-motion-and-day-in-life",
+      "evidence": [
+        "The PDF pipeline is INTENT -> SPEC -> PROGRAM -> RENDER -> STEER.",
+        "The pipeline example starts from dark violin stochastic and bring strangeness.",
+        "The source says human hears, reads/edits code, and critiques, then loops back."
+      ],
+      "inference": [
+        "The deck adds a musician day-in-the-life path to make the pipeline feel like product use."
+      ]
+    },
+    "lifecycle": {
+      "handle": "lifecycle.working-proof-to-open-gates",
+      "evidence": [
+        "The PDF says v1 is a working proof and success.",
+        "The PDF names Spectralize-v2, O1 felt-match, Steering-v2, and scope expansion as deliberately open.",
+        "The PDF says the method used research towers, a tensioned multi-agent design dispatch, layered build plans, adversarial verification, and refresh cycles."
+      ],
+      "inference": [
+        "The open-work slide orders follow-up as product validation gates rather than missing features."
+      ]
+    },
+    "risk_questions": {
+      "handle": "risk.questions.claim-boundaries",
+      "evidence": [],
+      "inference": [
+        "Does a dissonance objective predict felt strangeness for listeners?",
+        "Can open-vocabulary intent be governed without vocabulary drift?",
+        "Can roughness become as analyzer-independent as darkness?",
+        "How should a human steer trade-offs beyond weighted-sum tuning?",
+        "Which leverage audiences are real adoption paths versus presentation hypotheses?",
+        "Does the day-in-life story match actual musician workflow?"
+      ]
+    },
+    "visual_composition": {
+      "handle": "visual.l0-slide-deck",
+      "evidence": [
+        "The x-ray renderer ladder accepts L0 static HTML/SVG as the default proof path.",
+        "The x-ray library patterns used are lifecycle-stack, dependency-boundary, process-branch, and evidence-inference-split.",
+        "The x-ray validator requires source-backed and inference markers, reader terms, reader outcomes, and the L0 static HTML/SVG marker."
+      ],
+      "inference": [
+        "A deck with keyboard/button navigation, source markers, inline SVG diagrams, and no remote dependencies fits the user's request for an HTML presentation."
+      ]
+    }
+  }
+}
