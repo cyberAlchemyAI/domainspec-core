@@ -1,0 +1,1582 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IDE Ergonomics - HTML Presentation</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2305070a'/%3E%3Cpath d='M8 21V8h15v4H13v2h8v4h-8v3h11v3H8z' fill='%2300d8a4'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #05070a;
+      --bg-soft: #0c1116;
+      --ink: #f5fbf9;
+      --muted: #9aa5a8;
+      --dim: #626c72;
+      --teal: #00d8a4;
+      --teal-2: #1aa880;
+      --amber: #f0b45f;
+      --violet: #9b8cff;
+      --rose: #d56b86;
+      --line: rgba(229, 245, 240, 0.15);
+      --panel: rgba(10, 16, 20, 0.72);
+      --panel-strong: rgba(16, 24, 30, 0.9);
+      --shadow: 0 22px 90px rgba(0, 0, 0, 0.42);
+    }
+
+    * {
+      box-sizing: border-box;
+      letter-spacing: 0;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -14%;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(112deg, transparent 0%, transparent 14%, rgba(0, 216, 164, 0.22) 24%, transparent 38%, transparent 58%, rgba(0, 216, 164, 0.18) 73%, transparent 89%),
+        linear-gradient(72deg, transparent 0%, rgba(240, 180, 95, 0.08) 16%, transparent 30%, transparent 62%, rgba(155, 140, 255, 0.1) 83%, transparent 100%),
+        linear-gradient(180deg, #11161b 0%, #06080c 48%, #020304 100%);
+      filter: blur(34px);
+      transform: scale(1.05);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.32;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.014) 1px, transparent 1px);
+      background-size: 42px 42px, 42px 42px;
+      mix-blend-mode: screen;
+    }
+
+    .deck {
+      position: relative;
+      z-index: 2;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .deck::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(229, 245, 240, 0.08);
+      pointer-events: none;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-items: center;
+      justify-items: center;
+      padding: 64px 86px 78px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px) scale(0.985);
+      transition: opacity 360ms ease, transform 520ms cubic-bezier(0.16, 1, 0.3, 1), visibility 0ms linear 360ms;
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+      transition-delay: 0ms;
+      pointer-events: auto;
+    }
+
+    .slide-inner {
+      width: min(1160px, 100%);
+      max-height: calc(100vh - 150px);
+      overflow: auto;
+      padding: 6px 4px;
+      scrollbar-color: rgba(0, 216, 164, 0.55) rgba(255, 255, 255, 0.06);
+    }
+
+    .slide.center .slide-inner {
+      text-align: center;
+    }
+
+    .kicker {
+      margin: 0 0 18px;
+      color: var(--teal);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 1000px;
+      font-size: 5.1rem;
+      line-height: 0.95;
+      font-weight: 330;
+      letter-spacing: 0;
+    }
+
+    h1 .accent,
+    h2 .accent,
+    .accent {
+      color: var(--teal);
+      font-weight: 760;
+      text-shadow: 0 0 34px rgba(0, 216, 164, 0.32);
+    }
+
+    h2 {
+      max-width: 1040px;
+      font-size: 3rem;
+      line-height: 1.04;
+      font-weight: 440;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      color: var(--ink);
+      font-size: 1.05rem;
+      line-height: 1.25;
+      font-weight: 760;
+    }
+
+    .lead {
+      max-width: 830px;
+      margin-top: 24px;
+      color: #d6dfdd;
+      font-size: 1.33rem;
+      line-height: 1.48;
+      font-weight: 360;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .hero {
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin-inline: auto;
+      text-shadow: 0 16px 70px rgba(0, 0, 0, 0.52);
+    }
+
+    .hero .tagline {
+      margin-top: 30px;
+      color: rgba(226, 235, 233, 0.72);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+    }
+
+    .hero .source {
+      margin-top: 46px;
+      color: rgba(226, 235, 233, 0.48);
+      font-size: 0.96rem;
+    }
+
+    .two-up {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
+      gap: 42px;
+      align-items: center;
+    }
+
+    .stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(17, 25, 30, 0.84), rgba(6, 10, 13, 0.78));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .signal-panel {
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .signal-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(128deg, rgba(0, 216, 164, 0.14), transparent 42%, rgba(240, 180, 95, 0.08));
+      pointer-events: none;
+    }
+
+    .signal-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .signal {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 12px;
+      align-items: start;
+      color: #dce6e3;
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .signal::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      margin-top: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 18px rgba(0, 216, 164, 0.68);
+    }
+
+    .big-sentence {
+      max-width: 1040px;
+      font-size: 2.35rem;
+      line-height: 1.16;
+      font-weight: 330;
+      color: #ecf4f1;
+    }
+
+    .story-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .story-strip .tile {
+      min-height: 130px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .tile .label {
+      margin-bottom: 12px;
+      color: var(--teal);
+      font-size: 0.75rem;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .tile p {
+      color: #d9e1df;
+      font-size: 1.02rem;
+      line-height: 1.44;
+    }
+
+    .mock-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .mock-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .mock-head strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 1rem;
+    }
+
+    .mock-head code,
+    .inline-code {
+      color: var(--teal);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.94em;
+    }
+
+    .route-list {
+      display: grid;
+      gap: 0;
+    }
+
+    .route {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 15px 22px;
+      border-bottom: 1px solid rgba(229, 245, 240, 0.09);
+    }
+
+    .route:last-child {
+      border-bottom: 0;
+    }
+
+    .route .num {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(0, 216, 164, 0.4);
+      border-radius: 50%;
+      color: var(--teal);
+      font-weight: 760;
+      font-size: 0.86rem;
+    }
+
+    .route p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.35;
+    }
+
+    .badge {
+      color: #dce6e3;
+      border: 1px solid rgba(229, 245, 240, 0.16);
+      border-radius: 999px;
+      padding: 7px 10px;
+      background: rgba(255, 255, 255, 0.045);
+      font-size: 0.76rem;
+      font-weight: 720;
+      white-space: nowrap;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    .flow-step {
+      min-height: 150px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      position: relative;
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -9px;
+      width: 14px;
+      height: 1px;
+      background: rgba(0, 216, 164, 0.72);
+    }
+
+    .flow-step .step {
+      color: var(--teal);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .flow-step strong {
+      display: block;
+      margin-top: 14px;
+      font-size: 1.05rem;
+      line-height: 1.22;
+    }
+
+    .flow-step p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.36;
+    }
+
+    .gain-grid,
+    .mvp-grid,
+    .primitive-grid,
+    .boundary-grid,
+    .fixture-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .gain-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .gain,
+    .mvp,
+    .primitive,
+    .boundary,
+    .fixture {
+      min-height: 142px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.042);
+    }
+
+    .gain h3,
+    .mvp h3,
+    .primitive h3,
+    .boundary h3,
+    .fixture h3 {
+      color: #f3fbf8;
+    }
+
+    .gain p,
+    .mvp p,
+    .primitive p,
+    .boundary p,
+    .fixture p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.42;
+    }
+
+    .mvp-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .question {
+      margin-top: 24px;
+      padding: 22px 24px;
+      border-left: 3px solid var(--teal);
+      background: rgba(0, 216, 164, 0.075);
+      color: #dff7f0;
+      font-size: 1.18rem;
+      line-height: 1.45;
+    }
+
+    .axis-board {
+      display: grid;
+      gap: 12px;
+      margin-top: 34px;
+      padding: 28px;
+    }
+
+    .axis-row {
+      display: grid;
+      grid-template-columns: 190px 1fr 240px;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .axis-name {
+      color: #edf7f4;
+      font-weight: 760;
+    }
+
+    .axis-line {
+      height: 2px;
+      background: linear-gradient(90deg, rgba(0, 216, 164, 0.16), rgba(0, 216, 164, 0.78), rgba(240, 180, 95, 0.36));
+      position: relative;
+    }
+
+    .axis-line::after {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: var(--pos, 50%);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 22px rgba(0, 216, 164, 0.72);
+    }
+
+    .axis-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.35;
+    }
+
+    .primitive-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .primitive {
+      min-height: 168px;
+    }
+
+    .primitive .mark {
+      width: 36px;
+      height: 3px;
+      margin-bottom: 18px;
+      background: var(--teal);
+      box-shadow: 0 0 18px rgba(0, 216, 164, 0.56);
+    }
+
+    .connective {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(390px, 1.08fr);
+      gap: 36px;
+      align-items: center;
+    }
+
+    .ranked {
+      padding: 22px;
+    }
+
+    .rank {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(229, 245, 240, 0.1);
+    }
+
+    .rank:last-child {
+      border-bottom: 0;
+    }
+
+    .rank .place {
+      color: var(--teal);
+      font-size: 1.25rem;
+      font-weight: 780;
+    }
+
+    .rank p {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.38;
+    }
+
+    .lenses {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .lens {
+      padding: 14px 16px;
+      border: 1px solid rgba(229, 245, 240, 0.13);
+      border-radius: 8px;
+      color: #dfe9e6;
+      background: rgba(255, 255, 255, 0.035);
+      font-size: 0.95rem;
+      font-weight: 660;
+    }
+
+    .boundary-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .boundary {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: start;
+      min-height: 116px;
+    }
+
+    .boundary .owner {
+      color: var(--teal);
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .fixture-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .fixture {
+      min-height: 174px;
+    }
+
+    .fixture .count {
+      color: var(--amber);
+      font-size: 1.8rem;
+      font-weight: 760;
+      line-height: 1;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 34px;
+    }
+
+    .phase {
+      min-height: 270px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.042);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .phase::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--teal), var(--amber));
+    }
+
+    .phase ul {
+      margin: 20px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 13px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.38;
+    }
+
+    .phase li {
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .phase li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.67em;
+      width: 6px;
+      height: 1px;
+      background: var(--teal);
+    }
+
+    .example-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.94fr) minmax(430px, 1.06fr);
+      gap: 34px;
+      align-items: center;
+    }
+
+    .chat-window,
+    .result-card,
+    .artifact-rail,
+    .mini-window {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(8, 13, 17, 0.82);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .window-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(229, 245, 240, 0.11);
+      background: rgba(255, 255, 255, 0.035);
+      color: #e8f2ef;
+      font-size: 0.82rem;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .window-bar .status {
+      color: var(--teal);
+      font-size: 0.76rem;
+      white-space: nowrap;
+    }
+
+    .chat-body {
+      display: grid;
+      gap: 13px;
+      padding: 18px;
+    }
+
+    .bubble {
+      max-width: 92%;
+      padding: 14px 16px;
+      border: 1px solid rgba(229, 245, 240, 0.12);
+      border-radius: 8px;
+      color: #dce7e4;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 0.98rem;
+      line-height: 1.42;
+    }
+
+    .bubble.user {
+      justify-self: end;
+      border-color: rgba(0, 216, 164, 0.26);
+      background: rgba(0, 216, 164, 0.085);
+    }
+
+    .bubble .speaker {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .highlight {
+      color: var(--teal);
+      font-weight: 760;
+    }
+
+    .outcome-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .outcome {
+      padding: 16px;
+      border: 1px solid rgba(229, 245, 240, 0.13);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .outcome h3 {
+      font-size: 0.98rem;
+    }
+
+    .outcome p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.36;
+    }
+
+    .result-card {
+      padding: 0;
+    }
+
+    .result-body {
+      padding: 20px;
+    }
+
+    .result-title {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .result-title h3 {
+      font-size: 1.22rem;
+    }
+
+    .receipt-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(0, 216, 164, 0.32);
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: var(--teal);
+      background: rgba(0, 216, 164, 0.08);
+      font-size: 0.76rem;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .receipt-pill::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 16px rgba(0, 216, 164, 0.72);
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .field {
+      min-height: 74px;
+      padding: 13px;
+      border: 1px solid rgba(229, 245, 240, 0.12);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .field .label {
+      margin-bottom: 7px;
+      color: var(--dim);
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .field p {
+      color: #dde8e5;
+      font-size: 0.9rem;
+      line-height: 1.34;
+    }
+
+    .artifact-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .artifact {
+      display: grid;
+      grid-template-columns: 118px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 13px 14px;
+      border: 1px solid rgba(229, 245, 240, 0.11);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .artifact .type {
+      color: var(--teal);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .artifact strong {
+      display: block;
+      color: #eef7f4;
+      font-size: 0.96rem;
+    }
+
+    .artifact span {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .artifact .state {
+      color: var(--amber);
+      font-size: 0.78rem;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .role-grid,
+    .before-after-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .role-card,
+    .compare-card {
+      min-height: 150px;
+      padding: 18px;
+      border: 1px solid rgba(229, 245, 240, 0.12);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .role-card h3,
+    .compare-card h3 {
+      color: #eef7f4;
+    }
+
+    .role-card p,
+    .compare-card p {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 0.93rem;
+      line-height: 1.38;
+    }
+
+    .example-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .takeaway {
+      display: grid;
+      justify-items: center;
+      gap: 28px;
+      text-align: center;
+    }
+
+    .takeaway .statement {
+      max-width: 950px;
+      color: #edf7f4;
+      font-size: 2.35rem;
+      line-height: 1.18;
+      font-weight: 340;
+    }
+
+    .takeaway .small {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    .controls {
+      position: fixed;
+      right: 34px;
+      bottom: 26px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .control {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(229, 245, 240, 0.18);
+      border-radius: 50%;
+      color: var(--ink);
+      background: rgba(8, 12, 15, 0.82);
+      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.28);
+      cursor: pointer;
+      font-size: 1.15rem;
+      transition: border-color 160ms ease, transform 160ms ease, color 160ms ease;
+    }
+
+    .control:hover,
+    .control:focus-visible {
+      border-color: rgba(0, 216, 164, 0.74);
+      color: var(--teal);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .count {
+      min-width: 72px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 740;
+      text-align: center;
+    }
+
+    .progress {
+      position: fixed;
+      left: 34px;
+      right: 34px;
+      bottom: 18px;
+      z-index: 18;
+      height: 2px;
+      background: rgba(229, 245, 240, 0.11);
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--amber));
+      transition: width 260ms ease;
+    }
+
+    .topline {
+      position: fixed;
+      left: 34px;
+      top: 28px;
+      z-index: 18;
+      color: rgba(226, 235, 233, 0.54);
+      font-size: 0.72rem;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+    }
+
+    @media (max-width: 1100px) {
+      .slide {
+        padding: 54px 42px 74px;
+      }
+
+      h1 {
+        font-size: 4.05rem;
+      }
+
+      h2 {
+        font-size: 2.45rem;
+      }
+
+      .two-up,
+      .connective,
+      .example-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .flow,
+      .fixture-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .gain-grid,
+      .mvp-grid,
+      .primitive-grid,
+      .timeline {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      body,
+      html {
+        overflow: hidden;
+      }
+
+      .slide {
+        padding: 58px 22px 82px;
+      }
+
+      .slide-inner {
+        max-height: calc(100vh - 150px);
+      }
+
+      h1 {
+        font-size: 3rem;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      .lead,
+      .big-sentence,
+      .takeaway .statement {
+        font-size: 1.35rem;
+      }
+
+      .story-strip,
+      .flow,
+      .gain-grid,
+      .mvp-grid,
+      .primitive-grid,
+      .boundary-grid,
+      .fixture-grid,
+      .timeline,
+      .lenses,
+      .outcome-grid,
+      .field-grid,
+      .role-grid,
+      .before-after-grid,
+      .example-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .artifact {
+        grid-template-columns: 1fr;
+      }
+
+      .axis-row {
+        grid-template-columns: 1fr;
+      }
+
+      .mock-head {
+        flex-direction: column;
+      }
+
+      .mock-head .badge {
+        align-self: flex-start;
+      }
+
+      .route {
+        grid-template-columns: 32px minmax(0, 1fr);
+      }
+
+      .route .badge {
+        grid-column: 2;
+        justify-self: start;
+      }
+
+      .controls {
+        right: 20px;
+      }
+
+      .topline {
+        left: 22px;
+      }
+
+      .progress {
+        left: 22px;
+        right: 22px;
+      }
+    }
+
+    @media print {
+      html,
+      body {
+        height: auto;
+        overflow: visible;
+        background: #05070a;
+      }
+
+      body::before,
+      body::after,
+      .controls,
+      .progress,
+      .topline {
+        display: none;
+      }
+
+      .deck {
+        height: auto;
+        overflow: visible;
+      }
+
+      .slide {
+        position: relative;
+        min-height: 100vh;
+        opacity: 1;
+        transform: none;
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-live="polite">
+    <div class="topline">DomainSpec / Arcanum</div>
+
+    <section class="slide center active" data-title="IDE Ergonomics">
+      <div class="slide-inner hero">
+        <div>
+          <p class="kicker">Project overview</p>
+          <h1>IDE <span class="accent">Ergonomics</span></h1>
+          <p class="tagline">Where human attention and trusted AI route work together</p>
+          <p class="source">A governed action-surface strategy for DomainSpec and Arcanum</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Before">
+      <div class="slide-inner example-layout">
+        <div>
+          <p class="kicker">Before</p>
+          <h2>The user has to hold the whole workflow in their head.</h2>
+          <p class="lead">A productive AI session creates useful residue: a term to define, a tangent to save, a handoff to prepare, and a route choice to make. Without an IDE surface, that all lives in memory.</p>
+        </div>
+        <div class="chat-window">
+          <div class="window-bar">Chat session <span class="status">no route selected</span></div>
+          <div class="chat-body">
+            <div class="bubble user"><span class="speaker">User</span>That phrase <span class="highlight">evidence rail</span> might matter later. Also, the observability tangent is useful, but keep working on the routing card.</div>
+            <div class="bubble"><span class="speaker">Assistant</span>Right. We should probably define it, maybe save the tangent, and maybe prepare a handoff for next session.</div>
+            <div class="bubble user"><span class="speaker">User</span>Which Arcanum route owns this? I do not want it to silently become a canonical definition.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="What The User Sees">
+      <div class="slide-inner example-layout">
+        <div>
+          <p class="kicker">What the user sees</p>
+          <h2>A small card appears on the live phrase.</h2>
+          <p class="lead">The user does not have to remember the taxonomy. They see practical choices with the result and the boundary attached.</p>
+        </div>
+        <div class="panel mock-card">
+          <div class="mock-head">
+            <div>
+              <strong>Possible workflow transition detected</strong>
+              <span class="caption">Span: <code>"evidence rail"</code></span>
+            </div>
+            <span class="badge">preview only</span>
+          </div>
+          <div class="route-list">
+            <div class="route">
+              <div class="num">1</div>
+              <div><h3>Create definition candidate</h3><p>Writes a draft packet, not a canonical definition.</p></div>
+              <span class="badge">draft</span>
+            </div>
+            <div class="route">
+              <div class="num">2</div>
+              <div><h3>Save observability tangent</h3><p>Adds a side node while the active task stays open.</p></div>
+              <span class="badge">parked</span>
+            </div>
+            <div class="route">
+              <div class="num">3</div>
+              <div><h3>Prepare next-session handoff</h3><p>Creates a memo with refs, gaps, and restart prompt.</p></div>
+              <span class="badge">handoff</span>
+            </div>
+            <div class="route">
+              <div class="num">4</div>
+              <div><h3>Preview delegated lanes</h3><p>Shows roles and receipts before any agent fanout.</p></div>
+              <span class="badge">approval needed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Definition Result">
+      <div class="slide-inner example-layout">
+        <div>
+          <p class="kicker">Example result 01</p>
+          <h2>The user clicks: create definition candidate.</h2>
+          <p class="lead">The visible outcome is a saved candidate packet. The user can review it later; nothing canonical changed.</p>
+        </div>
+        <div class="result-card">
+          <div class="window-bar">Definition candidate <span class="status">saved as draft</span></div>
+          <div class="result-body">
+            <div class="result-title">
+              <h3>evidence rail</h3>
+              <span class="receipt-pill">candidate only</span>
+            </div>
+            <div class="field-grid">
+              <div class="field"><div class="label">Source span</div><p>"the evidence rail should show what was run, proposed, or blocked"</p></div>
+              <div class="field"><div class="label">Owner</div><p>Definitions Governance</p></div>
+              <div class="field"><div class="label">Draft meaning</div><p>A side surface that keeps receipts, gaps, and proof status visible beside the work.</p></div>
+              <div class="field"><div class="label">Blocked action</div><p>No canonical promotion until the owner route approves it.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Side Node Result">
+      <div class="slide-inner example-layout">
+        <div>
+          <p class="kicker">Example result 02</p>
+          <h2>The user saves a tangent without losing the main task.</h2>
+          <p class="lead">The end user gets a clean "later" item and the active flow remains exactly where it was.</p>
+        </div>
+        <div class="result-card">
+          <div class="window-bar">Side node queue <span class="status">active task unchanged</span></div>
+          <div class="result-body">
+            <div class="artifact-list">
+              <div class="artifact">
+                <div class="type">side node</div>
+                <div><strong>Observability tangent</strong><span>Why do failed routes leave weak receipts?</span></div>
+                <div class="state">parked</div>
+              </div>
+              <div class="artifact">
+                <div class="type">source</div>
+                <div><strong>Chat span 14:22</strong><span>Captured from current IDE session.</span></div>
+                <div class="state">linked</div>
+              </div>
+              <div class="artifact">
+                <div class="type">next</div>
+                <div><strong>Revisit after card MVP</strong><span>Can feed evidence-rail design later.</span></div>
+                <div class="state">deferred</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Handoff Result">
+      <div class="slide-inner example-layout">
+        <div>
+          <p class="kicker">Example result 03</p>
+          <h2>The user ends the session with a real restart surface.</h2>
+          <p class="lead">Instead of "remember where we were," the next person or next session gets the exact prompt, open calls, and proof boundary.</p>
+        </div>
+        <div class="result-card">
+          <div class="window-bar">Handoff draft <span class="status">ready to review</span></div>
+          <div class="result-body">
+            <div class="result-title">
+              <h3>Next session: transition-card proof</h3>
+              <span class="receipt-pill">not execution proof</span>
+            </div>
+            <div class="field-grid">
+              <div class="field"><div class="label">Start prompt</div><p>Open the card fixture set and test one span: "evidence rail".</p></div>
+              <div class="field"><div class="label">Open calls</div><p>Does the route menu need 4 choices or 6?</p></div>
+              <div class="field"><div class="label">Source refs</div><p>PRODUCT-VIEW.md, ERGONOMICS-OPPORTUNITIES.md, current chat span.</p></div>
+              <div class="field"><div class="label">Boundary</div><p>Drafting the handoff does not mean the fixture passed.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Delegation Result">
+      <div class="slide-inner example-layout">
+        <div>
+          <p class="kicker">Example result 04</p>
+          <h2>Delegation becomes readable before it becomes expensive.</h2>
+          <p class="lead">The user sees what each lane would do, what proof it owes, and the permission gate before any agents are spawned.</p>
+        </div>
+        <div class="result-card">
+          <div class="window-bar">Delegated-lane preview <span class="status">approval required</span></div>
+          <div class="result-body">
+            <div class="role-grid">
+              <div class="role-card"><h3>Research lane</h3><p>Check fixture examples for route ambiguity. Receipt: 3 cards with owner and blocked action.</p></div>
+              <div class="role-card"><h3>Design lane</h3><p>Stress the card layout against handoff and side-node cases. Receipt: screenshot plus failure notes.</p></div>
+              <div class="role-card"><h3>Validation lane</h3><p>Run the static proof and mark pass, flag, or block. Receipt: fixture table.</p></div>
+              <div class="role-card"><h3>User gate</h3><p>Choose "Approve fanout" or "Keep single-lane". No spawn from preview alone.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Knowledge Result">
+      <div class="slide-inner example-layout">
+        <div>
+          <p class="kicker">Example result 05</p>
+          <h2>A knowledge search becomes a reusable reference, not a rabbit hole.</h2>
+          <p class="lead">The user can hover or insert a handle and see source, freshness, authority, and useful actions in place.</p>
+        </div>
+        <div class="result-card">
+          <div class="window-bar">Knowledge popup <span class="status">read-only</span></div>
+          <div class="result-body">
+            <div class="result-title">
+              <h3>knowledge: operational ontology lifecycle</h3>
+              <span class="receipt-pill">cached result</span>
+            </div>
+            <div class="field-grid">
+              <div class="field"><div class="label">Surface</div><p>Inventory evidence-card</p></div>
+              <div class="field"><div class="label">Authority</div><p>Read model, not definition promotion.</p></div>
+              <div class="field"><div class="label">Actions</div><p>Open entry, copy handle, add to handoff, refresh search.</p></div>
+              <div class="field"><div class="label">Warning</div><p>Marks stale if index changed since the query.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Connective Result">
+      <div class="slide-inner example-layout">
+        <div>
+          <p class="kicker">Example result 06</p>
+          <h2>The user starts work and gets a ranked next move.</h2>
+          <p class="lead">Connective turns project state, attention, tests, and domain priority into a recommended lane with reasons and an expected receipt.</p>
+        </div>
+        <div class="panel ranked">
+          <span class="eyebrow">Recommended next</span>
+          <div class="rank">
+            <div class="place">1</div>
+            <div><h3>Run focused validation sweep</h3><p>High domain priority, low ambiguity, fits 45 minutes. Expected receipt: command output plus screenshot.</p></div>
+          </div>
+          <div class="rank">
+            <div class="place">2</div>
+            <div><h3>Ask one decision-gate question</h3><p>Small cognitive footprint. Use if validation hits the hosted-preview blocker.</p></div>
+          </div>
+          <div class="rank">
+            <div class="place">3</div>
+            <div><h3>Defer high-ambiguity design</h3><p>Important, but wrong task shape for the current session.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Input Result">
+      <div class="slide-inner example-layout">
+        <div>
+          <p class="kicker">Example result 07</p>
+          <h2>The user marks intent before the agent misreads it.</h2>
+          <p class="lead">Intent-latitude tags show how the product can act on input too: exact text stays exact, goals stay flexible, constraints stay visible.</p>
+        </div>
+        <div class="result-card">
+          <div class="window-bar">Post-hoc validator <span class="status">draft verdict</span></div>
+          <div class="result-body">
+            <div class="field-grid">
+              <div class="field"><div class="label">User span</div><p><span class="inline-code">[literal]</span> "owner-safe preview"</p></div>
+              <div class="field"><div class="label">Check</div><p>Verbatim diff found the exact phrase.</p></div>
+              <div class="field"><div class="label">Result</div><p>PASS for literal span.</p></div>
+              <div class="field"><div class="label">Boundary</div><p>Goal and constraint checks remain flag-grade until grounded.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Session Result">
+      <div class="slide-inner">
+        <p class="kicker">End-user result</p>
+        <h2>After ten minutes, the session has durable outputs.</h2>
+        <div class="artifact-list">
+          <div class="artifact">
+            <div class="type">candidate</div>
+            <div><strong>Definition: evidence rail</strong><span>Drafted with source span, owner, and blocked promotion.</span></div>
+            <div class="state">review later</div>
+          </div>
+          <div class="artifact">
+            <div class="type">side node</div>
+            <div><strong>Observability tangent</strong><span>Parked without changing the active task.</span></div>
+            <div class="state">visible</div>
+          </div>
+          <div class="artifact">
+            <div class="type">handoff</div>
+            <div><strong>Transition-card proof restart</strong><span>Next prompt, open calls, refs, and boundaries.</span></div>
+            <div class="state">ready</div>
+          </div>
+          <div class="artifact">
+            <div class="type">decision</div>
+            <div><strong>Delegation not approved yet</strong><span>Role lanes previewed; no agents spawned.</span></div>
+            <div class="state">gated</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Before And After">
+      <div class="slide-inner">
+        <p class="kicker">Before and after</p>
+        <h2>The difference is visible in the user's workbench.</h2>
+        <div class="before-after-grid">
+          <div class="compare-card">
+            <h3>Before</h3>
+            <p>The user leaves with a long chat, a few remembered ideas, and uncertainty about which route owns the next move.</p>
+            <div class="outcome-grid">
+              <div class="outcome"><h3>Lost term</h3><p>"evidence rail" is somewhere in chat.</p></div>
+              <div class="outcome"><h3>Fragile handoff</h3><p>Next session reconstructs context manually.</p></div>
+            </div>
+          </div>
+          <div class="compare-card">
+            <h3>With IDE Ergonomics</h3>
+            <p>The user leaves with candidate artifacts, side nodes, handoff drafts, route choices, and explicit non-actions.</p>
+            <div class="outcome-grid">
+              <div class="outcome"><h3>Saved candidate</h3><p>Definition owner and source span are already attached.</p></div>
+              <div class="outcome"><h3>Clean restart</h3><p>Next session opens the right prompt and receipts.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="First Demo">
+      <div class="slide-inner">
+        <p class="kicker">First demo</p>
+        <h2>The proof should look like a usable session, not a system diagram.</h2>
+        <div class="example-strip">
+          <div class="fixture"><div class="count">01</div><h3>Select a phrase</h3><p>User highlights "evidence rail" in a static chat fixture.</p></div>
+          <div class="fixture"><div class="count">02</div><h3>Pick a route</h3><p>The card shows definition, side node, handoff, delegation, and park.</p></div>
+          <div class="fixture"><div class="count">03</div><h3>Inspect the result</h3><p>The prototype opens the drafted packet with owner and blocked actions.</p></div>
+        </div>
+        <p class="question">The demo passes when a reader can point at the screen and say: this is what I would get, this is what did not happen automatically, and this is who owns the next step.</p>
+      </div>
+    </section>
+
+    <section class="slide center" data-title="Takeaway">
+      <div class="slide-inner takeaway">
+        <p class="kicker">Takeaway</p>
+        <h2>The product is <span class="accent">flow with receipts</span>.</h2>
+        <p class="statement">The end user does not buy a governance model. They get a cleaner workbench at the exact moment a chat turns into work.</p>
+        <p class="small">One card. A concrete result. A visible boundary. The next session can continue without archaeology.</p>
+      </div>
+    </section>
+
+    <div class="controls" aria-label="Slide controls">
+      <button class="control" id="prev" type="button" title="Previous slide" aria-label="Previous slide">&lsaquo;</button>
+      <div class="count" id="count">01 / 14</div>
+      <button class="control" id="next" type="button" title="Next slide" aria-label="Next slide">&rsaquo;</button>
+    </div>
+    <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+  </main>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const prev = document.getElementById("prev");
+    const next = document.getElementById("next");
+    const count = document.getElementById("count");
+    const progress = document.getElementById("progress");
+    let current = 0;
+
+    function pad(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function show(index, updateHash = true) {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === current);
+        slide.setAttribute("aria-hidden", i === current ? "false" : "true");
+        slide.toggleAttribute("inert", i !== current);
+      });
+      count.textContent = `${pad(current + 1)} / ${pad(slides.length)}`;
+      progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+      document.title = `${slides[current].dataset.title} - IDE Ergonomics`;
+      if (updateHash) {
+        history.replaceState(null, "", `#${current + 1}`);
+      }
+    }
+
+    prev.addEventListener("click", () => show(current - 1));
+    next.addEventListener("click", () => show(current + 1));
+
+    window.addEventListener("keydown", (event) => {
+      const key = event.key;
+      if (key === "ArrowRight" || key === "PageDown" || key === " ") {
+        event.preventDefault();
+        show(current + 1);
+      }
+      if (key === "ArrowLeft" || key === "PageUp") {
+        event.preventDefault();
+        show(current - 1);
+      }
+      if (key === "Home") {
+        event.preventDefault();
+        show(0);
+      }
+      if (key === "End") {
+        event.preventDefault();
+        show(slides.length - 1);
+      }
+    });
+
+    const start = Number.parseInt(location.hash.replace("#", ""), 10);
+    show(Number.isFinite(start) && start > 0 ? start - 1 : 0, false);
+  </script>
+</body>
+</html>
