@@ -55,10 +55,13 @@ covers implementation but not this quieter design-status inflation.
 **B3. The kind enumeration disagrees with itself — and the closure check needs it closed.**
 AUTHORITY-MODEL ~L50–61 (and the parent synthesis): **9** authority kinds including
 `runtime_contract`. `ontology/NODE-MODEL.md` ~L63–76: **12** concepts, with **no**
-`concept.runtime_contract`. The schema proposal simultaneously claims the concept set is
-"complete, no change" (§4) and adds the missing `concept.runtime_contract` (§5, gap G1).
-"Every `instantiates` must hit an enumerated kind" is undecidable while two enumerations
-disagree: a promoted runtime contract would be default-denied by the concept table.
+`concept.runtime_contract`. The schema proposal's §4 asserts the `concept_role` **enum** is
+"complete, no change" and "covers the 9 kinds", yet §5 (gap G1) adds the missing
+`concept.runtime_contract` to the retained 12-concept set — so the "covers the 9 kinds" claim and
+the concept table it points at do not line up. (The §4 claim is about the *role* enum, not the
+concept set — but the mismatch is real either way.) "Every `instantiates` must hit an enumerated
+kind" is undecidable while the two enumerations disagree: a promoted runtime contract would be
+default-denied by the concept table.
 *Revision needed:* one canonical kind table, one owner, others reference it.
 
 **B4. The plan may violate the layer separation it enforces.**
@@ -108,12 +111,14 @@ silently requires a second schema (rules-as-records) it never mentions.
 *Revision needed:* align the ladder with the real enum (or amend the enum), and decide whether
 rules become typed objects.
 
-**C3. "The catalog" does not exist.**
+**C3. "The catalog" as a consolidated artifact does not exist.**
 Synthesis ~L50–51: "The catalog shows which rules are review vs validator → coverage is
-visible." The only catalog artifact is `disciplines/DISCIPLINES.md` — it catalogs disciplines,
-not governance rules, and has no validation-mode column. Coverage visibility is currently
-impossible.
-*Revision needed:* add "build the rule catalog" as an explicit build-order step with an owner.
+visible." There is no such catalog: `disciplines/DISCIPLINES.md` catalogs disciplines, not
+governance rules, and has no validation-mode column. The per-rule `Validation mode:` lines *do*
+exist inline on each constitution rule (greppable across `authority/constitutions/`), so coverage
+is **scattered, not impossible** — what is missing is the single consolidated view the plan leans on.
+*Revision needed:* add "build the rule catalog" (compile the inline per-rule modes into one view)
+as an explicit build-order step with an owner.
 
 **C4. The Lean anchor is outside the corpus.**
 `functorial_strictly_dominates_count` (the "FOL shadow" basis of the non-thinness boundary)
@@ -137,12 +142,18 @@ query. Honest claim: "rules over declared fields reduce to SMT."
 movement did *not* happen by proximity quantifies over absent causes. Checkable weakening:
 "no `active` status without a movement record." Someone must own that weakening explicitly.
 
-**D3. No engineering spec exists at all.**
-The HANDOFFs spec the logical form and the decidable fragment — nothing else. No input format,
-no solver choice (no SMT/z3 code anywhere in `tools/`, which holds shell scripts), no home for
-validators (`validation/` currently contains an unrelated poker app), no invocation contract,
-no counter-witness output format. `sigil-development/tools` is named as owner but has produced
-none of it.
+**D3. Only the closure sibling has an engineering spec; the other two have none, and nothing is built.**
+`cyberAlchemy-v2/validation/authority-kind-closure-validator-SPEC.md` (candidate, 2026-06-30)
+*does* spec the closure check end-to-end: checks (C-1..C-3 deterministic + R-1 review), validation
+mode, fixtures, and observability. But it covers **1 of the 3 siblings** — non-collapse and
+build-from-owned have only their HANDOFFs (logical form + decidable fragment), with no input
+format, no invocation contract, no counter-witness output format. Across all three: **no solver
+choice** (no SMT/z3 code anywhere) and **no built validator** — `sigil-development/tools` is named
+as owner but `cyberAlchemy-v2/tools/` does not exist. The validator home *does* exist
+(`cyberAlchemy-v2/validation/`, holding the closure SPEC; `specs/` is a README stub) — the
+unrelated poker app is at the **repo-root** `validation/poker-team/`, a different folder.
+*Revision needed:* spec the other two siblings, choose a solver, define the invocation +
+counter-witness contracts; the closure SPEC is the template.
 
 **D4. "Pre-authoring gates" have no interception point.**
 Authoring today is an LLM session editing markdown. No hook, CI, or authoring command exists
