@@ -22,6 +22,8 @@ indexes:
     CTX-DSV2-SPEC-ONTOLOGY: contexts[4]
     CTX-DSV2-META-TYPE-FORMALIZATION: contexts[5]
     CTX-DSV2-APE: contexts[6]
+    CTX-DSV2-CODE-TAG-CONFORMANCE: contexts[7]
+    CTX-DSV2-AGENT-SPEC-CONFORMANCE: contexts[8]
   open_decisions:
     - DEC-DSV2-LANE-ZA
   blocking_decisions: []
@@ -29,18 +31,29 @@ indexes:
     - BLK-DSV2-DRIFT-ENGINE
     - BLK-DSV2-L2-ATTESTATION
   active_gaps:
-    - GAP-DSV2-COMPOSABILITY-ENFORCE
     - GAP-DSV2-EXERCISE
     - GAP-DSV2-APE-CARD-TRIAGE
+    - GAP-SH-UI11-MIGRATE
+    - GAP-SH-PROSE-HOMES
   next_moves:
     - context_id: CTX-DSV2-ROOT
-      next_move: R3A relationship authority is landed and green; execute the remaining batch-1 reformulation docs (R1/R2/R4/R5/R6a/R6b) or stand up the agent-cost experiment that settles Lane Z vs A.
+      next_move: >-
+        R0 DONE 2026-07-06 (first DEC-DSV2-SPEC-HOMING migration — RELATIONSHIPS.md deleted, validate-code-tags
+        consumes root, tags:test green 8/8). Next: verify-close R1/R2 (gated on GAP-SH-UI11-MIGRATE +
+        GAP-SH-PROSE-HOMES + DEC-B1-SATURN-AXIOM-SCOPE), reconcile-close R7, then R4/R5/R6a/R6b. Or the
+        agent-cost experiment for Lane Z vs A.
     - context_id: CTX-DSV2-REFORMULATE-BATCH1
-      next_move: R3A is complete; run the remaining SWUs in dependency order (R1, R2, R4, R5, R6a, R6b) before the freeze gate closes.
+      next_move: >-
+        R0 DONE + DEC-B1-SATURN-AXIOM-SCOPE RESOLVED 2026-07-06 (scope-down-to-Saturn; per-rule cut recorded).
+        Next per DEC-DSV2-SPEC-HOMING: GAP-SH-UI11-MIGRATE -> verify-close R1 (AXIOMS->authority/, keep
+        A1/A2/A3-recast; gated GAP-SH-PROSE-HOMES) + R2 (delete TAXONOMY) -> reconcile-close R7 -> R4 / R5 ->
+        R6a/R6b (crosswalk pre-decided by the axiom scope).
     - context_id: CTX-DSV2-SPEC-ONTOLOGY
       next_move: Lane Z vs A stays deferred to an agent-cost experiment; extend legacy code-tag composability enforcement to consume root DS-D8 authority and consider a 2nd UI-heavy corpus (T5).
     - context_id: CTX-DSV2-APE
       next_move: L0 POC DONE and R3A unblocks the edge plane. Next — SWU-APE-004/005 defect cleanup, TASK-CARDS pattern-library triage, and dynamic edge-law enforcement over root DS-D8.
+    - context_id: CTX-DSV2-CODE-TAG-CONFORMANCE
+      next_move: task-session CT-1 first (validate-code-tags reads taxonomy from root meta-type schemas; unblocks R2's TAXONOMY.md deletion), then CT-3, CT-2, CT-4.
   artifacts_by_path:
     "IMPORT-MANIFEST.md": ART-DSV2-IMPORT-MANIFEST
     "impl/": ART-DSV2-IMPL
@@ -56,6 +69,8 @@ indexes:
     "definitions/": ART-DSV2-DEFINITIONS
     "development/meta-type-definitions/": ART-DSV2-METATYPE-DEFINITIONS
     "development/architecture-pattern-enforcement/": ART-DSV2-APE
+    "development/code-tag-conformance/": ART-DSV2-CODE-TAG-CONFORMANCE
+    "development/agent-spec-conformance/": ART-DSV2-AGENT-SPEC-CONFORMANCE
 
 contexts:
   - context_id: CTX-DSV2-ROOT
@@ -68,8 +83,9 @@ contexts:
     stage: build
     gate: flag
     next_move: >-
-      R3A relationship authority is landed and green; execute the remaining batch-1 reformulation docs
-      (R1/R2/R4/R5/R6a/R6b), or stand up the agent-cost experiment for Lane Z vs A.
+      Batch-1 re-baselined 2026-07-06 (post-R3A re-triage): R0 code-tag repair first (tags:test red), then
+      verify-close R1/R2 + reconcile-close R7 (delivered); R4/R5/R6a/R6b remain genuine reformulation. Or
+      stand up the agent-cost experiment for Lane Z vs A.
     owned_artifacts: [ART-DSV2-IMPORT-MANIFEST, ART-DSV2-IMPL, ART-DSV2-AUTHORITY]
 
   - context_id: CTX-DSV2-AUTHORITY
@@ -106,7 +122,11 @@ contexts:
       from v1-verbatim to v2-native, bound to their governance owners; closes the v1-freeze gate.
     stage: plan
     gate: flag
-    next_move: R3A complete; remaining SWUs R1/R2/R4/R5/R6a/R6b still need task-session execution before freeze.
+    next_move: >-
+      R0 DONE + DEC-B1-SATURN-AXIOM-SCOPE RESOLVED 2026-07-06 (scope-down-to-Saturn). Next per DEC-DSV2-SPEC-HOMING:
+      GAP-SH-UI11-MIGRATE -> verify-close R1 (AXIOMS->authority/, keep A1/A2/A3-recast; gated GAP-SH-PROSE-HOMES)
+      + R2 (delete TAXONOMY, gated GAP-SH-UI11-MIGRATE) -> reconcile-close R7 -> R4/R5 -> R6a/R6b (crosswalk
+      pre-decided by the axiom scope); then freeze gate.
     owned_artifacts: [ART-DSV2-REFORMULATE-BATCH1, ART-DSV2-IMPORT-MANIFEST]
     links:
       - {label: child — meta-type formalization (owns the formal type system + content validator; R2/R7 consume it), target: CTX-DSV2-META-TYPE-FORMALIZATION, kind: row-id}
@@ -167,6 +187,48 @@ contexts:
       - {label: edge plane unblocked by R3A; downstream enforcement remains, target: GAP-DSV2-COMPOSABILITY-ENFORCE, kind: row-id}
       - {label: rests on the two-plane boundary, target: CTX-DSV2-SPEC-ONTOLOGY, kind: row-id}
       - {label: evidence — research findings, target: "[repo-root]/projects/domainspec-v2/research/2026-07-02-architecture-patterns-enforcement/findings.md", kind: path}
+
+  - context_id: CTX-DSV2-CODE-TAG-CONFORMANCE
+    parent_id: CTX-DSV2-ROOT
+    recomposition_target: CTX-DSV2-ROOT
+    title: Code-tag conformance (Batch-2) — root authority + machine schema + one gate
+    purpose: >-
+      Finish the R0 migration across the whole code-tag / C6 code<->spec binding subsystem: taxonomy from root
+      schemas (CT-1), tag contract as code-tag.schema.yml (CT-2), waiver reset + v1-path fix (CT-3), fold into
+      the unified validate gate (CT-4). The deferred Batch-2 code-tag reformulation, now planned.
+    stage: plan
+    gate: flag
+    next_move: task-session CT-1 first (taxonomy -> root schemas; also unblocks batch-1 R2's TAXONOMY.md deletion).
+    owned_artifacts: [ART-DSV2-CODE-TAG-CONFORMANCE]
+    links:
+      - {label: CT-1 is a prerequisite of batch-1 R2 (TAXONOMY.md deletion), target: CTX-DSV2-REFORMULATE-BATCH1, kind: row-id}
+      - {label: CT-1 UI recognition rides on, target: GAP-SH-UI11-MIGRATE, kind: row-id}
+      - {label: governed by, target: DEC-DSV2-SPEC-HOMING, kind: row-id}
+
+  - context_id: CTX-DSV2-AGENT-SPEC-CONFORMANCE
+    parent_id: CTX-DSV2-ROOT
+    recomposition_target: CTX-DSV2-ROOT
+    title: Agent⊨spec conformance — runtime action↔spec plane (L3), general core + witnesses
+    purpose: >-
+      Build a general agent⊨spec verifier: a domain-agnostic core (spec, action) -> conform | not-conform +
+      counter-witness + safe-fallback, with thin per-domain plug-ins. The Layer-3 runtime plane that
+      meta-type-formalization explicitly deferred (its non-goal). Build-from-owned on the v2
+      consume-root/contract-as-schema/one-gate pattern; a distinct plane beside code-tag (L1 binding) and
+      meta-type (L1 content) — NOT a merge.
+    stage: design
+    gate: flag
+    next_move: >-
+      DEFINE + DESIGN authored (AV-D1 resolved -> 3-witness ramp dosage -> data-access -> robot; AV-D2 boundary =
+      pipeline + plural certify-backends in core, domain in plug-in). Next: invoke plan -> work-pack over L0 (core
+      + structural backend + dosage) -> L1 (data-access) -> L2 (runtime-monitor backend + robot). "general/moat"
+      claim gates at L2 + decision-gate (AV-D4).
+    owned_artifacts: [ART-DSV2-AGENT-SPEC-CONFORMANCE]
+    links:
+      - {label: the L3 runtime layer meta-type-formalization deferred (its non-goal), target: CTX-DSV2-META-TYPE-FORMALIZATION, kind: row-id}
+      - {label: sibling conformance plane (L1 code↔spec binding), target: CTX-DSV2-CODE-TAG-CONFORMANCE, kind: row-id}
+      - {label: governed by (consume root; contract-as-schema; one gate), target: DEC-DSV2-SPEC-HOMING, kind: row-id}
+      - {label: session decision + three-layer model, target: "[repo-root]/.arcanum/inventory/entries/three-layer-agent-conformance-verifier-decision.md", kind: path}
+      - {label: formal invariant realization, target: "[repo-root]/domainspec-lean-formalization/lean-engineer/AgentPermissionKernel.lean", kind: path}
 
 descriptions:
   - description_id: DESC-DSV2-ROOT-001
@@ -337,6 +399,60 @@ descriptions:
       dynamic DS-D8 enforcement is still pending. Nothing promoted — candidate discipline.
     evidence: [ART-DSV2-APE]
 
+  - description_id: DESC-DSV2-BATCH1-RETRIAGE-001
+    context_id: CTX-DSV2-REFORMULATE-BATCH1
+    description: >-
+      2026-07-06 — batch-1 re-triaged against on-disk state + invoke refresh applied (P1-P9 into
+      WORK-PACK/DESIGN/implementation-layering). Findings: R3 done+green (validate:rels 31 sigs); R1 AXIOMS
+      ~80% (namespace note folded, no v1 residue, validate:docs green) — verify-and-close, open Saturn-axiom
+      scope call (A3-A6, DEC-B1-SATURN-AXIOM-SCOPE); R2 TAXONOMY content v2-native (14 backend/11 UI) but its
+      acceptance gate tags:test is RED because R3A's authority relocation orphaned the legacy code-tag
+      composability validator (CT-VAL-002); R7 substantially delivered via meta-type-definitions
+      (DS-D1/DS-D2/DS-D8). R4 TEST-PIPELINE + R5 DRIFT-CONVERGENCE + R6a CONSTITUTION remain genuine
+      v1-verbatim reformulation. Canonical gate green (validate RC 0, engine:test RC 0); only tags:test red.
+      New pre-req R0 = repoint the code-tag validator at root DS-D8 authority.
+    evidence:
+      - {label: refresh report, target: "[repo-root]/projects/domainspec-v2/development/reformulate-batch1/refreshes/2026-07-06-batch1-post-r3a-retriage/REFRESH-REPORT.md", kind: path}
+
+  - description_id: DESC-DSV2-SATURN-AXIOM-001
+    context_id: CTX-DSV2-REFORMULATE-BATCH1
+    description: >-
+      2026-07-06 — DEC-B1-SATURN-AXIOM-SCOPE resolved (decision-gate, owner): scope-down-to-Saturn. DomainSpec-v2
+      keeps typed-intent + deterministic-enforcement axioms/rules (A1/A2/A3-recast; C1/C2/C5/C6/C7/C8/C10-drift);
+      the observability/loop material (A4/A6 + C3/C4/C9/C11) routes to Saturn as DROP-with-pointer (authored when
+      the Saturn spine exists). A5 splits (shift-left->C5 stays; reflection-outer-loop->Saturn). Pre-decides most
+      of the R6a crosswalk and unblocks R1's AXIOMS scope. Saturn-owned rows carry a pointer, not deleted without
+      provenance.
+    evidence:
+      - {label: decision, target: DEC-B1-SATURN-AXIOM-SCOPE, kind: row-id}
+
+  - description_id: DESC-DSV2-R0-001
+    context_id: CTX-DSV2-REFORMULATE-BATCH1
+    description: >-
+      2026-07-06 — R0 executed (task-session): the first DEC-DSV2-SPEC-HOMING migration. validate-code-tags now
+      loads canonical edge rules from the ROOT authority (definitions/relationships/relationships.yml) via a new
+      build-from-owned adapter loadRelationshipRulesFromAuthority (over loadRelationshipAuthority), replacing the
+      MD-table parseRelationshipRules on spec/RELATIONSHIPS.md. The hand-authored impl/spec/RELATIONSHIPS.md
+      projection was DELETED; 4 doc references (LEARNING-ORDER, interface, CODE-TAG-SCHEMA, CODE-TAG-REMEDIATION)
+      repointed to root authority. Gate: tags:test 8/8 (was 2 fail CT-VAL-002), validate/engine:test/typecheck
+      RC 0. Resolves GAP-DSV2-COMPOSABILITY-ENFORCE; unblocks R2's acceptance gate.
+    evidence:
+      - {label: R0 loader, target: "[repo-root]/projects/domainspec-v2/impl/governance/tags/tools/lib/code-tag-rules.ts", kind: path}
+      - {label: validator, target: "[repo-root]/projects/domainspec-v2/impl/governance/tags/tools/validate-code-tags.ts", kind: path}
+
+  - description_id: DESC-DSV2-SPEC-HOMING-001
+    context_id: CTX-DSV2-REFORMULATE-BATCH1
+    description: >-
+      2026-07-06 — DEC-DSV2-SPEC-HOMING recorded (dialectic + apply-approved invoke refresh). The proposal
+      "remove all impl/spec/*.md, consume from root" was refined to the invariant "root is the sole authored
+      authority; NO hand-authored projections (impl/spec views are generated + CI-verified or deleted);
+      governance prose routes to its owner surface." Re-scoped batch-1: R0 now DELETES impl/spec/RELATIONSHIPS.md
+      (+ repoints the validator at root); R2 migrates UI-11 to root then deletes/generates TAXONOMY; R1 homes
+      AXIOMS to authority/ (not definitions/); R5 homes DRIFT to drift-governance; R4 keeps TEST-PIPELINE on the
+      contract plane; R6a/R6b unchanged. New residue: GAP-SH-UI11-MIGRATE, GAP-SH-PROSE-HOMES.
+    evidence:
+      - {label: spec-homing refresh, target: "[repo-root]/projects/domainspec-v2/development/reformulate-batch1/refreshes/2026-07-06-spec-homing-synthesis/REFRESH-REPORT.md", kind: path}
+
   - description_id: DESC-DSV2-APE-002
     context_id: CTX-DSV2-APE
     description: >-
@@ -433,6 +549,73 @@ decisions:
     links:
       - {label: work-pack blocker B-003 / gap G-001, target: "[repo-root]/projects/domainspec-v2/development/architecture-pattern-enforcement/WORK-PACK.md", kind: path}
 
+  - decision_id: DEC-DSV2-SPEC-HOMING
+    scope_id: CTX-DSV2-REFORMULATE-BATCH1
+    question: Should all impl/spec/*.md governance docs be removed and consumed from root definitions/?
+    options: [all-to-root, no-hand-projections-route-to-owner, keep-hand-projections]
+    decision_type: architecture
+    blocking: false
+    status: closed
+    default_option: no-hand-projections-route-to-owner
+    selected_option: no-hand-projections-route-to-owner
+    description: >-
+      Proposal: delete every impl/spec/*.md and have all consumers read root. Investigation: only 2 of the 6
+      top-level docs (TAXONOMY, RELATIONSHIPS) are machine-consumed (validate-code-tags); the engine reads
+      none of them; AXIOMS/DRIFT/TEST-PIPELINE have no root home and no consumer.
+    impact: >-
+      Re-scopes batch-1 from "reformulate 6 docs in place" to "root is the sole authored authority; no
+      hand-authored projections; governance prose routes to its owner surface."
+    rationale: >-
+      Dialectic 2026-07-06. Thesis: single authority removes the projection-drift failure mode behind the R3A
+      orphan. Antithesis: the two-plane boundary (DEF-DSV2-TWO-PLANE) is deliberate; 4 of 6 docs are prose with
+      no consumer; forcing AXIOMS into definitions/ violates the project's own orthogonality rule
+      (domainspec-v2-D3/CAV2-D22 — a proposition is not a term). Synthesis: the real invariant is "no
+      HAND-authored projections", not "no projections" — any impl/spec view is generated from root and
+      CI-verified, or deleted. Per-doc: RELATIONSHIPS delete+consume-root; TAXONOMY migrate UI-11 to root then
+      delete/generate; CONSTITUTION -> authority/constitutions (R6a/R6b); AXIOMS -> authority/ (basis) not
+      definitions/; DRIFT -> drift-governance owner; TEST-PIPELINE STAYS contract-plane.
+    evidence:
+      - {label: synthesis refresh, target: "[repo-root]/projects/domainspec-v2/development/reformulate-batch1/refreshes/2026-07-06-spec-homing-synthesis/REFRESH-REPORT.md", kind: path}
+      - {label: two-plane boundary, target: DEF-DSV2-TWO-PLANE, kind: row-id}
+    links:
+      - {label: subsumes R0 — delete projection instead of keep, target: GAP-DSV2-COMPOSABILITY-ENFORCE, kind: row-id}
+
+  - decision_id: DEC-B1-SATURN-AXIOM-SCOPE
+    scope_id: CTX-DSV2-REFORMULATE-BATCH1
+    question: Which v1 axioms/constitution rules belong in DomainSpec-v2 vs the Saturn (loop) pillar?
+    options: [scope-down-to-saturn, keep-all-self-contained, drop-hard]
+    decision_type: pillar-boundary
+    blocking: true
+    status: closed
+    selected_option: scope-down-to-saturn
+    description: >-
+      v1's AXIOMS (A1-A6) + CONSTITUTION (C1-C11) carry observability/loop material (A4 observer/executor,
+      A5 shift-left/reflection, A6 feedback budget; C3 signal schema, C4 dual observer, C9 telemetry, C11
+      metrics/reflect) that architecturally belongs to Saturn (the loop closing intent<->reality), not
+      DomainSpec (the *what*/typed intent). Gates R1 (AXIOMS) and R6a/R6b (CONSTITUTION crosswalk).
+    impact: >-
+      Decides the content of R1 + R6a/R6b and pre-decides most of the R6a crosswalk. Saturn isn't a folder yet
+      (spec/private), so Saturn-owned material is DROP-with-pointer until the Saturn spine exists.
+    rationale: >-
+      Owner decision via decision-gate 2026-07-06 (recommended option). Three-pillar model: Saturn owns the
+      observability/reflection loop. Per-rule cut —
+      STAY in DomainSpec-v2: A1 (semantic authority), A2 (adapter line), A3 (RECAST: governance methods must be
+      runnable/computable); C1 (spec=source-of-truth / base), C2 (no domain logic in adapters / layering),
+      C5 (critical violations block merge / validation-shift-left), C6 (code<->concept anchors / layering),
+      C7 (alignment+layering audits / layering-drift), C8 (deterministic detectors / validation — underpins the engine).
+      ROUTE to Saturn (DROP-with-pointer): A4 (observer/executor), A6 (feedback budget); C3 (signal schema),
+      C4 (dual observer), C9 (telemetry), C11 (metrics/reflect).
+      STRADDLERS (R6a resolves with this default): A5 — keep the shift-left half (realized as C5), route the
+      reflection-outer-loop half to Saturn; C10 (prune-by-evidence / via-negativa) — keep as DomainSpec drift
+      governance; its feedback-budget cadence references Saturn A6.
+    evidence:
+      - {label: v1 axioms (read 2026-07-06), target: "[repo-root]/projects/domainspec-v2/impl/spec/AXIOMS.md", kind: path}
+      - {label: v1 constitution, target: "[repo-root]/projects/domainspec-v2/impl/spec/CONSTITUTION.md", kind: path}
+      - {label: three-pillar prose, target: "[repo-root]/cyberAlchemy/agentic-system-deep-dive.md", kind: path}
+    links:
+      - {label: gates AXIOMS (R1) + CONSTITUTION crosswalk (R6a/R6b), target: CTX-DSV2-REFORMULATE-BATCH1, kind: row-id}
+      - {label: prose homes needed (authority/), target: GAP-SH-PROSE-HOMES, kind: row-id}
+
 blockers:
   - blocker_id: BLK-DSV2-DRIFT-ENGINE
     context_id: CTX-DSV2-REFORMULATE-BATCH1
@@ -474,11 +657,46 @@ gaps:
 
   - gap_id: GAP-DSV2-COMPOSABILITY-ENFORCE
     context_id: CTX-DSV2-SPEC-ONTOLOGY
-    summary: Legacy code-tag composability still needs to consume root DS-D8 authority; R3A made the edge-law typed and checkable, but this older code-tag enforcement path has not been broadened across the active signature set.
-    severity: low
-    treatment: extend-tooling
-    owner_route: drift governance (extend check-code-tag-composability)
-    evidence: [ART-DSV2-COMPOSABILITY-SYNTHESIS]
+    status: resolved
+    summary: >-
+      RESOLVED 2026-07-06 by batch-1 R0 (task-session). validate-code-tags now loads canonical edge rules from
+      the ROOT authority (definitions/relationships/relationships.yml, 31 signatures) via a build-from-owned
+      adapter loadRelationshipRulesFromAuthority over loadRelationshipAuthority; the hand-authored
+      impl/spec/RELATIONSHIPS.md projection was DELETED (DEC-DSV2-SPEC-HOMING). `npm run tags:test` green 8/8
+      (was 2 fail CT-VAL-002); validate/engine:test/typecheck RC 0. Residue: broader DYNAMIC edge-law
+      enforcement across the full signature set is a separate concern (check-code-tag-composability checks
+      code-composition patterns, not relationship signatures) — stays under CTX-DSV2-APE.
+    severity: medium
+    treatment: fixed-in-R0 (validator consumes root authority; projection deleted)
+    owner_route: batch-1 R0 (done)
+    evidence:
+      - {label: composability synthesis, target: ART-DSV2-COMPOSABILITY-SYNTHESIS, kind: evidence}
+      - {label: R0 loader, target: "[repo-root]/projects/domainspec-v2/impl/governance/tags/tools/lib/code-tag-rules.ts", kind: path}
+      - {label: post-R3A re-triage refresh, target: "[repo-root]/projects/domainspec-v2/development/reformulate-batch1/refreshes/2026-07-06-batch1-post-r3a-retriage/REFRESH-REPORT.md", kind: path}
+
+  - gap_id: GAP-SH-UI11-MIGRATE
+    context_id: CTX-DSV2-REFORMULATE-BATCH1
+    summary: >-
+      The 11 UI meta-types are enumerated only in impl/spec/TAXONOMY.md (root definitions/meta-types/meta-types.yml
+      is backend-14). Per DEC-DSV2-SPEC-HOMING, TAXONOMY.md must NOT be deleted (R2) until the 11 UI types are
+      migrated to the root meta-type authority, else they orphan.
+    severity: medium
+    treatment: migrate-content-before-delete
+    owner_route: batch-1 R2 / meta-type-definitions MT5
+    evidence:
+      - {label: spec-homing refresh, target: "[repo-root]/projects/domainspec-v2/development/reformulate-batch1/refreshes/2026-07-06-spec-homing-synthesis/REFRESH-REPORT.md", kind: path}
+
+  - gap_id: GAP-SH-PROSE-HOMES
+    context_id: CTX-DSV2-REFORMULATE-BATCH1
+    summary: >-
+      AXIOMS.md and DRIFT-CONVERGENCE.md have no owner-surface home yet (authority/ for AXIOMS basis;
+      drift-governance for DRIFT). Per DEC-DSV2-SPEC-HOMING these projections must NOT be deleted (R1/R5) until
+      their owner-surface homes exist, else the prose content orphans.
+    severity: medium
+    treatment: author-owner-home-before-delete
+    owner_route: batch-1 R1/R5 + constitution-governance
+    evidence:
+      - {label: spec-homing refresh, target: "[repo-root]/projects/domainspec-v2/development/reformulate-batch1/refreshes/2026-07-06-spec-homing-synthesis/REFRESH-REPORT.md", kind: path}
 
   - gap_id: GAP-DSV2-EXERCISE
     context_id: CTX-DSV2-SPEC-ONTOLOGY
@@ -577,7 +795,11 @@ artifacts:
   - artifact_id: ART-DSV2-REFORMULATE-BATCH1
     path: development/reformulate-batch1/
     status: candidate
-    notes: DESIGN + WORK-PACK + layering (invoke design+plan). R3A executed and passed (root relationship authority + endpoint/content-edge validation). Remaining SWUs R1/R2/R4/R5/R6a/R6b still need task-session execution before the freeze gate closes.
+    notes: >-
+      DESIGN + WORK-PACK + layering (invoke design+plan). R3A executed and passed (root relationship authority
+      + endpoint/content-edge validation). Re-baselined 2026-07-06 (refresh): R1/R2 ~80% (verify-and-close),
+      R7 delivered via meta-type-definitions; pre-req R0 = repoint the code-tag composability validator at
+      root authority (tags:test red / CT-VAL-002); R4/R5/R6a/R6b remain genuine reformulation.
   - artifact_id: ART-DSV2-IMPORT-TRIAGE
     path: research/2026-06-29-v1-import-triage/findings.md
     status: active
@@ -623,6 +845,24 @@ artifacts:
       research/2026-07-02-architecture-patterns-enforcement/. L0 node plane is witnessed on financial-settlement;
       R3A unblocks the edge plane but dynamic enforcement is still active residue. Candidate discipline — owes
       owner-promotion.
+
+  - artifact_id: ART-DSV2-CODE-TAG-CONFORMANCE
+    path: development/code-tag-conformance/
+    status: candidate
+    notes: >-
+      invoke design+plan — Batch-2 code-tag conformance. DESIGN + implementation-layering + WORK-PACK
+      (CT-1 taxonomy->root schemas; CT-2 code-tag.schema.yml; CT-3 waiver reset + v1-path fix; CT-4 unified
+      gate). CT-1 dovetails batch-1 R2 (TAXONOMY.md deletion prerequisite); CT-3 == SWU-APE-004. Nothing executed yet.
+  - artifact_id: ART-DSV2-AGENT-SPEC-CONFORMANCE
+    path: development/agent-spec-conformance/
+    status: candidate
+    notes: >-
+      invoke define+design — the L3 runtime agent⊨spec conformance plane (general core + per-domain plug-ins).
+      DEFINE + DESIGN authored. Three-witness ramp (dosage -> data-access -> robot); "general/moat" claim gated at
+      witness #3 (robot) — same-kind witnesses do not discharge it (anti-B1). Core/plug-in boundary = pipeline +
+      plural certify-backends (structural / invariant-proof / runtime-monitor) in core, domain in plug-in.
+      Witness #1 = dosage bounded internal specimen (NOT a deployed medical device). Build-from-owned on the v2
+      consume-root/schema/one-gate pattern; invariant-proof backend ties to lean-engineer. Nothing executed yet.
 
 recompositions:
   - recomposition_id: REC-DSV2-GREEN
