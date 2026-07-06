@@ -1,0 +1,135 @@
+{
+  "dispatch_id": "2026-07-06-investor-pitch-blind-spot-review-revised",
+  "schema_version": "0.6.0",
+  "dispatch_type": "review",
+  "goal": "Red-team the investor pitch thesis that DomainSpec/CAV2's broad three-month, two-person project reach is proof of a governed system that builds systems, then produce verified blind spots and change requests for the later business plan.",
+  "context": "This revised proposal supersedes 2026-07-06-investor-pitch-blind-spot-review, which was accidentally appended before confirmation and closed as error with zero runtime agents. The target is the latest pitch thesis plus accepted BP substrates: investor portfolio, AI assurance vocabulary, spec-driven completeness/moat, and novel model-use/Lean formalization. The review must preserve the compounding story where it survives while preventing claims of finished platform, certification/compliance, production SaaS, token-ready economy, broad formal correctness, public-ready CAV2/DomainSpec v2, or market-only uniqueness. Outputs land in attacks.md and findings.md as verified change requests, not final investor prose.",
+  "max_loops": 1,
+  "final_approver": "Brandenburg, Martin",
+  "anti_bias_global": "composite methodology + attack-vector + source-corpus: credible leverage from a governed system versus unfocused ambition outrunning proof",
+  "working_folder": ".arcanum/inventory/queries/2026-07-06-investor-pitch-blind-spot-review-revised/",
+  "groups": [
+    {
+      "group_id": "attackers",
+      "n": 4,
+      "robot_talks": true,
+      "anti_bias": "composite methodology + attack-vector; pairwise evidence is encoded in the attacker angles",
+      "agents": [
+        {
+          "agent_name": "Porter, Michael",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 5000,
+          "angle": "wedge and focus attack: buyer pull, ICP, first paid wedge, and investor focus. Pair tensions: Porter vs Christensen = narrow paid wedge vs adoption path to larger system; Porter vs Kahneman = investor salience and urgency vs base-rate and conversion evidence; Porter vs Quine = commercial shorthand vs ambiguous proof/system terms.",
+          "initial_prompt": "Attack the full investor pitch thesis from a wedge/focus lens. Read the review strategy and the source boundary named there. Test whether breadth reads as proof of a governed system or as unfocused sprawl. Return material blind spots with severity, quoted evidence, proposed fixes, and concrete diligence questions. Preserve claim <= proof and do not write files."
+        },
+        {
+          "agent_name": "Christensen, Clayton",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 5000,
+          "angle": "market-entry and adoption attack: beachhead, disruption path, and consulting-to-product transition. Pair tensions: Christensen vs Porter = adoption path to larger system vs easiest paid wedge; Christensen vs Kahneman = disruption/adoption theory vs post-hoc narrative from a small sample; Christensen vs Quine = strategic category framing vs definitions that prevent platform-readiness smuggling.",
+          "initial_prompt": "Attack the full investor pitch thesis from a market-entry and adoption lens. Read the review strategy and the source boundary named there. Test whether the portfolio routes form a coherent beachhead and expansion path or only a category story. Return blind spots, severity, evidence, proposed fixes, and first-market selection pressure. Preserve claim <= proof and do not write files."
+        },
+        {
+          "agent_name": "Kahneman, Daniel",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 5000,
+          "angle": "investor-cognition and base-rate attack: narrative overconfidence, small-sample proof, and two-person/three-month diligence. Pair tensions: Kahneman vs Porter = base-rate and conversion evidence vs investor salience; Kahneman vs Christensen = small-sample/post-hoc risk vs adoption theory; Kahneman vs Quine = investor perception and bias vs semantic collapse.",
+          "initial_prompt": "Attack the full investor pitch thesis from an investor-cognition and base-rate lens. Read the review strategy and the source boundary named there. Test narrative overconfidence, survivorship bias, and whether the two dedicated people / roughly three months proof needs hard receipts. Return diligence questions, blind spots, severity, evidence, and proposed fixes. Preserve claim <= proof and do not write files."
+        },
+        {
+          "agent_name": "Quine, Willard Van Orman",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 5000,
+          "angle": "definitional and collapse attack: system, proof, reach, trustable, auditable, correctness, compounding, and system-builds-systems. Pair tensions: Quine vs Porter = strict term boundaries vs sellable shorthand; Quine vs Christensen = definitions and platform-readiness boundaries vs category framing; Quine vs Kahneman = semantic collapse vs investor perception and bias.",
+          "initial_prompt": "Attack the full investor pitch thesis from a definitional/collapse lens. Read the review strategy and the source boundary named there. Test whether key terms collapse into slogans or smuggle stronger claims than the evidence supports. Return term repairs, forbidden phrasing, blind spots, severity, evidence, and proposed fixes. Preserve claim <= proof and do not write files."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Simon, Herbert",
+          "role": "writer",
+          "model": "gpt-5.5",
+          "token_budget": 7000,
+          "initial_prompt": "After receiving all attacker returns and robot-talks positions, dedupe them into review artifacts. Draft attacks.md from collected returns and draft findings.md with severity-ranked blind spots, evidence, proposed repairs, a compounding-story-that-survives section, forbidden/demoted claims, and next witness queue. Do not invent evidence."
+        }
+      ]
+    },
+    {
+      "group_id": "verifiers",
+      "n": 3,
+      "robot_talks": true,
+      "anti_bias": "attack-vector; pairwise evidence is encoded in the verifier angles",
+      "agents": [
+        {
+          "agent_name": "Lakatos, Imre",
+          "role": "skeptic",
+          "model": "gpt-5.5",
+          "token_budget": 4500,
+          "angle": "precedent and research-program verifier: progressive program versus loose pile; comparator/only/unique boundaries. Pair tensions: Lakatos vs Taleb = coherent progressive research program vs fragility/adverse-selection stress; Lakatos vs Popper = program structure vs explicit falsifiers.",
+          "initial_prompt": "Verify the synthesized findings from a precedent and research-program lens. Accept, drop, or revise each finding. Reject claims of only/unique/no-one unless directly supported. Check whether the compounding story is a progressive research program or loose aggregation. Preserve claim <= proof and do not write files."
+        },
+        {
+          "agent_name": "Taleb, Nassim Nicholas",
+          "role": "skeptic",
+          "model": "gpt-5.5",
+          "token_budget": 4500,
+          "angle": "non-vacuity and fragility verifier: stressors, negative controls, optionality, and hidden fragility. Pair tensions: Taleb vs Lakatos = adverse-selection/fragility stress vs progressive research-program coherence; Taleb vs Popper = hidden fragility and narrative risk vs explicit falsifiers and next tests.",
+          "initial_prompt": "Verify the synthesized findings from a non-vacuity and fragility lens. Accept, drop, or revise each finding. Test the two-person/three-month proof, compounding residue, and multiple-revenue-routes narrative against negative controls and hidden fragility. Preserve claim <= proof and do not write files."
+        },
+        {
+          "agent_name": "Popper, Karl",
+          "role": "skeptic",
+          "model": "gpt-5.5",
+          "token_budget": 4500,
+          "angle": "falsifiability and next-witness verifier: falsifiers, demotion conditions, and decisive proof objects. Pair tensions: Popper vs Lakatos = falsifiers for each claim vs research-program coherence; Popper vs Taleb = explicit falsifiers and next tests vs hidden fragility and narrative risk.",
+          "initial_prompt": "Verify the synthesized findings from a falsifiability lens. Accept, drop, or revise each finding. Each surviving pitch claim should name a falsifier, demotion condition, or next witness object. Preserve claim <= proof and do not write files."
+        }
+      ]
+    },
+    {
+      "group_id": "auditor",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Brandenburg, Martin",
+          "role": "auditor",
+          "model": "gpt-5.5",
+          "token_budget": 3500,
+          "initial_prompt": "Audit the final attacks.md and findings.md. Check that every target source and declared attack lens was covered, every surviving finding is cited, refuted findings were dropped, zero-finding red flags were handled, and claim <= proof is preserved. Return ACCEPT or REVISE with exact required fixes. Do not write files unless explicitly instructed downstream."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "attackers",
+      "to": "synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "synthesizer",
+      "to": "verifiers",
+      "type": "zig-zag",
+      "loop_cap": 1
+    },
+    {
+      "from": "verifiers",
+      "to": "auditor",
+      "type": "sequential"
+    },
+    {
+      "from": "auditor",
+      "to": "synthesizer",
+      "type": "feedback",
+      "loop_cap": 1
+    }
+  ]
+}

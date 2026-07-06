@@ -1,5 +1,42 @@
 # Inventory Log
 
+## 2026-07-06 proposal — novel model-use Lean formalization research strategy
+
+- Mode: proposal+gate
+- Repository: `/home/vrondelli/projects/domainspec-core`
+- Inventory root: `.arcanum/inventory/`
+- Sources processed: 3 (`.arcanum/inventory/queries/2026-07-06-novel-model-use-lean-formalization-research/EXPLORE-STRATEGY.md`,
+  `.arcanum/inventory/queries/2026-07-06-novel-model-use-lean-formalization-research/DISPATCH-PROPOSAL.json`,
+  `.arcanum/inventory/queries/2026-07-06-novel-model-use-lean-formalization-research/CHECK-TENSION.md`)
+- Entries created: 1 proposed synthesis entry
+- Entries updated: 0
+- Index updated: yes
+- Tags updated: no
+- Log updated: yes
+- Contradictions flagged: 0
+- Validation: pass (`jq empty`, `git diff --check`)
+- Notes: Created a proposed research dispatch strategy to center
+  `domainspec-lean-formalization/research/cyberalchemy-functor-stack-bet/`,
+  sweep `domainspec-lean-formalization/` for sibling model-use/model-evaluation
+  artifacts, and produce BP-safe evidence for the company's research capacity
+  around AI models, formal models, held-out gates, dual-residue loss, source
+  grounding, and typed residue. The proposal was revised to include
+  `https://github.com/deepreinforce-ai/Ornith-1` as an external example/case
+  source for scaffold-aware self-improving coding models, with repo-reported
+  claim guards. Check-tension returned double PASS before the revision and
+  double PASS again after the Ornith-1 revision, with no apontamentos. The
+  proposal remains unregistered and unrun pending explicit human confirmation.
+
+Artifacts:
+
+- `.arcanum/inventory/entries/novel-model-use-lean-formalization-strategy-result-synthesis.md`
+- `.arcanum/inventory/queries/2026-07-06-novel-model-use-lean-formalization-research/EXPLORE-STRATEGY.md`
+- `.arcanum/inventory/queries/2026-07-06-novel-model-use-lean-formalization-research/DISPATCH-PROPOSAL.json`
+- `.arcanum/inventory/queries/2026-07-06-novel-model-use-lean-formalization-research/CHECK-TENSION.md`
+- `.arcanum/inventory/index.md`
+- `.arcanum/inventory/index.json`
+- `.arcanum/inventory/log.md`
+
 ## 2026-07-03 ingest — DS-D1 meta-type category boundary strategy result
 
 - Mode: ingest+backfill
@@ -1461,3 +1498,143 @@ Artifacts:
 - Provenance: dispatch opened and closed in telemetry/agents/subagents-dispatch.yaml with `exit_reason: resolved`, `agents_spawned.total: 7`, `loops_used: 1`, and final approver Vlachopulos, Ioannis.
 - Validation: inventory updater dry-run + actual update passed; relationship/content/tool validations were captured in the review artifacts; final JSON/read-model validation recorded separately.
 - Authority: candidate Inventory read model only. It promotes no relationship signature, mutates no R3 canonical file, and leaves implementation to the R3 owner route.
+
+## 2026-07-04 - query (filed findings: Mint / Body War relation)
+
+- Mode: query (answer filed as durable findings)
+- Question: relation between `cyberAlchemy-v2/development/mint/` and `projects/body-war/`, especially whether Body War evidenced that Mint would work by reaching the same result through another path.
+- Entry created (1): `queries/2026-07-04-mint-body-war-relation/findings.md` - records the split relation: Body War is a guarded adjacent witness for attestation/discriminating-verify generality and convergence evidence for local authority by another path, but it is not part of the frozen Mint N=3 foundry-autonomy domain set.
+- Index: index.json 119 -> 120 entries; index.md +1 Query Files row; tags.md +1 (`body-war`); inventory updater dry-run and actual update passed. Uncontrolled-tag warnings were pre-existing and non-blocking.
+- Validation: jq parse OK; indexed lookup by id/tag/source OK; query file carries non-authority and claim-boundary residue.
+- Authority: candidate Inventory query read model only. It promotes no Mint, Body War, attestation, or cav2 authority claim; a stronger future card needs a runnable Body War valid/tampered verifier specimen.
+
+## 2026-07-06 - ingest (strategy proposal: investor BP project portfolio research)
+
+- Mode: ingest (subagent strategy-result proposal; unregistered dispatch).
+- Entry created (1): `entries/investor-bp-project-portfolio-strategy-result-synthesis.md` - records proposed dispatch `2026-07-06-investor-bp-project-portfolio-research`, its P1 trigger, lanes, subagents, dependency flow, double-PASS check-tension gate, unregistered ledger state, and next human action.
+- Proposal artifacts created (3): `queries/2026-07-06-investor-bp-project-portfolio-research/EXPLORE-STRATEGY.md`, `queries/2026-07-06-investor-bp-project-portfolio-research/DISPATCH-PROPOSAL.json`, and `queries/2026-07-06-investor-bp-project-portfolio-research/CHECK-TENSION.md`.
+- Index: index.json 120 -> 121 entries; index.md +1 Entries row + Last-updated bump. Inventory updater dry-run and actual update passed. Uncontrolled-tag warnings were pre-existing and non-blocking.
+- Ledger: unregistered. No dispatch row and no close row appended; the human must reply `confirmed` before registration and execution.
+- Validation: proposal JSON and inventory record JSON parsed with `jq`; inventory updater accepted the record and linked the human index row.
+- Authority: candidate Inventory read model only. It promotes no business-plan claim, starts no research run, and authorizes no public disclosure.
+
+## 2026-07-06 - ingest revision (strategy proposal: investor BP project portfolio research)
+
+- Mode: ingest revision (subagent strategy-result proposal; unregistered dispatch).
+- Human correction applied: DomainSpec v2 and CyberAlchemy v2 / CAV2 are the primary spine; Craft orchestration with `goal` is included; IDE Ergonomics, UI Prototyping Studio, Ontologize, and consulting/jobs-to-be-done are candidate lanes; `glyph/`, `grain/`, and `projects/goldenquill/` are explicit exclusions.
+- Proposal artifacts revised (3): `queries/2026-07-06-investor-bp-project-portfolio-research/EXPLORE-STRATEGY.md`, `queries/2026-07-06-investor-bp-project-portfolio-research/DISPATCH-PROPOSAL.json`, and `queries/2026-07-06-investor-bp-project-portfolio-research/CHECK-TENSION.md`.
+- Gate: revised double PASS from checker `019f3572-f1b3-7e82-abe7-77df19451913` (Bernoulli) and reviewer `019f3573-0a6a-7492-9bdc-9a4b94955bf5` (McClintock). Earlier broad-scope double PASS is superseded.
+- Index: existing entry `entries/investor-bp-project-portfolio-strategy-result-synthesis.md`, index.json projection, and index.md row updated in place; no new entry created.
+- Ledger: unregistered. No dispatch row and no close row appended; the human must reply `confirmed` before registration and execution.
+- Authority: candidate Inventory read model only. It promotes no business-plan claim, starts no research run, and authorizes no public disclosure.
+
+## 2026-07-06 - run closeout (investor BP project portfolio research)
+
+- Mode: confirmed subagent research dispatch.
+- Ledger: registered and closed dispatch `2026-07-06-investor-bp-project-portfolio-research` with `exit_reason: resolved`; `agents_spawned.total: 10`; `loops_used: 1`; final auditor accepted findings.
+- Outputs created (2): `queries/2026-07-06-investor-bp-project-portfolio-research/research.md` and `queries/2026-07-06-investor-bp-project-portfolio-research/findings.md`.
+- Inventory: added query-file records `investor-bp-project-portfolio-research-transcript` and `investor-bp-project-portfolio-research-findings`; strategy-result read model updated to `closed`.
+- Result: accepted BP research substrate frames the portfolio as a barbell: paid witnessed trust/readiness engagements now, observed-use receipts and reviewed-credit ledger as bridge, platform thesis later; DomainSpec v2/CAV2 remain the substrate spine.
+- Validation: `jq empty` passed for inventory index and dispatch proposal; inventory updater tests passed; index.md tests passed.
+- Authority: non-authority read model only. No investor-facing business-plan claim is promoted and no public disclosure is authorized.
+
+## 2026-07-06 - ingest revision 2 (strategy proposal: investor BP project portfolio research)
+
+- Mode: ingest revision (subagent strategy-result proposal; unregistered dispatch).
+- Human correction applied: add local-node AI / Evidence Exchange from `proposal-blueprint.md`, Whisper/product-research-blueprint, Savvy Legal Studio AI transfer, User/Translate/Guide, tower-system-taxonomy, MOGT agentic conversation, Autoads, DomainSpec Lean, `../resonantos-economy-research`, `../maestro-trama`, and setup/training offerings to the candidate universe.
+- Ownership correction applied: `../resonantos-economy-research` and `../maestro-trama` are treated as owned adjacent repositories, not third-party comparables, while preserving their repo-local source authority and public/private boundaries.
+- Proposal artifacts revised (3): `queries/2026-07-06-investor-bp-project-portfolio-research/EXPLORE-STRATEGY.md`, `queries/2026-07-06-investor-bp-project-portfolio-research/DISPATCH-PROPOSAL.json`, and `queries/2026-07-06-investor-bp-project-portfolio-research/CHECK-TENSION.md`.
+- Gate: current double PASS from checker `019f357a-83c1-7692-84c2-aa72a9eb6c33` (Descartes) and reviewer `019f357a-9bfc-7d70-8c46-245ae9a181b1` (Einstein). Earlier broad and first-revised double PASS gates are superseded.
+- Index: existing entry `entries/investor-bp-project-portfolio-strategy-result-synthesis.md`, index.json projection, and index.md row updated in place; no new entry created.
+- Ledger: unregistered. No dispatch row and no close row appended; the human must reply `confirmed` before registration and execution.
+- Authority: candidate Inventory read model only. It promotes no business-plan claim, starts no research run, and authorizes no public disclosure.
+
+## 2026-07-06 - run closeout (AI assurance / certification vocabulary research)
+
+- Mode: confirmed subagent research dispatch.
+- Ledger: registered and closed dispatch `2026-07-06-ai-assurance-certification-vocabulary-research` with `exit_reason: resolved`; `agents_spawned.total: 10`; `loops_used: 1`; final auditor accepted findings.
+- Outputs created (3): `queries/2026-07-06-ai-assurance-certification-vocabulary-research/research.md`, `queries/2026-07-06-ai-assurance-certification-vocabulary-research/findings.md`, and `entries/ai-assurance-certification-vocabulary-strategy-result-synthesis.md`.
+- Inventory: added records `ai-assurance-certification-vocabulary-strategy-result-synthesis`, `ai-assurance-certification-vocabulary-research-transcript`, and `ai-assurance-certification-vocabulary-research-findings`; index.json and index.md updated through the deterministic inventory appender.
+- Result: accepted BP research addendum identifies **governed AI work readiness package** as the safest public vocabulary, **receipt-backed assurance case** as a scoped deliverable target, and certification/conformity/compliance/audit-ready/formal-correctness/public-verifier claims as forbidden.
+- Gap: no complete end-to-end receipt-backed assurance case specimen exists yet; next proof obligation is one bounded specimen connecting DomainSpec v2 deterministic check, CAV2 `claim <= proof` classification, owner decision, goal/Craft receipt, L1 attestation positive/negative verification, standards-informed crosswalk, and a "what this does not prove" page.
+- Validation: dispatch proposal parsed with `jq`; inventory updater accepted all three records; uncontrolled-tag warnings were pre-existing/non-blocking and will be checked with the inventory tool tests.
+- Authority: non-authority read model only. No certification, legal compliance, conformity assessment, audit approval, formal correctness, public verifier, or investor-facing public claim is promoted.
+
+## 2026-07-06 - ingest (strategy proposal: spec-driven completeness moat inventory research)
+
+- Mode: ingest (subagent strategy-result proposal; unregistered dispatch).
+- Entry created (1): `entries/spec-driven-completeness-moat-inventory-strategy-result-synthesis.md` - records proposed dispatch `2026-07-06-spec-driven-completeness-moat-inventory-research`, its P1 trigger, lanes, subagents, dependency flow, revised double-PASS check-tension gate, unregistered ledger state, and next human action.
+- Proposal artifacts created (3): `queries/2026-07-06-spec-driven-completeness-moat-inventory-research/EXPLORE-STRATEGY.md`, `queries/2026-07-06-spec-driven-completeness-moat-inventory-research/DISPATCH-PROPOSAL.json`, and `queries/2026-07-06-spec-driven-completeness-moat-inventory-research/CHECK-TENSION.md`.
+- Gate: final double PASS from checker `019f3603-b949-79e0-9c99-76c2bea69f8e` (Mencius) and reviewer `019f3603-b9f6-7050-9020-7f7cc83077c2` (Lorentz), after revisions for source coverage, group sizing, proof plumbing, external market checks, and active generated skill mirrors.
+- Runtime mirror sync: active private DomainSpec and whisky-doses generated mirrors now align on root-level `research.md` and `findings.md`; `research.md` is strategist-appended from explorer returns only; writer owns `findings.md` only.
+- Index: index.json 126 -> 127 entries; index.md +1 Entries row. Inventory updater dry-run and actual update passed. Uncontrolled-tag warnings were pre-existing/non-blocking.
+- Ledger: unregistered. No dispatch row and no close row appended; the human must reply `confirmed` before registration and execution.
+- Authority: candidate Inventory read model only. It promotes no business-plan, market-uniqueness, formal-proof, completeness, correctness, certification, or public-disclosure claim.
+
+## 2026-07-06 - run closeout (spec-driven completeness moat inventory research)
+
+- Mode: confirmed subagent research dispatch.
+- Ledger: registered and closed dispatch `2026-07-06-spec-driven-completeness-moat-inventory-research` with `exit_reason: resolved`; `agents_spawned.total: 11`; `loops_used: 1`; final auditor accepted findings.
+- Outputs created (2): `queries/2026-07-06-spec-driven-completeness-moat-inventory-research/research.md` and `queries/2026-07-06-spec-driven-completeness-moat-inventory-research/findings.md`.
+- Inventory: added query-file records `spec-driven-completeness-moat-inventory-research-transcript` and `spec-driven-completeness-moat-inventory-research-findings`; strategy-result read model updated to `closed`.
+- Result: accepted BP differentiation substrate positions DomainSpec/CAV2 as a repo-native governance method plus partial implementation for bounded AI-work readiness. The live edge is source-linked obligation derivation, structural richness/gap detection, owner-routed decisions, receipts, bounded formal witnesses, and L1 integrity packaging under explicit claim boundaries.
+- Caveat: external Kodamai/market checks are a 2026-07-06 snapshot and must be refreshed before public or investor-facing copy.
+- Validation: dispatch proposal and close row parsed with `jq`; inventory updater accepted both records; uncontrolled-tag warnings were pre-existing/non-blocking and will be checked with the inventory tool tests.
+- Authority: non-authority read model only. No market-unique/first/only claim, broad AI-governance-platform claim, formal completeness claim, provably-correct-agent claim, certification/compliance/auditor-ready claim, or investor-facing public claim is promoted.
+
+## 2026-07-06 - query filing (three-layer agent conformance + verifier decision)
+
+- Mode: query -> synthesis filing (working session, not a registered dispatch).
+- Entry created (1): `entries/three-layer-agent-conformance-verifier-decision.md` - durable read model of the 2026-07-06 session that ran from the TO-VLAD review of `deterministic-validation-for-all-cav2-synthesis` to a proposed build decision.
+- Content: (1) confirms TO-VLAD findings A1/C1/C2/C3 against the corpus; (2) elevates B1 as a settled-strategy conflict with `validation-moat-model`; (3) establishes the three-layer agent-conformance model (output-structural=SMT/funnel, output-semantic=judge, action=agent-entails-spec/moat); (4) reconciles the `Validation Mode` enum to the arcanum `review -> hybrid -> deterministic` ladder; (5) maps high-stakes robotics/health proof to a conformity-grade assurance case whose load-bearing rungs are Future-Only/Forbidden per the owned ai-assurance findings; (6) records the PROPOSED decision to build Option 2 (a general agent-entails-spec verifier) with dosage as bounded witness #1 and the moat-claim earned only at a maximally-different witness #2.
+- Tags: added 3 controlled tags to tags.md (`agent-conformance`, `three-layer-validation`, `assurance-case`).
+- Index: index.json 130 -> 131 entries via `tools/inventory-update.cjs` (deterministic append; timestamp input 2026-07-06T08:00:00Z); index.md `## Entries` row added by the same tool. Remaining uncontrolled-tag warnings are pre-existing/cross-inventory and non-blocking.
+- Ledger: not a subagent dispatch; no `subagents-dispatch.yaml` row.
+- Next action: PROPOSED `craft`/`invoke` development project in `cyberAlchemy-v2/development/` for the agent-conformance verifier (awaiting human confirmation before scaffolding).
+- Authority: non-authority Inventory read model only. Promotes no certification, conformity, runtime-conformance, formal-correctness, or provably-correct-agent claim.
+
+## 2026-07-06 - run closeout (novel model-use Lean formalization research)
+
+- Mode: confirmed subagent research dispatch.
+- Ledger: registered and closed dispatch `2026-07-06-novel-model-use-lean-formalization-research` with `exit_reason: resolved`; `agents_spawned.total: 11`; `loops_used: 1`; final auditor accepted findings.
+- Outputs created (2): `queries/2026-07-06-novel-model-use-lean-formalization-research/research.md` and `queries/2026-07-06-novel-model-use-lean-formalization-research/findings.md`.
+- Inventory: added query-file records `novel-model-use-lean-formalization-research-transcript` and `novel-model-use-lean-formalization-research-findings`; strategy-result read model updated to `closed`.
+- Result: accepted BP substrate reframes broad novel-model-use ambition as a **research-backed governed model-use discipline**: source-grounded staged generation, separated schema/instance residue, oracle feasibility, held-out real-chain validation, bounded Lean witnesses, and explicit claim guards.
+- External precedent boundary: Ornith-1 is included only as external-reported adjacent precedent showing scaffold-aware coding-model improvement as an active direction; it does not validate DomainSpec's approach or prove local model capability.
+- Claim boundary: no implemented model-stack, self-improving-platform, production correctness-layer, formal-completeness, certification/compliance, market-unique/first/only, or public-ready BP claim is promoted.
+- Next witness queue: choose a real L1 software-chain family, run oracle-feasibility, execute baseline/output-only/source-grounded arms, run dual-residue falsification, measure verifier independence, produce one-agent/one-property soundness witness if correctness language is desired, and gather buyer evidence before upgrading commercial readiness.
+- Validation: dispatch proposal and index parsed with `jq`; inventory index is now 133 entries; inventory updater accepted both query-file records; index consistency check passed; `test-inventory-update.cjs` and `test-index-md.cjs` passed. Uncontrolled-tag warnings were pre-existing/non-blocking.
+- Authority: non-authority read model only. Public/private boundaries must be checked before any investor-facing derivative leaves the private parent repo.
+
+## 2026-07-06 - ingest (strategy proposal: investor pitch blind-spot review)
+
+- Mode: ingest (subagent review strategy-result proposal; unregistered revised dispatch).
+- Entry created (1): `entries/investor-pitch-blind-spot-review-strategy-result-synthesis.md` - records proposed review dispatch `2026-07-06-investor-pitch-blind-spot-review-revised`, its P1 trigger, lanes, subagents, dependency flow, revised double-PASS check-tension gate, unregistered ledger state, and next human action.
+- Proposal artifacts created (3): `queries/2026-07-06-investor-pitch-blind-spot-review-revised/REVIEW-STRATEGY.md`, `queries/2026-07-06-investor-pitch-blind-spot-review-revised/DISPATCH-PROPOSAL.json`, and `queries/2026-07-06-investor-pitch-blind-spot-review-revised/CHECK-TENSION.md`.
+- Superseded attempt: `2026-07-06-investor-pitch-blind-spot-review` was accidentally appended to the dispatch ledger during schema validation before confirmation, then closed as `error` with `agents_spawned.total: 0`; no review runtime agents were launched from it.
+- Gate: first attempt did not reach double PASS because the JSON proposal lacked pairwise predicted-disagreement evidence. Revised gate returned double PASS from checker `019f366c-5957-7bc3-9b05-a7c1ea9d0452` and reviewer `019f366c-5a0e-7cc0-a0d2-cb84aba5ba7a`.
+- Index: index.json 133 -> 134 entries via `tools/inventory-update.cjs`; index.md `## Entries` row added by the same tool. Remaining uncontrolled-tag warnings are pre-existing/cross-inventory and non-blocking.
+- Ledger: revised dispatch is unregistered. No revised dispatch row and no close row appended; the human must reply `confirmed` before registration and execution.
+- Authority: candidate Inventory read model only. It promotes no investor-facing BP claim and authorizes no public disclosure.
+
+## 2026-07-06 - run closeout (investor pitch blind-spot review)
+
+- Mode: confirmed subagent review dispatch.
+- Ledger: registered and closed dispatch `2026-07-06-investor-pitch-blind-spot-review-revised` with `exit_reason: resolved`; `agents_spawned.total: 9`; `loops_used: 1`; final auditor accepted findings.
+- Outputs accepted (2): `queries/2026-07-06-investor-pitch-blind-spot-review-revised/attacks.md` and `queries/2026-07-06-investor-pitch-blind-spot-review-revised/findings.md`.
+- Inventory: added query-file records `investor-pitch-blind-spot-review-attacks` and `investor-pitch-blind-spot-review-findings`; strategy-result read model updated to `closed`.
+- Result: accepted BP review substrate preserves the compounding story but demotes proof posture. DomainSpec/CAV2 may be framed as a governed, source-linked work discipline that produced maturity-labeled artifacts, bounded witnesses, validation specimens, and receipt candidates. The first investable test is one paid Metric Trust / governed AI work readiness wedge; repeated receipt bundles are the next platform-thesis witness.
+- Agentic-systems wording: safe claim is an aim toward claim-bounded evidence packages for AI-assisted or agentic workflows. They are inspectable/traceable through source links, owner decisions, readiness gates, receipts, and integrity specimens; verifiable only where a named check, validator, receipt with embedded failure mode, integrity specimen, or bounded formal witness exists; provable only where a named property has a bounded formal witness.
+- Forbidden claims: no finished platform, certification/compliance, production legal SaaS, token-ready economy, live ad integration, shipping IDE plugin, public-ready CAV2/DomainSpec v2, broad formal correctness, provably correct agents, formal verification of the platform, market-only uniqueness, or proof that two people / three months equals market pull.
+- Validation: verifier group accepted after wording revisions; auditor accepted after source-coverage and citation-precision fixes; inventory updater accepted both query-file records. Uncontrolled-tag warnings were pre-existing/cross-inventory and non-blocking.
+- Authority: non-authority review substrate only. It is not final investor-facing business-plan prose and authorizes no public disclosure.
+
+## 2026-07-06 - query filing update (agent-conformance session — scaffolded delta)
+
+- Mode: query -> synthesis update (same working session; NOT a new entry — avoids duplication).
+- Entry updated (1): `entries/three-layer-agent-conformance-verifier-decision.md` — folded the delta since the first filing: decision moved PROPOSED -> SCAFFOLDED. Added the resolved three-witness ramp (dosage -> data-access -> robot; data-access de-risks plumbing, not robot's hard continuous-temporal axis), the moat-claim pin to the distant witness (robot #3, anti-B1), and the AV-D2 core/plug-in boundary design (pipeline + plural certify-backends: structural / invariant-proof / runtime-monitor). Pointers to the scaffolded project + ledger context added.
+- Machine index: index.json entry `summary`+`residue` refreshed in place via a serialization-preserving script (the add-only updater has no --replace); index.json still `jq`-parseable; entry count unchanged by this action (136 unique, 0 dup — the delta vs the earlier 131 is unrelated concurrent dispatches: investor-pitch-blind-spot-review + novel-model-use).
+- Downstream artifacts referenced (authored earlier this session, outside inventory): DEFINE + DESIGN at `projects/domainspec-v2/development/agent-spec-conformance/`; ledger `CTX-DSV2-AGENT-SPEC-CONFORMANCE` (stage design).
+- Ledger: not a subagent dispatch; no `subagents-dispatch.yaml` row.
+- Next action: `invoke plan` (work-pack L0/L1/L2) for the verifier; optional regen of the stale `projects/domainspec-v2/CRAFT.md` human view.
+- Authority: non-authority Inventory read model only. Promotes no certification, conformity, runtime-conformance, formal-correctness, or provably-correct-agent claim.

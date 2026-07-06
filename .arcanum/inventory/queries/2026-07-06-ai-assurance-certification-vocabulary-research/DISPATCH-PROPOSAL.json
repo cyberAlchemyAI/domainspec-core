@@ -1,0 +1,159 @@
+{
+  "dispatch_id": "2026-07-06-ai-assurance-certification-vocabulary-research",
+  "schema_version": "0.6.0",
+  "dispatch_type": "research",
+  "goal": "Determine the repository's strongest AI assurance/certification vocabulary and evidence base: find explicit and implicit terms around certification, conformity, auditability, assurance, attestation, verifier, correctness, trust, quality management, documentation, logs, traceability, readiness, governance evidence, ISO/IEC 42001, NIST AI RMF, and EU AI Act-style compliance pressure; then map how the existing POCs compound into a credible investor BP claim without overclaiming certification or correctness.",
+  "context": "The prior investor BP dispatch concluded that the portfolio should lead with paid trust/readiness engagements and receipt compounding, while keeping platform/certification claims bounded. The human now wants a deeper research pass on whether the repo already has a better word or hidden vocabulary for certification-like readiness, and whether the company's reach should be framed as AI assurance/auditability/correctness readiness. Use local repo evidence first, owned adjacent repos where named by prior dispatch, and current external primary standards/regulatory sources only for vocabulary alignment, not legal advice.",
+  "max_loops": 1,
+  "final_approver": "Brandenburg, Martin",
+  "anti_bias_global": "certification optimism vs assurance-readiness skepticism across repo vocabulary, standards pressure, proof machinery, product wedges, and investor narrative",
+  "working_folder": ".arcanum/inventory/queries/2026-07-06-ai-assurance-certification-vocabulary-research/",
+  "groups": [
+    {
+      "group_id": "explorers",
+      "n": 4,
+      "robot_talks": true,
+      "anti_bias": "composite source-corpus + methodology + temporal-prior",
+      "agents": [
+        {
+          "agent_name": "van Lamsweerde, Axel",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 7000,
+          "angle": "requirements/compliance standards corpus, modern external alignment",
+          "initial_prompt": "Read-only explorer. Map official AI assurance/certification vocabulary and compare it to local repository terms. Use current primary standards/regulatory sources for vocabulary alignment only: EU AI Act official overview and high-risk obligations, ISO/IEC 42001 AI management system wording, and NIST AI RMF trustworthy AI/risk-management framing. Then search the local repo for matching or adjacent vocabulary: certification, conformity, conformance, quality management, technical documentation, generated logs, traceability, transparency, reliability, responsible AI, risk management, auditability, audit readiness, assurance, readiness, governance evidence, proof package. Return: vocabulary table, source paths/URLs, local term matches, mismatch/gap list, BP-safe wording, forbidden overclaims, and next validation witness. Do not write files. Budget about 7000 tokens."
+        },
+        {
+          "agent_name": "Turing, Alan",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 7000,
+          "angle": "formal correctness/verifier/attestation corpus, computational/formal methodology",
+          "initial_prompt": "Read-only explorer. Map the repo's formal correctness, verifier, attestation, deterministic validation, and proof-boundary corpus. Own these corpora first: .arcanum/inventory/entries/attestation-capability-moat-mvp-synthesis.md, .arcanum/inventory/entries/deterministic-validation-for-all-cav2-synthesis.md, .arcanum/inventory/entries/kodamai-smithe-correctness-layer-synthesis.md, cyberAlchemy-v2/development/attestation-capability/, cyberAlchemy-v2/authority/, projects/domainspec-v2/, domainspec-lean-formalization/, validation surfaces, and the prior BP findings. Return: what is already evidenced, what is intended-not-shipped, what can support an assurance/certification-readiness story, what must not be called certified/correct, and the minimum next verifier or specimen that would upgrade the claim. Do not write files. Budget about 7000 tokens."
+        },
+        {
+          "agent_name": "Ashby, W. Ross",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 7000,
+          "angle": "operational governance/control corpus, systems methodology",
+          "initial_prompt": "Read-only explorer. Map operational governance and control-system evidence for AI assurance readiness. Own these corpora first: arcanum/arcana/craft/, arcanum/spells/goal/, .agents/skills/goal/, projects/ontologize/, projects/savvy_legal-studio-ai/, projects/ui-prototyping-studio/, projects/ide-ergonomics/, projects/autoads/, implementation/domainspec/PRODUCT-COMPONENTS-IDEA.md, observability/telemetry surfaces, and Sonar Loop governance proof package references if relevant. Return: how POCs compound into an assurance system through receipts, gates, owner decisions, traceability, audit logs, readiness checks, and proof packages; identify the best local phrase for this compounding effect; include evidence refs, BP-safe wording, forbidden claims, and next witness queue. Do not write files. Budget about 7000 tokens."
+        },
+        {
+          "agent_name": "Shannon, Claude",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 7000,
+          "angle": "semantic/information-lineage repo term mining, mixed temporal-prior",
+          "initial_prompt": "Read-only explorer. Run a repo-local semantic term census for words that may be the missing certification-like vocabulary. Search for and cluster: assurance, assure, certification, certified, certify, conformity, conformance, auditability, auditable, audit-ready, audit readiness, attestation, attested, attest, seal, verifier, verification, traceability, provenance, accountability, transparency, reliability, quality, management system, generated logs, technical documentation, risk management, readiness, evidence receipt, observed-use receipt, receipt bundle, governance proof package, proof package, evidence chain, source chain, owner decision, approval gate, quality gate, validation report. Return ranked vocabulary clusters with representative paths, term density, product/BP relevance, ambiguity risks, and a recommendation for the term family to research deeper. Do not write files. Budget about 7000 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Simon, Herbert",
+          "role": "synthesizer",
+          "model": "gpt-5.5",
+          "token_budget": 9000,
+          "initial_prompt": "Reconcile the explorer returns into a candidate AI assurance/certification-readiness thesis. Produce: hidden-vocabulary map, standards-alignment table, evidence ladder, compounding POC thesis, safe investor language, forbidden claims, and missing witness queue. Keep certification, assurance, auditability, correctness, attestation, conformity, readiness, and proof package distinct. Ask for feedback to explorers only if a material vocabulary/source gap blocks the synthesis. Do not write files. Budget about 9000 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "reviewers",
+      "n": 3,
+      "robot_talks": true,
+      "anti_bias": "attack-vector",
+      "agents": [
+        {
+          "agent_name": "Popper, Karl",
+          "role": "skeptic",
+          "model": "gpt-5.5",
+          "token_budget": 4000,
+          "angle": "precedent gate",
+          "initial_prompt": "Read-only skeptic. Attack the candidate assurance/certification-readiness thesis with the precedent gate. Distinguish external standards language, already-owned internal language, owned-adjacent repo evidence, market precedent, and build-from-owned opportunities. Precedent is not a kill; it labels ownership and narrows novelty. Verify whether the missing term is already in the repo as assurance, governance proof package, attestation, verifier, audit readiness, conformance, or another term. Do not write files. Budget about 4000 tokens."
+        },
+        {
+          "agent_name": "Taleb, Nassim Nicholas",
+          "role": "skeptic",
+          "model": "gpt-5.5",
+          "token_budget": 4000,
+          "angle": "non-vacuity gate",
+          "initial_prompt": "Read-only skeptic. Attack the candidate assurance/certification-readiness thesis with the non-vacuity gate. Kill or downgrade any certification, assurance, auditability, correctness, compliance, or trust claim that lacks a concrete witness: receipt, log, validation report, verifier specimen, buyer workflow, auditable artifact, owner decision, or external-standard mapping. Preserve typed negatives and specify the exact witness that would upgrade each claim. Do not write files. Budget about 4000 tokens."
+        },
+        {
+          "agent_name": "Quine, Willard Van Orman",
+          "role": "skeptic",
+          "model": "gpt-5.5",
+          "token_budget": 4000,
+          "angle": "definitional-soundness gate",
+          "initial_prompt": "Read-only skeptic. Attack the candidate assurance/certification-readiness thesis with the definitional-soundness gate. Kill or downgrade terms that collapse certification, assurance, auditability, correctness, compliance, trust, traceability, and readiness into one vague marketing word. Force a vocabulary ladder where each term has a distinct role and evidence boundary. Do not write files. Budget about 4000 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "writer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Drucker, Peter",
+          "role": "writer",
+          "model": "gpt-5.5",
+          "token_budget": 9000,
+          "initial_prompt": "Write findings.md only from the converged synthesis and reviewer results. Include: executive result, the best vocabulary family, standards-alignment table, local evidence map, compounding POC thesis, assurance/certification-readiness ladder, BP-safe language, forbidden claims, and next witness queue. Every load-bearing claim must cite source paths or explorer/reviewer evidence. Make clear this is not legal advice and does not claim current certification. Do not write research.md. Budget about 9000 tokens."
+        }
+      ]
+    },
+    {
+      "group_id": "auditor",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Brandenburg, Martin",
+          "role": "auditor",
+          "model": "gpt-5.5",
+          "token_budget": 3500,
+          "initial_prompt": "Evaluate findings.md only. Check that it answers the hidden certification-vocabulary question, preserves claim <= proof, cites source evidence, separates standards alignment from legal advice, separates assurance/readiness from certification/correctness, describes the compounding effect of POCs without claiming finished platform, and respects public/private boundaries. Recommend accept or one bounded writer revision. Budget about 3500 tokens."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "explorers",
+      "to": "synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "synthesizer",
+      "to": "reviewers",
+      "type": "zig-zag",
+      "loop_cap": 2
+    },
+    {
+      "from": "synthesizer",
+      "to": "explorers",
+      "type": "feedback",
+      "loop_cap": 1
+    },
+    {
+      "from": "reviewers",
+      "to": "writer",
+      "type": "sequential"
+    },
+    {
+      "from": "writer",
+      "to": "auditor",
+      "type": "sequential"
+    },
+    {
+      "from": "auditor",
+      "to": "writer",
+      "type": "feedback",
+      "loop_cap": 1
+    }
+  ]
+}
