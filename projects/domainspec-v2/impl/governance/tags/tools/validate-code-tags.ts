@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 
 import {
   loadConceptCatalog,
+  loadRelationshipRulesFromAuthority,
   normalizeTypeName,
   parseRelationshipRules,
   parseTaxonomyTypes,
@@ -32,7 +33,7 @@ const requireEvidence = hasFlag("--require-evidence");
 
 const relationshipsPath = resolve(
   process.cwd(),
-  getArg("--relationships") || "spec/RELATIONSHIPS.md",
+  getArg("--relationships") || "../definitions/relationships/relationships.yml",
 );
 const taxonomyPath = resolve(
   process.cwd(),
@@ -63,7 +64,7 @@ const extraction = readExtraction(inputPath);
 const tags = extraction.tags;
 
 const taxonomyTypes = parseTaxonomyTypes(taxonomyPath);
-const edgeRules = parseRelationshipRules(relationshipsPath);
+const edgeRules = loadRelationshipRulesFromAuthority(relationshipsPath);
 const conceptCatalog = loadConceptCatalog(featuresRoot);
 
 if (taxonomyTypes.size === 0) {

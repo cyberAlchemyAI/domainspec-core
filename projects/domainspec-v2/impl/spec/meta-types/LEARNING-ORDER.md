@@ -7,7 +7,7 @@ authored_by: task-session (M1 — spec-comprehension-model)
 source:
   - ./  (the per-type schema+md cards — the 14 backend meta-types)
   - ../TAXONOMY.md  (the 25 meta-types, categories, "Backend Counterpart" shadow column)
-  - ../RELATIONSHIPS.md  (the 29 edges — the authority for the edge reading-view below)
+  - ../../../definitions/relationships/relationships.yml  (root relationship authority — 31 signatures; the edge reading-view below)
   - ../../../development/spec-comprehension-model/{DESIGN.md,ORDER.md}  (M1)
   - ../../../development/comprehension-novice-test/stall-dataset.md  (S1 individuation, S6 feature/context, S9)
 promotion_boundary: PUBLIC reading aid. Tiering is a LEARNING order, never a deletion — all 25 stay typed for the engine/validator. Proposed definitions (§4) promote to definitions-governance separately.
@@ -59,7 +59,7 @@ Per TAXONOMY's own "Backend Counterpart" column, five UI types mirror a backend 
 lookup, **not** as new concepts — but note they are **first-class in the graph** (they carry edges their
 backend twin does not; do not treat them as interchangeable):
 
-| UI shadow | mirrors | its own edges (RELATIONSHIPS.md) |
+| UI shadow | mirrors | its own edges (the root relationship authority) |
 | --- | --- | --- |
 | View Model | Value Object | `derives`←Entity, `displays`←Component, `shapes`←Adapter |
 | Guard | Rule | `protects`→Page, `mirrors`→Rule |
@@ -67,9 +67,9 @@ backend twin does not; do not treat them as interchangeable):
 | Adapter | Mapping | `shapes`→View Model |
 | State Indicator | State Machine / Enum | `reflects`→State Machine |
 
-## 3. Edge reading-view (authority = RELATIONSHIPS.md, NOT the card `edge_participation` slices)
-> ⚠ The per-type `edge_participation` slices are known-inconsistent with RELATIONSHIPS.md (novice stall S4,
-> handed to R3). Until R3 reconciles them, **read edges from RELATIONSHIPS.md.** Group the backend edges by
+## 3. Edge reading-view (authority = the root relationship authority, NOT the card `edge_participation` slices)
+> ⚠ The per-type `edge_participation` slices are known-inconsistent with the root relationship authority (novice stall S4,
+> handed to R3). Until R3 reconciles them, **read edges from the root relationship authority.** Group the backend edges by
 > what they express — with a `@cross` modifier for the cross-feature variants:
 
 | Family | Base edge(s) | Reads as |
@@ -84,7 +84,7 @@ backend twin does not; do not treat them as interchangeable):
 | **expose / map** | `exposes`, `maps` | an Interface publishes; a Mapping reshapes |
 
 Modifiers: **`@cross`** = spans features (the `-cross` edges); **`@shadow`** = a UI mirror edge (§2).
-*(This is a reading aid; RELATIONSHIPS.md remains the source of truth and the validator's authority.)*
+*(This is a reading aid; the root relationship authority remains the source of truth and the validator's authority.)*
 
 ## 4. Two terms the surface never defined (proposed — promote via definitions-governance)
 The novice could not resolve these from the surface; here are **working definitions** (S6, S1). These are

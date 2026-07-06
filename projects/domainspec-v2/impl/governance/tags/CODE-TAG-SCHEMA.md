@@ -47,7 +47,7 @@ domainspec:
 - Edge direction is canonical and outbound from the tagged concept.
 - Inverse aliases are not allowed.
 - `concept.type` must match taxonomy labels from `TAXONOMY.md`.
-- `edges[].edge` must be canonical labels from `RELATIONSHIPS.md`.
+- `edges[].edge` must be canonical labels from the root relationship authority (`definitions/relationships/relationships.yml`).
 - When present, `concept.spec_ref` must point to the same SPEC source row resolved from `concept.id`.
 
 ## Positive Example
