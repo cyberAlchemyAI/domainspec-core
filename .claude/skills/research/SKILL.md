@@ -11,7 +11,7 @@ description: >
 **What this is.** You are running a research dispatch: a fan-out of subagents that finds what
 **already exists and can be used**, then records it. 
 
-**What you produce.** `research.md` + `findings.md` in the `working_folder`, carrying a verdict on
+**What is produced.** `research.md` + `findings.md` in the `working_folder`, carrying a verdict on
 every candidate. That is the whole deliverable.
 
 **The procedure.** Shape it → Find the evidence → Run it → Gate it → Write the outputs → Close.
@@ -60,7 +60,7 @@ Each explorer **retrieves** — it does not recall. A claim rests on a source th
 to (a URL, a file path, a citation), never on model memory. Recall is a starting hypothesis; the
 retrieved source is the proof.
 
-**Where each explorer looks is set by its tension axes** (§1). `source-corpus` and `temporal-prior`
+**Where each explorer looks is set by its tension axes** (see **Shape it**). `source-corpus` and `temporal-prior`
 assign each explorer a distinct search surface so the group covers the space instead of
 overlapping — e.g. one sweeps current literature, one the foundational lineage, one the internal
 repos for prior art.
@@ -88,21 +88,7 @@ direction — the `from` endpoint opens the exchange). Launch all READY groups c
 independent chains run side by side. `feedback` edges never count as dependencies; a sheet with no
 connections declares its groups independent. Declared order is a narration tiebreak only.
 
-## 4. Gate it
-
-One gate per skeptic, never two:
-
-- **precedent** (ownership) — is this already owned? Find the *owner*, not just "something similar."
-  A found owner is a **positive** result: it labels the candidate `build-from-owned` (owner exists,
-  repo doesn't yet deploy it — cite and build) or `already-deployed`. An empty sweep certifies
-  `precedent-clean` → `novel-attempt`. **This gate never emits a terminal KILL.**
-- **non-vacuity** — build the smallest concrete witness by hand, or force a closed negative.
-- **definitional-soundness** — does it collapse to something already named, re-skinned?
-
-A skeptic group is tensioned by construction when its gates differ. **Terminal KILLs come only from
-`non-vacuity` (no witness) and `definitional-soundness` (tautological)** — never from precedent.
-
-## 5. Write the outputs
+## 4. Write the outputs
 
 Results land in the `working_folder` (a docs path, confirmed at the gate). Which files depends on
 how many agents ran:
@@ -113,16 +99,16 @@ how many agents ran:
 | **1** | `findings.md` only |
 
 - **`research.md`** — the agent returns pasted in verbatim. The strategist writes it by hand; it's
-  transcription, so never dispatch an agent to do it. → How: [`reference/research-writing.md`](reference/research-writing.md)
+  transcription, so never dispatch an agent to do it. → How: the `domainspec-research-writing` skill (`.claude/skills/custom/domainspec-research-writing.md`)
 - **`findings.md`** — the synthesis that turns those returns into usable claims. Every load-bearing
   claim cites the return it rests on. The strategist writes it, or hands it to a `writer` agent.
-  → How: [`reference/findings-writing.md`](reference/findings-writing.md)
+  → How: the `domainspec-findings-writing` skill (`.claude/skills/custom/domainspec-findings-writing.md`)
 
 **Findings shape** — one verdict row per candidate. **Ownership is a label, not a verdict**: the
 `owner` column is always filled (a citation, or `precedent-clean`), and being owned never puts KILL
 in the verdict column.
 
-## 6. Close
+## 5. Close
 
 Close with the one-line answer to the dispatch `goal`. The dispatch is `resolved` when the
 `final_approver` accepts — and for research, acceptance includes checking that the findings
@@ -149,6 +135,3 @@ skeptic/auditor prohibition is the hard case). Never invent a name outside the p
   anti-bias principle, lifecycle, `final_approver`, `exit_reason` vocabulary. Nothing here overrides it.
 - **Record/sheet mechanics + field definitions** — `register-dispatch`
   (`.claude/skills/register-dispatch/SKILL.md`): the two appends, the appender, validation, enums.
-- **Upstream authority** — constitution §5
-  (`internal_tools/subagents-dispatch-hooks/constitution/subagents-strategy-constitution-proposal.md`);
-  read only to adjudicate a genuine conflict.
