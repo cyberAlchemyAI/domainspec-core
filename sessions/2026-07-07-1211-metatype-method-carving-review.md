@@ -27,19 +27,27 @@ This session ran an adversarial red-team review (dispatch_type: review, routed t
 
 - validates `projects/domainspec-v2/discovery/domainspec-v2-discovery.md` (OQ-1) — the "semantic mistyping is invisible / shape not meaning" framing is confirmed correct and sits *inside* the conceded moat; the dramatic "method is structurally broken" reading was refuted at verification. The review sharpens it: 11 of 14 backend distinguishers validate at author-attestation strength, not structural.
 - questions `projects/domainspec-v2/definitions/DEFINITIONS.md` (D18) — the non-collapse discipline governs edge/relationship promotion but explicitly exempts DS-D1 meta-type formation, and D6/D7 carry only coverage tests, so no node-level non-collapse gate exists. ROOT, CRITICAL, confirmed by the definitional verifier.
-- questions `projects/domainspec-v2/definitions/relationships/relationships.yml` + `definitions/meta-types/meta-types.yml` — Workflow and Saga have byte-identical `edge_participation` and compensation is not Saga-exclusive, so Saga is structurally undistinguished from Workflow (open `DEC-DSV2-SAGA-MERGE`, default merge). CRITICAL-as-carving, survived.
+- questions `projects/domainspec-v2/definitions/relationships/relationships.yml` — Workflow and Saga have byte-identical `edge_participation`, so no edge structurally distinguishes them (open `DEC-DSV2-SAGA-MERGE`, default merge). CRITICAL-as-carving, survived.
+- questions `projects/domainspec-v2/definitions/meta-types/meta-types.yml` — compensation is not Saga-exclusive, so Saga is structurally undistinguished from Workflow (Saga = Workflow + a `scope` tag). CRITICAL-as-carving, survived.
 - questions `projects/domainspec-v2/impl/spec/TAXONOMY.md` — the "25 building blocks for describing any domain" claim is over-stated; the 25 are visibly of the DDD/web genre, and the "time" genre is unconstructible. MEDIUM, survived.
+
+## Open questions
+
+- Is feature-ownership expressible as a computed graph property, or does it need a dedicated edge/attribute? (decides whether a conditional Saga-keep is admissible over the default merge).
+- Is Projection a node in its own right, or a View-Model widening of an existing node?
+- Is Schedule a node (shared domain state), or an attribute on Operation (literal cron)?
+- Is the D15 Formal-cell moat absolute, or does it admit a bounded exception for return-sort — the fact that decides whether the Rule/Policy/Calculation trio is a permanent declared exception?
 
 ## Next steps
 
-- Resolve the review's deferred owner questions (can feature-ownership be a computed graph property? is Projection a node or a View-Model widening? is Schedule a node or an Operation attribute? is the D15 Formal-cell moat absolute?), then apply the highest-leverage change — install a **node non-collapse gate** (a clause extending `DEFINITIONS.md` D18 or a new D-section: every node type must exhibit a structural-table witness OR distinct structure-reading edge-participation) — followed by the carving edits in `relationships.yml`/`meta-types.yml` (merge Saga, admit Schedule, add `constrains`/`compensates`/`contains`-source-widen, resolve Rule→Query).
+- Apply the highest-leverage change — install a **node non-collapse gate** (a clause extending `DEFINITIONS.md` D18 or a new D-section: every node type must exhibit a structural-table witness OR distinct structure-reading edge-participation) — followed by the carving edits in `relationships.yml`/`meta-types.yml` (merge Saga, admit Schedule, add `constrains`/`compensates`/`contains`-source-widen, resolve Rule→Query). Depends on the Open-questions calls above.
 - Route the fine-grained edge decisions (`constrains`, `compensates`, `contains`-widen, the Projection node-vs-View-Model fork) into engineer-view / the `DEFINE.md` open-decisions block — deliberately kept OUT of the discovery.
 - Commit this session's changes (submodule-first if `projects/domainspec-v2` is a submodule); nothing was committed.
 - Fix the recurring close-session skill/repo mismatch (`.claude/skills/close-session` targets a non-existent `docs/vault/`; the umbrella uses `sessions/`) — now carried unfixed from 2026-07-03-2010, -2014, 2026-07-06-2104, and 2026-07-07-0025.
 
 ## Recommendation
 
-- The keystone is installing the node non-collapse gate (discovery OQ-6) — the single highest-leverage change, since it simultaneously forces Saga to prove structure or merge, forces a time node to ship real structure, and turns the semantic trio into an explicit declared exception. It is licensed by the definitional verifier CONFIRMING the D18 node-formation exemption as the root and by the dispatch closing `resolved`. Attack it before the individual Saga/Schedule carving edits, because the gate is the rule that makes those edits principled rather than ad-hoc — the carving fixes are its first consumers, not independent decisions.
+- The keystone is installing the node non-collapse gate — the single highest-leverage change, since it simultaneously forces Saga to prove structure or merge, forces a time node to ship real structure, and turns the semantic trio into an explicit declared exception. It is licensed by the definitional verifier CONFIRMING the D18 node-formation exemption as the root (Contradictions, bullet 2). Attack it before the individual Saga/Schedule carving edits, because the gate is the rule that makes those edits principled rather than ad-hoc — the carving fixes are its first consumers, not independent decisions.
 
 ## Files touched
 
