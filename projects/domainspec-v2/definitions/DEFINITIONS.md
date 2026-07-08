@@ -246,8 +246,14 @@ Misuse warning: do not conflate a meta-type (the kind) with a **concept** (an in
 **category** (the grouping of kinds).
 
 Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a concept that fits no
-meta-type, or needs two" → challenges the 25-type closure; owner route = definitions-governance; gate = owner
-decision; blocking question = "does every concept map to exactly one of the 25?"; residue → `definitions/reviews/`.
+meta-type, needs two, or two meta-types that reduce to one — neither composes into different code from the
+other" → challenges the 25-type closure and irredundancy; owner route = definitions-governance; gate = owner
+decision; blocking questions = (1) "does every concept map to exactly one of the 25?" (2) "does each of the 25
+compose into different code, or do two collapse into one node?" — the non-collapse challenge (the node-side
+mirror of the D3 edge-law) is checked by `impl/tools/validate-meta-types-noncollapse.ts`: a separating structural
+witness OR an authority-resolved separating edge witness, with an owner-enumerated exception lane for the
+formal_return_type sort (Rule/Policy/Calculation); residue → `definitions/reviews/`. Third challenge staged
+2026-07-08 (candidate); see `definitions/reviews/2026-07-08-d6-node-noncollapse.md`.
 
 Confirm contract (promotion — build-from-owned on the cav2 promotion gate): promotes when = owner approves +
 the 25-type set is exercised on ≥1 real aspect + no open contradiction; gate = definitions-governance owner
