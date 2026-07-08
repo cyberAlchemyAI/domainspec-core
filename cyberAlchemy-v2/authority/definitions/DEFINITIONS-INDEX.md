@@ -57,6 +57,8 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D48 | authority promotion lifecycle | active | [Authority Promotion Lifecycle](DEFINITIONS.md#cav2-d48-authority-promotion-lifecycle) | The single staged path by which any authority-bearing candidate acquires authority; the build-from-owned generalization of D43/D46/Growth-Rule that the promotion-policy ladder instantiates. |
 | CAV2-D49 | closed authority-kind enumeration | active | [Closed Authority-Kind Enumeration](DEFINITIONS.md#cav2-d49-closed-authority-kind-enumeration) | The invariant that the authority-kind set is closed; an unenumerated kind defaults to blocked pending an owner decision adding it. Names the closure (enactment = proposed CAV2-C16). |
 | CAV2-D50 | discipline | active | [Discipline](DEFINITIONS.md#cav2-d50-discipline) | A recurring cross-capability practice promoted via discipline-governance (steward + recurrence evidence + maturity ladder + hardening); evidence alone does not self-promote. Not a term/sigil/spell/task/work. |
+| CAV2-D51 | canonical artifact | active | [Canonical Artifact](DEFINITIONS.md#cav2-d51-canonical-artifact) | A document that is a recognized kind of thing, made the recognized way — typed and process-born, and decoupled from authority (a discovery is canonical yet not authoritative). |
+| CAV2-D52 | artifact durability | active | [Artifact Durability](DEFINITIONS.md#cav2-d52-artifact-durability) | Some documents are made to be used and retired (ephemeral, may hold contradictions); others to stand and be kept true (perennial, may not). |
 
 ## Alias Lookup
 
@@ -74,6 +76,15 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | scientific authority lifecycle | CAV2-D48 |
 | promotion lifecycle | CAV2-D48 |
 | authority surface | CAV2-D3 |
+| canonical artifact | CAV2-D51 |
+| typed artifact | CAV2-D51 |
+| governed artifact instance | CAV2-D51 |
+| process-born artifact | CAV2-D51 |
+| non-canonical artifact | CAV2-D51 |
+| artifact durability | CAV2-D52 |
+| durability axis | CAV2-D52 |
+| ephemeral artifact | CAV2-D52 |
+| perennial artifact | CAV2-D52 |
 | architecture pattern promotion lifecycle | CAV2-D43 |
 | artifact tree governance interface | CAV2-D42 |
 | base repository | CAV2-D1 |

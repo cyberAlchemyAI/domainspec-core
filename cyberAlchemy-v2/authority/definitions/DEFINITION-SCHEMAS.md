@@ -4,7 +4,7 @@ Status: active
 Owner: definitions-governance
 Canonical definitions source: [DEFINITIONS.md](DEFINITIONS.md)
 Lookup index: [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
-Last updated: 2026-06-22
+Last updated: 2026-07-07
 
 ## Purpose
 
@@ -40,6 +40,7 @@ field and another authority axis follows `CAV2-D16` typed coupling invariant.
 | Schema handle | Definition | Term | Shape | Status | Witness |
 | --- | --- | --- | --- | --- | --- |
 | `CAV2-D23-SCHEMA` | [CAV2-D23](DEFINITIONS.md#cav2-d23-authority-lifecycle-axis) | authority lifecycle axis | `L(a) = (kind, status, evidence, commitment, provenance, owner, residue)` | tracked (documentary) | review; machine validator deferred |
+| `CAV2-D51-SCHEMA` | [CAV2-D51](DEFINITIONS.md#cav2-d51-canonical-artifact) | canonical artifact | `CA(a) = (artifact_id, canonical_kind, authority_kind, process_origin, durability, authority_state)` | tracked (documentary) | review; validator deferred (kind-membership + rollup scan) |
 
 ## Backlog: schema-bearing definitions not yet tracked
 

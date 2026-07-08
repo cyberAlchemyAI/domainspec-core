@@ -3375,6 +3375,198 @@ discipline-as-authority-kind is governance.
 - [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md) (Authority Kinds)
 - [../../ontology/NODE-MODEL.md](../../ontology/NODE-MODEL.md) (`concept.discipline`)
 
+## CAV2-D51: Canonical Artifact
+
+Status: active
+Term: canonical artifact
+Aliases: typed artifact, governed artifact instance, process-born artifact, non-canonical artifact (negation)
+Promoted: 2026-07-07 (design session: the instance predicate over the canonical-kind enumeration — typed + process-born, decoupled from authority)
+
+### Normative Definition
+
+A canonical artifact is an artifact instance whose **kind is a member of the
+canonical-kind enumeration** ([../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md))
+and which was **produced by that kind's declared process** — so it carries a
+defined type (a `CAV2-D21` classification/schema facet that is bound, not left as
+residue) and a traceable process origin. Canonical-ness is the property of *being
+typed and born from a governed process*; it is **decoupled from authority** — a
+canonical artifact may be non-authoritative (an ephemeral discovery is canonical
+yet is not authority) and still canonical. An artifact whose kind is **not** in
+the enumeration is **non-canonical**: a free working product outside any governed
+type.
+
+### Formal Interpretation
+
+```text
+canonical(a)  <->  kind(a) in CanonicalKinds  and  origin(a) = process(kind(a))
+CanonicalKinds  superset-of  AuthorityKinds   (every authority-kind is a canonical-kind;
+                                               not every canonical-kind bears authority)
+canonical(a)   independent-of   authoritative(a)   (authority is earned via CAV2-D48)
+```
+
+Each canonical artifact declares (see `### Schema`) a `canonical_kind`, an
+`authority_kind` (the `CAV2-D49` kind it rolls up to), a producing process, and a
+`CAV2-D52` durability. It instantiates exactly one `canonical_kind` and inherits
+that kind's `authority_kind` and durability.
+
+### Schema
+
+Schema handle: `CAV2-D51-SCHEMA` — tracked in [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md).
+Status: tracked (documentary).
+Bound to: `CAV2-D51` canonical artifact.
+
+Canonical artifact record:
+
+```text
+CA(a) = (artifact_id, canonical_kind, authority_kind, process_origin, durability, authority_state)
+```
+
+| Field | Meaning | Value posture |
+| --- | --- | --- |
+| `artifact_id` | identifier of the instance | known |
+| `canonical_kind` | the canonical-kind it instantiates | member of `CANONICAL-KINDS` |
+| `authority_kind` | the authority-kind it rolls up to | a `CAV2-D49` kind (typed coupling `CAV2-D16`) |
+| `process_origin` | declared process that produced it | known or source-local |
+| `durability` | intended lifespan | `CAV2-D52` ephemeral \| perennial |
+| `authority_state` | how much authority it has earned | none \| candidate \| promoted (`CAV2-D48`) |
+
+Schema invariant: `canonical_kind in CanonicalKinds`; `authority_kind = rollup(canonical_kind)`
+is a typed coupling (`CAV2-D16`); `durability` is orthogonal to `authority_kind`
+(`CAV2-D29`); `authority_state` does **not** follow from `canonical` — a canonical
+artifact defaults to `authority_state = none`. Documentary; validator deferred.
+
+### Operational Interpretation
+
+Use when deciding whether a document the project produced is a first-class typed
+artifact or an ungoverned working note. Ask: does it instantiate an enumerated
+canonical-kind, and did it come from that kind's process? If yes, it is canonical
+and inherits that kind's `authority_kind` and durability. If it instantiates no
+enumerated kind, it is non-canonical working material — usable, but it carries no
+type, no rollup, and no durability obligation until an owner enumerates its kind.
+
+### Plain-Language Intuition
+
+A canonical artifact is a document that is a *recognized kind of thing*, made the
+*recognized way* — a discovery, a research, a ledger, a spec. It is "canonical"
+because it has a canonical form and origin, not because it is authoritative. A
+note you jot while working is non-canonical until it becomes one of the named
+kinds.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2 this names the genus that sits above the
+[AUTHORITY-MODEL Authority Kinds table](../AUTHORITY-MODEL.md#authority-kinds):
+the fine artifact-types (discovery, research, axiom, ledger, spec, ...) enumerated
+in [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md), each
+rolling up to a coarse `CAV2-D49` authority-kind and carrying a `CAV2-D52`
+durability. It is the positive pole opposite `CAV2-D8` import candidate and
+non-canonical working material: it lets the project say "this is a typed,
+process-born discovery" without asserting the discovery is authority.
+
+### Boundary
+
+Canonical artifact is **not** authority and **not** "canonical source": the store's
+existing *canonical source*, *canonical section*, and *canonical definition*
+(alias of `CAV2-D33`) use *canonical = the authoritative version*; this term uses
+*canonical = has a canonical form + process origin* and is explicitly decoupled
+from authority. It is **not** the enumeration itself — that is the *set* of kinds
+in `CANONICAL-KINDS.md`; a canonical artifact is a member *instance*. It does not
+promote anything: earning authority is `CAV2-D48`, being a recognized kind is
+`CAV2-D49`. Prior 2026-06-21 review prose that used "canonical artifact" to mean
+"target-owned / deployed authority" is the *authoritative-version* sense and
+predates this term (recorded in [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)).
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
+- [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md)
+- [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md) (Authority Kinds)
+
+## CAV2-D52: Artifact Durability
+
+Status: active
+Term: artifact durability
+Aliases: durability axis, ephemeral artifact, perennial artifact
+Promoted: 2026-07-07 (design session: lifespan axis orthogonal to authority-kind and to maturity; carries the contradiction-tolerance coupling)
+
+### Normative Definition
+
+Artifact durability is the axis that classifies a `CAV2-D51` canonical artifact by
+**intended lifespan** — `ephemeral` (a work-product meant to be produced,
+consumed, and retired) or `perennial` (a standing reference meant to endure and be
+maintained). Durability is **orthogonal** to the `authority_kind` (`CAV2-D49`)
+and to maturity/status (`CAV2-D23`): two artifacts of the same kind may differ in
+durability — a discovery and an inventory index are both `Evidence`, yet the
+discovery is ephemeral and the index is perennial.
+
+Durability carries one **contradiction-tolerance** obligation (typed coupling,
+`CAV2-D16`):
+
+- an **ephemeral** artifact **may hold live contradictions** — competing
+  hypotheses and unresolved tensions are expected and preserved;
+- a **perennial** artifact **must not hold live simultaneous contradictions**.
+  *Temporal supersession* — a later entry overriding an earlier one in an
+  append-only record (`CAV2-D26` ledger), or a decision record narrating the
+  contradiction it resolved (`CAV2-D36`) — is **not** a live contradiction and is
+  permitted.
+
+### Formal Interpretation
+
+```text
+durability(a) in { ephemeral, perennial }
+durability(a)  orthogonal-to  authority_kind(a)   (CAV2-D29: independent of authority-kind)
+durability(a)  orthogonal-to  status(a)         (CAV2-D23: independent of maturity)
+perennial(a)   ->  not ( a holds live  P and not-P simultaneously )
+ephemeral(a)   ->  a may hold live  P and not-P
+temporal supersession ( E_t overrides E_{t-1} ) is not a live contradiction
+```
+
+### Operational Interpretation
+
+Assign durability per canonical-kind as a default (spec / definition /
+constitution / decision / axiom / ledger -> perennial; discovery / research /
+session -> ephemeral), overridable per instance with an owner note. When reviewing
+a perennial artifact, treat a live contradiction as a defect to resolve; when
+reviewing an ephemeral one, treat contradictions as legitimate exploration to
+preserve.
+
+### Plain-Language Intuition
+
+Some documents are meant to be used and then set aside once they have done their
+job (a discovery); others are meant to stand and be kept true (a spec). The
+first kind is allowed to argue with itself; the second is not — though a logbook
+is still allowed to record that things changed over time.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, durability is a column on
+[../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md). It answers
+"how long is this meant to stand, and can it hold contradictions" — a question
+neither `CAV2-D49` (what kind) nor `CAV2-D23` (how mature) asks. It is why a
+discovery can freely explore contradictions while a spec cannot, and why a ledger
+can record superseding events without violating consistency.
+
+### Boundary
+
+Artifact durability is **not** maturity/status (`CAV2-D23`): a mature discovery is
+still ephemeral, a draft spec is still perennial. It is **not** authority:
+perennial does not mean authoritative (a perennial spec may still be a candidate).
+It is **not** regenerability: a projection is derived and regenerable, which is a
+separate property, not "ephemeral" — durability is about intended lifespan, not
+whether the artifact can be rebuilt. The two-value set may later gain an
+append-only/monotonic third value if the ledger case proves the live-vs-temporal
+refinement insufficient; that is an owner-gated extension.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md)
+- [#cav2-d51-canonical-artifact](#cav2-d51-canonical-artifact)
+- [#cav2-d26-append-only-event-ledger](#cav2-d26-append-only-event-ledger)
+
 ## Open Questions
 
 ### OQ-1. Which imported definitions should be promoted first?

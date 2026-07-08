@@ -2,7 +2,7 @@
 
 Status: active
 Owner: definitions-governance
-Last updated: 2026-06-23
+Last updated: 2026-07-07
 
 ## Audit Scope
 
@@ -195,3 +195,58 @@ Promoting now would reverse a recorded `defer` verdict with 4/5 conditions unmet
 (demote/promote protocol). The unmet conditions ride the still-candidate
 authority-object schema / relation work (OQ-1-gated). **Route:** clear the relation
 profile + conformance fixture (or an explicit decision-gate override) before promotion.
+
+## Canonical Artifact + Durability promoted (CAV2-D51, CAV2-D52) — 2026-07-07
+
+Trigger: definitions-governance design session on "canonical artifacts." Owner
+greenlit the promotion.
+
+- **`CAV2-D51` canonical artifact — PROMOTED.** The *instance predicate* over a
+  new Tier-1 **canonical-kind enumeration** ([../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md)):
+  an artifact that is typed and born from a governed process, **decoupled from
+  authority** (a discovery is canonical yet non-authoritative). Non-canonical =
+  unenumerated kind = free working material. Schema `CAV2-D51-SCHEMA` tracked in
+  [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md).
+- **`CAV2-D52` artifact durability — PROMOTED.** The `ephemeral | perennial`
+  lifespan axis, orthogonal to authority-kind (`CAV2-D49`) and maturity (`CAV2-D23`),
+  carrying the contradiction-tolerance coupling: ephemeral may hold live
+  contradictions, perennial may not (temporal supersession in a ledger/decision
+  record is not a live contradiction).
+- Index synced (2 rows + 9 aliases). New Tier-1 registry
+  [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md) created as
+  **candidate**, rolling canonical-kinds up to the [AUTHORITY-MODEL Authority Kinds](../AUTHORITY-MODEL.md#authority-kinds).
+
+### Drift finding — "canonical artifact" prose predates this term. Status: flag.
+
+The phrase "canonical artifact" appears in dated 2026-06-21 review/refinement prose
+([../../development/reviews/2026-06-21-authority-elevation-protocol-review/attacks.md](../../development/reviews/2026-06-21-authority-elevation-protocol-review/attacks.md),
+[../../development/refinement-runs/20260621T043600Z-authority-artifact-lifecycle-placement/](../../development/refinement-runs/20260621T043600Z-authority-artifact-lifecycle-placement/))
+meaning **"target-owned / deployed authority"** — the *authoritative-version* sense,
+the opposite of the promoted decoupled-from-authority sense. **Remediation:** none to
+the source docs — they are **ephemeral** artifacts (`CAV2-D52`) under the very
+taxonomy promoted here, and may hold the older wording. The perennial `CAV2-D51`
+definition now owns the term; its Boundary section records the divergence. Do not
+rewrite the historical prose.
+
+### Field rename — `fine_type`→`canonical_kind`, `coarse_group`→`authority_kind`. 2026-07-08. Status: pass.
+
+The CAV2-D51 canonical-artifact record fields were renamed for explicitness (owner call):
+`fine_type` → `canonical_kind` (the field now names its Tier-1 enumeration,
+[../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md)) and `coarse_group` →
+`authority_kind` (names its Tier-2 enumeration, the [AUTHORITY-MODEL Authority Kinds](../AUTHORITY-MODEL.md#authority-kinds)
+table). **Names only** — no change to the term's meaning, the record shape, or the rollup
+invariant (now `authority_kind = rollup(canonical_kind)`). Synced across
+[DEFINITIONS.md](DEFINITIONS.md#cav2-d51-canonical-artifact) (CAV2-D51/D52),
+[DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md) (`CAV2-D51-SCHEMA`), and CANONICAL-KINDS.md.
+No promotion gate (field-name change, not a term-semantics change). The CAV2-D51 prose that
+read "each canonical-kind declares …" was reworded to "each canonical artifact declares …"
+to avoid self-reference under the new field name.
+
+### Non-drift note — this does NOT reverse the held `ledger` promotion. Status: pass.
+
+`CANONICAL-KINDS.md` lists `ledger` as a candidate **fine artifact-type** (an
+instance-typing entry that references the already-promoted `CAV2-D26` append-only
+event ledger for behavior). This is **not** the deferred promotion of `ledger` as a
+canonical **primitive term/definition**, which remains HELD (see the 2026-06-23
+section above; 4/5 conditions unmet). The two are different objects: a candidate
+row in an artifact-type enumeration vs. a canonical primitive definition.
