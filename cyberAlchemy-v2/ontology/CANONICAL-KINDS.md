@@ -45,7 +45,7 @@ candidate assignments awaiting owner ratification.
 | research | research dispatch / research-tower | Evidence | ephemeral | tolerated | no |
 | session | session record (`sessions/`) | Evidence | ephemeral | tolerated | no |
 | ledger | append-only ledger (`CAV2-D26`) | Evidence | perennial | resolve-required (live); temporal supersession allowed | no |
-| axiom | axiom authoring | Definition *(provisional — AUTHORITY-MODEL OQ-2)* | perennial | resolve-required | yes (as Definition) |
+| axiom | axiom authoring | unresolved — OQ-2 *(provisionally governs as `Definition`; term = [`CAV2-D53`](../authority/definitions/DEFINITIONS.md#cav2-d53-axiom), whose boundary holds axiom ≠ definition)* | perennial | resolve-required | deferred (OQ-2) |
 | definition | definitions-governance | Definition | perennial | resolve-required | yes |
 | constitution | constitution-governance | Constitution | perennial | resolve-required | yes |
 | decision | decision-gate | Decision | perennial | resolve-required | yes |
@@ -63,6 +63,10 @@ candidate assignments awaiting owner ratification.
    *authoritative*. `authority_reachable = no` means instances of that kind are
    terminal evidence/records; they never earn authority (consistent with
    `CAV2-D48`'s boundary: evidence, ledger events, sessions are inputs/terminal).
+   Even for an authority-*reachable* kind, an instance is authoritative only at
+   `authority_state: promoted` (`CAV2-D51` / `CAV2-D48`) — `candidate` is
+   proposed-not-yet-accepted and `demoted` is withdrawn/superseded. A candidate
+   `definition` is still a definition, just not yet authority.
 4. **Ledger contradiction.** A ledger is perennial but append-only: a later event
    overriding an earlier one is *temporal supersession*, not a live contradiction
    (`CAV2-D52`). Only a simultaneously-held `P and not-P` is a defect.
@@ -82,9 +86,13 @@ standalone extraction. Status: OPEN.
 ### OQ-2. Does `axiom` roll up to `Definition`, or become its own coarse kind?
 
 Context: mirrors [AUTHORITY-MODEL OQ-2](../authority/AUTHORITY-MODEL.md#oq-2-should-invariant-and-axiom-become-first-class-authority-kinds).
-`axiom` currently governs as the `Definition` kind. If OQ-2 promotes `invariant`/
-`axiom` to first-class authority kinds, update the `axiom` rollup here. Status:
-OPEN (tracked upstream).
+As of 2026-07-08 `axiom` is canonically defined ([`CAV2-D53`](../authority/definitions/DEFINITIONS.md#cav2-d53-axiom))
+with an explicit boundary that an axiom is **not** a definition. Its `authority_kind`
+is therefore marked **`unresolved`** rather than `Definition` — the one row that does
+not yet name exactly one authority-kind (a `CAV2-D16` open coupling, not a hidden
+assumption), pending the OQ-2 decision-gate call. If OQ-2 promotes `invariant`/`axiom`
+to first-class authority kinds, set the rollup accordingly. Status: OPEN (tracked
+upstream).
 
 ### OQ-3. Per-instance durability override — recorded where?
 

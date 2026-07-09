@@ -59,6 +59,9 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D50 | discipline | active | [Discipline](DEFINITIONS.md#cav2-d50-discipline) | A recurring cross-capability practice promoted via discipline-governance (steward + recurrence evidence + maturity ladder + hardening); evidence alone does not self-promote. Not a term/sigil/spell/task/work. |
 | CAV2-D51 | canonical artifact | active | [Canonical Artifact](DEFINITIONS.md#cav2-d51-canonical-artifact) | A document that is a recognized kind of thing, made the recognized way — typed and process-born, and decoupled from authority (a discovery is canonical yet not authoritative). |
 | CAV2-D52 | artifact durability | active | [Artifact Durability](DEFINITIONS.md#cav2-d52-artifact-durability) | Some documents are made to be used and retired (ephemeral, may hold contradictions); others to stand and be kept true (perennial, may not). |
+| CAV2-D53 | axiom | active | [Axiom](DEFINITIONS.md#cav2-d53-axiom) | A foundational truth taken as given that a family of invariants and rules derives from — about the world the system is built around, not a rule the system obeys. |
+| CAV2-D54 | invariant | active | [Invariant](DEFINITIONS.md#cav2-d54-invariant) | A must-hold condition on the system's own behavior; breaking it is a defect. The checkable "what must stay true" below the axiom and above the rulebook. |
+| CAV2-D55 | premise | active | [Premise](DEFINITIONS.md#cav2-d55-premise) | A working proposition the project bets on before it's proven (`veracidade` low, `convicção` high) — expected to be promoted to axiom, revised, or retired as evidence comes in. |
 
 ## Alias Lookup
 
@@ -85,6 +88,18 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | durability axis | CAV2-D52 |
 | ephemeral artifact | CAV2-D52 |
 | perennial artifact | CAV2-D52 |
+| axiom | CAV2-D53 |
+| foundational truth | CAV2-D53 |
+| admitted principle | CAV2-D53 |
+| bedrock commitment | CAV2-D53 |
+| invariant | CAV2-D54 |
+| must-hold constraint | CAV2-D54 |
+| system invariant | CAV2-D54 |
+| premise | CAV2-D55 |
+| working premise | CAV2-D55 |
+| working hypothesis | CAV2-D55 |
+| hypothesis | CAV2-D55 |
+| conviction bet | CAV2-D55 |
 | architecture pattern promotion lifecycle | CAV2-D43 |
 | artifact tree governance interface | CAV2-D42 |
 | base repository | CAV2-D1 |

@@ -242,6 +242,20 @@ No promotion gate (field-name change, not a term-semantics change). The CAV2-D51
 read "each canonical-kind declares …" was reworded to "each canonical artifact declares …"
 to avoid self-reference under the new field name.
 
+### `authority_state` enum extended — added `demoted`. 2026-07-08. Status: pass.
+
+The CAV2-D51 `authority_state` enum was extended from `none | candidate | promoted` to
+`none | candidate | promoted | demoted`, build-from-owned on `CAV2-D48` (Authority Promotion
+Lifecycle), which explicitly names a stopping/**demotion** rule the enum previously omitted.
+`demoted` = authority that was promoted then withdrawn or superseded; its semantics live in
+`CAV2-D48`, the CA record only carries the position. Vocabulary correspondence with the
+definitions surface (recorded so the two do not drift): `promoted` ≈ `active`, `demoted` ≈
+`deprecated` — same lifecycle stages, different local wording. This is a schema amendment
+(`CAV2-D25`), not a term-semantics change — no promotion gate. `CANONICAL-KINDS.md` Rule 3 was
+also clarified: an authority-reachable kind's instance is authoritative only at
+`authority_state: promoted` (a `candidate` definition is still a definition, just not yet
+authority).
+
 ### Non-drift note — this does NOT reverse the held `ledger` promotion. Status: pass.
 
 `CANONICAL-KINDS.md` lists `ledger` as a candidate **fine artifact-type** (an
@@ -250,3 +264,41 @@ event ledger for behavior). This is **not** the deferred promotion of `ledger` a
 canonical **primitive term/definition**, which remains HELD (see the 2026-06-23
 section above; 4/5 conditions unmet). The two are different objects: a candidate
 row in an artifact-type enumeration vs. a canonical primitive definition.
+
+## Axiom + Invariant promoted (CAV2-D53, CAV2-D54) — 2026-07-08
+
+Trigger: definitions-governance design session working the `axiom → invariant →
+constitution → validator` ladder, stress-tested against the ZefraHub and
+maestro-trama axiom corpora. Owner greenlit the promotion.
+
+- **`CAV2-D53` axiom — PROMOTED.** A foundational proposition taken as given
+  (bedrock, high-veracity, non-derived within the system) with **fan-out** to a
+  family of premises/invariants/rules. Subject = the **world/domain** the system is
+  built around; the system **cannot violate** it. Carries its own `### Open
+  Questions` (species, authority-kind, axiom-vs-premise threshold + defeasibility).
+- **`CAV2-D54` invariant — PROMOTED** as the **generic parent** of the existing
+  invariant instances (`CAV2-D16`/`D29`/`D38`/`D49`). Subject = the **system**; a
+  violation is drift/defect; operationalized by a constitution (`CAV2-D34`),
+  enforced by a validator/gate (`CAV2-D37`). Carries its own `### Open Questions`
+  (parent-vs-instances, authority-kind, trace-obligation-as-constitution-rule).
+- **The discriminator** between them is the **subject-test**: world-truth (axiom)
+  vs. system must-hold (invariant). This sharpens the provisional wording in
+  [reviews/constitution-invariant-axiom-role-review.md](reviews/constitution-invariant-axiom-role-review.md)
+  with the corpus evidence.
+- Index synced (D53/D54 rows + aliases). **`CAV2-D55` premise — PROMOTED same
+  session:** the `veracidade: low / convicção: high` bet layer, completing the
+  axiom/invariant/premise trio. The premise is where veracity and conviction
+  diverge (`CAV2-D23`); promotion premise → axiom is evidence-gated (`CAV2-D48`),
+  never by conviction alone. `AX-ONT-7`/`AX-SYS-3` are the corpus examples of
+  premises mislabeled as axioms. Index synced (premise row + 5 aliases).
+
+### Still open (not resolved by this promotion). Status: flag.
+
+- **CANONICAL-KINDS `axiom` row is stale.** [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md)
+  line 48 still rolls `axiom → Definition / authority-reachable: yes`. Now that
+  `CAV2-D53` exists and we hold that an axiom is *not* a definition, that row should
+  reference `CAV2-D53` and mark its rollup `unresolved (OQ-2) / deferred`. Left for
+  the owner per AX-OQ-2 / CANONICAL-KINDS OQ-2. **Route:** decision-gate on
+  AUTHORITY-MODEL OQ-2 (first-class `invariant`/`axiom` kinds).
+- **`invariant`/`axiom` remain the `Definition` authority-kind** (AUTHORITY-MODEL
+  OQ-2). Promoting the *definitions* does not add them to the kind table.

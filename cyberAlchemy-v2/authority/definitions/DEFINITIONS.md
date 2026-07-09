@@ -3428,12 +3428,14 @@ CA(a) = (artifact_id, canonical_kind, authority_kind, process_origin, durability
 | `authority_kind` | the authority-kind it rolls up to | a `CAV2-D49` kind (typed coupling `CAV2-D16`) |
 | `process_origin` | declared process that produced it | known or source-local |
 | `durability` | intended lifespan | `CAV2-D52` ephemeral \| perennial |
-| `authority_state` | how much authority it has earned | none \| candidate \| promoted (`CAV2-D48`) |
+| `authority_state` | how much authority it has earned | none \| candidate \| promoted \| demoted (`CAV2-D48`) |
 
 Schema invariant: `canonical_kind in CanonicalKinds`; `authority_kind = rollup(canonical_kind)`
 is a typed coupling (`CAV2-D16`); `durability` is orthogonal to `authority_kind`
 (`CAV2-D29`); `authority_state` does **not** follow from `canonical` — a canonical
-artifact defaults to `authority_state = none`. Documentary; validator deferred.
+artifact defaults to `authority_state = none`, and walks the `CAV2-D48` path
+`none -> candidate -> promoted`, with `demoted` for withdrawn or superseded
+authority. Documentary; validator deferred.
 
 ### Operational Interpretation
 
@@ -3566,6 +3568,305 @@ refinement insufficient; that is an owner-gated extension.
 - [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md)
 - [#cav2-d51-canonical-artifact](#cav2-d51-canonical-artifact)
 - [#cav2-d26-append-only-event-ledger](#cav2-d26-append-only-event-ledger)
+
+## CAV2-D53: Axiom
+
+Status: active
+Term: axiom
+Aliases: foundational truth, admitted principle, bedrock commitment
+Promoted: 2026-07-08 (design session; axiom/invariant/constitution/premise ladder, stress-tested against ZefraHub and maestro-trama axiom corpora; subject-test boundary against invariant)
+
+### Normative Definition
+
+An axiom is a **foundational proposition taken as given** — bedrock the system does
+not derive further within itself and holds as true (high commitment/veracity) —
+**from which a family of premises, invariants, and constitution rules derives**,
+such that revising it forces rethinking everything built on it. Its defining
+subject is the **world or domain** the system operates in: an axiom states *why*
+the system is shaped as it is, and the system is **built around** it rather than
+made to satisfy it. It is **not** a constraint on the system's own behavior — that
+is an invariant (`CAV2-D54`).
+
+### Formal Interpretation
+
+```text
+axiom A:  taken-as-given(A) ∧ ¬derives-within-system(A) ∧ veracity(A) = high
+          ∧ fan_out(A) = { premises, invariants, constitution-rules derived from A }
+subject(A) = world/domain          (not the system's own behavior)
+system can violate A?  No — if A is false, the premise was wrong, not the code buggy
+genesis:       invariant → "why must this hold?" → A     (discovery order)
+justification: A → invariant → constitution rule          (top-down order)
+```
+
+The **fan-out** is the axiom's signature: a proposition that grounds only one
+downstream item, and nothing else, is not an axiom but the restatement of a single
+invariant.
+
+### Operational Interpretation
+
+Use "axiom" for the load-bearing truths a project stands on and reasons *from* —
+the ones that justify why a whole area, method, or rule family exists. Three tests:
+(1) can the system make it false? If yes, it is an invariant, not an axiom. (2) Is
+it actually believed true, or is it a bet? A bet (`veracidade: low`) is a
+**premise**, not an axiom. (3) Does a family derive from it? If nothing does, it is
+inert.
+
+### Plain-Language Intuition
+
+A truth you build on, not a rule you obey. "Creatives are fat-tailed" is true about
+the world; you design around it. If it turned out false, your plan was wrong — not
+your code.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, axiom is the top of the `axiom → invariant → constitution →
+validator` chain and the *why* layer of the AUTHORITY-MODEL `invariant → axiom →
+constitution rule` derivation. It is distinct from the specific invariant-definitions
+already promoted (`CAV2-D16`/`D29`/`D38`/`D49`), which are invariants, not axioms.
+Evidence corpora: maestro-trama `creative-axioms` (clean descriptive axioms);
+ZefraHub / maestro-trama `system-axioms` (mostly invariants mislabeled as axioms;
+`AX-SYS-3` and `AX-ONT-7` are premises).
+
+### Boundary
+
+An axiom is **not** an invariant (`CAV2-D54`): the invariant is a must-hold on the
+*system*; the axiom is a given truth about the *world* the system is built around.
+It is **not** a premise: a premise is a working bet held at low veracity
+(`veracidade: low`), an axiom is held true. It is **not** a constitution
+(`CAV2-D34`): the constitution is the enforceable rulebook, the axiom is the reason
+behind it. It is **not** a definition (`CAV2-D33`): a definition assigns meaning to
+a term, an axiom asserts a foundational truth. An axiom enforces nothing by itself —
+enforcement lives in the invariants and constitution rules it grounds.
+
+### Open Questions
+
+#### AX-OQ-1. Descriptive-only, or a prescriptive species too?
+
+Is `axiom` descriptive-only (a world/domain truth), with all must-satisfy content
+routed to `CAV2-D54` invariant, or is there a distinct prescriptive-axiom species?
+Current lean: descriptive-primary — must-satisfy content is invariant-shaped, and
+the subject-test (world vs system) is the discriminator. Status: OPEN.
+
+#### AX-OQ-2. Own authority-kind, or governs as `Definition`?
+
+Should `axiom` be a first-class authority kind, or continue governing as the
+`Definition` kind? Mirrors [AUTHORITY-MODEL OQ-2](../AUTHORITY-MODEL.md) and
+[CANONICAL-KINDS OQ-2](../../ontology/CANONICAL-KINDS.md). Status: OPEN (tracked
+upstream).
+
+#### AX-OQ-3. The axiom-vs-premise threshold, and defeasibility.
+
+How is the line between an axiom (held true) and a premise (a bet, `veracidade:
+low`) operationalized — an owner judgment, or a labeled/measured cutoff on the
+`CAV2-D23` evidence/commitment axes? And can a **defeasible** axiom that carries a
+stated boundary condition (e.g. maestro-trama `AX-CRT-4`, which "fails under
+bidding bugs, adversarial network") remain an axiom, or does defeasibility push it
+toward premise? Status: OPEN.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [#cav2-d54-invariant](#cav2-d54-invariant)
+- [#cav2-d34-constitution](#cav2-d34-constitution)
+- [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md) (Invariant, Axiom, Constitution)
+- [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md) (`axiom` canonical-kind)
+
+## CAV2-D54: Invariant
+
+Status: active
+Term: invariant
+Aliases: must-hold constraint, system invariant
+Promoted: 2026-07-08 (design session; generic parent of CAV2-D16/D29/D38/D49; subject-test boundary against axiom)
+
+### Normative Definition
+
+An invariant is a **condition on the system's own behavior or artifacts that must
+remain true** across a declared scope of decisions, transformations, or states —
+such that a violation is **drift or a defect**. Its defining subject is the
+**system**: unlike an axiom (`CAV2-D53`), which the system is built around, an
+invariant is something the system **must satisfy** and can fail to. An invariant is
+the checkable *what-must-stay-true* that a constitution rule (`CAV2-D34`)
+operationalizes and a validator or gate (`CAV2-D37`) enforces.
+
+### Formal Interpretation
+
+```text
+invariant I:  ∀ state/transition s in scope(I):  must-hold(I, s)
+subject(I) = the system            (its behavior / artifacts)
+system can violate I?  Yes — a violation is drift/defect (a bug)
+grounded-by:        an axiom (CAV2-D53) answering "why must I hold?"
+operationalized-by: constitution rule (CAV2-D34)
+enforced-by:        validator / gate (CAV2-D37)
+```
+
+CyberAlchemy v2 already carries specific invariants — `CAV2-D16` typed coupling,
+`CAV2-D29` axis orthogonality, `CAV2-D38` claim ≤ proof, `CAV2-D49` closed
+authority-kind enumeration; this definition is their generic parent.
+
+### Operational Interpretation
+
+Use "invariant" for a single must-hold truth about the system that is, in
+principle, checkable and whose breach is a defect. Two tests: (1) can the system
+violate it (is a breach a bug)? If yes, it is an invariant; if the system cannot
+make it false, it is an axiom. (2) Is it one condition (invariant) or a bundle of
+enforceable rules with selectors and modes (a constitution, `CAV2-D34`)? Each
+invariant should trace *up* to an axiom (its "why") and *down* to a validation
+mode.
+
+### Plain-Language Intuition
+
+A rule the system must keep — "same input, same output." Break it and you have a
+bug. It is the *what must stay true*, sitting below the axiom that says *why* and
+above the rulebook that says *how*.
+
+### Domain-Context Voice
+
+In CyberAlchemy v2, invariant is the middle of the `axiom → invariant →
+constitution → validator` chain: the checkable anchor that makes a constitution
+enforceable, and the parent genus of the already-promoted invariant instances
+(`CAV2-D16`/`D29`/`D38`/`D49`). An invariant with no axiom under it is unjustified;
+an invariant with no validation mode is un-enforceable (`none-yet`, per
+constitution-governance).
+
+### Boundary
+
+An invariant is **not** an axiom (`CAV2-D53`): same-input-same-output is a system
+must-hold; "unreproducible results cannot be trusted" is the world-truth behind it.
+It is **not** a constitution (`CAV2-D34`): the invariant is one must-hold
+proposition, the constitution is the scoped, composable rulebook that
+operationalizes many invariants with selectors, examples, validation modes, and
+precedence. It is **not** a validator or gate (`CAV2-D37`): the invariant states
+what must be true, the validator is the check that enforces it. It is **not**
+automatically authority — an invariant governs only through its owner route.
+
+### Open Questions
+
+#### IN-OQ-1. Generic parent vs. the specific instances.
+
+Does a generic `invariant` parent add a real distinction over the specific
+instances (`CAV2-D16`/`D29`/`D38`/`D49`), or risk over-abstraction? Promoted as the
+parent genus; watch that it does not absorb or blur their specific boundaries.
+Status: OPEN (monitor).
+
+#### IN-OQ-2. Own authority-kind, or governs as `Definition`?
+
+Should `invariant` be a first-class authority kind, or continue governing as the
+`Definition` kind (as `CAV2-D16`/`D29`/`D38`/`D49` currently do)? Mirrors
+[AUTHORITY-MODEL OQ-2](../AUTHORITY-MODEL.md). Status: OPEN (tracked upstream).
+
+#### IN-OQ-3. Is the trace obligation a constitution rule or a soft expectation?
+
+Should the expectation that every invariant traces *up* to an axiom (`CAV2-D53`)
+and *down* to a validation mode (`deterministic`/`review`/`hybrid`/`none-yet`) be a
+**constitution rule** (enforced), or a soft documentary expectation? Ties to the
+enforcement thread and [AUTHORITY-MODEL OQ-1](../AUTHORITY-MODEL.md). Status: OPEN.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [#cav2-d53-axiom](#cav2-d53-axiom)
+- [#cav2-d34-constitution](#cav2-d34-constitution)
+- [#cav2-d37-gate](#cav2-d37-gate)
+- [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md) (Invariant, Axiom, Constitution)
+
+## CAV2-D55: Premise
+
+Status: active
+Term: premise
+Aliases: working premise, working hypothesis, hypothesis, conviction bet
+Promoted: 2026-07-08 (design session; the `veracidade: low`/`convicção: high` bet layer completing the axiom/invariant/premise trio)
+
+### Normative Definition
+
+A premise is a **working proposition the project adopts in order to proceed
+without having established it as true** — a defeasible bet or commitment,
+characteristically held at **low veracity but often high conviction**
+(`veracidade: low`, `convicção: high`) — that is expected to be revised, promoted,
+or retired as evidence accumulates. A premise may complement axioms (a working
+elaboration built on the bedrock) or stand alone as a conjecture the project is
+betting on. It can provisionally ground invariants and rules, but it does **not**
+carry the settled truth of an axiom (`CAV2-D53`).
+
+### Formal Interpretation
+
+```text
+premise P:  adopted-to-proceed(P) ∧ ¬established-true(P) ∧ defeasible(P)
+            typically veracity(P) = low, conviction(P) = high   (CAV2-D23: the two axes diverge)
+lifecycle:  P --evidence--> { promote → axiom (CAV2-D48) | revise | retire }
+distinguished-from:
+  axiom (CAV2-D53):      veracity high, held true     → a premise is a bet
+  invariant (CAV2-D54):  a must-hold on the system    → a premise is a proposition to reason from
+```
+
+The premise is exactly the case where **veracity and conviction diverge**
+(`CAV2-D23`): the project may be highly committed to acting on `P` while `P`
+remains unproven.
+
+### Operational Interpretation
+
+Use "premise" for the load-bearing bets a project stands on *provisionally* — the
+things it commits to acting on before they are proven, and expects to test. The
+marker is a hedge: if a candidate axiom says "hypothesis", "we conjecture — not
+prove", or carries `veracidade: low`, it is a premise. A premise earns its way to
+axiom only through the evidence/promotion path (`CAV2-D48`), never by conviction
+alone.
+
+### Plain-Language Intuition
+
+A bet you are willing to build on for now. You act as if it is true, but you know
+it is not proven — and you are watching for the evidence that confirms it, revises
+it, or kills it.
+
+### Domain-Context Voice
+
+In the vault corpora, premises live beside axioms (`business-premises`,
+`ontology-premises`, `system-premises`) and "sit on top of" them; `veracidade: low
+/ convicção: high` is the premise signature. ZefraHub `AX-ONT-7` ("we conjecture —
+not prove") and `AX-SYS-3` ("the folder structure is a hypothesis") are premises
+mislabeled as axioms. Demotion is normal and healthy: a vault moved an
+"adaptive-system axiom" to the `P-ONT-9` premise because it was "an engineering
+commitment about maintenance, not a foundational truth."
+
+### Boundary
+
+A premise is **not** an axiom (`CAV2-D53`): the axiom is held true (high veracity),
+the premise is a bet (low veracity) even when conviction is high — `CAV2-D23` keeps
+veracity and commitment separate, and the premise is exactly where they diverge. It
+is **not** an invariant (`CAV2-D54`): the invariant is a must-hold on the system, a
+premise is a proposition to reason from. It is **not** a disposable hypothesis: a
+premise is *load-bearing* (things are built on it) while still unproven — which is
+what makes its defeasibility worth tracking rather than ignoring. Promotion premise
+→ axiom is an evidence-gated lifecycle move (`CAV2-D48`), never automatic.
+
+### Open Questions
+
+#### PR-OQ-1. Premise vs. hypothesis — one term or two?
+
+Do we need both `premise` and `hypothesis`, or is `premise` the CAV2 term and
+`hypothesis` a source-local alias (the vaults use "hypothesis" in `AX-SYS-3`)?
+Current lean: one term, `premise`, with `hypothesis` an alias. Status: OPEN.
+
+#### PR-OQ-2. Where is the premise → axiom threshold?
+
+Where exactly does a premise become an axiom (veracity crosses a line) or get
+retired? Ties to `AX-OQ-3` and the `CAV2-D23` evidence/commitment axes; the
+promotion move itself is `CAV2-D48`. Status: OPEN.
+
+#### PR-OQ-3. May a premise ground an invariant or constitution rule?
+
+If a rule is built on a premise (a bet) rather than an axiom (a truth), how is that
+provisional footing marked so the rule is visibly a bet — a residue flag, a
+validation-mode caveat, or a blocked promotion? Status: OPEN.
+
+### Primary Consumers
+
+- [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
+- [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
+- [#cav2-d53-axiom](#cav2-d53-axiom)
+- [#cav2-d23-authority-lifecycle-axis](#cav2-d23-authority-lifecycle-axis)
+- [#cav2-d48-authority-promotion-lifecycle](#cav2-d48-authority-promotion-lifecycle)
 
 ## Open Questions
 
