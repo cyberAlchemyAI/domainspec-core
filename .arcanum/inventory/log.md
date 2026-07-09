@@ -1638,3 +1638,14 @@ Artifacts:
 - Ledger: not a subagent dispatch; no `subagents-dispatch.yaml` row.
 - Next action: `invoke plan` (work-pack L0/L1/L2) for the verifier; optional regen of the stale `projects/domainspec-v2/CRAFT.md` human view.
 - Authority: non-authority Inventory read model only. Promotes no certification, conformity, runtime-conformance, formal-correctness, or provably-correct-agent claim.
+
+## 2026-07-09 - ingest (strategy proposal: business plan build research)
+
+- Mode: ingest (subagent strategy-result proposal; unregistered dispatch).
+- Entry created (1): `entries/business-plan-build-research-strategy-result-synthesis.md` - records proposed dispatch `2026-07-09-business-plan-build-research`, its P1 trigger, external and internal research lanes, subagents, dependency flow, double-PASS check-tension gate, unregistered ledger state, and next human action.
+- Proposal artifacts created (3): `queries/2026-07-09-business-plan-build-research/EXPLORE-STRATEGY.md`, `queries/2026-07-09-business-plan-build-research/DISPATCH-PROPOSAL.json`, and `queries/2026-07-09-business-plan-build-research/CHECK-TENSION.md`.
+- External seed sources checked: SBA business-plan guidance, SCORE planning/financial templates, Y Combinator seed deck guidance, Sequoia business-plan guidance, and HubSpot startup financial-projection template guidance. These sources shape the BP-building research plan but do not validate local commercial claims.
+- Gate: double PASS from checker `019f4567-f45c-7732-a645-353ce6d5fca8` (Mendel) and reviewer `019f4567-f4e2-7992-9df0-d9e79bc741ee` (Hilbert). The only note was non-blocking role vocabulary: `explorer`/`skeptic` are treated as dispatch-schema aliases for the gate's `investigate`/`evaluate` pressure.
+- Index: index.json 136 -> 137 entries via `tools/inventory-update.cjs`; index.md `## Entries` row added by the same tool and Last updated header bumped. Remaining uncontrolled-tag warnings are pre-existing/cross-inventory plus new BP tags and non-blocking.
+- Ledger: unregistered. No dispatch row and no close row appended; the human must reply `confirmed` before registration and execution.
+- Authority: candidate Inventory read model only. It promotes no business-plan claim, starts no research run, and authorizes no public disclosure.

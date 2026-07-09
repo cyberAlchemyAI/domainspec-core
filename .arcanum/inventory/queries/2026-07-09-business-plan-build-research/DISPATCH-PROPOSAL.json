@@ -1,0 +1,210 @@
+{
+  "dispatch_id": "2026-07-09-business-plan-build-research",
+  "schema_version": "0.6.0",
+  "dispatch_type": "research",
+  "goal": "Create the research substrate for building the later investor business plan: what a strong business plan should contain, how investor-facing and lender/operating-plan variants differ, what financial/market/GTM evidence is required, and how to map the accepted DomainSpec/CAV2 substrates into a credible BP without overclaiming.",
+  "context": "The company already has accepted BP substrate runs for portfolio, assurance vocabulary, spec-driven differentiation/moat, novel model-use/Lean formalization, and investor pitch blind spots. This dispatch should research how to build the business plan itself, combining current external BP/pitch/financial-model practice with the local evidence corpus. The output is a cited BP-building substrate, not final investor prose, and claim <= proof remains mandatory.",
+  "max_loops": 1,
+  "final_approver": "Brandenburg, Martin",
+  "anti_bias_global": "business-plan completeness versus investor compression versus financial realism versus DomainSpec claim-boundary discipline",
+  "working_folder": ".arcanum/inventory/queries/2026-07-09-business-plan-build-research/",
+  "groups": [
+    {
+      "group_id": "external-framework-explorers",
+      "n": 4,
+      "robot_talks": true,
+      "anti_bias": "composite source-corpus + methodology + temporal-prior",
+      "agents": [
+        {
+          "agent_name": "Drucker, Peter",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 7000,
+          "angle": "traditional/operating/lender BP architecture from SBA/SCORE and management practice; pair tensions: Drucker vs Porter = operating completeness vs investor compression; Drucker vs Goldratt = section completeness vs executable assumptions; Drucker vs Christensen = management system vs adoption beachhead",
+          "initial_prompt": "Read-only explorer. Research how to build a complete business plan from traditional, operating, lender, and management perspectives. Use current external sources including SBA Write your business plan and SCORE planning/financial templates, then compare with the local accepted BP substrates. Return: BP section anatomy, audience variants, completeness checklist, what belongs in executive summary/company/product/market/GTM/operations/team/funding/financials/appendix, and traps where prose outruns evidence. Do not write files."
+        },
+        {
+          "agent_name": "Porter, Michael",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 7000,
+          "angle": "venture/investor plan and deck logic from YC/Sequoia/current investor sources; pair tensions: Porter vs Drucker = investor salience vs operating substance; Porter vs Goldratt = pitch clarity vs spreadsheet realism; Porter vs Christensen = market-winning story vs first adoption pocket",
+          "initial_prompt": "Read-only explorer. Research investor-facing business plan and pitch logic for a seed/first-investor context. Use current external sources including YC seed deck/fundraising guidance, Sequoia Writing a Business Plan, and dated investor examples only as current-market color. Compare with accepted investor-pitch blind-spot findings. Return: investor narrative structure, market/competition/business-model/team/traction/why-now expectations, deck vs written BP split, and how to avoid portfolio-sprawl in the DomainSpec/CAV2 BP. Do not write files."
+        },
+        {
+          "agent_name": "Goldratt, Eliyahu",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 7000,
+          "angle": "financial model, constraints, unit economics, capacity, use-of-funds realism; pair tensions: Goldratt vs Drucker = assumptions that execute vs plan sections that read complete; Goldratt vs Porter = financial realism vs investor theater; Goldratt vs Christensen = economic closure vs adoption demand",
+          "initial_prompt": "Read-only explorer. Research the financial and operating model layer of a strong business plan. Use current financial-projection template guidance such as HubSpot for Startups and SCORE finance templates, plus local Metric Trust / readiness wedge evidence. Return: revenue streams, pricing hypotheses, unit economics, delivery capacity, gross margin, cost structure, headcount, runway, use of funds, scenario/sensitivity tests, break-even, and what assumptions must be validated before investor claims. Do not write files."
+        },
+        {
+          "agent_name": "Christensen, Clayton",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 7000,
+          "angle": "beachhead adoption, wedge selection, consulting-to-product path; pair tensions: Christensen vs Drucker = adoption path vs management completeness; Christensen vs Porter = first market wedge vs broad market story; Christensen vs Goldratt = demand proof vs economic model closure",
+          "initial_prompt": "Read-only explorer. Research how a BP should express beachhead, GTM, adoption path, consulting-to-product conversion, and expansion. Center the accepted Metric Trust / governed AI work readiness wedge and compare it to external startup GTM/pitch-plan expectations. Return: first ICP, buyer pain, pilot package, conversion gates, buyer-validation plan, expansion logic, adoption metrics, and what must stay future-only. Do not write files."
+        }
+      ]
+    },
+    {
+      "group_id": "domain-substrate-explorers",
+      "n": 4,
+      "robot_talks": true,
+      "anti_bias": "composite source-corpus + methodology",
+      "agents": [
+        {
+          "agent_name": "Beer, Stafford",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 7000,
+          "angle": "company system and compounding reach from accepted BP substrates; pair tensions: Beer vs Shannon = viable system story vs source/index evidence; Beer vs Turing = compounding reach vs proof boundary; Beer vs Ashby = company becoming vs control-loop sufficiency",
+          "initial_prompt": "Read-only explorer. Map the accepted DomainSpec/CAV2 BP substrates into a coherent company-system story for the business plan. Use portfolio findings, assurance vocabulary findings, spec-driven moat findings, novel model-use findings, and blind-spot review findings. Return: the company narrative, compounding mechanism, what POCs prove and do not prove, which BP sections each substrate belongs in, and the safest way to present reach from two people / three months. Do not write files."
+        },
+        {
+          "agent_name": "Shannon, Claude",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 7000,
+          "angle": "inventory/source evidence and maturity accounting; pair tensions: Shannon vs Beer = citation discipline vs system narrative; Shannon vs Turing = source mentions vs proof witnesses; Shannon vs Ashby = artifact lineage vs control evidence",
+          "initial_prompt": "Read-only explorer. Build a source and maturity map for the BP from .arcanum/inventory/index.json, index.md, the accepted 2026-07-06 BP findings, and dispatch telemetry. Return: source coverage table, maturity labels, evidence-to-BP-section map, data-room appendix plan, public/private cautions, and missing source/witness flags. Do not write files."
+        },
+        {
+          "agent_name": "Turing, Alan",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 7000,
+          "angle": "proof/readiness/verification boundaries; pair tensions: Turing vs Beer = named proof objects vs broad system story; Turing vs Shannon = proof witnesses vs source inventory; Turing vs Ashby = validators/formal witnesses vs governance controls",
+          "initial_prompt": "Read-only explorer. Map proof, readiness, auditability, verification, and provability boundaries for the BP. Center claim <= proof, AI assurance vocabulary, spec-driven completeness/moat findings, Lean/formalization findings, and the blind-spot review. Return: allowed/demoted/forbidden claim ladder, safe wording for verifiable/provable agentic workflows, proof object gaps, evidence receipt requirements, and non-claims box. Do not write files."
+        },
+        {
+          "agent_name": "Ashby, W. Ross",
+          "role": "explorer",
+          "model": "gpt-5.5",
+          "token_budget": 7000,
+          "angle": "governance, control loops, owner decisions, operating model; pair tensions: Ashby vs Beer = regulation vs company vision; Ashby vs Shannon = control evidence vs source lineage; Ashby vs Turing = governance sufficiency vs named validators/formal witnesses",
+          "initial_prompt": "Read-only explorer. Map the operating model/control-loop layer the BP needs: how engagements produce receipts, owner decisions, readiness gates, maturity tables, and feedback into product/platform thesis. Use Craft/goal, CAV2 authority, local-node receipts, Metric Trust, and accepted BP findings. Return: operating model, KPIs, governance controls, risk management, data room controls, and how to show trustworthiness without claiming certification or autonomous governance. Do not write files."
+        }
+      ]
+    },
+    {
+      "group_id": "synthesizer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Simon, Herbert",
+          "role": "synthesizer",
+          "model": "gpt-5.5",
+          "token_budget": 9000,
+          "initial_prompt": "Reconcile the external-framework and domain-substrate explorer returns into a candidate BP-building substrate. Produce: business-plan anatomy, audience variants, build sequence, DomainSpec/CAV2 section mapping, Metric Trust wedge model, financial model checklist, data-room checklist, claim ladder, non-claims, and gap list. Ask for feedback only if external BP coverage, financial model coverage, or internal evidence mapping is materially missing. Do not write files."
+        }
+      ]
+    },
+    {
+      "group_id": "reviewers",
+      "n": 3,
+      "robot_talks": true,
+      "anti_bias": "attack-vector",
+      "agents": [
+        {
+          "agent_name": "Taleb, Nassim Nicholas",
+          "role": "skeptic",
+          "model": "gpt-5.5",
+          "token_budget": 5000,
+          "angle": "non-vacuity and fragility gate; pair tensions: Taleb vs Popper = hidden downside vs explicit falsifiers; Taleb vs Quine = economic fragility vs semantic collapse",
+          "initial_prompt": "Read-only skeptic. Attack the synthesized BP-building substrate for non-vacuity and fragility. Kill or revise any section that lacks concrete evidence, buyer validation, financial assumptions, negative controls, or source-backed claim boundaries. Specify the witness or data needed to upgrade each weak claim. Do not write files."
+        },
+        {
+          "agent_name": "Popper, Karl",
+          "role": "skeptic",
+          "model": "gpt-5.5",
+          "token_budget": 5000,
+          "angle": "falsifiability and next-witness gate; pair tensions: Popper vs Taleb = explicit demotion tests vs fragility stress; Popper vs Quine = falsifier clarity vs term-definition clarity",
+          "initial_prompt": "Read-only skeptic. Attack the synthesized BP-building substrate for falsifiability. Every BP section and investor claim must name a falsifier, demotion condition, missing witness, or next proof object. Reject claims that cannot be tested in 30/60/90 days or placed in a data-room evidence queue. Do not write files."
+        },
+        {
+          "agent_name": "Quine, Willard Van Orman",
+          "role": "skeptic",
+          "model": "gpt-5.5",
+          "token_budget": 5000,
+          "angle": "definitional-soundness gate; pair tensions: Quine vs Taleb = semantic precision vs assumption fragility; Quine vs Popper = term definitions vs falsifier tests",
+          "initial_prompt": "Read-only skeptic. Attack the synthesized BP-building substrate for definitional collapse. Keep business plan, pitch deck, operating plan, data room, platform, wedge, readiness, auditability, verification, proof, market, traction, and moat distinct. Return term repairs, forbidden phrases, and exact rewrites where words smuggle stronger claims than evidence supports. Do not write files."
+        }
+      ]
+    },
+    {
+      "group_id": "writer",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Grove, Andrew",
+          "role": "writer",
+          "model": "gpt-5.5",
+          "token_budget": 10000,
+          "initial_prompt": "Write findings.md only after receiving the reconciled synthesis and reviewer results. It must be a cited BP-building research substrate, not final BP prose. Include: business-plan anatomy, audience variants, build sequence, DomainSpec/CAV2 mapping, Metric Trust wedge model, financial model checklist, data-room checklist, investor-safe language, forbidden claims, verdict matrix, and next witness queue. Every load-bearing claim must cite research.md, local source artifacts, or external source URLs."
+        }
+      ]
+    },
+    {
+      "group_id": "auditor",
+      "n": 1,
+      "agents": [
+        {
+          "agent_name": "Brandenburg, Martin",
+          "role": "auditor",
+          "model": "gpt-5.5",
+          "token_budget": 4000,
+          "initial_prompt": "Audit findings.md only. Check that it answers how to build the business plan, covers external BP/pitch/financial-model sources, maps accepted DomainSpec/CAV2 evidence into BP sections, includes financial model and data-room checklists, separates investor deck/traditional BP/operating plan, and preserves claim <= proof. Return ACCEPT or REVISE with exact required fixes. Do not write files."
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "external-framework-explorers",
+      "to": "synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "domain-substrate-explorers",
+      "to": "synthesizer",
+      "type": "sequential"
+    },
+    {
+      "from": "synthesizer",
+      "to": "reviewers",
+      "type": "zig-zag",
+      "loop_cap": 1
+    },
+    {
+      "from": "synthesizer",
+      "to": "external-framework-explorers",
+      "type": "feedback",
+      "loop_cap": 1
+    },
+    {
+      "from": "synthesizer",
+      "to": "domain-substrate-explorers",
+      "type": "feedback",
+      "loop_cap": 1
+    },
+    {
+      "from": "reviewers",
+      "to": "writer",
+      "type": "sequential"
+    },
+    {
+      "from": "writer",
+      "to": "auditor",
+      "type": "sequential"
+    },
+    {
+      "from": "auditor",
+      "to": "writer",
+      "type": "feedback",
+      "loop_cap": 1
+    }
+  ]
+}
