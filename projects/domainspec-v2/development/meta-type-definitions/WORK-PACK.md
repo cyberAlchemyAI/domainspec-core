@@ -16,6 +16,16 @@ promotion_boundary: PUBLIC vocabulary; approval-gated; canonical cards cite publ
 Promote the meta-type vocabulary to real definitions, **approval-gated**. [CANDIDATES.md](./CANDIDATES.md) is
 the approval artifact; the execution SWUs run **only after** the owner approves the relevant candidates.
 
+## Current maturity ledger
+
+- The 14 backend cards and schemas now exist as shape/fixture-backed candidates;
+  their candidate-to-active confirmation contracts remain in force.
+- The 11 UI labels remain formation-deferred. Their presence in active DS-D8
+  signatures does not promote them into DS-D1 formation authority.
+- `CANDIDATES.md` preserves the 25-name candidate trail; root
+  `definitions/meta-types/` carries only the 14 currently carded backend
+  members.
+
 ## SWU manifest
 | SWU | Layer | Scope | Acceptance (green) |
 | --- | --- | --- | --- |

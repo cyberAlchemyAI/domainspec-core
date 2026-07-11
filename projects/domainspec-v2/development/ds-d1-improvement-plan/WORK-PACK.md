@@ -3,7 +3,7 @@ module: ds-d1-improvement-plan
 feature_code: DSD1
 version: current
 status: draft
-updatedAt: 2026-07-03
+updatedAt: 2026-07-11
 docType: work-pack
 ---
 
@@ -17,13 +17,13 @@ execution of any SWU.
 
 | Field | Value | Notes |
 | --- | --- | --- |
-| workPackGateStatus | flag | First L0 SWU is executable; full DS-D1 improvement depends on UI and Saga owner decisions. |
+| workPackGateStatus | flag | SWU-DSD1-001 is complete; full DS-D1 improvement still depends on UI and Saga owner decisions. |
 | complexity | medium | One project, but crosses definitions, schemas, fixtures, validators, projections, Craft, and Inventory. |
 | outputMode | split | Task and wave files are under `work-pack/`. |
 | executionPackRef | [EXECUTION-PACK.md](EXECUTION-PACK.md) | Wave choreography only; SWU contracts remain here and in task files. |
 | layeringArtifactRef | [IMPLEMENTATION-LAYERING.md](IMPLEMENTATION-LAYERING.md) | L0-L3 decision boundary. |
 | dispatchTechniqueTrace | [ds-d1-improvement.dispatch.json](ds-d1-improvement.dispatch.json) | Full dispatch JSON required because this crosses lifecycle owners. |
-| distillValidationStatus | flag | Selected first unit exists; UI-11 path and Saga fork remain owner decisions. |
+| distillValidationStatus | flag | Selected first unit completed; UI-11 path and Saga fork remain owner decisions. |
 | activeLayerWindow | L0 | Start with DS-D1 maturity alignment. |
 | readinessProfile | pilot | Internal governed improvement plan, not public release packaging. |
 
@@ -73,7 +73,7 @@ authority, and Saga/State Machine high-risk laws from future category-law work.
 
 | Task ID | Goal | Layer | Complexity | Waves | Source | Gate Status | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [TASK-DSD1-LEDGER](work-pack/tasks/TASK-DSD1-LEDGER.md) | Align DS-D1 maturity/state language | L0 | medium | [W0](work-pack/waves/W0.md) | findings + definitions | ready | not-started |
+| [TASK-DSD1-LEDGER](work-pack/tasks/TASK-DSD1-LEDGER.md) | Align DS-D1 maturity/state language | L0 | medium | [W0](work-pack/waves/W0.md) | findings + definitions | swu-001-complete; swu-002-conditional | in-progress |
 | [TASK-DSD1-UI11](work-pack/tasks/TASK-DSD1-UI11.md) | Decide and execute UI-11 formation path | L1 | medium | [W1](work-pack/waves/W1.md) | MT5 deferred | blocked-on-ui-decision after SWU-003 | not-started |
 | [TASK-DSD1-SAGA](work-pack/tasks/TASK-DSD1-SAGA.md) | Resolve Saga harden-vs-collapse fork | L2 | medium | [W2](work-pack/waves/W2.md) | findings + DS-D8 `orchestrates` | blocked-on-saga-decision after SWU-007 | not-started |
 | [TASK-DSD1-BACKEND](work-pack/tasks/TASK-DSD1-BACKEND.md) | Harden high-risk backend type laws | L2 | medium | [W2](work-pack/waves/W2.md) | per-type verdict matrix | ready-after-ledger | not-started |
@@ -85,7 +85,7 @@ authority, and Saga/State Machine high-risk laws from future category-law work.
 
 | SWU ID | Parent Task | Source Anchors | Dependencies | Write Scope | Done Criteria | Acceptance Evidence | Validation Surface | Execution Owner | Handoff Status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| SWU-DSD1-001 | [TASK-DSD1-LEDGER](work-pack/tasks/TASK-DSD1-LEDGER.md) | `findings.md`; `definitions/meta-types/`; `development/meta-type-definitions/`; `CRAFT.md` | none | DS-D1 status/read-model docs only | Surfaces consistently say backend 14 are shape candidates and UI 11 are formation-deferred. | Diff shows no schema/validator mutation; staged-authority wording is linked to findings. | `npm --prefix projects/domainspec-v2/impl run validate:docs`; `git diff --check` | local-fallback | selected-first |
+| SWU-DSD1-001 | [TASK-DSD1-LEDGER](work-pack/tasks/TASK-DSD1-LEDGER.md) | `findings.md`; `definitions/meta-types/`; `development/meta-type-definitions/`; `CRAFT.md` | none | DS-D1 status/read-model docs only | Surfaces consistently say backend 14 are shape candidates and UI 11 are formation-deferred. | [Task Session receipt](task-sessions/2026-07-11-swu-dsd1-001/TASK-SESSION-RESULT.md); no schema/validator mutation. | `validate:docs`; YAML/count checks; `git diff --check` | local-fallback | completed 2026-07-11 |
 | SWU-DSD1-002 | [TASK-DSD1-LEDGER](work-pack/tasks/TASK-DSD1-LEDGER.md) | `TAXONOMY.md`; `LEARNING-ORDER.md`; impl projections | SWU-DSD1-001 | projection docs only | Reading aids no longer imply UI DS-D1 formation authority or semantic proof for backend shapes. | Projection drift note exists; root authority remains definitions/. | `validate:docs`; review check | local-fallback | ready-after-001 |
 | SWU-DSD1-003 | [TASK-DSD1-UI11](work-pack/tasks/TASK-DSD1-UI11.md) | findings UI row; `CANDIDATES.md`; DS-D8 UI signatures | SWU-DSD1-001 | decision record only | Owner chooses add UI schemas now, narrow 25-type claim, or defer with explicit acceptance. | Decision record names selected route and blocked alternatives. | manual owner review + `validate:docs` | manual | owner-decision |
 | SWU-DSD1-004 | [TASK-DSD1-UI11](work-pack/tasks/TASK-DSD1-UI11.md) | UI 11 decision; existing schema+md convention | SWU-DSD1-003 if add-ui | `impl/spec/meta-types/ui/`; tests/fixtures for Page, Layout, Component, View Model | First UI slice has cards, schemas, pos/neg fixtures, and tests. | `schemas` count increases; fixtures discriminate; generated instances validate if supported. | `tools:test`; `validate:content`; `instances:generate`; `instances:validate` | subagent | conditional-ready |
@@ -136,10 +136,11 @@ Full route document: [ds-d1-improvement.dispatch.json](ds-d1-improvement.dispatc
 | Recomposition proof | pass | L0-L3 map to definitions, schemas, validators, projections, Craft, and Inventory. |
 | Hidden acceptance-critical gaps | flag | UI-11 path and Saga fork require owner decisions before their mutation SWUs. |
 | Overbuilt abstraction | pass | Full category laws are explicitly deferred. |
-| Navigation to first executable unit | pass | Next route is `task-session` on SWU-DSD1-001. |
+| Navigation to first executable unit | pass | SWU-DSD1-001 is complete; dependent owner-decision and backend-hardening SWUs are now dependency-ready, while SWU-DSD1-002 remains conditional. |
 
-**Verdict: flag.** Mutation-capable work may start with SWU-DSD1-001. UI
-formalization and Saga mutation must wait for their owner decisions.
+**Verdict: flag.** SWU-DSD1-001 is complete. UI formalization and Saga mutation
+must still wait for their owner decisions; projection drift remains a
+conditional L0 follow-up.
 
 ## Required Links
 
@@ -154,7 +155,7 @@ formalization and Saga mutation must wait for their owner decisions.
 ## Gate Checks
 
 1. Execute only one selected SWU per Task Session receipt.
-2. Start with SWU-DSD1-001.
+2. SWU-DSD1-001 is complete; consume its receipt before dependent work.
 3. Do not author UI schemas before `DEC-DSD1-UI11-PATH`.
 4. Do not mutate Saga or DS-D8 `orchestrates` before `DEC-DSD1-SAGA-FORK`.
 5. Do not promote full category laws in this plan.
@@ -164,4 +165,5 @@ formalization and Saga mutation must wait for their owner decisions.
 
 | Date | Change | Author |
 | --- | --- | --- |
+| 2026-07-11 | SWU-DSD1-001 completed; staged maturity read models aligned and dependent SWUs unlocked. | task-session |
 | 2026-07-03 | Initial Invoke plan package created from DS-D1 category-boundary findings. | invoke |

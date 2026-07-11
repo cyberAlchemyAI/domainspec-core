@@ -3,9 +3,24 @@
 # read-model index of the DS-D1 definitions, not a validation schema. Scheme: DS-D* (the domain alphabet).
 scheme: DS-D1
 term: meta-type
-definition: one of the 25 DomainSpec concept types (the node alphabet of an aspect file)
+definition: a staged DomainSpec concept-type candidate system (the node alphabet of an aspect file)
 human_cards: meta-types.md
 status: candidate
+catalog:
+  total_candidates: 25
+  registered_backend_members: 14
+  deferred_ui_candidates: 11
+maturity:
+  backend:
+    ids: DS-D1.1..14
+    status: shape-fixture-backed-candidate
+    authority_note: schema and fixture evidence exists; deeper semantic authority remains confirmation-gated
+  ui:
+    ids: DS-D1.15..25
+    status: formation-deferred
+    endpoint_use: DS-D8 endpoint-used
+    authority_note: DS-D8 endpoint use is evidence pressure and does not create DS-D1 formation authority
+    terms: [Page, Layout, Component, View Model, Hook, Form, Action, Guard, Binding, Adapter, State Indicator]
 members:
   - id: DS-D1.1
     term: Entity
@@ -184,7 +199,7 @@ members:
       blocking_question: does it cross feature/ownership boundaries, or stay within one?
       residue_route: definitions/reviews/
     confirm_contract:
-      promotes_when: owner approves + saga.schema.yml fixtures discriminate + criterion exercised on >=1 real aspect concept
+      promotes_when: owner approves + saga.schema.yml pos/neg fixtures discriminate + criterion exercised on >=1 real aspect concept
       gate: definitions-governance owner gate
       status_on_confirm: candidate -> active
   - id: DS-D1.11

@@ -1,0 +1,327 @@
+{
+  "$schema": "../../../../arcanum/formulae/dispatch-spec/dispatch.schema.json",
+  "dispatch_id": "2026-07-11-ide-extension-l0-approval-desk-plan",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "invoke plan for the smallest human-workable ide-extension tool",
+    "objective": "Author an execution-ready, evidence-gated plan that repairs the L0 witness into a local Human Approval Desk without admitting L1 or external authority.",
+    "target_artifact": "projects/ide-extension/development/l0-human-approval-desk-plan/WORK-PACK.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "implementation-layering",
+      "smallest-working-unit",
+      "task-session",
+      "distill"
+    ],
+    "operator_sentence": "Plan the L0 Human Approval Desk, then hand one approved SWU at a time to Task Session."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "authority_split_gate",
+    "concrete_path_evidence"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The plan is bounded to one small local codebase and does not benefit from planning fan-out. Later Task Sessions may choose local execution per SWU.",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "receipt_requirements": [
+      "Every SWU returns files touched, validation results, blockers, residue, and reroute."
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Build bounded planning context",
+      "capability_ref": "context-builder",
+      "mode": "standard-strict",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "intent.raw"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/architecture-review-2026-07-10/findings.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "work-pack/shared/context.md"
+        }
+      ],
+      "evidence_artifact": "work-pack/shared/context.md",
+      "stop_conditions": [
+        "Accepted design or review evidence is missing or contradictory."
+      ]
+    },
+    {
+      "step_id": "S2",
+      "name": "Author layered implementation plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "scu_swu_reduction",
+        "validation_loop",
+        "owner_boundary_check",
+        "residue_ledger",
+        "authority_split_gate"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "work-pack/shared/context.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "IMPLEMENTATION-LAYERING.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "WORK-PACK.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "EXECUTION-PACK.md"
+        }
+      ],
+      "evidence_artifact": "WORK-PACK.md",
+      "stop_conditions": [
+        "An execution task lacks a source anchor, write scope, done criteria, or validation surface.",
+        "The plan imports L1 or effectful authority into L0."
+      ]
+    },
+    {
+      "step_id": "S3",
+      "name": "Validate smallest coherent units and recomposition",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": [
+        "recomposition_proof",
+        "scu_swu_reduction",
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "WORK-PACK.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "IMPLEMENTATION-LAYERING.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "EXECUTION-PACK.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "PLAN-TRANSPORT.md#distill-validation"
+        }
+      ],
+      "convergence_criteria": [
+        "One first SWU is executable without hidden product discovery.",
+        "All SWUs recompose into the approved L0 boundary.",
+        "All deferred authority remains explicit."
+      ],
+      "evidence_artifact": "PLAN-TRANSPORT.md",
+      "stop_conditions": [
+        "Distill verdict is block.",
+        "An acceptance-critical gap lacks an owner and repair path."
+      ]
+    },
+    {
+      "step_id": "S4",
+      "name": "Hand off one approved SWU",
+      "capability_ref": "task-session",
+      "mode": "one-swu",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "handle_handoff",
+        "execution_receipt_handoff",
+        "owner_boundary_check"
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "WORK-PACK.md#swu-execution-handoff"
+        },
+        {
+          "kind": "decision",
+          "ref": "explicit user approval and selected SWU ID"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "task-session result for selected SWU"
+        }
+      ],
+      "evidence_artifact": "selected Task Session evidence path",
+      "stop_conditions": [
+        "No explicit SWU is selected.",
+        "The selected SWU gate is not ready.",
+        "Execution attempts an out-of-scope authority."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G1",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "Work-pack, layering, task/SWU contracts, waves, and validation strategy are complete and navigable.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2",
+      "kind": "validation",
+      "owner": "distill",
+      "condition": "Smallest unit, recomposition, hidden-gap, deferred-complexity, and navigation checks pass.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "The operator explicitly selects one ready SWU before Task Session mutation.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "G4",
+      "kind": "promotion_guardrail",
+      "owner": "ide-extension architecture",
+      "condition": "No MCP, provider, browser-act, shell, Git, VSCodium, remote, or Nimbalyst authority enters the active L0 window.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G5",
+      "kind": "policy",
+      "owner": "craft",
+      "condition": "Canonical Craft mutation occurs only through an explicit approved Craft operation after evidence exists.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "planning-context-selected",
+      "plan-artifacts-authored",
+      "dispatch-validated",
+      "distill-validated",
+      "task-session-handoff-ready"
+    ],
+    "signal_grouping": "invoke.plan.ide-extension-l0-approval-desk"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1",
+        "kind": "capability_handoff",
+        "from_owner": "invoke",
+        "to_owner": "task-session",
+        "applies_to_steps": [
+          "S4"
+        ],
+        "contract": "Task Session receives one selected SWU by path and returns the required structured result.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B2",
+        "kind": "state_write",
+        "from_owner": "task-session",
+        "to_owner": "craft",
+        "applies_to_steps": [
+          "S4"
+        ],
+        "contract": "Implementation evidence may propose a Craft delta but cannot mutate the canonical ledger without explicit Craft approval.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "ide-extension architecture and approved work-pack",
+      "execution": "task-session for one selected SWU",
+      "validation": "SWU owner plus TASK-VERIFY-READINESS",
+      "evidence": "ide-extension kernel for product receipts; Task Session for implementation receipts",
+      "memory": "Craft for project frontier; Invoke plan artifacts for execution planning",
+      "promotion": "human approval through the owning lifecycle"
+    },
+    "receipts": [
+      {
+        "receipt_id": "swu-execution-result",
+        "producer": "task-session",
+        "required_fields": [
+          "artifacts",
+          "validation_result",
+          "capability_ref",
+          "status",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          "Task Session evidence path",
+          "work-pack completion evidence after verification"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects/ide-extension/development/l0-human-approval-desk-plan",
+        "owner": "invoke plan until handoff; then target lifecycle",
+        "write_policy": "Planning artifacts only; no source implementation during Invoke."
+      },
+      {
+        "namespace": "projects/ide-extension/.craft/ledger.yml",
+        "owner": "craft",
+        "write_policy": "No direct mutation from Invoke or implementation SWUs."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "L0 Human Approval Desk evidence",
+        "target": "L1 MCP/chat admission",
+        "rule": "L0 completion does not promote any adapter; a separate approved plan and all promotion gates are required.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "No implementation begins without an explicit selected SWU.",
+    "No L1+ capability is admitted by completing L0.",
+    "No caller-selected identity becomes an approval claim.",
+    "No Craft frontier mutation occurs without Craft approval.",
+    "No plan success claim substitutes for implementation evidence."
+  ]
+}

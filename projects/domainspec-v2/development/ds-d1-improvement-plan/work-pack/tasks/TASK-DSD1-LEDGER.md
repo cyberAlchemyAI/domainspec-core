@@ -2,9 +2,9 @@
 task_id: TASK-DSD1-LEDGER
 feature_code: DSD1
 layer: L0
-status: not-started
-gate_status: ready
-updatedAt: 2026-07-03
+status: in-progress
+gate_status: swu-001-complete-swu-002-conditional
+updatedAt: 2026-07-11
 ---
 
 # TASK-DSD1-LEDGER: Align DS-D1 Maturity Language
@@ -29,8 +29,8 @@ are formation-deferred, and DS-D8 endpoint use is evidence pressure only.
 
 | SWU | Purpose | Write Scope | Gate |
 | --- | --- | --- | --- |
-| SWU-DSD1-001 | Align staged-authority status language. | DS-D1 status/read-model docs only. | selected-first |
-| SWU-DSD1-002 | Audit and fix projection drift. | Projection docs only. | after SWU-DSD1-001 |
+| SWU-DSD1-001 | Align staged-authority status language. | DS-D1 status/read-model docs only. | completed 2026-07-11 |
+| SWU-DSD1-002 | Audit and fix projection drift. | Projection docs only. | ready if projection drift remains |
 
 ## Implementation Notes
 
@@ -49,3 +49,13 @@ are formation-deferred, and DS-D8 endpoint use is evidence pressure only.
   authority from DS-D8 references.
 - Validation command: `npm --prefix projects/domainspec-v2/impl run validate:docs`.
 - Diff hygiene: `git diff --check -- projects/domainspec-v2`.
+
+## Completion Evidence
+
+- `SWU-DSD1-001`: PASS on 2026-07-11.
+- Receipt: [TASK-SESSION-RESULT.md](../../task-sessions/2026-07-11-swu-dsd1-001/TASK-SESSION-RESULT.md).
+- Result: root machine/human views, candidate/definition work-packs, and Craft
+  now share the staged maturity language; no schema, validator, fixture, or
+  relationship artifact changed.
+- Residue: `SWU-DSD1-002` remains conditional on a focused projection-drift
+  audit.

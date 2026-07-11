@@ -14,14 +14,20 @@ complexity: high
 
 # Meta-Type Formalization — Work-Pack
 
-Formalize the 25 meta-types into **checkable criteria**, by category, and build the **content validator**
-that checks an aspect file by types + edges. Per-SWU contract: for each type, author (a) a formal criterion,
+Formalize the staged meta-type candidate catalog into **checkable criteria**, by category, and build the
+**content validator** that checks an aspect file by types + edges. The 14 backend candidates are delivered as
+shape/fixture-backed candidates; the 11 UI candidates remain formation-deferred under MT5. Per-SWU contract:
+for each selected type, author (a) a formal criterion,
 (b) required structure, (c) edge-participation signature, (d) a **positive + negative fixture** — the
 discriminating pair; (e) an **automated test** of the validator's accept/reject (spawn-CLI, per DESIGN §7).
 **Placement RESOLVED 2026-07-02 (refresh):** per type, a `schema + md` pair —
 `meta-types/<category>/<type>.schema.yml` (machine criterion, SCHEMA-CONSTITUTION format) + `<type>.md`
 (companion card); the **validator loads the `.schema.yml` files**; `definitions/DS-D1` cites the set. Every
 SWU keeps the moat boundary (no δ-rules). See [REFRESH-2026-07-02.md](./REFRESH-2026-07-02.md).
+
+Maturity boundary: schema and fixture evidence establishes checked shape, not
+uniform semantic authority. Active DS-D8 endpoint use may pressure a candidate
+but cannot promote DS-D1 formation.
 
 ## SWU manifest
 | SWU | Layer | Category / scope | Acceptance (green) |

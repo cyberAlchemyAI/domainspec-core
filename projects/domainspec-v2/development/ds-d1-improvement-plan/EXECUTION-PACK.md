@@ -2,7 +2,7 @@
 module: ds-d1-improvement-plan
 feature_code: DSD1
 status: draft
-updatedAt: 2026-07-03
+updatedAt: 2026-07-11
 docType: execution-pack
 ---
 
@@ -30,9 +30,11 @@ work-pack, Craft, or Inventory state is synchronized.
 
 ## Selected First Unit
 
-`SWU-DSD1-001` is the selected first unit. It is the smallest coherent unit
-because it changes no validator behavior and makes the planning boundary true
-for all later work.
+`SWU-DSD1-001` completed on 2026-07-11. Its
+[Task Session receipt](task-sessions/2026-07-11-swu-dsd1-001/TASK-SESSION-RESULT.md)
+proves that staged maturity wording is aligned without validator behavior
+changes. `SWU-DSD1-002` remains conditional on projection drift; dependent
+decision and hardening SWUs may now evaluate their own gates.
 
 ## Parallelization Notes
 

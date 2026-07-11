@@ -9,9 +9,20 @@ Status: candidate (owner approval in progress, 1-by-1)
 Owner: definitions-governance (domain-local)
 Machine view: [meta-types.yml](./meta-types.yml) · Criterion per type: `../../impl/spec/meta-types/<category>/<type>.schema.yml`
 
-**meta-type** = one of the 25 DomainSpec concept types — the node alphabet of an aspect file. Each card's
-Formal voice restates its `.schema.yml` criterion; Evidence links the schema (the machine source of truth) +
-the TAXONOMY entry.
+**meta-type** = a candidate concept type in the DomainSpec node alphabet. The descriptive catalog names 25
+candidates, but this authority surface currently carries cards only for the 14 backend types. Each backend
+card's Formal voice restates its `.schema.yml` criterion; Evidence links the schema (the machine source of
+truth) + the TAXONOMY entry.
+
+## Maturity Ledger
+
+| Candidate slice | Current status | Authority boundary |
+| --- | --- | --- |
+| `DS-D1.1..14` backend | Shape/fixture-backed candidates; confirmation remains owner-gated and deeper semantic laws may still need hardening. | Schema presence proves checked shape, not full semantic authority. |
+| `DS-D1.15..25` UI | Formation-deferred; no cards or criterion schemas live in this authority surface. | Active DS-D8 endpoint use is evidence pressure only and does not promote DS-D1 formation. |
+
+The deferred UI candidate trail remains in
+[`development/meta-type-definitions/CANDIDATES.md`](../../development/meta-type-definitions/CANDIDATES.md).
 
 ---
 

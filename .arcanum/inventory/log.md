@@ -1757,6 +1757,26 @@ Artifacts:
   L0.5/L0.6 promotion, IDE/browser integration, or live provider claim is
   authorized.
 
+## 2026-07-11 - run closeout (ide-extension Nimbalyst integration research)
+
+- Mode: confirmed subagent research dispatch.
+- Ledger: registered and closed
+  `2026-07-11-nimbalyst-integration-research` with
+  `exit_reason: resolved`; ten runtime agents; one loop; final auditor ACCEPT.
+- Upstream evidence: pinned
+  `Nimbalyst/nimbalyst@c8ca207c6004653ba2df3d81e06133ce2e9fad3d`;
+  MIT client code remains separate from the uninspected collaboration server.
+- Outputs accepted: `projects/ide-extension/development/nimbalyst-integration-research/research.md`,
+  `synthesis.md`, `findings.md`, and `audit.md`.
+- Result: sixteen current KILL verdicts; C05, C08, and C12 are precise but
+  unwitnessed reopening hypotheses. Nimbalyst remains useful product/protocol
+  precedent, not an admitted implementation dependency.
+- Next action: repair and reverify L0, then run the already-owned fake/offline
+  L0.5 MCP/chat witness; do not open a Nimbalyst integration task.
+- Authority: non-authority research read model only. No upstream code reuse,
+  hosted service, provider runtime, browser, MCP, terminal, Git, sync, mobile,
+  telemetry, or updater integration is authorized.
+
 ## 2026-07-10 - run closeout (DomainSpec v2 UI11 meta-type review)
 
 - Mode: confirmed subagent review dispatch.
@@ -1781,3 +1801,112 @@ Artifacts:
 - Authority: non-authority review read model only. No UI label, DS-D1 category,
   DS-D8 signature, canonical definition, schema, fixture, validator, or code-tag
   allowance is promoted by this inventory entry.
+
+## 2026-07-11 - run closeout (Craft causal class total refresh)
+
+- Mode: confirmed subagent review dispatch followed by clean-room public artifact construction.
+- Ledger: registered and closed dispatch
+  `2026-07-10-craft-teaching-total-refresh-review` with
+  `exit_reason: resolved`; `agents_spawned.total: 8`; `loops_used: 1`; final
+  auditor approved after one bounded correction pass.
+- Review outputs accepted:
+  `arcanum/development/craft/research/craft-teaching-total-refresh-review-2026-07-10/attacks.md`,
+  `findings.md`, and `audit.md`.
+- Replacement package:
+  `arcanum/development/craft/teaching/craft-causal-class-2026-07-11/` with
+  three essays, authoritative YAML, Markdown schema, generated HTML deck,
+  Whisper review pages, deterministic validators, navigation index, browser
+  checks, screenshots, and validation report.
+- Inventory: added strategy-result read model
+  `entries/craft-causal-class-total-refresh-review-strategy-result-synthesis.md`;
+  `index.json` and `index.md` were updated through `inventory-update.cjs`.
+- Result: one persistent table history replaces lifecycle recital; terms are
+  earned after witness and consequence; lower layers require evidence of lower
+  residue plus local/upper validation and recomposition; the final deck contains
+  14 slides and 31 explicit states.
+- Validation: YAML/HTML parity passed; Playwright Firefox completed 356 checks
+  over four viewports with zero console errors; public-boundary scan passed.
+- Residue: Chrome could not be installed without system privileges, and learner
+  comprehension/transfer remains untested until a beginner trial runs.
+- Authority: non-authority strategy and teaching-development read model only.
+  It does not promote a canonical Craft definition or claim pedagogical proof.
+
+## 2026-07-11 - run closeout (DomainSpec v2 Saga existing-evidence adjudication)
+
+- Mode: confirmed subagent research dispatch.
+- Ledger: registered and closed dispatch
+  `2026-07-11-saga-existing-evidence-adjudication` with
+  `exit_reason: resolved`; `agents_spawned.total: 12`; `loops_used: 1`;
+  Brandenburg accepted findings after one bounded writer revision.
+- Outputs accepted:
+  `projects/domainspec-v2/development/ds-d1-improvement-plan/research/2026-07-11-saga-existing-evidence-adjudication/research.md`
+  and
+  `projects/domainspec-v2/development/ds-d1-improvement-plan/research/2026-07-11-saga-existing-evidence-adjudication/findings.md`.
+- Inventory: added strategy-result read model
+  `entries/domainspec-v2-saga-existing-evidence-adjudication-strategy-result-synthesis.md`;
+  `index.json` and `index.md` were updated through
+  `inventory-update.cjs`.
+- Result: `build-from-owned collapse default`. The current Saga hardening
+  dossier has no finite, non-circular separating witness from Workflow under
+  the registry-relative verb-ID projection. The present dossier is KILLed;
+  future hardening remains a procedural re-entry route requiring new evidence.
+- Next action: execute `SWU-DSD1-007` as a substantive owner gate with
+  unequal evidentiary support. Route `SWU-DSD1-008` only for a new witness
+  package, or `SWU-DSD1-009` after collapse ratification.
+- Authority: non-authority research read model only. Saga and Workflow remain
+  separately modeled, both DS-D8 signatures remain active, and no deprecation,
+  compatibility policy, migration, or DS-D1/DS-D8 mutation is authorized.
+
+## 2026-07-11 - Invoke plan (DomainSpec v2 active Saga removal)
+
+- Mode: Invoke plan.
+- Outputs: high-complexity split package under
+  `projects/domainspec-v2/development/saga-removal/` with implementation plan,
+  active-surface census, L0-L3 layering, work-pack, execution pack, five task
+  contracts, eight SWUs, four waves, Dispatch Spec, Distill validation, and
+  transport.
+- Decision input: `DEC-DSD1-SAGA-FORK` selects collapse and routes future work
+  away from the earlier first-class Saga direction.
+- Result: plan zero active Saga type/signature surfaces; keep `orchestrates`
+  under Workflow, support intra/cross scope through `attribute-one-of`, cancel
+  contradictory active hardening routes, and preserve historical evidence.
+- Validation: Dispatch Spec pass with no flags; Distill pass; SWU/task/wave
+  coverage matches; docs links, JSON parse, and `git diff --check` pass.
+- Inventory: added
+  `entries/domainspec-v2-saga-removal-invoke-plan-synthesis.md` and synchronized
+  machine/human indexes through `inventory-update.cjs`.
+- Next route: Task Session on `SWU-SGRM-001`.
+- Authority: planning read model only. No DS-D1, DS-D8, schema, fixture,
+  validator, projection, or existing work-pack mutation is authorized by this
+  Invoke run.
+
+## 2026-07-11 - proposed dispatch (UIF-010 replication review)
+
+- Mode: DomainSpec subagent strategy proposal; unregistered and not run.
+- P1: dispatch warranted by synthesis, context protection, isolation, and
+  parallelism across nine candidate twins and independent review lenses.
+- Sheet: three replication attackers, one synthesizer, three finding verifiers,
+  and one dedicated final auditor.
+- Check-tension: round 1 double reproval on four Test-4 axis labels; exact repair;
+  round 2 checker PASS and reviewer PASS. All four gate agents were closed.
+- Human confirmation: pending. Dispatch ledger rows: zero. Runtime workers: zero.
+- Inventory: added
+  `entries/domainspec-v2-uif-010-replication-review-strategy-result-synthesis.md`;
+  `index.json` and `index.md` were updated through `inventory-update.cjs`.
+- Next action: choose governed dispatch, local fallback, or defer in
+  `runs/SWU-UIF-010/DECISION-RUNTIME.md`.
+- Authority: non-authority read model only; no DS-D1, DS-D8, canonical
+  meta-type, candidate criterion, or promotion mutation is authorized.
+
+## 2026-07-11 - closed dispatch (UIF-010 replication review)
+
+- Mode: governed DomainSpec review dispatch, registered and closed exactly once.
+- Runtime: eight agents spawned, joined, and closed; zero open.
+- Review: three attackers, one writer, three verifiers, and one final auditor;
+  auditor verdict ACCEPT after one bounded CR-ID alignment.
+- Result: all nine candidates remain `deferred`; zero reach `replicated`,
+  `narrowed`, or `demoted`, and zero enter the UIF-011 promotion lane.
+- Findings: nonempty-value vacuity is critical; mutation, reroute, semantic
+  witness, and normalized corpus receipts require versioned repair and rerun.
+- Inventory: strategy entry, `index.json`, and `index.md` refreshed to closed.
+- Authority: no DS-D1, DS-D8, candidate-schema, or implementation-validator mutation.

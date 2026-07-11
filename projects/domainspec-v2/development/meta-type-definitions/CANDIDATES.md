@@ -11,6 +11,17 @@
 - **Tier 3** — schema-format / implementation vocabulary: **15** candidates (7 rule kinds + 8 attribute keys).
 - **Total: 50 candidates.**
 
+## Current maturity ledger
+
+- Backend `DS-D1.1..14`: human cards, machine schemas, and fixtures exist, so
+  they are shape/fixture-backed candidates. They are not uniformly promoted
+  semantic authorities; each remains subject to its confirmation contract.
+- UI `DS-D1.15..25`: formation-deferred. The rows below preserve the candidate
+  trail; active DS-D8 endpoint use is evidence pressure only and does not grant
+  DS-D1 formation authority.
+- This file is an approval/planning trail, not canonical authority. Root
+  `definitions/meta-types/` is the current DS-D1 read model.
+
 ---
 
 ## Tier 1 — Domain meta-types (`DS-D1.<n>`) · owner: definitions-governance · home: root `definitions/DEFINITIONS.md` (`#ds-d1-meta-type-system`) — DD-D3 resolved; NOT impl/ (R7 redirected)

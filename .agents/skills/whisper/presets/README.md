@@ -9,6 +9,7 @@ are broader than the base `substack_research_post` proof target.
 | --- | --- | --- |
 | `product_research_blueprint` | `product-research-blueprint/` | In-depth proposal, description blueprint, and research document for product/system ideas. |
 | `business_plan` | `business-plan/` | Generic business plan, investor plan, operating plan, financing plan, or BP substrate. |
+| `live_presentation` | `live-presentation/` | Live-room presentation with surface separation and a mandatory three-moment language audition. |
 
 Each preset should provide:
 
