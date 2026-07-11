@@ -6,9 +6,8 @@ import { resolve } from "node:path";
 import {
   loadConceptCatalog,
   loadRelationshipRulesFromAuthority,
+  loadTaxonomyTypesFromSchemas,
   normalizeTypeName,
-  parseRelationshipRules,
-  parseTaxonomyTypes,
   toRelative,
 } from "./lib/code-tag-rules";
 import type {
@@ -37,7 +36,7 @@ const relationshipsPath = resolve(
 );
 const taxonomyPath = resolve(
   process.cwd(),
-  getArg("--taxonomy") || "spec/TAXONOMY.md",
+  getArg("--taxonomy") || "spec/meta-types",
 );
 const featuresRoot = resolve(
   process.cwd(),
@@ -63,7 +62,7 @@ if (!existsSync(inputPath)) {
 const extraction = readExtraction(inputPath);
 const tags = extraction.tags;
 
-const taxonomyTypes = parseTaxonomyTypes(taxonomyPath);
+const taxonomyTypes = loadTaxonomyTypesFromSchemas(taxonomyPath);
 const edgeRules = loadRelationshipRulesFromAuthority(relationshipsPath);
 const conceptCatalog = loadConceptCatalog(featuresRoot);
 
@@ -169,7 +168,7 @@ function validateTag(
   context: {
     requireEvidence: boolean;
     taxonomyTypes: Map<string, string>;
-    edgeRules: ReturnType<typeof parseRelationshipRules>;
+    edgeRules: ReturnType<typeof loadRelationshipRulesFromAuthority>;
     conceptCatalog: ReturnType<typeof loadConceptCatalog>;
     symbolConcept: Map<string, string>;
     triples: Set<string>;
@@ -229,7 +228,7 @@ function validateTag(
       issue(
         "CT-010",
         "CRITICAL",
-        `concept.type '${conceptType}' is not present in TAXONOMY.md`,
+        `concept.type '${conceptType}' is not present in the meta-type schemas`,
         tag.file,
         tag.line,
         tag,

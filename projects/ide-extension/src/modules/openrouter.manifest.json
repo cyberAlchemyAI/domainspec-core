@@ -1,0 +1,35 @@
+{
+  "module_id": "openrouter",
+  "display_name": "OpenRouter",
+  "owner_route": "provider-adapter",
+  "source_refs": [
+    "https://openrouter.ai/docs/quickstart",
+    "https://openrouter.ai/docs/api/reference/authentication",
+    "https://openrouter.ai/docs/api/reference/streaming"
+  ],
+  "capabilities": [
+    "model-transport",
+    "provider-selection",
+    "streaming-experiment"
+  ],
+  "allowed_effects": [
+    "backend-network-call-after-approval",
+    "provider-trace"
+  ],
+  "required_gates": [
+    "named-provider",
+    "server-side-key",
+    "human-approval-for-network-call"
+  ],
+  "forbidden_effects": [
+    "browser-key-storage",
+    "webview-key-storage",
+    "permission-authority",
+    "self-approval"
+  ],
+  "expected_receipts": [
+    "provider-call-receipt",
+    "provider-trace"
+  ]
+}
+

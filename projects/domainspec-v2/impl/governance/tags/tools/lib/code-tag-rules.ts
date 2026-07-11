@@ -65,6 +65,38 @@ export function parseTaxonomyTypes(taxonomyPath: string): Map<string, string> {
   return types;
 }
 
+/**
+ * Load concept types from the meta-type schema root instead of the old
+ * `spec/TAXONOMY.md` projection. Each schema's `meta_type:` field is the
+ * canonical display label; callers consume the same normalized-key Map shape
+ * returned by `parseTaxonomyTypes`.
+ */
+export function loadTaxonomyTypesFromSchemas(
+  schemaRoot: string,
+): Map<string, string> {
+  if (!existsSync(schemaRoot)) {
+    return new Map();
+  }
+
+  const types = new Map<string, string>();
+  const schemaPaths = walk(schemaRoot).filter((path) =>
+    path.endsWith(".schema.yml"),
+  );
+
+  for (const schemaPath of schemaPaths) {
+    const raw = readFileSync(schemaPath, "utf-8");
+    const metaType = readTopLevelScalar(raw, "meta_type");
+    const normalized = normalizeTypeName(metaType);
+    if (!metaType || !normalized || types.has(normalized)) {
+      continue;
+    }
+
+    types.set(normalized, metaType);
+  }
+
+  return types;
+}
+
 export function parseRelationshipRules(
   relationshipsPath: string,
 ): Map<string, CanonicalEdgeRule> {
@@ -267,6 +299,24 @@ function walk(root: string): string[] {
     }
   }
   return out;
+}
+
+function readTopLevelScalar(raw: string, key: string): string {
+  const keyPattern = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = new RegExp(`^${keyPattern}:\\s*(.+?)\\s*$`, "m").exec(raw);
+  if (!match?.[1]) {
+    return "";
+  }
+
+  const value = match[1].trim();
+  if (
+    (value.startsWith('"') && value.endsWith('"')) ||
+    (value.startsWith("'") && value.endsWith("'"))
+  ) {
+    return value.slice(1, -1).trim();
+  }
+
+  return value.trim();
 }
 
 function parseTableForSection(

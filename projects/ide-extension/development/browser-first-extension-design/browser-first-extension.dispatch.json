@@ -1,0 +1,327 @@
+{
+  "dispatch_id": "dispatch-ide-extension-browser-first-design-20260710T020244Z",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Design the architecture for an ide-extension Chrome browser-extension lane with minimum overhead around the existing local HTML workbench.",
+    "objective": "Produce a governed design for a minimal Chrome MV3 side-panel extension that wraps the local ide-extension HTML workbench, mediates active browser tabs through content scripts, preserves kernel approval authority, and routes implementation to plan without claiming VS Code Integrated Browser control.",
+    "target_artifact": "projects/ide-extension/development/browser-first-extension-design/ARCHITECTURE-BUNDLE.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "dispatch-spec",
+      "approval gate",
+      "receipt",
+      "agent envelope",
+      "owner boundary",
+      "browser-act adapter"
+    ],
+    "operator_sentence": "Use Invoke design to shape a minimum-overhead Chrome extension lane around the HTML workbench while preserving the kernel as authority and treating browser actions as approval-gated crossings."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "concrete_path_evidence",
+    "owner_boundary_check",
+    "artifact_contract_bridge",
+    "protected_action_mapping",
+    "approval_semantics_map",
+    "state_namespace_boundary",
+    "execution_receipt_handoff",
+    "validation_loop",
+    "residue_ledger",
+    "scu_swu_reduction",
+    "recomposition_proof"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "This design was authored locally from concrete source artifacts; no delegated subagent fanout was needed.",
+    "authorization": "not_needed"
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Bind bounded design context",
+      "capability_ref": "context-builder",
+      "mode": "lean",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "concrete_path_evidence",
+        "frame_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "user request: invoke design this architecture"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "bounded source contracts listed in DESIGN-TRANSPORT.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-extension/development/browser-first-extension-design/DESIGN-TRANSPORT.md",
+      "stop_conditions": [
+        "block if VS Code Integrated Browser control is treated as baseline evidence",
+        "flag if a needed source contract is missing"
+      ]
+    },
+    {
+      "step_id": "S2",
+      "name": "Synthesize six-view browser-first architecture",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "owner_boundary_check",
+        "artifact_contract_bridge",
+        "recomposition_proof"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "bounded source contracts listed in DESIGN-TRANSPORT.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/browser-first-extension-design/ARCHITECTURE-BUNDLE.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/browser-first-extension-design/GLOSSARY-CONSISTENCY.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-extension/development/browser-first-extension-design/ARCHITECTURE-BUNDLE.md",
+      "stop_conditions": [
+        "block if the extension becomes authority over approvals or receipts",
+        "block if provider keys move into browser or content-script code"
+      ]
+    },
+    {
+      "step_id": "S3",
+      "name": "Map protected browser action boundaries",
+      "capability_ref": "dispatch-spec",
+      "mode": "boundary-validation",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "protected_action_mapping",
+        "approval_semantics_map",
+        "state_namespace_boundary",
+        "execution_receipt_handoff",
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/browser-first-extension-design/ARCHITECTURE-BUNDLE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/browser-first-extension-design/browser-first-extension.dispatch.json"
+        },
+        {
+          "kind": "ledger",
+          "ref": "protected browser action gap ledger in DESIGN-TRANSPORT.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-extension/development/browser-first-extension-design/browser-first-extension.dispatch.json",
+      "stop_conditions": [
+        "block if hard-boundary browser operations are permitted in L0.5",
+        "flag if receipt fields for browser-action results are not yet specified"
+      ]
+    },
+    {
+      "step_id": "S4",
+      "name": "Emit plan handoff and residue",
+      "capability_ref": "distill",
+      "mode": "design-unit-check",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": [
+        "scu_swu_reduction",
+        "residue_ledger",
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/browser-first-extension-design/ARCHITECTURE-BUNDLE.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "protected browser action gap ledger in DESIGN-TRANSPORT.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/browser-first-extension-design/IMPLEMENTATION-LAYERING-SEED.md"
+        },
+        {
+          "kind": "handoff",
+          "ref": "invoke plan for L0.5 offline MCP/chat adapter-admission harness; Chrome MV3 browser-first scaffold follows as L0.6"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-extension/development/browser-first-extension-design/IMPLEMENTATION-LAYERING-SEED.md",
+      "stop_conditions": [
+        "defer if the implementation plan tries to combine MCP/chat admission, Chrome extension, VSCodium wrapper, Playwright MCP, external MCP services, and model routing in one slice"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G1",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "browser-first extension design dispatch validates before plan handoff",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2",
+      "kind": "policy",
+      "owner": "projects/ide-extension kernel",
+      "condition": "Chrome extension remains adapter and local kernel owns approvals, durable state, and receipts",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3",
+      "kind": "policy",
+      "owner": "browser extension approval policy",
+      "condition": "credentials, wallet/signature, payment, public-submit, destructive, and privileged browser actions are blocked or human-only in L0.5",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G4",
+      "kind": "promotion_guardrail",
+      "owner": "projects/ide-extension",
+      "condition": "this design dispatch creates plan-ready artifacts only; canonical vocabulary and implementation changes require a later owner-approved route",
+      "on_fail": "defer"
+    },
+    {
+      "gate_id": "G5",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "design includes context, structure, components, workflow, decisions, dependency interfaces, glossary consistency, and residue",
+      "on_fail": "flag"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "invoke.design.context",
+      "invoke.design.architecture_bundle",
+      "dispatch.validation",
+      "distill.design_unit_check",
+      "invoke.design.transport"
+    ],
+    "signal_grouping": "dispatch_id plus target_artifact"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1-extension-kernel-authority",
+        "kind": "capability_handoff",
+        "from_owner": "Chrome browser extension",
+        "to_owner": "projects/ide-extension local kernel",
+        "applies_to_steps": [
+          "S2",
+          "S3"
+        ],
+        "contract": "Extension may observe and request typed browser actions; kernel owns grants, approvals, durable state, provider mediation, agent envelopes, and receipts.",
+        "on_violation": "block",
+        "owner_boundary_check": "extension is adapter, kernel is authority"
+      },
+      {
+        "boundary_id": "B2-browser-protected-actions",
+        "kind": "human_approval",
+        "from_owner": "browser action proposal",
+        "to_owner": "human operator and local approval queue",
+        "applies_to_steps": [
+          "S3"
+        ],
+        "contract": "Safe effectful browser actions require approval; hard-boundary and public-submit actions are blocked or performed directly by the human in L0.5.",
+        "on_violation": "block",
+        "protected_action_mapping": "credentials, wallet/signature, payment, public-submit, destructive, privileged browser actions"
+      },
+      {
+        "boundary_id": "B3-design-to-plan",
+        "kind": "evidence_return",
+        "from_owner": "invoke design",
+        "to_owner": "invoke plan and task-session",
+        "applies_to_steps": [
+          "S4"
+        ],
+        "contract": "Design emits plan-ready handles and residue only; implementation edits require a later plan and task-session route.",
+        "on_violation": "defer",
+        "artifact_contract_bridge": "architecture bundle, glossary consistency, layering seed, dispatch JSON, invoke result"
+      }
+    ],
+    "authority": {
+      "lifecycle": "projects/ide-extension",
+      "execution": "task-session after approved work-pack",
+      "validation": "dispatch-spec, existing smoke tests, future extension tests",
+      "evidence": "local kernel receipts and .arcanum observability",
+      "memory": "none in this design route",
+      "promotion": "owner-approved later route only"
+    },
+    "receipts": [
+      {
+        "receipt_id": "browser-action-result-receipt",
+        "producer": "future Chrome extension background router and local kernel",
+        "required_fields": [
+          "run_id",
+          "approval_record",
+          "artifacts",
+          "validation_result",
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "audit_reference"
+        ],
+        "detailed_fields": [
+          "action_type",
+          "tab_ref",
+          "before_ref",
+          "after_ref",
+          "evidence_refs"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "extension storage",
+        "owner": "Chrome extension",
+        "write_policy": "store only local bridge override, transient UI preferences, and non-authoritative cache"
+      },
+      {
+        "namespace": ".ide-extension/state",
+        "owner": "projects/ide-extension kernel",
+        "write_policy": "durable approvals, events, artifacts, receipts, and workbench read model"
+      },
+      {
+        "namespace": "active browser page",
+        "owner": "human operator and website",
+        "write_policy": "typed actions only after policy and approval; hard boundaries blocked"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Dispatch validation checks route shape only.",
+    "Browser evidence can support the L0.5 extension lane only after witness tests pass.",
+    "Glossary, implementation, and lifecycle changes require owner-approved follow-up routes."
+  ]
+}

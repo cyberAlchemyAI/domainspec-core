@@ -15,7 +15,7 @@ lives under [`impl/`](impl/). v2 also remains the research-tower program describ
 
 The forked implementation lives under [`impl/`](impl/):
 - `impl/test-derivation-engine/` — the deterministic engine (fork of v1's; `src/rules/` is the **private moat** — never publish to public `arcanum/`).
-- `impl/spec/` — the Ontology-A docs (TAXONOMY, RELATIONSHIPS, AXIOMS, DRIFT-CONVERGENCE, TEST-PIPELINE, CONSTITUTION) — imported verbatim, **reformulation pending**.
+- `impl/spec/` — remaining Ontology-A contract/import surfaces (TAXONOMY, DRIFT-CONVERGENCE, TEST-PIPELINE, CONSTITUTION) while reformulation proceeds; AXIOMS now lives at [`authority/AXIOMS.md`](authority/AXIOMS.md) + [`authority/AXIOMS.yml`](authority/AXIOMS.yml), and RELATIONSHIPS authority lives under root [`definitions/relationships/`](definitions/relationships/).
 
 Migration is tracked in [`IMPORT-MANIFEST.md`](IMPORT-MANIFEST.md) (every v1→v2 row: verdict, status, batch). The 4 DROP-verdict v1 capabilities are never imported.
 

@@ -1,0 +1,33 @@
+{
+  "module_id": "ui-prototyping-studio",
+  "display_name": "UI Prototyping Studio",
+  "owner_route": "ui-prototyping-studio",
+  "source_refs": [
+    "projects/ui-prototyping-studio/README.md",
+    "projects/ui-prototyping-studio/ARCHITECTURE.md",
+    "projects/ui-prototyping-studio/backend/e2e/human-loop.spec.ts"
+  ],
+  "capabilities": [
+    "local-preview-precedent",
+    "artifact-store-precedent",
+    "browser-smoke-precedent"
+  ],
+  "allowed_effects": [
+    "read",
+    "preview",
+    "adapt-pattern"
+  ],
+  "required_gates": [
+    "human-approval-for-export",
+    "schema-validation-before-claim"
+  ],
+  "forbidden_effects": [
+    "copy-as-authority",
+    "unapproved-export",
+    "direct-runtime-mutation"
+  ],
+  "expected_receipts": [
+    "preview-receipt",
+    "artifact-receipt"
+  ]
+}

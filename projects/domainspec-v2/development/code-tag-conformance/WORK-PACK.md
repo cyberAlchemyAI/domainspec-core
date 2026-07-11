@@ -24,14 +24,22 @@ domainspec/`) stays read-only. Validators are runnable, so every acceptance is m
 ## SWU manifest
 | SWU | Layer | Change | Depends | Acceptance (green) |
 | --- | --- | --- | --- | --- |
-| **CT-1** | L0 | `validate-code-tags` reads the type set from root meta-type `.schema.yml` files, not `spec/TAXONOMY.md` | — | `tags:test` green from root taxonomy; discriminating fixture; **R2 landmine closed** |
+| **CT-1 ✅ DONE** | L0 | `validate-code-tags` reads the type set from root meta-type `.schema.yml` files, not `spec/TAXONOMY.md` | — | **[met 2026-07-10]** `tags:test` green from schema taxonomy; invalid-type fixture rejects; scratch run passes with `spec/TAXONOMY.md` absent; **R2 code-tag landmine closed** |
 | **CT-3** | L0 | Reset `code-tag-waivers.yaml` to v2-clean; fix `docs/features` → `spec/features` in `CODE-TAG-SCHEMA.md` | — | waivers valid/empty; no `docs/features` residue; `tags:test` green |
 | **CT-2** | L1 | Author `code-tag.schema.yml` (SCHEMA-CONSTITUTION) + shape validation; retire prose to companion | CT-1 | schema rejects a malformed tag; companion points to schema |
 | **CT-4** | L2 | Fold the code-tag check into `npm run validate` | CT-1, CT-2, CT-3 | `validate` covers code-tags; RC 0 |
 
 ## CT-1 — Taxonomy from root (L0)
-- **Write scope:** `impl/governance/tags/tools/lib/code-tag-rules.ts` (new `loadTaxonomyTypesFromSchemas`),
-  `impl/governance/tags/tools/validate-code-tags.ts` (default `--taxonomy` + call site).
+- **State (2026-07-10): DONE.** `validate-code-tags` now defaults `--taxonomy` to `spec/meta-types` and
+  reads `meta_type:` from `.schema.yml` files via `loadTaxonomyTypesFromSchemas`; `parseTaxonomyTypes` remains
+  exported for compatibility. The unit fixture was retargeted from UI `Binding --mutates--> Operation` to
+  backend `Interface --exposes--> Operation` so CT-1 tests the backend-14 schema set. User-facing remediation /
+  schema companion wording now points at `spec/meta-types`. UI recognition still rides on
+  `GAP-SH-UI11-MIGRATE`.
+- **Write scope delivered:** `impl/governance/tags/tools/lib/code-tag-rules.ts` (new
+  `loadTaxonomyTypesFromSchemas`), `impl/governance/tags/tools/validate-code-tags.ts` (default `--taxonomy` +
+  call site), focused tests/fixtures, and CT-1-facing taxonomy-source wording in the code-tag schema/remediation
+  companions.
 - **Detail:** current `parseTaxonomyTypes(spec/TAXONOMY.md)` reads column 1 of the MD table → normalized
   type set. Replace the *source*, not the contract:
   - **Inputs:** the glob `impl/spec/meta-types/**/*.schema.yml`; each declares `meta_type: <TypeName>`.
@@ -113,4 +121,6 @@ subagents.
 - Recomposition target: `IMPORT-MANIFEST.md` Batch-2 `code-tag` reformulation row.
 
 ## Next route
-`task-session` per SWU, **CT-1 first** (L0; also unblocks R2). Solo execution; no fan-out needed.
+`task-session` per SWU. **CT-1 is done** (L0; closes the code-tag `TAXONOMY.md` deletion landmine for R2).
+Next within this pack: **CT-3** (waiver reset + `docs/features` residue), then CT-2, then CT-4. R2 still
+requires `GAP-SH-UI11-MIGRATE` before deleting/generating `TAXONOMY.md`.

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/receipt.schema.json",
+  "title": "ide-extension receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "receipt_id",
+    "run_id",
+    "stage",
+    "status",
+    "before_ref",
+    "after_ref",
+    "approval_id",
+    "evidence_refs",
+    "created_at"
+  ],
+  "properties": {
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stage": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": ["passed", "flagged", "blocked", "failed"]
+    },
+    "before_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "after_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approval_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
+

@@ -1,0 +1,31 @@
+{
+  "module_id": "whisper",
+  "display_name": "Whisper",
+  "owner_route": "whisper",
+  "source_refs": [
+    ".agents/skills/whisper/SKILL.md"
+  ],
+  "capabilities": [
+    "compose-draft",
+    "review-intent",
+    "prepare-text-packet"
+  ],
+  "allowed_effects": [
+    "read",
+    "preview",
+    "draft"
+  ],
+  "required_gates": [
+    "human-approval-for-publication",
+    "owner-route-for-authority-text"
+  ],
+  "forbidden_effects": [
+    "silent-publication",
+    "authority-rewrite",
+    "direct-ledger-write"
+  ],
+  "expected_receipts": [
+    "composition-receipt",
+    "publication-approval-receipt"
+  ]
+}

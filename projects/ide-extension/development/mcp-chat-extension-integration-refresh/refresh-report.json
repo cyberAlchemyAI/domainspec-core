@@ -1,0 +1,146 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "sourceSignals": [
+    {
+      "id": "MCP-CHAT-S1",
+      "source_path": "projects/ide-extension/development/mcp-chat-extension-integration-research/findings.md",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/ide-extension/SPEC.md",
+        "projects/ide-extension/ARCHITECTURE.md",
+        "projects/ide-extension/development/browser-first-extension-design/ARCHITECTURE-BUNDLE.md"
+      ],
+      "claim": "L0.5 must prove adapter admission with a fake/local stdio MCP witness before real external integrations.",
+      "evidence": "MCP/chat findings require an offline McpChatWitnessAdapter and negative tests before external specimens are admitted.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "MCP-CHAT-S2",
+      "source_path": "projects/ide-extension/development/mcp-chat-extension-integration-research/findings.md",
+      "signal_type": "route_changed",
+      "target_artifacts": [
+        "projects/ide-extension/development/browser-first-extension-design/ARCHITECTURE-BUNDLE.md",
+        "projects/ide-extension/development/browser-first-extension-design/DESIGN-TRANSPORT.md",
+        "projects/ide-extension/development/browser-first-extension-design/IMPLEMENTATION-LAYERING-SEED.md",
+        "projects/ide-extension/development/browser-first-extension-design/INVOKE-RESULT.md",
+        "projects/ide-extension/development/browser-first-extension-design/browser-first-extension.dispatch.json"
+      ],
+      "claim": "Browser-first MV3 is no longer the first L0.5 slice; it follows the MCP/chat admission harness.",
+      "evidence": "Findings name McpChatWitnessAdapter as the first witness and defer Chrome/browser specimens.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "MCP-CHAT-S3",
+      "source_path": "projects/ide-extension/development/mcp-chat-extension-integration-research/findings.md",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/ide-extension/SPEC.md",
+        "projects/ide-extension/ARCHITECTURE.md",
+        "projects/ide-extension/development/browser-first-extension-design/GLOSSARY-CONSISTENCY.md"
+      ],
+      "claim": "DesignFeedbackContextPacket is evidence/schema only; source candidates are hypotheses, not source truth.",
+      "evidence": "Reviewers required splitting context packet from authority-bearing adapter and marking source candidates as hypotheses.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "MCP-CHAT-S4",
+      "source_path": "projects/ide-extension/development/mcp-chat-extension-integration-research/findings.md",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/ide-extension/SPEC.md",
+        "projects/ide-extension/ARCHITECTURE.md",
+        "projects/ide-extension/development/browser-first-extension-design/ARCHITECTURE-BUNDLE.md"
+      ],
+      "claim": "Adapter evidence must bind through receipt.evidence_refs and artifacts unless receipt schema evolves deliberately.",
+      "evidence": "Findings preserve the closed receipt schema and require evidence_refs plus artifact hashes for adapter evidence.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "MCP-CHAT-S5",
+      "source_path": "projects/ide-extension/development/mcp-chat-extension-integration-research/findings.md",
+      "signal_type": "blocker_opened",
+      "target_artifacts": [
+        "projects/ide-extension/development/browser-first-extension-design/DESIGN-TRANSPORT.md",
+        "projects/ide-extension/development/browser-first-extension-design/IMPLEMENTATION-LAYERING-SEED.md"
+      ],
+      "claim": "The adapter descriptor schema, context packet schema/fixture, fake stdio witness server, evidence writer, and negative tests do not exist yet.",
+      "evidence": "Findings list these as the next implementation slice and acceptance surface.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "MCP-CHAT-S6",
+      "source_path": "projects/ide-extension/development/mcp-chat-extension-integration-research/findings.md",
+      "signal_type": "route_changed",
+      "target_artifacts": [
+        "projects/ide-extension/ARCHITECTURE.md",
+        "projects/ide-extension/development/browser-first-extension-design/ARCHITECTURE-BUNDLE.md"
+      ],
+      "claim": "claude-max-mcp is deferred provider/process delegation, not a simple network.call.",
+      "evidence": "Findings require process_spawn, cwd_scope, env_allowlist, home_access, tool_allowlist, provider_delegation, credential source, timeout, and network-possible descriptors.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "projects/ide-extension/SPEC.md",
+    "projects/ide-extension/ARCHITECTURE.md",
+    "projects/ide-extension/README.md",
+    "projects/ide-extension/development/browser-first-extension-design/ARCHITECTURE-BUNDLE.md",
+    "projects/ide-extension/development/browser-first-extension-design/DESIGN-TRANSPORT.md",
+    "projects/ide-extension/development/browser-first-extension-design/IMPLEMENTATION-LAYERING-SEED.md",
+    "projects/ide-extension/development/browser-first-extension-design/GLOSSARY-CONSISTENCY.md",
+    "projects/ide-extension/development/browser-first-extension-design/README.md",
+    "projects/ide-extension/development/browser-first-extension-design/INVOKE-RESULT.md",
+    "projects/ide-extension/development/browser-first-extension-design/browser-first-extension.dispatch.json"
+  ],
+  "deltaSummary": [
+    {
+      "delta": "evidence_added",
+      "count": 3
+    },
+    {
+      "delta": "route_changed",
+      "count": 2
+    },
+    {
+      "delta": "blocker_opened",
+      "count": 1
+    }
+  ],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "Updated SPEC.md with L0.5 MCP/chat admission scope, no-go boundaries, receipt evidence binding, and acceptance tests.",
+    "Updated ARCHITECTURE.md with adapter admission strategy, deferred provider/process delegation, and refreshed layer order.",
+    "Updated README.md with current L0.5 status and first witness proof.",
+    "Updated browser-first design bundle and companions to route MCP/chat admission before Chrome MV3 browser-first work.",
+    "Updated browser-first-extension.dispatch.json metadata to route L0.5 adapter admission before L0.6 Chrome MV3.",
+    "Added REFRESH-REPORT.md and refresh-report.json for the Invoke refresh run."
+  ],
+  "skippedChanges": [
+    "No schema or implementation files were changed; implementation belongs to invoke plan/task-session.",
+    "No real external MCP, Claude, Yocoolab, Chrome DevTools, Kernel Cloud, browser, provider, GitHub, Pendo, or deployment integration was added."
+  ],
+  "blockers": [
+    "Adapter descriptor schema missing.",
+    "DesignFeedbackContextPacket schema/fixture missing.",
+    "Fake stdio MCP witness server missing.",
+    "Adapter registration validator missing.",
+    "Evidence artifact writer/hash binding helper missing.",
+    "L0.5 smoke and negative tests missing."
+  ],
+  "nextRoute": "invoke plan",
+  "validation": [
+    {
+      "type": "review-check",
+      "command": "manual artifact review",
+      "status": "pass",
+      "summary": "Applied changes are mapped to source signals and remain documentation/design refresh only."
+    }
+  ]
+}

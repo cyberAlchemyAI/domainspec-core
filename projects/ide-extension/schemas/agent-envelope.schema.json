@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/agent-envelope.schema.json",
+  "title": "ide-extension agent envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "envelope_id",
+    "run_id",
+    "agent_ref",
+    "task",
+    "context_refs",
+    "requested_grants",
+    "approval",
+    "state",
+    "receipts"
+  ],
+  "properties": {
+    "envelope_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task": {
+      "type": "string",
+      "minLength": 1
+    },
+    "context_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "requested_grants": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "approval_id", "approved_by", "approved_at"],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "approval_id": {
+          "type": ["string", "null"]
+        },
+        "approved_by": {
+          "type": ["string", "null"]
+        },
+        "approved_at": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "state": {
+      "enum": [
+        "draft",
+        "prepared",
+        "awaiting_approval",
+        "running",
+        "passed",
+        "flagged",
+        "blocked",
+        "failed",
+        "interrupted",
+        "timeout"
+      ]
+    },
+    "receipts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "created_at": {
+      "type": "string"
+    }
+  }
+}
+

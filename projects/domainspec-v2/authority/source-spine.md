@@ -12,7 +12,7 @@ Owner: DomainSpec v2 owner
 
 | Family | Current source | Allowed use | Blocked use |
 | --- | --- | --- | --- |
-| DomainSpec language (primary) | `impl/spec/` (TAXONOMY, RELATIONSHIPS, AXIOMS, TEST-PIPELINE, CONSTITUTION) + research `DEFINITIONS.md` | Official claims about the DomainSpec language and its derivation discipline. | Inferring unstated policy; treating local synthesis as the spec's declaration. |
+| DomainSpec language (primary) | `authority/AXIOMS.{md,yml}`, `authority/constitutions/domainspec-v2-CONSTITUTION.md`, root `definitions/`, remaining `impl/spec/` contract/import surfaces (TAXONOMY, TEST-PIPELINE, DRIFT-CONVERGENCE, CONSTITUTION), and research `DEFINITIONS.md` | Official claims about the DomainSpec language and its derivation discipline. | Inferring unstated policy; treating local synthesis as the spec's declaration. |
 | Feature packs (primary) | `docs/features/<f>/` DFDS aspect docs (when authored) | What a specific feature's spec says about itself. | Treating one feature's reading as a general rule. |
 | **DomainSpec v1** *(harvested precedent)* | `implementation/domainspec/` @ `33859b5` (frozen; see `IMPORT-MANIFEST.md`) | **Harvested precedent (supporting source) — citation/provenance ONLY**: the as-built source v2 imported + reformulated. | **Treating v1 as authority over v2 design, or on ANY resolution path** (validation/layering/drift decisions resolve to *this repo's own* `authority/`, never to v1). |
 | **CyberAlchemy v2** *(harvested precedent)* | `cyberAlchemy-v2/authority/` | **Harvested precedent (supporting source) — citation/provenance ONLY**: how the authority-spine shape was cast. | **Treating cav2 as authority over v2 design, or on ANY resolution path.** |

@@ -1,0 +1,31 @@
+{
+  "module_id": "craft",
+  "display_name": "Craft",
+  "owner_route": "craft",
+  "source_refs": [
+    ".agents/skills/craft/SKILL.md",
+    "projects/ide-extension/.craft/ledger.yml"
+  ],
+  "capabilities": [
+    "read-ledger",
+    "show-pending-by-node",
+    "route-selected-work"
+  ],
+  "allowed_effects": [
+    "read",
+    "preview",
+    "recommend-route"
+  ],
+  "required_gates": [
+    "human-approval-for-ledger-mutation"
+  ],
+  "forbidden_effects": [
+    "direct-ledger-write",
+    "silent-decision-close",
+    "authority-promotion"
+  ],
+  "expected_receipts": [
+    "route-selection-receipt",
+    "ledger-mutation-receipt"
+  ]
+}

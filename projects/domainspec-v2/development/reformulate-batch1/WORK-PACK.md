@@ -37,8 +37,8 @@ references → **R5/R6a** · D4 forbidden-edge law form → **R3**.
 | SWU | Layer | Doc → governance | Depends | Acceptance (green) |
 | --- | --- | --- | --- | --- |
 | **R0 ✅ DONE** | pre (repair) | **Deleted** `impl/spec/RELATIONSHIPS.md` projection + repointed `validate-code-tags` at root `definitions/relationships/relationships.yml` via build-from-owned `loadRelationshipRulesFromAuthority` — per `DEC-DSV2-SPEC-HOMING` | — | **[met 2026-07-06]** projection gone; `tags:test` 8/8 (was 2 fail `CT-VAL-002`); validator reads 31 root signatures; validate/engine:test/typecheck RC 0 |
-| **R1** | L0 | `impl/spec/AXIOMS.md` → base + layering (A2); **home to `authority/` (constitution basis), NOT `definitions/`** (`DEC-DSV2-SPEC-HOMING` — a proposition is not a term) | — | `validate:docs` RC 0; A2 bound to C6; namespace note folded in; review-pass. **State 2026-07-06: ~80% done — verify-and-close, not author. Saturn-axiom scope RESOLVED (`DEC-B1-SATURN-AXIOM-SCOPE` = scope-down-to-Saturn: keep A1/A2/A3-recast; A4/A6 + C3/C4/C9/C11 → Saturn)** |
-| **R2** | L1 | `impl/spec/TAXONOMY.md` → layering | R1, R0 | `tags:test`/`validate-code-tags` recognizes all concept types; `engine:lint` CLEAN; no v1 residue. **Consumes** the child `meta-type-formalization` for the formal per-type criteria (does not re-derive them). **State 2026-07-06: content v2-native; gate red only via R0** |
+| **R1 ✅ DONE** | L0 | `authority/AXIOMS.md` + `authority/AXIOMS.yml` → base + layering (A2); **homed to `authority/` (constitution basis), NOT `definitions/`** (`DEC-DSV2-SPEC-HOMING` — a proposition is not a term); `impl/spec/AXIOMS.md` deleted/non-authority | — | **[met 2026-07-10]** `validate:docs` RC 0; A2 bound to C6; Saturn-routed material preserved; CAV2-D49/D53/D54 definition-sync complete; review-pass. `DEC-B1-SATURN-AXIOM-SCOPE` resolved: keep A1/A2/A3-recast; A4/A6 + C3/C4/C9/C11 → Saturn; A5 split. |
+| **R2** | L1 | `impl/spec/TAXONOMY.md` → layering | R1, R0, CT-1 | `tags:test`/`validate-code-tags` recognizes schema-backed concept types; `engine:lint` CLEAN; no v1 residue. **Consumes** the child `meta-type-formalization` for the formal per-type criteria (does not re-derive them). **State 2026-07-10: content v2-native; code-tag consumer repaired by CT-1; remaining close gate = `GAP-SH-UI11-MIGRATE` before TAXONOMY deletion/generation** |
 | **R3** | L1 | root `definitions/relationships/relationships.yml` + `impl/spec/RELATIONSHIPS.md` projection → layering law (C6) + validation check (C11) | R2 | ✅ **executed (R3A, 2026-07-02)** — `validate:rels` PASS at `canonicalSignatures=31`; edge-law = what C11 checks & C6 forbids; endpoints typed; generated/deprecated/deferred relation views separated from canonical authored edges. **Side-effect: orphaned the code-tag consumer → see R0** |
 | **R4** | L2 | `impl/spec/TEST-PIPELINE.md` → validation (C5, C10) — **STAYS contract-plane** (`DEC-DSV2-SPEC-HOMING`; two-plane rule, not migrated to root) | R2, R3 | Consistent w/ engine `derive`/`lint`; contract-only (no δ-algorithm); review-pass |
 | **R5** | L2 | `impl/spec/DRIFT-CONVERGENCE.md` → drift (C7) — **home authority on the drift-governance owner surface** (`DEC-DSV2-SPEC-HOMING`); generated impl view optional | R2 | 5 surfaces + trend-not-signal + write-authority proviso; code-tag-drift bound; review-pass |
@@ -64,19 +64,25 @@ Global regression gate for **every** SWU: `npm run validate`, `npm run engine:te
 
 ---
 
-## R1 — AXIOMS (L0)
-- **State (2026-07-06):** `AXIOMS.md` already carries the namespace-disambiguation clause, has no `implementation/domainspec` / `docs/features` residue, and passes `validate:docs`. Remaining R1 work is **verify-and-close**, not fresh authoring. **RESOLVED — `DEC-B1-SATURN-AXIOM-SCOPE` = scope-down-to-Saturn (2026-07-06 decision-gate):** DomainSpec-v2 keeps A1 (semantic authority), A2 (adapter line), A3 (recast: governance methods must be runnable). A4 (observer/executor), A6 (feedback budget) + C3/C4/C9/C11 route to Saturn as DROP-with-pointer. A5 splits (shift-left→C5 stays; reflection→Saturn). This pre-decides the R6a crosswalk. R1 now homes only the retained axioms to `authority/` (gated on GAP-SH-PROSE-HOMES).
-- **Write scope:** `impl/spec/AXIOMS.md`.
-- **Steps:** re-author each axiom v2-native; make A1 (semantic authority precedes implementation) and A2 (adapter line — no dependency crosses it) explicit; **bind A2 to layering C6** (forbidden edges unconstructible); fold in the namespace-disambiguation note (the 5-line clause-reference note currently dirty in v1 `AXIOMS.md`); repoint any `docs/` or v1 paths to `impl/spec/`.
-- **Impl detail:** axioms are review-mode rules; the load-bearing terms are the axiom IDs (A1, A2…) other docs cite — each must resolve. No behavior.
-- **Validation:** `npm run validate:docs` RC 0; grep for `implementation/domainspec`/`docs/features` → none; review-pass.
-- **Verification:** links resolve; A2↔C6 cross-reference present.
+## R1 — AXIOMS (L0) — DONE
+- **State (2026-07-10):** R1 is closed. `authority/AXIOMS.md` and `authority/AXIOMS.yml` are the R1 continuity authority pair; `impl/spec/AXIOMS.md` is deleted/non-authority. A1/A2/A3 are retained as D54-shaped rows; A4/A6 route to Saturn; A5 splits between DomainSpec shift-left validation and Saturn reflection. `DEC-B1-SATURN-AXIOM-SCOPE` is resolved and the CAV2-D49/D53/D54 definition-sync repair is applied.
+- **Write scope delivered:** `authority/AXIOMS.md`, `authority/AXIOMS.yml`, deletion/de-authorization of `impl/spec/AXIOMS.md`, and parent status sync.
+- **Evidence:** `development/reformulate-batch1/r1-axioms-closeout/TASK-SESSION-SWU-R1A-001.md`; `development/reformulate-batch1/r1-axioms-closeout/definition-sync-repair/TASK-SESSION-SWU-R1A-002A.md`; `development/reformulate-batch1/r1-axioms-closeout/definition-sync-repair/TASK-SESSION-SWU-R1A-002B.md`.
+- **Validation:** `npm run validate`, `npm run tags:test`, `npm run engine:test`, and `npm run typecheck` pass in the closeout stream.
+- **Residue preserved:** R2 TAXONOMY, R5 DRIFT owner-home, R6a crosswalk, and R6b constitution split remain open.
 
 ## R2 — TAXONOMY (L1, layering)
-- **State (2026-07-06):** `TAXONOMY.md` is v2-native (14 backend / 11 UI, matching the meta-type schemas), no v1 residue. **Depends on R0** — the acceptance gate `tags:test` is red because of the orphaned code-tag validator, not the taxonomy content; it green-closes once R0 lands.
+- **State (2026-07-10):** `TAXONOMY.md` is v2-native (14 backend / 11 UI), no v1 residue. R0 repaired the
+  relationship consumer and CT-1 repaired the taxonomy consumer: `validate-code-tags` now reads the backend-14
+  type set from `spec/meta-types` and passes with `TAXONOMY.md` absent. **Remaining gate:** `GAP-SH-UI11-MIGRATE`
+  — the 11 UI meta-types still need root meta-type authority before `TAXONOMY.md` can be deleted/generated.
 - **Write scope:** `impl/spec/TAXONOMY.md`.
-- **Steps:** re-author the concept-type table (the 25 Ontology-A concepts) + layer-membership + the layer-law statement; bind to **layering governance**; ensure the type set is exactly what `validate-code-tags` + the engine consume (G3 already points them at `impl/spec/TAXONOMY.md`).
-- **Impl detail:** the concept-type list is load-bearing (the tag validator checks tag `concept.type ∈ TAXONOMY`); every type needs a tracked definition ID; layer-membership assigns each concept a layer (feeds C6/adapter-line). A layer *assignment* is not a dependency *verdict* (C6).
+- **Steps:** migrate/define the UI-11 meta-types in root authority, then delete or generate the old
+  `impl/spec/TAXONOMY.md` projection per `DEC-DSV2-SPEC-HOMING`; preserve layer-membership + the layer-law
+  statement under layering governance.
+- **Impl detail:** the concept-type list is load-bearing (the tag validator checks tag `concept.type` against
+  root meta-type schemas after CT-1); every type needs a tracked definition ID; layer-membership assigns each
+  concept a layer (feeds C6/adapter-line). A layer *assignment* is not a dependency *verdict* (C6).
 - **Validation:** `npm run tags:test` RC 0 (8/8) with the reformulated taxonomy; `npm run engine:lint` CLEAN; no v1 residue.
 - **Verification:** flip one concept type in a fixture → tag validator flags it (discriminating).
 
@@ -147,11 +153,12 @@ When R1–R6b are green AND the build-proof stays green, `implementation/domains
 evidence source (`IMPORT-MANIFEST.md` Freeze gate). Until then v1 stays readable, not edited.
 
 ## Next route
-`task-session` per SWU in the order **R0 → {verify-close R1, R0→R2} → reconcile-close R7 → {R4, R5} → R6a → R6b**.
-**R0 is first** — it unblocks R2's gate and completes R3A's recomposition. (Re-baselined 2026-07-06: R1/R2
-are verify-and-close, R3 is done, R7 is substantially delivered — see
+`task-session` per SWU in the order **UI-11 migration / R2 verify-close → reconcile-close R7 → {R4, R5} → R6a → R6b**.
+**R0, R1, and CT-1 are done** — R0 completed R3A's relationship-consumer recomposition; R1 closed the AXIOMS
+authority home plus CAV2 definition-sync; CT-1 closed the code-tag taxonomy consumer landmine. (Re-baselined 2026-07-06: R2
+is verify-and-close, R3 is done, R7 is substantially delivered — see
 `refreshes/2026-07-06-batch1-post-r3a-retriage/`.) Solo or fan-out is the task-session decision. **Note:**
 the code-tag validator retarget was done once in G3 against `impl/spec/RELATIONSHIPS.md`, but **R3A moved the
-authority out from under it** — so R0 re-does the retarget against the root authority; it is no longer a mere
-"sibling work-pack" item but a blocking pre-req. Batch 2's other items (waiver reset; code-tag→drift binding)
-remain a sibling work-pack.
+authority out from under it** — so R0 re-did the relationship retarget against the root authority, and CT-1
+re-did the taxonomy retarget against root meta-type schemas. Batch 2's other items (waiver reset; code-tag
+contract/gate) remain a sibling work-pack.

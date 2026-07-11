@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ide-extension L0</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f7f9;
+        --ink: #202124;
+        --muted: #59616d;
+        --line: #d9dee7;
+        --panel: #ffffff;
+        --teal: #0f766e;
+        --blue: #1d4ed8;
+        --amber: #b45309;
+        --red: #b42318;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--ink);
+        font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        min-height: 56px;
+        padding: 10px 18px;
+        border-bottom: 1px solid var(--line);
+        background: var(--panel);
+      }
+
+      h1, h2, h3, p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      h2 {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      button {
+        min-height: 34px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #fff;
+        color: var(--ink);
+        cursor: pointer;
+        font: inherit;
+        padding: 6px 10px;
+      }
+
+      button.primary {
+        border-color: var(--teal);
+        background: var(--teal);
+        color: #fff;
+      }
+
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: minmax(180px, 240px) minmax(360px, 1fr) minmax(220px, 320px);
+        gap: 12px;
+        padding: 12px;
+        min-height: calc(100vh - 56px);
+      }
+
+      section {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        overflow: hidden;
+        min-width: 0;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 42px;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .stack {
+        display: grid;
+        gap: 8px;
+        padding: 12px;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .module {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 8px;
+      }
+
+      .module strong {
+        display: block;
+        font-size: 13px;
+      }
+
+      .module span,
+      .muted {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .canvas {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-auto-rows: 42px;
+        gap: 8px;
+        min-height: 420px;
+        padding: 12px;
+        background:
+          linear-gradient(#eef2f7 1px, transparent 1px),
+          linear-gradient(90deg, #eef2f7 1px, transparent 1px);
+        background-size: 24px 24px;
+      }
+
+      .node {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #fff;
+        padding: 10px;
+        min-width: 0;
+        box-shadow: 0 1px 2px rgba(32, 33, 36, 0.08);
+      }
+
+      .node h3 {
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+
+      .node.intent {
+        grid-column: 1 / span 4;
+        grid-row: 1 / span 2;
+        border-left: 4px solid var(--blue);
+      }
+
+      .node.envelope {
+        grid-column: 5 / span 4;
+        grid-row: 3 / span 2;
+        border-left: 4px solid var(--amber);
+      }
+
+      .node.receipt {
+        grid-column: 9 / span 4;
+        grid-row: 5 / span 2;
+        border-left: 4px solid var(--teal);
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 22px;
+        border-radius: 999px;
+        padding: 2px 8px;
+        font-size: 12px;
+        background: #eef2ff;
+        color: var(--blue);
+      }
+
+      .status {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .status.warn {
+        color: var(--amber);
+      }
+
+      .status.good {
+        color: var(--teal);
+      }
+
+      pre {
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin: 0;
+        font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+
+      @media (max-width: 880px) {
+        main {
+          grid-template-columns: 1fr;
+        }
+
+        .canvas {
+          min-height: 460px;
+        }
+
+        .node.intent,
+        .node.envelope,
+        .node.receipt {
+          grid-column: 1 / -1;
+          grid-row: auto / span 2;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>ide-extension</h1>
+        <p class="muted">L0 governed workbench</p>
+      </div>
+      <div class="row">
+        <span id="server-status" class="status">loading</span>
+        <button id="prepare" class="primary" type="button">Prepare dry run</button>
+        <button id="approve" type="button" disabled>Approve</button>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <div class="section-head">
+          <h2>Modules</h2>
+          <span id="module-count" class="pill">0</span>
+        </div>
+        <div id="modules" class="stack"></div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Workbench</h2>
+          <span id="boundary" class="pill">l0</span>
+        </div>
+        <div class="canvas">
+          <article class="node intent">
+            <h3 id="work-title">Selected work</h3>
+            <p id="work-owner" class="muted"></p>
+          </article>
+          <article class="node envelope">
+            <h3>Agent envelope</h3>
+            <p id="envelope-state" class="status warn">none prepared</p>
+          </article>
+          <article class="node receipt">
+            <h3>Evidence receipt</h3>
+            <p id="receipt-state" class="status">none recorded</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Evidence</h2>
+          <span id="event-count" class="pill">0</span>
+        </div>
+        <div class="stack">
+          <div>
+            <h3>Approval queue</h3>
+            <pre id="approvals">[]</pre>
+          </div>
+          <div>
+            <h3>Receipts</h3>
+            <pre id="receipts">[]</pre>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module">
+      const state = {
+        approvalId: null
+      };
+
+      const els = {
+        status: document.querySelector('#server-status'),
+        modules: document.querySelector('#modules'),
+        moduleCount: document.querySelector('#module-count'),
+        boundary: document.querySelector('#boundary'),
+        workTitle: document.querySelector('#work-title'),
+        workOwner: document.querySelector('#work-owner'),
+        envelopeState: document.querySelector('#envelope-state'),
+        receiptState: document.querySelector('#receipt-state'),
+        approvals: document.querySelector('#approvals'),
+        receipts: document.querySelector('#receipts'),
+        eventCount: document.querySelector('#event-count'),
+        prepare: document.querySelector('#prepare'),
+        approve: document.querySelector('#approve')
+      };
+
+      async function api(path, options = {}) {
+        const response = await fetch(path, {
+          ...options,
+          headers: {
+            'content-type': 'application/json',
+            ...(options.headers || {})
+          }
+        });
+        const body = await response.json();
+        if (!response.ok) throw new Error(body.error || response.statusText);
+        return body;
+      }
+
+      function render(data) {
+        els.status.textContent = 'connected';
+        els.status.className = 'status good';
+        els.boundary.textContent = data.boundary;
+        els.moduleCount.textContent = String(data.modules.length);
+        els.eventCount.textContent = String(data.event_count);
+        els.workTitle.textContent = data.selected_work_item.title;
+        els.workOwner.textContent = `${data.selected_work_item.owner_route} | ${data.selected_work_item.source_ref}`;
+        els.modules.innerHTML = data.modules.map((module) => `
+          <div class="module">
+            <strong>${module.display_name}</strong>
+            <span>${module.owner_route}</span>
+          </div>
+        `).join('');
+        els.approvals.textContent = JSON.stringify(data.approval_queue, null, 2);
+        els.receipts.textContent = JSON.stringify(data.receipts, null, 2);
+        els.envelopeState.textContent = data.current_envelope ? data.current_envelope.state : 'none prepared';
+        els.envelopeState.className = data.current_envelope?.state === 'passed' ? 'status good' : 'status warn';
+        els.receiptState.textContent = data.receipts.length ? data.receipts.at(-1).receipt_id : 'none recorded';
+        els.receiptState.className = data.receipts.length ? 'status good' : 'status';
+        const pending = data.approval_queue.find((item) => item.state === 'pending');
+        state.approvalId = pending?.approval_id || null;
+        els.approve.disabled = !state.approvalId;
+      }
+
+      async function refresh() {
+        render(await api('/api/state'));
+      }
+
+      els.prepare.addEventListener('click', async () => {
+        await api('/api/envelopes/prepare', {
+          method: 'POST',
+          body: JSON.stringify({
+            agent_ref: 'local.noop-agent',
+            task: 'Prepare L0 dry-run receipt'
+          })
+        });
+        await refresh();
+      });
+
+      els.approve.addEventListener('click', async () => {
+        if (!state.approvalId) return;
+        await api(`/api/approvals/${state.approvalId}/approve`, {
+          method: 'POST',
+          body: JSON.stringify({ approved_by: 'human' })
+        });
+        await refresh();
+      });
+
+      refresh().catch((error) => {
+        els.status.textContent = error.message;
+        els.status.className = 'status warn';
+      });
+    </script>
+  </body>
+</html>
+

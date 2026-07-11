@@ -12,6 +12,8 @@ import { dirname, join, resolve } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
+import { loadTaxonomyTypesFromSchemas } from "../lib/code-tag-rules";
+
 const thisDir = dirname(fileURLToPath(import.meta.url));
 const frameworkRoot = resolve(thisDir, "../../../../");
 
@@ -39,7 +41,7 @@ function createTempFeaturesRoot(tempRoot: string): string {
 | payment.MaxAmountRule | Rule |
 | payment.ProcessPayment | Operation |
 | payment.PaymentInitiated | Event |
-| ui.payment.useCreatePayment | Binding |
+| payment.PaymentAPI | Interface |
 | player-management.CreatePlayer | Operation |
 | player-management.PlayerCreated | Event |
 
@@ -48,13 +50,29 @@ function createTempFeaturesRoot(tempRoot: string): string {
 | From | Edge | To |
 | ---- | ---- | ---- |
 | payment.MaxAmountRule | enforces | payment.ProcessPayment |
-| ui.payment.useCreatePayment | mutates | payment.ProcessPayment |
+| payment.PaymentAPI | exposes | payment.ProcessPayment |
 | payment.ProcessPayment | produces | payment.PaymentInitiated |
 | player-management.CreatePlayer | produces | player-management.PlayerCreated |
 `;
 
   writeFileSync(join(featureDir, "SPEC.md"), spec, "utf-8");
   return join(tempRoot, "docs", "features");
+}
+
+function createTempSchemaRoot(tempRoot: string): string {
+  const schemaRoot = join(tempRoot, "schema-root");
+  mkdirSync(schemaRoot, { recursive: true });
+
+  for (const metaType of ["Rule", "Operation", "Event", "Interface"]) {
+    const filename = metaType.toLowerCase().replace(/\s+/g, "-");
+    writeFileSync(
+      join(schemaRoot, `${filename}.schema.yml`),
+      `meta_type: ${metaType}\ncategory: test\n`,
+      "utf-8",
+    );
+  }
+
+  return schemaRoot;
 }
 
 function runExtract(outputPath: string) {
@@ -69,6 +87,37 @@ function runExtract(outputPath: string) {
     "--json",
   ]);
 }
+
+test("loadTaxonomyTypesFromSchemas reads meta_type fields", () => {
+  const tempRoot = mkdtempSync(join(tmpdir(), "domainspec-taxonomy-test-"));
+  const schemaRoot = join(tempRoot, "schema-root");
+  mkdirSync(join(schemaRoot, "structural"), { recursive: true });
+
+  try {
+    writeFileSync(
+      join(schemaRoot, "structural", "entity.schema.yml"),
+      "meta_type: Entity\ncategory: structural\n",
+      "utf-8",
+    );
+    writeFileSync(
+      join(schemaRoot, "structural", "value-object.schema.yml"),
+      'meta_type: "Value Object"\ncategory: structural\n',
+      "utf-8",
+    );
+    writeFileSync(
+      join(schemaRoot, "structural", "ignored.yml"),
+      "meta_type: Ignored\n",
+      "utf-8",
+    );
+
+    const types = loadTaxonomyTypesFromSchemas(schemaRoot);
+    assert.equal(types.size, 2);
+    assert.equal(types.get("entity"), "Entity");
+    assert.equal(types.get("valueobject"), "Value Object");
+  } finally {
+    rmSync(tempRoot, { recursive: true, force: true });
+  }
+});
 
 test("extract-code-tags parses fixture corpus", () => {
   const tempRoot = mkdtempSync(join(tmpdir(), "domainspec-code-tag-test-"));
@@ -91,6 +140,7 @@ test("validate-code-tags accepts matching fixture concepts and edges", () => {
   const tempRoot = mkdtempSync(join(tmpdir(), "domainspec-code-tag-test-"));
   const outputPath = join(tempRoot, "code-tags.json");
   const featuresRoot = createTempFeaturesRoot(tempRoot);
+  const schemaRoot = createTempSchemaRoot(tempRoot);
 
   try {
     const extractResult = runExtract(outputPath);
@@ -104,6 +154,8 @@ test("validate-code-tags accepts matching fixture concepts and edges", () => {
       validateScript,
       "--input",
       outputPath,
+      "--taxonomy",
+      schemaRoot,
       "--features-root",
       featuresRoot,
       "--mode",
@@ -126,10 +178,59 @@ test("validate-code-tags accepts matching fixture concepts and edges", () => {
   }
 });
 
+test("validate-code-tags fails when concept.type is not in schema taxonomy", () => {
+  const tempRoot = mkdtempSync(join(tmpdir(), "domainspec-code-tag-test-"));
+  const outputPath = join(tempRoot, "code-tags.json");
+  const featuresRoot = createTempFeaturesRoot(tempRoot);
+  const schemaRoot = createTempSchemaRoot(tempRoot);
+
+  try {
+    const extractResult = runExtract(outputPath);
+    assert.equal(
+      extractResult.status,
+      0,
+      extractResult.stderr || extractResult.stdout,
+    );
+
+    const extracted = JSON.parse(readFileSync(outputPath, "utf-8"));
+    extracted.tags[0].concept.type = "NotAType";
+    writeFileSync(
+      outputPath,
+      JSON.stringify(extracted, null, 2) + "\n",
+      "utf-8",
+    );
+
+    const validateResult = runTsxScript([
+      validateScript,
+      "--input",
+      outputPath,
+      "--taxonomy",
+      schemaRoot,
+      "--features-root",
+      featuresRoot,
+      "--mode",
+      "strict",
+      "--json",
+    ]);
+
+    assert.equal(validateResult.status, 1, validateResult.stderr);
+
+    const payload = JSON.parse(validateResult.stdout);
+    assert.equal(payload.ok, false);
+    assert.equal(
+      payload.report.some((entry: { code: string }) => entry.code === "CT-010"),
+      true,
+    );
+  } finally {
+    rmSync(tempRoot, { recursive: true, force: true });
+  }
+});
+
 test("validate-code-tags fails on stale spec_ref path mismatch", () => {
   const tempRoot = mkdtempSync(join(tmpdir(), "domainspec-code-tag-test-"));
   const outputPath = join(tempRoot, "code-tags.json");
   const featuresRoot = createTempFeaturesRoot(tempRoot);
+  const schemaRoot = createTempSchemaRoot(tempRoot);
 
   try {
     const extractResult = runExtract(outputPath);
@@ -154,6 +255,8 @@ test("validate-code-tags fails on stale spec_ref path mismatch", () => {
       validateScript,
       "--input",
       outputPath,
+      "--taxonomy",
+      schemaRoot,
       "--features-root",
       featuresRoot,
       "--mode",

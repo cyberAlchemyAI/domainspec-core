@@ -132,6 +132,7 @@ Each viable candidate must include one coherent selection from all three cores. 
 | 1 | `substack_research_post` | selected L0 proof | Forces clarity, voice, research-group relevance, argument structure, and reflective ending without immediate conversion pressure. |
 | 2 | `fundraising_copy` | next extension | Adds trust, proof, urgency, ask mechanics, and donor psychology after the base substrate works. |
 | 3 | `product_research_blueprint` | local preset extension | Creates an in-depth proposal and research blueprint that stays story-first, proof-honest, and focused on vision, gaps, verification, goals, impact, risks, and next decisions. |
+| 4 | `business_plan` | local preset extension | Builds a full business plan, investor memo, operating plan, lender package, or deck substrate from audience, evidence, financial assumptions, risks, and next-witness gates. |
 
 ## Preset Extensions
 
@@ -143,10 +144,17 @@ Available local presets live in [presets/](presets/):
 | Preset ID | Use |
 | --------- | --- |
 | `product_research_blueprint` | Proposal, description blueprint, or research document for a product/system idea. It follows the `Tower-System.pdf` pattern: product view first, system view second, with an explicit evidence boundary. |
+| `business_plan` | Generic business-plan writing preset for investor, lender/financing, operating, partner, and public-impact variants. It keeps the plan claim-bounded, assumption-explicit, and tied to evidence, financial model, risk, and next-witness gates. |
 
-Use this preset when the user asks for a proposal document that explains what
-the idea is, why it matters, what gaps remain, what must be verified, what goals
-and impacts it targets, and what next decision would justify continued pursuit.
+Use `product_research_blueprint` when the user asks for a proposal document that
+explains what the idea is, why it matters, what gaps remain, what must be
+verified, what goals and impacts it targets, and what next decision would
+justify continued pursuit.
+
+Use the `business_plan` preset when the user asks for a business plan, investor
+plan, operating plan, financing plan, or BP substrate that must turn a venture or
+project into a coherent decision document without overclaiming traction,
+compliance, market certainty, or financial certainty.
 
 ## Local Customization
 

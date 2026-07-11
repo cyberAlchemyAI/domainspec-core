@@ -1,0 +1,25 @@
+## Invoke Result
+
+- Mode: design+plan
+- Spell: invoke
+- Canonical ID: invoke
+- Scope: library
+- Phase status: flag
+- Mode contract: `.agents/skills/invoke/design.md`, `.agents/skills/invoke/plan.md`
+- Outputs: `ARCHITECTURE-UPGRADE.md`, `IMPLEMENTATION-LAYERING.md`, `WORK-PACK.md`, `EXECUTION-PACK.md`, `PLAN-TRANSPORT.md`
+- Design views: context, high-level structure, low-level components, workflow process, decision flow, dependency interface
+- Glossary consistency: n/a; no glossary promotion attempted
+- Dispatch techniques: `sequence`, `concrete_path_evidence`, `owner_boundary_check`, `artifact_contract_bridge`, `validation_loop`, `residue_ledger`, `scu_swu_reduction`, `recomposition_proof`, `execution_receipt_handoff`; full dispatch n/a
+- Distill validation: flag; smallest unit `SWU-GSP-001`; recomposes into governed-state projection spine; gaps recorded
+- Implementation layering: `IMPLEMENTATION-LAYERING.md`, L0-L3
+- Work-pack: `WORK-PACK.md`, split
+- Complexity: medium
+- Per-layer planning: layer-mapped waves
+- Implementation detail: task specs complete for planned SWUs
+- Smallest working units: complete
+- Refresh: n/a
+- Target artifact: UI Prototyping Studio governed-state projection spine, architecture upgrade/work-pack, Studio development cycle
+- Template or recipe selection: Invoke architecture companion, standalone implementation-layering, standalone work-pack, execution-pack handoff
+- Decisions: projection service/view model; current head as primary artifact; global/style diff lane; export confirmation separated from implementation readiness; OD evidence deferred to minimal `CraftEvidencePack`
+- Unresolved gaps: normal define input absent; fresh checked-in e2e unclaimed; human-study/control evidence deferred; OD broader profile layer deferred
+- Next route: task-session on `SWU-GSP-001`

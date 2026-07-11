@@ -19,18 +19,18 @@ export function maxAmountRule(amount: number, limit: number): boolean {
 /**
  * domainspec:
  *   concept:
- *     id: ui.payment.useCreatePayment
- *     type: Binding
+ *     id: payment.PaymentAPI
+ *     type: Interface
  *     concern: sys
  *     spec_ref:
  *       path: docs/features/payments/SPEC.md
  *       line: 10
  *       section: Concept Registry
  *   edges:
- *     - edge: mutates
+ *     - edge: exposes
  *       to: payment.ProcessPayment
  */
-export async function useCreatePayment(
+export async function paymentApi(
   apiClient: { post: (path: string, body: unknown) => Promise<unknown> },
   payload: unknown,
 ) {

@@ -1,5 +1,32 @@
 # Inventory Log
 
+## 2026-07-09 - run closeout (R1 axiom definition-sync research)
+
+- Mode: confirmed subagent research dispatch.
+- Ledger: registered and closed dispatch
+  `2026-07-09-r1-axiom-definition-sync-fix-research` with
+  `exit_reason: resolved`; `agents_spawned.total: 9`; `loops_used: 1`;
+  final auditor approved after one row-level findings revision.
+- Outputs accepted (2):
+  `projects/domainspec-v2/development/reformulate-batch1/r1-axioms-closeout/research/axiom-definition-sync-fix/research.md`
+  and
+  `projects/domainspec-v2/development/reformulate-batch1/r1-axioms-closeout/research/axiom-definition-sync-fix/findings.md`.
+- Inventory: added strategy-result read model
+  `entries/domainspec-v2-r1-axiom-definition-sync-strategy-result-synthesis.md`
+  via `tools/inventory-update.cjs`.
+- Result: accepted build-from-owned repair says R1 AXIOMS should be patched as
+  classification/metadata only: A1/A2/A3 are CAV2-D54 invariant-shaped in the
+  current wording; A4/A6 are routed pointers; A5 is split-routed with only the
+  retained shift-left fragment treated as D54-shaped. `Definition` remains a
+  CAV2-D49 cataloging rollup only, not semantic conversion.
+- Claim boundary: no new first-class `axiom` or `invariant` authority kind is
+  promoted; no D34, Saturn, A2/C6, R5/R6, or public/private boundary change is
+  authorized by the research result.
+- Validation: inventory updater added the index row; repository validation
+  checks are run separately after closeout edits.
+- Authority: non-authority Inventory read model only. Canonical mutation still
+  belongs to the R1 task-session / definitions-governance owner route.
+
 ## 2026-07-06 proposal — novel model-use Lean formalization research strategy
 
 - Mode: proposal+gate
@@ -1649,3 +1676,108 @@ Artifacts:
 - Index: index.json 136 -> 137 entries via `tools/inventory-update.cjs`; index.md `## Entries` row added by the same tool and Last updated header bumped. Remaining uncontrolled-tag warnings are pre-existing/cross-inventory plus new BP tags and non-blocking.
 - Ledger: unregistered. No dispatch row and no close row appended; the human must reply `confirmed` before registration and execution.
 - Authority: candidate Inventory read model only. It promotes no business-plan claim, starts no research run, and authorizes no public disclosure.
+
+## 2026-07-09 - run closeout (business plan build research)
+
+- Mode: confirmed subagent research dispatch.
+- Ledger: registered and closed dispatch `2026-07-09-business-plan-build-research`
+  with `exit_reason: resolved`; `agents_spawned.total: 14`; `loops_used: 1`;
+  final auditor accepted findings.
+- Outputs accepted (2):
+  `queries/2026-07-09-business-plan-build-research/research.md` and
+  `queries/2026-07-09-business-plan-build-research/findings.md`.
+- Inventory: added query-file records
+  `business-plan-build-research-transcript` and
+  `business-plan-build-research-findings`; strategy-result read model updated
+  to `closed`.
+- Result: accepted BP-building substrate says to build the BP from one blocked
+  buyer decision, one Metric Trust / governed AI Work Readiness wedge, one
+  receipt bundle, one bottom-up sprint-unit financial model, one diligence
+  evidence registry, and one 30/60/90 witness queue.
+- Claim boundary: DomainSpec/CAV2 breadth is substrate and diligence evidence,
+  not a front-stage product menu or proof of a finished platform. No
+  certification, compliance, audit-ready status, platform proof, provably
+  correct agents, market pull, proven moat, public-ready CAV2/DomainSpec v2, or
+  public disclosure claim is promoted.
+- Validation: final repository checks were run after inventory updates.
+
+## 2026-07-09 - run closeout (UI Prototyping Studio UX/UI upgrade research)
+
+- Mode: confirmed subagent research dispatch.
+- Ledger: registered and closed dispatch
+  `2026-07-09-ui-prototyping-studio-ux-upgrade-research` with
+  `exit_reason: resolved`; `agents_spawned.total: 10`; `loops_used: 1`; final
+  auditor accepted findings.
+- Outputs accepted (2):
+  `projects/ui-prototyping-studio/development/research/20260709-ux-ui-upgrade-research/research.md`
+  and
+  `projects/ui-prototyping-studio/development/research/20260709-ux-ui-upgrade-research/findings.md`.
+- Inventory: added strategy-result read model
+  `entries/ui-prototyping-studio-ux-ui-upgrade-research-strategy-result-synthesis.md`;
+  `index.json` and `index.md` were updated through
+  `tools/inventory-update.cjs`.
+- Result: accepted findings frame the next Studio work as governance-truth
+  repair first: current-head projection, visible-change diff integrity, preview
+  state coherence, durable reversible-action framing, deterministic e2e
+  evidence, handoff evidence semantics, mobile/annotation usability,
+  docs/test-count sync, and only a minimal OD-inspired `CraftEvidencePack`
+  behind Studio gates.
+- Open Design boundary: Open Design is source precedent for subordinate
+  evidence/profile/provenance structures only. It does not replace Studio's
+  register/baseline/stage/manifest/export gates, become a subjective admission
+  gate, or provide a production HTML path.
+- Body War/TROQAR boundary: Body War evidence supports selector/copy obligations
+  crossing into app specs/tests; it is not proof that Studio HTML is
+  production-ready.
+- Validation: auditor returned `PASS`; `jq` lookup confirmed the new inventory
+  id in `index.json`; `index.md` row exists; dispatch close row exists. The
+  inventory updater emitted only pre-existing uncontrolled-tag warnings.
+- Authority: non-authority research read model only. No Studio implementation
+  changes, release-readiness claim, fresh checked-in e2e claim, production HTML
+  claim, Open Design identity replacement, or human-vs-agent identity gate is
+  promoted.
+
+## 2026-07-10 - run closeout (ide-extension architecture review)
+
+- Mode: confirmed subagent review dispatch.
+- Ledger: registered dispatch
+  `2026-07-10-ide-extension-architecture-review`; final auditor accepted the
+  cited change-request list for resolved closeout.
+- Outputs accepted: `projects/ide-extension/development/architecture-review-2026-07-10/attacks.md`,
+  `findings.md`, and `audit.md`, with six raw attacker/verifier transcripts.
+- Inventory: added strategy-result read model
+  `entries/ide-extension-architecture-review-strategy-result-synthesis.md`;
+  machine and human indexes are updated through `inventory-update.cjs`.
+- Result: one CRITICAL, six MAJOR, and one MINOR present-L0 finding; two
+  promotion blockers and one promotion gate remain separate from present
+  defect counts.
+- Next action: plan and repair the accepted L0 FIX list before implementing the
+  L0.5 MCP/chat adapter-admission witness.
+- Authority: non-authority review read model only. No implementation,
+  L0.5/L0.6 promotion, IDE/browser integration, or live provider claim is
+  authorized.
+
+## 2026-07-10 - run closeout (DomainSpec v2 UI11 meta-type review)
+
+- Mode: confirmed subagent review dispatch.
+- Ledger: registered and closed dispatch `2026-07-10-ui11-metatype-review`
+  with `exit_reason: resolved`; `agents_spawned.total: 7`; `loops_used: 1`;
+  final auditor accepted findings.
+- Outputs accepted (2):
+  `projects/domainspec-v2/development/ds-d1-improvement-plan/reviews/2026-07-10-ui11-metatype-review/attacks.md`
+  and
+  `projects/domainspec-v2/development/ds-d1-improvement-plan/reviews/2026-07-10-ui11-metatype-review/findings.md`.
+- Inventory: added strategy-result read model
+  `entries/domainspec-v2-ui11-metatype-review-strategy-result-synthesis.md`;
+  `index.json` and `index.md` were updated through
+  `tools/inventory-update.cjs`.
+- Result: accepted findings select `explicit-defer` now, route
+  `SWU-DSD1-003` to record the UI11 decision, route `SWU-DSD1-006` to narrow
+  canonical authority claims, and keep DS-D8 UI endpoint signatures as pressure
+  rather than DS-D1 formation authority.
+- Next action: write the `SWU-DSD1-003` decision record, then execute the
+  `SWU-DSD1-006` narrow/defer package. `SWU-DSD1-004/005` remain conditional
+  on a later owner `add-ui` decision.
+- Authority: non-authority review read model only. No UI label, DS-D1 category,
+  DS-D8 signature, canonical definition, schema, fixture, validator, or code-tag
+  allowance is promoted by this inventory entry.

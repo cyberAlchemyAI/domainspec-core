@@ -46,7 +46,7 @@ domainspec:
 
 - Edge direction is canonical and outbound from the tagged concept.
 - Inverse aliases are not allowed.
-- `concept.type` must match taxonomy labels from `TAXONOMY.md`.
+- `concept.type` must match `meta_type` labels from `spec/meta-types/**/*.schema.yml`.
 - `edges[].edge` must be canonical labels from the root relationship authority (`definitions/relationships/relationships.yml`).
 - When present, `concept.spec_ref` must point to the same SPEC source row resolved from `concept.id`.
 
@@ -55,11 +55,11 @@ domainspec:
 ```yaml
 domainspec:
   concept:
-    id: ui.payment.useCreatePayment
-    type: Binding
+    id: payment.PaymentAPI
+    type: Interface
     concern: sys
   edges:
-    - edge: mutates
+    - edge: exposes
       to: payment.ProcessPayment
 ```
 

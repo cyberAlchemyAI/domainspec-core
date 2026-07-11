@@ -83,7 +83,8 @@ Validation mode: hybrid
 
 A relation the layer-law / Edge-Law forbids must be **unconstructible** (typed so no catalog edge
 admits the endpoint pair), not merely flagged after the fact. No dependency may cross the adapter
-line (AXIOMS A2). A layer *assignment* is not a dependency-law *verdict*.
+line ([AXIOMS A2](../AXIOMS.md#axiom-a2-decisions-belong-to-the-domain-not-adapters)). A layer
+*assignment* is not a dependency-law *verdict*.
 
 ### domainspec-v2-C7. Convergence Is A Trend, Not A Signal ⟵ *domain-originated (drift, Obs-A rule-level)*
 Validation mode: hybrid

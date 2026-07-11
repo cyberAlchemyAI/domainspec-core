@@ -3,21 +3,22 @@ tags: [inventory, strategy-result, dispatch, subagents, research, investor-bp, b
 node_type: synthesis
 is_session: false
 layer: strategy
-nature: proposal
-status: proposed
+nature: synthesis
+status: closed
 created: 2026-07-09
 dispatch_id: 2026-07-09-business-plan-build-research
 dispatch_type: research
 working_folder: .arcanum/inventory/queries/2026-07-09-business-plan-build-research/
-sources: [.arcanum/inventory/queries/2026-07-09-business-plan-build-research/EXPLORE-STRATEGY.md, .arcanum/inventory/queries/2026-07-09-business-plan-build-research/DISPATCH-PROPOSAL.json, .arcanum/inventory/queries/2026-07-09-business-plan-build-research/CHECK-TENSION.md]
+sources: [.arcanum/inventory/queries/2026-07-09-business-plan-build-research/EXPLORE-STRATEGY.md, .arcanum/inventory/queries/2026-07-09-business-plan-build-research/DISPATCH-PROPOSAL.json, .arcanum/inventory/queries/2026-07-09-business-plan-build-research/CHECK-TENSION.md, .arcanum/inventory/queries/2026-07-09-business-plan-build-research/research.md, .arcanum/inventory/queries/2026-07-09-business-plan-build-research/findings.md]
 ---
 
 # Business Plan Build Research Strategy Result
 
-This is a non-authority Inventory read model for the proposed governed research
+This is a non-authority Inventory read model for the resolved governed research
 dispatch `2026-07-09-business-plan-build-research`. It records the strategy,
-gate result, source boundary, and confirmation state. It does not write the
-business plan, promote an investor-facing claim, or authorize public disclosure.
+gate result, source boundary, runtime result, and closeout state. It does not
+write the business plan, promote an investor-facing claim, or authorize public
+disclosure.
 
 ## Strategy Summary
 
@@ -86,12 +87,21 @@ revision to writer.
 
 **Gate / ledger state:** check-tension returned double PASS on 2026-07-09 from
 checker `019f4567-f45c-7732-a645-353ce6d5fca8` (Mendel) and reviewer
-`019f4567-f4e2-7992-9df0-d9e79bc741ee` (Hilbert). The proposal is unregistered:
-no dispatch row and no close row have been appended. Human confirmation is still
-required before runtime.
+`019f4567-f4e2-7992-9df0-d9e79bc741ee` (Hilbert). Human confirmation was
+received; the dispatch row was registered, all 14 runtime agents were closed,
+and the close row records `exit_reason: resolved`, `agents_spawned.total: 14`,
+and `loops_used: 1`.
 
-**Next human action:** reply `confirmed` to register and run this dispatch, or
-request edits to the strategy before registration.
+**Run result:** the accepted output is a BP-building research substrate, not the
+business plan itself. It establishes the BP anatomy by audience, build sequence,
+DomainSpec/CAV2 section mapping, Metric Trust / AI Work Readiness wedge model,
+financial-model checklist, diligence evidence registry, investor-safe language,
+forbidden claims, verdict matrix, and 30/60/90 witness queue.
+
+**Final approver:** Brandenburg returned `ACCEPT`, finding that `findings.md`
+answers how to build the BP, covers external BP/pitch/financial sources, maps
+the accepted DomainSpec/CAV2 evidence into BP sections, separates deck/full
+BP/operating plan/memo/data room/lender package, and preserves `claim <= proof`.
 
 ## Required Findings Shape
 
@@ -109,6 +119,10 @@ claims, and a verdict matrix for every BP section.
   - schema-v0.6.0 proposal, not yet registered.
 - `.arcanum/inventory/queries/2026-07-09-business-plan-build-research/CHECK-TENSION.md`
   - double-PASS gate report.
+- `.arcanum/inventory/queries/2026-07-09-business-plan-build-research/research.md`
+  - explorer transcript and research substrate.
+- `.arcanum/inventory/queries/2026-07-09-business-plan-build-research/findings.md`
+  - accepted BP-building research substrate.
 
 ## Residue
 
@@ -120,3 +134,7 @@ claims, and a verdict matrix for every BP section.
 - The compounding story should be researched as company reach and system
   capability, but final wording must remain bound to receipts, maturity labels,
   named checks, buyer witnesses, and financial assumptions.
+- The accepted substrate says to build the BP from one blocked decision, one
+  buyer pocket, one fixed-scope Metric Trust / AI Work Readiness offer, one
+  receipt bundle, one bottom-up sprint-unit model, and one 30/60/90 witness
+  queue.
