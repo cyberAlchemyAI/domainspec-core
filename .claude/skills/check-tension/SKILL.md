@@ -51,7 +51,7 @@ The axis vocabulary (closed — test 1 checks `anti_bias` against it):
 
 - **methodology** — empirical / formal / adversarial / historical / computational
 - **source-corpus** — e.g. arXiv-categorical / physics-journals / dissent-literature / textbook-canon / backward-citation-tree
-- **attack-vector** (skeptics only) — precedent / vacuity / definitional / scope / counter-example
+- **attack-vector** (red-team groups: any `skeptic` group, and the `explorer` **attacker** group of a `review` dispatch — in `review` the explorers *are* the red team) — precedent / vacuity / definitional / scope / counter-example
 - **temporal-prior** — modern-only / historical-lineage / mixed-with-decade-bins
 
 Per subject group — REJECT if any fires:
@@ -60,8 +60,11 @@ Per subject group — REJECT if any fires:
 - **Test 2 — clone.** No two `angle`s share the same core noun phrase — tokenize, drop
   stopwords, and the pair must yield ≥ 2 distinct primary verbs *or* nouns → else REJECT.
 - **Test 3 — spread.** `investigate`: ≥ 2 distinct axes across the angles; all sharing one
-  methodology *or* one corpus → REJECT. `evaluate`: no two skeptics share an attack-vector
-  (precedent + vacuity + definitional = three; three "find problems" = one) → else REJECT.
+  methodology *or* one corpus → REJECT. `evaluate`: no two **red-team agents** share an
+  attack-vector (precedent + vacuity + definitional = three; three "find problems" = one) →
+  else REJECT. A `review` dispatch's `explorer` attacker group takes the `evaluate` branch:
+  it attacks a fixed target from adversarial lenses, so its agents are red-team agents even
+  though their `role` is `explorer`.
 - **Test 4 — evidence.** Every unordered pair carries its predicted-disagreement sentence
   ("a_i runs X, a_j runs Y on the [axis] axis; a bias in a_i would be exposed by a_j") →
   else REJECT. Writing this per pair is what forces real tension instead of asserting it.
