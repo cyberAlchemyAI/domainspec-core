@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtemp } from 'node:fs/promises';
+import { mkdtemp, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { test } from 'node:test';
@@ -41,7 +41,10 @@ test('L0 workbench prepares, blocks, approves, and receipts a dry run', async ()
   try {
     const html = await fetch(`${base}/demo/l0`);
     assert.equal(html.status, 200);
-    assert.match(await html.text(), /L0 governed workbench/);
+    const document = await html.text();
+    assert.match(document, /Approval Desk/);
+    assert.match(document, /data-panel="proposals"/);
+    assert.match(document, /data-action="reject"/);
 
     const initial = await requestJson(base, '/api/state');
     assert.equal(initial.response.status, 200);
@@ -54,17 +57,36 @@ test('L0 workbench prepares, blocks, approves, and receipts a dry run', async ()
     assert.equal(prepared.response.status, 201);
     assert.equal(prepared.body.envelope.state, 'awaiting_approval');
 
-    const blocked = await requestJson(base, '/api/envelopes/run', { method: 'POST' });
+    const blocked = await requestJson(
+      base,
+      `/api/envelopes/${prepared.body.envelope.envelope_id}/run`,
+      { method: 'POST' }
+    );
     assert.equal(blocked.response.status, 409);
     assert.equal(blocked.body.error, 'approval_required');
 
     const approvalId = prepared.body.approval.approval_id;
     const approved = await requestJson(base, `/api/approvals/${approvalId}/approve`, {
       method: 'POST',
-      body: JSON.stringify({ approved_by: 'smoke-test' })
+      body: JSON.stringify({})
     });
     assert.equal(approved.response.status, 201);
     assert.equal(approved.body.receipt.status, 'passed');
+
+    const detail = await requestJson(
+      base,
+      `/api/proposals/${prepared.body.envelope.envelope_id}`
+    );
+    assert.equal(detail.response.status, 200);
+    assert.equal(detail.body.approval.state, 'consumed');
+    assert.equal(detail.body.receipts.length, 1);
+
+    const afterEvidence = await requestJson(
+      base,
+      detail.body.receipts[0].evidence.after
+    );
+    assert.equal(afterEvidence.response.status, 200);
+    assert.equal(afterEvidence.body.kind, 'approval.after');
 
     const finalState = await requestJson(base, '/api/state');
     assert.equal(finalState.body.current_envelope.state, 'passed');
@@ -72,5 +94,6 @@ test('L0 workbench prepares, blocks, approves, and receipts a dry run', async ()
     assert.ok(finalState.body.event_count >= 2);
   } finally {
     await close(server);
+    await rm(stateDir, { recursive: true, force: true });
   }
 });

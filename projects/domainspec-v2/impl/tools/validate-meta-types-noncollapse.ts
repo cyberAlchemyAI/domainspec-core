@@ -2,7 +2,7 @@
 /**
  * validate-meta-types-noncollapse.ts — DomainSpec v2 node non-collapse checker (PROPOSED). CLI wrapper.
  *
- * Pure logic lives in tools/lib/meta-type-noncollapse.ts. This file does the I/O: load the 14 schemas
+ * Pure logic lives in tools/lib/meta-type-noncollapse.ts. This file does the I/O: load the current schemas
  * and the DS-D8 relationship AUTHORITY, resolve edge participation from the authority (never raw schema
  * slices), then print verdicts + the acceptance matrix. Touches no live authority — a checker only.
  *
@@ -75,14 +75,22 @@ const hasCollapse = (x: string, y: string) =>
   );
 const enumFact = summary.facts.find((f) => f.name === "enum");
 const checks = [
-  { name: "MUST fire Saga~Workflow", ok: hasCollapse("Saga", "Workflow"), detail: "the one intended merge" },
+  {
+    name: "Current registry baseline has no collapse candidates",
+    ok: summary.collapses.length === 0,
+    detail: "authority-selected orchestration collapse is no longer an active pair lock",
+  },
   { name: "MUST NOT fire Entity~Value Object", ok: !hasCollapse("Entity", "Value Object"), detail: "separated by identity, not typedness" },
   {
     name: "MUST route Rule/Policy/Calculation to exception-lane",
     ok: ["rule", "policy", "calculation"].every((t) => summary.exceptionLane.map(normalize).includes(t)),
     detail: "owner-enumerated formal_return_type sort",
   },
-  { name: "Rule classification is TOTAL (no unclassified keyword)", ok: summary.unclassified.length === 0, detail: "all 7 on-disk keywords mapped" },
+  {
+    name: "Rule classification is TOTAL (no unclassified keyword)",
+    ok: summary.unclassified.length === 0,
+    detail: `all ${STRUCTURE_READING.size + ATTESTATION.size} supported keywords mapped`,
+  },
   {
     name: "Enum has a defined structural witness (not classifier-undefined)",
     ok: !!enumFact && enumFact.structKeys.size > 0 && !hasCollapseInvolving("enum"),

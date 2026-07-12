@@ -36,7 +36,7 @@ function verdictFor(pairs: ReturnType<typeof evaluatePairs>, a: string, b: strin
   );
 }
 
-// --- 1. a fresh, unknown duplicate collapses (not just the hard-coded Saga/Workflow) ------------
+// --- 1. a fresh, unknown duplicate collapses without a privileged named pair --------------------
 test("fresh duplicate: two attestation-only types identical but for a declared value collapse", () => {
   const schemas = [
     schema("Widget", { kind: { rule: "attribute-equals", key: "kind", value: "widget" } }),
@@ -90,17 +90,56 @@ test("anti-tautology: permuting every attestation value never changes any verdic
       identity: { rule: "at-least-one", column: "Identity" },
       note: { rule: "attribute-equals", key: "note", value: v1 },
     }),
-    schema("Saga", { scope: { rule: "attribute-equals", key: "scope", value: v2 } }),
-    schema("Workflow", { scope: { rule: "attribute-equals", key: "scope", value: v3 } }),
+    schema("Coordinator Alpha", { scope: { rule: "attribute-equals", key: "scope", value: v2 } }),
+    schema("Coordinator Beta", { scope: { rule: "attribute-equals", key: "scope", value: v3 } }),
   ];
-  const e = edges({ Entity: { source: ["owns"] }, Saga: { source: ["orchestrates"] }, Workflow: { source: ["orchestrates"] } });
+  const e = edges({
+    Entity: { source: ["owns"] },
+    "Coordinator Alpha": { source: ["orchestrates"] },
+    "Coordinator Beta": { source: ["orchestrates"] },
+  });
   const before = evaluatePairs(deriveFacts(build("x", "cross-feature", "intra-feature"), e, new Set()));
   // flip/permute every attestation value; witnesses must not move
   const after = evaluatePairs(deriveFacts(build("TOTALLY-DIFFERENT", "intra-feature", "cross-feature"), e, new Set()));
   assert.deepEqual(after, before);
   // and the collapse that legitimately rests on no-witness is still there, unmoved
-  assert.equal(verdictFor(after, "Saga", "Workflow")?.verdict, "collapse");
-  assert.equal(verdictFor(after, "Entity", "Saga")?.verdict, "distinct");
+  assert.equal(verdictFor(after, "Coordinator Alpha", "Coordinator Beta")?.verdict, "collapse");
+  assert.equal(verdictFor(after, "Entity", "Coordinator Alpha")?.verdict, "distinct");
+});
+
+test("attribute-one-of is attestation-only and invariant under allowed-value permutation", () => {
+  const build = (values: string[]): Schema[] => [
+    schema("Scoped Workflow", {
+      scope: { rule: "attribute-one-of", key: "scope", values },
+    }),
+    schema("Tagged Process", {
+      scope: { rule: "attribute-equals", key: "scope", value: "tagged" },
+    }),
+  ];
+  const beforeSchemas = build(["intra-feature", "cross-feature"]);
+  const afterSchemas = build(["cross-feature", "intra-feature"]);
+  assert.deepEqual(findUnclassifiedRules(beforeSchemas), []);
+
+  const beforeFacts = deriveFacts(beforeSchemas, NO_EDGES, new Set());
+  assert.equal(beforeFacts[0]?.attestationOnly, true);
+  assert.equal(beforeFacts[0]?.structKeys.size, 0);
+
+  const before = evaluatePairs(beforeFacts);
+  const after = evaluatePairs(deriveFacts(afterSchemas, NO_EDGES, new Set()));
+  assert.deepEqual(after, before);
+  assert.equal(verdictFor(after, "Scoped Workflow", "Tagged Process")?.verdict, "collapse");
+});
+
+test("attribute-nonempty/v1 is totally classified as attestation-only", () => {
+  const schemas = [
+    schema("Nonempty Probe", {
+      label: { rule: "attribute-nonempty/v1", key: "label" },
+    }),
+  ];
+  assert.deepEqual(findUnclassifiedRules(schemas), []);
+  const facts = deriveFacts(schemas, NO_EDGES, new Set());
+  assert.equal(facts[0]?.attestationOnly, true);
+  assert.equal(facts[0]?.structKeys.size, 0);
 });
 
 // --- 5. the classification is total: an unknown rule keyword is caught ---------------------------
@@ -123,16 +162,17 @@ test("W-edge: differing authority participation is distinct; identical participa
   assert.equal(verdictFor(same, "Operation", "Query")?.verdict, "collapse");
 });
 
-// --- 7. black-box: the real 14-type registry passes all acceptance criteria ---------------------
-test("real registry: CLI exits 0 with Saga~Workflow the sole collapse and all checks PASS", () => {
+// --- 7. black-box: the current registry passes all acceptance criteria ---------------------------
+test("real registry: CLI exits 0 with zero collapse candidates and all checks PASS", () => {
   const implRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../");
   const run = spawnSync(process.execPath, ["--import", "tsx", "tools/validate-meta-types-noncollapse.ts"], {
     cwd: implRoot,
     encoding: "utf-8",
   });
   assert.equal(run.status, 0, run.stdout + run.stderr);
-  assert.match(run.stdout, /collapse-candidate\(s\): 1/);
-  assert.match(run.stdout, /- Saga ~ Workflow/);
+  assert.match(run.stdout, /collapse-candidate\(s\): none/);
+  assert.match(run.stdout, /all 9 supported keywords mapped/);
+  assert.match(run.stdout, /Current registry baseline has no collapse candidates/);
   assert.equal((run.stdout.match(/\[PASS\]/g) || []).length, 5);
   assert.equal((run.stdout.match(/\[FAIL\]/g) || []).length, 0);
 });

@@ -2,7 +2,7 @@
 task_id: TASK-SGRM-CONTRACT
 feature_code: SGRM
 layer: L0
-status: not-started
+status: completed
 ---
 
 # TASK-SGRM-CONTRACT: Freeze Removal And Migration Contract

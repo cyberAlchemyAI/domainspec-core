@@ -26,6 +26,10 @@ claiming an IDE agent.
 - Founding research: complete.
 - Project scaffold: in place.
 - L0 server witness: minimal, local-only, no model key required.
+- L0 manual session bridge: bounded pilot ready; manual `poll`, singleton target,
+  late skill disclosure, read/preview-only grants, unattested local session, and
+  separate authorization/execution receipts. See the
+  [closure report](development/manual-session-bridge-plan/task-sessions/20260712T115410Z-task-verify-readiness/CLOSURE-REPORT.md).
 - L0.5 MCP/chat admission witness: next slice; fake/local stdio only, no
   external service, browser, provider, or network dependency.
 - Chrome MV3 browser-first extension: designed as later browser adapter lane

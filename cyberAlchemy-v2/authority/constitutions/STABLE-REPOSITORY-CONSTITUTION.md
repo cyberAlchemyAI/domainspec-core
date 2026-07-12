@@ -399,6 +399,84 @@ Non-examples:
 - Blocking a specialized expert interface with a generic density heuristic
   before false-positive calibration.
 
+### CAV2-C18. Artifact Admission Before Mutation
+
+Status: candidate
+Validation mode: hybrid
+Selection predicates: creation of a new folder, durable artifact, canonical
+artifact, or load-bearing artifact tree under `cyberAlchemy-v2/**`
+Derives from: [Artifact Tree Admission discipline](../../disciplines/cards/artifact-tree-admission.md),
+[CAV2-D42 governed artifact tree](../definitions/DEFINITIONS.md#cav2-d42-governed-artifact-tree),
+[CAV2-D51 canonical artifact](../definitions/DEFINITIONS.md#cav2-d51-canonical-artifact),
+and [CAV2-D52 artifact durability](../definitions/DEFINITIONS.md#cav2-d52-artifact-durability)
+
+Before a selected folder or artifact is created, the producing work must record
+an admission classification of `working` or `governed`. The record may live in
+the producing task or session, the artifact itself, its parent entrypoint, or a
+later owner-approved admission record. Children may inherit the parent's
+admission unless they claim a different role, kind, durability, authority
+posture, or owner.
+
+A `working` admission is non-canonical material inside an existing owner and
+work surface. It may be created without the full governed interface, but it may
+not claim durability, authority, reusable contract status, or a new repository
+area. If later work needs one of those effects, the object must be readmitted as
+`governed`.
+
+A `governed` admission must name:
+
+- initiating intent and why an existing artifact cannot absorb the work,
+- narrowest owning surface and parent entrypoint,
+- source boundary or provenance link,
+- canonical posture: either an enumerated canonical kind produced by its
+  declared process, or explicit non-canonical status,
+- for a canonical artifact, its `canonical_kind`, `authority_kind`,
+  `process_origin`, `durability`, and initial `authority_state`,
+- validation surface and unresolved residue,
+- next owner, challenge route, or drift route.
+
+The admission composes existing rules instead of replacing them:
+
+- a new durable area must also satisfy `CAV2-C7`;
+- a load-bearing tree must also satisfy `CAV2-C14`;
+- a canonical kind uses the current
+  [Canonical Kinds](../../ontology/CANONICAL-KINDS.md) process, rollup, and
+  durability contract;
+- an unenumerated kind remains non-canonical unless its owner route admits a
+  canonical-kind proposal;
+- top-level area creation, repository-role changes, canonical-kind extension,
+  authority-kind extension, and authority promotion defer to their owning gate.
+
+Admission verdicts use `pass`, `flag`, `block`, and `defer`. `Flag` permits a
+draft object to exist with named residue but prevents it from constraining
+future work, promoting knowledge, or claiming reusable authority. `Block`
+applies when the object claims an unearned canonical or authority posture, or
+performs an owner-gated extension without that owner decision. `Defer` applies
+when the owning surface or gate cannot yet be resolved.
+
+Examples:
+
+- A research dispatch creates an ephemeral `research` artifact under the
+  existing research surface, records its process origin and `authority_state:
+  none`, and links its evidence sources.
+- A new architecture package records a governed admission, adds its parent
+  entrypoint, and supplies the `CAV2-C14` interface before downstream agents use
+  it as a reusable pattern source.
+- A temporary comparison note is marked `working` in its task context and
+  remains non-canonical until a producing process deliberately readmits it.
+
+Non-examples:
+
+- Creating a top-level folder because its name sounds useful, without an owner
+  decision or repository-role change.
+- Declaring a document canonical through frontmatter when it was not produced
+  by the enumerated kind's process.
+- Assigning `perennial` durability to non-canonical working material.
+- Treating successful admission, a clean location, or a complete README as
+  authority promotion.
+- Requiring every scratch file inside an already admitted working surface to
+  repeat the full governed-artifact-tree interface.
+
 ## Validation Adapters
 
 | Rule | Adapter |
@@ -418,6 +496,7 @@ Non-examples:
 | CAV2-C13 | Edge proposal review plus schema amendment witness; future edge validator. |
 | CAV2-C14 | Governed artifact tree interface checklist plus owner-route review; future architecture package validator. |
 | CAV2-C15 | Interface evidence class checklist plus ux-evidence-validator review; future fixture-calibrated Playwright validator. |
+| CAV2-C18 | Admission classification and parent-entrypoint review; future validator against Canonical Kinds plus the `CAV2-C7` and `CAV2-C14` selectors. |
 
 ## Promotion Boundary
 

@@ -1,0 +1,61 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "mutationMode": "apply-approved",
+  "evidenceDate": "2026-07-12",
+  "sourceSignals": [
+    {
+      "id": "RSCW-001",
+      "source_path": "projects/ide-extension/development/session-content-canvas-design/DECISIONS.md",
+      "signal_type": "route_changed",
+      "target_artifacts": ["projects/ide-extension/development/session-content-canvas-design/"],
+      "claim": "V0 targets trusted local interactive HTML rather than sanitized Markdown.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "RSCW-002",
+      "source_path": "projects/ide-extension/development/session-content-canvas-design/DECISIONS.md",
+      "signal_type": "blocker_resolved",
+      "target_artifacts": ["projects/ide-extension/development/session-content-canvas-design/"],
+      "claim": "Separate active-session publish and event polling is confirmed.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "RSCW-003",
+      "source_path": "projects/ide-extension/development/session-content-canvas-design/session-content-canvas.dispatch.json",
+      "signal_type": "artifact_drift",
+      "target_artifacts": ["projects/ide-extension/development/session-content-canvas-design/session-content-canvas.dispatch.json"],
+      "claim": "The pre-pivot dispatch contradicts the accepted design and must be replaced.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "projects/ide-extension/development/session-content-canvas-design/"
+  ],
+  "deltaSummary": [
+    "route_changed:1",
+    "blocker_resolved:1",
+    "artifact_drift:1"
+  ],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "synchronized accepted HTML workbench design",
+    "replaced superseded dispatch",
+    "opened invoke plan route"
+  ],
+  "skippedChanges": [
+    "runtime implementation",
+    "source schemas and tests"
+  ],
+  "blockers": [],
+  "nextRoute": "invoke plan",
+  "validation": [
+    "decision-gate:pass",
+    "dispatch-spec:pass",
+    "json:pass",
+    "runtime-mutation:none"
+  ]
+}

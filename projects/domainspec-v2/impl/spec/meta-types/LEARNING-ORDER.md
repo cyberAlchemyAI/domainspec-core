@@ -5,25 +5,25 @@ status: candidate
 created: 2026-07-02
 authored_by: task-session (M1 — spec-comprehension-model)
 source:
-  - ./  (the per-type schema+md cards — the 14 backend meta-types)
-  - ../TAXONOMY.md  (the 25 meta-types, categories, "Backend Counterpart" shadow column)
+  - ./  (the per-type schema+md cards — the 13 active backend meta-types)
+  - ../TAXONOMY.md  (the 24 staged labels, categories, "Backend Counterpart" shadow column)
   - ../../../definitions/relationships/relationships.yml  (root relationship authority — 31 signatures; the edge reading-view below)
   - ../../../development/spec-comprehension-model/{DESIGN.md,ORDER.md}  (M1)
   - ../../../development/comprehension-novice-test/stall-dataset.md  (S1 individuation, S6 feature/context, S9)
-promotion_boundary: PUBLIC reading aid. Tiering is a LEARNING order, never a deletion — all 25 stay typed for the engine/validator. Proposed definitions (§4) promote to definitions-governance separately.
+promotion_boundary: PUBLIC reading aid. Tiering is a LEARNING order, never authority promotion — 13 backend types are active and 11 UI labels remain formation-deferred. Proposed definitions (§4) promote to definitions-governance separately.
 ---
 
 # Meta-type learning order — read this before authoring a spec
 
-DomainSpec has **25** meta-types, but an author does not meet them all at once. This is a **learning
-order**, not a new type system: every type below is still typed for the engine and validator. Tier is a
+DomainSpec currently has **13 active backend meta-types** and **11 formation-deferred UI labels**, but an author does not meet all staged labels at once. This is a **learning
+order**, not a new type system: backend types remain typed for the engine and validator; UI labels remain guidance. Tier is a
 **per-domain declarable lens** (Evans/Vernon: the same subdomain is core or generic depending on what the
 org does) — a UI-heavy product may promote UI types; a pure-backend service may leave them generic.
 
 **Tier ≠ category.** Category (Structural/Behavioral/Connective/Lifecycle/UI) is *where a type lives in the
 graph*; tier is *when you learn it*. Event is Connective by category but Core by tier.
 
-## 1. The three tiers (all 25)
+## 1. The three tiers (all 24 staged labels)
 
 ### CORE (6) — internalize these; one worked example each
 | Type | One-line | Category |
@@ -41,18 +41,17 @@ graph*; tier is *when you learn it*. Event is Connective by category but Core by
 | **Enum** | a Value Object that is a finite value *set* | Structural |
 | **Query** | an Operation that is **read-only** | Behavioral |
 | **Calculation** | an Operation that **returns a value**, changes nothing | Behavioral |
-| **Workflow** | orchestrates Operations **within one feature** | Behavioral |
+| **Workflow** | orchestrates Operations with declared **intra-feature or cross-feature** scope | Behavioral |
 | **Policy** | a Rule that **selects a strategy** instead of a boolean | Behavioral |
 | **Interface** | an exposed boundary (what the outside can call) | Connective |
 
-### GENERIC (13) — recognize + template; do not "learn" as vocabulary
-- **Saga** — a Workflow that spans features (a *scope* modifier, `@cross`).
+### GENERIC (12) — recognize + template; do not "learn" as vocabulary
 - **Mapping** — transforms fields between two shapes (has a direction).
 - **The 11 UI types** — Page, Layout, Component, View Model, Hook, Form, Action, Guard, Binding, Adapter,
   State Indicator. Five are **shadows of a backend type** (see §2); the rest are UI-structure you template,
   not model. *(A UI-led domain may promote Form/Component/Page to Supporting via the declarable lens.)*
 
-`6 core + 6 supporting + 13 generic = 25.` ✓
+`6 core + 6 supporting + 12 generic = 24.`
 
 ## 2. The 5 shadows — a one-line dictionary (but they keep their own edges)
 Per TAXONOMY's own "Backend Counterpart" column, five UI types mirror a backend type. Learn them as a
@@ -90,11 +89,11 @@ Modifiers: **`@cross`** = spans features (the `-cross` edges); **`@shadow`** = a
 The novice could not resolve these from the surface; here are **working definitions** (S6, S1). These are
 proposed for `definitions/DEFINITIONS.md` as DS-D terms — not yet canonical.
 
-- **feature / bounded context** *(resolves the Workflow↔Saga axis, S6):* a **feature** is the unit a spec
+- **feature / bounded context** *(defines Workflow scope, S6):* a **feature** is the unit a spec
   is authored for — one `impl/spec/features/<name>/` package with its own concept registry. **Intra-feature**
   = all concepts resolve inside one such package; **cross-feature** (`@cross`) = a relationship or process
-  whose endpoints live in two different packages. So: Workflow = intra-feature orchestration; Saga =
-  cross-feature. *(This is the operational meaning; a fuller DDD "bounded context" definition — a boundary
+  whose endpoints live in two different packages. A Workflow declares `intra-feature` or
+  `cross-feature` scope accordingly. *(This is the operational meaning; a fuller DDD "bounded context" definition — a boundary
   of language consistency — is a definitions-governance decision.)*
 - **concept individuation cue** *(where one concept/operation begins & ends, S1):* one **Entity** = one
   identity (one thing you'd reference by id). One **Operation** = one state-changing action with a single
@@ -104,8 +103,8 @@ proposed for `definitions/DEFINITIONS.md` as DS-D terms — not yet canonical.
   its own. *(A cue, not a decision procedure — individuation is genuinely a judgment; Evans concurs.)*
 
 ## 5. Boundary
-Tiering reorganizes **learning emphasis**; it deletes nothing. **Completeness lives in the type system**
-(the engine/validator ranges over all 25); **comprehensibility lives in this order.** The tier split is a
+Tiering reorganizes **learning emphasis**; it does not promote deferred labels. **Completeness lives in the active type system**
+(the engine/validator ranges over 13 backend types); **comprehensibility lives in this order.** The tier split is a
 per-domain declarable lens. Adding a machine-readable `tier:` field to each `.schema.yml` is a **deferred**
 follow-on — it must first confirm the schema validator accepts an optional field (else it regresses
 `validate:*`). Until then, this doc is the authority for tier.

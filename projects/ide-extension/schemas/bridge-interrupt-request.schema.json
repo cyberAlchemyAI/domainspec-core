@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/bridge-interrupt-request.schema.json",
+  "title": "ide-extension bridge interrupt request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "claim_id", "envelope_id", "session_ref", "assurance", "reason"],
+  "properties": {
+    "schema_version": { "const": "2" },
+    "claim_id": { "type": "string", "minLength": 1 },
+    "envelope_id": { "type": "string", "minLength": 1 },
+    "session_ref": { "type": "string", "minLength": 1, "maxLength": 200, "pattern": "^[A-Za-z0-9._:-]+$" },
+    "assurance": { "const": "unattested" },
+    "reason": { "type": "string", "minLength": 1, "maxLength": 500, "pattern": "\\S" }
+  }
+}

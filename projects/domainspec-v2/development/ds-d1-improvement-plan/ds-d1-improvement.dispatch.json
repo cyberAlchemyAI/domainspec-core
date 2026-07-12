@@ -2,7 +2,7 @@
   "dispatch_id": "domainspec-v2-ds-d1-improvement-plan",
   "intent": {
     "raw": "create an invoke plan to improve DS-D1 after the meta-type category-boundary findings",
-    "objective": "Plan a bounded route from the accepted staged-authority DS-D1 finding to maturity alignment, UI-11 decision/formalization, Saga/Workflow hardening, backend semantic-depth hardening, validator support, and closeout read-model sync.",
+    "objective": "Plan a bounded route from the accepted staged-authority DS-D1 finding to maturity alignment, UI-11 decision/formalization, the accepted Saga collapse route, backend semantic-depth hardening, validator support, and closeout read-model sync.",
     "target_artifact": "projects/domainspec-v2/development/ds-d1-improvement-plan"
   },
   "mode": "sequence",
@@ -38,7 +38,7 @@
       {
         "role_id": "backend-hardening-worker",
         "purpose": "Harden one high-risk backend type family with finite witnesses.",
-        "owns": "SWU-DSD1-008, SWU-DSD1-010, SWU-DSD1-011, or SWU-DSD1-012 only",
+        "owns": "SWU-DSD1-010, SWU-DSD1-011, or SWU-DSD1-012 only",
         "applies_to_steps": ["s6"]
       }
     ],
@@ -193,30 +193,30 @@
     },
     {
       "step_id": "s5",
-      "name": "Decide Saga fork",
+      "name": "Consume completed Saga collapse decision",
       "capability_ref": "decision-gate",
       "capability_status": "local-extension",
       "pattern": "decision",
       "techniques": ["authority_split_gate", "owner_boundary_check", "residue_ledger"],
       "inputs": [{"kind": "artifact", "ref": "SWU-DSD1-007"}],
-      "outputs": [{"kind": "decision", "ref": "Saga harden-or-collapse decision"}],
-      "evidence_artifact": "decision record for SWU-DSD1-007",
-      "stop_conditions": ["block if Saga is silently collapsed or claimed proven distinct from scope alone"]
+      "outputs": [{"kind": "decision", "ref": "Completed Saga collapse decision"}],
+      "evidence_artifact": "DEC-DSD1-SAGA-FORK plus SWU-DSD1-007 status",
+      "stop_conditions": ["block if the cancelled hardening branch is reopened or collapse is claimed complete before SGRM-008"]
     },
     {
       "step_id": "s6",
-      "name": "Execute Saga branch and backend hardening",
+      "name": "Continue backend hardening after Saga collapse routing",
       "capability_ref": "task-session",
       "pattern": "fanout",
       "parallel": true,
       "join_policy": "parent_synthesis",
       "techniques": ["scu_swu_reduction", "artifact_contract_bridge", "validation_loop", "execution_receipt_handoff"],
       "inputs": [
-        {"kind": "decision", "ref": "Saga harden-or-collapse decision"},
-        {"kind": "artifact", "ref": "SWU-DSD1-008..012"}
+        {"kind": "decision", "ref": "Completed Saga collapse decision and SGRM routing receipts"},
+        {"kind": "artifact", "ref": "SWU-DSD1-010..012"}
       ],
-      "outputs": [{"kind": "ledger", "ref": "Saga/backend hardening receipts"}],
-      "evidence_artifact": "Saga/backend hardening receipts",
+      "outputs": [{"kind": "ledger", "ref": "Backend hardening receipts"}],
+      "evidence_artifact": "Backend hardening receipts; Saga route evidence remains in SGRM",
       "stop_conditions": ["block if parallel workers touch overlapping schema or validator helpers without coordination"]
     },
     {
@@ -261,7 +261,7 @@
       "gate_id": "g3-saga-decision",
       "kind": "decision",
       "owner": "definitions-governance plus relationship authority owner",
-      "condition": "Saga mutation waits for explicit harden or collapse/deprecation decision.",
+      "condition": "Satisfied: collapse is selected; hardening is cancelled and repository-local migration is complete through SGRM-008.",
       "on_fail": "block"
     },
     {

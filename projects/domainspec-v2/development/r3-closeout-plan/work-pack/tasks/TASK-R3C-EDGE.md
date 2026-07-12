@@ -3,6 +3,7 @@
 Layer: L0.
 Slice: S-R3C-001.
 Wave: [W0](../waves/W0.md).
+Status: completed 2026-07-12.
 
 ## Objective
 
@@ -92,3 +93,9 @@ Edge cases:
 ## Synchronization
 
 After any SWU passes, update [WORK-PACK.md](../../WORK-PACK.md) status and preserve any coverage gaps.
+
+All three SWUs passed. The checker consumes root authority dynamically, the
+required authority states and endpoint cases are covered, and documentation is
+synchronized. Aggregate `validate` wiring remains deferred until a stable
+code-tag extraction input exists; second-corpus breadth moves to
+`SWU-R3C-004`.

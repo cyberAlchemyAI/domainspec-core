@@ -3,7 +3,7 @@ module: architecture-pattern-enforcement
 feature_code: APE
 version: current
 status: draft
-updatedAt: 2026-07-02
+updatedAt: 2026-07-12
 docType: implementation-layering
 ---
 
@@ -11,14 +11,15 @@ docType: implementation-layering
 
 Decision-first layering. L0 minimal; scope promotes only when evidence justifies it. The layer
 boundaries are chosen so the **node plane** (owned, stable) leads and the **edge plane**
-(now unblocked by R3A, still not implemented here) follows — the design's load-bearing split.
+(now dynamically authority-backed but still evidence-bounded) follows — the design's load-bearing split.
 
 ## Target And Scope
 
 - Target: architecture-pattern-enforcement (APE)
 - Scope: system (a cross-cutting validation discipline + its tooling)
-- Current state: brownfield — substrate owned and installed; L0 is witnessed on the financial-settlement
-  feature pack; L1 repeatability and dynamic edge-law enforcement remain.
+- Current state: brownfield — substrate owned and installed; L0 is witnessed on financial-settlement;
+  bounded dynamic edge-law enforcement is implemented; a normalized AEO second pack now proves
+  node/edge repeatability, while CI and card-layer repeatability remain.
 
 ## Layer Boundary Rule
 
@@ -38,10 +39,18 @@ boundaries are chosen so the **node plane** (owned, stable) leads and the **edge
 - Later layers preserve earlier guarantees: L2 edge checks must not weaken L0/L1 node checks.
 - Deferred scope stays explicit — do **not** pull C-B/C-C/C-F forward into L0/L1 to look complete.
 - Promotion decisions cite evidence, not preference (cav2 CAV2-D38, claim ≤ proof).
-- The node plane must remain independently shippable while edge-plane enforcement is pending.
+- The node plane must remain independently shippable while edge-plane evidence broadens.
+
+## Cross-Plan Execution Mapping
+
+APE keeps its own L0-L3 evidence semantics. The post-R3A closeout plan uses a separate local layer
+window: its completed L0 `SWU-R3C-001..003` realizes the bounded implementation part of APE
+capability C-B / slice S-004 by making the code-tag checker consume root DS-D8 dynamically. This
+does not supply second-corpus/real-pack evidence, relabel APE L2, complete APE L1, or make the
+two plans' layer numbers interchangeable.
 
 ## Recommended Next Layer
 
-- Next layer: **L1**
+- Next APE layer: **L1**, continuing with card/CI work after second-corpus evidence passed.
 - Key decision unlocked: can the witnessed validator stack repeat across another pack, with card evidence and CI gating?
-- Major deferred scope: the edge plane (C-B/C-C), promotion (C-E), and cross-project (C-F) — no longer gated on R3, but still gated on L1 repeatability, dynamic DS-D8 enforcement, and later formalism.
+- Major deferred scope: APE-wide edge-plane completion (C-B/C-C), promotion (C-E), and cross-project (C-F). Bounded dynamic C-B implementation completed through `SWU-R3C-001..003`; L1 repeatability and later formalism remain separate gates.

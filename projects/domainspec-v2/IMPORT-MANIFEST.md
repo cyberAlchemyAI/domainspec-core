@@ -54,6 +54,30 @@ REFORMULATE / 4 DROP**).
 | `ADLC-ALIGNMENT.md` | `impl/spec/` | REFORMULATE | pending | 27 |
 | Lean audit *method* (VLACHOPULOS/SMITHE) | v2 harness | REFORMULATE | pending | 19 (method only, not physics content) |
 
+## Batch 4 — backend pattern-card evidence staging — triaged 2026-07-12
+
+No legacy card was copied into authority. Each destination points to the
+non-authoritative [backend-card staging matrix](development/architecture-pattern-enforcement/cards/backend/README.md),
+which scopes reusable evidence and records unsafe residue. Triage states govern
+staging readiness; manifest verdict/status retain the import vocabulary above.
+
+| v1 source | v2 dest | verdict | status | batch | triage state |
+|---|---|---|---|---|---|
+| `architecture/pattern-library/concepts/backend/entity.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix | REFORMULATE | reformulation-pending | 4 | `evidence-ready` |
+| `architecture/pattern-library/concepts/backend/value-object.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix | REFORMULATE | pending | 4 | `staged-review` |
+| `architecture/pattern-library/concepts/backend/enum-type.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix | REFORMULATE | pending | 4 | `staged-review` |
+| `architecture/pattern-library/concepts/backend/operation.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix | REFORMULATE | pending | 4 | `staged-review` |
+| `architecture/pattern-library/concepts/backend/query.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix | REFORMULATE | reformulation-pending | 4 | `evidence-ready` |
+| `architecture/pattern-library/concepts/backend/calculation.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix | REFORMULATE | reformulation-pending | 4 | `evidence-ready` |
+| `architecture/pattern-library/concepts/backend/rule.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix | REFORMULATE | pending | 4 | `staged-review` |
+| `architecture/pattern-library/concepts/backend/policy.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix | REFORMULATE | pending | 4 | `staged-review` |
+| `architecture/pattern-library/concepts/backend/workflow.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix | REFORMULATE | pending | 4 | `staged-review` |
+| `architecture/pattern-library/concepts/backend/saga.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix (residue only) | DROP | dropped | 4 | `reject-or-superseded` |
+| `architecture/pattern-library/concepts/backend/interface.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix | REFORMULATE | reformulation-pending | 4 | `evidence-ready` |
+| `architecture/pattern-library/concepts/backend/event.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix | REFORMULATE | reformulation-pending | 4 | `evidence-ready` |
+| `architecture/pattern-library/concepts/backend/mapping.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix | REFORMULATE | pending | 4 | `staged-review` |
+| `architecture/pattern-library/concepts/backend/state-machine.md` @ `33859b561dc34e3d0b9cb3da76b6cb3d196daa65` | backend-card staging matrix | REFORMULATE | pending | 4 | `staged-review` |
+
 ## DROP — never imported
 
 | v1 capability | verdict | triage row |

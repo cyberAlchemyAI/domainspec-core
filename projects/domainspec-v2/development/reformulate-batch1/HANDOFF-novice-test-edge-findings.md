@@ -11,6 +11,13 @@ promotion_boundary: local; proposal only — the R3 owner decides. No files muta
 
 # Handoff → R3 — edge-law gaps found by USE (not by artifact review)
 
+## Current resolution note (2026-07-11)
+
+The earlier R3A resolution below was later superseded for Saga: the owner
+selected collapse into scoped Workflow, and the separate Saga relationship
+signature and hardening route were removed. The remaining handoff text is
+historical evidence from the pre-collapse surface.
+
 ## R3A resolution note (2026-07-02)
 This handoff has been consumed by R3A rather than rewritten:
 

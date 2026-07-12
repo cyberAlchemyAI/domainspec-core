@@ -34,8 +34,8 @@ observability all describe the same DS-D1 state.
 
 - Root definitions carry authority. Implementation files carry the necessary
   machine views for implementing and validating the authority.
-- Sync only what was actually executed. Deferred UI, Saga, or category-law work
-  remains explicit residue.
+- Sync only what was actually executed. Deferred UI/category-law work remains
+  explicit residue; SGRM-001..008 repository-local migration is complete.
 - Use receipts as evidence; do not infer completion from planned SWUs.
 
 ## Acceptance Evidence

@@ -7,6 +7,11 @@ docType: traceability
 
 # Traceability
 
+> **2026-07-11 supersession:** The accepted Saga collapse cancels every Saga-law
+> hardening route in this document. Saga-specific design text below is retained
+> as historical planning evidence only; `WORK-PACK.md` owns the active route.
+
+
 | Research Finding | Plan Response | Task/SWU |
 | --- | --- | --- |
 | First-class authority requires finite root law, not repeated arrows. | Keep root authority and add machine law fields. | SWU-R3H-001..010 |

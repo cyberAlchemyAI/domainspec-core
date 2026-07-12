@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/bridge-claim-request.schema.json",
+  "title": "ide-extension bridge claim request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "envelope_id", "agent_ref", "session_ref", "assurance"],
+  "properties": {
+    "schema_version": { "const": "2" },
+    "envelope_id": { "type": "string", "minLength": 1 },
+    "agent_ref": { "const": "codex.current-session" },
+    "session_ref": { "type": "string", "minLength": 1, "maxLength": 200, "pattern": "^[A-Za-z0-9._:-]+$" },
+    "assurance": { "const": "unattested" }
+  }
+}

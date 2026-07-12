@@ -3,7 +3,7 @@ node_type: design
 is_session: false
 status: candidate
 created: 2026-07-01
-authored_by: invoke (mode: design)
+authored_by: "invoke (mode: design)"
 define: ./DEFINE.md
 work_pack: ./WORK-PACK.md
 target_artifact: meta-type formalization + content validator
@@ -11,6 +11,11 @@ promotion_boundary: PUBLIC validation criteria; engine δ-rules private.
 ---
 
 # Design — Meta-Type Formalization
+
+> **Current authority update (2026-07-11):** The completed 14-type material below
+> records the formalization baseline at execution time. The accepted Saga
+> collapse supersedes its Saga-specific rows; active authority now has 13
+> backend types and Workflow carries declared intra-/cross-feature scope.
 
 ## 1. The per-type definition schema ("meta type value with its own category")
 

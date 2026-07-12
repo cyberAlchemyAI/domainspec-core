@@ -209,6 +209,115 @@ function writeExposesFixture(
   return extractionPath;
 }
 
+function writeAuthorityCaseFixture(
+  tempRoot: string,
+  {
+    edge,
+    sourceType,
+    targetType,
+  }: { edge: string; sourceType: string; targetType: string },
+): string {
+  const srcDir = join(tempRoot, "src");
+  mkdirSync(srcDir, { recursive: true });
+  writeFileSync(
+    join(srcDir, "concepts.ts"),
+    [
+      "export function sourceConcept() { return true; }",
+      "export function targetConcept() { return true; }",
+      "",
+    ].join("\n"),
+    "utf-8",
+  );
+
+  const extractionPath = join(tempRoot, `code-tags-${edge}.json`);
+  writeFileSync(
+    extractionPath,
+    JSON.stringify(
+      {
+        meta: {
+          generatedAt: new Date().toISOString(),
+          mode: "strict",
+          include: ["src"],
+          root: tempRoot,
+        },
+        tags: [
+          {
+            file: "src/concepts.ts",
+            line: 1,
+            symbol: "sourceConcept",
+            language: "ts",
+            concept: {
+              id: "authority.Source",
+              type: sourceType,
+            },
+            edges: [
+              {
+                edge,
+                to: "authority.Target",
+              },
+            ],
+          },
+          {
+            file: "src/concepts.ts",
+            line: 2,
+            symbol: "targetConcept",
+            language: "ts",
+            concept: {
+              id: "authority.Target",
+              type: targetType,
+            },
+            edges: [],
+          },
+        ],
+        issues: [],
+        stats: {
+          scannedFiles: 1,
+          taggedSymbols: 2,
+          issues: 0,
+        },
+      },
+      null,
+      2,
+    ) + "\n",
+    "utf-8",
+  );
+
+  return extractionPath;
+}
+
+function runAuthorityCase({
+  edge,
+  sourceType,
+  targetType,
+}: {
+  edge: string;
+  sourceType: string;
+  targetType: string;
+}) {
+  const tempRoot = mkdtempSync(
+    join(tmpdir(), "domainspec-composability-authority-test-"),
+  );
+  const extractionPath = writeAuthorityCaseFixture(tempRoot, {
+    edge,
+    sourceType,
+    targetType,
+  });
+  const result = runTsxScript([
+    composabilityScript,
+    "--input",
+    extractionPath,
+    "--mode",
+    "strict",
+    "--json",
+  ]);
+
+  return {
+    tempRoot,
+    result,
+    payload: JSON.parse(result.stdout),
+  };
+}
+
 test("check-code-tag-composability passes when operation calls enforcing rule", () => {
   const tempRoot = mkdtempSync(
     join(tmpdir(), "domainspec-composability-test-"),
@@ -232,6 +341,16 @@ test("check-code-tag-composability passes when operation calls enforcing rule", 
     assert.equal(payload.blockingIssues, 0);
     assert.equal(payload.checks, 1);
     assert.equal(payload.passedChecks, 1);
+    assert.equal(
+      payload.relationshipAuthority,
+      "../definitions/relationships/relationships.yml",
+    );
+    assert.equal(payload.activeSignatureCount, 30);
+    assert.equal(payload.generatedViewCount, 1);
+    assert.equal(payload.deprecatedCount, 1);
+    assert.equal(payload.deferredCount, 3);
+    assert.equal(payload.dynamicRuleCount, 9);
+    assert.equal(payload.unsupportedActiveSignatureCount, 26);
   } finally {
     rmSync(tempRoot, { recursive: true, force: true });
   }
@@ -321,6 +440,99 @@ test("check-code-tag-composability fails when interface does not call exposed op
     assert.equal(
       payload.report.some(
         (entry: { code: string }) => entry.code === "CT-COMP-004",
+      ),
+      true,
+    );
+  } finally {
+    rmSync(tempRoot, { recursive: true, force: true });
+  }
+});
+
+test("generated owned-by is rejected as a noncanonical authored edge", () => {
+  const { tempRoot, result, payload } = runAuthorityCase({
+    edge: "owned-by",
+    sourceType: "Entity",
+    targetType: "Entity",
+  });
+
+  try {
+    assert.equal(result.status, 1, result.stderr || result.stdout);
+    assert.equal(payload.ok, false);
+    assert.equal(payload.blockingIssues, 1);
+    assert.equal(payload.report[0]?.code, "CT-COMP-020");
+    assert.match(payload.report[0]?.message || "", /not a canonical authored edge/);
+  } finally {
+    rmSync(tempRoot, { recursive: true, force: true });
+  }
+});
+
+test("deprecated enforces-cross is rejected with replacement guidance", () => {
+  const { tempRoot, result, payload } = runAuthorityCase({
+    edge: "enforces-cross",
+    sourceType: "Rule",
+    targetType: "Operation",
+  });
+
+  try {
+    assert.equal(result.status, 1, result.stderr || result.stdout);
+    assert.equal(payload.ok, false);
+    assert.equal(payload.report[0]?.code, "CT-COMP-021");
+    assert.match(payload.report[0]?.message || "", /use 'enforces'/);
+  } finally {
+    rmSync(tempRoot, { recursive: true, force: true });
+  }
+});
+
+test("deferred depends-on is rejected as non-active DS-D8 authority", () => {
+  const { tempRoot, result, payload } = runAuthorityCase({
+    edge: "depends-on",
+    sourceType: "Entity",
+    targetType: "Entity",
+  });
+
+  try {
+    assert.equal(result.status, 1, result.stderr || result.stdout);
+    assert.equal(payload.ok, false);
+    assert.equal(payload.report[0]?.code, "CT-COMP-022");
+    assert.match(payload.report[0]?.message || "", /not active DS-D8 authority/);
+  } finally {
+    rmSync(tempRoot, { recursive: true, force: true });
+  }
+});
+
+test("active enforces with wrong endpoints is rejected as unconstructible", () => {
+  const { tempRoot, result, payload } = runAuthorityCase({
+    edge: "enforces",
+    sourceType: "Operation",
+    targetType: "Value Object",
+  });
+
+  try {
+    assert.equal(result.status, 1, result.stderr || result.stdout);
+    assert.equal(payload.ok, false);
+    assert.equal(payload.report[0]?.code, "CT-COMP-023");
+    assert.match(payload.report[0]?.message || "", /Unconstructible DS-D8 endpoint/);
+  } finally {
+    rmSync(tempRoot, { recursive: true, force: true });
+  }
+});
+
+test("active performs without call semantics reports a non-blocking coverage gap", () => {
+  const { tempRoot, result, payload } = runAuthorityCase({
+    edge: "performs",
+    sourceType: "Entity",
+    targetType: "Operation",
+  });
+
+  try {
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    assert.equal(payload.ok, true);
+    assert.equal(payload.blockingIssues, 0);
+    assert.equal(payload.report[0]?.code, "CT-COMP-024");
+    assert.match(payload.report[0]?.message || "", /coverage gap/);
+    assert.equal(
+      payload.unsupportedActiveSignatures.includes(
+        "performs:entity->operation",
       ),
       true,
     );

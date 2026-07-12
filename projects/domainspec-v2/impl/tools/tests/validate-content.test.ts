@@ -47,6 +47,52 @@ function aspect(concept: string, type: string, rows: string[]): string {
   ].join("\n");
 }
 
+function attributeAspect(valueRows: string[]): string {
+  return [
+    "# fixture",
+    "",
+    "## Concept Registry",
+    "| Concept | Type |",
+    "| --- | --- |",
+    "| Fulfillment | Scoped Workflow |",
+    "",
+    "## Fulfillment",
+    "| Attribute | Value |",
+    "| --- | --- |",
+    ...valueRows,
+    "",
+  ].join("\n");
+}
+
+function withRuleFixture(
+  schemaBody: string,
+  aspectBody: string,
+  run: (result: ReturnType<typeof runValidator>) => void,
+): void {
+  const dir = mkdtempSync(join(tmpdir(), "dsv2-rule-"));
+  try {
+    const schema = join(dir, "scoped-workflow.schema.yml");
+    const file = join(dir, "aspect.md");
+    writeFileSync(schema, schemaBody, "utf-8");
+    writeFileSync(file, aspectBody, "utf-8");
+    run(runValidator(["--schema-dir", dir, "--file", file]));
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+const ATTRIBUTE_ONE_OF_SCHEMA = [
+  "meta_type: Scoped Workflow",
+  "required_structure:",
+  "  attributes_table_columns: [Attribute, Value]",
+  "criterion:",
+  "  admitted_scope:",
+  "    rule: attribute-one-of",
+  "    key: scope",
+  "    values: [intra-feature, cross-feature]",
+  "",
+].join("\n");
+
 const ENTITY_OK = aspect("PaymentTransaction", "Entity", [
   "| id | UUID | yes | yes | identity |",
   "| amount | Money | yes |  | amount |",
@@ -128,6 +174,106 @@ test("cross-discrimination: identity-bearing concept rejected as Value Object", 
   });
 });
 
+for (const scope of ["intra-feature", "cross-feature"]) {
+  test(`attribute-one-of accepts exact admitted scope '${scope}'`, () => {
+    withRuleFixture(
+      ATTRIBUTE_ONE_OF_SCHEMA,
+      attributeAspect([`| SCOPE | ${scope.toUpperCase()} |`]),
+      (result) => {
+        assert.equal(result.status, 0, result.stdout + result.stderr);
+        assert.match(result.stdout, /PASS/);
+      },
+    );
+  });
+}
+
+test("attribute-one-of rejects an unknown value without partial matching", () => {
+  withRuleFixture(
+    ATTRIBUTE_ONE_OF_SCHEMA,
+    attributeAspect(["| scope | cross |"]),
+    (result) => {
+      assert.equal(result.status, 1, result.stdout + result.stderr);
+      assert.match(result.stdout, /expected one of \[intra-feature, cross-feature\]/);
+    },
+  );
+});
+
+test("attribute-one-of rejects a missing attribute", () => {
+  withRuleFixture(
+    ATTRIBUTE_ONE_OF_SCHEMA,
+    attributeAspect(["| owner | fulfillment |"]),
+    (result) => {
+      assert.equal(result.status, 1, result.stdout + result.stderr);
+      assert.match(result.stdout, /attribute 'scope' is not declared/);
+    },
+  );
+});
+
+test("attribute-one-of rejects an empty key", () => {
+  const malformed = ATTRIBUTE_ONE_OF_SCHEMA.replace("key: scope", 'key: ""');
+  withRuleFixture(malformed, attributeAspect(["| scope | intra-feature |"]), (result) => {
+    assert.equal(result.status, 1, result.stdout + result.stderr);
+    assert.match(result.stdout, /requires a non-empty 'key'/);
+  });
+});
+
+test("attribute-one-of rejects an empty values array", () => {
+  const malformed = ATTRIBUTE_ONE_OF_SCHEMA.replace(
+    "values: [intra-feature, cross-feature]",
+    "values: []",
+  );
+  withRuleFixture(malformed, attributeAspect(["| scope | intra-feature |"]), (result) => {
+    assert.equal(result.status, 1, result.stdout + result.stderr);
+    assert.match(result.stdout, /requires a non-empty 'values' string array/);
+  });
+});
+
+test("content validation rejects an unsupported criterion rule", () => {
+  const unsupported = ATTRIBUTE_ONE_OF_SCHEMA.replace("attribute-one-of", "attribute-maybe");
+  withRuleFixture(unsupported, attributeAspect(["| scope | intra-feature |"]), (result) => {
+    assert.equal(result.status, 1, result.stdout + result.stderr);
+    assert.match(result.stdout + result.stderr, /ui-repair-violations\/v1:UNKNOWN-RULE/);
+    assert.match(result.stdout + result.stderr, /unsupported rule 'attribute-maybe'/);
+  });
+});
+
+test("content schema preflight rejects a duplicate key before overwrite", () => {
+  for (const duplicateRules of [
+    "    rule: attribute-one-of\n    rule: attribute-present",
+    "    rule: attribute-present\n    rule: attribute-one-of",
+  ]) {
+    const duplicate = ATTRIBUTE_ONE_OF_SCHEMA.replace("    rule: attribute-one-of", duplicateRules);
+    withRuleFixture(duplicate, attributeAspect(["| scope | intra-feature |"]), (result) => {
+      assert.equal(result.status, 1, result.stdout + result.stderr);
+      assert.match(result.stdout + result.stderr, /ui-repair-violations\/v1:DUPLICATE-KEY/);
+      assert.match(result.stdout + result.stderr, /no precedence is defined/);
+    });
+  }
+});
+
+test("content schema preflight rejects contradictory criteria", () => {
+  const conflict = [
+    "meta_type: Scoped Workflow",
+    "required_structure:",
+    "  attributes_table_columns: [Attribute, Value]",
+    "criterion:",
+    "  fixed_scope:",
+    "    rule: attribute-equals",
+    "    key: scope",
+    "    value: external",
+    "  admitted_scope:",
+    "    rule: attribute-one-of",
+    "    key: scope",
+    "    values: [intra-feature, cross-feature]",
+    "",
+  ].join("\n");
+  withRuleFixture(conflict, attributeAspect(["| scope | external |"]), (result) => {
+    assert.equal(result.status, 1, result.stdout + result.stderr);
+    assert.match(result.stdout + result.stderr, /ui-repair-violations\/v1:CRITERIA-CONFLICT/);
+    assert.match(result.stdout + result.stderr, /fixed value 'external' is outside/);
+  });
+});
+
 // MT2 — Behavioral: each type's positive fixture passes, its neighbor-valued negative is rejected.
 for (const t of [
   "operation",
@@ -136,7 +282,6 @@ for (const t of [
   "rule",
   "policy",
   "workflow",
-  "saga",
 ]) {
   test(`Behavioral ${t} fixtures behave (ok passes, bad rejected)`, () => {
     const ok = runValidator(["--file", `spec/__fixtures__/mt/${t}-ok.md`]);

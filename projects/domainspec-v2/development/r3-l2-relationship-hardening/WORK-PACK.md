@@ -3,13 +3,20 @@ module: r3-l2-relationship-hardening
 feature_code: R3H
 version: current
 status: draft
-updatedAt: 2026-07-02
+updatedAt: 2026-07-11
 docType: work-pack
 observedCapability: invoke
 invokeMode: plan
 ---
 
 # WORK-PACK: R3/L2 Relationship Hardening
+
+## Route Update: 2026-07-11
+
+The accepted Saga collapse supersedes the Saga-law slice. TASK-R3H-SAGA-LAWS
+and SWU-R3H-006/007 are cancelled/not-selected and remain only as historical
+planning evidence. Active R3H execution covers signature identity, Entity
+relationship semantics, projection synchronization, and verification.
 
 Canonical executable plan for addressing the relationship/category research findings. This plan is
 non-mutating until a later `task-session` executes one SWU.
@@ -36,7 +43,7 @@ non-mutating until a later `task-session` executes one SWU.
 - Primary inputs: [DESIGN.md](DESIGN.md), [IMPLEMENTATION-LAYERING.md](IMPLEMENTATION-LAYERING.md),
   [findings.md](../r3-research/l2-first-class-categories-cross-domain/findings.md), and
   [relationships.yml](../../definitions/relationships/relationships.yml).
-- Success condition: active relationship signatures have stable identity; `owns`, `belongs-to`, and Saga
+- Success condition: active relationship signatures have stable identity; `owns` and `belongs-to`
   obligations have finite machine/human law; deferred candidates remain deferred; validation passes.
 
 ## Planning Mapping
@@ -56,8 +63,8 @@ non-mutating until a later `task-session` executes one SWU.
 | --- | --- | --- | --- | --- | --- |
 | S-R3H-001 | Stable signature identity without breaking human edge verbs | L0 | [W0](work-pack/waves/W0.md) | none | `npm --prefix projects/domainspec-v2/impl run tools:test`; focused duplicate-key fixture/review |
 | S-R3H-002 | `owns` and `belongs-to` hardened with finite law fields | L1 | [W1](work-pack/waves/W1.md) | S-R3H-001 | `validate:rels`, `tools:test`, review root examples |
-| S-R3H-003 | Saga orchestration hardened with participant and compensation obligations | L2 | [W2](work-pack/waves/W2.md) | S-R3H-001 | Saga fixture/review plus `validate:rels` |
-| S-R3H-004 | Human/projection docs and deferred residue synchronized | L3 | [W3](work-pack/waves/W3.md) | S-R3H-001..003 | `validate:docs`, `validate`, `git diff --check` |
+| S-R3H-003 | Superseded Saga-law slice retained as historical planning evidence | L2 | [W2](work-pack/waves/W2.md) | none | cancelled/not-selected by accepted collapse |
+| S-R3H-004 | Human/projection docs and deferred residue synchronized | L3 | [W3](work-pack/waves/W3.md) | S-R3H-001..002 | `validate:docs`, `validate`, `git diff --check` |
 | S-R3H-005 | Final R3H closeout receipt | L3 | [W3](work-pack/waves/W3.md) | S-R3H-004 | command receipts and traceability review |
 
 ## Task Status Board
@@ -66,8 +73,8 @@ non-mutating until a later `task-session` executes one SWU.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [TASK-R3H-IDENTITY](work-pack/tasks/TASK-R3H-IDENTITY.md) | Add stable machine identity for active signatures | L0 | medium | [W0](work-pack/waves/W0.md) | root relationships, validator loader | ready | not-started |
 | [TASK-R3H-ENTITY-SEMANTICS](work-pack/tasks/TASK-R3H-ENTITY-SEMANTICS.md) | Harden `owns` and `belongs-to` without splitting current authoring surface | L1 | medium | [W1](work-pack/waves/W1.md) | research findings, root relations | ready-after-identity | not-started |
-| [TASK-R3H-SAGA-LAWS](work-pack/tasks/TASK-R3H-SAGA-LAWS.md) | Make Saga first-class obligations structural | L2 | medium | [W2](work-pack/waves/W2.md) | Saga research and root relation | ready-after-identity | not-started |
-| [TASK-R3H-PROJECTION-VALIDATION](work-pack/tasks/TASK-R3H-PROJECTION-VALIDATION.md) | Sync projection, docs, fixtures, and validation surfaces | L2/L3 | medium | [W2](work-pack/waves/W2.md), [W3](work-pack/waves/W3.md) | implementation projection and tests | ready-after-law-fields | not-started |
+| [TASK-R3H-SAGA-LAWS](work-pack/tasks/TASK-R3H-SAGA-LAWS.md) | Retain superseded Saga-law plan as evidence | L2 | medium | [W2](work-pack/waves/W2.md) | accepted collapse decision | closed | superseded-cancelled |
+| [TASK-R3H-PROJECTION-VALIDATION](work-pack/tasks/TASK-R3H-PROJECTION-VALIDATION.md) | Sync projection, docs, fixtures, and validation surfaces | L2/L3 | medium | [W2](work-pack/waves/W2.md), [W3](work-pack/waves/W3.md) | implementation projection and tests | ready-after-active-law-fields | not-started |
 | [TASK-R3H-VERIFY](work-pack/tasks/TASK-R3H-VERIFY.md) | Complete validation and research closeout receipt | L3 | low | [W3](work-pack/waves/W3.md) | all R3H tasks | ready-after-implementation | not-started |
 
 ## SWU Manifest
@@ -75,15 +82,15 @@ non-mutating until a later `task-session` executes one SWU.
 | SWU ID | Parent Task | Source Anchors | Related Context | Dependencies | Write Scope | Done Criteria | Acceptance Evidence | Validation Surface | Execution Owner | Handoff Status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | SWU-R3H-001 | [TASK-R3H-IDENTITY](work-pack/tasks/TASK-R3H-IDENTITY.md) | `definitions/relationships/relationships.yml`; `impl/tools/lib/relationship-signatures.ts` | duplicate `orchestrates` risk | none | `projects/domainspec-v2/definitions/relationships/relationships.yml`; `projects/domainspec-v2/impl/tools/lib/relationship-signatures.ts` | Active signatures have unique `signature_key`; `id` still drives authored graph rows. | Loader rejects duplicate/missing keys or review check records migration exception. | `npm --prefix projects/domainspec-v2/impl run tools:test` | local-fallback | selected-first |
-| SWU-R3H-002 | [TASK-R3H-IDENTITY](work-pack/tasks/TASK-R3H-IDENTITY.md) | `impl/tools/tests/validate-relationships.test.ts`; relationship fixtures | endpoint matching by id list | SWU-R3H-001 | `projects/domainspec-v2/impl/tools/tests/`; `projects/domainspec-v2/impl/spec/__fixtures__/relationships/` | Tests prove Workflow and Saga can share `id: orchestrates` without identity collapse. | Focused positive and negative tests pass. | `npm --prefix projects/domainspec-v2/impl run tools:test` | local-fallback | ready-after-001 |
+| SWU-R3H-002 | [TASK-R3H-IDENTITY](work-pack/tasks/TASK-R3H-IDENTITY.md) | `impl/tools/tests/validate-relationships.test.ts`; relationship fixtures | endpoint matching by typed signature | SWU-R3H-001 | `projects/domainspec-v2/impl/tools/tests/`; `projects/domainspec-v2/impl/spec/__fixtures__/relationships/` | Tests prove active signature identity and reject duplicate keys without relying on a removed type. | Focused positive and negative tests pass. | `npm --prefix projects/domainspec-v2/impl run tools:test` | local-fallback | ready-after-001 |
 | SWU-R3H-003 | [TASK-R3H-ENTITY-SEMANTICS](work-pack/tasks/TASK-R3H-ENTITY-SEMANTICS.md) | `relationships.yml` `owns`; `findings.md` attention point 2 | observable ownership consequences | SWU-R3H-001 | `projects/domainspec-v2/definitions/relationships/relationships.yml`; docs if needed | `owns` declares `authority_effects` and examples/non-examples tie to those effects. | Root review shows at least one observable effect and no inverse collapse. | `validate:rels`; metadata review or tool test | local-fallback | ready-after-001 |
 | SWU-R3H-004 | [TASK-R3H-ENTITY-SEMANTICS](work-pack/tasks/TASK-R3H-ENTITY-SEMANTICS.md) | `relationships.yml` `belongs-to`; first-class boundary findings | polysemy risk | SWU-R3H-001 | `projects/domainspec-v2/definitions/relationships/relationships.yml`; `relationships.md` | `belongs-to` declares `semantic_kinds` for membership, classification, and home assignment with examples/non-examples. | Docs state split trigger if one law cannot cover the kinds. | `validate:docs`; review check | local-fallback | ready-after-001 |
 | SWU-R3H-005 | [TASK-R3H-ENTITY-SEMANTICS](work-pack/tasks/TASK-R3H-ENTITY-SEMANTICS.md) | validator library | metadata obligations | SWU-R3H-003, SWU-R3H-004 | `projects/domainspec-v2/impl/tools/lib/relationship-signatures.ts`; tests | Loader/validator reports missing required hardening metadata for targeted signatures. | Seeded fixture or unit test fails before/pass after. | `npm --prefix projects/domainspec-v2/impl run tools:test` | local-fallback | ready-after-003-004 |
-| SWU-R3H-006 | [TASK-R3H-SAGA-LAWS](work-pack/tasks/TASK-R3H-SAGA-LAWS.md) | Saga `orchestrates`; DCB proof obligations if used | participant and compensation law | SWU-R3H-001 | `projects/domainspec-v2/definitions/relationships/relationships.yml`; `relationships.md` | Saga signature has structural `saga_obligations` for participants, ordered operations, compensation, failure residue, temporal safety, and owner boundary. | Root review shows all minimum fields. | `validate:rels`; review check | local-fallback | ready-after-001 |
-| SWU-R3H-007 | [TASK-R3H-SAGA-LAWS](work-pack/tasks/TASK-R3H-SAGA-LAWS.md) | validator tests and fixtures | Saga not Workflow metadata | SWU-R3H-006 | `projects/domainspec-v2/impl/tools/tests/`; fixture paths | Tests or review checks prove Saga obligations are required for Saga `orchestrates`. | Missing-obligation case blocks; valid Saga edge passes. | `npm --prefix projects/domainspec-v2/impl run tools:test`; `validate:rels` | local-fallback | ready-after-006 |
-| SWU-R3H-008 | [TASK-R3H-PROJECTION-VALIDATION](work-pack/tasks/TASK-R3H-PROJECTION-VALIDATION.md) | `relationships.md`; `impl/spec/RELATIONSHIPS.md` | projection sync | SWU-R3H-003..007 | `projects/domainspec-v2/definitions/relationships/relationships.md`; `projects/domainspec-v2/impl/spec/RELATIONSHIPS.md` | Human root and implementation projection mention identity policy, `owns` effects, `belongs-to` semantic kinds, Saga obligations, and deferred residues. | Docs validate and wording does not move authority into `impl/`. | `npm --prefix projects/domainspec-v2/impl run validate:docs` | local-fallback | ready-after-law-fields |
+| SWU-R3H-006 | [TASK-R3H-SAGA-LAWS](work-pack/tasks/TASK-R3H-SAGA-LAWS.md) | superseded Saga-law proposal | none | none | none | Do not execute after accepted collapse. | Governing decision and SGRM route. | status review | none | cancelled-not-selected |
+| SWU-R3H-007 | [TASK-R3H-SAGA-LAWS](work-pack/tasks/TASK-R3H-SAGA-LAWS.md) | superseded Saga-law validation proposal | none | none | none | Do not execute after accepted collapse. | Governing decision and SGRM route. | status review | none | cancelled-not-selected |
+| SWU-R3H-008 | [TASK-R3H-PROJECTION-VALIDATION](work-pack/tasks/TASK-R3H-PROJECTION-VALIDATION.md) | `relationships.md`; `impl/spec/RELATIONSHIPS.md` | projection sync | SWU-R3H-003..005 | `projects/domainspec-v2/definitions/relationships/relationships.md`; `projects/domainspec-v2/impl/spec/RELATIONSHIPS.md` | Human root and implementation projection mention identity policy, `owns` effects, `belongs-to` semantic kinds, and deferred residues. | Docs validate and wording does not move authority into `impl/`. | `npm --prefix projects/domainspec-v2/impl run validate:docs` | local-fallback | ready-after-active-law-fields |
 | SWU-R3H-009 | [TASK-R3H-PROJECTION-VALIDATION](work-pack/tasks/TASK-R3H-PROJECTION-VALIDATION.md) | deferred list in root and research findings | residue routing | SWU-R3H-008 | `projects/domainspec-v2/definitions/relationships/`; optional R3H closeout note | Deferred candidates record witness criteria and owner route; no deferred edge becomes active. | Traceability table maps each research finding to closed/deferred. | review check; `validate:docs` | manual | ready-after-008 |
-| SWU-R3H-010 | [TASK-R3H-VERIFY](work-pack/tasks/TASK-R3H-VERIFY.md) | all touched files and command surfaces | closeout | SWU-R3H-001..009 | R3H receipt artifact only unless validation fixes needed | Final receipt records files touched, command results, unresolved gaps, and next route to R3C. | `validate:rels`, `tools:test`, `validate:docs`, `validate`, `git diff --check` pass or blockers recorded. | command suite | local-fallback | ready-after-implementation |
+| SWU-R3H-010 | [TASK-R3H-VERIFY](work-pack/tasks/TASK-R3H-VERIFY.md) | all active touched files and command surfaces | closeout | SWU-R3H-001..005, SWU-R3H-008..009 | R3H receipt artifact only unless validation fixes needed | Final receipt records files touched, command results, cancelled Saga lane, unresolved gaps, and next route to R3C. | `validate:rels`, `tools:test`, `validate:docs`, `validate`, `git diff --check` pass or blockers recorded. | command suite | local-fallback | ready-after-implementation |
 
 ## Blockers And Gaps
 
@@ -99,7 +106,7 @@ non-mutating until a later `task-session` executes one SWU.
 | --- | --- | --- | --- |
 | sequence | design -> layering -> work-pack -> task-session handoff | Each task consumes prior design/layer decisions. | pass |
 | scu_swu_reduction | SWU manifest | SWU-R3H-001 is the first executable unit and every SWU has one parent task. | pass |
-| recomposition_proof | R3H unit -> root relationship authority -> R3 closeout | Tasks recompose into the approved design and broader closeout without reopening R3A. | pass |
+| recomposition_proof | R3H unit -> root relationship authority -> R3 closeout | Active tasks recompose after removing the superseded Saga-law lane. | pass |
 | validation_loop | every delivery slice | Each slice has command or review evidence. | pass |
 | owner_boundary_check | Invoke vs Task Session vs root authority | Invoke authors plan; Task Session executes; root definitions own authority. | pass |
 | handle_handoff | next route | Handoff uses artifact paths and SWU IDs, not copied context. | pass |
@@ -113,7 +120,7 @@ See [DISTILL-VALIDATION.md](DISTILL-VALIDATION.md).
 | Check | Result | Evidence Or Gap |
 | --- | --- | --- |
 | Smallest coherent unit or SWU boundary | pass | SWU-R3H-001 is small and unlocks every later metadata check. |
-| Recomposition proof | pass | Identity, entity semantics, Saga laws, projection sync, and verification recompose into the design. |
+| Recomposition proof | pass | Identity, entity semantics, projection sync, and verification recompose after the Saga-law cancellation. |
 | Hidden acceptance-critical gaps | pass | `belongs-to` split and full category laws are explicitly deferred, not required for R3H completion. |
 | Deferred complexity | pass | No full category law, per-instance graph metadata, or future candidate promotion is pulled into L0-L3. |
 | Navigation to first executable unit | pass | Start with [TASK-R3H-IDENTITY](work-pack/tasks/TASK-R3H-IDENTITY.md), SWU-R3H-001. |
@@ -138,9 +145,11 @@ See [DISTILL-VALIDATION.md](DISTILL-VALIDATION.md).
 4. Do not promote `depends-on`, Operation-returned Value Object, Event payload/publisher composite, or category laws in this work-pack.
 5. Keep `id` as human edge verb and `signature_key` as machine identity.
 6. Work-pack completion requires validation receipts or concrete blockers for every command in SWU-R3H-010.
+7. Do not schedule TASK-R3H-SAGA-LAWS or SWU-R3H-006/007; they are superseded historical planning evidence.
 
 ## Change Log
 
 | Date | Change | Author |
 | --- | --- | --- |
+| 2026-07-11 | Cancelled the Saga-law task/SWUs after accepted collapse and removed them from active dependencies and gates. | task-session |
 | 2026-07-02 | Initial invoke design and plan package created from R3/L2 relationship research findings. | invoke |

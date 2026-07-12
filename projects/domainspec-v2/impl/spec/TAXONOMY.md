@@ -1,10 +1,10 @@
 # Meta-Concept Taxonomy
 
-> The 25 building blocks for describing any domain — 14 backend and 11 UI. Every concept in your system maps to exactly one of these types.
+> The current staged vocabulary has 24 labels: 13 active backend meta-types and 11 formation-deferred UI labels. Backend concepts map to one active type; UI labels remain guidance until separately formalized.
 
 ## Overview
 
-### Backend Meta-Concepts (14)
+### Backend Meta-Concepts (13)
 
 | Category       | Meta-Concept  | Purpose                                          |
 | -------------- | ------------- | ------------------------------------------------ |
@@ -16,8 +16,7 @@
 |                | Calculation   | Derives a value from inputs                      |
 |                | Rule          | Business constraint or validation                |
 |                | Policy        | Decision logic that selects behavior             |
-|                | Workflow      | Multi-step orchestration of operations           |
-|                | Saga          | Cross-feature transactional orchestration        |
+|                | Workflow      | Multi-step orchestration with declared scope     |
 | **Connective** | Interface     | API boundary — REST, GraphQL, module contract    |
 |                | Event         | Notification of something that happened          |
 |                | Mapping       | Data transformation between shapes               |
@@ -200,11 +199,11 @@ _When to use:_ If the system needs to choose between strategies based on context
 
 ### Workflow
 
-A multi-step process that orchestrates multiple operations in sequence, with decision points, parallel paths, and compensation logic (undoing completed steps if a later step fails). Workflows are scoped to a single feature or bounded context.
+A multi-step process that orchestrates multiple operations in sequence, with decision points, parallel paths, and compensation logic (undoing completed steps if a later step fails). A Workflow declares whether its scope is `intra-feature` or `cross-feature`.
 
 > _Examples:_ OrderFulfillment (charge → reserve → ship → notify), UserOnboarding (register → verify email → setup profile), RefundProcess (validate → reverse charge → update inventory → notify)
 
-_When to use:_ If it involves more than one operation coordinated across time or services within one feature, it's a workflow. Use Saga when orchestration crosses feature or bounded-context ownership.
+_When to use:_ If it involves more than one operation coordinated across time or services, model it as a Workflow and declare the scope. Use `cross-feature` when orchestration crosses feature or bounded-context ownership.
 
 **Documented in:** `workflows.md`
 **Template:** [templates/workflows.md](templates/workflows.md)
@@ -216,27 +215,6 @@ _When to use:_ If it involves more than one operation coordinated across time or
 - Policies at decision points
 - Compensation table (how to undo completed steps)
 - Invariants
-
-### Saga
-
-A long-running coordination process that orchestrates operations across multiple features or bounded contexts, with explicit compensation for partial failures. A saga owns cross-feature progression and rollback semantics.
-
-> _Examples:_ OrderFulfillmentSaga (ordering → payment → shipping), WireTransferSaga (accounts → compliance → transfer), DeliveryOrderSaga (order → dispatch → payment)
-
-_When to use:_ If orchestration spans ownership boundaries and requires cross-feature consistency guarantees, model it as a saga.
-
-**Documented in:** `workflows.md`
-**Template:** [templates/workflows.md](templates/workflows.md)
-
-**Typical structure:**
-
-- Participant features/bounded contexts
-- Forward-step sequence with entry/exit conditions
-- Compensation step per participant
-- Cross-context failure handling and retry/dead-letter policy
-- End-state invariants across participants
-
----
 
 ## Connective — How things communicate
 
@@ -549,8 +527,7 @@ _When to use:_ If a domain enum or state machine value needs a visual encoding (
 | A formula that computes a value       | Calculation   | operations.md          |
 | A condition that blocks an action     | Rule          | operations.md (inline) |
 | A strategy that chooses behavior      | Policy        | workflows.md           |
-| Multiple steps coordinated in one feature | Workflow  | workflows.md           |
-| Cross-feature transactional coordination | Saga       | workflows.md           |
+| Multiple steps coordinated with declared scope | Workflow | workflows.md        |
 | A boundary where data crosses         | Interface     | interfaces.md          |
 | A signal that something happened      | Event         | events.md              |
 | A shape conversion between boundaries | Mapping       | mappings.md            |
@@ -581,7 +558,6 @@ _When to use:_ If a domain enum or state machine value needs a visual encoding (
 | Rule        | vs. | Policy       | Rules **block** (yes/no). Policies **choose** (which strategy).                       |
 | Entity      | vs. | Value Object | Entities have **IDs**. Value objects are equal by **fields**.                         |
 | Operation   | vs. | Workflow     | Operations are **single actions**. Workflows **orchestrate multiple** operations.     |
-| Workflow    | vs. | Saga         | Workflows coordinate **within one feature**. Sagas coordinate **across features/contexts**. |
 | Event       | vs. | Operation    | Operations **cause** change. Events **announce** that change happened.                |
 | Calculation | vs. | Rule         | Calculations **produce values**. Rules **check conditions**.                          |
 | Interface   | vs. | Mapping      | Interfaces define the **boundary**. Mappings define the **transformation** across it. |
@@ -619,8 +595,7 @@ This appendix maps each meta-concept to an implementation pattern in a clean, la
 | Calculation   | Domain                  | pure deterministic function                                    |
 | Rule          | Domain                  | pure predicate function (`boolean`)                            |
 | Policy        | Domain                  | strategy selection function                                    |
-| Workflow      | Application             | intra-feature orchestrator function with compensation stack    |
-| Saga          | Application             | cross-feature orchestration function with compensation policy  |
+| Workflow      | Application             | scoped orchestrator function with compensation policy          |
 | Interface     | Interface / Adapters    | boundary handlers (HTTP/RPC/module) that call use-cases        |
 | Event         | Domain + Infrastructure | event payload type in domain + publisher adapter in infra      |
 | Mapping       | Infrastructure          | pure shape transformation functions                            |

@@ -10,6 +10,11 @@ mode: validate
 
 # Distill Validation: R3/L2 Relationship Hardening Plan
 
+> **2026-07-11 supersession:** The accepted Saga collapse cancels every Saga-law
+> hardening route in this document. Saga-specific design text below is retained
+> as historical planning evidence only; `WORK-PACK.md` owns the active route.
+
+
 ## Distill Result
 
 - Target context: DomainSpec-v2 R3/L2 relationship authority after first-class category research.

@@ -2,25 +2,25 @@
 meta_type: Workflow
 category: behavioral
 companion: workflow.md
-code_pattern: multi-step orchestration of operations within one feature (intra-feature)
+code_pattern: ordered multi-step orchestration within or across declared feature boundaries
 
 required_structure:
   attributes_table_columns: [Attribute, Value]
 
 criterion:
-  intra_feature:
-    rule: attribute-equals
+  admitted_scope:
+    rule: attribute-one-of
     key: scope
-    value: intra-feature
+    values: [intra-feature, cross-feature]
 
 distinguisher:
-  vs: Saga
-  rule: a Workflow orchestrates within one feature (scope=intra-feature); a Saga spans features
+  vs: Operation
+  rule: a Workflow coordinates multiple ordered operations; an Operation is one state-changing action
 
 edge_participation:
   source_of: [orchestrates]
   target_of: []
 
 fixtures:
-  positive: spec/__fixtures__/mt/workflow-ok.md
+  positive: [spec/__fixtures__/mt/workflow-ok.md, spec/__fixtures__/mt/workflow-cross-feature-ok.md]
   negative: spec/__fixtures__/mt/workflow-bad.md

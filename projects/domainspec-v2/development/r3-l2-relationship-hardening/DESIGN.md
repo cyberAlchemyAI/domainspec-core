@@ -12,6 +12,11 @@ targetOwner: domainspec-v2 relationship authority
 
 # Architecture Bundle: R3/L2 Relationship Hardening
 
+> **2026-07-11 supersession:** The accepted Saga collapse cancels every Saga-law
+> hardening route in this document. Saga-specific design text below is retained
+> as historical planning evidence only; `WORK-PACK.md` owns the active route.
+
+
 ## Design Intent
 
 Address the first-class category and relationship research findings without reopening R3 root authority.

@@ -68,15 +68,15 @@ test('AR-CAND-001 does not persist caller-selected approval attribution', async 
   await withServer(async ({ base }) => {
     const prepared = await prepare(base, { task: 'Attribution boundary' });
     const approvalId = prepared.body.approval.approval_id;
-    const approved = await approve(base, approvalId, { approved_by: 'same-principal' });
+    const spoofed = await approve(base, approvalId, { approved_by: 'same-principal' });
+    assert.equal(spoofed.response.status, 400);
+    assert.equal(spoofed.body.error, 'invalid_request');
+
+    const approved = await approve(base, approvalId);
     assert.equal(approved.response.status, 201);
 
     const state = await readState(base);
-    assert.notEqual(
-      state.body.current_envelope.approval.approved_by,
-      'same-principal',
-      'caller-selected text must not become approval identity'
-    );
+    assert.equal(Object.hasOwn(state.body.current_envelope.approval, 'approved_by'), false);
     assert.deepEqual(state.body.current_envelope.approval.actor, {
       kind: 'local_operator_action',
       assurance: 'unattested'
@@ -125,7 +125,7 @@ test('AR-CAND-004 rejects grants outside the closed L0 vocabulary', async () => 
     const state = await readState(base);
 
     assert.equal(prepared.response.status, 400);
-    assert.equal(prepared.body.error, 'invalid_request');
+    assert.equal(prepared.body.error, 'invalid_grants');
     assert.equal(state.body.approval_queue.length, 0);
   });
 });
@@ -145,7 +145,7 @@ test('AR-CAND-005 keeps every pending approval reachable by id', async () => {
       state.body.approval_queue.find(
         (item) => item.approval_id === first.body.approval.approval_id
       )?.state,
-      'approved'
+      'consumed'
     );
     assert.equal(
       state.body.approval_queue.find(
@@ -172,7 +172,7 @@ test('AR-CAND-006 keeps receipt events and projected receipts consistent', async
 
     assert.equal(receiptEvents.length, state.body.receipts.length);
     assert.deepEqual(
-      new Set(receiptEvents.map((event) => event.receipt_id)),
+      new Set(receiptEvents.map((event) => event.receipt.receipt_id)),
       new Set(state.body.receipts.map((receipt) => receipt.receipt_id))
     );
   });

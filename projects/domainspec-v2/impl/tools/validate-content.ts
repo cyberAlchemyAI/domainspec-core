@@ -22,6 +22,12 @@ import {
   loadRelationshipAuthority,
   validateRelationshipSpecFile,
 } from "./lib/relationship-signatures";
+import {
+  attributeNonemptyViolation,
+  assertCriterionPreflight,
+  assertNoDuplicateSchemaKey,
+  uiRepairViolation,
+} from "./lib/ui-repair-rule-contract";
 
 type Criterion = {
   rule: string;
@@ -30,13 +36,14 @@ type Criterion = {
   pattern?: string;
   key?: string;
   value?: string;
+  values?: string[];
 };
 type Schema = {
   meta_type: string;
   criterion?: Record<string, Criterion>;
   [key: string]: unknown;
 };
-type TableRow = { cells: string[]; line: number };
+type TableRow = { cells: string[]; authoredCells: string[]; line: number };
 type MarkdownTable = { headers: string[]; rows: TableRow[] };
 type Violation = {
   file: string;
@@ -73,7 +80,6 @@ if (targets.length === 0) {
 const violations: Violation[] = [];
 let conceptsChecked = 0;
 let edgesChecked = 0;
-const skippedRules = new Set<string>();
 const relationshipAuthority = loadRelationshipAuthority(relationshipsPath);
 
 for (const file of targets) {
@@ -118,10 +124,6 @@ for (const file of targets) {
 
     for (const [name, crit] of Object.entries(schema.criterion || {})) {
       const failure = applyCriterion(name, crit, table, sectionLines);
-      if (failure === "unsupported") {
-        skippedRules.add(`${crit.rule} (in ${schema.meta_type}.${name})`);
-        continue;
-      }
       if (failure) {
         violations.push({
           file: toRelative(file),
@@ -133,10 +135,6 @@ for (const file of targets) {
       }
     }
   }
-}
-
-for (const rule of skippedRules) {
-  console.log(`[content:info] unsupported criterion rule skipped: ${rule}`);
 }
 
 if (violations.length === 0) {
@@ -167,7 +165,7 @@ function applyCriterion(
   crit: Criterion,
   table: MarkdownTable | null,
   sectionLines: string[],
-): string | null | "unsupported" {
+): string | null {
   // section-scoped rule: prose marker search over the whole concept section.
   if (crit.rule === "section-contains") {
     const pattern = (crit.pattern || "").toLowerCase();
@@ -178,6 +176,19 @@ function applyCriterion(
       return `criterion '${name}': concept section does not contain '${crit.pattern}'`;
     }
     return null;
+  }
+
+  if (crit.rule === "attribute-one-of") {
+    if (!(crit.key || "").trim()) {
+      return `criterion '${name}': attribute-one-of requires a non-empty 'key'`;
+    }
+    if (
+      !Array.isArray(crit.values) ||
+      crit.values.length === 0 ||
+      crit.values.some((value) => typeof value !== "string" || value.trim() === "")
+    ) {
+      return `criterion '${name}': attribute-one-of requires a non-empty 'values' string array`;
+    }
   }
 
   // all remaining rules operate on the concept's primary table.
@@ -211,11 +222,25 @@ function applyCriterion(
       (r) => (r.cells[attrIdx] || "").trim().toLowerCase() === wantKey,
     );
     if (!match) {
-      return `criterion '${name}': attribute '${crit.key}' is not declared`;
+      return uiRepairViolation(
+        "ATTRIBUTE-MISSING",
+        `criterion '${name}': attribute '${crit.key}' is not declared`,
+      );
     }
-    const actual = (match.cells[valIdx] || "").trim().toLowerCase();
+    const authoredValue = match.authoredCells[valIdx];
+    const presenceCode = attributeNonemptyViolation(true, authoredValue);
+    if (presenceCode) {
+      return uiRepairViolation(
+        presenceCode,
+        `criterion '${name}': attribute '${crit.key}' must contain its fixed value`,
+      );
+    }
+    const actual = (authoredValue || "").trim().toLowerCase();
     if (actual !== (crit.value || "").toLowerCase()) {
-      return `criterion '${name}': attribute '${crit.key}'='${actual}' (expected '${crit.value}')`;
+      return uiRepairViolation(
+        "FIXED-VALUE-MISMATCH",
+        `criterion '${name}': attribute '${crit.key}'='${actual}' (expected '${crit.value}')`,
+      );
     }
     return null;
   }
@@ -235,6 +260,55 @@ function applyCriterion(
       return `criterion '${name}': attribute '${crit.key}' is not declared`;
     }
     return null;
+  }
+
+  if (crit.rule === "attribute-nonempty/v1") {
+    const attrIdx = headerMap.get("attribute");
+    const valIdx = headerMap.get("value");
+    if (attrIdx === undefined || valIdx === undefined) {
+      return uiRepairViolation(
+        "ATTRIBUTE-MISSING",
+        `criterion '${name}': expected an "Attribute | Value" table`,
+      );
+    }
+    const wantKey = normalizeToken(crit.key || "");
+    const match = table.rows.find(
+      (row) => normalizeToken(row.cells[attrIdx] || "") === wantKey,
+    );
+    const authoredValue = match?.authoredCells[valIdx];
+    const code = attributeNonemptyViolation(Boolean(match), authoredValue);
+    if (code) {
+      return uiRepairViolation(
+        code,
+        `criterion '${name}': attribute '${crit.key}' must contain non-whitespace text`,
+      );
+    }
+    return null;
+  }
+
+  if (crit.rule === "attribute-one-of") {
+    const attrIdx = headerMap.get("attribute");
+    const valIdx = headerMap.get("value");
+    if (attrIdx === undefined || valIdx === undefined) {
+      return `criterion '${name}': expected an "Attribute | Value" table`;
+    }
+    const wantKey = normalizeToken(crit.key || "");
+    const match = table.rows.find(
+      (r) => normalizeToken(r.cells[attrIdx] || "") === wantKey,
+    );
+    if (!match) {
+      return `criterion '${name}': attribute '${crit.key}' is not declared`;
+    }
+    const actual = normalizeToken(match.cells[valIdx] || "");
+    const allowed = (crit.values || []).map(normalizeToken);
+    if (!allowed.includes(actual)) {
+      return `criterion '${name}': attribute '${crit.key}'='${actual}' (expected one of [${(crit.values || []).join(", ")}])`;
+    }
+    return null;
+  }
+
+  if (!["at-least-one", "none", "all-nonempty"].includes(crit.rule)) {
+    return `criterion '${name}': unsupported rule '${crit.rule}'`;
   }
 
   const colIdx = headerMap.get((crit.column || "").toLowerCase());
@@ -268,7 +342,11 @@ function applyCriterion(
     return null;
   }
 
-  return "unsupported";
+  return null;
+}
+
+function normalizeToken(value: string): string {
+  return value.trim().toLowerCase();
 }
 
 // ---------------------------------------------------------------------------
@@ -286,7 +364,9 @@ function loadSchemas(dir: string): Map<string, Schema> {
     .filter((p) => p.endsWith(".schema.yml"))
     .sort();
   for (const file of files) {
-    const schema = parseSchemaYml(readFileSync(file, "utf-8"), toRelative(file)) as Schema;
+    const where = toRelative(file);
+    const schema = parseSchemaYml(readFileSync(file, "utf-8"), where) as Schema;
+    assertCriterionPreflight(schema.criterion, where);
     const metaType = typeof schema.meta_type === "string" ? schema.meta_type : "";
     if (!metaType) {
       throw new Error(`validate-content: ${toRelative(file)} is missing 'meta_type'`);
@@ -324,6 +404,7 @@ function parseSchemaYml(raw: string, where: string): Record<string, unknown> {
       stack.pop();
     }
     const parent = stack[stack.length - 1]?.node ?? root;
+    assertNoDuplicateSchemaKey(parent, key, where, i + 1);
 
     if (rest === "") {
       const obj: Record<string, unknown> = {};
@@ -425,9 +506,10 @@ function parseTableForSection(
     if (!line.trim().startsWith("|")) {
       break;
     }
-    const cells = parseTableRow(line);
+    const authoredCells = parseAuthoredTableRow(line);
+    const cells = authoredCells.map((cell) => cell.trim());
     if (!cells.every((cell) => /^:?-{3,}:?$/.test(cell) || cell.length === 0)) {
-      rows.push({ cells, line: rowIndex + 1 });
+      rows.push({ cells, authoredCells, line: rowIndex + 1 });
     }
     rowIndex += 1;
   }
@@ -442,6 +524,18 @@ function parseTableRow(line: string): string[] {
   }
   const withoutEdges = trimmed.replace(/^\|/, "").replace(/\|$/, "");
   return withoutEdges.split("|").map((cell) => cell.trim());
+}
+
+function parseAuthoredTableRow(line: string): string[] {
+  const trimmed = line.trim();
+  if (!trimmed.startsWith("|")) return [];
+  const withoutEdges = trimmed.replace(/^\|/, "").replace(/\|$/, "");
+  return withoutEdges.split("|").map((cell) => {
+    let authored = cell;
+    if (authored.startsWith(" ")) authored = authored.slice(1);
+    if (authored.endsWith(" ")) authored = authored.slice(0, -1);
+    return authored;
+  });
 }
 
 function toHeaderMap(headers: string[]): Map<string, number> {

@@ -2,93 +2,287 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://domainspec.local/ide-extension/schemas/agent-envelope.schema.json",
   "title": "ide-extension agent envelope",
-  "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "envelope_id",
-    "run_id",
-    "agent_ref",
-    "task",
-    "context_refs",
-    "requested_grants",
-    "approval",
-    "state",
-    "receipts"
+  "oneOf": [
+    { "$ref": "#/$defs/legacyEnvelope" },
+    { "$ref": "#/$defs/bridgeEnvelope" }
   ],
-  "properties": {
-    "envelope_id": {
-      "type": "string",
-      "minLength": 1
-    },
-    "run_id": {
-      "type": "string",
-      "minLength": 1
-    },
-    "agent_ref": {
-      "type": "string",
-      "minLength": 1
-    },
-    "task": {
-      "type": "string",
-      "minLength": 1
-    },
-    "context_refs": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1
-      }
-    },
-    "requested_grants": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1
-      }
-    },
-    "approval": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["required", "approval_id", "approved_by", "approved_at"],
-      "properties": {
-        "required": {
-          "type": "boolean"
+  "$defs": {
+    "actor": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "assurance"],
+          "properties": {
+            "kind": { "const": "local_operator_action" },
+            "assurance": { "const": "unattested" }
+          }
         },
-        "approval_id": {
-          "type": ["string", "null"]
-        },
-        "approved_by": {
-          "type": ["string", "null"]
-        },
-        "approved_at": {
-          "type": ["string", "null"]
-        }
-      }
-    },
-    "state": {
-      "enum": [
-        "draft",
-        "prepared",
-        "awaiting_approval",
-        "running",
-        "passed",
-        "flagged",
-        "blocked",
-        "failed",
-        "interrupted",
-        "timeout"
+        { "type": "null" }
       ]
     },
-    "receipts": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1
+    "legacyApproval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "approval_id",
+        "actor",
+        "approved_at",
+        "rejected_at",
+        "rejection_reason"
+      ],
+      "properties": {
+        "required": { "type": "boolean" },
+        "approval_id": { "type": ["string", "null"] },
+        "actor": { "$ref": "#/$defs/actor" },
+        "approved_at": { "type": ["string", "null"] },
+        "rejected_at": { "type": ["string", "null"] },
+        "rejection_reason": { "type": ["string", "null"], "maxLength": 500 }
       }
     },
-    "created_at": {
-      "type": "string"
+    "legacyEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "envelope_id",
+        "run_id",
+        "agent_ref",
+        "task",
+        "context_refs",
+        "requested_grants",
+        "requested_skill",
+        "approval",
+        "state",
+        "receipts"
+      ],
+      "properties": {
+        "envelope_id": { "type": "string", "minLength": 1 },
+        "run_id": { "type": "string", "minLength": 1 },
+        "agent_ref": { "type": "string", "minLength": 1 },
+        "task": { "type": "string", "minLength": 1 },
+        "context_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "requested_grants": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "requested_skill": {
+          "oneOf": [
+            { "type": "string", "pattern": "^[a-z][a-z0-9-]{0,63}$" },
+            { "type": "null" }
+          ]
+        },
+        "approval": { "$ref": "#/$defs/legacyApproval" },
+        "state": {
+          "enum": [
+            "draft",
+            "prepared",
+            "awaiting_approval",
+            "running",
+            "passed",
+            "flagged",
+            "blocked",
+            "failed",
+            "interrupted",
+            "timeout"
+          ]
+        },
+        "receipts": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "created_at": { "type": "string" }
+      }
+    },
+    "bridgeApproval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "approval_id",
+        "actor",
+        "approved_at",
+        "consumed_at",
+        "revoked_at",
+        "rejected_at",
+        "rejection_reason"
+      ],
+      "properties": {
+        "required": { "const": true },
+        "approval_id": { "type": "string", "minLength": 1 },
+        "actor": { "$ref": "#/$defs/actor" },
+        "approved_at": { "type": ["string", "null"] },
+        "consumed_at": { "type": ["string", "null"] },
+        "revoked_at": { "type": ["string", "null"] },
+        "rejected_at": { "type": ["string", "null"] },
+        "rejection_reason": { "type": ["string", "null"], "maxLength": 500 }
+      }
+    },
+    "bridgeEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "envelope_id",
+        "run_id",
+        "agent_ref",
+        "task",
+        "context_refs",
+        "requested_grants",
+        "requested_skill",
+        "approval",
+        "state",
+        "authorization_receipt_id",
+        "claim_id",
+        "result_id",
+        "receipts",
+        "created_at"
+      ],
+      "properties": {
+        "schema_version": { "const": "2" },
+        "envelope_id": { "type": "string", "minLength": 1 },
+        "run_id": { "type": "string", "minLength": 1 },
+        "agent_ref": { "const": "codex.current-session" },
+        "task": { "type": "string", "minLength": 1, "pattern": "\\S" },
+        "context_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "requested_grants": { "const": ["preview.read", "skill.invoke"] },
+        "requested_skill": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,63}$"
+        },
+        "approval": { "$ref": "#/$defs/bridgeApproval" },
+        "state": {
+          "enum": [
+            "draft",
+            "prepared",
+            "awaiting_approval",
+            "approved",
+            "ready_for_poll",
+            "claimed",
+            "interrupted",
+            "passed",
+            "flagged",
+            "blocked",
+            "failed"
+          ]
+        },
+        "authorization_receipt_id": { "type": ["string", "null"] },
+        "claim_id": { "type": ["string", "null"] },
+        "result_id": { "type": ["string", "null"] },
+        "receipts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "created_at": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": { "enum": ["draft", "prepared", "awaiting_approval"] }
+            },
+            "required": ["state"]
+          },
+          "then": {
+            "properties": {
+              "authorization_receipt_id": { "type": "null" },
+              "claim_id": { "type": "null" },
+              "result_id": { "type": "null" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": { "enum": ["approved", "ready_for_poll"] }
+            },
+            "required": ["state"]
+          },
+          "then": {
+            "properties": {
+              "authorization_receipt_id": { "type": "string", "minLength": 1 },
+              "claim_id": { "type": "null" },
+              "result_id": { "type": "null" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": { "enum": ["claimed", "interrupted"] }
+            },
+            "required": ["state"]
+          },
+          "then": {
+            "properties": {
+              "authorization_receipt_id": { "type": "string", "minLength": 1 },
+              "claim_id": { "type": "string", "minLength": 1 },
+              "result_id": { "type": "null" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": { "enum": ["passed", "flagged", "failed"] }
+            },
+            "required": ["state"]
+          },
+          "then": {
+            "properties": {
+              "authorization_receipt_id": { "type": "string", "minLength": 1 },
+              "claim_id": { "type": "string", "minLength": 1 },
+              "result_id": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": { "const": "blocked" }
+            },
+            "required": ["state"]
+          },
+          "then": {
+            "oneOf": [
+              {
+                "properties": {
+                  "authorization_receipt_id": { "type": "string", "minLength": 1 },
+                  "claim_id": { "type": "string", "minLength": 1 },
+                  "result_id": { "type": "string", "minLength": 1 }
+                }
+              },
+              {
+                "properties": {
+                  "claim_id": { "type": "null" },
+                  "result_id": { "type": "null" },
+                  "approval": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": { "rejected_at": { "type": "string", "minLength": 1 } }
+                      },
+                      {
+                        "type": "object",
+                        "properties": { "revoked_at": { "type": "string", "minLength": 1 } }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
     }
   }
 }
-

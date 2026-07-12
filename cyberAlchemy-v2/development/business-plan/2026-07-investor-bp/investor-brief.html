@@ -366,6 +366,127 @@
       line-height: 1.55;
     }
 
+    .scenario-stack {
+      border-top: 1px solid var(--line);
+    }
+
+    .scenario {
+      display: grid;
+      grid-template-columns: 130px minmax(0, 1.1fr) minmax(310px, 0.9fr);
+      gap: 34px;
+      padding: 44px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .scenario-index {
+      color: var(--coral);
+      font-size: 48px;
+      font-weight: 850;
+      line-height: 1;
+    }
+
+    .scenario-kind {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1.35;
+      text-transform: uppercase;
+    }
+
+    .scenario-copy h3 {
+      font-size: clamp(23px, 3vw, 34px);
+    }
+
+    .scenario-copy p {
+      margin: 16px 0 0;
+      color: #3d4550;
+      font-size: 15px;
+    }
+
+    .scenario-decision {
+      margin-top: 22px;
+      padding: 18px 0 18px 18px;
+      border-left: 4px solid var(--teal);
+      color: var(--navy);
+      font-size: 17px;
+      font-weight: 760;
+      line-height: 1.45;
+    }
+
+    .scenario-map {
+      align-self: start;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+    }
+
+    .scenario-map-title {
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .source-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 14px;
+    }
+
+    .source-token {
+      padding: 4px 7px;
+      border: 1px solid #b8c2cc;
+      border-radius: 3px;
+      color: #49535e;
+      background: #f8fafb;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .integration-steps {
+      margin: 20px 0 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: integration;
+    }
+
+    .integration-steps li {
+      counter-increment: integration;
+      display: grid;
+      grid-template-columns: 26px minmax(0, 1fr);
+      gap: 10px;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .integration-steps li::before {
+      content: counter(integration, decimal-leading-zero);
+      color: var(--teal);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .scenario-output {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 3px solid var(--navy);
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .scenario-disclaimer {
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
     .status {
       display: inline-flex;
       align-items: center;
@@ -827,6 +948,14 @@
         grid-template-columns: 1fr;
       }
 
+      .scenario {
+        grid-template-columns: 90px minmax(0, 1fr);
+      }
+
+      .scenario-map {
+        grid-column: 2;
+      }
+
       .flow {
         grid-template-columns: 1fr;
         gap: 12px;
@@ -908,6 +1037,25 @@
       .capability,
       .risk {
         min-height: auto;
+      }
+
+      .scenario {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 34px 0;
+      }
+
+      .scenario-index {
+        font-size: 32px;
+      }
+
+      .scenario-kind {
+        display: inline;
+        margin: 0 0 0 8px;
+      }
+
+      .scenario-map {
+        grid-column: auto;
       }
 
       .band {
@@ -1029,6 +1177,7 @@
       </a>
       <nav class="nav" aria-label="Business plan sections">
         <a href="#problem">Problem</a>
+        <a href="#scenarios">Scenarios</a>
         <a href="#offer">Offer</a>
         <a href="#substrate">Substrate</a>
         <a href="#market">Market</a>
@@ -1066,8 +1215,8 @@
             <span class="signal-label">Founder-reported build period for much of the current corpus; chronology remains a diligence item.</span>
           </div>
           <div class="signal">
-            <span class="signal-value">1</span>
-            <span class="signal-label">Lead commercial wedge: Metric Trust / governed AI Work Readiness.</span>
+            <span class="signal-value">3</span>
+            <span class="signal-label">Customer environments connected by one governed decision-and-receipt model.</span>
           </div>
           <div class="signal">
             <span class="signal-value">90 days</span>
@@ -1132,10 +1281,171 @@
       </div>
     </section>
 
-    <section class="band soft" id="offer">
+    <section class="band soft" id="scenarios">
       <div class="container">
         <div class="section-head">
-          <div class="section-number">02 &middot; Offer</div>
+          <div class="section-number">02 &middot; Customer stories</div>
+          <div>
+            <h2>Three environments. One accountable decision pattern.</h2>
+            <p class="section-intro">
+              CyberAlchemy does not begin by replacing the customer's systems.
+              It enters at the decision boundary, connects existing evidence,
+              makes uncertainty visible, preserves human authority, and leaves
+              a receipt the next cycle can reuse.
+            </p>
+          </div>
+        </div>
+
+        <div class="scenario-stack">
+          <article class="scenario">
+            <div>
+              <span class="scenario-index">01</span>
+              <span class="scenario-kind">Live premises</span>
+            </div>
+            <div class="scenario-copy">
+              <h3>Thursday afternoon before a busy weekend</h3>
+              <p>
+                A multi-site hospitality and venue operator must decide how to
+                staff, stock, and promote each location. POS, bookings,
+                schedules, inventory exports, campaign reports, and local
+                spreadsheets all exist, but they disagree on time windows,
+                cancellations, and what success means. Managers are debating
+                the dashboard instead of making the operating decision.
+              </p>
+              <div class="scenario-decision">
+                How should each site staff, stock, and act for the next
+                operating window, given what the evidence actually supports?
+              </div>
+              <p>
+                CyberAlchemy maps source ownership and definitions, exposes
+                denominator and confound problems, runs named freshness and
+                consistency checks, and routes the result to the regional
+                operations owner. The customer keeps its systems and authority.
+              </p>
+            </div>
+            <aside class="scenario-map" aria-label="Live premises integration map">
+              <div class="scenario-map-title">Integration map</div>
+              <div class="source-strip">
+                <span class="source-token">POS</span>
+                <span class="source-token">Bookings</span>
+                <span class="source-token">Scheduling</span>
+                <span class="source-token">Inventory</span>
+                <span class="source-token">Campaigns</span>
+              </div>
+              <ol class="integration-steps">
+                <li>Bind one operating window and accountable owner.</li>
+                <li>Reconcile definitions, denominators, freshness, and confounds.</li>
+                <li>Issue pass / flag / block inputs for the decision.</li>
+                <li>Record the action and what to measure afterward.</li>
+              </ol>
+              <div class="scenario-output">Output: Metric Trust decision receipt</div>
+            </aside>
+          </article>
+
+          <article class="scenario">
+            <div>
+              <span class="scenario-index">02</span>
+              <span class="scenario-kind">Technology company</span>
+            </div>
+            <div class="scenario-copy">
+              <h3>Release day after AI-assisted development</h3>
+              <p>
+                A software company is preparing a billing release. AI systems
+                contributed code, tests, migration notes, and analysis. The
+                evidence is spread across pull requests, issue tickets, CI,
+                security scans, feature flags, reviewer comments, and incident
+                history. The release owner cannot tell whether every obligation
+                implied by the release intent is covered.
+              </p>
+              <div class="scenario-decision">
+                Do we release, narrow, pause, or roll back, and who owns the
+                remaining risk?
+              </div>
+              <p>
+                CyberAlchemy translates release intent into explicit
+                obligations, joins existing evidence to each obligation, keeps
+                missing proof visible, and records human exceptions and stop
+                conditions. Formal witnesses attach only to named properties,
+                never to the release as a whole.
+              </p>
+            </div>
+            <aside class="scenario-map" aria-label="Technology company integration map">
+              <div class="scenario-map-title">Integration map</div>
+              <div class="source-strip">
+                <span class="source-token">Git</span>
+                <span class="source-token">Issues</span>
+                <span class="source-token">CI / tests</span>
+                <span class="source-token">Security</span>
+                <span class="source-token">Observability</span>
+              </div>
+              <ol class="integration-steps">
+                <li>Bind release intent, owner, scope, and rollback boundary.</li>
+                <li>Derive obligations and link current evidence.</li>
+                <li>Expose passed, failed, flagged, and missing obligations.</li>
+                <li>Record owner verdict, exceptions, and next-release residue.</li>
+              </ol>
+              <div class="scenario-output">Output: AI work / release readiness receipt</div>
+            </aside>
+          </article>
+
+          <article class="scenario">
+            <div>
+              <span class="scenario-index">03</span>
+              <span class="scenario-kind">Confidential workflow</span>
+            </div>
+            <div class="scenario-copy">
+              <h3>A sensitive document waiting for approval</h3>
+              <p>
+                A legal, financial, healthcare, or internal-risk team uses AI
+                to prepare a document from sensitive sources. The draft may be
+                useful, but the reviewer cannot easily see which sources were
+                used, whether required sections were checked, who held custody,
+                which version was approved, or what must be retained.
+              </p>
+              <div class="scenario-decision">
+                Is this specific output ready for the accountable reviewer to
+                approve, revise, reject, or retain?
+              </div>
+              <p>
+                CyberAlchemy integrates identity, role, document/version,
+                approval, retention, and safely capturable model-use records.
+                Digests and redacted metadata can preserve traceability without
+                centralizing confidential content. The owner remains the final
+                authority.
+              </p>
+            </div>
+            <aside class="scenario-map" aria-label="Confidential workflow integration map">
+              <div class="scenario-map-title">Integration map</div>
+              <div class="source-strip">
+                <span class="source-token">Identity</span>
+                <span class="source-token">Case / document</span>
+                <span class="source-token">Versions</span>
+                <span class="source-token">Approvals</span>
+                <span class="source-token">Retention</span>
+              </div>
+              <ol class="integration-steps">
+                <li>Bind custody, reviewer authority, purpose, and exclusions.</li>
+                <li>Connect source use and checks through safe metadata.</li>
+                <li>Gate approval on explicit evidence and exceptions.</li>
+                <li>Record decision, retention, privacy boundary, and non-claims.</li>
+              </ol>
+              <div class="scenario-output">Output: Confidential-workflow readiness receipt</div>
+            </aside>
+          </article>
+        </div>
+
+        <p class="scenario-disclaimer">
+          These are illustrative composite scenarios, not customer deployments,
+          traction, or compliance claims. They show how one governed integration
+          pattern changes with the customer's evidence and risk environment.
+        </p>
+      </div>
+    </section>
+
+    <section class="band" id="offer">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-number">03 &middot; Offer</div>
           <div>
             <h2>One decision. One owner. One bounded receipt.</h2>
             <p class="section-intro">
@@ -1222,7 +1532,7 @@
     <section class="band" id="substrate">
       <div class="container">
         <div class="section-head">
-          <div class="section-number">03 &middot; Substrate</div>
+          <div class="section-number">04 &middot; Substrate</div>
           <div>
             <h2>A system-building discipline, not a menu of unrelated products.</h2>
             <p class="section-intro">
@@ -1300,7 +1610,7 @@
     <section class="band soft" id="market">
       <div class="container">
         <div class="section-head">
-          <div class="section-number">04 &middot; Market</div>
+          <div class="section-number">05 &middot; Market</div>
           <div>
             <h2>Start with a decision condition, not a fictional TAM.</h2>
             <p class="section-intro">
@@ -1349,7 +1659,7 @@
     <section class="band" id="model">
       <div class="container">
         <div class="section-head">
-          <div class="section-number">05 &middot; Model</div>
+          <div class="section-number">06 &middot; Model</div>
           <div>
             <h2>Bottom-up economics, exposed assumptions.</h2>
             <p class="section-intro">
@@ -1435,7 +1745,7 @@
     <section class="band soft" id="roadmap">
       <div class="container">
         <div class="section-head">
-          <div class="section-number">06 &middot; Roadmap</div>
+          <div class="section-number">07 &middot; Roadmap</div>
           <div>
             <h2>The next 90 days decide the business shape.</h2>
             <p class="section-intro">
@@ -1489,7 +1799,7 @@
     <section class="band" id="team">
       <div class="container">
         <div class="section-head">
-          <div class="section-number">07 &middot; Team</div>
+          <div class="section-number">08 &middot; Team</div>
           <div>
             <h2>Velocity is the signal. Chronology is the proof obligation.</h2>
             <p class="section-intro">
@@ -1531,7 +1841,7 @@
     <section class="band soft" id="ask">
       <div class="container">
         <div class="section-head">
-          <div class="section-number">08 &middot; Investment</div>
+          <div class="section-number">09 &middot; Investment</div>
           <div>
             <h2>Fund the next decisive witnesses.</h2>
             <p class="section-intro">

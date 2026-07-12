@@ -16,18 +16,19 @@ boundary: PUBLIC shape criterion; the engine src/rules δ-derivation is never re
 
 ## Formal criterion
 A concept declared **Workflow** is well-formed IFF its `Attribute | Value` table declares
-`scope = intra-feature` (it orchestrates operations within a single feature).
+`scope` as exactly one of `intra-feature` or `cross-feature`.
 
-## Distinguisher vs Saga
-A Workflow stays within one feature (`scope=intra-feature`); a Saga spans features.
+## Boundary vs Operation
+A Workflow coordinates multiple ordered operations; an Operation is one state-changing action.
 
 ## Edge participation (DS-D8 slice)
-- SOURCE of: `performs`
-- TARGET of: `applies`
+- SOURCE of: `orchestrates`
+- TARGET of: none
 
 ## Fixtures
-- positive: [`spec/__fixtures__/mt/workflow-ok.md`](../../__fixtures__/mt/workflow-ok.md)
-- negative: [`spec/__fixtures__/mt/workflow-bad.md`](../../__fixtures__/mt/workflow-bad.md) — cross-feature → rejected.
+- positive, intra-feature: [`spec/__fixtures__/mt/workflow-ok.md`](../../__fixtures__/mt/workflow-ok.md)
+- positive, cross-feature: [`spec/__fixtures__/mt/workflow-cross-feature-ok.md`](../../__fixtures__/mt/workflow-cross-feature-ok.md)
+- negative: [`spec/__fixtures__/mt/workflow-bad.md`](../../__fixtures__/mt/workflow-bad.md) — unknown scope → rejected.
 
 ## Boundary
-Shape only: the declared `scope` is checked, not the actual reachability of orchestrated operations (moat).
+Shape only: exact membership of the declared `scope` is checked, not the actual reachability of orchestrated operations (moat).

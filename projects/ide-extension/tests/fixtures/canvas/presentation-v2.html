@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local Canvas Field Notes - Revised</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #14202b; background: #f1f5f8; font: 16px/1.45 system-ui, sans-serif; }
+    header { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 18px; border-bottom: 1px solid #c2ccd4; background: #fff; }
+    h1, h2, p { margin: 0; } h1 { font-size: 17px; }
+    .controls { display: flex; align-items: center; gap: 8px; }
+    button { min-width: 38px; min-height: 36px; border: 1px solid #8e9fab; border-radius: 5px; background: #fff; color: #14202b; font: inherit; cursor: pointer; }
+    main { min-height: calc(100vh - 58px); padding: 5vw; }
+    .slide { display: none; grid-template-columns: minmax(0, 1fr) minmax(240px, 40%); align-items: center; gap: 6vw; min-height: 68vh; }
+    .slide.active { display: grid; }
+    .eyebrow { color: #176a53; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+    h2 { margin-top: 10px; font-size: clamp(32px, 6vw, 72px); line-height: 1.02; }
+    .lede { margin-top: 18px; max-width: 640px; color: #52615b; font-size: 20px; }
+    .visual { min-height: 320px; display: grid; place-content: center; padding: 28px; border: 1px solid #aab9c5; border-radius: 6px; background: #fff; box-shadow: 0 18px 35px rgba(20, 32, 43, .08); }
+    .ring { width: 210px; aspect-ratio: 1; display: grid; place-items: center; border: 28px solid #2376ad; border-right-color: #d9972f; border-radius: 50%; font-size: 28px; font-weight: 800; }
+    @media (max-width: 700px) { header { align-items: flex-start; flex-direction: column; } .slide, .slide.active { grid-template-columns: 1fr; } .visual { min-height: 220px; } h2 { font-size: 38px; } }
+  </style>
+</head>
+<body>
+  <header><h1>Local Canvas Field Notes - Revised</h1><div class="controls"><button id="previous" aria-label="Previous slide">&larr;</button><span id="counter">1 / 2</span><button id="next" aria-label="Next slide">&rarr;</button></div></header>
+  <main>
+    <section class="slide active"><div><p class="eyebrow">Revision two</p><h2>The workbench updated without a refresh</h2><p class="lede">A complete changed file became a new revision; the old frame stayed visible until this one loaded.</p></div><div class="visual"><div class="ring">V2</div></div></section>
+    <section class="slide"><div><p class="eyebrow">Still interactive</p><h2>Revision does not erase behavior</h2><p class="lede">Keyboard and button navigation remain local to the published page.</p></div><div class="visual"><strong>Complete bytes. Stable identity. New revision.</strong></div></section>
+  </main>
+  <script>
+    const slides = [...document.querySelectorAll('.slide')]; let index = 0;
+    function show(next) { index = (next + slides.length) % slides.length; slides.forEach((slide, position) => slide.classList.toggle('active', position === index)); document.querySelector('#counter').textContent = `${index + 1} / ${slides.length}`; }
+    document.querySelector('#previous').onclick = () => show(index - 1); document.querySelector('#next').onclick = () => show(index + 1);
+    addEventListener('keydown', (event) => { if (event.key === 'ArrowRight') show(index + 1); if (event.key === 'ArrowLeft') show(index - 1); });
+  </script>
+</body>
+</html>

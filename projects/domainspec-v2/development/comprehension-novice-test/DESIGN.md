@@ -3,7 +3,7 @@ node_type: design
 is_session: false
 status: candidate
 created: 2026-07-02
-authored_by: invoke (mode: design)
+authored_by: "invoke (mode: design)"
 define: ./DEFINE.md
 work_pack: ./WORK-PACK.md
 target_artifact: the novice-witness instrument (task + blind novice prompt + stall schema + scoring)
@@ -11,6 +11,10 @@ promotion_boundary: local development; agent-arm caveat carried in every report 
 ---
 
 # Design — Comprehension Novice-Witness Test
+
+> **Historical baseline notice (2026-07-11):** Saga-specific discriminations
+> below belong to the frozen baseline design. They are not current authority or
+> an executable hardening route.
 
 ## 1. The instrument (four parts)
 1. **The fixed task** (`task.md`) — a plain-business-language feature brief (no DomainSpec vocabulary in

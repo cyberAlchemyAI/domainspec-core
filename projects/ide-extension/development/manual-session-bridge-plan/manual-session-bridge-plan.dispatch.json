@@ -1,0 +1,338 @@
+{
+  "$schema": "../../../../arcanum/formulae/dispatch-spec/dispatch.schema.json",
+  "dispatch_id": "2026-07-12-ide-extension-manual-session-bridge-plan",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "invoke plan for the approved ide-extension manual session bridge",
+    "objective": "Author an execution-ready L0 plan for one human-selected, late-disclosed, read-only Codex skill request with kernel-bound result evidence.",
+    "target_artifact": "projects/ide-extension/development/manual-session-bridge-plan/WORK-PACK.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "implementation-layering",
+      "smallest-working-unit",
+      "task-session",
+      "distill"
+    ],
+    "operator_sentence": "Plan the L0 manual session bridge, then execute exactly one ready SWU per Task Session."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "authority_split_gate",
+    "artifact_contract_bridge",
+    "concrete_path_evidence",
+    "state_namespace_boundary"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The approved design and brownfield code anchors converge on one bounded route. Invoke authors the plan locally; later Task Sessions may delegate only one isolated SWU under a separate permission gate.",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "receipt_requirements": [
+      "Every SWU returns status, capability, receipt artifact, files, validation, blockers, residue, reroute, and handoff note."
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Build bounded planning context",
+      "capability_ref": "context-builder",
+      "mode": "standard-strict",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": ["sequence", "concrete_path_evidence", "state_namespace_boundary"],
+      "inputs": [
+        {"kind": "intent", "ref": "intent.raw"},
+        {"kind": "artifact", "ref": "projects/ide-extension/development/manual-session-bridge-design/ARCHITECTURE-BUNDLE.md"},
+        {"kind": "artifact", "ref": "projects/ide-extension/development/manual-session-bridge-design/DECISIONS.md"},
+        {"kind": "artifact", "ref": "projects/ide-extension/development/manual-session-bridge-refresh/REFRESH-REPORT.md"}
+      ],
+      "outputs": [
+        {"kind": "frame", "ref": "work-pack/shared/context.md"},
+        {"kind": "artifact", "ref": "work-pack/shared/cross-task-decisions.md"},
+        {"kind": "artifact", "ref": "work-pack/shared/cross-task-gaps.md"}
+      ],
+      "evidence_artifact": "work-pack/shared/context.md",
+      "stop_conditions": [
+        "The approved decisions are missing, contradictory, or no longer current.",
+        "The current runtime cannot preserve v1 history without an unapproved migration."
+      ]
+    },
+    {
+      "step_id": "S2",
+      "name": "Author layered split plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "scu_swu_reduction",
+        "validation_loop",
+        "owner_boundary_check",
+        "residue_ledger",
+        "authority_split_gate",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {"kind": "frame", "ref": "work-pack/shared/context.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"},
+        {"kind": "artifact", "ref": "work-pack/tasks/"},
+        {"kind": "artifact", "ref": "work-pack/waves/"}
+      ],
+      "evidence_artifact": "WORK-PACK.md",
+      "stop_conditions": [
+        "An executable task lacks a SWU, source handle, write scope, done criteria, or validation.",
+        "The active plan imports authentication, leases, workers, mutation, remote adapters, or IDE chrome into L0."
+      ]
+    },
+    {
+      "step_id": "S3",
+      "name": "Validate units and recomposition",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": ["recomposition_proof", "scu_swu_reduction", "validation_loop"],
+      "inputs": [
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"}
+      ],
+      "outputs": [
+        {"kind": "decision", "ref": "DISTILL-VALIDATION.md"}
+      ],
+      "convergence_criteria": [
+        "SWU-MSB-001 is executable without hidden product discovery.",
+        "All eleven SWUs recompose into the approved L0 witness.",
+        "L1-L3 authority and all known residue remain explicit."
+      ],
+      "evidence_artifact": "DISTILL-VALIDATION.md",
+      "stop_conditions": [
+        "Distill verdict is block.",
+        "An acceptance-critical gap lacks an owner and treatment."
+      ]
+    },
+    {
+      "step_id": "S4",
+      "name": "Execute contract and kernel waves",
+      "capability_ref": "task-session",
+      "mode": "one-swu",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": ["handle_handoff", "execution_receipt_handoff", "validation_loop"],
+      "inputs": [
+        {"kind": "handle", "ref": "WORK-PACK.md#swu-manifest"},
+        {"kind": "artifact", "ref": "work-pack/waves/W0.md"},
+        {"kind": "artifact", "ref": "work-pack/waves/W1.md"}
+      ],
+      "outputs": [
+        {"kind": "handoff", "ref": "Task Session result for SWU-MSB-001 through SWU-MSB-005"}
+      ],
+      "evidence_artifact": "one immutable Task Session result per selected SWU",
+      "stop_conditions": [
+        "No explicit ready SWU is selected.",
+        "v1 replay, receipt separation, singleton targeting, claim secrecy, or result binding fails."
+      ]
+    },
+    {
+      "step_id": "S5",
+      "name": "Execute session and workbench wave",
+      "capability_ref": "task-session",
+      "mode": "one-swu",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": ["handle_handoff", "owner_boundary_check", "validation_loop"],
+      "inputs": [
+        {"kind": "artifact", "ref": "work-pack/waves/W2.md"}
+      ],
+      "outputs": [
+        {"kind": "handoff", "ref": "Task Session results for SWU-MSB-006 through SWU-MSB-008"}
+      ],
+      "evidence_artifact": "CLI protocol and workbench test results",
+      "stop_conditions": [
+        "The session client gains operator authority or background execution.",
+        "The workbench overclaims identity or execution."
+      ]
+    },
+    {
+      "step_id": "S6",
+      "name": "Prove and close the L0 witness",
+      "capability_ref": "task-session",
+      "mode": "one-swu",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": ["validation_loop", "execution_receipt_handoff", "concrete_path_evidence", "residue_ledger"],
+      "inputs": [
+        {"kind": "artifact", "ref": "work-pack/waves/W3.md"}
+      ],
+      "outputs": [
+        {"kind": "handoff", "ref": "automated, browser, manual witness, and closure evidence"}
+      ],
+      "evidence_artifact": "SWU-MSB-009..011 results plus readiness closure report",
+      "stop_conditions": [
+        "Automated or browser gates fail.",
+        "The private skill was known before claim or the result remains chat-only.",
+        "The live manual witness is unavailable; return block instead of simulation."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G1",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "Layering, work-pack, tasks, SWUs, waves, first route, and validation surfaces are complete and navigable.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2",
+      "kind": "validation",
+      "owner": "distill",
+      "condition": "Smallest-unit, recomposition, hidden-gap, deferred-complexity, and navigation checks pass.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "The operator selects exactly one ready SWU before each Task Session mutation.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "G4",
+      "kind": "promotion_guardrail",
+      "owner": "ide-extension architecture",
+      "condition": "L0 completion does not admit L1-L3 leases, authentication, mutation, workers, IDE/browser control, providers, or remote adapters.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G5",
+      "kind": "policy",
+      "owner": "operator and kernel",
+      "condition": "Authorization, claim, execution, and readiness remain separate authorities with separate evidence.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "planning-context-selected",
+      "plan-artifacts-authored",
+      "dispatch-validated",
+      "distill-validated",
+      "task-session-handoff-ready"
+    ],
+    "signal_grouping": "invoke.plan.ide-extension-manual-session-bridge"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1",
+        "kind": "capability_handoff",
+        "from_owner": "invoke",
+        "to_owner": "task-session",
+        "applies_to_steps": ["S4", "S5", "S6"],
+        "contract": "Task Session receives exactly one selected SWU and returns the structured result before status synchronization.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B2",
+        "kind": "capability_handoff",
+        "from_owner": "operator",
+        "to_owner": "ide-extension kernel and active session",
+        "applies_to_steps": ["S4", "S5", "S6"],
+        "contract": "Operator authorizes and targets; kernel claims/adjudicates/receipts; session only claims, interrupts, and submits a bound result.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B3",
+        "kind": "human_approval",
+        "from_owner": "automated validation",
+        "to_owner": "human plus active Codex session",
+        "applies_to_steps": ["S6"],
+        "contract": "The real blind witness is performed manually after automated/browser gates and may return block or interrupted.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "ide-extension approved design and work-pack",
+      "execution": "task-session for one selected SWU; active Codex only for the final witness",
+      "validation": "SWU owner, automated suites, Playwright, and closure audit",
+      "evidence": "Task Session receipts plus ide-extension kernel receipts/artifacts",
+      "memory": "Invoke plan artifacts; no Craft or inventory mutation",
+      "promotion": "human approval through the owning lifecycle"
+    },
+    "receipts": [
+      {
+        "receipt_id": "swu-execution-result",
+        "producer": "task-session",
+        "required_fields": [
+          "status",
+          "capability_ref",
+          "artifacts",
+          "validation_result",
+          "validation",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          "immutable Task Session evidence path",
+          "work-pack evidence only after validation"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects/ide-extension/development/manual-session-bridge-plan",
+        "owner": "invoke plan until handoff; then target lifecycle",
+        "write_policy": "Planning artifacts only during Invoke; no source implementation."
+      },
+      {
+        "namespace": "projects/ide-extension runtime source and state",
+        "owner": "one selected Task Session SWU",
+        "write_policy": "Write only the exact SWU scope; preserve v1 event history."
+      },
+      {
+        "namespace": "private witness choice and task",
+        "owner": "human operator",
+        "write_policy": "Disclose to the session only through a successful claim; publish only review-safe evidence."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "L0 manual read/preview bridge evidence",
+        "target": "L1-L3 reliable, authenticated, effectful, or packaged routing",
+        "rule": "L0 completion does not promote later layers; each needs a separate approved design and plan.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "No runtime implementation occurs during Invoke plan.",
+    "No Task Session begins without one selected ready SWU.",
+    "No v1 event history is rewritten to simulate v2 evidence.",
+    "No authorization receipt claims execution.",
+    "No unattested session is described as authenticated.",
+    "No real witness failure is rewritten or simulated as success.",
+    "No L0 proof promotes L1-L3 authority."
+  ]
+}

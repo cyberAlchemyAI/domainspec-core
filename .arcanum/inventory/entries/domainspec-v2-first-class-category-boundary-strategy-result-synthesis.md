@@ -20,6 +20,14 @@ points to the durable research artifacts. It does not promote any relationship
 signature, meta-type, category-theory law, validator, or root definition by
 itself.
 
+## Current Routing Update: 2026-07-11
+
+The conditional Saga question was later resolved to collapse into scoped
+Workflow. The former hardening route is cancelled and SGRM-001..008 completed
+the repository-local migration. Preserve the research below
+as promotion-rubric provenance and use the Saga-removal work-pack for current
+execution and verification.
+
 ## Strategy Summary
 
 **P1 trigger decision:** dispatch was justified by synthesis, context
@@ -119,17 +127,18 @@ category-theory rationale, and domain-language practice.
 
 ## Downstream Use
 
-Use this entry when continuing R3 relationship authority, deciding Saga
-connectability, defining Entity semantic relation verbs, designing
+Use this entry when continuing R3 relationship authority, defining Entity
+semantic relation verbs, designing
 `definitions/relationships/relationships.yml`, or explaining why category
 theory is rationale rather than validator law. Treat it as a strategy-result
 read model: canonical mutation still belongs to the R3 owner route and
-subsequent task-session/refinement work.
+subsequent task-session/refinement work. Do not use it to reopen Saga hardening.
 
 ## Residue
 
 - No root relationship authority files were created by this dispatch.
-- The Saga first-class signature decision remains open.
+- The Saga first-class signature decision and repository-local migration are
+  closed through SGRM-008.
 - `depends-on` needs a witness before promotion.
 - The relationship validator still needs root-owned endpoint-signature input.
 - Inventory entry is non-authority and does not replace the research findings.

@@ -194,6 +194,115 @@ This profile is a hypothesis. It becomes a market claim only after interviews
 and paid evidence identify the actual economic buyer, urgency, budget owner,
 procurement route, and replacement behavior.
 
+### Three Illustrative Customer Scenarios
+
+These are composite scenarios, not customer evidence. They show how the same
+CyberAlchemy operating unit could enter three different environments without
+pretending that three vertical products already exist. In every case, the
+system begins from one consequential decision, integrates with the tools the
+customer already uses, binds evidence to an accountable owner, and leaves a
+receipt that can be inspected and reused.
+
+#### Scenario 1: A Live Premise Before The Next Operating Window
+
+It is Thursday afternoon at a multi-site hospitality and venue operator. The
+regional operations lead must decide how to staff, stock, and promote each site
+for the weekend. The company already has a point-of-sale system, bookings,
+staff schedules, inventory exports, campaign reports, and local spreadsheets.
+It does not have one number everyone trusts. Bookings and walk-ins use different
+time windows. Cancellations are treated differently by each location. A
+promotion appears successful in the marketing report but may have shifted
+existing demand rather than created it. Managers are debating the dashboard
+instead of making the operating decision.
+
+CyberAlchemy does not ask the operator to replace those systems. A bounded
+Metric Trust engagement connects to exports or read-only interfaces, records
+which source owns each definition, makes denominator and cancellation rules
+explicit, and traces the weekend decision back to the evidence that supports
+it. Named checks surface missing data, stale inputs, cross-site definition
+drift, and unsupported assumptions. The regional operations lead remains the
+decision owner and receives a pass/flag/block view for each load-bearing input.
+
+The output is not a new dashboard claiming to know the business better than
+the operator. It is a decision receipt: what sources were used, which rules
+were applied, what remains uncertain, who approved the action, and what should
+be measured after the weekend. If the next planning cycle reuses the same
+source map, denominator rules, checks, and receipt shape, the engagement begins
+to leave productizable operating residue.
+
+Commercial entry: a paid diagnostic around one disputed operating metric,
+followed by a Metric Trust Sprint and, only if the buyer requests continuity, a
+monitoring or repeated-decision retainer.
+
+#### Scenario 2: A Technology Company At The Release Gate
+
+A software company is preparing a release that touches customer billing. AI
+assistants contributed code, tests, migration notes, and incident analysis.
+The engineering team has pull requests, CI results, issue tickets, security
+scans, feature flags, architecture decisions, and reviewer comments. Each
+surface contains part of the truth, but the release owner cannot answer a
+simple question without reconstructing several conversations: are the
+obligations implied by the release intent actually covered, and who is willing
+to own the remaining risk?
+
+CyberAlchemy binds the release intent to explicit obligations and collects
+evidence from the existing Git, issue-tracking, CI, test, security, and
+observability surfaces. Deterministic checks can verify named structural facts;
+bounded formal witnesses can attach only where a specific property justifies
+them. Missing evidence remains visible rather than being converted into a
+confidence score. The release owner sees which obligations passed, which are
+flagged, what failed, and what requires a human override or stop.
+
+The resulting release-readiness receipt links the decision to source versions,
+checks, reviewer decisions, exceptions, and rollback conditions. It does not
+claim the software is correct or incident-free. It makes the release decision
+inspectable and gives the next release a governed starting point. Repeated
+releases can test whether obligation patterns, gates, and repair paths reduce
+review labor and variance.
+
+Commercial entry: an AI Work Readiness Sprint around one release or one
+AI-assisted engineering workflow, with expansion only after the same receipt
+core proves reusable.
+
+#### Scenario 3: A Confidential Workflow Awaiting Approval
+
+A legal, financial, healthcare, or internal-risk team uses AI to prepare a
+document from sensitive source material. A draft exists, but the accountable
+reviewer cannot easily see which sources informed it, whether every required
+section was reviewed, who had custody at each step, which version was approved,
+or what must be retained. The workflow may be useful, but usefulness is not the
+same as readiness for a high-consequence action.
+
+CyberAlchemy integrates at the workflow boundary: identity and role records,
+the document or case system, approval events, version metadata, retention
+rules, and model-use records when they can be captured safely. The engagement
+can use digests, redacted metadata, and customer-controlled evidence rather
+than centralizing confidential content. It makes custody, source use, reviewer
+authority, required checks, exceptions, and retention explicit before the
+owner is asked to approve the output.
+
+The receipt records which bounded checks ran, what the reviewer approved, what
+was excluded, and what the package does not establish. It can support review
+and audit preparation, but it does not certify legal, medical, financial, or
+regulatory compliance. If the customer repeats the workflow, the reusable
+asset is the governed approval and evidence pattern, not the confidential
+content itself.
+
+Commercial entry: an advanced confidential-workflow readiness package only
+after authentication, custody, retention, and approval boundaries can be
+contracted and tested safely.
+
+#### One Integration Pattern Across All Three
+
+| Layer | Live premises | Technology company | Confidential workflow | Stable CyberAlchemy responsibility |
+| --- | --- | --- | --- | --- |
+| Existing systems | POS, bookings, schedules, inventory, campaign reports | Git, issues, CI, tests, security, observability | Identity, document/case system, approvals, retention, model-use records | Integrate through bounded exports, interfaces, or customer-controlled evidence; do not demand wholesale replacement. |
+| Blocked decision | Staff, stock, and promote the next operating window | Release, pause, narrow, or roll back | Approve, revise, reject, or retain the document/workflow output | Bind one decision and one accountable owner. |
+| Evidence problem | Definitions, time windows, denominators, cancellations, confounds | Obligations scattered across tools and conversations | Source use, custody, version, approval, and retention are unclear | Build a source registry and make ambiguity/missing evidence visible. |
+| Governed action | Readiness gate for each operating input | Obligation coverage and release gate | Custody, review, and approval gate | Run named checks, preserve human authority, and classify pass/flag/block/veto. |
+| Receipt | Sources, rules, owner action, post-window measure | Versions, checks, exceptions, owner decision, rollback | Sources/digests, custody, reviewer decision, exclusions, retention | Record scope, evidence, decision, failure modes, privacy boundary, and non-claims. |
+| Compounding test | Reuse next planning cycle | Reuse next release | Reuse next confidential case/workflow | Measure adaptation cost, labor/cycle-time change, and buyer pull before product promotion. |
+
 ### Current Alternatives
 
 Customers currently combine some of the following:

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Decision Gate</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #18232d; background: #f5f6f4; font: 15px/1.45 system-ui, sans-serif; }
+    header { padding: 18px 24px; border-bottom: 1px solid #c8cfcb; background: #fff; }
+    h1, h2, p { margin: 0; } h1 { font-size: 18px; } header p { margin-top: 3px; color: #5b6862; }
+    main { display: grid; grid-template-columns: minmax(240px, .8fr) minmax(320px, 1.2fr); gap: 32px; max-width: 1120px; margin: auto; padding: 40px 24px; }
+    .context { padding-right: 24px; border-right: 1px solid #c8cfcb; }
+    .context strong { display: block; margin-bottom: 10px; color: #1d6b54; font-size: 13px; text-transform: uppercase; }
+    h2 { font-size: 31px; line-height: 1.15; }
+    .context p { margin-top: 16px; color: #53615b; }
+    .options { display: grid; gap: 10px; }
+    button { width: 100%; min-height: 74px; display: grid; grid-template-columns: 32px 1fr; align-items: center; gap: 12px; padding: 14px; border: 1px solid #aab6b0; border-radius: 6px; background: #fff; color: inherit; text-align: left; font: inherit; cursor: pointer; }
+    button:hover, button:focus-visible { border-color: #177156; outline: 2px solid transparent; box-shadow: 0 0 0 3px rgba(23, 113, 86, .16); }
+    button.selected { border-color: #177156; background: #edf7f2; }
+    .key { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #18232d; color: #fff; font-weight: 700; }
+    small { display: block; margin-top: 3px; color: #617069; }
+    #result { min-height: 24px; margin-top: 16px; color: #176a53; font-weight: 700; }
+    @media (max-width: 700px) { main { grid-template-columns: 1fr; padding: 24px 16px; } .context { padding: 0 0 22px; border: 0; border-bottom: 1px solid #c8cfcb; } }
+  </style>
+</head>
+<body>
+  <header><h1>Decision Gate</h1><p>DG-MATRIX-001 · choose one experiment order</p></header>
+  <main><section class="context"><strong>Decision required</strong><h2>How should automatic delivery be introduced?</h2><p>The choice becomes a durable request event. It does not execute work by itself.</p><div id="result" role="status"></div></section><section class="options" aria-label="Decision options">
+    <button data-value="manual-first"><span class="key">A</span><span><b>Manual proof first</b><small>Prove explicit Refresh before automatic updates.</small></span></button>
+    <button data-value="automatic-first"><span class="key">B</span><span><b>Automatic proof first</b><small>Begin with live revision notifications.</small></span></button>
+    <button data-value="defer"><span class="key">C</span><span><b>Defer the experiment</b><small>Keep the current chat-only workflow.</small></span></button>
+  </section></main>
+  <script>
+    for (const button of document.querySelectorAll('[data-value]')) button.onclick = () => {
+      document.querySelectorAll('[data-value]').forEach((candidate) => candidate.classList.toggle('selected', candidate === button));
+      document.querySelector('#result').textContent = `Requested: ${button.dataset.value}`;
+      parent.postMessage({ type: 'ide-extension.canvas.event', eventName: 'decision.selected', payload: { decision_id: 'DG-MATRIX-001', value: button.dataset.value } }, '*');
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/bridge-release-request.schema.json",
+  "title": "ide-extension bridge release request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "action", "claim_id", "envelope_id", "approval_id", "actor", "reason"],
+  "properties": {
+    "schema_version": { "const": "2" },
+    "action": { "const": "release_and_requeue" },
+    "claim_id": { "type": "string", "minLength": 1 },
+    "envelope_id": { "type": "string", "minLength": 1 },
+    "approval_id": { "type": "string", "minLength": 1 },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "assurance"],
+      "properties": {
+        "kind": { "const": "local_operator_action" },
+        "assurance": { "const": "unattested" }
+      }
+    },
+    "reason": { "type": "string", "minLength": 1, "maxLength": 500, "pattern": "\\S" }
+  }
+}

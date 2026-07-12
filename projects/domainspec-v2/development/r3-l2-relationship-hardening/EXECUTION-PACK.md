@@ -3,7 +3,7 @@ module: r3-l2-relationship-hardening
 feature_code: R3H
 version: current
 status: draft
-updatedAt: 2026-07-02
+updatedAt: 2026-07-11
 docType: execution-pack
 ---
 
@@ -34,13 +34,13 @@ and task files under `work-pack/tasks/`.
 | --- | --- | --- | --- | --- | --- |
 | [W0](work-pack/waves/W0.md) | L0 | Add stable machine identity | TASK-R3H-IDENTITY | none | identity key test/review passes |
 | [W1](work-pack/waves/W1.md) | L1 | Harden Entity-to-Entity semantics | TASK-R3H-ENTITY-SEMANTICS | W0 complete | `owns` and `belongs-to` metadata validated/documented |
-| [W2](work-pack/waves/W2.md) | L2 | Harden Saga law and validator coverage | TASK-R3H-SAGA-LAWS, TASK-R3H-PROJECTION-VALIDATION start | W0 complete; W1 recommended | Saga obligation evidence and projection sync ready |
-| [W3](work-pack/waves/W3.md) | L3 | Validate, close, and route residue | TASK-R3H-PROJECTION-VALIDATION, TASK-R3H-VERIFY | W1/W2 complete | command receipts and closeout note |
+| [W2](work-pack/waves/W2.md) | L2 | Start projection validation for active law fields | TASK-R3H-PROJECTION-VALIDATION start | W0 complete; W1 recommended | active projection inputs ready; Saga lane remains cancelled |
+| [W3](work-pack/waves/W3.md) | L3 | Validate, close, and route residue | TASK-R3H-PROJECTION-VALIDATION, TASK-R3H-VERIFY | W1 and active W2 work complete | command receipts and closeout note |
 
 ## Parallelization
 
 - W0 is serial and selected first.
-- W1 and the documentation part of W2 may be prepared in parallel only after SWU-R3H-001 lands.
+- W1 and the active documentation part of W2 may be prepared in parallel only after SWU-R3H-001 lands.
 - Projection sync waits for root authority changes.
 - Verification waits for all mutation SWUs.
 

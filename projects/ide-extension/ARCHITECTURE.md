@@ -13,7 +13,7 @@ updatedAt: 2026-07-10
 
 The project is a local governed action boundary around IDE-adjacent agent work:
 HTML workbench outside, small kernel inside, modules/providers/adapters at the
-edges, approval and receipts on every effectful crossing.
+edges, approval and receipts on every protected effectful crossing.
 
 ## Shape
 
@@ -140,3 +140,47 @@ transcript artifact.
 | L0.6 browser-first MV3 | Chrome extension observes/acts in a real tab through typed actions. | Builds on L0.5 admission; never bypasses local approval/receipt. |
 | L1 IDE chrome | VS Code/VSCodium opens or embeds the local workbench URL. | Chrome only; no integrated-browser control claim. |
 | L2 validation witnesses | Playwright/DevTools/Kernel Cloud can witness runtime behavior. | Evidence lane only; no remote receipts or authority. |
+
+## Session Content Workbench V0
+
+The interactive workbench adds a separate event-derived namespace under the
+trusted-local canvas preview/display exception:
+
+```text
+workspace HTML file
+  -> canvas publish request
+  -> complete-file hash and canvas.surface_published event
+  -> canvas projection/current content route
+  -> workbench iframe
+  -> named JSON interaction
+  -> canvas.interaction_recorded event
+  -> cursor-based session poll
+```
+
+Canvas publication reads an operator-controlled workspace HTML artifact and
+changes only the local canvas projection and displayed revision. It does not
+write the source file or grant shell, filesystem-write, network, provider,
+browser-act, domain-action, export, commit, push, or remote-publication
+authority. Those protected crossings keep their owning approvals and receipts.
+
+`canvas.surface_published` is append-only audit evidence with surface and
+revision bindings. It is not a receipt under the receipt schema and does not
+claim protected-effect execution.
+
+The canvas projection owns one current surface, stable path-to-surface identity,
+ordered complete revisions, and append-only interactions. The workspace file is
+canonical; projection stores metadata and bindings, not a copied HTML body.
+
+Contract ownership is split as follows:
+
+- schemas define publish and interaction input shape;
+- the server owns normalized workspace resolution, complete-file hashing,
+  16 KiB interaction request enforcement, and serialized event append;
+- the projector owns surface/revision identity and monotonic interaction cursor;
+- the browser owns display and `postMessage` forwarding, not task completion;
+- the active session owns HTML authorship, publish calls, and interaction polls.
+
+Manual Refresh is the first display witness. Automatic update later carries
+only a state-change notice and then fetches the complete committed revision.
+Decision Gate and Craft use the same generic event envelope; no skill-specific
+server route is introduced.

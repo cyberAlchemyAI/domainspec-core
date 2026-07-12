@@ -2,7 +2,7 @@
 task_id: TASK-SGRM-VERIFY
 feature_code: SGRM
 layer: L3
-status: not-started
+status: completed
 ---
 
 # TASK-SGRM-VERIFY: Zero-Active Guard And Closeout
@@ -24,9 +24,12 @@ allowlist.
 1. Search case-insensitive whole-word Saga under projects/domainspec-v2.
 2. For each match, resolve the file to the manifest classification.
 3. Fail if the file is active-authority, active-implementation, current-plan,
-   current-projection, unclassified, or missing.
-4. Allow only historical-research, superseded-decision, telemetry/receipt, or
-   this removal package.
+   current-projection, unclassified, or missing unless a later accepted receipt
+   owns an exact content-digested exception.
+4. Allow historical-research, superseded-decision, telemetry/receipt, this
+   removal package, reviewed cancelled/historical plan lines, and the
+   receipt-backed negative rejection proof. Non-default exceptions must pin
+   exact path, count, reason, and matched-line SHA-256.
 5. Require each allowed file to have an existing path and classification reason.
 6. Seed a temporary fixture under an active test root containing Saga and prove
    the checker fails; remove the temporary fixture within the test harness.
@@ -66,6 +69,12 @@ allowlist.
 - Owner: local-fallback.
 - Handoff: strict context from all SGRM receipts and read-model owners; return
   standard SWU receipt and no further mutation route unless residue exists.
+
+### Result
+
+Completed by [SWU-SGRM-008](../../runs/SWU-SGRM-008/TASK-SESSION-RESULT.md).
+The repository-local validation and read-model gates pass; external consumers
+remain bounded residual uncertainty.
 
 ## Closeout Invariants
 

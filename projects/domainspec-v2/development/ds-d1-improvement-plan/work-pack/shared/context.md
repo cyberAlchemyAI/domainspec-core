@@ -2,7 +2,7 @@
 feature_code: DSD1
 docType: shared-context
 status: draft
-updatedAt: 2026-07-03
+updatedAt: 2026-07-11
 ---
 
 # Shared Context: DS-D1 Improvement Plan
@@ -10,8 +10,9 @@ updatedAt: 2026-07-03
 ## Operating Truth
 
 DS-D1 is moving from a broad candidate set toward governed category authority.
-The accepted research says the current backend 14 have structural
-schema/fixture evidence, but several still need stronger semantic laws. The UI
+The accepted research originally evaluated 14 backend candidates; the active
+registry now has 13 after the accepted Saga collapse. Several remaining types
+still need stronger semantic laws. The UI
 11 are visible because DS-D8 endpoint signatures use them, but DS-D1 has not
 formed them as first-class categories yet.
 
@@ -41,6 +42,6 @@ formed them as first-class categories yet.
 
 - Do not convert endpoint-use into formation authority.
 - Do not call a type proven because it has a schema.
-- Do not collapse Saga without a decision and migration packet.
+- Treat the Saga collapse decision and SGRM-001..008 closeout as consumed; do not reopen hardening or completed repository-local migration without new evidence and a governed decision.
 - Do not add broad category laws inside this DS-D1 improvement pass.
 - Do not import private implementation derivation rules into public validators.

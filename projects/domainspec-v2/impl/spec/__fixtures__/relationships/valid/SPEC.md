@@ -8,7 +8,7 @@
 | ProcessPayment | Operation |
 | PaymentCompleted | Event |
 | PaymentTransaction | Entity |
-| WireTransferSaga | Saga |
+| WireTransferWorkflow | Workflow |
 | ReserveFunds | Operation |
 | Library | Entity |
 | Copy | Entity |
@@ -21,6 +21,6 @@
 | MaxAmountRule | enforces | ProcessPayment |
 | ProcessPayment | produces | PaymentCompleted |
 | PaymentTransaction | emits | PaymentCompleted |
-| WireTransferSaga | orchestrates | ReserveFunds |
+| WireTransferWorkflow | orchestrates | ReserveFunds |
 | Library | owns | Copy |
 | Copy | belongs-to | Title |

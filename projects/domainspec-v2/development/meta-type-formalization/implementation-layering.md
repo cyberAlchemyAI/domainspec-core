@@ -3,13 +3,18 @@ node_type: implementation-layering
 is_session: false
 status: candidate
 created: 2026-07-01
-authored_by: invoke (mode: plan)
+authored_by: "invoke (mode: plan)"
 work_pack: ./WORK-PACK.md
 define: ./DEFINE.md
 design: ./DESIGN.md
 ---
 
 # Meta-Type Formalization — Implementation Layering
+
+> **Current authority update (2026-07-11):** This layering preserves the
+> original 14-type execution baseline. Saga-specific units are superseded and
+> are not runnable; active authority now has 13 backend types with scoped
+> Workflow.
 
 **Layer-boundary heuristic:** each layer makes one more slice of the type system **checkable** (criterion
 + fixtures + validator support). Value rises as more of an aspect file can be machine-validated; cost is

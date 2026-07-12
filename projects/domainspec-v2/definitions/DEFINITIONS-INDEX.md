@@ -50,7 +50,6 @@ Load-Bearing Term Tracking rule, `C(meta-4)`) is "tracked" iff it has a row here
 | `DS-D1.7` | Rule | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
 | `DS-D1.8` | Policy | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
 | `DS-D1.9` | Workflow | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
-| `DS-D1.10` | Saga | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
 | `DS-D1.11` | Interface | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
 | `DS-D1.12` | Event | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
 | `DS-D1.13` | Mapping | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |

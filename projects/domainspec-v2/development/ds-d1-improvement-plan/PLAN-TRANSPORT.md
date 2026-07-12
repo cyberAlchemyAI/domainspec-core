@@ -2,11 +2,18 @@
 module: ds-d1-improvement-plan
 feature_code: DSD1
 status: draft
-updatedAt: 2026-07-03
+updatedAt: 2026-07-11
 docType: plan-transport
 ---
 
 # Plan Transport: DS-D1 Improvement Plan
+
+## Current Route Update
+
+This transport records the original Invoke route plus its current execution
+state. Saga collapse is selected, SWU-DSD1-008 is cancelled/not-selected, and
+SWU-DSD1-009 is complete through SGRM-001..008. Remaining executable DS-D1 work
+is UI decision handling and backend semantic hardening.
 
 ## Invoke Summary
 
@@ -36,7 +43,7 @@ docType: plan-transport
 - `work-pack`: selected because DS-D1 improvement needs executable SWUs and
   source anchors.
 - `execution-pack`: selected because medium complexity needs wave choreography.
-- Split task/wave files: selected because UI, Saga, backend hardening,
+- Split task/wave files: selected because UI, the now-closed Saga fork, backend hardening,
   validators, and closeout have different owners and write scopes.
 
 ## Dispatch Techniques
@@ -59,22 +66,22 @@ Verdict: flag.
   later implementation from baking in blurred authority.
 - Pass: SWU-DSD1-001 is executable and recomposes into every later DS-D1
   improvement.
-- Flag: UI-11 path and Saga fork require owner decisions before mutation.
+- Flag: UI-11 path still requires an owner decision; the Saga fork is resolved.
 - Pass: full category law is deferred and does not pollute the executable plan.
 
 ## Distill Closure And Recomposition
 
 - Current smallest coherent unit: `SWU-DSD1-001`, align staged DS-D1 maturity.
 - Closure: it has named inputs, write scope, done criteria, and validation.
-- Recomposition: it unlocks UI decision, Saga fork, backend hardening, validator
+- Recomposition: it unlocked the UI decision, resolved Saga route, backend hardening, validator
   changes, and closeout by giving every later SWU the same status vocabulary.
 - Deferred complexity: category laws, private derivation semantics, broad UI
-  runtime behavior, and unselected UI/Saga branches.
+  runtime behavior and unselected UI branches. The cancelled Saga-hardening branch is historical.
 
 ## Next Route
 
-`task-session` on [SWU-DSD1-001](WORK-PACK.md#swu-manifest), with context
-selected from:
+Continue with one ready backend-hardening SWU (`SWU-DSD1-010..012`) or the
+UI owner gate. The original SWU-DSD1-001 source selection was:
 
 - `projects/domainspec-v2/development/r3-research/ds-d1-metatype-category-boundary/findings.md`
 - `projects/domainspec-v2/definitions/meta-types/meta-types.yml`
@@ -85,10 +92,9 @@ selected from:
 
 ## Unresolved Gaps
 
-- `DEC-DSD1-UI11-PATH`: decide add UI schemas now, narrow 25-type claim, or
+- `DEC-DSD1-UI11-PATH`: decide add UI schemas now, retain 24 staged labels, or
   keep an explicit deferral.
-- `DEC-DSD1-SAGA-FORK`: decide Saga harden versus owner-routed
-  collapse/deprecation.
-- `GAP-DSD1-SEMANTIC-DEPTH`: backend 14 need deeper finite witnesses for some
+- `DEC-DSD1-SAGA-FORK`: resolved to collapse; SGRM-001..008 repository-local migration is complete.
+- `GAP-DSD1-SEMANTIC-DEPTH`: backend 13 need deeper finite witnesses for some
   type claims.
 - `GAP-DSD1-CATEGORY-LAWS`: category laws remain a future formalization route.

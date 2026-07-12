@@ -1,82 +1,92 @@
 ---
-module: investor-business-plan-package
+module: investor-package-language-value-migration
 version: current
-status: flag
-updatedAt: 2026-07-10
+status: pass
+updatedAt: 2026-07-12
 docType: execution-pack
 ---
 
-# EXECUTION-PACK: Investor Business Plan Package
+# EXECUTION-PACK: Investor Package Language And Value Migration
 
 ## Purpose
 
-Wave-by-wave execution choreography for the BP package. The source of truth for
-task and SWU contracts remains `WORK-PACK.md`.
+Schedule the medium-complexity migration. `WORK-PACK.md` owns status and SWU
+manifest; task files own implementation detail; wave files own ordering.
 
-## Execution Boundary
+## Control Fields
 
-- Execute one SWU at a time.
-- Keep all outputs private under this directory.
-- Do not write to `arcanum/` from this BP execution stream.
-- Do not draft investor-facing prose before the evidence registry and financial assumptions exist.
-- Do not claim investor-readiness until `claim-audit.md` passes.
+| Field | Value |
+| --- | --- |
+| planningGateStatus | pass |
+| complexity | medium |
+| baselineWave | W0 |
+| activePlanRef | `WORK-PACK.md` |
+| workPackManifest | `WORK-PACK.md` |
+| layeringArtifact | `IMPLEMENTATION-LAYERING.md` |
+| activeLayerWindow | L0 |
+| selectedSWU | `SWU-CABP-001` |
+| lastPlannedAt | 2026-07-12 |
+| readinessProfile | pilot |
 
-## Waves
+## Wave Choreography
 
-| Wave | Layer | SWUs | Outcome | Gate |
-| --- | --- | --- | --- | --- |
-| W0 | L0 | `SWU-BP-001` | Evidence registry and source trace. | Every BP section has evidence, missing witness, and demotion gate. |
-| W1 | L1 | `SWU-BP-002`, `SWU-BP-003` | Financial assumptions and operating plan. | Numbers are driver-based assumptions; wedge loop is scoped. |
-| W2 | L2 | `SWU-BP-004` | Full BP draft. | Claim <= proof is visible in every section. |
-| W3 | L3 | `SWU-BP-005` | Investor memo and deck substrate. | Memo/deck introduce no new claims. |
-| W4 | L3 | `SWU-BP-006` | Claim audit and handoff. | Forbidden claims absent or explicitly demoted. |
+| Wave | Layer | SWUs | Outcome | Entry Gate | Exit Gate |
+| --- | --- | --- | --- | --- | --- |
+| [W0](work-pack/waves/W0.md) | L0 | 001, 002 | Evidence controls migrated. | Approved findings present. | Registry and trace agree. |
+| [W1](work-pack/waves/W1.md) | L1 | 003, 004 | Economics and operating contract migrated. | W0 pass. | Finance and operations agree. |
+| [W2](work-pack/waves/W2.md) | L2 | 005 | Canonical BP rewritten. | W1 pass. | Narrative review passes. |
+| [W3](work-pack/waves/W3.md) | L2 | 006 | Provisional claim gate completed. | W2 pass. | Every Markdown claim classified. |
+| [W4](work-pack/waves/W4.md) | L3 | 007 | Shareable HTML rewritten. | W3 pass. | HTML mirrors audited BP. |
+| [W5](work-pack/waves/W5.md) | L3 | 008 | Final package validated. | W4 pass. | Browser, comprehension, and claim audit pass. |
 
-## Parallelization
+## Execution Rules
 
-Do not parallelize W0. The registry/source trace is the substrate for all later
-work.
+- Run waves and SWUs sequentially.
+- Select one SWU before every Task Session.
+- Do not batch files even when one agent could edit several.
+- Preserve unrelated dirty-worktree changes.
+- Synchronize `WORK-PACK.md` only after receipt and validation.
+- A blocked SWU returns to its owning task; later waves do not compensate.
+- Whisper may compose prose but does not set evidence status.
+- Browser validation may identify repairs but does not silently rewrite content.
 
-After W0, financial assumptions and operating plan can be drafted in close
-sequence, but not independently: operating capacity, pricing, and cash timing
-must agree.
+## Receipt Contract
 
-Memo and deck drafting must wait for the BP body. They are compression layers,
-not discovery tools.
+Every SWU returns:
 
-## First Handoff
-
-Recommended next command route:
-
-```text
-task-session SWU-BP-001
+```yaml
+swu_id: <id>
+result: pass | flag | block | interrupted
+capability_ref: <native capability>
+receipt_kind: native-stage | subagent | local-fallback | blocked
+receipt_artifact: <path or none>
+files_touched: [<paths>]
+validation: [<check and result>]
+blockers: [<blocker or none>]
+residue: [<residue or none>]
+reroute: <owner or none>
+handoff_note: <next coordinator action>
 ```
-
-Context anchors:
-
-- `WORK-PACK.md#swu-execution-handoff`
-- `INVOKE-PLAN.md#source-context`
-- `.arcanum/inventory/queries/2026-07-09-business-plan-build-research/findings.md`
-- `.agents/skills/whisper/presets/business-plan/preset.yaml`
-
-Expected first outputs:
-
-- `diligence-evidence-registry.md`
-- `source-trace.md`
-
-Acceptance evidence:
-
-- Each BP section has a source evidence row.
-- Each BP section has a missing witness row.
-- Each BP section has a falsifier or demotion gate.
-- Forbidden claims are listed as forbidden, not supported.
 
 ## Stop Conditions
 
-Stop execution and route through decision-gate if:
+Stop and route through the named owner when:
 
-- the founder wants a specific funding ask in the BP but ask/runway are still undecided;
-- the BP must claim unique/first/only status before comparator refresh;
-- legal, certification, audit-ready, or compliance language becomes load-bearing;
-- private DomainSpec/CAV2 mechanism details are requested for public Arcanum copy;
-- a draft tries to treat artifact breadth as traction, market pull, or platform proof.
+- a rewrite requires a founder fact or financing value that is not supplied;
+- a current hypothesis is being promoted to customer evidence;
+- a monetary claim lacks the approved tag and proof route;
+- HTML introduces a claim absent from the audited BP;
+- browser evidence shows overlap, overflow, broken navigation, or illegible text;
+- private material would be copied into public Arcanum;
+- a worker proposes batching multiple unselected SWUs.
+
+## First Handoff
+
+```text
+task-session SWU-CABP-001
+```
+
+Source anchors are in
+`work-pack/tasks/TASK-CABP-001-EVIDENCE-CONTROLS.md`. The only write scope is
+`diligence-evidence-registry.md`.
 

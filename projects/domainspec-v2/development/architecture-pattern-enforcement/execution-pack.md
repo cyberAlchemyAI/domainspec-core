@@ -3,7 +3,7 @@ module: architecture-pattern-enforcement
 feature_code: APE
 version: current
 status: draft
-updatedAt: 2026-07-02
+updatedAt: 2026-07-12
 docType: execution-pack
 ---
 
@@ -16,15 +16,15 @@ mapped to the L0–L3 layers.
 
 | Field | Value | Notes |
 | --- | --- | --- |
-| planningGateStatus | pass / flag | node-plane L0 is complete; W1 is executable; edge-plane waves are R3A-unblocked but still depend on L1 repeatability and dynamic DS-D8 enforcement. |
+| planningGateStatus | pass / flag | node-plane L0 and bounded dynamic DS-D8 implementation are complete; W1 is executable; broader APE edge-plane evidence remains flagged. |
 | complexity | high | full program, multi-capability, cross-project. |
 | baselineWave | W0 | L0 POC — the mandatory first wave. |
 | activePlanRef | WORK-PACK.md | work-pack is the coordinator. |
 | workPackManifest | WORK-PACK.md | standalone companion. |
 | layeringArtifact | implementation-layering.md | standalone companion. |
 | specRef | SPEC.md | the program spec this plan executes. |
-| activeLayerWindow | L0 | current slice focus. |
-| lastPlannedAt | 2026-07-02 | |
+| activeLayerWindow | APE L1 | second-corpus evidence is complete; cleanup, cards, and CI remain executable. |
+| lastPlannedAt | 2026-07-12 | approved refresh applied. |
 | readinessProfile | pilot | first target: a witnessed, CI-gated node plane on ≥2 packs. |
 
 ## Task Board
@@ -34,7 +34,7 @@ mapped to the L0–L3 layers.
 | TASK-POC | First real feature pack; node validators green + a deliberate red | L0 | medium | W0 | ready | completed 2026-07-02 |
 | TASK-CARDS | Triage v1 pattern-library into the v2 card layer + IMPORT-MANIFEST rows | L1 | medium | W1 | ready | not-started |
 | TASK-CI | Wire node-plane gates into CI over ≥2 packs; clean the 2 defects | L1 | medium | W1 | ready | not-started |
-| TASK-EDGE | Composability (edge-law) after R3A; dynamic DS-D8 edge-law refactor | L2 | high | W2 | ready-after-L1 | not-started |
+| TASK-EDGE | Composability (edge-law) after R3A; dynamic DS-D8 edge-law refactor | L2 | high | W2 | routed-to-`TASK-R3C-EDGE` | bounded implementation completed 2026-07-12; real-pack evidence open |
 | TASK-PROMOTE | Promote L0/L1 node handles candidate→binding via cav2 | L2 | high | W2 | ready-after-L1 | not-started |
 | TASK-MINT | Cross-project inheritance: mint a 2nd repo that inherits the substrate | L3 | high | W3 | ready-after-L2 | not-started |
 | TASK-UNCONSTRUCT | C6 typed-catalog unconstructibility (generalize containment.ts) | L3 | high | W3 | **block-until-formalism** | not-started |
@@ -45,8 +45,10 @@ mapped to the L0–L3 layers.
 
 - Each wave maps to an L0–L3 layer decision and names the promotion evidence it creates.
 - Tasks reference SPEC Concept Registry IDs (`APE.*`) and the findings evidence — no concept invented here.
-- Node-plane waves (W0, W1) are executable now. Edge-plane tasks (TASK-EDGE, TASK-UNCONSTRUCT) hold at
-  block until their dependency (R3 / meta-type formalism) lands — do not start them to "look ahead."
+- Node-plane W1 is executable now. Bounded dynamic C-B implementation completed through the existing
+  R3-closeout `TASK-R3C-EDGE` route; do not execute the stale APE placeholder. Real-pack breadth is
+  still required before claiming W2 exit evidence. `TASK-UNCONSTRUCT`
+  remains blocked on meta-type formalism.
 - Closure tasks (VERIFY) carry SWU exemptions.
 
 ## Waves
@@ -54,8 +56,8 @@ mapped to the L0–L3 layers.
 | Wave | Layer | Tasks | Exit evidence (promotion gate) |
 | --- | --- | --- | --- |
 | **W0** | L0 | TASK-POC | one feature pack: green transcript + a deliberate red; validators witnessed. |
-| **W1** | L1 | TASK-CARDS, TASK-CI | 2nd pack green in CI; a seeded violation blocks; cards linked as Evidence; 2 defects cleared. |
-| **W2** | L2 | TASK-EDGE (post-R3), TASK-PROMOTE | composability green on a real pack; ≥1 handle at `binding`. |
+| **W1** | L1 | TASK-CARDS, TASK-CI | 2nd pack is locally green with seeded violation rejected; CI wiring, card Evidence, and 2 defects remain. |
+| **W2** | L2 | TASK-EDGE (implemented through `TASK-R3C-EDGE`), TASK-PROMOTE | composability green on a real pack; ≥1 handle at `binding`. |
 | **W3** | L3 | TASK-MINT, TASK-UNCONSTRUCT (post-formalism), TASK-DRIFT | minted repo green on its own nodes; forbidden edge unbuildable; drift series trending. |
 
 ## Derivation hooks (DomainSpec)

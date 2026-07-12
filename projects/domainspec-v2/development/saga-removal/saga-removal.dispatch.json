@@ -129,7 +129,7 @@
     },
     {
       "step_id": "s2",
-      "name": "Migrate DS-D1 and DS-D8 authority",
+      "name": "Migrate DS-D1 and DS-D8 authority with schema edge bridge",
       "capability_ref": "definitions-governance",
       "capability_status": "local-extension",
       "pattern": "handoff",
@@ -142,6 +142,10 @@
         {
           "kind": "artifact",
           "ref": "SWU-SGRM-001 receipt"
+        },
+        {
+          "kind": "artifact",
+          "ref": "2026-07-11 SGRM-002 validation-cycle refresh"
         }
       ],
       "outputs": [
@@ -150,9 +154,9 @@
           "ref": "SWU-SGRM-002 authority migration receipt"
         }
       ],
-      "evidence_artifact": "root authority diff and validation receipt",
+      "evidence_artifact": "root authority diff, focused schema edge-participation diff, and validation receipt",
       "stop_conditions": [
-        "block on DS-D1 ID renumbering, orchestrates deletion, or missing DS-D8 approval"
+        "block on DS-D1 ID renumbering, orchestrates deletion, missing DS-D8 approval, or schema mutation beyond edge_participation.source_of"
       ]
     },
     {

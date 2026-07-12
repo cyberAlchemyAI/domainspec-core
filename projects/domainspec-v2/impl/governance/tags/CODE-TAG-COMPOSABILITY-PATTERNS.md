@@ -1,6 +1,10 @@
 # Code Tag Composability Patterns
 
-This document defines implementation composition obligations derived from DomainSpec edges.
+This document defines implementation composition obligations derived from active
+root DS-D8 relationship authority in
+`projects/domainspec-v2/definitions/relationships/relationships.yml`. The checker consumes that
+authority; this document is an implementation projection and does not own edge
+labels or endpoint signatures.
 
 ## Purpose
 
@@ -17,12 +21,12 @@ These patterns are aligned with the functional layering model in `ARCHITECTURE.m
 | Edge             | From -> To               | Required Composition                                 | Reference Concept                                         | Enforced by Tool |
 | ---------------- | ------------------------ | ---------------------------------------------------- | --------------------------------------------------------- | ---------------- |
 | `enforces`       | Rule -> Operation        | Operation calls rule before mutation                 | `billing.MaxAmountRule -> billing.ProcessPayment`         | Yes              |
-| `enforces-cross` | Rule@A -> Operation@B    | Target operation calls cross-feature rule            | `compliance.AccessRule -> payments.ProcessRefund`         | Yes              |
+| `enforces-cross` | deprecated alias         | Do not author; use `enforces` with feature-scope metadata | `compliance.AccessRule -> payments.ProcessRefund`      | Rejected          |
 | `calculates`     | Calculation -> Operation | Operation calls calculation and consumes result      | `billing.FeeCalculation -> billing.ProcessPayment`        | Yes              |
-| `applies`        | Policy -> Operation      | Operation calls policy to select strategy branch     | `billing.RetryPolicy -> billing.ProcessPayment`           | Yes              |
+| `applies`        | Policy -> Operation/Calculation | Target calls policy to select strategy branch | `billing.RetryPolicy -> billing.ProcessPayment`           | Yes              |
 | `exposes`        | Interface -> Operation   | Interface/controller calls operation use-case        | `billing.PaymentAPI -> billing.ProcessPayment`            | Yes              |
 | `exposes`        | Interface -> Query       | Interface/controller calls query use-case            | `billing.PaymentAPI -> billing.GetPaymentStatus`          | Yes              |
-| `orchestrates`   | Workflow -> Operation[]  | Workflow/saga calls listed operations                | `billing.SettlementWorkflow`                              | Yes              |
+| `orchestrates`   | Workflow -> Operation[]  | Workflow calls listed operations                     | `billing.SettlementWorkflow`                              | Yes              |
 | `mutates`        | Binding -> Operation     | Binding hook/action calls operation                  | `ui.billing.useCreatePayment -> billing.ProcessPayment`   | Yes              |
 | `fetches`        | Binding -> Query         | Binding hook/action calls query                      | `ui.billing.usePaymentStatus -> billing.GetPaymentStatus` | Yes              |
 | `produces`       | Operation -> Event       | Operation emits/publishes event after postconditions | `billing.ProcessPayment -> billing.PaymentCompleted`      | Not yet          |
@@ -41,12 +45,14 @@ Reference snippet:
 
 - `governance/tags/examples/composability/rule-enforces-operation.ts`
 
-## Pattern 2: Cross-Feature Rule Enforces Operation
+## Pattern 2: Deprecated Cross-Feature Alias
 
 Semantic contract:
 
-- `Rule --enforces-cross--> Operation`
-- Target operation in dependent feature calls source rule before execution.
+- `enforces-cross` is not canonical authored DS-D8 authority.
+- Author `Rule --enforces--> Operation` and carry cross-feature scope as
+  relationship metadata.
+- Strict checking rejects the alias with replacement guidance.
 
 Reference snippet:
 
@@ -131,13 +137,37 @@ Reference snippet:
 
 ## Tooling Rule Source
 
-Enforcement rules are implemented in:
+Endpoint rules are loaded from:
+
+- `projects/domainspec-v2/definitions/relationships/relationships.yml` — root DS-D8 authority.
+
+Code-call semantics are implemented in:
 
 - `governance/tags/tools/check-code-tag-composability.ts`
 
 Current blocking/validation codes:
 
-- `CT-COMP-001`..`CT-COMP-009` for composition mismatches by edge pattern
+- `CT-COMP-001`..`CT-COMP-008` for supported call-composition mismatches
 - `CT-COMP-010` target concept not tagged
 - `CT-COMP-011` source symbol unresolved
 - `CT-COMP-012` target symbol unresolved
+- `CT-COMP-013` root relationship authority unavailable or invalid
+- `CT-COMP-020` generated view authored as a canonical edge
+- `CT-COMP-021` deprecated relationship alias authored
+- `CT-COMP-022` deferred relationship candidate authored as active
+- `CT-COMP-023` active label used with invalid endpoint types
+- `CT-COMP-024` valid active signature lacks code-call semantics (coverage gap)
+- `CT-COMP-025` unknown relationship label
+
+The JSON report names the authority path, active signature count, generated /
+deprecated / deferred counts, derived call-rule count, and every unsupported
+active call-semantic signature. Current root state is 30 active signatures and
+nine derived call-semantic rules.
+
+## Aggregate Gate Status
+
+`tags:composability` remains an explicit command rather than part of `npm run
+validate`. The default extraction input `governance/tags/code-tags.json` is not
+currently committed, so unconditional aggregate wiring would fail on missing
+setup state rather than a verified code-graph violation. A later extraction/CI
+task must provide a stable input before aggregate promotion.

@@ -81,24 +81,25 @@ Each is a concrete failure the design targets, grounded in the source:
 Five concepts carry the whole system. Each is named, defined in one line, and
 tied to where it lives.
 
-- **Meta-type (the typed node).** One of the 25 concept types — Entity, Operation,
+- **Meta-type (the typed node).** One of the 13 active backend concept types — Entity, Operation,
   Rule, Calculation, State Machine, … — that classify a *domain concept* (a noun or
   verb of the business), **not** a language type. The node vocabulary is defined by
   `domainspec-v2-D6` / DS-D1 ([definitions/DEFINITIONS.md](../definitions/DEFINITIONS.md),
   [meta-types/meta-types.md](../definitions/meta-types/meta-types.md)). The set is
-  closed; every concept must be exactly one. **Caveat on machine backing:** the
-  taxonomy is 14 backend + 11 UI types ([impl/spec/TAXONOMY.md](../impl/spec/TAXONOMY.md)),
-  but only the **14 backend** types carry a decidable *meta-type criterion* today —
+  closed for active backend concepts; every such concept must be exactly one.
+  **Caveat on machine backing:** the staged vocabulary is 13 active backend types
+  plus 11 formation-deferred UI labels ([impl/spec/TAXONOMY.md](../impl/spec/TAXONOMY.md)),
+  and only the **13 backend** types carry a decidable *meta-type criterion* today —
   the registry [definitions/meta-types/meta-types.yml](../definitions/meta-types/meta-types.yml)
-  enumerates 14 members (its own header prose says "25", which is inconsistent) with
-  14 criterion schemas under `impl/spec/meta-types/{structural,behavioral,connective,lifecycle}/`.
+  enumerates 13 members with 13 criterion schemas under
+  `impl/spec/meta-types/{structural,behavioral,connective,lifecycle}/`.
   The 11 UI types have **no meta-type criterion schema** (they are not machine-decidable
   as *node* classifications) — but they are **not** prose-only: relationships.yml
   registers them as active typed *edge endpoints* (Page, Component, Hook, Form, …,
   `feature_scope: ui`/`ui-backend` — State Indicator and Binding appear only under
-  `ui-backend`). So "closed set of 25" is the *design*; the decidable
-  node-classification criteria cover 14/25, while all 11 UI types are machine-present
-  as edge endpoints.
+  `ui-backend`). So the current staged view is 13 active backend types plus 11
+  deferred UI labels; the UI labels are machine-present as edge endpoints without
+  gaining DS-D1 formation authority.
   *Why this design:* a closed, decidable alphabet is what lets the core stay dumb
   (a table-walk, no solver) while remaining auditable.
 
@@ -223,13 +224,13 @@ exist; the automation on top does not.
 
 The honest asymmetry: the rigor of the **authority** (gates, Obs-B, non-collapse
 rules) is well ahead of the **evidence that the end-to-end loop works**. The
-central bet — that a real domain fits 25 types + fixed edges *and* that this makes
+central bet — that a real domain fits the staged vocabulary + fixed edges *and* that this makes
 implementation cheaper and less drift-prone — has not been run end to end.
 The adversarial review-2026-07-07 supplies the first concrete counter-signal to the
-first half of that bet: the alphabet carries one structurally undistinguished kind
-(Saga — no distinguisher found on disk; default-merge, still open, OQ-7), one
+first half of that bet: the alphabet carried one structurally undistinguished kind
+(Saga — collapsed into scoped Workflow by the 2026-07-11 owner decision, resolving OQ-7), one
 unconstructible genre (time, OQ-7), and the "any domain" claim (TAXONOMY.md) is
-over-stated — the 25 are visibly of the DDD/web genre. The non-collapse rigor that
+over-stated — the 24 staged labels are visibly of the DDD/web genre. The non-collapse rigor that
 is well ahead on **edges** has a matching **node** gap (OQ-6), so the "authority is
 ahead of evidence" asymmetry is itself uneven across the two planes.
 
@@ -245,7 +246,7 @@ Each carries a recommendation, not just a question.
   human/agent classification as the load-bearing risk; invest the owner-gate and any
   future cross-check budget there before hardening downstream tooling.
   *Sharpened (review-2026-07-07, [findings.md](../development/meta-type-formalization/research/2026-07-07-method-carving-soundness-review/findings.md)):*
-  of the 14 backend distinguishers, **11 are checked by string-compare over a declared
+  of the 13 active backend distinguishers, **10 are checked by string-compare over a declared
   attribute** (`attribute-equals`/`attribute-present` — validation at *author-attestation*
   strength, not structural); only Entity/Value Object/Enum read real structure. The pos/neg
   discrimination test is tautological for those 11 (the negative fixture is the positive with the
@@ -285,20 +286,19 @@ Each carries a recommendation, not just a question.
   one (confirmed, review-2026-07-07
   [findings.md](../development/meta-type-formalization/research/2026-07-07-method-carving-soundness-review/findings.md)).
   Consequence: a self-declared attribute can mint a type it never structurally earned — this one
-  asymmetry produces both the Saga over-cut (OQ-7) and the 11 attestation-strength distinguishers
+  asymmetry produced both the orchestration over-cut (resolved OQ-7) and the 11 attestation-strength distinguishers
   (OQ-1). *Recommendation:* install a **node non-collapse gate** — every node type must exhibit
   EITHER a structural-table witness OR distinct edge-participation that reads structure; a
   self-declared tag alone is inadmissible. This is the single highest-leverage change: it forces
-  Saga to prove structure or merge, forces a new time node to ship subgraph structure, and turns
+  the orchestration split to prove structure or merge, forces a new time node to ship subgraph structure, and turns
   the semantic trio into an explicit declared exception instead of a hidden one.
-- **OQ-7 — The carving has one over-cut and one genre gap (opposite-sign errors).**
-  `DEC-DSV2-SAGA-MERGE` (open, default: **merge**): Saga = Workflow + the `scope` tag — identical
-  `edge_participation` in both schemas, and `compensates` is *not* Saga-exclusive (Workflow
-  compensates too; the edge is absent from relationships.yml), so nothing structurally distinguishes
-  them (review-2026-07-07). Symmetrically, the **time genre** is missing: there is no Schedule/Timer
+- **OQ-7 — Resolved over-cut; the opposite-sign genre gap remains.**
+  The 2026-07-11 owner decision collapsed Saga into Workflow plus the declared `scope` tag. The earlier
+  schemas had identical `edge_participation`, and `compensates` was not exclusive, so the split had no
+  admitted structural witness. Symmetrically, the **time genre** remains missing: there is no Schedule/Timer
   and a `billing_date`/cron trigger is unconstructible (a clock has no Operation/Entity producer that
-  Event requires). *Recommendation:* merge Saga (−1 node) and admit Schedule (+1) — the alphabet errs
-  by opposite signs, not by cardinality; net ~24 nodes, correctly carved. Fine-grained edge decisions
+  Event requires). *Recommendation:* preserve the completed orchestration collapse and separately adjudicate
+  Schedule with a structural witness; the remaining gap cannot reopen the retired split by implication. Fine-grained edge decisions
   the review surfaced (`constrains`, `compensates`, `contains`-source-widen, and the Projection
   node-vs-View-Model fork) are engineer-view / DEFINE open-decision material, routed there, not here.
 

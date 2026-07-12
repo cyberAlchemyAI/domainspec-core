@@ -3,7 +3,7 @@ node_type: work-pack
 is_session: false
 status: candidate
 created: 2026-07-02
-authored_by: invoke (mode: plan)
+authored_by: "invoke (mode: plan)"
 define: ./DEFINE.md
 design: ./DESIGN.md
 implementation_layering: ./implementation-layering.md
@@ -12,6 +12,10 @@ complexity: low
 ---
 
 # Work-Pack — Comprehension Novice-Witness Test
+
+> **Historical baseline notice (2026-07-11):** The Saga-specific coverage
+> contract below is superseded and must not be rerun as written. A new run must
+> version its task around scoped Workflow.
 
 **SWU manifest (L0 = the runnable baseline that feeds Package B):**
 

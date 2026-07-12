@@ -5,6 +5,11 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
+import {
+  loadRelationshipAuthority,
+  type LoadedRelationshipAuthority,
+  type RelationshipSignature,
+} from "../../../tools/lib/relationship-signatures";
 import { normalizeTypeName, toRelative } from "./lib/code-tag-rules";
 import type {
   ExtractedTag,
@@ -24,96 +29,92 @@ type ComposabilityRule = {
   expectation: string;
 };
 
-const rules: ComposabilityRule[] = [
-  {
-    edge: "enforces",
-    fromType: "rule",
-    toType: "operation",
-    direction: "target-calls-source",
-    code: "CT-COMP-001",
-    severity: "HIGH",
-    expectation: "Operation calls its enforcing rule",
-  },
-  {
-    edge: "calculates",
-    fromType: "calculation",
-    toType: "operation",
-    direction: "target-calls-source",
-    code: "CT-COMP-002",
-    severity: "HIGH",
-    expectation: "Operation calls its calculation",
-  },
-  {
-    edge: "applies",
-    fromType: "policy",
-    toType: "operation",
-    direction: "target-calls-source",
-    code: "CT-COMP-003",
-    severity: "MEDIUM",
-    expectation: "Operation calls its policy",
-  },
-  {
-    edge: "exposes",
-    fromType: "interface",
-    toType: "operation",
-    direction: "source-calls-target",
-    code: "CT-COMP-004",
-    severity: "HIGH",
-    expectation: "Interface calls exposed operation",
-  },
-  {
-    edge: "exposes",
-    fromType: "interface",
-    toType: "query",
-    direction: "source-calls-target",
-    code: "CT-COMP-005",
-    severity: "HIGH",
-    expectation: "Interface calls exposed query",
-  },
-  {
-    edge: "mutates",
-    fromType: "binding",
-    toType: "operation",
-    direction: "source-calls-target",
-    code: "CT-COMP-006",
-    severity: "HIGH",
-    expectation: "Binding calls target operation",
-  },
-  {
-    edge: "fetches",
-    fromType: "binding",
-    toType: "query",
-    direction: "source-calls-target",
-    code: "CT-COMP-007",
-    severity: "HIGH",
-    expectation: "Binding calls target query",
-  },
-  {
-    edge: "orchestrates",
-    fromType: "workflow",
-    toType: "operation",
-    direction: "source-calls-target",
-    code: "CT-COMP-008",
-    severity: "HIGH",
-    expectation: "Workflow calls orchestrated operation",
-  },
-  {
-    edge: "enforces-cross",
-    fromType: "rule",
-    toType: "operation",
-    direction: "target-calls-source",
-    code: "CT-COMP-009",
-    severity: "HIGH",
-    expectation: "Cross-feature operation calls enforcing rule",
-  },
-];
+type CallSemantics = {
+  direction: ComposabilityRule["direction"];
+  code: string | ((targetType: string) => string);
+  severity: Severity;
+  expectation: (sourceType: string, targetType: string) => string;
+};
 
-const rulesByEdge = new Map<string, ComposabilityRule[]>();
-for (const rule of rules) {
-  const existing = rulesByEdge.get(rule.edge) || [];
-  existing.push(rule);
-  rulesByEdge.set(rule.edge, existing);
-}
+type RelationshipStatusEntry = {
+  id: string;
+  replacement?: string;
+  reason?: string;
+};
+
+const callSemanticsByEdge = new Map<string, CallSemantics>([
+  [
+    "enforces",
+    {
+      direction: "target-calls-source",
+      code: "CT-COMP-001",
+      severity: "HIGH",
+      expectation: (_sourceType, targetType) =>
+        `${targetType} calls its enforcing rule`,
+    },
+  ],
+  [
+    "calculates",
+    {
+      direction: "target-calls-source",
+      code: "CT-COMP-002",
+      severity: "HIGH",
+      expectation: (_sourceType, targetType) =>
+        `${targetType} calls its calculation`,
+    },
+  ],
+  [
+    "applies",
+    {
+      direction: "target-calls-source",
+      code: "CT-COMP-003",
+      severity: "MEDIUM",
+      expectation: (_sourceType, targetType) =>
+        `${targetType} calls its policy`,
+    },
+  ],
+  [
+    "exposes",
+    {
+      direction: "source-calls-target",
+      code: (targetType) =>
+        targetType === "query" ? "CT-COMP-005" : "CT-COMP-004",
+      severity: "HIGH",
+      expectation: (_sourceType, targetType) =>
+        `Interface calls exposed ${targetType}`,
+    },
+  ],
+  [
+    "mutates",
+    {
+      direction: "source-calls-target",
+      code: "CT-COMP-006",
+      severity: "HIGH",
+      expectation: (_sourceType, targetType) =>
+        `Binding calls target ${targetType}`,
+    },
+  ],
+  [
+    "fetches",
+    {
+      direction: "source-calls-target",
+      code: "CT-COMP-007",
+      severity: "HIGH",
+      expectation: (_sourceType, targetType) =>
+        `Binding calls target ${targetType}`,
+    },
+  ],
+  [
+    "orchestrates",
+    {
+      direction: "source-calls-target",
+      code: "CT-COMP-008",
+      severity: "HIGH",
+      expectation: (_sourceType, targetType) =>
+        `Workflow calls orchestrated ${targetType}`,
+    },
+  ],
+]);
 
 const args = process.argv.slice(2);
 const mode = (getArg("--mode") || "strict") as Mode;
@@ -125,6 +126,10 @@ const outputPath = getArg("--output")
   ? resolve(process.cwd(), getArg("--output") || "")
   : null;
 const jsonOnly = hasFlag("--json");
+const relationshipAuthorityPath = resolve(
+  process.cwd(),
+  getArg("--relationships") || "../definitions/relationships/relationships.yml",
+);
 
 if (!existsSync(inputPath)) {
   fail([
@@ -137,6 +142,31 @@ if (!existsSync(inputPath)) {
     ),
   ]);
 }
+
+let loadedRelationships: LoadedRelationshipAuthority;
+try {
+  loadedRelationships = loadRelationshipAuthority(relationshipAuthorityPath);
+} catch (error) {
+  fail([
+    issue(
+      "CT-COMP-013",
+      "CRITICAL",
+      String(error),
+      toRelative(relationshipAuthorityPath),
+      1,
+    ),
+  ]);
+}
+
+const { rulesByEdge, unsupportedActiveSignatures } =
+  buildDynamicRules(loadedRelationships);
+const generatedById = loadedRelationships.generatedViewsById;
+const deprecatedById = toStatusMap(
+  loadedRelationships.authority.deprecated as RelationshipStatusEntry[] | undefined,
+);
+const deferredById = toStatusMap(
+  loadedRelationships.authority.deferred as RelationshipStatusEntry[] | undefined,
+);
 
 const extraction = readExtraction(inputPath);
 const rootPath = getRootPath(extraction);
@@ -169,7 +199,28 @@ for (const sourceTag of tags) {
       continue;
     }
 
-    const edgeRules = rulesByEdge.get(edgeLabel) || [];
+    const edgeClass = classifyEdgeLabel({
+      edgeLabel,
+      loaded: loadedRelationships,
+      generatedById,
+      deprecatedById,
+      deferredById,
+    });
+    if (edgeClass.kind !== "active") {
+      issues.push(
+        issue(
+          edgeClass.code,
+          edgeClass.severity,
+          edgeClass.message,
+          sourceTag.file,
+          sourceTag.line,
+          sourceTag,
+          targetConceptId,
+        ),
+      );
+      continue;
+    }
+
     const conceptTargets = conceptToTags.get(targetConceptId) || [];
     if (conceptTargets.length === 0) {
       issues.push(
@@ -177,6 +228,51 @@ for (const sourceTag of tags) {
           "CT-COMP-010",
           "MEDIUM",
           `Cannot evaluate '${edgeLabel}' composability: target concept '${targetConceptId}' is not tagged in code`,
+          sourceTag.file,
+          sourceTag.line,
+          sourceTag,
+          targetConceptId,
+        ),
+      );
+      continue;
+    }
+
+    const validTargets = conceptTargets.filter((targetTag) =>
+      edgeClass.signatures.some((signature) =>
+        signatureAllows(
+          signature,
+          sourceType,
+          normalizeTypeName(targetTag.concept.type || ""),
+        ),
+      ),
+    );
+    if (validTargets.length === 0) {
+      const actualTargetTypes = Array.from(
+        new Set(
+          conceptTargets.map((targetTag) => targetTag.concept.type || "unknown"),
+        ),
+      ).join(" / ");
+      issues.push(
+        issue(
+          "CT-COMP-023",
+          "HIGH",
+          `Unconstructible DS-D8 endpoint: '${sourceTag.concept.type}' --[${edgeLabel}]--> '${actualTargetTypes}' is not an active root signature`,
+          sourceTag.file,
+          sourceTag.line,
+          sourceTag,
+          targetConceptId,
+        ),
+      );
+      continue;
+    }
+
+    const edgeRules = rulesByEdge.get(edgeLabel) || [];
+    if (edgeRules.length === 0) {
+      issues.push(
+        issue(
+          "CT-COMP-024",
+          "MEDIUM",
+          `DS-D8 coverage gap: active relationship '${edgeLabel}' has valid endpoints but no code-call semantics`,
           sourceTag.file,
           sourceTag.line,
           sourceTag,
@@ -287,6 +383,17 @@ const payload = {
   mode,
   input: toRelative(inputPath),
   root: toRelative(rootPath),
+  relationshipAuthority: toRelative(loadedRelationships.path),
+  activeSignatureCount: loadedRelationships.activeSignatureCount,
+  generatedViewCount: generatedById.size,
+  deprecatedCount: deprecatedById.size,
+  deferredCount: deferredById.size,
+  dynamicRuleCount: Array.from(rulesByEdge.values()).reduce(
+    (sum, edgeRules) => sum + edgeRules.length,
+    0,
+  ),
+  unsupportedActiveSignatureCount: unsupportedActiveSignatures.length,
+  unsupportedActiveSignatures,
   checks,
   passedChecks,
   issues: issues.length,
@@ -302,7 +409,7 @@ if (jsonOnly) {
   console.log(JSON.stringify(payload, null, 2));
 } else {
   console.log(
-    `check-code-tag-composability: checks=${payload.checks} passed=${payload.passedChecks} issues=${payload.issues} blocking=${payload.blockingIssues}`,
+    `check-code-tag-composability: authority=${payload.relationshipAuthority} activeSignatures=${payload.activeSignatureCount} dynamicRules=${payload.dynamicRuleCount} unsupportedActive=${payload.unsupportedActiveSignatureCount} checks=${payload.checks} passed=${payload.passedChecks} issues=${payload.issues} blocking=${payload.blockingIssues}`,
   );
 
   for (const entry of issues) {
@@ -320,6 +427,146 @@ if (mode === "strict" && blockingIssues.length > 0) {
 }
 
 process.exit(0);
+
+function buildDynamicRules(loaded: LoadedRelationshipAuthority): {
+  rulesByEdge: Map<string, ComposabilityRule[]>;
+  unsupportedActiveSignatures: string[];
+} {
+  const rulesByEdge = new Map<string, ComposabilityRule[]>();
+  const unsupportedActiveSignatures: string[] = [];
+
+  for (const signature of loaded.authority.signatures) {
+    if (signature.status && signature.status !== "active") {
+      continue;
+    }
+
+    const sources = signatureTypes(signature, "source");
+    const targets = signatureTypes(signature, "target");
+    const semantics = callSemanticsByEdge.get(signature.id);
+    for (const fromType of sources) {
+      for (const toType of targets) {
+        const signatureKey = `${signature.id}:${fromType}->${toType}`;
+        if (!semantics) {
+          unsupportedActiveSignatures.push(signatureKey);
+          continue;
+        }
+
+        const rule: ComposabilityRule = {
+          edge: signature.id,
+          fromType,
+          toType,
+          direction: semantics.direction,
+          code:
+            typeof semantics.code === "function"
+              ? semantics.code(toType)
+              : semantics.code,
+          severity: semantics.severity,
+          expectation: semantics.expectation(fromType, toType),
+        };
+        const existing = rulesByEdge.get(signature.id) || [];
+        existing.push(rule);
+        rulesByEdge.set(signature.id, existing);
+      }
+    }
+  }
+
+  unsupportedActiveSignatures.sort();
+  return { rulesByEdge, unsupportedActiveSignatures };
+}
+
+function signatureTypes(
+  signature: RelationshipSignature,
+  side: "source" | "target",
+): string[] {
+  const singular =
+    side === "source" ? signature.source_type : signature.target_type;
+  const plural =
+    side === "source" ? signature.source_types : signature.target_types;
+  return [singular, ...(plural || [])]
+    .filter((value): value is string => Boolean(value))
+    .map(normalizeTypeName)
+    .filter(Boolean);
+}
+
+function signatureAllows(
+  signature: RelationshipSignature,
+  sourceType: string,
+  targetType: string,
+): boolean {
+  return (
+    signatureTypes(signature, "source").includes(sourceType) &&
+    signatureTypes(signature, "target").includes(targetType)
+  );
+}
+
+function toStatusMap(
+  entries: RelationshipStatusEntry[] | undefined,
+): Map<string, RelationshipStatusEntry> {
+  return new Map(
+    (entries || [])
+      .filter((entry) => Boolean(entry.id))
+      .map((entry) => [entry.id, entry]),
+  );
+}
+
+function classifyEdgeLabel({
+  edgeLabel,
+  loaded,
+  generatedById,
+  deprecatedById,
+  deferredById,
+}: {
+  edgeLabel: string;
+  loaded: LoadedRelationshipAuthority;
+  generatedById: LoadedRelationshipAuthority["generatedViewsById"];
+  deprecatedById: Map<string, RelationshipStatusEntry>;
+  deferredById: Map<string, RelationshipStatusEntry>;
+}):
+  | { kind: "active"; signatures: RelationshipSignature[] }
+  | { kind: "rejected"; code: string; severity: Severity; message: string } {
+  const active = loaded.signaturesById.get(edgeLabel);
+  if (active && active.length > 0) {
+    return { kind: "active", signatures: active };
+  }
+
+  if (generatedById.has(edgeLabel)) {
+    return {
+      kind: "rejected",
+      code: "CT-COMP-020",
+      severity: "HIGH",
+      message: `Generated relationship view '${edgeLabel}' is not a canonical authored edge`,
+    };
+  }
+
+  const deprecated = deprecatedById.get(edgeLabel);
+  if (deprecated) {
+    const replacement = deprecated.replacement
+      ? `; use '${deprecated.replacement}'`
+      : "";
+    return {
+      kind: "rejected",
+      code: "CT-COMP-021",
+      severity: "HIGH",
+      message: `Deprecated relationship '${edgeLabel}' cannot be authored${replacement}`,
+    };
+  }
+
+  if (deferredById.has(edgeLabel)) {
+    return {
+      kind: "rejected",
+      code: "CT-COMP-022",
+      severity: mode === "strict" ? "HIGH" : "MEDIUM",
+      message: `Deferred relationship candidate '${edgeLabel}' is not active DS-D8 authority`,
+    };
+  }
+
+  return {
+    kind: "rejected",
+    code: "CT-COMP-025",
+    severity: "HIGH",
+    message: `Unknown relationship '${edgeLabel}' is not present in root DS-D8 authority`,
+  };
+}
 
 function tagCallsSymbol(
   tag: ExtractedTag,

@@ -10,6 +10,10 @@ promotion_boundary: local development. See caveats — this is a STRUCTURAL PRE-
 
 # Stall dataset — BASELINE arm (CampusRead task)
 
+> **Historical baseline notice (2026-07-11):** Saga observations in this
+> dataset describe the pre-collapse surface. They remain evidence, not current
+> authority or a future hardening route.
+
 ## ⚠️ Caveats (read before using these numbers)
 1. **Agent ≠ human.** The novice was a fresh LLM agent (blind to research/findings, verified). It surfaces
    where the *surface* is structurally under-specified even for a capable reader. It is **not** evidence

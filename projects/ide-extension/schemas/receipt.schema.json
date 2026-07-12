@@ -2,58 +2,180 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://domainspec.local/ide-extension/schemas/receipt.schema.json",
   "title": "ide-extension receipt",
-  "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "receipt_id",
-    "run_id",
-    "stage",
-    "status",
-    "before_ref",
-    "after_ref",
-    "approval_id",
-    "evidence_refs",
-    "created_at"
+  "oneOf": [
+    { "$ref": "#/$defs/legacyReceipt" },
+    { "$ref": "#/$defs/authorizationReceipt" },
+    { "$ref": "#/$defs/executionReceipt" }
   ],
-  "properties": {
-    "receipt_id": {
-      "type": "string",
-      "minLength": 1
-    },
-    "run_id": {
-      "type": "string",
-      "minLength": 1
-    },
-    "stage": {
-      "type": "string",
-      "minLength": 1
-    },
-    "status": {
-      "enum": ["passed", "flagged", "blocked", "failed"]
-    },
-    "before_ref": {
-      "type": "string",
-      "minLength": 1
-    },
-    "after_ref": {
-      "type": "string",
-      "minLength": 1
-    },
-    "approval_id": {
-      "type": "string",
-      "minLength": 1
-    },
-    "evidence_refs": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1
+  "$defs": {
+    "id": { "type": "string", "minLength": 1 },
+    "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "skill": { "type": "string", "pattern": "^[a-z][a-z0-9-]{0,63}$" },
+    "bridgeGrants": { "const": ["preview.read", "skill.invoke"] },
+    "operatorActor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "assurance"],
+      "properties": {
+        "kind": { "const": "local_operator_action" },
+        "assurance": { "const": "unattested" }
       }
     },
-    "created_at": {
-      "type": "string",
-      "minLength": 1
+    "legacyReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_id",
+        "run_id",
+        "envelope_id",
+        "requested_grants",
+        "requested_skill",
+        "disposition",
+        "stage",
+        "status",
+        "before_ref",
+        "after_ref",
+        "approval_id",
+        "evidence_refs",
+        "created_at"
+      ],
+      "properties": {
+        "receipt_id": { "$ref": "#/$defs/id" },
+        "run_id": { "$ref": "#/$defs/id" },
+        "envelope_id": { "$ref": "#/$defs/id" },
+        "requested_grants": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "requested_skill": {
+          "oneOf": [
+            { "$ref": "#/$defs/skill" },
+            { "type": "null" }
+          ]
+        },
+        "disposition": { "const": "approved" },
+        "stage": { "$ref": "#/$defs/id" },
+        "status": { "enum": ["passed", "flagged", "blocked", "failed"] },
+        "before_ref": { "$ref": "#/$defs/id" },
+        "after_ref": { "$ref": "#/$defs/id" },
+        "approval_id": { "$ref": "#/$defs/id" },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "created_at": { "$ref": "#/$defs/id" }
+      }
+    },
+    "authorizationReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "receipt_kind",
+        "receipt_id",
+        "run_id",
+        "envelope_id",
+        "approval_id",
+        "task",
+        "task_sha256",
+        "requested_skill",
+        "requested_skill_sha256",
+        "requested_grants",
+        "grant_profile_sha256",
+        "policy_version",
+        "actor",
+        "authorization_status",
+        "authorized_at",
+        "created_at"
+      ],
+      "properties": {
+        "schema_version": { "const": "2" },
+        "receipt_kind": { "const": "authorization.receipt" },
+        "receipt_id": { "$ref": "#/$defs/id" },
+        "run_id": { "$ref": "#/$defs/id" },
+        "envelope_id": { "$ref": "#/$defs/id" },
+        "approval_id": { "$ref": "#/$defs/id" },
+        "task": { "type": "string", "minLength": 1, "pattern": "\\S" },
+        "task_sha256": { "$ref": "#/$defs/hash" },
+        "requested_skill": { "$ref": "#/$defs/skill" },
+        "requested_skill_sha256": { "$ref": "#/$defs/hash" },
+        "requested_grants": { "$ref": "#/$defs/bridgeGrants" },
+        "grant_profile_sha256": { "$ref": "#/$defs/hash" },
+        "policy_version": { "type": "string", "minLength": 1 },
+        "actor": { "$ref": "#/$defs/operatorActor" },
+        "authorization_status": { "const": "granted" },
+        "authorized_at": { "$ref": "#/$defs/id" },
+        "created_at": { "$ref": "#/$defs/id" }
+      }
+    },
+    "executionReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "receipt_kind",
+        "receipt_id",
+        "run_id",
+        "envelope_id",
+        "approval_id",
+        "authorization_receipt_id",
+        "claim_id",
+        "claim_attempt_id",
+        "agent_ref",
+        "session_ref",
+        "assurance",
+        "requested_skill",
+        "skill_sha256",
+        "requested_grants",
+        "effect_profile",
+        "status",
+        "summary",
+        "validation",
+        "evidence_refs",
+        "before_ref",
+        "after_ref",
+        "result_ref",
+        "claimed_at",
+        "result_at",
+        "created_at"
+      ],
+      "properties": {
+        "schema_version": { "const": "2" },
+        "receipt_kind": { "const": "skill.execution" },
+        "receipt_id": { "$ref": "#/$defs/id" },
+        "run_id": { "$ref": "#/$defs/id" },
+        "envelope_id": { "$ref": "#/$defs/id" },
+        "approval_id": { "$ref": "#/$defs/id" },
+        "authorization_receipt_id": { "$ref": "#/$defs/id" },
+        "claim_id": { "$ref": "#/$defs/id" },
+        "claim_attempt_id": { "$ref": "#/$defs/id" },
+        "agent_ref": { "const": "codex.current-session" },
+        "session_ref": { "$ref": "#/$defs/id" },
+        "assurance": { "const": "unattested" },
+        "requested_skill": { "$ref": "#/$defs/skill" },
+        "skill_sha256": { "$ref": "#/$defs/hash" },
+        "requested_grants": { "$ref": "#/$defs/bridgeGrants" },
+        "effect_profile": { "const": "preview.read" },
+        "status": { "enum": ["passed", "flagged", "blocked", "failed"] },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 2000 },
+        "validation": {
+          "type": "array",
+          "maxItems": 50,
+          "items": { "type": "string", "minLength": 1, "maxLength": 500 }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "before_ref": { "$ref": "#/$defs/id" },
+        "after_ref": { "$ref": "#/$defs/id" },
+        "result_ref": { "$ref": "#/$defs/id" },
+        "claimed_at": { "$ref": "#/$defs/id" },
+        "result_at": { "$ref": "#/$defs/id" },
+        "created_at": { "$ref": "#/$defs/id" }
+      }
     }
   }
 }
-

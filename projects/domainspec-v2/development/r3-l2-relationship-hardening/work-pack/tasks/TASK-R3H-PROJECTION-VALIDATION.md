@@ -37,10 +37,10 @@ No blocker. Broader R3 closeout remains in `development/r3-closeout-plan/`.
 ### SWU-R3H-008
 
 - Objective: sync root human companion and implementation projection.
-- Dependencies: SWU-R3H-003, SWU-R3H-004, SWU-R3H-006, SWU-R3H-007.
+- Dependencies: SWU-R3H-003, SWU-R3H-004, SWU-R3H-005.
 - Source anchors: human root companion and implementation projection.
 - Write scope: `projects/domainspec-v2/definitions/relationships/relationships.md`; `projects/domainspec-v2/impl/spec/RELATIONSHIPS.md`.
-- Done criteria: docs mention `signature_key`, `authority_effects`, `semantic_kinds`, Saga obligations, generated views, and deferred residue without making `impl/` authoritative.
+- Done criteria: docs mention `signature_key`, `authority_effects`, `semantic_kinds`, generated views, and deferred residue without making `impl/` authoritative or reviving the cancelled Saga-law lane.
 - Acceptance evidence: docs validate and wording preserves root/implementation boundary.
 - Validation: `npm --prefix projects/domainspec-v2/impl run validate:docs`.
 - Execution owner: local-fallback.

@@ -19,11 +19,11 @@ function runFixture(name: string) {
   return runValidator(["--features-root", `spec/__fixtures__/relationships/${name}`]);
 }
 
-test("valid relationship endpoints pass, including Saga and Entity relations", () => {
+test("valid relationship endpoints pass, including Workflow and Entity relations", () => {
   const r = runFixture("valid");
   assert.equal(r.status, 0, r.stdout + r.stderr);
   assert.match(r.stdout, /PASS/);
-  assert.match(r.stdout, /canonicalSignatures=31/);
+  assert.match(r.stdout, /canonicalSignatures=30/);
 });
 
 for (const fixture of [
@@ -32,6 +32,7 @@ for (const fixture of [
   "bad-reversed-enforces",
   "bad-queries-target",
   "bad-operation-emits-event",
+  "bad-saga-orchestrates-operation",
 ]) {
   test(`${fixture} is rejected as unconstructible`, () => {
     const r = runFixture(fixture);

@@ -7,6 +7,11 @@ docType: shared-context
 
 # Shared Context
 
+> **2026-07-11 supersession:** The accepted Saga collapse cancels every Saga-law
+> hardening route in this document. Saga-specific design text below is retained
+> as historical planning evidence only; `WORK-PACK.md` owns the active route.
+
+
 ## Operating Boundary
 
 R3H is a focused relationship-authority hardening package. It does not execute broader R3 closeout tasks

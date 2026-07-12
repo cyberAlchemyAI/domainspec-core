@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/bridge-result-request.schema.json",
+  "title": "ide-extension bridge result request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "claim_id",
+    "claim_attempt_id",
+    "envelope_id",
+    "run_id",
+    "approval_id",
+    "session_ref",
+    "assurance",
+    "requested_skill",
+    "skill_sha256",
+    "status",
+    "summary",
+    "validation",
+    "evidence_refs"
+  ],
+  "properties": {
+    "schema_version": { "const": "2" },
+    "claim_id": { "type": "string", "minLength": 1 },
+    "claim_attempt_id": { "type": "string", "minLength": 1 },
+    "envelope_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "approval_id": { "type": "string", "minLength": 1 },
+    "session_ref": { "type": "string", "minLength": 1, "maxLength": 200, "pattern": "^[A-Za-z0-9._:-]+$" },
+    "assurance": { "const": "unattested" },
+    "requested_skill": { "type": "string", "pattern": "^[a-z][a-z0-9-]{0,63}$" },
+    "skill_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "status": { "enum": ["passed", "flagged", "blocked", "failed"] },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 2000, "pattern": "\\S" },
+    "validation": {
+      "type": "array",
+      "maxItems": 50,
+      "items": { "type": "string", "minLength": 1, "maxLength": 500 }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

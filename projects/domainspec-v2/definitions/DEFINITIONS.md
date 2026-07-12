@@ -1134,8 +1134,8 @@ edge admissibility check =
 Plain-language voice: DS-D8 is the typed contract behind every allowed relationship. It says not only that
 `enforces` is a valid word, but that only a Rule may enforce an Operation.
 
-Domain-context voice: R3A currently defines 31 active signatures. `orchestrates` has separate Workflow and
-Saga signatures; `owned-by` is generated navigation; `depends-on`, Operation-returned Value Object, and the
+Domain-context voice: R3A currently defines 30 active signatures. `orchestrates` has one Workflow signature
+covering same-feature and cross-feature scope; `owned-by` is generated navigation; `depends-on`, Operation-returned Value Object, and the
 Event payload/publisher split stay deferred until new evidence proves distinct behavior.
 
 Use carefully: DS-D8 is endpoint authority, not a full category-law proof system. Category laws remain a

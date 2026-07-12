@@ -2,7 +2,7 @@
 task_id: TASK-SGRM-IMPLEMENTATION
 feature_code: SGRM
 layer: L1-L2
-status: not-started
+status: completed
 ---
 
 # TASK-SGRM-IMPLEMENTATION: Migrate Workflow And Validators
@@ -17,10 +17,11 @@ generic invariants.
 
 ### Inputs And Outputs
 
-Inputs: validate-content.ts, instances.ts, meta-type-noncollapse.ts, their tests,
-and workflow.schema.yml.
+Inputs: validate-content.ts, instances.ts, meta-type-noncollapse.ts, the
+non-collapse CLI acceptance matrix, their tests, and workflow.schema.yml.
 
-Outputs: one supported criterion rule and focused tests.
+Outputs: one supported criterion rule, focused tests, and a current-registry
+zero-collapse baseline replacing the superseded pair lock.
 
 ### Algorithm
 
@@ -38,12 +39,18 @@ For criterion rule attribute-one-of:
    classification guard.
 10. Test intra-feature pass, cross-feature pass, unknown fail, missing fail,
     deterministic generation, and attestation permutation behavior.
+11. Replace only the obsolete real-registry Saga~Workflow acceptance lock with
+    the authority-current zero-collapse baseline and eight-keyword wording.
+12. Synchronize the positive relationship fixture to Workflow and 30 root
+    signatures; leave the negative Saga-source proof to SGRM-005.
 
 ### Contract
 
 - Dependencies: SGRM-001.
-- Write scope: the three tool modules and focused test files.
-- Done: no unsupported-rule skip; all focused tests and typecheck pass.
+- Write scope: the three rule modules, the non-collapse CLI acceptance matrix,
+  focused test files, and the positive relationship fixture/test expectation.
+- Done: no unsupported-rule skip; no obsolete pair lock; all focused/full tool
+  tests and typecheck pass.
 - Evidence: test output and receipt.
 - Validation: tools:test, instances round trip, typecheck.
 - Owner: local-fallback.
@@ -67,7 +74,8 @@ For criterion rule attribute-one-of:
 ### Contract
 
 - Dependencies: SGRM-002 and SGRM-003.
-- Write scope: behavioral Workflow/Saga files and mt fixtures only.
+- Write scope: behavioral Workflow/Saga files, mt fixtures, and only the
+  generated Workflow/Saga instances named by the accepted migration packet.
 - Done: no active Saga implementation file; valid scope variants pass; invalid
   scope fails.
 - Evidence: file census, fixture output, receipt.
@@ -78,12 +86,14 @@ For criterion rule attribute-one-of:
 
 ### Ordered Rules
 
-1. Rewrite active relationship fixtures from Saga source to cross-feature
-   Workflow source.
+1. Verify the decision-owned positive fixture migration from SGRM-003 and
+   rewrite any remaining active relationship fixtures from Saga source to
+   cross-feature Workflow source.
 2. Add a negative relationship fixture or unit case proving Saga source is
    unconstructible after registry removal.
 3. Remove Saga-specific endpoint obligations from validator expectations.
-4. Remove MUST fire Saga~Workflow and sole-collapse acceptance locks.
+4. Verify the SGRM-003 decision-owned removal of the Saga~Workflow acceptance
+   lock remains intact; do not recreate a historical pair baseline.
 5. Preserve generic fresh-duplicate, anti-attestation, exception-lane,
    structural-witness, and classification-totality tests.
 6. Set the baseline registry expectation from the execution-time schema set;

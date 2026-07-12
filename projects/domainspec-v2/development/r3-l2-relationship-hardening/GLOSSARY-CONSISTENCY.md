@@ -7,6 +7,11 @@ docType: glossary-consistency-report
 
 # Glossary Consistency Report
 
+> **2026-07-11 supersession:** The accepted Saga collapse cancels every Saga-law
+> hardening route in this document. Saga-specific design text below is retained
+> as historical planning evidence only; `WORK-PACK.md` owns the active route.
+
+
 This report checks the design vocabulary against current R3 relationship authority and the two research
 finding packets. It records candidate wording only; it does not promote definitions.
 

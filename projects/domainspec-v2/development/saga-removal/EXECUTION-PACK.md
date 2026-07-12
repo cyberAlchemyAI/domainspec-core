@@ -1,7 +1,7 @@
 ---
 module: saga-removal
 feature_code: SGRM
-status: draft
+status: completed
 updatedAt: 2026-07-11
 docType: execution-pack
 ---
@@ -23,8 +23,12 @@ their paths differ.
 | [W2](work-pack/waves/W2.md) | L2 | SGRM-004, then SGRM-005 | No active Saga implementation file; focused/full tests green. |
 | [W3](work-pack/waves/W3.md) | L3 | SGRM-006, SGRM-007, SGRM-008 | Current guidance and read models agree; zero-active audit passes. |
 
+Current position: SGRM-001..008 are complete; the execution route is closed.
+
 SGRM-003 may begin after SGRM-001, but the default choreography keeps it after
-SGRM-002 to reduce concurrent interpretation drift.
+SGRM-002 to reduce concurrent interpretation drift. The refreshed SGRM-002
+boundary includes one validator-consistency bridge: clear only the legacy Saga
+schema's `edge_participation.source_of` field while root authority changes.
 
 ## Receipt Contract
 

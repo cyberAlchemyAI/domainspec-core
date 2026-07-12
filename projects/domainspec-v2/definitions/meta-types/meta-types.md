@@ -9,8 +9,8 @@ Status: candidate (owner approval in progress, 1-by-1)
 Owner: definitions-governance (domain-local)
 Machine view: [meta-types.yml](./meta-types.yml) · Criterion per type: `../../impl/spec/meta-types/<category>/<type>.schema.yml`
 
-**meta-type** = a candidate concept type in the DomainSpec node alphabet. The descriptive catalog names 25
-candidates, but this authority surface currently carries cards only for the 14 backend types. Each backend
+**meta-type** = a candidate concept type in the DomainSpec node alphabet. The descriptive catalog names 24
+candidates, but this authority surface currently carries cards only for 13 backend types. Each backend
 card's Formal voice restates its `.schema.yml` criterion; Evidence links the schema (the machine source of
 truth) + the TAXONOMY entry.
 
@@ -18,7 +18,7 @@ truth) + the TAXONOMY entry.
 
 | Candidate slice | Current status | Authority boundary |
 | --- | --- | --- |
-| `DS-D1.1..14` backend | Shape/fixture-backed candidates; confirmation remains owner-gated and deeper semantic laws may still need hardening. | Schema presence proves checked shape, not full semantic authority. |
+| `DS-D1.1..9`, `DS-D1.11..14` backend | Shape/fixture-backed candidates; confirmation remains owner-gated and deeper semantic laws may still need hardening. | Schema presence proves checked shape, not full semantic authority; the explicit ID gap preserves later identities. |
 | `DS-D1.15..25` UI | Formation-deferred; no cards or criterion schemas live in this authority surface. | Active DS-D8 endpoint use is evidence pressure only and does not promote DS-D1 formation. |
 
 The deferred UI candidate trail remains in
@@ -388,73 +388,31 @@ Formal voice:
 
 ```text
 Workflow =
-  multi-step orchestration of operations within one feature.
-  well-formedness criterion (workflow.schema.yml):
-    intra_feature : declares scope = intra-feature  (in the Attribute | Value table)
-  steps with decision points + compensation; single-feature ownership.
+  multi-step orchestration of operations within or across feature boundaries.
+  authority criterion (workflow.schema.yml implementation follows in SGRM-003/004):
+    admitted_scope : declares scope in {intra-feature, cross-feature}
+                     (in the Attribute | Value table)
+  ordered steps with one declared ownership-boundary scope.
 ```
 
-Plain-language voice: coordinates several operations across time inside one feature/bounded context.
-OrderFulfillment, UserOnboarding — one owner, many steps.
+Plain-language voice: coordinates several ordered operations across time. The declared scope says whether the
+coordination stays inside one feature or crosses feature boundaries.
 
-Domain-context voice: SOURCE of `orchestrates` for same-feature Operation coordination; no active DS-D8 target
-signatures. Checked by the content validator against `workflow.schema.yml`.
+Domain-context voice: SOURCE of `orchestrates` for same-feature or cross-feature Operation coordination; no
+active DS-D8 target signatures. The content-validator implementation is migrated in SGRM-003/004.
 
-Use carefully: `scope` is the *declared* attribute (the `Attribute | Value` table); a Workflow stays within
-one feature.
+Use carefully: `scope` is the *declared* attribute (the `Attribute | Value` table), not an inferred structural
+witness. Its admitted values are `intra-feature` and `cross-feature`.
 
-Misuse warning: if it declares `scope = cross-feature` (spans features/bounded contexts), it's a **Saga** —
-the validator rejects it as Workflow.
+Misuse warning: a missing, empty, or unknown scope is not a valid Workflow declaration.
 
-Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "an orchestration
-spanning features mislabeled as intra-feature" → challenges `intra_feature`; owner route =
+Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "an orchestration with
+missing or unknown scope" → challenges `admitted_scope`; owner route =
 definitions-governance; gate = owner decision + `workflow.schema.yml` fixtures re-run; blocking question =
-"does it stay within one feature, or cross ownership boundaries?"; residue → `definitions/reviews/`.
+"does it declare exactly one admitted ownership-boundary scope?"; residue → `definitions/reviews/`.
 
 Confirm contract (promotion — build-from-owned on the cav2 promotion gate): promotes when = owner approves +
 `workflow.schema.yml` fixtures discriminate + criterion exercised on ≥1 real aspect concept; gate =
-definitions-governance owner gate; status on confirm = candidate → active.
-
-Promotion boundary: local domain vocabulary (DomainSpec v2); the criterion is the public schema, never the
-engine δ-derivation (moat).
-
----
-
-## DS-D1.10 · Saga (Behavioral)
-
-Source kind: domain-vocabulary; formalized (criterion in `saga.schema.yml`)
-
-Evidence: [saga.schema.yml](../../impl/spec/meta-types/behavioral/saga.schema.yml) (machine criterion) ·
-[TAXONOMY.md → Saga](../../impl/spec/TAXONOMY.md) (descriptive catalog)
-
-Formal voice:
-
-```text
-Saga =
-  long-running orchestration across features/bounded contexts with compensation.
-  well-formedness criterion (saga.schema.yml):
-    cross_feature : declares scope = cross-feature  (in the Attribute | Value table)
-  forward steps + a compensation per participant; owns cross-context progression + rollback.
-```
-
-Plain-language voice: long-running coordination across features / bounded contexts, with compensation for
-partial failures. WireTransferSaga: accounts → compliance → transfer.
-
-Domain-context voice: SOURCE of `orchestrates` for cross-feature Operation coordination; no active DS-D8 target
-signatures. Checked by the content validator against `saga.schema.yml`.
-
-Use carefully: `scope` is the *declared* attribute (the `Attribute | Value` table); a Saga spans features.
-
-Misuse warning: if it declares `scope = intra-feature` (one feature), it's a **Workflow** — the validator
-rejects it as Saga.
-
-Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a single-feature
-orchestration mislabeled as cross-feature" → challenges `cross_feature`; owner route = definitions-governance;
-gate = owner decision + `saga.schema.yml` fixtures re-run; blocking question = "does it cross feature/ownership
-boundaries, or stay within one?"; residue → `definitions/reviews/`.
-
-Confirm contract (promotion — build-from-owned on the cav2 promotion gate): promotes when = owner approves +
-`saga.schema.yml` fixtures discriminate + criterion exercised on ≥1 real aspect concept; gate =
 definitions-governance owner gate; status on confirm = candidate → active.
 
 Promotion boundary: local domain vocabulary (DomainSpec v2); the criterion is the public schema, never the

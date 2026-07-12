@@ -1,8 +1,10 @@
 ---
 decision_id: DEC-SGRM-REL-VALIDATION-CYCLE
-status: blocked-pending-owner-choice
+status: accepted
 created: 2026-07-11
 target: SWU-SGRM-002
+selected_option: minimal-schema-edge-bridge
+decision_source: apply-approved-invoke-refresh-instruction
 ---
 
 # DEC-SGRM-REL-VALIDATION-CYCLE
@@ -78,6 +80,15 @@ reversible edit and retains the existing migration choreography. Option 2 is
 cleaner in theory but costs more plan mutation; option 3 weakens the gate that
 exposed the problem.
 
+## Selected Option
+
+Option 1, minimal schema-edge bridge.
+
+The owner's chained instruction to refresh the tasks and then run Task Session
+is recorded as approval to apply the recommended task repair. This approves one
+field-level scope addition to SGRM-002; it does not approve broader schema
+mutation or move deletion ownership out of SGRM-004.
+
 ## Standing Context Option
 
 `Explain / more context` does not select an option. It requests a deeper account
@@ -85,8 +96,8 @@ of the transient states, reversibility, and downstream verification impact.
 
 ## Decision State
 
-- selected option: pending owner choice
-- blocker count: 1
-- consequential mutation: stopped
+- selected option: minimal schema-edge bridge
+- blocker count: 0
+- consequential mutation: may resume through refreshed SGRM-002
 - rollback: complete
 - remaining active authority: unchanged from the pre-session state

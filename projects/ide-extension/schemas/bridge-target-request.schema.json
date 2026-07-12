@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/bridge-target-request.schema.json",
+  "title": "ide-extension bridge target request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "action", "envelope_id", "approval_id", "actor"],
+  "properties": {
+    "schema_version": { "const": "2" },
+    "action": { "enum": ["ready", "unready"] },
+    "envelope_id": { "type": "string", "minLength": 1 },
+    "approval_id": { "type": "string", "minLength": 1 },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "assurance"],
+      "properties": {
+        "kind": { "const": "local_operator_action" },
+        "assurance": { "const": "unattested" }
+      }
+    }
+  }
+}

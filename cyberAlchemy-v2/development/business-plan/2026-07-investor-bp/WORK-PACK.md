@@ -1,186 +1,118 @@
 ---
-module: investor-business-plan-package
+module: investor-package-language-value-migration
 version: current
-status: flag
-updatedAt: 2026-07-10
+status: pass
+updatedAt: 2026-07-12
 docType: work-pack
 ---
 
-# WORK-PACK: Investor Business Plan Package
-
-## Purpose
-
-Canonical executable plan and SWU manifest for building the private investor BP
-package from accepted research while preserving claim <= proof.
+# WORK-PACK: Investor Package Language And Value Migration
 
 ## Control Fields
 
 | Field | Value | Notes |
 | --- | --- | --- |
-| workPackGateStatus | flag | Usable for next planning/writing SWU; not investor-ready. |
-| complexity | medium | Multiple dependent artifacts and evidence gates. |
-| outputMode | single-file SWU manifest with execution-pack companion | Task-local split files deferred until the first SWU is selected for execution. |
-| executionPackRef | `EXECUTION-PACK.md` | Wave choreography for the BP build. |
-| layeringArtifactRef | `IMPLEMENTATION-LAYERING.md` | L0-L3 boundary decisions. |
-| dispatchTechniqueTrace | `INVOKE-PLAN.md#dispatch-spec-technique-trace` | Required Invoke plan trace. |
-| distillValidationStatus | flag | Local validation recorded; independent Distill run still needed. |
-| activeLayerWindow | L3 | BP body complete; investor compression and final audit remain. |
-| lastUpdatedAt | 2026-07-10 | BP evidence, economic, operating, and narrative layers drafted. |
-| readinessProfile | pilot | Intended for first-investor preparation, not public release. |
+| workPackGateStatus | pass | Mutation planning is ready; investor circulation is not. |
+| complexity | medium | Seven target artifacts, six tasks, eight SWUs, protected context, and browser validation. |
+| outputMode | split | Task, wave, and shared-context contracts are present. |
+| executionPackRef | `EXECUTION-PACK.md` | Cross-task choreography only. |
+| layeringArtifactRef | `IMPLEMENTATION-LAYERING.md` | L0-L3 authority. |
+| dispatchTechniqueTrace | `INVOKE-PLAN.md#dispatch-spec-technique-trace` | Full route: `MUTATION-DISPATCH.json`. |
+| distillValidationStatus | pass | See `DISTILL-VALIDATION.md`. |
+| activeLayerWindow | L0 | Evidence controls first. |
+| selectedSWU | `SWU-CABP-001` | Execute one SWU only. |
+| lastUpdatedAt | 2026-07-12 | Approved language research integrated. |
+| readinessProfile | pilot | Private investor-conversation package, not public release. |
 
-## Objective Summary
+## Objective
 
-- Objective: Create a private, evidence-bounded business plan package that can support first-investor conversations and later diligence.
-- Primary inputs: accepted BP build findings, business-plan Whisper preset, Invoke plan contract, user constraints on claim discipline and company reach.
-- Success condition: BP package exists with evidence registry, financial assumptions, operating plan, full BP, memo/deck substrate, and claim audit; every claim is mapped to evidence, assumption, or future-only status.
+Mutate every current investor-package artifact so a nontechnical investor can
+identify the customer, purchase trigger, delivered work, changed customer
+workflow, possible money mechanism, validation method, and current evidence
+boundary without learning internal CyberAlchemy vocabulary.
+
+Success requires artifact parity, no unsupported claim promotion, and browser
+validation of the HTML derivative.
+
+## Source Contracts
+
+- [Approved findings](../../research/2026-07-11-investor-language-customer-value/findings.md)
+- [Verbatim research](../../research/2026-07-11-investor-language-customer-value/research.md)
+- [Shared execution context](work-pack/shared/context.md)
+- [Cross-task decisions](work-pack/shared/cross-task-decisions.md)
+- [Cross-task gaps](work-pack/shared/cross-task-gaps.md)
+- [Traceability map](work-pack/shared/traceability.md)
 
 ## Delivery Slices
 
-| Slice ID | Outcome | Layer | Wave | Dependencies | Validation |
+| Slice | Outcome | Layer | Wave | Dependencies | Validation |
 | --- | --- | --- | --- | --- | --- |
-| S-001 | Evidence registry and source trace. | L0 | W0 | Accepted findings. | Every BP section has source evidence, missing witness, and demotion gate. |
-| S-002 | Financial assumptions and operating model. | L1 | W1 | S-001. | Projections are driver-based and labeled assumptions. |
-| S-003 | Full business plan draft. | L2 | W2 | S-001, S-002. | Whisper BP validation checks pass or gaps are explicit. |
-| S-004 | Investor memo and deck substrate. | L3 | W3 | S-003. | No new claims beyond BP/data room. |
-| S-005 | Claim audit and next-route handoff. | L3 | W4 | S-001 through S-004. | Forbidden claims absent or explicitly demoted. |
+| S-001 | Evidence registry and source trace govern the new language. | L0 | [W0](work-pack/waves/W0.md) | approved findings | Status and source parity review. |
+| S-002 | Financial and operating models use the new offer and measurement contract. | L1 | [W1](work-pack/waves/W1.md) | S-001 | Cross-file offer, taxonomy, and gate parity. |
+| S-003 | Canonical BP rewritten around one concrete transaction. | L2 | [W2](work-pack/waves/W2.md) | S-001, S-002 | Narrative and forbidden-claim review. |
+| S-004 | Provisional claim audit classifies all Markdown artifacts. | L2 | [W3](work-pack/waves/W3.md) | S-003 | Every load-bearing claim classified. |
+| S-005 | HTML rebuilt as an audited BP derivative. | L3 | [W4](work-pack/waves/W4.md) | S-004 | HTML parse, content parity, no new claims. |
+| S-006 | Final browser, comprehension, and claim audit. | L3 | [W5](work-pack/waves/W5.md) | S-005 | Desktop/mobile screenshots and final verdict. |
 
-## Task Status Board
+## Task Board
 
-| Task ID | Goal | Layer | Complexity | Waves | Source | Gate Status | Status |
+| Task | Goal | Layer | Wave | Gate | Status |
+| --- | --- | --- | --- | --- | --- |
+| [TASK-CABP-001](work-pack/tasks/TASK-CABP-001-EVIDENCE-CONTROLS.md) | Migrate evidence registry and source trace. | L0 | W0 | ready | not-started |
+| [TASK-CABP-002](work-pack/tasks/TASK-CABP-002-ECONOMICS-OPERATIONS.md) | Migrate financial assumptions and operating plan. | L1 | W1 | waits for W0 | not-started |
+| [TASK-CABP-003](work-pack/tasks/TASK-CABP-003-BUSINESS-PLAN.md) | Rewrite canonical business plan. | L2 | W2 | waits for W1 | not-started |
+| [TASK-CABP-004](work-pack/tasks/TASK-CABP-004-CLAIM-AUDIT.md) | Create provisional cross-artifact claim audit. | L2 | W3 | waits for W2 | not-started |
+| [TASK-CABP-005](work-pack/tasks/TASK-CABP-005-INVESTOR-HTML.md) | Rewrite shareable HTML from audited BP. | L3 | W4 | waits for W3 | not-started |
+| [TASK-CABP-VERIFY](work-pack/tasks/TASK-CABP-VERIFY-FINAL.md) | Run final claim, browser, and comprehension validation. | L3 | W5 | waits for W4 | not-started |
+
+## SWU Manifest
+
+| SWU | Parent | Dependencies | Write Scope | Done Evidence | Validation | Owner | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-BP-001 | Build registry and source trace. | L0 | medium | W0 | BP findings, accepted portfolio/assurance/moat/model-use findings | pass | complete |
-| TASK-BP-002 | Build bottom-up financial assumptions and operating plan. | L1 | medium | W1 | BP findings financial checklist, Whisper preset financial model | pass | complete |
-| TASK-BP-003 | Draft full BP with evidence boundary. | L2 | medium | W2 | Registry, source trace, financial assumptions | flag | complete-draft |
-| TASK-BP-004 | Draft memo and deck substrate. | L3 | medium | W3 | Full BP, claim audit draft | blocked | not-started |
-| TASK-BP-005 | Run claim audit and handoff. | L3 | medium | W4 | All package artifacts | blocked | not-started |
+| `SWU-CABP-001` | [TASK-CABP-001](work-pack/tasks/TASK-CABP-001-EVIDENCE-CONTROLS.md) | none | `diligence-evidence-registry.md` | New findings, statuses, money tags, and missing witnesses govern registry. | Task review checks. | task-session/local-fallback | selected |
+| `SWU-CABP-002` | [TASK-CABP-001](work-pack/tasks/TASK-CABP-001-EVIDENCE-CONTROLS.md) | 001 | `source-trace.md` | Outward claims map to source, status, and demotion. | Link/status consistency review. | task-session/local-fallback | blocked-by-dependency |
+| `SWU-CABP-003` | [TASK-CABP-002](work-pack/tasks/TASK-CABP-002-ECONOMICS-OPERATIONS.md) | 002 | `financial-assumptions.md` | Monetary taxonomy and founder gaps are explicit. | Numeric/status review. | task-session/local-fallback | blocked-by-dependency |
+| `SWU-CABP-004` | [TASK-CABP-002](work-pack/tasks/TASK-CABP-002-ECONOMICS-OPERATIONS.md) | 003 | `operating-plan.md` | Roles, workflow, burdens, and two gates agree with finance. | Cross-file parity review. | task-session/local-fallback | blocked-by-dependency |
+| `SWU-CABP-005` | [TASK-CABP-003](work-pack/tasks/TASK-CABP-003-BUSINESS-PLAN.md) | 001-004 | `business-plan.md` | Complete new narrative with visible evidence boundaries. | Structure, terminology, and claim review. | task-session + whisper/local-fallback | blocked-by-dependency |
+| `SWU-CABP-006` | [TASK-CABP-004](work-pack/tasks/TASK-CABP-004-CLAIM-AUDIT.md) | 005 | `claim-audit.md` | All Markdown claims classified and HTML contract frozen. | Claim matrix completeness review. | task-session/local-fallback | blocked-by-dependency |
+| `SWU-CABP-007` | [TASK-CABP-005](work-pack/tasks/TASK-CABP-005-INVESTOR-HTML.md) | 006 | `investor-brief.html` | HTML mirrors audited BP and preserves professional rendering. | Parse, text parity, local browser checks. | task-session + whisper/local-fallback | blocked-by-dependency |
+| `SWU-CABP-008` | [TASK-CABP-VERIFY](work-pack/tasks/TASK-CABP-VERIFY-FINAL.md) | 007 | `claim-audit.md` | Final claim/browser/comprehension verdict and repair routing recorded. | Full validation suite. | task-session/local-fallback | blocked-by-dependency |
 
-## Implementation Detail Specs
+Each SWU belongs to exactly one task. Sequential reuse of `claim-audit.md` by
+006 and 008 is intentional and ordered; no parallel write overlap exists.
 
-### TASK-BP-001: Registry And Source Trace
+## Validation Strategy
 
-Inputs: accepted BP research findings and named source findings. Output two
-files: `diligence-evidence-registry.md` and `source-trace.md`.
+| Surface | Check |
+| --- | --- |
+| Markdown integrity | `git diff --check`; heading/link review. |
+| Language parity | Search retired external terms and inspect allowed diligence-only occurrences. |
+| Claim discipline | Claim matrix contains source, status, scope, and demotion/next-proof route. |
+| Monetary discipline | Every amount or financial outcome uses one approved monetary tag in supporting controls. |
+| Cross-file consistency | Offer, buyer hypothesis, scenario status, gates, and financing status agree. |
+| HTML structure | Parse with Python `html.parser`; no malformed document or missing required section anchors. |
+| Browser behavior | Serve locally; inspect desktop and mobile screenshots, console, links, overflow, and overlap. |
+| Comprehension | First-screen reviewer can answer buyer, trigger, deliverable, value metric, validation status, and financing status. |
+| Private boundary | No writes to `arcanum/`; no private mechanism copied into public artifacts. |
 
-Rules:
+## Blockers And Gaps
 
-1. Classify each evidence item as proven now, assumption, forecast, future-only, missing witness, or forbidden.
-2. Map each BP section to source evidence, missing witness, and demotion gate.
-3. Preserve private/public boundary labels.
-4. Do not draft investor prose in this task.
-
-Edge cases:
-
-- If a source is only an inventory summary, label it as registry evidence, not proof.
-- If evidence is stale or unrunnable, label it historical substrate until refreshed.
-- If a claim requires buyer evidence, mark it missing even if artifact breadth is strong.
-
-### TASK-BP-002: Financial Assumptions And Operating Plan
-
-Inputs: registry, source trace, sprint-unit model checklist. Outputs
-`financial-assumptions.md` and `operating-plan.md`.
-
-Rules:
-
-1. Model diagnostic, sprint, advanced package, retainer, and future platform/license separately.
-2. Include price, hours, direct costs, cash timing, founder capacity, conversion, retainer attach, scenarios, and sensitivity.
-3. Label all numbers as assumptions unless backed by paid work.
-4. Tie use-of-funds placeholders to 30/60/90 milestones.
-
-Edge cases:
-
-- Do not model broad platform ARR as current revenue.
-- If ask/runway is unknown, keep a visible decision gap.
-
-### TASK-BP-003: Full Business Plan Draft
-
-Inputs: registry, source trace, financial assumptions, operating plan, Whisper
-business-plan preset. Output `business-plan.md`.
-
-Rules:
-
-1. Start with one buyer problem, one wedge, one receipt bundle, and evidence boundary.
-2. Separate current service offer from roadmap/platform thesis.
-3. Use bottom-up buyer pocket language before broader market language.
-4. Include visible risks, non-claims, demotion gates, and 30/60/90 witness queue.
-
-Edge cases:
-
-- If a section lacks evidence, write it as an assumption or future-only thesis.
-- If investor ask/runway remains unknown, use a bracketed placeholder and mark it unresolved.
-
-### TASK-BP-004: Memo And Deck Substrate
-
-Inputs: full BP and current claim audit. Outputs `investor-memo.md` and
-`deck-substrate.md`.
-
-Rules:
-
-1. Compress; do not expand claims.
-2. The memo argues the decision case under uncertainty.
-3. The deck gets meeting-getter language only, tied to evidence registry.
-4. Use a visible non-claims box or equivalent section.
-
-Edge cases:
-
-- Reject any line that introduces unique/first/only, certification, compliance, audit-ready, or proven moat claims.
-
-### TASK-BP-005: Claim Audit And Handoff
-
-Inputs: all package artifacts. Output `claim-audit.md` and final handoff notes.
-
-Rules:
-
-1. Check every artifact against claim <= proof.
-2. Classify claims as supported, assumption, forecast, future-only, demote, or forbid.
-3. Record next witnesses for 30/60/90 days.
-4. Recommend the next route: buyer interviews, task-session receipt refresh, financial-model review, or investor packaging.
-
-## SWU Execution Handoff
-
-| SWU ID | Parent Task | Source Anchors | Related Context | Dependencies | Write Scope | Done Criteria | Acceptance Evidence | Validation Surface | Execution Owner | Handoff Status |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| SWU-BP-001 | TASK-BP-001 | `.arcanum/inventory/queries/2026-07-09-business-plan-build-research/findings.md`; `INVOKE-PLAN.md` | Accepted portfolio, assurance, moat, model-use, blind-spot findings referenced by BP findings. | none | `diligence-evidence-registry.md`, `source-trace.md` | Registry and source trace created without investor prose. | Section map includes evidence, missing witness, and demotion gate for every BP section. | Review check: no forbidden claims used as supported claims. | local-fallback | complete |
-| SWU-BP-002 | TASK-BP-002 | BP findings sections 6 and 10; Whisper preset financial model requirements. | Registry/source trace from SWU-BP-001. | SWU-BP-001 | `financial-assumptions.md` | Bottom-up assumptions model created. | Price, hours, costs, capacity, cash timing, conversion, scenarios, and sensitivity represented. | Review check: no platform ARR modeled as current validated revenue. | local-fallback | complete |
-| SWU-BP-003 | TASK-BP-002 | BP findings wedge model and operations mapping. | Financial assumptions from SWU-BP-002. | SWU-BP-002 | `operating-plan.md` | One paid wedge delivery loop documented. | Owner, metric/workflow, source chain, gate verdict, receipt bundle, feedback loop, and stop rules present. | Review check: operating loop does not claim autonomous governance. | local-fallback | complete |
-| SWU-BP-004 | TASK-BP-003 | Whisper preset body parts and validation checks; registry/source trace. | Financial assumptions and operating plan. | SWU-BP-001, SWU-BP-002, SWU-BP-003 | `business-plan.md` | Full BP draft created. | Sections match preset; evidence boundary visible; risks/non-claims included. | Review check: every unsupported claim is labeled assumption/forecast/future-only. | local-fallback | complete-draft |
-| SWU-BP-005 | TASK-BP-004 | Full BP; Whisper investor memo and deck substrate output modes. | Claim audit draft if available. | SWU-BP-004 | `investor-memo.md`, `deck-substrate.md` | Memo and deck substrate created. | Memo/deck contain no claims absent from BP/data room. | Review check: deck is compression layer, not diligence replacement. | local-fallback | blocked |
-| SWU-BP-006 | TASK-BP-005 | All package artifacts; BP findings non-claims. | Optional external/current comparator refresh. | SWU-BP-004, SWU-BP-005 | `claim-audit.md` | Claim audit completed. | Forbidden claims absent or demoted; gap ledger updated. | `rg` review for forbidden terms plus manual classification table. | local-fallback | blocked |
-
-## Blockers
-
-| Blocker ID | Scope | Description | Owner | Next Action | Target Date |
-| --- | --- | --- | --- | --- | --- |
-| B-BP-001 | financials | Ask amount, runway, and use-of-funds target are unknown. | founder | Decide or authorize placeholders. | before SWU-BP-004 |
-| B-BP-002 | market | Buyer-call evidence for one blocked decision is missing. | founder/research | Run 5-10 buyer calls. | before investor use |
-| B-BP-003 | commercial | Paid pilot/SOW packet missing. | founder | Create SOW specimen and pursue first paid pilot. | before stronger traction claims |
-| B-BP-004 | evidence | Fresh runnable receipts not yet collected. | task-session | Select and rerun receipt checks. | before diligence package |
-| B-BP-005 | validation | Independent Distill run not executed. | invoke/distill | Run after initial artifacts exist. | before mutation-ready pass |
-
-## Dispatch Technique Trace
-
-See `INVOKE-PLAN.md#dispatch-spec-technique-trace`.
-
-## Distill Validation
-
-| Check | Result | Evidence Or Gap |
-| --- | --- | --- |
-| Smallest coherent unit or SWU boundary | pass | `SWU-BP-001` is the first selected unit and does not require prior BP prose. |
-| Recomposition proof | pass | SWUs build registry, financial assumptions, operating plan, BP, memo/deck, and audit. |
-| Hidden acceptance-critical gaps | flag | Ask/runway, buyer calls, paid pilot, fresh receipts, comparator refresh. |
-| Deferred complexity | flag | Subagent strategy and independent Distill run deferred. |
-| Navigation to first executable unit | pass | Start at `SWU-BP-001`. |
+No blocker prevents honest mutation. The founder, buyer, payment, improvement,
+repurchase, event-frequency, access, and financing gaps block only claims or
+investor-ready promotion. See [cross-task gaps](work-pack/shared/cross-task-gaps.md).
 
 ## Gate Checks
 
-1. Work-pack is `flag`, not `pass`, because final investor readiness gaps remain.
-2. `SWU-BP-001` is selected and executable as local-fallback work.
-3. Mutation-capable drafting of `business-plan.md` is blocked until registry and financial assumptions exist.
-4. Investor use is blocked until claim audit completes and founder decides ask/runway.
-5. Public promotion is blocked; this package stays private.
+1. Execute one selected SWU only.
+2. Context Builder creates execution context at Task Session runtime.
+3. Failed SWU validation blocks the next dependency.
+4. HTML waits for provisional claim-audit pass.
+5. Investor circulation waits for `SWU-CABP-008`.
+6. Public promotion remains blocked.
 
 ## Change Log
 
 | Date | Change | Author |
 | --- | --- | --- |
-| 2026-07-10 | Initial invoke plan work-pack created. | Codex |
-| 2026-07-10 | Completed SWU-BP-001 through SWU-BP-004 as a flagged BP draft package. | Codex |
+| 2026-07-10 | Initial BP build plan. | Codex |
+| 2026-07-12 | Replaced stale build plan with complete language/value migration package. | Codex |

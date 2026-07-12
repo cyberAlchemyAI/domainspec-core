@@ -3,7 +3,7 @@ node_type: design
 is_session: false
 status: candidate
 created: 2026-07-02
-authored_by: invoke (mode: design)
+authored_by: "invoke (mode: design)"
 define: ./DEFINE.md
 work_pack: ./WORK-PACK.md
 target_artifact: M1–M4 concrete edits to the spec surface + the target-state template
@@ -11,6 +11,11 @@ promotion_boundary: PUBLIC surface; fixtures stay the single validator source; n
 ---
 
 # Design — Spec Comprehension Model (M1–M4)
+
+> **Current authority update (2026-07-11):** Saga-specific learning and crossed-
+> pair steps below are superseded by the accepted collapse and are not
+> executable. The live learning projection has 24 staged labels and represents
+> cross-feature orchestration as Workflow scope.
 
 ## M1 — Distilled learning order (a reading lens, not a deletion)
 - **`meta-types/LEARNING-ORDER.md`** — tiers the 25:

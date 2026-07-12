@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Craft Work Queue</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #17222c; background: #f4f6f7; font: 15px/1.45 system-ui, sans-serif; }
+    header { display: flex; align-items: end; justify-content: space-between; gap: 20px; padding: 18px 22px; border-bottom: 1px solid #c7d0d5; background: #fff; }
+    h1, h2, p { margin: 0; } h1 { font-size: 18px; } header p { color: #5d6970; }
+    .queue { max-width: 1060px; margin: auto; padding: 26px 20px; }
+    .task { display: grid; grid-template-columns: 110px minmax(0, 1fr) auto; align-items: center; gap: 18px; min-height: 106px; padding: 18px 0; border-bottom: 1px solid #c7d0d5; }
+    .state { color: #226c56; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    h2 { font-size: 21px; } .task p { margin-top: 5px; color: #59666d; }
+    .actions { display: flex; gap: 8px; }
+    button { min-height: 36px; padding: 6px 13px; border: 1px solid #97a8b1; border-radius: 5px; background: #fff; color: inherit; font: inherit; cursor: pointer; }
+    button.primary { border-color: #1f6fa8; background: #1f6fa8; color: #fff; }
+    button:focus-visible { outline: 3px solid rgba(31, 111, 168, .25); outline-offset: 2px; }
+    footer { max-width: 1060px; margin: auto; padding: 0 20px 26px; color: #5d6970; }
+    #result { min-height: 24px; color: #1f6fa8; font-weight: 700; }
+    @media (max-width: 700px) { header { align-items: flex-start; flex-direction: column; } .task { grid-template-columns: 1fr; gap: 8px; } .actions { width: 100%; } .actions button { flex: 1; } }
+  </style>
+</head>
+<body>
+  <header><div><h1>Craft Work Queue</h1><p>Requests awaiting session judgment</p></div><strong>2 ready</strong></header>
+  <main class="queue">
+    <article class="task" data-task="CRAFT-MATRIX-001"><span class="state">Ready</span><div><h2>Distill the presentation residue</h2><p>Turn the witness result into one compact continuation note.</p></div><div class="actions"><button data-action="defer">Defer</button><button class="primary" data-action="start">Request start</button></div></article>
+    <article class="task" data-task="CRAFT-MATRIX-002"><span class="state">Ready</span><div><h2>Record the browser finding</h2><p>Capture what the interactive surface changed for the user.</p></div><div class="actions"><button data-action="defer">Defer</button><button class="primary" data-action="start">Request start</button></div></article>
+  </main>
+  <footer><div id="result" role="status"></div><p>An action is a request to the active session, not evidence that Craft completed it.</p></footer>
+  <script>
+    for (const button of document.querySelectorAll('[data-action]')) button.onclick = () => {
+      const task = button.closest('[data-task]').dataset.task;
+      const action = button.dataset.action;
+      document.querySelector('#result').textContent = `Requested ${action} for ${task}`;
+      parent.postMessage({ type: 'ide-extension.canvas.event', eventName: 'craft.action_requested', payload: { task_id: task, action } }, '*');
+    };
+  </script>
+</body>
+</html>

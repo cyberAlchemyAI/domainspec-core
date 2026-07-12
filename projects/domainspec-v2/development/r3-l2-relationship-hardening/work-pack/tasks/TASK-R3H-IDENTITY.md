@@ -47,12 +47,12 @@ No blockers. This task is selected first.
 
 ### SWU-R3H-002
 
-- Objective: prove identity hardening does not break endpoint matching or Saga/Workflow disambiguation.
+- Objective: prove identity hardening preserves typed endpoint matching after the Saga collapse.
 - Dependencies: SWU-R3H-001.
 - Source anchors: relationship fixtures and validator tests.
 - Write scope: `projects/domainspec-v2/impl/tools/tests/`; `projects/domainspec-v2/impl/spec/__fixtures__/relationships/`.
-- Done criteria: tests cover shared `id` with distinct source type and distinct `signature_key`.
-- Acceptance evidence: valid Workflow/Saga edges pass; an identity collision fixture/review check fails.
+- Done criteria: tests cover active typed signatures and distinct `signature_key` values.
+- Acceptance evidence: valid Workflow edges pass; an identity collision fixture/review check fails.
 - Validation: `npm --prefix projects/domainspec-v2/impl run tools:test`.
 - Execution owner: local-fallback.
 - Handoff note: if fixture-level key validation is awkward, add a direct unit test for `loadRelationshipAuthority`.

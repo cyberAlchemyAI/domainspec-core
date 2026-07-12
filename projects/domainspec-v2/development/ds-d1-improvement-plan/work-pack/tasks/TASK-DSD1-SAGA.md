@@ -2,12 +2,23 @@
 task_id: TASK-DSD1-SAGA
 feature_code: DSD1
 layer: L2
-status: not-started
-gate_status: blocked-on-saga-decision-after-swu-007
-updatedAt: 2026-07-03
+status: completed-collapse-migrated
+gate_status: collapse-selected-executed-through-sgrm-008
+updatedAt: 2026-07-11
 ---
 
 # TASK-DSD1-SAGA: Resolve Saga Hardening Versus Collapse
+
+## Execution Update: 2026-07-11
+
+The owner selected `collapse`. SWU-DSD1-007 is complete, SWU-DSD1-008 is
+cancelled/not-selected, and SWU-DSD1-009 is complete as a routing unit through
+the [SGRM migration packet](../../../saga-removal/runs/SWU-SGRM-001/MIGRATION-PACKET.md)
+and SGRM-002..008 receipts. The repository-local migration and closeout are
+complete; external-consumer uncertainty remains bounded in the final receipt.
+
+The branch descriptions below are retained as historical planning evidence and
+are not alternative executable routes.
 
 ## Objective
 
@@ -35,9 +46,9 @@ because it overlaps Workflow.
 
 | SWU | Purpose | Write Scope | Gate |
 | --- | --- | --- | --- |
-| SWU-DSD1-007 | Record Saga fork decision. | Decision record only. | owner decision |
-| SWU-DSD1-008 | Harden Saga/Workflow distinction. | Saga/Workflow schemas, fixtures, docs, tests. | conditional |
-| SWU-DSD1-009 | Prepare collapse/deprecation packet. | Review/migration packet; no silent authority mutation. | conditional |
+| SWU-DSD1-007 | Record Saga fork decision. | Decision record only. | completed: collapse selected |
+| SWU-DSD1-008 | Harden Saga/Workflow distinction. | None; branch retained for history. | cancelled/not-selected |
+| SWU-DSD1-009 | Prepare collapse/deprecation packet. | SGRM migration packet and receipt route. | completed-collapse-migration |
 
 ## Implementation Notes
 

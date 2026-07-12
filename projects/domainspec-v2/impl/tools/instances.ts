@@ -24,6 +24,13 @@ import {
 } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
+import {
+  attributeNonemptyViolation,
+  assertCriterionPreflight,
+  assertNoDuplicateSchemaKey,
+  uiRepairViolation,
+} from "./lib/ui-repair-rule-contract";
+
 type Criterion = {
   rule: string;
   column?: string;
@@ -31,6 +38,7 @@ type Criterion = {
   pattern?: string;
   key?: string;
   value?: string;
+  values?: string[];
 };
 type Schema = {
   meta_type: string;
@@ -114,11 +122,39 @@ function buildInstance(schema: Schema): Record<string, unknown> {
     inst.values = ["ALPHA", "BETA", "GAMMA"];
   } else if (rs.attributes_table_columns) {
     const attrs: Record<string, string> = {};
-    for (const c of Object.values(crit)) {
+    for (const [name, c] of Object.entries(crit)) {
       if (c.rule === "attribute-equals" && c.key) {
         attrs[c.key] = c.value ?? "";
       } else if (c.rule === "attribute-present" && c.key) {
         attrs[c.key] = `example-${c.key}`;
+      } else if (c.rule === "attribute-nonempty/v1") {
+        const key = (c.key || "").trim();
+        if (!key) {
+          throw new Error(
+            uiRepairViolation(
+              "ATTRIBUTE-MISSING",
+              `instances: criterion '${name}': attribute-nonempty/v1 requires a non-empty 'key'`,
+            ),
+          );
+        }
+        attrs[key] = `example-${key}`;
+      } else if (c.rule === "attribute-one-of") {
+        const key = (c.key || "").trim();
+        if (!key) {
+          throw new Error(
+            `instances: criterion '${name}': attribute-one-of requires a non-empty 'key'`,
+          );
+        }
+        if (
+          !Array.isArray(c.values) ||
+          c.values.length === 0 ||
+          c.values.some((value) => typeof value !== "string" || value.trim() === "")
+        ) {
+          throw new Error(
+            `instances: criterion '${name}': attribute-one-of requires a non-empty 'values' string array`,
+          );
+        }
+        attrs[key] = c.values[0]!.trim();
       }
     }
     inst.attributes = attrs;
@@ -198,15 +234,72 @@ function applyInstanceCriterion(
     return null;
   }
 
+  if (crit.rule === "attribute-one-of") {
+    const key = (crit.key || "").trim();
+    if (!key) {
+      return `criterion '${name}': attribute-one-of requires a non-empty 'key'`;
+    }
+    if (
+      !Array.isArray(crit.values) ||
+      crit.values.length === 0 ||
+      crit.values.some((value) => typeof value !== "string" || value.trim() === "")
+    ) {
+      return `criterion '${name}': attribute-one-of requires a non-empty 'values' string array`;
+    }
+    const attrs = (inst.attributes as Record<string, unknown>) || {};
+    const match = Object.entries(attrs).find(
+      ([attribute]) => normalizeToken(attribute) === normalizeToken(key),
+    );
+    if (!match) {
+      return `criterion '${name}': attribute '${crit.key}' is not declared`;
+    }
+    const actual = normalizeToken(String(match[1]));
+    const allowed = crit.values.map(normalizeToken);
+    if (!allowed.includes(actual)) {
+      return `criterion '${name}': attribute '${crit.key}'='${actual}' (expected one of [${crit.values.join(", ")}])`;
+    }
+    return null;
+  }
+
+  if (crit.rule === "attribute-nonempty/v1") {
+    const key = (crit.key || "").trim();
+    const attrs = (inst.attributes as Record<string, unknown>) || {};
+    const match = Object.entries(attrs).find(
+      ([attribute]) => normalizeToken(attribute) === normalizeToken(key),
+    );
+    const code = attributeNonemptyViolation(Boolean(match), match?.[1]);
+    if (code) {
+      return uiRepairViolation(
+        code,
+        `criterion '${name}': attribute '${crit.key}' must contain non-whitespace text`,
+      );
+    }
+    return null;
+  }
+
   if (crit.rule === "attribute-equals" || crit.rule === "attribute-present") {
     const attrs = (inst.attributes as Record<string, unknown>) || {};
     if (!(crit.key && crit.key in attrs)) {
-      return `criterion '${name}': attribute '${crit.key}' is not declared`;
+      return uiRepairViolation(
+        "ATTRIBUTE-MISSING",
+        `criterion '${name}': attribute '${crit.key}' is not declared`,
+      );
     }
     if (crit.rule === "attribute-equals") {
-      const actual = String(attrs[crit.key]).toLowerCase();
+      const authoredValue = attrs[crit.key];
+      const presenceCode = attributeNonemptyViolation(true, authoredValue);
+      if (presenceCode) {
+        return uiRepairViolation(
+          presenceCode,
+          `criterion '${name}': attribute '${crit.key}' must contain its fixed value`,
+        );
+      }
+      const actual = String(authoredValue).toLowerCase();
       if (actual !== (crit.value || "").toLowerCase()) {
-        return `criterion '${name}': attribute '${crit.key}'='${actual}' (expected '${crit.value}')`;
+        return uiRepairViolation(
+          "FIXED-VALUE-MISMATCH",
+          `criterion '${name}': attribute '${crit.key}'='${actual}' (expected '${crit.value}')`,
+        );
       }
     }
     return null;
@@ -218,6 +311,10 @@ function applyInstanceCriterion(
       return `criterion '${name}': instance has no non-empty 'values' list`;
     }
     return null;
+  }
+
+  if (!["at-least-one", "none", "all-nonempty"].includes(crit.rule)) {
+    return `criterion '${name}': unsupported rule '${crit.rule}'`;
   }
 
   // column-over-fields rules: field_<column> parallel array
@@ -245,7 +342,11 @@ function applyInstanceCriterion(
     }
     return null;
   }
-  return null; // unsupported rule -> skip
+  return null;
+}
+
+function normalizeToken(value: string): string {
+  return value.trim().toLowerCase();
 }
 
 function collectStrings(obj: unknown): string[] {
@@ -293,7 +394,12 @@ function loadSchemas(dir: string): Schema[] {
   return walk(dir)
     .filter((p) => p.endsWith(".schema.yml"))
     .sort()
-    .map((p) => parseYamlSubset(readFileSync(p, "utf-8"), toRel(p)) as Schema)
+    .map((p) => {
+      const where = toRel(p);
+      const schema = parseYamlSubset(readFileSync(p, "utf-8"), where) as Schema;
+      assertCriterionPreflight(schema.criterion, where);
+      return schema;
+    })
     .filter((s) => typeof s.meta_type === "string" && s.meta_type.length > 0);
 }
 
@@ -323,6 +429,7 @@ function parseYamlSubset(raw: string, where: string): Record<string, unknown> {
       stack.pop();
     }
     const parent = stack[stack.length - 1]?.node ?? root;
+    assertNoDuplicateSchemaKey(parent, key, where, i + 1);
     if (rest === "") {
       const obj: Record<string, unknown> = {};
       parent[key] = obj;

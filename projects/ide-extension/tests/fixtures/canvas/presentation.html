@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local Canvas Field Notes</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #14202b; background: #f4f7f5; font: 16px/1.45 system-ui, sans-serif; }
+    header { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 18px; border-bottom: 1px solid #c8d1cd; background: #fff; }
+    h1, h2, p { margin: 0; }
+    h1 { font-size: 17px; }
+    .controls { display: flex; align-items: center; gap: 8px; }
+    button { min-width: 38px; min-height: 36px; border: 1px solid #99aaa3; border-radius: 5px; background: #fff; color: #14202b; font: inherit; cursor: pointer; }
+    button:focus-visible { outline: 3px solid #1877c9; outline-offset: 2px; }
+    main { min-height: calc(100vh - 58px); padding: 5vw; }
+    .slide { display: none; grid-template-columns: minmax(0, 1fr) minmax(240px, 40%); align-items: center; gap: 6vw; min-height: 68vh; }
+    .slide.active { display: grid; }
+    .eyebrow { color: #176a53; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+    h2 { margin-top: 10px; max-width: 760px; font-size: clamp(32px, 6vw, 72px); line-height: 1.02; }
+    .lede { margin-top: 18px; max-width: 640px; color: #52615b; font-size: 20px; }
+    .visual { min-height: 320px; display: grid; align-content: end; gap: 14px; padding: 28px; border: 1px solid #b8c6c0; border-radius: 6px; background: #fff; box-shadow: 0 18px 35px rgba(20, 32, 43, .08); }
+    .bar { height: 44px; background: #1f7a5e; }
+    .bar:nth-child(2) { width: 76%; background: #d9972f; }
+    .bar:nth-child(3) { width: 48%; background: #2778b8; }
+    @media (max-width: 700px) {
+      header { align-items: flex-start; flex-direction: column; }
+      .slide, .slide.active { grid-template-columns: 1fr; }
+      .visual { min-height: 220px; }
+      h2 { font-size: 38px; }
+    }
+  </style>
+</head>
+<body>
+  <header><h1>Local Canvas Field Notes</h1><div class="controls"><button id="previous" aria-label="Previous slide">&larr;</button><span id="counter">1 / 2</span><button id="next" aria-label="Next slide">&rarr;</button></div></header>
+  <main>
+    <section class="slide active"><div><p class="eyebrow">Revision one</p><h2>A surface the session can hand you</h2><p class="lede">The project file remains the source. The workbench makes it visible and interactive.</p></div><div class="visual" aria-label="Three-stage signal"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></section>
+    <section class="slide"><div><p class="eyebrow">The loop</p><h2>Create, publish, inspect, respond</h2><p class="lede">Arrow keys and buttons operate this standalone project HTML.</p></div><div class="visual"><strong>1. Complete HTML</strong><strong>2. Durable revision</strong><strong>3. Human action</strong></div></section>
+  </main>
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    let index = 0;
+    function show(next) {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, position) => slide.classList.toggle('active', position === index));
+      document.querySelector('#counter').textContent = `${index + 1} / ${slides.length}`;
+    }
+    document.querySelector('#previous').onclick = () => show(index - 1);
+    document.querySelector('#next').onclick = () => show(index + 1);
+    addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') show(index + 1);
+      if (event.key === 'ArrowLeft') show(index - 1);
+    });
+  </script>
+</body>
+</html>

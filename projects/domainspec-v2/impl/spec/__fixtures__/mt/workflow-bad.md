@@ -1,6 +1,6 @@
-# Fixture — Workflow (invalid: spans features → is a Saga)
+# Fixture — Workflow (invalid: unknown scope)
 
-Declared Workflow but `scope=cross-feature`. Expected: **REJECTED as Workflow**.
+Declared Workflow but `scope=global`. Expected: **REJECTED as Workflow**.
 
 ## Concept Registry
 | Concept | Type |
@@ -10,4 +10,4 @@ Declared Workflow but `scope=cross-feature`. Expected: **REJECTED as Workflow**.
 ## WireTransfer
 | Attribute | Value |
 | --- | --- |
-| scope | cross-feature |
+| scope | global |

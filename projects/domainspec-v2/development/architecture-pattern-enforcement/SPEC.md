@@ -4,7 +4,7 @@ docType: spec
 module: architecture-pattern-enforcement
 feature_code: APE
 status: draft
-updatedAt: 2026-07-02
+updatedAt: 2026-07-12
 vocabulary: DS-D1 meta-types / DS-D2 edges (this is a meta/infrastructure spec — its "concepts" are the program's own artifacts, typed loosely)
 ---
 
@@ -47,8 +47,8 @@ Primary navigation is capability-driven. Each capability names its **owned handl
 
 | Capability | What | Owned handle (evidence) | Status |
 | --- | --- | --- | --- |
-| **C-A Uniformity** (node-shape) | every concept instance matches its meta-type schema criterion | `validate-content.ts`, `instances.ts validate`, engine `lint` (C10); 14 backend `.schema.yml` | **witnessed** on financial-settlement; needs repeatability over a second pack |
-| **C-B Composability** (edge-law) | declared/coded edges use legal verbs + endpoint signatures | root DS-D8 authority, `validate-relationships.ts`, `validate-content.ts`, future dynamic `check-code-tag-composability.ts` | **R3A-unblocked**; dynamic code-tag enforcement still not implemented |
+| **C-A Uniformity** (node-shape) | every concept instance matches its meta-type schema criterion | `validate-content.ts`, `instances.ts validate`, engine `lint` (C10); 13 backend `.schema.yml` | **witnessed** on financial-settlement; needs repeatability over a second pack |
+| **C-B Composability** (edge-law) | declared/coded edges use legal verbs + endpoint signatures | root DS-D8 authority, `validate-relationships.ts`, `validate-content.ts`, dynamic `check-code-tag-composability.ts` | static spec graph **witnessed**; bounded dynamic enforcement consumes all 30 active signatures, with 9 mapped code-call rules and 26 explicit unsupported-call-semantics coverage gaps |
 | **C-C Layering** (adapter line) | forbidden cross-layer dependencies cannot be constructed | C6 + AXIOMS A2; v1 DEPENDENCY-RULES / LAYERING-REFERENCE; `containment.ts` (write-path analogy) | **law exists**; post-hoc flagging today, unconstructibility deferred (findings W1) |
 | **C-D Card layer** (authoring) | one concept card per meta-type + one relationship card per edge, as selective context | v1 `architecture/pattern-library/` (25 concept cards + 29 relationship cards + context packs) | **owned, not triaged** — "largest build-from-owned opportunity not yet triaged" (findings E2) |
 | **C-E Promotion** (authority) | move a candidate handle to binding via its owner route | cav2 promotion lifecycle; "has a tree ≠ authority" | **discipline exists**; no v2 pattern has completed the path (findings E1) |
@@ -60,7 +60,7 @@ Primary navigation is capability-driven. Each capability names its **owned handl
 | Concept | Type (loose) | Key Constraints |
 | --- | --- | --- |
 | Meta-type schema | Value Object | decidable criterion per meta-type; one `.schema.yml` per type; format binding (delta D2) pending |
-| Edge-law | Value Object | 31 active root signatures plus generated/deprecated/deferred sections; owned by `definitions/relationships/relationships.yml`; **R3A landed** |
+| Edge-law | Value Object | 30 active root signatures plus generated/deprecated/deferred sections; owned by `definitions/relationships/relationships.yml`; **R3A landed** |
 | Content validator | Operation | reads an aspect file / feature pack, checks each concept vs criterion + each edge vs signature |
 | Concept card / Relationship card | Entity | human/agent-facing authoring voice of a meta-type / edge; **Evidence** for its definition |
 | Feature pack | Entity | a real domain slice (SPEC + aspect docs + tagged code) — the *fuel* that makes validators non-vacuous |
@@ -87,7 +87,7 @@ Primary navigation is capability-driven. Each capability names its **owned handl
 | From | Edge | To | Evidence | Notes |
 | --- | --- | --- | --- | --- |
 | APE.ContentValidator | enforces | APE.MetaTypeSchema | findings C-A | uniformity gate |
-| APE.ContentValidator | enforces | APE.EdgeLaw | findings C-B + R3A | composability gate; dynamic enforcement pending |
+| APE.ContentValidator | enforces | APE.EdgeLaw | findings C-B + R3A + `SWU-R3C-001..003` | composability gate; bounded dynamic authority consumption implemented, evidence breadth pending |
 | APE.FeaturePack | contains | APE.ConceptCard | v1 pattern-library | cards are selective context for authoring |
 | APE.PromotionGate | enforces | APE.MetaTypeSchema | cav2 lifecycle | candidate → binding |
 | APE.Substrate | contains | APE.EdgeLaw | mint substrate/spec split | edge-law travels; nodes are per-project |
@@ -106,7 +106,7 @@ Primary navigation is capability-driven. Each capability names its **owned handl
 
 | Capability | Depends On | Via | Why |
 | --- | --- | --- | --- |
-| C-B Composability | R3 reformulated RELATIONSHIPS.md | edge-law + signatures | verbs/signatures not final until R3 (CANDIDATES.md 1c) |
+| C-B Composability | active root DS-D8 authority | `definitions/relationships/relationships.yml` + dynamic checker | `TASK-R3C-EDGE` now consumes all active signatures dynamically; real-pack breadth and unsupported code-call semantics remain evidence gaps |
 | C-A Uniformity | R2 / backend meta-type promotion | `.schema.yml` criteria | criteria exist; promotion is definitions-governance |
 | C-C Layering (unconstructible) | meta-type formalism (moving) | typed catalog-construction layer | C6 unconstructibility can't be built while formalism moves (findings W1) |
 | C-F Inheritance | C-A + C-B stable | mint substrate | can't replicate an unsettled discipline |

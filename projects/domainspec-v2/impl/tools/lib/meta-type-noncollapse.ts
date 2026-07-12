@@ -6,7 +6,7 @@
  * authority and calls summarize(); tests import these functions directly with synthetic inputs.
  */
 
-// The TOTAL rule->class map over the 7 on-disk keywords (closes findings c2).
+// The TOTAL rule->class map over the supported keywords (closes findings c2).
 export const STRUCTURE_READING = new Set([
   "at-least-one",
   "all-nonempty",
@@ -14,13 +14,25 @@ export const STRUCTURE_READING = new Set([
   "section-contains",
   "table-has-column",
 ]);
-export const ATTESTATION = new Set(["attribute-equals", "attribute-present"]);
+export const ATTESTATION = new Set([
+  "attribute-equals",
+  "attribute-one-of",
+  "attribute-present",
+  "attribute-nonempty/v1",
+]);
 
 // The owner-enumerated exception allow-list (closes a3): the formal_return_type sort. Owner-authored,
 // never self-claimed. Passed into deriveFacts so tests can vary it; the CLI defaults to this.
 export const DEFAULT_EXCEPTION_ALLOWLIST = new Set(["rule", "policy", "calculation"]);
 
-export type Criterion = { rule: string; column?: string; pattern?: string; key?: string; value?: string };
+export type Criterion = {
+  rule: string;
+  column?: string;
+  pattern?: string;
+  key?: string;
+  value?: string;
+  values?: string[];
+};
 export type Schema = {
   meta_type: string;
   criterion?: Record<string, Criterion>;
@@ -53,7 +65,7 @@ export function normalize(s: string): string {
   return s.trim().toLowerCase().replace(/\[[^\]]*\]/g, "").replace(/[^a-z0-9]+/g, "");
 }
 
-/** Guard for the total-classification invariant (c2): any rule keyword outside the 7-keyword map. */
+/** Guard for the total-classification invariant (c2): any rule keyword outside the supported map. */
 export function findUnclassifiedRules(schemas: Schema[]): string[] {
   const out: string[] = [];
   for (const s of schemas) {

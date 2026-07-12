@@ -3,6 +3,7 @@
 Layer: L1.
 Slice: S-R3C-002.
 Wave: [W1](../waves/W1.md).
+Status: completed 2026-07-12.
 
 ## Objective
 
@@ -45,3 +46,13 @@ Selection rules:
 ## Synchronization
 
 If a second corpus lands, update Craft `GAP-DSV2-EXERCISE` status. If not, leave it active with a sharper repair path.
+
+## Completion
+
+- Governed selection dispatch: `2026-07-12-r3c-second-corpus-selection`,
+  closed `resolved` after auditor ACCEPT.
+- Selected source: Agent Execution Orchestrator fixture.
+- Materialized pack: `impl/spec/features/agent-execution-orchestrator/SPEC.md`.
+- Evidence: [SWU-R3C-004 receipt](../../task-sessions/2026-07-12-swu-r3c-004/TASK-SESSION-RESULT.md).
+- Result: positive node/edge validation PASS; seeded State Machine→Operation
+  `enforces` edge rejected; aggregate regression suite PASS.

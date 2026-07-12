@@ -7,12 +7,12 @@ definition: a staged DomainSpec concept-type candidate system (the node alphabet
 human_cards: meta-types.md
 status: candidate
 catalog:
-  total_candidates: 25
-  registered_backend_members: 14
+  total_candidates: 24
+  registered_backend_members: 13
   deferred_ui_candidates: 11
 maturity:
   backend:
-    ids: DS-D1.1..14
+    ids: [DS-D1.1..9, DS-D1.11..14]
     status: shape-fixture-backed-candidate
     authority_note: schema and fixture evidence exists; deeper semantic authority remains confirmation-gated
   ui:
@@ -170,36 +170,18 @@ members:
     term: Workflow
     category: behavioral
     criterion_schema: impl/spec/meta-types/behavioral/workflow.schema.yml
-    one_line: multi-step orchestration within one feature (declares scope = intra-feature)
-    distinguisher: stays within one feature (a Saga spans features, scope = cross-feature)
+    one_line: multi-step orchestration with declared intra-feature or cross-feature scope
+    distinguisher: coordinates ordered multi-step behavior (an Operation is one state-changing action)
     status: candidate
     challenge_contract:
       modes: [contradiction, scope]
-      contradiction_edge: an orchestration spanning features mislabeled as intra-feature challenges intra_feature
+      contradiction_edge: an orchestration with missing or unknown scope challenges admitted_scope
       owner_route: definitions-governance
       resolution_gate: owner decision + workflow.schema.yml fixtures re-run
-      blocking_question: does it stay within one feature, or cross ownership boundaries?
+      blocking_question: "does it declare exactly one admitted scope: intra-feature or cross-feature?"
       residue_route: definitions/reviews/
     confirm_contract:
       promotes_when: owner approves + workflow.schema.yml fixtures discriminate + criterion exercised on >=1 real aspect concept
-      gate: definitions-governance owner gate
-      status_on_confirm: candidate -> active
-  - id: DS-D1.10
-    term: Saga
-    category: behavioral
-    criterion_schema: impl/spec/meta-types/behavioral/saga.schema.yml
-    one_line: long-running cross-feature orchestration with compensation (declares scope = cross-feature)
-    distinguisher: spans features (a Workflow stays within one feature, scope = intra-feature)
-    status: candidate
-    challenge_contract:
-      modes: [contradiction, scope]
-      contradiction_edge: a single-feature orchestration mislabeled as cross-feature challenges cross_feature
-      owner_route: definitions-governance
-      resolution_gate: owner decision + saga.schema.yml fixtures re-run
-      blocking_question: does it cross feature/ownership boundaries, or stay within one?
-      residue_route: definitions/reviews/
-    confirm_contract:
-      promotes_when: owner approves + saga.schema.yml pos/neg fixtures discriminate + criterion exercised on >=1 real aspect concept
       gate: definitions-governance owner gate
       status_on_confirm: candidate -> active
   - id: DS-D1.11

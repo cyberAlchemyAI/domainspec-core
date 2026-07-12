@@ -1,0 +1,304 @@
+{
+  "dispatch_id": "2026-07-12-ide-extension-session-content-workbench-plan",
+  "parent_dispatch_id": "2026-07-12-ide-extension-session-content-workbench-refresh",
+  "intent": {
+    "raw": "Invoke plan for the refreshed ide-extension session content workbench.",
+    "objective": "Author an execution-ready trusted-local V0 plan for project HTML publication, complete-revision automatic update, generic interaction polling, and real Codex value witnesses.",
+    "target_artifact": "projects/ide-extension/development/session-content-workbench-plan/WORK-PACK.md",
+    "arcanum_vocabulary": ["invoke", "implementation-layering", "smallest-working-unit", "distill", "task-session", "execution_receipt_handoff"],
+    "operator_sentence": "Plan the smallest route from Codex-created HTML to an interactive local workbench and back to the active session."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "artifact_contract_bridge",
+    "state_namespace_boundary",
+    "concrete_path_evidence",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The refreshed design and brownfield runtime anchors converge on one sequential plan. Invoke plans locally; any later delegated SWU requires separate user authorization.",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "receipt_requirements": ["Each selected SWU returns status, files, validation, blockers, residue, reroute, and handoff note."]
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Build bounded planning context",
+      "capability_ref": "context-builder",
+      "mode": "standard-strict",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": ["sequence", "concrete_path_evidence", "state_namespace_boundary"],
+      "inputs": [
+        {"kind": "artifact", "ref": "projects/ide-extension/development/session-content-canvas-design/ARCHITECTURE-BUNDLE.md"},
+        {"kind": "artifact", "ref": "projects/ide-extension/development/session-content-canvas-design/DECISIONS.md"},
+        {"kind": "artifact", "ref": "projects/ide-extension/development/session-content-workbench-refresh/REFRESH-REPORT.md"},
+        {"kind": "artifact", "ref": "projects/ide-extension/src/server.mjs"},
+        {"kind": "artifact", "ref": "projects/ide-extension/src/kernel/projector.mjs"},
+        {"kind": "artifact", "ref": "projects/ide-extension/public/demo/l0.html"}
+      ],
+      "outputs": [
+        {"kind": "frame", "ref": "work-pack/shared/context.md"},
+        {"kind": "artifact", "ref": "work-pack/shared/cross-task-decisions.md"},
+        {"kind": "artifact", "ref": "work-pack/shared/cross-task-gaps.md"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/shared/context.md",
+      "stop_conditions": ["Block if the refreshed design or decision gate is not pass."]
+    },
+    {
+      "step_id": "S2",
+      "name": "Author layered split plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["scu_swu_reduction", "artifact_contract_bridge", "owner_boundary_check", "residue_ledger"],
+      "inputs": [
+        {"kind": "frame", "ref": "work-pack/shared/context.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "IMPLEMENTATION-PLAN.md"},
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"},
+        {"kind": "artifact", "ref": "work-pack/tasks/"},
+        {"kind": "artifact", "ref": "work-pack/waves/"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "WORK-PACK.md",
+      "stop_conditions": [
+        "Block if a task lacks implementation algorithm, exact write scope, edge cases, done criteria, or validation.",
+        "Block if security hardening or remote multi-user scope displaces the trusted-local value witnesses."
+      ]
+    },
+    {
+      "step_id": "S3",
+      "name": "Validate smallest units and recomposition",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": ["recomposition_proof", "validation_loop"],
+      "inputs": [
+        {"kind": "artifact", "ref": "IMPLEMENTATION-PLAN.md"},
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"}
+      ],
+      "outputs": [
+        {"kind": "decision", "ref": "DISTILL-VALIDATION.md"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "DISTILL-VALIDATION.md",
+      "stop_conditions": ["Block if Distill blocks or any hidden acceptance gap lacks an owner."]
+    },
+    {
+      "step_id": "S4",
+      "name": "Execute contracts and manual display",
+      "capability_ref": "task-session",
+      "mode": "one-swu",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": ["handle_handoff", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "handle", "ref": "WORK-PACK.md#swu-manifest"},
+        {"kind": "artifact", "ref": "work-pack/waves/W0.md"},
+        {"kind": "artifact", "ref": "work-pack/waves/W1.md"}
+      ],
+      "outputs": [
+        {"kind": "handoff", "ref": "Task Session results for SWU-SCW-001 through SWU-SCW-004"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "one Task Session result per selected SWU",
+      "stop_conditions": ["Stop on replay regression, path/hash ambiguity, or failed manual presentation display."]
+    },
+    {
+      "step_id": "S5",
+      "name": "Execute automatic update and interaction return",
+      "capability_ref": "task-session",
+      "mode": "one-swu",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": ["handle_handoff", "execution_receipt_handoff"],
+      "inputs": [
+        {"kind": "artifact", "ref": "work-pack/waves/W2.md"},
+        {"kind": "artifact", "ref": "work-pack/waves/W3.md"}
+      ],
+      "outputs": [
+        {"kind": "handoff", "ref": "Task Session results for SWU-SCW-005 through SWU-SCW-007"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "automatic update and generic interaction evidence",
+      "stop_conditions": ["Stop on partial revision display, lost reconnect, specialized skill API, or stale interaction admission."]
+    },
+    {
+      "step_id": "S6",
+      "name": "Run real Codex value witnesses",
+      "capability_ref": "task-session",
+      "mode": "one-swu",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": ["concrete_path_evidence", "execution_receipt_handoff", "observability_grouping"],
+      "inputs": [
+        {"kind": "artifact", "ref": "work-pack/waves/W4.md"}
+      ],
+      "outputs": [
+        {"kind": "handoff", "ref": "real presentation, Decision Gate, Craft, and closure evidence"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "SWU-SCW-008 and SWU-SCW-009 Task Session results",
+      "stop_conditions": ["Block if live Codex or browser is unavailable; never simulate the real witnesses."]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G1",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "Plan, layering, work-pack, five tasks, nine SWUs, five waves, and first route are complete and navigable.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2",
+      "kind": "validation",
+      "owner": "distill",
+      "condition": "Smallest-unit, recomposition, hidden-gap, overbuild, and navigation checks pass.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "Exactly one ready SWU is selected before every Task Session mutation.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "G4",
+      "kind": "policy",
+      "owner": "projects/ide-extension",
+      "condition": "Manual display precedes automatic update and generic interaction precedes domain witnesses.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G5",
+      "kind": "promotion_guardrail",
+      "owner": "projects/ide-extension",
+      "condition": "V0 evidence is not promoted into security, remote, multi-user, snapshot, or effect-completion claims.",
+      "on_fail": "block"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1-plan-task-session",
+        "kind": "capability_handoff",
+        "from_owner": "invoke",
+        "to_owner": "task-session",
+        "applies_to_steps": ["S4", "S5", "S6"],
+        "contract": "Task Session receives exactly one selected SWU with its path, dependencies, scope, done criteria, and validation, then returns a structured result.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B2-workspace-kernel-browser",
+        "kind": "artifact_import",
+        "from_owner": "workspace HTML",
+        "to_owner": "local kernel and workbench",
+        "applies_to_steps": ["S4", "S5"],
+        "contract": "A complete project HTML file is published by relative path and hash; notifications carry metadata only; the browser fetches the committed revision.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B3-browser-session-event",
+        "kind": "evidence_return",
+        "from_owner": "browser workbench",
+        "to_owner": "active Codex session",
+        "applies_to_steps": ["S5", "S6"],
+        "contract": "A generic named JSON interaction is durably stored with surface/revision/cursor and retrieved through session polling.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B4-automated-live-witness",
+        "kind": "human_approval",
+        "from_owner": "automated validation",
+        "to_owner": "human plus active Codex session",
+        "applies_to_steps": ["S6"],
+        "contract": "Automated fixtures cannot substitute for the real presentation and interaction value witnesses.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "projects/ide-extension approved design and work-pack",
+      "execution": "task-session for one selected SWU; active Codex only in real witnesses",
+      "validation": "Node/schema/Playwright suites, Distill, and human witness review",
+      "evidence": "Task Session receipts, browser assets, kernel events, CLI poll outputs, and closure reports",
+      "memory": "plan artifacts and bounded evidence; no copied HTML body in event logs",
+      "promotion": "human approval through the owning lifecycle"
+    },
+    "receipts": [
+      {
+        "receipt_id": "swu-execution-result",
+        "producer": "task-session",
+        "required_fields": ["status", "capability_ref", "artifacts", "validation_result", "validation", "blockers", "residue", "handoff_note"],
+        "stores": ["immutable Task Session result", "validated evidence handles", "next SWU route"],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "session-content-workbench-plan",
+        "owner": "invoke plan until handoff",
+        "write_policy": "planning artifacts only"
+      },
+      {
+        "namespace": "projects/ide-extension runtime source and local state",
+        "owner": "one selected Task Session SWU",
+        "write_policy": "exact SWU scope with regression evidence"
+      },
+      {
+        "namespace": "workspace HTML surface",
+        "owner": "active Codex session/project",
+        "write_policy": "complete file revisions published by reference"
+      },
+      {
+        "namespace": "canvas projection and interaction stream",
+        "owner": "local kernel",
+        "write_policy": "serialized event append and deterministic replay"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "trusted-local V0 value proof",
+        "target": "V1 hardening or remote workbench",
+        "rule": "A separate approved design and plan must justify security, authentication, snapshots, multi-user routing, or effect authority.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "No runtime implementation occurs during Invoke plan.",
+    "No Task Session begins without one selected ready SWU.",
+    "No automatic update begins before manual display evidence passes.",
+    "No specialized Decision Gate or Craft server endpoint replaces the generic event envelope.",
+    "No browser request event is described as completed Craft execution.",
+    "No live witness failure is simulated as success.",
+    "No V0 value evidence promotes V1 authority."
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": "2026-07-12-ide-extension-session-content-workbench-refresh",
+    "trace_events": ["planning-context-selected", "plan-artifacts-authored", "dispatch-validated", "distill-validated", "task-session-handoff-ready"],
+    "signal_grouping": "invoke.plan.ide-extension-session-content-workbench"
+  }
+}

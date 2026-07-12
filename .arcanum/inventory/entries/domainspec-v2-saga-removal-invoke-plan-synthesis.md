@@ -4,7 +4,7 @@ node_type: synthesis
 is_session: false
 layer: implementation-plan
 nature: reference
-status: candidate
+status: verified
 created: 2026-07-11
 invoke_mode: plan
 target: projects/domainspec-v2/development/saga-removal/
@@ -18,9 +18,9 @@ sources:
 
 # DomainSpec v2 Saga Removal Invoke Plan
 
-This is a non-authority Inventory read model for the Invoke plan at
-projects/domainspec-v2/development/saga-removal/. It does not remove Saga,
-change DS-D1/DS-D8 authority, or execute any SWU.
+This is a non-authority Inventory read model for the Invoke plan and current
+execution route at `projects/domainspec-v2/development/saga-removal/`. Authority
+and implementation changes are proven only by the linked SWU receipts.
 
 ## Result
 
@@ -44,6 +44,18 @@ reference guard.
 - First unit: SWU-SGRM-001, a non-mutating migration packet and live reference
   manifest.
 
+## Execution Update: 2026-07-11
+
+- SGRM-001: migration packet and classified manifest complete.
+- SGRM-002: canonical DS-D1/DS-D8 authority synchronized.
+- SGRM-003: Workflow scope and contract synchronized.
+- SGRM-004: active implementation Saga surfaces removed.
+- SGRM-005: negative Saga rejection and generic non-collapse validation pass.
+- SGRM-006: current guidance, plans, and Inventory synchronized.
+- SGRM-007: classified reference guard and seeded failure proof pass.
+- SGRM-008: full recomposition, read-model synchronization, and repository-local
+  migration closeout pass.
+
 ## Boundary
 
 Historical Saga evidence is not a removal target. A future request to erase
@@ -52,9 +64,8 @@ decision.
 
 ## Residue
 
-- External or persisted consumers are not evidenced; discovery during SGRM-001
-  blocks mutation and routes decision-gate.
+- External or persisted consumers are not evidenced by the repository-local
+  census; later discovery reopens compatibility through decision-gate.
 - DS-D1 intra-feature and DS-D8 same-feature vocabulary remain explicitly
   mapped rather than normalized in this plan.
-- Concurrent meta-type registry edits must be consumed from live state at Task
-  Session execution time.
+- Historical research and superseded decisions remain intentionally reachable.

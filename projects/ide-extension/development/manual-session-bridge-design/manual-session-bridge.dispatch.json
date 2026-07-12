@@ -1,0 +1,489 @@
+{
+  "dispatch_id": "dispatch-ide-extension-manual-session-bridge-design-20260712T030709Z",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "Use the blind manual-poll experiment to create a new development package for a bridge to the current Codex session, with manual poll first.",
+    "objective": "Produce a governed design for one human-approved read/preview skill request selected as the singleton poll target in the Approval Desk, claimed by the active Codex session only after an explicit operator poll, with late skill disclosure, operator-only recovery, and separate authorization/execution receipts.",
+    "target_artifact": "projects/ide-extension/development/manual-session-bridge-design/ARCHITECTURE-BUNDLE.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "dispatch-spec",
+      "agent envelope",
+      "approval gate",
+      "claim",
+      "execution receipt",
+      "owner boundary"
+    ],
+    "operator_sentence": "Build the manual poll bridge first; do not add a persistent worker yet."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "concrete_path_evidence",
+    "frame_handoff",
+    "owner_boundary_check",
+    "delegation_boundary",
+    "authority_split_gate",
+    "approval_semantics_map",
+    "state_namespace_boundary",
+    "execution_receipt_handoff",
+    "artifact_contract_bridge",
+    "validation_loop",
+    "residue_ledger",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "handle_handoff",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The operator selected one bounded manual bridge and the source contracts plus live experiment evidence were sufficient for local design synthesis.",
+    "authorization": "not_needed"
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Bind experiment and source context",
+      "capability_ref": "context-builder",
+      "mode": "lean",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "concrete_path_evidence",
+        "frame_handoff",
+        "sequence"
+      ],
+      "inputs": [
+        {
+          "kind": "intent",
+          "ref": "operator selection: manual poll bridge first"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/SPEC.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/ARCHITECTURE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/EXPERIMENT-EVIDENCE.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-extension/development/manual-session-bridge-design/EXPERIMENT-EVIDENCE.md",
+      "stop_conditions": [
+        "block if the design treats chat output as a kernel execution receipt",
+        "block if the selected route silently adds a persistent worker"
+      ]
+    },
+    {
+      "step_id": "S2",
+      "name": "Synthesize six-view manual bridge and UX",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "synthesis",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "owner_boundary_check",
+        "approval_semantics_map",
+        "state_namespace_boundary",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/EXPERIMENT-EVIDENCE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/ARCHITECTURE-BUNDLE.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/UX-PLAN.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/GLOSSARY-CONSISTENCY.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/DECISIONS.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-extension/development/manual-session-bridge-design/ARCHITECTURE-BUNDLE.md",
+      "stop_conditions": [
+        "block if human approval is described as successful skill execution",
+        "block if the task field can silently submit a generic default",
+        "block if the kernel resolves or loads the selected skill"
+      ]
+    },
+    {
+      "step_id": "S3",
+      "name": "Define late-disclosure delegation and result return",
+      "capability_ref": "dispatch-spec",
+      "mode": "boundary-validation",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "delegation_boundary",
+        "authority_split_gate",
+        "execution_receipt_handoff",
+        "approval_semantics_map",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/ARCHITECTURE-BUNDLE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/manual-session-bridge.dispatch.json"
+        },
+        {
+          "kind": "ledger",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/DESIGN-TRANSPORT.md#gap-ledger"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-extension/development/manual-session-bridge-design/manual-session-bridge.dispatch.json",
+      "stop_conditions": [
+        "block if pre-claim agent responses expose requested_skill",
+        "block if more than one proposal can be ready for poll",
+        "block if duplicate claims can receive an execution packet",
+        "block if a session can release or requeue its own claim",
+        "block if a session can mint its own kernel receipt"
+      ]
+    },
+    {
+      "step_id": "S4",
+      "name": "Validate smallest coherent bridge unit",
+      "capability_ref": "distill",
+      "mode": "design-unit-check",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": [
+        "scu_swu_reduction",
+        "recomposition_proof",
+        "validation_loop",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/ARCHITECTURE-BUNDLE.md"
+        },
+        {
+          "kind": "ledger",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/DESIGN-TRANSPORT.md#gap-ledger"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/IMPLEMENTATION-LAYERING-SEED.md"
+        },
+        {
+          "kind": "frame",
+          "ref": "Distill verdict: pass for one manual read/preview bridge request"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-extension/development/manual-session-bridge-design/IMPLEMENTATION-LAYERING-SEED.md",
+      "stop_conditions": [
+        "block if L0 requires persistent workers, authenticated sessions, or mutation-capable execution",
+        "block if operator release/requeue or unattested identity is hidden"
+      ]
+    },
+    {
+      "step_id": "S5",
+      "name": "Emit plan-ready handles and residue",
+      "capability_ref": "invoke",
+      "mode": "design-handoff",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "handle_handoff",
+        "residue_ledger",
+        "observability_grouping",
+        "sequence"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/ARCHITECTURE-BUNDLE.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/IMPLEMENTATION-LAYERING-SEED.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/DESIGN-TRANSPORT.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/manual-session-bridge-design/INVOKE-RESULT.md"
+        },
+        {
+          "kind": "handoff",
+          "ref": "invoke plan from the approved decision-gated design package"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-extension/development/manual-session-bridge-design/DESIGN-TRANSPORT.md",
+      "stop_conditions": [
+        "defer source mutation until invoke plan creates an approved work-pack",
+        "block source mutation during Invoke design mode"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G1",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "manual session bridge design dispatch validates before plan handoff",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2",
+      "kind": "policy",
+      "owner": "projects/ide-extension kernel",
+      "condition": "approval mints a typed authorization receipt without an execution claim, and a separate execution receipt is minted only after a valid claim-bound result",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3",
+      "kind": "policy",
+      "owner": "manual session bridge",
+      "condition": "the first bridge permits only skill.invoke and preview.read and blocks mutation or network effects",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G4",
+      "kind": "policy",
+      "owner": "active Codex session",
+      "condition": "the session lists or claims bridge requests only after the operator explicitly says poll",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G5",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "design includes six views, UX workflow, glossary consistency, experiment evidence, layering seed, dispatch trace, Distill result, and residue",
+      "on_fail": "flag"
+    },
+    {
+      "gate_id": "G6",
+      "kind": "promotion_guardrail",
+      "owner": "projects/ide-extension",
+      "condition": "Invoke design creates plan-ready artifacts only; source mutation requires approved plan and task-session",
+      "on_fail": "defer"
+    },
+    {
+      "gate_id": "G7",
+      "kind": "policy",
+      "owner": "human operator and projects/ide-extension kernel",
+      "condition": "exactly one approved proposal is ready for poll, and only the operator can release and requeue an interrupted claim",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "invoke.design.context",
+      "invoke.design.experiment_evidence",
+      "invoke.design.architecture_bundle",
+      "invoke.design.ux_plan",
+      "decision-gate.manual_session_bridge",
+      "dispatch.validation",
+      "distill.design_unit_check",
+      "invoke.design.transport"
+    ],
+    "signal_grouping": "dispatch_id plus target_artifact"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1-approval-to-claim",
+        "kind": "human_approval",
+        "from_owner": "human operator and Approval Desk",
+        "to_owner": "projects/ide-extension local kernel",
+        "applies_to_steps": [
+          "S2",
+          "S3"
+        ],
+        "contract": "Approval mints an authorization receipt and permits read-only attempts; it does not invoke the session or prove execution.",
+        "on_violation": "block",
+        "approval_semantics_map": "awaiting_approval becomes approved; authorization is consumed only when a terminal execution result is admitted"
+      },
+      {
+        "boundary_id": "B2-kernel-to-session",
+        "kind": "capability_handoff",
+        "from_owner": "projects/ide-extension local kernel",
+        "to_owner": "active Codex session",
+        "applies_to_steps": [
+          "S3"
+        ],
+        "contract": "After the operator marks exactly one proposal ready and says poll, one successful atomic claim returns the task, requested skill slug, grants, and context refs; pre-claim responses omit the skill.",
+        "on_violation": "block",
+        "owner_boundary_check": "kernel owns claim and bindings; Codex owns installed skill resolution and contract execution"
+      },
+      {
+        "boundary_id": "B3-session-to-kernel-result",
+        "kind": "evidence_return",
+        "from_owner": "active Codex session",
+        "to_owner": "projects/ide-extension local kernel",
+        "applies_to_steps": [
+          "S3",
+          "S4"
+        ],
+        "contract": "Session returns a bounded claim-bound terminal result; kernel validates it and alone mints the execution receipt.",
+        "on_violation": "block",
+        "artifact_contract_bridge": "bridge result schema, result artifacts, projector transition, execution receipt, workbench evidence"
+      },
+      {
+        "boundary_id": "B4-operator-recovery",
+        "kind": "human_approval",
+        "from_owner": "interrupted active Codex claim",
+        "to_owner": "human operator and projects/ide-extension local kernel",
+        "applies_to_steps": [
+          "S3",
+          "S4"
+        ],
+        "contract": "Only the operator may release and requeue an interrupted L0 read-only claim; every attempt remains in the event ledger and no timer retries silently.",
+        "on_violation": "block",
+        "approval_semantics_map": "claimed becomes interrupted; operator release returns the envelope to approved without erasing attempt history"
+      },
+      {
+        "boundary_id": "B5-design-to-plan",
+        "kind": "evidence_return",
+        "from_owner": "invoke design",
+        "to_owner": "invoke plan and task-session",
+        "applies_to_steps": [
+          "S5"
+        ],
+        "contract": "Design passes artifact handles and named residue only; plan creates SWUs and task-session owns implementation mutation.",
+        "on_violation": "defer",
+        "artifact_contract_bridge": "architecture bundle, UX plan, glossary check, decision record, layering seed, dispatch JSON, design transport, Invoke result"
+      }
+    ],
+    "authority": {
+      "lifecycle": "projects/ide-extension",
+      "execution": "active Codex session under manual operator trigger; task-session owns later implementation work",
+      "validation": "dispatch-spec, schema/projector/API tests, Playwright, and one real manual witness",
+      "evidence": "projects/ide-extension local kernel events, artifacts, and execution receipts",
+      "memory": "none in the bridge protocol",
+      "promotion": "owner-approved plan and layer evidence only"
+    },
+    "receipts": [
+      {
+        "receipt_id": "authorization-receipt",
+        "producer": "projects/ide-extension local kernel after human approval",
+        "required_fields": [
+          "run_id",
+          "session_id",
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "approval_record",
+          "audit_reference"
+        ],
+        "detailed_fields": [
+          "receipt_id",
+          "envelope_id",
+          "approval_id",
+          "requested_skill",
+          "requested_grants",
+          "authorized_at",
+          "authorization_status",
+          "before_ref",
+          "after_ref",
+          "evidence_refs"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "skill-execution-receipt",
+        "producer": "projects/ide-extension local kernel after result admission",
+        "required_fields": [
+          "run_id",
+          "session_id",
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation_result",
+          "approval_record",
+          "audit_reference"
+        ],
+        "detailed_fields": [
+          "receipt_id",
+          "envelope_id",
+          "approval_id",
+          "claim_id",
+          "agent_ref",
+          "session_ref",
+          "assurance",
+          "requested_skill",
+          "resolved_skill_sha256",
+          "requested_grants",
+          "claimed_at",
+          "completed_at",
+          "before_ref",
+          "after_ref",
+          "result_ref",
+          "evidence_refs"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "browser form memory",
+        "owner": "Approval Desk HTML",
+        "write_policy": "transient task and skill input only; clear skill after prepare; no localStorage authority"
+      },
+      {
+        "namespace": ".ide-extension/state",
+        "owner": "projects/ide-extension local kernel",
+        "write_policy": "durable envelopes, approvals, singleton ready target, claim attempts, operator releases, results, events, artifacts, receipts, and projections"
+      },
+      {
+        "namespace": "active Codex session context",
+        "owner": "Codex runtime",
+        "write_policy": "receive one claim packet after explicit poll; do not persist full transcript into kernel state"
+      },
+      {
+        "namespace": "installed skill roots",
+        "owner": "Codex/Arcanum runtime installation",
+        "write_policy": "read selected SKILL.md during bridge execution; bind resolved source hash in result"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Dispatch validation proves route shape only; it does not implement the bridge.",
+    "The manual bridge remains read/preview-only until an executor can enforce effect scope.",
+    "An unattested session ref must never be described as authenticated identity.",
+    "Only the human operator may select the ready target or release and requeue an interrupted claim.",
+    "Source mutation requires an approved Invoke plan and Task Session execution route."
+  ]
+}

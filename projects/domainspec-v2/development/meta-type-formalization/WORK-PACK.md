@@ -4,7 +4,7 @@ is_session: false
 status: candidate
 boundary: PUBLIC validation criteria; engine src/rules δ-algorithm NEVER imported/exposed; v1 read-only
 created: 2026-07-01
-authored_by: invoke (mode: plan)
+authored_by: "invoke (mode: plan)"
 define: ./DEFINE.md
 design: ./DESIGN.md
 layering: ./implementation-layering.md
@@ -13,6 +13,12 @@ complexity: high
 ---
 
 # Meta-Type Formalization — Work-Pack
+
+> **Current authority update (2026-07-11):** The DONE statements below are
+> historical receipts for the original 14-type formalization. Saga-specific
+> cards, schemas, fixtures, and distinctions were later removed by the accepted
+> collapse; active authority now has 13 backend types. No Saga work in this pack
+> is executable.
 
 Formalize the staged meta-type candidate catalog into **checkable criteria**, by category, and build the
 **content validator** that checks an aspect file by types + edges. The 14 backend candidates are delivered as

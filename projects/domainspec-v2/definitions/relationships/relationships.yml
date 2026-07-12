@@ -14,7 +14,7 @@
     "domainspec-v2-D24",
     "domainspec-v2-D25"
   ],
-  "signature_count": 31,
+  "signature_count": 30,
   "signatures": [
     {
       "id": "performs",
@@ -153,28 +153,12 @@
       "feature_scope": ["same-feature", "cross-feature"],
       "inverse": {"kind": "none"},
       "status": "active",
-      "semantics": "A workflow coordinates operations inside one feature or bounded context.",
-      "examples": ["OrderFulfillment --[orchestrates]--> ChargePayment"],
-      "non_examples": ["Entity --[orchestrates]--> Operation"],
-      "validation": {"violation_class": "unconstructible-edge", "obligations": ["reject_non_workflow_source", "reject_non_operation_target"]},
-      "composition": ["workflow_calls_ordered_operations"],
+      "semantics": "A workflow coordinates ordered operations within one feature or across declared feature boundaries.",
+      "examples": ["OrderFulfillment --[orchestrates]--> ChargePayment", "ReservationFulfillment --[orchestrates]--> ReserveCopy"],
+      "non_examples": ["Entity --[orchestrates]--> Operation", "Workflow --[orchestrates]--> Operation without an admitted declared scope"],
+      "validation": {"violation_class": "unconstructible-edge", "obligations": ["reject_non_workflow_source", "reject_non_operation_target", "require_admitted_workflow_scope"]},
+      "composition": ["workflow_calls_ordered_operations_across_declared_scope"],
       "projection": {"markdown": "Workflow --[orchestrates]--> Operation[]"}
-    },
-    {
-      "id": "orchestrates",
-      "source_type": "Saga",
-      "target_type": "Operation",
-      "direction": "canonical",
-      "multiplicity": "one_to_many_ordered",
-      "feature_scope": ["cross-feature"],
-      "inverse": {"kind": "none"},
-      "status": "active",
-      "semantics": "A saga coordinates operations across feature or service ownership with participant and compensation obligations.",
-      "examples": ["ReservationFulfillment --[orchestrates]--> ReserveCopy"],
-      "non_examples": ["Workflow --[orchestrates]--> cross-feature operation without scope metadata"],
-      "validation": {"violation_class": "unconstructible-edge", "obligations": ["reject_non_saga_source", "reject_non_operation_target", "require_cross_feature_saga_scope"]},
-      "composition": ["saga_tracks_participants_and_compensation"],
-      "projection": {"markdown": "Saga --[orchestrates]--> Operation[]"}
     },
     {
       "id": "applies",

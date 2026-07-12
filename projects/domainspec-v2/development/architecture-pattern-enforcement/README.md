@@ -6,7 +6,7 @@ feature_code: APE
 status: draft
 scope: full architecture-validation program
 authored_by: invoke (define → design → plan)
-updatedAt: 2026-07-02
+updatedAt: 2026-07-12
 ---
 
 # Architecture-Pattern Enforcement (APE) — development package
@@ -19,10 +19,11 @@ owes owner-promotion (see [cav2 guardrail](#guardrail) below).
 ## Why this package exists
 
 domainspec-v2 already **owns** the pieces of an architecture-validation system — a meta-type schema
-layer, an edge-law, validators, an engine, and (in v1) a full pattern-library — but they are not
-wired into one enforced discipline, and much of the tooling runs today only **vacuously** (no real
-feature pack to check). This package sequences the owned pieces into a start-now / adjust-later
-discipline and names what each part still owes before it can bind.
+layer, an edge-law, validators, an engine, and (in v1) a full pattern-library. Static node and edge
+validation is now witnessed on the financial-settlement pack; bounded dynamic code-tag composability
+now consumes root DS-D8 authority. CI repeatability, a second corpus, broader code-call semantics,
+and card triage remain incomplete. This package sequences the owned
+pieces and names what each part still owes before it can bind.
 
 ## Evidence base
 
@@ -54,5 +55,9 @@ it must promote **into** a Definition or Constitution to bind. This package ther
 ## Next route
 
 `task-session` per SWU in [WORK-PACK.md](WORK-PACK.md). L0 is complete on the financial-settlement
-feature pack. Next is L1 cleanup/card triage/CI, then the R3A-unblocked edge-law work can wire dynamic
-DS-D8 enforcement.
+feature pack, and bounded dynamic DS-D8 enforcement is complete through
+[`TASK-R3C-EDGE`](../r3-closeout-plan/work-pack/tasks/TASK-R3C-EDGE.md) (`SWU-R3C-001..003`).
+Second-corpus evidence is complete through `SWU-R3C-004`: the normalized AEO
+pack passes current node/edge validation and its seeded invalid edge is
+rejected. Card triage begins at `SWU-R3C-005`. APE-local CI and cleanup work
+remain open.

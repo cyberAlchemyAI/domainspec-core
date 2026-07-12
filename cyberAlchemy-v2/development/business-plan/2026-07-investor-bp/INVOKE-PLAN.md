@@ -2,9 +2,9 @@
 tags: [invoke, plan, business-plan, investor-bp, private, claim-le-proof]
 node_type: invoke-plan
 layer: plan
-status: flag
+status: pass
 created: 2026-07-10
-updatedAt: 2026-07-10
+updatedAt: 2026-07-12
 docType: implementation-plan
 observed_capability: invoke
 invoke_mode: plan
@@ -12,7 +12,7 @@ target_artifact: investor business plan package
 target_owner: private business-plan development cycle
 ---
 
-# Invoke Plan: Investor Business Plan Package
+# Invoke Plan: Investor Package Language And Value Migration
 
 ## Invoke Result
 
@@ -20,137 +20,167 @@ target_owner: private business-plan development cycle
 - Spell: invoke
 - Canonical ID: invoke
 - Scope: library
-- Phase status: flag
+- Phase status: pass for mutation planning; investor circulation remains blocked
 - Mode contract: `.agents/skills/invoke/plan.md`
-- Outputs: `INVOKE-PLAN.md`, `IMPLEMENTATION-LAYERING.md`, `WORK-PACK.md`, `EXECUTION-PACK.md`
-- Design views: n/a
-- Glossary consistency: n/a
-- Dispatch techniques: selected trace below; full dispatch document not required because this package does not dispatch subagents
-- Distill validation: flag; local validation recorded below, independent Distill sigil run not executed in this turn
+- Approved design reference: `../../research/2026-07-11-investor-language-customer-value/findings.md`
+- Outputs: `INVOKE-PLAN.md`, `IMPLEMENTATION-LAYERING.md`, `WORK-PACK.md`, `EXECUTION-PACK.md`, `MUTATION-DISPATCH.json`, `DISTILL-VALIDATION.md`, and `work-pack/`
+- Design views: narrative architecture, customer/value architecture, evidence boundary, economic measurement, and rendering route covered by approved findings
+- Glossary consistency: pass; the approved jargon replacement dictionary governs outward language
+- Dispatch techniques: full route in `MUTATION-DISPATCH.json`; validation required
+- Distill validation: `DISTILL-VALIDATION.md`
 - Implementation layering: `IMPLEMENTATION-LAYERING.md`
-- Work-pack: `WORK-PACK.md`; single-file SWU manifest with execution-pack companion
+- Work-pack: `WORK-PACK.md`; split medium-complexity package
 - Complexity: medium
 - Per-layer planning: L0, L1, L2, L3
-- Implementation detail: task specs complete enough for next planning/writing handoff; final BP prose not drafted here
-- Smallest working units: complete for planning handoff, selected first SWU is `SWU-BP-001`
-- Target artifact: private investor BP package, owned by business-plan development cycle
-- Template or recipe selection: Invoke plan + implementation-layering + work-pack + business-plan Whisper preset
-- Decisions: build from wedge outward; keep DomainSpec/CAV2 as private substrate; draft evidence registry before front-stage prose
-- Unresolved gaps: funding ask/runway, buyer calls, paid pilot/SOW, fresh runnable receipts, comparator refresh, independent Distill run
-- Next route: task-session to `SWU-BP-001`, then Whisper business-plan drafting after evidence registry and financial assumptions exist
+- Implementation detail: complete in `work-pack/tasks/`
+- Smallest working units: eight complete SWU contracts; first selected unit is `SWU-CABP-001`
+- Target artifact: private investor BP package, owned by the business-plan development cycle
+- Template selection: standalone layering + split work-pack + DomainSpec execution-pack; no tie
+- Decisions: rewrite all current investor-package language from the approved research; lead with a release-review experiment; keep transfer hypotheses in diligence; derive HTML from the audited BP
+- Unresolved gaps: founder facts, financing ask, buyer evidence, paid pilots, repurchase, and market frequency remain visible but do not block honest rewriting
+- Next route: `task-session` for `SWU-CABP-001`
 
 ## Purpose
 
-Turn the accepted business-plan research substrate into an executable plan for a
-private investor BP package. This plan does not draft the BP. It defines the
-artifact order, evidence gates, SWU handoff boundaries, and claim discipline
-needed to draft the BP without letting the story outrun proof.
+Create an execution-ready migration plan for every current investor-package
+artifact. The migration must translate internal CyberAlchemy vocabulary into a
+concrete customer transaction, customer work change, money mechanism, and proof
+route without inventing traction, ROI, financing facts, or product maturity.
 
-## Source Context
+Invoke authors this plan. Task Session owns each mutation SWU. Whisper may own
+bounded prose composition inside an SWU. Browser and UX validation own final
+rendering evidence. No investor artifact is mutated in this Invoke run.
 
-| Source | Use In This Plan |
+## Approved Design And Context Selection
+
+| Source | Authority In This Plan |
 | --- | --- |
-| `.arcanum/inventory/queries/2026-07-09-business-plan-build-research/findings.md` | Controls BP build order, wedge selection, non-claims, evidence registry, financial model, and 30/60/90 witness queue. |
-| `.agents/skills/whisper/presets/business-plan/preset.yaml` | Controls BP composition, audience modes, output modes, required sections, validation checks, and fail conditions. |
-| `.agents/skills/invoke/plan.md` | Controls plan-mode gates, implementation layering, SWUs, dispatch technique trace, and Distill validation. |
-| `.agents/skills/invoke/templates/work-pack.md` | Controls work-pack structure and SWU fields. |
-| `.agents/skills/invoke/templates/implementation-layering.md` | Controls L0-L3 layer decisions and promotion evidence. |
+| `../../research/2026-07-11-investor-language-customer-value/findings.md` | Approved narrative/value design, verdict matrix, scenario status, money taxonomy, rewrite sequence, and forbidden claims. |
+| `../../research/2026-07-11-investor-language-customer-value/research.md` | Verbatim explorer evidence and external-source provenance. |
+| `diligence-evidence-registry.md` | Existing evidence roster to be migrated, not narrative authority. |
+| `source-trace.md` | Existing claim trace to be migrated after registry. |
+| `financial-assumptions.md` | Existing planning numbers; all remain hypotheses unless customer-backed. |
+| `operating-plan.md` | Existing delivery model; must be rewritten around the release-review experiment. |
+| `business-plan.md` | Current long-form narrative rewrite target. |
+| `investor-brief.html` | Current shareable derivative; must follow the audited BP and never become an independent claim source. |
 
-## Target Output Set
+The Context Builder selection is deliberately bounded to these files. Internal
+system repositories remain out of execution context unless a specific diligence
+claim requires a concrete source handle.
 
-The BP execution stream should eventually produce these private artifacts in
-this directory:
+## Delivery Boundary
 
-| Artifact | Role | Current Status |
-| --- | --- | --- |
-| `diligence-evidence-registry.md` | Source roster, maturity labels, receipts, witnesses, non-claims, and gaps. | Planned first. |
-| `source-trace.md` | Source-to-claim map for BP sections and investor artifacts. | Planned first. |
-| `financial-assumptions.md` | Bottom-up sprint-unit model, scenarios, sensitivities, runway, use of funds. | Planned after registry. |
-| `business-plan.md` | Full private BP for investor confidence and internal operating alignment. | Draft only after registry and financial assumptions. |
-| `investor-memo.md` | Decision case for first investor. | Draft after BP body and financial model. |
-| `deck-substrate.md` | Meeting-getter compression layer; no new claims beyond BP/data room. | Draft last. |
-| `operating-plan.md` | Delivery loop for one paid Metric Trust / AI Work Readiness wedge. | Draft after financial assumptions. |
-| `claim-audit.md` | Claim <= proof audit across BP, memo, deck, and registry. | Required before any investor-facing use. |
+Included:
 
-## Core Planning Decisions
+- rewrite all six current investor/business artifacts;
+- add and maintain `claim-audit.md`;
+- update claim statuses, customer/payor language, money mechanisms, scenario
+  placement, commercial gates, financing status, and cross-artifact traceability;
+- rewrite and browser-validate the shareable HTML;
+- preserve private/public boundaries.
 
-1. Lead with one buyer pocket and one blocked decision, not the whole portfolio.
-2. Use the front-stage wedge: fixed-scope Metric Trust / governed AI Work Readiness.
-3. Treat DomainSpec/CAV2 as private substrate and diligence evidence, not public product proof.
-4. Use Arcanum public-safe evidence only where wording stays inside public/private boundaries.
-5. Present founder velocity and artifact breadth as operating-discipline evidence, not traction.
-6. Use bottom-up sprint-unit assumptions until paid evidence validates price, hours, costs, cash timing, conversion, and repeat work.
-7. Write visible non-claims into every investor artifact.
-8. Do not claim certification, compliance, audit-ready status, provably correct agents, finished platform, platform revenue, market pull, unique/first/only, or proven moat.
-9. Phrase the compounding effect as a conditional residue hypothesis: repeated paid work may reuse schemas, gates, receipts, owner routes, and bounded witnesses.
-10. Use "verifiable" only for named checks/validators/receipts/formal witnesses, and "provable" only where a named formal witness exists.
+Excluded:
 
-## Dispatch Spec Technique Trace
+- obtaining buyer interviews, signed pilots, payment, or repurchase;
+- choosing founder facts or financing values not supplied by founders;
+- public Arcanum mutation;
+- new product implementation;
+- market-size or unique/first/only claims;
+- certification, compliance, assurance, correctness, or production promotion.
 
-Full dispatch JSON is not required for this plan package because this turn does
-not fan out to subagents, external executors, or mutation-capable lifecycle
-owners. The route still carries protected private context, so the trace records
-boundary and evidence gates explicitly.
+## Target Artifact Matrix
 
-| Technique ID | Applied To | Validation Expectation | Status |
+| Artifact | Authority Role | Mutation Rule | Final Gate |
 | --- | --- | --- | --- |
-| sequence | Registry -> section map -> financial assumptions -> operating plan -> BP -> memo/deck -> claim audit. | Later artifacts cannot introduce claims unsupported by earlier evidence. | pass |
-| frame_handoff | Invoke plan -> task-session / Whisper drafting. | Next route receives exact artifact list, scope, first SWU, and source anchors. | pass |
-| handle_handoff | SWU handoff fields in `WORK-PACK.md`. | Each SWU has write scope, done criteria, evidence, and validation surface. | pass |
-| residue_ledger | Evidence registry and claim audit. | Compounding substrate is tracked as residue/evidence, not asserted as proof. | pass |
-| owner_boundary_check | Invoke vs Task Session vs Whisper. | Invoke plans; Task Session executes bounded SWUs; Whisper drafts prose after evidence inputs exist. | pass |
-| artifact_contract_bridge | Whisper preset and BP outputs. | Output artifacts mirror preset-required sections and validation checks. | pass |
-| validation_loop | Every slice and SWU. | Each unit has a reviewable check or command. | pass |
-| concrete_path_evidence | All planned artifacts. | Future file paths are named and scoped. | pass |
-| observability_grouping | Planning package and later execution receipts. | BP evidence stays inspectable by artifact class. | pass |
-| scu_swu_reduction | Work-pack SWUs. | The first executable unit is `SWU-BP-001`; later units are sequenced by evidence dependencies. | pass |
-| recomposition_proof | SWUs -> BP package. | Every SWU contributes to a named BP artifact or validation gate. | pass |
-| execution_receipt_handoff | Task-session route. | Each execution SWU has acceptance evidence and validation surface. | pass |
-| authority_split_gate | Private BP vs public Arcanum. | Private substrate remains under `cyberAlchemy-v2/`; no private claims are promoted into `arcanum/`. | pass |
+| `diligence-evidence-registry.md` | Evidence status roster | Add approved language/value findings and exact missing witnesses. | No hypothesis appears as proven. |
+| `source-trace.md` | Claim-to-source mapping | Map every primary BP/HTML claim to source, status, and demotion rule. | Every outward claim has a handle. |
+| `financial-assumptions.md` | Seller and customer economics | Use the five-tag monetary taxonomy; keep unknown founder inputs missing. | No scenario reads as forecast or validated economics. |
+| `operating-plan.md` | Delivery and validation contract | Replace old receipt/wedge language with roles, workflow, burdens, and two commercial gates. | Customer authority and measurement contract are explicit. |
+| `business-plan.md` | Canonical long-form investor narrative | Rewrite in the approved order and language. | Provisional claim audit passes. |
+| `claim-audit.md` | Cross-artifact claim gate | Classify every load-bearing claim and record browser/comprehension evidence. | Final status pass or explicit block. |
+| `investor-brief.html` | Shareable derivative | Compress the audited BP; preserve design quality and responsive behavior. | No new claim, browser defect, or content overlap. |
 
-Skipped technique note: subagent fan-out strategy is deferred. The next BP
-drafting pass may use subagents for market refresh, financial model review, and
-claim audit, but this invoke plan does not dispatch them.
+## Governing Decisions
+
+1. Primary commercial experiment: external fixed-scope software release review.
+2. External offer name: `fixed-scope release review sprint`.
+3. External deliverable name: `versioned release review`.
+4. Lead buyer/payor remains a falsifiable engineering-leadership hypothesis.
+5. Live-premises and confidential workflows remain full diligence transfer
+   hypotheses, not equal primary-market cards.
+6. CyberAlchemy assembles and flags; customer specialists confirm; the
+   customer-authorized release owner decides.
+7. Monetary tags are closed: `CUSTOMER-BASELINE`, `MEASURED-PILOT`,
+   `EXTERNAL-BENCHMARK`, `HYPOTHESIS`, and `PROHIBITED`.
+8. Unknown founder and financing facts remain visibly missing; no plausible
+   placeholder may masquerade as a decision.
+9. `business-plan.md` is the outward narrative authority.
+   `investor-brief.html` is a compression/read model.
+10. Investor circulation stays blocked until final claim and browser audits pass.
 
 ## Build Sequence
 
-1. Create the evidence registry and source trace first.
-2. Build a BP section map with evidence, missing witness, and demotion gate for every section.
-3. Build the bottom-up sprint-unit financial assumption model.
-4. Draft the operating plan around one paid wedge and one receipt bundle.
-5. Draft the full BP with explicit evidence boundary and non-claims.
-6. Draft the investor memo and deck substrate last.
-7. Run a claim audit before investor use.
+1. Rewrite the evidence registry.
+2. Rewrite the source trace from the registry.
+3. Rewrite financial assumptions.
+4. Rewrite the operating plan.
+5. Rewrite the canonical business plan.
+6. Create the provisional claim audit.
+7. Rewrite the HTML from the audited BP.
+8. Complete browser, comprehension, consistency, and final claim audits.
 
-## Distill Validation
+## Template And Profile Selection
 
-| Check | Result | Evidence Or Gap |
+| Candidate | Eligibility | Decision |
 | --- | --- | --- |
-| Smallest coherent unit or SWU boundary | pass | `SWU-BP-001` creates the evidence registry and source trace, the minimum base needed before BP prose. |
-| Recomposition proof | pass | Registry, financial assumptions, operating loop, BP, memo/deck, and claim audit recompose into the target investor BP package. |
-| Hidden acceptance-critical gaps | flag | Ask amount, runway, target investor type, buyer-call evidence, paid-pilot packet, and fresh receipts are missing. |
-| Deferred complexity | flag | Full subagent research dispatch and independent Distill sigil validation are deferred. |
-| Navigation to first executable unit | pass | Start with `WORK-PACK.md` -> `SWU-BP-001`. |
+| Standalone implementation-layering template | Required for every Invoke plan. | Selected. |
+| Split work-pack template | More than five tasks/artifacts and cross-capability handoffs. | Selected. |
+| DomainSpec execution-pack template | Medium complexity with explicit waves. | Selected. |
+| Single-file work-pack | Scope exceeds low-complexity threshold. | Rejected. |
+| Whisper business-plan preset | Useful inside narrative SWUs, but not the lifecycle owner. | Selected as bounded composition helper. |
 
-Verdict: `flag`. The plan can guide the next planning/writing work, but it
-should not be treated as mutation-capable investor artifact readiness until the
-flagged gaps are either filled or explicitly labeled in the BP.
+## Dispatch Spec Technique Trace
+
+A full dispatch document is required because the route crosses Invoke, Task
+Session, Whisper, claim audit, browser validation, and protected private context.
+
+| Technique | Concrete Use | Validation Expectation |
+| --- | --- | --- |
+| `sequence` | Registry -> trace -> economics/operations -> BP -> audit -> HTML -> final audit. | No downstream artifact runs before its inputs pass. |
+| `scu_swu_reduction` | Eight single-write-scope SWUs. | One SWU is selectable without reopening design. |
+| `recomposition_proof` | SWUs recompose into one internally consistent package. | Artifact matrix has no uncovered current file. |
+| `validation_loop` | Every SWU has a command or review check and repair route. | Failed validation blocks the next wave. |
+| `owner_boundary_check` | Invoke plans; Task Session mutates; Whisper composes; browser review validates. | No capability claims another owner's lifecycle result. |
+| `handle_handoff` | Runtime gets paths and selectors, not copied private repositories. | Context remains bounded. |
+| `residue_ledger` | Founder, market, payment, and financing gaps stay explicit. | Missing facts never become prose assumptions. |
+| `execution_receipt_handoff` | Every SWU returns the standard receipt shape. | Work-pack synchronization follows evidence. |
+| `artifact_contract_bridge` | Findings vocabulary and claim rules bind each target artifact. | Every rewrite traces to approved design. |
+| `concrete_path_evidence` | All sources and write scopes name concrete paths. | No wildcard execution ownership. |
+| `authority_split_gate` | Private BP authority stays under `cyberAlchemy-v2/`. | No private content enters public Arcanum. |
+| `protected_context_flag` | Investor and private mechanism context is protected. | External publication is never implied. |
+
+Dispatch validation result is recorded after running:
+`python3 arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py MUTATION-DISPATCH.json --json`.
 
 ## Gap Ledger
 
-| Gap ID | Scope | Description | Owner | Repair Path |
-| --- | --- | --- | --- | --- |
-| BP-GAP-001 | Funding | Ask amount, runway, use-of-funds milestones, and desired investor instrument are not specified. | founder | Decide ask/runway or draft with placeholder assumptions clearly marked. |
-| BP-GAP-002 | Market | 5-10 buyer calls around one blocked metric/workflow decision are not yet recorded. | founder / research | Run interview queue and record owner, urgency, budget path, workaround, and willingness to pay. |
-| BP-GAP-003 | Commercial | No paid pilot/SOW packet is recorded for the lead wedge. | founder | Create SOW specimen, then validate with one paid pilot. |
-| BP-GAP-004 | Evidence | Fresh runnable receipts are not yet collected for the diligence registry. | task-session | Rerun selected tests/builds/audits and store results in registry. |
-| BP-GAP-005 | Competition | Comparator archive needs dated refresh before any unique/first/only claim. | research | Refresh spec-first, AI governance, traceability, formal methods, and audit categories. |
-| BP-GAP-006 | Validation | Independent Distill validation was not executed in this turn. | invoke follow-up | Run a dedicated Distill validate pass after the first artifact set exists. |
+| Gap | Classification | Mutation Effect | Owner / Route |
+| --- | --- | --- | --- |
+| Founder identities, biographies, legal status | missing evidence | Preserve explicit missing fields; do not block structural rewrite. | founder |
+| Financing amount, instrument, burn, runway | missing evidence | Rename to financing preparation and show unresolved inputs. | founder |
+| Buyer/payor and budget path | unwitnessed hypothesis | Use falsifiable language and ten-offer gate. | commercial validation |
+| Paid pilot and collection | missing evidence | Prohibit traction/value promotion. | founder / sales |
+| Operational improvement and repurchase | missing evidence | Keep money mechanisms as hypotheses. | pilot execution |
+| Event frequency and access feasibility | missing evidence | Record qualification fields and failure outcomes. | buyer research |
+| Comparator uniqueness proof | not pursued | Unique/first/only remains prohibited. | no route until evidence exists |
 
-## Next Route
+None of these gaps blocks honest mutation. All block investor claims that depend
+on the missing evidence.
 
-Start a bounded `task-session` on `SWU-BP-001`: create
-`diligence-evidence-registry.md` and `source-trace.md` from the accepted findings
-without drafting investor prose. After that, use the business-plan Whisper preset
-for controlled drafting only once evidence and financial assumptions exist.
+## Handoff
+
+Start with `SWU-CABP-001` only. Task Session should build an execution-time
+Context Builder pack from the selected SWU's source anchors, mutate only its
+write scope, return the standard receipt, and synchronize the work-pack before
+the next SWU is selected.
 

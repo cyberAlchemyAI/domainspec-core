@@ -10,6 +10,10 @@ history: moved here 2026-07-02 after it leaked (inside task.md) into the baselin
 
 # Reviewer-only — coverage `task.md` is designed to force
 
+> **Historical baseline notice (2026-07-11):** Saga-specific coverage below
+> documents the frozen pre-collapse instrument and is not a current task
+> requirement.
+
 Do **not** show this to the novice. It exists so a reviewer can confirm the task exercises the surface.
 
 The CampusRead brief is built to force:

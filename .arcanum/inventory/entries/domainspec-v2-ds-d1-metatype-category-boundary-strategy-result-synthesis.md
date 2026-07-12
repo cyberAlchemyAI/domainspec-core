@@ -20,6 +20,15 @@ points to the durable research artifacts. It does not promote DS-D1 meta-types,
 DS-D2 labels, DS-D8 signatures, validators, schemas, UI concept types, or full
 category laws by itself.
 
+## Current Routing Update: 2026-07-11
+
+The later owner decision selected collapse into scoped Workflow. Active
+authority now has 13 backend types; SGRM-001..008 completed the repository-local
+migration, and the separate Saga signature and hardening
+route are removed. Use the Saga-removal work-pack and SGRM receipts for current
+execution state. The research result below remains provenance for the earlier
+fork, not a live hardening route.
+
 ## Strategy Summary
 
 **P1 trigger decision:** dispatch was justified by synthesis, context
@@ -110,20 +119,20 @@ labels, but it does not confer DS-D1 formation authority on those labels.
 
 ## Downstream Use
 
-Use this entry when continuing DS-D1 meta-type hardening, UI `DS-D1.15..25`
-formalization, Saga/Workflow boundary work, State Machine/Enum separation,
+Use this entry for the historical DS-D1 boundary diagnosis, UI `DS-D1.15..25`
+formalization, State Machine/Enum separation,
 relationship-signature validator normalization, or future category-law
 formalization. Treat it as a strategy-result read model: canonical mutation
-still belongs to the definitions-governance and task-session owner routes.
+still belongs to the definitions-governance and task-session owner routes. For
+Saga continuation, route only to the removal/verification package.
 
 ## Residue
 
 - No canonical DS-D1, DS-D2, DS-D8, schema, validator, or projection files were
   mutated by this dispatch.
-- The 25-type claim remains staged until UI cards/schemas/fixtures exist or the
-  authority claim is narrowed.
-- Saga still needs an owner decision: harden as a distinct type or route
-  collapse/deprecation.
+- The current staged view is 13 active backend types plus 11 formation-deferred
+  UI labels.
+- Saga collapse and repository-local migration are complete through SGRM-008.
 - State Machine needs stronger finite transition law if it is to avoid collapse
   pressure toward Enum.
 - Full category laws remain a future formalization route, not R3 authority.

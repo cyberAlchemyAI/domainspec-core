@@ -3,7 +3,7 @@ node_type: define
 is_session: false
 status: candidate
 created: 2026-07-02
-authored_by: invoke (mode: define)
+authored_by: "invoke (mode: define)"
 target_artifact: comprehension novice-witness test — a measurement instrument producing a ranked stall-point dataset
 scope: projects/domainspec-v2 (the spec surface; the comprehension model it validates)
 owner_route: experiment (the test lifecycle) → feeds validation-governance (the model it prioritizes)
@@ -14,6 +14,11 @@ promotion_boundary: local development; the agent-arm run is a structural PRE-TES
 ---
 
 # Define — Comprehension Novice-Witness Test
+
+> **Historical baseline notice (2026-07-11):** Saga-specific task assumptions
+> below describe the frozen baseline instrument. They are not current authority
+> or runnable hardening guidance; a future rerun must use scoped Workflow and a
+> freshly versioned instrument.
 
 ## Intent
 Build the instrument Gigerenzer named in the closed research: a **novice, given only the current

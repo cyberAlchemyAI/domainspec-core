@@ -5,15 +5,15 @@
 > On approval, each tier routes to its owner: **Tier 1 → batch-1 R7**, **Tier 2 → definitions-governance**,
 > **Tier 3 → a schema-format reference** (recommended: documented, not defined). No card is written before approval.
 
-- **Tier 1** — domain meta-types (`DS-D1`) + edge verbs/signatures (`DS-D2`/`DS-D8`): **25** meta-type
-  candidates (14 backend + 11 UI) plus the R3A relationship class now promoted.
+- **Tier 1** — domain meta-types (`DS-D1`) + edge verbs/signatures (`DS-D2`/`DS-D8`): **24** staged labels
+  (13 active backend + 11 formation-deferred UI) plus the R3A relationship class now promoted.
 - **Tier 2** — method / framework terms (`domainspec-v2-D6+`): **10** candidates.
 - **Tier 3** — schema-format / implementation vocabulary: **15** candidates (7 rule kinds + 8 attribute keys).
-- **Total: 50 candidates.**
+- **Total: 49 current candidates/labels.** Numeric IDs preserve the retired `DS-D1.10` gap.
 
 ## Current maturity ledger
 
-- Backend `DS-D1.1..14`: human cards, machine schemas, and fixtures exist, so
+- Backend `DS-D1.1..9,11..14`: human cards, machine schemas, and fixtures exist, so
   they are shape/fixture-backed candidates. They are not uniformly promoted
   semantic authorities; each remains subject to its confirmation contract.
 - UI `DS-D1.15..25`: formation-deferred. The rows below preserve the candidate
@@ -26,7 +26,7 @@
 
 ## Tier 1 — Domain meta-types (`DS-D1.<n>`) · owner: definitions-governance · home: root `definitions/DEFINITIONS.md` (`#ds-d1-meta-type-system`) — DD-D3 resolved; NOT impl/ (R7 redirected)
 
-### 1a. Backend (14) — criterion EXISTS (its `.schema.yml`); **recommend: PROMOTE**
+### 1a. Backend (13) — criterion EXISTS (its `.schema.yml`); **recommend: PROMOTE**
 Each card's Formal voice = its schema criterion; Evidence links the `.schema.yml` + TAXONOMY entry.
 
 | # | Candidate | Proposed ID | One-line meaning (criterion) | Rec | Approve? |
@@ -39,8 +39,7 @@ Each card's Formal voice = its schema criterion; Evidence links the `.schema.yml
 | 6 | Calculation | DS-D1.6 | pure function returning a value (`formal_return_type=value`) | PROMOTE | |
 | 7 | Rule | DS-D1.7 | boolean guard that blocks/allows (`formal_return_type=boolean`) | PROMOTE | |
 | 8 | Policy | DS-D1.8 | strategy selector (`formal_return_type=strategy`) | PROMOTE | |
-| 9 | Workflow | DS-D1.9 | intra-feature orchestration of operations (`scope=intra-feature`) | PROMOTE | |
-| 10 | Saga | DS-D1.10 | cross-feature orchestration with compensation (`scope=cross-feature`) | PROMOTE | |
+| 9 | Workflow | DS-D1.9 | orchestration of operations with declared `intra-feature` or `cross-feature` scope | PROMOTE | |
 | 11 | Interface | DS-D1.11 | API boundary exposing operations/queries (`interface_kind` external\|internal) | PROMOTE | |
 | 12 | Event | DS-D1.12 | past-tense notification of a state change (`temporal=past`) | PROMOTE | |
 | 13 | Mapping | DS-D1.13 | field-by-field transform between two shapes (has a `direction`) | PROMOTE | |
@@ -74,7 +73,7 @@ definitions-governance; canonical cards now live as `DS-D2` and `DS-D8` in root 
 
 | # | Candidate | Proposed ID | One-line meaning | Rec | Approve? |
 | --- | --- | --- | --- | --- | --- |
-| 26 | meta-type | domainspec-v2-D6 | one of the 25 DomainSpec concept types (the node alphabet) | PROMOTE | |
+| 26 | meta-type | domainspec-v2-D6 | one of the active DomainSpec concept types; deferred UI labels are not yet formation-authoritative | PROMOTE | |
 | 27 | category | domainspec-v2-D7 | the grouping a meta-type belongs to (Structural / Behavioral / Connective / Lifecycle / UI) | PROMOTE | |
 | 28 | formal criterion | domainspec-v2-D8 | a checkable predicate: a concept is a well-formed T iff `<criterion>` | PROMOTE | |
 | 29 | edge-participation signature | domainspec-v2-D9 | method/framework term for endpoint participation; cites DS-D8 as the domain relationship-signature authority, not an alias | PROMOTE DONE | |
@@ -109,7 +108,7 @@ pull any up to Tier 2 if you disagree.
 | 43 | identity | field flag: this field is the concept's identity | DOCUMENT | |
 | 44 | state_change | behavioral: does it mutate state (yes/no) — Operation vs Query | DOCUMENT | |
 | 45 | formal_return_type | behavioral: boolean / strategy / value — Rule vs Policy vs Calculation | DOCUMENT | |
-| 46 | scope | behavioral: intra-feature / cross-feature — Workflow vs Saga | DOCUMENT | |
+| 46 | scope | behavioral: Workflow orchestration scope, `intra-feature` or `cross-feature` | DOCUMENT | |
 | 47 | temporal | connective: past / present — Event vs command | DOCUMENT | |
 | 48 | direction | connective: inbound / outbound / bidirectional — Mapping | DOCUMENT | |
 | 49 | interface_kind | connective: external / internal — Interface | DOCUMENT | |
@@ -120,7 +119,7 @@ pull any up to Tier 2 if you disagree.
 ## Summary for approval
 | Tier | Count | Recommendation |
 | --- | --- | --- |
-| 1a backend meta-types | 14 | **PROMOTE** (DS-D1.1–14, via R7; criteria exist) |
+| 1a backend meta-types | 13 | **PROMOTE** (DS-D1.1–9,11–14; criteria exist) |
 | 1b UI meta-types | 11 | **DEFER** (descriptive; criterion pending MT5) |
 | 1c edge verbs + signatures | (class) | **PROMOTE DONE** (DS-D2/DS-D8 active from R3A authority) |
 | 2 method terms | 10 | **PROMOTE** (domainspec-v2-D6–D15) |

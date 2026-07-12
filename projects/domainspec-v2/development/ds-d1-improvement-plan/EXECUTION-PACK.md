@@ -25,7 +25,7 @@ work-pack, Craft, or Inventory state is synchronized.
 | --- | --- | --- | --- | --- |
 | W0 | L0 | TASK-DSD1-LEDGER | no | Staged authority wording is reconciled and docs validate. |
 | W1 | L1 | TASK-DSD1-UI11 | partially after decision | UI path selected; add-ui and narrow-claim branches are mutually exclusive. |
-| W2 | L2 | TASK-DSD1-SAGA, TASK-DSD1-BACKEND, TASK-DSD1-VALIDATORS | yes, after decisions, with disjoint schema/test scopes | Selected type laws have fixtures and validator support. |
+| W2 | L2 | TASK-DSD1-BACKEND, TASK-DSD1-VALIDATORS | yes, with disjoint schema/test scopes | Selected backend type laws have fixtures and validator support; Saga collapse stays routed to SGRM. |
 | W3 | L3 | TASK-DSD1-SYNC, TASK-DSD1-VERIFY | no | Read models and validation receipts agree. |
 
 ## Selected First Unit
@@ -74,6 +74,6 @@ handoff_note: <what the coordinator needs next>
   SWU's scope.
 - Stop if a worker tries to promote UI formation authority from DS-D8 endpoint
   use alone.
-- Stop if Saga collapse/deprecation is attempted without owner approval and
-  relationship-authority migration planning.
+- Stop if work reopens Saga hardening or the completed SGRM-001..008
+  repository-local migration without new evidence and a governed decision.
 - Stop if a schema criterion requires importing private derivation delta-rules.

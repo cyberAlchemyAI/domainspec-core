@@ -2,7 +2,7 @@
 task_id: TASK-SGRM-AUTHORITY
 feature_code: SGRM
 layer: L1
-status: not-started
+status: completed
 ---
 
 # TASK-SGRM-AUTHORITY: Migrate DS-D1 And DS-D8 Authority
@@ -21,10 +21,11 @@ source type for ordered orchestration across same/cross feature scopes.
 - ../../../../definitions/relationships/relationships.md
 - ../../../../definitions/DEFINITIONS.md
 - ../../../../definitions/DEFINITIONS-INDEX.md
+- ../../../../impl/spec/meta-types/behavioral/saga.schema.yml
 
 ## Outputs
 
-Scoped canonical authority edits plus
+Scoped canonical authority edits, the focused schema edge-participation bridge, plus
 ../../runs/SWU-SGRM-002/TASK-SESSION-RESULT.md.
 
 ## Transformation Rules
@@ -49,6 +50,16 @@ Scoped canonical authority edits plus
 8. Reconcile the human projection from root YAML.
 9. Assert no active root relationship endpoint names Saga.
 
+### Validator-Consistency Bridge
+
+1. In `impl/spec/meta-types/behavioral/saga.schema.yml`, change only
+   `edge_participation.source_of` from `[orchestrates]` to `[]` in the same
+   mutation unit as the root authority transition.
+2. Do not alter its criterion, card, fixtures, identity, or deletion status.
+3. Preserve SGRM-004 as owner of deleting the schema/card/fixtures after
+   Workflow criterion support exists.
+4. Treat any broader schema edit as out of scope and block promotion.
+
 ## Edge Cases
 
 - Multiple unexpected Saga rows: block and return to SGRM-001.
@@ -56,6 +67,8 @@ Scoped canonical authority edits plus
   a targeted reference repair; never shift IDs.
 - Generated relationships.md differs from YAML: YAML wins; regenerate/reconcile
   through the established projection route.
+- Root authority without the focused schema bridge fails `validate:rels`; do
+  not accept that staged state or weaken the validator.
 - Owner approvals split: do not partially promote DS-D1 without DS-D8 or vice
   versa in the final receipt.
 
@@ -66,11 +79,16 @@ Scoped canonical authority edits plus
 - Goal: complete canonical authority transition.
 - Dependencies: SGRM-001.
 - Write scope: definitions/meta-types, definitions/relationships, root
-  definitions/index projections named by the packet.
+  definitions/index projections named by the packet, and only
+  `impl/spec/meta-types/behavioral/saga.schema.yml#edge_participation.source_of`
+  outside authority.
 - Done criteria: Saga absent from active root authority; one widened Workflow
-  orchestrates row; stable IDs preserved.
-- Acceptance evidence: owner-reviewed diff, YAML parse, focused receipt.
+  orchestrates row; stable IDs preserved; legacy schema no longer projects the
+  removed root edge.
+- Acceptance evidence: owner-reviewed diff, YAML parse, focused schema-field
+  diff, validator output, and receipt.
 - Validation: npm validate:rels; npm validate:docs; YAML parse; active-root scan.
 - Owner: manual definitions-governance plus DS-D8 relationship authority.
 - Handoff: select migration packet, exact root rows, projection generator/route,
-  and current validation tests; return standard SWU receipt.
+  legacy schema edge-participation field, and current validation tests; return
+  standard SWU receipt.

@@ -3,12 +3,16 @@ node_type: reference
 is_session: false
 status: candidate
 created: 2026-07-02
-authored_by: task-session (SWU-B0 — L0 data intake)
+authored_by: "task-session (SWU-B0 — L0 data intake)"
 source: ../comprehension-novice-test/stall-dataset.md (BASELINE arm)
-consumes: the ranked stalls → fixes the M1–M4 execution order (DEF-B3: order = data, not preference)
+consumes: "the ranked stalls → fixes the M1–M4 execution order (DEF-B3: order = data, not preference)"
 ---
 
 # Package B — data-driven move order (SWU-B0)
+
+> **Current authority update (2026-07-11):** The Saga orphan observation below
+> is retained as baseline evidence from the old surface. Its former R3 hardening
+> route is closed; the accepted response was collapse into scoped Workflow.
 
 The [novice-test baseline dataset](../comprehension-novice-test/stall-dataset.md) reorders the plan. This
 file is the L0 intake that every downstream SWU reads.

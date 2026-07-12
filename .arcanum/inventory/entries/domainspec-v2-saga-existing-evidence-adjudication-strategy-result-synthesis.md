@@ -23,6 +23,14 @@ research artifacts and closeout evidence. It does not mutate DS-D1, D6, DS-D8,
 Saga/Workflow schemas, relationship signatures, validators, fixtures, or the
 DS-D1 improvement work-pack.
 
+## Current Routing Update: 2026-07-11
+
+After this research closed, the owner ratified collapse. SWU-DSD1-007 is
+complete, SWU-DSD1-008 is cancelled/not-selected, and SWU-DSD1-009 routed the
+migration through SGRM. SGRM-001..008 are proven and the repository-local
+migration is complete. The research-era authority state below is retained as
+provenance, not current routing.
+
 ## Strategy Summary
 
 **P1 trigger:** dispatch was justified by synthesis, context protection,
@@ -91,14 +99,14 @@ signatures are migration inputs, not independent proof of DS-D1 typehood.
 
 ## Downstream Use
 
-Use this entry when executing `SWU-DSD1-007`, designing a new Saga witness
-package, or preparing `SWU-DSD1-009`. Prefer it over the older neutral-fork
-summary for current evidence, while retaining the older entry as historical
-provenance.
+Use this entry to understand why collapse was recommended. Current execution
+must use the Saga-removal work-pack and receipts; do not route to a new Saga
+witness or hardening package without a new owner decision that explicitly
+reopens the settled boundary.
 
 ## Residue
 
-- The owner has not ratified collapse or sponsored new hardening evidence.
-- Saga and Workflow remain separately modeled and both DS-D8 signatures remain
-  active.
-- The work-pack still needs an owner-routed decision record before any mutation.
+- The owner ratified collapse and did not sponsor new hardening evidence.
+- Saga and Workflow are no longer separately active; Workflow carries declared
+  same-/cross-feature scope.
+- Repository-local migration verification completed in SGRM-008.

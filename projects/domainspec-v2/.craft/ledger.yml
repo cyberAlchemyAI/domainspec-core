@@ -31,8 +31,6 @@ indexes:
     - BLK-DSV2-DRIFT-ENGINE
     - BLK-DSV2-L2-ATTESTATION
   active_gaps:
-    - GAP-DSV2-EXERCISE
-    - GAP-DSV2-APE-CARD-TRIAGE
     - GAP-SH-UI11-MIGRATE
     - GAP-SH-PROSE-HOMES
   next_moves:
@@ -54,9 +52,13 @@ indexes:
         verify-close R2 (delete/generate TAXONOMY) -> reconcile-close R7 -> R4 / R5 -> R6a/R6b (crosswalk
         pre-decided by the axiom scope).
     - context_id: CTX-DSV2-SPEC-ONTOLOGY
-      next_move: Lane Z vs A stays deferred to an agent-cost experiment; extend legacy code-tag composability enforcement to consume root DS-D8 authority and consider a 2nd UI-heavy corpus (T5).
+      next_move: >-
+        Lane Z vs A stays deferred to an agent-cost experiment. R3C SWU-001..008 are complete: bounded dynamic
+        root-DS-D8 consumption, the normalized AEO second corpus, card triage, and future relation/category
+        routing are recorded. Three relationship candidates remain deferred; category-law formalization routes
+        to research-tower. Retain CampusRead as optional targeted Entity-to-Entity breadth.
     - context_id: CTX-DSV2-APE
-      next_move: L0 POC DONE and R3A unblocks the edge plane. Next — SWU-APE-004/005 defect cleanup, TASK-CARDS pattern-library triage, and dynamic edge-law enforcement over root DS-D8.
+      next_move: L0 POC, bounded dynamic edge-law enforcement, second-corpus evidence, and TASK-CARDS triage are done. Next — SWU-APE-004/005 defect cleanup; later DS-D1 Evidence links remain definitions-governance-owned.
     - context_id: CTX-DSV2-CODE-TAG-CONFORMANCE
       next_move: CT-1 DONE 2026-07-10 (validate-code-tags reads taxonomy from root meta-type schemas; R2's code-tag TAXONOMY.md deletion landmine closed). Next task-session CT-3, then CT-2, CT-4.
   artifacts_by_path:
@@ -90,8 +92,9 @@ contexts:
     next_move: >-
       Batch-1 re-baselined 2026-07-06 (post-R3A re-triage): R0 code-tag relationship repair done; R1 AXIOMS
       closeout done 2026-07-10 with CAV2 definition-sync; CT-1 code-tag taxonomy repair done 2026-07-10.
-      Next: GAP-SH-UI11-MIGRATE before verify-close R2, then reconcile-close R7; R4/R5/R6a/R6b remain genuine
-      reformulation. Or stand up the agent-cost experiment for Lane Z vs A.
+      The SGRM scoped-Workflow collapse migration is complete with 13 active backend types and 30 active
+      relationship signatures. Next: GAP-SH-UI11-MIGRATE before verify-close R2, then reconcile-close R7;
+      R4/R5/R6a/R6b remain genuine reformulation. Or stand up the agent-cost experiment for Lane Z vs A.
     owned_artifacts: [ART-DSV2-IMPORT-MANIFEST, ART-DSV2-IMPL, ART-DSV2-AUTHORITY]
 
   - context_id: CTX-DSV2-AUTHORITY
@@ -149,8 +152,10 @@ contexts:
     gate: flag
     next_move: >-
       Lane Z vs A deferred to an agent-cost experiment; interim = two-plane boundary. Toy T1-T4 done
-      (substrate SURVIVED-narrow); R3A consumed the catalog-coverage gaps, leaving composability extension
-      and second-corpus evidence as active follow-ups.
+      (substrate SURVIVED-narrow); R3A and SWU-R3C-001..008 completed bounded dynamic composability, a
+      normalized AEO second corpus, card triage, and non-promoting future-route packets. Three relationship
+      candidates remain deferred and category-law formalization routes to research-tower. CampusRead remains
+      optional targeted Entity-to-Entity breadth.
     owned_artifacts: [ART-DSV2-SPEC-ONTOLOGY-RESEARCH, ART-DSV2-SPEC-ONTOLOGY-TOY, ART-DSV2-COMPOSABILITY-SYNTHESIS]
 
   - context_id: CTX-DSV2-META-TYPE-FORMALIZATION
@@ -160,15 +165,16 @@ contexts:
     purpose: >-
       Formalize the staged DS-D1 candidate catalog into checkable well-formedness criteria (by category) +
       the edge signatures, and build the content validator that checks an aspect file by types + edges. The
-      backend 14 are shape/fixture-backed candidates; the UI 11 remain formation-deferred. Makes the toy's M1
+      backend 13 are shape/fixture-backed candidates; the UI 11 remain formation-deferred. Makes the toy's M1
       mechanical; feeds batch-1 R2 (TAXONOMY formal criteria) + R7 (DS-D1 system definition).
     stage: build
     gate: flag
     next_move: >-
-      MT0-MT4 plus MT-INST are DONE for backend scope: 14 node schemas, 31 active root relationship signatures,
-      edge-aware validate-content, aggregate validate wiring, and instance generation/validation. Remaining:
-      MT5 UI remains formation-deferred; the parallel ui-meta-type-formalization package is gathering
-      candidate evidence without promotion authority. tools/lib extraction remains residue.
+      MT0-MT4 plus MT-INST are DONE for current backend scope: 13 node schemas, 30 active root relationship
+      signatures, edge-aware validate-content, aggregate validate wiring, and instance generation/validation.
+      The SGRM scoped-Workflow collapse migration is complete. Remaining: MT5 UI remains formation-deferred;
+      the parallel ui-meta-type-formalization package is gathering candidate evidence without promotion
+      authority. tools/lib extraction remains residue.
     owned_artifacts: [ART-DSV2-META-TYPE-FORMALIZATION]
     links:
       - {label: child of / recomposes into (owns the formal type system; R2/R7 consume it), target: CTX-DSV2-REFORMULATE-BATCH1, kind: row-id}
@@ -187,9 +193,10 @@ contexts:
     gate: flag
     next_move: >-
       L0 POC DONE (2026-07-02): financial-settlement pack authored + node validators witnessed (green) + a
-      deliberate red (exit 1); GAP-DSV2-APE-VACUOUS resolved. Next (L1): SWU-APE-004/005 defect cleanup
-      (reset 4 stale waivers; fix docs/features anchors), TASK-CARDS pattern-library triage, and wire
-      validate:content into the `validate` aggregate (meta-type-formalization MT4).
+      deliberate red (exit 1); GAP-DSV2-APE-VACUOUS resolved. R3C completed dynamic edge-law enforcement,
+      second-corpus evidence, and TASK-CARDS backend/relationship triage. Next (L1): SWU-APE-004/005 defect
+      cleanup (reset 4 stale waivers; fix docs/features anchors). Later definition Evidence links remain
+      definitions-governance-owned.
     owned_artifacts: [ART-DSV2-APE]
     links:
       - {label: consumes node schemas plus R3A edge signatures, target: CTX-DSV2-META-TYPE-FORMALIZATION, kind: row-id}
@@ -727,11 +734,20 @@ gaps:
 
   - gap_id: GAP-DSV2-EXERCISE
     context_id: CTX-DSV2-SPEC-ONTOLOGY
-    summary: The toy and financial-settlement pack exercise only a narrow corpus; a SURVIVED verdict is necessary, not sufficient for broad language confidence.
+    status: resolved
+    summary: >-
+      RESOLVED 2026-07-12 by SWU-R3C-004. A governed selection dispatch chose the existing AEO fixture;
+      the normalized v2 pack adds orchestrates, contains, applies, exposes, and produces evidence beyond
+      financial-settlement, passes node/edge validation, and rejects a seeded State Machine→Operation edge.
+      CampusRead remains optional future Entity-to-Entity breadth, not a closure condition for this gap.
     severity: low
-    treatment: second-corpus
-    owner_route: CTX-DSV2-SPEC-ONTOLOGY (optional T5, UI-heavy corpus)
-    evidence: [ART-DSV2-SPEC-ONTOLOGY-TOY]
+    treatment: second-corpus-completed
+    owner_route: CTX-DSV2-SPEC-ONTOLOGY
+    evidence:
+      - ART-DSV2-SPEC-ONTOLOGY-TOY
+      - {label: accepted corpus-selection findings, target: "[repo-root]/projects/domainspec-v2/development/r3-closeout-plan/research/2026-07-12-second-corpus-selection/findings.md", kind: path}
+      - {label: normalized AEO pack, target: "[repo-root]/projects/domainspec-v2/impl/spec/features/agent-execution-orchestrator/SPEC.md", kind: path}
+      - {label: SWU-R3C-004 receipt, target: "[repo-root]/projects/domainspec-v2/development/r3-closeout-plan/task-sessions/2026-07-12-swu-r3c-004/TASK-SESSION-RESULT.md", kind: path}
 
   - gap_id: GAP-DSV2-GOVERNANCE-CARDS
     context_id: CTX-DSV2-AUTHORITY
@@ -763,15 +779,22 @@ gaps:
 
   - gap_id: GAP-DSV2-APE-CARD-TRIAGE
     context_id: CTX-DSV2-APE
+    status: resolved
     summary: >-
-      The v1 pattern-library (25 concept cards + 29 relationship cards + context packs) is owned but NOT
-      triaged into v2 — the largest build-from-owned opportunity not yet triaged. It is the authoring / card
-      layer (human voice + Evidence) above the .schema.yml gates. Relationship cards can now consume R3A root
-      relationship authority but still need triage.
+      RESOLVED 2026-07-12 by SWU-R3C-005 and SWU-R3C-006. Backend cards now have a 14-row commit-pinned
+      staging matrix and Import Manifest accounting. Relationship cards now have a 35-row full outer join:
+      29 v1-present rows plus six authority-only coverage rows, with generated, deprecated, and deferred
+      states preserved. No copied card became authority and no missing card was manufactured.
     severity: low
-    treatment: triage-into-v2-card-layer
+    treatment: triage-completed
     owner_route: CTX-DSV2-APE (TASK-CARDS / SWU-APE-006/007/009) + IMPORT-MANIFEST
-    evidence: [ART-DSV2-APE]
+    evidence:
+      - ART-DSV2-APE
+      - {label: backend staging matrix, target: "[repo-root]/projects/domainspec-v2/development/architecture-pattern-enforcement/cards/backend/README.md", kind: path}
+      - {label: SWU-R3C-005 receipt, target: "[repo-root]/projects/domainspec-v2/development/r3-closeout-plan/task-sessions/2026-07-12-swu-r3c-005/TASK-SESSION-RESULT.md", kind: path}
+      - {label: accepted relationship findings, target: "[repo-root]/projects/domainspec-v2/development/r3-closeout-plan/research/2026-07-12-relationship-card-triage/findings.md", kind: path}
+      - {label: relationship staging matrix, target: "[repo-root]/projects/domainspec-v2/development/architecture-pattern-enforcement/cards/relationships/README.md", kind: path}
+      - {label: SWU-R3C-006 receipt, target: "[repo-root]/projects/domainspec-v2/development/r3-closeout-plan/task-sessions/2026-07-12-swu-r3c-006/TASK-SESSION-RESULT.md", kind: path}
 
 definitions:
   - definition_id: DEF-DSV2-TWO-PLANE

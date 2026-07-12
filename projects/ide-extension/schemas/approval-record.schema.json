@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/approval-record.schema.json",
+  "title": "ide-extension approval record",
+  "oneOf": [
+    { "$ref": "#/$defs/legacyApproval" },
+    { "$ref": "#/$defs/bridgeApproval" }
+  ],
+  "$defs": {
+    "operatorActor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "assurance"],
+      "properties": {
+        "kind": { "const": "local_operator_action" },
+        "assurance": { "const": "unattested" }
+      }
+    },
+    "legacyApproval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approval_id",
+        "envelope_id",
+        "run_id",
+        "state",
+        "actor",
+        "title",
+        "required_for",
+        "created_at",
+        "approved_at",
+        "consumed_at",
+        "rejected_at",
+        "rejection_reason"
+      ],
+      "properties": {
+        "approval_id": { "type": "string", "minLength": 1 },
+        "envelope_id": { "type": "string", "minLength": 1 },
+        "run_id": { "type": "string", "minLength": 1 },
+        "state": { "enum": ["pending", "consumed", "rejected"] },
+        "actor": {
+          "oneOf": [
+            { "$ref": "#/$defs/operatorActor" },
+            { "type": "null" }
+          ]
+        },
+        "title": { "type": "string", "minLength": 1 },
+        "required_for": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "created_at": { "type": "string", "minLength": 1 },
+        "approved_at": { "type": ["string", "null"] },
+        "consumed_at": { "type": ["string", "null"] },
+        "rejected_at": { "type": ["string", "null"] },
+        "rejection_reason": { "type": ["string", "null"], "maxLength": 500 }
+      }
+    },
+    "bridgeApproval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "approval_id",
+        "envelope_id",
+        "run_id",
+        "state",
+        "actor",
+        "title",
+        "required_for",
+        "created_at",
+        "authorized_at",
+        "consumed_at",
+        "revoked_at",
+        "rejected_at",
+        "rejection_reason",
+        "authorization_receipt_id"
+      ],
+      "properties": {
+        "schema_version": { "const": "2" },
+        "approval_id": { "type": "string", "minLength": 1 },
+        "envelope_id": { "type": "string", "minLength": 1 },
+        "run_id": { "type": "string", "minLength": 1 },
+        "state": { "enum": ["pending", "authorized", "consumed", "revoked", "rejected"] },
+        "actor": {
+          "oneOf": [
+            { "$ref": "#/$defs/operatorActor" },
+            { "type": "null" }
+          ]
+        },
+        "title": { "type": "string", "minLength": 1, "pattern": "\\S" },
+        "required_for": { "const": ["preview.read", "skill.invoke"] },
+        "created_at": { "type": "string", "minLength": 1 },
+        "authorized_at": { "type": ["string", "null"] },
+        "consumed_at": { "type": ["string", "null"] },
+        "revoked_at": { "type": ["string", "null"] },
+        "rejected_at": { "type": ["string", "null"] },
+        "rejection_reason": { "type": ["string", "null"], "maxLength": 500 },
+        "authorization_receipt_id": { "type": ["string", "null"] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "state": { "const": "pending" } }, "required": ["state"] },
+          "then": {
+            "properties": {
+              "actor": { "type": "null" },
+              "authorized_at": { "type": "null" },
+              "consumed_at": { "type": "null" },
+              "revoked_at": { "type": "null" },
+              "rejected_at": { "type": "null" },
+              "authorization_receipt_id": { "type": "null" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "state": { "const": "authorized" } }, "required": ["state"] },
+          "then": {
+            "properties": {
+              "actor": { "$ref": "#/$defs/operatorActor" },
+              "authorized_at": { "type": "string", "minLength": 1 },
+              "consumed_at": { "type": "null" },
+              "revoked_at": { "type": "null" },
+              "rejected_at": { "type": "null" },
+              "authorization_receipt_id": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "state": { "const": "consumed" } }, "required": ["state"] },
+          "then": {
+            "properties": {
+              "actor": { "$ref": "#/$defs/operatorActor" },
+              "authorized_at": { "type": "string", "minLength": 1 },
+              "consumed_at": { "type": "string", "minLength": 1 },
+              "revoked_at": { "type": "null" },
+              "rejected_at": { "type": "null" },
+              "authorization_receipt_id": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "state": { "const": "revoked" } }, "required": ["state"] },
+          "then": {
+            "properties": {
+              "actor": { "$ref": "#/$defs/operatorActor" },
+              "authorized_at": { "type": "string", "minLength": 1 },
+              "consumed_at": { "type": "null" },
+              "revoked_at": { "type": "string", "minLength": 1 },
+              "rejected_at": { "type": "null" },
+              "authorization_receipt_id": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "state": { "const": "rejected" } }, "required": ["state"] },
+          "then": {
+            "properties": {
+              "actor": { "$ref": "#/$defs/operatorActor" },
+              "authorized_at": { "type": "null" },
+              "consumed_at": { "type": "null" },
+              "revoked_at": { "type": "null" },
+              "rejected_at": { "type": "string", "minLength": 1 },
+              "authorization_receipt_id": { "type": "null" }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

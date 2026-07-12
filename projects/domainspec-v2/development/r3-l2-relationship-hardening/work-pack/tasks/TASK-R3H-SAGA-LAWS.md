@@ -1,11 +1,17 @@
 ---
 module: r3-l2-relationship-hardening
 task_id: TASK-R3H-SAGA-LAWS
-status: draft
-updatedAt: 2026-07-02
+status: superseded-cancelled
+updatedAt: 2026-07-11
 ---
 
 # TASK-R3H-SAGA-LAWS: Saga Obligation Hardening
+
+## Supersession Notice
+
+The accepted Saga collapse supersedes this task. SWU-R3H-006 and SWU-R3H-007
+are cancelled/not-selected and must not be scheduled. The remaining content is
+preserved as historical planning evidence for the rejected hardening branch.
 
 ## Objective
 
@@ -30,7 +36,7 @@ label.
 
 ## Blocker/Gap State
 
-No blocker. Full temporal proof remains out of scope.
+Closed by supersession. Full temporal proof remains out of scope.
 
 ## Smallest Working Units
 
@@ -64,4 +70,5 @@ Root law fields land before projection docs or closeout.
 
 ## Completion Evidence
 
-Task completes when SWU-R3H-006 and SWU-R3H-007 pass.
+This task is closed as superseded; its former completion condition is retained
+only as historical evidence and is not an active promotion gate.

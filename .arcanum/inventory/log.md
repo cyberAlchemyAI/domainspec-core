@@ -1,5 +1,56 @@
 # Inventory Log
 
+## 2026-07-12 - Compound domain structure calibration generation-3 closeout
+
+- Mode: two fresh-process replays, authority audit, and read-model sync.
+- Result: six atomic targets and browser observations replay exactly; the
+  36-cell overlay retains 12 `explained`, 18 `not-explained`, and 6
+  `indeterminate` coordinates; finite `D` is empty.
+- Evaluation: F1/F2 are `EXPLAINED`, F3 is `INSUFFICIENT-EVIDENCE`, and the
+  suite is `CALIBRATION-DEFER` with bounded machine route `evidence-repair`.
+- Chain: generation 3 is the sole exact successor to generation 2; duplicate,
+  wrong-tail, and rerun append attempts reject.
+- Inventory: appended
+  `entries/domainspec-v2-compound-domain-structure-calibration-generation-003-closeout-synthesis.md`
+  through `inventory-update.cjs`; machine/human indexes agree and reapply is a
+  byte-identical no-op.
+- Authority: no Page identity, compound DS-D1 type, DS-D8 relationship,
+  architecture pattern, portability, candidate, activation, or promotion claim.
+
+## 2026-07-12 - Compound calibration generation-3 Invoke package
+
+- Mode: Invoke Define, Design, and Plan authoring; no implementation execution.
+- Target: `generation-003-discriminating-evidence-repair/`.
+- Result: candidate high-complexity split plan with six atomic targets, six
+  architecture views, L0-L3 layering, six task contracts, five waves, and nine
+  single-parent SWUs.
+- First route: Task Session `SWU-CDSC3-001` for protected imports and atomic
+  target contracts only.
+- Flag: `B-CDSC3-PLAYWRIGHT`; no Playwright runtime is installed, so SWU002
+  requires a human install/bind/defer decision before browser evidence.
+- Inventory: appended
+  `entries/domainspec-v2-compound-domain-structure-calibration-generation-003-invoke-package-synthesis.md`
+  through the deterministic updater.
+- Authority: plan/read-model only; no browser install, evidence, generation,
+  type, relationship, pattern, candidate, activation, or promotion mutation.
+
+## 2026-07-12 - Compound domain structure calibration generation-2 closeout
+
+- Mode: independent fresh-process replay, authority audit, and read-model sync.
+- Result: generation 2 replays exactly; F1/F2 are `EXPLAINED`, F3 remains
+  `INSUFFICIENT-EVIDENCE`, and the suite remains `CALIBRATION-DEFER`.
+- Chain: generation 2 has exact generation-1 predecessor; target evidence,
+  results, index, evaluator, materializer, and validator hashes are unchanged.
+- Inventory: appended
+  `entries/domainspec-v2-compound-domain-structure-calibration-generation-002-closeout-synthesis.md`
+  through `inventory-update.cjs`; machine/human indexes agree and reapply is a
+  byte-identical no-op.
+- Validation: fresh replay 13/13 twice, generation-2 tests 54/54, Inventory
+  updater tests 13/13 groups, and scoped diff check pass.
+- Next route: a new governed `evidence-repair` package only; no current SWU.
+- Authority: no Page identity, compound DS-D1 type, DS-D8 relationship,
+  architecture pattern, portability, candidate, activation, or promotion claim.
+
 ## 2026-07-09 - run closeout (R1 axiom definition-sync research)
 
 - Mode: confirmed subagent research dispatch.
@@ -1910,3 +1961,314 @@ Artifacts:
   witness, and normalized corpus receipts require versioned repair and rerun.
 - Inventory: strategy entry, `index.json`, and `index.md` refreshed to closed.
 - Authority: no DS-D1, DS-D8, candidate-schema, or implementation-validator mutation.
+
+## 2026-07-11 - proposed dispatch (UIF findings repair architecture research)
+
+- Mode: Inventory-first governed research proposal; unregistered and not run.
+- Lookup: selected backend meta-type formalism, R3 edge-law validation,
+  first-class category admission, Saga finite-witness adjudication, UI11
+  boundary review, and UIF-010 accepted findings.
+- Sheet: four solution explorers, one synthesizer, three research reviewers,
+  one writer, and one dedicated final auditor.
+- Check-tension: round 1 produced one Test-4 wording reproval and one PASS;
+  exact Popper-Quine sentence repaired; round 2 checker PASS and reviewer PASS.
+- Gate infrastructure: four agents spawned, joined, and closed; zero open.
+- Human confirmation: pending. Dispatch ledger rows: zero. Runtime agents: zero.
+- Inventory: added
+  `entries/domainspec-v2-uif-findings-repair-architecture-research-strategy-result-synthesis.md`;
+  `index.json` and `index.md` updated through `inventory-update.cjs`.
+- Next action: reply `confirmed` to register and run research; accepted findings
+  then feed Invoke define/design/plan for `ui-meta-type-repair`.
+- Authority: non-authority read model only; no candidate, validator, DS-D1,
+  DS-D8, or existing UIF evidence mutation is authorized.
+
+## 2026-07-11 - Saga removal current-plan synchronization
+
+- Mode: Task Session, SWU-SGRM-006.
+- Result: current product guidance uses scoped Workflow; active DS-D1 and R3
+  plans cancel Saga hardening without deleting historical evidence.
+- Inventory: four Saga/boundary entries received current-routing overlays;
+  `index.json` and `index.md` now route continuation to SGRM verification.
+- Validation: docs, current-plan scans, JSON/YAML parse, Inventory uniqueness,
+  47/47 tool tests, typecheck, engine lint, and diff check passed.
+- Boundary: this is a non-authority read-model synchronization; SGRM-008 still
+  owns final migration closeout.
+
+## 2026-07-11 - Saga removal repository-local closeout
+
+- Mode: Task Session, SWU-SGRM-008.
+- Result: SGRM-001..008 complete; active authority, implementation, validation,
+  current plans, Craft, Inventory, and observability agree on scoped Workflow.
+- Inventory: added verified final-result entry
+  `entries/domainspec-v2-saga-removal-final-result-synthesis.md`; refreshed four
+  prior routing overlays without rewriting historical research evidence.
+- Validation: full validate, 97/97 engine tests, 13/13 instances, typecheck,
+  focused Workflow/rejection checks, stable IDs/counts, reference guard, and
+  JSON/YAML/JSONL/index/diff checks passed.
+- Boundary: repository-local completion only; external or persisted consumers
+  remain bounded residual uncertainty and require a governed compatibility
+  decision if later evidenced.
+
+## 2026-07-11 - closed dispatch (UI compound domain structures)
+
+- Mode: governed DomainSpec research dispatch, registered and closed exactly
+  once.
+- Runtime: eleven agents spawned, joined, and closed; zero open; the
+  synthesizer/reviewer zig-zag used both allowed rounds.
+- Review: two final PASS verdicts and one NARROW whose three operational
+  requirements were incorporated; final auditor verdict ACCEPT.
+- Result: current evidence supports a candidate-only residual-analysis rubric,
+  not a compound ontological layer or general Page, Layout, Component, Hook,
+  Guard, Binding, Importer, or Processor kind.
+- Inventory: added
+  `entries/domainspec-v2-ui-compound-domain-structures-strategy-result-synthesis.md`;
+  `index.json` and `index.md` updated through `inventory-update.cjs`.
+- Next route: Invoke a preregistered three-fixture calibration experiment.
+- Authority: no DS-D1, DS-D8, candidate, validator, or promotion mutation.
+
+## 2026-07-11 - Invoke package (compound domain structure calibration)
+
+- Mode: Invoke Define, Design, and Plan.
+- Result: candidate-only three-fixture calibration package with fixed residual
+  envelope, four fixture outcomes, three suite verdicts, and no direct
+  promotion route.
+- Plan: medium split work-pack with L0-L3 layering, four waves, four task
+  contracts, and seven one-parent SWUs.
+- Dispatch: full cross-capability dispatch validated with zero blocks and zero
+  flags; only the three L1 fixture receipts may later fan out with explicit
+  runtime permission.
+- Distill: pass; SWU-CDSC-001 is the smallest coherent start and all SWUs
+  recompose into one independently audited generation.
+- Inventory: added
+  `entries/domainspec-v2-compound-domain-structure-calibration-invoke-package-synthesis.md`;
+  `index.json` and `index.md` updated through `inventory-update.cjs`.
+- Next route: Task Session for SWU-CDSC-001 only.
+- Authority: no fixture, DS-D1, DS-D8, pattern, candidate, validator, or
+  promotion mutation.
+
+## 2026-07-11 - Task Session (SWU-CDSC-001 contract freeze)
+
+- Result: PASS; five versioned schemas, one immutable generation-1 fixture
+  manifest, seven source-slice pins, three bundle digests, golden vectors, and
+  one focused contract suite were added.
+- Validation: 6/6 Node contract checks, 7/7 live source digests, 3/3 fixture
+  bundle digests, DomainSpec documentation links, source read-only scans, and
+  package diff check passed.
+- State: SWU-CDSC-001 complete; SWU-CDSC-002 ready; W0 remains in progress.
+- Inventory: package entry and machine/human indexes advanced to SWU-CDSC-002.
+- Authority: no evaluator, fixture judgment, calibration result, source,
+  DS-D1, DS-D8, pattern, candidate, validator, or promotion mutation.
+
+## 2026-07-11 - Task Session (SWU-CDSC-002 deterministic evaluator)
+
+- Result: PASS; direct versioned validation, canonical semantic projection,
+  fixture and suite evaluators, and append-only generation indexing were added.
+- Validation: 10/10 evaluator checks and 16/16 combined L0 checks passed,
+  covering total outcome tables, F2 control, replay states, input order,
+  volatile metadata, non-mutation, duplicates, and predecessor conflicts.
+- Recovery: one mixed-coverage test vector was corrected after it accidentally
+  created full residue; evaluator behavior was unchanged.
+- State: W0 complete; SWU-CDSC-003..005 ready; active layer L1; default next
+  route SWU-CDSC-003.
+- Inventory: package entry and machine/human indexes advanced to W1.
+- Authority: no fixture receipt, calibration result, source, DS-D1, DS-D8,
+  pattern, candidate, validator, or promotion mutation.
++
+## 2026-07-12 - Compound domain structure calibration verified closeout
+
+- Mode: sequential Task Sessions, SWU-CDSC-003 through SWU-CDSC-007.
+- Result: all seven SWUs complete; F1/F2 are `EXPLAINED`, F3 is
+  `INSUFFICIENT-EVIDENCE`, and generation 1 closes `CALIBRATION-DEFER`.
+- Replay: fresh-process fixture and suite semantics, record handles, and the
+  generation handle are identical.
+- Validation: 30/30 package tests, documentation links, Inventory JSON/index
+  consistency, source read-only scans, and package diff check pass.
+- Inventory: the existing calibration entry and machine/human indexes now
+  expose the verified result and route only a new bounded F3 evidence-repair
+  generation.
+- Authority: no compound kind, identity, portability, pattern admission,
+  candidate, DS-D1, DS-D8, validator, activation, or promotion claim.
+
+## 2026-07-11 - closed investor-language customer-value research dispatch
+
+- Mode: governed DomainSpec research dispatch, registered and closed exactly
+  once.
+- Runtime: eleven agents spawned, joined, and closed; zero open; the
+  synthesizer/reviewer zig-zag used both allowed rounds.
+- Review: the auditor returned one structural revision, then `APPROVE`.
+- Result: the investor package currently explains internal machinery more
+  clearly than the customer transaction. The accepted lead experiment is an
+  external fixed-scope software-release review; live-premises and confidential
+  workflows remain diligence-only transfer hypotheses.
+- Money boundary: every monetary statement routes through
+  `CUSTOMER-BASELINE`, `MEASURED-PILOT`, `EXTERNAL-BENCHMARK`,
+  `HYPOTHESIS`, or `PROHIBITED`.
+- Commercial test: ten qualifying offers, at least two paid pilots, three paid
+  pilots across at least two customers, two preregistered improvements, and one
+  non-promotional repurchase. These are proposed thresholds, not market facts.
+- Inventory: added
+  `entries/investor-language-customer-value-research-strategy-result-synthesis.md`;
+  `index.json` and `index.md` updated through `inventory-update.cjs`.
+- Next route: governed rewrite of the investor package using the approved
+  findings, then browser and investor-comprehension validation.
+- Authority: no investor-facing copy, buyer claim, ROI claim, market claim,
+  financing ask, or public disclosure was promoted.
+
+## 2026-07-12 - UI repair successor Invoke plan
+
+- Mode: `invoke plan` from the approved decision-closure refresh.
+- Result: PASS; high-complexity split plan adds SWU-UIR-011 through 015 and
+  routes only SWU-UIR-011 to Task Session.
+- Planning: five successor SWUs cover bounded search, corpus generation 002,
+  dossier-policy evaluation, relationship owner decisions, and dossier/index
+  v2 recomposition before integrated audit SWU-UIR-010.
+- Validation: both dispatches pass with zero blocks/flags; Distill passes;
+  44/44 repair tests, TypeScript typecheck, 69/69 DomainSpec tool tests,
+  documentation/relationship/content validation, retired-reference audit, and
+  engine lint pass.
+- Preservation: historical transport/dispatch and generation 001 remain
+  intact; no candidate, accepted UIF evidence, DS-D1, or DS-D8 mutation.
+- Residue: portability remains below threshold, Form/Action independent
+  positives remain missing, Action-source remains route-open, and upstream
+  design prose patch remains proposed.
+
+## 2026-07-12 - HTML builder architecture review closeout
+
+- Mode: confirmed DomainSpec subagent architecture-review dispatch.
+- Ledger: dispatch `2026-07-12-html-builder-architecture-review` passed two
+  independent tension checks, spawned and closed seven working agents, used one
+  revision loop, and closed `resolved` after final auditor `ACCEPT`.
+- Result: preserve the existing V0 complete-file surface; derive a separate
+  `operations_v1` identity for whole-document operations; add named regions
+  later; keep navigation and display refresh outside content revisions.
+- Current defects: canvas publication approval/receipt contradictions and
+  symlink escape remain V0 repairs. Read coherence is clarification/hardening;
+  replay integrity was dropped as unproven.
+- Inventory: added
+  `entries/ide-extension-html-builder-architecture-review-strategy-result-synthesis.md`;
+  machine and human indexes are updated through `inventory-update.cjs`.
+- Authority: review read model only. No API, server, architecture, publication,
+  operation, region, navigation, or promotion behavior was changed.
+
+## 2026-07-12 - R3C second-corpus dispatch strategy proposal
+
+- Mode: strategy-result ingest for an unregistered DomainSpec subagent proposal.
+- Gate: dispatch `2026-07-12-r3c-second-corpus-selection` passed two independent
+  tension checks but remains BLOCKED on explicit human confirmation.
+- Strategy: two corpus-selection explorers feed a synthesizer, two distinct
+  skeptic gates, a findings writer, and an independent auditor. The live
+  research dispatch selects or rejects a corpus; parent Task Session retains
+  implementation and validation because code dispatch is reserved.
+- Inventory: added
+  `entries/domainspec-v2-r3c-second-corpus-dispatch-strategy-result-synthesis.md`;
+  machine and human indexes updated through `inventory-update.cjs`.
+- Validation: updater dry-run/actual passed; updater tests 6/6 groups and human
+  index tests 7/7 groups passed. Uncontrolled-tag warnings are pre-existing and
+  non-blocking.
+- Authority: proposed read model only. No dispatch registration, corpus
+  selection, source mutation, or validation execution occurred.
+
+## 2026-07-12 - R3C second-corpus closeout and card-triage proposal
+
+- Mode: closed strategy-result ingest plus proposed strategy-result ingest.
+- Closed result: dispatch `2026-07-12-r3c-second-corpus-selection` closed
+  `resolved` after seven agents and auditor ACCEPT. Parent SWU-R3C-004
+  normalized AEO, passed positive node/edge validation, rejected the seeded
+  invalid edge, passed the full regression suite, and closed
+  `GAP-DSV2-EXERCISE`.
+- Next proposal: `2026-07-12-r3c-backend-card-triage` passed two independent
+  tension checks but remains unregistered pending a separate human decision.
+- Inventory: added the second-corpus closeout entry and backend-card triage
+  proposal entry; machine and human indexes updated deterministically.
+- Validation: updater dry-run/actual passed twice; updater tests 6/6 groups and
+  human-index tests 7/7 groups passed. Uncontrolled-tag warnings are pre-existing
+  and non-blocking.
+- Authority: Inventory read models only. No card staging, Import Manifest row,
+  definition Evidence, or promotion was created by the proposal.
+
+## 2026-07-12 - DomainSpec v2 first-production-release roadmap closeout
+
+- Mode: strategy-result ingest for a confirmed and resolved DomainSpec research
+  dispatch.
+- P1: synthesis, context protection, isolation, and parallelism all applied;
+  five evidence lenses fed synthesis, three adversarial gates, writing, and an
+  independent final audit.
+- Runtime: eleven working agents; two synthesizer/reviewer loops; one bounded
+  auditor-to-writer revision; final auditor `APPROVE`; `exit_reason: resolved`.
+- Result: no unqualified production release is authorized. G0 must ratify the
+  product lineage, release form, profile, actors, environment, claims,
+  exclusions, support/compatibility boundary, owner bindings, and evidence
+  gates.
+- Candidate route: private repository-local profile-bounded Validation Toolkit
+  CLI, followed by R1/R2, parallel R3-R7, integrated gate R8, clean proof R9,
+  pilot R10, Craft seed R12a, claim acceptance G1, release authorization G2,
+  release act R11, and continuing Craft operation R12b.
+- Strictness boundary: UI, public distribution, hosted service, stable SDK,
+  code generation, and runtime convergence/Saturn are scope expansions, not
+  first-release hardening. V1-FREEZE remains separate from release
+  self-containment.
+- Inventory: added
+  `entries/domainspec-v2-first-production-release-roadmap-strategy-result-synthesis.md`;
+  `index.json` and `index.md` updated through `inventory-update.cjs`.
+- Validation: updater dry-run and actual run passed. Existing uncontrolled-tag
+  warnings remain non-blocking and were not introduced as an authority change.
+- Next human action: decide G0. All roadmap nodes remain gated until named owner
+  references and the bounded contract are ratified.
+- Authority: Inventory read model only; no product, supported profile,
+  definition, Craft context, implementation, production designation, or
+  release authority was promoted.
+
+## 2026-07-12 - R3C backend-card triage closeout
+
+- Mode: closed strategy-result ingest for a confirmed and resolved DomainSpec
+  research dispatch plus parent Task Session.
+- Dispatch: `2026-07-12-r3c-backend-card-triage` closed `resolved` after seven
+  joined agents and auditor `ACCEPT`.
+- Result: 14 commit-pinned backend sources classified as 5 evidence-ready, 8
+  staged-review, 0 deferred, and 1 reject-or-superseded. A linked staging matrix
+  and 14 Import Manifest rows preserve scope, residue, owner route, and
+  provenance without authority transfer.
+- Validation: 29 staging links resolve; `validate:docs` passes; retired-reference
+  audit passes with zero violations; tools pass 69/69.
+- Inventory: added
+  `entries/domainspec-v2-r3c-backend-card-triage-dispatch-closeout-synthesis.md`;
+  machine and human indexes updated through `inventory-update.cjs`.
+- Residue: SWU-R3C-006 remains separately gated and the Craft card-triage gap
+  stays open until both card-triage receipts exist.
+- Authority: Inventory read model only; no card, definition, relationship, or
+  candidate status was promoted.
+
+## 2026-07-12 - R3C relationship-card triage dispatch proposal
+
+- Mode: proposed strategy-result ingest for an unregistered DomainSpec
+  relationship-card research dispatch.
+- Contract: full outer join over 29 v1 rows and six authority-only entries;
+  generated, deprecated, and deferred states remain non-canonical/non-active as
+  required, and no missing card is manufactured.
+- Gate: two independent tension checks returned PASS; registration remains
+  blocked on `DEC-R3C-006-DISPATCH` explicit human choice.
+- Inventory: added
+  `entries/domainspec-v2-r3c-relationship-card-triage-dispatch-strategy-result-synthesis.md`;
+  machine and human indexes updated through `inventory-update.cjs`.
+- Authority: proposed read model only. No subagent dispatch, relationship
+  staging, DS-D8 mutation, Craft closure, or validation execution occurred.
+
+## 2026-07-12 - R3C relationship-card triage closeout
+
+- Mode: closed strategy-result ingest for a confirmed and resolved research
+  dispatch plus parent Task Session.
+- Dispatch: seven joined agents, final auditor `ACCEPT`, ledger closed
+  `resolved`.
+- Result: 35 unique keys = 29 v1-card-present + six no-v1-card; outcomes
+  24 evidence-ready, six staged-review, three deferred, two
+  reject-or-superseded.
+- Provenance: v1 commit pin retained; live 30-signature authority recorded as
+  modified working content with SHA-256 `567fda…`, not committed HEAD.
+- Validation: matrix/link/state checks pass; docs pass; retired-reference audit
+  has zero violations; tools pass 69/69; Craft parses and removes the gap from
+  `active_gaps`.
+- Inventory: added
+  `entries/domainspec-v2-r3c-relationship-card-triage-dispatch-closeout-synthesis.md`;
+  machine and human indexes updated deterministically.
+- Authority: Inventory read model only. DS-D8, definitions, and candidate states
+  were not promoted or edited.

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>From Chat To Workbench - The Loop Is Live</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #14212b; background: #f3f6f4; font: 16px/1.45 system-ui, sans-serif; }
+    header { min-height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 20px; border-bottom: 1px solid #bdc9c3; background: #fff; }
+    h1, h2, p { margin: 0; } h1 { font-size: 17px; }
+    .controls { display: flex; align-items: center; gap: 9px; }
+    button { width: 38px; height: 36px; border: 1px solid #95a69e; border-radius: 5px; background: #fff; color: #14212b; font: inherit; cursor: pointer; }
+    main { min-height: calc(100vh - 60px); padding: clamp(28px, 6vw, 88px); }
+    .slide { display: none; grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr); align-items: center; gap: 7vw; min-height: 66vh; }
+    .slide.active { display: grid; }
+    .eyebrow { color: #1c6fa5; font-size: 13px; font-weight: 800; text-transform: uppercase; }
+    h2 { margin-top: 12px; max-width: 760px; font-size: clamp(38px, 6vw, 76px); line-height: 1.02; }
+    .lede { margin-top: 20px; max-width: 650px; color: #52615a; font-size: 20px; }
+    .flow { display: grid; gap: 14px; }
+    .step { min-height: 76px; display: grid; grid-template-columns: 42px 1fr; align-items: center; gap: 14px; padding: 15px; border: 1px solid #adbbb4; border-radius: 6px; background: #fff; box-shadow: 0 12px 28px rgba(20, 33, 43, .07); }
+    .number { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #14212b; color: #fff; font-weight: 800; }
+    @media (max-width: 700px) { header { align-items: flex-start; flex-direction: column; } .slide, .slide.active { grid-template-columns: 1fr; } h2 { font-size: 40px; } }
+  </style>
+</head>
+<body>
+  <header><h1>From Chat To Workbench - The Loop Is Live</h1><div class="controls"><button id="previous" aria-label="Previous">&larr;</button><span id="counter">1 / 2</span><button id="next" aria-label="Next">&rarr;</button></div></header>
+  <main>
+    <section class="slide active"><div><p id="revision-label" class="eyebrow">Revision Two</p><h2>The loop is live, inside one continuous session</h2><p class="lede">Codex changed the project file while this workbench was open. A complete second revision arrived automatically, with no copy, paste, or manual Refresh.</p></div><div class="flow"><div class="step"><span class="number">1</span><strong>The original frame stayed visible</strong></div><div class="step"><span class="number">2</span><strong>The changed file committed as a revision</strong></div><div class="step"><span class="number">3</span><strong>This frame replaced it after loading</strong></div></div></section>
+    <section class="slide"><div><p class="eyebrow">The value hypothesis</p><h2>Conversation can produce a shared work surface</h2><p class="lede">Presentations, decisions, and task requests can remain visible while the session continues.</p></div><div class="flow"><div class="step"><span class="number">A</span><strong>Visible</strong></div><div class="step"><span class="number">B</span><strong>Interactive</strong></div><div class="step"><span class="number">C</span><strong>Session-connected</strong></div></div></section>
+  </main>
+  <script>
+    const slides = [...document.querySelectorAll('.slide')]; let index = 0;
+    function show(next) { index = (next + slides.length) % slides.length; slides.forEach((slide, position) => slide.classList.toggle('active', position === index)); document.querySelector('#counter').textContent = `${index + 1} / ${slides.length}`; }
+    document.querySelector('#previous').onclick = () => show(index - 1); document.querySelector('#next').onclick = () => show(index + 1);
+    addEventListener('keydown', (event) => { if (event.key === 'ArrowRight') show(index + 1); if (event.key === 'ArrowLeft') show(index - 1); });
+  </script>
+</body>
+</html>

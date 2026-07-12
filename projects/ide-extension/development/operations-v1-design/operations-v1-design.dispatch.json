@@ -1,0 +1,321 @@
+{
+  "dispatch_id": "2026-07-12-ide-extension-operations-v1-design",
+  "intent": {
+    "raw": "Design operations_v1 as a backward-compatible HTML builder and consolidator.",
+    "objective": "Define a separate derived canvas surface with immutable complete revisions, retry-safe whole-document operations, and additive future region targeting without changing V0 publish behavior.",
+    "target_artifact": "projects/ide-extension/development/operations-v1-design/ARCHITECTURE-BUNDLE.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "design",
+      "dispatch-spec",
+      "distill",
+      "artifact_contract_bridge",
+      "state_namespace_boundary"
+    ],
+    "operator_sentence": "The server is an HTML builder and consolidator: append, replace, rebuild, redirect, and refresh now, then named areas later without changing the first API."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "concrete_path_evidence",
+    "artifact_contract_bridge",
+    "state_namespace_boundary",
+    "owner_boundary_check",
+    "authority_split_gate",
+    "validation_loop",
+    "residue_ledger",
+    "handle_handoff",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "A confirmed adversarial architecture review already supplies multi-lens evidence. This Invoke run authors the accepted constraints locally and does not repeat the review dispatch.",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed"
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Build bounded design context",
+      "capability_ref": "context-builder",
+      "mode": "lean",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": [
+        "sequence",
+        "concrete_path_evidence",
+        "handle_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/html-builder-architecture-review/findings.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/session-content-canvas-design/ARCHITECTURE-BUNDLE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "projects/ide-extension/development/operations-v1-design/DESIGN-TRANSPORT.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-extension/development/operations-v1-design/DESIGN-TRANSPORT.md",
+      "stop_conditions": [
+        "Block if the separate-surface compatibility conclusion is absent or contradicted."
+      ]
+    },
+    {
+      "step_id": "S2",
+      "name": "Author six-view Operations V1 design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "artifact_contract_bridge",
+        "state_namespace_boundary",
+        "owner_boundary_check",
+        "authority_split_gate",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "projects/ide-extension/development/operations-v1-design/DESIGN-TRANSPORT.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/operations-v1-design/ARCHITECTURE-BUNDLE.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/operations-v1-design/DECISIONS.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/operations-v1-design/UX-PLAN.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/operations-v1-design/IMPLEMENTATION-LAYERING-SEED.md"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-extension/development/operations-v1-design/INVOKE-RESULT.md",
+      "stop_conditions": [
+        "Block if any design changes the original V0 surface identity or publish contract.",
+        "Block if an operation can commit without revision CAS and retry identity.",
+        "Block if navigation is represented as content mutation."
+      ]
+    },
+    {
+      "step_id": "S3",
+      "name": "Validate design unit and dispatch",
+      "capability_ref": "dispatch-spec",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop"
+      ],
+      "inputs": [
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/operations-v1-design/operations-v1-design.dispatch.json"
+        },
+        {
+          "kind": "artifact",
+          "ref": "projects/ide-extension/development/operations-v1-design/ARCHITECTURE-BUNDLE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "dispatch and design-unit validation result"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-extension/development/operations-v1-design/INVOKE-RESULT.md",
+      "stop_conditions": [
+        "Block if dispatch validation reports block or flag.",
+        "Block if derive plus immutable replacement does not recompose into the design."
+      ]
+    },
+    {
+      "step_id": "S4",
+      "name": "Hand design to a later Operations V1 plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "handle_handoff",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "projects/ide-extension/development/operations-v1-design/ARCHITECTURE-BUNDLE.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handoff",
+          "ref": "Invoke plan Operations V1 after operator acceptance"
+        }
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "projects/ide-extension/development/operations-v1-design/DESIGN-TRANSPORT.md",
+      "stop_conditions": [
+        "Do not begin implementation or plan execution in this design run."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G1",
+      "kind": "policy",
+      "owner": "projects/ide-extension",
+      "condition": "Original V0 surfaces and /api/canvas/publish remain unchanged.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "The design dispatch validates with zero findings.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3",
+      "kind": "validation",
+      "owner": "invoke design and distill",
+      "condition": "All six design views exist and derive plus immutable replacement is a coherent recomposable unit.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G4",
+      "kind": "promotion_guardrail",
+      "owner": "human operator",
+      "condition": "Design readiness is not reported as implementation or region readiness.",
+      "on_fail": "block"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1-v0-derived-surface",
+        "kind": "artifact_import",
+        "from_owner": "V0 workspace surface",
+        "to_owner": "Operations V1 kernel blob store",
+        "applies_to_steps": [
+          "S2",
+          "S4"
+        ],
+        "contract": "Only exact selected V0 revision bytes are copied; derivation creates a new surface identity and never mutates the source.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B2-operation-commit",
+        "kind": "capability_handoff",
+        "from_owner": "agent operation request",
+        "to_owner": "projects/ide-extension local kernel",
+        "applies_to_steps": [
+          "S2"
+        ],
+        "contract": "The kernel checks operation identity and expected revision, stores complete immutable bytes, then appends result metadata.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B3-design-execution",
+        "kind": "capability_handoff",
+        "from_owner": "invoke design",
+        "to_owner": "future invoke plan and task-session",
+        "applies_to_steps": [
+          "S4"
+        ],
+        "contract": "Invoke design authors architecture only; planning and Task Session own mutation-ready decomposition and implementation.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "projects/ide-extension",
+      "execution": "future Task Session SWUs",
+      "validation": "dispatch-spec, Distill, Node tests, and Playwright",
+      "evidence": "operation records, blob digests, replay tests, and browser witnesses",
+      "memory": "design artifacts and kernel metadata; HTML bodies remain in owner storage",
+      "promotion": "human operator through projects/ide-extension lifecycle"
+    },
+    "receipts": [
+      {
+        "receipt_id": "invoke-operations-v1-design-result",
+        "producer": "invoke design",
+        "required_fields": [
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          "architecture bundle",
+          "decision ledger",
+          "glossary result",
+          "layering seed",
+          "next route"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "V0 workspace HTML",
+        "owner": "project workspace and active session",
+        "write_policy": "existing complete-file behavior only"
+      },
+      {
+        "namespace": "Operations V1 immutable blobs and metadata",
+        "owner": "projects/ide-extension local kernel",
+        "write_policy": "content-addressed bodies plus serialized event append"
+      },
+      {
+        "namespace": "workbench display target and iframe",
+        "owner": "browser workbench",
+        "write_policy": "complete revision display and separate navigation acknowledgement"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "whole-document Operations V1 evidence",
+        "target": "declared-region mutation",
+        "rule": "Region semantics require a later approved design and cannot be inferred from whole-document success.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "No existing V0 API or surface identity is changed by design authoring.",
+    "No HTML payload is copied into the event log.",
+    "No operation commits before a complete immutable result body is durable.",
+    "No navigation command is counted as a content revision.",
+    "No whole-document result is promoted as declared-region readiness."
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "operations-v1-context-selected",
+      "operations-v1-design-authored",
+      "operations-v1-dispatch-validated",
+      "operations-v1-plan-handoff"
+    ],
+    "signal_grouping": "invoke.design.ide-extension-operations-v1"
+  }
+}

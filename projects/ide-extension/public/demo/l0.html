@@ -3,315 +3,1016 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ide-extension L0</title>
+    <title>Approval Desk | ide-extension</title>
     <style>
       :root {
         color-scheme: light;
-        --bg: #f6f7f9;
-        --ink: #202124;
-        --muted: #59616d;
-        --line: #d9dee7;
+        --bg: #f4f6f8;
         --panel: #ffffff;
-        --teal: #0f766e;
-        --blue: #1d4ed8;
-        --amber: #b45309;
-        --red: #b42318;
+        --panel-alt: #f8fafb;
+        --ink: #17202a;
+        --muted: #5e6875;
+        --line: #d5dbe2;
+        --line-strong: #aeb8c4;
+        --blue: #2459a9;
+        --blue-soft: #e8f0fb;
+        --green: #19714c;
+        --green-soft: #e8f5ee;
+        --amber: #9a5b08;
+        --amber-soft: #fff3d8;
+        --red: #a5322b;
+        --red-soft: #fcebea;
+        --focus: #0b66d4;
       }
 
       * {
         box-sizing: border-box;
       }
 
+      html,
+      body {
+        min-height: 100%;
+      }
+
       body {
         margin: 0;
-        min-height: 100vh;
         background: var(--bg);
         color: var(--ink);
         font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0;
       }
 
-      header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        min-height: 56px;
-        padding: 10px 18px;
-        border-bottom: 1px solid var(--line);
-        background: var(--panel);
-      }
-
-      h1, h2, h3, p {
-        margin: 0;
-      }
-
-      h1 {
-        font-size: 18px;
-        font-weight: 700;
-      }
-
-      h2 {
-        font-size: 13px;
-        font-weight: 700;
-        text-transform: uppercase;
-        color: var(--muted);
+      button,
+      input,
+      select {
+        font: inherit;
+        letter-spacing: 0;
       }
 
       button {
         min-height: 34px;
-        border: 1px solid var(--line);
-        border-radius: 6px;
-        background: #fff;
+        border: 1px solid var(--line-strong);
+        border-radius: 5px;
+        background: var(--panel);
         color: var(--ink);
         cursor: pointer;
-        font: inherit;
         padding: 6px 10px;
       }
 
-      button.primary {
-        border-color: var(--teal);
-        background: var(--teal);
-        color: #fff;
+      button:hover:not(:disabled) {
+        border-color: #788492;
+        background: #f7f9fb;
+      }
+
+      button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid color-mix(in srgb, var(--focus) 28%, transparent);
+        outline-offset: 2px;
+        border-color: var(--focus);
       }
 
       button:disabled {
         cursor: not-allowed;
-        opacity: 0.55;
+        opacity: 0.48;
       }
 
-      main {
-        display: grid;
-        grid-template-columns: minmax(180px, 240px) minmax(360px, 1fr) minmax(220px, 320px);
-        gap: 12px;
-        padding: 12px;
-        min-height: calc(100vh - 56px);
+      button.primary {
+        border-color: var(--blue);
+        background: var(--blue);
+        color: #fff;
       }
 
-      section {
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--panel);
-        overflow: hidden;
+      button.primary:hover:not(:disabled) {
+        border-color: #194684;
+        background: #194684;
+      }
+
+      button.danger {
+        border-color: #cf8a85;
+        color: var(--red);
+      }
+
+      input,
+      select {
+        min-height: 36px;
         min-width: 0;
+        border: 1px solid var(--line-strong);
+        border-radius: 5px;
+        background: #fff;
+        color: var(--ink);
+        padding: 7px 9px;
       }
 
-      .section-head {
+      h1,
+      h2,
+      h3,
+      p,
+      ul,
+      dl,
+      dd {
+        margin: 0;
+      }
+
+      ul {
+        padding: 0;
+        list-style: none;
+      }
+
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .app-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        min-height: 42px;
-        padding: 10px 12px;
+        gap: 18px;
+        min-height: 64px;
+        padding: 10px 16px;
+        border-bottom: 1px solid var(--line);
+        background: var(--panel);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 230px;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+      }
+
+      .brand h1 {
+        font-size: 19px;
+        line-height: 1.2;
+      }
+
+      .brand p {
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .prepare-bar {
+        display: grid;
+        grid-template-columns: auto minmax(220px, 1fr) minmax(150px, 210px) auto;
+        gap: 8px;
+        align-items: center;
+        width: min(900px, 100%);
+      }
+
+      .prepare-field {
+        display: grid;
+        gap: 3px;
+        min-width: 0;
+      }
+
+      .prepare-field label {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 650;
+      }
+
+      .prepare-field input {
+        width: 100%;
+      }
+
+      .field-error {
+        color: var(--red);
+        font-size: 11px;
+      }
+
+      .server-state {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 12px;
+        white-space: nowrap;
+      }
+
+      .server-state::before,
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--amber);
+        content: "";
+        flex: 0 0 auto;
+      }
+
+      .server-state.connected::before,
+      .status-dot.consumed {
+        background: var(--green);
+      }
+
+      .status-dot.pending {
+        background: var(--amber);
+      }
+
+      .status-dot.rejected {
+        background: var(--red);
+      }
+
+      .status-dot.approved,
+      .status-dot.ready_for_poll,
+      .status-dot.claimed,
+      .status-dot.interrupted {
+        background: var(--blue);
+      }
+
+      .error-strip {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 16px;
+        border-bottom: 1px solid #e5aaa5;
+        background: var(--red-soft);
+        color: #7f2621;
+      }
+
+      .error-strip[hidden] {
+        display: none;
+      }
+
+      .error-strip button {
+        min-height: 28px;
+        padding: 3px 8px;
+      }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: minmax(260px, 310px) minmax(390px, 1fr) minmax(300px, 390px);
+        min-height: calc(100vh - 65px);
+      }
+
+      .panel {
+        min-width: 0;
+        background: var(--panel);
+      }
+
+      .panel + .panel {
+        border-left: 1px solid var(--line);
+      }
+
+      .panel-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 49px;
+        padding: 9px 12px;
         border-bottom: 1px solid var(--line);
       }
 
-      .stack {
-        display: grid;
-        gap: 8px;
-        padding: 12px;
+      .panel-head h2 {
+        font-size: 14px;
       }
 
-      .row {
-        display: flex;
+      .count {
+        display: inline-flex;
         align-items: center;
-        justify-content: space-between;
-        gap: 8px;
+        justify-content: center;
+        min-width: 25px;
+        min-height: 22px;
+        border-radius: 11px;
+        background: #edf1f5;
+        color: var(--muted);
+        font-size: 12px;
+        padding: 1px 7px;
       }
 
-      .module {
-        border: 1px solid var(--line);
-        border-radius: 6px;
+      .tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--line);
+        background: var(--panel-alt);
+      }
+
+      .tabs button {
+        border-color: transparent;
+        background: transparent;
+        color: var(--muted);
+      }
+
+      .tabs button[aria-selected="true"] {
+        border-color: var(--line);
+        background: var(--panel);
+        color: var(--ink);
+        font-weight: 650;
+      }
+
+      .proposal-list {
+        max-height: calc(100vh - 205px);
+        overflow: auto;
+        padding: 6px;
+      }
+
+      .proposal-list li + li {
+        margin-top: 4px;
+      }
+
+      .proposal-item {
+        display: grid;
+        grid-template-columns: 10px minmax(0, 1fr);
+        gap: 9px;
+        width: 100%;
+        min-height: 62px;
+        border-color: transparent;
+        background: transparent;
+        text-align: left;
         padding: 8px;
       }
 
-      .module strong {
-        display: block;
-        font-size: 13px;
+      .proposal-item:hover:not(:disabled) {
+        border-color: var(--line);
       }
 
-      .module span,
-      .muted {
+      .proposal-item[aria-current="true"] {
+        border-color: #9ab6dc;
+        background: var(--blue-soft);
+      }
+
+      .proposal-copy {
+        min-width: 0;
+      }
+
+      .proposal-title {
+        display: block;
+        overflow-wrap: anywhere;
+        font-weight: 650;
+      }
+
+      .proposal-meta {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 12px;
+        overflow-wrap: anywhere;
+      }
+
+      .empty-state {
+        padding: 26px 18px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .queue-foot {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 8px 12px;
+        border-top: 1px solid var(--line);
         color: var(--muted);
         font-size: 12px;
       }
 
-      .canvas {
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        grid-auto-rows: 42px;
-        gap: 8px;
-        min-height: 420px;
-        padding: 12px;
-        background:
-          linear-gradient(#eef2f7 1px, transparent 1px),
-          linear-gradient(90deg, #eef2f7 1px, transparent 1px);
-        background-size: 24px 24px;
+      .detail-panel,
+      .evidence-panel {
+        display: flex;
+        flex-direction: column;
       }
 
-      .node {
-        border: 1px solid var(--line);
-        border-radius: 6px;
-        background: #fff;
-        padding: 10px;
+      .detail-scroll,
+      .evidence-scroll {
+        min-height: 0;
+        overflow: auto;
+        padding: 14px;
+      }
+
+      .detail-title {
         min-width: 0;
-        box-shadow: 0 1px 2px rgba(32, 33, 36, 0.08);
       }
 
-      .node h3 {
-        font-size: 14px;
-        margin-bottom: 4px;
+      .detail-title h2 {
+        overflow-wrap: anywhere;
       }
 
-      .node.intent {
-        grid-column: 1 / span 4;
-        grid-row: 1 / span 2;
-        border-left: 4px solid var(--blue);
+      .detail-title p {
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 12px;
       }
 
-      .node.envelope {
-        grid-column: 5 / span 4;
-        grid-row: 3 / span 2;
-        border-left: 4px solid var(--amber);
-      }
-
-      .node.receipt {
-        grid-column: 9 / span 4;
-        grid-row: 5 / span 2;
-        border-left: 4px solid var(--teal);
-      }
-
-      .pill {
+      .badge {
         display: inline-flex;
         align-items: center;
-        min-height: 22px;
-        border-radius: 999px;
+        min-height: 24px;
+        border-radius: 12px;
         padding: 2px 8px;
         font-size: 12px;
-        background: #eef2ff;
-        color: var(--blue);
+        font-weight: 650;
+        white-space: nowrap;
       }
 
-      .status {
-        color: var(--muted);
-        font-size: 12px;
-      }
-
-      .status.warn {
+      .badge.pending {
+        background: var(--amber-soft);
         color: var(--amber);
       }
 
-      .status.good {
-        color: var(--teal);
+      .badge.consumed,
+      .badge.passed {
+        background: var(--green-soft);
+        color: var(--green);
       }
 
-      pre {
-        white-space: pre-wrap;
-        word-break: break-word;
-        margin: 0;
-        font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      .badge.rejected,
+      .badge.blocked,
+      .badge.failed {
+        background: var(--red-soft);
+        color: var(--red);
       }
 
-      @media (max-width: 880px) {
-        main {
+      .badge.approved,
+      .badge.ready_for_poll,
+      .badge.claimed,
+      .badge.interrupted,
+      .badge.flagged {
+        background: #e8f1fb;
+        color: #245a8d;
+      }
+
+      .ready-target {
+        margin: 8px 12px 0;
+        border-left: 3px solid var(--blue);
+        background: #eef5fc;
+        color: #25496f;
+        overflow-wrap: anywhere;
+        padding: 7px 9px;
+        font-size: 12px;
+      }
+
+      .contract-section + .contract-section {
+        margin-top: 18px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+      }
+
+      .contract-section h3,
+      .evidence-scroll h3 {
+        margin-bottom: 9px;
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+
+      .definition-grid {
+        display: grid;
+        grid-template-columns: minmax(110px, 155px) minmax(0, 1fr);
+        gap: 7px 14px;
+      }
+
+      .definition-grid dt {
+        color: var(--muted);
+      }
+
+      .definition-grid dd {
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .token-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .token-list li {
+        max-width: 100%;
+        border: 1px solid #c6d4e8;
+        border-radius: 4px;
+        background: #f2f6fb;
+        color: #25496f;
+        overflow-wrap: anywhere;
+        padding: 4px 7px;
+      }
+
+      .action-bar {
+        display: grid;
+        grid-template-columns: minmax(150px, 1fr) repeat(5, auto);
+        gap: 8px;
+        padding: 12px 14px;
+        border-top: 1px solid var(--line);
+        background: var(--panel-alt);
+      }
+
+      .action-note {
+        grid-column: 1 / -1;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .receipt-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .receipt-row {
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .receipt-id {
+        display: block;
+        margin-bottom: 7px;
+        overflow-wrap: anywhere;
+        font-size: 12px;
+        font-weight: 650;
+      }
+
+      .receipt-kind {
+        display: block;
+        margin-bottom: 3px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .receipt-claim {
+        display: block;
+        margin-bottom: 7px;
+        color: var(--muted);
+        font-size: 11px;
+        overflow-wrap: anywhere;
+      }
+
+      .evidence-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+        gap: 5px;
+      }
+
+      .evidence-actions button {
+        min-width: 0;
+        padding-inline: 5px;
+      }
+
+      .evidence-view {
+        margin-top: 16px;
+        padding-top: 14px;
+        border-top: 1px solid var(--line);
+      }
+
+      .evidence-view[hidden] {
+        display: none;
+      }
+
+      .evidence-message {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .canvas-workbench {
+        min-width: 0;
+        border-top: 1px solid var(--line-strong);
+        background: var(--panel);
+      }
+
+      .canvas-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        min-height: 52px;
+        padding: 9px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .canvas-identity {
+        min-width: 0;
+      }
+
+      .canvas-identity h2 {
+        font-size: 14px;
+        overflow-wrap: anywhere;
+      }
+
+      .canvas-meta {
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 12px;
+        overflow-wrap: anywhere;
+      }
+
+      .canvas-controls {
+        display: flex;
+        align-items: center;
+        flex: 0 0 auto;
+        gap: 8px;
+      }
+
+      .canvas-statuses {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .canvas-open {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 34px;
+        border: 1px solid var(--line-strong);
+        border-radius: 5px;
+        color: var(--ink);
+        text-decoration: none;
+        padding: 6px 10px;
+      }
+
+      .canvas-open:hover {
+        border-color: #788492;
+        background: #f7f9fb;
+      }
+
+      .canvas-open[hidden] {
+        display: none;
+      }
+
+      .canvas-stage {
+        position: relative;
+        min-height: clamp(480px, 72vh, 900px);
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .canvas-empty {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        text-align: center;
+        padding: 24px;
+      }
+
+      .canvas-empty[hidden] {
+        display: none;
+      }
+
+      .canvas-frame {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        background: #fff;
+      }
+
+      .canvas-frame-pending {
+        visibility: hidden;
+      }
+
+      @media (max-width: 1040px) {
+        .workspace {
+          grid-template-columns: minmax(250px, 300px) minmax(390px, 1fr);
+        }
+
+        .evidence-panel {
+          grid-column: 1 / -1;
+          min-height: 360px;
+          border-top: 1px solid var(--line);
+          border-left: 0 !important;
+        }
+
+        .evidence-scroll {
+          display: grid;
+          grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+          gap: 20px;
+        }
+
+        .evidence-view {
+          margin-top: 0;
+          padding-top: 0;
+          padding-left: 20px;
+          border-top: 0;
+          border-left: 1px solid var(--line);
+        }
+      }
+
+      @media (max-width: 720px) {
+        .app-header {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .prepare-bar {
+          grid-template-columns: minmax(0, 1fr) minmax(120px, 150px) auto;
+        }
+
+        .prepare-bar > .server-state {
+          grid-column: 1 / -1;
+          grid-row: 1;
+        }
+
+        .workspace {
           grid-template-columns: 1fr;
         }
 
-        .canvas {
-          min-height: 460px;
+        .panel + .panel {
+          border-top: 1px solid var(--line);
+          border-left: 0;
         }
 
-        .node.intent,
-        .node.envelope,
-        .node.receipt {
+        .proposal-list {
+          max-height: 330px;
+        }
+
+        .detail-panel {
+          min-height: 620px;
+        }
+
+        .evidence-scroll {
+          display: block;
+        }
+
+        .evidence-view {
+          margin-top: 16px;
+          padding-top: 14px;
+          padding-left: 0;
+          border-top: 1px solid var(--line);
+          border-left: 0;
+        }
+
+        .action-bar {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .action-bar input {
           grid-column: 1 / -1;
-          grid-row: auto / span 2;
+        }
+
+        .definition-grid {
+          grid-template-columns: 1fr;
+          gap: 2px;
+        }
+
+        .definition-grid dd + dt {
+          margin-top: 8px;
+        }
+
+        .canvas-head {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .canvas-controls {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .canvas-statuses,
+        [data-action="canvas-event-retry"] {
+          grid-column: 1 / -1;
+        }
+
+        .canvas-stage {
+          min-height: 620px;
         }
       }
     </style>
   </head>
   <body>
-    <header>
-      <div>
-        <h1>ide-extension</h1>
-        <p class="muted">L0 governed workbench</p>
+    <header class="app-header">
+      <div class="brand">
+        <img class="brand-mark" src="/assets/cyber-alchemy-logo.svg" alt="Cyber Alchemy logo" width="42" height="42">
+        <div>
+          <h1>Cyber Alchemy</h1>
+          <p>Approval Desk · local workbench</p>
+        </div>
       </div>
-      <div class="row">
-        <span id="server-status" class="status">loading</span>
-        <button id="prepare" class="primary" type="button">Prepare dry run</button>
-        <button id="approve" type="button" disabled>Approve</button>
+      <div class="prepare-bar">
+        <span id="server-status" class="server-state" role="status" aria-live="polite">Connecting</span>
+        <div class="prepare-field">
+          <label for="task-input">Task</label>
+          <input id="task-input" data-field="task-input" type="text" maxlength="240" required pattern=".*\S.*" aria-describedby="task-error" placeholder="Task">
+          <span id="task-error" class="field-error" hidden>Task is required</span>
+        </div>
+        <div class="prepare-field">
+          <label for="skill-input">Skill</label>
+          <input id="skill-input" data-field="skill-input" type="text" maxlength="64" pattern="[a-z][a-z0-9\-]{0,63}" autocomplete="off" spellcheck="false" placeholder="Optional">
+        </div>
+        <button type="button" class="primary" data-action="prepare">Prepare</button>
       </div>
     </header>
 
-    <main>
-      <section>
-        <div class="section-head">
-          <h2>Modules</h2>
-          <span id="module-count" class="pill">0</span>
-        </div>
-        <div id="modules" class="stack"></div>
-      </section>
+    <div id="error-strip" class="error-strip" role="alert" hidden>
+      <span id="error-message"></span>
+      <button type="button" data-action="dismiss-error">Dismiss</button>
+    </div>
 
-      <section>
-        <div class="section-head">
-          <h2>Workbench</h2>
-          <span id="boundary" class="pill">l0</span>
+    <main class="workspace">
+      <section class="panel queue-panel" data-panel="proposals" aria-labelledby="proposal-heading">
+        <div class="panel-head">
+          <h2 id="proposal-heading">Proposals</h2>
+          <span id="proposal-count" class="count">0</span>
         </div>
-        <div class="canvas">
-          <article class="node intent">
-            <h3 id="work-title">Selected work</h3>
-            <p id="work-owner" class="muted"></p>
-          </article>
-          <article class="node envelope">
-            <h3>Agent envelope</h3>
-            <p id="envelope-state" class="status warn">none prepared</p>
-          </article>
-          <article class="node receipt">
-            <h3>Evidence receipt</h3>
-            <p id="receipt-state" class="status">none recorded</p>
-          </article>
+        <div class="tabs" role="tablist" aria-label="Proposal views">
+          <button type="button" role="tab" aria-selected="true" data-view="pending">Pending <span id="pending-count">0</span></button>
+          <button type="button" role="tab" aria-selected="false" data-view="history">History <span id="history-count">0</span></button>
+        </div>
+        <p id="ready-target" class="ready-target" role="status">No request is ready for poll</p>
+        <ul id="proposal-list" class="proposal-list" aria-label="Proposal list" data-list="proposals"></ul>
+        <p id="proposal-empty" class="empty-state">No pending proposals</p>
+        <div class="queue-foot">
+          <span id="module-summary">0 modules</span>
+          <button type="button" data-action="refresh">Refresh</button>
         </div>
       </section>
 
-      <section>
-        <div class="section-head">
-          <h2>Evidence</h2>
-          <span id="event-count" class="pill">0</span>
-        </div>
-        <div class="stack">
-          <div>
-            <h3>Approval queue</h3>
-            <pre id="approvals">[]</pre>
+      <section class="panel detail-panel" data-panel="detail" aria-labelledby="detail-heading">
+        <div class="panel-head">
+          <div class="detail-title">
+            <h2 id="detail-heading">Proposal detail</h2>
+            <p id="detail-subtitle">Select a proposal to inspect</p>
           </div>
+          <span id="detail-status" class="badge pending" data-status="proposal">None</span>
+        </div>
+        <div id="detail-empty" class="empty-state">Prepare or select a proposal to inspect its L0 contract.</div>
+        <div id="detail-content" class="detail-scroll" hidden>
+          <section class="contract-section" aria-labelledby="contract-heading">
+            <h3 id="contract-heading">Contract</h3>
+            <dl id="contract-fields" class="definition-grid" data-list="contract-fields"></dl>
+          </section>
+          <section class="contract-section" aria-labelledby="grant-heading">
+            <h3 id="grant-heading">Normalized grants</h3>
+            <ul id="grant-list" class="token-list" data-list="grants"></ul>
+          </section>
+          <section class="contract-section" aria-labelledby="context-heading">
+            <h3 id="context-heading">Context refs</h3>
+            <ul id="context-list" class="token-list" data-list="context-refs"></ul>
+          </section>
+          <section class="contract-section" aria-labelledby="actor-heading">
+            <h3 id="actor-heading">Disposition record</h3>
+            <dl id="actor-fields" class="definition-grid" data-list="actor-fields"></dl>
+          </section>
+          <section class="contract-section" aria-labelledby="bridge-heading">
+            <h3 id="bridge-heading">Bridge execution</h3>
+            <dl id="bridge-fields" class="definition-grid" data-list="bridge-fields"></dl>
+          </section>
+        </div>
+        <div class="action-bar">
+          <label class="visually-hidden" for="reject-reason">Action reason</label>
+          <input id="reject-reason" data-field="reject-reason" type="text" maxlength="500" placeholder="Optional rejection reason" disabled>
+          <button type="button" class="danger" data-action="reject" disabled>Reject</button>
+          <button type="button" class="primary" data-action="approve" disabled>Approve request</button>
+          <button type="button" data-action="ready" disabled>Ready for poll</button>
+          <button type="button" data-action="unready" disabled>Unready</button>
+          <button type="button" data-action="release" disabled>Release and requeue</button>
+          <p id="action-note" class="action-note">Actions are available only for a pending proposal.</p>
+        </div>
+      </section>
+
+      <section class="panel evidence-panel" data-panel="evidence" aria-labelledby="evidence-heading">
+        <div class="panel-head">
+          <h2 id="evidence-heading">Evidence</h2>
+          <span id="receipt-count" class="count">0</span>
+        </div>
+        <div class="evidence-scroll">
           <div>
-            <h3>Receipts</h3>
-            <pre id="receipts">[]</pre>
+            <p id="evidence-empty" class="empty-state">No committed receipt for this proposal.</p>
+            <ul id="receipt-list" class="receipt-list" data-list="receipts"></ul>
+          </div>
+          <div id="evidence-view" class="evidence-view" data-viewer="evidence" hidden>
+            <h3 id="evidence-title">Evidence detail</h3>
+            <dl id="evidence-fields" class="definition-grid" data-list="evidence-fields"></dl>
           </div>
         </div>
       </section>
     </main>
 
+    <section class="canvas-workbench" data-panel="canvas" aria-labelledby="canvas-title">
+      <header class="canvas-head">
+        <div class="canvas-identity">
+          <h2 id="canvas-title">Canvas</h2>
+          <p id="canvas-meta" class="canvas-meta">No surface published</p>
+        </div>
+        <div class="canvas-controls">
+          <div class="canvas-statuses">
+            <span id="canvas-status" class="server-state" role="status" aria-live="polite">Idle</span>
+            <span id="canvas-live-status" class="server-state" role="status" aria-live="polite">Connecting</span>
+            <span id="canvas-event-status" class="server-state" role="status" aria-live="polite">Ready</span>
+          </div>
+          <button type="button" data-action="canvas-event-retry" hidden>Retry event</button>
+          <button type="button" data-action="canvas-refresh">Refresh canvas</button>
+          <a id="canvas-open" class="canvas-open" target="_blank" rel="noopener" hidden>Open</a>
+        </div>
+      </header>
+      <div id="canvas-stage" class="canvas-stage">
+        <p id="canvas-empty" class="canvas-empty">Ask the active session to publish a project HTML surface.</p>
+      </div>
+    </section>
+
+    <div id="announcement" class="visually-hidden" role="status" aria-live="polite"></div>
+
     <script type="module">
       const state = {
-        approvalId: null
+        snapshot: null,
+        selectedEnvelopeId: null,
+        detail: null,
+        view: 'pending',
+        busy: false,
+        canvasCurrent: null,
+        canvasLoadedRevisionId: null,
+        canvasPendingRevisionId: null,
+        canvasNotifications: null,
+        canvasFailedInteraction: null
       };
 
       const els = {
-        status: document.querySelector('#server-status'),
-        modules: document.querySelector('#modules'),
-        moduleCount: document.querySelector('#module-count'),
-        boundary: document.querySelector('#boundary'),
-        workTitle: document.querySelector('#work-title'),
-        workOwner: document.querySelector('#work-owner'),
-        envelopeState: document.querySelector('#envelope-state'),
-        receiptState: document.querySelector('#receipt-state'),
-        approvals: document.querySelector('#approvals'),
-        receipts: document.querySelector('#receipts'),
-        eventCount: document.querySelector('#event-count'),
-        prepare: document.querySelector('#prepare'),
-        approve: document.querySelector('#approve')
+        serverStatus: document.querySelector('#server-status'),
+        errorStrip: document.querySelector('#error-strip'),
+        errorMessage: document.querySelector('#error-message'),
+        announcement: document.querySelector('#announcement'),
+        taskInput: document.querySelector('#task-input'),
+        taskError: document.querySelector('#task-error'),
+        skillInput: document.querySelector('#skill-input'),
+        proposalCount: document.querySelector('#proposal-count'),
+        pendingCount: document.querySelector('#pending-count'),
+        historyCount: document.querySelector('#history-count'),
+        proposalList: document.querySelector('#proposal-list'),
+        proposalEmpty: document.querySelector('#proposal-empty'),
+        readyTarget: document.querySelector('#ready-target'),
+        moduleSummary: document.querySelector('#module-summary'),
+        detailHeading: document.querySelector('#detail-heading'),
+        detailSubtitle: document.querySelector('#detail-subtitle'),
+        detailStatus: document.querySelector('#detail-status'),
+        detailEmpty: document.querySelector('#detail-empty'),
+        detailContent: document.querySelector('#detail-content'),
+        contractFields: document.querySelector('#contract-fields'),
+        grantList: document.querySelector('#grant-list'),
+        contextList: document.querySelector('#context-list'),
+        actorFields: document.querySelector('#actor-fields'),
+        bridgeFields: document.querySelector('#bridge-fields'),
+        rejectReason: document.querySelector('#reject-reason'),
+        reject: document.querySelector('[data-action="reject"]'),
+        approve: document.querySelector('[data-action="approve"]'),
+        ready: document.querySelector('[data-action="ready"]'),
+        unready: document.querySelector('[data-action="unready"]'),
+        release: document.querySelector('[data-action="release"]'),
+        actionNote: document.querySelector('#action-note'),
+        receiptCount: document.querySelector('#receipt-count'),
+        receiptList: document.querySelector('#receipt-list'),
+        evidenceEmpty: document.querySelector('#evidence-empty'),
+        evidenceView: document.querySelector('#evidence-view'),
+        evidenceTitle: document.querySelector('#evidence-title'),
+        evidenceFields: document.querySelector('#evidence-fields'),
+        canvasTitle: document.querySelector('#canvas-title'),
+        canvasMeta: document.querySelector('#canvas-meta'),
+        canvasStatus: document.querySelector('#canvas-status'),
+        canvasLiveStatus: document.querySelector('#canvas-live-status'),
+        canvasEventStatus: document.querySelector('#canvas-event-status'),
+        canvasStage: document.querySelector('#canvas-stage'),
+        canvasEmpty: document.querySelector('#canvas-empty'),
+        canvasRefresh: document.querySelector('[data-action="canvas-refresh"]'),
+        canvasEventRetry: document.querySelector('[data-action="canvas-event-retry"]'),
+        canvasOpen: document.querySelector('#canvas-open')
       };
 
-      async function api(path, options = {}) {
-        const response = await fetch(path, {
+      function clear(node) {
+        while (node.firstChild) node.removeChild(node.firstChild);
+      }
+
+      function textElement(tagName, text, className) {
+        const element = document.createElement(tagName);
+        if (className) element.className = className;
+        element.textContent = String(text ?? '');
+        return element;
+      }
+
+      function appendDefinition(list, label, value) {
+        list.append(textElement('dt', label), textElement('dd', value ?? 'None'));
+      }
+
+      function renderTokens(list, values) {
+        clear(list);
+        for (const value of values || []) {
+          list.append(textElement('li', value));
+        }
+      }
+
+      function formatTime(value) {
+        if (!value) return 'Not recorded';
+        const date = new Date(value);
+        return Number.isNaN(date.valueOf()) ? value : date.toLocaleString();
+      }
+
+      async function api(route, options = {}) {
+        const response = await fetch(route, {
           ...options,
           headers: {
             'content-type': 'application/json',
@@ -319,64 +1020,705 @@
           }
         });
         const body = await response.json();
-        if (!response.ok) throw new Error(body.error || response.statusText);
+        if (!response.ok) {
+          const error = new Error(body.message || body.error || response.statusText);
+          error.code = body.error;
+          error.status = response.status;
+          throw error;
+        }
         return body;
       }
 
-      function render(data) {
-        els.status.textContent = 'connected';
-        els.status.className = 'status good';
-        els.boundary.textContent = data.boundary;
-        els.moduleCount.textContent = String(data.modules.length);
-        els.eventCount.textContent = String(data.event_count);
-        els.workTitle.textContent = data.selected_work_item.title;
-        els.workOwner.textContent = `${data.selected_work_item.owner_route} | ${data.selected_work_item.source_ref}`;
-        els.modules.innerHTML = data.modules.map((module) => `
-          <div class="module">
-            <strong>${module.display_name}</strong>
-            <span>${module.owner_route}</span>
-          </div>
-        `).join('');
-        els.approvals.textContent = JSON.stringify(data.approval_queue, null, 2);
-        els.receipts.textContent = JSON.stringify(data.receipts, null, 2);
-        els.envelopeState.textContent = data.current_envelope ? data.current_envelope.state : 'none prepared';
-        els.envelopeState.className = data.current_envelope?.state === 'passed' ? 'status good' : 'status warn';
-        els.receiptState.textContent = data.receipts.length ? data.receipts.at(-1).receipt_id : 'none recorded';
-        els.receiptState.className = data.receipts.length ? 'status good' : 'status';
-        const pending = data.approval_queue.find((item) => item.state === 'pending');
-        state.approvalId = pending?.approval_id || null;
-        els.approve.disabled = !state.approvalId;
+      function showError(error) {
+        els.errorMessage.textContent = error.message || String(error);
+        els.errorStrip.hidden = false;
       }
 
-      async function refresh() {
-        render(await api('/api/state'));
+      function announce(message) {
+        els.announcement.textContent = '';
+        requestAnimationFrame(() => {
+          els.announcement.textContent = message;
+        });
       }
 
-      els.prepare.addEventListener('click', async () => {
-        await api('/api/envelopes/prepare', {
-          method: 'POST',
-          body: JSON.stringify({
-            agent_ref: 'local.noop-agent',
-            task: 'Prepare L0 dry-run receipt'
-          })
+      function setBusy(busy) {
+        state.busy = busy;
+        document.querySelector('[data-action="prepare"]').disabled = busy;
+        document.querySelector('[data-action="refresh"]').disabled = busy;
+        els.canvasRefresh.disabled = busy;
+        renderActions();
+      }
+
+      function renderCanvasIdentity(current) {
+        if (!current) {
+          els.canvasTitle.textContent = 'Canvas';
+          els.canvasMeta.textContent = 'No surface published';
+          els.canvasOpen.hidden = true;
+          els.canvasOpen.removeAttribute('href');
+          return;
+        }
+        els.canvasTitle.textContent = current.title;
+        els.canvasMeta.textContent = `${current.kind} · ${current.revision.revision_id}`;
+        els.canvasOpen.href = current.content_url;
+        els.canvasOpen.hidden = false;
+      }
+
+      async function assertCanvasContent(current) {
+        const response = await fetch(current.content_url, { cache: 'no-store' });
+        if (response.ok) return;
+        let body = {};
+        try {
+          body = await response.json();
+        } catch {
+          // Preserve the current frame and report the HTTP status below.
+        }
+        const error = new Error(body.message || body.error || `Canvas content ${response.status}`);
+        error.code = body.error;
+        error.status = response.status;
+        throw error;
+      }
+
+      async function loadCanvasRevision(current) {
+        if (state.canvasLoadedRevisionId === current.revision.revision_id
+          || state.canvasPendingRevisionId === current.revision.revision_id) return;
+        state.canvasPendingRevisionId = current.revision.revision_id;
+        els.canvasStatus.textContent = 'Loading';
+        els.canvasStatus.className = 'server-state';
+        await assertCanvasContent(current);
+
+        const nextFrame = document.createElement('iframe');
+        nextFrame.className = 'canvas-frame canvas-frame-pending';
+        nextFrame.title = current.title;
+        nextFrame.src = current.content_url;
+        nextFrame.dataset.revisionId = current.revision.revision_id;
+        els.canvasStage.append(nextFrame);
+
+        await new Promise((resolve, reject) => {
+          const timer = setTimeout(() => reject(new Error('Canvas load timed out')), 15000);
+          nextFrame.addEventListener('load', () => {
+            clearTimeout(timer);
+            resolve();
+          }, { once: true });
+          nextFrame.addEventListener('error', () => {
+            clearTimeout(timer);
+            reject(new Error('Canvas failed to load'));
+          }, { once: true });
+        }).catch((error) => {
+          nextFrame.remove();
+          throw error;
         });
-        await refresh();
+
+        const previous = els.canvasStage.querySelector('.canvas-frame-current');
+        previous?.remove();
+        nextFrame.id = 'canvas-frame';
+        nextFrame.className = 'canvas-frame canvas-frame-current';
+        state.canvasLoadedRevisionId = current.revision.revision_id;
+        state.canvasPendingRevisionId = null;
+        state.canvasFailedInteraction = null;
+        els.canvasEmpty.hidden = true;
+        els.canvasStatus.textContent = 'Available';
+        els.canvasStatus.className = 'server-state connected';
+        els.canvasEventStatus.textContent = 'Ready';
+        els.canvasEventStatus.className = 'server-state';
+        els.canvasEventRetry.hidden = true;
+      }
+
+      async function refreshCanvas() {
+        try {
+          const result = await api('/api/canvas/current');
+          state.canvasCurrent = result.current;
+          renderCanvasIdentity(result.current);
+          if (!result.current) {
+            els.canvasStage.querySelector('.canvas-frame-current')?.remove();
+            state.canvasLoadedRevisionId = null;
+            els.canvasEmpty.hidden = false;
+            els.canvasStatus.textContent = 'Idle';
+            els.canvasStatus.className = 'server-state';
+            return;
+          }
+          await loadCanvasRevision(result.current);
+        } catch (error) {
+          state.canvasPendingRevisionId = null;
+          els.canvasStatus.textContent = 'Unavailable';
+          els.canvasStatus.className = 'server-state';
+          throw error;
+        }
+      }
+
+      function connectCanvasNotifications() {
+        if (!('EventSource' in window)) {
+          els.canvasLiveStatus.textContent = 'Manual';
+          els.canvasLiveStatus.className = 'server-state';
+          return;
+        }
+        const notifications = new EventSource('/api/canvas/notifications');
+        state.canvasNotifications = notifications;
+        notifications.addEventListener('open', () => {
+          els.canvasLiveStatus.textContent = 'Live';
+          els.canvasLiveStatus.className = 'server-state connected';
+          refreshCanvas().catch(showError);
+        });
+        notifications.addEventListener('message', (event) => {
+          let notice;
+          try {
+            notice = JSON.parse(event.data);
+          } catch {
+            return;
+          }
+          if (notice.type !== 'canvas.revision.available'
+            || notice.revision_id === state.canvasLoadedRevisionId
+            || notice.revision_id === state.canvasPendingRevisionId) return;
+          refreshCanvas().catch(showError);
+        });
+        notifications.addEventListener('error', () => {
+          els.canvasLiveStatus.textContent = 'Reconnecting';
+          els.canvasLiveStatus.className = 'server-state';
+        });
+      }
+
+      function canvasInteractionRequest(message) {
+        const frame = els.canvasStage.querySelector('.canvas-frame-current');
+        const current = state.canvasCurrent;
+        if (!frame || !current || frame.dataset.revisionId !== current.revision.revision_id) return null;
+        if (!message || typeof message !== 'object' || Array.isArray(message)) return null;
+        if (Object.keys(message).sort().join(',') !== 'eventName,payload,type') return null;
+        if (message.type !== 'ide-extension.canvas.event'
+          || typeof message.eventName !== 'string'
+          || !/^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/.test(message.eventName)
+          || message.eventName.length > 96
+          || !message.payload || typeof message.payload !== 'object'
+          || Array.isArray(message.payload)) return null;
+        const request = {
+          schema_version: '1',
+          surface_id: current.surface_id,
+          revision_id: current.revision.revision_id,
+          event_name: message.eventName,
+          payload: message.payload
+        };
+        try {
+          if (new TextEncoder().encode(JSON.stringify(request)).byteLength > 16 * 1024) return null;
+        } catch {
+          return null;
+        }
+        return request;
+      }
+
+      async function sendCanvasInteraction(request) {
+        els.canvasEventStatus.textContent = 'Sending';
+        els.canvasEventStatus.className = 'server-state';
+        els.canvasEventRetry.hidden = true;
+        try {
+          const result = await api('/api/canvas/events', {
+            method: 'POST',
+            body: JSON.stringify(request)
+          });
+          state.canvasFailedInteraction = null;
+          els.canvasEventStatus.textContent = 'Sent';
+          els.canvasEventStatus.className = 'server-state connected';
+          announce(`Canvas event sent: ${result.interaction.event_name}`);
+        } catch (error) {
+          state.canvasFailedInteraction = request;
+          els.canvasEventStatus.textContent = 'Failed';
+          els.canvasEventStatus.className = 'server-state';
+          els.canvasEventRetry.hidden = false;
+          showError(error);
+        }
+      }
+
+      window.addEventListener('message', (event) => {
+        const frame = els.canvasStage.querySelector('.canvas-frame-current');
+        if (!frame || event.source !== frame.contentWindow) return;
+        const request = canvasInteractionRequest(event.data);
+        if (!request) {
+          els.canvasEventStatus.textContent = 'Rejected';
+          els.canvasEventStatus.className = 'server-state';
+          return;
+        }
+        void sendCanvasInteraction(request);
       });
 
-      els.approve.addEventListener('click', async () => {
-        if (!state.approvalId) return;
-        await api(`/api/approvals/${state.approvalId}/approve`, {
-          method: 'POST',
-          body: JSON.stringify({ approved_by: 'human' })
+      function selectedApproval() {
+        return state.detail?.approval || null;
+      }
+
+      function envelopeForApproval(approval) {
+        return state.snapshot?.envelopes?.[approval.envelope_id] || null;
+      }
+
+      function isTerminalEnvelope(envelope) {
+        return ['passed', 'flagged', 'blocked', 'failed', 'completed'].includes(envelope?.state);
+      }
+
+      function statusLabel(envelope) {
+        if (!envelope) return 'Unknown';
+        if (envelope.schema_version !== '2') return envelope.state;
+        return {
+          awaiting_approval: 'Awaiting approval',
+          approved: 'Approved - select as poll target',
+          ready_for_poll: 'Ready for poll',
+          claimed: 'Claimed by unattested local session',
+          interrupted: 'Interrupted - operator recovery required',
+          passed: 'Passed',
+          flagged: 'Flagged',
+          blocked: 'Blocked',
+          failed: 'Failed'
+        }[envelope.state] || envelope.state;
+      }
+
+      function renderActions() {
+        const pending = selectedApproval()?.state === 'pending';
+        const envelope = state.detail?.envelope;
+        const approval = selectedApproval();
+        const bridge = envelope?.schema_version === '2';
+        const envelopeState = envelope?.state;
+        const operatorCanReject = pending || (bridge && ['approved', 'ready_for_poll'].includes(envelopeState));
+        els.approve.disabled = state.busy || !pending;
+        els.reject.disabled = state.busy || !operatorCanReject;
+        els.ready.disabled = state.busy || !bridge || envelopeState !== 'approved';
+        els.unready.disabled = state.busy || !bridge || envelopeState !== 'ready_for_poll';
+        els.release.disabled = state.busy || !bridge || envelopeState !== 'interrupted';
+        els.rejectReason.disabled = state.busy || (!operatorCanReject && envelopeState !== 'interrupted');
+        els.rejectReason.placeholder = envelopeState === 'interrupted'
+          ? 'Release reason (required)'
+          : 'Optional rejection reason';
+        els.approve.textContent = bridge ? 'Approve request' : 'Approve dry run';
+        if (bridge) {
+          const notes = {
+            awaiting_approval: 'Approval authorizes this request only; execution still requires target selection and a manual poll.',
+            approved: 'Authorized only. Select this exact request as the singleton poll target.',
+            ready_for_poll: 'The next explicit session poll may atomically claim this request.',
+            claimed: 'The session owns claim, interrupt, and result actions; this browser cannot perform them.',
+            interrupted: 'Enter a release reason. Requeue returns to approved and requires another explicit ready action.',
+            passed: 'Execution evidence was admitted separately from authorization.',
+            flagged: 'Execution completed with named residue; both receipts remain inspectable.',
+            blocked: 'The request is closed; its authorization and any execution evidence remain inspectable.',
+            failed: 'The request failed; bounded evidence remains inspectable.'
+          };
+          els.actionNote.textContent = notes[envelopeState] || 'This request is closed and remains inspectable.';
+        } else {
+          els.actionNote.textContent = pending
+            ? 'Disposition is recorded as a local operator action with unattested assurance.'
+            : 'Terminal proposals remain inspectable and cannot be acted on again.';
+        }
+      }
+
+      function proposalEntries() {
+        const entries = state.snapshot?.approval_queue || [];
+        return entries.filter((approval) => (
+          state.view === 'pending'
+            ? !isTerminalEnvelope(envelopeForApproval(approval))
+            : isTerminalEnvelope(envelopeForApproval(approval))
+        ));
+      }
+
+      function renderQueue() {
+        const all = state.snapshot?.approval_queue || [];
+        const pending = all.filter((item) => !isTerminalEnvelope(envelopeForApproval(item)));
+        const history = all.filter((item) => isTerminalEnvelope(envelopeForApproval(item)));
+        const entries = proposalEntries();
+        els.proposalCount.textContent = String(all.length);
+        els.pendingCount.textContent = String(pending.length);
+        els.historyCount.textContent = String(history.length);
+        els.proposalEmpty.hidden = entries.length > 0;
+        els.proposalEmpty.textContent = state.view === 'pending'
+          ? 'No active proposals'
+          : 'No proposal history';
+        const readyId = state.snapshot?.bridge?.ready_target_envelope_id;
+        els.readyTarget.textContent = readyId
+          ? `Ready target: ${readyId}`
+          : 'No request is ready for poll';
+        clear(els.proposalList);
+
+        for (const approval of entries) {
+          const envelope = envelopeForApproval(approval);
+          const visibleState = envelope?.state || approval.state;
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'proposal-item';
+          button.dataset.proposalId = approval.envelope_id;
+          button.setAttribute('aria-current', String(approval.envelope_id === state.selectedEnvelopeId));
+          const dot = document.createElement('span');
+          dot.className = `status-dot ${visibleState}`;
+          dot.setAttribute('aria-hidden', 'true');
+          const copy = document.createElement('span');
+          copy.className = 'proposal-copy';
+          copy.append(
+            textElement('span', approval.title, 'proposal-title'),
+            textElement('span', `${statusLabel(envelope)} · ${formatTime(approval.created_at)}`, 'proposal-meta')
+          );
+          button.append(dot, copy);
+          button.addEventListener('click', () => selectProposal(approval.envelope_id));
+          els.proposalList.append(textElement('li', ''));
+          els.proposalList.lastElementChild.append(button);
+        }
+      }
+
+      function renderDetail() {
+        const detail = state.detail;
+        const hasDetail = Boolean(detail);
+        els.detailEmpty.hidden = hasDetail;
+        els.detailContent.hidden = !hasDetail;
+        clear(els.contractFields);
+        clear(els.actorFields);
+        clear(els.bridgeFields);
+        renderTokens(els.grantList, []);
+        renderTokens(els.contextList, []);
+
+        if (!detail) {
+          els.detailHeading.textContent = 'Proposal detail';
+          els.detailSubtitle.textContent = 'Select a proposal to inspect';
+          els.detailStatus.textContent = 'None';
+          els.detailStatus.className = 'badge pending';
+          renderActions();
+          renderReceipts();
+          return;
+        }
+
+        const { envelope, approval, claims = [], active_claim: claim, result } = detail;
+        els.detailHeading.textContent = envelope.task;
+        els.detailSubtitle.textContent = envelope.envelope_id;
+        els.detailStatus.textContent = statusLabel(envelope);
+        els.detailStatus.className = `badge ${envelope.state}`;
+        appendDefinition(els.contractFields, 'Agent ref', envelope.agent_ref);
+        appendDefinition(els.contractFields, 'Envelope ID', envelope.envelope_id);
+        appendDefinition(els.contractFields, 'Run ID', envelope.run_id);
+        appendDefinition(els.contractFields, 'Envelope state', envelope.state);
+        appendDefinition(els.contractFields, 'Task', envelope.task);
+        appendDefinition(els.contractFields, 'Prepared', formatTime(envelope.created_at));
+        appendDefinition(els.contractFields, 'Approval ID', approval.approval_id);
+        appendDefinition(els.contractFields, 'Requested skill', envelope.requested_skill || 'None');
+        renderTokens(els.grantList, envelope.requested_grants);
+        renderTokens(els.contextList, envelope.context_refs);
+        appendDefinition(els.actorFields, 'Approval state', approval.state);
+        appendDefinition(els.actorFields, 'Actor kind', approval.actor?.kind || 'Not recorded');
+        appendDefinition(els.actorFields, 'Assurance', approval.actor?.assurance || 'Not recorded');
+        appendDefinition(els.actorFields, 'Authorized', formatTime(approval.authorized_at || approval.approved_at));
+        appendDefinition(els.actorFields, 'Consumed', formatTime(approval.consumed_at));
+        appendDefinition(els.actorFields, 'Revoked', formatTime(approval.revoked_at));
+        appendDefinition(els.actorFields, 'Rejected', formatTime(approval.rejected_at));
+        appendDefinition(els.actorFields, 'Reason', approval.rejection_reason || 'None');
+        if (envelope.schema_version === '2') {
+          appendDefinition(els.bridgeFields, 'Poll target', envelope.state === 'ready_for_poll' ? 'Selected' : 'Not selected');
+          appendDefinition(els.bridgeFields, 'Attempt count', String(claims.length));
+          appendDefinition(els.bridgeFields, 'Attempt history', claims.map((attempt) => {
+            const details = [attempt.claim_attempt_id, attempt.state];
+            if (attempt.interruption_reason) details.push(`interrupted: ${attempt.interruption_reason}`);
+            if (attempt.release_reason) details.push(`released: ${attempt.release_reason}`);
+            return details.join(' · ');
+          }).join(' | ') || 'None');
+          appendDefinition(els.bridgeFields, 'Claim ID', claim?.claim_id || 'None');
+          appendDefinition(els.bridgeFields, 'Attempt ID', claim?.claim_attempt_id || 'None');
+          appendDefinition(els.bridgeFields, 'Session ref', claim?.session_ref || 'None');
+          appendDefinition(els.bridgeFields, 'Session assurance', claim?.assurance || 'unattested');
+          appendDefinition(els.bridgeFields, 'Claim state', claim?.state || 'Not claimed');
+          appendDefinition(els.bridgeFields, 'Interrupted', formatTime(claim?.interrupted_at));
+          appendDefinition(els.bridgeFields, 'Interruption reason', claim?.interruption_reason || 'None');
+          appendDefinition(els.bridgeFields, 'Released', formatTime(claim?.released_at));
+          appendDefinition(els.bridgeFields, 'Release reason', claim?.release_reason || 'None');
+          appendDefinition(els.bridgeFields, 'Result status', result?.status || 'No result');
+          appendDefinition(els.bridgeFields, 'Result summary', result?.summary || 'None');
+          appendDefinition(els.bridgeFields, 'Validation', (result?.validation || []).join(', ') || 'None');
+          appendDefinition(els.bridgeFields, 'Result evidence', (result?.evidence_refs || []).join(', ') || 'None');
+        } else {
+          appendDefinition(els.bridgeFields, 'Profile', 'Legacy dry run');
+        }
+        renderActions();
+        renderReceipts();
+      }
+
+      function renderReceipts() {
+        const receipts = state.detail?.receipts || [];
+        els.receiptCount.textContent = String(receipts.length);
+        els.evidenceEmpty.hidden = receipts.length > 0;
+        clear(els.receiptList);
+        els.evidenceView.hidden = true;
+
+        for (const receipt of receipts) {
+          const item = document.createElement('li');
+          item.className = 'receipt-row';
+          const kind = receipt.receipt_kind || 'legacy.dry-run';
+          item.append(textElement('span', kind, 'receipt-kind'));
+          item.append(textElement('span', receipt.receipt_id, 'receipt-id'));
+          const claim = kind === 'authorization.receipt'
+            ? 'Authorization only · no execution status'
+            : kind === 'skill.execution'
+              ? `${receipt.status} · ${receipt.summary}`
+              : `Legacy execution · ${receipt.status}`;
+          item.append(textElement('span', claim, 'receipt-claim'));
+          const actions = document.createElement('div');
+          actions.className = 'evidence-actions';
+          for (const evidenceKind of Object.keys(receipt.evidence || {})) {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.dataset.evidenceKind = evidenceKind;
+            button.dataset.receiptId = receipt.receipt_id;
+            button.textContent = evidenceKind[0].toUpperCase() + evidenceKind.slice(1);
+            button.addEventListener('click', () => loadEvidence(receipt, evidenceKind));
+            actions.append(button);
+          }
+          item.append(actions);
+          els.receiptList.append(item);
+        }
+      }
+
+      function renderEvidence(artifact, kind) {
+        clear(els.evidenceFields);
+        els.evidenceView.hidden = false;
+        els.evidenceTitle.textContent = `${kind[0].toUpperCase() + kind.slice(1)} evidence`;
+        appendDefinition(els.evidenceFields, 'Kind', artifact.kind);
+        appendDefinition(els.evidenceFields, 'Run ID', artifact.run_id);
+        appendDefinition(els.evidenceFields, 'Envelope ID', artifact.envelope_id);
+        appendDefinition(els.evidenceFields, 'Approval ID', artifact.approval_id);
+        appendDefinition(els.evidenceFields, 'State', artifact.state || artifact.receipt?.status || artifact.receipt?.authorization_status);
+        appendDefinition(els.evidenceFields, 'Disposition', artifact.disposition || 'Pending snapshot');
+        appendDefinition(els.evidenceFields, 'Created', formatTime(artifact.created_at));
+        appendDefinition(els.evidenceFields, 'Grants', (artifact.requested_grants || []).join(', '));
+        if (artifact.approval?.actor) {
+          appendDefinition(els.evidenceFields, 'Actor', artifact.approval.actor.kind);
+          appendDefinition(els.evidenceFields, 'Assurance', artifact.approval.actor.assurance);
+        }
+        if (artifact.receipt) {
+          appendDefinition(els.evidenceFields, 'Receipt ID', artifact.receipt.receipt_id);
+          appendDefinition(els.evidenceFields, 'Receipt kind', artifact.receipt.receipt_kind || 'legacy.dry-run');
+          appendDefinition(els.evidenceFields, 'Source evidence', (artifact.receipt.evidence_refs || artifact.evidence_refs || []).join(', '));
+        }
+        if (artifact.result) appendDefinition(els.evidenceFields, 'Result summary', artifact.result.summary);
+      }
+
+      async function loadEvidence(receipt, kind) {
+        try {
+          const artifact = await api(receipt.evidence[kind]);
+          renderEvidence(artifact, kind);
+          announce(`${kind} evidence loaded`);
+        } catch (error) {
+          showError(error);
+        }
+      }
+
+      async function selectProposal(envelopeId) {
+        state.selectedEnvelopeId = envelopeId;
+        renderQueue();
+        try {
+          const detail = await api(`/api/proposals/${encodeURIComponent(envelopeId)}`);
+          if (state.selectedEnvelopeId !== envelopeId) return;
+          state.detail = detail;
+          renderDetail();
+          announce(`Selected ${detail.envelope.task}`);
+        } catch (error) {
+          showError(error);
+          if (error.status === 404) await refresh();
+        }
+      }
+
+      function chooseSelection(snapshot, preferredId) {
+        if (preferredId && snapshot.envelopes[preferredId]) return preferredId;
+        const pending = snapshot.approval_queue.find((item) => item.state === 'pending');
+        if (pending) return pending.envelope_id;
+        return snapshot.approval_queue.at(-1)?.envelope_id || null;
+      }
+
+      async function refresh(options = {}) {
+        try {
+          const snapshot = await api('/api/state');
+          state.snapshot = snapshot;
+          state.selectedEnvelopeId = chooseSelection(
+            snapshot,
+            options.selectId || state.selectedEnvelopeId
+          );
+          els.serverStatus.textContent = 'Connected';
+          els.serverStatus.className = 'server-state connected';
+          els.moduleSummary.textContent = `${snapshot.modules.length} modules · ${snapshot.event_count} events`;
+          renderQueue();
+          if (state.selectedEnvelopeId) {
+            await selectProposal(state.selectedEnvelopeId);
+          } else {
+            state.detail = null;
+            renderDetail();
+          }
+        } catch (error) {
+          els.serverStatus.textContent = 'Unavailable';
+          els.serverStatus.className = 'server-state';
+          showError(error);
+        }
+        try {
+          await refreshCanvas();
+        } catch (error) {
+          showError(error);
+        }
+      }
+
+      async function runCommand(command) {
+        setBusy(true);
+        try {
+          await command();
+          els.errorStrip.hidden = true;
+        } catch (error) {
+          showError(error);
+          if (error.status === 409) await refresh();
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      document.querySelector('[data-action="prepare"]').addEventListener('click', () => {
+        runCommand(async () => {
+          const task = els.taskInput.value.trim();
+          if (!task) {
+            els.taskInput.setAttribute('aria-invalid', 'true');
+            els.taskError.hidden = false;
+            els.taskInput.focus();
+            announce('Task is required');
+            return;
+          }
+          const requestedSkill = els.skillInput.value.trim();
+          if (requestedSkill && !els.skillInput.checkValidity()) {
+            els.skillInput.reportValidity();
+            els.skillInput.focus();
+            return;
+          }
+          const prepared = await api('/api/envelopes/prepare', {
+            method: 'POST',
+            body: JSON.stringify({
+              agent_ref: requestedSkill ? 'codex.current-session' : 'local.noop-agent',
+              task,
+              ...(requestedSkill ? {
+                requested_skill: requestedSkill,
+                requested_grants: ['preview.read', 'skill.invoke']
+              } : {})
+            })
+          });
+          els.taskInput.value = '';
+          els.skillInput.value = '';
+          state.view = 'pending';
+          await refresh({ selectId: prepared.envelope.envelope_id });
+          announce('Proposal prepared');
         });
-        await refresh();
       });
 
-      refresh().catch((error) => {
-        els.status.textContent = error.message;
-        els.status.className = 'status warn';
+      document.querySelector('[data-action="refresh"]').addEventListener('click', () => {
+        runCommand(() => refresh());
       });
+
+      els.canvasRefresh.addEventListener('click', () => {
+        runCommand(async () => {
+          await refreshCanvas();
+          announce(state.canvasCurrent ? 'Canvas refreshed' : 'No Canvas surface published');
+        });
+      });
+
+      els.canvasEventRetry.addEventListener('click', () => {
+        if (state.canvasFailedInteraction) void sendCanvasInteraction(state.canvasFailedInteraction);
+      });
+
+      els.approve.addEventListener('click', () => {
+        const approval = selectedApproval();
+        if (!approval || approval.state !== 'pending') return;
+        const bridge = state.detail?.envelope.schema_version === '2';
+        const prompt = bridge
+          ? 'Authorize this request as an unattested local operator action? This does not execute the skill.'
+          : 'Approve this local dry run as an unattested local operator action?';
+        if (!window.confirm(prompt)) return;
+        runCommand(async () => {
+          await api(`/api/approvals/${encodeURIComponent(approval.approval_id)}/approve`, {
+            method: 'POST',
+            body: JSON.stringify({})
+          });
+          await refresh();
+          announce(bridge ? 'Request authorized; no execution recorded' : 'Dry run approved and evidence committed');
+        });
+      });
+
+      els.reject.addEventListener('click', () => {
+        const approval = selectedApproval();
+        const envelope = state.detail?.envelope;
+        const rejectable = approval?.state === 'pending'
+          || (envelope?.schema_version === '2' && ['approved', 'ready_for_poll'].includes(envelope.state));
+        if (!approval || !rejectable) return;
+        const verb = approval.state === 'pending' ? 'Reject' : 'Revoke';
+        if (!window.confirm(`${verb} this request as an unattested local operator action?`)) return;
+        runCommand(async () => {
+          const reason = els.rejectReason.value.trim();
+          await api(`/api/approvals/${encodeURIComponent(approval.approval_id)}/reject`, {
+            method: 'POST',
+            body: JSON.stringify(reason ? { reason } : {})
+          });
+          els.rejectReason.value = '';
+          await refresh();
+          announce(approval.state === 'pending' ? 'Proposal rejected' : 'Request authorization revoked');
+        });
+      });
+
+      els.ready.addEventListener('click', () => {
+        const envelope = state.detail?.envelope;
+        if (envelope?.schema_version !== '2' || envelope.state !== 'approved') return;
+        runCommand(async () => {
+          await api(`/api/bridge/requests/${encodeURIComponent(envelope.envelope_id)}/ready`, {
+            method: 'POST',
+            body: JSON.stringify({})
+          });
+          await refresh();
+          announce('Request selected as the poll target');
+        });
+      });
+
+      els.unready.addEventListener('click', () => {
+        const envelope = state.detail?.envelope;
+        if (envelope?.schema_version !== '2' || envelope.state !== 'ready_for_poll') return;
+        runCommand(async () => {
+          await api(`/api/bridge/requests/${encodeURIComponent(envelope.envelope_id)}/unready`, {
+            method: 'POST',
+            body: JSON.stringify({})
+          });
+          await refresh();
+          announce('Poll target cleared');
+        });
+      });
+
+      els.release.addEventListener('click', () => {
+        const envelope = state.detail?.envelope;
+        const claim = state.detail?.active_claim;
+        const reason = els.rejectReason.value.trim();
+        if (envelope?.state !== 'interrupted' || claim?.state !== 'interrupted') return;
+        if (!reason) {
+          els.rejectReason.focus();
+          announce('Release reason is required');
+          return;
+        }
+        if (!window.confirm('Release this interrupted claim and return the request to approved?')) return;
+        runCommand(async () => {
+          await api(`/api/bridge/claims/${encodeURIComponent(claim.claim_id)}/release`, {
+            method: 'POST',
+            body: JSON.stringify({ reason })
+          });
+          els.rejectReason.value = '';
+          await refresh();
+          announce('Claim released; select ready again before polling');
+        });
+      });
+
+      document.querySelector('[data-action="dismiss-error"]').addEventListener('click', () => {
+        els.errorStrip.hidden = true;
+      });
+
+      els.taskInput.addEventListener('input', () => {
+        if (els.taskInput.value.trim()) {
+          els.taskInput.removeAttribute('aria-invalid');
+          els.taskError.hidden = true;
+        }
+      });
+
+      for (const tab of document.querySelectorAll('[role="tab"]')) {
+        tab.addEventListener('click', () => {
+          state.view = tab.dataset.view;
+          for (const candidate of document.querySelectorAll('[role="tab"]')) {
+            candidate.setAttribute('aria-selected', String(candidate === tab));
+          }
+          renderQueue();
+        });
+      }
+
+      connectCanvasNotifications();
+      refresh();
     </script>
   </body>
 </html>
-

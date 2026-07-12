@@ -35,8 +35,8 @@ all agree.
 - Separate completed scope from deferred scope in the final result.
 - A failed optional branch is not a failure if the residue is explicit and the
   executed branch validates.
-- Do not mark the whole plan complete while UI or Saga owner decisions remain
-  unresolved unless those branches were explicitly deferred.
+- Do not mark the whole plan complete while the UI owner decision or backend
+  hardening remains open; SGRM-001..008 migration closeout is complete.
 
 ## Acceptance Evidence
 

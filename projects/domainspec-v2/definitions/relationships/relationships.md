@@ -16,14 +16,14 @@ finite machine relation.
 
 ## Canonical Count
 
-`relationships.yml` currently defines 31 active signatures.
+`relationships.yml` currently defines 30 active signatures.
 
 The count is post-reconciliation:
 
 - `enforces-cross` is deprecated; use `enforces` with cross-feature scope metadata.
 - `queries` is source-widened for read-capable behavioral concepts.
 - `applies` targets both `Operation` and `Calculation`.
-- `owns`, `belongs-to`, and first-class Saga orchestration are added.
+- `owns` and `belongs-to` are first-class; Workflow orchestration admits same-feature and cross-feature scope.
 - `depends-on`, Operation returns to Value Object, and Event payload/publisher split remain residue.
 
 ## Relationship Non-Collapse Test
@@ -53,8 +53,7 @@ the candidate as generated, deferred, collapsed into metadata, or non-authoritat
 | `Calculation --[calculates]--> Operation` | A calculation derives values used by an operation. |
 | `Event --[transitions]--> State Machine` | An event advances a lifecycle state machine. |
 | `Interface --[exposes]--> Operation\|Query` | An interface makes behavior callable. |
-| `Workflow --[orchestrates]--> Operation[]` | A workflow coordinates same-feature operations. |
-| `Saga --[orchestrates]--> Operation[]` | A saga coordinates cross-feature operations with participant and compensation obligations. |
+| `Workflow --[orchestrates]--> Operation[]` | A workflow coordinates ordered operations under same-feature or cross-feature scope. |
 | `Policy --[applies]--> Operation\|Calculation` | A policy selects behavior for an operation or calculation. |
 | `Mapping --[maps]--> Entity\|Interface` | A mapping transforms boundary or entity data. |
 | `Entity --[contains]--> Value Object` | An entity embeds a value object as a field. |
