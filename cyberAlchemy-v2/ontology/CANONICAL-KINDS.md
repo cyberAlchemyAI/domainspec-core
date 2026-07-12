@@ -50,6 +50,28 @@ candidate assignments awaiting owner ratification.
 | constitution | constitution-governance | Constitution | perennial | resolve-required | yes |
 | decision | decision-gate | Decision | perennial | resolve-required | yes |
 | spec | spec owner + decision-gate | Spec | perennial | resolve-required | yes |
+| **discipline** | discipline-governance | Discipline | perennial | resolve-required | yes |
+| **runtime contract** | task-session after owner gates | Runtime contract | perennial | resolve-required | yes |
+| **projection** | ontology route + source owner | Projection | ephemeral (regenerable) | tolerated | no *(inferred — OQ-5)* |
+| **residue** | *no producer of its own — emitted by other kinds (OQ-6)* | Residue | ephemeral | tolerated | no *(inferred — OQ-5)* |
+| **premise** | definitions-governance | unresolved — OQ-4 *(a bet is not evidence; term = [`CAV2-D55`](../authority/definitions/DEFINITIONS.md#cav2-d55-premise))* | perennial | resolve-required | deferred (OQ-4) |
+| **invariant** | definitions-governance | unresolved — OQ-2 *(same fork as `axiom`; term = [`CAV2-D54`](../authority/definitions/DEFINITIONS.md#cav2-d54-invariant))* | perennial | resolve-required | deferred (OQ-2) |
+| **review** | review dispatch (`domainspec-subagents-strategy` → `review`) | Evidence | ephemeral | tolerated | no |
+| **handoff** | `invoke handoff` | Evidence | ephemeral | tolerated | no |
+
+Rows in **bold** are added 2026-07-09 and are `candidate`. The first four close a
+real hole: `Discipline`, `Runtime contract`, `Projection`, and `Residue` are
+enumerated `CAV2-D49` authority kinds that **no canonical kind rolled up to**, so
+nothing in the repository could be one of them.
+
+**A canonical kind names a schema, not a role.** The question a kind answers is
+*"which document schema is this registered on?"* — not *"what epistemic role does it
+play?"* The two are orthogonal (`CAV2-D22`) and the corpus proves it: all 37 files in
+`sessions/` share one canonical kind (`session`, with its own seven-field frontmatter
+— `conversation_id`, `decisions_made`, `contradictions_found`, `specs_updated`,
+`promoted_candidates`, `expected_importance`, `importance_rationale`) while their
+`node_type` role label ranges over `discovery`, `conceptual`, `audit`, `constitution`,
+`test`, and `implementation-plan`. Collapsing the two would destroy one axis.
 
 ## Rules
 
@@ -73,6 +95,78 @@ candidate assignments awaiting owner ratification.
 5. **Extension is owner-gated.** Adding a canonical-kind follows the same default-deny
    posture as `CAV2-D49`: until a kind is enumerated with a process, `authority_kind`,
    and durability, an artifact of that kind is non-canonical.
+
+## Edges
+
+Status: candidate (added 2026-07-09).
+
+The kinds above are the **types** of the repository's document schema. Edges are the
+declared relations between typed documents. A schema is types + edges + hom-sets; the
+hom-sets are **not settled** — see the next section.
+
+Edges split into four classes, and the class determines what an edge *is*, not merely
+how it reads:
+
+| Class | Edges | Status in the schema |
+| --- | --- | --- |
+| **grounding** | `derives-from`, `implements`, `validates`, `depends-on`, `rollup`, `consumed-by` | **morphisms.** Directed, typed, must be acyclic. |
+| **succession** | `supersedes`, `updates`, `deprecates` | **morphisms.** Endomorphisms (`T -> T`, same kind both ends); a strict order, acyclic. |
+| **conflict** | `contradicts`, `alternative-to` | **not morphisms** — symmetric, so they induce cycles and make hom-sets infinite. Annotations on a pair. |
+| **navigational** | `questions`, `refines`, `exemplifies`, `contextualizes`, `flags` | **not morphisms** (candidate) — carry no authority; annotations. |
+
+Only the first two classes belong in the category. A symmetric edge admitted as a
+morphism makes `Hom(A,B)` infinite (`A contradicts B contradicts A ...` is an endless
+family of distinct paths), which is why `contradicts` is a **defect marker to
+eliminate**, never a relation to compose.
+
+Provenance for these verbs — they are already in use, not invented here:
+
+- `rollup` is the `Authority kind` column above: `canonical_kind -> authority_kind`, a
+  `CAV2-D16` typed coupling.
+- `consumed-by` is the `### Primary Consumers` list carried by every definition card.
+- `validates` and `questions` appear verbatim in the `## Contradictions` section of
+  session records (e.g. `2026-07-08-1520`: *"validates …/constitution-invariant-axiom-role-review.md"*,
+  *"questions …/attacks.md"*).
+- `flags` is what `DEFINITION-DRIFT-AUDIT.md` does to a definition.
+- `supersedes` / `deprecates` is the `CAV2-D48` demotion path (`demoted` ≈ withdrawn
+  or superseded).
+
+## Hom-Sets
+
+Status: **OPEN — under design.** Nothing below is authority.
+
+A hom-set `Hom(A,B)` is every path from `A` to `B`, modulo declared path equations. It
+is *not* a list of permitted pairs, and the difference matters: once edges exist,
+composition exists whether or not it was intended. If `spec --implements--> constitution`
+and `constitution --derives-from--> axiom`, then a morphism `spec -> axiom` exists.
+The only choice is whether it equals a named edge or is a distinct path.
+
+Two constraints govern edges, and they are **not the same mechanism**:
+
+1. **Endpoint typing — type-level, belongs in the schema.** For each grounding edge,
+   the admissible `(source kind, target kind)` pairs. This deletes arrows: e.g.
+   `readme --implements--> axiom` should not exist. Precedent for the machine form is
+   [`projects/domainspec-v2/definitions/relationships/relationships.yml`](../../projects/domainspec-v2/definitions/relationships/relationships.yml),
+   whose 31 signatures carry `source_type`, `target_type`, and
+   `violation_class: unconstructible-edge`.
+
+2. **Standing monotonicity — instance-level, NOT a hom-set.** For every grounding
+   edge, the target's `authority_state` must not be lower than the source's: a
+   `promoted` constitution may **cite** a `candidate` session as context but may not
+   *derive its authority* from it. This cannot be expressed by deleting arrows,
+   because `authority_state` varies per document, not per kind. It is a constraint on
+   the filled graph, checked over instances.
+
+Conflating (1) and (2) is the same error that malformed the `Process` column above —
+a per-instance fact crammed into a per-type table.
+
+Undecided, and blocking a machine-readable edge table:
+
+- Which classes are morphisms (proposal: grounding + succession only).
+- Whether the category is **free** (every path distinct) or carries **path equations**
+  (proposal: declare exactly one — `derives-from` is transitive — so that "what does
+  this ultimately rest on?" is a single query).
+- The endpoint table itself, per grounding edge.
 
 ## Open Questions
 
@@ -99,3 +193,41 @@ upstream).
 Context: durability defaults live per kind; an instance may override with an owner
 note. The carrier for that override (frontmatter field, ledger entry, Craft state)
 is not yet decided. Status: OPEN.
+
+### OQ-4. What authority-kind does `premise` roll up to?
+
+Context: `CAV2-D55` holds a premise is a bet (`veracidade` low, `convicção` high),
+adopted to proceed and *not* established true. It is therefore not `Evidence` — evidence
+reports, a premise wagers — and not `Definition`. It provisionally grounds invariants and
+rules, which is authority-shaped behaviour without authority-bearing standing. Related to
+`PR-OQ-3` on the `CAV2-D55` card (may a premise ground an invariant or constitution rule?).
+Marked `unresolved` rather than guessed. Route: decision-gate. Status: OPEN.
+
+### OQ-5. Are `projection` and `residue` authority-reachable?
+
+Context: both rows are marked `no` by **inference** from the `CAV2-D49` "must not collapse
+into" column — `Projection` must not collapse into a promotion decision, `Residue` must not
+collapse into a defect by default. Neither is stated. The inference is recorded so it is
+visible as an inference and not read as a ratified value. Route: owner ratification.
+Status: OPEN.
+
+### OQ-6. `residue` has no producing process.
+
+Context: every other kind names a producer. Residue is not authored — it is what a
+`CAV2-D18` operation *leaves behind*, emitted by whatever process failed to carry it. That
+makes `residue` the one kind whose origin is a by-product rather than an output, which is
+independent evidence that "produced by a declared process" was never the right membership
+test for canonicity. If a kind can be canonical with no producer at all, the producer
+column is a property of kinds, not a condition of the type. Related to `CA-OQ-1` /
+`CA-OQ-2` on `CAV2-D51`. Status: OPEN.
+
+### OQ-7. `session` — schema-type vs role-label. RESOLVED (recorded, not re-litigated).
+
+Context: an objection was raised (imported from the ZefraHub vault's reasoning) that
+`session` should not be a type, since a session's *role* varies and the fact of being a
+conversation is captured by an `is_session` boolean. The objection **fails here**: a
+canonical kind names the schema a document is registered on, not its role. The corpus
+settles it — all 37 files in `sessions/` share the `session` schema (seven fields no other
+document carries) while their `node_type` role label ranges over six values. The two labels
+are orthogonal and both are needed. Kept as a record so the objection is not re-raised.
+Status: CLOSED.
