@@ -302,3 +302,108 @@ maestro-trama axiom corpora. Owner greenlit the promotion.
   AUTHORITY-MODEL OQ-2 (first-class `invariant`/`axiom` kinds).
 - **`invariant`/`axiom` remain the `Definition` authority-kind** (AUTHORITY-MODEL
   OQ-2). Promoting the *definitions* does not add them to the kind table.
+
+## Process promoted (CAV2-D56) + CAV2-D51 prose repair — 2026-07-09
+
+Trigger: definitions-governance session opened on the observation that `process` is
+called by `CAV2-D51`'s formal clause (`origin(a) = process(kind(a))`) and fills the
+`Process` column of [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md),
+but was never defined anywhere in the spine. The canonical predicate was therefore
+undecidable: neither side of `origin(a) = process(kind(a))` had a referent. Owner
+greenlit build-from-owned and the record-only posture on the arity mismatch.
+
+- **`CAV2-D56` process — PROMOTED**, build-from-owned on `CAV2-D32` method. A process
+  *is* a method, specialized by two obligations D32 does not impose: **(P1)** it
+  declares a nonempty `output_kinds` subset of `CANONICAL-KINDS`, and **(P2)** each
+  execution is individually identifiable, yielding the `run_id` an artifact cites as
+  `process_origin`. The induced inverse `processes(k) = { P : k in output_kinds(P) }`
+  is what `CAV2-D51` actually needs. `CAV2-D20` Craft method and `CAV2-D17` reflection
+  tower method are methods but **not** processes — they declare no output kind, so they
+  cannot be inverted from a kind. Schema `CAV2-D56-SCHEMA` registered.
+- **`CAV2-D51` prose repaired.** The card read "Each canonical artifact declares … an
+  `authority_kind`", contradicting its own schema invariant `authority_kind =
+  rollup(canonical_kind)` two paragraphs below. Now: an artifact **declares**
+  `canonical_kind` + `process_origin` and **inherits** `authority_kind` + `durability`.
+  The `process_origin` schema row now names `CAV2-D56` and types its value as a `run_id`.
+- Index synced (D56 row + 5 aliases). Schema registry synced.
+
+### Still open (not resolved by this promotion). Status: flag.
+
+- **`CAV2-D51` arity mismatch — RECORDED, NOT FIXED.** `CAV2-D51`'s formal clause states
+  `origin(a) = process(kind(a))`, a **function**: one process per kind. `CANONICAL-KINDS.md`
+  contradicts it in two rows — `spec` names "spec owner + decision-gate" (a composite) and
+  `research` names "research dispatch / research-tower" (an alternation). `CAV2-D56` defines
+  the relation as **set-valued** (`origin(a) in processes(kind(a))`), which the enumeration
+  supports. The two active cards therefore disagree. Owner elected to record rather than
+  patch the active clause. Tracked as `CA-OQ-1` on D51 and `PC-OQ-1` on D56.
+  **Route:** definitions-governance owner call.
+- **`CANONICAL-KINDS` `ledger` row is a category error.** Its `Process` is "append-only
+  ledger (`CAV2-D26`)" — a data structure, not a producing procedure. Under `CAV2-D56`
+  (P1)+(P2) the producer should be a procedure (e.g. *ledger append*). **Route:** ontology
+  route to propose the row edit.
+- **Two `Process` values name no realizer.** `axiom authoring` and `scope/discovery run`
+  are activities; every other row names an installed capability. Under (P2) these rows
+  yield no citable `process_origin`, so their instances cannot satisfy `canonical(a)`.
+  Tracked as `PC-OQ-2`. **Route:** owner assignment, or admit an `unrealized` posture.
+- **`process` is not itself an enumerated canonical kind** (`PC-OQ-3`) — whether the
+  enumeration should be closed under its own producers is undecided (`CAV2-D30` territory).
+
+### Audit self-correction — 2026-07-09
+
+The 2026-07-08 section above states, under "Still open", that `CANONICAL-KINDS.md` line 48
+"still rolls `axiom → Definition` / authority-reachable: yes". **That remediation has since
+landed**: the row now reads `unresolved — OQ-2` with `authority_reachable: deferred (OQ-2)`
+and cites `CAV2-D53`. The audit entry, not the ontology file, was stale. The underlying
+AUTHORITY-MODEL OQ-2 decision-gate call remains genuinely OPEN.
+
+## RETRACTION — `CAV2-D56` process, promoted and withdrawn same day (2026-07-09)
+
+The `CAV2-D56` promotion recorded in the section above is **retracted**. The card,
+its `DEFINITIONS-INDEX.md` row and five aliases, and its `CAV2-D56-SCHEMA` registry
+row have been removed. Nothing had been committed. The prior section is left
+unrewritten (append-only record; the promotion happened and its reasoning is part of
+the trail).
+
+**Why it was wrong.** `CAV2-D56` was derived backwards from a single consumer.
+`CAV2-D51`'s formal clause calls `process(kind(a))`, so `process` was defined as "a
+method that declares its output kinds" — a definition of *what D51 needed*, not of
+what a process is. Counter-example that settles it: `make bump-check` is a process
+and emits no canonical kind. Output-typing is an accidental property of some
+processes, never the essence of any. This repeats the error the two-agent review
+caught on 2026-07-08 when it rejected the fat `semantic authority` card for
+re-encoding `CAV2-D3` — a genus term must not be shaped by one consumer's needs.
+
+**What the excursion did establish, kept as open questions on `CAV2-D51`:**
+
+- **`CA-OQ-1`** (arity) — the `origin(a) = process(kind(a))` clause presumes one
+  producer per kind; `CANONICAL-KINDS.md` gives `spec` a composite and `research` an
+  alternation. Unchanged by the retraction.
+- **`CA-OQ-2`** (attested vs declared) — **the fork that replaced `process`.**
+  `process_origin` has no defined referent. Naming an installed skill handle as the
+  producer removes any need for a `process` genus (a skill is already a named,
+  enumerable thing), but splits into: *attested* (cite the Arcanum
+  `observed-invocation-loop` telemetry signal; mechanically checkable) vs *declared*
+  (a self-asserted string, which `CAV2-D34` holds is no evidence basis and `CAV2-D38`
+  bars from carrying a "process-born" claim). Route: decision-gate.
+
+### Findings that survive the retraction. Status: flag.
+
+Established by a 12-row cursor/terminates/observable test over the `CANONICAL-KINDS`
+`Process` column. The test was authored and scored by one party and is **not**
+adversarially verified — `CAV2-D38`: these are flags, not settled law.
+
+- **`ledger` and `session record` name artifacts, not producers.** The `Process` cell
+  should name what *makes* the artifact (`ledger append`; `close-session`), not the
+  artifact itself.
+- **`axiom authoring` is not a producer.** It has no cursor and no termination
+  condition — it is a way of working. The producer that actually emits axioms is
+  `definitions-governance`.
+- **`scope/discovery run` has a realizer** (`scope-interview`) and should name it.
+  *(This corrects the claim in the retracted section above that it named no realizer.)*
+- **`CAV2-D32` was NOT edited.** A proposal to delete "or phases" from its prose —
+  on the ground that its record `M` carries no ordering field — was raised and not
+  executed. The `actions or phases` hedge remains. It is only worth revisiting if
+  `CA-OQ-2` resolves toward a reading that needs a producer genus at all.
+- **No artifact in this repository declares a producing skill**, and
+  `.arcanum/observability/by-sigil/` holds one populated file. Under an *attested*
+  reading of `CA-OQ-2`, the authority spine itself is currently non-canonical.

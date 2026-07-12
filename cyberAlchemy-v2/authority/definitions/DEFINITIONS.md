@@ -3404,10 +3404,12 @@ CanonicalKinds  superset-of  AuthorityKinds   (every authority-kind is a canonic
 canonical(a)   independent-of   authoritative(a)   (authority is earned via CAV2-D48)
 ```
 
-Each canonical artifact declares (see `### Schema`) a `canonical_kind`, an
-`authority_kind` (the `CAV2-D49` kind it rolls up to), a producing process, and a
-`CAV2-D52` durability. It instantiates exactly one `canonical_kind` and inherits
-that kind's `authority_kind` and durability.
+Each canonical artifact **declares** (see `### Schema`) exactly one `canonical_kind`
+and one `process_origin`, and **inherits** from that kind its `authority_kind` (the
+`CAV2-D49` kind it rolls up to, `= rollup(canonical_kind)`) and its `CAV2-D52`
+durability. The inherited fields are derived, not asserted: an artifact cannot
+choose its `authority_kind`. What `process_origin` must name — and whether it is
+attested or merely declared — is open (`CA-OQ-2`).
 
 ### Schema
 
@@ -3426,7 +3428,7 @@ CA(a) = (artifact_id, canonical_kind, authority_kind, process_origin, durability
 | `artifact_id` | identifier of the instance | known |
 | `canonical_kind` | the canonical-kind it instantiates | member of `CANONICAL-KINDS` |
 | `authority_kind` | the authority-kind it rolls up to | a `CAV2-D49` kind (typed coupling `CAV2-D16`) |
-| `process_origin` | declared process that produced it | known or source-local |
+| `process_origin` | declared producer that produced it | known or source-local; **undefined referent** — see `CA-OQ-2` |
 | `durability` | intended lifespan | `CAV2-D52` ephemeral \| perennial |
 | `authority_state` | how much authority it has earned | none \| candidate \| promoted \| demoted (`CAV2-D48`) |
 
@@ -3477,6 +3479,41 @@ promote anything: earning authority is `CAV2-D48`, being a recognized kind is
 `CAV2-D49`. Prior 2026-06-21 review prose that used "canonical artifact" to mean
 "target-owned / deployed authority" is the *authoritative-version* sense and
 predates this term (recorded in [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)).
+
+### Open Questions
+
+#### CA-OQ-1. Is the `process(kind(a))` clause functional or set-valued?
+
+The `### Formal Interpretation` above states `origin(a) = process(kind(a))`, which
+presumes each canonical-kind has **exactly one** producer. The `CANONICAL-KINDS.md`
+`Process` column contradicts this in two rows: `spec` names "spec owner +
+decision-gate" (a composite) and `research` names "research dispatch /
+research-tower" (an alternation). The enumeration supports a **set-valued** reading,
+`origin(a) in producers(kind(a))`. Route: owner call (definitions-governance).
+Status: OPEN.
+
+#### CA-OQ-2. Does `canonical` require an *attested* producer, or a *declared* one?
+
+`process_origin` has no defined referent. The 2026-07-09 session established the fork:
+
+- **Attested** — the field cites evidence a governed producer actually ran (the
+  Arcanum `observed-invocation-loop` telemetry signal). Makes `canonical(a)`
+  mechanically checkable, and closes the hole where an artifact of an enumerated
+  kind is hand-authored by nobody in particular. Cost: **no artifact in this
+  repository currently carries such a citation**, so under this reading the
+  authority spine — `DEFINITIONS.md`, `AUTHORITY-MODEL.md`, `CANONICAL-KINDS.md` —
+  is itself non-canonical, and needs either a grandfather clause (which reinstates
+  the hole) or a declared forward-only scope with an expiry.
+- **Declared** — the field names a producer (e.g. an installed skill handle) with no
+  evidence basis. Cheap and honest only if the card says so: `CAV2-D34` holds an
+  authority claim valid only when it names its evidence basis, and `CAV2-D38` bars
+  claiming "process-born" while checking a self-asserted string.
+
+A third option is to **drop the second conjunct entirely** — `canonical(a) <->
+kind(a) in CanonicalKinds` — which makes the predicate decidable today at the cost of
+the process-born property. Note the current schema already reads "Documentary;
+validator deferred," which is the *declared* reading in practice. Route: decision-gate.
+Status: OPEN — blocks any binding reading of the `origin(a)` conjunct.
 
 ### Primary Consumers
 
