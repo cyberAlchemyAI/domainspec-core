@@ -153,17 +153,55 @@ so ghost endpoints are a **permanent generator**, not a one-time audit — the c
 
 ---
 
-## Still-open — declared unverified (the required next verification pass)
+## Verification pass — the three declared-open items, now CLOSED (strategist, 2026-07-09)
 
-The dispatch honestly did **not** close these; they are cheap and should run before any number is quoted:
-1. **The 91 / 27 / 28× magnitudes** — Jacobs' checker run, unverified by the panel; **re-run the
-   CLI under each T-B2 resolution key.**
-2. **DS-D8's actual resolution key** — the *data* (Saga/Workflow both `orchestrates`, split by
-   `feature_scope`) is confirmed; the **resolver was not located** to confirm it *keys on*
-   `feature_scope`. One-line read of the DS-D8 resolver.
-3. **`attribute-equals` opaque-token semantics** — one-line re-read of `relationships.yml:17` (cited
-   as the opaque-equality precedent for T-A2).
+All three ran. Two confirmed the synthesis; **one inverted it, and it changes the D6 blocker.**
 
-Auditor's two copy-edit notes: "D15 is an amendable misuse-warning" is a loose gloss (D15 is the
-declared-attributes *convention* that *contains* a misuse warning); "Saga & Workflow differ only by
-feature_scope" also omits their `source_type` difference. Neither touches a load-bearing inference.
+**1. Magnitudes — CONFIRMED exactly.** `npx tsx tools/validate-meta-types-noncollapse.ts --report`:
+14 meta-types, **91 pairs = 36 exception-lane + 27 W-edge-only + 27 W-struct+W-edge + 1 no-witness**
+(Saga ~ Workflow). Jacobs' "27 survive solely on the authority-resolved edge witness" is exact. The
+projected 28× (flip `wEdge` to exercised-instance → all C(8,2)=28 pairs among the 8 attestation-only
+types collapse) follows by construction: those 8 have empty `structKeys`, so removing the edge witness
+leaves them with none. **Sound as a projection.**
+
+**2. DS-D8 resolution key — CONFIRMED, and the synthesis had it BACKWARDS.**
+[validate-meta-types-noncollapse.ts:109-112](../../../../impl/tools/validate-meta-types-noncollapse.ts#L109-L112)
+`buildEdgeMaps` adds **`edgeId` alone**; `feature_scope` is never read. And `orchestrates` is **two
+rows with the same id** — `source_type: Workflow, feature_scope: [same-feature]` and `source_type:
+Saga, feature_scope: [cross-feature]`. Both types therefore receive `{orchestrates}` in `sourceE`,
+the sets compare equal, `wEdge` returns false, and — both being attestation-only — the pair collapses.
+
+> ⚠️ **The synthesis claimed the 28× story "silently keys on `feature_scope`." It does not. The
+> checker keys on verb-id ONLY — and that is precisely WHY Saga~Workflow collapses.** Taleb's
+> conditional ("key on verb-id alone and they collapse today") is not a hypothetical: it is the
+> shipped behaviour.
+>
+> **Consequence for `DEC-DSV2-SAGA-MERGE` (the sole blocker on D6 promotion):** the one live collapse
+> is **an artifact of the resolver discarding `feature_scope`**, not a demonstrated semantic
+> redundancy. The authority *already* distinguishes Saga from Workflow (`cross-feature` vs
+> `same-feature`); `wEdge` throws that field away before comparing. Corroborating tell: the session's
+> own merge plan was "apply Saga → Workflow **+ a `scope` flag**" — i.e. the merge *reintroduces the
+> very distinction it erases*, which is a rename, not an elimination.
+>
+> **Recommendation (owner call, not applied): do not treat the default `merge` as licensed by the
+> checker.** Either (a) make `wEdge` key on `(edgeId, feature_scope)` and re-run — if Saga~Workflow
+> then separates, the collapse was spurious and D6's third challenge fires zero times; or (b) rule
+> explicitly that `feature_scope` is *not* a distinguishing axis under D3, and merge on that stated
+> ground. What is not defensible is merging on the strength of a collapse the resolver manufactured.
+
+**3. `attribute-equals` opaque-token semantics — substance CONFIRMED, citation was WRONG.**
+`relationships.yml:17` is `"signature_count": 31`, not `attribute-equals`; the reviewer's locator was
+bad. The real evaluator is
+[validate-content.ts:203-219](../../../../impl/tools/validate-content.ts#L203-L219): it lowercases the
+declared cell and does a **string equality compare** — an opaque token test that never parses meaning.
+So **Gödel's construction A stands** (co-variation is shape-detectable without a moat read), on a
+different locator than he gave. The `ATTESTATION` set he meant sits at
+[meta-type-noncollapse.ts:17](../../../../impl/tools/lib/meta-type-noncollapse.ts#L17).
+
+Auditor's two copy-edit notes, still applicable: "D15 is an amendable misuse-warning" is a loose gloss
+(D15 is the declared-attributes *convention* that *contains* a misuse warning); "Saga & Workflow differ
+only by feature_scope" omits their `source_type` difference. Neither touches a load-bearing inference.
+
+**Net after verification:** OQ-A's and OQ-B's answers stand as written. The new fact is that the
+**single collapse gating D6 promotion is resolver-manufactured**, which promotes a fourth instrument —
+*fix or explicitly defend the `wEdge` resolution key* — to the top of the checker worklist.
