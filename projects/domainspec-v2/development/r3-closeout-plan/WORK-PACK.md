@@ -23,8 +23,8 @@ work into SWUs with owner boundaries and validation surfaces.
 | layeringArtifactRef | [IMPLEMENTATION-LAYERING.md](IMPLEMENTATION-LAYERING.md) | Layer governance and promotion decisions. |
 | dispatchTechniqueTrace | [r3-closeout.dispatch.json](r3-closeout.dispatch.json) | Full dispatch JSON required because this plan crosses capabilities and owner routes. |
 | distillValidationStatus | flag | Executable first unit exists; future candidates/category laws/attestation remain owned gaps. |
-| activeLayerWindow | L3 | L0/L1 execution and L2 future-routing packets are complete; ledger/observer closeout is next. |
-| lastUpdatedAt | 2026-07-12 | SWU-R3C-001..008 receipts synchronized. |
+| activeLayerWindow | L3 | SWU-R3C-010 produced a bounded L1 integrity receipt with FLAG; final recomposition verification is next. |
+| lastUpdatedAt | 2026-07-12 | SWU-R3C-001..010 receipts are synchronized; external L2 signature remains future authority work. |
 | readinessProfile | pilot | R3 closeout readiness, not public/release packaging. |
 
 ## Objective Summary
@@ -53,7 +53,7 @@ work into SWUs with owner boundaries and validation surfaces.
 | S-R3C-002 | Evidence breadth over a second pack/corpus | L1 | [W1](work-pack/waves/W1.md) | S-R3C-001 | **DONE 2026-07-12** — normalized AEO pack green; focused invalid edge rejected |
 | S-R3C-003 | Pattern-library cards triaged into v2 evidence | L1 | [W1](work-pack/waves/W1.md) | S-R3C-002 can run in parallel after source selection | `validate:docs`; manifest/evidence links resolve |
 | S-R3C-004 | Future candidates and category laws routed | L2 | [W2](work-pack/waves/W2.md) | S-R3C-001 | Review packets exist; owner gates named |
-| S-R3C-005 | R3 closeout ledger/observer/attestation handoff | L3 | [W3](work-pack/waves/W3.md) | S-R3C-001..004 | **FLAG** — Craft/observer sync complete in SWU-R3C-009; attestation handoff remains blocked in SWU-R3C-010 |
+| S-R3C-005 | R3 closeout ledger/observer/attestation handoff | L3 | [W3](work-pack/waves/W3.md) | S-R3C-001..004 | **DONE with FLAG 2026-07-12** — Craft/observer synchronized and L1 integrity receipt valid; external L2 signature remains blocked |
 
 ## Task Status Board
 
@@ -63,7 +63,7 @@ work into SWUs with owner boundaries and validation surfaces.
 | [TASK-R3C-CORPUS](work-pack/tasks/TASK-R3C-CORPUS.md) | Add/select a second corpus and prove edge checks beyond financial-settlement | L1 | medium | [W1](work-pack/waves/W1.md) | Craft `GAP-DSV2-EXERCISE` | pass | **completed 2026-07-12 — SWU-R3C-004** |
 | [TASK-R3C-CARDS](work-pack/tasks/TASK-R3C-CARDS.md) | Triage v1 pattern-library cards into v2 evidence | L1 | medium | [W1](work-pack/waves/W1.md) | APE `TASK-CARDS` | pass | **completed 2026-07-12 — SWU-R3C-005..006** |
 | [TASK-R3C-FUTURE](work-pack/tasks/TASK-R3C-FUTURE.md) | Route deferred relation candidates and category laws | L2 | medium | [W2](work-pack/waves/W2.md) | R3A residue | flag | **completed with FLAG 2026-07-12 — SWU-R3C-007..008; future research remains non-blocking** |
-| [TASK-R3C-AUTHORITY](work-pack/tasks/TASK-R3C-AUTHORITY.md) | Sync closeout ledger/observer and route attestation | L3 | medium | [W3](work-pack/waves/W3.md) | Craft + authority blocker | blocked-on-attestation-for-final-seal | **in progress with FLAG — SWU-R3C-009 complete; SWU-R3C-010 blocked** |
+| [TASK-R3C-AUTHORITY](work-pack/tasks/TASK-R3C-AUTHORITY.md) | Sync closeout ledger/observer and route attestation | L3 | medium | [W3](work-pack/waves/W3.md) | Craft + authority blocker | pass-for-L1 / blocked-for-L2 | **completed with FLAG 2026-07-12 — SWU-R3C-009..010** |
 | [TASK-R3C-VERIFY](work-pack/tasks/TASK-R3C-VERIFY.md) | Completion verification and recomposition check | L3 | low | [W3](work-pack/waves/W3.md) | all tasks | ready-after-implementation | not-started |
 
 ## SWU Manifest
@@ -79,7 +79,7 @@ work into SWUs with owner boundaries and validation surfaces.
 | SWU-R3C-007 | [TASK-R3C-FUTURE](work-pack/tasks/TASK-R3C-FUTURE.md) | R3A residue; `definitions/relationships/relationships.yml` deferred candidates | definitions-governance | SWU-R3C-001 | `definitions/reviews/` or `development/reformulate-batch1/governance/` review packet | `depends-on`, Operation-returned Value Object, and Event payload/publisher each get promote/defer/reject evidence criteria. | Review packet names witness needed and owner route; no authority mutation. | review check; `validate:docs` | manual | **completed with FLAG 2026-07-12** — [receipt](task-sessions/2026-07-12-swu-r3c-007/TASK-SESSION-RESULT.md) |
 | SWU-R3C-008 | [TASK-R3C-FUTURE](work-pack/tasks/TASK-R3C-FUTURE.md) | category-boundary research; DS-D8; D16/D17 | research/definitions-governance | SWU-R3C-001 | category-law plan/review packet | Category-law formalization scope is separated from R3A and gets candidate laws, examples, non-examples, and validation owner. | Packet says whether next route is research-tower, definitions-governance, or decision-gate. | review check; `validate:docs` | manual | **completed with FLAG 2026-07-12** — [receipt](task-sessions/2026-07-12-swu-r3c-008/TASK-SESSION-RESULT.md) |
 | SWU-R3C-009 | [TASK-R3C-AUTHORITY](work-pack/tasks/TASK-R3C-AUTHORITY.md) | `.craft/ledger.yml`; `CRAFT.md`; observability streams | Craft + observer | SWU-R3C-001..008 as applicable | Craft/observer closeout files only | Ledger and human view agree; observability records closeout; attestation blocker remains explicit if unavailable. | Craft YAML parses; JSONL parses; stale active wording scan passes. | `python3 -c` YAML parse; JSONL parse; `git diff --check` | local-fallback | **completed 2026-07-12** — [receipt](task-sessions/2026-07-12-swu-r3c-009/TASK-SESSION-RESULT.md) |
-| SWU-R3C-010 | [TASK-R3C-AUTHORITY](work-pack/tasks/TASK-R3C-AUTHORITY.md) | `BLK-DSV2-L2-ATTESTATION`; authority model | constitution-governance/human | SWU-R3C-009 | attestation handoff artifact | If attestation capability exists, produce seal request; otherwise leave blocker with exact closure condition. | Attestation receipt or explicit blocked handoff. | manual review | manual | blocked-until-capability |
+| SWU-R3C-010 | [TASK-R3C-AUTHORITY](work-pack/tasks/TASK-R3C-AUTHORITY.md) | [attestation assurance/payload decision](../../authority/decisions/2026-07-12-r3c-attestation-assurance-and-payload.md); L1 capability receipt; `BLK-DSV2-L2-ATTESTATION` | task-session / private attestation capability | SWU-R3C-009 + passed Decision Gate | dated `authority/attestations/` evidence; Craft/work-pack/authority receipt synchronization | Deterministically bind the mint proposal and owner ratification, recompute both source digests, produce an L1 seal, prove `valid` plus content-`tampered`, and preserve L2 residue. | Manifest, source-verification result, L1 artifact, positive/negative controls, and Task Session receipt. | deterministic rebuild; private `attest.py verify`; Craft YAML/docs/diff checks | local-fallback | **completed with FLAG 2026-07-12** — [receipt](task-sessions/2026-07-12-swu-r3c-010/TASK-SESSION-RESULT.md) |
 | SWU-R3C-011 | [TASK-R3C-VERIFY](work-pack/tasks/TASK-R3C-VERIFY.md) | all receipts | task-session closeout | all non-deferred SWUs | no source mutation except result artifact | Final closeout report distinguishes complete R3A, completed downstream work, and future non-blocking routes. | `validate`, `engine:test`, `typecheck`, `validate:docs`, YAML/JSONL parse pass. | command suite + review | local-fallback | ready-after-implementation |
 
 ## Blockers And Gaps
@@ -94,7 +94,7 @@ work into SWUs with owner boundaries and validation surfaces.
 | GAP-DSV2-APE-CARD-TRIAGE | TASK-R3C-CARDS | resolved gap | APE | completed 2026-07-12 | SWU-R3C-005..006 receipts plus backend/relationship staging matrices |
 | R3C-GAP-FUTURE-RELATIONS | TASK-R3C-FUTURE | routed evidence gap | definitions-governance | review criteria complete; 3 candidates remain deferred/not promotion-ready | [SWU-R3C-007 receipt](task-sessions/2026-07-12-swu-r3c-007/TASK-SESSION-RESULT.md) |
 | R3C-GAP-CATEGORY-LAWS | TASK-R3C-FUTURE | routed formalization gap | research-tower -> definitions-governance | route complete; not an R3 blocker and not promotion-ready | [SWU-R3C-008 receipt](task-sessions/2026-07-12-swu-r3c-008/TASK-SESSION-RESULT.md) |
-| BLK-DSV2-L2-ATTESTATION | TASK-R3C-AUTHORITY | blocker | human/capability | active after SWU-R3C-009; blocks final authority seal only | SWU-R3C-010 must produce an attestation receipt or exact blocked handoff |
+| BLK-DSV2-L2-ATTESTATION | TASK-R3C-AUTHORITY | refined blocker | human/capability | [L1 integrity receipt](../../authority/attestations/2026-07-12-governance-kinds-l1/RESULT.md) passes; external L2 actor signature remains unavailable and blocks only the full L2 seal | Later L2 work must decide identity/key custody/signing and publish a third-party verifier |
 
 ## Dispatch Technique Trace
 
@@ -115,15 +115,15 @@ Full route document: [r3-closeout.dispatch.json](r3-closeout.dispatch.json).
 
 | Check | Result | Evidence Or Gap |
 | --- | --- | --- |
-| Smallest coherent unit or SWU boundary | pass | L0/L1 execution and both L2 owner-routing packets are closed; SWU-R3C-009 is the next bounded closeout unit. |
+| Smallest coherent unit or SWU boundary | pass | SWU-R3C-010 is closed with FLAG; SWU-R3C-011 is the final read/validation/recomposition unit. |
 | Recomposition proof | pass | L0-L3 map directly to Craft active gaps and APE capabilities. |
-| Hidden acceptance-critical gaps | flag | Attestation capability and category-law scope cannot be completed by this execution plan alone. |
+| Hidden acceptance-critical gaps | flag | Full L2 actor authentication and category-law formalization remain outside this execution unit. |
 | Deferred complexity | pass | Future candidates, category laws, and attestation are explicit owner routes. |
-| Navigation to first executable unit | pass | Next route is `SWU-R3C-009` for Craft/observer synchronization; attestation remains a separate human/capability gate. |
+| Navigation to first executable unit | pass | Next route is `SWU-R3C-011` final verification; it must preserve the L1/L2 distinction. |
 
-**Verdict: flag.** L0 enforcement, L1 evidence/card work, and L2 owner-routed candidate/category-law
-packets are complete. Full R3 closeout remains flagged until Craft/observer synchronization records
-the non-blocking future routes and the final attestation gate is handed off without false closure.
+**Verdict: flag.** L0/L1 graph execution, L2 routing, Craft/observer synchronization, and the bounded
+L1 integrity receipt are complete. Full R3 authority remains flagged because L1 does not authenticate
+an external actor and cannot close `BLK-DSV2-L2-ATTESTATION`; SWU-R3C-011 can now verify recomposition.
 
 ## Required Links
 
@@ -141,7 +141,7 @@ the non-blocking future routes and the final attestation gate is handed off with
 2. SWU-R3C-005 is complete with accepted governed findings, a 14-row staging matrix, and manifest provenance.
 3. SWU-R3C-006 is complete; generated/deprecated/deferred rows remain non-canonical/non-active and the Craft card-triage gap is closed.
 4. Deferred relation candidates and category laws cannot promote authority during this plan.
-5. Attestation remains blocked unless a real attestation capability/receipt exists.
+5. L1 execution requires a real manifest/seal receipt with both verification arms; full L2 remains blocked without an external actor-signature capability and receipt.
 
 ## Change Log
 
@@ -160,3 +160,5 @@ the non-blocking future routes and the final attestation gate is handed off with
 | 2026-07-12 | SWU-R3C-007 completed with FLAG: three deferred relationship candidates now have falsifiable promote/defer/reject contracts, witness requirements, changed-obligation tests, and definitions-governance owner routes; no authority changed and all remain deferred. | task-session / definitions-governance |
 | 2026-07-12 | SWU-R3C-008 completed with FLAG: category-law scope remains outside R3A; six foundational candidates plus projection/obligation preservation now have examples, falsifiers, validation gaps, and a source-first `research-tower` route. | task-session / definitions-governance |
 | 2026-07-12 | SWU-R3C-009 completed: Craft machine/human views and Task Session observations now agree through SWU-R3C-008; stale active wording is removed while `BLK-DSV2-L2-ATTESTATION` remains explicit for SWU-R3C-010. | task-session / Craft / signal-observer |
+| 2026-07-12 | Apply-approved attestation refresh selected SWU-R3C-010: use the built L1 integrity capability over a deterministic proposal→ratification manifest; retain the external L2 signature blocker. | invoke refresh / decision-gate / task-session |
+| 2026-07-12 | SWU-R3C-010 completed with FLAG: both source digests and three-kind membership pass, deterministic L1 regeneration passes, exact manifest verifies valid, content-mutated relation verifies tampered, and external L2 signature remains blocked. | task-session / sigil-development |

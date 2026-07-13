@@ -5,13 +5,13 @@
   never publish to arcanum/. INHERITS cav2 meta-machinery (table FORMAT, source-movement shape,
   non-collapse rule structure, gate vocab); LOCALIZES the object content (the three governances).
   Obs-B baked in: cav2 NEVER on a resolution path — harvested precedent / citation only.
-  Domain-originated kinds are PROPOSED; the domainspec-v2 owner RATIFIES (D49 owner-gate). L2
-  cryptographic signing is BLOCKED on the attestation capability.
+  Domain-originated kinds are PROPOSED; the domainspec-v2 owner RATIFIES (D49 owner-gate). An L1
+  integrity receipt exists; external L2 actor-identity signing remains BLOCKED.
 -->
 
 # Authority Model
 
-Status: active local authority model (L1 mint seed; domain-originated kinds PROPOSED)
+Status: active local authority model (three kinds RATIFIED; L1 integrity receipt present; external L2 signature pending)
 Owner: DomainSpec v2 owner
 
 ## Purpose
@@ -54,9 +54,9 @@ never by running the implementation.
 | Kind | Counts as | Owner route | Blocked use |
 | --- | --- | --- | --- |
 | Primary source | What the spec/domain says about itself: the DFDS feature pack + normative research `DEFINITIONS.md`. | The feature pack + research-definitions route (AUTHORITY-MAP rules 1,4). | Treating a reviewer's reading (local synthesis) as the spec's own declaration. |
-| **Validation governance** ⟵ *domain-originated (RATIFIED — owner 2026-06-29; L2 seal pending)* | Authority over **build-time fidelity**: which obligations a typed spec must derive into and what counts as pass/fail. A function mapping a typed spec → its required, deterministically-derived obligations — *neither a definition nor a (cav2) gate*. | **`validation-governance`** *(owns the derive/lint/audit validation surface; NOT `constitution-governance`, NOT cav2's `gate`/SMT meta-validation)*. | **Default-deny:** may NOT declare runtime conformance, waive an obligation it binds, or treat a passing derived test as correctness (passing is necessary, not sufficient). |
-| **Layering governance** ⟵ *domain-originated (RATIFIED — owner 2026-06-29; L2 seal pending)* | Authority over **structural fidelity**: each concept's architectural layer + the layer-law / Edge-Law **admissibility** of dependencies (a forbidden edge is *unconstructible*, not merely flagged). | **`layering-governance`** *(owns the layer-law + Edge-Law admissibility; a new governance function cav2 has no row for)*. | **Default-deny:** may NOT approve a cross-layer edge the law forbids, cross the adapter line, or treat a layer *assignment* as a dependency-law *verdict*. |
-| **Drift governance** ⟵ *domain-originated (RATIFIED — owner 2026-06-29; L2 seal pending)* | Authority over **temporal fidelity / convergence**: across the 5 drift surfaces (semantic / contract / runtime / governance / coordination), whether divergence is being reduced **with evidence**. | **`drift-governance`** *(owns the drift/convergence ledger; new route; Saturn is its actuator, not its definition)*. | **Default-deny:** may NOT write a node's promotion-status (write-authority proviso), declare convergence from a single signal, or be conflated with Saturn (the control loop). |
+| **Validation governance** ⟵ *domain-originated (RATIFIED — owner 2026-06-29; L1 integrity receipt; external L2 pending)* | Authority over **build-time fidelity**: which obligations a typed spec must derive into and what counts as pass/fail. A function mapping a typed spec → its required, deterministically-derived obligations — *neither a definition nor a (cav2) gate*. | **`validation-governance`** *(owns the derive/lint/audit validation surface; NOT `constitution-governance`, NOT cav2's `gate`/SMT meta-validation)*. | **Default-deny:** may NOT declare runtime conformance, waive an obligation it binds, or treat a passing derived test as correctness (passing is necessary, not sufficient). |
+| **Layering governance** ⟵ *domain-originated (RATIFIED — owner 2026-06-29; L1 integrity receipt; external L2 pending)* | Authority over **structural fidelity**: each concept's architectural layer + the layer-law / Edge-Law **admissibility** of dependencies (a forbidden edge is *unconstructible*, not merely flagged). | **`layering-governance`** *(owns the layer-law + Edge-Law admissibility; a new governance function cav2 has no row for)*. | **Default-deny:** may NOT approve a cross-layer edge the law forbids, cross the adapter line, or treat a layer *assignment* as a dependency-law *verdict*. |
+| **Drift governance** ⟵ *domain-originated (RATIFIED — owner 2026-06-29; L1 integrity receipt; external L2 pending)* | Authority over **temporal fidelity / convergence**: across the 5 drift surfaces (semantic / contract / runtime / governance / coordination), whether divergence is being reduced **with evidence**. | **`drift-governance`** *(owns the drift/convergence ledger; new route; Saturn is its actuator, not its definition)*. | **Default-deny:** may NOT write a node's promotion-status (write-authority proviso), declare convergence from a single signal, or be conflated with Saturn (the control loop). |
 | Related evidence | Other spec/methodology corpora; **v1 `implementation/domainspec/` and cav2 as harvested precedent**. | Relevant evidence route. | Treating analogy / harvested precedent as proof or as authority. |
 | Local synthesis | A repo-authored reading or hypothesis. | DomainSpec v2 tower / lane owner review. | Becoming policy by proximity; standing in for a governance ruling. |
 | Candidate obligation | A proposed obligation, layer-rule, or convergence-criterion that should hold. | Closure plan + validation (witness on a real feature) route. | Becoming a bound rule before witness and owner ratification. |
@@ -73,8 +73,11 @@ never by running the implementation.
 - **Drift governance** → `DRIFT-CONVERGENCE.md` (the 5 surfaces + convergence criteria), `tag-code` + `compare-code-tag-drift.ts`, `sync-registry`, `OBSERVABILITY.md` (runtime drift), `GOVERNANCE-SIGNALS`, `TUNING-LOOP.md`; **Saturn** is the actuator that acts on the signals (not the authority over them).
 
 > **D49 owner-gate.** The three bold rows were **proposed** by the mint and are now **RATIFIED** by the
-> domainspec-v2 owner (2026-06-29; see `decisions/2026-06-29-ratify-governance-kinds.md`) — the L2
-> cryptographic attestation seal remains pending. They are this repo's OWN domain-local kinds table —
+> domainspec-v2 owner (2026-06-29; see `decisions/2026-06-29-ratify-governance-kinds.md`). A
+> [2026-07-12 L1 integrity receipt](attestations/2026-07-12-governance-kinds-l1/RESULT.md) binds the
+> mint proposal to that owner-ratification record and passes exact/content-tampered verification.
+> It does not authenticate an external actor; the L2 cryptographic signature remains pending. They
+> are this repo's OWN domain-local kinds table —
 > **not** a change to cav2's closed D49 enumeration. Seeded from cav2's table FORMAT, owner-authored thereafter.
 
 ## Governance Chain (recursive — CAV2-D30 bounded recursive self-application)

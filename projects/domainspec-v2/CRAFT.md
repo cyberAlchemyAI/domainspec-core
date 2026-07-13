@@ -7,24 +7,24 @@
 ## Quick links
 - **Next move (root):** R0, R1, and CT-1 are landed and green; migrate UI-11 before verify-closing R2, reconcile-close R7, then continue R4/R5/R6a/R6b **or** stand up the agent-cost experiment for Lane Z vs A.
 - **Open decisions:** `DEC-DSV2-LANE-ZA` (Lane Z vs A — deferred). *(`DEC-DSV2-APE-L0-DOMAIN` closed 2026-07-02 → reuse financial-settlement.)*
-- **Active blockers:** `BLK-DSV2-DRIFT-ENGINE` (drift not implemented), `BLK-DSV2-L2-ATTESTATION` (attestation capability, human).
+- **Active blockers:** `BLK-DSV2-DRIFT-ENGINE` (drift not implemented), `BLK-DSV2-L2-ATTESTATION` (external actor identity/signature, human; [L1 integrity receipt](authority/attestations/2026-07-12-governance-kinds-l1/RESULT.md) passes).
 - **Active gaps:** `GAP-SH-UI11-MIGRATE` (R2 UI types must move before TAXONOMY deletion), `GAP-SH-PROSE-HOMES` (now DRIFT/R5 owner-home only). *(`GAP-DSV2-COMPOSABILITY-ENFORCE`, `GAP-DSV2-EXERCISE`, and `GAP-DSV2-APE-CARD-TRIAGE` resolved by R3C; AXIOMS half of `GAP-SH-PROSE-HOMES` resolved by R1.)*
 
 ## Contexts
 | Context | Stage / gate | State | Next move |
 | --- | --- | --- | --- |
 | **CTX-DSV2-ROOT** — implementation home | build / flag | spine + green + research done; R0/R1/R3A/CT-1 landed | UI-11 migration → R2/R7, then R4/R5/R6a/R6b, or agent-cost experiment |
-| **CTX-DSV2-AUTHORITY** — minted spine | minted / flag | 3 kinds RATIFIED; recursion applied | L2 attestation seal (blocked) |
+| **CTX-DSV2-AUTHORITY** — minted spine | minted / flag | 3 kinds RATIFIED; SWU-R3C-010 L1 integrity PASS | SWU-R3C-011 final verification; external L2 signature remains blocked |
 | **CTX-DSV2-MAKE-IT-GREEN** — impl/ green | validated / flag | G1/G2/G3 done (L0-L2 green) | G4 CI-wiring (deferred) |
 | **CTX-DSV2-REFORMULATE-BATCH1** — 6 spec docs | plan / flag | R0/R1/R3A executed; R2/R7/R4/R5/R6a/R6b remain | R2 verify-close, R7 reconcile-close, then R4/R5/R6a/R6b |
 | ↳ **CTX-DSV2-META-TYPE-FORMALIZATION** (child) | build / flag | **MT0–MT4 + MT-INST DONE** (13 backend shape/fixture-backed candidates, 30 signatures, edge-aware validator, aggregate wiring); scoped-Workflow collapse migration complete; UI formation-deferred | Parallel UI candidate-evidence package · tools/lib extraction residue |
-| **CTX-DSV2-SPEC-ONTOLOGY** — spec-as-ontology | research-complete / flag | toy T1-T4 → **SURVIVED-narrow**; R3C SWU-001..008 complete | Lane Z-vs-A deferred; 3 relation candidates deferred; category laws → research-tower |
+| **CTX-DSV2-SPEC-ONTOLOGY** — spec-as-ontology | research-complete / flag | toy T1-T4 → **SURVIVED-narrow**; R3C SWU-001..010 complete | Lane Z-vs-A deferred; 3 relation candidates deferred; category laws → research-tower |
 | **CTX-DSV2-APE** — architecture-pattern enforcement | build / flag | **L0 POC + bounded dynamic/second-corpus evidence + TASK-CARDS triage DONE** | L1 cleanup · later owner-gated Evidence links |
 | **CTX-DSV2-CODE-TAG-CONFORMANCE** — code-tag conformance | build / flag | CT-1 done; code-tag taxonomy reads root schemas | CT-3, then CT-2/CT-4 |
 
 ## Pending by node
 - **CTX-DSV2-ROOT** — next: UI-11 migration before R2 verify-close, R7 reconcile-close, remaining reformulation docs, or agent-cost experiment. Recompositions partial (green, toy, R0/R1/R3A/CT-1).
-- **CTX-DSV2-AUTHORITY** — blocker `BLK-DSV2-L2-ATTESTATION` (needs attestation capability, human).
+- **CTX-DSV2-AUTHORITY** — `SWU-R3C-010` L1 integrity receipt passes: source digests match, exact manifest verifies `valid`, and content mutation verifies `tampered`. Next R3 route: `SWU-R3C-011`. Blocker `BLK-DSV2-L2-ATTESTATION` remains for external actor identity, key custody/signing, and a third-party verifier.
 - **CTX-DSV2-MAKE-IT-GREEN** — G4 (wire `validate` + fail-closed hook into CI/pre-commit) deferred.
 - **CTX-DSV2-REFORMULATE-BATCH1** — R0, R1, R3A, and CT-1 complete. R2's code-tag `TAXONOMY.md` landmine is closed, but R2 remains gated on `GAP-SH-UI11-MIGRATE`; R7 needs reconcile-close; R4/R5/R6a/R6b remain. `GAP-SH-PROSE-HOMES` is now DRIFT/R5 only, and blocker `BLK-DSV2-DRIFT-ENGINE` still applies to drift realization.
   - ↳ **CTX-DSV2-META-TYPE-FORMALIZATION** (child) — **MT0–MT4 + MT-INST done**: 13 backend shape/fixture-backed candidates, 30 root relationship signatures, edge-aware `validate-content`, aggregate validation wiring, and machine-instance generate/validate. The SGRM scoped-Workflow collapse migration is complete. Remaining: UI formation-deferred while the parallel candidate-evidence package runs; tools/lib extraction residue. DS-D8 endpoint use remains pressure only.

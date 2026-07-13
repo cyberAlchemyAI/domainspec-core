@@ -1,10 +1,12 @@
 # Attestation / Signer — sigil (README)
 
-**Status:** in-development · **INTERNAL** (moat-adjacent — verification *results* are demonstrable,
-the attestation/signing/verifier *mechanism* stays private) · **intended-not-shipped** ·
+**Status:** in-development · **L1 built + demonstrated** · **L2 intended-not-shipped** · **INTERNAL**
+(moat-adjacent — verification *results* are demonstrable, the attestation/signing/verifier
+*mechanism* stays private) ·
 **promotes nothing** · tier: **Arcana** (private cav2 capability — not a public Arcanum sigil; lives
-in `cyberAlchemy-v2/development/attestation-capability/` until the L1 MVP is built + demonstrated and
-the L2 blocks resolve, then an owner route decides promotion). Same boundary logic as the
+in `cyberAlchemy-v2/development/attestation-capability/`; the L1 MVP passed its
+[Task Session](./development/TASK-SESSION-L1.md), while L2 and promotion readiness remain unresolved).
+Same boundary logic as the
 [Mint sigil](../mint/README.md).
 
 ## Problem solved
@@ -46,21 +48,22 @@ attestation travels with the act and keeps L0's git attribution as its base laye
 | **L1 — integrity seal (MVP)** | a **content-hash over the attested tuple** → tamper-evidence; `verify` becomes a real **recompute + compare** check (not a convention). | **Build-from-owned** (hash primitive owned; the canonicalize+seal+verify wiring is new). |
 | **L2 — external signature (the moat)** | a signature binding **actor identity** to the sealed tuple + a published, third-party-runnable verification procedure (the auditor-accepted wall). | **Genuinely net-new** — name it honestly. |
 
-- **MVP rung = L1.** Buildable now, owned-primitive-based, and the first rung that makes `verify` a
+- **MVP rung = L1.** Built and demonstrated, owned-primitive-based, and the first rung that makes `verify` a
   *runnable check* rather than a *convention*. It is sufficient to unblock Mint L2 with a tamper-evident
   record.
 - **Moat rung = L2.** The bet the strategy rests on; sequenced *after* the MVP; the genuinely net-new
   commitment. **intended-not-shipped.**
 
-claim ≤ proof: only **L0 is owned-and-done**; **L1 is the buildable MVP**; **L2 is intended-not-shipped**.
-Nothing here asserts the moat is built.
+claim ≤ proof: **L0 is owned-and-done**; **L1 is built and demonstrated** by a discriminating
+`valid`/`tampered` specimen; **L2 is intended-not-shipped**. Nothing here asserts external actor
+authentication or that the full moat is built.
 
 ## How it gates Mint L2
 Mint's L2 "signed decision-gate" stage calls `attest(mint-act)` (actor = mint + ratifying owner;
-artifact-state = the minted authority spine it cast). **Until this capability's L1 MVP exists, Mint L2
-stays BLOCKED** ([`../mint/SKILL.md`](../mint/SKILL.md) stage 3; Mint's own L0+L1 remain buildable). This
-capability is Mint L2's new upstream dependency, by Decision 1. When L1 lands, update Mint's L2 block
-reason from "gated on the attestation/signer capability" to "attestation capability available (L1)".
+artifact-state = the minted authority spine it cast). The L1 upstream dependency is now **available
+and demonstrated** ([`development/TASK-SESSION-L1.md`](./development/TASK-SESSION-L1.md)); consumers may
+produce tamper-evident records. The separate L2 external actor-signature guarantee remains blocked and
+must not be inferred from an L1 seal.
 
 ## The moat boundary — cite results, withhold mechanism
 Per [2026-06-24 engine-moat decision](../../authority/decisions/2026-06-24-engine-moat-and-free-paid-boundary.md):
@@ -76,4 +79,6 @@ demonstration over assertion.
 Design package (this folder): [SPEC](./SPEC.md) (define) · [ARCHITECTURE](./ARCHITECTURE.md) (design)
 · [HANDOFF](./HANDOFF.md). Authored by `invoke`, consumed by `sigil-development`. The contract is
 [SKILL.md](./SKILL.md); the experiment harness is [development/HARNESS.md](./development/HARNESS.md).
-Lifecycle owner: `sigil-development`. Next: `task-session` for the L1 integrity-seal MVP SWUs.
+Lifecycle owner: `sigil-development`. Next: consume L1 through bounded Task Sessions, broaden
+non-vacuous fixtures when needed, and retain L2 actor-identity/signature design as deferred lifecycle
+work. The current result specimen is [DEMO.md](./development/specimen/DEMO.md).

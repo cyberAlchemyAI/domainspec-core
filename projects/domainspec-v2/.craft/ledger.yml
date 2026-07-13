@@ -43,6 +43,12 @@ indexes:
         Next: GAP-SH-UI11-MIGRATE -> verify-close R2 (TAXONOMY deletion/generation), reconcile-close R7, then
         R4/R5/R6a/R6b. GAP-SH-PROSE-HOMES remains open for DRIFT/R5 only. Or the agent-cost experiment for
         Lane Z vs A.
+    - context_id: CTX-DSV2-AUTHORITY
+      next_move: >-
+        SWU-R3C-010 L1 integrity receipt PASS: live proposal/ratification digests match, deterministic
+        regeneration passes, exact manifest verifies valid, and content mutation verifies tampered. Next
+        R3 route is SWU-R3C-011 final verification. Preserve BLK-DSV2-L2-ATTESTATION for the unbuilt external
+        actor-identity signature, key model, and third-party verification procedure.
     - context_id: CTX-DSV2-REFORMULATE-BATCH1
       next_move: >-
         R0 DONE + DEC-B1-SATURN-AXIOM-SCOPE RESOLVED 2026-07-06 (scope-down-to-Saturn; per-rule cut recorded).
@@ -53,7 +59,7 @@ indexes:
         pre-decided by the axiom scope).
     - context_id: CTX-DSV2-SPEC-ONTOLOGY
       next_move: >-
-        Lane Z vs A stays deferred to an agent-cost experiment. R3C SWU-001..008 are complete: bounded dynamic
+        Lane Z vs A stays deferred to an agent-cost experiment. R3C SWU-001..010 are complete: bounded dynamic
         root-DS-D8 consumption, the normalized AEO second corpus, card triage, and future relation/category
         routing are recorded. Three relationship candidates remain deferred; category-law formalization routes
         to research-tower. Retain CampusRead as optional targeted Entity-to-Entity breadth.
@@ -107,7 +113,10 @@ contexts:
       per-governance split plan.
     stage: minted
     gate: flag
-    next_move: L2 cryptographic attestation seal for the 3 ratified kinds (blocked on attestation capability).
+    next_move: >-
+      SWU-R3C-010 L1 integrity receipt passes and is linked under authority/attestations/. Next R3 route is
+      SWU-R3C-011 final verification. Full L2 remains blocked on external actor identity, key custody/signing,
+      and a third-party verifier.
     owned_artifacts: [ART-DSV2-AUTHORITY, ART-DSV2-RECURSION-RESEARCH]
 
   - context_id: CTX-DSV2-MAKE-IT-GREEN
@@ -661,13 +670,19 @@ blockers:
 
   - blocker_id: BLK-DSV2-L2-ATTESTATION
     context_id: CTX-DSV2-AUTHORITY
-    summary: L2 cryptographic attestation seal for the 3 ratified governance kinds is unavailable.
+    summary: >-
+      L1 integrity sealing passed for SWU-R3C-010; the external L2 actor-identity
+      signature for the 3 ratified governance kinds remains unavailable.
     blocker_type: capability
     lane: governance
-    refinement_status: raw
-    closure_condition: An attestation capability exists to sign the L2 gate over the ratified kinds.
+    refinement_status: refined
+    closure_condition: >-
+      An external actor-identity and key-custody model is decided, the sealed tuple is signed, and a
+      third-party-runnable verifier proves valid, bad-signature, and unknown-actor outcomes.
     requires_human: true
-    evidence: [ART-DSV2-AUTHORITY]
+    evidence:
+      - ART-DSV2-AUTHORITY
+      - "[repo-root]/projects/domainspec-v2/authority/attestations/2026-07-12-governance-kinds-l1/RESULT.md"
 
 gaps:
   - gap_id: GAP-DSV2-EDGE-CATALOG
