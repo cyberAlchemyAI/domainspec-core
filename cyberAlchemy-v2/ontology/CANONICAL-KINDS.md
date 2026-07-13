@@ -58,20 +58,32 @@ candidate assignments awaiting owner ratification.
 | **invariant** | definitions-governance | unresolved — OQ-2 *(same fork as `axiom`; term = [`CAV2-D54`](../authority/definitions/DEFINITIONS.md#cav2-d54-invariant))* | perennial | resolve-required | deferred (OQ-2) |
 | **review** | review dispatch (`domainspec-subagents-strategy` → `review`) | Evidence | ephemeral | tolerated | no |
 | **handoff** | `invoke handoff` | Evidence | ephemeral | tolerated | no |
+| **implementation-plan** | `invoke plan` | unresolved *(prescribes execution; not Spec, not Decision — OQ-8)* | ephemeral | tolerated | deferred (OQ-8) |
+| **audit** | audit run | Evidence | ephemeral | tolerated | no |
+| **conceptual** | *no single producer — context authored in-place (OQ-8)* | Evidence | perennial | resolve-required | no |
+| **backlog** | backlog maintenance | Evidence | perennial | tolerated *(a list of open items is not a contradiction)* | no |
+| **readme** | *no single producer — authored beside what it describes (OQ-8)* | Projection | ephemeral (regenerable) | tolerated | no |
 
 Rows in **bold** are added 2026-07-09 and are `candidate`. The first four close a
 real hole: `Discipline`, `Runtime contract`, `Projection`, and `Residue` are
 enumerated `CAV2-D49` authority kinds that **no canonical kind rolled up to**, so
 nothing in the repository could be one of them.
 
-**A canonical kind names a schema, not a role.** The question a kind answers is
-*"which document schema is this registered on?"* — not *"what epistemic role does it
-play?"* The two are orthogonal (`CAV2-D22`) and the corpus proves it: all 37 files in
-`sessions/` share one canonical kind (`session`, with its own seven-field frontmatter
-— `conversation_id`, `decisions_made`, `contradictions_found`, `specs_updated`,
-`promoted_candidates`, `expected_importance`, `importance_rationale`) while their
-`node_type` role label ranges over `discovery`, `conceptual`, `audit`, `constitution`,
-`test`, and `implementation-plan`. Collapsing the two would destroy one axis.
+**`canonical_kind` is the one label; `node_type` is its old name.** Ratified
+[2026-07-13](../authority/decisions/2026-07-13-canonical-kind-one-label.md). An artifact
+carries **one** type, not a schema-type plus a role-label. A session record's
+`canonical_kind` is `session` — not the role it played; a session that did audit work is
+a `session`, and what it *did* is expressed as **edges leaving it**.
+
+An earlier version of this file claimed the opposite — that a canonical kind names a
+schema and `node_type` names an orthogonal role. That claim was written by an agent on
+2026-07-09 without an owner gate, and the decision above **overturns it**.
+
+**The corpus does not conform to this enumeration, and is not required to.** No file
+carries a `canonical_kind:` field; all 37 session records still declare a role-value
+(`discovery` ×17, `conceptual` ×8, `audit` ×7, `constitution` ×3, `test`, `implementation-plan`).
+The decision is **forward-looking and migrates nothing**. Do not read this table as a
+description of the repository.
 
 ## Rules
 
@@ -98,7 +110,29 @@ play?"* The two are orthogonal (`CAV2-D22`) and the corpus proves it: all 37 fil
 
 ## Edges
 
-Status: candidate (added 2026-07-09).
+Status: **candidate — and in unresolved collision with a consolidated catalog. Do not
+build on this section until that is settled.**
+
+> ⚠️ **This section forks an existing owner.**
+> [`implementation/domainspec/vault/ontology-conventions.md`](../../implementation/domainspec/vault/ontology-conventions.md)
+> (`node_type: constitution`, `status: consolidated`, **v2.3.0**) already owns a 22-edge
+> catalog with typed endpoints, inverses, and a deprecation table. A 2026-07-09 review
+> ([findings.md](../authority/definitions/reviews/2026-07-09-post-correction-audit/findings.md))
+> established that the section below:
+> - **revives six edges that catalog explicitly deprecated** — `contextualizes` (→`cites`),
+>   `depends-on` (→`derives-from`), `questions` (→`opens-question`), `updates` (→"use
+>   `version:` frontmatter"), `exemplifies` (deferred), `resolves` (→`closes-question`) —
+>   and promotes `updates` to a succession *morphism*;
+> - **omits `creates`/`created-by`** (session → any, *"A produced B as output"*), which is
+>   the producer edge the spine has been trying to invent as `process_origin`;
+> - **mis-cites `consumed-by`**: the catalog owns it as a *session* provenance edge that
+>   explicitly carries **no** lineage; this section files it under *grounding*, sourced
+>   from a definition card. Same name, opposite category.
+>
+> The claim below that these verbs are *"already in use, not invented here"* is therefore
+> **false as written** — several are in use only as tombstones. This section must
+> supersede, import, or scope itself out of that catalog. It may not silently fork it.
+> **Open. Route: decision-gate.**
 
 The kinds above are the **types** of the repository's document schema. Edges are the
 declared relations between typed documents. A schema is types + edges + hom-sets; the
@@ -109,8 +143,8 @@ how it reads:
 
 | Class | Edges | Status in the schema |
 | --- | --- | --- |
-| **grounding** | `derives-from`, `implements`, `validates`, `depends-on`, `rollup`, `consumed-by` | **morphisms.** Directed, typed, must be acyclic. |
-| **succession** | `supersedes`, `updates`, `deprecates` | **morphisms.** Endomorphisms (`T -> T`, same kind both ends); a strict order, acyclic. |
+| **grounding** | `derives-from`, `implements`, `validates`, `depends-on`, `rollup`, `consumed-by` | **morphisms** (proposed). Directed and typed. **The type graph MAY cycle** — a discovery may derive from a research *or vice versa* (owner, 2026-07-13). Acyclicity is an **instance** constraint (no document derives from itself), never a type-level one. |
+| **succession** | `supersedes`, `updates`, `deprecates` | **morphisms** (proposed). Endomorphisms (`T -> T`, same kind both ends) — note a `T -> T` arrow **is** a type-level self-loop, which is admissible; the strict order holds over **instances**. |
 | **conflict** | `contradicts`, `alternative-to` | **not morphisms** — symmetric, so they induce cycles and make hom-sets infinite. Annotations on a pair. |
 | **navigational** | `questions`, `refines`, `exemplifies`, `contextualizes`, `flags` | **not morphisms** (candidate) — carry no authority; annotations. |
 
@@ -221,13 +255,21 @@ test for canonicity. If a kind can be canonical with no producer at all, the pro
 column is a property of kinds, not a condition of the type. Related to `CA-OQ-1` /
 `CA-OQ-2` on `CAV2-D51`. Status: OPEN.
 
-### OQ-7. `session` — schema-type vs role-label. RESOLVED (recorded, not re-litigated).
+### OQ-7. `session` — one label or two? SETTLED BY DECISION (not by this file).
 
-Context: an objection was raised (imported from the ZefraHub vault's reasoning) that
-`session` should not be a type, since a session's *role* varies and the fact of being a
-conversation is captured by an `is_session` boolean. The objection **fails here**: a
-canonical kind names the schema a document is registered on, not its role. The corpus
-settles it — all 37 files in `sessions/` share the `session` schema (seven fields no other
-document carries) while their `node_type` role label ranges over six values. The two labels
-are orthogonal and both are needed. Kept as a record so the objection is not re-raised.
-Status: CLOSED.
+**This question was previously marked RESOLVED/CLOSED by the same agent that wrote it,
+within one session, with no owner gate, on the reasoning that `canonical_kind` (schema)
+and `node_type` (role) are orthogonal. That reasoning was false and the self-closure was
+improper.** Both are struck.
+
+The owner settled it on 2026-07-13
+([decision](../authority/decisions/2026-07-13-canonical-kind-one-label.md)): **one label**,
+named `canonical_kind`. A session record's `canonical_kind` is `session`; what the session
+*did* becomes edges, not a second type label. `is_session` is therefore redundant as a type
+axis.
+
+Note the source of the original objection — that a session's role varies, so `session`
+should not be a type — is `implementation/domainspec/vault/ontology-conventions.md`, a
+**consolidated** constitution. This file never cited it. The decision supersedes it as to
+the label's name and cardinality only; that catalog's **edges** remain authoritative.
+Status: CLOSED by owner decision.

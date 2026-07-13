@@ -2980,3 +2980,21 @@ dispatches:
     invoked_by: "rondelli.vladimir@gmail.com"
     exit_reason: "resolved"
     agents_spawned: {"total":7,"tree":{"explorer":2,"synthesizer":1,"skeptic":2,"writer":1,"auditor":1,"helpers":0},"loops_used":1}
+  - dispatch_id: "2026-07-09-post-correction-audit"
+    schema_version: "0.6.0"
+    created: "2026-07-12T18:29:40.640Z"
+    invoked_by: "victorboscaro@gmail.com"
+    dispatch_type: "review"
+    goal: "Find every artifact in cyberAlchemy-v2 whose text is now false, overclaimed, or dangling after three owner corrections and a same-day promote/retract cycle. Read-only: the deliverable is change requests, not changes."
+    context: "In one session the strategist promoted definition CAV2-D56 `process` then RETRACTED it same-day as mis-carved; added 8 rows plus an Edges section and a Hom-Sets section to cyberAlchemy-v2/ontology/CANONICAL-KINDS.md; and was corrected by the repo owner three times: (1) `node_type` and `canonical_kind` are THE SAME THING (the strategist had written a paragraph and open question OQ-7 asserting they are orthogonal, schema-label vs role-label); (2) `derives-from` is an edge between two DOCUMENTS naming the INPUT artifacts a process consumed, and is NOT `process_origin`, which names the PRODUCER that generated the artifact (the strategist collapsed them); (3) the type-level edge graph MAY have cycles (a discovery can derive from a research or vice versa), which the strategist's acyclicity claim did not account for. The canonical kind `residue` has no producing process; the owner explicitly PARKED that for a future session — report what it invalidates, do not resolve it. Attackers modify nothing."
+    max_loops: 1
+    final_approver: "Bourbaki, Nicolas"
+    anti_bias_global: "methodology:adversarial"
+    working_folder: "cyberAlchemy-v2/authority/definitions/reviews/2026-07-09-post-correction-audit/"
+    groups: [{"group_id":"attackers","n":3,"robot_talks":true,"anti_bias":"composite(methodology, source-corpus)","agents":[{"agent_name":"Peirce, Charles Sanders","role":"explorer","model":"claude-opus-4-8","token_budget":2500,"angle":"formal methodology over the mutated-files corpus: find text that LITERALLY CONTRADICTS an owner correction, quoting the false sentence","initial_prompt":"PLACEHOLDER - see launch prompt"},{"agent_name":"Whitehead, Alfred North","role":"explorer","model":"claude-opus-4-8","token_budget":2500,"angle":"adversarial methodology over the claim-vs-evidence corpus: hunt OVERCLAIM not error, prioritizing text NO owner correction touched","initial_prompt":"PLACEHOLDER - see launch prompt"},{"agent_name":"Abramsky, Samson","role":"explorer","model":"claude-opus-4-8","token_budget":2500,"angle":"computational methodology over the cross-reference corpus: audit the three-way split (derives-from=inputs / process_origin=producer / canonical_kind=type) and whether the 8 new rows create live contradictions in files NOT touched today","initial_prompt":"PLACEHOLDER - see launch prompt"}]},{"group_id":"verifiers","n":2,"robot_talks":false,"anti_bias":"attack-vector","agents":[{"agent_name":"Wittgenstein, Ludwig","role":"skeptic","model":"claude-opus-4-8","token_budget":2000,"angle":"attack-vector definitional: refute findings that equivocate across process/producer/process_origin/derives-from/method/run/node_type/canonical_kind/schema, by checking actual corpus usage","initial_prompt":"PLACEHOLDER - see launch prompt"},{"agent_name":"Popper, Karl","role":"skeptic","model":"claude-opus-4-8","token_budget":2000,"angle":"attack-vector counter-example: refute findings naming no falsifier by demanding ONE file whose literal text must change, then opening it","initial_prompt":"PLACEHOLDER - see launch prompt"}]},{"group_id":"auditor","n":1,"agents":[{"agent_name":"Bourbaki, Nicolas","role":"auditor","model":"claude-opus-4-8","token_budget":1500,"initial_prompt":"PLACEHOLDER - see launch prompt"}]}]
+    connections: [{"from":"attackers","to":"verifiers","type":"zig-zag","loop_cap":2},{"from":"verifiers","to":"auditor","type":"sequential"}]
+  - close_of: "2026-07-09-post-correction-audit"
+    closed: "2026-07-12T18:46:39.244Z"
+    invoked_by: "victorboscaro@gmail.com"
+    exit_reason: "resolved"
+    agents_spawned: {"total":5,"tree":{"explorer":3,"skeptic":2,"synthesizer":0,"writer":0,"auditor":0,"helpers":0},"loops_used":1}
