@@ -38,6 +38,11 @@ export { derive, classifyFormal } from "./rules/index.js";
 export type { Obligation } from "./ir/types.js";
 export { obligationKey } from "./keys/index.js";
 export {
+  buildResidueReceipt,
+  renderResidueReceipt,
+} from "./residue/receipt.js";
+export type { ResidueReceipt } from "./residue/receipt.js";
+export {
   compareRoundTrip,
   deriveDescriptor,
   engineSemanticId,

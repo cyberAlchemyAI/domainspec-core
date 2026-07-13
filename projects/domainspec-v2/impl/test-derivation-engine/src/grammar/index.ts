@@ -905,6 +905,185 @@ function parseRules(ctx: ParseContext, lines: string[]): void {
   }
 }
 
+/**
+ * Normalized SPEC.md -> structural ConceptGraph nodes.
+ *
+ * This is deliberately narrower than the aspect-document grammar above. It
+ * preserves only declarations that the normalized pack states explicitly:
+ * concepts, typed relationships, fields, attributes, and documented omitted
+ * source rows. It does not invent workflow steps, behavioral semantics, path
+ * equations, or Formal cells from prose.
+ */
+function parseNormalizedSpec(ctx: ParseContext, lines: string[]): void {
+  let section = "";
+  const concepts = new Set<string>();
+  let conceptRegistrySeen = false;
+  let featureGraphSeen = false;
+
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i];
+    if (line === undefined) continue;
+
+    const h2 = line.match(/^##\s+(?!#)(.+)$/);
+    if (h2) {
+      section = cleanHeading(h2[1]);
+      continue;
+    }
+
+    if (section === "Omitted Source Rows") {
+      const omitted = line.match(/^\s*-\s+`([^`]+)`\s*$/);
+      if (omitted) {
+        const declaration = omitted[1] ?? "";
+        const anchor = `${ctx.file}#Omitted Source Rows:${declaration}`;
+        ctx.nodes.push({
+          id: anchor,
+          type: "SpecOmission",
+          source_anchor: anchor,
+          fields: fieldsRecord({
+            declaration,
+            reason: "intentionally absent; no replacement edge",
+          }),
+        });
+      }
+      continue;
+    }
+
+    if (!isTableLine(line)) continue;
+    const { table, next } = readTable(lines, i);
+    i = next - 1;
+
+    if (section === "Concept Registry") {
+      conceptRegistrySeen = true;
+      if (!headerHas(table.header, ["Concept", "Type"])) {
+        ctx.violations.push(
+          `${ctx.file}:${i + 1}: non-canonical Concept Registry; expected Concept|Type`,
+        );
+        continue;
+      }
+      const conceptCol = colIndex(table.header, "Concept");
+      const typeCol = colIndex(table.header, "Type");
+      for (const row of table.rows) {
+        const concept = row.cells[conceptCol] ?? "";
+        const metaType = row.cells[typeCol] ?? "";
+        if (concept === "" || metaType === "") continue;
+        concepts.add(concept);
+        const anchor = `${ctx.file}#Concept Registry:${concept}`;
+        ctx.nodes.push({
+          id: anchor,
+          type: "SpecConcept",
+          source_anchor: anchor,
+          fields: fieldsRecord({ concept, meta_type: metaType }),
+        });
+      }
+      continue;
+    }
+
+    if (section === "Feature Concept Graph") {
+      featureGraphSeen = true;
+      if (!headerHas(table.header, ["From", "Edge", "To", "Source Evidence"])) {
+        ctx.violations.push(
+          `${ctx.file}:${i + 1}: non-canonical Feature Concept Graph; expected From|Edge|To|Source Evidence`,
+        );
+        continue;
+      }
+      const fromCol = colIndex(table.header, "From");
+      const edgeCol = colIndex(table.header, "Edge");
+      const toCol = colIndex(table.header, "To");
+      const evidenceCol = colIndex(table.header, "Source Evidence");
+      for (const row of table.rows) {
+        const from = row.cells[fromCol] ?? "";
+        const edge = row.cells[edgeCol] ?? "";
+        const to = row.cells[toCol] ?? "";
+        const sourceEvidence = row.cells[evidenceCol] ?? "";
+        if (from === "" || edge === "" || to === "") {
+          ctx.violations.push(
+            `${ctx.file}: Feature Concept Graph row ${row.rowIndex} has an empty From/Edge/To cell`,
+          );
+        }
+        if (!concepts.has(from) || !concepts.has(to)) {
+          ctx.violations.push(
+            `${ctx.file}: Feature Concept Graph row ${row.rowIndex} references an undeclared concept (${from} --${edge}--> ${to})`,
+          );
+        }
+        const anchor = `${ctx.file}#Feature Concept Graph:${row.rowIndex}`;
+        ctx.nodes.push({
+          id: anchor,
+          type: "SpecRelationship",
+          source_anchor: anchor,
+          fields: fieldsRecord({
+            from,
+            edge,
+            to,
+            source_evidence: sourceEvidence,
+          }),
+        });
+      }
+      continue;
+    }
+
+    if (!concepts.has(section)) continue;
+
+    if (headerHas(table.header, ["Field", "Type", "Required"])) {
+      const fieldCol = colIndex(table.header, "Field");
+      const typeCol = colIndex(table.header, "Type");
+      const requiredCol = colIndex(table.header, "Required");
+      const identityCol = colIndex(table.header, "Identity");
+      const descriptionCol = colIndex(table.header, "Description");
+      for (const row of table.rows) {
+        const field = row.cells[fieldCol] ?? "";
+        const anchor = `${ctx.file}#${section}:field:${row.rowIndex}`;
+        ctx.nodes.push({
+          id: anchor,
+          type: "SpecField",
+          source_anchor: anchor,
+          fields: fieldsRecord({
+            concept: section,
+            field,
+            value_type: row.cells[typeCol] ?? "",
+            required: row.cells[requiredCol] ?? "",
+            identity: identityCol >= 0 ? (row.cells[identityCol] ?? "") : "",
+            description:
+              descriptionCol >= 0 ? (row.cells[descriptionCol] ?? "") : "",
+          }),
+        });
+      }
+      continue;
+    }
+
+    if (headerHas(table.header, ["Attribute", "Value"])) {
+      const attributeCol = colIndex(table.header, "Attribute");
+      const valueCol = colIndex(table.header, "Value");
+      for (const row of table.rows) {
+        const attribute = row.cells[attributeCol] ?? "";
+        const anchor = `${ctx.file}#${section}:attribute:${row.rowIndex}`;
+        ctx.nodes.push({
+          id: anchor,
+          type: "SpecAttribute",
+          source_anchor: anchor,
+          fields: fieldsRecord({
+            concept: section,
+            attribute,
+            value: row.cells[valueCol] ?? "",
+          }),
+        });
+      }
+    }
+  }
+
+  if (!conceptRegistrySeen) {
+    ctx.violations.push(
+      `${ctx.file}: normalized dialect requires a Concept Registry table`,
+    );
+  } else if (concepts.size === 0) {
+    ctx.violations.push(`${ctx.file}: Concept Registry must declare at least one concept`);
+  }
+  if (!featureGraphSeen) {
+    ctx.violations.push(
+      `${ctx.file}: normalized dialect requires a Feature Concept Graph table`,
+    );
+  }
+}
+
 // --- Public parse --------------------------------------------------------------
 
 /**
@@ -931,6 +1110,7 @@ export function parse(featureDir: string): ParseResult {
     { file: "rules.md", fn: parseRules },
   ];
 
+  let parsedAspectCount = 0;
   for (const { file, fn } of aspects) {
     const lines = readDoc(featureDir, file);
     if (lines === null) {
@@ -939,8 +1119,25 @@ export function parse(featureDir: string): ParseResult {
       // nodes exist; coverage gaps surface in the round-trip, not as parser errors.
       continue;
     }
+    parsedAspectCount += 1;
     const ctx: ParseContext = { file, nodes, edges, violations };
     fn(ctx, lines);
+  }
+
+  // The normalized v2 feature pack is a distinct input dialect. Use it as a
+  // fallback only when no legacy aspect document is present, avoiding duplicate
+  // semantics in older fixtures that contain both SPEC.md and aspect docs.
+  if (parsedAspectCount === 0) {
+    const lines = readDoc(featureDir, "SPEC.md");
+    if (lines !== null) {
+      const ctx: ParseContext = {
+        file: "SPEC.md",
+        nodes,
+        edges,
+        violations,
+      };
+      parseNormalizedSpec(ctx, lines);
+    }
   }
 
   nodes.sort((a, b) =>

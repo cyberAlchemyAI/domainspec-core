@@ -59,6 +59,10 @@ const TIER_OF: Record<RuleType, Tier> = {
   "domain-field": "derivable-needs-harness", // needs an instance/fixture to check
   "domain-enum": "derivable-needs-harness", // needs the impl symbol to compare
   "policy-decision": "derivable-needs-harness",
+  "spec-concept": "derivable-needs-harness",
+  "spec-relationship": "derivable-needs-harness",
+  "spec-field": "derivable-needs-harness",
+  "spec-attribute": "derivable-needs-harness",
   "needs-formal": "needs-formal",
 };
 
@@ -76,9 +80,11 @@ function countBy<T extends string>(items: readonly T[]): Map<T, number> {
 
 function completenessGate(presentDocs: readonly string[]): string[] {
   const present = new Set(presentDocs);
-  const rows = CANONICAL_DOCS.map(
-    (d) => `| ${d} | ${present.has(d) ? "present" : "absent"} |`,
-  );
+  const rows = present.has("SPEC.md")
+    ? ["| SPEC.md | present (normalized v2 dialect) |"]
+    : CANONICAL_DOCS.map(
+        (d) => `| ${d} | ${present.has(d) ? "present" : "absent"} |`,
+      );
   return [
     "## Source Completeness Gate",
     "",

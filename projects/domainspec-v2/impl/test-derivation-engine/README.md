@@ -13,6 +13,27 @@ Deterministic test-derivation engine. Compiles a feature's **canonical Markdown 
 parse (docs → G) → derive (δ: pure) → obligation_key (sha1) → emit_spec / emit_tests
 ```
 
+The parser accepts two explicit input dialects:
+
+- legacy aspect documents (`states.md`, `operations.md`, and siblings); or
+- normalized v2 `SPEC.md` when no aspect documents are present.
+
+The normalized adapter derives structural conformance obligations for declared
+concepts, relationships, fields, and attributes. It does not infer behavioral
+semantics or path equations from prose.
+
+Generate a machine-readable boundary receipt with:
+
+```bash
+pnpm exec tsx src/cli.ts receipt <feature-directory>
+# add --out to write RESIDUE-RECEIPT.engine.json beside the input spec
+```
+
+The receipt separates normalized target declarations, source-evidenced preserved
+relationship rows, explicitly omitted source rows, parser rejections, and
+binding-side commitments. It is structural accounting, not a claim of semantic
+satisfiability or application generation.
+
 - `src/grammar/` — strict-grammar parser → typed concept graph `G` (SWU-ENG-001)
 - `src/ir/` — `G` types (Node/Edge/Obligation), deterministic serialization
 - `src/rules/` — pure δ rule functions with **exact** cardinalities (SWU-ENG-003)
@@ -22,7 +43,11 @@ parse (docs → G) → derive (δ: pure) → obligation_key (sha1) → emit_spec
 
 ## Status
 
-**L0 skeleton (SWU-ENG-000).** Pipeline wired; `obligation_key` + round-trip comparison implemented and tested. Parser and δ rules are typed stubs — next units: SWU-ENG-001 (parser), SWU-ENG-003 (δ rules), SWU-ENG-005 (round-trip against `financial-settlement`).
+**Active deterministic engine.** Aspect-document parsing, normalized-`SPEC.md`
+structural parsing, derivation rules, content-addressed obligation keys, round-trip
+comparison, receipt accounting, and test emission are implemented and tested. See
+`CRAFT.md` and the test suite for the current bounded gates; this status does not
+claim semantic satisfiability or application generation.
 
 ## Develop
 

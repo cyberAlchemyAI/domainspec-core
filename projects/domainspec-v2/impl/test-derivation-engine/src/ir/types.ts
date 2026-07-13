@@ -23,7 +23,12 @@ export type NodeType =
   | "ErrorState"
   | "DomainField" // L3: domain.md value-object / entity field
   | "Enum" // L3: domain.md enum vocabulary
-  | "PolicyDecision"; // L3: rules.md decision-table row
+  | "PolicyDecision" // L3: rules.md decision-table row
+  | "SpecConcept" // normalized SPEC.md concept-registry row
+  | "SpecRelationship" // normalized SPEC.md feature-graph row
+  | "SpecField" // normalized SPEC.md field-table row
+  | "SpecAttribute" // normalized SPEC.md attribute-table row
+  | "SpecOmission"; // normalized SPEC.md documented omitted-source row
 
 export type EdgeType =
   | "on" // Transition --on--> Event
@@ -79,6 +84,10 @@ export type RuleType =
   | "domain-field" // L3: domain.md field schema/constraint
   | "domain-enum" // L3: domain.md enum vocabulary
   | "policy-decision" // L3: rules.md decision-table row
+  | "spec-concept" // normalized SPEC.md concept declaration
+  | "spec-relationship" // normalized SPEC.md typed relationship
+  | "spec-field" // normalized SPEC.md field declaration
+  | "spec-attribute" // normalized SPEC.md concept attribute
   | "needs-formal";
 
 export interface Obligation {

@@ -54,6 +54,16 @@ export function computeProvenance(
     if (existsSync(p))
       inputs.push({ file: f, sha256: sha256(readFileSync(p, "utf8")) });
   }
+  // Normalized v2 packs use SPEC.md as a distinct fallback dialect. Older
+  // fixtures also contain a SPEC.md index, so include it only when no aspect
+  // document is present; this preserves their established provenance contract.
+  const normalizedSpec = join(featureDir, "SPEC.md");
+  if (inputs.length === 0 && existsSync(normalizedSpec)) {
+    inputs.push({
+      file: "SPEC.md",
+      sha256: sha256(readFileSync(normalizedSpec, "utf8")),
+    });
+  }
   inputs.sort((a, b) => (a.file < b.file ? -1 : 1));
   return { inputs, engineCommit };
 }

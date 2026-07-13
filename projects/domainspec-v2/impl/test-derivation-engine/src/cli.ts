@@ -1,7 +1,7 @@
 // CLI surface for the engine. Subcommands: roundtrip, derive, lint.
 // `roundtrip` runs the financial-settlement L0 falsification gate.
 
-import { dirname, join, resolve } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { execSync } from "node:child_process";
@@ -14,6 +14,10 @@ import {
 } from "./emit/spec.js";
 import { emitTests, emitHybridTests } from "./emit/tests.js";
 import { loadBindings } from "./bindings/index.js";
+import {
+  buildResidueReceipt,
+  renderResidueReceipt,
+} from "./residue/receipt.js";
 import {
   CANONICAL_DOCS,
   computeProvenance,
@@ -52,12 +56,15 @@ function engineCommit(): string {
 
 /** Feature name from a resolved feature dir (its basename). */
 function featureNameOf(featureDir: string): string {
-  return featureDir.split("/").filter(Boolean).pop() ?? "feature";
+  return basename(featureDir) || "feature";
 }
 
 /** Canonical docs actually present in a feature dir (for the completeness gate). */
 function presentDocsIn(featureDir: string): string[] {
-  return CANONICAL_DOCS.filter((d) => existsSync(join(featureDir, d)));
+  const aspects = CANONICAL_DOCS.filter((d) => existsSync(join(featureDir, d)));
+  return aspects.length === 0 && existsSync(join(featureDir, "SPEC.md"))
+    ? ["SPEC.md"]
+    : aspects;
 }
 
 /** Committed id-map sidecar path (parallels bindings/). */
@@ -393,6 +400,41 @@ function runEmitTests(arg: string | undefined): number {
   return 0;
 }
 
+/** Emit a structural residue receipt for the selected feature-input boundary. */
+function runReceipt(
+  arg: string | undefined,
+  flags: ReadonlySet<string>,
+): number {
+  if (!arg) {
+    console.error("receipt: requires a feature name or directory argument");
+    return 1;
+  }
+  const featureDir = resolveTarget(arg);
+  const feature = featureNameOf(featureDir);
+  const { graph, violations } = parse(featureDir);
+  const bindingPath = bindingsPathFor(feature);
+  const bindings = bindingPath ? loadBindings(bindingPath) : null;
+  const rendered = renderResidueReceipt(
+    buildResidueReceipt(feature, graph, violations, bindings),
+  );
+
+  if (!flags.has("--out")) {
+    console.log(rendered.trimEnd());
+    return 0;
+  }
+
+  const outPath = join(featureDir, "RESIDUE-RECEIPT.engine.json");
+  const contain = containmentError(outPath, featureDir);
+  if (contain) {
+    console.error(`receipt: ${contain}`);
+    return 6;
+  }
+  writeFileSync(outPath, rendered, "utf8");
+  console.error(`=== receipt: ${feature} ===`);
+  console.error(`Wrote: ${outPath}`);
+  return violations.length === 0 ? 0 : 4;
+}
+
 /**
  * Canonical-form linter. Reports two violation classes for a feature dir:
  *   1. non-canonical tables (parser violations: missing/renamed required columns), and
@@ -449,12 +491,15 @@ function main(): void {
     case "emit-tests":
       process.exit(runEmitTests(arg));
       break;
+    case "receipt":
+      process.exit(runReceipt(arg, flags));
+      break;
     case "lint":
       process.exit(runLint(arg));
       break;
     default:
       console.error(
-        `unknown command: ${command ?? "(none)"} — expected roundtrip | self-check | derive [--out] | check | emit-tests | lint`,
+        `unknown command: ${command ?? "(none)"} — expected roundtrip | self-check | derive [--out] | check | emit-tests | receipt [--out] | lint`,
       );
       process.exit(1);
   }

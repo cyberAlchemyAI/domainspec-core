@@ -28,6 +28,10 @@ const CLASS_OF: Record<RuleType, string> = {
   "domain-field": "DOM",
   "domain-enum": "ENUM",
   "policy-decision": "POL",
+  "spec-concept": "SC",
+  "spec-relationship": "SR",
+  "spec-field": "SF",
+  "spec-attribute": "SA",
   "needs-formal": "NF",
 };
 
