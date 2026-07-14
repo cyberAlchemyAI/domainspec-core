@@ -6,7 +6,7 @@ description: Record a subagent dispatch in <repo-root>/telemetry/agents/subagent
 # register-dispatch
 
 Record **one row per dispatch** in the repo ledger `telemetry/agents/subagents-dispatch.yaml`,
-under the subagents-strategy constitution **schema v0.6.0**. A dispatch contributes exactly
+under the subagents-strategy constitution **schema v0.6.1**. A dispatch contributes exactly
 **two appends** (constitution Principle 3): the **dispatch row** (the spec, at dispatch) and
 the **close row** (`close_of` + outcome, at termination). The ledger is append-only — rows
 are never edited in place.
@@ -47,7 +47,7 @@ appender-enforced** since the 2026-06-12 in-place amendment (constitution §9).
 | Field | Required | Meaning / constraint |
 |-------|----------|----------------------|
 | `dispatch_id` | ✅ | Unique id, `YYYY-MM-DD-<slug>` (§5). Dedup key — re-registering the same id is a no-op. |
-| `schema_version` | ✅ | Must be **exactly** `"0.6.0"`. |
+| `schema_version` | ✅ | Must be **exactly** `"0.6.1"` (bumped from `0.6.0` at §14 — `output_mode` is a row-schema addition). |
 | `dispatch_type` | ✅ | `research \| code \| review \| plan \| suggestion \| experiment`. `research`, `review`, and `experiment` are LIVE (review 2026-06-12; experiment 2026-06-14, narrow recipe — owner decisions); the other three (`code`, `plan`, `suggestion`) are reserved (RESERVED) — the appender notes this but records anyway (its runtime note reads "is a RESERVED type ... LIVE under v0.6.0"); registering one signals an upstream constitution violation (§5: reserved types must not be dispatched until populated). `experiment` runs the falsification strategy (role-set designer/runner/adjudicator/skeptic; grader = falsification against a pre-registered criterion + internal validity + reproducibility; verdict SURVIVED/FALSIFIED/INVALID; the criterion is a `working_folder` artifact, never a column). |
 | `goal` | ✅ | Non-empty string — the human's objective, one or two sentences. |
 | `context` | ✅ | Non-empty string — 2–4 sentences of framing; the only channel subagents get (§5). |
@@ -57,7 +57,8 @@ appender-enforced** since the 2026-06-12 in-place amendment (constitution §9).
 | `meta` | – | If present, must be boolean `true` (planning/framework dispatches only). |
 | `parent_dispatch_id` | – | String (or null/omitted) — only on a dispatch planned by a meta dispatch. |
 | `anti_bias_global` | ≥ 2 fan-out groups: ✅ | String — dispatch-wide tension theme. **Required when ≥ 2 groups have ≥ 2 agents — appender-enforced (exit 2)** since the 2026-06-12 in-place amendment (constitution §9). |
-| `working_folder` | research/experiment: ✅ | Repo-relative path where outputs land. **Required when `dispatch_type` is `research` or `experiment`; must never start with `vault/`.** **Optional for `review`** — review is inline by default (findings delivered in chat, since 2026-06-16); set it only when the user confirms persistence at the gate. Whenever a `working_folder` is set, the gate confirms the path with the user (router lifecycle step 2). |
+| `working_folder` | research/experiment: ✅ | Repo-relative path where outputs land. **Required when `dispatch_type` is `research` or `experiment`; must never start with `vault/`.** For `review` it is **governed by `output_mode`** (next row): required iff `persisted`, forbidden iff `inline`. Whenever a `working_folder` is set, the gate confirms the path with the user (router lifecycle step 2). |
+| `output_mode` | review: ✅ (forbidden elsewhere) | `inline \| persisted` — **review only, and required there** (§14). The human's delivery decision, taken at the P2 gate and *recorded*, never inferred. `persisted` ⟺ `working_folder` is set (review.md is written to `<working_folder>/review.md`); `inline` ⟺ no `working_folder` (review.md is rendered in chat, no file). Appender-enforced in both directions (exit 2). Rejected on `research`/`experiment` (they always persist) and on the RESERVED types. **Why a field and not an absence:** an absent `working_folder` cannot distinguish "the human chose inline" from "the strategist forgot" — and that ambiguity is precisely how the 2026-06-16 inline rule drifted out of the generated skill copies unnoticed for a month. |
 | `invoked_by` | – | Email of the invoking human. If omitted, the appender resolves it from `git config user.email` (fail-soft: warning + `null`). Tooling-level extension, not in constitution §5 (owner-directed 2026-06-12), pending a one-line constitutional amendment. |
 | `connections` | – | **JSON column** — array of `{from, to, type, loop_cap?}` objects (below). |
 | `project_dir` | – | Control key: repo-root fallback when `CLAUDE_PROJECT_DIR` is unset. Never emitted to the ledger. |
@@ -129,7 +130,7 @@ Bash access to the file, even read-only commands.
 ```json
 {
   "dispatch_id": "2026-06-12-residue-precedent-sweep",
-  "schema_version": "0.6.0",
+  "schema_version": "0.6.1",
   "dispatch_type": "research",
   "goal": "Determine whether the residue-ledger pattern has prior art that constrains our naming.",
   "context": "The discovery names a residue ledger as novel. Before publishing we need to know if the pattern is already owned in the literature and under what name. Outputs feed the discovery's open-question section.",
@@ -171,7 +172,7 @@ resulting ledger row looks like:
 
 ```yaml
   - dispatch_id: "2026-06-12-residue-precedent-sweep"
-    schema_version: "0.6.0"
+    schema_version: "0.6.1"
     created: "2026-06-12T18:00:00.000Z"
     invoked_by: "victorboscaro@gmail.com"
     dispatch_type: "research"
@@ -184,6 +185,26 @@ resulting ledger row looks like:
     groups: [{"group_id":"explorers","n":2,"anti_bias":"source corpus (formal-methods literature vs practitioner blogs)","agents":[…]}, …]
     connections: [{"from":"explorers","to":"synthesizer","type":"sequential"}]
 ```
+
+### A `review` row — the `output_mode` pair
+
+Review is the only type that carries `output_mode`, and it must carry it. The two legal shapes:
+
+```jsonc
+// inline — the report is rendered in chat; NO working_folder, no file written
+{ "dispatch_type": "review", "output_mode": "inline",    /* working_folder ABSENT */ … }
+
+// persisted — the report is written to <working_folder>/review.md
+{ "dispatch_type": "review", "output_mode": "persisted",
+  "working_folder": "projects/foo/reviews/2026-07-13-bar/", … }
+```
+
+Anything else is rejected (exit 2): `inline` **with** a `working_folder`, `persisted` **without**
+one, a missing `output_mode` on a review, or an `output_mode` on any non-review type.
+
+A review writes exactly one file, and only when `persisted`: **`review.md`** — the cited
+change-request report. It writes **no `attacks.md` and no `findings.md`** (§14; the review type
+skill owns the report's shape).
 
 ## Closing a dispatch (the close row)
 

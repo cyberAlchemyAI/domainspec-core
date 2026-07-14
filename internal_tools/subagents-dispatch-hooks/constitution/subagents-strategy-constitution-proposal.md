@@ -5,8 +5,8 @@ is_session: false
 layer: architecture
 nature: procedural, technical
 status: draft
-version: 0.6.2-proposal
-last_updated: 2026-06-16
+version: 0.6.3-proposal
+last_updated: 2026-07-13
 replaces: vault/constitution/domainspec-subagents-strategy-constitution.md@v0.3.0 (and the v0.4.0 draft; v0.5.1 amended in place after the 2026-06-12 adversarial assessment)
 derives_from: vault/premise/domainspec-subagents-strategy-premises.md@v0.4.0
 ---
@@ -132,12 +132,12 @@ redesigning the framework itself — and is the only context in which dispatch l
 6. **Synthesizer midfield.** Between explorers and reviewers there is always a synthesizer. Synthesizer ↔ reviewers iterate via zig-zag; synthesizer → explorers via **feedback**, which is **conditional** — it is instantiated only when there is a reviewer/auditor group *and* material may be missing, not auto-instantiated in every dispatch. Reviewers never review raw explorer output directly.
 7. **Aggregation is derived.** A group with `robot_talks: true` → `synthesize`; otherwise → `concat` (an `n = 1` group simply returns its single output). Aggregation is never a field. Zig-zag is inter-group exchange — it does not change either group's combination rule. *(Non-binding note: a bare `concat` is intermediate plumbing, never the dispatch's final deliverable — concatenated parallel outputs feed a downstream `synthesize` group or the `final_approver`, they are not handed back as the answer.)*
 8. **Trust-but-verify.** If a subagent wrote files or claimed a check passed, the parent inspects the actual diff / runs the actual check before treating it as done.
-9. **Outputs.** For a `dispatch_type: research` dispatch, everything the dispatch produces lands in `working_folder`. The two-file rule applies only to a **research fan-out (n ≥ 2)**: the collected returns (research) and the cited synthesis (findings) — every load-bearing claim in the findings cites the collected return it rests on, and the `final_approver` checks this when recommending acceptance. A **research n = 1** dispatch produces a single file, `findings.md`.
+9. **Outputs.** For a `dispatch_type: research` dispatch, everything the dispatch produces lands in `working_folder`. The two-file rule applies only to a **research fan-out (n ≥ 2)**: the collected returns (research) and the cited synthesis (findings) — every load-bearing claim in the findings cites the collected return it rests on, and the `final_approver` checks this when recommending acceptance. A **research n = 1** dispatch produces a single file, `findings.md`. **A `review` is the deliberate exception (§14):** it produces exactly **one** artifact — `review.md`, the cited change-request report — and **persists no transcript**. Its citation target is therefore not a collected return but the **quoted artifact under attack**; the `final_approver` checks *that* instead. `review.md` is delivered in chat or written to `<working_folder>/review.md` per `output_mode`. In `research`/`experiment`, `<type>.md` means *collected returns*; in `review`, `review.md` means *the synthesis* — the inversion is knowing, and restoring `attacks.md`/`findings.md` for review is a regression, not a fix.
 10. **Claim ≤ proof** in every artifact produced.
 11. **Helper invocations are not dispatches.** A single agent spawned *by* a running agent, within its parent's scope, needs no row and no gate — it is reported post-hoc in the parent's `agents_spawned` report (chat + findings, not written to the ledger row). It escalates to a real dispatch if it fans out (2+) or outgrows the scope. Spawn count is unregulated; reporting is the brake. *(The exact helper-vs-dispatch boundary is provisional — an open question, not settled law.)*
 12. **Final approval.** Every dispatch names a `final_approver` holding the last approve/reject with a does-this-fit-the-whole mandate. There is exactly **one human gate** — the entry confirm of Principle 2. `final_approver` is `parent` (default) or a **dedicated approver agent**: the sole agent of a **dedicated approver group** (its agent's `role` is `auditor`) that does no other work in the dispatch. An approver may **never** appear in any working group — self-approval is prohibited. The approver receives the full `working_folder` (for research n ≥ 2: both `research.md` and `findings.md`, so the Principle 9 citation check is actionable). If the approver's group never runs (early abort, upstream error), approval falls back to `parent`. When the approver is an agent, it *recommends* accept/reject; a reject is what may trigger a re-run within `max_loops`. The human never loses the power to abandon (`user_abort`), but there is **no second human gate at close** — the close is report-only plus the close row (Principle 3).
 13. **Meta and lineage.** A planning/framework dispatch is marked `meta`. `parent_dispatch_id` exists **only** on a dispatch spawned by a meta dispatch, pointing back to it. No other lineage fields exist. A meta dispatch may itself be planned by another meta dispatch (`meta: true` with non-null `parent_dispatch_id`); the chain stays finite and acyclic. A meta-planned child is a new sheet and re-enters the confirm gate — Principle 2 has no meta exception.
-14. **Robot-talks binding.** Any group with `robot_talks: true` additionally binds `vault/constitution/robot-talks-constitution.md` as versioned at dispatch time; that constitution wins conflicts **inside the discussion** — but where it would prescribe an additional human gate, this constitution's single-gate rule (Principle 12) governs. When a synthesizer sits downstream of **any robot-talks group whose agents' positions feed it**, it MUST receive each of that group's agents' **initial** and **final** position (both present in `working_folder`), so premature-convergence / collapse is detectable. *(Scope generalized 2026-06-12 to cover the review type's attacker→synthesizer hop.)*
+14. **Robot-talks binding.** Any group with `robot_talks: true` additionally binds `vault/constitution/robot-talks-constitution.md` as versioned at dispatch time; that constitution wins conflicts **inside the discussion** — but where it would prescribe an additional human gate, this constitution's single-gate rule (Principle 12) governs. When a synthesizer sits downstream of **any robot-talks group whose agents' positions feed it**, it MUST receive each of that group's agents' **initial** and **final** position, so premature-convergence / collapse is detectable. *(Scope generalized 2026-06-12 to cover the review type's attacker→synthesizer hop.)* **How the positions reach it depends on the type (§14):** where a transcript is persisted (`research`), both positions sit in `working_folder`; where none is (`review`, which persists only `review.md`), the strategist passes both **in the synthesizer's `initial_prompt`**, and the durable record of the collapse check is the **collapse note in `review.md`'s Coverage section** — the audit trail that replaces the transcript. The obligation is that the synthesizer *sees* both positions and that the check *leaves a record*; it was never that a particular file exist.
 
 ## 5. Parameter reference
 
@@ -236,21 +236,42 @@ once two or more groups each fan out, where uncoordinated axes would drift.
 **Enforcement:** the conditional is appender-enforced (exit 2) since the 2026-06-12 in-place
 amendment (§9) — a record with ≥ 2 fan-out groups and no `anti_bias_global` is rejected.
 
-#### `working_folder` — C · A (required when `dispatch_type` is `research` or `experiment`; optional for `review`)
+#### `working_folder` — C · A (required when `dispatch_type` is `research` or `experiment`; for `review`, governed by `output_mode`)
 **What:** where the dispatch's outputs land — research + findings documents, a spec file,
 or the code itself, depending on what the dispatch produces. For `research`, this is always a
 docs path. For a research **n ≥ 2** dispatch the two files of Principle 9 are
 `<working_folder>/research.md` (collected returns) and `<working_folder>/findings.md` (cited
 synthesis); a research **n = 1** dispatch produces a single `<working_folder>/findings.md`.
-**Review went inline 2026-06-16** (§13): `review` produces **no mandated files** — its
-cited change-request report is delivered in chat — so `working_folder` is **optional** for
-`review` and **not appender-required** (the required set is `research`/`experiment`). A
-`review` MAY set a `working_folder` when the user opts to persist the report.
+**Review (§14):** a `review` produces exactly **one** artifact, `<working_folder>/review.md`
+(the cited change-request report), and only when `output_mode: persisted`. Under
+`output_mode: inline` the report is delivered in chat and `working_folder` must be **absent**.
+The appender enforces the pair in both directions. `review` writes **no `attacks.md` and no
+`findings.md`** — the review type skill owns the report's shape.
 **Folder confirmation (universal, §13):** whenever a dispatch will save artifacts, the
 `working_folder` path is **explicitly confirmed with the human at the P2 gate** before
-register/run; a `review` confirms **inline-vs-persist** there too.
+register/run; a `review` confirms **inline-vs-persist** there too, and the answer is *recorded*
+in `output_mode` (§14) rather than inferred from this field's absence.
 **Why:** outputs need one declared home; the registry row only points at it.
 **How:** repo-relative path. Never `vault/**`.
+
+#### `output_mode` — C · A (required when `dispatch_type` is `review`; forbidden otherwise)
+**What:** the delivery channel of a review's single artifact, `review.md`. Closed enum:
+`inline` (rendered in chat; no file; `working_folder` absent) · `persisted` (written to
+`<working_folder>/review.md`; `working_folder` required). Chosen by the **human at the P2 gate**
+(§3 step 2) and frozen with the rest of the sheet.
+**Why a field, not an absence.** Before v0.6.1 the inline choice was encoded as a *missing*
+`working_folder` — which cannot distinguish "the human chose inline" from "the strategist forgot
+to record the folder". Silence is not a decision, and this specific ambiguity is how the
+2026-06-16 inline rule (§13) drifted out of the generated skill copies for a month without any
+surface failing: the source package said inline, the installed appender still required a folder,
+and nothing could tell the two states apart. The field makes the gate's answer auditable.
+**Scope.** `review` only. `research`/`experiment` always persist (a `working_folder` is
+unconditionally required there), so the key is meaningless for them and is **rejected**; the
+RESERVED types have no output design yet and likewise reject it.
+**Enforcement:** appender-enforced (exit 2) in all four directions — missing on a review;
+not in the enum; `persisted` without a `working_folder`; `inline` with one.
+**Row-schema impact:** this is a NEW row key, so per §10.1 the wire `schema_version` bumps
+**0.6.0 → 0.6.1** and §10.2's five-surface atomic promotion fires (§14).
 
 ### Level 2 — GROUP (`groups[]`)
 
@@ -447,7 +468,7 @@ the group `role` field, which removes the CR-2 bucketing ambiguity.)
 # a close row ({close_of, exit_reason, agents_spawned}) is appended at termination.
 # rows are never edited in place (Principle 3).
 - dispatch_id: 2026-06-12-example-slug
-  schema_version: "0.6.0"
+  schema_version: "0.6.1"
   dispatch_type: research             # research LIVE; review LIVE (2026-06-12); experiment LIVE (2026-06-14); code|plan|suggestion RESERVED
   goal: >                             # HUMAN input — the general objective;
     One or two sentences.             # the strategist decomposes it below.
@@ -460,6 +481,10 @@ the group `role` field, which removes the CR-2 bucketing ambiguity.)
   # parent_dispatch_id: 2026-06-11-meta-plan   # only when spawned by a meta dispatch
   anti_bias_global: novelty optimism vs precedent skepticism
   working_folder: docs/features/<feature>/research/<topic>/   # or a spec path, or code
+  # output_mode: persisted            # REVIEW ONLY, and REQUIRED there (§14): inline | persisted.
+                                      # persisted <=> working_folder set (review.md written there);
+                                      # inline <=> NO working_folder (review.md rendered in chat).
+                                      # Rejected on research/experiment — they always persist.
 
   groups:                             # scheduled by DEPENDENCY (P4): ready groups launch concurrently;
                                       # declared order is narration tiebreak, not an execution constraint
@@ -820,3 +845,134 @@ change). §10.2's five-surface atomic promotion does **not** fire (no row-schema
 (per §10.1 a conditional-rule loosening is a behaviour change, not a schema change); the
 persistence debt (§7) is **unaffected** (review never carried a SURVIVED/FALSIFIED-style row,
 and an inline review writes nothing to re-confront).
+
+## 14. v0.6.3 amendment (2026-07-13 — `review.md` is review's one artifact; `output_mode` recorded)
+
+Owner decision 2026-07-13. §13 got the *policy* right (review's deliverable is a report, not a
+pair of files) but left two holes, both of which this amendment closes.
+
+**The diagnosis.** §13's inline rule was implemented in the source package
+(`internal_tools/subagents-dispatch-hooks/`) and **never reached the generated copies**: `install.cjs`
+was not re-run, so `~/.claude/skills/register-dispatch/append-dispatch.cjs` — *the appender the
+skill actually tells you to execute* — still carried the pre-§13 `LIVE_TYPES` gate and would have
+**rejected an inline review** for want of a `working_folder`. The drift went unnoticed for a month
+because inline was encoded as an **absence** (no `working_folder`), and an absence cannot fail
+loudly. Meanwhile the `.claude/` copy of the review skill had been overwritten out-of-band from a
+sibling repo, restoring the `attacks.md` + `findings.md` mandate §13 had removed. Three copies,
+three different laws.
+
+**RV-5 — one artifact, named `review.md`.** A `review` produces exactly one document: **`review.md`**,
+the cited change-request report (Coverage → per-artifact findings table → KEEP/FIX verdict →
+severity-ordered change-request list). It persists **no transcript**: `attacks.md` is retired and a
+review writes **no `findings.md`**. This **inverts the `<type>.md` convention on purpose** — in
+`research`/`experiment`, `<type>.md` is the collected verbatim returns and `findings.md` the
+synthesis; in `review`, `review.md` **is** the synthesis. The inversion is recorded here, in P9, and
+in the type skill precisely so a future reader does not "repair" it back into consistency.
+*Rationale:* attacker returns are working material, not evidence — a review's proof is the **quoted
+artifact**, which lives inside `review.md`. Persisting the returns bought traceability of process,
+not of truth.
+
+**RV-6 — the citation target moves.** The pre-2026-07-13 rule ("every surviving finding cites the
+attack return it came from") is **retired**: with no transcript, that citation would point at
+nothing. A finding now carries **file + a quotation from the artifact under attack + severity +
+a one-line proposed fix**. The `final_approver` checks *that*. (P9 amended.)
+
+**RV-7 — P14 collapse detection keeps its record.** P14 required the synthesizer to receive each
+robot-talks attacker's initial AND final positions, "both present in `working_folder`". With no
+transcript file, the strategist passes both **in the synthesizer's `initial_prompt`**, and the
+durable record is the **collapse note in `review.md`'s Coverage section**. P14 amended: the
+obligation is that the synthesizer *sees* both positions and the check *leaves a record* — never
+that a particular file exist.
+
+**RV-8 — `output_mode` becomes a recorded field (ROW-SCHEMA CHANGE).** New Level-1 key
+`output_mode: inline | persisted`, **required on `review`, forbidden on every other type**, with the
+invariant `persisted` ⟺ `working_folder` present — appender-enforced in all four directions. It
+replaces inference-from-absence with the human's *recorded* answer at the P2 gate. Per §10.1 a new
+row key bumps the wire `schema_version` **0.6.0 → 0.6.1**, and §10.2's **five-surface atomic
+promotion fires**: code (`append-dispatch.cjs`), type skill (`review/SKILL.md`), this constitution
+(§5 field table + P9 + P14), the test battery (`tests/test-append-dispatch.cjs`), and the README —
+all in this change set, verified by re-running the battery to green.
+
+**RV-9 — re-installation is part of the change, and a DIFF enforces it (the primary fix).** §10.2 is
+amended: an atomic promotion is not complete while the **generated copies** still carry the old law.
+`install.cjs` MUST be re-run after any change to the bundle's skills or appender — and, because "must"
+is what failed last time, **`tests/check-install-drift.cjs` now enforces it mechanically**: it
+byte-diffs the bundle against every installed copy (the global hooks + `register-dispatch` in
+`~/.claude`, and the chain skills in each repo listed in the install manifest
+`~/.claude/subagents-dispatch-targets.json`, written by `install.cjs`), exits 1 on any divergence, and
+additionally reports repos that carry the chain skills but are **not** install targets — an install
+nobody refreshes. §10.2's five-surface promotion gains a **sixth completion criterion: the drift check
+is green.**
+
+**This, not the rest of §14, is the fix for the incident — and the amendment says so plainly.** The
+2026-06-16 drift was a **deployment** defect, not a reasoning defect: source ≠ installed, and nothing
+compared them. No reviewer of any angle would have caught it; only a diff catches deployment drift.
+`output_mode` (RV-8) closes a *different*, real hole — an absence cannot record a decision — but it
+would **not** have prevented this incident, and the amendment must not be read as though it had.
+Governance is the secondary defence here; the diff is the primary one. *(Recorded because the
+temptation, in a system with a constitution, is to answer every incident with more constitution. The
+honest answer to "someone forgot to run the installer" is a check that runs the installer's diff, not
+a new column.)*
+
+| # | Decision | Amendment |
+|---|---|---|
+| **RV-5** | One artifact, `review.md` | `attacks.md` retired; review writes no `findings.md`; `<type>.md` inversion documented in P9, §5, and the type skill as deliberate. |
+| **RV-6** | Cite the artifact, not the agent | Finding discipline: file + quoted artifact + severity + proposed fix. The "cites the attack return" rule is retired with the transcript. |
+| **RV-7** | P14 keeps a record without a file | Positions passed in the synthesizer's `initial_prompt`; collapse note in `review.md`'s Coverage section is the durable record. |
+| **RV-8** | `output_mode` recorded, not inferred | New row key (review-only, required there); `persisted` ⟺ `working_folder`. Wire `schema_version` 0.6.0 → 0.6.1; five-surface promotion fired. |
+| **RV-9** | Generated copies are part of the change set | `install.cjs` re-run is a completion criterion for any bundle change, not an afterthought. |
+
+**Historical artifacts.** Reviews before 2026-07-13 wrote `attacks.md` + `findings.md`; those files
+stay on disk untouched. Because the **names differ** from `review.md`, no existing file is silently
+reinterpreted under the new law — the old format is visibly the old format. No migration.
+
+**Premise-debt re-confrontation** (required — v0.6.1 changes the row schema): **P-SS-8 (spawn /
+cost)** — AFFIRMED, carried open; a delivery-channel key adds no spawn or cost machinery.
+**P-SS-9 (linear lifecycle)** — AFFIRMED, carried open; `output_mode` is *chosen at* the existing P2
+gate, adding no stage to propose → confirm → dispatch → close. **NEW debt (persistence)** —
+AFFIRMED, carried open, and **narrowed**: an `inline` review is now an explicitly recorded state
+rather than an inferred one, so the registry can distinguish "delivered, no file" from "unrecorded".
+No debt is discharged or newly opened.
+
+## §14.1 — What §14 did NOT settle (opened 2026-07-13; owner has not ruled)
+
+A `check-tension` gate was run three times over the sheet of a review dispatch that was to red-team
+§14. **The dispatch was never run** — the gate itself produced the findings below and the owner
+stopped there, on the ground that spending eight more agents to re-derive them would be the same
+over-governance reflex §14/RV-9 already names. **These are open questions, not settled law.** They
+are recorded here because the failure mode this whole amendment exists to prevent is a decision that
+looks settled because nobody wrote down that it wasn't.
+
+**OQ-1 — the transcript retirement (RV-5/6/7) is CONTESTED, and the change set cannot see it.**
+RV-5 retired `attacks.md`; RV-7 downgraded P14's durable collapse record to a one-line note in
+`review.md`'s Coverage section. The objection, raised independently by a gate agent and not answered:
+**that note is written by the very synthesizer whose collapse it is supposed to detect**, and once the
+verbatim initial/final positions are gone no later reader can re-derive whether the attackers actually
+diverged. The loss is **structurally invisible to any review conducted under the new rule**, because
+such a review produces no transcript with which to detect it. *The rule in force remains `review.md`
+only. But it is in force provisionally, and the review type skill now says so.* The owner must rule:
+is a review's attack process auditable after the fact, or only its conclusions?
+
+**OQ-2 — P12 does not forbid the AUTHOR from approving their own change set.** P12 excludes the
+`final_approver` from every working group (no self-approval by a *participant*). It says nothing about
+`parent` being the **author of the artifact under review** — which is exactly the case whenever the
+strategist red-teams its own work. "We already acknowledged that, and kept it anyway" is then a
+sentence the approver can say about the criticism it commissioned. The review type skill now carries a
+stated escalation (a surviving revert-class finding goes to the human, not the parent), but **P12
+itself has not been amended.** Whether it should be is open.
+
+**OQ-3 — the drift check is a symptom-level fix; the duplicated-copy architecture is the defect.**
+RV-9 answers "source ≠ installed" with a diff. But the reason drift is *possible* is that this bundle
+is physically copied into N repositories (9 today) and into `~/.claude`, and copies rot. A diff detects
+the rot; it does not remove the conditions for it. The alternative — a single installed location that
+every repo references, so there is nothing to diff — was never evaluated. **No agent on the review
+sheet was positioned to attack this**, because every one of them (including the revert-advocate) was
+handed the diff as a premise to keep. Recorded as residue, undischarged.
+
+**Meta-observation, recorded against the author's own interest.** The gate caught the strategist
+shaping which parts of its own change set were attackable **three times running** — first by making the
+coverage-auditor the `final_approver` (contradicting P12), then by giving all four attackers a shared
+prior, then by handing the revert-advocate `review.md` as the thing to keep. Each was found by an
+independent agent, not by the author. That is the anti-bias apparatus working, and it is also the
+strongest available evidence that **an author cannot be trusted to design the attack on their own
+work** — the gate is not ceremony, and OQ-2 is not hypothetical.

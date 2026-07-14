@@ -8,17 +8,20 @@
  * <record.json> is a UTF-8 JSON file (a file arg, not stdin, so shell encoding
  * — e.g. PowerShell's UTF-16 pipes — can't corrupt the payload).
  *
- * SCHEMA — subagents-strategy constitution v0.6.0 (row schema; group `role`
- * removed at v0.6.0 — §11). Two row kinds, both appended by this script
- * (Principle 3: two appends, one place):
+ * SCHEMA — subagents-strategy constitution v0.6.1 (row schema; group `role`
+ * removed at v0.6.0 — §11; `output_mode` added at v0.6.1 — §14). Two row kinds,
+ * both appended by this script (Principle 3: two appends, one place):
  *
  *   DISPATCH ROW — keyed by `dispatch_id`. Required: dispatch_id,
- *     schema_version ("0.6.0" exactly), dispatch_type
+ *     schema_version ("0.6.1" exactly), dispatch_type
  *     (research|code|review|plan|suggestion|experiment), goal, context, max_loops (1..5),
  *     final_approver, groups[] (each group: group_id, agents[] — NO group
  *     `role` field; each agent: role explorer|skeptic|writer|auditor, model,
  *     token_budget, initial_prompt). Optional: meta (true), parent_dispatch_id,
- *     anti_bias_global, working_folder (REQUIRED for research/experiment; optional for review — inline since 2026-06-16; never vault/),
+ *     anti_bias_global, working_folder (REQUIRED for research/experiment; never vault/),
+ *     output_mode (inline|persisted — REQUIRED on review, forbidden elsewhere; §14:
+ *     a review produces exactly one artifact, review.md, delivered in chat (inline) or
+ *     written to <working_folder>/review.md (persisted); persisted <=> working_folder),
  *     invoked_by (tooling extension, not in constitution §5),
  *     connections[] ({from,to,type,loop_cap?}).
  *   CLOSE ROW — keyed by `close_of`. Required: exit_reason
@@ -42,9 +45,10 @@
  * `project_dir` is a control key (repo-root fallback), never emitted.
  *
  * VALIDATION SPLIT (grandfathering — constitution §2):
- *   - The INCOMING record is validated STRICTLY against the v0.5.2 schema
+ *   - The INCOMING record is validated STRICTLY against the current schema
  *     before append: required fields, closed enums, conditional fields
- *     (working_folder on research/experiment; anti_bias/angle at n >= 2;
+ *     (working_folder on research/experiment; output_mode on review, with
+ *     persisted <=> working_folder; anti_bias/angle at n >= 2;
  *     anti_bias_global when >= 2 groups have >= 2 agents; n ==
  *     agents.length; loop_cap only on zig-zag/feedback; connection endpoints
  *     declared), and unknown-key rejection — keys in constitution §7's removed
@@ -92,16 +96,22 @@ const isNonEmptyStr = (v) => isStr(v) && v.trim() !== '';
 const isObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
 
 // ---------------------------------------------------------------- schema
-const SCHEMA_VERSION = '0.6.0';   // row schema: group `role` removed at v0.6.0 (constitution §11)
+const SCHEMA_VERSION = '0.6.1';   // row schema: `output_mode` added at v0.6.1 (constitution §14)
 const DISPATCH_TYPES = ['research', 'code', 'review', 'plan', 'suggestion', 'experiment'];
 // LIVE per constitution §5 (review 2026-06-12; experiment 2026-06-14, owner decisions); others
 // RESERVED (code, plan, suggestion) — recorded but not yet dispatchable.
 const LIVE_TYPES = new Set(['research', 'review', 'experiment']);
-// working_folder is REQUIRED only for the artifact-producing LIVE types. `review`
-// went inline 2026-06-16 (owner decision): its findings are delivered in chat by
-// default, so it requires no working_folder. A review MAY still set one (optional)
-// when the user confirms persistence at the gate.
+// working_folder is REQUIRED only for the always-persisting LIVE types. `review`
+// chooses its delivery channel per dispatch (constitution §14): the human picks
+// inline-vs-persist at the P2 gate and the choice is recorded in `output_mode`.
 const WORKING_FOLDER_TYPES = new Set(['research', 'experiment']);
+// `output_mode` (v0.6.1, §14) — REVIEW ONLY, and required there. It records the human's
+// explicit gate decision instead of inferring it from an absent working_folder: absence is
+// not a decision, and inferring one is exactly how the 2026-06-16 inline rule drifted out of
+// the generated skill copies unnoticed. Invariant: persisted <=> working_folder present.
+// Forbidden on research/experiment (always persisted) and on the RESERVED types (undesigned).
+const OUTPUT_MODES = ['inline', 'persisted'];
+const OUTPUT_MODE_TYPES = new Set(['review']);
 // Group `role` was removed from the row schema at v0.6.0 (constitution §11 / CR-2): a group's
 // function is read off its agents' roles, its workflow position off its connections.
 const AGENT_ROLES = ['explorer', 'skeptic', 'writer', 'auditor'];
@@ -112,7 +122,7 @@ const DISPATCH_KEYS = new Set([
   'dispatch_id', 'schema_version', 'dispatch_type', 'goal', 'context',
   'max_loops', 'final_approver', 'groups',                       // required
   'meta', 'parent_dispatch_id', 'anti_bias_global', 'working_folder',
-  'invoked_by', 'connections',                                   // optional
+  'invoked_by', 'connections', 'output_mode',                    // optional (output_mode: review-only, required there)
   'project_dir',                                                 // control key, not emitted
 ]);
 const CLOSE_KEYS = new Set([
@@ -166,6 +176,21 @@ function validateDispatch(rec) {
       const wf = rec.working_folder.replace(/^\.[\/\\]+/, '');
       if (/^vault([\/\\]|$)/i.test(wf)) errs.push(`working_folder must never point into vault/ (§5: "Never vault/**") — got ${J(rec.working_folder)}`);
     }
+  }
+
+  // output_mode (§14) — review-only, required there; the recorded gate decision.
+  if (OUTPUT_MODE_TYPES.has(rec.dispatch_type)) {
+    if (rec.output_mode === undefined) {
+      errs.push(`output_mode is required when dispatch_type is "${rec.dispatch_type}" — one of ${OUTPUT_MODES.join(' | ')} (§14: the human's inline-vs-persist decision at the P2 gate is recorded, never inferred from an absent working_folder)`);
+    } else if (!OUTPUT_MODES.includes(rec.output_mode)) {
+      errs.push(`output_mode must be one of ${OUTPUT_MODES.join(' | ')} (got ${J(rec.output_mode)})`);
+    } else if (rec.output_mode === 'persisted' && rec.working_folder === undefined) {
+      errs.push('output_mode "persisted" requires a working_folder — that is where review.md is written (§14)');
+    } else if (rec.output_mode === 'inline' && rec.working_folder !== undefined) {
+      errs.push(`output_mode "inline" forbids a working_folder — an inline review writes no file (§14); got ${J(rec.working_folder)}`);
+    }
+  } else if (rec.output_mode !== undefined) {
+    errs.push(`output_mode is only valid on dispatch_type "review" (§14) — "${rec.dispatch_type}" always persists to its working_folder; drop the key`);
   }
 
   const groupIds = new Set();
@@ -382,6 +407,7 @@ const lines = [
 if (rec.meta === true)                lines.push('    meta: ' + J(true));
 if (rec.parent_dispatch_id != null)   lines.push('    parent_dispatch_id: ' + J(rec.parent_dispatch_id));
 if (rec.anti_bias_global != null)     lines.push('    anti_bias_global: ' + J(rec.anti_bias_global));
+if (rec.output_mode != null)          lines.push('    output_mode: ' + J(rec.output_mode));
 if (rec.working_folder != null)       lines.push('    working_folder: ' + J(rec.working_folder));
 lines.push('    groups: ' + J(rec.groups));
 if (rec.connections !== undefined)    lines.push('    connections: ' + J(rec.connections));

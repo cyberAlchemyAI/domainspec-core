@@ -63,9 +63,9 @@ function expectReject(name, root, record, pattern) {
 function validDispatch(over) {
   return Object.assign({
     dispatch_id: '2026-06-12-battery-main',
-    schema_version: '0.6.0',
+    schema_version: '0.6.1',
     dispatch_type: 'research',
-    goal: 'Prove the v0.6.0 appender end to end.',
+    goal: 'Prove the v0.6.1 appender end to end.',
     context: 'Synthetic record produced by the test battery. Runs against a temp ledger, never the real one.',
     max_loops: 2,
     final_approver: 'parent',
@@ -130,7 +130,7 @@ console.log('\n[1] valid full v0.5.2 row appends; emitted lines pass the self-ch
   check('1a valid dispatch row appends (exit 0)', r1.status === 0, r1.stderr || r1.stdout);
   const text = readLedger(root);
   check('1b row start emitted', /^  - dispatch_id: "2026-06-12-battery-main"$/m.test(text), text);
-  check('1c schema_version block key', /^    schema_version: "0\.6\.0"$/m.test(text), text);
+  check('1c schema_version block key', /^    schema_version: "0\.6\.1"$/m.test(text), text);
   check('1d invoked_by taken from record', /^    invoked_by: "tester@example\.com"$/m.test(text), text);
   check('1e created stamped by appender', /^    created: "\d{4}-\d{2}-\d{2}T/m.test(text), text);
   check('1f groups emitted as JSON column', /^    groups: \[\{"group_id":"explorers"/m.test(text), text);
@@ -152,7 +152,7 @@ console.log('\n[2] each missing required dispatch field is rejected (exit 2)');
   const root = freshRoot();
   const fieldPattern = {
     dispatch_id: /dispatch_id is required/,
-    schema_version: /schema_version must be exactly "0\.6\.0"/,
+    schema_version: /schema_version must be exactly "0\.6\.1"/,
     dispatch_type: /dispatch_type must be one of/,
     goal: /goal is required/,
     context: /context is required/,
@@ -173,9 +173,9 @@ console.log('\n[2] each missing required dispatch field is rejected (exit 2)');
 console.log('\n[3] wrong schema_version rejected');
 {
   const root = freshRoot();
-  expectReject('3a schema_version "0.3.0"', root, validDispatch({ schema_version: '0.3.0' }), /schema_version must be exactly "0\.6\.0"/);
-  expectReject('3b schema_version 0.6.0 as number', root, validDispatch({ schema_version: 0.6 }), /schema_version/);
-  expectReject('3c old schema_version "0.5.2" now rejected', root, validDispatch({ schema_version: '0.5.2' }), /schema_version must be exactly "0\.6\.0"/);
+  expectReject('3a schema_version "0.3.0"', root, validDispatch({ schema_version: '0.3.0' }), /schema_version must be exactly "0\.6\.1"/);
+  expectReject('3b schema_version 0.6.1 as number', root, validDispatch({ schema_version: 0.6 }), /schema_version/);
+  expectReject('3c old schema_version "0.5.2" now rejected', root, validDispatch({ schema_version: '0.5.2' }), /schema_version must be exactly "0\.6\.1"/);
 }
 
 console.log('\n[4] bad enum values rejected');
@@ -267,11 +267,62 @@ console.log('\n[10] working_folder rules');
   expectReject('10i experiment without working_folder rejected (LIVE type)', root, validDispatch({ dispatch_id: '2026-06-12-battery-exp-nf', dispatch_type: 'experiment', working_folder: undefined }), /working_folder is required when dispatch_type is "experiment"/);
   const re = run(root, validDispatch({ dispatch_id: '2026-06-12-battery-experiment', dispatch_type: 'experiment' }));
   check('10i experiment with working_folder appends (exit 0, no RESERVED note)', re.status === 0 && !/RESERVED type/.test(re.stdout), re.stderr || re.stdout);
-  // review went inline 2026-06-16 (§13) — LIVE but working_folder is OPTIONAL, no RESERVED note
-  const rvnf = run(root, validDispatch({ dispatch_id: '2026-06-16-battery-review-nf', dispatch_type: 'review', working_folder: undefined }));
-  check('10j review without working_folder appends (exit 0, inline — no RESERVED note)', rvnf.status === 0 && !/RESERVED type/.test(rvnf.stdout), rvnf.stderr || rvnf.stdout);
-  const rvwf = run(root, validDispatch({ dispatch_id: '2026-06-16-battery-review-wf', dispatch_type: 'review', working_folder: 'docs/reviews/battery/' }));
-  check('10k review with optional working_folder still appends (exit 0)', rvwf.status === 0 && !/RESERVED type/.test(rvwf.stdout), rvwf.stderr || rvwf.stdout);
+  // review (§13 inline, §14 output_mode) — LIVE; working_folder is governed by output_mode, no RESERVED note
+  const rvnf = run(root, validDispatch({ dispatch_id: '2026-06-16-battery-review-nf', dispatch_type: 'review', output_mode: 'inline', working_folder: undefined }));
+  check('10j review inline (no working_folder) appends (exit 0, no RESERVED note)', rvnf.status === 0 && !/RESERVED type/.test(rvnf.stdout), rvnf.stderr || rvnf.stdout);
+  const rvwf = run(root, validDispatch({ dispatch_id: '2026-06-16-battery-review-wf', dispatch_type: 'review', output_mode: 'persisted', working_folder: 'docs/reviews/battery/' }));
+  check('10k review persisted (with working_folder) appends (exit 0)', rvwf.status === 0 && !/RESERVED type/.test(rvwf.stdout), rvwf.stderr || rvwf.stdout);
+}
+
+// §14 — output_mode: review-only, required there; persisted <=> working_folder.
+// This is the field that replaced inference-from-absence, so every direction of the
+// invariant gets a test: absence is no longer allowed to mean anything.
+console.log('\n[10b] output_mode rules (§14)');
+{
+  const root = freshRoot();
+  const review = (over) => validDispatch(Object.assign({ dispatch_type: 'review' }, over));
+
+  // required on review
+  expectReject('10b-1 review without output_mode rejected',
+    root, review({ dispatch_id: '2026-07-13-om-missing', working_folder: 'docs/reviews/x/' }),
+    /output_mode is required when dispatch_type is "review"/);
+
+  // closed enum
+  expectReject('10b-2 output_mode "chat" rejected (not in enum)',
+    root, review({ dispatch_id: '2026-07-13-om-enum', output_mode: 'chat', working_folder: 'docs/reviews/x/' }),
+    /output_mode must be one of inline \| persisted/);
+
+  // the pair invariant, both directions
+  expectReject('10b-3 persisted WITHOUT working_folder rejected',
+    root, review({ dispatch_id: '2026-07-13-om-p-nf', output_mode: 'persisted', working_folder: undefined }),
+    /output_mode "persisted" requires a working_folder/);
+  expectReject('10b-4 inline WITH working_folder rejected',
+    root, review({ dispatch_id: '2026-07-13-om-i-wf', output_mode: 'inline', working_folder: 'docs/reviews/x/' }),
+    /output_mode "inline" forbids a working_folder/);
+
+  // forbidden on every non-review type
+  expectReject('10b-5 output_mode on research rejected',
+    root, validDispatch({ dispatch_id: '2026-07-13-om-research', output_mode: 'inline' }),
+    /output_mode is only valid on dispatch_type "review"/);
+  expectReject('10b-6 output_mode on experiment rejected',
+    root, validDispatch({ dispatch_id: '2026-07-13-om-exp', dispatch_type: 'experiment', output_mode: 'persisted' }),
+    /output_mode is only valid on dispatch_type "review"/);
+  expectReject('10b-7 output_mode on a RESERVED type rejected',
+    root, validDispatch({ dispatch_id: '2026-07-13-om-code', dispatch_type: 'code', output_mode: 'inline', working_folder: undefined }),
+    /output_mode is only valid on dispatch_type "review"/);
+
+  // both legal shapes append, and the key is EMITTED to the ledger (it is the audit record)
+  const ri = run(root, review({ dispatch_id: '2026-07-13-om-inline-ok', output_mode: 'inline', working_folder: undefined }));
+  check('10b-8 inline review appends (exit 0)', ri.status === 0, ri.stderr || ri.stdout);
+  const rp = run(root, review({ dispatch_id: '2026-07-13-om-persist-ok', output_mode: 'persisted', working_folder: 'docs/reviews/battery/' }));
+  check('10b-9 persisted review appends (exit 0)', rp.status === 0, rp.stderr || rp.stdout);
+
+  const text = fs.readFileSync(path.join(root, 'telemetry', 'agents', 'subagents-dispatch.yaml'), 'utf8');
+  check('10b-10 output_mode "inline" emitted as a block key', /^    output_mode: "inline"$/m.test(text), text);
+  check('10b-11 output_mode "persisted" emitted as a block key', /^    output_mode: "persisted"$/m.test(text), text);
+  // an inline review must leave NO working_folder on its row
+  const inlineRow = text.split('  - dispatch_id: "2026-07-13-om-inline-ok"')[1].split('  - dispatch_id:')[0];
+  check('10b-12 inline review row carries no working_folder', !/working_folder/.test(inlineRow), inlineRow);
 }
 
 console.log('\n[11] close rows');

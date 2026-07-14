@@ -69,6 +69,40 @@ function installSkillDir(srcDir, dstDir) {
   }
   return n;
 }
+// The install manifest — the list of repos whose .claude/skills copies must stay
+// byte-identical to this bundle. Read by tests/check-install-drift.cjs (§14 / RV-9).
+const manifestPath = path.join(claudeDir, 'subagents-dispatch-targets.json');
+function loadManifest() {
+  if (!fs.existsSync(manifestPath)) return { targets: [] };
+  try {
+    const m = JSON.parse(fs.readFileSync(manifestPath, 'utf8').replace(/^﻿/, ''));  // tolerate UTF-8 BOM
+    return { targets: Array.isArray(m.targets) ? m.targets : [] };
+  } catch (e) {
+    console.warn('manifest unreadable, rewriting it:', e.message);
+    return { targets: [] };
+  }
+}
+function recordInstallTarget(repo) {
+  const m = loadManifest();
+  const abs = path.resolve(repo);
+  // Drop entries whose repo no longer exists — a stale target would fail the drift
+  // check forever and train everyone to ignore it.
+  const kept = m.targets.filter((t) => t !== abs && fs.existsSync(t));
+  kept.push(abs);
+  kept.sort();
+  fs.mkdirSync(claudeDir, { recursive: true });
+  fs.writeFileSync(manifestPath, JSON.stringify({ targets: kept }, null, 2) + '\n');
+  console.log('recorded install target', abs, `(${kept.length} total in ${fwd(manifestPath)})`);
+}
+function forgetInstallTarget(repo) {
+  if (!fs.existsSync(manifestPath)) return;
+  const m = loadManifest();
+  const abs = path.resolve(repo);
+  const kept = m.targets.filter((t) => t !== abs);
+  fs.writeFileSync(manifestPath, JSON.stringify({ targets: kept }, null, 2) + '\n');
+  console.log('removed install target', abs);
+}
+
 // `event` is the settings.json hook event array the entry belongs to
 // (PreToolUse today; PostToolUse etc. become a table entry, not new code).
 const REGISTRATIONS = [
@@ -120,6 +154,10 @@ if (uninstall) {
     const p = path.join(projectSkillsDir, name);
     if (fs.existsSync(p)) { fs.rmSync(p, { recursive: true, force: true }); console.log('removed', p); }
   }
+  // Drop this repo from the manifest — a stale target would fail check-install-drift
+  // forever over a repo nobody installs to any more, and a check that always fails is a
+  // check everyone learns to ignore.
+  forgetInstallTarget(projectDir);
   console.log('\nUninstalled. Restart Claude Code sessions to pick up the change.');
   process.exit(0);
 }
@@ -153,6 +191,14 @@ for (const name of CHAIN_SKILLS) {
   const n = installSkillDir(src, path.join(projectSkillsDir, name));
   console.log('installed chain skill', path.join(projectSkillsDir, name), `(${n} file${n === 1 ? '' : 's'})`);
 }
+
+// 2c. Record this repo in the install manifest (constitution §14 / RV-9).
+// `tests/check-install-drift.cjs` reads it to know WHICH repos must stay byte-identical
+// to this bundle. Without the manifest the drift check has nothing to check — and an
+// unchecked install is exactly how the 2026-06-16 inline decision ran for a month against
+// an appender that still enforced the rule it had repealed. Machine-local (absolute paths,
+// per user): lives in ~/.claude, never committed.
+recordInstallTarget(projectDir);
 
 // 3. settings.json — migrate away retired regs, then REPLACE ours: strip any
 // existing registration of our scripts (stale matcher/event) and re-add from
