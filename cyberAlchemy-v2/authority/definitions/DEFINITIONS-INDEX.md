@@ -62,6 +62,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D53 | axiom | active | [Axiom](DEFINITIONS.md#cav2-d53-axiom) | A foundational truth taken as given that a family of invariants and rules derives from — about the world the system is built around, not a rule the system obeys. |
 | CAV2-D54 | invariant | active | [Invariant](DEFINITIONS.md#cav2-d54-invariant) | A must-hold condition on the system's own behavior; breaking it is a defect. The checkable "what must stay true" below the axiom and above the rulebook. |
 | CAV2-D55 | premise | active | [Premise](DEFINITIONS.md#cav2-d55-premise) | A working proposition the project bets on before it's proven (`veracidade` low, `convicção` high) — expected to be promoted to axiom, revised, or retired as evidence comes in. |
+| CAV2-D56 | schema | active | [Schema](DEFINITIONS.md#cav2-d56-schema) | The form the evidence must fit: what kinds may occur, what may go inside them, and how they may be wired together — and nothing about whether any of it is true, owned, or approved. |
 
 ## Alias Lookup
 
@@ -100,6 +101,11 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | working hypothesis | CAV2-D55 |
 | hypothesis | CAV2-D55 |
 | conviction bet | CAV2-D55 |
+| schema | CAV2-D56 |
+| structural declaration | CAV2-D56 |
+| admissible-structure declaration | CAV2-D56 |
+| shape declaration | CAV2-D56 |
+| schema facet | CAV2-D56 |
 | architecture pattern promotion lifecycle | CAV2-D43 |
 | artifact tree governance interface | CAV2-D42 |
 | base repository | CAV2-D1 |
