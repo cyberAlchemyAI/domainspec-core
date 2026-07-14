@@ -22,28 +22,25 @@ request is a follow-up act outside the dispatch, or a re-run after fixes within 
 
 **The procedure.** Shape it → Run it → Gate it → Write the report → Close.
 
-> ## ⚠️ `review.md` is a deliberate exception to the `<type>.md` convention — and the transcript retirement is CONTESTED
+> ## ⚠️ `review.md` is review's ONLY artifact — a deliberate exception; do not "fix" it
 >
-> **The naming (settled).** In `research` and `experiment`, `<type>.md` (`research.md`,
-> `experiment.md`) is the **collected verbatim returns**, and `findings.md` is the synthesis.
-> **Review inverts this on purpose:** `review.md` is the **synthesis** — the cited change-request
-> report. If you are here because review "looks inconsistent with the other types" — it is,
-> knowingly. Do not "repair" the name; amend §14 instead.
+> **The naming.** In `research` and `experiment`, `<type>.md` (`research.md`, `experiment.md`) is the
+> **collected verbatim returns**, and `findings.md` is the synthesis. **Review inverts this on
+> purpose:** `review.md` is the **synthesis** — the cited change-request report. If you are here
+> because review "looks inconsistent with the other types" — it is, knowingly.
 >
-> **The transcript retirement (OPEN — §14.1, do not treat as settled).** §14 also retired
-> `attacks.md`, so a review persists no verbatim attacker/verifier returns. The argument was that
-> attacker returns are working material, not evidence — a review's proof is the **quoted artifact**,
-> which lives in `review.md` itself. **A check-tension gate contested this on 2026-07-13 and the
-> owner has not ruled.** The objection, recorded because it is strong: retiring the transcript means
-> **the durable record of P14 collapse detection is a single one-line note in the Coverage section,
-> written by the very synthesizer whose collapse it is supposed to detect.** No later reader can
-> re-derive whether the attackers actually diverged. That is an auditability loss the change set
-> cannot see, because a review under the new rule produces no transcript with which to see it.
+> **No transcript. At all.** A review persists **no verbatim attacker/verifier returns**: no
+> `attacks.md`, no `findings.md`, no appendix of returns inside `review.md`. Attacker returns are
+> **working material, not evidence** — a review's proof is the **quoted artifact**, and that lives in
+> `review.md` itself. Persisting the returns bought traceability of process, not of truth.
 >
-> **Until the owner rules:** the rule in force is `review.md` only. But if the review you are
-> running is one whose *attack process* may later be questioned — a governance change, a contested
-> verdict, an author reviewing their own work — **persist the attacker returns anyway**, as an
-> appendix inside `review.md` or as a sibling file, and say why. Being right beats being consistent.
+> **This was contested and the owner overruled the objection** (2026-07-13, §14/§14.1 — recorded, not
+> erased). The objection: without the transcript, the durable record of P14 collapse detection is one
+> line in the Coverage section, written by the very synthesizer whose collapse it is meant to detect,
+> so no later reader can re-derive whether the attackers actually diverged. **Owner ruling: accepted
+> as a known cost.** A review is audited on its conclusions and the artifact quotations that carry
+> them — not on its attack process. Do not re-litigate this in a skill edit; amend §14 if you want it
+> changed.
 >
 > (Historical: reviews before 2026-07-13 wrote `attacks.md` + `findings.md`. Those files stay on
 > disk as history — the names differ, so nothing is silently reinterpreted.)

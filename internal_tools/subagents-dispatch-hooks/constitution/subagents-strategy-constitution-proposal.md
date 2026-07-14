@@ -943,15 +943,24 @@ over-governance reflex §14/RV-9 already names. **These are open questions, not 
 are recorded here because the failure mode this whole amendment exists to prevent is a decision that
 looks settled because nobody wrote down that it wasn't.
 
-**OQ-1 — the transcript retirement (RV-5/6/7) is CONTESTED, and the change set cannot see it.**
+**OQ-1 — the transcript retirement (RV-5/6/7): RAISED, and OVERRULED by the owner 2026-07-13. CLOSED.**
 RV-5 retired `attacks.md`; RV-7 downgraded P14's durable collapse record to a one-line note in
-`review.md`'s Coverage section. The objection, raised independently by a gate agent and not answered:
-**that note is written by the very synthesizer whose collapse it is supposed to detect**, and once the
-verbatim initial/final positions are gone no later reader can re-derive whether the attackers actually
-diverged. The loss is **structurally invisible to any review conducted under the new rule**, because
-such a review produces no transcript with which to detect it. *The rule in force remains `review.md`
-only. But it is in force provisionally, and the review type skill now says so.* The owner must rule:
-is a review's attack process auditable after the fact, or only its conclusions?
+`review.md`'s Coverage section. A gate agent objected, independently and strongly: **that note is
+written by the very synthesizer whose collapse it is supposed to detect**, and once the verbatim
+initial/final positions are gone, no later reader can re-derive whether the attackers actually
+diverged — a loss **structurally invisible to any review conducted under the new rule**, since such a
+review produces no transcript with which to detect it.
+
+**Owner ruling (2026-07-13): the objection is accepted as accurate and overruled as a known cost.** A
+review is audited on **its conclusions and the artifact quotations that carry them** — not on its
+attack process. Attacker returns are working material; a review's proof is the quoted artifact, which
+lives in `review.md`. **No transcript is persisted: no `attacks.md`, no `findings.md`, and no appendix
+of returns inside `review.md`.** RV-5/6/7 stand as written and are no longer provisional; the review
+type skill has been updated to state the rule and the overruled objection together.
+
+*The objection is recorded rather than deleted because a cost accepted knowingly is governance and a
+cost forgotten is drift. If a future reader needs to re-derive an attack process, this paragraph is
+where they learn that the capability was removed on purpose, and what it cost.*
 
 **OQ-2 — P12 does not forbid the AUTHOR from approving their own change set.** P12 excludes the
 `final_approver` from every working group (no self-approval by a *participant*). It says nothing about
