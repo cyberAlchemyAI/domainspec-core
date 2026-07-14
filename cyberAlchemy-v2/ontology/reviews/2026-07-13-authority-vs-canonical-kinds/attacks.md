@@ -114,7 +114,7 @@ Evidence's owner route = its location + the word "owner". Residue's owner route 
 
 **1. The rollup's entire non-trivial content is the `Evidence` partition — and it is 10 rows, not 9.**
 The map `canonical_kind → authority_kind` is name-identical on 8 rows. It is `unresolved` on 4. Everything the rollup *tells you that the row's own name does not* is: (a) which rows are `Evidence` — `discovery`, `research`, **`findings`**, `session`, `ledger`, `review`, `handoff`, `audit`, `conceptual`, `backlog` = **ten**, 43% of a 23-row table; (b) `readme → Projection`. That is the whole payload. It is small, but it is not zero, and it is not derivable from the row name.
-`cyberAlchemy-v2/ontology/CANONICAL-KINDS.md:55` — `| **findings** | research dispatch **·** review dispatch — *first multi-producer row* | Evidence | ephemeral | tolerated | no |`
+`cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md:55` — `| **findings** | research dispatch **·** review dispatch — *first multi-producer row* | Evidence | ephemeral | tolerated | no |`
 **MAJOR** (pro-split). Fix: state in the Kind Contract that the rollup's job is the Evidence/Projection grouping, not the identity rows; the identity rows are noise the merge critique is right about.
 
 **2. CRITICAL — the predicate the entire rollup exists to compute is recorded nowhere.**
@@ -298,7 +298,7 @@ D48 — the card that supplies `authority-bearing`, the predicate the entire spl
 | `concept_role` (5) | `ontology/NODE-MODEL.md` | ontology route | 2026-06-21 | **No** (non-collapse rule 2) |
 | `authority kind` (9) | `ontology/AUTHORITY-KINDS.md` | ontology route | 2026-06-21 | **No** |
 | `authority kind` (9+1) | `authority/AUTHORITY-MODEL.md` | "CyberAlchemy v2 authority owner" | 2026-06-24 | **Route does not exist** |
-| `canonical_kind` (22→23) | `ontology/CANONICAL-KINDS.md` | ontology route | 2026-07-08 | **No** |
+| `canonical_kind` (22→23) | `ontology/canonical-kinds/CANONICAL-KINDS.md` | ontology route | 2026-07-08 | **No** |
 
 > **Not one cav2 enumeration was authored by a route empowered to decide it.** That is stronger than my original claim and it is fully attested.
 

@@ -3385,7 +3385,7 @@ Promoted: 2026-07-07 (design session: the instance predicate over the canonical-
 ### Normative Definition
 
 A canonical artifact is an artifact instance whose **kind is a member of the
-canonical-kind enumeration** ([../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md))
+canonical-kind enumeration** ([../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md))
 and which was **produced by that kind's declared process** — so it carries a
 defined type (a `CAV2-D21` classification/schema facet that is bound, not left as
 residue) and a traceable process origin. Canonical-ness is the property of *being
@@ -3461,7 +3461,7 @@ kinds.
 In CyberAlchemy v2 this names the genus that sits above the
 [AUTHORITY-MODEL Authority Kinds table](../AUTHORITY-MODEL.md#authority-kinds):
 the fine artifact-types (discovery, research, axiom, ledger, spec, ...) enumerated
-in [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md), each
+in [../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md), each
 rolling up to a coarse `CAV2-D49` authority-kind and carrying a `CAV2-D52`
 durability. It is the positive pole opposite `CAV2-D8` import candidate and
 non-canonical working material: it lets the project say "this is a typed,
@@ -3520,7 +3520,7 @@ Status: OPEN — blocks any binding reading of the `origin(a)` conjunct.
 - [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
 - [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
 - [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md)
-- [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md)
+- [../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md)
 - [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md) (Authority Kinds)
 
 ## CAV2-D52: Artifact Durability
@@ -3581,7 +3581,7 @@ is still allowed to record that things changed over time.
 ### Domain-Context Voice
 
 In CyberAlchemy v2, durability is a column on
-[../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md). It answers
+[../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md). It answers
 "how long is this meant to stand, and can it hold contradictions" — a question
 neither `CAV2-D49` (what kind) nor `CAV2-D23` (how mature) asks. It is why a
 discovery can freely explore contradictions while a spec cannot, and why a ledger
@@ -3602,7 +3602,7 @@ refinement insufficient; that is an owner-gated extension.
 
 - [DEFINITIONS-INDEX.md](DEFINITIONS-INDEX.md)
 - [DEFINITION-DRIFT-AUDIT.md](DEFINITION-DRIFT-AUDIT.md)
-- [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md)
+- [../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md)
 - [#cav2-d51-canonical-artifact](#cav2-d51-canonical-artifact)
 - [#cav2-d26-append-only-event-ledger](#cav2-d26-append-only-event-ledger)
 
@@ -3688,7 +3688,7 @@ the subject-test (world vs system) is the discriminator. Status: OPEN.
 
 Should `axiom` be a first-class authority kind, or continue governing as the
 `Definition` kind? Mirrors [AUTHORITY-MODEL OQ-2](../AUTHORITY-MODEL.md) and
-[CANONICAL-KINDS OQ-2](../../ontology/CANONICAL-KINDS.md). Status: OPEN (tracked
+[CANONICAL-KINDS OQ-2](../../ontology/canonical-kinds/CANONICAL-KINDS.md). Status: OPEN (tracked
 upstream).
 
 #### AX-OQ-3. The axiom-vs-premise threshold, and defeasibility.
@@ -3707,7 +3707,7 @@ toward premise? Status: OPEN.
 - [#cav2-d54-invariant](#cav2-d54-invariant)
 - [#cav2-d34-constitution](#cav2-d34-constitution)
 - [../AUTHORITY-MODEL.md](../AUTHORITY-MODEL.md) (Invariant, Axiom, Constitution)
-- [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md) (`axiom` canonical-kind)
+- [../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md) (`axiom` canonical-kind)
 
 ## CAV2-D54: Invariant
 

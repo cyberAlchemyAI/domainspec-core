@@ -17,7 +17,7 @@ ledger, a spec). An artifact instantiating one of these is a **canonical artifac
 not enumerated here is **non-canonical**: free working material.
 
 This is a **Tier-1** enumeration. It is *finer than* and *rolls up into* the
-coarse **Tier-2** [AUTHORITY-MODEL Authority Kinds](../authority/AUTHORITY-MODEL.md#authority-kinds):
+coarse **Tier-2** [AUTHORITY-MODEL Authority Kinds](../../authority/AUTHORITY-MODEL.md#authority-kinds):
 several canonical kinds (discovery, research, ledger, session) share one
 `authority_kind` (`Evidence`). Membership here does **not** grant authority —
 authority is earned separately, and only kinds whose `authority_kind` is an
@@ -215,23 +215,23 @@ on the aggregate, so the edge runs `findings --derives-from--> research`
 
 Which authority surface this evidence intends to support. Evidence kinds only. List-valued.
 
-Values reference [CAV2-D3 authority layer](../authority/definitions/DEFINITIONS.md#cav2-d3-authority-layer):
+Values reference [CAV2-D3 authority layer](../../authority/definitions/DEFINITIONS.md#cav2-d3-authority-layer):
 `definitions` · `constitutions` · `disciplines` · `decisions` · `specs` · `ontology` ·
 `implementation`.
 
 **Normative — non-concession.** `authority_layer` declares an intended destination and **grants
 nothing**. It confers no standing on the named layer and is not a promotion; promotion remains
-with the owner route ([Narrowest Owner Rule](../authority/AUTHORITY-MODEL.md#narrowest-owner-rule)).
+with the owner route ([Narrowest Owner Rule](../../authority/AUTHORITY-MODEL.md#narrowest-owner-rule)).
 Without this clause the field is authority by self-declaration, which
-[CAV2-C2](../authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md#cav2-c2-authority-layer-separation)
+[CAV2-C2](../../authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md#cav2-c2-authority-layer-separation)
 forbids.
 
 It is a forward declaration, and therefore not an edge: evidence is produced *before* the
 authority artifact it feeds exists, and no edge can point at an unborn node. An evidence artifact
 naming a layer it never produced an edge into is open residue.
 
-> ⚠️ The enum follows [CAV2-D3](../authority/definitions/DEFINITIONS.md#cav2-d3-authority-layer)
-> (5 layers), not [CAV2-C2](../authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md#cav2-c2-authority-layer-separation)
+> ⚠️ The enum follows [CAV2-D3](../../authority/definitions/DEFINITIONS.md#cav2-d3-authority-layer)
+> (5 layers), not [CAV2-C2](../../authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md#cav2-c2-authority-layer-separation)
 > (10). The two disagree, and C2 contradicts itself: it lists `observability` as an authority
 > layer while its own non-example forbids observability from becoming authority. `inventory`,
 > `observability`, and `ops` are excluded here because none may define normative meaning under
@@ -243,10 +243,10 @@ Status: **candidate — and in unresolved collision with a consolidated catalog.
 build on this section until that is settled.**
 
 > ⚠️ **This section forks an existing owner.**
-> [`implementation/domainspec/vault/ontology-conventions.md`](../../implementation/domainspec/vault/ontology-conventions.md)
+> [`implementation/domainspec/vault/ontology-conventions.md`](../../../implementation/domainspec/vault/ontology-conventions.md)
 > (`node_type: constitution`, `status: consolidated`, **v2.3.0**) already owns a 22-edge
 > catalog with typed endpoints, inverses, and a deprecation table. A 2026-07-09 review
-> ([findings.md](../authority/definitions/reviews/2026-07-09-post-correction-audit/findings.md))
+> ([findings.md](../../authority/definitions/reviews/2026-07-09-post-correction-audit/findings.md))
 > established that the section below:
 > - **revives five edges that catalog explicitly deprecated** — `contextualizes` (→`cites`),
 >   `depends-on` (→`derives-from`), `questions` (→`opens-question`), `updates` (→"use
@@ -373,7 +373,7 @@ standalone extraction. Status: OPEN.
 
 ### OQ-2. Does `axiom` roll up to `Definition`, or become its own coarse kind?
 
-Context: mirrors [AUTHORITY-MODEL OQ-2](../authority/AUTHORITY-MODEL.md#oq-2-should-invariant-and-axiom-become-first-class-authority-kinds).
+Context: mirrors [AUTHORITY-MODEL OQ-2](../../authority/AUTHORITY-MODEL.md#oq-2-should-invariant-and-axiom-become-first-class-authority-kinds).
 As of 2026-07-08 `axiom` is canonically defined with an explicit boundary that an axiom
 is **not** a definition. Its `authority_kind` is therefore marked **`unresolved`** rather
 than `Definition` — the one row that does not yet name exactly one authority-kind (an open
@@ -447,7 +447,7 @@ and `node_type` (role) are orthogonal. That reasoning was false and the self-clo
 improper.** Both are struck.
 
 The owner settled it on 2026-07-13
-([decision](../authority/decisions/2026-07-13-canonical-kind-one-label.md)): **one label**,
+([decision](../../authority/decisions/2026-07-13-canonical-kind-one-label.md)): **one label**,
 named `canonical_kind`. A session record's `canonical_kind` is `session`; what the session
 *did* becomes edges, not a second type label. `is_session` is therefore redundant as a type
 axis.
@@ -521,7 +521,7 @@ propose; decision-gate if it adds a free value to the Kind Contract. Status: OPE
 ### OQ-12. Filename-as-kind, or path-as-kind?
 
 Rule 2 puts the kind in the filename. That is consistent with the
-[one-label decision](../authority/decisions/2026-07-13-canonical-kind-one-label.md), which fixed
+[one-label decision](../../authority/decisions/2026-07-13-canonical-kind-one-label.md), which fixed
 the label's *name and cardinality* but not its *carrier*, and it strengthens rule 4: an instance
 that declares no type cannot self-promote.
 

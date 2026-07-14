@@ -11,7 +11,7 @@ expires: 2026-09-06
 conversation_id: 2026-07-08-semantic-authority-cav2-artifact-model
 decisions_made: true
 contradictions_found: false
-specs_updated: [cyberAlchemy-v2/authority/definitions/DEFINITIONS.md, cyberAlchemy-v2/authority/definitions/DEFINITION-SCHEMAS.md, cyberAlchemy-v2/ontology/CANONICAL-KINDS.md, cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md]
+specs_updated: [cyberAlchemy-v2/authority/definitions/DEFINITIONS.md, cyberAlchemy-v2/authority/definitions/DEFINITION-SCHEMAS.md, cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md, cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md]
 promoted_candidates: []
 expected_importance: 6
 importance_rationale: "Renamed the CAV2-D51 canonical-artifact schema fields for explicitness and extended the authority_state lifecycle with `demoted`, and settled the build-from-owned design (an instance-level derived property) for the still-unauthored repo-wide `semantic authority` term."
@@ -41,5 +41,5 @@ The keystone is drawing the `governs` line, because it is the sole blocker on au
 
 - cyberAlchemy-v2/authority/definitions/DEFINITIONS.md
 - cyberAlchemy-v2/authority/definitions/DEFINITION-SCHEMAS.md
-- cyberAlchemy-v2/ontology/CANONICAL-KINDS.md
+- cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md
 - cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md

@@ -15,7 +15,7 @@
 - [CAV2-C18](../../../authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md#cav2-c18-artifact-admission-before-mutation)
 - [Artifact Tree Admission discipline](../../../disciplines/cards/artifact-tree-admission.md)
 - [CAV2-D42/D51/D52](../../../authority/definitions/DEFINITIONS.md)
-- [Canonical Kinds](../../../ontology/CANONICAL-KINDS.md)
+- [Canonical Kinds](../../../ontology/canonical-kinds/CANONICAL-KINDS.md)
 - [Validation boundary](../../README.md)
 
 Excluded from plan context: unrelated CAV2 research, implementation projects,

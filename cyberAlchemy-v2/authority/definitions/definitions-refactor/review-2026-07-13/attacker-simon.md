@@ -49,7 +49,7 @@ the current formal model is not evidence that the referent does not exist.
 
 4. **Canonical Artifact names real artifact families but its current meaning
    collides with Arcanum and does not describe the corpus.**
-   `ontology/CANONICAL-KINDS.md:43` enumerates discovery, research, findings,
+   `ontology/canonical-kinds/CANONICAL-KINDS.md:43` enumerates discovery, research, findings,
    ledger, definition, constitution, decision, spec, discipline, runtime
    contract, projection, residue, and other kinds. The same file says the
    enumeration is a candidate seed, is not closed, and no file currently carries

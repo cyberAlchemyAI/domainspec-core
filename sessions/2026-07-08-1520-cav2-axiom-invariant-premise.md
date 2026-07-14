@@ -11,7 +11,7 @@ expires: 2026-09-06
 conversation_id: 2026-07-08-cav2-axiom-invariant-premise
 decisions_made: true
 contradictions_found: true
-specs_updated: [cyberAlchemy-v2/authority/definitions/DEFINITIONS.md, cyberAlchemy-v2/authority/definitions/DEFINITIONS-INDEX.md, cyberAlchemy-v2/authority/definitions/DEFINITION-SCHEMAS.md, cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md, cyberAlchemy-v2/ontology/CANONICAL-KINDS.md]
+specs_updated: [cyberAlchemy-v2/authority/definitions/DEFINITIONS.md, cyberAlchemy-v2/authority/definitions/DEFINITIONS-INDEX.md, cyberAlchemy-v2/authority/definitions/DEFINITION-SCHEMAS.md, cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md, cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md]
 promoted_candidates: []
 expected_importance: 8
 importance_rationale: "Promoted five canonical CAV2 definitions (D51–D55) that fix the artifact-typing and foundational-vocabulary layer of the authority spine — the axiom/invariant/constitution/premise ladder — grounded in and tested against two real axiom corpora."
@@ -45,4 +45,4 @@ The keystone is the **enforcement gate** — the validator/agent-runtime rung is
 - cyberAlchemy-v2/authority/definitions/DEFINITIONS-INDEX.md
 - cyberAlchemy-v2/authority/definitions/DEFINITION-SCHEMAS.md
 - cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md
-- cyberAlchemy-v2/ontology/CANONICAL-KINDS.md
+- cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md

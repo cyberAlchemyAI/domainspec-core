@@ -20,7 +20,7 @@ authority decisions or making the validator an authority source.
 - [CAV2-D42 Governed Artifact Tree](../../../authority/definitions/DEFINITIONS.md#cav2-d42-governed-artifact-tree)
 - [CAV2-D51 Canonical Artifact](../../../authority/definitions/DEFINITIONS.md#cav2-d51-canonical-artifact)
 - [CAV2-D52 Artifact Durability](../../../authority/definitions/DEFINITIONS.md#cav2-d52-artifact-durability)
-- [Canonical Kinds](../../../ontology/CANONICAL-KINDS.md)
+- [Canonical Kinds](../../../ontology/canonical-kinds/CANONICAL-KINDS.md)
 
 ## Target And Scope
 

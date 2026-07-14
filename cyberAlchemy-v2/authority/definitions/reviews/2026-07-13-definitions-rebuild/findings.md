@@ -125,7 +125,7 @@ These are change requests, not direct mutations of `DEFINITIONS.md`.
 | D5, D13, D37, D41, D48 | `authority/AUTHORITY-MODEL.md`, `authority/promotion-policy.md`, constitutions, and concrete gate/decision records. |
 | D6, D50 | Discipline cards/catalog and the Arcanum-owned discipline definition; CAV2 should reference, not redefine. |
 | D10, D11, D12, D14, D15, D17, D20, D21, D24, D27, D30, D31, D32, D33, D39 | `CRAFT.md`, definitions-governance card/schema instructions, local method docs, or research history according to owner. |
-| D16, D22, D23, D26, D29, D52, D53, D54, D55 | `ontology/CANONICAL-KINDS.md`, ledger schemas, and owning field/transition constraints; unresolved rows stay explicitly unresolved. |
+| D16, D22, D23, D26, D29, D52, D53, D54, D55 | `ontology/canonical-kinds/CANONICAL-KINDS.md`, ledger schemas, and owning field/transition constraints; unresolved rows stay explicitly unresolved. |
 | D19, D28 | `ontology/NODE-MODEL.md`, `ontology/RELATION-MODEL.md`, `RELATIONSHIP-CROSSWALK.md`, and the owning constitution. |
 | D25, D36, D42, D51 | Definition/admission schemas and `STABLE-REPOSITORY-CONSTITUTION.md`; preserve concrete fields and validation effects only. |
 | D43, D44 | `architecture/ARCHITECTURE-KNOWLEDGE-GOVERNANCE.md`. |

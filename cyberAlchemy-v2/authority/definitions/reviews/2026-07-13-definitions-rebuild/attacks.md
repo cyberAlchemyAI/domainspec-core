@@ -73,8 +73,8 @@ An occurrence, link, index row, alias, empty template, candidate document, or st
 
 - D49 is demonstrably enacted, not merely cited: `authority/decisions/2026-06-23-authority-kind-closure-catchall-row.md:11-20` adds the default-deny row, and `authority/AUTHORITY-MODEL.md:61-69` uses it.
 - D40 has real downstream fields, but weak enforcement: `ontology/NODE-MODEL.md:25-59` requires a contract while `validation/artifact-admission/admission-record.schema.json:473-507` reduces it to a textual field.
-- D51/D52 are consumed by admission and canonical-kind machinery: `ontology/CANONICAL-KINDS.md:5-31`; `authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md:409-474`; `validation/artifact-admission/admission-record.schema.json:299-328`.
-- D29 affects classification: `ontology/CANONICAL-KINDS.md:90-106` explicitly keeps durability, authority kind, and maturity separate.
+- D51/D52 are consumed by admission and canonical-kind machinery: `ontology/canonical-kinds/CANONICAL-KINDS.md:5-31`; `authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md:409-474`; `validation/artifact-admission/admission-record.schema.json:299-328`.
+- D29 affects classification: `ontology/canonical-kinds/CANONICAL-KINDS.md:90-106` explicitly keeps durability, authority kind, and maturity separate.
 - D38 records admitted uncertainty in an actual decision: `authority/decisions/2026-07-13-canonical-kind-one-label.md:73-102`.
 - D56's ID has incompatible history: `authority/decisions/2026-07-13-canonical-kind-one-label.md:101-102` still identifies D56 as the retracted `process` definition.
 

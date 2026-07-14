@@ -18,7 +18,7 @@ any policy parser or validator implementation begins.
 4. `work-pack/shared/cross-task-decisions.md` - input format, policy-source, phase, and rollout decisions.
 5. `authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md#CAV2-C18` - working/governed admission rule.
 6. `authority/definitions/DEFINITIONS.md#CAV2-D51` and `#CAV2-D52` - canonical-artifact record and durability boundary.
-7. `ontology/CANONICAL-KINDS.md` - kind/process/rollup/durability contract and unresolved OQ-3.
+7. `ontology/canonical-kinds/CANONICAL-KINDS.md` - kind/process/rollup/durability contract and unresolved OQ-3.
 
 Paths above are relative to `cyberAlchemy-v2/` except the task-session package paths.
 

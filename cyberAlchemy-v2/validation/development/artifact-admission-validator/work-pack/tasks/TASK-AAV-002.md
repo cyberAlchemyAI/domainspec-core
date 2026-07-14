@@ -25,7 +25,7 @@ TASK-AAV-001 complete.
 
 ### Strict Canonical Kinds loader
 
-1. Read `ontology/CANONICAL-KINDS.md` from the resolved repository root.
+1. Read `ontology/canonical-kinds/CANONICAL-KINDS.md` from the resolved repository root.
 2. Locate exactly one `## Enumeration` section.
 3. Select the first Markdown table before the next level-2 heading.
 4. Parse rows with one dedicated escaped-pipe-aware table parser.

@@ -11,7 +11,7 @@ expires: 2026-09-11
 conversation_id: 2026-07-13-canonical-kinds-instance-contract
 decisions_made: true
 contradictions_found: true
-specs_updated: [cyberAlchemy-v2/ontology/CANONICAL-KINDS.md]
+specs_updated: [cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md]
 promoted_candidates: []
 expected_importance: 8
 importance_rationale: "Writes the first instance contract the canonical-kind system has had — fixing the type/instance split, making the kind the filename rather than a forgeable field, and adding a new kind (findings) — but leaves two named contradictions as carried debt and opens four questions rather than closing the design."
@@ -120,4 +120,4 @@ not be extended to a fourth kind until it holds for the three.
 
 ## Files touched
 
-- `cyberAlchemy-v2/ontology/CANONICAL-KINDS.md`
+- `cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md`

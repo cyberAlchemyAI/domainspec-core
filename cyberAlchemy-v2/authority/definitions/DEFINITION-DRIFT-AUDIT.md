@@ -202,7 +202,7 @@ Trigger: definitions-governance design session on "canonical artifacts." Owner
 greenlit the promotion.
 
 - **`CAV2-D51` canonical artifact — PROMOTED.** The *instance predicate* over a
-  new Tier-1 **canonical-kind enumeration** ([../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md)):
+  new Tier-1 **canonical-kind enumeration** ([../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md)):
   an artifact that is typed and born from a governed process, **decoupled from
   authority** (a discovery is canonical yet non-authoritative). Non-canonical =
   unenumerated kind = free working material. Schema `CAV2-D51-SCHEMA` tracked in
@@ -213,7 +213,7 @@ greenlit the promotion.
   contradictions, perennial may not (temporal supersession in a ledger/decision
   record is not a live contradiction).
 - Index synced (2 rows + 9 aliases). New Tier-1 registry
-  [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md) created as
+  [../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md) created as
   **candidate**, rolling canonical-kinds up to the [AUTHORITY-MODEL Authority Kinds](../AUTHORITY-MODEL.md#authority-kinds).
 
 ### Drift finding — "canonical artifact" prose predates this term. Status: flag.
@@ -232,7 +232,7 @@ rewrite the historical prose.
 
 The CAV2-D51 canonical-artifact record fields were renamed for explicitness (owner call):
 `fine_type` → `canonical_kind` (the field now names its Tier-1 enumeration,
-[../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md)) and `coarse_group` →
+[../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md)) and `coarse_group` →
 `authority_kind` (names its Tier-2 enumeration, the [AUTHORITY-MODEL Authority Kinds](../AUTHORITY-MODEL.md#authority-kinds)
 table). **Names only** — no change to the term's meaning, the record shape, or the rollup
 invariant (now `authority_kind = rollup(canonical_kind)`). Synced across
@@ -294,7 +294,7 @@ maestro-trama axiom corpora. Owner greenlit the promotion.
 
 ### Still open (not resolved by this promotion). Status: flag.
 
-- **CANONICAL-KINDS `axiom` row is stale.** [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md)
+- **CANONICAL-KINDS `axiom` row is stale.** [../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md)
   line 48 still rolls `axiom → Definition / authority-reachable: yes`. Now that
   `CAV2-D53` exists and we hold that an axiom is *not* a definition, that row should
   reference `CAV2-D53` and mark its rollup `unresolved (OQ-2) / deferred`. Left for
@@ -307,7 +307,7 @@ maestro-trama axiom corpora. Owner greenlit the promotion.
 
 Trigger: definitions-governance session opened on the observation that `process` is
 called by `CAV2-D51`'s formal clause (`origin(a) = process(kind(a))`) and fills the
-`Process` column of [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md),
+`Process` column of [../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md),
 but was never defined anywhere in the spine. The canonical predicate was therefore
 undecidable: neither side of `origin(a) = process(kind(a))` had a referent. Owner
 greenlit build-from-owned and the record-only posture on the arity mismatch.

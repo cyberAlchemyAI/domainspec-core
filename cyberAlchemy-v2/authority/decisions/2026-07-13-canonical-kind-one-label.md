@@ -9,7 +9,7 @@ Authority kind: Decision (`CAV2-D49`)
 
 ## Question
 
-`cyberAlchemy-v2/ontology/CANONICAL-KINDS.md` enumerates `canonical_kind`.
+`cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md` enumerates `canonical_kind`.
 `implementation/domainspec/vault/ontology-conventions.md` (`status: consolidated`,
 v2.3.0) enumerates `node_type` and calls it "Document Role". Are these **one label
 under two names**, or **two orthogonal labels** (a schema-type and a role)?
@@ -115,6 +115,6 @@ decision, not taken here.
 
 ## Consumers
 
-- [../../ontology/CANONICAL-KINDS.md](../../ontology/CANONICAL-KINDS.md) — the enumeration
+- [../../ontology/canonical-kinds/CANONICAL-KINDS.md](../../ontology/canonical-kinds/CANONICAL-KINDS.md) — the enumeration
 - [../definitions/DEFINITIONS.md](../definitions/DEFINITIONS.md) — `CAV2-D51` canonical artifact
 - [../definitions/DEFINITION-DRIFT-AUDIT.md](../definitions/DEFINITION-DRIFT-AUDIT.md)

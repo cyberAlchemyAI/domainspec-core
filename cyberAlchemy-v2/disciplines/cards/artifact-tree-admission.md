@@ -69,7 +69,7 @@ checks belong to the eventual validator owner.
 
 - [CAV2-D42 Governed Artifact Tree](../../authority/definitions/DEFINITIONS.md#cav2-d42-governed-artifact-tree) - requires a governance interface when a folder or artifact set becomes load-bearing.
 - [CAV2-D51 Canonical Artifact](../../authority/definitions/DEFINITIONS.md#cav2-d51-canonical-artifact) and [CAV2-D52 Artifact Durability](../../authority/definitions/DEFINITIONS.md#cav2-d52-artifact-durability) - separate recognized type and process origin from authority, and classify intended lifespan.
-- [Canonical Kinds](../../ontology/CANONICAL-KINDS.md) - enumerates recognized artifact kinds, producing processes, rollups, and durability defaults while leaving unenumerated work non-canonical.
+- [Canonical Kinds](../../ontology/canonical-kinds/CANONICAL-KINDS.md) - enumerates recognized artifact kinds, producing processes, rollups, and durability defaults while leaving unenumerated work non-canonical.
 - [Stable Repository Constitution](../../authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md) - `CAV2-C7` already requires navigable durable areas and `CAV2-C14` requires a governed interface for load-bearing trees.
 - [CyberAlchemy v2 repository shape](../../README.md#repository-shape) - assigns distinct roles to authority, research, architecture, capabilities, specs, implementation, validation, inventory, ontology, observability, and ops.
 - [Source Map ingest rules](../../SOURCE-MAP.md#ingest-rules) - requires source posture, reference-first ingestion, authority-layer separation, and traceability from generated projections.

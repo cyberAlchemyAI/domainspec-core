@@ -440,7 +440,7 @@ The admission composes existing rules instead of replacing them:
 - a new durable area must also satisfy `CAV2-C7`;
 - a load-bearing tree must also satisfy `CAV2-C14`;
 - a canonical kind uses the current
-  [Canonical Kinds](../../ontology/CANONICAL-KINDS.md) process, rollup, and
+  [Canonical Kinds](../../ontology/canonical-kinds/CANONICAL-KINDS.md) process, rollup, and
   durability contract;
 - an unenumerated kind remains non-canonical unless its owner route admits a
   canonical-kind proposal;

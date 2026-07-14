@@ -11,7 +11,7 @@ expires: 2026-09-11
 conversation_id: 2026-07-13-process-retraction-canonical-kind-ruling
 decisions_made: true
 contradictions_found: true
-specs_updated: [cyberAlchemy-v2/ontology/CANONICAL-KINDS.md, cyberAlchemy-v2/authority/decisions/2026-07-13-canonical-kind-one-label.md, cyberAlchemy-v2/authority/definitions/DEFINITIONS.md, cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md]
+specs_updated: [cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md, cyberAlchemy-v2/authority/decisions/2026-07-13-canonical-kind-one-label.md, cyberAlchemy-v2/authority/definitions/DEFINITIONS.md, cyberAlchemy-v2/authority/definitions/DEFINITION-DRIFT-AUDIT.md]
 promoted_candidates: []
 expected_importance: 8
 importance_rationale: "A five-agent review found that the new CANONICAL-KINDS Edges section silently forks an already-correct consolidated constitution while CAV2-D51's central artifact predicate lost its only referent, and the owner's one-label ruling — previously spoken only in conversation — became the first written record of a decision three attacker findings had to be dropped for lacking."
@@ -26,11 +26,11 @@ The session opened by checking what prior sessions had settled about canonical a
 ## Contradictions
 
 - validates `implementation/domainspec/vault/ontology-conventions.md` — the review confirmed this consolidated v2.3.0 constitution already implements the exact three-way edge split (`derives-from` for inputs at :570, `creates`/`created-by` for the producer at :599) that the session spent hours re-deriving in ignorance of it.
-- contradicts `cyberAlchemy-v2/ontology/CANONICAL-KINDS.md` — its new `## Edges` section forks that consolidated 22-edge catalog, reviving six edges the catalog explicitly deprecated (`contextualizes`, `depends-on`, `questions`, `updates`, `exemplifies`, `resolves`), promoting `updates` to a morphism, and omitting `creates` entirely; its claim that the verbs are "already in use, not invented here" is false as written.
+- contradicts `cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md` — its new `## Edges` section forks that consolidated 22-edge catalog, reviving six edges the catalog explicitly deprecated (`contextualizes`, `depends-on`, `questions`, `updates`, `exemplifies`, `resolves`), promoting `updates` to a morphism, and omitting `creates` entirely; its claim that the verbs are "already in use, not invented here" is false as written.
 - questions `cyberAlchemy-v2/authority/definitions/DEFINITIONS.md` — `CAV2-D51`'s formal clause calls `process(·)`, which has had no referent in the spine since the `CAV2-D56` retraction, leaving the canonical-artifact predicate not truth-evaluable rather than merely under-specified.
-- questions `cyberAlchemy-v2/ontology/CANONICAL-KINDS.md` — its `residue` row is a canonical kind with no producer (a by-product, not something authored), which cannot satisfy `CAV2-D51`'s `origin(a) = process(kind(a))` conjunct; either the enumeration or the membership condition is wrong. Owner-parked.
-- questions `cyberAlchemy-v2/ontology/CANONICAL-KINDS.md` — its `## Hom-Sets` section leaves the category undecided between free (every path distinct) and carrying path equations, but composition arrives whether intended or not: given `spec --implements--> constitution` and `constitution --derives-from--> axiom`, a morphism `spec -> axiom` exists and something must say what it is.
-- questions `cyberAlchemy-v2/ontology/CANONICAL-KINDS.md` — its `## Edges` section rules `contradicts` a "defect marker to eliminate, never a relation to compose", but the argument offered (symmetric ⇒ cycles ⇒ infinite hom-sets) licenses only "not admitted as a morphism"; the governance verdict does not follow from the cardinality observation.
+- questions `cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md` — its `residue` row is a canonical kind with no producer (a by-product, not something authored), which cannot satisfy `CAV2-D51`'s `origin(a) = process(kind(a))` conjunct; either the enumeration or the membership condition is wrong. Owner-parked.
+- questions `cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md` — its `## Hom-Sets` section leaves the category undecided between free (every path distinct) and carrying path equations, but composition arrives whether intended or not: given `spec --implements--> constitution` and `constitution --derives-from--> axiom`, a morphism `spec -> axiom` exists and something must say what it is.
+- questions `cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md` — its `## Edges` section rules `contradicts` a "defect marker to eliminate, never a relation to compose", but the argument offered (symmetric ⇒ cycles ⇒ infinite hom-sets) licenses only "not admitted as a morphism"; the governance verdict does not follow from the cardinality observation.
 
 ## Next steps
 
@@ -45,7 +45,7 @@ The keystone is the **edge-catalog collision**, because it is the one place wher
 
 ## Files touched
 
-- cyberAlchemy-v2/ontology/CANONICAL-KINDS.md
+- cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md
 - cyberAlchemy-v2/authority/decisions/2026-07-13-canonical-kind-one-label.md
 - cyberAlchemy-v2/authority/definitions/reviews/2026-07-09-post-correction-audit/findings.md
 - cyberAlchemy-v2/authority/definitions/DEFINITIONS.md

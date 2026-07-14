@@ -106,7 +106,7 @@ owners — and **never learns that unenumerated kinds are default-deny**.
 
 **Verdict: FIX** (both minor).
 
-### `cyberAlchemy-v2/ontology/CANONICAL-KINDS.md`
+### `cyberAlchemy-v2/ontology/canonical-kinds/CANONICAL-KINDS.md`
 
 | # | evidence | severity | proposed fix |
 |---|---|---|---|
