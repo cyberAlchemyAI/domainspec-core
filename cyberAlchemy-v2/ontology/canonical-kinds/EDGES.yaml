@@ -1,0 +1,207 @@
+# Edge definitions. What each verb MEANS.
+# What is PERMITTED lives in ALLOWED-EDGES.yaml.
+
+# The class decides who may originate a verb, and the boundary is load-bearing:
+# a session records what it DID, never what is TRUE. Its intellectual content lives
+# in the artifacts it creates, not in edges it draws.
+#
+# INVERSES. An inverse exists so that standing at a file you can read what connects to it.
+# GROUNDING edges declare one: at a `research`, "what rests on me" is downstream impact, and
+# that is knowledge worth reading locally.
+# PROVENANCE (session) edges declare NONE. A backlink from an artifact to a session carries
+# process history, not knowledge — an artifact touched by five sessions would collect five
+# backlinks saying only "work happened here". Reverse traversal is a QUERY, never a verb.
+
+verbs:
+
+  derives-from:
+    inverse: derives
+    class: grounding
+    means: A draws its intellectual or evidential basis from B.
+    originated_by: artifacts only — never a session.
+
+  creates:
+    class: provenance
+    means: A session produced B as output.
+    originated_by: session only.
+
+  opens-question:
+    class: provenance
+    means: The session surfaced an open question, and it was RECORDED in the target.
+    note: >
+      Only an edge when the question LANDED in an artifact. An open question with nowhere to
+      land stays in the session's own `## Open Questions` section and is residue. No artifact
+      is created to hold it.
+
+  closes-question:
+    class: provenance
+    means: The session resolved an open question previously recorded in the target.
+
+  surfaces-conflict:
+    class: provenance
+    means: >
+      The session observed a logical tension between two artifacts and took NO position.
+      Declared once per conflicting pair — one edge to each side.
+    note: >
+      A conflict is a THREE-WAY fact: this session observed that A conflicts with B. The session
+      is a real file (produced by `close-session`) and it reifies that fact, holding an edge to
+      each side and naming both in its `## Contradictions` section. This is why no artifact-to-
+      artifact `contradicts` edge is needed. The cost is accepted: because session edges declare
+      no inverse, the conflict is NOT visible from A — it is recovered by querying the sessions.
+
+  revisits:
+    class: provenance
+    means: The session reconsidered the questions recorded in the target without refuting them.
+
+  refutes:
+    class: provenance
+    means: The session actively argues against the target and TAKES A POSITION.
+    open: >
+      FORCE OR ANNOTATION? If a refutation lowers the target's standing, then a session — which
+      can never bear authority — demotes an artifact that can. If it is a bare annotation, it is
+      harmless and honest. Provisionally an ANNOTATION. Left unstated, someone will read it as
+      force. (CANONICAL-KINDS.md OQ-16)
+
+# The session verbs beyond `creates` are permitted DELIBERATELY. A session should express its
+# intellectual content through the artifacts it creates, not by drawing edges — and these five
+# let it do otherwise. Allowed anyway: over-constraining costs more than watching.
+
+# ---------------------------------------------------------------------------
+# Why two edges are optional in ALLOWED-EDGES
+# ---------------------------------------------------------------------------
+
+optionality:
+
+  research -> discovery:
+    cardinality: "0..1"
+    why: >
+      A research dispatched to answer an OPEN QUESTION of a discovery derives from that
+      discovery — it framed the problem, named the terms and the alternatives, and the research
+      inherits that. Lineage, not mere motivation. But a research may also be dispatched cold,
+      motivated by a bare `question`, which is a FIELD and not a node — nothing for an edge to
+      point at. Then there is no edge. This is why a research has NO MANDATORY in-edge.
+    known_gap: >
+      The edge points at the discovery, not at the question. A discovery with five open questions
+      cannot say WHICH one a research was sent to answer; that is matched on the text of the
+      research's `question` field. Accepted — giving a question its own identity would make it a
+      node, which it is not.
+
+  findings -> research:
+    cardinality: "0..1"
+    why: >
+      The findings is the SYNTHESIS of the research, and the research is the AGGREGATE of the
+      investigation: the synthesis rests on the aggregate. Optional only because a review dispatch
+      emits a findings with no research.md beside it. Whether that is legal, or whether the review
+      producer is incomplete, is OQ-9. Until that resolves the edge cannot be made mandatory.
+
+# ---------------------------------------------------------------------------
+# Forbidden on purpose. Recorded so they are never re-proposed.
+# ---------------------------------------------------------------------------
+
+typed_negatives:
+
+  research -> findings:
+    why: >
+      The inverted arrow. It would have the AGGREGATE rest on the SYNTHESIS — the raw material
+      resting on the conclusion drawn from it. Time runs the other way.
+
+  "* -> session":
+    why: >
+      No artifact grounds itself in a session. A session is a record of work, not evidence for a
+      claim. What the session PRODUCED is the evidence, and it is reached by traversing `creates`
+      backwards — a query, not a declared edge (session edges have no inverse).
+
+  "session -> * (grounding)":
+    why: >
+      A session originates no grounding edge. It is a causal actor, not an epistemic one.
+
+  question:
+    why: >
+      A `question` is a FIELD on an artifact, never a node. Nothing points at it and it points at
+      nothing. This is why a research motivated by a bare question has no in-edge — there is no
+      node there to be its source.
+
+  discovery -> findings:
+    status: UNEXAMINED, not decided
+    why: >
+      A discovery rests on the research (the raw aggregate) but not on the findings (the verdict).
+      That is what is settled, and read backwards it looks wrong. Flagged, not defended. Raise it
+      before building on it.
+
+  contradicts:
+    pair: discovery <-> discovery
+    why: >
+      NOT NEEDED, not merely unwanted. A conflict between two discoveries is a THREE-WAY fact —
+      this session observed that A conflicts with B — and the `session` is a real file that
+      reifies it, holding a `surfaces-conflict` edge to each side and naming both in its
+      `## Contradictions` section. Reifying an n-ary fact through a node is how it is modelled;
+      a direct A<->B arrow would duplicate what the session already carries.
+    accepted_cost: >
+      Session edges declare no inverse, so opening A does not show the conflict with B. It is
+      recovered by querying the sessions. Chosen deliberately over putting session backlinks
+      into artifacts.
+    also: >
+      Symmetric edges do not compose and are not morphisms. That is true and is NOT the reason —
+      "not a morphism" never licenses "not an edge". The conflict class holds real edges; this
+      one is simply redundant.
+
+# ---------------------------------------------------------------------------
+# Unruled — neither permitted nor struck, therefore currently denied.
+# ---------------------------------------------------------------------------
+
+unruled:
+
+  derives-from (discovery -> discovery):
+    pair: discovery -> discovery
+    means: A discovery draws its basis from an earlier discovery.
+    why_hard: >
+      In the normal spiral D1 -> R1 -> F1 -> D2 the grounding ALREADY exists as a composed path
+      (D2 derives-from R1, R1 derives-from D1), so a direct arrow adds nothing and, drawn as well,
+      asserts the same grounding by two distinct paths — the hom-set problem. It serves only the
+      case of a discovery refining another with NO research between them, and no such instance
+      exists in the repo to force it. It would also be a grounding self-loop on the one kind that
+      is freely editable, while instance acyclicity is still unenforced. Denied by absence, not
+      struck: the first real refinement-without-research is what flips it.
+
+  alternative-to:
+    pair: discovery <-> discovery
+    means: Two discoveries are alternative framings of the same terrain; neither refutes the other.
+    why_hard: >
+      The right shape, but nothing forces it — unlike `contradicts`, no reachability hole argues
+      for it, and no instance demands it. Minting it now is vocabulary without a use.
+
+  continues-from:
+    pair: session -> session
+    means: A is a temporal continuation of B; the same investigation across two sittings.
+    why_hard: Neither a physical act nor a claim. It is the thread of the work itself.
+
+  modifies:
+    pair: session -> any artifact
+    means: The session changed the target's content.
+    why_hard: >
+      Contested. Against it as an edge: it collapses into `derives-from`; at real volume it is a
+      filesystem changelog, not ontology; and its sibling `deleted` cannot be an edge at all,
+      since the target no longer exists to be an endpoint. Under that reading all three become
+      rows in a session_actions TABLE, never arrows.
+
+  consumes:
+    pair: session -> any artifact
+    means: The session read the target as input without deriving new claims from it.
+    why_hard: Not a physical act, not a claim. Reading is not doing.
+
+# ---------------------------------------------------------------------------
+# Constraint on the FILLED graph. Cannot be enforced by deleting arrows — it varies
+# per document, not per kind.
+# ---------------------------------------------------------------------------
+
+instance_constraints:
+
+  acyclic-grounding:
+    rule: No artifact derives from itself, directly or through a path.
+    status: UNENFORCED
+    why: >
+      The TYPE graph legitimately cycles: discovery -> research -> discovery. At the instance
+      level the normal flow is a spiral, not a loop: D1 -> R1 -> F1 -> D2, with D2 != D1. But
+      nothing prevents the loop. An `ephemeral` artifact is NOT frozen — D1 can be edited after
+      R1 exists. If someone then adds D1 --derives-from--> R1 while R1 --derives-from--> D1
+      already holds, each rests on the other and grounding becomes circular. Needs a check.
