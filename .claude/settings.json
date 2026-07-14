@@ -5,5 +5,20 @@
       "Bash(GH_TOKEN=$\\(gh auth token -u vaboscaro\\) gh api /user/repository_invitations)",
       "Bash(GH_TOKEN=$\\(gh auth token -u vaboscaro\\) gh api /user/repository_invitations --jq '.[] | {repo: .repository.full_name, inviter: .inviter.login}')"
     ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/skill-guard.cjs\"",
+            "timeout": 10,
+            "statusMessage": "Checking skill-authoring guard"
+          }
+        ]
+      }
+    ]
   }
 }
