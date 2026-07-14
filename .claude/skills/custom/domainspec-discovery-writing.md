@@ -22,8 +22,9 @@ The contract is owned by the **Instance Contract** in [`CANONICAL-KINDS.md`](../
 | `canonical_kind` | yes | `discovery` — mirrors the filename, which is authoritative on conflict. |
 | `title` | yes | Which discovery this is. |
 | `description` | yes | **The retrieval surface, ≤ ~60 words.** It is what gets embedded and indexed — it must discriminate (a sentence that would serve another discovery equally well has failed), be dense, carry no filler, and stand alone with no outward pronouns. |
-| `authority_layer` | yes | List. Which authority surface this evidence intends to support. **Declares an intended destination and grants nothing.** |
+| `evidence_for` | yes | List. Which **authority kind** this evidence intends to feed — authority-bearing kinds only: `Definition` · `Constitution` · `Discipline` · `Decision` · `Spec` · `Runtime contract`. **Declares an intended destination and grants nothing.** Not named `authority_kind` on purpose — that is the artifact's own type-level fact, never written. |
 | `created` | yes | |
+| `last_updated` | yes | Starts equal to `created`; bumped on content edits. Coarse signal only — the event log is git. |
 | `tags` | yes | |
 | `question` | opt | The question the discovery was sent to answer. A discovery may be pure reconnaissance, with none. |
 | `outcome` | opt | Requires `question`. `question` without `outcome` is an open investigation — legal while open, residue once closed. |
@@ -84,10 +85,11 @@ One section per area of change. Typical sections (use what applies):
 Declared in a `## Connections` block. The permitted set is owned by [`ALLOWED-EDGES.yaml`](../../../cyberAlchemy-v2/ontology/canonical-kinds/ALLOWED-EDGES.yaml) — **anything absent from it is forbidden**:
 
 - `derives-from` → the `research` this discovery rests on (`0..N`). None, if it is reconnaissance with no research behind it. No edge is mandatory.
+- `contradicts` → another `discovery` this one asserts incompatible things with (`0..N`). **Symmetric.** This is a *claim*, so it lives here, between the two artifacts — a session may never assert it. A session that notices a conflict records it by **updating** one of the two discoveries to carry this edge.
 
-**`discovery → discovery` carries no edge.** Do not draw one. `derives-from` and `alternative-to` between two discoveries are *unruled*; `contradicts` is a typed negative — a conflict between two discoveries is reified by the `session` that observed it, which holds a `surfaces-conflict` edge to each side.
+**`derives-from` and `alternative-to` between two discoveries are *unruled*** — denied by absence. Do not draw either.
 
-Never declare an inverse of a session edge. The `session --creates--> discovery` edge is written by the session, not by the discovery.
+**Never declare an inverse.** `derives`, `created-by`, `updated-by` are *read directions*, not edges: the arrow is written once, at its source. The `session --creates--> discovery` and `session --updates--> discovery` edges are written by the session, never by the discovery.
 
 ---
 

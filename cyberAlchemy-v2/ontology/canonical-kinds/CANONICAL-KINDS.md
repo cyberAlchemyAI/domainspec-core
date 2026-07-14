@@ -67,7 +67,7 @@ candidate assignments awaiting owner ratification.
 | --- | --- | --- | --- | --- | --- |
 | discovery | `domainspec-discovery-writing` | Evidence | ephemeral | tolerated | no |
 | research | `domainspec-subagents-strategy` → research dispatch | Evidence | ephemeral | tolerated | no |
-| **findings** | `domainspec-subagents-strategy` → research dispatch · review dispatch *(multi-producer — OQ-10)* | Evidence | ephemeral | tolerated | no |
+| **findings** | `domainspec-subagents-strategy` → research dispatch | Evidence | ephemeral | tolerated | no |
 | session | `close-session` | Evidence | ephemeral | tolerated | no |
 | ledger | *none — "append-only ledger" restated the kind, not a route (OQ-6)* | Evidence | perennial | resolve-required (live); temporal supersession allowed | no |
 | axiom | *none — "axiom authoring" names no owner route (OQ-6)* | unresolved — OQ-2 *(provisionally governs as `Definition`, but the term's boundary holds axiom ≠ definition)* | perennial | resolve-required | deferred (OQ-2) |
@@ -133,15 +133,24 @@ from these four.
    a `research`, and it also carries `canonical_kind: research`. **On conflict the filename wins** —
    a filename is unique within a folder and cannot be silently duplicated, while a frontmatter
    string can be mistyped. The field is the machine-readable and greppable surface, not the source
-   of truth; it never overrides the name. Where a file cannot be named for its kind — `sessions/`
-   and `authority/decisions/` carry it in the path — the field is what carries the kind:
-   [OQ-12](#oq-12-filename-as-kind-or-path-as-kind).
+   of truth; it never overrides the name.
+
+   **`session` is the exception, and the only one.** A session record is named for *when* it
+   happened (`sessions/2026-07-13-2225-<slug>.md`), so no filename carries its kind. **The path
+   does** — `sessions/` — and `canonical_kind: session` states it in frontmatter. This is a named
+   exception, not a hole: see rule 4. *(Outside the four kinds in scope the carrier varies again:
+   [OQ-12](#oq-12-filename-as-kind-or-path-as-kind).)*
 3. **`title` is the instance.** The kind says what sort of thing; the `title` says which one.
 4. **Type-level facts are looked up, never declared.** `process`, `authority_kind`, `durability`,
    `contradictions`, `authority_reachable` are functions of the kind. An instance that could
    declare them could self-promote. `canonical_kind` is not one of them — it is the *key* to the
-   lookup, not a result of it — and the mirror in rule 2 does not reopen the hole, because the
-   filename overrides the field: an instance cannot rename itself into a different type.
+   lookup, not a result of it.
+
+   **The mirror in rule 2 does not reopen the hole, because the carrier is always *outside* the
+   frontmatter** — the filename for `discovery`/`research`/`findings`, the path for `session`.
+   Either way something the file cannot edit about itself pins its type: a `research.md` cannot
+   declare itself a `definition`, and neither can a file sitting in `sessions/`. **No instance can
+   self-declare its kind.** The frontmatter field states the type; it never *decides* it.
 5. **All four kinds here are `ephemeral`** — records of a moment, not claims on the present
    ([Durability](#durability)). They may be edited freely; editing does not make them current.
    Durability says **nothing** about how an artifact mutates — that is an unnamed third axis
@@ -167,8 +176,9 @@ from these four.
 | `canonical_kind` | yes | Mirrors the filename (rule 2). The filename is authoritative on conflict. |
 | `title` | yes | Which instance this is. |
 | `description` | yes | **The retrieval surface. ≤ ~60 words.** See below — this field has a contract of its own. |
-| `authority_layer` | yes | List. See below. |
+| `evidence_for` | yes | List. See below. |
 | `created` | yes | |
+| `last_updated` | yes | Starts equal to `created`; bumped on content edits. A coarse retrieval signal only — the event log is git, and nothing enforces the bump. |
 | `tags` | yes | |
 
 #### `description` — the retrieval surface
@@ -204,38 +214,51 @@ Residue is an attribute (rule 6); whether it is a **frontmatter field** is
 | `discovery` | `question` *(opt)*, `outcome` *(opt)*, `residue` *(OQ-13)* | May be reconnaissance, with no question it was sent to answer. |
 | `research` | `question` **(required)** | The **aggregate** of the investigation — everything gathered. Carries no `outcome` (rule 8 exception). |
 | `findings` | `question` **(required)**, `outcome` **(required)**, `residue` *(OQ-13)* | The **synthesis**. Exists to state an outcome; the verdict-per-candidate table lives in the body. |
-| `session` | `residue` *(OQ-13)* | Carries no `question`/`outcome`: a session is not sent to answer one thing. Its open questions live in `## Open Questions`. Frontmatter beyond this: [OQ-14](#oq-14-session-instance-contract-is-incomplete). |
+| `session` | `residue` *(OQ-13)* | Carries no `question`/`outcome`: a session is not sent to answer one thing. Its open questions live in `## Open Questions`. **Carries `evidence_for`, and typically several values** — a session touches whatever it touches, and the field is a list precisely so it can say so. Frontmatter beyond this: [OQ-14](#oq-14-session-instance-contract-is-incomplete). |
 
 `research` and `findings` require the **same** `question` — the one the dispatch was sent to
 answer. They differ in `outcome`: the research gathers, the findings decides. The synthesis rests
 on the aggregate, so the edge runs `findings --derives-from--> research`
 ([Evidence edges](#evidence-edges)).
 
-### `authority_layer`
+### `evidence_for`
 
-Which authority surface this evidence intends to support. Evidence kinds only. List-valued.
+Which authority kind this evidence intends to feed. Evidence kinds only. List-valued.
+*(Owner decision, 2026-07-14: this field replaces `authority_layer`. It points at the target
+**kind** directly instead of the surface the kind lives on — the layer was always an indirection
+— and it stops referencing the contested layer enumeration entirely.)*
 
-Values reference [CAV2-D3 authority layer](../../authority/definitions/DEFINITIONS.md#cav2-d3-authority-layer):
-`definitions` · `constitutions` · `disciplines` · `decisions` · `specs` · `ontology` ·
-`implementation`.
+Legal values are the **authority-bearing** Tier-2 kinds of
+[AUTHORITY-MODEL Authority Kinds](../../authority/AUTHORITY-MODEL.md#authority-kinds) — a closed,
+default-deny enumeration ([CAV2-D49](../../authority/definitions/DEFINITIONS.md#cav2-d49-closed-authority-kind-enumeration)):
 
-**Normative — non-concession.** `authority_layer` declares an intended destination and **grants
-nothing**. It confers no standing on the named layer and is not a promotion; promotion remains
-with the owner route ([Narrowest Owner Rule](../../authority/AUTHORITY-MODEL.md#narrowest-owner-rule)).
-Without this clause the field is authority by self-declaration, which
+`Definition` · `Constitution` · `Discipline` · `Decision` · `Spec` · `Runtime contract`
+
+Excluded on purpose: `Evidence` (evidence resting on evidence is the `derives-from` edge, already
+owned), `Projection` (a regenerable view is generated, never researched toward), `Residue` (an
+attribute, not a destination).
+
+**The field is deliberately not named `authority_kind`.** An instance's own `authority_kind` is a
+type-level fact — looked up from the kind, never written (rule 4). A frontmatter key of that name
+valued `Definition` would read as a self-declared kind, which is exactly the self-promotion hole
+rule 4 closes. `evidence_for` states a **target**, never an identity.
+
+**Normative — non-concession.** `evidence_for` declares an intended destination and **grants
+nothing**. It confers no standing and is not a promotion; promotion remains with the owner route
+([Narrowest Owner Rule](../../authority/AUTHORITY-MODEL.md#narrowest-owner-rule)). Without this
+clause the field is authority by self-declaration, which
 [CAV2-C2](../../authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md#cav2-c2-authority-layer-separation)
 forbids.
 
 It is a forward declaration, and therefore not an edge: evidence is produced *before* the
 authority artifact it feeds exists, and no edge can point at an unborn node. An evidence artifact
-naming a layer it never produced an edge into is open residue.
+naming a kind it never produced an edge into is open residue.
 
-> ⚠️ The enum follows [CAV2-D3](../../authority/definitions/DEFINITIONS.md#cav2-d3-authority-layer)
-> (5 layers), not [CAV2-C2](../../authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md#cav2-c2-authority-layer-separation)
-> (10). The two disagree, and C2 contradicts itself: it lists `observability` as an authority
-> layer while its own non-example forbids observability from becoming authority. `inventory`,
-> `observability`, and `ops` are excluded here because none may define normative meaning under
-> D3. Unratified. Route: definitions-governance.
+> The [CAV2-D3](../../authority/definitions/DEFINITIONS.md#cav2-d3-authority-layer) (5 layers)
+> vs [CAV2-C2](../../authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md#cav2-c2-authority-layer-separation)
+> (10 layers) disagreement over the *authority layer* enumeration is real and remains open
+> (route: definitions-governance) — but it is no longer this contract's problem: this field
+> references the closed authority-kind enumeration, not the layer one.
 
 ## Edges
 
@@ -250,15 +273,20 @@ build on this section until that is settled.**
 > established that the section below:
 > - **revives five edges that catalog explicitly deprecated** — `contextualizes` (→`cites`),
 >   `depends-on` (→`derives-from`), `questions` (→`opens-question`), `updates` (→"use
->   `version:` frontmatter"), `exemplifies` (deferred) — and promotes `updates` to a
->   succession *morphism*;
+>   `version:` frontmatter"), `exemplifies` (deferred) — and promoted `updates` to a
+>   succession *morphism*. ⚠️ **`updates` has since been removed from the succession class and
+>   re-minted as the session provenance verb** ([the session rule](#the-session-rule)) — so this
+>   file and the catalog now use the same name for two different edges. **New collision, worse
+>   than the old one;** it must be settled with the rest;
 > - **omitted `created-by`** — the inverse of the producer edge (session → any, *"A produced B as
->   output"*). `creates` itself has since been imported into
->   [Evidence edges](#evidence-edges); its inverse is still absent. It is
->   the producer edge the spine has been trying to invent as `process_origin`;
+>   output"*). ✅ **Answered, not by importing it:** an inverse is a **read direction, not a
+>   declarable edge** ([the session rule](#the-session-rule)), so `created-by` is nothing to omit.
+>   The `process_origin` the spine kept trying to invent is `creates`, read backwards — and it is
+>   **partial**, because a session file exists only if `close-session` ran;
 > - **mis-cites `consumed-by`**: the catalog owns it as a *session* provenance edge that
 >   explicitly carries **no** lineage; this section files it under *grounding*, sourced
->   from a definition card. Same name, opposite category.
+>   from a definition card. Same name, opposite category. *(Moot for the session: `consumes` is
+>   struck — reading is not doing. The grounding sense is untouched.)*
 >
 > The claim below that these verbs are *"already in use, not invented here"* is therefore
 > **false as written** — several are in use only as tombstones. This section must
@@ -280,17 +308,41 @@ for what they mean here, and it is not reconciled against this file
 | --- | --- | --- | --- | --- |
 | `derives-from` | `research` | `discovery` | **0..1** | **`research` has no *mandatory* in-edge.** It may be dispatched cold — motivated by a bare `question`, which is a **field, not a node**, so nothing is there for an edge to point at. Or it may answer an **open question of a `discovery`**, and then the edge exists: the discovery framed the problem, named the terms and the alternatives, and the research inherits that. That is lineage, not just motivation. |
 | `derives-from` | `discovery` | `research` | 0..N | A discovery draws its basis from a research. None, if it is reconnaissance. |
-| `derives-from` | `findings` | `research` | **0..1** | The **synthesis rests on the aggregate**. Optional only because a review dispatch emits a `findings` with no `research.md` beside it — whether that is legal is [OQ-9](#oq-9-review-and-audit-may-not-be-file-kinds-at-all). Until that resolves the edge cannot be made mandatory. |
-| `creates` | `session` | any artifact | 0..N | The provenance edge. A session produced the artifact as output. |
+| `derives-from` | `findings` | `research` | **0..1** | The **synthesis rests on the aggregate**. Optional because a **single-agent (`n=1`) research dispatch** emits `findings.md` with no `research.md` beside it — nothing to point at. *A review dispatch is not the reason: a review emits `review.md` only and is forbidden from writing a `findings.md`.* |
+| `contradicts` | `discovery` | `discovery` | 0..N | **Symmetric.** Two discoveries assert incompatible things. A CLAIM, so it lives between the artifacts — never on a session's arrow. |
+| `creates` | `session` | any Evidence artifact | 0..N | A session produced the artifact as output. |
+| `updates` | `session` | any Evidence artifact | 0..N | A session changed the artifact after it already existed. **One edge per (session, artifact) pair, not one per edit** — a relation, not an event log. The event log is git. |
 
 No edge is mandatory. Nothing yet obliges a synthesis to point at what it synthesized.
 
-**`discovery → discovery` carries no edge.** `derives-from` between two discoveries is *unruled*, not
-struck: in the normal spiral the grounding already exists as a composed path, and no instance yet
-forces a direct arrow. `contradicts` is unnecessary — a conflict between two discoveries is a
-three-way fact (*this session observed that A conflicts with B*), and the `session` is a real file
-that reifies it, holding an edge to each. Both are recorded in
-[`EDGES.yaml`](./EDGES.yaml) under `unruled`.
+### The session rule
+
+**A session may only CREATE or UPDATE a file. Nothing else.**
+
+A session records what it **did**, never what is **true**. Create and update are *acts*. Everything
+else a session might want to say — *this is refuted*, *these two conflict*, *this question is open* —
+is a **claim**, and a claim belongs in an artifact. A session bears no authority; a verb that let it
+assert would let it assert without standing.
+
+So `refutes`, `surfaces-conflict`, `opens-question`, `closes-question` and `revisits` are **struck** —
+each was a claim wearing an act's clothes. `consumes` (reading is not doing) and `continues-from` (the
+thread of the work — neither act nor claim) fall to the same rule. **Nothing is lost:** a question
+already lives in an artifact's `## Open Questions` section, so opening one *is* updating the artifact;
+and a conflict lives on `contradicts` between the two artifacts, with the session that noticed it
+simply `updates`-ing one of them. The act stays with the session; the truth stays with the artifact.
+
+**`creates` is not total, and cannot be made so.** A session file exists only if `close-session` was
+run, so an artifact may legitimately have **no session claiming it**. Provenance is **partial by
+construction** — a fact about how sessions come into being, not a hole to plug. Nothing may be
+inferred from a missing `creates` edge.
+
+**Inverses are read directions, not edges.** `derives`, `created-by`, `updated-by` name the reverse
+reading of an arrow that is written once, at its source. None appears in
+[`ALLOWED-EDGES.yaml`](./ALLOWED-EDGES.yaml) — there is nothing there to permit.
+
+**`discovery → discovery` carries `contradicts` and nothing else.** `derives-from` and
+`alternative-to` between two discoveries are *unruled* — denied by absence, not struck — and recorded
+as such in [`EDGES.yaml`](./EDGES.yaml), each with the condition that would flip it.
 
 **The type graph cycles here, and that is correct.** `discovery → research → discovery` is a
 type-level 2-cycle, and type-level cycles are admissible.
@@ -311,21 +363,8 @@ the text of the research's `question` field. Giving open questions their own ide
 question a node, which it is not (rule: a question is a field). Coarse by decision, not by
 oversight.
 
-Session edges beyond `creates`: `refutes`, `revisits`, `surfaces-conflict`, `opens-question`,
-`closes-question` are **permitted**. The posture is deliberate — do not over-constrain the system;
-observe instead. Whether `refutes` carries **force** (lowers its target's standing) or is a bare
-**annotation** is [OQ-16](#oq-16-does-refutes-have-force); it is permitted either way.
-`modifies`, `consumes`, and `continues-from` are undecided
-([OQ-17](#oq-17-three-session-edges-were-never-ruled-on)).
-
-**Session edges declare no inverse.** A backlink from an artifact to a session carries process
-history, not knowledge — an artifact touched by five sessions would accumulate five backlinks that
-say only *"work happened here"*. Reverse traversal stays a query, never a declared verb. Grounding
-edges keep their inverse: standing at a `research`, *what rests on me* is downstream impact, and
-that is worth reading locally.
-
-These session edges belong to a **provenance** class that the four-class table below does not have.
-So `creates` — the one settled edge in this file — has no declared morphism status. Open.
+`creates` and `updates` belong to a **provenance** class that the four-class table below does not
+have, so neither has a declared morphism status. Open.
 
 ---
 
@@ -339,14 +378,21 @@ how it reads:
 | Class | Edges | Status in the schema |
 | --- | --- | --- |
 | **grounding** | `derives-from`, `implements`, `validates`, `depends-on`, `rollup`, `consumed-by` | **morphisms** (proposed). Directed and typed. **The type graph cycles.** Both `discovery → research` and `research → discovery` exist ([Evidence edges](#evidence-edges)), so the 2-cycle is real at the type level. Acyclicity is an **instance** constraint (no document derives from itself), never a type-level one — and **nothing enforces it**: `ephemeral` does not mean frozen, so a `discovery` can be revised into a back-edge after the research that cites it exists. It needs a check. Open. |
-| **succession** | `supersedes`, `updates`, `deprecates` | **morphisms** (proposed). Endomorphisms (`T -> T`, same kind both ends) — note a `T -> T` arrow **is** a type-level self-loop, which is admissible; the strict order holds over **instances**. |
-| **conflict** | `contradicts`, `alternative-to` | **not morphisms** — symmetric, so they induce cycles and make hom-sets infinite. Annotations on a pair. |
+| **succession** | `supersedes`, `deprecates` | **morphisms** (proposed). Endomorphisms (`T -> T`, same kind both ends) — note a `T -> T` arrow **is** a type-level self-loop, which is admissible; the strict order holds over **instances**. ⚠️ `updates` was listed here; it is **removed** — the name is now the session provenance verb ([the session rule](#the-session-rule)), and the consolidated catalog had already deprecated the succession sense (→ "use `version:` frontmatter"). |
+| **provenance** | `creates`, `updates` | **not morphisms** — the endpoints are a session and an artifact, and a session is not an object of this category. Morphism status is **open**. |
+| **conflict** | `contradicts`, `alternative-to` | **not morphisms** — symmetric, so they do not compose. `contradicts` is nonetheless a **real, permitted edge** on `discovery ↔ discovery`. |
 | **navigational** | `questions`, `refines`, `exemplifies`, `contextualizes`, `flags` | **not morphisms** (candidate) — carry no authority; annotations. |
 
-Only the first two classes belong in the category. A symmetric edge admitted as a
-morphism makes `Hom(A,B)` infinite (`A contradicts B contradicts A ...` is an endless
-family of distinct paths), which is why `contradicts` is a **defect marker to
-eliminate**, never a relation to compose.
+Only the first two classes belong in the category. A symmetric edge admitted as a morphism makes
+`Hom(A,B)` infinite (`A contradicts B contradicts A ...` is an endless family of distinct paths) —
+so `contradicts` **does not compose**.
+
+⚠️ **That is all it establishes.** "Not a morphism" never licensed "not an edge", and an earlier
+version of this section made exactly that leap, ruling `contradicts` a *"defect marker to eliminate,
+never a relation"*. It is struck. The conflict class holds real edges that simply do not compose,
+and on the `ephemeral` Evidence kinds a contradiction is `tolerated` — never resolved, never
+deleted, therefore **permanent**, which is precisely what belongs on a graph. It is a live defect
+only on `perennial` kinds, where both sides claim the present.
 
 Where these verbs appear. ⚠️ **Appearing is not being sanctioned.** Several appear in the
 consolidated catalog only as **tombstones** — `questions` is deprecated (→ `opens-question`),
@@ -458,31 +504,25 @@ should not be a type — is `implementation/domainspec/vault/ontology-convention
 the label's name and cardinality only; that catalog's **edges** remain authoritative.
 Status: CLOSED by owner decision.
 
-### OQ-9. `review` and `audit` may not be file kinds at all.
+### OQ-9. `audit` may not be a file kind at all. *(The `review` half is CLOSED.)*
 
-A review dispatch emits no `review.md`. It emits `findings.md`
-(`authority/definitions/reviews/2026-07-09-post-correction-audit/`), sometimes plus `attacks.md`
-(`.../2026-07-13-definitions-rebuild/`) — a shape this enumeration does not contain. Under
-[the unit is the file](#instance-contract-frontmatter), `review` names no file. Three readings:
+**The `review` half is settled and the premise it rested on was false.** This question used to read
+*"a review dispatch emits no `review.md` — it emits `findings.md`"*. That is no longer true, and the
+`review` skill now forbids it outright: *"Never write `attacks.md` or `findings.md` from a review"*
+(`.claude/skills/review/SKILL.md`, §14). A review dispatch emits **exactly one artifact, `review.md`**
+— optionally not a file at all, when the human picks `output_mode: inline`. So `review` **is** a file
+kind, it names a file, and it has one producer. *(This also falsified the old OQ-10: `findings` has a
+single producer, the research dispatch, and OQ-10 is deleted.)*
 
-1. `review` is not a file kind — the dispatch emits `findings` plus an unenumerated `attacks`,
-   and the row should be struck or reread as the *process* that emits them.
-2. The unit is the folder after all — contradicting the file rule, and leaving the instance
-   contract nowhere to live.
-3. `review.md` should exist and does not — the producer is incomplete.
+Remaining, and it is `inline` that makes it interesting: an `inline` review persists **no file**. A
+canonical kind whose instances may exist only in a chat transcript is a shape this enumeration does
+not contain. Is `review` then a kind with optional instantiation, or is `output_mode: inline` simply
+outside the ontology? Unresolved.
 
 `audit` sits in the same position with no producing process at all (OQ-6), and its drafted
 instance contract came out identical to `review`'s. **Do `review` and `audit` collapse?**
 
 Route: ontology route to propose; decision-gate if it strikes a row. Status: OPEN.
-
-### OQ-10. `process` is no longer single-valued.
-
-`findings` names two producers (research dispatch, review dispatch). Every other row assumes one
-owner route, and the Kind Contract describes `process` in the singular. Whether a set-valued
-`process` is admissible — or whether two producers means the kind is under-specified — is
-unresolved. This is the mirror of [OQ-6](#oq-6-six-canonical-kinds-have-no-producing-process),
-not the same defect. Status: OPEN.
 
 ### OQ-11. A third axis exists, and is unnamed.
 
@@ -555,33 +595,96 @@ Status: OPEN.
 ### OQ-14. `session` instance contract is incomplete.
 
 `session` carries the core contract, carries `residue`, and carries **no** `question`/`outcome`.
-Undecided: whether it carries `authority_layer` — the core contract requires it, and the field
-means *"which authority surface this evidence intends to support"*, but a session supports no
-single surface; and whether the three forward sections (`## Open Questions` / `## Next steps` /
-`## Recommendation`) are contract or convention. Route: ontology route. Status: OPEN.
+**CLOSED (owner, 2026-07-14) — both halves.**
 
-### OQ-16. Does `refutes` have force?
+**`authority_layer`** *(since renamed `evidence_for` and re-valued with authority kinds — same
+2026-07-14 owner session; the ruling transfers unchanged)*. A session **does** carry it, and **may
+carry several values**. The objection was that *"a session supports no single surface"*, which was
+never a reason to drop the field: it is **list-valued** exactly so an artifact can name every
+target it touches. A session that moved definitions and decisions says both. It remains a forward
+declaration that **grants nothing**.
 
-A session may originate `refutes` ([Evidence edges](#evidence-edges)). The catalog defines it as
-*"actively argues against B; takes a position"* and does **not** say B is demoted. Two readings,
-and the difference is load-bearing:
+**The three forward sections are CONTRACT, not convention.** `## Open Questions`, `## Next steps`
+and `## Recommendation` are mandated by the producing process, `close-session`
+(`.claude/skills/close-session/SKILL.md` — the body template at :68–84, the discipline rules at
+:97–100, which hold them to three distinct registers: *undecided* / *decided labor* / *ranks across
+them and asserts nothing new*). Residue therefore **has a guaranteed home**: `## Open Questions` is
+contractual, which is what [rule 9](#rules-1) needs to stand.
 
-- **Annotation** — the refutation is recorded; B's `authority_state` is untouched. Harmless.
-- **Force** — a `refutes` lowers B's standing. Then a `session` (`authority_reachable: no`, no
-  standing of its own) can demote a `promoted` artifact, which violates the *proposed*
-  standing-monotonicity constraint in [Hom-Sets](#hom-sets) — itself not authority.
+⚠️ **But the same skill breaks [the session rule](#the-session-rule).** See
+[OQ-19](#oq-19-close-session-emits-session-edges-the-schema-forbids).
 
-Unstated, it will be read as force. Route: decision-gate. Status: OPEN.
+### OQ-19. `close-session` emits session edges the schema forbids.
 
-### OQ-17. Three session edges are unruled.
+**The producer named in the `session` row contradicts [the session rule](#the-session-rule) — and it
+does so by design, not by drift.**
 
-Five session edges are permitted and `creates` is settled ([Evidence edges](#evidence-edges)).
-Three others in the catalog's provenance class are neither permitted nor struck:
+`.claude/skills/close-session/SKILL.md:35`:
 
-| Edge | Catalog definition | Why it is not obvious |
-| --- | --- | --- |
-| `continues-from` | session → session, 1:1, *"temporal continuation; same investigation across two sittings"* | Neither a physical act nor an intellectual claim. It is the thread of the work itself. |
-| `modifies` | session → any, *"changed B's content"* | Contested. The case against it as an edge: `created`/`modified`/`deleted` collapse into `derives-from`; at their real volume they are a filesystem changelog, not ontology; and `deleted` cannot be an edge at all, since its target no longer exists to be an endpoint. Under that reading all three become rows in a `session_actions` **table** — the physical act never becomes an edge, while the knowledge relation stays on the graph. The catalog nonetheless carries `modifies` as an edge. *(Source: an external review outside this repository, not reachable from it — the reasoning is inlined rather than cited.)* |
-| `consumes` | session → any, *"read or used B as input without deriving new claims"* | Not a physical act, not a claim. Reading is not doing. |
+> **Contradictions** — only if a vault node was validated, contradicted, or questioned. **One bullet
+> per edge.**
 
-Route: ontology route. Status: OPEN.
+And :98 routes questions *into* that section: *"A question naming a vault/spec node is a
+`questions {node}` edge → `## Contradictions`, not Open questions."*
+
+So `close-session` has a session declare `validates`, `contradicts` and `questions` **against other
+nodes**. Every one is a **claim**, and the session rule says a session may only `creates` or
+`updates`. The whole corpus in `sessions/` is written this way — this file's own session records
+carry `validates …` and `questions …` bullets.
+
+Two readings, and they are not close:
+
+1. **`close-session` must change.** The claims are real but they belong on the artifacts. A session
+   that finds A contradicts B **updates** A to carry `contradicts → B`; the `## Contradictions`
+   section becomes narration of acts performed, not a list of edges the session originates.
+2. **The session rule is too strong.** A session that may not even record *"I noticed these two
+   disagree"* has been stripped of the one thing a work-record is for, and the rule should carve out
+   an observation class.
+
+**The rule was derived from this file's own principle** (*"a session records what it DID, never what
+is TRUE"*) and it closed OQ-16 and OQ-17 by doing so. The cost is only now visible: it invalidates
+the producer and, read strictly, the existing corpus. Nothing is migrated either way — the decision
+defines, it does not rewrite history.
+
+Route: decision-gate. Status: **OPEN — the schema and its own producer disagree.**
+
+### OQ-18. Where is an edge physically written, and in what syntax? *(DEFERRED — close after the kinds are defined.)*
+
+**The schema says which edges are permitted and what they mean. It never says where one lives.**
+[`ALLOWED-EDGES.yaml`](./ALLOWED-EDGES.yaml) and [`EDGES.yaml`](./EDGES.yaml) name the verbs, the
+endpoints and the cardinalities; the [Instance Contract](#instance-contract-frontmatter) is
+frontmatter-only and names no edge field and no edge section. So there is **no edge carrier**.
+
+The consequence is concrete: the only statement of a carrier anywhere is `## Connections` in
+`.claude/skills/custom/domainspec-discovery-writing.md` — a *skill*, not the schema. An operator can
+therefore write a conforming `discovery.md` and **nothing else**: a `research.md` needs
+`derives-from → discovery` and must invent the carrier; so must a `findings.md` and a session file.
+
+It also undercuts every *"recovered by a query"* defence in this file — reading `creates` backwards
+to find a producer presumes a declared format to read.
+
+Candidate: one syntax, owned by the schema and binding on all four kinds — a `## Connections` block
+of `- <verb> → <relative path>` lines. Frontmatter is the alternative and is worse for a list that
+carries paths.
+
+**Deliberately deferred** (owner, 2026-07-14): the kinds are still being defined, and a carrier
+fixed before the things it carries are settled would be fixed twice. Route: ontology route.
+Status: OPEN — **blocking for any operator, not for the design.**
+
+### OQ-16 and OQ-17 — CLOSED by [the session rule](#the-session-rule).
+
+Both asked what a session may assert. **A session asserts nothing** — it may only create or update
+a file. That one rule answers both, and neither question survives it.
+
+- **OQ-16 (*does `refutes` have force?*)** was hard only because a session that bears no authority
+  was being allowed to take a position. Remove the verb and the question dissolves. `refutes` is
+  **struck**.
+- **OQ-17 (*three session edges are unruled*)** resolves in both directions: `modifies` is admitted
+  as **`updates`** (one edge per session/artifact pair — a relation, not an event log); `consumes`
+  (reading is not doing) and `continues-from` (the thread of the work — neither act nor claim) are
+  **struck**, being neither create nor update.
+
+Struck with them, under the same rule: `surfaces-conflict`, `opens-question`, `closes-question`,
+`revisits`. Each was a **claim wearing an act's clothes**. What they were reaching for now lives
+where it belongs — a question in the artifact's `## Open Questions` section, a conflict on
+`contradicts` between the two artifacts.
