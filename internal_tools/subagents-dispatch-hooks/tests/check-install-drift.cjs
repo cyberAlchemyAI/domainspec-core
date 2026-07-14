@@ -19,7 +19,7 @@
  *   is a diff. This is that diff. It is the primary defence; the governance around it
  *   (schema keys, amendments, red-team reviews) is secondary and does not substitute.
  *
- * WHAT IT CHECKS — the bundle is the SOURCE; every installed copy must be byte-identical.
+ * WHAT IT CHECKS — the bundle is the SOURCE; every installed copy must MATCH IN CONTENT (EOL-normalized: the repos run autocrlf=true and commit .claude/skills, so git rewrites installs with CRLF).
  *
  *   GLOBAL (~/.claude, per user):
  *     hooks/{remind-register-dispatch,block-workflow,enforce-append-only-dispatch}.cjs
@@ -53,21 +53,31 @@ const CHAIN_SKILLS = ['domainspec-subagents-strategy', 'research', 'review', 'ex
 const drift = [];    // { kind, file, why }
 const fwd = (p) => p.split(path.sep).join('/');
 
-function sameBytes(a, b) {
+// Compare CONTENT, not bytes. Every target repo runs `core.autocrlf=true` and commits
+// `.claude/skills/**`, so git rewrites the installed files with CRLF while install.cjs
+// writes LF. A byte compare would therefore report drift on every file whose content is
+// identical — and a check that cries wolf is a check everyone learns to ignore, which is
+// the exact failure mode this file exists to prevent. Normalize EOL and a trailing
+// newline; compare what the file SAYS.
+const norm = (buf) => buf.toString('utf8').replace(/^﻿/, '').replace(/\r\n/g, '\n').replace(/\s*$/, '\n');
+
+function sameContent(a, b) {
   if (!fs.existsSync(a)) { return { ok: false, why: `MISSING IN BUNDLE: ${fwd(a)}` }; }
   if (!fs.existsSync(b)) { return { ok: false, why: 'NOT INSTALLED' }; }
-  return fs.readFileSync(a).equals(fs.readFileSync(b))
-    ? { ok: true }
-    : { ok: false, why: 'DIFFERS FROM SOURCE' };
+  const A = fs.readFileSync(a), B = fs.readFileSync(b);
+  if (norm(A) === norm(B)) return { ok: true };
+  // Content really differs. Say which way, so the reader knows whether git reverted the
+  // install (the common case: the repo's committed copy won) or someone edited in place.
+  return { ok: false, why: `CONTENT DIFFERS (bundle ${A.length}B / installed ${B.length}B)` };
 }
 
 // --- GLOBAL surface -------------------------------------------------------
 for (const h of HOOKS) {
-  const r = sameBytes(path.join(here, 'hooks', h), path.join(claudeDir, 'hooks', h));
+  const r = sameContent(path.join(here, 'hooks', h), path.join(claudeDir, 'hooks', h));
   if (!r.ok) drift.push({ kind: 'global/hook', file: `~/.claude/hooks/${h}`, why: r.why });
 }
 for (const f of GLOBAL_SKILL_FILES) {
-  const r = sameBytes(path.join(here, 'skills', GLOBAL_SKILL, f), path.join(claudeDir, 'skills', GLOBAL_SKILL, f));
+  const r = sameContent(path.join(here, 'skills', GLOBAL_SKILL, f), path.join(claudeDir, 'skills', GLOBAL_SKILL, f));
   // This one is the incident's ground zero: append-dispatch.cjs here is the file the
   // register-dispatch SKILL tells the model to EXECUTE. If it drifts, the running law
   // is not the written law.
@@ -102,7 +112,7 @@ for (const repo of targets) {
     if (!fs.existsSync(srcDir)) continue;                    // not in the bundle; install.cjs skips it too
     for (const f of fs.readdirSync(srcDir)) {
       if (!fs.statSync(path.join(srcDir, f)).isFile()) continue;
-      const r = sameBytes(path.join(srcDir, f), path.join(skillsDir, name, f));
+      const r = sameContent(path.join(srcDir, f), path.join(skillsDir, name, f));
       if (!r.ok) drift.push({ kind: 'project', file: `${fwd(repo)}/.claude/skills/${name}/${f}`, why: r.why });
     }
   }
@@ -132,7 +142,7 @@ console.log(`targets: ${targets.length} repo${targets.length === 1 ? '' : 's'} (
 for (const t of targets) console.log(`  · ${fwd(t)}`);
 
 if (drift.length === 0) {
-  console.log('\n✓ no drift — every installed copy is byte-identical to the bundle.');
+  console.log('\n✓ no drift — every installed copy matches the bundle (EOL-normalized).');
   process.exit(0);
 }
 
