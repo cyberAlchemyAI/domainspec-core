@@ -24,6 +24,8 @@ indexes:
     CTX-DSV2-APE: contexts[6]
     CTX-DSV2-CODE-TAG-CONFORMANCE: contexts[7]
     CTX-DSV2-AGENT-SPEC-CONFORMANCE: contexts[8]
+    CTX-DSV2-FIRST-PRODUCTION-RELEASE: contexts[9]
+    CTX-DSV2-FPR-VISIBILITY: contexts[10]
   open_decisions:
     - DEC-DSV2-LANE-ZA
   blocking_decisions: []
@@ -33,6 +35,11 @@ indexes:
   active_gaps:
     - GAP-SH-UI11-MIGRATE
     - GAP-SH-PROSE-HOMES
+    - FR-FPR-ONTOLOGY-DIRECTION
+    - FR-FPR-SOLVER-PROFILE
+    - FR-FPR-BW-ORIGIN-ROUTE
+    - FR-FPR-I-ROOT-DISPOSITIONS
+    - FR-FPR-APE-SELF-CONTAINMENT
   next_moves:
     - context_id: CTX-DSV2-ROOT
       next_move: >-
@@ -67,6 +74,16 @@ indexes:
       next_move: L0 POC, bounded dynamic edge-law enforcement, second-corpus evidence, and TASK-CARDS triage are done. Next — SWU-APE-004/005 defect cleanup; later DS-D1 Evidence links remain definitions-governance-owned.
     - context_id: CTX-DSV2-CODE-TAG-CONFORMANCE
       next_move: CT-1 DONE 2026-07-10 (validate-code-tags reads taxonomy from root meta-type schemas; R2's code-tag TAXONOMY.md deletion landmine closed). Next task-session CT-3, then CT-2, CT-4.
+    - context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+      next_move: >-
+        Start a separate Task Session for exactly SWU-FPR01-001: emit a deterministic authority census with
+        provenance and every disagreement, choose no winning source, and stop if any authority claim lacks an
+        owner. W0 is proof-refreshed; FPR01-002 and every later unit remain predecessor-gated. Do not claim
+        roadmap-ready-for-execution before FPR-01 and FPR-02 close.
+    - context_id: CTX-DSV2-FPR-VISIBILITY
+      next_move: >-
+        After any authorized Craft or FPR manifest update, run the roadmap builder and then `--check`. Route
+        new material frontiers through the existing persistent research protocol. The parent next move remains FPR-01.
   artifacts_by_path:
     "IMPORT-MANIFEST.md": ART-DSV2-IMPORT-MANIFEST
     "impl/": ART-DSV2-IMPL
@@ -84,6 +101,21 @@ indexes:
     "development/architecture-pattern-enforcement/": ART-DSV2-APE
     "development/code-tag-conformance/": ART-DSV2-CODE-TAG-CONFORMANCE
     "development/agent-spec-conformance/": ART-DSV2-AGENT-SPEC-CONFORMANCE
+    "development/first-production-release/decisions/2026-07-12-product-release-contract.md": ART-DSV2-FPR-DECISION
+    "development/first-production-release/research/2026-07-12-expanded-capability-frontiers/research.md": ART-DSV2-FPR-RESEARCH
+    "development/first-production-release/research/2026-07-12-expanded-capability-frontiers/findings.md": ART-DSV2-FPR-FINDINGS
+    "development/first-production-release/ROADMAP.md": ART-DSV2-FPR-ROADMAP
+    "development/first-production-release/craft/expected-node-edge-manifest.yml": ART-DSV2-FPR-FRONTIER-MANIFEST
+    "development/first-production-release/foundation-execution/WORK-PACK.md": ART-DSV2-FPR-FOUNDATION-PLAN
+    "development/first-production-release/foundation-execution/work-pack/shared/FOUNDATION-ACTIVATION-DECISION.md": ART-DSV2-FPR-FOUNDATION-ACTIVATION
+    "development/first-production-release/foundation-execution/work-pack/shared/SGRM-007-ACTIVATION-DECISION.md": ART-DSV2-FPR-SGRM007-ACTIVATION
+    "development/first-production-release/foundation-execution/refreshes/2026-07-14-sgrm-007-activation/REFRESH-REPORT.md": ART-DSV2-FPR-SGRM007-REFRESH
+    "development/first-production-release/foundation-execution/work-pack/shared/W0-PROOF-SYNC-DECISION.md": ART-DSV2-FPR-W0-PROOF-SYNC-DECISION
+    "development/first-production-release/foundation-execution/refreshes/2026-07-14-w0-proof-sync/REFRESH-REPORT.md": ART-DSV2-FPR-W0-PROOF-REFRESH
+    "development/first-production-release/visibility/WORK-PACK.md": ART-DSV2-FPR-VISIBILITY-PLAN
+    "development/first-production-release/visibility/tools/build-roadmap.py": ART-DSV2-FPR-VISIBILITY-BUILDER
+    "development/first-production-release/visibility/roadmap-data.json": ART-DSV2-FPR-VISIBILITY-DATA
+    "development/first-production-release/visibility/roadmap.html": ART-DSV2-FPR-VISIBILITY-HTML
 
 contexts:
   - context_id: CTX-DSV2-ROOT
@@ -254,6 +286,72 @@ contexts:
       - {label: governed by (consume root; contract-as-schema; one gate), target: DEC-DSV2-SPEC-HOMING, kind: row-id}
       - {label: session decision + three-layer model, target: "[repo-root]/.arcanum/inventory/entries/three-layer-agent-conformance-verifier-decision.md", kind: path}
       - {label: formal invariant realization, target: "[repo-root]/domainspec-lean-formalization/lean-engineer/AgentPermissionKernel.lean", kind: path}
+
+  - context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    parent_id: CTX-DSV2-ROOT
+    recomposition_target: CTX-DSV2-ROOT
+    title: DomainSpec v2 first production release
+    purpose: >-
+      Carry the accepted private repository-local system-builder and conformance CLI from owner-ratified
+      business meaning through typed specification projection, architecture and composable-pattern
+      enforcement, bounded formal validation, independently grounded generated verification, structural
+      implementation analysis, directional cross-graph conformance, a clean release candidate, and the
+      exact 14-step Body War pilot. This context is continuation authority, not production authorization.
+    stage: plan
+    gate: block
+    next_move: >-
+      Start a separate Task Session for exactly SWU-FPR01-001: emit a deterministic authority census with
+      provenance and every disagreement, choose no winning source, and stop if any authority claim lacks an
+      owner. W0 is proof-refreshed; FPR01-002 and every later unit remain predecessor-gated.
+    owned_artifacts:
+      - ART-DSV2-FPR-DECISION
+      - ART-DSV2-FPR-RESEARCH
+      - ART-DSV2-FPR-FINDINGS
+      - ART-DSV2-FPR-ROADMAP
+      - ART-DSV2-FPR-FRONTIER-MANIFEST
+      - ART-DSV2-FPR-FOUNDATION-PLAN
+      - ART-DSV2-FPR-FOUNDATION-ACTIVATION
+      - ART-DSV2-FPR-SGRM007-ACTIVATION
+      - ART-DSV2-FPR-SGRM007-REFRESH
+      - ART-DSV2-FPR-W0-PROOF-SYNC-DECISION
+      - ART-DSV2-FPR-W0-PROOF-REFRESH
+    links:
+      - {label: uses spec-ontology evidence without granting it authority, target: CTX-DSV2-SPEC-ONTOLOGY, kind: row-id}
+      - {label: uses meta-type formalization evidence, target: CTX-DSV2-META-TYPE-FORMALIZATION, kind: row-id}
+      - {label: depends on finite APE integration evidence, target: CTX-DSV2-APE, kind: row-id}
+      - {label: uses code-tag evidence but requires a structural analyzer, target: CTX-DSV2-CODE-TAG-CONFORMANCE, kind: row-id}
+      - {label: canonical operational roadmap, target: ART-DSV2-FPR-ROADMAP, kind: artifact-id}
+      - {label: machine node-edge-frontier projection, target: ART-DSV2-FPR-FRONTIER-MANIFEST, kind: artifact-id}
+      - {label: foundation execution work-pack, target: ART-DSV2-FPR-FOUNDATION-PLAN, kind: artifact-id}
+      - {label: foundation activation decision, target: ART-DSV2-FPR-FOUNDATION-ACTIVATION, kind: artifact-id}
+      - {label: SGRM-007 activation decision, target: ART-DSV2-FPR-SGRM007-ACTIVATION, kind: artifact-id}
+      - {label: SGRM-007 applied refresh, target: ART-DSV2-FPR-SGRM007-REFRESH, kind: artifact-id}
+      - {label: W0 proof synchronization decision, target: ART-DSV2-FPR-W0-PROOF-SYNC-DECISION, kind: artifact-id}
+      - {label: W0 proof refresh, target: ART-DSV2-FPR-W0-PROOF-REFRESH, kind: artifact-id}
+
+  - context_id: CTX-DSV2-FPR-VISIBILITY
+    parent_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    recomposition_target: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    title: First-production-release visibility and generated roadmap
+    purpose: >-
+      Make the FPR dependency graph, current Craft gate, active research frontiers, exact Body War critical
+      sequence, and evidence paths visible through deterministic JSON and self-contained HTML read models.
+      The feature projects authority; it does not own continuation state or authorize production.
+    stage: validated
+    gate: pass
+    next_move: >-
+      After any authorized Craft or FPR manifest update, run the visibility roadmap builder documented in
+      development/first-production-release/visibility/PLAN-TRANSPORT.md, then run the same command with `--check`.
+      Route new material frontiers through the existing persistent research protocol; do not advance FPR-01 here.
+    owned_artifacts:
+      - ART-DSV2-FPR-VISIBILITY-PLAN
+      - ART-DSV2-FPR-VISIBILITY-BUILDER
+      - ART-DSV2-FPR-VISIBILITY-DATA
+      - ART-DSV2-FPR-VISIBILITY-HTML
+    links:
+      - {label: parent FPR route, target: CTX-DSV2-FIRST-PRODUCTION-RELEASE, kind: row-id}
+      - {label: canonical graph projection, target: ART-DSV2-FPR-FRONTIER-MANIFEST, kind: artifact-id}
+      - {label: generated interactive roadmap, target: ART-DSV2-FPR-VISIBILITY-HTML, kind: artifact-id}
 
 descriptions:
   - description_id: DESC-DSV2-ROOT-001
@@ -509,6 +607,48 @@ descriptions:
       - {label: red-check fixture, target: "[repo-root]/projects/domainspec-v2/impl/spec/features/financial-settlement/__redcheck__/entity-missing-identity.md", kind: path}
 
 decisions:
+  - decision_id: DEC-DSV2-FPR-W0-PROOF-SYNC
+    scope_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    question: How should foundation execution continue after the accepted 007 retry receipt proves the current guard?
+    options: [synchronize-w0-proof-only, synchronize-and-execute-fpr01-001, stop]
+    decision_type: proof-synchronization
+    blocking: true
+    status: closed
+    selected_option: synchronize-w0-proof-only
+    description: >-
+      The retry receipt closes the W0 proof dependency, while the live controls still select the completed unit
+      and Inventory lacks the current proof-refresh evidence.
+    impact: >-
+      Closes W0 and selects SWU-FPR01-001 for a later Task Session without creating FPR evidence or choosing authority.
+    rationale: >-
+      The user selected Option 1 on 2026-07-14. A proof-only synchronization preserves the one-SWU boundary and
+      prevents a completed receipt from being mistaken for permission to execute the L1 census.
+    evidence: [ART-DSV2-FPR-W0-PROOF-SYNC-DECISION, ART-DSV2-FPR-W0-PROOF-REFRESH]
+    links:
+      - {label: parent foundation plan, target: ART-DSV2-FPR-FOUNDATION-PLAN, kind: artifact-id}
+      - {label: prior 007 activation, target: DEC-DSV2-FPR-SGRM007-ACTIVATION, kind: row-id}
+
+  - decision_id: DEC-DSV2-FPR-SGRM007-ACTIVATION
+    scope_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    question: How should foundation execution continue after the accepted SGRM-006 retry review exposed stale selection controls?
+    options: [refresh-and-execute-sgrm-007-r1, execute-directly-with-override, stop]
+    decision_type: execution-activation
+    blocking: true
+    status: closed
+    selected_option: refresh-and-execute-sgrm-007-r1
+    description: >-
+      The accepted review packet supplies four exact non-active-reference dispositions, but the live work-pack
+      still selected the completed review unit while Craft implied premature FPR-01 execution.
+    impact: >-
+      Selects one repair/reproof SWU without advancing the FPR stage, gate, readiness, or production state.
+    rationale: >-
+      The user selected Option 1 on 2026-07-14. Refreshing live selection controls before implementation
+      preserves the declared Craft/work-pack authority order and keeps the red guard visible until a new receipt passes.
+    evidence: [ART-DSV2-FPR-SGRM007-ACTIVATION, ART-DSV2-FPR-SGRM007-REFRESH]
+    links:
+      - {label: parent foundation plan, target: ART-DSV2-FPR-FOUNDATION-PLAN, kind: artifact-id}
+      - {label: original bounded activation, target: ART-DSV2-FPR-FOUNDATION-ACTIVATION, kind: artifact-id}
+
   - decision_id: DEC-DSV2-CRAFT-SCOPE
     scope_id: CTX-DSV2-ROOT
     question: Should DomainSpec v2 have its own Craft space, or stay one context in the cav2 ledger?
@@ -811,6 +951,66 @@ gaps:
       - {label: relationship staging matrix, target: "[repo-root]/projects/domainspec-v2/development/architecture-pattern-enforcement/cards/relationships/README.md", kind: path}
       - {label: SWU-R3C-006 receipt, target: "[repo-root]/projects/domainspec-v2/development/r3-closeout-plan/task-sessions/2026-07-12-swu-r3c-006/TASK-SESSION-RESULT.md", kind: path}
 
+  - gap_id: FR-FPR-ONTOLOGY-DIRECTION
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    status: active
+    summary: >-
+      Reconcile the active contract-to-authoring ontology lens with the accepted governed business-plane-to-Spec
+      chain. Candidate ontology projections have no authority effect; an owner decision must define direction,
+      supersession, provenance, and contradiction handling before FPR-03 can promote B-to-Spec mappings.
+    severity: block
+    treatment: plan
+    owner_route: semantic owner + definitions-governance
+    evidence: [ART-DSV2-FPR-FINDINGS, ART-DSV2-FPR-FRONTIER-MANIFEST]
+
+  - gap_id: FR-FPR-SOLVER-PROFILE
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    status: active
+    summary: >-
+      Select literal formal languages, translator versions, solver executables/versions, relational and state
+      bounds, timeout/resource ceilings, result taxonomy, and fairness/liveness policy. Research receipts are
+      upstream evidence only; FPR-06 remains blocked until the profile is promoted and reproducible.
+    severity: block
+    treatment: plan
+    owner_route: formal-validation owner + semantic owner
+    evidence: [ART-DSV2-FPR-FINDINGS, ART-DSV2-FPR-FRONTIER-MANIFEST]
+
+  - gap_id: FR-FPR-BW-ORIGIN-ROUTE
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    status: active
+    summary: >-
+      Decide whether the Body War witness requires a real provider and bind callback, deployment, origin, consent,
+      CSRF, and allowed-redaction fields. A fake-only route requires explicit claim narrowing and cannot silently
+      satisfy the accepted end-to-end profile.
+    severity: block
+    treatment: plan
+    owner_route: Body War product/security owners + DomainSpec claim owner
+    evidence: [ART-DSV2-FPR-FINDINGS, ART-DSV2-FPR-FRONTIER-MANIFEST]
+
+  - gap_id: FR-FPR-I-ROOT-DISPOSITIONS
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    status: active
+    summary: >-
+      Ratify the complete Body War production, test, generated, static-JS, and non-code root set plus pinned
+      parser/tool semantics. Missing roots, unresolved symbols, comment/dead-only text, and unanalyzed dynamic
+      behavior must fail or remain indeterminate; tags alone do not establish structure.
+    severity: block
+    treatment: plan
+    owner_route: implementation/platform owner
+    evidence: [ART-DSV2-FPR-FINDINGS, ART-DSV2-FPR-FRONTIER-MANIFEST]
+
+  - gap_id: FR-FPR-APE-SELF-CONTAINMENT
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    status: active
+    summary: >-
+      Prove the first-release architecture and composition catalogs are self-contained in v2. If any runtime or
+      proof path still depends on private v1 method material, promote the shared-method package as a real FPR-05
+      dependency instead of treating it as deferred general hardening.
+    severity: block
+    treatment: plan
+    owner_route: layering governance + runtime owner
+    evidence: [ART-DSV2-FPR-FINDINGS, ART-DSV2-FPR-FRONTIER-MANIFEST]
+
 definitions:
   - definition_id: DEF-DSV2-TWO-PLANE
     context_id: CTX-DSV2-SPEC-ONTOLOGY
@@ -839,6 +1039,151 @@ definitions:
       flag. A domain specialization of CAV2-D22 / D29 / D16 (governance orthogonality, not Lean/Hilbert).
     status: candidate
     evidence: [ART-DSV2-REFORMULATE-BATCH1]
+
+  - definition_id: FPR-D01
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: BO
+    meaning: Finite governed business concept, relation, rule, and constraint schema with stable IDs, provenance, and contradiction policy.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D02
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: BK
+    meaning: Profile-scoped asserted business nodes, edges, rules, and constraints instantiating BO; not a synonym for ontology.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D03
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: B
+    meaning: Contract business plane composed of BO, BK, provenance, and an authority receipt.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D04
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: Spec
+    meaning: Owner-promoted authoritative DomainSpec definitions, registries, and selected feature-pack sources.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D05
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: Sg
+    meaning: Deterministic total typed projection normalize(Spec,P) with source anchors; never parallel semantic authority.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D06
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: G
+    meaning: Internal compiler IR produced by encoding Sg; not a contract semantic plane.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D07
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: A_req
+    meaning: Normative architecture requirements graph with finite layers, admissibility, forbidden dependencies, patterns, and path obligations; no observed imports or calls.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D08
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: F_struct
+    meaning: Bounded relational structural projection with source map, abstraction, solver, bounds, timeout, and result taxonomy.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D09
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: F_state
+    meaning: Bounded state/transition projection for reachability, invariants, deadlock, and declared liveness or fairness.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D10
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: O_spec(P)
+    meaning: Independent authority-owned expected obligation set for the exact supported profile P.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D11
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: Expected(o)
+    meaning: Expected predicate or value rooted in promoted Spec, possibly referencing accepted B; never inferred from tests or implementation output.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D12
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: Req_spec(o)
+    meaning: Closed set of required evidence classes and expected outcomes for obligation o.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D13
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: T_gen
+    meaning: Generated executable verification program or artifact; neither execution evidence nor its own oracle.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D14
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: E_run
+    meaning: Candidate, profile, and tool-bound static, formal, execution, and mutation receipts; evidence rather than authority.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D15
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: I_struct
+    meaning: Observation graph over frozen code roots under pinned parser/tool semantics; tags are correspondence claims.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D16
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: cross_graph_conformance_vector
+    meaning: Machine vector of named directional predicates; contract and internal-assurance predicates remain segregated and owner judgment cannot set a pass bit.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D17
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: profile/structural conformance verdict
+    meaning: Machine result that required sources satisfy the frozen profile and structural rules; it does not accept implementation or authorize release.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D18
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: mapping-predicate verdict
+    meaning: Machine result for one named directional predicate under explicit bounds, algorithm version, and result taxonomy.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D19
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: implementation-conformance acceptance
+    meaning: Implementation/platform-owner decision made only after all applicable technical predicates and evidence pass.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D20
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: release authorization
+    meaning: External-owner authorization of exact bits, claims, actors, channel, compatibility, support, and withdrawal after independent verification.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D21
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: node-ready
+    meaning: One named roadmap node has closed dependencies, present inputs, assigned execution owner, and no inbound block.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D22
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: roadmap-ready-for-execution
+    meaning: Every first executable node is node-ready, candidate definitions are tracked, and the Craft expected-state manifest is instantiated and validated.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D23
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: release-ready
+    meaning: Every contract-required pre-release node and gate has passed for one exact candidate.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
+  - definition_id: FPR-D24
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    term: production-authorized
+    meaning: Release authorization exists for one exact artifact and configuration under named actors, environment, compatibility, support, and withdrawal boundaries.
+    status: candidate
+    evidence: [ART-DSV2-FPR-FINDINGS]
 
 artifacts:
   - artifact_id: ART-DSV2-IMPORT-MANIFEST
@@ -930,6 +1275,87 @@ artifacts:
       Witness #1 = dosage bounded internal specimen (NOT a deployed medical device). Build-from-owned on the v2
       consume-root/schema/one-gate pattern; invariant-proof backend ties to lean-engineer. Nothing executed yet.
 
+  - artifact_id: ART-DSV2-FPR-DECISION
+    path: development/first-production-release/decisions/2026-07-12-product-release-contract.md
+    status: active
+    notes: Accepted product-scope contract; does not establish implementation truth or release authorization.
+  - artifact_id: ART-DSV2-FPR-RESEARCH
+    path: development/first-production-release/research/2026-07-12-expanded-capability-frontiers/research.md
+    status: active
+    notes: Frozen three-lane explorer evidence for formal semantics, executable conformance, and the Body War pilot.
+  - artifact_id: ART-DSV2-FPR-FINDINGS
+    path: development/first-production-release/research/2026-07-12-expanded-capability-frontiers/findings.md
+    status: active
+    notes: Auditor-approved REPAIR-THEN-GATE synthesis; production and technical acceptance claims remain false.
+  - artifact_id: ART-DSV2-FPR-ROADMAP
+    path: development/first-production-release/ROADMAP.md
+    status: active
+    notes: Canonical operational projection of the accepted contract and approved expanded-frontier findings.
+  - artifact_id: ART-DSV2-FPR-FRONTIER-MANIFEST
+    path: development/first-production-release/craft/expected-node-edge-manifest.yml
+    status: active
+    notes: Machine projection containing FPR-00..15, exact dependency edges, live frontiers, critical-step denominator, and reopen protocol; not authority for production.
+  - artifact_id: ART-DSV2-FPR-FOUNDATION-PLAN
+    path: development/first-production-release/foundation-execution/WORK-PACK.md
+    status: active
+    notes: >-
+      Invoke split work-pack for the guard-to-FPR-04 foundation route. W0 is proof-refreshed and
+      SWU-FPR01-001 is selected for a later Task Session; every successor remains receipt-gated.
+  - artifact_id: ART-DSV2-FPR-FOUNDATION-ACTIVATION
+    path: development/first-production-release/foundation-execution/work-pack/shared/FOUNDATION-ACTIVATION-DECISION.md
+    status: active
+    notes: >-
+      Human Decision Gate option 1 authorizes this registration and the review-only SWU-SGRM-006-R1.
+      It does not authorize guard mutation, later SWUs, FPR execution, subagents, or production claims.
+  - artifact_id: ART-DSV2-FPR-SGRM007-ACTIVATION
+    path: development/first-production-release/foundation-execution/work-pack/shared/SGRM-007-ACTIVATION-DECISION.md
+    status: active
+    notes: >-
+      Closed Decision Gate record for the separately selected SWU-SGRM-007-R1 refresh-and-execute route.
+      It authorizes only live control refresh plus the declared guard-repair write scope.
+  - artifact_id: ART-DSV2-FPR-SGRM007-REFRESH
+    path: development/first-production-release/foundation-execution/refreshes/2026-07-14-sgrm-007-activation/REFRESH-REPORT.md
+    status: active
+    notes: >-
+      Apply-approved Invoke refresh consuming the accepted 006 receipt and updating live W0/Craft selection
+      controls. The companion refresh-report.json is execution evidence, not independent authority.
+  - artifact_id: ART-DSV2-FPR-W0-PROOF-SYNC-DECISION
+    path: development/first-production-release/foundation-execution/work-pack/shared/W0-PROOF-SYNC-DECISION.md
+    status: active
+    notes: >-
+      Closed Decision Gate record for proof-only synchronization. It authorizes W0 closure, successor selection,
+      Craft/Inventory/view refresh, and no FPR execution.
+  - artifact_id: ART-DSV2-FPR-W0-PROOF-REFRESH
+    path: development/first-production-release/foundation-execution/refreshes/2026-07-14-w0-proof-sync/REFRESH-REPORT.md
+    status: active
+    notes: >-
+      Apply-approved Invoke refresh that consumes the accepted 007 retry receipt, closes W0, and selects but does
+      not execute SWU-FPR01-001.
+  - artifact_id: ART-DSV2-FPR-VISIBILITY-PLAN
+    path: development/first-production-release/visibility/WORK-PACK.md
+    status: active
+    notes: >-
+      Invoke split work-pack for the Craft-backed FPR visibility feature. Its five SWUs preserve the parent
+      FPR block and separate source joining, composition, Craft synchronization, and verification.
+  - artifact_id: ART-DSV2-FPR-VISIBILITY-BUILDER
+    path: development/first-production-release/visibility/tools/build-roadmap.py
+    status: active
+    notes: >-
+      Read-only deterministic join of the FPR manifest and Craft ledger. Generates and checks the disposable
+      JSON/HTML read models; has no continuation-state transition API.
+  - artifact_id: ART-DSV2-FPR-VISIBILITY-DATA
+    path: development/first-production-release/visibility/roadmap-data.json
+    status: active
+    notes: >-
+      Generated machine read model with source fingerprint, graph, Craft-joined frontiers, critical sequence,
+      and provenance. Disposable and never authoritative.
+  - artifact_id: ART-DSV2-FPR-VISIBILITY-HTML
+    path: development/first-production-release/visibility/roadmap.html
+    status: active
+    notes: >-
+      Generated self-contained Whisper composition for local operational use. Presentation state is not
+      release state, and production authorization remains explicitly false.
+
 recompositions:
   - recomposition_id: REC-DSV2-GREEN
     child_context_id: CTX-DSV2-MAKE-IT-GREEN
@@ -943,3 +1369,25 @@ recompositions:
     status: partial
     parent_fit_summary: Toy T1-T4 recomposed into the SURVIVED-narrow verdict; catalog gaps routed to R3. Residue = Lane Z-vs-A undecided (proxy gap).
     evidence: [ART-DSV2-SPEC-ONTOLOGY-TOY, ART-DSV2-COMPOSABILITY-SYNTHESIS]
+  - recomposition_id: REC-DSV2-FIRST-PRODUCTION-RELEASE
+    child_context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    parent_context_id: CTX-DSV2-ROOT
+    status: partial
+    parent_fit_summary: >-
+      Accepted first-release product direction and auditor-approved roadmap are recomposed into the v2 root.
+      Execution is blocked at FPR-01; profile conformance, full coverage, formal validity, implementation
+      acceptance, pilot acceptance, release readiness, and production authorization remain unestablished.
+    evidence: [ART-DSV2-FPR-DECISION, ART-DSV2-FPR-FINDINGS, ART-DSV2-FPR-ROADMAP, ART-DSV2-FPR-FRONTIER-MANIFEST]
+  - recomposition_id: REC-DSV2-FPR-VISIBILITY
+    child_context_id: CTX-DSV2-FPR-VISIBILITY
+    parent_context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    status: complete
+    parent_fit_summary: >-
+      The deterministic Craft-backed roadmap read model is planned, generated, browser-validated, and indexed.
+      It improves visibility and continuation without changing the parent's FPR-01 block, any frontier state,
+      or production authorization. The Whisper transport remains candidate pending real-use observation.
+    evidence:
+      - ART-DSV2-FPR-VISIBILITY-PLAN
+      - ART-DSV2-FPR-VISIBILITY-BUILDER
+      - ART-DSV2-FPR-VISIBILITY-DATA
+      - ART-DSV2-FPR-VISIBILITY-HTML
