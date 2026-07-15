@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-07-15T00:50:53Z",
+  "run_id": "decision-gate-20260715T005053Z-approved-next-routes",
+  "session_id": "session-20260714-approved-next-routes",
+  "sigil": "decision-gate",
+  "tier": "arcana",
+  "mode": "approved-next-routes",
+  "capability": {"id": "decision-gate", "kind": "sigil", "tier": "arcana", "mode": "approved-next-routes", "alias": null},
+  "request": {
+    "raw": null,
+    "summary": "Resolve the Decision Gate maintenance approval and minted-project first-SWU selection.",
+    "intent": "Close two independent blockers without executing Sigil Development or Task Session."
+  },
+  "execution": {
+    "status": "completed_with_authorized_handoff",
+    "outputs": [
+      "projects/domainspec-v2/development/workflow-reflections/20260714-decision-gate-maintenance/APPROVAL.md",
+      "projects/domainspec-v2/authority/decisions/2026-07-14-minted-project-first-swu-selection.md"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/workflow-reflections/20260714-decision-gate-maintenance/APPROVAL.md",
+      "projects/domainspec-v2/authority/decisions/2026-07-14-minted-project-first-swu-selection.md"
+    ],
+    "validation": [
+      "decision-count:2",
+      "blocker-count:2",
+      "unresolved-blocker-count:0",
+      "explain-path:used-before-each-selection",
+      "decision-records:owner-separated",
+      "result:pass",
+      "downstream-execution:none"
+    ],
+    "notes": "The operator approved the bounded public-safe maintenance handoff and selected SWU-MNP-001. The records preserve separate owners and do not execute either downstream lifecycle."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "signals": ["quality-pass", "useful-pattern"],
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "output-threshold",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/authority/decisions/2026-07-14-minted-project-first-swu-selection.md",
+  "dedupe_key": "decision-gate-20260715T005053Z-approved-next-routes:signal-observer:0.1.0",
+  "observer_version": "0.1.0"
+}

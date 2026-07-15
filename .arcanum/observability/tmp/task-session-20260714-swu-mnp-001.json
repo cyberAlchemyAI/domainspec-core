@@ -1,0 +1,80 @@
+{
+  "timestamp": "2026-07-15T01:25:51Z",
+  "run_id": "task-session-20260714-swu-mnp-001",
+  "session_id": "20260714-swu-mnp-001",
+  "dispatch_id": "20260715-minted-project-node-package-execution",
+  "sigil": "task-session",
+  "tier": "arcana",
+  "mode": "execute",
+  "capability": {
+    "id": "task-session",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "execute",
+    "alias": null
+  },
+  "request": {
+    "raw": null,
+    "summary": "Execute the selected SWU-MNP-001 machine-source contract within its strict context and write scope.",
+    "intent": "Deliver the governed minted-project contract, fixtures, mechanical checks, receipt, and synchronized bounded task state."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "projects/domainspec-v2/definitions/minted-project/supported-profiles.yml",
+      "projects/domainspec-v2/impl/spec/minted-project/contract-manifest.json",
+      "projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door",
+      "projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/negative/manifest.json",
+      "projects/domainspec-v2/impl/tools/tests/minted-project-contract.test.ts",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/task-sessions/20260714-swu-mnp-001/TASK-SESSION-RESULT.md",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/task-sessions/20260714-swu-mnp-001/receipt.json",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/task-sessions/20260714-swu-mnp-001/fixture-matrix.json"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/definitions/minted-project/",
+      "projects/domainspec-v2/impl/spec/minted-project/",
+      "projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/",
+      "projects/domainspec-v2/impl/tools/tests/minted-project-contract.test.ts",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/task-sessions/20260714-swu-mnp-001/",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/WORK-PACK.md",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/work-pack/tasks/TASK-MNP-CONTRACT.md",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/work-pack/tasks/TASK-MNP-COMPILER.md",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/work-pack/waves/W1-L0-CONTRACT-COMPILER.md",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/EXECUTION-DISPATCH.json"
+    ],
+    "validation": [
+      "strict-context:8-of-8",
+      "targeted-contract-test:5-pass-0-fail",
+      "tools-test:76-pass-0-fail",
+      "typecheck:pass",
+      "git-diff-check:pass",
+      "dispatch-spec:pass",
+      "json-and-links:pass"
+    ],
+    "notes": "Exactly one SWU executed. The profile remains experimental, no release admission was claimed, and SWU-MNP-002 is ready but unselected."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "signals": [
+      "quality-pass",
+      "rework",
+      "workflow-gap",
+      "useful-pattern"
+    ],
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "process",
+        "severity": "low",
+        "summary": "Dispatch Spec validator path is not checkout-root-safe.",
+        "evidence": "The installed skill names formulae/dispatch-spec/scripts/validate-dispatch.py; this checkout resolves it at arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/task-sessions/20260714-swu-mnp-001/TASK-SESSION-RESULT.md",
+  "dedupe_key": "task-session-20260714-swu-mnp-001:signal-observer:0.1.0",
+  "observer_version": "0.1.0"
+}

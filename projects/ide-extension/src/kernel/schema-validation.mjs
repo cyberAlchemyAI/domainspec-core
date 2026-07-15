@@ -16,8 +16,15 @@ export const SCHEMA_FILES = Object.freeze({
   'bridge-result-request': 'bridge-result-request.schema.json',
   'bridge-target-request': 'bridge-target-request.schema.json',
   'canvas-interaction-request': 'canvas-interaction-request.schema.json',
+  'canvas-navigation-ack-request': 'canvas-navigation-ack-request.schema.json',
+  'canvas-navigation-request': 'canvas-navigation-request.schema.json',
+  'canvas-pruning-commit-request': 'canvas-pruning-commit-request.schema.json',
+  'canvas-pruning-preview-request': 'canvas-pruning-preview-request.schema.json',
   'canvas-publish-request': 'canvas-publish-request.schema.json',
+  'content-operation-request': 'content-operation-request.schema.json',
   'module-manifest': 'module-manifest.schema.json',
+  'operations-interaction-request': 'operations-interaction-request.schema.json',
+  'operations-surface-derive-request': 'operations-surface-derive-request.schema.json',
   'prepare-request': 'prepare-request.schema.json',
   receipt: 'receipt.schema.json',
   'reject-request': 'reject-request.schema.json'
@@ -141,8 +148,36 @@ export function validateCanvasInteractionRequest(value) {
   return validateSchema('canvas-interaction-request', value);
 }
 
+export function validateCanvasNavigationAckRequest(value) {
+  return validateSchema('canvas-navigation-ack-request', value);
+}
+
+export function validateCanvasNavigationRequest(value) {
+  return validateSchema('canvas-navigation-request', value);
+}
+
+export function validateCanvasPruningCommitRequest(value) {
+  return validateSchema('canvas-pruning-commit-request', value);
+}
+
+export function validateCanvasPruningPreviewRequest(value) {
+  return validateSchema('canvas-pruning-preview-request', value);
+}
+
 export function validateCanvasPublishRequest(value) {
   return validateSchema('canvas-publish-request', value);
+}
+
+export function validateContentOperationRequest(value) {
+  return validateSchema('content-operation-request', value);
+}
+
+export function validateOperationsSurfaceDeriveRequest(value) {
+  return validateSchema('operations-surface-derive-request', value);
+}
+
+export function validateOperationsInteractionRequest(value) {
+  return validateSchema('operations-interaction-request', value);
 }
 
 export function validateRejectRequest(value) {
@@ -197,8 +232,36 @@ export function assertCanvasInteractionRequest(value, source) {
   return assertSchema('canvas-interaction-request', value, source);
 }
 
+export function assertCanvasNavigationAckRequest(value, source) {
+  return assertSchema('canvas-navigation-ack-request', value, source);
+}
+
+export function assertCanvasNavigationRequest(value, source) {
+  return assertSchema('canvas-navigation-request', value, source);
+}
+
+export function assertCanvasPruningCommitRequest(value, source) {
+  return assertSchema('canvas-pruning-commit-request', value, source);
+}
+
+export function assertCanvasPruningPreviewRequest(value, source) {
+  return assertSchema('canvas-pruning-preview-request', value, source);
+}
+
 export function assertCanvasPublishRequest(value, source) {
   return assertSchema('canvas-publish-request', value, source);
+}
+
+export function assertContentOperationRequest(value, source) {
+  return assertSchema('content-operation-request', value, source);
+}
+
+export function assertOperationsSurfaceDeriveRequest(value, source) {
+  return assertSchema('operations-surface-derive-request', value, source);
+}
+
+export function assertOperationsInteractionRequest(value, source) {
+  return assertSchema('operations-interaction-request', value, source);
 }
 
 export function assertRejectRequest(value, source) {

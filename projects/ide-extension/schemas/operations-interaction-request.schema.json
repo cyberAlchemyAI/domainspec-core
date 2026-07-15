@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/operations-interaction-request.schema.json",
+  "title": "ide-extension Operations canvas interaction request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "operations_surface_id", "revision_id", "event_name", "payload"],
+  "properties": {
+    "schema_version": { "const": "1" },
+    "operations_surface_id": {
+      "type": "string",
+      "pattern": "^operations-surface-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "revision_id": {
+      "type": "string",
+      "pattern": "^revision-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "event_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 96,
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$"
+    },
+    "payload": {
+      "type": "object",
+      "maxProperties": 32,
+      "propertyNames": { "minLength": 1, "maxLength": 80 },
+      "additionalProperties": { "$ref": "#/$defs/jsonValue" }
+    }
+  },
+  "$defs": {
+    "jsonValue": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "boolean" },
+        { "type": "number" },
+        { "type": "string", "maxLength": 4000 },
+        {
+          "type": "array",
+          "maxItems": 50,
+          "items": { "$ref": "#/$defs/jsonValue" }
+        },
+        {
+          "type": "object",
+          "maxProperties": 50,
+          "additionalProperties": { "$ref": "#/$defs/jsonValue" }
+        }
+      ]
+    }
+  }
+}

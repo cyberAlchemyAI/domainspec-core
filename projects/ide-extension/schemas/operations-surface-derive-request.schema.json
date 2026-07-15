@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/operations-surface-derive-request.schema.json",
+  "title": "ide-extension operations surface derive request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_v0_surface_id",
+    "source_revision_id",
+    "operation_surface_idempotency_key"
+  ],
+  "properties": {
+    "schema_version": { "const": "1" },
+    "source_v0_surface_id": {
+      "type": "string",
+      "pattern": "^surface-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "source_revision_id": {
+      "type": "string",
+      "pattern": "^revision-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "operation_surface_idempotency_key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    }
+  }
+}

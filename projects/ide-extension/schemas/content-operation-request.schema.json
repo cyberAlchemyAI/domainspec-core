@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/content-operation-request.schema.json",
+  "title": "ide-extension content operation request",
+  "oneOf": [
+    { "$ref": "#/$defs/append" },
+    { "$ref": "#/$defs/replace" },
+    { "$ref": "#/$defs/rebuild" }
+  ],
+  "$defs": {
+    "schema_version": { "const": "1" },
+    "operation_id": {
+      "type": "string",
+      "pattern": "^operation-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "operations_surface_id": {
+      "type": "string",
+      "pattern": "^operations-surface-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "revision_id": {
+      "type": "string",
+      "pattern": "^revision-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": { "const": "whole_document" }
+      }
+    },
+    "inline_html": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "html"],
+      "properties": {
+        "kind": { "const": "inline_html" },
+        "html": { "type": "string" }
+      }
+    },
+    "workspace_html": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path", "expected_sha256"],
+      "properties": {
+        "kind": { "const": "workspace_html" },
+        "path": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 1024,
+          "pattern": "^(?!/)(?!.*\\\\)(?!.*%)(?!.*(?:^|/)\\.\\.?(?:/|$))[A-Za-z0-9._ +@-]+(?:/[A-Za-z0-9._ +@-]+)*\\.html$"
+        },
+        "expected_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "append": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "operation_id",
+        "operations_surface_id",
+        "expected_revision_id",
+        "mode",
+        "target",
+        "input"
+      ],
+      "properties": {
+        "schema_version": { "$ref": "#/$defs/schema_version" },
+        "operation_id": { "$ref": "#/$defs/operation_id" },
+        "operations_surface_id": { "$ref": "#/$defs/operations_surface_id" },
+        "expected_revision_id": { "$ref": "#/$defs/revision_id" },
+        "mode": { "const": "append" },
+        "target": { "$ref": "#/$defs/target" },
+        "input": { "$ref": "#/$defs/inline_html" }
+      }
+    },
+    "replace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "operation_id",
+        "operations_surface_id",
+        "expected_revision_id",
+        "mode",
+        "target",
+        "input"
+      ],
+      "properties": {
+        "schema_version": { "$ref": "#/$defs/schema_version" },
+        "operation_id": { "$ref": "#/$defs/operation_id" },
+        "operations_surface_id": { "$ref": "#/$defs/operations_surface_id" },
+        "expected_revision_id": { "$ref": "#/$defs/revision_id" },
+        "mode": { "const": "replace" },
+        "target": { "$ref": "#/$defs/target" },
+        "input": { "$ref": "#/$defs/inline_html" }
+      }
+    },
+    "rebuild": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "operation_id",
+        "operations_surface_id",
+        "expected_revision_id",
+        "mode",
+        "target",
+        "input"
+      ],
+      "properties": {
+        "schema_version": { "$ref": "#/$defs/schema_version" },
+        "operation_id": { "$ref": "#/$defs/operation_id" },
+        "operations_surface_id": { "$ref": "#/$defs/operations_surface_id" },
+        "expected_revision_id": { "$ref": "#/$defs/revision_id" },
+        "mode": { "const": "rebuild" },
+        "target": { "$ref": "#/$defs/target" },
+        "input": { "$ref": "#/$defs/workspace_html" }
+      }
+    }
+  }
+}

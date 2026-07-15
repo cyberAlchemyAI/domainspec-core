@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/canvas-pruning-commit-request.schema.json",
+  "title": "ide-extension canvas pruning commit request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "command_id", "expected_candidate_digest"],
+  "properties": {
+    "schema_version": { "const": "1" },
+    "command_id": {
+      "type": "string",
+      "pattern": "^command-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "expected_candidate_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

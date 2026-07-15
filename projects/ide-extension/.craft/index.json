@@ -1,0 +1,83 @@
+{
+  "schema_version": "1",
+  "source": {
+    "ledger_path": ".craft/ledger.yml",
+    "sha256": "9e57e94eb3ad663e0b7317f025c7ed485102825702e2bc299c6fea5bdad7535c"
+  },
+  "ledger": {
+    "ledger_id": "craft.ide_extension.l0_witness",
+    "status": "candidate-local"
+  },
+  "scope": {
+    "context_id": "CTX-IDEEXT-L0",
+    "title": "ide-extension L0 governed workbench witness",
+    "stage": "validated",
+    "gate": "flag"
+  },
+  "counts": {
+    "next_moves": 1,
+    "active_gaps": 5,
+    "active_blockers": 0,
+    "open_decisions": 0,
+    "total_pending": 6
+  },
+  "next_moves": [
+    {
+      "id": "CTX-IDEEXT-L0",
+      "type": "next_move",
+      "summary": "Select the next bounded ide-extension increment from the remaining flags; independently record the older SWU-SCW-008 usefulness verdict."
+    }
+  ],
+  "pending": [
+    {
+      "id": "GAP-IDEEXT-PLAYWRIGHT-MCP",
+      "type": "gap",
+      "summary": "Playwright MCP has not yet driven the adjacent local workbench URL.",
+      "status": "active",
+      "severity": "flag",
+      "treatment": "test",
+      "owner": "validation",
+      "evidence": "development/founding-research/findings.md"
+    },
+    {
+      "id": "GAP-IDEEXT-VSCODIUM-WEBVIEW",
+      "type": "gap",
+      "summary": "Embedded VSCodium webview automation is not locally witnessed and cannot be the L0 proof path.",
+      "status": "active",
+      "severity": "flag",
+      "treatment": "defer",
+      "owner": "host-integration",
+      "evidence": "development/founding-research/findings.md"
+    },
+    {
+      "id": "GAP-IDEEXT-MANIFEST-VALIDATOR",
+      "type": "gap",
+      "summary": "Manifest schemas exist, but invalid-manifest fixtures and failing tests should be added before claiming registry hardening.",
+      "status": "active",
+      "severity": "flag",
+      "treatment": "test",
+      "owner": "kernel",
+      "evidence": "schemas/module-manifest.schema.json"
+    },
+    {
+      "id": "GAP-IDEEXT-PROVIDER-ADAPTER",
+      "type": "gap",
+      "summary": "OpenRouter adapter is a boundary stub; no live key, streaming, cost, or provider trace proof exists.",
+      "status": "active",
+      "severity": "flag",
+      "treatment": "experiment",
+      "owner": "provider-adapter",
+      "evidence": "src/adapters/openrouter.mjs"
+    },
+    {
+      "id": "GAP-IDEEXT-SCW-HUMAN-REVIEW",
+      "type": "gap",
+      "summary": "Human usefulness review is still required to close SWU-SCW-008 and unblock the real Decision Gate and Craft interaction witness in SWU-SCW-009; it does not block SWU-OV1-001.",
+      "status": "active",
+      "severity": "flag",
+      "treatment": "human-review",
+      "owner": "product-validation",
+      "evidence": "development/session-content-workbench-plan/work-pack/evidence/SWU-SCW-008-REPORT.md"
+    }
+  ]
+}

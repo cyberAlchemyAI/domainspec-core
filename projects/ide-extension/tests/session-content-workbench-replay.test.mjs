@@ -116,8 +116,8 @@ test('fails closed on duplicate hash, stale revision, cursor gap, and future ver
   assert.throws(() => reduceEvents([published, cursorGap]), /interaction cursor is not monotonic/);
 
   assert.throws(
-    () => reduceEvents([{ ...published, event_version: 4 }]),
-    /unsupported event_version 4/
+    () => reduceEvents([{ ...published, event_version: 5 }]),
+    /unsupported event_version 5/
   );
 });
 

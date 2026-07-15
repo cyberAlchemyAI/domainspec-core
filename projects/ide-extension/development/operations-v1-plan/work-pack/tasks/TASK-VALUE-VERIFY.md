@@ -8,6 +8,7 @@
 | Objective | Prove a normal agent can create, operate, show, and interact with HTML through the local workbench, then close only the supported claim. |
 | Layer / slice / wave | L2 / OV1-S7 / W6 |
 | Execution owner | Task Session, one SWU at a time |
+| Execution status | completed; SWU-OV1-013 passed machine proof plus human Option 1 usefulness review, and SWU-OV1-014 passed integrated closeout. |
 
 ## Source Handles
 

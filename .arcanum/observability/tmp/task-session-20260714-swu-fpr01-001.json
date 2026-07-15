@@ -1,0 +1,62 @@
+{
+  "timestamp": "2026-07-14T20:45:16.499Z",
+  "run_id": "task-session-20260714T204516Z-swu-fpr01-001",
+  "session_id": "session-20260714-dsv2-foundation-execution",
+  "sigil": "task-session",
+  "tier": "arcana",
+  "mode": "execute",
+  "capability": {
+    "id": "task-session",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "execute",
+    "alias": null
+  },
+  "request": {
+    "raw": null,
+    "summary": "Execute the selected SWU-FPR01-001 authority census until the next blocker.",
+    "intent": "Create a deterministic, provenance-bound census without selecting a release baseline or crossing the next owner gate."
+  },
+  "execution": {
+    "status": "completed_at_next_blocker",
+    "outputs": [
+      "projects/domainspec-v2/development/first-production-release/evidence/authority-census.json",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR01-001/TASK-SESSION-RESULT.md"
+    ],
+    "files_changed": [
+      "one deterministic authority census",
+      "one bounded task-session receipt"
+    ],
+    "validation": [
+      "context-builder:standard-strict",
+      "dependency-receipt-live-digest:pass",
+      "normalized-json-repeat-run-equality:pass",
+      "source-existence-and-digests:pass-21-of-21",
+      "missing-source-dispositions:pass-two-of-two",
+      "machine-counts-and-uniqueness:pass",
+      "disagreement-reference-closure:pass-twelve-of-twelve",
+      "owner-queue-coverage:pass-five-queues",
+      "authority-boundary:no-baseline-no-production-no-source-home-selection",
+      "retired-orchestration-guard:pass-215-files-1946-matches-zero-violations",
+      "git-scope-check:pass-two-untracked-task-files"
+    ],
+    "notes": "The first validation pass rejected a copied dependency digest. The run replaced it with the live receipt digest, repeated the full validation twice, and preserved the owner gate as the next blocker. A guard command was also rerouted from the domain root to the declared implementation package root after a non-mutating package-location error."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "signals": [
+      "quality-pass",
+      "rework",
+      "workflow-gap",
+      "useful-pattern"
+    ],
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      "A dependency digest copied into the draft was not live-bound before mutation; source-bound evidence drafts should verify dependency digests before the first write."
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR01-001/TASK-SESSION-RESULT.md"
+}

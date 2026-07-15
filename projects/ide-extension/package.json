@@ -22,7 +22,23 @@
     "test:canvas-live": "node --test --test-concurrency=1 tests/session-content-workbench-notifications.test.mjs",
     "test:canvas-interactions": "node --test --test-concurrency=1 tests/session-content-workbench-interactions.test.mjs tests/session-content-workbench-cli.test.mjs",
     "test:canvas-matrix": "node --test tests/session-content-workbench-matrix.test.mjs",
+    "test:operations-blobs": "node --test tests/operations-v1-blobs.test.mjs",
+    "test:operations-append": "node --test --test-concurrency=1 tests/operations-v1-append.test.mjs",
+    "test:operations-contracts": "node --test tests/operations-v1-contracts.test.mjs",
+    "test:operations-derive": "node --test --test-concurrency=1 tests/operations-v1-derive.test.mjs",
+    "test:operations-replay": "node --test --test-concurrency=1 tests/operations-v1-replay.test.mjs",
+    "test:operations-retention": "node --test --test-concurrency=1 tests/operations-v1-retention.test.mjs",
+    "test:operations-retention-auto": "node --test --test-concurrency=1 tests/operations-v1-retention-auto.test.mjs",
+    "test:operations-rebuild": "node --test --test-concurrency=1 tests/operations-v1-rebuild.test.mjs",
+    "test:operations-navigation": "node --test --test-concurrency=1 tests/operations-v1-navigation.test.mjs",
+    "test:operations-replace": "node --test --test-concurrency=1 tests/operations-v1-replace.test.mjs",
+    "test:operations-transform": "node --test tests/operations-v1-transform.test.mjs",
+    "test:operations-value": "node --test --test-concurrency=1 tests/operations-v1-value.test.mjs",
     "test:e2e:canvas-matrix": "playwright test tests/e2e/session-content-workbench-matrix.spec.mjs",
+    "test:e2e:operations-append": "playwright test tests/e2e/operations-v1-append.spec.mjs",
+    "test:e2e:operations-navigation": "playwright test tests/e2e/operations-v1-navigation.spec.mjs",
+    "test:e2e:operations-retention": "playwright test tests/e2e/operations-v1-retention.spec.mjs",
+    "test:e2e:operations-value": "playwright test tests/e2e/operations-v1-value.spec.mjs",
     "test:bridge": "node --test --test-concurrency=1 tests/manual-session-bridge-*.test.mjs tests/l0-adversarial.test.mjs tests/l0-artifact-evidence.test.mjs tests/l0-persistence-recovery.test.mjs tests/l0-runtime-schema-enforcement.test.mjs tests/l0-workbench-ui.test.mjs",
     "test:e2e": "playwright test",
     "test:persistence": "node --test --test-concurrency=1 tests/l0-persistence-recovery.test.mjs",
@@ -33,10 +49,11 @@
     "validate:schemas": "node scripts/validate-schemas.mjs"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=20.19.0"
   },
   "dependencies": {
-    "ajv": "^8.20.0"
+    "ajv": "^8.20.0",
+    "parse5": "8.0.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1"

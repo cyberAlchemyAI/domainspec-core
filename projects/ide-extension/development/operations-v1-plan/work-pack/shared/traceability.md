@@ -1,21 +1,21 @@
 # Operations V1 Traceability
 
-| Accepted obligation | Plan decision | SWUs | Required evidence |
-| --- | --- | --- | --- |
-| OV1-D1 separate identity | OV1-PD1 | 004-006 | V0 and operations ids/routes coexist after restart. |
-| OV1-D2 immutable bodies | OV1-PD1, PD4 | 003-006 | Blob digest/body/reference and missing-body fail-closed tests. |
-| OV1-D3 complete commit | OV1-PD4 | 006-008 | Browser never receives partial fragment bytes. |
-| OV1-D4 whole document | OV1-PD11 | 001, 006-008 | Schema rejects region targets; operations use whole document. |
-| OV1-D5 parser operations | OV1-PD2 | 002, 006-008 | Golden replace/append/rebuild serializer fixtures. |
-| OV1-D6 CAS/idempotency | OV1-PD5 | 005-007 | duplicate/conflict/stale/concurrent matrix. |
-| OV1-D7 navigation separation | OV1-PD6, PD7 | 009-010 | Non-selected commits do not redirect; redirect survives restart. |
-| OV1-D8 trusted-local authority | OV1-PD12 | 001, 014 | No approval/skill receipt or protected-effect route added. |
-| OV1-D9 explicit rebuild | OV1-PD1 | 008 | Later V0 publication does not sync; explicit exact-hash rebuild does. |
-| OVG-001 parser/version | OV1-PD2 | 002 | Lockfile pin and golden corpus. |
-| OVG-002 limits | OV1-PD3 | 001, 005-008 | minus/exact/plus rejection before commit. |
-| OVG-003 retention | OV1-PD8-PD10 | 011-012 | grace/hard/startup/tombstone/shared-ref/410 evidence. |
-| OVG-004 navigation | OV1-PD6, PD7 | 009-010 | durable target and transient refresh/ack evidence. |
-| Honest user value claim | all | 013-014 | Agent creates/operates/shows interactive HTML; integrated closeout. |
+| Accepted obligation | Plan decision | SWUs | Required evidence | Retained implementation evidence |
+| --- | --- | --- | --- | --- |
+| OV1-D1 separate identity | OV1-PD1 | 004-006 | V0 and operations ids/routes coexist after restart. | [004](../../task-sessions/20260714T215322Z-swu-ov1-004-resume/TASK-SESSION-RESULT.md), [005](../../task-sessions/20260714T221130Z-swu-ov1-005/TASK-SESSION-RESULT.md), [006](../../task-sessions/20260714T222220Z-swu-ov1-006/TASK-SESSION-RESULT.md) |
+| OV1-D2 immutable bodies | OV1-PD1, PD4 | 003-006 | Blob digest/body/reference and missing-body fail-closed tests. | [003](../../task-sessions/20260714T214040Z-swu-ov1-003/TASK-SESSION-RESULT.md), [004](../../task-sessions/20260714T215322Z-swu-ov1-004-resume/TASK-SESSION-RESULT.md), [006](../../task-sessions/20260714T222220Z-swu-ov1-006/TASK-SESSION-RESULT.md) |
+| OV1-D3 complete commit | OV1-PD4 | 006-008 | Browser never receives partial fragment bytes. | [006](../../task-sessions/20260714T222220Z-swu-ov1-006/TASK-SESSION-RESULT.md), [007](../../task-sessions/20260714T223240Z-swu-ov1-007/TASK-SESSION-RESULT.md), [008](../../task-sessions/20260714T224033Z-swu-ov1-008/TASK-SESSION-RESULT.md) |
+| OV1-D4 whole document | OV1-PD11 | 001, 006-008 | Schema rejects region targets; operations use whole document. | [001](../../task-sessions/20260714T211557Z-swu-ov1-001/TASK-SESSION-RESULT.md), [006](../../task-sessions/20260714T222220Z-swu-ov1-006/TASK-SESSION-RESULT.md), [007](../../task-sessions/20260714T223240Z-swu-ov1-007/TASK-SESSION-RESULT.md), [008](../../task-sessions/20260714T224033Z-swu-ov1-008/TASK-SESSION-RESULT.md) |
+| OV1-D5 parser operations | OV1-PD2 | 002, 006-008 | Golden replace/append/rebuild serializer fixtures. | [002](../../task-sessions/20260714T213203Z-swu-ov1-002/TASK-SESSION-RESULT.md), [006](../../task-sessions/20260714T222220Z-swu-ov1-006/TASK-SESSION-RESULT.md), [007](../../task-sessions/20260714T223240Z-swu-ov1-007/TASK-SESSION-RESULT.md), [008](../../task-sessions/20260714T224033Z-swu-ov1-008/TASK-SESSION-RESULT.md) |
+| OV1-D6 CAS/idempotency | OV1-PD5 | 005-007 | duplicate/conflict/stale/concurrent matrix. | [005](../../task-sessions/20260714T221130Z-swu-ov1-005/TASK-SESSION-RESULT.md), [006](../../task-sessions/20260714T222220Z-swu-ov1-006/TASK-SESSION-RESULT.md), [007](../../task-sessions/20260714T223240Z-swu-ov1-007/TASK-SESSION-RESULT.md) |
+| OV1-D7 navigation separation | OV1-PD6, PD7 | 009-010 | Non-selected commits do not redirect; redirect survives restart. | [009](../../task-sessions/20260714T224925Z-swu-ov1-009/TASK-SESSION-RESULT.md), [010](../../task-sessions/20260714T230133Z-swu-ov1-010/TASK-SESSION-RESULT.md) |
+| OV1-D8 trusted-local authority | OV1-PD12 | 001, 014 | No approval/skill receipt or protected-effect route added. | [001](../../task-sessions/20260714T211557Z-swu-ov1-001/TASK-SESSION-RESULT.md), [014 audit](../../task-sessions/20260715T010811Z-swu-ov1-014/INTEGRATED-AUDIT.md) |
+| OV1-D9 explicit rebuild | OV1-PD1 | 008 | Later V0 publication does not sync; explicit exact-hash rebuild does. | [008](../../task-sessions/20260714T224033Z-swu-ov1-008/TASK-SESSION-RESULT.md) |
+| OVG-001 parser/version | OV1-PD2 | 002 | Lockfile pin and golden corpus. | [002](../../task-sessions/20260714T213203Z-swu-ov1-002/TASK-SESSION-RESULT.md) |
+| OVG-002 limits | OV1-PD3 | 001, 005-008 | minus/exact/plus rejection before commit. | [001](../../task-sessions/20260714T211557Z-swu-ov1-001/TASK-SESSION-RESULT.md), [005](../../task-sessions/20260714T221130Z-swu-ov1-005/TASK-SESSION-RESULT.md), [006](../../task-sessions/20260714T222220Z-swu-ov1-006/TASK-SESSION-RESULT.md), [007](../../task-sessions/20260714T223240Z-swu-ov1-007/TASK-SESSION-RESULT.md), [008](../../task-sessions/20260714T224033Z-swu-ov1-008/TASK-SESSION-RESULT.md) |
+| OVG-003 retention | OV1-PD8-PD10 | 011-012 | grace/hard/startup/tombstone/shared-ref/410 evidence. | [011](../../task-sessions/20260714T232409Z-swu-ov1-011/TASK-SESSION-RESULT.md), [012](../../task-sessions/20260715T002431Z-swu-ov1-012-resume/TASK-SESSION-RESULT.md) |
+| OVG-004 navigation | OV1-PD6, PD7 | 009-010 | durable target and transient refresh/ack evidence. | [009](../../task-sessions/20260714T224925Z-swu-ov1-009/TASK-SESSION-RESULT.md), [010](../../task-sessions/20260714T230133Z-swu-ov1-010/TASK-SESSION-RESULT.md) |
+| Honest user value claim | all | 013-014 | Agent creates/operates/shows interactive HTML; integrated closeout. | [013 machine](../../task-sessions/20260715T004506Z-swu-ov1-013/MACHINE-WITNESS-REPORT.md), [013 human PASS](../../task-sessions/20260715T010547Z-swu-ov1-013-resume/TASK-SESSION-RESULT.md), [014 audit](../../task-sessions/20260715T010811Z-swu-ov1-014/INTEGRATED-AUDIT.md) |
 
-Evidence links are added only by Task Session receipts. Planning paths are not
-implementation proof.
+All accepted obligations now have direct Task Session evidence. Planning paths
+remain context, not implementation proof.

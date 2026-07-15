@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/canvas-navigation-request.schema.json",
+  "title": "ide-extension canvas navigation request",
+  "oneOf": [
+    { "$ref": "#/$defs/redirect" },
+    { "$ref": "#/$defs/refresh" }
+  ],
+  "$defs": {
+    "command_id": {
+      "type": "string",
+      "pattern": "^command-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "destination": {
+      "oneOf": [
+        { "$ref": "#/$defs/v0_destination" },
+        { "$ref": "#/$defs/operations_destination" }
+      ]
+    },
+    "v0_destination": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "surface_kind", "surface_id", "revision_id"],
+      "properties": {
+        "kind": { "const": "surface_revision" },
+        "surface_kind": { "const": "v0" },
+        "surface_id": {
+          "type": "string",
+          "pattern": "^surface-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "revision_id": {
+          "type": "string",
+          "pattern": "^revision-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        }
+      }
+    },
+    "operations_destination": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "surface_kind", "surface_id", "revision_id"],
+      "properties": {
+        "kind": { "const": "surface_revision" },
+        "surface_kind": { "const": "operations_v1" },
+        "surface_id": {
+          "type": "string",
+          "pattern": "^operations-surface-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "revision_id": {
+          "type": "string",
+          "pattern": "^revision-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        }
+      }
+    },
+    "redirect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "command_id", "action", "destination"],
+      "properties": {
+        "schema_version": { "const": "1" },
+        "command_id": { "$ref": "#/$defs/command_id" },
+        "action": { "const": "redirect" },
+        "destination": { "$ref": "#/$defs/destination" }
+      }
+    },
+    "refresh": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "command_id", "action"],
+      "properties": {
+        "schema_version": { "const": "1" },
+        "command_id": { "$ref": "#/$defs/command_id" },
+        "action": { "const": "refresh" }
+      }
+    }
+  }
+}

@@ -8,6 +8,7 @@
 | Objective | Bound blob growth while preserving explicit, tombstoned deletion semantics. |
 | Layer / slice / wave | L2 / OV1-S6 / W5 |
 | Execution owner | Task Session, one SWU at a time |
+| Execution status | completed; SWU-OV1-011 and SWU-OV1-012 passed |
 
 ## Source Handles
 

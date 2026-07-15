@@ -7,19 +7,24 @@ function revisionNotice(current) {
   };
 }
 
+function notice(value) {
+  if (value?.schema_version === '1' && typeof value.type === 'string') return value;
+  return revisionNotice(value);
+}
+
 export function createCanvasNotificationHub() {
   const clients = new Set();
   let nextEventId = 1;
 
-  function send(response, current) {
+  function send(response, value) {
     const id = nextEventId;
     nextEventId += 1;
-    response.write(`id: ${id}\ndata: ${JSON.stringify(revisionNotice(current))}\n\n`);
+    response.write(`id: ${id}\ndata: ${JSON.stringify(notice(value))}\n\n`);
     return id;
   }
 
   return {
-    register(response, current = null) {
+    register(response, initialNotice = null) {
       response.writeHead(200, {
         'content-type': 'text/event-stream; charset=utf-8',
         'cache-control': 'no-cache, no-transform',
@@ -30,17 +35,17 @@ export function createCanvasNotificationHub() {
       clients.add(response);
       const unregister = () => clients.delete(response);
       response.once('close', unregister);
-      if (current) send(response, current);
+      if (initialNotice) send(response, initialNotice);
       return unregister;
     },
 
-    broadcast(current) {
+    broadcast(value) {
       for (const response of [...clients]) {
         if (response.destroyed || response.writableEnded) {
           clients.delete(response);
           continue;
         }
-        send(response, current);
+        send(response, value);
       }
     },
 

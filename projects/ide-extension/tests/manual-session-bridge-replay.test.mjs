@@ -340,8 +340,8 @@ test('fails closed on version, duplicate, singleton, stale, and terminal replay 
   const two = await buildTerminalEvents('hostile-two');
 
   assert.throws(
-    () => reduceEvents([{ ...one.prepared, event_version: 4 }]),
-    /unsupported event_version 4/
+    () => reduceEvents([{ ...one.prepared, event_version: 5 }]),
+    /unsupported event_version 5/
   );
   assert.throws(
     () => reduceEvents([one.prepared, clone(one.prepared)]),

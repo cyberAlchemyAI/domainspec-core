@@ -6,7 +6,7 @@ Authors: Victor Boscaro
 # DomainSpec edge-signature type-checker + adequacy instrument (extended)
 
 A **decidable, executable** type-checker for a DomainSpec concept graph, extended past the
-25/29 spec vocabulary toward the target class **"any code that models a domain."** Two
+24/29 spec vocabulary toward the target class **"any code that models a domain."** Two
 typed objects are separated, which is the whole point of this file:
 
 * **residue** — edges that are *mis-typed between KNOWN meta-types* (a modeling error).
@@ -21,7 +21,7 @@ finite fixed vocabulary is provably complete for an open class.
 
 ## Layers in this file (honest typing)
 
-* **SPEC core (25 meta-types, 29 edges)** — faithful transcription of the DomainSpec
+* **SPEC core (24 meta-types, 29 edges)** — faithful transcription of the DomainSpec
   normative model (`Arcanum/definitions/`, DS-D1/D2/D7/D8 + DS-P1/P2/P3). The
   `spec*`/`dsD7_*`/`dsP2_*`/`dsP3_*` theorems are the fidelity proofs over this core.
 * **EXTENSIONS (candidates, clearly marked NON-spec)** — `aggregate`, `boundedContext`
@@ -37,14 +37,14 @@ import Mathlib.Data.List.Basic
 namespace DomainSpec
 namespace EdgeSignature
 
-/-! ## DS-D1 — meta-types (25 spec) + extensions -/
+/-! ## DS-D1 — meta-types (24 spec) + extensions -/
 
-/-- DomainSpec meta-types: 14 backend + 11 UI (spec), plus extensions:
+/-- DomainSpec meta-types: 13 backend + 11 UI (spec), plus extensions:
 `aggregate`, `boundedContext` (DDD candidates) and `opaque` (escape hatch). -/
 inductive MetaType
-  -- 𝓜_B (14 backend, spec)
+  -- 𝓜_B (13 backend, spec)
   | entity | valueObject | enumType | operation | query | calculation | rule
-  | policy | workflow | «interface» | event | mapping | stateMachine | saga
+  | policy | workflow | «interface» | event | mapping | stateMachine
   -- 𝓜_U (11 UI, spec)
   | page | layout | component | viewModel | hook | form | action | guard
   | binding | adapter | stateIndicator
@@ -75,7 +75,6 @@ def layer : MetaType → Layer
   | .event => .backend
   | .mapping => .backend
   | .stateMachine => .backend
-  | .saga => .backend
   | .page => .ui
   | .layout => .ui
   | .component => .ui
@@ -91,10 +90,10 @@ def layer : MetaType → Layer
   | .boundedContext => .neutral
   | .opaque => .neutral
 
-/-- `𝓜_B` — the 14 SPEC backend meta-types (extensions excluded for fidelity). -/
+/-- `𝓜_B` — the 13 SPEC backend meta-types (extensions excluded for fidelity). -/
 def mB : List MetaType :=
   [.entity, .valueObject, .enumType, .operation, .query, .calculation, .rule,
-   .policy, .workflow, .«interface», .event, .mapping, .stateMachine, .saga]
+   .policy, .workflow, .«interface», .event, .mapping, .stateMachine]
 
 /-- `𝓜_U` — the 11 SPEC UI meta-types. -/
 def mU : List MetaType :=
@@ -287,7 +286,7 @@ theorem sig_associates_domain :
     (∀ m ∈ (sig .associates).1, m ∈ domainObjects) ∧
     (∀ m ∈ (sig .associates).2, m ∈ domainObjects) := by decide
 
-/-! ## DS-D7 — counts (spec fidelity: 14 + 11 = 25 meta-types, 15 + 8 + 6 = 29 edges) -/
+/-! ## DS-D7 — counts (spec fidelity: 13 + 11 = 24 meta-types, 15 + 8 + 6 = 29 edges) -/
 
 /-- All 29 SPEC edges. -/
 def specEdges : List Edge :=
@@ -300,7 +299,7 @@ def specEdges : List Edge :=
 /-- The full extended edge vocabulary (spec + extensions). -/
 def allEdges : List Edge := specEdges ++ [.associates, .other]
 
-theorem specMeta_count : (mB ++ mU).length = 25 := by decide
+theorem specMeta_count : (mB ++ mU).length = 24 := by decide
 theorem dsD7_spec_count_total : specEdges.length = 29 := by decide
 theorem dsD7_spec_count_backend :
     (specEdges.filter (fun r => decide (family r = .backend))).length = 15 := by decide

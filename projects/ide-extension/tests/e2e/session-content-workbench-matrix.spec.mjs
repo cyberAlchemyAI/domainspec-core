@@ -67,12 +67,12 @@ test('presentation, Decision Gate, and Craft use one publish and event loop', as
     await publish('presentation.html', 'Local Canvas Field Notes', 'presentation');
     await page.goto(`${base}/demo/l0`);
     let frame = page.frameLocator('#canvas-frame');
-    await expect(frame.locator('h2').filter({ hasText: 'A surface the session can hand you' })).toBeVisible();
+    await expect(frame.locator('h1').filter({ hasText: 'A shared visual workbench for Augmentor' })).toBeVisible();
     await frame.locator('body').click();
     await page.keyboard.press('ArrowRight');
-    await expect(frame.locator('#counter')).toHaveText('2 / 2');
+    await expect(frame.locator('#counter')).toHaveText('2 / 6');
     await frame.locator('#previous').click();
-    await expect(frame.locator('#counter')).toHaveText('1 / 2');
+    await expect(frame.locator('#counter')).toHaveText('1 / 6');
 
     await copyFile(
       path.join(fixtureDir, 'presentation-v2.html'),

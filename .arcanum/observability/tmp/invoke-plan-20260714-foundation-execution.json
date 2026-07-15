@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-07-14T18:00:58.610Z",
+  "run_id": "invoke-plan-20260714T180058Z-dsv2-foundation-execution",
+  "session_id": "session-20260714-dsv2-foundation-execution",
+  "sigil": "invoke",
+  "tier": "spells",
+  "mode": "plan",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "plan",
+    "alias": null
+  },
+  "request": {
+    "raw": null,
+    "summary": "Create an execution-grade Invoke plan for the current DomainSpec guard repair and FPR-01 through FPR-04 foundation chain.",
+    "intent": "Make the first foundation route traversable by Task Session without collapsing authority, projection, implementation, continuation, or UI graph ownership."
+  },
+  "execution": {
+    "status": "completed_with_deferred_handoff",
+    "outputs": [
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/WORK-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/EXECUTION-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/IMPLEMENTATION-LAYERING.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/DISPATCH.json",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/DISTILL-VALIDATION.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/PLAN-TRANSPORT.md"
+    ],
+    "files_changed": [
+      "22 new planning artifacts under projects/domainspec-v2/development/first-production-release/foundation-execution/"
+    ],
+    "validation": [
+      "dispatch-spec:pass-zero-blocks-zero-flags",
+      "markdown-frontmatter-links:pass",
+      "dispatch-json:parse-pass",
+      "retired-token-in-new-package:zero-matches",
+      "retired-reference-audit:expected-fail-four-preexisting-violations-unchanged",
+      "git-diff-check:pass",
+      "distill-standard-local:pass-for-planning",
+      "authority-craft-implementation-mutation:none"
+    ],
+    "notes": "Invoke created planning artifacts only. The selected first SWU is review-only; all mutation and FPR execution remains receipt-gated. The plan initially referenced protected package paths literally, detected that this would create new guard drift, and repaired the plan to use stable SGRM selectors."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/foundation-execution/WORK-PACK.md"
+}

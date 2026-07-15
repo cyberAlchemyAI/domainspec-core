@@ -1,0 +1,73 @@
+{
+  "timestamp": "2026-07-14T19:22:32.615Z",
+  "run_id": "invoke-refresh-20260714T192232Z-dsv2-w0-proof-sync",
+  "session_id": "session-20260714-dsv2-foundation-execution",
+  "sigil": "invoke",
+  "tier": "spells",
+  "mode": "refresh",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "refresh",
+    "alias": null
+  },
+  "request": {
+    "raw": null,
+    "summary": "Synchronize the accepted W0 proof, Craft, Inventory, and generated continuation views without executing FPR01-001.",
+    "intent": "Close the proven guard dependency, select the deterministic authority census for a later Task Session, and preserve all authority and execution boundaries."
+  },
+  "execution": {
+    "status": "completed_with_rework",
+    "outputs": [
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/shared/W0-PROOF-SYNC-DECISION.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-14-w0-proof-sync/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-14-w0-proof-sync/refresh-report.json",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/WORK-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/EXECUTION-PACK.md",
+      "projects/domainspec-v2/.craft/ledger.yml",
+      ".arcanum/inventory/entries/domainspec-v2-retired-orchestration-guard-proof-refresh-synthesis.md",
+      ".arcanum/inventory/index.json",
+      "projects/domainspec-v2/development/first-production-release/visibility/roadmap-data.json",
+      "projects/domainspec-v2/development/first-production-release/visibility/roadmap.html"
+    ],
+    "files_changed": [
+      "foundation execution control selectors and proof-refresh receipts",
+      "DomainSpec-v2 Craft ledger and human view",
+      "one Inventory entry plus human/machine indexes and log",
+      "two generated FPR roadmap projections"
+    ],
+    "validation": [
+      "decision-gate:option-1-pass",
+      "invoke-refresh:apply-approved-pass",
+      "retired-reference-audit:pass-215-files-1946-matches-215-allowed-zero-violations",
+      "focused-guard-tests:pass-six-of-six",
+      "docs-links:pass",
+      "craft-control-reference-integrity:pass",
+      "inventory-updater-tests:pass-thirteen-groups",
+      "inventory-index-uniqueness-and-maps:pass",
+      "roadmap-tests:pass-eight-of-eight",
+      "roadmap-deterministic-check:pass",
+      "production-authorized:false",
+      "git-diff-check:pass"
+    ],
+    "notes": "The first refresh draft reopened the guard because concrete protected receipt paths propagated through control artifacts and generated projections. The run repaired this without a new exception by binding the receipt through its SWU handle and SHA-256, removing the path from Craft ownership, and regenerating the views."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "signals": [
+      "quality-pass",
+      "rework",
+      "workflow-gap",
+      "useful-pattern"
+    ],
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      "Proof-refresh metadata can itself reopen a classified-reference guard when protected source paths are copied into live controls and generated projections; bind through an existing handle plus digest or keep the record outside the scan boundary."
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-14-w0-proof-sync/REFRESH-REPORT.md"
+}

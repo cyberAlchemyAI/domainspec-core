@@ -2272,3 +2272,102 @@ Artifacts:
   machine and human indexes updated deterministically.
 - Authority: Inventory read model only. DS-D8, definitions, and candidate states
   were not promoted or edited.
+
+## 2026-07-13 - DomainSpec v2 expanded production-frontier closeout
+
+- Mode: resolved strategy-result ingest after the accepted product contract
+  expanded the first-release capability surface.
+- Dispatch: nine agents across formal-semantics, executable-conformance, and
+  Body War lanes; three adversarial reviewers; final auditor `APPROVE` after
+  one bounded writer repair.
+- Result: auditor-approved `REPAIR-THEN-GATE` roadmap with 16 nodes, 38
+  machine dependency/evidence edges, five active frontiers, 24 tracked
+  candidate definitions, and an exact 14-step pilot denominator.
+- Craft: added `CTX-DSV2-FIRST-PRODUCTION-RELEASE`, its next move, five active
+  frontier gaps, linked roadmap/evidence artifacts, and partial recomposition.
+- Inventory: added
+  `entries/domainspec-v2-expanded-production-frontiers-strategy-result-synthesis.md`;
+  machine and human indexes updated through the deterministic appender.
+- Validation: frozen research and findings preserved; final audit approved;
+  roadmap/manifest YAML and ledger YAML parse; new Craft references and counts
+  pass; Inventory updater tests pass 6/6 and 7/7; `git diff --check` passes.
+- Authority: Inventory and the frontier manifest are read models. Production,
+  profile conformance, full coverage, formal validity, implementation
+  acceptance, Body War acceptance, release readiness, and authorization remain
+  unestablished.
+
+## 2026-07-14 - Interactive ontology learning-map closeout
+
+- Mode: resolved strategy-result ingest for a confirmed research dispatch.
+- P1: synthesis, context protection, isolation, and parallelism all applied;
+  three evidence lanes fed synthesis, three exclusive skeptic gates, writing,
+  and independent final audit.
+- Dispatch: nine agents, no helpers, one bounded synthesis/review loop, and one
+  auditor-to-writer close-report repair; final auditor `ACCEPT`; ledger closed
+  `resolved`.
+- Result: accepted private read-only projection architecture with six internal
+  classification planes, three separately stored derived views, a five-level
+  Craft claim ladder, DomainSpec positive/negative witnesses, deterministic
+  acceptance contracts, and a separately gated Arcanum-only public candidate.
+- Evidence boundary: every executable endpoint, runtime, browser,
+  assistive-technology, performance, determinism, and publication check remains
+  `NOT_RUN`; no live ontology or public-ready artifact is claimed.
+- Inventory: added
+  `entries/interactive-ontology-learning-map-strategy-result-synthesis.md`;
+  machine and human indexes updated through `inventory-update.cjs`.
+- Residue: projection and publication owners are unresolved; CAV2 hom-sets,
+  endpoint tables, path laws, vocabulary conflicts, theorem citations, and
+  public-derivative proof remain owner-routed gaps.
+- Authority: Inventory read model only. It promotes no schema, definition,
+  relation, proof status, authority state, application, or publication verdict.
+
+## 2026-07-14 - DomainSpec v2 engine-gap inventory closeout
+
+- Mode: resolved strategy-result ingest for a confirmed research dispatch,
+  retained with a process-quality flag.
+- Dispatch: eight registered roles produced three explorer reports, one
+  synthesis, two exclusive skeptic reviews, one findings artifact, and one
+  final audit; the auditor returned `ACCEPT` after bounded repair.
+- Result: the semantic engine is the first major implementation capability,
+  but the safe execution order is `FPR-01 -> FPR-02 -> FPR-03 -> FPR-04`.
+  Twenty-one evidence IDs route into eight existing owner packages; only
+  deterministic definition-drift scanning, local IR/authority edge collision,
+  and stale import-manifest destinations remain newly witnessed residues.
+- First slice: restore the retired-reference guard and close FPR-01, freeze the
+  bounded FPR-02 backend profile, close the FPR-03 precedence frontier, then
+  build a two-node/one-edge FPR-04 `Spec -> Sg` walking skeleton with explicit
+  `Sg -> G`, independent retraction, and negative mutants.
+- Validation: engine tests pass 97/97; typecheck passes; the sample content
+  validator passes vacuously at zero concepts and zero edges; missing-feature
+  derive and lint commands exit zero with empty/CLEAN output; the
+  retired-reference audit fails with four violations after the two research
+  artifacts added two still-unclassified references.
+- Inventory: added
+  `entries/domainspec-v2-engine-gap-inventory-dispatch-closeout-synthesis.md`;
+  machine and human indexes updated through `inventory-update.cjs`. Existing
+  global uncontrolled-tag warnings remain; the new entry uses controlled tags.
+- Process residue: eight roles ran across five unique subagent threads because
+  the runtime exposed only four concurrent slots. Role outputs remained
+  explicit and the writer/auditor were distinct, but one-agent/one-role
+  isolation was not fully satisfied; close telemetry counts roles rather than
+  unique runtime threads. The absent named research-writing packages were
+  emulated from the dispatch skill contract rather than claimed as installed.
+- Authority: Inventory is a read model. No canonical relationship, definition,
+  profile, lifecycle state, FPR closure, or engine acceptance was promoted.
+
+## 2026-07-14 - DomainSpec v2 W0 guard proof refresh
+
+- Mode: Inventory sync from an apply-approved Invoke proof refresh.
+- Source: accepted `SWU-SGRM-007-R1` retry receipt, bound at SHA-256
+  `1d842c5c87286c49ae0d8f3158bd3a629a9266c280732493454d0249c5e78a6b`.
+- Result: the current repository-local retired-orchestration audit has zero
+  violations and the focused negative controls reject active, digest-drift,
+  missing-path, and unused-exception cases.
+- Inventory: added
+  `entries/domainspec-v2-retired-orchestration-guard-proof-refresh-synthesis.md`;
+  machine and human indexes updated through `inventory-update.cjs`.
+- Continuation: W0 is proof-refreshed and `SWU-FPR01-001` is selected for a
+  separate Task Session. The census has not executed.
+- Authority: Inventory remains a non-authority read model. No definition,
+  authority baseline, engine state, FPR completion, or production claim was
+  promoted.

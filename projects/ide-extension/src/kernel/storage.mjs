@@ -68,11 +68,84 @@ async function replaceProjection(writeProjection, workbenchFile, projection) {
   }
 }
 
+function blobReferenceError(code, message, fields = {}) {
+  const error = new Error(message);
+  error.code = code;
+  Object.assign(error, fields);
+  return error;
+}
+
+function unprunedOperationsRevisions(projection) {
+  const operations = projection.canvas?.operations_v1;
+  if (!operations) return [];
+  return Object.values(operations.revisions)
+    .filter((revision) => !operations.prune_tombstones[revision.revision_id])
+    .sort((left, right) => left.revision_id.localeCompare(right.revision_id));
+}
+
+async function reconcileCanvasBlobs(projection, canvasBlobStore) {
+  const revisions = unprunedOperationsRevisions(projection);
+  if (!canvasBlobStore) {
+    if (revisions.length === 0) return null;
+    throw blobReferenceError(
+      'canvas_blob_store_required',
+      'unpruned Operations V1 revisions require a Canvas blob store',
+      { revision_ids: revisions.map((revision) => revision.revision_id) }
+    );
+  }
+  if (typeof canvasBlobStore.read !== 'function' || typeof canvasBlobStore.diagnostics !== 'function') {
+    throw blobReferenceError('canvas_blob_store_invalid', 'Canvas blob store must expose read and diagnostics');
+  }
+
+  for (const revision of revisions) {
+    try {
+      const blob = await canvasBlobStore.read(revision.content_sha256);
+      if (blob.blob_ref !== revision.blob_ref || blob.byte_length !== revision.byte_length) {
+        throw blobReferenceError(
+          'canvas_blob_metadata_mismatch',
+          `blob metadata does not match revision ${revision.revision_id}`,
+          {
+            expected_blob_ref: revision.blob_ref,
+            actual_blob_ref: blob.blob_ref,
+            expected_byte_length: revision.byte_length,
+            actual_byte_length: blob.byte_length
+          }
+        );
+      }
+    } catch (error) {
+      throw blobReferenceError(
+        'canvas_blob_reference_invalid',
+        `invalid blob reference for revision ${revision.revision_id}: ${error.message}`,
+        {
+          revision_id: revision.revision_id,
+          digest: revision.content_sha256,
+          cause_code: error.code || null
+        }
+      );
+    }
+  }
+
+  const referencedDigests = [...new Set(revisions.map((revision) => revision.content_sha256))];
+  const diagnostics = await canvasBlobStore.diagnostics(referencedDigests);
+  if (diagnostics.missing_references.length > 0) {
+    throw blobReferenceError(
+      'canvas_blob_reference_invalid',
+      'blob diagnostics found missing committed references',
+      {
+        cause_code: 'canvas_blob_not_found',
+        digests: [...diagnostics.missing_references]
+      }
+    );
+  }
+  return diagnostics;
+}
+
 export function createProjectionStore(options) {
   const {
     eventsFile,
     workbenchFile,
     artifactDir,
+    canvasBlobStore = null,
     append = appendEvent,
     writeProjection = atomicWriteJson
   } = options;
@@ -80,6 +153,7 @@ export function createProjectionStore(options) {
   async function reconcile(reduceOptions = {}) {
     const events = await readEvents(eventsFile);
     const projection = reduceEvents(events, reduceOptions);
+    const canvasBlobs = await reconcileCanvasBlobs(projection, canvasBlobStore);
     const existing = await readProjection(workbenchFile);
     const checksum = projectionChecksum(projection);
     const repaired = !existing || projectionChecksum(existing) !== checksum;
@@ -92,7 +166,8 @@ export function createProjectionStore(options) {
       event_count: events.length,
       projection_checksum: checksum,
       repaired,
-      orphan_artifacts: await orphanArtifacts(artifactDir, events)
+      orphan_artifacts: await orphanArtifacts(artifactDir, events),
+      canvas_blobs: canvasBlobs
     };
   }
 
@@ -100,6 +175,7 @@ export function createProjectionStore(options) {
     const events = await readEvents(eventsFile);
     const nextEvents = [...events, event];
     const projection = reduceEvents(nextEvents, reduceOptions);
+    const canvasBlobs = await reconcileCanvasBlobs(projection, canvasBlobStore);
     await append(eventsFile, event);
 
     try {
@@ -118,7 +194,8 @@ export function createProjectionStore(options) {
       event_count: nextEvents.length,
       projection_checksum: projectionChecksum(projection),
       repaired: false,
-      orphan_artifacts: await orphanArtifacts(artifactDir, nextEvents)
+      orphan_artifacts: await orphanArtifacts(artifactDir, nextEvents),
+      canvas_blobs: canvasBlobs
     };
   }
 

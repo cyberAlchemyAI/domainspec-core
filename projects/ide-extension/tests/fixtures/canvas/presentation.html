@@ -3,54 +3,801 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Local Canvas Field Notes</title>
+  <title>Augmentor + Workbench</title>
   <style>
+    :root {
+      --ink: #17202a;
+      --muted: #59656f;
+      --paper: #f6f7f2;
+      --surface: #ffffff;
+      --line: #ccd3cf;
+      --green: #087f5b;
+      --green-soft: #dff3ea;
+      --blue: #1769aa;
+      --blue-soft: #e5f1fa;
+      --coral: #d95d44;
+      --coral-soft: #fbe8e3;
+      --yellow: #d99a16;
+      --yellow-soft: #fff3cf;
+      --shadow: 0 18px 48px rgba(23, 32, 42, 0.1);
+    }
+
     * { box-sizing: border-box; }
-    body { margin: 0; color: #14202b; background: #f4f7f5; font: 16px/1.45 system-ui, sans-serif; }
-    header { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 18px; border-bottom: 1px solid #c8d1cd; background: #fff; }
-    h1, h2, p { margin: 0; }
-    h1 { font-size: 17px; }
-    .controls { display: flex; align-items: center; gap: 8px; }
-    button { min-width: 38px; min-height: 36px; border: 1px solid #99aaa3; border-radius: 5px; background: #fff; color: #14202b; font: inherit; cursor: pointer; }
-    button:focus-visible { outline: 3px solid #1877c9; outline-offset: 2px; }
-    main { min-height: calc(100vh - 58px); padding: 5vw; }
-    .slide { display: none; grid-template-columns: minmax(0, 1fr) minmax(240px, 40%); align-items: center; gap: 6vw; min-height: 68vh; }
-    .slide.active { display: grid; }
-    .eyebrow { color: #176a53; font-size: 13px; font-weight: 700; text-transform: uppercase; }
-    h2 { margin-top: 10px; max-width: 760px; font-size: clamp(32px, 6vw, 72px); line-height: 1.02; }
-    .lede { margin-top: 18px; max-width: 640px; color: #52615b; font-size: 20px; }
-    .visual { min-height: 320px; display: grid; align-content: end; gap: 14px; padding: 28px; border: 1px solid #b8c6c0; border-radius: 6px; background: #fff; box-shadow: 0 18px 35px rgba(20, 32, 43, .08); }
-    .bar { height: 44px; background: #1f7a5e; }
-    .bar:nth-child(2) { width: 76%; background: #d9972f; }
-    .bar:nth-child(3) { width: 48%; background: #2778b8; }
-    @media (max-width: 700px) {
-      header { align-items: flex-start; flex-direction: column; }
-      .slide, .slide.active { grid-template-columns: 1fr; }
-      .visual { min-height: 220px; }
-      h2 { font-size: 38px; }
+
+    html, body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 16px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button { font: inherit; }
+
+    .topbar {
+      min-height: 68px;
+      display: grid;
+      grid-template-columns: minmax(180px, 1fr) auto minmax(180px, 1fr);
+      align-items: center;
+      gap: 20px;
+      padding: 10px 24px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.96);
+    }
+
+    .brand {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      object-fit: contain;
+    }
+
+    .brand span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: #b8c0bc;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      width: 28px;
+      border-radius: 5px;
+      background: var(--green);
+    }
+
+    .dot:focus-visible,
+    .nav-button:focus-visible,
+    .demo-button:focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 3px;
+    }
+
+    .navigation {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .nav-button {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #aeb8b3;
+      border-radius: 5px;
+      color: var(--ink);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    #counter {
+      min-width: 52px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    main { min-height: calc(100vh - 69px); }
+
+    .slide {
+      display: none;
+      min-height: calc(100vh - 69px);
+      padding: 48px max(28px, calc((100vw - 1240px) / 2));
+      align-items: center;
+    }
+
+    .slide.active {
+      display: grid;
+      animation: enter 180ms ease-out;
+    }
+
+    @keyframes enter {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+      align-items: center;
+      gap: 64px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1, h2 {
+      max-width: 840px;
+      margin-bottom: 20px;
+      font-size: 56px;
+      line-height: 1.04;
+      font-weight: 780;
+    }
+
+    h3 {
+      margin-bottom: 7px;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .lede {
+      max-width: 720px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 21px;
+      line-height: 1.5;
+    }
+
+    .accent { color: var(--green); }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 6px 11px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .status::before {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      content: "";
+    }
+
+    .workbench-visual {
+      min-height: 390px;
+      overflow: hidden;
+      border: 1px solid #adb8b2;
+      border-radius: 7px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .window-bar {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      background: #edf0ed;
+    }
+
+    .window-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #9fa9a4;
+    }
+
+    .window-body {
+      min-height: 348px;
+      display: grid;
+      grid-template-columns: 112px 1fr;
+    }
+
+    .mini-sidebar {
+      display: grid;
+      align-content: start;
+      gap: 10px;
+      padding: 18px 12px;
+      border-right: 1px solid var(--line);
+      background: #18242b;
+    }
+
+    .mini-nav {
+      height: 29px;
+      display: flex;
+      align-items: center;
+      padding: 0 9px;
+      border-radius: 4px;
+      color: #d7dfdb;
+      font-size: 11px;
+    }
+
+    .mini-nav.active { background: #087f5b; color: white; }
+
+    .mini-canvas {
+      display: grid;
+      align-content: center;
+      gap: 15px;
+      padding: 28px;
+      background: #f7f8f4;
+    }
+
+    .mini-label {
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .mini-title {
+      max-width: 330px;
+      font-size: 29px;
+      line-height: 1.1;
+      font-weight: 780;
+    }
+
+    .mini-lines { display: grid; gap: 8px; }
+    .mini-line { height: 8px; background: #d4dad6; }
+    .mini-line:nth-child(2) { width: 78%; }
+    .mini-line:nth-child(3) { width: 54%; background: #a8d7c7; }
+
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 38px;
+    }
+
+    .principle {
+      min-height: 170px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--green);
+      border-radius: 6px;
+      background: var(--surface);
+    }
+
+    .principle:nth-child(2) { border-top-color: var(--blue); }
+    .principle:nth-child(3) { border-top-color: var(--coral); }
+
+    .principle p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .full-width { width: 100%; }
+
+    .integration-map {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(66px, 1fr));
+      align-items: stretch;
+      gap: 10px;
+      margin-top: 34px;
+    }
+
+    .system-node {
+      min-height: 150px;
+      display: grid;
+      align-content: center;
+      gap: 8px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      text-align: center;
+    }
+
+    .system-node strong { font-size: 17px; }
+    .system-node small { color: var(--muted); font-size: 12px; }
+    .system-node.augmentor { border-color: #77b99f; background: var(--green-soft); }
+    .system-node.workbench { border-color: #7faed2; background: var(--blue-soft); }
+    .system-node.human { border-color: #dfa391; background: var(--coral-soft); }
+
+    .connector {
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .return-path {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-left: 4px solid var(--yellow);
+      background: var(--yellow-soft);
+      color: #5b491f;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 34px;
+      counter-reset: flow;
+    }
+
+    .flow-step {
+      min-height: 202px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      counter-increment: flow;
+    }
+
+    .flow-step::before {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 28px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: white;
+      content: counter(flow);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .flow-step p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 32px;
+    }
+
+    .proof-column {
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+    }
+
+    .proof-column.today { border-top: 5px solid var(--green); }
+    .proof-column.next { border-top: 5px solid var(--yellow); }
+
+    .proof-column ul {
+      display: grid;
+      gap: 12px;
+      margin: 20px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .proof-column li {
+      position: relative;
+      padding-left: 25px;
+      color: var(--muted);
+    }
+
+    .proof-column li::before {
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      content: "\2713";
+      font-weight: 900;
+    }
+
+    .proof-column.next li::before { color: var(--yellow); content: "\2192"; }
+
+    .interaction {
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .demo-button {
+      min-height: 44px;
+      padding: 10px 16px;
+      border: 1px solid #056b4c;
+      border-radius: 5px;
+      background: var(--green);
+      color: white;
+      cursor: pointer;
+      font-weight: 760;
+    }
+
+    .demo-button[disabled] {
+      border-color: #83908a;
+      background: #83908a;
+      cursor: default;
+    }
+
+    #interaction-status {
+      min-height: 24px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 34px;
+    }
+
+    .phase {
+      min-height: 222px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+    }
+
+    .phase-number {
+      display: block;
+      margin-bottom: 28px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .phase p { margin-bottom: 0; color: var(--muted); font-size: 14px; }
+
+    .closing {
+      max-width: 980px;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .closing .lede { margin-inline: auto; }
+
+    .closing-mark {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 25px;
+      object-fit: contain;
+    }
+
+    .footer-hint {
+      position: fixed;
+      right: 18px;
+      bottom: 13px;
+      color: #78837e;
+      font-size: 11px;
+    }
+
+    @media (max-width: 980px) {
+      .slide { padding: 34px 24px 54px; align-items: start; }
+      .slide-grid { grid-template-columns: 1fr; gap: 34px; }
+      h1, h2 { font-size: 43px; }
+      .workbench-visual { min-height: 330px; }
+      .principles, .roadmap { grid-template-columns: 1fr; }
+      .principle, .phase { min-height: 0; }
+      .integration-map { grid-template-columns: 1fr; }
+      .connector { min-height: 28px; transform: rotate(90deg); }
+      .system-node { min-height: 100px; }
+      .flow { grid-template-columns: 1fr 1fr; }
+      .flow-step { min-height: 170px; }
+    }
+
+    @media (max-width: 640px) {
+      .topbar { grid-template-columns: 1fr auto; padding: 9px 14px; }
+      .progress { display: none; }
+      .brand span { max-width: 150px; }
+      .slide { min-height: calc(100vh - 59px); padding: 28px 18px 52px; }
+      main { min-height: calc(100vh - 59px); }
+      h1, h2 { font-size: 36px; }
+      .lede { font-size: 18px; }
+      .proof-grid, .flow { grid-template-columns: 1fr; }
+      .flow-step { min-height: 0; }
+      .flow-step::before { margin-bottom: 16px; }
+      .window-body { grid-template-columns: 78px 1fr; }
+      .mini-sidebar { padding-inline: 8px; }
+      .mini-nav { padding-inline: 5px; font-size: 9px; }
+      .mini-canvas { padding: 20px; }
+      .mini-title { font-size: 23px; }
+      .footer-hint { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .slide.active { animation: none; }
     }
   </style>
 </head>
 <body>
-  <header><h1>Local Canvas Field Notes</h1><div class="controls"><button id="previous" aria-label="Previous slide">&larr;</button><span id="counter">1 / 2</span><button id="next" aria-label="Next slide">&rarr;</button></div></header>
+  <header class="topbar">
+    <div class="brand">
+      <img src="/assets/cyber-alchemy-logo.svg?v=cyberalchemy-mark" alt="Cyber Alchemy spiral mark">
+      <span>Augmentor Workbench</span>
+    </div>
+    <nav class="progress" aria-label="Presentation slides">
+      <button class="dot active" data-slide="0" aria-label="Go to slide 1"></button>
+      <button class="dot" data-slide="1" aria-label="Go to slide 2"></button>
+      <button class="dot" data-slide="2" aria-label="Go to slide 3"></button>
+      <button class="dot" data-slide="3" aria-label="Go to slide 4"></button>
+      <button class="dot" data-slide="4" aria-label="Go to slide 5"></button>
+      <button class="dot" data-slide="5" aria-label="Go to slide 6"></button>
+    </nav>
+    <div class="navigation">
+      <button class="nav-button" id="previous" aria-label="Previous slide" title="Previous slide">&larr;</button>
+      <span id="counter" aria-live="polite">1 / 6</span>
+      <button class="nav-button" id="next" aria-label="Next slide" title="Next slide">&rarr;</button>
+    </div>
+  </header>
+
   <main>
-    <section class="slide active"><div><p class="eyebrow">Revision one</p><h2>A surface the session can hand you</h2><p class="lede">The project file remains the source. The workbench makes it visible and interactive.</p></div><div class="visual" aria-label="Three-stage signal"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></section>
-    <section class="slide"><div><p class="eyebrow">The loop</p><h2>Create, publish, inspect, respond</h2><p class="lede">Arrow keys and buttons operate this standalone project HTML.</p></div><div class="visual"><strong>1. Complete HTML</strong><strong>2. Durable revision</strong><strong>3. Human action</strong></div></section>
+    <section class="slide active" aria-labelledby="slide-1-title">
+      <div class="slide-grid">
+        <div>
+          <p class="eyebrow">ResonantOS first use case</p>
+          <h1 id="slide-1-title">A shared visual workbench for <span class="accent">Augmentor</span></h1>
+          <p class="lede">The agent creates. The human sees and interacts. Both continue from the same live HTML surface.</p>
+          <div class="status-row">
+            <span class="status">Local-first</span>
+            <span class="status">Project-backed</span>
+            <span class="status">Human-controlled</span>
+          </div>
+        </div>
+        <div class="workbench-visual" aria-label="Preview of the workbench canvas">
+          <div class="window-bar"><span class="window-dot"></span><span class="window-dot"></span><span class="window-dot"></span></div>
+          <div class="window-body">
+            <div class="mini-sidebar">
+              <div class="mini-nav">Connect</div>
+              <div class="mini-nav active">Canvas</div>
+              <div class="mini-nav">Approve</div>
+              <div class="mini-nav">History</div>
+            </div>
+            <div class="mini-canvas">
+              <span class="mini-label">Published by Augmentor</span>
+              <div class="mini-title">A useful result, ready to inspect</div>
+              <div class="mini-lines"><div class="mini-line"></div><div class="mini-line"></div><div class="mini-line"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="slide-2-title">
+      <div class="full-width">
+        <p class="eyebrow">Why this exists</p>
+        <h2 id="slide-2-title">Chat is good for instructions. Work needs a place.</h2>
+        <p class="lede">Augmentor can reason in the session and work in the repository. The workbench adds a shared surface for results that are visual, interactive, or decision-heavy.</p>
+        <div class="principles">
+          <article class="principle">
+            <h3>See the result</h3>
+            <p>Presentations, prototypes, dashboards, decision gates, and Craft views appear directly in the browser.</p>
+          </article>
+          <article class="principle">
+            <h3>Act on the result</h3>
+            <p>The human can navigate, choose, approve, or respond without translating the artifact back into chat.</p>
+          </article>
+          <article class="principle">
+            <h3>Keep the project real</h3>
+            <p>The HTML remains a project file. The workbench displays durable revisions instead of becoming a second source of truth.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="slide-3-title">
+      <div class="full-width">
+        <p class="eyebrow">The integration</p>
+        <h2 id="slide-3-title">Augmentor becomes the first workbench client</h2>
+        <p class="lede">The workbench stays agent-agnostic. Augmentor is the first adapter that turns a ResonantOS session into published HTML and receives the human response.</p>
+        <div class="integration-map" aria-label="ResonantOS to Augmentor to workbench integration flow">
+          <div class="system-node">
+            <strong>ResonantOS</strong>
+            <small>User starts the task</small>
+          </div>
+          <div class="connector" aria-hidden="true">&rarr;</div>
+          <div class="system-node augmentor">
+            <strong>Augmentor</strong>
+            <small>Reasons, builds, publishes</small>
+          </div>
+          <div class="connector" aria-hidden="true">&rarr;</div>
+          <div class="system-node workbench">
+            <strong>Workbench</strong>
+            <small>Stores and serves the revision</small>
+          </div>
+          <div class="connector" aria-hidden="true">&rarr;</div>
+          <div class="system-node human">
+            <strong>Human</strong>
+            <small>Inspects and responds</small>
+          </div>
+        </div>
+        <div class="return-path">The response travels back as an event, so Augmentor can continue the same task with the human's decision.</div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="slide-4-title">
+      <div class="full-width">
+        <p class="eyebrow">One continuous task</p>
+        <h2 id="slide-4-title">From request to interaction</h2>
+        <div class="flow">
+          <article class="flow-step">
+            <h3>Ask</h3>
+            <p>“Create a presentation for our ResonantOS call.”</p>
+          </article>
+          <article class="flow-step">
+            <h3>Build</h3>
+            <p>Augmentor creates or updates an HTML file inside the project.</p>
+          </article>
+          <article class="flow-step">
+            <h3>Publish</h3>
+            <p>The file becomes a committed workbench revision.</p>
+          </article>
+          <article class="flow-step">
+            <h3>Interact</h3>
+            <p>The human reviews the result and makes a choice in context.</p>
+          </article>
+          <article class="flow-step">
+            <h3>Continue</h3>
+            <p>Augmentor receives the event and resumes with new evidence.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="slide-5-title">
+      <div class="full-width">
+        <p class="eyebrow">Proof boundary</p>
+        <h2 id="slide-5-title">What this demo proves, and what comes next</h2>
+        <div class="proof-grid">
+          <article class="proof-column today">
+            <h3>Working now</h3>
+            <ul>
+              <li>A local server hosts the workbench.</li>
+              <li>An agent session can publish complete project HTML.</li>
+              <li>The canvas loads the committed revision.</li>
+              <li>The artifact remains interactive and navigable.</li>
+            </ul>
+          </article>
+          <article class="proof-column next">
+            <h3>Next integration slice</h3>
+            <ul>
+              <li>Launch or connect it from ResonantOS.</li>
+              <li>Bind an Augmentor session to a canvas surface.</li>
+              <li>Add append, replace, refresh, and scoped region operations.</li>
+              <li>Return typed user events with approval receipts.</li>
+            </ul>
+          </article>
+        </div>
+        <div class="interaction">
+          <button class="demo-button" id="demo-action">Acknowledge this demo</button>
+          <span id="interaction-status" aria-live="polite">This button changes the live artifact without leaving the presentation.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="slide-6-title">
+      <div class="closing">
+        <img class="closing-mark" src="/assets/cyber-alchemy-logo.svg?v=cyberalchemy-mark" alt="Cyber Alchemy spiral mark">
+        <p class="eyebrow">The first useful version</p>
+        <h2 id="slide-6-title">Augmentor does the work. The workbench makes it tangible.</h2>
+        <p class="lede">Start with one honest loop: create project HTML, publish it, let the human interact, and return that response to the session.</p>
+        <div class="roadmap">
+          <article class="phase">
+            <span class="phase-number">Phase 01</span>
+            <h3>Publish</h3>
+            <p>Complete HTML from an Augmentor task appears in the local canvas.</p>
+          </article>
+          <article class="phase">
+            <span class="phase-number">Phase 02</span>
+            <h3>Respond</h3>
+            <p>Typed interactions travel from the canvas back to the active session.</p>
+          </article>
+          <article class="phase">
+            <span class="phase-number">Phase 03</span>
+            <h3>Compose</h3>
+            <p>Scoped operations let the agent evolve parts of the page without rebuilding everything.</p>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <span class="footer-hint">Use arrow keys to navigate</span>
+
   <script>
     const slides = [...document.querySelectorAll('.slide')];
+    const dots = [...document.querySelectorAll('.dot')];
+    const counter = document.querySelector('#counter');
     let index = 0;
+
     function show(next) {
       index = (next + slides.length) % slides.length;
-      slides.forEach((slide, position) => slide.classList.toggle('active', position === index));
-      document.querySelector('#counter').textContent = `${index + 1} / ${slides.length}`;
+      slides.forEach((slide, position) => {
+        const active = position === index;
+        slide.classList.toggle('active', active);
+        slide.setAttribute('aria-hidden', String(!active));
+      });
+      dots.forEach((dot, position) => {
+        const active = position === index;
+        dot.classList.toggle('active', active);
+        dot.setAttribute('aria-current', active ? 'step' : 'false');
+      });
+      counter.textContent = `${index + 1} / ${slides.length}`;
     }
-    document.querySelector('#previous').onclick = () => show(index - 1);
-    document.querySelector('#next').onclick = () => show(index + 1);
-    addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowRight') show(index + 1);
-      if (event.key === 'ArrowLeft') show(index - 1);
+
+    document.querySelector('#previous').addEventListener('click', () => show(index - 1));
+    document.querySelector('#next').addEventListener('click', () => show(index + 1));
+    dots.forEach((dot) => dot.addEventListener('click', () => show(Number(dot.dataset.slide))));
+
+    document.querySelector('#demo-action').addEventListener('click', (event) => {
+      event.currentTarget.textContent = 'Demo acknowledged';
+      event.currentTarget.disabled = true;
+      document.querySelector('#interaction-status').textContent = 'Local interaction recorded in this artifact. The typed return bridge is the next integration slice.';
     });
+
+    addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown') show(index + 1);
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') show(index - 1);
+      if (event.key === 'Home') show(0);
+      if (event.key === 'End') show(slides.length - 1);
+    });
+
+    show(0);
   </script>
 </body>
 </html>

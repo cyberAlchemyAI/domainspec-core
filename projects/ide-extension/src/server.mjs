@@ -1,5 +1,5 @@
 import http from 'node:http';
-import { randomUUID } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -18,8 +18,20 @@ import {
   prepareCanvasPublication,
   projectCurrentCanvas
 } from './kernel/canvas.mjs';
+import { createCanvasBlobStore } from './kernel/canvas-blobs.mjs';
+import { createCanvasNavigationService } from './kernel/canvas-navigation.mjs';
 import { createCanvasNotificationHub } from './kernel/canvas-notifications.mjs';
-import { BRIDGE_EVENT_VERSION, CANVAS_EVENT_VERSION, EVENT_VERSION } from './kernel/projector.mjs';
+import { createCanvasRetentionService } from './kernel/canvas-retention.mjs';
+import {
+  BRIDGE_EVENT_VERSION,
+  CANVAS_EVENT_VERSION,
+  EVENT_VERSION
+} from './kernel/projector.mjs';
+import {
+  OPERATIONS_V1_EVENT_VERSION,
+  OPERATIONS_V1_LIMITS
+} from './kernel/operations-contracts.mjs';
+import { createOperationsService } from './kernel/operations.mjs';
 import { loadModuleManifests } from './kernel/registry.mjs';
 import { getSchemaValidators } from './kernel/schema-validation.mjs';
 import { createProjectionStore } from './kernel/storage.mjs';
@@ -46,6 +58,61 @@ import {
 } from './envelopes/manual-session-bridge.mjs';
 
 const PROJECT_ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
+
+function invalidCraftIndex(message) {
+  const error = new Error(message);
+  error.code = 'craft_index_invalid';
+  return error;
+}
+
+function validateCraftIndex(index) {
+  if (!index || index.schema_version !== '1'
+    || index.source?.ledger_path !== '.craft/ledger.yml'
+    || !/^[a-f0-9]{64}$/.test(index.source?.sha256 || '')
+    || !index.scope?.context_id
+    || !index.counts
+    || !Array.isArray(index.next_moves)
+    || !Array.isArray(index.pending)) {
+    throw invalidCraftIndex('Craft index does not match the frontier contract');
+  }
+  return index;
+}
+
+async function readCraftFrontier(craftDir) {
+  let ledger;
+  let indexSource;
+  try {
+    [ledger, indexSource] = await Promise.all([
+      readFile(path.join(craftDir, 'ledger.yml')),
+      readFile(path.join(craftDir, 'index.json'), 'utf8')
+    ]);
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+    const unavailable = new Error('Craft ledger or machine index is unavailable');
+    unavailable.code = 'craft_frontier_unavailable';
+    throw unavailable;
+  }
+
+  let index;
+  try {
+    index = validateCraftIndex(JSON.parse(indexSource));
+  } catch (error) {
+    if (error.code === 'craft_index_invalid') throw error;
+    throw invalidCraftIndex('Craft index must be valid JSON');
+  }
+
+  const ledgerSha256 = createHash('sha256').update(ledger).digest('hex');
+  if (ledgerSha256 !== index.source.sha256) {
+    const stale = new Error('Craft index is stale; regenerate it from .craft/ledger.yml');
+    stale.code = 'craft_index_stale';
+    throw stale;
+  }
+
+  return {
+    ...index,
+    source: { ...index.source, verified: true }
+  };
+}
 
 function createMutationQueue() {
   let tail = Promise.resolve();
@@ -167,7 +234,8 @@ function eventValidationOptions(schemas) {
             title: event.surface.title,
             kind: event.surface.kind
           }, `event ${index + 1} canvas publish`);
-        } else if (event.event_type === 'canvas.interaction_recorded') {
+        } else if (event.event_version === CANVAS_EVENT_VERSION
+          && event.event_type === 'canvas.interaction_recorded') {
           schemas.assert('canvas-interaction-request', {
             schema_version: '1',
             surface_id: event.interaction.surface_id,
@@ -175,6 +243,15 @@ function eventValidationOptions(schemas) {
             event_name: event.interaction.event_name,
             payload: event.interaction.payload
           }, `event ${index + 1} canvas interaction`);
+        } else if (event.event_version === OPERATIONS_V1_EVENT_VERSION
+          && event.event_type === 'canvas.interaction_recorded') {
+          schemas.assert('operations-interaction-request', {
+            schema_version: '1',
+            operations_surface_id: event.interaction.operations_surface_id,
+            revision_id: event.interaction.revision_id,
+            event_name: event.interaction.event_name,
+            payload: event.interaction.payload
+          }, `event ${index + 1} Operations interaction`);
         }
       } catch (error) {
         if (error.code !== 'schema_validation_failed') throw error;
@@ -424,6 +501,7 @@ export function createServer(options = {}) {
   const stateDir = options.stateDir || path.join(rootDir, '.ide-extension/state');
   const modulesDir = options.modulesDir || path.join(rootDir, 'src/modules');
   const publicDir = options.publicDir || path.join(rootDir, 'public');
+  const craftDir = options.craftDir || path.join(rootDir, '.craft');
   const evidenceRoot = options.evidenceRoot || path.resolve(rootDir, '../..');
   const workspaceRoot = options.workspaceRoot || evidenceRoot;
   const workbenchFile = path.join(stateDir, 'workbench.json');
@@ -431,22 +509,61 @@ export function createServer(options = {}) {
   const artifactDir = path.join(stateDir, 'artifacts');
   const mutate = createMutationQueue();
   const canvasNotifications = createCanvasNotificationHub();
+  const canvasBlobStore = options.canvasBlobStore || createCanvasBlobStore({ stateDir });
   const persistence = createProjectionStore({
     workbenchFile,
     eventsFile,
     artifactDir,
+    canvasBlobStore,
     append: options.appendEvent,
     writeProjection: options.writeProjection
   });
+  const operations = createOperationsService({
+    workspaceRoot,
+    blobStore: canvasBlobStore,
+    persistence,
+    now: options.operationsNow,
+    randomId: options.operationsRandomId
+  });
+  const canvasNavigation = createCanvasNavigationService({
+    workspaceRoot,
+    blobStore: canvasBlobStore,
+    persistence,
+    now: options.navigationNow,
+    randomId: options.navigationRandomId,
+    retentionMs: options.navigationRetentionMs,
+    maxCommands: options.navigationMaxCommands
+  });
+  const canvasRetention = createCanvasRetentionService({
+    blobStore: canvasBlobStore,
+    persistence,
+    policy: options.retentionPolicy,
+    now: options.retentionNow,
+    randomId: options.retentionRandomId,
+    setTimer: options.retentionSetTimeout,
+    clearTimer: options.retentionClearTimeout,
+    runSerialized: mutate,
+    onAutomaticResult: publishAutomaticRetention
+  });
+  function publishAutomaticRetention(result) {
+    if (result?.notification) canvasNotifications.broadcast(result.notification);
+  }
+  async function evaluateAutomaticRetention(reduceOptions, source) {
+    const result = await canvasRetention.evaluateAutomatic(reduceOptions, { source });
+    publishAutomaticRetention(result);
+    return result;
+  }
   const ready = Promise.all([
     getSchemaValidators(),
     loadModuleManifests(modulesDir)
-  ]).then(async ([schemas, modules]) => ({
-    schemas,
-    modules,
-    reduceOptions: eventValidationOptions(schemas),
-    reconciliation: await persistence.reconcile(eventValidationOptions(schemas))
-  }));
+  ]).then(async ([schemas, modules]) => {
+    const reduceOptions = eventValidationOptions(schemas);
+    const reconciliation = await persistence.reconcile(reduceOptions);
+    const automaticRetention = await mutate(
+      () => evaluateAutomaticRetention(reduceOptions, 'startup')
+    );
+    return { schemas, modules, reduceOptions, reconciliation, automaticRetention };
+  });
 
   const server = http.createServer(async (request, response) => {
     try {
@@ -483,9 +600,28 @@ export function createServer(options = {}) {
           projection_checksum: snapshot.projection_checksum,
           reconciliation: {
             repaired: snapshot.repaired,
-            orphan_artifacts: snapshot.orphan_artifacts
+            orphan_artifacts: snapshot.orphan_artifacts,
+            canvas_blobs: snapshot.canvas_blobs
           }
         });
+        return;
+      }
+
+      if (request.method === 'GET' && url.pathname === '/api/craft/frontier') {
+        try {
+          sendJson(response, 200, await readCraftFrontier(craftDir));
+        } catch (error) {
+          const statuses = {
+            craft_frontier_unavailable: 404,
+            craft_index_stale: 409,
+            craft_index_invalid: 500
+          };
+          if (!statuses[error.code]) throw error;
+          sendJson(response, statuses[error.code], {
+            error: error.code,
+            message: error.message
+          });
+        }
         return;
       }
 
@@ -495,9 +631,448 @@ export function createServer(options = {}) {
         return;
       }
 
+      if (request.method === 'GET' && url.pathname === '/api/canvas/display') {
+        try {
+          sendJson(response, 200, await canvasNavigation.getDisplay(runtime.reduceOptions));
+        } catch (error) {
+          const statuses = {
+            navigation_target_not_found: 404,
+            navigation_target_pruned: 410,
+            navigation_target_unavailable: 409
+          };
+          if (!statuses[error.code]) throw error;
+          sendJson(response, statuses[error.code], {
+            error: error.code,
+            message: error.message,
+            reason: error.reason || null,
+            tombstone: error.tombstone || null
+          });
+        }
+        return;
+      }
+
+      if (request.method === 'GET' && url.pathname === '/api/canvas/storage') {
+        const result = await mutate(async () => {
+          try {
+            return await canvasRetention.inspect(runtime.reduceOptions);
+          } catch (error) {
+            if (error.code === 'reconciliation_required') return reconciliationRequired(error);
+            throw error;
+          }
+        });
+        if (result.notification) canvasNotifications.broadcast(result.notification);
+        if (result.status) sendJson(response, result.status, result.body);
+        else sendJson(response, 200, { storage: result.storage });
+        return;
+      }
+
+      if (request.method === 'POST' && url.pathname === '/api/canvas/pruning/preview') {
+        const body = await readBody(request, OPERATIONS_V1_LIMITS.http_request_bytes);
+        try {
+          runtime.schemas.assert(
+            'canvas-pruning-preview-request',
+            body,
+            'POST canvas pruning preview'
+          );
+        } catch (error) {
+          if (error.code === 'schema_validation_failed') {
+            sendJson(response, 400, invalidRequest(error));
+            return;
+          }
+          throw error;
+        }
+        const result = await mutate(async () => {
+          try {
+            return { status: 200, body: await canvasRetention.preview(body, runtime.reduceOptions) };
+          } catch (error) {
+            const statuses = {
+              pruning_command_conflict: 409,
+              pruning_request_not_active: 409
+            };
+            if (!statuses[error.code]) throw error;
+            return {
+              status: statuses[error.code],
+              body: { error: error.code, message: error.message, command_id: body.command_id }
+            };
+          }
+        });
+        sendJson(response, result.status, result.body);
+        return;
+      }
+
+      if (request.method === 'POST' && url.pathname === '/api/canvas/pruning/commit') {
+        const body = await readBody(request, OPERATIONS_V1_LIMITS.http_request_bytes);
+        try {
+          runtime.schemas.assert(
+            'canvas-pruning-commit-request',
+            body,
+            'POST canvas pruning commit'
+          );
+        } catch (error) {
+          if (error.code === 'schema_validation_failed') {
+            sendJson(response, 400, invalidRequest(error));
+            return;
+          }
+          throw error;
+        }
+        const result = await mutate(async () => {
+          try {
+            const committed = await canvasRetention.commit(body, runtime.reduceOptions);
+            if (!committed.idempotent) {
+              await evaluateAutomaticRetention(runtime.reduceOptions, 'post_prune_commit');
+            }
+            const { notification, ...responseBody } = committed;
+            return {
+              status: committed.idempotent ? 200 : 201,
+              body: responseBody,
+              notification
+            };
+          } catch (error) {
+            if (error.code === 'reconciliation_required') return reconciliationRequired(error);
+            const statuses = {
+              pruning_command_conflict: 409,
+              pruning_request_not_active: 409,
+              pruning_candidate_changed: 409,
+              pruning_no_candidates: 409,
+              retention_blob_delete_failed: 503
+            };
+            if (!statuses[error.code]) throw error;
+            return {
+              status: statuses[error.code],
+              body: {
+                error: error.code,
+                message: error.message,
+                command_id: body.command_id,
+                expected_candidate_digest: error.expected_candidate_digest || null,
+                actual_candidate_digest: error.actual_candidate_digest || null,
+                blocked_reason: error.blocked_reason || null,
+                cause_code: error.cause_code || null,
+                tombstone_committed: error.tombstone_committed || false,
+                pruned_revisions: error.pruned_revisions || []
+              }
+            };
+          }
+        });
+        if (result.notification) canvasNotifications.broadcast(result.notification);
+        sendJson(response, result.status, result.body);
+        return;
+      }
+
+      if (request.method === 'POST' && url.pathname === '/api/canvas/navigation') {
+        const body = await readBody(request, OPERATIONS_V1_LIMITS.http_request_bytes);
+        try {
+          runtime.schemas.assert('canvas-navigation-request', body, 'POST canvas navigation');
+        } catch (error) {
+          if (error.code === 'schema_validation_failed') {
+            sendJson(response, 400, invalidRequest(error));
+            return;
+          }
+          throw error;
+        }
+        const result = await mutate(async () => {
+          try {
+            const navigated = await canvasNavigation.navigate(body, runtime.reduceOptions);
+            const { notification, ...responseBody } = navigated;
+            return {
+              status: navigated.idempotent ? 200 : 201,
+              body: responseBody,
+              notification
+            };
+          } catch (error) {
+            if (error.code === 'reconciliation_required') return reconciliationRequired(error);
+            const statuses = {
+              navigation_command_conflict: 409,
+              navigation_target_not_found: 404,
+              navigation_target_pruned: 410,
+              navigation_target_unavailable: 409,
+              display_target_not_found: 409
+            };
+            if (!statuses[error.code]) throw error;
+            return {
+              status: statuses[error.code],
+              body: {
+                error: error.code,
+                message: error.message,
+                command_id: error.command_id || null,
+                reason: error.reason || null,
+                tombstone: error.tombstone || null
+              }
+            };
+          }
+        });
+        if (result.notification) canvasNotifications.broadcast(result.notification);
+        sendJson(response, result.status, result.body);
+        return;
+      }
+
+      const navigationStatusMatch = url.pathname.match(/^\/api\/canvas\/navigation\/([^/]+)$/);
+      if (request.method === 'GET' && navigationStatusMatch) {
+        try {
+          sendJson(response, 200, canvasNavigation.getStatus(
+            decodeURIComponent(navigationStatusMatch[1])
+          ));
+        } catch (error) {
+          if (error.code !== 'navigation_command_not_found') throw error;
+          sendJson(response, 404, { error: error.code, command_id: error.command_id });
+        }
+        return;
+      }
+
+      const navigationAckMatch = url.pathname.match(
+        /^\/api\/canvas\/navigation\/([^/]+)\/ack$/
+      );
+      if (request.method === 'POST' && navigationAckMatch) {
+        const body = await readBody(request, OPERATIONS_V1_LIMITS.http_request_bytes);
+        try {
+          runtime.schemas.assert(
+            'canvas-navigation-ack-request',
+            body,
+            'POST canvas navigation acknowledgement'
+          );
+        } catch (error) {
+          if (error.code === 'schema_validation_failed') {
+            sendJson(response, 400, invalidRequest(error));
+            return;
+          }
+          throw error;
+        }
+        try {
+          sendJson(response, 200, canvasNavigation.acknowledge(
+            decodeURIComponent(navigationAckMatch[1]),
+            body
+          ));
+        } catch (error) {
+          if (error.code !== 'navigation_command_not_found') throw error;
+          sendJson(response, 404, { error: error.code, command_id: error.command_id });
+        }
+        return;
+      }
+
+      if (request.method === 'POST' && url.pathname === '/api/canvas/operation-surfaces') {
+        const body = await readBody(request, OPERATIONS_V1_LIMITS.http_request_bytes);
+        try {
+          runtime.schemas.assert(
+            'operations-surface-derive-request',
+            body,
+            'POST Operations surface derivation'
+          );
+        } catch (error) {
+          if (error.code === 'schema_validation_failed') {
+            sendJson(response, 400, invalidRequest(error));
+            return;
+          }
+          throw error;
+        }
+
+        const result = await mutate(async () => {
+          try {
+            const derived = await operations.derive(body, runtime.reduceOptions);
+            if (!derived.idempotent) {
+              await evaluateAutomaticRetention(runtime.reduceOptions, 'post_blob_commit');
+            }
+            return { status: derived.idempotent ? 200 : 201, body: derived };
+          } catch (error) {
+            if (error.code === 'reconciliation_required') return reconciliationRequired(error);
+            if (['source_revision_unavailable', 'derivation_key_conflict'].includes(error.code)) {
+              return {
+                status: 409,
+                body: {
+                  error: error.code,
+                  message: error.message,
+                  reason: error.reason || null,
+                  source_v0_surface_id: error.source_v0_surface_id || null,
+                  source_revision_id: error.source_revision_id || null
+                }
+              };
+            }
+            throw error;
+          }
+        });
+        sendJson(response, result.status, result.body);
+        return;
+      }
+
+      const operationsSurfaceMatch = url.pathname.match(
+        /^\/api\/canvas\/operation-surfaces\/([^/]+)$/
+      );
+      if (request.method === 'GET' && operationsSurfaceMatch) {
+        const surfaceId = decodeURIComponent(operationsSurfaceMatch[1]);
+        try {
+          sendJson(response, 200, await operations.getSurface(surfaceId, runtime.reduceOptions));
+        } catch (error) {
+          if (error.code === 'operations_surface_not_found') {
+            sendJson(response, 404, { error: error.code });
+            return;
+          }
+          throw error;
+        }
+        return;
+      }
+
+      const operationsMutationMatch = url.pathname.match(
+        /^\/api\/canvas\/operation-surfaces\/([^/]+)\/operations$/
+      );
+      if (request.method === 'POST' && operationsMutationMatch) {
+        const surfaceId = decodeURIComponent(operationsMutationMatch[1]);
+        const body = await readBody(request, OPERATIONS_V1_LIMITS.http_request_bytes);
+        try {
+          runtime.schemas.assert(
+            'content-operation-request',
+            body,
+            'POST Operations content operation'
+          );
+        } catch (error) {
+          if (error.code === 'schema_validation_failed') {
+            sendJson(response, 400, invalidRequest(error));
+            return;
+          }
+          throw error;
+        }
+        if (body.operations_surface_id !== surfaceId) {
+          sendJson(response, 409, { error: 'operations_surface_binding_mismatch' });
+          return;
+        }
+
+        const result = await mutate(async () => {
+          try {
+            const operated = await operations.operate(body, runtime.reduceOptions);
+            if (!operated.idempotent) {
+              await evaluateAutomaticRetention(runtime.reduceOptions, 'post_blob_commit');
+            }
+            const { notification, ...responseBody } = operated;
+            return {
+              status: operated.idempotent ? 200 : 201,
+              body: responseBody,
+              notification
+            };
+          } catch (error) {
+            if (error.code === 'reconciliation_required') return reconciliationRequired(error);
+            const statuses = {
+              operations_surface_not_found: 404,
+              operation_id_conflict: 409,
+              revision_changed: 409,
+              operation_mode_unavailable: 409,
+              rebuild_source_unavailable: 409,
+              rebuild_source_changed: 409,
+              operations_byte_limit_exceeded: 413,
+              operations_transform_invalid_input: 400,
+              operations_transform_invalid_document: 422,
+              operations_source_invalid_utf8: 422
+            };
+            if (!statuses[error.code]) throw error;
+            return {
+              status: statuses[error.code],
+              body: {
+                error: error.code,
+                message: error.message,
+                operation_id: error.operation_id || null,
+                mode: error.mode || null,
+                expected_revision_id: error.expected_revision_id || null,
+                current_revision_id: error.current_revision_id || null,
+                limit_name: error.limit_name || null,
+                max_bytes: error.max_bytes || null,
+                actual_bytes: error.actual_bytes || null,
+                reason: error.reason || null,
+                expected_sha256: error.expected_sha256 || null,
+                actual_sha256: error.actual_sha256 || null
+              }
+            };
+          }
+        });
+        if (result.notification) canvasNotifications.broadcast(result.notification);
+        sendJson(response, result.status, result.body);
+        return;
+      }
+
+      const operationsContentMatch = url.pathname.match(
+        /^\/api\/canvas\/operation-surfaces\/([^/]+)\/revisions\/([^/]+)\/content$/
+      );
+      if (request.method === 'GET' && operationsContentMatch) {
+        const surfaceId = decodeURIComponent(operationsContentMatch[1]);
+        const revisionId = decodeURIComponent(operationsContentMatch[2]);
+        try {
+          const content = await operations.getContent(
+            surfaceId,
+            revisionId,
+            runtime.reduceOptions
+          );
+          sendText(response, 200, content.bytes, 'text/html; charset=utf-8');
+        } catch (error) {
+          if (error.code === 'operations_revision_not_found') {
+            sendJson(response, 404, { error: error.code });
+            return;
+          }
+          if (error.code === 'revision_pruned') {
+            sendJson(response, 410, { error: error.code, tombstone: error.tombstone });
+            return;
+          }
+          throw error;
+        }
+        return;
+      }
+
+      const operationsInteractionMatch = url.pathname.match(
+        /^\/api\/canvas\/operation-surfaces\/([^/]+)\/events$/
+      );
+      if (request.method === 'POST' && operationsInteractionMatch) {
+        const surfaceId = decodeURIComponent(operationsInteractionMatch[1]);
+        const body = await readBody(request, 16 * 1024);
+        try {
+          runtime.schemas.assert(
+            'operations-interaction-request',
+            body,
+            'POST Operations canvas interaction'
+          );
+        } catch (error) {
+          if (error.code === 'schema_validation_failed') {
+            sendJson(response, 400, invalidRequest(error));
+            return;
+          }
+          throw error;
+        }
+        if (body.operations_surface_id !== surfaceId) {
+          sendJson(response, 409, { error: 'operations_surface_binding_mismatch' });
+          return;
+        }
+
+        const result = await mutate(async () => {
+          const { projection } = await persistence.reconcile(runtime.reduceOptions);
+          const operationsState = projection.canvas?.operations_v1;
+          const display = operationsState?.display_target;
+          if (display?.surface_kind !== 'operations_v1'
+            || display.surface_id !== body.operations_surface_id
+            || display.revision_id !== body.revision_id) {
+            return { status: 409, body: { error: 'stale_canvas_revision' } };
+          }
+          const receivedAt = new Date().toISOString();
+          const event = createEvent('canvas.interaction_recorded', receivedAt, {
+            interaction: null
+          }, OPERATIONS_V1_EVENT_VERSION);
+          event.interaction = {
+            event_id: event.event_id,
+            cursor: operationsState.interaction_cursor + 1,
+            operations_surface_id: body.operations_surface_id,
+            revision_id: body.revision_id,
+            event_name: body.event_name,
+            payload: body.payload,
+            received_at: receivedAt
+          };
+          try {
+            await persistence.commitEvent(event, runtime.reduceOptions);
+          } catch (error) {
+            if (error.code === 'reconciliation_required') return reconciliationRequired(error);
+            throw error;
+          }
+          return { status: 201, body: { interaction: event.interaction } };
+        });
+        sendJson(response, result.status, result.body);
+        return;
+      }
+
       if (request.method === 'GET' && url.pathname === '/api/canvas/notifications') {
         const { projection } = await persistence.reconcile(runtime.reduceOptions);
-        canvasNotifications.register(response, projectCurrentCanvas(projection).current);
+        const display = canvasNavigation.projectDisplay(projection).display;
+        canvasNotifications.register(response, display);
         return;
       }
 
@@ -1704,11 +2279,14 @@ export function createServer(options = {}) {
 
   const closeServer = server.close.bind(server);
   server.close = (callback) => {
+    canvasRetention.close();
     canvasNotifications.close();
     return closeServer(callback);
   };
   server.ready = ready;
   server.canvasNotifications = canvasNotifications;
+  server.canvasNavigation = canvasNavigation;
+  server.canvasRetention = canvasRetention;
   return server;
 }
 

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, rm, unlink } from 'node:fs/promises';
+import { mkdtemp, rm, unlink, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { test } from 'node:test';
@@ -21,9 +21,9 @@ function close(server) {
   });
 }
 
-async function withServer(run) {
+async function withServer(run, options = {}) {
   const stateDir = await mkdtemp(path.join(os.tmpdir(), 'ide-extension-workbench-'));
-  const server = createServer({ rootDir: projectRoot, stateDir });
+  const server = createServer({ rootDir: projectRoot, stateDir, ...options });
   await server.ready;
   const port = await listen(server);
 
@@ -67,6 +67,7 @@ test('document exposes semantic stable selectors and text-only dynamic rendering
       'data-panel="proposals"',
       'data-panel="detail"',
       'data-panel="evidence"',
+      'data-panel="craft"',
       'data-panel="canvas"',
       'data-action="prepare"',
       'data-action="approve"',
@@ -74,12 +75,16 @@ test('document exposes semantic stable selectors and text-only dynamic rendering
       'data-action="ready"',
       'data-action="unready"',
       'data-action="release"',
+      'data-action="craft-refresh"',
       'data-action="canvas-refresh"',
       'data-action="canvas-event-retry"',
+      'data-action="canvas-pruning-preview"',
+      'data-action="canvas-pruning-commit"',
       'data-field="task-input"',
       'data-field="skill-input"',
       'data-view="pending"',
       'data-view="history"',
+      'data-list="craft-pending"',
       'data-list="grants"',
       'data-list="receipts"',
       'data-viewer="evidence"'
@@ -87,7 +92,7 @@ test('document exposes semantic stable selectors and text-only dynamic rendering
       assert.match(document, new RegExp(selector));
     }
     assert.match(document, /role="tablist"/);
-    assert.match(document, /src="\/assets\/cyber-alchemy-logo\.svg"/);
+    assert.match(document, /src="\/assets\/cyber-alchemy-logo\.svg\?v=cyberalchemy-mark"/);
     assert.match(document, /<h1>Cyber Alchemy<\/h1>/);
     assert.match(document, /aria-live="polite"/);
     assert.match(document, /:focus-visible/);
@@ -115,10 +120,20 @@ test('document exposes semantic stable selectors and text-only dynamic rendering
     assert.doesNotMatch(document, /\.innerHTML/);
     assert.match(document, /\.textContent/);
     assert.match(document, /nextFrame\.id = 'canvas-frame'/);
-    assert.match(document, /\/api\/canvas\/current/);
+    assert.match(document, /\/api\/canvas\/display/);
+    assert.match(document, /\/api\/canvas\/navigation/);
+    assert.match(document, /\/api\/canvas\/storage/);
+    assert.match(document, /\/api\/canvas\/pruning\/preview/);
+    assert.match(document, /\/api\/canvas\/pruning\/commit/);
+    assert.match(document, /\/api\/canvas\/operation-surfaces\/\$\{encodeURIComponent\(current\.surface_id\)\}\/events/);
+    assert.match(document, /nextFrame\.dataset\.surfaceKind = current\.surface_kind/);
+    assert.doesNotMatch(document, /api\('\/api\/canvas\/current'/);
     assert.match(document, /\/api\/canvas\/events/);
+    assert.match(document, /\/api\/craft\/frontier/);
     assert.match(document, /ide-extension\.canvas\.event/);
     assert.match(document, /canvas-frame-pending/);
+    assert.match(document, /canvas\.storage\.changed/);
+    assert.match(document, /storage\.candidate_revision_count/);
     const moduleScript = document.match(/<script type="module">([\s\S]*?)<\/script>/);
     assert.ok(moduleScript);
     assert.doesNotThrow(() => new Function(moduleScript[1]));
@@ -127,8 +142,61 @@ test('document exposes semantic stable selectors and text-only dynamic rendering
     const logo = await logoResponse.text();
     assert.equal(logoResponse.status, 200);
     assert.match(logoResponse.headers.get('content-type'), /^image\/svg\+xml/);
-    assert.match(logo, /<title id="title">Cyber Alchemy<\/title>/);
+    assert.match(logo, /<title id="title">CyberAlchemy Mark<\/title>/);
+
+    const craft = await request(base, '/api/craft/frontier');
+    assert.equal(craft.response.status, 200);
+    assert.equal(craft.body.source.verified, true);
+    assert.equal(craft.body.scope.context_id, 'CTX-IDEEXT-L0');
+    assert.equal(craft.body.counts.total_pending, 6);
+    assert.deepEqual(craft.body.next_moves.map((item) => item.id), ['CTX-IDEEXT-L0']);
+    assert.deepEqual(craft.body.pending.map((item) => item.id), [
+      'GAP-IDEEXT-PLAYWRIGHT-MCP',
+      'GAP-IDEEXT-VSCODIUM-WEBVIEW',
+      'GAP-IDEEXT-MANIFEST-VALIDATOR',
+      'GAP-IDEEXT-PROVIDER-ADAPTER',
+      'GAP-IDEEXT-SCW-HUMAN-REVIEW'
+    ]);
   });
+});
+
+test('craft frontier refuses a stale generated index', async () => {
+  const craftDir = await mkdtemp(path.join(os.tmpdir(), 'ide-extension-craft-'));
+  try {
+    await writeFile(path.join(craftDir, 'ledger.yml'), 'ledger_id: changed\n', 'utf8');
+    await writeFile(path.join(craftDir, 'index.json'), JSON.stringify({
+      schema_version: '1',
+      source: {
+        ledger_path: '.craft/ledger.yml',
+        sha256: '0'.repeat(64)
+      },
+      ledger: { ledger_id: 'craft.stale' },
+      scope: {
+        context_id: 'CTX-STALE',
+        title: 'Stale fixture',
+        stage: 'test',
+        gate: 'flag'
+      },
+      counts: {
+        next_moves: 0,
+        active_gaps: 0,
+        active_blockers: 0,
+        open_decisions: 0,
+        total_pending: 0
+      },
+      next_moves: [],
+      pending: []
+    }), 'utf8');
+
+    await withServer(async ({ base }) => {
+      const craft = await request(base, '/api/craft/frontier');
+      assert.equal(craft.response.status, 409);
+      assert.equal(craft.body.error, 'craft_index_stale');
+      assert.match(craft.body.message, /regenerate/);
+    }, { craftDir });
+  } finally {
+    await rm(craftDir, { recursive: true, force: true });
+  }
 });
 
 test('bridge proposal detail projects target, recovery attempts, and terminal result', async () => {

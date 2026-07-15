@@ -7,9 +7,13 @@ import { fileURLToPath } from 'node:url';
 const projectRoot = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const fixtureDir = path.join(projectRoot, 'tests/fixtures/canvas');
 
-test('three standalone surfaces share one generic browser protocol and no specialized route', async () => {
+test('three standalone surfaces share one generic browser protocol and no specialized mutation route', async () => {
   const server = await readFile(path.join(projectRoot, 'src/server.mjs'), 'utf8');
-  assert.doesNotMatch(server, /\/api\/(?:decision|craft)(?:\/|')/);
+  assert.doesNotMatch(server, /\/api\/decision(?:\/|')/);
+  const craftRoutes = [...new Set(
+    [...server.matchAll(/\/api\/craft\/[a-z0-9_/-]+/g)].map((match) => match[0])
+  )];
+  assert.deepEqual(craftRoutes, ['/api/craft/frontier']);
 
   const fixtures = await Promise.all([
     'presentation.html',

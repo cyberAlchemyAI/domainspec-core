@@ -1,0 +1,321 @@
+{
+  "dispatch_id": "2026-07-14-ide-extension-domainspec-roadmap-lab-design-plan",
+  "intent": {
+    "raw": "Invoke design first, then plan, for an interactive DomainSpec v2 roadmap section in ide-extension that a new person such as Victor can understand and improve.",
+    "objective": "Design and plan a governed, proposal-first Roadmap Lab that reuses the trusted-local Canvas, teaches one roadmap node at a time, persists revision-bound proposals, and routes accepted changes to the correct authority without browser-side source mutation.",
+    "target_artifact": "projects/ide-extension/development/domainspec-roadmap-lab/WORK-PACK.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "context-builder",
+      "distill",
+      "implementation-layering",
+      "smallest-working-unit",
+      "task-session"
+    ],
+    "operator_sentence": "Design the smallest understandable Roadmap Lab, validate it as a coherent unit, then plan its governed delivery without implementing it."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "artifact_contract_bridge",
+    "state_namespace_boundary",
+    "concrete_path_evidence",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The operator requested Invoke authoring, not subagent dispatch. The design and plan are produced locally; future execution owners are recommendations inside SWU contracts and require a separately selected runtime unit.",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "receipt_requirements": [
+      "A future selected SWU must return its status, files, validation, blockers, and handoff note."
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Build bounded design context",
+      "capability_ref": "context-builder",
+      "mode": "standard-strict",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": ["sequence", "concrete_path_evidence", "state_namespace_boundary"],
+      "inputs": [
+        {"kind": "artifact", "ref": "projects/ide-extension/development/domainspec-roadmap-lab-strategy/STRATEGY.md"},
+        {"kind": "artifact", "ref": "projects/ide-extension/ARCHITECTURE.md"},
+        {"kind": "artifact", "ref": "projects/ide-extension/SPEC.md"},
+        {"kind": "artifact", "ref": "projects/ide-extension/schemas/canvas-interaction-request.schema.json"},
+        {"kind": "artifact", "ref": "projects/ide-extension/public/demo/l0.html"}
+      ],
+      "outputs": [
+        {"kind": "frame", "ref": "DESIGN-CONTEXT.md"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "DESIGN-CONTEXT.md",
+      "stop_conditions": [
+        "Block if the proposal-first authority boundary or trusted-local Canvas contract cannot be supported by live evidence."
+      ]
+    },
+    {
+      "step_id": "S2",
+      "name": "Author six-view design",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["artifact_contract_bridge", "owner_boundary_check", "residue_ledger"],
+      "inputs": [
+        {"kind": "frame", "ref": "DESIGN-CONTEXT.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "ARCHITECTURE-BUNDLE.md"},
+        {"kind": "artifact", "ref": "UX-PLAN.md"},
+        {"kind": "artifact", "ref": "DESIGN-DECISIONS.md"},
+        {"kind": "artifact", "ref": "GLOSSARY-CONSISTENCY.md"},
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING-SEED.md"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "ARCHITECTURE-BUNDLE.md",
+      "stop_conditions": [
+        "Block if the browser becomes DomainSpec authority, if the design requires direct roadmap mutation, or if a general source browser is made a prerequisite for the first proof."
+      ]
+    },
+    {
+      "step_id": "S3",
+      "name": "Validate the design unit",
+      "capability_ref": "distill",
+      "mode": "standard",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": ["scu_swu_reduction", "recomposition_proof", "validation_loop"],
+      "inputs": [
+        {"kind": "artifact", "ref": "ARCHITECTURE-BUNDLE.md"},
+        {"kind": "artifact", "ref": "UX-PLAN.md"},
+        {"kind": "artifact", "ref": "DESIGN-DECISIONS.md"}
+      ],
+      "outputs": [
+        {"kind": "decision", "ref": "DISTILL-DESIGN-VALIDATION.md"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "DISTILL-DESIGN-VALIDATION.md",
+      "stop_conditions": [
+        "Do not enter plan mode if the design unit is incoherent, unrecomposable, or acceptance-critical gaps lack owners."
+      ]
+    },
+    {
+      "step_id": "S4",
+      "name": "Derive layered execution plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": ["scu_swu_reduction", "handle_handoff", "artifact_contract_bridge", "residue_ledger", "owner_boundary_check"],
+      "inputs": [
+        {"kind": "artifact", "ref": "ARCHITECTURE-BUNDLE.md"},
+        {"kind": "artifact", "ref": "UX-PLAN.md"},
+        {"kind": "decision", "ref": "DISTILL-DESIGN-VALIDATION.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "IMPLEMENTATION-PLAN.md"},
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"},
+        {"kind": "artifact", "ref": "work-pack/tasks/"},
+        {"kind": "artifact", "ref": "work-pack/waves/"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "WORK-PACK.md",
+      "stop_conditions": [
+        "Block if any non-exempt SWU lacks source anchors, dependencies, write scope, done criteria, acceptance evidence, validation, or an execution owner.",
+        "Block if wave order hides the dirty-worktree ownership gate or bypasses the Victor trial."
+      ]
+    },
+    {
+      "step_id": "S5",
+      "name": "Validate plan units and recomposition",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": ["recomposition_proof", "validation_loop", "concrete_path_evidence"],
+      "inputs": [
+        {"kind": "artifact", "ref": "IMPLEMENTATION-PLAN.md"},
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"}
+      ],
+      "outputs": [
+        {"kind": "decision", "ref": "DISTILL-PLAN-VALIDATION.md"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "DISTILL-PLAN-VALIDATION.md",
+      "stop_conditions": [
+        "Block mutation-capable handoff if Distill returns flag or block."
+      ]
+    },
+    {
+      "step_id": "S6",
+      "name": "Publish planning handoff",
+      "capability_ref": "invoke",
+      "mode": "handoff",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": ["handle_handoff", "owner_boundary_check", "observability_grouping"],
+      "inputs": [
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "decision", "ref": "DISTILL-PLAN-VALIDATION.md"}
+      ],
+      "outputs": [
+        {"kind": "handoff", "ref": "PLAN-TRANSPORT.md"},
+        {"kind": "handoff", "ref": "INVOKE-RESULT.md"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "INVOKE-RESULT.md",
+      "stop_conditions": [
+        "Do not select or execute an SWU during Invoke."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G1",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "The design contains six consistent views, explicit UX states, decisions, glossary checks, and a coherent smallest unit.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2",
+      "kind": "validation",
+      "owner": "distill",
+      "condition": "The design unit passes before planning and the plan units pass before handoff.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3",
+      "kind": "policy",
+      "owner": "projects/ide-extension",
+      "condition": "The Canvas stays a trusted-local presentation and event surface and never becomes DomainSpec, Craft, or Whisper authority.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G4",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "A future Task Session selects exactly one ready SWU before mutation; the Victor trial requires a real participant and cannot be simulated.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "G5",
+      "kind": "promotion_guardrail",
+      "owner": "DomainSpec lifecycle owners",
+      "condition": "A submitted proposal is only evidence for review; acceptance, source mutation, and promotion remain with their owning lifecycle.",
+      "on_fail": "block"
+    }
+  ],
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1-roadmap-canvas",
+        "kind": "artifact_import",
+        "from_owner": "DomainSpec roadmap and presentation builder",
+        "to_owner": "ide-extension trusted-local Canvas",
+        "applies_to_steps": ["S1", "S2", "S4"],
+        "contract": "The Canvas receives a generated HTML projection and fingerprint; it does not receive authority to edit the roadmap source.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B2-browser-proposal",
+        "kind": "evidence_return",
+        "from_owner": "Roadmap Lab browser surface",
+        "to_owner": "active local session and proposal review",
+        "applies_to_steps": ["S2", "S4"],
+        "contract": "Named JSON events are append-only, bounded, revision-bound proposals or source requests; they are not accepted mutations.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B3-plan-execution",
+        "kind": "capability_handoff",
+        "from_owner": "invoke",
+        "to_owner": "task-session",
+        "applies_to_steps": ["S6"],
+        "contract": "Invoke returns a navigable work-pack. Task Session may later receive exactly one selected SWU and must return a structured receipt.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "Roadmap Lab design and work-pack",
+      "execution": "task-session for one separately selected SWU",
+      "validation": "schema, Node, Playwright, repository checks, Distill, and real Victor trial",
+      "evidence": "test output, Canvas events, proposal records, browser artifacts, and human trial report",
+      "memory": "planning and trial artifacts only; roadmap authority remains outside the Canvas",
+      "promotion": "DomainSpec and target-specific lifecycle owners"
+    },
+    "receipts": [
+      {
+        "receipt_id": "swu-task-session-result",
+        "producer": "task-session",
+        "required_fields": ["run_id", "status", "artifacts", "validation", "blockers", "handoff_note"],
+        "stores": ["task-session result", "validation evidence handles", "next route"],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "domainspec-roadmap-source",
+        "owner": "DomainSpec lifecycle",
+        "write_policy": "never written by the browser or Invoke"
+      },
+      {
+        "namespace": "roadmap-presentation-copy",
+        "owner": "Roadmap Lab builder contract",
+        "write_policy": "generated or reviewed presentation wording only"
+      },
+      {
+        "namespace": "canvas-projection-and-events",
+        "owner": "ide-extension local kernel",
+        "write_policy": "complete HTML revision publication and append-only named interactions"
+      },
+      {
+        "namespace": "roadmap-lab-plan",
+        "owner": "invoke until handoff",
+        "write_policy": "design and planning artifacts only"
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "roadmap.improvement.proposed event",
+        "target": "accepted DomainSpec, Craft, Whisper, research, or graph change",
+        "rule": "The event must be reviewed and translated by the owning lifecycle; submission alone never proves acceptance or application.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "No runtime implementation occurs during Invoke design or plan.",
+    "No browser-side direct write to DomainSpec roadmap, Craft ledger, Whisper text, graph claims, or research artifacts.",
+    "No proposal is described as accepted or applied without owner-held evidence.",
+    "No source resolver, authentication layer, remote collaboration, or multi-user identity is pulled into L0.",
+    "No Victor trial is simulated.",
+    "No future Task Session starts without one selected ready SWU and dirty-worktree ownership review."
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "design-context-selected",
+      "six-view-design-authored",
+      "design-distill-validated",
+      "layered-plan-authored",
+      "plan-distill-validated",
+      "invoke-handoff-ready"
+    ],
+    "signal_grouping": "invoke.design-plan.ide-extension-domainspec-roadmap-lab"
+  }
+}

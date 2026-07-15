@@ -8,6 +8,7 @@
 | Objective | Explicitly rebuild from workspace and control one durable workbench display target. |
 | Layer / slice / wave | L2 / OV1-S5 / W4 |
 | Execution owner | Task Session, one SWU at a time |
+| Execution status | completed; SWU-OV1-008 through SWU-OV1-010 passed |
 
 ## Source Handles
 

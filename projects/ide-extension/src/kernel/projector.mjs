@@ -1,8 +1,13 @@
 import { createHash } from 'node:crypto';
+import {
+  OPERATIONS_V1_EVENT_TYPES,
+  OPERATIONS_V1_EVENT_VERSION
+} from './operations-contracts.mjs';
 
 export const EVENT_VERSION = 1;
 export const BRIDGE_EVENT_VERSION = 2;
 export const CANVAS_EVENT_VERSION = 3;
+export const OPERATIONS_EVENT_VERSION = OPERATIONS_V1_EVENT_VERSION;
 
 export function createInitialWorkbench() {
   return {
@@ -46,7 +51,7 @@ function assertHeader(event, index, seenEventIds) {
   if (!event || typeof event !== 'object' || Array.isArray(event)) {
     throw invalidHistory('event must be an object', index, event);
   }
-  if (![EVENT_VERSION, BRIDGE_EVENT_VERSION, CANVAS_EVENT_VERSION].includes(event.event_version)) {
+  if (![EVENT_VERSION, BRIDGE_EVENT_VERSION, CANVAS_EVENT_VERSION, OPERATIONS_EVENT_VERSION].includes(event.event_version)) {
     throw invalidHistory(`unsupported event_version ${event.event_version}`, index, event);
   }
   if (typeof event.event_id !== 'string' || event.event_id.length === 0) {
@@ -824,7 +829,20 @@ function applyCanvasPublished(inputState, event, index) {
       ...state.canvas,
       current_surface_id: surface.surface_id,
       surfaces: { ...state.canvas.surfaces, [surface.surface_id]: surface },
-      revisions: { ...state.canvas.revisions, [revision.revision_id]: revision }
+      revisions: { ...state.canvas.revisions, [revision.revision_id]: revision },
+      ...(state.canvas.operations_v1
+        ? {
+            operations_v1: {
+              ...state.canvas.operations_v1,
+              display_target: {
+                kind: 'surface_revision',
+                surface_kind: 'v0',
+                surface_id: surface.surface_id,
+                revision_id: revision.revision_id
+              }
+            }
+          }
+        : {})
     }
   };
 }
@@ -869,6 +887,623 @@ function reduceCanvasEvent(state, event, index) {
   throw invalidHistory(`unknown canvas event_type ${event.event_type}`, index, event);
 }
 
+const DIGEST_PATTERN = /^[a-f0-9]{64}$/;
+const V0_SURFACE_ID_PATTERN = /^surface-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
+const OPERATIONS_SURFACE_ID_PATTERN = /^operations-surface-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
+const REVISION_ID_PATTERN = /^revision-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
+const OPERATION_ID_PATTERN = /^operation-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
+const COMMAND_ID_PATTERN = /^command-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
+const DERIVATION_KEY_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
+const PRUNING_REQUEST_ID_PATTERN = /^pruning-request-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
+
+const OPERATIONS_SURFACE_KEYS = [
+  'operations_surface_id',
+  'source_v0_surface_id',
+  'source_v0_revision_id',
+  'current_revision_id',
+  'revision_ids',
+  'created_at',
+  'updated_at'
+];
+
+const OPERATIONS_REVISION_KEYS = [
+  'revision_id',
+  'operations_surface_id',
+  'content_sha256',
+  'blob_ref',
+  'byte_length',
+  'committed_at'
+];
+
+function withOperationsState(inputState) {
+  const state = withCanvasState(inputState);
+  if (state.canvas.operations_v1) return state;
+  return {
+    ...state,
+    canvas: {
+      ...state.canvas,
+      operations_v1: {
+        schema_version: '1',
+        derivation_keys: {},
+        surfaces: {},
+        revisions: {},
+        operations: {},
+        redirect_commands: {},
+        display_target: null,
+        pruning: {
+          state: 'normal',
+          active_request: null,
+          requests: {},
+          completions: {}
+        },
+        prune_tombstones: {},
+        interactions: [],
+        interaction_cursor: 0
+      }
+    }
+  };
+}
+
+function assertPattern(value, pattern, message, index, event) {
+  assertBinding(typeof value === 'string' && pattern.test(value), message, index, event);
+}
+
+function assertTimestamp(value, message, index, event) {
+  assertBinding(typeof value === 'string' && value.length > 0, message, index, event);
+}
+
+function assertDigest(value, message, index, event) {
+  assertPattern(value, DIGEST_PATTERN, message, index, event);
+}
+
+function assertOperationsSurface(surface, index, event) {
+  assertExactKeys(surface, OPERATIONS_SURFACE_KEYS, index, event, 'surface');
+  assertPattern(surface.operations_surface_id, OPERATIONS_SURFACE_ID_PATTERN, 'operations surface id invalid', index, event);
+  assertPattern(surface.source_v0_surface_id, V0_SURFACE_ID_PATTERN, 'source v0 surface id invalid', index, event);
+  assertPattern(surface.source_v0_revision_id, REVISION_ID_PATTERN, 'source v0 revision id invalid', index, event);
+  assertPattern(surface.current_revision_id, REVISION_ID_PATTERN, 'operations current revision id invalid', index, event);
+  assertBinding(Array.isArray(surface.revision_ids) && surface.revision_ids.length > 0, 'operations surface revision ids missing', index, event);
+  assertBinding(surface.revision_ids.every((id) => REVISION_ID_PATTERN.test(id)), 'operations surface revision id invalid', index, event);
+  assertBinding(new Set(surface.revision_ids).size === surface.revision_ids.length, 'operations surface revision ids duplicate', index, event);
+  assertBinding(surface.revision_ids.at(-1) === surface.current_revision_id, 'operations surface current revision mismatch', index, event);
+  assertTimestamp(surface.created_at, 'operations surface creation timestamp invalid', index, event);
+  assertTimestamp(surface.updated_at, 'operations surface update timestamp invalid', index, event);
+}
+
+function assertOperationsRevision(revision, index, event) {
+  assertExactKeys(revision, OPERATIONS_REVISION_KEYS, index, event, 'revision');
+  assertPattern(revision.revision_id, REVISION_ID_PATTERN, 'operations revision id invalid', index, event);
+  assertPattern(revision.operations_surface_id, OPERATIONS_SURFACE_ID_PATTERN, 'operations revision surface id invalid', index, event);
+  assertDigest(revision.content_sha256, 'operations revision digest invalid', index, event);
+  assertBinding(
+    revision.blob_ref === `canvas/blobs/${revision.content_sha256}.html`,
+    'operations revision blob ref mismatch',
+    index,
+    event
+  );
+  assertBinding(Number.isSafeInteger(revision.byte_length) && revision.byte_length > 0, 'operations revision byte length invalid', index, event);
+  assertTimestamp(revision.committed_at, 'operations revision timestamp invalid', index, event);
+}
+
+function assertNewOperationsRevision(state, revision, index, event) {
+  assertBinding(!state.canvas.revisions[revision.revision_id], 'operations revision collides with v0 revision', index, event);
+  assertBinding(!state.canvas.operations_v1.revisions[revision.revision_id], 'duplicate operations revision id', index, event);
+}
+
+function applyOperationsSurfaceDerived(inputState, event, index) {
+  const state = withOperationsState(inputState);
+  assertExactKeys(
+    event,
+    ['event_version', 'event_id', 'event_type', 'derivation', 'surface', 'revision', 'created_at'],
+    index,
+    event
+  );
+  const { derivation, surface, revision } = event;
+  assertExactKeys(
+    derivation,
+    [
+      'operation_surface_idempotency_key',
+      'normalized_input_digest',
+      'source_v0_surface_id',
+      'source_v0_revision_id',
+      'result_operations_surface_id',
+      'result_revision_id'
+    ],
+    index,
+    event,
+    'derivation'
+  );
+  assertPattern(
+    derivation.operation_surface_idempotency_key,
+    DERIVATION_KEY_PATTERN,
+    'derivation idempotency key invalid',
+    index,
+    event
+  );
+  assertDigest(derivation.normalized_input_digest, 'derivation input digest invalid', index, event);
+  assertPattern(derivation.source_v0_surface_id, V0_SURFACE_ID_PATTERN, 'derivation source surface id invalid', index, event);
+  assertPattern(derivation.source_v0_revision_id, REVISION_ID_PATTERN, 'derivation source revision id invalid', index, event);
+  assertPattern(derivation.result_operations_surface_id, OPERATIONS_SURFACE_ID_PATTERN, 'derivation result surface id invalid', index, event);
+  assertPattern(derivation.result_revision_id, REVISION_ID_PATTERN, 'derivation result revision id invalid', index, event);
+  assertOperationsSurface(surface, index, event);
+  assertOperationsRevision(revision, index, event);
+
+  const sourceSurface = state.canvas.surfaces[derivation.source_v0_surface_id];
+  const sourceRevision = state.canvas.revisions[derivation.source_v0_revision_id];
+  assertBinding(sourceSurface, 'derivation source v0 surface missing', index, event);
+  assertBinding(sourceRevision, 'derivation source v0 revision missing', index, event);
+  assertBinding(sourceRevision.surface_id === sourceSurface.surface_id, 'derivation source revision binding mismatch', index, event);
+  assertBinding(sourceSurface.revision_ids.includes(sourceRevision.revision_id), 'derivation source revision is outside v0 lineage', index, event);
+  assertBinding(!state.canvas.operations_v1.derivation_keys[derivation.operation_surface_idempotency_key], 'duplicate derivation idempotency key', index, event);
+  assertBinding(!state.canvas.operations_v1.surfaces[surface.operations_surface_id], 'duplicate operations surface id', index, event);
+  assertNewOperationsRevision(state, revision, index, event);
+  assertBinding(surface.operations_surface_id === derivation.result_operations_surface_id, 'derivation result surface binding mismatch', index, event);
+  assertBinding(surface.source_v0_surface_id === derivation.source_v0_surface_id, 'derived surface source id mismatch', index, event);
+  assertBinding(surface.source_v0_revision_id === derivation.source_v0_revision_id, 'derived surface source revision mismatch', index, event);
+  assertBinding(revision.operations_surface_id === surface.operations_surface_id, 'derived revision surface binding mismatch', index, event);
+  assertBinding(revision.revision_id === derivation.result_revision_id, 'derivation result revision binding mismatch', index, event);
+  assertBinding(revision.revision_id === surface.current_revision_id, 'derived current revision binding mismatch', index, event);
+  assertBinding(same(surface.revision_ids, [revision.revision_id]), 'derived surface must start with one revision', index, event);
+  assertBinding(surface.created_at === event.created_at && surface.updated_at === event.created_at, 'derived surface timestamp mismatch', index, event);
+  assertBinding(revision.committed_at === event.created_at, 'derived revision timestamp mismatch', index, event);
+
+  return {
+    ...state,
+    canvas: {
+      ...state.canvas,
+      operations_v1: {
+        ...state.canvas.operations_v1,
+        derivation_keys: {
+          ...state.canvas.operations_v1.derivation_keys,
+          [derivation.operation_surface_idempotency_key]: derivation
+        },
+        surfaces: {
+          ...state.canvas.operations_v1.surfaces,
+          [surface.operations_surface_id]: surface
+        },
+        revisions: {
+          ...state.canvas.operations_v1.revisions,
+          [revision.revision_id]: revision
+        }
+      }
+    }
+  };
+}
+
+function assertWholeDocumentTarget(target, index, event) {
+  assertExactKeys(target, ['kind'], index, event, 'operation target');
+  assertBinding(target.kind === 'whole_document', 'operation target must be whole_document', index, event);
+}
+
+function assertOperationSourceLineage(operation, index, event) {
+  if (operation.mode !== 'rebuild') {
+    assertBinding(operation.source_lineage === null, 'inline operation source lineage must be null', index, event);
+    return;
+  }
+  assertExactKeys(
+    operation.source_lineage,
+    ['kind', 'path', 'expected_sha256'],
+    index,
+    event,
+    'operation source lineage'
+  );
+  assertBinding(operation.source_lineage.kind === 'workspace_html', 'rebuild source lineage kind invalid', index, event);
+  assertBinding(typeof operation.source_lineage.path === 'string' && operation.source_lineage.path.endsWith('.html'), 'rebuild source path invalid', index, event);
+  assertDigest(operation.source_lineage.expected_sha256, 'rebuild source digest invalid', index, event);
+  assertBinding(operation.source_lineage.expected_sha256 === operation.input_digest, 'rebuild input digest binding mismatch', index, event);
+}
+
+function applyContentOperationCommitted(inputState, event, index) {
+  const state = withOperationsState(inputState);
+  assertExactKeys(
+    event,
+    ['event_version', 'event_id', 'event_type', 'operation', 'surface', 'revision', 'created_at'],
+    index,
+    event
+  );
+  const { operation, surface, revision } = event;
+  assertExactKeys(
+    operation,
+    [
+      'operation_id',
+      'operations_surface_id',
+      'normalized_request_digest',
+      'source_revision_id',
+      'mode',
+      'target',
+      'input_digest',
+      'source_lineage',
+      'status',
+      'result_revision_id',
+      'result_digest',
+      'result_blob_ref',
+      'committed_at'
+    ],
+    index,
+    event,
+    'operation'
+  );
+  assertPattern(operation.operation_id, OPERATION_ID_PATTERN, 'operation id invalid', index, event);
+  assertPattern(operation.operations_surface_id, OPERATIONS_SURFACE_ID_PATTERN, 'operation surface id invalid', index, event);
+  assertDigest(operation.normalized_request_digest, 'operation request digest invalid', index, event);
+  assertPattern(operation.source_revision_id, REVISION_ID_PATTERN, 'operation source revision id invalid', index, event);
+  assertBinding(['append', 'replace', 'rebuild'].includes(operation.mode), 'operation mode invalid', index, event);
+  assertWholeDocumentTarget(operation.target, index, event);
+  assertDigest(operation.input_digest, 'operation input digest invalid', index, event);
+  assertOperationSourceLineage(operation, index, event);
+  assertBinding(operation.status === 'committed', 'operation status must be committed', index, event);
+  assertPattern(operation.result_revision_id, REVISION_ID_PATTERN, 'operation result revision id invalid', index, event);
+  assertDigest(operation.result_digest, 'operation result digest invalid', index, event);
+  assertBinding(operation.result_blob_ref === `canvas/blobs/${operation.result_digest}.html`, 'operation result blob ref mismatch', index, event);
+  assertTimestamp(operation.committed_at, 'operation commit timestamp invalid', index, event);
+  assertOperationsSurface(surface, index, event);
+  assertOperationsRevision(revision, index, event);
+
+  const previousSurface = state.canvas.operations_v1.surfaces[operation.operations_surface_id];
+  assertBinding(previousSurface, 'operation surface missing', index, event);
+  assertBinding(!state.canvas.operations_v1.operations[operation.operation_id], 'duplicate operation id', index, event);
+  assertBinding(previousSurface.current_revision_id === operation.source_revision_id, 'operation source revision is not current', index, event);
+  assertBinding(!state.canvas.operations_v1.prune_tombstones[operation.source_revision_id], 'operation source revision is pruned', index, event);
+  assertNewOperationsRevision(state, revision, index, event);
+  assertBinding(surface.operations_surface_id === previousSurface.operations_surface_id, 'operation surface snapshot id mismatch', index, event);
+  assertBinding(surface.source_v0_surface_id === previousSurface.source_v0_surface_id, 'operation changed source v0 surface', index, event);
+  assertBinding(surface.source_v0_revision_id === previousSurface.source_v0_revision_id, 'operation changed source v0 revision', index, event);
+  assertBinding(surface.created_at === previousSurface.created_at, 'operation changed surface creation timestamp', index, event);
+  assertBinding(surface.updated_at === event.created_at, 'operation surface update timestamp mismatch', index, event);
+  assertBinding(same(surface.revision_ids, [...previousSurface.revision_ids, revision.revision_id]), 'operation revision order mismatch', index, event);
+  assertBinding(surface.current_revision_id === revision.revision_id, 'operation current revision mismatch', index, event);
+  assertBinding(revision.operations_surface_id === surface.operations_surface_id, 'operation revision surface binding mismatch', index, event);
+  assertBinding(revision.revision_id === operation.result_revision_id, 'operation result revision binding mismatch', index, event);
+  assertBinding(revision.content_sha256 === operation.result_digest, 'operation result digest binding mismatch', index, event);
+  assertBinding(revision.blob_ref === operation.result_blob_ref, 'operation result ref binding mismatch', index, event);
+  assertBinding(revision.committed_at === event.created_at && operation.committed_at === event.created_at, 'operation timestamp mismatch', index, event);
+
+  const displayTarget = state.canvas.operations_v1.display_target;
+  const nextDisplayTarget = displayTarget?.surface_kind === 'operations_v1'
+    && displayTarget.surface_id === surface.operations_surface_id
+    ? { ...displayTarget, revision_id: revision.revision_id }
+    : displayTarget;
+
+  return {
+    ...state,
+    canvas: {
+      ...state.canvas,
+      operations_v1: {
+        ...state.canvas.operations_v1,
+        surfaces: {
+          ...state.canvas.operations_v1.surfaces,
+          [surface.operations_surface_id]: surface
+        },
+        revisions: {
+          ...state.canvas.operations_v1.revisions,
+          [revision.revision_id]: revision
+        },
+        operations: {
+          ...state.canvas.operations_v1.operations,
+          [operation.operation_id]: operation
+        },
+        display_target: nextDisplayTarget
+      }
+    }
+  };
+}
+
+function assertDisplayTarget(state, target, index, event) {
+  assertExactKeys(target, ['kind', 'surface_kind', 'surface_id', 'revision_id'], index, event, 'display target');
+  assertBinding(target.kind === 'surface_revision', 'display target kind invalid', index, event);
+  assertBinding(['v0', 'operations_v1'].includes(target.surface_kind), 'display target surface kind invalid', index, event);
+  assertPattern(
+    target.surface_id,
+    target.surface_kind === 'v0' ? V0_SURFACE_ID_PATTERN : OPERATIONS_SURFACE_ID_PATTERN,
+    'display target surface id invalid',
+    index,
+    event
+  );
+  assertPattern(target.revision_id, REVISION_ID_PATTERN, 'display target revision id invalid', index, event);
+
+  if (target.surface_kind === 'v0') {
+    const surface = state.canvas.surfaces[target.surface_id];
+    const revision = state.canvas.revisions[target.revision_id];
+    assertBinding(surface && revision, 'display target v0 revision missing', index, event);
+    assertBinding(revision.surface_id === surface.surface_id && surface.revision_ids.includes(revision.revision_id), 'display target v0 lineage mismatch', index, event);
+    return;
+  }
+
+  const surface = state.canvas.operations_v1.surfaces[target.surface_id];
+  const revision = state.canvas.operations_v1.revisions[target.revision_id];
+  assertBinding(surface && revision, 'display target operations revision missing', index, event);
+  assertBinding(revision.operations_surface_id === surface.operations_surface_id && surface.revision_ids.includes(revision.revision_id), 'display target operations lineage mismatch', index, event);
+  assertBinding(!state.canvas.operations_v1.prune_tombstones[target.revision_id], 'display target operations revision is pruned', index, event);
+}
+
+function applyDisplayTargetSelected(inputState, event, index) {
+  const state = withOperationsState(inputState);
+  assertExactKeys(event, ['event_version', 'event_id', 'event_type', 'command', 'created_at'], index, event);
+  const { command } = event;
+  assertExactKeys(command, ['command_id', 'action', 'normalized_request_digest', 'target', 'selected_at'], index, event, 'display command');
+  assertPattern(command.command_id, COMMAND_ID_PATTERN, 'display command id invalid', index, event);
+  assertBinding(command.action === 'redirect', 'display command action must be redirect', index, event);
+  assertDigest(command.normalized_request_digest, 'display command digest invalid', index, event);
+  assertTimestamp(command.selected_at, 'display command timestamp invalid', index, event);
+  assertBinding(command.selected_at === event.created_at, 'display command timestamp mismatch', index, event);
+  assertBinding(!state.canvas.operations_v1.redirect_commands[command.command_id], 'duplicate display command id', index, event);
+  assertDisplayTarget(state, command.target, index, event);
+
+  return {
+    ...state,
+    canvas: {
+      ...state.canvas,
+      operations_v1: {
+        ...state.canvas.operations_v1,
+        redirect_commands: {
+          ...state.canvas.operations_v1.redirect_commands,
+          [command.command_id]: command
+        },
+        display_target: command.target
+      }
+    }
+  };
+}
+
+function applyPruningRequested(inputState, event, index) {
+  const state = withOperationsState(inputState);
+  assertExactKeys(event, ['event_version', 'event_id', 'event_type', 'pruning_request', 'created_at'], index, event);
+  const request = event.pruning_request;
+  assertExactKeys(
+    request,
+    ['pruning_request_id', 'observed_bytes', 'soft_limit_bytes', 'hard_limit_bytes', 'grace_deadline', 'requested_at'],
+    index,
+    event,
+    'pruning request'
+  );
+  assertPattern(request.pruning_request_id, PRUNING_REQUEST_ID_PATTERN, 'pruning request id invalid', index, event);
+  assertBinding(Number.isSafeInteger(request.observed_bytes) && request.observed_bytes >= 0, 'pruning observed bytes invalid', index, event);
+  assertBinding(Number.isSafeInteger(request.soft_limit_bytes) && request.soft_limit_bytes > 0, 'pruning soft limit invalid', index, event);
+  assertBinding(Number.isSafeInteger(request.hard_limit_bytes) && request.hard_limit_bytes > request.soft_limit_bytes, 'pruning hard limit invalid', index, event);
+  assertBinding(request.observed_bytes >= request.soft_limit_bytes, 'pruning request is below soft limit', index, event);
+  assertTimestamp(request.grace_deadline, 'pruning grace deadline invalid', index, event);
+  assertTimestamp(request.requested_at, 'pruning request timestamp invalid', index, event);
+  assertBinding(request.requested_at === event.created_at, 'pruning request timestamp mismatch', index, event);
+  assertBinding(Date.parse(request.grace_deadline) > Date.parse(request.requested_at), 'pruning grace deadline must follow request', index, event);
+  assertBinding(!state.canvas.operations_v1.pruning.requests[request.pruning_request_id], 'duplicate pruning request id', index, event);
+  assertBinding(state.canvas.operations_v1.pruning.active_request === null, 'pruning request already active', index, event);
+
+  return {
+    ...state,
+    canvas: {
+      ...state.canvas,
+      operations_v1: {
+        ...state.canvas.operations_v1,
+        pruning: {
+          ...state.canvas.operations_v1.pruning,
+          state: 'grace',
+          active_request: request,
+          requests: {
+            ...state.canvas.operations_v1.pruning.requests,
+            [request.pruning_request_id]: request
+          }
+        }
+      }
+    }
+  };
+}
+
+function applyPruningCompleted(inputState, event, index) {
+  const state = withOperationsState(inputState);
+  assertExactKeys(
+    event,
+    ['event_version', 'event_id', 'event_type', 'completion', 'created_at'],
+    index,
+    event
+  );
+  const { completion } = event;
+  assertExactKeys(
+    completion,
+    [
+      'pruning_request_id',
+      'trigger',
+      'reclaimed_orphan_bytes',
+      'reclaimed_temporary_bytes',
+      'final_total_bytes',
+      'completed_at'
+    ],
+    index,
+    event,
+    'pruning completion'
+  );
+  assertPattern(
+    completion.pruning_request_id,
+    PRUNING_REQUEST_ID_PATTERN,
+    'completion pruning request id invalid',
+    index,
+    event
+  );
+  assertBinding(
+    ['hard_threshold', 'grace_expired', 'recovery'].includes(completion.trigger),
+    'pruning completion trigger invalid',
+    index,
+    event
+  );
+  for (const [field, value] of [
+    ['reclaimed orphan bytes', completion.reclaimed_orphan_bytes],
+    ['reclaimed temporary bytes', completion.reclaimed_temporary_bytes],
+    ['final total bytes', completion.final_total_bytes]
+  ]) {
+    assertBinding(
+      Number.isSafeInteger(value) && value >= 0,
+      `pruning completion ${field} invalid`,
+      index,
+      event
+    );
+  }
+  assertTimestamp(completion.completed_at, 'pruning completion timestamp invalid', index, event);
+  assertBinding(
+    completion.completed_at === event.created_at,
+    'pruning completion timestamp mismatch',
+    index,
+    event
+  );
+
+  const activeRequest = state.canvas.operations_v1.pruning.active_request;
+  assertBinding(
+    activeRequest?.pruning_request_id === completion.pruning_request_id,
+    'pruning completion request is not active',
+    index,
+    event
+  );
+  assertBinding(
+    completion.final_total_bytes < activeRequest.soft_limit_bytes,
+    'pruning completion total is not below soft limit',
+    index,
+    event
+  );
+  assertBinding(
+    !state.canvas.operations_v1.pruning.completions[completion.pruning_request_id],
+    'duplicate pruning completion',
+    index,
+    event
+  );
+
+  return {
+    ...state,
+    canvas: {
+      ...state.canvas,
+      operations_v1: {
+        ...state.canvas.operations_v1,
+        pruning: {
+          ...state.canvas.operations_v1.pruning,
+          state: 'normal',
+          active_request: null,
+          completions: {
+            ...state.canvas.operations_v1.pruning.completions,
+            [completion.pruning_request_id]: completion
+          }
+        }
+      }
+    }
+  };
+}
+
+function applyRevisionPruned(inputState, event, index) {
+  const state = withOperationsState(inputState);
+  assertExactKeys(event, ['event_version', 'event_id', 'event_type', 'tombstone', 'created_at'], index, event);
+  const { tombstone } = event;
+  assertExactKeys(
+    tombstone,
+    [
+      'pruning_request_id',
+      'revision_id',
+      'operations_surface_id',
+      'content_sha256',
+      'blob_ref',
+      'reason',
+      'retention_state_after',
+      'pruned_at'
+    ],
+    index,
+    event,
+    'prune tombstone'
+  );
+  assertPattern(tombstone.pruning_request_id, PRUNING_REQUEST_ID_PATTERN, 'tombstone pruning request id invalid', index, event);
+  assertPattern(tombstone.revision_id, REVISION_ID_PATTERN, 'tombstone revision id invalid', index, event);
+  assertPattern(tombstone.operations_surface_id, OPERATIONS_SURFACE_ID_PATTERN, 'tombstone surface id invalid', index, event);
+  assertDigest(tombstone.content_sha256, 'tombstone digest invalid', index, event);
+  assertBinding(tombstone.blob_ref === `canvas/blobs/${tombstone.content_sha256}.html`, 'tombstone blob ref mismatch', index, event);
+  assertBinding(['manual', 'automatic'].includes(tombstone.reason), 'tombstone reason invalid', index, event);
+  assertBinding(['reclaiming', 'normal'].includes(tombstone.retention_state_after), 'tombstone retention state invalid', index, event);
+  assertTimestamp(tombstone.pruned_at, 'tombstone timestamp invalid', index, event);
+  assertBinding(tombstone.pruned_at === event.created_at, 'tombstone timestamp mismatch', index, event);
+
+  const revision = state.canvas.operations_v1.revisions[tombstone.revision_id];
+  const surface = state.canvas.operations_v1.surfaces[tombstone.operations_surface_id];
+  const activeRequest = state.canvas.operations_v1.pruning.active_request;
+  assertBinding(revision && surface, 'tombstone revision missing', index, event);
+  assertBinding(revision.operations_surface_id === surface.operations_surface_id, 'tombstone surface binding mismatch', index, event);
+  assertBinding(surface.revision_ids.includes(revision.revision_id), 'tombstone revision outside surface lineage', index, event);
+  assertBinding(surface.current_revision_id !== revision.revision_id, 'current operations revision cannot be pruned', index, event);
+  assertBinding(!state.canvas.operations_v1.prune_tombstones[revision.revision_id], 'duplicate prune tombstone', index, event);
+  assertBinding(activeRequest?.pruning_request_id === tombstone.pruning_request_id, 'tombstone pruning request is not active', index, event);
+  assertBinding(revision.content_sha256 === tombstone.content_sha256 && revision.blob_ref === tombstone.blob_ref, 'tombstone revision metadata mismatch', index, event);
+  assertBinding(
+    state.canvas.operations_v1.display_target?.surface_kind !== 'operations_v1'
+      || state.canvas.operations_v1.display_target.revision_id !== revision.revision_id,
+    'displayed operations revision cannot be pruned',
+    index,
+    event
+  );
+
+  return {
+    ...state,
+    canvas: {
+      ...state.canvas,
+      operations_v1: {
+        ...state.canvas.operations_v1,
+        pruning: {
+          ...state.canvas.operations_v1.pruning,
+          state: tombstone.retention_state_after,
+          active_request: tombstone.retention_state_after === 'normal' ? null : activeRequest
+        },
+        prune_tombstones: {
+          ...state.canvas.operations_v1.prune_tombstones,
+          [revision.revision_id]: tombstone
+        }
+      }
+    }
+  };
+}
+
+function applyOperationsInteraction(inputState, event, index) {
+  const state = withOperationsState(inputState);
+  assertExactKeys(event, ['event_version', 'event_id', 'event_type', 'interaction', 'created_at'], index, event);
+  const { interaction } = event;
+  assertExactKeys(
+    interaction,
+    ['event_id', 'cursor', 'operations_surface_id', 'revision_id', 'event_name', 'payload', 'received_at'],
+    index,
+    event,
+    'operations interaction'
+  );
+  assertBinding(interaction.event_id === event.event_id, 'operations interaction event id mismatch', index, event);
+  assertBinding(interaction.cursor === state.canvas.operations_v1.interaction_cursor + 1, 'operations interaction cursor is not monotonic', index, event);
+  assertPattern(interaction.operations_surface_id, OPERATIONS_SURFACE_ID_PATTERN, 'operations interaction surface id invalid', index, event);
+  assertPattern(interaction.revision_id, REVISION_ID_PATTERN, 'operations interaction revision id invalid', index, event);
+  assertBinding(typeof interaction.event_name === 'string' && interaction.event_name.length > 0, 'operations interaction event name missing', index, event);
+  assertBinding(interaction.payload && typeof interaction.payload === 'object' && !Array.isArray(interaction.payload), 'operations interaction payload must be an object', index, event);
+  assertBinding(interaction.received_at === event.created_at, 'operations interaction timestamp mismatch', index, event);
+
+  const target = state.canvas.operations_v1.display_target;
+  const surface = state.canvas.operations_v1.surfaces[interaction.operations_surface_id];
+  const revision = state.canvas.operations_v1.revisions[interaction.revision_id];
+  assertBinding(target?.surface_kind === 'operations_v1', 'operations interaction target is not displayed', index, event);
+  assertBinding(target.surface_id === interaction.operations_surface_id && target.revision_id === interaction.revision_id, 'operations interaction display target mismatch', index, event);
+  assertBinding(surface && revision, 'operations interaction revision missing', index, event);
+  assertBinding(revision.operations_surface_id === surface.operations_surface_id && surface.revision_ids.includes(revision.revision_id), 'operations interaction lineage mismatch', index, event);
+  assertBinding(!state.canvas.operations_v1.prune_tombstones[revision.revision_id], 'operations interaction revision is pruned', index, event);
+
+  return {
+    ...state,
+    canvas: {
+      ...state.canvas,
+      operations_v1: {
+        ...state.canvas.operations_v1,
+        interactions: [...state.canvas.operations_v1.interactions, interaction],
+        interaction_cursor: interaction.cursor
+      }
+    }
+  };
+}
+
+function reduceOperationsEvent(state, event, index) {
+  assertBinding(OPERATIONS_V1_EVENT_TYPES.includes(event.event_type), `unknown v4 event_type ${event.event_type}`, index, event);
+  if (event.event_type === 'canvas.operations_surface_derived') return applyOperationsSurfaceDerived(state, event, index);
+  if (event.event_type === 'canvas.content_operation_committed') return applyContentOperationCommitted(state, event, index);
+  if (event.event_type === 'canvas.display_target_selected') return applyDisplayTargetSelected(state, event, index);
+  if (event.event_type === 'canvas.pruning_requested') return applyPruningRequested(state, event, index);
+  if (event.event_type === 'canvas.revision_pruned') return applyRevisionPruned(state, event, index);
+  if (event.event_type === 'canvas.pruning_completed') return applyPruningCompleted(state, event, index);
+  return applyOperationsInteraction(state, event, index);
+}
+
 export function reduceEvents(events, options = {}) {
   let state = createInitialWorkbench();
   const seenEventIds = new Set();
@@ -880,8 +1515,10 @@ export function reduceEvents(events, options = {}) {
       state = reduceV1Event(state, event, index);
     } else if (event.event_version === BRIDGE_EVENT_VERSION) {
       state = reduceV2Event(state, event, index);
-    } else {
+    } else if (event.event_version === CANVAS_EVENT_VERSION) {
       state = reduceCanvasEvent(state, event, index);
+    } else {
+      state = reduceOperationsEvent(state, event, index);
     }
   }
 

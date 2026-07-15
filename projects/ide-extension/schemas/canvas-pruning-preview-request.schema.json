@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://domainspec.local/ide-extension/schemas/canvas-pruning-preview-request.schema.json",
+  "title": "ide-extension canvas pruning preview request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "command_id"],
+  "properties": {
+    "schema_version": { "const": "1" },
+    "command_id": {
+      "type": "string",
+      "pattern": "^command-[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    }
+  }
+}

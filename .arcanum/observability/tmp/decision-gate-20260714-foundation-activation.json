@@ -1,0 +1,48 @@
+{
+  "timestamp": "2026-07-14T18:21:58.644Z",
+  "run_id": "decision-gate-20260714T182158Z-dsv2-foundation-activation",
+  "session_id": "session-20260714-dsv2-foundation-execution",
+  "sigil": "decision-gate",
+  "tier": "arcana",
+  "mode": "activation-selection",
+  "capability": {
+    "id": "decision-gate",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "activation-selection",
+    "alias": null
+  },
+  "request": {
+    "raw": null,
+    "summary": "Resolve how far the DomainSpec v2 foundation-execution plan may proceed.",
+    "intent": "Choose between registration plus bounded review, registration only, or retaining the package as an unregistered draft."
+  },
+  "execution": {
+    "status": "completed_with_authorized_handoff",
+    "outputs": [
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/shared/FOUNDATION-ACTIVATION-DECISION.md"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/shared/FOUNDATION-ACTIVATION-DECISION.md"
+    ],
+    "validation": [
+      "visible-blocker-decisions:one-of-one-resolved",
+      "human-selection:option-1-recorded",
+      "authorization-boundary:registration-plus-swu-sgrm-006-r1-only",
+      "downstream-mutation:not-executed-by-decision-gate",
+      "markdown-frontmatter-links:pass",
+      "retired-token-in-decision-record:zero-matches",
+      "git-diff-check:pass"
+    ],
+    "notes": "Decision Gate passed. The user authorized Craft registration without parent-state advancement and one review-only Task Session unit. Guard/allowlist mutation, later SWUs, FPR execution, subagents, and production claims remain unauthorized."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/shared/FOUNDATION-ACTIVATION-DECISION.md"
+}

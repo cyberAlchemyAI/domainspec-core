@@ -1,0 +1,53 @@
+{
+  "timestamp": "2026-07-15T00:50:53Z",
+  "run_id": "invoke-refresh-20260715T005053Z-approved-next-routes",
+  "session_id": "session-20260714-approved-next-routes",
+  "sigil": "invoke",
+  "tier": "spells",
+  "mode": "refresh",
+  "capability": {"id": "invoke", "kind": "spell", "tier": "spells", "mode": "refresh", "alias": null},
+  "request": {
+    "raw": null,
+    "summary": "Apply the two approved next-route decisions to their owner-separated workflow artifacts.",
+    "intent": "Refresh maintenance and S09 selection state without executing public maintenance or minted-project implementation."
+  },
+  "execution": {
+    "status": "completed_with_authorized_handoff",
+    "outputs": [
+      "projects/domainspec-v2/development/workflow-reflections/20260714-decision-gate-maintenance/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/workflow-reflections/20260714-decision-gate-maintenance/refresh-report.json",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/refresh-report.json"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/workflow-reflections/20260714-decision-gate-maintenance/",
+      ".arcanum/observability/reflections/20260715T001911Z-decision-gate-maintenance-report.md",
+      "projects/domainspec-v2/authority/decisions/2026-07-14-minted-project-first-swu-selection.md",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/"
+    ],
+    "validation": [
+      "mutation-mode:apply-approved",
+      "refresh-signals:owner-separated-and-source-linked",
+      "dispatch-spec:pass",
+      "selection-state:SWU-MNP-001-selected-not-started",
+      "maintenance-state:approved-handoff-not-executed",
+      "strict-context:not-generated",
+      "task-session:not-executed",
+      "public-arcanum-mutation:none",
+      "json-parse:pass"
+    ],
+    "notes": "Invoke Refresh applied status and route deltas only. Sigil Development owns the public maintenance update; Context Builder and Task Session own later SWU execution."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "signals": ["quality-pass", "useful-pattern"],
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "output-threshold",
+    "recommendation": "reflect-now"
+  },
+  "target_artifact": "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/REFRESH-REPORT.md",
+  "dedupe_key": "invoke-refresh-20260715T005053Z-approved-next-routes:signal-observer:0.1.0",
+  "observer_version": "0.1.0"
+}

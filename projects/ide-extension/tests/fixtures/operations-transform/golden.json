@@ -1,0 +1,121 @@
+{
+  "documents": [
+    {
+      "id": "doctype-implied-elements",
+      "input": "<!doctype html><title>Alchemy</title><p>Body</p>",
+      "expected": {
+        "html": "<!DOCTYPE html><html><head><title>Alchemy</title></head><body><p>Body</p></body></html>",
+        "byte_length": 87,
+        "sha256": "b188287d7c83aeb6dd10367380797e7d5546f189c38d7cd7ba6099748e2455ce"
+      }
+    },
+    {
+      "id": "malformed-nesting",
+      "input": "<html><body><p>one<div>two</p>three",
+      "expected": {
+        "html": "<html><head></head><body><p>one</p><div>two<p></p>three</div></body></html>",
+        "byte_length": 75,
+        "sha256": "ce11c577be1b111483e0859d06b048985ca1c6cd2b5db8c029b6138ef53c0b1c"
+      }
+    },
+    {
+      "id": "comments",
+      "input": "<!--before--><body><!--inside--><p>x</p></body><!--after-->",
+      "expected": {
+        "html": "<!--before--><html><head></head><body><!--inside--><p>x</p></body><!--after--></html>",
+        "byte_length": 85,
+        "sha256": "fcc9ded759a002e8c3f1e1d45d020051687c00868e845fc8fb32c7f6f98e7030"
+      }
+    },
+    {
+      "id": "script-style-text",
+      "input": "<!doctype html><script>globalThis.__transformExecuted = \"</scriptx>\";</script><style>.x::after{content:\"</stylex>\"}</style><body><p>safe</p></body>",
+      "expected": {
+        "html": "<!DOCTYPE html><html><head><script>globalThis.__transformExecuted = \"</scriptx>\";</script><style>.x::after{content:\"</stylex>\"}</style></head><body><p>safe</p></body></html>",
+        "byte_length": 173,
+        "sha256": "99206de60f34153d5e8d1fdbf6c2c7011b7704bd4ca98e7aaf8ff3b03413b4d3"
+      }
+    },
+    {
+      "id": "unicode-body-attributes",
+      "input": "<html lang=\"pt-BR\"><body class=\"canvas\" data-mode=\"alquimia\"><p>Ola, \u4e16\u754c \u2728</p></body></html>",
+      "expected": {
+        "html": "<html lang=\"pt-BR\"><head></head><body class=\"canvas\" data-mode=\"alquimia\"><p>Ola, \u4e16\u754c \u2728</p></body></html>",
+        "byte_length": 110,
+        "sha256": "e05b0891bbf16850cbf51fe4af2659b77d9e95fac9c0884723021df774f70ed3"
+      }
+    }
+  ],
+  "appends": [
+    {
+      "id": "empty-fragment",
+      "current_html": "<!doctype html><html><head><title>A</title></head><body class=\"base\"><p>Existing</p></body></html>",
+      "fragment_html": "",
+      "expected": {
+        "html": "<!DOCTYPE html><html><head><title>A</title></head><body class=\"base\"><p>Existing</p></body></html>",
+        "byte_length": 98,
+        "sha256": "73a8a438be4afefecb51c28bfa94f7cac9d5425b87260677fbdb3c6f20ec325c"
+      }
+    },
+    {
+      "id": "multiple-siblings-comments",
+      "current_html": "<!doctype html><body><p>Existing</p></body>",
+      "fragment_html": "<!--new--><section>A</section>tail<strong>B</strong>",
+      "expected": {
+        "html": "<!DOCTYPE html><html><head></head><body><p>Existing</p><!--new--><section>A</section>tail<strong>B</strong></body></html>",
+        "byte_length": 121,
+        "sha256": "21e903bf2c0a267cb37bb4464a287a8e15e34e21035e89ab0ded2531af4003ce"
+      }
+    },
+    {
+      "id": "malformed-fragment",
+      "current_html": "<!doctype html><body><main>Existing</main></body>",
+      "fragment_html": "<p>one<div>two</p>three",
+      "expected": {
+        "html": "<!DOCTYPE html><html><head></head><body><main>Existing</main><p>one</p><div>two<p></p>three</div></body></html>",
+        "byte_length": 111,
+        "sha256": "f766ca5f6b712bc5f8cc7b166a5bf6632d373e7bb0c50548c346bba11d385c71"
+      }
+    },
+    {
+      "id": "table-fragment",
+      "current_html": "<!doctype html><body><p>Existing</p></body>",
+      "fragment_html": "<table><tbody><tr><td>A</td><td>B</td></tr></tbody></table>",
+      "expected": {
+        "html": "<!DOCTYPE html><html><head></head><body><p>Existing</p><table><tbody><tr><td>A</td><td>B</td></tr></tbody></table></body></html>",
+        "byte_length": 128,
+        "sha256": "44e706adc4397ed62fc47fd09740a5a4fc9fa46ecac629e7b4b8df2f48c7579b"
+      }
+    },
+    {
+      "id": "svg-mathml-fragment",
+      "current_html": "<!doctype html><body></body>",
+      "fragment_html": "<svg viewBox=\"0 0 10 10\"><circle cx=\"5\" cy=\"5\" r=\"4\"></circle></svg><math><mi>x</mi><mo>+</mo><mn>1</mn></math>",
+      "expected": {
+        "html": "<!DOCTYPE html><html><head></head><body><svg viewBox=\"0 0 10 10\"><circle cx=\"5\" cy=\"5\" r=\"4\"></circle></svg><math><mi>x</mi><mo>+</mo><mn>1</mn></math></body></html>",
+        "byte_length": 165,
+        "sha256": "8edccc00a46900b6f3265a1d8b5740083bb7e15308c85b6413bd29a28b8a3f16"
+      }
+    },
+    {
+      "id": "unicode-fragment",
+      "current_html": "<!doctype html><body><p>Before</p></body>",
+      "fragment_html": "<p lang=\"pt-BR\">Cafe \u2615 - \u4e16\u754c</p>",
+      "expected": {
+        "html": "<!DOCTYPE html><html><head></head><body><p>Before</p><p lang=\"pt-BR\">Cafe \u2615 - \u4e16\u754c</p></body></html>",
+        "byte_length": 104,
+        "sha256": "f83bb919f854495db6d0b9e802e248ee65879df1c023f809de2c068c6ded6ee6"
+      }
+    },
+    {
+      "id": "script-style-fragment",
+      "current_html": "<!doctype html><body><p>Existing</p></body>",
+      "fragment_html": "<script>globalThis.__transformExecuted = \"</scriptx>\";</script><style>.x{content:\"</stylex>\"}</style>",
+      "expected": {
+        "html": "<!DOCTYPE html><html><head></head><body><p>Existing</p><script>globalThis.__transformExecuted = \"</scriptx>\";</script><style>.x{content:\"</stylex>\"}</style></body></html>",
+        "byte_length": 170,
+        "sha256": "1b5b1ad360447879f448937bc48f1457197cd2cd621765ec9b098081b3b37566"
+      }
+    }
+  ]
+}

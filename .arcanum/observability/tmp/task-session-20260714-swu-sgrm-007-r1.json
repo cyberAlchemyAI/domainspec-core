@@ -1,0 +1,71 @@
+{
+  "timestamp": "2026-07-14T19:04:25.950Z",
+  "run_id": "task-session-20260714-swu-sgrm-007-r1",
+  "session_id": "session-20260714-dsv2-foundation-execution",
+  "sigil": "task-session",
+  "tier": "arcana",
+  "mode": "execute",
+  "capability": {
+    "id": "task-session",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "execute",
+    "alias": null
+  },
+  "request": {
+    "raw": null,
+    "summary": "Refresh the selected foundation control surfaces and execute SWU-SGRM-007-R1.",
+    "intent": "Restore the current retired-orchestration proof from the accepted exact disposition packet without mutating frozen or historical authority evidence."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "projects/domainspec-v2/impl/tools/retired-orchestration-reference-allowlist.json",
+      "projects/domainspec-v2/impl/tools/tests/audit-retired-orchestration-references.test.ts",
+      "projects/domainspec-v2/development/saga-removal/runs/SWU-SGRM-007/RETRY-001/ZERO-ACTIVE-SAGA-REPORT.json",
+      "projects/domainspec-v2/development/saga-removal/runs/SWU-SGRM-007/RETRY-001/ZERO-ACTIVE-SAGA-SUMMARY.md",
+      "projects/domainspec-v2/development/saga-removal/runs/SWU-SGRM-007/RETRY-001/FOCUSED-TEST-OUTPUT.md",
+      "projects/domainspec-v2/development/saga-removal/runs/SWU-SGRM-007/RETRY-001/SEEDED-FAILURE-OUTPUT.md",
+      "projects/domainspec-v2/development/saga-removal/runs/SWU-SGRM-007/RETRY-001/TASK-SESSION-RESULT.md"
+    ],
+    "files_changed": [
+      "two guard-owned implementation files",
+      "five retry evidence files"
+    ],
+    "validation": [
+      "context-builder:standard-strict-14-files-100-percent",
+      "decision-gate:option-1-pass",
+      "invoke-refresh:apply-approved-pass",
+      "approved-exception-equality:pass-four-of-four",
+      "retired-reference-audit:pass-zero-violations",
+      "focused-guard-tests:pass-six-of-six",
+      "seeded-active-fixture:expected-fail-unclassified-and-cleanup-pass",
+      "same-count-digest-drift:pass",
+      "missing-and-unused-exceptions:pass",
+      "tools-test:pass-seventy-one-of-seventy-one",
+      "typecheck:pass",
+      "protected-hashes:pass",
+      "docs-links:pass",
+      "git-diff-check:pass",
+      "subagent-closeout:pass-zero-open"
+    ],
+    "notes": "A generated audit report stored inside the scanned removal package recursively quoted its prior matched lines on regeneration. The run recovered by preserving one finite pre-output machine snapshot and a separate final post-output live audit."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "signals": [
+      "quality-pass",
+      "rework",
+      "workflow-gap",
+      "useful-pattern"
+    ],
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      "Machine audit reports written inside the scanned package are self-referential across regenerations; use a finite pre-output snapshot plus a separate post-output audit."
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "gap-threshold",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "projects/domainspec-v2/development/saga-removal/runs/SWU-SGRM-007/RETRY-001/TASK-SESSION-RESULT.md"
+}

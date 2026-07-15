@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-07-15T00:21:07Z",
+  "run_id": "invoke-refresh-20260715T002107Z-minted-project-node-package",
+  "session_id": "session-20260714-minted-project-node-package",
+  "sigil": "invoke",
+  "tier": "spells",
+  "mode": "refresh",
+  "capability": {"id": "invoke", "kind": "spell", "tier": "spells", "mode": "refresh", "alias": null},
+  "request": {
+    "raw": null,
+    "summary": "Apply the approved minted-project authority decision to the blocked S09 Invoke plan package.",
+    "intent": "Resolve PLAN-B1 through PLAN-B3 in planning artifacts without executing implementation or promoting authority."
+  },
+  "execution": {
+    "status": "completed_with_authorized_handoff",
+    "outputs": [
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/refresh-report.json",
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/"
+    ],
+    "validation": [
+      "refresh-signals:five-typed-and-source-linked",
+      "blockers-resolved:PLAN-B1-PLAN-B2-PLAN-B3",
+      "mutation-mode:apply-approved-planning-only",
+      "implementation-mutation:none",
+      "json-parse:pass"
+    ],
+    "notes": "Refresh applied only to the S09 planning package. Authority registries, implementation source, fixtures, migrations, Craft, Inventory, and public Arcanum were not mutated."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "signals": ["quality-pass", "useful-pattern"],
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "output-threshold",
+    "recommendation": "reflect-now"
+  },
+  "target_artifact": "projects/domainspec-v2/development/refinement-runs/20260714-minted-project-node-package-toy-game/stages/S09-invoke-plan/REFRESH-REPORT.md",
+  "dedupe_key": "invoke-refresh-20260715T002107Z-minted-project-node-package:signal-observer:0.1.0",
+  "observer_version": "0.1.0"
+}

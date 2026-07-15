@@ -90,6 +90,92 @@ test("changed reviewed reference fails its content digest", () => {
   }
 });
 
+test("missing exception paths fail closed", () => {
+  const temp = mkdtempSync(resolve(tmpdir(), "domainspec-reference-missing-"));
+  try {
+    const project = resolve(temp, "projects/domainspec-v2");
+    const manifest = resolve(temp, "manifest.json");
+    const allowlist = resolve(temp, "allowlist.json");
+    mkdirSync(project, { recursive: true });
+    writeFileSync(
+      manifest,
+      JSON.stringify({ schema_version: "1", swu_id: "test", entries: [] }),
+      "utf8",
+    );
+    writeFileSync(
+      allowlist,
+      JSON.stringify({
+        schema_version: "1",
+        guard_id: "test",
+        manifest: "manifest.json",
+        exceptions: [{
+          path: "projects/domainspec-v2/research/missing.md",
+          disposition: "post-manifest-historical-reference",
+          reason: "Reviewed historical evidence.",
+          expected_match_count: 1,
+          match_digest: "missing",
+        }],
+      }),
+      "utf8",
+    );
+    const report = auditReferences({
+      repoRoot: temp,
+      projectRoot: project,
+      manifestPath: manifest,
+      allowlistPath: allowlist,
+      guardOwnedPaths: new Set(),
+    });
+    assert.equal(report.summary.result, "fail");
+    assert.equal(report.violations[0]?.code, "missing-exception-path");
+  } finally {
+    rmSync(temp, { recursive: true, force: true });
+  }
+});
+
+test("unused exceptions fail closed", () => {
+  const temp = mkdtempSync(resolve(tmpdir(), "domainspec-reference-unused-"));
+  try {
+    const project = resolve(temp, "projects/domainspec-v2");
+    const reviewed = resolve(project, "research/reviewed.md");
+    const manifest = resolve(temp, "manifest.json");
+    const allowlist = resolve(temp, "allowlist.json");
+    mkdirSync(dirname(reviewed), { recursive: true });
+    writeFileSync(reviewed, "No retired orchestration reference remains.\n", "utf8");
+    writeFileSync(
+      manifest,
+      JSON.stringify({ schema_version: "1", swu_id: "test", entries: [] }),
+      "utf8",
+    );
+    writeFileSync(
+      allowlist,
+      JSON.stringify({
+        schema_version: "1",
+        guard_id: "test",
+        manifest: "manifest.json",
+        exceptions: [{
+          path: "projects/domainspec-v2/research/reviewed.md",
+          disposition: "post-manifest-historical-reference",
+          reason: "Reviewed historical evidence.",
+          expected_match_count: 1,
+          match_digest: "unused",
+        }],
+      }),
+      "utf8",
+    );
+    const report = auditReferences({
+      repoRoot: temp,
+      projectRoot: project,
+      manifestPath: manifest,
+      allowlistPath: allowlist,
+      guardOwnedPaths: new Set(),
+    });
+    assert.equal(report.summary.result, "fail");
+    assert.equal(report.violations[0]?.code, "unused-exception");
+  } finally {
+    rmSync(temp, { recursive: true, force: true });
+  }
+});
+
 test("machine report is valid JSON", () => {
   const temp = mkdtempSync(resolve(tmpdir(), "domainspec-reference-report-"));
   try {

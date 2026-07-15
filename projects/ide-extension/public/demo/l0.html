@@ -256,7 +256,7 @@
       .workspace {
         display: grid;
         grid-template-columns: minmax(260px, 310px) minmax(390px, 1fr) minmax(300px, 390px);
-        min-height: calc(100vh - 65px);
+        min-height: calc(100vh - 285px);
       }
 
       .panel {
@@ -576,6 +576,120 @@
         font-size: 12px;
       }
 
+      .craft-frontier {
+        min-width: 0;
+        min-height: 220px;
+        border-bottom: 1px solid var(--line-strong);
+        background: var(--panel);
+      }
+
+      .craft-head {
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 9px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .craft-identity {
+        min-width: 0;
+      }
+
+      .craft-identity h2 {
+        font-size: 14px;
+      }
+
+      .craft-meta {
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 12px;
+        overflow-wrap: anywhere;
+      }
+
+      .craft-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: 0 0 auto;
+      }
+
+      .craft-body {
+        min-height: 167px;
+        display: grid;
+        grid-template-columns: minmax(280px, 0.7fr) minmax(460px, 1.3fr);
+      }
+
+      .craft-next {
+        min-width: 0;
+        display: grid;
+        align-content: center;
+        gap: 8px;
+        padding: 20px 24px;
+        border-right: 1px solid #b8d8c7;
+        background: var(--green-soft);
+      }
+
+      .craft-next-label {
+        color: var(--green);
+        font-size: 11px;
+        font-weight: 750;
+        text-transform: uppercase;
+      }
+
+      .craft-next-summary {
+        max-width: 680px;
+        font-size: 17px;
+        line-height: 1.35;
+        font-weight: 680;
+      }
+
+      .craft-next-meta,
+      .craft-item-meta {
+        color: var(--muted);
+        font-size: 11px;
+        overflow-wrap: anywhere;
+      }
+
+      .craft-list {
+        max-height: 167px;
+        overflow: auto;
+      }
+
+      .craft-item {
+        min-height: 72px;
+        display: grid;
+        grid-template-columns: minmax(175px, 0.55fr) minmax(240px, 1.45fr);
+        align-items: center;
+        gap: 18px;
+        padding: 12px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .craft-item:last-child {
+        border-bottom: 0;
+      }
+
+      .craft-item-id {
+        min-width: 0;
+        color: var(--amber);
+        font-size: 11px;
+        font-weight: 750;
+        overflow-wrap: anywhere;
+      }
+
+      .craft-item-summary {
+        min-width: 0;
+        font-size: 13px;
+      }
+
+      .craft-empty {
+        padding: 30px 18px;
+        color: var(--muted);
+        text-align: center;
+      }
+
       .canvas-workbench {
         min-width: 0;
         border-top: 1px solid var(--line-strong);
@@ -619,6 +733,40 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .canvas-storage {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        min-height: 48px;
+        padding: 8px 16px;
+        border-bottom: 1px solid var(--line);
+        background: #f7f9fb;
+      }
+
+      .canvas-storage-copy {
+        min-width: 0;
+        display: grid;
+        gap: 2px;
+      }
+
+      .canvas-storage-copy strong {
+        font-size: 12px;
+      }
+
+      .canvas-storage-copy span {
+        color: var(--muted);
+        font-size: 11px;
+        overflow-wrap: anywhere;
+      }
+
+      .canvas-storage-actions {
+        display: flex;
+        align-items: center;
+        flex: 0 0 auto;
         gap: 8px;
       }
 
@@ -710,6 +858,38 @@
           flex-direction: column;
         }
 
+        .craft-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .craft-actions {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .craft-body {
+          grid-template-columns: 1fr;
+        }
+
+        .craft-next {
+          border-right: 0;
+          border-bottom: 1px solid #b8d8c7;
+        }
+
+        .craft-list {
+          max-height: none;
+        }
+
+        .craft-item {
+          grid-template-columns: 1fr;
+          gap: 5px;
+        }
+
+        .workspace {
+          min-height: 0;
+        }
+
         .prepare-bar {
           grid-template-columns: minmax(0, 1fr) minmax(120px, 150px) auto;
         }
@@ -780,6 +960,16 @@
           grid-column: 1 / -1;
         }
 
+        .canvas-storage {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .canvas-storage-actions {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+
         .canvas-stage {
           min-height: 620px;
         }
@@ -789,7 +979,7 @@
   <body>
     <header class="app-header">
       <div class="brand">
-        <img class="brand-mark" src="/assets/cyber-alchemy-logo.svg" alt="Cyber Alchemy logo" width="42" height="42">
+        <img class="brand-mark" src="/assets/cyber-alchemy-logo.svg?v=cyberalchemy-mark" alt="Cyber Alchemy spiral mark" width="42" height="42">
         <div>
           <h1>Cyber Alchemy</h1>
           <p>Approval Desk · local workbench</p>
@@ -814,6 +1004,28 @@
       <span id="error-message"></span>
       <button type="button" data-action="dismiss-error">Dismiss</button>
     </div>
+
+    <section class="craft-frontier" data-panel="craft" aria-labelledby="craft-heading">
+      <header class="craft-head">
+        <div class="craft-identity">
+          <h2 id="craft-heading">Craft Frontier</h2>
+          <p id="craft-meta" class="craft-meta">Loading the verified project ledger</p>
+        </div>
+        <div class="craft-actions">
+          <span id="craft-count" class="count" aria-label="Pending Craft items">0</span>
+          <button type="button" data-action="craft-refresh">Refresh Craft</button>
+        </div>
+      </header>
+      <div id="craft-body" class="craft-body">
+        <article class="craft-next" aria-labelledby="craft-next-label">
+          <span id="craft-next-label" class="craft-next-label">Current next move</span>
+          <strong id="craft-next-summary" class="craft-next-summary">No next move loaded</strong>
+          <span id="craft-next-meta" class="craft-next-meta"></span>
+        </article>
+        <ul id="craft-list" class="craft-list" data-list="craft-pending" aria-label="Active Craft gaps"></ul>
+      </div>
+      <p id="craft-empty" class="craft-empty" hidden>No pending Craft items</p>
+    </section>
 
     <main class="workspace">
       <section class="panel queue-panel" data-panel="proposals" aria-labelledby="proposal-heading">
@@ -912,6 +1124,16 @@
           <a id="canvas-open" class="canvas-open" target="_blank" rel="noopener" hidden>Open</a>
         </div>
       </header>
+      <div class="canvas-storage" data-panel="canvas-storage">
+        <div class="canvas-storage-copy">
+          <strong id="canvas-storage-status">Storage unavailable</strong>
+          <span id="canvas-storage-meta">Waiting for verified blob diagnostics</span>
+        </div>
+        <div class="canvas-storage-actions">
+          <button type="button" data-action="canvas-pruning-preview" hidden>Preview prune</button>
+          <button type="button" class="danger" data-action="canvas-pruning-commit" hidden>Prune history</button>
+        </div>
+      </div>
       <div id="canvas-stage" class="canvas-stage">
         <p id="canvas-empty" class="canvas-empty">Ask the active session to publish a project HTML surface.</p>
       </div>
@@ -922,15 +1144,23 @@
     <script type="module">
       const state = {
         snapshot: null,
+        craftFrontier: null,
         selectedEnvelopeId: null,
         detail: null,
         view: 'pending',
         busy: false,
         canvasCurrent: null,
         canvasLoadedRevisionId: null,
+        canvasLoadedSurfaceId: null,
+        canvasLoadedSurfaceKind: null,
         canvasPendingRevisionId: null,
+        canvasPendingLoadKey: null,
+        canvasPendingPromise: null,
         canvasNotifications: null,
-        canvasFailedInteraction: null
+        canvasFailedInteraction: null,
+        canvasStorage: null,
+        canvasPruningPreview: null,
+        canvasCommandLoads: new Map()
       };
 
       const els = {
@@ -948,6 +1178,14 @@
         proposalEmpty: document.querySelector('#proposal-empty'),
         readyTarget: document.querySelector('#ready-target'),
         moduleSummary: document.querySelector('#module-summary'),
+        craftMeta: document.querySelector('#craft-meta'),
+        craftCount: document.querySelector('#craft-count'),
+        craftBody: document.querySelector('#craft-body'),
+        craftNextSummary: document.querySelector('#craft-next-summary'),
+        craftNextMeta: document.querySelector('#craft-next-meta'),
+        craftList: document.querySelector('#craft-list'),
+        craftEmpty: document.querySelector('#craft-empty'),
+        craftRefresh: document.querySelector('[data-action="craft-refresh"]'),
         detailHeading: document.querySelector('#detail-heading'),
         detailSubtitle: document.querySelector('#detail-subtitle'),
         detailStatus: document.querySelector('#detail-status'),
@@ -980,7 +1218,11 @@
         canvasEmpty: document.querySelector('#canvas-empty'),
         canvasRefresh: document.querySelector('[data-action="canvas-refresh"]'),
         canvasEventRetry: document.querySelector('[data-action="canvas-event-retry"]'),
-        canvasOpen: document.querySelector('#canvas-open')
+        canvasOpen: document.querySelector('#canvas-open'),
+        canvasStorageStatus: document.querySelector('#canvas-storage-status'),
+        canvasStorageMeta: document.querySelector('#canvas-storage-meta'),
+        canvasPruningPreview: document.querySelector('[data-action="canvas-pruning-preview"]'),
+        canvasPruningCommit: document.querySelector('[data-action="canvas-pruning-commit"]')
       };
 
       function clear(node) {
@@ -1045,8 +1287,43 @@
         state.busy = busy;
         document.querySelector('[data-action="prepare"]').disabled = busy;
         document.querySelector('[data-action="refresh"]').disabled = busy;
+        els.craftRefresh.disabled = busy;
         els.canvasRefresh.disabled = busy;
+        renderCanvasStorage();
         renderActions();
+      }
+
+      function renderCraftFrontier(frontier) {
+        const nextMove = frontier.next_moves[0] || null;
+        const pending = frontier.pending || [];
+        const scope = frontier.scope;
+        els.craftMeta.textContent = `${scope.title} · ${scope.stage} · gate ${scope.gate} · verified ledger`;
+        els.craftCount.textContent = String(frontier.counts.total_pending);
+        els.craftBody.hidden = !nextMove && pending.length === 0;
+        els.craftEmpty.hidden = Boolean(nextMove || pending.length > 0);
+        els.craftNextSummary.textContent = nextMove?.summary || 'No current next move';
+        els.craftNextMeta.textContent = nextMove
+          ? `${nextMove.id} · source ${frontier.source.ledger_path}`
+          : `source ${frontier.source.ledger_path}`;
+
+        clear(els.craftList);
+        for (const item of pending) {
+          const row = document.createElement('li');
+          row.className = 'craft-item';
+          const identity = document.createElement('div');
+          identity.append(
+            textElement('div', `${item.type} · ${item.id}`, 'craft-item-id'),
+            textElement('div', `${item.status} · ${item.treatment} · ${item.owner}`, 'craft-item-meta')
+          );
+          row.append(identity, textElement('p', item.summary, 'craft-item-summary'));
+          els.craftList.append(row);
+        }
+      }
+
+      async function refreshCraft() {
+        const frontier = await api('/api/craft/frontier');
+        state.craftFrontier = frontier;
+        renderCraftFrontier(frontier);
       }
 
       function renderCanvasIdentity(current) {
@@ -1057,10 +1334,112 @@
           els.canvasOpen.removeAttribute('href');
           return;
         }
-        els.canvasTitle.textContent = current.title;
-        els.canvasMeta.textContent = `${current.kind} · ${current.revision.revision_id}`;
+        const surface = current.surface;
+        els.canvasTitle.textContent = current.surface_kind === 'v0'
+          ? surface.title
+          : 'Operations Canvas';
+        els.canvasMeta.textContent = current.surface_kind === 'v0'
+          ? `${surface.kind} · ${current.revision.revision_id}`
+          : `operations_v1 · ${current.surface_id} · ${current.revision.revision_id}`;
         els.canvasOpen.href = current.content_url;
         els.canvasOpen.hidden = false;
+      }
+
+      function canvasLoadKey(current) {
+        return `${current.surface_kind}:${current.surface_id}:${current.revision.revision_id}`;
+      }
+
+      function formatBytes(bytes) {
+        if (!Number.isFinite(bytes) || bytes < 0) return 'Unavailable';
+        const units = ['B', 'KiB', 'MiB', 'GiB'];
+        let value = bytes;
+        let unit = 0;
+        while (value >= 1024 && unit < units.length - 1) {
+          value /= 1024;
+          unit += 1;
+        }
+        const digits = unit === 0 || value >= 10 ? 0 : 1;
+        return `${value.toFixed(digits)} ${units[unit]}`;
+      }
+
+      function renderCanvasStorage() {
+        const storage = state.canvasStorage;
+        const candidate = state.canvasPruningPreview;
+        if (!storage) {
+          els.canvasStorageStatus.textContent = 'Storage unavailable';
+          els.canvasStorageMeta.textContent = 'Waiting for verified blob diagnostics';
+          els.canvasPruningPreview.hidden = true;
+          els.canvasPruningCommit.hidden = true;
+          return;
+        }
+        const stateLabel = storage.state === 'grace'
+          ? 'Grace active'
+          : storage.state === 'reclaiming' ? 'Reclaiming blocked' : 'Normal';
+        els.canvasStorageStatus.textContent = `${formatBytes(storage.total_bytes)} · ${stateLabel}`;
+        const deadline = storage.active_request?.grace_deadline
+          ? ` · deadline ${new Date(storage.active_request.grace_deadline).toLocaleString()}`
+          : '';
+        const blocked = storage.blocked_reason ? ` · ${storage.blocked_reason}` : '';
+        els.canvasStorageMeta.textContent = `${formatBytes(storage.referenced_bytes)} referenced`
+          + ` · ${formatBytes(storage.orphan_bytes)} orphan`
+          + ` · ${storage.eligible_revision_count} eligible${deadline}${blocked}`;
+        const canPreview = Boolean(storage.active_request && storage.candidate_revision_count > 0);
+        els.canvasPruningPreview.hidden = !canPreview;
+        els.canvasPruningPreview.disabled = state.busy || !canPreview;
+        const selected = candidate?.selected_revisions?.length || 0;
+        els.canvasPruningCommit.hidden = selected === 0;
+        els.canvasPruningCommit.disabled = state.busy || selected === 0;
+        els.canvasPruningCommit.textContent = selected > 0
+          ? `Prune ${selected} revision${selected === 1 ? '' : 's'}`
+          : 'Prune history';
+      }
+
+      async function refreshCanvasStorage(options = {}) {
+        const result = await api('/api/canvas/storage');
+        const previousRequestId = state.canvasStorage?.active_request?.pruning_request_id || null;
+        const nextRequestId = result.storage.active_request?.pruning_request_id || null;
+        state.canvasStorage = result.storage;
+        if (!options.preservePreview || previousRequestId !== nextRequestId) {
+          state.canvasPruningPreview = null;
+        }
+        renderCanvasStorage();
+        return result.storage;
+      }
+
+      async function previewCanvasPruning() {
+        const result = await api('/api/canvas/pruning/preview', {
+          method: 'POST',
+          body: JSON.stringify({
+            schema_version: '1',
+            command_id: `command-prune-preview-${crypto.randomUUID()}`
+          })
+        });
+        state.canvasPruningPreview = result.candidate;
+        state.canvasStorage = result.storage;
+        renderCanvasStorage();
+        return result.candidate;
+      }
+
+      async function commitCanvasPruning() {
+        const candidate = state.canvasPruningPreview;
+        const count = candidate?.selected_revisions?.length || 0;
+        if (count === 0) return null;
+        const confirmed = window.confirm(
+          `Prune ${count} historical revision${count === 1 ? '' : 's'}?`
+        );
+        if (!confirmed) return null;
+        const result = await api('/api/canvas/pruning/commit', {
+          method: 'POST',
+          body: JSON.stringify({
+            schema_version: '1',
+            command_id: `command-prune-commit-${crypto.randomUUID()}`,
+            expected_candidate_digest: candidate.candidate_digest
+          })
+        });
+        state.canvasPruningPreview = null;
+        state.canvasStorage = result.storage;
+        renderCanvasStorage();
+        return result;
       }
 
       async function assertCanvasContent(current) {
@@ -1078,71 +1457,147 @@
         throw error;
       }
 
-      async function loadCanvasRevision(current) {
-        if (state.canvasLoadedRevisionId === current.revision.revision_id
-          || state.canvasPendingRevisionId === current.revision.revision_id) return;
-        state.canvasPendingRevisionId = current.revision.revision_id;
+      async function performCanvasLoad(current) {
         els.canvasStatus.textContent = 'Loading';
         els.canvasStatus.className = 'server-state';
-        await assertCanvasContent(current);
+        let nextFrame = null;
+        try {
+          await assertCanvasContent(current);
+          nextFrame = document.createElement('iframe');
+          nextFrame.className = 'canvas-frame canvas-frame-pending';
+          nextFrame.title = current.surface_kind === 'v0'
+            ? current.surface.title
+            : 'Operations Canvas';
+          nextFrame.src = current.content_url;
+          nextFrame.dataset.surfaceKind = current.surface_kind;
+          nextFrame.dataset.surfaceId = current.surface_id;
+          nextFrame.dataset.revisionId = current.revision.revision_id;
+          els.canvasStage.append(nextFrame);
 
-        const nextFrame = document.createElement('iframe');
-        nextFrame.className = 'canvas-frame canvas-frame-pending';
-        nextFrame.title = current.title;
-        nextFrame.src = current.content_url;
-        nextFrame.dataset.revisionId = current.revision.revision_id;
-        els.canvasStage.append(nextFrame);
+          await new Promise((resolve, reject) => {
+            const timer = setTimeout(() => reject(new Error('Canvas load timed out')), 15000);
+            nextFrame.addEventListener('load', () => {
+              clearTimeout(timer);
+              resolve();
+            }, { once: true });
+            nextFrame.addEventListener('error', () => {
+              clearTimeout(timer);
+              reject(new Error('Canvas failed to load'));
+            }, { once: true });
+          });
 
-        await new Promise((resolve, reject) => {
-          const timer = setTimeout(() => reject(new Error('Canvas load timed out')), 15000);
-          nextFrame.addEventListener('load', () => {
-            clearTimeout(timer);
-            resolve();
-          }, { once: true });
-          nextFrame.addEventListener('error', () => {
-            clearTimeout(timer);
-            reject(new Error('Canvas failed to load'));
-          }, { once: true });
-        }).catch((error) => {
-          nextFrame.remove();
+          const previous = els.canvasStage.querySelector('.canvas-frame-current');
+          previous?.remove();
+          nextFrame.id = 'canvas-frame';
+          nextFrame.className = 'canvas-frame canvas-frame-current';
+          state.canvasLoadedRevisionId = current.revision.revision_id;
+          state.canvasLoadedSurfaceId = current.surface_id;
+          state.canvasLoadedSurfaceKind = current.surface_kind;
+          state.canvasFailedInteraction = null;
+          els.canvasEmpty.hidden = true;
+          els.canvasStatus.textContent = 'Available';
+          els.canvasStatus.className = 'server-state connected';
+          els.canvasEventStatus.textContent = 'Ready';
+          els.canvasEventStatus.className = 'server-state';
+          els.canvasEventRetry.hidden = true;
+          return true;
+        } catch (error) {
+          nextFrame?.remove();
           throw error;
-        });
-
-        const previous = els.canvasStage.querySelector('.canvas-frame-current');
-        previous?.remove();
-        nextFrame.id = 'canvas-frame';
-        nextFrame.className = 'canvas-frame canvas-frame-current';
-        state.canvasLoadedRevisionId = current.revision.revision_id;
-        state.canvasPendingRevisionId = null;
-        state.canvasFailedInteraction = null;
-        els.canvasEmpty.hidden = true;
-        els.canvasStatus.textContent = 'Available';
-        els.canvasStatus.className = 'server-state connected';
-        els.canvasEventStatus.textContent = 'Ready';
-        els.canvasEventStatus.className = 'server-state';
-        els.canvasEventRetry.hidden = true;
+        }
       }
 
-      async function refreshCanvas() {
+      async function loadCanvasRevision(current, options = {}) {
+        const loadKey = canvasLoadKey(current);
+        const loadedKey = state.canvasLoadedRevisionId
+          ? `${state.canvasLoadedSurfaceKind}:${state.canvasLoadedSurfaceId}:${state.canvasLoadedRevisionId}`
+          : null;
+        if (!options.force && loadedKey === loadKey) return false;
+        if (state.canvasPendingPromise) {
+          const sameTarget = state.canvasPendingLoadKey === loadKey;
+          try {
+            await state.canvasPendingPromise;
+          } catch (error) {
+            if (sameTarget) throw error;
+          }
+          if (sameTarget && !options.force) return false;
+          return loadCanvasRevision(current, options);
+        }
+
+        state.canvasPendingRevisionId = current.revision.revision_id;
+        state.canvasPendingLoadKey = loadKey;
+        const pending = performCanvasLoad(current);
+        state.canvasPendingPromise = pending;
         try {
-          const result = await api('/api/canvas/current');
-          state.canvasCurrent = result.current;
-          renderCanvasIdentity(result.current);
-          if (!result.current) {
+          return await pending;
+        } finally {
+          if (state.canvasPendingPromise === pending) {
+            state.canvasPendingRevisionId = null;
+            state.canvasPendingLoadKey = null;
+            state.canvasPendingPromise = null;
+          }
+        }
+      }
+
+      async function acknowledgeCanvasCommand(commandId, status) {
+        if (!commandId) return null;
+        return api(`/api/canvas/navigation/${encodeURIComponent(commandId)}/ack`, {
+          method: 'POST',
+          body: JSON.stringify({ schema_version: '1', status })
+        });
+      }
+
+      async function refreshCanvas(options = {}) {
+        const commandId = options.commandId || null;
+        try {
+          const result = await api('/api/canvas/display');
+          const next = result.display;
+          if (options.expectedSurfaceId && (!next
+            || next.surface_id !== options.expectedSurfaceId
+            || next.revision.revision_id !== options.expectedRevisionId)) return false;
+          if (!next) {
             els.canvasStage.querySelector('.canvas-frame-current')?.remove();
+            state.canvasCurrent = null;
             state.canvasLoadedRevisionId = null;
+            state.canvasLoadedSurfaceId = null;
+            state.canvasLoadedSurfaceKind = null;
             els.canvasEmpty.hidden = false;
             els.canvasStatus.textContent = 'Idle';
             els.canvasStatus.className = 'server-state';
-            return;
+            renderCanvasIdentity(null);
+            return false;
           }
-          await loadCanvasRevision(result.current);
+          await loadCanvasRevision(next, { force: options.force === true });
+          state.canvasCurrent = next;
+          renderCanvasIdentity(next);
+          await acknowledgeCanvasCommand(commandId, 'loaded');
+          return true;
         } catch (error) {
-          state.canvasPendingRevisionId = null;
           els.canvasStatus.textContent = 'Unavailable';
           els.canvasStatus.className = 'server-state';
+          if (commandId) {
+            try {
+              await acknowledgeCanvasCommand(commandId, 'failed');
+            } catch (acknowledgementError) {
+              showError(acknowledgementError);
+            }
+          }
           throw error;
         }
+      }
+
+      function handleCanvasCommand(commandId, force) {
+        const existing = state.canvasCommandLoads.get(commandId);
+        if (existing) return existing;
+        const pending = refreshCanvas({ commandId, force }).then((result) => {
+          els.errorStrip.hidden = true;
+          return result;
+        });
+        state.canvasCommandLoads.set(commandId, pending);
+        while (state.canvasCommandLoads.size > 128) {
+          state.canvasCommandLoads.delete(state.canvasCommandLoads.keys().next().value);
+        }
+        return pending;
       }
 
       function connectCanvasNotifications() {
@@ -1165,10 +1620,23 @@
           } catch {
             return;
           }
-          if (notice.type !== 'canvas.revision.available'
-            || notice.revision_id === state.canvasLoadedRevisionId
-            || notice.revision_id === state.canvasPendingRevisionId) return;
-          refreshCanvas().catch(showError);
+          if (notice.type === 'canvas.display.changed') {
+            handleCanvasCommand(notice.command_id, false).catch(showError);
+            return;
+          }
+          if (notice.type === 'canvas.refresh.requested') {
+            handleCanvasCommand(notice.command_id, true).catch(showError);
+            return;
+          }
+          if (notice.type === 'canvas.storage.changed') {
+            refreshCanvasStorage().catch(showError);
+            return;
+          }
+          if (notice.type !== 'canvas.revision.available') return;
+          refreshCanvas({
+            expectedSurfaceId: notice.surface_id,
+            expectedRevisionId: notice.revision_id
+          }).catch(showError);
         });
         notifications.addEventListener('error', () => {
           els.canvasLiveStatus.textContent = 'Reconnecting';
@@ -1179,7 +1647,10 @@
       function canvasInteractionRequest(message) {
         const frame = els.canvasStage.querySelector('.canvas-frame-current');
         const current = state.canvasCurrent;
-        if (!frame || !current || frame.dataset.revisionId !== current.revision.revision_id) return null;
+        if (!frame || !current
+          || frame.dataset.surfaceKind !== current.surface_kind
+          || frame.dataset.surfaceId !== current.surface_id
+          || frame.dataset.revisionId !== current.revision.revision_id) return null;
         if (!message || typeof message !== 'object' || Array.isArray(message)) return null;
         if (Object.keys(message).sort().join(',') !== 'eventName,payload,type') return null;
         if (message.type !== 'ide-extension.canvas.event'
@@ -1188,19 +1659,32 @@
           || message.eventName.length > 96
           || !message.payload || typeof message.payload !== 'object'
           || Array.isArray(message.payload)) return null;
-        const request = {
-          schema_version: '1',
-          surface_id: current.surface_id,
-          revision_id: current.revision.revision_id,
-          event_name: message.eventName,
-          payload: message.payload
-        };
+        const body = current.surface_kind === 'v0'
+          ? {
+              schema_version: '1',
+              surface_id: current.surface_id,
+              revision_id: current.revision.revision_id,
+              event_name: message.eventName,
+              payload: message.payload
+            }
+          : {
+              schema_version: '1',
+              operations_surface_id: current.surface_id,
+              revision_id: current.revision.revision_id,
+              event_name: message.eventName,
+              payload: message.payload
+            };
         try {
-          if (new TextEncoder().encode(JSON.stringify(request)).byteLength > 16 * 1024) return null;
+          if (new TextEncoder().encode(JSON.stringify(body)).byteLength > 16 * 1024) return null;
         } catch {
           return null;
         }
-        return request;
+        return {
+          route: current.surface_kind === 'v0'
+            ? '/api/canvas/events'
+            : `/api/canvas/operation-surfaces/${encodeURIComponent(current.surface_id)}/events`,
+          body
+        };
       }
 
       async function sendCanvasInteraction(request) {
@@ -1208,9 +1692,9 @@
         els.canvasEventStatus.className = 'server-state';
         els.canvasEventRetry.hidden = true;
         try {
-          const result = await api('/api/canvas/events', {
+          const result = await api(request.route, {
             method: 'POST',
-            body: JSON.stringify(request)
+            body: JSON.stringify(request.body)
           });
           state.canvasFailedInteraction = null;
           els.canvasEventStatus.textContent = 'Sent';
@@ -1541,7 +2025,20 @@
           showError(error);
         }
         try {
+          await refreshCraft();
+        } catch (error) {
+          els.craftMeta.textContent = error.code === 'craft_index_stale'
+            ? 'Craft index is stale; regenerate it from the ledger'
+            : 'Craft frontier unavailable';
+          showError(error);
+        }
+        try {
           await refreshCanvas();
+        } catch (error) {
+          showError(error);
+        }
+        try {
+          await refreshCanvasStorage();
         } catch (error) {
           showError(error);
         }
@@ -1599,15 +2096,46 @@
         runCommand(() => refresh());
       });
 
+      els.craftRefresh.addEventListener('click', () => {
+        runCommand(async () => {
+          await refreshCraft();
+          announce('Craft frontier refreshed from the verified ledger index');
+        });
+      });
+
       els.canvasRefresh.addEventListener('click', () => {
         runCommand(async () => {
-          await refreshCanvas();
+          const commandId = `command-refresh-${crypto.randomUUID()}`;
+          await api('/api/canvas/navigation', {
+            method: 'POST',
+            body: JSON.stringify({
+              schema_version: '1',
+              command_id: commandId,
+              action: 'refresh'
+            })
+          });
+          await handleCanvasCommand(commandId, true);
           announce(state.canvasCurrent ? 'Canvas refreshed' : 'No Canvas surface published');
         });
       });
 
       els.canvasEventRetry.addEventListener('click', () => {
         if (state.canvasFailedInteraction) void sendCanvasInteraction(state.canvasFailedInteraction);
+      });
+
+      els.canvasPruningPreview.addEventListener('click', () => {
+        runCommand(async () => {
+          const candidate = await previewCanvasPruning();
+          announce(`${candidate.selected_revisions.length} historical revisions selected`);
+        });
+      });
+
+      els.canvasPruningCommit.addEventListener('click', () => {
+        runCommand(async () => {
+          const result = await commitCanvasPruning();
+          if (!result) return;
+          announce(`${result.pruned_revisions.length} historical revisions pruned`);
+        });
       });
 
       els.approve.addEventListener('click', () => {

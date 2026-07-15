@@ -83,8 +83,21 @@ async function requestJson(baseUrl, route, options = {}) {
 
 async function main() {
   const [command, ...values] = process.argv.slice(2);
-  if (!['ready', 'claim', 'result', 'interrupt', 'publish', 'events'].includes(command)) {
-    fail(EXIT.usage, 'usage', { commands: ['ready', 'claim', 'result', 'interrupt', 'publish', 'events'] });
+  const commands = [
+    'ready',
+    'claim',
+    'result',
+    'interrupt',
+    'publish',
+    'derive',
+    'operate',
+    'navigate',
+    'storage',
+    'prune',
+    'events'
+  ];
+  if (!commands.includes(command)) {
+    fail(EXIT.usage, 'usage', { commands });
     return;
   }
 
@@ -141,6 +154,94 @@ async function main() {
       baseUrl,
       `/api/canvas/events?after=${encodeURIComponent(options.after)}`
     );
+  } else if (command === 'derive') {
+    const allowed = new Set([
+      'base_url',
+      'source_surface_id',
+      'source_revision_id',
+      'idempotency_key'
+    ]);
+    if (Object.keys(options).some((key) => !allowed.has(key))
+      || !options.source_surface_id
+      || !options.source_revision_id
+      || !options.idempotency_key) {
+      fail(EXIT.usage, 'invalid_arguments', {
+        required: ['source-surface-id', 'source-revision-id', 'idempotency-key']
+      });
+      return;
+    }
+    body = await requestJson(baseUrl, '/api/canvas/operation-surfaces', {
+      method: 'POST',
+      body: JSON.stringify({
+        schema_version: '1',
+        source_v0_surface_id: options.source_surface_id,
+        source_revision_id: options.source_revision_id,
+        operation_surface_idempotency_key: options.idempotency_key
+      })
+    });
+  } else if (command === 'operate') {
+    const allowed = new Set(['base_url', 'surface_id', 'input']);
+    if (Object.keys(options).some((key) => !allowed.has(key))
+      || !options.surface_id
+      || !options.input) {
+      fail(EXIT.usage, 'invalid_arguments', { required: ['surface-id', 'input'] });
+      return;
+    }
+    let input;
+    try {
+      input = await inputJson(options.input);
+    } catch (error) {
+      fail(EXIT.usage, 'invalid_input', { message: error.message });
+      return;
+    }
+    body = await requestJson(
+      baseUrl,
+      `/api/canvas/operation-surfaces/${encodeURIComponent(options.surface_id)}/operations`,
+      { method: 'POST', body: JSON.stringify(input) }
+    );
+  } else if (command === 'navigate') {
+    const allowed = new Set(['base_url', 'input']);
+    if (Object.keys(options).some((key) => !allowed.has(key)) || !options.input) {
+      fail(EXIT.usage, 'invalid_arguments', { required: ['input'] });
+      return;
+    }
+    let input;
+    try {
+      input = await inputJson(options.input);
+    } catch (error) {
+      fail(EXIT.usage, 'invalid_input', { message: error.message });
+      return;
+    }
+    body = await requestJson(baseUrl, '/api/canvas/navigation', {
+      method: 'POST',
+      body: JSON.stringify(input)
+    });
+  } else if (command === 'storage') {
+    const allowed = new Set(['base_url']);
+    if (Object.keys(options).some((key) => !allowed.has(key))) {
+      fail(EXIT.usage, 'invalid_arguments');
+      return;
+    }
+    body = await requestJson(baseUrl, '/api/canvas/storage');
+  } else if (command === 'prune') {
+    const allowed = new Set(['base_url', 'action', 'input']);
+    if (Object.keys(options).some((key) => !allowed.has(key))
+      || !['preview', 'commit'].includes(options.action)
+      || !options.input) {
+      fail(EXIT.usage, 'invalid_arguments', { required: ['action', 'input'] });
+      return;
+    }
+    let input;
+    try {
+      input = await inputJson(options.input);
+    } catch (error) {
+      fail(EXIT.usage, 'invalid_input', { message: error.message });
+      return;
+    }
+    body = await requestJson(baseUrl, `/api/canvas/pruning/${options.action}`, {
+      method: 'POST',
+      body: JSON.stringify(input)
+    });
   } else if (command === 'claim') {
     const allowed = new Set(['base_url', 'request_handle', 'session_ref']);
     if (Object.keys(options).some((key) => !allowed.has(key))

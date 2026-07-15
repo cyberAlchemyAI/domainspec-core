@@ -1,0 +1,70 @@
+{
+  "schema_version": "domainspec-supported-profiles/v1",
+  "authority": {
+    "owner": "definitions/minted-project",
+    "role": "minted-project-profile-admission",
+    "release_admission": "not-granted"
+  },
+  "registry_bindings": {
+    "kinds": {
+      "path": "definitions/meta-types/meta-types.yml",
+      "sha256": "a3c37a65ed1bffa5cf2dc4e6b11ccffd4463a24e341a234abf60c916f6ab0f04"
+    },
+    "relationships": {
+      "path": "definitions/relationships/relationships.yml",
+      "sha256": "567fda214dbf3d2cdfe8f360020d2497cccc611bbcfd05f2fd885e8ad308ab41"
+    }
+  },
+  "profiles": [
+    {
+      "id": "feature-with-independent-node-files",
+      "version": "1",
+      "status": "experimental",
+      "source_layout": "per-node-connections",
+      "kinds": ["Entity", "Event", "Operation", "Rule"],
+      "formation_schemas": {
+        "Entity": "impl/spec/minted-project/formations/entity-body.schema.json",
+        "Event": "impl/spec/minted-project/formations/event-body.schema.json",
+        "Operation": "impl/spec/minted-project/formations/operation-body.schema.json",
+        "Rule": "impl/spec/minted-project/formations/rule-body.schema.json"
+      },
+      "relationships": [
+        {
+          "id": "enforces",
+          "source_kind": "Rule",
+          "target_kind": "Operation",
+          "registry_status": "active"
+        },
+        {
+          "id": "performs",
+          "source_kind": "Entity",
+          "target_kind": "Operation",
+          "registry_status": "active"
+        },
+        {
+          "id": "produces",
+          "source_kind": "Operation",
+          "target_kind": "Event",
+          "registry_status": "active"
+        }
+      ],
+      "effective_when": [
+        "all v1 source and generated-view schemas validate",
+        "the normalized positive fixture and five named negative controls pass",
+        "the evaluated profile and language registry digests are recorded in the build receipt"
+      ],
+      "evidence": {
+        "decision_id": "DEC-DSV2-MINTED-PROJECT-NODE-PACKAGE",
+        "selected_design": "layout-a",
+        "conformance_fixture": "impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door",
+        "release_admission": "deferred"
+      },
+      "non_goals": [
+        "cross-feature completeness",
+        "independent edge lifecycle",
+        "release admission",
+        "consumer domain authority"
+      ]
+    }
+  ]
+}
