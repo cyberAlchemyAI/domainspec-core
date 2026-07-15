@@ -64,3 +64,24 @@ surface them.
 
 ### 7. Ambiguous / doesn't fit
 - Ask the user before loading docs or acting; state which routes you considered.
+
+<!-- roadmap-lab-how-to-notification:start -->
+## Pending Roadmap Lab walkthrough notification
+
+At session start, read
+`projects/domainspec-v2/development/first-production-release/visibility/notifications/victor-roadmap-lab-how-to.md`.
+The notification owns its recipient, status, schedule, guide, and exact prompt.
+
+- If it is `pending` and the operator is Victor, surface its exact **First prompt** before
+  normal work. If the operator is unknown, mention once that a notification is pending
+  for Victor and continue unless they identify themselves as Victor. Do not surface it
+  to a different known operator.
+- If it is `scheduled`, surface it only to Victor on or after `scheduled_for`.
+- If it is `in_progress`, offer Victor the notification's resume path.
+- If it is `completed` or `declined`, do not surface it. Route an authorized Task
+  Session to remove this complete marked block from both root `AGENTS.md` and
+  `CLAUDE.md`.
+
+Displaying the notification does not authorize execution, proposal acceptance, roadmap
+mutation, or release-state change.
+<!-- roadmap-lab-how-to-notification:end -->
