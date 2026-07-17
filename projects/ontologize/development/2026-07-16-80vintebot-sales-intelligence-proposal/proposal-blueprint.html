@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Proposta de descoberta: Ontologize para inteligência comercial no 80VinteBot.">
+  <link rel="icon" href="data:,">
+  <title>Ontologize para o 80VinteBot</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f6f7f3;
+      --surface: #ffffff;
+      --soft: #edf2ee;
+      --ink: #17201d;
+      --muted: #58635f;
+      --line: #d4ddd7;
+      --green: #12664f;
+      --green-dark: #0a4938;
+      --blue: #246a83;
+      --coral: #b84f3b;
+      --gold: #a87513;
+      --red-soft: #f8ece8;
+      --blue-soft: #eaf3f6;
+      --green-soft: #e8f2ed;
+      --shadow: 0 18px 50px rgba(23, 32, 29, 0.10);
+      --content: 1160px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.62;
+      letter-spacing: 0;
+    }
+
+    button, a { font: inherit; }
+
+    a { color: inherit; }
+
+    button:focus-visible,
+    a:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid rgba(36, 106, 131, 0.35);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 100;
+      padding: 8px 12px;
+      transform: translateY(-150%);
+      border: 1px solid var(--ink);
+      border-radius: 4px;
+      background: var(--surface);
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(212, 221, 215, 0.92);
+      background: rgba(246, 247, 243, 0.96);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar-inner {
+      width: min(calc(100% - 40px), var(--content));
+      min-height: 62px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      font-weight: 800;
+    }
+
+    .brand-mark {
+      width: 26px;
+      height: 26px;
+      flex: 0 0 26px;
+      border: 2px solid var(--green);
+      border-radius: 5px;
+      background: var(--surface);
+      box-shadow: inset 8px 0 0 var(--blue), inset -8px 0 0 var(--coral);
+    }
+
+    .brand span:last-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .top-actions a,
+    .print-button {
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: var(--surface);
+      color: var(--ink);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .top-actions a:hover,
+    .print-button:hover { border-color: var(--green); }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      width: min(100%, 1440px);
+      margin: 0 auto;
+    }
+
+    .side-nav {
+      position: sticky;
+      top: 62px;
+      align-self: start;
+      height: calc(100vh - 62px);
+      padding: 34px 22px;
+      overflow: auto;
+      border-right: 1px solid var(--line);
+    }
+
+    .nav-label {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .side-nav a {
+      display: block;
+      padding: 7px 9px;
+      border-left: 2px solid transparent;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      line-height: 1.35;
+    }
+
+    .side-nav a:hover,
+    .side-nav a.is-active {
+      border-left-color: var(--green);
+      color: var(--ink);
+      background: var(--surface);
+    }
+
+    main { min-width: 0; }
+
+    .section {
+      border-bottom: 1px solid var(--line);
+      scroll-margin-top: 61px;
+    }
+
+    .section-inner {
+      width: min(calc(100% - 64px), var(--content));
+      margin: 0 auto;
+      padding: 74px 0;
+    }
+
+    .hero .section-inner {
+      padding-top: 42px;
+      padding-bottom: 42px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p, ul, ol, figure { margin-top: 0; }
+
+    h1 {
+      max-width: 900px;
+      margin-bottom: 16px;
+      font-size: 3.75rem;
+      line-height: 1.02;
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-bottom: 18px;
+      font-size: 2.35rem;
+      line-height: 1.12;
+      font-weight: 820;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+
+    .lede {
+      max-width: 800px;
+      margin-bottom: 22px;
+      color: #35423d;
+      font-size: 1.25rem;
+      line-height: 1.55;
+    }
+
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 22px;
+      margin-bottom: 26px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border: 1px solid #c88978;
+      border-radius: 999px;
+      background: var(--red-soft);
+      color: #793326;
+      font-weight: 760;
+    }
+
+    .map-figure {
+      margin: 0;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .map-section .section-inner {
+      padding-top: 0;
+      padding-bottom: 52px;
+    }
+
+    .map-figure figcaption {
+      margin-bottom: 20px;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .map-flow {
+      display: grid;
+      grid-template-columns: minmax(150px, 1.25fr) 30px minmax(125px, 1fr) 30px minmax(125px, 1fr) 30px minmax(150px, 1.2fr);
+      align-items: stretch;
+      gap: 8px;
+    }
+
+    .map-node {
+      min-height: 108px;
+      padding: 15px;
+      border-top: 4px solid var(--green);
+      background: var(--green-soft);
+    }
+
+    .map-node:nth-of-type(3) {
+      border-top-color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .map-node:nth-of-type(5) {
+      border-top-color: var(--gold);
+      background: #f6f0df;
+    }
+
+    .map-node:nth-of-type(7) {
+      border-top-color: var(--coral);
+      background: var(--red-soft);
+    }
+
+    .map-step {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .map-node strong {
+      display: block;
+      font-size: 1rem;
+      line-height: 1.35;
+    }
+
+    .map-node p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .map-arrow {
+      display: grid;
+      place-items: center;
+      color: var(--green);
+      font-size: 1.55rem;
+      font-weight: 800;
+    }
+
+    .notice {
+      margin: 22px 0 0;
+      padding: 16px 18px;
+      border-left: 4px solid var(--coral);
+      background: var(--red-soft);
+      color: #63352c;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 64px;
+      align-items: start;
+    }
+
+    .section-intro {
+      max-width: 700px;
+      margin-bottom: 34px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .question-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--line);
+    }
+
+    .question-list li {
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr);
+      gap: 14px;
+      padding: 17px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .question-list b {
+      color: var(--coral);
+      font-size: 0.8rem;
+    }
+
+    .plain-list {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .plain-list li { margin-bottom: 9px; }
+
+    .band-soft { background: var(--soft); }
+    .band-white { background: var(--surface); }
+
+    .scope-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 34px;
+    }
+
+    .scope-column {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+    }
+
+    .scope-column.no { border-top: 4px solid var(--coral); }
+    .scope-column.yes { border-top: 4px solid var(--green); }
+
+    .deliverables {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+      margin-top: 34px;
+    }
+
+    .deliverable {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr);
+      gap: 16px;
+      min-height: 152px;
+      padding: 24px 20px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .deliverable:nth-child(even) { border-right: 0; }
+
+    .deliverable-number {
+      color: var(--coral);
+      font-size: 0.85rem;
+      font-weight: 850;
+    }
+
+    .deliverable p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .impact-chain {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      margin: 34px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .impact-step {
+      min-height: 142px;
+      padding: 20px 16px;
+      border-right: 1px solid var(--line);
+    }
+
+    .impact-step:last-child { border-right: 0; }
+
+    .impact-step b {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--green);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+    }
+
+    .impact-step:nth-child(2) b { color: var(--blue); }
+    .impact-step:nth-child(3) b { color: var(--gold); }
+    .impact-step:nth-child(4) b,
+    .impact-step:nth-child(5) b { color: var(--coral); }
+
+    .impact-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .decision-example {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 34px;
+      padding: 28px 0;
+      border-top: 3px solid var(--green);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .decision-statement {
+      margin: 0;
+      padding: 18px;
+      border-left: 4px solid var(--blue);
+      background: var(--blue-soft);
+      color: #264d5c;
+      font-weight: 720;
+    }
+
+    .measurement-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .measurement {
+      min-height: 148px;
+      padding: 18px;
+      border-top: 4px solid var(--green);
+      background: var(--surface);
+    }
+
+    .measurement:nth-child(2) { border-top-color: var(--blue); }
+    .measurement:nth-child(3) { border-top-color: var(--coral); }
+    .measurement strong { display: block; margin-bottom: 8px; }
+    .measurement p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+    .formula {
+      margin: 22px 0 0;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      background: #101714;
+      color: #e6f0eb;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.88rem;
+      overflow-wrap: anywhere;
+    }
+
+    .evidence-table {
+      width: 100%;
+      margin-top: 28px;
+      border-collapse: collapse;
+      background: var(--surface);
+    }
+
+    .evidence-table th,
+    .evidence-table td {
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .evidence-table th {
+      color: var(--muted);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+    }
+
+    .evidence-table td:last-child {
+      width: 34%;
+      font-weight: 720;
+    }
+
+    .known { color: var(--green-dark); }
+    .test { color: var(--gold); }
+    .unknown { color: var(--coral); }
+
+    details {
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    details:first-of-type { border-top: 1px solid var(--line); }
+
+    summary {
+      cursor: pointer;
+      padding: 18px 8px;
+      color: var(--ink);
+      font-weight: 760;
+    }
+
+    details ol,
+    details ul {
+      margin: 0;
+      padding: 0 32px 24px 42px;
+    }
+
+    details li { margin-bottom: 10px; }
+
+    .decision {
+      background: var(--green-dark);
+      color: #f5faf7;
+    }
+
+    .decision .eyebrow { color: #8ed0b8; }
+    .decision .section-inner { padding-top: 78px; padding-bottom: 82px; }
+    .decision h2 { max-width: 920px; font-size: 3rem; }
+    .decision p { max-width: 780px; color: #c9ddd5; }
+
+    .decision-line {
+      margin: 34px 0 0;
+      padding: 22px 0 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.24);
+      color: #ffffff;
+      font-size: 1.18rem;
+      font-weight: 700;
+    }
+
+    footer {
+      padding: 28px 32px 40px;
+      background: #101714;
+      color: #9fb0a9;
+      font-size: 0.82rem;
+    }
+
+    .footer-inner {
+      width: min(100%, var(--content));
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    footer p { max-width: 760px; margin: 0; }
+    footer a { color: #d8e7e0; }
+
+    @media (max-width: 1120px) {
+      .shell { grid-template-columns: 1fr; }
+      .side-nav { display: none; }
+      h1 { font-size: 3.35rem; }
+    }
+
+    @media (max-width: 820px) {
+      .section-inner { width: min(calc(100% - 36px), var(--content)); padding: 56px 0; }
+      .hero .section-inner { padding-top: 34px; padding-bottom: 34px; }
+      h1 { font-size: 2.65rem; }
+      h2 { font-size: 2rem; }
+      .lede { font-size: 1.1rem; }
+      .map-flow { grid-template-columns: 1fr 1fr; }
+      .map-arrow { display: none; }
+      .map-node { min-height: 124px; }
+      .map-section .section-inner { padding-top: 0; padding-bottom: 40px; }
+      .notice { padding: 12px 14px; font-size: 0.9rem; line-height: 1.45; }
+      .split, .scope-grid { grid-template-columns: 1fr; gap: 30px; }
+      .impact-chain { grid-template-columns: 1fr 1fr; }
+      .impact-step { min-height: 0; border-bottom: 1px solid var(--line); }
+      .impact-step:nth-child(even) { border-right: 0; }
+      .impact-step:last-child { grid-column: 1 / -1; }
+      .decision-example { grid-template-columns: 1fr; gap: 18px; }
+      .measurement-grid { grid-template-columns: 1fr; }
+      .deliverables { grid-template-columns: 1fr; }
+      .deliverable { border-right: 0; }
+      .evidence-table, .evidence-table tbody, .evidence-table tr, .evidence-table td { display: block; }
+      .evidence-table thead { display: none; }
+      .evidence-table tr { padding: 14px 0; border-bottom: 1px solid var(--line); }
+      .evidence-table td { width: auto !important; border: 0; padding: 5px 14px; }
+      .decision h2 { font-size: 2.35rem; }
+    }
+
+    @media (max-width: 560px) {
+      .topbar-inner { width: calc(100% - 24px); gap: 10px; }
+      .brand span:last-child { max-width: 210px; font-size: 0.86rem; }
+      .top-actions a { display: none; }
+      .print-button { min-width: 76px; }
+      h1 { font-size: 2.2rem; }
+      h2 { font-size: 1.72rem; }
+      .map-figure { padding: 16px; }
+      .impact-chain { grid-template-columns: 1fr; }
+      .impact-step { border-right: 0; }
+      .impact-step:last-child { grid-column: auto; }
+      .footer-inner { display: block; }
+    }
+
+    @media print {
+      @page { margin: 14mm; }
+      body { background: #fff; font-size: 10.5pt; }
+      .topbar, .side-nav, .skip-link { display: none !important; }
+      .shell { display: block; }
+      .section { break-inside: avoid; }
+      .section-inner { width: 100%; padding: 28px 0; }
+      .hero .section-inner { padding-top: 0; }
+      h1 { font-size: 34pt; }
+      h2 { font-size: 22pt; }
+      .map-figure { box-shadow: none; }
+      .decision { background: #fff; color: var(--ink); border-top: 3px solid var(--green-dark); }
+      .decision p, .decision .eyebrow { color: var(--muted); }
+      .decision-line { color: var(--ink); border-top-color: var(--line); }
+      footer { background: #fff; color: var(--muted); padding-left: 0; padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" aria-label="Ontologize para o 80VinteBot">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Ontologize × 80VinteBot</span>
+      </div>
+      <div class="top-actions">
+        <a href="#decisao">Próxima decisão</a>
+        <button class="print-button" type="button" onclick="window.print()">Imprimir</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <nav class="side-nav" aria-label="Navegação da proposta">
+      <p class="nav-label">Nesta proposta</p>
+      <a href="#inicio">Visão geral</a>
+      <a href="#problema">O problema</a>
+      <a href="#piloto">O piloto</a>
+      <a href="#impacto">Impacto financeiro</a>
+      <a href="#entregaveis">Entregáveis</a>
+      <a href="#preparar">Antes do teste</a>
+      <a href="#decisao">Decisão</a>
+    </nav>
+
+    <main id="conteudo">
+      <section class="section hero band-white" id="inicio" data-section>
+        <div class="section-inner">
+          <p class="eyebrow">Proposta de descoberta · 16 de julho de 2026</p>
+          <h1>Conversas que viram inteligência comercial.</h1>
+          <p class="lede">O Ontologize pode transformar conversas de vendas em um mapa revisável de necessidades, objeções, critérios de qualificação e próximos passos, sempre ligado às mensagens que sustentam cada interpretação.</p>
+          <div class="status-line">
+            <span class="status-pill">Em validação</span>
+            <span>Piloto colaborativo e sem cobrança</span>
+            <span>Offline, supervisionado e sem acesso à produção</span>
+          </div>
+
+          <p class="notice"><strong>Limite desta proposta:</strong> descoberta, não integração pronta, auditoria, certificação ou promessa de receita.</p>
+        </div>
+      </section>
+
+      <section class="section map-section band-white" aria-label="Fluxo da proposta">
+        <div class="section-inner">
+          <figure class="map-figure" aria-labelledby="map-caption">
+            <figcaption id="map-caption">A proposta em uma linha: da conversa a uma decisão humana explicável.</figcaption>
+            <div class="map-flow">
+              <div class="map-node">
+                <span class="map-step">Fonte</span>
+                <strong>Conversa de vendas</strong>
+                <p>O que o cliente disse, perguntou ou deixou sem resposta.</p>
+              </div>
+              <div class="map-arrow" aria-hidden="true">→</div>
+              <div class="map-node">
+                <span class="map-step">Estrutura</span>
+                <strong>Mapa comercial</strong>
+                <p>Necessidades, objeções, critérios e relações.</p>
+              </div>
+              <div class="map-arrow" aria-hidden="true">→</div>
+              <div class="map-node">
+                <span class="map-step">Comparação</span>
+                <strong>Conversa × CRM</strong>
+                <p>O que foi preservado, alterado ou perdido.</p>
+              </div>
+              <div class="map-arrow" aria-hidden="true">→</div>
+              <div class="map-node">
+                <span class="map-step">Autoridade</span>
+                <strong>Responsável decide</strong>
+                <p>Confirmar, contestar, repetir, ajustar ou encerrar.</p>
+              </div>
+            </div>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section" id="problema" data-section>
+        <div class="section-inner split">
+          <div>
+            <p class="eyebrow">O problema em uma cena</p>
+            <h2>O CRM diz “lead qualificado”. A conversa sabe por quê.</h2>
+            <p class="section-intro">Pelo posicionamento público, o 80VinteBot já atua no ponto em que grande parte da inteligência comercial nasce: a conversa com o cliente. O desafio vem depois, quando o significado precisa sobreviver ao resumo, ao campo e à passagem entre equipes.</p>
+          </div>
+          <ol class="question-list">
+            <li><b>01</b><span>O interesse foi declarado pelo cliente ou inferido pelo atendimento?</span></li>
+            <li><b>02</b><span>Qual necessidade sustentou a qualificação?</span></li>
+            <li><b>03</b><span>Que pergunta ou objeção importante ficou sem resposta?</span></li>
+            <li><b>04</b><span>O CRM preservou o próximo passo ou apenas registrou o desfecho?</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section band-white" id="piloto" data-section>
+        <div class="section-inner">
+          <p class="eyebrow">Primeiro teste</p>
+          <h2>Mapa de Inteligência de Conversas de Vendas</h2>
+          <p class="section-intro">Escolhemos uma etapa do funil e verificamos se o mapa revela uma mudança comercial relevante que hoje exige reler conversas ou cruzar registros.</p>
+
+          <div class="scope-grid">
+            <div class="scope-column yes">
+              <h3>Dentro do piloto</h3>
+              <ul class="plain-list">
+                <li>uma etapa do funil e um tipo de oferta;</li>
+                <li>conversas sintéticas ou anonimizadas;</li>
+                <li>comparação offline com o registro atual;</li>
+                <li>revisão humana e recomendação final.</li>
+              </ul>
+            </div>
+            <div class="scope-column no">
+              <h3>Fora do piloto</h3>
+              <ul class="plain-list">
+                <li>credenciais, mensagens ou escritas em produção;</li>
+                <li>ações autônomas;</li>
+                <li>auditoria ou certificação;</li>
+                <li>promessa de conversão ou receita.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="section band-soft" id="impacto" data-section>
+        <div class="section-inner">
+          <p class="eyebrow">Da análise ao dinheiro</p>
+          <h2>Uma decisão é uma mudança operacional testável.</h2>
+          <p class="section-intro">Decisão é uma regra que muda, com responsável, métrica e limite definido.</p>
+
+          <div class="impact-chain" aria-label="Cadeia da evidência ao impacto financeiro">
+            <div class="impact-step"><b>01 · Evidência</b><p>As conversas revelam uma condição recorrente e rastreável.</p></div>
+            <div class="impact-step"><b>02 · Decisão X</b><p>O responsável muda uma regra para um grupo definido de leads.</p></div>
+            <div class="impact-step"><b>03 · Comportamento</b><p>Atendimento, encaminhamento ou follow-up passam a agir de outra forma.</p></div>
+            <div class="impact-step"><b>04 · Venda</b><p>Medimos avanço no funil, propostas e negócios ganhos.</p></div>
+            <div class="impact-step"><b>05 · Receita</b><p>Comparamos receita por lead elegível e verificamos custos e margem.</p></div>
+          </div>
+
+          <div class="decision-example">
+            <div>
+              <p class="eyebrow">Exemplo ilustrativo</p>
+              <h3>Uma objeção de preço fica sem resposta.</h3>
+              <p>O mapa encontra leads que declararam intenção de compra, mas mantiveram uma objeção de preço aberta e receberam apenas o follow-up genérico.</p>
+            </div>
+            <div>
+              <p class="decision-statement"><strong>Decisão X:</strong> para esse grupo, encaminhar a conversa a uma pessoa em até 15 minutos e exigir um próximo passo com data. O prazo é ilustrativo; a regra real seria definida com o cliente.</p>
+            </div>
+          </div>
+
+          <h3 style="margin-top: 36px;">Como saber se a decisão produziu valor</h3>
+          <div class="measurement-grid">
+            <div class="measurement"><strong>Métrica econômica principal</strong><p>Receita por lead elegível e quantidade de vendas no grupo observado.</p></div>
+            <div class="measurement"><strong>Indicadores intermediários</strong><p>Tempo de encaminhamento, reuniões, propostas e conversão entre etapas.</p></div>
+            <div class="measurement"><strong>Guardrails</strong><p>Carga humana, cancelamentos, reclamações, descontos, custo e margem.</p></div>
+          </div>
+          <p class="formula">receita por lead elegível = receita atribuída aos leads elegíveis ÷ total de leads elegíveis</p>
+          <p class="notice"><strong>Dois testes:</strong> o piloto offline especifica a decisão candidata. Impacto em receita exige outro experimento, autorizado e comparável. Melhorar reuniões sem melhorar vendas ou margem não prova ganho financeiro.</p>
+        </div>
+      </section>
+
+      <section class="section" id="entregaveis" data-section>
+        <div class="section-inner">
+          <p class="eyebrow">O que o 80VinteBot receberia</p>
+          <h2>Quatro entregáveis para decidir.</h2>
+          <div class="deliverables">
+            <article class="deliverable"><span class="deliverable-number">01</span><div><h3>Vocabulário e mapa das conversas</h3><p>Conceitos comerciais ligados às mensagens que os sustentam.</p></div></article>
+            <article class="deliverable"><span class="deliverable-number">02</span><div><h3>Lacunas, objeções e próximos passos</h3><p>O que ficou ausente, ambíguo ou sem encaminhamento.</p></div></article>
+            <article class="deliverable"><span class="deliverable-number">03</span><div><h3>Comparação conversa × CRM</h3><p>O que foi preservado, alterado ou perdido no registro.</p></div></article>
+            <article class="deliverable"><span class="deliverable-number">04</span><div><h3>Scorecard de decisão</h3><p>Resultado, limites e recomendação: parar, ajustar ou avançar.</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section band-soft" id="preparar" data-section>
+        <div class="section-inner">
+          <p class="eyebrow">Antes de construir</p>
+          <h2>O que precisa estar claro antes do teste.</h2>
+          <p class="section-intro">A proposta avança somente com um problema real, um responsável, dados permitidos e uma métrica útil.</p>
+          <details>
+            <summary>Evidências e desconhecidos</summary>
+            <table class="evidence-table">
+              <thead><tr><th>Afirmação</th><th>Situação atual</th></tr></thead>
+              <tbody>
+                <tr><td>O 80VinteBot oferece automação comercial por conversas.</td><td class="known">Observado em material público; o ambiente real não foi inspecionado.</td></tr>
+                <tr><td>O Ontologize possui desenho para conhecimento estruturado e revisável.</td><td class="known">Sustentado pelos artefatos atuais.</td></tr>
+                <tr><td>O mapa ajudará uma decisão do 80VinteBot.</td><td class="test">Hipótese do primeiro teste.</td></tr>
+                <tr><td>A abordagem aumentará receita.</td><td class="unknown">Desconhecido; exige experimento posterior.</td></tr>
+              </tbody>
+            </table>
+          </details>
+          <details>
+            <summary>Dados, autoridade e saída</summary>
+            <ul>
+              <li>Usar o mínimo necessário, de preferência sintético ou anonimizado, com acesso e descarte definidos.</li>
+              <li>O 80VinteBot decide o que fazer; cada parte mantém seus dados, tecnologia e materiais anteriores.</li>
+              <li>Nada é publicado sem autorização e qualquer lado pode encerrar sem obrigação futura.</li>
+            </ul>
+          </details>
+          <details>
+            <summary>Seis perguntas de descoberta</summary>
+            <ol>
+              <li>Qual etapa do funil exige reler conversas?</li>
+              <li>Qual regra vocês estariam dispostos a mudar?</li>
+              <li>Quem revisa o resultado e toma a decisão?</li>
+              <li>Quais conversas podem ser usadas e quais dados são proibidos?</li>
+              <li>Qual métrica do cliente representa valor?</li>
+              <li>Que resultado significa continuar, retestar ou parar?</li>
+            </ol>
+          </details>
+        </div>
+      </section>
+
+      <section class="section decision" id="decisao" data-section>
+        <div class="section-inner">
+          <p class="eyebrow">Próxima decisão</p>
+          <h2>Existe uma decisão operacional que vale um teste pequeno?</h2>
+          <p>Para responder sim, precisamos de uma etapa do funil, uma regra que pode mudar, um responsável, conversas permitidas e uma métrica de resultado.</p>
+          <p class="decision-line">Primeiro demonstrar utilidade fora da produção. Depois decidir se uma integração merece existir.</p>
+        </div>
+      </section>
+
+      <footer>
+        <div class="footer-inner">
+          <p><strong>Ontologize para o 80VinteBot</strong><br>Proposta de descoberta preparada em 16 de julho de 2026. Este documento não representa contrato, auditoria, certificação, aprovação ou promessa de resultado comercial.</p>
+          <p>Contexto público: <a href="https://agencia80vinte.com.br/" target="_blank" rel="noreferrer">80VinteBot</a></p>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const links = Array.from(document.querySelectorAll('.side-nav a'));
+    const sections = Array.from(document.querySelectorAll('[data-section]'));
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+      if (!visible) return;
+      links.forEach((link) => {
+        const active = link.getAttribute('href') === `#${visible.target.id}`;
+        link.classList.toggle('is-active', active);
+        if (active) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: [0, 0.25, 0.5] });
+
+    sections.forEach((section) => observer.observe(section));
+  </script>
+</body>
+</html>
