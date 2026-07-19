@@ -1,0 +1,64 @@
+{
+  "timestamp": "2026-07-17T00:08:01Z",
+  "run_id": "definitions-governance-fpr01-meta-type-reconciliation-20260717T000801Z",
+  "session_id": "domainspec-v2-fpr01-2026-07-16",
+  "sigil": "definitions-governance",
+  "tier": "formulae",
+  "mode": "update",
+  "request": {
+    "summary": "Reconcile DomainSpec v2 canonical meta-type definitions to the accepted FPR-01 authority baseline.",
+    "intent": "Close the definitions-owned FPR01 meta-type blocker with synchronized machine, human, index, drift, and consumer surfaces."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "Canonical DS-D1 registry reconciled to 13 active backend types, one superseded ID, nine UI candidates, and two differentiated deferred UI labels.",
+      "Three-voice human cards and definition index synchronized for every stable DS-D1 ID.",
+      "Minted-project registry digests and deterministic fixtures rebound to the new authority bytes.",
+      "Definitions Governance receipt emitted at projects/domainspec-v2/definitions/reviews/2026-07-16-fpr01-meta-type-reconciliation.md."
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/definitions/DEFINITION-DRIFT-AUDIT.md",
+      "projects/domainspec-v2/definitions/DEFINITIONS-INDEX.md",
+      "projects/domainspec-v2/definitions/DEFINITIONS.md",
+      "projects/domainspec-v2/definitions/meta-types/meta-types.yml",
+      "projects/domainspec-v2/definitions/meta-types/meta-types.md",
+      "projects/domainspec-v2/definitions/minted-project/supported-profiles.yml",
+      "projects/domainspec-v2/definitions/reviews/README.md",
+      "projects/domainspec-v2/definitions/reviews/2026-07-08-d6-node-noncollapse.md",
+      "projects/domainspec-v2/definitions/reviews/2026-07-16-fpr01-meta-type-reconciliation.md",
+      "projects/domainspec-v2/impl/spec/meta-types/LEARNING-ORDER.md",
+      "projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/project.json",
+      "projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/conformance/positive/message-delivery/project.json",
+      "projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/negative/source-path-escape/case.json",
+      "projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/graph.json",
+      "projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/source-manifest.json",
+      "projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/markdown-view.json",
+      "projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/build-receipt.json"
+    ],
+    "validation": [
+      "FPR01 canonical validator PASS twice with identical normalized digest.",
+      "FPR01 five-mutant suite PASS.",
+      "Documentation, relationships, content, instances, non-collapse, and typecheck PASS.",
+      "Minted-project focused suite PASS 30 of 30.",
+      "Full tools suite PASS 99 of 101; both failures are the separate retired-reference guard.",
+      "Focused stale-literal scan and git diff whitespace check PASS."
+    ],
+    "notes": "Definitions-owned blocker is resolved; aggregate FPR01 remains blocked by retired-reference classification and sample content normalization."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "process",
+        "severity": "medium",
+        "summary": "The zero-active retired-reference guard cannot yet classify required superseded-ID mentions in canonical authority surfaces.",
+        "evidence": "The guard fails on seven exact files while all definitions and registry validations pass; four are required canonical tombstone surfaces and three are pre-existing evidence files."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "targeted-update"
+  }
+}

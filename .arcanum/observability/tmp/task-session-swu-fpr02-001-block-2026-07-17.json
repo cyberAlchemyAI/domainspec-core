@@ -1,0 +1,55 @@
+{
+  "timestamp": "2026-07-17T07:21:24Z",
+  "run_id": "task-session-swu-fpr02-001-block-2026-07-17",
+  "session_id": "2026-07-17-swu-fpr02-001",
+  "sigil": "task-session",
+  "tier": "arcana",
+  "mode": "execute",
+  "command": "task-session --swu SWU-FPR02-001 until blocker",
+  "request": {
+    "summary": "Start the next ready DomainSpec foundation task and continue only until a real blocker.",
+    "intent": "Execute bounded ready work, preserve hard gates, and stop at the first consequential unresolved choice."
+  },
+  "execution": {
+    "status": "blocked",
+    "outputs": [
+      "Strict 14-source Context Builder pack with 12/12 Decision Gate coverage",
+      "Blocked Task Session human and machine receipts",
+      "Durable in-progress FPR-02 Decision Gate artifact"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR02-001/context/CONTEXT-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR02-001/context/context-pack.json",
+      "projects/domainspec-v2/development/first-production-release/decisions/2026-07-17-fpr02-supported-profile-decision.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR02-001/TASK-SESSION-RESULT.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR02-001/task-session-result.json"
+    ],
+    "validation": [
+      "Selected exactly one uniquely ready SWU",
+      "Context JSON parsed and 14/14 source digests matched",
+      "Context obligations covered 12/12 for Decision Gate",
+      "Direct Body War feature and state contracts included",
+      "Decision artifact contains three options plus Explain / more context",
+      "No subagents spawned or left open",
+      "No implementation or continuation state changed",
+      "Production authorization remains false"
+    ],
+    "notes": "Task Session correctly stopped at the first blocker: owner choice on DomainSpec UI meta-type admission for the FPR-02 supported profile."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "process",
+        "severity": "low",
+        "summary": "The first context draft used synthesized FPR findings instead of the directly named Body War witness files.",
+        "evidence": "Self-audit caught the weakness before Decision Gate; two redundant summaries were replaced with the owned feature and state contracts while preserving the 14-file budget."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR02-001/TASK-SESSION-RESULT.md"
+}

@@ -1,0 +1,76 @@
+{
+  "timestamp": "2026-07-17T04:43:56Z",
+  "run_id": "invoke-refresh-fpr01-004-ratification-sync-2026-07-17",
+  "session_id": "2026-07-17-fpr01-004-ratification-sync",
+  "sigil": "invoke",
+  "tier": "spells",
+  "mode": "refresh",
+  "command": "invoke refresh",
+  "request": {
+    "summary": "Synchronize verified FPR01-004 records, close the completed FPR-01 boundary, and identify the next route.",
+    "intent": "Consume the verified ratification receipt, synchronize continuation and roadmap records, close only evidence-supported work, and preserve future authority gates."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "Applied Invoke refresh report for FPR01-004 ratification synchronization",
+      "Machine-readable refresh receipt with exact digest bindings",
+      "Synchronized Craft continuation and FPR roadmap records",
+      "Regenerated deterministic interactive roadmap read models"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/WORK-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/EXECUTION-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/IMPLEMENTATION-LAYERING.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/tasks/TASK-FPR-01-AUTHORITY-BASELINE.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/waves/W1-AUTHORITY-BASELINE.md",
+      "projects/domainspec-v2/.craft/ledger.yml",
+      "projects/domainspec-v2/CRAFT.md",
+      "projects/domainspec-v2/development/first-production-release/ROADMAP.md",
+      "projects/domainspec-v2/development/first-production-release/craft/expected-node-edge-manifest.yml",
+      "projects/domainspec-v2/development/first-production-release/visibility/roadmap-copy.json",
+      "projects/domainspec-v2/development/first-production-release/visibility/tests/test_build_roadmap.py",
+      "projects/domainspec-v2/development/first-production-release/visibility/tests/fixtures/roadmap-copy/valid.presentation-copy.json",
+      "projects/domainspec-v2/development/first-production-release/visibility/roadmap-data.json",
+      "projects/domainspec-v2/development/first-production-release/visibility/roadmap.html",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-004-ratification-sync/context/CONTEXT-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-004-ratification-sync/context/context-pack.json",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-004-ratification-sync/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-004-ratification-sync/refresh-report.json"
+    ],
+    "validation": [
+      "14/14 selected source preimage digests matched before mutation",
+      "Craft indexes and exact artifact pointers passed",
+      "Roadmap generation and deterministic check passed",
+      "Visibility tests passed 30/30",
+      "Canonical validator produced byte-identical output across two runs",
+      "Five authority-baseline mutants were killed",
+      "Retired-orchestration audit passed with zero violations",
+      "Implementation tests passed 101/101 and lint was clean",
+      "Refresh receipt JSON and all recorded digests passed"
+    ],
+    "notes": "FPR-01 and W1 closed from verified evidence. FPR-02 is available but unselected; later foundation work and production authorization remain open."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "process",
+        "severity": "low",
+        "summary": "Repeated YAML gate keys made an unqualified correction target the root context before exact-context repair.",
+        "evidence": "The roadmap builder rejected the intermediate FPR gate state; exact context assertions then restored root build/flag and release plan/block before closeout."
+      },
+      {
+        "category": "template",
+        "severity": "low",
+        "summary": "A new roadmap status label required manual synchronization of two exact count assertions and one valid-copy fixture.",
+        "evidence": "Initial visibility validation failed three focused tests; the declared write scope was amended and the complete 30-test suite then passed."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-004-ratification-sync/REFRESH-REPORT.md"
+}

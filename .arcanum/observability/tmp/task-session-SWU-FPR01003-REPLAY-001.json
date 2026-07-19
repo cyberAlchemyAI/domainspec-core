@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-07-17T00:00:03Z",
+  "run_id": "task-session-SWU-FPR01003-REPLAY-001-2026-07-17",
+  "session_id": "fpr01003-repair-chain-2026-07-17",
+  "sigil": "task-session",
+  "tier": "formulae",
+  "mode": "execute",
+  "request": {
+    "summary": "Replay FPR01-003 after both implementation repairs and stop at the next owner boundary.",
+    "intent": "Replace the blocked result only if canonical, mutant, and aggregate validation all pass."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "FPR01-003 replay PASS receipt",
+      "Machine-readable replay result",
+      "Strict replay context pack"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR01-003/TASK-SESSION-RESULT.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR01-003/replay-result.json",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR01-003/context/replay-2026-07-17/CONTEXT-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR01-003/context/replay-2026-07-17/context-pack.json"
+    ],
+    "validation": [
+      "Two canonical validator runs exited zero with byte-identical output",
+      "All five named mutants were killed",
+      "Full implementation validation passed 101 tests with zero failures",
+      "Post-receipt retired-reference audit passed with zero violations",
+      "Machine receipt parsed as JSON",
+      "Diff hygiene passed"
+    ],
+    "notes": "The replay preserved validation-candidate status and every authority, completion, release-entry, and production flag as false."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR01-003/TASK-SESSION-RESULT.md"
+}

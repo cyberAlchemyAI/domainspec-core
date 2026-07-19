@@ -1,0 +1,60 @@
+{
+  "timestamp": "2026-07-17T04:19:49Z",
+  "run_id": "task-session-SWU-FPR01-004-2026-07-17",
+  "session_id": "fpr01-authority-baseline-ratification-2026-07-17",
+  "sigil": "task-session",
+  "capability": {
+    "id": "task-session",
+    "kind": "sigil",
+    "tier": "formulae",
+    "mode": "execute"
+  },
+  "mode": "execute",
+  "request": {
+    "summary": "Execute the single selected SWU-FPR01-004 until its next owner boundary.",
+    "intent": "Create and independently verify the digest-bound FPR-01 authority-baseline ratification receipt."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "Authority-baseline ratification receipt",
+      "Strict human and machine context pack",
+      "Human and machine Task Session PASS receipts"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/first-production-release/evidence/authority-baseline-ratification.json",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR01-004/context/CONTEXT-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR01-004/context/context-pack.json",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR01-004/TASK-SESSION-RESULT.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR01-004/task-session-result.json"
+    ],
+    "validation": [
+      "Strict context covered 12 of 12 obligations with zero blockers",
+      "Ratification receipt closed-shape and JSON checks passed",
+      "All 19 bound paths and SHA-256 digests verified",
+      "Two canonical validator runs passed with equal complete output",
+      "All five named mutants were killed",
+      "Deliberate baseline mutation was rejected by digest and E_STATUS exit 23",
+      "Post-closeout guard audit passed with zero violations",
+      "Post-closeout implementation validation passed 101 tests with zero failures and clean lint",
+      "Exact scoped whitespace and machine-result checks passed"
+    ],
+    "notes": "The exact baseline digest is ratified while the baseline artifact remains an unchanged validation-candidate. FPR-01 completion, Craft, roadmap, FPR-02 entry, successor selection, and production remain unsynchronized or unauthorized."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "process",
+        "severity": "low",
+        "summary": "Out-of-tree mutation replay requires preserving the validator's relative schema layout.",
+        "evidence": "The first isolated copy produced E_SCHEMA plus E_STATUS; a corrected temporary schema link isolated the intended E_STATUS rejection at exit 23."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/foundation-execution/runs/SWU-FPR01-004/TASK-SESSION-RESULT.md"
+}

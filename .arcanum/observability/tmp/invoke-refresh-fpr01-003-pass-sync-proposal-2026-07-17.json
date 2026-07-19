@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-07-17T12:00:00Z",
+  "run_id": "invoke-refresh-fpr01-003-pass-sync-proposal-2026-07-17",
+  "session_id": "fpr01-003-pass-sync-2026-07-17",
+  "sigil": "invoke",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "refresh"
+  },
+  "mode": "refresh",
+  "request": {
+    "summary": "Refresh FPR01-003 workflow projections from the completed replay evidence.",
+    "intent": "Determine and author the evidence-backed synchronization delta without exceeding Invoke authority."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "Invoke refresh report",
+      "Machine-readable refresh report",
+      "Concrete patch proposal",
+      "Strict human context pack",
+      "Strict machine context pack"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-003-pass-sync-proposal/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-003-pass-sync-proposal/refresh-report.json",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-003-pass-sync-proposal/REFRESH-PATCH-PROPOSAL.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-003-pass-sync-proposal/context/CONTEXT-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-003-pass-sync-proposal/context/context-pack.json"
+    ],
+    "validation": [
+      "Context coverage passed 10 of 10 obligations",
+      "Both machine artifacts parse as JSON",
+      "Every proposed change maps to known signal and target IDs",
+      "All 11 target preimage digests match",
+      "Post-write retired-reference audit passes with zero violations",
+      "Scoped diff hygiene passes"
+    ],
+    "notes": "Phase status is flag because plain refresh defaults to proposal-only. No target workflow artifact was mutated; explicit apply-approved authorization is the next gate."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "navigation-efficiency",
+        "severity": "low",
+        "summary": "Inventory does not yet index the current FPR01-003 replay receipt.",
+        "evidence": "Machine-index lookup found the FPR roadmap synthesis but required a bounded workflow filename fallback for the new replay."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-003-pass-sync-proposal/REFRESH-REPORT.md"
+}

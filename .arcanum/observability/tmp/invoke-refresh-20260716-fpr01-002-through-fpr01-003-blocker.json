@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-07-16T23:47:42Z",
+  "run_id": "invoke-refresh-20260716T234742Z-fpr01-002-through-fpr01-003-blocker",
+  "session_id": "session-20260716-dsv2-fpr01-003",
+  "sigil": "invoke",
+  "tier": "spells",
+  "mode": "refresh",
+  "capability": {"id":"invoke","kind":"spell","tier":"spells","mode":"refresh","alias":null},
+  "request": {
+    "raw": null,
+    "summary": "Synchronize FPR01-002 activation, its verified receipt, FPR01-003 selection, and the final blocker state.",
+    "intent": "Advance continuation state only from verified evidence and stop without selecting FPR01-004 when FPR01-003 blocks."
+  },
+  "execution": {
+    "status": "completed_with_blocker_sync",
+    "outputs": [
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-16-fpr01-002-adoption-activation/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-16-fpr01-002-receipt-sync/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-16-fpr01-003-blocker-sync/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/WORK-PACK.md",
+      "projects/domainspec-v2/.craft/ledger.yml",
+      "projects/domainspec-v2/development/first-production-release/visibility/roadmap-data.json"
+    ],
+    "files_changed": [
+      "foundation execution controls and three refresh receipts",
+      "DomainSpec-v2 Craft machine and human views",
+      "generated FPR roadmap JSON and HTML"
+    ],
+    "validation": [
+      "strict context FPR01-002: 10/10",
+      "strict context FPR01-003: 12/12 for construction",
+      "all bound SHA-256 values matched",
+      "Craft YAML and reference integrity passed",
+      "roadmap deterministic checks passed",
+      "successor selection denied from blocked receipt",
+      "git diff check passed"
+    ],
+    "notes": "The refresh stream preserved separate activation, task receipt, successor selection, and blocker synchronization phases; no authority repair or successor was collapsed into a refresh."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-16-fpr01-003-blocker-sync/REFRESH-REPORT.md"
+}

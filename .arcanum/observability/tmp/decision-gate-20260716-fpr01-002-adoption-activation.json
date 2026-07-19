@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-07-16T23:47:41Z",
+  "run_id": "decision-gate-20260716T234741Z-fpr01-002-adoption-activation",
+  "session_id": "session-20260716-dsv2-fpr01-003",
+  "sigil": "decision-gate",
+  "tier": "arcana",
+  "mode": "activation-selection",
+  "capability": {"id":"decision-gate","kind":"sigil","tier":"arcana","mode":"activation-selection","alias":null},
+  "request": {
+    "raw": null,
+    "summary": "Resolve FPR01-002 activation and treatment of the existing owner-disposition packet.",
+    "intent": "Select a fail-closed route that preserves accepted owner decisions and does not preauthorize a successor."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "projects/domainspec-v2/development/first-production-release/evidence/FPR01-002-ADOPTION-ACTIVATION-DECISION.md"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/first-production-release/evidence/FPR01-002-ADOPTION-ACTIVATION-DECISION.md"
+    ],
+    "validation": [
+      "two decisions resolved",
+      "combined narrow activation selected",
+      "unchanged digest-bound adoption selected",
+      "FPR01-003 execution explicitly denied",
+      "production authorization false",
+      "git diff check passed"
+    ],
+    "notes": "The gate resolved activation and adoption while preserving separate post-task synchronization and all authority boundaries."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/evidence/FPR01-002-ADOPTION-ACTIVATION-DECISION.md"
+}

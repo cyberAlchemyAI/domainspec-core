@@ -1,0 +1,60 @@
+{
+  "timestamp": "2026-07-17T04:19:48Z",
+  "run_id": "invoke-refresh-fpr01-003-pass-sync-apply-2026-07-17",
+  "session_id": "fpr01-003-pass-sync-apply-2026-07-17",
+  "sigil": "invoke",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "refresh"
+  },
+  "mode": "refresh",
+  "request": {
+    "summary": "Apply the approved FPR01-003 PASS synchronization proposal, then hand the selected unit to Task Session.",
+    "intent": "Synchronize completed replay evidence without executing ratification or opening later release work."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "Applied FPR01-003 PASS synchronization",
+      "Completed W1R continuation state",
+      "Selected SWU-FPR01-004 without executing it",
+      "Human and machine applied-refresh reports"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/WORK-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/EXECUTION-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/IMPLEMENTATION-LAYERING.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/tasks/TASK-FPR-01-AUTHORITY-BASELINE.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/tasks/TASK-FPR01-003-REMEDIATION.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/waves/W1-AUTHORITY-BASELINE.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/waves/W1R-FPR01-003-REMEDIATION.md",
+      "projects/domainspec-v2/.craft/ledger.yml",
+      "projects/domainspec-v2/development/first-production-release/visibility/roadmap-data.json",
+      "projects/domainspec-v2/development/first-production-release/visibility/roadmap.html",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-003-pass-sync/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-003-pass-sync/refresh-report.json"
+    ],
+    "validation": [
+      "All 11 proposal preimage digests matched",
+      "Roadmap generation and deterministic check passed",
+      "Visibility tests passed 30 of 30",
+      "Canonical validator passed twice with equal complete output",
+      "All five authority-baseline mutants were killed",
+      "Full implementation validation passed 101 tests with zero failures",
+      "Current guard audit passed with zero violations",
+      "Applied report JSON and scoped diff hygiene passed"
+    ],
+    "notes": "The refresh synchronized continuation state only. FPR-01 remained open, SWU-FPR01-004 was selected but unexecuted, and all later authority boundaries remained false."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-003-pass-sync/REFRESH-REPORT.md"
+}

@@ -1,5 +1,81 @@
 # Inventory Log
 
+## 2026-07-17 ingest — verification-derivation claims review strategy result
+
+- Mode: ingest/backfill of a confirmed governed subagent review dispatch.
+- Repository: `/home/vrondelli/projects/domainspec-core`.
+- Inventory root: `.arcanum/inventory/`.
+- Sources processed: 7 (accepted `attacks.md` and `findings.md`, paper,
+  claim-level research contract, E1 protocol, observability specification, and
+  append-only dispatch ledger).
+- Entries created: 1 accepted synthesis entry; entries updated: 0.
+- Strategy: P1 synthesis/context-protection/isolation/parallelism trigger; three
+  whole-corpus attackers with robot-talks; one synthesizer; two tensioned
+  definitional/counterexample verifiers; one dedicated coverage auditor;
+  double-PASS tension gate; explicit human confirmation; deterministic
+  registration; resolved closeout.
+- Result: target verdict `FIX` with seven MAJOR findings. Narrow pure-function
+  and backend-engine determinism survive; exact LLM reproducibility, public
+  derivation executability, additive set cardinality, complete 20-rule count,
+  exhaustive test/monitor symmetry, uniform O-rule evaluation, and layer-wide
+  severity universals do not survive at their stated strength.
+- Validation: verifier zig-zag converged at round 2 with `NO OBJECTION` /
+  `NO OBJECTION`; final auditor returned `ACCEPT`; `git diff --check` passed for
+  review artifacts and ledger; inventory updater dry-run and append passed.
+- Index: `index.json` 183 -> 184 entries and the matching `index.md` row were
+  updated through deterministic `inventory-update.cjs`; emitted uncontrolled-tag
+  warnings were pre-existing and did not include this entry's controlled tags.
+- Ledger: dispatch `2026-07-17-verification-derivation-claims-review` closed
+  `resolved` with 7 agents, 0 helpers, and 1 whole-dispatch loop.
+- Next human action: route a bounded paper repair through the owning lifecycle;
+  preserve the engine-specific KEEP claim while narrowing the LLM, cardinality,
+  symmetry, observability-uniformity, and severity statements.
+- Authority: non-authority Inventory read model only. No paper, claim,
+  definition, observability, engine, or implementation authority was promoted.
+
+## 2026-07-16 ingest — DomainSpec language type-enforcement proof strategy result
+
+- Mode: ingest/backfill of a confirmed subagent research dispatch.
+- Repository: `/home/vrondelli/projects/domainspec-core`.
+- Inventory root: `.arcanum/inventory/`.
+- Sources processed: 6 (accepted `research.md` and `findings.md`, dispatch
+  ledger, Framework concept map, live relationship authority, and imported
+  formalization boundary).
+- Entries created: 1 accepted synthesis entry; entries updated: 0.
+- Strategy: P1 dispatch trigger, three explorer lenses, one synthesizer, two
+  robot-talk reviewer gates, one writer, one auditor, double-PASS tension gate,
+  human confirmation, deterministic registration, and resolved closeout are
+  preserved in the read model.
+- Result: current DomainSpec v2 sustains bounded sampled post-parse endpoint
+  rejection and observed trace retention. Framework language design, imported
+  stale Lean metatheory, and translation machinery do not yet form an operative
+  unified language or proof chain. The five-judgment repair remains candidate.
+- Validation: relationship validation passed 3 specs / 14 edges / 30
+  signatures; content validation passed 20 concepts / 14 edges / 13 schemas;
+  tool tests passed 99/101, with both failures disclosed as existing
+  retired-reference guard residue.
+- Index: `index.json` 177 -> 178 entries and the matching `index.md` row were
+  updated through the deterministic `inventory-update.cjs` appender; controlled
+  tags were reused. Pre-existing uncontrolled-tag warnings remain outside this
+  entry.
+- Ledger: dispatch `2026-07-16-domainspec-language-type-enforcement-proof`
+  closed `resolved` with 8 agents and 1 whole-dispatch loop.
+- Next human action: select an owner-routed fail-closed parser completeness
+  experiment before any language, type-system, formalization, or bridge
+  promotion.
+- Authority: non-authority Inventory read model only. No definition, schema,
+  language, type, implementation, or formalization authority was promoted.
+
+## 2026-07-16 ingest — creator-pack marketplace blockchain custody and card-only settlement
+
+- Mode: ingest/backfill of a user-directed research addendum.
+- Sources processed: project scope, prior fair-drop findings, gold allocated-custody references, Ethereum token standards, physical-asset NFT proposals, randomness/reserve/access-control implementation references, and Brazilian promotion/tokenization sources.
+- Files created: `projects/creator-pack-marketplace/research/2026-07-15-gradedshop-and-fair-drop-mechanics/blockchain-card-custody-and-card-only-settlement.md` and `entries/creator-pack-marketplace-blockchain-card-custody-card-only-settlement-synthesis.md`.
+- Result: candidate allocated physical custody model; one NFT claim per allocated card; finite-pack verified randomness; redemption escrow; custodian/carrier/buyer delivery attestations; customer-facing card-only settlement with no buyback, cash-out, internal wallet, or guaranteed RTP claim.
+- Inventory: human and machine indexes updated through `inventory-update.cjs`; tags reused from the controlled vocabulary.
+- Residue: legal classification/SPA path, custodian agreement and insurance, public-wallet transfer policy, delivery quorum and dispute path, post-reveal refund treatment, anchor technology, and payment provider remain open.
+- Authority: non-authority Inventory read model only. No implementation, payment, legal, ontology, or definition promotion was made.
+
 ## 2026-07-12 - Compound domain structure calibration generation-3 closeout
 
 - Mode: two fresh-process replays, authority audit, and read-model sync.
@@ -2371,3 +2447,286 @@ Artifacts:
 - Authority: Inventory remains a non-authority read model. No definition,
   authority baseline, engine state, FPR completion, or production claim was
   promoted.
+
+## 2026-07-15 - DomainSpec v2 FPR-01 through FPR-04 cost-estimate closeout
+
+- Mode: resolved strategy-result ingest for a confirmed research dispatch,
+  retained with a missing-review flag.
+- Dispatch: seven executed research roles produced three explorer reports, one
+  synthesis, one completed skeptic review, one findings artifact, and one
+  independent final audit; the auditor returned `ACCEPT` after one bounded
+  writer repair. The planned definitional-soundness reviewer did not launch at
+  the runtime thread ceiling.
+- Remaining FPR estimate: 13 receipt-serial SWUs model at 26.5 / 48 / 86
+  engineering PD plus 24 / 52 / 100 narrow owner-review hours. The separate
+  calendar envelope is 10-16 / 20-32 / 41-68 weeks. Completed
+  `SWU-FPR01-001` census work is sunk and excluded from every band.
+- Route result: assurance-first plus learning map models at 46 / 84 / 150 PD;
+  candidate-first plus rebind at 50 / 94 / 174 PD, with a 4 / 10 / 24 PD
+  incremental tax. Candidate-first may advance interactive evidence only on a
+  separate lane and closes no FPR gate.
+- Inventory: added
+  `entries/domainspec-v2-fpr01-04-cost-estimate-strategy-result-synthesis.md`;
+  machine and human indexes updated through `inventory-update.cjs`.
+- Residue: both route budgets are `PROVISIONAL` pending an independent
+  definitional-soundness review; effort, calendar, Task Session equivalents,
+  aggregate hours, and CPU remain non-collapsed; all ranges are modeled rather
+  than measured.
+- Authority: Inventory is a read model. No budget, route, FPR closure,
+  learning-map posture, resource allocation, SLA, or release date was approved.
+
+## 2026-07-16 - Creator-pack legal gate and professional custodian RFP
+
+- Mode: sequential resolved strategy-result ingest for two human-confirmed
+  research dispatches.
+- Dispatches: the legal/payment decision gate closed first; only then did the
+  professional-card-custodian RFP dispatch run. Each used three explorers, one
+  synthesizer, three skeptics, one writer, and one independent auditor; both
+  auditors returned `ACCEPT` after one bounded synthesis/reviewer loop.
+- Legal result: no candidate is cleared to take money. A, B, D, and conditional
+  E remain `HOLD`; transferable NFT and money-like paths are `KILL v1`.
+  Mandatory refunds, chargebacks, taxes, vendor payments, and operating costs
+  disprove the phrase “money never leaves the system.”
+- Custody result: the v1 RFP baseline is professional exact-card allocated
+  custody plus a personal non-transferable registry, signed custodian
+  attestations, and append-only events. Optional public-chain Merkle anchoring
+  proves only scoped digital commitments; authoritative transferable ERC-721,
+  pooled substitution, and creator self-custody are killed for v1.
+- Inventory: added
+  `entries/creator-pack-marketplace-legal-payment-decision-gate-strategy-result-synthesis.md`,
+  `entries/creator-pack-marketplace-professional-custodian-rfp-strategy-result-synthesis.md`,
+  and
+  `entries/creator-pack-marketplace-transferable-nft-custody-hypothesis-contradiction.md`;
+  machine and human indexes were updated through `inventory-update.cjs`.
+- Contradiction handling: the earlier CardNFT candidate remains as historical
+  hypothesis evidence with a visible supersession notice; it was not silently
+  overwritten.
+- Validation: machine index parses with unique IDs; all three human-index rows
+  are present; inventory updater tests pass 6/6; index synchronization tests
+  pass 7/7; dispatch appender tests pass 83/83; both dispatch IDs have exactly
+  one dispatch and one close row; `git diff --check` passes. New entries use
+  controlled tags; existing repository-wide uncontrolled-tag warnings remain.
+- Authority: Inventory is a read model. No legal route, PSP, tax position,
+  custodian, insurer, vendor, blockchain, real-money pilot, or implementation
+  was approved.
+
+## 2026-07-16 - 80VinteBot friend-pilot offer research
+
+- Mode: resolved strategy-result ingest for a human-confirmed research dispatch.
+- Dispatch: three explorers investigated customer desirability, technical
+  feasibility, and no-fee experiment economics; one synthesizer, three
+  skeptics, one writer, and one independent auditor completed the governed
+  pipeline. The auditor returned `ACCEPT` with no revision.
+- Result: interview first and make no offer now. The bounded synthetic
+  configuration-review hypothesis, onboarding-repeatability candidate, and
+  claim-to-evidence candidate are all `KILL pending discovery`.
+- Continuation: use the Portuguese opener and discovery questions in
+  `findings.md`; only a separately governed proposal may follow if a named
+  owner, decision, version boundary, no-production access path, comparison
+  baseline, joined trace, burden cap, and exit authority are witnessed.
+- Inventory: added
+  `entries/80vintebot-friend-pilot-offer-research-strategy-result-synthesis.md`;
+  machine and human indexes updated through `inventory-update.cjs`.
+- Authority: Inventory remains a non-authority read model. No offer, access,
+  pilot, payment, customer value, audit, assurance, certification, compliance,
+  ROI, demand, or revenue claim was approved.
+
+## 2026-07-16 - DomainSpec v2 FPR async-execution strategy closeout
+
+- Mode: resolved strategy-result ingest for a human-confirmed research dispatch.
+- Dispatch: three explorers analyzed the FPR dependency DAG, actual shared
+  resource collisions, and authority permissions; one synthesizer, three
+  attack-vector reviewers, one writer, and one independent auditor completed
+  the governed pipeline. One synthesizer/reviewer convergence loop ran, and the
+  auditor returned `ACCEPT` without a writer revision.
+- Result: the bounded FPR-01 through FPR-04 execution projection remains one
+  manually authorized mutation lane. Three current agent slots can carry
+  registered research, review, diagnostics, and tightly allowlisted
+  preparation, but this does not prove wall-clock speedup or widen authority.
+- Current state: FPR01-002 has an accepted decision packet, untracked files, no
+  Task Session receipt, stale Craft continuation, and denied FPR01-003
+  execution authorization. The current `EXECUTE` queue is empty.
+- Inventory: added
+  `entries/domainspec-v2-fpr-async-execution-strategy-result-synthesis.md`;
+  machine and human indexes updated through `inventory-update.cjs`.
+- Validation: machine index parses with one unique new ID; the human index has
+  one matching row; updater re-run is an idempotent no-op; updater tests pass
+  6/6; index synchronization tests pass 7/7; `git diff --check` passes. The new
+  entry uses controlled tags; existing global uncontrolled-tag warnings remain.
+- Residue: machine state reconciliation, pre-existing-packet adoption, WorkItem
+  side-effect declarations, PREP freshness, typed definition/import edges,
+  runner isolation, bounded code-dispatch ownership, and scheduling telemetry
+  remain gaps. The dedicated research/findings writing skills referenced by the
+  dispatch pipeline were absent and were replaced by explicit one-file
+  contracts without claiming installation.
+- Authority: Inventory remains a non-authority read model. No FPR task,
+  continuation state, successor selection, definition, import decision,
+  scheduler, code mutation, production claim, or canonical authority was
+  completed or promoted.
+
+## 2026-07-17 - Numerai investment-governance transfer research
+
+- Mode: resolved strategy-result ingest for a human-confirmed research dispatch.
+- Dispatch: three explorers separated official example-script precedent,
+  scoring/staking proof limits, and local ownership/authority; one synthesizer,
+  three skeptics, one writer, and one independent auditor completed the
+  governed pipeline. The auditor approved after one bounded writer revision.
+- Result: Numerai is implementation precedent, not a missing product layer.
+  Config-driven evaluation, machine-readable result artifacts, time-respecting
+  validation, and distinct performance/contribution/exposure diagnostics may
+  be adapted only behind local owner decisions. Exact tournament metrics,
+  constants, data/runtime coupling, staking/token authority, live capital, and
+  the claim that Numerai validates Ontologize are rejected.
+- Inventory: added
+  `entries/numerai-investment-governance-transfer-strategy-result-synthesis.md`;
+  machine and human indexes updated through `inventory-update.cjs`.
+- Validation: source artifacts preserve three explorer returns, reciprocal
+  links, the required findings shape, and one registered/resolved ledger pair;
+  inventory machine/human projections and observability JSONL were validated.
+- Residue: no runtime, model, result schema, automation, trade, or realized
+  return was proven; local timing, alignment, diagnostic, artifact, and owner
+  decisions remain open.
+- Authority: Inventory remains a non-authority read model. No financial method,
+  definition, ontology relation, model, staking action, token use, broker
+  action, live capital, or implementation was approved.
+## 2026-07-17 - Invoke Distill enforcement review
+
+- Mode: resolved strategy-result ingest for a human-confirmed review dispatch.
+- Dispatch: three attackers, one synthesizer, two verifiers, and one independent auditor
+  completed one bounded verifier zig-zag; the final auditor returned `ACCEPT` with one
+  controlling provenance interpretation.
+- Result: Invoke can accept authored Distill pass labels without contract-complete execution
+  proof. Workbench remains unverified pending replay; its eleven-SWU decomposition is not
+  substantively rejected. Blanket anti-bias composition is rejected.
+- Inventory: added
+  `entries/invoke-distill-enforcement-review-strategy-result-synthesis.md`; machine and human
+  indexes are updated through `inventory-update.cjs`.
+- Residue: lifecycle acceptance of the evidence architecture, validator and adversarial
+  fixture implementation, Workbench replay, and mirror regeneration remain future work.
+- Authority: Inventory remains a non-authority read model. No Invoke, Distill, Workbench,
+  fixture, generated mirror, DomainSpec, or Saturn authority was changed.
+
+## 2026-07-17 - DomainSpec v2 spec-ontology node layering closeout
+
+- Mode: resolved strategy-result ingest for a human-confirmed DomainSpec research dispatch.
+- Dispatch: three explorers, one synthesizer, three skeptics, one writer, one auditor,
+  and two independent check-tension helpers completed two bounded reviewer cycles; the
+  auditor returned `APPROVE` after one writer repair.
+- Result: the proposed authority-envelope YAML is candidate workflow/provenance design
+  input, not a current minted node, admitted kind, relation, authority decision, or
+  release artifact. One selected profile should compile consumer-owned node sources into
+  one normalized semantic graph; learner and navigation views remain generated overlays.
+- First witness: test the existing DS-D1 `Workflow` formation without collapse, fall back
+  to a newly governed local kind only on recorded failure, compile an edgeless same-feature
+  node, then prove relation traversal, implementation bindings, projection integrity, and
+  cross-feature behavior as separate gates.
+- Inventory: added
+  `entries/domainspec-v2-spec-ontology-node-layering-dispatch-closeout-synthesis.md`;
+  machine and human indexes updated through `inventory-update.cjs`.
+- Residue: the kind fork, selected-profile design, local relation and endpoint type,
+  digest-bound external references, generic traversal, implementation bindings,
+  projection contracts, and cross-feature edges remain owner-routed work.
+- Authority: Inventory remains a non-authority read model. No DomainSpec type, relation,
+  profile, compiler, ontology, authority state, or release state was promoted.
+
+## 2026-07-17 - Whisper concision and reading-flow maintenance review
+
+- Mode: resolved strategy-result ingest for a human-confirmed review dispatch.
+- Dispatch: one read-only auditor tested the cross-repository reflection against canonical
+  Whisper, returned five cited change requests, and the parent accepted and closed the
+  review `resolved` after one loop.
+- Result: maintenance is routed through the existing optional readability extension;
+  retell chains remain conditional, auditions do not prove transports, intent receipts
+  remain authoring-only, and shared envelope normalization remains observability-owned.
+- Inventory: added
+  `entries/whisper-concision-reading-flow-maintenance-review-strategy-result-synthesis.md`;
+  machine and human indexes updated through `inventory-update.cjs`.
+- Validation: the new machine record has one unique ID, the human index has one matching
+  row, and all tags on the new entry are controlled. Existing global uncontrolled-tag
+  warnings remain pre-existing.
+- Authority: Inventory remains a non-authority read model. No transport, definition,
+  private project claim, or shared telemetry schema was promoted.
+
+## 2026-07-17 - DomainSpec v2 FPR-02B integrated consumer-proof refresh
+
+- Mode: approved Invoke refresh applied to the declared backend, IOLM, Body War,
+  Craft, and integrated-manifest surfaces.
+- Result: the BTE planning package now records the accepted 13-kind/16-signature
+  backend scope, independent node/edge roots, causal evidence, and a separate
+  Task Session boundary. IOLM and Body War are indexed as read-only consumers;
+  Body War application authority remains in `projects/body-war/`.
+- Inventory: added
+  `entries/domainspec-v2-fpr02-integrated-consumer-proof-refresh.md` and the
+  corresponding human/machine index record.
+- Residue: `O_spec`, edge resolver witnesses, executable consumer gates, and
+  engine-path authority review remain open. Production authorization is false;
+  no SWU was selected or executed.
+- Authority: Inventory remains a non-authority read model. The refresh does not
+  promote a profile, graph, implementation, consumer gate, or release state.
+
+## 2026-07-17 - Evolvable DomainSpec validation framework strategy result
+
+- Mode: confirmed `domainspec-subagents-strategy` research dispatch, registered and
+  closed through the append-only subagent ledger.
+- Dispatch: `2026-07-17-domainspec-evolvable-validation-framework`; three explorers,
+  one synthesizer, three review gates, one writer, and one auditor; one zig-zag
+  revision; final Bourbaki audit `ACCEPT`.
+- Result: candidate layered framework separates registry/profile/formation,
+  authored node/edge source, generic obligation/test surfaces, and typed evidence
+  receipts. Structural schema/table-walk remains the floor; cross-graph
+  FOL/Cedar/Datalog, bounded Alloy, and bounded TLA are routed only by obligation
+  class and remain candidate where no engine is wired.
+- Evidence: relationship validator passed `1 specs checked, edgesChecked=6,
+  canonicalSignatures=30`; key-and-door compiler witness is deterministic with
+  four nodes, three edges, and seven provenance records. The cycle witness is
+  hand-built research evidence, not a shipped evaluator result.
+- Residue: no end-to-end `TestCase -> evaluator -> typed ReceiptEnvelope`, no wired
+  cross-graph evaluator, profile still 4-of-13, current 30-vs-historical-29
+  relationship drift, Saga/Workflow mismatch, and unvalidated Alloy/TLA models.
+- Inventory: added
+  `entries/domainspec-v2-evolvable-validation-framework-strategy-result-synthesis.md`
+  plus synchronized `index.md` and `index.json`. Inventory remains a
+  non-authority read model; no DomainSpec authority or engine code changed.
+
+## 2026-07-17 - Beginner composability-proof explanation (Whisper)
+
+- Mode: Whisper plain-language guide composed from the accepted evolvable
+  validation findings for a reader with no prior DomainSpec vocabulary.
+- Result: the guide explains the boxes-and-arrows analogy, defines node, edge,
+  relationship signature, validator, obligation, test case, binding, evaluator,
+  receipt, and composability, then walks one `enforces` edge through source,
+  graph, derivation, code witness, test execution, graph evaluation, and receipt.
+- Validation: Whisper draft validator `PASS` (1,320 words; required terms and
+  reader-grounded opening satisfied).
+- Inventory: added
+  `entries/domainspec-v2-composability-proof-plain-language-guide.md` and
+  synchronized `index.md` and `index.json`.
+- Boundary: guide and substrate are explanatory read models only; they do not
+  promote a relationship, test engine, evaluator, receipt, or Inventory entry.
+
+## 2026-07-18 - High-attention experiment protocol research strategy result
+
+- Mode: resolved strategy-result ingest for a human-confirmed research dispatch.
+- Dispatch: `2026-07-18-high-attention-experiment-protocol-research`; four
+  explorers, one synthesizer, three skeptic gates, one writer, and one auditor.
+  The tension gate returned a clean double PASS after lane ownership was
+  clarified; the two-turn reviewer zig-zag converged; final Brandenburg audit
+  returned `APPROVE`.
+- Result: the research is sufficient to author a later experiment
+  specification, but execution remains blocked. It separates present tokens,
+  resident KV, retrieval selection, and successful evidence use; replaces the
+  construct-invalid positive full-versus-compact gate with retention or
+  non-inferiority; and preserves direct checkpoint and difference-in-retention
+  requirements.
+- Typed negatives: the runnable-witness claim and the earlier positive
+  full-minus-compact usable-context formulation are `KILL` until the specified
+  material artifacts, admission witnesses, allocation, and thresholds exist.
+- Inventory: added
+  `entries/high-attention-experiment-protocol-research-strategy-result-synthesis.md`;
+  synchronized `index.md` and `index.json` through `inventory-update.cjs`.
+- Validation: the new record has one unique machine ID, one human-index row,
+  controlled tags, source refs to the transcript/findings/ledger, and explicit
+  non-authority residue. Pre-existing global uncontrolled-tag warnings remain.
+- Authority: Inventory remains a non-authority read model. No experiment spec,
+  preregistration, generator, benchmark, model admission, capacity proof, or
+  experiment run was promoted or created.

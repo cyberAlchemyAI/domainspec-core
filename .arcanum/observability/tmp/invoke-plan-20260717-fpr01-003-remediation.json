@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-07-17T01:08:19Z",
+  "run_id": "invoke-plan-20260717T010819Z-fpr01-003-remediation",
+  "session_id": "domainspec-v2-fpr01-2026-07-16",
+  "sigil": "invoke",
+  "tier": "spells",
+  "mode": "plan",
+  "request": {
+    "raw": null,
+    "summary": "Create an execution-ready Invoke plan for closing the remaining FPR01-003 blockers and reaching the separately gated FPR01-004 ratification.",
+    "intent": "Preserve one canonical work-pack, select the smallest repair SWU, and define fail-closed replay, refresh, and ratification handoffs."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/plans/2026-07-16-fpr01-003-remediation/PLAN-REPORT.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/tasks/TASK-FPR01-003-REMEDIATION.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/waves/W1R-FPR01-003-REMEDIATION.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/dispatches/2026-07-16-fpr01-003-remediation.json",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/WORK-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/EXECUTION-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/IMPLEMENTATION-LAYERING.md",
+      "projects/domainspec-v2/development/first-production-release/foundation-execution/DISTILL-VALIDATION.md"
+    ],
+    "files_changed": [
+      "foundation-execution planning artifacts only"
+    ],
+    "validation": [
+      "Dispatch Spec schema and governance validation PASS.",
+      "Dispatch JSON parse PASS.",
+      "DomainSpec documentation and frontmatter links PASS.",
+      "Scoped git diff whitespace validation PASS.",
+      "Control-table scan confirms only SWU-FPR01003-GUARD-001 is selected.",
+      "Live planning evidence confirms seven guard violations and two sample lint violations."
+    ],
+    "notes": "The plan adds a nested remediation route without creating a second work-pack, dispatching subagents, changing implementation, synchronizing Craft, selecting FPR01-004, or claiming production authority."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/foundation-execution/plans/2026-07-16-fpr01-003-remediation/PLAN-REPORT.md"
+}
