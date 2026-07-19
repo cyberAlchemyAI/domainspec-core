@@ -12,5 +12,6 @@ Staging area for definition terms that are **not yet canonical**, per
 - Using a `represented` term as authority before canonicalization is a drift defect that
   [../DEFINITION-DRIFT-AUDIT.md](../DEFINITION-DRIFT-AUDIT.md) flags.
 
-Currently empty. First candidates (owed, flagged by the drift audit): `layering-governance`,
-`drift-governance` — the two sibling domain-originated governances that lack cards.
+Current review residues are historical or future-formalization inputs; none is active authority. Layering
+governance and drift governance were promoted to `domainspec-v2-D16` and `domainspec-v2-D17` and are no longer
+owed definition candidates.

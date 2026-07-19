@@ -11,6 +11,10 @@ The controlling context is [PLANNING-CONTEXT.md](../../PLANNING-CONTEXT.md).
 - `B`, authoritative `Spec`, projected `Sg`, local `G`, and UI graph are non-collapsible planes.
 - Positive validation without a declared nonempty denominator is insufficient.
 - Production remains unauthorized.
+- `FPR-02B` and `FPR-02U` share FPR-01 inputs but have no cross-lane
+  completion dependency.
+- The backend release profile excludes UI; the UI development profile remains
+  required-by-design and independently executable.
 
 ## Runtime Selection Rule
 
@@ -20,5 +24,6 @@ Task Session selects only the files and selectors named by the active SWU. It ma
 
 - Read: selected private DomainSpec v2 evidence and authority sources.
 - Write: only the active SWU scope.
-- Never write: public `arcanum/`, prior immutable receipts, frozen SGRM-001 manifest, or a predecessor's authority artifacts.
-
+- Never write: public `arcanum/`, prior immutable receipts, frozen SGRM-001
+  manifest, a predecessor's authority artifacts, or the sibling lane's state
+  from a lane-local Task Session.

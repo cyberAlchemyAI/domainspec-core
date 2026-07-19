@@ -36,6 +36,7 @@ export const MINTED_PROJECT_MINTER_ERROR_CODES = [
   "GENERATED_ROOT_ESCAPE",
   "GENERATED_ROOT_CONFLICT",
   "LANGUAGE_UNSUPPORTED",
+  "DEVELOPMENT_PROFILE_INVALID",
   "PACKAGE_UNAVAILABLE",
   "STAGING_BUILD_FAILED",
   "LEAKAGE_DETECTED",
@@ -61,6 +62,7 @@ export interface MintedProjectMintOptions {
   projectId: string;
   generatedRoot?: string;
   profile?: { id: string; version: string };
+  developmentProfileRegistry?: { path: string; handle: string };
   acceptExistingEmpty?: boolean;
 }
 
@@ -93,6 +95,10 @@ export interface MintedProjectMintResult {
 }
 
 type SupportedProfileRegistry = {
+  schema_version?: string;
+  authority?: string | Record<string, unknown>;
+  release_admission?: string;
+  handle?: string;
   registry_bindings: {
     kinds: { sha256: string };
     relationships: { sha256: string };
@@ -224,18 +230,35 @@ function validateGeneratedRoot(projectRoot: string, input: string): { path: stri
   return { path, value };
 }
 
-function readResources(): {
+function readResources(
+  development?: { path: string; handle: string },
+): {
   registry: SupportedProfileRegistry;
   profileDigest: string;
   manifest: ContractManifest;
 } {
   try {
+    const selectedPath = development ? resolve(development.path) : profilePath;
+    const registry = JSON.parse(readFileSync(selectedPath, "utf8")) as SupportedProfileRegistry;
+    if (
+      development &&
+      (registry.schema_version !== "domainspec-development-minted-profile/v0.1" ||
+        registry.authority !== "implementation-owned-development-profile" ||
+        registry.release_admission !== "not-granted" ||
+        registry.handle !== development.handle)
+    ) {
+      throw new MintedProjectMinterError(
+        "DEVELOPMENT_PROFILE_INVALID",
+        "development registry contract or handle does not match",
+      );
+    }
     return {
-      registry: JSON.parse(readFileSync(profilePath, "utf8")) as SupportedProfileRegistry,
-      profileDigest: sha256File(profilePath),
+      registry,
+      profileDigest: sha256File(selectedPath),
       manifest: JSON.parse(readFileSync(contractManifestPath, "utf8")) as ContractManifest,
     };
   } catch (error) {
+    if (error instanceof MintedProjectMinterError) throw error;
     throw new MintedProjectMinterError(
       "PACKAGE_UNAVAILABLE",
       "minted-project profile or schema package is unavailable",
@@ -321,7 +344,7 @@ export function mintMintedProject(
     options.acceptExistingEmpty ?? false,
   );
   const generatedRootInput = options.generatedRoot ?? ".domainspec/generated";
-  const resources = readResources();
+  const resources = readResources(options.developmentProfileRegistry);
   const selectedProfile = options.profile ?? {
     id: "feature-with-independent-node-files",
     version: "1",
@@ -330,7 +353,8 @@ export function mintMintedProject(
     (candidate) =>
       candidate.id === selectedProfile.id &&
       candidate.version === selectedProfile.version &&
-      candidate.status === "experimental",
+      candidate.status ===
+        (options.developmentProfileRegistry ? "development-only" : "experimental"),
   );
   if (!profile) {
     throw new MintedProjectMinterError(
@@ -372,7 +396,12 @@ export function mintMintedProject(
 
     let build;
     try {
-      build = buildMintedProjectViews(stagingRoot);
+      build = buildMintedProjectViews(
+        stagingRoot,
+        options.developmentProfileRegistry
+          ? { developmentProfileRegistry: options.developmentProfileRegistry }
+          : {},
+      );
     } catch (error) {
       throw new MintedProjectMinterError(
         "STAGING_BUILD_FAILED",

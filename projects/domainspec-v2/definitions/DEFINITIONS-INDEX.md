@@ -40,26 +40,40 @@ Load-Bearing Term Tracking rule, `C(meta-4)`) is "tracked" iff it has a row here
 | `domainspec-v2-D23` | composition path consequence | active | method-vocabulary; D18 property | [DEFINITIONS.md#domainspec-v2-d23](./DEFINITIONS.md) |
 | `domainspec-v2-D24` | owner route consequence | active | method-vocabulary; D18 property | [DEFINITIONS.md#domainspec-v2-d24](./DEFINITIONS.md) |
 | `domainspec-v2-D25` | generated artifact consequence | active | method-vocabulary; D18 property | [DEFINITIONS.md#domainspec-v2-d25](./DEFINITIONS.md) |
-| `DS-D1` | Meta-Type System (25 types) | candidate | domain-vocabulary | [meta-types/meta-types.md](./meta-types/meta-types.md) · [.yml](./meta-types/meta-types.yml) |
-| `DS-D1.1` | Entity | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
-| `DS-D1.2` | Value Object | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
-| `DS-D1.3` | Enum | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
-| `DS-D1.4` | Operation | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
-| `DS-D1.5` | Query | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
-| `DS-D1.6` | Calculation | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
-| `DS-D1.7` | Rule | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
-| `DS-D1.8` | Policy | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
-| `DS-D1.9` | Workflow | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
-| `DS-D1.11` | Interface | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
-| `DS-D1.12` | Event | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
-| `DS-D1.13` | Mapping | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
-| `DS-D1.14` | State Machine | candidate | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1` | Meta-Type System (24 staged labels) | active | domain-vocabulary | [meta-types/meta-types.md](./meta-types/meta-types.md) · [.yml](./meta-types/meta-types.yml) |
+| `DS-D1.1` | Entity | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.2` | Value Object | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.3` | Enum | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.4` | Operation | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.5` | Query | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.6` | Calculation | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.7` | Rule | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.8` | Policy | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.9` | Workflow | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.10` | Saga | superseded | domain-vocabulary; stable retired ID | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.11` | Interface | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.12` | Event | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.13` | Mapping | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.14` | State Machine | active | domain-vocabulary; formalized | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.15` | Page | candidate | domain-vocabulary; candidate shape evidence | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.16` | Layout | candidate | domain-vocabulary; candidate shape evidence | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.17` | Component | candidate | domain-vocabulary; candidate shape evidence | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.18` | View Model | candidate | domain-vocabulary; candidate shape evidence | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.19` | Hook | candidate | domain-vocabulary; candidate shape evidence | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.20` | Form | candidate | domain-vocabulary; candidate shape evidence | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.21` | Action | candidate | domain-vocabulary; candidate shape evidence | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.22` | Guard | candidate | domain-vocabulary; candidate shape evidence | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.23` | Binding | candidate | domain-vocabulary; candidate shape evidence | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.24` | Adapter | deferred/merge-candidate | domain-vocabulary; collapse observed | [meta-types.md](./meta-types/meta-types.md) |
+| `DS-D1.25` | State Indicator | deferred/split-candidate | domain-vocabulary; unresolved split | [meta-types.md](./meta-types/meta-types.md) |
 | `DS-D2` | Relationship Verb Set | active | domain-vocabulary; R3A root authority | [DEFINITIONS.md#ds-d2](./DEFINITIONS.md) · [relationships.yml](./relationships/relationships.yml) |
 | `DS-D8` | Relationship Signature Authority | active | domain-vocabulary; R3A root authority | [DEFINITIONS.md#ds-d8](./DEFINITIONS.md) · [relationships.yml](./relationships/relationships.yml) |
 
 ## Status vocabulary
 - `candidate` — first-cited, carries an `Open / to-ground:` field; not yet validation.
 - `active` — a full three-voice card exists and its load-bearing terms resolve.
+- `deferred/*` — retained for a named correction route but not admitted as active authority.
+- `superseded` — retired stable ID retained for history and forbidden from reuse.
 - `deprecated` — superseded; keep the row with its supersedes/superseded-by link (never delete).
 
 <!-- The domain owner maintains this index through the definitions lifecycle. Every row must resolve to a

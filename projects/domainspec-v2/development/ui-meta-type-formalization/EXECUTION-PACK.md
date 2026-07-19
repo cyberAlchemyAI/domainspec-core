@@ -1,12 +1,17 @@
 ---
 module: ui-meta-type-formalization
 feature_code: UIF
-status: draft
-updatedAt: 2026-07-11
+status: completed-historical-superseded
+updatedAt: 2026-07-17
 docType: execution-pack
 ---
 
 # Execution Pack: UI Meta-Type Formalization
+
+> Historical execution choreography. New implementation work starts at
+> [SWU-UIP-001](../ui-profile-implementation/work-pack/tasks/TASK-UIP-CONTRACT.md)
+> and follows the sequential
+> [Required UI Profile Execution Pack](../ui-profile-implementation/EXECUTION-PACK.md).
 
 ## Purpose
 
@@ -17,10 +22,10 @@ of truth for SWU contracts.
 
 | Field | Value |
 | --- | --- |
-| planningGateStatus | block - accepted UIF-010 review requires L2 repair before W3 |
+| planningGateStatus | complete-superseded - no further UIF execution selected |
 | complexity | medium |
 | baselineWave | W0 |
-| activePlanRef | `work-pack/waves/W2.md` |
+| activePlanRef | `../ui-profile-implementation/WORK-PACK.md` |
 | workPackManifest | `WORK-PACK.md` |
 | layeringArtifact | `IMPLEMENTATION-LAYERING.md` |
 | specRef | `SPEC.md` |

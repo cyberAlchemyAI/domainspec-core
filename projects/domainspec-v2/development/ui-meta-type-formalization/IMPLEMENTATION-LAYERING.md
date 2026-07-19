@@ -1,14 +1,19 @@
 ---
 module: ui-meta-type-formalization
 version: current
-status: candidate
-updatedAt: 2026-07-11
+status: historical-evidence-layering
+updatedAt: 2026-07-17
 docType: implementation-layering
 spec: ./SPEC.md
 architecture: ./ARCHITECTURE.md
 ---
 
 # Implementation Layering: UI Meta-Type Formalization
+
+> Historical layering only. Active UI implementation now follows
+> [Required UI Profile Layering](../ui-profile-implementation/IMPLEMENTATION-LAYERING.md),
+> where synthetic evidence gates mechanics and empirical breadth is a
+> non-blocking confidence dimension.
 
 ## Purpose
 

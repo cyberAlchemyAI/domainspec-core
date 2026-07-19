@@ -1,7 +1,7 @@
 ---
 module: domainspec-v2-foundation-execution
-status: planned
-updatedAt: 2026-07-14
+status: refreshed-lane-split
+updatedAt: 2026-07-17
 docType: context-pack
 selectionMode: deep-strict
 ---
@@ -15,8 +15,9 @@ Turn the accepted first-production-release route into an execution-grade plan fo
 ```text
 restore the retired-reference guard
   -> FPR-01 authority baseline
-  -> FPR-02 supported profile
-  -> FPR-03 governed B-to-Spec mapping
+  -> FPR-02 lane split
+       |-> FPR-02B backend release profile -> FPR-03 governed B-to-Spec mapping
+       `-> FPR-02U UI development profile -> future UI authority decision
   -> FPR-04 two-node/one-edge Spec projection
 ```
 
@@ -38,6 +39,10 @@ This is planning evidence, not implementation, authority promotion, profile conf
 | `.arcanum/inventory/entries/domainspec-v2-engine-gap-inventory-dispatch-closeout-synthesis.md` | Accepted Result, Validation, Next Human Action | Non-authority synthesis of current engine and guard evidence. |
 | `projects/domainspec-v2/.craft/ledger.yml` | `CTX-DSV2-FIRST-PRODUCTION-RELEASE`, `FR-FPR-ONTOLOGY-DIRECTION` | Sole continuation authority and live frontier state. |
 | `projects/domainspec-v2/development/first-production-release/ROADMAP.md` | Ordered route, First execution frontier, Persistent frontiers | Canonical operational projection. |
+| `projects/domainspec-v2/development/first-production-release/decisions/2026-07-17-fpr02-supported-profile-decision.md` | resolved lane split; remaining backend decisions | Current owner decision. |
+| `projects/domainspec-v2/development/first-production-release/profile-lanes/fpr02-lanes.yml` | lanes; dependencies; independence; next SWUs | Machine lane projection. |
+| `projects/domainspec-v2/development/ui-profile-implementation/WORK-PACK.md` | status; next SWU; gates | UI lane execution authority. |
+| `projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/WORK-PACK.md` | backend formation plan and blockers | Backend lane companion plan. |
 | `projects/domainspec-v2/development/first-production-release/craft/expected-node-edge-manifest.yml` | Nodes `FPR-01..04`, frontier `FR-FPR-ONTOLOGY-DIRECTION` | Machine projection of target artifacts, dependencies, proof, and negatives. |
 | `projects/domainspec-v2/development/first-production-release/decisions/2026-07-12-product-release-contract.md` | accepted product boundary | Approved scope input. |
 | `projects/domainspec-v2/development/first-production-release/research/2026-07-12-expanded-capability-frontiers/findings.md` | `FPR-01..04`, dependency DAG | Auditor-approved evidence and proof commands. |
@@ -70,14 +75,20 @@ Aggregate: 212 matching files, 1,777 whole-word matches, 208 allowed files, four
 1. Claim must not exceed proof: the roadmap is auditor-approved but not execution authorization and production remains unauthorized.
 2. The frozen SGRM-001 manifest remains frozen. Post-manifest changes use reviewed, exact path/count/reason/digest exceptions.
 3. Reopen existing `SGRM-006/007`; do not create a parallel SGRM lifecycle/gap or claim the 2026-07-11 receipt was false.
-4. `FPR-01..04` remain the lifecycle identities. Task and SWU IDs in this package are execution handles only.
+4. `FPR-02` remains the lifecycle family; `FPR-02B` and `FPR-02U` are its
+   independently resumable lane nodes. Task and SWU IDs remain execution handles.
 5. Before FPR-01 closes, work is limited to guard restoration, census, deterministic drift detection, red fixtures, and proposed source dispositions.
-6. FPR-02 cannot select a favorable count; it consumes the ratified FPR-01 baseline.
+6. Both lanes consume the ratified FPR-01 baseline. Neither may select favorable
+   counts or use the other lane's state as evidence.
 7. `FR-FPR-ONTOLOGY-DIRECTION` must be decided before FPR-03 promotion.
 8. FPR-04 uses exactly one required source, two authoritative nodes, one admitted edge, explicit quotients, and an independently implemented comparator.
 9. The interactive ontology application is a read-only downstream consumer after FPR-04; it cannot mint semantic or lifecycle authority.
 10. No private DomainSpec material may be copied into the public `arcanum/` subtree.
 
-## Write Boundary
+## 2026-07-17 Refresh Boundary
 
-This Invoke run writes only this planning package. It does not change the Craft ledger, authority registries, FPR target artifacts, SGRM guard, allowlist, frozen manifest, implementation, or prior receipts.
+The apply-approved lane refresh may update the FPR decision, planning artifacts,
+Craft continuation, roadmap/manifest projections, and active lane pointers. It
+does not change authority registries, supported-profile implementation, schemas,
+validators, runtime code, SGRM evidence, prior receipts, release state, or
+production authorization.

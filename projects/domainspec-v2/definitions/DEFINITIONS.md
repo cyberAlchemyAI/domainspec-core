@@ -221,23 +221,25 @@ Promotion boundary: local-only
 
 Source kind: method-vocabulary; local-inference
 
-Evidence: [meta-types/meta-types.md](./meta-types/meta-types.md) (the DS-D1 meta-type system) ·
-[impl/spec/TAXONOMY.md](../impl/spec/TAXONOMY.md)
+Evidence: [meta-types/meta-types.yml](./meta-types/meta-types.yml) (machine authority) ·
+[meta-types/meta-types.md](./meta-types/meta-types.md) (three-voice human companion)
 
 Formal voice:
 
 ```text
 meta-type =
-  one of the 25 fixed DomainSpec concept types (the node alphabet of an aspect file).
+  one retained label in the 24-member staged DS-D1 node alphabet.
   every concept declares exactly one meta-type; it fixes the concept's well-formedness
   criterion, its edge participation, and the code pattern it maps to.
 ```
 
-Plain-language voice: one of the 25 fixed concept types a DomainSpec aspect file is built from — the node
-alphabet, like parts of speech for a domain spec. Entity, Rule, Event, …; every concept declares exactly one.
+Plain-language voice: one of the 24 staged concept labels a DomainSpec aspect file may be built from — the
+node alphabet, like parts of speech for a domain spec. Only the 13 backend types are active today; the nine UI
+candidates and two deferred UI labels are not active types.
 
-Domain-context voice: the node vocabulary the content validator checks against; the 25 are carded as
-`DS-D1.1..25` in [meta-types/](./meta-types/meta-types.md) (backend 1–14 formalized; UI 15–25 deferred).
+Domain-context voice: the node vocabulary the content validator checks against. The active backend set is
+`DS-D1.1..9` plus `DS-D1.11..14`; `DS-D1.10 Saga` is superseded and never reused; `DS-D1.15..23` are UI
+candidates; `DS-D1.24` and `.25` are deferred merge/split candidates.
 
 Use carefully: a meta-type is a **node kind**; the relationships between them are **edge verbs** (`DS-D2`), a
 separate vocabulary.
@@ -247,8 +249,8 @@ Misuse warning: do not conflate a meta-type (the kind) with a **concept** (an in
 
 Challenge contract (CAV2-D40, protocol-only): modes = contradiction / scope; edge = "a concept that fits no
 meta-type, needs two, or two meta-types that reduce to one — neither composes into different code from the
-other" → challenges the 25-type closure and irredundancy; owner route = definitions-governance; gate = owner
-decision; blocking questions = (1) "does every concept map to exactly one of the 25?" (2) "does each of the 25
+other" → challenges the staged-set closure and irredundancy; owner route = definitions-governance; gate = owner
+decision; blocking questions = (1) "does every supported concept map to exactly one active type?" (2) "does each active type
 compose into different code, or do two collapse into one node?" — the non-collapse challenge (the node-side
 mirror of the D3 edge-law) is checked by `impl/tools/validate-meta-types-noncollapse.ts`: a separating structural
 witness OR an authority-resolved separating edge witness, with an owner-enumerated exception lane for the
@@ -256,7 +258,7 @@ formal_return_type sort (Rule/Policy/Calculation); residue → `definitions/revi
 2026-07-08 (candidate); see `definitions/reviews/2026-07-08-d6-node-noncollapse.md`.
 
 Confirm contract (promotion — build-from-owned on the cav2 promotion gate): promotes when = owner approves +
-the 25-type set is exercised on ≥1 real aspect + no open contradiction; gate = definitions-governance owner
+the selected profile's type set is exercised on ≥1 real aspect + no open contradiction; gate = definitions-governance owner
 gate; status on confirm = candidate → active.
 
 Promotion boundary: local method vocabulary (DomainSpec v2); names the node alphabet, not an external policy term.
@@ -265,7 +267,7 @@ Promotion boundary: local method vocabulary (DomainSpec v2); names the node alph
 
 Source kind: method-vocabulary; local-inference
 
-Evidence: [impl/spec/TAXONOMY.md](../impl/spec/TAXONOMY.md) · [meta-types/](./meta-types/meta-types.md) (the `<category>/` layout)
+Evidence: [meta-types/meta-types.yml](./meta-types/meta-types.yml) · [meta-types/](./meta-types/meta-types.md)
 
 Formal voice:
 
@@ -278,7 +280,7 @@ category =
 Plain-language voice: the family a meta-type belongs to, grouped by what it does: structural (things),
 behavioral (actions), connective (bridges), lifecycle (evolution), UI.
 
-Domain-context voice: organizes the 25 meta-types and the schema folders
+Domain-context voice: organizes the 24 staged labels and the active backend schema folders
 (`impl/spec/meta-types/<category>/`); the authoring walkthrough proceeds category by category.
 
 Use carefully: a category groups **kinds** (meta-types), not concepts.
@@ -291,7 +293,7 @@ no category, or two" → challenges the five-family closure; owner route = defin
 decision; blocking question = "does each meta-type belong to exactly one family?"; residue → `definitions/reviews/`.
 
 Confirm contract (promotion — build-from-owned on the cav2 promotion gate): promotes when = owner approves +
-all 25 types assigned to exactly one category + no open contradiction; gate = definitions-governance owner
+all staged labels assigned to exactly one category + no open contradiction; gate = definitions-governance owner
 gate; status on confirm = candidate → active.
 
 Promotion boundary: local method vocabulary (DomainSpec v2).
@@ -355,7 +357,7 @@ Plain-language voice: the who-may-connect-to-whom rule — for each edge verb, t
 meta-types; a declared edge with wrong endpoints is rejected.
 
 Domain-context voice: the DS-D8 slice each meta-type card lists (SOURCE of / TARGET of) is now loaded from
-root `definitions/relationships/relationships.yml`. Current authority has 31 active signatures; generated
+root `definitions/relationships/relationships.yml`. Current authority has 30 active signatures; generated
 views such as `owned-by` are navigation only. Distinct from the relationship verb vocabulary (`DS-D2`).
 
 Use carefully: the signature types the **endpoints**; *which* edges earn a type is edge-law admissibility
@@ -1027,7 +1029,7 @@ fragment boundary =
 Plain-language voice: DomainSpec has a typed graph that can compose enough to validate and generate useful
 structure, but it is not yet claiming the full mathematical package of category laws.
 
-Domain-context voice: R3A relationship authority uses this phrase for the current DS-D8 state: 31 active
+Domain-context voice: R3A relationship authority uses this phrase for the current DS-D8 state: 30 active
 relationship signatures with typed endpoints, generated/deferred/deprecated edge policies, and validators
 that reject noncanonical or unconstructible edges. Category laws remain a separate future formalization route.
 
@@ -1055,13 +1057,14 @@ promoting full category law.
 The **DomainSpec domain-vocabulary** scheme (`DS-D*`) — the node/edge alphabet — is maintained **separately**
 from this file's governance/method scheme (`domainspec-v2-D*`), and linked here:
 
-- **meta-type** = one of the 25 DomainSpec concept types (the node alphabet of an aspect file).
+- **meta-type** = one of the 24 staged DomainSpec node labels; maturity determines whether it may be used as active authority.
 - Human cards (per type, 3-voice): [meta-types/meta-types.md](./meta-types/meta-types.md)
 - Machine view (registry): [meta-types/meta-types.yml](./meta-types/meta-types.yml)
 - Criterion (per type, machine-checkable): `impl/spec/meta-types/<category>/<type>.schema.yml`
 
-Status: `DS-D1.1..14` (backend) authored as candidate cards (1-by-1, owner-reviewed voices; each with a
-challenge + confirm contract). `DS-D1.15..25` (UI) deferred (MT5). Relationship verbs (`DS-D2`) and
+Status: `DS-D1.1..9` plus `DS-D1.11..14` are 13 active backend types; `DS-D1.10 Saga` is superseded and its
+ID is not reused; `DS-D1.15..23` are nine UI candidates; `DS-D1.24 Adapter` is a deferred merge-candidate and
+`DS-D1.25 State Indicator` is a deferred split-candidate. Relationship verbs (`DS-D2`) and
 relationship signatures (`DS-D8`) are active from R3A root authority.
 
 ## DS-D2 — Relationship Verb Set

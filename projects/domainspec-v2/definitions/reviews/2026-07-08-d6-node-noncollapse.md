@@ -5,6 +5,11 @@ Card: `domainspec-v2-D6` (meta-type) — status **candidate** (unchanged by this
 Owner route: definitions-governance · gate: owner decision
 Staged by: node-noncollapse-gate-redteam follow-up
 
+Historical-status note (2026-07-16): this residue predates the accepted FPR-01 baseline. Its 25-type/14-type
+and live-collapse statements are superseded by the 24-label, 13-active-backend registry with
+`DS-D1.10` retained as a non-reusable superseded ID. The node non-collapse challenge remains relevant,
+but counts and live-status claims below are historical evidence only.
+
 ## What changed
 
 D6's challenge contract carried **two** coverage challenges — *"a concept that fits no meta-type,

@@ -1,14 +1,19 @@
 ---
 module: ui-meta-type-formalization
 version: current
-status: candidate
-updatedAt: 2026-07-11
+status: historical-evidence-architecture
+updatedAt: 2026-07-17
 docType: architecture-bundle
 authored_by: invoke (design mode)
 spec: ./SPEC.md
 ---
 
 # Architecture: UI Meta-Type Formalization
+
+> Superseded as the active implementation architecture by
+> [Required UI Profile Architecture](../ui-profile-implementation/ARCHITECTURE.md).
+> This file continues to own the historical falsification/replication design and
+> must not be rewritten to imply that its original evidence gates were met.
 
 ## Design Intent
 

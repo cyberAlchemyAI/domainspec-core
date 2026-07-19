@@ -48,9 +48,9 @@ nodes:
 
   - id: FPR-01
     title: authority baseline
-    state: blocked-open
+    state: closed-ratified
     applicability: applies
-    release_timing: blocks-first-release
+    release_timing: closed-prerequisite
     work_kind: capability-and-owner-decision
     owner_route: definitions, validation, and layering owners through existing gates
     dependencies: [FPR-00]
@@ -61,18 +61,38 @@ nodes:
     negative_controls: [mutated authority count, stale projection reference, conflicting ontology direction]
     exit: 13/14, 24/25, 30/31, composability, projection, and direction conflicts are disposed
     omission: every downstream denominator may select stale authority
-    next_move: reconcile the live authority surfaces; do not choose the favorable count
-    evidence_provenance: [research:Agent-1-executive-verdict, prior-roadmap:R1]
+    next_move: preserve the digest-bound receipt and reopen only on the named authority-change trigger
+    evidence_provenance: [research:Agent-1-executive-verdict, prior-roadmap:R1, task-session:SWU-FPR01-004]
     reopen_trigger: authority source, count, status, or direction changes
 
   - id: FPR-02
-    title: product, supported profile, and pilot contract
-    state: blocked
+    title: backend and UI profile lane separation
+    state: closed-lane-split
+    applicability: applies
+    release_timing: closed-coordination-prerequisite
+    work_kind: decision
+    owner_route: claim and semantic owners through invoke and decision-gate
+    dependencies: [FPR-01]
+    artifacts:
+      - projects/domainspec-v2/development/first-production-release/decisions/2026-07-17-fpr02-supported-profile-decision.md
+      - projects/domainspec-v2/development/first-production-release/profile-lanes/README.md
+      - projects/domainspec-v2/development/first-production-release/profile-lanes/fpr02-lanes.yml
+    proof: backend release and UI development have distinct lane IDs, execution owners, receipts, next moves, and promotion targets with no cross-lane completion dependency
+    negative_controls: [implicit lane join, sibling blocker propagation, shared status overwrite, automatic UI release admission]
+    exit: FPR-02B and FPR-02U are independently resumable and neither can mutate or advance the other
+    omission: UI and backend residue can silently block each other or share an ambiguous profile denominator
+    next_move: resume FPR-02B decisions or FPR-02U SWU-UIP-005 independently
+    evidence_provenance: [operator-decision:2026-07-17, invoke-refresh:fpr02-lane-separation]
+    reopen_trigger: a lane becomes dependent on the sibling, a shared substrate invariant fails, or a UI-inclusive release is proposed
+
+  - id: FPR-02B
+    title: backend product, supported profile, and pilot contract
+    state: partial-decision-in-progress
     applicability: applies
     release_timing: blocks-first-release
     work_kind: decision-and-capability
-    owner_route: claim and semantic owners through invoke and decision-gate
-    dependencies: [FPR-01]
+    owner_route: backend claim and semantic owners through invoke and decision-gate
+    dependencies: [FPR-01, FPR-02]
     artifacts:
       - projects/domainspec-v2/development/first-production-release/product-contract.yml
       - projects/domainspec-v2/development/first-production-release/schemas/product-contract.schema.json
@@ -84,13 +104,34 @@ nodes:
       - projects/domainspec-v2/development/first-production-release/pilot/rollback-matrix.yml
       - projects/domainspec-v2/development/first-production-release/pilot/allowed-redacted-fields.yml
       - projects/domainspec-v2/development/first-production-release/evidence/profile-digest.json
-    proof: one validator consumes every artifact and emits one stable profile digest
-    negative_controls: [empty profile, unknown type, absent root, placeholder owner, missing obligation kind, unresolved origin, empty redaction allowlist]
-    exit: exact supported concepts, relations, documents, commands, writes, languages, obligations, roots, generated artifacts, failures, claims, and pilot route are frozen
+    proof: one validator consumes every backend/pilot artifact and emits one stable profile digest
+    negative_controls: [empty profile, unknown type, UI type, absent root, placeholder owner, missing obligation kind, unresolved origin, empty redaction allowlist]
+    exit: exact backend concepts, relations, documents, commands, writes, languages, obligations, roots, generated artifacts, failures, claims, and pilot route are frozen
     omission: denominators, behavior, interfaces, and pilot relevance remain undefined
-    next_move: author schemas and deliberate red fixtures after FPR-01
-    evidence_provenance: [accepted-decision, research:Agent-2-E1, research:Agent-3-BW-01]
+    next_move: resume SWU-FPR02-001 at the four remaining backend/profile/pilot decision groups
+    evidence_provenance: [accepted-decision, research:Agent-2-E1, research:Agent-3-BW-01, operator-decision:2026-07-17]
     reopen_trigger: profile, claim, pilot, callback, origin, or redaction boundary changes
+
+  - id: FPR-02U
+    title: required UI development profile
+    state: partial-development-active
+    applicability: development-only
+    release_timing: does-not-block-backend-first-release
+    work_kind: capability-and-owner-handoff
+    owner_route: UI profile implementation owners followed by DS-D1, DS-D8, and profile owners
+    dependencies: [FPR-01, FPR-02]
+    artifacts:
+      - projects/domainspec-v2/development/ui-profile-implementation/WORK-PACK.md
+      - projects/domainspec-v2/development/ui-profile-implementation/UI-PROFILE-DESIGN.json
+      - projects/domainspec-v2/development/ui-profile-implementation/ARCHITECTURE.md
+      - projects/domainspec-v2/development/ui-profile-implementation/IMPLEMENTATION-LAYERING.md
+    proof: lane-owned receipts prove mechanical formation, graph integration, authority packet completeness, and integrated audit without canonical or release mutation
+    negative_controls: [backend blocker propagation, implicit canonical activation, implicit release admission, synthetic evidence labeled empirical]
+    exit: exact UI development result and residue are handed to canonical owners
+    omission: required UI vocabulary remains unimplemented or its authority deltas stay ambiguous
+    next_move: run SWU-UIP-005 under the existing UI work-pack
+    evidence_provenance: [required-ui-profile-refresh:2026-07-17, task-session:SWU-UIP-001, operator-decision:2026-07-17]
+    reopen_trigger: UI concept inventory, representation, shared compiler contract, or authority disposition changes
 
   - id: FPR-03
     title: governed business plane and B-to-Spec mapping
@@ -99,7 +140,7 @@ nodes:
     release_timing: blocks-first-release
     work_kind: capability
     owner_route: business and semantic owners with ontology-harness and definitions-governance
-    dependencies: [FPR-02]
+    dependencies: [FPR-02B]
     artifacts:
       - projects/domainspec-v2/development/first-production-release/graphs/business-ontology.json
       - projects/domainspec-v2/development/first-production-release/graphs/business-knowledge.json
@@ -277,7 +318,7 @@ nodes:
     release_timing: blocks-first-release
     work_kind: capability-and-operation
     owner_route: Body War product and operator owner through task-session
-    dependencies: [FPR-02]
+    dependencies: [FPR-02B]
     artifacts:
       - projects/domainspec-v2/development/first-production-release/pilot/body-war-scenario.yml
       - projects/domainspec-v2/development/first-production-release/pilot/body-war-api-fixtures/
@@ -287,7 +328,7 @@ nodes:
     negative_controls: [auth failure, missing consent, forbidden field, token leak, private payload leak, CSRF, bad origin, illegal promotion, removed rule, removed transition]
     exit: exact API journey passes; callback, origin, deployment, consent, and redaction applicability are closed
     omission: a green pilot may be irrelevant or authority-inflating
-    next_move: resolve FR-FPR-BW-ORIGIN-ROUTE at FPR-02
+    next_move: resolve FR-FPR-BW-ORIGIN-ROUTE at FPR-02B
     evidence_provenance: [research:Agent-3-BW-09, research:Agent-2-Body-War]
     reopen_trigger: Body War API, provider, callback, origin, consent, redaction, or claim changes
 
@@ -298,7 +339,7 @@ nodes:
     release_timing: blocks-first-release
     work_kind: capability-hardening-operation
     owner_route: runtime, state, security, support, and operator owners
-    dependencies: [FPR-02]
+    dependencies: [FPR-02B]
     artifact_roots:
       - projects/domainspec-v2/impl/test-derivation-engine/dist/cli.js
       - projects/domainspec-v2/development/first-production-release/runtime-manifest.json
@@ -417,7 +458,9 @@ nodes:
 edges:
   - {from: FPR-00, to: FPR-01, kind: depends-on}
   - {from: FPR-01, to: FPR-02, kind: depends-on}
-  - {from: FPR-02, to: FPR-03, kind: depends-on}
+  - {from: FPR-02, to: FPR-02B, kind: branches-to}
+  - {from: FPR-02, to: FPR-02U, kind: branches-to}
+  - {from: FPR-02B, to: FPR-03, kind: depends-on}
   - {from: FPR-03, to: FPR-04, kind: depends-on}
   - {from: FPR-04, to: FPR-05, kind: depends-on}
   - {from: FPR-04, to: FPR-06, kind: depends-on}
@@ -432,8 +475,8 @@ edges:
   - {from: FPR-06, to: FPR-09, kind: joins}
   - {from: FPR-07, to: FPR-09, kind: joins}
   - {from: FPR-08, to: FPR-09, kind: joins}
-  - {from: FPR-02, to: FPR-10, kind: depends-on}
-  - {from: FPR-02, to: FPR-11, kind: depends-on}
+  - {from: FPR-02B, to: FPR-10, kind: depends-on}
+  - {from: FPR-02B, to: FPR-11, kind: depends-on}
   - {from: FPR-04, to: FPR-12, kind: joins}
   - {from: FPR-05, to: FPR-12, kind: joins}
   - {from: FPR-06, to: FPR-12, kind: joins}
@@ -526,4 +569,3 @@ persistent_protocol:
     - explicit human confirmation
     - dispatch registration
     - append-only closeout
-

@@ -25,7 +25,26 @@ indexes:
     CTX-DSV2-CODE-TAG-CONFORMANCE: contexts[7]
     CTX-DSV2-AGENT-SPEC-CONFORMANCE: contexts[8]
     CTX-DSV2-FIRST-PRODUCTION-RELEASE: contexts[9]
-    CTX-DSV2-FPR-VISIBILITY: contexts[10]
+    CTX-DSV2-FPR02-BACKEND: contexts[10]
+    CTX-DSV2-FPR02-UI: contexts[11]
+    CTX-DSV2-FPR-VISIBILITY: contexts[13]
+    CTX-DSV2-FPR02B-CONSUMER-PROOF: contexts[12]
+    ART-DSV2-FPR01003-GUARD-RECEIPT: artifacts[39]
+    ART-DSV2-FPR01003-SAMPLE-RECEIPT: artifacts[40]
+    ART-DSV2-FPR01003-REPLAY-RESULT: artifacts[41]
+    ART-DSV2-FPR01003-PASS-SYNC: artifacts[42]
+    ART-DSV2-FPR01-004-RATIFICATION: artifacts[43]
+    ART-DSV2-FPR01-004-RECEIPT: artifacts[44]
+    ART-DSV2-FPR01-004-SYNC: artifacts[45]
+    ART-DSV2-FPR02-LANE-CONTRACT: artifacts[46]
+    ART-DSV2-FPR02-BACKEND-DECISION: artifacts[47]
+    ART-DSV2-FPR02-UI-PLAN: artifacts[48]
+    ART-DSV2-FPR02-LANE-REFRESH: artifacts[49]
+    ART-DSV2-FPR02-BTE-PLAN: artifacts[50]
+    ART-DSV2-FPR02-IOLM-CONSUMER: artifacts[51]
+    ART-DSV2-FPR02-BODY-WAR-CONSUMER: artifacts[52]
+    ART-DSV2-FPR02-INTEGRATED-MANIFEST: artifacts[53]
+    ART-DSV2-FPR02-INTEGRATED-REFRESH: artifacts[54]
   open_decisions:
     - DEC-DSV2-LANE-ZA
   blocking_decisions: []
@@ -76,14 +95,25 @@ indexes:
       next_move: CT-1 DONE 2026-07-10 (validate-code-tags reads taxonomy from root meta-type schemas; R2's code-tag TAXONOMY.md deletion landmine closed). Next task-session CT-3, then CT-2, CT-4.
     - context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
       next_move: >-
-        Start a separate Task Session for exactly SWU-FPR01-001: emit a deterministic authority census with
-        provenance and every disagreement, choose no winning source, and stop if any authority claim lacks an
-        owner. W0 is proof-refreshed; FPR01-002 and every later unit remain predecessor-gated. Do not claim
-        roadmap-ready-for-execution before FPR-01 and FPR-02 close.
+        FPR-01 and W1 are closed. FPR-02 has split into independent FPR-02B backend and FPR-02U UI lanes.
+        Backend: the 16-decision FPR-02B gate is accepted; consume the integrated BTE/IOLM/Body War proof
+        contract and select one dependency-ready SWU through Task Session. UI: resume SWU-UIP-005 in its
+        existing work-pack. Neither lane blocks or advances the other. Production remains unauthorized.
+    - context_id: CTX-DSV2-FPR02-BACKEND
+      next_move: >-
+        The FPR-02B Decision Gate is accepted with 16 decisions resolved. Next consume the integrated
+        BTE/IOLM/Body War proof contract and select one dependency-ready SWU through Task Session. UI
+        implementation state is not an input; preserve the independent lane and production false posture.
+    - context_id: CTX-DSV2-FPR02-UI
+      next_move: >-
+        Run SWU-UIP-005 under development/ui-profile-implementation/WORK-PACK.md. Preserve development-only
+        scope and hand authority deltas to DS-D1, DS-D8, and profile owners. Backend profile decisions and
+        backend release completion are not dependencies.
     - context_id: CTX-DSV2-FPR-VISIBILITY
       next_move: >-
         After any authorized Craft or FPR manifest update, run the roadmap builder and then `--check`. Route
-        new material frontiers through the existing persistent research protocol. The parent next move remains FPR-01.
+        new material frontiers through the existing persistent research protocol. Visibility cannot select or
+        advance either FPR-02B or FPR-02U and cannot infer a join between them.
   artifacts_by_path:
     "IMPORT-MANIFEST.md": ART-DSV2-IMPORT-MANIFEST
     "impl/": ART-DSV2-IMPL
@@ -112,6 +142,30 @@ indexes:
     "development/first-production-release/foundation-execution/refreshes/2026-07-14-sgrm-007-activation/REFRESH-REPORT.md": ART-DSV2-FPR-SGRM007-REFRESH
     "development/first-production-release/foundation-execution/work-pack/shared/W0-PROOF-SYNC-DECISION.md": ART-DSV2-FPR-W0-PROOF-SYNC-DECISION
     "development/first-production-release/foundation-execution/refreshes/2026-07-14-w0-proof-sync/REFRESH-REPORT.md": ART-DSV2-FPR-W0-PROOF-REFRESH
+    "development/first-production-release/evidence/FPR01-002-ADOPTION-ACTIVATION-DECISION.md": ART-DSV2-FPR01-002-ADOPTION-ACTIVATION
+    "development/first-production-release/foundation-execution/refreshes/2026-07-16-fpr01-002-adoption-activation/REFRESH-REPORT.md": ART-DSV2-FPR01-002-ACTIVATION-REFRESH
+    "development/first-production-release/foundation-execution/runs/SWU-FPR01-002/TASK-SESSION-RESULT.md": ART-DSV2-FPR01-002-RECEIPT
+    "development/first-production-release/foundation-execution/refreshes/2026-07-16-fpr01-002-receipt-sync/REFRESH-REPORT.md": ART-DSV2-FPR01-002-RECEIPT-SYNC
+    "development/first-production-release/authority-baseline.yml": ART-DSV2-FPR01-003-BASELINE
+    "development/first-production-release/tools/validate-authority-baseline.cjs": ART-DSV2-FPR01-003-VALIDATOR
+    "development/first-production-release/foundation-execution/runs/SWU-FPR01-003/TASK-SESSION-RESULT.md": ART-DSV2-FPR01-003-RECEIPT
+    "development/first-production-release/foundation-execution/refreshes/2026-07-16-fpr01-003-blocker-sync/REFRESH-REPORT.md": ART-DSV2-FPR01-003-BLOCKER-SYNC
+    "development/first-production-release/foundation-execution/runs/SWU-FPR01003-GUARD-001/TASK-SESSION-RESULT.md": ART-DSV2-FPR01003-GUARD-RECEIPT
+    "development/first-production-release/foundation-execution/runs/SWU-FPR01003-SAMPLE-001/TASK-SESSION-RESULT.md": ART-DSV2-FPR01003-SAMPLE-RECEIPT
+    "development/first-production-release/foundation-execution/runs/SWU-FPR01-003/replay-result.json": ART-DSV2-FPR01003-REPLAY-RESULT
+    "development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-003-pass-sync/REFRESH-REPORT.md": ART-DSV2-FPR01003-PASS-SYNC
+    "development/first-production-release/evidence/authority-baseline-ratification.json": ART-DSV2-FPR01-004-RATIFICATION
+    "development/first-production-release/foundation-execution/runs/SWU-FPR01-004/TASK-SESSION-RESULT.md": ART-DSV2-FPR01-004-RECEIPT
+    "development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-004-ratification-sync/REFRESH-REPORT.md": ART-DSV2-FPR01-004-SYNC
+    "development/first-production-release/profile-lanes/fpr02-lanes.yml": ART-DSV2-FPR02-LANE-CONTRACT
+    "development/first-production-release/decisions/2026-07-17-fpr02-supported-profile-decision.md": ART-DSV2-FPR02-BACKEND-DECISION
+    "development/ui-profile-implementation/WORK-PACK.md": ART-DSV2-FPR02-UI-PLAN
+    "development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr02-lane-separation/REFRESH-REPORT.md": ART-DSV2-FPR02-LANE-REFRESH
+    "development/first-production-release/backend-type-test-engine-completeness/PLAN.md": ART-DSV2-FPR02-BTE-PLAN
+    "[repo-root]/cyberAlchemy-v2/development/interactive-ontology-learning-map/SPEC.md": ART-DSV2-FPR02-IOLM-CONSUMER
+    "[repo-root]/cyberAlchemy-v2/development/domainspec-v2/BODY-WAR-CONSUMER.md": ART-DSV2-FPR02-BODY-WAR-CONSUMER
+    "[repo-root]/cyberAlchemy-v2/development/domainspec-v2/INTEGRATED-EVIDENCE-MANIFEST.yml": ART-DSV2-FPR02-INTEGRATED-MANIFEST
+    "[repo-root]/cyberAlchemy-v2/development/domainspec-v2/refreshes/2026-07-17-fpr02-integrated-consumer-proof/REFRESH-REPORT.md": ART-DSV2-FPR02-INTEGRATED-REFRESH
     "development/first-production-release/visibility/WORK-PACK.md": ART-DSV2-FPR-VISIBILITY-PLAN
     "development/first-production-release/visibility/tools/build-roadmap.py": ART-DSV2-FPR-VISIBILITY-BUILDER
     "development/first-production-release/visibility/roadmap-data.json": ART-DSV2-FPR-VISIBILITY-DATA
@@ -298,11 +352,12 @@ contexts:
       implementation analysis, directional cross-graph conformance, a clean release candidate, and the
       exact 14-step Body War pilot. This context is continuation authority, not production authorization.
     stage: plan
-    gate: block
+    gate: flag
     next_move: >-
-      Start a separate Task Session for exactly SWU-FPR01-001: emit a deterministic authority census with
-      provenance and every disagreement, choose no winning source, and stop if any authority claim lacks an
-      owner. W0 is proof-refreshed; FPR01-002 and every later unit remain predecessor-gated.
+      FPR-01 and W1 are closed. The FPR-02 coordination decision is closed as two independent lanes:
+      FPR-02B resumes SWU-FPR02-001 at four unresolved backend/profile/pilot decisions, while FPR-02U resumes
+      SWU-UIP-005 in the existing UI work-pack. Neither lane blocks or advances the other. Production remains
+      unauthorized.
     owned_artifacts:
       - ART-DSV2-FPR-DECISION
       - ART-DSV2-FPR-RESEARCH
@@ -315,6 +370,23 @@ contexts:
       - ART-DSV2-FPR-SGRM007-REFRESH
       - ART-DSV2-FPR-W0-PROOF-SYNC-DECISION
       - ART-DSV2-FPR-W0-PROOF-REFRESH
+      - ART-DSV2-FPR01-002-ADOPTION-ACTIVATION
+      - ART-DSV2-FPR01-002-ACTIVATION-REFRESH
+      - ART-DSV2-FPR01-002-RECEIPT
+      - ART-DSV2-FPR01-002-RECEIPT-SYNC
+      - ART-DSV2-FPR01-003-BASELINE
+      - ART-DSV2-FPR01-003-VALIDATOR
+      - ART-DSV2-FPR01-003-RECEIPT
+      - ART-DSV2-FPR01-003-BLOCKER-SYNC
+      - ART-DSV2-FPR01003-GUARD-RECEIPT
+      - ART-DSV2-FPR01003-SAMPLE-RECEIPT
+      - ART-DSV2-FPR01003-REPLAY-RESULT
+      - ART-DSV2-FPR01003-PASS-SYNC
+      - ART-DSV2-FPR01-004-RATIFICATION
+      - ART-DSV2-FPR01-004-RECEIPT
+      - ART-DSV2-FPR01-004-SYNC
+      - ART-DSV2-FPR02-LANE-CONTRACT
+      - ART-DSV2-FPR02-LANE-REFRESH
     links:
       - {label: uses spec-ontology evidence without granting it authority, target: CTX-DSV2-SPEC-ONTOLOGY, kind: row-id}
       - {label: uses meta-type formalization evidence, target: CTX-DSV2-META-TYPE-FORMALIZATION, kind: row-id}
@@ -328,6 +400,99 @@ contexts:
       - {label: SGRM-007 applied refresh, target: ART-DSV2-FPR-SGRM007-REFRESH, kind: artifact-id}
       - {label: W0 proof synchronization decision, target: ART-DSV2-FPR-W0-PROOF-SYNC-DECISION, kind: artifact-id}
       - {label: W0 proof refresh, target: ART-DSV2-FPR-W0-PROOF-REFRESH, kind: artifact-id}
+      - {label: FPR01-002 adoption activation decision, target: ART-DSV2-FPR01-002-ADOPTION-ACTIVATION, kind: artifact-id}
+      - {label: FPR01-002 activation refresh, target: ART-DSV2-FPR01-002-ACTIVATION-REFRESH, kind: artifact-id}
+      - {label: FPR01-002 verified receipt, target: ART-DSV2-FPR01-002-RECEIPT, kind: artifact-id}
+      - {label: FPR01-002 receipt synchronization, target: ART-DSV2-FPR01-002-RECEIPT-SYNC, kind: artifact-id}
+      - {label: FPR01-003 baseline candidate, target: ART-DSV2-FPR01-003-BASELINE, kind: artifact-id}
+      - {label: FPR01-003 deterministic validator, target: ART-DSV2-FPR01-003-VALIDATOR, kind: artifact-id}
+      - {label: FPR01-003 superseding PASS receipt, target: ART-DSV2-FPR01-003-RECEIPT, kind: artifact-id}
+      - {label: FPR01-003 blocker synchronization, target: ART-DSV2-FPR01-003-BLOCKER-SYNC, kind: artifact-id}
+      - {label: guard repair PASS receipt, target: ART-DSV2-FPR01003-GUARD-RECEIPT, kind: artifact-id}
+      - {label: sample repair PASS receipt, target: ART-DSV2-FPR01003-SAMPLE-RECEIPT, kind: artifact-id}
+      - {label: joined replay machine result, target: ART-DSV2-FPR01003-REPLAY-RESULT, kind: artifact-id}
+      - {label: FPR01-003 PASS synchronization, target: ART-DSV2-FPR01003-PASS-SYNC, kind: artifact-id}
+      - {label: FPR01-004 exact baseline ratification, target: ART-DSV2-FPR01-004-RATIFICATION, kind: artifact-id}
+      - {label: FPR01-004 Task Session receipt, target: ART-DSV2-FPR01-004-RECEIPT, kind: artifact-id}
+      - {label: FPR-01 completion synchronization, target: ART-DSV2-FPR01-004-SYNC, kind: artifact-id}
+      - {label: FPR-02 independent lane contract, target: ART-DSV2-FPR02-LANE-CONTRACT, kind: artifact-id}
+      - {label: FPR-02 lane-separation refresh, target: ART-DSV2-FPR02-LANE-REFRESH, kind: artifact-id}
+      - {label: backend profile lane, target: CTX-DSV2-FPR02-BACKEND, kind: row-id}
+      - {label: UI development lane, target: CTX-DSV2-FPR02-UI, kind: row-id}
+
+  - context_id: CTX-DSV2-FPR02-BACKEND
+    parent_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    recomposition_target: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    title: FPR-02B backend profile and pilot lane
+    purpose: >-
+      Freeze the exact backend-only supported profile, product surface, claims, callback and origin posture,
+      redaction rules, rollback route, and accountable owners for the first production release. This lane
+      excludes UI concepts and has no completion dependency on UI implementation.
+    stage: plan
+    gate: block
+    next_move: >-
+      FPR-02B Decision Gate is accepted. Next select one dependency-ready BTE SWU through Task Session and
+      build the integrated BTE/IOLM/Body War proof manifest; implementation and production remain unauthorized.
+    owned_artifacts:
+      - ART-DSV2-FPR02-BACKEND-DECISION
+      - ART-DSV2-FPR02-BTE-PLAN
+      - ART-DSV2-FPR02-IOLM-CONSUMER
+      - ART-DSV2-FPR02-BODY-WAR-CONSUMER
+      - ART-DSV2-FPR02-INTEGRATED-MANIFEST
+      - ART-DSV2-FPR02-INTEGRATED-REFRESH
+    links:
+      - {label: parent FPR route, target: CTX-DSV2-FIRST-PRODUCTION-RELEASE, kind: row-id}
+      - {label: lane contract, target: ART-DSV2-FPR02-LANE-CONTRACT, kind: artifact-id}
+      - {label: applied integrated consumer-proof refresh, target: ART-DSV2-FPR02-INTEGRATED-REFRESH, kind: artifact-id}
+      - {label: BTE completeness plan, target: ART-DSV2-FPR02-BTE-PLAN, kind: artifact-id}
+      - {label: IOLM consumer proof, target: ART-DSV2-FPR02-IOLM-CONSUMER, kind: artifact-id}
+      - {label: Body War consumer proof, target: ART-DSV2-FPR02-BODY-WAR-CONSUMER, kind: artifact-id}
+      - {label: integrated evidence manifest, target: ART-DSV2-FPR02-INTEGRATED-MANIFEST, kind: artifact-id}
+      - {label: sibling UI lane for coordination only, target: CTX-DSV2-FPR02-UI, kind: row-id}
+
+  - context_id: CTX-DSV2-FPR02-UI
+    parent_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    recomposition_target: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    title: FPR-02U required UI development lane
+    purpose: >-
+      Implement and audit the 11 required UI meta-type concepts in a development-only lane, preserving the
+      existing UI work-pack and routing all authority deltas to their owners. This lane neither enters nor
+      blocks the backend first-release profile.
+    stage: build
+    gate: flag
+    next_move: >-
+      Run SWU-UIP-005 under development/ui-profile-implementation/WORK-PACK.md. Backend profile decisions and
+      backend release completion are not dependencies; canonical activation remains owner-gated.
+    owned_artifacts:
+      - ART-DSV2-FPR02-UI-PLAN
+    links:
+      - {label: parent FPR route, target: CTX-DSV2-FIRST-PRODUCTION-RELEASE, kind: row-id}
+      - {label: lane contract, target: ART-DSV2-FPR02-LANE-CONTRACT, kind: artifact-id}
+      - {label: sibling backend lane for coordination only, target: CTX-DSV2-FPR02-BACKEND, kind: row-id}
+
+  - context_id: CTX-DSV2-FPR02B-CONSUMER-PROOF
+    parent_id: CTX-DSV2-FPR02-BACKEND
+    recomposition_target: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    title: FPR-02B integrated engine and consumer proof
+    purpose: >-
+      Continue the accepted backend profile decision through one bounded BTE implementation route and
+      independent read-only IOLM and Body War consumer proofs. This context indexes receipts and continuation;
+      it does not become engine, graph, semantic, or production authority.
+    stage: plan
+    gate: flag
+    next_move: >-
+      Select exactly one dependency-ready BTE SWU through Task Session. Keep IOLM G-DSV2-SG blocked until its
+      owner receipts and bounded Sg/retraction proof pass; execute no consumer or production mutation here.
+    owned_artifacts:
+      - ART-DSV2-FPR02-BTE-PLAN
+      - ART-DSV2-FPR02-IOLM-CONSUMER
+      - ART-DSV2-FPR02-BODY-WAR-CONSUMER
+      - ART-DSV2-FPR02-INTEGRATED-MANIFEST
+      - ART-DSV2-FPR02-INTEGRATED-REFRESH
+    links:
+      - {label: backend parent lane, target: CTX-DSV2-FPR02-BACKEND, kind: row-id}
+      - {label: accepted profile decision, target: ART-DSV2-FPR02-BACKEND-DECISION, kind: artifact-id}
+      - {label: independent UI sibling, target: CTX-DSV2-FPR02-UI, kind: row-id}
 
   - context_id: CTX-DSV2-FPR-VISIBILITY
     parent_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
@@ -342,7 +507,8 @@ contexts:
     next_move: >-
       After any authorized Craft or FPR manifest update, run the visibility roadmap builder documented in
       development/first-production-release/visibility/PLAN-TRANSPORT.md, then run the same command with `--check`.
-      Route new material frontiers through the existing persistent research protocol; do not advance FPR-01 here.
+      Route new material frontiers through the existing persistent research protocol; do not select or advance
+      either FPR-02B or FPR-02U here.
     owned_artifacts:
       - ART-DSV2-FPR-VISIBILITY-PLAN
       - ART-DSV2-FPR-VISIBILITY-BUILDER
@@ -607,6 +773,28 @@ descriptions:
       - {label: red-check fixture, target: "[repo-root]/projects/domainspec-v2/impl/spec/features/financial-settlement/__redcheck__/entity-missing-identity.md", kind: path}
 
 decisions:
+  - decision_id: DEC-FPR01-002-ADOPTION-ACTIVATION
+    scope_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    question: How should the approved FPR01-002 owner-disposition packet be activated and adopted?
+    options: [combined-narrow-activation, split-activation-and-adoption, stop]
+    decision_type: execution-activation
+    blocking: true
+    status: closed
+    selected_option: combined-narrow-activation
+    description: >-
+      The accepted FPR01-001 receipt closes the census predecessor and the existing packet binds all 12
+      disagreements to five approved owner reviews, but live continuation controls still select FPR01-001.
+    impact: >-
+      Selects SWU-FPR01-002 and permits unchanged adoption of the digest-bound packet plus its validation receipt.
+      Packet mutation, authority promotion, and FPR01-003 execution remain unauthorized.
+    rationale: >-
+      The user selected combined narrow activation and unchanged packet adoption on 2026-07-16. Fail-closed
+      validation reopens only the affected owner queue if a packet check fails.
+    evidence: [ART-DSV2-FPR01-002-ADOPTION-ACTIVATION, ART-DSV2-FPR01-002-ACTIVATION-REFRESH]
+    links:
+      - {label: parent foundation plan, target: ART-DSV2-FPR-FOUNDATION-PLAN, kind: artifact-id}
+      - {label: predecessor proof synchronization, target: DEC-DSV2-FPR-W0-PROOF-SYNC, kind: row-id}
+
   - decision_id: DEC-DSV2-FPR-W0-PROOF-SYNC
     scope_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
     question: How should foundation execution continue after the accepted 007 retry receipt proves the current guard?
@@ -797,6 +985,48 @@ decisions:
       - {label: prose homes needed (authority/), target: GAP-SH-PROSE-HOMES, kind: row-id}
 
 blockers:
+  - blocker_id: BLK-FPR01003-001
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    status: resolved
+    summary: The live meta-type machine registry remains candidate-shaped while the approved FPR-01 baseline requires active backend maturity and differentiated UI states.
+    blocker_type: authority-reconciliation
+    lane: definitions
+    refinement_status: resolved
+    closure_condition: >-
+      Definitions Governance synchronizes machine and human meta-type authority to OD-001 without reusing
+      DS-D1.10, and the canonical authority-baseline validator exits zero on two identical clean runs.
+    owner_route: definitions-governance with validation/layering review
+    evidence: [ART-DSV2-FPR01-003-BASELINE, ART-DSV2-FPR01-003-VALIDATOR, ART-DSV2-FPR01-003-RECEIPT]
+    closure_evidence: [ART-DSV2-FPR01-003-RECEIPT, ART-DSV2-FPR01003-REPLAY-RESULT]
+
+  - blocker_id: BLK-FPR01003-002
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    status: resolved
+    summary: The fail-closed retired-reference guard reports three exact unclassified non-active reference files.
+    blocker_type: validation-classification
+    lane: guard
+    refinement_status: resolved
+    closure_condition: >-
+      A bounded guard-owner Task Session reviews and digest-classifies the three exact files or removes any invalid
+      reference, then the zero-active-reference audit and focused guard suite pass without a broad exception.
+    owner_route: SGRM guard classification / Task Session
+    evidence: [ART-DSV2-FPR01-003-RECEIPT]
+    closure_evidence: [ART-DSV2-FPR01003-GUARD-RECEIPT, ART-DSV2-FPR01003-REPLAY-RESULT]
+
+  - blocker_id: BLK-FPR01003-003
+    context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    status: resolved
+    summary: The existing sample feature fails aggregate engine lint because two normalized tables are absent.
+    blocker_type: implementation-validation
+    lane: engine-content
+    refinement_status: resolved
+    closure_condition: >-
+      The implementation content owner repairs or explicitly dispositions the sample fixture, and the aggregate
+      DomainSpec v2 validate command passes together with FPR01-003 replay.
+    owner_route: implementation content / engine owner
+    evidence: [ART-DSV2-FPR01-003-RECEIPT]
+    closure_evidence: [ART-DSV2-FPR01003-SAMPLE-RECEIPT, ART-DSV2-FPR01003-REPLAY-RESULT]
+
   - blocker_id: BLK-DSV2-DRIFT-ENGINE
     context_id: CTX-DSV2-REFORMULATE-BATCH1
     summary: Drift governance is designed but not implemented in the engine (Stream<CheckResult> + guardedness).
@@ -1299,8 +1529,8 @@ artifacts:
     path: development/first-production-release/foundation-execution/WORK-PACK.md
     status: active
     notes: >-
-      Invoke split work-pack for the guard-to-FPR-04 foundation route. W0 is proof-refreshed and
-      SWU-FPR01-001 is selected for a later Task Session; every successor remains receipt-gated.
+      Invoke split work-pack for the guard-to-FPR-04 foundation route. FPR-01 and W1 are complete; FPR-02
+      is available for separate selection and Decision Gate while every later successor remains receipt-gated.
   - artifact_id: ART-DSV2-FPR-FOUNDATION-ACTIVATION
     path: development/first-production-release/foundation-execution/work-pack/shared/FOUNDATION-ACTIVATION-DECISION.md
     status: active
@@ -1331,6 +1561,54 @@ artifacts:
     notes: >-
       Apply-approved Invoke refresh that consumes the accepted 007 retry receipt, closes W0, and selects but does
       not execute SWU-FPR01-001.
+  - artifact_id: ART-DSV2-FPR01-002-ADOPTION-ACTIVATION
+    path: development/first-production-release/evidence/FPR01-002-ADOPTION-ACTIVATION-DECISION.md
+    status: active
+    notes: >-
+      Closed Decision Gate record selecting combined narrow activation and unchanged digest-bound packet adoption.
+      It denies packet mutation, authority promotion, and FPR01-003 execution.
+  - artifact_id: ART-DSV2-FPR01-002-ACTIVATION-REFRESH
+    path: development/first-production-release/foundation-execution/refreshes/2026-07-16-fpr01-002-adoption-activation/REFRESH-REPORT.md
+    status: active
+    notes: >-
+      Apply-approved Invoke refresh consuming the accepted FPR01-001 receipt and selecting but not executing
+      SWU-FPR01-002. Its JSON companion is machine execution evidence, not independent authority.
+  - artifact_id: ART-DSV2-FPR01-002-RECEIPT
+    path: development/first-production-release/foundation-execution/runs/SWU-FPR01-002/TASK-SESSION-RESULT.md
+    status: active
+    notes: >-
+      Verified PASS receipt binding unchanged owner-disposition artifacts, exact census coverage, five approved
+      owner queues, and six rejected negative mutants. It does not authorize FPR01-003 by itself.
+  - artifact_id: ART-DSV2-FPR01-002-RECEIPT-SYNC
+    path: development/first-production-release/foundation-execution/refreshes/2026-07-16-fpr01-002-receipt-sync/REFRESH-REPORT.md
+    status: active
+    notes: >-
+      Separate Invoke receipt synchronization that consumes the verified FPR01-002 result and selects but does
+      not execute SWU-FPR01-003. Definitions and import repairs remain separately owned residue.
+  - artifact_id: ART-DSV2-FPR01-003-BASELINE
+    path: development/first-production-release/authority-baseline.yml
+    status: active
+    notes: >-
+      The unchanged 13/24/30 validation-candidate whose exact digest is ratified by the FPR01-004 receipt.
+      Its internal authority, successor, FPR-02, and production flags remain false.
+  - artifact_id: ART-DSV2-FPR01-003-VALIDATOR
+    path: development/first-production-release/tools/validate-authority-baseline.cjs
+    status: active
+    notes: >-
+      Dependency-free deterministic validator with five typed negative fixtures. Every mutant is killed and
+      two canonical runs are byte-identical PASS against current authority inputs.
+  - artifact_id: ART-DSV2-FPR01-003-RECEIPT
+    path: development/first-production-release/foundation-execution/runs/SWU-FPR01-003/TASK-SESSION-RESULT.md
+    status: active
+    notes: >-
+      Superseding PASS receipt binding the immutable package, all three blocker closures, deterministic replay,
+      five killed mutants, aggregate validation, and unchanged unratified authority boundary.
+  - artifact_id: ART-DSV2-FPR01-003-BLOCKER-SYNC
+    path: development/first-production-release/foundation-execution/refreshes/2026-07-16-fpr01-003-blocker-sync/REFRESH-REPORT.md
+    status: active
+    notes: >-
+      Separate Invoke synchronization that preserves the code package, registers the receipt-backed blockers,
+      and denies successor selection until a superseding PASS receipt exists.
   - artifact_id: ART-DSV2-FPR-VISIBILITY-PLAN
     path: development/first-production-release/visibility/WORK-PACK.md
     status: active
@@ -1355,6 +1633,89 @@ artifacts:
     notes: >-
       Generated self-contained Whisper composition for local operational use. Presentation state is not
       release state, and production authorization remains explicitly false.
+  - artifact_id: ART-DSV2-FPR01003-GUARD-RECEIPT
+    path: development/first-production-release/foundation-execution/runs/SWU-FPR01003-GUARD-001/TASK-SESSION-RESULT.md
+    status: active
+    notes: Receipt-backed exact classifications, zero violations, live negative controls, and unchanged frozen manifest.
+  - artifact_id: ART-DSV2-FPR01003-SAMPLE-RECEIPT
+    path: development/first-production-release/foundation-execution/runs/SWU-FPR01003-SAMPLE-001/TASK-SESSION-RESULT.md
+    status: active
+    notes: Receipt-backed normalized sample with one local concept, zero invented edges, deterministic clean lint, and focused tests.
+  - artifact_id: ART-DSV2-FPR01003-REPLAY-RESULT
+    path: development/first-production-release/foundation-execution/runs/SWU-FPR01-003/replay-result.json
+    status: active
+    notes: Machine replay result binding both repairs, deterministic canonical PASS, five killed mutants, aggregate validation, and false authority flags.
+  - artifact_id: ART-DSV2-FPR01003-PASS-SYNC
+    path: development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-003-pass-sync/REFRESH-REPORT.md
+    status: active
+    notes: Apply-approved Invoke refresh completing W1R and selecting but not executing SWU-FPR01-004.
+  - artifact_id: ART-DSV2-FPR01-004-RATIFICATION
+    path: development/first-production-release/evidence/authority-baseline-ratification.json
+    status: active
+    notes: Exact-digest FPR-01 ratification with 19/19 verified bindings, deterministic replay, five killed mutants, and deliberate mutation rejection.
+  - artifact_id: ART-DSV2-FPR01-004-RECEIPT
+    path: development/first-production-release/foundation-execution/runs/SWU-FPR01-004/TASK-SESSION-RESULT.md
+    status: active
+    notes: Independent Task Session PASS receipt for the ratification package; it selects no successor and grants no production authority.
+  - artifact_id: ART-DSV2-FPR01-004-SYNC
+    path: development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-004-ratification-sync/REFRESH-REPORT.md
+    status: active
+    notes: Apply-approved Invoke refresh closing FPR-01 and W1 while leaving FPR-02 decision-ready but unselected.
+  - artifact_id: ART-DSV2-FPR02-LANE-CONTRACT
+    path: development/first-production-release/profile-lanes/fpr02-lanes.yml
+    status: active
+    notes: >-
+      Machine-readable FPR-02 parent contract defining independent backend and UI lanes, separate next moves,
+      separate promotion targets, no cross-lane completion dependency, and no implicit release join.
+  - artifact_id: ART-DSV2-FPR02-BACKEND-DECISION
+    path: development/first-production-release/decisions/2026-07-17-fpr02-supported-profile-decision.md
+    status: active
+    notes: >-
+      In-progress backend-only Decision Gate record. The lane separation decision is closed; four backend,
+      profile, claim, pilot, and owner decision groups remain open before execution or promotion.
+  - artifact_id: ART-DSV2-FPR02-UI-PLAN
+    path: development/ui-profile-implementation/WORK-PACK.md
+    status: active
+    notes: >-
+      Existing required UI development work-pack, now explicitly FPR-02U. SWU-UIP-001..004 are complete and
+      SWU-UIP-005 is next; backend decisions and backend release completion are not dependencies.
+  - artifact_id: ART-DSV2-FPR02-LANE-REFRESH
+    path: development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr02-lane-separation/REFRESH-REPORT.md
+    status: active
+    notes: >-
+      Apply-approved Invoke refresh that synchronizes the independent lane contract across plans, Craft, and
+      roadmap visibility without changing source authority, runtime, schemas, historical receipts, or release state.
+  - artifact_id: ART-DSV2-FPR02-BTE-PLAN
+    path: development/first-production-release/backend-type-test-engine-completeness/PLAN.md
+    status: active
+    notes: >-
+      Apply-approved refresh synchronized to the accepted 16-decision FPR-02B gate. It requires the candidate
+      independent-node-and-edge profile, exact 13/16 causal proof, and integrated consumer manifest while
+      preserving non-admission and production-false boundaries.
+  - artifact_id: ART-DSV2-FPR02-IOLM-CONSUMER
+    path: "[repo-root]/cyberAlchemy-v2/development/interactive-ontology-learning-map/SPEC.md"
+    status: active
+    notes: >-
+      Independent read-only IOLM consumer-proof contract for BTE graph/obligation/receipt handles. G-DSV2-SG
+      remains blocked; the map cannot define O_spec or close FPR.
+  - artifact_id: ART-DSV2-FPR02-BODY-WAR-CONSUMER
+    path: "[repo-root]/cyberAlchemy-v2/development/domainspec-v2/BODY-WAR-CONSUMER.md"
+    status: active
+    notes: >-
+      Private read-only Body War consumer contract with explicit posture, source/profile identity, and exact
+      redacted-field allowlist. Body War application authority remains in projects/body-war.
+  - artifact_id: ART-DSV2-FPR02-INTEGRATED-MANIFEST
+    path: "[repo-root]/cyberAlchemy-v2/development/domainspec-v2/INTEGRATED-EVIDENCE-MANIFEST.yml"
+    status: candidate
+    notes: >-
+      Candidate manifest binding BTE, IOLM, Body War, and Craft receipts with exact O_spec/O_gen/T_gen/E_run,
+      negative classes, posture, revocation, and conservative claim boundaries.
+  - artifact_id: ART-DSV2-FPR02-INTEGRATED-REFRESH
+    path: "[repo-root]/cyberAlchemy-v2/development/domainspec-v2/refreshes/2026-07-17-fpr02-integrated-consumer-proof/REFRESH-REPORT.md"
+    status: active
+    notes: >-
+      Apply-approved Invoke refresh report and companion machine package; target changes are scoped to the
+      BTE/consumer/Craft/Inventory surfaces and do not execute a SWU or authorize production.
 
 recompositions:
   - recomposition_id: REC-DSV2-GREEN
@@ -1375,17 +1736,36 @@ recompositions:
     status: partial
     parent_fit_summary: >-
       Accepted first-release product direction and auditor-approved roadmap are recomposed into the v2 root.
-      Execution is blocked at FPR-01; profile conformance, full coverage, formal validity, implementation
-      acceptance, pilot acceptance, release readiness, and production authorization remain unestablished.
-    evidence: [ART-DSV2-FPR-DECISION, ART-DSV2-FPR-FINDINGS, ART-DSV2-FPR-ROADMAP, ART-DSV2-FPR-FRONTIER-MANIFEST]
+      FPR-01 is closed from a verified exact-digest ratification. FPR-02 is separated into independently
+      resumable FPR-02B backend and FPR-02U UI lanes with no sibling completion dependency. Profile
+      conformance, full coverage, formal validity, implementation acceptance, pilot
+      acceptance, release readiness, and production authorization remain unestablished.
+    evidence: [ART-DSV2-FPR-DECISION, ART-DSV2-FPR-FINDINGS, ART-DSV2-FPR-ROADMAP, ART-DSV2-FPR-FRONTIER-MANIFEST, ART-DSV2-FPR01-004-RATIFICATION, ART-DSV2-FPR01-004-RECEIPT, ART-DSV2-FPR01-004-SYNC, ART-DSV2-FPR02-LANE-CONTRACT, ART-DSV2-FPR02-LANE-REFRESH]
+  - recomposition_id: REC-DSV2-FPR02-BACKEND
+    child_context_id: CTX-DSV2-FPR02-BACKEND
+    parent_context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    status: partial
+    parent_fit_summary: >-
+      Backend profile and pilot ownership is isolated from UI development. The separation decision is closed;
+      four backend decision groups remain and no implementation or release promotion is authorized.
+    evidence: [ART-DSV2-FPR02-LANE-CONTRACT, ART-DSV2-FPR02-BACKEND-DECISION, ART-DSV2-FPR02-LANE-REFRESH]
+  - recomposition_id: REC-DSV2-FPR02-UI
+    child_context_id: CTX-DSV2-FPR02-UI
+    parent_context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
+    status: partial
+    parent_fit_summary: >-
+      The required UI development profile continues in its existing work-pack without blocking the backend
+      first-release lane. SWU-UIP-001..004 are complete; SWU-UIP-005..007 and owner handoff remain.
+    evidence: [ART-DSV2-FPR02-LANE-CONTRACT, ART-DSV2-FPR02-UI-PLAN, ART-DSV2-FPR02-LANE-REFRESH]
   - recomposition_id: REC-DSV2-FPR-VISIBILITY
     child_context_id: CTX-DSV2-FPR-VISIBILITY
     parent_context_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
     status: complete
     parent_fit_summary: >-
       The deterministic Craft-backed roadmap read model is planned, generated, browser-validated, and indexed.
-      It improves visibility and continuation without changing the parent's FPR-01 block, any frontier state,
-      or production authorization. The Whisper transport remains candidate pending real-use observation.
+      It improves visibility and continuation without selecting the parent's FPR-02 decision boundary,
+      changing any frontier state, or authorizing production. The Whisper transport remains candidate pending
+      real-use observation.
     evidence:
       - ART-DSV2-FPR-VISIBILITY-PLAN
       - ART-DSV2-FPR-VISIBILITY-BUILDER

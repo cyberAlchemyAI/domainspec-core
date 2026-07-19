@@ -2,8 +2,8 @@
   "dispatch_id": "2026-07-14-dsv2-foundation-execution-plan",
   "parent_dispatch_id": null,
   "intent": {
-    "raw": "Create an Invoke execution plan to repair the DomainSpec guard and complete FPR-01 through FPR-04 without collapsing authority, projection, implementation, and UI graph planes.",
-    "objective": "Route the smallest safe DomainSpec v2 foundation chain from a current guard proof through an independently verified two-node/one-edge Spec projection.",
+    "raw": "Create an Invoke execution plan to repair the DomainSpec guard and complete the backend FPR-01 through FPR-04 chain while UI development proceeds in an independent sibling lane.",
+    "objective": "Route the smallest safe DomainSpec v2 backend foundation chain from a current guard proof through an independently verified two-node/one-edge Spec projection without making UI progress a dependency.",
     "target_artifact": "projects/domainspec-v2/development/first-production-release/foundation-execution/WORK-PACK.md",
     "arcanum_vocabulary": [
       "invoke",
@@ -15,7 +15,7 @@
       "task-session",
       "distill"
     ],
-    "operator_sentence": "Repair proof first, ratify meaning second, compile only after the graph contract exists."
+    "operator_sentence": "Keep FPR-02B backend release and FPR-02U UI development independent; repair proof first, ratify meaning second, compile only after each lane's owned contract exists."
   },
   "mode": "sequence",
   "techniques": [
@@ -86,13 +86,13 @@
     },
     {
       "dispatch_id": "2026-07-14-dsv2-foundation-execution-plan",
-      "step_id": "s4-freeze-profile",
+      "step_id": "s4-freeze-backend-profile",
       "capability_ref": "task-session",
       "receipt_kind": "blocked",
       "status": "not_run",
       "artifacts": [],
-      "validation": ["Future FPR-02 receipt must bind all profile artifacts and the complete negative matrix to one stable digest."],
-      "blockers": ["Requires verified FPR-01 ratification receipt and profile owner decisions."]
+      "validation": ["Future FPR-02B receipt must bind all backend profile/pilot artifacts and the complete negative matrix to one stable digest."],
+      "blockers": ["Requires the four remaining backend profile and pilot owner decisions; FPR-02U is not a dependency."]
     },
     {
       "dispatch_id": "2026-07-14-dsv2-foundation-execution-plan",
@@ -185,15 +185,16 @@
       "stop_conditions": ["stop on unresolved source/count/status ownership or conflicting authoritative directions"]
     },
     {
-      "step_id": "s4-freeze-profile",
-      "name": "Decide and freeze the FPR-02 supported profile",
+      "step_id": "s4-freeze-backend-profile",
+      "name": "Decide and freeze the FPR-02B backend supported profile",
       "capability_ref": "task-session",
       "mode": "execution-with-decision-gate",
       "pattern": "sequential",
       "techniques": ["state_namespace_boundary", "owner_boundary_check", "validation_loop", "execution_receipt_handoff"],
       "inputs": [
         {"kind": "handle", "ref": "s3-ratify-baseline verified receipt"},
-        {"kind": "artifact", "ref": "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/tasks/TASK-FPR-02-SUPPORTED-PROFILE.md"}
+        {"kind": "artifact", "ref": "projects/domainspec-v2/development/first-production-release/foundation-execution/work-pack/tasks/TASK-FPR-02-SUPPORTED-PROFILE.md"},
+        {"kind": "artifact", "ref": "projects/domainspec-v2/development/first-production-release/profile-lanes/fpr02-lanes.yml"}
       ],
       "outputs": [
         {"kind": "artifact", "ref": "projects/domainspec-v2/development/first-production-release/supported-profile.yml"},
@@ -215,7 +216,7 @@
       "pattern": "decision",
       "techniques": ["owner_boundary_check", "handle_handoff", "residue_ledger"],
       "inputs": [
-        {"kind": "handle", "ref": "s4-freeze-profile verified receipt"},
+        {"kind": "handle", "ref": "s4-freeze-backend-profile verified receipt"},
         {"kind": "ledger", "ref": "projects/domainspec-v2/.craft/ledger.yml#FR-FPR-ONTOLOGY-DIRECTION"}
       ],
       "outputs": [
@@ -294,10 +295,10 @@
       "on_fail": "block"
     },
     {
-      "gate_id": "g4-supported-profile",
+      "gate_id": "g4-backend-supported-profile",
       "kind": "decision",
       "owner": "FPR-02 claim and semantic owners",
-      "condition": "One nonempty exact profile, pilot boundary, origin, redaction allowlist, and stable digest are accepted.",
+      "condition": "One nonempty exact backend profile, pilot boundary, origin, redaction allowlist, and stable digest are accepted without depending on FPR-02U completion.",
       "on_fail": "block"
     },
     {
@@ -337,7 +338,8 @@
       "guard-dispositions-reviewed",
       "guard-proof-refreshed",
       "authority-baseline-ratified",
-      "supported-profile-frozen",
+      "backend-supported-profile-frozen",
+      "ui-profile-lane-remains-independent",
       "ontology-direction-resolved",
       "business-spec-map-verified",
       "fpr-04-bounded-retraction-verified",
@@ -353,7 +355,7 @@
         "kind": "state_write",
         "from_owner": "projects/domainspec-v2/.craft/ledger.yml",
         "to_owner": "foundation execution planning and receipts",
-        "applies_to_steps": ["s1-author-plan", "s2-restore-guard", "s3-ratify-baseline", "s4-freeze-profile", "s5-resolve-direction", "s6-map-business-spec", "s7-project-and-retract"],
+        "applies_to_steps": ["s1-author-plan", "s2-restore-guard", "s3-ratify-baseline", "s4-freeze-backend-profile", "s5-resolve-direction", "s6-map-business-spec", "s7-project-and-retract"],
         "contract": "The plan and generated evidence may be linked from Craft only by a separate approved state mutation; they never advance their own lifecycle state.",
         "on_violation": "block"
       },
@@ -362,7 +364,7 @@
         "kind": "artifact_import",
         "from_owner": "canonical DomainSpec v2 authority and accepted decisions",
         "to_owner": "B, Sg, G, and UI projections",
-        "applies_to_steps": ["s3-ratify-baseline", "s4-freeze-profile", "s5-resolve-direction", "s6-map-business-spec", "s7-project-and-retract"],
+        "applies_to_steps": ["s3-ratify-baseline", "s4-freeze-backend-profile", "s5-resolve-direction", "s6-map-business-spec", "s7-project-and-retract"],
         "contract": "Generated planes preserve provenance and cannot replace, silently rename, or outrank their sources.",
         "on_violation": "block"
       },
@@ -380,7 +382,7 @@
         "kind": "state_write",
         "from_owner": "private DomainSpec v2 context",
         "to_owner": "public arcanum subtree",
-        "applies_to_steps": ["s1-author-plan", "s2-restore-guard", "s3-ratify-baseline", "s4-freeze-profile", "s5-resolve-direction", "s6-map-business-spec", "s7-project-and-retract"],
+        "applies_to_steps": ["s1-author-plan", "s2-restore-guard", "s3-ratify-baseline", "s4-freeze-backend-profile", "s5-resolve-direction", "s6-map-business-spec", "s7-project-and-retract"],
         "contract": "No private prose, graph, receipt, or implementation is copied into public Arcanum.",
         "on_violation": "block"
       }
@@ -424,7 +426,8 @@
   },
   "promotion_guardrails": [
     "Do not execute more than one selected SWU at a time before its wave receipt closes.",
-    "Do not promote FPR-02 before FPR-01 ratification, FPR-03 before FPR-02 digest, or FPR-04 before FPR-03 mapping receipt.",
+    "Do not promote FPR-02B before FPR-01 ratification, FPR-03 before the FPR-02B digest, or FPR-04 before the FPR-03 mapping receipt.",
+    "Do not require FPR-02U completion for FPR-02B, FPR-03, FPR-10, or FPR-11, and do not infer UI release admission from UI development receipts.",
     "Do not equate compiler output with independent evidence.",
     "Do not infer production or release readiness from FPR-04 closure."
   ]

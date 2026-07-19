@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 import {
   compileMintedProject,
   type MintedGraph,
+  type MintedProjectCompileOptions,
   type MintedSourceManifest,
 } from "./compiler";
 import {
@@ -126,8 +127,11 @@ export function renderMintedProjectMarkdown(graph: MintedGraph, graphDigest: str
   return lines.join("\n");
 }
 
-export function buildMintedProjectViews(projectRoot: string): MintedProjectBuildArtifacts {
-  const compiled = compileMintedProject(projectRoot);
+export function buildMintedProjectViews(
+  projectRoot: string,
+  options: MintedProjectCompileOptions = {},
+): MintedProjectBuildArtifacts {
+  const compiled = compileMintedProject(projectRoot, options);
   const graphDigest = sha256(compiled.graphBytes);
   const markdownBytes = renderMintedProjectMarkdown(compiled.graph, graphDigest);
   const markdownView: MintedMarkdownView = {

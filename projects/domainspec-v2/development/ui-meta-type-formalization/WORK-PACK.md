@@ -2,12 +2,19 @@
 module: ui-meta-type-formalization
 feature_code: UIF
 version: current
-status: draft
-updatedAt: 2026-07-11
+status: completed-historical-superseded
+updatedAt: 2026-07-17
 docType: work-pack
 ---
 
 # WORK-PACK: UI Meta-Type Formalization
+
+> Successor direction (2026-07-17): this work-pack remains immutable evidence
+> of the candidate/replication route, but its real-corpus gate no longer blocks
+> UI implementation. The active plan is
+> [Required UI Profile Work Pack](../ui-profile-implementation/WORK-PACK.md):
+> all eleven concepts are required-by-design, synthetic evidence gates
+> mechanics, and real-corpus evidence appends confidence.
 
 Canonical executable plan for candidate UI formation research and evidence
 hardening. Task Session owns execution one SWU at a time. Definitions-governance
@@ -17,15 +24,15 @@ owns any later DS-D1 promotion.
 
 | Field | Value | Notes |
 | --- | --- | --- |
-| workPackGateStatus | block | UIF-010 review is accepted with zero replicated survivors; candidate repair is required before UIF-011 can receive promotion-lane inputs. |
+| workPackGateStatus | complete-superseded | UIF-010 remains accepted historical evidence; the zero-survivor result no longer gates the successor development profile. |
 | complexity | medium | Eleven labels, experiments, candidate schemas, validators, replication, and multiple owners. |
 | outputMode | split | Task and wave contracts live under `work-pack/`. |
 | executionPackRef | [EXECUTION-PACK.md](EXECUTION-PACK.md) | Choreography only; this file owns SWU contracts. |
 | layeringArtifactRef | [IMPLEMENTATION-LAYERING.md](IMPLEMENTATION-LAYERING.md) | L0-L3 decision boundaries. |
 | dispatchTechniqueTrace | [ui-meta-type-formalization.dispatch.json](ui-meta-type-formalization.dispatch.json) | Required because experiments use parallel lanes and owner handoffs. |
-| distillValidationStatus | flag | First unit closes; promotion readiness depends on experiment evidence and owner review. |
-| activeLayerWindow | L2 repair | Nine experimental candidates are deferred after accepted replication review. |
-| readinessProfile | pilot | Candidate evidence package, not release or authority promotion. |
+| distillValidationStatus | historical-flag | Preserved for the old evidence-to-promotion frame; successor Distill validation passes. |
+| activeLayerWindow | closed | Historical experiment route is complete; empirical confidence may resume append-only. |
+| readinessProfile | historical-evidence | Candidate evidence package, not the active implementation plan. |
 
 ## Objective Summary
 

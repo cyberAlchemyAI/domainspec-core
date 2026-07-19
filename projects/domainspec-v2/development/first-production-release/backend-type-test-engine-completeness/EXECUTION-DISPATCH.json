@@ -1,0 +1,498 @@
+{
+  "dispatch_id": "20260717-backend-type-test-engine-completeness-refresh-applied",
+  "intent": {
+    "raw": "Apply the approved refresh to backend type-test-engine completeness using the new YAML meta-type files, node JSON, independent edge JSON, and two read-only consumer proofs.",
+    "objective": "Route one-SWU-at-a-time implementation from a shared YAML criterion kernel through exact 13-kind and 16-signature causal evidence, integrated BTE/IOLM/Body War receipts, and an independently replayable required check.",
+    "target_artifact": "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/WORK-PACK.md",
+    "operator_sentence": "Apply the approved refresh only; do not execute implementation or change release state.",
+    "arcanum_vocabulary": [
+      "invoke",
+      "decision-gate",
+      "context-builder",
+      "task-session",
+      "dispatch-spec",
+      "distill"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "concrete_path_evidence",
+    "authority_split_gate",
+    "state_namespace_boundary",
+    "observability_grouping"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "one_swu_backend_proof_spine",
+      "trigger": "The plan spans contract, corpus, independent denominator, generated execution, mutation, and release evidence.",
+      "techniques": [
+        "sequence",
+        "scu_swu_reduction",
+        "recomposition_proof",
+        "validation_loop",
+        "handle_handoff"
+      ],
+      "applies_to_steps": [
+        "s01-verify-profile-gate",
+        "s02-build-swu-context",
+        "s03-run-one-swu",
+        "s04-independent-verify",
+        "s05-refresh-plan"
+      ],
+      "validation_expectation": "Each selected SWU returns a receipt before its dependent unit is eligible; no whole wave is executed as one task."
+    },
+    {
+      "overlay_id": "independent_denominator_and_release_boundary",
+      "trigger": "The engine under test must not define its own expected obligation set or promote its evidence into release authority.",
+      "techniques": [
+        "owner_boundary_check",
+        "authority_split_gate",
+        "state_namespace_boundary",
+        "execution_receipt_handoff",
+        "concrete_path_evidence",
+        "residue_ledger"
+      ],
+      "applies_to_steps": [
+        "s01-verify-profile-gate",
+        "s03-run-one-swu",
+        "s04-independent-verify",
+        "s05-refresh-plan"
+      ],
+      "validation_expectation": "Profile admission, YAML authority, independent O_spec, generated O_gen, execution receipts, and release state remain separately owned."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "trigger": "The next eligible implementation is one bounded shared-kernel SWU with deterministic local checks.",
+    "explanation": "Use one local Task Session per SWU. Any delegated or parallel execution requires a separate DomainSpec subagent strategy and user confirmation.",
+    "context": [
+        "SWU-BTE-001 is the narrowest next unit after the accepted profile gate.",
+      "SWU-BTE-002 through SWU-BTE-010 remain dependency and Task Session gated."
+    ],
+    "roles": [],
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "permission_prompt": "No subagent execution is authorized by this planning dispatch.",
+    "receipt_requirements": []
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "s01-verify-profile-gate",
+      "name": "Verify the accepted FPR-02B supported-profile decision",
+      "capability_ref": "decision-gate",
+      "capability_status": "local-extension",
+      "capability_metadata": {
+        "source": ".agents/skills/decision-gate/SKILL.md",
+        "owner": "Arcanum decision governance",
+        "validation": "installed repository-local generated capability"
+      },
+      "mode": "verify-accepted-decision",
+      "pattern": "decision",
+      "parallel": false,
+      "techniques": [
+        "owner_boundary_check",
+        "authority_split_gate",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "../decisions/2026-07-17-fpr02-supported-profile-decision.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "work-pack/shared/DECISIONS.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "../../../definitions/minted-project/supported-profiles.yml"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "decision",
+          "ref": "../decisions/2026-07-17-fpr02-supported-profile-decision.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "20260717-backend-type-test-engine-completeness-refresh-applied:profile-gate-accepted"
+        }
+      ],
+      "stop_conditions": [
+        "Accepted decision is missing or no longer PASS",
+        "Production or implementation authorization is incorrectly set true",
+        "UI lane is treated as a dependency"
+      ]
+    },
+    {
+      "step_id": "s02-build-swu-context",
+      "name": "Build strict context for one eligible SWU",
+      "capability_ref": "context-builder",
+      "mode": "lean-strict-runtime",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "scu_swu_reduction",
+        "handle_handoff",
+        "concrete_path_evidence",
+        "state_namespace_boundary"
+      ],
+      "inputs": [
+        {
+          "kind": "decision",
+          "ref": "s01-verify-profile-gate"
+        },
+        {
+          "kind": "artifact",
+          "ref": "WORK-PACK.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "work-pack/shared/CONTEXT.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "frame",
+          "ref": "future Task Session evidence/CONTEXT-PACK.md"
+        },
+        {
+          "kind": "handle",
+          "ref": "future Task Session evidence/CONTEXT-PACK.index.json"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "20260717-backend-type-test-engine-completeness-refresh-applied:swu-context-ready"
+        }
+      ],
+      "stop_conditions": [
+        "More than one SWU is selected",
+        "Any acceptance obligation lacks exact source evidence",
+        "Write scope or validation surface is missing"
+      ]
+    },
+    {
+      "step_id": "s03-run-one-swu",
+      "name": "Execute one selected SWU",
+      "capability_ref": "task-session",
+      "mode": "execute-one-swu",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check",
+        "authority_split_gate",
+        "execution_receipt_handoff",
+        "residue_ledger"
+      ],
+      "inputs": [
+        {
+          "kind": "frame",
+          "ref": "s02-build-swu-context"
+        },
+        {
+          "kind": "handle",
+          "ref": "s02-build-swu-context"
+        },
+        {
+          "kind": "artifact",
+          "ref": "selected work-pack/tasks/TASK-BTE-*.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "handle",
+          "ref": "future Task Session receipt.json"
+        },
+        {
+          "kind": "ledger",
+          "ref": "future Task Session result.md"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "20260717-backend-type-test-engine-completeness-refresh-applied:swu-completed-or-blocked"
+        }
+      ],
+      "stop_conditions": [
+        "Write outside the selected SWU scope",
+        "A second YAML parser or criterion evaluator is introduced",
+        "The engine writes its own independent O_spec denominator",
+        "A backend formation result is promoted to release authority",
+        "Validation fails"
+      ]
+    },
+    {
+      "step_id": "s04-independent-verify",
+      "name": "Independently verify completed proof layers",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "recomposition_proof",
+        "authority_split_gate",
+        "execution_receipt_handoff"
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "s03-run-one-swu"
+        },
+        {
+          "kind": "artifact",
+          "ref": "DISTILL-VALIDATION.md"
+        },
+        {
+          "kind": "artifact",
+          "ref": "work-pack/tasks/TASK-BTE-VERIFY.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "future independent verification receipt"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "20260717-backend-type-test-engine-completeness-refresh-applied:verification-pass-flag-or-block"
+        }
+      ],
+      "evidence_artifact": "future independent verification receipt",
+      "stop_conditions": [
+        "Exact sets or digests differ",
+        "Evidence is missing or empty",
+        "Any test is skipped, todo, orphaned, or undiscovered",
+        "Any targeted mutant survives"
+      ]
+    },
+    {
+      "step_id": "s05-refresh-plan",
+      "name": "Synchronize Invoke state from receipts",
+      "capability_ref": "invoke",
+      "mode": "refresh",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "handle_handoff",
+        "residue_ledger",
+        "owner_boundary_check",
+        "observability_grouping"
+      ],
+      "inputs": [
+        {
+          "kind": "handle",
+          "ref": "s03-run-one-swu"
+        },
+        {
+          "kind": "artifact",
+          "ref": "s04-independent-verify"
+        },
+        {
+          "kind": "artifact",
+          "ref": "WORK-PACK.md"
+        }
+      ],
+      "outputs": [
+        {
+          "kind": "artifact",
+          "ref": "future Invoke refresh report"
+        },
+        {
+          "kind": "trace_event",
+          "ref": "20260717-backend-type-test-engine-completeness-refresh-applied:plan-refreshed-or-flagged"
+        }
+      ],
+      "stop_conditions": [
+        "Receipt does not prove the selected done criteria",
+        "Plan status would exceed evidence",
+        "A new blocker has no owner"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g01-profile-decision",
+      "kind": "human_approval",
+      "owner": "FPR-02B supported-profile owner",
+      "condition": "A strict context pack names the successor profile ID/version, exact 13-kind and 16-signature sets, edge roots, consumer handoffs, write scope, and preserved non-goals.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-dispatch-validation",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "EXECUTION-DISPATCH.json validates with zero blocks before runtime use.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g03-one-swu-context",
+      "kind": "quality",
+      "owner": "context-builder and task-session",
+      "condition": "Exactly one eligible SWU has strict source evidence, write scope, done criteria, and validation coverage.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g04-authority-split",
+      "kind": "promotion_guardrail",
+      "owner": "DomainSpec v2 contract and release owners",
+      "condition": "YAML schemas, profile admission, generated evidence, independent verification, and release state remain separate authorities.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g05-independent-denominator",
+      "kind": "policy",
+      "owner": "release evidence owner",
+      "condition": "Frozen O_spec is digest-bound and independently owned before the engine derives O_gen.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g06-bounded-claim",
+      "kind": "promotion_guardrail",
+      "owner": "first-production-release owner",
+      "condition": "Evidence claims only the conservative exact backend profile plus integrated read-only consumer proof for the candidate profile/version.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g07-lane-independence",
+      "kind": "promotion_guardrail",
+      "owner": "FPR coordination owner",
+      "condition": "FPR-02U progress, blockage, or completion is neither an entry gate nor evidence for this FPR-02B package.",
+      "on_fail": "block"
+    }
+  ],
+  "stop_conditions": [
+    "Accepted FPR-02B profile decision is missing or contradicted",
+    "Any attempt to execute a whole wave rather than one SWU",
+    "Any semantic, UI, cross-feature, or code-conformance scope expansion beyond the accepted 16 backend signatures",
+    "Any missing or empty witness, catalogue, test manifest, or receipt",
+    "Any release or profile-admission claim produced by technical evidence alone"
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "20260717-backend-type-test-engine-completeness-refresh-applied:dispatch-validated",
+      "20260717-backend-type-test-engine-completeness-refresh-applied:profile-gate-accepted",
+      "20260717-backend-type-test-engine-completeness-refresh-applied:refresh-applied",
+      "20260717-backend-type-test-engine-completeness-refresh-applied:consumer-contracts-bound",
+      "20260717-backend-type-test-engine-completeness-refresh-applied:task-session-ready",
+      "20260717-backend-type-test-engine-completeness-refresh-applied:production-remains-false"
+    ],
+    "signal_grouping": "Group runtime evidence by dispatch ID, selected SWU ID, profile version, and input digest set."
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b01-profile-and-implementation",
+        "kind": "capability_handoff",
+        "from_owner": "FPR-02B supported-profile owner",
+        "to_owner": "one bounded Task Session",
+        "applies_to_steps": [
+          "s01-verify-profile-gate",
+          "s02-build-swu-context",
+          "s03-run-one-swu"
+        ],
+        "contract": "The owner selects the supported profile; implementation may realize only the selected SWU and cannot admit or widen the profile.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b02-contract-and-evidence",
+        "kind": "state_write",
+        "from_owner": "canonical YAML schemas and minted node sources",
+        "to_owner": "derived graph, obligation, test, mutation, and receipt namespaces",
+        "applies_to_steps": [
+          "s03-run-one-swu",
+          "s04-independent-verify"
+        ],
+        "contract": "Generated evidence is read-only projection and never overwrites canonical YAML, node sources, or frozen O_spec.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b03-evidence-and-release",
+        "kind": "evidence_return",
+        "from_owner": "Task Session and independent verifier",
+        "to_owner": "Invoke Refresh and first-production-release owner",
+        "applies_to_steps": [
+          "s04-independent-verify",
+          "s05-refresh-plan"
+        ],
+        "contract": "Receipts may update evidenced plan state but cannot change release or admission state without the owning decision.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "invoke plan authors the route; decision-gate resolves owner choices; task-session owns one bounded execution unit",
+      "execution": "one explicitly selected eligible SWU",
+      "validation": "deterministic repository checks plus independent exact-set replay",
+      "evidence": "run-scoped receipts bound to profile, schema, adapter, corpus, catalogue, and command digests",
+      "memory": "observability is non-authoritative and grouped by dispatch and SWU",
+      "promotion": "FPR-02B and release owners only; technical receipts cannot self-promote"
+    },
+    "receipts": [
+      {
+        "receipt_id": "backend-type-swu-receipt",
+        "producer": "task-session",
+        "required_fields": [
+          "run_id",
+          "session_id",
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          "future Task Session result",
+          "future independent verification receipt",
+          "future Invoke refresh report"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "DomainSpec v2 canonical YAML and profile contracts",
+        "owner": "meta-type and supported-profile owners",
+        "write_policy": "only the exact selected SWU scope after owner gates"
+      },
+      {
+        "namespace": "minted-project canonical node sources",
+        "owner": "minted-project source owner",
+        "write_policy": "one JSON file per node plus one JSON file per edge; generated graph, manifest, views, and receipts are read-only"
+      },
+      {
+        "namespace": "backend completeness evidence",
+        "owner": "derivation and independent evidence owners",
+        "write_policy": "run-scoped generation with frozen O_spec kept outside engine overwrite authority"
+      },
+      {
+        "namespace": "Invoke plan and release state",
+        "owner": "invoke and first-production-release owner",
+        "write_policy": "synchronize only from verified receipts; promotion requires owner decision"
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "All backend types means the exact 13 active backend kinds, not UI candidates or superseded Saga; FPR-02U is independent.",
+    "Formation and relationship completeness means exact 16 YAML criteria plus 16 backend signatures; neither is semantic correctness.",
+    "A generated all-kind witness is conformance evidence, not canonical product meaning.",
+    "A passing technical receipt is not supported-profile admission or release authorization."
+  ]
+}

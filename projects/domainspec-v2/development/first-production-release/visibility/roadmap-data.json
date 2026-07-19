@@ -5,7 +5,7 @@
     "state_authority": "projects/domainspec-v2/.craft/ledger.yml",
     "graph_authority": "projects/domainspec-v2/development/first-production-release/craft/expected-node-edge-manifest.yml",
     "production_authorized": false,
-    "input_fingerprint": "sha256:f8fae34ebee38ed232f29316a5e64668c66436a0ff66176465b117bc771023f3",
+    "input_fingerprint": "sha256:cff6424632ce398be67856f2a9007082101dabfa2fb3f51c5a1d61a0d10058bc",
     "input_manifest_version": "roadmap-build-inputs.v1"
   },
   "build": {
@@ -20,33 +20,33 @@
         "graph_manifest": {
           "role": "roadmap projection",
           "path": "projects/domainspec-v2/development/first-production-release/craft/expected-node-edge-manifest.yml",
-          "sha256": "sha256:0d24d1581da0faea3cc1a481ee7175083a922f10cc731fb5bd474ccd6320e64e"
+          "sha256": "sha256:b3bfe11306f9f3684c3eecbc6737a3a39d9023abaa1f05800ba6ec4489e7bbe7"
         },
         "craft_ledger": {
           "role": "Craft continuation authority",
           "path": "projects/domainspec-v2/.craft/ledger.yml",
-          "sha256": "sha256:7bd976db9b6cf853f3572f61c95ccfc55f8ef09447dc6d51fcf5ad5a30d1d0ff"
+          "sha256": "sha256:eab0ec99e5d831025f0ba9b3143721b6e1a77528924f436d7756cec507a12f16"
         },
         "presentation_copy": {
           "role": "presentation copy",
           "path": "projects/domainspec-v2/development/first-production-release/visibility/roadmap-copy.json",
-          "sha256": "sha256:72f01f12145b09da9b14b4d1165403d54c0a5cf7d0b647b2f76c7445fc178771"
+          "sha256": "sha256:42923ee7da3070f0e07ab8b6eba2c73276c40620ca55b77c040fcf7919c6af54"
         },
         "declared_sources": [
           {
             "role": "roadmap projection",
             "path": "projects/domainspec-v2/development/first-production-release/craft/expected-node-edge-manifest.yml",
-            "sha256": "sha256:0d24d1581da0faea3cc1a481ee7175083a922f10cc731fb5bd474ccd6320e64e"
+            "sha256": "sha256:b3bfe11306f9f3684c3eecbc6737a3a39d9023abaa1f05800ba6ec4489e7bbe7"
           },
           {
             "role": "Craft continuation authority",
             "path": "projects/domainspec-v2/.craft/ledger.yml",
-            "sha256": "sha256:7bd976db9b6cf853f3572f61c95ccfc55f8ef09447dc6d51fcf5ad5a30d1d0ff"
+            "sha256": "sha256:eab0ec99e5d831025f0ba9b3143721b6e1a77528924f436d7756cec507a12f16"
           },
           {
             "role": "presentation copy",
             "path": "projects/domainspec-v2/development/first-production-release/visibility/roadmap-copy.json",
-            "sha256": "sha256:72f01f12145b09da9b14b4d1165403d54c0a5cf7d0b647b2f76c7445fc178771"
+            "sha256": "sha256:42923ee7da3070f0e07ab8b6eba2c73276c40620ca55b77c040fcf7919c6af54"
           },
           {
             "role": "accepted decision",
@@ -66,7 +66,7 @@
           {
             "role": "roadmap",
             "path": "projects/domainspec-v2/development/first-production-release/ROADMAP.md",
-            "sha256": "sha256:bf7b90c242e62029887d68f961d0a6b41074beb7e78560332bdbb07bf4d7248b"
+            "sha256": "sha256:3a5b35c1f9ead0d08778f36920b49985e8d9e82e737b07888193e11e8033f53b"
           }
         ]
       },
@@ -75,6 +75,8 @@
           "FPR-00",
           "FPR-01",
           "FPR-02",
+          "FPR-02B",
+          "FPR-02U",
           "FPR-03",
           "FPR-04",
           "FPR-05",
@@ -115,10 +117,13 @@
         "status_ids": [
           "absent",
           "blocked",
-          "blocked-open",
           "closed-decision-altitude",
+          "closed-lane-split",
+          "closed-ratified",
           "nonconformant-unproved",
           "partial-absent",
+          "partial-decision-in-progress",
+          "partial-development-active",
           "partial-false-green",
           "partial-integration-blocked",
           "research-only-integration-blocked",
@@ -156,6 +161,10 @@
           "copy.node.FPR-01.title",
           "copy.node.FPR-02.summary",
           "copy.node.FPR-02.title",
+          "copy.node.FPR-02B.summary",
+          "copy.node.FPR-02B.title",
+          "copy.node.FPR-02U.summary",
+          "copy.node.FPR-02U.title",
           "copy.node.FPR-03.summary",
           "copy.node.FPR-03.title",
           "copy.node.FPR-04.summary",
@@ -183,11 +192,14 @@
           "copy.node.FPR-15.summary",
           "copy.node.FPR-15.title",
           "copy.status.absent.status-label",
-          "copy.status.blocked-open.status-label",
           "copy.status.blocked.status-label",
           "copy.status.closed-decision-altitude.status-label",
+          "copy.status.closed-lane-split.status-label",
+          "copy.status.closed-ratified.status-label",
           "copy.status.nonconformant-unproved.status-label",
           "copy.status.partial-absent.status-label",
+          "copy.status.partial-decision-in-progress.status-label",
+          "copy.status.partial-development-active.status-label",
           "copy.status.partial-false-green.status-label",
           "copy.status.partial-integration-blocked.status-label",
           "copy.status.research-only-integration-blocked.status-label",
@@ -200,13 +212,13 @@
         ]
       },
       "coverage": {
-        "required_fields": 67,
-        "provided_fields": 67,
+        "required_fields": 74,
+        "provided_fields": 74,
         "missing_fields": 0,
         "unused_fields": 0
       }
     },
-    "input_fingerprint": "sha256:f8fae34ebee38ed232f29316a5e64668c66436a0ff66176465b117bc771023f3"
+    "input_fingerprint": "sha256:cff6424632ce398be67856f2a9007082101dabfa2fb3f51c5a1d61a0d10058bc"
   },
   "manifest": {
     "schema_version": "0.1.0",
@@ -285,23 +297,23 @@
     "purpose": "Carry the accepted private repository-local system-builder and conformance CLI from owner-ratified business meaning through typed specification projection, architecture and composable-pattern enforcement, bounded formal validation, independently grounded generated verification, structural implementation analysis, directional cross-graph conformance, a clean release candidate, and the exact 14-step Body War pilot. This context is continuation authority, not production authorization.",
     "stage": "plan",
     "gate": "block",
-    "next_move": "Start a separate Task Session for exactly SWU-FPR01-001: emit a deterministic authority census with provenance and every disagreement, choose no winning source, and stop if any authority claim lacks an owner. W0 is proof-refreshed; FPR01-002 and every later unit remain predecessor-gated."
+    "next_move": "FPR-01 and W1 are closed. The FPR-02 coordination decision is closed as two independent lanes: FPR-02B resumes SWU-FPR02-001 at four unresolved backend/profile/pilot decisions, while FPR-02U resumes SWU-UIP-005 in the existing UI work-pack. Neither lane blocks or advances the other. Production remains unauthorized."
   },
   "visibility_context": {
     "context_id": "CTX-DSV2-FPR-VISIBILITY",
     "stage": "validated",
     "gate": "pass",
-    "next_move": "After any authorized Craft or FPR manifest update, run the visibility roadmap builder documented in development/first-production-release/visibility/PLAN-TRANSPORT.md, then run the same command with `--check`. Route new material frontiers through the existing persistent research protocol; do not advance FPR-01 here."
+    "next_move": "After any authorized Craft or FPR manifest update, run the visibility roadmap builder documented in development/first-production-release/visibility/PLAN-TRANSPORT.md, then run the same command with `--check`. Route new material frontiers through the existing persistent research protocol; do not select or advance either FPR-02B or FPR-02U here."
   },
   "counts": {
-    "nodes": 16,
-    "edges": 38,
+    "nodes": 18,
+    "edges": 40,
     "frontiers": 5,
     "critical_steps": 14,
     "visual_groups": {
-      "closed": 1,
-      "active": 6,
-      "blocked": 9
+      "closed": 3,
+      "active": 8,
+      "blocked": 7
     }
   },
   "nodes": [
@@ -338,9 +350,9 @@
     {
       "id": "FPR-01",
       "title": "authority baseline",
-      "state": "blocked-open",
+      "state": "closed-ratified",
       "applicability": "applies",
-      "release_timing": "blocks-first-release",
+      "release_timing": "closed-prerequisite",
       "work_kind": "capability-and-owner-decision",
       "owner_route": "definitions, validation, and layering owners through existing gates",
       "dependencies": [
@@ -358,25 +370,61 @@
       ],
       "exit": "13/14, 24/25, 30/31, composability, projection, and direction conflicts are disposed",
       "omission": "every downstream denominator may select stale authority",
-      "next_move": "reconcile the live authority surfaces; do not choose the favorable count",
+      "next_move": "preserve the digest-bound receipt and reopen only on the named authority-change trigger",
       "evidence_provenance": [
         "research:Agent-1-executive-verdict",
-        "prior-roadmap:R1"
+        "prior-roadmap:R1",
+        "task-session:SWU-FPR01-004"
       ],
       "reopen_trigger": "authority source, count, status, or direction changes",
-      "visual_group": "blocked",
+      "visual_group": "closed",
       "evidence_contexts": []
     },
     {
       "id": "FPR-02",
-      "title": "product, supported profile, and pilot contract",
-      "state": "blocked",
+      "title": "backend and UI profile lane separation",
+      "state": "closed-lane-split",
       "applicability": "applies",
-      "release_timing": "blocks-first-release",
-      "work_kind": "decision-and-capability",
+      "release_timing": "closed-coordination-prerequisite",
+      "work_kind": "decision",
       "owner_route": "claim and semantic owners through invoke and decision-gate",
       "dependencies": [
         "FPR-01"
+      ],
+      "artifacts": [
+        "projects/domainspec-v2/development/first-production-release/decisions/2026-07-17-fpr02-supported-profile-decision.md",
+        "projects/domainspec-v2/development/first-production-release/profile-lanes/README.md",
+        "projects/domainspec-v2/development/first-production-release/profile-lanes/fpr02-lanes.yml"
+      ],
+      "proof": "backend release and UI development have distinct lane IDs, execution owners, receipts, next moves, and promotion targets with no cross-lane completion dependency",
+      "negative_controls": [
+        "implicit lane join",
+        "sibling blocker propagation",
+        "shared status overwrite",
+        "automatic UI release admission"
+      ],
+      "exit": "FPR-02B and FPR-02U are independently resumable and neither can mutate or advance the other",
+      "omission": "UI and backend residue can silently block each other or share an ambiguous profile denominator",
+      "next_move": "resume FPR-02B decisions or FPR-02U SWU-UIP-005 independently",
+      "evidence_provenance": [
+        "operator-decision:2026-07-17",
+        "invoke-refresh:fpr02-lane-separation"
+      ],
+      "reopen_trigger": "a lane becomes dependent on the sibling, a shared substrate invariant fails, or a UI-inclusive release is proposed",
+      "visual_group": "closed",
+      "evidence_contexts": []
+    },
+    {
+      "id": "FPR-02B",
+      "title": "backend product, supported profile, and pilot contract",
+      "state": "partial-decision-in-progress",
+      "applicability": "applies",
+      "release_timing": "blocks-first-release",
+      "work_kind": "decision-and-capability",
+      "owner_route": "backend claim and semantic owners through invoke and decision-gate",
+      "dependencies": [
+        "FPR-01",
+        "FPR-02"
       ],
       "artifacts": [
         "projects/domainspec-v2/development/first-production-release/product-contract.yml",
@@ -390,26 +438,65 @@
         "projects/domainspec-v2/development/first-production-release/pilot/allowed-redacted-fields.yml",
         "projects/domainspec-v2/development/first-production-release/evidence/profile-digest.json"
       ],
-      "proof": "one validator consumes every artifact and emits one stable profile digest",
+      "proof": "one validator consumes every backend/pilot artifact and emits one stable profile digest",
       "negative_controls": [
         "empty profile",
         "unknown type",
+        "UI type",
         "absent root",
         "placeholder owner",
         "missing obligation kind",
         "unresolved origin",
         "empty redaction allowlist"
       ],
-      "exit": "exact supported concepts, relations, documents, commands, writes, languages, obligations, roots, generated artifacts, failures, claims, and pilot route are frozen",
+      "exit": "exact backend concepts, relations, documents, commands, writes, languages, obligations, roots, generated artifacts, failures, claims, and pilot route are frozen",
       "omission": "denominators, behavior, interfaces, and pilot relevance remain undefined",
-      "next_move": "author schemas and deliberate red fixtures after FPR-01",
+      "next_move": "resume SWU-FPR02-001 at the four remaining backend/profile/pilot decision groups",
       "evidence_provenance": [
         "accepted-decision",
         "research:Agent-2-E1",
-        "research:Agent-3-BW-01"
+        "research:Agent-3-BW-01",
+        "operator-decision:2026-07-17"
       ],
       "reopen_trigger": "profile, claim, pilot, callback, origin, or redaction boundary changes",
-      "visual_group": "blocked",
+      "visual_group": "active",
+      "evidence_contexts": []
+    },
+    {
+      "id": "FPR-02U",
+      "title": "required UI development profile",
+      "state": "partial-development-active",
+      "applicability": "development-only",
+      "release_timing": "does-not-block-backend-first-release",
+      "work_kind": "capability-and-owner-handoff",
+      "owner_route": "UI profile implementation owners followed by DS-D1, DS-D8, and profile owners",
+      "dependencies": [
+        "FPR-01",
+        "FPR-02"
+      ],
+      "artifacts": [
+        "projects/domainspec-v2/development/ui-profile-implementation/WORK-PACK.md",
+        "projects/domainspec-v2/development/ui-profile-implementation/UI-PROFILE-DESIGN.json",
+        "projects/domainspec-v2/development/ui-profile-implementation/ARCHITECTURE.md",
+        "projects/domainspec-v2/development/ui-profile-implementation/IMPLEMENTATION-LAYERING.md"
+      ],
+      "proof": "lane-owned receipts prove mechanical formation, graph integration, authority packet completeness, and integrated audit without canonical or release mutation",
+      "negative_controls": [
+        "backend blocker propagation",
+        "implicit canonical activation",
+        "implicit release admission",
+        "synthetic evidence labeled empirical"
+      ],
+      "exit": "exact UI development result and residue are handed to canonical owners",
+      "omission": "required UI vocabulary remains unimplemented or its authority deltas stay ambiguous",
+      "next_move": "run SWU-UIP-005 under the existing UI work-pack",
+      "evidence_provenance": [
+        "required-ui-profile-refresh:2026-07-17",
+        "task-session:SWU-UIP-001",
+        "operator-decision:2026-07-17"
+      ],
+      "reopen_trigger": "UI concept inventory, representation, shared compiler contract, or authority disposition changes",
+      "visual_group": "active",
       "evidence_contexts": []
     },
     {
@@ -421,7 +508,7 @@
       "work_kind": "capability",
       "owner_route": "business and semantic owners with ontology-harness and definitions-governance",
       "dependencies": [
-        "FPR-02"
+        "FPR-02B"
       ],
       "artifacts": [
         "projects/domainspec-v2/development/first-production-release/graphs/business-ontology.json",
@@ -749,7 +836,7 @@
       "work_kind": "capability-and-operation",
       "owner_route": "Body War product and operator owner through task-session",
       "dependencies": [
-        "FPR-02"
+        "FPR-02B"
       ],
       "artifacts": [
         "projects/domainspec-v2/development/first-production-release/pilot/body-war-scenario.yml",
@@ -772,7 +859,7 @@
       ],
       "exit": "exact API journey passes; callback, origin, deployment, consent, and redaction applicability are closed",
       "omission": "a green pilot may be irrelevant or authority-inflating",
-      "next_move": "resolve FR-FPR-BW-ORIGIN-ROUTE at FPR-02",
+      "next_move": "resolve FR-FPR-BW-ORIGIN-ROUTE at FPR-02B",
       "evidence_provenance": [
         "research:Agent-3-BW-09",
         "research:Agent-2-Body-War"
@@ -790,7 +877,7 @@
       "work_kind": "capability-hardening-operation",
       "owner_route": "runtime, state, security, support, and operator owners",
       "dependencies": [
-        "FPR-02"
+        "FPR-02B"
       ],
       "artifact_roots": [
         "projects/domainspec-v2/impl/test-derivation-engine/dist/cli.js",
@@ -1015,6 +1102,16 @@
     },
     {
       "from": "FPR-02",
+      "to": "FPR-02B",
+      "kind": "branches-to"
+    },
+    {
+      "from": "FPR-02",
+      "to": "FPR-02U",
+      "kind": "branches-to"
+    },
+    {
+      "from": "FPR-02B",
       "to": "FPR-03",
       "kind": "depends-on"
     },
@@ -1089,12 +1186,12 @@
       "kind": "joins"
     },
     {
-      "from": "FPR-02",
+      "from": "FPR-02B",
       "to": "FPR-10",
       "kind": "depends-on"
     },
     {
-      "from": "FPR-02",
+      "from": "FPR-02B",
       "to": "FPR-11",
       "kind": "depends-on"
     },
@@ -1310,8 +1407,8 @@
     "schema_version": "1.0.0",
     "copy_kind": "presentation-only",
     "coverage": {
-      "required_fields": 67,
-      "provided_fields": 67,
+      "required_fields": 74,
+      "provided_fields": 74,
       "missing_fields": 0,
       "unused_fields": 0
     },
@@ -1359,7 +1456,7 @@
           "id": "FPR-02"
         },
         "role": "title",
-        "text": "Freeze the first-release promise"
+        "text": "Separate backend and UI profile work"
       },
       {
         "field_id": "copy.node.FPR-02.summary",
@@ -1368,7 +1465,43 @@
           "id": "FPR-02"
         },
         "role": "summary",
-        "text": "Define exactly what is supported, what Body War must prove, and which claims stay outside this release."
+        "text": "Give backend release work and required UI development separate owners, gates, receipts, and next moves without an implicit join."
+      },
+      {
+        "field_id": "copy.node.FPR-02B.title",
+        "target": {
+          "kind": "node",
+          "id": "FPR-02B"
+        },
+        "role": "title",
+        "text": "Freeze the backend release promise"
+      },
+      {
+        "field_id": "copy.node.FPR-02B.summary",
+        "target": {
+          "kind": "node",
+          "id": "FPR-02B"
+        },
+        "role": "summary",
+        "text": "Define the exact backend profile, Body War pilot, claims, owners, negatives, rollback, origin, redaction, and stable digest."
+      },
+      {
+        "field_id": "copy.node.FPR-02U.title",
+        "target": {
+          "kind": "node",
+          "id": "FPR-02U"
+        },
+        "role": "title",
+        "text": "Build the required UI profile"
+      },
+      {
+        "field_id": "copy.node.FPR-02U.summary",
+        "target": {
+          "kind": "node",
+          "id": "FPR-02U"
+        },
+        "role": "summary",
+        "text": "Continue the eleven-concept UI development profile and hand exact authority deltas to owners without blocking the backend release."
       },
       {
         "field_id": "copy.node.FPR-03.title",
@@ -1614,13 +1747,40 @@
         "text": "Direction agreed"
       },
       {
-        "field_id": "copy.status.blocked-open.status-label",
+        "field_id": "copy.status.closed-ratified.status-label",
         "target": {
           "kind": "status",
-          "id": "blocked-open"
+          "id": "closed-ratified"
         },
         "role": "status-label",
-        "text": "Open and blocking"
+        "text": "Closed by verified ratification"
+      },
+      {
+        "field_id": "copy.status.closed-lane-split.status-label",
+        "target": {
+          "kind": "status",
+          "id": "closed-lane-split"
+        },
+        "role": "status-label",
+        "text": "Lane split agreed"
+      },
+      {
+        "field_id": "copy.status.partial-decision-in-progress.status-label",
+        "target": {
+          "kind": "status",
+          "id": "partial-decision-in-progress"
+        },
+        "role": "status-label",
+        "text": "Backend decisions remain"
+      },
+      {
+        "field_id": "copy.status.partial-development-active.status-label",
+        "target": {
+          "kind": "status",
+          "id": "partial-development-active"
+        },
+        "role": "status-label",
+        "text": "Development in progress"
       },
       {
         "field_id": "copy.status.blocked.status-label",
@@ -1930,8 +2090,16 @@
         "summary": "Compare the roadmap, specifications, decisions, and code. For every disagreement, record what the team will follow and who approved it."
       },
       "FPR-02": {
-        "title": "Freeze the first-release promise",
-        "summary": "Define exactly what is supported, what Body War must prove, and which claims stay outside this release."
+        "title": "Separate backend and UI profile work",
+        "summary": "Give backend release work and required UI development separate owners, gates, receipts, and next moves without an implicit join."
+      },
+      "FPR-02B": {
+        "title": "Freeze the backend release promise",
+        "summary": "Define the exact backend profile, Body War pilot, claims, owners, negatives, rollback, origin, redaction, and stable digest."
+      },
+      "FPR-02U": {
+        "title": "Build the required UI profile",
+        "summary": "Continue the eleven-concept UI development profile and hand exact authority deltas to owners without blocking the backend release."
       },
       "FPR-03": {
         "title": "Connect business meaning to the Spec",
@@ -2026,7 +2194,10 @@
     },
     "status": {
       "closed-decision-altitude": "Direction agreed",
-      "blocked-open": "Open and blocking",
+      "closed-ratified": "Closed by verified ratification",
+      "closed-lane-split": "Lane split agreed",
+      "partial-decision-in-progress": "Backend decisions remain",
+      "partial-development-active": "Development in progress",
       "blocked": "Not started; blocked",
       "partial-integration-blocked": "Parts exist; integration is blocked",
       "research-only-integration-blocked": "Research exists; release integration is blocked",
@@ -2132,7 +2303,7 @@
         "artifact_id": "ART-DSV2-FPR-FOUNDATION-PLAN",
         "path": "development/first-production-release/foundation-execution/WORK-PACK.md",
         "status": "active",
-        "notes": "Invoke split work-pack for the guard-to-FPR-04 foundation route. W0 is proof-refreshed and SWU-FPR01-001 is selected for a later Task Session; every successor remains receipt-gated."
+        "notes": "Invoke split work-pack for the guard-to-FPR-04 foundation route. FPR-01 and W1 are complete; FPR-02 is available for separate selection and Decision Gate while every later successor remains receipt-gated."
       },
       {
         "artifact_id": "ART-DSV2-FPR-FOUNDATION-ACTIVATION",
@@ -2163,6 +2334,108 @@
         "path": "development/first-production-release/foundation-execution/refreshes/2026-07-14-w0-proof-sync/REFRESH-REPORT.md",
         "status": "active",
         "notes": "Apply-approved Invoke refresh that consumes the accepted 007 retry receipt, closes W0, and selects but does not execute SWU-FPR01-001."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01-002-ADOPTION-ACTIVATION",
+        "path": "development/first-production-release/evidence/FPR01-002-ADOPTION-ACTIVATION-DECISION.md",
+        "status": "active",
+        "notes": "Closed Decision Gate record selecting combined narrow activation and unchanged digest-bound packet adoption. It denies packet mutation, authority promotion, and FPR01-003 execution."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01-002-ACTIVATION-REFRESH",
+        "path": "development/first-production-release/foundation-execution/refreshes/2026-07-16-fpr01-002-adoption-activation/REFRESH-REPORT.md",
+        "status": "active",
+        "notes": "Apply-approved Invoke refresh consuming the accepted FPR01-001 receipt and selecting but not executing SWU-FPR01-002. Its JSON companion is machine execution evidence, not independent authority."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01-002-RECEIPT",
+        "path": "development/first-production-release/foundation-execution/runs/SWU-FPR01-002/TASK-SESSION-RESULT.md",
+        "status": "active",
+        "notes": "Verified PASS receipt binding unchanged owner-disposition artifacts, exact census coverage, five approved owner queues, and six rejected negative mutants. It does not authorize FPR01-003 by itself."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01-002-RECEIPT-SYNC",
+        "path": "development/first-production-release/foundation-execution/refreshes/2026-07-16-fpr01-002-receipt-sync/REFRESH-REPORT.md",
+        "status": "active",
+        "notes": "Separate Invoke receipt synchronization that consumes the verified FPR01-002 result and selects but does not execute SWU-FPR01-003. Definitions and import repairs remain separately owned residue."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01-003-BASELINE",
+        "path": "development/first-production-release/authority-baseline.yml",
+        "status": "active",
+        "notes": "The unchanged 13/24/30 validation-candidate whose exact digest is ratified by the FPR01-004 receipt. Its internal authority, successor, FPR-02, and production flags remain false."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01-003-VALIDATOR",
+        "path": "development/first-production-release/tools/validate-authority-baseline.cjs",
+        "status": "active",
+        "notes": "Dependency-free deterministic validator with five typed negative fixtures. Every mutant is killed and two canonical runs are byte-identical PASS against current authority inputs."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01-003-RECEIPT",
+        "path": "development/first-production-release/foundation-execution/runs/SWU-FPR01-003/TASK-SESSION-RESULT.md",
+        "status": "active",
+        "notes": "Superseding PASS receipt binding the immutable package, all three blocker closures, deterministic replay, five killed mutants, aggregate validation, and unchanged unratified authority boundary."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01-003-BLOCKER-SYNC",
+        "path": "development/first-production-release/foundation-execution/refreshes/2026-07-16-fpr01-003-blocker-sync/REFRESH-REPORT.md",
+        "status": "active",
+        "notes": "Separate Invoke synchronization that preserves the code package, registers the receipt-backed blockers, and denies successor selection until a superseding PASS receipt exists."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01003-GUARD-RECEIPT",
+        "path": "development/first-production-release/foundation-execution/runs/SWU-FPR01003-GUARD-001/TASK-SESSION-RESULT.md",
+        "status": "active",
+        "notes": "Receipt-backed exact classifications, zero violations, live negative controls, and unchanged frozen manifest."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01003-SAMPLE-RECEIPT",
+        "path": "development/first-production-release/foundation-execution/runs/SWU-FPR01003-SAMPLE-001/TASK-SESSION-RESULT.md",
+        "status": "active",
+        "notes": "Receipt-backed normalized sample with one local concept, zero invented edges, deterministic clean lint, and focused tests."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01003-REPLAY-RESULT",
+        "path": "development/first-production-release/foundation-execution/runs/SWU-FPR01-003/replay-result.json",
+        "status": "active",
+        "notes": "Machine replay result binding both repairs, deterministic canonical PASS, five killed mutants, aggregate validation, and false authority flags."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01003-PASS-SYNC",
+        "path": "development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-003-pass-sync/REFRESH-REPORT.md",
+        "status": "active",
+        "notes": "Apply-approved Invoke refresh completing W1R and selecting but not executing SWU-FPR01-004."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01-004-RATIFICATION",
+        "path": "development/first-production-release/evidence/authority-baseline-ratification.json",
+        "status": "active",
+        "notes": "Exact-digest FPR-01 ratification with 19/19 verified bindings, deterministic replay, five killed mutants, and deliberate mutation rejection."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01-004-RECEIPT",
+        "path": "development/first-production-release/foundation-execution/runs/SWU-FPR01-004/TASK-SESSION-RESULT.md",
+        "status": "active",
+        "notes": "Independent Task Session PASS receipt for the ratification package; it selects no successor and grants no production authority."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR01-004-SYNC",
+        "path": "development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr01-004-ratification-sync/REFRESH-REPORT.md",
+        "status": "active",
+        "notes": "Apply-approved Invoke refresh closing FPR-01 and W1 while leaving FPR-02 decision-ready but unselected."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR02-LANE-CONTRACT",
+        "path": "development/first-production-release/profile-lanes/fpr02-lanes.yml",
+        "status": "active",
+        "notes": "Machine-readable FPR-02 parent contract defining independent backend and UI lanes, separate next moves, separate promotion targets, no cross-lane completion dependency, and no implicit release join."
+      },
+      {
+        "artifact_id": "ART-DSV2-FPR02-LANE-REFRESH",
+        "path": "development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr02-lane-separation/REFRESH-REPORT.md",
+        "status": "active",
+        "notes": "Apply-approved Invoke refresh that synchronizes the independent lane contract across plans, Craft, and roadmap visibility without changing source authority, runtime, schemas, historical receipts, or release state."
       }
     ],
     "visibility": [

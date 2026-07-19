@@ -5,24 +5,51 @@
 
 # DS-D1 — Meta-Type System (definition cards)
 
-Status: candidate (owner approval in progress, 1-by-1)
+Status: active registry (13 active backend types; UI maturity remains non-active and differentiated)
 Owner: definitions-governance (domain-local)
 Machine view: [meta-types.yml](./meta-types.yml) · Criterion per type: `../../impl/spec/meta-types/<category>/<type>.schema.yml`
 
-**meta-type** = a candidate concept type in the DomainSpec node alphabet. The descriptive catalog names 24
-candidates, but this authority surface currently carries cards only for 13 backend types. Each backend
-card's Formal voice restates its `.schema.yml` criterion; Evidence links the schema (the machine source of
-truth) + the TAXONOMY entry.
+**meta-type** = one retained label in the 24-member staged DomainSpec node alphabet. Thirteen backend types
+are active, nine UI labels are candidates, Adapter is a deferred merge-candidate, and State Indicator is a
+deferred split-candidate. `DS-D1.10 Saga` is superseded and its ID is never reused. Each active backend card's
+Formal voice restates its canonical `.schema.yml` criterion; UI cards state candidate or deferred evidence
+without promoting it.
 
 ## Maturity Ledger
 
 | Candidate slice | Current status | Authority boundary |
 | --- | --- | --- |
-| `DS-D1.1..9`, `DS-D1.11..14` backend | Shape/fixture-backed candidates; confirmation remains owner-gated and deeper semantic laws may still need hardening. | Schema presence proves checked shape, not full semantic authority; the explicit ID gap preserves later identities. |
-| `DS-D1.15..25` UI | Formation-deferred; no cards or criterion schemas live in this authority surface. | Active DS-D8 endpoint use is evidence pressure only and does not promote DS-D1 formation. |
+| `DS-D1.1..9`, `DS-D1.11..14` backend | Active: thirteen non-contiguous backend types. | OD-001 selects these types for the FPR-01 baseline; their checked public criteria remain distinct from private derivation semantics. |
+| `DS-D1.10 Saga` | Superseded; stable historical ID. | Saga collapsed into Workflow; the ID is retained and may never be renumbered or reused. |
+| `DS-D1.15..23` UI | Candidate: nine shape-evidenced labels, not active or promotion-ready. | Candidate schemas and experiments support continued hardening; portability and separating evidence remain incomplete. |
+| `DS-D1.24 Adapter` | Deferred / merge-candidate toward `DS-D1.13 Mapping`. | The experiment reproduced structural collapse; UI-boundary metadata does not yet earn a separate node type. |
+| `DS-D1.25 State Indicator` | Deferred / split-candidate. | Domain-state visualization survived, but async request state remains a distinct unresolved branch. |
 
 The deferred UI candidate trail remains in
 [`development/meta-type-definitions/CANDIDATES.md`](../../development/meta-type-definitions/CANDIDATES.md).
+
+The inherited backend confirm contracts document the activation threshold and future reopening gate. OD-001
+records the current `active` status; it does not turn any UI candidate into active authority.
+
+---
+
+## DS-D1.10 · Saga (Superseded)
+
+Status: superseded; replacement = `DS-D1.9 Workflow`; ID reuse = forbidden
+
+Evidence: [FPR01 owner dispositions](../../development/first-production-release/evidence/FPR01-OWNER-DISPOSITIONS-DECISION.md#od-001--backend-count-staged-labels-and-maturity)
+
+Formal voice: `DS-D1.10` is a stable retired identifier. It is excluded from the active member set and from
+the 24 staged labels; any former Saga orchestration resolves to Workflow rather than a new numbered type.
+
+Plain-language voice: Saga is no longer a separate DomainSpec type. We keep the number as a tombstone so old
+evidence still makes sense and nobody silently gives `.10` a different meaning later.
+
+Domain-context voice: validators admit the 13 backend IDs `DS-D1.1..9` and `DS-D1.11..14`. A current feature
+must model multi-step orchestration as Workflow and must not declare Saga or reuse `DS-D1.10`.
+
+Misuse warning: superseded does not mean available for reassignment, candidate, deprecated alias, or active
+profile member.
 
 ---
 
@@ -69,6 +96,223 @@ definitions-governance owner gate; status on confirm = candidate → active.
 
 Promotion boundary: local domain vocabulary (DomainSpec v2); the criterion is the public schema, never the
 engine δ-derivation (moat).
+
+---
+
+## DS-D1.15 · Page (UI candidate)
+
+Status: candidate; not active or promotion-ready
+
+Evidence: [candidate schema](../../development/ui-meta-type-formalization/candidate-meta-types/ui/page/page.schema.yml) ·
+[adjudication](../../development/ui-meta-type-formalization/adjudication/verdicts.yml)
+
+Formal voice: candidate Page = a terminal navigable route declaring `route_path`, `terminal = true`,
+`access_context`, `primary_content`, `layout_ref`, and `unit_inventory`.
+
+Plain-language voice: a Page is the UI unit that owns a destination and its primary content, not merely a
+reusable visual part.
+
+Domain-context voice: candidate Page may source `renders` and may be targeted by `wraps` and `protects` in
+DS-D8. Independent route-framework replication is still missing.
+
+Misuse warning: a route filename or framework convention alone does not establish a Page.
+
+---
+
+## DS-D1.16 · Layout (UI candidate)
+
+Status: candidate; not active or promotion-ready
+
+Evidence: [candidate schema](../../development/ui-meta-type-formalization/candidate-meta-types/ui/layout/layout.schema.yml) ·
+[adjudication](../../development/ui-meta-type-formalization/adjudication/verdicts.yml)
+
+Formal voice: candidate Layout = a shell declaring finite `slots`, `shared_chrome`,
+`page_specific_content = false`, and `wrap_target = Page`.
+
+Plain-language voice: a Layout owns the reusable frame around pages; the Page owns the destination-specific
+content inside that frame.
+
+Domain-context voice: candidate Layout may source `wraps` in DS-D8. Its finite-shell law still lacks an
+independent corpus.
+
+Misuse warning: CSS arrangement, reuse, or a framework layout filename is not enough.
+
+---
+
+## DS-D1.17 · Component (UI candidate)
+
+Status: candidate; narrow fallback only; not active or promotion-ready
+
+Evidence: [candidate schema](../../development/ui-meta-type-formalization/candidate-meta-types/ui/component/component.schema.yml) ·
+[adjudication](../../development/ui-meta-type-formalization/adjudication/verdicts.yml)
+
+Formal voice: candidate Component = a non-routable visual unit with typed inputs/outputs and explicit
+`false` declarations for independent route, domain-data, validation, and access authority.
+
+Plain-language voice: a Component is the small visual building block left after more specific Page, Form,
+Guard, or State Indicator laws do not apply.
+
+Domain-context voice: its candidate DS-D8 slice includes `composes`, `consumes`, `displays`, and `renders`.
+The broad umbrella meaning of “anything in the UI” is rejected.
+
+Misuse warning: a framework component declaration or `component_kind` tag alone proves nothing.
+
+---
+
+## DS-D1.18 · View Model (UI candidate)
+
+Status: candidate; not active or promotion-ready
+
+Evidence: [candidate schema](../../development/ui-meta-type-formalization/candidate-meta-types/ui/view-model/view-model.schema.yml) ·
+[adjudication](../../development/ui-meta-type-formalization/adjudication/verdicts.yml)
+
+Formal voice: candidate View Model = a typed display-scoped shape with `source_refs`, `display_context`,
+`display_roles`, and `domain_authority = false`.
+
+Plain-language voice: a View Model reshapes source data for display without becoming the domain truth.
+
+Domain-context voice: candidate View Model may participate in `derives`, `shapes`, and `displays`. Independent
+display-shape evidence remains incomplete.
+
+Misuse warning: a DTO name or display tag alone does not separate it from Value Object, Query projection, or Mapping.
+
+---
+
+## DS-D1.19 · Hook (UI candidate)
+
+Status: candidate; not active or promotion-ready
+
+Evidence: [candidate schema](../../development/ui-meta-type-formalization/candidate-meta-types/ui/hook/hook.schema.yml) ·
+[adjudication](../../development/ui-meta-type-formalization/adjudication/verdicts.yml)
+
+Formal voice: candidate Hook = a framework-neutral reactive contract with typed inputs/returns plus declared
+reactive behavior, lifecycle, and effects.
+
+Plain-language voice: a Hook packages reactive state/effect behavior behind a typed contract; it is more than
+a function whose name begins with `use`.
+
+Domain-context voice: candidate Hook is a target of `consumes`; the Hook/Binding boundary and relationship
+request remain unresolved.
+
+Misuse warning: React API usage, naming convention, or a plain utility does not establish this type.
+
+---
+
+## DS-D1.20 · Form (UI candidate)
+
+Status: candidate; not active or promotion-ready
+
+Evidence: [candidate schema](../../development/ui-meta-type-formalization/candidate-meta-types/ui/form/form.schema.yml) ·
+[adjudication](../../development/ui-meta-type-formalization/adjudication/verdicts.yml)
+
+Formal voice: candidate Form = a typed field aggregate declaring validation, error, submission-action,
+target-interface, and error-mapping contracts.
+
+Plain-language voice: a Form owns the complete input → validation → submission flow, not just the visual fields.
+
+Domain-context voice: candidate Form may source `submits` and `contracts`. Current evidence is adapted and an
+independent form corpus remains missing.
+
+Misuse warning: a `<form>` element, filename, or schema reference alone is insufficient.
+
+---
+
+## DS-D1.21 · Action (UI candidate)
+
+Status: candidate; not active or promotion-ready
+
+Evidence: [candidate schema](../../development/ui-meta-type-formalization/candidate-meta-types/ui/action/action.schema.yml) ·
+[adjudication](../../development/ui-meta-type-formalization/adjudication/verdicts.yml)
+
+Formal voice: candidate Action = a named user intent declaring trigger, target kind, effect boundary, and
+observable success and error outcomes.
+
+Plain-language voice: an Action captures what the user intends and what success or failure looks like; it is
+not every event handler.
+
+Domain-context voice: candidate Action is currently a target of `submits`; an Action-source relationship is
+still a separate unresolved request.
+
+Misuse warning: click-handler existence or imperative naming does not separate Action from framework code or Operation.
+
+---
+
+## DS-D1.22 · Guard (UI candidate)
+
+Status: candidate; not active or promotion-ready
+
+Evidence: [candidate schema](../../development/ui-meta-type-formalization/candidate-meta-types/ui/guard/guard.schema.yml) ·
+[adjudication](../../development/ui-meta-type-formalization/adjudication/verdicts.yml)
+
+Formal voice: candidate Guard = a non-authoritative UI gate declaring protected surface, source rule,
+conditions, fallback, enforcement scope, and `decision_authority = false`.
+
+Plain-language voice: a Guard applies an existing Rule to UI behavior; it never becomes the source of the
+business or access decision.
+
+Domain-context voice: candidate Guard may source `protects` and `mirrors`. Component-target scope remains unresolved.
+
+Misuse warning: client-side gating must not be represented as authoritative authorization.
+
+---
+
+## DS-D1.23 · Binding (UI candidate)
+
+Status: candidate; not active or promotion-ready
+
+Evidence: [candidate schema](../../development/ui-meta-type-formalization/candidate-meta-types/ui/binding/binding.schema.yml) ·
+[adjudication](../../development/ui-meta-type-formalization/adjudication/verdicts.yml)
+
+Formal voice: candidate Binding = a durable endpoint record declaring one mode, target, trigger, parameter
+and result mappings, cache key, and invalidation behavior.
+
+Plain-language voice: a Binding records how a UI surface talks to a query or mutation over time; a bare arrow
+between endpoints remains a relationship, not a node.
+
+Domain-context voice: candidate Binding may source `fetches` and `mutates`. Its boundary with Hook and a pure
+DS-D8 connection remains under review.
+
+Misuse warning: an endpoint edge, hook name, or cache tag without a durable record is insufficient.
+
+---
+
+## DS-D1.24 · Adapter (UI deferred merge-candidate)
+
+Status: deferred/merge-candidate toward `DS-D1.13 Mapping`; not active
+
+Evidence: [adjudication](../../development/ui-meta-type-formalization/adjudication/verdicts.yml) ·
+[experiment result](../../development/ui-meta-type-formalization/experiments/w1/results/integration-control/final/ds-d1-24.result.yml)
+
+Formal voice: the tested Adapter law accepts the same source/target schema, direction, and field-transform
+structure as Mapping; no separating constructible contract has survived.
+
+Plain-language voice: today Adapter looks like Mapping used at a UI boundary, so it stays a merge candidate
+instead of pretending to be a separate node type.
+
+Domain-context voice: the correction route is Mapping plus UI-boundary metadata unless new registered evidence
+changes behavior; `shapes` endpoint use alone does not promote Adapter.
+
+Misuse warning: `boundary = ui`, adapter naming, or formatting concerns alone do not establish a distinct type.
+
+---
+
+## DS-D1.25 · State Indicator (UI deferred split-candidate)
+
+Status: deferred/split-candidate; not active
+
+Evidence: [adjudication](../../development/ui-meta-type-formalization/adjudication/verdicts.yml) ·
+[experiment result](../../development/ui-meta-type-formalization/experiments/w1/results/data-interaction/final/ds-d1-25.result.yml)
+
+Formal voice: the surviving branch maps every value from a declared Enum or State Machine source to a visual
+representation; async loading/error/empty request state fails that law and requires a separate decision.
+
+Plain-language voice: showing a domain state may be one real concept, while showing “loading” or “error” may
+be another. The current label hides that split, so it stays deferred.
+
+Domain-context voice: the domain-state branch may target `reflects`; research and DS-D1 owners must resolve
+the async branch before any schema or promotion.
+
+Misuse warning: a badge, spinner, color, icon, or `reflects` edge alone does not establish State Indicator.
 
 ---
 

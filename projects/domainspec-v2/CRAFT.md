@@ -2,14 +2,14 @@
 
 > Human view of [`.craft/ledger.yml`](.craft/ledger.yml) (source of truth). Scoped space promoted from
 > cav2 `CTX-CAV2-DOMAINSPEC-V2` on 2026-07-01 (decision `DEC-DSV2-CRAFT-SCOPE`). cav2 stays umbrella and
-> points here. Last updated: 2026-07-14.
+> points here. Last updated: 2026-07-17.
 
 ## Quick links
 - **Next move (root):** R0, R1, and CT-1 are landed and green; migrate UI-11 before verify-closing R2, reconcile-close R7, then continue R4/R5/R6a/R6b **or** stand up the agent-cost experiment for Lane Z vs A.
 - **Open decisions:** `DEC-DSV2-LANE-ZA` (Lane Z vs A — deferred). *(`DEC-DSV2-APE-L0-DOMAIN` closed 2026-07-02 → reuse financial-settlement.)*
-- **Active blockers:** `BLK-DSV2-DRIFT-ENGINE` (drift not implemented), `BLK-DSV2-L2-ATTESTATION` (external actor identity/signature, human; [L1 integrity receipt](authority/attestations/2026-07-12-governance-kinds-l1/RESULT.md) passes).
+- **Active blockers:** `BLK-DSV2-DRIFT-ENGINE` (drift not implemented) and `BLK-DSV2-L2-ATTESTATION` (external actor identity/signature, human). FPR01-003 blockers `BLK-FPR01003-001..003` are closed by their receipt chain.
 - **Active gaps:** `GAP-SH-UI11-MIGRATE` (R2 UI types must move before TAXONOMY deletion), `GAP-SH-PROSE-HOMES` (now DRIFT/R5 owner-home only). *(`GAP-DSV2-COMPOSABILITY-ENFORCE`, `GAP-DSV2-EXERCISE`, and `GAP-DSV2-APE-CARD-TRIAGE` resolved by R3C; AXIOMS half of `GAP-SH-PROSE-HOMES` resolved by R1.)*
-- **FPR next move:** W0 proof refresh is complete; start a separate Task Session for exactly `SWU-FPR01-001`. It must census disagreements without choosing authority.
+- **FPR next moves:** FPR-01 and W1 are closed. FPR-02 is now two independent lanes: backend `FPR-02B` resumes `SWU-FPR02-001` at four unresolved decision groups; UI `FPR-02U` resumes `SWU-UIP-005`. Neither lane blocks or advances the other.
 
 ## Contexts
 | Context | Stage / gate | State | Next move |
@@ -22,7 +22,9 @@
 | **CTX-DSV2-SPEC-ONTOLOGY** — spec-as-ontology | research-complete / flag | toy T1-T4 → **SURVIVED-narrow**; R3C SWU-001..010 complete | Lane Z-vs-A deferred; 3 relation candidates deferred; category laws → research-tower |
 | **CTX-DSV2-APE** — architecture-pattern enforcement | build / flag | **L0 POC + bounded dynamic/second-corpus evidence + TASK-CARDS triage DONE** | L1 cleanup · later owner-gated Evidence links |
 | **CTX-DSV2-CODE-TAG-CONFORMANCE** — code-tag conformance | build / flag | CT-1 done; code-tag taxonomy reads root schemas | CT-3, then CT-2/CT-4 |
-| **CTX-DSV2-FIRST-PRODUCTION-RELEASE** — private bounded release route | plan / block | W0 proof-refreshed; FPR01-001 selected, not executed | Separate Task Session for deterministic authority census |
+| **CTX-DSV2-FIRST-PRODUCTION-RELEASE** — private bounded release route | plan / block | FPR-01 closed; FPR-02 split into independent backend and UI lanes | Resume either child lane independently; production remains unauthorized |
+| ↳ **CTX-DSV2-FPR02-BACKEND** — backend profile and pilot | plan / block | lane split closed; four backend decision groups remain | Resume `SWU-FPR02-001`; UI state is not an input |
+| ↳ **CTX-DSV2-FPR02-UI** — required UI development | build / flag | `SWU-UIP-001..004` complete; development-only | Run `SWU-UIP-005`; backend state is not an input |
 
 ## Pending by node
 - **CTX-DSV2-ROOT** — next: UI-11 migration before R2 verify-close, R7 reconcile-close, remaining reformulation docs, or agent-cost experiment. Recompositions partial (green, toy, R0/R1/R3A/CT-1).
@@ -33,9 +35,12 @@
 - **CTX-DSV2-SPEC-ONTOLOGY** — open decision `DEC-DSV2-LANE-ZA`; `GAP-DSV2-COMPOSABILITY-ENFORCE`, `GAP-DSV2-EXERCISE`, and `GAP-DSV2-EDGE-CATALOG` are resolved. SWU-R3C-007 leaves three relation candidates deferred under explicit evidence contracts; SWU-R3C-008 routes category-law formalization to `research-tower`. Neither is an R3 blocker. Optional residue: CampusRead as a targeted Entity-to-Entity corpus.
 - **CTX-DSV2-APE** — **L0 POC + bounded dynamic enforcement + second-corpus evidence + TASK-CARDS triage DONE**. Backend staging has 14 source rows; relationship staging has 35 keyed rows with generated/deprecated/deferred boundaries preserved. `GAP-DSV2-APE-CARD-TRIAGE` is resolved. Package: [architecture-pattern-enforcement](development/architecture-pattern-enforcement/). Next: `SWU-APE-004/005` cleanup; later definition Evidence links remain owner-gated.
 - **CTX-DSV2-CODE-TAG-CONFORMANCE** — **CT-1 DONE**: `validate-code-tags` reads taxonomy from `spec/meta-types`, invalid type fixture rejects, and scratch validation passes with `TAXONOMY.md` absent. Remaining: CT-3 waiver/path cleanup, CT-2 schema contract, CT-4 unified gate.
-- **CTX-DSV2-FIRST-PRODUCTION-RELEASE** — W0 is closed from the accepted 007 retry receipt. `SWU-FPR01-001` is the only selected successor and remains unexecuted; FPR01-002 and all later units are predecessor-gated. Active FPR frontiers remain visible in the source ledger.
+- **CTX-DSV2-FIRST-PRODUCTION-RELEASE** — `SWU-FPR01-001..004`, W1, and W1R are complete. The ratification receipt verifies 19/19 bindings, deterministic replay, five killed mutants, the current guard, aggregate validation, and deliberate mutation rejection. FPR-02 is a closed coordination split; its two child lanes can resume independently. Production remains unauthorized.
+  - ↳ **CTX-DSV2-FPR02-BACKEND** — `SWU-FPR02-001` remains in progress with four unresolved backend/profile/pilot decision groups. UI implementation is neither a blocker nor release evidence.
+  - ↳ **CTX-DSV2-FPR02-UI** — `SWU-UIP-001..004` are complete and `SWU-UIP-005` is next under the existing UI work-pack. It remains development-only and cannot imply canonical or release admission.
 
 ## Decisions
+- **DEC-FPR01-002-ADOPTION-ACTIVATION** — *closed* → combined narrow activation. Selects `SWU-FPR01-002` and unchanged packet adoption only; packet mutation, authority promotion, and FPR01-003 execution remain denied.
 - **DEC-DSV2-FPR-W0-PROOF-SYNC** — *closed* → synchronize W0 proof only. Updates continuation/read-model state and selects `SWU-FPR01-001`; does not execute it or promote authority.
 - **DEC-DSV2-CRAFT-SCOPE** — *closed* → own-scoped-craft. v2 outgrew one cav2 row; a scoped `.craft/` is not a new cav2 folder; cav2 points here.
 - **DEC-DSV2-LANE-ZA** — *open* (default: defer). Lane Z (fuse) vs Lane A (generate+separate). The toy proved the *mapping* is viable — which both lanes need — so the decider is the unmeasured "cheaper agents" claim → agent-cost experiment.
@@ -43,7 +48,7 @@
 - **DEC-DSV2-APE-L0-DOMAIN** — *closed 2026-07-02 (decision-gate)* → **reuse-the-spec-ontology-toy-domain (financial-settlement)**. Build-from-owned: the domain already exists as engine fixtures + the toy's 23-node graph extraction; node-rich, connects L0 to the SURVIVED-narrow evidence. Default (author-new) demoted once grounding showed an owned real domain; the `sample` stub is empty so promote-sample folded out.
 
 ## Artifacts
-[IMPORT-MANIFEST](IMPORT-MANIFEST.md) · [impl/](impl/) · [authority/](authority/) · [make-it-green](development/make-it-green/) · [reformulate-batch1](development/reformulate-batch1/) · [import-triage](research/2026-06-29-v1-import-triage/findings.md) · [spec-as-ontology research](research/2026-07-01-spec-as-ontology/findings.md) · [AEO second-corpus receipt](development/r3-closeout-plan/task-sessions/2026-07-12-swu-r3c-004/TASK-SESSION-RESULT.md) · [backend-card receipt](development/r3-closeout-plan/task-sessions/2026-07-12-swu-r3c-005/TASK-SESSION-RESULT.md) · [relationship-card findings](development/r3-closeout-plan/research/2026-07-12-relationship-card-triage/findings.md) · [deferred-relation review](definitions/reviews/2026-07-12-deferred-relationship-candidates.md) · [category-law route](definitions/reviews/2026-07-12-category-law-formalization-route.md) · [architecture-pattern-enforcement](development/architecture-pattern-enforcement/) · [code-tag-conformance](development/code-tag-conformance/) · [foundation work-pack](development/first-production-release/foundation-execution/WORK-PACK.md) · [W0 proof refresh](development/first-production-release/foundation-execution/refreshes/2026-07-14-w0-proof-sync/REFRESH-REPORT.md)
+[IMPORT-MANIFEST](IMPORT-MANIFEST.md) · [impl/](impl/) · [authority/](authority/) · [make-it-green](development/make-it-green/) · [reformulate-batch1](development/reformulate-batch1/) · [import-triage](research/2026-06-29-v1-import-triage/findings.md) · [spec-as-ontology research](research/2026-07-01-spec-as-ontology/findings.md) · [AEO second-corpus receipt](development/r3-closeout-plan/task-sessions/2026-07-12-swu-r3c-004/TASK-SESSION-RESULT.md) · [backend-card receipt](development/r3-closeout-plan/task-sessions/2026-07-12-swu-r3c-005/TASK-SESSION-RESULT.md) · [relationship-card findings](development/r3-closeout-plan/research/2026-07-12-relationship-card-triage/findings.md) · [deferred-relation review](definitions/reviews/2026-07-12-deferred-relationship-candidates.md) · [category-law route](definitions/reviews/2026-07-12-category-law-formalization-route.md) · [architecture-pattern-enforcement](development/architecture-pattern-enforcement/) · [code-tag-conformance](development/code-tag-conformance/) · [foundation work-pack](development/first-production-release/foundation-execution/WORK-PACK.md) · [FPR-01 ratification](development/first-production-release/evidence/authority-baseline-ratification.json) · [FPR-02 lane contract](development/first-production-release/profile-lanes/fpr02-lanes.yml) · [FPR-02 lane refresh](development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr02-lane-separation/REFRESH-REPORT.md) · [required UI work-pack](development/ui-profile-implementation/WORK-PACK.md)
 
 ## Definitions (canonical, local — [definitions/](definitions/))
 Cards `domainspec-v2-D1..D17` + `DS-D*` domain vocabulary live under root [definitions/](definitions/), with INDEX + DRIFT-AUDIT + LOCALIZATION-ROUTE + `reviews/`.

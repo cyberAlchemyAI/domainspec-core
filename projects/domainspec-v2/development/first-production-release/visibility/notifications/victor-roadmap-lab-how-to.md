@@ -1,7 +1,7 @@
 ---
 notification_id: victor-roadmap-lab-how-to
 recipient: Victor
-status: pending
+status: declined
 created_on: 2026-07-14
 scheduled_for: null
 completed_on: null

@@ -2,7 +2,7 @@
 task_id: TASK-FPR-01-AUTHORITY-BASELINE
 owner_node: FPR-01
 layer: L1
-status: ready
+status: completed
 ---
 
 # TASK-FPR-01-AUTHORITY-BASELINE
@@ -65,4 +65,19 @@ Produce one owner-ratified, non-contradictory baseline for active types, relatio
 
 ## Synchronization
 
-FPR-01 does not close merely because `13/24/30` appears likely. Close only from `SWU-FPR01-004`, then synchronize Craft in a separate approved action.
+FPR-01 closed from the verified `SWU-FPR01-004` receipt, and the separate
+apply-approved Invoke refresh synchronized Craft and workflow projections.
+
+## Current Ratification Route
+
+The completed `SWU-FPR01-004` Task Session produced:
+
+- PASS receipt SHA-256
+  `19b7c2c0baf10981b807297b61c8a2849b8c2505816d85735a66c49fb194fc9e`; and
+- ratification JSON SHA-256
+  `beeb8c5bd8c289c73123411630ac01752e3530849a1910c475b70e0606257f8c`.
+
+The receipt verifies 19/19 bindings, unchanged canonical replay, five killed mutants,
+the current guard, aggregate validation, and deliberate mutation rejection. The
+separate synchronization closes this task and W1 without selecting FPR-02 or
+authorizing production.

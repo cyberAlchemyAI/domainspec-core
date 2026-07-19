@@ -1,17 +1,23 @@
 ---
 work_pack_id: WP-UCFE-001
-status: ready
-next_owner: invoke
-next_swu: SWU-UCFE-005
+status: deferred-confidence-lane
+next_owner: empirical-review
+next_swu: none
 mutation_authority: selected SWU only
 complexity: high
 output_mode: split
-active_layer_window: L0
+active_layer_window: closed
 distill_validation: pass
 dispatch_validation: pass
 ---
 
 # UI Candidate Formalization Experiment Work Pack
+
+> Direction refresh (2026-07-17): this Form pilot is now an optional empirical
+> confidence lane. Missing corpus B and reviewers remain truthful gaps for a
+> `distinct-supported` empirical claim, but they do not block the active
+> [Required UI Profile implementation](../ui-profile-implementation/WORK-PACK.md).
+> Resume SWU-UCFE-005 only when real evidence is intentionally supplied.
 
 ## Objective
 

@@ -6,17 +6,17 @@ created: 2026-07-02
 authored_by: task-session (M1 — spec-comprehension-model)
 source:
   - ./  (the per-type schema+md cards — the 13 active backend meta-types)
-  - ../TAXONOMY.md  (the 24 staged labels, categories, "Backend Counterpart" shadow column)
-  - ../../../definitions/relationships/relationships.yml  (root relationship authority — 31 signatures; the edge reading-view below)
+  - ../../../definitions/meta-types/meta-types.yml  (the 24 staged labels and differentiated maturity authority)
+  - ../../../definitions/relationships/relationships.yml  (root relationship authority — 30 signatures; the edge reading-view below)
   - ../../../development/spec-comprehension-model/{DESIGN.md,ORDER.md}  (M1)
   - ../../../development/comprehension-novice-test/stall-dataset.md  (S1 individuation, S6 feature/context, S9)
-promotion_boundary: PUBLIC reading aid. Tiering is a LEARNING order, never authority promotion — 13 backend types are active and 11 UI labels remain formation-deferred. Proposed definitions (§4) promote to definitions-governance separately.
+promotion_boundary: PUBLIC reading aid. Tiering is a LEARNING order, never authority promotion — 13 backend types are active, nine UI labels are candidates, and two UI labels have differentiated deferred dispositions. Proposed definitions (§4) promote to definitions-governance separately.
 ---
 
 # Meta-type learning order — read this before authoring a spec
 
-DomainSpec currently has **13 active backend meta-types** and **11 formation-deferred UI labels**, but an author does not meet all staged labels at once. This is a **learning
-order**, not a new type system: backend types remain typed for the engine and validator; UI labels remain guidance. Tier is a
+DomainSpec currently has **13 active backend meta-types**, **nine UI candidates**, and **two deferred UI labels**, but an author does not meet all staged labels at once. This is a **learning
+order**, not a new type system: backend types remain typed for the engine and validator; non-active UI labels remain guidance. Tier is a
 **per-domain declarable lens** (Evans/Vernon: the same subdomain is core or generic depending on what the
 org does) — a UI-heavy product may promote UI types; a pure-backend service may leave them generic.
 
@@ -45,18 +45,17 @@ graph*; tier is *when you learn it*. Event is Connective by category but Core by
 | **Policy** | a Rule that **selects a strategy** instead of a boolean | Behavioral |
 | **Interface** | an exposed boundary (what the outside can call) | Connective |
 
-### GENERIC (12) — recognize + template; do not "learn" as vocabulary
+### GENERIC (12) — recognize + template; do not treat as active vocabulary
 - **Mapping** — transforms fields between two shapes (has a direction).
-- **The 11 UI types** — Page, Layout, Component, View Model, Hook, Form, Action, Guard, Binding, Adapter,
-  State Indicator. Five are **shadows of a backend type** (see §2); the rest are UI-structure you template,
-  not model. *(A UI-led domain may promote Form/Component/Page to Supporting via the declarable lens.)*
+- **Nine UI candidates** — Page, Layout, Component, View Model, Hook, Form, Action, Guard, and Binding.
+- **Two deferred UI labels** — Adapter (merge-candidate toward Mapping) and State Indicator (split-candidate).
+  Five labels have backend **shadow** relationships (see §2); none becomes active through this learning tier.
 
 `6 core + 6 supporting + 12 generic = 24.`
 
-## 2. The 5 shadows — a one-line dictionary (but they keep their own edges)
-Per TAXONOMY's own "Backend Counterpart" column, five UI types mirror a backend type. Learn them as a
-lookup, **not** as new concepts — but note they are **first-class in the graph** (they carry edges their
-backend twin does not; do not treat them as interchangeable):
+## 2. The 5 shadows — a one-line dictionary (but they keep their own edge pressure)
+Five retained UI labels mirror a backend type. Learn them as a lookup, **not** as active concepts — DS-D8
+currently carries endpoint pressure for them, but edge use alone does not promote DS-D1 maturity:
 
 | UI shadow | mirrors | its own edges (the root relationship authority) |
 | --- | --- | --- |
@@ -103,7 +102,7 @@ proposed for `definitions/DEFINITIONS.md` as DS-D terms — not yet canonical.
   its own. *(A cue, not a decision procedure — individuation is genuinely a judgment; Evans concurs.)*
 
 ## 5. Boundary
-Tiering reorganizes **learning emphasis**; it does not promote deferred labels. **Completeness lives in the active type system**
+Tiering reorganizes **learning emphasis**; it does not promote candidate or deferred labels. **Completeness lives in the active type system**
 (the engine/validator ranges over 13 backend types); **comprehensibility lives in this order.** The tier split is a
 per-domain declarable lens. Adding a machine-readable `tier:` field to each `.schema.yml` is a **deferred**
 follow-on — it must first confirm the schema validator accepts an optional field (else it regresses

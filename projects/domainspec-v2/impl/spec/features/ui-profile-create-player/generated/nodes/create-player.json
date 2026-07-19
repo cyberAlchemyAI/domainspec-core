@@ -1,0 +1,54 @@
+{
+  "schema_version": "domainspec-ui-generated-node/v0.1",
+  "authority": "generated-development-read-model",
+  "graph_digest": "ed9832159e8295667609754b3ccd096a8889bb8131399c49185e32f10660dd84",
+  "node": {
+    "node_id": "ui-profile-create-player.CreatePlayer",
+    "feature_id": "ui-profile-create-player",
+    "kind": "Operation",
+    "intent": "Create a player from validated input and persist the new identity.",
+    "body": {
+      "state_change": "yes"
+    }
+  },
+  "outgoing_edges": [
+    {
+      "edge_id": "ui-profile-create-player.edge.create-player-produces-for-player",
+      "type": "produces-for",
+      "from": "ui-profile-create-player.CreatePlayer",
+      "to": "ui-profile-create-player.Player"
+    },
+    {
+      "edge_id": "ui-profile-create-player.edge.create-player-produces-player-created",
+      "type": "produces",
+      "from": "ui-profile-create-player.CreatePlayer",
+      "to": "ui-profile-create-player.PlayerCreated"
+    }
+  ],
+  "incoming_edges": [
+    {
+      "edge_id": "ui-profile-create-player.edge.can-create-player-enforces-create-player",
+      "type": "enforces",
+      "from": "ui-profile-create-player.CanCreatePlayer",
+      "to": "ui-profile-create-player.CreatePlayer"
+    },
+    {
+      "edge_id": "ui-profile-create-player.edge.create-player-binding-mutates-create-player",
+      "type": "mutates",
+      "from": "ui-profile-create-player.CreatePlayerBinding",
+      "to": "ui-profile-create-player.CreatePlayer"
+    },
+    {
+      "edge_id": "ui-profile-create-player.edge.player-api-exposes-create-player",
+      "type": "exposes",
+      "from": "ui-profile-create-player.PlayerApi",
+      "to": "ui-profile-create-player.CreatePlayer"
+    },
+    {
+      "edge_id": "ui-profile-create-player.edge.player-performs-create-player",
+      "type": "performs",
+      "from": "ui-profile-create-player.Player",
+      "to": "ui-profile-create-player.CreatePlayer"
+    }
+  ]
+}
