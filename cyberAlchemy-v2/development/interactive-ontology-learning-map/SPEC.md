@@ -2,7 +2,7 @@
 module: interactive-ontology-learning-map
 version: 0.1.0-candidate
 status: candidate
-updatedAt: 2026-07-14
+updatedAt: 2026-07-17
 docType: domainspec-spec
 scope: private
 ownerRoute: private-learning-map-product-owner
@@ -177,3 +177,22 @@ Passing one gate never closes another.
 - Public derivative and publication: outside L0 and separately owned.
 - Next authoring route: none selected; the applied refresh supersedes the historical define/design mutation route without rewriting those receipts.
 - Next mutation route: deferred while G-DSV2-SG is open; after it passes, Task Session may execute one selected SWU using the persisted G-OWNER handle.
+
+## FPR-02B consumer-proof handoff
+
+The accepted FPR-02B profile decision makes this map an independent, read-only
+consumer proof surface. The input handle must carry:
+
+- `feature-with-independent-node-and-edge-files@1` candidate or authoritative
+  posture;
+- source, profile, registry, schema, graph, generated-root, `O_spec`, `O_gen`,
+  `T_gen`, `E_run`, and receipt identities/digests;
+- unchanged imported node/edge IDs and source provenance;
+- semantic, learner, navigation, layout, index, and ETag hashes; and
+- negative results for missing, empty, mismatched, unapproved, stale, unknown-ID,
+  and semantic-mutating overlays.
+
+IOLM may verify and project those handles but cannot define `O_spec`, admit the
+successor profile, close FPR-02B, change Craft continuation, or authorize
+production. `G-DSV2-SG` remains `BLOCKED` until the IOLM-owned exact receipt and
+bounded `Sg` requirements pass; this refresh does not close that gate.

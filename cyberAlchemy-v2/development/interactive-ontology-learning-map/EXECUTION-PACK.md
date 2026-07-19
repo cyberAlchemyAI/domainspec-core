@@ -1,11 +1,18 @@
 ---
 module: interactive-ontology-learning-map
 status: blocked
-updatedAt: 2026-07-14
+updatedAt: 2026-07-17
 docType: execution-pack
 ---
 
 # Execution Pack
+
+## Applied FPR-02B handoff
+
+This execution pack now expects the BTE consumer-proof handoff and the eventual
+integrated manifest. It does not authorize implementation: `G-DSV2-SG` remains
+blocked, and one IOLM SWU may be selected only through its existing Task Session
+route after exact owner receipts are available.
 
 ## Execution rule
 

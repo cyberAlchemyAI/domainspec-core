@@ -1,5 +1,14 @@
 # TASK-IOLM-002 — Deterministic Projection Compiler
 
+## BTE consumer-proof input
+
+The compiler consumes the BTE handoff read-only. It must preserve node/edge IDs,
+profile/source/graph/obligation/receipt identity, and explicit posture; generate
+semantic/learner/navigation/layout/search projections keyed by the unchanged
+semantic hash; and reject stale, unknown-ID, semantically mutating, missing, or
+empty inputs. Writes remain bounded to `prototype/src/**` and
+`prototype/tests/**` after IOLM-owned gates pass.
+
 ## Objective and mapping
 
 - Slice/layer/wave: S-002 / L1 / W2.

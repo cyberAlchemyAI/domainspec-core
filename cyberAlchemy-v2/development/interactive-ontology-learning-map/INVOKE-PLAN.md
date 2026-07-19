@@ -1,13 +1,20 @@
 ---
 mode: plan
 status: block
-date: 2026-07-14
+date: 2026-07-17
 complexity: high
 outputMode: split
 nextRoute: deferred
 ---
 
 # Invoke Plan Receipt
+
+## Refresh synchronization (2026-07-17)
+
+The upstream BTE profile is now an explicit read-only consumer input with
+candidate/authoritative posture and source/profile/graph/obligation/receipt
+identity. This changes the handoff route only; it does not waive `G-DSV2-SG`,
+select an IOLM SWU, or authorize prototype writes.
 
 ## Outcome
 

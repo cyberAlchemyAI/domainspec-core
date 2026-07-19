@@ -2,12 +2,17 @@
 module: interactive-ontology-learning-map
 version: 0.1.0-candidate
 status: candidate
-updatedAt: 2026-07-14
+updatedAt: 2026-07-17
 docType: architecture-bundle
 scope: private
 ---
 
 # Interactive Ontology Learning Map — Architecture Bundle
+
+> Refresh synchronization (2026-07-17): the map consumes the candidate
+> `feature-with-independent-node-and-edge-files@1` BTE handoff as an independent
+> read-only proof lane. It does not define the denominator, profile admission,
+> FPR closure, or production state. `G-DSV2-SG` remains independently blocked.
 
 ## Design decision
 

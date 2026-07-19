@@ -2,11 +2,18 @@
 module: interactive-ontology-learning-map
 version: 0.1.0-candidate
 status: planned-blocked-on-upstream-graph
-updatedAt: 2026-07-14
+updatedAt: 2026-07-17
 docType: implementation-layering
 ---
 
 # Implementation Layering
+
+## Applied consumer boundary
+
+The BTE handoff is an input contract, not a second semantic source. Layer work
+must preserve imported node/edge identity and source provenance, bind every view
+to the semantic hash, and reject learner/navigation mutations that alter semantic
+bytes. Candidate posture remains distinct from authoritative `Sg` readiness.
 
 ## Target and boundary
 

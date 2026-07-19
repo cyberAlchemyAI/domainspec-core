@@ -2,11 +2,23 @@
 module: interactive-ontology-learning-map
 version: 0.1.0-candidate
 status: blocked
-updatedAt: 2026-07-14
+updatedAt: 2026-07-17
 docType: work-pack
 ---
 
 # WORK-PACK: Interactive Ontology Learning Map
+
+## FPR-02B consumer refresh
+
+- Route: independent read-only consumer proof for the BTE node/edge handoff.
+- Required input: source/profile/graph/obligation/receipt identity and explicit
+  `candidate` or `authoritative` posture.
+- Required checks: semantic bytes/hash invariance, graph/hierarchy/table/GET
+  parity, deterministic rebuild, learner/navigation isolation, and fail-closed
+  missing/empty/mismatch/unknown-ID/retraction negatives.
+- Gate state: `G-DSV2-SG` remains `BLOCKED`; executable IOLM gates remain `NOT_RUN`.
+- Write scope: existing `prototype/src/**` and `prototype/tests/**` only, after
+  its own gates pass; no upstream DomainSpec or Craft mutation.
 
 ## Control fields
 

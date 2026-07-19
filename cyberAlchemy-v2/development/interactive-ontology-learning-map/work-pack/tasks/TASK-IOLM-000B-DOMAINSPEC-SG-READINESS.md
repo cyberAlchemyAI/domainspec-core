@@ -1,5 +1,13 @@
 # TASK-IOLM-000B — Verify DomainSpec `Sg` Readiness
 
+## BTE handoff synchronization
+
+The readiness check must accept the FPR-02B BTE handoff only with explicit
+candidate/authoritative posture and matching source/profile/graph/obligation/
+receipt digests. It must keep `G-DSV2-SG` blocked when owner receipts, bounded
+`Sg`, or independent retraction evidence are missing; a candidate BTE output
+cannot waive this gate.
+
 ## Objective and mapping
 
 - Slice/layer/wave: S-000B / pre-L0 / W0.

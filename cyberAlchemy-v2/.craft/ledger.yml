@@ -81,6 +81,9 @@ indexes:
     CTX-CAV2-DOMAINSPEC-V2: contexts[15]
     DESC-CAV2-DOMAINSPEC-V2-001: descriptions[8]
     REL-CAV2-ROOT-CONTAINS-DOMAINSPEC-V2: relations[6]
+    ART-DSV2-FPR02-BODY-WAR-CONSUMER: artifacts[38]
+    ART-DSV2-FPR02-INTEGRATED-MANIFEST: artifacts[39]
+    ART-DSV2-FPR02-INTEGRATED-REFRESH: artifacts[40]
   open_decisions:
     - DEC-CAV2-TOWER-ALTITUDE-001
     - DEC-CAV2-VISIBLE-SPACES-001
@@ -116,7 +119,12 @@ indexes:
     - context_id: CTX-CAV2-EXECUTION
       next_move: After import clustering, create a bounded work-pack or task-session slice from this ledger.
     - context_id: CTX-CAV2-DOMAINSPEC-V2
-      next_move: v2 = implementation home; spine minted; recursion model APPLIED to AUTHORITY-MODEL.md + 3 kinds RATIFIED. impl/ FULLY GREEN 2026-06-30 — engine:test 97/97, tags:test 8/8, validate RC 0, typecheck RC 0 (G1/G2/G3 done; G4 CI-wiring deferred). Next = reformulate imported docs/tools per IMPORT-MANIFEST + Batch 3, make drift real (trend-type engine residue), wire G4 gate-in-CI, L2 attestation seal (blocked on attestation). PROMOTED 2026-07-01 to its own Craft space projects/domainspec-v2/.craft/ (live sub-context state there).
+      next_move: >-
+        v2 = implementation home; spine minted; recursion model applied; impl/ baseline remains green. The
+        accepted FPR-02B gate now routes through the scoped Craft child
+        CTX-DSV2-FPR02B-CONSUMER-PROOF for the BTE node/edge plan, independent IOLM proof, private read-only
+        Body War consumer, and integrated manifest. This umbrella remains an index and does not become engine,
+        graph, semantic, or production authority.
   artifacts_by_path:
     .craft/ledger.yml: ART-CAV2-LEDGER
     .craft/index.json: ART-CAV2-INDEX
@@ -140,6 +148,9 @@ indexes:
     "[repo-root]/projects/domainspec-v2/impl/": ART-DSV2-IMPL
     "[repo-root]/projects/domainspec-v2/IMPORT-MANIFEST.md": ART-DSV2-IMPORT-MANIFEST
     "[repo-root]/projects/domainspec-v2/authority/": ART-DSV2-AUTHORITY
+    "development/domainspec-v2/BODY-WAR-CONSUMER.md": ART-DSV2-FPR02-BODY-WAR-CONSUMER
+    "development/domainspec-v2/INTEGRATED-EVIDENCE-MANIFEST.yml": ART-DSV2-FPR02-INTEGRATED-MANIFEST
+    "development/domainspec-v2/refreshes/2026-07-17-fpr02-integrated-consumer-proof/REFRESH-REPORT.md": ART-DSV2-FPR02-INTEGRATED-REFRESH
     development/mint/development/handoffs/2026-06-29-first-real-mint-domainspec-v2.md: ART-MINT-FIRST-MINT-HANDOFF
     "[repo-root]/development/authority-triage/development/handoffs/2026-06-29-governance-organs-via-triage.md": ART-GOVERNANCE-ORGAN-HANDOFF
     "[repo-root]/projects/domainspec-v2/research/2026-06-29-recursive-governance-model/findings.md": ART-DSV2-RECURSION-RESEARCH
@@ -461,6 +472,9 @@ contexts:
       - label: v2-local Craft space (live sub-context state)
         target: "[repo-root]/projects/domainspec-v2/.craft/ledger.yml"
         kind: path
+      - label: FPR-02B integrated consumer-proof child context
+        target: "[repo-root]/projects/domainspec-v2/.craft/ledger.yml#CTX-DSV2-FPR02B-CONSUMER-PROOF"
+        kind: path
       - label: Recomposes into root
         target: CTX-CAV2-ROOT
         kind: row-id
@@ -702,6 +716,24 @@ artifacts:
     artifact_type: design-plan-workpack
     status: candidate
     notes: invoke design+plan to make impl/ green (DESIGN.md + WORK-PACK.md). 4 SWUs L0-L3 — G1 relocate engine fixtures+repoint (engine:test green), G2 fix tag tests via node-test runner + drop pnpm (tags:test green), G3 retarget validators + seed a v2 feature fixture (validate green), G4 wire CI/hook (deferred). Distill pass; next route task-session per SWU. STATUS 2026-06-29 — G1 DONE (engine:test 97/97 green, fixtures relocated to __fixtures__). G2 runner FIXED (node:test + drop pnpm; tests execute 6/8) but FLAGGED — 2 fail on the G3 validator-path coupling (validators default RELATIONSHIPS/TAXONOMY/features-root to cwd impl/, but they live in impl/spec/). G3 retarget greens both validate AND the 2 tag tests. STATUS 2026-06-30 — G3 DONE; impl/ FULLY GREEN — engine:test 97/97, tags:test 8/8 (G2 closed), validate RC 0, typecheck RC 0. Retargeted 3 validators' defaults to spec/; seeded spec/features/sample/; engine:lint now direct-invokes the cli (avoids the nested npm -w re-entrancy bug). C9/C11 non-vacuous+discriminating (29 edges; broken link flips RC 1); C10/lint currently vacuous (sample has no tables/Formal cells). Only G4 (CI/hook wiring) deferred.
+  - artifact_id: ART-DSV2-FPR02-BODY-WAR-CONSUMER
+    owner_context_id: CTX-CAV2-DOMAINSPEC-V2
+    path: development/domainspec-v2/BODY-WAR-CONSUMER.md
+    artifact_type: private-read-only-consumer-contract
+    status: active
+    notes: Candidate Body War consumer contract indexed by the umbrella ledger; application authority remains in projects/body-war and this surface cannot authorize production.
+  - artifact_id: ART-DSV2-FPR02-INTEGRATED-MANIFEST
+    owner_context_id: CTX-CAV2-DOMAINSPEC-V2
+    path: development/domainspec-v2/INTEGRATED-EVIDENCE-MANIFEST.yml
+    artifact_type: integrated-consumer-evidence-manifest
+    status: candidate
+    notes: Candidate BTE/IOLM/Body War/Craft manifest; read-only continuation surface and not graph, semantic, or release authority.
+  - artifact_id: ART-DSV2-FPR02-INTEGRATED-REFRESH
+    owner_context_id: CTX-CAV2-DOMAINSPEC-V2
+    path: development/domainspec-v2/refreshes/2026-07-17-fpr02-integrated-consumer-proof/REFRESH-REPORT.md
+    artifact_type: invoke-refresh-report
+    status: active
+    notes: Applied bounded refresh receipt; no engine implementation, SWU execution, consumer-gate closure, or production authorization.
 
 descriptions:
   - description_id: DESC-CAV2-ROOT-001
