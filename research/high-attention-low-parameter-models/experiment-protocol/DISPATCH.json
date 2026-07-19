@@ -1,0 +1,463 @@
+{
+  "dispatch_id": "invoke-high-attention-experiment-protocol-v1",
+  "intent": {
+    "raw": "invoke define design plan for the high-attention low-parameter experiment",
+    "objective": "Author a governed specification, six-view design, and high-complexity split work-pack without executing the experiment or erasing unresolved gates.",
+    "target_artifact": "research/high-attention-low-parameter-models/experiment-protocol/WORK-PACK.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "distill",
+      "task-session",
+      "experiment-harness"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "authority_split_gate",
+    "concrete_path_evidence",
+    "artifact_contract_bridge",
+    "observability_grouping"
+  ],
+  "technique_overlays": [
+    {
+      "overlay_id": "invoke-authoring-evidence",
+      "trigger": "The route creates reusable define, design, and plan artifacts from accepted research.",
+      "techniques": [
+        "sequence",
+        "concrete_path_evidence",
+        "artifact_contract_bridge",
+        "owner_boundary_check",
+        "handle_handoff",
+        "residue_ledger"
+      ],
+      "applies_to_steps": ["s1-define", "s2-design", "s3-plan"],
+      "validation_expectation": "Each stage consumes explicit artifact handles, maps output contracts, preserves owner boundaries, and carries unresolved residue."
+    },
+    {
+      "overlay_id": "plan-reduction-and-runtime-handoff",
+      "trigger": "The high-complexity plan requires atomic SWUs, recomposition, validation, receipts, authority separation, and grouped observability before execution.",
+      "techniques": [
+        "scu_swu_reduction",
+        "recomposition_proof",
+        "validation_loop",
+        "execution_receipt_handoff",
+        "authority_split_gate",
+        "observability_grouping"
+      ],
+      "applies_to_steps": ["s3-plan", "s4-distill", "s6-task-session-handoff"],
+      "validation_expectation": "Distill must pass plan structure, the work-pack must expose blockers, and later Task Session work must return one-SWU receipts grouped under stable dispatch/run identifiers."
+    }
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The current route is local lifecycle authoring and deterministic validation. The plan defines future SWU subagent boundaries but does not execute them.",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "receipt_requirements": []
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "b-authoring-execution",
+        "kind": "capability_handoff",
+        "from_owner": "invoke",
+        "to_owner": "task-session",
+        "applies_to_steps": ["s6-task-session-handoff"],
+        "contract": "Invoke authors the plan; Task Session may execute only one selected, unblocked SWU with an execution-time Context Builder pack.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-human-approval",
+        "kind": "human_approval",
+        "from_owner": "interrogation",
+        "to_owner": "experiment owner",
+        "applies_to_steps": ["s5-decision-gate"],
+        "contract": "A recommended project default is not frozen until an approval-bearing decision record exists.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b-evidence-return",
+        "kind": "evidence_return",
+        "from_owner": "task-session",
+        "to_owner": "work-pack coordinator",
+        "applies_to_steps": ["s6-task-session-handoff"],
+        "contract": "Every attempted SWU returns the structured receipt fields required by the execution_receipt_handoff technique.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "invoke for authoring; experiment-harness for model-run lifecycle",
+      "execution": "task-session for implementation SWUs; experiment-harness for admitted trial cells",
+      "validation": "distill and artifact-specific validators",
+      "evidence": "owner-held content-addressed receipts",
+      "memory": "inventory read models only after explicit backfill",
+      "promotion": "owning capability or human owner; never implied by execution"
+    },
+    "receipts": [
+      {
+        "receipt_id": "r-swu-execution",
+        "producer": "task-session",
+        "required_fields": [
+          "run_id",
+          "dispatch_id",
+          "step_id",
+          "capability_ref",
+          "status",
+          "artifacts",
+          "validation",
+          "observer_status",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          "session/run evidence",
+          "research/high-attention-low-parameter-models/experiment-protocol/WORK-PACK.md"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "governed-authoring",
+        "owner": "invoke target package",
+        "write_policy": "This run writes only the experiment-protocol documentation package and local observability projections."
+      },
+      {
+        "namespace": "future-experiment-evidence",
+        "owner": "repository and experiment owners",
+        "write_policy": "No run evidence is written until SWU-HALP-005 freezes tracked, ignored, or external storage policy."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "execution evidence",
+        "target": "inventory knowledge",
+        "rule": "Requires an explicit Inventory backfill and remains non-authority until a downstream owner promotes it.",
+        "on_violation": "block"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "step_id": "s0-dispatch-validation",
+      "name": "Validate reusable Invoke route",
+      "capability_ref": "dispatch-spec",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": ["sequence", "validation_loop", "observability_grouping"],
+      "inputs": [
+        {"kind": "intent", "ref": "intent.raw"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "DISPATCH.json"},
+        {"kind": "trace_event", "ref": "dispatch_validated"}
+      ],
+      "evidence_artifact": "DISPATCH.json",
+      "stop_conditions": [
+        "Block if the route schema, technique use, owner boundaries, or observability_grouping contract fails."
+      ]
+    },
+    {
+      "step_id": "s1-define",
+      "name": "Invoke define with concrete path evidence",
+      "capability_ref": "invoke",
+      "mode": "define",
+      "pattern": "sequential",
+      "techniques": ["concrete_path_evidence", "artifact_contract_bridge", "owner_boundary_check", "residue_ledger"],
+      "inputs": [
+        {"kind": "artifact", "ref": "../experiment-protocol-research/findings.md"},
+        {"kind": "handle", "ref": "DISPATCH.json"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "SPEC.md"},
+        {"kind": "artifact", "ref": "GLOSSARY.md"},
+        {"kind": "handle", "ref": "DEFINE-TRANSPORT.md"}
+      ],
+      "stop_conditions": [
+        "Block if typed KILLs are contradicted, discovery is absent, or unresolved choices are silently frozen."
+      ]
+    },
+    {
+      "step_id": "s2-design",
+      "name": "Invoke six-view design with artifact contract bridge",
+      "capability_ref": "invoke",
+      "mode": "design",
+      "pattern": "sequential",
+      "techniques": ["sequence", "artifact_contract_bridge", "handle_handoff", "owner_boundary_check", "residue_ledger"],
+      "inputs": [
+        {"kind": "artifact", "ref": "SPEC.md"},
+        {"kind": "artifact", "ref": "GLOSSARY.md"},
+        {"kind": "handle", "ref": "DEFINE-TRANSPORT.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "ARCHITECTURE-BUNDLE.md"},
+        {"kind": "artifact", "ref": "GLOSSARY-CONSISTENCY.md"},
+        {"kind": "handle", "ref": "DESIGN-TRANSPORT.md"}
+      ],
+      "stop_conditions": [
+        "Block if any required view, source contract, glossary check, or owner boundary is missing."
+      ]
+    },
+    {
+      "step_id": "s3-plan",
+      "name": "Invoke high-complexity plan with SWU reduction",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "techniques": ["scu_swu_reduction", "recomposition_proof", "validation_loop", "residue_ledger", "execution_receipt_handoff", "authority_split_gate", "concrete_path_evidence"],
+      "inputs": [
+        {"kind": "artifact", "ref": "ARCHITECTURE-BUNDLE.md"},
+        {"kind": "artifact", "ref": "GLOSSARY-CONSISTENCY.md"},
+        {"kind": "handle", "ref": "DESIGN-TRANSPORT.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"},
+        {"kind": "handle", "ref": "PLAN-TRANSPORT.md"},
+        {"kind": "ledger", "ref": "work-pack/shared/cross-task-gaps.md"}
+      ],
+      "stop_conditions": [
+        "Block mutation handoff if any SWU is task-shaped, navigation is incomplete, the first unit is not narrow, or an acceptance-critical residue lacks an owner."
+      ]
+    },
+    {
+      "step_id": "s4-distill",
+      "name": "Validate plan closure and recomposition",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "validation",
+      "techniques": ["scu_swu_reduction", "recomposition_proof", "validation_loop"],
+      "inputs": [
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "ledger", "ref": "work-pack/shared/cross-task-gaps.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "DISTILL-VALIDATION.md"},
+        {"kind": "decision", "ref": "plan-structure-pass-execution-blocked"}
+      ],
+      "evidence_artifact": "DISTILL-VALIDATION.md",
+      "stop_conditions": [
+        "Block if closure, SWU atomicity, recomposition, first-unit narrowness, or navigation fails."
+      ]
+    },
+    {
+      "step_id": "s5-decision-gate",
+      "name": "Resolve one protocol decision through interrogation",
+      "capability_ref": "interrogation",
+      "mode": "gap-check",
+      "pattern": "decision",
+      "techniques": ["owner_boundary_check", "residue_ledger"],
+      "inputs": [
+        {"kind": "decision", "ref": "plan-structure-pass-execution-blocked"},
+        {"kind": "ledger", "ref": "work-pack/shared/cross-task-decisions.md"}
+      ],
+      "outputs": [
+        {"kind": "decision", "ref": "configs/decisions/claim-estimands.json"}
+      ],
+      "join_policy": "human_gate",
+      "stop_conditions": [
+        "Ask exactly one question and block if the owner does not approve HALP-DEC-001."
+      ]
+    },
+    {
+      "step_id": "s6-task-session-handoff",
+      "name": "Handoff one approved SWU to Task Session",
+      "capability_ref": "task-session",
+      "mode": "execute-one-swu",
+      "pattern": "handoff",
+      "techniques": ["handle_handoff", "execution_receipt_handoff", "authority_split_gate", "observability_grouping"],
+      "inputs": [
+        {"kind": "human_answer", "ref": "configs/decisions/claim-estimands.json"},
+        {"kind": "artifact", "ref": "work-pack/tasks/TASK-HALP-DECISIONS.md"},
+        {"kind": "handle", "ref": "SWU-HALP-001"}
+      ],
+      "outputs": [
+        {"kind": "handoff", "ref": "execution-time-context-builder-pack"},
+        {"kind": "artifact", "ref": "SWU-HALP-001 receipt"},
+        {"kind": "trace_event", "ref": "swu_receipt_recorded"}
+      ],
+      "evidence_artifact": "SWU-HALP-001 receipt",
+      "stop_conditions": [
+        "Block until the work-pack gate permits the selected SWU, strict runtime context is complete, and execution authorization exists."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "g-route",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "The sequence, technique overlays, concrete path evidence, artifact contracts, authority split, receipts, and observability grouping validate.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-define-design",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "Define and design preserve the accepted claim boundary, six views, glossary consistency, owner_boundary_check, and residue_ledger.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-plan-distill",
+      "kind": "validation",
+      "owner": "distill",
+      "condition": "The scu_swu_reduction, first-unit narrowness, recomposition_proof, validation_loop, and navigation checks pass.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-human-decisions",
+      "kind": "human_approval",
+      "owner": "experiment owner",
+      "condition": "Every selected project choice has an approval-bearing decision record; recommendations alone are not approval.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "g-work-pack",
+      "kind": "policy",
+      "owner": "invoke plan",
+      "condition": "workPackGateStatus is pass for the selected one-SWU handoff and all acceptance-critical residue is closed for that unit.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-receipt",
+      "kind": "validation",
+      "owner": "task-session",
+      "condition": "The execution_receipt_handoff returns all required fields and observability_grouping identifiers before success is claimed.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g-promotion",
+      "kind": "promotion_guardrail",
+      "owner": "owning capability",
+      "condition": "Execution evidence cannot promote Inventory, glossary, definitions, sigils, spells, or experiment claims automatically.",
+      "on_fail": "block"
+    }
+  ],
+  "native_stage_receipts": [
+    {
+      "dispatch_id": "invoke-high-attention-experiment-protocol-v1",
+      "step_id": "s0-dispatch-validation",
+      "capability_ref": "dispatch-spec",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": ["DISPATCH.json"],
+      "validation": ["deterministic dispatch validator"],
+      "observer_status": "recorded",
+      "blockers": [],
+      "residue": "",
+      "handoff_note": "Validated route enables governed authoring only."
+    },
+    {
+      "dispatch_id": "invoke-high-attention-experiment-protocol-v1",
+      "step_id": "s1-define",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": ["SPEC.md", "GLOSSARY.md", "DEFINE-TRANSPORT.md"],
+      "validation": ["define structural and boundary review"],
+      "observer_status": "recorded",
+      "blockers": ["experiment execution decisions remain unresolved"],
+      "residue": "Authoring pass does not imply runnable witness.",
+      "handoff_note": "Design consumed approved define handles."
+    },
+    {
+      "dispatch_id": "invoke-high-attention-experiment-protocol-v1",
+      "step_id": "s2-design",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": ["ARCHITECTURE-BUNDLE.md", "GLOSSARY-CONSISTENCY.md", "DESIGN-TRANSPORT.md"],
+      "validation": ["six-view coverage", "glossary consistency pass", "design Distill pass"],
+      "observer_status": "recorded",
+      "blockers": ["seven execution-design gaps carried to plan"],
+      "residue": "",
+      "handoff_note": "Plan consumed explicit source design references."
+    },
+    {
+      "dispatch_id": "invoke-high-attention-experiment-protocol-v1",
+      "step_id": "s3-plan",
+      "capability_ref": "invoke",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": ["IMPLEMENTATION-LAYERING.md", "WORK-PACK.md", "EXECUTION-PACK.md", "PLAN-TRANSPORT.md"],
+      "validation": ["high-complexity split hierarchy", "fourteen SWU contracts", "per-slice validation"],
+      "observer_status": "recorded",
+      "blockers": ["workPackGateStatus is block pending decisions and runnable witness"],
+      "residue": "Plan is structurally complete but not mutation-ready.",
+      "handoff_note": "Only SWU-HALP-001 is selected and it requires human approval."
+    },
+    {
+      "dispatch_id": "invoke-high-attention-experiment-protocol-v1",
+      "step_id": "s4-distill",
+      "capability_ref": "distill",
+      "receipt_kind": "native-stage",
+      "status": "pass",
+      "artifacts": ["DISTILL-VALIDATION.md"],
+      "validation": ["closure", "atomicity", "first-unit narrowness", "recomposition", "navigation"],
+      "observer_status": "recorded",
+      "blockers": [],
+      "residue": "Execution blockers remain owned by the work-pack gate.",
+      "handoff_note": "Route to interrogation for HALP-DEC-001."
+    },
+    {
+      "dispatch_id": "invoke-high-attention-experiment-protocol-v1",
+      "step_id": "s5-decision-gate",
+      "capability_ref": "interrogation",
+      "receipt_kind": "blocked",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": ["requires next-turn human decision"],
+      "residue": "HALP-DEC-001 is unresolved.",
+      "handoff_note": "Ask one question when the user starts execution readiness work."
+    },
+    {
+      "dispatch_id": "invoke-high-attention-experiment-protocol-v1",
+      "step_id": "s6-task-session-handoff",
+      "capability_ref": "task-session",
+      "receipt_kind": "handoff",
+      "status": "not_run",
+      "artifacts": [],
+      "validation": [],
+      "observer_status": "not_run",
+      "blockers": ["work-pack gate block", "HALP-DEC-001 unresolved"],
+      "residue": "No mutation or experiment execution authorized.",
+      "handoff_note": "Deferred until one selected SWU is unblocked."
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "dispatch_validated",
+      "define_completed",
+      "design_completed",
+      "plan_completed",
+      "distill_validated",
+      "execution_blocked_by_decisions",
+      "swu_receipt_recorded"
+    ],
+    "signal_grouping": "observability_grouping by dispatch_id and step_id"
+  },
+  "promotion_guardrails": [
+    "Invoke authoring does not authorize experiment execution.",
+    "A validated plan does not close human, resource, platform, or runnable-witness blockers.",
+    "Execution receipts do not promote Inventory, definitions, glossary, sigil, spell, or scientific claims automatically."
+  ]
+}

@@ -11,7 +11,7 @@ Read-only: no files changed.
 
 **Abramsky Explorer Return**
 
-Yes: a small-parameter LM can have a very large *visible* context window. Parameter count and context length are not the same knob. But a very large *usable* context window is harder: long-context inference remains bottlenecked by attention compute, KV-cache memory/bandwidth, positional generalization, training distribution, and the model's ability to select relevant evidence.
+Yes: a small-parameter LM can have a very large _visible_ context window. Parameter count and context length are not the same knob. But a very large _usable_ context window is harder: long-context inference remains bottlenecked by attention compute, KV-cache memory/bandwidth, positional generalization, training distribution, and the model's ability to select relevant evidence.
 
 Let:
 
@@ -31,11 +31,11 @@ Across layers: `O(N_layer * L^2 * d_model)`, plus projection/MLP work `O(L * P)`
 
 `decode attention per token ~= O(N_layer * L * d_model)`
 
-So dense attention makes long context expensive even for small models. FlashAttention is important because it computes *exact* attention with much better IO/memory behavior, but it does not remove the quadratic FLOP scaling of dense prefill ([FlashAttention](https://arxiv.org/abs/2205.14135)). PagedAttention/vLLM improves serving memory management for KV cache, but again does not make the model semantically better at using far tokens ([PagedAttention/vLLM](https://arxiv.org/abs/2309.06180)).
+So dense attention makes long context expensive even for small models. FlashAttention is important because it computes _exact_ attention with much better IO/memory behavior, but it does not remove the quadratic FLOP scaling of dense prefill ([FlashAttention](https://arxiv.org/abs/2205.14135)). PagedAttention/vLLM improves serving memory management for KV cache, but again does not make the model semantically better at using far tokens ([PagedAttention/vLLM](https://arxiv.org/abs/2309.06180)).
 
 **Visible vs Useful Context**
 
-A token is *visible* if it is inside the model's context window, has a positional representation, and can be attended to by the architecture. A token is *useful* only if the model can retrieve, bind, and reason over it under interference. Liu et al. show that long-context models can degrade sharply when relevant information is placed in the middle of the context, despite being technically visible ([Lost in the Middle](https://arxiv.org/abs/2307.03172)). This is the key distinction: context length is a hardware/architecture affordance; usable context is an empirical capability.
+A token is _visible_ if it is inside the model's context window, has a positional representation, and can be attended to by the architecture. A token is _useful_ only if the model can retrieve, bind, and reason over it under interference. Liu et al. show that long-context models can degrade sharply when relevant information is placed in the middle of the context, despite being technically visible ([Lost in the Middle](https://arxiv.org/abs/2307.03172)). This is the key distinction: context length is a hardware/architecture affordance; usable context is an empirical capability.
 
 **Exact Dense Attention**
 
@@ -81,15 +81,15 @@ A small-parameter, huge-context model is feasible when "huge context" means addr
 
 **Read-Only Explorer: Shannon / Methodology Lens**
 
-A small-parameter language model can have a very large advertised context window, but that does not mean it has a very large *usable information window*. The context window is an input visibility claim: "these tokens are present in the model's attention computation or memory mechanism." Usable context is a behavioral claim: "task-relevant evidence at those positions can be selected, preserved, composed, and used in the output."
+A small-parameter language model can have a very large advertised context window, but that does not mean it has a very large _usable information window_. The context window is an input visibility claim: "these tokens are present in the model's attention computation or memory mechanism." Usable context is a behavioral claim: "task-relevant evidence at those positions can be selected, preserved, composed, and used in the output."
 
-In a dense Transformer, self-attention gives each token a route to attend over earlier tokens, as introduced in [*Attention Is All You Need*](https://papers.neurips.cc/paper/7181-attention-is-all-you-need.pdf). Visibility means the token is encoded into key/value states and is not masked away. But the downstream path is narrow: each layer maps all available evidence into fixed-width hidden states; attention weights compete; later layers transform and compress; final logits only expose whatever survived. In information-channel terms, the context is the input bandwidth, but the model's hidden dimension, number of heads, trained retrieval circuits, positional encoding, and decoding objective determine channel capacity and noise tolerance.
+In a dense Transformer, self-attention gives each token a route to attend over earlier tokens, as introduced in [_Attention Is All You Need_](https://papers.neurips.cc/paper/7181-attention-is-all-you-need.pdf). Visibility means the token is encoded into key/value states and is not masked away. But the downstream path is narrow: each layer maps all available evidence into fixed-width hidden states; attention weights compete; later layers transform and compress; final logits only expose whatever survived. In information-channel terms, the context is the input bandwidth, but the model's hidden dimension, number of heads, trained retrieval circuits, positional encoding, and decoding objective determine channel capacity and noise tolerance.
 
-This distinction explains how a small model can "see" a huge context. Context length is partly a systems and architecture property, not only a parameter-count property. Dense attention is expensive because attention over a sequence grows quadratically during prefill; [*FlashAttention*](https://arxiv.org/abs/2205.14135) shows that memory traffic and attention implementation are major constraints. KV cache memory during generation also scales with sequence length, layer count, hidden/key-value width, precision, and batch size. Smaller models usually have fewer layers and narrower states, so their KV cache is cheaper; on the same hardware they may fit longer visible contexts than a larger model. Sparse/sliding attention, recurrent memory, compression, retrieval, and optimized kernels can extend visibility further.
+This distinction explains how a small model can "see" a huge context. Context length is partly a systems and architecture property, not only a parameter-count property. Dense attention is expensive because attention over a sequence grows quadratically during prefill; [_FlashAttention_](https://arxiv.org/abs/2205.14135) shows that memory traffic and attention implementation are major constraints. KV cache memory during generation also scales with sequence length, layer count, hidden/key-value width, precision, and batch size. Smaller models usually have fewer layers and narrower states, so their KV cache is cheaper; on the same hardware they may fit longer visible contexts than a larger model. Sparse/sliding attention, recurrent memory, compression, retrieval, and optimized kernels can extend visibility further.
 
 But small parameter count also reduces the machinery available to use that context. The model must learn position-robust search, distinguish signal from distractors, bind evidence across long distances, and carry the answer through subsequent computation. Long context is not just storage; it is retrieval plus reasoning under interference.
 
-The long-context literature repeatedly shows that advertised length overstates usable information. [*Lost in the Middle: How Language Models Use Long Contexts*](https://arxiv.org/abs/2307.03172) found that models often perform best when relevant information is near the beginning or end of the prompt and degrade when it appears in the middle. [*RULER: What's the Real Context Size of Your Long-Context Language Models?*](https://arxiv.org/abs/2404.06654) argues that simple needle-in-haystack tests are too weak: models that pass vanilla retrieval can drop sharply as length and task complexity increase. [*LongBench*](https://arxiv.org/abs/2308.14508) similarly separates long-context benchmarks into QA, summarization, few-shot learning, code, synthetic retrieval, and multi-document tasks, showing that long-context understanding is not a single capability.
+The long-context literature repeatedly shows that advertised length overstates usable information. [_Lost in the Middle: How Language Models Use Long Contexts_](https://arxiv.org/abs/2307.03172) found that models often perform best when relevant information is near the beginning or end of the prompt and degrade when it appears in the middle. [_RULER: What's the Real Context Size of Your Long-Context Language Models?_](https://arxiv.org/abs/2404.06654) argues that simple needle-in-haystack tests are too weak: models that pass vanilla retrieval can drop sharply as length and task complexity increase. [_LongBench_](https://arxiv.org/abs/2308.14508) similarly separates long-context benchmarks into QA, summarization, few-shot learning, code, synthetic retrieval, and multi-document tasks, showing that long-context understanding is not a single capability.
 
 Mechanistically, several bottlenecks matter:
 
@@ -100,7 +100,7 @@ Mechanistically, several bottlenecks matter:
 - **Recency and boundary bias:** Beginning/end tokens often get privileged by training distribution, instruction placement, attention sinks, or decoding dynamics. [StreamingLLM](https://arxiv.org/abs/2309.17453) shows that initial tokens can act as attention sinks even when not semantically important.
 - **Compute tradeoff:** Longer context consumes inference budget. For a fixed latency or FLOP budget, one may choose more parameters and shorter context, fewer parameters and longer context, or external retrieval/compression.
 
-So the answer is: yes, a small model can have an unusually large *visible* context window, especially if it uses efficient attention, cheap KV cache, extrapolating positional schemes, or trained/finetuned long-context methods such as [LongLoRA](https://arxiv.org/abs/2309.12307). But a large *usable* context window requires evidence that the model can reliably use information across positions, distractor densities, and reasoning forms. Advertised context length should be treated like channel bandwidth, not channel fidelity.
+So the answer is: yes, a small model can have an unusually large _visible_ context window, especially if it uses efficient attention, cheap KV cache, extrapolating positional schemes, or trained/finetuned long-context methods such as [LongLoRA](https://arxiv.org/abs/2309.12307). But a large _usable_ context window requires evidence that the model can reliably use information across positions, distractor densities, and reasoning forms. Advertised context length should be treated like channel bandwidth, not channel fidelity.
 
 **Research Hypotheses / Experiments**
 
@@ -120,7 +120,7 @@ So the answer is: yes, a small model can have an unusually large *visible* conte
 
 **Read-Only Explorer: Hewitt, Carl**
 
-Yes: a small-parameter LM can have an unusually large *visible* context window, because parameter count and context length are not the same resource. But "large usable attention" is a stricter claim. A model can be allowed to see 128k or 1M tokens while still failing to reliably use information buried in the middle, especially if it was not trained or adapted for that regime. "Lost in the Middle" is the cautionary primary result here: long-context models often perform best when relevant evidence is near the beginning or end, and degrade when it is in the middle of the prompt. See **"Lost in the Middle: How Language Models Use Long Contexts"**: https://arxiv.org/abs/2307.03172.
+Yes: a small-parameter LM can have an unusually large _visible_ context window, because parameter count and context length are not the same resource. But "large usable attention" is a stricter claim. A model can be allowed to see 128k or 1M tokens while still failing to reliably use information buried in the middle, especially if it was not trained or adapted for that regime. "Lost in the Middle" is the cautionary primary result here: long-context models often perform best when relevant evidence is near the beginning or end, and degrade when it is in the middle of the prompt. See **"Lost in the Middle: How Language Models Use Long Contexts"**: https://arxiv.org/abs/2307.03172.
 
 **How Visibility Works**
 
@@ -180,7 +180,7 @@ This is not a large attention window. It is external memory injection. The model
 
 **Bottom Line**
 
-A small model can have a huge advertised context via RoPE extension, FlashAttention, paged KV, GQA/MQA, and KV compression. It can have a huge *effective* context via sparse attention, recurrent memory, retrieval, or controller-driven chunking. But "usable attention" depends on task shape. Exact dense attention preserves maximum theoretical access but is expensive. Approximate attention and memory systems buy scale by deciding what not to look at. Retrieval buys scale by moving selection outside the model.
+A small model can have a huge advertised context via RoPE extension, FlashAttention, paged KV, GQA/MQA, and KV compression. It can have a huge _effective_ context via sparse attention, recurrent memory, retrieval, or controller-driven chunking. But "usable attention" depends on task shape. Exact dense attention preserves maximum theoretical access but is expensive. Approximate attention and memory systems buy scale by deciding what not to look at. Retrieval buys scale by moving selection outside the model.
 
 **Research Hypotheses / Experiments**
 
