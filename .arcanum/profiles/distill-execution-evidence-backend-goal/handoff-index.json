@@ -1,0 +1,72 @@
+{
+  "identity": {
+    "task_or_swu": "GOAL-DISTILL-EXECUTION-EVIDENCE-BACKEND",
+    "source_reference": "arcanum/spells/invoke/development/distill-execution-evidence/WORK-PACK.md",
+    "session_or_run_id": "2026-07-17-distill-backend-goal",
+    "session_evidence_path": ".arcanum/profiles/distill-execution-evidence-backend-goal/",
+    "runtime_handoff": "codex-goal",
+    "repository_revision": "working-tree-2026-07-17",
+    "evidence_date": "2026-07-17"
+  },
+  "strict_coverage": "pass",
+  "fallback_exploration": {
+    "status": "named-gaps-only",
+    "allowed_gap_ids": ["DEE-004-selection", "future-receipt-path-resolution", "validation-command-availability"]
+  },
+  "ordered_units": [
+    "SWU-DEE-004",
+    "SWU-DEE-005",
+    "SWU-DEE-006",
+    "SWU-DEE-007",
+    "SWU-DEE-008",
+    "SWU-DEE-009",
+    "SWU-DEE-010",
+    "SWU-DEE-011",
+    "SWU-DEE-012",
+    "SWU-DEE-013",
+    "TASK-DEE-VERIFY"
+  ],
+  "capability_policy": {
+    "allowed_sigils": ["spellcraft", "task-session", "experiment-harness", "context-builder", "decision-gate"],
+    "disallowed_without_new_authority": ["sigil-development", "invoke", "refine", "craft"],
+    "subagents": "disallowed-unless-receipt-authorizes",
+    "receipt_gate": "each unit requires exact owner, implementation scope, evidence scope, and acceptance conditions before mutation"
+  },
+  "obligations": [
+    { "id": "O1-target", "status": "covered", "summary": "Finish the ordered backend stream", "evidence": "WORK-PACK.md#Objective-Summary" },
+    { "id": "O2-prerequisites", "status": "covered", "summary": "DEE-002 and DEE-003 are complete", "evidence": "work-pack/results/SWU-DEE-002-RESULT.md and SWU-DEE-003-RESULT.md" },
+    { "id": "O3-receipt-boundary", "status": "covered", "summary": "Every remaining unit is selected only by its own receipt", "evidence": "SPELLCRAFT-DEE-003-LIFECYCLE-RECEIPT.md#Authority-Boundary" },
+    { "id": "O4-one-swu", "status": "covered", "summary": "Task Session runs exactly one unit at a time", "evidence": ".agents/skills/task-session/SKILL.md#Step-1" },
+    { "id": "O5-validation", "status": "covered", "summary": "Focused deterministic evidence gates advancement", "evidence": "task contracts and completed result artifacts" },
+    { "id": "O6-stop", "status": "covered", "summary": "Stop on authority, validation, or scope contradiction", "evidence": "capability policy and blockers" }
+  ],
+  "selected_sources": [
+    { "path": "arcanum/spells/invoke/development/distill-execution-evidence/WORK-PACK.md", "selectors": ["Objective Summary", "SWU Manifest", "Blockers", "Next Route"], "obligations": ["O1-target", "O2-prerequisites", "O3-receipt-boundary"] },
+    { "path": "arcanum/spells/invoke/development/distill-execution-evidence/work-pack/tasks/", "selectors": ["task and SWU contracts"], "obligations": ["O1-target", "O4-one-swu", "O5-validation"] },
+    { "path": "arcanum/spells/invoke/development/distill-execution-evidence/work-pack/results/", "selectors": ["DEE-002 and DEE-003 results"], "obligations": ["O2-prerequisites", "O5-validation"] },
+    { "path": "arcanum/spells/invoke/development/distill-execution-evidence/SPELLCRAFT-LIFECYCLE-RECEIPT.md", "selectors": ["Accepted Invariant", "Authority Boundary"], "obligations": ["O3-receipt-boundary", "O6-stop"] }
+  ],
+  "write_scope": [
+    "Future implementation paths only after a matching Spellcraft receipt",
+    "Current Work Pack and task/result records only for evidence synchronization",
+    ".arcanum/profiles/distill-execution-evidence-backend-goal/"
+  ],
+  "validation_surface": [
+    "Receipt-named focused runner for each SWU",
+    "python3 arcanum/formulae/dispatch-spec/scripts/validate-dispatch.py",
+    "TASK-DEE-VERIFY integrated evidence"
+  ],
+  "gaps_and_blockers": [
+    { "id": "DEE-004-selection", "status": "block", "summary": "No Spellcraft receipt yet names the semantic validator owner and exact paths", "runtime_fallback_allowed": false }
+  ],
+  "authority_precedence": [
+    "AGENTS.md",
+    "current Spellcraft lifecycle receipt",
+    "current task and Work Pack",
+    "design and Distill validation evidence"
+  ],
+  "output_paths": {
+    "markdown": ".arcanum/profiles/distill-execution-evidence-backend-goal/handoff-pack.md",
+    "json_index": ".arcanum/profiles/distill-execution-evidence-backend-goal/handoff-index.json"
+  }
+}
