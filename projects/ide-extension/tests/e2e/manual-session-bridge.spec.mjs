@@ -76,17 +76,23 @@ test('manual bridge survives target conflict, interruption, requeue, and termina
 
   page.once('dialog', (dialog) => dialog.accept());
   await page.locator('[data-action="approve"]').click();
-  await expect(page.locator('#detail-status')).toHaveText('Approved - select as poll target');
+  await expect(page.locator('#detail-status')).toHaveText('Approved - make available to poll');
   await expect(page.locator('[data-list="receipts"] .receipt-row')).toHaveCount(1);
   await expect(page.locator('.receipt-kind')).toHaveText('authorization.receipt');
   await expect(page.locator('.receipt-claim')).toContainText('Authorization only');
 
   await page.locator('[data-action="ready"]').click();
-  await expect(page.locator('#detail-status')).toHaveText('Ready for poll');
+  await expect(page.locator('#detail-status')).toHaveText('Available to poll');
   await expect(page.locator('#ready-target')).toContainText(envelopeId);
-  await expect(page.locator('#announcement')).toHaveText('Request selected as the poll target');
+  await expect(page.locator('[data-list="bridge-safe-fields"]')).toContainText(envelopeId);
+  await expect(page.locator('[data-list="bridge-safe-fields"]')).toContainText('ready_for_poll');
+  await expect(page.locator('[data-list="bridge-safe-fields"]')).not.toContainText(task);
+  await expect(page.locator('[data-list="bridge-safe-fields"]')).not.toContainText('decision-gate');
+  await expect(page.locator('[data-list="bridge-commands"]')).toContainText('workbench-poll --ready');
+  await expect(page.locator('[data-list="bridge-commands"]')).toContainText(`workbench-poll --claim --request-handle ${envelopeId}`);
+  await expect(page.locator('#announcement')).toHaveText('Request is available to poll');
 
-  const ready = await request.get('/api/bridge/requests/ready?agent_ref=codex.current-session');
+  const ready = await request.get('/api/bridge/requests/ready');
   const readyText = await ready.text();
   expect(ready.ok()).toBeTruthy();
   expect(readyText).not.toContain('decision-gate');
@@ -107,15 +113,17 @@ test('manual bridge survives target conflict, interruption, requeue, and termina
   const claimed = await postJson(request, `/api/bridge/requests/${envelopeId}/claim`, {
     schema_version: '2',
     envelope_id: envelopeId,
-    agent_ref: 'codex.current-session',
+    agent_ref: 'openrouter.local-session',
     session_ref: `playwright-${viewportName}-first`,
     assurance: 'unattested'
   });
   expect(claimed.response.status()).toBe(201);
+  expect(claimed.body.claim.agent_ref).toBe('openrouter.local-session');
   expect(claimed.body.execution.requested_skill).toBe('decision-gate');
   await page.locator('[data-action="refresh"]').click();
   await page.locator(`[data-proposal-id="${envelopeId}"]`).click();
   await expect(page.locator('#detail-status')).toHaveText('Claimed by unattested local session');
+  await expect(page.locator('[data-list="bridge-fields"]')).toContainText('openrouter.local-session');
   await expect(page.locator('[data-list="bridge-fields"]')).toContainText(`playwright-${viewportName}-first`);
   await expect(page.locator('[data-list="bridge-fields"]')).toContainText('unattested');
 
@@ -137,18 +145,19 @@ test('manual bridge survives target conflict, interruption, requeue, and termina
   await page.locator('[data-field="reject-reason"]').fill('Operator permits one fresh read-only attempt.');
   page.once('dialog', (dialog) => dialog.accept());
   await page.locator('[data-action="release"]').click();
-  await expect(page.locator('#detail-status')).toHaveText('Approved - select as poll target');
+  await expect(page.locator('#detail-status')).toHaveText('Approved - make available to poll');
   await expect(page.locator('[data-list="bridge-fields"]')).toContainText('Operator permits one fresh read-only attempt.');
   await page.locator('[data-action="ready"]').click();
 
   const secondClaimed = await postJson(request, `/api/bridge/requests/${envelopeId}/claim`, {
     schema_version: '2',
     envelope_id: envelopeId,
-    agent_ref: 'codex.current-session',
+    agent_ref: 'openrouter.local-session',
     session_ref: `playwright-${viewportName}-second`,
     assurance: 'unattested'
   });
   const claim = secondClaimed.body.claim;
+  expect(claim.agent_ref).toBe('openrouter.local-session');
   const completed = await postJson(request, `/api/bridge/claims/${claim.claim_id}/result`, {
     schema_version: '2',
     claim_id: claim.claim_id,
@@ -166,6 +175,7 @@ test('manual bridge survives target conflict, interruption, requeue, and termina
     evidence_refs: ['projects/ide-extension/SPEC.md']
   });
   expect(completed.response.status()).toBe(201);
+  expect(completed.body.receipt.agent_ref).toBe('openrouter.local-session');
 
   await page.locator('[data-action="refresh"]').click();
   await page.locator('[data-view="history"]').click();
@@ -174,6 +184,10 @@ test('manual bridge survives target conflict, interruption, requeue, and termina
   await expect(page.locator('[data-list="receipts"] .receipt-row')).toHaveCount(2);
   await expect(page.locator('.receipt-kind')).toHaveText(['authorization.receipt', 'skill.execution']);
   await expect(page.locator('[data-list="bridge-fields"]')).toContainText('Browser bridge completed');
+  await expect(page.locator('[data-list="bridge-receipt-summary"]')).toContainText('skill.execution');
+  await expect(page.locator('[data-list="bridge-receipt-summary"]')).toContainText('passed');
+  await expect(page.locator('[data-list="bridge-receipt-summary"]')).toContainText('openrouter.local-session');
+  await expect(page.locator('[data-list="bridge-receipt-summary"]')).toContainText('Browser bridge completed');
   await expect(page.locator('[data-list="bridge-fields"]')).toContainText('desktop or mobile state matrix inspected');
   await expect(page.locator('[data-list="bridge-fields"]')).toContainText('Playwright claimant stopped before returning evidence.');
   await expect(page.locator('#error-strip')).toBeHidden();

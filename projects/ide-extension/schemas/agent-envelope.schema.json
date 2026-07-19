@@ -147,7 +147,7 @@
         "schema_version": { "const": "2" },
         "envelope_id": { "type": "string", "minLength": 1 },
         "run_id": { "type": "string", "minLength": 1 },
-        "agent_ref": { "const": "codex.current-session" },
+        "agent_ref": { "type": "string", "minLength": 1, "maxLength": 200, "pattern": "^[A-Za-z0-9._:-]+$" },
         "task": { "type": "string", "minLength": 1, "pattern": "\\S" },
         "context_refs": {
           "type": "array",

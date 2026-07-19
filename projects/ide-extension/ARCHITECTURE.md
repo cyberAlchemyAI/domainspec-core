@@ -4,7 +4,7 @@ project: ide-extension
 title: "ide-extension - Local Governed Workbench Architecture"
 status: draft
 node_type: architecture
-updatedAt: 2026-07-10
+updatedAt: 2026-07-17
 ---
 
 # ide-extension - Architecture
@@ -140,6 +140,26 @@ transcript artifact.
 | L0.6 browser-first MV3 | Chrome extension observes/acts in a real tab through typed actions. | Builds on L0.5 admission; never bypasses local approval/receipt. |
 | L1 IDE chrome | VS Code/VSCodium opens or embeds the local workbench URL. | Chrome only; no integrated-browser control claim. |
 | L2 validation witnesses | Playwright/DevTools/Kernel Cloud can witness runtime behavior. | Evidence lane only; no remote receipts or authority. |
+
+## Workbench UI V1 Product Composition
+
+Workbench UI V1 is a presentation and workflow layer over existing authority:
+
+```text
+Work rail              Canvas workspace             Inspector
+compose/select         retained HTML output         next action
+active/history         interactions                 run timeline
+Craft sources                                       evidence drawer
+```
+
+The shell projects existing envelope, approval, bridge, Canvas, Craft, and
+receipt state into one user-facing Run. It does not create a new event source or
+move authority into browser state. Agent task and Dry run are explicit modes;
+the UI no longer infers request type from whether Skill is empty.
+
+The implementation remains in the current local single-page surface for the
+first V1 slices. Framework migration, background agent wake-up, provider calls,
+MV3 control, and VSCodium chrome remain separate promotion lanes.
 
 ## Session Content Workbench V0
 

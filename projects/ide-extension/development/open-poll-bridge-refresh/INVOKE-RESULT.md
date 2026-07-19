@@ -1,0 +1,25 @@
+# Invoke Result
+
+- Mode: `refresh`
+- Spell: `invoke`
+- Canonical ID: `invoke`
+- Scope: library
+- Phase status: `pass`
+- Mode contract: `.agents/skills/invoke/refresh.md`
+- Outputs: [REFRESH-REPORT.md](REFRESH-REPORT.md), [REFRESH-PATCH-PROPOSAL.md](REFRESH-PATCH-PROPOSAL.md), [refresh-report.json](refresh-report.json), [INVOKE-RESULT.md](INVOKE-RESULT.md)
+- Design views: n/a
+- Glossary consistency: n/a
+- Dispatch techniques: `sequence`, `concrete_path_evidence`, `artifact_contract_bridge`, `owner_boundary_check`, `validation_loop`, `residue_ledger`, `handle_handoff`, `authority_split_gate`, `execution_receipt_handoff`; full dispatch not required
+- Distill validation: skipped with reason; narrow proposal-only refresh, run during follow-up `invoke plan`
+- Implementation layering: gap recorded for successor plan
+- Work-pack: proposed successor `projects/ide-extension/development/open-poll-bridge-plan/`
+- Complexity: medium for successor implementation; n/a for refresh
+- Per-layer planning: n/a for refresh; successor plan should keep L0 active and defer L1-L3
+- Implementation detail: proposal complete enough for `invoke plan`; runtime details not applied
+- Smallest working units: n/a for refresh; successor plan should define SWUs for contracts, API/helper/projector, CLI, UI, and witness
+- Refresh: [REFRESH-REPORT.md](REFRESH-REPORT.md); 7 signals, 5 target gaps, 0 applied mutations
+- Target artifact: `ide-extension open-poll bridge`, successor implementation package owned by `projects/ide-extension` lifecycle
+- Template or recipe selection: Invoke refresh, proposal-only, target-artifact refresh from research findings
+- Decisions: open singleton availability; claim-bound identity; no L0 multi-request visible queue
+- Unresolved gaps: no Invoke gaps; target gaps `GAP-OPB-001`..`GAP-OPB-005`
+- Next route: `invoke plan`

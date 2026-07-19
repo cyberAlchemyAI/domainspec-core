@@ -12,9 +12,27 @@ of truth for project-local state.
 agent, VS Code/VSCodium product, embedded browser automation surface, or unified
 authority layer.
 
-**Next move:** Select the next bounded ide-extension increment from the remaining
-flags. Independently, record the older human usefulness verdict required to
-close `SWU-SCW-008`.
+**Next move:** Execute Workbench UI V1 from `SWU-WUI-001`. Preserve the older
+`SWU-SCW-008` usefulness verdict as independent open residue.
+
+## Active Product Context - CTX-IDEEXT-WUI-V1
+
+**Stage:** planned
+**Gate:** pass
+
+Workbench UI V1 is the selected next increment. It recomposes the existing
+approval desk, bridge, Canvas, Craft frontier, and evidence surfaces into one
+Canvas-first agent-task workflow. Agent task becomes an explicit default mode;
+Dry run becomes an explicit diagnostic mode.
+
+The governed [V1 work pack](development/workbench-ui-v1/WORK-PACK.md) contains
+eleven behavior-shaped SWUs. The first is
+[SWU-WUI-001](development/workbench-ui-v1/work-pack/tasks/TASK-WUI-001-SHELL.md):
+introduce semantic Work, Canvas, and Inspector regions without changing layout,
+state projection, interactions, or existing kernel contracts.
+
+V1 does not claim background agent wake-up, OpenRouter execution, browser
+control, or VSCodium integration.
 
 ## Operations Plan
 
@@ -56,6 +74,14 @@ restart recovery on desktop and mobile. The human selected Option 1 in the
 the bounded result is useful enough to enter integrated audit. Deferred L3
 capabilities remain excluded.
 
+## Closed Bridge Increment
+
+[Workbench Bridge Demo V0.1](development/workbench-bridge-demo-v01/WORK-PACK.md)
+is complete. The workbench shows prepare, approve, ready, claim, result, and
+receipt state while preserving blind pre-claim disclosure. `workbench-poll`
+v0.2.0 now continues from claim into the requested skill in the active session
+by default; `--claim-only` preserves the transport-only diagnostic path.
+
 ## Resolved Retention Gate
 
 ### DEC-IDEEXT-OV1-PRUNING-COMPLETION
@@ -94,6 +120,16 @@ useful than receiving it only in chat. This blocks the value-witness closeout
 and `SWU-SCW-009`; it does not block Operations V1 execution.
 
 ## Decisions
+
+### DEC-IDEEXT-WUI-V1-FRONTIER
+
+Selected: Workbench UI V1, a Canvas-first operator workspace with Agent task as
+the explicit default preparation mode.
+
+Rationale: the bridge and operations foundations work, but live use showed that
+implicit request mode and separate proof panels obscure the intended product
+journey. The next value lies in coherent UI composition, not another backend
+authority layer.
 
 ### DEC-IDEEXT-L0-BOUNDARY
 
@@ -151,9 +187,18 @@ is useful enough for integrated closeout; this does not approve deferred L3.
 ### CTX-IDEEXT-L0 - flag
 
 - Operations V1: complete for the accepted trusted-local whole-document claim.
+- Workbench Bridge Demo V0.1: complete.
+- Selected child: `CTX-IDEEXT-WUI-V1`.
 - Human gate: close `GAP-IDEEXT-SCW-HUMAN-REVIEW`, then run `SWU-SCW-009`.
 - Deferred evidence: Playwright MCP and embedded VSCodium webview proof.
 - Separate adapter work: manifest hardening evidence and live OpenRouter proof.
+
+### CTX-IDEEXT-WUI-V1 - pass
+
+- Plan: [Workbench UI V1](development/workbench-ui-v1/WORK-PACK.md).
+- Ready unit: `SWU-WUI-001`.
+- Next move: run Task Session on semantic Work, Canvas, and Inspector regions only.
+- Final gate: desktop/mobile machine evidence plus explicit human usefulness review.
 
 ## Artifacts
 
@@ -165,6 +210,8 @@ is useful enough for integrated closeout; this does not approve deferred L3.
 - [schemas/](schemas/)
 - [public/demo/l0.html](public/demo/l0.html)
 - [development/operations-v1-plan/WORK-PACK.md](development/operations-v1-plan/WORK-PACK.md)
+- [development/workbench-bridge-demo-v01/WORK-PACK.md](development/workbench-bridge-demo-v01/WORK-PACK.md)
+- [development/workbench-ui-v1/WORK-PACK.md](development/workbench-ui-v1/WORK-PACK.md)
 - [development/operations-v1-plan/task-sessions/20260714T211557Z-swu-ov1-001/TASK-SESSION-RESULT.md](development/operations-v1-plan/task-sessions/20260714T211557Z-swu-ov1-001/TASK-SESSION-RESULT.md)
 - [development/operations-v1-plan/task-sessions/20260714T213203Z-swu-ov1-002/TASK-SESSION-RESULT.md](development/operations-v1-plan/task-sessions/20260714T213203Z-swu-ov1-002/TASK-SESSION-RESULT.md)
 - [development/operations-v1-plan/task-sessions/20260714T214040Z-swu-ov1-003/TASK-SESSION-RESULT.md](development/operations-v1-plan/task-sessions/20260714T214040Z-swu-ov1-003/TASK-SESSION-RESULT.md)

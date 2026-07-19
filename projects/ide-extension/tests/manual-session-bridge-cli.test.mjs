@@ -104,10 +104,12 @@ test('runs ready, claim, and result as separate one-shot processes', async () =>
       'claim',
       '--base-url', base,
       '--request-handle', envelope.envelope_id,
+      '--agent-ref', 'openrouter.local-session',
       '--session-ref', 'session-cli-result'
     ]);
     assert.equal(claimed.code, 0);
     const packet = JSON.parse(claimed.stdout);
+    assert.equal(packet.claim.agent_ref, 'openrouter.local-session');
     assert.equal(packet.execution.requested_skill, 'decision-gate');
 
     const duplicate = await runCli([
@@ -144,7 +146,9 @@ test('runs ready, claim, and result as separate one-shot processes', async () =>
       '--input', '-'
     ], JSON.stringify(resultInput));
     assert.equal(result.code, 0);
-    assert.equal(JSON.parse(result.stdout).receipt.receipt_kind, 'skill.execution');
+    const resultPacket = JSON.parse(result.stdout);
+    assert.equal(resultPacket.receipt.receipt_kind, 'skill.execution');
+    assert.equal(resultPacket.receipt.agent_ref, 'openrouter.local-session');
     assert.equal(result.stderr, '');
   });
 });
@@ -156,9 +160,11 @@ test('submits a claimant-bound interrupt without exposing operator commands', as
       'claim',
       '--base-url', base,
       '--request-handle', envelope.envelope_id,
+      '--agent-ref', 'openrouter.local-session',
       '--session-ref', 'session-cli-interrupt'
     ]);
     const packet = JSON.parse(claimed.stdout);
+    assert.equal(packet.claim.agent_ref, 'openrouter.local-session');
     const interrupted = await runCli([
       'interrupt',
       '--base-url', base,

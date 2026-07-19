@@ -457,6 +457,85 @@
         font-size: 12px;
       }
 
+      .bridge-demo {
+        display: grid;
+        gap: 12px;
+        margin: 10px 12px 0;
+        border: 1px solid #c7d7eb;
+        border-radius: 6px;
+        background: #f8fbff;
+        padding: 10px;
+      }
+
+      .bridge-demo h3 {
+        color: #245a8d;
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+
+      .bridge-flow {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 5px;
+      }
+
+      .bridge-step {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: var(--panel);
+        color: var(--muted);
+        padding: 5px 6px;
+        font-size: 11px;
+        font-weight: 650;
+        text-align: center;
+      }
+
+      .bridge-step.active {
+        border-color: #8ab1df;
+        background: #eaf3fe;
+        color: #245a8d;
+      }
+
+      .bridge-step.done {
+        border-color: #add4c3;
+        background: var(--green-soft);
+        color: var(--green);
+      }
+
+      .bridge-demo .definition-grid {
+        grid-template-columns: minmax(92px, 120px) minmax(0, 1fr);
+        font-size: 12px;
+      }
+
+      .command-list {
+        display: grid;
+        gap: 6px;
+      }
+
+      .command-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 6px;
+        align-items: center;
+      }
+
+      .command-row code {
+        min-width: 0;
+        border: 1px solid #cad6e4;
+        border-radius: 4px;
+        background: #fff;
+        overflow-wrap: anywhere;
+        padding: 5px 6px;
+        font-size: 11px;
+      }
+
+      .command-row button {
+        min-height: 29px;
+        padding: 3px 7px;
+        font-size: 11px;
+      }
+
       .contract-section + .contract-section {
         margin-top: 18px;
         padding-top: 16px;
@@ -1037,7 +1116,14 @@
           <button type="button" role="tab" aria-selected="true" data-view="pending">Pending <span id="pending-count">0</span></button>
           <button type="button" role="tab" aria-selected="false" data-view="history">History <span id="history-count">0</span></button>
         </div>
-        <p id="ready-target" class="ready-target" role="status">No request is ready for poll</p>
+        <p id="ready-target" class="ready-target" role="status">No request is available to poll</p>
+        <section class="bridge-demo" aria-labelledby="bridge-demo-heading">
+          <h3 id="bridge-demo-heading">Bridge demo</h3>
+          <ol id="bridge-flow" class="bridge-flow" aria-label="Manual bridge flow"></ol>
+          <dl id="bridge-safe-fields" class="definition-grid" data-list="bridge-safe-fields"></dl>
+          <div id="bridge-commands" class="command-list" data-list="bridge-commands"></div>
+          <dl id="bridge-receipt-summary" class="definition-grid" data-list="bridge-receipt-summary"></dl>
+        </section>
         <ul id="proposal-list" class="proposal-list" aria-label="Proposal list" data-list="proposals"></ul>
         <p id="proposal-empty" class="empty-state">No pending proposals</p>
         <div class="queue-foot">
@@ -1082,8 +1168,8 @@
           <input id="reject-reason" data-field="reject-reason" type="text" maxlength="500" placeholder="Optional rejection reason" disabled>
           <button type="button" class="danger" data-action="reject" disabled>Reject</button>
           <button type="button" class="primary" data-action="approve" disabled>Approve request</button>
-          <button type="button" data-action="ready" disabled>Ready for poll</button>
-          <button type="button" data-action="unready" disabled>Unready</button>
+          <button type="button" data-action="ready" disabled>Make available</button>
+          <button type="button" data-action="unready" disabled>Close availability</button>
           <button type="button" data-action="release" disabled>Release and requeue</button>
           <p id="action-note" class="action-note">Actions are available only for a pending proposal.</p>
         </div>
@@ -1177,6 +1263,10 @@
         proposalList: document.querySelector('#proposal-list'),
         proposalEmpty: document.querySelector('#proposal-empty'),
         readyTarget: document.querySelector('#ready-target'),
+        bridgeFlow: document.querySelector('#bridge-flow'),
+        bridgeSafeFields: document.querySelector('#bridge-safe-fields'),
+        bridgeCommands: document.querySelector('#bridge-commands'),
+        bridgeReceiptSummary: document.querySelector('#bridge-receipt-summary'),
         moduleSummary: document.querySelector('#module-summary'),
         craftMeta: document.querySelector('#craft-meta'),
         craftCount: document.querySelector('#craft-count'),
@@ -1238,6 +1328,18 @@
 
       function appendDefinition(list, label, value) {
         list.append(textElement('dt', label), textElement('dd', value ?? 'None'));
+      }
+
+      function commandRow(command) {
+        const row = document.createElement('div');
+        row.className = 'command-row';
+        const code = textElement('code', command);
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.copyCommand = command;
+        button.textContent = 'Copy';
+        row.append(code, button);
+        return row;
       }
 
       function renderTokens(list, values) {
@@ -1738,8 +1840,8 @@
         if (envelope.schema_version !== '2') return envelope.state;
         return {
           awaiting_approval: 'Awaiting approval',
-          approved: 'Approved - select as poll target',
-          ready_for_poll: 'Ready for poll',
+          approved: 'Approved - make available to poll',
+          ready_for_poll: 'Available to poll',
           claimed: 'Claimed by unattested local session',
           interrupted: 'Interrupted - operator recovery required',
           passed: 'Passed',
@@ -1768,9 +1870,9 @@
         els.approve.textContent = bridge ? 'Approve request' : 'Approve dry run';
         if (bridge) {
           const notes = {
-            awaiting_approval: 'Approval authorizes this request only; execution still requires target selection and a manual poll.',
-            approved: 'Authorized only. Select this exact request as the singleton poll target.',
-            ready_for_poll: 'The next explicit session poll may atomically claim this request.',
+            awaiting_approval: 'Approval authorizes this request only; execution still requires open availability and a manual poll.',
+            approved: 'Authorized only. Make this request available as the singleton open poll item.',
+            ready_for_poll: 'Any interested local session may poll and atomically claim this request.',
             claimed: 'The session owns claim, interrupt, and result actions; this browser cannot perform them.',
             interrupted: 'Enter a release reason. Requeue returns to approved and requires another explicit ready action.',
             passed: 'Execution evidence was admitted separately from authorization.',
@@ -1809,8 +1911,9 @@
           : 'No proposal history';
         const readyId = state.snapshot?.bridge?.ready_target_envelope_id;
         els.readyTarget.textContent = readyId
-          ? `Ready target: ${readyId}`
-          : 'No request is ready for poll';
+          ? `Available to poll: ${readyId}`
+          : 'No request is available to poll';
+        renderBridgeDemo();
         clear(els.proposalList);
 
         for (const approval of entries) {
@@ -1837,6 +1940,72 @@
         }
       }
 
+      function bridgeStageState(stage, envelope, receipt) {
+        const states = ['awaiting_approval', 'approved', 'ready_for_poll', 'claimed', 'passed', 'flagged', 'blocked', 'failed'];
+        const currentIndex = states.indexOf(envelope?.state || '');
+        const stageIndex = {
+          prepared: envelope ? 0 : -1,
+          approved: 1,
+          ready: 2,
+          claimed: 3
+        }[stage.key];
+        if (stage.key === 'result' || stage.key === 'receipt') return receipt ? 'done' : '';
+        if (stageIndex < 0) return '';
+        if (currentIndex > stageIndex) return 'done';
+        if (currentIndex === stageIndex) return 'active';
+        return '';
+      }
+
+      function renderBridgeDemo() {
+        const readyId = state.snapshot?.bridge?.ready_target_envelope_id;
+        const envelope = state.detail?.envelope || null;
+        const claim = state.detail?.active_claim || null;
+        const receipts = state.detail?.receipts || [];
+        const executionReceipt = receipts.find((receipt) => receipt.receipt_kind === 'skill.execution') || null;
+        const stages = [
+          { key: 'prepared', label: 'Prepare' },
+          { key: 'approved', label: 'Approve' },
+          { key: 'ready', label: 'Ready' },
+          { key: 'claimed', label: 'Claim' },
+          { key: 'result', label: 'Result' },
+          { key: 'receipt', label: 'Receipt' }
+        ];
+
+        clear(els.bridgeFlow);
+        for (const stage of stages) {
+          const className = `bridge-step ${bridgeStageState(stage, envelope, executionReceipt)}`.trim();
+          els.bridgeFlow.append(textElement('li', stage.label, className));
+        }
+
+        clear(els.bridgeSafeFields);
+        appendDefinition(els.bridgeSafeFields, 'Ready handle', readyId || 'No ready request');
+        appendDefinition(els.bridgeSafeFields, 'Ready state', readyId ? 'ready_for_poll' : 'none');
+        appendDefinition(els.bridgeSafeFields, 'Effect profile', readyId ? 'preview.read' : 'none');
+        appendDefinition(els.bridgeSafeFields, 'Assurance', readyId ? 'unattested' : 'none');
+        appendDefinition(els.bridgeSafeFields, 'Claimant', claim?.agent_ref || 'None');
+
+        clear(els.bridgeCommands);
+        els.bridgeCommands.append(commandRow('workbench-poll --ready'));
+        if (readyId) {
+          els.bridgeCommands.append(commandRow(`workbench-poll --claim --request-handle ${readyId}`));
+        } else {
+          els.bridgeCommands.append(textElement('p', 'Make one approved request available to show the claim command.', 'empty-state'));
+        }
+
+        clear(els.bridgeReceiptSummary);
+        if (executionReceipt) {
+          appendDefinition(els.bridgeReceiptSummary, 'Receipt kind', executionReceipt.receipt_kind);
+          appendDefinition(els.bridgeReceiptSummary, 'Receipt', executionReceipt.receipt_id);
+          appendDefinition(els.bridgeReceiptSummary, 'Status', executionReceipt.status);
+          appendDefinition(els.bridgeReceiptSummary, 'Claimant', executionReceipt.agent_ref);
+          appendDefinition(els.bridgeReceiptSummary, 'Summary', executionReceipt.summary);
+          appendDefinition(els.bridgeReceiptSummary, 'Evidence', (executionReceipt.evidence_refs || []).join(', ') || 'None');
+        } else {
+          appendDefinition(els.bridgeReceiptSummary, 'Receipt', 'No skill.execution receipt admitted');
+          appendDefinition(els.bridgeReceiptSummary, 'Completion', 'Chat output alone is not terminal proof');
+        }
+      }
+
       function renderDetail() {
         const detail = state.detail;
         const hasDetail = Boolean(detail);
@@ -1855,6 +2024,7 @@
           els.detailStatus.className = 'badge pending';
           renderActions();
           renderReceipts();
+          renderBridgeDemo();
           return;
         }
 
@@ -1882,7 +2052,7 @@
         appendDefinition(els.actorFields, 'Rejected', formatTime(approval.rejected_at));
         appendDefinition(els.actorFields, 'Reason', approval.rejection_reason || 'None');
         if (envelope.schema_version === '2') {
-          appendDefinition(els.bridgeFields, 'Poll target', envelope.state === 'ready_for_poll' ? 'Selected' : 'Not selected');
+          appendDefinition(els.bridgeFields, 'Poll availability', envelope.state === 'ready_for_poll' ? 'Open' : 'Closed');
           appendDefinition(els.bridgeFields, 'Attempt count', String(claims.length));
           appendDefinition(els.bridgeFields, 'Attempt history', claims.map((attempt) => {
             const details = [attempt.claim_attempt_id, attempt.state];
@@ -1892,6 +2062,7 @@
           }).join(' | ') || 'None');
           appendDefinition(els.bridgeFields, 'Claim ID', claim?.claim_id || 'None');
           appendDefinition(els.bridgeFields, 'Attempt ID', claim?.claim_attempt_id || 'None');
+          appendDefinition(els.bridgeFields, 'Claimant', claim?.agent_ref || 'None');
           appendDefinition(els.bridgeFields, 'Session ref', claim?.session_ref || 'None');
           appendDefinition(els.bridgeFields, 'Session assurance', claim?.assurance || 'unattested');
           appendDefinition(els.bridgeFields, 'Claim state', claim?.state || 'Not claimed');
@@ -1908,6 +2079,7 @@
         }
         renderActions();
         renderReceipts();
+        renderBridgeDemo();
       }
 
       function renderReceipts() {
@@ -2185,7 +2357,7 @@
             body: JSON.stringify({})
           });
           await refresh();
-          announce('Request selected as the poll target');
+          announce('Request is available to poll');
         });
       });
 
@@ -2198,7 +2370,7 @@
             body: JSON.stringify({})
           });
           await refresh();
-          announce('Poll target cleared');
+          announce('Poll availability closed');
         });
       });
 
@@ -2226,6 +2398,17 @@
 
       document.querySelector('[data-action="dismiss-error"]').addEventListener('click', () => {
         els.errorStrip.hidden = true;
+      });
+
+      els.bridgeCommands.addEventListener('click', async (event) => {
+        const command = event.target?.dataset?.copyCommand;
+        if (!command) return;
+        try {
+          await navigator.clipboard.writeText(command);
+          announce('Command copied');
+        } catch {
+          announce(command);
+        }
       });
 
       els.taskInput.addEventListener('input', () => {

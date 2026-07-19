@@ -120,7 +120,7 @@ async function main() {
     }
     body = await requestJson(
       baseUrl,
-      '/api/bridge/requests/ready?agent_ref=codex.current-session'
+      '/api/bridge/requests/ready'
     );
     if (body && body.request === null) {
       fail(EXIT.unavailable, 'no_ready_request');
@@ -243,7 +243,7 @@ async function main() {
       body: JSON.stringify(input)
     });
   } else if (command === 'claim') {
-    const allowed = new Set(['base_url', 'request_handle', 'session_ref']);
+    const allowed = new Set(['base_url', 'request_handle', 'session_ref', 'agent_ref']);
     if (Object.keys(options).some((key) => !allowed.has(key))
       || !options.request_handle || !options.session_ref) {
       fail(EXIT.usage, 'invalid_arguments', { required: ['request-handle', 'session-ref'] });
@@ -257,7 +257,7 @@ async function main() {
         body: JSON.stringify({
           schema_version: '2',
           envelope_id: options.request_handle,
-          agent_ref: 'codex.current-session',
+          agent_ref: options.agent_ref || 'codex.current-session',
           session_ref: options.session_ref,
           assurance: 'unattested'
         })

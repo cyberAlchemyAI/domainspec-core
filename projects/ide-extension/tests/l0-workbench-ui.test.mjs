@@ -85,6 +85,9 @@ test('document exposes semantic stable selectors and text-only dynamic rendering
       'data-view="pending"',
       'data-view="history"',
       'data-list="craft-pending"',
+      'data-list="bridge-safe-fields"',
+      'data-list="bridge-commands"',
+      'data-list="bridge-receipt-summary"',
       'data-list="grants"',
       'data-list="receipts"',
       'data-viewer="evidence"'
@@ -106,7 +109,12 @@ test('document exposes semantic stable selectors and text-only dynamic rendering
     assert.match(document, /requested_grants: \['preview\.read', 'skill\.invoke'\]/);
     assert.match(document, /authorization\.receipt/);
     assert.match(document, /skill\.execution/);
-    assert.match(document, /Ready target:/);
+    assert.match(document, /Available to poll:/);
+    assert.match(document, /Bridge demo/);
+    assert.match(document, /workbench-poll --ready/);
+    assert.match(document, /workbench-poll --claim --request-handle/);
+    assert.match(document, /No skill\.execution receipt admitted/);
+    assert.match(document, /Chat output alone is not terminal proof/);
     assert.match(document, /Claimed by unattested local session/);
     assert.match(document, /Release and requeue/);
     assert.match(document, /release_reason/);
@@ -148,8 +156,11 @@ test('document exposes semantic stable selectors and text-only dynamic rendering
     assert.equal(craft.response.status, 200);
     assert.equal(craft.body.source.verified, true);
     assert.equal(craft.body.scope.context_id, 'CTX-IDEEXT-L0');
-    assert.equal(craft.body.counts.total_pending, 6);
-    assert.deepEqual(craft.body.next_moves.map((item) => item.id), ['CTX-IDEEXT-L0']);
+    assert.equal(craft.body.counts.total_pending, 7);
+    assert.deepEqual(craft.body.next_moves.map((item) => item.id), [
+      'CTX-IDEEXT-L0',
+      'CTX-IDEEXT-WUI-V1'
+    ]);
     assert.deepEqual(craft.body.pending.map((item) => item.id), [
       'GAP-IDEEXT-PLAYWRIGHT-MCP',
       'GAP-IDEEXT-VSCODIUM-WEBVIEW',

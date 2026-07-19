@@ -63,7 +63,7 @@ async function activeClaim(base, suffix = 'one') {
   const claimed = await postJson(base, `/api/bridge/requests/${prepared.body.envelope.envelope_id}/claim`, {
     schema_version: '2',
     envelope_id: prepared.body.envelope.envelope_id,
-    agent_ref: 'codex.current-session',
+    agent_ref: 'openrouter.local-session',
     session_ref: `session-result-${suffix}`,
     assurance: 'unattested'
   });
@@ -107,6 +107,7 @@ test('admits one bound result and mints a resolvable execution receipt', async (
     assert.equal(admitted.body.envelope.state, 'passed');
     assert.equal(admitted.body.result.status, 'passed');
     assert.equal(admitted.body.receipt.receipt_kind, 'skill.execution');
+    assert.equal(admitted.body.receipt.agent_ref, 'openrouter.local-session');
     assert.equal(admitted.body.receipt.authorization_receipt_id,
       flow.authorized.receipt.receipt_id);
     assert.equal(admitted.body.receipt.skill_sha256, skillHash);
@@ -119,6 +120,14 @@ test('admits one bound result and mints a resolvable execution receipt', async (
     ]);
     assert.equal(state.body.approvals[flow.claimed.claim.approval_id].state, 'consumed');
     assert.equal(state.body.bridge.claims[flow.claimed.claim.claim_id].state, 'completed');
+    assert.equal(
+      state.body.bridge.claims[flow.claimed.claim.claim_id].agent_ref,
+      'openrouter.local-session'
+    );
+    assert.equal(
+      state.body.receipts.find((receipt) => receipt.receipt_kind === 'skill.execution').agent_ref,
+      'openrouter.local-session'
+    );
 
     for (const kind of ['before', 'after', 'result', 'receipt']) {
       const evidence = await requestJson(
@@ -228,6 +237,7 @@ test('result survives restart with both receipt types and evidence', async () =>
       `/api/receipts/${admitted.body.receipt.receipt_id}/evidence/receipt`
     );
     assert.equal(receiptEvidence.response.status, 200);
+    assert.equal(receiptEvidence.body.receipt.agent_ref, 'openrouter.local-session');
   } finally {
     if (running?.server.listening) await close(running.server);
     await rm(stateDir, { recursive: true, force: true });

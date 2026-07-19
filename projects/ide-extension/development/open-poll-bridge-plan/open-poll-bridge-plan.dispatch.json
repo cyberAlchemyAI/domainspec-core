@@ -1,0 +1,308 @@
+{
+  "$schema": "../../../../arcanum/formulae/dispatch-spec/dispatch.schema.json",
+  "dispatch_id": "2026-07-16-ide-extension-open-poll-bridge-plan",
+  "parent_dispatch_id": null,
+  "intent": {
+    "raw": "invoke plan open-poll bridge after research and refresh findings",
+    "objective": "Author an execution-ready L0 plan that converts the manual session bridge from Codex-targeted polling to open singleton availability with claim-bound identity.",
+    "target_artifact": "projects/ide-extension/development/open-poll-bridge-plan/WORK-PACK.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "implementation-layering",
+      "smallest-working-unit",
+      "task-session",
+      "distill"
+    ],
+    "operator_sentence": "Plan the open-poll bridge, then execute exactly one SWU per Task Session."
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "authority_split_gate",
+    "artifact_contract_bridge",
+    "concrete_path_evidence",
+    "state_namespace_boundary"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The route is now an implementation plan for local Task Sessions. No subagent fan-out is required.",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "receipt_requirements": [
+      "Every SWU returns status, capability, receipt artifact, files, validation, blockers, residue, reroute, and handoff note."
+    ]
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Build refresh planning context",
+      "capability_ref": "context-builder",
+      "mode": "standard-strict",
+      "pattern": "route",
+      "parallel": false,
+      "techniques": ["sequence", "concrete_path_evidence", "state_namespace_boundary"],
+      "inputs": [
+        {"kind": "intent", "ref": "intent.raw"},
+        {"kind": "artifact", "ref": "projects/ide-extension/development/open-poll-bridge-refresh/REFRESH-REPORT.md"},
+        {"kind": "artifact", "ref": "projects/ide-extension/development/open-poll-bridge-research/findings.md"},
+        {"kind": "artifact", "ref": "projects/ide-extension/development/manual-session-bridge-plan/WORK-PACK.md"}
+      ],
+      "outputs": [
+        {"kind": "frame", "ref": "work-pack/shared/traceability.md"},
+        {"kind": "artifact", "ref": "work-pack/shared/cross-task-decisions.md"},
+        {"kind": "artifact", "ref": "work-pack/shared/cross-task-gaps.md"}
+      ],
+      "evidence_artifact": "work-pack/shared/traceability.md",
+      "stop_conditions": [
+        "The refresh finding does not support open singleton availability.",
+        "Existing manual bridge contract cannot preserve replay compatibility."
+      ]
+    },
+    {
+      "step_id": "S2",
+      "name": "Author split L0 plan",
+      "capability_ref": "invoke",
+      "mode": "plan",
+      "pattern": "sequential",
+      "parallel": false,
+      "techniques": [
+        "scu_swu_reduction",
+        "validation_loop",
+        "owner_boundary_check",
+        "residue_ledger",
+        "authority_split_gate",
+        "artifact_contract_bridge"
+      ],
+      "inputs": [
+        {"kind": "frame", "ref": "work-pack/shared/traceability.md"}
+      ],
+      "outputs": [
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"},
+        {"kind": "artifact", "ref": "work-pack/tasks/"},
+        {"kind": "artifact", "ref": "work-pack/waves/"}
+      ],
+      "evidence_artifact": "WORK-PACK.md",
+      "stop_conditions": [
+        "An executable unit lacks source, write scope, done criteria, or validation.",
+        "The active plan imports queue, lease, background poller, provider, mutation, or IDE/browser-control scope into L0."
+      ]
+    },
+    {
+      "step_id": "S3",
+      "name": "Validate decomposition and recomposition",
+      "capability_ref": "distill",
+      "mode": "validate",
+      "pattern": "distill",
+      "parallel": false,
+      "techniques": ["recomposition_proof", "scu_swu_reduction", "validation_loop"],
+      "inputs": [
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"},
+        {"kind": "artifact", "ref": "EXECUTION-PACK.md"}
+      ],
+      "outputs": [
+        {"kind": "decision", "ref": "DISTILL-VALIDATION.md"}
+      ],
+      "convergence_criteria": [
+        "SWU-OPB-001 is executable without hidden discovery.",
+        "All nine SWUs recompose into the open singleton witness.",
+        "L1-L3 scope remains deferred."
+      ],
+      "evidence_artifact": "DISTILL-VALIDATION.md",
+      "stop_conditions": [
+        "Distill verdict is block.",
+        "Acceptance-critical residue has no owner or treatment."
+      ]
+    },
+    {
+      "step_id": "S4",
+      "name": "Execute open-poll implementation waves",
+      "capability_ref": "task-session",
+      "mode": "one-swu",
+      "pattern": "handoff",
+      "parallel": false,
+      "techniques": ["handle_handoff", "execution_receipt_handoff", "validation_loop"],
+      "inputs": [
+        {"kind": "handle", "ref": "WORK-PACK.md#swu-manifest"},
+        {"kind": "artifact", "ref": "work-pack/waves/W0.md"},
+        {"kind": "artifact", "ref": "work-pack/waves/W1.md"},
+        {"kind": "artifact", "ref": "work-pack/waves/W2.md"}
+      ],
+      "outputs": [
+        {"kind": "handoff", "ref": "Task Session results for SWU-OPB-001 through SWU-OPB-006"}
+      ],
+      "evidence_artifact": "one immutable Task Session result per selected SWU",
+      "stop_conditions": [
+        "No explicit ready SWU is selected.",
+        "Ready remains selector-bound or result identity is not claim-bound."
+      ]
+    },
+    {
+      "step_id": "S5",
+      "name": "Prove and close open-poll readiness",
+      "capability_ref": "task-session",
+      "mode": "one-swu",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": ["validation_loop", "execution_receipt_handoff", "concrete_path_evidence", "residue_ledger"],
+      "inputs": [
+        {"kind": "artifact", "ref": "work-pack/waves/W3.md"}
+      ],
+      "outputs": [
+        {"kind": "handoff", "ref": "automated, browser, witness, and readiness evidence"}
+      ],
+      "evidence_artifact": "SWU-OPB-007..009 results plus readiness closure report",
+      "stop_conditions": [
+        "Non-Codex claimant witness is unavailable.",
+        "A race loser sees task payload.",
+        "The final receipt does not preserve stored claim identity."
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G1",
+      "kind": "quality",
+      "owner": "invoke",
+      "condition": "Layering, work-pack, tasks, SWUs, waves, and validation surfaces are complete and navigable.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2",
+      "kind": "validation",
+      "owner": "distill",
+      "condition": "Smallest-unit, recomposition, hidden-gap, deferred-complexity, and navigation checks pass.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3",
+      "kind": "human_approval",
+      "owner": "operator",
+      "condition": "The operator selects exactly one ready SWU before each Task Session mutation.",
+      "on_fail": "ask"
+    },
+    {
+      "gate_id": "G4",
+      "kind": "promotion_guardrail",
+      "owner": "ide-extension architecture",
+      "condition": "L0 completion does not admit queues, leases, background workers, auth, mutation, providers, or IDE/browser control.",
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "parent_dispatch_id": null,
+    "trace_events": [
+      "planning-context-selected",
+      "plan-artifacts-authored",
+      "dispatch-validated",
+      "distill-validated",
+      "task-session-handoff-ready"
+    ],
+    "signal_grouping": "invoke.plan.ide-extension-open-poll-bridge"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1",
+        "kind": "capability_handoff",
+        "from_owner": "invoke",
+        "to_owner": "task-session",
+        "applies_to_steps": ["S4", "S5"],
+        "contract": "Task Session receives one selected SWU and returns a structured result before status synchronization.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B2",
+        "kind": "capability_handoff",
+        "from_owner": "operator",
+        "to_owner": "kernel and claimant session",
+        "applies_to_steps": ["S4", "S5"],
+        "contract": "Operator creates availability; claimant binds identity; kernel admits result from stored claim.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "ide-extension open-poll bridge work-pack",
+      "execution": "task-session for one selected SWU; claimant session only through bridge claim/result APIs",
+      "validation": "SWU owner, automated suites, Playwright, and readiness audit",
+      "evidence": "Task Session receipts plus ide-extension claim/result receipts",
+      "memory": "Invoke plan artifacts; no inventory or Craft mutation in this plan",
+      "promotion": "human approval through the owning lifecycle"
+    },
+    "receipts": [
+      {
+        "receipt_id": "swu-execution-result",
+        "producer": "task-session",
+        "required_fields": [
+          "status",
+          "capability_ref",
+          "artifacts",
+          "validation_result",
+          "validation",
+          "blockers",
+          "residue",
+          "handoff_note"
+        ],
+        "stores": [
+          "immutable Task Session evidence path",
+          "work-pack evidence only after validation"
+        ],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "claim-bound-result",
+        "producer": "ide-extension bridge kernel",
+        "required_fields": [
+          "status",
+          "artifacts",
+          "validation_result"
+        ],
+        "stores": [
+          "bridge event log",
+          "receipt projection visible in the workbench"
+        ],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "projects/ide-extension/development/open-poll-bridge-plan",
+        "owner": "invoke plan until handoff; then target lifecycle",
+        "write_policy": "Planning artifacts only during Invoke; no source implementation."
+      },
+      {
+        "namespace": "projects/ide-extension runtime source and event state",
+        "owner": "one selected Task Session SWU",
+        "write_policy": "Write only the exact SWU scope; preserve replay compatibility."
+      },
+      {
+        "namespace": "bridge poll contract",
+        "owner": "ide-extension kernel",
+        "write_policy": "Expose open ready state and claim-bound result identity without debug-only state leakage."
+      }
+    ],
+    "promotion_splits": [
+      {
+        "source": "L0 open singleton poll evidence",
+        "target": "L1-L3 queues, leases, workers, providers, mutation, IDE/browser control, or packaging",
+        "rule": "L0 completion does not promote later layers; each needs a separate approved design and plan.",
+        "on_violation": "block"
+      }
+    ]
+  }
+}

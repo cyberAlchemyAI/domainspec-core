@@ -73,7 +73,7 @@ function target(base, envelopeId, action, body = {}) {
 }
 
 function ready(base) {
-  return requestJson(base, '/api/bridge/requests/ready?agent_ref=codex.current-session');
+  return requestJson(base, '/api/bridge/requests/ready');
 }
 
 test('approval creates authorization evidence without claiming execution', async () => {
@@ -145,6 +145,11 @@ test('keeps one ready target private and stable across restart', async () => {
 
     const beforeRestart = await ready(running.base);
     assert.equal(beforeRestart.response.status, 200);
+    const ignoredSelector = await requestJson(
+      running.base,
+      '/api/bridge/requests/ready?agent_ref=openrouter.local-session'
+    );
+    assert.deepEqual(ignoredSelector.body, beforeRestart.body);
     assert.deepEqual(Object.keys(beforeRestart.body.request).sort(), [
       'agent_ref',
       'assurance',

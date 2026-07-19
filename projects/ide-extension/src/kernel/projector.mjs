@@ -442,7 +442,13 @@ const CLAIM_KEYS = [
 function assertClaimRecord(claim, index, event) {
   assertExactKeys(claim, CLAIM_KEYS, index, event, 'claim');
   assertV2Record(claim, 'claim', index, event);
-  assertBinding(claim.agent_ref === 'codex.current-session', 'claim agent mismatch', index, event);
+  assertBinding(
+    typeof claim.agent_ref === 'string'
+      && /^[A-Za-z0-9._:-]+$/.test(claim.agent_ref),
+    'claim agent mismatch',
+    index,
+    event
+  );
   assertBinding(claim.assurance === 'unattested', 'claim assurance mismatch', index, event);
   assertBinding(typeof claim.session_ref === 'string' && claim.session_ref.length > 0, 'claim session_ref missing', index, event);
   assertBinding(
@@ -623,6 +629,7 @@ function applyV2Result(inputState, event, index) {
   for (const key of ['run_id', 'envelope_id', 'approval_id', 'claim_id', 'claim_attempt_id', 'session_ref']) {
     assertBinding(receipt[key] === result[key], `execution receipt ${key} mismatch`, index, event);
   }
+  assertBinding(receipt.agent_ref === claim.agent_ref, 'execution receipt agent mismatch', index, event);
   assertBinding(receipt.authorization_receipt_id === envelope.authorization_receipt_id, 'execution authorization receipt mismatch', index, event);
   assertBinding(receipt.requested_skill === result.requested_skill, 'execution receipt skill mismatch', index, event);
   assertBinding(receipt.skill_sha256 === result.skill_sha256, 'execution receipt skill hash mismatch', index, event);

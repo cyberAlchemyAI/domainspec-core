@@ -21,15 +21,20 @@ notes:
   - Refreshed 2026-07-15 after SWU-OV1-013 passed its CLI and desktop/mobile machine witness; Operations V1 now stops at the explicit human usefulness Decision Gate.
   - Refreshed 2026-07-15 after the human selected Option 1 for SWU-OV1-013; the bounded value claim passed and SWU-OV1-014 is ready for integrated audit.
   - Refreshed 2026-07-15 after SWU-OV1-014 passed the integrated audit; Operations V1 is complete for the accepted trusted-local whole-document claim.
+  - Refreshed 2026-07-17 after Workbench Bridge Demo V0.1 and same-session workbench-poll claim continuation closed their bounded contracts.
+  - Refreshed 2026-07-17 after the operator selected Workbench UI V1 as the next product increment; SWU-WUI-001 is ready.
+  - Refreshed 2026-07-17 after Invoke maintenance repaired five task-shaped SWUs into eleven behavior-shaped SWUs; SWU-WUI-001 now owns semantic regions only.
 
 indexes:
   by_id:
     CTX-IDEEXT-L0: contexts[0]
+    CTX-IDEEXT-WUI-V1: contexts[1]
     DEC-IDEEXT-L0-BOUNDARY: decisions[0]
     DEC-IDEEXT-MODULES-NOT-KERNEL: decisions[1]
     DEC-IDEEXT-OV1-V4-INTERACTION: decisions[2]
     DEC-IDEEXT-OV1-PRUNING-COMPLETION: decisions[3]
     DEC-IDEEXT-OV1-VALUE-USEFULNESS: decisions[4]
+    DEC-IDEEXT-WUI-V1-FRONTIER: decisions[5]
     GAP-IDEEXT-PLAYWRIGHT-MCP: gaps[0]
     GAP-IDEEXT-VSCODIUM-WEBVIEW: gaps[1]
     GAP-IDEEXT-MANIFEST-VALIDATOR: gaps[2]
@@ -69,6 +74,8 @@ indexes:
     ART-IDEEXT-OV1-013-RESUME-RESULT: artifacts[31]
     ART-IDEEXT-OV1-014-AUDIT: artifacts[32]
     ART-IDEEXT-OV1-014-RESULT: artifacts[33]
+    ART-IDEEXT-WBD-V01-WORKPACK: artifacts[34]
+    ART-IDEEXT-WUI-V1-WORKPACK: artifacts[35]
   open_decisions: []
   blocking_decisions: []
   active_blockers: []
@@ -80,7 +87,9 @@ indexes:
     - GAP-IDEEXT-SCW-HUMAN-REVIEW
   next_moves:
     - context_id: CTX-IDEEXT-L0
-      next_move: Select the next bounded ide-extension increment from the remaining flags; independently record the older SWU-SCW-008 usefulness verdict.
+      next_move: Execute Workbench UI V1 from SWU-WUI-001 while independently preserving the older SWU-SCW-008 usefulness verdict as open residue.
+    - context_id: CTX-IDEEXT-WUI-V1
+      next_move: Run Task Session on SWU-WUI-001 to introduce semantic Work, Canvas, and Inspector regions without changing layout, projection, interactions, or kernel contracts.
   artifacts_by_path:
     README.md: ART-IDEEXT-README
     SPEC.md: ART-IDEEXT-SPEC
@@ -116,6 +125,8 @@ indexes:
     development/operations-v1-plan/task-sessions/20260715T010547Z-swu-ov1-013-resume/TASK-SESSION-RESULT.md: ART-IDEEXT-OV1-013-RESUME-RESULT
     development/operations-v1-plan/task-sessions/20260715T010811Z-swu-ov1-014/INTEGRATED-AUDIT.md: ART-IDEEXT-OV1-014-AUDIT
     development/operations-v1-plan/task-sessions/20260715T010811Z-swu-ov1-014/TASK-SESSION-RESULT.md: ART-IDEEXT-OV1-014-RESULT
+    development/workbench-bridge-demo-v01/WORK-PACK.md: ART-IDEEXT-WBD-V01-WORKPACK
+    development/workbench-ui-v1/WORK-PACK.md: ART-IDEEXT-WUI-V1-WORKPACK
 
 contexts:
   - context_id: CTX-IDEEXT-L0
@@ -124,7 +135,7 @@ contexts:
     purpose: Prove a local-server-first IDE-adjacent governance workbench with modules, approval-gated dry-run envelopes, durable state, and receipts before claiming an IDE agent or VSCodium product.
     stage: validated
     gate: flag
-    next_move: Select the next bounded ide-extension increment from the remaining flags; independently record the older SWU-SCW-008 usefulness verdict.
+    next_move: Execute Workbench UI V1 from SWU-WUI-001 while independently preserving the older SWU-SCW-008 usefulness verdict as open residue.
     owned_artifacts:
       - ART-IDEEXT-README
       - ART-IDEEXT-SPEC
@@ -160,7 +171,20 @@ contexts:
       - ART-IDEEXT-OV1-013-RESUME-RESULT
       - ART-IDEEXT-OV1-014-AUDIT
       - ART-IDEEXT-OV1-014-RESULT
-    notes: SWU-OV1-001 through SWU-OV1-014 passed, including explicit human usefulness review and integrated audit. Operations V1 is complete for the bounded claim. The separate Session Content Workbench value witness remains blocked on its older human usefulness verdict.
+      - ART-IDEEXT-WBD-V01-WORKPACK
+      - ART-IDEEXT-WUI-V1-WORKPACK
+    notes: SWU-OV1-001 through SWU-OV1-014 passed, Workbench Bridge Demo V0.1 is complete, and workbench-poll v0.2.0 closes same-session claim continuation. Workbench UI V1 is the selected active child context. The separate Session Content Workbench value witness remains blocked on its older human usefulness verdict.
+
+  - context_id: CTX-IDEEXT-WUI-V1
+    parent_id: CTX-IDEEXT-L0
+    title: Workbench UI V1
+    purpose: Turn the proven local workbench mechanisms into one Canvas-first agent-task workflow with explicit request mode, coherent run lifecycle, Craft source selection, and contextual evidence.
+    stage: planned
+    gate: pass
+    next_move: Run Task Session on SWU-WUI-001 to introduce semantic Work, Canvas, and Inspector regions without changing layout, projection, interactions, or kernel contracts.
+    owned_artifacts:
+      - ART-IDEEXT-WUI-V1-WORKPACK
+    notes: V1 is a product and UI milestone over the validated L0/Operations foundations. It does not claim background workers, provider execution, browser control, or VSCodium integration.
 
 decisions:
   - decision_id: DEC-IDEEXT-L0-BOUNDARY
@@ -217,6 +241,18 @@ decisions:
     status: closed
     blocking: false
     impact: SWU-OV1-013 passed and SWU-OV1-014 may run; deferred L3 capabilities remain excluded.
+    owner: human-operator
+
+  - decision_id: DEC-IDEEXT-WUI-V1-FRONTIER
+    scope_id: CTX-IDEEXT-WUI-V1
+    decision_type: product-frontier
+    question: What should ide-extension build after closing the manual bridge demo and Operations V1 foundations?
+    selected: Workbench UI V1 - a Canvas-first operator workspace with Agent task as the explicit default mode
+    rationale: The operator accepted the bounded bridge capability and asked to advance into UI V1. Live use showed that implicit request type and proof-oriented page composition obscure the intended workflow.
+    evidence: development/workbench-ui-v1/SPEC.md
+    status: closed
+    blocking: false
+    impact: SWU-WUI-001 is the next executable unit; provider, browser-control, worker, and IDE-host lanes remain deferred.
     owner: human-operator
 
 gaps:
@@ -466,3 +502,15 @@ artifacts:
     artifact_type: task-session-receipt
     status: active
     notes: PASS receipt closing all fourteen Operations V1 SWUs for the accepted bounded claim.
+  - artifact_id: ART-IDEEXT-WBD-V01-WORKPACK
+    owner_context_id: CTX-IDEEXT-L0
+    path: development/workbench-bridge-demo-v01/WORK-PACK.md
+    artifact_type: implementation-work-pack
+    status: completed
+    notes: PASS package making the blind manual bridge flow and admitted receipt visible in the workbench.
+  - artifact_id: ART-IDEEXT-WUI-V1-WORKPACK
+    owner_context_id: CTX-IDEEXT-WUI-V1
+    path: development/workbench-ui-v1/WORK-PACK.md
+    artifact_type: implementation-work-pack
+    status: planned
+    notes: Eleven-SWU medium-complexity UI plan repaired through Invoke atomicity review; SWU-WUI-001 owns semantic regions only and is ready for Task Session.

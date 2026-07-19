@@ -30,13 +30,33 @@ claiming an IDE agent.
   late skill disclosure, read/preview-only grants, unattested local session, and
   separate authorization/execution receipts. See the
   [closure report](development/manual-session-bridge-plan/task-sessions/20260712T115410Z-task-verify-readiness/CLOSURE-REPORT.md).
-- L0.5 MCP/chat admission witness: next slice; fake/local stdio only, no
-  external service, browser, provider, or network dependency.
+- Workbench Bridge Demo V0.1: complete; ready, claim, result, and receipt are
+  visible, and `workbench-poll --claim` now continues execution in the active
+  session by default.
+- Operations V1: complete for trusted-local whole-document derive, replace,
+  append, rebuild, display, interaction, and retention.
+- Workbench UI V1: active planned increment. It makes Agent task explicit,
+  centers Canvas, and composes Craft and evidence around one run lifecycle. See
+  the [work pack](development/workbench-ui-v1/WORK-PACK.md).
+- L0.5 MCP/chat admission witness: deferred behind the active UI V1 increment;
+  fake/local stdio only when resumed.
 - Chrome MV3 browser-first extension: designed as later browser adapter lane
   after the adapter-admission boundary is proven.
 - VS Code/VSCodium wrapper: deferred until the browser path is witnessed.
 - Playwright MCP/VSCodium webview control: unproven; use adjacent browser first.
 - OpenRouter: provider adapter only; not the kernel or authority layer.
+
+## Active V1 Sequence
+
+```text
+SWU-WUI-001 semantic regions -> 002 desktop grid -> 003 mobile navigation
+  -> 004 explicit composer -> 005 RunView mapper -> 006 timeline -> 007 legal action
+  -> 008 primary Canvas -> 009 Craft seed -> 010 evidence Inspector
+  -> 011 product validation
+```
+
+V1 is a UI/product milestone over the local workbench. It does not imply an
+autonomous worker, browser-control adapter, provider execution, or IDE wrapper.
 
 ## Running
 

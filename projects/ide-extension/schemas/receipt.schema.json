@@ -9,6 +9,7 @@
   ],
   "$defs": {
     "id": { "type": "string", "minLength": 1 },
+    "agentRef": { "type": "string", "minLength": 1, "maxLength": 200, "pattern": "^[A-Za-z0-9._:-]+$" },
     "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
     "skill": { "type": "string", "pattern": "^[a-z][a-z0-9-]{0,63}$" },
     "bridgeGrants": { "const": ["preview.read", "skill.invoke"] },
@@ -151,7 +152,7 @@
         "authorization_receipt_id": { "$ref": "#/$defs/id" },
         "claim_id": { "$ref": "#/$defs/id" },
         "claim_attempt_id": { "$ref": "#/$defs/id" },
-        "agent_ref": { "const": "codex.current-session" },
+        "agent_ref": { "$ref": "#/$defs/agentRef" },
         "session_ref": { "$ref": "#/$defs/id" },
         "assurance": { "const": "unattested" },
         "requested_skill": { "$ref": "#/$defs/skill" },

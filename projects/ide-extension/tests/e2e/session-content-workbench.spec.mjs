@@ -36,9 +36,10 @@ test('manual Refresh displays and operates the real Craft presentation', async (
   await expect(page.locator('#canvas-frame')).toBeVisible();
 
   const frame = page.frameLocator('#canvas-frame');
-  await expect(frame.locator('#counter')).toHaveText('1 / 14');
-  await expect(frame.locator('#title-0')).toHaveText('Before We Build');
-  await frame.locator('#next-slide').click();
+  await expect(frame.locator('#counter')).toHaveText('1 / 5');
+  await expect(frame.locator('#title-0')).toHaveText('What Would You Need to Build This Table?');
+  await frame.locator('[data-reveal-index="0"]').click();
+  await frame.locator('[data-reveal-index="0"]').click();
   await expect(frame.locator('.slide.active .visible-list')).toContainText('materials');
 
   const layout = await page.evaluate(() => {

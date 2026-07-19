@@ -63,7 +63,7 @@ function claimBody(envelopeId, sessionRef = 'session-local-one') {
   return {
     schema_version: '2',
     envelope_id: envelopeId,
-    agent_ref: 'codex.current-session',
+    agent_ref: 'openrouter.local-session',
     session_ref: sessionRef,
     assurance: 'unattested'
   };
@@ -94,12 +94,17 @@ test('reveals the execution packet only after durable atomic claim', async () =>
     const prepared = await prepareReady(base);
     const preclaim = await requestJson(
       base,
-      '/api/bridge/requests/ready?agent_ref=codex.current-session'
+      '/api/bridge/requests/ready'
     );
     assert.equal(JSON.stringify(preclaim.body).includes('decision-gate'), false);
+    assert.deepEqual(
+      (await requestJson(base, '/api/bridge/requests/ready?agent_ref=openrouter.local-session')).body,
+      preclaim.body
+    );
 
     const claimed = await claim(base, prepared.envelope.envelope_id, 'session-local-one');
     assert.equal(claimed.response.status, 201);
+    assert.equal(claimed.body.claim.agent_ref, 'openrouter.local-session');
     assert.equal(claimed.body.claim.assurance, 'unattested');
     assert.equal(claimed.body.execution.requested_skill, 'decision-gate');
     assert.match(claimed.body.execution.task, /private bridge task/);
@@ -108,7 +113,7 @@ test('reveals the execution packet only after durable atomic claim', async () =>
     assert.equal(events.at(-1).event_type, 'bridge.claimed');
     assert.equal(events.at(-1).artifact_refs.length, 1);
     assert.deepEqual(
-      (await requestJson(base, '/api/bridge/requests/ready?agent_ref=codex.current-session')).body,
+      (await requestJson(base, '/api/bridge/requests/ready')).body,
       { request: null }
     );
   });
@@ -134,6 +139,10 @@ test('permits one concurrent claim and discloses nothing to losers', async () =>
     }
     const state = await requestJson(base, '/api/state');
     assert.equal(state.body.bridge.claim_order.length, 1);
+    assert.equal(
+      state.body.bridge.claims[state.body.bridge.claim_order[0]].agent_ref,
+      'openrouter.local-session'
+    );
   });
 });
 
@@ -232,7 +241,7 @@ test('claim append failure preserves the ready target and leaks no packet', asyn
     assert.equal(Object.hasOwn(failed.body, 'execution'), false);
     const readyState = await requestJson(
       base,
-      '/api/bridge/requests/ready?agent_ref=codex.current-session'
+      '/api/bridge/requests/ready'
     );
     assert.equal(readyState.body.request.request_handle, prepared.envelope.envelope_id);
     const state = await requestJson(base, '/api/state');

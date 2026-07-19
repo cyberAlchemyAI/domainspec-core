@@ -146,10 +146,12 @@ test('requires a nonblank task whenever a skill is prepared', async () => {
 
 test('validates all five bridge request families and rejects hostile fixtures', async () => {
   const cases = [
+    ['bridge-claim-request', 'bridge-claim-request.invalid-agent-ref.json'],
     ['bridge-claim-request', 'bridge-claim-request.invalid-assurance.json'],
     ['bridge-interrupt-request', 'bridge-interrupt-request.invalid-session.json'],
     ['bridge-release-request', 'bridge-release-request.invalid-actor.json'],
     ['bridge-result-request', 'bridge-result-request.invalid-skill.json'],
+    ['bridge-target-request', 'bridge-target-request.invalid-agent-ref.json'],
     ['bridge-target-request', 'bridge-target-request.invalid-actor.json']
   ];
 

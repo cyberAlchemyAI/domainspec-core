@@ -1249,10 +1249,6 @@ export function createServer(options = {}) {
       }
 
       if (request.method === 'GET' && url.pathname === '/api/bridge/requests/ready') {
-        if (url.searchParams.get('agent_ref') !== 'codex.current-session') {
-          sendJson(response, 400, { error: 'invalid_agent_ref' });
-          return;
-        }
         const { projection } = await persistence.reconcile(runtime.reduceOptions);
         const readyId = projection.bridge?.ready_target_envelope_id || null;
         if (!readyId) {

@@ -1,0 +1,145 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "mutationMode": "proposal-only",
+  "evidenceDate": "2026-07-16",
+  "sourceSignals": [
+    {
+      "id": "OPB-S1",
+      "source_path": "projects/ide-extension/development/open-poll-bridge-research/findings.md#verdict",
+      "signal_type": "route_changed",
+      "target_artifacts": [
+        "projects/ide-extension/development/manual-session-bridge-plan/WORK-PACK.md",
+        "projects/ide-extension/development/open-poll-bridge-refresh/REFRESH-PATCH-PROPOSAL.md"
+      ],
+      "claim": "The next bridge slice should use open singleton availability with claim-bound identity, not a multi-request queue.",
+      "evidence": "Open Poll Bridge Findings verdict.",
+      "confidence": "high",
+      "mutation_safety": "needs_review"
+    },
+    {
+      "id": "OPB-S2",
+      "source_path": "projects/ide-extension/development/open-poll-bridge-research/findings.md#evidence-basis",
+      "signal_type": "artifact_drift",
+      "target_artifacts": [
+        "projects/ide-extension/src/server.mjs"
+      ],
+      "claim": "Current ready polling is Codex-gated at the API edge, while the desired poll surface is caller-neutral.",
+      "evidence": "Finding cites server ready endpoint gate.",
+      "confidence": "high",
+      "mutation_safety": "needs_review"
+    },
+    {
+      "id": "OPB-S3",
+      "source_path": "projects/ide-extension/development/open-poll-bridge-research/findings.md#evidence-basis",
+      "signal_type": "artifact_drift",
+      "target_artifacts": [
+        "projects/ide-extension/src/envelopes/manual-session-bridge.mjs",
+        "projects/ide-extension/src/kernel/projector.mjs",
+        "projects/ide-extension/schemas/bridge-claim-request.schema.json",
+        "projects/ide-extension/schemas/receipt.schema.json"
+      ],
+      "claim": "Current claim creation and replay hard-code Codex identity, but target identity belongs to the winning claim.",
+      "evidence": "Findings cite bridge helper, projector, and schemas.",
+      "confidence": "high",
+      "mutation_safety": "needs_review"
+    },
+    {
+      "id": "OPB-S4",
+      "source_path": "projects/ide-extension/development/open-poll-bridge-research/findings.md#evidence-basis",
+      "signal_type": "artifact_drift",
+      "target_artifacts": [
+        "projects/ide-extension/public/demo/l0.html"
+      ],
+      "claim": "Workbench copy still uses target/selected language before claim, implying identity binding too early.",
+      "evidence": "Findings UX evidence.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    },
+    {
+      "id": "OPB-S5",
+      "source_path": "projects/ide-extension/development/open-poll-bridge-research/findings.md#required-witness",
+      "signal_type": "blocker_opened",
+      "target_artifacts": [
+        "projects/ide-extension/tests/manual-session-bridge-authorization.test.mjs",
+        "projects/ide-extension/tests/manual-session-bridge-claim-recovery.test.mjs",
+        "projects/ide-extension/tests/manual-session-bridge-result.test.mjs",
+        "projects/ide-extension/tests/manual-session-bridge-replay.test.mjs",
+        "projects/ide-extension/tests/manual-session-bridge-cli.test.mjs",
+        "projects/ide-extension/tests/e2e/manual-session-bridge.spec.mjs"
+      ],
+      "claim": "Existing tests prove the old Codex-bound singleton bridge, not open availability with non-Codex claim identity.",
+      "evidence": "Non-vacuity gate in findings.",
+      "confidence": "high",
+      "mutation_safety": "blocked"
+    },
+    {
+      "id": "OPB-S6",
+      "source_path": "projects/ide-extension/development/open-poll-bridge-research/findings.md#implementation-surface",
+      "signal_type": "evidence_added",
+      "target_artifacts": [
+        "projects/ide-extension/development/open-poll-bridge-refresh/REFRESH-PATCH-PROPOSAL.md"
+      ],
+      "claim": "The implementation surface is now bounded.",
+      "evidence": "Findings implementation surface.",
+      "confidence": "high",
+      "mutation_safety": "needs_review"
+    },
+    {
+      "id": "OPB-S7",
+      "source_path": "projects/ide-extension/development/open-poll-bridge-research/findings.md#rejected-paths",
+      "signal_type": "no_op",
+      "target_artifacts": [
+        "projects/ide-extension/development/manual-session-bridge-plan/WORK-PACK.md"
+      ],
+      "claim": "Multi-request visible queues, background polling, pre-claim payload preview, session-side recovery, and production auth claims remain rejected.",
+      "evidence": "Findings rejected paths.",
+      "confidence": "high",
+      "mutation_safety": "safe"
+    }
+  ],
+  "targetArtifacts": [
+    "projects/ide-extension/development/manual-session-bridge-plan/WORK-PACK.md",
+    "projects/ide-extension/development/manual-session-bridge-design/ARCHITECTURE-BUNDLE.md",
+    "projects/ide-extension/SESSION-BRIDGE-PROTOCOL.md",
+    "projects/ide-extension/src/server.mjs",
+    "projects/ide-extension/src/envelopes/manual-session-bridge.mjs",
+    "projects/ide-extension/src/kernel/projector.mjs",
+    "projects/ide-extension/schemas/bridge-claim-request.schema.json",
+    "projects/ide-extension/schemas/receipt.schema.json",
+    "projects/ide-extension/public/demo/l0.html",
+    "projects/ide-extension/tests/manual-session-bridge-*.test.mjs",
+    "projects/ide-extension/tests/e2e/manual-session-bridge.spec.mjs"
+  ],
+  "deltaSummary": [
+    "route_changed:1",
+    "artifact_drift:3",
+    "blocker_opened:1",
+    "evidence_added:1",
+    "no_op:1"
+  ],
+  "proposedChanges": [
+    "create successor open-poll-bridge implementation package",
+    "remove ready-time Codex selector while preserving singleton ready",
+    "store caller-supplied claim agent_ref and replay it immutably",
+    "repair pre-claim UI wording",
+    "add required open-poll witness"
+  ],
+  "appliedChanges": [],
+  "skippedChanges": [
+    "runtime mutation",
+    "completed manual bridge status downgrade",
+    "multi-request visible queue semantics"
+  ],
+  "blockers": [
+    "GAP-OPB-001 open-poll witness missing"
+  ],
+  "nextRoute": "invoke plan",
+  "validation": [
+    "source_evidence:pass",
+    "target_inventory:pass",
+    "delta_mapping:pass",
+    "mutation_mode:proposal-only",
+    "runtime_mutation:none"
+  ]
+}

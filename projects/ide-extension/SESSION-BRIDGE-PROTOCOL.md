@@ -2,16 +2,17 @@
 
 ## Boundary
 
-This protocol is a loopback-only, one-shot client for the active Codex session.
-It does not poll in the background, resolve skills, execute tasks, authenticate
-Codex, retry, or perform operator actions.
+This protocol is a loopback-only, one-shot client for an interested local
+session. It does not poll in the background, resolve skills, execute tasks,
+authenticate the session, retry, or perform operator actions.
 
 ## Human And Session Sequence
 
 1. The operator prepares, approves, and marks one request ready in Approval Desk.
-2. The operator says `poll` in the intended Codex session.
+2. The operator says `poll` in the intended local session.
 3. The session runs `ready` once and reads the opaque `request_handle`.
-4. The session runs `claim` once with its caller-generated `session_ref`.
+4. The session runs `claim` once with its caller-generated `session_ref` and,
+   when needed, an explicit `agent_ref`.
 5. Only the successful claim response reveals task, skill, grants, and context.
 6. The session invokes the skill within the L0 read/preview boundary.
 7. The session submits one bounded `result`; if it cannot, it submits `interrupt`.
@@ -21,13 +22,17 @@ Codex, retry, or perform operator actions.
 
 ```text
 npm run bridge:session -- ready [--base-url http://127.0.0.1:8765]
-npm run bridge:session -- claim --request-handle <id> --session-ref <id>
+npm run bridge:session -- claim --request-handle <id> --session-ref <id> [--agent-ref <id>]
 npm run bridge:session -- result --claim-id <id> --input <json-file|->
 npm run bridge:session -- interrupt --claim-id <id> --input <json-file|->
 ```
 
 `IDE_EXTENSION_BRIDGE_URL` may set the loopback origin. Non-loopback URLs,
 paths, HTTPS origins, and unknown commands are rejected.
+
+The `ready` command does not send a selector. The request is open singleton
+availability. `claim` binds the claimant identity; if `--agent-ref` is omitted,
+the CLI uses `codex.current-session` as a compatibility default only.
 
 ## Process Contract
 

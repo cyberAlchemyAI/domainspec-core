@@ -104,7 +104,7 @@ async function buildTerminalEvents(suffix = 'one') {
     envelope_id: authorizedEnvelope.envelope_id,
     run_id: authorizedEnvelope.run_id,
     approval_id: authorizedApproval.approval_id,
-    agent_ref: 'codex.current-session',
+    agent_ref: executionReceipt.agent_ref,
     session_ref: executionReceipt.session_ref,
     assurance: 'unattested',
     state: 'claimed',
@@ -184,7 +184,15 @@ test('replays the complete v2 authorization to terminal-result path', async () =
   assert.equal(projection.bridge.ready_target_envelope_id, null);
   assert.deepEqual(projection.bridge.claim_order, [stages.claimed.claim.claim_id]);
   assert.equal(projection.bridge.claims[stages.claimed.claim.claim_id].state, 'completed');
+  assert.equal(
+    projection.bridge.claims[stages.claimed.claim.claim_id].agent_ref,
+    'openrouter.local-session'
+  );
   assert.equal(projection.bridge.results[stages.recorded.result.result_id].status, 'passed');
+  assert.equal(
+    projection.receipts.find((receipt) => receipt.receipt_kind === 'skill.execution').agent_ref,
+    'openrouter.local-session'
+  );
   assert.deepEqual(
     projection.receipts.map((receipt) => receipt.receipt_kind),
     ['authorization.receipt', 'skill.execution']

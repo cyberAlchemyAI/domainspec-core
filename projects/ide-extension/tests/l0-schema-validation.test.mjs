@@ -81,10 +81,12 @@ test('returns stable structured errors for hostile fixtures', async () => {
     ['approval-record', 'approval-record.invalid.bridge-binding.json', 'type'],
     ['approve-request', 'approve-request.invalid-additional.json', 'additionalProperties'],
     ['approve-request', 'approve-request.invalid-type.json', 'type'],
+    ['bridge-claim-request', 'bridge-claim-request.invalid-agent-ref.json', 'pattern'],
     ['bridge-claim-request', 'bridge-claim-request.invalid-assurance.json', 'const'],
     ['bridge-interrupt-request', 'bridge-interrupt-request.invalid-session.json', 'pattern'],
     ['bridge-release-request', 'bridge-release-request.invalid-actor.json', 'const'],
     ['bridge-result-request', 'bridge-result-request.invalid-skill.json', 'pattern'],
+    ['bridge-target-request', 'bridge-target-request.invalid-agent-ref.json', 'additionalProperties'],
     ['bridge-target-request', 'bridge-target-request.invalid-actor.json', 'const'],
     ['canvas-interaction-request', 'canvas-interaction-request.invalid-payload.json', 'type'],
     ['operations-interaction-request', 'operations-interaction-request.invalid-surface.json', 'pattern'],
@@ -144,6 +146,31 @@ test('rejects unknown schema names with the available closed vocabulary', async 
       assert.deepEqual(error.available_schemas, schemaNames);
       return true;
     }
+  );
+});
+
+test('accepts open-poll claimant identity and keeps ready targeting selector-free', async () => {
+  assert.equal(
+    (await validateSchema('bridge-claim-request', {
+      schema_version: '2',
+      envelope_id: 'env-bridge-fixture',
+      agent_ref: 'openrouter.local-session',
+      session_ref: 'session-local-fixture',
+      assurance: 'unattested'
+    })).valid,
+    true
+  );
+  assert.equal(
+    (await validateSchema('receipt', await readJson('receipt.valid.execution.json'))).valid,
+    true
+  );
+  assert.equal(
+    (await validateSchema('bridge-target-request', await readJson('bridge-target-request.valid.json'))).valid,
+    true
+  );
+  assert.equal(
+    (await validateSchema('bridge-target-request', await readJson('bridge-target-request.invalid-agent-ref.json'))).valid,
+    false
   );
 });
 
