@@ -32,9 +32,33 @@ inputs:
 consumer_proofs:
   iolm:
     home: cyberAlchemy-v2/development/interactive-ontology-learning-map/
+    contract: cyberAlchemy-v2/development/domainspec-v2/iolm-consumer/consumer-contract.yml
+    contract_version: 1
+    contract_sha256: 1b1e4ed428c35ee4f85ed2ebc25a24acd3df26b77843a3c0310a0d6be3cd81ca
+    receipt_schema: cyberAlchemy-v2/development/domainspec-v2/iolm-consumer/receipt.schema.json
+    receipt_schema_sha256: 2b2154afa8243d29802e9e98cc8ec2c8c6874cc5c9f369b3b3e26dfad7de5367
     posture: candidate-or-authoritative-explicit
     gate: G-DSV2-SG
     required: [graph_identity, semantic_hash, projection_hashes, view_parity, deterministic_rebuild, negatives]
+    receipt_slots:
+      evf_l0_consumer:
+        owner_swu: SWU-IOLM-DSC-A
+        upstream_stage: evf-l0-core
+        status: pending
+        run_id: pending
+        receipt_digest: pending
+        required_for: narrow-two-proof-claim
+        required_for_bte_terminal: false
+      bte_breadth_consumer:
+        owner_swu: SWU-IOLM-DSC-B
+        upstream_stage: bte-core
+        status: pending
+        run_id: pending
+        receipt_digest: pending
+        expected_backend_node_kinds: 13
+        expected_backend_signatures: 16
+        required_for: SWU-BTE-010
+        required_for_bte_terminal: true
   body_war:
     contract: cyberAlchemy-v2/development/domainspec-v2/BODY-WAR-CONSUMER.md
     fixture: cyberAlchemy-v2/development/domainspec-v2/body-war-consumer/fixture.json
@@ -43,7 +67,9 @@ consumer_proofs:
     required: [input_identity, digest_match, redaction_allowlist, deterministic_projection, negatives]
 receipts:
   bte: pending
-  iolm: pending
+  iolm:
+    evf_l0_consumer: pending
+    bte_breadth_consumer: pending
   body_war: pending
   craft: pending
 negative_classes:

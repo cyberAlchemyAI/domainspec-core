@@ -1,8 +1,8 @@
 ---
 module: interactive-ontology-learning-map
 version: 0.1.0-candidate
-status: blocked
-updatedAt: 2026-07-17
+status: candidate-compile-blocked
+updatedAt: 2026-07-20
 docType: work-pack
 ---
 
@@ -16,36 +16,45 @@ docType: work-pack
 - Required checks: semantic bytes/hash invariance, graph/hierarchy/table/GET
   parity, deterministic rebuild, learner/navigation isolation, and fail-closed
   missing/empty/mismatch/unknown-ID/retraction negatives.
-- Gate state: `G-DSV2-SG` remains `BLOCKED`; executable IOLM gates remain `NOT_RUN`.
-- Write scope: existing `prototype/src/**` and `prototype/tests/**` only, after
-  its own gates pass; no upstream DomainSpec or Craft mutation.
+- Gate state: `G-POSTURE` and `G-CANDIDATE` are `PASS`; `G-DSV2-SG` remains
+  `BLOCKED` for authoritative labeling/rebind only; later executable candidate
+  gates remain `NOT_RUN`.
+- Write scope: only the selected SWU's declared `prototype/**` paths after its
+  Task Session gate; no upstream DomainSpec or Craft mutation.
+- Machine boundary:
+  `cyberAlchemy-v2/development/domainspec-v2/iolm-consumer/consumer-contract.yml`
+  plus `receipt.schema.json`; Markdown is never the handoff source.
+- Accepted proof role: `DEC-GCP-002` keeps the narrow EVF consumer run and the
+  later BTE breadth rerun fresh, distinct, independently owned, and non-admitting.
 
 ## Control fields
 
 | Field | Value |
 |---|---|
-| workPackGateStatus | `block` |
+| workPackGateStatus | `block` for 00C-B: required cross-feature edge is unsupported by the live compiler |
 | complexity | `high` |
 | outputMode | `split` |
 | executionPackRef | [EXECUTION-PACK.md](./EXECUTION-PACK.md) |
 | layeringArtifactRef | [IMPLEMENTATION-LAYERING.md](./IMPLEMENTATION-LAYERING.md) |
 | dispatchTechniqueTrace | [DISPATCH.json](./DISPATCH.json) |
 | distillValidationStatus | `pass` — [DISTILL-VALIDATION.md](./DISTILL-VALIDATION.md) |
-| activeLayerWindow | `pre-L0` |
+| activeLayerWindow | `L0C` |
 | readinessProfile | `pilot` |
-| nextRoute | `deferred` — resolve G-DSV2-SG through the existing DomainSpec owner route; G-OWNER is recorded |
+| nextRoute | DomainSpec BTE bounded `task-session` through its refreshed dependency order; return a passing cross-feature-support receipt before resuming 00C-B |
 
 ## Objective
 
 Deliver a private, deterministic, source-preserving ontology learning-map witness that makes semantic, epistemic, governance, operational, and pedagogical connections inspectable without collapsing their types or authority.
 
-The planning package is structurally complete and G-OWNER has passed. Prototype mutation remains blocked because DomainSpec has not yet supplied the exact owner-generated `Sg` plus its prerequisite FPR receipts.
+The planning package is structurally complete. G-OWNER, the code-first candidate posture, and the narrow candidate contract/provenance SWU have passed. 00C-B is selected but blocked on its upstream support receipt; the missing owner-generated `Sg` separately blocks only the later authoritative rebind. The new L0D DomainSpec evidence-consumer task is planned with two unselected SWUs and does not gate either upstream core.
 
 ## Delivery slices
 
 | Slice | Outcome | Layer | Wave | Dependencies | Validation |
 |---|---|---|---|---|---|
 | S-000 | Projection owner and schema approval route named | L0 | [W0](work-pack/waves/W0.md) | none | signed/recorded decision with scope and downstream owner |
+| S-00C | Candidate graph substrate proves posture, stable identity, provenance, compilation, and graph/hierarchy/table parity | L0C | [W0C](work-pack/waves/W0C.md) | G-OWNER and G-POSTURE | contract negatives, deterministic compile receipt, parity fixture |
+| S-00D | Private application consumes exact executable proof handles without semantic, identity, provenance, view, or authority drift | L0D | [W0D](work-pack/waves/W0D-DOMAINSPEC-CONSUMER.md) | S-00C plus exact successful upstream stage receipt | fresh narrow EVF receipt; later distinct 13-kind/16-signature BTE breadth receipt |
 | S-000B | Exact DomainSpec `Sg` readiness handle verified without changing upstream state | pre-L0 | [W0](work-pack/waves/W0.md) | live guard plus existing FPR-01/02/03/04 owner receipts | schema-valid graph/quotient/retraction receipt and bound handle |
 | S-001 | Read-only import/projection contract, source manifest, and failure fixtures locked | L0 | [W1](work-pack/waves/W1.md) | S-000, S-000B | schema validator positive/negative suite |
 | S-002 | Deterministic immutable snapshot compiler | L1 | [W2](work-pack/waves/W2.md) | S-001 | repeated clean-build equality and identity-change tests |
@@ -59,6 +68,8 @@ The planning package is structurally complete and G-OWNER has passed. Prototype 
 | Task | Goal | Layer | Complexity | Wave | Gate | Status |
 |---|---|---|---|---|---|---|
 | [TASK-IOLM-000](work-pack/tasks/TASK-IOLM-000-OWNER.md) | resolve projection owner | L0 | medium | W0 | pass | completed |
+| [TASK-IOLM-00C](work-pack/tasks/TASK-IOLM-00C-CANDIDATE-SUBSTRATE.md) | prove the candidate graph substrate through one shared read-model boundary | L0C | high | W0C | G-OWNER + G-POSTURE pass | blocked; `00C-A` pass, option 1 selected, upstream support receipt absent |
+| [TASK-IOLM-DOMAINSPEC-EVIDENCE-CONSUMER](work-pack/tasks/TASK-IOLM-DOMAINSPEC-EVIDENCE-CONSUMER.md) | emit independent narrow EVF and later BTE breadth consumer receipts | L0D | high | W0D | candidate substrate plus exact upstream stage receipt | not-started; both SWUs blocked/unselected |
 | [TASK-IOLM-000B](work-pack/tasks/TASK-IOLM-000B-DOMAINSPEC-SG-READINESS.md) | verify exact upstream `Sg` readiness handle | pre-L0 | medium | W0 | blocked by existing FPR owners | not-started |
 | [TASK-IOLM-001](work-pack/tasks/TASK-IOLM-001-CONTRACT.md) | lock read-only import/projection contract and fixtures | L0 | high | W1 | blocked by G-DSV2-SG | not-started |
 | [TASK-IOLM-002](work-pack/tasks/TASK-IOLM-002-COMPILER.md) | build deterministic compiler | L1 | high | W2 | dependency | not-started |
@@ -72,6 +83,11 @@ The planning package is structurally complete and G-OWNER has passed. Prototype 
 | SWU | Parent | Dependencies | Write scope | Acceptance evidence | Validation | Owner | Handoff |
 |---|---|---|---|---|---|---|---|
 | SWU-IOLM-000-A | TASK-IOLM-000 | none | `work-pack/shared/G-OWNER-DECISION.md` | named schema owner, posture, vocabulary route | decision-gate receipt review: pass | manual/decision-gate | completed; G-OWNER handle recorded |
+| SWU-IOLM-00C-A | TASK-IOLM-00C | G-OWNER + G-POSTURE | `prototype/contracts/candidate/`, `prototype/fixtures/candidate-contract/` | posture/provenance schemas plus accept/reject fixtures proving candidate receipts cannot satisfy G-DSV2-SG | schema/fixture validation command recorded in result | task-session | **completed — [result](work-pack/session-evidence/SWU-IOLM-00C-A/RESULT.md)** |
+| SWU-IOLM-00C-B | TASK-IOLM-00C | 00C-A | `prototype/project.json`, `prototype/features/cyberalchemy-method/`, `prototype/features/craft/`, `prototype/generated/receipts/` | minimal project/feature/node/connection sources compile twice to the same candidate graph and receipt | minted-project conformance + double-build diff | task-session | **blocked before mutation — [decision](work-pack/session-evidence/SWU-IOLM-00C-B/DECISION-GATE.md)** |
+| SWU-IOLM-00C-C | TASK-IOLM-00C | 00C-B | `prototype/generated/views/`, `prototype/tests/parity/`, `prototype/src/ui/read-model/` | graph/hierarchy/table parity fixture plus visible and machine-readable candidate posture | parity oracle + authority-guard negative | task-session | pending dependency |
+| SWU-IOLM-DSC-A | TASK-IOLM-DOMAINSPEC-EVIDENCE-CONSUMER | successful `SWU-GCP-001`; candidate contract; 00C-B/C candidate substrate | `prototype/src/domainspec-consumer/`, `prototype/tests/domainspec-consumer/`, one fresh `prototype/runs/domainspec-consumer/<run-id>/` | exact EVF handles consumed with unchanged IDs/relations/provenance, deterministic semantic/view parity, eleven rejected negative classes, and fresh non-admitting receipt | contract/schema validation + deterministic replay + parity/negative suite + write-scope diff | task-session; IOLM owner | blocked by dependencies; unselected |
+| SWU-IOLM-DSC-B | TASK-IOLM-DOMAINSPEC-EVIDENCE-CONSUMER | DSC-A; green `SWU-BTE-008` / `verify:bte:core`; fresh BTE core handle | distinct `prototype/runs/domainspec-consumer/<run-id>/`; minimal adapter/test extension only if required | 13/13 kinds and 16/16 signatures consumed with exact denominator/test/result/digest equality; fresh breadth receipt eligible for SWU-BTE-010 | breadth contract/schema validation + exact-set replay + parity/negative suite | task-session; IOLM owner | blocked by dependencies; unselected |
 | SWU-IOLM-000B-A | TASK-IOLM-000B | live guard; FPR-01/02/03/04 owner receipts | `work-pack/session-evidence/SWU-IOLM-000B-A/` only | exact schema-valid `Sg`, quotient, retraction, identities, and readiness handle | read-only receipt/schema verification | task-session verify | blocked |
 | SWU-IOLM-001-A | TASK-IOLM-001 | G-OWNER and G-DSV2-SG | `prototype/contracts/`, `prototype/fixtures/non-collapse/` | read-only import/projection schemas plus one fixture per law | schema test command chosen with host | task-session | blocked |
 | SWU-IOLM-001-B | TASK-IOLM-001 | 001-A | `prototype/manifests/`, `prototype/fixtures/sources/` | default-deny pinned manifest | manifest validator | task-session | blocked |
@@ -99,7 +115,11 @@ Task files carry full source anchors, done criteria, related context, synchroniz
 | FPR-02 | upstream prerequisite | G-DSV2-SG | existing FPR-02 owner | supported-profile receipt |
 | FPR-03 | upstream prerequisite | G-DSV2-SG | existing FPR-03 owner | precedence/direction receipt |
 | FPR-04 | upstream prerequisite | G-DSV2-SG | existing FPR-04 owner | bounded `Sg`, quotient, and independent retraction receipt |
-| G-DSV2-SG | local consumer gate | all prototype mutation | TASK-IOLM-000B read-only verifier | exact FPR receipts and bound read-only `Sg` handle |
+| G-POSTURE | resolved decision gate | candidate execution posture | operator plus private-learning-map-product-owner | `code-first-candidate-later-authority-rebind` selected 2026-07-20 |
+| G-DSV2-SG | local authority gate | authoritative labeling/rebind only | TASK-IOLM-000B read-only verifier | exact FPR receipts and bound read-only `Sg` handle |
+| B-IOLM-CROSS-FEATURE | active upstream-receipt blocker | SWU-IOLM-00C-B | DomainSpec minted-project/BTE owner route | execute the independently refreshed and accepted predecessor chain, then return a passing cross-feature-support receipt |
+| B-IOLM-DSC-A | dependency blocker | SWU-IOLM-DSC-A narrow consumer claim | EVF core owner plus IOLM candidate-substrate owner | successful exact `SWU-GCP-001` receipt and passing 00C-B/C substrate handle |
+| B-IOLM-DSC-B | dependency blocker | SWU-IOLM-DSC-B breadth consumer and BTE terminal integration | BTE core owner plus IOLM consumer owner | DSC-A pass and fresh green `SWU-BTE-008` / `verify:bte:core` handle |
 | D-WEBSITE | deferred | production integration | website product/architecture owner | select host after private witness evidence |
 | D-EDITOR | deferred | maintained journeys | learning-content owner | approve editorial lifecycle after pilot |
 | D-PUBLIC | deferred | Arcanum-only derivative | separate projection/publication owners | new Invoke and exact-manifest public proof |
@@ -108,20 +128,21 @@ Task files carry full source anchors, done criteria, related context, synchroniz
 
 ## Gate checks
 
-1. `workPackGateStatus` remains `block` while G-DSV2-SG is unresolved.
-2. G-OWNER is persisted and G-DSV2-SG must close before any task writes under `prototype/`; neither gate's evidence may waive the other.
+1. `SWU-IOLM-00C-A` passed through Task Session; this receipt does not automatically select or authorize 00C-B.
+2. G-OWNER and G-POSTURE are persisted. G-DSV2-SG must close before authoritative labeling/rebind, and candidate evidence can never waive it.
 3. Each multi-SWU task executes one selected SWU at a time through Task Session.
 4. No two SWUs may write the same path concurrently.
 5. Every layer promotion cites its exact evidence receipt.
 6. Distill validation passes structural coherence but cannot waive authority.
 7. Production website and public derivative remain outside the active execution pack.
+8. IOLM consumer runs use only the YAML contract and JSON receipt schema; they cannot author upstream handles, and DSC-A cannot satisfy the DSC-B/BTE breadth slot.
 
 ## Technique trace
 
 | Technique | Concrete effect | Status |
 |---|---|---|
-| `sequence` | owner decision + upstream `Sg` verification -> import contract -> compiler/witness/API -> UI -> evidence | pass |
-| `scu_swu_reduction` | thirteen bounded SWUs with one write scope and evidence surface | pass |
+| `sequence` | owner + posture -> L0C candidate contract/compile/parity -> independent L0D narrow/later-breadth consumption -> later L0A `Sg` rebind -> expanded compiler/witness/API/UI/evidence | pass |
+| `scu_swu_reduction` | eighteen bounded SWUs; 00C-B remains the only selected unit and is blocked before mutation | pass |
 | `recomposition_proof` | every SWU maps to slice, layer decision, SPEC criterion | pass |
 | `artifact_contract_bridge` | define/design contracts become task acceptance evidence | pass |
 | `state_namespace_boundary` | projection/source/claim/Craft/publication statuses remain separate | pass |
@@ -132,4 +153,4 @@ Task files carry full source anchors, done criteria, related context, synchroniz
 
 ## Next handoff
 
-G-OWNER is complete through [TASK-IOLM-000](work-pack/tasks/TASK-IOLM-000-OWNER.md). Run the existing DomainSpec guard/FPR route to produce the exact FPR-01/02/03/04 receipts, then verify them through [TASK-IOLM-000B](work-pack/tasks/TASK-IOLM-000B-DOMAINSPEC-SG-READINESS.md). When G-DSV2-SG passes, Context Builder may prepare `SWU-IOLM-001-A` for Task Session using both handles.
+G-OWNER, G-POSTURE, and `SWU-IOLM-00C-A` are complete. The operator selected [option 1](work-pack/session-evidence/SWU-IOLM-00C-B/DECISION-GATE.md), preserving the two-feature done criterion and routing support upstream. The BTE planning contradiction was refreshed and independently accepted; continue only through a separately authorized bounded BTE Task Session and return a passing upstream support receipt. Do not create 00C-B sources or select 00C-C before that receipt. The L0D consumer SWUs remain blocked/unselected until the candidate substrate and their exact upstream receipts pass.

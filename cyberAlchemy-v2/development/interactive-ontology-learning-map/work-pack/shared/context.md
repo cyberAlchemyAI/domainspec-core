@@ -19,11 +19,19 @@
 | DomainSpec ontology | `projects/domainspec-v2/ontology/README.md#source-boundaries`, `#promotion-path` |
 | DomainSpec engine readiness | `projects/domainspec-v2/research/2026-07-14-engine-gap-inventory/findings.md#authority-safe-dependency-chain`, `#first-slices-of-existing-fpr-nodes`, `#interactive-ontology-implementer-dogfood-handoff` |
 | DomainSpec Inventory read model | `.arcanum/inventory/entries/domainspec-v2-engine-gap-inventory-dispatch-closeout-synthesis.md#accepted-result` |
+| Minted-project candidate runtime | `projects/domainspec-v2/impl/spec/minted-project/INDEX.md` plus exact schemas/compiler/receipt paths selected by TASK-IOLM-00C |
 
 ## DomainSpec consumer rule
 
-DomainSpec semantic relations enter only through the exact owner-generated FPR-04 `Sg` bound by G-DSV2-SG. AEO and Financial feature tables may anchor source excerpts and learning content, but cannot create or reconstruct an admitted DomainSpec relation. Learner, navigation, layout, and presentation views remain separately typed derived artifacts.
+Candidate relations may enter from pinned minted-project node/connection files only with explicit candidate posture and provenance. They never become DomainSpec semantic relations by projection or naming. Authoritative DomainSpec relations enter only through the exact owner-generated FPR-04 `Sg` bound by G-DSV2-SG. Learner, navigation, layout, and presentation views remain separately typed derived artifacts.
+
+Executable evidence is a second, non-semantic input class. IOLM consumes exact
+successful `evf-l0-core` or `bte-core` handles only through
+`cyberAlchemy-v2/development/domainspec-v2/iolm-consumer/consumer-contract.yml`
+and emits receipts only through its JSON Schema. `DEC-GCP-002` requires a fresh
+narrow receipt and a later distinct breadth receipt; neither can define
+upstream obligations, change an upstream verdict, or grant authority.
 
 ## Runtime handoff rule
 
-Invoke has not pre-generated execution context packs. Before each Task Session, Context Builder selects only the task's listed anchors, relevant prior receipts, validation surfaces, and exact write scope. For prototype SWUs it must include both G-OWNER and G-DSV2-SG handles.
+Invoke has not pre-generated execution context packs. Before each Task Session, Context Builder selects only the task's listed anchors, relevant prior receipts, validation surfaces, and exact write scope. Candidate L0C SWUs require G-OWNER, G-POSTURE, and their predecessor candidate handles. L0D consumer SWUs additionally require the exact successful upstream stage handle named by their contract. L0A or authoritative SWUs require G-DSV2-SG.

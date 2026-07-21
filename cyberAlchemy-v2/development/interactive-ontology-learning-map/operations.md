@@ -14,5 +14,7 @@
 | `ServeReadQuery` | snapshot ID plus query parameters | immutable response + ETag | GET only; no authority action |
 | `SelectLens` | stable selected ID, lens | equivalent spatial/hierarchy/table detail | selection preserved across lenses |
 | `RunChallengeView` | record/claim ID | evidence, assumptions, counterevidence, route | does not adjudicate the challenge |
+| `ConsumeDomainSpecEvidenceHandle` | exact `evf-l0-core` or `bte-core` handle plus contract/posture/freshness identities | verified read-only evidence envelope or named block | no upstream writes; exact IDs/provenance/digests; stage-specific handles; narrow receipt cannot satisfy breadth slot |
+| `EmitIndependentConsumerReceipt` | verified evidence envelope plus IOLM snapshot, semantic/projection hashes, parity and negative results | fresh receipt matching `iolm-domainspec-evidence-consumer-receipt/v1` | IOLM owns only the consumer run; no predicate, `O_spec`, profile, FPR, release, production, or publication authority |
 
 Mutation operations such as `Promote`, `EditSource`, `AdjudicateChallenge`, and `Publish` are forbidden in this package.

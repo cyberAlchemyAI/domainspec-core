@@ -1,24 +1,29 @@
 ---
 mode: plan
-status: block
-date: 2026-07-17
+status: pass
+date: 2026-07-20
 complexity: high
 outputMode: split
-nextRoute: deferred
+nextRoute: task-session
 ---
 
 # Invoke Plan Receipt
 
-## Refresh synchronization (2026-07-17)
+## Apply-approved refresh (2026-07-20)
 
-The upstream BTE profile is now an explicit read-only consumer input with
-candidate/authoritative posture and source/profile/graph/obligation/receipt
-identity. This changes the handoff route only; it does not waive `G-DSV2-SG`,
-select an IOLM SWU, or authorize prototype writes.
+`DEC-CAV2-IOLM-POSTURE-001` selected
+`code-first-candidate-later-authority-rebind`. The plan now activates L0C through
+the minted-project candidate adapter and reserves L0A for a later owner-issued
+FPR `Sg`. This does not waive `G-DSV2-SG`; it narrows that gate to authoritative
+labeling/rebind and selects only `SWU-IOLM-00C-A` for Task Session.
+
+The later accepted `DEC-GCP-002` adds a separate DomainSpec executable-evidence
+consumer task. Its narrow EVF run and later BTE breadth rerun are planned but
+unselected; neither gates the upstream core whose handle it consumes.
 
 ## Outcome
 
-A high-complexity split work-pack now decomposes the private witness into four evidence-gated layers, eight tasks, thirteen SWUs, five sequential waves, one full Dispatch Spec route, and a Distill validation.
+A high-complexity split work-pack now decomposes the private witness into L0C candidate proof, the independent L0D evidence-consumer lane, L0A authoritative rebind, and L1-L3 product layers: ten tasks, eighteen SWUs, seven routed waves, one full Dispatch Spec route, and a refreshed Distill validation.
 
 ## Approved inputs
 
@@ -46,14 +51,16 @@ The full trace is in [WORK-PACK.md](./WORK-PACK.md#technique-trace) and [DISPATC
 
 ## Distill
 
-Automatic `validate` mode returns `pass` for structural coherence. G-OWNER now passes through its recorded Decision Gate; Distill does not clear G-DSV2-SG, so the work-pack gate remains `block`.
+Automatic `validate` mode returns `pass` for structural coherence. The smallest coherent consumer unit is `SWU-IOLM-DSC-A`: one exact EVF handle, one deterministic IOLM consumption run, and one fresh non-admitting receipt. It remains downstream of the three-SWU L0C substrate. Distill does not clear G-DSV2-SG, which remains a separate later-authority gate.
 
 ## Gate and handoff
 
 - Planning artifact quality: `PASS`.
-- Mutation-capable handoff: `BLOCK`.
+- Candidate mutation handoff: `READY` for one Task Session over `SWU-IOLM-00C-A` only.
 - Resolved prerequisite: G-OWNER — [bounded private-product owner decision](work-pack/shared/G-OWNER-DECISION.md).
-- Remaining blocking condition: no exact owner-generated DomainSpec `Sg` readiness handle.
-- Active prerequisite route: the existing DomainSpec guard/FPR owner route must restore the guard and close FPR-01, FPR-02, FPR-03, and the bounded FPR-04 graph/quotient/retraction receipt.
-- After G-DSV2-SG passes: refresh status, generate a Task Session context pack for SWU-IOLM-001-A, and execute one SWU.
+- Resolved posture: `code-first-candidate-later-authority-rebind` — operator selection on 2026-07-20.
+- Remaining authority condition: no exact owner-generated DomainSpec `Sg` readiness handle; this blocks L0A authoritative labeling/rebind only.
+- Active candidate route: 00C-A is complete; 00C-B remains selected but blocked until the owner-generated cross-feature-support receipt exists.
+- Consumer route: after 00C-B/C and a successful EVF core receipt, Context Builder may prepare `SWU-IOLM-DSC-A`; a separate later selection is required for `DSC-B` after green BTE core.
+- Later authority route: the existing DomainSpec FPR owners issue the exact graph/quotient/retraction receipts, then TASK-IOLM-000B verifies them read-only.
 - No implementation or publication occurred during Invoke.
