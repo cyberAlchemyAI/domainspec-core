@@ -20,4 +20,10 @@ Prevent accidental dry runs by making request mode explicit.
 
 ## Synchronization
 
-Record payload evidence for both modes before promoting `SWU-WUI-005`.
+- `SWU-WUI-004`: completed on 2026-07-20 with
+  [PASS evidence](../../task-sessions/20260720T161007Z-swu-wui-004/TASK-SESSION-RESULT.md).
+- `TASK-WUI-002`: completed; Agent task and Dry run are explicit and mode-safe.
+- `SWU-WUI-005`: ready under `TASK-WUI-003` and is the only next
+  mutation-capable handle.
+- Payload evidence covers Agent task, Dry run, missing Skill preservation, and
+  retained approval/bridge compatibility.

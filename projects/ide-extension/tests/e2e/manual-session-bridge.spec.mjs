@@ -60,6 +60,11 @@ test('manual bridge survives target conflict, interruption, requeue, and termina
   const viewportName = testInfo.project.name;
   const task = `${viewportName} blind bridge ${'ReadableSegment'.repeat(5)}`;
   const conflictTask = `${viewportName} singleton conflict`;
+  const showMobileView = async (view) => {
+    if (viewportName === 'mobile') {
+      await page.locator(`.mobile-view-nav [data-mobile-view="${view}"]`).click();
+    }
+  };
   await page.goto('/demo/l0');
   await expect(page.locator('#server-status')).toHaveText('Connected');
 
@@ -73,6 +78,7 @@ test('manual bridge survives target conflict, interruption, requeue, and termina
   await page.locator('[data-action="prepare"]').click();
   await expect(page.locator('#detail-heading')).toHaveText(task);
   const envelopeId = await page.locator('#detail-subtitle').textContent();
+  await showMobileView('evidence');
 
   page.once('dialog', (dialog) => dialog.accept());
   await page.locator('[data-action="approve"]').click();
@@ -104,8 +110,10 @@ test('manual bridge survives target conflict, interruption, requeue, and termina
     requested_grants: ['preview.read', 'skill.invoke']
   });
   await postJson(request, `/api/approvals/${conflictPrepared.body.approval.approval_id}/approve`);
+  await showMobileView('work');
   await page.locator('[data-action="refresh"]').click();
   await page.locator(`[data-proposal-id="${conflictPrepared.body.envelope.envelope_id}"]`).click();
+  await showMobileView('evidence');
   await page.locator('[data-action="ready"]').click();
   await expect(page.locator('#error-strip')).toBeVisible();
   await expect(page.locator('#error-message')).toHaveText('ready_target_exists');
@@ -120,8 +128,10 @@ test('manual bridge survives target conflict, interruption, requeue, and termina
   expect(claimed.response.status()).toBe(201);
   expect(claimed.body.claim.agent_ref).toBe('openrouter.local-session');
   expect(claimed.body.execution.requested_skill).toBe('decision-gate');
+  await showMobileView('work');
   await page.locator('[data-action="refresh"]').click();
   await page.locator(`[data-proposal-id="${envelopeId}"]`).click();
+  await showMobileView('evidence');
   await expect(page.locator('#detail-status')).toHaveText('Claimed by unattested local session');
   await expect(page.locator('[data-list="bridge-fields"]')).toContainText('openrouter.local-session');
   await expect(page.locator('[data-list="bridge-fields"]')).toContainText(`playwright-${viewportName}-first`);
@@ -137,7 +147,9 @@ test('manual bridge survives target conflict, interruption, requeue, and termina
     reason: 'Playwright claimant stopped before returning evidence.'
   });
   expect(interrupted.response.ok()).toBeTruthy();
+  await showMobileView('work');
   await page.locator('[data-action="refresh"]').click();
+  await showMobileView('evidence');
   await expect(page.locator('#detail-status')).toContainText('Interrupted');
   await expect(page.locator('[data-action="release"]')).toBeEnabled();
   await expect(page.locator('[data-list="bridge-fields"]')).toContainText('Playwright claimant stopped');
@@ -177,9 +189,11 @@ test('manual bridge survives target conflict, interruption, requeue, and termina
   expect(completed.response.status()).toBe(201);
   expect(completed.body.receipt.agent_ref).toBe('openrouter.local-session');
 
+  await showMobileView('work');
   await page.locator('[data-action="refresh"]').click();
   await page.locator('[data-view="history"]').click();
   await page.locator(`[data-proposal-id="${envelopeId}"]`).click();
+  await showMobileView('evidence');
   await expect(page.locator('#detail-status')).toHaveText('Passed');
   await expect(page.locator('[data-list="receipts"] .receipt-row')).toHaveCount(2);
   await expect(page.locator('.receipt-kind')).toHaveText(['authorization.receipt', 'skill.execution']);

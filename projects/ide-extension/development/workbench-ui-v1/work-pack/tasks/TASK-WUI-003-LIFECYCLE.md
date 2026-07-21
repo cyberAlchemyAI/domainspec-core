@@ -48,5 +48,15 @@ Present one understandable run lifecycle and only legal actions for its state.
 
 ## Synchronization
 
-`SWU-WUI-006` and `SWU-WUI-007` may be parallel only with disjoint exact write
-scopes or an explicit merge owner.
+- `SWU-WUI-005`: completed on 2026-07-20 with
+  [PASS evidence](../../task-sessions/20260720T161925Z-swu-wui-005/TASK-SESSION-RESULT.md).
+- `SWU-WUI-006`: completed on 2026-07-20 with
+  [PASS evidence](../../task-sessions/20260720T162753Z-swu-wui-006/TASK-SESSION-RESULT.md).
+- `SWU-WUI-007`: completed on 2026-07-20 with
+  [PASS evidence](../../task-sessions/20260720T164437Z-swu-wui-007/TASK-SESSION-RESULT.md).
+- `TASK-WUI-003`: completed for RunView projection, ordered timeline, and legal
+  action projection.
+- `SWU-WUI-008`: now owns the next mutation-capable handle in the workspace
+  task; it remains sequenced after the lifecycle task.
+- `SWU-WUI-009` through `SWU-WUI-011`: remain planned behind workspace and
+  evidence dependencies.

@@ -1,8 +1,8 @@
 ---
 module: ide-extension-workbench-ui-v1
 version: 1.0.0-plan
-status: planned
-updatedAt: 2026-07-17
+status: in_progress
+updatedAt: 2026-07-20
 docType: invoke-package-index
 ---
 
@@ -38,5 +38,10 @@ Dry run remains available as an explicit secondary mode.
 
 ## Next Route
 
-Run Task Session on `SWU-WUI-001` in
-[TASK-WUI-001-SHELL.md](work-pack/tasks/TASK-WUI-001-SHELL.md).
+`SWU-WUI-001` through `SWU-WUI-010` passed their shell, compatibility,
+request-mode, pure projection, ordered lifecycle, legal-action, retained
+Canvas, read-only Craft seed, and receipt-linked Inspector checks. Run Task
+Session on `SWU-WUI-011` in
+[TASK-WUI-005-VALIDATE.md](work-pack/tasks/TASK-WUI-005-VALIDATE.md) to record
+the explicit human usefulness verdict. The machine matrix is already green;
+V1 remains unpromoted until that verdict exists.

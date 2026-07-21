@@ -60,6 +60,10 @@ test('human approval workflow survives disposition, reload, and evidence review'
   page.on('pageerror', (error) => pageErrors.push(error.message));
 
   const viewportName = testInfo.project.name;
+  const showMobileView = async (view) => {
+    if (viewportName !== 'mobile') return;
+    await page.locator(`.mobile-view-nav [data-mobile-view="${view}"]`).click();
+  };
   const taskA = `${viewportName} A ${'LongContractSegment'.repeat(7)}`;
   const taskB = `${viewportName} B reject proposal`;
 
@@ -68,6 +72,7 @@ test('human approval workflow survives disposition, reload, and evidence review'
   await expect(page.getByText('Approval Desk · local workbench', { exact: true })).toBeVisible();
   await expect(page.locator('#server-status')).toHaveText('Connected');
   await expectCoherentLayout(page);
+  await page.locator('[data-request-mode="dry-run"]').click();
 
   const taskInput = page.locator('[data-field="task-input"]');
   await taskInput.fill(taskA);
@@ -83,8 +88,7 @@ test('human approval workflow survives disposition, reload, and evidence review'
   const proposalA = page.locator(`[data-proposal-id="${approvalA.envelope_id}"]`);
   const proposalB = page.locator(`[data-proposal-id="${approvalB.envelope_id}"]`);
   await proposalA.click();
-  await expect(page.locator('#detail-heading')).toHaveText(taskA);
-  await expect(page.locator('[data-action="approve"]')).toBeEnabled();
+  await showMobileView('work');
 
   let reachedQueue = false;
   let reachedApprove = false;
@@ -102,13 +106,30 @@ test('human approval workflow survives disposition, reload, and evidence review'
       };
     });
     reachedQueue ||= focus.proposal;
+    if (reachedQueue) break;
+  }
+  expect(reachedQueue).toBe(true);
+
+  await showMobileView('evidence');
+  await expect(page.locator('#detail-heading')).toHaveText(taskA);
+  await expect(page.locator('[data-action="approve"]')).toBeEnabled();
+  await page.locator('body').click({ position: { x: 1, y: 1 } });
+  for (let step = 0; step < 18; step += 1) {
+    await page.keyboard.press('Tab');
+    const focus = await page.evaluate(() => {
+      const active = document.activeElement;
+      const style = window.getComputedStyle(active);
+      return {
+        action: active?.dataset?.action || null,
+        outline: style.outlineStyle !== 'none' && style.outlineWidth !== '0px'
+      };
+    });
     if (focus.action === 'approve') {
       reachedApprove = true;
       visibleFocus = focus.outline;
       break;
     }
   }
-  expect(reachedQueue).toBe(true);
   expect(reachedApprove).toBe(true);
   expect(visibleFocus).toBe(true);
 
@@ -121,7 +142,9 @@ test('human approval workflow survives disposition, reload, and evidence review'
   expect(replay.status()).toBe(409);
   expect((await replay.json()).error).toBe('already_resolved');
 
+  await showMobileView('work');
   await proposalB.click();
+  await showMobileView('evidence');
   await page.locator('[data-field="reject-reason"]').fill('browser proof rejection');
   page.once('dialog', (dialog) => dialog.accept());
   await page.locator('[data-action="reject"]').click();
@@ -133,14 +156,17 @@ test('human approval workflow survives disposition, reload, and evidence review'
   expect(rejectedDetail.receipts).toEqual([]);
   expect(rejectedDetail.approval.rejection_reason).toBe('browser proof rejection');
 
+  await showMobileView('work');
   await page.locator('[data-view="history"]').click();
   await expect(page.locator(`[data-proposal-id="${approvalA.envelope_id}"]`)).toBeVisible();
   await expect(page.locator(`[data-proposal-id="${approvalB.envelope_id}"]`)).toBeVisible();
 
   await page.reload();
   await expect(page.locator('#server-status')).toHaveText('Connected');
+  await showMobileView('work');
   await page.locator('[data-view="history"]').click();
   await page.locator(`[data-proposal-id="${approvalA.envelope_id}"]`).click();
+  await showMobileView('evidence');
   await expect(page.locator('#detail-status')).toHaveText('passed');
   await expect(page.locator('[data-list="receipts"] .receipt-row')).toHaveCount(1);
 

@@ -12,7 +12,7 @@ of truth for project-local state.
 agent, VS Code/VSCodium product, embedded browser automation surface, or unified
 authority layer.
 
-**Next move:** Execute Workbench UI V1 from `SWU-WUI-001`. Preserve the older
+**Next move:** Record the human usefulness verdict for `SWU-WUI-011`. Preserve the older
 `SWU-SCW-008` usefulness verdict as independent open residue.
 
 ## Active Product Context - CTX-IDEEXT-WUI-V1
@@ -30,6 +30,19 @@ eleven behavior-shaped SWUs. The first is
 [SWU-WUI-001](development/workbench-ui-v1/work-pack/tasks/TASK-WUI-001-SHELL.md):
 introduce semantic Work, Canvas, and Inspector regions without changing layout,
 state projection, interactions, or existing kernel contracts.
+
+`SWU-WUI-001` passed its semantic landmark and compatibility checks,
+`SWU-WUI-002` passed the desktop grid and approval-workflow evidence, and
+`SWU-WUI-003` passed mobile Work, Canvas, and Evidence navigation, and
+`SWU-WUI-004` passed explicit Agent task/Dry run payload and compatibility
+evidence, and `SWU-WUI-005` passed the pure RunView mapper matrix and full bridge
+suite, and `SWU-WUI-006` passed the ordered lifecycle desktop/mobile matrix on
+2026-07-20, and `SWU-WUI-007` passed the legal-action matrix and desktop/mobile
+journey, and `SWU-WUI-008` passed the retained Canvas placement and old-frame
+failure witness, and `SWU-WUI-009` passed read-only Craft frontier seeding, and
+`SWU-WUI-010` passed receipt-linked Inspector evidence. The next bounded unit
+is `SWU-WUI-011`, whose machine matrix passes but whose human usefulness gate
+remains open.
 
 V1 does not claim background agent wake-up, OpenRouter execution, browser
 control, or VSCodium integration.
@@ -193,11 +206,12 @@ is useful enough for integrated closeout; this does not approve deferred L3.
 - Deferred evidence: Playwright MCP and embedded VSCodium webview proof.
 - Separate adapter work: manifest hardening evidence and live OpenRouter proof.
 
-### CTX-IDEEXT-WUI-V1 - pass
+### CTX-IDEEXT-WUI-V1 - in_progress
 
 - Plan: [Workbench UI V1](development/workbench-ui-v1/WORK-PACK.md).
-- Ready unit: `SWU-WUI-001`.
-- Next move: run Task Session on semantic Work, Canvas, and Inspector regions only.
+- Ready unit: `SWU-WUI-011`.
+- Next move: record the explicit human usefulness verdict for the already-green
+  WUI-011 machine matrix without claiming deferred integrations.
 - Final gate: desktop/mobile machine evidence plus explicit human usefulness review.
 
 ## Artifacts
@@ -212,6 +226,22 @@ is useful enough for integrated closeout; this does not approve deferred L3.
 - [development/operations-v1-plan/WORK-PACK.md](development/operations-v1-plan/WORK-PACK.md)
 - [development/workbench-bridge-demo-v01/WORK-PACK.md](development/workbench-bridge-demo-v01/WORK-PACK.md)
 - [development/workbench-ui-v1/WORK-PACK.md](development/workbench-ui-v1/WORK-PACK.md)
+- [development/workbench-ui-v1/task-sessions/20260720T153545Z-swu-wui-001/CONTEXT-PACK.md](development/workbench-ui-v1/task-sessions/20260720T153545Z-swu-wui-001/CONTEXT-PACK.md)
+- [development/workbench-ui-v1/task-sessions/20260720T153545Z-swu-wui-001/TASK-SESSION-RESULT.md](development/workbench-ui-v1/task-sessions/20260720T153545Z-swu-wui-001/TASK-SESSION-RESULT.md)
+- [development/workbench-ui-v1/task-sessions/20260720T154814Z-swu-wui-002/CONTEXT-PACK.md](development/workbench-ui-v1/task-sessions/20260720T154814Z-swu-wui-002/CONTEXT-PACK.md)
+- [development/workbench-ui-v1/task-sessions/20260720T154814Z-swu-wui-002/TASK-SESSION-RESULT.md](development/workbench-ui-v1/task-sessions/20260720T154814Z-swu-wui-002/TASK-SESSION-RESULT.md)
+- [development/workbench-ui-v1/task-sessions/20260720T155936Z-swu-wui-003/CONTEXT-PACK.md](development/workbench-ui-v1/task-sessions/20260720T155936Z-swu-wui-003/CONTEXT-PACK.md)
+- [development/workbench-ui-v1/task-sessions/20260720T155936Z-swu-wui-003/TASK-SESSION-RESULT.md](development/workbench-ui-v1/task-sessions/20260720T155936Z-swu-wui-003/TASK-SESSION-RESULT.md)
+- [development/workbench-ui-v1/task-sessions/20260720T161007Z-swu-wui-004/CONTEXT-PACK.md](development/workbench-ui-v1/task-sessions/20260720T161007Z-swu-wui-004/CONTEXT-PACK.md)
+- [development/workbench-ui-v1/task-sessions/20260720T161007Z-swu-wui-004/TASK-SESSION-RESULT.md](development/workbench-ui-v1/task-sessions/20260720T161007Z-swu-wui-004/TASK-SESSION-RESULT.md)
+- [development/workbench-ui-v1/task-sessions/20260720T161925Z-swu-wui-005/CONTEXT-PACK.md](development/workbench-ui-v1/task-sessions/20260720T161925Z-swu-wui-005/CONTEXT-PACK.md)
+- [development/workbench-ui-v1/task-sessions/20260720T161925Z-swu-wui-005/TASK-SESSION-RESULT.md](development/workbench-ui-v1/task-sessions/20260720T161925Z-swu-wui-005/TASK-SESSION-RESULT.md)
+- [development/workbench-ui-v1/task-sessions/20260720T162753Z-swu-wui-006/CONTEXT-PACK.md](development/workbench-ui-v1/task-sessions/20260720T162753Z-swu-wui-006/CONTEXT-PACK.md)
+- [development/workbench-ui-v1/task-sessions/20260720T162753Z-swu-wui-006/TASK-SESSION-RESULT.md](development/workbench-ui-v1/task-sessions/20260720T162753Z-swu-wui-006/TASK-SESSION-RESULT.md)
+- [development/workbench-ui-v1/task-sessions/20260720T164437Z-swu-wui-007/CONTEXT-PACK.md](development/workbench-ui-v1/task-sessions/20260720T164437Z-swu-wui-007/CONTEXT-PACK.md)
+- [development/workbench-ui-v1/task-sessions/20260720T164437Z-swu-wui-007/TASK-SESSION-RESULT.md](development/workbench-ui-v1/task-sessions/20260720T164437Z-swu-wui-007/TASK-SESSION-RESULT.md)
+- [development/workbench-ui-v1/task-sessions/20260720T165903Z-swu-wui-008/CONTEXT-PACK.md](development/workbench-ui-v1/task-sessions/20260720T165903Z-swu-wui-008/CONTEXT-PACK.md)
+- [development/workbench-ui-v1/task-sessions/20260720T165903Z-swu-wui-008/TASK-SESSION-RESULT.md](development/workbench-ui-v1/task-sessions/20260720T165903Z-swu-wui-008/TASK-SESSION-RESULT.md)
 - [development/operations-v1-plan/task-sessions/20260714T211557Z-swu-ov1-001/TASK-SESSION-RESULT.md](development/operations-v1-plan/task-sessions/20260714T211557Z-swu-ov1-001/TASK-SESSION-RESULT.md)
 - [development/operations-v1-plan/task-sessions/20260714T213203Z-swu-ov1-002/TASK-SESSION-RESULT.md](development/operations-v1-plan/task-sessions/20260714T213203Z-swu-ov1-002/TASK-SESSION-RESULT.md)
 - [development/operations-v1-plan/task-sessions/20260714T214040Z-swu-ov1-003/TASK-SESSION-RESULT.md](development/operations-v1-plan/task-sessions/20260714T214040Z-swu-ov1-003/TASK-SESSION-RESULT.md)

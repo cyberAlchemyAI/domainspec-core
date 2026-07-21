@@ -67,10 +67,14 @@ test('document exposes semantic stable selectors and text-only dynamic rendering
       'data-panel="proposals"',
       'data-panel="detail"',
       'data-panel="evidence"',
+      'data-region="work"',
+      'data-region="canvas"',
+      'data-region="inspector"',
       'data-panel="craft"',
       'data-panel="canvas"',
       'data-action="prepare"',
       'data-action="approve"',
+      'data-action="inspect"',
       'data-action="reject"',
       'data-action="ready"',
       'data-action="unready"',
@@ -82,8 +86,13 @@ test('document exposes semantic stable selectors and text-only dynamic rendering
       'data-action="canvas-pruning-commit"',
       'data-field="task-input"',
       'data-field="skill-input"',
+      'data-request-mode="agent-task"',
+      'data-request-mode="dry-run"',
       'data-view="pending"',
       'data-view="history"',
+      'data-mobile-view="work"',
+      'data-mobile-view="canvas"',
+      'data-mobile-view="evidence"',
       'data-list="craft-pending"',
       'data-list="bridge-safe-fields"',
       'data-list="bridge-commands"',
@@ -95,6 +104,22 @@ test('document exposes semantic stable selectors and text-only dynamic rendering
       assert.match(document, new RegExp(selector));
     }
     assert.match(document, /role="tablist"/);
+    assert.match(document, /role="radiogroup" aria-label="Request mode"/);
+    assert.match(document, /data-request-mode="agent-task"/);
+    assert.match(document, /data-request-mode="dry-run"/);
+    assert.match(document, /state\.requestMode/);
+    assert.match(document, /setRequestMode\(state\.requestMode\)/);
+    assert.match(document, /aria-label="Mobile workbench views"/);
+    assert.match(document, /data-mobile-view="work"/);
+    assert.match(document, /data-mobile-view="canvas"/);
+    assert.match(document, /data-mobile-view="evidence"/);
+    assert.match(document, /state\.mobileView/);
+    assert.match(document, /setMobileView\(state\.mobileView\)/);
+    assert.match(document, /<section id="work-region" class="work-region" data-region="work" role="region" aria-labelledby="work-region-heading">/);
+    assert.match(document, /<h2 id="work-region-heading" class="visually-hidden">Work<\/h2>/);
+    assert.match(document, /data-region="inspector" role="region" aria-labelledby="inspector-heading"/);
+    assert.match(document, /<h2 id="inspector-heading" class="visually-hidden">Inspector<\/h2>/);
+    assert.match(document, /data-region="canvas" role="region" aria-labelledby="canvas-title"/);
     assert.match(document, /src="\/assets\/cyber-alchemy-logo\.svg\?v=cyberalchemy-mark"/);
     assert.match(document, /<h1>Cyber Alchemy<\/h1>/);
     assert.match(document, /aria-live="polite"/);
@@ -113,6 +138,10 @@ test('document exposes semantic stable selectors and text-only dynamic rendering
     assert.match(document, /Bridge demo/);
     assert.match(document, /workbench-poll --ready/);
     assert.match(document, /workbench-poll --claim --request-handle/);
+    assert.match(document, /import \{ projectRunView \} from '\/ui\/run-view\.mjs';/);
+    assert.match(document, /import \{ resolveRunActions \} from '\/ui\/run-actions\.mjs';/);
+    assert.match(document, /import \{ renderRunTimeline \} from '\/ui\/run-timeline\.mjs';/);
+    assert.match(document, /renderRunTimeline\(els\.bridgeFlow, runView\)/);
     assert.match(document, /No skill\.execution receipt admitted/);
     assert.match(document, /Chat output alone is not terminal proof/);
     assert.match(document, /Claimed by unattested local session/);
@@ -144,7 +173,18 @@ test('document exposes semantic stable selectors and text-only dynamic rendering
     assert.match(document, /storage\.candidate_revision_count/);
     const moduleScript = document.match(/<script type="module">([\s\S]*?)<\/script>/);
     assert.ok(moduleScript);
-    assert.doesNotThrow(() => new Function(moduleScript[1]));
+    const staticScript = moduleScript[1].replace(
+      /^\s*import .* from ['"]\/ui\/[^'\"]+['"];\s*$/gm,
+      ''
+    );
+    assert.doesNotThrow(() => new Function(staticScript));
+
+    for (const route of ['/ui/run-view.mjs', '/ui/run-timeline.mjs', '/ui/run-actions.mjs']) {
+      const moduleResponse = await fetch(`${base}${route}`);
+      assert.equal(moduleResponse.status, 200);
+      assert.match(moduleResponse.headers.get('content-type'), /^text\/javascript/);
+      assert.match(await moduleResponse.text(), /export /);
+    }
 
     const logoResponse = await fetch(`${base}/assets/cyber-alchemy-logo.svg`);
     const logo = await logoResponse.text();

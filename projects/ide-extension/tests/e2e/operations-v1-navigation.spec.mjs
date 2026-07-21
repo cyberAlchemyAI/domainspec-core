@@ -120,6 +120,9 @@ test('workbench delivers durable Operations display without losing the last good
     const derivedB = (await derive('derive-browser-navigation-b')).body;
 
     await page.goto(`${base}/demo/l0`);
+    if (testInfo.project.name === 'mobile') {
+      await page.getByRole('tab', { name: 'Canvas', exact: true }).click();
+    }
     await expect(page.locator('#canvas-live-status')).toHaveText('Live');
     await expect(page.locator('#canvas-status')).toHaveText('Available');
     await expect(page.locator('#canvas-frame')).toHaveAttribute('data-surface-kind', 'v0');

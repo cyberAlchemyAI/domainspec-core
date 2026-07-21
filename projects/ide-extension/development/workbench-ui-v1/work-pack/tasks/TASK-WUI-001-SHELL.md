@@ -52,3 +52,16 @@ without changing request or run behavior.
 
 After each SWU, update the parent task status and preserve the next uncompleted
 SWU as the only mutation-capable handle.
+
+## Current Synchronization
+
+- `SWU-WUI-001`: completed on 2026-07-20 with
+  [PASS evidence](../../task-sessions/20260720T153545Z-swu-wui-001/TASK-SESSION-RESULT.md).
+- `TASK-WUI-001`: completed on 2026-07-20; semantic regions, desktop layout,
+  and mobile navigation are complete.
+- `SWU-WUI-002`: completed on 2026-07-20 with
+  [PASS evidence](../../task-sessions/20260720T154814Z-swu-wui-002/TASK-SESSION-RESULT.md).
+- `SWU-WUI-003`: completed on 2026-07-20 with
+  [PASS evidence](../../task-sessions/20260720T155936Z-swu-wui-003/TASK-SESSION-RESULT.md).
+- `SWU-WUI-004`: ready under `TASK-WUI-002` and is the only next
+  mutation-capable handle.

@@ -44,7 +44,8 @@
 
       button,
       input,
-      select {
+      select,
+      textarea {
         font: inherit;
         letter-spacing: 0;
       }
@@ -65,7 +66,8 @@
       }
 
       button:focus-visible,
-      input:focus-visible {
+      input:focus-visible,
+      textarea:focus-visible {
         outline: 3px solid color-mix(in srgb, var(--focus) 28%, transparent);
         outline-offset: 2px;
         border-color: var(--focus);
@@ -93,7 +95,8 @@
       }
 
       input,
-      select {
+      select,
+      textarea {
         min-height: 36px;
         min-width: 0;
         border: 1px solid var(--line-strong);
@@ -101,6 +104,10 @@
         background: #fff;
         color: var(--ink);
         padding: 7px 9px;
+      }
+
+      textarea {
+        resize: vertical;
       }
 
       h1,
@@ -167,7 +174,7 @@
 
       .prepare-bar {
         display: grid;
-        grid-template-columns: auto minmax(220px, 1fr) minmax(150px, 210px) auto;
+        grid-template-columns: auto minmax(150px, 0.7fr) minmax(190px, 1fr) minmax(150px, 0.8fr) minmax(170px, 0.9fr) auto;
         gap: 8px;
         align-items: center;
         width: min(900px, 100%);
@@ -179,7 +186,12 @@
         min-width: 0;
       }
 
-      .prepare-field label {
+      .prepare-field[hidden] {
+        display: none;
+      }
+
+      .prepare-field label,
+      .prepare-label {
         color: var(--muted);
         font-size: 11px;
         font-weight: 650;
@@ -187,6 +199,29 @@
 
       .prepare-field input {
         width: 100%;
+      }
+
+      .mode-switch {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+      }
+
+      .mode-switch button {
+        min-width: 0;
+        min-height: 36px;
+        border-color: transparent;
+        background: transparent;
+        color: var(--muted);
+        overflow-wrap: anywhere;
+        padding-inline: 7px;
+      }
+
+      .mode-switch button[aria-checked="true"] {
+        border-color: var(--line);
+        background: var(--panel);
+        color: var(--ink);
+        font-weight: 700;
       }
 
       .field-error {
@@ -253,10 +288,57 @@
         padding: 3px 8px;
       }
 
-      .workspace {
+      .mobile-view-nav {
+        display: none;
+      }
+
+      .workbench-shell {
         display: grid;
-        grid-template-columns: minmax(260px, 310px) minmax(390px, 1fr) minmax(300px, 390px);
+        grid-template-columns: minmax(260px, 300px) minmax(0, 1fr) minmax(300px, 360px);
         min-height: calc(100vh - 285px);
+      }
+
+      .work-region,
+      .inspector-column {
+        min-width: 0;
+        min-height: 0;
+        background: var(--panel);
+      }
+
+      .work-region {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .work-region > .craft-frontier {
+        flex: 0 0 auto;
+      }
+
+      .work-region > .queue-panel {
+        flex: 1 1 auto;
+        min-height: 0;
+        border-left: 0;
+      }
+
+      .inspector-column {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border-left: 1px solid var(--line);
+      }
+
+      .inspector-column > .detail-panel {
+        flex: 1 1 auto;
+        min-height: 0;
+        border-left: 0;
+      }
+
+      .inspector-column > .evidence-panel {
+        flex: 0 1 340px;
+        min-height: 220px;
+        border-top: 1px solid var(--line);
+        border-left: 0;
       }
 
       .panel {
@@ -491,6 +573,20 @@
         text-align: center;
       }
 
+      .bridge-stage-label,
+      .bridge-stage-status {
+        display: block;
+      }
+
+      .bridge-stage-status {
+        margin-top: 2px;
+        font-size: 9px;
+        font-weight: 550;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+        text-transform: uppercase;
+      }
+
       .bridge-step.active {
         border-color: #8ab1df;
         background: #eaf3fe;
@@ -646,6 +742,14 @@
         border-top: 1px solid var(--line);
       }
 
+      .inspector-column .action-bar {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+
+      .inspector-column .action-bar input {
+        grid-column: 1 / -1;
+      }
+
       .evidence-view[hidden] {
         display: none;
       }
@@ -697,7 +801,7 @@
       .craft-body {
         min-height: 167px;
         display: grid;
-        grid-template-columns: minmax(280px, 0.7fr) minmax(460px, 1.3fr);
+        grid-template-columns: 1fr;
       }
 
       .craft-next {
@@ -706,7 +810,7 @@
         align-content: center;
         gap: 8px;
         padding: 20px 24px;
-        border-right: 1px solid #b8d8c7;
+        border-bottom: 1px solid #b8d8c7;
         background: var(--green-soft);
       }
 
@@ -738,16 +842,29 @@
 
       .craft-item {
         min-height: 72px;
-        display: grid;
-        grid-template-columns: minmax(175px, 0.55fr) minmax(240px, 1.45fr);
-        align-items: center;
-        gap: 18px;
-        padding: 12px 18px;
         border-bottom: 1px solid var(--line);
       }
 
       .craft-item:last-child {
         border-bottom: 0;
+      }
+
+      .craft-select {
+        display: grid;
+        grid-template-columns: minmax(0, 0.55fr) minmax(0, 1.45fr);
+        align-items: center;
+        gap: 18px;
+        width: 100%;
+        min-height: 72px;
+        border: 0;
+        border-radius: 0;
+        padding: 12px 18px;
+        text-align: left;
+      }
+
+      .craft-select[aria-pressed="true"] {
+        box-shadow: inset 3px 0 var(--blue);
+        background: #eef4fb;
       }
 
       .craft-item-id {
@@ -771,7 +888,8 @@
 
       .canvas-workbench {
         min-width: 0;
-        border-top: 1px solid var(--line-strong);
+        min-height: 0;
+        border-left: 1px solid var(--line);
         background: var(--panel);
       }
 
@@ -905,18 +1023,29 @@
       }
 
       @media (max-width: 1040px) {
-        .workspace {
+        .workbench-shell {
           grid-template-columns: minmax(250px, 300px) minmax(390px, 1fr);
         }
 
-        .evidence-panel {
+        .inspector-column {
           grid-column: 1 / -1;
-          min-height: 360px;
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
           border-top: 1px solid var(--line);
-          border-left: 0 !important;
+          border-left: 0;
         }
 
-        .evidence-scroll {
+        .inspector-column > .detail-panel {
+          min-height: 520px;
+        }
+
+        .inspector-column > .evidence-panel {
+          min-height: 360px;
+          border-top: 0;
+          border-left: 1px solid var(--line);
+        }
+
+        .inspector-column .evidence-scroll {
           display: grid;
           grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
           gap: 20px;
@@ -932,6 +1061,37 @@
       }
 
       @media (max-width: 720px) {
+        .mobile-view-nav {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 4px;
+          padding: 8px 12px;
+          border-bottom: 1px solid var(--line);
+          background: var(--panel-alt);
+        }
+
+        .mobile-view-nav button {
+          min-width: 0;
+          min-height: 40px;
+          overflow-wrap: anywhere;
+        }
+
+        .mobile-view-nav button[aria-selected="true"] {
+          border-color: var(--line-strong);
+          background: var(--panel);
+          color: var(--ink);
+          font-weight: 700;
+        }
+
+        .workbench-shell[data-mobile-view="work"] > .canvas-workbench,
+        .workbench-shell[data-mobile-view="work"] > .inspector-column,
+        .workbench-shell[data-mobile-view="canvas"] > .work-region,
+        .workbench-shell[data-mobile-view="canvas"] > .inspector-column,
+        .workbench-shell[data-mobile-view="evidence"] > .work-region,
+        .workbench-shell[data-mobile-view="evidence"] > .canvas-workbench {
+          display: none;
+        }
+
         .app-header {
           align-items: stretch;
           flex-direction: column;
@@ -952,7 +1112,6 @@
         }
 
         .craft-next {
-          border-right: 0;
           border-bottom: 1px solid #b8d8c7;
         }
 
@@ -961,16 +1120,20 @@
         }
 
         .craft-item {
+          min-height: 0;
+        }
+
+        .craft-select {
           grid-template-columns: 1fr;
           gap: 5px;
         }
 
-        .workspace {
+        .workbench-shell {
           min-height: 0;
         }
 
         .prepare-bar {
-          grid-template-columns: minmax(0, 1fr) minmax(120px, 150px) auto;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .prepare-bar > .server-state {
@@ -978,8 +1141,29 @@
           grid-row: 1;
         }
 
-        .workspace {
+        .prepare-bar > .mode-field {
+          grid-column: 1 / -1;
+        }
+
+        .prepare-bar > #context-field,
+        .prepare-bar > [data-action="prepare"] {
+          grid-column: 1 / -1;
+        }
+
+        .workbench-shell {
           grid-template-columns: 1fr;
+        }
+
+        .inspector-column {
+          grid-column: auto;
+          display: block;
+          border-top: 1px solid var(--line);
+        }
+
+        .inspector-column > .evidence-panel {
+          min-height: 0;
+          border-top: 1px solid var(--line);
+          border-left: 0;
         }
 
         .panel + .panel {
@@ -995,11 +1179,11 @@
           min-height: 620px;
         }
 
-        .evidence-scroll {
+        .inspector-column .evidence-scroll {
           display: block;
         }
 
-        .evidence-view {
+        .inspector-column .evidence-view {
           margin-top: 16px;
           padding-top: 14px;
           padding-left: 0;
@@ -1066,14 +1250,26 @@
       </div>
       <div class="prepare-bar">
         <span id="server-status" class="server-state" role="status" aria-live="polite">Connecting</span>
-        <div class="prepare-field">
-          <label for="task-input">Task</label>
-          <input id="task-input" data-field="task-input" type="text" maxlength="240" required pattern=".*\S.*" aria-describedby="task-error" placeholder="Task">
-          <span id="task-error" class="field-error" hidden>Task is required</span>
+        <div class="prepare-field mode-field">
+          <span class="prepare-label">Mode</span>
+          <div class="mode-switch" role="radiogroup" aria-label="Request mode">
+            <button type="button" role="radio" aria-checked="true" data-request-mode="agent-task">Agent task</button>
+            <button type="button" role="radio" aria-checked="false" data-request-mode="dry-run" tabindex="-1">Dry run</button>
+          </div>
         </div>
         <div class="prepare-field">
+          <label for="task-input">Task</label>
+          <textarea id="task-input" data-field="task-input" rows="2" maxlength="240" required aria-describedby="task-error" placeholder="Task"></textarea>
+          <span id="task-error" class="field-error" hidden>Task is required</span>
+        </div>
+        <div id="skill-field" class="prepare-field">
           <label for="skill-input">Skill</label>
-          <input id="skill-input" data-field="skill-input" type="text" maxlength="64" pattern="[a-z][a-z0-9\-]{0,63}" autocomplete="off" spellcheck="false" placeholder="Optional">
+          <input id="skill-input" data-field="skill-input" type="text" maxlength="64" required pattern="[a-z][a-z0-9\-]{0,63}" aria-describedby="skill-error" autocomplete="off" spellcheck="false" placeholder="Required for Agent task">
+          <span id="skill-error" class="field-error" hidden>Skill is required for Agent task</span>
+        </div>
+        <div id="context-field" class="prepare-field">
+          <label for="context-input">Context</label>
+          <input id="context-input" data-field="context-input" type="text" maxlength="240" autocomplete="off" spellcheck="false" placeholder="Optional context ref">
         </div>
         <button type="button" class="primary" data-action="prepare">Prepare</button>
       </div>
@@ -1084,156 +1280,177 @@
       <button type="button" data-action="dismiss-error">Dismiss</button>
     </div>
 
-    <section class="craft-frontier" data-panel="craft" aria-labelledby="craft-heading">
-      <header class="craft-head">
-        <div class="craft-identity">
-          <h2 id="craft-heading">Craft Frontier</h2>
-          <p id="craft-meta" class="craft-meta">Loading the verified project ledger</p>
-        </div>
-        <div class="craft-actions">
-          <span id="craft-count" class="count" aria-label="Pending Craft items">0</span>
-          <button type="button" data-action="craft-refresh">Refresh Craft</button>
-        </div>
-      </header>
-      <div id="craft-body" class="craft-body">
-        <article class="craft-next" aria-labelledby="craft-next-label">
-          <span id="craft-next-label" class="craft-next-label">Current next move</span>
-          <strong id="craft-next-summary" class="craft-next-summary">No next move loaded</strong>
-          <span id="craft-next-meta" class="craft-next-meta"></span>
-        </article>
-        <ul id="craft-list" class="craft-list" data-list="craft-pending" aria-label="Active Craft gaps"></ul>
-      </div>
-      <p id="craft-empty" class="craft-empty" hidden>No pending Craft items</p>
-    </section>
+    <nav class="mobile-view-nav" role="tablist" aria-label="Mobile workbench views">
+      <button type="button" role="tab" aria-selected="true" aria-controls="work-region" data-mobile-view="work">Work</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="canvas-region" data-mobile-view="canvas" tabindex="-1">Canvas</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="evidence-region" data-mobile-view="evidence" tabindex="-1">Evidence</button>
+    </nav>
 
-    <main class="workspace">
-      <section class="panel queue-panel" data-panel="proposals" aria-labelledby="proposal-heading">
-        <div class="panel-head">
-          <h2 id="proposal-heading">Proposals</h2>
-          <span id="proposal-count" class="count">0</span>
-        </div>
-        <div class="tabs" role="tablist" aria-label="Proposal views">
-          <button type="button" role="tab" aria-selected="true" data-view="pending">Pending <span id="pending-count">0</span></button>
-          <button type="button" role="tab" aria-selected="false" data-view="history">History <span id="history-count">0</span></button>
-        </div>
-        <p id="ready-target" class="ready-target" role="status">No request is available to poll</p>
-        <section class="bridge-demo" aria-labelledby="bridge-demo-heading">
-          <h3 id="bridge-demo-heading">Bridge demo</h3>
-          <ol id="bridge-flow" class="bridge-flow" aria-label="Manual bridge flow"></ol>
-          <dl id="bridge-safe-fields" class="definition-grid" data-list="bridge-safe-fields"></dl>
-          <div id="bridge-commands" class="command-list" data-list="bridge-commands"></div>
-          <dl id="bridge-receipt-summary" class="definition-grid" data-list="bridge-receipt-summary"></dl>
+    <main class="workbench-shell">
+      <section id="work-region" class="work-region" data-region="work" role="region" aria-labelledby="work-region-heading">
+        <h2 id="work-region-heading" class="visually-hidden">Work</h2>
+        <section class="craft-frontier" data-panel="craft" aria-labelledby="craft-heading">
+          <header class="craft-head">
+            <div class="craft-identity">
+              <h2 id="craft-heading">Craft Frontier</h2>
+              <p id="craft-meta" class="craft-meta">Loading the verified project ledger</p>
+            </div>
+            <div class="craft-actions">
+              <span id="craft-count" class="count" aria-label="Pending Craft items">0</span>
+              <button type="button" data-action="craft-refresh">Refresh Craft</button>
+            </div>
+          </header>
+          <div id="craft-body" class="craft-body">
+            <article class="craft-next" aria-labelledby="craft-next-label">
+              <span id="craft-next-label" class="craft-next-label">Current next move</span>
+              <strong id="craft-next-summary" class="craft-next-summary">No next move loaded</strong>
+              <span id="craft-next-meta" class="craft-next-meta"></span>
+            </article>
+            <ul id="craft-list" class="craft-list" data-list="craft-pending" aria-label="Active Craft gaps"></ul>
+          </div>
+          <p id="craft-empty" class="craft-empty" hidden>No pending Craft items</p>
         </section>
-        <ul id="proposal-list" class="proposal-list" aria-label="Proposal list" data-list="proposals"></ul>
-        <p id="proposal-empty" class="empty-state">No pending proposals</p>
-        <div class="queue-foot">
-          <span id="module-summary">0 modules</span>
-          <button type="button" data-action="refresh">Refresh</button>
+
+        <section class="panel queue-panel" data-panel="proposals" aria-labelledby="proposal-heading">
+          <div class="panel-head">
+            <h2 id="proposal-heading">Proposals</h2>
+            <span id="proposal-count" class="count">0</span>
+          </div>
+          <div class="tabs" role="tablist" aria-label="Proposal views">
+            <button type="button" role="tab" aria-selected="true" data-view="pending">Pending <span id="pending-count">0</span></button>
+            <button type="button" role="tab" aria-selected="false" data-view="history">History <span id="history-count">0</span></button>
+          </div>
+          <p id="ready-target" class="ready-target" role="status">No request is available to poll</p>
+          <section class="bridge-demo" aria-labelledby="bridge-demo-heading">
+            <h3 id="bridge-demo-heading">Bridge demo</h3>
+            <ol id="bridge-flow" class="bridge-flow" aria-label="Manual bridge flow"></ol>
+            <dl id="bridge-safe-fields" class="definition-grid" data-list="bridge-safe-fields"></dl>
+            <div id="bridge-commands" class="command-list" data-list="bridge-commands"></div>
+            <dl id="bridge-receipt-summary" class="definition-grid" data-list="bridge-receipt-summary"></dl>
+          </section>
+          <ul id="proposal-list" class="proposal-list" aria-label="Proposal list" data-list="proposals"></ul>
+          <p id="proposal-empty" class="empty-state">No pending proposals</p>
+          <div class="queue-foot">
+            <span id="module-summary">0 modules</span>
+            <button type="button" data-action="refresh">Refresh</button>
+          </div>
+        </section>
+      </section>
+
+      <section id="canvas-region" class="canvas-workbench" data-panel="canvas" data-region="canvas" role="region" aria-labelledby="canvas-title">
+        <header class="canvas-head">
+          <div class="canvas-identity">
+            <h2 id="canvas-title">Canvas</h2>
+            <p id="canvas-meta" class="canvas-meta">No surface published</p>
+          </div>
+          <div class="canvas-controls">
+            <div class="canvas-statuses">
+              <span id="canvas-status" class="server-state" role="status" aria-live="polite">Idle</span>
+              <span id="canvas-live-status" class="server-state" role="status" aria-live="polite">Connecting</span>
+              <span id="canvas-event-status" class="server-state" role="status" aria-live="polite">Ready</span>
+            </div>
+            <button type="button" data-action="canvas-event-retry" hidden>Retry event</button>
+            <button type="button" data-action="canvas-refresh">Refresh canvas</button>
+            <a id="canvas-open" class="canvas-open" target="_blank" rel="noopener" hidden>Open</a>
+          </div>
+        </header>
+        <div class="canvas-storage" data-panel="canvas-storage">
+          <div class="canvas-storage-copy">
+            <strong id="canvas-storage-status">Storage unavailable</strong>
+            <span id="canvas-storage-meta">Waiting for verified blob diagnostics</span>
+          </div>
+          <div class="canvas-storage-actions">
+            <button type="button" data-action="canvas-pruning-preview" hidden>Preview prune</button>
+            <button type="button" class="danger" data-action="canvas-pruning-commit" hidden>Prune history</button>
+          </div>
+        </div>
+        <div id="canvas-stage" class="canvas-stage">
+          <p id="canvas-empty" class="canvas-empty">Ask the active session to publish a project HTML surface.</p>
         </div>
       </section>
 
-      <section class="panel detail-panel" data-panel="detail" aria-labelledby="detail-heading">
-        <div class="panel-head">
-          <div class="detail-title">
-            <h2 id="detail-heading">Proposal detail</h2>
-            <p id="detail-subtitle">Select a proposal to inspect</p>
+      <section id="evidence-region" class="inspector-column" aria-labelledby="inspector-column-heading">
+        <h2 id="inspector-column-heading" class="visually-hidden">Inspector</h2>
+        <section class="panel detail-panel" data-panel="detail" data-region="inspector" role="region" aria-labelledby="inspector-heading">
+          <h2 id="inspector-heading" class="visually-hidden">Inspector</h2>
+          <div class="panel-head">
+            <div class="detail-title">
+              <h2 id="detail-heading">Proposal detail</h2>
+              <p id="detail-subtitle">Select a proposal to inspect</p>
+            </div>
+            <span id="detail-status" class="badge pending" data-status="proposal">None</span>
           </div>
-          <span id="detail-status" class="badge pending" data-status="proposal">None</span>
-        </div>
-        <div id="detail-empty" class="empty-state">Prepare or select a proposal to inspect its L0 contract.</div>
-        <div id="detail-content" class="detail-scroll" hidden>
-          <section class="contract-section" aria-labelledby="contract-heading">
-            <h3 id="contract-heading">Contract</h3>
-            <dl id="contract-fields" class="definition-grid" data-list="contract-fields"></dl>
-          </section>
-          <section class="contract-section" aria-labelledby="grant-heading">
-            <h3 id="grant-heading">Normalized grants</h3>
-            <ul id="grant-list" class="token-list" data-list="grants"></ul>
-          </section>
-          <section class="contract-section" aria-labelledby="context-heading">
-            <h3 id="context-heading">Context refs</h3>
-            <ul id="context-list" class="token-list" data-list="context-refs"></ul>
-          </section>
-          <section class="contract-section" aria-labelledby="actor-heading">
-            <h3 id="actor-heading">Disposition record</h3>
-            <dl id="actor-fields" class="definition-grid" data-list="actor-fields"></dl>
-          </section>
-          <section class="contract-section" aria-labelledby="bridge-heading">
-            <h3 id="bridge-heading">Bridge execution</h3>
-            <dl id="bridge-fields" class="definition-grid" data-list="bridge-fields"></dl>
-          </section>
-        </div>
-        <div class="action-bar">
-          <label class="visually-hidden" for="reject-reason">Action reason</label>
-          <input id="reject-reason" data-field="reject-reason" type="text" maxlength="500" placeholder="Optional rejection reason" disabled>
-          <button type="button" class="danger" data-action="reject" disabled>Reject</button>
-          <button type="button" class="primary" data-action="approve" disabled>Approve request</button>
-          <button type="button" data-action="ready" disabled>Make available</button>
-          <button type="button" data-action="unready" disabled>Close availability</button>
-          <button type="button" data-action="release" disabled>Release and requeue</button>
-          <p id="action-note" class="action-note">Actions are available only for a pending proposal.</p>
-        </div>
-      </section>
+          <div id="detail-empty" class="empty-state">Prepare or select a proposal to inspect its L0 contract.</div>
+          <div id="detail-content" class="detail-scroll" hidden>
+            <section class="contract-section" aria-labelledby="contract-heading">
+              <h3 id="contract-heading">Contract</h3>
+              <dl id="contract-fields" class="definition-grid" data-list="contract-fields"></dl>
+            </section>
+            <section class="contract-section" aria-labelledby="grant-heading">
+              <h3 id="grant-heading">Normalized grants</h3>
+              <ul id="grant-list" class="token-list" data-list="grants"></ul>
+            </section>
+            <section class="contract-section" aria-labelledby="context-heading">
+              <h3 id="context-heading">Context refs</h3>
+              <ul id="context-list" class="token-list" data-list="context-refs"></ul>
+            </section>
+            <section class="contract-section" aria-labelledby="actor-heading">
+              <h3 id="actor-heading">Disposition record</h3>
+              <dl id="actor-fields" class="definition-grid" data-list="actor-fields"></dl>
+            </section>
+            <section class="contract-section" aria-labelledby="bridge-heading">
+              <h3 id="bridge-heading">Bridge execution</h3>
+              <dl id="bridge-fields" class="definition-grid" data-list="bridge-fields"></dl>
+            </section>
+          </div>
+          <div class="action-bar">
+            <label class="visually-hidden" for="reject-reason">Action reason</label>
+            <input id="reject-reason" data-field="reject-reason" type="text" maxlength="500" placeholder="Optional rejection reason" disabled>
+            <button type="button" class="danger" data-action="reject" disabled>Reject</button>
+            <button type="button" class="primary" data-action="approve" disabled>Approve request</button>
+            <button type="button" class="primary" data-action="inspect" hidden>Inspect result</button>
+            <button type="button" data-action="ready" disabled>Make available</button>
+            <button type="button" data-action="unready" disabled>Close availability</button>
+            <button type="button" data-action="release" disabled>Release and requeue</button>
+            <p id="action-note" class="action-note">Actions are available only for a pending proposal.</p>
+          </div>
+        </section>
 
-      <section class="panel evidence-panel" data-panel="evidence" aria-labelledby="evidence-heading">
-        <div class="panel-head">
-          <h2 id="evidence-heading">Evidence</h2>
-          <span id="receipt-count" class="count">0</span>
-        </div>
-        <div class="evidence-scroll">
-          <div>
-            <p id="evidence-empty" class="empty-state">No committed receipt for this proposal.</p>
-            <ul id="receipt-list" class="receipt-list" data-list="receipts"></ul>
+        <section class="panel evidence-panel" data-panel="evidence" aria-labelledby="evidence-heading">
+          <div class="panel-head">
+            <h2 id="evidence-heading">Evidence</h2>
+            <span id="receipt-count" class="count">0</span>
           </div>
-          <div id="evidence-view" class="evidence-view" data-viewer="evidence" hidden>
-            <h3 id="evidence-title">Evidence detail</h3>
-            <dl id="evidence-fields" class="definition-grid" data-list="evidence-fields"></dl>
+          <div class="evidence-scroll">
+            <div>
+              <p id="evidence-empty" class="empty-state">No committed receipt for this proposal.</p>
+              <ul id="receipt-list" class="receipt-list" data-list="receipts"></ul>
+            </div>
+            <div id="evidence-view" class="evidence-view" data-viewer="evidence" hidden>
+              <h3 id="evidence-title">Evidence detail</h3>
+              <dl id="evidence-fields" class="definition-grid" data-list="evidence-fields"></dl>
+            </div>
           </div>
-        </div>
+        </section>
       </section>
     </main>
-
-    <section class="canvas-workbench" data-panel="canvas" aria-labelledby="canvas-title">
-      <header class="canvas-head">
-        <div class="canvas-identity">
-          <h2 id="canvas-title">Canvas</h2>
-          <p id="canvas-meta" class="canvas-meta">No surface published</p>
-        </div>
-        <div class="canvas-controls">
-          <div class="canvas-statuses">
-            <span id="canvas-status" class="server-state" role="status" aria-live="polite">Idle</span>
-            <span id="canvas-live-status" class="server-state" role="status" aria-live="polite">Connecting</span>
-            <span id="canvas-event-status" class="server-state" role="status" aria-live="polite">Ready</span>
-          </div>
-          <button type="button" data-action="canvas-event-retry" hidden>Retry event</button>
-          <button type="button" data-action="canvas-refresh">Refresh canvas</button>
-          <a id="canvas-open" class="canvas-open" target="_blank" rel="noopener" hidden>Open</a>
-        </div>
-      </header>
-      <div class="canvas-storage" data-panel="canvas-storage">
-        <div class="canvas-storage-copy">
-          <strong id="canvas-storage-status">Storage unavailable</strong>
-          <span id="canvas-storage-meta">Waiting for verified blob diagnostics</span>
-        </div>
-        <div class="canvas-storage-actions">
-          <button type="button" data-action="canvas-pruning-preview" hidden>Preview prune</button>
-          <button type="button" class="danger" data-action="canvas-pruning-commit" hidden>Prune history</button>
-        </div>
-      </div>
-      <div id="canvas-stage" class="canvas-stage">
-        <p id="canvas-empty" class="canvas-empty">Ask the active session to publish a project HTML surface.</p>
-      </div>
-    </section>
 
     <div id="announcement" class="visually-hidden" role="status" aria-live="polite"></div>
 
     <script type="module">
+      import { projectRunView } from '/ui/run-view.mjs';
+      import { resolveRunActions } from '/ui/run-actions.mjs';
+      import { renderRunTimeline } from '/ui/run-timeline.mjs';
+
       const state = {
         snapshot: null,
         craftFrontier: null,
         selectedEnvelopeId: null,
         detail: null,
         view: 'pending',
+        requestMode: 'agent-task',
+        selectedCraftId: null,
+        mobileView: 'work',
         busy: false,
         canvasCurrent: null,
         canvasLoadedRevisionId: null,
@@ -1256,7 +1473,10 @@
         announcement: document.querySelector('#announcement'),
         taskInput: document.querySelector('#task-input'),
         taskError: document.querySelector('#task-error'),
+        skillField: document.querySelector('#skill-field'),
         skillInput: document.querySelector('#skill-input'),
+        skillError: document.querySelector('#skill-error'),
+        contextInput: document.querySelector('#context-input'),
         proposalCount: document.querySelector('#proposal-count'),
         pendingCount: document.querySelector('#pending-count'),
         historyCount: document.querySelector('#history-count'),
@@ -1289,6 +1509,7 @@
         rejectReason: document.querySelector('#reject-reason'),
         reject: document.querySelector('[data-action="reject"]'),
         approve: document.querySelector('[data-action="approve"]'),
+        inspect: document.querySelector('[data-action="inspect"]'),
         ready: document.querySelector('[data-action="ready"]'),
         unready: document.querySelector('[data-action="unready"]'),
         release: document.querySelector('[data-action="release"]'),
@@ -1315,8 +1536,42 @@
         canvasPruningCommit: document.querySelector('[data-action="canvas-pruning-commit"]')
       };
 
+      const mobileViewButtons = [...document.querySelectorAll('[data-mobile-view]')];
+      const modeButtons = [...document.querySelectorAll('[data-request-mode]')];
+
       function clear(node) {
         while (node.firstChild) node.removeChild(node.firstChild);
+      }
+
+      function setMobileView(view, options = {}) {
+        if (!['work', 'canvas', 'evidence'].includes(view)) return;
+        state.mobileView = view;
+        const shell = document.querySelector('.workbench-shell');
+        shell.dataset.mobileView = view;
+        for (const button of mobileViewButtons) {
+          const selected = button.dataset.mobileView === view;
+          button.setAttribute('aria-selected', String(selected));
+          button.tabIndex = selected ? 0 : -1;
+          if (selected && options.focus) button.focus();
+        }
+      }
+
+      function setRequestMode(mode, options = {}) {
+        if (!['agent-task', 'dry-run'].includes(mode)) return;
+        const agentTask = mode === 'agent-task';
+        state.requestMode = mode;
+        els.skillField.hidden = !agentTask;
+        els.skillInput.disabled = !agentTask;
+        els.skillInput.required = agentTask;
+        els.skillInput.setAttribute('aria-required', String(agentTask));
+        els.skillInput.placeholder = agentTask ? 'Required for Agent task' : 'Not used in Dry run';
+        els.skillError.hidden = true;
+        for (const button of modeButtons) {
+          const selected = button.dataset.requestMode === mode;
+          button.setAttribute('aria-checked', String(selected));
+          button.tabIndex = selected ? 0 : -1;
+          if (selected && options.focus) button.focus();
+        }
       }
 
       function textElement(tagName, text, className) {
@@ -1417,7 +1672,23 @@
             textElement('div', `${item.type} · ${item.id}`, 'craft-item-id'),
             textElement('div', `${item.status} · ${item.treatment} · ${item.owner}`, 'craft-item-meta')
           );
-          row.append(identity, textElement('p', item.summary, 'craft-item-summary'));
+          const select = document.createElement('button');
+          select.type = 'button';
+          select.className = 'craft-select';
+          select.dataset.craftId = item.id;
+          select.setAttribute('aria-pressed', String(state.selectedCraftId === item.id));
+          select.setAttribute('aria-label', `Select Craft source ${item.id}`);
+          select.append(identity, textElement('span', item.summary, 'craft-item-summary'));
+          select.addEventListener('click', () => {
+            state.selectedCraftId = item.id;
+            els.taskInput.value = item.summary;
+            els.contextInput.value = item.id;
+            els.taskInput.removeAttribute('aria-invalid');
+            els.taskError.hidden = true;
+            renderCraftFrontier(state.craftFrontier);
+            announce(`Craft source selected: ${item.id}`);
+          });
+          row.append(select);
           els.craftList.append(row);
         }
       }
@@ -1827,6 +2098,16 @@
         return state.detail?.approval || null;
       }
 
+      function currentRunView() {
+        return projectRunView({
+          envelope: state.detail?.envelope || null,
+          approval: state.detail?.approval || null,
+          activeClaim: state.detail?.active_claim || null,
+          result: state.detail?.result || null,
+          receipts: state.detail?.receipts || []
+        });
+      }
+
       function envelopeForApproval(approval) {
         return state.snapshot?.envelopes?.[approval.envelope_id] || null;
       }
@@ -1852,22 +2133,30 @@
       }
 
       function renderActions() {
-        const pending = selectedApproval()?.state === 'pending';
+        const runView = currentRunView();
+        const actionView = resolveRunActions(runView);
+        const legalActions = new Set(actionView.legal_actions);
         const envelope = state.detail?.envelope;
-        const approval = selectedApproval();
         const bridge = envelope?.schema_version === '2';
         const envelopeState = envelope?.state;
-        const operatorCanReject = pending || (bridge && ['approved', 'ready_for_poll'].includes(envelopeState));
-        els.approve.disabled = state.busy || !pending;
-        els.reject.disabled = state.busy || !operatorCanReject;
-        els.ready.disabled = state.busy || !bridge || envelopeState !== 'approved';
-        els.unready.disabled = state.busy || !bridge || envelopeState !== 'ready_for_poll';
-        els.release.disabled = state.busy || !bridge || envelopeState !== 'interrupted';
-        els.rejectReason.disabled = state.busy || (!operatorCanReject && envelopeState !== 'interrupted');
-        els.rejectReason.placeholder = envelopeState === 'interrupted'
+        const primaryId = actionView.primary_action.id;
+        els.approve.disabled = state.busy || !legalActions.has('approve');
+        els.approve.classList.toggle('primary', primaryId === 'approve');
+        els.inspect.hidden = primaryId !== 'inspect';
+        els.inspect.disabled = state.busy || primaryId !== 'inspect';
+        els.inspect.classList.toggle('primary', primaryId === 'inspect');
+        els.reject.disabled = state.busy || !legalActions.has('reject');
+        els.ready.disabled = state.busy || !legalActions.has('ready');
+        els.ready.classList.toggle('primary', primaryId === 'ready');
+        els.unready.disabled = state.busy || !legalActions.has('unready');
+        els.release.disabled = state.busy || !legalActions.has('release');
+        els.rejectReason.disabled = state.busy || (!legalActions.has('reject') && !legalActions.has('release'));
+        els.rejectReason.placeholder = runView.typestate === 'interrupted'
           ? 'Release reason (required)'
           : 'Optional rejection reason';
         els.approve.textContent = bridge ? 'Approve request' : 'Approve dry run';
+        els.actionNote.dataset.primaryAction = primaryId;
+        els.actionNote.dataset.primaryKind = actionView.primary_action.kind;
         if (bridge) {
           const notes = {
             awaiting_approval: 'Approval authorizes this request only; execution still requires open availability and a manual poll.',
@@ -1882,9 +2171,12 @@
           };
           els.actionNote.textContent = notes[envelopeState] || 'This request is closed and remains inspectable.';
         } else {
-          els.actionNote.textContent = pending
+          els.actionNote.textContent = runView.typestate === 'awaiting_approval'
             ? 'Disposition is recorded as a local operator action with unattested assurance.'
             : 'Terminal proposals remain inspectable and cannot be acted on again.';
+        }
+        if (primaryId === 'inspect') {
+          els.actionNote.textContent = `Inspect result. ${els.actionNote.textContent}`;
         }
       }
 
@@ -1940,42 +2232,20 @@
         }
       }
 
-      function bridgeStageState(stage, envelope, receipt) {
-        const states = ['awaiting_approval', 'approved', 'ready_for_poll', 'claimed', 'passed', 'flagged', 'blocked', 'failed'];
-        const currentIndex = states.indexOf(envelope?.state || '');
-        const stageIndex = {
-          prepared: envelope ? 0 : -1,
-          approved: 1,
-          ready: 2,
-          claimed: 3
-        }[stage.key];
-        if (stage.key === 'result' || stage.key === 'receipt') return receipt ? 'done' : '';
-        if (stageIndex < 0) return '';
-        if (currentIndex > stageIndex) return 'done';
-        if (currentIndex === stageIndex) return 'active';
-        return '';
-      }
-
       function renderBridgeDemo() {
         const readyId = state.snapshot?.bridge?.ready_target_envelope_id;
         const envelope = state.detail?.envelope || null;
         const claim = state.detail?.active_claim || null;
         const receipts = state.detail?.receipts || [];
         const executionReceipt = receipts.find((receipt) => receipt.receipt_kind === 'skill.execution') || null;
-        const stages = [
-          { key: 'prepared', label: 'Prepare' },
-          { key: 'approved', label: 'Approve' },
-          { key: 'ready', label: 'Ready' },
-          { key: 'claimed', label: 'Claim' },
-          { key: 'result', label: 'Result' },
-          { key: 'receipt', label: 'Receipt' }
-        ];
-
-        clear(els.bridgeFlow);
-        for (const stage of stages) {
-          const className = `bridge-step ${bridgeStageState(stage, envelope, executionReceipt)}`.trim();
-          els.bridgeFlow.append(textElement('li', stage.label, className));
-        }
+        const runView = projectRunView({
+          envelope,
+          approval: state.detail?.approval || null,
+          activeClaim: claim,
+          result: state.detail?.result || null,
+          receipts
+        });
+        renderRunTimeline(els.bridgeFlow, runView);
 
         clear(els.bridgeSafeFields);
         appendDefinition(els.bridgeSafeFields, 'Ready handle', readyId || 'No ready request');
@@ -2239,8 +2509,19 @@
             announce('Task is required');
             return;
           }
-          const requestedSkill = els.skillInput.value.trim();
-          if (requestedSkill && !els.skillInput.checkValidity()) {
+          const agentTask = state.requestMode === 'agent-task';
+          const requestedSkill = agentTask ? els.skillInput.value.trim() : '';
+          const contextRef = els.contextInput.value.trim();
+          if (agentTask && !requestedSkill) {
+            els.skillInput.setAttribute('aria-invalid', 'true');
+            els.skillError.hidden = false;
+            els.skillInput.focus();
+            announce('Skill is required for Agent task');
+            return;
+          }
+          if (agentTask && !els.skillInput.checkValidity()) {
+            els.skillInput.setAttribute('aria-invalid', 'true');
+            els.skillError.hidden = false;
             els.skillInput.reportValidity();
             els.skillInput.focus();
             return;
@@ -2248,9 +2529,10 @@
           const prepared = await api('/api/envelopes/prepare', {
             method: 'POST',
             body: JSON.stringify({
-              agent_ref: requestedSkill ? 'codex.current-session' : 'local.noop-agent',
+              agent_ref: agentTask ? 'codex.current-session' : 'local.noop-agent',
               task,
-              ...(requestedSkill ? {
+              ...(contextRef ? { context_refs: [contextRef] } : {}),
+              ...(agentTask ? {
                 requested_skill: requestedSkill,
                 requested_grants: ['preview.read', 'skill.invoke']
               } : {})
@@ -2258,6 +2540,8 @@
           });
           els.taskInput.value = '';
           els.skillInput.value = '';
+          els.contextInput.value = '';
+          state.selectedCraftId = null;
           state.view = 'pending';
           await refresh({ selectId: prepared.envelope.envelope_id });
           announce('Proposal prepared');
@@ -2312,7 +2596,7 @@
 
       els.approve.addEventListener('click', () => {
         const approval = selectedApproval();
-        if (!approval || approval.state !== 'pending') return;
+        if (!approval || !currentRunView().legal_actions.includes('approve')) return;
         const bridge = state.detail?.envelope.schema_version === '2';
         const prompt = bridge
           ? 'Authorize this request as an unattested local operator action? This does not execute the skill.'
@@ -2331,9 +2615,7 @@
       els.reject.addEventListener('click', () => {
         const approval = selectedApproval();
         const envelope = state.detail?.envelope;
-        const rejectable = approval?.state === 'pending'
-          || (envelope?.schema_version === '2' && ['approved', 'ready_for_poll'].includes(envelope.state));
-        if (!approval || !rejectable) return;
+        if (!approval || !currentRunView().legal_actions.includes('reject')) return;
         const verb = approval.state === 'pending' ? 'Reject' : 'Revoke';
         if (!window.confirm(`${verb} this request as an unattested local operator action?`)) return;
         runCommand(async () => {
@@ -2348,9 +2630,16 @@
         });
       });
 
+      els.inspect.addEventListener('click', () => {
+        if (resolveRunActions(currentRunView()).primary_action.id !== 'inspect') return;
+        setMobileView('evidence');
+        document.querySelector('#evidence-region')?.scrollIntoView({ block: 'nearest' });
+        announce('Evidence view opened');
+      });
+
       els.ready.addEventListener('click', () => {
         const envelope = state.detail?.envelope;
-        if (envelope?.schema_version !== '2' || envelope.state !== 'approved') return;
+        if (!currentRunView().legal_actions.includes('ready')) return;
         runCommand(async () => {
           await api(`/api/bridge/requests/${encodeURIComponent(envelope.envelope_id)}/ready`, {
             method: 'POST',
@@ -2363,7 +2652,7 @@
 
       els.unready.addEventListener('click', () => {
         const envelope = state.detail?.envelope;
-        if (envelope?.schema_version !== '2' || envelope.state !== 'ready_for_poll') return;
+        if (!currentRunView().legal_actions.includes('unready')) return;
         runCommand(async () => {
           await api(`/api/bridge/requests/${encodeURIComponent(envelope.envelope_id)}/unready`, {
             method: 'POST',
@@ -2378,7 +2667,7 @@
         const envelope = state.detail?.envelope;
         const claim = state.detail?.active_claim;
         const reason = els.rejectReason.value.trim();
-        if (envelope?.state !== 'interrupted' || claim?.state !== 'interrupted') return;
+        if (!currentRunView().legal_actions.includes('release') || claim?.state !== 'interrupted') return;
         if (!reason) {
           els.rejectReason.focus();
           announce('Release reason is required');
@@ -2418,15 +2707,67 @@
         }
       });
 
+      els.skillInput.addEventListener('input', () => {
+        if (els.skillInput.value.trim() && els.skillInput.checkValidity()) {
+          els.skillInput.removeAttribute('aria-invalid');
+          els.skillError.hidden = true;
+        }
+      });
+
+      for (const button of modeButtons) {
+        button.addEventListener('click', () => setRequestMode(button.dataset.requestMode));
+        button.addEventListener('keydown', (event) => {
+          const index = modeButtons.indexOf(button);
+          const nextIndex = event.key === 'ArrowRight'
+            ? (index + 1) % modeButtons.length
+            : event.key === 'ArrowLeft'
+              ? (index - 1 + modeButtons.length) % modeButtons.length
+              : event.key === 'Home'
+                ? 0
+                : event.key === 'End'
+                  ? modeButtons.length - 1
+                  : -1;
+          if (nextIndex < 0) return;
+          event.preventDefault();
+          setRequestMode(modeButtons[nextIndex].dataset.requestMode, { focus: true });
+        });
+      }
+
+      setRequestMode(state.requestMode);
+
       for (const tab of document.querySelectorAll('[role="tab"]')) {
         tab.addEventListener('click', () => {
+          if (tab.dataset.mobileView) {
+            setMobileView(tab.dataset.mobileView);
+            return;
+          }
           state.view = tab.dataset.view;
-          for (const candidate of document.querySelectorAll('[role="tab"]')) {
+          for (const candidate of document.querySelectorAll('[role="tab"][data-view]')) {
             candidate.setAttribute('aria-selected', String(candidate === tab));
           }
           renderQueue();
         });
       }
+
+      for (const button of mobileViewButtons) {
+        button.addEventListener('keydown', (event) => {
+          const index = mobileViewButtons.indexOf(button);
+          const nextIndex = event.key === 'ArrowRight'
+            ? (index + 1) % mobileViewButtons.length
+            : event.key === 'ArrowLeft'
+              ? (index - 1 + mobileViewButtons.length) % mobileViewButtons.length
+              : event.key === 'Home'
+                ? 0
+                : event.key === 'End'
+                  ? mobileViewButtons.length - 1
+                  : -1;
+          if (nextIndex < 0) return;
+          event.preventDefault();
+          setMobileView(mobileViewButtons[nextIndex].dataset.mobileView, { focus: true });
+        });
+      }
+
+      setMobileView(state.mobileView);
 
       connectCanvasNotifications();
       refresh();

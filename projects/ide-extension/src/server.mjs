@@ -590,6 +590,33 @@ export function createServer(options = {}) {
         return;
       }
 
+      if (request.method === 'GET' && url.pathname === '/ui/run-view.mjs') {
+        await serveFile(
+          response,
+          path.join(rootDir, 'src/ui/run-view.mjs'),
+          'text/javascript; charset=utf-8'
+        );
+        return;
+      }
+
+      if (request.method === 'GET' && url.pathname === '/ui/run-timeline.mjs') {
+        await serveFile(
+          response,
+          path.join(rootDir, 'src/ui/run-timeline.mjs'),
+          'text/javascript; charset=utf-8'
+        );
+        return;
+      }
+
+      if (request.method === 'GET' && url.pathname === '/ui/run-actions.mjs') {
+        await serveFile(
+          response,
+          path.join(rootDir, 'src/ui/run-actions.mjs'),
+          'text/javascript; charset=utf-8'
+        );
+        return;
+      }
+
       if (request.method === 'GET' && url.pathname === '/api/state') {
         const snapshot = await persistence.reconcile(runtime.reduceOptions);
         sendJson(response, 200, {
