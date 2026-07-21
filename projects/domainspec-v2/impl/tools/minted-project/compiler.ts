@@ -7,6 +7,7 @@ import {
   resolveMintedProjectSources,
   type MintedProjectSourceRecord,
 } from "./resolver";
+import { validateMintedNodeFormation } from "./meta-type-body-adapter";
 import { validateJsonSchema, type JsonObject, type JsonSchemaViolation } from "./schema-validator";
 
 export const MINTED_PROJECT_COMPILER_ERROR_CODES = [
@@ -181,112 +182,18 @@ function signatureTypes(signature: RelationshipSignature, side: "source" | "targ
   return singular ? [singular] : plural ?? [];
 }
 
-type AttributeCriterion = {
-  name: string;
-  rule: string;
-  key: string;
-  value?: string;
-};
-
-function loadAttributeCriteria(path: string): AttributeCriterion[] {
-  const lines = readFileSync(path, "utf8").split(/\r?\n/);
-  const criteria: AttributeCriterion[] = [];
-  let inCriteria = false;
-  let current: Partial<AttributeCriterion> | undefined;
-  for (const line of lines) {
-    if (line === "criterion:") {
-      inCriteria = true;
-      continue;
-    }
-    if (inCriteria && /^\S/.test(line) && line.trim() !== "") break;
-    if (!inCriteria) continue;
-    const name = line.match(/^  ([a-z_]+):\s*$/)?.[1];
-    if (name) {
-      if (current?.name && current.rule && current.key) {
-        criteria.push(current as AttributeCriterion);
-      }
-      current = { name };
-      continue;
-    }
-    const field = line.match(/^    (rule|key|value):\s*(.+?)\s*$/);
-    if (field && current) {
-      const raw = field[2]!;
-      current[field[1] as "rule" | "key" | "value"] =
-        (raw.startsWith('"') && raw.endsWith('"')) ||
-        (raw.startsWith("'") && raw.endsWith("'"))
-          ? raw.slice(1, -1)
-          : raw;
-    }
-  }
-  if (current?.name && current.rule && current.key) {
-    criteria.push(current as AttributeCriterion);
-  }
-  return criteria;
-}
-
-function validateAttributeMapFormation(
-  contractPath: string,
-  body: JsonObject,
-): JsonSchemaViolation[] {
-  const violations: JsonSchemaViolation[] = [];
-  for (const criterion of loadAttributeCriteria(contractPath)) {
-    if (!Object.hasOwn(body, criterion.key)) {
-      violations.push({
-        keyword: "required",
-        path: "$.body",
-        detail: `missing ${criterion.key} for ${criterion.name}`,
-      });
-      continue;
-    }
-    const value = body[criterion.key];
-    if (criterion.rule === "attribute-nonempty/v1") {
-      if (typeof value !== "string" || value.trim() === "") {
-        violations.push({
-          keyword: "attribute-nonempty/v1",
-          path: `$.body.${criterion.key}`,
-          detail: "expected non-whitespace string",
-        });
-      }
-    } else if (criterion.rule === "attribute-equals") {
-      if (
-        typeof value !== "string" ||
-        value.trim().toLowerCase() !== (criterion.value ?? "").trim().toLowerCase()
-      ) {
-        violations.push({
-          keyword: "const",
-          path: `$.body.${criterion.key}`,
-          detail: `expected ${criterion.value}`,
-        });
-      }
-    } else if (criterion.rule === "attribute-present") {
-      // Presence is the current canonical contract for this backend kind.
-    } else {
-      violations.push({
-        keyword: "unsupported-formation-rule",
-        path: `$.body.${criterion.key}`,
-        detail: criterion.rule,
-      });
-    }
-  }
-  return violations;
-}
-
 function validateFormation(
   profile: SupportedProfile,
   node: SourceNode,
+  nodePath: string,
 ): JsonSchemaViolation[] {
   const development = profile.formation_contracts?.[node.kind];
-  if (development) {
-    const path = resolve(domainspecRoot, development.path);
-    return development.validator === "json-schema"
-      ? validateJsonSchema(path, node.body)
-      : validateAttributeMapFormation(path, node.body);
-  }
-  const canonical = profile.formation_schemas?.[node.kind];
-  if (!canonical) {
-    return [{ keyword: "required", path: "$.body", detail: `no formation contract for ${node.kind}` }];
-  }
-  return validateJsonSchema(resolve(domainspecRoot, canonical), node.body);
+  return validateMintedNodeFormation(node.kind, node.body, nodePath, {
+    schemaPath:
+      development?.validator === "attribute-map"
+        ? resolve(domainspecRoot, development.path)
+        : undefined,
+  });
 }
 
 function loadProfileSelection(
@@ -480,7 +387,7 @@ export function compileMintedProject(
       if (!profile.kinds.includes(node.kind)) {
         throw new MintedProjectCompilerError("KIND_UNSUPPORTED", nodePath, node.kind);
       }
-      const formationViolations = validateFormation(profile, node);
+      const formationViolations = validateFormation(profile, node, nodePath);
       if (formationViolations.length > 0) {
         failSchema("FORMATION_INVALID", nodePath, formationViolations);
       }

@@ -2,7 +2,7 @@
 taskId: TASK-GCP-ENFORCES
 layer: L0
 slice: S1
-status: ready-after-selection
+status: blocked-on-GCP-B-005
 complexity: medium
 parentWorkPack: ../WORK-PACK.md
 ---
@@ -29,6 +29,10 @@ typed-negative mutation, from source graph to evaluator receipt.
 - `projects/domainspec-v2/impl/test-derivation-engine/src/residue/receipt.ts`
 
 ## Selected SWU: SWU-GCP-001
+
+**Current blocker:** `GCP-B-005` / `DEC-GCP-001`. The selected Rule source
+declares only a boolean return type and does not author the formal predicate or
+fixture inputs needed for a real generated assertion.
 
 **Primary behavior:** traverse one admitted `enforces` edge through every L0
 artifact boundary.

@@ -6,7 +6,7 @@
 | Exact 16 backend relationship signatures | L1/L2 | EDGE / BTE-009 | edge profile, traversal, causal composition/removal, and signature negatives | FPR-02B + relationship owner |
 | One YAML schema per kind | L0/L1 | CONTRACT / BTE-001,002 | schema discovery/digest receipt | meta-type criteria owner |
 | Shared evaluator across three surfaces | L0 | CONTRACT / BTE-001 | parity tests | tooling owner |
-| Minted-node body mapping | L0 | NODE / BTE-003 | rule-family positive/negative matrix | minted-project contract owner |
+| Minted-node body mapping | L0 | NODE / BTE-003 | `impl/tools/minted-project/meta-type-body-adapter.ts`; eight-rule positive/negative matrix; compiler criterion-ID diagnostics; Task Session receipt | minted-project contract owner |
 | Positive exercise of every kind | L1 | NODE / BTE-004 | 13-node corpus receipt | FPR-02B/FPR-04 |
 | Mutation per criterion | L1/L2 | NODE / BTE-004; DERIVATION / BTE-007 | 16 killed mutations | validation owner |
 | Independent obligation denominator | L2 | OBLIGATIONS / BTE-005 | owner-bound `O_spec` and receipt | FPR-07 |

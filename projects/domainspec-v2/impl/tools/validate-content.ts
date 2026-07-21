@@ -23,26 +23,13 @@ import {
   validateRelationshipSpecFile,
 } from "./lib/relationship-signatures";
 import {
-  attributeNonemptyViolation,
-  assertCriterionPreflight,
-  assertNoDuplicateSchemaKey,
-  uiRepairViolation,
-} from "./lib/ui-repair-rule-contract";
+  type CriterionSubject,
+  evaluateCriteria,
+  loadMetaTypeSchemas,
+  type MetaTypeSchema,
+} from "./lib/meta-type-criteria";
 
-type Criterion = {
-  rule: string;
-  column?: string;
-  truthy?: string[];
-  pattern?: string;
-  key?: string;
-  value?: string;
-  values?: string[];
-};
-type Schema = {
-  meta_type: string;
-  criterion?: Record<string, Criterion>;
-  [key: string]: unknown;
-};
+type Schema = MetaTypeSchema;
 type TableRow = { cells: string[]; authoredCells: string[]; line: number };
 type MarkdownTable = { headers: string[]; rows: TableRow[] };
 type Violation = {
@@ -63,7 +50,10 @@ const relationshipsPath = resolve(
 const singleFile = getArg("--file");
 const featuresRoot = resolve(process.cwd(), getArg("--features-root") || "spec/features");
 
-const schemasByType = loadSchemas(schemaDir);
+const loadedSchemas = loadSchemasOrExit();
+const schemasByType = new Map(
+  loadedSchemas.map((entry) => [entry.schema.meta_type.toLowerCase(), entry]),
+);
 if (schemasByType.size === 0) {
   console.error(
     `validate-content: no .schema.yml found under ${toRelative(schemaDir)}`,
@@ -81,6 +71,17 @@ const violations: Violation[] = [];
 let conceptsChecked = 0;
 let edgesChecked = 0;
 const relationshipAuthority = loadRelationshipAuthority(relationshipsPath);
+
+function loadSchemasOrExit() {
+  try {
+    return loadMetaTypeSchemas<Schema>(schemaDir);
+  } catch (error) {
+    console.log(
+      `[content:${mode}] ${error instanceof Error ? error.message : String(error)}`,
+    );
+    process.exit(1);
+  }
+}
 
 for (const file of targets) {
   const lines = readFileSync(file, "utf-8").split(/\r?\n/);
@@ -113,8 +114,8 @@ for (const file of targets) {
     if (!concept || !type) {
       continue;
     }
-    const schema = schemasByType.get(type.toLowerCase());
-    if (!schema) {
+    const loadedSchema = schemasByType.get(type.toLowerCase());
+    if (!loadedSchema) {
       continue; // meta-type not yet formalized (MT0 formalizes only Entity)
     }
     conceptsChecked += 1;
@@ -122,17 +123,19 @@ for (const file of targets) {
     const table = parseTableForSection(lines, concept);
     const sectionLines = getSectionLines(lines, concept);
 
-    for (const [name, crit] of Object.entries(schema.criterion || {})) {
-      const failure = applyCriterion(name, crit, table, sectionLines);
-      if (failure) {
-        violations.push({
-          file: toRelative(file),
-          concept,
-          type,
-          reason: failure,
-          line: table?.rows[0]?.line ?? row.line,
-        });
-      }
+    const subject = toCriterionSubject(file, concept, table, sectionLines);
+    for (const failure of evaluateCriteria(
+      loadedSchema.path,
+      loadedSchema.schema.criterion,
+      subject,
+    )) {
+      violations.push({
+        file: toRelative(file),
+        concept,
+        type,
+        reason: failure.message,
+        line: table?.rows[0]?.line ?? row.line,
+      });
     }
   }
 }
@@ -157,285 +160,45 @@ console.log(`[content:${mode}] violations=${violations.length}`);
 process.exit(mode === "warn" ? 0 : 1);
 
 // ---------------------------------------------------------------------------
-// criterion application (decidable table-walk — the only checking done here)
+// criterion adapter (Markdown table/section -> normalized shared-kernel subject)
 // ---------------------------------------------------------------------------
 
-function applyCriterion(
-  name: string,
-  crit: Criterion,
+function toCriterionSubject(
+  file: string,
+  concept: string,
   table: MarkdownTable | null,
   sectionLines: string[],
-): string | null {
-  // section-scoped rule: prose marker search over the whole concept section.
-  if (crit.rule === "section-contains") {
-    const pattern = (crit.pattern || "").toLowerCase();
-    if (!pattern) {
-      return `criterion '${name}': missing 'pattern'`;
-    }
-    if (!sectionLines.join("\n").toLowerCase().includes(pattern)) {
-      return `criterion '${name}': concept section does not contain '${crit.pattern}'`;
-    }
-    return null;
-  }
-
-  if (crit.rule === "attribute-one-of") {
-    if (!(crit.key || "").trim()) {
-      return `criterion '${name}': attribute-one-of requires a non-empty 'key'`;
-    }
-    if (
-      !Array.isArray(crit.values) ||
-      crit.values.length === 0 ||
-      crit.values.some((value) => typeof value !== "string" || value.trim() === "")
-    ) {
-      return `criterion '${name}': attribute-one-of requires a non-empty 'values' string array`;
-    }
-  }
-
-  // all remaining rules operate on the concept's primary table.
+): CriterionSubject {
+  const subject: CriterionSubject = {
+    kind: "markdown",
+    path: `${toRelative(file)}#${concept}`,
+    text: sectionLines.join("\n"),
+  };
   if (!table) {
-    return `criterion '${name}': no table found in the concept section`;
+    return subject;
   }
+
+  subject.table = {
+    columns: table.headers,
+    rows: table.rows.map((row) => row.authoredCells),
+  };
+  subject.columns = Object.fromEntries(
+    table.headers.map((header, index) => [
+      header,
+      table.rows.map((row) => row.authoredCells[index]),
+    ]),
+  );
+
   const headerMap = toHeaderMap(table.headers);
-
-  if (crit.rule === "table-has-column") {
-    const colIdx = headerMap.get((crit.column || "").toLowerCase());
-    if (colIdx === undefined) {
-      return `criterion '${name}': table has no '${crit.column}' column`;
-    }
-    if (table.rows.length < 1) {
-      return `criterion '${name}': column '${crit.column}' present but the table has no rows`;
-    }
-    return null;
+  const attributeIndex = headerMap.get("attribute");
+  const valueIndex = headerMap.get("value");
+  if (attributeIndex !== undefined) {
+    subject.attributes = table.rows.map((row) => ({
+      key: row.cells[attributeIndex] ?? "",
+      value: valueIndex === undefined ? undefined : row.authoredCells[valueIndex],
+    }));
   }
-
-  // attribute-equals: read a declared "Attribute | Value" table (the concept's primary table)
-  // and assert a declared key holds an expected value. Shape only — the author's declaration is
-  // checked, never the semantics of the Formal cell (that would be the engine moat).
-  if (crit.rule === "attribute-equals") {
-    const attrIdx = headerMap.get("attribute");
-    const valIdx = headerMap.get("value");
-    if (attrIdx === undefined || valIdx === undefined) {
-      return `criterion '${name}': expected an "Attribute | Value" table`;
-    }
-    const wantKey = (crit.key || "").toLowerCase();
-    const match = table.rows.find(
-      (r) => (r.cells[attrIdx] || "").trim().toLowerCase() === wantKey,
-    );
-    if (!match) {
-      return uiRepairViolation(
-        "ATTRIBUTE-MISSING",
-        `criterion '${name}': attribute '${crit.key}' is not declared`,
-      );
-    }
-    const authoredValue = match.authoredCells[valIdx];
-    const presenceCode = attributeNonemptyViolation(true, authoredValue);
-    if (presenceCode) {
-      return uiRepairViolation(
-        presenceCode,
-        `criterion '${name}': attribute '${crit.key}' must contain its fixed value`,
-      );
-    }
-    const actual = (authoredValue || "").trim().toLowerCase();
-    if (actual !== (crit.value || "").toLowerCase()) {
-      return uiRepairViolation(
-        "FIXED-VALUE-MISMATCH",
-        `criterion '${name}': attribute '${crit.key}'='${actual}' (expected '${crit.value}')`,
-      );
-    }
-    return null;
-  }
-
-  // attribute-present: a declared key exists in the "Attribute | Value" table (any value).
-  // Used where a type is defined by declaring a key with several valid values (e.g. interface_kind).
-  if (crit.rule === "attribute-present") {
-    const attrIdx = headerMap.get("attribute");
-    if (attrIdx === undefined) {
-      return `criterion '${name}': expected an "Attribute | Value" table`;
-    }
-    const wantKey = (crit.key || "").toLowerCase();
-    const has = table.rows.some(
-      (r) => (r.cells[attrIdx] || "").trim().toLowerCase() === wantKey,
-    );
-    if (!has) {
-      return `criterion '${name}': attribute '${crit.key}' is not declared`;
-    }
-    return null;
-  }
-
-  if (crit.rule === "attribute-nonempty/v1") {
-    const attrIdx = headerMap.get("attribute");
-    const valIdx = headerMap.get("value");
-    if (attrIdx === undefined || valIdx === undefined) {
-      return uiRepairViolation(
-        "ATTRIBUTE-MISSING",
-        `criterion '${name}': expected an "Attribute | Value" table`,
-      );
-    }
-    const wantKey = normalizeToken(crit.key || "");
-    const match = table.rows.find(
-      (row) => normalizeToken(row.cells[attrIdx] || "") === wantKey,
-    );
-    const authoredValue = match?.authoredCells[valIdx];
-    const code = attributeNonemptyViolation(Boolean(match), authoredValue);
-    if (code) {
-      return uiRepairViolation(
-        code,
-        `criterion '${name}': attribute '${crit.key}' must contain non-whitespace text`,
-      );
-    }
-    return null;
-  }
-
-  if (crit.rule === "attribute-one-of") {
-    const attrIdx = headerMap.get("attribute");
-    const valIdx = headerMap.get("value");
-    if (attrIdx === undefined || valIdx === undefined) {
-      return `criterion '${name}': expected an "Attribute | Value" table`;
-    }
-    const wantKey = normalizeToken(crit.key || "");
-    const match = table.rows.find(
-      (r) => normalizeToken(r.cells[attrIdx] || "") === wantKey,
-    );
-    if (!match) {
-      return `criterion '${name}': attribute '${crit.key}' is not declared`;
-    }
-    const actual = normalizeToken(match.cells[valIdx] || "");
-    const allowed = (crit.values || []).map(normalizeToken);
-    if (!allowed.includes(actual)) {
-      return `criterion '${name}': attribute '${crit.key}'='${actual}' (expected one of [${(crit.values || []).join(", ")}])`;
-    }
-    return null;
-  }
-
-  if (!["at-least-one", "none", "all-nonempty"].includes(crit.rule)) {
-    return `criterion '${name}': unsupported rule '${crit.rule}'`;
-  }
-
-  const colIdx = headerMap.get((crit.column || "").toLowerCase());
-  if (colIdx === undefined) {
-    return `criterion '${name}': required column '${crit.column}' missing from the table`;
-  }
-  const cells = table.rows.map((r) => (r.cells[colIdx] || "").trim());
-  const truthy = (crit.truthy || []).map((t) => t.toLowerCase());
-
-  if (crit.rule === "at-least-one") {
-    const hits = cells.filter((c) => truthy.includes(c.toLowerCase())).length;
-    if (hits < 1) {
-      return `criterion '${name}': no field flagged in column '${crit.column}' (need >=1 of [${(crit.truthy || []).join(", ")}])`;
-    }
-    return null;
-  }
-
-  if (crit.rule === "none") {
-    const hits = cells.filter((c) => truthy.includes(c.toLowerCase())).length;
-    if (hits > 0) {
-      return `criterion '${name}': ${hits} field(s) flagged in column '${crit.column}' but none are allowed`;
-    }
-    return null;
-  }
-
-  if (crit.rule === "all-nonempty") {
-    const empties = cells.filter((c) => c === "").length;
-    if (empties > 0) {
-      return `criterion '${name}': ${empties} field(s) have an empty '${crit.column}' cell`;
-    }
-    return null;
-  }
-
-  return null;
-}
-
-function normalizeToken(value: string): string {
-  return value.trim().toLowerCase();
-}
-
-// ---------------------------------------------------------------------------
-// schema loading (minimal SCHEMA-CONSTITUTION .schema.yml subset reader)
-// supports: nested maps (2-space indent), `key: scalar`, `key: [flow, list]`, `# comments`.
-// no block sequences, no multiline scalars — the schema files are authored to this subset.
-// ---------------------------------------------------------------------------
-
-function loadSchemas(dir: string): Map<string, Schema> {
-  const out = new Map<string, Schema>();
-  if (!existsSync(dir)) {
-    return out;
-  }
-  const files = walk(dir)
-    .filter((p) => p.endsWith(".schema.yml"))
-    .sort();
-  for (const file of files) {
-    const where = toRelative(file);
-    const schema = parseSchemaYml(readFileSync(file, "utf-8"), where) as Schema;
-    assertCriterionPreflight(schema.criterion, where);
-    const metaType = typeof schema.meta_type === "string" ? schema.meta_type : "";
-    if (!metaType) {
-      throw new Error(`validate-content: ${toRelative(file)} is missing 'meta_type'`);
-    }
-    out.set(metaType.toLowerCase(), schema);
-  }
-  return out;
-}
-
-function parseSchemaYml(raw: string, where: string): Record<string, unknown> {
-  const root: Record<string, unknown> = {};
-  const stack: Array<{ indent: number; node: Record<string, unknown> }> = [
-    { indent: -1, node: root },
-  ];
-  const lines = raw.split(/\r?\n/);
-
-  for (let i = 0; i < lines.length; i += 1) {
-    const rawLine = lines[i] ?? "";
-    if (rawLine.trim() === "" || rawLine.trim().startsWith("#")) {
-      continue;
-    }
-    if (rawLine.includes("\t")) {
-      throw new Error(`${where}:${i + 1}: tabs are not allowed in .schema.yml`);
-    }
-    const indent = rawLine.length - rawLine.trimStart().length;
-    const content = rawLine.trim();
-    const colon = content.indexOf(":");
-    if (colon < 0) {
-      throw new Error(`${where}:${i + 1}: expected 'key:' — got "${content}"`);
-    }
-    const key = content.slice(0, colon).trim();
-    const rest = content.slice(colon + 1).trim();
-
-    while (stack.length > 1 && (stack[stack.length - 1]?.indent ?? -1) >= indent) {
-      stack.pop();
-    }
-    const parent = stack[stack.length - 1]?.node ?? root;
-    assertNoDuplicateSchemaKey(parent, key, where, i + 1);
-
-    if (rest === "") {
-      const obj: Record<string, unknown> = {};
-      parent[key] = obj;
-      stack.push({ indent, node: obj });
-    } else {
-      parent[key] = parseScalarOrList(rest);
-    }
-  }
-  return root;
-}
-
-function parseScalarOrList(value: string): string | string[] {
-  if (value.startsWith("[") && value.endsWith("]")) {
-    const inner = value.slice(1, -1).trim();
-    if (inner === "") {
-      return [];
-    }
-    return inner.split(",").map((s) => unquote(s.trim()));
-  }
-  return unquote(value);
-}
-
-function unquote(s: string): string {
-  if (
-    (s.startsWith('"') && s.endsWith('"')) ||
-    (s.startsWith("'") && s.endsWith("'"))
-  ) {
-    return s.slice(1, -1);
-  }
-  return s;
+  return subject;
 }
 
 // ---------------------------------------------------------------------------

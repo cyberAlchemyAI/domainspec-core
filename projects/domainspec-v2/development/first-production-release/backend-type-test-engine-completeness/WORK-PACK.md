@@ -1,8 +1,8 @@
 ---
 module: backend-type-test-engine-completeness
 version: current
-status: decision-synchronized-awaiting-task-session
-updatedAt: 2026-07-17
+status: implementation-in-progress
+updatedAt: 2026-07-20
 docType: work-pack
 ---
 
@@ -12,15 +12,15 @@ docType: work-pack
 
 | Field | Value | Notes |
 | --- | --- | --- |
-| workPackGateStatus | `ready-after-decision-gate` | FPR-02B Decision Gate is accepted; implementation still requires one separately authorized Task Session. FPR-02U is not a dependency. |
+| workPackGateStatus | `ready-after-decision-gate` | FPR-02B Decision Gate is accepted; bounded implementation has started and the SWU-BTE-001/SWU-BTE-003 W1 exit is complete. FPR-02U is not a dependency. |
 | complexity | `high` | Crosses definitions, profile, compiler, engine, execution evidence, and release validation. |
 | outputMode | `split` | Task and wave contracts are required. |
 | executionPackRef | `EXECUTION-PACK.md` | Cross-task choreography only. |
 | layeringArtifactRef | `IMPLEMENTATION-LAYERING.md` | L0–L3 governance. |
 | dispatchTechniqueTrace | `EXECUTION-DISPATCH.json` | Must validate before handoff. |
 | distillValidationStatus | `flag` | Original owner gate is resolved; successor edge/consumer scope requires a bounded Task Session distill before implementation. |
-| activeLayerWindow | `n/a` | No SWU selected. |
-| lastUpdatedAt | `2026-07-17T15:00:00-03:00` | Apply-approved FPR-02B integrated consumer-proof refresh. |
+| activeLayerWindow | `n/a` | SWU-BTE-001 and SWU-BTE-003 are closed; no continuation SWU is selected pending Invoke refresh. |
+| lastUpdatedAt | `2026-07-20T18:05:13-03:00` | Receipt-backed Task Session completion for SWU-BTE-003. |
 | readinessProfile | `release-candidate evidence; non-admission` | No production authorization. |
 
 ## Objective Summary
@@ -43,31 +43,36 @@ Success requires `13/13` admitted and exercised kinds, `16/16` admitted and caus
 
 | Task | Goal | Layer | Waves | Gate | Status |
 | --- | --- | --- | --- | --- | --- |
-| [TASK-BTE-CONTRACT](work-pack/tasks/TASK-BTE-CONTRACT.md) | Shared criterion kernel and successor node/edge profile contract | L0/L1 | W1/W2 | ready after S-000 | not-started |
-| [TASK-BTE-NODE-COVERAGE](work-pack/tasks/TASK-BTE-NODE-COVERAGE.md) | Apply YAML criteria to node bodies and exercise all 13 kinds | L0/L1 | W1/W2 | ready after S-000 | not-started |
+| [TASK-BTE-CONTRACT](work-pack/tasks/TASK-BTE-CONTRACT.md) | Shared criterion kernel and successor node/edge profile contract | L0/L1 | W1/W2 | ready after S-000 | in-progress — SWU-BTE-001 complete |
+| [TASK-BTE-NODE-COVERAGE](work-pack/tasks/TASK-BTE-NODE-COVERAGE.md) | Apply YAML criteria to node bodies and exercise all 13 kinds | L0/L1 | W1/W2 | ready after S-000 | in-progress — SWU-BTE-003 complete |
 | [TASK-BTE-EDGE-COVERAGE](work-pack/tasks/TASK-BTE-EDGE-COVERAGE.md) | Resolve independent edge roots and exercise all 16 backend signatures causally | L1/L2 | W2/W3 | depends on CONTRACT/NODE | not-started |
 | [TASK-BTE-OBLIGATIONS](work-pack/tasks/TASK-BTE-OBLIGATIONS.md) | Create independent `O_spec` catalogue and receipt | L2 | W3 | blocked by S-002 | not-started |
 | [TASK-BTE-DERIVATION](work-pack/tasks/TASK-BTE-DERIVATION.md) | Derive graph-backed obligations and executable tests | L2 | W3 | blocked by S-003 catalogue | not-started |
-| [TASK-BTE-INTEGRATION](work-pack/tasks/TASK-BTE-INTEGRATION.md) | Fail-closed release validation and receipts | L3 | W4 | blocked by S-003 | not-started |
-| [TASK-BTE-INTEGRATED-CONSUMER-MANIFEST](work-pack/tasks/TASK-BTE-INTEGRATED-CONSUMER-MANIFEST.md) | Bind BTE, IOLM, Body War, and Craft evidence into one manifest | L3 | W4 | depends on INTEGRATION | not-started |
+| [TASK-BTE-INTEGRATION](work-pack/tasks/TASK-BTE-INTEGRATION.md) | Fail-closed backend core validation and receipt | L3 | W4 | blocked by S-003 and edge proof | not-started |
+| [TASK-BTE-INTEGRATED-CONSUMER-MANIFEST](work-pack/tasks/TASK-BTE-INTEGRATED-CONSUMER-MANIFEST.md) | Bind BTE, IOLM, Body War, and Craft evidence into one manifest | L3 | W4 | depends on green core plus fresh external receipts | not-started |
 | [TASK-BTE-VERIFY](work-pack/tasks/TASK-BTE-VERIFY.md) | Independent closure review across engine and consumers | L3 | W4 | ready-after-implementation | not-started |
 
 ## SWU Manifest
 
 | SWU | Parent | Goal | Dependencies | Write scope | Done criteria | Validation | Owner | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `SWU-BTE-001` | [CONTRACT](work-pack/tasks/TASK-BTE-CONTRACT.md) | Extract shared YAML criterion kernel with no behavior drift | S-000 | `impl/tools/lib/meta-type-criteria.ts`; current content/instance validators and tests | One loader/preflight/evaluator; existing surfaces use adapters; parity green | `npm --prefix projects/domainspec-v2/impl run tools:test`; `typecheck` | local-fallback | blocked |
-| `SWU-BTE-002` | [CONTRACT](work-pack/tasks/TASK-BTE-CONTRACT.md) | Bind candidate node/edge profile/version to exact schema paths and digests | S-000, 001 | `definitions/minted-project/`; `impl/spec/minted-project/`; contract tests | Exact 13 kinds and 16 backend signatures; independent roots; current v1 preserved; drift and missing-schema fail | tools tests + profile contract test | manual decision + local-fallback | ready-after-selection |
-| `SWU-BTE-003` | [NODE COVERAGE](work-pack/tasks/TASK-BTE-NODE-COVERAGE.md) | Normalize minted node bodies and enforce all rule forms | 001, 002 | `impl/tools/minted-project/`; compiler tests | No type-name branches beyond profile/schema selection; eight rule forms pass/fail | tools tests + typecheck | local-fallback | blocked |
+| `SWU-BTE-001` | [CONTRACT](work-pack/tasks/TASK-BTE-CONTRACT.md) | Extract shared YAML criterion kernel with no behavior drift | S-000 | `impl/tools/lib/meta-type-criteria.ts`; current content/instance validators and tests | One loader/preflight/evaluator; existing surfaces use adapters; parity green | `npm --prefix projects/domainspec-v2/impl run tools:test`; `typecheck` | local-fallback | [completed](work-pack/session-evidence/SWU-BTE-001/20260720T192338Z-shared-criterion-kernel/TASK-SESSION-REPORT.md) |
+| `SWU-BTE-002` | [CONTRACT](work-pack/tasks/TASK-BTE-CONTRACT.md) | Bind candidate node/edge profile/version to exact schema paths and digests | S-000, 001 | `definitions/minted-project/`; `impl/spec/minted-project/`; contract tests | Exact 13 kinds and 16 backend signatures; independent roots; current v1 preserved; drift and missing-schema fail | tools tests + profile contract test | manual decision + local-fallback | blocked |
+| `SWU-BTE-003` | [NODE COVERAGE](work-pack/tasks/TASK-BTE-NODE-COVERAGE.md) | Normalize minted node bodies and enforce all rule forms | 001 | `impl/tools/minted-project/`; compiler tests | No type-name branches beyond profile/schema selection; eight rule forms pass/fail | tools tests + typecheck | local-fallback | [completed](work-pack/session-evidence/SWU-BTE-003/20260720T205600Z-minted-node-body-adapter/TASK-SESSION-REPORT.md) |
 | `SWU-BTE-004` | [NODE COVERAGE](work-pack/tasks/TASK-BTE-NODE-COVERAGE.md) | Build 13-positive/16-mutant corpus | 003 | minted-project backend fixture root and conformance tests | Every kind positive; every criterion mutant fails distinctly; deterministic graph | engine:test + tools:test | local-fallback | blocked |
 | `SWU-BTE-005` | [OBLIGATIONS](work-pack/tasks/TASK-BTE-OBLIGATIONS.md) | Produce digest-bound independent `O_spec` catalogue | 002, 004 | this package `contracts/`; FPR evidence run; independent catalogue validator/tests | 16 stable obligation IDs, owner/digest/source anchors; mutation invalidates receipt | catalogue validator + receipt replay | manual validation owner | blocked |
 | `SWU-BTE-006` | [DERIVATION](work-pack/tasks/TASK-BTE-DERIVATION.md) | Derive `O_gen` from minted graph/source manifest | 003, 005 | engine minted-project adapter/rules/tests | Deterministic keys; exact source anchors; `O_gen = O_spec`; missing graph fails | engine:test + typecheck | local-fallback | blocked |
 | `SWU-BTE-007` | [DERIVATION](work-pack/tasks/TASK-BTE-DERIVATION.md) | Emit and execute one structural test and mutant per key | 006 | engine emitters/tests/backend bindings | 16 runnable tests; 16 killed mutants; no skip/todo/orphan/unrunnable | generated-suite run + engine:test | local-fallback | blocked |
-| `SWU-BTE-008` | [INTEGRATION](work-pack/tasks/TASK-BTE-INTEGRATION.md) | Add fail-closed aggregate, required-check manifest, and replayable receipt | 004–007 | `impl/package.json`; engine package; this package run evidence | Missing/empty release witness fails; all suites wired; clean replay stable | backend release command + seeded red controls | local-fallback | blocked |
+| `SWU-BTE-008` | [INTEGRATION](work-pack/tasks/TASK-BTE-INTEGRATION.md) | Add fail-closed `verify:bte:core`, core required-check manifest, and replayable non-admitting receipt | 004–007, 009 | `impl/package.json`; engine package; this package run evidence | Kinds, signatures, criteria, obligations, tests, execution, mutants, zero residue, and raw digests reconcile; missing/empty core evidence fails | `verify:bte:core` + seeded red controls | local-fallback | blocked |
 | `SWU-BTE-009` | [EDGE COVERAGE](work-pack/tasks/TASK-BTE-EDGE-COVERAGE.md) | Bind independent edge schema/roots and causal 16-signature witnesses | 002, 003 | successor profile sources, resolver, edge fixtures | Each backend signature has positive edge, traversal, composition, removal, provenance, and typed negative evidence | resolver tests + deterministic graph replay | local-fallback | blocked-by-predecessors |
-| `SWU-BTE-010` | [INTEGRATED MANIFEST](work-pack/tasks/TASK-BTE-INTEGRATED-CONSUMER-MANIFEST.md) | Bind BTE, IOLM, Body War, and Craft receipts into one fail-closed manifest | 008, 009 | consumer contracts and receipts | Exact identity/digest/posture comparison; missing, stale, extra, duplicate, skipped, and surviving evidence fails | manifest validator + replay | validation owner | blocked-by-predecessors |
+| `SWU-BTE-010` | [INTEGRATED MANIFEST](work-pack/tasks/TASK-BTE-INTEGRATED-CONSUMER-MANIFEST.md) | Validate fresh external IOLM and Body War receipt handles and expose `verify:bte:consumers` | 008 + fresh `SWU-IOLM-DSC-B` breadth receipt + fresh Body War receipt | versioned consumer contracts and receipts | Exact run/profile/obligation/test/result identity, raw digest, and posture comparison; reject DSC-A narrow, missing, stale, fixture-only, BTE-authored, extra, duplicate, skipped, and surviving evidence | `verify:bte:consumers`; terminal `verify:bte = verify:bte:core + verify:bte:consumers` | validation owner | blocked-by-predecessors |
 
-No SWU is selected. A future mutation-capable handoff must select exactly one dependency-ready SWU and build a strict Context Builder runtime pack at execution time.
+SWU-BTE-001 and SWU-BTE-003 are complete, so the W1 kernel-and-adapter exit evidence now passes. No continuation SWU is selected inside Task Session. Invoke owns the post-run package refresh that must reconcile downstream dependencies and determine the next dependency-ready candidate; until that refresh is applied, SWU-BTE-002 and its successors retain their recorded blocked states.
+
+## Task Session Evidence
+
+- `SWU-BTE-001`: [Task Session report](work-pack/session-evidence/SWU-BTE-001/20260720T192338Z-shared-criterion-kernel/TASK-SESSION-REPORT.md), [execution receipt](work-pack/session-evidence/SWU-BTE-001/20260720T192338Z-shared-criterion-kernel/execution-receipt.json), and [context pack](work-pack/session-evidence/SWU-BTE-001/20260720T192338Z-shared-criterion-kernel/CONTEXT-PACK.md).
+- `SWU-BTE-003`: [Task Session report](work-pack/session-evidence/SWU-BTE-003/20260720T205600Z-minted-node-body-adapter/TASK-SESSION-REPORT.md), [execution receipt](work-pack/session-evidence/SWU-BTE-003/20260720T205600Z-minted-node-body-adapter/execution-receipt.json), and [context pack](work-pack/session-evidence/SWU-BTE-003/20260720T205600Z-minted-node-body-adapter/CONTEXT-PACK.md).
 
 ## Validation Strategy
 
@@ -79,7 +84,9 @@ No SWU is selected. A future mutation-capable handoff must select exactly one de
 6. Denominator independence: a validation owner freezes `O_spec`; engine output is compared to it rather than defining it.
 7. Execution: all generated structural tests run, no skip/todo/orphan/unrunnable state exists, and each mutation is killed.
 8. False-green controls: missing source, missing graph, empty release witness, schema drift, profile drift, unknown kind, and surviving mutation all fail nonzero.
-9. Integration: the required-check manifest proves engine tests, tool tests, instance validation, typecheck, generated-suite execution, and receipt verification all ran.
+9. Core integration: `verify:bte:core` proves engine tests, tool tests, instance validation, typecheck, exact-set comparison, generated-suite execution, mutation proof, and raw-digest receipt verification all ran after SWU-BTE-009.
+10. External consumers: after core, independently governed IOLM and Body War runs each return a fresh non-admitting receipt; the IOLM handle must be the `SWU-IOLM-DSC-B` `bte-core` breadth receipt under `cyberAlchemy-v2/development/domainspec-v2/iolm-consumer/consumer-contract.yml` and its JSON Schema. DSC-A, schemas, and fixtures cannot substitute for either run.
+11. Terminal integration: `verify:bte:consumers` validates both external receipt handles, and terminal `verify:bte` composes it with `verify:bte:core`.
 
 ## Blocker And Gap Ledger
 
@@ -103,7 +110,7 @@ See `EXECUTION-DISPATCH.json`. Each technique is bound to a step, gate, evidence
 
 ## Distill Validation
 
-The plan’s smallest coherent implementation unit is `SWU-BTE-001`: a shared criterion kernel that preserves existing behavior and enables every later surface. Recomposition passes. Mutation readiness remains blocked only because the owner profile gate and contract version/mapping are unresolved. See `DISTILL-VALIDATION.md`.
+The plan’s two coherent W1 implementation units, `SWU-BTE-001` and `SWU-BTE-003`, are complete: the shared criterion kernel preserves existing behavior, and the minted-node adapter enforces all eight backend rule forms through that kernel. Recomposition passes. Invoke owns the next refresh that reconciles the W1 exit evidence with downstream readiness; Task Session does not silently promote `SWU-BTE-002`. See `DISTILL-VALIDATION.md` for the original plan validation.
 
 ## Expected SWU Result Shape
 

@@ -125,6 +125,25 @@ test("unsupported kind and invalid formation fail independently", () => {
   }
 });
 
+test("formation diagnostics preserve criterion IDs, rules, and machine codes", () => {
+  const project = temporaryProject();
+  try {
+    mutateNode(project.root, "unlock-door", (node) => {
+      node.body.state_change = "no";
+    });
+    assert.throws(() => compileMintedProject(project.root), (error: unknown) => {
+      assert.ok(error instanceof MintedProjectCompilerError);
+      assert.equal(error.code, "FORMATION_INVALID");
+      assert.match(error.message, /"criterionId":"writes_state"/);
+      assert.match(error.message, /"rule":"attribute-equals"/);
+      assert.match(error.message, /"code":"ATTRIBUTE-VALUE-MISMATCH"/);
+      return true;
+    });
+  } finally {
+    project.cleanup();
+  }
+});
+
 test("duplicate node and edge IDs fail before graph emission", () => {
   const nodeDuplicate = temporaryProject();
   try {

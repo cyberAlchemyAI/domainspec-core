@@ -22,3 +22,9 @@ and agree with the receipt verdict or record a discrepancy.
 
 The first eligible input is the receipt from `SWU-GCP-001`; later slices remain
 blocked until their own receipts exist.
+
+The verifier closes the EVF core receipt on its own evidence. When a fresh
+`SWU-IOLM-DSC-A` receipt exists, verify its exact upstream handle, run identity,
+raw hashes, posture, parity/overlay negatives, and non-admission claim as a
+separate result. A missing or blocked IOLM receipt prevents only the combined
+real-application claim; it cannot downgrade or upgrade the EVF core verdict.

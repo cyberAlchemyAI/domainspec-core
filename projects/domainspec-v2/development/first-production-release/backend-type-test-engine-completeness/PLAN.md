@@ -26,7 +26,7 @@ targetOwner: DomainSpec-v2 FPR-02B, FPR-04, and FPR-07
 - Implementation layering: L0–L3 in `IMPLEMENTATION-LAYERING.md`
 - Work-pack: split, high complexity
 - Implementation detail: task contracts complete
-- Smallest working units: eight SWUs defined; none selected
+- Smallest working units: ten SWUs defined; none selected
 - Template/profile selection: Invoke standalone layering/work-pack templates plus the DomainSpec execution-pack template; current node-package layout retained
 - Next route: select exactly one dependency-ready BTE SWU through an authorized `task-session`; do not join the UI lane
 
@@ -151,18 +151,20 @@ Counts are current-plan expectations, not promoted authority. Any schema edit ch
 1. Bind the accepted FPR-02B decision to the candidate successor profile and freeze its source roots and digests.
 2. Extract the shared criterion kernel without changing current validator behavior.
 3. Prove the node adapter across all eight criterion rule forms.
-4. Bind the 13-kind profile and build the positive/mutant corpus.
+4. Bind the 13-kind profile, build the positive/mutant corpus, and close existing W2 `SWU-BTE-009` with all 16 causal edge witnesses.
 5. Produce an independently owned, digest-bound `O_spec` catalogue.
-6. Derive `O_gen` from compiled minted graphs and emit executable structural tests.
-7. Enforce exact-set, execution, mutation, missing-input, and aggregate release gates.
-8. Run independent closure verification, IOLM consumer proof, Body War consumer proof, and the integrated non-admission receipt.
+6. Derive `O_gen` from compiled minted graphs and emit and execute the structural tests and mutants.
+7. Run SWU-BTE-008 to emit the fail-closed `verify:bte:core` receipt after 004–007 and 009 are green.
+8. Hand that core receipt to the independently governed IOLM and Body War owners; each runs its own consumer gate and returns a fresh receipt.
+9. Run SWU-BTE-010 to validate those external receipts through `verify:bte:consumers`.
+10. Run terminal `verify:bte`, which composes core and consumer validation, then perform independent closure verification.
 
 ## Dispatch Technique Trace
 
 | Technique | Plan effect |
 | --- | --- |
-| `sequence` | FPR-02B decision → kernel → adapter/profile → corpus → obligations/tests → integration → verification |
-| `scu_swu_reduction` | Eight bounded SWUs; execution selects one at a time |
+| `sequence` | FPR-02B decision → kernel → adapter/profile → node and edge proof including 009 → obligations/tests → 008 core → external consumer receipts → 010 consumer validation → terminal verification |
+| `scu_swu_reduction` | Ten bounded SWUs; execution selects one at a time |
 | `recomposition_proof` | Kernel, profile, corpus, catalogue, engine, and gates recompose into FPR-04/FPR-07 evidence |
 | `validation_loop` | Every SWU has positive, negative, deterministic, or receipt validation |
 | `owner_boundary_check` | Invoke authors; Decision Gate selects; Task Session executes; owners admit/promote |

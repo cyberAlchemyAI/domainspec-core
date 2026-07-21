@@ -2,7 +2,7 @@
   "dispatch_id": "20260717-backend-type-test-engine-completeness-refresh-applied",
   "intent": {
     "raw": "Apply the approved refresh to backend type-test-engine completeness using the new YAML meta-type files, node JSON, independent edge JSON, and two read-only consumer proofs.",
-    "objective": "Route one-SWU-at-a-time implementation from a shared YAML criterion kernel through exact 13-kind and 16-signature causal evidence, integrated BTE/IOLM/Body War receipts, and an independently replayable required check.",
+    "objective": "Route one-SWU-at-a-time implementation from a shared YAML criterion kernel through exact 13-kind and 16-signature causal evidence, a core receipt, independently produced IOLM and Body War receipts, consumer validation, and terminal independent replay.",
     "target_artifact": "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/WORK-PACK.md",
     "operator_sentence": "Apply the approved refresh only; do not execute implementation or change release state.",
     "arcanum_vocabulary": [
@@ -71,11 +71,11 @@
   ],
   "subagent_strategy": {
     "status": "none",
-    "trigger": "The next eligible implementation is one bounded shared-kernel SWU with deterministic local checks.",
+    "trigger": "The next eligible implementation is one bounded minted-node adapter SWU with deterministic local checks.",
     "explanation": "Use one local Task Session per SWU. Any delegated or parallel execution requires a separate DomainSpec subagent strategy and user confirmation.",
     "context": [
-        "SWU-BTE-001 is the narrowest next unit after the accepted profile gate.",
-      "SWU-BTE-002 through SWU-BTE-010 remain dependency and Task Session gated."
+      "SWU-BTE-003 is the narrowest next unit after the completed SWU-BTE-001 kernel receipt.",
+      "SWU-BTE-002 remains W1-exit gated; SWU-BTE-004 through SWU-BTE-010 remain predecessor and Task Session gated."
     ],
     "roles": [],
     "parallelism": "none",
@@ -181,7 +181,9 @@
       "stop_conditions": [
         "More than one SWU is selected",
         "Any acceptance obligation lacks exact source evidence",
-        "Write scope or validation surface is missing"
+        "Write scope or validation surface is missing",
+        "SWU-BTE-008 is selected before SWU-BTE-009 and SWU-BTE-004 through SWU-BTE-007 are complete",
+        "SWU-BTE-010 is selected before a green verify:bte:core receipt and fresh independently produced IOLM and Body War receipt handles exist"
       ]
     },
     {
@@ -230,6 +232,10 @@
         "Write outside the selected SWU scope",
         "A second YAML parser or criterion evaluator is introduced",
         "The engine writes its own independent O_spec denominator",
+        "SWU-BTE-008 executes before edge-coverage SWU-BTE-009 is complete",
+        "SWU-BTE-008 executes, authors, or validates IOLM or Body War consumer evidence",
+        "SWU-BTE-010 executes before verify:bte:core and both fresh external consumer receipts exist",
+        "A fixture, schema, example, stale receipt, or BTE-authored receipt substitutes for an independently produced consumer run",
         "A backend formation result is promoted to release authority",
         "Validation fails"
       ]
@@ -253,6 +259,22 @@
           "ref": "s03-run-one-swu"
         },
         {
+          "kind": "handle",
+          "ref": "future SWU-BTE-008 verify:bte:core receipt"
+        },
+        {
+          "kind": "handle",
+          "ref": "future independently produced IOLM consumer receipt"
+        },
+        {
+          "kind": "handle",
+          "ref": "future independently produced Body War consumer receipt"
+        },
+        {
+          "kind": "handle",
+          "ref": "future SWU-BTE-010 verify:bte:consumers and terminal manifest receipt"
+        },
+        {
           "kind": "artifact",
           "ref": "DISTILL-VALIDATION.md"
         },
@@ -264,7 +286,15 @@
       "outputs": [
         {
           "kind": "artifact",
-          "ref": "future independent verification receipt"
+          "ref": "future independent core receipt replay result"
+        },
+        {
+          "kind": "artifact",
+          "ref": "future independent external-consumer receipt replay result"
+        },
+        {
+          "kind": "artifact",
+          "ref": "future independent terminal manifest replay result"
         },
         {
           "kind": "trace_event",
@@ -273,6 +303,7 @@
       ],
       "evidence_artifact": "future independent verification receipt",
       "stop_conditions": [
+        "Core, IOLM, Body War, consumer-manifest, or terminal receipt identities are collapsed or indistinguishable",
         "Exact sets or digests differ",
         "Evidence is missing or empty",
         "Any test is skipped, todo, orphaned, or undiscovered",
@@ -372,11 +403,20 @@
       "owner": "FPR coordination owner",
       "condition": "FPR-02U progress, blockage, or completion is neither an entry gate nor evidence for this FPR-02B package.",
       "on_fail": "block"
+    },
+    {
+      "gate_id": "g08-core-consumer-terminal-order",
+      "kind": "validation",
+      "owner": "BTE validation owner plus independent consumer owners",
+      "condition": "SWU-BTE-009 closes before SWU-BTE-008; verify:bte:core closes before independently governed IOLM and Body War runs; both fresh external receipt handles exist before SWU-BTE-010; terminal verify:bte composes core and consumer validation.",
+      "on_fail": "block"
     }
   ],
   "stop_conditions": [
     "Accepted FPR-02B profile decision is missing or contradicted",
     "Any attempt to execute a whole wave rather than one SWU",
+    "Any attempt to execute SWU-BTE-008 before SWU-BTE-009 or SWU-BTE-010 before core and both fresh external receipts",
+    "Any attempt by the BTE task to run or author IOLM or Body War evidence",
     "Any semantic, UI, cross-feature, or code-conformance scope expansion beyond the accepted 16 backend signatures",
     "Any missing or empty witness, catalogue, test manifest, or receipt",
     "Any release or profile-admission claim produced by technical evidence alone"
@@ -388,6 +428,9 @@
       "20260717-backend-type-test-engine-completeness-refresh-applied:profile-gate-accepted",
       "20260717-backend-type-test-engine-completeness-refresh-applied:refresh-applied",
       "20260717-backend-type-test-engine-completeness-refresh-applied:consumer-contracts-bound",
+      "20260717-backend-type-test-engine-completeness-refresh-applied:core-verified",
+      "20260717-backend-type-test-engine-completeness-refresh-applied:consumer-receipts-joined",
+      "20260717-backend-type-test-engine-completeness-refresh-applied:terminal-bte-verified",
       "20260717-backend-type-test-engine-completeness-refresh-applied:task-session-ready",
       "20260717-backend-type-test-engine-completeness-refresh-applied:production-remains-false"
     ],
@@ -430,6 +473,18 @@
           "s05-refresh-plan"
         ],
         "contract": "Receipts may update evidenced plan state but cannot change release or admission state without the owning decision.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b04-core-to-external-consumers",
+        "kind": "evidence_return",
+        "from_owner": "SWU-BTE-008 backend core owner",
+        "to_owner": "independent IOLM and Body War consumer owners, then SWU-BTE-010 validation owner",
+        "applies_to_steps": [
+          "s03-run-one-swu",
+          "s04-independent-verify"
+        ],
+        "contract": "A green verify:bte:core receipt is handed to each external consumer owner; each owner runs and authors its own fresh receipt; SWU-BTE-010 consumes only their handles and cannot create or repair consumer evidence.",
         "on_violation": "block"
       }
     ],

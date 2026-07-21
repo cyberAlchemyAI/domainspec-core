@@ -42,7 +42,7 @@ The composability path is `work-pack → wave → task → SWU → receipt`. The
 
 ## Recommended Next Layer
 
-- Next layer: L0, after a separate authorized Task Session selects one dependency-ready SWU.
-- First executable SWU: `SWU-BTE-001` shared criterion kernel.
-- Decision unlocked: whether the YAML criterion authority can be reused across all three representation surfaces without semantic invention.
+- Next layer: L0 continuation, after a separate authorized Task Session selects `SWU-BTE-003`.
+- Next executable SWU: `SWU-BTE-003` minted-node body adapter.
+- Decision unlocked: whether minted node bodies can reuse the proven YAML criterion kernel across all eight rule forms without semantic invention or a competing evaluator.
 - Major deferred scope: UI/full-language completeness, semantic/application correctness, and production authorization. Backend relationship breadth is now in scope for this package.

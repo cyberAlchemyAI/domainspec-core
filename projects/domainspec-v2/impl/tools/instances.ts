@@ -25,27 +25,18 @@ import {
 import { join, relative, resolve } from "node:path";
 
 import {
-  attributeNonemptyViolation,
-  assertCriterionPreflight,
-  assertNoDuplicateSchemaKey,
+  type Criterion,
+  type CriterionSubject,
+  evaluateCriteria,
+  loadMetaTypeSchemas,
+  type MetaTypeSchema,
+  parseMetaTypeYaml,
+} from "./lib/meta-type-criteria";
+import {
   uiRepairViolation,
 } from "./lib/ui-repair-rule-contract";
 
-type Criterion = {
-  rule: string;
-  column?: string;
-  truthy?: string[];
-  pattern?: string;
-  key?: string;
-  value?: string;
-  values?: string[];
-};
-type Schema = {
-  meta_type: string;
-  required_structure?: Record<string, unknown>;
-  criterion?: Record<string, Criterion>;
-  [k: string]: unknown;
-};
+type Schema = MetaTypeSchema;
 
 const argv = process.argv.slice(2);
 const mode = argv[0];
@@ -53,7 +44,8 @@ const validateMode = getArg("--mode") || "strict";
 const schemaDir = resolve(process.cwd(), getArg("--schema-dir") || "spec/meta-types");
 const outDir = resolve(process.cwd(), getArg("--out-dir") || "spec/__generated__/instances");
 
-const schemas = loadSchemas(schemaDir);
+const loadedSchemas = loadMetaTypeSchemas<Schema>(schemaDir);
+const schemas = loadedSchemas.map((entry) => entry.schema);
 if (schemas.length === 0) {
   console.error(`instances: no .schema.yml found under ${toRel(schemaDir)}`);
   process.exit(1);
@@ -124,7 +116,7 @@ function buildInstance(schema: Schema): Record<string, unknown> {
     const attrs: Record<string, string> = {};
     for (const [name, c] of Object.entries(crit)) {
       if (c.rule === "attribute-equals" && c.key) {
-        attrs[c.key] = c.value ?? "";
+        attrs[c.key] = String(c.value ?? "");
       } else if (c.rule === "attribute-present" && c.key) {
         attrs[c.key] = `example-${c.key}`;
       } else if (c.rule === "attribute-nonempty/v1") {
@@ -184,7 +176,9 @@ function emitInstance(inst: Record<string, unknown>): string {
 // ---------------------------------------------------------------------------
 
 function runValidate(): void {
-  const byType = new Map(schemas.map((s) => [s.meta_type.toLowerCase(), s]));
+  const byType = new Map(
+    loadedSchemas.map((entry) => [entry.schema.meta_type.toLowerCase(), entry]),
+  );
   const files = resolveInstanceFiles();
   if (files.length === 0) {
     console.log("instances: no instances to validate");
@@ -194,19 +188,23 @@ function runValidate(): void {
   const violations: string[] = [];
   let checked = 0;
   for (const file of files) {
-    const inst = parseYamlSubset(readFileSync(file, "utf-8"), toRel(file));
+    const inst = parseMetaTypeYaml(readFileSync(file, "utf-8"), toRel(file));
     const metaType = typeof inst.meta_type === "string" ? inst.meta_type : "";
-    const schema = byType.get(metaType.toLowerCase());
-    if (!schema) {
+    const loadedSchema = byType.get(metaType.toLowerCase());
+    if (!loadedSchema) {
       violations.push(`${toRel(file)} | declares meta_type '${metaType}' with no schema`);
       continue;
     }
     checked += 1;
-    for (const [name, crit] of Object.entries(schema.criterion || {})) {
-      const failure = applyInstanceCriterion(name, crit, inst);
-      if (failure) {
-        violations.push(`${toRel(file)} | concept=${String(inst.concept)} | ${failure}`);
-      }
+    const subject = toCriterionSubject(file, inst);
+    for (const failure of evaluateCriteria(
+      loadedSchema.path,
+      loadedSchema.schema.criterion,
+      subject,
+    )) {
+      violations.push(
+        `${toRel(file)} | concept=${String(inst.concept)} | ${failure.message}`,
+      );
     }
   }
 
@@ -221,145 +219,32 @@ function runValidate(): void {
   process.exit(validateMode === "warn" ? 0 : 1);
 }
 
-function applyInstanceCriterion(
-  name: string,
-  crit: Criterion,
+function toCriterionSubject(
+  file: string,
   inst: Record<string, unknown>,
-): string | null {
-  if (crit.rule === "section-contains") {
-    const hay = collectStrings(inst).join("\n").toLowerCase();
-    if (!hay.includes((crit.pattern || "").toLowerCase())) {
-      return `criterion '${name}': instance has no text containing '${crit.pattern}'`;
-    }
-    return null;
-  }
-
-  if (crit.rule === "attribute-one-of") {
-    const key = (crit.key || "").trim();
-    if (!key) {
-      return `criterion '${name}': attribute-one-of requires a non-empty 'key'`;
-    }
-    if (
-      !Array.isArray(crit.values) ||
-      crit.values.length === 0 ||
-      crit.values.some((value) => typeof value !== "string" || value.trim() === "")
-    ) {
-      return `criterion '${name}': attribute-one-of requires a non-empty 'values' string array`;
-    }
-    const attrs = (inst.attributes as Record<string, unknown>) || {};
-    const match = Object.entries(attrs).find(
-      ([attribute]) => normalizeToken(attribute) === normalizeToken(key),
-    );
-    if (!match) {
-      return `criterion '${name}': attribute '${crit.key}' is not declared`;
-    }
-    const actual = normalizeToken(String(match[1]));
-    const allowed = crit.values.map(normalizeToken);
-    if (!allowed.includes(actual)) {
-      return `criterion '${name}': attribute '${crit.key}'='${actual}' (expected one of [${crit.values.join(", ")}])`;
-    }
-    return null;
-  }
-
-  if (crit.rule === "attribute-nonempty/v1") {
-    const key = (crit.key || "").trim();
-    const attrs = (inst.attributes as Record<string, unknown>) || {};
-    const match = Object.entries(attrs).find(
-      ([attribute]) => normalizeToken(attribute) === normalizeToken(key),
-    );
-    const code = attributeNonemptyViolation(Boolean(match), match?.[1]);
-    if (code) {
-      return uiRepairViolation(
-        code,
-        `criterion '${name}': attribute '${crit.key}' must contain non-whitespace text`,
-      );
-    }
-    return null;
-  }
-
-  if (crit.rule === "attribute-equals" || crit.rule === "attribute-present") {
-    const attrs = (inst.attributes as Record<string, unknown>) || {};
-    if (!(crit.key && crit.key in attrs)) {
-      return uiRepairViolation(
-        "ATTRIBUTE-MISSING",
-        `criterion '${name}': attribute '${crit.key}' is not declared`,
-      );
-    }
-    if (crit.rule === "attribute-equals") {
-      const authoredValue = attrs[crit.key];
-      const presenceCode = attributeNonemptyViolation(true, authoredValue);
-      if (presenceCode) {
-        return uiRepairViolation(
-          presenceCode,
-          `criterion '${name}': attribute '${crit.key}' must contain its fixed value`,
-        );
-      }
-      const actual = String(authoredValue).toLowerCase();
-      if (actual !== (crit.value || "").toLowerCase()) {
-        return uiRepairViolation(
-          "FIXED-VALUE-MISMATCH",
-          `criterion '${name}': attribute '${crit.key}'='${actual}' (expected '${crit.value}')`,
-        );
-      }
-    }
-    return null;
-  }
-
-  if (crit.rule === "table-has-column" && (crit.column || "").toLowerCase() === "value") {
-    const vals = inst.values;
-    if (!Array.isArray(vals) || vals.length < 1) {
-      return `criterion '${name}': instance has no non-empty 'values' list`;
-    }
-    return null;
-  }
-
-  if (!["at-least-one", "none", "all-nonempty"].includes(crit.rule)) {
-    return `criterion '${name}': unsupported rule '${crit.rule}'`;
-  }
-
-  // column-over-fields rules: field_<column> parallel array
-  const col = (crit.column || "").toLowerCase();
-  const arr = inst[`field_${col}`];
-  if (!Array.isArray(arr)) {
-    return `criterion '${name}': instance has no 'field_${col}' array`;
-  }
-  const truthy = (crit.truthy || []).map((t) => t.toLowerCase());
-  if (crit.rule === "at-least-one") {
-    if (!arr.some((x) => truthy.includes(String(x).toLowerCase()))) {
-      return `criterion '${name}': no '${crit.column}' flagged in field_${col}`;
-    }
-    return null;
-  }
-  if (crit.rule === "none") {
-    if (arr.some((x) => truthy.includes(String(x).toLowerCase()))) {
-      return `criterion '${name}': a '${crit.column}' is flagged in field_${col} but none allowed`;
-    }
-    return null;
-  }
-  if (crit.rule === "all-nonempty") {
-    if (arr.some((x) => String(x).trim() === "")) {
-      return `criterion '${name}': an entry in field_${col} is empty`;
-    }
-    return null;
-  }
-  return null;
-}
-
-function normalizeToken(value: string): string {
-  return value.trim().toLowerCase();
-}
-
-function collectStrings(obj: unknown): string[] {
-  if (typeof obj === "string") {
-    return [obj];
-  }
-  if (Array.isArray(obj)) {
-    return obj.flatMap(collectStrings);
-  }
-  if (obj && typeof obj === "object") {
-    return Object.values(obj as Record<string, unknown>).flatMap(collectStrings);
-  }
-  return [];
+): CriterionSubject {
+  const attributes = isRecord(inst.attributes)
+    ? Object.entries(inst.attributes).map(([key, value]) => ({ key, value }))
+    : [];
+  const columns = Object.fromEntries(
+    Object.entries(inst)
+      .filter(([key, value]) => key.startsWith("field_") && Array.isArray(value))
+      .map(([key, value]) => [key.slice("field_".length), value as unknown[]]),
+  );
+  const values = Array.isArray(inst.values) ? inst.values : null;
+  return {
+    kind: "instance",
+    path: toRel(file),
+    text: collectScalarText(inst).join("\n"),
+    attributes,
+    columns,
+    table: values
+      ? {
+          columns: ["Value"],
+          rows: values.map((value) => [value]),
+        }
+      : undefined,
+  };
 }
 
 function resolveInstanceFiles(): string[] {
@@ -383,96 +268,24 @@ function resolveInstanceFiles(): string[] {
 }
 
 // ---------------------------------------------------------------------------
-// schema loading + minimal YAML-subset reader (inlined; shared shape with
-// validate-content.ts — a tools/lib refactor is tracked residue)
+// normalized-subject helpers
 // ---------------------------------------------------------------------------
 
-function loadSchemas(dir: string): Schema[] {
-  if (!existsSync(dir)) {
-    return [];
+function collectScalarText(value: unknown): string[] {
+  if (["string", "number", "boolean"].includes(typeof value)) {
+    return [String(value)];
   }
-  return walk(dir)
-    .filter((p) => p.endsWith(".schema.yml"))
-    .sort()
-    .map((p) => {
-      const where = toRel(p);
-      const schema = parseYamlSubset(readFileSync(p, "utf-8"), where) as Schema;
-      assertCriterionPreflight(schema.criterion, where);
-      return schema;
-    })
-    .filter((s) => typeof s.meta_type === "string" && s.meta_type.length > 0);
+  if (Array.isArray(value)) {
+    return value.flatMap(collectScalarText);
+  }
+  if (isRecord(value)) {
+    return Object.values(value).flatMap(collectScalarText);
+  }
+  return [];
 }
 
-function parseYamlSubset(raw: string, where: string): Record<string, unknown> {
-  const root: Record<string, unknown> = {};
-  const stack: Array<{ indent: number; node: Record<string, unknown> }> = [
-    { indent: -1, node: root },
-  ];
-  const lines = raw.split(/\r?\n/);
-  for (let i = 0; i < lines.length; i += 1) {
-    const rawLine = lines[i] ?? "";
-    if (rawLine.trim() === "" || rawLine.trim().startsWith("#")) {
-      continue;
-    }
-    if (rawLine.includes("\t")) {
-      throw new Error(`${where}:${i + 1}: tabs are not allowed`);
-    }
-    const indent = rawLine.length - rawLine.trimStart().length;
-    const content = rawLine.trim();
-    const colon = content.indexOf(":");
-    if (colon < 0) {
-      throw new Error(`${where}:${i + 1}: expected 'key:' — got "${content}"`);
-    }
-    const key = content.slice(0, colon).trim();
-    const rest = content.slice(colon + 1).trim();
-    while (stack.length > 1 && (stack[stack.length - 1]?.indent ?? -1) >= indent) {
-      stack.pop();
-    }
-    const parent = stack[stack.length - 1]?.node ?? root;
-    assertNoDuplicateSchemaKey(parent, key, where, i + 1);
-    if (rest === "") {
-      const obj: Record<string, unknown> = {};
-      parent[key] = obj;
-      stack.push({ indent, node: obj });
-    } else {
-      parent[key] = parseScalarOrList(rest);
-    }
-  }
-  return root;
-}
-
-function parseScalarOrList(value: string): string | string[] {
-  if (value.startsWith("[") && value.endsWith("]")) {
-    const inner = value.slice(1, -1).trim();
-    if (inner === "") {
-      return [];
-    }
-    return inner.split(",").map((s) => unquote(s.trim()));
-  }
-  return unquote(value);
-}
-
-function unquote(s: string): string {
-  if (
-    (s.startsWith('"') && s.endsWith('"')) ||
-    (s.startsWith("'") && s.endsWith("'"))
-  ) {
-    return s.slice(1, -1);
-  }
-  return s;
-}
-
-function walk(root: string): string[] {
-  const out: string[] = [];
-  for (const entry of readdirSync(root, { withFileTypes: true })) {
-    const full = join(root, entry.name);
-    if (entry.isDirectory()) {
-      out.push(...walk(full));
-    } else if (entry.isFile()) {
-      out.push(full);
-    }
-  }
-  return out;
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
 function getArg(name: string): string | undefined {

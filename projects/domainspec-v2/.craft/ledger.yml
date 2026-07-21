@@ -45,12 +45,16 @@ indexes:
     ART-DSV2-FPR02-BODY-WAR-CONSUMER: artifacts[52]
     ART-DSV2-FPR02-INTEGRATED-MANIFEST: artifacts[53]
     ART-DSV2-FPR02-INTEGRATED-REFRESH: artifacts[54]
+    ART-DSV2-FPR02-BTE-SWU001-CONTEXT: artifacts[55]
+    ART-DSV2-FPR02-BTE-SWU001-BLOCK-RECEIPT: artifacts[56]
+    BLK-DSV2-BTE-SWU-READINESS-CONTRADICTION-001: blockers[5]
   open_decisions:
     - DEC-DSV2-LANE-ZA
   blocking_decisions: []
   active_blockers:
     - BLK-DSV2-DRIFT-ENGINE
     - BLK-DSV2-L2-ATTESTATION
+    - BLK-DSV2-BTE-SWU-READINESS-CONTRADICTION-001
   active_gaps:
     - GAP-SH-UI11-MIGRATE
     - GAP-SH-PROSE-HOMES
@@ -104,6 +108,11 @@ indexes:
         The FPR-02B Decision Gate is accepted with 16 decisions resolved. Next consume the integrated
         BTE/IOLM/Body War proof contract and select one dependency-ready SWU through Task Session. UI
         implementation state is not an input; preserve the independent lane and production false posture.
+    - context_id: CTX-DSV2-FPR02B-CONSUMER-PROOF
+      next_move: >-
+        Run Invoke Refresh on the BTE package to reconcile the contradictory readiness statuses for
+        SWU-BTE-001 and SWU-BTE-002 and name exactly one dependency-ready unit. Then build a fresh Task
+        Session context pack; do not mutate implementation, consumers, or production before that gate passes.
     - context_id: CTX-DSV2-FPR02-UI
       next_move: >-
         Run SWU-UIP-005 under development/ui-profile-implementation/WORK-PACK.md. Preserve development-only
@@ -162,6 +171,8 @@ indexes:
     "development/ui-profile-implementation/WORK-PACK.md": ART-DSV2-FPR02-UI-PLAN
     "development/first-production-release/foundation-execution/refreshes/2026-07-17-fpr02-lane-separation/REFRESH-REPORT.md": ART-DSV2-FPR02-LANE-REFRESH
     "development/first-production-release/backend-type-test-engine-completeness/PLAN.md": ART-DSV2-FPR02-BTE-PLAN
+    "development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/CONTEXT-PACK.md": ART-DSV2-FPR02-BTE-SWU001-CONTEXT
+    "development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/execution-receipt.json": ART-DSV2-FPR02-BTE-SWU001-BLOCK-RECEIPT
     "[repo-root]/cyberAlchemy-v2/development/interactive-ontology-learning-map/SPEC.md": ART-DSV2-FPR02-IOLM-CONSUMER
     "[repo-root]/cyberAlchemy-v2/development/domainspec-v2/BODY-WAR-CONSUMER.md": ART-DSV2-FPR02-BODY-WAR-CONSUMER
     "[repo-root]/cyberAlchemy-v2/development/domainspec-v2/INTEGRATED-EVIDENCE-MANIFEST.yml": ART-DSV2-FPR02-INTEGRATED-MANIFEST
@@ -479,20 +490,24 @@ contexts:
       independent read-only IOLM and Body War consumer proofs. This context indexes receipts and continuation;
       it does not become engine, graph, semantic, or production authority.
     stage: plan
-    gate: flag
+    gate: block
     next_move: >-
-      Select exactly one dependency-ready BTE SWU through Task Session. Keep IOLM G-DSV2-SG blocked until its
-      owner receipts and bounded Sg/retraction proof pass; execute no consumer or production mutation here.
+      Run Invoke Refresh on the BTE package to reconcile the contradictory readiness statuses for SWU-BTE-001
+      and SWU-BTE-002 and name exactly one dependency-ready unit. Then build a fresh Task Session context pack;
+      execute no implementation, consumer, authority, or production mutation before that gate passes.
     owned_artifacts:
       - ART-DSV2-FPR02-BTE-PLAN
       - ART-DSV2-FPR02-IOLM-CONSUMER
       - ART-DSV2-FPR02-BODY-WAR-CONSUMER
       - ART-DSV2-FPR02-INTEGRATED-MANIFEST
       - ART-DSV2-FPR02-INTEGRATED-REFRESH
+      - ART-DSV2-FPR02-BTE-SWU001-CONTEXT
+      - ART-DSV2-FPR02-BTE-SWU001-BLOCK-RECEIPT
     links:
       - {label: backend parent lane, target: CTX-DSV2-FPR02-BACKEND, kind: row-id}
       - {label: accepted profile decision, target: ART-DSV2-FPR02-BACKEND-DECISION, kind: artifact-id}
       - {label: independent UI sibling, target: CTX-DSV2-FPR02-UI, kind: row-id}
+      - {label: readiness contradiction, target: BLK-DSV2-BTE-SWU-READINESS-CONTRADICTION-001, kind: row-id}
 
   - context_id: CTX-DSV2-FPR-VISIBILITY
     parent_id: CTX-DSV2-FIRST-PRODUCTION-RELEASE
@@ -1053,6 +1068,21 @@ blockers:
     evidence:
       - ART-DSV2-AUTHORITY
       - "[repo-root]/projects/domainspec-v2/authority/attestations/2026-07-12-governance-kinds-l1/RESULT.md"
+
+  - blocker_id: BLK-DSV2-BTE-SWU-READINESS-CONTRADICTION-001
+    context_id: CTX-DSV2-FPR02B-CONSUMER-PROOF
+    status: active
+    summary: >-
+      The BTE SWU manifest marks SWU-BTE-001 blocked and SWU-BTE-002 ready-after-selection, while the task,
+      Distill, and wave contracts name 001 as the first executable unit and keep 002 behind predecessor gates.
+    blocker_type: planning-state-contradiction
+    lane: invoke-refresh
+    refinement_status: refined
+    closure_condition: >-
+      An Invoke Refresh reconciles the BTE manifest, control fields, and execution dispatch so exactly one
+      dependency-ready SWU is named, after which a fresh bounded Task Session passes its context gate.
+    owner_route: invoke refresh plus BTE work-pack owner
+    evidence: [ART-DSV2-FPR02-BTE-SWU001-CONTEXT, ART-DSV2-FPR02-BTE-SWU001-BLOCK-RECEIPT]
 
 gaps:
   - gap_id: GAP-DSV2-EDGE-CATALOG
@@ -1716,6 +1746,18 @@ artifacts:
     notes: >-
       Apply-approved Invoke refresh report and companion machine package; target changes are scoped to the
       BTE/consumer/Craft/Inventory surfaces and do not execute a SWU or authorize production.
+  - artifact_id: ART-DSV2-FPR02-BTE-SWU001-CONTEXT
+    path: development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/CONTEXT-PACK.md
+    status: block
+    notes: >-
+      Strict local Task Session context pack. It blocks before implementation because the BTE manifest and
+      controlling task/wave contracts disagree on the dependency-ready SWU.
+  - artifact_id: ART-DSV2-FPR02-BTE-SWU001-BLOCK-RECEIPT
+    path: development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/execution-receipt.json
+    status: block
+    notes: >-
+      Task Session readiness receipt; no implementation files changed. Next route is an Invoke Refresh that
+      names exactly one dependency-ready unit.
 
 recompositions:
   - recomposition_id: REC-DSV2-GREEN

@@ -153,6 +153,29 @@ semantic branches are explicit future extension points.
 | evaluator | result + evaluator contract | verdict + evidence | receipt | verdict scope is explicit |
 | receipt | all prior digests and residues | append-only evidence | reviewer/Inventory | not release authority |
 
+## Two-Proof IOLM Consumer Boundary
+
+Accepted [DEC-GCP-002](decisions/2026-07-20-iolm-proof-role.md) keeps two
+independently closable proofs:
+
+1. `SWU-GCP-001` proves the executable core from authored graph through
+   obligation, TestCase, binding, evaluator, execution result, mutation, and
+   receipt.
+2. The private Interactive Ontology Learning Map consumes the exact successful
+   core handles and independently proves unchanged IDs, relation direction,
+   provenance, semantic bytes, view hashes, deterministic rebuild, and
+   graph/hierarchy/table parity.
+
+The IOLM adapter accepts exact handles; it does not author the formal predicate,
+define `O_spec`, re-derive the core verdict, admit a profile, or change FPR,
+release, production, or publication state. A missing or failed IOLM receipt
+blocks only the combined “executable proof used by a real application” claim.
+It cannot downgrade or upgrade the independently evaluated core receipt.
+
+The same versioned consumer boundary is rerun later against the green BTE core
+receipt. That breadth run is fresh evidence with its own run identity and cannot
+be substituted by the narrow core receipt, a schema, or a fixture.
+
 ## v1 Aspect Adapter Boundary
 
 `operations.md` is the preferred source pattern for formal obligations because

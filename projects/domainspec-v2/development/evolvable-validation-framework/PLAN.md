@@ -1,7 +1,7 @@
 ---
 artifact: invoke-plan
 status: candidate-awaiting-task-session
-updatedAt: 2026-07-18
+updatedAt: 2026-07-20
 docType: plan
 sourceDefine: DEFINE.md
 sourceDesign: DESIGN.md
@@ -40,6 +40,7 @@ structural evidence from semantic satisfiability.
 | --- | --- | --- | --- | --- |
 | S0 contract freeze | L0 | contract fields, v1 aspect adapter, and authority split reviewed | define/design | contract review note |
 | S1 enforces proof | L0 | one positive and one negative end-to-end receipt | S0 | graph, obligation, binding, test, evaluator, receipt |
+| S1C IOLM consumer proof | L0C, independent sibling lane | private IOLM consumes the exact successful S1 handle without semantic/view drift | S1 plus IOLM candidate substrate | fresh narrow IOLM consumer receipt; failure does not change S1 verdict |
 | S2 repeatability | L1 | same path works for a second admitted edge/profile fixture | S1 | replay comparison and digest stability |
 | S3 graph laws | L2 | bounded reachability/cycle/closure evaluator | S2 | independent graph-law receipts |
 | S4 breadth/hardening | L3 | handoff to 13-kind/16-signature backend lane and consumers | S3 | denominator, mutation, and consumer evidence |
@@ -68,6 +69,12 @@ The next route is `task-session`; Invoke does not execute the SWU. The existing
 backend-type-test-engine-completeness package owns broad 13-kind/16-signature
 execution. This package hands it a composability-first contract and the L0
 receipt shape.
+
+Accepted `DEC-GCP-002` also hands the exact successful L0 handle to the private
+IOLM owner. IOLM owns the consumer run and receipt; EVF does not run the map or
+write its evidence. S2 remains dependent on S1 only, so an IOLM substrate block
+cannot block core evolution. Later, the BTE core triggers a separate fresh IOLM
+breadth run for terminal consumer validation.
 
 ## Dispatch Technique Trace
 

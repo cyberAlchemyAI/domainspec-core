@@ -2,7 +2,7 @@
 taskId: TASK-GCP-CONTRACT
 layer: L0
 slice: S0
-status: not-started
+status: blocked-on-GCP-B-005
 complexity: medium
 ---
 
