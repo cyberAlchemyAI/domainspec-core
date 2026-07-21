@@ -45,9 +45,17 @@ Invoke does not require deprecated command files, slash commands, or command-res
 | `design`   | implemented (L1 contract) | [design.md](./design.md)     | Converts approved define outputs into governed architecture/design artifacts; validation examples still gate promotion. |
 | `plan`     | implemented (L2 contract) | [plan.md](./plan.md)         | Converts approved design outputs into implementation plans, layering artifacts, and work-packs. |
 | `handoff`  | implemented (L2 companion contract) | [handoff.md](./handoff.md) | Creates a new session/thread handoff from a prompt, source session reference, and Context Builder selection. |
-| `refresh`  | implemented (L2 refresh contract) | [refresh.md](./refresh.md) | Updates existing invoke-authored workflow artifacts from new session evidence through typed deltas. |
+| `refresh`  | implemented (L2 refresh contract) | [refresh.md](./refresh.md) | Updates existing invoke-authored workflow artifacts from new session evidence through typed deltas while separating phase completion from handoff readiness. |
 | `full`     | deferred         | [full.md](./full.md)         | Composite execution mode, pending L2 and L3 readiness. |
 | `validate` | deferred         | [validate.md](./validate.md) | Lifecycle validation mode, pending L3.                 |
+
+## Evidence Capability Contract
+
+The machine-readable capability table is [mode-capabilities.json](./mode-capabilities.json).
+The capability gate resolves mode readiness before lifecycle processing. Deferred `full` and
+`validate` return `unsupported` without evaluating Dispatch or Distill and never grant mutation
+handoff authority. Active modes expose evidence obligations; a later mode-composition phase must
+consume those obligations before routing.
 
 ## Core Required Sigils
 
@@ -139,7 +147,7 @@ Do not list techniques as decoration. A technique citation that does not affect 
 
 ## Distill Validation
 
-Plan, full, and validate must run automatic Distill validation against the draft implementation plan, layering artifact, work-pack, and handoff route before reporting mutation-capable readiness. Distill validation checks whether the selected unit is small enough to execute, large enough to preserve meaning, recomposes into the approved design, exposes hidden gaps, and avoids overbuilt or vague task structure.
+Plan, full, and validate must run automatic Distill validation against the draft implementation plan, layering artifact, work-pack, and handoff route before reporting mutation-capable readiness. Distill validation checks whether the selected unit is small enough to execute, large enough to preserve meaning, owns one primary behavior with an independently reviewable acceptance boundary, records why it cannot be split further, recomposes into the approved design, exposes hidden gaps, and avoids overbuilt or vague task structure. The first selected SWU must be the narrowest reversible trust-building step, not a task-shaped bundle.
 
 Distill verdict handling:
 
@@ -237,7 +245,8 @@ Reflection and telemetry from such a run should preserve both layers. If the gap
 - `plan`, `full`, and `validate` must run automatic Distill validation and report pass, flag, or block before mutation-capable handoff.
 - Medium/high complexity plans must include explicit L0-L3 per-layer planning slices; low complexity plans may keep compact layer mapping in the single-file work-pack.
 - Medium/high complexity plans must include implementation-detail specs for execution tasks, and algorithmic or domain-logic tasks must document inputs, outputs, ordered rules or pseudocode, edge cases, failure modes, and validation evidence.
-- Medium/high complexity work-packs must include Smallest Working Units: a shared SWU manifest, task-local SWU lists, one parent task per SWU, write scope, acceptance evidence, and verification command or reviewable check.
+- Medium/high complexity work-packs must include Smallest Working Units: a shared SWU manifest, task-local SWU lists, one parent task per SWU, one primary behavior, one independently reviewable acceptance boundary, split analysis, write scope, acceptance evidence, and verification command or reviewable check.
+- Medium/high SWUs that bundle independently verifiable structure, responsive layout, state projection, interaction behavior, or workspace regions are task-shaped and block mutation-capable handoff.
 - Vague task labels such as "implement this bundle" are not execution-ready unless backed by implementation-detail specs.
 - Layer promotion requires evidence from the previous layer, not preference alone.
 - Candidate glossary or registry promotion is never automatic.
@@ -248,11 +257,13 @@ Reflection and telemetry from such a run should preserve both layers. If the gap
 - Handoff mode must preserve the user's split reason: workflow gap, new lifecycle idea, research direction, execution continuation, or generic continuation.
 - Refresh mode must map every proposed or applied artifact update to a typed source signal and must default to proposal-only.
 - Refresh mode must treat no-op as a valid outcome when latest evidence is already represented.
+- Refresh mode must derive current-phase status independently from apply authorization, target-lifecycle readiness, and audit readiness, then type those conditions as scoped blockers on the handoff.
 
 ## Global Failure Policy
 
 - Return `block` when blocker ambiguity, missing mandatory inputs, or governance violations prevent safe mode output.
 - Return `flag` when mode output is usable but includes unresolved non-blocker gaps.
+- Apply these statuses to the current mode artifact. A downstream target or later lifecycle gate must not lower a complete current-mode artifact unless the mode contract explicitly makes that condition a current input.
 - Stop at the first blocked gate and return remediation guidance rather than silently switching modes.
 
 ## Local Customization
@@ -275,6 +286,7 @@ When `.arcanum/observability/` exists, record:
 - handoff target recommendation,
 - handoff type and source session reference when mode is `handoff`,
 - refresh source signal count, delta classes, mutation mode, and no-op rationale when mode is `refresh`,
+- authored phase status, phase-status basis, handoff status, and blocker counts by lifecycle scope when mode is `refresh`,
 - target artifact name, type, owner, and lifecycle cycle,
 - gap ownership split between invoke-specific gaps and target-artifact gaps,
 - referenced mode contract,
@@ -298,7 +310,7 @@ Return:
 - Spell: invoke
 - Canonical ID: invoke
 - Scope: library
-- Phase status: pass | flag | block
+- Phase status: pass | flag | block | no-op
 - Mode contract: <path>
 - Outputs: <mode output paths>
 - Design views: <coverage summary | n/a>

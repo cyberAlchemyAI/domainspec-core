@@ -27,12 +27,15 @@ validation_rules:
   - target artifact inventory present
   - every delta maps to a refresh signal
   - apply-approved requires explicit approval
+  - phase status describes current refresh artifact completeness
+  - blockers declare lifecycle scope
+  - handoff readiness is separate from phase status
   - no-op can pass without patch proposal
 validation_examples:
   - examples/passing.md
   - examples/missing-input.md
 created_at: 2026-05-25
-updated_at: 2026-05-25
+updated_at: 2026-07-20
 ---
 
 # Refresh Report: {refresh-title}
@@ -45,23 +48,29 @@ updated_at: 2026-05-25
 - Mutation mode: `{proposal-only | apply-approved}`
 - Target lifecycle owner: `{owner}`
 
+## Phase And Handoff Status
+
+- Phase status: `{pass | flag | block | no-op}`
+- Phase status basis: `{current Refresh artifact completeness and refresh-authoring blocker count}`
+- Handoff readiness: `{ready | gated | deferred | blocked | not-needed}`
+
 ## Source Signals
 
-| Signal ID     | Type             | Source         | Claim            | Confidence     | Mutation Safety |
-| ------------- | ---------------- | -------------- | ---------------- | -------------- | --------------- | -------------- | ------- | ----------------- | --------- | ------ | ------ | ----- | ------ | ------------ | --------- |
-| `{signal-id}` | `{evidence_added | blocker_opened | blocker_resolved | status_changed | route_changed   | artifact_drift | no_op}` | `{path#selector}` | `{claim}` | `{high | medium | low}` | `{safe | needs_review | blocked}` |
+| Signal ID | Type | Source | Claim | Confidence | Mutation Safety |
+| --- | --- | --- | --- | --- | --- |
+| `{signal-id}` | `{evidence_added | blocker_opened | blocker_resolved | status_changed | route_changed | artifact_drift | no_op}` | `{path#selector}` | `{claim}` | `{high | medium | low}` | `{safe | needs_review | blocked}` |
 
 ## Target Artifact Inventory
 
-| Artifact | Owner     | Current Claim     | Refresh Relevance |
-| -------- | --------- | ----------------- | ----------------- |
+| Artifact | Owner | Current Claim | Refresh Relevance |
+| --- | --- | --- | --- |
 | `{path}` | `{owner}` | `{current-state}` | `{why inspected}` |
 
 ## Delta Summary
 
-| Delta           | Target Artifact | Proposed State | Evidence      |
-| --------------- | --------------- | -------------- | ------------- |
-| `{delta-class}` | `{path}`        | `{state}`      | `{signal-id}` |
+| Delta | Target Artifact | Proposed State | Evidence |
+| --- | --- | --- | --- |
+| `{delta-class}` | `{path}` | `{state}` | `{signal-id}` |
 
 ## Proposed Changes
 
@@ -74,14 +83,14 @@ updated_at: 2026-05-25
 ## Skipped Changes
 
 | Candidate Change | Reason Skipped |
-| ---------------- | -------------- |
-| `{candidate}`    | `{reason}`     |
+| --- | --- |
+| `{candidate}` | `{reason}` |
 
 ## Blockers And Gaps
 
-| Gap     | Owner     | Status | Next Action |
-| ------- | --------- | ------ | ----------- | ------- | ---------- | ---------- |
-| `{gap}` | `{owner}` | `{open | deferred    | blocked | resolved}` | `{action}` |
+| Gap | Scope | Owner | Status | Next Action |
+| --- | --- | --- | --- | --- |
+| `{gap}` | `{refresh-authoring | apply-authorization | target-lifecycle | audit}` | `{owner}` | `{open | deferred | blocked | resolved}` | `{action}` |
 
 ## Validation
 
@@ -96,3 +105,4 @@ updated_at: 2026-05-25
 
 - Status: `{pass | flag | block | no-op}`
 - Reason: `{gate-result-summary}`
+- Blockers by scope: `{refresh-authoring n; apply-authorization n; target-lifecycle n; audit n}`
