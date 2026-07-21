@@ -1,0 +1,73 @@
+{
+  "timestamp": "2026-07-20T15:29:33Z",
+  "run_id": "invoke-refresh-20260720-bte-reaudit001-contradiction-proposal",
+  "session_id": "2026-07-20-bte-reaudit001-contradiction-proposal",
+  "sigil": "invoke",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "refresh"
+  },
+  "mode": "refresh",
+  "request": {
+    "summary": "Propose the exact repair for re-audit 001's two planning contradictions.",
+    "intent": "Prepare a two-line evidence-bound patch without changing targets, decisions, implementation, or release state."
+  },
+  "execution": {
+    "status": "completed",
+    "phase_status": "pass",
+    "phase_status_basis": {
+      "artifact_complete": true,
+      "refresh_authoring_blocker_count": 0
+    },
+    "mutation_mode": "proposal-only",
+    "handoff_status": "gated",
+    "blocker_scopes": {
+      "refresh-authoring": 0,
+      "apply-authorization": 1,
+      "target-lifecycle": 1,
+      "audit": 1
+    },
+    "source_signal_count": 4,
+    "target_artifact_count": 2,
+    "proposed_change_count": 3,
+    "applied_change_count": 0,
+    "delta_class_counts": {
+      "artifact_drift": 2,
+      "evidence_added": 1,
+      "no_op": 1
+    },
+    "outputs": [
+      "Proposal-only Refresh report",
+      "Exact two-line patch proposal",
+      "Machine Refresh report",
+      "Strict 5/5 Context Builder selector pack"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-reaudit-001-contradiction-repair/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-reaudit-001-contradiction-repair/REFRESH-PATCH-PROPOSAL.md",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-reaudit-001-contradiction-repair/refresh-report.json",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-reaudit-001-contradiction-repair/context/context-pack.json",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-reaudit-001-contradiction-repair/context/CONTEXT-PACK.md"
+    ],
+    "validation": [
+      "Authoritative audit JSON has exactly two failed checks and two blockers",
+      "Target preimage SHA-256 values match 2 of 2",
+      "Context Builder strict coverage passes 5 of 5",
+      "Dispatch technique catalog membership passes",
+      "Invoke active-mode evidence passes with mutation handoff false",
+      "No target artifact changed"
+    ],
+    "notes": "Explicit apply-approved authorization remains required. Later apply must create corpus-manifest.refresh-002.json and route a new independent audit."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-reaudit-001-contradiction-repair/REFRESH-REPORT.md"
+}

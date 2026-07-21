@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-07-20T19:00:34Z",
+  "run_id": "invoke-refresh-20260720-swu-readiness-continuation",
+  "session_id": "20260720-bte-001-readiness-continuation",
+  "sigil": "invoke",
+  "tier": "spells",
+  "mode": "refresh",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "refresh",
+    "alias": null
+  },
+  "request": {
+    "raw": null,
+    "summary": "Apply the explicitly approved readiness repair named by a terminal Task Session receipt.",
+    "intent": "Reconcile exactly two contradictory work-pack status cells, preserve all other state, and return one ready SWU without executing it."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-20-swu-readiness-continuation/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-20-swu-readiness-continuation/refresh-report.json",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-20-swu-readiness-continuation/apply-receipt.json"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/WORK-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-20-swu-readiness-continuation/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-20-swu-readiness-continuation/refresh-report.json",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-20-swu-readiness-continuation/apply-receipt.json"
+    ],
+    "validation": [
+      "target-preimage:matched",
+      "two-authorized-status-cells:applied",
+      "unique-ready-row:SWU-BTE-001",
+      "SWU-BTE-002:blocked",
+      "activeLayerWindow:n/a",
+      "task-wave-distill-ordering:pass",
+      "json-parse:pass",
+      "scoped-diff:pass"
+    ],
+    "notes": "Invoke Refresh owned the apply-approved planning mutation. No SWU was selected or executed; the next owner is Task Session."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "task-session:execute SWU-BTE-001"
+  },
+  "target_artifact": "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/refreshes/2026-07-20-swu-readiness-continuation/REFRESH-REPORT.md"
+}

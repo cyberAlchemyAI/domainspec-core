@@ -1,0 +1,74 @@
+{
+  "timestamp": "2026-07-20T15:38:30Z",
+  "run_id": "invoke-refresh-20260720-bte-reaudit001-contradiction-apply",
+  "session_id": "2026-07-20-bte-reaudit001-contradiction-apply",
+  "sigil": "invoke",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "refresh"
+  },
+  "mode": "refresh",
+  "request": {
+    "summary": "Apply the approved exact repair for re-audit 001's two planning contradictions.",
+    "intent": "Align the SWU count and resolved owner-gate projection without selecting work, reopening decisions, changing implementation, or changing release state."
+  },
+  "execution": {
+    "status": "completed",
+    "phase_status": "pass",
+    "phase_status_basis": {
+      "artifact_complete": true,
+      "refresh_authoring_blocker_count": 0
+    },
+    "mutation_mode": "apply-approved",
+    "handoff_status": "ready",
+    "blocker_scopes": {
+      "refresh-authoring": 0,
+      "apply-authorization": 0,
+      "target-lifecycle": 1,
+      "audit": 1
+    },
+    "source_signal_count": 4,
+    "target_artifact_count": 2,
+    "proposed_change_count": 3,
+    "applied_change_count": 3,
+    "delta_class_counts": {
+      "artifact_drift": 2,
+      "evidence_added": 1,
+      "no_op": 1
+    },
+    "outputs": [
+      "Applied the two exact approved planning deltas",
+      "Created corpus-manifest.refresh-002.json with 61 current digests",
+      "Prepared an immutable apply receipt and independent re-audit handoff"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/PLAN.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/WORK-PACK.md",
+      "projects/domainspec-v2/development/evolvable-validation-framework/reviews/2026-07-20-implementation-completion/corpus-manifest.refresh-002.json",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-reaudit-001-contradiction-repair/apply-receipt.json",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-reaudit-001-contradiction-repair/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-reaudit-001-contradiction-repair/refresh-report.json"
+    ],
+    "validation": [
+      "Two of two target preimages matched the approved proposal",
+      "Only PLAN.md and WORK-PACK.md differ from corpus-manifest.refresh-001.json",
+      "PLAN.md says ten SWUs and preserves none selected",
+      "WORK-PACK.md records accepted and resolved owner gates plus the bounded Task Session gate",
+      "Dispatch Spec validation passed",
+      "corpus-manifest.refresh-002.json preserves 61 of 61 identities and matches 61 of 61 current digests",
+      "Context Builder strict coverage remains 5 of 5"
+    ],
+    "notes": "No SWU was selected or executed. Prior audits, manifests, decisions, implementation, authority, consumers, and release state remain unchanged. Independent re-audit 002 is the next route and still gates promotion."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-reaudit-001-contradiction-repair/REFRESH-REPORT.md"
+}

@@ -1,5 +1,35 @@
 # Inventory Log
 
+## 2026-07-20 ingest — EVF implementation-completion re-audit 001 result
+
+- Mode: ingest/backfill of a confirmed single-auditor review dispatch.
+- Repository: `/home/vrondelli/projects/domainspec-core`.
+- Inventory root: `.arcanum/inventory/`.
+- Sources processed: 7 (refreshed 61-path manifest, apply receipt, authoritative
+  machine audit, human audit projection, BTE Plan, BTE Work-Pack, and append-only
+  dispatch ledger).
+- Entries created: 1 blocked synthesis entry; entries updated: 0.
+- Strategy: P1 isolation trigger; one dedicated auditor lane; no dependency or
+  parallel flow; tension gate trivially passed because no group had two agents;
+  explicit human acceptance; deterministic registration; resolved closeout.
+- Result: `REJECT`, `promotion_ready: false`. The original SWU-BTE-009 ordering
+  defect is repaired, but the Plan still says both eight and ten SWUs and the
+  Work-Pack still says the owner/profile gate is both resolved and unresolved.
+- Validation: parent replay passed 61/61 corpus digests, 8/8 apply-target
+  postimages, original artifact immutability, deterministic Dispatch Spec, and
+  the two exact contradiction witnesses.
+- Index: `index.json` 189 -> 190 entries and the matching `index.md` row were
+  updated through deterministic `inventory-update.cjs`; emitted uncontrolled-tag
+  warnings were pre-existing and did not include this entry's controlled tags.
+- Ledger: dispatch `2026-07-20-evf-implementation-completion-reaudit-001`
+  closed `resolved` with 1 auditor, 0 helpers, and 1 loop.
+- Next human action: authorize a two-line Invoke Refresh, recompute refreshed
+  manifest digests, and re-run independent audit without reopening the accepted
+  profile decision or selecting work.
+- Authority: non-authority Inventory read model only. The machine audit remains
+  authoritative for the re-audit verdict; no plan, implementation, or release
+  authority was promoted.
+
 ## 2026-07-17 ingest — verification-derivation claims review strategy result
 
 - Mode: ingest/backfill of a confirmed governed subagent review dispatch.
@@ -2730,3 +2760,155 @@ Artifacts:
 - Authority: Inventory remains a non-authority read model. No experiment spec,
   preregistration, generator, benchmark, model admission, capacity proof, or
   experiment run was promoted or created.
+
+## 2026-07-20 - DomainSpec v2 EVF implementation-completion review result
+
+- Mode: backfill of the human-confirmed build-focused review dispatch
+  `2026-07-20-evf-implementation-completion-review`.
+- Dispatch: three parallel implementation attackers, one writer, two parallel
+  skeptics, and Bourbaki final audit; one bounded verifier revision was used.
+  The ledger closed `loop_ceiling_reached`, not `resolved`.
+- Verified substrate: 61/61 frozen corpus hashes match; the bounded baseline is
+  107 engine tests plus typecheck and relationship validation; the Lean reuse
+  manifest matches the latest 111 commits and the Lean checkout is clean.
+- Result: S1 remains one atomic graph-to-receipt `SWU-GCP-001` behind an
+  owner-admitted machine predicate. The final audit rejected the backend plan
+  because it reassigned existing `SWU-BTE-009` from edge/16-signature coverage
+  to consumer runs.
+- Inventory: added
+  `entries/domainspec-v2-evf-implementation-completion-review-result.md` and
+  synchronized `index.md` and `index.json` through `inventory-update.cjs`.
+- Next action: bounded build-artifact repair preserving `SWU-BTE-009` for edge
+  proof, with actual IOLM and Body War execution after `verify:bte:core`, then
+  rerun final audit. No DomainSpec authority, engine implementation, or release
+  state was promoted.
+
+## 2026-07-20 - CyberAlchemy LinkedIn positioning strategy result
+
+- Mode: backfill of the human-confirmed research dispatch
+  `2026-07-20-linkedin-positioning` plus its final Whisper derivative.
+- Dispatch: three parallel evidence explorers, one synthesizer, two independent
+  claim skeptics, one writer, and one final auditor. The tension gate returned a
+  clean double PASS; one reviewer zig-zag and one auditor revision were used.
+- Result: selected an A/C hybrid that leads with concrete governed work and human
+  responsibility, names CyberAlchemy v2 and DomainSpec v2 as current research,
+  and bounds category theory and Lean to particular claims about refinement,
+  translation, and information loss.
+- Inventory: added
+  `entries/cyberalchemy-linkedin-positioning-strategy-result-synthesis.md` and
+  synchronized `index.md` and `index.json` through `inventory-update.cjs`.
+- Validation: Dispatch Spec passes; company tagline is 54 characters; founder
+  headline is 108 characters; the final auditor returned `ACCEPT`; public/private,
+  maturity, authorship, and formal-claim checks pass.
+- Residue: LinkedIn is still a candidate Whisper transport, no external response
+  signals exist, and the copy must be revalidated when public shipping or formal
+  evidence changes. The new Inventory row passes its field contract; the global
+  validator remains flagged by fourteen pre-existing legacy `kind` rows. Inventory
+  remains a non-authority read model.
+
+## 2026-07-20 - DomainSpec v2 EVF implementation-completion re-audit 002 result
+
+- Mode: backfill of the independently accepted review dispatch
+  `2026-07-20-evf-implementation-completion-reaudit-002`.
+- Dispatch: one isolated auditor lane, no multi-agent tension group; registered after
+  explicit approval of the exact Invoke Refresh proposal and closed `resolved`.
+- Result: `audit.refresh-002.json` returns `ACCEPT` with zero blockers and
+  `promotion_ready: true` for the contradiction-repaired review/planning candidate.
+  It verifies 61/61 corpus digests, ten exact SWU rows, resolved owner gates, and
+  the separately authorized bounded Task Session as the remaining mutation gate.
+- Boundary: S1 completion and backend exit remain `BLOCK`; `DEC-GCP-001` remains
+  pending; no SWU was selected or executed; implementation and release state remain
+  unchanged.
+- Inventory: added
+  `entries/domainspec-v2-evf-implementation-completion-reaudit-002-result.md`;
+  synchronized `index.json` and `index.md` through `inventory-update.cjs`.
+- Validation: updater dry-run and apply passed; the machine index is parseable with
+  191 unique entries and the human index contains one matching row. Existing global
+  uncontrolled-tag warnings remain pre-existing and non-blocking.
+
+## 2026-07-20 - DomainSpec v2 EVF contract-completeness gap audit result
+
+- Mode: backfill and closeout of the human-confirmed review dispatch
+  `2026-07-20-evf-contract-completeness-gap-audit`.
+- Dispatch: three independent attackers, one synthesizer, two independent
+  verifiers, and one coverage auditor; one bounded revision loop was used.
+- Result: final auditor returned `ACCEPT` for the 53-row, 12-column gap matrix,
+  49/49 live evidence digests, exact 13-kind and 16-relationship denominators,
+  and 24 surviving findings. The current experimental v1 remains `KEEP` while
+  successor completeness and consumer composition remain `BLOCK`.
+- Inventory: added
+  `entries/domainspec-v2-evf-contract-completeness-gap-audit-result.md` and
+  synchronized `index.json` and `index.md` through `inventory-update.cjs`.
+- Ledger: appended the missing deterministic close row with `exit_reason:
+  resolved`, seven agents, and one loop.
+- Residue: the constitution-required pre-dispatch check-tension double-pass
+  artifact was not located; this is retained as process residue rather than
+  reconstructed after the fact. Review evidence remains non-authority.
+- Next action: run one fresh full Invoke authoring pass for definitions,
+  requirements, architecture, design, machine contracts, and the complete
+  implementation work-pack. Do not dispatch another gap audit.
+
+## 2026-07-20 - DomainSpec v2 EVF contract-completeness audit correction
+
+- Correction: the preceding Inventory closeout was premature. The second and
+  final allowed whole-sequence audit returned `REJECT`, not `ACCEPT`.
+- Drift: `COMPILER` changed from recorded `7e0deaf9...6405` to live
+  `842b86f7...e6a`; `T_COMPILER` changed from recorded
+  `2448566a...441b` to live `3400ec96...04c8`.
+- Consequence: `GAP-009` and affected compiler matrix cells require substantive
+  reassessment. The 49-record catalog is structurally complete but is not a
+  current 49/49 digest match.
+- Final state: review package `block`; final-auditor `REJECT`; registered loop
+  ceiling of two reached. Current v1 remains `KEEP`; successor remains `BLOCK`.
+- Ledger residue: the append-only close row was written prematurely as
+  `resolved` with one loop. It is retained as stale historical evidence and
+  must not be treated as the actual final outcome.
+- Next action: stabilize `projects/domainspec-v2`, rebuild the frozen catalog
+  including the new adapter/test, reassess `GAP-009`, and obtain confirmation
+  for a new bounded audit before full Invoke authoring.
+
+## 2026-07-20 - DomainSpec v2 EVF live-worktree audit follow-up
+
+- Scope: corrected the non-authority Inventory projection only; the rejected
+  `attacks.md`, `findings.md`, and `gap-matrix.json` snapshot remains frozen.
+- Old finding: the current compiler and adapter route formation criteria through
+  the shared `evaluateCriteria` kernel, so the duplicate-evaluator allegation in
+  old `GAP-009` is fixed in the live worktree, not admitted authority.
+- Replacement gaps: adapter tests cover all eight criterion rule forms, but exact
+  compiler-level positive and discriminating-negative parity for all 16 criterion
+  IDs is not frozen. The supported v1 profile still declares four JSON
+  `formation_schemas`; the compiler instead uses YAML criteria and filters base
+  JSON-schema body violations. `required_structure` and owner-bound schema digest
+  propagation also remain unevaluated by this path.
+- Boundary: the compiler, adapter, and relevant tests are modified or untracked.
+  The frozen snapshot's blanket current-v1 `KEEP` is therefore not a safe live
+  verdict and cannot authorize Invoke authoring.
+- Reflection: one severe-gap signal is preserved, but only three new
+  `domainspec-subagents-strategy` signals exist since the last reflection, below
+  the five-signal minimum; no reflection report or state update was written.
+- Next action: after implementation stabilizes, confirm a new bounded audit of the
+  exact 16 criteria and supported-v1 formation contract before authoring the full
+  Invoke package.
+
+## 2026-07-20 - DomainSpec v2 EVF contract-completeness audit 002 result
+
+- Mode: backfill and closeout of the human-confirmed review dispatch
+  `2026-07-20-evf-contract-completeness-audit-002`.
+- Dispatch: three attackers, one synthesizer, two independent verifiers, and
+  one final coverage auditor; two whole-sequence loops and two feedback repairs.
+- Result: final auditor returned `ACCEPT` for the review package. The corrected
+  matrix has 53 rows by 12 columns and 55 effective evidence entries; old
+  `GAP-009` is fixed and selector `GAP-028` is repaired.
+- Residue: current-v1 formation authority remains split (`GAP-029`), exact-16
+  compiler parity remains blocked (`GAP-030`), `DEC-GCP-001` remains pending,
+  and graph/obligation/receipt plus IOLM and Body War consumer proof remain
+  open. Review evidence is non-authority.
+- Validation: tools `147/147`, engine `107/107`, typecheck, 53/53 freeze
+  hashes, overlay/matrix parity, verifier convergence, and deterministic
+  dispatch close passed.
+- Inventory: added
+  `entries/domainspec-v2-evf-contract-completeness-audit-002-result.md` and
+  synchronized `index.json` and `index.md` through `inventory-update.cjs`.
+- Next action: run the full Invoke authoring pass under `projects/domainspec-v2/`
+  with explicit gates for formation authority, exact-16 compiler coverage, and
+  the Rule predicate source. Do not promote consumer evidence or Markdown.

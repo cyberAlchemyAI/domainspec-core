@@ -1,0 +1,90 @@
+{
+  "timestamp": "2026-07-20T18:19:25Z",
+  "run_id": "invoke-refresh-20260720-iolm-two-proof-chain-proposal",
+  "session_id": "domainspec-v2-iolm-two-proof-chain-2026-07-20",
+  "sigil": "invoke",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "refresh"
+  },
+  "mode": "refresh",
+  "request": {
+    "summary": "Refresh artifacts after DEC-GCP-002 accepted the IOLM two-proof chain.",
+    "intent": "Produce an exact proposal that preserves independent EVF core and IOLM consumer lanes and gives IOLM concrete ownership of fresh consumer receipts."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "Proposal-only Invoke refresh report and machine report",
+      "Exact patch proposal",
+      "Strict Context Builder selection",
+      "Standard Distill validation",
+      "Validated Dispatch Spec"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-iolm-two-proof-chain/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-iolm-two-proof-chain/REFRESH-PATCH-PROPOSAL.md",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-iolm-two-proof-chain/refresh-report.json",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-iolm-two-proof-chain/context/CONTEXT-PACK.md",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-iolm-two-proof-chain/context/context-pack.json",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-iolm-two-proof-chain/DISTILL-VALIDATION.md",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-iolm-two-proof-chain/REFRESH-DISPATCH.json"
+    ],
+    "validation": [
+      "Context selection covered 9 of 9 obligations across 14 source artifacts",
+      "All 14 source SHA-256 preimages matched",
+      "Three JSON artifacts parsed",
+      "Dispatch Spec validation passed after one bounded route-shape repair",
+      "Proposal-level Distill validation passed",
+      "Scoped diff hygiene passed",
+      "No target planning, machine contract, implementation, or authority artifact was mutated"
+    ],
+    "notes": "The proposal adds a YAML consumer contract, JSON receipt schema, IOLM narrow-consumer SWU, and later BTE-breadth consumer SWU. Target application is gated on explicit apply-approved."
+  },
+  "refresh": {
+    "source_signal_count": 9,
+    "target_artifact_root_count": 5,
+    "delta_classes": {
+      "blocker_resolved": 1,
+      "route_changed": 2,
+      "artifact_drift": 2,
+      "evidence_added": 2,
+      "no_op": 2
+    },
+    "phase_status": "pass",
+    "phase_status_basis": {
+      "artifact_complete": true,
+      "refresh_authoring_blocker_count": 0
+    },
+    "mutation_mode": "proposal-only",
+    "handoff_status": "gated",
+    "proposed_count": 5,
+    "applied_count": 0,
+    "skipped_count": 5,
+    "blocker_scopes": {
+      "refresh-authoring": 0,
+      "apply-authorization": 1,
+      "target-lifecycle": 4,
+      "audit": 1
+    },
+    "next_route": "invoke refresh apply-approved"
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "artifact-drift",
+        "severity": "high",
+        "summary": "BTE requires a fresh IOLM consumer receipt, but the current IOLM work-pack has no task or SWU that owns producing it.",
+        "evidence": "BTE TASK-BTE-INTEGRATED-CONSUMER-MANIFEST names the receipt while IOLM WORK-PACK lists no matching consumer execution unit."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-iolm-two-proof-chain/REFRESH-REPORT.md"
+}

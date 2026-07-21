@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-07-20T18:49:58Z",
+  "run_id": "task-session-20260720T184958Z-bte-continuation-routing-gap",
+  "session_id": "20260720-bte-001-readiness-blocked",
+  "sigil": "task-session",
+  "tier": "arcana",
+  "mode": "execute",
+  "capability": {
+    "id": "task-session",
+    "kind": "sigil",
+    "tier": "arcana",
+    "mode": "execute",
+    "alias": null
+  },
+  "request": {
+    "raw": null,
+    "summary": "Continue one bounded work-pack task after its prerequisite owner decision was accepted.",
+    "intent": "Execute the next dependency-ready unit and stop at the next real blocker."
+  },
+  "execution": {
+    "status": "blocked",
+    "outputs": [
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/CONTEXT-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/execution-receipt.json"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/CONTEXT-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/session-evidence/SWU-BTE-001/execution-receipt.json"
+    ],
+    "validation": [
+      "task-context-consistency:block",
+      "write-scope-overlap:pass",
+      "no-implementation-mutation:pass",
+      "terminal-receipt-next-route:invoke-refresh",
+      "repeat-invocation-same-gate:confirmed"
+    ],
+    "notes": "The bounded execution correctly failed closed on contradictory readiness state. A following Task Session invocation did not consume the explicit invoke-refresh handoff and reproduced the same blocker."
+  },
+  "observer": {
+    "quality_bar_status": "partial",
+    "anti_pattern_hits": [
+      "unchanged blocked task was re-entered instead of consuming its owner handoff"
+    ],
+    "workflow_gaps": [
+      {
+        "category": "continuation-routing",
+        "severity": "high",
+        "summary": "Task Session can name a next owner route but has no normalized one-hop handoff or route-consumption contract.",
+        "evidence": "The terminal receipt named invoke-refresh; the next Task Session invocation reproduced the same contradiction without routing to the owner."
+      },
+      {
+        "category": "output-contract",
+        "severity": "medium",
+        "summary": "Probable routes, route authorization, owner receipt, and returned next route are absent from the Task Session output contract.",
+        "evidence": "Only 1 of 108 Task Session rows in the central ledger carries a normalized next_route field; most continuation advice is free text."
+      }
+    ],
+    "output_contract_drift": true,
+    "reflection_trigger": "manual-and-gap-threshold",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": "arcanum/arcana/task-session/SKILL.md"
+}

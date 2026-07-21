@@ -1,0 +1,80 @@
+{
+  "timestamp": "2026-07-20T13:56:04Z",
+  "run_id": "invoke-refresh-20260720-bte009-order-repair-apply",
+  "session_id": "2026-07-20-bte009-order-repair-apply",
+  "sigil": "invoke",
+  "capability": {
+    "id": "invoke",
+    "kind": "spell",
+    "tier": "spells",
+    "mode": "refresh"
+  },
+  "mode": "refresh",
+  "request": {
+    "summary": "Apply the approved BTE-009 order repair and refresh the independent re-audit boundary.",
+    "intent": "Preserve SWU-BTE-009 as edge coverage, separate backend core verification from independently owned consumer runs, and prepare an immutable re-audit handoff without selecting or executing implementation."
+  },
+  "execution": {
+    "status": "completed",
+    "phase_status": "pass",
+    "phase_status_basis": {
+      "artifact_complete": true,
+      "refresh_authoring_blocker_count": 0
+    },
+    "mutation_mode": "apply-approved",
+    "handoff_status": "ready",
+    "blocker_scopes": {
+      "refresh-authoring": 0,
+      "apply-authorization": 0,
+      "target-lifecycle": 1,
+      "audit": 1
+    },
+    "source_signal_count": 7,
+    "target_artifact_count": 8,
+    "delta_class_counts": {
+      "evidence_added": 1,
+      "artifact_drift": 2,
+      "route_changed": 1,
+      "status_changed": 1,
+      "no_op": 2
+    },
+    "outputs": [
+      "Applied all five approved proposal groups across eight target artifacts",
+      "Created a machine apply receipt with preimage and postimage digests",
+      "Created a refreshed 61-path corpus manifest for independent re-audit",
+      "Marked the corrected findings pending re-audit"
+    ],
+    "files_changed": [
+      "projects/domainspec-v2/development/evolvable-validation-framework/reviews/2026-07-20-implementation-completion/findings.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/PLAN.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/WORK-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/tasks/TASK-BTE-INTEGRATION.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/tasks/TASK-BTE-INTEGRATED-CONSUMER-MANIFEST.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/EXECUTION-PACK.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/work-pack/waves/W4-INTEGRATE-VERIFY.md",
+      "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/EXECUTION-DISPATCH.json",
+      "projects/domainspec-v2/development/evolvable-validation-framework/reviews/2026-07-20-implementation-completion/corpus-manifest.refresh-001.json",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-009-order-repair/apply-receipt.json",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-009-order-repair/REFRESH-REPORT.md",
+      "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-009-order-repair/refresh-report.json"
+    ],
+    "validation": [
+      "Eight of eight approved target postimage digests match their apply receipt",
+      "Dispatch Spec validation passed",
+      "Invoke active-mode evidence validation passed with mutation handoff ready",
+      "Refreshed manifest preserves 61 of 61 path identities and matches 61 of 61 current digests",
+      "Six of six protected no-op artifacts remain byte-identical",
+      "Scoped diff hygiene passed"
+    ],
+    "notes": "No SWU was selected or executed. IOLM and Body War remain independent evidence producers. The original rejected audit and corpus manifest remain immutable. Independent re-audit is the next route and still gates promotion."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "none"
+  },
+  "target_artifact": "projects/domainspec-v2/development/evolvable-validation-framework/refreshes/2026-07-20-bte-009-order-repair/REFRESH-REPORT.md"
+}

@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-07-20T20:39:48Z",
+  "run_id": "domainspec-subagents-strategy-20260720-evf-contract-completeness-observer-correction",
+  "session_id": "2026-07-20-evf-contract-completeness-gap-audit",
+  "sigil": "domainspec-subagents-strategy",
+  "capability": {
+    "id": "domainspec-subagents-strategy",
+    "kind": "sigil",
+    "tier": "sigils",
+    "mode": "observe"
+  },
+  "mode": "observe",
+  "request": {
+    "summary": "Correct the workflow-gap payload shape after the closeout observer recorded the gap as a string.",
+    "intent": "Preserve the original append-only signal while recording a schema-valid process-gap observation and updating reflection counters."
+  },
+  "execution": {
+    "status": "completed",
+    "outputs": [
+      "Schema-valid process-gap observation"
+    ],
+    "files_changed": [
+      ".arcanum/observability/tmp/domainspec-subagents-strategy-20260720-evf-contract-completeness-gap-audit.json"
+    ],
+    "validation": [
+      "Workflow gap now uses category, severity, summary, and evidence fields",
+      "Original append-only signal was not rewritten"
+    ],
+    "notes": "This is an observability-schema correction only; it does not change the accepted review verdict or dispatch lifecycle."
+  },
+  "observer": {
+    "quality_bar_status": "pass",
+    "anti_pattern_hits": [],
+    "workflow_gaps": [
+      {
+        "category": "process",
+        "severity": "medium",
+        "summary": "The pre-dispatch check-tension double-pass artifact was not preserved with the dispatch package.",
+        "evidence": "No separate check-tension artifact exists in the registered working folder even though the repository constitution requires the double-pass before dispatch."
+      }
+    ],
+    "output_contract_drift": false,
+    "reflection_trigger": "none",
+    "recommendation": "targeted-update"
+  },
+  "target_artifact": ".arcanum/observability/tmp/domainspec-subagents-strategy-20260720-evf-contract-completeness-gap-audit.json"
+}
