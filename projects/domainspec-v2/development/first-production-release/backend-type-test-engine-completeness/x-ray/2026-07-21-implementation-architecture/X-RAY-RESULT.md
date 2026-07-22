@@ -1,27 +1,40 @@
-# Backend Test Engine Implementation Architecture X-Ray
+# Backend Test Engine Design X-Ray
 
 ## x-ray Result
 
-- Status: `flag`
-- Mode: `architecture`
-- Target boundary: DomainSpec v2 backend structural proof implementation, from versioned machine sources and profile selection through compilation, exact obligation/test derivation, execution, mutation, receipts, replay, and independent consumer receipt validation
-- User intent: understand clearly how the Backend Test Engine will be implemented, not only why Option 2 was selected
+- Status: `pass`
+- Mode: `mixed` (`architecture` + `process`)
+- Target boundary: the validated DomainSpec v2 BTE Design, its current compiler
+  foundations, its graph-to-proof workflow, and its downstream consumer gates
+- User intent: understand concretely how BTE will be implemented and how one
+  ordinary DomainSpec change moves from source to replayable evidence
 - Reader baseline: `newcomer`
 - Output: [`index.html`](index.html)
 - Machine lanes: [`lanes.json`](lanes.json)
+- Machine process instances: [`instances.json`](instances.json)
+- Whisper result: [`WHISPER-RESULT.md`](WHISPER-RESULT.md)
 - Layer interaction: `stacked`, `isolate`, `compare`, `trace`
 - Renderer level: `L0 static HTML/SVG`
 
 ## Status Meaning
 
-The x-ray output passes its structural validation. The inspected architecture is flagged because the current package has a completed Define but no current Design artifact. `IMPLEMENTATION-LAYERING.md` and `PLAN.md` predate audit 002 and contain superseded formation-authority and readiness assumptions. Their code-level detail is evidence of earlier intent, not authorization for implementation.
+The explanation passes the X-Ray structure and evidence-boundary checks. Its
+subject has a validated Invoke Design and is ready for Invoke Plan. This does
+not mean the successor contracts are implemented or admitted, that BTE is
+complete, that either consumer has run, or that a release is approved.
 
-The page therefore separates:
+The page keeps four states separate:
 
-1. source-backed existing code;
-2. requirements-backed proposed architecture;
-3. owner-controlled decisions and admission gates;
-4. missing Design contracts that must be materialized before source work.
+1. **Runs now:** current compiler, formation kernel/adapter, deterministic graph,
+   source manifest, and narrow receipt/replay foundations.
+2. **Design contract:** the architecture, logical record boundaries, exact
+   proof catalogues, failure order, and dependency interfaces now frozen for
+   Plan.
+3. **Build next:** versioned machine schemas, resolver/compiler breadth,
+   graph-to-proof runtime, catalogues, evaluators, mutations, replay, and
+   aggregates still to implement.
+4. **Owner gate:** profile, formation, node-pattern, relationship, catalogue,
+   consumer, and lifecycle admission remains outside BTE self-assertion.
 
 ## Lane Handles
 
@@ -35,83 +48,163 @@ The page therefore separates:
 - risk_questions: `risk.questions`
 - visual_composition: `visual.model`
 
+## Reader On-Ramp
+
+The page begins with the checked-in `UnlockDoor` example. Today the compiler
+can validate its `writes_state` formation, preserve its `produces` and
+`enforces` graph edges, and join those records to source paths and digests.
+
+That is necessary but incomplete. It does not prove that every independently
+required check was derived, uniquely bound, executed, discriminating, and
+replayable. The BTE Design supplies that missing proof path.
+
 ## Architecture Result
 
-The recommended architecture has four non-collapsible planes:
+The Design has four non-collapsible responsibilities:
 
-1. Authority and authored input: successor profile, formation contracts, JSON retirement map, relationship admission, and project/feature/node/edge sources.
-2. Compiler runtime: resolver, contract loader, envelope validation, shared criterion kernel, edge resolution, normalized graph, and source manifest.
-3. Proof and evidence: independent `O_spec`, minted proof adapter, derived `O_gen`, exact-set comparison, TestCase/Binding/Evaluator runtime, execution, mutation, receipts, replay, and `verify:bte:core`.
-4. Independent consumers and gates: fresh IOLM and Body War receipts, `verify:bte:consumers`, terminal `verify:bte`, and externally controlled admission/release decisions.
+1. **Contracts and admission:** the successor profile
+   `feature-with-independent-node-and-edge-files@1`, isolated
+   `formation-v2/` contracts, complete JSON retirement/source migration maps,
+   independent node/edge sources, causal proof selections, and owner handles.
+2. **Source and graph:** explicit profile dispatch, versioned resolver/compiler
+   path, complete formation and relationship validation, one canonical
+   `MintedGraph`, one `MintedSourceManifest`, and a compiler-owned build receipt.
+3. **Proof and evidence:** immutable `ProofContext`, independent `O_spec`,
+   graph-derived `O_gen`, exact-set comparison, TestCase materialization, exact
+   bindings, four bounded evaluator interfaces, execution, clean child-lineage
+   mutations, proof receipts, replay, and `verify:bte:core`.
+4. **Consumers and lifecycle:** independent IOLM and Body War runners, BTE-owned
+   consumer replay, consumer/terminal aggregates, and external admission or
+   release decisions.
 
-The central correction is to add a dedicated `MintedGraph` plus `MintedSourceManifest` proof path. The existing engine entrypoint parses Markdown/aspect documents into a legacy `ConceptGraph`; it must not become the canonical minted-project derivation input. Deterministic utilities may be reused only where their contracts preserve all required profile, source, schema, criterion, evaluator, and digest identities.
+The central correction is the `ProofContext` boundary. It is a typed handle
+envelope over the one canonical graph, manifest, build receipt, profile,
+registries, formation catalogue, and source-set digest. It is not a second
+semantic graph. Any materialized proof rows must be lossless, digest-bound, and
+bijective with the canonical graph/manifest.
+
+## Exact Proof Catalogues
+
+The page presents six proof questions separately:
+
+| Catalogue | Membership |
+| --- | --- |
+| formation criterion | exact 16 kind-scoped criteria |
+| formation structure | exact 13 kind/schema structure bundles |
+| node-kind causality | exact 13 admitted kind witnesses/effects |
+| node-instance conformance | exact nodes in one graph build |
+| relationship-family causality | exact 16 admitted families |
+| edge-instance conformance | exact edges in one graph build |
+
+For each catalogue, equality means the same `coverage_key` across independently
+expected obligation, generated obligation, TestCase, executed result, and
+killed primary mutant. The records keep different artifact IDs; counts alone
+never prove equality.
+
+## Concrete Process Instances
+
+The HTML contains four process instances:
+
+1. **Live compiler:** checked-in `UnlockDoor`, its governing criterion, graph
+   row, source-manifest join, build receipt, and observed invalid-value
+   diagnostic.
+2. **Design proof chain:** the same node continued through `ProofContext`,
+   `O_spec`, `O_gen`, exact comparison, pre-run `TestCase`, exact `Binding`,
+   bounded `Evaluator`, post-run `ExecutionResult`, fresh-lineage
+   `MutationResult`, `ProofReceipt`, and `ReplayResult`. Record values remain
+   illustrative until their machine schemas are built.
+3. **Relationship causality:** the real
+   `HasKeyRule --enforces--> UnlockDoor` edge plus the Design-required causal
+   selection/removal proof, still blocked from core eligibility until exact
+   relationship admission.
+4. **DomainSpec workday:** one requested change moves through current compiler
+   work, Design-defined proof work, independent consumer work, and an owner
+   decision.
+
+The live graph also contains
+`UnlockDoor --produces--> DoorUnlocked`. This proves structural preservation of
+that typed relation and its provenance. It does not prove runtime door behavior
+or universal application semantics.
+
+## Dependency Order
+
+The X-Ray mirrors [DESIGN-LAYERING-SEED.md](../../DESIGN-LAYERING-SEED.md):
+
+1. common handles, IDs/digests, diagnostics, authority classes, exact sets;
+2. formation v2, retirement map, compatibility corpus, false-green control;
+3. successor node/edge source schemas and connection migration;
+4. successor compiler, canonical graph/manifest, build replay;
+5. independent catalogues and admitted causal selections;
+6. one complete obligation proof unit;
+7. complete six-catalogue core proof;
+8. parallel IOLM and Body War handshakes;
+9. consumer and terminal aggregates.
+
+This is a Design dependency seed. Invoke Plan still chooses concrete tasks,
+files, waves, owners, and validation commands.
+
+## Evidence Boundary
+
+### Source-backed
+
+- current machine registries, schemas, compiler/resolver/kernel/adapter behavior;
+- Key and Door source, graph, manifest, receipt, and negative diagnostic;
+- the accepted formation/FPR decisions;
+- `DEFINE.md`, `REQUIREMENTS.md`, and the validated `DESIGN.md` as lifecycle
+  contracts, while remaining non-semantic Markdown;
+- current legacy engine first-match, skip/todo, and tolerant-comparator limits.
+
+### Explanatory inference
+
+- the page layout, four-state visual treatment, record-card wording, and
+  concrete candidate values for machine contracts not implemented yet;
+- suggested internal code homes, which Plan may refine while preserving Design
+  dependency interfaces;
+- the local `exact-proof-chain` visual pattern.
 
 ## Visual Library
 
 Canonical components:
 
-- `shape.node`
-- `shape.boundary`
-- `shape.layer-panel`
-- `shape.risk-marker`
-- `connector.arrow`
-- `connector.branch`
-- `connector.feedback-loop`
-- `chart.timeline-strip`
-- `chart.risk-matrix`
+- `shape.node`, `shape.boundary`, `shape.layer-panel`, `shape.risk-marker`;
+- `connector.arrow`, `connector.branch`, `connector.feedback-loop`;
+- `chart.timeline-strip`, `chart.risk-matrix`.
 
 Canonical patterns:
 
-- `pattern.dependency-boundary`
-- `pattern.lifecycle-stack`
-- `pattern.evidence-inference-split`
+- `pattern.process-branch`;
+- `pattern.dependency-boundary`;
+- `pattern.lifecycle-stack`;
+- `pattern.evidence-inference-split`.
 
-Custom-pattern nudge: a reusable `exact-proof-chain` pattern may be justified after Design validates the stable-ID equality and causal digest chain beyond this one example. It is local explanatory inference in this x-ray, not a canonical library addition.
+Custom-pattern nudge: `exact-proof-chain` remains a local explanatory pattern.
+Promote it only after repeated examples prove the same visual contract.
 
-## Evidence Boundary
+## Remaining Gates
 
-Source-backed facts include current code modules and behaviors, requirements, the accepted formation direction, current-v1 profile declarations, exact denominators, gap states, the existing compiler graph/manifest, the legacy engine input path, first-match bindings, and skip/todo emitter behavior.
-
-Inference includes the four-plane decomposition, dedicated minted proof IR, proposed module names and homes, immutable stage-record style, and seven implementation slices. These recommendations preserve the live requirements but require Invoke Design acceptance.
-
-## Reader On-Ramp
-
-The page introduces the architecture as four plain-language planes before using local terms. It defines authority plane, compiler plane, proof plane, normalized graph, source manifest, independent catalogue, binding, evaluator, mutation, receipt/replay, and exact-set proof with why-it-matters and misuse warnings.
+- Plan must repair the explicit requirement trace to FPR-02 Resolved Decision
+  9 while regenerating the stale execution package.
+- Formation/profile, node-pattern, relationship, and independent catalogue
+  handles still require their owning admission/freeze actions.
+- All successor machine contracts, proof runtime, replay, aggregates, and
+  consumer handshakes remain implementation work.
+- UI stays in its independent lane.
+- Only lifecycle owners may promote FPR, release, or production state.
 
 ## Validation
 
-- X-ray example validation: `PASS`
-- Lane schema: canonical `arcanum/arcana/x-ray/schemas/xray-lane-model.schema.yml`
-- Required layer controls: present
-- All nine lanes and reader outcomes: present
-- Source-backed and inference labels: present
-- Local linked source artifacts: present
-- Remote scripts, stylesheets, images, and links: absent
-- First schema pass: blocked on unsupported mixed authority labels and a missing external-dependency reader outcome; both were corrected before the final pass
-- Browser screenshot inspection: unavailable because the environment has no Chromium executable; the page will be served for direct browser review
+- canonical lane schema and X-Ray validator: pass;
+- all nine lane handles, reader contract, reader terms, outcomes, and
+  readability dynamics: present;
+- four process instances and current/Design/build/owner state labels: present;
+- local JSON, HTML structure, JavaScript syntax, and links: pass;
+- remote scripts, stylesheets, images, and links: absent;
+- DomainSpec v2 tool tests: `147/147`;
+- test-derivation engine tests: `107/107`;
+- TypeScript typecheck: pass.
 
-## Missing Design Contracts
+## Next Route
 
-Invoke Design must still freeze at least:
-
-- successor profile ID/version and formation-authority record;
-- JSON-to-YAML retirement-map schema, migration statuses, compatibility corpus, and failure precedence;
-- literal `required_structure`, Interface/Mapping closed domains, and structural Value Object equality;
-- independent edge schema, source roots, scope/direction/order/lifecycle rules, and relationship admission handle;
-- minted proof IR and obligation identity schema;
-- TestCase, Binding, Evaluator, ExecutionResult, MutationResult, Receipt, and replay schemas;
-- exact aggregate manifests and error taxonomy;
-- accepted module boundaries and filenames;
-- regenerated implementation layering, Plan, work-pack dependencies, and next Task Session candidate.
-
-## Signal Observer Result
-
-- Observed sigil: `x-ray`
-- Result: `recorded`
-- Ledger: `.arcanum/observability/signals/sigil-invocations.jsonl`, line 269
-- Signals: quality pass, user-correction rework, one low process gap, one medium intent-routing gap, and one high missing-Design input gap
-- Quality Bar: `pass`
-- Anti-Pattern hits: none in the revised run
-- Reflection trigger: `manual`
-- Recommendation: `reflect-now`
-- Validation: the first observer attempt exposed an empty-run-ID dedupe collision; adding a unique run ID recorded the distinct invocation successfully
+Invoke Plan against the validated Design and layering seed. The X-Ray is an
+explanation surface, not a Plan, machine schema, proof receipt, admission, or
+release decision.
