@@ -1,48 +1,77 @@
-# Execution Pack — Backend Type Test Engine Completeness
+---
+artifact: bte-execution-pack
+status: validated-gated
+updatedAt: 2026-07-23
+semanticAuthority: none
+---
 
-## Planning Control Fields
+# Execution Pack — Backend Graph To Proof
+
+## Planning Control
 
 | Field | Value |
 | --- | --- |
-| planningGateStatus | `ready-after-decision-gate` |
-| complexity | `high` |
-| baselineWave | W0 |
-| activePlanRef | `WORK-PACK.md` |
-| workPackManifest | `WORK-PACK.md` |
-| layeringArtifact | `IMPLEMENTATION-LAYERING.md` |
-| activeLayerWindow | `n/a` |
-| lastPlannedAt | `2026-07-17T05:20:00-03:00` |
-| readinessProfile | release-candidate evidence; non-admission |
+| planning gate | `pass` |
+| execution handoff | `gated` |
+| selected SWU | `none` |
+| candidate | `SWU-BTE-L0A-001` |
+| gate residue | explicit selection only; validation-owner red manifest/freeze gates L0B later |
+| active plan | `WORK-PACK.md` |
+| layering | `IMPLEMENTATION-LAYERING.md` |
+| dispatch | `EXECUTION-DISPATCH.json` |
+| historical route | `work-pack/HISTORICAL-MAP.md` |
 
 ## Wave Board
 
-| Wave | Layer | Question | Tasks/SWUs | Entry gate | Exit evidence | State |
+| Wave | Layer | Question | Task | Entry | Exit | State |
 | --- | --- | --- | --- | --- | --- | --- |
-| [W0](work-pack/waves/W0-OWNER-GATE.md) | gate | Is the exact backend profile, node/edge topology, and claim boundary owner-selected? | accepted FPR-02B Decision Gate | FPR-01 and lane split closed | accepted decision receipt | pass |
-| [W1](work-pack/waves/W1-SHARED-KERNEL.md) | L0 | Can one kernel serve Markdown, instance, and node surfaces? | CONTRACT 001; NODE 003 | W0 pass | eight rule-form parity proof | in-progress — 001 complete; 003 next |
-| [W2](work-pack/waves/W2-ALL-BACKEND-KINDS.md) | L1 | Can the node/edge style represent and discriminate every backend kind and signature? | CONTRACT 002; NODE 004; EDGE COVERAGE | W1 pass | 13 positive nodes, 16 positive edges, causal mutants | pending predecessor |
-| [W3](work-pack/waves/W3-OBLIGATION-PROOF.md) | L2 | Does the engine execute exactly an independent structural obligation set? | OBLIGATIONS 005; DERIVATION 006–007 | W2 pass | exact-set and execution/mutation receipts | pending predecessor |
-| [W4](work-pack/waves/W4-INTEGRATE-VERIFY.md) | L3 | Do BTE and both consumer proofs fail closed and replay reproducibly? | INTEGRATION 008 core; external IOLM and Body War receipt gates; 010 consumer manifest; VERIFY exemption | W3 pass + W2 edge/16-signature receipt | core, consumer, terminal, and independent replay receipts | pending predecessor |
+| [W0](work-pack/waves/W0-REFRESH-HANDOFF.md) | gate | Is the refreshed package valid and one candidate explicitly selectable? | Plan validation only | accepted decision/refresh | dispatch/Distill/digests pass; user selection | ready-for-selection |
+| [W1](work-pack/waves/W1-L0-PROOF-PRIMITIVES.md) | L0A | Are complete contracts published before red cases are authored? | L0A contract publication | W0 | exact non-admitting contract-publication receipt | candidate-unselected |
+| [W1B](work-pack/waves/W1B-L0-VALIDATION-EXECUTION.md) | L0B | Do unchanged contracts reject independently frozen red cases? | L0B semantic validation | L0A receipt plus matching owner freeze | non-admitting ValidationReceipt | predecessor/owner-gated |
+| [W2](work-pack/waves/W2-L1-FORMATION-V2.md) | L1 | Does formation-v2 replace current JSON constraints without losing compatibility? | L1 formation-v2 | L0B ValidationReceipt | retirement/migration/compatibility receipt | predecessor-gated |
+| [W3](work-pack/waves/W3-L2-SUCCESSOR-SOURCES.md) | L2 | Can versioned independent node/edge sources resolve without fallback? | L2 successor sources | L1 receipt | resolver/source-set receipt | predecessor-gated |
+| [W4](work-pack/waves/W4-L3-COMPILER-GRAPH.md) | L3 | Does the successor compile to one deterministic graph/build handle? | L3 compiler/graph | L2 receipt | BuildReceipt plus build ReplayResult | predecessor-gated |
+| [W5](work-pack/waves/W5-L4-CATALOGUES.md) | L4 | Are all six denominators and causal selections independently exact? | L4 catalogues | L3 handles | freezes/admissions or typed gate residue | predecessor/owner-gated |
+| [W6](work-pack/waves/W6-L5-PROOF-UNIT.md) | L5 | Can one obligation traverse the full proof chain? | L5 proof unit | one eligible L4 member | one complete ReplayResult | predecessor-gated |
+| [W7](work-pack/waves/W7-L6-CORE.md) | L6 | Do six exact catalogue scopes recompose into core? | L6 core | L5 plus all freezes/admissions | `verify:bte:core` AggregateResult | predecessor/owner-gated |
+| [W8](work-pack/waves/W8-L7-CONSUMERS.md) | L7A/L7B | Do both consumers independently preserve one core handle? | IOLM and Body War | exact green core | two consumer ReplayResults | parallel-after-core |
+| [W9](work-pack/waves/W9-L8-AGGREGATES.md) | L8 | Do exact core and consumer handles compose fail-closed? | L8 aggregates | both L7 replays | consumer and terminal AggregateResults | predecessor-gated |
 
 ## Ordering And Parallelism
 
-- W0 is strictly sequential and human-owned.
-- Within W1, `SWU-BTE-003` depends on `SWU-BTE-001`; no parallel execution.
-- Within W2, profile binding precedes corpus completion because fixtures must declare one exact profile.
-- Within W3, the independent catalogue precedes engine exact-set comparison; derivation precedes emission.
-- W4 is sequential: 008 core, independently owned IOLM run, independently owned Body War run, 010 consumer validation, then independent verification. Consumer work cannot begin before the green core receipt exists.
-- No whole-wave execution is authorized. Select one SWU at a time through Task Session; the UI lane is never joined.
+- W0–W7 are sequential evidence gates, with the validation-owner freeze between
+  W1/L0A and W1B/L0B.
+- W8 contains exactly two parallel lanes with disjoint consumer write scopes.
+- W9 joins both W8 ReplayResults and the unchanged exact W7 core handle.
+- A wave is never an execution unit. Task Session receives exactly one selected
+  SWU and one strict context pack.
+- Later task SWUs are created only after their predecessor receipts exist.
 
 ## Closure Obligations
 
-1. Exact 13-kind profile, exact 16-signature backend profile, and no UI admission.
-2. Exactly one YAML schema per admitted kind.
-3. All current criterion rule forms evaluated through one kernel.
-4. Positive exercise for every kind and killed mutation for every criterion.
-5. Independent `O_spec` and exact derived/executed equality.
-6. Zero skip/todo/orphan/unrunnable/surviving-mutant residue.
-7. Missing and empty release witnesses fail closed.
-8. `verify:bte:core` records and replays source/profile/schema/tool/core evidence and remains non-admitting.
-9. Fresh, independently produced IOLM and Body War receipts exist after core; fixture/schema-only evidence is rejected.
-10. `verify:bte:consumers` validates the external receipt handles and their exact identities, raw digests, posture, and non-admission.
-11. Terminal `verify:bte` composes `verify:bte:core + verify:bte:consumers` before independent replay.
+1. Current v1 and completed 001/003 evidence remain byte-identical.
+2. Formation-v2 maps every retired JSON constraint to a YAML-owned replacement
+   or an explicit compatible/deferred disposition.
+3. Exact project/feature/node/edge/source-set contracts and resolver roots are
+   version-hard and provenance complete.
+4. All six nonempty catalogues close by stable coverage key and compatible
+   governing handle, never count.
+5. Every required key has exactly one TestCase, ExecutionResult, and primary
+   MutationResult projection.
+6. Receipt/replay scope partitions are explicit, non-overlapping, and exactly
+   recompose each catalogue.
+7. Zero skip, todo, orphan, unrunnable, unsupported-required, surviving-mutant,
+   or unreplayed residue remains.
+8. IOLM includes graph/hierarchy/table parity and Body War proves exact redaction
+   through consumer-owned runs.
+9. `verify:bte:core`, `verify:bte:consumers`, and terminal `verify:bte` reject
+   missing, empty, extra, duplicate, stale, self-authored, or literal-pass input.
+10. All outputs remain non-admitting and UI-independent.
+
+## Stop And Reroute
+
+Stop at the first failed entry gate or write-boundary violation. Route source or
+architecture changes to Invoke Design; planning/handle drift to Invoke Refresh;
+missing admission/freeze to its owner; bounded implementation to Task Session;
+consumer work to the corresponding consumer owner. Never repair a failed gate
+inside a downstream SWU.

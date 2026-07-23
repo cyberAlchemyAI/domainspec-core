@@ -1,7 +1,7 @@
 ---
 artifact: invoke-requirements
-status: candidate-complete-design-gated
-updatedAt: 2026-07-21
+status: candidate-complete-plan-traced
+updatedAt: 2026-07-23
 owner: DomainSpec-v2 backend-type-test-engine-completeness
 semanticAuthority: none
 sourceDefine: DEFINE.md
@@ -25,16 +25,25 @@ means implemented unless the evidence column names a current receipt.
 
 ## Acceptance Equation
 
-For each admitted proof catalogue, acceptance requires nonempty exact stable-ID
-sets:
+For each required proof catalogue, acceptance requires a nonempty exact
+coverage-key set:
 
 ```text
-O_spec = O_gen = T_gen = E_run = M_killed
+Set(O_spec.coverage_key)
+  = Set(O_gen.coverage_key)
+  = Set(TestCase.coverage_key)
+  = Set(ExecutionResult.coverage_key)
+  = Set(primary MutationResult.coverage_key)
 ```
 
-Counts are diagnostic only. The comparator must reject missing, extra,
-duplicate, stale, empty, orphan, unrunnable, skipped, todo, unsupported without
-typed residue, and surviving-mutant entries.
+Every required key occurs exactly once in the TestCase, ExecutionResult, and
+primary MutationResult projections; positive, negative, and mutation roles
+remain internal to their one TestCase bundle. ProofReceipt and ReplayResult
+scopes may partition a catalogue only when the scopes are explicit,
+non-overlapping, and their exact recomposition equals the required coverage-key
+set. Counts are diagnostic only. The comparator must reject missing, extra,
+duplicate, stale, empty, overlapping, incompatible, orphan, unrunnable,
+skipped, todo, unsupported-without-typed-residue, and surviving-mutant entries.
 
 ## Authority And Versioning
 
@@ -46,6 +55,7 @@ typed residue, and surviving-mutant entries.
 | `DSV2-BTE-R-AUTH-004` | Current-v1 and any successor profile must have distinct IDs, versions, source layouts, contracts, fixtures, digests, receipts, and admission states. | required | `GAP-002`, `GAP-029` | profile schemas, migration/compatibility fixtures, receipts; profile owner |
 | `DSV2-BTE-R-AUTH-005` | Profile, kind registry, relationship registry, formation schema, criterion, kernel, and adapter identities/versions/digests must propagate through compiler output, graph, obligations, tests, bindings, results, receipts, and replay. | required | `GAP-005` | digest-chain negative controls; compiler/evidence owners |
 | `DSV2-BTE-R-AUTH-006` | A source or governing-contract byte change must invalidate all stale downstream bindings and receipts and reopen the affected denominator. | required | `GAP-005`, `GAP-018`, `GAP-022` | mutation/replay tests; evidence owner |
+| `DSV2-BTE-R-AUTH-007` | The L0 machine contract set and closed diagnostic registry must be published with exact digests before the independent validation owner authors or freezes red cases. Contract publication emits no `ValidationReceipt`; semantic execution starts only from the unchanged publication receipt plus a matching validation-owner freeze. | required | `GATE-BTE-L0-BOOTSTRAP`, `GATE-BTE-L0-FREEZE` | L0A contract-publication receipt, independent red manifest/freeze, then L0B ValidationReceipt; BTE contract and validation owners |
 
 ## Formation And Compiler Parity
 
@@ -93,6 +103,7 @@ name.
 | `DSV2-BTE-R-GRAPH-005` | `orchestrates` must preserve and replay target order/ordinal; set equality alone is insufficient. | required | `GAP-014` | ordered-edge fixtures and replay; graph owner |
 | `DSV2-BTE-R-GRAPH-006` | Multiplicity and inverse obligations enter the proof set only when the relationship owner explicitly selects them; the 21/29 derived expansions cannot silently enlarge `D_rel`. | admission-blocked | `GAP-004`, `GAP-013`, `GAP-024` | admission disposition; relationship owner |
 | `DSV2-BTE-R-GRAPH-007` | The canonical minted graph and source manifest must feed the BTE derivation entrypoint. A parallel feature-document/Markdown-only graph cannot establish minted-project completeness. | required | `GAP-016` | graph adapter and causal empty-derivation negative; engine owner |
+| `DSV2-BTE-R-GRAPH-008` | FPR-02 Resolved Decision 9 requires an exact 13-row owner-selected node-pattern catalogue. Every admitted backend kind must name one active node-to-pattern binding, canonical witness selector, deterministic implementation-obligation or output-contract identity, expected effect, and causal removal delta; catalogue, TestCase, primary mutation, receipt, and independent replay evidence must preserve that exact selection. | admission-blocked | FPR-02 Resolved Decision 9; `BTE-RFR-001` | node-pattern selection/admission handle, 13 exact causal proof units, and catalogue ReplayResult; node-pattern and validation owners |
 
 ## Obligation And Test Derivation
 
@@ -174,6 +185,7 @@ The following are `deferred`, not hidden acceptance criteria:
 | `GAP-013` | `GRAPH-003`, `GRAPH-004`, `GRAPH-006` |
 | `GAP-014` | `GRAPH-005` |
 | `GAP-016` | `GRAPH-007`, `DERIVE-002` |
+| FPR-02 Resolved Decision 9 / `BTE-RFR-001` | `GRAPH-008` |
 | `GAP-017` | `DERIVE-001`–`DERIVE-003` |
 | `GAP-018` | `RUN-001`, `RUN-002` |
 | `GAP-019` | `DERIVE-004`, `DERIVE-005`, `RUN-005` |

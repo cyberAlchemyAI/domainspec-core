@@ -1,3 +1,5 @@
+> **Historical, non-executable after 2026-07-22.** See `../HISTORICAL-MAP.md` for the L2/L4/L6 replacement route.
+
 # TASK-BTE-EDGE-COVERAGE — Independent edge roots and causal backend signatures
 
 ## Objective

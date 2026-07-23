@@ -13,6 +13,7 @@
 - Machine lanes: [`lanes.json`](lanes.json)
 - Machine process instances: [`instances.json`](instances.json)
 - Whisper result: [`WHISPER-RESULT.md`](WHISPER-RESULT.md)
+- Copy audit: [`review/2026-07-22-conversational-language-audit/findings.md`](review/2026-07-22-conversational-language-audit/findings.md)
 - Layer interaction: `stacked`, `isolate`, `compare`, `trace`
 - Renderer level: `L0 static HTML/SVG`
 
@@ -23,7 +24,7 @@ subject has a validated Invoke Design and is ready for Invoke Plan. This does
 not mean the successor contracts are implemented or admitted, that BTE is
 complete, that either consumer has run, or that a release is approved.
 
-The page keeps four states separate:
+The page keeps four reader-facing lifecycle states separate:
 
 1. **Runs now:** current compiler, formation kernel/adapter, deterministic graph,
    source manifest, and narrow receipt/replay foundations.
@@ -35,6 +36,11 @@ The page keeps four states separate:
    aggregates still to implement.
 4. **Owner gate:** profile, formation, node-pattern, relationship, catalogue,
    consumer, and lifecycle admission remains outside BTE self-assertion.
+
+The machine companions preserve separate `lifecycle_state`,
+`implementation_state`, `evidence_status`, and `admission_status` axes. Legacy
+composite status strings are mapped explicitly; `external` remains topology,
+not a fifth lifecycle state.
 
 ## Lane Handles
 
@@ -50,9 +56,10 @@ The page keeps four states separate:
 
 ## Reader On-Ramp
 
-The page begins with the checked-in `UnlockDoor` example. Today the compiler
-can validate its `writes_state` formation, preserve its `produces` and
-`enforces` graph edges, and join those records to source paths and digests.
+The page states the BTE boundary directly, then anchors the architecture in the
+checked-in `UnlockDoor` example. Today the compiler can validate its
+`writes_state` formation, preserve its `produces` and `enforces` graph edges,
+and join those records to source paths and digests.
 
 That is necessary but incomplete. It does not prove that every independently
 required check was derived, uniquely bound, executed, discriminating, and
@@ -89,12 +96,12 @@ The page presents six proof questions separately:
 
 | Catalogue | Membership |
 | --- | --- |
-| formation criterion | exact 16 kind-scoped criteria |
-| formation structure | exact 13 kind/schema structure bundles |
-| node-kind causality | exact 13 admitted kind witnesses/effects |
-| node-instance conformance | exact nodes in one graph build |
-| relationship-family causality | exact 16 admitted families |
-| edge-instance conformance | exact edges in one graph build |
+| `formation-criterion@1` | exact 16 kind-scoped criteria |
+| `formation-structure@1` | exact 13 kind/schema structure bundles |
+| `node-kind-causality@1` | exact 13 admitted kind witnesses/effects |
+| `node-instance-conformance@1` | exact nodes in one graph build |
+| `relationship-family-causality@1` | exact 16 admitted families |
+| `edge-instance-conformance@1` | exact edges in one graph build |
 
 For each catalogue, equality means the same `coverage_key` across independently
 expected obligation, generated obligation, TestCase, executed result, and
@@ -118,8 +125,8 @@ The HTML contains four process instances:
    selection/removal proof, still blocked from core eligibility until exact
    relationship admission.
 4. **DomainSpec workday:** one requested change moves through current compiler
-   work, Design-defined proof work, independent consumer work, and an owner
-   decision.
+   work, the Design contract, Build next proof and consumer work, and an Owner
+   gate.
 
 The live graph also contains
 `UnlockDoor --produces--> DoorUnlocked`. This proves structural preservation of
@@ -182,8 +189,9 @@ Promote it only after repeated examples prove the same visual contract.
 
 ## Remaining Gates
 
-- Plan must repair the explicit requirement trace to FPR-02 Resolved Decision
-  9 while regenerating the stale execution package.
+- Plan must repair the missing explicit requirement trace while regenerating
+  the stale execution package. The exact FPR-02 decision identifier remains in
+  the X-Ray provenance note for maintainers.
 - Formation/profile, node-pattern, relationship, and independent catalogue
   handles still require their owning admission/freeze actions.
 - All successor machine contracts, proof runtime, replay, aggregates, and
@@ -196,7 +204,11 @@ Promote it only after repeated examples prove the same visual contract.
 - canonical lane schema and X-Ray validator: pass;
 - all nine lane handles, reader contract, reader terms, outcomes, and
   readability dynamics: present;
-- four process instances and current/Design/build/owner state labels: present;
+- four process instances: present;
+- explicit Runs now / Design contract / Build next / Owner gate mapping:
+  present in HTML and machine companions;
+- lifecycle, implementation, evidence, and admission axes: separately present;
+- accepted C1-C8 and E1-E4 copy-audit corrections: applied;
 - local JSON, HTML structure, JavaScript syntax, and links: pass;
 - remote scripts, stylesheets, images, and links: absent;
 - DomainSpec v2 tool tests: `147/147`;

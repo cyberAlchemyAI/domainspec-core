@@ -1,48 +1,113 @@
 ---
 module: backend-type-test-engine-completeness
-version: current
-status: decision-synchronized-awaiting-task-session
-updatedAt: 2026-07-17
+version: 2026-07-23-l0-bootstrap-split
+status: validated-awaiting-swu-selection
+updatedAt: 2026-07-23
 docType: implementation-layering
+semanticAuthority: none
+sourceDesignDigest: b99abbd87d73106cfc9c2f06e886930f6151d53c6f2e4a854e65f73013827296
 ---
 
-# Implementation Layering: Backend Type Test Engine Completeness
+# Implementation Layering — Backend Graph To Proof
 
 ## Purpose
 
-Sequence the smallest evidence-bearing path from the existing four-kind node package to exact structural verification for all 13 backend kinds. Layer promotion is evidence-based and does not admit a release.
+Order the smallest evidence-bearing path from validated contracts to an exact,
+independently replayable BTE result. A layer answers one decision, emits one
+reviewable evidence boundary, and cannot promote itself from plan status.
 
-## Global Boundary
+## Layer Table
 
-The composability path is `work-pack → wave → task → SWU → receipt`. The active backend release dependency is `FPR-02B → FPR-03 → FPR-04 → FPR-07`; `FPR-02U` is an independent development lane and this package cannot skip either lane's owners. The accepted FPR-02B gate removes the decision dependency but does not grant implementation or production authority.
+| Layer | Decision question | Consumes | Smallest coherent output | Exit evidence | Deferred until later |
+| --- | --- | --- | --- | --- | --- |
+| L0A — contract publication | Can the validation owner receive one complete, immutable machine contract and diagnostic boundary before authoring red cases? | exact Design/seed digests; accepted bootstrap decision | nine shape contracts, closed diagnostic registry, deterministic contract-publication receipt | dialect/keyword closure, exact registry parity, stable bytes/digests, contained writes, no red-input access and no ValidationReceipt | semantic validators, red cases, formation, compiler, graph |
+| L0B — semantic validation | Can unchanged L0A contracts reject independently frozen malformed, ambiguous, forged, stale, or path-escaping proof primitives? | exact L0A publication receipt; matching validation-owner red manifest/freeze | separate deterministic shape/semantic validators and one non-admitting ValidationReceipt | all positive and frozen red cases produce exact codes; manifest/result recomposition, unsupported keyword, and path/write escape fail; receipt independently recomputes | formation, compiler, graph, TestCase, proof receipt |
+| L1 — formation-v2 | Can the successor bind 13 structures and 16 criteria to YAML-owned meaning while retiring every current-v1 JSON constraint explicitly? | L0; frozen v1 handles | structural AST/preflight/evaluator, 13 structure bundles, 16 criterion records, retirement bijection, migration/compatibility corpus | exact predecessor coverage, byte-preserved v1 regressions, reason-specific Entity false-green failure | successor source topology and graph |
+| L2 — successor sources/resolver | Can one versioned source set resolve independent node/edge files without fallback or a second graph? | L0–L1; accepted topology | project/feature/node/edge/source-set contracts, roots, resolver, connections migration | positive same/cross-feature roots plus typed missing/duplicate/path/endpoint/order negatives | proof catalogues and generated tests |
+| L3 — compiler/graph/build replay | Can the successor route compile deterministically to one graph/manifest/build handle? | L1–L2; preserved 001/003 receipts | hard v1/v2 dispatch, successor compiler, graph v2, manifest v2, BuildReceipt, ProofContext, build replay | exact source/graph bijection, stable bytes, independent replay; candidate posture when unadmitted | obligation/test breadth |
+| L4 — catalogues and selections | Is every expected denominator independently frozen and every causal effect owner-selected before derivation? | exact L3 candidate handles | six nonempty catalogues, freezes, 13-row node-pattern and 16-row relationship selections, admission handles/residue | exact owner/version/digest/set validation; no TestCase emitted | execution and aggregate proof |
+| L5 — one proof unit | Can one frozen catalogue member traverse the complete graph-to-replay chain without hidden glue? | L0, L3, one stage-eligible L4 member | O_gen, exact join, TestCase, exact role bindings, raw run, independent evaluation, fresh primary mutation, ProofReceipt, ReplayResult | one reason-specific positive/negative/mutation chain and independent replay | breadth and consumers |
+| L6 — six-catalogue core | Does every required coverage key in all six catalogues recompose exactly into one core aggregate? | L5; all exact admissions/freezes | catalogue ReplayResults and `verify:bte:core` AggregateResult | exact non-overlapping scope recomposition, no residue, seeded breadth/absence/tamper failures | consumer proof and lifecycle promotion |
+| L7A — IOLM | Does IOLM preserve the exact accepted core projection including graph/hierarchy/table parity? | exact green L6 handle; repaired IOLM schema | consumer-owned raw run/receipt plus BTE-owned ReplayResult | missing/parity-drift/stale/self-authored controls fail | Body War and terminal aggregate |
+| L7B — Body War | Does Body War consume the exact core handle through a machine contract without private leak or mutation? | exact green L6 handle; Body War machine package | consumer-owned raw run/receipt plus BTE-owned ReplayResult | schema-only, stale, private-leak, mutation, and self-authored controls fail | IOLM and terminal aggregate |
+| L8 — aggregates | Do exact fresh consumer replays compose with the exact core without changing admission? | L6 plus L7A and L7B replay handles | `verify:bte:consumers` and terminal `verify:bte` AggregateResults | exact-handle independent replay and all missing/extra/stale/duplicate controls | lifecycle decision remains external |
 
-## Layer Decision Table
+L7A and L7B are the only parallel layers. Their writes are disjoint, and neither
+depends on or can repair the other.
 
-| Layer | Decision question | Minimum working unit | Included scope | Deferred scope | Exit evidence | Promotion decision |
-| --- | --- | --- | --- | --- | --- | --- |
-| L0 — Shared criterion proof | After this layer, we know whether one YAML criterion contract can validate Markdown, generated instances, and minted nodes without type-specific rule duplication. | Shared kernel plus adapters covering all eight current rule forms on representative kinds. | Strict YAML subset parsing, preflight, canonical subject, stable violations, parity tests. | All-13 corpus, obligation catalogue, generated tests. | Existing validator suites remain green; representative positive and negative node cases pass/fail identically. | Continue only if no adapter invents semantics and old behavior is preserved. |
-| L1 — Exact backend breadth | After this layer, we know whether the successor node/edge style can represent and discriminate every ratified backend kind and signature. | Candidate backend profile plus 13 positive nodes, 16 positive edges, and typed mutants. | Exact kind/signature/schema binding, independent edge roots, resolver scope, deterministic graph/source manifest. | Independent obligations and executable tests. | `13/13` kinds, `16/16` signatures, causal node/edge witnesses, no UI, stable graph and source anchors. | Continue only after every kind and signature is positively exercised. |
-| L2 — Independent verification generation | After this layer, we know whether the engine derives exactly the authority-owned structural obligation set and executes every check. | Digest-bound `O_spec`, graph adapter, `O_gen`, executable tests, exact-set comparator, per-key mutation evidence. | Structural formation obligations only; zero skip/todo/orphan/unrunnable. | Relationship breadth, semantic satisfiability, code conformance. | `O_spec = O_gen = T_gen = E_run`; every key has execution and killed mutation evidence. | Continue only if the denominator is not owned solely by the generator. |
-| L3 — Release-gate integration | After this layer, we know whether the backend structural claim and both downstream consumer proofs fail closed and are reproducible as one governed validation surface. | Integrated BTE/IOLM/Body War manifest, missing/empty witness negatives, aggregate command, deterministic receipt, independent replay. | Consumer handoffs and non-admission closeout. | UI, semantic satisfiability, business correctness, production authorization. | Clean replay, seeded red failures, exact digests/counts, no false-green missing input, consumer parity. | Route evidence to FPR-04/FPR-07 owners; do not self-admit release. |
+## Entry And Promotion Gates
 
-## Layer Boundary Heuristic
+| From → to | Required evidence | Failure behavior |
+| --- | --- | --- |
+| Plan → L0A | validated atomic package and explicit user selection of `SWU-BTE-L0A-001` | no Task Session; route to plan repair or selection |
+| L0A → L0B | exact publication receipt plus matching validation-owner red manifest/freeze | no semantic execution; route contract drift to L0A and expectation/freeze drift to validation owner |
+| L0B → L1 | exact L0 ValidationReceipt and unchanged publication/Design/seed digests | block formation implementation |
+| L1 → L2 | exact retirement/compatibility receipt; current v1 unchanged | no successor source activation |
+| L2 → L3 | resolver receipt and version-hard source handles | no graph build |
+| L3 → L4 | candidate graph/manifest/build replay plus exact context handle | no catalogue binding |
+| L4 → L5 | matching validation-owner freeze and required stage admission | no TestCase; emit typed gate residue where Design permits |
+| L5 → L6 | one complete ReplayResult proves the mechanism, not breadth | breadth remains red until all six exact catalogues close |
+| L6 → L7A/L7B | exact green core aggregate handle | no consumer run accepted |
+| L7A/L7B → L8 | both fresh consumer ReplayResults reference the same core handle | consumer/terminal nonzero; core remains unchanged |
 
-- L0 stops when the rule evaluator and adapter boundary are proven; adding types before this proof would multiply duplicated logic.
-- L1 stops at exact node-formation breadth; relationship and semantic breadth answer different decisions.
-- L2 stops at executable structural verification; code conformance and business satisfaction are separate contract planes.
-- L3 stops at a reproducible non-admission receipt; release authorization remains external.
+## First Candidate And Accepted Split
 
-## Non-Regression Guardrails
+`SWU-BTE-L0A-001` is the only current candidate and is not selected. It owns
+contract publication, not validation: all machine shapes, supported keyword
+policy, closed diagnostic registry, exact bytes/digests, and a non-admitting
+publication receipt are one coherent handoff to the validation owner.
 
-- Existing engine, content/instance, minted compiler, and deterministic-output tests must remain green.
-- The four-kind experimental profile remains valid until a separately versioned successor is admitted.
-- Missing or empty release witnesses must never pass as complete, even if an empty minted project remains valid at the base compiler layer.
-- Generated artifacts never become semantic authority.
-- Backend-only coverage cannot be described as full-language coverage.
+`SWU-BTE-L0B-001` is a named successor but cannot become dependency-ready until
+L0A has passed and the validation owner has frozen package-local red cases
+against the exact publication digests. L0B owns the shape/semantic validators,
+exact frozen-case execution, and `ValidationReceipt`; it cannot rewrite L0A or
+validation-owned bytes.
 
-## Recommended Next Layer
+This split resolves the bootstrap cycle. A freeze before L0A would guess at
+unpublished schemas and diagnostic codes. Folding L0A and L0B back together
+would let implementation define the measured contract and execute its tests in
+one authority step. The publication receipt is the mechanical handoff, so the
+split introduces no prose glue.
 
-- Next layer: L0 continuation, after a separate authorized Task Session selects `SWU-BTE-003`.
-- Next executable SWU: `SWU-BTE-003` minted-node body adapter.
-- Decision unlocked: whether minted node bodies can reuse the proven YAML criterion kernel across all eight rule forms without semantic invention or a competing evaluator.
-- Major deferred scope: UI/full-language completeness, semantic/application correctness, and production authorization. Backend relationship breadth is now in scope for this package.
+Recomposition:
+
+```text
+L0A published contract/diagnostic digests
+  -> validation-owner red-manifest freeze
+  + L0B semantic result matrix
+  + exact write/output manifest
+  -> non-admitting L0 ValidationReceipt
+  -> exact L1 input handle set
+```
+
+## Evolution Profile
+
+Expected evolution is new contract versions, more catalogue instances, and new
+consumer handshakes—not a universal theorem/evaluator framework. Versioned
+contract registries and bounded evaluator interfaces are the extension points.
+SMT, FOL, Datalog, Cedar, temporal proof, a plugin host, and full code/spec
+equivalence remain typed unsupported residue until a concrete accepted claim
+requires one.
+
+## Non-Regression And Authority Guardrails
+
+- Current-v1 machine sources and completed receipts are immutable.
+- Existing tool tests, engine tests, typecheck, content checks, and instance
+  checks stay green when their surfaces are touched.
+- Generated outputs, receipts, replay, Inventory, Craft, and Markdown never
+  become semantic or admission authority.
+- Missing admission blocks only the affected stage/core eligibility; it does
+  not erase already valid local candidate evidence.
+- Missing validation-owner freeze blocks L0B and later TestCase materialization,
+  but never blocks L0A contract publication.
+- Core has no consumer or UI dependency; terminal proof has both consumers and
+  no UI dependency.
+
+## Frame Expiry
+
+Re-run Invoke Design before execution if the accepted successor profile ID,
+formation authority choice, six catalogue definitions, coverage-key rule,
+TestCase cardinality, evaluator independence rule, mutation lineage rule,
+consumer ownership split, or backend/UI lane split changes. Re-run Invoke Plan
+when paths, commands, task boundaries, admission handles, or predecessor
+receipts change without changing architecture.

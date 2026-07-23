@@ -1,3 +1,5 @@
+> **Historical, non-executable after 2026-07-22.** See `../HISTORICAL-MAP.md` and `W0-REFRESH-HANDOFF.md`.
+
 # W0 — Owner gate
 
 ## Question

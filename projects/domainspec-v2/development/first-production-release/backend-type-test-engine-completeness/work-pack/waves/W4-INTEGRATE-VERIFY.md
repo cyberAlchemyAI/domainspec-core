@@ -1,3 +1,5 @@
+> **Historical, non-executable after 2026-07-22.** See `../HISTORICAL-MAP.md` for W7–W9 replacements.
+
 # W4 — Integrate and independently verify
 
 ## Question

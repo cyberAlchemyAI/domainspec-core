@@ -1,3 +1,5 @@
+> **Historical, non-executable after 2026-07-22.** See `../HISTORICAL-MAP.md`; replay is now an explicit L5–L8 boundary.
+
 # TASK-BTE-VERIFY — Independent closure review
 
 ## Objective

@@ -1,3 +1,5 @@
+> **Historical completed scope after 2026-07-22.** Preserve SWU-BTE-001/003 receipts; see `../HISTORICAL-MAP.md`.
+
 # W1 — Shared criterion kernel
 
 ## Question

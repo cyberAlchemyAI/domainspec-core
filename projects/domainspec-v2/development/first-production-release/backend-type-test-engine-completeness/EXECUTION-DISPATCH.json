@@ -1,17 +1,17 @@
 {
-  "dispatch_id": "20260717-backend-type-test-engine-completeness-refresh-applied",
+  "dispatch_id": "20260723-bte-l0-bootstrap-split-refresh",
   "intent": {
-    "raw": "Apply the approved refresh to backend type-test-engine completeness using the new YAML meta-type files, node JSON, independent edge JSON, and two read-only consumer proofs.",
-    "objective": "Route one-SWU-at-a-time implementation from a shared YAML criterion kernel through exact 13-kind and 16-signature causal evidence, a core receipt, independently produced IOLM and Body War receipts, consumer validation, and terminal independent replay.",
+    "raw": "Execute the refreshed Backend Type Test Engine route one explicitly selected SWU at a time after exact entry evidence exists.",
+    "objective": "Publish complete L0A machine contracts before independent fixture freeze, execute L0B validation after that freeze, then continue through formation-v2, successor graph build, six proof catalogues, core breadth, parallel IOLM and Body War proofs, and terminal independent replay without collapsing authority or lanes.",
     "target_artifact": "projects/domainspec-v2/development/first-production-release/backend-type-test-engine-completeness/WORK-PACK.md",
-    "operator_sentence": "Apply the approved refresh only; do not execute implementation or change release state.",
+    "operator_sentence": "This dispatch describes later bounded execution; the current refresh selects and executes no SWU.",
     "arcanum_vocabulary": [
       "invoke",
-      "decision-gate",
       "context-builder",
       "task-session",
       "dispatch-spec",
-      "distill"
+      "distill",
+      "inventory"
     ]
   },
   "mode": "sequence",
@@ -19,6 +19,7 @@
     "sequence",
     "scu_swu_reduction",
     "recomposition_proof",
+    "artifact_contract_bridge",
     "validation_loop",
     "owner_boundary_check",
     "handle_handoff",
@@ -31,57 +32,62 @@
   ],
   "technique_overlays": [
     {
-      "overlay_id": "one_swu_backend_proof_spine",
-      "trigger": "The plan spans contract, corpus, independent denominator, generated execution, mutation, and release evidence.",
+      "overlay_id": "one_selected_swu_with_exact_entry_evidence",
+      "trigger": "The active plan has one candidate but later layers cannot be decomposed safely until predecessor handles exist.",
       "techniques": [
         "sequence",
         "scu_swu_reduction",
-        "recomposition_proof",
+        "handle_handoff",
         "validation_loop",
-        "handle_handoff"
+        "execution_receipt_handoff"
       ],
       "applies_to_steps": [
-        "s01-verify-profile-gate",
-        "s02-build-swu-context",
-        "s03-run-one-swu",
-        "s04-independent-verify",
-        "s05-refresh-plan"
+        "s01-validate-plan",
+        "s02-build-context",
+        "s03-preflight-entry",
+        "s04-run-one-swu",
+        "s05-verify-result",
+        "s06-refresh-route"
       ],
-      "validation_expectation": "Each selected SWU returns a receipt before its dependent unit is eligible; no whole wave is executed as one task."
+      "validation_expectation": "Exactly one user-selected SWU receives a strict context pack, exact predecessor/freeze/admission handles, bounded writes, and one terminal receipt before a later route is considered."
     },
     {
-      "overlay_id": "independent_denominator_and_release_boundary",
-      "trigger": "The engine under test must not define its own expected obligation set or promote its evidence into release authority.",
+      "overlay_id": "six_catalogue_authority_and_replay_split",
+      "trigger": "Core proof spans semantic sources, admissions, validation-owner denominators, generated execution, independent replay, consumers, and lifecycle owners.",
       "techniques": [
+        "artifact_contract_bridge",
         "owner_boundary_check",
         "authority_split_gate",
         "state_namespace_boundary",
-        "execution_receipt_handoff",
+        "recomposition_proof",
+        "residue_ledger",
         "concrete_path_evidence",
-        "residue_ledger"
+        "observability_grouping"
       ],
       "applies_to_steps": [
-        "s01-verify-profile-gate",
-        "s03-run-one-swu",
-        "s04-independent-verify",
-        "s05-refresh-plan"
+        "s01-validate-plan",
+        "s03-preflight-entry",
+        "s04-run-one-swu",
+        "s05-verify-result",
+        "s06-refresh-route"
       ],
-      "validation_expectation": "Profile admission, YAML authority, independent O_spec, generated O_gen, execution receipts, and release state remain separately owned."
+      "validation_expectation": "No owner or object may supply a fact owned by another altitude; all six catalogue scopes and both consumer replays must recompose exactly from raw handles."
     }
   ],
   "subagent_strategy": {
     "status": "none",
-    "trigger": "The next eligible implementation is one bounded minted-node adapter SWU with deterministic local checks.",
-    "explanation": "Use one local Task Session per SWU. Any delegated or parallel execution requires a separate DomainSpec subagent strategy and user confirmation.",
+    "trigger": "The current handoff permits only one bounded Task Session SWU; parallelism appears only in later consumer tasks and requires its own user-approved dispatch when reached.",
+    "explanation": "Use local deterministic Task Session execution for one selected SWU. This descriptive plan dispatch does not authorize delegated work.",
     "context": [
-      "SWU-BTE-003 is the narrowest next unit after the completed SWU-BTE-001 kernel receipt.",
-      "SWU-BTE-002 remains W1-exit gated; SWU-BTE-004 through SWU-BTE-010 remain predecessor and Task Session gated."
+      "SWU-BTE-L0A-001 is dependency-ready, candidate-only, and unselected; it consumes no red manifest.",
+      "SWU-BTE-L0B-001 remains predecessor-and-owner-gated until the L0A publication receipt and matching independent freeze exist.",
+      "L7A and L7B may later run in parallel only after one exact green core handle exists and disjoint write scopes are revalidated."
     ],
     "roles": [],
     "parallelism": "none",
     "join_policy": "none",
     "authorization": "not_needed",
-    "permission_prompt": "No subagent execution is authorized by this planning dispatch.",
+    "permission_prompt": "No subagent execution is authorized by this dispatch.",
     "receipt_requirements": []
   },
   "subagent_lifecycle": {
@@ -90,56 +96,40 @@
   },
   "steps": [
     {
-      "step_id": "s01-verify-profile-gate",
-      "name": "Verify the accepted FPR-02B supported-profile decision",
-      "capability_ref": "decision-gate",
-      "capability_status": "local-extension",
-      "capability_metadata": {
-        "source": ".agents/skills/decision-gate/SKILL.md",
-        "owner": "Arcanum decision governance",
-        "validation": "installed repository-local generated capability"
-      },
-      "mode": "verify-accepted-decision",
-      "pattern": "decision",
+      "step_id": "s01-validate-plan",
+      "name": "Validate the refreshed atomic plan and preserved handles",
+      "capability_ref": "invoke",
+      "mode": "refresh-validation",
+      "pattern": "validation",
       "parallel": false,
       "techniques": [
+        "artifact_contract_bridge",
+        "recomposition_proof",
         "owner_boundary_check",
-        "authority_split_gate",
         "concrete_path_evidence"
       ],
       "inputs": [
-        {
-          "kind": "decision",
-          "ref": "../decisions/2026-07-17-fpr02-supported-profile-decision.md"
-        },
-        {
-          "kind": "artifact",
-          "ref": "work-pack/shared/DECISIONS.md"
-        },
-        {
-          "kind": "artifact",
-          "ref": "../../../definitions/minted-project/supported-profiles.yml"
-        }
+        {"kind": "artifact", "ref": "DESIGN.md"},
+        {"kind": "artifact", "ref": "DESIGN-LAYERING-SEED.md"},
+        {"kind": "artifact", "ref": "PLAN.md"},
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "work-pack/HISTORICAL-MAP.md"}
       ],
       "outputs": [
-        {
-          "kind": "decision",
-          "ref": "../decisions/2026-07-17-fpr02-supported-profile-decision.md"
-        },
-        {
-          "kind": "trace_event",
-          "ref": "20260717-backend-type-test-engine-completeness-refresh-applied:profile-gate-accepted"
-        }
+        {"kind": "artifact", "ref": "refreshes/2026-07-23-l0-bootstrap-split/apply-receipt.json"},
+        {"kind": "trace_event", "ref": "20260723-bte-l0-bootstrap-split-refresh:plan-validated"}
       ],
+      "evidence_artifact": "refreshes/2026-07-23-l0-bootstrap-split/apply-receipt.json",
       "stop_conditions": [
-        "Accepted decision is missing or no longer PASS",
-        "Production or implementation authorization is incorrectly set true",
-        "UI lane is treated as a dependency"
+        "Any preserved Design, decision, current-v1, or completed receipt handle differs",
+        "The active package has a stale task, wave, SWU, command, or dependency reference",
+        "An owner gate is represented as granted without an exact handle",
+        "UI is present in the backend dependency graph"
       ]
     },
     {
-      "step_id": "s02-build-swu-context",
-      "name": "Build strict context for one eligible SWU",
+      "step_id": "s02-build-context",
+      "name": "Build a strict runtime context for one explicitly selected SWU",
       "capability_ref": "context-builder",
       "mode": "lean-strict-runtime",
       "pattern": "sequential",
@@ -151,98 +141,87 @@
         "state_namespace_boundary"
       ],
       "inputs": [
-        {
-          "kind": "decision",
-          "ref": "s01-verify-profile-gate"
-        },
-        {
-          "kind": "artifact",
-          "ref": "WORK-PACK.md"
-        },
-        {
-          "kind": "artifact",
-          "ref": "work-pack/shared/CONTEXT.md"
-        }
+        {"kind": "receipt", "ref": "s01-validate-plan"},
+        {"kind": "human_answer", "ref": "explicit selected SWU ID"},
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "selected work-pack/tasks/TASK-BTE-L*.md"}
       ],
       "outputs": [
-        {
-          "kind": "frame",
-          "ref": "future Task Session evidence/CONTEXT-PACK.md"
-        },
-        {
-          "kind": "handle",
-          "ref": "future Task Session evidence/CONTEXT-PACK.index.json"
-        },
-        {
-          "kind": "trace_event",
-          "ref": "20260717-backend-type-test-engine-completeness-refresh-applied:swu-context-ready"
-        }
+        {"kind": "frame", "ref": "future work-pack/session-evidence/<swu>/<run>/CONTEXT-PACK.md"},
+        {"kind": "handle", "ref": "future work-pack/session-evidence/<swu>/<run>/context-pack.json"},
+        {"kind": "trace_event", "ref": "20260723-bte-l0-bootstrap-split-refresh:context-ready"}
       ],
       "stop_conditions": [
-        "More than one SWU is selected",
-        "Any acceptance obligation lacks exact source evidence",
-        "Write scope or validation surface is missing",
-        "SWU-BTE-008 is selected before SWU-BTE-009 and SWU-BTE-004 through SWU-BTE-007 are complete",
-        "SWU-BTE-010 is selected before a green verify:bte:core receipt and fresh independently produced IOLM and Body War receipt handles exist"
+        "Zero or more than one SWU is selected",
+        "Any consumes, emits, write, negative, stop, or validation obligation is uncovered",
+        "A required predecessor, admission, or freeze handle is absent or stale",
+        "The candidate task is historical or has no current parent task"
       ]
     },
     {
-      "step_id": "s03-run-one-swu",
-      "name": "Execute one selected SWU",
+      "step_id": "s03-preflight-entry",
+      "name": "Fail closed on exact entry handles and write boundaries",
+      "capability_ref": "task-session",
+      "mode": "preflight-one-swu",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": [
+        "validation_loop",
+        "owner_boundary_check",
+        "authority_split_gate",
+        "state_namespace_boundary",
+        "concrete_path_evidence"
+      ],
+      "inputs": [
+        {"kind": "frame", "ref": "s02-build-context"},
+        {"kind": "handle", "ref": "s02-build-context"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "future Task Session preflight receipt"},
+        {"kind": "trace_event", "ref": "20260723-bte-l0-bootstrap-split-refresh:entry-pass-or-block"}
+      ],
+      "evidence_artifact": "future Task Session preflight receipt",
+      "stop_conditions": [
+        "A required handle cannot be resolved and recomputed",
+        "The effective write scope overlaps a forbidden or validation-owner source",
+        "A planned command is treated as currently runnable before its owning SWU materializes it",
+        "The implementation under test can author its expected values or catalogue freeze"
+      ]
+    },
+    {
+      "step_id": "s04-run-one-swu",
+      "name": "Execute exactly one selected SWU",
       "capability_ref": "task-session",
       "mode": "execute-one-swu",
       "pattern": "handoff",
       "parallel": false,
       "techniques": [
         "validation_loop",
+        "execution_receipt_handoff",
         "owner_boundary_check",
         "authority_split_gate",
-        "execution_receipt_handoff",
         "residue_ledger"
       ],
       "inputs": [
-        {
-          "kind": "frame",
-          "ref": "s02-build-swu-context"
-        },
-        {
-          "kind": "handle",
-          "ref": "s02-build-swu-context"
-        },
-        {
-          "kind": "artifact",
-          "ref": "selected work-pack/tasks/TASK-BTE-*.md"
-        }
+        {"kind": "receipt", "ref": "s03-preflight-entry"},
+        {"kind": "frame", "ref": "s02-build-context"}
       ],
       "outputs": [
-        {
-          "kind": "handle",
-          "ref": "future Task Session receipt.json"
-        },
-        {
-          "kind": "ledger",
-          "ref": "future Task Session result.md"
-        },
-        {
-          "kind": "trace_event",
-          "ref": "20260717-backend-type-test-engine-completeness-refresh-applied:swu-completed-or-blocked"
-        }
+        {"kind": "receipt", "ref": "future Task Session execution receipt"},
+        {"kind": "ledger", "ref": "future Task Session result"},
+        {"kind": "trace_event", "ref": "20260723-bte-l0-bootstrap-split-refresh:swu-terminal"}
       ],
       "stop_conditions": [
-        "Write outside the selected SWU scope",
-        "A second YAML parser or criterion evaluator is introduced",
-        "The engine writes its own independent O_spec denominator",
-        "SWU-BTE-008 executes before edge-coverage SWU-BTE-009 is complete",
-        "SWU-BTE-008 executes, authors, or validates IOLM or Body War consumer evidence",
-        "SWU-BTE-010 executes before verify:bte:core and both fresh external consumer receipts exist",
-        "A fixture, schema, example, stale receipt, or BTE-authored receipt substitutes for an independently produced consumer run",
-        "A backend formation result is promoted to release authority",
-        "Validation fails"
+        "A write leaves the selected SWU allowlist",
+        "A preserved source, admission, freeze, expectation, raw result, or historical receipt is rewritten",
+        "A validator ignores an unsupported keyword or diagnostic",
+        "Any required negative passes for the wrong reason",
+        "A receipt, replay, aggregate, or consumer claims authority outside its altitude"
       ]
     },
     {
-      "step_id": "s04-independent-verify",
-      "name": "Independently verify completed proof layers",
+      "step_id": "s05-verify-result",
+      "name": "Independently validate SWU closure and layer recomposition",
       "capability_ref": "distill",
       "mode": "validate",
       "pattern": "validation",
@@ -250,69 +229,30 @@
       "techniques": [
         "validation_loop",
         "recomposition_proof",
-        "authority_split_gate",
-        "execution_receipt_handoff"
+        "execution_receipt_handoff",
+        "authority_split_gate"
       ],
       "inputs": [
-        {
-          "kind": "handle",
-          "ref": "s03-run-one-swu"
-        },
-        {
-          "kind": "handle",
-          "ref": "future SWU-BTE-008 verify:bte:core receipt"
-        },
-        {
-          "kind": "handle",
-          "ref": "future independently produced IOLM consumer receipt"
-        },
-        {
-          "kind": "handle",
-          "ref": "future independently produced Body War consumer receipt"
-        },
-        {
-          "kind": "handle",
-          "ref": "future SWU-BTE-010 verify:bte:consumers and terminal manifest receipt"
-        },
-        {
-          "kind": "artifact",
-          "ref": "DISTILL-VALIDATION.md"
-        },
-        {
-          "kind": "artifact",
-          "ref": "work-pack/tasks/TASK-BTE-VERIFY.md"
-        }
+        {"kind": "receipt", "ref": "s04-run-one-swu"},
+        {"kind": "ledger", "ref": "s04-run-one-swu"},
+        {"kind": "artifact", "ref": "selected work-pack/tasks/TASK-BTE-L*.md"},
+        {"kind": "artifact", "ref": "IMPLEMENTATION-LAYERING.md"}
       ],
       "outputs": [
-        {
-          "kind": "artifact",
-          "ref": "future independent core receipt replay result"
-        },
-        {
-          "kind": "artifact",
-          "ref": "future independent external-consumer receipt replay result"
-        },
-        {
-          "kind": "artifact",
-          "ref": "future independent terminal manifest replay result"
-        },
-        {
-          "kind": "trace_event",
-          "ref": "20260717-backend-type-test-engine-completeness-refresh-applied:verification-pass-flag-or-block"
-        }
+        {"kind": "receipt", "ref": "future independent SWU verification receipt"},
+        {"kind": "trace_event", "ref": "20260723-bte-l0-bootstrap-split-refresh:verification-pass-flag-or-block"}
       ],
-      "evidence_artifact": "future independent verification receipt",
+      "evidence_artifact": "future independent SWU verification receipt",
       "stop_conditions": [
-        "Core, IOLM, Body War, consumer-manifest, or terminal receipt identities are collapsed or indistinguishable",
-        "Exact sets or digests differ",
-        "Evidence is missing or empty",
-        "Any test is skipped, todo, orphaned, or undiscovered",
-        "Any targeted mutant survives"
+        "The primary behavior or acceptance boundary is incomplete",
+        "The receipt cannot be recomputed from raw outputs",
+        "The unit does not recompose into its layer exit",
+        "A later layer or lifecycle claim is promoted by the bounded result"
       ]
     },
     {
-      "step_id": "s05-refresh-plan",
-      "name": "Synchronize Invoke state from receipts",
+      "step_id": "s06-refresh-route",
+      "name": "Synchronize the active route from verified receipts",
       "capability_ref": "invoke",
       "mode": "refresh",
       "pattern": "sequential",
@@ -324,181 +264,170 @@
         "observability_grouping"
       ],
       "inputs": [
-        {
-          "kind": "handle",
-          "ref": "s03-run-one-swu"
-        },
-        {
-          "kind": "artifact",
-          "ref": "s04-independent-verify"
-        },
-        {
-          "kind": "artifact",
-          "ref": "WORK-PACK.md"
-        }
+        {"kind": "receipt", "ref": "s05-verify-result"},
+        {"kind": "artifact", "ref": "WORK-PACK.md"},
+        {"kind": "artifact", "ref": "work-pack/shared/GAPS.md"}
       ],
       "outputs": [
-        {
-          "kind": "artifact",
-          "ref": "future Invoke refresh report"
-        },
-        {
-          "kind": "trace_event",
-          "ref": "20260717-backend-type-test-engine-completeness-refresh-applied:plan-refreshed-or-flagged"
-        }
+        {"kind": "artifact", "ref": "future Invoke refresh report"},
+        {"kind": "trace_event", "ref": "20260723-bte-l0-bootstrap-split-refresh:route-refreshed-or-gated"}
       ],
       "stop_conditions": [
-        "Receipt does not prove the selected done criteria",
-        "Plan status would exceed evidence",
-        "A new blocker has no owner"
+        "Plan status would exceed the exact verified receipt",
+        "A new SWU is instantiated before its inputs and boundaries are exact",
+        "A blocker has no lifecycle scope, owner, and repair path",
+        "Craft or Inventory is treated as semantic or execution authority"
       ]
     }
   ],
   "gates": [
     {
-      "gate_id": "g01-profile-decision",
+      "gate_id": "g01-atomic-plan",
+      "kind": "validation",
+      "owner": "invoke",
+      "condition": "The L0A-L0B-L1-L8 package, historical map, dispatch, Distill, links, JSON, and preserved handles validate as one coherent state.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g02-explicit-selection",
       "kind": "human_approval",
-      "owner": "FPR-02B supported-profile owner",
-      "condition": "A strict context pack names the successor profile ID/version, exact 13-kind and 16-signature sets, edge roots, consumer handoffs, write scope, and preserved non-goals.",
+      "owner": "operator",
+      "condition": "The operator selects exactly one current dependency-ready SWU after validation.",
       "on_fail": "block"
     },
     {
-      "gate_id": "g02-dispatch-validation",
+      "gate_id": "g03-stage-handles",
       "kind": "validation",
-      "owner": "dispatch-spec",
-      "condition": "EXECUTION-DISPATCH.json validates with zero blocks before runtime use.",
+      "owner": "task-session preflight",
+      "condition": "Every predecessor, admission, freeze, source, context, and write-scope handle required by the selected stage exists and recomputes exactly; L0A requires no freeze, while L0B requires the exact L0A publication receipt plus a matching validation-owner freeze.",
       "on_fail": "block"
     },
     {
-      "gate_id": "g03-one-swu-context",
-      "kind": "quality",
-      "owner": "context-builder and task-session",
-      "condition": "Exactly one eligible SWU has strict source evidence, write scope, done criteria, and validation coverage.",
-      "on_fail": "block"
-    },
-    {
-      "gate_id": "g04-authority-split",
-      "kind": "promotion_guardrail",
-      "owner": "DomainSpec v2 contract and release owners",
-      "condition": "YAML schemas, profile admission, generated evidence, independent verification, and release state remain separate authorities.",
-      "on_fail": "block"
-    },
-    {
-      "gate_id": "g05-independent-denominator",
+      "gate_id": "g04-independent-expectations",
       "kind": "policy",
-      "owner": "release evidence owner",
-      "condition": "Frozen O_spec is digest-bound and independently owned before the engine derives O_gen.",
+      "owner": "validation owner",
+      "condition": "The implementation under test cannot author or rewrite its red manifest, O_spec, expected verdicts/deltas, or catalogue freeze.",
       "on_fail": "block"
     },
     {
-      "gate_id": "g06-bounded-claim",
+      "gate_id": "g05-current-v1-and-history",
       "kind": "promotion_guardrail",
-      "owner": "first-production-release owner",
-      "condition": "Evidence claims only the conservative exact backend profile plus integrated read-only consumer proof for the candidate profile/version.",
+      "owner": "DomainSpec v2 source and evidence owners",
+      "condition": "Current-v1 sources and completed 001/003 receipt bytes remain unchanged unless a separately authorized additive compatibility task says otherwise.",
       "on_fail": "block"
     },
     {
-      "gate_id": "g07-lane-independence",
-      "kind": "promotion_guardrail",
-      "owner": "FPR coordination owner",
-      "condition": "FPR-02U progress, blockage, or completion is neither an entry gate nor evidence for this FPR-02B package.",
-      "on_fail": "block"
-    },
-    {
-      "gate_id": "g08-core-consumer-terminal-order",
+      "gate_id": "g06-six-catalogue-core",
       "kind": "validation",
-      "owner": "BTE validation owner plus independent consumer owners",
-      "condition": "SWU-BTE-009 closes before SWU-BTE-008; verify:bte:core closes before independently governed IOLM and Body War runs; both fresh external receipt handles exist before SWU-BTE-010; terminal verify:bte composes core and consumer validation.",
+      "owner": "BTE validation and replay owners",
+      "condition": "Core consumes exact successful ReplayResult-scope recompositions for every required key in all six catalogues and no consumer/UI evidence.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g07-consumer-parallelism",
+      "kind": "quality",
+      "owner": "IOLM and Body War owners",
+      "condition": "L7A and L7B start only after one exact green core handle, have disjoint writes, own their runs/raw receipts, and return fresh replayable evidence.",
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "g08-non-admission",
+      "kind": "promotion_guardrail",
+      "owner": "FPR and lifecycle owners",
+      "condition": "No ValidationReceipt, BuildReceipt, ProofReceipt, ReplayResult, AggregateResult, consumer result, Craft row, Inventory entry, or Markdown changes admission/release/production state.",
       "on_fail": "block"
     }
   ],
   "stop_conditions": [
-    "Accepted FPR-02B profile decision is missing or contradicted",
-    "Any attempt to execute a whole wave rather than one SWU",
-    "Any attempt to execute SWU-BTE-008 before SWU-BTE-009 or SWU-BTE-010 before core and both fresh external receipts",
-    "Any attempt by the BTE task to run or author IOLM or Body War evidence",
-    "Any semantic, UI, cross-feature, or code-conformance scope expansion beyond the accepted 16 backend signatures",
-    "Any missing or empty witness, catalogue, test manifest, or receipt",
-    "Any release or profile-admission claim produced by technical evidence alone"
+    "Any whole-wave or multiple-SWU execution attempt",
+    "Any source, admission, freeze, expectation, or completed receipt mutation outside the exact selected scope",
+    "Any one-denominator, count-only, one-unit-as-breadth, or producer-status completeness claim",
+    "Any UI dependency or consumer evidence inside core",
+    "Any L7 run before exact green core or L8 join without both fresh consumer replays",
+    "Any release, admission, publication, or production claim from technical evidence"
   ],
   "observability": {
     "dispatch_id_required": true,
     "trace_events": [
-      "20260717-backend-type-test-engine-completeness-refresh-applied:dispatch-validated",
-      "20260717-backend-type-test-engine-completeness-refresh-applied:profile-gate-accepted",
-      "20260717-backend-type-test-engine-completeness-refresh-applied:refresh-applied",
-      "20260717-backend-type-test-engine-completeness-refresh-applied:consumer-contracts-bound",
-      "20260717-backend-type-test-engine-completeness-refresh-applied:core-verified",
-      "20260717-backend-type-test-engine-completeness-refresh-applied:consumer-receipts-joined",
-      "20260717-backend-type-test-engine-completeness-refresh-applied:terminal-bte-verified",
-      "20260717-backend-type-test-engine-completeness-refresh-applied:task-session-ready",
-      "20260717-backend-type-test-engine-completeness-refresh-applied:production-remains-false"
+      "20260723-bte-l0-bootstrap-split-refresh:dispatch-validated",
+      "20260723-bte-l0-bootstrap-split-refresh:plan-validated",
+      "20260723-bte-l0-bootstrap-split-refresh:context-ready",
+      "20260723-bte-l0-bootstrap-split-refresh:entry-pass-or-block",
+      "20260723-bte-l0-bootstrap-split-refresh:swu-terminal",
+      "20260723-bte-l0-bootstrap-split-refresh:verification-pass-flag-or-block",
+      "20260723-bte-l0-bootstrap-split-refresh:route-refreshed-or-gated",
+      "20260723-bte-l0-bootstrap-split-refresh:non-admission-preserved"
     ],
-    "signal_grouping": "Group runtime evidence by dispatch ID, selected SWU ID, profile version, and input digest set."
+    "signal_grouping": "Group by dispatch ID, selected SWU, layer, profile/context digest, catalogue ID, run ID, and producer identity."
   },
   "boundary_evidence": {
     "boundaries": [
       {
-        "boundary_id": "b01-profile-and-implementation",
+        "boundary_id": "b01-plan-to-one-swu",
         "kind": "capability_handoff",
-        "from_owner": "FPR-02B supported-profile owner",
-        "to_owner": "one bounded Task Session",
-        "applies_to_steps": [
-          "s01-verify-profile-gate",
-          "s02-build-swu-context",
-          "s03-run-one-swu"
-        ],
-        "contract": "The owner selects the supported profile; implementation may realize only the selected SWU and cannot admit or widen the profile.",
+        "from_owner": "invoke",
+        "to_owner": "task-session",
+        "applies_to_steps": ["s01-validate-plan", "s02-build-context", "s03-preflight-entry", "s04-run-one-swu"],
+        "contract": "Invoke exposes candidates; the operator selects one; Task Session executes only its exact strict context and write scope.",
         "on_violation": "block"
       },
       {
-        "boundary_id": "b02-contract-and-evidence",
+        "boundary_id": "b02-validation-input-to-implementation",
         "kind": "state_write",
-        "from_owner": "canonical YAML schemas and minted node sources",
-        "to_owner": "derived graph, obligation, test, mutation, and receipt namespaces",
-        "applies_to_steps": [
-          "s03-run-one-swu",
-          "s04-independent-verify"
-        ],
-        "contract": "Generated evidence is read-only projection and never overwrites canonical YAML, node sources, or frozen O_spec.",
+        "from_owner": "validation owner",
+        "to_owner": "BTE implementation owner",
+        "applies_to_steps": ["s03-preflight-entry", "s04-run-one-swu", "s05-verify-result"],
+        "contract": "Frozen red manifests, O_spec, expectations, selections, and freeze receipts are read-only inputs to implementation and replay.",
         "on_violation": "block"
       },
       {
-        "boundary_id": "b03-evidence-and-release",
-        "kind": "evidence_return",
-        "from_owner": "Task Session and independent verifier",
-        "to_owner": "Invoke Refresh and first-production-release owner",
-        "applies_to_steps": [
-          "s04-independent-verify",
-          "s05-refresh-plan"
-        ],
-        "contract": "Receipts may update evidenced plan state but cannot change release or admission state without the owning decision.",
+        "boundary_id": "b03-source-to-generated-evidence",
+        "kind": "state_write",
+        "from_owner": "DomainSpec semantic and admission owners",
+        "to_owner": "compiler, BTE, and replay owners",
+        "applies_to_steps": ["s03-preflight-entry", "s04-run-one-swu", "s05-verify-result"],
+        "contract": "Generated graph/proof/evidence cannot overwrite or promote semantic sources, current v1, or admission state.",
         "on_violation": "block"
       },
       {
-        "boundary_id": "b04-core-to-external-consumers",
+        "boundary_id": "b04-proof-to-replay",
         "kind": "evidence_return",
-        "from_owner": "SWU-BTE-008 backend core owner",
-        "to_owner": "independent IOLM and Body War consumer owners, then SWU-BTE-010 validation owner",
-        "applies_to_steps": [
-          "s03-run-one-swu",
-          "s04-independent-verify"
-        ],
-        "contract": "A green verify:bte:core receipt is handed to each external consumer owner; each owner runs and authors its own fresh receipt; SWU-BTE-010 consumes only their handles and cannot create or repair consumer evidence.",
+        "from_owner": "BTE proof producer",
+        "to_owner": "independent replay owner",
+        "applies_to_steps": ["s04-run-one-swu", "s05-verify-result"],
+        "contract": "Replay consumes raw allowlisted handles and recomputes bytes, schemas, joins, sets, and observations without trusting receipt status/counts.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b05-core-to-consumers",
+        "kind": "evidence_return",
+        "from_owner": "BTE core owner",
+        "to_owner": "IOLM and Body War owners, then BTE consumer replay owner",
+        "applies_to_steps": ["s03-preflight-entry", "s04-run-one-swu", "s05-verify-result"],
+        "contract": "Consumers run only after one exact green core, own raw evidence/receipts, write disjoint homes, and cannot redefine core truth.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "b06-evidence-to-lifecycle",
+        "kind": "evidence_return",
+        "from_owner": "Task Session and replay owners",
+        "to_owner": "Invoke Refresh and external FPR/lifecycle owners",
+        "applies_to_steps": ["s05-verify-result", "s06-refresh-route"],
+        "contract": "Receipts may update evidenced route state but cannot change admission, release, publication, or production state.",
         "on_violation": "block"
       }
     ],
     "authority": {
-      "lifecycle": "invoke plan authors the route; decision-gate resolves owner choices; task-session owns one bounded execution unit",
-      "execution": "one explicitly selected eligible SWU",
-      "validation": "deterministic repository checks plus independent exact-set replay",
-      "evidence": "run-scoped receipts bound to profile, schema, adapter, corpus, catalogue, and command digests",
-      "memory": "observability is non-authoritative and grouped by dispatch and SWU",
-      "promotion": "FPR-02B and release owners only; technical receipts cannot self-promote"
+      "lifecycle": "invoke authors the plan; task-session owns one selected SWU; external owners admit and promote",
+      "execution": "exactly one explicitly selected dependency-ready SWU",
+      "validation": "shape and semantic validators plus reason-specific negatives and independent replay",
+      "evidence": "run-scoped raw artifacts and typed receipts bound to exact handles",
+      "memory": "Craft, Inventory, and observability are non-authority continuation/read models",
+      "promotion": "formation/profile/relationship/FPR/release owners only"
     },
     "receipts": [
       {
-        "receipt_id": "backend-type-swu-receipt",
+        "receipt_id": "bte-selected-swu-receipt",
         "producer": "task-session",
         "required_fields": [
           "run_id",
@@ -508,14 +437,15 @@
           "capability_ref",
           "status",
           "artifacts",
+          "validation_result",
           "validation",
           "blockers",
           "residue",
           "handoff_note"
         ],
         "stores": [
-          "future Task Session result",
-          "future independent verification receipt",
+          "work-pack/session-evidence/<swu>/<run>/execution-receipt.json",
+          "work-pack/session-evidence/<swu>/<run>/RESULT.md",
           "future Invoke refresh report"
         ],
         "on_missing": "block"
@@ -523,31 +453,46 @@
     ],
     "state_namespaces": [
       {
-        "namespace": "DomainSpec v2 canonical YAML and profile contracts",
-        "owner": "meta-type and supported-profile owners",
-        "write_policy": "only the exact selected SWU scope after owner gates"
+        "namespace": "current-v1 DomainSpec sources",
+        "owner": "DomainSpec v2 semantic owners",
+        "write_policy": "frozen; only separately authorized additive compatibility evidence"
       },
       {
-        "namespace": "minted-project canonical node sources",
-        "owner": "minted-project source owner",
-        "write_policy": "one JSON file per node plus one JSON file per edge; generated graph, manifest, views, and receipts are read-only"
+        "namespace": "successor-v2 source contracts and compiler",
+        "owner": "formation/profile/compiler owners",
+        "write_policy": "one selected SWU exact scope; candidate until admission"
       },
       {
-        "namespace": "backend completeness evidence",
-        "owner": "derivation and independent evidence owners",
-        "write_policy": "run-scoped generation with frozen O_spec kept outside engine overwrite authority"
+        "namespace": "validation-owned BTE inputs",
+        "owner": "validation and selection owners",
+        "write_policy": "never writable by engine/generator/execution SWUs"
       },
       {
-        "namespace": "Invoke plan and release state",
-        "owner": "invoke and first-production-release owner",
-        "write_policy": "synchronize only from verified receipts; promotion requires owner decision"
+        "namespace": "BTE raw runs and proof evidence",
+        "owner": "BTE execution, evaluator, receipt, and replay owners",
+        "write_policy": "run-scoped append-only outputs with separate producer identities"
+      },
+      {
+        "namespace": "IOLM consumer proof",
+        "owner": "IOLM owner",
+        "write_policy": "consumer-owned contract/run/raw receipt only; BTE writes replay separately"
+      },
+      {
+        "namespace": "Body War consumer proof",
+        "owner": "Body War owner",
+        "write_policy": "consumer-owned contract/run/raw receipt only; BTE writes replay separately"
+      },
+      {
+        "namespace": "planning, Craft, Inventory, observability, and lifecycle",
+        "owner": "respective authoring/index/lifecycle owners",
+        "write_policy": "synchronize from exact evidence; never semantic or automatic promotion authority"
       }
     ]
   },
   "promotion_guardrails": [
     "All backend types means the exact 13 active backend kinds, not UI candidates or superseded Saga; FPR-02U is independent.",
-    "Formation and relationship completeness means exact 16 YAML criteria plus 16 backend signatures; neither is semantic correctness.",
-    "A generated all-kind witness is conformance evidence, not canonical product meaning.",
-    "A passing technical receipt is not supported-profile admission or release authorization."
+    "A ValidationReceipt, BuildReceipt, ProofReceipt, ReplayResult, or AggregateResult cannot substitute for another or grant admission.",
+    "Consumers and UI cannot establish core truth; core cannot establish consumer or lifecycle success.",
+    "A passing bounded structural route is not arbitrary business correctness, semantic satisfiability, release, or production proof."
   ]
 }

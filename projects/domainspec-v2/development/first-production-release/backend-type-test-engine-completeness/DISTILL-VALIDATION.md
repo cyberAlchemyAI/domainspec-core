@@ -1,103 +1,117 @@
-# Distill Validation — Backend type test-engine completeness plan
+---
+artifact: bte-plan-distill-validation
+mode: validate
+status: pass
+handoffStatus: gated
+updatedAt: 2026-07-23
+semanticAuthority: none
+---
 
-## Run
+# Distill Validation — L0 Bootstrap Split
 
-- Mode: Validate
-- Depth: Standard planning budget
-- Execution: local Proposer/Balancer role passes; no subagent dispatch is authorized by this planning run
-- Input: `PLAN.md`, `IMPLEMENTATION-LAYERING.md`, `WORK-PACK.md`, and the shared planning contracts
-- Verdict: **flag**
+## Result
 
-The plan is coherent and recomposable after the accepted FPR-02B decision. Implementation is not executed by this refresh: one dependency-ready SWU still requires a separate Task Session, the independent edge/consumer proof surfaces remain unexecuted, and FPR-02U is explicitly not a dependency.
+- Target context: accepted L0 bootstrap correction inside the validated BTE
+  architecture; L1–L8 remain unchanged.
+- Output artifact: one atomic Plan/work-pack/dispatch package with separate L0A
+  publication and L0B validation boundaries.
+- Mode and budget: `Validate`; one proposal track, one independent objection
+  pass, and one reconciliation.
+- Role execution: inline Proposer/Balancer fallback. Repository policy requires
+  a separately proposed and user-confirmed DomainSpec dispatch before using
+  subagents; this bounded refresh grants no such dispatch.
+- Verdict: `pass`.
+- Handoff: `gated` only on explicit selection of dependency-ready
+  `SWU-BTE-L0A-001`. The validation-owner freeze gates L0B, not L0A.
 
-## Smallest coherent unit
-
-SWU-BTE-001 is the smallest independently useful implementation unit. It consolidates the existing YAML interpretation without deciding which profile is admitted, changing node storage, or claiming completeness.
-
-It is coherent because it has:
-
-- one contract input: the existing 13 meta-type YAML schemas;
-- one internal boundary object: `CriterionSubject`;
-- one observable result: all current content and instance validation use the same strict evaluator;
-- independent tests and rollback scope.
-
-## Proposer pass
-
-The proposed result is an eight-SWU chain across four proof layers:
-
-1. one shared YAML criterion kernel and three source adapters;
-2. one versioned exact-13 node profile plus exact-16 backend edge profile and discriminating corpus;
-3. one independent obligation catalogue reconciled with derived, executed, and mutation-tested sets;
-4. one fail-closed required check plus integrated IOLM/Body War consumer proof and independent replay.
-
-The plan preserves the selected one-JSON-file-per-node source layout and treats the YAML schema files as criterion authority rather than replacing them with duplicated formation JSON schemas.
-
-## Balancer pass
-
-| Tension | Response | Disposition |
-|---|---|---|
-| The FPR-02B supported profile owner gate is accepted. | Keep W0 as a verified decision receipt and name SWU-BTE-001 as the first unit after separate Task Session selection; exclude FPR-02U from the dependency. | Accepted; follow-up execution. |
-| `instances.ts` and `validate-content.ts` contain duplicated YAML interpretation. | Put kernel extraction first and forbid a third evaluator in the minted compiler. | Accepted; plan revised. |
-| The derivation engine could define both expected and generated obligations. | Freeze digest-bound `O_spec` under an independent owner before deriving `O_gen`. | Accepted; authority split added. |
-| “All backend types” could inflate into all relationships, semantics, or universal correctness. | Define the exact claim as 13 backend kinds, 16 backend signatures, causal proof, and integrated read-only consumer evidence; defer UI, semantic, and universal correctness. | Accepted; scope bounded. |
-| Eight SWUs and several evidence sets create navigation load. | Organize work into L0–L3, W0–W4, task files, exact handoffs, and a single next executable unit. | Accepted; navigation revised. |
-
-## Technique trace
-
-| Technique | Result | Evidence |
-|---|---|---|
-| Abstraction-level guard | pass | Plan stays at formation-contract and evidence architecture; algorithms live in task-local SWUs. |
-| SCU/SWU reduction | pass | SWU-BTE-001 is independently executable and valuable. |
-| Recomposition proof | pass | Kernel → adapter/profile → corpus → independent obligations → derivation/execution → required check. |
-| Evolution map | pass | L0 through L3 each add a distinct proof capability. |
-| Cognitive-load budget | pass | Five waves, six task files, one exact next unit. |
-| Requisite variety | pass | Eight YAML rule forms, three input shapes, 13 kinds, and fail-closed negative cases are represented. |
-| Boundary-object check | block | Profile/version and adapter ownership are named, but the FPR02 receipt is not complete. |
-| Concept-vs-knowledge check | flag | Exact successor profile/version is still proposed rather than ratified knowledge. |
-| Premortem | pass | Highest-risk failure and guard are explicit below. |
-| Frame-expiry check | pass | Revalidation triggers are explicit below. |
-| Navigable-result check | pass | Root result, shared contracts, tasks, waves, dispatch, and next route are linked from `WORK-PACK.md`. |
-
-## Recomposition proof
-
-The units recompose without hidden authority changes:
+## Corrected Route
 
 ```text
-13 YAML schemas
-  -> shared criterion kernel
-  -> Markdown / instance / minted-node adapters
-  -> approved exact-13 profile + all-kind corpus
-  -> independent O_spec
-  -> compiled graph/source manifest -> O_gen
-  -> generated tests -> executed tests -> killed mutants
-  -> fail-closed required-check receipt
-  -> independent release-owner evidence
+accepted Design and bootstrap decision
+  -> L0A: publish machine contracts + closed diagnostics
+  -> exact contract-publication receipt
+  -> independent validation owner authors and freezes red cases
+  -> L0B: run shape + semantic validation against unchanged inputs
+  -> non-admitting ValidationReceipt
+  -> L1..L6 core
+  -> L7A IOLM || L7B Body War
+  -> L8 terminal aggregate
 ```
 
-Removing any unit makes the final claim weaker in a named way: no common meaning, no all-kind witness, no independent denominator, no executed proof, or no integration gate.
+The former route required a frozen manifest before the schemas and diagnostic
+registry needed to author that manifest existed. That was a circular dependency,
+not an owner delay.
 
-## Premortem
+## Role Conversation Trace
 
-Most likely failure: the implementation adds another formation truth—either hand-authored per-kind JSON schemas or kind branches in the compiler—so the YAML contracts and test engine drift while all local tests remain green.
+| Pass | Proposer claim | Balancer objection | Reconciliation |
+| --- | --- | --- | --- |
+| 1 | Split L0 into contract publication and semantic execution. | Two SWUs may create hidden glue or let a publication receipt masquerade as proof. | Accept the split, but define an exact digest-bearing publication receipt whose schema is published in L0A; state that it is non-admitting and not a ValidationReceipt. |
+| 1 | Let the validation owner freeze immediately after L0A. | A partial schema set or open diagnostic registry would force the owner to guess. | L0A is indivisible across all nine shapes, keyword policy, diagnostic closure, deterministic bytes, and publication receipt. |
+| 1 | Keep later L1–L8 work unchanged. | L1 could accidentally consume the publication receipt rather than executed validation evidence. | Gate L1 on the exact L0B ValidationReceipt and unchanged L0A/Design/seed digests. |
+| 1 | Mark L0A ready. | Invoke must not select execution work. | Candidate is dependency-ready but remains explicitly unselected; Task Session begins only after user selection. |
 
-Guard: one shared criterion kernel, versioned profile bindings with schema digests, adapter conformance tests, an independently frozen denominator, and exact-set comparison.
+No stable disagreement remains.
 
-## Frame expiry
+## Smallest Coherent Units
 
-Re-run planning/distillation when any of these changes:
+`SWU-BTE-L0A-001` has one primary behavior: publish one stable machine boundary
+that another owner can use to construct expectations. Removing any contract,
+the diagnostic registry, keyword policy, or publication receipt would make that
+handoff incomplete.
 
-- a ninth YAML rule form or a 17th criterion is introduced;
-- the active backend kind set changes;
-- UI kind admission becomes part of the target profile;
-- UI/cross-layer, semantic, or code-conformance proof enters the claim;
-- the one-file-per-node canonical source layout changes;
-- independent edge schema, resolver, or source-root rules change;
-- semantic or code-conformance proof is requested;
-- the FPR-02B owner selects a materially different profile/body mapping.
+`SWU-BTE-L0B-001` has one primary behavior: execute unchanged published
+contracts against independently frozen cases and emit recomputable validation
+evidence. It is not currently selectable because both its predecessor receipt
+and owner freeze are absent.
 
-## Verdict and next move
+## Recomposition Proof
 
-- Plan quality: pass.
-- Recomposition: pass.
-- Execution authorization: separate Task Session required; no SWU selected by this refresh.
-- Next route: select exactly one dependency-ready SWU, then execute through Task Session with strict context and receipt.
+```text
+Set(L0A published contract handles)
+  = Set(validation freeze governing contract handles)
+  = Set(L0B consumed contract handles)
+
+Set(frozen red case IDs)
+  = Set(L0B raw result case IDs)
+  = Set(L0 ValidationReceipt case IDs)
+```
+
+The publication receipt transports identity and bytes, not a pass verdict.
+The ValidationReceipt transports bounded execution evidence, not admission.
+Exact equality at both joins prevents hidden prose or count-based glue.
+
+## Technique Trace
+
+| Technique | Result |
+| --- | --- |
+| abstraction-level guard | Design remains fixed; Refresh changes sequencing, SWU boundaries, paths, and handoffs only. |
+| responsibility/independence | contract author, validation owner, and semantic executor have distinct write authorities. |
+| recomposition proof | publication digests join to freeze digests; frozen case IDs join to raw/result receipt IDs. |
+| boundary-object check | typed publication and freeze receipts replace an informal owner handoff. |
+| requisite-variety check | explicit selection gates L0A; publication plus freeze gate L0B; ValidationReceipt gates L1. |
+| premortem | stale contract, guessed diagnostic, self-authored red case, and receipt-type substitution each have a fail-closed check. |
+
+## Tension Ledger
+
+| Tension | Resolution | Status |
+| --- | --- | --- |
+| complete contract handoff vs oversized first SWU | L0A includes only publication artifacts and their deterministic checks | resolved |
+| independent expectations vs executable schemas | validation owner acts after L0A and before L0B | resolved |
+| split ownership vs hidden glue | exact digest-bearing publication/freeze receipts | resolved |
+| evidence vs admission | both receipt types explicitly non-admitting; only L0B emits ValidationReceipt | resolved |
+| navigability vs renumbering churn | W1 becomes L0A, new W1B is inserted, W2–W9 retain names and order | resolved |
+
+## Frame Expiry And Next Route
+
+Invoke Design expires if profile identity, formation authority, catalogue
+definitions, proof cardinality, evaluator independence, mutation lineage, or
+consumer ownership changes. Invoke Plan/Refresh expires if contract files,
+diagnostic ownership, freeze shape, task boundaries, or predecessor handles
+change.
+
+Start at `PLAN.md`, then `WORK-PACK.md`, then
+`work-pack/tasks/TASK-BTE-L0-PROOF-PRIMITIVES.md`. The next route is explicit
+selection and Task Session for `SWU-BTE-L0A-001`. A later Invoke Refresh must
+verify its publication receipt before routing the validation owner and exposing
+`SWU-BTE-L0B-001`.

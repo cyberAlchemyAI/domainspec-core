@@ -1,3 +1,5 @@
+> **Historical, non-executable after 2026-07-22.** See `../HISTORICAL-MAP.md` for W2–W5 replacements.
+
 # W2 — Exact backend breadth
 
 ## Question

@@ -1,134 +1,144 @@
-# Whisper Result — BTE Design Explanation
+# Whisper Result — BTE Technical Reference Revision
 
 - Spell: `whisper`
 - Transport: repository-local interactive architecture explainer
 - Transport proof status: `candidate`
-- Objective: explain the validated BTE Design to a newcomer without presenting
-  unimplemented contracts, owner admissions, or consumer runs as live
-- Target public: a DomainSpec owner or developer who understands a requested
-  behavior but does not yet know the proof vocabulary
-- Intent state: `frozen` for this revision
+- Objective: explain the validated BTE Design without conversational coaching,
+  unexplained load-bearing terms, or implementation/admission inflation
+- Target public: a DomainSpec owner or developer new to BTE proof vocabulary
+- Intent state: `re-frozen after user correction and accepted copy audit`
 - Human gate: `not_applicable`
 - Delivery flow: `active`
+- Audit source:
+  [`review/2026-07-22-conversational-language-audit/findings.md`](review/2026-07-22-conversational-language-audit/findings.md)
 
-## Intake And Interview Result
+## Intake and intent correction
 
-The target and success signal are already explicit in the user's request and
-the validated Design. No interrogation question was needed.
+The user rejected the prior conversational voice, including instructions such
+as “Start with,” direct-address implementation narration, repeated retell
+blocks, and merged Design/build labels. That correction made the prior frozen
+intent volatile. The confirmed audit then supplied the evidence needed to
+freeze a narrower intent:
 
-- Target text: the existing BTE X-Ray page and its machine companions.
-- Success signal: a newcomer can distinguish what runs now, what Design has
-  decided, what Plan must implement, and what remains owner-controlled.
-- Forbidden outcome: another page that calls design-complete contracts
-  “missing,” treats a proof projection as a second graph, or hides proposal
-  status behind implementation jargon.
+- direct technical-reference language rather than author-to-reader coaching;
+- one concrete `UnlockDoor` process without a second retelling;
+- four separate lifecycle states: Runs now, Design contract, Build next, Owner
+  gate;
+- first-use bridges for unavoidably formal BTE terms;
+- exact preservation of Design identities, proof roles, and authority limits.
 
-## Text Intent Substrate
+No interrogation question was required because the target, audience, rejected
+voice, and success condition were explicit.
+
+## Text intent substrate
 
 | Core | Selection |
 | --- | --- |
-| resonance | calm, concrete, workmanlike; no conversational meta-headings, promotional promises, or governance theatre |
-| relevance | one checked-in `UnlockDoor` example tied to the current compiler, the accepted Design, and the next implementation route |
-| trajectory | current proof -> accepted architecture -> one exact proof chain -> dependency order -> remaining owner gates |
+| resonance | precise, neutral, workmanlike technical reference |
+| relevance | current compiler evidence, validated Design contract, Build next implementation, and Owner gates remain distinguishable |
+| trajectory | system boundary -> concrete source-to-evidence instance -> architecture and exact proof -> remaining gates |
+| forbidden | conversational coaching, authoring narration, governance theatre, merged lifecycle labels, casual renaming of formal records |
 
-The smallest coherent narrative unit is:
+Smallest coherent unit:
 
-> One requested change, one canonical graph build, one exact obligation key,
-> and one independently replayed proof.
+> One canonical graph, one exact coverage key, and one independently replayed
+> proof.
 
-This unit recomposes upward into six exact catalogues, a core aggregate, two
-independent consumer handshakes, and the terminal non-admitting BTE result.
+This unit recomposes into six independent catalogues, a non-admitting core
+aggregate, two consumer evidence lanes, and a terminal owner-controlled route.
 
-## Standard Distill Trace
+## Standard Distill trace
 
-Budget: Standard, inferred because the user did not request another budget.
-The repository dispatch gate did not authorize subagent fan-out, so Proposer
-and Balancer roles were executed locally with the same trace contract.
+Budget: Standard. The revision crosses visible HTML, architecture lanes,
+process instances, and both result records. The confirmed subagent dispatch was
+limited to the preceding audit, so the Whisper Proposer and Balancer roles ran
+locally after that dispatch closed.
 
-### Round 1
+### Round 1 — voice and reading structure
 
-- Proposer: retain the concrete workday, then explain the four responsibilities
-  and proof chain using the accepted Design as the architecture source.
-- Balancer — authority objection: “Design complete” could be mistaken for
-  profile admission or implementation completion.
-- Reconciliation: state `Design validated; Plan next` and keep machine
-  admission, execution, consumer, and release states visibly separate.
+- Proposer: replace the conversational opening with the system boundary; retain
+  the checked-in workday as the only full process instance.
+- Balancer: deleting every reader aid would make the state model harder to
+  verify and would erase the concrete workday the user previously requested.
+- Reconciliation: remove the immediate three-line retell, keep the local
+  workday outcome and claim boundary, and end with one compressed four-state
+  status aid.
 
-### Round 2
+### Round 2 — contract and term fidelity
 
-- Proposer: replace `Minted graph -> proof IR` with one immutable
-  `ProofContext` envelope over the canonical graph, manifest, build, profile,
-  registry, and contract handles.
-- Balancer — circularity objection: the test could still read as if it derives
-  its own expected answer.
-- Reconciliation: show exact `O_spec/O_gen` comparison before TestCase
-  materialization; the generated side supplies the subject and the independent
-  catalogue supplies the expectation.
+- Proposer: replace informal terms and shorten visible metadata.
+- Balancer: several apparently dense terms carry exact Design contracts and
+  cannot be replaced by casual synonyms.
+- Reconciliation: preserve exact catalogue IDs, TestCase, Binding, Evaluator,
+  ExecutionResult, ProofReceipt, ReplayResult, and ProofContext; add short
+  first-use definitions only for coverage key, blocking diff, typed residue,
+  denominator, and core aggregate.
 
-Verdict: `pass` for copy revision.
+Verdict: `pass` for this revision.
 
-## Language Audition
+## Language audition
 
 ### Opening
 
-> The BTE architecture is designed. What remains is to build and admit its
-> machine contracts, not to rediscover the proof chain.
+> The Backend Test Engine carries validated DomainSpec sources through graph
+> construction, exact test derivation, execution, mutation, and independent
+> replay. Profile admission and release remain external decisions.
 
-### Tension
+### Load-bearing term bridge
 
-> A compiler pass proves that named sources became a deterministic graph. It
-> does not prove that every required check existed, ran, detected a deliberate
-> defect, and can be replayed independently.
+> A coverage key combines catalogue ID and obligation ID; a blocking diff lists
+> exact missing, extra, duplicate, stale, or mismatched members.
 
-### Reveal
+### State boundary
 
-> BTE closes that gap by matching independently expected obligations to graph-
-> derived obligations before it creates tests, then carrying the same coverage
-> key through binding, execution, clean mutation, receipt, and replay.
+> Runs now identifies checked-in behavior. Design contract identifies the
+> validated logical boundary. Build next identifies unimplemented machine work.
+> Owner gate identifies admission, lifecycle, or release authority outside BTE.
 
-These moments are direct, source-bounded, and consistent with the selected
-newcomer transport. No live-presentation voice gate applies.
+These samples are declarative, technically exact, and free of reader-directed
+implementation coaching.
 
-## Composition Plan Applied To The X-Ray
+## Composition plan applied
 
-1. Lead with the `UnlockDoor` workday and three status labels: runs now, Design
-   contract, owner gate.
-2. State the current boundary: compiler/graph/provenance exists; full BTE proof
-   does not.
-3. Explain the four responsibilities in plain language before technical terms.
-4. Replace the second-graph language with the `ProofContext` handle envelope.
-5. Show TestCase as the pre-run instruction and ExecutionResult as the post-run
-   observation.
-6. Show the six proof catalogues separately so `13`, `16`, and graph-instance
-   counts cannot collapse into one green number.
-7. Replace the obsolete seven-slice candidate with the accepted Design layering
-   seed: contracts, formation migration, sources, graph, catalogues, one proof
-   unit, full core, parallel consumers, terminal aggregate.
-8. End with the exact remaining gates and Invoke Plan as the next route.
+1. State the BTE system boundary directly.
+2. Retain the `UnlockDoor` process as the single complete example.
+3. Replace direct address with named actors: DomainSpec author and
+   implementation developer.
+4. Separate Design contract from Build next in badges, status summaries, and
+   machine mappings; keep `external` as topology.
+5. Correct the three shortened catalogue IDs and add one common eligibility
+   gate above the catalogue-specific conditions.
+6. Standardize the consumer chain as green core aggregate handle ->
+   consumer-owned raw evidence plus non-authoritative receipt -> BTE-owned
+   ReplayResult -> aggregate over exact fresh replay handles.
+7. Define mutation as one declared semantic edit in a fresh child build, with a
+   named failure or removed causal effect as the expected kill.
+8. Move renderer/mode and the exact FPR decision identifier into provenance.
+9. Keep one final four-state status aid; delete the immediate retell.
 
 ## Validation
 
-- one audience block per job: applied;
-- repeated “Design is missing” language: removed from the refreshed surface;
-- second semantic graph implication: removed;
-- current/design/implementation/admission states: separated in words and
-  borders, not color alone;
-- TestCase/ExecutionResult distinction: kept beside the concrete chain;
-- structural proof versus application correctness limit: kept beside the live
-  example;
-- machine sources versus explanatory Markdown: preserved.
+- accepted audit findings C1-C8 and E1-E4: applied;
+- conversational/direct-address regression scan over target corpus: pass;
+- exact catalogue identities: present;
+- lifecycle, implementation, evidence, and admission axes: separated;
+- canonical X-Ray example validator: pass;
+- canonical X-Ray visual library validator: pass;
+- local JSON, HTML structure, and JavaScript syntax: pass;
+- live server response: HTTP 200;
+- DomainSpec tool, engine, type, and local-link regressions: recorded in
+  `X-RAY-RESULT.md` after the final validation run.
 
-Draft status: `pass`. The transport remains `candidate` because one local page
-does not promote Whisper's repository-local X-Ray transport to a proven general
-profile.
+Draft status: `pass`. The transport remains `candidate`; one corrected local
+explainer does not promote a general Whisper transport profile.
 
-## Learning Residue
+## Learning residue
 
-For architecture explanations in this package, begin with a real source record,
-then distinguish four states explicitly: existing behavior, validated Design,
-implementation still open, and owner admission. “Proposed” alone is too broad
-once Design has passed; “accepted” alone is dangerous because it can sound like
-machine admission.
+For BTE explanations, conversational warmth must not replace explicit actors,
+state axes, or proof roles. Concrete examples remain valuable when they are
+the evidence carrier rather than a second narrated summary. Formal terms should
+be removed only when non-load-bearing; otherwise they receive one short bridge
+at first use and retain their exact machine identity.
 
-Delivery result: the X-Ray visual refresh and validation completed. The next
-governed route is Invoke Plan.
+Delivery result: the X-Ray copy and companions now implement the accepted
+audit. The next governed route remains Invoke Plan.

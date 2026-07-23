@@ -1,3 +1,5 @@
+> **Historical, non-executable after 2026-07-22.** See `../HISTORICAL-MAP.md`; completed SWU-BTE-003 evidence remains immutable.
+
 # TASK-BTE-NODE-COVERAGE — Node adapter and all-kind corpus
 
 ## Objective

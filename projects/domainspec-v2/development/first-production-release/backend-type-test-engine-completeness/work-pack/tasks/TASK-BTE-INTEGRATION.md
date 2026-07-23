@@ -1,3 +1,5 @@
+> **Historical, non-executable after 2026-07-22.** See `../HISTORICAL-MAP.md` for the L6 replacement route.
+
 # TASK-BTE-INTEGRATION — Fail-closed backend core check and receipt
 
 ## Objective

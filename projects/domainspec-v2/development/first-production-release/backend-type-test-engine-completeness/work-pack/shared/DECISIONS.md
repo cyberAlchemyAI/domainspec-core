@@ -1,24 +1,19 @@
-# Planning Decisions And Assumptions
+# Planning Decisions And Boundaries
 
-| ID | State | Decision or assumption | Consequence |
+| ID | State | Decision | Plan consequence |
 | --- | --- | --- | --- |
-| P-BTE-001 | resolved lane decision | Target all 13 active backend types and exclude UI. | Plan belongs to FPR-02B; FPR-02U is neither a blocker nor evidence. |
-| P-BTE-002 | recommended default | Version the expanded profile instead of widening experimental profile v1 in place. | Existing four-kind evidence remains reproducible. |
-| P-BTE-003 | accepted successor design | Keep one canonical JSON file per node, add one canonical JSON file per edge, and adapt node/edge bodies into shared YAML-backed criteria. | No conversion of consumer source files to generated instance YAML; generated graph remains read-only. |
-| P-BTE-004 | narrowed by DEC-BTE-FORMATION-AUTHORITY-001 | YAML criterion schemas are the selected owner for a new versioned replacement; current-v1 JSON formation schemas remain governing declarations until explicitly retired through machine admission and migration proof. | Do not treat the current adapter as authority or change current v1 in place. |
-| P-BTE-005 | accepted scope rule | Exactly 16 backend relationship signatures are in the FPR-02B profile and require causal composition/removal evidence; UI/cross-layer signatures remain outside. | Edge schema, roots, resolver, traversal, composition, and negative controls are required. |
-| P-BTE-006 | validation rule | `O_spec` must be frozen by a validation owner independently of engine output. | Engine cannot define its own completeness denominator. |
+| `P-BTE-001` | accepted | Backend and UI are independent lanes. | No UI source, task, receipt, admission, or schedule dependency appears. |
+| `P-BTE-002` | accepted | Successor profile identity remains `feature-with-independent-node-and-edge-files@1`. | Do not invent a third profile or widen current v1. |
+| `P-BTE-003` | accepted | YAML-owned formation-v2 replaces current JSON constraints through exact retirement/migration/compatibility proof. | L1 precedes successor activation; current v1 stays byte-frozen. |
+| `P-BTE-004` | accepted | Nodes and edges are independent canonical JSON source records with explicit same/cross-feature roots. | L2 owns versioned schemas/resolver; generated graph remains a read model. |
+| `P-BTE-005` | accepted FPR-02 Decision 9 | Each of 13 node kinds needs an owner-selected causal pattern/effect/removal proof. | L4 freezes a 13-row selection; L5/L6 prove it. |
+| `P-BTE-006` | accepted FPR-02 Decision 8 | Each exact admitted relationship family needs a causal composition/removal effect. | L4 freezes 16 rows; relationship admission gates L6 core. |
+| `P-BTE-007` | accepted | Six catalogues remain distinct and compare by coverage key. | No count or one-denominator aggregate can close core. |
+| `P-BTE-008` | accepted | TestCase, ExecutionResult, primary MutationResult, ProofReceipt, ReplayResult, and AggregateResult are separate objects. | L5/L6 require exact joins and independent replay. |
+| `P-BTE-009` | accepted | IOLM and Body War are parallel downstream consumers. | Core has no consumer dependency; terminal needs both fresh replays. |
+| `P-BTE-010` | Plan-owned path choice | Extend the existing engine under `src/bte/`, keep v2 source contracts under `impl/spec/minted-project/v2/`, and keep validation inputs outside engine write authority. | Concrete filenames/write scopes are fixed before Task Session. |
+| `P-BTE-011` | superseded | One coherent L0 candidate owns proof primitives and non-admitting validation; red cases remain independently frozen. | Superseded because it required the validation owner to freeze cases against unpublished contracts. |
+| `P-BTE-012` | accepted Decision Gate Option 1 | Split L0 contract publication from post-freeze semantic execution. | `SWU-BTE-L0A-001` publishes exact machine contracts and a closed diagnostic registry without a `ValidationReceipt`; the validation owner then freezes red inputs; `SWU-BTE-L0B-001` executes unchanged contracts against that freeze and emits the non-admitting `ValidationReceipt`. Evidence: `work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/decision-gate.json`. |
 
-P-BTE-002 through P-BTE-006 are synchronized to DEC-FPR02-SUPPORTED-PROFILE. They remain plan/read-model decisions and do not authorize implementation, profile admission, or production.
-
-## Post-Audit Formation Decision
-
-| ID | State | Decision | Consequence |
-| --- | --- | --- | --- |
-| `DEC-BTE-FORMATION-AUTHORITY-001` | accepted 2026-07-21 | Option 2: Design a distinct versioned YAML-owned formation replacement with explicit retirement of the four current-v1 JSON body schemas and compatibility/migration proof. | Invoke Design is unblocked. Current v1 stays frozen; no YAML replacement, JSON retirement, implementation, profile admission, SWU selection, or release promotion occurs from the decision record alone. |
-
-Human record:
-`../../decisions/DEC-BTE-FORMATION-AUTHORITY-001.md`
-
-Machine decision receipt:
-`../../decisions/DEC-BTE-FORMATION-AUTHORITY-001.json`
+No row grants admission, implementation, catalogue freeze, release, or
+production authority.

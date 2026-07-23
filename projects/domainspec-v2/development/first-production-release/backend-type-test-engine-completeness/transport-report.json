@@ -1,100 +1,85 @@
 {
   "schema_version": "invoke-transport-report/v1",
-  "generated_at": "2026-07-17",
+  "generated_at": "2026-07-23",
   "mode": "refresh",
+  "mutation_mode": "apply-approved",
   "spell": "invoke",
   "target": "backend type test-engine completeness",
   "phase": "pass",
+  "handoff_status": "gated-on-explicit-selection",
   "complexity": "high",
-  "assumption": "The operator's phrase 'nem yml files' is interpreted as the new canonical meta-type YAML schema files.",
+  "source_decision": "work-pack/session-evidence/SWU-BTE-L0-001/20260723T000729Z-context-route-conflict/decision-gate.json",
+  "refresh_folder": "refreshes/2026-07-23-l0-bootstrap-split",
   "outputs": [
+    "REQUIREMENTS.md",
     "PLAN.md",
     "IMPLEMENTATION-LAYERING.md",
     "WORK-PACK.md",
     "EXECUTION-PACK.md",
     "EXECUTION-DISPATCH.json",
     "DISTILL-VALIDATION.md",
+    "contracts/README.md",
+    "work-pack/HISTORICAL-MAP.md",
     "work-pack/shared/CONTEXT.md",
-    "work-pack/shared/TRACEABILITY.md",
-    "work-pack/shared/GAPS.md",
     "work-pack/shared/DECISIONS.md",
-    "work-pack/tasks/TASK-BTE-CONTRACT.md",
-    "work-pack/tasks/TASK-BTE-NODE-COVERAGE.md",
-    "work-pack/tasks/TASK-BTE-OBLIGATIONS.md",
-    "work-pack/tasks/TASK-BTE-DERIVATION.md",
-    "work-pack/tasks/TASK-BTE-INTEGRATION.md",
-    "work-pack/tasks/TASK-BTE-VERIFY.md",
-    "work-pack/tasks/TASK-BTE-EDGE-COVERAGE.md",
-    "work-pack/tasks/TASK-BTE-INTEGRATED-CONSUMER-MANIFEST.md",
-    "work-pack/waves/W0-OWNER-GATE.md",
-    "work-pack/waves/W1-SHARED-KERNEL.md",
-    "work-pack/waves/W2-ALL-BACKEND-KINDS.md",
-    "work-pack/waves/W3-OBLIGATION-PROOF.md",
-    "work-pack/waves/W4-INTEGRATE-VERIFY.md",
-    "contracts/README.md"
+    "work-pack/shared/GAPS.md",
+    "work-pack/shared/TRACEABILITY.md",
+    "work-pack/tasks/TASK-BTE-L0-PROOF-PRIMITIVES.md",
+    "work-pack/tasks/TASK-BTE-L1-FORMATION-V2.md",
+    "work-pack/waves/W0-REFRESH-HANDOFF.md",
+    "work-pack/waves/W1-L0-PROOF-PRIMITIVES.md",
+    "work-pack/waves/W1B-L0-VALIDATION-EXECUTION.md",
+    "work-pack/waves/W2-L1-FORMATION-V2.md"
   ],
-  "template_selection": {
-    "work_pack": "arcanum/spells/invoke/templates/work-pack.md",
-    "layering": "arcanum/spells/invoke/templates/implementation-layering.md",
-    "execution_pack": "arcanum/spells/invoke/templates/domainspec-spec/execution-pack.md",
-    "reason": "High-complexity cross-layer plan with explicit owner gates, multiple proof authorities, and eight bounded SWUs."
-  },
   "context_selection": {
-    "mode": "planning",
+    "mode": "strict",
+    "source_count": 14,
+    "obligation_coverage": "8/8",
     "runtime_pack_emitted": false,
-    "selected_sources": 15,
-    "mechanical_evidence": [
-      "13 active backend meta-types",
-      "13 canonical YAML schema files",
-      "16 current formation criteria",
-      "8 criterion rule forms"
-    ]
+    "artifact": "refreshes/2026-07-23-l0-bootstrap-split/CONTEXT-PACK.md"
   },
   "layer_summary": [
-    {
-      "layer": "L0",
-      "result": "one strict criterion kernel and three input adapters"
-    },
-    {
-      "layer": "L1",
-      "result": "one versioned exact-13 profile and discriminating all-kind corpus"
-    },
-    {
-      "layer": "L2",
-      "result": "independent O_spec, derived O_gen, executable tests, and mutation proof"
-    },
-    {
-      "layer": "L3",
-      "result": "fail-closed required check, receipt, and independent replay"
-    }
+    {"layer": "L0A", "result": "machine contract and diagnostic publication"},
+    {"layer": "validation-owner", "result": "red-manifest authoring and freeze against L0A digests"},
+    {"layer": "L0B", "result": "semantic execution and non-admitting ValidationReceipt"},
+    {"layer": "L1-L6", "result": "formation, graph, proof unit, and six-catalogue exact core"},
+    {"layer": "L7A/L7B", "result": "parallel IOLM and Body War consumer replay"},
+    {"layer": "L8", "result": "consumer and terminal aggregates"}
   ],
-  "first_executable_swu": "SWU-BTE-001 (selection still requires Task Session)",
-  "blockers": [],
-  "residue": [
-    "O_spec, edge resolver, 16 causal witnesses, IOLM execution, Body War fixture execution, and Craft/Inventory backfill remain unexecuted follow-up work.",
-    "Legacy/v2 engine path authority wording requires owner review."
-  ],
-  "deferred_claims": [
-    "UI/cross-layer relationship signatures",
-    "semantic satisfiability and business correctness",
-    "cross-feature behavior",
-    "UI meta-types",
-    "code-conformance completeness",
-    "release admission"
-  ],
-  "dispatch": {
-    "path": "EXECUTION-DISPATCH.json",
-    "runtime_authorized": false,
-    "subagents": "none"
+  "preserved": {
+    "design_sha256": "b99abbd87d73106cfc9c2f06e886930f6151d53c6f2e4a854e65f73013827296",
+    "swu_bte_001_receipt_sha256": "c74804c056c681e9596fce170c50ac664bdc002492b3fbc6340a13a47f42b1e1",
+    "swu_bte_003_receipt_sha256": "2465113b7e18d1e58670df52636a18499b22420f3c36cd460e5179a8f1c4a2c4"
+  },
+  "candidate_swu": "SWU-BTE-L0A-001",
+  "selected_swu": null,
+  "candidate_state": "unselected-dependency-ready",
+  "successor_swu": "SWU-BTE-L0B-001",
+  "successor_state": "predecessor-and-owner-gated",
+  "blockers": {
+    "refresh_authoring": 0,
+    "apply_authorization": 0,
+    "l0a_runtime": 1,
+    "target_lifecycle": 8,
+    "audit": 0
   },
   "distill": {
     "path": "DISTILL-VALIDATION.md",
     "mode": "validate",
-    "verdict": "flag",
-    "smallest_coherent_unit": "SWU-BTE-001"
+    "verdict": "pass",
+    "smallest_coherent_unit": "SWU-BTE-L0A-001"
   },
-  "resolved_dependencies": [
-    "R-BTE-001: FPR-02U admission and completion are not inputs to this backend package."
+  "dispatch": {
+    "path": "EXECUTION-DISPATCH.json",
+    "validation": "pass",
+    "runtime_authorized": false,
+    "subagents": "none"
+  },
+  "deferred_claims": [
+    "UI and full-language completeness",
+    "arbitrary business correctness or semantic satisfiability",
+    "SMT, FOL, Datalog, Cedar, temporal, or universal evaluator scope",
+    "release, publication, production, or lifecycle promotion"
   ],
-  "next_route": "Select exactly one dependency-ready SWU through a bounded Task Session; preserve the independent UI lane and consumer gates."
+  "next_route": "operator explicitly selects SWU-BTE-L0A-001; Context Builder emits a strict runtime pack; Task Session executes exactly that SWU"
 }

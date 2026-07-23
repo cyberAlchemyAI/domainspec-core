@@ -1,3 +1,5 @@
+> **Historical, non-executable after 2026-07-22.** See `../HISTORICAL-MAP.md` for the L7A/L7B/L8 replacement route.
+
 # TASK-BTE-INTEGRATED-CONSUMER-MANIFEST — BTE, IOLM, Body War, Craft
 
 ## Objective

@@ -1,3 +1,5 @@
+> **Historical, non-executable after 2026-07-22.** See `../HISTORICAL-MAP.md` for the six-catalogue L4 replacement.
+
 # TASK-BTE-OBLIGATIONS — Independent backend obligation catalogue
 
 ## Objective

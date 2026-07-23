@@ -2,6 +2,21 @@
   "schema_version": "bte-xray-process-instances/v1",
   "artifact_role": "explanatory-process-instances",
   "authority": "non-normative-derived-view",
+  "state_model": {
+    "reader_states": [
+      "runs-now",
+      "design-contract",
+      "build-next",
+      "owner-gate"
+    ],
+    "separate_axes": {
+      "lifecycle_state": "where the record sits in the four-state implementation path",
+      "implementation_state": "whether the machine path exists and is validated",
+      "evidence_status": "whether values are source-backed, illustrative, replayed, stale, or absent",
+      "admission_status": "whether an applicable exact contract or set is admitted"
+    },
+    "composite_status_rule": "Legacy composite status strings remain for compatibility. The state_axes fields are the explicit reader mapping; external is topology, not lifecycle."
+  },
   "target_boundary": "Concrete walkthroughs for the current DomainSpec v2 minted compiler and the validated but unimplemented Backend Test Engine Design.",
   "evidence_boundary": {
     "source_backed": "Records marked source-backed are copied or reduced from the live key-and-door fixture, Operation YAML criterion, compiler tests, generated graph, source manifest, and build receipt.",
@@ -14,6 +29,12 @@
       "instance_id": "key-and-door-operation-compiler-pass",
       "title": "What runs today: compile UnlockDoor as an Operation",
       "status": "source-backed-existing",
+      "state_axes": {
+        "lifecycle_state": "runs-now",
+        "implementation_state": "implemented",
+        "evidence_status": "source-backed",
+        "admission_status": "not-required-for-this-current-v1-structural-claim"
+      },
       "question": "Does the authored UnlockDoor node satisfy the Operation formation criterion and enter the generated graph with provenance?",
       "stages": [
         {
@@ -144,6 +165,12 @@
       "instance_id": "key-and-door-operation-target-proof-chain",
       "title": "What must be built: prove the same Operation criterion end to end",
       "status": "validated-design-unimplemented",
+      "state_axes": {
+        "lifecycle_state": "design-contract",
+        "implementation_state": "build-next",
+        "evidence_status": "illustrative-no-runtime-evidence",
+        "admission_status": "pending-where-applicable"
+      },
       "question": "Can the BTE prove that every expected writes_state check exists, ran against the intended target, detected its paired invalid case, and remains replayable?",
       "stable_id_warning": "DESIGN.md freezes the logical identity/content-digest separation and coverage-key rule. The readable values below remain illustrative until their machine schemas and validators are implemented.",
       "stages": [
@@ -286,6 +313,7 @@
           "stage": "negative-run",
           "record_type": "MutationResult",
           "status": "target-design",
+          "plain_role": "One declared semantic edit in a fresh child build, expected to trigger a named failure or remove a named causal effect.",
           "record": {
             "mutant_id": "mutant:key-and-door.UnlockDoor:writes_state:no",
             "target_obligation_id": "obl:formation:key-and-door.UnlockDoor:writes_state",
@@ -367,6 +395,20 @@
       "instance_id": "key-and-door-enforces-composability",
       "title": "Relationship instance: show that enforces changes the graph proof",
       "status": "source-backed-edge-with-admission-blocked-target-proof",
+      "state_axes": {
+        "existing_edge": {
+          "lifecycle_state": "runs-now",
+          "implementation_state": "implemented",
+          "evidence_status": "source-backed",
+          "admission_status": "not-proof-of-causal-denominator-admission"
+        },
+        "target_causal_proof": {
+          "lifecycle_state": "design-contract",
+          "implementation_state": "build-next",
+          "evidence_status": "absent",
+          "admission_status": "owner-gate"
+        }
+      },
       "question": "Can the system show that HasKeyRule enforcing UnlockDoor is preserved as a directed edge and has a non-collapsed causal effect?",
       "existing_edge": {
         "record_type": "MintedGraphEdge",
@@ -402,6 +444,15 @@
       "instance_id": "key-and-door-domain-workday",
       "title": "A day of work with DomainSpec: one change, one evidence chain",
       "status": "mixed-current-target-and-owner-gate",
+      "state_axes": {
+        "compiler_steps": "runs-now",
+        "proof_and_consumer_steps": [
+          "design-contract",
+          "build-next"
+        ],
+        "admission_and_release": "owner-gate",
+        "evidence_status": "source-backed-for-steps-1-to-3; illustrative-for-steps-4-to-9"
+      },
       "transport_role": "newcomer workday retell chain",
       "narrative_anchor": "UnlockDoor is a checked-in Operation whose source-backed graph relation produces DoorUnlocked. HasKeyRule structurally enforces UnlockDoor; causal behavior remains target proof.",
       "current_stop": "The live workflow proves UnlockDoor formation, the DoorUnlocked node, the produces and enforces graph edges, their source-manifest joins, a precise negative diagnostic, and a minted build receipt. The full BTE proof and consumer chain remains target design.",
@@ -491,7 +542,7 @@
               "sequence": 8,
               "time": "16:15",
               "actor": "IOLM and Body War",
-              "action": "Use consumer-owned runners to emit raw preservation evidence; BTE-owned replay independently verifies it.",
+              "action": "Use consumer-owned runners to emit raw preservation evidence plus non-authoritative receipts; BTE-owned replay independently verifies the raw artifacts.",
               "input": "Verified green core aggregate handle",
               "output": "Fresh consumer ReplayResults",
               "status": "validated-design-unimplemented"

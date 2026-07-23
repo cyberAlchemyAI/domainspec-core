@@ -1,3 +1,5 @@
+> **Historical, non-executable after 2026-07-22.** See `../HISTORICAL-MAP.md` for the L5/L6 replacement route.
+
 # TASK-BTE-DERIVATION — Exact derivation, execution, and mutation proof
 
 ## Objective

@@ -1,3 +1,5 @@
+> **Historical, non-executable after 2026-07-22.** See `../HISTORICAL-MAP.md` for completed evidence and exact replacement routes.
+
 # TASK-BTE-CONTRACT — Criterion kernel and profile contract
 
 ## Objective

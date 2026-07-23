@@ -2,8 +2,27 @@
   "xray_version": "0.2.0-seed",
   "example_id": "bte-implementation-architecture",
   "mode": "mixed",
-  "target_boundary": "The DomainSpec v2 backend structural proof implementation, from versioned machine sources and admitted profile selection through minted compilation, exact obligation/test derivation, execution, mutation, receipts, replay, and downstream consumer receipt validation. UI, business semantics, release admission, and source mutation are outside this x-ray.",
+  "target_boundary": "The DomainSpec v2 backend structural proof implementation, from versioned machine sources and admitted profile selection through minted compilation, exact obligation/test derivation, execution, mutation, receipts, replay, and downstream consumer replay aggregation. UI, business semantics, release admission, and source mutation are outside this x-ray.",
   "renderer_level": "L0",
+  "state_model": {
+    "reader_states": {
+      "runs-now": "Checked-in behavior or evidence that can be rerun from the current repository.",
+      "design-contract": "Validated logical boundary frozen for Invoke Plan; not implementation evidence.",
+      "build-next": "Machine schema, runtime, evidence, or integration still to implement and validate.",
+      "owner-gate": "Exact admission, lifecycle, or release decision outside BTE self-assertion."
+    },
+    "orthogonal_axes": {
+      "evidence_status": "source-backed, illustrative, replayed, stale, or absent",
+      "admission_status": "not-required, pending, admitted, rejected, or deferred",
+      "topology": "internal or external; topology is not a lifecycle state"
+    },
+    "legacy_value_mapping": {
+      "existing": ["runs-now"],
+      "target-design": ["design-contract", "build-next"],
+      "mixed": ["inspect the record-level lifecycle, evidence, and admission fields"],
+      "external": ["topology only; inspect lifecycle separately"]
+    }
+  },
   "layer_interaction": [
     "stacked",
     "isolate",
@@ -38,14 +57,14 @@
         "an unexplained exact-set equation",
         "a claim that validated Design means implemented or admitted"
       ],
-      "failure_message": "Start with the checked-in UnlockDoor source, show exactly what the compiler preserves today, label later proof stages as Design-defined but unimplemented, and leave admission to the owner."
+      "failure_message": "The opening must anchor the checked-in UnlockDoor source, identify current compiler evidence, label Design contracts separately from Build next, and preserve owner-controlled admission."
     }
   },
   "reader_terms": [
     {
-      "term": "authority plane",
-      "plain_meaning": "The versioned machine files that say which kinds, rules, relationships, and source layouts are allowed.",
-      "why_it_matters": "Generated graphs and tests must not silently become the definitions they are supposed to check.",
+      "term": "contracts, admissions, and authored inputs",
+      "plain_meaning": "Semantic contracts define allowed shape and meaning; owner decisions admit exact contracts or sets; authored inputs provide governed content.",
+      "why_it_matters": "Derived graphs, evidence, aggregates, and lifecycle decisions remain separate roles instead of collapsing into one authority flag.",
       "source_or_lane": "properties.catalog",
       "authority": "source-backed",
       "state": "mixed",
@@ -116,7 +135,7 @@
     },
     {
       "term": "mutation",
-      "plain_meaning": "A deliberately invalid variation paired with one obligation and expected diagnostic.",
+      "plain_meaning": "One declared semantic edit in a fresh child build, expected to trigger a named failure or remove a named causal effect.",
       "why_it_matters": "A passing positive alone cannot show the check discriminates valid from invalid structure.",
       "source_or_lane": "flow.graph",
       "authority": "explanatory",
@@ -244,7 +263,7 @@
       "handle": "dependencies.external",
       "evidence": [
         "Formation, profile, relationship, validation, and release owners control decisions or admission outside the implementation modules.",
-        "IOLM and Body War are independent downstream consumers and can run only after receiving the green core receipt handle.",
+        "IOLM and Body War are independent downstream consumers and can run only after receiving the verified green core aggregate handle.",
         "The Node.js toolchain, TypeScript, node:test, and Vitest are existing runtime dependencies.",
         "No remote service or LLM belongs in the deterministic proof path."
       ],
@@ -260,7 +279,7 @@
         "The compiler must emit deterministic normalized graph and source-manifest artifacts.",
         "Minted derivation emits O_gen from graph nodes/edges plus governing contracts and compares it to independent O_spec.",
         "Each obligation must lead to a TestCase, unique Binding, independent Evaluator, ExecutionResult, paired MutationResult, Receipt, replay verdict, and aggregate membership.",
-        "IOLM and Body War consume the target green core receipt handle and return fresh receipts for a separate consumer aggregate.",
+        "IOLM and Body War consume the verified green core aggregate handle, emit consumer-owned raw evidence plus non-authoritative receipts, and submit those raw artifacts to BTE-owned replay. The consumer aggregate consumes exact fresh ReplayResult handles, not receipt assertions.",
         "For key-and-door.UnlockDoor, the live source body state_change=yes satisfies Operation/writes_state; changing it to no is observed to fail with FORMATION_INVALID and ATTRIBUTE-VALUE-MISMATCH before graph emission.",
         "The key-and-door generated graph contains UnlockDoor --produces--> DoorUnlocked; the source manifest joins the edge to unlock-door.json and the Event to door-unlocked.json with exact content digests.",
         "The key-and-door generated graph contains HasKeyRule --enforces--> UnlockDoor, and its source manifest joins that edge to has-key-rule.json with an exact content digest."
@@ -287,7 +306,7 @@
     "risk_questions": {
       "handle": "risk.questions",
       "evidence": [
-        "The versioned formation replacement, retirement-map schema, compatibility corpus, and failure precedence are not yet designed.",
+        "These boundaries are designed and frozen for Plan; versioned machine schemas, validators, implementation, replay evidence, and owner admissions remain outstanding.",
         "required_structure is loaded but not evaluated; Interface and Mapping domains are too weak; Value Object equality is substring-based.",
         "The current source resolver reads project, feature, and node JSON only; edges still come from node.connections rather than independent edge roots.",
         "The current test-derivation entrypoint parses Markdown/aspect documents, not MintedGraph plus MintedSourceManifest.",

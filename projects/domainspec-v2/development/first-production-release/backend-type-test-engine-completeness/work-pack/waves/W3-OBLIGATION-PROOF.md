@@ -1,3 +1,5 @@
+> **Historical, non-executable after 2026-07-22.** See `../HISTORICAL-MAP.md` for W5–W7 replacements.
+
 # W3 — Independent obligation proof
 
 ## Question
