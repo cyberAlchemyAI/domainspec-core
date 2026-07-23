@@ -7,6 +7,7 @@
 - [UX plan](../../UX-PLAN.md)
 - [Implementation layering](../../IMPLEMENTATION-LAYERING.md)
 - [Accepted findings](../../../research/2026-07-14-interactive-ontology-learning-map/findings.md)
+- [Accepted workable-example findings](../../../research/2026-07-22-iolm-workable-example/findings.md)
 
 ## Source anchors
 
@@ -20,6 +21,7 @@
 | DomainSpec engine readiness | `projects/domainspec-v2/research/2026-07-14-engine-gap-inventory/findings.md#authority-safe-dependency-chain`, `#first-slices-of-existing-fpr-nodes`, `#interactive-ontology-implementer-dogfood-handoff` |
 | DomainSpec Inventory read model | `.arcanum/inventory/entries/domainspec-v2-engine-gap-inventory-dispatch-closeout-synthesis.md#accepted-result` |
 | Minted-project candidate runtime | `projects/domainspec-v2/impl/spec/minted-project/INDEX.md` plus exact schemas/compiler/receipt paths selected by TASK-IOLM-00C |
+| Key-and-Door workable-example bundle | refresh snapshot only, recheck before A1 mutation: `projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/graph.json` (`1f0691fac9ed9612605d62d8b390e9b39eca24b6f11a6b0868c7591c6179e7ae`); `projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/source-manifest.json` (`ed4a1fdf4684b26fb5dbf086cf98f80050734ffea1d2c845503f0bf429e9cd6e`); `projects/domainspec-v2/impl/test-derivation-engine/__fixtures__/minted-project/contract/positive/key-and-door/expected/build-receipt.json` (`14ac660824e8a697ef6ae3e20b18132bf99aa45f9adbe46e46e686db36260fbe`) |
 
 ## DomainSpec consumer rule
 
@@ -35,3 +37,12 @@ upstream obligations, change an upstream verdict, or grant authority.
 ## Runtime handoff rule
 
 Invoke has not pre-generated execution context packs. Before each Task Session, Context Builder selects only the task's listed anchors, relevant prior receipts, validation surfaces, and exact write scope. Candidate L0C SWUs require G-OWNER, G-POSTURE, and their predecessor candidate handles. L0D consumer SWUs additionally require the exact successful upstream stage handle named by their contract. L0A or authoritative SWUs require G-DSV2-SG.
+
+For the selected `SWU-IOLM-00C-UI-A2` regeneration, Context Builder selects only
+the option-1 decision receipt, fresh A1 rebind
+`20260723T002902Z-current-fixture-rebind`, the guarded Key-and-Door bundle, the
+historical A2 contract/receipt, the A2 implementation subset, and its new
+`regenerations/<run-id>` lifecycle scope. It must recheck the exact A1 receipt
+and guarded bundle immediately before mutation and block on drift. It must not
+select A1 or A3-A4 implementation, 00C-B/C sources, DomainSpec mutation
+surfaces, CAV2 authority, or public Arcanum material.

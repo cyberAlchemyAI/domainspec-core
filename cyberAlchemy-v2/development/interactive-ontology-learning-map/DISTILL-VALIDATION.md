@@ -2,94 +2,116 @@
 mode: validate
 budget: validate
 status: pass
-date: 2026-07-20
+date: 2026-07-22
 ---
 
 # Distill Validation
 
 ## Object under review
 
-[WORK-PACK.md](./WORK-PACK.md), its split task/SWU files, [IMPLEMENTATION-LAYERING.md](./IMPLEMENTATION-LAYERING.md), and [EXECUTION-PACK.md](./EXECUTION-PACK.md).
+[WORK-PACK.md](./WORK-PACK.md), its task and wave files,
+[IMPLEMENTATION-LAYERING.md](./IMPLEMENTATION-LAYERING.md), and
+[EXECUTION-PACK.md](./EXECUTION-PACK.md), after the approved UI SWU split.
 
-## Proposer trace
+## Round 1 — Proposer
 
-The posture and proof-role decisions changed the optimization points. The core
-projection route has three ordered candidate units and a later independent
-authority unit:
+The complete `L0C-demo` outcome remains one fixture-backed runnable witness, but
+its former single execution unit mixed four independently testable failure
+domains:
 
-1. `SWU-IOLM-00C-A` defines the candidate posture/provenance contract and proves that candidate receipts cannot satisfy an authority gate.
-2. `SWU-IOLM-00C-B` compiles the smallest meaningful Craft/CyberAlchemy graph from machine sources and returns a deterministic candidate graph receipt.
-3. `SWU-IOLM-00C-C` feeds that graph through one shared read model and proves graph/hierarchy/table parity plus visible candidate posture.
-4. The later non-mutating L0A readiness unit verifies owner-issued FPR receipts and returns `domainspec-sg-readiness-handle` for rebind.
+1. `SWU-IOLM-00C-UI-A1` proves the pinned fixture and loopback trust boundary and emits `iolm-fixture-boundary/v1`.
+2. `SWU-IOLM-00C-UI-A2` proves the deterministic immutable snapshot and exact question slices and emits `iolm-demo-snapshot/v1`.
+3. `SWU-IOLM-00C-UI-A3` proves synchronized graph, outline, table, selection and provenance source contracts and emits `iolm-interactive-viewer/v1`.
+4. `SWU-IOLM-00C-UI-A4` proves the real-Firefox behavior and honest evidence aggregation and emits `iolm-browser-acceptance/v1`.
 
-The added L0D consumer branch has two independently fresh units:
+The former claim that splitting UI-A would destroy the runnable witness confused
+the parent task outcome with a single Task Session boundary. Typed receipts let
+the four units recompose without widening the product or authority claim.
 
-1. `SWU-IOLM-DSC-A` accepts one exact successful EVF L0 handle, verifies
-   identity/provenance/digest, deterministic rebuild, semantic/view invariance,
-   parity, and negatives, then emits one narrow non-admitting receipt.
-2. `SWU-IOLM-DSC-B` later reruns that contract over one exact green BTE core
-   handle with 13 kinds and 16 signatures and emits a distinct breadth receipt.
+A1 cannot split further: path/hash/identity validation and the pre-bind server
+boundary are one causal security decision. Separating them would permit a server
+receipt that was not bound to the exact validated bytes. A2 is independent
+because immutable semantic serialization can be proven without UI rendering.
+The three A3 lenses remain together because their relevant property is parity
+over one active stable-ID set; splitting each lens would defer the cross-lens
+invariant and create three incomplete interfaces. A4 is separate because source
+and pure-model tests cannot substantiate rendered-browser behavior.
 
-Starting with project data before the posture guard would let implementation conventions smuggle authority assumptions. Starting with UI would hide that error behind presentation. Requiring the whole compiled graph in 00C-A would bundle independently reviewable contract and compiler behaviors. The sequence therefore starts at the joint posture/provenance boundary, stops after its receipt, then permits deterministic compilation and parity as separate units.
+## Round 2 — Balancer
 
-## Balancer trace
+The split is accepted only with these constraints:
 
-The candidate contract could become paperwork if it did not include executable reject fixtures; those fixtures are therefore part of 00C-A. A full vertical UI, API, renderer, pilot, or corpus would overbuild L0C, so the selected unit stops before all of them. The future authority verifier remains necessary because candidate conformance cannot prove FPR identity or retraction. Splitting DSC-A input validation from its projection/parity evidence would hide the causal consumption claim, so they remain one SWU. DSC-B stays separate because it has a different upstream gate, breadth denominator, freshness identity, and terminal consumer.
+- one UI unit is selected at a time;
+- each intermediate handle has exactly one producer and one declared next consumer;
+- every package path has one owning SWU;
+- A4 has no implementation-repair scope and must return defects to A1, A2 or A3;
+- every receipt retains the six-value eligibility exclusion fence;
+- human checks remain `NOT_RUN` unless named runners perform them;
+- none of A1–A4 can evidence or unblock 00C-B/C, G-DSV2-SG, promotion or publication.
 
-No new subagent dispatch was authorized by the approved refresh. The Proposer/Balancer trace is recorded locally rather than creating an unapproved governed dispatch.
+Further decomposition is rejected. Splitting the A1 trust boundary would make
+pre-bind validation non-atomic. Splitting A2 schema, adapter and slice selector
+would leave no meaningful immutable-model receipt. Splitting A3 by visual lens
+would lose parity as the unit under review. Splitting A4 by test case would turn
+one browser/evidence verdict into orchestration overhead without a new owner or
+promotion boundary.
 
-## Resolution
+The old UI-A Context Pack and Goal remain immutable historical evidence. The new
+supersession marker makes them explicitly non-runnable; UI-A is not passed, not a
+parent, and not a reusable receipt.
 
-- L0C began with recorded G-OWNER and G-POSTURE handles; 00C-A passed, and 00C-B is now the only selected unit but remains blocked before mutation on its upstream support receipt.
-- L0C ends with candidate contract, deterministic graph, and parity evidence; it does not include full UI, API, pilot, or authoritative labels.
-- L0A begins only after G-DSV2-SG and ends with a rebind equivalence or explicit migration proof.
-- AEO/Financial tables remain learning/source anchors; admitted DomainSpec relations come only from imported `Sg`.
-- API is L1 because immutable query behavior is part of the accepted design, but it is one SWU.
-- UI is L2 and pilot L3.
-- Production website, accounts, scale renderer, and public derivative are deferred.
-- Fixed philosophical/Craft content is a witness fixture, not a universal corpus.
-- All multi-SWU tasks are sequential and one SWU is selected at a time.
-- L0D is a sibling consumer lane. Its failures cannot rewrite EVF/BTE core verdicts, and its narrow receipt cannot satisfy the breadth slot.
+## Resolution and recomposition
+
+```text
+iolm-candidate-contract/v1
+  -> A1 iolm-fixture-boundary/v1
+  -> A2 iolm-demo-snapshot/v1
+  -> A3 iolm-interactive-viewer/v1
+  -> A4 iolm-browser-acceptance/v1
+  -> TASK-IOLM-00C-UI narrow completion
+```
+
+- Historical A1 through A3 remain immutable audit evidence. Fresh A1 rebind `20260723T002902Z-current-fixture-rebind` passed against the selected current generation; A2 regeneration alone is selected, with A3 and A4 gated.
+- The parent task and W0C-UI remain active until the current-generation A1 -> A2 -> A3 -> A4 chain returns the narrow terminal receipt.
+- The fixed fixture, 4/3 and 2/1 sets, runtime floor, no-package policy, loopback and GET/HEAD restrictions, manual-truth rule, gateway seam and public/private boundary are unchanged.
+- The independent 00C-B cross-feature blocker and 00C-C status are unchanged.
+- L0D and the later authoritative rebind retain their existing owners and gates.
+
+## Premortem
+
+| Failure mode | Preventive contract | Owning unit |
+|---|---|---|
+| server exposes stale or unbound bytes | exact hashes, realpaths, symlink rejection and pre-bind validation | A1 |
+| UI views derive different semantic sets | one immutable deterministic snapshot and typed question slices | A2 |
+| graph, outline and table selection drift | one stable-ID projection/selection contract across all three lenses | A3 |
+| model tests are overstated as browser proof | real Firefox `PW-BB-01`–`PW-BB-10` plus network/console evidence | A4 |
+| browser fix silently widens A4 | defect receipt reroutes to the exact owning SWU | A4 -> A1/A2/A3 |
+| automation fabricates human success | required unperformed checks remain `NOT_RUN` | A4 / parent task |
 
 ## Checks
 
 | Check | Verdict | Evidence |
 |---|---|---|
-| Smallest coherent unit | pass | 00C-A owns one behavior: fail-closed candidate posture/provenance and authority separation |
-| Recomposition proof | pass | [traceability](work-pack/shared/traceability.md) maps every criterion to task/evidence |
-| Hidden acceptance gaps | pass with named later gate | G-OWNER and G-POSTURE are resolved; G-DSV2-SG remains explicit for L0A only |
-| Deferred complexity | pass | website, public derivative, accounts, scale renderer, editorial lifecycle named outside active window |
-| Navigation to current unit | pass | TASK-IOLM-00C -> W0C -> selected/blocking SWU-IOLM-00C-B; 00C-C and both L0D consumer SWUs remain unselected |
-| Write-scope collision | pass | sequential waves and distinct prototype subtrees |
-| Authority recomposition | pass | Decision Gate owns projection approval; existing FPR owners emit graph authority; verifier imports read-only; Task Session mutates only prototype scope |
-| Consumer atomicity | pass | DSC-A joins one exact EVF handle to one IOLM run/receipt; DSC-B is separate because its BTE stage, denominator, freshness, and downstream join differ |
-| Core independence | pass | missing or failed IOLM evidence blocks only its combined claim; EVF/BTE core receipts remain valid on their own |
-
-## Premortem
-
-| Failure | Earliest detection | Containment |
-|---|---|---|
-| Candidate receipt is relabeled authoritative | 00C-A authority-guard negative | reject the envelope and keep G-DSV2-SG blocked |
-| Missing/empty `Sg` is treated as success during L0A | EGI-008 in SWU-IOLM-000B-A | keep authoritative rebind blocked |
-| Feature table or local fixture recreates an admitted relation | EGI-010 plus compiler route scan | retain mapping as residue and stop mutation |
-| Quotient/retraction evidence is self-confirming | EGI-011 independent mutants | reject the handle and route to the existing FPR owner |
-| Local owner decision overreaches into DomainSpec authority | owner-task exclusions and Dispatch boundary | keep gates independent; invalidate handoff |
-| Learning/layout material changes semantic identity | double-build and view-independence checks | fail L1 promotion |
-| IOLM self-authors upstream evidence or substitutes a narrow receipt for breadth | contract owner/stage/digest checks plus DSC-B 13/16 constants | reject the receipt and preserve the upstream core result |
-
-## Frame expiry
-
-Re-run Distill if the candidate source contract, normalized graph boundary, supported DomainSpec profile, `Sg` contract, evidence-consumer contract/schema, upstream stage shape, rebind identity policy, projection owner, prototype root, public/private boundary, or layer decisions change. A new conforming upstream receipt alone does not require re-planning; it requires exact readiness/consumer verification.
-
-## Navigation
-
-- Active blocked unit: [TASK-IOLM-00C](work-pack/tasks/TASK-IOLM-00C-CANDIDATE-SUBSTRATE.md), `SWU-IOLM-00C-B` only after its upstream support receipt.
-- Consumer lane: [TASK-IOLM-DOMAINSPEC-EVIDENCE-CONSUMER](work-pack/tasks/TASK-IOLM-DOMAINSPEC-EVIDENCE-CONSUMER.md); both SWUs are unselected.
-- Upstream authority work: independent existing DomainSpec FPR work-pack route.
-- Consumer readiness: [TASK-IOLM-000B](work-pack/tasks/TASK-IOLM-000B-DOMAINSPEC-SG-READINESS.md).
-- Local owner decision: [G-OWNER passed](work-pack/shared/G-OWNER-DECISION.md).
-- Later authority mutation after G-DSV2-SG: L0A rebind through the same normalized boundary.
+| Smallest coherent units | pass | each SWU owns one risk and one typed receipt; further splits lose an atomic invariant |
+| Recomposition proof | pass | the four handles form one linear chain to the unchanged parent outcome |
+| Path ownership | pass | task contract assigns every aggregate package path to exactly one SWU |
+| Selection safety | pass | historical A1–A3 remain immutable; the fresh current-generation A1 rebind passed and only A2 regeneration is selected, with A3–A4 gated |
+| Repair ownership | pass | A4 cannot alter A1–A3 implementation paths |
+| Claim boundary | pass | unchanged six-value exclusion fence on every result |
+| Manual truth | pass | human checks remain independent and `NOT_RUN` until performed |
+| Historical evidence | pass | UI-A is superseded before execution and its prior context/Goal artifacts remain immutable |
+| Independent routes | pass | 00C-B/C, L0D and L0A semantics are unchanged |
 
 ## Verdict
 
-`PASS`: the code-first and two-proof decisions recompose without expanding projection or DomainSpec authority. The smallest coherent consumer unit is `SWU-IOLM-DSC-A`, but it remains blocked/unselected behind the candidate substrate and exact EVF receipt. This is not an implementation receipt, does not lower G-DSV2-SG, and does not change either upstream core verdict.
+`pass`. The four-unit split is a smaller, safer execution plan than the stale
+one-SWU boundary while preserving the exact runnable-demo outcome and authority
+fences. This validation authorizes planning synchronization only; it does not
+authorize sidecar implementation.
+
+## Next handoff
+
+Run Context Builder and a compact Goal profile for one
+`SWU-IOLM-00C-UI-A2` regeneration, then execute one bounded Task Session against
+fresh A1 receipt `20260723T002902Z-current-fixture-rebind` and stop at the
+current-generation `iolm-demo-snapshot/v1` receipt.

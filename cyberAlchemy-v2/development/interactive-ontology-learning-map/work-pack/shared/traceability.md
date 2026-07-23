@@ -2,6 +2,7 @@
 
 | SPEC criterion | Design surface | Slice/tasks | Planned evidence |
 |---|---|---|---|
+| Demo-only runnable fixture witness; not AC-07/AC-08 completion | pinned boundary, immutable `DemoSnapshotV1`, synchronized local projections, shared selection, provenance inspector and Firefox evidence boundary | S-00C-UI / TASK-IOLM-00C-UI / A1 -> A2 -> A3 -> A4 | A1 exact binding/server boundary; A2 deterministic 4-node/3-edge default and 2-node/1-relation slice; A3 projection/selection source-contract tests; A4 `PW-BB-01`–`PW-BB-10`, network/console/scope evidence, and required human checks truthfully `NOT_RUN`; full eligibility fence on every receipt |
 | AC-12 candidate posture and authority non-collapse | posture guard and minted-project adapter | S-00C / TASK-00C | candidate-contract negatives, source/build receipt, parity and authority-guard receipts |
 | AC-13 narrow real-application proof consumption | DomainSpec evidence-handle adapter plus private machine contract | S-00D / TASK-IOLM-DOMAINSPEC-EVIDENCE-CONSUMER / DSC-A | fresh receipt bound to exact EVF L0 handles; unchanged IDs/relations/provenance; semantic/view invariance; eleven negative rejections |
 | AC-14 breadth proof consumption | same adapter and receipt schema with `stage=bte-core` | S-00D / TASK-IOLM-DOMAINSPEC-EVIDENCE-CONSUMER / DSC-B | distinct fresh 13-kind/16-signature receipt; exact denominator/test/result digests; narrow/stale/fixture/schema/self-authored rejection |
@@ -16,3 +17,7 @@
 | AC-09 GET only | read API | S-004 / TASK-004 | route inventory and mutation scan |
 | AC-10 private boundary | privacy architecture | all | write-scope and private-channel scan |
 | AC-11 DomainSpec input integrity | L0A `Sg` readiness/import boundary | S-000B/S-001/S-002/S-003 / TASK-000B/001/002/003 | exact identity binding; missing/empty, collision, and retraction-mutant rejection; unchanged imported edge |
+
+The demo row is a bounded implementation witness only. It is not evidence for
+full AC-07 parity, AC-08 accessibility, compiler support, DomainSpec acceptance,
+authority rebind, promotion, or publication.
