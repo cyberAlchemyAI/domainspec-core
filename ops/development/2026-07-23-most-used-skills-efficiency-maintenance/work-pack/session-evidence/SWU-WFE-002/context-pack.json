@@ -1,0 +1,38 @@
+{
+  "schema_version": "task-session.context-pack.v1",
+  "task_id": "TASK-WFE-002",
+  "swu_id": "SWU-WFE-002",
+  "mode": "standard",
+  "strict_coverage": "pass",
+  "source_count": 9,
+  "obligations": [
+    {"id": "TS1-O1", "status": "covered"},
+    {"id": "TS1-O2", "status": "covered"},
+    {"id": "TS1-O3", "status": "covered"},
+    {"id": "TS1-O4", "status": "covered"},
+    {"id": "TS1-O5", "status": "covered"},
+    {"id": "TS1-O6", "status": "covered"},
+    {"id": "TS1-O7", "status": "covered"},
+    {"id": "TS1-O8", "status": "covered"},
+    {"id": "TS1-O9", "status": "covered"}
+  ],
+  "write_scope": [
+    "arcanum/arcana/task-session/",
+    ".agents/skills/task-session/",
+    ".claude/skills/task-session/"
+  ],
+  "forbidden_scope": [
+    "application tasks",
+    "shared validation framework",
+    "arcanum/tools/bootstrap_arcanum.sh",
+    "other generated runtime packages"
+  ],
+  "baseline": {
+    "fixture_command": "bash arcanum/arcana/task-session/development/run-validation-fixtures.sh",
+    "fixture_harness": "absent",
+    "subjective_auto_escape": "present",
+    "critical_validation_flag_escape": "present"
+  },
+  "blockers": [],
+  "gate": "pass"
+}

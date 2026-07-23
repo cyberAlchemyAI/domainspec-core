@@ -1,0 +1,253 @@
+{
+  "dispatch_id": "2026-07-23-most-used-skills-efficiency-maintenance",
+  "intent": {
+    "raw": "Define, design, and plan the accepted efficiency repairs for the six most-used skills.",
+    "objective": "Close ten verified workflow-efficiency changes one at a time through their lifecycle owners, with causal validation and no authority collapse.",
+    "target_artifact": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/WORK-PACK.md",
+    "arcanum_vocabulary": ["invoke", "sigil-development", "spellcraft", "workflow-reflect", "inventory", "task-session"]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "authority_split_gate",
+    "state_namespace_boundary",
+    "artifact_contract_bridge",
+    "concrete_path_evidence",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The work pack selects one SWU at a time and routes it to a lifecycle capability; it authorizes no delegated sibling-agent execution.",
+    "binding_mode": "descriptive",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "permission_prompt": "none"
+  },
+  "subagent_lifecycle": {"status": "none", "agents": []},
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Validate the maintenance route",
+      "capability_ref": "dispatch-spec",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": ["sequence", "owner_boundary_check", "authority_split_gate", "artifact_contract_bridge"],
+      "inputs": [{"kind": "artifact", "ref": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/execution.dispatch.json"}],
+      "outputs": [{"kind": "receipt", "ref": "S1.dispatch-validation"}],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/dispatch-validation.json",
+      "stop_conditions": ["block on schema, technique, owner, or receipt failure"]
+    },
+    {
+      "step_id": "S2",
+      "name": "Close DSS-1 admission",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S1"],
+      "techniques": ["sequence", "scu_swu_reduction", "validation_loop", "execution_receipt_handoff", "concrete_path_evidence"],
+      "inputs": [{"kind": "receipt", "ref": "S1.dispatch-validation"}, {"kind": "artifact", "ref": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/work-pack/tasks/TASK-WFE-001-DSS-ADMISSION.md"}],
+      "outputs": [{"kind": "receipt", "ref": "S2.SWU-WFE-001"}],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-WFE-001/receipt.json",
+      "stop_conditions": ["one selected SWU only", "block on overlapping dirty writes", "block on failed negative control"]
+    },
+    {
+      "step_id": "S3",
+      "name": "Close TS-1 auto and validation",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S2"],
+      "techniques": ["sequence", "validation_loop", "execution_receipt_handoff", "owner_boundary_check"],
+      "inputs": [{"kind": "receipt", "ref": "S2.SWU-WFE-001"}, {"kind": "artifact", "ref": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/work-pack/tasks/TASK-WFE-002-TS-AUTO-VALIDATION.md"}],
+      "outputs": [{"kind": "receipt", "ref": "S3.SWU-WFE-002"}],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-WFE-002/receipt.json",
+      "stop_conditions": ["block if critical validation can still finish FLAG", "block if noncritical FLAG compatibility breaks"]
+    },
+    {
+      "step_id": "S4",
+      "name": "Close INV-1 material package",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S3"],
+      "techniques": ["sequence", "validation_loop", "artifact_contract_bridge", "execution_receipt_handoff", "owner_boundary_check"],
+      "inputs": [{"kind": "receipt", "ref": "S3.SWU-WFE-002"}, {"kind": "artifact", "ref": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/work-pack/tasks/TASK-WFE-003-INVOKE-MATERIAL-PACKAGE.md"}],
+      "outputs": [{"kind": "receipt", "ref": "S4.TASK-WFE-003"}],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/TASK-WFE-003/receipt.json",
+      "stop_conditions": ["block approved-invalid package", "preserve proposal-only phase completion"]
+    },
+    {
+      "step_id": "S5",
+      "name": "Close INT-1 kind conformance",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S4"],
+      "techniques": ["sequence", "validation_loop", "artifact_contract_bridge", "concrete_path_evidence", "execution_receipt_handoff"],
+      "inputs": [{"kind": "receipt", "ref": "S4.TASK-WFE-003"}, {"kind": "artifact", "ref": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/work-pack/tasks/TASK-WFE-004-INVENTORY-KIND-CONTRACT.md"}],
+      "outputs": [{"kind": "receipt", "ref": "S5.TASK-WFE-004"}],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/TASK-WFE-004/receipt.json",
+      "stop_conditions": ["block if invalid kind count is nonzero", "block if non-kind fields change"]
+    },
+    {
+      "step_id": "S6",
+      "name": "Close TS-2 readiness consumption",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S5"],
+      "techniques": ["sequence", "handle_handoff", "execution_receipt_handoff", "validation_loop"],
+      "inputs": [{"kind": "receipt", "ref": "S5.TASK-WFE-004"}, {"kind": "receipt", "ref": "S4.TASK-WFE-003"}, {"kind": "artifact", "ref": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/work-pack/tasks/TASK-WFE-005-TS-READINESS-RECEIPT.md"}],
+      "outputs": [{"kind": "receipt", "ref": "S6.SWU-WFE-005"}],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-WFE-005/receipt.json",
+      "stop_conditions": ["block stale or mismatched readiness", "preserve live validation"]
+    },
+    {
+      "step_id": "S7",
+      "name": "Close DG-1 admissibility and override",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S6"],
+      "techniques": ["sequence", "validation_loop", "authority_split_gate", "execution_receipt_handoff"],
+      "inputs": [{"kind": "receipt", "ref": "S6.SWU-WFE-005"}, {"kind": "artifact", "ref": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/work-pack/tasks/TASK-WFE-006-DG-ADMISSIBILITY-OVERRIDE.md"}],
+      "outputs": [{"kind": "receipt", "ref": "S7.TASK-WFE-006"}],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/TASK-WFE-006/receipt.json",
+      "stop_conditions": ["block invalid option presentation", "block protected hazard without owner gate"]
+    },
+    {
+      "step_id": "S8",
+      "name": "Close DSS-2 sheet and runtime binding",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S7"],
+      "techniques": ["sequence", "handle_handoff", "state_namespace_boundary", "validation_loop", "execution_receipt_handoff"],
+      "inputs": [{"kind": "receipt", "ref": "S7.TASK-WFE-006"}, {"kind": "receipt", "ref": "S2.SWU-WFE-001"}, {"kind": "artifact", "ref": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/work-pack/tasks/TASK-WFE-007-DSS-SHEET-BINDING.md"}],
+      "outputs": [{"kind": "receipt", "ref": "S8.TASK-WFE-007"}],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/TASK-WFE-007/receipt.json",
+      "stop_conditions": ["block changed confirmed sheet", "block undeclared semantic runtime drift"]
+    },
+    {
+      "step_id": "S9",
+      "name": "Close WH-1 runtime composition",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S8"],
+      "techniques": ["sequence", "state_namespace_boundary", "artifact_contract_bridge", "validation_loop", "execution_receipt_handoff"],
+      "inputs": [{"kind": "receipt", "ref": "S8.TASK-WFE-007"}, {"kind": "artifact", "ref": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/work-pack/tasks/TASK-WFE-008-WHISPER-RUNTIME-COMPOSITION.md"}],
+      "outputs": [{"kind": "receipt", "ref": "S9.TASK-WFE-008"}],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/TASK-WFE-008/receipt.json",
+      "stop_conditions": ["block missing canonical controls", "block local preset loss or public leakage"]
+    },
+    {
+      "step_id": "S10",
+      "name": "Close INT-2 projection conformance",
+      "capability_ref": "sigil-development",
+      "mode": "update",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S9"],
+      "techniques": ["sequence", "validation_loop", "artifact_contract_bridge", "concrete_path_evidence", "execution_receipt_handoff"],
+      "inputs": [{"kind": "receipt", "ref": "S9.TASK-WFE-008"}, {"kind": "receipt", "ref": "S5.TASK-WFE-004"}, {"kind": "artifact", "ref": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/work-pack/tasks/TASK-WFE-009-INVENTORY-PROJECTION-FRESHNESS.md"}],
+      "outputs": [{"kind": "receipt", "ref": "S10.SWU-WFE-009"}],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-WFE-009/receipt.json",
+      "stop_conditions": ["block invalid primary index", "block stale or orphan projection"]
+    },
+    {
+      "step_id": "S11",
+      "name": "Close INV-2 status ceilings",
+      "capability_ref": "spellcraft",
+      "mode": "revise",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S10"],
+      "techniques": ["sequence", "recomposition_proof", "validation_loop", "execution_receipt_handoff", "owner_boundary_check"],
+      "inputs": [{"kind": "receipt", "ref": "S10.SWU-WFE-009"}, {"kind": "receipt", "ref": "S4.TASK-WFE-003"}, {"kind": "artifact", "ref": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/work-pack/tasks/TASK-WFE-010-INVOKE-STATUS-CEILINGS.md"}],
+      "outputs": [{"kind": "receipt", "ref": "S11.SWU-WFE-010"}],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/SWU-WFE-010/receipt.json",
+      "stop_conditions": ["block status-axis collapse", "do not enable deferred modes"]
+    },
+    {
+      "step_id": "S12",
+      "name": "Recompose and reflect",
+      "capability_ref": "workflow-reflect",
+      "capability_status": "candidate",
+      "mode": "all",
+      "pattern": "synthesis",
+      "parallel": false,
+      "depends_on_steps": ["S11"],
+      "techniques": ["sequence", "recomposition_proof", "residue_ledger", "observability_grouping", "authority_split_gate"],
+      "inputs": [{"kind": "receipt", "ref": "S11.SWU-WFE-010"}, {"kind": "ledger", "ref": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/work-pack/shared/traceability.md"}, {"kind": "artifact", "ref": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/work-pack/tasks/TASK-WFE-VERIFY.md"}],
+      "outputs": [{"kind": "receipt", "ref": "S12.final-closure"}, {"kind": "ledger", "ref": "S12.residue"}],
+      "join_policy": "none",
+      "evidence_artifact": "work-pack/session-evidence/TASK-WFE-VERIFY/final-closure.json",
+      "stop_conditions": ["block missing requirement evidence", "never auto-promote or release"]
+    }
+  ],
+  "gates": [
+    {"gate_id": "G0-route", "kind": "validation", "owner": "dispatch-spec", "condition": "route and technique trace validate", "requires_role_receipts": ["S1.dispatch-validation"], "on_fail": "block"},
+    {"gate_id": "G1-L0", "kind": "quality", "owner": "lifecycle owners", "condition": "W0 rejects named false-ready states and Inventory kind validator passes", "requires_role_receipts": ["S2.SWU-WFE-001", "S3.SWU-WFE-002", "S4.TASK-WFE-003", "S5.TASK-WFE-004"], "on_fail": "block"},
+    {"gate_id": "G2-L1", "kind": "quality", "owner": "lifecycle owners", "condition": "receipt, choice, override, sheet, and overlay bindings pass", "requires_role_receipts": ["S6.SWU-WFE-005", "S7.TASK-WFE-006", "S8.TASK-WFE-007"], "on_fail": "block"},
+    {"gate_id": "G3-L2", "kind": "quality", "owner": "lifecycle owners", "condition": "runtime, projection, and status parity pass", "requires_role_receipts": ["S9.TASK-WFE-008", "S10.SWU-WFE-009", "S11.SWU-WFE-010"], "on_fail": "block"},
+    {"gate_id": "G4-close", "kind": "promotion_guardrail", "owner": "maintainer and lifecycle owners", "condition": "final evidence closes the audit but grants no automatic promotion", "requires_role_receipts": ["S12.final-closure"], "on_fail": "block"}
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": ["dispatch_validated", "swu_selected", "lifecycle_scope_accepted", "negative_control_failed_as_expected", "swu_closed", "wave_gate_evaluated", "runtime_parity_checked", "final_closure_issued"],
+    "signal_grouping": "dispatch_id + step_id + task_id + swu_id + run_id"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {"boundary_id": "B1-authoring-lifecycle", "kind": "capability_handoff", "from_owner": "invoke", "to_owner": "sigil-development or spellcraft", "applies_to_steps": ["S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "S10", "S11"], "contract": "Invoke supplies task/SWU contracts; lifecycle owner accepts and closes mutation.", "on_violation": "block"},
+      {"boundary_id": "B2-private-public", "kind": "external_context", "from_owner": "private DomainSpec tooling", "to_owner": "public Arcanum", "applies_to_steps": ["S2", "S8", "S9"], "contract": "Private evidence and adapter prose never enter public Arcanum; generic public changes cite only bounded results.", "on_violation": "block"},
+      {"boundary_id": "B3-canonical-generated", "kind": "state_write", "from_owner": "canonical lifecycle source", "to_owner": "generated runtime or read model", "applies_to_steps": ["S3", "S4", "S5", "S6", "S7", "S8", "S9", "S10", "S11"], "contract": "Generated/read-model output follows canonical base plus declared overlay and cannot gain authority.", "on_violation": "block"}
+    ],
+    "authority": {"lifecycle": "sigil-development or spellcraft per task", "execution": "one lifecycle-accepted SWU", "validation": "task-local deterministic validators", "evidence": "closure receipts and observability", "memory": "no automatic promotion", "promotion": "explicit lifecycle owner and human maintainer"},
+    "receipts": [
+      {"receipt_id": "swu-closure", "producer": "selected lifecycle capability", "required_fields": ["run_id", "status", "artifacts", "validation_result", "blockers", "residue", "handoff_note"], "stores": ["work-pack/session-evidence"], "on_missing": "block"},
+      {"receipt_id": "final-closure", "producer": "workflow-reflect with lifecycle owners", "required_fields": ["run_id", "artifacts", "validation_result", "residue", "audit_reference"], "stores": ["work-pack/session-evidence", "observability"], "on_missing": "block"}
+    ],
+    "state_namespaces": [
+      {"namespace": "private-domain-tooling", "owner": "DomainSpec private tooling", "write_policy": "implementation/domainspec/internal_tools only"},
+      {"namespace": "public-arcanum", "owner": "sigil-development or spellcraft", "write_policy": "submodule first; generic canonical source only"},
+      {"namespace": "generated-runtimes", "owner": "declared generator plus repository overlays", "write_policy": "canonical base plus declared overlays; no manual semantic drift"},
+      {"namespace": "inventory-read-model", "owner": "Inventory", "write_policy": "non-authoritative synchronized source and projections"}
+    ]
+  },
+  "promotion_guardrails": [
+    "Invoke authors this package but completes no target lifecycle.",
+    "Validation and closure receipts do not promote spells, sigils, Inventory entries, or runtimes.",
+    "Private evidence and local presets do not become public canonical content.",
+    "Only one selected SWU may mutate at a time."
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T042524Z-SWU-WFE-008B",
+  "task_id": "TASK-WFE-008",
+  "swu_id": "SWU-WFE-008B",
+  "result": "pass",
+  "status": "complete",
+  "capability_ref": "spellcraft",
+  "receipt_kind": "swu-closure",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-008B/receipt.json",
+  "execution_receipt": "work-pack/session-evidence/SWU-WFE-008B/execution-receipt.json",
+  "files_touched": [
+    {
+      "path": "arcanum/tools/bootstrap_arcanum.sh",
+      "evidence": "execution-receipt.json"
+    },
+    {
+      "path": ".agents/skills/whisper/",
+      "evidence": "EXPERIMENT-REPORT.md"
+    },
+    {
+      "path": ".claude/skills/whisper/",
+      "evidence": "EXPERIMENT-REPORT.md"
+    },
+    {
+      "path": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/",
+      "evidence": "refreshes/2026-07-23-swu-wfe-008b-closeout/owner-receipt.json"
+    }
+  ],
+  "validation": [
+    {
+      "command": "isolated two-runtime bootstrap generation",
+      "result": "pass"
+    },
+    {
+      "command": "live manifest+generated parity",
+      "result": "pass",
+      "semantic_body_sha256": "124c4f7cb424df867736c7900619e06746baeaf0155a1d29dae89b7f94053cb6"
+    },
+    {
+      "command": "fixtures, privacy, isolated-tree parity, syntax, and scoped diff checks",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [],
+  "reroute": {
+    "capability": "task-session",
+    "mode": "execute",
+    "swu_id": "SWU-WFE-009",
+    "reason": "Unique dependency-ready successor."
+  },
+  "handoff_note": "Inventory source/projection validation is next; do not reinterpret generated Whisper packages as sources.",
+  "closeout_sync": {
+    "status": "pass",
+    "authorization": "derived",
+    "route": "invoke:refresh:apply-approved",
+    "continuation_receipt": "work-pack/session-evidence/SWU-WFE-008B/continuation-route.json",
+    "owner_receipt": "refreshes/2026-07-23-swu-wfe-008b-closeout/owner-receipt.json",
+    "returned_next_route": "task-session:execute SWU-WFE-009"
+  },
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-008B/EXPERIMENT-REPORT.md",
+    "scope": "Whisper two-runtime canonical-base plus private-overlay generation"
+  }
+}

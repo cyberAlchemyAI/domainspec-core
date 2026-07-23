@@ -1,0 +1,50 @@
+{
+  "schema_version": "context-builder.local.v0.1",
+  "task": "SWU-WEG-003",
+  "run": "001",
+  "mode": "standard",
+  "handoff_pack": false,
+  "strict_source_coverage": "pass",
+  "execution_gate": "pass",
+  "files_selected": 14,
+  "decisions": [
+    {"id": "status-precedence", "classification": "assumption", "resolution": "pass < flag < block by strictness"},
+    {"id": "reason-order", "classification": "assumption", "resolution": "algorithm order, then requested status"},
+    {"id": "binding-mismatch", "classification": "deferred", "resolution": "SWU-WEG-004"},
+    {"id": "correction-meaning", "classification": "assumption", "resolution": "top-level correction_refs are active invalidators"},
+    {"id": "existing-status", "classification": "assumption", "resolution": "ignore and recompute"},
+    {"id": "generation-block", "classification": "assumption", "resolution": "consume existing block without computing generation policy"}
+  ],
+  "obligations": [
+    {"id": "O1", "status": "covered", "summary": "Exactly one selected SWU."},
+    {"id": "O2", "status": "covered", "summary": "Schema-invalid envelopes block."},
+    {"id": "O3", "status": "covered", "summary": "Deterministic strictest ceiling and final status."},
+    {"id": "O4", "status": "covered", "summary": "Candidate and unproven proof ceiling."},
+    {"id": "O5", "status": "covered", "summary": "Independent human-gate contributors."},
+    {"id": "O6", "status": "covered", "summary": "Active correction contributor."},
+    {"id": "O7", "status": "covered", "summary": "Explicit blocks remain block."},
+    {"id": "O8", "status": "covered", "summary": "No cross-axis substitution."},
+    {"id": "O9", "status": "covered", "summary": "Requested block and ordered combined reasons."},
+    {"id": "O10", "status": "covered", "summary": "Profile-controlled not_required state."},
+    {"id": "O11", "status": "covered", "summary": "No semantic scoring."},
+    {"id": "O12", "status": "covered", "summary": "Binding remains SWU-WEG-004."},
+    {"id": "O13", "status": "covered", "summary": "Draft validator preserved."},
+    {"id": "O14", "status": "covered", "summary": "Evaluator version/hash and report required."},
+    {"id": "O15", "status": "covered", "summary": "Public boundary and unrelated dirty state preserved."}
+  ],
+  "write_scope": [
+    "arcanum/spells/whisper/tools/validate-whisper-run-receipt.py",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/status-ceiling/**"
+  ],
+  "forbidden_scope": [
+    "arcanum/spells/whisper/README.md",
+    "arcanum/spells/whisper/schemas/**",
+    "arcanum/spells/whisper/tools/validate-whisper-draft.py",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/evidence-binding/**",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/generation-admission/**",
+    "generated runtime",
+    "private integration prose"
+  ],
+  "dependency_receipt": "../SWU-WEG-002-RUN-001/receipt.json",
+  "blocker": null
+}

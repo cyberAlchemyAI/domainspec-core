@@ -1,0 +1,43 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T035758Z-SWU-WFE-006B",
+  "task_id": "TASK-WFE-006",
+  "swu_id": "SWU-WFE-006B",
+  "result": "pass",
+  "status": "execution-complete-closeout-pending",
+  "capability_ref": "sigil-development",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-006B/execution-receipt.json",
+  "files_touched": [
+    {"path": "arcanum/arcana/decision-gate/SKILL.md", "sha256": "ba9ff093974bdbf8fd8933a0b92a3e115d68ef12ec0617b6d8d33c3a02c6eba0"},
+    {"path": "arcanum/arcana/decision-gate/README.md", "sha256": "a7c8eaab43dfd7fd9bf1e0eb0d4605de31f0a64b6765ad80ba1102c8ef4bb402"},
+    {"path": "arcanum/arcana/decision-gate/scripts/consume-override.py", "sha256": "9ee1b0b9b34783e3ee107f38acbf80aec9f4e4f9e027c6a97fe434089e789a98"},
+    {"path": "arcanum/arcana/decision-gate/schemas/override.schema.json", "sha256": "2d9861617b48781be6ada041f92f368f41904c6150260de137684243f8be76e7"},
+    {"path": "arcanum/arcana/decision-gate/schemas/override-consumption-request.schema.json", "sha256": "3c81b6643db29aa1d410a8baf4df47c885aa5189d0e5657315baf17ffba9b1d6"},
+    {"path": "arcanum/arcana/decision-gate/schemas/override-consumption-receipt.schema.json", "sha256": "d18e4b0b029ee280853e68682906e883673a30b28c5de79aa26e38bc3c876b03"},
+    {"path": ".agents/skills/decision-gate/", "evidence": "canonical body and support parity"},
+    {"path": ".claude/skills/decision-gate/", "evidence": "canonical body and support parity"}
+  ],
+  "validation": [
+    {"command": "Decision Gate option-admissibility suite", "result": "pass", "assertion_groups": 10},
+    {"command": "Decision Gate override-consumption suite", "result": "pass", "assertion_groups": 11},
+    {"command": "Python compile, JSON parse, generated parity, and scoped diff checks", "result": "pass"}
+  ],
+  "blockers": [],
+  "residue": [
+    "No generic owner-gate receipt schema exists; protected hazards intentionally fail closed to their owner.",
+    "No commit, push, release, promotion, or application mutation was performed."
+  ],
+  "reroute": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "reason": "Close TASK-WFE-006 and select SWU-WFE-007A."
+  },
+  "handoff_note": "Bind dispatch tension and confirmation evidence to the exact sheet digest.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-006B/EXPERIMENT-REPORT.md",
+    "scope": "Decision Gate typed one-use override consumption and protected-gate proof"
+  }
+}

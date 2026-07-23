@@ -1,0 +1,24 @@
+# Plan Transport Report
+
+- Observed capability: `invoke`
+- Modes: `define`, `design`, `plan` run as the implemented active-mode sequence
+- Target: six existing workflow capabilities and their private/runtime adapters
+- Target lifecycle owners: Sigil Development, Spellcraft, and private DomainSpec tooling
+- Planning context: accepted frozen audit plus `DEFINE.md` and `DESIGN.md`
+- Complexity: high
+- Output mode: split
+- Implementation layering: L0 through L3 complete
+- Work pack: `WORK-PACK.md`
+- Execution pack: `EXECUTION-PACK.md`
+- SWU manifest: `work-pack/swu-manifest.json`
+- First selected SWU: `SWU-WFE-001`
+- SWU atomicity: pass; 15 SWUs, task-shaped count 0
+- First-unit narrowness: pass
+- Dispatch: `execution.dispatch.json`; validator pass with zero blocks and zero flags
+- Distill: pass; recomposition pass; five owned or deferred gaps
+- Validation strategy: causal red/green admission, receipt binding, runtime/read-model parity, regression, privacy, and final recomposition
+- Context Builder readiness: each SWU names exact source anchors, write scope, done criteria, acceptance evidence, and validation; the execution-time context pack remains intentionally unbuilt until its lifecycle owner accepts the selected SWU.
+- Necronomicon transport: not applied; this private maintenance plan does not have a selected section whose mutation is necessary for handoff.
+- Inventory transport: template evidence is recorded in `TEMPLATE-SELECTION.md`; the accepted audit remains the inventory result, and this Invoke run does not add a second result while the existing Inventory kind defect is itself queued for repair.
+- Upstream/source mutation: none; the accepted audit and all six target capabilities remain unchanged.
+- Next route: Sigil Development accepts `SWU-WFE-001` with the private DomainSpec tooling owner; bounded execution follows only after acceptance.

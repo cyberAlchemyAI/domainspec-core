@@ -1,0 +1,296 @@
+{
+  "dispatch_id": "2026-07-22-whisper-editorial-gate-hardening",
+  "intent": {
+    "raw": "Define, design, and plan adjustments so Whisper stops self-certifying editorial quality.",
+    "objective": "Implement typed editorial admission, exact-surface evidence binding, correction replay, reusable proof, and safe local preset packaging under Spellcraft ownership.",
+    "target_artifact": "ops/development/2026-07-22-whisper-editorial-gate-hardening/WORK-PACK.md",
+    "arcanum_vocabulary": [
+      "invoke",
+      "spellcraft",
+      "task-session",
+      "experiment-harness",
+      "signal-observer",
+      "workflow-reflect"
+    ]
+  },
+  "mode": "sequence",
+  "techniques": [
+    "sequence",
+    "scu_swu_reduction",
+    "recomposition_proof",
+    "validation_loop",
+    "owner_boundary_check",
+    "handle_handoff",
+    "residue_ledger",
+    "execution_receipt_handoff",
+    "authority_split_gate",
+    "protected_context_flag",
+    "state_namespace_boundary",
+    "approval_semantics_map",
+    "artifact_contract_bridge",
+    "concrete_path_evidence",
+    "observability_grouping"
+  ],
+  "subagent_strategy": {
+    "status": "none",
+    "explanation": "The work pack selects one SWU at a time and does not authorize delegated sibling-agent execution.",
+    "binding_mode": "descriptive",
+    "parallelism": "none",
+    "join_policy": "none",
+    "authorization": "not_needed",
+    "permission_prompt": "none"
+  },
+  "subagent_lifecycle": {
+    "status": "none",
+    "agents": []
+  },
+  "steps": [
+    {
+      "step_id": "S1",
+      "name": "Validate the authored execution route",
+      "capability_ref": "dispatch-spec",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "techniques": ["sequence", "owner_boundary_check", "authority_split_gate", "artifact_contract_bridge"],
+      "inputs": [{"kind": "artifact", "ref": "ops/development/2026-07-22-whisper-editorial-gate-hardening/execution.dispatch.json"}],
+      "outputs": [{"kind": "receipt", "ref": "S1.dispatch-validation"}],
+      "join_policy": "none",
+      "evidence_artifact": "ops/development/2026-07-22-whisper-editorial-gate-hardening/dispatch-validation.json",
+      "stop_conditions": ["block if schema or technique validation fails", "block if any authority owner is unresolved"]
+    },
+    {
+      "step_id": "S2",
+      "name": "Accept the Whisper lifecycle revision",
+      "capability_ref": "spellcraft",
+      "mode": "design",
+      "pattern": "handoff",
+      "parallel": false,
+      "depends_on_steps": ["S1"],
+      "techniques": ["sequence", "handle_handoff", "owner_boundary_check", "protected_context_flag", "approval_semantics_map"],
+      "inputs": [
+        {"kind": "receipt", "ref": "S1.dispatch-validation"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-22-whisper-editorial-gate-hardening/SPELLCRAFT-HANDOFF.md"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-22-whisper-editorial-gate-hardening/DESIGN.md"}
+      ],
+      "outputs": [{"kind": "decision", "ref": "S2.spellcraft-acceptance"}],
+      "join_policy": "none",
+      "evidence_artifact": "S2.spellcraft-acceptance",
+      "stop_conditions": ["block if Spellcraft rejects the design", "block if public implementation would copy private witness prose"]
+    },
+    {
+      "step_id": "S3",
+      "name": "Execute the selected SWU through layer gates",
+      "capability_ref": "task-session",
+      "mode": "execute",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S2"],
+      "techniques": ["sequence", "scu_swu_reduction", "validation_loop", "execution_receipt_handoff", "concrete_path_evidence", "residue_ledger"],
+      "inputs": [
+        {"kind": "decision", "ref": "S2.spellcraft-acceptance"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-22-whisper-editorial-gate-hardening/WORK-PACK.md"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-22-whisper-editorial-gate-hardening/work-pack/swu-manifest.json"}
+      ],
+      "outputs": [{"kind": "receipt", "ref": "S3.swu-and-wave-receipts"}],
+      "join_policy": "none",
+      "evidence_artifact": "S3.swu-and-wave-receipts",
+      "stop_conditions": ["execute only one selected SWU at a time", "block later waves when a prior layer gate fails", "block public/private leakage"]
+    },
+    {
+      "step_id": "S4",
+      "name": "Run reusable and private integration regimes",
+      "capability_ref": "experiment-harness",
+      "capability_status": "candidate",
+      "mode": "validate",
+      "pattern": "validation",
+      "parallel": false,
+      "depends_on_steps": ["S3"],
+      "techniques": ["sequence", "validation_loop", "recomposition_proof", "artifact_contract_bridge", "protected_context_flag", "concrete_path_evidence"],
+      "inputs": [
+        {"kind": "receipt", "ref": "S3.swu-and-wave-receipts"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-22-whisper-editorial-gate-hardening/work-pack/tasks/TASK-WEG-VERIFY.md"}
+      ],
+      "outputs": [{"kind": "receipt", "ref": "S4.experiment-receipt"}],
+      "join_policy": "none",
+      "evidence_artifact": "arcanum/spells/whisper/development/VALIDATION.md",
+      "stop_conditions": ["block if red and green controls do not fail/pass causally", "block if private fixture content enters public Arcanum"]
+    },
+    {
+      "step_id": "S5",
+      "name": "Record correction and run evidence",
+      "capability_ref": "signal-observer",
+      "capability_status": "candidate",
+      "mode": "observe",
+      "pattern": "sequential",
+      "parallel": false,
+      "depends_on_steps": ["S4"],
+      "techniques": ["sequence", "execution_receipt_handoff", "observability_grouping", "residue_ledger"],
+      "inputs": [{"kind": "receipt", "ref": "S4.experiment-receipt"}],
+      "outputs": [{"kind": "receipt", "ref": "S5.observation-receipt"}],
+      "join_policy": "none",
+      "evidence_artifact": "S5.observation-receipt",
+      "stop_conditions": ["block if evidence axes or invalidation references are collapsed"]
+    },
+    {
+      "step_id": "S6",
+      "name": "Issue Spellcraft lifecycle validation result",
+      "capability_ref": "spellcraft",
+      "mode": "validate",
+      "pattern": "synthesis",
+      "parallel": false,
+      "depends_on_steps": ["S5"],
+      "techniques": ["sequence", "recomposition_proof", "owner_boundary_check", "residue_ledger", "approval_semantics_map"],
+      "inputs": [
+        {"kind": "receipt", "ref": "S5.observation-receipt"},
+        {"kind": "artifact", "ref": "ops/development/2026-07-22-whisper-editorial-gate-hardening/work-pack/shared/traceability.md"}
+      ],
+      "outputs": [
+        {"kind": "receipt", "ref": "S6.spellcraft-validation"},
+        {"kind": "ledger", "ref": "S6.residue-ledger"}
+      ],
+      "join_policy": "none",
+      "evidence_artifact": "S6.spellcraft-validation",
+      "stop_conditions": ["do not promote a candidate transport automatically", "block lifecycle pass if WEG-R1 through WEG-R10 lack evidence or residue"]
+    }
+  ],
+  "gates": [
+    {
+      "gate_id": "G0-route",
+      "kind": "validation",
+      "owner": "dispatch-spec",
+      "condition": "Dispatch structure, techniques, boundaries, and receipts validate.",
+      "requires_role_receipts": ["S1.dispatch-validation"],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G1-lifecycle-acceptance",
+      "kind": "human_approval",
+      "owner": "spellcraft and operator",
+      "condition": "Spellcraft accepts the revision boundary and selected first SWU.",
+      "requires_role_receipts": ["S2.spellcraft-acceptance"],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G2-layer-evidence",
+      "kind": "quality",
+      "owner": "task-session under spellcraft",
+      "condition": "Each selected SWU and prior layer promotion gate returns its required evidence.",
+      "requires_role_receipts": ["S3.swu-and-wave-receipts"],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G3-validation",
+      "kind": "validation",
+      "owner": "experiment-harness",
+      "condition": "Low, medium, complex generic, private integration, packaging, and non-regression regimes have causal results.",
+      "requires_role_receipts": ["S4.experiment-receipt"],
+      "on_fail": "block"
+    },
+    {
+      "gate_id": "G4-promotion-boundary",
+      "kind": "promotion_guardrail",
+      "owner": "spellcraft and human",
+      "condition": "Validation can close the revision but cannot automatically promote the candidate transport or private preset.",
+      "requires_role_receipts": ["S6.spellcraft-validation"],
+      "on_fail": "block"
+    }
+  ],
+  "observability": {
+    "dispatch_id_required": true,
+    "trace_events": [
+      "dispatch_validated",
+      "spellcraft_handoff_accepted",
+      "swu_started",
+      "swu_closed",
+      "layer_gate_evaluated",
+      "experiment_regime_closed",
+      "correction_invalidated_readiness",
+      "spellcraft_validation_closed"
+    ],
+    "signal_grouping": "dispatch_id + step_id + swu_id + run_id + invalidated_receipt"
+  },
+  "boundary_evidence": {
+    "boundaries": [
+      {
+        "boundary_id": "B1-private-to-public",
+        "kind": "external_context",
+        "from_owner": "private DomainSpec host evidence",
+        "to_owner": "public Arcanum Whisper",
+        "applies_to_steps": ["S2", "S3", "S4"],
+        "contract": "Public changes contain only generic contracts and fixtures; private BTE content remains in private result references.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B2-lifecycle-to-execution",
+        "kind": "capability_handoff",
+        "from_owner": "spellcraft",
+        "to_owner": "task-session",
+        "applies_to_steps": ["S2", "S3"],
+        "contract": "Spellcraft accepts lifecycle scope; Task Session executes one approved SWU and returns a receipt.",
+        "on_violation": "block"
+      },
+      {
+        "boundary_id": "B3-execution-to-validation",
+        "kind": "evidence_return",
+        "from_owner": "task-session and experiment-harness",
+        "to_owner": "spellcraft",
+        "applies_to_steps": ["S3", "S4", "S5", "S6"],
+        "contract": "Execution and experiment evidence returns by receipt and cannot claim lifecycle promotion.",
+        "on_violation": "block"
+      }
+    ],
+    "authority": {
+      "lifecycle": "spellcraft and human",
+      "execution": "task-session for one accepted SWU",
+      "validation": "task-local validators and experiment-harness",
+      "evidence": "run receipts and signal-observer",
+      "memory": "no automatic promotion",
+      "promotion": "spellcraft and explicit human decision"
+    },
+    "receipts": [
+      {
+        "receipt_id": "swu-receipt",
+        "producer": "task-session",
+        "required_fields": ["run_id", "artifacts", "validation_result", "residue", "handoff_note"],
+        "stores": ["work-pack session evidence"],
+        "on_missing": "block"
+      },
+      {
+        "receipt_id": "experiment-receipt",
+        "producer": "experiment-harness",
+        "required_fields": ["run_id", "artifacts", "validation_result", "residue", "audit_reference"],
+        "stores": ["arcanum/spells/whisper/development/VALIDATION.md", "private host integration evidence"],
+        "on_missing": "block"
+      }
+    ],
+    "state_namespaces": [
+      {
+        "namespace": "private-planning-and-integration",
+        "owner": "DomainSpec Core private host",
+        "write_policy": "Invoke and private integration evidence stay under ops/development and projects/domainspec-v2; never copied into public Arcanum."
+      },
+      {
+        "namespace": "public-canonical-whisper",
+        "owner": "Spellcraft",
+        "write_policy": "Only generic spell contracts, tools, schemas, presets, and fixtures under arcanum/spells/whisper."
+      },
+      {
+        "namespace": "generated-native-whisper",
+        "owner": "Arcanum bootstrap generator",
+        "write_policy": "Regenerate .agents/skills/whisper from canonical source; no manual host-private prose."
+      },
+      {
+        "namespace": "repository-local-whisper-presets",
+        "owner": "DomainSpec Core repository",
+        "write_policy": "Host-local presets live under .arcanum/spells/whisper/presets and cannot raise public proof status."
+      }
+    ]
+  },
+  "promotion_guardrails": [
+    "Invoke authors the package but does not revise or promote Whisper.",
+    "Experiment results do not automatically promote a candidate transport.",
+    "Local presets do not become public canonical content.",
+    "Execution or observability evidence does not automatically become Inventory or Definitions authority."
+  ]
+}

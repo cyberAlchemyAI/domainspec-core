@@ -1,0 +1,79 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T034836Z-SWU-WFE-005",
+  "task_id": "TASK-WFE-005",
+  "swu_id": "SWU-WFE-005",
+  "result": "pass",
+  "status": "execution-complete-closeout-pending",
+  "capability_ref": "sigil-development",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-005/execution-receipt.json",
+  "files_touched": [
+    {
+      "path": "arcanum/arcana/task-session/SKILL.md",
+      "sha256": "a6358bfd7b7c6876a820c1ec53a35da683d0a21a5be7d54c58e5bfefc72b3e9c"
+    },
+    {
+      "path": "arcanum/arcana/task-session/README.md",
+      "sha256": "8e0cb8d036a6449daabd613ff60e5cce22012c0cef849e6202f5395c6970276b"
+    },
+    {
+      "path": "arcanum/arcana/task-session/scripts/verify-mutation-readiness.py",
+      "sha256": "bed3a70f156a202c4abd9c6c45dc33fd0cc193ced5b85566885e3c9bd2511cfc"
+    },
+    {
+      "path": "arcanum/arcana/task-session/schemas/mutation-admission-request.schema.json",
+      "sha256": "2d082a2c25d21abc5c062e12ebb4d53f104dcade182114d32e0384cec3ba5fe4"
+    },
+    {
+      "path": "arcanum/arcana/task-session/schemas/mutation-admission-receipt.schema.json",
+      "sha256": "39c770c39b9c1947e709067bfeeb3e99c71ceed09566a4077873aea9100e7c62"
+    },
+    {
+      "path": ".agents/skills/task-session/",
+      "evidence": "canonical body and support parity"
+    },
+    {
+      "path": ".claude/skills/task-session/",
+      "evidence": "canonical body and support parity"
+    }
+  ],
+  "validation": [
+    {
+      "command": "bash arcanum/arcana/task-session/development/run-validation-fixtures.sh",
+      "result": "pass",
+      "assertion_groups": 39
+    },
+    {
+      "command": "producer-owned material receipt schema exact digest",
+      "result": "pass",
+      "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b"
+    },
+    {
+      "command": "canonical/Codex/Claude Task Session body and support parity",
+      "result": "pass"
+    },
+    {
+      "command": "Python compile, JSON parse, and scoped diff checks",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "Admission evidence remains distinct from lifecycle and mutation authority.",
+    "Live post-mutation validation remains mandatory.",
+    "No commit, push, release, promotion, or application mutation was performed."
+  ],
+  "reroute": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "reason": "Close TASK-WFE-005 and select SWU-WFE-006A."
+  },
+  "handoff_note": "Decision Gate option admissibility is the next independent behavior.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-005/EXPERIMENT-REPORT.md",
+    "scope": "Task Session mutation-admission fixture matrix and full package regressions"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T031556Z-SWU-WFE-003B",
+  "task_id": "TASK-WFE-003",
+  "swu_id": "SWU-WFE-003B",
+  "result": "block",
+  "status": "blocked",
+  "capability_ref": "spellcraft",
+  "receipt_kind": "swu-blocker",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-003B/block-receipt.json",
+  "files_touched": [],
+  "validation": [
+    {
+      "command": "bash arcanum/spells/invoke/development/run-material-package-fixtures.sh",
+      "result": "pass",
+      "passed": 13,
+      "failed": 0
+    },
+    {
+      "command": "bash arcanum/spells/invoke/development/run-validation-fixtures.sh",
+      "result": "pass",
+      "report": "arcanum/spells/invoke/development/runs/20260723T031555Z.md"
+    },
+    {
+      "command": "isolated bootstrap generation for Invoke Codex and Claude packages",
+      "result": "block",
+      "reason": "development validator and schemas are excluded from generated runtime packages"
+    },
+    {
+      "command": "post-recovery canonical/generated Refresh hash and SWU-WFE-003A hash audit",
+      "result": "pass"
+    }
+  ],
+  "blockers": [
+    {
+      "fingerprint": "invoke-runtime-material-validator-not-generated-v1",
+      "class": "architecture-write-scope",
+      "description": "Runtime-required validator authority is confined to a generator-excluded development directory.",
+      "decision_artifact": "work-pack/session-evidence/SWU-WFE-003B/DECISION-GATE.md"
+    }
+  ],
+  "residue": [
+    "No SWU-WFE-003B implementation mutation remains after bounded recovery.",
+    "SWU-WFE-003A remains complete and its focused/full validation remains green.",
+    "No generated package, bootstrap file, lifecycle promotion, commit, push, or target application was mutated by the blocked session."
+  ],
+  "reroute": {
+    "capability": "decision-gate",
+    "lifecycle_owner": "spellcraft",
+    "swu_id": "SWU-WFE-003B",
+    "reason": "The required runtime location changes approved architecture and write scope."
+  },
+  "handoff_note": "Choose runtime packaging Option 1, 2, or 3; then refresh the SWU-WFE-003B context and write scope before resuming.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "arcanum/spells/invoke/development/runs/20260723T031555Z.md",
+    "scope": "SWU-WFE-003A regression preservation; SWU-WFE-003B packaging remains blocked"
+  }
+}

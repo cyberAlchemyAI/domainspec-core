@@ -1,0 +1,32 @@
+{
+  "schema_version": "invoke.refresh.owner-receipt.v1",
+  "run_id": "invoke-refresh-20260723T044713Z-TASK-WFE-VERIFY-closeout",
+  "route": "invoke:refresh:apply-approved",
+  "source_receipt": "work-pack/session-evidence/TASK-WFE-VERIFY/receipt.json",
+  "result": "pass",
+  "owner": "invoke",
+  "mode": "refresh",
+  "mutation_mode": "apply-approved",
+  "delta_classes": [
+    "evidence_added",
+    "status_changed",
+    "route_cleared",
+    "observability_refreshed"
+  ],
+  "authorization": {
+    "source": "task-session closeout policy plus active user request",
+    "target_inventory_bound": true,
+    "implementation_authority": false,
+    "publication_authority": false,
+    "next_task_execution_authority": false
+  },
+  "validation": [
+    "WFE-R01 through WFE-R10 pass",
+    "15 implementation receipts pass and complete",
+    "full regression and parity checks pass",
+    "live Inventory has zero failures",
+    "terminal projections agree"
+  ],
+  "blockers": [],
+  "returned_next_route": null
+}

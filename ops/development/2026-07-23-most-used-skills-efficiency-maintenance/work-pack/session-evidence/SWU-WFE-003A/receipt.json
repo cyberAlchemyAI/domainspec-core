@@ -1,0 +1,77 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T030841Z-SWU-WFE-003A",
+  "task_id": "TASK-WFE-003",
+  "swu_id": "SWU-WFE-003A",
+  "result": "pass",
+  "status": "complete",
+  "capability_ref": "spellcraft",
+  "receipt_kind": "swu-closure",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-003A/receipt.json",
+  "files_touched": [
+    {
+      "path": "arcanum/spells/invoke/development/schemas/material-package.schema.json",
+      "sha256": "f52810a2b08507f487cfc63e7b8619761a2803613098e6eb7cc46911288dc628"
+    },
+    {
+      "path": "arcanum/spells/invoke/development/schemas/material-package-receipt.schema.json",
+      "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b"
+    },
+    {
+      "path": "arcanum/spells/invoke/development/material_package_validator.py",
+      "sha256": "5012c5767f6dc0e76a0e34a63f4b65342883c7969b52e9b86e910c4c63ee1426"
+    },
+    {
+      "path": "arcanum/spells/invoke/development/fixtures/material-package-cases.json",
+      "sha256": "94adf8d78a5094c699658a70269f1310daec51221d699aeaf01c5a7fa3c2a512"
+    },
+    {
+      "path": "arcanum/spells/invoke/development/run_material_package_fixtures.py",
+      "sha256": "c47288543bf8460bf751a0d0f0af108e6a023c8f79c689eb8407666fa2304fd8"
+    },
+    {
+      "path": "arcanum/spells/invoke/development/run-material-package-fixtures.sh",
+      "sha256": "c6cce1bfdb455977c203fda3bf3e923eb17e3a153123f7c2dda7672be7f0b1ce"
+    },
+    {
+      "path": "arcanum/spells/invoke/development/run-validation-fixtures.sh",
+      "sha256": "573a451a4bbfe309cc8a62d42d7c4c177b94eaf4a69c67206667b0e838665906"
+    }
+  ],
+  "validation": [
+    {
+      "command": "bash arcanum/spells/invoke/development/run-material-package-fixtures.sh",
+      "result": "pass",
+      "passed": 13,
+      "failed": 0
+    },
+    {
+      "command": "bash arcanum/spells/invoke/development/run-validation-fixtures.sh",
+      "result": "pass",
+      "report": "arcanum/spells/invoke/development/runs/20260723T030839Z.md"
+    },
+    {
+      "command": "git -C arcanum diff --check -- spells/invoke/development",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "Refresh handoff admission is intentionally unchanged until SWU-WFE-003B.",
+    "Generated Invoke runtime packages are intentionally unchanged until SWU-WFE-003B.",
+    "Proposal-only input returns not-applicable/deferred and acquires no mutation claim.",
+    "Lifecycle promotion, commit, push, and target application mutation were not attempted."
+  ],
+  "reroute": {
+    "capability": "task-session",
+    "lifecycle_owner": "spellcraft",
+    "swu_id": "SWU-WFE-003B",
+    "reason": "Serial program order and explicit user authorization to continue until a blocker."
+  },
+  "handoff_note": "Integrate the material verdict into mutation-capable Refresh handoff only; preserve proposal-only phase pass and regenerate declared Invoke runtimes.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "arcanum/spells/invoke/development/runs/20260723T030839Z.md",
+    "scope": "Invoke material-package fixtures composed with the full spell harness"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T033413Z-SWU-WFE-004A",
+  "task_id": "TASK-WFE-004",
+  "swu_id": "SWU-WFE-004A",
+  "result": "pass",
+  "status": "execution-complete-closeout-pending",
+  "capability_ref": "inventory",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-004A/execution-receipt.json",
+  "files_touched": [
+    {
+      "path": ".arcanum/inventory/index.json",
+      "before_sha256": "c608ebf6bc6384a44295d2f614a0821da76802ea552d01a26854c9bfd5ef6ebe",
+      "after_sha256": "42e44970be4a82cb497beaff5ac818e7f9e2cffe72a055f2cf539233a381f3b4"
+    },
+    {
+      "path": ".arcanum/inventory/log.md",
+      "after_sha256": "efc24d65d672290d27f633bb6d710261a6e7b8647fed6d6e8e97ae22ca37f312"
+    }
+  ],
+  "validation": [
+    {
+      "command": "python3 work-pack/session-evidence/SWU-WFE-004A/validate-migration.py",
+      "result": "pass",
+      "non_kind_fields_preserved": true,
+      "entry_order_preserved": true,
+      "derived_indexes_preserved": true
+    },
+    {
+      "command": "bash arcanum/arcana/inventory/scripts/validate-index-json.sh .arcanum/inventory/index.json",
+      "result": "pass"
+    },
+    {
+      "command": "unsupported-kind jq count",
+      "result": "pass",
+      "before": 15,
+      "after": 0
+    },
+    {
+      "command": "index.md SHA-256 comparison",
+      "result": "pass",
+      "changed": false,
+      "sha256": "d1c6439209ea801254203ad7c2c219a4f44087d4919c49a46ad97e556ebc1dca"
+    },
+    {
+      "command": "git diff --check -- scoped Inventory and session evidence",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "Future unsupported-kind admission remains queued as SWU-WFE-004B.",
+    "Existing unrelated Inventory entry, index, and log additions were preserved.",
+    "No entry source, enum, updater, canonical sigil, ontology, definition, authority, or promotion changed."
+  ],
+  "reroute": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "reason": "Synchronize 004A closure and select the unique declared successor 004B."
+  },
+  "handoff_note": "Select SWU-WFE-004B without mutating the updater during closeout.",
+  "experiment_harness": {
+    "status": "not_applicable",
+    "report": null,
+    "scope": "Repository-local Inventory data sync; no reusable sigil contract changed."
+  }
+}

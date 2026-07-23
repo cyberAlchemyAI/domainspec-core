@@ -1,0 +1,75 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T043324Z-SWU-WFE-009",
+  "task_id": "TASK-WFE-009",
+  "swu_id": "SWU-WFE-009",
+  "result": "pass",
+  "status": "complete",
+  "capability_ref": "sigil-development",
+  "receipt_kind": "swu-closure",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-009/receipt.json",
+  "execution_receipt": "work-pack/session-evidence/SWU-WFE-009/execution-receipt.json",
+  "files_touched": [
+    {
+      "path": "arcanum/arcana/inventory/",
+      "evidence": "execution-receipt.json"
+    },
+    {
+      "path": ".arcanum/inventory/index.json",
+      "evidence": "live-conformance-report.json"
+    },
+    {
+      "path": ".agents/skills/inventory/",
+      "evidence": "isolated generated tree equality"
+    },
+    {
+      "path": ".claude/skills/inventory/",
+      "evidence": "isolated generated tree equality"
+    },
+    {
+      "path": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/",
+      "evidence": "refreshes/2026-07-23-swu-wfe-009-closeout/owner-receipt.json"
+    }
+  ],
+  "validation": [
+    {
+      "command": "projection-conformance causal fixture suite",
+      "result": "pass",
+      "assertions": 10
+    },
+    {
+      "command": "live Inventory conformance",
+      "result": "pass",
+      "lookup_readiness": "ready"
+    },
+    {
+      "command": "generated runtime parity and scoped checks",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "Historical uncontrolled tags remain warn-only.",
+    "The live Inventory currently enables no optional projection."
+  ],
+  "reroute": {
+    "capability": "task-session",
+    "mode": "execute",
+    "swu_id": "SWU-WFE-010",
+    "reason": "Unique dependency-ready successor."
+  },
+  "handoff_note": "Use distinct receipt evidence for authored, registry-released, and mutation-runtime-ready Invoke axes.",
+  "closeout_sync": {
+    "status": "pass",
+    "authorization": "derived",
+    "route": "invoke:refresh:apply-approved",
+    "continuation_receipt": "work-pack/session-evidence/SWU-WFE-009/continuation-route.json",
+    "owner_receipt": "refreshes/2026-07-23-swu-wfe-009-closeout/owner-receipt.json",
+    "returned_next_route": "task-session:execute SWU-WFE-010"
+  },
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-009/EXPERIMENT-REPORT.md",
+    "scope": "Inventory source, machine, human, derived-map, and projection conformance"
+  }
+}

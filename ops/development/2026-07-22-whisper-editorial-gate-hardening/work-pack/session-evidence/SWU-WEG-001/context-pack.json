@@ -1,0 +1,36 @@
+{
+  "schema_version": "context-builder.local.v0.1",
+  "task": "SWU-WEG-001",
+  "mode": "lean",
+  "handoff_pack": false,
+  "strict_source_coverage": "pass",
+  "execution_gate": "block",
+  "files_selected": 7,
+  "snippets_selected": 9,
+  "obligations": [
+    {"id": "O1", "status": "covered", "summary": "Exactly one selected SWU."},
+    {"id": "O2", "status": "covered", "summary": "Fixture-only write scope."},
+    {"id": "O3", "status": "covered", "summary": "Generic red and green cases."},
+    {"id": "O4", "status": "covered", "summary": "Absent enforcement recorded as not-enforced."},
+    {"id": "O5", "status": "covered", "summary": "Private language excluded from public Arcanum."},
+    {"id": "O6", "status": "covered", "summary": "Inventory, JSON, and privacy validation."},
+    {"id": "O7", "status": "block", "summary": "Spellcraft acceptance receipt is absent."},
+    {"id": "O8", "status": "covered", "summary": "Completion synchronization requires evidence."}
+  ],
+  "write_scope": [
+    "arcanum/spells/whisper/development/VALIDATION-EXPERIMENT.md",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/**",
+    "arcanum/spells/whisper/development/editorial-admission-baseline.json"
+  ],
+  "forbidden_scope": [
+    "arcanum/spells/whisper/README.md",
+    "arcanum/spells/whisper/schemas/**",
+    "arcanum/spells/whisper/tools/**",
+    ".agents/skills/whisper/**"
+  ],
+  "blocker": {
+    "class": "missing-lifecycle-owner-acceptance",
+    "required_receipt": "S2.spellcraft-acceptance",
+    "fingerprint": "sha256:4e1d9de15dcd32d5b44e6da86847060cdf13d7a45a005eca1ce1fc74aa63c5ce"
+  }
+}

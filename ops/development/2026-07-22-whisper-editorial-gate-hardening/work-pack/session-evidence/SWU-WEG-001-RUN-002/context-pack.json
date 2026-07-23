@@ -1,0 +1,41 @@
+{
+  "schema_version": "context-builder.local.v0.1",
+  "task": "SWU-WEG-001",
+  "run": "002",
+  "mode": "standard",
+  "handoff_pack": false,
+  "strict_source_coverage": "pass",
+  "execution_gate": "pass",
+  "files_selected": 10,
+  "unresolved_decisions": [],
+  "assumptions": [
+    "Fixture JSON is provisional experiment input, not the final receipt schema.",
+    "Synthetic digests encode match and mismatch controls without asserting digest-integrity enforcement."
+  ],
+  "obligations": [
+    {"id": "O1", "status": "covered", "summary": "Exactly one selected SWU."},
+    {"id": "O2", "status": "covered", "summary": "Fixture-only public write scope."},
+    {"id": "O3", "status": "covered", "summary": "One green and seven required red controls."},
+    {"id": "O4", "status": "covered", "summary": "Stable IDs, regimes, verdicts, and reasons."},
+    {"id": "O5", "status": "covered", "summary": "Absent enforcement recorded as not-enforced."},
+    {"id": "O6", "status": "covered", "summary": "Product-neutral public text."},
+    {"id": "O7", "status": "covered", "summary": "Candidate transport remains capped at flag."},
+    {"id": "O8", "status": "covered", "summary": "Inventory, parse, and privacy evidence required."},
+    {"id": "O9", "status": "covered", "summary": "Synchronization follows acceptance evidence."},
+    {"id": "O10", "status": "covered", "summary": "Unrelated submodule changes preserved."}
+  ],
+  "write_scope": [
+    "arcanum/spells/whisper/development/VALIDATION-EXPERIMENT.md",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/**",
+    "arcanum/spells/whisper/development/editorial-admission-baseline.json"
+  ],
+  "forbidden_scope": [
+    "arcanum/spells/whisper/README.md",
+    "arcanum/spells/whisper/schemas/**",
+    "arcanum/spells/whisper/tools/**",
+    ".agents/skills/whisper/**",
+    "private integration prose"
+  ],
+  "owner_receipt": "../SWU-WEG-001/S2-SPELLCRAFT-ACCEPTANCE.md",
+  "blocker": null
+}

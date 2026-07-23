@@ -1,0 +1,42 @@
+{
+  "schema_version": "task-session.receipt.v0.1",
+  "swu_id": "SWU-WEG-001",
+  "result": "pass",
+  "capability_ref": "task-session",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "TASK-SESSION-REPORT.md",
+  "files_touched": [
+    "arcanum/spells/whisper/development/VALIDATION-EXPERIMENT.md",
+    "arcanum/spells/whisper/development/editorial-admission-baseline.json",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/README.md",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/manifest.json",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/WEG-GREEN-001-proven-complete.json",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/WEG-RED-001-candidate-pass.json",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/WEG-RED-002-comprehension-absent.json",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/WEG-RED-003-volatile-full-derivative.json",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/WEG-RED-004-approval-surface-mismatch.json",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/WEG-RED-005-ambient-approval.json",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/WEG-RED-006-rendered-retell-unaccounted.json",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/WEG-RED-007-post-apply-prior-digest.json"
+  ],
+  "validation": {
+    "artifact": "validation.json",
+    "result": "pass",
+    "fixture_baseline": "pass",
+    "editorial_admission_enforcement": "not-enforced",
+    "experiment_harness": "flag"
+  },
+  "blockers": [],
+  "residue": [
+    "Receipt schema and evaluator are absent and owned by later SWUs.",
+    "Reason-code precedence is provisional until evaluator implementation.",
+    "Reusable spell validation and promotion remain incomplete."
+  ],
+  "reroute": {
+    "status": "ready",
+    "capability": "task-session",
+    "target": "SWU-WEG-002",
+    "automatic_execution": false
+  },
+  "handoff_note": "Use this frozen corpus as the input boundary for the receipt schema; retain all observations as not-enforced until an evaluator actually runs."
+}

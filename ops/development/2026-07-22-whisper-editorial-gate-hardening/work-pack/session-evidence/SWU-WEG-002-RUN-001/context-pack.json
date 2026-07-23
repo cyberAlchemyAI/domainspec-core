@@ -1,0 +1,46 @@
+{
+  "schema_version": "context-builder.local.v0.1",
+  "task": "SWU-WEG-002",
+  "run": "001",
+  "mode": "standard",
+  "handoff_pack": false,
+  "strict_source_coverage": "pass",
+  "execution_gate": "pass",
+  "files_selected": 14,
+  "decisions": [
+    {"id": "schema-dialect", "classification": "assumption", "resolution": "JSON Schema Draft 2020-12"},
+    {"id": "validation-engine", "classification": "assumption", "resolution": "Python jsonschema 4.10.3"},
+    {"id": "supporting-definitions", "classification": "assumption", "resolution": "Local $defs in the run-receipt schema"},
+    {"id": "policy-consistency", "classification": "deferred", "resolution": "SWU-WEG-003 through SWU-WEG-005"}
+  ],
+  "obligations": [
+    {"id": "O1", "status": "covered", "summary": "Exactly one selected SWU."},
+    {"id": "O2", "status": "covered", "summary": "SWU-WEG-001 dependency passes."},
+    {"id": "O3", "status": "covered", "summary": "Stable run, transport, audience, and intent identity."},
+    {"id": "O4", "status": "covered", "summary": "Four separate explicit evidence axes."},
+    {"id": "O5", "status": "covered", "summary": "Present human evidence requires SHA-256 bindings."},
+    {"id": "O6", "status": "covered", "summary": "Typed approval and comprehension without semantic scoring."},
+    {"id": "O7", "status": "covered", "summary": "Post-apply producer and review stages."},
+    {"id": "O8", "status": "covered", "summary": "Computed decision shape without policy evaluation."},
+    {"id": "O9", "status": "covered", "summary": "Additive residue, closed statuses, digest patterns."},
+    {"id": "O10", "status": "covered", "summary": "Profile-controlled not_required comprehension."},
+    {"id": "O11", "status": "covered", "summary": "Selected approval required when approvals exist."},
+    {"id": "O12", "status": "covered", "summary": "Positive and negative schema fixtures."},
+    {"id": "O13", "status": "covered", "summary": "Repository-available Draft 2020-12 validator."},
+    {"id": "O14", "status": "covered", "summary": "Public boundary and unrelated dirty state preserved."}
+  ],
+  "write_scope": [
+    "arcanum/spells/whisper/schemas/editorial-run-receipt.schema.json",
+    "arcanum/spells/whisper/schemas/editorial-correction-event.schema.json",
+    "arcanum/spells/whisper/schemas/examples/editorial-admission/**"
+  ],
+  "forbidden_scope": [
+    "arcanum/spells/whisper/README.md",
+    "arcanum/spells/whisper/tools/**",
+    ".agents/skills/whisper/**",
+    "generated runtime",
+    "private integration prose"
+  ],
+  "dependency_receipt": "../SWU-WEG-001-RUN-002/receipt.json",
+  "blocker": null
+}

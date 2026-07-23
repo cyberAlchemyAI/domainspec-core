@@ -1,0 +1,80 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T030046Z-SWU-WFE-002",
+  "task_id": "TASK-WFE-002",
+  "swu_id": "SWU-WFE-002",
+  "result": "pass",
+  "status": "complete",
+  "capability_ref": "sigil-development",
+  "receipt_kind": "swu-closure",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-002/receipt.json",
+  "files_touched": [
+    {
+      "path": "arcanum/arcana/task-session/SKILL.md",
+      "sha256": "19bb18431544619e336728c3187ee73275225c55b9f22ec6e5d16eaa7c8dd199"
+    },
+    {
+      "path": "arcanum/arcana/task-session/README.md",
+      "sha256": "ff3e573c06cfd6a0b3323eae3ed832ed5f5e27ad19d17600d9bf68516251637d"
+    },
+    {
+      "path": "arcanum/arcana/task-session/decision-validation-policy.json",
+      "sha256": "fceefb6078c052de2cb72e7639516343f04b8b030ca8a8eedbafd8939648c40a"
+    },
+    {
+      "path": "arcanum/arcana/task-session/development/fixtures/decision-validation-cases.json",
+      "sha256": "dee3eb6278181ecc789eb5f705fe12eaf530f9a88d5644ffe46417ca490f200c"
+    },
+    {
+      "path": "arcanum/arcana/task-session/development/validate-decision-validation-policy.py",
+      "sha256": "bf4f7941e1a238a4f1fc837df47032c5d10ac5fb9bb1520b08145655c5040b07"
+    },
+    {
+      "path": "arcanum/arcana/task-session/development/run-validation-fixtures.sh",
+      "sha256": "91a32081a4f1ca426ed912b7c528075659441de5d433dcc59a89660c10cea3a9"
+    },
+    {
+      "path": ".agents/skills/task-session/",
+      "tree_sha256": "a91d32fc8724f7db018c674768dc3f4ec492ddf5ca0e5bd7da8f41bdbd839808"
+    },
+    {
+      "path": ".claude/skills/task-session/",
+      "tree_sha256": "47d2c41a5e404a6d7dff74e81d738fa8ad168dccfd58113c8f2a270f1f5a3ed8"
+    }
+  ],
+  "validation": [
+    {
+      "command": "bash arcanum/arcana/task-session/development/run-validation-fixtures.sh",
+      "result": "pass",
+      "passed": 13,
+      "failed": 0,
+      "parity": "canonical=.agents=.claude policy-and-contract-body"
+    },
+    {
+      "command": "git diff --check -- arcanum/arcana/task-session .agents/skills/task-session .claude/skills/task-session",
+      "result": "pass"
+    },
+    {
+      "command": "isolated bootstrap generation plus exact package diff",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "The shared validation framework remains intentionally deferred; this harness is Task Session-local.",
+    "Unrelated existing Orchestrate generator edits were inspected and preserved unchanged.",
+    "Lifecycle promotion, commit, push, and application mutation were not attempted."
+  ],
+  "reroute": {
+    "capability": "task-session",
+    "lifecycle_owner": "spellcraft",
+    "swu_id": "SWU-WFE-003A",
+    "reason": "Serial program order and explicit user authorization to continue until a blocker."
+  },
+  "handoff_note": "Build a fresh bounded context pack for the Invoke material-package validator; keep proposal-only completion outside the mutation-package gate.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "arcanum/arcana/task-session/development/run-validation-fixtures.sh",
+    "scope": "Task Session automatic-choice, validation-completion, and generated-parity behavior"
+  }
+}

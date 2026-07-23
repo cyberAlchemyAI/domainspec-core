@@ -1,0 +1,70 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T041144Z-SWU-WFE-007B",
+  "task_id": "TASK-WFE-007",
+  "swu_id": "SWU-WFE-007B",
+  "result": "pass",
+  "status": "execution-complete-closeout-pending",
+  "capability_ref": "sigil-development",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-007B/execution-receipt.json",
+  "files_touched": [
+    {
+      "path": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/domainspec-subagents-strategy/runtime-composition.json",
+      "sha256": "a3e92070398d42a26d4dc043e7d8945fb012d845125ce43cf738057acd1d6bbb"
+    },
+    {
+      "path": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/scripts/sync-strategy-runtimes.cjs",
+      "sha256": "4ec395e496997fdcb70524ba992b581a8b2c0050f59293fef6348aba699dcd64"
+    },
+    {
+      "path": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/tests/test-strategy-runtime-composition.cjs",
+      "sha256": "5c53fd692d3025e3c5c88a60416e619fcb54669f4bcdb22e7d8299bc25c23ecf"
+    },
+    {
+      "path": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/install.cjs",
+      "sha256": "39d41dfa67c932cdd829828a6767785435d05a6bb4c20798998dacc82820897b"
+    },
+    {
+      "path": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/README.md",
+      "sha256": "be51d2b5fa5671db4fc9597566d12b8988e5654b3ec34ed290fea39cff187699"
+    },
+    {
+      "path": ".claude/skills/domainspec-subagents-strategy/SKILL.md",
+      "sha256": "8e8494652a3a4534d401bbce534d88eabcf2d974a8e87bd1375c4c760e792b19"
+    }
+  ],
+  "validation": [
+    {
+      "command": "node implementation/domainspec/internal_tools/subagents-dispatch-hooks/tests/test-strategy-runtime-composition.cjs",
+      "result": "pass",
+      "assertions": 13
+    },
+    {
+      "command": "node implementation/domainspec/internal_tools/subagents-dispatch-hooks/tests/test-append-dispatch.cjs",
+      "result": "pass",
+      "assertions": 102
+    },
+    {
+      "command": "composition check, syntax, scoped diff check, and undeclared Codex overlay absence",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "The private installer remains Claude-specific; a private Codex target requires an explicit future owner decision.",
+    "No submodule commit, parent commit, push, release, or promotion occurred."
+  ],
+  "reroute": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "reason": "Close SWU-WFE-007B and W1, then select SWU-WFE-008A."
+  },
+  "handoff_note": "Build the generic Whisper overlay validator and private manifest without moving local preset prose into public Arcanum.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-007B/EXPERIMENT-REPORT.md",
+    "scope": "strategy public-base and private-overlay runtime composition"
+  }
+}

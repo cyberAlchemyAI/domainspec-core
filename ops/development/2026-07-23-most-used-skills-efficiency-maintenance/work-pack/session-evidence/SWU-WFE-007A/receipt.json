@@ -1,0 +1,33 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T040423Z-SWU-WFE-007A",
+  "task_id": "TASK-WFE-007",
+  "swu_id": "SWU-WFE-007A",
+  "result": "pass",
+  "status": "complete",
+  "capability_ref": "sigil-development",
+  "receipt_kind": "swu-closure",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-007A/receipt.json",
+  "execution_receipt": "work-pack/session-evidence/SWU-WFE-007A/execution-receipt.json",
+  "files_touched": [
+    {"path": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/", "evidence": "execution-receipt.json"},
+    {"path": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/", "evidence": "refreshes/2026-07-23-swu-wfe-007a-closeout/owner-receipt.json"}
+  ],
+  "validation": [
+    {"command": "dispatch appender full battery", "result": "pass", "assertions": 102},
+    {"command": "syntax, scoped diff, and real-ledger non-mutation", "result": "pass"}
+  ],
+  "blockers": [],
+  "residue": [],
+  "reroute": {"capability": "task-session", "mode": "execute", "swu_id": "SWU-WFE-007B", "reason": "Unique dependency-ready successor."},
+  "handoff_note": "Classify strategy runtime differences and reject undeclared semantic drift.",
+  "closeout_sync": {
+    "status": "pass",
+    "authorization": "derived",
+    "route": "invoke:refresh:apply-approved",
+    "continuation_receipt": "work-pack/session-evidence/SWU-WFE-007A/continuation-route.json",
+    "owner_receipt": "refreshes/2026-07-23-swu-wfe-007a-closeout/owner-receipt.json",
+    "returned_next_route": "task-session:execute SWU-WFE-007B"
+  },
+  "experiment_harness": {"status": "pass", "report": "work-pack/session-evidence/SWU-WFE-007A/EXPERIMENT-REPORT.md", "scope": "dispatch evidence binding and appender regressions"}
+}

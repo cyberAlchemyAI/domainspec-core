@@ -1,0 +1,34 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T040423Z-SWU-WFE-007A",
+  "task_id": "TASK-WFE-007",
+  "swu_id": "SWU-WFE-007A",
+  "result": "pass",
+  "status": "execution-complete-closeout-pending",
+  "capability_ref": "sigil-development",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-007A/execution-receipt.json",
+  "files_touched": [
+    {"path": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/register-dispatch/append-dispatch.cjs", "sha256": "0146c6b0c50e64c56ec13991ffd4ea3f8ac06ba1c8549f4fbe00697dbcd37037"},
+    {"path": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/tests/test-append-dispatch.cjs", "sha256": "0056eb241044ba1adcc06688bb7801481a49169d8af930db3b7eca70d25238cc"},
+    {"path": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/register-dispatch/SKILL.md", "sha256": "d28efc943031d991569c6bcf7524056e8f4438922ed580cd3c59e8ac5dd4631d"},
+    {"path": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/domainspec-subagents-strategy/SKILL.md", "sha256": "d47c0f447960c8f139b61e1d5091025f383a2a40dce02e291577471958b4897f"}
+  ],
+  "validation": [
+    {"command": "node implementation/domainspec/internal_tools/subagents-dispatch-hooks/tests/test-append-dispatch.cjs", "result": "pass", "assertions": 102},
+    {"command": "node --check appender and test battery", "result": "pass"},
+    {"command": "scoped diff check and real-ledger non-mutation", "result": "pass"}
+  ],
+  "blockers": [],
+  "residue": [
+    "Strategy runtime difference classification and parity remain isolated to SWU-WFE-007B.",
+    "No real dispatch row, subagent spawn, commit, push, release, or promotion occurred."
+  ],
+  "reroute": {"capability": "invoke", "mode": "refresh", "mutation_mode": "apply-approved", "reason": "Close SWU-WFE-007A and select SWU-WFE-007B."},
+  "handoff_note": "Classify canonical, runtime metadata, and declared overlay differences before synchronizing strategy runtimes.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-007A/EXPERIMENT-REPORT.md",
+    "scope": "dispatch appender schema 0.7.0 sheet evidence binding"
+  }
+}

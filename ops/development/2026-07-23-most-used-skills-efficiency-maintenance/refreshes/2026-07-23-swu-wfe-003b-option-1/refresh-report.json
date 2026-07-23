@@ -1,0 +1,60 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "mutationMode": "apply-approved",
+  "handoffStatus": "ready",
+  "sourceSignals": [
+    {
+      "id": "WFE003B-R1",
+      "signalType": "blocker_resolved",
+      "claim": "Runtime packaging Option 1 was selected directly by the user."
+    },
+    {
+      "id": "WFE003B-R2",
+      "signalType": "status_changed",
+      "claim": "SWU-WFE-003B is selected with a widened runtime-support write scope."
+    },
+    {
+      "id": "WFE003B-R3",
+      "signalType": "route_changed",
+      "claim": "The next route is Task Session execution of SWU-WFE-003B."
+    }
+  ],
+  "targetArtifacts": [
+    "WORK-PACK.md",
+    "work-pack/swu-manifest.json",
+    "work-pack/tasks/TASK-WFE-003-INVOKE-MATERIAL-PACKAGE.md",
+    "work-pack/waves/W0.md",
+    "work-pack/shared/cross-task-decisions.md",
+    "work-pack/shared/cross-task-gaps.md",
+    "work-pack/session-evidence/SWU-WFE-003B/DECISION-GATE.md"
+  ],
+  "deltaSummary": [
+    "blocker_resolved",
+    "status_changed",
+    "route_changed"
+  ],
+  "proposedChanges": [],
+  "appliedChanges": [
+    "recorded Option 1",
+    "widened runtime support scope",
+    "selected SWU-WFE-003B"
+  ],
+  "skippedChanges": [
+    "historical blocker receipt",
+    "SWU-WFE-003B implementation",
+    "SWU-WFE-004A selection",
+    "bootstrap mutation"
+  ],
+  "blockers": [],
+  "nextRoute": "task-session:SWU-WFE-003B",
+  "validation": [
+    "jq empty work-pack/swu-manifest.json",
+    "jq empty refreshes/2026-07-23-swu-wfe-003b-option-1/refresh-report.json",
+    "scoped consistency review"
+  ]
+}

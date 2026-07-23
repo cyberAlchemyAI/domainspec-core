@@ -1,0 +1,70 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T044113Z-SWU-WFE-010",
+  "task_id": "TASK-WFE-010",
+  "swu_id": "SWU-WFE-010",
+  "result": "pass",
+  "status": "complete",
+  "capability_ref": "spellcraft",
+  "receipt_kind": "swu-closure",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-010/receipt.json",
+  "execution_receipt": "work-pack/session-evidence/SWU-WFE-010/execution-receipt.json",
+  "files_touched": [
+    {
+      "path": "arcanum/spells/invoke/",
+      "evidence": "execution-receipt.json"
+    },
+    {
+      "path": ".agents/skills/invoke/",
+      "evidence": "isolated generated tree equality"
+    },
+    {
+      "path": ".claude/skills/invoke/",
+      "evidence": "isolated generated tree equality"
+    },
+    {
+      "path": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/",
+      "evidence": "refreshes/2026-07-23-swu-wfe-010-closeout/owner-receipt.json"
+    }
+  ],
+  "validation": [
+    {
+      "command": "three-axis capability fixture matrix",
+      "result": "pass",
+      "tests": 13
+    },
+    {
+      "command": "full Invoke deterministic validation",
+      "result": "pass"
+    },
+    {
+      "command": "generated runtime parity and scoped checks",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "No registry release is claimed.",
+    "Deferred modes remain unsupported and non-mutation-capable."
+  ],
+  "reroute": {
+    "capability": "task-session",
+    "mode": "execute",
+    "task_id": "TASK-WFE-VERIFY",
+    "reason": "All implementation SWUs are complete; the closure-only audit is ready."
+  },
+  "handoff_note": "Run the cross-capability closure audit and stop on any unresolved acceptance-critical failure.",
+  "closeout_sync": {
+    "status": "pass",
+    "authorization": "derived",
+    "route": "invoke:refresh:apply-approved",
+    "continuation_receipt": "work-pack/session-evidence/SWU-WFE-010/continuation-route.json",
+    "owner_receipt": "refreshes/2026-07-23-swu-wfe-010-closeout/owner-receipt.json",
+    "returned_next_route": "task-session:execute TASK-WFE-VERIFY"
+  },
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-010/EXPERIMENT-REPORT.md",
+    "scope": "Invoke three-axis capability status resolution"
+  }
+}

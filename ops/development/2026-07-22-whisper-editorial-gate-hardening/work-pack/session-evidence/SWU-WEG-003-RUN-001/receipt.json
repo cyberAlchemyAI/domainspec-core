@@ -1,0 +1,38 @@
+{
+  "schema_version": "task-session.receipt.v0.1",
+  "swu_id": "SWU-WEG-003",
+  "result": "pass",
+  "capability_ref": "task-session",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "TASK-SESSION-REPORT.md",
+  "files_touched": [
+    "arcanum/spells/whisper/tools/validate-whisper-run-receipt.py",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/status-ceiling/README.md",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/status-ceiling/status-ceiling-fixtures.json",
+    "arcanum/spells/whisper/development/fixtures/editorial-admission/status-ceiling/status-ceiling-test-report.json"
+  ],
+  "validation": {
+    "artifact": "validation.json",
+    "result": "pass",
+    "status_test_report": "arcanum/spells/whisper/development/fixtures/editorial-admission/status-ceiling/status-ceiling-test-report.json",
+    "cases": 18,
+    "evaluator_version": "0.1.0",
+    "evaluator_sha256": "c2e9ec35557311b386efa3b4ce30739a8105db8d844fe4d72e994773b2a3c1d7",
+    "status_evaluator": "pass",
+    "evidence_binding": "not-enforced",
+    "experiment_harness": "flag"
+  },
+  "blockers": [],
+  "residue": [
+    "Digest and reference binding are not implemented in this evaluator version.",
+    "Top-level correction_refs are treated as active invalidators pending replay-state refinement.",
+    "Generation admission remains a separate evaluator."
+  ],
+  "reroute": {
+    "status": "ready",
+    "capability": "task-session",
+    "target": "SWU-WEG-004",
+    "automatic_execution": false
+  },
+  "handoff_note": "Add exact evidence binding without changing the proven status precedence or introducing semantic scoring."
+}

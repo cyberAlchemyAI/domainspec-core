@@ -1,0 +1,125 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T032844Z-SWU-WFE-003B",
+  "task_id": "TASK-WFE-003",
+  "swu_id": "SWU-WFE-003B",
+  "result": "pass",
+  "status": "execution-complete-closeout-pending",
+  "capability_ref": "spellcraft",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-003B/execution-receipt.json",
+  "files_touched": [
+    {
+      "path": "arcanum/spells/invoke/refresh.md",
+      "sha256": "62a8ceb04e3fc25f08314b0ab13265740681e46c136a7240871dbbb14305e263"
+    },
+    {
+      "path": "arcanum/spells/invoke/scripts/material_package_validator.py",
+      "sha256": "5012c5767f6dc0e76a0e34a63f4b65342883c7969b52e9b86e910c4c63ee1426"
+    },
+    {
+      "path": "arcanum/spells/invoke/scripts/refresh_material_handoff.py",
+      "sha256": "fb6140f66c5fb3bd7b570002a0fe9f1ee5d3fc59a60afcc2466d2e8936ca1e0f"
+    },
+    {
+      "path": "arcanum/spells/invoke/schemas/material-package.schema.json",
+      "sha256": "f52810a2b08507f487cfc63e7b8619761a2803613098e6eb7cc46911288dc628"
+    },
+    {
+      "path": "arcanum/spells/invoke/schemas/material-package-receipt.schema.json",
+      "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b"
+    },
+    {
+      "path": "arcanum/spells/invoke/development/fixtures/refresh-material-handoff-cases.json",
+      "sha256": "81d327b9c956bfa08712f354d38483a6a297409d191be4bd70e842a097c941e7"
+    },
+    {
+      "path": "arcanum/spells/invoke/development/run_material_package_fixtures.py",
+      "sha256": "71850c4bdb3107c3d6b5350ea81f605eb4af564d4019ea9b5f0f723da3620b2f"
+    },
+    {
+      "path": "arcanum/spells/invoke/development/run-validation-fixtures.sh",
+      "sha256": "f69ff57a72a6e92bd1eba8ba3d284c982935284e512fab8ffa2084b1eb49a232"
+    },
+    {
+      "path": ".agents/skills/invoke/refresh.md",
+      "sha256": "62a8ceb04e3fc25f08314b0ab13265740681e46c136a7240871dbbb14305e263"
+    },
+    {
+      "path": ".agents/skills/invoke/scripts/material_package_validator.py",
+      "sha256": "5012c5767f6dc0e76a0e34a63f4b65342883c7969b52e9b86e910c4c63ee1426"
+    },
+    {
+      "path": ".agents/skills/invoke/scripts/refresh_material_handoff.py",
+      "sha256": "fb6140f66c5fb3bd7b570002a0fe9f1ee5d3fc59a60afcc2466d2e8936ca1e0f"
+    },
+    {
+      "path": ".agents/skills/invoke/schemas/material-package.schema.json",
+      "sha256": "f52810a2b08507f487cfc63e7b8619761a2803613098e6eb7cc46911288dc628"
+    },
+    {
+      "path": ".agents/skills/invoke/schemas/material-package-receipt.schema.json",
+      "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b"
+    },
+    {
+      "path": ".claude/skills/invoke/refresh.md",
+      "sha256": "62a8ceb04e3fc25f08314b0ab13265740681e46c136a7240871dbbb14305e263"
+    },
+    {
+      "path": ".claude/skills/invoke/scripts/material_package_validator.py",
+      "sha256": "5012c5767f6dc0e76a0e34a63f4b65342883c7969b52e9b86e910c4c63ee1426"
+    },
+    {
+      "path": ".claude/skills/invoke/scripts/refresh_material_handoff.py",
+      "sha256": "fb6140f66c5fb3bd7b570002a0fe9f1ee5d3fc59a60afcc2466d2e8936ca1e0f"
+    },
+    {
+      "path": ".claude/skills/invoke/schemas/material-package.schema.json",
+      "sha256": "f52810a2b08507f487cfc63e7b8619761a2803613098e6eb7cc46911288dc628"
+    },
+    {
+      "path": ".claude/skills/invoke/schemas/material-package-receipt.schema.json",
+      "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b"
+    }
+  ],
+  "validation": [
+    {
+      "command": "bash arcanum/spells/invoke/development/run-material-package-fixtures.sh",
+      "result": "pass",
+      "passed": 19,
+      "failed": 0
+    },
+    {
+      "command": "bash arcanum/spells/invoke/development/run-validation-fixtures.sh",
+      "result": "pass",
+      "report": "arcanum/spells/invoke/development/runs/20260723T032810Z.md"
+    },
+    {
+      "command": "isolated bootstrap generation for Invoke Codex and Claude packages",
+      "result": "pass",
+      "target": "/tmp/domainspec-invoke-gen.p7PPRA"
+    },
+    {
+      "command": "git diff --check -- arcanum/spells/invoke .agents/skills/invoke .claude/skills/invoke",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "Task Session does not consume the material readiness receipt until SWU-WFE-005.",
+    "The historical packaging blocker remains in BLOCKER.md and block-receipt.json.",
+    "Lifecycle promotion, commit, push, bootstrap mutation, and target application mutation were not attempted."
+  ],
+  "reroute": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "reason": "Synchronize completion evidence and select the unique declared successor."
+  },
+  "handoff_note": "Close SWU-WFE-003B, refresh SWU-WFE-003A relocated paths, and select SWU-WFE-004A without executing it.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "arcanum/spells/invoke/development/runs/20260723T032810Z.md",
+    "scope": "Invoke material-package validation, handoff admission, proposal compatibility, and generated-runtime parity"
+  }
+}

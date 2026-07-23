@@ -1,0 +1,55 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "continuation-20260723T034836Z-SWU-WFE-005-closeout",
+  "source": {
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "pass",
+    "receipt": "work-pack/session-evidence/SWU-WFE-005/execution-receipt.json",
+    "blocker_fingerprint": "closeout-sync-swu-wfe-005-v1",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": true,
+    "exact_route": "invoke:refresh:apply-approved",
+    "evidence": "Task Session receipt-bound closeout policy and active user request"
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "invoke",
+      "mode": "refresh",
+      "mutation_mode": "apply-approved",
+      "owner": "invoke",
+      "evidence": [
+        "passing SWU-WFE-005 execution receipt",
+        "W1 remains active",
+        "unique successor SWU-WFE-006A"
+      ],
+      "required_inputs": ["source receipt", "target inventory", "validation"],
+      "missing_inputs": [],
+      "mutation_risk": "low",
+      "approval_required": true,
+      "authorization_status": "matched",
+      "expected_receipt": "Invoke Refresh owner receipt",
+      "fallback": "block closeout and preserve execution pass"
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The required closeout owner and successor are unambiguous."
+  },
+  "dispatch": {
+    "status": "completed",
+    "runtime": "inline-owner-contract",
+    "owner_receipt": "refreshes/2026-07-23-swu-wfe-005-closeout/owner-receipt.json",
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": {
+    "capability": "task-session",
+    "mode": "execute",
+    "target": "SWU-WFE-006A"
+  }
+}

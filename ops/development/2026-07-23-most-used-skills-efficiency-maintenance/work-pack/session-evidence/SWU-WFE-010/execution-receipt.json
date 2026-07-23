@@ -1,0 +1,75 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T044113Z-SWU-WFE-010",
+  "task_id": "TASK-WFE-010",
+  "swu_id": "SWU-WFE-010",
+  "result": "pass",
+  "status": "execution-complete-closeout-pending",
+  "capability_ref": "spellcraft",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-010/execution-receipt.json",
+  "files_touched": [
+    {
+      "path": "arcanum/spells/invoke/mode-capabilities.json",
+      "sha256": "862f5ae0f81a75cc5cb6887f78164a7d3fae4809ba341e1ba1e3f5fd4880b882"
+    },
+    {
+      "path": "arcanum/spells/invoke/scripts/capability_status_resolver.py",
+      "sha256": "1ea0df4bd655bc08157b99a441c71b06c77b37949eeb70c7e5b372e52f3bd171"
+    },
+    {
+      "path": "arcanum/spells/invoke/schemas/capability-status-request.schema.json",
+      "sha256": "5f9aa02992a59c3d802e91adcba9a5df6c7885b9d0de03b5d6b8a226308f72d5"
+    },
+    {
+      "path": "arcanum/spells/invoke/schemas/capability-status-result.schema.json",
+      "sha256": "e6099ac5749d4856a913fc668337b21e8ce8fb84f18a46fb7feb229cd23244d0"
+    },
+    {
+      "path": "arcanum/spells/invoke/development/test_capability_status_resolver.py",
+      "sha256": "5db4342e646fafa580ab63773d769ee15f7d66822276dd546e22597e265ff9ca"
+    },
+    {
+      "path": ".agents/skills/invoke/",
+      "evidence": "isolated generated tree equality"
+    },
+    {
+      "path": ".claude/skills/invoke/",
+      "evidence": "isolated generated tree equality"
+    }
+  ],
+  "validation": [
+    {
+      "command": "bash arcanum/spells/invoke/development/run-capability-status-fixtures.sh",
+      "result": "pass",
+      "tests": 13
+    },
+    {
+      "command": "bash arcanum/spells/invoke/development/run-validation-fixtures.sh",
+      "result": "pass",
+      "report": "arcanum/spells/invoke/development/runs/20260723T044113Z.md"
+    },
+    {
+      "command": "isolated Invoke generation, runtime tree equality, JSON, syntax, and scoped diff checks",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "No registry owner receipt was issued; registry status remains false unless a current qualifying receipt is supplied.",
+    "Invoke full and validate remain deferred, artifact-unsupported, registry-false, and runtime-false.",
+    "No submodule commit, parent commit, push, release, promotion, or target mutation occurred."
+  ],
+  "reroute": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "reason": "Close SWU-WFE-010 and W2, then activate TASK-WFE-VERIFY."
+  },
+  "handoff_note": "Recompose all ten accepted findings and implementation receipts without treating validation as release.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-010/EXPERIMENT-REPORT.md",
+    "scope": "Invoke three-axis capability status resolution"
+  }
+}

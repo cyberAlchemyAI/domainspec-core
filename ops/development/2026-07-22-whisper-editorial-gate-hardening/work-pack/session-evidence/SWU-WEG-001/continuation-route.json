@@ -1,0 +1,61 @@
+{
+  "schema_version": "arcanum.continuation_route.v1",
+  "route_id": "2026-07-22-swu-weg-001-missing-spellcraft-acceptance",
+  "source": {
+    "capability": "task-session",
+    "mode": "execute",
+    "result": "blocked",
+    "receipt": "TASK-SESSION-REPORT.md",
+    "blocker_fingerprint": "sha256:4e1d9de15dcd32d5b44e6da86847060cdf13d7a45a005eca1ce1fc74aa63c5ce",
+    "legacy_adaptation": false
+  },
+  "authorization": {
+    "requested": true,
+    "exact_route": "spellcraft:design:proposal-only",
+    "evidence": "User selected Option 1 in DECISION-GATE.md with reply `1`."
+  },
+  "candidates": [
+    {
+      "rank": 1,
+      "capability": "spellcraft",
+      "mode": "design",
+      "mutation_mode": "proposal-only",
+      "owner": "Spellcraft",
+      "evidence": [
+        "WORK-PACK.md routes the selected SWU through Spellcraft acceptance.",
+        "W0.md requires Spellcraft acceptance before entry.",
+        "execution.dispatch.json S2 defines the exact owner step and expected decision receipt."
+      ],
+      "required_inputs": [
+        "SPELLCRAFT-HANDOFF.md",
+        "DESIGN.md",
+        "WORK-PACK.md",
+        "dispatch-validation.json",
+        "explicit spellcraft:design:proposal-only authorization"
+      ],
+      "missing_inputs": [],
+      "mutation_risk": "medium",
+      "approval_required": true,
+      "authorization_status": "matched",
+      "expected_receipt": "Spellcraft result containing S2.spellcraft-acceptance or an explicit flag/block with residue.",
+      "fallback": "Keep SWU-WEG-001 blocked and ask the operator to accept, revise, or defer the handoff."
+    }
+  ],
+  "selection": {
+    "status": "selected",
+    "candidate_rank": 1,
+    "reason": "The lifecycle owner is unambiguous and the user authorized the exact proposal-only route."
+  },
+  "dispatch": {
+    "status": "flagged",
+    "runtime": "local-inline-owner-hop",
+    "owner_receipt": "S2-SPELLCRAFT-ACCEPTANCE.md",
+    "helper_closeout": "n/a"
+  },
+  "owner_boundary": "pass",
+  "returned_next_route": {
+    "capability": "task-session",
+    "mode": "execute",
+    "target": "SWU-WEG-001"
+  }
+}

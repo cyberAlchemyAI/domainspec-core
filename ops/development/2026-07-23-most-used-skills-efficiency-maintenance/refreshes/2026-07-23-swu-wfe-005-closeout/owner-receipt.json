@@ -1,0 +1,28 @@
+{
+  "schema_version": "invoke.refresh.owner-receipt.v1",
+  "run_id": "invoke-refresh-20260723T034836Z-SWU-WFE-005-closeout",
+  "route": "invoke:refresh:apply-approved",
+  "source_receipt": "work-pack/session-evidence/SWU-WFE-005/execution-receipt.json",
+  "result": "pass",
+  "owner": "invoke",
+  "mode": "refresh",
+  "mutation_mode": "apply-approved",
+  "delta_classes": ["evidence_added", "status_changed", "route_changed"],
+  "authorization": {
+    "source": "task-session closeout policy plus active user request",
+    "target_inventory_bound": true,
+    "implementation_authority": false,
+    "next_task_execution_authority": false
+  },
+  "validation": [
+    "source receipt pass",
+    "Task Session full fixture suite pass",
+    "unique successor SWU-WFE-006A"
+  ],
+  "blockers": [],
+  "returned_next_route": {
+    "capability": "task-session",
+    "mode": "execute",
+    "target": "SWU-WFE-006A"
+  }
+}

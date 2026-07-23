@@ -1,0 +1,52 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T020000Z-SWU-WFE-001",
+  "task_id": "TASK-WFE-001",
+  "swu_id": "SWU-WFE-001",
+  "result": "pass",
+  "status": "complete",
+  "capability_ref": "sigil-development",
+  "receipt_kind": "swu-closure",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-001/receipt.json",
+  "files_touched": [
+    {
+      "path": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/register-dispatch/append-dispatch.cjs",
+      "sha256": "ae2800d8f5c1443f4bd356a578e04740c4b1b75fcc6bd68ca2000430182aaef4"
+    },
+    {
+      "path": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/tests/test-append-dispatch.cjs",
+      "sha256": "1ff9a6408bd23584d3a5e15950ca9f12a4db8a78def55efbde430228c6e1e552"
+    }
+  ],
+  "validation": [
+    {
+      "command": "node implementation/domainspec/internal_tools/subagents-dispatch-hooks/tests/test-append-dispatch.cjs",
+      "result": "pass",
+      "passed": 93,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "git -C implementation/domainspec diff --check -- internal_tools/subagents-dispatch-hooks/skills/register-dispatch/append-dispatch.cjs internal_tools/subagents-dispatch-hooks/tests/test-append-dispatch.cjs",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "No schema field, ledger history, strategy prose, generated runtime, or public Arcanum source changed.",
+    "Lifecycle promotion and publication were not attempted.",
+    "Unrelated existing changes in the nested DomainSpec checkout and parent dispatch ledger were preserved."
+  ],
+  "reroute": {
+    "capability": "task-session",
+    "lifecycle_owner": "sigil-development",
+    "swu_id": "SWU-WFE-002",
+    "reason": "Serial program order and explicit user authorization to continue until a blocker."
+  },
+  "handoff_note": "Build a fresh bounded context pack for SWU-WFE-002; public Arcanum is a dirty submodule, so inspect exact canonical/runtime overlap before mutation.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "implementation/domainspec/internal_tools/subagents-dispatch-hooks/tests/test-append-dispatch.cjs",
+    "scope": "focused private appender behavior"
+  }
+}

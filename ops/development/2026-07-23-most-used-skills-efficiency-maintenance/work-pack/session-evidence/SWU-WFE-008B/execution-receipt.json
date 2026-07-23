@@ -1,0 +1,71 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T042524Z-SWU-WFE-008B",
+  "task_id": "TASK-WFE-008",
+  "swu_id": "SWU-WFE-008B",
+  "result": "pass",
+  "status": "execution-complete-closeout-pending",
+  "capability_ref": "spellcraft",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-008B/execution-receipt.json",
+  "files_touched": [
+    {
+      "path": "arcanum/tools/bootstrap_arcanum.sh",
+      "sha256": "68c1aa551384751ed46950d6ec95c37c84cd2f87d985d92f591089242b39d231"
+    },
+    {
+      "path": ".agents/skills/whisper/SKILL.md",
+      "sha256": "f8a5ad1c14009435eaafd86d603d32be78ad14e9f1771e5dc067e46a6b490e1c"
+    },
+    {
+      "path": ".claude/skills/whisper/SKILL.md",
+      "sha256": "50c59df281d4d717a2d53dfb27785209d73316ec29d7fa298bc37f3698669c52"
+    },
+    {
+      "path": ".agents/skills/whisper/",
+      "evidence": "isolated generated tree byte comparison"
+    },
+    {
+      "path": ".claude/skills/whisper/",
+      "evidence": "isolated generated tree byte comparison"
+    }
+  ],
+  "validation": [
+    {
+      "command": "isolated bootstrap --spells whisper --profiles repo-codex,claude --force",
+      "result": "pass"
+    },
+    {
+      "command": "validate_runtime_overlay.py --check-generated",
+      "result": "pass",
+      "assertions": 24
+    },
+    {
+      "command": "python3 arcanum/runtime/overlays/tests/test_runtime_overlay.py",
+      "result": "pass",
+      "assertions": 15
+    },
+    {
+      "command": "isolated/live tree equality, bash syntax, public/private, help, and scoped diff checks",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "The bootstrap file retains unrelated pre-existing Orchestrate generation changes.",
+    "The generator's sigil selector has no none value, so isolated proof generated disposable non-Whisper packages before copying only Whisper.",
+    "No submodule commit, parent commit, push, release, or promotion occurred."
+  ],
+  "reroute": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "reason": "Close SWU-WFE-008B and TASK-WFE-008, then select SWU-WFE-009."
+  },
+  "handoff_note": "Validate Inventory source/projection identity, coverage, existence, and freshness bidirectionally.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-008B/EXPERIMENT-REPORT.md",
+    "scope": "Whisper two-runtime canonical-base plus private-overlay generation"
+  }
+}

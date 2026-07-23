@@ -1,0 +1,63 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T042056Z-SWU-WFE-008A",
+  "task_id": "TASK-WFE-008",
+  "swu_id": "SWU-WFE-008A",
+  "result": "pass",
+  "status": "complete",
+  "capability_ref": "spellcraft",
+  "receipt_kind": "swu-closure",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-008A/receipt.json",
+  "execution_receipt": "work-pack/session-evidence/SWU-WFE-008A/execution-receipt.json",
+  "files_touched": [
+    {
+      "path": "arcanum/runtime/overlays/",
+      "evidence": "execution-receipt.json"
+    },
+    {
+      "path": ".arcanum/runtime/overlays/whisper/",
+      "evidence": "manifest.json"
+    },
+    {
+      "path": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/",
+      "evidence": "refreshes/2026-07-23-swu-wfe-008a-closeout/owner-receipt.json"
+    }
+  ],
+  "validation": [
+    {
+      "command": "runtime-overlay causal fixture battery",
+      "result": "pass",
+      "assertions": 15
+    },
+    {
+      "command": "live Whisper overlay manifest admission",
+      "result": "pass"
+    },
+    {
+      "command": "schema, privacy, syntax, and scoped diff checks",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [],
+  "reroute": {
+    "capability": "task-session",
+    "mode": "execute",
+    "swu_id": "SWU-WFE-008B",
+    "reason": "Unique dependency-ready successor."
+  },
+  "handoff_note": "Integrate the admitted manifest into the existing bootstrap path and prove generated parity.",
+  "closeout_sync": {
+    "status": "pass",
+    "authorization": "derived",
+    "route": "invoke:refresh:apply-approved",
+    "continuation_receipt": "work-pack/session-evidence/SWU-WFE-008A/continuation-route.json",
+    "owner_receipt": "refreshes/2026-07-23-swu-wfe-008a-closeout/owner-receipt.json",
+    "returned_next_route": "task-session:execute SWU-WFE-008B"
+  },
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-008A/EXPERIMENT-REPORT.md",
+    "scope": "generic runtime-overlay admission and private Whisper manifest"
+  }
+}

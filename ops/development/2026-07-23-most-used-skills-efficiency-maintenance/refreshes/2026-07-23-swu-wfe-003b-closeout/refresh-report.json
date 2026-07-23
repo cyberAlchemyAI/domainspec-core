@@ -1,0 +1,54 @@
+{
+  "mode": "refresh",
+  "phaseStatus": "pass",
+  "phaseStatusBasis": {
+    "artifactComplete": true,
+    "refreshAuthoringBlockerCount": 0
+  },
+  "mutationMode": "apply-approved",
+  "handoffStatus": "ready",
+  "sourceSignals": [
+    {
+      "id": "WFE003B-C1",
+      "signalType": "evidence_added",
+      "sourcePath": "work-pack/session-evidence/SWU-WFE-003B/execution-receipt.json"
+    },
+    {
+      "id": "WFE003B-C2",
+      "signalType": "status_changed",
+      "claim": "SWU-WFE-003B and TASK-WFE-003 completed."
+    },
+    {
+      "id": "WFE003B-C3",
+      "signalType": "route_changed",
+      "claim": "SWU-WFE-004A is the unique declared successor."
+    }
+  ],
+  "targetArtifacts": [
+    "WORK-PACK.md",
+    "work-pack/swu-manifest.json",
+    "work-pack/tasks/TASK-WFE-003-INVOKE-MATERIAL-PACKAGE.md",
+    "work-pack/tasks/TASK-WFE-004-INVENTORY-KIND-CONTRACT.md",
+    "work-pack/waves/W0.md",
+    "work-pack/session-evidence/SWU-WFE-003A/RELOCATION-REFRESH.md"
+  ],
+  "deltaSummary": [
+    "evidence_added",
+    "status_changed",
+    "route_changed"
+  ],
+  "appliedChanges": [
+    "closed SWU-WFE-003B",
+    "closed TASK-WFE-003",
+    "selected SWU-WFE-004A",
+    "recorded SWU-WFE-003A relocation overlay"
+  ],
+  "blockers": [],
+  "nextRoute": "task-session:execute SWU-WFE-004A",
+  "validation": [
+    "jq empty work-pack/swu-manifest.json",
+    "focused Invoke suite 19/19",
+    "full Invoke harness pass",
+    "scoped diff check"
+  ]
+}

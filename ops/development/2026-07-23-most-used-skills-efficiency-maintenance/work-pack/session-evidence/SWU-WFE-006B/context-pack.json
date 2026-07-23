@@ -1,0 +1,35 @@
+{
+  "schema_version": "context-pack.v1",
+  "task_id": "TASK-WFE-006",
+  "swu_id": "SWU-WFE-006B",
+  "status": "pass",
+  "mode": "lean",
+  "lifecycle_owner": "sigil-development",
+  "strict_coverage": true,
+  "obligations": [
+    {"id": "DG1B-O1", "status": "covered"},
+    {"id": "DG1B-O2", "status": "covered"},
+    {"id": "DG1B-O3", "status": "covered"},
+    {"id": "DG1B-O4", "status": "covered"},
+    {"id": "DG1B-O5", "status": "covered"},
+    {"id": "DG1B-O6", "status": "covered"},
+    {"id": "DG1B-O7", "status": "covered"},
+    {"id": "DG1B-O8", "status": "covered"},
+    {"id": "DG1B-O9", "status": "covered"},
+    {"id": "DG1B-O10", "status": "covered"}
+  ],
+  "write_scope": [
+    "arcanum/arcana/decision-gate/",
+    ".agents/skills/decision-gate/",
+    ".claude/skills/decision-gate/",
+    "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/"
+  ],
+  "validation_commands": [
+    "bash arcanum/arcana/decision-gate/development/run-validation-fixtures.sh",
+    "git diff --check -- arcanum/arcana/decision-gate .agents/skills/decision-gate .claude/skills/decision-gate"
+  ],
+  "gaps": [
+    "No shared owner-gate receipt schema exists; protected hazards fail closed to their owner."
+  ],
+  "blockers": []
+}

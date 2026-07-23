@@ -1,0 +1,40 @@
+{
+  "schema_version": "task-session.receipt.v0.1",
+  "swu_id": "SWU-WEG-002",
+  "result": "pass",
+  "capability_ref": "task-session",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "TASK-SESSION-REPORT.md",
+  "files_touched": [
+    "arcanum/spells/whisper/schemas/editorial-run-receipt.schema.json",
+    "arcanum/spells/whisper/schemas/editorial-correction-event.schema.json",
+    "arcanum/spells/whisper/schemas/examples/editorial-admission/README.md",
+    "arcanum/spells/whisper/schemas/examples/editorial-admission/bases/run-good-complete-newcomer.json",
+    "arcanum/spells/whisper/schemas/examples/editorial-admission/bases/correction-good.json",
+    "arcanum/spells/whisper/schemas/examples/editorial-admission/schema-fixture-manifest.json",
+    "arcanum/spells/whisper/schemas/examples/editorial-admission/run-schema-fixtures.py",
+    "arcanum/spells/whisper/schemas/examples/editorial-admission/schema-test-report.json"
+  ],
+  "validation": {
+    "artifact": "validation.json",
+    "result": "pass",
+    "schema_test_report": "arcanum/spells/whisper/schemas/examples/editorial-admission/schema-test-report.json",
+    "cases": 16,
+    "receipt_schema": "pass",
+    "editorial_admission_enforcement": "not-enforced",
+    "experiment_harness": "flag"
+  },
+  "blockers": [],
+  "residue": [
+    "Reference equality and digest recomputation are not JSON Schema claims.",
+    "Status and generation policy evaluators remain absent.",
+    "Reusable spell validation and promotion remain incomplete."
+  ],
+  "reroute": {
+    "status": "ready",
+    "capability": "task-session",
+    "target": "SWU-WEG-003",
+    "automatic_execution": false
+  },
+  "handoff_note": "Use the typed receipt as the input contract for the pure status evaluator; preserve schema proof and policy proof as separate evidence."
+}

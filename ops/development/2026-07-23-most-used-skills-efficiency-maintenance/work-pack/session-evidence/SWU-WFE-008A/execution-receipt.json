@@ -1,0 +1,75 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T042056Z-SWU-WFE-008A",
+  "task_id": "TASK-WFE-008",
+  "swu_id": "SWU-WFE-008A",
+  "result": "pass",
+  "status": "execution-complete-closeout-pending",
+  "capability_ref": "spellcraft",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-008A/execution-receipt.json",
+  "files_touched": [
+    {
+      "path": "arcanum/runtime/overlays/README.md",
+      "sha256": "ba1e42c95f7bfcac8005bdf2f00b8c72bc27558b5001ad19d44615c623fee033"
+    },
+    {
+      "path": "arcanum/runtime/overlays/runtime-overlay-manifest.schema.json",
+      "sha256": "12b4820534917d9c73d55d08a205170be4b7867f2c5b889c53a7656579a7c5dd"
+    },
+    {
+      "path": "arcanum/runtime/overlays/scripts/validate_runtime_overlay.py",
+      "sha256": "665565325c9a50e9adc8681684d3a21825ccc5a2b9946641831bfc457b23e44b"
+    },
+    {
+      "path": "arcanum/runtime/overlays/tests/test_runtime_overlay.py",
+      "sha256": "5be6605d131bc211f3f08c89df713e4bdd2c0b6bf0afeaed7cbb2aa6f9a6a0e6"
+    },
+    {
+      "path": ".arcanum/runtime/overlays/whisper/manifest.json",
+      "sha256": "05357441bc224999c4c63b94170a612d71284882d1e425833dfbfe04dfba834b"
+    },
+    {
+      "path": ".arcanum/runtime/overlays/whisper/fragments/",
+      "evidence": "manifest digest bindings"
+    },
+    {
+      "path": ".arcanum/runtime/overlays/whisper/presets/product-research-blueprint/",
+      "evidence": "manifest copied-file digest bindings"
+    }
+  ],
+  "validation": [
+    {
+      "command": "python3 arcanum/runtime/overlays/tests/test_runtime_overlay.py",
+      "result": "pass",
+      "assertions": 15
+    },
+    {
+      "command": "python3 arcanum/runtime/overlays/scripts/validate_runtime_overlay.py --manifest .arcanum/runtime/overlays/whisper/manifest.json --target whisper",
+      "result": "pass",
+      "assertions": 12
+    },
+    {
+      "command": "live JSON Schema, public/private scan, py_compile, and scoped diff checks",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "Current generated Whisper runtimes remain intentionally unchanged until SWU-WFE-008B.",
+    "The pre-existing bootstrap diff is preserved for 008B integration.",
+    "No submodule commit, parent commit, push, release, or promotion occurred."
+  ],
+  "reroute": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "reason": "Close SWU-WFE-008A and select SWU-WFE-008B."
+  },
+  "handoff_note": "Extend the existing bootstrap generator narrowly, regenerate both runtimes, apply the admitted fragments/files, then require --check-generated parity.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-008A/EXPERIMENT-REPORT.md",
+    "scope": "generic runtime-overlay admission and private Whisper manifest"
+  }
+}

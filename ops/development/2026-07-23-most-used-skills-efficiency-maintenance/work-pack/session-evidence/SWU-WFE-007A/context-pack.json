@@ -1,0 +1,36 @@
+{
+  "schema_version": "context-pack.v1",
+  "task_id": "TASK-WFE-007",
+  "swu_id": "SWU-WFE-007A",
+  "status": "pass",
+  "mode": "standard",
+  "lifecycle_owner": "private-tooling+sigil-development",
+  "strict_coverage": true,
+  "schema_decision": {
+    "new_dispatch_version": "0.7.0",
+    "historical_rows": "structurally-grandfathered",
+    "new_required_field": "evidence_binding"
+  },
+  "obligations": [
+    {"id": "DSS2A-O1", "status": "covered"},
+    {"id": "DSS2A-O2", "status": "covered"},
+    {"id": "DSS2A-O3", "status": "covered"},
+    {"id": "DSS2A-O4", "status": "covered"},
+    {"id": "DSS2A-O5", "status": "covered"},
+    {"id": "DSS2A-O6", "status": "covered"},
+    {"id": "DSS2A-O7", "status": "covered"},
+    {"id": "DSS2A-O8", "status": "covered"},
+    {"id": "DSS2A-O9", "status": "covered"},
+    {"id": "DSS2A-O10", "status": "covered"}
+  ],
+  "write_scope": [
+    "implementation/domainspec/internal_tools/subagents-dispatch-hooks/",
+    "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/"
+  ],
+  "validation_commands": [
+    "node implementation/domainspec/internal_tools/subagents-dispatch-hooks/tests/test-append-dispatch.cjs",
+    "git diff --check -- implementation/domainspec/internal_tools/subagents-dispatch-hooks"
+  ],
+  "gaps": [],
+  "blockers": []
+}

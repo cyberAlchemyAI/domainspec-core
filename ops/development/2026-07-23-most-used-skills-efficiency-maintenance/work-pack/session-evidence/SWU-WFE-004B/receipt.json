@@ -1,0 +1,49 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T033754Z-SWU-WFE-004B",
+  "task_id": "TASK-WFE-004",
+  "swu_id": "SWU-WFE-004B",
+  "result": "pass",
+  "status": "complete",
+  "capability_ref": "inventory",
+  "receipt_kind": "swu-closure",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-004B/receipt.json",
+  "execution_receipt": "work-pack/session-evidence/SWU-WFE-004B/execution-receipt.json",
+  "files_touched": [
+    {
+      "path": ".arcanum/inventory/tools/inventory-update.cjs",
+      "sha256": "c76c3f9a9b884c3d5f9166889bd527cd565c5d453b63817dab130fe26a8eb629"
+    },
+    {
+      "path": ".arcanum/inventory/tools/test/test-inventory-update.cjs",
+      "sha256": "353407dbbbeb073a2236c231f1854db95a50e8d572a294a20bc14c228cd99131"
+    }
+  ],
+  "validation": [
+    {"command": "updater suite", "result": "pass", "assertion_groups": 9},
+    {"command": "Markdown projection suite", "result": "pass", "assertion_groups": 7},
+    {"command": "syntax and diff checks", "result": "pass"}
+  ],
+  "blockers": [],
+  "residue": [],
+  "reroute": {
+    "capability": "task-session",
+    "mode": "execute",
+    "swu_id": "SWU-WFE-005",
+    "reason": "Unique dependency-ready successor."
+  },
+  "handoff_note": "Consume the exact Invoke material receipt schema and retain live validation.",
+  "closeout_sync": {
+    "status": "pass",
+    "authorization": "derived",
+    "route": "invoke:refresh:apply-approved",
+    "continuation_receipt": "work-pack/session-evidence/SWU-WFE-004B/continuation-route.json",
+    "owner_receipt": "refreshes/2026-07-23-swu-wfe-004b-closeout/owner-receipt.json",
+    "returned_next_route": "task-session:execute SWU-WFE-005"
+  },
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-004B/execution-receipt.json",
+    "scope": "repository-local updater fixtures"
+  }
+}

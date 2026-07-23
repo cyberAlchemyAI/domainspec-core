@@ -1,0 +1,58 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T033754Z-SWU-WFE-004B",
+  "task_id": "TASK-WFE-004",
+  "swu_id": "SWU-WFE-004B",
+  "result": "pass",
+  "status": "execution-complete-closeout-pending",
+  "capability_ref": "inventory",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-004B/execution-receipt.json",
+  "files_touched": [
+    {
+      "path": ".arcanum/inventory/tools/inventory-update.cjs",
+      "sha256": "c76c3f9a9b884c3d5f9166889bd527cd565c5d453b63817dab130fe26a8eb629"
+    },
+    {
+      "path": ".arcanum/inventory/tools/test/test-inventory-update.cjs",
+      "sha256": "353407dbbbeb073a2236c231f1854db95a50e8d572a294a20bc14c228cd99131"
+    }
+  ],
+  "validation": [
+    {
+      "command": "node .arcanum/inventory/tools/test/test-inventory-update.cjs",
+      "result": "pass",
+      "assertion_groups": 9
+    },
+    {
+      "command": "node .arcanum/inventory/tools/test/test-index-md.cjs",
+      "result": "pass",
+      "assertion_groups": 7
+    },
+    {
+      "command": "node --check updater and focused test",
+      "result": "pass"
+    },
+    {
+      "command": "git diff --check -- .arcanum/inventory/tools",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "The producer enum is intentionally closed and matches the canonical validator.",
+    "No Inventory data, canonical sigil, generated runtime, ontology, definition, or promotion changed."
+  ],
+  "reroute": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "reason": "Close TASK-WFE-004 and select SWU-WFE-005."
+  },
+  "handoff_note": "Task Session receipt consumption is the next independent behavior.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-004B/execution-receipt.json",
+    "scope": "repository-local Inventory updater causal fixture suite"
+  }
+}

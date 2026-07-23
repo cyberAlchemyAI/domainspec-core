@@ -1,0 +1,65 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T044713Z-TASK-WFE-VERIFY",
+  "task_id": "TASK-WFE-VERIFY",
+  "swu_id": null,
+  "result": "pass",
+  "status": "complete",
+  "capability_ref": "task-session",
+  "receipt_kind": "task-closure",
+  "receipt_artifact": "work-pack/session-evidence/TASK-WFE-VERIFY/receipt.json",
+  "files_touched": [
+    {
+      "path": "work-pack/session-evidence/TASK-WFE-VERIFY/",
+      "evidence": "FINAL-AUDIT.md and FINAL-AUDIT.json"
+    },
+    {
+      "path": "WORK-PACK.md and work-pack terminal projections",
+      "evidence": "terminal consistency audit"
+    },
+    {
+      "path": "invoke-observability.json",
+      "evidence": "terminal execution projection"
+    }
+  ],
+  "validation": [
+    {
+      "command": "all owner-local regression and fixture families",
+      "result": "pass"
+    },
+    {
+      "command": "canonical/generated parity and exact producer schema digest",
+      "result": "pass"
+    },
+    {
+      "command": "live Inventory conformance",
+      "result": "pass",
+      "failures": 0,
+      "warnings": 72
+    },
+    {
+      "command": "public/private focused scan and git diff --check",
+      "result": "pass"
+    },
+    {
+      "command": "terminal receipt, task, wave, manifest, traceability, and observability consistency",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "72 historical Inventory tags remain warn-only.",
+    "No optional live Inventory projection is enabled.",
+    "No Invoke registry release is claimed; full and validate remain deferred.",
+    "No commit, push, promotion, release, or parent pointer update was attempted."
+  ],
+  "reroute": null,
+  "handoff_note": "No next implementation route. Publication or release requires a separate maintainer request.",
+  "closeout_sync": {
+    "status": "pass",
+    "authorization": "derived",
+    "route": "invoke:refresh:apply-approved",
+    "owner_receipt": "refreshes/2026-07-23-task-wfe-verify-closeout/owner-receipt.json",
+    "returned_next_route": null
+  }
+}

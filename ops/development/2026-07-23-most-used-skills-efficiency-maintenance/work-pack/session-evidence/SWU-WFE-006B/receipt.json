@@ -1,0 +1,39 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T035758Z-SWU-WFE-006B",
+  "task_id": "TASK-WFE-006",
+  "swu_id": "SWU-WFE-006B",
+  "result": "pass",
+  "status": "complete",
+  "capability_ref": "sigil-development",
+  "receipt_kind": "swu-closure",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-006B/receipt.json",
+  "execution_receipt": "work-pack/session-evidence/SWU-WFE-006B/execution-receipt.json",
+  "files_touched": [
+    {"path": "arcanum/arcana/decision-gate/", "evidence": "execution-receipt.json"},
+    {"path": ".agents/skills/decision-gate/", "evidence": "canonical parity"},
+    {"path": ".claude/skills/decision-gate/", "evidence": "canonical parity"},
+    {"path": "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/", "evidence": "refreshes/2026-07-23-swu-wfe-006b-closeout/owner-receipt.json"}
+  ],
+  "validation": [
+    {"command": "Decision Gate full validation harness", "result": "pass", "assertion_groups": 21},
+    {"command": "canonical/generated parity and scoped diff", "result": "pass"}
+  ],
+  "blockers": [],
+  "residue": [],
+  "reroute": {"capability": "task-session", "mode": "execute", "swu_id": "SWU-WFE-007A", "reason": "Unique dependency-ready successor."},
+  "handoff_note": "Bind two tension verdicts and confirmation to the exact dispatch sheet digest.",
+  "closeout_sync": {
+    "status": "pass",
+    "authorization": "derived",
+    "route": "invoke:refresh:apply-approved",
+    "continuation_receipt": "work-pack/session-evidence/SWU-WFE-006B/continuation-route.json",
+    "owner_receipt": "refreshes/2026-07-23-swu-wfe-006b-closeout/owner-receipt.json",
+    "returned_next_route": "task-session:execute SWU-WFE-007A"
+  },
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-006B/EXPERIMENT-REPORT.md",
+    "scope": "Decision Gate typed override and option-admissibility regressions"
+  }
+}

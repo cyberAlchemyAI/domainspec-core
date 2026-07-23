@@ -1,0 +1,48 @@
+{
+  "schema_version": "task-session.receipt.v1",
+  "run_id": "task-session-20260723T035319Z-SWU-WFE-006A",
+  "task_id": "TASK-WFE-006",
+  "swu_id": "SWU-WFE-006A",
+  "result": "pass",
+  "status": "execution-complete-closeout-pending",
+  "capability_ref": "sigil-development",
+  "receipt_kind": "swu-execution",
+  "receipt_artifact": "work-pack/session-evidence/SWU-WFE-006A/execution-receipt.json",
+  "files_touched": [
+    {"path": "arcanum/arcana/decision-gate/SKILL.md", "sha256": "eaf4b9f000856ee409661e067c7387c4bff502962f38598c048099bd362bbfc5"},
+    {"path": "arcanum/arcana/decision-gate/README.md", "sha256": "cef12e74917c0b95ca64038f1e773c6c6720eaaabb68711c4251123458059eaf"},
+    {"path": "arcanum/arcana/decision-gate/scripts/prefilter-options.py", "sha256": "c67f1f65b0ffeb2412654c0dae5898b5d42e1d6ea95e20bc4744f5aec1102733"},
+    {"path": "arcanum/arcana/decision-gate/schemas/option-admissibility-request.schema.json", "sha256": "09b5c1d73bbbc2066521adabce9652dc4364be418f67e0ae89152a5a8062e7eb"},
+    {"path": "arcanum/arcana/decision-gate/schemas/option-admissibility-receipt.schema.json", "sha256": "02532b31a88dee804710710d1c522b3a0eedc72d65a06b9f65c7851167b395e0"},
+    {"path": ".agents/skills/decision-gate/", "evidence": "canonical body and support parity"},
+    {"path": ".claude/skills/decision-gate/", "evidence": "canonical body and support parity"}
+  ],
+  "validation": [
+    {
+      "command": "bash arcanum/arcana/decision-gate/development/run-validation-fixtures.sh",
+      "result": "pass",
+      "assertion_groups": 10
+    },
+    {
+      "command": "Python compile, JSON parse, generated parity, and scoped diff checks",
+      "result": "pass"
+    }
+  ],
+  "blockers": [],
+  "residue": [
+    "Typed override validation and consumption remain isolated to SWU-WFE-006B.",
+    "No commit, push, release, promotion, or application mutation was performed."
+  ],
+  "reroute": {
+    "capability": "invoke",
+    "mode": "refresh",
+    "mutation_mode": "apply-approved",
+    "reason": "Close SWU-WFE-006A and select SWU-WFE-006B."
+  },
+  "handoff_note": "Add typed target/scope/hazard/lifetime override validation without bypassing protected owner gates.",
+  "experiment_harness": {
+    "status": "pass",
+    "report": "work-pack/session-evidence/SWU-WFE-006A/EXPERIMENT-REPORT.md",
+    "scope": "Decision Gate option-admissibility cardinality and rejection"
+  }
+}

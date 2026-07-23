@@ -1,0 +1,36 @@
+{
+  "schema_version": "task-session.context-pack.v1",
+  "task_id": "TASK-WFE-001",
+  "swu_id": "SWU-WFE-001",
+  "mode": "lean",
+  "strict_coverage": "pass",
+  "source_count": 8,
+  "obligations": [
+    {"id": "DSS1-O1", "status": "covered"},
+    {"id": "DSS1-O2", "status": "covered"},
+    {"id": "DSS1-O3", "status": "covered"},
+    {"id": "DSS1-O4", "status": "covered"},
+    {"id": "DSS1-O5", "status": "covered"},
+    {"id": "DSS1-O6", "status": "covered"},
+    {"id": "DSS1-O7", "status": "covered"},
+    {"id": "DSS1-O8", "status": "covered"}
+  ],
+  "write_scope": [
+    "implementation/domainspec/internal_tools/subagents-dispatch-hooks/skills/register-dispatch/append-dispatch.cjs",
+    "implementation/domainspec/internal_tools/subagents-dispatch-hooks/tests/test-append-dispatch.cjs"
+  ],
+  "forbidden_scope": [
+    "telemetry/agents/subagents-dispatch.yaml",
+    "arcanum/",
+    "record schema fields",
+    "generated runtime copies"
+  ],
+  "baseline": {
+    "command": "node implementation/domainspec/internal_tools/subagents-dispatch-hooks/tests/test-append-dispatch.cjs",
+    "passed": 83,
+    "failed": 0,
+    "skipped": 0
+  },
+  "blockers": [],
+  "gate": "pass"
+}

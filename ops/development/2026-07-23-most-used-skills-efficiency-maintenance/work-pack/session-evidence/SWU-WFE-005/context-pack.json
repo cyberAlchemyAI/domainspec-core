@@ -1,0 +1,71 @@
+{
+  "schema_version": "context-pack.v1",
+  "task_id": "TASK-WFE-005",
+  "swu_id": "SWU-WFE-005",
+  "status": "pass",
+  "mode": "standard",
+  "lifecycle_owner": "sigil-development",
+  "strict_coverage": true,
+  "obligations": [
+    {"id": "TS2-O1", "status": "covered"},
+    {"id": "TS2-O2", "status": "covered"},
+    {"id": "TS2-O3", "status": "covered"},
+    {"id": "TS2-O4", "status": "covered"},
+    {"id": "TS2-O5", "status": "covered"},
+    {"id": "TS2-O6", "status": "covered"},
+    {"id": "TS2-O7", "status": "covered"},
+    {"id": "TS2-O8", "status": "covered"},
+    {"id": "TS2-O9", "status": "covered"},
+    {"id": "TS2-O10", "status": "covered"}
+  ],
+  "selected_sources": [
+    {
+      "path": "work-pack/tasks/TASK-WFE-005-TS-READINESS-RECEIPT.md",
+      "sha256": "df720baf248886b2f68e0039d1e3268ef1dfbb92e1caf98a69a5710a0d5eed33"
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "94bcee30991e0e4ef5975a71f3d5cbb884bb468918a7c6759a02dbffb39c0b19"
+    },
+    {
+      "path": "../2026-07-22-most-used-skills-efficiency-review/findings.md",
+      "sha256": "0515af8d3dd746f8b020cad3515232afe5bb5cd2f6d60a00b567ee5e314018fd"
+    },
+    {
+      "path": "arcanum/arcana/task-session/SKILL.md",
+      "sha256": "e468531848bc54859f828418c74b029c33373c031fa49f189e3770e0fc7f8a72"
+    },
+    {
+      "path": "arcanum/spells/invoke/schemas/material-package-receipt.schema.json",
+      "sha256": "2c4ef7c0529f419278a3af530783383d05ccf8e144a40e895f26c2c2d6b77b6b"
+    },
+    {
+      "path": "arcanum/spells/invoke/schemas/material-package.schema.json",
+      "sha256": "f52810a2b08507f487cfc63e7b8619761a2803613098e6eb7cc46911288dc628"
+    },
+    {
+      "path": "arcanum/spells/invoke/scripts/material_package_validator.py",
+      "sha256": "5012c5767f6dc0e76a0e34a63f4b65342883c7969b52e9b86e910c4c63ee1426"
+    },
+    {
+      "path": "work-pack/session-evidence/SWU-WFE-003B/receipt.json",
+      "sha256": "7ca01a7ae7ac3368aa58a00b3db2f0cf0721ef230807dd2f0faf36161a5d31c4"
+    },
+    {
+      "path": "work-pack/session-evidence/SWU-WFE-004B/receipt.json",
+      "sha256": "1c2398e45fcb88e631e8164163a086e1bc83f13954cb4dc7599a00fb2d4e8d35"
+    }
+  ],
+  "write_scope": [
+    "arcanum/arcana/task-session/",
+    ".agents/skills/task-session/",
+    ".claude/skills/task-session/",
+    "ops/development/2026-07-23-most-used-skills-efficiency-maintenance/"
+  ],
+  "validation_commands": [
+    "bash arcanum/arcana/task-session/development/run-validation-fixtures.sh",
+    "git diff --check -- arcanum/arcana/task-session .agents/skills/task-session .claude/skills/task-session"
+  ],
+  "gaps": [],
+  "blockers": []
+}
