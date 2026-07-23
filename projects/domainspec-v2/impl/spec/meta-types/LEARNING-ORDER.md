@@ -7,7 +7,7 @@ authored_by: task-session (M1 — spec-comprehension-model)
 source:
   - ./  (the per-type schema+md cards — the 13 active backend meta-types)
   - ../../../definitions/meta-types/meta-types.yml  (the 24 staged labels and differentiated maturity authority)
-  - ../../../definitions/relationships/relationships.yml  (root relationship authority — 30 signatures; the edge reading-view below)
+  - ../../../definitions/relationships/relationships.yml  (root relationship authority — 31 signatures; the edge reading-view below)
   - ../../../development/spec-comprehension-model/{DESIGN.md,ORDER.md}  (M1)
   - ../../../development/comprehension-novice-test/stall-dataset.md  (S1 individuation, S6 feature/context, S9)
 promotion_boundary: PUBLIC reading aid. Tiering is a LEARNING order, never authority promotion — 13 backend types are active, nine UI labels are candidates, and two UI labels have differentiated deferred dispositions. Proposed definitions (§4) promote to definitions-governance separately.
@@ -73,15 +73,16 @@ currently carries endpoint pressure for them, but edge use alone does not promot
 | Family | Base edge(s) | Reads as |
 | --- | --- | --- |
 | **actor** | `performs` | Entity does an Operation |
-| **produce** | `produces` (→Event), `produces-for` (→Entity) | an Operation's output |
-| **govern** | `enforces` (`@cross` = `enforces-cross`), `applies` | a Rule blocks / a Policy steers an Operation |
+| **produce** | `produces` (→Event), `creates` (→same-feature Entity), `produces-for` (→cross-feature Entity) | an Operation's output or creation effect |
+| **govern** | `enforces` (same verb with `@cross` placement), `applies` | a Rule blocks / a Policy steers an Operation |
 | **derive** | `calculates`, `queries` | a Calculation/Query reads to produce values |
 | **structure** | `contains` | an Entity embeds a Value Object |
 | **lifecycle** | `transitions` | an Event moves a State Machine |
 | **announce** | `emits` (Entity→Event), `triggers-cross` (`@cross`) | events out / cross-feature triggers |
 | **expose / map** | `exposes`, `maps` | an Interface publishes; a Mapping reshapes |
 
-Modifiers: **`@cross`** = spans features (the `-cross` edges); **`@shadow`** = a UI mirror edge (§2).
+Modifiers: **`@cross`** = spans features; the root signature decides whether the base verb or a dedicated
+`-cross` verb carries that placement. **`@shadow`** = a UI mirror edge (§2).
 *(This is a reading aid; the root relationship authority remains the source of truth and the validator's authority.)*
 
 ## 4. Two terms the surface never defined (proposed — promote via definitions-governance)

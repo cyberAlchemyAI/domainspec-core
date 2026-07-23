@@ -7,11 +7,29 @@ export type RelationshipSignature = {
   source_types?: string[];
   target_type?: string;
   target_types?: string[];
+  feature_scope?: RelationshipScope[];
+  multiplicity?: "one_to_one" | "one_to_many" | "one_to_many_ordered" | "many_to_one" | "many_to_many";
+  generated_source_projection?: GeneratedSourceProjection;
   status?: string;
   projection?: {
     markdown?: string;
   };
   [key: string]: unknown;
+};
+
+export type RelationshipScope =
+  | "same-feature"
+  | "cross-feature"
+  | "ui"
+  | "ui-backend";
+
+export type AuthoredRelationshipScope = "same-feature" | "cross-feature";
+
+export type GeneratedSourceProjection = {
+  attribute: string;
+  value_shape: "concept-reference-set";
+  derivation: "outgoing-targets";
+  authorship: "forbidden";
 };
 
 export type GeneratedRelationshipView = {
@@ -80,6 +98,15 @@ type ConceptCatalogEntry = {
   id: string;
   type: string;
   line: number;
+};
+
+type AuthoredRelationshipEdge = {
+  from: string;
+  edge: string;
+  to: string;
+  scope: AuthoredRelationshipScope;
+  line: number;
+  section: string;
 };
 
 export function loadRelationshipAuthority(
@@ -151,6 +178,7 @@ export function validateRelationshipSpecFile(
   const lines = raw.split(/\r?\n/);
   const concepts = parseConceptRegistry(lines);
   const violations: RelationshipViolation[] = [];
+  const authoredEdges: AuthoredRelationshipEdge[] = [];
   let edgesChecked = 0;
 
   for (const sectionName of ["Feature Concept Graph", "Concept Graph"]) {
@@ -175,13 +203,23 @@ export function validateRelationshipSpecFile(
         continue;
       }
       edgesChecked += 1;
+      authoredEdges.push({
+        from,
+        edge,
+        to,
+        scope: "same-feature",
+        line: row.line,
+        section: sectionName,
+      });
       violations.push(
         ...validateTriple({
           loaded,
           concepts,
+          lines,
           specPath,
           line: row.line,
           section: sectionName,
+          scope: "same-feature",
           from,
           edge,
           to,
@@ -211,13 +249,23 @@ export function validateRelationshipSpecFile(
             continue;
           }
           edgesChecked += 1;
+          authoredEdges.push({
+            from,
+            edge,
+            to,
+            scope: "cross-feature",
+            line: row.line,
+            section: "Cross-Feature Dependencies",
+          });
           violations.push(
             ...validateTriple({
               loaded,
               concepts,
+              lines,
               specPath,
               line: row.line,
               section: "Cross-Feature Dependencies",
+              scope: "cross-feature",
               from,
               edge,
               to,
@@ -237,6 +285,18 @@ export function validateRelationshipSpecFile(
       }
     }
   }
+
+  violations.push(
+    ...validateGeneratedProjectionAuthorship({
+      loaded,
+      concepts,
+      lines,
+      specPath,
+    }),
+  );
+  violations.push(
+    ...validateMultiplicity({ loaded, concepts, specPath, authoredEdges }),
+  );
 
   return {
     violations,
@@ -402,14 +462,16 @@ export function toRelative(absPath: string): string {
 function validateTriple(input: {
   loaded: LoadedRelationshipAuthority;
   concepts: Map<string, ConceptCatalogEntry>;
+  lines: string[];
   specPath: string;
   line: number;
   section: string;
+  scope: AuthoredRelationshipScope;
   from: string;
   edge: string;
   to: string;
 }): RelationshipViolation[] {
-  const { loaded, concepts, specPath, line, section, from, edge, to } = input;
+  const { loaded, concepts, lines, specPath, line, section, scope, from, edge, to } = input;
   const value = `${from} --[${edge}]--> ${to}`;
 
   if (loaded.generatedViewsById.has(edge)) {
@@ -473,13 +535,13 @@ function validateTriple(input: {
 
   const sourceType = normalizeTypeName(fromConcept.type);
   const targetType = normalizeTypeName(toConcept.type);
-  const matchingSignature = signatures.find((signature) => {
+  const endpointSignatures = signatures.filter((signature) => {
     const sourceTypes = signatureTypes(signature, "source");
     const targetTypes = signatureTypes(signature, "target");
     return sourceTypes.has(sourceType) && targetTypes.has(targetType);
   });
 
-  if (!matchingSignature) {
+  if (endpointSignatures.length === 0) {
     return [
       {
         specPath: toRelative(specPath),
@@ -496,7 +558,180 @@ function validateTriple(input: {
     ];
   }
 
+  const matchingSignature = endpointSignatures.find((signature) =>
+    admitsAuthoredScope(signature, scope),
+  );
+  if (!matchingSignature) {
+    const admittedScopes = [...new Set(endpointSignatures.flatMap((signature) => signature.feature_scope || []))]
+      .sort()
+      .join("|") || "<none>";
+    return [
+      {
+        specPath: toRelative(specPath),
+        line,
+        section,
+        value,
+        className: "unconstructible-edge",
+        detail: `Feature scope mismatch for "${edge}": authored as ${scope}; expected ${admittedScopes}`,
+        suggestions: [],
+      },
+    ];
+  }
+
   return [];
+}
+
+function validateGeneratedProjectionAuthorship(input: {
+  loaded: LoadedRelationshipAuthority;
+  concepts: Map<string, ConceptCatalogEntry>;
+  lines: string[];
+  specPath: string;
+}): RelationshipViolation[] {
+  const { loaded, concepts, lines, specPath } = input;
+  const violations: RelationshipViolation[] = [];
+
+  for (const concept of concepts.values()) {
+    const sourceType = normalizeTypeName(concept.type);
+    for (const signatures of loaded.signaturesById.values()) {
+      for (const signature of signatures) {
+        const projection = signature.generated_source_projection;
+        if (!projection || !signatureTypes(signature, "source").has(sourceType)) {
+          continue;
+        }
+        const row = findConceptAttributeRow(lines, concept.id, projection.attribute);
+        if (row) {
+          violations.push({
+            specPath: toRelative(specPath),
+            line: row.line,
+            section: concept.id,
+            value: `${concept.id}.${projection.attribute}`,
+            className: "unconstructible-edge",
+            detail:
+              `Generated projection ${projection.attribute} must not be authored; ` +
+              `derive it from ${concept.id} --[${signature.id}]--> target`,
+            suggestions: [],
+          });
+        }
+      }
+    }
+  }
+
+  return violations;
+}
+
+function validateMultiplicity(input: {
+  loaded: LoadedRelationshipAuthority;
+  concepts: Map<string, ConceptCatalogEntry>;
+  specPath: string;
+  authoredEdges: AuthoredRelationshipEdge[];
+}): RelationshipViolation[] {
+  const { loaded, concepts, specPath, authoredEdges } = input;
+  const violations: RelationshipViolation[] = [];
+
+  for (const signature of loaded.authority.signatures) {
+    if (
+      signature.status === "deprecated" ||
+      signature.status === "deferred" ||
+      signature.multiplicity !== "one_to_one"
+    ) {
+      continue;
+    }
+    const relevant = authoredEdges.filter((edge) => {
+      if (edge.edge !== signature.id || !admitsAuthoredScope(signature, edge.scope)) {
+        return false;
+      }
+      const source = concepts.get(edge.from);
+      const target = concepts.get(edge.to);
+      return Boolean(
+        source &&
+        target &&
+        signatureTypes(signature, "source").has(normalizeTypeName(source.type)) &&
+        signatureTypes(signature, "target").has(normalizeTypeName(target.type)),
+      );
+    });
+
+    for (const [source, edges] of groupEdges(relevant, (edge) => edge.from)) {
+      if (edges.length <= 1) {
+        continue;
+      }
+      const targets = [...new Set(edges.map((edge) => edge.to))].sort();
+      violations.push({
+        specPath: toRelative(specPath),
+        line: edges[1]?.line ?? edges[0]!.line,
+        section: edges[1]?.section ?? edges[0]!.section,
+        value: `${source} --[${signature.id}]--> ${targets.join(", ")}`,
+        className: "unconstructible-edge",
+        detail:
+          `Multiplicity violation for "${signature.id}": source ${source} has ${edges.length} ` +
+          `outgoing edges; one_to_one permits at most one`,
+        suggestions: [],
+      });
+    }
+
+    for (const [target, edges] of groupEdges(relevant, (edge) => edge.to)) {
+      if (edges.length <= 1) {
+        continue;
+      }
+      const sources = [...new Set(edges.map((edge) => edge.from))].sort();
+      violations.push({
+        specPath: toRelative(specPath),
+        line: edges[1]?.line ?? edges[0]!.line,
+        section: edges[1]?.section ?? edges[0]!.section,
+        value: `${sources.join(", ")} --[${signature.id}]--> ${target}`,
+        className: "unconstructible-edge",
+        detail:
+          `Multiplicity violation for "${signature.id}": target ${target} has ${edges.length} ` +
+          `incoming edges; one_to_one permits at most one`,
+        suggestions: [],
+      });
+    }
+  }
+
+  return violations;
+}
+
+function groupEdges(
+  edges: AuthoredRelationshipEdge[],
+  key: (edge: AuthoredRelationshipEdge) => string,
+): Map<string, AuthoredRelationshipEdge[]> {
+  const grouped = new Map<string, AuthoredRelationshipEdge[]>();
+  for (const edge of edges) {
+    const value = key(edge);
+    grouped.set(value, [...(grouped.get(value) ?? []), edge]);
+  }
+  return grouped;
+}
+
+function findConceptAttributeRow(
+  lines: string[],
+  concept: string,
+  attribute: string,
+): TableRow | undefined {
+  const table = parseTableForSection(lines, concept);
+  if (!table) {
+    return undefined;
+  }
+  const headerMap = toHeaderMap(table.headers);
+  const attributeIndex = headerMap.get("attribute");
+  if (attributeIndex === undefined) {
+    return undefined;
+  }
+  return table.rows.find(
+    (entry) => cleanCell(entry.cells[attributeIndex] || "") === attribute,
+  );
+}
+
+function admitsAuthoredScope(
+  signature: RelationshipSignature,
+  authoredScope: AuthoredRelationshipScope,
+): boolean {
+  const declared = signature.feature_scope || [];
+  if (authoredScope === "cross-feature") {
+    return declared.includes("cross-feature");
+  }
+  return declared.some((scope) =>
+    scope === "same-feature" || scope === "ui" || scope === "ui-backend"
+  );
 }
 
 function parseConceptRegistry(lines: string[]): Map<string, ConceptCatalogEntry> {

@@ -107,6 +107,15 @@ test("every authored machine connection is active and endpoint-admitted", () => 
     }
   }
   assert.equal(edges, 20);
+  const operation = byId.get("ui-profile-create-player.CreatePlayer")!;
+  assert.equal("creation_targets" in operation.body, false);
+  assert.ok(operation.connections.some((connection) => connection.type === "creates"));
+  assert.equal(operation.connections.some((connection) => connection.type === "produces-for"), false);
+  const generated = json<any>(resolve(featureRoot, "generated/graph.json"));
+  const generatedOperation = generated.nodes.find(
+    (node: NodeSource) => node.node_id === "ui-profile-create-player.CreatePlayer",
+  );
+  assert.deepEqual(generatedOperation.body.creation_targets, ["ui-profile-create-player.Player"]);
 });
 
 test("traceability covers all eleven required concepts without node coercion", () => {

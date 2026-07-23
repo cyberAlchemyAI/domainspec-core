@@ -33,6 +33,10 @@ export const MINTED_PROJECT_COMPILER_ERROR_CODES = [
   "EDGE_TYPE_UNSUPPORTED_PROFILE",
   "EDGE_ENDPOINT_MISSING",
   "EDGE_ENDPOINT_KIND_MISMATCH",
+  "EDGE_FEATURE_SCOPE_MISMATCH",
+  "EDGE_SOURCE_EFFECT_MISMATCH",
+  "EDGE_MULTIPLICITY_VIOLATION",
+  "GENERATED_PROJECTION_AUTHORED",
   "CROSS_FEATURE_UNSUPPORTED",
   "GENERATED_GRAPH_INVALID",
   "GENERATED_MANIFEST_INVALID",
@@ -60,6 +64,14 @@ type RelationshipSignature = {
   source_types?: string[];
   target_type?: string;
   target_types?: string[];
+  feature_scope?: Array<"same-feature" | "cross-feature" | "ui" | "ui-backend">;
+  multiplicity?: "one_to_one" | "one_to_many" | "one_to_many_ordered" | "many_to_one" | "many_to_many";
+  generated_source_projection?: {
+    attribute: string;
+    value_shape: "concept-reference-set";
+    derivation: "outgoing-targets";
+    authorship: "forbidden";
+  };
 };
 
 export type RelationshipRegistrySlice = {
@@ -380,6 +392,7 @@ export function compileMintedProject(
     for (const nodeReference of feature.node_sources as string[]) {
       const nodePath = sourcePath(featurePath, nodeReference);
       const node = readJson<SourceNode>(resolve(resolution.projectRoot, nodePath));
+      assertNoAuthoredGeneratedProjection(node, nodePath, relationships);
       const baseViolations = validateJsonSchema(
         resolve(implRoot, "spec/minted-project/node.schema.json"),
         node,
@@ -431,13 +444,6 @@ export function compileMintedProject(
       if (!target) {
         throw new MintedProjectCompilerError("EDGE_ENDPOINT_MISSING", path, connection.to);
       }
-      if (node.feature_id !== target.node.feature_id) {
-        throw new MintedProjectCompilerError(
-          "CROSS_FEATURE_UNSUPPORTED",
-          path,
-          `${node.node_id}->${target.node.node_id}`,
-        );
-      }
       const admitted = profile.relationships.some(
         (entry) =>
           entry.id === connection.type &&
@@ -453,6 +459,30 @@ export function compileMintedProject(
           `${node.kind}-${connection.type}->${target.node.kind}`,
         );
       }
+      const authoritySignature = relationships.signatures.find(
+        (signature) =>
+          signature.id === connection.type &&
+          signature.status !== "deprecated" &&
+          signature.status !== "deferred" &&
+          signatureTypes(signature, "source").includes(node.kind) &&
+          signatureTypes(signature, "target").includes(target.node.kind),
+      );
+      if (!authoritySignature) {
+        throw new MintedProjectCompilerError(
+          "EDGE_ENDPOINT_KIND_MISMATCH",
+          path,
+          `${node.kind}-${connection.type}->${target.node.kind}`,
+        );
+      }
+      const scope =
+        node.feature_id === target.node.feature_id ? "same-feature" : "cross-feature";
+      if (!admitsFeatureLocation(authoritySignature, scope)) {
+        throw new MintedProjectCompilerError(
+          "EDGE_FEATURE_SCOPE_MISMATCH",
+          path,
+          `${node.node_id}-${connection.type}->${target.node.node_id}:${scope}`,
+        );
+      }
       edges.push({
         edge_id: connection.edge_id,
         type: connection.type,
@@ -462,13 +492,15 @@ export function compileMintedProject(
     }
   }
 
+  assertDeclaredMultiplicity(edges, nodeById, relationships);
+
   const nodes = [...nodeById.values()]
     .map(({ node }) => ({
       node_id: node.node_id,
       feature_id: node.feature_id,
       kind: node.kind,
       intent: node.intent,
-      body: node.body,
+      body: withGeneratedRelationshipProjections(node, edges, relationships),
     }))
     .sort((left, right) => left.node_id.localeCompare(right.node_id));
   edges.sort((left, right) => left.edge_id.localeCompare(right.edge_id));
@@ -540,4 +572,130 @@ export function compileMintedProject(
     graphBytes: `${JSON.stringify(graph, null, 2)}\n`,
     sourceManifestBytes: `${JSON.stringify(sourceManifest, null, 2)}\n`,
   };
+}
+
+function admitsFeatureLocation(
+  signature: RelationshipSignature,
+  location: "same-feature" | "cross-feature",
+): boolean {
+  const declared = signature.feature_scope ?? [];
+  if (location === "cross-feature") {
+    return declared.includes("cross-feature");
+  }
+  return declared.some((scope) =>
+    scope === "same-feature" || scope === "ui" || scope === "ui-backend"
+  );
+}
+
+function assertNoAuthoredGeneratedProjection(
+  node: SourceNode,
+  nodePath: string,
+  relationships: RelationshipRegistrySlice,
+): void {
+  for (const signature of relationships.signatures) {
+    const projection = signature.generated_source_projection;
+    if (
+      !projection ||
+      signature.status === "deprecated" ||
+      signature.status === "deferred" ||
+      !signatureTypes(signature, "source").includes(node.kind)
+    ) {
+      continue;
+    }
+    if (Object.prototype.hasOwnProperty.call(node.body, projection.attribute)) {
+      throw new MintedProjectCompilerError(
+        "GENERATED_PROJECTION_AUTHORED",
+        nodePath,
+        `${node.node_id}.${projection.attribute} is generated from outgoing ${signature.id} edges`,
+      );
+    }
+  }
+}
+
+function assertDeclaredMultiplicity(
+  edges: MintedGraph["edges"],
+  nodeById: Map<string, { node: SourceNode; path: string }>,
+  relationships: RelationshipRegistrySlice,
+): void {
+  for (const signature of relationships.signatures) {
+    if (
+      signature.status === "deprecated" ||
+      signature.status === "deferred" ||
+      signature.multiplicity !== "one_to_one"
+    ) {
+      continue;
+    }
+    const relevant = edges.filter((edge) => {
+      if (edge.type !== signature.id) {
+        return false;
+      }
+      const source = nodeById.get(edge.from)?.node;
+      const target = nodeById.get(edge.to)?.node;
+      return Boolean(
+        source &&
+        target &&
+        signatureTypes(signature, "source").includes(source.kind) &&
+        signatureTypes(signature, "target").includes(target.kind),
+      );
+    });
+    const bySource = groupGraphEdges(relevant, (edge) => edge.from);
+    for (const [source, grouped] of bySource) {
+      if (grouped.length > 1) {
+        throw new MintedProjectCompilerError(
+          "EDGE_MULTIPLICITY_VIOLATION",
+          nodeById.get(source)?.path ?? source,
+          `${signature.id} source ${source} has ${grouped.length} outgoing edges; one_to_one permits at most one`,
+        );
+      }
+    }
+    const byTarget = groupGraphEdges(relevant, (edge) => edge.to);
+    for (const [target, grouped] of byTarget) {
+      if (grouped.length > 1) {
+        throw new MintedProjectCompilerError(
+          "EDGE_MULTIPLICITY_VIOLATION",
+          nodeById.get(grouped[1]!.from)?.path ?? grouped[1]!.from,
+          `${signature.id} target ${target} has ${grouped.length} incoming edges; one_to_one permits at most one`,
+        );
+      }
+    }
+  }
+}
+
+function groupGraphEdges(
+  edges: MintedGraph["edges"],
+  key: (edge: MintedGraph["edges"][number]) => string,
+): Map<string, MintedGraph["edges"]> {
+  const grouped = new Map<string, MintedGraph["edges"]>();
+  for (const edge of edges) {
+    const value = key(edge);
+    grouped.set(value, [...(grouped.get(value) ?? []), edge]);
+  }
+  return grouped;
+}
+
+function withGeneratedRelationshipProjections(
+  node: SourceNode,
+  edges: MintedGraph["edges"],
+  relationships: RelationshipRegistrySlice,
+): JsonObject {
+  const body: JsonObject = { ...node.body };
+  for (const signature of relationships.signatures) {
+    const projection = signature.generated_source_projection;
+    if (
+      !projection ||
+      signature.status === "deprecated" ||
+      signature.status === "deferred" ||
+      !signatureTypes(signature, "source").includes(node.kind)
+    ) {
+      continue;
+    }
+    const targets = edges
+      .filter((edge) => edge.type === signature.id && edge.from === node.node_id)
+      .map((edge) => edge.to)
+      .sort();
+    if (targets.length > 0) {
+      body[projection.attribute] = targets;
+    }
+  }
+  return body;
 }

@@ -20,8 +20,8 @@ These patterns are aligned with the functional layering model in `ARCHITECTURE.m
 
 | Edge             | From -> To               | Required Composition                                 | Reference Concept                                         | Enforced by Tool |
 | ---------------- | ------------------------ | ---------------------------------------------------- | --------------------------------------------------------- | ---------------- |
-| `enforces`       | Rule -> Operation        | Operation calls rule before mutation                 | `billing.MaxAmountRule -> billing.ProcessPayment`         | Yes              |
-| `enforces-cross` | deprecated alias         | Do not author; use `enforces` with feature-scope metadata | `compliance.AccessRule -> payments.ProcessRefund`      | Rejected          |
+| `enforces`       | Rule -> Operation (same/cross feature) | Operation calls rule before mutation        | `billing.MaxAmountRule -> billing.ProcessPayment`         | Yes              |
+| `enforces-cross` | deprecated alias         | Do not author; use `enforces` in the cross-feature spec surface | `compliance.AccessRule -> payments.ProcessRefund` | Rejected          |
 | `calculates`     | Calculation -> Operation | Operation calls calculation and consumes result      | `billing.FeeCalculation -> billing.ProcessPayment`        | Yes              |
 | `applies`        | Policy -> Operation/Calculation | Target calls policy to select strategy branch | `billing.RetryPolicy -> billing.ProcessPayment`           | Yes              |
 | `exposes`        | Interface -> Operation   | Interface/controller calls operation use-case        | `billing.PaymentAPI -> billing.ProcessPayment`            | Yes              |
@@ -50,9 +50,11 @@ Reference snippet:
 Semantic contract:
 
 - `enforces-cross` is not canonical authored DS-D8 authority.
-- Author `Rule --enforces--> Operation` and carry cross-feature scope as
-  relationship metadata.
+- Author `Rule --enforces--> Operation`; declare cross-feature placement in the
+  specification's Cross-Feature Dependencies surface.
 - Strict checking rejects the alias with replacement guidance.
+- The code-tag checker validates the active verb, endpoints, and call obligation;
+  it does not infer feature placement from code symbols alone.
 
 Reference snippet:
 
@@ -161,7 +163,7 @@ Current blocking/validation codes:
 
 The JSON report names the authority path, active signature count, generated /
 deprecated / deferred counts, derived call-rule count, and every unsupported
-active call-semantic signature. Current root state is 30 active signatures and
+active call-semantic signature. Current root state is 31 active signatures and
 nine derived call-semantic rules.
 
 ## Aggregate Gate Status

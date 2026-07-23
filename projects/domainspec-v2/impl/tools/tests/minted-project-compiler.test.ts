@@ -230,7 +230,7 @@ test("deprecated and deferred classifiers are testable without inventing registr
   );
 });
 
-test("cross-feature edges fail until a separate multi-feature design is admitted", () => {
+test("relationship scope rejects a cross-feature use of a same-feature signature", () => {
   const project = temporaryProject();
   try {
     mkdirSync(resolve(project.root, "specs/other/nodes"), { recursive: true });
@@ -255,7 +255,7 @@ test("cross-feature edges fail until a separate multi-feature design is admitted
     mutateNode(project.root, "player", (node) => {
       node.connections[0].to = "other.Target";
     });
-    expectCode(project.root, "CROSS_FEATURE_UNSUPPORTED");
+    expectCode(project.root, "EDGE_FEATURE_SCOPE_MISMATCH");
   } finally {
     project.cleanup();
   }

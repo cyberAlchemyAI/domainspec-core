@@ -28,7 +28,7 @@ When adding or updating a tagged symbol, the fastest correct path is to copy the
 - **[rule-enforces-operation.ts](rule-enforces-operation.ts)**: Rule enforced from within an Operation call site.
 - **[calculation-calculates-operation.ts](calculation-calculates-operation.ts)**: Calculation invoked by an Operation.
 - **[policy-applies-operation.ts](policy-applies-operation.ts)**: Policy applied at an Operation boundary.
-- **[enforces-cross-operation.ts](enforces-cross-operation.ts)**: Enforcement that crosses Operation boundaries.
+- **[enforces-cross-operation.ts](enforces-cross-operation.ts)**: Deprecated-alias negative example; active cross-feature enforcement uses `enforces`.
 - **[interface-exposes-operation.ts](interface-exposes-operation.ts)**: Interface exposing an Operation.
 - **[interface-exposes-query.ts](interface-exposes-query.ts)**: Interface exposing a Query.
 - **[workflow-orchestrates-operations.ts](workflow-orchestrates-operations.ts)**: Workflow orchestrating multiple Operations.

@@ -26,8 +26,8 @@ An Entity **has** an identity field; a Value Object has **none** and declares eq
 concept declared Value Object is a mis-typed Entity → **rejected as Value Object**.
 
 ## Edge participation (DS-D8 slice)
-- SOURCE of: `contains`
-- TARGET of: `contains`, `produces-for`
+- SOURCE of: none
+- TARGET of: `contains`
 
 ## Fixtures
 - positive: [`spec/__fixtures__/mt/value-object-ok.md`](../../__fixtures__/mt/value-object-ok.md)

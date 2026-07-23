@@ -3,11 +3,11 @@
   "authority": "generated-semantic-read-model",
   "project_id": "ui-profile-create-player",
   "language": {
-    "profile_digest": "ee11a68ebccb540ebd92918c0cadb9226a49c145480b7f57bb5dc3b3a310e54b",
+    "profile_digest": "b3197a18e85af001fab8ab1c774340ba1d42a97d596eadb787acc2906d3cc1ab",
     "kinds_digest": "4394968327b785d50cd323ad58a799feb71b9debf7e06b650b4fd1e4008f9ede",
-    "relationships_digest": "567fda214dbf3d2cdfe8f360020d2497cccc611bbcfd05f2fd885e8ad308ab41"
+    "relationships_digest": "ffc97f2c358e4bebeebd8ceeb25aef59628be9c970cf6a7e510f7a37c9876d9f"
   },
-  "source_set_digest": "2b4d12b1d37ef2cafe58765a9e6cacf7324428bc8c7a5a48d67da329c875cb65",
+  "source_set_digest": "158238da4842c0a6e04e39833a178050d9620d1accd8c1fe37364e931059f64f",
   "nodes": [
     {
       "node_id": "ui-profile-create-player.CanCreatePlayer",
@@ -24,7 +24,10 @@
       "kind": "Operation",
       "intent": "Create a player from validated input and persist the new identity.",
       "body": {
-        "state_change": "yes"
+        "state_change": "yes",
+        "creation_targets": [
+          "ui-profile-create-player.Player"
+        ]
       }
     },
     {
@@ -275,6 +278,12 @@
       "to": "ui-profile-create-player.CreatePlayer"
     },
     {
+      "edge_id": "ui-profile-create-player.edge.create-player-creates-player",
+      "type": "creates",
+      "from": "ui-profile-create-player.CreatePlayer",
+      "to": "ui-profile-create-player.Player"
+    },
+    {
       "edge_id": "ui-profile-create-player.edge.create-player-form-contracts-player-api",
       "type": "contracts",
       "from": "ui-profile-create-player.CreatePlayerForm",
@@ -315,12 +324,6 @@
       "type": "displays",
       "from": "ui-profile-create-player.CreatePlayerPanel",
       "to": "ui-profile-create-player.CreatePlayerViewModel"
-    },
-    {
-      "edge_id": "ui-profile-create-player.edge.create-player-produces-for-player",
-      "type": "produces-for",
-      "from": "ui-profile-create-player.CreatePlayer",
-      "to": "ui-profile-create-player.Player"
     },
     {
       "edge_id": "ui-profile-create-player.edge.create-player-produces-player-created",

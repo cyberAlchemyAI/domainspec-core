@@ -22,8 +22,16 @@ A concept declared **Operation** is well-formed IFF its `Attribute | Value` tabl
 An Operation changes state (`state_change=yes`); a Query is read-only (`state_change=no`).
 
 ## Edge participation (DS-D8 slice)
-- SOURCE of: `performs`, `emits`, `produces-for`
-- TARGET of: `enforces`, `applies`
+- SOURCE of: `creates`, `produces`, `produces-for`, `queries`
+- TARGET of: `applies`, `calculates`, `enforces`, `exposes`, `mutates`,
+  `orchestrates`, `performs`, `triggers-cross`
+
+## Generated creation projection
+
+An Operation authors its `creates` edge once. Generated semantic views derive
+`creation_targets` as the finite set of exact Entity targets of that edge.
+Source specifications and minted node sources must not author this projection.
+`state_change = yes` alone never proves creation.
 
 ## Fixtures
 - positive: [`spec/__fixtures__/mt/operation-ok.md`](../../__fixtures__/mt/operation-ok.md)

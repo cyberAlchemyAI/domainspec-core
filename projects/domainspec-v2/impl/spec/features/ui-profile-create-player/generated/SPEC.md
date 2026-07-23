@@ -1,7 +1,7 @@
 # Ui Profile Create Player Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `ed9832159e8295667609754b3ccd096a8889bb8131399c49185e32f10660dd84`.
+Graph digest: `89b88fdb93ce820ea5d60401c56e973f9c4472f9f6e547d6d245388da7367d64`.
 
 ## Nodes
 
@@ -33,6 +33,7 @@ Graph digest: `ed9832159e8295667609754b3ccd096a8889bb8131399c49185e32f10660dd84`
 | `ui-profile-create-player.edge.create-player-adapter-maps-player-api` | `ui-profile-create-player.CreatePlayerAdapter` | `maps` | `ui-profile-create-player.PlayerApi` |
 | `ui-profile-create-player.edge.create-player-binding-fetches-player-defaults` | `ui-profile-create-player.CreatePlayerBinding` | `fetches` | `ui-profile-create-player.GetPlayerDefaults` |
 | `ui-profile-create-player.edge.create-player-binding-mutates-create-player` | `ui-profile-create-player.CreatePlayerBinding` | `mutates` | `ui-profile-create-player.CreatePlayer` |
+| `ui-profile-create-player.edge.create-player-creates-player` | `ui-profile-create-player.CreatePlayer` | `creates` | `ui-profile-create-player.Player` |
 | `ui-profile-create-player.edge.create-player-form-contracts-player-api` | `ui-profile-create-player.CreatePlayerForm` | `contracts` | `ui-profile-create-player.PlayerApi` |
 | `ui-profile-create-player.edge.create-player-form-submits-create-player-action` | `ui-profile-create-player.CreatePlayerForm` | `submits` | `ui-profile-create-player.CreatePlayerAction` |
 | `ui-profile-create-player.edge.create-player-guard-mirrors-can-create-player` | `ui-profile-create-player.CreatePlayerGuard` | `mirrors` | `ui-profile-create-player.CanCreatePlayer` |
@@ -40,7 +41,6 @@ Graph digest: `ed9832159e8295667609754b3ccd096a8889bb8131399c49185e32f10660dd84`
 | `ui-profile-create-player.edge.create-player-page-renders-create-player-panel` | `ui-profile-create-player.CreatePlayerPage` | `renders` | `ui-profile-create-player.CreatePlayerPanel` |
 | `ui-profile-create-player.edge.create-player-panel-consumes-create-player-hook` | `ui-profile-create-player.CreatePlayerPanel` | `consumes` | `ui-profile-create-player.CreatePlayerHook` |
 | `ui-profile-create-player.edge.create-player-panel-displays-create-player-view-model` | `ui-profile-create-player.CreatePlayerPanel` | `displays` | `ui-profile-create-player.CreatePlayerViewModel` |
-| `ui-profile-create-player.edge.create-player-produces-for-player` | `ui-profile-create-player.CreatePlayer` | `produces-for` | `ui-profile-create-player.Player` |
 | `ui-profile-create-player.edge.create-player-produces-player-created` | `ui-profile-create-player.CreatePlayer` | `produces` | `ui-profile-create-player.PlayerCreated` |
 | `ui-profile-create-player.edge.create-player-view-model-derives-player` | `ui-profile-create-player.CreatePlayerViewModel` | `derives` | `ui-profile-create-player.Player` |
 | `ui-profile-create-player.edge.dashboard-layout-wraps-create-player-page` | `ui-profile-create-player.DashboardLayout` | `wraps` | `ui-profile-create-player.CreatePlayerPage` |

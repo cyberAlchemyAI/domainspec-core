@@ -345,12 +345,12 @@ test("check-code-tag-composability passes when operation calls enforcing rule", 
       payload.relationshipAuthority,
       "../definitions/relationships/relationships.yml",
     );
-    assert.equal(payload.activeSignatureCount, 30);
+    assert.equal(payload.activeSignatureCount, 31);
     assert.equal(payload.generatedViewCount, 1);
     assert.equal(payload.deprecatedCount, 1);
     assert.equal(payload.deferredCount, 3);
     assert.equal(payload.dynamicRuleCount, 9);
-    assert.equal(payload.unsupportedActiveSignatureCount, 26);
+    assert.equal(payload.unsupportedActiveSignatureCount, 27);
   } finally {
     rmSync(tempRoot, { recursive: true, force: true });
   }

@@ -23,8 +23,39 @@ test("valid relationship endpoints pass, including Workflow and Entity relations
   const r = runFixture("valid");
   assert.equal(r.status, 0, r.stdout + r.stderr);
   assert.match(r.stdout, /PASS/);
-  assert.match(r.stdout, /canonicalSignatures=30/);
+  assert.match(r.stdout, /canonicalSignatures=31/);
 });
+
+test("same-feature creates passes as the sole authored creation fact", () => {
+  const r = runFixture("valid-creates");
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  assert.match(r.stdout, /PASS/);
+});
+
+test("cross-feature produces-for passes only in the cross-feature section", () => {
+  const r = runFixture("valid-cross-feature-produces-for");
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  assert.match(r.stdout, /PASS/);
+});
+
+test("cross-feature enforces uses the canonical base verb", () => {
+  const r = runFixture("valid-cross-feature-enforces");
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  assert.match(r.stdout, /PASS/);
+});
+
+for (const [fixture, detail] of [
+  ["bad-same-feature-produces-for", /Feature scope mismatch/],
+  ["bad-creates-authored-projection", /Generated projection creation_targets must not be authored/],
+  ["bad-creates-multiple-targets", /source CreatePlayer has 2 outgoing edges/],
+  ["bad-creates-multiple-sources", /target Player has 2 incoming edges/],
+] as const) {
+  test(`${fixture} rejects the scope, authorship, or responsibility-cardinality violation`, () => {
+    const r = runFixture(fixture);
+    assert.equal(r.status, 1, r.stdout + r.stderr);
+    assert.match(r.stdout, detail);
+  });
+}
 
 for (const fixture of [
   "bad-operation-enforces-value-object",

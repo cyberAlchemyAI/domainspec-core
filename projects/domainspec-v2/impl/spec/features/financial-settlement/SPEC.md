@@ -32,7 +32,7 @@ and create the resulting ledger transactions (MAKEUP_APPLIED / PAYOUT).
 | --- | --- | --- |
 | NoDuplicateMakeupRule | enforces | GenerateSettlement |
 | DealSplitCalculation | calculates | GenerateSettlement |
-| GenerateSettlement | produces-for | SettlementTransaction |
+| GenerateSettlement | creates | SettlementTransaction |
 | GenerateSettlement | queries | SettlementTransaction |
 | GetSettlementPreview | queries | SettlementTransaction |
 

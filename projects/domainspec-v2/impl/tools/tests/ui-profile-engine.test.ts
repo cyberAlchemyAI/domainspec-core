@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { cpSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import test from "node:test";
@@ -49,6 +49,14 @@ function temporaryProject(): { root: string; cleanup: () => void } {
   return { root, cleanup: () => rmSync(root, { recursive: true, force: true }) };
 }
 
+function addFeatureNode(root: string, fileName: string, node: JsonObject): void {
+  writeJson(resolve(root, `nodes/${fileName}`), node);
+  const featurePath = resolve(root, "feature.json");
+  const feature = json(featurePath);
+  feature.node_sources.push(`nodes/${fileName}`);
+  writeJson(featurePath, feature);
+}
+
 test("development profile fails closed without its explicit handle", () => {
   expectCompilerCode(
     () => compileMintedProject(projectRoot),
@@ -70,6 +78,12 @@ test("explicit development compile is byte-stable and preserves all source handl
   assert.equal(first.sourceManifestBytes, second.sourceManifestBytes);
   assert.equal(first.graph.nodes.length, 17);
   assert.equal(first.graph.edges.length, 20);
+  const sourceOperation = json(resolve(projectRoot, "nodes/create-player-operation.json"));
+  const generatedOperation = first.graph.nodes.find(
+    (node) => node.node_id === "ui-profile-create-player.CreatePlayer",
+  )!;
+  assert.equal("creation_targets" in sourceOperation.body, false);
+  assert.deepEqual(generatedOperation.body.creation_targets, ["ui-profile-create-player.Player"]);
   assert.equal(first.sourceManifest.inputs.length, 19);
   assert.equal(first.sourceManifest.records.length, 37);
   assert.equal(first.graph.language.profile_digest, json(resolve(projectRoot, "project.json")).language.profile.digest);
@@ -119,6 +133,107 @@ test("development formation and endpoint mutants fail with existing compiler cod
     );
   } finally {
     endpoint.cleanup();
+  }
+});
+
+test("creates rejects an authored copy of its generated projection", () => {
+  const project = temporaryProject();
+  try {
+    const path = resolve(project.root, "nodes/create-player-operation.json");
+    const node = json(path);
+    node.body.creation_targets = ["ui-profile-create-player.Player"];
+    writeJson(path, node);
+    expectCompilerCode(
+      () => compileMintedProject(project.root, options),
+      "GENERATED_PROJECTION_AUTHORED",
+    );
+  } finally {
+    project.cleanup();
+  }
+});
+
+test("creates rejects more than one Entity target for one Operation", () => {
+  const project = temporaryProject();
+  try {
+    const team = json(resolve(project.root, "nodes/player.json"));
+    team.node_id = "ui-profile-create-player.Team";
+    team.intent = "Second entity used to exercise creates source multiplicity.";
+    team.connections = [];
+    addFeatureNode(project.root, "team.json", team);
+
+    const operationPath = resolve(project.root, "nodes/create-player-operation.json");
+    const operation = json(operationPath);
+    operation.connections.push({
+      edge_id: "ui-profile-create-player.edge.create-player-creates-team",
+      type: "creates",
+      to: "ui-profile-create-player.Team",
+    });
+    writeJson(operationPath, operation);
+    expectCompilerCode(
+      () => compileMintedProject(project.root, options),
+      "EDGE_MULTIPLICITY_VIOLATION",
+    );
+  } finally {
+    project.cleanup();
+  }
+});
+
+test("creates rejects more than one Operation source for one Entity", () => {
+  const project = temporaryProject();
+  try {
+    const operation = json(resolve(project.root, "nodes/create-player-operation.json"));
+    operation.node_id = "ui-profile-create-player.RegisterPlayer";
+    operation.intent = "Second operation used to exercise creates target multiplicity.";
+    operation.connections = [{
+      edge_id: "ui-profile-create-player.edge.register-player-creates-player",
+      type: "creates",
+      to: "ui-profile-create-player.Player",
+    }];
+    addFeatureNode(project.root, "register-player-operation.json", operation);
+    expectCompilerCode(
+      () => compileMintedProject(project.root, options),
+      "EDGE_MULTIPLICITY_VIOLATION",
+    );
+  } finally {
+    project.cleanup();
+  }
+});
+
+test("creates rejects a cross-feature target independently of cardinality", () => {
+  const project = temporaryProject();
+  try {
+    mkdirSync(resolve(project.root, "other/nodes"), { recursive: true });
+    writeJson(resolve(project.root, "other/feature.json"), {
+      schema_version: "minted-feature/v1",
+      feature_id: "other",
+      source_layout: "per-node-connections",
+      node_sources: ["nodes/player.json"],
+    });
+    writeJson(resolve(project.root, "other/nodes/player.json"), {
+      schema_version: "minted-node/v1",
+      node_id: "other.Player",
+      feature_id: "other",
+      kind: "Entity",
+      intent: "Cross-feature entity used only for the creates scope mutant.",
+      body: { fields: [{ name: "player_id", type: "string", identity: true }] },
+      connections: [],
+    });
+    const manifestPath = resolve(project.root, "project.json");
+    const manifest = json(manifestPath);
+    manifest.features.push("other/feature.json");
+    writeJson(manifestPath, manifest);
+
+    const operationPath = resolve(project.root, "nodes/create-player-operation.json");
+    const operation = json(operationPath);
+    operation.connections.find((entry: JsonObject) => entry.type === "creates").to = "other.Player";
+    writeJson(operationPath, operation);
+
+    expectCompilerCode(
+      () => compileMintedProject(project.root, options),
+      "EDGE_FEATURE_SCOPE_MISMATCH",
+    );
+  } finally {
+    project.cleanup();
   }
 });
 

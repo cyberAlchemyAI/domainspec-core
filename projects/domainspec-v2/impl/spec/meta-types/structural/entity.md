@@ -26,8 +26,9 @@ A fields table with columns `Field | Type | Required | Identity | Description`, 
 row flagged as identity.
 
 ## Edge participation (DS-D8 slice)
-- SOURCE of: `performs`, `contains`, `emits`
-- TARGET of: `queries`, `produces-for`, `derives`
+- SOURCE of: `belongs-to`, `contains`, `emits`, `owns`, `performs`
+- TARGET of: `belongs-to`, `creates`, `derives`, `maps`, `owns`,
+  `produces-for`, `queries`
 
 ## Distinguisher vs Value Object
 An Entity **has identity** (an `Identity`-flagged field); a Value Object has **none** and declares an

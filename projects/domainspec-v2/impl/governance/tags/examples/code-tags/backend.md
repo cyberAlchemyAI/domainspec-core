@@ -54,7 +54,10 @@ domainspec:
       to: player.CreatePlayer
 ```
 
-## enforces-cross
+## Deprecated enforces-cross — negative example
+
+This legacy spelling is expected to be rejected. Use `enforces`; cross-feature
+placement belongs to the specification's Cross-Feature Dependencies surface.
 
 ```yaml
 domainspec:
